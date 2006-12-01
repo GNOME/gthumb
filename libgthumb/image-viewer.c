@@ -66,18 +66,18 @@ enum {
 
 static void     image_viewer_class_init       (ImageViewerClass *class);
 static void     image_viewer_init             (ImageViewer      *viewer);
-static gboolean image_viewer_expose           (GtkWidget        *widget, 
+static gboolean image_viewer_expose           (GtkWidget        *widget,
 					       GdkEventExpose   *event);
-static gboolean image_viewer_button_press     (GtkWidget        *widget, 
+static gboolean image_viewer_button_press     (GtkWidget        *widget,
 					       GdkEventButton   *event);
-static gboolean image_viewer_button_release   (GtkWidget        *widget, 
+static gboolean image_viewer_button_release   (GtkWidget        *widget,
 					       GdkEventButton   *event);
-static gboolean image_viewer_motion_notify    (GtkWidget        *widget, 
+static gboolean image_viewer_motion_notify    (GtkWidget        *widget,
 					       GdkEventMotion   *event);
 static void     image_viewer_finalize         (GObject          *viewer);
 static void     image_viewer_realize          (GtkWidget        *widget);
 static void     image_viewer_unrealize        (GtkWidget        *widget);
-static void     image_viewer_size_allocate    (GtkWidget        *widget, 
+static void     image_viewer_size_allocate    (GtkWidget        *widget,
 					       GtkAllocation    *allocation);
 static gint     image_viewer_focus_in         (GtkWidget        *widget,
 					       GdkEventFocus    *event);
@@ -95,7 +95,7 @@ static void     scroll_to                     (ImageViewer      *viewer,
 					       gint             *x_offset,
 					       gint             *y_offset);
 static void     set_scroll_adjustments        (GtkWidget        *widget,
-                                               GtkAdjustment    *hadj, 
+                                               GtkAdjustment    *hadj,
 					       GtkAdjustment    *vadj);
 static void     scroll_signal                 (GtkWidget        *widget,
 					       GtkScrollType     xscroll_type,
@@ -115,7 +115,7 @@ image_viewer_key_press (GtkWidget *widget,
 	handled = gtk_bindings_activate (GTK_OBJECT (widget),
 					 event->keyval,
 					 event->state);
-	if (handled) 
+	if (handled)
 		return TRUE;
 
 	if (GTK_WIDGET_CLASS (parent_class)->key_press_event &&
@@ -144,7 +144,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, clicked),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[IMAGE_LOADED] =
                 g_signal_new ("image_loaded",
@@ -153,7 +153,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, image_loaded),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[ZOOM_CHANGED] =
 		g_signal_new ("zoom_changed",
@@ -162,7 +162,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, zoom_changed),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[REPAINTED] =
 		g_signal_new ("repainted",
@@ -171,7 +171,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, repainted),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
         image_viewer_signals[MOUSE_WHEEL_SCROLL] =
 		g_signal_new ("mouse_wheel_scroll",
@@ -180,7 +180,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, mouse_wheel_scroll),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__ENUM,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      1, GDK_TYPE_SCROLL_DIRECTION);
 
 	class->set_scroll_adjustments = set_scroll_adjustments;
@@ -191,7 +191,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, set_scroll_adjustments),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 	image_viewer_signals[SCROLL] =
 		g_signal_new ("scroll",
@@ -200,9 +200,9 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_STRUCT_OFFSET (ImageViewerClass, scroll),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__ENUM_ENUM,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2, GTK_TYPE_SCROLL_TYPE, GTK_TYPE_SCROLL_TYPE);
-		
+
 	gobject_class->finalize = image_viewer_finalize;
 
 	widget_class->realize         = image_viewer_realize;
@@ -229,19 +229,19 @@ image_viewer_class_init (ImageViewerClass *class)
 
         binding_set = gtk_binding_set_by_class (class);
 
-	gtk_binding_entry_add_signal (binding_set, GDK_Right, 0, 
+	gtk_binding_entry_add_signal (binding_set, GDK_Right, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_RIGHT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Left, 0, 
+	gtk_binding_entry_add_signal (binding_set, GDK_Left, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_LEFT,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE);
-	gtk_binding_entry_add_signal (binding_set, GDK_Down, 0, 
+	gtk_binding_entry_add_signal (binding_set, GDK_Down, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_DOWN);
-	gtk_binding_entry_add_signal (binding_set, GDK_Up, 0, 
+	gtk_binding_entry_add_signal (binding_set, GDK_Up, 0,
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_STEP_UP);
@@ -278,8 +278,8 @@ static void image_loaded (ImageLoader* il, gpointer data);
 static void image_error  (ImageLoader *il, gpointer data);
 
 
-static gboolean 
-hadj_value_changed (GtkObject   *adj, 
+static gboolean
+hadj_value_changed (GtkObject   *adj,
 		    ImageViewer *viewer)
 {
 	int x_ofs, y_ofs;
@@ -293,7 +293,7 @@ hadj_value_changed (GtkObject   *adj,
 
 
 static gboolean
-vadj_value_changed (GtkObject   *adj, 
+vadj_value_changed (GtkObject   *adj,
 		    ImageViewer *viewer)
 {
 	int x_ofs, y_ofs;
@@ -333,11 +333,11 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->anim_id = 0;
 
 	viewer->loader = IMAGE_LOADER (image_loader_new (NULL, TRUE));
-	g_signal_connect (G_OBJECT (viewer->loader), 
+	g_signal_connect (G_OBJECT (viewer->loader),
 			  "image_done",
 			  G_CALLBACK (image_loaded),
 			  viewer);
-	g_signal_connect (G_OBJECT (viewer->loader), 
+	g_signal_connect (G_OBJECT (viewer->loader),
 			  "image_error",
 			  G_CALLBACK (image_error),
 			  viewer);
@@ -348,7 +348,7 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->zoom_level = 1.0;
 	viewer->zoom_quality = GTH_ZOOM_QUALITY_HIGH;
 	viewer->zoom_change = GTH_ZOOM_CHANGE_KEEP_PREV;
-	viewer->zoom_fit = FALSE;
+	viewer->fit = GTH_FIT_SIZE_IF_LARGER;
 	viewer->doing_zoom_fit = FALSE;
 
 	viewer->skip_zoom_change = FALSE;
@@ -372,14 +372,14 @@ image_viewer_init (ImageViewer *viewer)
 
 	viewer->cursor = NULL;
 	viewer->cursor_void = NULL;
-	
+
 	viewer->reset_scrollbars = TRUE;
 
 	/* Create the widget. */
 
-	viewer->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 
+	viewer->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0,
 							   1.0, 1.0, 1.0));
-	viewer->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 
+	viewer->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0,
 							   1.0, 1.0, 1.0));
 
 	g_object_ref (viewer->hadj);
@@ -387,26 +387,26 @@ image_viewer_init (ImageViewer *viewer)
 	g_object_ref (viewer->vadj);
 	gtk_object_sink (GTK_OBJECT (viewer->vadj));
 
-	g_signal_connect (G_OBJECT (viewer->hadj), 
+	g_signal_connect (G_OBJECT (viewer->hadj),
 			  "value_changed",
-			  G_CALLBACK (hadj_value_changed), 
+			  G_CALLBACK (hadj_value_changed),
 			  viewer);
-	g_signal_connect (G_OBJECT (viewer->vadj), 
+	g_signal_connect (G_OBJECT (viewer->vadj),
 			  "value_changed",
-			  G_CALLBACK (vadj_value_changed), 
+			  G_CALLBACK (vadj_value_changed),
 			  viewer);
 }
 
 
 static void
 paint (ImageViewer *viewer,
-       gint         src_x, 
+       gint         src_x,
        gint         src_y,
        gint         dest_x,
        gint         dest_y,
        gint         width,
        gint         height,
-       gint         interp_type) 
+       gint         interp_type)
 {
 	GdkPixbuf     *pixbuf;
 	double         zoom_level;
@@ -416,18 +416,18 @@ paint (ImageViewer *viewer,
 	pixbuf = image_viewer_get_current_pixbuf (viewer);
 	zoom_level = viewer->zoom_level;
 
-	color_space = gdk_pixbuf_get_colorspace (pixbuf); 
+	color_space = gdk_pixbuf_get_colorspace (pixbuf);
 	bits_per_sample = gdk_pixbuf_get_bits_per_sample (pixbuf);
 
 	if ((viewer->area_pixbuf == NULL)
-	    || (viewer->area_max_width < width) 
+	    || (viewer->area_max_width < width)
 	    || (viewer->area_max_height < height)
 	    || (viewer->area_bps != bits_per_sample)
 	    || (viewer->area_color_space != color_space)) {
 		if (viewer->area_pixbuf != NULL)
 			g_object_unref (viewer->area_pixbuf);
 		viewer->area_pixbuf = gdk_pixbuf_new (color_space,
-						      FALSE, 
+						      FALSE,
 						      bits_per_sample,
 						      width,
 						      height);
@@ -439,14 +439,14 @@ paint (ImageViewer *viewer,
 		viewer->area_bps = bits_per_sample;
 	}
 
-	if (gdk_pixbuf_get_has_alpha (pixbuf))   
+	if (gdk_pixbuf_get_has_alpha (pixbuf))
 		gdk_pixbuf_composite_color (pixbuf,
 					    viewer->area_pixbuf,
 					    0, 0,
 					    width, height,
 					    (double) -src_x,
 					    (double) -src_y,
-					    zoom_level, 
+					    zoom_level,
 					    zoom_level,
 					    interp_type,
 					    255,
@@ -461,7 +461,7 @@ paint (ImageViewer *viewer,
 				  width, height,
 				  (double) -src_x,
 				  (double) -src_y,
-				  zoom_level, 
+				  zoom_level,
 				  zoom_level,
 				  interp_type);
 	}
@@ -492,18 +492,18 @@ static void
 add_change_frame_timeout (ImageViewer *viewer)
 {
 	if (! viewer->is_void
-	    && viewer->is_animation 
-	    && viewer->play_animation 
+	    && viewer->is_animation
+	    && viewer->play_animation
 	    && (viewer->anim_id == 0))
 		viewer->anim_id = g_timeout_add (
 			MAX (MINIMUM_DELAY, viewer->frame_delay),
-			change_frame_cb, 
+			change_frame_cb,
 			viewer);
 }
 
 
 static gint
-image_viewer_expose (GtkWidget      *widget, 
+image_viewer_expose (GtkWidget      *widget,
 		     GdkEventExpose *event)
 {
 	ImageViewer  *viewer;
@@ -522,12 +522,12 @@ image_viewer_expose (GtkWidget      *widget,
 
 	viewer = IMAGE_VIEWER (widget);
 
-	if (viewer->rendering) 
+	if (viewer->rendering)
 		return FALSE;
 
 	viewer->rendering = TRUE;
 
-	get_zoomed_size (viewer, &pixbuf_width, &pixbuf_height, 
+	get_zoomed_size (viewer, &pixbuf_width, &pixbuf_height,
 			 viewer->zoom_level);
 
 	src_x        = viewer->x_offset;
@@ -544,8 +544,8 @@ image_viewer_expose (GtkWidget      *widget,
 
 	/* Draw the background. */
 
-	if ((image_area.x > viewer->frame_border) 
-	    || (image_area.y > viewer->frame_border) 
+	if ((image_area.x > viewer->frame_border)
+	    || (image_area.y > viewer->frame_border)
 	    || (image_area.width < gdk_width)
 	    || (image_area.height < gdk_height)) {
 		int    rx, ry, rw, rh;
@@ -564,7 +564,7 @@ image_viewer_expose (GtkWidget      *widget,
 					    alloc_width, alloc_height);
 
 		} else {
-			/* If an image is present draw in four phases to avoid 
+			/* If an image is present draw in four phases to avoid
 			 * flickering. */
 
 			/* Top rectangle. */
@@ -578,7 +578,7 @@ image_viewer_expose (GtkWidget      *widget,
 						    TRUE,
 						    rx, ry,
 						    rw, rh);
-			
+
 			/* Bottom rectangle. */
 			rx = 0;
 			ry = image_area.y + image_area.height;
@@ -590,7 +590,7 @@ image_viewer_expose (GtkWidget      *widget,
 						    TRUE,
 						    rx, ry,
 						    rw, rh);
-			
+
 			/* Left rectangle. */
 			rx = 0;
 			ry = image_area.y - 1;
@@ -602,7 +602,7 @@ image_viewer_expose (GtkWidget      *widget,
 						    TRUE,
 						    rx, ry,
 						    rw, rh);
-			
+
 			/* Right rectangle. */
 			rx = image_area.x + image_area.width;
 			ry = image_area.y - 1;
@@ -671,9 +671,9 @@ image_viewer_expose (GtkWidget      *widget,
 			       x2, y2);
 	}
 
-	if ((image_viewer_get_current_pixbuf (viewer) != NULL) 
-	    && gdk_rectangle_intersect (&event->area, 
-					&image_area, 
+	if ((image_viewer_get_current_pixbuf (viewer) != NULL)
+	    && gdk_rectangle_intersect (&event->area,
+					&image_area,
 					&paint_area)) {
 		int interp_type;
 
@@ -691,11 +691,11 @@ image_viewer_expose (GtkWidget      *widget,
 		src_y += paint_area.y - image_area.y;
 
 		paint (viewer,
-		       src_x, 
+		       src_x,
 		       src_y,
-		       paint_area.x, 
+		       paint_area.x,
 		       paint_area.y,
-		       paint_area.width, 
+		       paint_area.width,
 		       paint_area.height,
 		       interp_type);
 	}
@@ -711,15 +711,15 @@ image_viewer_expose (GtkWidget      *widget,
 		r.y = 0;
 		r.width = gdk_width + 2;
 		r.height = gdk_height + 2;
-		
-		gtk_paint_focus (widget->style, 
-				 widget->window, 
-				 widget->state, 
-				 &r, 
+
+		gtk_paint_focus (widget->style,
+				 widget->window,
+				 widget->state,
+				 &r,
 				 widget, NULL,
 				 0, 0, gdk_width + 2, gdk_height + 2);
 	}
-#endif 
+#endif
 
 	add_change_frame_timeout (viewer);
 
@@ -758,7 +758,7 @@ image_viewer_scroll_to (ImageViewer *viewer,
 	if (image_viewer_get_current_pixbuf (viewer) == NULL)
 		return;
 
-	if (viewer->rendering) 
+	if (viewer->rendering)
 		return;
 
 	scroll_to (viewer, &x_offset, &y_offset);
@@ -789,7 +789,7 @@ scroll_to (ImageViewer *viewer,
 	if (image_viewer_get_current_pixbuf (viewer) == NULL)
 		return;
 
-	if (viewer->rendering) 
+	if (viewer->rendering)
 		return;
 
 	get_zoomed_size (viewer, &width, &height, viewer->zoom_level);
@@ -798,7 +798,7 @@ scroll_to (ImageViewer *viewer,
 	gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
 	gdk_height = GTK_WIDGET (viewer)->allocation.height - viewer->frame_border2;
 
-	if (width > gdk_width) 
+	if (width > gdk_width)
 		*x_offset = CLAMP (*x_offset, 0, width - gdk_width);
 	else
 		*x_offset = viewer->x_offset;
@@ -820,11 +820,11 @@ scroll_to (ImageViewer *viewer,
 		viewer->x_offset = *x_offset;
 		viewer->y_offset = *y_offset;
 
-		g_signal_emit (G_OBJECT (viewer), 
+		g_signal_emit (G_OBJECT (viewer),
 			       image_viewer_signals[REPAINTED],
 			       0);
 
-		expose_area (viewer, 0, 0, 
+		expose_area (viewer, 0, 0,
 			     GTK_WIDGET (viewer)->allocation.width,
 			     GTK_WIDGET (viewer)->allocation.height);
 
@@ -874,13 +874,13 @@ scroll_to (ImageViewer *viewer,
 	viewer->x_offset = *x_offset;
 	viewer->y_offset = *y_offset;
 
-	expose_area (viewer, 
+	expose_area (viewer,
 		     viewer->frame_border,
 		     (delta_y < 0) ? viewer->frame_border : viewer->frame_border + gdk_height - abs (delta_y),
 		     gdk_width,
 		     abs (delta_y));
 
-	expose_area (viewer, 
+	expose_area (viewer,
 		     (delta_x < 0) ? viewer->frame_border : viewer->frame_border + gdk_width - abs (delta_x),
 		     viewer->frame_border,
 		     abs (delta_x),
@@ -893,7 +893,7 @@ scroll_to (ImageViewer *viewer,
         while ((event = gdk_event_get_graphics_expose (drawable)) != NULL) {
 		GdkEventExpose *expose = (GdkEventExpose*) event;
 
-		expose_area (viewer, 
+		expose_area (viewer,
 			     expose->area.x,
 			     expose->area.y,
 			     expose->area.width,
@@ -910,7 +910,7 @@ scroll_to (ImageViewer *viewer,
 
 
 static gint
-image_viewer_button_press (GtkWidget      *widget, 
+image_viewer_button_press (GtkWidget      *widget,
 			   GdkEventButton *event)
 {
 	ImageViewer *viewer = IMAGE_VIEWER (widget);
@@ -923,7 +923,7 @@ image_viewer_button_press (GtkWidget      *widget,
 	if (viewer->dragging)
 		return FALSE;
 
-	if ((event->type == GDK_2BUTTON_PRESS) || 
+	if ((event->type == GDK_2BUTTON_PRESS) ||
 	    (event->type == GDK_3BUTTON_PRESS)) {
 		viewer->double_click = TRUE;
 		return FALSE;
@@ -960,7 +960,7 @@ image_viewer_button_press (GtkWidget      *widget,
 
 
 static gint
-image_viewer_button_release  (GtkWidget *widget, 
+image_viewer_button_release  (GtkWidget *widget,
 			      GdkEventButton *event)
 {
 	ImageViewer *viewer = IMAGE_VIEWER (widget);
@@ -972,10 +972,10 @@ image_viewer_button_release  (GtkWidget *widget,
 
 	gdk_pointer_ungrab (event->time);
 
-	if (! viewer->dragging 
-	    && ! viewer->double_click 
+	if (! viewer->dragging
+	    && ! viewer->double_click
 	    && ! viewer->just_focused) {
-		g_signal_emit (G_OBJECT (viewer), 
+		g_signal_emit (G_OBJECT (viewer),
 			       image_viewer_signals[CLICKED],
 			       0);
 
@@ -990,7 +990,7 @@ image_viewer_button_release  (GtkWidget *widget,
 
 
 static gint
-image_viewer_motion_notify (GtkWidget *widget, 
+image_viewer_motion_notify (GtkWidget *widget,
 			    GdkEventMotion *event)
 {
 	ImageViewer     *viewer = IMAGE_VIEWER (widget);
@@ -1007,7 +1007,7 @@ image_viewer_motion_notify (GtkWidget *widget,
 
 	if (event->is_hint)
                 gdk_window_get_pointer (widget->window, &x, &y, &mods);
-        else 
+        else
                 return FALSE;
 
 	viewer->drag_realx = x;
@@ -1022,12 +1022,12 @@ image_viewer_motion_notify (GtkWidget *widget,
 
 	scroll_to (viewer, &x, &y);
 
-	g_signal_handlers_block_by_data (G_OBJECT (viewer->hadj), viewer); 
-	g_signal_handlers_block_by_data (G_OBJECT (viewer->vadj), viewer); 
+	g_signal_handlers_block_by_data (G_OBJECT (viewer->hadj), viewer);
+	g_signal_handlers_block_by_data (G_OBJECT (viewer->vadj), viewer);
 	gtk_adjustment_set_value (viewer->hadj, x);
 	gtk_adjustment_set_value (viewer->vadj, y);
-	g_signal_handlers_unblock_by_data (G_OBJECT(viewer->hadj), viewer); 
-	g_signal_handlers_unblock_by_data (G_OBJECT(viewer->vadj), viewer); 
+	g_signal_handlers_unblock_by_data (G_OBJECT(viewer->hadj), viewer);
+	g_signal_handlers_unblock_by_data (G_OBJECT(viewer->vadj), viewer);
 
 	viewer->drag_x = viewer->drag_realx;
 	viewer->drag_y = viewer->drag_realy;
@@ -1058,7 +1058,7 @@ create_first_pixbuf (ImageViewer *viewer)
 
 	g_get_current_time (&viewer->time);
 
-	viewer->iter = gdk_pixbuf_animation_get_iter (viewer->anim, 
+	viewer->iter = gdk_pixbuf_animation_get_iter (viewer->anim,
 						      &viewer->time);
 	create_pixbuf_from_iter (viewer);
 }
@@ -1095,7 +1095,7 @@ image_viewer_finalize (GObject *object)
 
         g_return_if_fail (object != NULL);
         g_return_if_fail (IS_IMAGE_VIEWER (object));
-  
+
         viewer = IMAGE_VIEWER (object);
 
 	if (viewer->anim_id != 0) {
@@ -1140,7 +1140,7 @@ image_viewer_finalize (GObject *object)
 		g_object_unref (viewer->vadj);
 		viewer->vadj = NULL;
 	}
-	
+
 	if (viewer->area_pixbuf != NULL) {
 		g_object_unref (viewer->area_pixbuf);
 		viewer->area_pixbuf = NULL;
@@ -1158,13 +1158,13 @@ to_255 (int v)
 }
 
 
-static void 
+static void
 image_viewer_realize (GtkWidget *widget)
 {
 	ImageViewer   *viewer;
 	GdkWindowAttr  attributes;
 	int            attributes_mask;
- 
+
 	g_return_if_fail (IS_IMAGE_VIEWER (widget));
 
 	viewer = IMAGE_VIEWER (widget);
@@ -1178,20 +1178,20 @@ image_viewer_realize (GtkWidget *widget)
 	attributes.wclass      = GDK_INPUT_OUTPUT;
 	attributes.visual      = gtk_widget_get_visual (widget);
 	attributes.colormap    = gtk_widget_get_colormap (widget);
-	attributes.event_mask  = (gtk_widget_get_events (widget) 
+	attributes.event_mask  = (gtk_widget_get_events (widget)
 				  | GDK_EXPOSURE_MASK
-				  | GDK_BUTTON_PRESS_MASK 
-				  | GDK_BUTTON_RELEASE_MASK 
-				  | GDK_POINTER_MOTION_MASK 
-				  | GDK_POINTER_MOTION_HINT_MASK 
+				  | GDK_BUTTON_PRESS_MASK
+				  | GDK_BUTTON_RELEASE_MASK
+				  | GDK_POINTER_MOTION_MASK
+				  | GDK_POINTER_MOTION_HINT_MASK
 				  | GDK_BUTTON_MOTION_MASK);
 
-	attributes_mask        = (GDK_WA_X 
-				  | GDK_WA_Y 
-				  | GDK_WA_VISUAL 
+	attributes_mask        = (GDK_WA_X
+				  | GDK_WA_Y
+				  | GDK_WA_VISUAL
 				  | GDK_WA_COLORMAP);
 	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
-					 &attributes, 
+					 &attributes,
 					 attributes_mask);
 	gdk_window_set_user_data (widget->window, viewer);
 
@@ -1208,8 +1208,8 @@ image_viewer_realize (GtkWidget *widget)
 
 		color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
 		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16) 
-			      | (to_255 (color.green) << 8) 
+			      | (to_255 (color.red) << 16)
+			      | (to_255 (color.green) << 8)
 			      | (to_255 (color.blue) << 0));
 
 		viewer->check_color1 = base_color;
@@ -1218,11 +1218,11 @@ image_viewer_realize (GtkWidget *widget)
 }
 
 
-static void 
+static void
 image_viewer_unrealize (GtkWidget *widget)
 {
 	ImageViewer *viewer;
- 
+
 	g_return_if_fail (IS_IMAGE_VIEWER (widget));
 
 	viewer = IMAGE_VIEWER (widget);
@@ -1260,7 +1260,7 @@ zoom_to_fit (ImageViewer *viewer)
 {
 	GdkPixbuf *buf;
 	double     x_level, y_level;
-	double     new_zoom_level;		
+	double     new_zoom_level;
 	int        gdk_width, gdk_height;
 
 	buf = image_viewer_get_current_pixbuf (viewer);
@@ -1280,7 +1280,7 @@ zoom_to_fit (ImageViewer *viewer)
 
 
 static void
-zoom_to_width (ImageViewer *viewer)
+zoom_to_fit_width (ImageViewer *viewer)
 {
         GdkPixbuf *buf;
         double     new_zoom_level;
@@ -1291,13 +1291,16 @@ zoom_to_width (ImageViewer *viewer)
         gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
         new_zoom_level = (double) gdk_width / gdk_pixbuf_get_width (buf);
 
-        if (new_zoom_level > 0.0) 
+        if (new_zoom_level > 0.0) {
+        	viewer->doing_zoom_fit = TRUE;
                 image_viewer_set_zoom (viewer, new_zoom_level);
+                viewer->doing_zoom_fit = FALSE;
+        }
 }
 
 
-static void 
-image_viewer_size_allocate (GtkWidget       *widget, 
+static void
+image_viewer_size_allocate (GtkWidget       *widget,
 			    GtkAllocation   *allocation)
 {
 	ImageViewer *viewer;
@@ -1307,28 +1310,42 @@ image_viewer_size_allocate (GtkWidget       *widget,
 	viewer = IMAGE_VIEWER (widget);
 
 	widget->allocation = *allocation;
-	gdk_width = allocation->width - viewer->frame_border2; 
+	gdk_width = allocation->width - viewer->frame_border2;
 	gdk_height = allocation->height - viewer->frame_border2;
 
 	current_pixbuf = image_viewer_get_current_pixbuf (viewer);
 
-	/* If zoom_fit is active update the zoom level. */
+	/* If a fit type is active update the zoom level. */
 
-	if (! viewer->is_void && viewer->zoom_fit && (current_pixbuf != NULL)) 
-		zoom_to_fit (viewer);
-
-	/* If zoom_fit_if_larger is active update the zoom level. */
-
-	if (! viewer->is_void 
-	    && viewer->zoom_fit_if_larger
-	    && (current_pixbuf != NULL)) {
-		if ((gdk_width < gdk_pixbuf_get_width (current_pixbuf))
-		    || (gdk_height < gdk_pixbuf_get_height (current_pixbuf))) 
+	if (! viewer->is_void && (current_pixbuf != NULL)) {
+		switch (viewer->fit) {
+		case GTH_FIT_SIZE:
 			zoom_to_fit (viewer);
-		else {
-			viewer->doing_zoom_fit = TRUE;
-			image_viewer_set_zoom (viewer, 1.0);
-			viewer->doing_zoom_fit = FALSE;
+			break;
+		case GTH_FIT_SIZE_IF_LARGER:
+			if ((gdk_width < gdk_pixbuf_get_width (current_pixbuf))
+		    	    || (gdk_height < gdk_pixbuf_get_height (current_pixbuf)))
+				zoom_to_fit (viewer);
+			else {
+				viewer->doing_zoom_fit = TRUE;
+				image_viewer_set_zoom (viewer, 1.0);
+				viewer->doing_zoom_fit = FALSE;
+			}
+			break;
+		case GTH_FIT_WIDTH:
+			zoom_to_fit_width (viewer);
+			break;
+		case GTH_FIT_WIDTH_IF_LARGER:
+			if (gdk_width < gdk_pixbuf_get_width (current_pixbuf))
+				zoom_to_fit_width (viewer);
+			else {
+				viewer->doing_zoom_fit = TRUE;
+				image_viewer_set_zoom (viewer, 1.0);
+				viewer->doing_zoom_fit = FALSE;
+			}
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -1336,19 +1353,19 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 	if (current_pixbuf != NULL) {
 		int width, height;
-		
+
 		get_zoomed_size (viewer, &width, &height, viewer->zoom_level);
 
 		if (width > gdk_width)
-			viewer->x_offset = CLAMP (viewer->x_offset, 
-						  0, 
+			viewer->x_offset = CLAMP (viewer->x_offset,
+						  0,
 						  width - gdk_width);
 		else
 			viewer->x_offset = 0;
 
 		if (height > gdk_height)
-			viewer->y_offset = CLAMP (viewer->y_offset, 
-						  0, 
+			viewer->y_offset = CLAMP (viewer->y_offset,
+						  0,
 						  height - gdk_height);
 		else
 			viewer->y_offset = 0;
@@ -1383,16 +1400,16 @@ image_viewer_size_allocate (GtkWidget       *widget,
 		viewer->vadj->page_size = 1.0;
 	}
 
-	g_signal_handlers_block_by_data (G_OBJECT (viewer->hadj), viewer); 
-	g_signal_handlers_block_by_data (G_OBJECT (viewer->vadj), viewer); 
+	g_signal_handlers_block_by_data (G_OBJECT (viewer->hadj), viewer);
+	g_signal_handlers_block_by_data (G_OBJECT (viewer->vadj), viewer);
 	gtk_adjustment_changed (viewer->hadj);
 	gtk_adjustment_changed (viewer->vadj);
-	g_signal_handlers_unblock_by_data (G_OBJECT (viewer->hadj), viewer); 
-	g_signal_handlers_unblock_by_data (G_OBJECT (viewer->vadj), viewer); 
+	g_signal_handlers_unblock_by_data (G_OBJECT (viewer->hadj), viewer);
+	g_signal_handlers_unblock_by_data (G_OBJECT (viewer->vadj), viewer);
 
 	/**/
 
-	if (GTK_WIDGET_REALIZED (widget)) 
+	if (GTK_WIDGET_REALIZED (widget))
 		gdk_window_move_resize (widget->window,
 					allocation->x, allocation->y,
 					allocation->width, allocation->height);
@@ -1404,7 +1421,7 @@ image_viewer_size_allocate (GtkWidget       *widget,
 }
 
 
-static gint 
+static gint
 image_viewer_focus_in (GtkWidget     *widget,
 		       GdkEventFocus *event)
 {
@@ -1414,7 +1431,7 @@ image_viewer_focus_in (GtkWidget     *widget,
 }
 
 
-static gint 
+static gint
 image_viewer_focus_out (GtkWidget     *widget,
 			GdkEventFocus *event)
 {
@@ -1445,16 +1462,16 @@ image_viewer_scroll_event (GtkWidget        *widget,
 			return TRUE;
 		}
 	}
-	
+
 	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN) {
-		g_signal_emit (G_OBJECT (viewer), 
+		g_signal_emit (G_OBJECT (viewer),
 			            image_viewer_signals[MOUSE_WHEEL_SCROLL],
 		 	            0, event->direction);
 		return TRUE;
 	}
 
 	adj = viewer->hadj;
-	
+
 	if (event->direction == GDK_SCROLL_LEFT)
 		new_value = adj->value - adj->page_increment / 2;
 	else if (event->direction == GDK_SCROLL_RIGHT)
@@ -1524,7 +1541,7 @@ image_viewer_get_type ()
 		type = g_type_register_static (GTK_TYPE_WIDGET,
 					       "ImageViewer",
 					       &type_info,
-					       0); 
+					       0);
 		g_type_add_interface_static (type,
 					     GTH_TYPE_IVIEWER,
 					     &iviewer_info);
@@ -1534,7 +1551,7 @@ image_viewer_get_type ()
 }
 
 
-GtkWidget*     
+GtkWidget*
 image_viewer_new (void)
 {
 	return GTK_WIDGET (g_object_new (IMAGE_VIEWER_TYPE, NULL));
@@ -1562,7 +1579,7 @@ load_image__step2 (LoadImageData *lidata)
 
 
 void
-image_viewer_load_image (ImageViewer *viewer, 
+image_viewer_load_image (ImageViewer *viewer,
 			 const gchar *path)
 {
 	LoadImageData *lidata;
@@ -1603,7 +1620,7 @@ load_from_pixbuf_loader__step2 (ImageViewerLoadData *ivl_data)
 
 
 void
-image_viewer_load_from_pixbuf_loader (ImageViewer *viewer, 
+image_viewer_load_from_pixbuf_loader (ImageViewer *viewer,
 				      GdkPixbufLoader *pixbuf_loader)
 {
 	ImageViewerLoadData *ivl_data;
@@ -1641,7 +1658,7 @@ load_from_image_loader__step2 (ImageViewerLoadData *ivl_data)
 
 
 void
-image_viewer_load_from_image_loader (ImageViewer *viewer, 
+image_viewer_load_from_image_loader (ImageViewer *viewer,
 				     ImageLoader *image_loader)
 {
 	ImageViewerLoadData *ivl_data;
@@ -1669,10 +1686,10 @@ image_viewer_set_pixbuf (ImageViewer *viewer,
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (viewer->is_animation) 
+	if (viewer->is_animation)
 		return;
 
-        if (viewer->rendering) 
+        if (viewer->rendering)
 		return;
 
 	viewer->is_void = (pixbuf == NULL);
@@ -1717,16 +1734,14 @@ image_viewer_update_view (ImageViewer *viewer)
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (viewer->zoom_fit)
-		image_viewer_zoom_to_fit (viewer);
-	else if (viewer->zoom_fit_if_larger)
-		image_viewer_zoom_to_fit_if_larger (viewer);
-	else
+	if (viewer->fit == GTH_FIT_NONE)
 		image_viewer_set_zoom (viewer, viewer->zoom_level);
+	else
+		image_viewer_set_fit_mode (viewer, viewer->fit);
 }
 
 
-gchar*
+char*
 image_viewer_get_image_filename (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, NULL);
@@ -1734,16 +1749,16 @@ image_viewer_get_image_filename (ImageViewer *viewer)
 }
 
 
-gint
+int
 image_viewer_get_image_width (ImageViewer *viewer)
 {
 	GdkPixbuf *pixbuf;
 
 	g_return_val_if_fail (viewer != NULL, 0);
 
-	if (viewer->anim != NULL) 
+	if (viewer->anim != NULL)
 		return gdk_pixbuf_animation_get_width (viewer->anim);
-	
+
 	pixbuf = image_loader_get_pixbuf (viewer->loader);
 	if (pixbuf != NULL)
 		return gdk_pixbuf_get_width (pixbuf);
@@ -1759,9 +1774,9 @@ image_viewer_get_image_height (ImageViewer *viewer)
 
 	g_return_val_if_fail (viewer != NULL, 0);
 
-	if (viewer->anim != NULL) 
+	if (viewer->anim != NULL)
 		return gdk_pixbuf_animation_get_height (viewer->anim);
-	
+
 	pixbuf = image_loader_get_pixbuf (viewer->loader);
 	if (pixbuf != NULL)
 		return gdk_pixbuf_get_height (pixbuf);
@@ -1777,7 +1792,7 @@ image_viewer_get_image_bps (ImageViewer *viewer)
 
 	g_return_val_if_fail (viewer != NULL, 0);
 
-	if (viewer->iter != NULL) 
+	if (viewer->iter != NULL)
 		pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->iter);
 	else
 		pixbuf = image_loader_get_pixbuf (viewer->loader);
@@ -1796,7 +1811,7 @@ image_viewer_get_has_alpha (ImageViewer *viewer)
 
 	g_return_val_if_fail (viewer != NULL, 0);
 
-	if (viewer->iter != NULL) 
+	if (viewer->iter != NULL)
 		pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (viewer->iter);
 	else
 		pixbuf = image_loader_get_pixbuf (viewer->loader);
@@ -1813,7 +1828,7 @@ init_animation (ImageViewer *viewer)
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (! viewer->is_animation) 
+	if (! viewer->is_animation)
 		return;
 
 	if (viewer->anim != NULL)
@@ -1843,7 +1858,7 @@ halt_animation (ImageViewer *viewer)
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (viewer->anim_id == 0) 
+	if (viewer->anim_id == 0)
 		return;
 
 	g_source_remove (viewer->anim_id);
@@ -1897,8 +1912,8 @@ image_error (ImageLoader *il,
 
 	image_viewer_set_void (viewer);
 
-	g_signal_emit (G_OBJECT (viewer), 
-		       image_viewer_signals[IMAGE_LOADED], 
+	g_signal_emit (G_OBJECT (viewer),
+		       image_viewer_signals[IMAGE_LOADED],
 		       0);
 }
 
@@ -1934,30 +1949,35 @@ image_loaded (ImageLoader *il,
 		image_viewer_set_zoom (viewer, 1.0);
 		add_change_frame_timeout (viewer);
 		break;
-		
-	case GTH_ZOOM_CHANGE_FIT:
-		image_viewer_zoom_to_fit (viewer);
-		add_change_frame_timeout (viewer);
-		break;
-		
+
 	case GTH_ZOOM_CHANGE_KEEP_PREV:
 		image_viewer_update_view (viewer);
 		break;
-		
-	case GTH_ZOOM_CHANGE_FIT_IF_LARGER:
-		image_viewer_zoom_to_fit_if_larger (viewer);
+
+	case GTH_ZOOM_CHANGE_FIT_SIZE:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE);
+		add_change_frame_timeout (viewer);
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+		add_change_frame_timeout (viewer);
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_WIDTH_IF_LARGER);
 		add_change_frame_timeout (viewer);
 		break;
 	}
-	
-	g_signal_emit (G_OBJECT (viewer), 
-		       image_viewer_signals[IMAGE_LOADED], 
+
+	g_signal_emit (G_OBJECT (viewer),
+		       image_viewer_signals[IMAGE_LOADED],
 		       0);
 }
 
 
 void
-image_viewer_set_zoom (ImageViewer *viewer, 
+image_viewer_set_zoom (ImageViewer *viewer,
 		       gdouble zoom_level)
 {
 	gdouble zoom_ratio;
@@ -1972,17 +1992,16 @@ image_viewer_set_zoom (ImageViewer *viewer,
 	/* try to keep the center of the view visible. */
 	zoom_ratio = zoom_level / viewer->zoom_level;
 
-	viewer->x_offset = ((viewer->x_offset + gdk_width / 2) 
+	viewer->x_offset = ((viewer->x_offset + gdk_width / 2)
 			    * zoom_ratio - gdk_width / 2);
-	viewer->y_offset = ((viewer->y_offset + gdk_height / 2) 
+	viewer->y_offset = ((viewer->y_offset + gdk_height / 2)
 			    * zoom_ratio - gdk_height / 2);
 
- 	/* if we are performing a zoom to fit do not reset zoom_fit. */
+ 	/* reset zoom_fit unless we are performing a zoom to fit. */
 
-	if (! viewer->doing_zoom_fit) {
-		viewer->zoom_fit = FALSE;
-		viewer->zoom_fit_if_larger = FALSE;
-	}
+	if (! viewer->doing_zoom_fit)
+		viewer->fit = GTH_FIT_NONE;
+
 	viewer->zoom_level = zoom_level;
 
 	if (! viewer->doing_zoom_fit) {
@@ -1991,9 +2010,9 @@ image_viewer_set_zoom (ImageViewer *viewer,
 	}
 
 	if (! viewer->skip_zoom_change)
-		g_signal_emit (G_OBJECT (viewer), 
-			       image_viewer_signals[ZOOM_CHANGED], 
-			       0); 
+		g_signal_emit (G_OBJECT (viewer),
+			       image_viewer_signals[ZOOM_CHANGED],
+			       0);
 	else
 		viewer->skip_zoom_change = FALSE;
 }
@@ -2045,10 +2064,10 @@ image_viewer_get_zoom_change (ImageViewer *viewer)
 }
 
 
-static gdouble zooms[] = {                  0.05, 0.07, 0.10, 
+static gdouble zooms[] = {                  0.05, 0.07, 0.10,
 			  0.15, 0.20, 0.30, 0.50, 0.75, 1.0,
-			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0, 
-			  15.0, 20.0, 30.0, 50.0, 75.0, 100.0}; 
+			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0,
+			  15.0, 20.0, 30.0, 50.0, 75.0, 100.0};
 
 static const gint nzooms = sizeof (zooms) / sizeof (gdouble);
 
@@ -2093,21 +2112,8 @@ image_viewer_zoom_in (ImageViewer *viewer)
 		return;
 
 	new_zoom = get_next_zoom (viewer->zoom_level);
-	
+
 	image_viewer_set_zoom (viewer, new_zoom);
-}
-
-
-void
-image_viewer_zoom_to_width (ImageViewer *viewer)
-{
-        g_return_if_fail (viewer != NULL);
-        g_return_if_fail (viewer->loader != NULL);
-
-        if (image_viewer_get_current_pixbuf (viewer) == NULL)
-                return;
-
-	zoom_to_width (viewer);
 }
 
 
@@ -2128,51 +2134,16 @@ image_viewer_zoom_out (ImageViewer *viewer)
 
 
 void
-image_viewer_zoom_to_fit (ImageViewer *viewer)
+image_viewer_set_fit_mode (ImageViewer     *viewer,
+			   GthFit           fit_mode)
 {
 	g_return_if_fail (viewer != NULL);
 	g_return_if_fail (viewer->loader != NULL);
 
-	viewer->zoom_fit = TRUE;
-	viewer->zoom_fit_if_larger = FALSE;
-
+	viewer->fit = fit_mode;
 	if (viewer->is_void)
 		return;
-
 	gtk_widget_queue_resize (GTK_WIDGET (viewer));
-	gtk_widget_queue_draw (GTK_WIDGET (viewer));
-}
-
-
-gboolean
-image_viewer_is_zoom_to_fit (ImageViewer *viewer)
-{
-	g_return_val_if_fail (viewer != NULL, FALSE);
-	return viewer->zoom_fit;
-}
-
-
-void
-image_viewer_zoom_to_fit_if_larger (ImageViewer *viewer)
-{
-	g_return_if_fail (viewer != NULL);
-	g_return_if_fail (viewer->loader != NULL);
-
-	viewer->zoom_fit = FALSE;
-	viewer->zoom_fit_if_larger = TRUE;
-
-	if (viewer->is_void)
-		return;
-
-	gtk_widget_queue_resize (GTK_WIDGET (viewer));
-}
-
-
-gboolean
-image_viewer_is_zoom_to_fit_if_larger (ImageViewer *viewer)
-{
-	g_return_val_if_fail (viewer != NULL, FALSE);
-	return viewer->zoom_fit_if_larger;
 }
 
 
@@ -2190,8 +2161,8 @@ image_viewer_style_set (GtkWidget *widget,
 
 		color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
 		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16) 
-			      | (to_255 (color.green) << 8) 
+			      | (to_255 (color.red) << 16)
+			      | (to_255 (color.green) << 8)
 			      | (to_255 (color.blue) << 0));
 
 		viewer->check_color1 = base_color;
@@ -2200,8 +2171,8 @@ image_viewer_style_set (GtkWidget *widget,
 }
 
 
-void           
-image_viewer_set_transp_type (ImageViewer   *viewer, 
+void
+image_viewer_set_transp_type (ImageViewer   *viewer,
 			      GthTranspType  transp_type)
 {
 	GdkColor color;
@@ -2213,8 +2184,8 @@ image_viewer_set_transp_type (ImageViewer   *viewer,
 
 	color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
 	base_color = (0xFF000000
-		      | (to_255 (color.red) << 16) 
-		      | (to_255 (color.green) << 8) 
+		      | (to_255 (color.red) << 16)
+		      | (to_255 (color.green) << 8)
 		      | (to_255 (color.blue) << 0));
 
 	switch (transp_type) {
@@ -2239,12 +2210,12 @@ image_viewer_set_transp_type (ImageViewer   *viewer,
 			viewer->check_color1 = COLOR_GRAY_00;
 			viewer->check_color2 = COLOR_GRAY_33;
 			break;
-			
+
 		case GTH_CHECK_TYPE_MIDTONE:
 			viewer->check_color1 = COLOR_GRAY_66;
 			viewer->check_color2 = COLOR_GRAY_99;
 			break;
-			
+
 		case GTH_CHECK_TYPE_LIGHT:
 			viewer->check_color1 = COLOR_GRAY_CC;
 			viewer->check_color2 = COLOR_GRAY_FF;
@@ -2263,8 +2234,8 @@ image_viewer_get_transp_type (ImageViewer *viewer)
 }
 
 
-void           
-image_viewer_set_check_type (ImageViewer  *viewer, 
+void
+image_viewer_set_check_type (ImageViewer  *viewer,
 			     GthCheckType  check_type)
 {
 	g_return_if_fail (viewer != NULL);
@@ -2281,7 +2252,7 @@ image_viewer_get_check_type (ImageViewer *viewer)
 
 
 void
-image_viewer_set_check_size (ImageViewer  *viewer, 
+image_viewer_set_check_size (ImageViewer  *viewer,
 			     GthCheckSize  check_size)
 {
 	g_return_if_fail (viewer != NULL);
@@ -2306,7 +2277,7 @@ image_viewer_clicked (ImageViewer *viewer)
 }
 
 
-static void 
+static void
 get_zoomed_size (ImageViewer *viewer,
 		 int         *width,
 		 int         *height,
@@ -2343,13 +2314,13 @@ set_scroll_adjustments (GtkWidget *widget,
         if (hadj)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
         else
-                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
         if (vadj)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
         else
-                vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+                vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
         if (viewer->hadj && viewer->hadj != hadj) {
@@ -2372,7 +2343,7 @@ set_scroll_adjustments (GtkWidget *widget,
                 g_object_ref (viewer->hadj);
                 gtk_object_sink (GTK_OBJECT (viewer->hadj));
 
-		g_signal_connect (G_OBJECT (viewer->hadj), 
+		g_signal_connect (G_OBJECT (viewer->hadj),
 				  "value_changed",
 				  G_CALLBACK (hadj_value_changed),
 				  viewer);
@@ -2383,7 +2354,7 @@ set_scroll_adjustments (GtkWidget *widget,
 		g_object_ref (viewer->vadj);
 		gtk_object_sink (GTK_OBJECT (viewer->vadj));
 
-		g_signal_connect (G_OBJECT (viewer->vadj), 
+		g_signal_connect (G_OBJECT (viewer->vadj),
 				  "value_changed",
 				  G_CALLBACK (vadj_value_changed),
 				  viewer);
@@ -2392,12 +2363,12 @@ set_scroll_adjustments (GtkWidget *widget,
 
 
 static void
-scroll_relative (ImageViewer *viewer, 
-		 int          delta_x, 
+scroll_relative (ImageViewer *viewer,
+		 int          delta_x,
 		 int          delta_y)
 {
-	image_viewer_scroll_to (viewer, 			
-				viewer->x_offset + delta_x,	
+	image_viewer_scroll_to (viewer,
+				viewer->x_offset + delta_x,
 				viewer->y_offset + delta_y);
 }
 
@@ -2455,7 +2426,7 @@ image_viewer_scroll_step_x (ImageViewer *viewer,
 			    gboolean     increment)
 {
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
-	scroll_relative (viewer, 
+	scroll_relative (viewer,
 			 (increment ? 1 : -1) * viewer->hadj->step_increment,
 			 0);
 }
@@ -2466,7 +2437,7 @@ image_viewer_scroll_step_y (ImageViewer *viewer,
 			    gboolean     increment)
 {
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
-	scroll_relative (viewer, 
+	scroll_relative (viewer,
 			 0,
 			 (increment ? 1 : -1) * viewer->vadj->step_increment);
 }
@@ -2477,7 +2448,7 @@ image_viewer_scroll_page_x (ImageViewer *viewer,
 			    gboolean     increment)
 {
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
-	scroll_relative (viewer, 
+	scroll_relative (viewer,
 			 (increment ? 1 : -1) * viewer->hadj->page_increment,
 			 0);
 }
@@ -2488,7 +2459,7 @@ image_viewer_scroll_page_y (ImageViewer *viewer,
 			    gboolean     increment)
 {
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
-	scroll_relative (viewer, 
+	scroll_relative (viewer,
 			 0,
 			 (increment ? 1 : -1) * viewer->vadj->page_increment);
 }
@@ -2512,7 +2483,7 @@ image_viewer_set_reset_scrollbars (ImageViewer *viewer,
 	viewer->reset_scrollbars = reset;
 }
 
-						
+
 gboolean
 image_viewer_get_reset_scrollbars (ImageViewer *viewer)
 {

@@ -89,7 +89,7 @@ dlg_check_folder (GthWindow  *window,
 				   _("The destination folder does not exist. " "Do you want to create it?"),
 				   GTK_STOCK_CANCEL,
 				   _("C_reate"));
-		
+
 	result = gtk_dialog_run (GTK_DIALOG (d));
 	gtk_widget_destroy (GTK_WIDGET (d));
 
@@ -134,7 +134,7 @@ dlg_check_folder (GthWindow  *window,
 static void
 dlg_show_error (GthWindow  *window,
 		const char *first_line,
-		GList      *error_list, 
+		GList      *error_list,
 		const char *reason)
 {
 	const int   max_files = 15; /* FIXME */
@@ -143,7 +143,7 @@ dlg_show_error (GthWindow  *window,
 	char       *msg;
 	char       *utf8_msg;
 	int         n = 0;
-	
+
 	msg = g_strdup_printf ("%s\n", first_line);
 	for (scan = error_list; scan && (n < max_files); scan = scan->next) {
 		char *tmp = msg;
@@ -151,7 +151,7 @@ dlg_show_error (GthWindow  *window,
 		g_free (tmp);
 		n++;
 	}
-	
+
 	if (scan != NULL) {
 		char *tmp = msg;
 		msg = g_strconcat (tmp, "...\n", NULL);
@@ -199,7 +199,7 @@ real_files_delete__continue2 (GnomeVFSResult result,
 	if ((result != GNOME_VFS_OK) && (result != GNOME_VFS_ERROR_INTERRUPTED))
 		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window),
 				       "%s %s",
-				       _("Could not delete the images:"), 
+				       _("Could not delete the images:"),
 				       gnome_vfs_result_to_string (result));
 
 	path_list_free (cfddata->file_list);
@@ -227,24 +227,24 @@ real_files_delete__continue (GnomeVFSResult result,
 				    GTK_STOCK_DELETE,
 				    _("_Do not display this message again"),
 				    PREF_MSG_CANNOT_MOVE_TO_TRASH);
-		
+
 			r = gtk_dialog_run (GTK_DIALOG (d));
 			gtk_widget_destroy (GTK_WIDGET (d));
-		} 
+		}
 
-		if (r == GTK_RESPONSE_YES) 
-			dlg_files_delete (cfddata->window, 
-					  cfddata->file_list, 
-					  real_files_delete__continue2, 
+		if (r == GTK_RESPONSE_YES)
+			dlg_files_delete (cfddata->window,
+					  cfddata->file_list,
+					  real_files_delete__continue2,
 					  cfddata);
 
-	} else 
+	} else
 		real_files_delete__continue2 (result, data);
 }
 
 
 static void
-real_files_delete (GthWindow *window, 
+real_files_delete (GthWindow *window,
 		   GList     *list)
 {
 	ConfirmFileDeleteData *cfddata;
@@ -262,7 +262,7 @@ real_files_delete (GthWindow *window,
 }
 
 
-gboolean 
+gboolean
 dlg_file_delete__confirm (GthWindow  *window,
 			  GList      *list,
 			  const char *message)
@@ -300,7 +300,7 @@ destroy_cb (GtkWidget *w,
 	    GtkWidget *file_sel)
 {
 	GList *file_list;
-	
+
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
 	path_list_free (file_list);
 }
@@ -314,7 +314,7 @@ file_move_ask__continue (GnomeVFSResult result,
 	GthWindow *window;
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
-	if (GTH_IS_BROWSER (window) && 
+	if (GTH_IS_BROWSER (window) &&
 	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
 		GthBrowser *browser = GTH_BROWSER (window);
 		char       *path;
@@ -328,7 +328,7 @@ file_move_ask__continue (GnomeVFSResult result,
 }
 
 
-static void 
+static void
 file_move_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
@@ -347,7 +347,7 @@ file_move_response_cb (GtkWidget *w,
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
 	path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
 
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 
 	/* ignore ending slash. */
@@ -358,11 +358,11 @@ file_move_response_cb (GtkWidget *w,
 	if (dlg_check_folder (window, path)) {
 		gtk_widget_hide (file_sel);
 
-		dlg_files_copy (window, 
-				file_list, 
-				path, 
-				TRUE, 
-				TRUE, 
+		dlg_files_copy (window,
+				file_list,
+				path,
+				TRUE,
+				TRUE,
 				FALSE,
 				file_move_ask__continue,
 				file_sel);
@@ -372,7 +372,7 @@ file_move_response_cb (GtkWidget *w,
 }
 
 
-void 
+void
 dlg_file_move__ask_dest (GthWindow  *window,
 			 const char *default_dir,
 			 GList      *list)
@@ -393,15 +393,15 @@ dlg_file_move__ask_dest (GthWindow  *window,
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "response", 
-			  G_CALLBACK (file_move_response_cb), 
+			  "response",
+			  G_CALLBACK (file_move_response_cb),
 			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "destroy", 
+			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
-    
+
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
@@ -419,7 +419,7 @@ file_copy_ask__continue (GnomeVFSResult result,
 	GthWindow *window;
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
-	if (GTH_IS_BROWSER (window) && 
+	if (GTH_IS_BROWSER (window) &&
 	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
 		GthBrowser *browser = GTH_BROWSER (window);
 		char       *path;
@@ -433,7 +433,7 @@ file_copy_ask__continue (GnomeVFSResult result,
 }
 
 
-static void 
+static void
 file_copy_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
@@ -462,11 +462,11 @@ file_copy_response_cb (GtkWidget *w,
 	if (dlg_check_folder (window, path)) {
 		gtk_widget_hide (file_sel);
 
-		dlg_files_copy (window, 
-				file_list, 
-				path, 
-				FALSE, 
-				TRUE, 
+		dlg_files_copy (window,
+				file_list,
+				path,
+				FALSE,
+				TRUE,
 				FALSE,
 				file_copy_ask__continue,
 				file_sel);
@@ -476,7 +476,7 @@ file_copy_response_cb (GtkWidget *w,
 }
 
 
-void 
+void
 dlg_file_copy__ask_dest (GthWindow  *window,
 			 const char *default_dir,
 			 GList      *list)
@@ -497,15 +497,15 @@ dlg_file_copy__ask_dest (GthWindow  *window,
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "response", 
-			  G_CALLBACK (file_copy_response_cb), 
+			  "response",
+			  G_CALLBACK (file_copy_response_cb),
 			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "destroy", 
+			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
-    
+
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
@@ -604,7 +604,7 @@ overwrite_rename_radiobutton_toggled_cb (GtkToggleButton  *button,
 static DlgOverwriteData *
 create_overwrite_dialog (GthWindow         *window,
 			 int                default_overwrite_mode,
-			 const char        *old_filename, 
+			 const char        *old_filename,
 			 const char        *new_filename,
 			 gboolean           show_overwrite_all_none,
 			 OverwriteDoneFunc  done_func,
@@ -723,7 +723,7 @@ create_overwrite_dialog (GthWindow         *window,
 	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
 	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
 	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
-	image_viewer_zoom_to_fit      (viewer);
+	image_viewer_set_fit_mode     (viewer, GTH_FIT_SIZE_IF_LARGER);
 	image_viewer_load_image       (viewer, old_filename);
 
 	gtk_widget_show (old_image_viewer);
@@ -739,7 +739,7 @@ create_overwrite_dialog (GthWindow         *window,
 	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
 	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
 	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
-	image_viewer_zoom_to_fit      (viewer);
+	image_viewer_set_fit_mode     (viewer, GTH_FIT_SIZE_IF_LARGER);
 	image_viewer_load_image       (viewer, new_filename);
 
 	gtk_widget_show (new_image_viewer);
@@ -755,7 +755,7 @@ create_overwrite_dialog (GthWindow         *window,
 
 	g_object_set_data (G_OBJECT (owdata->dialog), "tooltips", owdata->tooltips);
 
-	gtk_window_set_transient_for (GTK_WINDOW (owdata->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (owdata->dialog),
 				      GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (owdata->dialog), TRUE);
 
@@ -792,7 +792,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 				g_free (new_name);
 				return;
 			}
-			
+
 			new_path = g_build_path ("/", owdata->destination, new_name, NULL);
 
 			if (path_is_file (new_path)) {
@@ -823,7 +823,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 static GtkWidget *
 dlg_overwrite (GthWindow         *window,
 	       int                default_overwrite_mode,
-	       const char        *old_filename, 
+	       const char        *old_filename,
 	       const char        *new_filename,
 	       gboolean           show_overwrite_all_none,
 	       OverwriteDoneFunc  done_func,
@@ -840,8 +840,8 @@ dlg_overwrite (GthWindow         *window,
 					  done_data);
 
 	g_signal_connect (G_OBJECT (owdata->dialog),
-			  "response", 
-			  G_CALLBACK (dlg_overwrite__response_cb), 
+			  "response",
+			  G_CALLBACK (dlg_overwrite__response_cb),
 			  owdata);
 
 	return owdata->dialog;
@@ -851,7 +851,7 @@ dlg_overwrite (GthWindow         *window,
 static int
 dlg_overwrite_run (GthWindow     *window,
 		   int            default_overwrite_mode,
-		   const char    *old_filename, 
+		   const char    *old_filename,
 		   const char    *new_filename,
 		   gboolean       show_overwrite_all_none,
 		   char         **new_name)
@@ -895,10 +895,10 @@ dlg_overwrite_run (GthWindow     *window,
 		}
 
 		new_path = g_build_path ("/", owdata->destination, *new_name, NULL);
-		
+
 		if (path_is_file (new_path)) {
 			char *utf8_name;
-			
+
 			utf8_name = g_filename_display_name (*new_name);
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
@@ -910,7 +910,7 @@ dlg_overwrite_run (GthWindow     *window,
 			goto retry;
 		}
 		g_free (new_path);
-		
+
 	} else
 		result = OVERWRITE_RESULT_NO;
 
@@ -921,7 +921,7 @@ dlg_overwrite_run (GthWindow     *window,
 
 
 static GList *
-my_list_remove (GList      *list, 
+my_list_remove (GList      *list,
 		const char *path)
 {
 	GList *link;
@@ -969,7 +969,7 @@ dlg_file_rename_series (GthWindow *window,
 		if (same_uri (old_full_path, new_full_path)) {
 			o_scan = o_scan->next;
 			n_scan = n_scan->next;
-			continue;			
+			continue;
 		}
 
 		/* handle overwrite. */
@@ -981,7 +981,7 @@ dlg_file_rename_series (GthWindow *window,
 		       && (overwrite_result != OVERWRITE_RESULT_NONE)
 		       && file_exists) {
 
-			overwrite_result = dlg_overwrite_run (window, 
+			overwrite_result = dlg_overwrite_run (window,
 							      overwrite_result,
 							      old_full_path,
 							      new_full_path,
@@ -989,7 +989,7 @@ dlg_file_rename_series (GthWindow *window,
 							      &new_name);
 			if (overwrite_result == OVERWRITE_RESULT_RENAME) {
 				char *parent_dir;
-				
+
 				parent_dir = remove_level_from_path (new_full_path);
 				new_full_path = g_build_path ("/", parent_dir,  new_name, NULL);
 				g_free (parent_dir);
@@ -999,14 +999,14 @@ dlg_file_rename_series (GthWindow *window,
 			file_exists = path_is_file (new_full_path);
 		}
 
-		if (file_exists 
+		if (file_exists
 		    && ((overwrite_result == OVERWRITE_RESULT_NONE)
 			|| (overwrite_result == OVERWRITE_RESULT_NO))) {
 			o_scan = o_scan->next;
 			n_scan = n_scan->next;
 			g_free (new_full_path);
 			continue;
-		} 
+		}
 
 		if (file_rename (old_full_path, new_full_path)) {
 			cache_move (old_full_path, new_full_path);
@@ -1043,7 +1043,7 @@ dlg_file_rename_series (GthWindow *window,
 			msg = _("Could not rename the image:");
 		else
 			msg = _("Could not rename the following images:");
-		
+
 		dlg_show_error (window,
 				msg,
 				error_list,
@@ -1128,7 +1128,7 @@ file_copy__display_progress_dialog (gpointer data)
 		fcdata->timeout_id = 0;
 	}
 
-	if (! fcdata->continue_dialog_visible 
+	if (! fcdata->continue_dialog_visible
 	    && ! fcdata->overwrite_dialog_visible)
 		gtk_widget_show (fcdata->progress_dialog);
 
@@ -1180,9 +1180,9 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 	else
 		error = _("Could not copy the image:");
 	utf8_name = g_filename_display_basename (src_file);
-	message = g_strconcat (error, 
+	message = g_strconcat (error,
 			       " ",
-			       utf8_name, 
+			       utf8_name,
 			       "\n\n",
 			       gnome_vfs_result_to_string (result),
 			       NULL);
@@ -1198,7 +1198,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 					     NULL,
 					     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 					     NULL);
-	else 
+	else
 		d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window),
 					   GTK_DIALOG_MODAL,
 					   message,
@@ -1208,7 +1208,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 	g_free (message);
 
 	g_signal_connect (G_OBJECT (d),
-			  "response", 
+			  "response",
 			  G_CALLBACK (file_copy__continue_or_abort__response_cb),
 			  fcdata);
 
@@ -1229,7 +1229,7 @@ files_copy__done (FileCopyData *fcdata)
 
 	if (fcdata->done_func != NULL)
 		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
-	
+
 	file_copy_data_free (fcdata);
 }
 
@@ -1253,7 +1253,7 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 				src_file = fcdata->current_file->data;
 				dest_file = g_build_path ("/",
-							  fcdata->destination, 
+							  fcdata->destination,
 							  file_name_from_path (src_file),
 							  NULL);
 				fcdata->copied_list = g_list_prepend (fcdata->copied_list, src_file);
@@ -1311,7 +1311,7 @@ xfer_file (FileCopyData *fcdata,
 
 	/**/
 
-	if (result != GNOME_VFS_OK) 
+	if (result != GNOME_VFS_OK)
 		continue_or_abort_dialog (fcdata, result);
 }
 
@@ -1339,9 +1339,9 @@ copy_current_file__overwrite (OverwriteResult  result,
 			copy_next_file (fcdata);
 			break;
 		}
-			
+
 		dest_file = g_build_path ("/",
-					  fcdata->destination, 
+					  fcdata->destination,
 					  new_name,
 					  NULL);
 		xfer_file (fcdata, src_file, dest_file);
@@ -1352,7 +1352,7 @@ copy_current_file__overwrite (OverwriteResult  result,
 	case OVERWRITE_RESULT_YES:
 	case OVERWRITE_RESULT_ALL:
 		dest_file = g_build_path ("/",
-					  fcdata->destination, 
+					  fcdata->destination,
 					  file_name_from_path (src_file),
 					  NULL);
 		xfer_file (fcdata, src_file, dest_file);
@@ -1377,14 +1377,14 @@ copy_current_file (FileCopyData *fcdata)
 	GnomeVFSURI  *dest_uri;
 	gboolean      skip = FALSE;
 
-	message = g_strdup_printf (_("Copying file %d of %d"), 
+	message = g_strdup_printf (_("Copying file %d of %d"),
 				   fcdata->file_index,
 				   fcdata->files_total);
 	gtk_label_set_text (GTK_LABEL (fcdata->progress_info), message);
 	g_free (message);
 
 	fraction = (float) fcdata->file_index / fcdata->files_total;
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), 
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar),
 				       CLAMP (fraction, 0.0, 1.0));
 
 	/**/
@@ -1393,7 +1393,7 @@ copy_current_file (FileCopyData *fcdata)
 
 	src_file = fcdata->current_file->data;
 	dest_file = g_build_path ("/",
-				  fcdata->destination, 
+				  fcdata->destination,
 				  file_name_from_path (src_file),
 				  NULL);
 
@@ -1412,7 +1412,7 @@ copy_current_file (FileCopyData *fcdata)
 			skip = TRUE;
 		else {
 			GtkWidget *d;
-			d = dlg_overwrite (fcdata->window, 
+			d = dlg_overwrite (fcdata->window,
 					   fcdata->overwrite_result,
 					   dest_file,
 					   src_file,
@@ -1478,10 +1478,10 @@ copy_next_file (FileCopyData *fcdata)
 		char *dest_cache_file;
 
 		dest_file = g_strconcat (fcdata->destination,
-					 "/", 
-					 file_name_from_path (src_file), 
+					 "/",
+					 file_name_from_path (src_file),
 					 NULL);
-		
+
 		src_cache_file = comments_get_comment_filename (src_file, TRUE, TRUE);
 		dest_cache_file = comments_get_comment_filename (dest_file, TRUE, TRUE);
 
@@ -1512,13 +1512,13 @@ copy_next_file (FileCopyData *fcdata)
 			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
-		
+
 		g_free (src_cache_file);
 		g_free (dest_cache_file);
 
 		g_free (dest_file);
 	}
-	
+
 	if (src_list == NULL) {
 		files_copy__done (fcdata);
 		return;
@@ -1562,8 +1562,8 @@ dlg_files_copy__interrupt (FileCopyData *fcdata)
 
 
 static void
-dlg_files_copy__interrupt_cb1 (GtkWidget    *caller, 
-			       GdkEvent     *event, 
+dlg_files_copy__interrupt_cb1 (GtkWidget    *caller,
+			       GdkEvent     *event,
 			       FileCopyData *fcdata)
 {
 	dlg_files_copy__interrupt (fcdata);
@@ -1571,7 +1571,7 @@ dlg_files_copy__interrupt_cb1 (GtkWidget    *caller,
 
 
 static void
-dlg_files_copy__interrupt_cb2 (GtkWidget    *caller, 
+dlg_files_copy__interrupt_cb2 (GtkWidget    *caller,
 			       FileCopyData *fcdata)
 {
 	dlg_files_copy__interrupt (fcdata);
@@ -1637,11 +1637,11 @@ dlg_files_copy (GthWindow      *window,
 	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
 	fcdata->progress_cancel = glade_xml_get_widget (fcdata->gui, "progress_cancel");
 
-	g_signal_connect (G_OBJECT (fcdata->progress_dialog), 
+	g_signal_connect (G_OBJECT (fcdata->progress_dialog),
 			  "delete_event",
 			  G_CALLBACK (dlg_files_copy__interrupt_cb1),
 			  fcdata);
-	g_signal_connect (G_OBJECT (fcdata->progress_cancel), 
+	g_signal_connect (G_OBJECT (fcdata->progress_cancel),
 			  "clicked",
 			  G_CALLBACK (dlg_files_copy__interrupt_cb2),
 			  fcdata);
@@ -1671,9 +1671,9 @@ dlg_files_move_to_trash (GthWindow      *window,
 	g_return_if_fail (file_list != NULL);
 
 	first_uri = new_uri_from_path (file_list->data);
-	gnome_vfs_find_directory (first_uri, 
+	gnome_vfs_find_directory (first_uri,
 				  GNOME_VFS_DIRECTORY_KIND_TRASH,
-				  &trash_uri, 
+				  &trash_uri,
 				  TRUE,
 				  TRUE,
 				  0777);
@@ -1682,13 +1682,13 @@ dlg_files_move_to_trash (GthWindow      *window,
 		char *trash_path;
 
 		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
-		dlg_files_copy (window, 
-				file_list, 
+		dlg_files_copy (window,
+				file_list,
 				trash_path,
-				TRUE, 
-				FALSE, 
 				TRUE,
-				done_func, 
+				FALSE,
+				TRUE,
+				done_func,
 				done_data);
 
 		g_free (trash_path);
@@ -1746,7 +1746,7 @@ static int
 file_delete__display_progress_dialog (gpointer data)
 {
 	FileDeleteData *fddata = data;
-	
+
 	if (fddata->timeout_id != 0) {
 		g_source_remove (fddata->timeout_id);
 		fddata->timeout_id = 0;
@@ -1761,9 +1761,9 @@ file_delete__display_progress_dialog (gpointer data)
 static void
 files_delete__done (FileDeleteData *fddata)
 {
-	if (fddata->result == GNOME_VFS_OK) 
+	if (fddata->result == GNOME_VFS_OK)
 		all_windows_notify_files_deleted (fddata->file_list);
-	else 
+	else
 		all_windows_notify_files_changed (fddata->file_list);
 
 	/*all_windows_add_monitor (); FIXME*/
@@ -1792,7 +1792,7 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		message = g_strdup (_("Collecting images info"));
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
-		message = g_strdup_printf (_("Deleting file %ld of %ld"), 
+		message = g_strdup_printf (_("Deleting file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
 
@@ -1808,7 +1808,7 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->bytes_total != 0) {
 		fraction = (float)info->total_bytes_copied / info->bytes_total;
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar), 
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar),
 					       CLAMP (fraction, 0.0, 1.0));
 	}
 
@@ -1826,8 +1826,8 @@ dlg_files_delete__interrupt (FileDeleteData *fcdata)
 
 
 static void
-dlg_files_delete__interrupt_cb1 (GtkWidget      *caller, 
-				 GdkEvent       *event, 
+dlg_files_delete__interrupt_cb1 (GtkWidget      *caller,
+				 GdkEvent       *event,
 				 FileDeleteData *fcdata)
 {
 	dlg_files_delete__interrupt (fcdata);
@@ -1835,7 +1835,7 @@ dlg_files_delete__interrupt_cb1 (GtkWidget      *caller,
 
 
 static void
-dlg_files_delete__interrupt_cb2 (GtkWidget      *caller, 
+dlg_files_delete__interrupt_cb2 (GtkWidget      *caller,
 				 FileDeleteData *fcdata)
 {
 	dlg_files_delete__interrupt (fcdata);
@@ -1881,15 +1881,15 @@ dlg_files_delete (GthWindow      *window,
 	fddata->progress_info = glade_xml_get_widget (fddata->gui, "progress_info");
 	fddata->progress_cancel = glade_xml_get_widget (fddata->gui, "progress_cancel");
 
-	g_signal_connect (G_OBJECT (fddata->progress_dialog), 
+	g_signal_connect (G_OBJECT (fddata->progress_dialog),
 			  "delete_event",
 			  G_CALLBACK (dlg_files_delete__interrupt_cb1),
 			  fddata);
-	g_signal_connect (G_OBJECT (fddata->progress_cancel), 
+	g_signal_connect (G_OBJECT (fddata->progress_cancel),
 			  "clicked",
 			  G_CALLBACK (dlg_files_delete__interrupt_cb2),
 			  fddata);
-	
+
 	gtk_window_set_transient_for (GTK_WINDOW (fddata->progress_dialog),
 				      GTK_WINDOW (fddata->window));
 	gtk_window_set_modal (GTK_WINDOW (fddata->progress_dialog), FALSE);
@@ -1914,7 +1914,7 @@ dlg_files_delete (GthWindow      *window,
 		files_delete__done (fddata);
 		return;
 	}
-	
+
 	xfer_options    = GNOME_VFS_XFER_DELETE_ITEMS;
 	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
 	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
@@ -2019,34 +2019,34 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		message = g_strdup (_("Collecting images info"));
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COPYING) {
-		message = g_strdup_printf (_("Copying file %ld of %ld"), 
+		message = g_strdup_printf (_("Copying file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-		
+
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_MOVING) {
-		message = g_strdup_printf (_("Moving file %ld of %ld"), 
+		message = g_strdup_printf (_("Moving file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-		
+
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
-		message = g_strdup_printf (_("Deleting file %ld of %ld"), 
+		message = g_strdup_printf (_("Deleting file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-		
+
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		
+
 		if (fcdata->result == GNOME_VFS_OK) {
 			if (fcdata->file_op == FILE_OP_COPY)
-				all_windows_notify_directory_new (fcdata->destination); 
+				all_windows_notify_directory_new (fcdata->destination);
 
 			else if (fcdata->file_op == FILE_OP_MOVE)
-				all_windows_notify_directory_rename (fcdata->source, 
+				all_windows_notify_directory_rename (fcdata->source,
 								     fcdata->destination);
 			else if (fcdata->file_op == FILE_OP_DELETE)
 				all_windows_notify_directory_delete (fcdata->source);
 		}
 
-		destroy_progress_dialog (fcdata);		
+		destroy_progress_dialog (fcdata);
 
 		if (fcdata->done_func != NULL)
 			(*fcdata->done_func) (fcdata->result, fcdata->done_data);
@@ -2062,7 +2062,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->files_total != 0) {
 		fraction = (float) info->file_index / info->files_total;
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), 
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar),
 					       CLAMP (fraction, 0.0, 1.0));
 	}
 
@@ -2070,7 +2070,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 }
 
 
-static int 
+static int
 folder_progress_sync_cb (GnomeVFSXferProgressInfo *info,
 			 gpointer                  data)
 {
@@ -2078,7 +2078,7 @@ folder_progress_sync_cb (GnomeVFSXferProgressInfo *info,
 
 	if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		ret_val = TRUE;
-		
+
 	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR) {
 		ret_val = GNOME_VFS_XFER_ERROR_ACTION_SKIP;
 
@@ -2094,7 +2094,7 @@ static int
 folder_copy__display_progress_dialog (gpointer data)
 {
 	FolderCopyData *fcdata = data;
-	
+
 	if (fcdata->timeout_id != 0) {
 		g_source_remove (fcdata->timeout_id);
 		fcdata->timeout_id = 0;
@@ -2116,8 +2116,8 @@ folder_copy__interrupt (FolderCopyData *fcdata)
 
 
 static void
-folder_copy__interrupt_cb1 (GtkWidget     *caller, 
-			    GdkEvent       *event, 
+folder_copy__interrupt_cb1 (GtkWidget     *caller,
+			    GdkEvent       *event,
 			    FolderCopyData *fcdata)
 {
 	folder_copy__interrupt (fcdata);
@@ -2125,7 +2125,7 @@ folder_copy__interrupt_cb1 (GtkWidget     *caller,
 
 
 static void
-folder_copy__interrupt_cb2 (GtkWidget      *caller, 
+folder_copy__interrupt_cb2 (GtkWidget      *caller,
 			    FolderCopyData *fcdata)
 {
 	folder_copy__interrupt (fcdata);
@@ -2186,15 +2186,15 @@ folder_copy (GthWindow      *window,
 	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
 	fcdata->progress_cancel = glade_xml_get_widget (fcdata->gui, "progress_cancel");
 
-	g_signal_connect (G_OBJECT (fcdata->progress_dialog), 
+	g_signal_connect (G_OBJECT (fcdata->progress_dialog),
 			  "delete_event",
 			  G_CALLBACK (folder_copy__interrupt_cb1),
 			  fcdata);
-	g_signal_connect (G_OBJECT (fcdata->progress_cancel), 
+	g_signal_connect (G_OBJECT (fcdata->progress_cancel),
 			  "clicked",
 			  G_CALLBACK (folder_copy__interrupt_cb2),
 			  fcdata);
-	
+
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
 				      GTK_WINDOW (fcdata->window));
 	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
@@ -2233,7 +2233,7 @@ folder_copy (GthWindow      *window,
 	}
 
 	xfer_options = GNOME_VFS_XFER_RECURSIVE;
-	
+
 	if (fcdata->file_op == FILE_OP_MOVE)
 		xfer_options |= GNOME_VFS_XFER_REMOVESOURCE;
 	else if (fcdata->file_op == FILE_OP_DELETE)
@@ -2282,7 +2282,7 @@ dlg_folder_copy (GthWindow      *window,
 		 FileOpDoneFunc  done_func,
 		 gpointer        done_data)
 {
-	folder_copy (window, 
+	folder_copy (window,
 		     src_path,
 		     dest_path,
 		     remove_source ? FILE_OP_MOVE : FILE_OP_COPY,
@@ -2304,10 +2304,10 @@ dlg_folder_move_to_trash (GthWindow      *window,
 
 	parent_dir = remove_level_from_path (folder);
 	parent_uri = new_uri_from_path (parent_dir);
-	
-	gnome_vfs_find_directory (parent_uri, 
+
+	gnome_vfs_find_directory (parent_uri,
 				  GNOME_VFS_DIRECTORY_KIND_TRASH,
-				  &trash_uri, 
+				  &trash_uri,
 				  TRUE,
 				  TRUE,
 				  0777);
@@ -2319,13 +2319,13 @@ dlg_folder_move_to_trash (GthWindow      *window,
 		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 		dest_folder = g_strconcat (trash_path, "/", file_name_from_path (folder), NULL);
 
-		folder_copy (window, 
-			     folder, 
-			     dest_folder, 
-			     FILE_OP_MOVE, 
-			     FALSE, 
+		folder_copy (window,
+			     folder,
+			     dest_folder,
+			     FILE_OP_MOVE,
+			     FALSE,
 			     TRUE,
-			     done_func, 
+			     done_func,
 			     done_data);
 
 		g_free (trash_path);
@@ -2346,13 +2346,13 @@ dlg_folder_delete (GthWindow      *window,
 		   FileOpDoneFunc  done_func,
 		   gpointer        done_data)
 {
-	folder_copy (window, 
-		     folder, 
+	folder_copy (window,
+		     folder,
 		     NULL,
 		     FILE_OP_DELETE,
-		     TRUE, 
+		     TRUE,
 		     FALSE,
-		     done_func, 
+		     done_func,
 		     done_data);
 }
 
@@ -2407,7 +2407,7 @@ item_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 					   gpointer   data)
 {
 	CopyItemsData *cidata = data;
-	
+
 	if (response_id == GTK_RESPONSE_YES) {
 		cidata->current_item = cidata->current_item->next;
 		copy_current_item (cidata);
@@ -2439,10 +2439,10 @@ copy_item__continue1 (GnomeVFSResult result,
 			error = _("Could not move the folder \"%s\": %s");
 		else
 			error = _("Could not move the folder \"%s\": %s");
-		
+
 		utf8_name = g_filename_display_basename (folder);
-		message = g_strdup_printf (error, 
-					   utf8_name, 
+		message = g_strdup_printf (error,
+					   utf8_name,
 					   gnome_vfs_result_to_string (result),
 					   NULL);
 		g_free (utf8_name);
@@ -2455,7 +2455,7 @@ copy_item__continue1 (GnomeVFSResult result,
 						     NULL,
 						     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 						     NULL);
-		else 
+		else
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (cidata->window),
 						   GTK_DIALOG_MODAL,
 						   message,
@@ -2463,9 +2463,9 @@ copy_item__continue1 (GnomeVFSResult result,
 						   _("_Continue"));
 
 		g_free (message);
-		
+
 		g_signal_connect (G_OBJECT (d),
-				  "response", 
+				  "response",
 				  G_CALLBACK (item_copy__continue_or_abort__response_cb),
 				  cidata);
 
@@ -2486,7 +2486,7 @@ copy_current_item (CopyItemsData *cidata)
 			if (cidata->done_func != NULL)
 				(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
 			copy_items_data_free (cidata);
-		} else 
+		} else
 			dlg_files_copy (cidata->window,
 					cidata->file_list,
 					cidata->destination,
@@ -2501,9 +2501,9 @@ copy_current_item (CopyItemsData *cidata)
 		char       *dest_path;
 
 		src_path = cidata->current_item->data;
-		dest_path = g_strconcat (cidata->destination, 
-					 "/", 
-					 file_name_from_path (src_path), 
+		dest_path = g_strconcat (cidata->destination,
+					 "/",
+					 file_name_from_path (src_path),
 					 NULL);
 
 		dlg_folder_copy (cidata->window,
@@ -2553,7 +2553,7 @@ dlg_copy_items (GthWindow      *window,
 
 		if (path_is_dir (path))
 			cidata->dir_list = g_list_prepend (cidata->dir_list, path);
-		else if (path_is_file (path)) 
+		else if (path_is_file (path))
 			cidata->file_list = g_list_prepend (cidata->file_list, path);
 	}
 

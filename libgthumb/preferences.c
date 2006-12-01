@@ -52,14 +52,14 @@ get_enum_from_string (EnumStringTable *table,
 	int i;
 
 	/* return the first value if s_value is invalid */
-	
+
 	if (s_value == NULL)
-		return table[0].i_value; 
+		return table[0].i_value;
 
 	for (i = 0; table[i].s_value != NULL; i++)
 		if (strcmp (s_value, table[i].s_value) == 0)
 			return table[i].i_value;
-	
+
 	return table[0].i_value;
 }
 
@@ -73,7 +73,7 @@ get_string_from_enum (EnumStringTable *table,
 	for (i = 0; table[i].s_value != NULL; i++)
 		if (i_value == table[i].i_value)
 			return table[i].s_value;
-	
+
 	/* return the first value if i_value is invalid */
 
 	return table[0].s_value;
@@ -123,10 +123,11 @@ static EnumStringTable zoom_quality_table [] = {
 };
 
 static EnumStringTable zoom_change_table [] = {
-	{ GTH_ZOOM_CHANGE_FIT_IF_LARGER, "fit_if_larger" },
-	{ GTH_ZOOM_CHANGE_ACTUAL_SIZE,   "actual_size" },
-	{ GTH_ZOOM_CHANGE_FIT,           "fit" },
-	{ GTH_ZOOM_CHANGE_KEEP_PREV,     "keep_prev" },
+	{ GTH_ZOOM_CHANGE_ACTUAL_SIZE,         "actual_size" },
+	{ GTH_ZOOM_CHANGE_KEEP_PREV,           "keep_prev" },
+	{ GTH_ZOOM_CHANGE_FIT_SIZE,            "fit" },
+	{ GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER,  "fit_if_larger" },
+	{ GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER, "fit_width_if_larger" },
 	{ 0, NULL }
 };
 
@@ -222,7 +223,7 @@ static EnumStringTable crop_ratio_table [] = {
 /* --------------- */
 
 
-void 
+void
 preferences_init (void)
 {
 	GConfClient *client;
@@ -348,7 +349,7 @@ pref_util_get_rgb_values (const char *hex,
 		*r = dec (hex[1]) * 16 + dec (hex[2]);
 		*g = dec (hex[3]) * 16 + dec (hex[4]);
 		*b = dec (hex[5]) * 16 + dec (hex[6]);
-		
+
 		*r = UNSCALE (*r / 255.);
 		*g = UNSCALE (*g / 255.);
 		*b = UNSCALE (*b / 255.);
@@ -534,8 +535,8 @@ pref_get_real_toolbar_style (void)
 
 
 static void
-set_dialog_property_int (const char *dialog, 
-			 const char *property, 
+set_dialog_property_int (const char *dialog,
+			 const char *property,
 			 int         value)
 {
 	char *key;
@@ -553,17 +554,17 @@ pref_util_save_window_geometry (GtkWindow  *window,
 	int x, y, width, height;
 
 	gtk_window_get_position (window, &x, &y);
-	set_dialog_property_int (dialog, "x", x); 
-	set_dialog_property_int (dialog, "y", y); 
+	set_dialog_property_int (dialog, "x", x);
+	set_dialog_property_int (dialog, "y", y);
 
 	gtk_window_get_size (window, &width, &height);
-	set_dialog_property_int (dialog, "width", width); 
-	set_dialog_property_int (dialog, "height", height); 
+	set_dialog_property_int (dialog, "width", width);
+	set_dialog_property_int (dialog, "height", height);
 }
 
 
 static int
-get_dialog_property_int (const char *dialog, 
+get_dialog_property_int (const char *dialog,
 			 const char *property)
 {
 	char *key;
@@ -588,7 +589,7 @@ pref_util_restore_window_geometry (GtkWindow  *window,
 	width = get_dialog_property_int (dialog, "width");
 	height = get_dialog_property_int (dialog, "height");
 
-	if (width != -1 && height != 1) 
+	if (width != -1 && height != 1)
 		gtk_window_set_default_size (window, width, height);
 
 	gtk_window_present (window);

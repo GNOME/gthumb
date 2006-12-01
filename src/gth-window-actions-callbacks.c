@@ -117,7 +117,7 @@ gth_window_activate_action_image_open_with (GtkAction  *action,
 	GList      *list;
 
 	image_filename = gth_window_get_image_filename (window);
-	if (image_filename == NULL) 
+	if (image_filename == NULL)
 		return;
 
 	list = g_list_append (NULL, g_strdup (image_filename));
@@ -136,8 +136,8 @@ gth_window_activate_action_file_save (GtkAction *action,
 	GthWindow   *window = GTH_WINDOW (data);
 	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
 
-	gth_window_save_pixbuf (window, 
-				image_viewer_get_current_pixbuf (image_viewer), 
+	gth_window_save_pixbuf (window,
+				image_viewer_get_current_pixbuf (image_viewer),
 				gth_window_get_image_filename (window));
 }
 
@@ -545,7 +545,7 @@ gth_window_activate_action_view_zoom_to_width (GtkAction *action,
                                                gpointer   data)
 {
         GthWindow *window = GTH_WINDOW (data);
-        image_viewer_zoom_to_width (gth_window_get_image_viewer (window));
+	image_viewer_set_fit_mode (gth_window_get_image_viewer (window), GTH_FIT_WIDTH_IF_LARGER);
 }
 
 
@@ -572,12 +572,7 @@ gth_window_activate_action_view_zoom_fit (GtkAction *action,
 					  gpointer   data)
 {
 	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
-
-	if (image_viewer->zoom_fit) 
-		image_viewer->zoom_fit = FALSE;
-	else 
-		image_viewer_zoom_to_fit_if_larger (image_viewer);
+	image_viewer_set_fit_mode (gth_window_get_image_viewer (window), GTH_FIT_SIZE_IF_LARGER);
 }
 
 
@@ -607,11 +602,11 @@ set_wallpaper (const char     *image_path,
 	client = gconf_client_get_default ();
 
 	image_path = get_file_path_from_uri (image_path);
-	if ((image_path == NULL) || ! path_is_file (image_path)) 
+	if ((image_path == NULL) || ! path_is_file (image_path))
 		options = "none";
 
 	else {
-		gconf_client_set_string (client, 
+		gconf_client_set_string (client,
 					 "/desktop/gnome/background/picture_filename",
 					 image_path,
 					 NULL);
@@ -634,8 +629,8 @@ set_wallpaper (const char     *image_path,
 		}
 	}
 
-	gconf_client_set_string (client, 
-				 "/desktop/gnome/background/picture_options", 
+	gconf_client_set_string (client,
+				 "/desktop/gnome/background/picture_options",
 				 options,
 				 NULL);
         g_object_unref (G_OBJECT (client));
@@ -643,7 +638,7 @@ set_wallpaper (const char     *image_path,
 
 
 static char *
-get_wallpaper_filename (int n) 
+get_wallpaper_filename (int n)
 {
 	char *name, *filename;
 
@@ -668,7 +663,7 @@ set_wallpaper_from_window (GthWindow      *window,
 		const char *filename = gth_window_get_image_filename (window);
 		if (filename != NULL)
 			image_path = g_strdup (filename);
-		
+
 	} else {
 		ImageViewer *image_viewer;
 		GdkPixbuf   *pixbuf;
@@ -688,7 +683,7 @@ set_wallpaper_from_window (GthWindow      *window,
 			file_unlink (wallpaper_filename);
 			g_free (wallpaper_filename);
 			wallpaper_filename = get_wallpaper_filename (2);
-			if (path_is_file (wallpaper_filename)) 
+			if (path_is_file (wallpaper_filename))
 				file_unlink (wallpaper_filename);
 		}
 
@@ -781,7 +776,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 	};
 	const char *documenters [] = {
 		"Paolo Bacchilega",
-		"Alexander Kirillov", 
+		"Alexander Kirillov",
 		NULL
 	};
 	char       *license_text;
@@ -815,7 +810,7 @@ gth_window_activate_action_help_about (GtkAction *action,
                                "wrap-license", TRUE,
 			       "website", "http://gthumb.sourceforge.net",
                                NULL);
-	
+
         g_free (license_text);
 }
 

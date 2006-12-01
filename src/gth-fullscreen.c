@@ -102,7 +102,7 @@ struct _GthFullscreenPrivateData {
 static GthWindowClass *parent_class = NULL;
 
 
-static void 
+static void
 gth_fullscreen_finalize (GObject *object)
 {
 	GthFullscreen *fullscreen = GTH_FULLSCREEN (object);
@@ -141,7 +141,7 @@ gth_fullscreen_finalize (GObject *object)
 		g_free (priv->requested_path);
 		path_list_free (priv->file_list);
 		g_free (priv->catalog_path);
-		
+
 		g_object_unref (priv->preloader);
 
 		if (priv->buffer != NULL) {
@@ -194,8 +194,8 @@ continue_slideshow (GthFullscreen *fullscreen)
 		priv->slideshow_timeout = 0;
 	}
 
-	priv->slideshow_timeout = g_timeout_add (priv->slideshow_delay * SECONDS, 
-						 slideshow_timeout_cb, 
+	priv->slideshow_timeout = g_timeout_add (priv->slideshow_delay * SECONDS,
+						 slideshow_timeout_cb,
 						 fullscreen);
 }
 
@@ -210,7 +210,7 @@ viewer_image_loaded_cb (ImageViewer   *iviewer,
 		gs_fade_in (priv->fade);
 		return;
 	}
-	
+
 	gs_fade_reset (priv->fade);
 	if (priv->slideshow)
 		continue_slideshow (fullscreen);
@@ -242,7 +242,7 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	ImageLoader              *loader;
 
 	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested_path);
-	if (loader != NULL) 
+	if (loader != NULL)
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
 
@@ -259,7 +259,7 @@ fade_faded_cb (GSFade          *fade,
 	case GS_FADE_DIRECTION_OUT:
 		real_load_current_image (fullscreen);
 		break;
-		
+
 	case GS_FADE_DIRECTION_IN:
 		if (fullscreen->priv->slideshow)
 			continue_slideshow (fullscreen);
@@ -309,7 +309,7 @@ hide_mouse_pointer_cb (gpointer data)
 	gdk_window_get_pointer (priv->toolbar_window->window, &px, &py, 0);
 	gdk_window_get_geometry (priv->toolbar_window->window, &x, &y, &w, &h, NULL);
 
-	if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h)) 
+	if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
 		return TRUE;
 
 	gtk_widget_hide (priv->toolbar_window);
@@ -319,7 +319,7 @@ hide_mouse_pointer_cb (gpointer data)
 
 	if (priv->image_data_visible)
 		priv->comment_visible = TRUE;
-	if (priv->comment_visible) 
+	if (priv->comment_visible)
 		gtk_widget_queue_draw (fullscreen->priv->viewer);
 
         return FALSE;
@@ -327,8 +327,8 @@ hide_mouse_pointer_cb (gpointer data)
 
 
 static gboolean
-motion_notify_event_cb (GtkWidget      *widget, 
-			GdkEventMotion *event, 
+motion_notify_event_cb (GtkWidget      *widget,
+			GdkEventMotion *event,
 			gpointer        data)
 {
 	GthFullscreen            *fullscreen = GTH_FULLSCREEN (widget);
@@ -343,8 +343,8 @@ motion_notify_event_cb (GtkWidget      *widget,
 	if (last_py == 0)
 		last_py = py;
 
-	if ((abs (last_px - px) > MOTION_THRESHOLD) 
-	    || (abs (last_py - py) > MOTION_THRESHOLD)) 
+	if ((abs (last_px - px) > MOTION_THRESHOLD)
+	    || (abs (last_py - py) > MOTION_THRESHOLD))
 		if (! GTK_WIDGET_VISIBLE (priv->toolbar_window)) {
 			gtk_widget_show (priv->toolbar_window);
 			image_viewer_show_cursor (IMAGE_VIEWER (priv->viewer));
@@ -401,7 +401,7 @@ get_next_image (GthFullscreen *fullscreen)
 	else
 		next = priv->current->next;
 
-	if ((next == NULL) 
+	if ((next == NULL)
 	    && priv->slideshow
 	    && !all_images_viewed_at_least_once (fullscreen)) {
 		if (reverse)
@@ -433,7 +433,7 @@ get_prev_image (GthFullscreen *fullscreen)
 	else
 		next = priv->current->prev;
 
-	if ((next == NULL) 
+	if ((next == NULL)
 	    && priv->slideshow
 	    && !all_images_viewed_at_least_once (fullscreen)) {
 		if (reverse)
@@ -446,7 +446,7 @@ get_prev_image (GthFullscreen *fullscreen)
 }
 
 
-static void 
+static void
 set_action_sensitive (GthFullscreen *fullscreen,
 		      const char    *action_name,
 		      gboolean       sensitive)
@@ -463,23 +463,21 @@ update_zoom_sensitivity (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	gboolean                  image_is_void;
-	gboolean                  fit;
 	int                       zoom;
 
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
-	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (priv->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
 
-	set_action_sensitive (fullscreen, 
+	set_action_sensitive (fullscreen,
 			      "View_Zoom100",
 			      !image_is_void && (zoom != 100));
-	set_action_sensitive (fullscreen, 
+	set_action_sensitive (fullscreen,
 			      "View_ZoomIn",
 			      !image_is_void && (zoom != 10000));
-	set_action_sensitive (fullscreen, 
+	set_action_sensitive (fullscreen,
 			      "View_ZoomOut",
 			      !image_is_void && (zoom != 5));
-	set_action_sensitive (fullscreen, 
+	set_action_sensitive (fullscreen,
 			      "View_ZoomFit",
 			      !image_is_void);
         set_action_sensitive (fullscreen,
@@ -491,22 +489,22 @@ update_zoom_sensitivity (GthFullscreen *fullscreen)
 static void
 update_sensitivity (GthFullscreen *fullscreen)
 {
-	set_action_sensitive (fullscreen, 
-			      "View_PrevImage", 
+	set_action_sensitive (fullscreen,
+			      "View_PrevImage",
 			      get_prev_image (fullscreen) != NULL);
-	set_action_sensitive (fullscreen, 
-			      "View_NextImage", 
+	set_action_sensitive (fullscreen,
+			      "View_NextImage",
 			      get_next_image (fullscreen) != NULL);
 	update_zoom_sensitivity (fullscreen);
 }
 
 
 static gboolean
-zoom_changed_cb (GtkWidget     *widget, 
+zoom_changed_cb (GtkWidget     *widget,
 		 GthFullscreen *fullscreen)
 {
 	update_zoom_sensitivity (fullscreen);
-	return TRUE;	
+	return TRUE;
 }
 
 
@@ -519,8 +517,8 @@ real_load_current_image (GthFullscreen *fullscreen)
 	if (priv->current != NULL) {
 		char *filename = (char*) priv->current->data;
 
-		if ((priv->image != NULL) 
-		    && (priv->image_path != NULL) 
+		if ((priv->image != NULL)
+		    && (priv->image_path != NULL)
 		    && same_uri (priv->image_path, filename))
 			image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
@@ -534,7 +532,7 @@ real_load_current_image (GthFullscreen *fullscreen)
 			from_pixbuf = FALSE;
 		}
 
-	} else if (priv->image != NULL) 
+	} else if (priv->image != NULL)
 		image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
 	priv->viewed++;
@@ -565,7 +563,7 @@ static int
 random_list_func (gconstpointer a,
 		  gconstpointer b)
 {
-	return g_random_int_range (-1, 2); 
+	return g_random_int_range (-1, 2);
 }
 
 
@@ -580,7 +578,7 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 		if (priv->slideshow) {
 			if (priv->slideshow_direction == GTH_DIRECTION_RANDOM)
 				priv->file_list = g_list_sort (priv->file_list, random_list_func);
-			
+
 			if (priv->slideshow_direction == GTH_DIRECTION_REVERSE) {
 				if (first)
 					priv->current = g_list_last (priv->file_list);
@@ -594,18 +592,18 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 			}
 
 		} else if (priv->image_path != NULL)
-			priv->current = g_list_find_custom (priv->file_list, 
+			priv->current = g_list_find_custom (priv->file_list,
 							    priv->image_path,
 							    (GCompareFunc) uricmp);
-		
+
 		if (priv->current == NULL)
 			priv->current = priv->file_list;
 	}
 
-	if (first_time 
+	if (first_time
 	    && (priv->image_path != NULL)
-	    && (priv->slideshow_direction != GTH_DIRECTION_RANDOM)) 
-		priv->current = g_list_find_custom (priv->file_list, 
+	    && (priv->slideshow_direction != GTH_DIRECTION_RANDOM))
+		priv->current = g_list_find_custom (priv->file_list,
 						    priv->image_path,
 						    (GCompareFunc) uricmp);
 
@@ -632,13 +630,13 @@ load_next_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GList *next;
-	
+
 	next = get_next_image (fullscreen);
 
 	if (next != NULL) {
 		priv->current = next;
 		load_current_image (fullscreen);
-	} 
+	}
 	else if (priv->slideshow) {
 		if (priv->slideshow_wrap_around)
 			load_first_image (fullscreen);
@@ -659,7 +657,7 @@ load_prev_image (GthFullscreen *fullscreen)
 	if (next != NULL) {
 		priv->current = next;
 		load_current_image (fullscreen);
-	} 
+	}
 	else if (priv->slideshow) {
 		if (priv->slideshow_wrap_around)
 			load_last_image (fullscreen);
@@ -689,7 +687,7 @@ render_background (GdkDrawable    *drawable,
 	guchar    *data;
 	int        rowstride;
 
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 				 bounds->width, bounds->height);
 	gdk_pixbuf_fill (pixbuf, 0xF0F0F0D0);
 
@@ -725,7 +723,7 @@ render_background (GdkDrawable    *drawable,
 					     0, 0,
 					     0, 0,
 					     bounds->width, bounds->height,
-					     GDK_PIXBUF_ALPHA_FULL, 
+					     GDK_PIXBUF_ALPHA_FULL,
 					     255,
 					     GDK_RGB_DITHER_NONE, 0, 0);
 	g_object_unref (pixbuf);
@@ -738,7 +736,7 @@ render_frame (GdkDrawable    *drawable,
 	      PangoRectangle *bounds)
 {
 	GdkPoint p[9];
-	
+
 	p[0].x = 2;
 	p[0].y = 0;
 	p[1].x = bounds->width - 3;
@@ -757,13 +755,13 @@ render_frame (GdkDrawable    *drawable,
 	p[7].y = 2;
 	p[8].x = 2;
 	p[8].y = 0;
-	
+
 	gdk_draw_lines (drawable, gc, p, 9);
 }
 
 
 static char *
-escape_filename (const char *text) 
+escape_filename (const char *text)
 {
 	char *utf8_text;
 	char *escaped_text;
@@ -885,7 +883,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	int             icon_x, icon_y, icon_w, icon_h;
 	int             max_text_width;
 
-	if (priv->comment_visible) 
+	if (priv->comment_visible)
 		return;
 
 	if (priv->buffer != NULL) {
@@ -901,7 +899,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 		return;
 
 	priv->comment_visible = TRUE;
-	
+
 	comment = NULL;
 	if (cdata != NULL) {
 		comment = comments_get_comment_as_string (cdata, "\n", " - ");
@@ -911,11 +909,11 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	file_info = get_file_info (fullscreen);
 
 	if (comment == NULL)
-		marked_text = g_strdup (file_info); 
+		marked_text = g_strdup (file_info);
 	else {
 		e_comment = g_markup_escape_text (comment, -1);
-		marked_text = g_strdup_printf ("<b>%s</b>\n\n%s", 
-					       e_comment, 
+		marked_text = g_strdup_printf ("<b>%s</b>\n\n%s",
+					       e_comment,
 					       file_info);
 		g_free (e_comment);
 	}
@@ -931,8 +929,8 @@ show_comment_on_image (GthFullscreen *fullscreen)
 
 	if (! pango_parse_markup (marked_text, -1,
 				  0,
-				  &attr_list, 
-				  &parsed_text, 
+				  &attr_list,
+				  &parsed_text,
 				  NULL,
 				  &error)) {
 		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, marked_text);
@@ -953,9 +951,9 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	icon_w = gdk_pixbuf_get_width (icon);
 	icon_h = gdk_pixbuf_get_height (icon);
 
-	max_text_width = ((gdk_screen_width () * 3 / 4) 
-			  - icon_w 
-			  - (X_PADDING * 3) 
+	max_text_width = ((gdk_screen_width () * 3 / 4)
+			  - icon_w
+			  - (X_PADDING * 3)
 			  - (X_PADDING * 2));
 
 	pango_layout_set_width (layout, max_text_width * PANGO_SCALE);
@@ -963,7 +961,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 
 	priv->bounds.width += (2 * X_PADDING) + (icon_w + X_PADDING);
 	priv->bounds.height += 2 * Y_PADDING;
-	priv->bounds.height = MIN (gdk_screen_height () - icon_h - (Y_PADDING * 2), 
+	priv->bounds.height = MIN (gdk_screen_height () - icon_h - (Y_PADDING * 2),
 				   priv->bounds.height);
 
 	priv->bounds.x = (gdk_screen_width () - priv->bounds.width) / 2;
@@ -983,12 +981,12 @@ show_comment_on_image (GthFullscreen *fullscreen)
 					    GTK_WIDGET (viewer)->style->black_gc,
 					    &priv->bounds);
 	render_background (priv->buffer, &priv->bounds);
-	render_frame      (priv->buffer, 
+	render_frame      (priv->buffer,
 			   GTK_WIDGET (viewer)->style->black_gc,
 			   &priv->bounds);
 	gdk_draw_layout (priv->buffer,
 			 GTK_WIDGET (viewer)->style->black_gc,
-			 text_x, 
+			 text_x,
 			 text_y,
 			 layout);
 	gdk_pixbuf_render_to_drawable (icon,
@@ -1041,13 +1039,13 @@ _show_cursor__hide_comment (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
-	if (priv->slideshow) 
+	if (priv->slideshow)
 		priv->slideshow_paused = TRUE;
 
 	if (priv->mouse_hide_id != 0)
 		g_source_remove (priv->mouse_hide_id);
 	priv->mouse_hide_id = 0;
-	
+
 	image_viewer_show_cursor ((ImageViewer*) priv->viewer);
 	if (priv->comment_visible)
 		hide_comment_on_image (fullscreen);
@@ -1093,7 +1091,7 @@ mouse_wheel_scrolled_cb (GtkWidget          *widget,
 
 
 static gboolean
-viewer_key_press_cb (GtkWidget   *widget, 
+viewer_key_press_cb (GtkWidget   *widget,
 		     GdkEventKey *event,
 		     gpointer     data)
 {
@@ -1132,7 +1130,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 	case GDK_s:
-		if (fullscreen->priv->slideshow) 
+		if (fullscreen->priv->slideshow)
 			gth_window_close (window);
 		else
 			retval = FALSE;
@@ -1170,7 +1168,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 
 		/* Zoom to fit. */
 	case GDK_x:
-		image_viewer_zoom_to_fit (viewer);
+		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
 		break;
 
 		/* Toggle animation. */
@@ -1180,7 +1178,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 
 		/* Step animation. */
 	case GDK_j:
-        	gth_window_step_animation (window); 
+        	gth_window_step_animation (window);
 		break;
 
 		/* Load next image. */
@@ -1198,14 +1196,14 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Show first image. */
-	case GDK_Home: 
+	case GDK_Home:
 	case GDK_KP_Home:
 		priv->current = priv->file_list;
 		load_current_image (fullscreen);
 		break;
-		
+
 		/* Show last image. */
-	case GDK_End: 
+	case GDK_End:
 	case GDK_KP_End:
 		priv->current = g_list_last (priv->file_list);
 		load_current_image (fullscreen);
@@ -1241,7 +1239,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Rotate clockwise without saving */
-	case GDK_r: 
+	case GDK_r:
 		gth_window_activate_action_alter_image_rotate90 (NULL, window);
 		break;
 
@@ -1271,14 +1269,14 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Delete selection. */
-	case GDK_Delete: 
+	case GDK_Delete:
 	case GDK_KP_Delete:
 		_show_cursor__hide_comment (fullscreen);
 		delete_current_image (fullscreen);
 		break;
 
 	default:
-		if (priv->comment_visible) 
+		if (priv->comment_visible)
 			hide_comment_on_image (fullscreen);
 		retval = FALSE;
 		break;
@@ -1288,8 +1286,8 @@ viewer_key_press_cb (GtkWidget   *widget,
 }
 
 
-static gboolean 
-fs_expose_event_cb (GtkWidget        *widget, 
+static gboolean
+fs_expose_event_cb (GtkWidget        *widget,
 		    GdkEventExpose   *event,
 		    GthFullscreen    *fullscreen)
 {
@@ -1302,8 +1300,8 @@ fs_expose_event_cb (GtkWidget        *widget,
 }
 
 
-static gboolean 
-fs_repainted_cb (GtkWidget     *widget, 
+static gboolean
+fs_repainted_cb (GtkWidget     *widget,
 		 GthFullscreen *fullscreen)
 {
 	fullscreen->priv->comment_visible = FALSE;
@@ -1312,7 +1310,7 @@ fs_repainted_cb (GtkWidget     *widget,
 
 
 static int
-image_button_release_cb (GtkWidget      *widget, 
+image_button_release_cb (GtkWidget      *widget,
 			 GdkEventButton *event,
 			 gpointer        data)
 {
@@ -1348,10 +1346,10 @@ update_current_image_link (GthFullscreen *fullscreen)
 	if (priv->current == NULL)
 		return;
 
-	if (priv->current->next != NULL) 
+	if (priv->current->next != NULL)
 		priv->current = priv->current->next;
 
-	else if (priv->current->prev != NULL) 
+	else if (priv->current->prev != NULL)
 		priv->current = priv->current->prev;
 
 	else {
@@ -1365,7 +1363,7 @@ update_current_image_link (GthFullscreen *fullscreen)
 
 
 static void
-delete_list_from_file_list (GthFullscreen *fullscreen, 
+delete_list_from_file_list (GthFullscreen *fullscreen,
 			    GList         *list)
 {
 	gboolean  reload_current_image = FALSE;
@@ -1374,8 +1372,8 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 	for (scan = list; scan; scan = scan->next) {
 		char  *filename = scan->data;
 		GList *deleted;
-		
-		deleted = g_list_find_custom (fullscreen->priv->file_list, 
+
+		deleted = g_list_find_custom (fullscreen->priv->file_list,
 					      filename,
 					      (GCompareFunc) uricmp);
 		if (deleted != NULL) {
@@ -1413,8 +1411,8 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
 	case GTH_MONITOR_EVENT_CHANGED:
-		if ((fullscreen->priv->image_path != NULL) 
-		    && (g_list_find_custom (list, 
+		if ((fullscreen->priv->image_path != NULL)
+		    && (g_list_find_custom (list,
 					    fullscreen->priv->image_path,
 					    (GCompareFunc) uricmp) != NULL)) {
 			g_free (fullscreen->priv->image_path);
@@ -1422,8 +1420,8 @@ monitor_update_files_cb (GthMonitor      *monitor,
 			if (fullscreen->priv->image != NULL)
 				g_object_unref (fullscreen->priv->image);
 		}
-		if ((fullscreen->priv->current != NULL) 
-		    && (g_list_find_custom (list, 
+		if ((fullscreen->priv->current != NULL)
+		    && (g_list_find_custom (list,
 					    fullscreen->priv->current->data,
 					    (GCompareFunc) uricmp) != NULL))
 			load_current_image (fullscreen);
@@ -1479,7 +1477,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fullscreen));
 	GthZoomChange zoom_change = pref_get_zoom_change ();
-	
+
 	gtk_window_set_default_size (GTK_WINDOW (fullscreen),
 				     gdk_screen_get_width (screen),
 				     gdk_screen_get_height (screen));
@@ -1515,12 +1513,15 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 				       pref_get_transp_type ());
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer), TRUE);
 	image_viewer_hide_frame (IMAGE_VIEWER (priv->viewer));
-	if(zoom_change == GTH_ZOOM_CHANGE_ACTUAL_SIZE)
-		image_viewer_set_zoom (IMAGE_VIEWER (priv->viewer), 1.0);
-	else if(zoom_change == GTH_ZOOM_CHANGE_FIT)
-		image_viewer_zoom_to_fit (IMAGE_VIEWER (priv->viewer));
+
+	if (zoom_change == GTH_ZOOM_CHANGE_FIT_SIZE)
+		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_SIZE);
+	else if (zoom_change == GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER)
+		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_SIZE_IF_LARGER);
+	else if (zoom_change == GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER)
+		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_WIDTH_IF_LARGER);
 	else
-		image_viewer_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
+		image_viewer_set_zoom (IMAGE_VIEWER (priv->viewer), 1.0);
 
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "key_press_event",
@@ -1538,17 +1539,17 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 				"repainted",
 				G_CALLBACK (fs_repainted_cb),
 				fullscreen);
-	g_signal_connect_swapped (G_OBJECT (priv->viewer), 
+	g_signal_connect_swapped (G_OBJECT (priv->viewer),
 				  "clicked",
-				  G_CALLBACK (load_next_image), 
+				  G_CALLBACK (load_next_image),
 				  fullscreen);
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "button_release_event",
-			  G_CALLBACK (image_button_release_cb), 
+			  G_CALLBACK (image_button_release_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "zoom_changed",
-			  G_CALLBACK (zoom_changed_cb), 
+			  G_CALLBACK (zoom_changed_cb),
 			  fullscreen);
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "image_loaded",
@@ -1560,15 +1561,15 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 
 	/**/
 
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "update_metadata",
 			  G_CALLBACK (monitor_update_metadata_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  fullscreen);
@@ -1582,7 +1583,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 }
 
 
-GtkWidget * 
+GtkWidget *
 gth_fullscreen_new (GdkPixbuf  *image,
 		    const char *image_path,
 		    GList      *file_list)
@@ -1608,27 +1609,27 @@ create_toolbar_window (GthFullscreen *fullscreen)
 	priv->actions = actions = gtk_action_group_new ("ToolbarActions");
 	gtk_action_group_set_translation_domain (actions, NULL);
 
-	gtk_action_group_add_actions (actions, 
-				      gth_window_action_entries, 
-				      gth_window_action_entries_size, 
+	gtk_action_group_add_actions (actions,
+				      gth_window_action_entries,
+				      gth_window_action_entries_size,
 				      fullscreen);
-	gtk_action_group_add_toggle_actions (actions, 
-					     gth_window_action_toggle_entries, 
-					     gth_window_action_toggle_entries_size, 
+	gtk_action_group_add_toggle_actions (actions,
+					     gth_window_action_toggle_entries,
+					     gth_window_action_toggle_entries_size,
 					     fullscreen);
-	gtk_action_group_add_actions (actions, 
-				      gth_fullscreen_action_entries, 
-				      gth_fullscreen_action_entries_size, 
+	gtk_action_group_add_actions (actions,
+				      gth_fullscreen_action_entries,
+				      gth_fullscreen_action_entries_size,
 				      fullscreen);
-	gtk_action_group_add_toggle_actions (actions, 
-					     gth_fullscreen_action_toggle_entries, 
-					     gth_fullscreen_action_toggle_entries_size, 
+	gtk_action_group_add_toggle_actions (actions,
+					     gth_fullscreen_action_toggle_entries,
+					     gth_fullscreen_action_toggle_entries_size,
 					     fullscreen);
 
 	priv->ui = ui = gtk_ui_manager_new ();
 	gtk_ui_manager_insert_action_group (ui, actions, 0);
 
-	if (priv->slideshow) 
+	if (priv->slideshow)
 		ui_info = slideshow_ui_info;
 	else
 		ui_info = fullscreen_ui_info;
@@ -1652,15 +1653,15 @@ create_toolbar_window (GthFullscreen *fullscreen)
 }
 
 
-static void 
+static void
 gth_fullscreen_show (GtkWidget *widget)
-{	
+{
 	GthFullscreen            *fullscreen = GTH_FULLSCREEN (widget);
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
 	GTK_WIDGET_CLASS (parent_class)->show (widget);
 
-	if (!priv->first_time_show) 
+	if (!priv->first_time_show)
 		return;
 	priv->first_time_show = FALSE;
 
@@ -1731,7 +1732,7 @@ gth_fullscreen_set_animation (GthWindow *window,
 }
 
 
-static gboolean       
+static gboolean
 gth_fullscreen_get_animation (GthWindow *window)
 {
 	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
@@ -1739,7 +1740,7 @@ gth_fullscreen_get_animation (GthWindow *window)
 }
 
 
-static void           
+static void
 gth_fullscreen_step_animation (GthWindow *window)
 {
 	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
@@ -1882,10 +1883,10 @@ gth_fullscreen_pause_slideshow (GthFullscreen *fullscreen,
 void
 gth_fullscreen_show_comment (GthFullscreen *fullscreen,
 			     gboolean       value)
-{	
+{
 	fullscreen->priv->image_data_visible = value;
 
-	if (fullscreen->priv->image_data_visible) 
+	if (fullscreen->priv->image_data_visible)
 		show_comment_on_image (fullscreen);
 	else
 		hide_comment_on_image (fullscreen);

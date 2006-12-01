@@ -125,7 +125,7 @@ struct _GthViewerPrivateData {
 
 	gboolean         image_data_visible;
 	char            *image_path;
-	time_t           image_mtime; 
+	time_t           image_mtime;
 	gboolean         image_error;
 
 	ExifData        *exif_data;
@@ -148,7 +148,7 @@ struct _GthViewerPrivateData {
 	GthPixbufOp     *pixop;
 	gboolean         pixop_preview;
 	gboolean         closing;
-       
+
 	/* progress dialog */
 
 	GladeXML        *progress_gui;
@@ -165,7 +165,7 @@ static GthWindowClass *parent_class = NULL;
 
 static void
 set_action_active (GthViewer   *viewer,
-		   const char  *action_name, 
+		   const char  *action_name,
 		   gboolean     is_active)
 {
 	GtkAction *action;
@@ -176,7 +176,7 @@ set_action_active (GthViewer   *viewer,
 
 static void
 set_action_sensitive (GthViewer  *viewer,
-	       const char *action_name, 
+	       const char *action_name,
 	       gboolean    sensitive)
 {
 	GtkAction *action;
@@ -192,24 +192,22 @@ viewer_update_zoom_sensitivity (GthViewer *viewer)
 	ImageViewer           *image_viewer = (ImageViewer*) priv->viewer;
 	gboolean               image_is_visible;
 	gboolean               image_is_void;
-	gboolean               fit;
 	int                    zoom;
 
 	image_is_visible = (priv->image_path != NULL) && ! priv->image_error;
 	image_is_void = image_viewer_is_void (image_viewer);
 	zoom = (int) (image_viewer->zoom_level * 100.0);
-	fit = image_viewer_is_zoom_to_fit (image_viewer) || image_viewer_is_zoom_to_fit_if_larger (image_viewer);
 
-	set_action_sensitive (viewer, 
+	set_action_sensitive (viewer,
 		       "View_Zoom100",
 		       image_is_visible && !image_is_void && (zoom != 100));
-	set_action_sensitive (viewer, 
+	set_action_sensitive (viewer,
 		       "View_ZoomIn",
 		       image_is_visible && !image_is_void && (zoom != 10000));
-	set_action_sensitive (viewer, 
+	set_action_sensitive (viewer,
 		       "View_ZoomOut",
 		       image_is_visible && !image_is_void && (zoom != 5));
-	set_action_sensitive (viewer, 
+	set_action_sensitive (viewer,
 		       "View_ZoomFit",
 		       image_is_visible && !image_is_void);
         set_action_sensitive (viewer,
@@ -264,7 +262,7 @@ viewer_update_sensitivity (GthViewer *viewer)
 }
 
 
-static void 
+static void
 gth_viewer_finalize (GObject *object)
 {
 	GthViewer *viewer = GTH_VIEWER (object);
@@ -283,7 +281,7 @@ gth_viewer_finalize (GObject *object)
 			exif_data_unref (priv->exif_data);
 			priv->exif_data = NULL;
 		}
-		
+
 #ifdef HAVE_LIBIPTCDATA
 		if (priv->iptc_data != NULL) {
 			iptc_data_unref (priv->iptc_data);
@@ -392,7 +390,7 @@ gth_viewer_set_statusbar_visibility  (GthViewer *viewer,
 	g_return_if_fail (viewer != NULL);
 
 	set_action_active (viewer, "View_Statusbar", visible);
-	if (visible) 
+	if (visible)
 		gtk_widget_show (viewer->priv->statusbar);
 	else
 		gtk_widget_hide (viewer->priv->statusbar);
@@ -423,7 +421,7 @@ pref_ui_single_window_changed (GConfClient *client,
 }
 
 
-static void 
+static void
 gth_viewer_realize (GtkWidget *widget)
 {
 	GthViewer *viewer;
@@ -447,7 +445,7 @@ save_window_size (GthViewer *viewer)
 }
 
 
-static void 
+static void
 gth_viewer_unrealize (GtkWidget *widget)
 {
 	GthViewer            *viewer;
@@ -481,7 +479,7 @@ first_time_idle (gpointer callback_data)
 }
 
 
-static void 
+static void
 gth_viewer_show (GtkWidget *widget)
 {
 	GthViewer *viewer = GTH_VIEWER (widget);
@@ -489,7 +487,7 @@ gth_viewer_show (GtkWidget *widget)
 
 	GTK_WIDGET_CLASS (parent_class)->show (widget);
 
-	if (!viewer->priv->first_time_show) 
+	if (!viewer->priv->first_time_show)
 		return;
 	viewer->priv->first_time_show = FALSE;
 
@@ -525,9 +523,9 @@ viewer_update_statusbar_zoom_info (GthViewer *viewer)
 			return;
 		gtk_widget_hide (priv->zoom_info_frame);
 		return;
-	} 
+	}
 
-	if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame)) 
+	if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame))
 		gtk_widget_show (priv->zoom_info_frame);
 
 	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
@@ -559,12 +557,12 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 		gtk_widget_hide (priv->image_info_frame);
 		return;
 
-	} else if (! GTK_WIDGET_VISIBLE (priv->image_info_frame)) 
+	} else if (! GTK_WIDGET_VISIBLE (priv->image_info_frame))
 		gtk_widget_show (priv->image_info_frame);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (priv->viewer))) {
 		width = image_viewer_get_image_width (IMAGE_VIEWER (priv->viewer));
-		height = image_viewer_get_image_height (IMAGE_VIEWER (priv->viewer)); 
+		height = image_viewer_get_image_height (IMAGE_VIEWER (priv->viewer));
 	} else {
 		width = 0;
 		height = 0;
@@ -589,7 +587,7 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 					file_size_txt,
 					utf8_time_txt);
 	else
-		text = g_strdup_printf (" %s - %s     ", 
+		text = g_strdup_printf (" %s - %s     ",
 					_("Modified"),
 					size_txt);
 
@@ -618,7 +616,7 @@ update_image_comment (GthViewer *viewer)
 		priv->iptc_data = NULL;
 	}
 
-	if (priv->image_path != NULL) 
+	if (priv->image_path != NULL)
 		priv->iptc_data = iptc_data_new_from_jpeg (priv->image_path);
 #endif /* HAVE_LIBIPTCDATA */
 
@@ -644,7 +642,7 @@ update_image_comment (GthViewer *viewer)
 		gtk_text_buffer_place_cursor (text_buffer, &iter);
 
 		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
-		tag = gtk_text_buffer_create_tag (text_buffer, NULL, 
+		tag = gtk_text_buffer_create_tag (text_buffer, NULL,
 						  "style", PANGO_STYLE_ITALIC,
 						  NULL);
 		gtk_text_buffer_apply_tag (text_buffer, tag, &start, &end);
@@ -685,7 +683,7 @@ viewer_update_image_info (GthViewer *viewer)
 			exif_data_unref (priv->exif_data);
 			priv->exif_data = NULL;
 		}
-		
+
 		if (priv->image_path != NULL) {
 			const char *path = get_file_path_from_uri (priv->image_path);
 			if (path != NULL)
@@ -698,7 +696,7 @@ viewer_update_image_info (GthViewer *viewer)
 		}
 	}
 
-	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer), 
+	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer),
 				     IMAGE_VIEWER (priv->viewer),
 				     priv->image_path,
 				     viewer->priv->exif_data
@@ -718,7 +716,7 @@ viewer_update_infobar (GthViewer *viewer)
 	/*int                   images, current;*/
 
 	if (priv->image_path == NULL) {
-		gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar), 
+		gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar),
 					  NULL, NULL);
 		return;
 	}
@@ -726,12 +724,12 @@ viewer_update_infobar (GthViewer *viewer)
 	utf8_name = g_filename_display_basename (priv->image_path);
 	escaped_name = g_markup_escape_text (utf8_name, -1);
 
-	text = g_strdup_printf ("<b>%s</b> %s", 
+	text = g_strdup_printf ("<b>%s</b> %s",
 				escaped_name,
 				priv->image_modified ? _("[modified]") : "");
 
-	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar), 
-				  text, 
+	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar),
+				  text,
 				  NULL);
 
 	g_free (utf8_name);
@@ -751,7 +749,7 @@ viewer_update_title (GthViewer *viewer)
 	path = priv->image_path;
 	modified = priv->image_modified ? _("[modified]") : "";
 
-	if (path == NULL) 
+	if (path == NULL)
 		title = g_strdup (_("No image"));
 
 	else {
@@ -790,10 +788,10 @@ viewer_update_open_with_menu (GthViewer *viewer)
 	int                   pos = 0, i;
 
 	menu_items = gtk_container_get_children (GTK_CONTAINER (priv->open_with_popup_menu));
-	for (i = 0, scan = menu_items; i < g_list_length (menu_items) - 1; i++, scan = scan->next) 
+	for (i = 0, scan = menu_items; i < g_list_length (menu_items) - 1; i++, scan = scan->next)
 		gtk_widget_destroy ((GtkWidget*) scan->data);
 	g_list_free (menu_items);
-		
+
 	if (priv->image_path != NULL)
 		mime_type = get_mime_type (priv->image_path);
 
@@ -852,11 +850,11 @@ save_jpeg_data (GthViewer  *viewer,
 	if (!image_is_jpeg (filename))
 		return;
 
-	if (priv->exif_data != NULL) 
+	if (priv->exif_data != NULL)
 		data_to_save = TRUE;
-	
+
 #ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL) 
+	if (priv->iptc_data != NULL)
 		data_to_save = TRUE;
 #endif /* HAVE_LIBIPTCDATA */
 
@@ -864,7 +862,7 @@ save_jpeg_data (GthViewer  *viewer,
 		return;
 
 	jdata = jpeg_data_new_from_file (filename);
-	if (jdata == NULL) 
+	if (jdata == NULL)
 		return;
 
 #ifdef HAVE_LIBIPTCDATA
@@ -885,7 +883,7 @@ save_jpeg_data (GthViewer  *viewer,
 	}
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (priv->exif_data != NULL) 
+	if (priv->exif_data != NULL)
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
 
 	jpeg_data_save_file (jdata, filename);
@@ -906,7 +904,7 @@ save_pixbuf__image_saved_cb (const char *filename,
 	GthViewer            *viewer = data;
 	GthViewerPrivateData *priv = viewer->priv;
 
-	if (filename == NULL) 
+	if (filename == NULL)
 		return;
 
 	save_jpeg_data (viewer, filename);
@@ -954,7 +952,7 @@ ask_whether_to_save__response_cb (GtkWidget *dialog,
 	GthViewerPrivateData *priv = viewer->priv;
 
         gtk_widget_destroy (dialog);
-	
+
         if (response_id == GTK_RESPONSE_YES) {
 		dlg_save_image_as (GTK_WINDOW (viewer),
 				   priv->image_path,
@@ -979,9 +977,9 @@ ask_whether_to_save (GthViewer      *viewer,
 	GthViewerPrivateData *priv = viewer->priv;
 	GtkWidget            *d;
 
-	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
+	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE))
 		return FALSE;
-		
+
 	d = _gtk_yesno_dialog_with_checkbutton_new (
 			    GTK_WINDOW (viewer),
 			    GTK_DIALOG_MODAL,
@@ -993,7 +991,7 @@ ask_whether_to_save (GthViewer      *viewer,
 
 	priv->saving_modified_image = TRUE;
 	priv->image_saved_func = image_saved_func;
-	g_signal_connect (G_OBJECT (d), 
+	g_signal_connect (G_OBJECT (d),
 			  "response",
 			  G_CALLBACK (ask_whether_to_save__response_cb),
 			  viewer);
@@ -1054,7 +1052,7 @@ viewer_set_void (GthViewer *viewer,
 
 
 static void
-image_loaded_cb (GtkWidget  *widget, 
+image_loaded_cb (GtkWidget  *widget,
 		 GthViewer  *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
@@ -1081,15 +1079,15 @@ image_loaded_cb (GtkWidget  *widget,
 
 
 static gboolean
-zoom_changed_cb (GtkWidget  *widget, 
+zoom_changed_cb (GtkWidget  *widget,
 		 GthViewer  *viewer)
 {
 	viewer_update_statusbar_zoom_info (viewer);
-	return TRUE;	
+	return TRUE;
 }
 
 
-static void  
+static void
 viewer_drag_data_get  (GtkWidget        *widget,
 		       GdkDragContext   *context,
 		       GtkSelectionData *selection_data,
@@ -1101,19 +1099,19 @@ viewer_drag_data_get  (GtkWidget        *widget,
 	GthViewerPrivateData *priv = viewer->priv;
 	char                 *path;
 
-	if (IMAGE_VIEWER (priv->viewer)->is_void) 
+	if (IMAGE_VIEWER (priv->viewer)->is_void)
 		return;
 
 	path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
 	gtk_selection_data_set (selection_data,
 				selection_data->target,
-				8, 
+				8,
 				(guchar*)path, strlen (path));
 	g_free (path);
 }
 
 
-static void  
+static void
 viewer_drag_data_received  (GtkWidget          *widget,
 			    GdkDragContext     *context,
 			    int                 x,
@@ -1139,7 +1137,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 		char *filename = scan->data;
 		if (scan == list)
 			gth_viewer_load (viewer, filename);
-		else 
+		else
 			gtk_widget_show (gth_viewer_new (filename));
 	}
 
@@ -1148,7 +1146,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 
 
 static gboolean
-viewer_key_press_cb (GtkWidget   *widget, 
+viewer_key_press_cb (GtkWidget   *widget,
 		     GdkEventKey *event,
 		     gpointer     data)
 {
@@ -1179,7 +1177,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		image_viewer_zoom_out (image_viewer);
 		retval = TRUE;
 		break;
-		
+
 		/* Actual size. */
 	case GDK_KP_Divide:
 	case GDK_1:
@@ -1207,7 +1205,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Rotate clockwise without saving */
-	case GDK_r: 
+	case GDK_r:
 		gth_window_activate_action_alter_image_rotate90 (NULL, window);
 		return TRUE;
 
@@ -1258,23 +1256,23 @@ image_focus_changed_cb (GtkWidget     *widget,
 {
 	GthViewer            *viewer = data;
 	GthViewerPrivateData *priv = viewer->priv;
-	
+
 	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (priv->info_bar),
 				     GTK_WIDGET_HAS_FOCUS (priv->viewer));
-	
+
 	return FALSE;
 }
 
 
 static int
-image_comment_button_press_cb (GtkWidget      *widget, 
+image_comment_button_press_cb (GtkWidget      *widget,
 			       GdkEventButton *event,
 			       gpointer        data)
 {
 	GthViewer *viewer = data;
 
 	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
-		gth_window_edit_comment (GTH_WINDOW (viewer)); 
+		gth_window_edit_comment (GTH_WINDOW (viewer));
 		return TRUE;
 	}
 
@@ -1295,7 +1293,7 @@ gth_viewer_set_single_window (GthViewer *viewer,
 			      gboolean   value)
 {
 	SingleViewer = NULL;
-	if (value && (LastFocusedViewer != NULL)) 
+	if (value && (LastFocusedViewer != NULL))
 		SingleViewer = LastFocusedViewer;
 	eel_gconf_set_boolean (PREF_SINGLE_WINDOW, value);
 }
@@ -1346,7 +1344,7 @@ progress_cancel_cb (GtkButton *button,
 
 
 static gboolean
-progress_delete_cb (GtkWidget    *caller, 
+progress_delete_cb (GtkWidget    *caller,
 		    GdkEvent     *event,
 		    GthViewer    *viewer)
 {
@@ -1366,7 +1364,7 @@ gth_viewer_init (GthViewer *viewer)
 	priv->image_path = NULL;
 	priv->image_error = FALSE;
 
-	if (SingleViewer == NULL) 
+	if (SingleViewer == NULL)
 		SingleViewer = viewer;
 }
 
@@ -1392,8 +1390,8 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	if (viewer->priv->image_path == NULL)
 		return;
 
-	if (g_list_find_custom (list, 
-				viewer->priv->image_path, 
+	if (g_list_find_custom (list,
+				viewer->priv->image_path,
 				(GCompareFunc) uricmp) == NULL)
 		return;
 
@@ -1449,12 +1447,12 @@ sync_menu_with_preferences (GthViewer *viewer)
 	set_action_active (viewer, "View_PlayAnimation", TRUE);
 
 	switch (pref_get_zoom_quality ()) {
-	case GTH_ZOOM_QUALITY_HIGH: 
-		prop = "View_ZoomQualityHigh"; 
+	case GTH_ZOOM_QUALITY_HIGH:
+		prop = "View_ZoomQualityHigh";
 		break;
-	case GTH_ZOOM_QUALITY_LOW:  
+	case GTH_ZOOM_QUALITY_LOW:
 	default:
-		prop = "View_ZoomQualityLow"; 
+		prop = "View_ZoomQualityLow";
 		break;
 	}
 	set_action_active (viewer, prop, TRUE);
@@ -1467,13 +1465,13 @@ sync_menu_with_preferences (GthViewer *viewer)
 static void
 add_open_with_toolbar_item (GthViewer *viewer)
 {
-	GthViewerPrivateData *priv = viewer->priv;	
+	GthViewerPrivateData *priv = viewer->priv;
 
 	gtk_ui_manager_ensure_update (priv->ui);
 
 	if (priv->open_with_tool_item != NULL) {
-		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
-				    priv->open_with_tool_item, 
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
+				    priv->open_with_tool_item,
 				    OPEN_TOOLITEM_POS);
 		return;
 	}
@@ -1492,8 +1490,8 @@ add_open_with_toolbar_item (GthViewer *viewer)
 				  GTK_WIDGET (priv->open_with_tool_item));
 
 	gtk_widget_show (GTK_WIDGET (priv->open_with_tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
-			    priv->open_with_tool_item, 
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
+			    priv->open_with_tool_item,
 			    OPEN_TOOLITEM_POS);
 }
 
@@ -1501,20 +1499,20 @@ add_open_with_toolbar_item (GthViewer *viewer)
 static void
 add_rotate_toolbar_item (GthViewer *viewer)
 {
-	GthViewerPrivateData *priv = viewer->priv;	
+	GthViewerPrivateData *priv = viewer->priv;
 	GtkToolItem *sep;
 
 	gtk_ui_manager_ensure_update (priv->ui);
 
 	sep = gtk_separator_tool_item_new ();
 	gtk_widget_show (GTK_WIDGET (sep));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
 			    sep,
 			    ROTATE_TOOLITEM_POS);
 
 	if (priv->rotate_tool_item != NULL) {
-		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
-				    priv->rotate_tool_item, 
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
+				    priv->rotate_tool_item,
 				    ROTATE_TOOLITEM_POS + 1);
 		return;
 	}
@@ -1530,8 +1528,8 @@ add_rotate_toolbar_item (GthViewer *viewer)
 				  GTK_WIDGET (priv->rotate_tool_item));
 
 	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
-			    priv->rotate_tool_item, 
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
+			    priv->rotate_tool_item,
 			    ROTATE_TOOLITEM_POS + 1);
 }
 
@@ -1552,7 +1550,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	GtkWidget            *scrolled_window;
 	GtkActionGroup       *actions;
 	GtkUIManager         *ui;
-	GError               *error = NULL;		
+	GError               *error = NULL;
 	int                   i;
 
 	/* Create the widgets. */
@@ -1564,45 +1562,45 @@ gth_viewer_construct (GthViewer   *viewer,
 	priv->actions = actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (actions, NULL);
 
-	gtk_action_group_add_actions (actions, 
-				      gth_window_action_entries, 
-				      gth_window_action_entries_size, 
+	gtk_action_group_add_actions (actions,
+				      gth_window_action_entries,
+				      gth_window_action_entries_size,
 				      viewer);
-	gtk_action_group_add_toggle_actions (actions, 
-					     gth_window_action_toggle_entries, 
-					     gth_window_action_toggle_entries_size, 
+	gtk_action_group_add_toggle_actions (actions,
+					     gth_window_action_toggle_entries,
+					     gth_window_action_toggle_entries_size,
 					     viewer);
-	gtk_action_group_add_radio_actions (actions, 
-					    gth_window_zoom_quality_entries, 
+	gtk_action_group_add_radio_actions (actions,
+					    gth_window_zoom_quality_entries,
 					    gth_window_zoom_quality_entries_size,
 					    GTH_ZOOM_QUALITY_HIGH,
-					    G_CALLBACK (zoom_quality_radio_action), 
+					    G_CALLBACK (zoom_quality_radio_action),
 					    viewer);
 
-	gtk_action_group_add_actions (actions, 
-				      gth_viewer_action_entries, 
-				      gth_viewer_action_entries_size, 
+	gtk_action_group_add_actions (actions,
+				      gth_viewer_action_entries,
+				      gth_viewer_action_entries_size,
 				      viewer);
-	gtk_action_group_add_toggle_actions (actions, 
-					     gth_viewer_action_toggle_entries, 
-					     gth_viewer_action_toggle_entries_size, 
+	gtk_action_group_add_toggle_actions (actions,
+					     gth_viewer_action_toggle_entries,
+					     gth_viewer_action_toggle_entries_size,
 					     viewer);
 
 	priv->ui = ui = gtk_ui_manager_new ();
-	
-	g_signal_connect (ui, 
+
+	g_signal_connect (ui,
 			  "connect_proxy",
-			  G_CALLBACK (connect_proxy_cb), 
+			  G_CALLBACK (connect_proxy_cb),
 			  viewer);
-	g_signal_connect (ui, 
+	g_signal_connect (ui,
 			  "disconnect_proxy",
-			  G_CALLBACK (disconnect_proxy_cb), 
+			  G_CALLBACK (disconnect_proxy_cb),
 			  viewer);
-	
+
 	gtk_ui_manager_insert_action_group (ui, actions, 0);
-	gtk_window_add_accel_group (GTK_WINDOW (viewer), 
+	gtk_window_add_accel_group (GTK_WINDOW (viewer),
 				    gtk_ui_manager_get_accel_group (ui));
-	
+
 	if (!gtk_ui_manager_add_ui_from_string (ui, viewer_window_ui_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
@@ -1641,7 +1639,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_frame_set_shadow_type (GTK_FRAME (priv->zoom_info_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (priv->zoom_info_frame), priv->zoom_info);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->zoom_info_frame, FALSE, FALSE, 0);
-	
+
 	/* Statusbar: image info */
 
 	priv->image_info = gtk_label_new (NULL);
@@ -1656,51 +1654,51 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	priv->info_bar = gthumb_info_bar_new ();
 	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (priv->info_bar), FALSE);
-	g_signal_connect (G_OBJECT (priv->info_bar), 
+	g_signal_connect (G_OBJECT (priv->info_bar),
 			  "button_press_event",
-			  G_CALLBACK (info_bar_clicked_cb), 
+			  G_CALLBACK (info_bar_clicked_cb),
 			  viewer);
 
 	/* Image viewer. */
-	
+
 	priv->viewer = image_viewer_new ();
 	gtk_widget_set_size_request (priv->viewer, PANE_MIN_SIZE, PANE_MIN_SIZE);
 
 	gtk_drag_source_set (priv->viewer,
 			     GDK_BUTTON2_MASK,
-			     target_table, G_N_ELEMENTS (target_table), 
+			     target_table, G_N_ELEMENTS (target_table),
 			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
 	gtk_drag_dest_set (priv->viewer,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, G_N_ELEMENTS (target_table),
 			   GDK_ACTION_MOVE | GDK_ACTION_COPY);
-	
-	g_signal_connect (G_OBJECT (priv->viewer), 
+
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "image_loaded",
-			  G_CALLBACK (image_loaded_cb), 
+			  G_CALLBACK (image_loaded_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "zoom_changed",
-			  G_CALLBACK (zoom_changed_cb), 
+			  G_CALLBACK (zoom_changed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
 
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "drag_data_get",
-			  G_CALLBACK (viewer_drag_data_get), 
+			  G_CALLBACK (viewer_drag_data_get),
 			  viewer);
 
-	g_signal_connect (G_OBJECT (priv->viewer), 
+	g_signal_connect (G_OBJECT (priv->viewer),
 			  "drag_data_received",
-			  G_CALLBACK (viewer_drag_data_received), 
+			  G_CALLBACK (viewer_drag_data_received),
 			  viewer);
 
 	g_signal_connect (G_OBJECT (priv->viewer),
@@ -1709,17 +1707,17 @@ gth_viewer_construct (GthViewer   *viewer,
 			  viewer);
 
 	/*
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader),
 			  "image_progress",
-			  G_CALLBACK (image_loader_progress_cb), 
+			  G_CALLBACK (image_loader_progress_cb),
 			  window);
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader),
 			  "image_done",
-			  G_CALLBACK (image_loader_done_cb), 
+			  G_CALLBACK (image_loader_done_cb),
 			  window);
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader),
 			  "image_error",
-			  G_CALLBACK (image_loader_done_cb), 
+			  G_CALLBACK (image_loader_done_cb),
 			  window);
 	*/
 
@@ -1731,29 +1729,29 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->image_comment), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->image_comment), GTK_WRAP_WORD);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (priv->image_comment), TRUE);
-	g_signal_connect (G_OBJECT (priv->image_comment), 
+	g_signal_connect (G_OBJECT (priv->image_comment),
 			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (priv->image_comment), 
+	g_signal_connect (G_OBJECT (priv->image_comment),
 			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (priv->image_comment), 
+	g_signal_connect (G_OBJECT (priv->image_comment),
 			  "button_press_event",
-			  G_CALLBACK (image_comment_button_press_cb), 
+			  G_CALLBACK (image_comment_button_press_cb),
 			  viewer);
 
 	/* Exif data viewer */
 
 	priv->exif_data_viewer = gth_exif_data_viewer_new (TRUE);
-	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))), 
+	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))),
 			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))), 
+	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))),
 			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb), 
+			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
 
 	/* Comment button */
@@ -1767,9 +1765,9 @@ gth_viewer_construct (GthViewer   *viewer,
 			      button,
 			      _("Image comment"),
 			      NULL);
-	g_signal_connect (G_OBJECT (button), 
+	g_signal_connect (G_OBJECT (button),
 			  "toggled",
-			  G_CALLBACK (comment_button_toggled_cb), 
+			  G_CALLBACK (comment_button_toggled_cb),
 			  viewer);
 
 	/* Pack the widgets:
@@ -1858,7 +1856,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer),
 					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 
-	gtk_window_set_default_size (GTK_WINDOW (viewer), 
+	gtk_window_set_default_size (GTK_WINDOW (viewer),
 				     eel_gconf_get_integer (PREF_UI_VIEWER_WIDTH, DEFAULT_WIN_WIDTH),
 				     eel_gconf_get_integer (PREF_UI_VIEWER_HEIGHT, DEFAULT_WIN_HEIGHT));
 
@@ -1901,11 +1899,11 @@ gth_viewer_construct (GthViewer   *viewer,
 		gtk_window_set_transient_for (GTK_WINDOW (priv->progress_dialog), GTK_WINDOW (viewer));
 		gtk_window_set_modal (GTK_WINDOW (priv->progress_dialog), FALSE);
 
-		g_signal_connect (G_OBJECT (cancel_button), 
+		g_signal_connect (G_OBJECT (cancel_button),
 				  "clicked",
-				  G_CALLBACK (progress_cancel_cb), 
+				  G_CALLBACK (progress_cancel_cb),
 				  viewer);
-		g_signal_connect (G_OBJECT (priv->progress_dialog), 
+		g_signal_connect (G_OBJECT (priv->progress_dialog),
 				  "delete_event",
 				  G_CALLBACK (progress_delete_cb),
 				  viewer);
@@ -1919,23 +1917,23 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "update_metadata",
 			  G_CALLBACK (monitor_update_metadata_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor), 
+	g_signal_connect (G_OBJECT (monitor),
 			  "update_icon_theme",
 			  G_CALLBACK (monitor_update_icon_theme_cb),
 			  viewer);
-	
+
 	/**/
 
 	if (filename != NULL)
@@ -1943,7 +1941,7 @@ gth_viewer_construct (GthViewer   *viewer,
 }
 
 
-GtkWidget * 
+GtkWidget *
 gth_viewer_new (const gchar *filename)
 {
 	GthViewer *viewer;
@@ -2010,8 +2008,8 @@ close__step2 (const char *filename,
 {
 	GthViewer             *viewer = data;
 	GthViewerPrivateData  *priv = viewer->priv;
-	
-	if (priv->pixop != NULL) 
+
+	if (priv->pixop != NULL)
 		g_object_unref (priv->pixop);
 
 	if (priv->progress_gui != NULL)
@@ -2034,9 +2032,9 @@ close__step2 (const char *filename,
 		priv->folder = NULL;
 	}
 
-	if (SingleViewer == viewer) 
+	if (SingleViewer == viewer)
 		SingleViewer = NULL;
-	if (LastFocusedViewer == viewer) 
+	if (LastFocusedViewer == viewer)
 		LastFocusedViewer = NULL;
 
 	gtk_widget_destroy (GTK_WIDGET (viewer));
@@ -2059,7 +2057,7 @@ gth_viewer_close (GthWindow *window)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),
 						      viewer);
 
-	if (priv->image_modified) 
+	if (priv->image_modified)
 		if (ask_whether_to_save (viewer, close__step2))
 			return;
 	close__step2 (NULL, viewer);
@@ -2122,13 +2120,13 @@ gth_viewer_save_pixbuf (GthWindow  *window,
 		current_folder = g_strdup (priv->image_path);
 
 	if (filename == NULL)
-		dlg_save_image_as (GTK_WINDOW (viewer), 
+		dlg_save_image_as (GTK_WINDOW (viewer),
 				   current_folder,
 				   pixbuf,
 				   save_pixbuf__image_saved_cb,
 				   viewer);
 	else
-		dlg_save_image (GTK_WINDOW (viewer), 
+		dlg_save_image (GTK_WINDOW (viewer),
 				filename,
 				pixbuf,
 				save_pixbuf__image_saved_cb,
@@ -2161,17 +2159,17 @@ pixbuf_op_done_cb (GthPixbufOp   *pixop,
 	g_object_unref (priv->pixop);
 	priv->pixop = NULL;
 
-	if (priv->progress_dialog != NULL) 
+	if (priv->progress_dialog != NULL)
 		gtk_widget_hide (priv->progress_dialog);
 }
 
 
 static void
 pixbuf_op_progress_cb (GthPixbufOp  *pixop,
-		       float         p, 
+		       float         p,
 		       GthViewer    *viewer)
 {
-	if (viewer->priv->progress_dialog != NULL) 
+	if (viewer->priv->progress_dialog != NULL)
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (viewer->priv->progress_progressbar), p);
 }
 
@@ -2217,7 +2215,7 @@ gth_viewer_exec_pixbuf_op (GthWindow   *window,
 			  "pixbuf_op_progress",
 			  G_CALLBACK (pixbuf_op_progress_cb),
 			  viewer);
-	
+
 	if (priv->progress_dialog != NULL)
 		priv->progress_timeout = g_timeout_add (DISPLAY_PROGRESS_DELAY, viewer__display_progress_dialog, viewer);
 
@@ -2242,7 +2240,7 @@ gth_viewer_reload_current_image (GthWindow *window)
 	if (viewer->priv->image_path == NULL)
 		return;
 
-	if (viewer->priv->image_modified) 
+	if (viewer->priv->image_modified)
 		if (ask_whether_to_save (viewer, reload_current_image__step2))
 			return;
 
@@ -2306,7 +2304,7 @@ gth_viewer_set_animation (GthWindow *window,
 }
 
 
-static gboolean       
+static gboolean
 gth_viewer_get_animation (GthWindow *window)
 {
 	GthViewer *viewer = GTH_VIEWER (window);
@@ -2314,7 +2312,7 @@ gth_viewer_get_animation (GthWindow *window)
 }
 
 
-static void           
+static void
 gth_viewer_step_animation (GthWindow *window)
 {
 	GthViewer *viewer = GTH_VIEWER (window);
@@ -2332,31 +2330,31 @@ fullscreen_destroy_cb (GtkWidget *widget,
 }
 
 
-static void           
+static void
 gth_viewer_set_fullscreen (GthWindow *window,
 			   gboolean   fullscreen)
 {
 	GthViewer *viewer = GTH_VIEWER (window);
 	GthViewerPrivateData *priv = viewer->priv;
-	
+
 	if (fullscreen && (priv->fullscreen == NULL)) {
 		GdkPixbuf *image = NULL;
 
 		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
 			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
 		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, gth_viewer_get_file_list_selection (window));
-		g_signal_connect (priv->fullscreen, 
+		g_signal_connect (priv->fullscreen,
 				  "destroy",
-				  G_CALLBACK (fullscreen_destroy_cb), 
+				  G_CALLBACK (fullscreen_destroy_cb),
 				  viewer);
 		gtk_widget_show (priv->fullscreen);
 
-	} else if (!fullscreen && (priv->fullscreen != NULL)) 
+	} else if (!fullscreen && (priv->fullscreen != NULL))
 		gtk_widget_destroy (priv->fullscreen);
 }
 
 
-static void           
+static void
 gth_viewer_set_slideshow (GthWindow *window,
 			  gboolean   value)
 {
@@ -2446,8 +2444,8 @@ gth_viewer_get_current_viewer (void)
 {
 	GList *windows = gth_window_get_window_list ();
 	GList *scan;
-		
-	if (SingleViewer == NULL) 
+
+	if (SingleViewer == NULL)
 		for (scan = windows; scan; scan = scan->next) {
 			GthWindow *window = scan->data;
 			if (GTH_IS_VIEWER (window)) {

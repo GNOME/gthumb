@@ -401,13 +401,11 @@ window_update_zoom_sensitivity (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               image_is_visible;
 	gboolean               image_is_void;
-	gboolean               fit;
 	int                    zoom;
 
 	image_is_visible = (priv->image_path != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
-	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (priv->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
 
 	set_action_sensitive (browser,
 			      "View_Zoom100",

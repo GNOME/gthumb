@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2006 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -45,15 +45,25 @@ typedef struct _ImageViewerClass  ImageViewerClass;
 
 typedef enum { /*< skip >*/
 	GTH_ZOOM_QUALITY_HIGH = 0,
-	GTH_ZOOM_QUALITY_LOW 
+	GTH_ZOOM_QUALITY_LOW
 } GthZoomQuality;
 
 
 typedef enum { /*< skip >*/
+	GTH_FIT_NONE = 0,
+	GTH_FIT_SIZE,
+	GTH_FIT_SIZE_IF_LARGER,
+	GTH_FIT_WIDTH,
+	GTH_FIT_WIDTH_IF_LARGER
+} GthFit;
+
+
+typedef enum { /*< skip >*/
 	GTH_ZOOM_CHANGE_ACTUAL_SIZE = 0,
-	GTH_ZOOM_CHANGE_FIT,
 	GTH_ZOOM_CHANGE_KEEP_PREV,
-	GTH_ZOOM_CHANGE_FIT_IF_LARGER
+	GTH_ZOOM_CHANGE_FIT_SIZE,
+	GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER,
+	GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER
 } GthZoomChange;
 
 
@@ -64,6 +74,7 @@ typedef enum { /*< skip >*/
 	GTH_TRANSP_TYPE_BLACK,
 	GTH_TRANSP_TYPE_CHECKED
 } GthTranspType;
+
 
 typedef enum { /*< skip >*/
 	GTH_CHECK_TYPE_LIGHT,
@@ -107,7 +118,7 @@ struct _ImageViewer
 	ImageLoader            *loader;
 	GdkPixbufAnimation     *anim;
 	GdkPixbufAnimationIter *iter;
-	GTimeVal                time;        /* Timer used to get the right 
+	GTimeVal                time;        /* Timer used to get the right
 					      * frame. */
 
 	GdkCursor       *cursor;
@@ -115,17 +126,13 @@ struct _ImageViewer
 
 	double           zoom_level;
 	guint            zoom_quality : 1;   /* A ZoomQualityType value. */
-	guint            zoom_change : 2;    /* A ZoomChangeType value. */
+	guint            zoom_change : 3;    /* A ZoomChangeType value. */
 
-	gboolean         zoom_fit;           /* Whether the fit to window zoom
-					      * is selected. */
-
-	gboolean         zoom_fit_if_larger; 
-
+	GthFit           fit;
 	gboolean         doing_zoom_fit;     /* Whether we are performing
 					      * a zoom to fit the window. */
-	gboolean         is_void;            /* If TRUE do not show anything. 
-					      *	Itis resetted to FALSE we an 
+	gboolean         is_void;            /* If TRUE do not show anything.
+					      *	Itis resetted to FALSE we an
 					      * image is loaded. */
 
 	gint             x_offset;           /* Scroll offsets. */
@@ -153,8 +160,9 @@ struct _ImageViewer
 	gboolean         skip_zoom_change;
 	gboolean         skip_size_change;
 
-	gboolean         next_scroll_repaint; /* used in fullscreen mode to delete the 
-					       * comment before scrolling. */
+	gboolean         next_scroll_repaint; /* used in fullscreen mode to
+					       * delete the comment before
+					       * scrolling. */
 	gboolean         reset_scrollbars;
 };
 
@@ -165,169 +173,128 @@ struct _ImageViewerClass
 
 	/* -- Signals -- */
 
-	void (* clicked)                (ImageViewer   *viewer);
-	void (* image_loaded)           (ImageViewer   *viewer);
-	void (* zoom_changed)           (ImageViewer   *viewer);
-	void (* set_scroll_adjustments) (GtkWidget     *widget,
-                                         GtkAdjustment *hadj,
-                                         GtkAdjustment *vadj);
-	void (* repainted)              (ImageViewer   *viewer);
-	void (* mouse_wheel_scroll)	(ImageViewer   *viewer, GdkScrollDirection direction);
+	void (* clicked)                (ImageViewer        *viewer);
+	void (* image_loaded)           (ImageViewer        *viewer);
+	void (* zoom_changed)           (ImageViewer        *viewer);
+	void (* set_scroll_adjustments) (GtkWidget          *widget,
+                                         GtkAdjustment      *hadj,
+                                         GtkAdjustment      *vadj);
+	void (* repainted)              (ImageViewer        *viewer);
+	void (* mouse_wheel_scroll)	(ImageViewer        *viewer,
+	 				 GdkScrollDirection  direction);
 
 	/* -- Key binding signals -- */
 
-	void (*scroll)                  (GtkWidget *   widget,
-					 GtkScrollType x_scroll_type,
-					 GtkScrollType y_scroll_type);
+	void (*scroll)                  (GtkWidget          *widget,
+					 GtkScrollType       x_scroll_type,
+					 GtkScrollType       y_scroll_type);
 };
 
 
-GType          image_viewer_get_type           (void);
-
-GtkWidget*     image_viewer_new                (void);
+GType          image_viewer_get_type                 (void);
+GtkWidget*     image_viewer_new                      (void);
 
 /* viewer content. */
-void           image_viewer_load_image         (ImageViewer *viewer, 
-						const gchar *path);
 
-void           image_viewer_load_from_pixbuf_loader (ImageViewer     *viewer, 
-						     GdkPixbufLoader *loader);
-
-void           image_viewer_load_from_image_loader  (ImageViewer *viewer, 
-						     ImageLoader *loader);
-
-void           image_viewer_set_pixbuf         (ImageViewer *viewer,
-						GdkPixbuf   *pixbuf);
-
-void           image_viewer_set_void           (ImageViewer *viewer);
-
-gboolean       image_viewer_is_void            (ImageViewer *viewer);
-
-void           image_viewer_update_view        (ImageViewer *viewer);
+void           image_viewer_load_image               (ImageViewer     *viewer,
+						      const char      *path);
+void           image_viewer_load_from_pixbuf_loader  (ImageViewer     *viewer,
+						      GdkPixbufLoader *loader);
+void           image_viewer_load_from_image_loader   (ImageViewer     *viewer,
+						      ImageLoader     *loader);
+void           image_viewer_set_pixbuf               (ImageViewer     *viewer,
+						      GdkPixbuf       *pixbuf);
+void           image_viewer_set_void                 (ImageViewer     *viewer);
+gboolean       image_viewer_is_void                  (ImageViewer     *viewer);
+void           image_viewer_update_view              (ImageViewer     *viewer);
 
 /* image info. */
-gchar*         image_viewer_get_image_filename (ImageViewer *viewer);
 
-gint           image_viewer_get_image_width    (ImageViewer *viewer);
-
-gint           image_viewer_get_image_height   (ImageViewer *viewer);
-
-gint           image_viewer_get_image_bps      (ImageViewer *viewer);
-
-gboolean       image_viewer_get_has_alpha      (ImageViewer *viewer);
-
-GdkPixbuf *    image_viewer_get_current_pixbuf (ImageViewer *viewer);
+char*          image_viewer_get_image_filename       (ImageViewer     *viewer);
+int            image_viewer_get_image_width          (ImageViewer     *viewer);
+int            image_viewer_get_image_height         (ImageViewer     *viewer);
+int            image_viewer_get_image_bps            (ImageViewer     *viewer);
+gboolean       image_viewer_get_has_alpha            (ImageViewer     *viewer);
+GdkPixbuf *    image_viewer_get_current_pixbuf       (ImageViewer     *viewer);
 
 /* animation. */
-void           image_viewer_start_animation    (ImageViewer *viewer);
 
-void           image_viewer_stop_animation     (ImageViewer *viewer);
-
-void           image_viewer_step_animation     (ImageViewer *viewer);
-
-gboolean       image_viewer_is_animation       (ImageViewer *viewer);
-
-gboolean       image_viewer_is_playing_animation (ImageViewer *viewer);
+void           image_viewer_start_animation          (ImageViewer     *viewer);
+void           image_viewer_stop_animation           (ImageViewer     *viewer);
+void           image_viewer_step_animation           (ImageViewer     *viewer);
+gboolean       image_viewer_is_animation             (ImageViewer     *viewer);
+gboolean       image_viewer_is_playing_animation     (ImageViewer     *viewer);
 
 /* zoom. */
-void           image_viewer_set_zoom           (ImageViewer *viewer, 
-						gdouble zoom);
 
-gdouble        image_viewer_get_zoom           (ImageViewer *viewer); 
-
-void           image_viewer_set_zoom_quality   (ImageViewer *viewer,
-						GthZoomQuality quality);
-
-GthZoomQuality image_viewer_get_zoom_quality   (ImageViewer *viewer);
-
-void           image_viewer_set_zoom_change    (ImageViewer *viewer,
-						GthZoomChange zoom_change);
-
-GthZoomChange  image_viewer_get_zoom_change    (ImageViewer *viewer);
-
-void           image_viewer_zoom_in            (ImageViewer *viewer);
-
-void           image_viewer_zoom_out           (ImageViewer *viewer);
-
-void           image_viewer_zoom_to_fit        (ImageViewer *viewer);
-
-void           image_viewer_zoom_to_width      (ImageViewer *viewer);
-
-gboolean       image_viewer_is_zoom_to_fit     (ImageViewer *viewer);
-
-void           image_viewer_zoom_to_fit_if_larger    (ImageViewer *viewer);
-
-gboolean       image_viewer_is_zoom_to_fit_if_larger (ImageViewer *viewer);
+void           image_viewer_set_zoom                 (ImageViewer     *viewer,
+						      gdouble          zoom);
+gdouble        image_viewer_get_zoom                 (ImageViewer     *viewer);
+void           image_viewer_set_zoom_quality         (ImageViewer     *viewer,
+						      GthZoomQuality   quality);
+GthZoomQuality image_viewer_get_zoom_quality         (ImageViewer     *viewer);
+void           image_viewer_set_zoom_change          (ImageViewer     *viewer,
+						      GthZoomChange    zoom_change);
+GthZoomChange  image_viewer_get_zoom_change          (ImageViewer     *viewer);
+void           image_viewer_zoom_in                  (ImageViewer     *viewer);
+void           image_viewer_zoom_out                 (ImageViewer     *viewer);
+void           image_viewer_set_fit_mode             (ImageViewer     *viewer,
+						      GthFit           fit_mode);
+GthFit         image_viewer_get_fit_mode             (ImageViewer     *viewer);
 
 /* visualization options. */
-void           image_viewer_set_transp_type    (ImageViewer *viewer, 
-						GthTranspType transp_type);
 
-GthTranspType  image_viewer_get_transp_type    (ImageViewer *viewer);
-
-void           image_viewer_set_check_type     (ImageViewer *viewer, 
-						GthCheckType check_type);
-
-GthCheckType   image_viewer_get_check_type     (ImageViewer *viewer);
-
-void           image_viewer_set_check_size     (ImageViewer *view, 
-						GthCheckSize check_size);
-
-GthCheckSize   image_viewer_get_check_size     (ImageViewer *viewer);
+void           image_viewer_set_transp_type          (ImageViewer     *viewer,
+						      GthTranspType    transp_type);
+GthTranspType  image_viewer_get_transp_type          (ImageViewer     *viewer);
+void           image_viewer_set_check_type           (ImageViewer     *viewer,
+						      GthCheckType     check_type);
+GthCheckType   image_viewer_get_check_type           (ImageViewer     *viewer);
+void           image_viewer_set_check_size           (ImageViewer     *view,
+						      GthCheckSize     check_size);
+GthCheckSize   image_viewer_get_check_size           (ImageViewer     *viewer);
 
 /* misc. */
-void           image_viewer_clicked            (ImageViewer *viewer);
 
-void           image_viewer_size               (ImageViewer *viewer,
-						gint width,
-						gint height);
-
-void           image_viewer_set_black_background (ImageViewer *viewer,
-						  gboolean set_black);
-
-gboolean       image_viewer_is_black_background (ImageViewer *viewer);
-
+void           image_viewer_clicked                  (ImageViewer     *viewer);
+void           image_viewer_size                     (ImageViewer     *viewer,
+						      int              width,
+						      int              height);
+void           image_viewer_set_black_background     (ImageViewer     *viewer,
+						      gboolean         set_black);
+gboolean       image_viewer_is_black_background      (ImageViewer     *viewer);
 
 /* Scrolling. */
 
-void           image_viewer_scroll_to          (ImageViewer *viewer,
-						gint x_offset,
-						gint y_offset);
-
-void           image_viewer_scroll_step_x      (ImageViewer *viewer,
-						gboolean increment);
-
-void           image_viewer_scroll_step_y      (ImageViewer *viewer,
-						gboolean increment);
-
-void           image_viewer_scroll_page_x      (ImageViewer *viewer,
-						gboolean increment);
-
-void           image_viewer_scroll_page_y      (ImageViewer *viewer,
-						gboolean increment);
-
-void           image_viewer_get_scroll_offset  (ImageViewer *viewer,
-						int         *x,
-						int         *y);
-
-void           image_viewer_set_reset_scrollbars (ImageViewer *viewer,
-  						  gboolean     reset);
-						
-gboolean       image_viewer_get_reset_scrollbars (ImageViewer *viewer);
+void           image_viewer_scroll_to                (ImageViewer     *viewer,
+						      int              x_offset,
+						      int              y_offset);
+void           image_viewer_scroll_step_x            (ImageViewer     *viewer,
+						      gboolean         increment);
+void           image_viewer_scroll_step_y            (ImageViewer     *viewer,
+						      gboolean         increment);
+void           image_viewer_scroll_page_x            (ImageViewer     *viewer,
+						      gboolean         increment);
+void           image_viewer_scroll_page_y            (ImageViewer     *viewer,
+						      gboolean         increment);
+void           image_viewer_get_scroll_offset        (ImageViewer     *viewer,
+						      int             *x,
+						      int             *y);
+void           image_viewer_set_reset_scrollbars     (ImageViewer     *viewer,
+  						      gboolean         reset);
+gboolean       image_viewer_get_reset_scrollbars     (ImageViewer     *viewer);
 
 /* Cursor. */
-void           image_viewer_show_cursor        (ImageViewer *viewer);
 
-void           image_viewer_hide_cursor        (ImageViewer *viewer);
-
-gboolean       image_viewer_is_cursor_visible  (ImageViewer *viewer);
+void           image_viewer_show_cursor              (ImageViewer     *viewer);
+void           image_viewer_hide_cursor              (ImageViewer     *viewer);
+gboolean       image_viewer_is_cursor_visible        (ImageViewer     *viewer);
 
 /* Frame. */
-void           image_viewer_show_frame         (ImageViewer *viewer);
 
-void           image_viewer_hide_frame         (ImageViewer *viewer);
-
-gboolean       image_viewer_is_frame_visible   (ImageViewer *viewer);
+void           image_viewer_show_frame               (ImageViewer     *viewer);
+void           image_viewer_hide_frame               (ImageViewer     *viewer);
+gboolean       image_viewer_is_frame_visible         (ImageViewer     *viewer);
 
 G_END_DECLS
 

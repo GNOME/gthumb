@@ -48,8 +48,13 @@
 #include "icons/layout3.xpm"
 #include "icons/layout4.xpm"
 
-static gint thumb_size[] = {48, 64, 85, 95, 112, 128, 164, 200, 256};
-static gint thumb_sizes = sizeof (thumb_size) / sizeof (gint);
+static int thumb_size[] = { 48, 64, 85, 95, 112, 128, 164, 200, 256 };
+static int thumb_sizes = sizeof (thumb_size) / sizeof (int);
+static GthZoomChange zoom_change[] = { GTH_ZOOM_CHANGE_KEEP_PREV,
+				       GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER,
+	 		               GTH_ZOOM_CHANGE_ACTUAL_SIZE,
+	 		               GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER };
+static int zoom_changes = sizeof (zoom_change) / sizeof (GthZoomChange);
 
 #define GLADE_PREF_FILE "gthumb_preferences.glade"
 
@@ -99,7 +104,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget *widget, 
+destroy_cb (GtkWidget *widget,
 	    DialogData *data)
 {
 	g_object_unref (G_OBJECT (data->gui));
@@ -109,7 +114,7 @@ destroy_cb (GtkWidget *widget,
 
 /* called when the "apply" button is clicked. */
 static void
-apply_cb (GtkWidget  *widget, 
+apply_cb (GtkWidget  *widget,
 	  DialogData *data)
 {
 	GthDirectionType direction = GTH_DIRECTION_FORWARD;
@@ -153,7 +158,7 @@ apply_cb (GtkWidget  *widget,
 
 /* called when the "close" button is clicked. */
 static void
-close_cb (GtkWidget  *widget, 
+close_cb (GtkWidget  *widget,
 	  DialogData *data)
 {
 	apply_cb (widget, data);
@@ -163,7 +168,7 @@ close_cb (GtkWidget  *widget,
 
 /* called when the "help" button is clicked. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "preferences");
@@ -172,7 +177,7 @@ help_cb (GtkWidget  *widget,
 
 /* called when the "use startup" is clicked. */
 static void
-use_startup_toggled_cb (GtkWidget *widget, 
+use_startup_toggled_cb (GtkWidget *widget,
 			DialogData *data)
 {
 	gtk_widget_set_sensitive (data->startup_dir_filechooserbutton,
@@ -184,7 +189,7 @@ use_startup_toggled_cb (GtkWidget *widget,
 
 /* called when the "set to current" button is clicked. */
 static void
-set_to_current_cb (GtkWidget  *widget, 
+set_to_current_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
 	char *esc_uri;
@@ -196,20 +201,32 @@ set_to_current_cb (GtkWidget  *widget,
 
 
 /* get the option menu index from the size value. */
-static gint
+static int
 get_idx_from_size (gint size)
 {
 	int i;
 
-	for (i = 0; i < thumb_sizes; i++) 
+	for (i = 0; i < thumb_sizes; i++)
 		if (size == thumb_size[i])
 			return i;
 	return -1;
 }
 
 
+static int
+get_idx_from_zoom_change (GthZoomChange change_mode)
+{
+	int i;
+
+	for (i = 0; i < zoom_changes; i++)
+		if (change_mode == zoom_change[i])
+			return i;
+	return -1;
+}
+
+
 static void
-layout_toggled_cb (GtkWidget *widget, 
+layout_toggled_cb (GtkWidget *widget,
 		   DialogData *data)
 {
 	int layout_type;
@@ -235,7 +252,7 @@ toolbar_style_changed_cb (GtkOptionMenu *option_menu,
 
 
 static void
-show_thumbs_toggled_cb (GtkToggleButton *button, 
+show_thumbs_toggled_cb (GtkToggleButton *button,
 			DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs)));
@@ -243,7 +260,7 @@ show_thumbs_toggled_cb (GtkToggleButton *button,
 
 
 static void
-show_filenames_toggled_cb (GtkToggleButton *button, 
+show_filenames_toggled_cb (GtkToggleButton *button,
 			   DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_SHOW_FILENAMES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames)));
@@ -251,7 +268,7 @@ show_filenames_toggled_cb (GtkToggleButton *button,
 
 
 static void
-show_comments_toggled_cb (GtkToggleButton *button, 
+show_comments_toggled_cb (GtkToggleButton *button,
 			  DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_SHOW_COMMENTS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments)));
@@ -278,7 +295,7 @@ click_policy_changed_cb (GtkOptionMenu *option_menu,
 
 
 static void
-confirm_del_toggled_cb (GtkToggleButton *button, 
+confirm_del_toggled_cb (GtkToggleButton *button,
 			DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_CONFIRM_DELETION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_confirm_del)));
@@ -286,7 +303,7 @@ confirm_del_toggled_cb (GtkToggleButton *button,
 
 
 static void
-ask_to_save_toggled_cb (GtkToggleButton *button, 
+ask_to_save_toggled_cb (GtkToggleButton *button,
 			DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ask_to_save)));
@@ -294,7 +311,7 @@ ask_to_save_toggled_cb (GtkToggleButton *button,
 
 
 static void
-fast_file_type_toggled_cb (GtkToggleButton *button, 
+fast_file_type_toggled_cb (GtkToggleButton *button,
 			   DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_FAST_FILE_TYPE, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_file_type)));
@@ -302,7 +319,7 @@ fast_file_type_toggled_cb (GtkToggleButton *button,
 
 
 static void
-zoom_quality_high_cb (GtkToggleButton *button, 
+zoom_quality_high_cb (GtkToggleButton *button,
 		      DialogData      *data)
 {
 	if (! gtk_toggle_button_get_active (button))
@@ -312,7 +329,7 @@ zoom_quality_high_cb (GtkToggleButton *button,
 
 
 static void
-zoom_quality_low_cb (GtkToggleButton *button, 
+zoom_quality_low_cb (GtkToggleButton *button,
 		     DialogData      *data)
 {
 	if (! gtk_toggle_button_get_active (button))
@@ -322,15 +339,16 @@ zoom_quality_low_cb (GtkToggleButton *button,
 
 
 static void
-zoom_change_changed_cb (GtkOptionMenu *option_menu, 
+zoom_change_changed_cb (GtkOptionMenu *option_menu,
 			DialogData    *data)
 {
-	pref_set_zoom_change (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_zoom_change)));
+	int idx = gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_zoom_change));
+	pref_set_zoom_change (zoom_change[idx]);
 }
 
 
 static void
-reset_scrollbars_toggled_cb (GtkToggleButton *button, 
+reset_scrollbars_toggled_cb (GtkToggleButton *button,
 			     DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_RESET_SCROLLBARS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars)));
@@ -338,7 +356,7 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 
 
 static void
-transp_type_changed_cb (GtkOptionMenu *option_menu, 
+transp_type_changed_cb (GtkOptionMenu *option_menu,
 			DialogData    *data)
 {
 	pref_set_transp_type(gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_transparency)));
@@ -424,16 +442,16 @@ dlg_preferences (GthBrowser *browser)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_use_startup), TRUE);
 	else if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_last_location), TRUE);
-	else 
+	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_current_location), TRUE);
-	
+
 	if (! eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
 		gtk_widget_set_sensitive (data->startup_dir_filechooserbutton, FALSE);
 		gtk_widget_set_sensitive (data->btn_set_to_current, FALSE);
 	}
 
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
-	
+
 	if (uri_scheme_is_file (startup_location)) {
 		char *esc_uri;
 		esc_uri = gnome_vfs_escape_host_and_path_string (startup_location);
@@ -485,9 +503,9 @@ dlg_preferences (GthBrowser *browser)
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_zoom_quality_low), TRUE);
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), pref_get_zoom_change ());
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), get_idx_from_zoom_change (pref_get_zoom_change ()));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (gth_window_get_image_viewer (GTH_WINDOW (browser))));
-               
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
 	/* * slide show */
@@ -499,68 +517,68 @@ dlg_preferences (GthBrowser *browser)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_reverse), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_random), TRUE);
-		
+
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_ss_delay),
 				   (gfloat) eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, 4));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (btn_close), 
+	g_signal_connect (G_OBJECT (btn_close),
 			  "clicked",
 			  G_CALLBACK (close_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_help), 
+	g_signal_connect (G_OBJECT (btn_help),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->radio_use_startup), 
+	g_signal_connect (G_OBJECT (data->radio_use_startup),
 			  "toggled",
 			  G_CALLBACK (use_startup_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->btn_set_to_current), 
+	g_signal_connect (G_OBJECT (data->btn_set_to_current),
 			  "clicked",
 			  G_CALLBACK (set_to_current_cb),
 			  data);
 
 	/**/
 
-	g_signal_connect (G_OBJECT (data->radio_layout1), 
+	g_signal_connect (G_OBJECT (data->radio_layout1),
 			  "toggled",
 			  G_CALLBACK (layout_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->radio_layout2), 
+	g_signal_connect (G_OBJECT (data->radio_layout2),
 			  "toggled",
 			  G_CALLBACK (layout_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->radio_layout3), 
+	g_signal_connect (G_OBJECT (data->radio_layout3),
 			  "toggled",
 			  G_CALLBACK (layout_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->radio_layout4), 
+	g_signal_connect (G_OBJECT (data->radio_layout4),
 			  "toggled",
 			  G_CALLBACK (layout_toggled_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->toolbar_style_optionmenu), 
+	g_signal_connect (G_OBJECT (data->toolbar_style_optionmenu),
 			  "changed",
 			  G_CALLBACK (toolbar_style_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_show_thumbs), 
+	g_signal_connect (G_OBJECT (data->toggle_show_thumbs),
 			  "toggled",
 			  G_CALLBACK (show_thumbs_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_show_filenames), 
+	g_signal_connect (G_OBJECT (data->toggle_show_filenames),
 			  "toggled",
 			  G_CALLBACK (show_filenames_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_show_comments), 
+	g_signal_connect (G_OBJECT (data->toggle_show_comments),
 			  "toggled",
 			  G_CALLBACK (show_comments_toggled_cb),
 			  data);
@@ -574,24 +592,24 @@ dlg_preferences (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (click_policy_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_confirm_del), 
+	g_signal_connect (G_OBJECT (data->toggle_confirm_del),
 			  "toggled",
 			  G_CALLBACK (confirm_del_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_ask_to_save), 
+	g_signal_connect (G_OBJECT (data->toggle_ask_to_save),
 			  "toggled",
 			  G_CALLBACK (ask_to_save_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_file_type), 
+	g_signal_connect (G_OBJECT (data->toggle_file_type),
 			  "toggled",
 			  G_CALLBACK (fast_file_type_toggled_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->opt_zoom_quality_high), 
+	g_signal_connect (G_OBJECT (data->opt_zoom_quality_high),
 			  "toggled",
 			  G_CALLBACK (zoom_quality_high_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->opt_zoom_quality_low), 
+	g_signal_connect (G_OBJECT (data->opt_zoom_quality_low),
 			  "toggled",
 			  G_CALLBACK (zoom_quality_low_cb),
 			  data);
@@ -610,7 +628,7 @@ dlg_preferences (GthBrowser *browser)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);

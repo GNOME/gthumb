@@ -1544,22 +1544,6 @@
 				      <property name="visible">True</property>
 
 				      <child>
-					<widget class="GtkMenuItem" id="convertwidget18">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Set image to actual size</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget19">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Fit image to window</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
 					<widget class="GtkMenuItem" id="convertwidget20">
 					  <property name="visible">True</property>
 					  <property name="label" translatable="yes">Keep previous zoom</property>
@@ -1572,6 +1556,23 @@
 					  <property name="visible">True</property>
 					  <property name="label" translatable="yes">Fit to window if larger</property>
 					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget18">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Set image to actual size</property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkMenuItem" id="fit_to_width_if_larger1">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Fit to width if larger</property>
+					  <property name="use_underline">True</property>
+					  <signal name="activate" handler="on_fit_to_width_if_larger1_activate" last_modification_time="Fri, 01 Dec 2006 20:39:45 GMT"/>
 					</widget>
 				      </child>
 				    </widget>

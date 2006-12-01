@@ -326,11 +326,11 @@
 	<applyto>/apps/gthumb/viewer/zoom_change</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>fit_if_larger</default>
+	<default>keep_prev</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: actual_size, fit, keep_prev, 
-	    fit_if_larger.
+	  <long> Possible values are: actual_size, fit, keep_prev,
+	    fit_if_larger, fit_width_if_larger.
 	  </long>
 	</locale>
       </schema>
@@ -356,7 +356,7 @@
         <default>true</default>
         <locale name="C">
           <short></short>
-          <long> Whether to reset the scrollbar positions after changing image 
+          <long> Whether to reset the scrollbar positions after changing image
           </long>
         </locale>
       </schema>
@@ -1152,7 +1152,7 @@
 	<default>72</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1165,7 +1165,7 @@
 	<default>72</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1206,7 +1206,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1221,7 +1221,7 @@
 	<default>###%e</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1234,7 +1234,7 @@
 	<default>1</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1260,7 +1260,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1288,7 +1288,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1301,7 +1301,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1344,7 +1344,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1357,7 +1357,7 @@
 	<default>index.html</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1370,7 +1370,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1383,7 +1383,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1396,7 +1396,7 @@
 	<default>640</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1409,7 +1409,7 @@
 	<default>480</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1422,7 +1422,7 @@
 	<default>4</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1448,7 +1448,7 @@
 	<default>4</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1474,7 +1474,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1487,7 +1487,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1500,7 +1500,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1513,7 +1513,7 @@
 	<default>Clean</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1526,7 +1526,7 @@
 	<default>0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1539,7 +1539,7 @@
 	<default>0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1554,7 +1554,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1569,7 +1569,7 @@
 	<default>A4</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1582,7 +1582,7 @@
 	<default>0.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1595,7 +1595,7 @@
 	<default>0.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1608,7 +1608,7 @@
 	<default>20.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1621,7 +1621,7 @@
 	<default>20.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1634,7 +1634,7 @@
 	<default>30.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1647,7 +1647,7 @@
 	<default>30.0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1673,7 +1673,7 @@
 	<default>R0</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1686,7 +1686,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1699,7 +1699,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1712,7 +1712,7 @@
 	<default>Serif 12</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1725,7 +1725,7 @@
 	<default>4</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1740,7 +1740,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1753,7 +1753,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1768,7 +1768,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1783,7 +1783,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1796,7 +1796,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1809,7 +1809,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1822,7 +1822,7 @@
 	<default></default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1835,7 +1835,7 @@
 	<default>FALSE</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1848,7 +1848,7 @@
 	<default>FALSE</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1861,7 +1861,7 @@
 	<default>TRUE</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
@@ -1876,7 +1876,7 @@
 	<default>TRUE</default>
 	<locale name="C">
 	  <short></short>
-	  <long> 
+	  <long>
 	  </long>
 	</locale>
       </schema>
