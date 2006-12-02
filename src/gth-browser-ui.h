@@ -31,7 +31,7 @@
 #include "gth-browser-actions-entries.h"
 
 
-static const gchar *main_ui_info = 
+static const gchar *main_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
@@ -310,7 +310,7 @@ static const gchar *main_ui_info =
 "</ui>";
 
 
-static const gchar *folder_ui_info = 
+static const gchar *folder_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
@@ -332,7 +332,7 @@ static const gchar *folder_ui_info =
 "</ui>";
 
 
-static const gchar *catalog_ui_info = 
+static const gchar *catalog_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"

@@ -1198,12 +1198,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 		retval = TRUE;
 		break;
 
-		/* Zoom to fit */
-	case GDK_x:
-		gth_window_activate_action_view_zoom_fit (NULL, viewer);
-		retval = TRUE;
-		break;
-
 		/* Rotate clockwise without saving */
 	case GDK_r:
 		gth_window_activate_action_alter_image_rotate90 (NULL, window);

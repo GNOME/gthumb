@@ -167,8 +167,8 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_hue_saturation) },
 
          { "AlterImage_RedeyeRemoval", GTHUMB_STOCK_REDEYE_REMOVAL,
-            N_("_Redeye Removal..."), NULL, 
-            N_("Redeye Removal Tool"), 
+            N_("_Redeye Removal..."), NULL,
+            N_("Redeye Removal Tool"),
 	    G_CALLBACK (gth_window_activate_action_alter_image_redeye_removal) },
 
 	{ "AlterImage_ColorBalance", GTHUMB_STOCK_COLOR_BALANCE,
@@ -212,7 +212,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_view_zoom_100) },
 
 	{ "View_ZoomFit", GTK_STOCK_ZOOM_FIT,
-	  N_("Fit"), NULL,
+	  N_("Fit"), "X",
 	  N_("Zoom to fit window"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_fit) },
 
@@ -315,7 +315,7 @@ static GtkToggleActionEntry gth_window_action_toggle_entries[] = {
 	{ "View_PlayAnimation", NULL,
 	  N_("Play _Animation"), "A",
 	  N_("Start or stop current animation"),
-	  G_CALLBACK (gth_window_activate_action_view_toggle_animation), 
+	  G_CALLBACK (gth_window_activate_action_view_toggle_animation),
 	  TRUE }
 };
 static guint gth_window_action_toggle_entries_size = G_N_ELEMENTS (gth_window_action_toggle_entries);

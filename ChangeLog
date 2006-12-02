@@ -1,3 +1,14 @@
+2006-12-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (key_press_cb):
+	* src/gth-browser-ui.h:
+	* src/gth-fullscreen.c (viewer_key_press_cb):
+	* src/gth-window-actions-entries.h:
+	* src/gth-viewer.c (viewer_key_press_cb):
+
+	Added the X keybinding in the action antry structure.  Added W keybinding
+	in fullscreen mode too.
+
 2006-12-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/catalog.c (catalog_free):

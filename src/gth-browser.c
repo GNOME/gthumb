@@ -2983,11 +2983,6 @@ key_press_cb (GtkWidget   *widget,
 		image_viewer_set_zoom (viewer, 3.0);
 		return TRUE;
 
-		/* Zoom to fit */
-	case GDK_x:
-		gth_window_activate_action_view_zoom_fit (NULL, browser);
-		return TRUE;
-
 		/* Show previous image. */
 	case GDK_b:
 	case GDK_BackSpace:

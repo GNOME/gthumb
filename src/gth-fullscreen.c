@@ -1166,11 +1166,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 		image_viewer_set_zoom (viewer, 3.0);
 		break;
 
-		/* Zoom to fit. */
-	case GDK_x:
-		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
-		break;
-
 		/* Toggle animation. */
 	case GDK_a:
 		gth_window_set_animation (window, ! gth_window_get_animation (window));
@@ -1236,6 +1231,18 @@ viewer_key_press_cb (GtkWidget   *widget,
 			priv->image_data_visible = TRUE;
 			show_comment_on_image (fullscreen);
 		}
+		break;
+
+		/* Zoom to fit */
+	case GDK_x:
+		gth_window_activate_action_view_zoom_fit (NULL, window);
+		retval = TRUE;
+		break;
+
+		/* Zoom to fit width */
+	case GDK_w:
+		gth_window_activate_action_view_zoom_to_width (NULL, window);
+		retval = TRUE;
 		break;
 
 		/* Rotate clockwise without saving */
