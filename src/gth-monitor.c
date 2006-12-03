@@ -74,7 +74,7 @@ monitor_handle_new (GnomeVFSMonitorHandle *monitor_handle,
 		    const char            *uri)
 {
 	MonitorHandle *mh;
-	
+
 	g_return_val_if_fail (monitor_handle != NULL, NULL);
 	g_return_val_if_fail (uri != NULL, NULL);
 
@@ -88,7 +88,7 @@ monitor_handle_new (GnomeVFSMonitorHandle *monitor_handle,
 
 
 static void
-monitor_handle_ref (MonitorHandle *mh) 
+monitor_handle_ref (MonitorHandle *mh)
 {
 	if (mh == NULL)
 		return;
@@ -97,7 +97,7 @@ monitor_handle_ref (MonitorHandle *mh)
 
 
 static void
-monitor_handle_destroy (MonitorHandle *mh) 
+monitor_handle_destroy (MonitorHandle *mh)
 {
 	if (mh == NULL)
 		return;
@@ -109,7 +109,7 @@ monitor_handle_destroy (MonitorHandle *mh)
 
 
 static void
-monitor_handle_unref (MonitorHandle *mh) 
+monitor_handle_unref (MonitorHandle *mh)
 {
 	if (mh == NULL)
 		return;
@@ -146,7 +146,7 @@ static GObjectClass *parent_class = NULL;
 static guint monitor_signals[LAST_SIGNAL] = { 0 };
 
 
-static void 
+static void
 gth_monitor_finalize (GObject *object)
 {
 	GthMonitor *monitor = GTH_MONITOR (object);
@@ -156,13 +156,13 @@ gth_monitor_finalize (GObject *object)
 		int i;
 
 		if (priv->vfs_monitors != NULL) {
-			g_list_foreach (priv->vfs_monitors, 
-					(GFunc) monitor_handle_destroy, 
+			g_list_foreach (priv->vfs_monitors,
+					(GFunc) monitor_handle_destroy,
 					NULL);
 			g_list_free (priv->vfs_monitors);
 			priv->vfs_monitors = NULL;
 		}
-		
+
 		for (i = 0; i < MONITOR_EVENT_NUM; i++)
 			path_list_free (priv->monitor_events[i]);
 
@@ -224,7 +224,7 @@ proc_monitor_events (gpointer data)
 	file_changed_list = priv->monitor_events[MONITOR_EVENT_FILE_CHANGED];
 	priv->monitor_events[MONITOR_EVENT_FILE_CHANGED] = NULL;
 
-	if (priv->update_changes_timeout != 0) 
+	if (priv->update_changes_timeout != 0)
 		g_source_remove (priv->update_changes_timeout);
 
 	/**/
@@ -308,7 +308,7 @@ add_monitor_event (GthMonitor                *monitor,
 			op = "CREATED";
 		else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
 			op = "DELETED";
-		else 
+		else
 			op = "CHANGED";
 
 		debug (DEBUG_INFO, "[%s] %s", op, path);
@@ -330,37 +330,37 @@ add_monitor_event (GthMonitor                *monitor,
 	} else {
 		if (path_is_file (path))
 			type = MONITOR_EVENT_FILE_CHANGED;
-		else 
+		else
 			return;
 	}
 
 	if (type == MONITOR_EVENT_FILE_CREATED) {
-		if (remove_if_present (monitor_events, 
-				       MONITOR_EVENT_FILE_DELETED, 
+		if (remove_if_present (monitor_events,
+				       MONITOR_EVENT_FILE_DELETED,
 				       path))
 			type = MONITOR_EVENT_FILE_CHANGED;
-		
+
 	} else if (type == MONITOR_EVENT_FILE_DELETED) {
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CREATED, 
+		remove_if_present (monitor_events,
+				   MONITOR_EVENT_FILE_CREATED,
 				   path);
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CHANGED, 
+		remove_if_present (monitor_events,
+				   MONITOR_EVENT_FILE_CHANGED,
 				   path);
 
 	} else if (type == MONITOR_EVENT_FILE_CHANGED) {
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CHANGED, 
+		remove_if_present (monitor_events,
+				   MONITOR_EVENT_FILE_CHANGED,
 				   path);
-		
+
 	} else if (type == MONITOR_EVENT_DIR_CREATED) {
-		remove_if_present (monitor_events, 
+		remove_if_present (monitor_events,
 				   MONITOR_EVENT_DIR_DELETED,
 				   path);
 
-	} else if (type == MONITOR_EVENT_DIR_DELETED) 
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_DIR_CREATED, 
+	} else if (type == MONITOR_EVENT_DIR_DELETED)
+		remove_if_present (monitor_events,
+				   MONITOR_EVENT_DIR_CREATED,
 				   path);
 
 	monitor_events[type] = g_list_append (monitor_events[type], g_strdup (path));
@@ -374,10 +374,10 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 		   GnomeVFSMonitorEventType  event_type,
 		   gpointer                  user_data)
 {
-	GthMonitor            *monitor = user_data; 
+	GthMonitor            *monitor = user_data;
 	GthMonitorPrivateData *priv = monitor->priv;
 	char                  *path;
-	
+
 	path = gnome_vfs_unescape_string (info_uri, NULL);
 	add_monitor_event (monitor, event_type, path, priv->monitor_events);
 	g_free (path);
@@ -438,8 +438,10 @@ gth_monitor_remove_uri (GthMonitor *monitor,
 		return;
 
 	item = find_monitor_from_uri (priv->vfs_monitors, uri);
-	if (item == NULL) 
+	if (item == NULL)
 		return;
+
+	debug (DEBUG_INFO, "REMOVE MONITOR URI: %s", uri);
 
 	mh = item->data;
 	if (mh->ref == 1)
@@ -448,7 +450,7 @@ gth_monitor_remove_uri (GthMonitor *monitor,
 }
 
 
-GthMonitor * 
+GthMonitor *
 gth_monitor_new (void)
 {
 	return (GthMonitor*) g_object_new (GTH_TYPE_MONITOR, NULL);
@@ -473,8 +475,8 @@ void
 gth_monitor_notify_update_icon_theme (GthMonitor *monitor)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_ICON_THEME], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_ICON_THEME],
 		       0);
 }
 
@@ -483,8 +485,8 @@ void
 gth_monitor_notify_update_bookmarks (GthMonitor *monitor)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_BOOKMARKS], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_BOOKMARKS],
 		       0);
 }
 
@@ -494,14 +496,14 @@ gth_monitor_notify_update_cat_files (GthMonitor      *monitor,
 				     const char      *catalog_path,
 				     GthMonitorEvent  event,
 				     GList           *list)
-{	
+{
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
 
 	if (list == NULL)
 		return;
 
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_CAT_FILES], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_CAT_FILES],
 		       0,
 		       catalog_path,
 		       event,
@@ -513,14 +515,14 @@ void
 gth_monitor_notify_update_files (GthMonitor      *monitor,
 				 GthMonitorEvent  event,
 				 GList           *list)
-{	
+{
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
 
 	if (list == NULL)
 		return;
 
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_FILES], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_FILES],
 		       0,
 		       event,
 		       list);
@@ -531,10 +533,10 @@ void
 gth_monitor_notify_update_directory (GthMonitor      *monitor,
 				     const char      *dir_path,
 				     GthMonitorEvent  event)
-{	
+{
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_DIRECTORY], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_DIRECTORY],
 		       0,
 		       dir_path,
 		       event);
@@ -545,10 +547,10 @@ void
 gth_monitor_notify_update_catalog (GthMonitor      *monitor,
 				   const char      *catalog_path,
 				   GthMonitorEvent  event)
-{	
+{
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_CATALOG], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_CATALOG],
 		       0,
 		       catalog_path,
 		       event);
@@ -558,10 +560,10 @@ gth_monitor_notify_update_catalog (GthMonitor      *monitor,
 void
 gth_monitor_notify_update_metadata (GthMonitor      *monitor,
 				    const char      *path)
-{	
+{
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[UPDATE_METADATA], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[UPDATE_METADATA],
 		       0,
 		       path);
 }
@@ -573,8 +575,8 @@ gth_monitor_notify_file_renamed (GthMonitor      *monitor,
 				 const char      *new_name)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[FILE_RENAMED], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[FILE_RENAMED],
 		       0,
 		       old_name,
 		       new_name);
@@ -587,8 +589,8 @@ gth_monitor_notify_directory_renamed (GthMonitor      *monitor,
 				      const char      *new_name)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[DIRECTORY_RENAMED], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[DIRECTORY_RENAMED],
 		       0,
 		       old_name,
 		       new_name);
@@ -601,8 +603,8 @@ gth_monitor_notify_catalog_renamed (GthMonitor      *monitor,
 				    const char      *new_name)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[CATALOG_RENAMED], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[CATALOG_RENAMED],
 		       0,
 		       old_name,
 		       new_name);
@@ -613,8 +615,8 @@ void
 gth_monitor_notify_reload_catalogs (GthMonitor *monitor)
 {
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor), 
-		       monitor_signals[RELOAD_CATALOGS], 
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[RELOAD_CATALOGS],
 		       0);
 }
 
@@ -636,7 +638,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_icon_theme),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	monitor_signals[UPDATE_BOOKMARKS] =
 		g_signal_new ("update-bookmarks",
@@ -645,7 +647,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_bookmarks),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	monitor_signals[UPDATE_CAT_FILES] =
 		g_signal_new ("update-cat-files",
@@ -654,7 +656,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_cat_files),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_INT_BOXED,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      3,
 			      G_TYPE_STRING,
 			      G_TYPE_INT,
@@ -666,7 +668,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_files),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__INT_BOXED,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_INT,
 			      G_TYPE_STRING_LIST);
@@ -677,7 +679,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_directory),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_INT,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_STRING,
 			      G_TYPE_INT);
@@ -688,7 +690,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_catalog),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_INT,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_STRING,
 			      G_TYPE_INT);
@@ -699,7 +701,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, update_metadata),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      1,
 			      G_TYPE_STRING);
 	monitor_signals[FILE_RENAMED] =
@@ -709,7 +711,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, file_renamed),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_STRING,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
@@ -720,7 +722,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, directory_renamed),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_STRING,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
@@ -731,7 +733,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, catalog_renamed),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING_STRING,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);
@@ -742,7 +744,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_STRUCT_OFFSET (GthMonitorClass, reload_catalogs),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 }
 

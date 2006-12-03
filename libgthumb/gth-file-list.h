@@ -71,6 +71,8 @@ void         gth_file_list_set_list             (GthFileList   *file_list,
 						 GtkSortType    sort_type);
 void         gth_file_list_add_list             (GthFileList   *file_list,
 						 GList         *new_list);
+void         gth_file_list_delete_list          (GthFileList   *file_list,
+						 GList         *uri_list);
 void         gth_file_list_set_empty_list       (GthFileList   *file_list);
 void         gth_file_list_stop                 (GthFileList   *file_list);
 void         gth_file_list_set_sort_method      (GthFileList   *file_list,

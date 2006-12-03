@@ -89,7 +89,7 @@ dialog_data_free (DialogData *data)
 		data->files_changed_list = NULL;
 	}
 
-	all_windows_add_monitor ();
+	g_idle_add ((GSourceFunc)all_windows_add_monitor, NULL);
 
 	path_list_free (data->file_list);
 	if (data->loader != NULL)
@@ -102,7 +102,7 @@ dialog_data_free (DialogData *data)
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	dialog_data_free (data);
@@ -110,7 +110,7 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-add_image_to_button (GtkWidget    *button, 
+add_image_to_button (GtkWidget    *button,
 		     const guint8 *rgba)
 {
 	GdkPixbuf *pixbuf;
@@ -124,8 +124,8 @@ add_image_to_button (GtkWidget    *button,
 
 
 static GdkPixbuf *
-_gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf, 
-				     int        max_width, 
+_gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
+				     int        max_width,
 				     int        max_height)
 {
 	int        width, height;
@@ -147,7 +147,7 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 }
 
 
-static void 
+static void
 image_loader_done_cb (ImageLoader  *il,
 		      DialogData   *data)
 {
@@ -166,7 +166,7 @@ image_loader_done_cb (ImageLoader  *il,
 }
 
 
-static void 
+static void
 image_loader_error_cb (ImageLoader  *il,
 		       DialogData   *data)
 {
@@ -184,7 +184,7 @@ load_current_image (DialogData *data)
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
-	
+
 	gtk_widget_set_sensitive (data->j_button_vbox, FALSE);
 	gtk_widget_set_sensitive (data->j_revert_button, FALSE);
 
@@ -203,7 +203,7 @@ load_next_image (DialogData *data)
 		gtk_widget_destroy (data->dialog);
 		return;
 	}
-	
+
 	data->current_image = data->current_image->next;
 	if (data->current_image == NULL) {
 		gtk_widget_destroy (data->dialog);
@@ -223,7 +223,7 @@ notify_file_changed (DialogData *data,
 		GList *list = g_list_prepend (NULL, (char*) filename);
 		all_windows_notify_files_changed (list);
 		g_list_free (list);
-	} else 
+	} else
 		data->files_changed_list = g_list_prepend (data->files_changed_list, g_strdup (filename));
 }
 
@@ -246,7 +246,7 @@ static gint jpeg_mcu_dialog (GtkWindow *parent)
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK,
 		NULL);
-	
+
 	gint result = gtk_dialog_run (GTK_DIALOG (d));
 
  	gtk_widget_destroy (d);
@@ -268,7 +268,7 @@ apply_transformation (DialogData *data,
 	GnomeVFSFileInfo  info;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
 	GthTransform	  required_transform;
-	
+
 	/* Check directory permissions. */
 
 	dir = remove_level_from_path (path);
@@ -280,7 +280,7 @@ apply_transformation (DialogData *data,
 		g_free (utf8_path);
 		g_free (dir);
 		return;
-	} 
+	}
 	g_free (dir);
 
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
@@ -290,14 +290,14 @@ apply_transformation (DialogData *data,
 	required_transform = get_next_transformation (orientation, data->transform);
 
 	if ((jpeg && orientation) &&
-			!eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
+	    !eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
 		// Adjust Exif orientation tag.
 		write_orientation_field (path, required_transform);
 	} else if (jpeg) {
  		// Lossless jpeg transform.
 		gint width, height;
 		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
-		if (!jtransform_perfect_transform(width, height, 8, 8, required_transform)) {
+		if (!jtransform_perfect_transform (width, height, 8, 8, required_transform)) {
  			// Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
  			// Warn about possible image distortions along one or more edges.
  			gint result = jpeg_mcu_dialog (window);
@@ -312,7 +312,7 @@ apply_transformation (DialogData *data,
 		// Generic image transform.
 		apply_transformation_generic (window, path, required_transform);
 	}
-		
+
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 
 	notify_file_changed (data, path, notify_soon);
@@ -329,7 +329,7 @@ apply_transformation_to_all (DialogData *data)
 	GList     *scan;
 	int        i, n;
 
-	gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE, 
+	gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE,
 			     NULL,
 			     NULL);
 
@@ -343,11 +343,11 @@ apply_transformation_to_all (DialogData *data)
 		gtk_window_set_transient_for (GTK_WINDOW (dialog),
 					      GTK_WINDOW (data->window));
 	else {
-		gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE); 
+		gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 		gtk_window_set_transient_for (GTK_WINDOW (dialog),
 					      GTK_WINDOW (data->dialog));
 	}
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); 
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_widget_show (dialog);
 
 	while (gtk_events_pending())
@@ -364,14 +364,14 @@ apply_transformation_to_all (DialogData *data)
 
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
 					       (gdouble) (i + 0.5) / n);
-		
+
 		while (gtk_events_pending())
 			gtk_main_iteration();
-		
+
 		apply_transformation (data, scan, FALSE);
 		i++;
 	}
-	
+
 	gtk_widget_destroy (dialog);
 	g_object_unref (gui);
 
@@ -383,7 +383,7 @@ apply_transformation_to_all (DialogData *data)
 
 
 static void
-ok_clicked (GtkWidget  *button, 
+ok_clicked (GtkWidget  *button,
 	    DialogData *data)
 {
 	gboolean to_all;
@@ -401,7 +401,7 @@ ok_clicked (GtkWidget  *button,
 
 
 static void
-revert_clicked (GtkWidget  *button, 
+revert_clicked (GtkWidget  *button,
 		DialogData *data)
 {
 	data->transform = GTH_TRANSFORM_NONE;
@@ -412,7 +412,7 @@ revert_clicked (GtkWidget  *button,
 
 
 static void
-transform_clicked_impl (GtkWidget  *button, 
+transform_clicked_impl (GtkWidget  *button,
 	       DialogData *data,
 	       GthTransform transform)
 {
@@ -423,19 +423,19 @@ transform_clicked_impl (GtkWidget  *button,
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
-	if (src_pixbuf == NULL) 
+	if (src_pixbuf == NULL)
 		return;
 
 	dest_pixbuf = _gdk_pixbuf_transform (src_pixbuf, transform);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 
-	if (dest_pixbuf != NULL) 
+	if (dest_pixbuf != NULL)
 		g_object_unref (dest_pixbuf);
 }
 
 
 static void
-rot90_clicked (GtkWidget  *button, 
+rot90_clicked (GtkWidget  *button,
 	       DialogData *data)
 {
 	transform_clicked_impl (button, data, GTH_TRANSFORM_ROTATE_90);
@@ -443,7 +443,7 @@ rot90_clicked (GtkWidget  *button,
 
 
 static void
-rot270_clicked (GtkWidget  *button, 
+rot270_clicked (GtkWidget  *button,
 		DialogData *data)
 {
 	transform_clicked_impl (button, data, GTH_TRANSFORM_ROTATE_270);
@@ -451,7 +451,7 @@ rot270_clicked (GtkWidget  *button,
 
 
 static void
-mirror_clicked (GtkWidget  *button, 
+mirror_clicked (GtkWidget  *button,
 		DialogData *data)
 {
 	transform_clicked_impl (button, data, GTH_TRANSFORM_FLIP_H);
@@ -459,7 +459,7 @@ mirror_clicked (GtkWidget  *button,
 
 
 static void
-flip_clicked (GtkWidget  *button, 
+flip_clicked (GtkWidget  *button,
 	      DialogData *data)
 {
 	transform_clicked_impl (button, data, GTH_TRANSFORM_FLIP_V);
@@ -476,7 +476,7 @@ reset_exif_tag_on_rotate_clicked (GtkWidget  *button,
 
 /* called when the "help" button is clicked. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-rotate-jpeg");
@@ -518,7 +518,7 @@ dlg_jpegtran (GthWindow *window)
 
 	if (! data->gui) {
 		g_warning ("Could not find " ROTATE_GLADE_FILE "\n");
-		if (data->file_list != NULL) 
+		if (data->file_list != NULL)
 			path_list_free (data->file_list);
 		g_free (data);
 		return;
@@ -564,41 +564,41 @@ dlg_jpegtran (GthWindow *window)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton), eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE));
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (j_cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (j_cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (j_help_button), 
+	g_signal_connect (G_OBJECT (j_help_button),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
-	g_signal_connect (G_OBJECT (j_ok_button), 
+	g_signal_connect (G_OBJECT (j_ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (j_revert_button), 
+	g_signal_connect (G_OBJECT (j_revert_button),
 			  "clicked",
 			  G_CALLBACK (revert_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (j_rot_90_button), 
+	g_signal_connect (G_OBJECT (j_rot_90_button),
 			  "clicked",
 			  G_CALLBACK (rot90_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (j_rot_270_button), 
+	g_signal_connect (G_OBJECT (j_rot_270_button),
 			  "clicked",
 			  G_CALLBACK (rot270_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (j_v_flip_button), 
+	g_signal_connect (G_OBJECT (j_v_flip_button),
 			  "clicked",
 			  G_CALLBACK (mirror_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (j_h_flip_button), 
+	g_signal_connect (G_OBJECT (j_h_flip_button),
 			  "clicked",
 			  G_CALLBACK (flip_clicked),
 			  data);
@@ -624,7 +624,7 @@ dlg_jpegtran (GthWindow *window)
 	all_windows_remove_monitor ();
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 
 	load_current_image (data);

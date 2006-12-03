@@ -61,19 +61,19 @@ enum {
 #define CATEGORY_SEPARATOR_STR ";"
 #define ONE_DAY (60*60*24)
 
-static void dlg_search_ui (GthBrowser *browser, 
-			   char       *catalog_path, 
+static void dlg_search_ui (GthBrowser *browser,
+			   char       *catalog_path,
 			   gboolean    start_search);
 
 
-void 
+void
 dlg_search (GtkWidget *widget, gpointer data)
 {
 	dlg_search_ui (GTH_BROWSER (data), NULL, FALSE);
 }
 
 
-void 
+void
 dlg_catalog_edit_search (GthBrowser *browser,
 			 const char *catalog_path)
 {
@@ -81,7 +81,7 @@ dlg_catalog_edit_search (GthBrowser *browser,
 }
 
 
-void 
+void
 dlg_catalog_search (GthBrowser *browser,
 		    const char *catalog_path)
 {
@@ -106,7 +106,7 @@ typedef struct {
 	GtkWidget      *s_filename_entry;
 	GtkWidget      *s_comment_entry;
 	GtkWidget      *s_place_entry;
-	GtkWidget      *s_categories_entry; 
+	GtkWidget      *s_categories_entry;
 	GtkWidget      *s_choose_categories_button;
 	GtkWidget      *s_date_optionmenu;
 	GtkWidget      *s_date_dateedit;
@@ -128,7 +128,7 @@ typedef struct {
 	char          **file_patterns;
 	char          **comment_patterns;
 	char          **place_patterns;
-	char          **keywords_patterns; 
+	char          **keywords_patterns;
 	gboolean        all_keywords;
 
 	GnomeVFSAsyncHandle *handle;
@@ -163,7 +163,7 @@ free_search_criteria_data (DialogData *data)
 	if (data->keywords_patterns) {
 		g_strfreev (data->keywords_patterns);
 		data->keywords_patterns = NULL;
-	} 
+	}
 }
 
 
@@ -195,7 +195,7 @@ free_search_results_data (DialogData *data)
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	eel_gconf_set_boolean (PREF_SEARCH_RECURSIVE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton)));
@@ -219,7 +219,7 @@ static void search_images_async (DialogData *data);
 
 
 static void
-start_search_now (DialogData *data) 
+start_search_now (DialogData *data)
 {
 	/* pop up the progress dialog. */
 
@@ -242,7 +242,7 @@ start_search_now (DialogData *data)
 
 /* called when the "search" button is pressed. */
 static void
-search_clicked_cb (GtkWidget  *widget, 
+search_clicked_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
 	char       *full_path;
@@ -272,28 +272,28 @@ search_clicked_cb (GtkWidget  *widget,
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_filename_entry));
 	search_data_set_file_pattern (data->search_data, entry);
-	if (entry != NULL) 
+	if (entry != NULL)
 		data->file_patterns = search_util_get_file_patterns (entry);
 
 	/* * comment pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_comment_entry));
 	search_data_set_comment_pattern (data->search_data, entry);
-	if (entry != NULL) 
+	if (entry != NULL)
 		data->comment_patterns = search_util_get_patterns (entry);
 
 	/* * place pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_place_entry));
 	search_data_set_place_pattern (data->search_data, entry);
-	if (entry != NULL) 
+	if (entry != NULL)
 		data->place_patterns = search_util_get_patterns (entry);
 
 	/* * keywords pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry));
 	search_data_set_keywords_pattern (data->search_data, entry, data->all_keywords);
-	if (entry != NULL) 
+	if (entry != NULL)
 		data->keywords_patterns = search_util_get_patterns (entry);
 
 	/* * date scope pattern */
@@ -315,7 +315,7 @@ static void cancel_progress_dlg_cb (GtkWidget *widget, DialogData *data);
 
 /* called when the progress dialog is closed. */
 static void
-destroy_progress_cb (GtkWidget *widget, 
+destroy_progress_cb (GtkWidget *widget,
 		     DialogData *data)
 {
 	cancel_progress_dlg_cb (widget, data);
@@ -325,7 +325,7 @@ destroy_progress_cb (GtkWidget *widget,
 
 /* called when the "new search" button in the progress dialog is pressed. */
 static void
-new_search_clicked_cb (GtkWidget *widget, 
+new_search_clicked_cb (GtkWidget *widget,
 		       DialogData *data)
 {
 	cancel_progress_dlg_cb (widget, data);
@@ -340,7 +340,7 @@ new_search_clicked_cb (GtkWidget *widget,
 
 /* called when the "view" button in the progress dialog is pressed. */
 static void
-view_result_cb (GtkWidget  *widget, 
+view_result_cb (GtkWidget  *widget,
 		DialogData *data)
 {
 	Catalog      *catalog;
@@ -367,7 +367,7 @@ view_result_cb (GtkWidget  *widget,
 	for (scan = data->files; scan; scan = scan->next)
 		catalog_add_item (catalog, (gchar*) scan->data);
 
-	if (! catalog_write_to_disk (catalog, &gerror)) 
+	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 
 	gth_browser_go_to_catalog (data->browser, catalog_path);
@@ -380,7 +380,7 @@ view_result_cb (GtkWidget  *widget,
 
 /* called when the "ok" button is pressed. */
 static void
-save_result_cb (GtkWidget  *widget, 
+save_result_cb (GtkWidget  *widget,
 		DialogData *data)
 {
 	char         *catalog_path;
@@ -394,7 +394,7 @@ save_result_cb (GtkWidget  *widget,
 
 	catalog = catalog_new ();
 	catalog_set_path (catalog, catalog_path);
-	catalog_set_search_data (catalog, data->search_data);	
+	catalog_set_search_data (catalog, data->search_data);
 	for (scan = data->files; scan; scan = scan->next)
 		catalog_add_item (catalog, (gchar*) scan->data);
 
@@ -410,7 +410,7 @@ save_result_cb (GtkWidget  *widget,
 
 
 static void
-view_or_save_cb (GtkWidget  *widget, 
+view_or_save_cb (GtkWidget  *widget,
 		 DialogData *data)
 {
 	if (data->catalog_path == NULL)
@@ -437,7 +437,7 @@ search_finished (DialogData *data)
 
 /* called when the "cancel" button in the progress dialog is pressed. */
 static void
-cancel_progress_dlg_cb (GtkWidget  *widget, 
+cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
 	if (data->handle == NULL)
@@ -450,7 +450,7 @@ cancel_progress_dlg_cb (GtkWidget  *widget,
 
 /* called when the "help" button in the search dialog is pressed. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-find");
@@ -464,7 +464,7 @@ static void choose_categories_dialog (DialogData *data);
 
 
 static void
-choose_categories_cb (GtkWidget  *widget, 
+choose_categories_cb (GtkWidget  *widget,
 		      DialogData *data)
 {
 	choose_categories_dialog (data);
@@ -503,7 +503,7 @@ response_cb (GtkWidget  *dialog,
 
 
 static gboolean
-idle_start_search_cb (gpointer data) 
+idle_start_search_cb (gpointer data)
 {
 	start_search_now (data);
 	return FALSE;
@@ -511,8 +511,8 @@ idle_start_search_cb (gpointer data)
 
 
 static void
-dlg_search_ui (GthBrowser *browser, 
-	       char       *catalog_path, 
+dlg_search_ui (GthBrowser *browser,
+	       char       *catalog_path,
 	       gboolean    start_search)
 {
 	DialogData *data;
@@ -531,7 +531,7 @@ dlg_search_ui (GthBrowser *browser,
 	data->file_patterns = NULL;
 	data->comment_patterns = NULL;
 	data->place_patterns = NULL;
-	data->keywords_patterns = NULL; 
+	data->keywords_patterns = NULL;
 	data->dirs = NULL;
 	data->files = NULL;
 	data->browser = browser;
@@ -577,13 +577,13 @@ dlg_search_ui (GthBrowser *browser,
 		data->p_close_button = glade_xml_get_widget (data->gui, "ep_close_button");
 		data->p_searching_in_hbox = glade_xml_get_widget (data->gui, "ep_searching_in_hbox");
 		data->p_images_label = glade_xml_get_widget (data->gui, "ep_images_label");
-		progress_hbox = glade_xml_get_widget (data->gui, "ep_progress_hbox");		
+		progress_hbox = glade_xml_get_widget (data->gui, "ep_progress_hbox");
 	}
 
 	data->file_list = gth_file_list_new ();
 	gtk_widget_show_all (data->file_list->root_widget);
 	gtk_box_pack_start (GTK_BOX (progress_hbox), data->file_list->root_widget, TRUE, TRUE, 0);
-	
+
 	/* Set widgets data. */
 
 	if (catalog_path == NULL) {
@@ -609,7 +609,7 @@ dlg_search_ui (GthBrowser *browser,
 		search_data_free (data->search_data);
 		data->search_data = search_data_new ();
 		search_data_copy (data->search_data, search_data);
-		
+
 		data->all_keywords =  data->search_data->all_keywords;
 		data->file_patterns = search_util_get_file_patterns (data->search_data->file_pattern);
 		data->comment_patterns = search_util_get_patterns (data->search_data->comment_pattern);
@@ -617,15 +617,15 @@ dlg_search_ui (GthBrowser *browser,
 		data->keywords_patterns = search_util_get_patterns (data->search_data->keywords_pattern);
 
 		/**/
-		
+
 		esc_uri = gnome_vfs_escape_host_and_path_string (search_data->start_from);
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
 		g_free (esc_uri);
 
 		/**/
-	
+
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
-		
+
 		gtk_entry_set_text (GTK_ENTRY (data->s_filename_entry),
 				    search_data->file_pattern);
 		gtk_entry_set_text (GTK_ENTRY (data->s_comment_entry),
@@ -648,58 +648,58 @@ dlg_search_ui (GthBrowser *browser,
 	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_option_menu_get_history (GTK_OPTION_MENU (data->s_date_optionmenu)) != 0);
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->search_progress_dialog), 
+	g_signal_connect (G_OBJECT (data->search_progress_dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_progress_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->p_search_button), 
+	g_signal_connect (G_OBJECT (data->p_search_button),
 			  "clicked",
 			  G_CALLBACK (new_search_clicked_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->p_close_button), 
+	g_signal_connect_swapped (G_OBJECT (data->p_close_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->search_progress_dialog));
-	g_signal_connect (G_OBJECT (data->p_cancel_button), 
+	g_signal_connect (G_OBJECT (data->p_cancel_button),
 			  "clicked",
 			  G_CALLBACK (cancel_progress_dlg_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->p_view_button), 
+	g_signal_connect (G_OBJECT (data->p_view_button),
 			  "clicked",
 			  G_CALLBACK (view_or_save_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->s_choose_categories_button), 
+	g_signal_connect (G_OBJECT (data->s_choose_categories_button),
 			  "clicked",
 			  G_CALLBACK (choose_categories_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->s_date_optionmenu), 
+	g_signal_connect (G_OBJECT (data->s_date_optionmenu),
 			  "changed",
 			  G_CALLBACK (date_option_changed_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "response",
 			  G_CALLBACK (response_cb),
 			  data);
 
 	/* Run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->search_progress_dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->search_progress_dialog),
 				      GTK_WINDOW (browser));
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 
 	gtk_widget_grab_focus (data->s_filename_entry);
 
-	if (! start_search) 
+	if (! start_search)
 		gtk_widget_show (data->dialog);
-	else 
+	else
 		g_idle_add (idle_start_search_cb, data);
 }
 
@@ -742,7 +742,7 @@ pattern_matched_by_keywords (char  *pattern,
 
 
 static gboolean
-match_patterns (char       **patterns, 
+match_patterns (char       **patterns,
 		const char  *string)
 {
 	char     *case_string;
@@ -776,7 +776,7 @@ load_parents_comments (DialogData *data,
 
 	do {
 		char *tmp = parent;
-		
+
 		parent = remove_level_from_path (tmp);
 		g_free (tmp);
 
@@ -788,8 +788,8 @@ load_parents_comments (DialogData *data,
 			if (comment_data == NULL)
 				comment_data = comment_data_new ();
 
-			g_hash_table_insert (data->folders_comment, 
-					     g_strdup (parent), 
+			g_hash_table_insert (data->folders_comment,
+					     g_strdup (parent),
 					     comment_data);
 		}
 
@@ -801,7 +801,7 @@ load_parents_comments (DialogData *data,
 
 static void
 add_parents_comments (CommentData *comment_data,
-		      DialogData  *data, 
+		      DialogData  *data,
 		      const char  *filename)
 {
 	char *parent = g_strdup (filename);
@@ -820,7 +820,7 @@ add_parents_comments (CommentData *comment_data,
 
 		if (parent_data != NULL) {
 			int i;
-			for (i = 0; i < parent_data->keywords_n; i++) 
+			for (i = 0; i < parent_data->keywords_n; i++)
 				comment_data_add_keyword (comment_data, parent_data->keywords[i]);
 		}
 
@@ -831,7 +831,7 @@ add_parents_comments (CommentData *comment_data,
 
 
 static gboolean
-file_respects_search_criteria (DialogData *data, 
+file_respects_search_criteria (DialogData *data,
 			       char       *filename)
 {
 	CommentData *comment_data;
@@ -851,7 +851,7 @@ file_respects_search_criteria (DialogData *data,
 	load_parents_comments (data, filename);
 
 	comment_data = comments_load_comment (filename, FALSE);
-	if (comment_data == NULL) 
+	if (comment_data == NULL)
 		comment_data = comment_data_new ();
 	add_parents_comments (comment_data, data, filename);
 
@@ -877,7 +877,7 @@ file_respects_search_criteria (DialogData *data,
 
 		match_keywords = pattern_matched_by_keywords (data->keywords_patterns[i], comment_data->keywords);
 
-		if (match_keywords && ! data->search_data->all_keywords) 
+		if (match_keywords && ! data->search_data->all_keywords)
 			break;
 		else if (! match_keywords && data->search_data->all_keywords)
 			break;
@@ -886,16 +886,16 @@ file_respects_search_criteria (DialogData *data,
 	match_date = FALSE;
 	if (data->search_data->date_scope == DATE_ANY)
 		match_date = TRUE;
-	else if ((data->search_data->date_scope == DATE_BEFORE) 
+	else if ((data->search_data->date_scope == DATE_BEFORE)
 		 && (time != 0)
 		 && (time < data->search_data->date))
 		match_date = TRUE;
-	else if ((data->search_data->date_scope == DATE_EQUAL_TO) 
+	else if ((data->search_data->date_scope == DATE_EQUAL_TO)
 		 && (time != 0)
 		 && (time >= data->search_data->date)
 		 && (time <= data->search_data->date + ONE_DAY))
 		match_date = TRUE;
-	else if ((data->search_data->date_scope == DATE_AFTER) 
+	else if ((data->search_data->date_scope == DATE_AFTER)
 		 && (time != 0)
 		 && (time > data->search_data->date + ONE_DAY))
 		match_date = TRUE;
@@ -914,7 +914,7 @@ file_respects_search_criteria (DialogData *data,
 
 
 static void
-add_file_list (DialogData *data, 
+add_file_list (DialogData *data,
 	       GList      *file_list)
 {
 	char *images;
@@ -924,8 +924,8 @@ add_file_list (DialogData *data,
 	images = g_strdup_printf ("%d", g_list_length (data->files));
 	gtk_label_set_text (GTK_LABEL (data->p_images_label), images);
 	g_free (images);
-	
-	gth_file_list_add_list (data->file_list, path_list_dup (file_list));
+
+	gth_file_list_add_list (data->file_list, file_list);
 }
 
 
@@ -974,7 +974,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
-			if (file_respects_search_criteria (data, unesc_uri)) 
+			if (file_respects_search_criteria (data, unesc_uri))
 				files = g_list_prepend (files, unesc_uri);
 			else
 				g_free (unesc_uri);
@@ -1012,7 +1012,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			search_finished (data);
 			return;
 		}
-		
+
 		do {
 			GList *first_dir;
 			char  *dir;
@@ -1024,7 +1024,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 			first_dir = data->dirs;
 			data->dirs = g_list_remove_link (data->dirs, first_dir);
-			dir = (char*) first_dir->data; 
+			dir = (char*) first_dir->data;
 			g_list_free (first_dir);
 
 			good_dir_to_search_into = ! cache_dir (file_name_from_path (dir));
@@ -1036,7 +1036,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	} else if (result != GNOME_VFS_OK) {
 		char *path;
 
-		path = gnome_vfs_uri_to_string (data->uri, 
+		path = gnome_vfs_uri_to_string (data->uri,
 						GNOME_VFS_URI_HIDE_NONE);
 		g_warning ("Cannot load directory \"%s\": %s\n", path,
 			   gnome_vfs_result_to_string (result));
@@ -1047,8 +1047,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 }
 
 
-static void 
-search_dir_async (DialogData *data, 
+static void
+search_dir_async (DialogData *data,
 		  char       *dir)
 {
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
@@ -1079,14 +1079,14 @@ empty_pattern (const char *pattern)
 */
 
 
-static void 
+static void
 search_images_async (DialogData *data)
 {
 	SearchData *search_data = data->search_data;
 
 	free_search_results_data (data);
 	gth_file_list_set_list (data->file_list, NULL, pref_get_arrange_type (), pref_get_sort_order ());
-	
+
 	search_dir_async (data, search_data->start_from);
 }
 
@@ -1112,7 +1112,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-categories_dialog__destroy_cb (GtkWidget            *widget, 
+categories_dialog__destroy_cb (GtkWidget            *widget,
 			       CategoriesDialogData *cdata)
 {
 	g_object_unref (cdata->gui);
@@ -1139,8 +1139,8 @@ update_category_entry (CategoriesDialogData *cdata)
 		if (use_category) {
 			char *category_name;
 
-			gtk_tree_model_get (model, &iter, 
-					    C_CATEGORY_COLUMN, &category_name, 
+			gtk_tree_model_get (model, &iter,
+					    C_CATEGORY_COLUMN, &category_name,
 					    -1);
 			if (categories->len > 0)
 				categories = g_string_append (categories, CATEGORY_SEPARATOR_STR " ");
@@ -1165,7 +1165,7 @@ get_categories_from_entry (CategoriesDialogData *cdata)
 	utf8_text = gtk_entry_get_text (GTK_ENTRY (cdata->c_categories_entry));
 	if (utf8_text == NULL)
 		return NULL;
-	
+
 	categories = _g_utf8_strsplit (utf8_text, CATEGORY_SEPARATOR_C);
 
 	for (i = 0; categories[i] != NULL; i++) {
@@ -1204,7 +1204,7 @@ add_saved_categories (CategoriesDialogData *cdata,
 				found = TRUE;
 		}
 
-		if (found) 
+		if (found)
 			continue;
 
 		gtk_list_store_append (cdata->c_categories_list_model, &iter);
@@ -1227,13 +1227,13 @@ update_list_from_entry (CategoriesDialogData *cdata)
 
 	categories = get_categories_from_entry (cdata);
 
-	gtk_list_store_clear (cdata->c_categories_list_model); 
+	gtk_list_store_clear (cdata->c_categories_list_model);
 	for (scan = categories; scan; scan = scan->next) {
 		char        *category = scan->data;
 		GtkTreeIter  iter;
-		
+
 		gtk_list_store_append (cdata->c_categories_list_model, &iter);
-		
+
 		gtk_list_store_set (cdata->c_categories_list_model, &iter,
 				    C_USE_CATEGORY_COLUMN, TRUE,
 				    C_CATEGORY_COLUMN, category,
@@ -1254,20 +1254,20 @@ use_category_toggled (GtkCellRendererToggle *cell,
 	GtkTreeIter   iter;
 	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
 	gboolean      value;
-	
+
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &value, -1);
-	
+
 	value = !value;
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, C_USE_CATEGORY_COLUMN, value, -1);
-	
+
 	gtk_tree_path_free (path);
 	update_category_entry (cdata);
 }
 
 
 static void
-choose_categories_ok_cb (GtkWidget            *widget, 
+choose_categories_ok_cb (GtkWidget            *widget,
 			 CategoriesDialogData *cdata)
 {
 	const char *categories;
@@ -1289,10 +1289,10 @@ choose_categories_dialog (DialogData *data)
 	cdata = g_new (CategoriesDialogData, 1);
 	cdata->data = data;
 
-	cdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE, 
+	cdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE,
 				    NULL,
 				    NULL);
-	
+
 	if (! cdata->gui) {
 		g_free (cdata);
 		g_warning ("Could not find " SEARCH_GLADE_FILE "\n");
@@ -1310,26 +1310,26 @@ choose_categories_dialog (DialogData *data)
 	cdata->s_all_cat_radiobutton = glade_xml_get_widget (cdata->gui, "s_all_cat_radiobutton");
 
 	/* Set widgets data. */
- 
+
 	cdata->c_categories_list_model = gtk_list_store_new (C_NUM_COLUMNS,
-							     G_TYPE_BOOLEAN, 
+							     G_TYPE_BOOLEAN,
 							     G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cdata->c_categories_treeview),
 				 GTK_TREE_MODEL (cdata->c_categories_list_model));
 	g_object_unref (cdata->c_categories_list_model);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (cdata->c_categories_treeview), FALSE);
-	
+
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), 
+	g_signal_connect (G_OBJECT (renderer),
 			  "toggled",
-			  G_CALLBACK (use_category_toggled), 
+			  G_CALLBACK (use_category_toggled),
 			  cdata);
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cdata->c_categories_treeview),
 						     -1, "Use",
 						     renderer,
 						     "active", C_USE_CATEGORY_COLUMN,
 						     NULL);
-	
+
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
@@ -1356,11 +1356,11 @@ choose_categories_dialog (DialogData *data)
 			  "destroy",
 			  G_CALLBACK (categories_dialog__destroy_cb),
 			  cdata);
-	g_signal_connect (G_OBJECT (cdata->c_ok_button), 
+	g_signal_connect (G_OBJECT (cdata->c_ok_button),
 			  "clicked",
 			  G_CALLBACK (choose_categories_ok_cb),
 			  cdata);
-	g_signal_connect_swapped (G_OBJECT (cdata->c_cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cdata->c_cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (cdata->dialog));
@@ -1369,7 +1369,7 @@ choose_categories_dialog (DialogData *data)
 
 	gtk_widget_grab_focus (cdata->c_categories_treeview);
 
-	gtk_window_set_transient_for (GTK_WINDOW (cdata->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (cdata->dialog),
 				      GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (cdata->dialog), TRUE);
 

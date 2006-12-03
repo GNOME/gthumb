@@ -70,8 +70,8 @@ void       all_windows_notify_catalog_reordered  (const char *path);
 void       all_windows_notify_update_metadata    (const char *filename);
 void       all_windows_update_catalog_list       (void);
 
-void       all_windows_remove_monitor            (void);
-void       all_windows_add_monitor               (void);
+gboolean   all_windows_remove_monitor            (void);
+gboolean   all_windows_add_monitor               (void);
 
 int        get_folder_pixbuf_size_for_list       (GtkWidget  *widget);
 int        get_folder_pixbuf_size_for_menu       (GtkWidget  *widget);

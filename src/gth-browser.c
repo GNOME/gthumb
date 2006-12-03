@@ -26,8 +26,6 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-window-icon.h>
-#include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
@@ -92,7 +90,6 @@ typedef enum {
 } WindowGoOp;
 
 struct _GthBrowserPrivateData {
-	BonoboUIComponent  *ui_component;
 	GtkUIManager       *ui;
 	GtkActionGroup     *actions;
 	GtkActionGroup     *bookmark_actions;
@@ -4264,61 +4261,6 @@ gth_browser_add_monitor (GthBrowser *browser)
 }
 
 
-static gboolean
-set_file_list__final_step_cb (gpointer data)
-{
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (StartInFullscreen) {
-		StartInFullscreen = FALSE;
-		gth_window_set_fullscreen (GTH_WINDOW (browser), TRUE);
-	}
-
-	if (StartSlideshow) {
-		StartSlideshow = FALSE;
-		gth_window_set_slideshow (GTH_WINDOW (browser), TRUE);
-	}
-
-	if (HideSidebar) {
-		HideSidebar = FALSE;
-		gth_browser_hide_sidebar (browser);
-	}
-
-	if (ImageToDisplay != NULL) {
-		int pos = gth_file_list_pos_from_path (priv->file_list, ImageToDisplay);
-		if (pos != -1)
-			gth_file_view_set_cursor (priv->file_list->view, pos);
-		g_free (ImageToDisplay);
-		ImageToDisplay = NULL;
-	}
-	else if (ViewFirstImage) {
-		ViewFirstImage = FALSE;
-		gth_browser_show_first_image (browser, FALSE);
-	}
-	else if (priv->focus_current_image) {
-		char *path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
-		int   pos = gth_file_list_pos_from_path (priv->file_list, path);
-		if (pos != -1) {
-			gth_file_view_set_cursor (priv->file_list->view, pos);
-			gth_file_list_select_image_by_pos (priv->file_list, pos);
-		}
-		g_free (path);
-		priv->focus_current_image = FALSE;
-	}
-
-	if (FirstStart)
-		FirstStart = FALSE;
-
-	window_make_current_image_visible (browser, !priv->refreshing);
-	priv->refreshing = FALSE;
-
-	gth_browser_add_monitor (browser);
-
-	return FALSE;
-}
-
-
 static void
 activate_catalog_done (GthBrowser *browser)
 {
@@ -4370,7 +4312,64 @@ file_list_done_cb (GthFileList *file_list,
 	if (browser->priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		activate_catalog_done (browser);
 
-	g_idle_add (set_file_list__final_step_cb, browser);
+	/* selected the saved image */
+
+	if (priv->image_path_saved != NULL) {
+		int pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path_saved);
+		if (pos != -1) {
+			view_image_at_pos (browser, pos);
+			gth_file_list_select_image_by_pos (priv->file_list, pos);
+		}
+		g_free (priv->image_path_saved);
+		priv->image_path_saved = NULL;
+	}
+
+	/**/
+
+	if (StartInFullscreen) {
+		StartInFullscreen = FALSE;
+		gth_window_set_fullscreen (GTH_WINDOW (browser), TRUE);
+	}
+
+	if (StartSlideshow) {
+		StartSlideshow = FALSE;
+		gth_window_set_slideshow (GTH_WINDOW (browser), TRUE);
+	}
+
+	if (HideSidebar) {
+		HideSidebar = FALSE;
+		gth_browser_hide_sidebar (browser);
+	}
+
+	if (ImageToDisplay != NULL) {
+		int pos = gth_file_list_pos_from_path (priv->file_list, ImageToDisplay);
+		if (pos != -1)
+			gth_file_view_set_cursor (priv->file_list->view, pos);
+		g_free (ImageToDisplay);
+		ImageToDisplay = NULL;
+	}
+	else if (ViewFirstImage) {
+		ViewFirstImage = FALSE;
+		gth_browser_show_first_image (browser, FALSE);
+	}
+	else if (priv->focus_current_image) {
+		char *path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
+		int   pos = gth_file_list_pos_from_path (priv->file_list, path);
+		if (pos != -1) {
+			gth_file_view_set_cursor (priv->file_list->view, pos);
+			gth_file_list_select_image_by_pos (priv->file_list, pos);
+		}
+		g_free (path);
+		priv->focus_current_image = FALSE;
+	}
+
+	if (FirstStart)
+		FirstStart = FALSE;
+
+	window_make_current_image_visible (browser, !priv->refreshing);
+	priv->refreshing = FALSE;
+
+	gth_browser_add_monitor (browser);
 }
 
 
@@ -5397,47 +5396,14 @@ gth_browser_init (GthBrowser *browser)
 /* -- changes notification functions -- */
 
 
-/*
-static void
-notify_files_added__step2 (gpointer data)
-{
-	GthBrowser *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-
-	window_update_statusbar_list_info (browser);
-	window_update_infobar (browser);
-	window_update_sensitivity (browser);
-
-	if (priv->image_path_saved != NULL) {
-		int pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path_saved);
-		if (pos != -1) {
-			view_image_at_pos (browser, pos);
-			gth_file_list_select_image_by_pos (priv->file_list, pos);
-		}
-		g_free (priv->image_path_saved);
-		priv->image_path_saved = NULL;
-	}
-}
-*/
-
-
-static void
-notify_files_added (GthBrowser *browser,
-		    GList      *list)
-{
-	gth_file_list_add_list (browser->priv->file_list,
-				list);
-}
-
-
 static void
 gth_browser_notify_files_created (GthBrowser *browser,
 				  GList      *list)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	GList                 *scan;
-	GList                 *created_in_current_dir = NULL;
 	char                  *current_dir;
+	GList                 *created_in_current_dir = NULL;
+	GList                 *scan;
 
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
@@ -5460,135 +5426,10 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		g_free (parent_dir);
 	}
 
-	if (created_in_current_dir != NULL)
-		notify_files_added (browser, created_in_current_dir);
-}
-
-
-typedef struct {
-	GthBrowser *browser;
-	GList      *list;
-	gboolean    restart_thumbs;
-} FilesDeletedData;
-
-
-static void
-notify_files_deleted__step2 (FilesDeletedData *data)
-{
-	GthBrowser   *browser = data->browser;
-	GthBrowserPrivateData *priv = browser->priv;
-	GList        *list = data->list;
-	GList        *scan;
-	char         *filename;
-	int           pos, smallest_pos, image_pos;
-	gboolean      current_image_deleted = FALSE;
-	gboolean      no_image_viewed;
-
-	gth_file_view_freeze (priv->file_list->view);
-
-	pos = -1;
-	smallest_pos = -1;
-	image_pos = -1;
-	if (priv->image_path)
-		image_pos = gth_file_list_pos_from_path (priv->file_list,
-							 priv->image_path);
-	no_image_viewed = (image_pos == -1);
-
-	for (scan = list; scan; scan = scan->next) {
-		filename = scan->data;
-
-		pos = gth_file_list_pos_from_path (priv->file_list, filename);
-		if (pos == -1)
-			continue;
-
-		if (image_pos == pos) {
-			/* the current image will be deleted. */
-			image_pos = -1;
-			current_image_deleted = TRUE;
-
-		} else if (image_pos > pos)
-			/* a previous image will be deleted, so image_pos
-			 * decrements its value. */
-			image_pos--;
-
-		if (scan == list)
-			smallest_pos = pos;
-		else
-			smallest_pos = MIN (smallest_pos, pos);
-
-		gth_file_list_delete (priv->file_list, filename);
+	if (created_in_current_dir != NULL) {
+		gth_file_list_add_list (browser->priv->file_list, created_in_current_dir);
+		path_list_free (created_in_current_dir);
 	}
-
-	gth_file_view_thaw (priv->file_list->view);
-
-	/* Try to visualize the smallest pos. */
-	if (smallest_pos != -1) {
-		int images = gth_file_view_get_images (priv->file_list->view);
-
-		pos = smallest_pos;
-
-		if (pos > images - 1)
-			pos = images - 1;
-		if (pos < 0)
-			pos = 0;
-
-		gth_file_view_moveto (priv->file_list->view, pos, 0.5);
-	}
-
-	if (! no_image_viewed) {
-		if (current_image_deleted) {
-			int images = gth_file_view_get_images (priv->file_list->view);
-
-			/* delete the image from the viewer. */
-			gth_browser_load_image (browser, NULL);
-
-			if ((images > 0) && (smallest_pos != -1)) {
-				pos = smallest_pos;
-
-				if (pos > images - 1)
-					pos = images - 1;
-				if (pos < 0)
-					pos = 0;
-
-				view_image_at_pos (browser, pos);
-				gth_file_list_select_image_by_pos (priv->file_list, pos);
-			}
-		}
-	}
-
-	window_update_statusbar_list_info (browser);
-	window_update_sensitivity (browser);
-
-	if (data->restart_thumbs)
-		gth_file_list_restart_thumbs (data->browser->priv->file_list, TRUE);
-
-	path_list_free (data->list);
-	g_free (data);
-}
-
-
-static void
-notify_files_deleted (GthBrowser *browser,
-		      GList      *list)
-{
-	FilesDeletedData *data;
-
-	if (list == NULL)
-		return;
-
-	data = g_new0 (FilesDeletedData, 1);
-
-	data->browser = browser;
-	data->list = path_list_dup (list);
-	data->restart_thumbs = browser->priv->file_list->busy;
-
-	notify_files_deleted__step2 (data);
-
-	/* FIXME
-	gth_file_list_interrupt_thumbs (browser->priv->file_list,
-					(DoneFunc) notify_files_deleted__step2,
-					data);
-	*/
 }
 
 
@@ -5614,7 +5455,7 @@ gth_browser_notify_files_deleted (GthBrowser *browser,
 		catalog_free (catalog);
 	}
 
-	notify_files_deleted (browser, list);
+	gth_file_list_delete_list (browser->priv->file_list, list);
 }
 
 
@@ -5625,8 +5466,9 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	GList                 *absent_files = NULL, *scan;
 
-	if (! priv->file_list->busy)
-		gth_file_list_update_thumb_list (priv->file_list, list);
+	gth_file_list_update_thumb_list (priv->file_list, list);
+
+	/* update the current image if has changed. */
 
 	if ((priv->image_path != NULL)
 	    && ! priv->image_modified
@@ -5637,7 +5479,7 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 			view_image_at_pos (browser, pos);
 	}
 
-	/**/
+	/* add to the file list the changed files not included in the list. */
 
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
@@ -5717,11 +5559,11 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
-		notify_files_added (browser, path_list_dup (list));
+		gth_file_list_add_list (browser->priv->file_list, list);
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
-		notify_files_deleted (browser, list);
+		gth_file_list_delete_list (browser->priv->file_list, list);
 		break;
 
 	default:

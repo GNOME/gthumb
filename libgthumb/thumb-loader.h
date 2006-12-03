@@ -23,7 +23,7 @@
 #ifndef THUMB_LOADER_H
 #define THUMB_LOADER_H
 
-
+#include <gdk/gdk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
@@ -41,7 +41,7 @@ typedef struct _ThumbLoader            ThumbLoader;
 typedef struct _ThumbLoaderClass       ThumbLoaderClass;
 typedef struct _ThumbLoaderPrivateData ThumbLoaderPrivateData;
 
-struct _ThumbLoader 
+struct _ThumbLoader
 {
 	GObject  __parent;
 	ThumbLoaderPrivateData *priv;
@@ -57,15 +57,15 @@ struct _ThumbLoaderClass
 
 	void (* thumb_done)        (ThumbLoader *il);
 
-	void (* thumb_progress)    (ThumbLoader *il, 
+	void (* thumb_progress)    (ThumbLoader *il,
 				    float        percent);
 };
 
 
 GType          thumb_loader_get_type           (void);
 
-GObject *      thumb_loader_new                (const gchar *path, 
-						gint width, 
+GObject *      thumb_loader_new                (const gchar *path,
+						gint width,
 						gint height);
 
 /* whether to load from and save to cache. */
@@ -93,14 +93,14 @@ ImageLoader *  thumb_loader_get_image_loader   (ThumbLoader *tl);
 
 void           thumb_loader_start              (ThumbLoader *tl);
 
-void           thumb_loader_stop               (ThumbLoader *tl, 
+void           thumb_loader_stop               (ThumbLoader *tl,
 						DoneFunc     done_func,
 						gpointer     done_func_data);
 
-int            thumb_from_xpm_d                (const char **data, 
-						int          max_w, 
-						int          max_h, 
-						GdkPixmap  **pixmap, 
+int            thumb_from_xpm_d                (const char **data,
+						int          max_w,
+						int          max_h,
+						GdkPixmap  **pixmap,
 						GdkBitmap  **mask);
 
 #endif /* THUMB_LOADER_H */

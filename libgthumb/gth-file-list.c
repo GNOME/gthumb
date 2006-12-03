@@ -58,6 +58,7 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE,
 	GTH_FILE_LIST_OP_TYPE_ADD_LIST,
 	GTH_FILE_LIST_OP_TYPE_SET_LIST,
+	GTH_FILE_LIST_OP_TYPE_DELETE_LIST,
 	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS
 } GthFileListOpType;
 
@@ -973,10 +974,22 @@ load_new_list (GthFileList *file_list)
 		char        *full_path = scan->data;
 		const char  *name_only = file_name_from_path (full_path);
 		GnomeVFSURI *uri;
+		int          pos;
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
 		    || ! file_is_image (full_path, fast_file_type))
 			continue;
+
+		/* if the image is already present invalidate the thumbnail
+		 * instead of adding the image twice. */
+
+		pos = gth_file_list_pos_from_path (file_list, full_path);
+		if (pos != -1) {
+			FileData *fd = gth_file_view_get_image_data (file_list->view, pos);
+			fd->error = FALSE;
+			fd->thumb = FALSE;
+			continue;
+		}
 
 		uri = new_uri_from_path (full_path);
 		if (uri != NULL)
@@ -1392,8 +1405,6 @@ gfl_delete (GthFileList *file_list,
 
 		gth_file_view_remove (file_list->view, pos);
 	}
-
-	gth_file_list_exec_next_op (file_list);
 }
 
 
@@ -1404,6 +1415,29 @@ gth_file_list_delete (GthFileList *file_list,
 	gth_file_list_queue_op_with_uri (file_list,
 					 GTH_FILE_LIST_OP_TYPE_DELETE,
 					 uri);
+}
+
+
+static void
+gfl_delete_list (GthFileList *file_list,
+                 GList       *uri_list)
+{
+	GList *scan;
+
+	gth_file_view_freeze (file_list->view);
+	for (scan = uri_list; scan; scan = scan->next)
+		gfl_delete (file_list, scan->data);
+	gth_file_view_thaw (file_list->view);
+}
+
+
+void
+gth_file_list_delete_list (GthFileList *file_list,
+			   GList       *uri_list)
+{
+	gth_file_list_queue_op_with_list (file_list,
+					  GTH_FILE_LIST_OP_TYPE_DELETE_LIST,
+					  uri_list);
 }
 
 
@@ -1432,8 +1466,6 @@ gfl_rename (GthFileList *file_list,
 				      file_list->priv->sort_method,
 				      file_list->priv->sort_type);
 	}
-
-	gth_file_list_exec_next_op (file_list);
 }
 
 
@@ -1469,8 +1501,6 @@ gfl_update_comment (GthFileList *file_list,
 		gth_file_view_set_image_comment (file_list->view, pos, fd->comment);
 		file_data_unref (fd);
 	}
-
-	gth_file_list_exec_next_op (file_list);
 }
 
 
@@ -1504,8 +1534,6 @@ gfl_update_thumb (GthFileList *file_list,
 			file_data_unref (file_list->priv->thumb_fd);
 		file_list->priv->thumb_fd = fd;
 	}
-
-	gth_file_list_exec_next_op (file_list);
 }
 
 
@@ -1540,8 +1568,6 @@ gfl_update_thumb_list (GthFileList  *file_list,
 		fd->thumb = FALSE;
 		file_data_unref (fd);
 	}
-
-	gth_file_list_exec_next_op (file_list);
 }
 
 
@@ -1607,6 +1633,7 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 {
 	GList         *first;
 	GthFileListOp *op;
+	gboolean       exec_next_op = TRUE;
 
 	if (file_list->priv->queue == NULL) {
 		start_update_next_thumb (file_list);
@@ -1637,17 +1664,27 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ADD_LIST:
 		gfl_add_list (file_list, op->uri_list);
+		exec_next_op = FALSE;
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_LIST:
 		gfl_set_list (file_list, op->uri_list);
+		exec_next_op = FALSE;
+		break;
+	case GTH_FILE_LIST_OP_TYPE_DELETE_LIST:
+		gfl_delete_list (file_list, op->uri_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE:
 		gfl_set_thumbs_size (file_list, op->ival);
+		exec_next_op = FALSE;
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS:
 		gfl_enable_thumbs (file_list);
+		exec_next_op = FALSE;
 		break;
 	}
 	op->uri_list = NULL;
 	gth_file_list_op_free (op);
+
+	if (exec_next_op)
+		gth_file_list_exec_next_op (file_list);
 }

@@ -104,7 +104,7 @@ static void
 init_icon_pixbufs (void)
 {
 	int i;
-	for (i = 0; i < ICON_NAMES; i++) 
+	for (i = 0; i < ICON_NAMES; i++)
 		icon_pixbuf[i] = NULL;
 }
 
@@ -122,7 +122,7 @@ free_icon_pixbufs (void)
 
 
 static void
-theme_changed_cb (GnomeIconTheme *theme, 
+theme_changed_cb (GnomeIconTheme *theme,
 		  gpointer        data)
 {
 	free_icon_pixbufs ();
@@ -134,7 +134,7 @@ static void
 create_default_categories_if_needed (void)
 {
 	Bookmarks *categories;
-	char      *default_categories[] = { N_("Holidays"), 
+	char      *default_categories[] = { N_("Holidays"),
 					    N_("Temporary"),
 					    N_("Screenshots"),
 					    N_("Science"),
@@ -161,16 +161,16 @@ create_default_categories_if_needed (void)
 	g_free (path);
 
 	categories = bookmarks_new (RC_CATEGORIES_FILE);
-	for (i = 0; default_categories[i] != NULL; i++) 
+	for (i = 0; default_categories[i] != NULL; i++)
 		bookmarks_add (categories, _(default_categories[i]), TRUE, TRUE);
 	bookmarks_write_to_disk (categories);
 	bookmarks_free (categories);
 }
 
 
-static void 
-convert_old_comment (char     *real_file, 
-		     char     *rc_file, 
+static void
+convert_old_comment (char     *real_file,
+		     char     *rc_file,
 		     gpointer  data)
 {
 	char *comment_file;
@@ -246,14 +246,14 @@ save_session (GnomeClient *client)
 					continue;
 				uri = get_uri_from_path (location);
 				break;
-			
+
 			case GTH_SIDEBAR_CATALOG_LIST:
 				location = gth_browser_get_current_catalog (browser);
 				if (location == NULL)
 					continue;
 				uri = get_uri_from_path (location);
 				break;
-				
+
 			default:
 				break;
 			}
@@ -307,7 +307,7 @@ client_save_yourself_cb (GnomeClient *client,
 
 	argv[0] = (char *) program_argv0;
 	argv[1] = NULL; /* "--debug-session"; */
-	
+
 	gnome_client_set_clone_command (client, 1, argv);
 	gnome_client_set_restart_command (client, 1, argv);
 
@@ -350,7 +350,7 @@ static gboolean
 session_is_restored (void)
 {
 	gboolean restored;
-	
+
 	if (! master_client)
 		return FALSE;
 
@@ -361,7 +361,7 @@ session_is_restored (void)
 
 
 /* Initialize application data. */
-static void 
+static void
 initialize_data (poptContext pctx)
 {
 	const char **argv;
@@ -370,7 +370,7 @@ initialize_data (poptContext pctx)
 	char        *path;
 	int          i;
 
-	convert_to_new_comment_system (); 
+	convert_to_new_comment_system ();
 	create_default_categories_if_needed ();
 
 	eel_gconf_monitor_add ("/apps/gthumb");
@@ -395,7 +395,7 @@ initialize_data (poptContext pctx)
 	/**/
 
 	init_session ("gthumb");
-	if (session_is_restored ()) 
+	if (session_is_restored ())
 		return;
 
 	/* Parse command line arguments. */
@@ -405,7 +405,7 @@ initialize_data (poptContext pctx)
 	if (argv == NULL)
 		return;
 
-	for (argc = 0; argv[argc] != NULL; argc++) 
+	for (argc = 0; argv[argc] != NULL; argc++)
 		;
 
 	if (argc == 0)
@@ -435,7 +435,7 @@ initialize_data (poptContext pctx)
 			path = tmp2;
 			tmp2 = NULL;
 		}
-		
+
 		g_free (tmp1);
 		g_free (tmp2);
 
@@ -477,7 +477,7 @@ initialize_data (poptContext pctx)
 		catalog_set_path (catalog, catalog_path);
 		g_free (catalog_path);
 
-		for (i = 0; i < n_file_urls; i++) 
+		for (i = 0; i < n_file_urls; i++)
 			catalog_add_item (catalog, file_urls[i]);
 
 		catalog_write_to_disk (catalog, NULL);
@@ -491,7 +491,7 @@ initialize_data (poptContext pctx)
 
 
 /* Free application data. */
-static void 
+static void
 release_data (void)
 {
 	if (gth_application != NULL)
@@ -511,7 +511,7 @@ release_data (void)
 }
 
 
-static void 
+static void
 open_viewer_window (const char               *uri,
 		    gboolean                  use_factory,
 		    GNOME_GThumb_Application  app,
@@ -533,7 +533,7 @@ open_viewer_window (const char               *uri,
 }
 
 
-static void 
+static void
 open_browser_window (const char               *uri,
 		     gboolean                  show_window,
 		     gboolean                  use_factory,
@@ -563,7 +563,7 @@ load_session (gboolean                  use_factory,
 	      CORBA_Environment        *env)
 {
 	int i, n;
-	
+
 	gnome_config_push_prefix (gnome_client_get_config_prefix (master_client));
 
 	n = gnome_config_get_int ("Session/locations");
@@ -588,7 +588,7 @@ load_session (gboolean                  use_factory,
 
 
 /* Create the windows. */
-static void 
+static void
 prepare_app (void)
 {
 	CORBA_Object              factory;
@@ -596,7 +596,7 @@ prepare_app (void)
 	CORBA_Environment         env;
 	GNOME_GThumb_Application  app;
 	int                       i;
-	
+
 	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application_Factory",
                                                       Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
                                                       NULL, NULL);
@@ -615,11 +615,11 @@ prepare_app (void)
 	if (ImportPhotos) {
 		if (use_factory)
 			GNOME_GThumb_Application_import_photos (app, &env);
-		else 
+		else
 			gth_browser_activate_action_file_camera_import (NULL, NULL);
 
-	} else if (! view_comline_catalog 
-	    && (n_dir_urls == 0) 
+	} else if (! view_comline_catalog
+	    && (n_dir_urls == 0)
 	    && (n_file_urls == 0)) {
 		open_browser_window (NULL, TRUE, use_factory, app, &env);
 
@@ -683,8 +683,8 @@ prepare_app (void)
 }
 
 
-int 
-main (int   argc, 
+int
+main (int   argc,
       char *argv[])
 {
 	GnomeProgram *program;
@@ -696,7 +696,7 @@ main (int   argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	program = gnome_program_init ("gthumb", VERSION,
-				      LIBGNOMEUI_MODULE, 
+				      LIBGNOMEUI_MODULE,
 				      argc, argv,
 				      GNOME_PARAM_POPT_TABLE, options,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("gThumb"),
@@ -732,14 +732,14 @@ main (int   argc,
 /**/
 
 
-void 
+void
 all_windows_update_catalog_list (void)
 {
 	gth_monitor_notify_reload_catalogs (monitor);
 }
 
 
-void 
+void
 all_windows_notify_update_bookmarks (void)
 {
 	gth_monitor_notify_update_bookmarks (monitor);
@@ -750,9 +750,9 @@ void
 all_windows_notify_cat_files_created (const char *catalog_path,
 				      GList      *list)
 {
-	gth_monitor_notify_update_cat_files (monitor, 
-					     catalog_path, 
-					     GTH_MONITOR_EVENT_CREATED, 
+	gth_monitor_notify_update_cat_files (monitor,
+					     catalog_path,
+					     GTH_MONITOR_EVENT_CREATED,
 					     list);
 }
 
@@ -761,35 +761,35 @@ void
 all_windows_notify_cat_files_deleted (const char *catalog_path,
 				      GList      *list)
 {
-	gth_monitor_notify_update_cat_files (monitor, 
-					     catalog_path, 
-					     GTH_MONITOR_EVENT_DELETED, 
+	gth_monitor_notify_update_cat_files (monitor,
+					     catalog_path,
+					     GTH_MONITOR_EVENT_DELETED,
 					     list);
 }
 
 
-void 
+void
 all_windows_notify_files_created (GList *list)
 {
 	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_CREATED, list);
 }
 
 
-void 
+void
 all_windows_notify_files_deleted (GList *list)
 {
 	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_DELETED, list);
 }
 
 
-void 
+void
 all_windows_notify_files_changed (GList *list)
 {
 	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_CHANGED, list);
 }
 
 
-void 
+void
 all_windows_notify_file_rename (const gchar *old_name,
 				const gchar *new_name)
 {
@@ -809,14 +809,14 @@ all_windows_notify_files_rename (GList *old_names,
 
 		gth_monitor_notify_file_renamed (monitor, old_name, new_name);
 		all_windows_notify_file_rename (old_name, new_name);
-		
+
 		o_scan = o_scan->next;
 		n_scan = n_scan->next;
 	}
 }
 
 
-void 
+void
 all_windows_notify_directory_rename (const gchar *old_name,
 				     const gchar *new_name)
 {
@@ -824,14 +824,14 @@ all_windows_notify_directory_rename (const gchar *old_name,
 }
 
 
-void 
+void
 all_windows_notify_directory_delete (const char *path)
 {
 	gth_monitor_notify_update_directory (monitor, path, GTH_MONITOR_EVENT_DELETED);
 }
 
 
-void 
+void
 all_windows_notify_directory_new (const char *path)
 {
 	gth_monitor_notify_update_directory (monitor, path, GTH_MONITOR_EVENT_CREATED);
@@ -867,7 +867,7 @@ all_windows_notify_catalog_reordered (const gchar *path)
 }
 
 
-void 
+void
 all_windows_notify_update_metadata (const gchar *filename)
 {
 	gth_monitor_notify_update_metadata (monitor, filename);
@@ -881,17 +881,19 @@ all_windows_notify_update_icon_theme (void)
 }
 
 
-void
+gboolean
 all_windows_remove_monitor (void)
 {
 	gth_monitor_pause (monitor);
+	return FALSE;
 }
 
 
-void
+gboolean
 all_windows_add_monitor (void)
 {
 	gth_monitor_resume (monitor);
+	return FALSE;
 }
 
 
@@ -911,7 +913,7 @@ get_fs_icon (IconName icon_name,
 	icon_pixbuf[icon_name] = create_pixbuf (icon_theme,
 						icon_mime_name[icon_name],
 						icon_size);
-	
+
 	return icon_pixbuf[icon_name];
 	*/
 
@@ -919,7 +921,7 @@ get_fs_icon (IconName icon_name,
 		const GnomeIconData *icon_data;
 		int                  base_size;
 		char                *icon_path;
-		
+
 		icon_path = gnome_icon_theme_lookup_icon (icon_theme,
 							  icon_mime_name[icon_name],
 							  icon_size,
@@ -927,13 +929,13 @@ get_fs_icon (IconName icon_name,
 							  &base_size);
 
 		if (icon_path == NULL) {
-			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1, 
-									     dir_16_rgba, 
-									     FALSE, 
+			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1,
+									     dir_16_rgba,
+									     FALSE,
 									     NULL);
 			scale = FALSE;
 		} else {
-			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_file (icon_path, 
+			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_file (icon_path,
 									   NULL);
 			g_free (icon_path);
 		}
@@ -948,10 +950,10 @@ get_fs_icon (IconName icon_name,
 
 	if (icon_pixbuf[icon_name] != NULL) {
 		int w, h;
-		
+
 		w = gdk_pixbuf_get_width (icon_pixbuf[icon_name]);
 		h = gdk_pixbuf_get_height (icon_pixbuf[icon_name]);
-		if (scale_keepping_ratio (&w, &h, icon_size, icon_size)) 
+		if (scale_keepping_ratio (&w, &h, icon_size, icon_size))
 			pixbuf = gdk_pixbuf_scale_simple (icon_pixbuf[icon_name],
 							  w,
 							  h,
@@ -1025,15 +1027,15 @@ get_stock_id_for_uri (const char *uri)
 {
 	const char *stock_id;
 
-	if (strcmp (uri, g_get_home_dir ()) == 0) 
+	if (strcmp (uri, g_get_home_dir ()) == 0)
 		stock_id = GTK_STOCK_HOME;
-	else if (strcmp (uri, get_home_uri ()) == 0) 
+	else if (strcmp (uri, get_home_uri ()) == 0)
 		stock_id = GTK_STOCK_HOME;
 	else if (folder_is_film (uri))
 		stock_id = GTHUMB_STOCK_FILM;
-	else if (uri_scheme_is_catalog (uri)) 
+	else if (uri_scheme_is_catalog (uri))
 		stock_id = GTHUMB_STOCK_CATALOG;
-	else if (uri_scheme_is_search (uri))	
+	else if (uri_scheme_is_search (uri))
 		stock_id = GTHUMB_STOCK_SEARCH;
 	else
 		stock_id = GTK_STOCK_OPEN;
@@ -1051,12 +1053,12 @@ get_icon_for_uri (GtkWidget  *widget,
 
 	menu_size = get_folder_pixbuf_size_for_list (widget);
 
-	if (strcmp (uri, g_get_home_dir ()) == 0) 
+	if (strcmp (uri, g_get_home_dir ()) == 0)
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
-	else if (strcmp (uri, get_home_uri ()) == 0) 
+	else if (strcmp (uri, get_home_uri ()) == 0)
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
 
-	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0)) 
+	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0))
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
 
 	if (folder_is_film (uri))
@@ -1067,11 +1069,11 @@ get_icon_for_uri (GtkWidget  *widget,
 		else
 			stock_id = GTHUMB_STOCK_LIBRARY;
 	}
-	else if (uri_scheme_is_search (uri))	
+	else if (uri_scheme_is_search (uri))
 		stock_id = GTHUMB_STOCK_SEARCH;
 
 	if (stock_id != NULL)
-		return gtk_widget_render_icon (widget, stock_id, GTK_ICON_SIZE_MENU, NULL); 
+		return gtk_widget_render_icon (widget, stock_id, GTK_ICON_SIZE_MENU, NULL);
 	else
 		return get_fs_icon (ICON_NAME_DIRECTORY, menu_size);
 }
