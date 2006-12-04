@@ -132,7 +132,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	gtk_container_add (GTK_CONTAINER (edv), edv->priv->scrolled_win);
 
 	edv->priv->image_exif_view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
 	edv->priv->image_exif_model = gtk_tree_store_new (3,
 							  G_TYPE_STRING,
@@ -150,6 +150,8 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 							   renderer,
 							   "text", NAME_COLUMN,
 							   NULL);
+	gtk_tree_view_column_set_expand (column, FALSE);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (edv->priv->image_exif_view),
 				     column);
 
@@ -160,6 +162,8 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 
 	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
 	g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
