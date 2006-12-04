@@ -51,7 +51,7 @@ typedef enum {
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("File"), N_("Exif"), N_("Note") };
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Standard Exif Tags"), N_("MakerNote Exif Tags") };
 
 enum {
 	NAME_COLUMN,

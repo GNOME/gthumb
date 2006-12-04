@@ -1,3 +1,9 @@
+2006-12-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c:
+	Added more verbose category names (Filesystem Data, Standard Exif Tags,
+	MakerNote Exif Tags.
+
 2006-12-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c (gth_exif_data_viewer_construct):
