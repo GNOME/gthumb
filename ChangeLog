@@ -1,8 +1,21 @@
+2006-12-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (add_to_exif_display_list):
+	(gth_exif_data_viewer_construct):
+	(gth_exif_data_viewer_init):
+	(gth_exif_data_viewer_update):
+	(update_exif_data):
+	(tag_is_present):
+	(update_file_info):
+
+	Use a tree view to organize the image metadata.  Currently 3 categories are
+	used: file, exif, note.
+
 2006-12-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (update_exif_data):
 	  Minor corrections to the Exif display code.
-	  Patch by Jef Driesen. Bug 339648. 
+	  Patch by Jef Driesen. Bug 339648.
 
 	* src/gth-window-actions-entries.h:
 	  Add Ctrl+P shortcut for print.

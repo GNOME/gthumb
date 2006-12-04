@@ -42,6 +42,17 @@
 #include <libexif/exif-tag.h>
 #include <libexif/exif-mnote-data.h>
 
+
+typedef enum {
+	GTH_METADATA_CATEGORY_FILE = 0,
+	GTH_METADATA_CATEGORY_EXIF,
+	GTH_METADATA_CATEGORY_NOTE,
+	GTH_METADATA_CATEGORIES
+} GthMetadataCategory;
+
+
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("File"), N_("Exif"), N_("Note") };
+
 enum {
 	NAME_COLUMN,
 	VALUE_COLUMN,
@@ -52,12 +63,13 @@ enum {
 
 struct _GthExifDataViewerPrivate
 {
-	char         *path;
-	gboolean      view_file_info;
-	GtkWidget    *scrolled_win;
-	GtkWidget    *image_exif_view;
-	GtkListStore *image_exif_model;
-	ImageViewer  *viewer;
+	char          *path;
+	gboolean       view_file_info;
+	GtkWidget     *scrolled_win;
+	GtkWidget     *image_exif_view;
+	GtkTreeStore  *image_exif_model;
+	GtkTreePath   *category_root_path[GTH_METADATA_CATEGORIES];
+	ImageViewer   *viewer;
 };
 
 
@@ -97,8 +109,13 @@ gth_exif_data_viewer_class_init (GthExifDataViewerClass *class)
 static void
 gth_exif_data_viewer_init (GthExifDataViewer *edv)
 {
+	int i;
+
 	edv->priv = g_new0 (GthExifDataViewerPrivate, 1);
 	edv->priv->view_file_info = TRUE;
+
+	for (i = 0; i < GTH_METADATA_CATEGORIES; i++)
+		edv->priv->category_root_path[i] = NULL;
 }
 
 
@@ -117,7 +134,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	edv->priv->image_exif_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
-	edv->priv->image_exif_model = gtk_list_store_new (3,
+	edv->priv->image_exif_model = gtk_tree_store_new (3,
 							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_INT);
@@ -201,7 +218,7 @@ static gboolean
 tag_is_present (GtkTreeModel *model,
 		const char   *tag_name)
 {
-	GtkTreeIter  iter;
+	GtkTreeIter iter;
 
 	if (tag_name == NULL)
 		return FALSE;
@@ -230,19 +247,35 @@ tag_is_present (GtkTreeModel *model,
 
 
 static void
-add_to_exif_display_list (GthExifDataViewer *edv,
-			  const char 	    *utf8_name,
-			  const char	    *utf8_value,
-	 		  int		     position)
+add_to_exif_display_list (GthExifDataViewer   *edv,
+			  GthMetadataCategory  category,
+			  const char 	      *utf8_name,
+			  const char	      *utf8_value,
+	 		  int		       position)
 {
-	GtkTreeIter   iter;
+	GtkTreeIter root_iter;
+	GtkTreeIter iter;
 
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-        gtk_list_store_set (edv->priv->image_exif_model, &iter,
-        			NAME_COLUMN, utf8_name,
-				VALUE_COLUMN, utf8_value,
-				POS_COLUMN, position,
-                                -1);
+	if (edv->priv->category_root_path[category] == NULL) {
+		gtk_tree_store_append (edv->priv->image_exif_model, &root_iter, NULL);
+		gtk_tree_store_set (edv->priv->image_exif_model, &root_iter,
+        		    	    NAME_COLUMN, _(metadata_category_name[category]),
+			    	    VALUE_COLUMN, "",
+			    	    POS_COLUMN, category,
+                            	    -1);
+		edv->priv->category_root_path[category] = gtk_tree_model_get_path (GTK_TREE_MODEL (edv->priv->image_exif_model), &root_iter);
+	}
+	else
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (edv->priv->image_exif_model),
+					 &root_iter,
+					 edv->priv->category_root_path[category]);
+
+	gtk_tree_store_append (edv->priv->image_exif_model, &iter, &root_iter);
+        gtk_tree_store_set (edv->priv->image_exif_model, &iter,
+        		    NAME_COLUMN, utf8_name,
+			    VALUE_COLUMN, utf8_value,
+			    POS_COLUMN, position,
+                            -1);
 }
 
 
@@ -298,8 +331,8 @@ update_exif_data (GthExifDataViewer *edv,
 				if (value == NULL)
 					continue;
 
-				utf8_name = g_strconcat (_("Exif"), ": ", value, NULL);
-				if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
+				utf8_name = g_strdup (value);
+				if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), value)) {
 					g_free (utf8_name);
 					continue;
 				}
@@ -319,7 +352,7 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 				}
 
-				add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);
+				add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_EXIF, utf8_name, utf8_value, i+pos_shift);
 
 				g_free (utf8_name);
 				g_free (utf8_value);
@@ -329,19 +362,18 @@ update_exif_data (GthExifDataViewer *edv,
 				   iterated through. libexif only knows how to handle certain
 				   types of manufacturer note styles. */
 
-				ExifMnoteData *mnote = exif_data_get_mnote_data (edata);
+				ExifMnoteData *mnote;
+				unsigned int k;
+				unsigned int subnote_count;
+				char	     mnote_buf[1024];
 
+				mnote = exif_data_get_mnote_data (edata);
 				if (mnote == NULL)
 					continue;
 
 				/* Supported MakerNote Found */
-				unsigned int k;
-				unsigned int subnote_count = exif_mnote_data_count (mnote);
-				char	     mnote_buf[1024];
 
-				/* Add a blank line in the list, to make it pretty */
-				++pos_shift;
-				add_to_exif_display_list (edv, "", "", i+pos_shift);
+				subnote_count = exif_mnote_data_count (mnote);
 
 				/* Iterate through each "sub-note" */
 				for (k = 0; k < subnote_count; k++) {
@@ -352,8 +384,7 @@ update_exif_data (GthExifDataViewer *edv,
 
 					++pos_shift;
 
-	      	                       	utf8_name = g_strconcat (_("Note"), ": ", value, NULL);
-
+	      	                       	utf8_name = g_strdup (value);
                 	               	if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
                         	               	g_free (utf8_name);
                                 	       	continue;
@@ -370,24 +401,16 @@ update_exif_data (GthExifDataViewer *edv,
                                         	continue;
 	                        	}
 
-					add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);
+					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_NOTE, utf8_name, utf8_value, i+pos_shift);
 
 	   	                        g_free (utf8_name);
 		                        g_free (utf8_value);
 				}
-
-				/* Another blank line for prettiness */
-                                ++pos_shift;
-				add_to_exif_display_list (edv, "", "", i+pos_shift);
 			}
 
 			list_is_empty = FALSE;
 		}
 	}
-
-	/* Put a blank line between the file info and the exif info, if both are present. */
-	if (edv->priv->view_file_info && !list_is_empty)
-		add_to_exif_display_list (edv, "", "", -1);
 
 	exif_data_unref (edata);
 }
@@ -431,11 +454,11 @@ update_file_info (GthExifDataViewer *edv)
 
 	/**/
 
-	add_to_exif_display_list (edv, _("File: Name"), utf8_name, -6);
-	add_to_exif_display_list (edv, _("File: Dimensions"), size_txt, -5);
-	add_to_exif_display_list (edv, _("File: Size"), file_size_txt, -4);
-	add_to_exif_display_list (edv, _("File: Modified"), utf8_time_txt, -3);
-	add_to_exif_display_list (edv, _("File: Type"), gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)), -2);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -6);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Type"), gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)), -2);
 
 	/**/
 
@@ -473,11 +496,19 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     const char        *path,
 			     gpointer           exif_data)
 {
+	int i;
+
 	set_path (edv, path);
+
 	if (viewer != NULL)
 		edv->priv->viewer = viewer;
 
-	gtk_list_store_clear (edv->priv->image_exif_model);
+	for (i = 0; i < GTH_METADATA_CATEGORIES; i++)
+		if (edv->priv->category_root_path[i] != NULL) {
+			gtk_tree_path_free (edv->priv->category_root_path[i]);
+			edv->priv->category_root_path[i] = NULL;
+		}
+	gtk_tree_store_clear (edv->priv->image_exif_model);
 
 	if (path == NULL)
 		return;
@@ -486,6 +517,8 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		update_file_info (edv);
 
 	update_exif_data (edv, exif_data);
+
+	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
 }
 
 
