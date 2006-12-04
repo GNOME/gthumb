@@ -1,5 +1,9 @@
 2006-12-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-exif-data-viewer.c (update_exif_data):
+	(tag_category):
+	Organize exif tags in categories.
+
 	* src/gth-exif-data-viewer.c (tag_is_present_in_category):
 	(add_to_exif_display_list):
 	(update_exif_data):

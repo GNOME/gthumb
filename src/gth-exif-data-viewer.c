@@ -45,13 +45,117 @@
 
 typedef enum {
 	GTH_METADATA_CATEGORY_FILE = 0,
-	GTH_METADATA_CATEGORY_EXIF,
-	GTH_METADATA_CATEGORY_NOTE,
+	GTH_METADATA_CATEGORY_EXIF_CAMERA,
+	GTH_METADATA_CATEGORY_EXIF_IMAGE,
+	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
+	GTH_METADATA_CATEGORY_MAKERNOTE,
+	GTH_METADATA_CATEGORY_OTHER,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Standard Exif Tags"), N_("MakerNote Exif Tags") };
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Camera"), N_("Image Data"), N_("Image Taking Conditions"), N_("Maker Note"), N_("Other") };
+
+
+/* The mapping between exif tags and categories was taken (and modified)
+ * from the eog/libeog/eog-info-view-exif.c file from the eog image viewer
+ * source code, which is released under the terms of the GNU General Public
+ * License.
+ *
+ * Note: tags are displayed in the same order they appear in this list.
+ *
+ */
+#define MAX_TAGS_PER_CATEGORY 30
+static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY] = {
+
+	/* GTH_METADATA_CATEGORY_FILE */ { -1 },
+
+	/* GTH_METADATA_CATEGORY_EXIF_CAMERA */
+
+	{ EXIF_TAG_INTEROPERABILITY_INDEX,
+	  EXIF_TAG_INTEROPERABILITY_VERSION,
+	  EXIF_TAG_BITS_PER_SAMPLE,
+	  EXIF_TAG_MAKE,
+	  EXIF_TAG_MODEL,
+	  EXIF_TAG_SAMPLES_PER_PIXEL,
+	  EXIF_TAG_ROWS_PER_STRIP,
+	  EXIF_TAG_STRIP_BYTE_COUNTS,
+	  EXIF_TAG_X_RESOLUTION,
+	  EXIF_TAG_Y_RESOLUTION,
+	  EXIF_TAG_RESOLUTION_UNIT,
+	  EXIF_TAG_SOFTWARE,
+	  EXIF_TAG_EXIF_VERSION,
+	  EXIF_TAG_COMPONENTS_CONFIGURATION,
+	  EXIF_TAG_COMPRESSED_BITS_PER_PIXEL,
+	  EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+	  EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
+	  EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT,
+	  EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
+	  EXIF_TAG_DEVICE_SETTING_DESCRIPTION,
+	  -1 },
+
+ 	/* GTH_METADATA_CATEGORY_EXIF_IMAGE */
+
+	{ EXIF_TAG_IMAGE_WIDTH,
+	  EXIF_TAG_IMAGE_LENGTH,
+	  EXIF_TAG_COMPRESSION,
+	  EXIF_TAG_DOCUMENT_NAME,
+	  EXIF_TAG_IMAGE_DESCRIPTION,
+	  EXIF_TAG_STRIP_OFFSETS,
+	  EXIF_TAG_ORIENTATION,
+	  EXIF_TAG_DATE_TIME,
+	  EXIF_TAG_ARTIST,
+	  EXIF_TAG_YCBCR_COEFFICIENTS,
+	  EXIF_TAG_YCBCR_SUB_SAMPLING,
+	  EXIF_TAG_YCBCR_POSITIONING,
+	  EXIF_TAG_COPYRIGHT,
+	  EXIF_TAG_ISO_SPEED_RATINGS,
+	  EXIF_TAG_DATE_TIME_ORIGINAL,
+	  EXIF_TAG_DATE_TIME_DIGITIZED,
+	  EXIF_TAG_USER_COMMENT,
+	  EXIF_TAG_PIXEL_X_DIMENSION,
+	  EXIF_TAG_PIXEL_Y_DIMENSION,
+	  EXIF_TAG_IMAGE_UNIQUE_ID,
+	  -1 },
+
+        /* GTH_METADATA_CATEGORY_EXIF_CONDITIONS */
+
+	{ EXIF_TAG_WHITE_POINT,
+	  EXIF_TAG_REFERENCE_BLACK_WHITE,
+	  EXIF_TAG_EXPOSURE_TIME,
+	  EXIF_TAG_FNUMBER,
+	  EXIF_TAG_EXPOSURE_PROGRAM,
+	  EXIF_TAG_SPECTRAL_SENSITIVITY,
+	  EXIF_TAG_SHUTTER_SPEED_VALUE,
+	  EXIF_TAG_APERTURE_VALUE,
+	  EXIF_TAG_BRIGHTNESS_VALUE,
+	  EXIF_TAG_EXPOSURE_BIAS_VALUE,
+	  EXIF_TAG_MAX_APERTURE_VALUE,
+	  EXIF_TAG_SUBJECT_DISTANCE,
+	  EXIF_TAG_METERING_MODE,
+	  EXIF_TAG_LIGHT_SOURCE,
+	  EXIF_TAG_FLASH,
+	  EXIF_TAG_FOCAL_LENGTH,
+	  EXIF_TAG_SUBJECT_AREA,
+	  EXIF_TAG_EXPOSURE_INDEX,
+	  EXIF_TAG_SENSING_METHOD,
+	  EXIF_TAG_SCENE_TYPE,
+	  EXIF_TAG_EXPOSURE_MODE,
+	  EXIF_TAG_WHITE_BALANCE,
+	  EXIF_TAG_DIGITAL_ZOOM_RATIO,
+	  EXIF_TAG_SCENE_CAPTURE_TYPE,
+	  EXIF_TAG_GAIN_CONTROL,
+	  EXIF_TAG_CONTRAST,
+	  EXIF_TAG_SATURATION,
+	  EXIF_TAG_SHARPNESS,
+	  EXIF_TAG_SUBJECT_DISTANCE_RANGE,
+	  -1 },
+
+	/* GTH_METADATA_CATEGORY_MAKERNOTE */ { -1 },
+
+	/* GTH_METADATA_CATEGORY_OTHER */ { -1 }
+};
+
 
 enum {
 	NAME_COLUMN,
@@ -308,13 +412,33 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 }
 
 
+static GthMetadataCategory
+tag_category (ExifTag tag, int *position)
+{
+	GthMetadataCategory category;
+
+	for (category = 1; category < GTH_METADATA_CATEGORIES; category++) {
+		int j = 0;
+		while (exif_tag_category_map[category][j] != -1) {
+			if  (exif_tag_category_map[category][j] == tag) {
+				if (position != NULL)
+					*position = j;
+				return category;
+			}
+			j++;
+		}
+	}
+
+	return GTH_METADATA_CATEGORY_OTHER;
+}
+
+
 static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
 	const char   *path;
-	unsigned int  i,j;
-	int	      pos_shift=0;
+	unsigned int  i, j;
 	gboolean      list_is_empty = TRUE;
 
 	path = get_file_path_from_uri (edv->priv->path);
@@ -350,6 +474,8 @@ update_exif_data (GthExifDataViewer *edv,
 			/* Accept all tags, but handle "maker notes" separately below */
 
 			if (e->tag != EXIF_TAG_MAKER_NOTE) {
+				GthMetadataCategory category;
+				int                 position;
 
 				/* The tag IDs for the GPS and non-GPS IFDs overlap slightly,
 				   so it is important to use the exif_tag_get_name_in_ifd
@@ -381,7 +507,10 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 				}
 
-				add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_EXIF, utf8_name, utf8_value, i+pos_shift);
+				category = tag_category (e->tag, &position);
+				if (category == GTH_METADATA_CATEGORY_OTHER)
+					position = i;
+				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
 
 				g_free (utf8_name);
 				g_free (utf8_value);
@@ -411,8 +540,6 @@ update_exif_data (GthExifDataViewer *edv,
         	                       	if (value == NULL)
                 	                	continue;
 
-					++pos_shift;
-
 	      	                       	utf8_name = g_strdup (value);
                 	               	if (tag_is_present (edv, utf8_name)) {
                         	               	g_free (utf8_name);
@@ -430,7 +557,7 @@ update_exif_data (GthExifDataViewer *edv,
                                         	continue;
 	                        	}
 
-					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_NOTE, utf8_name, utf8_value, i+pos_shift);
+					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, k);
 
 	   	                        g_free (utf8_name);
 		                        g_free (utf8_value);
