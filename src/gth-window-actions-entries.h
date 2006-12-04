@@ -62,7 +62,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_revert) },
 
 	{ "File_Print", GTK_STOCK_PRINT,
-	  N_("Print..."), NULL,
+	  N_("Print..."), "<ctrl>p",
 	  N_("Print the current image"),
 	  G_CALLBACK (gth_window_activate_action_file_print) },
 

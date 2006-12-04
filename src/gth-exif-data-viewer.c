@@ -253,8 +253,6 @@ update_exif_data (GthExifDataViewer *edv,
 	const char   *path;
 	unsigned int  i,j;
 	int	      pos_shift=0;
-	gboolean      date_added = FALSE;
-	gboolean      aperture_added = FALSE;
 	gboolean      list_is_empty = TRUE;
 
 	path = get_file_path_from_uri (edv->priv->path);
@@ -295,7 +293,7 @@ update_exif_data (GthExifDataViewer *edv,
 				   so it is important to use the exif_tag_get_name_in_ifd
 				   function, and not the older exif_tag_get_name function. */
 
-				value = exif_tag_get_name_in_ifd (e->tag, exif_content_get_ifd (content));
+				value = exif_tag_get_name_in_ifd (e->tag, i);
 
 				if (value == NULL)
 					continue;
@@ -319,27 +317,6 @@ update_exif_data (GthExifDataViewer *edv,
 					g_free (utf8_name);
 					g_free (utf8_value);
 					continue;
-				}
-
-				if ((e->tag == EXIF_TAG_DATE_TIME)
-				    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
-				    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
-					if (date_added) {
-						g_free (utf8_name);
-						g_free (utf8_value);
-						continue;
-					} else
-						date_added = TRUE;
-				}
-
-				if ((e->tag == EXIF_TAG_APERTURE_VALUE)
-				    || (e->tag == EXIF_TAG_FNUMBER)) {
-					if (aperture_added) {
-						g_free (utf8_name);
-						g_free (utf8_value);
-						continue;
-					} else
-						aperture_added = TRUE;
 				}
 
 				add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);

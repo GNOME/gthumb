@@ -1,3 +1,12 @@
+2006-12-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: (update_exif_data):
+	  Minor corrections to the Exif display code.
+	  Patch by Jef Driesen. Bug 339648. 
+
+	* src/gth-window-actions-entries.h:
+	  Add Ctrl+P shortcut for print.
+
 2006-12-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-file-list.h:
