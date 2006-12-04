@@ -219,15 +219,16 @@ gth_exif_data_viewer_new (gboolean view_file_info)
 
 
 static gboolean
-tag_is_present (GtkTreeModel *model,
-		const char   *tag_name)
+tag_is_present_in_category (GtkTreeModel *model,
+			    GtkTreeIter  *category_root_iter,
+			    const char   *tag_name)
 {
 	GtkTreeIter iter;
 
 	if (tag_name == NULL)
 		return FALSE;
 
-	if (! gtk_tree_model_get_iter_first (model, &iter))
+	if (! gtk_tree_model_iter_children  (model, &iter, category_root_iter))
 		return FALSE;
 
 	do {
@@ -245,6 +246,30 @@ tag_is_present (GtkTreeModel *model,
 
 		g_free (tag_name2);
 	} while (gtk_tree_model_iter_next (model, &iter));
+
+	return FALSE;
+}
+
+
+
+
+static gboolean
+tag_is_present (GthExifDataViewer *edv,
+		const char        *tag_name)
+{
+	GtkTreeModel *model;
+	int           i;
+
+	model = GTK_TREE_MODEL (edv->priv->image_exif_model);
+	for (i = 0; i < GTH_METADATA_CATEGORIES; i++) {
+		GtkTreeIter iter;
+		if (edv->priv->category_root_path[i] == NULL)
+			continue;
+		if (! gtk_tree_model_get_iter (model, &iter, edv->priv->category_root_path[i]))
+			continue;
+		if (tag_is_present_in_category (model, &iter, tag_name))
+			return TRUE;
+	}
 
 	return FALSE;
 }
@@ -336,7 +361,7 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 
 				utf8_name = g_strdup (value);
-				if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), value)) {
+				if (tag_is_present (edv, value)) {
 					g_free (utf8_name);
 					continue;
 				}
@@ -389,7 +414,7 @@ update_exif_data (GthExifDataViewer *edv,
 					++pos_shift;
 
 	      	                       	utf8_name = g_strdup (value);
-                	               	if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
+                	               	if (tag_is_present (edv, utf8_name)) {
                         	               	g_free (utf8_name);
                                 	       	continue;
 	                               	}
