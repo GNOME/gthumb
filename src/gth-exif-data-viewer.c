@@ -40,6 +40,7 @@
 #include <libexif/exif-content.h>
 #include <libexif/exif-entry.h>
 #include <libexif/exif-tag.h>
+#include <libexif/exif-ifd.h>
 #include <libexif/exif-mnote-data.h>
 
 
@@ -49,12 +50,13 @@ typedef enum {
 	GTH_METADATA_CATEGORY_EXIF_IMAGE,
 	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
 	GTH_METADATA_CATEGORY_MAKERNOTE,
+	GTH_METADATA_CATEGORY_GPS,
 	GTH_METADATA_CATEGORY_OTHER,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Camera"), N_("Image Data"), N_("Image Taking Conditions"), N_("Maker Note"), N_("Other") };
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Camera"), N_("Image Data"), N_("Image Taking Conditions"), N_("Maker Notes"), N_("GPS Coordinates"), N_("Other") };
 
 
 /* The mapping between exif tags and categories was taken (and modified)
@@ -65,7 +67,7 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem 
  * Note: tags are displayed in the same order they appear in this list.
  *
  */
-#define MAX_TAGS_PER_CATEGORY 30
+#define MAX_TAGS_PER_CATEGORY 40
 static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY] = {
 
 	/* GTH_METADATA_CATEGORY_FILE */ { -1 },
@@ -152,6 +154,41 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  -1 },
 
 	/* GTH_METADATA_CATEGORY_MAKERNOTE */ { -1 },
+
+	/* GTH_METADATA_CATEGORY_GPS */
+
+	{ EXIF_TAG_GPS_LATITUDE,
+	  EXIF_TAG_GPS_LATITUDE_REF,
+	  EXIF_TAG_GPS_LONGITUDE,
+	  EXIF_TAG_GPS_LONGITUDE_REF,
+	  EXIF_TAG_GPS_ALTITUDE,
+	  EXIF_TAG_GPS_ALTITUDE_REF,
+	  EXIF_TAG_GPS_TIME_STAMP,
+	  EXIF_TAG_GPS_SATELLITES,
+	  EXIF_TAG_GPS_STATUS,      
+	  EXIF_TAG_GPS_MEASURE_MODE,
+	  EXIF_TAG_GPS_DOP,
+	  EXIF_TAG_GPS_SPEED_REF,
+	  EXIF_TAG_GPS_SPEED,
+	  EXIF_TAG_GPS_TRACK_REF,
+	  EXIF_TAG_GPS_TRACK,
+	  EXIF_TAG_GPS_IMG_DIRECTION_REF,
+	  EXIF_TAG_GPS_IMG_DIRECTION,
+	  EXIF_TAG_GPS_MAP_DATUM,
+	  EXIF_TAG_GPS_DEST_LATITUDE_REF,
+	  EXIF_TAG_GPS_DEST_LATITUDE,
+	  EXIF_TAG_GPS_DEST_LONGITUDE_REF,
+	  EXIF_TAG_GPS_DEST_LONGITUDE,
+	  EXIF_TAG_GPS_DEST_BEARING_REF,
+	  EXIF_TAG_GPS_DEST_BEARING,
+	  EXIF_TAG_GPS_DEST_DISTANCE_REF,
+	  EXIF_TAG_GPS_DEST_DISTANCE,
+	  EXIF_TAG_GPS_PROCESSING_METHOD,
+	  EXIF_TAG_GPS_AREA_INFORMATION,
+	  EXIF_TAG_GPS_DATE_STAMP,
+	  EXIF_TAG_GPS_DIFFERENTIAL, 
+ 	  EXIF_TAG_GPS_VERSION_ID,
+	  -1 },
 
 	/* GTH_METADATA_CATEGORY_OTHER */ { -1 }
 };
@@ -409,15 +446,25 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 			    VALUE_COLUMN, utf8_value,
 			    POS_COLUMN, position,
                             -1);
+
+	printf("cat %d, %s, pos %d\n\r",category,utf8_name,position);
 }
 
 
 static GthMetadataCategory
-tag_category (ExifTag tag, int *position)
+tag_category (ExifTag tag, ExifIfd ifd, int *position)
 {
 	GthMetadataCategory category;
 
-	for (category = 1; category < GTH_METADATA_CATEGORIES; category++) {
+	/* Go straight to the GPS category if this is in a GPS IFD, to
+	   avoid the tag ID overlap problem. Otherwise, start at the
+	   first exif tag category. */
+	if (ifd == EXIF_IFD_GPS)
+		category = GTH_METADATA_CATEGORY_GPS;
+	else
+		category = 1;
+
+	for ( ; category < GTH_METADATA_CATEGORIES; category++) {
 		int j = 0;
 		while (exif_tag_category_map[category][j] != -1) {
 			if  (exif_tag_category_map[category][j] == tag) {
@@ -507,9 +554,10 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 				}
 
-				category = tag_category (e->tag, &position);
+				category = tag_category (e->tag, i, &position);
 				if (category == GTH_METADATA_CATEGORY_OTHER)
-					position = i;
+					position = j;
+
 				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
 
 				g_free (utf8_name);
