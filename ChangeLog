@@ -1,3 +1,15 @@
+2006-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (tag_is_present_in_category):
+	(add_to_exif_display_list):
+	(gth_exif_data_viewer_init):
+	(gth_exif_data_viewer_update):
+	(update_exif_data):
+	(tag_category):
+	Only check for duplicated tags in the makernote category (is this right?).
+	Keep track of the category root with a row_reference instead of a tree_path
+	to deal with categories changing their position during nodes insertion.
+
 2006-12-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (add_to_exif_display_list),

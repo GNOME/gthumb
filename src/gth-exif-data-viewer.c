@@ -165,7 +165,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_GPS_ALTITUDE_REF,
 	  EXIF_TAG_GPS_TIME_STAMP,
 	  EXIF_TAG_GPS_SATELLITES,
-	  EXIF_TAG_GPS_STATUS,      
+	  EXIF_TAG_GPS_STATUS,
 	  EXIF_TAG_GPS_MEASURE_MODE,
 	  EXIF_TAG_GPS_DOP,
 	  EXIF_TAG_GPS_SPEED_REF,
@@ -186,7 +186,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_GPS_PROCESSING_METHOD,
 	  EXIF_TAG_GPS_AREA_INFORMATION,
 	  EXIF_TAG_GPS_DATE_STAMP,
-	  EXIF_TAG_GPS_DIFFERENTIAL, 
+	  EXIF_TAG_GPS_DIFFERENTIAL,
  	  EXIF_TAG_GPS_VERSION_ID,
 	  -1 },
 
@@ -204,13 +204,13 @@ enum {
 
 struct _GthExifDataViewerPrivate
 {
-	char          *path;
-	gboolean       view_file_info;
-	GtkWidget     *scrolled_win;
-	GtkWidget     *image_exif_view;
-	GtkTreeStore  *image_exif_model;
-	GtkTreePath   *category_root_path[GTH_METADATA_CATEGORIES];
-	ImageViewer   *viewer;
+	char                *path;
+	gboolean             view_file_info;
+	GtkWidget           *scrolled_win;
+	GtkWidget           *image_exif_view;
+	GtkTreeStore        *image_exif_model;
+	GtkTreeRowReference *category_root[GTH_METADATA_CATEGORIES];
+	ImageViewer         *viewer;
 };
 
 
@@ -256,7 +256,7 @@ gth_exif_data_viewer_init (GthExifDataViewer *edv)
 	edv->priv->view_file_info = TRUE;
 
 	for (i = 0; i < GTH_METADATA_CATEGORIES; i++)
-		edv->priv->category_root_path[i] = NULL;
+		edv->priv->category_root[i] = NULL;
 }
 
 
@@ -360,16 +360,32 @@ gth_exif_data_viewer_new (gboolean view_file_info)
 
 
 static gboolean
-tag_is_present_in_category (GtkTreeModel *model,
-			    GtkTreeIter  *category_root_iter,
-			    const char   *tag_name)
+tag_is_present_in_category (GthExifDataViewer   *edv,
+			    GthMetadataCategory  category,
+			    const char          *tag_name)
 {
-	GtkTreeIter iter;
+	GtkTreeModel *model = GTK_TREE_MODEL (edv->priv->image_exif_model);
+	GtkTreePath  *category_path;
+	GtkTreeIter   category_iter, iter;
 
 	if (tag_name == NULL)
 		return FALSE;
 
-	if (! gtk_tree_model_iter_children  (model, &iter, category_root_iter))
+	if (edv->priv->category_root[category] == NULL)
+		return FALSE;
+
+	category_path = gtk_tree_row_reference_get_path (edv->priv->category_root[category]);
+	if (category_path == NULL)
+		return FALSE;
+
+	if (! gtk_tree_model_get_iter (model,
+				       &category_iter,
+				       category_path))
+		return FALSE;
+
+	gtk_tree_path_free (category_path);
+
+	if (! gtk_tree_model_iter_children  (model, &iter, &category_iter))
 		return FALSE;
 
 	do {
@@ -392,30 +408,6 @@ tag_is_present_in_category (GtkTreeModel *model,
 }
 
 
-
-
-static gboolean
-tag_is_present (GthExifDataViewer *edv,
-		const char        *tag_name)
-{
-	GtkTreeModel *model;
-	int           i;
-
-	model = GTK_TREE_MODEL (edv->priv->image_exif_model);
-	for (i = 0; i < GTH_METADATA_CATEGORIES; i++) {
-		GtkTreeIter iter;
-		if (edv->priv->category_root_path[i] == NULL)
-			continue;
-		if (! gtk_tree_model_get_iter (model, &iter, edv->priv->category_root_path[i]))
-			continue;
-		if (tag_is_present_in_category (model, &iter, tag_name))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-
 static void
 add_to_exif_display_list (GthExifDataViewer   *edv,
 			  GthMetadataCategory  category,
@@ -423,22 +415,30 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 			  const char	      *utf8_value,
 	 		  int		       position)
 {
-	GtkTreeIter root_iter;
-	GtkTreeIter iter;
+	GtkTreeModel *model = GTK_TREE_MODEL (edv->priv->image_exif_model);
+	GtkTreeIter   root_iter;
+	GtkTreeIter   iter;
 
-	if (edv->priv->category_root_path[category] == NULL) {
+	if (edv->priv->category_root[category] == NULL) {
+		GtkTreePath *path;
 		gtk_tree_store_append (edv->priv->image_exif_model, &root_iter, NULL);
 		gtk_tree_store_set (edv->priv->image_exif_model, &root_iter,
         		    	    NAME_COLUMN, _(metadata_category_name[category]),
 			    	    VALUE_COLUMN, "",
 			    	    POS_COLUMN, category,
                             	    -1);
-		edv->priv->category_root_path[category] = gtk_tree_model_get_path (GTK_TREE_MODEL (edv->priv->image_exif_model), &root_iter);
+		path = gtk_tree_model_get_path (model, &root_iter);
+		edv->priv->category_root[category] = gtk_tree_row_reference_new (model, path);
+		gtk_tree_path_free (path);
 	}
-	else
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (edv->priv->image_exif_model),
+	else {
+		GtkTreePath *path;
+		path = gtk_tree_row_reference_get_path (edv->priv->category_root[category]);
+		gtk_tree_model_get_iter (model,
 					 &root_iter,
-					 edv->priv->category_root_path[category]);
+					 path);
+		gtk_tree_path_free (path);
+	}
 
 	gtk_tree_store_append (edv->priv->image_exif_model, &iter, &root_iter);
         gtk_tree_store_set (edv->priv->image_exif_model, &iter,
@@ -446,13 +446,13 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 			    VALUE_COLUMN, utf8_value,
 			    POS_COLUMN, position,
                             -1);
-
-	printf("cat %d, %s, pos %d\n\r",category,utf8_name,position);
 }
 
 
 static GthMetadataCategory
-tag_category (ExifTag tag, ExifIfd ifd, int *position)
+tag_category (ExifTag  tag,
+	      ExifIfd  ifd,
+	      int     *position)
 {
 	GthMetadataCategory category;
 
@@ -534,10 +534,6 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 
 				utf8_name = g_strdup (value);
-				if (tag_is_present (edv, value)) {
-					g_free (utf8_name);
-					continue;
-				}
 
 				value = get_exif_entry_value (e);
 				if (value == NULL) {
@@ -557,6 +553,12 @@ update_exif_data (GthExifDataViewer *edv,
 				category = tag_category (e->tag, i, &position);
 				if (category == GTH_METADATA_CATEGORY_OTHER)
 					position = j;
+
+				/*if (tag_is_present_in_category (edv, category, value)) {
+					g_free (utf8_name);
+					g_free (utf8_value);
+					continue;
+				}*/
 
 				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
 
@@ -589,7 +591,7 @@ update_exif_data (GthExifDataViewer *edv,
                 	                	continue;
 
 	      	                       	utf8_name = g_strdup (value);
-                	               	if (tag_is_present (edv, utf8_name)) {
+                	               	if (tag_is_present_in_category (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name)) {
                         	               	g_free (utf8_name);
                                 	       	continue;
 	                               	}
@@ -708,9 +710,9 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		edv->priv->viewer = viewer;
 
 	for (i = 0; i < GTH_METADATA_CATEGORIES; i++)
-		if (edv->priv->category_root_path[i] != NULL) {
-			gtk_tree_path_free (edv->priv->category_root_path[i]);
-			edv->priv->category_root_path[i] = NULL;
+		if (edv->priv->category_root[i] != NULL) {
+			gtk_tree_row_reference_free (edv->priv->category_root[i]);
+			edv->priv->category_root[i] = NULL;
 		}
 	gtk_tree_store_clear (edv->priv->image_exif_model);
 
