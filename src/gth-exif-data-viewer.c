@@ -48,6 +48,7 @@ typedef enum {
 	GTH_METADATA_CATEGORY_FILE = 0,
 	GTH_METADATA_CATEGORY_EXIF_CAMERA,
 	GTH_METADATA_CATEGORY_EXIF_IMAGE,
+	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
 	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
 	GTH_METADATA_CATEGORY_MAKERNOTE,
 	GTH_METADATA_CATEGORY_GPS,
@@ -56,7 +57,7 @@ typedef enum {
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Camera"), N_("Image Data"), N_("Image Taking Conditions"), N_("Maker Notes"), N_("GPS Coordinates"), N_("Other") };
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("Camera"), N_("Image Data"), N_("Embedded Thumbnail"), N_("Image Taking Conditions"), N_("Maker Notes"), N_("GPS Coordinates"), N_("Other") };
 
 
 /* The mapping between exif tags and categories was taken (and modified)
@@ -119,6 +120,8 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_PIXEL_Y_DIMENSION,
 	  EXIF_TAG_IMAGE_UNIQUE_ID,
 	  -1 },
+
+	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ { -1 },
 
         /* GTH_METADATA_CATEGORY_EXIF_CONDITIONS */
 
@@ -456,6 +459,10 @@ tag_category (ExifTag  tag,
 {
 	GthMetadataCategory category;
 
+	/* Data in IFD1 is for the embedded thumbnail. Keep it separate. */
+       	if (ifd == EXIF_IFD_1)
+		return GTH_METADATA_CATEGORY_EXIF_THUMBNAIL;
+	   
 	/* Go straight to the GPS category if this is in a GPS IFD, to
 	   avoid the tag ID overlap problem. Otherwise, start at the
 	   first exif tag category. */
@@ -551,7 +558,8 @@ update_exif_data (GthExifDataViewer *edv,
 				}
 
 				category = tag_category (e->tag, i, &position);
-				if (category == GTH_METADATA_CATEGORY_OTHER)
+				if (   (category == GTH_METADATA_CATEGORY_OTHER)
+				    || (category == GTH_METADATA_CATEGORY_EXIF_THUMBNAIL))
 					position = j;
 
 				/*if (tag_is_present_in_category (edv, category, value)) {
