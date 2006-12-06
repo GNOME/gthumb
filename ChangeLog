@@ -1,6 +1,11 @@
 2006-12-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c:
+	Added some missing tags to the categories.
+
+2006-12-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c:
 	Better categorization of Exif tags.
 
 2006-12-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
