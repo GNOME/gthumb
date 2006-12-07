@@ -390,7 +390,7 @@ dir_list_update_icon_theme (DirList *dir_list)
 
 
 static void
-dir_list_refresh_continue (PathListData *pld, 
+dir_list_change_to__step3 (PathListData *pld, 
 			   gpointer      data)
 {
 	DirList   *dir_list = data;
@@ -530,6 +530,14 @@ dir_list_refresh_continue (PathListData *pld,
 }
 
 
+static void
+dir_list_change_to__step2 (gpointer callback_data)
+{
+	DirList *dir_list = callback_data;
+	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, dir_list_change_to__step3, dir_list);
+}
+
+
 void
 dir_list_change_to (DirList         *dir_list,
 		    const gchar     *path,
@@ -546,9 +554,9 @@ dir_list_change_to (DirList         *dir_list,
 	dir_list->try_path = g_strdup (path);
 
 	if (dir_list->dir_load_handle != NULL)
-		path_list_handle_free (dir_list->dir_load_handle);
-
-	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, dir_list_refresh_continue, dir_list);
+		path_list_async_interrupt (dir_list->dir_load_handle, dir_list_change_to__step2, dir_list);
+	else
+		dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, dir_list_change_to__step3, dir_list);
 }
 
 
