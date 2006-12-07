@@ -1,5 +1,11 @@
 2006-12-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-exif-data-viewer.c: (tag_category):
+	Final tweaks? Made the tag overlap detection code a bit	
+	more robust, and added some obscure interop tags.
+
+2006-12-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: (update_exif_data):
 	Code tidy up. Added comments. Fixed small bug with
 	GPS / Interop tag overlap.

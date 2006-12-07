@@ -50,9 +50,9 @@ typedef enum {
 	GTH_METADATA_CATEGORY_EXIF_IMAGE,
 	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
 	GTH_METADATA_CATEGORY_MAKERNOTE,
+	GTH_METADATA_CATEGORY_GPS,
 	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
 	GTH_METADATA_CATEGORY_VERSIONS,
-	GTH_METADATA_CATEGORY_GPS,
 	GTH_METADATA_CATEGORY_OTHER,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
@@ -65,9 +65,9 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 	N_("Image Structure Data"), 
 	N_("Image Taking Conditions"), 
 	N_("Maker Notes"), 
+	N_("GPS Coordinates"), 
 	N_("Embedded Thumbnail"), 
 	N_("Version Information"), 
-	N_("GPS Coordinates"), 
 	N_("Other") 
 };
 
@@ -227,22 +227,6 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	   listed in the order that they appear in the jpeg file. */
 	{ -1 },
 
-	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ 
-	/* There are normally only a few of these tags, so we don't bother
-	   sorting them. They are displayed in the order that they appear in
-	   the file. IFD0 (main image) and IFD1 (thumbnail) share many of the
-	   same tags. The IFD0 tags are sorted by the structures above. The 
-	   IFD1 tags are placed into this category. */
-	{ -1 },
-
-	/* GTH_METADATA_CATEGORY_VERSIONS */
-	/* From IFD0, EXIF,or INTEROPERABILITY blocks. */
-	{ EXIF_TAG_EXIF_VERSION,
-	  EXIF_TAG_INTEROPERABILITY_INDEX,
-	  EXIF_TAG_INTEROPERABILITY_VERSION,
-	  EXIF_TAG_FLASH_PIX_VERSION,
-	  -1 },
-
 	/* GTH_METADATA_CATEGORY_GPS */
 	/* GPS data is stored in a special IFD (GPS) */
 	{ EXIF_TAG_GPS_LATITUDE,
@@ -276,6 +260,25 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_GPS_DATE_STAMP,
 	  EXIF_TAG_GPS_DIFFERENTIAL,
  	  EXIF_TAG_GPS_VERSION_ID,
+	  -1 },
+
+	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ 
+	/* There are normally only a few of these tags, so we don't bother
+	   sorting them. They are displayed in the order that they appear in
+	   the file. IFD0 (main image) and IFD1 (thumbnail) share many of the
+	   same tags. The IFD0 tags are sorted by the structures above. The 
+	   IFD1 tags are placed into this category. */
+	{ -1 },
+
+	/* GTH_METADATA_CATEGORY_VERSIONS */
+	/* From IFD0, EXIF,or INTEROPERABILITY blocks. */
+	{ EXIF_TAG_EXIF_VERSION,
+	  EXIF_TAG_FLASH_PIX_VERSION,
+	  EXIF_TAG_INTEROPERABILITY_INDEX,
+	  EXIF_TAG_INTEROPERABILITY_VERSION,
+	  EXIF_TAG_RELATED_IMAGE_FILE_FORMAT,
+          EXIF_TAG_RELATED_IMAGE_WIDTH,
+          EXIF_TAG_RELATED_IMAGE_LENGTH,
 	  -1 },
 
 	/* GTH_METADATA_CATEGORY_OTHER */ 
@@ -546,19 +549,35 @@ tag_category (ExifTag  tag,
 {
 	GthMetadataCategory category;
 
-	/* Data in IFD1 is for the embedded thumbnail. Keep it separate. */
-       	if (ifd == EXIF_IFD_1)
+	switch (ifd) {
+		/* Some IFDs require special handling to ensure proper categorization.
+		   This is because:
+		   	1) IFD0 and IFD1 may duplicate some tags (with different values)
+			2) Some tag IDs (numeric values) overlap in the GPS and
+			   INTEROPERABILITY IFDs.					*/
+	case EXIF_IFD_1:
+		/* Data in IFD1 is for the embedded thumbnail. Keep it separate, do not sort */
 		return GTH_METADATA_CATEGORY_EXIF_THUMBNAIL;
-	   
-	/* Go straight to the GPS category if this is in a GPS IFD, to
-	   avoid the tag ID overlap problem. Otherwise, start at the
-	   first exif tag category. */
-	if (ifd == EXIF_IFD_GPS)
+		break;
+	
+	case EXIF_IFD_GPS:
+		/* Go straight to the GPS category if this is in a GPS IFD, to
+		   avoid the tag ID overlap problem. Do sort. */
 		category = GTH_METADATA_CATEGORY_GPS;
-	else
-		category = 1;
+		break;
 
-	for ( ; category < GTH_METADATA_CATEGORIES; category++) {
+	case EXIF_IFD_INTEROPERABILITY:
+		/* Go straight to the version category if this is in an
+		   interop IFD, to avoid the tag ID overlap problem. Do sort. */
+		category = GTH_METADATA_CATEGORY_VERSIONS;
+		break;
+
+	default:
+		/* Start the tag search at the beginning, and use the first match */
+		category = 1;
+	}
+
+	while (category < GTH_METADATA_CATEGORIES) {
 		int j = 0;
 		while (exif_tag_category_map[category][j] != -1) {
 			if  (exif_tag_category_map[category][j] == tag) {
@@ -568,6 +587,7 @@ tag_category (ExifTag  tag,
 			}
 			j++;
 		}
+		category++;
 	}
 
 	return GTH_METADATA_CATEGORY_OTHER;
