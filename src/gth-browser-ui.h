@@ -323,7 +323,7 @@ static const gchar *folder_ui_info =
 "          <menuitem action='EditCurrentDir_Delete'/>"
 "          <menuitem action='EditCurrentDir_Copy'/>"
 "          <menuitem action='EditCurrentDir_Move'/>"
-"          <separator>"
+"          <separator/>"
 "          <menuitem action='EditCurrentDir_Categories'/>"
 "        </menu>"
 "      </placeholder>"

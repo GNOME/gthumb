@@ -92,17 +92,16 @@ gth_dir_list_class_init (GthDirListClass *class)
 			      G_STRUCT_OFFSET (GthDirListClass, started),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
+			      G_TYPE_NONE, 0);
 	gth_dir_list_signals[DONE] =
 		g_signal_new ("done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthDirListClass, done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
+			      gthumb_marshal_VOID__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_dir_list_finalize;
@@ -285,7 +284,6 @@ gth_dir_list_init (GthDirList *dir_list)
 	dir_list->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN);
 	dir_list->old_dir = NULL;
 	dir_list->dir_load_handle = NULL;
-	dir_list->result = GNOME_VFS_OK;
 
 	dir_list->single_click = (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 	dir_list->hover_path = NULL;
@@ -465,7 +463,6 @@ gth_dir_list_change_to__step3 (PathListData *pld,
 		return;
 
 	dir_list = data;
-	dir_list->result = pld->result;
 
 	if (dir_list->dir_load_handle != NULL) {
 		g_free (dir_list->dir_load_handle);
@@ -474,6 +471,7 @@ gth_dir_list_change_to__step3 (PathListData *pld,
 
 	if (pld->result != GNOME_VFS_ERROR_EOF) {
 		path_list_data_free (pld);
+		g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, pld->result);
 		return;
 	}
 
@@ -574,7 +572,7 @@ gth_dir_list_change_to__step3 (PathListData *pld,
 		dir_list->old_dir = NULL;
 	}
 
-	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0);
+	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, GNOME_VFS_ERROR_EOF);
 }
 
 

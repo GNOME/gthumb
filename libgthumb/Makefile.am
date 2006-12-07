@@ -146,7 +146,7 @@ gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $(srcdir)/gthumb-marshal.list --header --prefix=gthumb_marshal > $@
 
 gthumb-marshal.c: gthumb-marshal.h gthumb-marshal.list $(GLIB_GENMARSHAL)
-	echo "#include \"gthumb-marshal.h\"" > $(top_srcdir)/libgthumb/gthumb-marshal.c \
+	echo "#include \"gthumb-marshal.h\"" > $@ \
 	&& $(GLIB_GENMARSHAL) $(srcdir)/gthumb-marshal.list --body --prefix=gthumb_marshal >> $@
 
 gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)

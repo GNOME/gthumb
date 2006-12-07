@@ -1,3 +1,21 @@
+2006-12-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gthumb-marshal.list: added VOID:INT type
+	* libgthumb/Makefile.am: fixed creation of the marshal types file.
+
+	* src/gth-dir-list.h (done):
+	* src/gth-browser-ui.h:
+	* src/gth-dir-list.c (gth_dir_list_change_to__step3):
+	(gth_dir_list_init):
+	(gth_dir_list_class_init):
+	* src/gth-browser.c (window_update_catalog_ui):
+	(catalog_activate):
+	(dir_list_done_cb):
+	(window_update_folder_ui): Add a GnomeVFSResult argument to the dir-list
+	DONE signal.  Emit the DONE signal when an error occurrs.  Handle
+	directory loading errors as espected. Fixed syntax error in the folder
+	ui declaration.  Update the ui when a catalog is loaded.
+
 2006-12-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c:
@@ -12,7 +30,7 @@
 2006-12-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (tag_category):
-	Final tweaks? Made the tag overlap detection code a bit	
+	Final tweaks? Made the tag overlap detection code a bit
 	more robust, and added some obscure interop tags.
 
 2006-12-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>

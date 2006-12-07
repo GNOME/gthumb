@@ -1573,6 +1573,10 @@ window_update_folder_ui (GthBrowser *browser)
 	}
 
 	priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, folder_ui_info, -1, &error);
+	if (error != NULL) {
+		g_warning ("%s\n", error->message);
+		g_error_free (error);
+	}
 	gtk_ui_manager_ensure_update (priv->ui);
 }
 
@@ -1600,6 +1604,10 @@ window_update_catalog_ui (GthBrowser *browser)
 		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, search_ui_info, -1, &error);
 	else
 		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, catalog_ui_info, -1, &error);
+	if (error != NULL) {
+		g_warning ("%s\n", error->message);
+		g_error_free (error);
+	}
 
 	gtk_ui_manager_ensure_update (priv->ui);
 }
@@ -2405,6 +2413,8 @@ catalog_activate (GthBrowser *browser,
 			g_free (priv->catalog_path);
 		priv->catalog_path = g_strdup (cat_path);
 	}
+
+	gth_browser_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST);
 
 	catalog = catalog_new ();
 	if (! catalog_load_from_disk (catalog, cat_path, &gerror)) {
@@ -6068,8 +6078,9 @@ dir_list_started_cb (GthDirList  *dir_list,
 
 
 static void
-dir_list_done_cb (GthDirList  *dir_list,
-		  gpointer     data)
+dir_list_done_cb (GthDirList     *dir_list,
+		  GnomeVFSResult  result,
+		  gpointer        data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -6077,14 +6088,14 @@ dir_list_done_cb (GthDirList  *dir_list,
 	gth_browser_stop_activity_mode (browser);
 	priv->changing_directory = FALSE;
 
-	if (dir_list->result != GNOME_VFS_ERROR_EOF) {
+	if (result != GNOME_VFS_ERROR_EOF) {
 		char *utf8_path;
 
 		utf8_path = g_filename_display_name (dir_list->try_path);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("Cannot load folder \"%s\": %s\n"),
 				       utf8_path,
-				       gnome_vfs_result_to_string (dir_list->result));
+				       gnome_vfs_result_to_string (result));
 		g_free (utf8_path);
 
 		priv->refreshing = FALSE;

@@ -42,35 +42,34 @@ struct _GthDirList {
 
 	char            *path;           /* The directory we are showing. */
 	char            *try_path;       /* The directory we are loading. */
-	GList           *list;           /* The directory name list (gchar* 
+	GList           *list;           /* The directory name list (gchar*
 				          * elements). */
 	GList           *file_list;      /* The file name list (gchar* elements). */
 	GtkListStore    *list_store;
 	GtkWidget       *list_view;      /* The widget that shows the list. */
 	GtkWidget       *root_widget;    /* The widget that contains all. */
 	GtkCellRenderer *text_renderer;
-	gboolean         show_dot_files; /* Whether to show file names that begin 
+	gboolean         show_dot_files; /* Whether to show file names that begin
 				          * with a dot. */
 	gboolean         single_click;
 	GtkTreePath     *hover_path;
 	char            *old_dir;
 	PathListHandle  *dir_load_handle;
-	GnomeVFSResult   result;         /* Result of the directory loading. */
 };
 
 struct _GthDirListClass {
 	GObjectClass __parent;
 
 	/* -- signals -- */
-	
-	void (*started) (GthDirList *dir_list);
-	void (*done)    (GthDirList *dir_list);
-	
+
+	void (*started) (GthDirList     *dir_list);
+	void (*done)    (GthDirList     *dir_list,
+	                 GnomeVFSResult  result);
 };
 
 GType          gth_dir_list_get_type                (void);
 GthDirList *   gth_dir_list_new                     (void);
-void           gth_dir_list_change_to               (GthDirList  *dir_list, 
+void           gth_dir_list_change_to               (GthDirList  *dir_list,
 						     const char  *path);
 void           gth_dir_list_stop                    (GthDirList  *dir_list);
 void           gth_dir_list_add_directory           (GthDirList  *dir_list,
@@ -87,7 +86,7 @@ char *         gth_dir_list_get_path_from_row       (GthDirList  *dir_list,
 						     int          row);
 int            gth_dir_list_get_row_from_path       (GthDirList  *dir_list,
 						     const char  *path);
-gboolean       gth_dir_list_get_selected_iter       (GthDirList  *dir_list, 
+gboolean       gth_dir_list_get_selected_iter       (GthDirList  *dir_list,
 						     GtkTreeIter *iter);
 char *         gth_dir_list_get_selected_path       (GthDirList  *dir_list);
 GList *        gth_dir_list_get_file_list           (GthDirList  *dir_list);
