@@ -67,7 +67,7 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 	N_("Maker Notes"), 
 	N_("GPS Coordinates"), 
 	N_("Embedded Thumbnail"), 
-	N_("Versions and Interoperability"), 
+	N_("Versions & Interoperability"), 
 	N_("Other") 
 };
 
