@@ -62,12 +62,12 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 {
 	N_("Filesystem Data"),
        	N_("General Information"), 
-	N_("Image Structure Data"), 
-	N_("Image Taking Conditions"), 
+	N_("Image Structure"), 
+	N_("Picture-Taking Conditions"), 
 	N_("Maker Notes"), 
 	N_("GPS Coordinates"), 
 	N_("Embedded Thumbnail"), 
-	N_("Version Information"), 
+	N_("Versions and Interoperability"), 
 	N_("Other") 
 };
 
