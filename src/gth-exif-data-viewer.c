@@ -50,34 +50,55 @@ typedef enum {
 	GTH_METADATA_CATEGORY_EXIF_IMAGE,
 	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
 	GTH_METADATA_CATEGORY_MAKERNOTE,
-	GTH_METADATA_CATEGORY_GPS,
 	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
 	GTH_METADATA_CATEGORY_VERSIONS,
+	GTH_METADATA_CATEGORY_GPS,
 	GTH_METADATA_CATEGORY_OTHER,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = { N_("Filesystem Data"), N_("General Info"), N_("Image Data"), N_("Image Taking Conditions"), N_("Maker Notes"), N_("GPS Coordinates"), N_("Embedded Thumbnail"), N_("Versions"), N_("Other") };
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] = 
+{
+	N_("Filesystem Data"),
+       	N_("General Information"), 
+	N_("Image Structure Data"), 
+	N_("Image Taking Conditions"), 
+	N_("Maker Notes"), 
+	N_("Embedded Thumbnail"), 
+	N_("Version Information"), 
+	N_("GPS Coordinates"), 
+	N_("Other") 
+};
 
 
-/* The mapping between exif tags and categories was taken (and modified)
+/* The mapping between exif tags and categories was taken (and heavily modified)
  * from the eog/libeog/eog-info-view-exif.c file from the eog image viewer
  * source code, which is released under the terms of the GNU General Public
  * License.
  *
  * Note: tags are displayed in the same order they appear in this list.
  *
+ * The layout of tags within a jpeg file is grouped into blocks (IFDs) called:
+ * IFD0 - basic data about the main image
+ * IFD1 - basic data about the thumbnail, if present
+ * EXIF - more data about the main image
+ * GPS - GPS related info
+ * INTEROPERABILITY - compability info
+ *
  */
 #define MAX_TAGS_PER_CATEGORY 50
 static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY] = {
 
-	/* GTH_METADATA_CATEGORY_FILE */ { -1 },
+	/* GTH_METADATA_CATEGORY_FILE */ 
+	/* The filesystem info is generated and inserted by gthumb in the
+	   correct order, so we don't need to sort it. */
+	{ -1 },
 
 	/* GTH_METADATA_CATEGORY_EXIF_CAMERA */
-
-	{ 
-	  EXIF_TAG_MAKE,
+	/* This is general information about the camera, date and user,
+	   that exists in the IFD0 or EXIF blocks. */
+	{ EXIF_TAG_MAKE,
 	  EXIF_TAG_MODEL,
 
   	  EXIF_TAG_DATE_TIME_ORIGINAL,
@@ -102,9 +123,9 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  -1 },
 
  	/* GTH_METADATA_CATEGORY_EXIF_IMAGE */
-
-	{ 
-	  EXIF_TAG_PIXEL_X_DIMENSION,
+	/* These tags describe the main image data structures, and
+	   come from the IFD0 and EXIF blocks. */
+	{ EXIF_TAG_PIXEL_X_DIMENSION,
 	  EXIF_TAG_PIXEL_Y_DIMENSION,
 	  EXIF_TAG_ORIENTATION,
 
@@ -140,9 +161,9 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  -1 },
 
         /* GTH_METADATA_CATEGORY_EXIF_CONDITIONS */
-
-	{
-	  EXIF_TAG_ISO_SPEED_RATINGS,
+	/* These tags describe the conditions when the photo was taken,
+	   and are located in the IFD0 or EXIF blocks. */
+	{ EXIF_TAG_ISO_SPEED_RATINGS,
 	  EXIF_TAG_FNUMBER,
 	  EXIF_TAG_APERTURE_VALUE,
 
@@ -200,12 +221,31 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_FILE_SOURCE,
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_MAKERNOTE */ { -1 },
+	/* GTH_METADATA_CATEGORY_MAKERNOTE */ 
+	/* These tags are semi-proprietary and vary from manufacturer to 
+	   manufacturer, so we don't bother trying to sort them. They are
+	   listed in the order that they appear in the jpeg file. */
+	{ -1 },
+
+	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ 
+	/* There are normally only a few of these tags, so we don't bother
+	   sorting them. They are displayed in the order that they appear in
+	   the file. IFD0 (main image) and IFD1 (thumbnail) share many of the
+	   same tags. The IFD0 tags are sorted by the structures above. The 
+	   IFD1 tags are placed into this category. */
+	{ -1 },
+
+	/* GTH_METADATA_CATEGORY_VERSIONS */
+	/* From IFD0, EXIF,or INTEROPERABILITY blocks. */
+	{ EXIF_TAG_EXIF_VERSION,
+	  EXIF_TAG_INTEROPERABILITY_INDEX,
+	  EXIF_TAG_INTEROPERABILITY_VERSION,
+	  EXIF_TAG_FLASH_PIX_VERSION,
+	  -1 },
 
 	/* GTH_METADATA_CATEGORY_GPS */
-
-	{ 
-	  EXIF_TAG_GPS_LATITUDE,
+	/* GPS data is stored in a special IFD (GPS) */
+	{ EXIF_TAG_GPS_LATITUDE,
 	  EXIF_TAG_GPS_LATITUDE_REF,
 	  EXIF_TAG_GPS_LONGITUDE,
 	  EXIF_TAG_GPS_LONGITUDE_REF,
@@ -238,18 +278,9 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
  	  EXIF_TAG_GPS_VERSION_ID,
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ { -1 },
-
-	/* GTH_METADATA_CATEGORY_VERSIONS */
-
-	{
-	  EXIF_TAG_EXIF_VERSION,
-	  EXIF_TAG_INTEROPERABILITY_INDEX,
-	  EXIF_TAG_INTEROPERABILITY_VERSION,
-	  EXIF_TAG_FLASH_PIX_VERSION,
-	  -1 },
-
-	/* GTH_METADATA_CATEGORY_OTHER */ { -1 }
+	/* GTH_METADATA_CATEGORY_OTHER */ 
+	/* New and unrecognized tags automatically go here. */
+	{ -1 }
 };
 
 
@@ -613,16 +644,15 @@ update_exif_data (GthExifDataViewer *edv,
 					continue;
 				}
 
+				/* Assign categories and sort positions. */
 				category = tag_category (e->tag, i, &position);
+
+				/* The "thumbnail" and "other" categories are not sorted
+				   using the category map. They are simply presented in
+				   the order they are found in the file. */
 				if (   (category == GTH_METADATA_CATEGORY_OTHER)
 				    || (category == GTH_METADATA_CATEGORY_EXIF_THUMBNAIL))
 					position = j;
-
-				/*if (tag_is_present_in_category (edv, category, value)) {
-					g_free (utf8_name);
-					g_free (utf8_value);
-					continue;
-				}*/
 
 				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
 
