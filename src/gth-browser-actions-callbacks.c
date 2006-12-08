@@ -60,7 +60,7 @@
 void
 gth_browser_activate_action_file_new_window (GtkAction  *action,
 					     GthBrowser *browser)
-{	
+{
 	const char *path;
         char       *uri = NULL;
 	GtkWidget  *new_browser;
@@ -78,7 +78,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 
 	default:
 		break;
-	} 
+	}
 
 	new_browser = gth_browser_new (uri);
 	gtk_widget_show (new_browser);
@@ -95,7 +95,7 @@ gth_browser_activate_action_file_view_image (GtkAction  *action,
 	GtkWidget  *new_viewer;
 
 	image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
-	if (image_filename == NULL) 
+	if (image_filename == NULL)
 		return;
 
 	if (eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
@@ -142,130 +142,11 @@ gth_browser_activate_action_file_write_to_cd (GtkAction  *action,
 }
 
 
-static void 
-rename_file (GtkWindow   *window,
-	     const GList *list)
-{
-	const char   *old_name, *old_path;
-	char         *old_name_utf8, *new_name_utf8;
-	char         *new_name, *new_path;
-	char         *dir;
-
-	g_return_if_fail (list != NULL);
-		
-	old_path = list->data;
-	old_name = file_name_from_path (old_path);
-	old_name_utf8 = g_filename_display_name (old_name);
-
-	new_name_utf8 = _gtk_request_dialog_run (window,
-						 GTK_DIALOG_MODAL,
-						 _("Enter the new name: "),
-						 old_name_utf8,
-						 MAX_NAME_LEN,
-						 GTK_STOCK_CANCEL,
-						 _("_Rename"));
-	g_free (old_name_utf8);
-
-	if (new_name_utf8 == NULL) 
-		return;
-
-	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
-	g_free (new_name_utf8);
-
-	if (strchr (new_name, '/') != NULL) {
-		char *utf8_name;
-
-		utf8_name = g_filename_display_name (new_name);
-		_gtk_error_dialog_run (window,
-				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
-		g_free (new_name);
-
-		return;
-	}
-
-	/* Rename */
-
-	dir = remove_level_from_path (old_path);
-	new_path = g_build_path ("/", dir, new_name, NULL);
-	g_free (dir);
-
-	if (path_is_file (new_path)) {
-		GtkWidget *d;
-		char      *message;
-		char      *utf8_name;
-		int        r;
-
-		utf8_name = g_filename_display_name (new_name);
-		message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
-		g_free (utf8_name);
-
-		d = _gtk_yesno_dialog_new (window,
-					   GTK_DIALOG_MODAL,
-					   message,
-					   GTK_STOCK_CANCEL,
-					   _("_Overwrite"));
-		g_free (message);
-
-		r = gtk_dialog_run (GTK_DIALOG (d));
-		gtk_widget_destroy (GTK_WIDGET (d));
-
-		if (r != GTK_RESPONSE_YES) {
-			g_free (new_path);
-			g_free (new_name);
-			return;
-		}
-	} 
-
-	all_windows_remove_monitor ();
-
-	if (same_uri (old_path, new_path)) {
-		char *utf8_path;
-
-		utf8_path = g_filename_display_name (old_path);
-		_gtk_error_dialog_run (window,
-				       _("Could not rename the image \"%s\": %s"),
-				       utf8_path,
-				       _("source and destination are the same"));
-		g_free (utf8_path);
-
-	} else if (file_move (old_path, new_path)) {
-		cache_move (old_path, new_path);
-		comment_move (old_path, new_path);
-		all_windows_notify_file_rename (old_path, new_path);
-
-	} else {
-		char *utf8_path;
-
-		utf8_path = g_filename_display_name (old_path);
-		_gtk_error_dialog_run (window,
-				       _("Could not rename the image \"%s\": %s"),
-				       utf8_path,
-				       errno_to_string ());
-		g_free (utf8_path);
-	}
-
-	all_windows_add_monitor ();
-
-	g_free (new_path);
-	g_free (new_name);
-}
-
-
 void
 gth_browser_activate_action_image_rename (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	const char *image_filename;
-	GList      *list;
-
-	image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
-	if (image_filename == NULL)
-		return;
-
-	list = g_list_prepend (NULL, g_strdup (image_filename));
-	rename_file (GTK_WINDOW (browser), list);
-	path_list_free (list);
+	dlg_rename_series (browser);
 }
 
 
@@ -292,7 +173,7 @@ gth_browser_activate_action_image_delete (GtkAction  *action,
 void
 gth_browser_activate_action_image_copy (GtkAction  *action,
 					GthBrowser *browser)
-{	
+{
 	const char *image_filename;
 	GList      *list;
 
@@ -301,11 +182,11 @@ gth_browser_activate_action_image_copy (GtkAction  *action,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (image_filename));
-	dlg_file_copy__ask_dest (GTH_WINDOW (browser), 
+	dlg_file_copy__ask_dest (GTH_WINDOW (browser),
 				 gth_browser_get_current_directory (browser),
 				 list);
 
-	/* the list is deallocated when the dialog is closed. */	
+	/* the list is deallocated when the dialog is closed. */
 }
 
 
@@ -321,11 +202,11 @@ gth_browser_activate_action_image_move (GtkAction  *action,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (image_filename));
-	dlg_file_move__ask_dest (GTH_WINDOW (browser), 
+	dlg_file_move__ask_dest (GTH_WINDOW (browser),
 				 gth_browser_get_current_directory (browser),
 				 list);
 
-	/* the list is deallocated when the dialog is closed. */	
+	/* the list is deallocated when the dialog is closed. */
 }
 
 
@@ -333,22 +214,7 @@ void
 gth_browser_activate_action_edit_rename_file (GtkAction  *action,
 					      GthBrowser *browser)
 {
-	GList *list;
-	int    len;
-
-	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
-	g_return_if_fail (list != NULL);
-
-	len = g_list_length (list);
-	if (len <= 0)
-		return;
-
-	if (len > 1)
-		dlg_rename_series (browser);
-	else 
-		rename_file (GTK_WINDOW (browser), list);
-
-	path_list_free (list);
+	dlg_rename_series (browser);
 }
 
 
@@ -363,7 +229,7 @@ duplicate_file (GtkWindow  *window,
 	int         try;
 
 	g_return_val_if_fail (old_path != NULL, FALSE);
-		
+
 	old_name = file_name_from_path (old_path);
 	old_name_no_ext = remove_extension_from_path (old_name);
 	ext = strrchr (old_name, '.');
@@ -371,8 +237,8 @@ duplicate_file (GtkWindow  *window,
 	dir = remove_level_from_path (old_path);
 
 	for (try = 2; TRUE; try++) {
-		new_name = g_strdup_printf ("%s (%d)%s", 
-					    old_name_no_ext, 
+		new_name = g_strdup_printf ("%s (%d)%s",
+					    old_name_no_ext,
 					    try,
 					    (ext == NULL) ? "" : ext);
 
@@ -382,7 +248,7 @@ duplicate_file (GtkWindow  *window,
 		g_free (new_name);
 		g_free (new_path);
 	}
-	
+
 	g_free (dir);
 	g_free (old_name_no_ext);
 
@@ -426,7 +292,7 @@ duplicate_file (GtkWindow  *window,
 }
 
 
-static void 
+static void
 duplicate_file_list (GtkWindow   *window,
 		     const GList *list)
 {
@@ -459,8 +325,8 @@ gth_browser_activate_action_edit_delete_files (GtkAction *action,
 	GList *list;
 
 	list = gth_window_get_file_list_selection (window);
-	dlg_file_delete__confirm (window, 
-				  list, 
+	dlg_file_delete__confirm (window,
+				  list,
 				  _("The selected images will be moved to the Trash, are you sure?"));
 
 	/* the list is deallocated when the dialog is closed. */
@@ -474,11 +340,11 @@ gth_browser_activate_action_edit_copy_files (GtkAction *action,
 	GList *list;
 
 	list = gth_window_get_file_list_selection (window);
-	dlg_file_copy__ask_dest (window, 
-				 gth_browser_get_current_directory (GTH_BROWSER (window)), 
+	dlg_file_copy__ask_dest (window,
+				 gth_browser_get_current_directory (GTH_BROWSER (window)),
 				 list);
 
-	/* the list is deallocated when the dialog is closed. */	
+	/* the list is deallocated when the dialog is closed. */
 }
 
 
@@ -489,8 +355,8 @@ gth_browser_activate_action_edit_move_files (GtkAction *action,
 	GList *list;
 
 	list = gth_window_get_file_list_selection (window);
-	dlg_file_move__ask_dest (window, 
-				 gth_browser_get_current_directory (GTH_BROWSER (window)), 
+	dlg_file_move__ask_dest (window,
+				 gth_browser_get_current_directory (GTH_BROWSER (window)),
 				 list);
 
 	/* the list is deallocated when the dialog is closed. */
@@ -525,8 +391,8 @@ gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 	GList *list;
 
 	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
-	remove_files_from_catalog (GTH_WINDOW (browser), 
-				   gth_browser_get_current_catalog (browser), 
+	remove_files_from_catalog (GTH_WINDOW (browser),
+				   gth_browser_get_current_catalog (browser),
 				   list);
 
 	/* the list is deallocated in remove_files_from_catalog. */
@@ -536,11 +402,11 @@ gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 void
 gth_browser_activate_action_edit_catalog_view (GtkAction  *action,
 					       GthBrowser *browser)
-{	
+{
 	char *path;
 
 	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 	if (path_is_dir (path)) {
 		gth_browser_go_to_catalog (browser, NULL);
@@ -560,14 +426,14 @@ gth_browser_activate_action_edit_catalog_view_new_window (GtkAction  *action,
 	char *uri;
 
 	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 	uri = g_strconcat ("catalog://", remove_scheme_from_uri (path), NULL);
 
 	gtk_widget_show (gth_browser_new (uri));
 
 	g_free (uri);
-	g_free (path);	
+	g_free (path);
 }
 
 
@@ -588,7 +454,7 @@ catalog_rename (GthBrowser *browser,
 		return;
 
 	is_dir = path_is_dir (catalog_path);
-	
+
 	if (! is_dir)
 		name_only = remove_extension_from_path (file_name_from_path (catalog_path));
 	else
@@ -602,7 +468,7 @@ catalog_rename (GthBrowser *browser,
 						 GTK_STOCK_CANCEL,
 						 _("_Rename"));
 	g_free (name_only_utf8);
-	
+
 	if (new_name_utf8 == NULL) {
 		g_free (name_only);
 		return;
@@ -637,27 +503,27 @@ catalog_rename (GthBrowser *browser,
 		char *utf8_name;
 
 		utf8_name = g_filename_display_name (new_name);
-		_gtk_error_dialog_run (GTK_WINDOW (browser), 
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if (file_rename (catalog_path, new_catalog_path)) {
-		all_windows_notify_catalog_rename (catalog_path, 
+		all_windows_notify_catalog_rename (catalog_path,
 						   new_catalog_path);
 	} else {
 		char *utf8_name;
 
 		utf8_name = g_filename_display_name (name_only);
-		_gtk_error_dialog_run (GTK_WINDOW (browser), 
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
                                        is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
                                        utf8_name,
                                        errno_to_string ());
 		g_free (utf8_name);
 	}
 
-	g_free (new_name); 	
+	g_free (new_name);
 	g_free (new_catalog_path);
-	g_free (name_only);	
+	g_free (name_only);
 }
 
 
@@ -669,7 +535,7 @@ gth_browser_activate_action_edit_catalog_rename (GtkAction  *action,
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
-		return;	
+		return;
 	catalog_rename (browser, catalog_path);
 	g_free (catalog_path);
 }
@@ -682,19 +548,19 @@ real_catalog_delete (GthBrowser *browser)
 	char     *catalog_path;
 	GError   *gerror;
 	gboolean  error;
-	
+
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
 
-	if (path_is_dir (catalog_path)) 
+	if (path_is_dir (catalog_path))
 		error = ! delete_catalog_dir (catalog_path, TRUE, &gerror);
-	else 
+	else
 		error = ! delete_catalog (catalog_path, &gerror);
-	
-	if (error) 
+
+	if (error)
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
-	
+
 	all_windows_notify_catalog_delete (catalog_path);
 	g_free (catalog_path);
 }
@@ -718,7 +584,7 @@ catalog_delete (GthBrowser *browser,
 		return;
 	}
 
-	if (path_is_dir (catalog_path)) 
+	if (path_is_dir (catalog_path))
 		message = g_strdup (_("The selected library will be removed, are you sure?"));
 	else
 		message = g_strdup (_("The selected catalog will be removed, are you sure?"));
@@ -732,7 +598,7 @@ catalog_delete (GthBrowser *browser,
 
 	r = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-	if (r == GTK_RESPONSE_YES) 
+	if (r == GTK_RESPONSE_YES)
 		real_catalog_delete (browser);
 }
 
@@ -760,7 +626,7 @@ gth_browser_activate_action_edit_catalog_move (GtkAction  *action,
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
-	
+
 	dlg_move_to_catalog_directory (GTH_WINDOW (browser), catalog_path);
 
 	/* catalog_path is deallocated when the dialog is closed. */
@@ -808,7 +674,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 	char           *new_name_utf8;
 	char           *new_catalog_path;
 	GnomeVFSHandle *vfs_handle;
-	
+
 	catalog_list = gth_browser_get_catalog_list (browser);
 	if (catalog_list->path == NULL)
 		return;
@@ -820,7 +686,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 						 MAX_NAME_LEN,
 						 GTK_STOCK_CANCEL,
 						 GTK_STOCK_OK);
-	if (new_name_utf8 == NULL) 
+	if (new_name_utf8 == NULL)
 		return;
 
 	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
@@ -849,7 +715,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 		char *utf8_name;
 
 		utf8_name = g_filename_display_name (new_name);
-		_gtk_error_dialog_run (GTK_WINDOW (browser), 
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
@@ -861,14 +727,14 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 		char *utf8_name;
 
 		utf8_name = g_filename_display_name (new_name);
-		_gtk_error_dialog_run (GTK_WINDOW (browser), 
-                                       _("Could not create the catalog \"%s\": %s"), 
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+                                       _("Could not create the catalog \"%s\": %s"),
                                        utf8_name,
                                        errno_to_string ());
 		g_free (utf8_name);
 	}
 
-	g_free (new_name); 	
+	g_free (new_name);
 	g_free (new_catalog_path);
 }
 
@@ -902,8 +768,8 @@ create_new_folder_or_library (GthBrowser *browser,
 						 MAX_NAME_LEN,
 						 GTK_STOCK_CANCEL,
 						 _("C_reate"));
-	
-	if (new_name_utf8 == NULL) 
+
+	if (new_name_utf8 == NULL)
 		return;
 
 	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
@@ -924,7 +790,7 @@ create_new_folder_or_library (GthBrowser *browser,
 	/* Create folder */
 
 	new_path = g_build_path ("/", current_path, new_name, NULL);
-	
+
 	if (path_is_dir (new_path)) {
 		char *utf8_name;
 
@@ -933,7 +799,7 @@ create_new_folder_or_library (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (! dir_make (new_path, 0755)) { 
+	} else if (! dir_make (new_path, 0755)) {
 		char *utf8_path;
 
 		utf8_path = g_filename_display_name (new_path);
@@ -944,7 +810,7 @@ create_new_folder_or_library (GthBrowser *browser,
 		g_free (utf8_path);
 	}
 	all_windows_notify_directory_new (new_path);
-	
+
 	g_free (new_path);
 	g_free (new_name);
 }
@@ -954,7 +820,7 @@ void
 gth_browser_activate_action_edit_current_catalog_new_library (GtkAction  *action,
 							      GthBrowser *browser)
 {
-	create_new_folder_or_library (browser, 
+	create_new_folder_or_library (browser,
 				      _("New Library"),
 				      _("Enter the library name: "),
 				      _("Could not create the library \"%s\": %s"));
@@ -982,9 +848,9 @@ gth_browser_activate_action_edit_current_catalog_move (GtkAction  *action,
 						       GthBrowser *browser)
 {
 	char *catalog_path;
-	
+
 	if (gth_browser_get_current_catalog (browser) == NULL)
-		return;	
+		return;
 	catalog_path = g_strdup (gth_browser_get_current_catalog (browser));
 	dlg_move_to_catalog_directory (GTH_WINDOW (browser), catalog_path);
 
@@ -1000,7 +866,7 @@ gth_browser_activate_action_edit_current_catalog_edit_search (GtkAction  *action
 	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	if (catalog_path == NULL)
-		return;	
+		return;
 	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
 		(*module) (browser, catalog_path);
 }
@@ -1014,7 +880,7 @@ gth_browser_activate_action_edit_current_catalog_redo_search (GtkAction  *action
 	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	if (catalog_path == NULL)
-		return;	
+		return;
 	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
 		(*module) (browser, catalog_path);
 }
@@ -1027,7 +893,7 @@ gth_browser_activate_action_edit_dir_view (GtkAction  *action,
 	char *path;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 	gth_browser_go_to_directory (browser, path);
 	g_free (path);
@@ -1042,7 +908,7 @@ gth_browser_activate_action_edit_dir_view_new_window (GtkAction  *action,
 	char *uri;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 
 	uri = get_uri_from_path (path);
@@ -1062,7 +928,7 @@ show_folder (GtkWindow  *window,
 
 	if (path == NULL)
 		return;
-	
+
 	uri = get_uri_from_path (path);
 	result = gnome_vfs_url_show (uri);
 	if (result != GNOME_VFS_OK)
@@ -1078,7 +944,7 @@ gth_browser_activate_action_edit_dir_open (GtkAction  *action,
 	char *path;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 	show_folder (GTK_WINDOW (browser), path);
 	g_free (path);
@@ -1110,8 +976,8 @@ folder_rename (GtkWindow  *window,
 						 GTK_STOCK_CANCEL,
 						 _("_Rename"));
 	g_free (old_name_utf8);
-	
-	if (new_name_utf8 == NULL) 
+
+	if (new_name_utf8 == NULL)
 		return;
 
 	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
@@ -1136,10 +1002,10 @@ folder_rename (GtkWindow  *window,
 	g_free (parent_path);
 
 	all_windows_remove_monitor ();
-	
+
 	if (same_uri (old_path, new_path)) {
 		char *utf8_path;
-		
+
 		utf8_path = g_filename_display_name (old_path);
 		_gtk_error_dialog_run (window,
 				       _("Could not rename the folder \"%s\": %s"),
@@ -1161,7 +1027,7 @@ folder_rename (GtkWindow  *window,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (file_rename (old_path, new_path)) { 
+		if (file_rename (old_path, new_path)) {
 			char *new_folder_comment;
 
 			/* Comment cache. */
@@ -1169,7 +1035,7 @@ folder_rename (GtkWindow  *window,
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
 			file_rename (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
-			
+
 			all_windows_notify_directory_rename (old_path, new_path);
 
 		} else {
@@ -1188,7 +1054,7 @@ folder_rename (GtkWindow  *window,
 	all_windows_add_monitor ();
 
 	g_free (new_path);
-	g_free (new_name); 		
+	g_free (new_name);
 }
 
 
@@ -1225,20 +1091,20 @@ folder_delete__continue2 (GnomeVFSResult result,
 	if (result != GNOME_VFS_OK) {
 		const char *message;
 		char       *utf8_name;
-		
+
 		message = _("Could not delete the folder \"%s\": %s");
 		utf8_name = g_filename_display_basename (fddata->path);
 
 		_gtk_error_dialog_run (fddata->window,
-				       message, 
-				       utf8_name, 
+				       message,
+				       utf8_name,
 				       gnome_vfs_result_to_string (result));
 		g_free (utf8_name);
 
 	}
 
 	g_free (fddata->path);
-	g_free (fddata);	
+	g_free (fddata);
 }
 
 
@@ -1270,18 +1136,18 @@ folder_delete__continue (GnomeVFSResult result,
 
 			g_free (message);
 			g_free (utf8_name);
-		
+
 			r = gtk_dialog_run (GTK_DIALOG (d));
 			gtk_widget_destroy (GTK_WIDGET (d));
-		} 
+		}
 
-		if (r == GTK_RESPONSE_YES) 
-			dlg_folder_delete (GTH_WINDOW (fddata->window), 
-					   fddata->path, 
-					   folder_delete__continue2, 
+		if (r == GTK_RESPONSE_YES)
+			dlg_folder_delete (GTH_WINDOW (fddata->window),
+					   fddata->path,
+					   folder_delete__continue2,
 					   fddata);
 
-	} else 
+	} else
 		folder_delete__continue2 (result, data);
 }
 
@@ -1309,7 +1175,7 @@ folder_delete (GtkWindow  *window,
 	r = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
-	if (r != GTK_RESPONSE_YES) 
+	if (r != GTK_RESPONSE_YES)
 		return;
 
 	/* Delete */
@@ -1318,9 +1184,9 @@ folder_delete (GtkWindow  *window,
 	fddata->window = window;
 	fddata->path = g_strdup (path);
 
-	dlg_folder_move_to_trash (GTH_WINDOW (window), 
-				  path, 
-				  folder_delete__continue, 
+	dlg_folder_move_to_trash (GTH_WINDOW (window),
+				  path,
+				  folder_delete__continue,
 				  fddata);
 }
 
@@ -1348,13 +1214,13 @@ folder_copy__continue (GnomeVFSResult result,
 	if (result != GNOME_VFS_OK) {
 		const char *message;
 		char       *utf8_name;
-		
+
 		message = _("Could not copy the folder \"%s\": %s");
 		utf8_name = g_filename_display_basename (path);
-		
+
 		_gtk_error_dialog_run (NULL,
-				       message, 
-				       utf8_name, 
+				       message,
+				       utf8_name,
 				       gnome_vfs_result_to_string (result));
 		g_free (utf8_name);
 	}
@@ -1400,7 +1266,7 @@ folder_copy__response_cb (GObject *object,
 
 	dir_name = file_name_from_path (old_path);
 	new_path = g_build_path ("/", dest_dir, dir_name, NULL);
-	 
+
 	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
 
@@ -1408,7 +1274,7 @@ folder_copy__response_cb (GObject *object,
 
 	if (same_uri (old_path, new_path)) {
 		char *utf8_path;
-		
+
 		utf8_path = g_filename_display_name (old_path);
 
 		_gtk_error_dialog_run (GTK_WINDOW (window),
@@ -1419,7 +1285,7 @@ folder_copy__response_cb (GObject *object,
 
 	} else if (path_in_path (old_path, new_path)) {
 		char *utf8_path;
-		
+
 		utf8_path = g_filename_display_name (old_path);
 
 		_gtk_error_dialog_run (GTK_WINDOW (window),
@@ -1440,26 +1306,26 @@ folder_copy__response_cb (GObject *object,
 		g_free (utf8_name);
 
 	} else if (! (move && same_fs)) {
-		dlg_folder_copy (window, 
-				 old_path, 
-				 new_path, 
-				 move, 
+		dlg_folder_copy (window,
+				 old_path,
+				 new_path,
+				 move,
 				 TRUE,
 				 FALSE,
-				 folder_copy__continue, 
+				 folder_copy__continue,
 				 g_strdup (old_path));
 
 	} else {
 		char *old_folder_comment = NULL;
 
 		/* Comment cache. */
-			
+
 		old_folder_comment= comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (file_rename (old_path, new_path)) { 
+		if (file_rename (old_path, new_path)) {
 			char *new_folder_comment;
 
-			/* moving folders on the same file system can be 
+			/* moving folders on the same file system can be
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
@@ -1526,12 +1392,12 @@ folder_copy (GthWindow   *window,
 	g_object_set_data (G_OBJECT (file_sel), "folder_op", GINT_TO_POINTER (move));
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "response", 
-			  G_CALLBACK (folder_copy__response_cb), 
+			  "response",
+			  G_CALLBACK (folder_copy__response_cb),
 			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "destroy", 
+			  "destroy",
 			  G_CALLBACK (folder_copy__destroy_cb),
 			  file_sel);
 
@@ -1558,7 +1424,7 @@ gth_browser_activate_action_edit_dir_copy (GtkAction  *action,
 void
 gth_browser_activate_action_edit_dir_move (GtkAction  *action,
 					   GthBrowser *browser)
-{	
+{
 	char *path;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
@@ -1583,7 +1449,7 @@ edit_current_folder_categories__done (gpointer data)
 {
 	FolderCategoriesData *fcdata = data;
 	GList                *scan;
-	
+
 	for (scan = fcdata->file_list; scan; scan = scan->next) {
 		const char  *filename = scan->data;
 		CommentData *cdata;
@@ -1593,7 +1459,7 @@ edit_current_folder_categories__done (gpointer data)
 		cdata = comments_load_comment (filename, FALSE);
 		if (cdata == NULL)
 			cdata = comment_data_new ();
-		else 
+		else
 			for (scan2 = fcdata->remove_list; scan2; scan2 = scan2->next) {
 				const char *k = scan2->data;
 				comment_data_remove_keyword (cdata, k);
@@ -1621,7 +1487,7 @@ edit_current_folder_categories__done (gpointer data)
 }
 
 
-static void 
+static void
 edit_current_folder_categories (GthBrowser *browser,
 				const char *path)
 {
@@ -1712,7 +1578,7 @@ void
 gth_browser_activate_action_edit_current_dir_new (GtkAction  *action,
 						  GthBrowser *browser)
 {
-	create_new_folder_or_library (browser, 
+	create_new_folder_or_library (browser,
 				      _("New Folder"),
 				      _("Enter the folder name: "),
 				      _("Could not create the folder \"%s\": %s"));
@@ -1723,7 +1589,7 @@ void
 gth_browser_activate_action_view_next_image (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	gth_browser_show_next_image (browser, FALSE);	
+	gth_browser_show_next_image (browser, FALSE);
 }
 
 
@@ -1731,7 +1597,7 @@ void
 gth_browser_activate_action_view_prev_image (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	gth_browser_show_prev_image (browser, FALSE);	
+	gth_browser_show_prev_image (browser, FALSE);
 }
 
 
@@ -1859,8 +1725,8 @@ gth_browser_activate_action_go_location (GtkAction  *action,
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
 
 	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
-			  "response", 
-			  G_CALLBACK (open_location_response_cb), 
+			  "response",
+			  G_CALLBACK (open_location_response_cb),
 			  browser);
 
 	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
@@ -1886,7 +1752,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 		else
 			prefix = g_strdup (CATALOG_PREFIX);
 		catalog_path = catalog_list_get_path_from_iter (catalog_list, &iter);
-		
+
 		path = g_strconcat (prefix, remove_scheme_from_uri (catalog_path), NULL);
 
 		g_free (catalog_path);
@@ -1899,8 +1765,8 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 			return;
 		path = get_uri_from_path (dir_list->path);
 	}
-	
-	if (path == NULL) 
+
+	if (path == NULL)
 		return;
 
 	bookmarks_add (preferences.bookmarks, path, TRUE, TRUE);
@@ -1932,7 +1798,7 @@ gth_browser_activate_action_tools_find_images (GtkAction  *action,
 					       GthBrowser *browser)
 {
 	void (*module) (GtkWidget *widget, GthBrowser *browser);
-	
+
 	if (gthumb_module_get ("dlg_search", (gpointer*) &module))
 		(*module) (NULL, browser);
 }
@@ -1999,7 +1865,7 @@ void
 gth_browser_activate_action_view_statusbar (GtkAction *action,
 					    gpointer   data)
 {
-	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));	
+	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 

@@ -74,6 +74,9 @@ file_data_update (FileData *fd)
 
 	g_return_if_fail (fd != NULL);
 
+	fd->error = FALSE;
+	fd->thumb = FALSE;
+
 	escaped = escape_uri (fd->path);
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (escaped,
@@ -83,7 +86,11 @@ file_data_update (FileData *fd)
 	g_free (escaped);
 
 	if (result != GNOME_VFS_OK) {
-		g_warning ("Cannot get info of file : %s\n", fd->path);
+		fd->error = TRUE;
+		fd->size = 0L;
+		fd->mtime = 0;
+		fd->ctime = 0;
+		fd->exif_data_loaded = FALSE;
 		return;
 	}
 

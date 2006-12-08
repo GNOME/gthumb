@@ -74,17 +74,18 @@ typedef struct {
 	GList         *file_list;
 	GList         *new_names_list;
 	GthSortMethod  sort_method;
+	gboolean       single_file;
 } DialogData;
 
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	if (data->file_list != NULL)
 		g_list_free (data->file_list);
-	file_data_list_free (data->original_file_list); 
+	file_data_list_free (data->original_file_list);
 	if (data->new_names_list != NULL) {
 		g_list_foreach (data->new_names_list, (GFunc) g_free, NULL);
 		g_list_free (data->new_names_list);
@@ -96,7 +97,7 @@ destroy_cb (GtkWidget  *widget,
 
 /* called when the "ok" button is pressed. */
 static void
-ok_clicked_cb (GtkWidget  *widget, 
+ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
 	GList *old_names = NULL;
@@ -107,22 +108,25 @@ ok_clicked_cb (GtkWidget  *widget,
 	/* Save options */
 
 	template = gtk_entry_get_text (GTK_ENTRY (data->rs_template_entry));
-	eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, template);
+	if (strchr (template, '/') != NULL) {
+		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), template);
+		return;
+	}
 
-	eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton)));
-
-	pref_set_rename_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))]);
-
-	eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)));
-
-	/**/
+	if (! data->single_file) {
+		eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, template);
+		eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton)));
+		pref_set_rename_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))]);
+		eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)));
+	}
 
 	for (o_scan = data->file_list, n_scan = data->new_names_list; o_scan && n_scan; o_scan = o_scan->next, n_scan = n_scan->next) {
-		FileData *fdata     = o_scan->data;
-		char *old_full_path = fdata->path;
-		char *new_name      = n_scan->data;
-		char *old_path      = remove_level_from_path (old_full_path);
-		char *new_full_path;
+		FileData *fdata         = o_scan->data;
+		char     *old_full_path = fdata->path;
+		char     *new_name      = n_scan->data;
+		char     *old_path      = remove_level_from_path (old_full_path);
+		char     *new_full_path;
 
 		new_full_path = g_strconcat (old_path, "/", new_name, NULL);
 		g_free (old_path);
@@ -183,7 +187,7 @@ comp_func_exif_date (gconstpointer  ptr1,
 		     gconstpointer  ptr2)
 {
 	FileData *fd1 = (FileData *) ptr1, *fd2 = (FileData *) ptr2;
-	
+
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
@@ -228,7 +232,7 @@ get_sortfunc (DialogData *data)
         GCompareFunc func;
 
         switch (data->sort_method) {
-        case GTH_SORT_METHOD_BY_NAME:		
+        case GTH_SORT_METHOD_BY_NAME:
                 func = comp_func_name;
                 break;
         case GTH_SORT_METHOD_BY_TIME:
@@ -295,7 +299,7 @@ update_list (DialogData *data)
 		g_list_free (data->file_list);
 	data->file_list = g_list_copy (data->original_file_list);
 	data->file_list = g_list_sort (data->file_list, get_sortfunc (data));
-	
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)))
 		data->file_list = g_list_reverse (data->file_list);
 
@@ -339,11 +343,9 @@ update_list (DialogData *data)
 		name4 = _g_substitute_pattern (name3, 's', image_size);
 		g_free (image_size);
 
-		if (strrchr (fdata->name, '.'))
-			{
+		if (strrchr (fdata->name, '.') != NULL)
 			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
-			}
-			
+
 		new_name = _g_substitute_pattern (name4, 'e', extension);
 
 		data->new_names_list = g_list_prepend (data->new_names_list, g_filename_from_utf8 (new_name, -1, 0, 0, 0));
@@ -368,9 +370,9 @@ update_list (DialogData *data)
 		GtkTreeIter  iter;
 		char        *utf8_on;
 		char        *utf8_nn;
-		
+
 		gtk_list_store_append (data->rs_list_model, &iter);
-		
+
 		utf8_on = g_filename_display_name (fdata->name);
 		utf8_nn = g_filename_display_name (new_name);
 		gtk_list_store_set (data->rs_list_model, &iter,
@@ -395,14 +397,13 @@ update_list_cb (GtkWidget  *widget,
 
 /* called when the "help" button is clicked. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-rename-series");
 }
 
 
-
 void
 dlg_rename_series (GthBrowser *browser)
 {
@@ -413,7 +414,6 @@ dlg_rename_series (GthBrowser *browser)
 	GList             *list;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	char              *svalue;
 	gboolean           reorderable;
 	int                idx;
 
@@ -426,6 +426,7 @@ dlg_rename_series (GthBrowser *browser)
 	data = g_new0 (DialogData, 1);
 
 	data->original_file_list = list;
+	data->single_file = (data->original_file_list->next == NULL);
 	data->file_list = NULL;
 	data->new_names_list = NULL;
 	data->browser = browser;
@@ -454,7 +455,7 @@ dlg_rename_series (GthBrowser *browser)
 	/* Set widgets data. */
 
 	data->rs_list_model = gtk_list_store_new (RS_NUM_COLUMNS,
-						  G_TYPE_STRING, 
+						  G_TYPE_STRING,
 						  G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->rs_list_treeview),
 				 GTK_TREE_MODEL (data->rs_list_model));
@@ -493,48 +494,42 @@ dlg_rename_series (GthBrowser *browser)
 	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
 		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_sort_combobox), idx);
-	
-	/**/
-
-	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
-	gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), svalue);
-	g_free (svalue);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));
 
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
-
-	update_list (data);
+	gtk_widget_set_sensitive (data->rs_sort_combobox, ! data->single_file);
+	gtk_widget_set_sensitive (data->rs_reverse_checkbutton, ! data->single_file);
+	gtk_widget_set_sensitive (data->rs_start_at_spinbutton, ! data->single_file);
 
 	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
+
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_ok), 
+	g_signal_connect (G_OBJECT (btn_ok),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+	g_signal_connect_swapped (G_OBJECT (btn_cancel),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (help_button), 
+	g_signal_connect (G_OBJECT (help_button),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->rs_template_entry), 
+	g_signal_connect (G_OBJECT (data->rs_template_entry),
 			  "changed",
 			  G_CALLBACK (update_list_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->rs_start_at_spinbutton), 
+	g_signal_connect (G_OBJECT (data->rs_start_at_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (update_list_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->rs_sort_combobox), 
+	g_signal_connect (G_OBJECT (data->rs_sort_combobox),
 			  "changed",
 			  G_CALLBACK (update_list_cb),
 			  data);
@@ -545,8 +540,28 @@ dlg_rename_series (GthBrowser *browser)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
+
+	if (data->single_file) {
+		FileData   *fd = data->original_file_list->data;
+		const char *last_dot;
+
+		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), fd->utf8_name);
+		last_dot = strrchr (fd->name, '.');
+		if (last_dot == NULL)
+			last_dot = fd->name + strlen (fd->name) - 1;
+		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, last_dot - fd->name);
+	}
+	else {
+		char *svalue;
+
+		svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
+		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), svalue);
+		g_free (svalue);
+	}
+
+	update_list (data);
 }
