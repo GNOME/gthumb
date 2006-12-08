@@ -1666,14 +1666,14 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/print/paper_orientation</key>
-	<applyto>/apps/gthumb/dialogs/print/paper_orientation</applyto>
+	<key>/schemas/apps/gthumb/dialogs/print/print_paper_orientation</key>
+	<applyto>/apps/gthumb/dialogs/print/print_paper_orientation</applyto>
 	<owner>gthumb</owner>
-	<type>string</type>
-	<default>R0</default>
+	<type>int</type>
+	<default>0</default>
 	<locale name="C">
 	  <short></short>
-	  <long>
+	  <long> Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)
 	  </long>
 	</locale>
       </schema>
@@ -1709,7 +1709,7 @@
 	<applyto>/apps/gthumb/dialogs/print/comment_font</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>Serif 12</default>
+	<default>Sans 12</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

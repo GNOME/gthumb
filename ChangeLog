@@ -1,5 +1,37 @@
 2006-12-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* configure.in:
+	* data/gthumb.schemas.in:
+	* libgthumb/Makefile.am:
+	* libgthumb/preferences.h:
+	* libgthumb/print-callbacks.c: (orientation_is_portrait),
+	(print_catalog_info_unref), (pango_font_get_glyph),
+	(pci_get_next_line_to_print_delimiter), (pango_font_get_glyphs),
+	(pci_get_text_extents), (construct_comment), (pci_print_line),
+	(pci_print_paragraph), (pci_print_comment), (add_catalog_preview),
+	(catalog_update_page), (catalog_update_custom_page_size),
+	(catalog_get_page_width), (catalog_get_page_height),
+	(catalog_get_page_left_margin), (catalog_get_page_right_margin),
+	(catalog_get_page_top_margin), (catalog_get_page_bottom_margin),
+	(catalog_update_page_size_from_config),
+	(catalog_set_standard_page_size), (catalog_update_margins),
+	(done_print), (begin_print), (preview), (draw_page),
+	(pci_update_comment_font), (catalog_portrait_toggled_cb),
+	(catalog_landscape_toggled_cb), (print_catalog_cb),
+	(load_current_image), (pci_comment_fontpicker_font_set_cb),
+	(print_catalog_dlg_full):
+	Migrated from libgnomeprint to gtkprint. Bug 362854.
+	Requires gtk 2.10.0 now!
+
+	* libgthumb/gnome-print-font-dialog.c:
+	* libgthumb/gnome-print-font-dialog.h:
+	* libgthumb/gnome-print-font-picker.c:
+	* libgthumb/gnome-print-font-picker.h:
+	Removed, using gtkprint now.
+
+2006-12-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: (tag_category), (update_exif_data):
 	Fixed possibility of non-unique positioning of "other" exif tags.
 

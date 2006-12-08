@@ -25,21 +25,14 @@
 #include <math.h>
 
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-font-picker.h>
-#include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-unit.h>
-#include <libgnomeprint/gnome-print-job.h>
-#include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-print-job-preview.h>
-#include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
-#include <libart_lgpl/libart.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glade/glade.h>
 #include <pango/pango-layout.h>
+#include <gtk/gtkprintoperation.h>
+#include <pango/pangocairo.h>
 
 #include "glib-utils.h"
 #include "gconf-utils.h"
@@ -48,7 +41,6 @@
 #include "image-loader.h"
 #include "pixbuf-utils.h"
 #include "comments.h"
-#include "gnome-print-font-picker.h"
 #include "preferences.h"
 #include "progress-dialog.h"
 
@@ -56,11 +48,11 @@
 #define GLADE_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
 #define CANVAS_ZOOM 0.25
-#define DEF_COMMENT_FONT "Serif Regular 12"
+#define DEF_COMMENT_FONT "Sans 12"
 #define DEF_PAPER_WIDTH  0.0
 #define DEF_PAPER_HEIGHT 0.0
 #define DEF_PAPER_SIZE   "A4"
-#define DEF_PAPER_ORIENT "R0"
+#define DEF_PAPER_ORIENT GTK_PAGE_ORIENTATION_PORTRAIT
 #define DEF_MARGIN_LEFT 20.0
 #define DEF_MARGIN_RIGHT 20.0
 #define DEF_MARGIN_TOP 30.0
@@ -73,14 +65,7 @@
 #define gray50_width  1
 #define gray50_height 5
 
-#define UNIT_MM 0
-#define UNIT_IN 1
-static const GnomePrintUnit print_units[] = {
-        {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0 / 25.4), 
-	 UCHAR "Millimeter", UCHAR "mm", UCHAR "Millimeters", UCHAR "mm"},
-        {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0), 
-	 UCHAR "Inch", UCHAR "in", UCHAR "Inches", UCHAR "in"},
-};
+static const GtkUnit print_units[] = { GTK_UNIT_MM, GTK_UNIT_INCH };
 
 static const char *paper_sizes[] = {"A4", "USLetter", "USLegal", "Tabloid", 
 				    "Executive", "Postcard", "Custom"};
@@ -146,16 +131,9 @@ clear_canvas (GnomeCanvasGroup *group)
 
 
 static gboolean
-orientation_is_portrait (GnomePrintConfig *config)
+orientation_is_portrait (GtkPageSetup *page_setup)
 {
-	char     *orientation;
-	gboolean  portrait;
-
-	orientation = (char*) gnome_print_config_get (config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION);
-	portrait = ((strcmp (orientation, "R0") == 0) || (strcmp (orientation, "R180") == 0));
-	g_free (orientation);
-
-	return portrait;
+	return gtk_page_setup_get_orientation (page_setup) == GTK_PAGE_ORIENTATION_PORTRAIT;
 }
 
 
@@ -267,7 +245,13 @@ typedef struct {
 	GnomeCanvasItem    **pages;
 	int                  n_pages, current_page;
 
-	GnomeFont           *font_comment;
+	GtkPrintOperation    *print_operation;
+	GtkPageSetup	     *page_setup;
+
+	PangoFontDescription *comment_font_desc;
+	PangoFont	     *font;
+	PangoFontMap	     *fontmap;
+	PangoContext         *context;
 
 	double               paper_width;
 	double               paper_height;
@@ -276,14 +260,12 @@ typedef struct {
 	double               paper_tmargin;
 	double               paper_bmargin;
 
-	GnomePrintConfig    *config;
-	GnomePrintJob       *gpj;
-
 	gboolean             print_comments;
 	gboolean             print_filenames;
 	gboolean             portrait;
 
 	gboolean             use_colors;
+	gboolean	     is_preview;
 
 	int                  images_per_page;
 	int                  n_images;
@@ -312,12 +294,32 @@ print_catalog_info_unref (PrintCatalogInfo *pci)
 	if (pci->ref_count == 0) {
 		int i;
 
-		if (pci->gpj != NULL)
-			g_object_unref (pci->gpj);
-		gnome_print_config_unref (pci->config);
+		if (pci->page_setup) {
+			g_object_unref(pci->page_setup);
+			pci->page_setup = NULL;
+		}
 
-		if (pci->font_comment != NULL)
-			g_object_unref (pci->font_comment);
+		if (pci->print_operation) {
+			g_object_unref (pci->print_operation);
+			pci->print_operation = NULL;
+		}
+
+ 		if (pci->font != NULL) {
+ 			g_object_unref (pci->font);
+			pci->font = NULL;
+		}
+
+ 		if (pci->context != NULL) {
+ 			g_object_unref (pci->context);
+			pci->context = NULL;
+		}
+
+		pci->fontmap = NULL;
+
+		if (pci->comment_font_desc) {
+			pango_font_description_free (pci->comment_font_desc);
+			pci->comment_font_desc = NULL;
+		}
 
 		for (i = 0; i < pci->n_images; i++) 
 			image_info_free (pci->image_info[i]);
@@ -352,6 +354,8 @@ typedef struct {
 	GtkWidget     *comment_font_hbox;
 	GtkWidget     *scale_image_box;
 
+	GtkWindow	   *parent;
+
 	GtkAdjustment *adj;
 
 	PrintCatalogInfo  *pci;
@@ -382,85 +386,76 @@ print_catalog_destroy_cb (GtkWidget              *widget,
 	g_free (data);
 }
 
+static PangoGlyphInfo
+pango_font_get_glyph (PangoFont	    *font, 
+		      PangoLanguage *language, 
+		      const char    *ch)
+{
+	PangoAnalysis	   analysis;
+	gunichar	   wc = g_utf8_get_char (ch);
+	PangoGlyphInfo	   gl;
+	PangoGlyphString  *glyphs = pango_glyph_string_new ();
+	char		  *next_ch = g_utf8_next_char (ch);
 
-
+	analysis.shape_engine = pango_font_find_shaper (font, language, wc);
+	analysis.lang_engine = NULL;
+	analysis.font = font;
+	analysis.language = language;
+	analysis.level = 0;
+	analysis.extra_attrs = NULL;
+	
+	pango_shape (ch, next_ch - ch, &analysis, glyphs);
 
+	gl = glyphs->glyphs[0];
 
-/* The following functions are from gedit-print.c
- * Copyright (C) 2000, 2001 Chema Celorio, Paolo Maggi
- * Copyright (C) 2002  Paolo Maggi  
- * Modified for gthumb by Paolo Bacchilega, 2003.
- */
+	pango_glyph_string_free (glyphs);
+
+	return gl;
+}
 
 static const char*
-pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci, 
+pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 				      double            max_width,
 				      const char       *start,
-				      const char       *end,
 				      double           *line_width)
 {
-	/* This function returns a pointer to the last printable character in 
-	   string starting at pointer "start". If a pointer to a "line_width"'
-	   variable is provided, this variable will be updated with the physical
-	   width of this string segment. */
-
-	const char  *p;
-	const char  *last_space;	
+	const char  *p = start;
+	const char  *last_space = NULL;
+	double	     last_space_width = 0.0;
 	double       current_width = 0.0;
-	double	     width_to_last_space = 0.0;
-	ArtPoint     space_advance;
-	int          space, new_line1, new_line2;
-	
-	/* Find space advance */
-	space = gnome_font_lookup_default (pci->font_comment, ' ');
-	gnome_font_get_glyph_stdadvance (pci->font_comment, space, &space_advance);
 
-	new_line1 = gnome_font_lookup_default (pci->font_comment, '\n');
-	new_line2 = gnome_font_lookup_default (pci->font_comment, PARAGRAPH_SEPARATOR);
+	PangoGlyphInfo space = pango_font_get_glyph (pci->font, pango_language_from_string ("en_US"), " ");
 
-	for (p = start; p < end; p = g_utf8_next_char (p)) {
-		gunichar ch;
-		int      glyph;
+	while ( *p ) {
+		gunichar   ch;
+		PangoGlyph glyph;
 		
 		ch = g_utf8_get_char (p);
-		glyph = gnome_font_lookup_default (pci->font_comment, ch);
 
-		if (glyph == new_line1 || glyph == new_line2) {
-			/* Return if a newline is detected */
+		if (ch == '\n' || ch == PARAGRAPH_SEPARATOR) {
+
 			if (line_width != NULL)
 				*line_width = max_width;
+
 			return p;
-
-		} else if (glyph == space) {
-			current_width += space_advance.x;
-
-			/* Record the width and string pointer thus far, in case this is the
-			   last space before max_width is reached. If it is, the string
-			   will wrap at this point (+1 character). */
-			width_to_last_space = current_width;
+		} else if (g_unichar_isspace (ch)) {
+			current_width += (double)space.geometry.width / PANGO_SCALE;
 			last_space = p;
+			last_space_width = current_width;
+		} else {
+			PangoGlyphInfo gi;
+			int width;
+
+			gi = pango_font_get_glyph (pci->font, NULL, p);
+			current_width += (double)gi.geometry.width / PANGO_SCALE;
 		}
 
-		else {
-			/* Normal characters simply increment the pointer and width. */
-			ArtPoint adv;
-			gnome_font_get_glyph_stdadvance (pci->font_comment, 
-							 glyph,
-							 &adv);
-			if (adv.x > 0)
-				current_width += adv.x;
-			else
-				/* To be as conservative as possible */
-				current_width += (2 * space_advance.x);
-		}
-
-		/* We have to wrap the line if the max_width is exceeded */
 
 		if (current_width > max_width) {
-			/* wrap after the last space, if possible */
-			if (width_to_last_space > 0.0) {
-				if (line_width != NULL) 
-					*line_width = width_to_last_space;
+
+			if (last_space_width > 0) {
+				if (line_width != NULL)
+					*line_width = last_space_width;
 				if (g_utf8_next_char(last_space)) {
 					/* Move just past last space, so that the next line
 					   doesn't have an odd indent, if possible. */
@@ -468,82 +463,83 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 				}
 				else {
 					/* If it isn't possible, just return the position
-			                   of the last space. */		   
+					   of the last space. */
 					return last_space;
 				}
-			}
-			/* otherwise, chop off at the current character */
-			else {
-				if (line_width != NULL) 
+			} else {/* otherwise, chop off at the current character */
+				if (line_width != NULL)
 					*line_width = max_width;
-                                return p;
+
+				return p;
 			}
 		}
+		p = g_utf8_next_char (p);
 	}
 	
 	if (line_width != NULL)
 		*line_width = current_width;
 
-	/* if we have reached the specified end pointer, return that pointer */
-	return end;
+	return p;
 }
 
-
-static void
-pci_print_line (GnomePrintContext *pc,
-		PrintCatalogInfo  *pci, 
-		const char        *start, 
-		const char        *end, 
-		double             x,
-		double             y) 
+static GSList*
+pango_font_get_glyphs (PangoFont       *font, 
+		       PangoLanguage   *language, 
+		       const char      *text, 
+		       const char      *text_end)
 {
-	GnomeGlyphList *gl;
-	const char     *p;
+
+	PangoEngineShape  *shaper = NULL;
+	PangoEngineShape  *last_shaper = NULL;
+	const char	  *p, *start;
+	gboolean	   finished = FALSE;
+	GSList		  *slist = NULL;
 	
-	gl = gnome_glyphlist_from_text_dumb (pci->font_comment, 0x000000ff, 0.0, 0.0, UCHAR "");
-	gnome_glyphlist_moveto (gl, x, y - gnome_font_get_ascender (pci->font_comment));
-	
-	for (p = start; p < end; p = g_utf8_next_char (p)) {
-		gunichar ch    = g_utf8_get_char (p);
-	       	int      glyph = gnome_font_lookup_default (pci->font_comment, ch);
-		gnome_glyphlist_glyph (gl, glyph);
+
+	p = start = text;
+
+	while (!finished) {
+		gunichar wc;
+		
+		if (p < text_end) {
+			wc = g_utf8_get_char (p);
+			shaper = pango_font_find_shaper (font, language, wc);
+		} else {
+			finished = TRUE;
+			shaper = NULL;
+		}
+	  
+		if (p > start && (finished || shaper != last_shaper)) {
+			PangoAnalysis	   analysis;
+			PangoGlyphString  *glyphs = pango_glyph_string_new();
+			int j;
+
+			analysis.shape_engine = last_shaper;
+			analysis.lang_engine = NULL;
+			analysis.font = font;
+			analysis.language = language;
+			analysis.level = 0;
+			analysis.extra_attrs = NULL;
+	  
+			pango_shape (start, p - start, &analysis, glyphs);
+			start = p;
+			slist = g_slist_append (slist, glyphs);
+		}
+		
+		if (!finished) {
+			p = g_utf8_next_char (p);
+			last_shaper = shaper;
+		}
 	}
 
-	gnome_print_moveto (pc, 0.0, 0.0);
-	gnome_print_glyphlist (pc, gl);
-	gnome_glyphlist_unref (gl);
+	return slist;
 }
-
-
-static gdouble
-pci_print_paragraph (GnomePrintContext *pc,
-		     PrintCatalogInfo  *pci,
-		     const char        *start, 
-		     const char        *end, 
-		     double             max_width,
-		     double             x,
-		     double             y)
-{
-	const char *p, *s;
-
-	for (p = start; p < end; ) {
-		s = p;
-		p = pci_get_next_line_to_print_delimiter (pci, max_width, s, end, NULL);
-		if (p == s)
-			return y;
-		pci_print_line (pc, pci, s, p, x, y);
-		y -= 1.2 * gnome_font_get_size (pci->font_comment);
-	}
-
-	return y;
-}
-
 
 static void
 pci_get_text_extents (PrintCatalogInfo *pci,
 		      double            max_width,
-		      const char       *start, 
-		      const char       *text_end,
+		      const char       *text, 
+		      const char       *text_end, 
 		      double           *width,
 		      double           *height)
 {
@@ -551,35 +547,45 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 	const char *end;
 	int         paragraph_delimiter_index;
 	int         next_paragraph_start;
+	double	    line_width;
+	int	    font_height;
 
 	*width = 0.0;
 	*height = 0.0;
 
-	pango_find_paragraph_boundary (start, -1, 
-				       &paragraph_delimiter_index, 
-				       &next_paragraph_start);
-	end = start + paragraph_delimiter_index;
+	pango_find_paragraph_boundary (text, text_end - text, &paragraph_delimiter_index, &next_paragraph_start);
 
-	for (p = start; p < text_end;) {
+	end = text + paragraph_delimiter_index;
+	font_height = pango_font_description_get_size (pci->comment_font_desc);
+
+	p = text;
+	line_width = 0;
+
+	while (p < text_end) {
 		gunichar wc = g_utf8_get_char (p);
 
-		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
-			*height += 1.2 * gnome_font_get_size (pci->font_comment);
-		else {
-			const char *p1, *s1;
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR || p == end) {
+			*height += 1.2 * font_height / PANGO_SCALE;
 
-			for (p1 = p; p1 < end; ) {
+		} else {
+
+			const char *p1 = p;
+			const char *e1 = NULL;
+
+			while (p1 < end) {
 				double line_width;
+				e1 = pci_get_next_line_to_print_delimiter (pci, max_width, p1, &line_width);
 
-				s1 = p1;
-				p1 = pci_get_next_line_to_print_delimiter (pci, max_width, s1, end, &line_width);
-				if (p1 == s1) {
+				if (p1 == e1) {
 					*width = 0.0;
 					*height = 0.0;
 					return;
 				}
+
 				*width = MAX (*width, line_width);
-				*height += 1.2 * gnome_font_get_size (pci->font_comment);
+				*height += 1.2 * font_height / PANGO_SCALE;
+
+				p1 = e1;
 			}
 		}
 
@@ -589,11 +595,14 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 			break;
 		
 		if (p < text_end) {
-			pango_find_paragraph_boundary (p, -1, &paragraph_delimiter_index, &next_paragraph_start);
+			pango_find_paragraph_boundary (p, text_end - p, &paragraph_delimiter_index, &next_paragraph_start);
 			end = p + paragraph_delimiter_index;
 		}
 	}
-}
+
+	//g_message("font height: %f paragraph width: %f height: %f", (double)font_height / PANGO_SCALE, *width, *height);
+}	
+
 
 
 static char *
@@ -604,12 +613,21 @@ construct_comment (PrintCatalogInfo *pci,
 	char    *comment = NULL;
 	
 	s = g_string_new ("");
-	if (pci->print_comments  && (image->comment != NULL))
-		g_string_append (s, image->comment);
+	if (pci->print_comments  && (image->comment != NULL)) {
+		const gchar* end = NULL;
+		g_utf8_validate (image->comment, -1, &end);
+		if (end > image->comment)
+			g_string_append_len (s, image->comment, end - image->comment);
+	}
+
 	if (pci->print_filenames) {
-		if (s->len > 0)
-			g_string_append (s, "\n");
-		g_string_append (s, image->filename);
+		const gchar* end = NULL;
+		g_utf8_validate (image->filename, -1, &end);
+		if (end > image->filename) {
+			if (s->len > 0)
+				g_string_append (s, "\n");
+			g_string_append_len (s, image->filename, end - image->filename);
+		}
 	}
 	
 	if (s->len > 0) {
@@ -624,25 +642,83 @@ construct_comment (PrintCatalogInfo *pci,
 
 
 static void
-pci_print_comment (GnomePrintContext *pc,
-		   PrintCatalogInfo  *pci,
-		   ImageInfo         *image)
+pci_print_line (PrintCatalogInfo  *pci,
+		cairo_t		  *cr,
+		const char	  *start, 
+		const char	  *end, 
+		double		   x,
+		double		   y) 
 {
+
+	GSList* slist = pango_font_get_glyphs (pci->font, pango_language_from_string ("en_US"), start, end);
+	GSList* p = slist;
+
+	cairo_move_to (cr, x, y);
+
+	while (p) {
+		PangoGlyphString* g = (PangoGlyphString*)p->data;
+		int i=0;
+		pango_cairo_show_glyph_string (cr, pci->font, g);
+		while (i < g->num_glyphs) {
+			x += (double)g->glyphs[i++].geometry.width / PANGO_SCALE;
+		}
+		pango_glyph_string_free (g);
+		p = p->next;
+		cairo_move_to (cr, x, y);
+	}
+
+	if (slist)
+		g_slist_free (slist);
+}
+
+
+static gdouble
+pci_print_paragraph (PrintCatalogInfo  *pci,
+		     cairo_t	       *cr,
+		     const char        *start, 
+		     const char        *end, 
+		     double             max_width,
+		     double             x,
+		     double             y)
+{
+	const char *p, *s;
+	int font_size = pango_font_description_get_size(pci->comment_font_desc) / PANGO_SCALE;
+
+	for (p = start; p < end;) {
+		s = p;
+		p = pci_get_next_line_to_print_delimiter (pci, max_width, s, NULL);
+
+		if (p == s)
+			return y;
+
+		pci_print_line (pci, cr, s, p, x, y);
+		y += 1.2 * font_size;
+	}
+
+	return y;
+}
+
+
+static void
+pci_print_comment (PrintCatalogInfo *pci,
+		   cairo_t	    *cr,
+		   ImageInfo	    *image)
+{
+
 	char       *comment;
 	const char *p;
 	const char *end;
-	double      fontheight;
+
 	double      x, y, width, height;
 	double      printable_width;
 	int         paragraph_delimiter_index;
 	int         next_paragraph_start;
 	char       *text_end;
+	int	    font_height;
 	
 	comment = construct_comment (pci, image);
 	if (comment == NULL)
  		return;
-
-	gnome_print_setfont (pc, pci->font_comment);
 
 	p = comment;
 	text_end = comment + strlen (comment);
@@ -650,8 +726,7 @@ pci_print_comment (GnomePrintContext *pc,
 	pci_get_text_extents (pci, pci->max_image_width, p, text_end, &width, &height);
 
 	printable_width = pci->max_image_width;
-	x = image->min_x + MAX (0, (printable_width - width) / 2);
-	y = pci->paper_height - image->max_y + height;
+
 
 	pango_find_paragraph_boundary (comment, -1, 
 				       &paragraph_delimiter_index, 
@@ -659,15 +734,18 @@ pci_print_comment (GnomePrintContext *pc,
 
 	end = comment + paragraph_delimiter_index;
 
-	fontheight = (gnome_font_get_ascender (pci->font_comment) + 
-		      gnome_font_get_descender (pci->font_comment));
+	font_height = pango_font_description_get_size (pci->comment_font_desc);
+
+	x = image->min_x + MAX (0, (printable_width - width) / 2) - pci->paper_lmargin;
+	y = image->max_y - height + (double)font_height / PANGO_SCALE - pci->paper_tmargin;
 
 	while (p < text_end) {
 		gunichar wc = g_utf8_get_char (p);
-		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
-			y -= 1.2 * gnome_font_get_size (pci->font_comment);
-		else 
-			y = pci_print_paragraph (pc, pci, p, end, printable_width, x, y);
+
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR)
+			y += 1.2 * (double)font_height / PANGO_SCALE;
+		else
+			y = pci_print_paragraph (pci, cr, p, end, printable_width, x, y);
 
 		p = p + next_paragraph_start;
 
@@ -1059,7 +1137,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	rows = catalog_rows[idx];
 	cols = catalog_cols[idx];
 
-	if (!orientation_is_portrait (data->pci->config)) {
+	if (!orientation_is_portrait (data->pci->page_setup)) {
 		int tmp = rows;
 		rows = cols;
 		cols = tmp;
@@ -1120,7 +1198,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 			p = comment;
 			text_end = comment + strlen (comment);
 			pci_get_text_extents (pci, pci->max_image_width, p, text_end, &comment_width, &(image->comment_height));
-
+			//g_message ("comment height: %f width: %f", image->comment_height, comment_width);
 			image->print_comment = image->comment_height < (pci->max_image_width * 0.66);
 			if (image->print_comment) {
 				static char gray50_bits[] = {
@@ -1209,75 +1287,20 @@ static void
 catalog_update_page (PrintCatalogDialogData *data)
 {
 	PrintCatalogInfo *pci = data->pci;
-	const      GnomePrintUnit *unit;
-	const      GnomePrintUnit *ps_unit;
-	char      *orientation;
+	GtkPageOrientation orientation;
+
 	double     width, height, lmargin, tmargin, rmargin, bmargin;
 	double     paper_width, paper_height, paper_lmargin, paper_tmargin;
 	double     paper_rmargin, paper_bmargin;
 	gboolean   portrait;
 
-	ps_unit = gnome_print_unit_get_identity (GNOME_PRINT_UNIT_DIMENSIONLESS);
-
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAPER_WIDTH,
-					   &width,
-					   &unit))
-		gnome_print_convert_distance (&width, unit, ps_unit);
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT,
-					   &height,
-					   &unit))
-		gnome_print_convert_distance (&height, unit, ps_unit);
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
-					   &lmargin,
-					   &unit))
-		gnome_print_convert_distance (&lmargin, unit, ps_unit);
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
-					   &rmargin,
-					   &unit))
-		gnome_print_convert_distance (&rmargin, unit, ps_unit);
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
-					   &tmargin,
-					   &unit))
-		gnome_print_convert_distance (&tmargin, unit, ps_unit);
-	if (gnome_print_config_get_length (pci->config, 
-					   UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
-					   &bmargin,
-					   &unit))
-		gnome_print_convert_distance (&bmargin, unit, ps_unit);
-
-	orientation = (char*)gnome_print_config_get (pci->config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION);
-	portrait = ((strcmp (orientation, "R0") == 0) 
-		    || (strcmp (orientation, "R180") == 0));
-	g_free (orientation);
-
-	if (portrait) {
-		paper_width   = width;
-		paper_height  = height;
-		paper_lmargin = lmargin;
-		paper_tmargin = tmargin;
-		paper_rmargin = rmargin;
-		paper_bmargin = bmargin;
-	} else {
-		paper_width   = height;
-		paper_height  = width;
-		paper_lmargin = tmargin;
-		paper_tmargin = rmargin;
-		paper_rmargin = bmargin;
-		paper_bmargin = lmargin;
-	}
-
-	pci->portrait = portrait;
-	pci->paper_width   = paper_width;
-	pci->paper_height  = paper_height;
-	pci->paper_lmargin = paper_lmargin;
-	pci->paper_tmargin = paper_tmargin;
-	pci->paper_rmargin = paper_rmargin;
-	pci->paper_bmargin = paper_bmargin;
+	pci->paper_width = gtk_page_setup_get_paper_width(pci->page_setup, GTK_UNIT_POINTS);
+	pci->paper_height = gtk_page_setup_get_paper_height(pci->page_setup, GTK_UNIT_POINTS);
+	pci->paper_lmargin = gtk_page_setup_get_left_margin(pci->page_setup, GTK_UNIT_POINTS);
+	pci->paper_rmargin = gtk_page_setup_get_right_margin(pci->page_setup, GTK_UNIT_POINTS);
+	pci->paper_tmargin = gtk_page_setup_get_top_margin(pci->page_setup, GTK_UNIT_POINTS);
+	pci->paper_bmargin = gtk_page_setup_get_bottom_margin(pci->page_setup, GTK_UNIT_POINTS);
+	pci->portrait = gtk_page_setup_get_orientation(pci->page_setup) == GTK_PAGE_ORIENTATION_PORTRAIT;
 
 	clear_canvas (GNOME_CANVAS_GROUP (GNOME_CANVAS (pci->canvas)->root));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (pci->canvas), 
@@ -1293,55 +1316,71 @@ catalog_update_page (PrintCatalogDialogData *data)
 static void
 catalog_update_custom_page_size (PrintCatalogDialogData *data)
 {
-	const GnomePrintUnit *unit;
+	GtkUnit unit;
+	GtkPaperSize *size;
 	double width, height;
 
-	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
 	width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->width_spinbutton));
 	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->height_spinbutton));
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
+
+	size = gtk_paper_size_new_custom("customX", "customY", width, height, unit);
+	gtk_page_setup_set_paper_size (data->pci->page_setup, size);
+	g_free(size);
 
 	catalog_update_page (data);
-}
-
-
-static double
-catalog_get_current_unittobase (PrintCatalogDialogData *data)
-{
-	const GnomePrintUnit *unit;
-	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
-	return unit->unittobase;
-}
-
-
-static double 
-catalog_get_config_length (PrintCatalogDialogData *data,
-			   const char             *key)
-{
-	const GnomePrintUnit *unit;
-	double                len;
-
-	gnome_print_config_get_length (data->pci->config, UCHAR key, &len, &unit);
-	len = len * unit->unittobase / catalog_get_current_unittobase (data);
-	
-	return len;
 }
 
 
 static double 
 catalog_get_page_width (PrintCatalogDialogData *data)
 {
-	return catalog_get_config_length (data, GNOME_PRINT_KEY_PAPER_WIDTH);
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_paper_width (data->pci->page_setup, unit);
 }
 
 
 static double 
 catalog_get_page_height (PrintCatalogDialogData *data)
 {
-	return catalog_get_config_length (data, GNOME_PRINT_KEY_PAPER_HEIGHT);
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_paper_height (data->pci->page_setup, unit);
 }
 
+
+static double 
+catalog_get_page_left_margin (PrintCatalogDialogData *data)
+{
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_left_margin (data->pci->page_setup, unit);
+}
+
+static double 
+catalog_get_page_right_margin (PrintCatalogDialogData *data)
+{
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_right_margin (data->pci->page_setup, unit);
+}
+
+static double 
+catalog_get_page_top_margin (PrintCatalogDialogData *data)
+{
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_top_margin (data->pci->page_setup, unit);
+}
+
+static double 
+catalog_get_page_bottom_margin (PrintCatalogDialogData *data)
+{
+	GtkUnit unit;
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return gtk_page_setup_get_bottom_margin (data->pci->page_setup, unit);
+}
 
 static void catalog_margin_value_changed_cb (GtkSpinButton          *spin,
 					     PrintCatalogDialogData *data);
@@ -1353,6 +1392,7 @@ static void
 catalog_update_page_size_from_config (PrintCatalogDialogData *data)
 {
 	double len;
+	GtkUnit unit;
 
 	g_signal_handlers_block_by_func (data->width_spinbutton, catalog_custom_size_value_changed_cb, data);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->width_spinbutton), catalog_get_page_width (data));
@@ -1371,16 +1411,20 @@ catalog_update_page_size_from_config (PrintCatalogDialogData *data)
 	g_signal_handlers_block_by_func (data->margin_top_spinbutton, catalog_margin_value_changed_cb, data);
 	g_signal_handlers_block_by_func (data->margin_bottom_spinbutton, catalog_margin_value_changed_cb, data);
 
-	len = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT);
+
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+
+	len = gtk_page_setup_get_left_margin (data->pci->page_setup, unit);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_left_spinbutton), len);
 
-	len = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT);
+
+	len = gtk_page_setup_get_right_margin (data->pci->page_setup, unit);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_right_spinbutton), len);
 
-	len = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_TOP);
+	len = gtk_page_setup_get_top_margin (data->pci->page_setup, unit);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_top_spinbutton), len);
 
-	len = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM);
+	len = gtk_page_setup_get_bottom_margin (data->pci->page_setup, unit);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_bottom_spinbutton), len);
 
 	g_signal_handlers_unblock_by_func (data->margin_left_spinbutton, catalog_margin_value_changed_cb, data);
@@ -1394,44 +1438,47 @@ static void
 catalog_set_standard_page_size (PrintCatalogDialogData *data,
 				const char             *page_size)
 {
-	const GnomePrintUnit *unit;
+	//const GnomePrintUnit *unit;
+	GtkPaperSize* size;
+	GtkUnit unit;
 	double width, height;
 
 	if (strcmp (page_size, "A4") == 0) {
-		unit = &print_units[UNIT_MM];
+		unit = GTK_UNIT_MM;
 		width = 210.0;
 		height = 297.0;
 
 	} else if (strcmp (page_size, "USLetter") == 0) {
-		unit = &print_units[UNIT_IN];
+		unit = GTK_UNIT_INCH;
 		width = 8.5;
 		height = 11.0;
 
 	} else if (strcmp (page_size, "USLegal") == 0) {
-		unit = &print_units[UNIT_IN];
+		unit = GTK_UNIT_INCH;
 		width = 8.5;
 		height = 14.0;
 
 	} else if (strcmp (page_size, "Tabloid") == 0) {
-		unit = &print_units[UNIT_IN];
+		unit = GTK_UNIT_INCH;
 		width = 11.0;
 		height = 17.0;
 
 	} else if (strcmp (page_size, "Executive") == 0) {
-		unit = &print_units[UNIT_IN];
+		unit = GTK_UNIT_INCH;
 		width = 7.25;
 		height = 10.50;
 
 	} else if (strcmp (page_size, "Postcard") == 0) {
-		unit = &print_units[UNIT_MM];
+		unit = GTK_UNIT_MM;
 		width = 99.8;
 		height = 146.8;
 
 	} else
 		return;
 
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
+	size = gtk_paper_size_new_custom (page_size, "", width, height, unit);
+	gtk_page_setup_set_paper_size (data->pci->page_setup, size);
+	g_free (size);
 
 	catalog_update_page_size_from_config (data);
 	catalog_update_page (data);
@@ -1441,112 +1488,202 @@ catalog_set_standard_page_size (PrintCatalogDialogData *data,
 static void
 catalog_update_margins (PrintCatalogDialogData *data)
 {
-	const GnomePrintUnit *unit;
+	GtkUnit unit;
 	double len;
 	
-	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
 	
 	/* left margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_left_spinbutton));
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, len, unit);
+	gtk_page_setup_set_left_margin (data->pci->page_setup, len, unit);
 
 	/* right margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_right_spinbutton));
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, len, unit);
+	gtk_page_setup_set_right_margin (data->pci->page_setup, len, unit);
 
 	/* top margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_top_spinbutton));
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_TOP, len, unit);
+	gtk_page_setup_set_top_margin (data->pci->page_setup, len, unit);
 
 	/* bottom margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_bottom_spinbutton));
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, len, unit);
+	gtk_page_setup_set_bottom_margin (data->pci->page_setup, len, unit);
 
 	catalog_update_page (data);
 }
 
-
-
 static void
-print_catalog (GnomePrintContext *pc,
-	       PrintCatalogInfo  *pci, 
-	       gboolean           border) 
+done_print (GtkPrintOperation       *operation,
+	    GtkPrintOperationResult  result,
+	    PrintCatalogInfo	    *pci)
 {
-	double w, h;
-	double lmargin, rmargin, tmargin, bmargin;
-	int    i;
+	print_catalog_info_unref (pci);
+}
 
-	w = pci->paper_width;
-	h = pci->paper_height;
-	lmargin = pci->paper_lmargin;
-	rmargin = pci->paper_rmargin;
-	bmargin = pci->paper_bmargin;
-	tmargin = pci->paper_tmargin;
+static void 
+begin_print (GtkPrintOperation *operation,
+	     GtkPrintContext   *context,
+	     PrintCatalogInfo  *pci)
+{
+	gtk_print_operation_set_n_pages (operation, (pci->n_images + pci->images_per_page - 1) / pci->images_per_page);
+	gtk_print_operation_set_default_page_setup(operation, pci->page_setup);
+	gtk_print_operation_set_show_progress(operation, TRUE);
+	
+}
 
-	gnome_print_beginpage (pc, NULL);
+static gboolean
+preview (GtkPrintOperation        *operation,
+	 GtkPrintOperationPreview *preview,
+	 GtkPrintContext          *context,
+	 GtkWindow                *parent,
+	 PrintCatalogInfo	  *pci)
+{
+	pci->is_preview = TRUE;
+	return FALSE;
+}
+
+static void 
+draw_page (GtkPrintOperation *operation,
+	   GtkPrintContext   *context,
+	   gint               page_nr,
+	   PrintCatalogInfo  *pci)
+{
+	double		width, height;
+	gboolean	border = FALSE;
+	cairo_t	       *cr;
+	int		i;
+
+	width = pci->paper_width - pci->paper_lmargin - pci->paper_rmargin;
+	height = pci->paper_height - pci->paper_tmargin - pci->paper_bmargin;
+	cr = gtk_print_context_get_cairo_context (context);
+	//g_message (" %f x %f l:%f r:%f t:%f d:%f", width, height, pci->paper_lmargin, pci->paper_rmargin, pci->paper_tmargin, pci->paper_bmargin );
 
 	if (border) {
-		gnome_print_gsave (pc);
-		gnome_print_moveto (pc, lmargin, bmargin);
-		gnome_print_lineto (pc, lmargin, h - tmargin);
-		gnome_print_lineto (pc, w - rmargin, h - tmargin);
-		gnome_print_lineto (pc, w - rmargin, bmargin);
-		gnome_print_lineto (pc, lmargin, bmargin);
-		gnome_print_stroke (pc);
-		gnome_print_grestore (pc);
+		cairo_set_source_rgb (cr, 0, 0, 0);
+		cairo_move_to (cr, 0, 0);
+		cairo_line_to (cr, width, 0);
+		cairo_line_to (cr, width, height);
+		cairo_line_to (cr, 0, height);
+		cairo_line_to (cr, 0, 0);
+		cairo_stroke (cr);
 	}
 
-	for (i = 0; i < pci->n_images; i++) {
+	for (i = page_nr * pci->images_per_page; i < pci->n_images && i < (page_nr + 1) * pci->images_per_page; i++) {
+
 		ImageInfo *image = pci->image_info[i];
 		GdkPixbuf *image_pixbuf, *pixbuf = NULL;
+		double scale_factor;
 
 		if (pci->print_comments || pci->print_filenames) {
-			gnome_print_gsave (pc);
-			pci_print_comment (pc, pci, image);
-			gnome_print_grestore (pc);
+			cairo_save (cr);
+			pci_print_comment (pci, cr, image);
+			cairo_restore (cr);
 		}
-		
+
 		image_pixbuf = gdk_pixbuf_new_from_file (image->filename, NULL);
+
 		pixbuf = print__gdk_pixbuf_rotate (image_pixbuf, image->rotate);
 		g_object_unref (image_pixbuf);
 
+		/* For higher-resolution images, cairo will render the bitmaps at a miserable
+		   72 dpi unless we apply a scaling factor. This scaling boosts the output
+		   to 300 dpi (if required). */
+		scale_factor = MIN (image->pixbuf_width / image->scale_x, (double)300/72);
+
+		image_pixbuf = pixbuf;
+		pixbuf = gdk_pixbuf_scale_simple (image_pixbuf, image->scale_x * scale_factor, 
+						  image->scale_y * scale_factor, GDK_INTERP_BILINEAR);
+		g_object_unref (image_pixbuf);
+
+		
 		if (pixbuf != NULL) {
-			guchar    *p;
-			int        pw, ph, rs;
+			guchar		 *p;
+			guchar		 *np;
+			int		  pw, ph, rs, i;
+			cairo_surface_t  *s;
+			cairo_pattern_t	 *pattern;
+			cairo_matrix_t    matrix;
 
 			p = gdk_pixbuf_get_pixels (pixbuf);
 			pw = gdk_pixbuf_get_width (pixbuf);
 			ph = gdk_pixbuf_get_height (pixbuf);
 			rs = gdk_pixbuf_get_rowstride (pixbuf);
 
-			gnome_print_gsave (pc);
-			gnome_print_scale (pc, image->scale_x, image->scale_y);
-			gnome_print_translate (pc, image->trans_x, image->trans_y);
-			if (pci->use_colors) {
-				if (gdk_pixbuf_get_has_alpha (pixbuf)) 
-					gnome_print_rgbaimage (pc, p, pw, ph, rs);
-				else 
-					gnome_print_rgbimage  (pc, p, pw, ph, rs);
-			} else
-				gnome_print_grayimage (pc, p, pw, ph, rs);
-			gnome_print_grestore (pc);
-			
+ 			if (gdk_pixbuf_get_has_alpha (pixbuf)) {
+				guchar* kk;
+				guchar* kp;
+
+				np = g_malloc (pw*ph*4);
+				for (i=0; i<ph; i++) {
+					int j = 0;
+					kk = p + rs*i;
+					kp = np + pw*4*i;
+					for (j=0; j<pw; j++) {
+						if (kk[3] == 0) {
+							*((unsigned int *)kp) = 0;
+						}
+						else {
+							if (kk[3] != 0xff) {
+								int t = (kk[3] * kk[0]) + 0x80;
+								kk[0] = ((t+(t>>8))>>8);
+								t = (kk[3] * kk[1]) + 0x80;
+								kk[1] = ((t+(t>>8))>>8);
+								t = (kk[3] * kk[2]) + 0x80;
+								kk[2] = ((t+(t>>8))>>8);
+							}
+							*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16) + (kk[3] << 24);
+						}
+						kk += 4;
+						kp += 4;
+					}
+				}
+
+				s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_ARGB32, pw, ph, pw*4);
+			}
+			else {
+				guchar* kk;
+				guchar* kp;
+
+				np = g_malloc (pw*ph*4);
+
+				for (i=0; i<ph; i++) {
+					int j = 0;
+					kk = p + rs*i;
+					kp = np + pw*4*i;
+					for (j=0; j<pw; j++) {
+						*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16);
+						kk += 3;
+						kp += 4;
+					}
+				}
+				s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_RGB24, pw, ph, pw*4);
+			}
+			cairo_save (cr);
+			cairo_rectangle (cr, image->trans_x - pci->paper_lmargin, image->trans_y - pci->paper_tmargin, 
+					 image->scale_x, image->scale_y);
+			cairo_clip (cr);
+			pattern = cairo_pattern_create_for_surface (s);
+			cairo_matrix_init_translate (&matrix, 
+						     (pci->paper_lmargin - image->trans_x) * scale_factor, 
+						     (pci->paper_tmargin - image->trans_y) * scale_factor); 
+			cairo_matrix_scale (&matrix, scale_factor, scale_factor);
+			cairo_pattern_set_matrix (pattern, &matrix);
+			cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
+			cairo_pattern_set_filter (pattern, CAIRO_FILTER_BEST);
+			cairo_set_source (cr, pattern);
+			cairo_paint (cr);
+			cairo_pattern_destroy (pattern);
+			cairo_surface_destroy (s);
+			g_free (np);
+			cairo_restore (cr);
 			g_object_unref (pixbuf);
 		}
-
-		if ((i + 1 < pci->n_images) && ((i + 1) % pci->images_per_page == 0)) {
-			gnome_print_showpage (pc);
-			gnome_print_beginpage (pc, NULL);
-		}
 	}
-
-	gnome_print_showpage (pc);
 }
-
 
 static const char *
 catalog_get_current_paper_size (PrintCatalogDialogData *data)
@@ -1568,17 +1705,23 @@ pci_update_comment_font (PrintCatalogDialogData *data)
 	PrintCatalogInfo *pci = data->pci;
 	const char       *font_name;
 
-	if (pci->font_comment != NULL)
-		g_object_unref (pci->font_comment);		
+	font_name = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->comment_fontpicker));
 
-	font_name = gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker));
+	debug (DEBUG_INFO, "Font name: %s", font_name);
 
-	debug (DEBUG_INFO, "Find closest: %s", font_name);
+	pci->comment_font_desc = pango_font_description_from_string(font_name);
 
-	pci->font_comment = gnome_font_find_closest_from_full_name (UCHAR font_name);
+	if (pci->fontmap == NULL) 
+	{
+		pci->fontmap = pango_cairo_font_map_get_default ();
+		pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (pci->fontmap), 72);
+		pci->context = pango_cairo_font_map_create_context (PANGO_CAIRO_FONT_MAP (pci->fontmap));
+	}
 
-	if (pci->font_comment == NULL)
-		g_warning ("Could not find font %s\n", font_name);
+	if (pci->font)
+		g_object_unref(pci->font);
+
+	pci->font = pango_font_map_load_font (pci->fontmap, pci->context, pci->comment_font_desc);
 }
 
 
@@ -1618,7 +1761,7 @@ catalog_portrait_toggled_cb (GtkToggleButton        *widget,
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
-	gnome_print_config_set (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION, UCHAR "R0");
+	gtk_page_setup_set_orientation (data->pci->page_setup, GTK_PAGE_ORIENTATION_PORTRAIT);
 	catalog_update_page (data);
 }
 
@@ -1629,7 +1772,7 @@ catalog_landscape_toggled_cb (GtkToggleButton        *widget,
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
-	gnome_print_config_set (data->pci->config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION, UCHAR "R90");
+	gtk_page_setup_set_orientation (data->pci->page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
 	catalog_update_page (data);
 }
 
@@ -1655,20 +1798,26 @@ print_catalog_cb (GtkWidget              *widget,
 		  PrintCatalogDialogData *data)
 {
 	PrintCatalogInfo  *pci = data->pci; 
-	GnomePrintContext *gp_ctx;
-	GtkWidget         *dialog;
-	int                response;
-	char              *value;
 	double             length;
-	int                i;
+	int                value, i;
+
+	GtkPrintOperationResult result;
+	GError* error;
 
 	/* Save options */
 
 	eel_gconf_set_string (PREF_PRINT_PAPER_SIZE, catalog_get_current_paper_size (data));
 	eel_gconf_set_integer (PREF_PRINT_IMAGES_PER_PAGE, pci->images_per_page);
-	eel_gconf_set_string (PREF_PRINT_COMMENT_FONT, gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker)));
-	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT, !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)));
-	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FILENAME, !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)));
+
+	eel_gconf_set_string (PREF_PRINT_COMMENT_FONT, gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->comment_fontpicker)));
+
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT, 
+			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) && 
+			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)));
+
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FILENAME, 
+			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) && 
+			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)));
 
 	length = catalog_get_page_width (data);
 	eel_gconf_set_float (PREF_PRINT_PAPER_WIDTH, length);
@@ -1676,24 +1825,22 @@ print_catalog_cb (GtkWidget              *widget,
 	length = catalog_get_page_height (data);
 	eel_gconf_set_float (PREF_PRINT_PAPER_HEIGHT, length);
 
-	length = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT);
+	length = catalog_get_page_left_margin (data);
 	eel_gconf_set_float (PREF_PRINT_MARGIN_LEFT, length);
 
-	length = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT);
+	length = catalog_get_page_right_margin (data);
 	eel_gconf_set_float (PREF_PRINT_MARGIN_RIGHT, length);
 
-	length = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_TOP);
+	length = catalog_get_page_top_margin (data);
 	eel_gconf_set_float (PREF_PRINT_MARGIN_TOP, length);
 
-	length = catalog_get_config_length (data, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM);
+	length = catalog_get_page_bottom_margin (data);
 	eel_gconf_set_float (PREF_PRINT_MARGIN_BOTTOM, length);
 
 	pref_set_print_unit (catalog_get_current_unit (data));
 
-	value = (char*)gnome_print_config_get (pci->config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION);
-	eel_gconf_set_string (PREF_PRINT_PAPER_ORIENTATION, value);
-	gnome_print_config_set (pci->config, UCHAR GNOME_PRINT_KEY_PAPER_ORIENTATION, UCHAR value);
-	g_free (value);
+	value = gtk_page_setup_get_orientation (pci->page_setup);
+	eel_gconf_set_integer (PREF_PRINT_PAPER_ORIENTATION, value);
 
 	/**/
 
@@ -1707,8 +1854,8 @@ print_catalog_cb (GtkWidget              *widget,
 			      NULL);
 		image->scale_x = image->width * image->zoom;
 		image->scale_y = image->height * image->zoom;
-		image->trans_x = image_x / image->scale_x;
-		image->trans_y = (pci->paper_height - image->scale_y - image_y) / image->scale_y;
+		image->trans_x = image_x;
+		image->trans_y = image_y;
 	}
 
 	/* pci is used to print, so we must add a reference. */
@@ -1716,33 +1863,55 @@ print_catalog_cb (GtkWidget              *widget,
 	print_catalog_info_ref (pci);
 	gtk_widget_hide (data->dialog); 
 
-	/* Gnome Print Dialog */
 
-	pci->gpj = gnome_print_job_new (pci->config);
+	/* GTK Printing */
+	if (!pci->print_operation)
+		pci->print_operation = gtk_print_operation_new ();
 
-	dialog = gnome_print_dialog_new (pci->gpj, UCHAR _("Print"), 0);
-        response = gtk_dialog_run (GTK_DIALOG (dialog));
-        gtk_widget_destroy (dialog);
+	gtk_print_operation_set_show_progress (pci->print_operation, TRUE);
 
-	gp_ctx = gnome_print_job_get_context (pci->gpj);
-	print_catalog (gp_ctx, pci, FALSE);
-	gnome_print_job_close (pci->gpj);
+	g_signal_connect (pci->print_operation, "begin_print", G_CALLBACK (begin_print), pci);
+	g_signal_connect (pci->print_operation, "draw_page", G_CALLBACK (draw_page), pci);
+	g_signal_connect (pci->print_operation, "done", G_CALLBACK (done_print), pci);
+	g_signal_connect (pci->print_operation, "preview", G_CALLBACK (preview), pci);
 
-        switch (response) {
-        case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-		gnome_print_job_print (pci->gpj);	
-                break;
+	pci->is_preview = FALSE;
+	
+	result = gtk_print_operation_run (pci->print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, GTK_WINDOW (data->parent), &error);
 
-        case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		gtk_widget_show (gnome_print_job_preview_new (pci->gpj, UCHAR _("Print")));
-                break;
+	g_object_unref (pci->print_operation);
+	pci->print_operation = NULL;
 
-        default:
-		break;
-        }
- 
-	gtk_widget_destroy (data->dialog); 
-	print_catalog_info_unref (pci);
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) 
+	{
+		GtkWidget* error_dialog = gtk_message_dialog_new (GTK_WINDOW (data->parent),
+						       GTK_DIALOG_DESTROY_WITH_PARENT,
+						       GTK_MESSAGE_ERROR,
+						       GTK_BUTTONS_CLOSE,
+						       "Printing error:\n%s",
+						       error->message);
+		g_signal_connect (error_dialog, "response", 
+				  G_CALLBACK (gtk_widget_destroy), NULL);
+		gtk_widget_show (error_dialog);
+		g_error_free (error);
+	}
+	else if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
+	{
+		/* printing completed successfully  */
+	}
+	else if (result == GTK_PRINT_OPERATION_RESULT_CANCEL)
+	{
+		gtk_widget_show (data->dialog); 
+		return;
+	}
+	else {
+		/* print in progress */
+	}
+
+	if (pci->is_preview)
+		gtk_widget_show (data->dialog); 
+	else
+		gtk_widget_destroy (data->dialog); 
 }
 
 
@@ -1786,6 +1955,7 @@ load_current_image (PrintCatalogDialogData *data)
 		progress_dialog_hide (data->pd);
 		catalog_update_page (data);
 		gtk_widget_show (data->dialog);
+		
 		return;
 	}
 
@@ -1910,8 +2080,7 @@ cancel_image_loading (gpointer callback_data)
 
 
 static void
-pci_comment_fontpicker_font_set_cb (GnomePrintFontPicker   *fontpicker,
-				    const char             *font_name,
+pci_comment_fontpicker_font_set_cb (GtkFontButton   *fontpicker,
 				    PrintCatalogDialogData *data)
 {
 	pci_update_comment_font (data);
@@ -1948,7 +2117,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	PrintCatalogInfo        *pci;
 	PrintCatalogDialogData  *data;
 	GList                   *scan;
-	int                      n = 0;
+	int                      n = 0, v;
 	GtkWidget               *radio_button;
 	GtkWidget               *print_notebook;
 	GtkWidget               *comment_fontpicker_hbox;
@@ -1962,7 +2131,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	pci = g_new0 (PrintCatalogInfo, 1);
 	pci->ref_count = 1;
-	pci->config = gnome_print_config_default ();
+	pci->page_setup = gtk_page_setup_new();
 	pci->portrait = TRUE;
 	pci->use_colors = TRUE;
 	pci->images_per_page = eel_gconf_get_integer (PREF_PRINT_IMAGES_PER_PAGE, DEF_IMAGES_PER_PAGE);
@@ -2030,11 +2199,12 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	/**/
 
-	data->comment_fontpicker = gnome_print_font_picker_new ();
-	gnome_print_font_picker_set_mode (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker),
-				    GNOME_FONT_PICKER_MODE_FONT_INFO);
-	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
-	gnome_print_font_picker_fi_set_show_size (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE);
+	data->comment_fontpicker = gtk_font_button_new ();
+	gtk_font_button_set_use_font (GTK_FONT_BUTTON (data->comment_fontpicker), TRUE);
+	gtk_font_button_set_use_size (GTK_FONT_BUTTON (data->comment_fontpicker), TRUE);
+	gtk_font_button_set_show_size (GTK_FONT_BUTTON (data->comment_fontpicker), TRUE);
+	gtk_font_button_set_show_style (GTK_FONT_BUTTON (data->comment_fontpicker), TRUE);
+
 	gtk_widget_show (data->comment_fontpicker);
 	gtk_container_add (GTK_CONTAINER (comment_fontpicker_hbox), data->comment_fontpicker);
 
@@ -2057,19 +2227,23 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	/**/
 
-	value = eel_gconf_get_string (PREF_PRINT_PAPER_ORIENTATION, DEF_PAPER_ORIENT);
-	gnome_print_config_set (pci->config, UCHAR GNOME_PRINT_KEY_PAGE_ORIENTATION, UCHAR value);
+	v = eel_gconf_get_integer (PREF_PRINT_PAPER_ORIENTATION, DEF_PAPER_ORIENT);
 
-	if (strcmp (value, "R0") == 0)
-		button_name = "print_orient_portrait_radiobutton";
-	else if (strcmp (value, "R90") == 0)
-		button_name = "print_orient_landscape_radiobutton";
-	else
-		button_name = "print_orient_portrait_radiobutton";
+	switch (v) {
+		case GTK_PAGE_ORIENTATION_PORTRAIT:
+			button_name = "print_orient_portrait_radiobutton";
+			gtk_page_setup_set_orientation(pci->page_setup, GTK_PAGE_ORIENTATION_PORTRAIT);
+			break;
+		case GTK_PAGE_ORIENTATION_LANDSCAPE:
+			button_name = "print_orient_landscape_radiobutton";
+			gtk_page_setup_set_orientation(pci->page_setup, GTK_PAGE_ORIENTATION_LANDSCAPE);
+			break;
+		default:
+			button_name = "print_orient_portrait_radiobutton";
+			gtk_page_setup_set_orientation(pci->page_setup, GTK_PAGE_ORIENTATION_PORTRAIT);
+	}
 	radio_button = glade_xml_get_widget (data->gui, button_name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
-
-	g_free (value);
 
 	/**/
 
@@ -2089,18 +2263,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	/**/
 
-	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT);
-
-	if ((value != NULL) && (*value != 0)) 
-		if (!gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), PREF_PRINT_COMMENT_FONT)) {
-			g_free (value);
-			value = NULL;
-		}
-	
-	if ((value == NULL) || (*value == 0)) 
-		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEF_COMMENT_FONT);
-	
-	g_free (value);
+	gtk_font_button_set_font_name (GTK_FONT_BUTTON (data->comment_fontpicker), eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT));
 
 	/**/
 
@@ -2128,7 +2291,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "clicked",
 			  G_CALLBACK (print_catalog_cb),
 			  data);
-	
+
 	radio_button = glade_xml_get_widget (data->gui, "print_orient_portrait_radiobutton");
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
@@ -2211,6 +2374,10 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "value_changed",
 			  G_CALLBACK (catalog_zoom_changed),
 			  data);
+
+
+	/**/
+	data->parent = parent;
 
 	/**/
 

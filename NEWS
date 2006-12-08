@@ -1,5 +1,6 @@
 version 2.9.0
 -------------
+
         * Added proper support for the Exif orientation tag when importing,
           rotating, and displaying JPEG images. See bug #343867: Rotating image 
           should alter EXIF data
@@ -29,6 +30,7 @@ version 2.9.0
 	* More secure method of temporary file generation. Bug 358894.
 	* Can display GPS-related Exif tags now. Bug 339648.
 	* Added the ability to view Exif "MakerNote" data. Bug 339648.
+	* Migrated from libgnomeprint to gtkprint. Bug 362854.
 
 version 2.7.9
 -------------

@@ -176,7 +176,7 @@
 #define  PREF_SEARCH_RECURSIVE        "/apps/gthumb/dialogs/search/recursive"
 
 #define  PREF_PRINT_PAPER_SIZE        "/apps/gthumb/dialogs/print/paper_size"
-#define  PREF_PRINT_PAPER_ORIENTATION "/apps/gthumb/dialogs/print/paper_orientation"
+#define  PREF_PRINT_PAPER_ORIENTATION "/apps/gthumb/dialogs/print/print_paper_orientation"
 #define  PREF_PRINT_INCLUDE_COMMENT   "/apps/gthumb/dialogs/print/include_comment"
 #define  PREF_PRINT_INCLUDE_FILENAME  "/apps/gthumb/dialogs/print/include_filename"
 #define  PREF_PRINT_COMMENT_FONT      "/apps/gthumb/dialogs/print/comment_font"
