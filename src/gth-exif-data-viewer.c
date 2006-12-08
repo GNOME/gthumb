@@ -87,7 +87,18 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
  * INTEROPERABILITY - compability info
  *
  */
+
 #define MAX_TAGS_PER_CATEGORY 50
+
+#define MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES 2048
+/* This just needs to be set a to value larger than the maximum
+   conceivable number of tags. The tags that are sorted by the
+   category map will be assigned a position in the display
+   lower than this. The tags that are not sorted by the
+   map (they are sorted by position in the file) will be
+   assigned a position higher than this. This ensures there is
+   no possibility of overlap. */
+
 static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY] = {
 
 	/* GTH_METADATA_CATEGORY_FILE */ 
@@ -582,7 +593,7 @@ tag_category (ExifTag  tag,
 		while (exif_tag_category_map[category][j] != -1) {
 			if  (exif_tag_category_map[category][j] == tag) {
 				if (position != NULL)
-					*position = j;
+					*position = j+1;
 				return category;
 			}
 			j++;
@@ -599,7 +610,7 @@ update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
 	const char   *path;
-	unsigned int  i, j;
+	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
 
 	path = get_file_path_from_uri (edv->priv->path);
@@ -616,6 +627,8 @@ update_exif_data (GthExifDataViewer *edv,
 
 	/* Iterate through every IFD in the Exif data, checking for tags. The GPS tags are
 	   stored in their own private IFD. */
+
+	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
 
         for (i = 0; i < EXIF_IFD_COUNT; i++) {
                 ExifContent *content = edata->ifd[i];
@@ -665,14 +678,15 @@ update_exif_data (GthExifDataViewer *edv,
 				}
 
 				/* Assign categories and sort positions. */
+				position = 0;
 				category = tag_category (e->tag, i, &position);
 
 				/* The "thumbnail" and "other" categories are not sorted
 				   using the category map. They are simply presented in
 				   the order they are found in the file. */
-				if (   (category == GTH_METADATA_CATEGORY_OTHER)
-				    || (category == GTH_METADATA_CATEGORY_EXIF_THUMBNAIL))
-					position = j;
+				++unique_id_for_unsorted_tags;
+				if (!position)
+					position = unique_id_for_unsorted_tags;
 
 				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
 
@@ -721,7 +735,8 @@ update_exif_data (GthExifDataViewer *edv,
                                         	continue;
 	                        	}
 
-					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, k);
+					++unique_id_for_unsorted_tags;
+					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, unique_id_for_unsorted_tags);
 
 	   	                        g_free (utf8_name);
 		                        g_free (utf8_value);
