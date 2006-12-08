@@ -39,8 +39,6 @@ libgthumb/gconf-utils.c
 libgthumb/gconf-utils.h
 libgthumb/glib-utils.c
 libgthumb/glib-utils.h
-libgthumb/gnome-print-font-dialog.c
-libgthumb/gnome-print-font-picker.c
 libgthumb/gstringlist.c
 libgthumb/gstringlist.h
 libgthumb/gth-file-list.c
