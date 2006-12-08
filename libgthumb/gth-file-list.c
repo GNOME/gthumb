@@ -811,10 +811,8 @@ add_list_done (GthFileList *file_list)
 
 	g_signal_emit (file_list, gth_file_list_signals[DONE], 0);
 
-	if ((file_list->list != NULL) && file_list->enable_thumbs)
-		start_update_next_thumb (file_list);
-	else
-		gth_file_list_done (file_list);
+	gth_file_list_done (file_list);
+	gth_file_list_exec_next_op (file_list);
 }
 
 
