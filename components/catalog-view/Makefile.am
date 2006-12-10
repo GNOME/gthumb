@@ -28,12 +28,12 @@ gthumb_catalog_view_SOURCES = 			\
 	catalog-nautilus-view.h
 
 gthumb_catalog_view_LDADD = 			\
+	$(top_builddir)/libgthumb/libgthumb.la	\
 	$(COMPONENT_LIBS)			\
 	$(JPEG_LIBS)				\
 	$(IPTCDATA_LIBS)			\
 	$(TIFF_LIBS)				\
-	$(RENDER_LIBS)				\
-	$(top_builddir)/libgthumb/libgthumb.la
+	$(RENDER_LIBS)
 
 $(nautilus_view_component_idl_sources): nautilus_view_component_idl_stamp
 nautilus_view_component_idl_stamp: nautilus-view-component.idl $(ORBIT_IDL)
