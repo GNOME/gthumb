@@ -808,6 +808,11 @@ window_update_go_sensitivity (GthBrowser *browser)
 
 	sensitive = (priv->history_current != NULL) && (priv->history_current->prev != NULL);
 	set_action_sensitive (browser, "Go_Forward", sensitive);
+
+	set_action_sensitive (browser, "Go_Stop",
+			      ((priv->activity_ref > 0)
+			       || priv->setting_file_list
+			       || priv->changing_directory));
 }
 
 
@@ -902,7 +907,6 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_RedeyeRemoval", ! image_is_void && ! image_is_ani && image_is_visible);
 
-
 	set_action_sensitive (browser, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (browser, "View_StepAnimation", image_is_ani && ! playing);
 
@@ -916,12 +920,6 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);
 
 	set_action_sensitive (browser, "Go_ToContainer", viewing_catalog && only_one_is_selected);
-
-	set_action_sensitive (browser, "Go_Stop",
-			       ((priv->activity_ref > 0)
-				|| priv->setting_file_list
-				|| priv->changing_directory
-				|| priv->file_list->busy));
 
 	/* Edit Catalog menu. */
 

@@ -1,3 +1,9 @@
+2006-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (window_update_go_sensitivity):
+	(window_update_sensitivity): update the Go_Stop action sensitivity.
+	* libgthumb/print-callbacks.c: removed unused variables and functions.
+
 2006-12-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

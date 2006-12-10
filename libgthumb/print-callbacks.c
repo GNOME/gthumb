@@ -46,7 +46,7 @@
 
 #define UCHAR (guchar*)
 #define GLADE_FILE "gthumb_print.glade"
-#define PARAGRAPH_SEPARATOR 0x2029	
+#define PARAGRAPH_SEPARATOR 0x2029
 #define CANVAS_ZOOM 0.25
 #define DEF_COMMENT_FONT "Sans 12"
 #define DEF_PAPER_WIDTH  0.0
@@ -67,13 +67,13 @@
 
 static const GtkUnit print_units[] = { GTK_UNIT_MM, GTK_UNIT_INCH };
 
-static const char *paper_sizes[] = {"A4", "USLetter", "USLegal", "Tabloid", 
+static const char *paper_sizes[] = {"A4", "USLetter", "USLegal", "Tabloid",
 				    "Executive", "Postcard", "Custom"};
 #define CUSTOM_PAPER_SIZE_IDX 6
 
 
 static int
-get_history_from_paper_size (const char *paper_size) 
+get_history_from_paper_size (const char *paper_size)
 {
 	int i;
 	for (i = 0; i < G_N_ELEMENTS (paper_sizes); i++)
@@ -135,42 +135,6 @@ orientation_is_portrait (GtkPageSetup *page_setup)
 {
 	return gtk_page_setup_get_orientation (page_setup) == GTK_PAGE_ORIENTATION_PORTRAIT;
 }
-
-
-static int
-get_desktop_default_font_size (void)
-{
-	GConfClient          *gconf_client = NULL;
-	int                   res;
-        char                 *font;
-        PangoFontDescription *desc;
-
-	gconf_client = gconf_client_get_default ();
-        if (gconf_client == NULL)
-                return DEFAULT_FONT_SIZE;
-
-	font = gconf_client_get_string (gconf_client,
-                                        "/desktop/gnome/interface/font_name",
-                                        NULL);
-        if (font == NULL)
-                return DEFAULT_FONT_SIZE;
-
-        desc = pango_font_description_from_string (font);
-
-        g_free (font);
-        g_return_val_if_fail (desc != NULL, DEFAULT_FONT_SIZE);
-
-        res = pango_font_description_get_size (desc) / PANGO_SCALE;
-
-        pango_font_description_free (desc);
-
-        g_object_unref (gconf_client);
-
-        return res;
-}
-
-
-
 
 
 typedef struct {
@@ -275,7 +239,7 @@ typedef struct {
 } PrintCatalogInfo;
 
 
-static void 
+static void
 print_catalog_info_ref (PrintCatalogInfo *pci)
 {
 	g_return_if_fail (pci != NULL);
@@ -283,12 +247,12 @@ print_catalog_info_ref (PrintCatalogInfo *pci)
 }
 
 
-static void 
+static void
 print_catalog_info_unref (PrintCatalogInfo *pci)
 {
 	g_return_if_fail (pci != NULL);
 	g_return_if_fail (pci->ref_count > 0);
-	
+
 	pci->ref_count--;
 
 	if (pci->ref_count == 0) {
@@ -321,7 +285,7 @@ print_catalog_info_unref (PrintCatalogInfo *pci)
 			pci->comment_font_desc = NULL;
 		}
 
-		for (i = 0; i < pci->n_images; i++) 
+		for (i = 0; i < pci->n_images; i++)
 			image_info_free (pci->image_info[i]);
 		g_free (pci->image_info);
 
@@ -372,7 +336,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-print_catalog_destroy_cb (GtkWidget              *widget, 
+print_catalog_destroy_cb (GtkWidget              *widget,
 			  PrintCatalogDialogData *data)
 {
 	if (data->done_func != NULL) {
@@ -387,8 +351,8 @@ print_catalog_destroy_cb (GtkWidget              *widget,
 }
 
 static PangoGlyphInfo
-pango_font_get_glyph (PangoFont	    *font, 
-		      PangoLanguage *language, 
+pango_font_get_glyph (PangoFont	    *font,
+		      PangoLanguage *language,
 		      const char    *ch)
 {
 	PangoAnalysis	   analysis;
@@ -403,7 +367,7 @@ pango_font_get_glyph (PangoFont	    *font,
 	analysis.language = language;
 	analysis.level = 0;
 	analysis.extra_attrs = NULL;
-	
+
 	pango_shape (ch, next_ch - ch, &analysis, glyphs);
 
 	gl = glyphs->glyphs[0];
@@ -427,9 +391,8 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 	PangoGlyphInfo space = pango_font_get_glyph (pci->font, pango_language_from_string ("en_US"), " ");
 
 	while ( *p ) {
-		gunichar   ch;
-		PangoGlyph glyph;
-		
+		gunichar ch;
+
 		ch = g_utf8_get_char (p);
 
 		if (ch == '\n' || ch == PARAGRAPH_SEPARATOR) {
@@ -444,7 +407,6 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 			last_space_width = current_width;
 		} else {
 			PangoGlyphInfo gi;
-			int width;
 
 			gi = pango_font_get_glyph (pci->font, NULL, p);
 			current_width += (double)gi.geometry.width / PANGO_SCALE;
@@ -475,7 +437,7 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 		}
 		p = g_utf8_next_char (p);
 	}
-	
+
 	if (line_width != NULL)
 		*line_width = current_width;
 
@@ -483,9 +445,9 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 }
 
 static GSList*
-pango_font_get_glyphs (PangoFont       *font, 
-		       PangoLanguage   *language, 
-		       const char      *text, 
+pango_font_get_glyphs (PangoFont       *font,
+		       PangoLanguage   *language,
+		       const char      *text,
 		       const char      *text_end)
 {
 
@@ -494,13 +456,13 @@ pango_font_get_glyphs (PangoFont       *font,
 	const char	  *p, *start;
 	gboolean	   finished = FALSE;
 	GSList		  *slist = NULL;
-	
+
 
 	p = start = text;
 
 	while (!finished) {
 		gunichar wc;
-		
+
 		if (p < text_end) {
 			wc = g_utf8_get_char (p);
 			shaper = pango_font_find_shaper (font, language, wc);
@@ -508,11 +470,10 @@ pango_font_get_glyphs (PangoFont       *font,
 			finished = TRUE;
 			shaper = NULL;
 		}
-	  
+
 		if (p > start && (finished || shaper != last_shaper)) {
 			PangoAnalysis	   analysis;
 			PangoGlyphString  *glyphs = pango_glyph_string_new();
-			int j;
 
 			analysis.shape_engine = last_shaper;
 			analysis.lang_engine = NULL;
@@ -520,12 +481,12 @@ pango_font_get_glyphs (PangoFont       *font,
 			analysis.language = language;
 			analysis.level = 0;
 			analysis.extra_attrs = NULL;
-	  
+
 			pango_shape (start, p - start, &analysis, glyphs);
 			start = p;
 			slist = g_slist_append (slist, glyphs);
 		}
-		
+
 		if (!finished) {
 			p = g_utf8_next_char (p);
 			last_shaper = shaper;
@@ -538,8 +499,8 @@ pango_font_get_glyphs (PangoFont       *font,
 static void
 pci_get_text_extents (PrintCatalogInfo *pci,
 		      double            max_width,
-		      const char       *text, 
-		      const char       *text_end, 
+		      const char       *text,
+		      const char       *text_end,
 		      double           *width,
 		      double           *height)
 {
@@ -593,7 +554,7 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 
 		if (next_paragraph_start == 0)
 			break;
-		
+
 		if (p < text_end) {
 			pango_find_paragraph_boundary (p, text_end - p, &paragraph_delimiter_index, &next_paragraph_start);
 			end = p + paragraph_delimiter_index;
@@ -601,17 +562,17 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 	}
 
 	//g_message("font height: %f paragraph width: %f height: %f", (double)font_height / PANGO_SCALE, *width, *height);
-}	
+}
 
 
 
 static char *
-construct_comment (PrintCatalogInfo *pci, 
+construct_comment (PrintCatalogInfo *pci,
 		   ImageInfo        *image)
 {
 	GString *s;
 	char    *comment = NULL;
-	
+
 	s = g_string_new ("");
 	if (pci->print_comments  && (image->comment != NULL)) {
 		const gchar* end = NULL;
@@ -629,25 +590,25 @@ construct_comment (PrintCatalogInfo *pci,
 			g_string_append_len (s, image->filename, end - image->filename);
 		}
 	}
-	
+
 	if (s->len > 0) {
 		comment = s->str;
 		g_string_free (s, FALSE);
 	}
 	else
 		g_string_free (s, TRUE);
-	
-	return comment;	
+
+	return comment;
 }
 
 
 static void
 pci_print_line (PrintCatalogInfo  *pci,
 		cairo_t		  *cr,
-		const char	  *start, 
-		const char	  *end, 
+		const char	  *start,
+		const char	  *end,
 		double		   x,
-		double		   y) 
+		double		   y)
 {
 
 	GSList* slist = pango_font_get_glyphs (pci->font, pango_language_from_string ("en_US"), start, end);
@@ -675,8 +636,8 @@ pci_print_line (PrintCatalogInfo  *pci,
 static gdouble
 pci_print_paragraph (PrintCatalogInfo  *pci,
 		     cairo_t	       *cr,
-		     const char        *start, 
-		     const char        *end, 
+		     const char        *start,
+		     const char        *end,
 		     double             max_width,
 		     double             x,
 		     double             y)
@@ -715,7 +676,7 @@ pci_print_comment (PrintCatalogInfo *pci,
 	int         next_paragraph_start;
 	char       *text_end;
 	int	    font_height;
-	
+
 	comment = construct_comment (pci, image);
 	if (comment == NULL)
  		return;
@@ -728,8 +689,8 @@ pci_print_comment (PrintCatalogInfo *pci,
 	printable_width = pci->max_image_width;
 
 
-	pango_find_paragraph_boundary (comment, -1, 
-				       &paragraph_delimiter_index, 
+	pango_find_paragraph_boundary (comment, -1,
+				       &paragraph_delimiter_index,
 				       &next_paragraph_start);
 
 	end = comment + paragraph_delimiter_index;
@@ -754,7 +715,7 @@ pci_print_comment (PrintCatalogInfo *pci,
 			end = p + paragraph_delimiter_index;
 		}
 	}
-	
+
 	g_free (comment);
 }
 
@@ -767,7 +728,7 @@ static int catalog_cols[5] = {1, 1, 2, 2, 4};
 #define IMAGE_SPACE 20
 
 
-static double 
+static double
 _log2 (double x)
 {
 	return log(x) / log(2);
@@ -781,7 +742,7 @@ show_current_page (PrintCatalogDialogData *data)
 	char *txt;
 
 	for (i = 0; i < data->pci->n_pages; i++)
-		if (i == data->pci->current_page) 
+		if (i == data->pci->current_page)
 			gnome_canvas_item_show (GNOME_CANVAS_ITEM (data->pci->pages[i]));
 		else
 			gnome_canvas_item_hide (GNOME_CANVAS_ITEM (data->pci->pages[i]));
@@ -833,11 +794,11 @@ image_info_rotate (ImageInfo *image,
 	tmp_pixbuf = image->thumbnail;
 	image->thumbnail = print__gdk_pixbuf_rotate (tmp_pixbuf, angle);
 	g_object_unref (tmp_pixbuf);
-	
+
 	tmp_pixbuf = image->thumbnail_active;
 	image->thumbnail_active = print__gdk_pixbuf_rotate (tmp_pixbuf, angle);
 	g_object_unref (tmp_pixbuf);
-	
+
 	image->rotate = (image->rotate + angle) % 360;
 
 	if (angle == 90 || angle == 270) {
@@ -865,7 +826,7 @@ get_first_image_on_current_page (PrintCatalogDialogData *data)
 	ImageInfo        *image = NULL;
 	int i;
 
-	for (i = 0; i < pci->n_images; i++) 
+	for (i = 0; i < pci->n_images; i++)
 		if (is_parent (pci->pages[pci->current_page], pci->image_info[i]->ci_image)) {
 			image = pci->image_info[i];
 			break;
@@ -894,7 +855,7 @@ center_image (ImageInfo *image)
 
 /* called when the center button is clicked. */
 static void
-catalog_center_cb (GtkWidget              *widget, 
+catalog_center_cb (GtkWidget              *widget,
 		   PrintCatalogDialogData *data)
 {
 	ImageInfo *image;
@@ -914,7 +875,7 @@ catalog_check_bounds (ImageInfo *image, double *x1, double *y1)
 }
 
 
-static void 
+static void
 catalog_zoom_changed (GtkAdjustment          *adj,
 		      PrintCatalogDialogData *data)
 {
@@ -961,8 +922,8 @@ reset_zoom (PrintCatalogDialogData *data,
 
 
 static int
-catalog_item_event (GnomeCanvasItem        *item, 
-		    GdkEvent               *event, 
+catalog_item_event (GnomeCanvasItem        *item,
+		    GdkEvent               *event,
 		    PrintCatalogDialogData *data)
 {
 	PrintCatalogInfo *pci = data->pci;
@@ -975,7 +936,7 @@ catalog_item_event (GnomeCanvasItem        *item,
 	double            iw, ih, factor, max_image_height;
 	int               i;
 
-	for (i = 0; i < pci->n_images; i++) 
+	for (i = 0; i < pci->n_images; i++)
 		if (item == pci->image_info[i]->ci_image) {
 			image = pci->image_info[i];
 			break;
@@ -1012,7 +973,7 @@ catalog_item_event (GnomeCanvasItem        *item,
 
 			fleur = gdk_cursor_new (GDK_FLEUR);
 			gnome_canvas_item_grab (item,
-						(GDK_POINTER_MOTION_MASK 
+						(GDK_POINTER_MOTION_MASK
 						 | GDK_BUTTON_RELEASE_MASK),
 						fleur,
 						event->button.time);
@@ -1060,14 +1021,14 @@ catalog_item_event (GnomeCanvasItem        *item,
 
 			reset_zoom (data, image);
 
-			iw = (double) image->pixbuf_width; 
+			iw = (double) image->pixbuf_width;
 			ih = (double) image->pixbuf_height;
 			factor = MIN (pci->max_image_width / iw, max_image_height / ih);
 			ih *= factor;
 			iw *= factor;
 			image->width = iw;
 			image->height = ih;
-			
+
 			image->trans_x = image->min_x + ((pci->max_image_width - iw) / 2);
 			image->trans_y = image->min_y + ((max_image_height - ih) / 2);
 
@@ -1102,7 +1063,7 @@ static void
 add_catalog_preview (PrintCatalogDialogData *data,
 		     gboolean          border)
 {
-	PrintCatalogInfo *pci = data->pci; 
+	PrintCatalogInfo *pci = data->pci;
 	double            w, h;
 	double            lmargin, rmargin, tmargin, bmargin;
 	double            max_w, max_h;
@@ -1153,13 +1114,13 @@ add_catalog_preview (PrintCatalogDialogData *data,
 		double     iw, ih;
 		double     factor, max_image_height;
 		char      *comment;
-		
+
 		image_info_rotate (image, (360 - image->rotate) % 360);
 
-		if (((pci->max_image_width > pci->max_image_height) 
-		     && (image->pixbuf_width < image->pixbuf_height)) 
-		    || ((pci->max_image_width < pci->max_image_height) 
-			&& (image->pixbuf_width > image->pixbuf_height))) 
+		if (((pci->max_image_width > pci->max_image_height)
+		     && (image->pixbuf_width < image->pixbuf_height))
+		    || ((pci->max_image_width < pci->max_image_height)
+			&& (image->pixbuf_width > image->pixbuf_height)))
 			image_info_rotate (image, 270);
 
 		reset_zoom (data, image);
@@ -1194,7 +1155,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 			const char *p;
 			const char *text_end;
 			double      comment_width;
-			
+
 			p = comment;
 			text_end = comment + strlen (comment);
 			pci_get_text_extents (pci, pci->max_image_width, p, text_end, &comment_width, &(image->comment_height));
@@ -1209,7 +1170,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 					0x1,
 				};
 				GdkBitmap  *stipple;
-				
+
 				stipple = gdk_bitmap_create_from_data (NULL, gray50_bits, gray50_width, gray50_height);
 				image->ci_comment = gnome_canvas_item_new (
 						   GNOME_CANVAS_GROUP (pci->pages[page]),
@@ -1221,7 +1182,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 						   "fill_color",     "darkgray",
 						   "fill_stipple",   stipple,
 						   NULL);
-			
+
 				g_object_unref (stipple);
 			}
 		}
@@ -1261,8 +1222,8 @@ add_catalog_preview (PrintCatalogDialogData *data,
 
 			if (image->ci_image == NULL)
 				g_error ("Cannot create image preview\n");
-		
-			g_signal_connect (G_OBJECT (image->ci_image), 
+
+			g_signal_connect (G_OBJECT (image->ci_image),
 					  "event",
 					  G_CALLBACK (catalog_item_event),
 					  data);
@@ -1287,12 +1248,6 @@ static void
 catalog_update_page (PrintCatalogDialogData *data)
 {
 	PrintCatalogInfo *pci = data->pci;
-	GtkPageOrientation orientation;
-
-	double     width, height, lmargin, tmargin, rmargin, bmargin;
-	double     paper_width, paper_height, paper_lmargin, paper_tmargin;
-	double     paper_rmargin, paper_bmargin;
-	gboolean   portrait;
 
 	pci->paper_width = gtk_page_setup_get_paper_width(pci->page_setup, GTK_UNIT_POINTS);
 	pci->paper_height = gtk_page_setup_get_paper_height(pci->page_setup, GTK_UNIT_POINTS);
@@ -1303,7 +1258,7 @@ catalog_update_page (PrintCatalogDialogData *data)
 	pci->portrait = gtk_page_setup_get_orientation(pci->page_setup) == GTK_PAGE_ORIENTATION_PORTRAIT;
 
 	clear_canvas (GNOME_CANVAS_GROUP (GNOME_CANVAS (pci->canvas)->root));
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (pci->canvas), 
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (pci->canvas),
 					0, 0,
 					pci->paper_width, pci->paper_height);
 	add_simulated_page (GNOME_CANVAS (pci->canvas));
@@ -1332,7 +1287,7 @@ catalog_update_custom_page_size (PrintCatalogDialogData *data)
 }
 
 
-static double 
+static double
 catalog_get_page_width (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1341,7 +1296,7 @@ catalog_get_page_width (PrintCatalogDialogData *data)
 }
 
 
-static double 
+static double
 catalog_get_page_height (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1350,7 +1305,7 @@ catalog_get_page_height (PrintCatalogDialogData *data)
 }
 
 
-static double 
+static double
 catalog_get_page_left_margin (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1358,7 +1313,7 @@ catalog_get_page_left_margin (PrintCatalogDialogData *data)
 	return gtk_page_setup_get_left_margin (data->pci->page_setup, unit);
 }
 
-static double 
+static double
 catalog_get_page_right_margin (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1366,7 +1321,7 @@ catalog_get_page_right_margin (PrintCatalogDialogData *data)
 	return gtk_page_setup_get_right_margin (data->pci->page_setup, unit);
 }
 
-static double 
+static double
 catalog_get_page_top_margin (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1374,7 +1329,7 @@ catalog_get_page_top_margin (PrintCatalogDialogData *data)
 	return gtk_page_setup_get_top_margin (data->pci->page_setup, unit);
 }
 
-static double 
+static double
 catalog_get_page_bottom_margin (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
@@ -1490,9 +1445,9 @@ catalog_update_margins (PrintCatalogDialogData *data)
 {
 	GtkUnit unit;
 	double len;
-	
+
 	unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
-	
+
 	/* left margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_left_spinbutton));
@@ -1524,7 +1479,7 @@ done_print (GtkPrintOperation       *operation,
 	print_catalog_info_unref (pci);
 }
 
-static void 
+static void
 begin_print (GtkPrintOperation *operation,
 	     GtkPrintContext   *context,
 	     PrintCatalogInfo  *pci)
@@ -1532,7 +1487,7 @@ begin_print (GtkPrintOperation *operation,
 	gtk_print_operation_set_n_pages (operation, (pci->n_images + pci->images_per_page - 1) / pci->images_per_page);
 	gtk_print_operation_set_default_page_setup(operation, pci->page_setup);
 	gtk_print_operation_set_show_progress(operation, TRUE);
-	
+
 }
 
 static gboolean
@@ -1546,7 +1501,7 @@ preview (GtkPrintOperation        *operation,
 	return FALSE;
 }
 
-static void 
+static void
 draw_page (GtkPrintOperation *operation,
 	   GtkPrintContext   *context,
 	   gint               page_nr,
@@ -1595,11 +1550,11 @@ draw_page (GtkPrintOperation *operation,
 		scale_factor = MIN (image->pixbuf_width / image->scale_x, (double)300/72);
 
 		image_pixbuf = pixbuf;
-		pixbuf = gdk_pixbuf_scale_simple (image_pixbuf, image->scale_x * scale_factor, 
+		pixbuf = gdk_pixbuf_scale_simple (image_pixbuf, image->scale_x * scale_factor,
 						  image->scale_y * scale_factor, GDK_INTERP_BILINEAR);
 		g_object_unref (image_pixbuf);
 
-		
+
 		if (pixbuf != NULL) {
 			guchar		 *p;
 			guchar		 *np;
@@ -1663,13 +1618,13 @@ draw_page (GtkPrintOperation *operation,
 				s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_RGB24, pw, ph, pw*4);
 			}
 			cairo_save (cr);
-			cairo_rectangle (cr, image->trans_x - pci->paper_lmargin, image->trans_y - pci->paper_tmargin, 
+			cairo_rectangle (cr, image->trans_x - pci->paper_lmargin, image->trans_y - pci->paper_tmargin,
 					 image->scale_x, image->scale_y);
 			cairo_clip (cr);
 			pattern = cairo_pattern_create_for_surface (s);
-			cairo_matrix_init_translate (&matrix, 
-						     (pci->paper_lmargin - image->trans_x) * scale_factor, 
-						     (pci->paper_tmargin - image->trans_y) * scale_factor); 
+			cairo_matrix_init_translate (&matrix,
+						     (pci->paper_lmargin - image->trans_x) * scale_factor,
+						     (pci->paper_tmargin - image->trans_y) * scale_factor);
 			cairo_matrix_scale (&matrix, scale_factor, scale_factor);
 			cairo_pattern_set_matrix (pattern, &matrix);
 			cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
@@ -1711,7 +1666,7 @@ pci_update_comment_font (PrintCatalogDialogData *data)
 
 	pci->comment_font_desc = pango_font_description_from_string(font_name);
 
-	if (pci->fontmap == NULL) 
+	if (pci->fontmap == NULL)
 	{
 		pci->fontmap = pango_cairo_font_map_get_default ();
 		pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (pci->fontmap), 72);
@@ -1731,9 +1686,9 @@ catalog_paper_size_optionmenu_changed_cb (GtkOptionMenu          *opt,
 {
 	int history = gtk_option_menu_get_history (opt);
 
-	if (history != CUSTOM_PAPER_SIZE_IDX) 
+	if (history != CUSTOM_PAPER_SIZE_IDX)
 		catalog_set_standard_page_size (data, paper_sizes[history]);
-	else 
+	else
 		catalog_update_custom_page_size (data);
 }
 
@@ -1743,7 +1698,7 @@ catalog_custom_size_value_changed_cb (GtkSpinButton          *spin,
 				      PrintCatalogDialogData *data)
 {
 	GtkOptionMenu *opt;
-	
+
 	opt = GTK_OPTION_MENU (data->paper_size_optionmenu);
 	if (gtk_option_menu_get_history (opt) != CUSTOM_PAPER_SIZE_IDX) {
 		g_signal_handlers_block_by_func (data->paper_size_optionmenu, catalog_paper_size_optionmenu_changed_cb, data);
@@ -1793,11 +1748,11 @@ catalog_unit_changed_cb (GtkOptionMenu          *opt_menu,
 }
 
 
-static void 
+static void
 print_catalog_cb (GtkWidget              *widget,
 		  PrintCatalogDialogData *data)
 {
-	PrintCatalogInfo  *pci = data->pci; 
+	PrintCatalogInfo  *pci = data->pci;
 	double             length;
 	int                value, i;
 
@@ -1811,12 +1766,12 @@ print_catalog_cb (GtkWidget              *widget,
 
 	eel_gconf_set_string (PREF_PRINT_COMMENT_FONT, gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->comment_fontpicker)));
 
-	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT, 
-			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) && 
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT,
+			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) &&
 			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)));
 
-	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FILENAME, 
-			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) && 
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FILENAME,
+			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) &&
 			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)));
 
 	length = catalog_get_page_width (data);
@@ -1847,7 +1802,7 @@ print_catalog_cb (GtkWidget              *widget,
 	for (i = 0; i < pci->n_images; i++) {
 		ImageInfo *image = pci->image_info[i];
 		double     image_x, image_y;
-	
+
 		g_object_get (G_OBJECT (image->ci_image),
 			      "x", &image_x,
 			      "y", &image_y,
@@ -1861,7 +1816,7 @@ print_catalog_cb (GtkWidget              *widget,
 	/* pci is used to print, so we must add a reference. */
 
 	print_catalog_info_ref (pci);
-	gtk_widget_hide (data->dialog); 
+	gtk_widget_hide (data->dialog);
 
 
 	/* GTK Printing */
@@ -1876,13 +1831,13 @@ print_catalog_cb (GtkWidget              *widget,
 	g_signal_connect (pci->print_operation, "preview", G_CALLBACK (preview), pci);
 
 	pci->is_preview = FALSE;
-	
+
 	result = gtk_print_operation_run (pci->print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, GTK_WINDOW (data->parent), &error);
 
 	g_object_unref (pci->print_operation);
 	pci->print_operation = NULL;
 
-	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) 
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
 	{
 		GtkWidget* error_dialog = gtk_message_dialog_new (GTK_WINDOW (data->parent),
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1890,7 +1845,7 @@ print_catalog_cb (GtkWidget              *widget,
 						       GTK_BUTTONS_CLOSE,
 						       "Printing error:\n%s",
 						       error->message);
-		g_signal_connect (error_dialog, "response", 
+		g_signal_connect (error_dialog, "response",
 				  G_CALLBACK (gtk_widget_destroy), NULL);
 		gtk_widget_show (error_dialog);
 		g_error_free (error);
@@ -1901,7 +1856,7 @@ print_catalog_cb (GtkWidget              *widget,
 	}
 	else if (result == GTK_PRINT_OPERATION_RESULT_CANCEL)
 	{
-		gtk_widget_show (data->dialog); 
+		gtk_widget_show (data->dialog);
 		return;
 	}
 	else {
@@ -1909,9 +1864,9 @@ print_catalog_cb (GtkWidget              *widget,
 	}
 
 	if (pci->is_preview)
-		gtk_widget_show (data->dialog); 
+		gtk_widget_show (data->dialog);
 	else
-		gtk_widget_destroy (data->dialog); 
+		gtk_widget_destroy (data->dialog);
 }
 
 
@@ -1927,7 +1882,7 @@ images_per_page_value_changed_cb (GtkOptionMenu           *option_menu,
 }
 
 
-static void 
+static void
 next_page_cb (GtkWidget              *widget,
 	      PrintCatalogDialogData *data)
 {
@@ -1936,7 +1891,7 @@ next_page_cb (GtkWidget              *widget,
 }
 
 
-static void 
+static void
 prev_page_cb (GtkWidget              *widget,
 	      PrintCatalogDialogData *data)
 {
@@ -1955,7 +1910,7 @@ load_current_image (PrintCatalogDialogData *data)
 		progress_dialog_hide (data->pd);
 		catalog_update_page (data);
 		gtk_widget_show (data->dialog);
-		
+
 		return;
 	}
 
@@ -1974,8 +1929,8 @@ load_current_image (PrintCatalogDialogData *data)
 
 
 static void
-do_colorshift (GdkPixbuf *dest, 
-	       GdkPixbuf *src, 
+do_colorshift (GdkPixbuf *dest,
+	       GdkPixbuf *src,
 	       int        shift)
 {
 	int     i, j;
@@ -2008,7 +1963,7 @@ do_colorshift (GdkPixbuf *dest,
 			*(pixdest++) = CLAMP (val, 0, 255);
 			val          = b + shift;
 			*(pixdest++) = CLAMP (val, 0, 255);
-			
+
 			if (has_alpha)
 				*(pixdest++) = *(pixsrc++);
 		}
@@ -2016,7 +1971,7 @@ do_colorshift (GdkPixbuf *dest,
 }
 
 
-static void 
+static void
 image_loader_done_cb (ImageLoader            *il,
 		      PrintCatalogDialogData *data)
 {
@@ -2036,7 +1991,7 @@ image_loader_done_cb (ImageLoader            *il,
 		thumb_h = image->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
 
 		if (scale_keepping_ratio (&thumb_w, &thumb_h, THUMB_SIZE, THUMB_SIZE))
-			image->thumbnail = gdk_pixbuf_scale_simple (pixbuf, 
+			image->thumbnail = gdk_pixbuf_scale_simple (pixbuf,
 								    thumb_w,
 								    thumb_h,
 								    GDK_INTERP_BILINEAR);
@@ -2062,7 +2017,7 @@ image_loader_done_cb (ImageLoader            *il,
 }
 
 
-static void 
+static void
 image_loader_error_cb (ImageLoader            *il,
 		       PrintCatalogDialogData *data)
 {
@@ -2135,7 +2090,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	pci->portrait = TRUE;
 	pci->use_colors = TRUE;
 	pci->images_per_page = eel_gconf_get_integer (PREF_PRINT_IMAGES_PER_PAGE, DEF_IMAGES_PER_PAGE);
- 
+
 	pci->n_images = g_list_length (file_list);
 	pci->image_info = g_new (ImageInfo*, pci->n_images);
 	for (scan = file_list; scan; scan = scan->next) {
@@ -2153,7 +2108,7 @@ print_catalog_dlg_full (GtkWindow *parent,
                 return;
         }
 
-	data->done_func = done_func;	
+	data->done_func = done_func;
 	data->done_data = done_data;
 
 	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
@@ -2193,7 +2148,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	data->btn_print = glade_xml_get_widget (data->gui, "btn_print");
 	center_button = glade_xml_get_widget (data->gui, "btn_center");
 	pci->canvas = glade_xml_get_widget (data->gui, "canvas");
-	
+
 	data->pd = progress_dialog_new (GTK_WINDOW (data->dialog));
 	progress_dialog_set_cancel_func (data->pd, cancel_image_loading, data);
 
@@ -2250,9 +2205,9 @@ print_catalog_dlg_full (GtkWindow *parent,
 	catalog_update_margins (data);
 
 	value = eel_gconf_get_string (PREF_PRINT_PAPER_SIZE, DEF_PAPER_SIZE);
-	if (strcmp (value, "Custom") == 0) 
+	if (strcmp (value, "Custom") == 0)
 		catalog_update_custom_page_size (data);
-	else 
+	else
 		catalog_set_standard_page_size (data, value);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->paper_size_optionmenu),
@@ -2269,7 +2224,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	pci->print_comments = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), pci->print_comments);
-	
+
 	pci->print_filenames = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_FILENAME, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton), pci->print_filenames);
 
@@ -2279,15 +2234,15 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (print_catalog_destroy_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->btn_close), 
+	g_signal_connect_swapped (G_OBJECT (data->btn_close),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (data->btn_print), 
+	g_signal_connect (G_OBJECT (data->btn_print),
 			  "clicked",
 			  G_CALLBACK (print_catalog_cb),
 			  data);
@@ -2303,39 +2258,39 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "toggled",
 			  G_CALLBACK (catalog_landscape_toggled_cb),
 			  data);
-	
+
 	g_signal_connect (G_OBJECT (data->paper_size_optionmenu),
 			  "changed",
 			  G_CALLBACK (catalog_paper_size_optionmenu_changed_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->unit_optionmenu), 
+	g_signal_connect (G_OBJECT (data->unit_optionmenu),
 			  "changed",
 			  G_CALLBACK (catalog_unit_changed_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->width_spinbutton), 
+	g_signal_connect (G_OBJECT (data->width_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_custom_size_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->height_spinbutton), 
+	g_signal_connect (G_OBJECT (data->height_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_custom_size_value_changed_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->margin_left_spinbutton), 
+	g_signal_connect (G_OBJECT (data->margin_left_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_margin_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->margin_right_spinbutton), 
+	g_signal_connect (G_OBJECT (data->margin_right_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_margin_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->margin_top_spinbutton), 
+	g_signal_connect (G_OBJECT (data->margin_top_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_margin_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->margin_bottom_spinbutton), 
+	g_signal_connect (G_OBJECT (data->margin_bottom_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (catalog_margin_value_changed_cb),
 			  data);
@@ -2344,11 +2299,11 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "changed",
 			  G_CALLBACK (images_per_page_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->next_page_button), 
+	g_signal_connect (G_OBJECT (data->next_page_button),
 			  "clicked",
 			  G_CALLBACK (next_page_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->prev_page_button), 
+	g_signal_connect (G_OBJECT (data->prev_page_button),
 			  "clicked",
 			  G_CALLBACK (prev_page_cb),
 			  data);
@@ -2365,12 +2320,12 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "toggled",
 			  G_CALLBACK (pci_print_filenames_cb),
 			  data);
-			  
+
 	g_signal_connect (G_OBJECT (center_button),
 			  "clicked",
 			  G_CALLBACK (catalog_center_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->adj), 
+	g_signal_connect (G_OBJECT (data->adj),
 			  "value_changed",
 			  G_CALLBACK (catalog_zoom_changed),
 			  data);
@@ -2381,9 +2336,9 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	/**/
 
-	gtk_window_set_title (GTK_WINDOW (data->dialog), _("Print")); 
+	gtk_window_set_title (GTK_WINDOW (data->dialog), _("Print"));
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), parent);
-	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (pci->canvas), 
+	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (pci->canvas),
 					  CANVAS_ZOOM);
 
 	load_current_image (data);
