@@ -1,3 +1,7 @@
+2006-12-10  Takeshi AIHANA <takeshi.aihana@gmail.com>
+
+	* ja.po: Migrated from gthumb-2-8 branch.
+
 2006-12-08  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Remove some files that are gone.

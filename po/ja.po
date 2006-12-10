@@ -6,180 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-05 00:04+0900\n"
-"PO-Revision-Date: 2006-01-05 00:03+0900\n"
+"POT-Creation-Date: 2006-12-10 13:45+0900\n"
+"PO-Revision-Date: 2006-12-10 13:33+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
-msgid "Catalog"
-msgstr "カタログ"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
-msgid "GThumb Catalog View"
-msgstr "GThumb カタログ・ビュー"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
-msgid "View as Catalog"
-msgstr "カタログ表示"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: ../src/gth-window-actions-entries.h:66
-msgid "Print the current image"
-msgstr "この画像を印刷します"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-msgid "_Print"
-msgstr "印刷(_P)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
-msgid "GThumb Image"
-msgstr "GThumb 画像"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
-msgid "GThumb Viewer"
-msgstr "GThumb ビューア"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
-msgid "View with GThumb"
-msgstr "GThumb で表示"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
-msgid "Flip"
-msgstr "ひっくり返す"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
-msgid "Flip the image"
-msgstr "画像を上下ひっくり返します"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
-msgid "High"
-msgstr "高品質"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
-msgid "Low"
-msgstr "低品質"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
-msgid "Mirror"
-msgstr "ミラーリング"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
-msgid "Mirror the image"
-msgstr "画像を鏡に映したように反転させます"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-msgid "Rotate"
-msgstr "回転"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-msgid "Rotate 180 _Degrees"
-msgstr "180 °回転(_D)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
-msgid "Rotate the image clockwise"
-msgstr "画像を時計回りに回転させます"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
-msgid "Rotate the image of 180 degrees"
-msgstr "画像を 180 °回転させます"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
-msgid "Save _As..."
-msgstr "別名で保存(_A)..."
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: ../src/gth-window-actions-entries.h:51
-#: ../src/gth-window-actions-entries.h:56
-msgid "Save current image"
-msgstr "この画像を保存します"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: ../src/gth-window-actions-entries.h:302
-msgid "Start or stop current animation"
-msgstr "現在表示中のアニメーションの開始/停止を切り替えます"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-msgid "Start/Stop _Animation"
-msgstr "アニメーションの開始/停止(_A)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
-msgid "Transparency T_ype"
-msgstr "透明の種類(_Y)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#: ../src/gth-window-actions-entries.h:211
-msgid "View next animation frame"
-msgstr "アニメーションの次のフレームを表示します"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-msgid "_Black"
-msgstr "黒色(_B)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-msgid "_Checked"
-msgstr "格子縞(_C)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: ../src/gth-window-actions-entries.h:110
-msgid "_Flip"
-msgstr "ひっくり返す(_F)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:453
-#: ../src/gth-viewer-actions-entries.h:40
-msgid "_Image"
-msgstr "画像(_I)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: ../src/gth-window-actions-entries.h:115
-msgid "_Mirror"
-msgstr "ミラーリング(_M)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:826
-msgid "_None"
-msgstr "なし(_N)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-msgid "_Rotate Clockwise"
-msgstr "時計回りに回転(_R)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-msgid "_Step Animation"
-msgstr "アニメーションのステップ実行(_S)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
-#: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:67
-#: ../src/gth-browser-actions-entries.h:41
-#: ../src/gth-viewer-actions-entries.h:37
-msgid "_View"
-msgstr "表示(_V)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
-msgid "_White"
-msgstr "白色(_W)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-msgid "_Zoom Quality"
-msgstr "ズームの品質(_Z)"
-
-#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
-msgid "%d %b %Y, %H:%M"
-msgstr "%Y年 %B %d日 %H:%M"
-
-#: ../components/image-viewer/viewer-stream.c:99
-#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:502 ../src/gth-exif-data-viewer.c:481
-#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:587
-#, c-format
-msgid "%d x %d pixels"
-msgstr "ピクセル数 %d x %d"
 
 #: ../data/GNOME_GThumb.server.in.in.h:1
 msgid "GThumb Application"
@@ -189,8 +22,9 @@ msgstr "GThumb アプリケーション"
 msgid "GThumb Application Factory"
 msgstr "GThumb アプリケーションのファクトリです"
 
-#: ../data/albumthemes/text.h:27
-msgid "Prevous"
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
 msgstr "前へ"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
@@ -210,8 +44,7 @@ msgstr "画像"
 msgid "Dimensions"
 msgstr "画像の寸法"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:617
-#: ../src/gth-exif-data-viewer.c:510
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
 msgid "Bytes"
 msgstr "サイズ"
 
@@ -248,7 +81,7 @@ msgid "Camera model"
 msgstr "カメラの型式"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:76
 msgid "pixels"
 msgstr "ピクセル"
 
@@ -297,7 +130,7 @@ msgstr "カタログ(_A):"
 msgid "Choose a Catalog"
 msgstr "カタログの選択"
 
-#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:75
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
 msgstr "コメント(_E)"
 
@@ -350,16 +183,17 @@ msgid "Red"
 msgstr "赤"
 
 #: ../data/glade/gthumb.glade.h:24
+#, fuzzy
+msgid "Select a _bookmark:"
+msgstr "色の選択"
+
+#: ../data/glade/gthumb.glade.h:25
 msgid "Value"
 msgstr "数値"
 
-#: ../data/glade/gthumb.glade.h:25
+#: ../data/glade/gthumb.glade.h:26
 msgid "_Application:"
 msgstr "アプリケーション(_A):"
-
-#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:453
-msgid "_Bookmarks:"
-msgstr "ブックマーク(_B):"
 
 #: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
@@ -398,78 +232,105 @@ msgstr "送り先のフォルダを表示する(_V)"
 msgid "..."
 msgstr "..."
 
-#: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:2
+#, fuzzy
+msgid "Auto-_detected cameras:"
+msgstr "選択したカテゴリ(_S):"
+
+#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "カテゴリ(_T):"
 
-#: ../data/glade/gthumb_camera.glade.h:3
+#: ../data/glade/gthumb_camera.glade.h:4
 msgid "Camera Model"
 msgstr "カメラの型式"
 
-#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:5
+#, fuzzy
+msgid "Camera _Model:"
+msgstr "カメラの型式"
+
+#: ../data/glade/gthumb_camera.glade.h:6
+#, fuzzy
+msgid "Camera _Port:"
+msgstr "カメラの型式"
+
+#: ../data/glade/gthumb_camera.glade.h:7
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:23
-#: ../data/glade/gthumb_web_exporter.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Choose destination folder"
 msgstr "送り先フォルダを選択して下さい"
 
-#: ../data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Delete selected images from the camera"
 msgstr "選択したファイルをカタログから削除します"
 
-#: ../data/glade/gthumb_camera.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:9
+msgid ""
+"If this checkbox is enabled and the imported photo contains an Exif "
+"orientation tag, the image data will be physically transformed (losslessly) "
+"so that the viewed image looks the same as before but the orientation tag is "
+"reset to \"top left\". If this checkbox is not enabled, the image data and "
+"the orientation tag are both left unchanged. The image will be displayed "
+"identically by gthumb for both possibilities, but for maximum compatibility "
+"with other applications this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "Import Photos"
 msgstr "写真のインポート"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:851
-#: ../src/dlg-photo-importer.c:890 ../src/dlg-photo-importer.c:1448
+#: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:859
+#: ../src/dlg-photo-importer.c:898 ../src/dlg-photo-importer.c:1465
 msgid "No camera detected"
 msgstr "検出したカメラはありません"
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:12
+#, fuzzy
+msgid "Rotate images physically"
+msgstr "画像を回転します"
+
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "Select a camera model"
 msgstr "カメラの選択"
 
-#: ../data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:14
 msgid "Update previews"
 msgstr "プレビューの更新"
 
-#: ../data/glade/gthumb_camera.glade.h:10
-msgid "_Auto Detect"
-msgstr "自動検出(_A)"
+#: ../data/glade/gthumb_camera.glade.h:15
+msgid "Use manual selection instead:"
+msgstr ""
 
-#: ../data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Delete imported images from the camera"
 msgstr "カメラからインポートした画像を削除する(_D)"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:17
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:53
-#: ../data/glade/gthumb_web_exporter.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Destination:"
 msgstr "格納場所(_D):"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Film:"
 msgstr "フィルム(_F):"
 
-#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:19
 msgid "_Import"
 msgstr "インポート(_I)"
 
-#: ../data/glade/gthumb_camera.glade.h:15
+#: ../data/glade/gthumb_camera.glade.h:20
 msgid "_Keep original filenames"
 msgstr "オリジナルのファイル名を使う(_K)"
 
-#: ../data/glade/gthumb_camera.glade.h:16
-msgid "_Model:"
-msgstr "型式(_M):"
-
-#: ../data/glade/gthumb_camera.glade.h:17
-msgid "_Port:"
-msgstr "ポート(_P):"
+#: ../data/glade/gthumb_camera.glade.h:21
+msgid "_Refresh list"
+msgstr ""
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -487,7 +348,7 @@ msgid "Co_mment:"
 msgstr "コメント(_M):"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1474
+#: ../libgthumb/gth-file-view-list.c:1477
 msgid "Comment"
 msgstr "コメント"
 
@@ -561,7 +422,7 @@ msgstr "<b>解像度</b>"
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
 #: ../data/glade/gthumb_tools.glade.h:9
-#: ../data/glade/gthumb_web_exporter.glade.h:13
+#: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
 msgstr "<b>保存</b>"
 
@@ -586,7 +447,7 @@ msgid "Opti_mize"
 msgstr "最適化する(_M)"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "Overwrite mode:"
 msgstr "上書きの方法:"
 
@@ -595,7 +456,7 @@ msgid "PNG Options"
 msgstr "PNG オプション"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "R_emove original"
 msgstr "オリジナルの画像を削除する(_E)"
 
@@ -604,7 +465,7 @@ msgid "Rename"
 msgstr "名前を変更する"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -625,7 +486,7 @@ msgid "TIFF Options"
 msgstr "TIFF オプション"
 
 #: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:54
 msgid "T_GA"
 msgstr "TGA(_G)"
 
@@ -635,7 +496,7 @@ msgid "_Horizontal:"
 msgstr "水平方向(_H):"
 
 #: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:61
 msgid "_JPEG"
 msgstr "JPEG(_J)"
 
@@ -648,7 +509,7 @@ msgid "_No compression"
 msgstr "圧縮なし(_N)"
 
 #: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_tools.glade.h:64
 msgid "_PNG"
 msgstr "PNG(_P)"
 
@@ -669,7 +530,7 @@ msgid "_Smoothing:"
 msgstr "平滑化の度合い(_S):"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:65
+#: ../data/glade/gthumb_tools.glade.h:70
 msgid "_TIFF"
 msgstr "TIFF(_T)"
 
@@ -715,7 +576,7 @@ msgid "Custom"
 msgstr "カスタマイズ"
 
 #: ../data/glade/gthumb_crop.glade.h:10
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "None"
 msgstr "なし"
 
@@ -724,17 +585,16 @@ msgid "Square"
 msgstr "矩形"
 
 #: ../data/glade/gthumb_crop.glade.h:12
-#: ../src/gth-window-actions-entries.h:175
 msgid "_Crop"
 msgstr "切りつめ(_C)"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_print.glade.h:34 ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
 msgstr "高さ(_H):"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:68
+#: ../data/glade/gthumb_print.glade.h:40 ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
 msgstr "幅(_W):"
 
@@ -828,7 +688,7 @@ msgstr "輝度(_B):"
 msgid "_Hue:"
 msgstr "色合い(_H):"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Keep aspect ratio"
 msgstr "縦横比を保つ(_K)"
 
@@ -848,7 +708,7 @@ msgstr "マジェンタ-緑(_M):"
 msgid "_Preview"
 msgstr "プレビュー(_P)"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
 msgstr "元に戻す(_R)"
 
@@ -856,7 +716,7 @@ msgstr "元に戻す(_R)"
 msgid "_Saturation:"
 msgstr "彩度(_S):"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
 msgstr "サイズ変更(_S)"
 
@@ -944,7 +804,7 @@ msgid ""
 msgstr "<small><i><b>補足:</b> %p (ページ番号), %n (ページ総数)</i></small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
-#: ../data/glade/gthumb_web_exporter.glade.h:20
+#: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Co_mment"
 msgstr "コメント(_M)"
 
@@ -965,12 +825,11 @@ msgid "Create _HTML image map"
 msgstr "HTML の画像マップを生成する(_H)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:30
-#: ../data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "フッタ(_O):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:31
-#: ../data/glade/gthumb_web_exporter.glade.h:24
+#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "File _name"
 msgstr "ファイル名(_N)"
 
@@ -979,7 +838,7 @@ msgid "File pa_th"
 msgstr "パス名(_T)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:33
-#: ../data/glade/gthumb_web_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "File si_ze"
 msgstr "サイズ(_Z)"
 
@@ -992,7 +851,6 @@ msgid "Frame co_lor:"
 msgstr "フレームの色(_L):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:36
-#: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "ヘッダ(_E):"
 
@@ -1005,7 +863,7 @@ msgid "Hei_ght:"
 msgstr "高さ(_G):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:39
-#: ../data/glade/gthumb_web_exporter.glade.h:29
+#: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "Image dim_ensions"
 msgstr "画像の寸法(_E)"
 
@@ -1026,7 +884,7 @@ msgid "Pi_xels"
 msgstr "ピクセル(_X)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:44
-#: ../data/glade/gthumb_web_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "Re_verse order"
 msgstr "逆順に並べる(_V)"
 
@@ -1067,7 +925,6 @@ msgid "Slide"
 msgstr "スライド"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:54
-#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "Sor_t:"
 msgstr "並び替え(_T):"
 
@@ -1081,12 +938,12 @@ msgstr "スタイル(_Y)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:53
 msgid "Start _at:"
 msgstr "開始(_A):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:58
-#: ../data/glade/gthumb_web_exporter.glade.h:35
+#: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "Style Preview"
 msgstr "スタイルのプレビュー"
 
@@ -1123,13 +980,13 @@ msgid "_Solid color"
 msgstr "単色(_S)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:66
+#: ../data/glade/gthumb_tools.glade.h:71
 msgid "_Template:"
 msgstr "テンプレート(_T):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:69
-#: ../data/glade/gthumb_web_exporter.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:74
+#: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "by name"
 msgstr "名前順"
 
@@ -1202,128 +1059,129 @@ msgid "<b>Slide show</b>"
 msgstr "<b>スライドショー</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:18
-msgid "<b>View images as</b>"
-msgstr "<b>画像の表示形式</b>"
-
-#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Viewer</b>"
 msgstr "<b>ビューア</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Zoom quality</b>"
 msgstr "<b>ズーム時の品質</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "Activate items with a double click"
 msgstr "ダブル・クリックで有効にする"
 
-#: ../data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a single click"
 msgstr "シングル・クリックで有効にする"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "After _loading an image:"
 msgstr "画像を読み込んだ後(_L):"
 
-#: ../data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "画像またはカタログを削除する前に確認する(_K)"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "Ask whether to save _modified images"
 msgstr "変更した画像を保存する前に確認する(_M)"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Black"
 msgstr "黒色"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "Browser"
 msgstr "ブラウザ"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "C_lick policy:"
 msgstr "マウス・クリック(_L):"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "Checked"
 msgstr "格子縞"
 
-#: ../data/glade/gthumb_preferences.glade.h:30
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "Choose startup folder"
 msgstr "起動時に開くフォルダの選択"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
+#: ../data/glade/gthumb_preferences.glade.h:30
 msgid "Co_mments"
 msgstr "コメント(_M)"
 
-#: ../data/glade/gthumb_preferences.glade.h:32
+#: ../data/glade/gthumb_preferences.glade.h:31
 msgid "D_elay before changing image:"
 msgstr "画像を入れ替える際の待ち時間:"
 
-#: ../data/glade/gthumb_preferences.glade.h:33
+#: ../data/glade/gthumb_preferences.glade.h:32
 msgid "D_etermine image type from content (slower)"
 msgstr "画像の内容から種類を判断する (低速)(_D)"
 
-#: ../data/glade/gthumb_preferences.glade.h:34
+#: ../data/glade/gthumb_preferences.glade.h:33
 msgid "Do _not change folder"
 msgstr "フォルダを変更しない(_N)"
 
-#: ../data/glade/gthumb_preferences.glade.h:35
-msgid "Fit image to window"
-msgstr "画像をウィンドウのサイズに合わせる"
+#: ../data/glade/gthumb_preferences.glade.h:34
+#, fuzzy
+msgid "Fit to width if larger"
+msgstr "画像がウィンドウのサイズよりも大きい場合はウィンドウにフィットさせる"
 
-#: ../data/glade/gthumb_preferences.glade.h:36
+#: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Fit to window if larger"
 msgstr "画像がウィンドウのサイズよりも大きい場合はウィンドウにフィットさせる"
 
-#: ../data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Follow Nautilus behaviour"
 msgstr "Nautilus の設定に従う"
 
-#: ../data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "For_ward"
 msgstr "昇順(_W)"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "General"
 msgstr "全般"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Go to last _visited folder or catalog"
 msgstr "最後に訪れたフォルダまたはカタログへジャンプする(_V)"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Go to this _folder:"
 msgstr "次のフォルダへジャンプする(_F):"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "H_igh"
 msgstr "高品質(_I)"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "Icons only"
 msgstr "アイコンのみ"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Keep previous zoom"
 msgstr "前の拡大率を保持する"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Layout:"
 msgstr "レイアウト:"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Lo_w"
 msgstr "低品質(_W)"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Ran_dom"
 msgstr "ランダム(_D)"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Re_verse"
 msgstr "降順(_V)"
+
+#: ../data/glade/gthumb_preferences.glade.h:49
+msgid "Reset scrollbar positions after loading an image"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Resta_rt when finished"
@@ -1378,27 +1236,19 @@ msgid "_Filenames"
 msgstr "ファイル名(_F)"
 
 #: ../data/glade/gthumb_preferences.glade.h:63
-msgid "_List"
-msgstr "一覧(_L)"
-
-#: ../data/glade/gthumb_preferences.glade.h:64
-msgid "_Slides"
-msgstr "スライド(_S)"
-
-#: ../data/glade/gthumb_preferences.glade.h:65
-#: ../src/gth-browser-actions-entries.h:402
+#: ../src/gth-browser-actions-entries.h:412
 msgid "_Thumbnails"
 msgstr "サムネイル(_T)"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "_Toolbar style:"
 msgstr "ツールバーのスタイル(_T):"
 
-#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "gThumb Preferences"
 msgstr "gThumb の設定"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "seconds"
 msgstr "秒"
 
@@ -1471,70 +1321,84 @@ msgid "Inches"
 msgstr "インチ"
 
 #: ../data/glade/gthumb_print.glade.h:22
+#, fuzzy
+msgid "Include filename"
+msgstr "目録ファイル(_X):"
+
+#: ../data/glade/gthumb_print.glade.h:23
 msgid "Lan_dscape"
 msgstr "横置き(_D)"
 
-#: ../data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:24
 msgid "Layout"
 msgstr "レイアウト"
 
-#: ../data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:25
 msgid "Legal"
 msgstr "リーガル"
 
-#: ../data/glade/gthumb_print.glade.h:25
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Letter"
 msgstr "レター"
 
-#: ../data/glade/gthumb_print.glade.h:26
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "Millimeters"
 msgstr "ミリ"
 
-#: ../data/glade/gthumb_print.glade.h:27
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "P_ortrait"
 msgstr "縦置き(_O)"
 
-#: ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_print.glade.h:29
 msgid "Paper Details"
 msgstr "用紙の詳細"
 
-#: ../data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_print.glade.h:30
 msgid "Postcard"
 msgstr "はがき"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1678
-#: ../libgthumb/print-callbacks.c:1692 ../libgthumb/print-callbacks.c:2153
+#: ../data/glade/gthumb_print.glade.h:31 ../libgthumb/print-callbacks.c:1723
+#: ../libgthumb/print-callbacks.c:1737 ../libgthumb/print-callbacks.c:2217
+#: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "印刷"
 
-#: ../data/glade/gthumb_print.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:32
 msgid "Tabloid"
 msgstr "タブロイド"
 
-#: ../data/glade/gthumb_print.glade.h:32
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "_Bottom:"
 msgstr "下側(_B):"
 
-#: ../data/glade/gthumb_print.glade.h:34
+#: ../data/glade/gthumb_print.glade.h:35
 msgid "_Left:"
 msgstr "左側(_L):"
 
-#: ../data/glade/gthumb_print.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "_Right:"
 msgstr "右側(_R):"
 
-#: ../data/glade/gthumb_print.glade.h:36
+#: ../data/glade/gthumb_print.glade.h:37
 msgid "_Scale:"
 msgstr "寸法(_S):"
 
-#: ../data/glade/gthumb_print.glade.h:37
+#: ../data/glade/gthumb_print.glade.h:38
 msgid "_Top:"
 msgstr "上側(_T)"
 
-#: ../data/glade/gthumb_print.glade.h:38
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "_Unit:"
 msgstr "単位(_U):"
+
+#: ../data/glade/gthumb_redeye.glade.h:1
+msgid "Click the mouse on the red-eye regions that need to be fixed."
+msgstr ""
+
+#: ../data/glade/gthumb_redeye.glade.h:2
+msgid "Redeye Removal"
+msgstr ""
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1588,8 +1452,8 @@ msgstr "選択したいくつかのカテゴリに一致する(_N)"
 msgid "New _Search..."
 msgstr "新規の検索(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:820
-#: ../src/dlg-photo-importer.c:1498
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:828
+#: ../src/dlg-photo-importer.c:1515
 msgid "No images found"
 msgstr "画像が見つかりませんでした"
 
@@ -1598,18 +1462,16 @@ msgid "Search Progress"
 msgstr "検索の状況"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "Searching in:"
 msgstr "検索する場所:"
 
 #: ../data/glade/gthumb_search.glade.h:24
-#: ../src/gth-browser-actions-entries.h:163
-#: ../src/gth-browser-actions-entries.h:198
 msgid "_Edit Search"
 msgstr "検索基準の編集(_E)..."
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:60
 msgid "_Include sub-folders"
 msgstr "サブ・フォルダも含める(_I)"
 
@@ -1620,6 +1482,13 @@ msgstr "保存(_S)"
 #: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
 msgstr "検索(_S)"
+
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:72
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
+msgid "_View"
+msgstr "表示(_V)"
 
 #: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Change the following values:</b>"
@@ -1634,91 +1503,99 @@ msgid "<b>Write to CD</b>"
 msgstr "<b>CD へ書き込む</b>"
 
 #: ../data/glade/gthumb_tools.glade.h:11
-msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+msgid ""
+"<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
+"When viewing images, you can use the [ and ] shortcut\n"
+"keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
-"<small><i><b>注意</b>: JPEG 変換すると品質低下が少ないです。</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:13
-#, no-c-format
+#: ../data/glade/gthumb_tools.glade.h:15
+#, fuzzy, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
-"%d (image date), %s (image size).</i></small>"
+"%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
 "<small><i><b>特別な文字:</b> # (通番)、%f (オリジナルのファイル名)、%d (画像"
 "の日時)、%s (画像の大きさ)</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
 msgstr "タイムゾーンの調整(_D):"
 
-#: ../data/glade/gthumb_tools.glade.h:15
-#: ../src/gth-window-actions-entries.h:270
-msgid "Adjust photo _orientation"
-msgstr "写真の向きの調整(_O)"
+#: ../data/glade/gthumb_tools.glade.h:17
+msgid "Apply physical _transform"
+msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:16
-msgid "Apply to _all images"
+#: ../data/glade/gthumb_tools.glade.h:18
+#, fuzzy
+msgid "Apply to all _images"
 msgstr "全ての画像に適用する(_A)"
 
-#: ../data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "C_urrent date"
 msgstr "今日(_U)"
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:20
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "カタログ(_T)"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Change Date"
 msgstr "日付の変更"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Check _All"
 msgstr "全てチェック(_A)"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:23
 msgid "Check _None"
 msgstr "チェックしない(_N)"
 
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Checking image:"
 msgstr "画像のチェック中:"
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:26
+msgid ""
+"Click OK to reset the Exif orientation tag for the selected images to Top-"
+"Left."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
 msgstr "コメントの日時(_M)"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Current _Folder"
 msgstr "このフォルダ(_F)"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Equal images:"
 msgstr "等しい画像:"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Find Duplicates"
 msgstr "複製の検索"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Found duplicates:"
 msgstr "見つかった複製:"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Image c_reation date"
 msgstr "画像の生成日(_R)"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image horizontally (left-right)"
 msgstr "画像を水平方向 (左右) にミラーリングします"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Mirror image vertically (top-bottom)"
 msgstr "画像を垂直方向 (上下) にミラーリングします"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:35
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1726,235 +1603,307 @@ msgstr "画像を垂直方向 (上下) にミラーリングします"
 msgid "Move to _Trash"
 msgstr "ゴミ箱へ移動(_T)"
 
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "New names _preview:"
 msgstr "新しい名前のプレビュー(_P):"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "デジタル写真の日付 (EXIFのデータ)"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Re_verse Order"
 msgstr "逆順に並べる(_V)"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Rename Series"
 msgstr "名前の一括変換"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:42
+msgid "Reset Exif Orientation Tags"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate Images"
 msgstr "画像の回転"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees clockwise"
 msgstr "画像を時計回りに 90°回転させます"
 
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "画像を反時計回りに 90°回転させます"
 
-#: ../data/glade/gthumb_tools.glade.h:42
-#: ../src/gth-browser-actions-entries.h:383
-#: ../src/gth-browser-actions-entries.h:384
+#: ../data/glade/gthumb_tools.glade.h:46
+#: ../src/gth-browser-actions-entries.h:394
 msgid "Scale Images"
 msgstr "画像サイズの変更"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
 msgstr "検索が終了しました。重複したものは見つかりませんでした。"
 
-#: ../data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "The _following date:"
 msgstr "次の日付(_F):"
 
-#: ../data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:56
+msgid ""
+"This checkbox governs the rotation method used for JPEG images that contain "
+"Exif orientation tags. If this checkbox is enabled, the rotation will be "
+"performed using a physical transform, and the Exif orientation tag will be "
+"reset to the default \"top left\" value. If it is not enabled, the rotation "
+"will be performed by changing the Exif orientation tag only. For maximum "
+"compatibility with other applications, this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
 msgstr "CD へ書き込む"
 
-#: ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Last modified date"
 msgstr "最終修正日時(_L)"
 
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:65
 #: ../src/gth-browser-actions-callbacks.c:166
 #: ../src/gth-browser-actions-callbacks.c:603
 #: ../src/gth-browser-actions-callbacks.c:1111
 msgid "_Rename"
 msgstr "ファイル名の変更(_R)"
 
-#: ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Selected Images"
 msgstr "選択した画像(_S)"
 
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:69
 msgid "_Sort:"
 msgstr "並び替え(_S):"
 
-#: ../data/glade/gthumb_tools.glade.h:70
+#: ../data/glade/gthumb_tools.glade.h:75
 msgid "hours"
 msgstr "時間"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
+#, fuzzy
+msgid "1024 x 1024"
+msgstr "164 x 164"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:4
-msgid "1024 x 1024"
-msgstr "1024 x 1024"
+#: ../data/glade/gthumb_web_exporter.glade.h:6
+#, fuzzy
+msgid "1280 x 1280"
+msgstr "128 x 128"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:5
+#: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "1280 x 960"
 msgstr "1280 x 960"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:5
-msgid "1280 x 1280"
-msgstr "1280 x 1280"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:6
+#: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "320 x 200"
 msgstr "320 x 200"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:6
+#: ../data/glade/gthumb_web_exporter.glade.h:9
+#, fuzzy
 msgid "320 x 320"
-msgstr "320 x 320"
+msgstr "320 x 200"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:7
+#: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "640 x 480"
 msgstr "640 x 480"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:7
+#: ../data/glade/gthumb_web_exporter.glade.h:11
+#, fuzzy
 msgid "640 x 640"
-msgstr "640 x 640"
+msgstr "640 x 480"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:8
+#: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "800 x 600"
 msgstr "800 x 600"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:8
+#: ../data/glade/gthumb_web_exporter.glade.h:13
+#, fuzzy
 msgid "800 x 800"
-msgstr "800 x 800"
+msgstr "800 x 600"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:9
-msgid "<b>Album</b>"
+#: ../data/glade/gthumb_web_exporter.glade.h:14
+#, fuzzy
+msgid "<b>Album Style</b>"
 msgstr "<b>アルバム</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:10
-msgid "<b>Index Layout</b>"
+#: ../data/glade/gthumb_web_exporter.glade.h:15
+#, fuzzy
+msgid "<b>Basic Information</b>"
+msgstr "<b>縦横比</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:16
+#, fuzzy
+msgid "<b>Camera Data</b>"
+msgstr "<b>変更内容:</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:17
+#, fuzzy
+msgid "<b>Comments</b>"
+msgstr "<b>圧縮</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:18
+#, fuzzy
+msgid "<b>Index Page Layout</b>"
 msgstr "<b>目録のレイアウト</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:11
+#: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
 msgstr "<b>個人専用のテーマ</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:12
-msgid "<b>Photo data</b>"
-msgstr "<b>写真のデータ</b>"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:14
+#: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
 msgstr "<b>テーマ</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:16
+#: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
 msgstr "<small><i><b>注意:</b> %d (現在の日付)</i></small>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:17
+#: ../data/glade/gthumb_web_exporter.glade.h:24
+msgid ""
+"<small><i><b>Note:</b> Some themes may auto-adjust the\n"
+"number of rows and columns, but keep the total \n"
+"number of images per page constant.</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
 msgstr "カメラの型式(_R)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:18
+#: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
 msgstr "表題"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:21
+#: ../data/glade/gthumb_web_exporter.glade.h:31
+#, fuzzy
+msgid "Da_te and Time"
+msgstr "日付と時刻(_D)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "E_xposure mode"
 msgstr "露出モード(_X)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:22
+#: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Exposure _time"
 msgstr "露出時間(_T)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:26
+#: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Focal _length"
 msgstr "フォーカスの長さ(_L)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:28
+#: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
 msgstr "画像の表題(_M)..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "Inde_x file:"
 msgstr "目録ファイル(_X):"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:32
-msgid "Resi_ze if larger than:"
-msgstr "次よりも大きい場合に画像サイズを変更する(_Z):"
+#: ../data/glade/gthumb_web_exporter.glade.h:41
+#, fuzzy
+msgid "S_ort:"
+msgstr "ポート(_P):"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:33
-msgid "Si_ze :"
-msgstr "大きさ(_Z):"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:36
-msgid "Th_eme:"
-msgstr "テーマ(_E):"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:37
+#: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
 msgstr "Web アルバム"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:38
+#: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
 msgstr "Web アルバムのテーマ"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
 msgstr "アパーチャの値(_A)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:40
+#: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
 msgstr "オリジナルを格納場所へコピーする(_C)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:41
+#: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
 msgstr "日付と時刻(_D)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:43
+#: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "_Flash"
 msgstr "フラッシュ(_F)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:50
+#, fuzzy
+msgid "_Footer:"
+msgstr "フッタ(_O):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Go to Theme Folder"
 msgstr "テーマのフォルダへジャンプ(_G)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:45
+#: ../data/glade/gthumb_web_exporter.glade.h:52
+#, fuzzy
+msgid "_Header:"
+msgstr "ヘッダ(_E):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Install Theme..."
 msgstr "テーマのインストール(_I)..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:46
+#: ../data/glade/gthumb_web_exporter.glade.h:54
+#, fuzzy
+msgid "_Place"
+msgstr "場所(_P):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:55
+#, fuzzy
+msgid "_Resize if larger than:"
+msgstr "次よりも大きい場合に画像サイズを変更する(_Z):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:56
 msgid "_Select"
 msgstr "選択(_S)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:47
+#: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Shutter speed"
 msgstr "シャッター速度(_S)"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:48
+#: ../data/glade/gthumb_web_exporter.glade.h:58
+#, fuzzy
+msgid "_Size :"
+msgstr "大きさ(_Z):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:59
+#, fuzzy
+msgid "_Theme:"
+msgstr "テーマ(_E):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
 msgstr "サムネイルの表題(_T)..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:50
-msgid "columns"
+#: ../data/glade/gthumb_web_exporter.glade.h:62
+#, fuzzy
+msgid "columns, by"
 msgstr "行"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:51
+#: ../data/glade/gthumb_web_exporter.glade.h:63
 msgid "index.html"
 msgstr "index.html"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:52
-msgid "rows"
-msgstr "桁"
+#: ../data/glade/gthumb_web_exporter.glade.h:64
+msgid "or _use a single index page"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:65
+#, fuzzy
+msgid "rows per page,"
+msgstr "画像数/ページ:"
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
@@ -1981,7 +1930,10 @@ msgid "Possible values are: 1, 2, 3, 4."
 msgstr "設定可能な値: 1, 2, 3, 4"
 
 #: ../data/gthumb.schemas.in.h:3
-msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+#, fuzzy
+msgid ""
+"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
 msgstr "設定可能な値: actual_size, fit, keep_prev, fit_if_larger"
 
 #: ../data/gthumb.schemas.in.h:4
@@ -2017,26 +1969,19 @@ msgid "Possible values are: mm, in."
 msgstr "設定可能な値: mm, in"
 
 #: ../data/gthumb.schemas.in.h:12
-msgid "Possible values are: name, path, size, time."
-msgstr "設定可能な値: name, path, size, time"
-
-#: ../data/gthumb.schemas.in.h:13
-msgid "Possible values are: name, size, time."
-msgstr "設定可能な値: name, size, time"
-
-#: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
 msgstr "設定可能な値: nautilus, single, double"
 
-#: ../data/gthumb.schemas.in.h:15
+#: ../data/gthumb.schemas.in.h:13
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "設定可能な値: none, deflate, jpeg"
 
-#: ../data/gthumb.schemas.in.h:16
-msgid "Possible values are: none, name, path, size, time."
+#: ../data/gthumb.schemas.in.h:14
+#, fuzzy
+msgid "Possible values are: none, name, path, size, time, exifdate, comment."
 msgstr "設定可能な値: none, name, path, size, time"
 
-#: ../data/gthumb.schemas.in.h:17
+#: ../data/gthumb.schemas.in.h:15
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
@@ -2044,81 +1989,87 @@ msgstr ""
 "設定可能な値: none, simple, simple_with_shadow, shadow, slide, shadow_in, "
 "shadow_out"
 
-#: ../data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:16
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 msgstr ""
 "設定可能な値: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom"
 
-#: ../data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: pixels, percentage."
 msgstr "設定可能な値: pixels, percentage"
 
-#: ../data/gthumb.schemas.in.h:20
+#: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: png, jpeg."
 msgstr "設定可能な値: png, jpeg"
 
-#: ../data/gthumb.schemas.in.h:21
+#: ../data/gthumb.schemas.in.h:19
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "設定可能な値: skip, rename, ask, overwrite"
 
-#: ../data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: small, medium, large."
 msgstr "設定可能な値: small, medium, large"
 
-#: ../data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:21
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr "設定可能な値: system, text_below, text_beside, text_only, icons_only"
 
-#: ../data/gthumb.schemas.in.h:24
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: white, black, checked, none."
 msgstr "設定可能な値: white, black, checked, none"
 
-#: ../data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:23
 msgid "Whether to always use a black background."
 msgstr "常に背景を黒色にするかどうかを設定します。"
 
-#: ../libgthumb/catalog.c:140 ../libgthumb/catalog.c:357
+#: ../data/gthumb.schemas.in.h:24
+msgid "Whether to reset the scrollbar positions after changing image"
+msgstr ""
+
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "カタログ \"%s\" が開けません: %s"
 
-#: ../libgthumb/catalog.c:334
+#: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を保存できません: %s"
 
-#: ../libgthumb/comments.c:1249
+#: ../libgthumb/comments.c:1283 ../src/catalog-web-exporter.c:140
 msgid "%d %B %Y"
 msgstr "%Y年 %B %d日"
 
-#: ../libgthumb/comments.c:1251 ../src/catalog-web-exporter.c:52
-#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:498 ../src/gth-exif-data-viewer.c:485
-#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:583
+#: ../libgthumb/comments.c:1285 ../src/catalog-web-exporter.c:55
+#: ../src/catalog-web-exporter.c:142 ../src/dlg-duplicates.c:553
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:495
+#: ../src/gth-exif-data-viewer.c:448 ../src/gth-fullscreen.c:848
+#: ../src/gth-viewer.c:575
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y年 %B %d日 %H:%M"
 
-#: ../libgthumb/comments.c:1261 ../libgthumb/comments.c:1263
+#: ../libgthumb/comments.c:1295 ../libgthumb/comments.c:1297
 msgid "(No Comment)"
 msgstr "(コメントなし)"
 
 #: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1523
+#: ../src/dlg-jpegtran.c:278 ../src/dlg-photo-importer.c:1540
+#: ../src/dlg-reset-exif.c:116
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "フォルダ \"%s\" の中に画像を生成するための権限がありません。"
 
 #: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:200
+#: ../src/gth-batch-op.c:570 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "画像 \"%s\" は既に存在しています。上書きしてもよろしいですか？"
 
-#: ../libgthumb/dlg-save-image.c:169
+#: ../libgthumb/dlg-save-image.c:169 ../src/rotation-utils.c:238
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "サポートしていない画像の種類: %s"
@@ -2127,32 +2078,36 @@ msgstr "サポートしていない画像の種類: %s"
 msgid "Determine by extension"
 msgstr "拡張子で決定する"
 
-#: ../libgthumb/dlg-save-image.c:275
+#: ../libgthumb/dlg-save-image.c:274
 msgid "Save Image"
 msgstr "画像の保存"
 
-#: ../libgthumb/dlg-save-image.c:292
+#: ../libgthumb/dlg-save-image.c:293
 msgid "Image type:"
 msgstr "画像の種類:"
 
-#: ../libgthumb/file-utils.c:1118 ../src/gth-location.c:756
+#: ../libgthumb/file-utils.c:1170 ../src/gth-location.c:756
+msgid "Catalogs"
+msgstr "カタログ"
+
+#: ../libgthumb/file-utils.c:1172 ../src/gth-location.c:761
 msgid "File System"
 msgstr "ファイル・システム"
 
-#: ../libgthumb/file-utils.c:1142 ../src/gth-location.c:760
+#: ../libgthumb/file-utils.c:1196 ../src/gth-location.c:765
 msgid "Home"
 msgstr "ホーム"
 
-#: ../libgthumb/file-utils.c:1552
+#: ../libgthumb/file-utils.c:1656
 msgid "Library not empty"
 msgstr "ライブラリは空ではありません"
 
-#: ../libgthumb/file-utils.c:1561
+#: ../libgthumb/file-utils.c:1665
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "ライブラリ \"%s\" を削除できません: %s"
 
-#: ../libgthumb/file-utils.c:1588
+#: ../libgthumb/file-utils.c:1692
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を削除できません: %s"
@@ -2241,32 +2196,31 @@ msgstr "フォント情報モードに表示するサイズです"
 msgid "Font"
 msgstr "フォント"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8533
-#: ../src/gth-viewer.c:2283
-msgid "Wait please..."
-msgstr "しばらくお待ち下さい..."
-
-#: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:774
-#: ../src/gth-viewer.c:764
-msgid "No image"
-msgstr "画像はありません"
-
-#: ../libgthumb/gth-file-view-list.c:1481 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:496
+#: ../libgthumb/gth-file-view-list.c:1485 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:594
 msgid "Name"
 msgstr "名前"
 
-#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gth-image-list.c:3500 ../src/gth-browser.c:766
+#: ../src/gth-browser.c:4366 ../src/gth-viewer.c:753
+msgid "No image"
+msgstr "画像はありません"
+
+#: ../libgthumb/gth-utils.c:46
+#, fuzzy
+msgid "Could not display help"
+msgstr "ヘルプを表示することができませんでした: %s"
+
+#: ../libgthumb/gthumb-stock.c:77 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "画像の回転(_T)"
 
-#: ../libgthumb/print-callbacks.c:668
+#: ../libgthumb/print-callbacks.c:713
 #, c-format
 msgid "Page %d of %d"
 msgstr "ページ %d / %d"
 
-#: ../libgthumb/print-callbacks.c:1751 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1796 ../src/catalog-png-exporter.c:1361
 #, c-format
 msgid "Loading image: %s"
 msgstr "画像の読み込み中: %s"
@@ -2279,39 +2233,55 @@ msgstr "全てのサムネイルを削除しています。少々お待ち下さ
 msgid "Deleting old thumbnails, wait please..."
 msgstr "古いサムネイルを削除しています。少々お待ち下さい..."
 
-#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1382
-#: ../src/gth-browser.c:1386 ../src/gth-browser.c:1398
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1282
+#: ../src/gth-browser.c:1286 ../src/gth-browser.c:1298
 msgid "(Invalid Name)"
 msgstr "(不正な名前)"
 
-#: ../src/catalog-png-exporter.c:1565
+#: ../src/catalog-png-exporter.c:818 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:499 ../src/gth-exif-data-viewer.c:444
+#: ../src/gth-fullscreen.c:839 ../src/gth-viewer.c:579
+#, c-format
+msgid "%d x %d pixels"
+msgstr "ピクセル数 %d x %d"
+
+#: ../src/catalog-png-exporter.c:1593
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "画像の生成中: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1707
+#: ../src/catalog-web-exporter.c:1866
 msgid "Saving thumbnails"
 msgstr "サムネイルの保存"
 
-#: ../src/catalog-web-exporter.c:1773
+#: ../src/catalog-web-exporter.c:1932
 msgid "Saving HTML pages: Images"
 msgstr "HTML ページの保存: 画像"
 
-#: ../src/catalog-web-exporter.c:1848
+#: ../src/catalog-web-exporter.c:2007
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML ページの保存: 目録"
 
-#: ../src/catalog-web-exporter.c:1974 ../src/catalog-web-exporter.c:2034
-#: ../src/catalog-web-exporter.c:2204
+#: ../src/catalog-web-exporter.c:2137 ../src/catalog-web-exporter.c:2391
 msgid "Saving images"
 msgstr "画像の保存中"
 
-#: ../src/catalog-web-exporter.c:2388
+#. This function is used when "Copy originals to destination" is
+#. enabled, and resizing is NOT enabled. This allows us to use a
+#. lossless copy (and rotate). When resizing is enabled, a lossy
+#. save has to be used.
+#: ../src/catalog-web-exporter.c:2201
+#, fuzzy
+msgid "Copying original images"
+msgstr "オリジナルのファイル名を使う(_K)"
+
+#: ../src/catalog-web-exporter.c:2575
+#: ../src/gth-window-actions-callbacks.c:219 ../src/rotation-utils.c:142
 msgid "Could not create a temporary folder"
 msgstr "作業フォルダを生成できませんでした"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2421
+#: ../src/catalog-web-exporter.c:2608
 msgid "Loading images"
 msgstr "画像の読み込み中"
 
@@ -2320,7 +2290,7 @@ msgid "Enter the catalog name: "
 msgstr "カタログ名を入力して下さい: "
 
 #: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:147
-#: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
+#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:91
 #: ../src/gth-browser-actions-callbacks.c:904
 msgid "C_reate"
 msgstr "生成(_C)"
@@ -2333,11 +2303,11 @@ msgstr "ライブラリの名前を入力して下さい: "
 msgid "Move Catalog to..."
 msgstr "カタログの移動..."
 
-#: ../src/dlg-categories.c:239
+#: ../src/dlg-categories.c:240
 msgid "Enter the new category name"
 msgstr "カテゴリ名を入力して下さい: "
 
-#: ../src/dlg-categories.c:250
+#: ../src/dlg-categories.c:251
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
@@ -2346,45 +2316,37 @@ msgstr ""
 "名前 \"%s\" に \",\" 文字が含まれているため使用できません。別の名前を入力して"
 "下さい。"
 
-#: ../src/dlg-categories.c:255
+#: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "カテゴリ \"%s\" は既に存在します。別の名前を入力して下さい。"
 
-#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
-#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456 ../src/dlg-jpegtran.c:579
-#: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
-#: ../src/dlg-search.c:468 ../src/gth-window-actions-callbacks.c:822
-#, c-format
-msgid "Could not display help: %s"
-msgstr "ヘルプを表示することができませんでした: %s"
-
-#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:390
+#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
 #, c-format
 msgid "Converting image: %s"
 msgstr "画像の変換: %s"
 
-#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:413
+#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "画像 \"%s\" は既に存在しています。別の名前を入力して下さい。"
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
 msgid "Skip"
 msgstr "何もしない"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:563
+#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:576
 #: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
 msgstr "上書き(_O)"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:427
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (画像)"
 
-#: ../src/dlg-crop.c:385
+#: ../src/dlg-crop.c:435
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (表示)"
@@ -2401,7 +2363,7 @@ msgstr "複製のサイズ"
 msgid "Last modified"
 msgstr "最終修正日時"
 
-#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:622
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:614
 msgid "Location"
 msgstr "場所"
 
@@ -2429,7 +2391,7 @@ msgid ""
 msgstr "画像をゴミ箱に移動することができません。画像を完全に消去しますか？"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
-#: ../src/gth-browser.c:1906 ../src/gth-viewer.c:978
+#: ../src/gth-browser.c:1838 ../src/gth-viewer.c:989
 msgid "_Do not display this message again"
 msgstr "次回からこのメッセージを表示しない(_D)"
 
@@ -2441,6 +2403,10 @@ msgstr "移動(_M)"
 #: ../src/gth-browser-actions-callbacks.c:1515
 msgid "Choose the destination folder"
 msgstr "送り先のフォルダを選択して下さい"
+
+#: ../src/dlg-file-utils.c:555
+msgid "%d %b %Y, %H:%M"
+msgstr "%Y年 %B %d日 %H:%M"
 
 #: ../src/dlg-file-utils.c:791 ../src/dlg-file-utils.c:892
 msgid "You didn't enter the new name"
@@ -2469,11 +2435,11 @@ msgstr "画像を移動することができませんでした:"
 msgid "Could not copy the image:"
 msgstr "画像をコピーすることができませんでした:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
 msgid "_Continue"
 msgstr "続行(_C)"
 
@@ -2482,105 +2448,139 @@ msgstr "続行(_C)"
 msgid "Copying file %d of %d"
 msgstr "ファイルのコピー中: %d/%d"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
 msgid "Collecting images info"
 msgstr "画像情報の収集"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "ファイルの削除中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2022
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "ファイルのコピー中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "ファイルの移動中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
 #: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を移動できませんでした: %s"
 
-#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:503
+#: ../src/dlg-image-prop.c:599
 msgid "Size"
 msgstr "大きさ"
 
-#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:524
+#: ../src/dlg-image-prop.c:604
 msgid "Type"
 msgstr "種類"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:514
-#: ../src/gth-exif-data-viewer.c:517 ../src/gth-viewer.c:599
+#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:511
+#: ../src/gth-viewer.c:591
 msgid "Modified"
 msgstr "修正日時"
 
-#: ../src/dlg-image-prop.c:632
+#: ../src/dlg-image-prop.c:624
 msgid "Information on Channel"
 msgstr "チャンネルの情報"
 
-#: ../src/dlg-image-prop.c:747
+#: ../src/dlg-image-prop.c:733
 #, c-format
 msgid "%s Properties"
 msgstr "%s のプロパティ"
 
-#: ../src/dlg-photo-importer.c:887 ../src/dlg-photo-importer.c:1447
-#: ../src/dlg-photo-importer.c:1497 ../src/dlg-photo-importer.c:1509
-#: ../src/dlg-photo-importer.c:1525 ../src/dlg-photo-importer.c:1554
+#: ../src/dlg-jpegtran.c:237
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"gThumb can also discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore.\n"
+"\n"
+"To avoid this problem in the future, consider disabling the \"Apply physical "
+"transform\" option in the rotation dialog."
+msgstr ""
+
+#: ../src/dlg-jpegtran.c:245
+msgid "Trim"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:895 ../src/dlg-photo-importer.c:1464
+#: ../src/dlg-photo-importer.c:1514 ../src/dlg-photo-importer.c:1526
+#: ../src/dlg-photo-importer.c:1542 ../src/dlg-photo-importer.c:1571
 msgid "Could not import photos"
 msgstr "写真をインポートできませんでした"
 
-#: ../src/dlg-photo-importer.c:1235 ../src/main.c:1011
+#: ../src/dlg-photo-importer.c:1254 ../src/main.c:1012
 msgid "Film"
 msgstr "フィルム"
 
-#: ../src/dlg-photo-importer.c:1506
+#: ../src/dlg-photo-importer.c:1523
 #: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を生成できませんでした: %s"
 
-#: ../src/dlg-png-exporter.c:904
+#: ../src/dlg-png-exporter.c:906
 msgid "Image Caption"
 msgstr "画像の説明"
 
-#: ../src/dlg-png-exporter.c:958
+#: ../src/dlg-png-exporter.c:960
 msgid "Header"
 msgstr "ヘッダ"
 
-#: ../src/dlg-png-exporter.c:971 ../src/dlg-png-exporter.c:977
+#: ../src/dlg-png-exporter.c:973 ../src/dlg-png-exporter.c:979
 msgid "Footer"
 msgstr "フッタ"
 
-#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:371
+#: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:480
+#: ../src/dlg-web-exporter.c:488
 msgid "by path"
 msgstr "パス名順"
 
-#: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:434
-#: ../src/dlg-web-exporter.c:373
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:482
+#: ../src/dlg-web-exporter.c:490
 msgid "by size"
 msgstr "サイズ順"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:436
-#: ../src/dlg-web-exporter.c:375
-msgid "by modified time"
+#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:484
+#: ../src/dlg-web-exporter.c:492
+#, fuzzy
+msgid "by file modified time"
 msgstr "最終修正日時順"
 
-#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:439
-#: ../src/dlg-web-exporter.c:378
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:486
+#: ../src/dlg-web-exporter.c:494
+msgid "by Exif DateTime tag"
+msgstr ""
+
+#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:488
+#: ../src/dlg-web-exporter.c:496
+#, fuzzy
+msgid "by comment"
+msgstr "コメント"
+
+#: ../src/dlg-png-exporter.c:1580 ../src/dlg-rename-series.c:491
+#: ../src/dlg-web-exporter.c:499
 msgid "manual order"
 msgstr "マニュアルの順番"
 
-#: ../src/dlg-rename-series.c:418
+#: ../src/dlg-rename-series.c:464
 msgid "Old Name"
 msgstr "古い名前"
 
-#: ../src/dlg-rename-series.c:426
+#: ../src/dlg-rename-series.c:472
 msgid "New Name"
 msgstr "新しい名前"
 
@@ -2588,19 +2588,11 @@ msgstr "新しい名前"
 msgid "Search Result"
 msgstr "検索結果"
 
-#: ../src/dlg-search.c:676
-msgid "Filename"
-msgstr "ファイル名"
-
-#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:391
-msgid "Folder"
-msgstr "フォルダ"
-
-#: ../src/dlg-web-exporter.c:726
+#: ../src/dlg-web-exporter.c:857
 msgid "Select Album Theme"
 msgstr "アルバムのテーマの選択"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3680
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3605
 msgid "Could not move the items:"
 msgstr "アイテムを移動することができませんでした:"
 
@@ -2635,7 +2627,7 @@ msgstr "画像 \"%s\" の名前を変更できませんでした: %s"
 msgid "source and destination are the same"
 msgstr "送り元と送り先が同じです"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1069
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "画像をゴミ箱に移動します。よろしいですか？"
 
@@ -2743,7 +2735,7 @@ msgstr "新しいフォルダ"
 msgid "Enter the folder name: "
 msgstr "フォルダ名を入力して下さい: "
 
-#: ../src/gth-browser-actions-callbacks.c:1846
+#: ../src/gth-browser-actions-callbacks.c:1852
 msgid "Open Location"
 msgstr "場所を開く"
 
@@ -2778,6 +2770,12 @@ msgstr "ズーム(_Z)"
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
 msgstr "ジャンプ(_G)"
+
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:483
+#: ../src/gth-viewer-actions-entries.h:40
+msgid "_Image"
+msgstr "画像(_I)"
 
 #: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
@@ -2825,7 +2823,8 @@ msgid "Import photos from a digital camera"
 msgstr "デジタル・カメラから写真をインポートします"
 
 #: ../src/gth-browser-actions-entries.h:73
-msgid "_Write To CD"
+#, fuzzy
+msgid "_Write To CD..."
 msgstr "CD へ書き込む(_W)"
 
 #: ../src/gth-browser-actions-entries.h:74
@@ -2958,6 +2957,12 @@ msgstr "選択したカタログを削除します"
 msgid "Move selected catalog to another location"
 msgstr "選択したカタログを他のフォルダへ移動します"
 
+#: ../src/gth-browser-actions-entries.h:163
+#: ../src/gth-browser-actions-entries.h:198
+#, fuzzy
+msgid "_Edit Search..."
+msgstr "検索基準の編集(_E)..."
+
 #: ../src/gth-browser-actions-entries.h:164
 #: ../src/gth-browser-actions-entries.h:199
 msgid "Modify search criteria"
@@ -3036,8 +3041,9 @@ msgstr "選択したフォルダを移動します"
 
 #: ../src/gth-browser-actions-entries.h:243
 #: ../src/gth-browser-actions-entries.h:273
-#: ../src/gth-window-actions-entries.h:85
-msgid "Ca_tegories"
+#: ../src/gth-window-actions-entries.h:95
+#, fuzzy
+msgid "Ca_tegories..."
 msgstr "カテゴリ(_T)"
 
 #: ../src/gth-browser-actions-entries.h:244
@@ -3081,335 +3087,427 @@ msgstr "新しいフォルダを生成します"
 msgid "View next image"
 msgstr "次の画像を表示します"
 
-#: ../src/gth-browser-actions-entries.h:288
-#: ../src/gth-fullscreen-actions-entries.h:47
-msgid "Previous"
-msgstr "前へ"
-
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
 msgstr "前の画像を表示します"
 
-#: ../src/gth-browser-actions-entries.h:294
+#: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
 msgstr "前に訪れた場所へジャンプします"
 
-#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
 msgstr "次に訪れた場所へジャンプします"
 
-#: ../src/gth-browser-actions-entries.h:304
+#: ../src/gth-browser-actions-entries.h:309
 msgid "Go up one level"
 msgstr "一つ上のレベルに上がります"
 
-#: ../src/gth-browser-actions-entries.h:308
+#: ../src/gth-browser-actions-entries.h:313
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "再読み込み(_R)"
 
-#: ../src/gth-browser-actions-entries.h:309
+#: ../src/gth-browser-actions-entries.h:314
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "この場所の画像を再度読み込みます"
 
-#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
 msgstr "この場所の読み込みを停止します"
 
-#: ../src/gth-browser-actions-entries.h:319
+#: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
 msgstr "ホーム・フォルダにジャンプします"
 
-#: ../src/gth-browser-actions-entries.h:323
+#: ../src/gth-browser-actions-entries.h:328
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "画像のフォルダへジャンプ(_G)"
 
-#: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-browser-actions-entries.h:329
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "選択した画像を格納するフォルダにジャンプします"
 
-#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
 msgstr "履歴の削除(_D)"
 
-#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-browser-actions-entries.h:334
 msgid "Delete the list of visited locations"
 msgstr "最近訪れた場所の一覧を削除します"
 
-#: ../src/gth-browser-actions-entries.h:333
+#: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
 msgstr "場所(_L)..."
 
-#: ../src/gth-browser-actions-entries.h:334
+#: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
 msgstr "最近訪れた場所を指定して下さい"
 
-#: ../src/gth-browser-actions-entries.h:338
+#: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
 msgstr "ブックマークに追加(_A)"
 
-#: ../src/gth-browser-actions-entries.h:339
+#: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
 msgstr "この場所をブックマークに追加します"
 
-#: ../src/gth-browser-actions-entries.h:343
-msgid "_Edit Bookmarks"
+#: ../src/gth-browser-actions-entries.h:348
+#, fuzzy
+msgid "_Edit Bookmarks..."
 msgstr "ブックマークの編集(_E)"
 
-#: ../src/gth-browser-actions-entries.h:344
+#: ../src/gth-browser-actions-entries.h:349
 msgid "Edit bookmarks"
 msgstr "ブックマークを編集します"
 
-#: ../src/gth-browser-actions-entries.h:348
+#: ../src/gth-browser-actions-entries.h:353
 msgid "_Slide Show"
 msgstr "スライドショー(_S)"
 
-#: ../src/gth-browser-actions-entries.h:349
+#: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
 msgstr "スライドショーで表示します"
 
 #: ../src/gth-browser-actions-entries.h:358
-msgid "Create _Index Image"
-msgstr "画像の目録の作成(_I)"
+#, fuzzy
+msgid "_Find..."
+msgstr "検索"
 
 #: ../src/gth-browser-actions-entries.h:363
-msgid "Create _Web Album"
-msgstr "Web アルバムの作成(_W)"
+#, fuzzy
+msgid "_Find"
+msgstr "検索"
 
 #: ../src/gth-browser-actions-entries.h:368
-msgid "Convert F_ormat"
-msgstr "フォーマットの変換(_F)"
+#, fuzzy
+msgid "Create _Index Image..."
+msgstr "画像の目録の作成(_I)"
 
 #: ../src/gth-browser-actions-entries.h:373
+#, fuzzy
+msgid "Create _Web Album..."
+msgstr "Web アルバムの作成(_W)"
+
+#: ../src/gth-browser-actions-entries.h:378
+#, fuzzy
+msgid "Convert F_ormat..."
+msgstr "フォーマットの変換(_F)"
+
+#: ../src/gth-browser-actions-entries.h:383
 msgid "Fi_nd Duplicates..."
 msgstr "複製の検索(_N)..."
 
-#: ../src/gth-browser-actions-entries.h:379
+#: ../src/gth-browser-actions-entries.h:388
+#, fuzzy
+msgid "_Preferences..."
+msgstr "gThumb の設定"
+
+#: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
 msgstr "gThumb の設定を変更します"
 
-#: ../src/gth-browser-actions-entries.h:392
+#: ../src/gth-browser-actions-entries.h:393
+#, fuzzy
+msgid "Scale Images..."
+msgstr "画像サイズの変更"
+
+#: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "ツールバー(_T)"
 
-#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:403
 #: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "このウィンドウのツールバーの表示を ON/OFF します"
 
-#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-browser-actions-entries.h:407
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "ステータスバー(_S)"
 
-#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-browser-actions-entries.h:408
 #: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "このウィンドウのステータスバーの表示を ON/OFF します"
 
-#: ../src/gth-browser-actions-entries.h:403
+#: ../src/gth-browser-actions-entries.h:413
 msgid "View thumbnails"
 msgstr "サムネイルで表示します"
 
-#: ../src/gth-browser-actions-entries.h:407
+#: ../src/gth-browser-actions-entries.h:417
 msgid "_Image Preview"
 msgstr "画像のプレビュー(_I)"
 
-#: ../src/gth-browser-actions-entries.h:408
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:418
+#: ../src/gth-browser-actions-entries.h:484
 msgid "View the image"
 msgstr "画像を表示します"
 
-#: ../src/gth-browser-actions-entries.h:412
+#: ../src/gth-browser-actions-entries.h:422
 #: ../src/gth-viewer-actions-entries.h:83
 msgid "Image _Comment"
 msgstr "画像のコメント(_C)"
 
-#: ../src/gth-browser-actions-entries.h:413
+#: ../src/gth-browser-actions-entries.h:423
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image comment"
 msgstr "画像のコメントを表示します"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:428
 msgid "_Reversed Order"
 msgstr "逆順に並び替え(_R)"
 
-#: ../src/gth-browser-actions-entries.h:418
+#: ../src/gth-browser-actions-entries.h:429
 msgid "Reverse images order"
 msgstr "画像の順番を逆順にします"
 
-#: ../src/gth-browser-actions-entries.h:427
+#: ../src/gth-browser-actions-entries.h:438
 msgid "by _Name"
 msgstr "名前順(_N)"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:439
 msgid "Sort images by name"
 msgstr "ファイル名で画像を並べ替えます"
 
-#: ../src/gth-browser-actions-entries.h:430
+#: ../src/gth-browser-actions-entries.h:441
 msgid "by _Path"
 msgstr "パス順(_P)"
 
-#: ../src/gth-browser-actions-entries.h:431
+#: ../src/gth-browser-actions-entries.h:442
 msgid "Sort images by path"
 msgstr "パス名で画像を並べ替えます"
 
-#: ../src/gth-browser-actions-entries.h:433
+#: ../src/gth-browser-actions-entries.h:444
 msgid "by _Size"
 msgstr "サイズ順(_S)"
 
-#: ../src/gth-browser-actions-entries.h:434
+#: ../src/gth-browser-actions-entries.h:445
 msgid "Sort images by file size"
 msgstr "ファイル・サイズで画像を並べ替えます"
 
-#: ../src/gth-browser-actions-entries.h:436
-msgid "by _Time"
-msgstr "時刻順(_T)"
-
-#: ../src/gth-browser-actions-entries.h:437
-msgid "Sort images by modification time"
+#: ../src/gth-browser-actions-entries.h:447
+#, fuzzy
+msgid "by Modification _Time"
 msgstr "最終修正日時で画像を並べ替えます"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:448
+#, fuzzy
+msgid "Sort images by file modification time"
+msgstr "最終修正日時で画像を並べ替えます"
+
+#: ../src/gth-browser-actions-entries.h:450
+#, fuzzy
+msgid "by _Exif Time"
+msgstr "時刻順(_T)"
+
+#: ../src/gth-browser-actions-entries.h:451
+#, fuzzy
+msgid "Sort images by Exif DateTime tag"
+msgstr "ファイル名で画像を並べ替えます"
+
+#: ../src/gth-browser-actions-entries.h:453
+#, fuzzy
+msgid "by _Comment"
+msgstr "コメント"
+
+#: ../src/gth-browser-actions-entries.h:454
+#, fuzzy
+msgid "Sort images by comment"
+msgstr "ファイル名で画像を並べ替えます"
+
+#: ../src/gth-browser-actions-entries.h:456
 msgid "_Manual Order"
 msgstr "手動で並べ替え(_M)"
 
-#: ../src/gth-browser-actions-entries.h:440
+#: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images manually"
 msgstr "自由に画像を並べ替えて下さい"
 
-#: ../src/gth-browser-actions-entries.h:447
+#: ../src/gth-browser-actions-entries.h:464
+#: ../src/gth-browser-actions-entries.h:465
+#, fuzzy
+msgid "View As Slides"
+msgstr "スライドショーで表示します"
+
+#: ../src/gth-browser-actions-entries.h:467
+#: ../src/gth-browser-actions-entries.h:468
+msgid "View As List"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:477
 msgid "_Folders"
 msgstr "フォルダ(_F)"
 
-#: ../src/gth-browser-actions-entries.h:448
+#: ../src/gth-browser-actions-entries.h:478
 msgid "View the folders"
 msgstr "フォルダを表示します"
 
-#: ../src/gth-browser-actions-entries.h:450
+#: ../src/gth-browser-actions-entries.h:480
 msgid "_Catalogs"
 msgstr "カタログ(_C)"
 
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:481
 msgid "View the catalogs"
 msgstr "カタログを表示します"
 
-#: ../src/gth-browser.c:564 ../src/gth-viewer.c:644
+#: ../src/gth-browser.c:561 ../src/gth-viewer.c:636
 msgid "[Press 'c' to add a comment]"
 msgstr "[コメントを追加する時は 'c' キーを押して下さい]"
 
-#: ../src/gth-browser.c:673 ../src/gth-browser.c:692 ../src/gth-viewer.c:740
-#: ../src/gth-viewer.c:761
+#: ../src/gth-browser.c:665 ../src/gth-browser.c:684 ../src/gth-viewer.c:729
+#: ../src/gth-viewer.c:750
 msgid "[modified]"
 msgstr "[変更済]"
 
-#: ../src/gth-browser.c:717 ../src/gth-window-actions-callbacks.c:782
-#: ../src/main.c:700
+#: ../src/gth-browser.c:709 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
+#: ../src/gth-browser.c:768
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 個の画像 (%s)"
 
-#: ../src/gth-browser.c:779
+#: ../src/gth-browser.c:771
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 個の画像 (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:778
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 つ選択 (%s)"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:781
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d つ選択 (%s)"
 
-#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1835 ../src/gth-viewer.c:986
 msgid "The current image has been modified, do you want to save it?"
 msgstr "この画像が変更されました。保存しますか？"
 
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:976
+#: ../src/gth-browser.c:1836 ../src/gth-viewer.c:987
 msgid "Do Not Save"
 msgstr "保存しない"
 
-#: ../src/gth-browser.c:3439
+#: ../src/gth-browser.c:3364
 msgid "Dragged Images"
 msgstr "画像のドラッグ"
 
-#: ../src/gth-browser.c:5090 ../src/gth-browser.c:5091
-#: ../src/gth-viewer.c:1546 ../src/gth-viewer.c:1547
-#: ../src/gth-window-actions-entries.h:256
-#: ../src/gth-window-actions-entries.h:261
-#: ../src/gth-window-actions-entries.h:266
-#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-browser.c:5218 ../src/gth-browser.c:5219
+#: ../src/gth-viewer.c:1525 ../src/gth-viewer.c:1526
+#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:281
+#: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "品質低下をおこさないように画像を回転します"
 
-#: ../src/gth-browser.c:6502
-msgid "Close"
-msgstr "このペインを閉じます"
+#: ../src/gth-browser.c:6228 ../src/gth-browser.c:8401
+#: ../src/gth-viewer.c:2208
+msgid "Wait please..."
+msgstr "しばらくお待ち下さい..."
 
-#: ../src/gth-browser.c:6516 ../src/gth-viewer.c:1814
-msgid "Image comment"
-msgstr "画像にコメントを追加します"
-
-#: ../src/gth-browser.c:6530
-msgid "Image data"
-msgstr "画像のデータを表示します"
-
-#: ../src/gth-browser.c:6544
-msgid "Image preview"
-msgstr "画像をプレビュー表示します"
-
-#: ../src/gth-browser.c:7570
+#: ../src/gth-browser.c:6248
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "フォルダ \"%s\" が読めませんでした: %s\n"
 
-#: ../src/gth-browser.c:7876
+#: ../src/gth-browser.c:6714
+msgid "Close"
+msgstr "このペインを閉じます"
+
+#: ../src/gth-browser.c:6728 ../src/gth-viewer.c:1766
+msgid "Image comment"
+msgstr "画像にコメントを追加します"
+
+#: ../src/gth-browser.c:6742
+msgid "Image data"
+msgstr "画像のデータを表示します"
+
+#: ../src/gth-browser.c:6756
+msgid "Image preview"
+msgstr "画像をプレビュー表示します"
+
+#: ../src/gth-browser.c:7793
 msgid "The specified catalog does not exist."
 msgstr "指定したカタログは存在しません。"
 
-#: ../src/gth-exif-data-viewer.c:133
+#: ../src/gth-exif-data-viewer.c:132
 msgid "Field"
 msgstr "フィールド"
 
-#: ../src/gth-exif-data-viewer.c:143
+#: ../src/gth-exif-data-viewer.c:142
 msgid "Value "
 msgstr "数値 "
 
-#: ../src/gth-folder-selection-dialog.c:413
+#: ../src/gth-exif-data-viewer.c:303
+msgid "Exif"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:378
+#, fuzzy
+msgid "Note"
+msgstr "なし"
+
+#.
+#: ../src/gth-exif-data-viewer.c:457
+#, fuzzy
+msgid "File: Name"
+msgstr "ファイル名(_N)"
+
+#: ../src/gth-exif-data-viewer.c:458
+#, fuzzy
+msgid "File: Dimensions"
+msgstr "画像の寸法"
+
+#: ../src/gth-exif-data-viewer.c:459
+#, fuzzy
+msgid "File: Size"
+msgstr "サイズ(_Z)"
+
+#: ../src/gth-exif-data-viewer.c:460
+#, fuzzy
+msgid "File: Modified"
+msgstr "修正日時"
+
+#: ../src/gth-exif-data-viewer.c:461
+#, fuzzy
+msgid "File: Type"
+msgstr "ファイル・システム"
+
+#: ../src/gth-folder-selection-dialog.c:395
+#, fuzzy
+msgid "<b>_Folder</b>"
+msgstr "<b>フッタ</b>"
+
+#: ../src/gth-folder-selection-dialog.c:414
 msgid "_Browse..."
 msgstr "参照(_B)..."
 
-#: ../src/gth-folder-selection-dialog.c:422
-msgid "_Recents:"
+#: ../src/gth-folder-selection-dialog.c:429
+#, fuzzy
+msgid "<b>_Recents</b>"
 msgstr "現在(_R):"
 
-#: ../src/gth-fullscreen-actions-entries.h:37
-#: ../src/gth-window-actions-entries.h:220
-msgid "Restore Normal View"
-msgstr "通常表示に戻す"
+#: ../src/gth-folder-selection-dialog.c:451
+#, fuzzy
+msgid "<b>Book_marks</b>"
+msgstr "ブックマーク"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
 msgstr "プロパティ(_T)"
 
-#: ../src/gth-location.c:328
+#: ../src/gth-location.c:332
 msgid "Other..."
 msgstr "その他..."
-
-#: ../src/gth-location.c:751
-msgid "Catalogs"
-msgstr "カタログ"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3429,367 +3527,570 @@ msgstr "単一のウィンドウ(_S)"
 msgid "Reuse this window to view other images"
 msgstr "このウィンドウを他の画像を表示するのに使用します"
 
-#: ../src/gth-viewer.c:1502 ../src/gth-window-actions-entries.h:45
-#: ../src/gth-window-actions-entries.h:70
+#: ../src/gth-viewer.c:823
+msgid "_None"
+msgstr "なし(_N)"
+
+#: ../src/gth-viewer.c:1481 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "他で開く(_O)"
 
-#: ../src/gth-viewer.c:1508 ../src/gth-viewer.c:1509
+#: ../src/gth-viewer.c:1487 ../src/gth-viewer.c:1488
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "選択した画像を他のアプリケーションで開きます"
 
-#: ../src/gth-window-actions-callbacks.c:772
+#: ../src/gth-window-actions-callbacks.c:804
+msgid "An image viewer and browser for GNOME."
+msgstr "GNOME 向けの画像ビューアとブラウザです。"
+
+#: ../src/gth-window-actions-callbacks.c:807
 msgid "translator_credits"
 msgstr ""
 "相花 毅 <aihana@gnome.gr.jp>\n"
 "日本GNOMEユーザー会 http://www.gnome.gr.jp"
 
-#: ../src/gth-window-actions-callbacks.c:785
-msgid "An image viewer and browser for GNOME."
-msgstr "GNOME 向けの画像ビューアとブラウザです。"
-
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
-msgstr "使用している色数を減らします"
+msgstr "色数を減らす"
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "このウィンドウを閉じます"
 
+#: ../src/gth-window-actions-entries.h:45
+#, fuzzy
+msgid "_Open With..."
+msgstr "他で開く(_O)"
+
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
+msgid "Save current image"
+msgstr "この画像を保存します"
+
+#: ../src/gth-window-actions-entries.h:55
+msgid "Save _As..."
+msgstr "別名で保存(_A)..."
+
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
 msgstr "保存した画像に戻します"
 
+#: ../src/gth-window-actions-entries.h:65
+#, fuzzy
+msgid "Print..."
+msgstr "印刷"
+
+#: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
+msgid "Print the current image"
+msgstr "この画像を印刷します"
+
+#: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
 msgstr "この画像を他のアプリケーションで開きます"
 
-#: ../src/gth-window-actions-entries.h:76
+#: ../src/gth-window-actions-entries.h:80
+#, fuzzy
+msgid "Comm_ent..."
+msgstr "コメント(_E)"
+
+#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
 msgstr "選択した画像にコメントを追加します"
 
-#: ../src/gth-window-actions-entries.h:80
+#: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
 msgstr "コメントの削除(_O)"
 
-#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
 msgstr "選択した画像のコメントを削除します"
 
-#: ../src/gth-window-actions-entries.h:86
+#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
 msgstr "選択した画像にカテゴリを付与します"
 
 #: ../src/gth-window-actions-entries.h:100
-#: ../src/gth-window-actions-entries.h:265
+msgid "Ca_tegories"
+msgstr "カテゴリ(_T)"
+
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
 msgstr "右方向に回転(_G)"
 
-#: ../src/gth-window-actions-entries.h:101
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
 msgstr "時計回りに回転した画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:105
-#: ../src/gth-window-actions-entries.h:260
+#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
 msgstr "左方向に回転(_L)"
 
-#: ../src/gth-window-actions-entries.h:106
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
 msgstr "反時計回りに回転した画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:111
+#: ../src/gth-window-actions-entries.h:125
+msgid "_Flip"
+msgstr "ひっくり返す(_F)"
+
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
 msgstr "上下ひっくり返した画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:130
+msgid "_Mirror"
+msgstr "ミラーリング(_M)"
+
+#: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
 msgstr "ミラーリングした画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
 msgstr "脱色(_D)"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
 msgstr "白黒モードで画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:125
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
 msgstr "ナビゲート(_N)"
 
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
 msgstr "ナビゲート色で画像を表示します"
 
-#: ../src/gth-window-actions-entries.h:130
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
 msgstr "拡張(_E)"
 
-#: ../src/gth-window-actions-entries.h:131
+#: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
 msgstr "自動的に色のレベルを調整します"
 
-#: ../src/gth-window-actions-entries.h:135
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
 msgstr "均一化(_E)"
 
-#: ../src/gth-window-actions-entries.h:136
+#: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
 msgstr "自動的に画像のヒストグラムを均一にします"
 
-#: ../src/gth-window-actions-entries.h:140
-msgid "_Posterize"
+#: ../src/gth-window-actions-entries.h:155
+#, fuzzy
+msgid "_Posterize..."
 msgstr "ポスタライズ(_P)"
 
-#: ../src/gth-window-actions-entries.h:141
-#: ../src/gth-window-actions-entries.h:181
-#: ../src/gth-window-actions-entries.h:186
+#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
 msgstr "使用している色数を少なくします"
 
-#: ../src/gth-window-actions-entries.h:145
-msgid "_Brightness-Contrast"
+#: ../src/gth-window-actions-entries.h:160
+#, fuzzy
+msgid "_Brightness-Contrast..."
 msgstr "輝度とコントラスト(_B)"
 
-#: ../src/gth-window-actions-entries.h:146
+#: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
 msgstr "明るさとコントラストを調整します"
 
-#: ../src/gth-window-actions-entries.h:150
-msgid "_Hue-Saturation"
+#: ../src/gth-window-actions-entries.h:165
+#, fuzzy
+msgid "_Hue-Saturation..."
 msgstr "色合いと彩度(_H)"
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
 msgstr "色合いと彩度を調整します"
 
-#: ../src/gth-window-actions-entries.h:155
-msgid "_Color Balance"
+#: ../src/gth-window-actions-entries.h:170
+msgid "_Redeye Removal..."
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:171
+msgid "Redeye Removal Tool"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:175
+#, fuzzy
+msgid "_Color Balance..."
 msgstr "カラー・バランス(_C)"
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
 msgstr "カラー・バランスを調整します"
 
-#: ../src/gth-window-actions-entries.h:160
-msgid "_Threshold"
-msgstr "しきい値(_T)"
-
-#: ../src/gth-window-actions-entries.h:161
-msgid "Apply threshold"
-msgstr "しきい値を適用します"
-
-#: ../src/gth-window-actions-entries.h:165
-msgid "_Resize"
+#: ../src/gth-window-actions-entries.h:180
+#, fuzzy
+msgid "_Resize..."
 msgstr "サイズ変更(_R)"
 
-#: ../src/gth-window-actions-entries.h:166
+#: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
 msgstr "画像のサイズを変更します"
 
-#: ../src/gth-window-actions-entries.h:170
-msgid "_Rotate"
-msgstr "回転(_R)"
+#: ../src/gth-window-actions-entries.h:185
+#, fuzzy
+msgid "_Crop..."
+msgstr "コピー(_C)..."
 
-#: ../src/gth-window-actions-entries.h:171
-msgid "Rotate image"
-msgstr "画像を回転します"
-
-#: ../src/gth-window-actions-entries.h:176
+#: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
 msgstr "画像の端を切り取ります"
 
-#: ../src/gth-window-actions-entries.h:180
+#: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
 msgstr "黒と白"
 
-#: ../src/gth-window-actions-entries.h:185
+#: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
 msgstr "ウェブのパレット"
 
-#: ../src/gth-window-actions-entries.h:190
-#: ../src/gth-window-actions-entries.h:292
+#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:307
 msgid "In"
 msgstr "拡大"
 
-#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
 msgstr "この画像を拡大します"
 
-#: ../src/gth-window-actions-entries.h:195
+#: ../src/gth-window-actions-entries.h:205
 msgid "Out"
 msgstr "縮小"
 
-#: ../src/gth-window-actions-entries.h:196
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
 msgstr "この画像を縮小します"
 
-#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
 msgstr "1:1"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
 msgstr "実サイズで表示します"
 
-#: ../src/gth-window-actions-entries.h:205
+#: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
 msgstr "フィット"
 
-#: ../src/gth-window-actions-entries.h:206
+#: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
 msgstr "ウィンドウに合わせてズームします"
 
-#: ../src/gth-window-actions-entries.h:210
+#: ../src/gth-window-actions-entries.h:220
+#, fuzzy
+msgid "Width"
+msgstr "幅:"
+
+#: ../src/gth-window-actions-entries.h:221
+#, fuzzy
+msgid "Zoom to fit width"
+msgstr "ウィンドウに合わせてズームします"
+
+#: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
 msgstr "アニメーションのステップ実行(_N)"
 
-#: ../src/gth-window-actions-entries.h:215
-msgid "_Full Screen"
-msgstr "フル・スクリーン(_F)"
+#: ../src/gth-window-actions-entries.h:226
+msgid "View next animation frame"
+msgstr "アニメーションの次のフレームを表示します"
 
-#: ../src/gth-window-actions-entries.h:216
-msgid "View image in fullscreen mode"
-msgstr "画像を全画面モードで表示します"
-
-#: ../src/gth-window-actions-entries.h:225
+#: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
 msgstr "中央(_C)"
 
-#: ../src/gth-window-actions-entries.h:226
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
 msgstr "デスクトップの背景に画像をセットします(中央)"
 
-#: ../src/gth-window-actions-entries.h:230
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
 msgstr "タイル状(_F)"
 
-#: ../src/gth-window-actions-entries.h:231
+#: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
 msgstr "デスクトップの背景に画像をセットします(タイル状)"
 
-#: ../src/gth-window-actions-entries.h:235
+#: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
 msgstr "縦横比一定(_S)"
 
-#: ../src/gth-window-actions-entries.h:236
+#: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "デスクトップの背景に画像をセットします(画面サイズの縦横比に合わせる)"
 
-#: ../src/gth-window-actions-entries.h:240
+#: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
 msgstr "引き伸ばす(_E)"
 
-#: ../src/gth-window-actions-entries.h:241
+#: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
 msgstr "デスクトップの背景に画像をセットします(画面サイズに引き伸ばす)"
 
-#: ../src/gth-window-actions-entries.h:245
+#: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
 msgstr "元に戻す(_R)"
 
-#: ../src/gth-window-actions-entries.h:246
+#: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
 msgstr "元のデスクトップ壁紙に戻します"
 
-#: ../src/gth-window-actions-entries.h:250
-msgid "Change _Date"
+#: ../src/gth-window-actions-entries.h:265
+#, fuzzy
+msgid "Change _Date..."
 msgstr "日付の変更(_D)"
 
-#: ../src/gth-window-actions-entries.h:251
+#: ../src/gth-window-actions-entries.h:266
 msgid "Change images last modified date"
 msgstr "最後に修正した日付を変更します"
 
-#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:270
+msgid "Reset _Exif Orientation"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:271
+msgid "Reset Exif orientation to top-left"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
 msgstr "gThumb の情報を表示します"
 
-#: ../src/gth-window-actions-entries.h:285
+#: ../src/gth-window-actions-entries.h:295
+#, fuzzy
+msgid "Contents"
+msgstr "コメント(_M)"
+
+#: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
 msgstr "キー操作(_K)"
 
-#: ../src/gth-window-actions-entries.h:301
+#: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
 msgstr "アニメーションの実行(_A)"
 
-#: ../src/gth-window-actions-entries.h:312
+#: ../src/gth-window-actions-entries.h:317
+msgid "Start or stop current animation"
+msgstr "現在表示中のアニメーションの開始/停止を切り替えます"
+
+#: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
 msgstr "高品質(_H)"
 
-#: ../src/gth-window-actions-entries.h:313
+#: ../src/gth-window-actions-entries.h:328
 msgid "Use high quality zoom"
 msgstr "高品質ズームを使用します"
 
-#: ../src/gth-window-actions-entries.h:315
+#: ../src/gth-window-actions-entries.h:330
 msgid "_Low Quality"
 msgstr "低品質(_L)"
 
-#: ../src/gth-window-actions-entries.h:316
+#: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
 msgstr "低品質ズームを使用します"
 
-#: ../src/main.c:87
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "全画面モードで起動します"
 
-#: ../src/main.c:90
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "自動的にスライドショーを起動する"
 
-#: ../src/main.c:93
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "自動的にディジタル・カメラの写真をインポートする"
 
-#: ../src/main.c:133
+#: ../src/main.c:137
 msgid "Holidays"
 msgstr "祭日"
 
-#: ../src/main.c:134
+#: ../src/main.c:138
 msgid "Temporary"
 msgstr "作業用"
 
-#: ../src/main.c:135
+#: ../src/main.c:139
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
-#: ../src/main.c:136
+#: ../src/main.c:140
 msgid "Science"
 msgstr "科学"
 
-#: ../src/main.c:137
+#: ../src/main.c:141
 msgid "Favourite"
 msgstr "お気に入り"
 
-#: ../src/main.c:138
+#: ../src/main.c:142
 msgid "Important"
 msgstr "重要"
 
-#: ../src/main.c:139
+#: ../src/main.c:143
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:140
+#: ../src/main.c:144
 msgid "Games"
 msgstr "ゲーム"
 
-#: ../src/main.c:141
+#: ../src/main.c:145
 msgid "Party"
 msgstr "パーティ"
 
-#: ../src/main.c:142
+#: ../src/main.c:146
 msgid "Birthday"
 msgstr "誕生日"
 
-#: ../src/main.c:143
+#: ../src/main.c:147
 msgid "Astronomy"
 msgstr "天文学"
 
-#: ../src/main.c:144
+#: ../src/main.c:148
 msgid "Family"
 msgstr "家族"
 
-#: ../src/main.c:464 ../src/main.c:630
+#: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "コマンドライン"
+
+#~ msgid "Catalog"
+#~ msgstr "カタログ"
+
+#~ msgid "GThumb Catalog View"
+#~ msgstr "GThumb カタログ・ビュー"
+
+#~ msgid "View as Catalog"
+#~ msgstr "カタログ表示"
+
+#~ msgid "_Print"
+#~ msgstr "印刷(_P)"
+
+#~ msgid "GThumb Image"
+#~ msgstr "GThumb 画像"
+
+#~ msgid "GThumb Viewer"
+#~ msgstr "GThumb ビューア"
+
+#~ msgid "View with GThumb"
+#~ msgstr "GThumb で表示"
+
+#~ msgid "Flip"
+#~ msgstr "ひっくり返す"
+
+#~ msgid "Flip the image"
+#~ msgstr "画像を上下ひっくり返します"
+
+#~ msgid "High"
+#~ msgstr "高品質"
+
+#~ msgid "Low"
+#~ msgstr "低品質"
+
+#~ msgid "Mirror"
+#~ msgstr "ミラーリング"
+
+#~ msgid "Mirror the image"
+#~ msgstr "画像を鏡に映したように反転させます"
+
+#~ msgid "Rotate"
+#~ msgstr "回転"
+
+#~ msgid "Rotate 180 _Degrees"
+#~ msgstr "180 °回転(_D)"
+
+#~ msgid "Rotate the image clockwise"
+#~ msgstr "画像を時計回りに回転させます"
+
+#~ msgid "Rotate the image of 180 degrees"
+#~ msgstr "画像を 180 °回転させます"
+
+#~ msgid "Start/Stop _Animation"
+#~ msgstr "アニメーションの開始/停止(_A)"
+
+#~ msgid "Transparency T_ype"
+#~ msgstr "透明の種類(_Y)"
+
+#~ msgid "_Black"
+#~ msgstr "黒色(_B)"
+
+#~ msgid "_Checked"
+#~ msgstr "格子縞(_C)"
+
+#~ msgid "_Rotate Clockwise"
+#~ msgstr "時計回りに回転(_R)"
+
+#~ msgid "_Step Animation"
+#~ msgstr "アニメーションのステップ実行(_S)"
+
+#~ msgid "_White"
+#~ msgstr "白色(_W)"
+
+#~ msgid "_Zoom Quality"
+#~ msgstr "ズームの品質(_Z)"
+
+#~ msgid "_Bookmarks:"
+#~ msgstr "ブックマーク(_B):"
+
+#~ msgid "_Auto Detect"
+#~ msgstr "自動検出(_A)"
+
+#~ msgid "_Model:"
+#~ msgstr "型式(_M):"
+
+#~ msgid "<b>View images as</b>"
+#~ msgstr "<b>画像の表示形式</b>"
+
+#~ msgid "Fit image to window"
+#~ msgstr "画像をウィンドウのサイズに合わせる"
+
+#~ msgid "_List"
+#~ msgstr "一覧(_L)"
+
+#~ msgid "_Slides"
+#~ msgstr "スライド(_S)"
+
+#~ msgid ""
+#~ "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+#~ msgstr ""
+#~ "<small><i><b>注意</b>: JPEG 変換すると品質低下が少ないです。</i></small>"
+
+#~ msgid "Adjust photo _orientation"
+#~ msgstr "写真の向きの調整(_O)"
+
+#~ msgid "<b>Photo data</b>"
+#~ msgstr "<b>写真のデータ</b>"
+
+#~ msgid "rows"
+#~ msgstr "桁"
+
+#~ msgid "Possible values are: name, path, size, time."
+#~ msgstr "設定可能な値: name, path, size, time"
+
+#~ msgid "Possible values are: name, size, time."
+#~ msgstr "設定可能な値: name, size, time"
+
+#~ msgid "Filename"
+#~ msgstr "ファイル名"
+
+#~ msgid "Folder"
+#~ msgstr "フォルダ"
+
+#~ msgid "_Threshold"
+#~ msgstr "しきい値(_T)"
+
+#~ msgid "Apply threshold"
+#~ msgstr "しきい値を適用します"
+
+#~ msgid "_Rotate"
+#~ msgstr "回転(_R)"
