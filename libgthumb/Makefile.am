@@ -16,9 +16,9 @@ INCLUDES =							\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(DISABLE_DEPRECATED)
 
-libgthumbdir = $(libdir)/gthumb
+libgthumbdir = $(libdir)
 libgthumb_LTLIBRARIES = libgthumb.la
-libgthumb_la_LDFLAGS = -avoid-version
+libgthumb_la_LDFLAGS = -avoid-version -no-undefined
 
 EEL_CANVAS_RECT =		\
 	eel-canvas-rect.c	\
@@ -133,6 +133,7 @@ libgthumb_la_SOURCES =			\
 
 libgthumb_la_LIBADD =		\
 	$(EXIF_LIBS)		\
+	$(JPEG_LIBS)		\
 	$(TIFF_LIBS)		\
 	$(GTHUMB_LIBS)		\
 	$(IPTCDATA_LIBS)	\

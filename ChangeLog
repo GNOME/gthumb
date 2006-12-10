@@ -1,5 +1,12 @@
 2006-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/jpegutils/transupp.c:
+	* libgthumb/Makefile.am
+	* src/Makefile.am
+	* configure.in:
+
+	Fixed bug #317056 – gthumb Cygwin build fixes
+
 	* src/gth-browser.c (window_update_go_sensitivity):
 	(window_update_sensitivity): update the Go_Stop action sensitivity.
 	* libgthumb/print-callbacks.c: removed unused variables and functions.

@@ -20,7 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-/* based upon file transupp.c from the libjpeg package, original copyright 
+/* based upon file transupp.c from the libjpeg package, original copyright
  * note follows:
 .*
  *
@@ -47,6 +47,11 @@
 
 #ifndef MAX
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
+#endif
+
+#ifdef __CYGWIN__
+#define height_in_blocks height_in_data_units
+#define width_in_blocks  width_in_data_units
 #endif
 
 enum {
