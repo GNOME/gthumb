@@ -808,8 +808,8 @@ create_new_folder_or_library (GthBrowser *browser,
                                        utf8_path,
                                        errno_to_string ());
 		g_free (utf8_path);
-	}
-	all_windows_notify_directory_new (new_path);
+	} else
+		all_windows_notify_directory_new (new_path);
 
 	g_free (new_path);
 	g_free (new_name);
