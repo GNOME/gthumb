@@ -1112,17 +1112,11 @@ window_set_file_list (GthBrowser    *browser,
 	window_update_sensitivity (browser);
 
 	window_sync_sort_menu (browser, sort_method, sort_type);
-	if (list == NULL)
-		gth_file_list_set_empty_list (browser->priv->file_list);
-	else
-		gth_file_list_set_list (browser->priv->file_list,
-					list,
-					sort_method,
-					sort_type);
+	gth_file_list_set_list (browser->priv->file_list,
+				list,
+				sort_method,
+				sort_type);
 }
-
-
-
 
 
 static void
@@ -4374,7 +4368,7 @@ file_list_done_cb (GthFileList *file_list,
 	if (FirstStart)
 		FirstStart = FALSE;
 
-	window_make_current_image_visible (browser, !priv->refreshing);
+	window_make_current_image_visible (browser, ! priv->refreshing);
 	priv->refreshing = FALSE;
 
 	gth_browser_add_monitor (browser);

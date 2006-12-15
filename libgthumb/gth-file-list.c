@@ -59,6 +59,7 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_ADD_LIST,
 	GTH_FILE_LIST_OP_TYPE_SET_LIST,
 	GTH_FILE_LIST_OP_TYPE_DELETE_LIST,
+	GTH_FILE_LIST_OP_TYPE_EMPTY_LIST,
 	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS
 } GthFileListOpType;
 
@@ -1037,9 +1038,23 @@ gth_file_list_set_list (GthFileList   *file_list,
 
 
 void
+gfl_empty_list (GthFileList *file_list)
+{
+	gth_file_view_clear (file_list->view);
+	gth_file_list_free_list (file_list);
+
+	if (file_list->priv->new_list != NULL) {
+		path_list_free (file_list->priv->new_list);
+		file_list->priv->new_list = NULL;
+	}
+}
+
+
+void
 gth_file_list_set_empty_list (GthFileList *file_list)
 {
-	gth_file_list_set_list (file_list, NULL, GTH_SORT_METHOD_NONE, GTK_SORT_ASCENDING);
+	gth_file_list_queue_op (file_list,
+				gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_EMPTY_LIST));
 }
 
 
@@ -1674,6 +1689,9 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 	case GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS:
 		gfl_enable_thumbs (file_list);
 		exec_next_op = FALSE;
+		break;
+	case GTH_FILE_LIST_OP_TYPE_EMPTY_LIST:
+		gfl_empty_list (file_list);
 		break;
 	}
 	op->uri_list = NULL;

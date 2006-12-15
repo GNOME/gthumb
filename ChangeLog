@@ -1,3 +1,15 @@
+2006-12-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-list.c:
+	(gth_file_list_exec_next_op):
+	(gfl_empty_list):
+	(gth_file_list_set_empty_list):
+	* src/gth-browser.c (window_update_file_list):
+	(file_list_done_cb):
+	(window_set_file_list):
+	do not emit the DONE signal when empting the list to show the "wait"
+	message.
+
 2006-12-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-actions-callbacks.c (create_new_folder_or_library):
