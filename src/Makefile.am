@@ -102,6 +102,8 @@ gthumb_SOURCES = 				\
 	gth-dir-list.h				\
 	gth-exif-data-viewer.c			\
 	gth-exif-data-viewer.h			\
+	gth-filter-bar.c			\
+	gth-filter-bar.h			\
 	gth-folder-selection-dialog.c		\
 	gth-folder-selection-dialog.h		\
 	gth-fullscreen.c			\

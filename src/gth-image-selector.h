@@ -36,7 +36,7 @@ G_BEGIN_DECLS
 
 typedef struct _GthImageSelector       GthImageSelector;
 typedef struct _GthImageSelectorClass  GthImageSelectorClass;
-typedef struct _GthImageSelectorPriv   GthImageSelectorPriv; 
+typedef struct _GthImageSelectorPriv   GthImageSelectorPriv;
 
 struct _GthImageSelector
 {
@@ -58,7 +58,7 @@ struct _GthImageSelectorClass
 
 GType      gth_image_selector_get_type             (void);
 GtkWidget* gth_image_selector_new                  (GdkPixbuf        *pixbuf);
-void       gth_image_selector_set_pixbuf           (GthImageSelector *selector, 
+void       gth_image_selector_set_pixbuf           (GthImageSelector *selector,
 						    GdkPixbuf        *pixbuf);
 GdkPixbuf* gth_image_selector_get_pixbuf           (GthImageSelector *selector);
 void       gth_image_selector_set_selection_x      (GthImageSelector *selector,
@@ -78,6 +78,9 @@ void       gth_image_selector_set_ratio            (GthImageSelector *selector,
 						    double            ratio);
 double     gth_image_selector_get_ratio            (GthImageSelector *selector);
 gboolean   gth_image_selector_get_use_ratio        (GthImageSelector *selector);
+void       gth_image_selector_set_mask_visible     (GthImageSelector *selector,
+						    gboolean          visible);
+gboolean   gth_image_selector_get_mask_visible     (GthImageSelector *selector);
 
 G_END_DECLS
 

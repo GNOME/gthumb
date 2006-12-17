@@ -85,7 +85,7 @@ event_area_unref (EventArea *event_area)
 {
 	event_area->ref_count--;
 
-	if (event_area->ref_count > 0) 
+	if (event_area->ref_count > 0)
 		return;
 
 	if (event_area->cursor != NULL)
@@ -94,7 +94,7 @@ event_area_unref (EventArea *event_area)
 }
 
 
- /**/
+/**/
 
 
 enum {
@@ -131,6 +131,7 @@ struct _GthImageSelectorPriv {
 	gboolean       double_click;
 	gboolean       dragging;
 	gboolean       active;
+	gboolean       mask_visible;
 
 	double         drag_start_x, drag_start_y;
 	double         drag_x, drag_y;
@@ -153,10 +154,10 @@ struct _GthImageSelectorPriv {
         int            paint_bps;
 	GdkColorspace  paint_color_space;
 
-	guint          timer_tag; 	    /* Timeout ID for 
+	guint          timer_tag; 	    /* Timeout ID for
 					     * autoscrolling */
-	double         x_value_diff;        /* Change the adjustment value 
-					     * by this 
+	double         x_value_diff;        /* Change the adjustment value
+					     * by this
 					     * amount when autoscrolling */
 	double         y_value_diff;
 };
@@ -167,9 +168,9 @@ point_in_rectangle (int          x,
 		    int          y,
 		    GdkRectangle rect)
 {
-	return ((x >= rect.x) 
+	return ((x >= rect.x)
 		&& (x <= rect.x + rect.width)
-		&& (y >= rect.y) 
+		&& (y >= rect.y)
 		&& (y <= rect.y + rect.height));
 }
 
@@ -179,8 +180,8 @@ rectangle_in_rectangle (GdkRectangle r1,
 			GdkRectangle r2)
 {
 	return (point_in_rectangle (r1.x, r1.y, r2)
-		&& point_in_rectangle (r1.x + r1.width, 
-				       r1.y + r1.height, 
+		&& point_in_rectangle (r1.x + r1.width,
+				       r1.y + r1.height,
 				       r2));
 }
 
@@ -189,8 +190,8 @@ static gboolean
 rectangle_equal (GdkRectangle r1,
 		 GdkRectangle r2)
 {
-	return ((r1.x == r2.x) 
-		&& (r1.y == r2.y) 
+	return ((r1.x == r2.x)
+		&& (r1.y == r2.y)
 		&& (r1.width == r2.width)
 		&& (r1.height == r2.height));
 }
@@ -235,8 +236,8 @@ free_event_area_list (GthImageSelector *selector)
 	GthImageSelectorPriv *priv = selector->priv;
 
 	if (priv->event_list != NULL) {
-		g_list_foreach (priv->event_list, 
-				(GFunc) event_area_unref, 
+		g_list_foreach (priv->event_list,
+				(GFunc) event_area_unref,
 				NULL);
 		g_list_free (priv->event_list);
 		priv->event_list = NULL;
@@ -363,7 +364,7 @@ static void
 selection_changed (GthImageSelector *selector)
 {
 	update_event_areas (selector);
-	g_signal_emit (G_OBJECT (selector), 
+	g_signal_emit (G_OBJECT (selector),
 		       signals[SELECTION_CHANGED],
 		       0);
 }
@@ -393,17 +394,17 @@ paint (GthImageSelector *selector,
 	GdkColorspace         color_space;
 
 	bits_per_sample = gdk_pixbuf_get_bits_per_sample (pixbuf);
-	color_space = gdk_pixbuf_get_colorspace (pixbuf); 
+	color_space = gdk_pixbuf_get_colorspace (pixbuf);
 
 	if ((priv->paint_pixbuf == NULL)
-	    || (priv->paint_max_width < width) 
+	    || (priv->paint_max_width < width)
 	    || (priv->paint_max_height < height)
 	    || (priv->paint_bps != bits_per_sample)
 	    || (priv->paint_color_space != color_space)) {
 		if (priv->paint_pixbuf != NULL)
 			g_object_unref (priv->paint_pixbuf);
 		priv->paint_pixbuf = gdk_pixbuf_new (color_space,
-						     FALSE, 
+						     FALSE,
 						     bits_per_sample,
 						     width,
 						     height);
@@ -422,7 +423,7 @@ paint (GthImageSelector *selector,
 					    width, height,
 					    (double) -src_x,
 					    (double) -src_y,
-					    priv->zoom,  
+					    priv->zoom,
 					    priv->zoom,
 					    GDK_INTERP_NEAREST,
 					    255,
@@ -437,7 +438,7 @@ paint (GthImageSelector *selector,
 				  width, height,
 				  (double) -src_x,
 				  (double) -src_y,
-				  priv->zoom, 
+				  priv->zoom,
 				  priv->zoom,
 				  GDK_INTERP_NEAREST);
 	}
@@ -455,17 +456,17 @@ paint (GthImageSelector *selector,
 
 static void
 paint_background (GthImageSelector *selector,
-		  GdkRectangle     *event_area) 
+		  GdkRectangle     *event_area)
 {
 	GthImageSelectorPriv *priv = selector->priv;
 	GdkRectangle          paint_area;
 
-	if (! gdk_rectangle_intersect (&priv->background_area, 
-				       event_area, 
+	if (! gdk_rectangle_intersect (&priv->background_area,
+				       event_area,
 				       &paint_area))
 		return;
 
-	paint (selector, 
+	paint (selector,
 	       priv->background,
 	       paint_area.x,
 	       paint_area.y,
@@ -478,7 +479,7 @@ paint_background (GthImageSelector *selector,
 
 static void
 paint_selection (GthImageSelector *selector,
-		 GdkRectangle     *event_area) 
+		 GdkRectangle     *event_area)
 {
 	GthImageSelectorPriv *priv = selector->priv;
 	GdkRectangle          selection_area, paint_area;
@@ -490,12 +491,12 @@ paint_selection (GthImageSelector *selector,
 	event_area->x += priv->x_offset;
 	event_area->y += priv->y_offset;
 
-	if (! gdk_rectangle_intersect (&selection_area, 
-				       event_area, 
+	if (! gdk_rectangle_intersect (&selection_area,
+				       event_area,
 				       &paint_area))
 		return;
 
-	paint (selector, 
+	paint (selector,
 	       priv->pixbuf,
 	       paint_area.x - priv->x_offset,
 	       paint_area.y - priv->y_offset,
@@ -506,19 +507,50 @@ paint_selection (GthImageSelector *selector,
 }
 
 
+static void
+paint_image (GthImageSelector *selector,
+	     GdkRectangle     *event_area)
+{
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          paint_area;
+
+	if (! gdk_rectangle_intersect (&priv->background_area,
+				       event_area,
+				       &paint_area))
+		return;
+
+	paint (selector,
+	       priv->pixbuf,
+	       paint_area.x,
+	       paint_area.y,
+	       priv->x_offset + (paint_area.x - priv->background_area.x),
+	       priv->y_offset + (paint_area.y - priv->background_area.y),
+	       paint_area.width,
+	       paint_area.height);
+}
+
+
 static gboolean
-expose (GtkWidget      *widget, 
+expose (GtkWidget      *widget,
 	GdkEventExpose *event)
 {
 	GthImageSelector     *selector = GTH_IMAGE_SELECTOR (widget);
 	GthImageSelectorPriv *priv = selector->priv;
+
+	if (priv->pixbuf == NULL)
+		return FALSE;
+
+	if (! priv->mask_visible) {
+		paint_image (selector, &event->area);
+		return FALSE;
+	}
 
 	paint_background (selector, &event->area);
 	paint_selection (selector, &event->area);
 
 	if (GTK_WIDGET_HAS_FOCUS (widget) /*!priv->active*/) {
 		GdkRectangle area;
-		
+
 		area = priv->selection_area;
 		area.x += priv->background_area.x - priv->x_offset;
 		area.y += priv->background_area.y - priv->y_offset;
@@ -624,7 +656,7 @@ set_selection (GthImageSelector *selector,
 {
 	GdkRectangle new_area;
 
-	if (!force_update 
+	if (!force_update
 	    && rectangle_equal (selector->priv->selection, new_selection))
 		return;
 
@@ -635,7 +667,7 @@ set_selection (GthImageSelector *selector,
 
 
 static void
-set_active_area (GthImageSelector *selector, 
+set_active_area (GthImageSelector *selector,
 		 EventArea        *event_area)
 {
 	GthImageSelectorPriv *priv = selector->priv;
@@ -645,7 +677,7 @@ set_active_area (GthImageSelector *selector,
 		queue_draw (selector, priv->selection_area);
 	}
 
-	if (priv->current_area != event_area) 
+	if (priv->current_area != event_area)
 		priv->current_area = event_area;
 
 	if (priv->current_area == NULL)
@@ -667,7 +699,7 @@ update_cursor (GthImageSelector *selector,
 
 
 static gboolean
-button_release  (GtkWidget      *widget, 
+button_release  (GtkWidget      *widget,
 		 GdkEventButton *event)
 {
 	GthImageSelector     *selector = GTH_IMAGE_SELECTOR (widget);
@@ -683,8 +715,8 @@ button_release  (GtkWidget      *widget,
 		priv->timer_tag = 0;
 	}
 
-	update_cursor (selector, 
-		       priv->background_area.x + priv->drag_x + priv->x_offset, 
+	update_cursor (selector,
+		       priv->background_area.x + priv->drag_x + priv->x_offset,
 		       priv->background_area.y + priv->drag_y + priv->y_offset);
 
 	return FALSE;
@@ -770,20 +802,20 @@ check_and_set_new_selection (GthImageSelector *selector,
 	if (((priv->current_area == NULL)
 	     || (priv->current_area->id != C_SELECTION_AREA))
 	    && priv->use_ratio) {
-		if (rectangle_in_rectangle (new_selection, priv->pixbuf_area)) 
+		if (rectangle_in_rectangle (new_selection, priv->pixbuf_area))
 			set_selection (selector, new_selection, FALSE);
 		return;
-	} 
+	}
 
-	if (new_selection.x < 0) 
+	if (new_selection.x < 0)
 		new_selection.x = 0;
 	if (new_selection.y < 0)
 		new_selection.y = 0;
-	if (new_selection.width > priv->pixbuf_area.width) 
+	if (new_selection.width > priv->pixbuf_area.width)
 		new_selection.width = priv->pixbuf_area.width;
-	if (new_selection.height > priv->pixbuf_area.height) 
+	if (new_selection.height > priv->pixbuf_area.height)
 		new_selection.height = priv->pixbuf_area.height;
-	
+
 	if (new_selection.x + new_selection.width > priv->pixbuf_area.width)
 		new_selection.x = priv->pixbuf_area.width - new_selection.width;
 	if (new_selection.y + new_selection.height > priv->pixbuf_area.height)
@@ -794,7 +826,7 @@ check_and_set_new_selection (GthImageSelector *selector,
 
 
 static gboolean
-button_press (GtkWidget      *widget, 
+button_press (GtkWidget      *widget,
 	      GdkEventButton *event)
 {
 	GthImageSelector     *selector = GTH_IMAGE_SELECTOR (widget);
@@ -802,20 +834,20 @@ button_press (GtkWidget      *widget,
 	GdkModifierType       mods;
 	int                   x, y;
 
-	if (! GTK_WIDGET_HAS_FOCUS (widget)) 
+	if (! GTK_WIDGET_HAS_FOCUS (widget))
 		gtk_widget_grab_focus (widget);
 
 	if (priv->dragging)
 		return FALSE;
 
-	if ((event->type == GDK_2BUTTON_PRESS) || 
+	if ((event->type == GDK_2BUTTON_PRESS) ||
 	    (event->type == GDK_3BUTTON_PRESS)) {
 		priv->double_click = TRUE;
 		return FALSE;
 	} else
 		priv->double_click = FALSE;
 
-	if (event->button != 1) 
+	if (event->button != 1)
 		return FALSE;
 
 	gdk_window_get_pointer (widget->window, &x, &y, &mods);
@@ -883,8 +915,8 @@ update_mouse_selection (GthImageSelector *selector,
 	case C_TOP_AREA:
 		grow_upward (&priv->pixbuf_area, &new_selection, dy, check);
 		if (priv->use_ratio)
-			grow_rightward (&priv->pixbuf_area, 
-					&new_selection, 
+			grow_rightward (&priv->pixbuf_area,
+					&new_selection,
 					IROUND (-dy * priv->ratio),
 					check);
 		break;
@@ -892,27 +924,27 @@ update_mouse_selection (GthImageSelector *selector,
 	case C_BOTTOM_AREA:
 		grow_downward (&priv->pixbuf_area, &new_selection, dy, check);
 		if (priv->use_ratio)
-			grow_leftward (&priv->pixbuf_area, 
-				       &new_selection, 
-				       IROUND (-dy * priv->ratio), 
+			grow_leftward (&priv->pixbuf_area,
+				       &new_selection,
+				       IROUND (-dy * priv->ratio),
 				       check);
 		break;
 
 	case C_LEFT_AREA:
 		grow_leftward (&priv->pixbuf_area, &new_selection, dx, check);
 		if (priv->use_ratio)
-			grow_downward (&priv->pixbuf_area, 
-				       &new_selection, 
-				       IROUND (-dx / priv->ratio), 
+			grow_downward (&priv->pixbuf_area,
+				       &new_selection,
+				       IROUND (-dx / priv->ratio),
 				       check);
 		break;
 
 	case C_RIGHT_AREA:
 		grow_rightward (&priv->pixbuf_area, &new_selection, dx, check);
 		if (priv->use_ratio)
-			grow_upward (&priv->pixbuf_area, 
-				     &new_selection, 
-				     IROUND (-dx / priv->ratio), 
+			grow_upward (&priv->pixbuf_area,
+				     &new_selection,
+				     IROUND (-dx / priv->ratio),
 				     check);
 		break;
 
@@ -926,11 +958,11 @@ update_mouse_selection (GthImageSelector *selector,
 				      tmp.y,
 				      priv->drag_x - priv->background_area.x,
 				      priv->drag_y - priv->background_area.y);
-			if (semiplane == 1) 
+			if (semiplane == 1)
 				dy = IROUND (dx / priv->ratio);
-			else 
+			else
 				dx = IROUND (dy * priv->ratio);
-		} 
+		}
 		grow_upward (&priv->pixbuf_area, &new_selection, dy, check);
 		grow_leftward (&priv->pixbuf_area, &new_selection, dx, check);
 		break;
@@ -945,11 +977,11 @@ update_mouse_selection (GthImageSelector *selector,
 				      tmp.y,
 				      priv->drag_x - priv->background_area.x,
 				      priv->drag_y - priv->background_area.y);
-			if (semiplane == 1) 
+			if (semiplane == 1)
 				dx = IROUND (-dy * priv->ratio);
-			else 
+			else
 				dy = IROUND (-dx / priv->ratio);
-		} 
+		}
 		grow_upward (&priv->pixbuf_area, &new_selection, dy, check);
 		grow_rightward (&priv->pixbuf_area, &new_selection, dx, check);
 		break;
@@ -964,11 +996,11 @@ update_mouse_selection (GthImageSelector *selector,
 				      tmp.y + tmp.height,
 				      priv->drag_x - priv->background_area.x,
 				      priv->drag_y - priv->background_area.y);
-			if (semiplane == 1) 
+			if (semiplane == 1)
 				dx = IROUND (-dy * priv->ratio);
-			else 
+			else
 				dy = IROUND (-dx / priv->ratio);
-		} 
+		}
 		grow_downward (&priv->pixbuf_area, &new_selection, dy, check);
 		grow_leftward (&priv->pixbuf_area, &new_selection, dx, check);
 		break;
@@ -984,11 +1016,11 @@ update_mouse_selection (GthImageSelector *selector,
 				      priv->drag_x - priv->background_area.x,
 				      priv->drag_y - priv->background_area.y);
 
-			if (semiplane == 1) 
+			if (semiplane == 1)
 				dy = IROUND (dx / priv->ratio);
-			else 
+			else
 				dx = IROUND (dy * priv->ratio);
-		} 
+		}
 		grow_downward (&priv->pixbuf_area, &new_selection, dy, check);
 		grow_rightward (&priv->pixbuf_area, &new_selection, dx, check);
 		break;
@@ -1035,7 +1067,7 @@ autoscroll_cb (gpointer data)
 
 
 static int
-motion_notify (GtkWidget      *widget, 
+motion_notify (GtkWidget      *widget,
 	       GdkEventMotion *event)
 {
 	GthImageSelector     *selector = GTH_IMAGE_SELECTOR (widget);
@@ -1071,7 +1103,7 @@ motion_notify (GtkWidget      *widget,
 			priv->dragging = TRUE;
 
 		return FALSE;
-	} 
+	}
 
 	if (! priv->dragging) {
 		update_cursor (selector, x, y);
@@ -1082,17 +1114,17 @@ motion_notify (GtkWidget      *widget,
 
 	update_mouse_selection (selector, x, y);
 
-	/* If we are out of bounds, schedule a timeout that will do 
+	/* If we are out of bounds, schedule a timeout that will do
 	 * the scrolling */
-	
+
 	absolute_x = x - priv->x_offset;
 	absolute_y = y - priv->y_offset;
 
 	if ((absolute_y < 0) || (absolute_y > widget->allocation.height)
 	    || (absolute_x < 0) || (absolute_x > widget->allocation.width)) {
-		
-		/* Make the steppings be relative to the mouse 
-		 * distance from the canvas.  
+
+		/* Make the steppings be relative to the mouse
+		 * distance from the canvas.
 		 * Also notice the timeout below is small to give a
 		 * more smooth movement.
 		 */
@@ -1112,11 +1144,11 @@ motion_notify (GtkWidget      *widget,
 			priv->y_value_diff = 0.0;
 		priv->y_value_diff /= 2;
 
-		if (priv->timer_tag == 0) 
-			priv->timer_tag = g_timeout_add (SCROLL_TIMEOUT, 
-							 autoscroll_cb, 
+		if (priv->timer_tag == 0)
+			priv->timer_tag = g_timeout_add (SCROLL_TIMEOUT,
+							 autoscroll_cb,
 							 selector);
-		
+
 	} else if (priv->timer_tag != 0) {
 		g_source_remove (priv->timer_tag);
 		priv->timer_tag = 0;
@@ -1132,7 +1164,7 @@ finalize (GObject *object)
 	GthImageSelector *selector;
 
         g_return_if_fail (GTH_IS_IMAGE_SELECTOR (object));
-  
+
 	selector = GTH_IMAGE_SELECTOR (object);
 
 	if (selector->priv != NULL) {
@@ -1189,14 +1221,14 @@ init_selection (GthImageSelector *selector)
 }
 
 
-static void 
+static void
 realize (GtkWidget *widget)
 {
 	GthImageSelector     *selector;
 	GthImageSelectorPriv *priv;
 	GdkWindowAttr         attributes;
 	int                   attributes_mask;
- 
+
 	g_return_if_fail (GTH_IS_IMAGE_SELECTOR (widget));
 
 	selector = GTH_IMAGE_SELECTOR (widget);
@@ -1214,17 +1246,17 @@ realize (GtkWidget *widget)
 	attributes.colormap    = gtk_widget_get_colormap (widget);
 	attributes.event_mask  = (gtk_widget_get_events (widget)
 				  | GDK_EXPOSURE_MASK
-				  | GDK_BUTTON_PRESS_MASK 
-				  | GDK_BUTTON_RELEASE_MASK 
-				  | GDK_POINTER_MOTION_MASK 
-				  | GDK_POINTER_MOTION_HINT_MASK 
+				  | GDK_BUTTON_PRESS_MASK
+				  | GDK_BUTTON_RELEASE_MASK
+				  | GDK_POINTER_MOTION_MASK
+				  | GDK_POINTER_MOTION_HINT_MASK
 				  | GDK_BUTTON_MOTION_MASK);
-	attributes_mask        = (GDK_WA_X 
-				  | GDK_WA_Y 
-				  | GDK_WA_VISUAL 
+	attributes_mask        = (GDK_WA_X
+				  | GDK_WA_Y
+				  | GDK_WA_VISUAL
 				  | GDK_WA_COLORMAP);
 	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
-					 &attributes, 
+					 &attributes,
 					 attributes_mask);
 	gdk_window_set_user_data (widget->window, selector);
 
@@ -1235,7 +1267,7 @@ realize (GtkWidget *widget)
 
 	priv->selection_gc = gdk_gc_new (widget->window);
 	gdk_gc_copy (priv->selection_gc, widget->style->white_gc);
-	gdk_gc_set_line_attributes (priv->selection_gc, 
+	gdk_gc_set_line_attributes (priv->selection_gc,
 				    1,
 				    GDK_LINE_ON_OFF_DASH /*GDK_LINE_SOLID*/,
 				    GDK_CAP_BUTT,
@@ -1260,7 +1292,7 @@ realize (GtkWidget *widget)
 }
 
 
-static void 
+static void
 unrealize (GtkWidget *widget)
 {
 	GthImageSelector     *selector;
@@ -1276,12 +1308,12 @@ unrealize (GtkWidget *widget)
 			gdk_cursor_unref (priv->default_cursor);
 			priv->default_cursor = NULL;
 		}
-		
+
 		if (priv->selection_gc != NULL) {
 			g_object_unref (priv->selection_gc);
 			priv->selection_gc = NULL;
 		}
-		
+
 		free_event_area_list (selector);
 	}
 
@@ -1289,8 +1321,8 @@ unrealize (GtkWidget *widget)
 }
 
 
-static void 
-size_allocate (GtkWidget     *widget, 
+static void
+size_allocate (GtkWidget     *widget,
 	       GtkAllocation *allocation)
 {
 	GthImageSelector     *selector;
@@ -1312,11 +1344,11 @@ size_allocate (GtkWidget     *widget,
 	} else {
 		priv->background_area.width = real_to_selector (selector, priv->pixbuf_area.width);
 		priv->background_area.height = real_to_selector (selector, priv->pixbuf_area.height);
-		priv->background_area.x = MAX ((allocation->width 
-						- priv->background_area.width) / 2.0, 
+		priv->background_area.x = MAX ((allocation->width
+						- priv->background_area.width) / 2.0,
 					       0);
 		priv->background_area.y = MAX ((allocation->height
-						- priv->background_area.height) / 2.0, 
+						- priv->background_area.height) / 2.0,
 					       0);
 		selection_changed (selector);
 	}
@@ -1325,20 +1357,20 @@ size_allocate (GtkWidget     *widget,
 
 	if (priv->pixbuf != NULL) {
 		int width, height;
-		
+
 		width = priv->background_area.width;
 		height = priv->background_area.height;
 
 		if (width > gdk_width)
-			priv->x_offset = CLAMP (priv->x_offset, 
-						0, 
+			priv->x_offset = CLAMP (priv->x_offset,
+						0,
 						width - gdk_width);
 		else
 			priv->x_offset = 0;
 
 		if (height > gdk_height)
-			priv->y_offset = CLAMP (priv->y_offset, 
-						0, 
+			priv->y_offset = CLAMP (priv->y_offset,
+						0,
 						height - gdk_height);
 		else
 			priv->y_offset = 0;
@@ -1373,16 +1405,16 @@ size_allocate (GtkWidget     *widget,
 		priv->vadj->page_size = 1.0;
 	}
 
-	g_signal_handlers_block_by_data (G_OBJECT (priv->hadj), widget); 
-	g_signal_handlers_block_by_data (G_OBJECT (priv->vadj), widget); 
+	g_signal_handlers_block_by_data (G_OBJECT (priv->hadj), widget);
+	g_signal_handlers_block_by_data (G_OBJECT (priv->vadj), widget);
 	gtk_adjustment_changed (priv->hadj);
 	gtk_adjustment_changed (priv->vadj);
-	g_signal_handlers_unblock_by_data (G_OBJECT (priv->hadj), widget); 
-	g_signal_handlers_unblock_by_data (G_OBJECT (priv->vadj), widget); 
+	g_signal_handlers_unblock_by_data (G_OBJECT (priv->hadj), widget);
+	g_signal_handlers_unblock_by_data (G_OBJECT (priv->vadj), widget);
 
 	/**/
 
-	if (GTK_WIDGET_REALIZED (widget)) 
+	if (GTK_WIDGET_REALIZED (widget))
 		gdk_window_move_resize (widget->window,
 					allocation->x, allocation->y,
 					allocation->width, allocation->height);
@@ -1391,7 +1423,7 @@ size_allocate (GtkWidget     *widget,
 }
 
 
-static gint 
+static gint
 focus_in (GtkWidget     *widget,
 	  GdkEventFocus *event)
 {
@@ -1401,7 +1433,7 @@ focus_in (GtkWidget     *widget,
 }
 
 
-static gint 
+static gint
 focus_out (GtkWidget     *widget,
 	   GdkEventFocus *event)
 {
@@ -1428,8 +1460,8 @@ scroll_to (GthImageSelector *selector,
 }
 
 
-static gboolean 
-hadj_value_changed (GtkObject        *adj, 
+static gboolean
+hadj_value_changed (GtkObject        *adj,
 		    GthImageSelector *selector)
 {
 	int x_ofs, y_ofs;
@@ -1443,7 +1475,7 @@ hadj_value_changed (GtkObject        *adj,
 
 
 static gboolean
-vadj_value_changed (GtkObject        *adj, 
+vadj_value_changed (GtkObject        *adj,
 		    GthImageSelector *selector)
 {
 	int x_ofs, y_ofs;
@@ -1473,13 +1505,13 @@ set_scroll_adjustments (GtkWidget     *widget,
         if (hadj)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
         else
-                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
         if (vadj)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
         else
-                vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+                vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
         if (priv->hadj && priv->hadj != hadj) {
@@ -1501,7 +1533,7 @@ set_scroll_adjustments (GtkWidget     *widget,
                 g_object_ref (priv->hadj);
                 gtk_object_sink (GTK_OBJECT (priv->hadj));
 
-		g_signal_connect (G_OBJECT (priv->hadj), 
+		g_signal_connect (G_OBJECT (priv->hadj),
 				  "value_changed",
 				  G_CALLBACK (hadj_value_changed),
 				  selector);
@@ -1512,7 +1544,7 @@ set_scroll_adjustments (GtkWidget     *widget,
 		g_object_ref (priv->vadj);
 		gtk_object_sink (GTK_OBJECT (priv->vadj));
 
-		g_signal_connect (G_OBJECT (priv->vadj), 
+		g_signal_connect (G_OBJECT (priv->vadj),
 				  "value_changed",
 				  G_CALLBACK (vadj_value_changed),
 				  selector);
@@ -1520,12 +1552,15 @@ set_scroll_adjustments (GtkWidget     *widget,
 }
 
 
+static gboolean scroll_event (GtkWidget *widget, GdkEventScroll *event);
+
+
 static void
 class_init (GthImageSelectorClass *class)
 {
 	GObjectClass   *gobject_class;
 	GtkWidgetClass *widget_class;
-	
+
 	parent_class = g_type_class_peek_parent (class);
 	widget_class = (GtkWidgetClass*) class;
 	gobject_class = (GObjectClass*) class;
@@ -1537,7 +1572,7 @@ class_init (GthImageSelectorClass *class)
 			 G_STRUCT_OFFSET (GthImageSelectorClass, selection_changed),
 			 NULL, NULL,
 			 gthumb_marshal_VOID__VOID,
-			 G_TYPE_NONE, 
+			 G_TYPE_NONE,
 			 0);
 
 	gobject_class->finalize = finalize;
@@ -1552,6 +1587,7 @@ class_init (GthImageSelectorClass *class)
 	widget_class->button_press_event   = button_press;
 	widget_class->button_release_event = button_release;
 	widget_class->motion_notify_event  = motion_notify;
+	widget_class->scroll_event         = scroll_event;
 
 	class->set_scroll_adjustments = set_scroll_adjustments;
         widget_class->set_scroll_adjustments_signal =
@@ -1561,7 +1597,7 @@ class_init (GthImageSelectorClass *class)
 			      G_STRUCT_OFFSET (GthImageSelectorClass, set_scroll_adjustments),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 
 	class->selection_changed = NULL;
@@ -1577,6 +1613,8 @@ init (GthImageSelector *selector)
 	selector->priv->zoom = 1.0;
 	selector->priv->ratio = 1.0;
 
+	selector->priv->mask_visible = TRUE;
+
 	selector->priv->paint_pixbuf = NULL;
 	selector->priv->paint_max_width = 0;
 	selector->priv->paint_max_height = 0;
@@ -1585,9 +1623,9 @@ init (GthImageSelector *selector)
 
 	/**/
 
-	selector->priv->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 
+	selector->priv->hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0,
 								   1.0, 1.0, 1.0));
-	selector->priv->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 
+	selector->priv->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0,
 								   1.0, 1.0, 1.0));
 
 	g_object_ref (selector->priv->hadj);
@@ -1595,14 +1633,45 @@ init (GthImageSelector *selector)
 	g_object_ref (selector->priv->vadj);
 	gtk_object_sink (GTK_OBJECT (selector->priv->vadj));
 
-	g_signal_connect (G_OBJECT (selector->priv->hadj), 
+	g_signal_connect (G_OBJECT (selector->priv->hadj),
 			  "value_changed",
-			  G_CALLBACK (hadj_value_changed), 
+			  G_CALLBACK (hadj_value_changed),
 			  selector);
-	g_signal_connect (G_OBJECT (selector->priv->vadj), 
+	g_signal_connect (G_OBJECT (selector->priv->vadj),
 			  "value_changed",
-			  G_CALLBACK (vadj_value_changed), 
+			  G_CALLBACK (vadj_value_changed),
 			  selector);
+}
+
+
+static void
+generic_set_zoom (GthImageSelector *selector,
+		  double            new_zoom,
+		  int               center_x,
+		  int               center_y)
+{
+	GtkWidget            *widget = (GtkWidget*) selector;
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          selection;
+	double                previous_zoom, zoom_ratio, vscroll, hscroll;
+
+	gth_image_selector_get_selection (selector, &selection);
+
+	previous_zoom = priv->zoom;
+	priv->zoom = new_zoom;
+	zoom_ratio = new_zoom / previous_zoom;
+
+	hscroll = gtk_adjustment_get_value (priv->hadj);
+	hscroll = ((hscroll + center_x) * zoom_ratio - widget->allocation.width / 2);
+
+	vscroll = gtk_adjustment_get_value (priv->vadj);
+	vscroll = ((vscroll + center_y) * zoom_ratio - widget->allocation.height / 2);
+
+	set_selection (selector, selection, TRUE);
+	gtk_adjustment_set_value (priv->vadj, vscroll);
+	gtk_adjustment_set_value (priv->hadj, hscroll);
+
+	gtk_widget_queue_resize (widget);
 }
 
 
@@ -1610,22 +1679,13 @@ static void
 iviewer_set_zoom (GthIViewer *iviewer,
 		  double      zoom)
 {
-	GthImageSelector     *selector = (GthImageSelector*) iviewer;
-	GthImageSelectorPriv *priv = selector->priv;
-	GdkRectangle          selection;
-	double                vscroll, hscroll;
+	GthImageSelector *selector = (GthImageSelector*) iviewer;
+	GtkWidget        *widget = (GtkWidget*) selector;
 
-	gth_image_selector_get_selection (selector, &selection);
-	vscroll = gtk_adjustment_get_value (priv->vadj) / priv->zoom;
-	hscroll = gtk_adjustment_get_value (priv->hadj) / priv->zoom;
-
-	priv->zoom = zoom;
-
-	set_selection (selector, selection, TRUE);
-	gtk_adjustment_set_value (priv->vadj, vscroll * priv->zoom);
-	gtk_adjustment_set_value (priv->hadj, hscroll * priv->zoom);
-
-	gtk_widget_queue_resize (GTK_WIDGET (selector));
+	generic_set_zoom (selector,
+			  zoom,
+			  widget->allocation.width / 2,
+			  widget->allocation.height / 2);
 }
 
 
@@ -1638,7 +1698,7 @@ iviewer_get_zoom (GthIViewer *iviewer)
 
 
 static gdouble zooms[] = {0.15, 0.20, 0.30, 0.50, 0.75, 1.0,
-			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0}; 
+			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0};
 
 static const gint nzooms = sizeof (zooms) / sizeof (gdouble);
 
@@ -1689,6 +1749,32 @@ iviewer_zoom_out (GthIViewer *iviewer)
 }
 
 
+static gboolean
+scroll_event (GtkWidget      *widget,
+	      GdkEventScroll *event)
+{
+	GthImageSelector *selector = (GthImageSelector *) widget;
+
+	if (event->direction == GDK_SCROLL_UP) {
+		generic_set_zoom (selector,
+				  get_next_zoom (selector->priv->zoom),
+				  (int) event->x,
+				  (int) event->y);
+		return TRUE;
+	}
+
+	if (event->direction == GDK_SCROLL_DOWN) {
+		generic_set_zoom (selector,
+				  get_prev_zoom (selector->priv->zoom),
+				  (int) event->x,
+				  (int) event->y);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static GdkPixbuf*
 iviewer_get_image (GthIViewer *iviewer)
 {
@@ -1709,7 +1795,7 @@ iviewer_get_adjustments (GthIViewer     *self,
 		*vadj = selector->priv->vadj;
 }
 
-			       
+
 static void
 gth_iviewer_interface_init (gpointer g_iface,
 			    gpointer iface_data)
@@ -1764,7 +1850,7 @@ gth_image_selector_get_type ()
 }
 
 
-GtkWidget*     
+GtkWidget*
 gth_image_selector_new (GdkPixbuf *pixbuf)
 {
 	GthImageSelector *selector;
@@ -1777,7 +1863,7 @@ gth_image_selector_new (GdkPixbuf *pixbuf)
 
 
 void
-gth_image_selector_set_pixbuf (GthImageSelector *selector, 
+gth_image_selector_set_pixbuf (GthImageSelector *selector,
 			       GdkPixbuf        *pixbuf)
 {
 	GthImageSelectorPriv *priv = selector->priv;
@@ -1808,7 +1894,7 @@ gth_image_selector_set_pixbuf (GthImageSelector *selector,
 			      gdk_pixbuf_get_width (priv->pixbuf),
 			      gdk_pixbuf_get_height (priv->pixbuf),
 			      GDK_INTERP_NEAREST,
-			      64,
+			      196,
 			      10,
 			      0x00000000,
 			      0x00000000);
@@ -1830,7 +1916,7 @@ gth_image_selector_set_selection_x (GthImageSelector *selector,
 				    int               x)
 {
 	GdkRectangle new_selection;
-	
+
 	new_selection = selector->priv->selection;
 	new_selection.x = x;
 	check_and_set_new_selection (selector, new_selection);
@@ -1842,7 +1928,7 @@ gth_image_selector_set_selection_y (GthImageSelector *selector,
 				    int               y)
 {
 	GdkRectangle new_selection;
-	
+
 	new_selection = selector->priv->selection;
 	new_selection.y = y;
 	check_and_set_new_selection (selector, new_selection);
@@ -1930,12 +2016,20 @@ gth_image_selector_get_use_ratio (GthImageSelector *selector)
 
 
 void
-gth_image_selector_zoom_in (GthImageSelector *selector)
+gth_image_selector_set_mask_visible (GthImageSelector *selector,
+				     gboolean          visible)
 {
+	selector->priv->mask_visible = visible;
+	if (selector->priv->paint_pixbuf != NULL) {
+		g_object_unref (selector->priv->paint_pixbuf);
+		selector->priv->paint_pixbuf = NULL;
+	}
+	gtk_widget_queue_draw (GTK_WIDGET (selector));
 }
 
 
-void
-gth_image_selector_zoom_out (GthImageSelector *selector)
+gboolean
+gth_image_selector_get_mask_visible (GthImageSelector *selector)
 {
+	return selector->priv->mask_visible;
 }

@@ -70,28 +70,28 @@ destroy_cb (GtkWidget *w,
 }
 
 
-static void 
+static void
 file_save_cancel_cb (GtkDialog *file_sel,
 		     int        button_number,
 		     gpointer  *userdata)
 
 {
-	SaveImageData *data;	
+	SaveImageData *data;
 
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
-	if (data->done_func != NULL) 
+	if (data->done_func != NULL)
 		(*data->done_func) (NULL, data->done_data);
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 
 static gboolean
-__save_image (GtkWindow       *parent,
-	      const char      *filename,
-	      const char      *mime_type,
-	      GdkPixbuf       *pixbuf,
-	      SaveImageData   *data,
-	      GtkDialog       *file_sel)
+save_image (GtkWindow       *parent,
+     	    const char      *filename,
+	    const char      *mime_type,
+	    GdkPixbuf       *pixbuf,
+	    SaveImageData   *data,
+	    GtkDialog       *file_sel)
 {
 	char     *dir;
 	gboolean  file_exists;
@@ -117,25 +117,24 @@ __save_image (GtkWindow       *parent,
 
 	file_exists = path_is_file (filename);
 
-	if (file_exists) { 
+	if ((file_sel != NULL) && file_exists) {
 		char      *message;
 		GtkWidget *d;
 		int        r;
 
 		message = g_strdup_printf (_("An image named \"%s\" is already present. Do you want to overwrite it?"), file_name_from_path (filename));
-		d = _gtk_yesno_dialog_new (parent, 
+		d = _gtk_yesno_dialog_new (parent,
 					   GTK_DIALOG_MODAL,
 					   message,
 					   GTK_STOCK_NO,
 					   GTK_STOCK_YES);
 		g_free (message);
-		
+
 		r = gtk_dialog_run (GTK_DIALOG (d));
 		gtk_widget_destroy (d);
 
-		if (r != GTK_RESPONSE_YES) {
+		if (r != GTK_RESPONSE_YES)
 			return FALSE;
-		}
 	}
 
 	if (file_sel != NULL)
@@ -152,16 +151,16 @@ __save_image (GtkWindow       *parent,
 				      image_type,
 				      &keys,
 				      &values)) {
-			if (! _gdk_pixbuf_savev (pixbuf, 
-						 filename, 
-						 image_type, 
+			if (! _gdk_pixbuf_savev (pixbuf,
+						 filename,
+						 image_type,
 						 keys, values,
-						 &error)) 
+						 &error))
 				_gtk_error_dialog_from_gerror_run (parent, &error);
-			else 
+			else
 				image_saved = TRUE;
 		}
-		
+
 		g_strfreev (keys);
 		g_strfreev (values);
 	} else
@@ -170,11 +169,11 @@ __save_image (GtkWindow       *parent,
 				       mime_type);
 
 	if (data->done_func != NULL) {
-		if (! image_saved) 
+		if (! image_saved)
 			filename = NULL;
 		(*data->done_func) (filename, data->done_data);
 	}
-	
+
 	if (file_sel != NULL)
 		gtk_widget_destroy (GTK_WIDGET (file_sel));
 
@@ -182,7 +181,7 @@ __save_image (GtkWindow       *parent,
 }
 
 
-static void 
+static void
 file_save_ok_cb (GtkDialog *file_sel,
 		 int        button_number,
 		 gpointer  *userdata)
@@ -195,7 +194,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	char          *filename = NULL;
 	const char    *mime_type = NULL;
 	int            idx;
-	SaveImageData *data;	
+	SaveImageData *data;
 
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
@@ -204,25 +203,25 @@ file_save_ok_cb (GtkDialog *file_sel,
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
-	if (idx == IMAGE_TYPE_AUTOMATIC) 
+	if (idx == IMAGE_TYPE_AUTOMATIC)
 		mime_type = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 	else
 		mime_type = mime_types [idx - 2];
 
-	__save_image (parent, filename, mime_type, pixbuf, data, file_sel); 
+	save_image (parent, filename, mime_type, pixbuf, data, file_sel);
 
 	g_free (filename);
 }
 
 
-static void 
+static void
 file_save_response_cb (GtkDialog *file_sel,
 		       int        button_number,
 		       gpointer  *userdata)
 {
-	if (button_number == GTK_RESPONSE_ACCEPT) 
+	if (button_number == GTK_RESPONSE_ACCEPT)
 		file_save_ok_cb (file_sel, button_number, userdata);
-	else 
+	else
 		file_save_cancel_cb (file_sel, button_number, userdata);
 }
 
@@ -283,14 +282,14 @@ dlg_save_image_as (GtkWindow       *parent,
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 0);
-	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (file_sel), 
+	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (file_sel),
 					   vbox);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
 
-	gtk_box_pack_start (GTK_BOX (hbox), 
-			    gtk_label_new (_("Image type:")), 
+	gtk_box_pack_start (GTK_BOX (hbox),
+			    gtk_label_new (_("Image type:")),
 			    FALSE, FALSE, 0);
 
 	opt_menu = gtk_option_menu_new ();
@@ -319,15 +318,15 @@ dlg_save_image_as (GtkWindow       *parent,
 	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
 
 	g_signal_connect (GTK_DIALOG (file_sel),
-			  "response", 
-			  G_CALLBACK (file_save_response_cb), 
+			  "response",
+			  G_CALLBACK (file_save_response_cb),
 			  NULL);
 
 	g_signal_connect (G_OBJECT (file_sel),
-			  "destroy", 
+			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
-    
+
 	if (parent != NULL) {
 		gtk_window_set_transient_for (GTK_WINDOW (file_sel), parent);
 		gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
@@ -357,7 +356,7 @@ dlg_save_image (GtkWindow       *parent,
 
 	mime_type = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 
-	__save_image (parent, filename, mime_type, pixbuf, data, NULL);
+	save_image (parent, filename, mime_type, pixbuf, data, NULL);
 }
 
 
@@ -388,9 +387,9 @@ get_type_from_name (const char *name)
 	int i;
 
 	for (i = 0; types_table[i].name != NULL; i++)
-		if (strcasecmp (types_table[i].name, name) == 0) 
+		if (strcasecmp (types_table[i].name, name) == 0)
 			return types_table + i;
-	
+
 	return NULL;
 }
 
@@ -408,17 +407,17 @@ dlg_save_options (GtkWindow    *parent,
 	TypeEntry  *type;
 
 	*keys   = NULL;
-	*values = NULL;	
+	*values = NULL;
 
 	if (image_type == NULL) {
 		g_warning ("Invalid image type\n");
 		return FALSE;
 	}
 
-	if (strncmp (image_type, "x-", 2) == 0) 
+	if (strncmp (image_type, "x-", 2) == 0)
 		image_type += 2;
 
-	type = get_type_from_name (image_type); 
+	type = get_type_from_name (image_type);
 	if (type == NULL) {
 		g_warning ("Invalid image type\n");
 		return FALSE;
@@ -449,48 +448,48 @@ dlg_save_options (GtkWindow    *parent,
 		ivalue = eel_gconf_get_integer (PREF_JPEG_QUALITY, 85);
 		widget = glade_xml_get_widget (gui, "jpeg_quality_hscale");
 		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
-		
+
 		/**/
 
 		ivalue = eel_gconf_get_integer (PREF_JPEG_SMOOTHING, 0);
 		widget = glade_xml_get_widget (gui, "jpeg_smooth_hscale");
 		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
-		
+
 		/**/
 
 		ivalue = eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE, TRUE);
 		widget = glade_xml_get_widget (gui, "jpeg_optimize_checkbutton");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
-		
+
 		/**/
 
 		ivalue = eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE, FALSE);
 		widget = glade_xml_get_widget (gui, "jpeg_progressive_checkbutton");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
 		break;
-		
+
 	case IMAGE_TYPE_PNG:
 		break;
-		
+
 	case IMAGE_TYPE_TIFF:
-		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION, "deflate"); 
+		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION, "deflate");
 
 		if (svalue == NULL)
 			widget = NULL;
-		else if (strcmp (svalue, "none") == 0) 
+		else if (strcmp (svalue, "none") == 0)
 			widget = glade_xml_get_widget (gui, "tiff_comp_none_radiobutton");
-		else if (strcmp (svalue, "deflate") == 0) 
+		else if (strcmp (svalue, "deflate") == 0)
 			widget = glade_xml_get_widget (gui, "tiff_comp_deflate_radiobutton");
-		else if (strcmp (svalue, "jpeg") == 0) 
+		else if (strcmp (svalue, "jpeg") == 0)
 			widget = glade_xml_get_widget (gui, "tiff_comp_jpeg_radiobutton");
 		else
 			widget = NULL;
-		
+
 		if (widget != NULL)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
 
 		g_free (svalue);
-		
+
 		/**/
 
 		ivalue = eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES, 72);
@@ -502,9 +501,9 @@ dlg_save_options (GtkWindow    *parent,
 		ivalue = eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES, 72);
 		widget = glade_xml_get_widget (gui, "tiff_vdpi_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), (double) ivalue);
-		
+
 		break;
-		
+
 	case IMAGE_TYPE_TGA:
 		ivalue = eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION, TRUE);
 		widget = glade_xml_get_widget (gui, "tga_rle_compression_checkbutton");
@@ -526,7 +525,7 @@ dlg_save_options (GtkWindow    *parent,
 
 		*keys   = g_malloc (sizeof (char*) * (type->n_params + 1));
 		*values = g_malloc (sizeof (char*) * (type->n_params + 1));
-		
+
 		switch (type->type) {
 		case IMAGE_TYPE_JPEG:
 			(*keys)[i] = g_strdup ("quality");
@@ -571,10 +570,10 @@ dlg_save_options (GtkWindow    *parent,
 			eel_gconf_set_boolean (PREF_JPEG_PROGRESSIVE, ivalue);
 
 			break;
-			
+
 		case IMAGE_TYPE_PNG:
 			break;
-			
+
 		case IMAGE_TYPE_TIFF:
 			(*keys)[i] = g_strdup ("compression");
 
@@ -593,7 +592,7 @@ dlg_save_options (GtkWindow    *parent,
 			if (ivalue)
 				(*values)[i] = g_strdup_printf ("jpeg");
 
-			eel_gconf_set_string (PREF_TIFF_COMPRESSION, (*values)[i]); 
+			eel_gconf_set_string (PREF_TIFF_COMPRESSION, (*values)[i]);
 
 			/**/
 
@@ -618,7 +617,7 @@ dlg_save_options (GtkWindow    *parent,
 			eel_gconf_set_integer (PREF_TIFF_VERTICAL_RES, ivalue);
 
 			break;
-			
+
 		case IMAGE_TYPE_TGA:
 			(*keys)[i] = g_strdup ("compression");
 
@@ -628,7 +627,7 @@ dlg_save_options (GtkWindow    *parent,
 				(*values)[i] = g_strdup_printf ("rle");
 			else
 				(*values)[i] = g_strdup_printf ("none");
-			
+
 			eel_gconf_set_boolean (PREF_TGA_RLE_COMPRESSION, strcmp ((*values)[i], "rle") == 0);
 
 			break;
@@ -645,7 +644,7 @@ dlg_save_options (GtkWindow    *parent,
 		retval = FALSE;
 
 	/**/
-	    
+
 	gtk_widget_destroy (dialog);
 	g_object_unref (gui);
 

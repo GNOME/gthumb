@@ -53,6 +53,7 @@
 #include "gth-exif-utils.h"
 #include "gth-file-list.h"
 #include "gth-file-view.h"
+#include "gth-filter-bar.h"
 #include "gth-fullscreen.h"
 #include "gth-location.h"
 #include "gth-nav-window.h"
@@ -176,6 +177,7 @@ struct _GthBrowserPrivateData {
 
 	/* browser stuff */
 
+	GtkWidget          *filter_bar;
 	GthFileList        *file_list;
 	GthDirList         *dir_list;
 	CatalogList        *catalog_list;
@@ -6253,6 +6255,7 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* Create the widgets. */
 
+	priv->filter_bar = gth_filter_bar_new ();
 	priv->file_list = create_new_file_list (browser);
 
 	/* Dir list. */
@@ -6468,6 +6471,8 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->file_list_pane = gtk_vbox_new (0, FALSE);
 	gtk_widget_show_all (priv->file_list->root_widget);
+
+	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->file_list->root_widget, TRUE, TRUE, 0);
 
 	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);

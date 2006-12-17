@@ -49,7 +49,7 @@ typedef struct {
 	GthWindow     *window;
 	GladeXML      *gui;
 
-	GdkPixbuf     *pixbuf;	
+	GdkPixbuf     *pixbuf;
 	int            image_width, image_height;
 	int            display_width, display_height;
 
@@ -71,7 +71,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->gui);
@@ -79,12 +79,13 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
-/* called when the ok button is clicked. */
+
 static void
-ok_cb (GtkWidget  *widget, 
-       DialogData *data)
+apply_cb (DialogData *data,
+	  gboolean    save)
 {
-	GdkRectangle selection;
+	GdkPixbuf *old_pixbuf;
+	GdkPixbuf *new_pixbuf;
 
 	/* Save options */
 
@@ -94,36 +95,33 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
-
-	if ((selection.width > 0) && (selection.height > 0)) {
-		GdkPixbuf *old_pixbuf;
-		GdkPixbuf *new_pixbuf;
-
-		old_pixbuf = gth_window_get_image_pixbuf (data->window);
-		g_object_ref (old_pixbuf);
-
-		debug (DEBUG_INFO, 
-		       "(%d, %d) [%d, %d]\n", 
-		       selection.x, 
-		       selection.y, 
-		       selection.width, 
-		       selection.height);
-		
-		new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, 
-						       selection.x, 
-						       selection.y, 
-						       selection.width, 
-						       selection.height);
-		if (new_pixbuf != NULL) {
-			gth_window_set_image_pixbuf (data->window, new_pixbuf);
+	new_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
+	old_pixbuf = gth_window_get_image_pixbuf (data->window);
+	if (new_pixbuf != old_pixbuf) {
+		gth_window_set_image_pixbuf (data->window, new_pixbuf);
+		if (save)
+			gth_window_save_pixbuf (data->window, new_pixbuf, gth_window_get_image_filename (data->window));
+		else
 			gth_window_set_image_modified (data->window, TRUE);
-			g_object_unref (new_pixbuf);
-		}
-		g_object_unref (old_pixbuf);
 	}
 
 	gtk_widget_destroy (data->dialog);
+}
+
+
+static void
+ok_cb (GtkWidget  *widget,
+       DialogData *data)
+{
+	apply_cb (data, FALSE);
+}
+
+
+static void
+save_cb (GtkWidget  *widget,
+         DialogData *data)
+{
+	apply_cb (data, TRUE);
 }
 
 
@@ -165,7 +163,7 @@ selection_height_value_changed_cb (GtkSpinButton *spin,
 
 static void
 set_spin_range_value (DialogData    *data,
-		      GtkSpinButton *spin, 
+		      GtkSpinButton *spin,
 		      int            min,
 		      int            max,
 		      int            x)
@@ -188,29 +186,29 @@ selection_changed_cb (GthImageSelector *selector,
 
 	min = 0;
 	max = data->image_width - selection.width;
-	set_spin_range_value (data, data->crop_x_spinbutton, 
+	set_spin_range_value (data, data->crop_x_spinbutton,
 			      min, max, selection.x);
 
 	min = 0;
 	max = data->image_height - selection.height;
-	set_spin_range_value (data, data->crop_y_spinbutton, 
+	set_spin_range_value (data, data->crop_y_spinbutton,
 			      min, max, selection.y);
 
 	min = 0;
 	max = data->image_width - selection.x;
-	set_spin_range_value (data, data->crop_width_spinbutton, 
+	set_spin_range_value (data, data->crop_width_spinbutton,
 			      min, max, selection.width);
 
 	min = 0;
 	max = data->image_height - selection.y;
-	set_spin_range_value (data, data->crop_height_spinbutton, 
+	set_spin_range_value (data, data->crop_height_spinbutton,
 			      min, max, selection.height);
 }
 
 
 static void
 set_spin_value (DialogData    *data,
-		GtkSpinButton *spin, 
+		GtkSpinButton *spin,
 		int            x)
 {
 	g_signal_handlers_block_by_data (G_OBJECT (spin), data);
@@ -283,7 +281,7 @@ ratio_value_changed_cb (GtkSpinButton *spin,
 
 	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
 	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
-			
+
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
 				      TRUE,
 				      (double) w / h);
@@ -336,16 +334,63 @@ static void
 zoom_fit_button_clicked_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	int    widget_width, widget_height;
-	double zoom;
+	GdkPixbuf *pixbuf;
+	int        widget_width, widget_height;
+	double     zoom;
 
 	widget_width = GTK_WIDGET (data->nav_win)->allocation.width - 20;
 	widget_height = GTK_WIDGET (data->nav_win)->allocation.height - 20;
-	
-	zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (data->pixbuf),
-		    (double) widget_height / gdk_pixbuf_get_height (data->pixbuf));
+
+	pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
+	zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (pixbuf),
+		    (double) widget_height / gdk_pixbuf_get_height (pixbuf));
 
 	gth_iviewer_set_zoom (GTH_IVIEWER (data->crop_image), zoom);
+}
+
+
+static void
+crop_button_clicked_cb (GtkButton  *button,
+	   		DialogData *data)
+{
+	GdkRectangle selection;
+
+	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
+
+	if ((selection.width > 0) && (selection.height > 0)) {
+		GdkPixbuf *old_pixbuf;
+		GdkPixbuf *new_pixbuf;
+
+		old_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
+		g_object_ref (old_pixbuf);
+
+		debug (DEBUG_INFO,
+		       "(%d, %d) [%d, %d]\n",
+		       selection.x,
+		       selection.y,
+		       selection.width,
+		       selection.height);
+
+		new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf,
+						       selection.x,
+						       selection.y,
+						       selection.width,
+						       selection.height);
+		if (new_pixbuf != NULL) {
+			gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), new_pixbuf);
+			g_object_unref (new_pixbuf);
+			zoom_fit_button_clicked_cb (NULL, data);
+		}
+		g_object_unref (old_pixbuf);
+	}
+}
+
+
+static void
+mask_button_toggled_cb (GtkToggleButton *button,
+			DialogData *data)
+{
+	gth_image_selector_set_mask_visible (GTH_IMAGE_SELECTOR (data->crop_image), gtk_toggle_button_get_active (button));
 }
 
 
@@ -355,10 +400,12 @@ dlg_crop (GthWindow *window)
 	DialogData   *data;
 	GtkWidget    *nav_container;
 	GtkWidget    *ok_button;
+	GtkWidget    *save_button;
 	GtkWidget    *cancel_button;
+	GtkWidget    *mask_button;
 	GtkWidget    *menu, *item;
 	GtkWidget    *image;
-	GtkWidget    *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
+	GtkWidget    *crop_button, *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
 	char         *label;
 	GthCropRatio  crop_ratio;
 	int           ratio_w, ratio_h;
@@ -389,12 +436,15 @@ dlg_crop (GthWindow *window)
 	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
 	data->ratio_swap_button = glade_xml_get_widget (data->gui, "ratio_swap_button");
 
+	crop_button = glade_xml_get_widget (data->gui, "crop_crop_button");
 	zoom_in_button = glade_xml_get_widget (data->gui, "crop_zoom_in_button");
 	zoom_out_button = glade_xml_get_widget (data->gui, "crop_zoom_out_button");
 	zoom_100_button = glade_xml_get_widget (data->gui, "crop_zoom_100_button");
 	zoom_fit_button = glade_xml_get_widget (data->gui, "crop_zoom_fit_button");
+	mask_button = glade_xml_get_widget (data->gui, "crop_showmask_togglebutton");
 
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
+	save_button = glade_xml_get_widget (data->gui, "crop_savebutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
 
 	data->crop_image = gth_image_selector_new (NULL);
@@ -443,7 +493,7 @@ dlg_crop (GthWindow *window)
 	g_object_unref (menu);
 
 	ratio_w = eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_WIDTH, 1);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_w_spinbutton), 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_w_spinbutton),
 				   ratio_w);
 	ratio_h = eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, 1);
 	ratio_h = MAX (ratio_h, 1);
@@ -453,13 +503,12 @@ dlg_crop (GthWindow *window)
 	crop_ratio = pref_get_crop_ratio ();
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->ratio_optionmenu),
 				     crop_ratio);
-	gtk_widget_set_sensitive (data->custom_ratio_box, 
+	gtk_widget_set_sensitive (data->custom_ratio_box,
 				  (crop_ratio == GTH_CROP_RATIO_CUSTOM));
 
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
 				      (crop_ratio != GTH_CROP_RATIO_NONE),
 				      (double) ratio_w / ratio_h);
-
 
 	/* Set the signals handlers. */
 
@@ -467,66 +516,78 @@ dlg_crop (GthWindow *window)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_x_spinbutton), 
+	g_signal_connect (G_OBJECT (save_button),
+			  "clicked",
+			  G_CALLBACK (save_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->crop_x_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (selection_x_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_y_spinbutton), 
+	g_signal_connect (G_OBJECT (data->crop_y_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (selection_y_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_width_spinbutton), 
+	g_signal_connect (G_OBJECT (data->crop_width_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (selection_width_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_height_spinbutton), 
+	g_signal_connect (G_OBJECT (data->crop_height_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (selection_height_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_image), 
+	g_signal_connect (G_OBJECT (data->crop_image),
 			  "selection_changed",
 			  G_CALLBACK (selection_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ratio_optionmenu), 
+	g_signal_connect (G_OBJECT (data->ratio_optionmenu),
 			  "changed",
 			  G_CALLBACK (ratio_optionmenu_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ratio_w_spinbutton), 
+	g_signal_connect (G_OBJECT (data->ratio_w_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (ratio_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ratio_h_spinbutton), 
+	g_signal_connect (G_OBJECT (data->ratio_h_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (ratio_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ratio_swap_button), 
+	g_signal_connect (G_OBJECT (data->ratio_swap_button),
 			  "clicked",
 			  G_CALLBACK (ratio_swap_button_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (zoom_in_button), 
+	g_signal_connect (G_OBJECT (crop_button),
+			  "clicked",
+			  G_CALLBACK (crop_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (zoom_in_button),
 			  "clicked",
 			  G_CALLBACK (zoom_in_button_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (zoom_out_button), 
+	g_signal_connect (G_OBJECT (zoom_out_button),
 			  "clicked",
 			  G_CALLBACK (zoom_out_button_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (zoom_100_button), 
+	g_signal_connect (G_OBJECT (zoom_100_button),
 			  "clicked",
 			  G_CALLBACK (zoom_100_button_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (zoom_fit_button), 
+	g_signal_connect (G_OBJECT (zoom_fit_button),
 			  "clicked",
 			  G_CALLBACK (zoom_fit_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (mask_button),
+			  "toggled",
+			  G_CALLBACK (mask_button_toggled_cb),
 			  data);
 
 	/* Run dialog. */

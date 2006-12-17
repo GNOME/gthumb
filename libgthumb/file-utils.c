@@ -1898,7 +1898,7 @@ remove_extension_from_path (const char *path)
 		return g_strdup (path);
 
 	p = len - 1;
-	while ((ptr[p] != '.') && (p > 0)) 
+	while ((p > 0) && (ptr[p] != '.')) 
 		p--;
 	if (p == 0) 
 		p = len;
