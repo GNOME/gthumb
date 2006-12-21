@@ -1441,6 +1441,106 @@ image_viewer_focus_out (GtkWidget     *widget,
 }
 
 
+static gdouble zooms[] = {                  0.05, 0.07, 0.10,
+			  0.15, 0.20, 0.30, 0.50, 0.75, 1.0,
+			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0,
+			  15.0, 20.0, 30.0, 50.0, 75.0, 100.0};
+
+static const gint nzooms = sizeof (zooms) / sizeof (gdouble);
+
+
+static gdouble
+get_next_zoom (gdouble zoom)
+{
+	gint i;
+
+	i = 0;
+	while ((i < nzooms) && (zooms[i] <= zoom))
+		i++;
+	i = CLAMP (i, 0, nzooms - 1);
+
+	return zooms[i];
+}
+
+
+static gdouble
+get_prev_zoom (gdouble zoom)
+{
+	gint i;
+
+	i = nzooms - 1;
+	while ((i >= 0) && (zooms[i] >= zoom))
+		i--;
+	i = CLAMP (i, 0, nzooms - 1);
+
+	return zooms[i];
+}
+
+
+static void
+set_zoom (ImageViewer *viewer,
+	  gdouble      zoom_level,
+	  int          center_x,
+	  int          center_y)
+{
+	GtkWidget *widget = (GtkWidget*) viewer;
+	gdouble    zoom_ratio;
+	int        gdk_width, gdk_height;
+
+	g_return_if_fail (viewer != NULL);
+	g_return_if_fail (viewer->loader != NULL);
+
+	gdk_width = widget->allocation.width - viewer->frame_border2;
+	gdk_height = widget->allocation.height - viewer->frame_border2;
+
+	/* try to keep the center of the view visible. */
+
+	zoom_ratio = zoom_level / viewer->zoom_level;
+	viewer->x_offset = ((viewer->x_offset + center_x) * zoom_ratio - gdk_width / 2);
+	viewer->y_offset = ((viewer->y_offset + center_y) * zoom_ratio - gdk_height / 2);
+
+ 	/* reset zoom_fit unless we are performing a zoom to fit. */
+
+	if (! viewer->doing_zoom_fit)
+		viewer->fit = GTH_FIT_NONE;
+
+	viewer->zoom_level = zoom_level;
+
+	if (! viewer->doing_zoom_fit) {
+		gtk_widget_queue_resize (GTK_WIDGET (viewer));
+		gtk_widget_queue_draw (GTK_WIDGET (viewer));
+	}
+
+	if (! viewer->skip_zoom_change)
+		g_signal_emit (G_OBJECT (viewer),
+			       image_viewer_signals[ZOOM_CHANGED],
+			       0);
+	else
+		viewer->skip_zoom_change = FALSE;
+}
+
+
+void
+image_viewer_set_zoom (ImageViewer *viewer,
+		       gdouble      zoom_level)
+{
+	GtkWidget *widget = (GtkWidget*) viewer;
+
+	set_zoom (viewer,
+		  zoom_level,
+		  (widget->allocation.width - viewer->frame_border2) / 2,
+		  (widget->allocation.height - viewer->frame_border2) / 2);
+}
+
+
+gdouble
+image_viewer_get_zoom (ImageViewer *viewer)
+{
+	g_return_val_if_fail (viewer != NULL, FALSE);
+	return viewer->zoom_level;
+}
+
+
 static gint
 image_viewer_scroll_event (GtkWidget        *widget,
 			   GdkEventScroll   *event)
@@ -1454,11 +1554,17 @@ image_viewer_scroll_event (GtkWidget        *widget,
 
 	if (event->state & GDK_CONTROL_MASK) {
 		if (event->direction == GDK_SCROLL_UP) {
-			image_viewer_zoom_in (viewer);
+			set_zoom (viewer,
+				  get_next_zoom (viewer->zoom_level),
+				  (int) event->x,
+				  (int) event->y);
 			return TRUE;
 		}
 		if (event->direction == GDK_SCROLL_DOWN) {
-			image_viewer_zoom_out (viewer);
+			set_zoom (viewer,
+				  get_prev_zoom (viewer->zoom_level),
+				  (int) event->x,
+				  (int) event->y);
 			return TRUE;
 		}
 	}
@@ -1977,56 +2083,6 @@ image_loaded (ImageLoader *il,
 
 
 void
-image_viewer_set_zoom (ImageViewer *viewer,
-		       gdouble zoom_level)
-{
-	gdouble zoom_ratio;
-	gint gdk_width, gdk_height;
-
-	g_return_if_fail (viewer != NULL);
-	g_return_if_fail (viewer->loader != NULL);
-
-	gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
-	gdk_height = GTK_WIDGET (viewer)->allocation.height - viewer->frame_border2;
-
-	/* try to keep the center of the view visible. */
-	zoom_ratio = zoom_level / viewer->zoom_level;
-
-	viewer->x_offset = ((viewer->x_offset + gdk_width / 2)
-			    * zoom_ratio - gdk_width / 2);
-	viewer->y_offset = ((viewer->y_offset + gdk_height / 2)
-			    * zoom_ratio - gdk_height / 2);
-
- 	/* reset zoom_fit unless we are performing a zoom to fit. */
-
-	if (! viewer->doing_zoom_fit)
-		viewer->fit = GTH_FIT_NONE;
-
-	viewer->zoom_level = zoom_level;
-
-	if (! viewer->doing_zoom_fit) {
-		gtk_widget_queue_resize (GTK_WIDGET (viewer));
-		gtk_widget_queue_draw (GTK_WIDGET (viewer));
-	}
-
-	if (! viewer->skip_zoom_change)
-		g_signal_emit (G_OBJECT (viewer),
-			       image_viewer_signals[ZOOM_CHANGED],
-			       0);
-	else
-		viewer->skip_zoom_change = FALSE;
-}
-
-
-gdouble
-image_viewer_get_zoom (ImageViewer *viewer)
-{
-	g_return_val_if_fail (viewer != NULL, FALSE);
-	return viewer->zoom_level;
-}
-
-
-void
 image_viewer_set_zoom_quality (ImageViewer    *viewer,
 			       GthZoomQuality  quality)
 {
@@ -2064,72 +2120,27 @@ image_viewer_get_zoom_change (ImageViewer *viewer)
 }
 
 
-static gdouble zooms[] = {                  0.05, 0.07, 0.10,
-			  0.15, 0.20, 0.30, 0.50, 0.75, 1.0,
-			  1.5 , 2.0 , 3.0 , 5.0 , 7.5,  10.0,
-			  15.0, 20.0, 30.0, 50.0, 75.0, 100.0};
-
-static const gint nzooms = sizeof (zooms) / sizeof (gdouble);
-
-
-static gdouble
-get_next_zoom (gdouble zoom)
-{
-	gint i;
-
-	i = 0;
-	while ((i < nzooms) && (zooms[i] <= zoom))
-		i++;
-	i = CLAMP (i, 0, nzooms - 1);
-
-	return zooms[i];
-}
-
-
-static gdouble
-get_prev_zoom (gdouble zoom)
-{
-	gint i;
-
-	i = nzooms - 1;
-	while ((i >= 0) && (zooms[i] >= zoom))
-		i--;
-	i = CLAMP (i, 0, nzooms - 1);
-
-	return zooms[i];
-}
-
-
 void
 image_viewer_zoom_in (ImageViewer *viewer)
 {
-	gdouble new_zoom;
-
 	g_return_if_fail (viewer != NULL);
 	g_return_if_fail (viewer->loader != NULL);
 
 	if (image_viewer_get_current_pixbuf (viewer) == NULL)
 		return;
-
-	new_zoom = get_next_zoom (viewer->zoom_level);
-
-	image_viewer_set_zoom (viewer, new_zoom);
+	image_viewer_set_zoom (viewer, get_next_zoom (viewer->zoom_level));
 }
 
 
 void
 image_viewer_zoom_out (ImageViewer *viewer)
 {
-	gdouble new_zoom;
-
 	g_return_if_fail (viewer != NULL);
 	g_return_if_fail (viewer->loader != NULL);
 
 	if (image_viewer_get_current_pixbuf (viewer) == NULL)
 		return;
-
-	new_zoom = get_prev_zoom (viewer->zoom_level);
-	image_viewer_set_zoom (viewer, new_zoom);
+	image_viewer_set_zoom (viewer, get_prev_zoom (viewer->zoom_level));
 }
 
 
