@@ -50,10 +50,11 @@ struct _GthImageSelectorClass
 
 	/* -- Signals -- */
 
-	void (* set_scroll_adjustments) (GtkWidget        *widget,
-                                         GtkAdjustment    *hadj,
-					 GtkAdjustment    *vadj);
-	void (* selection_changed)      (GthImageSelector *selector);
+	void (* set_scroll_adjustments)  (GtkWidget        *widget,
+                                          GtkAdjustment    *hadj,
+					  GtkAdjustment    *vadj);
+	void (* selection_changed)       (GthImageSelector *selector);
+	void (* mask_visibility_changed) (GthImageSelector *selector);
 };
 
 GType      gth_image_selector_get_type             (void);

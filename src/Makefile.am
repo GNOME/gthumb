@@ -112,6 +112,8 @@ gthumb_SOURCES = 				\
 	gth-fullscreen-actions-callbacks.h	\
 	gth-fullscreen-actions-callbacks.c	\
 	gth-fullscreen-ui.h			\
+	gth-image-history.c			\
+	gth-image-history.h			\
 	gth-image-selector.c			\
 	gth-image-selector.h			\
 	gth-location.c				\

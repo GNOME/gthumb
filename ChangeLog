@@ -1,3 +1,45 @@
+2006-12-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_crop.glade:
+	* src/Makefile.am:
+	* src/gth-image-history.c:
+	* src/gth-image-history.h:
+	* src/gth-image-selector.h:
+	(set_scroll_adjustments):
+	* src/gth-window.c:
+	(gth_window_get_can_undo):
+	(gth_window_undo):
+	(gth_window_edit_comment):
+	(gth_window_finalize):
+	(gth_window_close):
+	(gth_window_redo):
+	(gth_window_get_can_redo):
+	(gth_window_init):
+	(gth_window_update_comment_categories_dlg):
+	(gth_window_attach):
+	(gth_window_save_pixbuf):
+	(gth_window_set_image_pixbuf):
+	(gth_window_edit_categories):
+	(gth_window_clear_undo_history):
+	* src/dlg-crop.c:
+	(undo_button_clicked_cb):
+	(mask_button_toggled_cb):
+	(crop_button_clicked_cb):
+	(ratio_optionmenu_changed_cb):
+	(dlg_crop):
+	(selection_changed_cb):
+	(redo_button_clicked_cb):
+	(zoom_fit_button_clicked_cb):
+	(history_changed_cb):
+	(mask_visibility_changed_cb):
+	(destroy_cb):
+	* src/gth-image-selector.c:
+	(gth_image_selector_set_mask_visible):
+	(class_init):
+	(init_selection):
+
+	Added undo/redo and other enhancements to the crop dialog.
+
 2006-12-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (gth_browser_construct):

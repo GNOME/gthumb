@@ -23,11 +23,10 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
+#include "gth-image-history.h"
 #include "gth-window.h"
 #include "dlg-comment.h"
 #include "dlg-categories.h"
-
-#define MAX_UNDO_HISTORY_LEN 5
 
 enum {
         PROP_0,
@@ -39,95 +38,31 @@ static GList *window_list = NULL;
 
 
 struct _GthWindowPrivateData {
-	GtkWidget  *table;
-	GtkWidget  *contents;
-	GtkWidget  *comment_dlg;
-	GtkWidget  *categories_dlg;
-	gboolean    slideshow;
-	gboolean    fullscreen;
-	GList      *undo_history;  /* ImageData items */
-	GList      *redo_history;  /* ImageData items */
+	GtkWidget       *table;
+	GtkWidget       *contents;
+	GtkWidget       *comment_dlg;
+	GtkWidget       *categories_dlg;
+	gboolean         slideshow;
+	gboolean         fullscreen;
+	GthImageHistory *history;
 };
 
 
-typedef struct {
-	int ref;
-	GdkPixbuf *image;
-	gboolean   modified;
-} ImageData;
-
-
-static ImageData*
-image_data_new (GdkPixbuf *image,
-		gboolean   modified)
-{
-	ImageData *idata;
-
-	g_return_val_if_fail (image != NULL, NULL);
-
-	idata = g_new0 (ImageData, 1);
-
-	idata->ref = 1;
-	g_object_ref (image);
-	idata->image = image;
-	idata->modified = modified;
-
-	return idata;
-}
-
-
-#if 0
 static void
-image_data_ref (ImageData *idata)
-{
-	g_return_if_fail (idata != NULL);
-	idata->ref++;
-}
-#endif
-
-
-static void
-image_data_unref (ImageData *idata)
-{
-	g_return_if_fail (idata != NULL);
-
-	idata->ref--;
-	if (idata->ref == 0) {
-		g_object_unref (idata->image);
-		g_free (idata);
-	}
-}
-
-
-static void
-image_data_list_free (GList *list)
-{
-	if (list == NULL)
-		return;
-	g_list_foreach (list, (GFunc) image_data_unref, NULL);
-	g_list_free (list);
-}
-
-
-static void 
 gth_window_finalize (GObject *object)
 {
 	GthWindow *window = GTH_WINDOW (object);
 
 	if (window->priv != NULL) {
-		GthWindowPrivateData *priv = window->priv;
-
-		image_data_list_free (priv->undo_history);
-		image_data_list_free (priv->redo_history);
-
+		g_object_unref (window->priv->history);
 		g_free (window->priv);
 		window->priv = NULL;
 	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-	
+
 	window_list = g_list_remove (window_list, window);
-	if (window_list == NULL) 
+	if (window_list == NULL)
 		gtk_main_quit ();
 }
 
@@ -298,8 +233,7 @@ gth_window_init (GthWindow *window)
 	priv->contents = NULL;
 	priv->comment_dlg = NULL;
 	priv->categories_dlg = NULL;
-	priv->undo_history = NULL;
-	priv->redo_history = NULL;
+	priv->history = gth_image_history_new ();
 
 	window_list = g_list_prepend (window_list, window);
 }
@@ -335,7 +269,7 @@ gth_window_get_type ()
 
 void
 gth_window_close (GthWindow *window)
-{	
+{
 	GthWindowPrivateData *priv = window->priv;
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
 
@@ -343,7 +277,7 @@ gth_window_close (GthWindow *window)
 		dlg_comment_close (priv->comment_dlg);
 		priv->comment_dlg = NULL;
 	}
-	
+
 	if (priv->categories_dlg != NULL) {
 		dlg_categories_close (priv->categories_dlg);
 		priv->categories_dlg = NULL;
@@ -399,86 +333,23 @@ gth_window_get_image_pixbuf (GthWindow *window)
 }
 
 
-static void 
-remove_first_image (GList **list)
-{
-	GList *head;
-
-	head = *list;
-	*list = g_list_remove_link (*list, head);
-	image_data_list_free (head);
-}
-
-
-static ImageData*
-get_nth_image_data (GList *list,
-		    int    n)
-{
-	return (ImageData*) g_list_nth_data (list, n);
-}
-
-
-static GList*
-add_image_to_list (GList      *list,
-		   GdkPixbuf  *pixbuf,
-		   gboolean    modified) 
-{
-	if (g_list_length (list) > MAX_UNDO_HISTORY_LEN) {
-		GList *last;
-
-		last = g_list_nth (list, MAX_UNDO_HISTORY_LEN - 1);
-		if (last->prev != NULL) {
-			last->prev->next = NULL;
-			image_data_list_free (last);
-		}
-	}
-
-	if (pixbuf == NULL)
-		return list;
-
-	return g_list_prepend (list, image_data_new (pixbuf, modified));
-}
-
-
-static void
-add_current_image_to_undo_history (GthWindow *window)
-{
-	GthWindowPrivateData *priv = window->priv;
-
-	priv->undo_history = add_image_to_list (priv->undo_history, 
-						gth_window_get_image_pixbuf (window), 
-						gth_window_get_image_modified (window));
-}
-
-
-static void
-add_current_image_to_redo_history (GthWindow *window)
-{
-	GthWindowPrivateData *priv = window->priv;
-	priv->redo_history = add_image_to_list (priv->redo_history, 
-						gth_window_get_image_pixbuf (window), 
-						gth_window_get_image_modified (window));
-}
-
-
 void
 gth_window_set_image_pixbuf (GthWindow *window,
 			     GdkPixbuf *pixbuf)
 {
 	ImageViewer *image_viewer;
 
-	add_current_image_to_undo_history (window);
-
-	image_data_list_free (window->priv->redo_history);
-	window->priv->redo_history = NULL;
+	gth_image_history_add_image (window->priv->history,
+				     gth_window_get_image_pixbuf (window),
+				     gth_window_get_image_modified (window));
 
 	image_viewer = gth_window_get_image_viewer (window);
 	if (image_viewer == NULL)
 		return;
 	image_viewer_set_pixbuf (image_viewer, pixbuf);
-
 	gth_window_set_image_modified (window, TRUE);
 }
+
 
 void
 gth_window_save_pixbuf (GthWindow  *window,
@@ -503,82 +374,63 @@ gth_window_exec_pixbuf_op (GthWindow   *window,
 void
 gth_window_undo (GthWindow *window)
 {
-	GthWindowPrivateData *priv = window->priv;
-	ImageViewer          *image_viewer;
-	ImageData            *idata;
-	gboolean              modified;
-
-	if (priv->undo_history == NULL)
-		return;
+	ImageViewer  *image_viewer;
+	GthImageData *idata;
 
 	image_viewer = gth_window_get_image_viewer (window);
 	if (image_viewer == NULL)
 		return;
 
-	add_current_image_to_redo_history (window);
-
-	idata = get_nth_image_data (priv->undo_history, 0);
+	idata = gth_image_history_undo (window->priv->history,
+					gth_window_get_image_pixbuf (window),
+				        gth_window_get_image_modified (window));
+	if (idata == NULL)
+		return;
 	image_viewer_set_pixbuf (image_viewer, idata->image);
-	modified = idata->modified;
-	remove_first_image (&(priv->undo_history));
-
-	gth_window_set_image_modified (window, modified);
+	gth_window_set_image_modified (window, idata->unsaved);
+	gth_image_data_unref (idata);
 }
 
 
 void
 gth_window_redo (GthWindow *window)
 {
-	GthWindowPrivateData *priv = window->priv;
-	ImageViewer          *image_viewer;
-	ImageData            *idata;
-	gboolean              modified;
-
-	if (priv->redo_history == NULL)
-		return;
+	ImageViewer  *image_viewer;
+	GthImageData *idata;
 
 	image_viewer = gth_window_get_image_viewer (window);
 	if (image_viewer == NULL)
 		return;
 
-	add_current_image_to_undo_history (window);
-
-	idata = get_nth_image_data (priv->redo_history, 0);
+	idata = gth_image_history_redo (window->priv->history,
+					gth_window_get_image_pixbuf (window),
+				        gth_window_get_image_modified (window));
+	if (idata == NULL)
+		return;
 	image_viewer_set_pixbuf (image_viewer, idata->image);
-	modified = idata->modified;
-	remove_first_image (&(priv->redo_history));
-
-	gth_window_set_image_modified (window, modified);
+	gth_window_set_image_modified (window, idata->unsaved);
+	gth_image_data_unref (idata);
 }
 
 
 void
 gth_window_clear_undo_history (GthWindow *window)
 {
-	g_return_if_fail (GTH_IS_WINDOW (window));
-
-	image_data_list_free (window->priv->undo_history);
-	window->priv->undo_history = NULL;
-
-	image_data_list_free (window->priv->redo_history);
-	window->priv->redo_history = NULL;
+	gth_image_history_clear (window->priv->history);
 }
 
 
 gboolean
 gth_window_get_can_undo (GthWindow *window)
 {
-	g_return_val_if_fail (GTH_IS_WINDOW (window), FALSE);
-
-	return window->priv->undo_history != NULL;
+	return gth_image_history_can_undo (window->priv->history);
 }
 
 
 gboolean
 gth_window_get_can_redo (GthWindow *window)
 {
-	g_return_val_if_fail (GTH_IS_WINDOW (window), FALSE);
-	return window->priv->redo_history != NULL;
+	return gth_image_history_can_redo (window->priv->history);
 }
 
 
@@ -616,7 +468,7 @@ gth_window_attach (GthWindow     *window,
 			break;
 	}
 
-	gtk_table_attach (GTK_TABLE (window->priv->table), 
+	gtk_table_attach (GTK_TABLE (window->priv->table),
 			  child,
 			  0, 1,
 			  position, position + 1,
@@ -660,10 +512,10 @@ void
 gth_window_update_comment_categories_dlg (GthWindow *window)
 {
 	GthWindowPrivateData *priv = window->priv;
-	
+
 	if (priv->comment_dlg != NULL)
 		dlg_comment_update (priv->comment_dlg);
-	
+
 	if (priv->categories_dlg != NULL)
 		dlg_categories_update (priv->categories_dlg);
 }
@@ -731,7 +583,7 @@ gth_window_edit_comment (GthWindow *window)
 {
 	GthWindowPrivateData *priv = window->priv;
 
-	if (priv->comment_dlg == NULL) 
+	if (priv->comment_dlg == NULL)
 		priv->comment_dlg = dlg_comment_new (window);
 	else
 		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
@@ -743,7 +595,7 @@ gth_window_edit_categories (GthWindow *window)
 {
 	GthWindowPrivateData *priv = window->priv;
 
-	if (priv->categories_dlg == NULL) 
+	if (priv->categories_dlg == NULL)
 		priv->categories_dlg = dlg_categories_new (window);
 	else
 		gtk_window_present (GTK_WINDOW (priv->categories_dlg));

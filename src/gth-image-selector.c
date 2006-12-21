@@ -111,6 +111,7 @@ enum {
 
 enum {
 	SELECTION_CHANGED,
+	MASK_VISIBILITY_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -1214,6 +1215,9 @@ init_selection (GthImageSelector *selector)
 		}
 	}
 
+	area.height = 0;
+	area.width = 0;
+
 	area.x = IROUND ((priv->pixbuf_area.width - area.width) / 2.0);
 	area.y = IROUND ((priv->pixbuf_area.height - area.height) / 2.0);
 
@@ -1570,6 +1574,15 @@ class_init (GthImageSelectorClass *class)
 			 G_TYPE_FROM_CLASS (class),
 			 G_SIGNAL_RUN_LAST,
 			 G_STRUCT_OFFSET (GthImageSelectorClass, selection_changed),
+			 NULL, NULL,
+			 gthumb_marshal_VOID__VOID,
+			 G_TYPE_NONE,
+			 0);
+	signals[MASK_VISIBILITY_CHANGED] = g_signal_new (
+			 "mask_visibility_changed",
+			 G_TYPE_FROM_CLASS (class),
+			 G_SIGNAL_RUN_LAST,
+			 G_STRUCT_OFFSET (GthImageSelectorClass, mask_visibility_changed),
 			 NULL, NULL,
 			 gthumb_marshal_VOID__VOID,
 			 G_TYPE_NONE,
@@ -2019,12 +2032,19 @@ void
 gth_image_selector_set_mask_visible (GthImageSelector *selector,
 				     gboolean          visible)
 {
+	if (visible == selector->priv->mask_visible)
+		return;
+
 	selector->priv->mask_visible = visible;
 	if (selector->priv->paint_pixbuf != NULL) {
 		g_object_unref (selector->priv->paint_pixbuf);
 		selector->priv->paint_pixbuf = NULL;
 	}
 	gtk_widget_queue_draw (GTK_WIDGET (selector));
+
+	g_signal_emit (G_OBJECT (selector),
+		       signals[MASK_VISIBILITY_CHANGED],
+		       0);
 }
 
 
