@@ -35,7 +35,7 @@ static void
 gth_iviewer_base_init (gpointer g_class)
 {
 	static gboolean initialized = FALSE;
-  
+
 	if (!initialized) {
 		GType iface_type = G_TYPE_FROM_INTERFACE (g_class);
 
@@ -47,7 +47,7 @@ gth_iviewer_base_init (gpointer g_class)
 				      NULL, NULL,
 				      g_cclosure_marshal_VOID__VOID,
 				      G_TYPE_NONE, 0);
-		
+
 		initialized = TRUE;
 	}
 }
@@ -81,9 +81,9 @@ gth_iviewer_get_zoom (GthIViewer *iviewer)
 	return GTH_IVIEWER_GET_INTERFACE (iviewer)->get_zoom (iviewer);
 }
 
- 
+
 void
-gth_iviewer_set_zoom (GthIViewer *iviewer, 
+gth_iviewer_set_zoom (GthIViewer *iviewer,
 		      double      zoom)
 {
 	GTH_IVIEWER_GET_INTERFACE (iviewer)->set_zoom (iviewer, zoom);
@@ -101,6 +101,13 @@ void
 gth_iviewer_zoom_out (GthIViewer *iviewer)
 {
 	GTH_IVIEWER_GET_INTERFACE (iviewer)->zoom_out (iviewer);
+}
+
+
+void
+gth_iviewer_zoom_to_fit (GthIViewer *iviewer)
+{
+	GTH_IVIEWER_GET_INTERFACE (iviewer)->zoom_to_fit (iviewer);
 }
 
 
@@ -123,11 +130,10 @@ gth_iviewer_get_adjustments (GthIViewer     *self,
 void
 gth_iviewer_size_changed (GthIViewer *self)
 {
-	g_signal_emit (G_OBJECT (self), 
-		       gth_iviewer_signals[SIZE_CHANGED], 
+	g_signal_emit (G_OBJECT (self),
+		       gth_iviewer_signals[SIZE_CHANGED],
 		       0);
 }
-
 
 
 int
@@ -169,7 +175,7 @@ gth_iviewer_scroll_to (GthIViewer *iviewer,
 		       int         y_offset)
 {
 	GtkAdjustment *hadj = NULL, *vadj = NULL;
-	
+
 	gth_iviewer_get_adjustments (iviewer, &hadj, &vadj);
 
 	if ((hadj == NULL) || (vadj == NULL))
@@ -186,13 +192,10 @@ gth_iviewer_get_scroll_offset (GthIViewer *iviewer,
 			       int        *y)
 {
 	GtkAdjustment *hadj = NULL, *vadj = NULL;
-	
+
 	gth_iviewer_get_adjustments (iviewer, &hadj, &vadj);
 	if (hadj != NULL)
 		*x = (int) gtk_adjustment_get_value (hadj);
 	if (vadj != NULL)
 		*y = (int) gtk_adjustment_get_value (vadj);
 }
-
-
-

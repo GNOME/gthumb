@@ -1,3 +1,13 @@
+2006-12-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-iviewer.h:
+	* libgthumb/gth-iviewer.c: added zoom_to_fit function to the interface
+
+	* libgthumb/image-viewer.c:
+	* src/gth-image-selector.c: implement the zoom_to_fit function
+
+	* dlg-crop.c: use the zoom_to_fit function here
+
 2006-12-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/image-viewer.c:

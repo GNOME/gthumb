@@ -49,6 +49,7 @@ struct _GthIViewerInterface {
 					   double      zoom);
 	void        (*zoom_in)            (GthIViewer *self);
 	void        (*zoom_out)           (GthIViewer *self);
+	void        (*zoom_to_fit)        (GthIViewer *self);
 
 	GdkPixbuf * (*get_image)          (GthIViewer *self);
 	void        (*get_adjustments)    (GthIViewer     *self,
@@ -57,11 +58,12 @@ struct _GthIViewerInterface {
 };
 
 GType          gth_iviewer_get_type           (void);
-double         gth_iviewer_get_zoom           (GthIViewer     *iviewer); 
-void           gth_iviewer_set_zoom           (GthIViewer     *iviewer, 
+double         gth_iviewer_get_zoom           (GthIViewer     *iviewer);
+void           gth_iviewer_set_zoom           (GthIViewer     *iviewer,
 					       double          zoom);
 void           gth_iviewer_zoom_in            (GthIViewer     *iviewer);
 void           gth_iviewer_zoom_out           (GthIViewer     *iviewer);
+void           gth_iviewer_zoom_to_fit        (GthIViewer     *iviewer);
 GdkPixbuf *    gth_iviewer_get_image          (GthIViewer     *iviewer);
 void           gth_iviewer_get_adjustments    (GthIViewer     *self,
 					       GtkAdjustment **hadj,

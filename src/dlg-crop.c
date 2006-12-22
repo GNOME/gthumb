@@ -57,6 +57,7 @@ typedef struct {
 
 	GtkWidget     *dialog;
 	GtkWidget     *nav_win;
+	GtkWidget     *nav_container;
 	GtkWidget     *crop_image;
 	GtkSpinButton *crop_x_spinbutton;
 	GtkSpinButton *crop_y_spinbutton;
@@ -342,22 +343,7 @@ static void
 zoom_fit_button_clicked_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	GdkPixbuf *pixbuf;
-	int        widget_width, widget_height;
-	double     zoom;
-
-	widget_width = GTK_WIDGET (data->nav_win)->allocation.width - 20;
-	widget_height = GTK_WIDGET (data->nav_win)->allocation.height - 20;
-
-	pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
-	if ((gdk_pixbuf_get_width (pixbuf) < widget_width)
-	    && (gdk_pixbuf_get_height (pixbuf) < widget_height))
-		zoom = 1.0;
-	else
-		zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (pixbuf),
-		    	    (double) widget_height / gdk_pixbuf_get_height (pixbuf));
-
-	gth_iviewer_set_zoom (GTH_IVIEWER (data->crop_image), zoom);
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
 }
 
 
@@ -375,7 +361,7 @@ undo_button_clicked_cb (GtkButton  *button,
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), idata->image);
 	gth_image_data_unref (idata);
 
-	zoom_fit_button_clicked_cb (NULL, data);
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
 }
 
 
@@ -393,7 +379,7 @@ redo_button_clicked_cb (GtkButton  *button,
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), idata->image);
 	gth_image_data_unref (idata);
 
-	zoom_fit_button_clicked_cb (NULL, data);
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
 }
 
 
@@ -428,7 +414,7 @@ crop_button_clicked_cb (GtkButton  *button,
 		if (new_pixbuf != NULL) {
 			gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), new_pixbuf);
 			g_object_unref (new_pixbuf);
-			zoom_fit_button_clicked_cb (NULL, data);
+			gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
 		}
 		g_object_unref (old_pixbuf);
 	}
@@ -453,7 +439,7 @@ mask_visibility_changed_cb (GthImageSelector *selector,
 
 static void
 history_changed_cb (GthImageHistory *history,
-		    DialogData       *data)
+		    DialogData      *data)
 {
 	gtk_widget_set_sensitive (data->undo_button, gth_image_history_can_undo (history));
 	gtk_widget_set_sensitive (data->redo_button, gth_image_history_can_redo (history));
@@ -464,7 +450,6 @@ void
 dlg_crop (GthWindow *window)
 {
 	DialogData   *data;
-	GtkWidget    *nav_container;
 	GtkWidget    *ok_button;
 	GtkWidget    *save_button;
 	GtkWidget    *cancel_button;
@@ -477,8 +462,7 @@ dlg_crop (GthWindow *window)
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
-				   NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 
 	if (! data->gui) {
 		g_warning ("Could not find " GLADE_FILE "\n");
@@ -491,7 +475,7 @@ dlg_crop (GthWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "crop_dialog");
-	nav_container = glade_xml_get_widget (data->gui, "nav_container");
+	data->nav_container = glade_xml_get_widget (data->gui, "nav_container");
 
 	data->crop_x_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_x_spinbutton");
 	data->crop_y_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_y_spinbutton");
@@ -534,9 +518,9 @@ dlg_crop (GthWindow *window)
 	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->crop_image));
 	gtk_widget_set_size_request (data->nav_win, PREVIEW_SIZE, PREVIEW_SIZE);
 
-	gtk_container_add (GTK_CONTAINER (nav_container), data->nav_win);
+	gtk_container_add (GTK_CONTAINER (data->nav_container), data->nav_win);
 
-	gtk_widget_show_all (nav_container);
+	gtk_widget_show_all (data->nav_container);
 
 	/**/
 
@@ -678,7 +662,7 @@ dlg_crop (GthWindow *window)
 	/* Run dialog. */
 
 	gtk_widget_realize (data->dialog);
-	zoom_fit_button_clicked_cb (NULL, data);
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
 	gtk_widget_grab_focus (data->crop_image);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),

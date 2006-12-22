@@ -1259,9 +1259,9 @@ static void
 zoom_to_fit (ImageViewer *viewer)
 {
 	GdkPixbuf *buf;
+	int        gdk_width, gdk_height;
 	double     x_level, y_level;
 	double     new_zoom_level;
-	int        gdk_width, gdk_height;
 
 	buf = image_viewer_get_current_pixbuf (viewer);
 
@@ -1604,6 +1604,13 @@ image_viewer_get_adjustments (GthIViewer     *self,
 
 
 static void
+image_viewer_zoom_to_fit (ImageViewer *viewer)
+{
+	image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+}
+
+
+static void
 gth_iviewer_interface_init (gpointer   g_iface,
 			    gpointer   iface_data)
 {
@@ -1613,6 +1620,7 @@ gth_iviewer_interface_init (gpointer   g_iface,
 	iface->set_zoom = (void (*) (GthIViewer *, double)) image_viewer_set_zoom;
 	iface->zoom_in = (void (*) (GthIViewer *)) image_viewer_zoom_in;
 	iface->zoom_out = (void (*) (GthIViewer *)) image_viewer_zoom_out;
+	iface->zoom_to_fit = (void (*) (GthIViewer *)) image_viewer_zoom_to_fit;
 	iface->get_image = (GdkPixbuf * (*) (GthIViewer *)) image_viewer_get_current_pixbuf;
 	iface->get_adjustments = (void (*) (GthIViewer *, GtkAdjustment **, GtkAdjustment **)) image_viewer_get_adjustments;
 }

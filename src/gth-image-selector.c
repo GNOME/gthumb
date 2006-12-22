@@ -127,6 +127,8 @@ struct _GthImageSelectorPriv {
 	gboolean       use_ratio;
 	double         ratio;
 	double         zoom;
+	gboolean       zoom_to_fit;
+	gboolean       doing_zoom_fit;
 
 	gboolean       pressed;
 	gboolean       double_click;
@@ -1326,6 +1328,76 @@ unrealize (GtkWidget *widget)
 
 
 static void
+generic_set_zoom (GthImageSelector *selector,
+		  double            new_zoom,
+		  int               center_x,
+		  int               center_y)
+{
+	GtkWidget            *widget = (GtkWidget*) selector;
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          selection;
+	double                previous_zoom, zoom_ratio, vscroll, hscroll;
+
+	gth_image_selector_get_selection (selector, &selection);
+
+	previous_zoom = priv->zoom;
+	priv->zoom = new_zoom;
+	zoom_ratio = new_zoom / previous_zoom;
+
+	hscroll = gtk_adjustment_get_value (priv->hadj);
+	hscroll = ((hscroll + center_x) * zoom_ratio - widget->allocation.width / 2);
+
+	vscroll = gtk_adjustment_get_value (priv->vadj);
+	vscroll = ((vscroll + center_y) * zoom_ratio - widget->allocation.height / 2);
+
+	set_selection (selector, selection, TRUE);
+	gtk_adjustment_set_value (priv->vadj, vscroll);
+	gtk_adjustment_set_value (priv->hadj, hscroll);
+
+	if (! priv->doing_zoom_fit) {
+		priv->zoom_to_fit = FALSE;
+		gtk_widget_queue_resize (widget);
+		gtk_widget_queue_draw (widget);
+	}
+}
+
+
+static void
+zoom_to_fit (GthImageSelector *selector)
+{
+	GtkWidget *widget = (GtkWidget *) selector;
+	int        gdk_width, gdk_height;
+	double     new_zoom_level;
+
+	selector->priv->zoom_to_fit = TRUE;
+
+	if (selector->priv->pixbuf == NULL)
+		return;
+
+	gdk_width = widget->allocation.width;
+	gdk_height = widget->allocation.height;
+
+	if ((gdk_width > gdk_pixbuf_get_width (selector->priv->pixbuf))
+	    && (gdk_height > gdk_pixbuf_get_height (selector->priv->pixbuf)))
+		new_zoom_level = 1.0;
+	else {
+		double x_level = (double) gdk_width / gdk_pixbuf_get_width (selector->priv->pixbuf);
+		double y_level = (double) gdk_height / gdk_pixbuf_get_height (selector->priv->pixbuf);
+		new_zoom_level = (x_level < y_level) ? x_level : y_level;
+	}
+
+	if (new_zoom_level > 0.0) {
+		selector->priv->doing_zoom_fit = TRUE;
+		generic_set_zoom (selector,
+			  	  new_zoom_level,
+			  	  widget->allocation.width / 2,
+			  	  widget->allocation.height / 2);
+		selector->priv->doing_zoom_fit = FALSE;
+	}
+}
+
+
+static void
 size_allocate (GtkWidget     *widget,
 	       GtkAllocation *allocation)
 {
@@ -1339,6 +1411,9 @@ size_allocate (GtkWidget     *widget,
 	widget->allocation = *allocation;
 	gdk_width = allocation->width;
 	gdk_height = allocation->height;
+
+	if (priv->zoom_to_fit)
+		zoom_to_fit (selector);
 
 	if (priv->pixbuf == NULL) {
 		priv->background_area.x = 0;
@@ -1658,37 +1733,6 @@ init (GthImageSelector *selector)
 
 
 static void
-generic_set_zoom (GthImageSelector *selector,
-		  double            new_zoom,
-		  int               center_x,
-		  int               center_y)
-{
-	GtkWidget            *widget = (GtkWidget*) selector;
-	GthImageSelectorPriv *priv = selector->priv;
-	GdkRectangle          selection;
-	double                previous_zoom, zoom_ratio, vscroll, hscroll;
-
-	gth_image_selector_get_selection (selector, &selection);
-
-	previous_zoom = priv->zoom;
-	priv->zoom = new_zoom;
-	zoom_ratio = new_zoom / previous_zoom;
-
-	hscroll = gtk_adjustment_get_value (priv->hadj);
-	hscroll = ((hscroll + center_x) * zoom_ratio - widget->allocation.width / 2);
-
-	vscroll = gtk_adjustment_get_value (priv->vadj);
-	vscroll = ((vscroll + center_y) * zoom_ratio - widget->allocation.height / 2);
-
-	set_selection (selector, selection, TRUE);
-	gtk_adjustment_set_value (priv->vadj, vscroll);
-	gtk_adjustment_set_value (priv->hadj, hscroll);
-
-	gtk_widget_queue_resize (widget);
-}
-
-
-static void
 iviewer_set_zoom (GthIViewer *iviewer,
 		  double      zoom)
 {
@@ -1762,6 +1806,16 @@ iviewer_zoom_out (GthIViewer *iviewer)
 }
 
 
+static void
+iviewer_zoom_to_fit (GthIViewer *iviewer)
+{
+	GthImageSelector *selector = (GthImageSelector*) iviewer;
+
+	selector->priv->zoom_to_fit = TRUE;
+	gtk_widget_queue_resize (GTK_WIDGET (selector));
+}
+
+
 static gboolean
 scroll_event (GtkWidget      *widget,
 	      GdkEventScroll *event)
@@ -1819,6 +1873,7 @@ gth_iviewer_interface_init (gpointer g_iface,
 	iface->set_zoom = iviewer_set_zoom;
 	iface->zoom_in = iviewer_zoom_in;
 	iface->zoom_out = iviewer_zoom_out;
+	iface->zoom_to_fit = iviewer_zoom_to_fit;
 	iface->get_image = iviewer_get_image;
 	iface->get_adjustments = iviewer_get_adjustments;
 }
