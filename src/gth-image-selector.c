@@ -97,7 +97,7 @@ event_area_unref (EventArea *event_area)
 /**/
 
 
-enum {
+typedef enum {
 	C_SELECTION_AREA,
 	C_TOP_AREA,
 	C_BOTTOM_AREA,
@@ -107,7 +107,82 @@ enum {
 	C_TOP_RIGHT_AREA,
 	C_BOTTOM_LEFT_AREA,
 	C_BOTTOM_RIGHT_AREA
-};
+} GthEventAreaType;
+
+
+static GthEventAreaType
+get_opposite_event_area_on_x (GthEventAreaType type)
+{
+	GthEventAreaType opposite_type = C_SELECTION_AREA;
+	switch (type) {
+		case C_SELECTION_AREA:
+			opposite_type = C_SELECTION_AREA;
+			break;
+		case C_TOP_AREA:
+			opposite_type = C_TOP_AREA;
+			break;
+		case C_BOTTOM_AREA:
+			opposite_type = C_BOTTOM_AREA;
+			break;
+		case C_LEFT_AREA:
+			opposite_type = C_RIGHT_AREA;
+			break;
+		case C_RIGHT_AREA:
+			opposite_type = C_LEFT_AREA;
+			break;
+		case C_TOP_LEFT_AREA:
+			opposite_type = C_TOP_RIGHT_AREA;
+			break;
+		case C_TOP_RIGHT_AREA:
+			opposite_type = C_TOP_LEFT_AREA;
+			break;
+		case C_BOTTOM_LEFT_AREA:
+			opposite_type = C_BOTTOM_RIGHT_AREA;
+			break;
+		case C_BOTTOM_RIGHT_AREA:
+			opposite_type = C_BOTTOM_LEFT_AREA;
+			break;
+	}
+	return opposite_type;
+}
+
+
+static GthEventAreaType
+get_opposite_event_area_on_y (GthEventAreaType type)
+{
+	GthEventAreaType opposite_type = C_SELECTION_AREA;
+	switch (type) {
+		case C_SELECTION_AREA:
+			opposite_type = C_SELECTION_AREA;
+			break;
+		case C_TOP_AREA:
+			opposite_type = C_BOTTOM_AREA;
+			break;
+		case C_BOTTOM_AREA:
+			opposite_type = C_TOP_AREA;
+			break;
+		case C_LEFT_AREA:
+			opposite_type = C_LEFT_AREA;
+			break;
+		case C_RIGHT_AREA:
+			opposite_type = C_RIGHT_AREA;
+			break;
+		case C_TOP_LEFT_AREA:
+			opposite_type = C_BOTTOM_LEFT_AREA;
+			break;
+		case C_TOP_RIGHT_AREA:
+			opposite_type = C_BOTTOM_RIGHT_AREA;
+			break;
+		case C_BOTTOM_LEFT_AREA:
+			opposite_type = C_TOP_LEFT_AREA;
+			break;
+		case C_BOTTOM_RIGHT_AREA:
+			opposite_type = C_TOP_RIGHT_AREA;
+			break;
+	}
+	return opposite_type;
+}
+
 
 enum {
 	SELECTION_CHANGED,
@@ -898,6 +973,7 @@ update_mouse_selection (GthImageSelector *selector,
 	int                   dx, dy;
 	GdkRectangle          new_selection, tmp;
 	int                   semiplane;
+	GthEventAreaType      area_type = priv->current_area->id;
 
 	priv->drag_x = new_x;
 	priv->drag_y = new_y;
@@ -909,7 +985,18 @@ update_mouse_selection (GthImageSelector *selector,
 				   priv->drag_start_selection_area,
 				   &new_selection);
 
-	switch (priv->current_area->id) {
+       	if (new_selection.width + dx < 0) {
+       		dx = (2 * new_selection.width) + dx;
+       		new_selection.x -=  new_selection.width;
+       		area_type = get_opposite_event_area_on_x (area_type);
+       	}
+       	if (new_selection.height + dy < 0) {
+       		dy = (2 * new_selection.height) + dy;
+       		new_selection.y -=  new_selection.height;
+       		area_type = get_opposite_event_area_on_y (area_type);
+       	}
+
+	switch (area_type) {
 	case C_SELECTION_AREA:
 		new_selection.x += dx;
 		new_selection.y += dy;

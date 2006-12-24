@@ -1,3 +1,11 @@
+2006-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-image-selector.c:
+	(update_mouse_selection):
+	(get_opposite_event_area_on_y):
+	(get_opposite_event_area_on_x): allow to create selections in any
+	direction.
+
 2006-12-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-iviewer.h:
