@@ -108,7 +108,7 @@ gfv_is_frozen (GthFileView  *file_view)
 
 static void
 gfv_insert (GthFileView  *file_view,
-	    int           pos, 
+	    int           pos,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment)
@@ -138,7 +138,7 @@ gfv_append_with_data (GthFileView  *file_view,
 
 
 static void
-gfv_remove (GthFileView  *file_view, 
+gfv_remove (GthFileView  *file_view,
 	    int           pos)
 {
 }
@@ -305,7 +305,7 @@ gfv_set_image_width (GthFileView     *file_view,
 
 static void
 gfv_set_image_data (GthFileView     *file_view,
-		    int              pos, 
+		    int              pos,
 		    gpointer         data)
 {
 }
@@ -313,7 +313,7 @@ gfv_set_image_data (GthFileView     *file_view,
 
 static void
 gfv_set_image_data_full (GthFileView     *file_view,
-			 int              pos, 
+			 int              pos,
 			 gpointer         data,
 			 GtkDestroyNotify destroy)
 {
@@ -362,7 +362,7 @@ gfv_get_view_mode (GthFileView *file_view)
 
 static void
 gfv_moveto (GthFileView *file_view,
-	    int          pos, 
+	    int          pos,
 	    double       yalign)
 {
 }
@@ -377,8 +377,8 @@ gfv_image_is_visible (GthFileView *file_view,
 
 
 static int
-gfv_get_image_at (GthFileView *file_view, 
-		  int          x, 
+gfv_get_image_at (GthFileView *file_view,
+		  int          x,
 		  int          y)
 {
 	return -1;
@@ -428,14 +428,14 @@ gfv_unsorted (GthFileView *file_view)
 
 
 static void
-gfv_image_activated (GthFileView *file_view, 
+gfv_image_activated (GthFileView *file_view,
 		     int          pos)
 {
 }
 
 
 static void
-gfv_set_cursor (GthFileView *file_view, 
+gfv_set_cursor (GthFileView *file_view,
 		int          pos)
 {
 }
@@ -590,7 +590,7 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GthFileViewClass, selection_changed),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	file_view_signals[ITEM_ACTIVATED] =
 		g_signal_new ("item_activated",
@@ -723,7 +723,7 @@ gth_file_view_is_frozen (GthFileView  *file_view)
 
 void
 gth_file_view_insert (GthFileView  *file_view,
-		      int           pos, 
+		      int           pos,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment)
@@ -754,7 +754,7 @@ gth_file_view_append_with_data (GthFileView  *file_view,
 
 
 void
-gth_file_view_remove (GthFileView  *file_view, 
+gth_file_view_remove (GthFileView  *file_view,
 		      int           pos)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->remove (file_view, pos);
@@ -932,7 +932,7 @@ gth_file_view_set_image_width (GthFileView *file_view,
 
 void
 gth_file_view_set_image_data (GthFileView *file_view,
-			      int          pos, 
+			      int          pos,
 			      gpointer     data)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_data (file_view, pos, data);
@@ -941,7 +941,7 @@ gth_file_view_set_image_data (GthFileView *file_view,
 
 void
 gth_file_view_set_image_data_full (GthFileView     *file_view,
-				   int              pos, 
+				   int              pos,
 				   gpointer         data,
 				   GtkDestroyNotify destroy)
 {
@@ -993,7 +993,7 @@ gth_file_view_get_view_mode (GthFileView *file_view)
 
 void
 gth_file_view_moveto (GthFileView *file_view,
-		      int          pos, 
+		      int          pos,
 		      double       yalign)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->moveto (file_view, pos, yalign);
@@ -1009,8 +1009,8 @@ gth_file_view_image_is_visible (GthFileView *file_view,
 
 
 int
-gth_file_view_get_image_at (GthFileView *file_view, 
-			    int          x, 
+gth_file_view_get_image_at (GthFileView *file_view,
+			    int          x,
 			    int          y)
 {
 	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_image_at (file_view, x, y);
@@ -1063,7 +1063,7 @@ gth_file_view_unsorted (GthFileView *file_view)
 
 
 void
-gth_file_view_image_activated (GthFileView *file_view, 
+gth_file_view_image_activated (GthFileView *file_view,
 			       int          pos)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->image_activated (file_view, pos);
@@ -1071,7 +1071,7 @@ gth_file_view_image_activated (GthFileView *file_view,
 
 
 void
-gth_file_view_set_cursor (GthFileView *file_view, 
+gth_file_view_set_cursor (GthFileView *file_view,
 			  int          pos)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_cursor (file_view, pos);
@@ -1161,7 +1161,7 @@ gth_file_view_selection_changed (GthFileView   *file_view)
 
 
 void
-gth_file_view_item_activated (GthFileView   *file_view, 
+gth_file_view_item_activated (GthFileView   *file_view,
 			      int            pos)
 {
 	g_signal_emit (file_view, file_view_signals[ITEM_ACTIVATED], 0, pos);
@@ -1169,7 +1169,7 @@ gth_file_view_item_activated (GthFileView   *file_view,
 
 
 void
-gth_file_view_cursor_changed (GthFileView   *file_view, 
+gth_file_view_cursor_changed (GthFileView   *file_view,
 			      int            pos)
 {
 	g_signal_emit (file_view, file_view_signals[CURSOR_CHANGED], 0, pos);

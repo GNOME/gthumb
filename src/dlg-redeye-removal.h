@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2006 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,8 +26,7 @@
 #include "gth-window.h"
 
 
-void dlg_redeye_removal (GthWindow *window); 
+void   dlg_redeye_removal (GthWindow *window);
 
 
 #endif /* DLG_REDEYE_REMOVAL_H */
-

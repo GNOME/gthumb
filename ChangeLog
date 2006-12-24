@@ -1,10 +1,24 @@
 2006-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/glade/gthumb_redeye.glade:
+	* src/gth-image-selector.h:
 	* src/gth-image-selector.c:
-	(update_mouse_selection):
-	(get_opposite_event_area_on_y):
-	(get_opposite_event_area_on_x): allow to create selections in any
-	direction.
+	* src/dlg-redeye-removal.h:
+	* src/dlg-redeye-removal.c: many enhancements to the red-eye removal
+	dialog
+
+	* data/glade/gthumb_crop.glade:
+	* src/dlg-crop.c: added help button
+
+	* src/gth-monitor.c (gth_monitor_class_init):
+	* src/gthumb-preloader.c:
+	* src/catalog-web-exporter.c:
+	* src/catalog-png-exporter.c:
+	* src/gth-dir-list.c:
+	* libgthumb/gth-file-view.c:
+	* libgthumb/gth-image-list.c:
+	* libgthumb/image-loader.c: use g_cclosure_marshal_VOID__VOID instead of
+	gthumb_marshal_VOID__VOID
 
 2006-12-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

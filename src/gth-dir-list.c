@@ -91,7 +91,7 @@ gth_dir_list_class_init (GthDirListClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthDirListClass, started),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	gth_dir_list_signals[DONE] =
 		g_signal_new ("done",

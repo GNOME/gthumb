@@ -58,7 +58,7 @@ typedef struct {
 	GtkWidget     *dialog;
 	GtkWidget     *nav_win;
 	GtkWidget     *nav_container;
-	GtkWidget     *crop_image;
+	GtkWidget     *image_selector;
 	GtkSpinButton *crop_x_spinbutton;
 	GtkSpinButton *crop_y_spinbutton;
 	GtkSpinButton *crop_width_spinbutton;
@@ -102,7 +102,7 @@ apply_cb (DialogData *data,
 
 	/**/
 
-	new_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
+	new_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector));
 	old_pixbuf = gth_window_get_image_pixbuf (data->window);
 	if (new_pixbuf != old_pixbuf) {
 		gth_window_set_image_pixbuf (data->window, new_pixbuf);
@@ -136,7 +136,7 @@ static void
 selection_x_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
-	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->image_selector);
 	gth_image_selector_set_selection_x (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
@@ -145,7 +145,7 @@ static void
 selection_y_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
-	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->image_selector);
 	gth_image_selector_set_selection_y (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
@@ -154,7 +154,7 @@ static void
 selection_width_value_changed_cb (GtkSpinButton *spin,
 				  DialogData    *data)
 {
-	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->image_selector);
 	gth_image_selector_set_selection_width (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
@@ -163,7 +163,7 @@ static void
 selection_height_value_changed_cb (GtkSpinButton *spin,
 				   DialogData    *data)
 {
-	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->image_selector);
 	gth_image_selector_set_selection_height (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
@@ -211,7 +211,7 @@ selection_changed_cb (GthImageSelector *selector,
 	set_spin_range_value (data, data->crop_height_spinbutton,
 			      min, max, selection.height);
 
-	gth_image_selector_set_mask_visible (GTH_IMAGE_SELECTOR (data->crop_image), (selection.width != 0 || selection.height != 0));
+	gth_image_selector_set_mask_visible (GTH_IMAGE_SELECTOR (data->image_selector), (selection.width != 0 || selection.height != 0));
 }
 
 
@@ -276,7 +276,7 @@ ratio_optionmenu_changed_cb (GtkOptionMenu *optionmenu,
 	set_spin_value (data, data->ratio_w_spinbutton, w);
 	set_spin_value (data, data->ratio_h_spinbutton, h);
 
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      use_ratio,
 				      (double) w / h);
 }
@@ -291,7 +291,7 @@ ratio_value_changed_cb (GtkSpinButton *spin,
 	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
 	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
 
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      TRUE,
 				      (double) w / h);
 }
@@ -309,7 +309,7 @@ ratio_swap_button_cb (GtkButton *button,
 	set_spin_value (data, data->ratio_w_spinbutton, h);
 	set_spin_value (data, data->ratio_h_spinbutton, w);
 
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      TRUE,
 				      (double) h / w);
 }
@@ -319,7 +319,7 @@ static void
 zoom_in_button_clicked_cb (GtkButton  *button,
 			   DialogData *data)
 {
-	gth_iviewer_zoom_in (GTH_IVIEWER (data->crop_image));
+	gth_iviewer_zoom_in (GTH_IVIEWER (data->image_selector));
 }
 
 
@@ -327,7 +327,7 @@ static void
 zoom_out_button_clicked_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	gth_iviewer_zoom_out (GTH_IVIEWER (data->crop_image));
+	gth_iviewer_zoom_out (GTH_IVIEWER (data->image_selector));
 }
 
 
@@ -335,7 +335,7 @@ static void
 zoom_100_button_clicked_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	gth_iviewer_set_zoom (GTH_IVIEWER (data->crop_image), 1.0);
+	gth_iviewer_set_zoom (GTH_IVIEWER (data->image_selector), 1.0);
 }
 
 
@@ -343,7 +343,7 @@ static void
 zoom_fit_button_clicked_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 }
 
 
@@ -354,14 +354,14 @@ undo_button_clicked_cb (GtkButton  *button,
 	GthImageData *idata;
 
 	idata = gth_image_history_undo (data->history,
-					gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image)),
+					gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector)),
 					FALSE);
 	if (idata == NULL)
 		return;
-	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), idata->image);
+	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), idata->image);
 	gth_image_data_unref (idata);
 
-	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 }
 
 
@@ -372,14 +372,14 @@ redo_button_clicked_cb (GtkButton  *button,
 	GthImageData *idata;
 
 	idata = gth_image_history_redo (data->history,
-					gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image)),
+					gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector)),
 					FALSE);
 	if (idata == NULL)
 		return;
-	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), idata->image);
+	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), idata->image);
 	gth_image_data_unref (idata);
 
-	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 }
 
 
@@ -389,13 +389,13 @@ crop_button_clicked_cb (GtkButton  *button,
 {
 	GdkRectangle selection;
 
-	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
+	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->image_selector), &selection);
 
 	if ((selection.width > 0) && (selection.height > 0)) {
 		GdkPixbuf *old_pixbuf;
 		GdkPixbuf *new_pixbuf;
 
-		old_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image));
+		old_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector));
 		gth_image_history_add_image (data->history, old_pixbuf, FALSE);
 		g_object_ref (old_pixbuf);
 
@@ -412,9 +412,9 @@ crop_button_clicked_cb (GtkButton  *button,
 						       selection.width,
 						       selection.height);
 		if (new_pixbuf != NULL) {
-			gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), new_pixbuf);
+			gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), new_pixbuf);
 			g_object_unref (new_pixbuf);
-			gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
+			gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 		}
 		g_object_unref (old_pixbuf);
 	}
@@ -425,7 +425,7 @@ static void
 mask_button_toggled_cb (GtkToggleButton *button,
 			DialogData      *data)
 {
-	gth_image_selector_set_mask_visible (GTH_IMAGE_SELECTOR (data->crop_image), gtk_toggle_button_get_active (button));
+	gth_image_selector_set_mask_visible (GTH_IMAGE_SELECTOR (data->image_selector), gtk_toggle_button_get_active (button));
 }
 
 
@@ -433,7 +433,7 @@ static void
 mask_visibility_changed_cb (GthImageSelector *selector,
 			    DialogData       *data)
 {
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->mask_button), gth_image_selector_get_mask_visible (GTH_IMAGE_SELECTOR (data->crop_image)));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->mask_button), gth_image_selector_get_mask_visible (GTH_IMAGE_SELECTOR (data->image_selector)));
 }
 
 
@@ -500,7 +500,7 @@ dlg_crop (GthWindow *window)
 	save_button = glade_xml_get_widget (data->gui, "crop_savebutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
 
-	data->crop_image = gth_image_selector_new (NULL);
+	data->image_selector = gth_image_selector_new (GTH_SELECTOR_TYPE_REGION, NULL);
 
 	image = glade_xml_get_widget (data->gui, "ratio_swap_image");
 	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_SWAP, GTK_ICON_SIZE_MENU);
@@ -513,9 +513,9 @@ dlg_crop (GthWindow *window)
 	data->pixbuf = image_viewer_get_current_pixbuf (gth_window_get_image_viewer (data->window));
 	data->image_width = gdk_pixbuf_get_width (data->pixbuf);
 	data->image_height = gdk_pixbuf_get_height (data->pixbuf);
-	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), data->pixbuf);
+	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), data->pixbuf);
 
-	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->crop_image));
+	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->image_selector));
 	gtk_widget_set_size_request (data->nav_win, PREVIEW_SIZE, PREVIEW_SIZE);
 
 	gtk_container_add (GTK_CONTAINER (data->nav_container), data->nav_win);
@@ -559,7 +559,7 @@ dlg_crop (GthWindow *window)
 	gtk_widget_set_sensitive (data->custom_ratio_box,
 				  (crop_ratio == GTH_CROP_RATIO_CUSTOM));
 
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      (crop_ratio != GTH_CROP_RATIO_NONE),
 				      (double) ratio_w / ratio_h);
 
@@ -597,11 +597,11 @@ dlg_crop (GthWindow *window)
 			  "value_changed",
 			  G_CALLBACK (selection_height_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_image),
+	g_signal_connect (G_OBJECT (data->image_selector),
 			  "selection_changed",
 			  G_CALLBACK (selection_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->crop_image),
+	g_signal_connect (G_OBJECT (data->image_selector),
 			  "mask_visibility_changed",
 			  G_CALLBACK (mask_visibility_changed_cb),
 			  data);
@@ -662,8 +662,8 @@ dlg_crop (GthWindow *window)
 	/* Run dialog. */
 
 	gtk_widget_realize (data->dialog);
-	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->crop_image));
-	gtk_widget_grab_focus (data->crop_image);
+	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
+	gtk_widget_grab_focus (data->image_selector);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));

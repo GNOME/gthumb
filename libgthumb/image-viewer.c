@@ -143,7 +143,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ImageViewerClass, clicked),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[IMAGE_LOADED] =
@@ -152,7 +152,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ImageViewerClass, image_loaded),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[ZOOM_CHANGED] =
@@ -161,7 +161,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ImageViewerClass, zoom_changed),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	image_viewer_signals[REPAINTED] =
@@ -170,7 +170,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ImageViewerClass, repainted),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
         image_viewer_signals[MOUSE_WHEEL_SCROLL] =

@@ -58,7 +58,7 @@
 #define LAYOUT_TIMEOUT 20
 
 #define COMMENT_MAX_LINES 5        /* max number of lines to display. */
-#define ETC " [..]"                /* string to append when the comment 
+#define ETC " [..]"                /* string to append when the comment
 				    * doesn't fit. */
 
 #define COLOR_WHITE 0x00ffffff
@@ -73,7 +73,7 @@
   + (il)->comment_height \
   + ((((il)->comment_height > 0) && ((il)->text_height > 0)) ? TEXT_COMMENT_SPACE: 0) \
   + (il)->text_height \
-  + (gil)->priv->row_spacing) 
+  + (gil)->priv->row_spacing)
 
 
 /* Signals */
@@ -163,12 +163,12 @@ gth_image_list_item_set_pixbuf (GthImageList     *image_list,
 			item->pixmap = NULL;
 
 		if (last_mask != NULL)
-			item->mask = g_object_ref (last_mask); 
+			item->mask = g_object_ref (last_mask);
 		else
 			item->mask = NULL;
 
 		return;
-	} 
+	}
 
 	if (last_pixbuf != NULL) {
 		g_object_unref (last_pixbuf);
@@ -199,34 +199,34 @@ gth_image_list_item_set_pixbuf (GthImageList     *image_list,
 
 		color = GTK_WIDGET (image_list)->style->base[GTK_STATE_NORMAL];
 		uint_color = (0xFF000000
-			      | (to_255 (color.red) << 16) 
-			      | (to_255 (color.green) << 8) 
+			      | (to_255 (color.red) << 16)
+			      | (to_255 (color.green) << 8)
 			      | (to_255 (color.blue) << 0));
 
 		tmp = gdk_pixbuf_composite_color_simple (
-					 pixbuf, 
+					 pixbuf,
 					 item->image_area.width,
-					 item->image_area.height, 
+					 item->image_area.height,
 					 GDK_INTERP_NEAREST,
 					 255,
-					 CHECK_SIZE, 
-					 uint_color, 
+					 CHECK_SIZE,
+					 uint_color,
 					 uint_color);
-	} else 
+	} else
 		tmp = g_object_ref (pixbuf);
 
 	gdk_pixbuf_render_pixmap_and_mask (tmp,
-					   &last_pixmap, 
-					   &last_mask, 
+					   &last_pixmap,
+					   &last_mask,
 					   112);
-	
+
 	if (last_pixmap != NULL)
 		item->pixmap = g_object_ref (last_pixmap);
 	else
 		item->pixmap = NULL;
-	
+
 	if (last_mask != NULL)
-		item->mask = g_object_ref (last_mask); 
+		item->mask = g_object_ref (last_mask);
 	else
 		item->mask = NULL;
 
@@ -251,7 +251,7 @@ gth_image_list_item_new (GthImageList  *image_list,
 	item->label_area.width = -1;
 	item->comment_area.width = -1;
 
-	if (image != NULL) 
+	if (image != NULL)
 		gth_image_list_item_set_pixbuf (image_list, item, image);
 
 	if (label != NULL)
@@ -311,20 +311,20 @@ struct _GthImageListPrivate {
 	GList            *lines;
 	int               images;
 	int               focused_item;
-	int               old_focused_item;    /* Used to do multiple 
-						* selection with the 
+	int               old_focused_item;    /* Used to do multiple
+						* selection with the
 						* keyboard. */
 
-	guint             dirty : 1;           /* Whether the images need to 
+	guint             dirty : 1;           /* Whether the images need to
 						* be laid out */
 	guint             update_width : 1;
 	guint             frozen;
-	guint             dragging : 1;        /* Whether the user is 
+	guint             dragging : 1;        /* Whether the user is
 						* dragging items. */
-	guint             drag_started : 1;    /* Whether the drag has 
+	guint             drag_started : 1;    /* Whether the drag has
 						* started. */
-	guint             selecting : 1;       /* Whether the user is 
-						* performing a 
+	guint             selecting : 1;       /* Whether the user is
+						* performing a
 						* rubberband selection. */
 	guint             select_pending : 1;  /* Whether selection is pending
 						* after a button press. */
@@ -337,16 +337,16 @@ struct _GthImageListPrivate {
 	GthImageListItem *select_pending_item;
 
 	guint             sorted : 1;
-	GtkSortType       sort_type;           /* Ascending or descending 
+	GtkSortType       sort_type;           /* Ascending or descending
 						* order. */
-	GCompareFunc      compare;             /* Compare function. */ 
+	GCompareFunc      compare;             /* Compare function. */
 
 	GdkRectangle      selection_area;
 	GtkSelectionMode  selection_mode;
 	int               last_selected_pos;
 	GthImageListItem *last_selected_item;
 	guint             multi_selecting_with_keyboard : 1; /* Whether a multi selection
-							      * with the keyboard has 
+							      * with the keyboard has
 							      * started. */
 	guint             selection_changed : 1;
 
@@ -362,24 +362,24 @@ struct _GthImageListPrivate {
 
 	GthViewMode       view_mode;
 
-	guint             timer_tag; 	       /* Timeout ID for 
+	guint             timer_tag; 	       /* Timeout ID for
 						* autoscrolling */
-	double            value_diff;          /* Change the adjustment value 
-						* by this 
+	double            value_diff;          /* Change the adjustment value
+						* by this
 						* amount when autoscrolling */
 
-	double            event_last_x;        /* Mouse position for 
+	double            event_last_x;        /* Mouse position for
 						* autoscrolling */
 	double            event_last_y;
 
-	int               sel_start_x;         /* The point where the mouse 
+	int               sel_start_x;         /* The point where the mouse
 						* selection started. */
 	int               sel_start_y;
 
-	guint             sel_state;           /* Modifier state when the 
+	guint             sel_state;           /* Modifier state when the
 						* selection began. */
 
-	int               drag_start_x;        /* The point where the drag 
+	int               drag_start_x;        /* The point where the drag
 						* started. */
 	int               drag_start_y;
 
@@ -417,12 +417,12 @@ queue_draw (GthImageList *image_list)
 
 	gdk_window_invalidate_rect (image_list->priv->bin_window,
 				    NULL,
-				    FALSE);				    
+				    FALSE);
 }
 
 
 static void
-gth_image_list_adjustment_changed (GtkObject    *adj, 
+gth_image_list_adjustment_changed (GtkObject    *adj,
 				   GthImageList *image_list)
 {
 	gdk_window_move_resize (image_list->priv->bin_window,
@@ -436,7 +436,7 @@ gth_image_list_adjustment_changed (GtkObject    *adj,
 
 
 static void
-gth_image_list_adjustment_value_changed (GtkObject    *adj, 
+gth_image_list_adjustment_value_changed (GtkObject    *adj,
 					 GthImageList *image_list)
 {
 	gdk_window_move (image_list->priv->bin_window,
@@ -506,7 +506,7 @@ gth_image_list_finalize (GObject *object)
 		g_object_unref (priv->hadjustment);
 		priv->hadjustment = NULL;
 	}
-	
+
 	if (priv->vadjustment != NULL) {
 		g_signal_handlers_disconnect_by_func (priv->vadjustment,
 						      gth_image_list_adjustment_changed,
@@ -551,7 +551,7 @@ gth_image_list_map (GtkWidget *widget)
 	g_return_if_fail (GTH_IS_IMAGE_LIST (widget));
 
 	image_list = (GthImageList*) widget;
-	
+
 	GTK_WIDGET_SET_FLAGS (widget, GTK_MAPPED);
 
 	gdk_window_show (image_list->priv->bin_window);
@@ -564,7 +564,7 @@ gth_image_list_map (GtkWidget *widget)
 
 
 static void
-get_text_size (GthImageList *image_list, 
+get_text_size (GthImageList *image_list,
 	       const char   *text,
 	       int          *width,
 	       int          *height,
@@ -574,7 +574,7 @@ get_text_size (GthImageList *image_list,
 	GthImageListPrivate *priv = image_list->priv;
 	PangoRectangle       bounds;
 
-	if (comment) 
+	if (comment)
 		layout = priv->comment_layout;
 	else
 		layout = priv->layout;
@@ -591,23 +591,23 @@ get_text_size (GthImageList *image_list,
 
 
 static void
-get_label_size (GthImageList     *image_list, 
+get_label_size (GthImageList     *image_list,
 		GthImageListItem *item,
-		int              *width, 
+		int              *width,
 		int              *height)
 {
 	if ((item->label != NULL) && (*item->label != 0)) {
 		if ((item->label_area.width == -1) || (item->label_area.height == -1))
-			get_text_size (image_list, 
+			get_text_size (image_list,
 				       item->label,
 				       & (item->label_area.width),
 				       & (item->label_area.height),
-				       FALSE);	
+				       FALSE);
 
-		if (width != NULL) 
+		if (width != NULL)
 			*width = item->label_area.width;
 
-		if (height != NULL) 
+		if (height != NULL)
 			*height = item->label_area.height;
 
 	} else {
@@ -620,23 +620,23 @@ get_label_size (GthImageList     *image_list,
 
 
 static void
-get_comment_size (GthImageList     *image_list, 
+get_comment_size (GthImageList     *image_list,
 		  GthImageListItem *item,
-		  int              *width, 
+		  int              *width,
 		  int              *height)
 {
 	if ((item->comment != NULL) && (*item->comment != 0)) {
 		if ((item->comment_area.width == -1) || (item->comment_area.height == -1))
-			get_text_size (image_list, 
+			get_text_size (image_list,
 				       item->comment,
 				       & (item->comment_area.width),
 				       & (item->comment_area.height),
-				       TRUE);	
+				       TRUE);
 
-		if (width != NULL) 
+		if (width != NULL)
 			*width = item->comment_area.width;
 
-		if (height != NULL) 
+		if (height != NULL)
 			*height = item->comment_area.height;
 
 	} else {
@@ -649,7 +649,7 @@ get_comment_size (GthImageList     *image_list,
 
 
 static void
-item_get_view_mode (GthImageList     *image_list, 
+item_get_view_mode (GthImageList     *image_list,
 		    GthImageListItem *item,
 		    gboolean         *view_label,
 		    gboolean         *view_comment)
@@ -682,7 +682,7 @@ item_get_view_mode (GthImageList     *image_list,
 static void
 get_item_height (GthImageList     *image_list,
 		 GthImageListItem *item,
-		 int              *image_height, 
+		 int              *image_height,
 		 int              *text_height,
 		 int              *comment_height)
 {
@@ -707,10 +707,10 @@ gth_image_list_get_items_per_line (GthImageList *image_list)
 
 
 static void
-place_item (GthImageList     *image_list, 
-	    GthImageListItem *item, 
-	    int               x, 
-	    int               y, 
+place_item (GthImageList     *image_list,
+	    GthImageListItem *item,
+	    int               x,
+	    int               y,
 	    int               image_height,
 	    gboolean          view_label,
 	    gboolean          view_comment)
@@ -740,18 +740,18 @@ place_item (GthImageList     *image_list,
 		item->comment_area.y = y;
 		get_comment_size (image_list, item, NULL, &comment_height);
 		y += comment_height + TEXT_COMMENT_SPACE;
-	} 
+	}
 
 	x_offset = (priv->max_item_width - item->label_area.width) / 2;
 	if (view_label) {
 		item->label_area.x = x + x_offset + 1;
 		item->label_area.y = y;
-	} 
+	}
 }
 
 
 static void
-layout_line (GthImageList     *image_list, 
+layout_line (GthImageList     *image_list,
 	     GthImageListLine *line)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -763,14 +763,14 @@ layout_line (GthImageList     *image_list,
 		GthImageListItem *item = scan->data;
 
 		item_get_view_mode (image_list, item, &view_label, &view_comment);
-		
+
 		x += priv->col_spacing;
-		place_item (image_list, 
-			    item, 
-			    x, 
-			    line->y, 
+		place_item (image_list,
+			    item,
+			    x,
+			    line->y,
 			    line->image_height,
-			    view_label, 
+			    view_label,
 			    view_comment);
 		x += priv->max_item_width;
 	}
@@ -778,10 +778,10 @@ layout_line (GthImageList     *image_list,
 
 
 static void
-add_and_layout_line (GthImageList *image_list, 
-		     GList        *line_images, 
+add_and_layout_line (GthImageList *image_list,
+		     GList        *line_images,
 		     int           y,
-		     int           image_height, 
+		     int           image_height,
 		     int           text_height,
 		     int           comment_height)
 {
@@ -824,7 +824,7 @@ update_scrollbar_adjust (GthImageList *image_list)
 		image_list->priv->vadjustment->page_increment = page_size * 0.9;
 		image_list->priv->vadjustment->step_increment = page_size * 0.1;
 		image_list->priv->vadjustment->upper = height;
-		
+
 		if (image_list->priv->vadjustment->value + page_size > height)
 			image_list->priv->vadjustment->value = MAX (0.0, height - page_size);
 
@@ -834,8 +834,8 @@ update_scrollbar_adjust (GthImageList *image_list)
 
 
 static void
-relayout_images_at (GthImageList *image_list, 
-		    int           pos, 
+relayout_images_at (GthImageList *image_list,
+		    int           pos,
 		    int           y)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -855,10 +855,10 @@ relayout_images_at (GthImageList *image_list,
 
 		if (! (n % images_per_line)) {
 			if (line_images != NULL) {
-				add_and_layout_line (image_list, 
-						     line_images, 
+				add_and_layout_line (image_list,
+						     line_images,
 						     y,
-						     image_height, 
+						     image_height,
 						     text_height,
 						     comment_height);
 				line_images = NULL;
@@ -873,18 +873,18 @@ relayout_images_at (GthImageList *image_list,
 
 		get_item_height (image_list, item, &ih, &th, &ch);
 		item_get_view_mode (image_list, item, &view_label, &view_comment);
-		
-		if (! view_label) 
+
+		if (! view_label)
 			th = 0;
 
-		if (! view_comment) 
+		if (! view_comment)
 			ch = 0;
-		
+
 		image_height   = MAX (ih, image_height);
 		text_height    = MAX (th, text_height);
 		comment_height = MAX (ch, comment_height);
 
-		max_height = (image_height 
+		max_height = (image_height
 			      + ((comment_height || text_height) ? priv->text_spacing : 0)
 			      + comment_height
 			      + ((comment_height && text_height) ? TEXT_COMMENT_SPACE : 0)
@@ -894,10 +894,10 @@ relayout_images_at (GthImageList *image_list,
 	}
 
 	if (line_images != NULL)
-		add_and_layout_line (image_list, 
-				     line_images, 
-				     y, 
-				     image_height, 
+		add_and_layout_line (image_list,
+				     line_images,
+				     y,
+				     image_height,
 				     text_height,
 				     comment_height);
 
@@ -906,12 +906,12 @@ relayout_images_at (GthImageList *image_list,
 
 
 static void
-free_line_info_from (GthImageList *image_list, 
+free_line_info_from (GthImageList *image_list,
 		     int           first_line)
 {
 	GthImageListPrivate *priv = image_list->priv;
 	GList               *lines, *scan;
-	
+
 	lines = g_list_nth (priv->lines, first_line);
 
 	if (lines == NULL)
@@ -933,7 +933,7 @@ free_line_info_from (GthImageList *image_list,
 
 
 static void
-layout_from_line (GthImageList *image_list, 
+layout_from_line (GthImageList *image_list,
 		  int           line)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -951,8 +951,8 @@ layout_from_line (GthImageList *image_list,
 		height += IMAGE_LINE_HEIGHT (image_list, line);
 	}
 
-	relayout_images_at (image_list, 
-			    line * gth_image_list_get_items_per_line (image_list), 
+	relayout_images_at (image_list,
+			    line * gth_image_list_get_items_per_line (image_list),
 			    height);
 }
 
@@ -983,8 +983,8 @@ layout_all_images_cb (gpointer data)
 
 	if (image_list->priv->layout_timeout != 0)
 		g_source_remove (image_list->priv->layout_timeout);
-	
-	if (priv->update_width) 
+
+	if (priv->update_width)
 		reset_text_width (image_list);
 
 	free_line_info (image_list);
@@ -1000,7 +1000,7 @@ layout_all_images_cb (gpointer data)
 static void
 layout_all_images (GthImageList *image_list)
 {
-	if (! GTK_WIDGET_REALIZED (image_list)) 
+	if (! GTK_WIDGET_REALIZED (image_list))
 		return;
 
 	if (image_list->priv->layout_timeout != 0)
@@ -1016,7 +1016,7 @@ layout_all_images (GthImageList *image_list)
 /**/
 
 
-static void 
+static void
 gth_image_list_realize (GtkWidget *widget)
 {
 	GthImageListPrivate *priv;
@@ -1046,12 +1046,12 @@ gth_image_list_realize (GtkWidget *widget)
 	attributes.visual      = gtk_widget_get_visual (widget);
 	attributes.colormap    = gtk_widget_get_colormap (widget);
 	attributes.event_mask  = GDK_VISIBILITY_NOTIFY_MASK;
-	attributes_mask        = (GDK_WA_X 
-				  | GDK_WA_Y 
-				  | GDK_WA_VISUAL 
+	attributes_mask        = (GDK_WA_X
+				  | GDK_WA_Y
+				  | GDK_WA_VISUAL
 				  | GDK_WA_COLORMAP);
 	widget->window = gdk_window_new (gtk_widget_get_parent_window (widget),
-					 &attributes, 
+					 &attributes,
 					 attributes_mask);
 	gdk_window_set_user_data (widget->window, widget);
 
@@ -1064,7 +1064,7 @@ gth_image_list_realize (GtkWidget *widget)
 	attributes.y = 0;
 	attributes.width = image_list->priv->width;
 	attributes.height = image_list->priv->height;
-	attributes.event_mask = (GDK_EXPOSURE_MASK 
+	attributes.event_mask = (GDK_EXPOSURE_MASK
 				 | GDK_SCROLL_MASK
 				 | GDK_POINTER_MOTION_MASK
 				 | GDK_ENTER_NOTIFY_MASK
@@ -1074,7 +1074,7 @@ gth_image_list_realize (GtkWidget *widget)
 				 | gtk_widget_get_events (widget));
 
 	image_list->priv->bin_window = gdk_window_new (widget->window,
-						       &attributes, 
+						       &attributes,
 						       attributes_mask);
 	gdk_window_set_user_data (image_list->priv->bin_window, widget);
 
@@ -1126,12 +1126,12 @@ gth_image_list_realize (GtkWidget *widget)
 
 	if (priv->no_image_msg_layout != NULL)
 		g_object_unref (priv->no_image_msg_layout);
-	
+
 	priv->no_image_msg_layout = gtk_widget_create_pango_layout (widget, NULL);
 	pango_layout_set_wrap (priv->no_image_msg_layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_font_description (priv->no_image_msg_layout, widget->style->font_desc);
 	pango_layout_set_alignment (priv->no_image_msg_layout, PANGO_ALIGN_CENTER);
-	
+
 	/**/
 
 	context = pango_layout_get_context (priv->comment_layout);
@@ -1148,7 +1148,7 @@ gth_image_list_realize (GtkWidget *widget)
 }
 
 
-static void 
+static void
 gth_image_list_unrealize (GtkWidget *widget)
 {
 	GthImageList  *image_list;
@@ -1223,7 +1223,7 @@ gth_image_list_size_allocate (GtkWidget     *widget,
 		image_list->priv->hadjustment->step_increment = page_size * 0.1;
 		image_list->priv->hadjustment->lower = 0;
 		image_list->priv->hadjustment->upper = MAX (page_size, image_list->priv->width);
-		
+
 		if (image_list->priv->hadjustment->value + allocation->width > image_list->priv->width)
 			image_list->priv->hadjustment->value = MAX (image_list->priv->width - allocation->width, 0);
 	}
@@ -1237,23 +1237,23 @@ gth_image_list_size_allocate (GtkWidget     *widget,
 		image_list->priv->vadjustment->page_increment = page_size * 0.9;
 		image_list->priv->vadjustment->lower = 0;
 		image_list->priv->vadjustment->upper = MAX (page_size, image_list->priv->height);
-	
+
 		if (image_list->priv->vadjustment->value + allocation->height > image_list->priv->height) {
 			dy_changed = TRUE;
 			gtk_adjustment_set_value (image_list->priv->vadjustment,
 						  MAX (image_list->priv->height - page_size, 0));
 		}
 	}
-	
+
 	/**/
 
-	if (GTK_WIDGET_REALIZED (widget)) 
+	if (GTK_WIDGET_REALIZED (widget))
 		gdk_window_move_resize (widget->window,
-					allocation->x, 
+					allocation->x,
 					allocation->y,
-					allocation->width, 
+					allocation->width,
 					allocation->height);
-	
+
 	if (GTK_WIDGET_REALIZED (widget)) {
 		if (width_changed
 		    && (old_images_per_line != gth_image_list_get_items_per_line (image_list)))
@@ -1268,7 +1268,7 @@ gth_image_list_size_allocate (GtkWidget     *widget,
 
 
 static int
-get_first_visible_at_offset (GthImageList *image_list, 
+get_first_visible_at_offset (GthImageList *image_list,
 			     double        ofs)
 {
 	GList *scan;
@@ -1283,7 +1283,7 @@ get_first_visible_at_offset (GthImageList *image_list,
 		ofs -= IMAGE_LINE_HEIGHT (image_list, line);
 		line_no++;
 	}
-	
+
 	pos = gth_image_list_get_items_per_line (image_list) * (line_no - 1);
 
 	if (pos < 0)
@@ -1304,7 +1304,7 @@ gth_image_list_get_first_visible (GthImageList *image_list)
 
 
 static int
-get_last_visible_at_offset (GthImageList *image_list, 
+get_last_visible_at_offset (GthImageList *image_list,
 			    double        ofs)
 {
 	int    pos, line_no;
@@ -1319,7 +1319,7 @@ get_last_visible_at_offset (GthImageList *image_list,
 		ofs -= IMAGE_LINE_HEIGHT (image_list, line);
 		line_no++;
 	}
-	
+
 	pos = gth_image_list_get_items_per_line (image_list) * line_no - 1;
 
 	if (pos < 0)
@@ -1336,8 +1336,8 @@ int
 gth_image_list_get_last_visible (GthImageList *image_list)
 {
 	g_return_val_if_fail (image_list != NULL, -1);
-	return get_last_visible_at_offset (image_list, 
-					   (image_list->priv->vadjustment->value 
+	return get_last_visible_at_offset (image_list,
+					   (image_list->priv->vadjustment->value
 					    + image_list->priv->vadjustment->page_size));
 }
 
@@ -1362,7 +1362,7 @@ get_item_bounding_box (GthImageList     *image_list,
 				     &item->label_area,
 				     item_rectangle);
 	}
-				     
+
 	if (view_comment) {
 		GdkRectangle tmp_rectangle;
 		tmp_rectangle = *item_rectangle;
@@ -1406,9 +1406,9 @@ paint_item (GthImageList     *image_list,
 		return;
 
 	focused = GTK_WIDGET_HAS_FOCUS (widget) && item->focused;
-	if (item->selected) 
+	if (item->selected)
 		state = (GTK_WIDGET_HAS_FOCUS (widget))? GTK_STATE_SELECTED: GTK_STATE_ACTIVE;
-	else 
+	else
 		state = (focused)? GTK_STATE_ACTIVE: GTK_STATE_NORMAL;
 
 	if (item->selected)
@@ -1423,11 +1423,11 @@ paint_item (GthImageList     *image_list,
 
 	/* Slide */
 
-	gthumb_draw_slide (item->slide_area.x, 
+	gthumb_draw_slide (item->slide_area.x,
 			   item->slide_area.y,
-			   image_list->priv->max_item_width, 
-			   image_list->priv->max_item_width, 
-			   item->image_area.width, 
+			   image_list->priv->max_item_width,
+			   image_list->priv->max_item_width,
+			   item->image_area.width,
 			   item->image_area.height,
 			   image_list->priv->bin_window,
 			   widget->style->base_gc[GTK_STATE_NORMAL],
@@ -1439,11 +1439,11 @@ paint_item (GthImageList     *image_list,
 
 	if (item->selected) {
                 GdkGC *sel_gc;
- 
+
 		sel_gc = gdk_gc_new (image_list->priv->bin_window);
 		gdk_gc_copy (sel_gc, widget->style->base_gc[state]);
 		gdk_gc_set_line_attributes (sel_gc, FRAME_SELECTION_BORDER, 0, 0, 0);
- 
+
 		gdk_draw_rectangle (image_list->priv->bin_window,
 				    sel_gc,
 				    FALSE,
@@ -1451,7 +1451,7 @@ paint_item (GthImageList     *image_list,
 				    item->slide_area.y - FRAME_SELECTION_BORDER + 1,
 				    image_list->priv->max_item_width + (FRAME_SELECTION_BORDER * 2) - 2,
 				    image_list->priv->max_item_width + (FRAME_SELECTION_BORDER * 2) - 2);
-                 
+
 		g_object_unref (sel_gc);
         }
 
@@ -1466,7 +1466,7 @@ paint_item (GthImageList     *image_list,
 			gdk_gc_set_clip_origin (image_gc, item->image_area.x, item->image_area.y);
 			gdk_gc_set_clip_mask (image_gc, item->mask);
 		}
-		
+
 		gdk_draw_drawable (image_list->priv->bin_window,
 				   image_gc,
 				   item->pixmap,
@@ -1491,7 +1491,7 @@ paint_item (GthImageList     *image_list,
 				    item->label_area.y - 1,
 				    item->label_area.width + 2,
 				    item->label_area.height + 2);
-		
+
 		pango_layout_set_text (image_list->priv->layout, item->label, strlen (item->label));
 		gdk_draw_layout (image_list->priv->bin_window,
 				 widget->style->text_gc[text_state],
@@ -1510,7 +1510,7 @@ paint_item (GthImageList     *image_list,
 				    item->comment_area.y - 1,
 				    item->comment_area.width + 2,
 				    item->comment_area.height + 2);
-		
+
 		pango_layout_set_text (image_list->priv->comment_layout, item->comment, strlen (item->comment));
 		gdk_draw_layout (image_list->priv->bin_window,
 				 widget->style->text_gc[text_state],
@@ -1522,11 +1522,11 @@ paint_item (GthImageList     *image_list,
 	/* Focus */
 
 	if (focused) {
-		gtk_paint_focus (widget->style, 
-				 image_list->priv->bin_window, 
-				 focus_state, 
+		gtk_paint_focus (widget->style,
+				 image_list->priv->bin_window,
+				 focus_state,
 				 expose_area,
-				 widget, 
+				 widget,
 				 "button",
 				 item->slide_area.x + 2,
 				 item->slide_area.y + 2,
@@ -1534,7 +1534,7 @@ paint_item (GthImageList     *image_list,
 				 image_list->priv->max_item_width - 4);
 	}
 }
-	    
+
 
 static void
 paint_rubberband (GthImageList *image_list,
@@ -1549,8 +1549,8 @@ paint_rubberband (GthImageList *image_list,
 	GdkGC               *sel_gc;
 
 	color = widget->style->base[GTK_STATE_SELECTED];
-	rgba = ((to_255 (color.red) << 24) 
-		| (to_255 (color.green) << 16) 
+	rgba = ((to_255 (color.red) << 24)
+		| (to_255 (color.green) << 16)
 		| (to_255 (color.blue) << 8)
 		| 0x00000040);
 
@@ -1566,46 +1566,46 @@ paint_rubberband (GthImageList *image_list,
 		guchar                    r, g, b, a;
 		XRenderPictureAttributes  attributes;
 		XRenderColor              color;
-		
-		gdk_window_get_internal_paint_info (priv->bin_window, 
+
+		gdk_window_get_internal_paint_info (priv->bin_window,
 						    &drawable,
-						    &x_offset, 
+						    &x_offset,
 						    &y_offset);
-		
+
 		dpy = gdk_x11_drawable_get_xdisplay (drawable);
-		
+
 		pict = XRenderCreatePicture (dpy,
 					     gdk_x11_drawable_get_xid (drawable),
 					     priv->format,
 					     0,
 					     &attributes);
-		
+
 		/* Convert to premultiplied alpha: */
 
 		r = (rgba >> 24) & 0xff;
 		g = (rgba >> 16) & 0xff;
 		b = (rgba >> 8) & 0xff;
 		a = (rgba >> 0) & 0xff;
-		
+
 		r = r * a / 255;
 		g = g * a / 255;
 		b = b * a / 255;
-		
+
 		color.red   = (r << 8) + r;
 		color.green = (g << 8) + g;
 		color.blue  = (b << 8) + b;
 		color.alpha = (a << 8) + a;
-		
+
 		XRenderFillRectangle (dpy,
 				      PictOpOver,
 				      pict,
 				      &color,
-				      rect.x - x_offset, 
+				      rect.x - x_offset,
 				      rect.y - y_offset,
-				      rect.width, 
+				      rect.width,
 				      rect.height);
 		XRenderFreePicture (dpy, pict);
-		
+
 	} else {
 #endif
 
@@ -1631,9 +1631,9 @@ paint_rubberband (GthImageList *image_list,
 	sel_gc = gdk_gc_new (image_list->priv->bin_window);
 	gdk_gc_copy (sel_gc, widget->style->bg_gc[GTK_STATE_SELECTED]);
 	gdk_gc_set_clip_rectangle (sel_gc, &rect);
-	
+
 	if ((priv->selection_area.width > 1)
-	    && (priv->selection_area.height > 1)) 
+	    && (priv->selection_area.height > 1))
 		gdk_draw_rectangle (image_list->priv->bin_window,
 				    sel_gc,
 				    FALSE,
@@ -1641,7 +1641,7 @@ paint_rubberband (GthImageList *image_list,
 				    priv->selection_area.y,
 				    priv->selection_area.width - 1,
 				    priv->selection_area.height - 1);
-	
+
 	g_object_unref (sel_gc);
 
 }
@@ -1663,10 +1663,10 @@ paint_drop_target (GthImageList *image_list,
 		return;
 
 	item = g_list_nth (priv->image_list, priv->drop_image)->data;
-	
-	if (priv->drop_pos == GTH_DROP_POSITION_LEFT) 
+
+	if (priv->drop_pos == GTH_DROP_POSITION_LEFT)
 		x1 = item->slide_area.x - (priv->col_spacing / 2);
-	else if (priv->drop_pos == GTH_DROP_POSITION_RIGHT) 
+	else if (priv->drop_pos == GTH_DROP_POSITION_RIGHT)
 		x1 = item->slide_area.x + priv->max_item_width + (priv->col_spacing / 2);
 
 	ofs = (priv->row_spacing / 2) - 1;
@@ -1698,7 +1698,7 @@ paint_drop_target (GthImageList *image_list,
 
 
 static gboolean
-gth_image_list_expose (GtkWidget      *widget, 
+gth_image_list_expose (GtkWidget      *widget,
 		       GdkEventExpose *event)
 {
 	GthImageList        *image_list = (GthImageList*) widget;
@@ -1720,23 +1720,23 @@ gth_image_list_expose (GtkWidget      *widget,
 		int             w, h;
 		PangoLayout    *layout = priv->no_image_msg_layout;
 		PangoRectangle  bounds;
-		
+
 		if (no_image_msg == NULL)
 			return TRUE;
 
 		w = widget->allocation.width;
 		h = widget->allocation.height;
-		
+
 		pango_layout_set_width (layout, w * PANGO_SCALE);
 		pango_layout_set_text (layout, no_image_msg, strlen (no_image_msg));
 		pango_layout_get_pixel_extents (layout, NULL, &bounds);
-		
+
 		gdk_draw_layout (priv->bin_window,
 				 widget->style->text_gc[GTK_WIDGET_STATE (widget)],
 				 0,
 				 (h - bounds.height) / 2,
 				 layout);
-			
+
 		if (GTK_WIDGET_HAS_FOCUS (widget)) {
 			gtk_paint_focus (widget->style,
 					 priv->bin_window,
@@ -1754,7 +1754,7 @@ gth_image_list_expose (GtkWidget      *widget,
 		GthImageListItem *item = scan->data;
 		GdkRectangle     *rectangles;
 		int               n_rectangles;
-       
+
 		gdk_region_get_rectangles (event->region,
 					   &rectangles,
 					   &n_rectangles);
@@ -1764,22 +1764,22 @@ gth_image_list_expose (GtkWidget      *widget,
 
 		g_free (rectangles);
 	}
-	
+
 	if (priv->selecting || priv->multi_selecting_with_keyboard) {
 		GdkRectangle *rectangles;
 		int           n_rectangles;
-       
+
 		gdk_region_get_rectangles (event->region,
 					   &rectangles,
 					   &n_rectangles);
-       
+
 		while (n_rectangles-- != 0)
 			paint_rubberband (image_list, &rectangles[n_rectangles]);
- 
+
 		g_free (rectangles);
 	}
 
-	if (priv->drop_pos != GTH_DROP_POSITION_NONE) 
+	if (priv->drop_pos != GTH_DROP_POSITION_NONE)
 		paint_drop_target (image_list, &event->area);
 
 	return TRUE;
@@ -1796,16 +1796,16 @@ set_scroll_adjustments (GthImageList  *image_list,
         if (hadj != NULL)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
         else
-                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
         if (vadj != NULL)
                 g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
         else
-		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 
+		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
-	if ((image_list->priv->hadjustment != NULL) 
+	if ((image_list->priv->hadjustment != NULL)
 	    && (image_list->priv->hadjustment != hadj)) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (image_list->priv->hadjustment),
 						      image_list);
@@ -1813,7 +1813,7 @@ set_scroll_adjustments (GthImageList  *image_list,
 		image_list->priv->hadjustment = NULL;
         }
 
-	if ((image_list->priv->vadjustment != NULL) 
+	if ((image_list->priv->vadjustment != NULL)
 	    && (image_list->priv->vadjustment != vadj)) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (image_list->priv->vadjustment),
 						      image_list);
@@ -1826,11 +1826,11 @@ set_scroll_adjustments (GthImageList  *image_list,
                 g_object_ref (image_list->priv->hadjustment);
                 gtk_object_sink (GTK_OBJECT (image_list->priv->hadjustment));
 
-		g_signal_connect (G_OBJECT (image_list->priv->hadjustment), 
+		g_signal_connect (G_OBJECT (image_list->priv->hadjustment),
 				  "value_changed",
 				  G_CALLBACK (gth_image_list_adjustment_value_changed),
 				  image_list);
-		g_signal_connect (G_OBJECT (image_list->priv->hadjustment), 
+		g_signal_connect (G_OBJECT (image_list->priv->hadjustment),
 				  "changed",
 				  G_CALLBACK (gth_image_list_adjustment_changed),
 				  image_list);
@@ -1841,11 +1841,11 @@ set_scroll_adjustments (GthImageList  *image_list,
                 g_object_ref (image_list->priv->vadjustment);
                 gtk_object_sink (GTK_OBJECT (image_list->priv->vadjustment));
 
-		g_signal_connect (G_OBJECT (image_list->priv->vadjustment), 
+		g_signal_connect (G_OBJECT (image_list->priv->vadjustment),
 				  "value_changed",
 				  G_CALLBACK (gth_image_list_adjustment_value_changed),
 				  image_list);
-		g_signal_connect (G_OBJECT (image_list->priv->vadjustment), 
+		g_signal_connect (G_OBJECT (image_list->priv->vadjustment),
 				  "changed",
 				  G_CALLBACK (gth_image_list_adjustment_changed),
 				  image_list);
@@ -1858,8 +1858,8 @@ gth_image_list_set_hadjustment (GthImageList  *image_list,
 				GtkAdjustment *adjustment)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	
-	set_scroll_adjustments (image_list, 
+
+	set_scroll_adjustments (image_list,
 				image_list->priv->vadjustment,
 				adjustment);
 
@@ -1884,9 +1884,9 @@ gth_image_list_set_vadjustment (GthImageList  *image_list,
 				GtkAdjustment *adjustment)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	
-	set_scroll_adjustments (image_list, 
-				adjustment, 
+
+	set_scroll_adjustments (image_list,
+				adjustment,
 				image_list->priv->hadjustment);
 
 	g_object_notify (G_OBJECT (image_list), "vadjustment");
@@ -1913,7 +1913,7 @@ keep_focus_consistent (GthImageList *image_list)
 }
 
 
-static gboolean 
+static gboolean
 gth_image_list_focus_in (GtkWidget     *widget,
 			 GdkEventFocus *event)
 {
@@ -1922,7 +1922,7 @@ gth_image_list_focus_in (GtkWidget     *widget,
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 
 	keep_focus_consistent (GTH_IMAGE_LIST (widget));
-	if ((image_list->priv->focused_item == -1) && (image_list->priv->images > 0)) 
+	if ((image_list->priv->focused_item == -1) && (image_list->priv->images > 0))
 		gth_image_list_set_cursor (image_list, 0);
 	queue_draw (image_list);
 
@@ -1949,7 +1949,7 @@ stop_selection (GthImageList *image_list)
 	image_list->priv->selecting = FALSE;
 	image_list->priv->sel_start_x = 0;
 	image_list->priv->sel_start_y = 0;
-	
+
 	if (image_list->priv->timer_tag != 0) {
 		g_source_remove (image_list->priv->timer_tag);
 		image_list->priv->timer_tag = 0;
@@ -1962,7 +1962,7 @@ stop_selection (GthImageList *image_list)
 }
 
 
-static gboolean 
+static gboolean
 gth_image_list_focus_out (GtkWidget     *widget,
 			  GdkEventFocus *event)
 {
@@ -2002,7 +2002,7 @@ gth_image_list_key_press (GtkWidget   *widget,
 					 event->keyval,
 					 event->state);
 
-	if (handled) 
+	if (handled)
 		return TRUE;
 
 	if (GTK_WIDGET_CLASS (parent_class)->key_press_event &&
@@ -2022,7 +2022,7 @@ gth_image_list_key_release (GtkWidget   *widget,
 	if (image_list->priv->multi_selecting_with_keyboard
 	    && (event->state & GDK_SHIFT_MASK)
 	    && ((event->keyval == GDK_Shift_L)
-		|| (event->keyval == GDK_Shift_R))) 
+		|| (event->keyval == GDK_Shift_R)))
 		image_list->priv->multi_selecting_with_keyboard = FALSE;
 
 	queue_draw (image_list);
@@ -2036,7 +2036,7 @@ gth_image_list_key_release (GtkWidget   *widget,
 
 
 static gboolean
-gth_image_list_scroll_event (GtkWidget      *widget, 
+gth_image_list_scroll_event (GtkWidget      *widget,
 			     GdkEventScroll *event)
 {
 	gdouble        new_value;
@@ -2061,7 +2061,7 @@ gth_image_list_scroll_event (GtkWidget      *widget,
 
 
 static void
-queue_draw_item (GthImageList     *image_list, 
+queue_draw_item (GthImageList     *image_list,
 		 GthImageListItem *item)
 {
 	GdkRectangle rect;
@@ -2075,13 +2075,13 @@ queue_draw_item (GthImageList     *image_list,
 
 
 static void
-real_select_image (GthImageList *image_list, 
+real_select_image (GthImageList *image_list,
 		   int           pos)
 {
 	GthImageListPrivate *priv = image_list->priv;
 	GthImageListItem    *item;
 	GList               *link;
-	
+
 	g_return_if_fail ((pos >= 0) && (pos < priv->images));
 
 	link = g_list_nth (priv->image_list, pos);
@@ -2100,7 +2100,7 @@ real_select_image (GthImageList *image_list,
 
 
 static void
-real_unselect_image (GthImageList *image_list, 
+real_unselect_image (GthImageList *image_list,
 		     int           pos)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -2125,8 +2125,8 @@ real_unselect_image (GthImageList *image_list,
 
 
 static void
-real_select (GthImageList *image_list, 
-	     gboolean      select, 
+real_select (GthImageList *image_list,
+	     gboolean      select,
 	     int           pos)
 {
 	if (select)
@@ -2147,8 +2147,8 @@ emit_selection_changed (GthImageList *image_list)
 
 
 static void
-real_select__emit (GthImageList *image_list, 
-		   gboolean      select, 
+real_select__emit (GthImageList *image_list,
+		   gboolean      select,
 		   int           pos)
 {
 	real_select (image_list, select, pos);
@@ -2262,7 +2262,7 @@ real_unselect_all (GthImageList *image_list,
 			idx = i;
 		else if (item->selected)
 			real_select (image_list, FALSE, i);
-	}	
+	}
 
 	return idx;
 }
@@ -2283,8 +2283,8 @@ gth_image_list_pos_is_selected (GthImageList     *image_list,
 {
 	GList *scan;
 
-	for (scan = image_list->priv->selection; scan; scan = scan->next) 
-                if (GPOINTER_TO_INT (scan->data) == pos) 
+	for (scan = image_list->priv->selection; scan; scan = scan->next)
+                if (GPOINTER_TO_INT (scan->data) == pos)
 			return TRUE;
 
         return FALSE;
@@ -2301,7 +2301,7 @@ gth_image_list_get_first_selected (GthImageList *image_list)
 		return -1;
 
 	pos = GPOINTER_TO_INT (scan->data);
-        for (scan = scan->next; scan; scan = scan->next) 
+        for (scan = scan->next; scan; scan = scan->next)
 		pos = MIN (pos, GPOINTER_TO_INT (scan->data));
 
 	return pos;
@@ -2318,7 +2318,7 @@ gth_image_list_get_last_selected (GthImageList *image_list)
 		return -1;
 
 	pos = GPOINTER_TO_INT (scan->data);
-        for (scan = scan->next; scan; scan = scan->next) 
+        for (scan = scan->next; scan; scan = scan->next)
 		pos = MAX (pos, GPOINTER_TO_INT (scan->data));
 
 	return pos;
@@ -2326,9 +2326,9 @@ gth_image_list_get_last_selected (GthImageList *image_list)
 
 
 static void
-select_range (GthImageList     *image_list, 
+select_range (GthImageList     *image_list,
 	      GthImageListItem *item,
-	      int               pos, 
+	      int               pos,
 	      GdkEvent         *event)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -2365,9 +2365,9 @@ select_range (GthImageList     *image_list,
 
 
 static void
-do_select_many (GthImageList     *image_list, 
+do_select_many (GthImageList     *image_list,
 		GthImageListItem *item,
-		int               pos, 
+		int               pos,
 		GdkEvent         *event)
 {
 	gboolean range, additive;
@@ -2398,14 +2398,14 @@ do_select_many (GthImageList     *image_list,
 		real_select__emit (image_list, ! item->selected, pos);
 		image_list->priv->last_selected_pos = pos;
 		image_list->priv->last_selected_item = item;
-	} 
+	}
 
 	gth_image_list_set_cursor (image_list, pos);
 }
 
 
 static void
-selection_multiple_button_press (GthImageList   *image_list, 
+selection_multiple_button_press (GthImageList   *image_list,
 				 GdkEventButton *event,
 				 int             pos)
 {
@@ -2429,20 +2429,20 @@ store_temp_selection (GthImageList *image_list)
 
 
 static gint
-gth_image_list_button_press (GtkWidget      *widget, 
+gth_image_list_button_press (GtkWidget      *widget,
 			     GdkEventButton *event)
 {
 	GthImageList        *image_list = GTH_IMAGE_LIST (widget);
 	GthImageListPrivate *priv = image_list->priv;
 	int                  pos;
 
-	if (event->window == image_list->priv->bin_window) 
+	if (event->window == image_list->priv->bin_window)
 		if (! GTK_WIDGET_HAS_FOCUS (widget))
 			gtk_widget_grab_focus (widget);
 
 	pos = gth_image_list_get_image_at (image_list, event->x, event->y);
 
-	if ((pos != -1) 
+	if ((pos != -1)
 	    && (event->button == 1)
 	    && (event->type == GDK_BUTTON_PRESS)) {
 
@@ -2492,15 +2492,15 @@ gth_image_list_button_press (GtkWidget      *widget,
 }
 
 
-/* Returns whether the specified image is at least partially inside the 
+/* Returns whether the specified image is at least partially inside the
  * specified rectangle.
  */
 static gboolean
 image_is_in_area (GthImageList     *image_list,
-		  GthImageListItem *item, 
-		  int               x1, 
-		  int               y1, 
-		  int               x2, 
+		  GthImageListItem *item,
+		  int               x1,
+		  int               y1,
+		  int               x2,
 		  int               y2)
 {
 	GdkRectangle  area_rectangle;
@@ -2531,8 +2531,8 @@ image_is_in_area (GthImageList     *image_list,
 
 
 static void
-update_mouse_selection (GthImageList *image_list, 
-			int           x, 
+update_mouse_selection (GthImageList *image_list,
+			int           x,
 			int           y)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -2579,14 +2579,14 @@ update_mouse_selection (GthImageList *image_list,
 	gdk_rectangle_intersect (&old_area, &priv->selection_area, &common);
 	if (common.width > 0 && common.height > 0) {
 		GdkRegion *common_region;
-			
+
 		/* make sure the border is invalidated */
 		common.x += 1;
 		common.y += 1;
 		common.width -= 2;
 		common.height -= 2;
 		common_region = gdk_region_rectangle (&common);
-		
+
 		gdk_region_subtract (invalid_region, common_region);
 		gdk_region_destroy (common_region);
 	}
@@ -2623,17 +2623,17 @@ update_mouse_selection (GthImageList *image_list,
 
 		if (image_is_in_area (image_list, item, x1, y1, x2, y2)) {
 			if (invert) {
-				if (item->selected == item->tmp_selected) 
+				if (item->selected == item->tmp_selected)
 					real_select (image_list, ! item->selected, i);
 			} else if (additive) {
-				if (! item->selected) 
+				if (! item->selected)
 					real_select (image_list, TRUE, i);
 			} else {
-				if (! item->selected) 
+				if (! item->selected)
 					real_select (image_list, TRUE, i);
 			}
 
-		} else if (item->selected != item->tmp_selected) 
+		} else if (item->selected != item->tmp_selected)
 			real_select (image_list, item->tmp_selected, i);
 	}
 
@@ -2644,7 +2644,7 @@ update_mouse_selection (GthImageList *image_list,
 
 
 static gint
-gth_image_list_button_release (GtkWidget      *widget, 
+gth_image_list_button_release (GtkWidget      *widget,
 			       GdkEventButton *event)
 {
 	GthImageList        *image_list = GTH_IMAGE_LIST (widget);
@@ -2700,7 +2700,7 @@ autoscroll_cb (gpointer data)
 
 
 static gboolean
-gth_image_list_motion_notify (GtkWidget      *widget, 
+gth_image_list_motion_notify (GtkWidget      *widget,
 			      GdkEventMotion *event)
 {
 	GthImageList        *image_list = GTH_IMAGE_LIST (widget);
@@ -2709,7 +2709,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 	if (priv->dragging) {
 		if (! priv->drag_started
 		    && (priv->selection != NULL)
-		    && gtk_drag_check_threshold (widget, 
+		    && gtk_drag_check_threshold (widget,
 						 priv->drag_start_x,
 						 priv->drag_start_y,
 						 event->x,
@@ -2720,7 +2720,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 
 			/**/
 
-			pos = gth_image_list_get_image_at (image_list, 
+			pos = gth_image_list_get_image_at (image_list,
 							   priv->drag_start_x,
 							   priv->drag_start_y);
 			if (pos != -1)
@@ -2740,11 +2740,11 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 						 multi_dnd ? GTK_STOCK_DND_MULTIPLE : GTK_STOCK_DND,
 						 -4, -4);
 
-		} 
+		}
 
 		return TRUE;
 	}
-	
+
 	if (priv->selecting) {
 		double absolute_y;
 
@@ -2753,16 +2753,16 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 
 		update_mouse_selection (image_list, event->x, event->y);
 
-		/* If we are out of bounds, schedule a timeout that will do 
+		/* If we are out of bounds, schedule a timeout that will do
 		 * the scrolling */
 
 		absolute_y = event->y - priv->vadjustment->value;
 		if ((absolute_y < 0) || (absolute_y > widget->allocation.height)) {
 			priv->event_last_x = event->x;
 			priv->event_last_y = event->y;
-			
-			/* Make the steppings be relative to the mouse 
-			 * distance from the canvas.  
+
+			/* Make the steppings be relative to the mouse
+			 * distance from the canvas.
 			 * Also notice the timeout below is small to give a
 			 * more smooth movement.
 			 */
@@ -2771,7 +2771,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 			else
 				priv->value_diff = absolute_y - widget->allocation.height;
 			priv->value_diff /= 2;
-			
+
 			if (priv->timer_tag == 0)
 				priv->timer_tag = g_timeout_add (SCROLL_TIMEOUT, autoscroll_cb, image_list);
 
@@ -2779,7 +2779,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 			g_source_remove (priv->timer_tag);
 			priv->timer_tag = 0;
 		}
-		
+
 		return TRUE;
 	}
 
@@ -2789,8 +2789,8 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 
 static void
 get_image_center (GthImageList     *image_list,
-		  GthImageListItem *item, 
-		  int              *x, 
+		  GthImageListItem *item,
+		  int              *x,
 		  int              *y)
 {
 	int half_width = image_list->priv->max_item_width / 2;
@@ -2800,7 +2800,7 @@ get_image_center (GthImageList     *image_list,
 
 
 static void
-select_range_with_keyboard (GthImageList *image_list, 
+select_range_with_keyboard (GthImageList *image_list,
 			    int           new_focused_item)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -2862,7 +2862,7 @@ select_range_with_keyboard (GthImageList *image_list,
 	for (link = begin, i = begin_idx; link != end; link = link->next, i++) {
 		GthImageListItem *item = link->data;
 
-		if (image_is_in_area (image_list, item, x1, y1, x2, y2)) 
+		if (image_is_in_area (image_list, item, x1, y1, x2, y2))
 			real_select_image (image_list, i);
 		else
 			real_unselect_image (image_list, i);
@@ -2888,7 +2888,7 @@ get_line_from_image (GthImageList *image_list,
 
 	for (scan = priv->lines; scan; scan = scan->next) {
 		GthImageListLine *line = scan->data;
-		
+
 		if (g_list_find (line->image_list, item) != NULL)
 			return scan;
 	}
@@ -2937,7 +2937,7 @@ get_page_distance_image (GthImageList *image_list,
 
 	if (old_focused_item == focused_item) {
 		int tmp = focused_item + d * images_per_line;
-		
+
 		if ((tmp >= 0) && (tmp <= image_list->priv->images - 1))
 			focused_item = tmp;
 	}
@@ -2947,7 +2947,7 @@ get_page_distance_image (GthImageList *image_list,
 
 
 static gboolean
-real_move_cursor (GthImageList       *image_list, 
+real_move_cursor (GthImageList       *image_list,
 		  GthCursorMovement   dir,
 		  GthSelectionChange  sel_change)
 {
@@ -2975,45 +2975,45 @@ real_move_cursor (GthImageList       *image_list,
 			    priv->focused_item % images_per_line != (images_per_line - 1))
 				new_focused_item++;
 			break;
-			
+
 		case GTH_CURSOR_MOVE_LEFT:
 			if (priv->focused_item - 1 >= 0 &&
 			    priv->focused_item % images_per_line != 0)
 				new_focused_item--;
 			break;
-			
+
 		case GTH_CURSOR_MOVE_DOWN:
 			if (priv->focused_item + images_per_line < priv->images)
 				new_focused_item += images_per_line;
 			break;
-			
+
 		case GTH_CURSOR_MOVE_UP:
 			if (priv->focused_item - images_per_line >= 0)
 				new_focused_item -= images_per_line;
 			break;
-			
+
 		case GTH_CURSOR_MOVE_PAGE_UP:
 			new_focused_item = get_page_distance_image (image_list,
 								     new_focused_item,
 								     FALSE);
 			new_focused_item = CLAMP (new_focused_item, 0, priv->images - 1);
 			break;
-			
+
 		case GTH_CURSOR_MOVE_PAGE_DOWN:
 			new_focused_item = get_page_distance_image (image_list,
 								     new_focused_item,
 								     TRUE);
 			new_focused_item = CLAMP (new_focused_item, 0, priv->images - 1);
 			break;
-			
+
 		case GTH_CURSOR_MOVE_BEGIN:
 			new_focused_item = 0;
 			break;
-			
+
 		case GTH_CURSOR_MOVE_END:
 			new_focused_item = priv->images - 1;
 			break;
-			
+
 		default:
 			break;
 		}
@@ -3033,9 +3033,9 @@ real_move_cursor (GthImageList       *image_list,
 				   || (dir == GTH_CURSOR_MOVE_PAGE_UP)
 				   || (dir == GTH_CURSOR_MOVE_BEGIN));
 
-		if (visibility != GTH_VISIBILITY_FULL) 
-			gth_image_list_moveto (image_list, 
-					       new_focused_item, 
+		if (visibility != GTH_VISIBILITY_FULL)
+			gth_image_list_moveto (image_list,
+					       new_focused_item,
 					       is_up_direction ? 0.0 : 1.0);
 
 	} else {
@@ -3048,15 +3048,15 @@ real_move_cursor (GthImageList       *image_list,
 
 			switch (visibility) {
 			case GTH_VISIBILITY_NONE:
-				offset = 0.5; 
+				offset = 0.5;
 				break;
 
 			case GTH_VISIBILITY_PARTIAL_TOP:
-				offset = 0.0; 
+				offset = 0.0;
 				break;
 
 			case GTH_VISIBILITY_PARTIAL_BOTTOM:
-				offset = 1.0; 
+				offset = 1.0;
 				break;
 
 			case GTH_VISIBILITY_PARTIAL:
@@ -3066,8 +3066,8 @@ real_move_cursor (GthImageList       *image_list,
 			}
 
 			if (offset > -1.0)
-				gth_image_list_moveto (image_list, 
-						       new_focused_item, 
+				gth_image_list_moveto (image_list,
+						       new_focused_item,
 						       offset);
 		}
 	}
@@ -3076,7 +3076,7 @@ real_move_cursor (GthImageList       *image_list,
 		real_unselect_all (image_list, NULL);
 		gth_image_list_select_image (image_list, new_focused_item);
 
-	} else if (sel_change == GTH_SELCHANGE_SET_RANGE) 
+	} else if (sel_change == GTH_SELCHANGE_SET_RANGE)
 		select_range_with_keyboard (image_list, new_focused_item);
 
 	gth_image_list_set_cursor (image_list, new_focused_item);
@@ -3130,7 +3130,7 @@ real_toggle_cursor_selection (GthImageList *image_list)
 
 
 static void
-real_set_cursor (GthImageList *image_list, 
+real_set_cursor (GthImageList *image_list,
 		 int           pos)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -3142,7 +3142,7 @@ real_set_cursor (GthImageList *image_list,
 
         if (priv->focused_item >= 0) {
 		link = g_list_nth (priv->image_list, priv->focused_item);
-		if (link != NULL) 
+		if (link != NULL)
 			old_item = link->data;
         }
 
@@ -3182,17 +3182,17 @@ add_move_binding (GtkBindingSet     *binding_set,
                   guint              keyval,
 		  GthCursorMovement  dir)
 {
-        gtk_binding_entry_add_signal (binding_set, keyval, 0, 
+        gtk_binding_entry_add_signal (binding_set, keyval, 0,
 				      "move_cursor", 2,
                                       G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_SET);
 
-        gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK, 
+        gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK,
 				      "move_cursor", 2,
                                       G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_NONE);
 
-	gtk_binding_entry_add_signal (binding_set, keyval, GDK_SHIFT_MASK, 
+	gtk_binding_entry_add_signal (binding_set, keyval, GDK_SHIFT_MASK,
 				      "move_cursor", 2,
                                       G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_SET_RANGE);
@@ -3234,7 +3234,7 @@ gth_image_list_get_property (GObject    *object,
 	GthImageList *image_list;
 
 	image_list = GTH_IMAGE_LIST (object);
-	
+
 	switch (prop_id) {
 	case PROP_HADJUSTMENT:
 		g_value_set_object (value, image_list->priv->hadjustment);
@@ -3274,7 +3274,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 	widget_class->unrealize     = gth_image_list_unrealize;
 	widget_class->style_set     = gth_image_list_style_set;
 	widget_class->size_allocate = gth_image_list_size_allocate;
-	widget_class->expose_event  = gth_image_list_expose;	
+	widget_class->expose_event  = gth_image_list_expose;
 
 	widget_class->focus_in_event    = gth_image_list_focus_in;
 	widget_class->focus_out_event   = gth_image_list_focus_out;
@@ -3304,7 +3304,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 			      G_STRUCT_OFFSET (GthImageListClass, set_scroll_adjustments),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 
 	image_list_signals[SELECTION_CHANGED] =
@@ -3313,7 +3313,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GthImageListClass, selection_changed),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	image_list_signals[ITEM_ACTIVATED] =
 		g_signal_new ("item_activated",
@@ -3401,7 +3401,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 							      "Vertical Adjustment for the widget",
 							      GTK_TYPE_ADJUSTMENT,
 							      G_PARAM_READWRITE));
-  
+
 	g_object_class_install_property (gobject_class,
 					 PROP_ENABLE_SEARCH,
 					 g_param_spec_boolean ("enable_search",
@@ -3478,10 +3478,10 @@ gth_image_list_init (GthImageList *image_list)
 	GTK_WIDGET_SET_FLAGS (image_list, GTK_CAN_FOCUS);
 
 	priv = image_list->priv = g_new0 (GthImageListPrivate, 1);
-	
+
 	priv->focused_item = -1;
 	priv->old_focused_item = -1;
-	
+
 	priv->selection_mode = GTK_SELECTION_MULTIPLE;
 	priv->last_selected_pos = -1;
 
@@ -3542,8 +3542,8 @@ gth_image_list_new (guint image_width)
 
 
 static void
-sync_selection (GthImageList *image_list, 
-		int           pos, 
+sync_selection (GthImageList *image_list,
+		int           pos,
 		SyncType      type)
 {
 	GList *scan;
@@ -3604,7 +3604,7 @@ gth_image_list_is_frozen (GthImageList *image_list)
 
 
 static int
-image_list_append_item (GthImageList     *image_list, 
+image_list_append_item (GthImageList     *image_list,
 			GthImageListItem *item)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -3613,7 +3613,7 @@ image_list_append_item (GthImageList     *image_list,
 	pos = priv->images++;
 	priv->image_list = g_list_append (priv->image_list, item);
 
-	if (! priv->frozen) 
+	if (! priv->frozen)
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 	else
 		priv->dirty = TRUE;
@@ -3623,18 +3623,18 @@ image_list_append_item (GthImageList     *image_list,
 
 
 static int
-image_list_insert_item (GthImageList     *image_list, 
+image_list_insert_item (GthImageList     *image_list,
 			GthImageListItem *item,
 			int               pos)
 {
 	GthImageListPrivate *priv = image_list->priv;
 
-	if (priv->sorted) 
-		priv->image_list = g_list_insert_sorted (priv->image_list, 
-							 item, 
+	if (priv->sorted)
+		priv->image_list = g_list_insert_sorted (priv->image_list,
+							 item,
 							 priv->compare);
 	else {
-		if (pos == priv->images) 
+		if (pos == priv->images)
 			return image_list_append_item (image_list, item);
 		priv->image_list = g_list_insert (priv->image_list, item, pos);
 	}
@@ -3643,7 +3643,7 @@ image_list_insert_item (GthImageList     *image_list,
 
 	pos = g_list_index (priv->image_list, item);
 
-	if (! priv->frozen) 
+	if (! priv->frozen)
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 	else
 		priv->dirty = TRUE;
@@ -3672,25 +3672,25 @@ truncate_comment_if_needed (GthImageList  *image_list,
 		return g_strdup ("");
 	max_len = (image_list->priv->max_item_width / image_list->priv->approx_char_width) * COMMENT_MAX_LINES;
 	comment_len = g_utf8_strlen (comment, -1);
-	
+
 	if (comment_len > max_len) {
 		char *comment_n;
-		
+
 		comment_n = _g_utf8_strndup (comment, max_len);
 		result = g_strconcat (comment_n, ETC, NULL);
-		
+
 		g_free (comment_n);
 	} else
 		result = g_strdup (comment);
-	
+
 	return result;
 }
 
 
 void
-gth_image_list_insert (GthImageList *image_list, 
-		       int           pos, 
-		       GdkPixbuf    *pixbuf, 
+gth_image_list_insert (GthImageList *image_list,
+		       int           pos,
+		       GdkPixbuf    *pixbuf,
 		       const char   *text,
 		       const char   *comment)
 {
@@ -3710,8 +3710,8 @@ gth_image_list_insert (GthImageList *image_list,
 
 
 int
-gth_image_list_append_with_data (GthImageList  *image_list, 
-				 GdkPixbuf     *pixbuf, 
+gth_image_list_append_with_data (GthImageList  *image_list,
+				 GdkPixbuf     *pixbuf,
 				 const char    *text,
 				 const char    *comment,
 				 gpointer       data)
@@ -3745,8 +3745,8 @@ gth_image_list_append_with_data (GthImageList  *image_list,
 
 
 int
-gth_image_list_append (GthImageList  *image_list, 
-		       GdkPixbuf     *pixbuf, 
+gth_image_list_append (GthImageList  *image_list,
+		       GdkPixbuf     *pixbuf,
 		       const char    *text,
 		       const char    *comment)
 {
@@ -3755,7 +3755,7 @@ gth_image_list_append (GthImageList  *image_list,
 
 
 void
-gth_image_list_remove (GthImageList *image_list, 
+gth_image_list_remove (GthImageList *image_list,
 		       int           pos)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -3805,7 +3805,7 @@ gth_image_list_remove (GthImageList *image_list,
 	if (! priv->frozen) {
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 		keep_focus_consistent (image_list);
-	} else 
+	} else
 		priv->dirty = TRUE;
 }
 
@@ -3861,7 +3861,7 @@ gth_image_list_set_image_pixbuf (GthImageList  *image_list,
 
 	g_return_if_fail ((pos >= 0) && (pos < priv->images));
 	g_return_if_fail (pixbuf != NULL);
-	
+
 	item = g_list_nth (priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
@@ -3874,7 +3874,7 @@ gth_image_list_set_image_pixbuf (GthImageList  *image_list,
 	else
 		y_offset = 0;
 	x_offset = (priv->max_item_width - item->image_area.width) / 2;
-	
+
 	item->image_area.x = item->slide_area.x + x_offset + 1;
 	item->image_area.y = item->slide_area.y + y_offset + 1;
 
@@ -3894,7 +3894,7 @@ gth_image_list_set_image_text (GthImageList  *image_list,
 	g_return_if_fail (image_list != NULL);
 	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
 	g_return_if_fail (label != NULL);
-	
+
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
@@ -3925,7 +3925,7 @@ gth_image_list_set_image_comment (GthImageList  *image_list,
 	g_return_if_fail (image_list != NULL);
 	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
 	g_return_if_fail (comment != NULL);
-	
+
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
@@ -3953,7 +3953,7 @@ gth_image_list_get_image_text (GthImageList *image_list,
 
 	g_return_val_if_fail (image_list != NULL, NULL);
 	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
-	
+
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_val_if_fail (item != NULL, NULL);
 
@@ -3969,7 +3969,7 @@ gth_image_list_get_image_comment (GthImageList *image_list,
 
 	g_return_val_if_fail (image_list != NULL, NULL);
 	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
-	
+
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_val_if_fail (item != NULL, NULL);
 
@@ -4058,7 +4058,7 @@ gth_image_list_set_image_width (GthImageList *image_list,
 
 void
 gth_image_list_set_image_data_full (GthImageList    *image_list,
-				    int              pos, 
+				    int              pos,
 				    gpointer         data,
 				    GtkDestroyNotify destroy)
 {
@@ -4069,7 +4069,7 @@ gth_image_list_set_image_data_full (GthImageList    *image_list,
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
-	
+
 	if ((item->destroy != NULL) && (item->data != NULL))
 		(item->destroy) (item->data);
 
@@ -4080,7 +4080,7 @@ gth_image_list_set_image_data_full (GthImageList    *image_list,
 
 void
 gth_image_list_set_image_data (GthImageList    *image_list,
-			       int              pos, 
+			       int              pos,
 			       gpointer         data)
 {
 	gth_image_list_set_image_data_full (image_list, pos, data, NULL);
@@ -4154,7 +4154,7 @@ gth_image_list_get_view_mode (GthImageList *image_list)
 
 void
 gth_image_list_moveto (GthImageList *image_list,
-		       int           pos, 
+		       int           pos,
 		       double        yalign)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -4184,10 +4184,10 @@ gth_image_list_moveto (GthImageList *image_list,
 	line = l->data;
 
 	uh = GTK_WIDGET (image_list)->allocation.height - IMAGE_LINE_HEIGHT (image_list, line);
-	value = CLAMP ((y 
-			- uh * yalign 
-			- (1.0 - yalign) * priv->row_spacing), 
-		       0.0, 
+	value = CLAMP ((y
+			- uh * yalign
+			- (1.0 - yalign) * priv->row_spacing),
+		       0.0,
 		       priv->vadjustment->upper - priv->vadjustment->page_size);
 
 	gtk_adjustment_set_value (priv->vadjustment, value);
@@ -4269,8 +4269,8 @@ _gdk_rectangle_point_in (GdkRectangle *rect,
 
 
 int
-gth_image_list_get_image_at (GthImageList *image_list, 
-			     int           x, 
+gth_image_list_get_image_at (GthImageList *image_list,
+			     int           x,
 			     int           y)
 {
 	GthImageListPrivate *priv = image_list->priv;
@@ -4330,7 +4330,7 @@ gth_image_list_sorted (GthImageList *image_list,
 	if (priv->sort_type == GTK_SORT_DESCENDING)
 		priv->image_list = g_list_reverse (priv->image_list);
 
-	if (! priv->frozen) 
+	if (! priv->frozen)
 		layout_all_images (image_list);
 	else
 		priv->dirty = TRUE;
@@ -4346,7 +4346,7 @@ gth_image_list_unsorted (GthImageList *image_list)
 
 
 void
-gth_image_list_image_activated (GthImageList *image_list, 
+gth_image_list_image_activated (GthImageList *image_list,
 				int           pos)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
@@ -4357,7 +4357,7 @@ gth_image_list_image_activated (GthImageList *image_list,
 
 
 void
-gth_image_list_set_cursor (GthImageList *image_list, 
+gth_image_list_set_cursor (GthImageList *image_list,
 			   int           pos)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
@@ -4464,7 +4464,7 @@ gth_image_list_set_drag_dest_pos (GthImageList *image_list,
 
 	if ((x < 0) && (y < 0) && (drop_pos != GTH_DROP_POSITION_NONE)) {
 		if (drop_pos == GTH_DROP_POSITION_RIGHT)
-			drop_image++;	
+			drop_image++;
 		drop_pos = GTH_DROP_POSITION_NONE;
 
 	} else {
@@ -4473,11 +4473,11 @@ gth_image_list_set_drag_dest_pos (GthImageList *image_list,
 		if (drop_image < 0) {
 			drop_image = 0;
 			drop_pos = GTH_DROP_POSITION_LEFT;
-	
+
 		} else if (drop_image >= priv->images) {
 			drop_image = priv->images - 1;
 			drop_pos = GTH_DROP_POSITION_RIGHT;
-			
+
 		} else {
 			GthImageListItem *item = g_list_nth (priv->image_list, drop_image)->data;
 			if (x - item->slide_area.x > priv->max_item_width / 2)
@@ -4518,9 +4518,9 @@ gth_image_list_set_enable_search (GthImageList *image_list,
 				  gboolean      enable_search)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	
+
 	enable_search = !!enable_search;
-	
+
 	if (image_list->priv->enable_search != enable_search) {
 		image_list->priv->enable_search = enable_search;
 		g_object_notify (G_OBJECT (image_list), "enable_search");

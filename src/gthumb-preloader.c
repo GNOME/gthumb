@@ -54,7 +54,7 @@ static gboolean
 load_next (gpointer data)
 {
 	GThumbPreloader *gploader = data;
-	
+
 	if (gploader->load_id != 0) {
 		g_source_remove (gploader->load_id);
 		gploader->load_id = 0;
@@ -77,7 +77,7 @@ loader_error_cb (ImageLoader  *il,
 	ploader->error  = TRUE;
 
 	if (ploader == requested_preloader (gploader)) {
-		g_signal_emit (G_OBJECT (gploader), 
+		g_signal_emit (G_OBJECT (gploader),
 			       gthumb_preloader_signals[REQUESTED_ERROR], 0);
 		debug (DEBUG_INFO, "[requested] error");
 		timeout = NEXT_LOAD_BIG_TIMEOUT;
@@ -101,7 +101,7 @@ loader_done_cb (ImageLoader  *il,
 	ploader->error  = FALSE;
 
 	if (ploader == requested_preloader (gploader)) {
-		g_signal_emit (G_OBJECT (gploader), 
+		g_signal_emit (G_OBJECT (gploader),
 			       gthumb_preloader_signals[REQUESTED_DONE], 0);
 		debug (DEBUG_INFO, "[requested] done");
 		timeout = NEXT_LOAD_BIG_TIMEOUT;
@@ -115,7 +115,7 @@ static PreLoader*
 preloader_new (GThumbPreloader *gploader)
 {
 	PreLoader *ploader = g_new (PreLoader, 1);
-	
+
 	ploader->path     = NULL;
 	ploader->mtime    = 0;
 	ploader->loaded   = FALSE;
@@ -156,7 +156,7 @@ preloader_set_path (PreLoader  *ploader,
 	g_free (ploader->path);
 	ploader->loaded = FALSE;
 	ploader->error = FALSE;
-	
+
 	if (path != NULL) {
 		ploader->path = g_strdup (path);
 		ploader->mtime = get_file_mtime (path);
@@ -186,14 +186,14 @@ gploader_finalize__step2 (GObject *object)
 }
 
 
-static void 
+static void
 gthumb_preloader_finalize (GObject *object)
 {
 	GThumbPreloader *gploader;
-	
+
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTHUMB_IS_PRELOADER (object));
-  
+
 	gploader = GTHUMB_PRELOADER (object);
 
 	if (gploader->load_id != 0) {
@@ -218,8 +218,8 @@ gthumb_preloader_class_init (GThumbPreloaderClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GThumbPreloaderClass, requested_error),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
 			      0);
 	gthumb_preloader_signals[REQUESTED_DONE] =
 		g_signal_new ("requested_done",
@@ -227,8 +227,8 @@ gthumb_preloader_class_init (GThumbPreloaderClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GThumbPreloaderClass, requested_done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
 			      0);
 
 	object_class->finalize = gthumb_preloader_finalize;
@@ -268,7 +268,7 @@ gthumb_preloader_get_type ()
 			0,
 			(GInstanceInitFunc) gthumb_preloader_init
 		};
-		
+
 		type = g_type_register_static (G_TYPE_OBJECT,
 					       "GThumbPreloader",
 					       &type_info,
@@ -419,13 +419,13 @@ set_paths__step2 (SetPathData *sp_data)
 
 		if (path_assigned[j])
 			continue;
-		
+
 		/* find the first non-assigned loader */
-		for (k = 0; (k < N_LOADERS) && loader_assigned[k]; k++) 
+		for (k = 0; (k < N_LOADERS) && loader_assigned[k]; k++)
 			;
-		
+
 		g_return_if_fail (k < N_LOADERS);
-		
+
 		ploader = gploader->loader[k];
 		loader_assigned[k] = TRUE;
 		preloader_set_path (ploader, path);
@@ -438,19 +438,19 @@ set_paths__step2 (SetPathData *sp_data)
 		debug (DEBUG_INFO, "[+] [%d] <- %s", k, path);
 	}
 
-	for (i = 0; i < N_LOADERS; i++) 
+	for (i = 0; i < N_LOADERS; i++)
 		if (loader_assigned[i]) {
 			PreLoader *ploader = gploader->loader[i];
 			int        priority;
 
 			if (ploader->path == NULL)
 				continue;
-			
+
 			if (same_uri (ploader->path, requested))
 				priority = GNOME_VFS_PRIORITY_MAX;
 			else
 				priority = GNOME_VFS_PRIORITY_MIN;
-			
+
 			image_loader_set_priority (ploader->loader, priority);
 		}
 
@@ -491,7 +491,7 @@ gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 		if ((ploader->path != NULL)
 		    && same_uri (ploader->path, path)
 		    && (path_mtime == ploader->mtime)
-		    && ploader->loaded) 
+		    && ploader->loaded)
 			return ploader->loader;
 	}
 
@@ -534,11 +534,11 @@ start_next_loader (GThumbPreloader *gploader)
 
 		for (i = 0; n < N_LOADERS; i = (i + 1) % N_LOADERS) {
 			ploader = gploader->loader[i];
-			
+
 			if ((ploader != NULL)
 			    && (ploader->path != NULL)
-			    && ! ploader->error 
-			    && ! ploader->loaded) 
+			    && ! ploader->error
+			    && ! ploader->loaded)
 				break;
 
 			n++;
@@ -560,14 +560,14 @@ start_next_loader (GThumbPreloader *gploader)
 
 
 void
-gthumb_preloader_stop (GThumbPreloader *gploader, 
+gthumb_preloader_stop (GThumbPreloader *gploader,
 		       DoneFunc         done_func,
 		       gpointer         done_func_data)
 {
 	if (gploader->current == -1) {
 		debug (DEBUG_INFO, "stopped");
 		if (done_func != NULL)
-			(*done_func) (done_func_data);	
+			(*done_func) (done_func_data);
 		return;
 	}
 

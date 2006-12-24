@@ -537,7 +537,7 @@ gth_file_list_class_init (GthFileListClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthFileListClass, busy),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	gth_file_list_signals[IDLE] =
@@ -546,7 +546,7 @@ gth_file_list_class_init (GthFileListClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthFileListClass, idle),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	gth_file_list_signals[DONE] =
@@ -555,7 +555,7 @@ gth_file_list_class_init (GthFileListClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthFileListClass, done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 

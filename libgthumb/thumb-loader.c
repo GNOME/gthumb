@@ -59,7 +59,7 @@ struct _ThumbLoaderPrivateData
 
 	GnomeThumbnailFactory *thumb_factory;
 
-	GdkPixbuf *pixbuf;	   /* Contains final (scaled if necessary) 
+	GdkPixbuf *pixbuf;	   /* Contains final (scaled if necessary)
 				    * image when done */
 
 	char *uri;
@@ -76,9 +76,9 @@ struct _ThumbLoaderPrivateData
 	int cache_max_w;
 	int cache_max_h;
 
-	GnomeVFSFileSize max_file_size;    /* If the file size is greater 
-					    * than this the thumbnail will 
-					    * not be created, for 
+	GnomeVFSFileSize max_file_size;    /* If the file size is greater
+					    * than this the thumbnail will
+					    * not be created, for
 					    * functionality reasons. */
 };
 
@@ -100,15 +100,15 @@ static void         thumb_loader_done_cb    (ImageLoader *il,
 static void         thumb_loader_error_cb   (ImageLoader *il,
 					     gpointer data);
 
-static gint         normalize_thumb         (gint *width, 
-					     gint *height, 
-					     gint max_w, 
+static gint         normalize_thumb         (gint *width,
+					     gint *height,
+					     gint max_w,
 					     gint max_h,
 					     gint cache_max_w,
 					     gint cache_max_h);
 
 
-static void 
+static void
 thumb_loader_finalize (GObject *object)
 {
 	ThumbLoader            *tl;
@@ -116,14 +116,14 @@ thumb_loader_finalize (GObject *object)
 
         g_return_if_fail (object != NULL);
         g_return_if_fail (IS_THUMB_LOADER (object));
-  
+
 	tl = THUMB_LOADER (object);
 	priv = tl->priv;
 
 	if (priv->thumb_factory != NULL)
 		g_object_unref (priv->thumb_factory);
 
-	if (priv->pixbuf != NULL) 
+	if (priv->pixbuf != NULL)
 		g_object_unref (G_OBJECT (priv->pixbuf));
 
 	g_object_unref (G_OBJECT (priv->il));
@@ -152,8 +152,8 @@ thumb_loader_class_init (ThumbLoaderClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_error),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
 			      0);
 	thumb_loader_signals[THUMB_DONE] =
 		g_signal_new ("thumb_done",
@@ -161,8 +161,8 @@ thumb_loader_class_init (ThumbLoaderClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
 			      0);
 	thumb_loader_signals[THUMB_PROGRESS] =
 		g_signal_new ("thumb_progress",
@@ -171,7 +171,7 @@ thumb_loader_class_init (ThumbLoaderClass *class)
 			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      1, G_TYPE_FLOAT);
 
 	object_class->finalize = thumb_loader_finalize;
@@ -241,9 +241,9 @@ thumb_loader (const char  *path,
 		ThumbLoaderPrivateData *priv = tl->priv;
 		GdkPixbuf *pixbuf;
 
-		pixbuf = f_load_scaled_jpeg (path, 
-					     priv->cache_max_w, 
-					     priv->cache_max_h, 
+		pixbuf = f_load_scaled_jpeg (path,
+					     priv->cache_max_w,
+					     priv->cache_max_h,
 					     NULL, NULL);
 
 		if (pixbuf != NULL) {
@@ -269,14 +269,14 @@ thumb_loader (const char  *path,
 				}
 			}
 		}
-	
+
 	return animation;
 }
 
 
-GObject*     
-thumb_loader_new (const char *path, 
-		  int width, 
+GObject*
+thumb_loader_new (const char *path,
+		  int width,
 		  int height)
 {
 	ThumbLoaderPrivateData *priv;
@@ -299,7 +299,7 @@ thumb_loader_new (const char *path,
 	priv->max_w = width;
 	priv->max_h = height;
 
-	if (path != NULL) 
+	if (path != NULL)
 		thumb_loader_set_path (tl, path);
 	else {
 		priv->uri = NULL;
@@ -310,12 +310,12 @@ thumb_loader_new (const char *path,
 
 	image_loader_set_loader (priv->il, thumb_loader, tl);
 
-	g_signal_connect (G_OBJECT (priv->il), 
-			  "image_done", 
+	g_signal_connect (G_OBJECT (priv->il),
+			  "image_done",
 			  G_CALLBACK (thumb_loader_done_cb),
 			  tl);
-	g_signal_connect (G_OBJECT (priv->il), 
-			  "image_error", 
+	g_signal_connect (G_OBJECT (priv->il),
+			  "image_error",
 			  G_CALLBACK (thumb_loader_error_cb),
 			  tl);
 
@@ -392,7 +392,7 @@ thumb_loader_set_uri (ThumbLoader       *tl,
 	g_free (priv->uri);
 	g_free (priv->e_uri);
 
-	
+
 	priv->e_uri = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_NONE);
 	priv->uri = gnome_vfs_unescape_string (priv->e_uri, NULL);
 
@@ -453,13 +453,13 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 		mtime = get_file_mtime (priv->uri);
 
-		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory, 
-							     priv->e_uri, 
+		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory,
+							     priv->e_uri,
 							     mtime);
 
 		if ((cache_path == NULL)
-		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory, 
-									   priv->e_uri, 
+		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory,
+									   priv->e_uri,
 									   mtime)) {
 			g_signal_emit (G_OBJECT (tl),
 				       thumb_loader_signals[THUMB_ERROR],
@@ -485,8 +485,8 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 				g_object_unref (priv->pixbuf);
 				priv->pixbuf = NULL;
 			}
-			g_signal_emit (G_OBJECT (tl), 
-				       thumb_loader_signals[THUMB_DONE], 
+			g_signal_emit (G_OBJECT (tl),
+				       thumb_loader_signals[THUMB_DONE],
 				       0);
 			return;
 		}
@@ -495,14 +495,14 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	image_loader_start (priv->il);
 }
 
-void 
+void
 thumb_loader_start (ThumbLoader *tl)
 {
 	thumb_loader_stop (tl, (DoneFunc)thumb_loader_start__step2, tl);
 }
 
 
-void 
+void
 thumb_loader_stop (ThumbLoader *tl,
 		   DoneFunc     done_func,
 		   gpointer     done_func_data)
@@ -517,11 +517,11 @@ thumb_loader_stop (ThumbLoader *tl,
 }
 
 
-int 
-thumb_from_xpm_d (const char **data, 
-		  int          max_w, 
-		  int          max_h, 
-		  GdkPixmap  **pixmap, 
+int
+thumb_from_xpm_d (const char **data,
+		  int          max_w,
+		  int          max_h,
+		  GdkPixmap  **pixmap,
 		  GdkBitmap  **mask)
 {
 	GdkPixbuf *pixbuf;
@@ -534,7 +534,7 @@ thumb_from_xpm_d (const char **data,
 	if (scale_keepping_ratio (&w, &h, max_w, max_h)) {
 		/* Scale */
 		GdkPixbuf *tmp;
-		
+
 		tmp = pixbuf;
 		pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
 		g_object_unref (tmp);
@@ -553,7 +553,7 @@ thumb_from_xpm_d (const char **data,
 /* -- local functions -- */
 
 
-static gint 
+static gint
 thumb_loader_save_to_cache (ThumbLoader *tl)
 {
 	ThumbLoaderPrivateData *priv;
@@ -561,11 +561,11 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	char                   *cache_dir;
 	char                   *cache_path;
 
-	if (tl == NULL) 
+	if (tl == NULL)
 		return FALSE;
 
 	priv = tl->priv;
-	if (priv->pixbuf == NULL) 
+	if (priv->pixbuf == NULL)
 		return FALSE;
 
 	mtime = get_file_mtime (priv->uri);
@@ -577,19 +577,19 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if (cache_dir == NULL)
 		return FALSE;
 
-	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS)) 
+	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))
 		gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
 							priv->pixbuf,
 							priv->e_uri,
 							mtime);
 
 	g_free (cache_dir);
-	
+
 	return TRUE;
 }
 
 
-static void 
+static void
 thumb_loader_done_cb (ImageLoader *il,
 		      gpointer     data)
 {
@@ -621,38 +621,38 @@ thumb_loader_done_cb (ImageLoader *il,
 	height = gdk_pixbuf_get_height (pixbuf);
 
 	if (priv->use_cache) {
-		/* Thumbnails are always saved with the same size, then 
+		/* Thumbnails are always saved with the same size, then
 		 * scaled if necessary. */
 
 		/* Check whether to scale. */
-		modified = scale_keepping_ratio (&width, &height, 
+		modified = scale_keepping_ratio (&width, &height,
 						 priv->cache_max_w,
 						 priv->cache_max_h);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
-			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
-								width, 
+			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf,
+								width,
 								height,
 								GDK_INTERP_BILINEAR);
 		}
-		
+
 		/* Save the thumbnail if necessary. */
 		if (! priv->from_cache
 		    && eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE))
 			thumb_loader_save_to_cache (tl);
-		
+
 		/* Scale if the user wants a different size. */
-		modified = normalize_thumb (&width, 
+		modified = normalize_thumb (&width,
 					    &height,
-					    priv->max_w, 
+					    priv->max_w,
 					    priv->max_h,
 					    priv->cache_max_w,
 					    priv->cache_max_h);
 		if (modified) {
 			pixbuf = priv->pixbuf;
-			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
-								width, 
-								height, 
+			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf,
+								width,
+								height,
 								GDK_INTERP_BILINEAR);
 			g_object_unref (pixbuf);
 		}
@@ -660,7 +660,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		modified = scale_keepping_ratio (&width, &height, priv->max_w, priv->max_h);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
-			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
+			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf,
 								width,
 								height,
 								GDK_INTERP_BILINEAR);
@@ -671,7 +671,7 @@ thumb_loader_done_cb (ImageLoader *il,
 }
 
 
-static void 
+static void
 thumb_loader_error_cb (ImageLoader *il,
 		       gpointer     data)
 {
@@ -684,8 +684,8 @@ thumb_loader_error_cb (ImageLoader *il,
 			priv->pixbuf = NULL;
 		}
 
-		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory, 
-								 priv->e_uri, 
+		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
+								 priv->e_uri,
 								 get_file_mtime (priv->uri));
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 
@@ -695,16 +695,16 @@ thumb_loader_error_cb (ImageLoader *il,
 	/* Try from the original if cache load attempt failed. */
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
-	
+
 	image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri));
 	image_loader_start (priv->il);
 }
 
 
-static gint 
-normalize_thumb (gint *width, 
-		 gint *height, 
-		 gint max_width, 
+static gint
+normalize_thumb (gint *width,
+		 gint *height,
+		 gint max_width,
 		 gint max_height,
 		 gint cache_max_w,
 		 gint cache_max_h)
@@ -718,15 +718,15 @@ normalize_thumb (gint *width,
 	int      new_width, new_height;
 
 	if ((max_width > cache_max_w) && (max_height > cache_max_h)) {
-		if ((*width < cache_max_w - 1) && (*height < cache_max_h - 1)) 
+		if ((*width < cache_max_w - 1) && (*height < cache_max_h - 1))
 			return FALSE;
-	} else if ((*width < max_width - 1) && (*height < max_height - 1)) 
+	} else if ((*width < max_width - 1) && (*height < max_height - 1))
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);
 	new_width  = MAX ((gint) (w * factor), 1);
 	new_height = MAX ((gint) (h * factor), 1);
-	
+
 	modified = (new_width != *width) || (new_height != *height);
 
 	*width = new_width;

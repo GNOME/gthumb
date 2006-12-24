@@ -637,7 +637,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, update_icon_theme),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	monitor_signals[UPDATE_BOOKMARKS] =
@@ -646,7 +646,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, update_bookmarks),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 	monitor_signals[UPDATE_CAT_FILES] =
@@ -743,7 +743,7 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, reload_catalogs),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
 }

@@ -49,7 +49,7 @@ static void begin_export       (CatalogPngExporter *ce);
 
 static void end_export         (CatalogPngExporter *ce);
 
-static void begin_page         (CatalogPngExporter *ce, 
+static void begin_page         (CatalogPngExporter *ce,
 				int                 page_n);
 
 static void end_page           (CatalogPngExporter *ce,
@@ -182,13 +182,13 @@ static GObjectClass *parent_class = NULL;
 static guint catalog_png_exporter_signals[LAST_SIGNAL] = { 0 };
 
 
-static void 
+static void
 catalog_png_exporter_finalize (GObject *object)
 {
 	CatalogPngExporter *ce;
 
         g_return_if_fail (IS_CATALOG_PNG_EXPORTER (object));
-  
+
         ce = CATALOG_PNG_EXPORTER (object);
 
 	if (ce->directory != NULL) {
@@ -215,7 +215,7 @@ catalog_png_exporter_finalize (GObject *object)
 		g_free (ce->file_type);
 		ce->file_type = NULL;
 	}
-		
+
 	if (ce->file_list != NULL) {
 		g_list_foreach (ce->file_list, (GFunc) image_data_free, NULL);
 		g_list_free (ce->file_list);
@@ -266,7 +266,7 @@ catalog_png_exporter_finalize (GObject *object)
 		g_free (ce->footer_font_name);
 		ce->footer_font_name = NULL;
 	}
-	
+
 	if (ce->iloader != NULL) {
 		g_object_unref (ce->iloader);
 		ce->iloader = NULL;
@@ -291,8 +291,8 @@ catalog_png_exporter_class_init (CatalogPngExporterClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
 			      0);
 
 	catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS] =
@@ -302,7 +302,7 @@ catalog_png_exporter_class_init (CatalogPngExporterClass *class)
 			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      1, G_TYPE_FLOAT);
 
 	catalog_png_exporter_signals[PNG_EXPORTER_INFO] =
@@ -312,7 +312,7 @@ catalog_png_exporter_class_init (CatalogPngExporterClass *class)
 			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_info),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      1, G_TYPE_STRING);
 
 	object_class->finalize = catalog_png_exporter_finalize;
@@ -401,7 +401,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 
 	font_desc = pango_font_description_from_string (DEFAULT_FONT);
 	pango_layout_set_font_description (ce->layout, font_desc);
-	pango_font_description_free (font_desc); 
+	pango_font_description_free (font_desc);
 
 	/**/
 
@@ -587,8 +587,8 @@ catalog_png_exporter_set_caption_color (CatalogPngExporter *ce,
 					char               *value)
 {
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
-	
-	pref_util_get_rgb_values (value, 
+
+	pref_util_get_rgb_values (value,
 				  &ce->caption_color.red,
 				  &ce->caption_color.green,
 				  &ce->caption_color.blue);
@@ -618,7 +618,7 @@ catalog_png_exporter_set_header_font (CatalogPngExporter *ce,
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 	g_return_if_fail (font != NULL);
 
-	if (ce->header_font_name != NULL) 
+	if (ce->header_font_name != NULL)
 		g_free (ce->header_font_name);
 	ce->header_font_name = g_strdup (font);
 }
@@ -630,7 +630,7 @@ catalog_png_exporter_set_header_color (CatalogPngExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 
-	pref_util_get_rgb_values (value, 
+	pref_util_get_rgb_values (value,
 				  &ce->header_color.red,
 				  &ce->header_color.green,
 				  &ce->header_color.blue);
@@ -660,7 +660,7 @@ catalog_png_exporter_set_footer_font (CatalogPngExporter *ce,
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 	g_return_if_fail (font != NULL);
 
-	if (ce->footer_font_name != NULL) 
+	if (ce->footer_font_name != NULL)
 		g_free (ce->footer_font_name);
 	ce->footer_font_name = g_strdup (font);
 }
@@ -672,7 +672,7 @@ catalog_png_exporter_set_footer_color (CatalogPngExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 
-	pref_util_get_rgb_values (value, 
+	pref_util_get_rgb_values (value,
 				  &ce->footer_color.red,
 				  &ce->footer_color.green,
 				  &ce->footer_color.blue);
@@ -709,7 +709,7 @@ catalog_png_exporter_set_frame_color (CatalogPngExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 
-	pref_util_get_rgb_values (value, 
+	pref_util_get_rgb_values (value,
 				  &ce->frame_color.red,
 				  &ce->frame_color.green,
 				  &ce->frame_color.blue);
@@ -789,11 +789,11 @@ set_item_caption (CatalogPngExporter *ce,
 	if (idata->caption_set)
 		return;
 
-	if ((ce->caption_fields & GTH_CAPTION_COMMENT) 
+	if ((ce->caption_fields & GTH_CAPTION_COMMENT)
 	    && (idata->comment != NULL))
 		idata->caption_row[row++] = g_strdup (idata->comment);
 
-	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH) 
+	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH)
 	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
 		char *utf8_name = g_filename_display_name (idata->filename);
 		idata->caption_row[row++] = utf8_name;
@@ -809,13 +809,13 @@ set_item_caption (CatalogPngExporter *ce,
 			idata->caption_row[row++] = utf8_name;
 		}
 	}
-	
-	if (ce->caption_fields & GTH_CAPTION_FILE_SIZE) 
+
+	if (ce->caption_fields & GTH_CAPTION_FILE_SIZE)
 		idata->caption_row[row++] = gnome_vfs_format_file_size_for_display (idata->file_size);
 
-	if (ce->caption_fields & GTH_CAPTION_IMAGE_DIM) 
+	if (ce->caption_fields & GTH_CAPTION_IMAGE_DIM)
 		idata->caption_row[row++] = g_strdup_printf (
-			_("%d x %d pixels"), 
+			_("%d x %d pixels"),
 			idata->image_width,
 			idata->image_height);
 
@@ -823,13 +823,13 @@ set_item_caption (CatalogPngExporter *ce,
 }
 
 
-static gint 
+static gint
 get_page_height (CatalogPngExporter *ce,
 		 int                 page_n)
 {
 	int page_height = 0;
 
-	if (ce->page_size_use_row_col && ! ce->all_pages_same_size) 
+	if (ce->page_size_use_row_col && ! ce->all_pages_same_size)
 		page_height = ce->pages_height[page_n - 1];
 	else
 		page_height = ce->page_height;
@@ -853,7 +853,7 @@ export (CatalogPngExporter *ce)
 	int        header_height;
 	int        footer_height;
 
-	cols = ((ce->page_width - COL_SPACING) 
+	cols = ((ce->page_width - COL_SPACING)
 		/ (ce->frame_width + COL_SPACING));
 
 	begin_export (ce);
@@ -879,7 +879,7 @@ export (CatalogPngExporter *ce)
 			g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 			goto label_end;
 		}
- 
+
 		/* get items to paint. */
 
 		row_first_item = scan_file;
@@ -904,14 +904,14 @@ export (CatalogPngExporter *ce)
 		}
 
 		/* check whether the row fit the current page. */
-		
-		row_height = (ce->frame_height 
-			      + get_max_text_height (ce, 
-						     row_first_item, 
+
+		row_height = (ce->frame_height
+			      + get_max_text_height (ce,
+						     row_first_item,
 						     row_last_item)
 			      + ROW_SPACING);
 
-		while (y + row_height > (ce->page_height 
+		while (y + row_height > (ce->page_height
 					 - (first_row ? header_height : 0)
 					 - footer_height)) {
 			if (first_row == TRUE) {
@@ -919,7 +919,7 @@ export (CatalogPngExporter *ce)
 				 * page height, close and exit. */
 				goto label_end;
 			}
-			
+
 			/* the row does not fit this page, create a new
 			 * page. */
 
@@ -942,8 +942,8 @@ export (CatalogPngExporter *ce)
 			char *text;
 
 			text = get_header_text (ce, page_n);
-			paint_text (ce, 
-				    ce->header_font_name, 
+			paint_text (ce,
+				    ce->header_font_name,
 				    &ce->header_color,
 				    0,
 				    y,
@@ -986,7 +986,7 @@ export (CatalogPngExporter *ce)
 				image_rect.width = twidth;
 				image_rect.height = theight;
 
-				paint_frame (ce, &frame_rect, &image_rect, 
+				paint_frame (ce, &frame_rect, &image_rect,
 					     filename);
 				paint_image (ce, &image_rect, pixbuf);
 			}
@@ -997,16 +997,16 @@ export (CatalogPngExporter *ce)
 				if (row[i] == NULL)
 					continue;
 				if ((i == 0)
-				    && (ce->caption_fields & GTH_CAPTION_COMMENT) 
-				    && (row_idata->comment != NULL)) 
+				    && (ce->caption_fields & GTH_CAPTION_COMMENT)
+				    && (row_idata->comment != NULL))
 					paint_comment (ce, x, y1, row[i], &h);
-				else 
-					paint_text (ce, 
-						    ce->caption_font_name, 
+				else
+					paint_text (ce,
+						    ce->caption_font_name,
 						    &ce->caption_color,
-						    x, y1, 
-						    ce->thumb_width, 
-						    row[i], 
+						    x, y1,
+						    ce->thumb_width,
+						    row[i],
 						    &h);
 
 				y1 += h + TEXT_SPACING;
@@ -1037,7 +1037,7 @@ compute_pages_n (CatalogPngExporter *ce)
 
 	ce->pages_n = 0;
 
-	cols = ((ce->page_width - COL_SPACING) 
+	cols = ((ce->page_width - COL_SPACING)
 		/ (ce->frame_width + COL_SPACING));
 
 	first_row = TRUE;
@@ -1068,18 +1068,18 @@ compute_pages_n (CatalogPngExporter *ce)
 				idata = (ImageData*) scan_file->data;
 		}
 
-		if (cols == 0) 
+		if (cols == 0)
 			break;
 
 		/* check whether the row fit the current page. */
-		
-		row_height = (ce->frame_height 
-			      + get_max_text_height (ce, 
-						     row_first_item, 
+
+		row_height = (ce->frame_height
+			      + get_max_text_height (ce,
+						     row_first_item,
 						     row_last_item)
 			      + ROW_SPACING);
 
-		while (y + row_height > (ce->page_height 
+		while (y + row_height > (ce->page_height
 					 - (first_row ? header_height : 0)
 					 - footer_height)) {
 			if (first_row == TRUE) {
@@ -1088,7 +1088,7 @@ compute_pages_n (CatalogPngExporter *ce)
 				ce->pages_n = 0;
 				return;
 			}
-			
+
 			/* the row does not fit this page, create a new
 			 * page. */
 
@@ -1103,7 +1103,7 @@ compute_pages_n (CatalogPngExporter *ce)
 
 		/* paint the header. */
 
-		if (first_row && (ce->header != NULL)) 
+		if (first_row && (ce->header != NULL))
 			y += header_height;
 
 		/* paint the row. */
@@ -1146,7 +1146,7 @@ compute_pages_size (CatalogPngExporter *ce)
 		/* header */
 
 		page_height += get_header_height_with_spacing (ce);
-		
+
 		/* images */
 
 		for (r = 0; r < rows; r++) {
@@ -1159,23 +1159,23 @@ compute_pages_size (CatalogPngExporter *ce)
 					cols = c;
 					break;
 				}
-				
+
 				set_item_caption (ce, idata);
-				
+
 				row_last_item = scan_file = scan_file->next;
 				if (scan_file != NULL)
 					idata = (ImageData*) scan_file->data;
 			}
 
-			if (cols == 0) 
+			if (cols == 0)
 				break;
 
-			row_height = (ce->frame_height 
-				      + get_max_text_height (ce, 
-							     row_first_item, 
+			row_height = (ce->frame_height
+				      + get_max_text_height (ce,
+							     row_first_item,
 							     row_last_item)
 				      + ROW_SPACING);
-			
+
 			page_height += row_height;
 		}
 
@@ -1196,7 +1196,7 @@ static gint
 comp_func_name (gconstpointer a, gconstpointer b)
 {
 	ImageData *data_a, *data_b;
-	
+
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
@@ -1297,7 +1297,7 @@ get_sortfunc (CatalogPngExporter *ce)
 		break;
 	case GTH_SORT_METHOD_BY_EXIF_DATE:
 		func = comp_func_exif_date;
-		break;	
+		break;
 	case GTH_SORT_METHOD_NONE:
 		func = comp_func_none;
 		break;
@@ -1326,7 +1326,7 @@ load_next_file (CatalogPngExporter *ce)
 		return;
 	}
 
-	g_signal_emit (G_OBJECT (ce), 
+	g_signal_emit (G_OBJECT (ce),
 		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
 		       0,
 		       ((float) ++ce->n_images_done) / ce->n_images);
@@ -1339,7 +1339,7 @@ load_next_file (CatalogPngExporter *ce)
 			ce->file_list = g_list_reverse (ce->file_list);
 
 		/* compute the page size if needed. */
-		if (ce->page_size_use_row_col) 
+		if (ce->page_size_use_row_col)
 			compute_pages_size (ce);
 		else
 			compute_pages_n (ce);
@@ -1361,14 +1361,14 @@ load_next_file (CatalogPngExporter *ce)
 	ce->info = g_strdup_printf (_("Loading image: %s"), utf8_name);
 	g_free (utf8_name);
 
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO], 
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
 		       0,
 		       ce->info);
 }
 
 
 static void
-image_loader_done (ImageLoader *iloader, 
+image_loader_done (ImageLoader *iloader,
 		   gpointer     data)
 {
 	CatalogPngExporter *ce = data;
@@ -1398,8 +1398,8 @@ image_loader_done (ImageLoader *iloader,
 	if ((ce->thumb_width > 0) && (ce->thumb_height > 0)) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
-		
-		if (scale_keepping_ratio (&w, &h, 
+
+		if (scale_keepping_ratio (&w, &h,
 					  ce->thumb_width,
 					  ce->thumb_height)) {
 			GdkPixbuf *scaled;
@@ -1414,7 +1414,7 @@ image_loader_done (ImageLoader *iloader,
 
 
 static void
-image_loader_error (ImageLoader *iloader, 
+image_loader_error (ImageLoader *iloader,
 		    gpointer     data)
 {
 	CatalogPngExporter *ce = data;
@@ -1434,7 +1434,7 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	if (ce->exporting)
 		return;
 
-	if (ce->file_list == NULL) 
+	if (ce->file_list == NULL)
 		return;
 
 	ce->exporting = TRUE;
@@ -1448,20 +1448,20 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	}
 
 	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
-	g_signal_connect (G_OBJECT (ce->iloader), 
+	g_signal_connect (G_OBJECT (ce->iloader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done),
 			  ce);
-	g_signal_connect (G_OBJECT (ce->iloader), 
+	g_signal_connect (G_OBJECT (ce->iloader),
 			  "image_error",
 			  G_CALLBACK (image_loader_error),
 			  ce);
 
 	ce->n_images = g_list_length (ce->file_list);
 	ce->n_images_done = 0;
-		
+
 	ce->file_to_load = ce->file_list;
-	image_loader_set_path (ce->iloader, 
+	image_loader_set_path (ce->iloader,
 			       IMAGE_DATA (ce->file_to_load->data)->filename);
 	image_loader_start (ce->iloader);
 }
@@ -1482,11 +1482,11 @@ catalog_png_exporter_interrupt (CatalogPngExporter *ce)
 /* ----- */
 
 
-static void 
+static void
 begin_export (CatalogPngExporter *ce)
 {
 	ce->pixmap = gdk_pixmap_new (gdk_get_default_root_window (),
-				     ce->page_width, ce->page_height, 
+				     ce->page_width, ce->page_height,
 				     -1);
 	ce->gc = gdk_gc_new (ce->pixmap);
 
@@ -1524,27 +1524,27 @@ paint_background (CatalogPngExporter *ce,
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 
-	if (ce->page_use_solid_color) 
+	if (ce->page_use_solid_color)
 		gdk_pixbuf_fill (pixbuf, ce->page_bg_color);
 	else {
 		GdkPixbuf *tmp;
-		
+
 		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 1, 8, width, height);
 		gdk_pixbuf_fill (tmp, 0xFFFFFFFF);
 
-		if (ce->page_use_hgradient && ce->page_use_vgradient) 
+		if (ce->page_use_hgradient && ce->page_use_vgradient)
 			_gdk_pixbuf_hv_gradient (tmp, ce->page_hgrad1, ce->page_hgrad2, ce->page_vgrad1, ce->page_vgrad2);
-		
-		else if (ce->page_use_hgradient) 
+
+		else if (ce->page_use_hgradient)
 			_gdk_pixbuf_horizontal_gradient (tmp, ce->page_hgrad1, ce->page_hgrad2);
-		
-		else if (ce->page_use_vgradient) 
+
+		else if (ce->page_use_vgradient)
 			_gdk_pixbuf_vertical_gradient (tmp, ce->page_vgrad1, ce->page_vgrad2);
-		
-		gdk_pixbuf_composite (tmp, pixbuf, 
-				      0, 0, width, height, 
+
+		gdk_pixbuf_composite (tmp, pixbuf,
+				      0, 0, width, height,
 				      0, 0,
-				      1.0, 1.0, 
+				      1.0, 1.0,
 				      GDK_INTERP_NEAREST, 255);
 
 		g_object_unref (tmp);
@@ -1562,7 +1562,7 @@ paint_background (CatalogPngExporter *ce,
 
 
 static void
-begin_page (CatalogPngExporter *ce, 
+begin_page (CatalogPngExporter *ce,
 	    int                 page_n)
 {
 	GnomeVFSURI      *uri;
@@ -1574,7 +1574,7 @@ begin_page (CatalogPngExporter *ce,
 	char             *line;
 	char             *utf8_name;
 
-	g_signal_emit (G_OBJECT (ce), 
+	g_signal_emit (G_OBJECT (ce),
 		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
 		       0,
 		       ((float) page_n) / ce->pages_n);
@@ -1590,13 +1590,13 @@ begin_page (CatalogPngExporter *ce,
 
 	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	utf8_name = g_filename_display_name (filename);
-	ce->info = g_strdup_printf (_("Creating image: %s.%s"), 
-				    utf8_name, 
+	ce->info = g_strdup_printf (_("Creating image: %s.%s"),
+				    utf8_name,
 				    ce->file_type);
 	g_free (utf8_name);
 	g_free (filename);
 
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO], 
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
 		       0,
 		       ce->info);
 
@@ -1605,7 +1605,7 @@ begin_page (CatalogPngExporter *ce,
 	if (! ce->write_image_map)
 		return;
 
-	filename = _g_get_name_from_template (ce->templatev, 
+	filename = _g_get_name_from_template (ce->templatev,
 					      ce->start_at + page_n - 1);
 	path = g_strconcat (ce->directory, "/", filename, ".html", NULL);
 
@@ -1618,7 +1618,7 @@ begin_page (CatalogPngExporter *ce,
 	}
 
 	ce->imap_handle = NULL;
-	result = gnome_vfs_create_uri (&ce->imap_handle, uri, 
+	result = gnome_vfs_create_uri (&ce->imap_handle, uri,
 				       GNOME_VFS_OPEN_WRITE, FALSE, 0664);
 	gnome_vfs_uri_unref (uri);
 
@@ -1654,7 +1654,7 @@ end_page (CatalogPngExporter *ce,
 
 	width = ce->page_width;
 	height = get_page_height (ce, page_n);
-	
+
 	pixbuf = gdk_pixbuf_get_from_drawable (NULL,
 					       ce->pixmap,
 					       gdk_colormap_get_system (),
@@ -1667,7 +1667,7 @@ end_page (CatalogPngExporter *ce,
 	path = g_strconcat (ce->directory, "/", filename, ".", ce->file_type, NULL);
 	g_free (filename);
 
-	if (strcmp (ce->file_type, "jpeg") == 0) 
+	if (strcmp (ce->file_type, "jpeg") == 0)
 		_gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "85", NULL);
 	else
 		_gdk_pixbuf_save (pixbuf, path, ce->file_type, NULL, NULL);
@@ -1706,11 +1706,11 @@ paint_frame (CatalogPngExporter *ce,
 		break;
 
 	case GTH_FRAME_STYLE_SLIDE:
-		gthumb_draw_slide_with_colors (frame_rect->x, 
+		gthumb_draw_slide_with_colors (frame_rect->x,
 					       frame_rect->y,
-					       frame_rect->width, 
+					       frame_rect->width,
 					       frame_rect->height,
-					       image_rect->width, 
+					       image_rect->width,
 					       image_rect->height,
 					       ce->pixmap,
 					       &ce->frame_color,
@@ -1725,23 +1725,23 @@ paint_frame (CatalogPngExporter *ce,
 	case GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW:
 		if (ce->frame_style == GTH_FRAME_STYLE_SHADOW)
 			gthumb_draw_image_shadow (image_rect->x,
-						  image_rect->y, 
-						  image_rect->width, 
+						  image_rect->y,
+						  image_rect->width,
 						  image_rect->height,
 						  ce->pixmap);
 
-		if (ce->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW) 
+		if (ce->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)
 			gthumb_draw_frame_shadow (image_rect->x,
-						  image_rect->y, 
-						  image_rect->width, 
+						  image_rect->y,
+						  image_rect->width,
 						  image_rect->height,
 						  ce->pixmap);
-		
+
 		if ((ce->frame_style == GTH_FRAME_STYLE_SIMPLE)
 		    || (ce->frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)) {
-			gthumb_draw_frame (image_rect->x, 
+			gthumb_draw_frame (image_rect->x,
 					   image_rect->y,
-					   image_rect->width, 
+					   image_rect->width,
 					   image_rect->height,
 					   ce->pixmap,
 					   &ce->frame_color);
@@ -1750,16 +1750,16 @@ paint_frame (CatalogPngExporter *ce,
 
 	case GTH_FRAME_STYLE_SHADOW_IN:
 		gthumb_draw_image_shadow_in (image_rect->x,
-					     image_rect->y, 
-					     image_rect->width, 
+					     image_rect->y,
+					     image_rect->width,
 					     image_rect->height,
 					     ce->pixmap);
 		break;
 
 	case GTH_FRAME_STYLE_SHADOW_OUT:
 		gthumb_draw_image_shadow_out (image_rect->x,
-					      image_rect->y, 
-					      image_rect->width, 
+					      image_rect->y,
+					      image_rect->width,
 					      image_rect->height,
 					      ce->pixmap);
 		break;
@@ -1774,15 +1774,15 @@ paint_frame (CatalogPngExporter *ce,
 	rel_path = get_path_relative_to_dir (filename, dest_dir);
 	g_free (dest_dir);
 
-	line = g_strdup_printf ("<AREA SHAPE=\"RECT\" COORDS=\"%d,%d,%d,%d\" HREF=\"%s\">\n", 
-				frame_rect->x, 
-				frame_rect->y, 
-				frame_rect->x + frame_rect->width, 
+	line = g_strdup_printf ("<AREA SHAPE=\"RECT\" COORDS=\"%d,%d,%d,%d\" HREF=\"%s\">\n",
+				frame_rect->x,
+				frame_rect->y,
+				frame_rect->x + frame_rect->width,
 				frame_rect->y + frame_rect->height,
 				rel_path);
 	g_free (rel_path);
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
-	g_free (line);	
+	g_free (line);
 }
 
 
@@ -1799,26 +1799,26 @@ paint_image (CatalogPngExporter *ce,
 	height = image_rect->height;
 
 	if (gdk_pixbuf_get_has_alpha (image)) {
-		gdk_gc_set_rgb_fg_color (ce->gc, &ce->white); 
+		gdk_gc_set_rgb_fg_color (ce->gc, &ce->white);
 		gdk_draw_rectangle (ce->pixmap,
 				    ce->gc,
 				    TRUE,
 				    x, y,
 				    width,
 				    height);
-		
+
 		gdk_pixbuf_render_to_drawable_alpha (image,
-						     ce->pixmap, 
+						     ce->pixmap,
 						     0, 0,
 						     x, y,
 						     width, height,
 						     GDK_PIXBUF_ALPHA_BILEVEL,
 						     112,
 						     GDK_RGB_DITHER_MAX, 0, 0);
-		
+
 	} else
 		gdk_pixbuf_render_to_drawable (image,
-					       ce->pixmap, 
+					       ce->pixmap,
 					       ce->gc,
 					       0, 0,
 					       x, y,
@@ -1853,9 +1853,9 @@ paint_text (CatalogPngExporter *ce,
 	pango_layout_set_width (ce->layout, width * PANGO_SCALE);
 	pango_layout_get_pixel_extents (ce->layout, NULL, &bounds);
 
-	gdk_gc_set_rgb_fg_color (ce->gc, color); 
-	gdk_draw_layout_with_colors (ce->pixmap, 
-				     ce->gc, 
+	gdk_gc_set_rgb_fg_color (ce->gc, color);
+	gdk_draw_layout_with_colors (ce->pixmap,
+				     ce->gc,
 				     x,
 				     y,
 				     ce->layout,
@@ -1902,7 +1902,7 @@ paint_comment (CatalogPngExporter *ce,
 	else
 		font_desc = pango_font_description_from_string (DEFAULT_FONT);
 	pango_layout_set_font_description (ce->layout, font_desc);
-	
+
 	original_attr_list = pango_layout_get_attributes (ce->layout);
 	if (original_attr_list != NULL)
 		pango_attr_list_ref (original_attr_list);
@@ -1914,8 +1914,8 @@ paint_comment (CatalogPngExporter *ce,
 
 	if (! pango_parse_markup (marked_text, -1,
 				  0,
-				  &attr_list, 
-				  &parsed_text, 
+				  &attr_list,
+				  &parsed_text,
 				  NULL,
 				  &error)) {
 		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, utf8_text);
@@ -1936,9 +1936,9 @@ paint_comment (CatalogPngExporter *ce,
 	pango_layout_set_width (ce->layout, ce->thumb_width * PANGO_SCALE);
 	pango_layout_get_pixel_extents (ce->layout, NULL, &bounds);
 
-	gdk_gc_set_rgb_fg_color (ce->gc, &ce->caption_color); 
-	gdk_draw_layout_with_colors (ce->pixmap, 
-				     ce->gc, 
+	gdk_gc_set_rgb_fg_color (ce->gc, &ce->caption_color);
+	gdk_draw_layout_with_colors (ce->pixmap,
+				     ce->gc,
 				     x,
 				     y,
 				     ce->layout,
@@ -1959,17 +1959,17 @@ paint_comment (CatalogPngExporter *ce,
 
 
 static void
-paint_footer (CatalogPngExporter *ce, 
+paint_footer (CatalogPngExporter *ce,
 	      int                 page_n)
 {
 	if (ce->footer != NULL) {
 		char *text;
 		int   y;
-		
+
 		text = get_footer_text (ce, page_n);
 		y = get_page_height (ce, page_n) - get_footer_height (ce) - ROW_SPACING / 2;
-		paint_text (ce, 
-			    ce->footer_font_name, 
+		paint_text (ce,
+			    ce->footer_font_name,
 			    &ce->footer_color,
 			    0,
 			    y,
@@ -1982,7 +1982,7 @@ paint_footer (CatalogPngExporter *ce,
 }
 
 
-static int 
+static int
 get_text_height (CatalogPngExporter *ce,
 		 const char         *text,
 		 const char         *font_name,
@@ -2013,30 +2013,30 @@ get_text_height (CatalogPngExporter *ce,
 }
 
 
-static int 
+static int
 get_header_height_with_spacing (CatalogPngExporter *ce)
 {
-	if (ce->header != NULL) 
+	if (ce->header != NULL)
 		return get_text_height (ce, ce->header, ce->header_font_name, ce->page_width) + (ROW_SPACING * 2);
 	else
 		return 0;
 }
 
 
-static int 
+static int
 get_footer_height (CatalogPngExporter *ce)
 {
-	if (ce->footer != NULL) 
+	if (ce->footer != NULL)
 		return get_text_height (ce, ce->footer, ce->footer_font_name, ce->page_width);
 	else
 		return 0;
 }
 
 
-static int 
+static int
 get_footer_height_with_spacing (CatalogPngExporter *ce)
 {
-	if (ce->footer != NULL) 
+	if (ce->footer != NULL)
 		return get_text_height (ce, ce->footer, ce->footer_font_name, ce->page_width) + (ROW_SPACING * 2);
 	else
 		return 0;
@@ -2062,7 +2062,7 @@ get_hf_text (const char *utf8_text, int n, int p)
 
 		if (*s == '%') {
 			s = g_utf8_next_char (s);
-			
+
 			if (*s == 0) {
 				g_string_append_unichar (r, ch);
 				break;
@@ -2071,7 +2071,7 @@ get_hf_text (const char *utf8_text, int n, int p)
 			ch = g_utf8_get_char (s);
 			switch (ch) {
 				char *t;
-				
+
 			case '%':
 				g_string_append (r, "%");
 				break;

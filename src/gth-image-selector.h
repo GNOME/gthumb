@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003-2006 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -38,6 +38,11 @@ typedef struct _GthImageSelector       GthImageSelector;
 typedef struct _GthImageSelectorClass  GthImageSelectorClass;
 typedef struct _GthImageSelectorPriv   GthImageSelectorPriv;
 
+typedef enum /*< skip >*/ {
+	GTH_SELECTOR_TYPE_REGION,
+	GTH_SELECTOR_TYPE_POINT
+} GthSelectorType;
+
 struct _GthImageSelector
 {
 	GtkWidget __parent;
@@ -54,11 +59,18 @@ struct _GthImageSelectorClass
                                           GtkAdjustment    *hadj,
 					  GtkAdjustment    *vadj);
 	void (* selection_changed)       (GthImageSelector *selector);
+	void (* motion_notify)           (GthImageSelector *selector,
+					  int               x,
+					  int               y);
+	void (* clicked)                 (GthImageSelector *selector,
+					  int               x,
+					  int               y);
 	void (* mask_visibility_changed) (GthImageSelector *selector);
 };
 
 GType      gth_image_selector_get_type             (void);
-GtkWidget* gth_image_selector_new                  (GdkPixbuf        *pixbuf);
+GtkWidget* gth_image_selector_new                  (GthSelectorType   type,
+						    GdkPixbuf        *pixbuf);
 void       gth_image_selector_set_pixbuf           (GthImageSelector *selector,
 						    GdkPixbuf        *pixbuf);
 GdkPixbuf* gth_image_selector_get_pixbuf           (GthImageSelector *selector);
