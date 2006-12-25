@@ -1964,25 +1964,13 @@ typedef struct {
 	GladeXML       *gui;
 
 	GtkWidget      *dialog;
-
-	GtkWidget      *cm_model_combo;
-	GtkWidget      *cm_model_combo_entry;
-	GtkWidget      *cm_port_combo;
-	GtkWidget      *cm_port_combo_entry;
-
-	GtkWidget      *cm_autodetect_table;
-	GtkWidget      *cm_autodetect_model_combo;
-	GtkWidget      *cm_autodetect_model_combo_entry;
-	GtkWidget      *cm_autodetect_port_combo;
-	GtkWidget      *cm_autodetect_port_combo_entry;
-
+	GtkWidget      *cm_model_treeview;
+	GtkWidget      *cm_port_combo_box;
+	GtkWidget      *cm_label;
 	GtkWidget      *cm_refresh_button;
-	
 	GtkWidget      *cm_manual_selection_checkbutton;
-	GtkWidget      *cm_manual_selection_table;
 
 	GHashTable     *autodetected_models;
-	
 } ModelDialogData;
 
 
@@ -2005,15 +1993,18 @@ static void
 model__ok_clicked_cb (GtkButton       *button,
 		      ModelDialogData *mdata)
 {
-	const char *model, *port;
+	gchar        *model = NULL;
+	gchar        *port = NULL;
+	GtkTreeModel *treemodel;
+	GtkTreeIter  iter;
 
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mdata->cm_manual_selection_checkbutton)) == TRUE)
-	{
-		model = gtk_entry_get_text (GTK_ENTRY (mdata->cm_model_combo_entry));
-		port = gtk_entry_get_text (GTK_ENTRY (mdata->cm_port_combo_entry));
-	} else {
-		model = gtk_entry_get_text (GTK_ENTRY (mdata->cm_autodetect_model_combo_entry));
-		port = gtk_entry_get_text (GTK_ENTRY (mdata->cm_autodetect_port_combo_entry));
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mdata->cm_model_treeview));
+	if (gtk_tree_selection_get_selected (selection, &treemodel, &iter))
+		gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
+
+	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (mdata->cm_port_combo_box), &iter)) {
+		treemodel = gtk_combo_box_get_model (GTK_COMBO_BOX (mdata->cm_port_combo_box));
+		gtk_tree_model_get (treemodel, &iter, 0, &port, -1);
 	}
 	
 	gtk_widget_hide (mdata->dialog);
@@ -2021,7 +2012,10 @@ model__ok_clicked_cb (GtkButton       *button,
 		set_camera_model (mdata->data, model, port);
 
 	gtk_widget_destroy (mdata->dialog);
+	g_free(model);
+	g_free(port);
 }
+
 
 static GList *
 get_camera_port_list (ModelDialogData *mdata, GPPortType types)
@@ -2047,7 +2041,7 @@ get_camera_port_list (ModelDialogData *mdata, GPPortType types)
 static GList *
 get_camera_model_list (ModelDialogData *mdata)
 {
-	GList *list = g_list_append (NULL, g_strdup (""));
+	GList *list = NULL;
 	int    n, i;
 
 	n = gp_abilities_list_count (mdata->data->abilities_list);
@@ -2063,6 +2057,7 @@ get_camera_model_list (ModelDialogData *mdata)
 
 	return g_list_reverse (list);
 }
+
 
 static GList*
 get_autodetect_model_list (ModelDialogData *mdata)
@@ -2093,7 +2088,6 @@ get_autodetect_model_list (ModelDialogData *mdata)
 
 	n = gp_list_count (camera_list);
 
-	model_list = g_list_append (NULL, g_strdup (""));
 	model_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify)path_list_free);
 
 	for (i = 0; i < n; i++) {
@@ -2123,80 +2117,111 @@ get_autodetect_model_list (ModelDialogData *mdata)
 	return model_list;
 }
 
+
 static void
-model__autodetect_model_changed_cb (GtkEditable     *editable,
-				    ModelDialogData *mdata)
+model__selection_changed_cb (GtkTreeSelection *selection,
+			     ModelDialogData  *mdata)
 {
-	const char      *model = NULL;
-	GList           *list = NULL;
+        GtkTreeIter     iter;
+	GtkTreeModel    *treemodel;
+	gchar           *model;
+	GtkListStore    *store;
+	int             m;
+	CameraAbilities a;
+	GList           *list, *l;
+	gboolean        is_manual_selection;
 
-	model = gtk_entry_get_text (GTK_ENTRY (mdata->cm_autodetect_model_combo_entry));
+        if (gtk_tree_selection_get_selected (selection, &treemodel, &iter)) {
+                gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
 
-	if (model == NULL || *model == 0) {
-		list =  g_list_append (NULL, g_strdup (""));
-		gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_autodetect_port_combo), list);
-		path_list_free (list);
-	} else {
-		list = g_hash_table_lookup (mdata->autodetected_models, model);
-		gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_autodetect_port_combo), list);
-	}		
+		store =  gtk_list_store_new (1, G_TYPE_STRING);
+		is_manual_selection = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mdata->cm_manual_selection_checkbutton));
+		if (is_manual_selection) {
+			m = gp_abilities_list_lookup_model (mdata->data->abilities_list, model);
+			if (m >= 0) {
+				gp_abilities_list_get_abilities (mdata->data->abilities_list, m, &a);
+				list = get_camera_port_list (mdata, a.port);
+			} else
+				list = NULL;
+		} else
+			list = g_hash_table_lookup (mdata->autodetected_models, model);
+
+		for(l = g_list_first (list); l; l = l->next) {
+			gchar *text = (gchar *)l->data;
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, text, -1);
+		}
+
+		if (is_manual_selection)
+			path_list_free (list);
+
+		gtk_combo_box_set_model (GTK_COMBO_BOX (mdata->cm_port_combo_box), GTK_TREE_MODEL (store));
+ 		gtk_combo_box_set_active (GTK_COMBO_BOX (mdata->cm_port_combo_box), 0);
+
+		g_object_unref (store);
+                g_free (model);
+        }
 }
 
 
 static void
-model__model_changed_cb (GtkEditable     *editable,
-			 ModelDialogData *mdata)
+populate_model_treeview (ModelDialogData *mdata,
+			 gboolean        is_autodetect)
 {
-	const char      *model;
-	int              m;
-	CameraAbilities  a;
-	GList           *list;
+	GList        *list, *l;
+	GtkTreeIter  iter;
+	GtkListStore *store =  gtk_list_store_new (1, G_TYPE_STRING);
 
-	model = gtk_entry_get_text (GTK_ENTRY (mdata->cm_model_combo_entry));
-	m = gp_abilities_list_lookup_model (mdata->data->abilities_list, model);
-	if (m < 0)
-		return;
-	gp_abilities_list_get_abilities (mdata->data->abilities_list, m, &a);
+	if(is_autodetect)
+		list = get_autodetect_model_list (mdata);
+	else
+		list = get_camera_model_list (mdata);
 
-	list = get_camera_port_list (mdata, a.port);
-	gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_port_combo), list);
+	for(l = g_list_first (list); l; l = l->next) {
+		gchar *text = (gchar *)l->data;
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, text, -1);
+	}
+
+	gtk_tree_view_set_model (GTK_TREE_VIEW (mdata->cm_model_treeview), GTK_TREE_MODEL (store));
 	path_list_free (list);
+	g_object_unref (store);
 }
+
 
 static void
 model__refresh_cb (GtkButton       *button,
 		   ModelDialogData *mdata)
 {
-	GList *list = NULL;
-
-	list = get_autodetect_model_list (mdata);
-	gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_autodetect_model_combo), list);
-	path_list_free (list);
+	populate_model_treeview (mdata, TRUE);
 }
+
 
 static void
 model__manual_select_cb (GtkButton       *button,
 			 ModelDialogData *mdata)
 {
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)) == TRUE) {
-		gtk_widget_set_sensitive(mdata->cm_manual_selection_table, TRUE);
-		gtk_widget_set_sensitive(mdata->cm_autodetect_table, FALSE);
+		gtk_label_set_label (GTK_LABEL (mdata->cm_label), "<b>Available cameras</b>");
+		gtk_widget_set_sensitive(mdata->cm_refresh_button, FALSE);
+		populate_model_treeview (mdata, FALSE);
 	} else {
-		gtk_widget_set_sensitive(mdata->cm_manual_selection_table, FALSE);
-		gtk_widget_set_sensitive(mdata->cm_autodetect_table, TRUE);
+		gtk_label_set_label (GTK_LABEL (mdata->cm_label), "<b>Auto-detected cameras</b>");
+		gtk_widget_set_sensitive(mdata->cm_refresh_button, TRUE);
+		populate_model_treeview (mdata, TRUE);
 	}
 	
 }
+
 
 static void
 dlg_select_camera_model_cb (GtkButton  *button,
 			    DialogData *data)
 {
-	ModelDialogData *mdata;
-	GtkWidget       *btn_ok, *btn_help, *btn_cancel;
-	GList           *list;
-	CameraAbilities  a;
-	int              r;
+	ModelDialogData  *mdata;
+	GtkWidget        *btn_ok, *btn_help, *btn_cancel;
+	GtkCellRenderer  *renderer;
+	GtkTreeSelection *treeview_selection;
 
 	mdata = g_new (ModelDialogData, 1);
 	mdata->data = data;
@@ -2211,33 +2236,26 @@ dlg_select_camera_model_cb (GtkButton  *button,
 	/* Get the widgets. */
 
 	mdata->dialog = glade_xml_get_widget (mdata->gui, "camera_model_dialog");
-	mdata->cm_model_combo = glade_xml_get_widget (mdata->gui, "cm_model_combo");
-	mdata->cm_model_combo_entry = glade_xml_get_widget (mdata->gui, "cm_model_combo_entry");
-	mdata->cm_port_combo = glade_xml_get_widget (mdata->gui, "cm_port_combo");
-	mdata->cm_port_combo_entry = glade_xml_get_widget (mdata->gui, "cm_port_combo_entry");
-	mdata->cm_autodetect_model_combo = glade_xml_get_widget (mdata->gui, "cm_autodetect_model_combo");
-	mdata->cm_autodetect_model_combo_entry = glade_xml_get_widget (mdata->gui, "cm_autodetect_model_combo_entry");
-	mdata->cm_autodetect_port_combo = glade_xml_get_widget (mdata->gui, "cm_autodetect_port_combo");
-	mdata->cm_autodetect_port_combo_entry = glade_xml_get_widget (mdata->gui, "cm_autodetect_port_combo_entry");
+	mdata->cm_model_treeview = glade_xml_get_widget (mdata->gui, "cm_model_treeview");
+	mdata->cm_port_combo_box = glade_xml_get_widget (mdata->gui, "cm_port_combobox");
+	mdata->cm_label = glade_xml_get_widget (mdata->gui, "cm_label");
+
 	mdata->cm_refresh_button = glade_xml_get_widget (mdata->gui, "cm_refresh_button");
-	mdata->cm_autodetect_table = glade_xml_get_widget (mdata->gui, "cm_autodetect_table");
-	mdata->cm_manual_selection_table = glade_xml_get_widget (mdata->gui, "cm_manual_selection_table");
 	mdata->cm_manual_selection_checkbutton = glade_xml_get_widget (mdata->gui, "cm_manual_selection_checkbutton");
 
 	btn_ok = glade_xml_get_widget (mdata->gui, "cm_okbutton");
 	btn_help = glade_xml_get_widget (mdata->gui, "cm_helpbutton");
 	btn_cancel = glade_xml_get_widget (mdata->gui, "cm_cancelbutton");
 
-	/* Set widgets data. */
-
-	list = get_camera_model_list (mdata);
-	gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_model_combo), list);
-	path_list_free (list);
-
 	mdata->autodetected_models = NULL;
-	list = get_autodetect_model_list (mdata);
-	gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_autodetect_model_combo), list);
-	path_list_free (list);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (mdata->cm_model_treeview),
+						     0, NULL, renderer,
+						     "text", 0,
+						     NULL);
+	populate_model_treeview (mdata, TRUE);
+	treeview_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mdata->cm_model_treeview));
 
 	/* Set the signals handlers. */
 
@@ -2257,50 +2275,23 @@ dlg_select_camera_model_cb (GtkButton  *button,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (mdata->dialog));
-	g_signal_connect (G_OBJECT (mdata->cm_model_combo_entry),
-			  "changed",
-			  G_CALLBACK (model__model_changed_cb),
-			  mdata);
 	g_signal_connect (G_OBJECT (mdata->cm_refresh_button), 
 			  "clicked",
 			  G_CALLBACK (model__refresh_cb),
-			  mdata);
-	g_signal_connect (G_OBJECT (mdata->cm_autodetect_model_combo_entry),
-			  "changed",
-			  G_CALLBACK (model__autodetect_model_changed_cb),
 			  mdata);
 	g_signal_connect (G_OBJECT (mdata->cm_manual_selection_checkbutton), 
 			  "toggled",
 			  G_CALLBACK (model__manual_select_cb),
 			  mdata);
+	g_signal_connect (G_OBJECT (treeview_selection),
+			  "changed",
+			  G_CALLBACK (model__selection_changed_cb),
+			  mdata);
 
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (mdata->dialog), GTK_WINDOW (data->dialog));
-	gtk_window_set_modal (GTK_WINDOW (mdata->dialog), TRUE);
 	gtk_widget_show (mdata->dialog);
-
-	/**/
-
-	r = gp_camera_get_abilities (mdata->data->camera, &a);
-	if (r >= 0) {
-		GPPortInfo  port_info;
-
-		r = gp_camera_get_port_info (mdata->data->camera, &port_info);
-		if (r >= 0) {
-			char *port = g_strdup_printf ("%s", port_info.path);
-			gtk_entry_set_text (GTK_ENTRY (mdata->cm_port_combo_entry), port);
-			g_free (port);
-		}
-
-		gtk_entry_set_text (GTK_ENTRY (mdata->cm_model_combo_entry), a.model);
-		
-		if (g_hash_table_lookup(mdata->autodetected_models, a.model)) {
-			char *model = g_strdup_printf ("%s", a.model);
-			gtk_entry_set_text (GTK_ENTRY (mdata->cm_autodetect_model_combo_entry), model);
-			g_free (model);
-		}
-	}
 }
 
 

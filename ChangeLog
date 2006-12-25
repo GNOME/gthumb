@@ -1,3 +1,14 @@
+2006-12-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_camera.glade:
+	* src/dlg-photo-importer.c: (model__ok_clicked_cb),
+	(get_camera_model_list), (get_autodetect_model_list),
+	(model__selection_changed_cb), (populate_model_treeview),
+	(model__refresh_cb), (model__manual_select_cb),
+	(dlg_select_camera_model_cb):
+	Better camera-selection dialog. Reduced number of combo boxes,
+	and removed deprecated gtk-combo. Patch by Manuel Braga. Bug 380585.
+
 2006-12-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-image-selector.c (update_mouse_selection): fixed selection when
