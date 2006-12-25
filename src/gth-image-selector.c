@@ -994,14 +994,37 @@ update_mouse_selection (GthImageSelector *selector,
 				   priv->drag_start_selection_area,
 				   &new_selection);
 
-       	if (new_selection.width + dx < 0) {
-       		dx = (2 * new_selection.width) + dx;
-       		new_selection.x -=  new_selection.width;
+	if (((area_type == C_LEFT_AREA)
+	     || (area_type == C_TOP_LEFT_AREA)
+	     || (area_type == C_BOTTOM_LEFT_AREA))
+	    && (dx > new_selection.width)) {
+		new_selection.x += new_selection.width;
+       		dx = - (2 * new_selection.width) + dx;
        		area_type = get_opposite_event_area_on_x (area_type);
-       	}
-       	if (new_selection.height + dy < 0) {
+	}
+	else if (((area_type == C_RIGHT_AREA)
+	          || (area_type == C_TOP_RIGHT_AREA)
+	          || (area_type == C_BOTTOM_RIGHT_AREA))
+	         && (-dx > new_selection.width)) {
+	    	new_selection.x -= new_selection.width;
+       		dx = (2 * new_selection.width) + dx;
+       		area_type = get_opposite_event_area_on_x (area_type);
+	}
+
+	if (((area_type == C_TOP_AREA)
+	     || (area_type == C_TOP_LEFT_AREA)
+	     || (area_type == C_TOP_RIGHT_AREA))
+	    && (dy > new_selection.height)) {
+	    	new_selection.y += new_selection.height;
+       		dy = - (2 * new_selection.height) + dy;
+       		area_type = get_opposite_event_area_on_y (area_type);
+	}
+	else if (((area_type == C_BOTTOM_AREA)
+	          || (area_type == C_BOTTOM_LEFT_AREA)
+	          || (area_type == C_BOTTOM_RIGHT_AREA))
+	         && (-dy > new_selection.height)) {
+       		new_selection.y -= new_selection.height;
        		dy = (2 * new_selection.height) + dy;
-       		new_selection.y -=  new_selection.height;
        		area_type = get_opposite_event_area_on_y (area_type);
        	}
 
