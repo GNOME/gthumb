@@ -1,3 +1,17 @@
+2006-12-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-image-selector.c:
+	(realize):
+	(update_mouse_selection):
+	(set_active_area):
+	(get_event_area_from_id):
+	(set_cursor): use a GDK_CROSSHAIR cursor, update the cursor while dragging
+	the selection.
+
+	* data/glade/gthumb_camera.glade:
+	* src/dlg-photo-importer.c: simplyfied the camera dialog, added a
+	"no camera detected" message when the list is empty.
+
 2006-12-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb_camera.glade:

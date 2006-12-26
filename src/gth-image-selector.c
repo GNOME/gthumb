@@ -220,6 +220,7 @@ struct _GthImageSelectorPriv {
 	GdkRectangle     selection;
 
 	GdkCursor       *default_cursor;
+	GdkCursor       *current_cursor;
 	GList           *event_list;
 	EventArea       *current_area;
 
@@ -351,10 +352,9 @@ static EventArea*
 get_event_area_from_id (GthImageSelector *selector,
 			int               event_id)
 {
-	GthImageSelectorPriv *priv = selector->priv;
-	GList                *scan;
+	GList *scan;
 
-	for (scan = priv->event_list; scan; scan = scan->next) {
+	for (scan = selector->priv->event_list; scan; scan = scan->next) {
 		EventArea *event_area = scan->data;
 		if (event_area->id == event_id)
 			return event_area;
@@ -364,7 +364,7 @@ get_event_area_from_id (GthImageSelector *selector,
 }
 
 
- /**/
+/**/
 
 
 static void
@@ -745,6 +745,17 @@ set_selection (GthImageSelector *selector,
 
 
 static void
+set_cursor (GthImageSelector *selector,
+	    GdkCursor        *cursor)
+{
+	if (selector->priv->current_cursor == cursor)
+		return;
+	gdk_window_set_cursor (GTK_WIDGET (selector)->window, cursor);
+	selector->priv->current_cursor = cursor;
+}
+
+
+static void
 set_active_area (GthImageSelector *selector,
 		 EventArea        *event_area)
 {
@@ -759,11 +770,9 @@ set_active_area (GthImageSelector *selector,
 		priv->current_area = event_area;
 
 	if (priv->current_area == NULL)
-		gdk_window_set_cursor (GTK_WIDGET (selector)->window,
-				       priv->default_cursor);
+		set_cursor (selector, priv->default_cursor);
 	else
-		gdk_window_set_cursor (GTK_WIDGET (selector)->window,
-				       priv->current_area->cursor);
+		set_cursor (selector, priv->current_area->cursor);
 }
 
 
@@ -983,6 +992,7 @@ update_mouse_selection (GthImageSelector *selector,
 	GdkRectangle          new_selection, tmp;
 	int                   semiplane;
 	GthEventAreaType      area_type = priv->current_area->id;
+	EventArea            *event_area;
 
 	priv->drag_x = new_x;
 	priv->drag_y = new_y;
@@ -1027,6 +1037,10 @@ update_mouse_selection (GthImageSelector *selector,
        		dy = (2 * new_selection.height) + dy;
        		area_type = get_opposite_event_area_on_y (area_type);
        	}
+
+	event_area = get_event_area_from_id (selector, area_type);
+	if (event_area != NULL)
+		set_cursor (selector, event_area->cursor);
 
 	switch (area_type) {
 	case C_SELECTION_AREA:
@@ -1412,8 +1426,11 @@ realize (GtkWidget *widget)
 				    GDK_JOIN_MITER);
 	gdk_gc_set_function (priv->selection_gc, GDK_INVERT);
 
-	priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_LEFT_PTR);
-	gdk_window_set_cursor (widget->window, priv->default_cursor);
+	if (priv->type == GTH_SELECTOR_TYPE_REGION)
+		priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR /*GDK_LEFT_PTR*/);
+	else if (priv->type == GTH_SELECTOR_TYPE_POINT)
+		priv->default_cursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CROSSHAIR);
+	set_cursor (selector, priv->default_cursor);
 
 	add_event_area (selector, C_SELECTION_AREA, GDK_FLEUR);
 	add_event_area (selector, C_TOP_AREA, GDK_TOP_SIDE);
