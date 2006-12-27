@@ -6472,7 +6472,7 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->file_list_pane = gtk_vbox_new (0, FALSE);
 	gtk_widget_show_all (priv->file_list->root_widget);
 
-	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);
+	/*gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);*/
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->file_list->root_widget, TRUE, TRUE, 0);
 
 	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);

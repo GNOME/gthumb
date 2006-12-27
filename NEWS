@@ -1,41 +1,47 @@
-version 2.9.0
+version 2.9.1
 -------------
-
+	* Added red-eye removal tool (bug #140533).
+	* Added mousewheel navigation (#131416).
+	* New shortcut: press "g" to launch gimp.
+	* New shortcut: press "i" for image info.
+	* Added a zoom-to-width mode (#148971).
+	* Removed filtering of Exif tags - all are shown now. Can display
+	  GPS-related Exif tags now (#339648).  Added the ability to view
+	  Exif "MakerNote" data (#339648).
+        * Added "reset Exif orientation tag" tool (#361416)
         * Added proper support for the Exif orientation tag when importing,
-          rotating, and displaying JPEG images. See bug #343867: Rotating image 
-          should alter EXIF data
-        * Added "reset Exif orientation tag" tool (bug #361416)
-	* Added red-eye removal tool (bug #140533)
-	* Include original filename in web-album image filenames (bug #173025).
-	* Added option to trim jpegs during transformations on images whose 
-	  dimensions are not multiples of the jpeg MCU, 8 (bug #361913)
-	* New re-size options in web exporter to allow equal landscape and
-	  portrait image sizes (square bounding box). Bug #313671.
-	* Migration to gnome-doc-utils (bug #346889).
-	* Fixed comment wrapping when printing (bug #305046).
+          rotating, and displaying JPEG images (#343867)
+	* Added option to trim jpegs during transformations on images whose
+	  dimensions are not multiples of the jpeg MCU, 8 (#361913)
+	* Added sort-by-comment and by Exif DateTime (#373557, #167791).
+	* Adds support for multiple auto-detected cameras, or
+	  multiple modes for single cameras (#361967).
+	* Enhancements to the crop dialog: added undo/redo support;
+ 	  allow to crop multiple times without exiting the dialog;
+ 	  allow to switch on/off the selection mask; zoom in/out with
+ 	  mouse wheel; zoom keeping the center of the image visible.
 	* Allows file extension to be changed when bulk-renaming
-	  (bug 338623 and bug 339037)
-	* Fixes image scaling memory leak (bug #349576)
-	* Adds support for multiple auto-detected cameras (or
-	  multiple modes for single cameras). Bug 361967.
-	* Shortcut: press "g" to launch gimp.
-	* Shortcut: press "i" for image info.
-	* Replaced deprecated gnome_app functions. Bug 171601.
-	* Added a zoom-to-width mode for viewing scanned text. Bug 148971.
-	* Added mousewheel navigation. Bug 131416.
-	* Added sort-by-comment and by Exif DateTime. Bugs 373557, 167791.
-	* Fixed critical bug 356623 - gth_location_new crasher.
-	* Added a new "BestFit" web album theme. Bug 319933.
+	  (#338623 and #339037)
+ 	* Always use the rename series tool even to rename a single file
+	  (#383439).
+	* Added a new "BestFit" web album theme (#319933).
+	* Include original filename in web-album image filenames (#173025).
+	* New re-size options in web exporter to allow equal landscape and
+	  portrait image sizes (#313671).
 	* Added iso-code escaping of non-ASCII characters in web albums.
-	* More secure method of temporary file generation. Bug 358894.
-	* Can display GPS-related Exif tags now. Bug 339648.
-	* Added the ability to view Exif "MakerNote" data. Bug 339648.
-	* Migrated from libgnomeprint to gtkprint. Bug 362854.
+	* Migration to gnome-doc-utils (#346889).
+	* Migrated from libgnomeprint to gtkprint (#362854).
+	* Fixed comment wrapping when printing (#305046).
+	* Fixed image scaling memory leak (#349576).
+	* Replaced deprecated gnome_app functions (#171601).
+	* Fixed bug #356623 - gth_location_new crasher.
+	* More secure method of temporary file generation (#358894).
+	* Removed the bonobo components.
 
 version 2.7.9
 -------------
-	* Fixed bug #351058: build failure when -Wl,--as-needed is passed to 
-	  linker flags.  
+	* Fixed bug #351058: build failure when -Wl,--as-needed is passed to
+	  linker flags.
 	* Fixed bug #350732: "loose" should be "lose"
 	* Fixed bug #349556 - [PATCH] Little bug makes gThumb slower than it can
 	  be.
@@ -44,13 +50,13 @@ version 2.7.9
 	* Fixed bug #352747 – gthumb can't open folder through file selector.
 	* Fixed compiler warnings.
 	* Fixed compilation/installation errors when srcdir != builddir
-	* Fixed bug #358326 – message: assertion `k < N_LOADERS' 
+	* Fixed bug #358326 – message: assertion `k < N_LOADERS'
 	  failed
-	* Fixed bug #358343 – web album: assertion `g_path_is_absolute 
+	* Fixed bug #358343 – web album: assertion `g_path_is_absolute
 	  (local_full_path)' failed
 	* Fixed bug #343982 – fix build with gcc 2.95
 	* Fixed bug #355376 – "Help" shortcut should be "F1" instead of "Ctrl+H"
-	
+
 version 2.7.8
 -------------
 	* Set a smaller height for the progressbar to avoid an image resize.
@@ -58,10 +64,10 @@ version 2.7.8
 
 version 2.7.7
 -------------
-	* Fixed bug #340406 - gthumb doesn't compain of nonexisting default 
+	* Fixed bug #340406 - gthumb doesn't compain of nonexisting default
           web-album theme.
 	* Fixed bug #339645 - [2.7.5.1] caps-lock disables keyboard shortcuts
-	* Fixed bug #339484 - Gthumb 2.7.5.1 doesn't store EXIF information in 
+	* Fixed bug #339484 - Gthumb 2.7.5.1 doesn't store EXIF information in
 	  JPEG files, when image is loaded directly
 	* Fixed bug #339291 - "keep original filename" changes case
 	* Fixed bug #339852 - index image maps creating wrong href
@@ -72,7 +78,7 @@ version 2.7.6
 	* Always use the browser mode, added a --viewer command line option to
 	  use the viewer mode for single images.
 	* Fixed bug #336851 - gThumb crashes when I try "full screen"-mode
-	* Fixed bug #337920 - created directory "doesn't exist" if it contains 
+	* Fixed bug #337920 - created directory "doesn't exist" if it contains
 	  spaces.
 	* Fixed bug #336930 - Web album without JavaScript.
 	* Fixed bug #334903 - Should save on hitting enter in “save as” dialog
@@ -85,13 +91,13 @@ version 2.7.5.1
 version 2.7.5
 -------------
 	* Only display user visible drives in the location box.
-	* Fixed bug #329889 - thumbnail generation and accentuated characters 
+	* Fixed bug #329889 - thumbnail generation and accentuated characters
 	  in path.
 	* Fixed little bug in crop dialog.
-	* Fixed bug that prevented comments to be removed correctly when 
+	* Fixed bug that prevented comments to be removed correctly when
 	  iptc_data support was enabled.
 	* Fixed command line catalog creation.
-	* Fixed photo importing and fixed bug that prevented importing photos 
+	* Fixed photo importing and fixed bug that prevented importing photos
 	  when an instance of gthumb was already running.
 
 version 2.7.4
@@ -99,11 +105,11 @@ version 2.7.4
 	* Fixed bug #325833 – gthumb icon isn't on window title bar and windo
 	  list applet.
 	* Fixed bug #326844 – Scale Series: Prevent rename .jpg to .jpeg
-	* Fixed bug #333102 – Image rotation action does not update the EXIF 
+	* Fixed bug #333102 – Image rotation action does not update the EXIF
 	  tag correctly
 	* Fixed bug #331714 - crash in Preferences Browser
 	* Fixed bug #327245 - Full screen mode crippled if Xinerama is used
-	* Fixed bug #313827 – Search does not work on categories with colon 
+	* Fixed bug #313827 – Search does not work on categories with colon
 	  symbol and similar names.
 	* Fixed bug #331658 - EXIF attributes are not preserved after an image
           modification + save
@@ -112,11 +118,11 @@ version 2.7.4
 
 version 2.7.3
 -------------
-	* Fixed bug #329889 - thumbnail generation and accentuated characters 
+	* Fixed bug #329889 - thumbnail generation and accentuated characters
 	  in path.
 	* Fixed bug #329139 - Doesn't determine image type from content anymore
 	* Improved the crop dialog.
-	* Fixed bug #329600 – Deleting the Catalogue Search\ Results causes 
+	* Fixed bug #329600 – Deleting the Catalogue Search\ Results causes
 	  erroneous behaviour.
 	* Fixed bug #328010 - Add GNOME or GTK categories o the .desktop file
 	* Fixed bug #327049 – Fix build with gcc 2.95
@@ -126,32 +132,32 @@ version 2.7.3
 	* Fixed bug #324017 - failed to initialize Canon powerShot G5 due an GTK
 	  bug.
 	* Fixed bug #325211 - Image quality in web album.
-	* Fixed bug #325308 - gThumb crash when reaching the end of a directory 
+	* Fixed bug #325308 - gThumb crash when reaching the end of a directory
 	  during fullscreen viewing.
-	* Fixed bug #325507 - gthumb crashes if startup_location gconf pref is 
+	* Fixed bug #325507 - gthumb crashes if startup_location gconf pref is
 	  invalid.
 
 
 version 2.7.2
 -------------
 	* Crossfading in slideshow mode (#312116)
-	* Removed the location entry.  Use a specialized combobox with the 
+	* Removed the location entry.  Use a specialized combobox with the
           parent folders, drives and bookmarks (#324970)
 	* Added ability to select the image type in the scale series dialog.
 	* Adjust photo orientation on import.
-	* Use a more accurate method to check whether an image is a gif 
+	* Use a more accurate method to check whether an image is a gif
           animation.
 	* Added a Flickr like web album theme. Remove the BlueStrips theme.
-          Updated the Wiki web album theme. 
+          Updated the Wiki web album theme.
 	* Use gnome-vfs as much as possible.
 	* Use p as keyword shortcut to pause/resume a slideshow.
-	* Fixed bug #301726 – "Create Web Album" does not use relative 
+	* Fixed bug #301726 – "Create Web Album" does not use relative
 	  paths for images.
-	* Fixed bug #310649 – Next/prev keyboard shortcuts in slides mode 
+	* Fixed bug #310649 – Next/prev keyboard shortcuts in slides mode
 	  shouldn't block
 	* Fixed bug #319467 – Add keyboard shortcut to Lossless JPEG rotation.
 	* Fixed bug #323872 – Import button should be greyed out while importing
-	* Fixed bug #324812 – rotating images not working in gthumb fullscreen 
+	* Fixed bug #324812 – rotating images not working in gthumb fullscreen
 	  mode.
 	* Fixed bug #318828: Exif Orientation Tag Incorrectly Updated.
 	* Fixed bug #322158: please add a generic name to the desktop file
@@ -159,48 +165,48 @@ version 2.7.2
 	* Fixed bug #321500: Makefile.am in components/catalog-view is broken
 	* Fixed bug #305165: gthumb crash resize.
 	* Fixed bug #321124: Confusing handling of --disable-schemas-install
-	* Fixed bug #320947: Create Web Album Tool doesn't generate HTML pages 
+	* Fixed bug #320947: Create Web Album Tool doesn't generate HTML pages
 	  with International characters.
 	* Fixed bug #321274: Incorrect log2 definition/detection.
 
 version 2.7.1
 -------------
-	* Requires gtk+ >= 2.6.0 and glib >= 2.6.0.  Use gtk_about_dialog, 
-          gtk_filechooser_button, gtk_font_button instead of gnome_font_picker 
+	* Requires gtk+ >= 2.6.0 and glib >= 2.6.0.  Use gtk_about_dialog,
+          gtk_filechooser_button, gtk_font_button instead of gnome_font_picker
           and gtk_color_button instead of gnome_color_picker.
-	* Added a viewer window to view single images, with the optional 
+	* Added a viewer window to view single images, with the optional
           ability to reuse an already opened viewer window.
 	* Added a window factory to use only one executable.
 	* Added undo/redo support.
 	* Added ability to manually reorder images in a catalog (#130063).
-          Allow to use the manual order in the "web exporter", "png exporter" 
+          Allow to use the manual order in the "web exporter", "png exporter"
           and "rename series" tools.
 	* Added a 'scale series' tool.
-	* Optionally store comments inside jpeg images using the libiptcdata 
+	* Optionally store comments inside jpeg images using the libiptcdata
           library.
 	* Added ability to rotate to left/right a series of images,
 	  or to auto-adjust the images orientation directly from the toolbar.
 	* Added ability to customize the paper margins in the print dialog.
-	* Added ability to print a non-saved image, and to set as wallpaper a 
+	* Added ability to print a non-saved image, and to set as wallpaper a
           non-saved image.
 	* Added a "View destination" option in the choose folder dialog.
-	* Added ability to view the destination catalog after adding the images 
+	* Added ability to view the destination catalog after adding the images
 	  to a catalog, and remember the user choice.
-	* Added 'open' and 'open in new window' in the catalog list context 
+	* Added 'open' and 'open in new window' in the catalog list context
 	  menu.
-	* Removed Clean and NeatSquare album themes.  Added a Wiki theme 
+	* Removed Clean and NeatSquare album themes.  Added a Wiki theme
           inspired by the wikipedia style.
-	* Added time offset to the 'Change Date' tool and allow to change the 
+	* Added time offset to the 'Change Date' tool and allow to change the
           comment date as well.
 	* Disable the screensaver during a slideshow.  Allow to pause/resume
           a slideshow.
 	* Added image dithering operations using the web palette or in
-	  black and white.  
+	  black and white.
 	* Removed 'normalize contrast' and 'stretch contrast' commands.
-	* Use the Edit->Rename command even to rename a series of images 
+	* Use the Edit->Rename command even to rename a series of images
           (#171050).
-	* Added a navigation bar below the location entry.  Removed the 
-          navigation buttons from the main toolbar.  Added fullscreen button 
+	* Added a navigation bar below the location entry.  Removed the
+          navigation buttons from the main toolbar.  Added fullscreen button
           on the main toolbar.
 	* Added the image type in the metadata pane.
 	* Underline the item name only when the mouse is over it in single click
@@ -208,66 +214,66 @@ version 2.7.1
 	* Applied the same bugfixes of the 2.6.x series.
 
 version 2.6.4
--------------	
+-------------
 	* Fixed bug #145325: xhtml/xml support for Web Albums
-	* Create high quality thumbnails when the thumbnail size is greater 
+	* Create high quality thumbnails when the thumbnail size is greater
 	  than 128.  Fixes bug #152441: fuzzy thumbnails, not sharp thumbnails.
-	* Fixed bug #164961: Browsing for Web Album location adds %20 to names 
+	* Fixed bug #164961: Browsing for Web Album location adds %20 to names
 	  with spaces.
-	* Fixed bug #160232: gthumb doesn't import pictures from 
+	* Fixed bug #160232: gthumb doesn't import pictures from
 	  ARGUS DC1500 camera.
-	* Fixed bug #165478: Rotated images no longer auto-refresh in image 
+	* Fixed bug #165478: Rotated images no longer auto-refresh in image
 	  viewer.
 	* Fixed bug #167502: crash trying to open specific image.
 	* Fixed bug #168938: Crash when loading a photo.
-	  
+
 version 2.6.3
--------------	
+-------------
 	* Fixed bug #161635: Scrollbar doesn't reset when viewing with next and
 	  previous.
 	* Fixed bug #156870: Duplicates allowed in catalogues.
-	* Fixed bug #149883: Saving pictures with files extensions in 
+	* Fixed bug #149883: Saving pictures with files extensions in
 	  uppercase doesn't work.
-	* Fixed bug #142897: Selected Categories area of Categories window 
+	* Fixed bug #142897: Selected Categories area of Categories window
 	  appears to be directly editable, but it is not.
-	* Fixed bug #160003: gthumb toolbar horizontal icons + text only shows 
+	* Fixed bug #160003: gthumb toolbar horizontal icons + text only shows
 	  icons.
 	* Fixed bug #162323: Doesn't remember settings for serial port cameras.
-	* Fixed bug #162852: pressing the camera icon while importing photos 
+	* Fixed bug #162852: pressing the camera icon while importing photos
 	  does bad things
-	* Fixed bug #163417: Filename in Rename Series (date %d) contains ":" 
+	* Fixed bug #163417: Filename in Rename Series (date %d) contains ":"
 	  which is invalid filename under Windows.
-	* Fixed bug #156677:  - ctrl+S should be the save shortcut, not the 
+	* Fixed bug #156677:  - ctrl+S should be the save shortcut, not the
 	  Slide Show
 	* Fixed bug #143102: gThumb SHOULD save sizes when window is maximized.
 	* Fixed bug #164344: EXIF hour off by one (DST)
 	* Fixed bug #164293: bad time in rename functionality
 	* Fixes bug #143161: Select previous directory in directory list.
 	* Fixes bug #149707: Remember last catalog for next catalog operation.
-	* Fixes bug #164325: "Import Photos" error handling when import 
+	* Fixes bug #164325: "Import Photos" error handling when import
 	  destination is read-only or device is full.
 	* Classic and ClassicClips album themes are now xhtml compliant.
-	
+
 version 2.6.2
--------------	
+-------------
 	* Fixed bug #159492: freezes when trying to create thumbnail for a JPEG
 	  file.
 	* Fixed bug #159672: log2() function already defined under cygwin.
-	* Fixed bug #159661: Symlinks in the root directory are incorrectly 
+	* Fixed bug #159661: Symlinks in the root directory are incorrectly
   	  resolved.
 
 version 2.6.1
 -------------
-	* Fixed bug #158682: Modified image auto-saved through confirmation 
+	* Fixed bug #158682: Modified image auto-saved through confirmation
 	  dialog loses EXIF data.
 	* Fixed bug #158253: Crash when parsing dir with UTF8(?) filenames
-	* Fixed bug #158174: Clicking cancel while thumbnail list is still 
+	* Fixed bug #158174: Clicking cancel while thumbnail list is still
           being extracted from camera crashes gthumb.
-	* Fixed Bug #156851: Crash on startup on 64-bit architectures, 
+	* Fixed Bug #156851: Crash on startup on 64-bit architectures,
 	  and other 64-bit cleanliness issues.
 	* Fixed bug #156933: Patch to enable resizing of Import Photos dialog.
 	* Fixes bug #152542: Add F12 keybinding to the Revert action.
-	* Fixes bug #157761: Cannot resize the columns in the 
+	* Fixes bug #157761: Cannot resize the columns in the
 	  "find duplicates" dialog of gthumb.
 	* Enhanced usability with non-loadable images, for example xcf images.
 
@@ -304,7 +310,7 @@ version 2.5.0
 	* Use the Gtk+ FileChooser for saving and loading images or selecting
           folders.
 	* New comment system that saves comments in the .comments subfolder.
-	* Added ability to write images and their comments to CDs using 
+	* Added ability to write images and their comments to CDs using
           Nautilus.
 	* Make the comments dialog and the categories dialog modeless.
 	* Preserve EXIF data when saving an image.
@@ -316,7 +322,7 @@ version 2.4.0
 	* Removed the style attributes from the album theme files, uses css
 	  classes instead.
 	* Use '2' to set the zoom level to 200% and '3' to set it to 300%.
-	* Fixes debian bug #241800: gthumb: incorrect treatment of accented 
+	* Fixes debian bug #241800: gthumb: incorrect treatment of accented
 	  character in tools - rename series
 
 version 2.3.3
@@ -332,16 +338,16 @@ version 2.3.3
 
 version 2.3.2
 -------------
-	* Fixed bug #136097 (gthumb 2.2.1 ignores "save only changed fields" 
+	* Fixed bug #136097 (gthumb 2.2.1 ignores "save only changed fields"
 	  tickbox).
-	* Fixed bug #135110 (An UTF8 string was not converted to the current 
+	* Fixed bug #135110 (An UTF8 string was not converted to the current
           locale (again)).
-	* Fixed bug #126452 (Compilation error in data/albumthemse/BlueStripes 
+	* Fixed bug #126452 (Compilation error in data/albumthemse/BlueStripes
 	  with index.xml.in parsing.
-	* Fixed bug #136168 (Images with capitalized extensions (.JPG) are not 
+	* Fixed bug #136168 (Images with capitalized extensions (.JPG) are not
 	  found by the image search/browser).
 	* Fixed bug #136451 (Quick multiple selection problem).
-	* Fixed bug #133452 (thumbnail-pane is resized when the application 
+	* Fixed bug #133452 (thumbnail-pane is resized when the application
 	  window is resized).
         * Removed the destination manager in the Create Web Album dialog.
         * Fixed drag & drop (again :).
@@ -358,11 +364,11 @@ version 2.3.1
 	* Fixed bug #130382 (gthumb keyboard usability issue).
 	* Fixed bug #112254 (Needs Randomize Option on Slide Show).
 	* Fixed bug #130823 (gthumb does not maintain permissions on files).
-	* Fixed bug #130824 (gthumb does not complain about lack of 
+	* Fixed bug #130824 (gthumb does not complain about lack of
           permissions).
 	* Fixed bug #130829 (gthumb ignores current directory when starting).
 	* Fixed bug #131852 (Moving images via drag-and-drop no longer works).
-	* Fixed bug #131853 (Changing folders produces flicker in image 
+	* Fixed bug #131853 (Changing folders produces flicker in image
 	  viewer).
 	* Fixed thumbnail creation for jpeg images.
 	* Fixed drag and drop.
@@ -378,14 +384,14 @@ version 2.3.0
 	* Allow to save void searches.
 	* Update "View Next Images" and "View Prev Image" sensitivity.
 	* New search icon.
-	* When serching use the file mtime if no time is defined in the 
+	* When serching use the file mtime if no time is defined in the
           comment.
         * Removed Exit from the File menu.
         * Simplify the Index Image dialog.
 	* Check write permissions before saving an image.
 	* Use a faster loader for jpeg images when creating thumbnails.
 	* Do not launch Nautilus explicitly, use gnome_url_show instead.
-	* Added --import-photos option to automatically open the import 
+	* Added --import-photos option to automatically open the import
 	  photos dialog.
 
 version 2.2.0
@@ -419,17 +425,17 @@ version 2.1.4
 
 version 2.1.3
 -------------
-	* Web Album: added ability to resize images before copying them 
-	  to the destination, and to personalize the theme choosing the 
+	* Web Album: added ability to resize images before copying them
+	  to the destination, and to personalize the theme choosing the
           image caption.
-	* Print dialog: the user can choose the comment font; 
-          better preview; remember all settings; allow to set a custom 
-          paper size. 
+	* Print dialog: the user can choose the comment font;
+          better preview; remember all settings; allow to set a custom
+          paper size.
 	* Bugfixes.
 
 version 2.1.2
 -------------
-	* Auto load a folder when hovering on it during a 
+	* Auto load a folder when hovering on it during a
 	  'drag & drop' operation.
 	* Added normilize and stretch contrast.
 	* Added ability to change the preview content, now you can
@@ -455,12 +461,12 @@ version 2.1.0
 	* Print dialog ported to libgnomeprint 2.2.
 	* New tool: Create Web Album.
 	* Added ability to change list view (list or thumbnails).
-	* Compile some tools as dynamic modules, and load them only 
+	* Compile some tools as dynamic modules, and load them only
 	  when needed.
-	* Slideshow includes only selected images when more than one 
+	* Slideshow includes only selected images when more than one
 	  image is selected.
 	* Update the icon theme on the fly.
-	* Added a black_background option to always use a black 
+	* Added a black_background option to always use a black
 	  background for the image viewer (only settable via gconf).
 
 version 2.0.1
@@ -480,14 +486,14 @@ version 1.108
 version 1.107
 -------------
 	* Make image operations asynchronous and cancellable.
-	* Added image saving support to the viewer component. 
+	* Added image saving support to the viewer component.
 	* Bugfixes.
 
 version 1.106
 -------------
 	* New image operations: auto adjust color levels, equalize histogram.
 	* Added an histogram tab to the image properties dialog.
-	* Delete operations now move files and folders to the Trash. 
+	* Delete operations now move files and folders to the Trash.
 	* Added ability to copy, move and delete recursively folders.
 	* Better Drag & Drop support.
 	* Added a rename option to the overwrite dialog.
@@ -497,7 +503,7 @@ version 1.106
 
 version 1.105
 -------------
-	* New tools: edit image (hue, brightness, contrast, saturation, 
+	* New tools: edit image (hue, brightness, contrast, saturation,
 	  color balance, etc.), convert format, change timestamp.
 	* Use gconf as configuration system instead of gnome-config.
 	* Added session management support.
@@ -511,13 +517,13 @@ version 1.104
 	* Added option to choose the click policy.
 	* Added "duplicate image" operation.
 	* Better handling of long comments.
-	* The image view component now supports printing, so you can print 
+	* The image view component now supports printing, so you can print
 	  an image (and its comment) using Nautilus.
 
 version 1.103
 -------------
 	* New tool: jpeg lossless transformations.
-	* The user can edit/view comments and delete images in fullscreen 
+	* The user can edit/view comments and delete images in fullscreen
 	  mode.
 	* Changed the fourth layout type to something more usefull.
 	* Automatically update the content of a folder.
@@ -525,7 +531,7 @@ version 1.103
 version 1.102
 -------------
 	* New tool: rename series of images.
-	* Added a maintenance dialog where the user can delete old/all 
+	* Added a maintenance dialog where the user can delete old/all
 	  comments/thumbnails, and backup and restore comments.
 	* Added header and footer support to the "Index Image" tool.
 	* Re-added the "Toolbar Style" option.
@@ -557,9 +563,9 @@ version 0.10
 version 0.9.9
 -------------
 	* View fullscreen directly from the contextual menu of a thumbnail.
-	* Option to switch automatically to full screen mode when the 
+	* Option to switch automatically to full screen mode when the
 	  slideshow starts.
-	* The user can specify an editor different from the ones associated 
+	* The user can specify an editor different from the ones associated
 	  with images.
 	* Bugfixes.
 
@@ -596,7 +602,7 @@ version 0.9.3
 	* New feature: Add comments to images.
 	* Ask what to do when trying to overwrite a file.
 	* Bugfixes.
-	
+
 version 0.9.2
 ---------------
 	* Fixed RPM build.
@@ -634,7 +640,7 @@ version 0.7
 -----------
 	* New option: Thumbnails size.
 	* Added history menu.
-	
+
 version 0.6.4
 -------------
 	* Bookmarks are in a menu now (ala Nautilus).
@@ -666,4 +672,4 @@ version 0.3
 
 version 0.2
 -----------
-	* First public version. 
+	* First public version.
