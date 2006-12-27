@@ -1,5 +1,7 @@
 2006-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* doc/C/gthumb.xml: removed . outside <para>
+
 	* src/gth-browser.c (gth_browser_construct): removed the filter bar for
 	the 2.9.1 version.
 	* NEWS: updated for 2.9.1

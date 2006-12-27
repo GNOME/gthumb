@@ -1,5 +1,5 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
   <!ENTITY appversion "2.9.0">
@@ -35,15 +35,15 @@
 
     -->
 
-    <!-- An address can be added to the publisher information.  If a role is 
-     not specified, the publisher/author is the same for all versions of the 
+    <!-- An address can be added to the publisher information.  If a role is
+     not specified, the publisher/author is the same for all versions of the
      document.  -->
-    <publisher> 
-      <publishername> GNOME Documentation Project </publishername> 
-    </publisher> 
+    <publisher>
+      <publishername> GNOME Documentation Project </publishername>
+    </publisher>
 
-    &legal; 
-    
+    &legal;
+
     <authorgroup>
       <author role="maintainer">
         <firstname>Paolo</firstname>
@@ -52,14 +52,14 @@
 	  <address> <email>paolo.bacchilega@libero.it</email> </address>
         </affiliation>
       </author>
-      <author> 
-	<firstname>Alexander</firstname> 
-	<surname>Kirillov</surname> 
-	<affiliation> 
-	  <orgname>GNOME Documentation Project</orgname> 
-	  <address> <email>kirillov@math.sunysb.edu</email> </address> 
-	</affiliation> 
-      </author> 
+      <author>
+	<firstname>Alexander</firstname>
+	<surname>Kirillov</surname>
+	<affiliation>
+	  <orgname>GNOME Documentation Project</orgname>
+	  <address> <email>kirillov@math.sunysb.edu</email> </address>
+	</affiliation>
+      </author>
     </authorgroup>
     <!-- do not put authorname in the header except in copyright - use
          section "authors" below -->
@@ -75,22 +75,22 @@
     </revhistory>
 
 
-    <!-- this is version of manual, not application --> 
+    <!-- this is version of manual, not application -->
     <releaseinfo>
       This is manual describes version &appversion; of &appname;
     </releaseinfo>
     <abstract role="description"><para>&app; is an image viewer and browser for the GNOME environment</para></abstract>
   </articleinfo>
 
-  <indexterm> 
-    <primary>&appname;</primary> 
-  </indexterm> 
-  <indexterm> 
-    <primary>image viewer</primary> 
-  </indexterm> 
-  <indexterm> 
-    <secondary>viewer</secondary> 
-  </indexterm> 
+  <indexterm>
+    <primary>&appname;</primary>
+  </indexterm>
+  <indexterm>
+    <primary>image viewer</primary>
+  </indexterm>
+  <indexterm>
+    <secondary>viewer</secondary>
+  </indexterm>
 
   <!-- ============= Document Body ============================= -->
 
@@ -99,15 +99,15 @@
   <sect1 id="intro">
     <title>Introduction</title>
     <para>
-      &app; is an image viewer and browser 
-      written for the GNOME environment.  It lets you browse your hard disk, 
+      &app; is an image viewer and browser
+      written for the GNOME environment.  It lets you browse your hard disk,
       showing you thumbnails of image files and view single images
       of many different formats.
     </para>
     <para>
-      The most common image formats are JPEG and GIF. The JPEG format 
+      The most common image formats are JPEG and GIF. The JPEG format
       is good for medium and big sized images because it has a high
-      compression rate keeping a good image quality.  
+      compression rate keeping a good image quality.
       The GIF format is used in Web pages for displaying little
       animations or little static images.
       Another important image format is PNG, this format is very
@@ -125,13 +125,13 @@
       background, and more.
     </para>
   </sect1>
-  
+
   <!-- ============= Getting Started ==============================  -->
   <sect1 id="gthumb-getting-started">
   <title>Getting Started</title>
   <para>
     This section provides information on how to start &app;, and
-    describes the main window interface. 
+    describes the main window interface.
   </para>
   <sect2 id="get-start">
     <title>To Start &app;</title>
@@ -143,14 +143,14 @@
           <listitem>
             <para>Choose
             <menuchoice><guisubmenu>Graphics</guisubmenu><guimenuitem>gThumb</guimenuitem></menuchoice>.
-            </para> 
+            </para>
           </listitem>
         </varlistentry>
         <varlistentry>
           <term>Command line</term>
           <listitem>
             <para>Type <command>gthumb</command>, then press
-            <keycap>Return</keycap>.</para> 
+            <keycap>Return</keycap>.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -196,9 +196,9 @@
 
     <!-- ==== Figure ==== -->
     <figure id="main-win-fig">
-    <title>The main window</title> 
+    <title>The main window</title>
     <screenshot>
-      <screeninfo>The main window</screeninfo> 
+      <screeninfo>The main window</screeninfo>
       <graphic format="PNG" fileref="figures/main-win.png" srccredit="Me"/>
     </screenshot>
     </figure>
@@ -209,7 +209,7 @@
       <varlistentry> <term>Menubar</term>
         <listitem>
           <para>The menus on the menubar contain all of the commands
-          that you can use in &app;</para> 
+          that you can use in &app;</para>
         </listitem>
       </varlistentry>
       <varlistentry> <term>Toolbar</term>
@@ -224,7 +224,7 @@
         </listitem>
       </varlistentry>
       <varlistentry> <term>Folder list</term>
-      <listitem> 
+      <listitem>
         <para>The folder list shows the
 	  subfolders contained in the current folder.
 	</para>
@@ -285,15 +285,15 @@
       </orderedlist>
     </para>
     <para>
-      When using the location entry you can press 
+      When using the location entry you can press
       <keycombo><keycap>TAB</keycap></keycombo> to
-      try to automatically complete the folder name,  this simplify the 
+      try to automatically complete the folder name,  this simplify the
       typing of long names.  You can quickly give focus to the
       location entry pressing
       <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>.
     </para>
     <para>
-      To go to a previously visited folder you can use the 
+      To go to a previously visited folder you can use the
       toolbar <guilabel>Back</guilabel> button.
     </para>
     <para>
@@ -322,7 +322,7 @@
       </keycombo> or use the command
       <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add
       Bookmark</guimenuitem></menuchoice>.
-      To remove or rearrange bookmarks in a different order use the 
+      To remove or rearrange bookmarks in a different order use the
       <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit
       Bookmarks</guimenuitem></menuchoice> command.
   </para>
@@ -513,10 +513,10 @@
     <para>
       In order to view an image just click on its thumbnail and the image will
       be visualized in the viewer pane.  If the image doesn't fit the viewer
-      pane you can give more space to the viewer hiding the browser, this can 
+      pane you can give more space to the viewer hiding the browser, this can
       be accomplished double-clicking on the thumbnails or pressing the
       <keycap>Return</keycap> key, pressing it
-      again the browser will be displayed again.  
+      again the browser will be displayed again.
       Another way of viewing a big image is to view it in full screen
       mode, type <keycombo><keycap>F</keycap></keycombo> to
       activate/disactivate the full screen mode.
@@ -558,8 +558,8 @@
       </informaltable>
     <para>
       Another way of moving images is by the navigation button :
-      <screenshot> 
-        <mediaobject> 
+      <screenshot>
+        <mediaobject>
           <imageobject>
             <imagedata fileref="figures/nav-button.png" format="PNG"/>
           </imageobject>
@@ -567,8 +567,8 @@
       </screenshot>
       located in the
       right bottom corner of the viewer window when the images does not fit
-      in the window.  Clicking and holding this 
-      button will show you a preview of the image.  Moving the mouse you will 
+      in the window.  Clicking and holding this
+      button will show you a preview of the image.  Moving the mouse you will
       move the image to the desired position.
     </para>
    </sect2>
@@ -622,7 +622,7 @@
    <title>To Modify an Image</title>
       <para>
 	The current image can be modified in many ways.  The commands
-	used to modify an image are located in the <guimenu>Image</guimenu> 
+	used to modify an image are located in the <guimenu>Image</guimenu>
 	menu.
       </para>
       <informaltable frame="topbot">
@@ -713,7 +713,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Create a mirror image by reflecting the image scanlines 
+	        Create a mirror image by reflecting the image scanlines
 		in the vertical direction.
 	      </para>
 	    </entry>
@@ -729,7 +729,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Create a mirror image by reflecting the image scanlines 
+	        Create a mirror image by reflecting the image scanlines
 		in the horizontal direction (as in a mirror).
 	      </para>
 	    </entry>
@@ -800,7 +800,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Remove red eyes caused by poor flashes. 
+	        Remove red eyes caused by poor flashes.
 		See <xref linkend="gthumb-redeye"/> for more information.
 	      </para>
 	    </entry>
@@ -887,7 +887,7 @@
         <title>NOTE</title>
         <para>
           Please note that this modifications do not change the image file.
-	  If you want to view the original image just click on its 
+	  If you want to view the original image just click on its
 	  thumbnail again or use the
 	  <menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
 	 </menuchoice> command.
@@ -903,13 +903,13 @@
       <para>
       Many inexpensive cameras have a flash that is too close to the camera lens.
       As a result, the light from the flash may travel from the camera and be partially
-      reflected by a subject's retina right back into the camera lens. This causes 
-      "redeye". 
+      reflected by a subject's retina right back into the camera lens. This causes
+      "redeye".
       </para>
       <para>
       &app; provides a tool to remove this unwanted redeye. When viewing an image
       with redeye, select <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye
-      Removal</guimenuitem></menuchoice>. A new window will be launched. Move the mouse 
+      Removal</guimenuitem></menuchoice>. A new window will be launched. Move the mouse
       pointer over top a redeye region, and click on or near it. This should remove the
       red region, replacing it with a blacker region. If you are unhappy with the
       result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes).
@@ -917,7 +917,7 @@
       Once you are satisfied with the result, you can click on more redeye regions, or
       click <guibutton>OK</guibutton> to close the window.
       </para>
-      <para>The image must be re-saved in the usual manner after using 
+      <para>The image must be re-saved in the usual manner after using
       <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>.
       See <xref linkend="gthumb-save-images"/> for more information.
       </para>
@@ -933,7 +933,7 @@
         <listitem>
            <para>Modify the image (described in <xref
            linkend="gthumb-alter-images"/>).  Of course this step is
-           optional.</para> 
+           optional.</para>
         </listitem>
         <listitem>
             <para>Choose
@@ -952,7 +952,7 @@
         </listitem>
       </orderedlist>
       </para>
-    </sect2>      
+    </sect2>
 
   <sect2 id="gthumb-image-open">
   <title>To Open a Series of Images with Another Program</title>
@@ -1113,7 +1113,7 @@
           <para>Resize the image.</para>
         </listitem>
         <listitem>
-          <para> Recenter the image on the page using the <guibutton>Center on 
+          <para> Recenter the image on the page using the <guibutton>Center on
 	  Page</guibutton> button.</para>
         </listitem>
         </itemizedlist>
@@ -1147,7 +1147,7 @@
     <note>
       <title>WARNING</title>
       <para>Comments are not embedded in image files, they are saved
-      separately.  This means that if you move images or 
+      separately.  This means that if you move images or
       folders with other programs you will lose the comments.
       </para>
     </note>
@@ -1161,7 +1161,7 @@
   <sect2 id="gthumb-comment-add">
   <title>To Add a Comment</title>
   <para>
-    To add a comment to an image select the image and choose 
+    To add a comment to an image select the image and choose
     <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit comment</guimenuitem>
     </menuchoice> or type <keycombo><keycap>C</keycap></keycombo>.
   </para>
@@ -1175,7 +1175,7 @@
       </listitem>
       <listitem>
         <para>
-	  <guilabel>Place</guilabel>: the place the picture represents. 
+	  <guilabel>Place</guilabel>: the place the picture represents.
         </para>
       </listitem>
       <listitem>
@@ -1186,7 +1186,7 @@
     </itemizedlist>
   </para>
   <para>
-    Image comments are displayed in the image list in italic text above the 
+    Image comments are displayed in the image list in italic text above the
     image filename.  If the comment is too long the simbol "[..]" is
     appended to the displayed part of the comment to signal you that
     the comment is not entirely visible, to view the whole comment use
@@ -1197,9 +1197,9 @@
   </para>
     <!-- ==== Figure ==== -->
     <figure id="comment-in-list-fig">
-      <title>An image comment</title> 
+      <title>An image comment</title>
       <screenshot>
-        <screeninfo>An image comment</screeninfo> 
+        <screeninfo>An image comment</screeninfo>
         <graphic format="PNG" fileref="figures/comment.png" srccredit="Me"/>
       </screenshot>
     </figure>
@@ -1211,7 +1211,7 @@
     To add a comment to many images, select the images and choose
     <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit
     comment</guimenuitem> </menuchoice> or type
-    <keycombo><keycap>C</keycap></keycombo>. 
+    <keycombo><keycap>C</keycap></keycombo>.
   </para>
   <para>
     The <guilabel>Comment</guilabel> dialog will fill in the fields
@@ -1255,12 +1255,12 @@
         </para></listitem>
         <listitem><para>
            View the image pressing <keycap>Return</keycap> or double
-           clicking on it. 
+           clicking on it.
         </para></listitem>
         <listitem><para>
            Press <keycap>I</keycap> or  choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
-           Comment</guimenuitem></menuchoice>. 
+           Comment</guimenuitem></menuchoice>.
            &app; displays the image comment.
         </para></listitem>
      </orderedlist>
@@ -1272,19 +1272,19 @@
   <sect1 id="gthumb-categories">
   <title>Categories</title>
   <para>
-    Categories are keywords assigned to images and can be used to perform fine 
+    Categories are keywords assigned to images and can be used to perform fine
     grained searches as described in <xref linkend="gthumb-finding"/>.
     <note>
       <title>WARNING</title>
       <para>Categories are not embedded in image files, they are instead saved
-      separately.  This means that if you move images or 
+      separately.  This means that if you move images or
       folders with other programs you will lose your comments.
       </para>
     </note>
     <note>
       <title>FOR EXPERTS</title>
       <para>Categories are saved in the subfolder
-      <filename>.comments</filename> of the image folder and in the same file 
+      <filename>.comments</filename> of the image folder and in the same file
       where the image comment is saved.
       </para>
     </note>
@@ -1325,7 +1325,7 @@
     To add categories to a folder, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the parent folder in order to visualize the folder name 
+        <para>Go to the parent folder in order to visualize the folder name
 	in the folder list pane, right-click on the folder name and
 	select the <menuchoice><guimenuitem>Categories</guimenuitem>
         </menuchoice> command; alternatively go to the folder and select
@@ -1350,7 +1350,7 @@
   <sect2 id="gthumb-categories-remove">
   <title>To Remove Categories from an Image or a Folder</title>
   <para>
-    To remove categories from a series of images or a folder perform the 
+    To remove categories from a series of images or a folder perform the
     same steps as described above an uncheck the categories you want
     to remove, the click on <guibutton>Ok</guibutton> to confirm the
     operation.
@@ -1374,7 +1374,7 @@
   <title>WARNING</title>
   <para>
     Catalogs are not updated when you move images, if you want a more flexible
-    catalog you can use the searches described in <xref linkend="gthumb-find"/>, 
+    catalog you can use the searches described in <xref linkend="gthumb-find"/>,
     searches are catalogs with search criteria attached, after moving
     images you can redo the search to get the catalog updated.
   </para>
@@ -1421,8 +1421,8 @@
          <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu><guimenuitem>Go
          to the image folder </guimenuitem></menuchoice> command or
          press <keycombo
-         action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. 
-         &app; will display the image folder and will scroll the image list in 
+         action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>.
+         &app; will display the image folder and will scroll the image list in
          order to make the image visible.
        </para>
     </sect2>
@@ -1477,7 +1477,7 @@
           linkend="gthumb-catalog-view"/>). </para>
         </listitem>
         <listitem>
-          <para>Choose 
+          <para>Choose
 	  <menuchoice><guimenu>File</guimenu><guimenuitem>New
 	  Catalog</guimenuitem></menuchoice>.</para>
         </listitem>
@@ -1520,7 +1520,7 @@
           linkend="gthumb-catalog-view"/>). </para>
         </listitem>
         <listitem>
-          <para>Choose 
+          <para>Choose
 	  <menuchoice><guimenu>File</guimenu><guimenuitem>New
 	  Library</guimenuitem></menuchoice>.</para>
         </listitem>
@@ -1578,7 +1578,7 @@
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images with the
-                <filename>png</filename> extension. 
+                <filename>png</filename> extension.
               </para></entry>
             </row>
             <row valign="top">
@@ -1588,7 +1588,7 @@
               <entry align="left"><para>
                 &app; searches for images with the
                 <filename>gif</filename> or <filename>jpg</filename>
-                extension. 
+                extension.
               </para></entry>
             </row>
           </tbody>
@@ -1597,14 +1597,14 @@
       </para>
         <para>
           Click on <guibutton>Search</guibutton> to start the search.
-	  Once the search has finished you will see the list of images 
+	  Once the search has finished you will see the list of images
 	  that matches your search, if you want to see these images
-	  click on <guibutton>View</guibutton>, if you want to make another 
+	  click on <guibutton>View</guibutton>, if you want to make another
 	  search click on <guibutton>New Search</guibutton>.
 	</para>
 	<para>
-	  If you choose to view the images, a catalog named <guilabel>Search 
-	  Results</guilabel> will be created and visualized automatically.  
+	  If you choose to view the images, a catalog named <guilabel>Search
+	  Results</guilabel> will be created and visualized automatically.
 	  A catalog created in this way has a special icon, a magnifier, this
 	  is
 	  because on this type of catalogs you can perform two more operations:
@@ -1614,10 +1614,10 @@
 	  These operations can be selected from the
 	  <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice>
 	  menu, or from the menu that pops up when pressing the right
-	  mouse button on the catalog name. 
+	  mouse button on the catalog name.
         </para>
         <para>
-	  The <guilabel>Edit Search</guilabel> command lets you re-edit 
+	  The <guilabel>Edit Search</guilabel> command lets you re-edit
 	  the search rules, while <guilabel>Redo Search</guilabel> lets
 	  you restart the search, at the end of the search you can
 	  decide whether to save the result in the catalog or not.
@@ -1626,7 +1626,7 @@
 
       <sect3 id="gthumb-other-search-opt">
       <title>Other Search Options</title>
-          <variablelist> 
+          <variablelist>
 	  <varlistentry>
             <term><guilabel>Start at</guilabel></term>
 	    <listitem>
@@ -1687,7 +1687,7 @@
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images that have "holiday" OR
-                "rome" in the comment. 
+                "rome" in the comment.
               </para></entry>
             </row>
             <row valign="top">
@@ -1712,7 +1712,7 @@
 	    <listitem>
 	    <para>
 	    A list of phrases the place field of the comment must
-	    contain. 
+	    contain.
          </para>
          <para>
 	    Examples:
@@ -1738,7 +1738,7 @@
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images that have "rome" in the
-                place field. 
+                place field.
               </para></entry>
             </row>
             <row valign="top">
@@ -1747,8 +1747,8 @@
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images that have "paris" OR
-                "rome" OR "london" in the place field. 
-                place field. 
+                "rome" OR "london" in the place field.
+                place field.
               </para></entry>
             </row>
           </tbody>
@@ -1788,11 +1788,11 @@
             <term><guilabel>Categories</guilabel></term>
 	    <listitem>
 	    <para>
-	    The list of categories an images must belong to. 
+	    The list of categories an images must belong to.
 	    Categories can be added to images using the
 	    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories</guimenuitem></menuchoice>
 	    command or pressing
-	    <keycombo><keycap>K</keycap></keycombo>. 
+	    <keycombo><keycap>K</keycap></keycombo>.
             </para>
 	    <para>
 	      You can choose to search for images that belongs to all
@@ -1829,7 +1829,7 @@
               </para></entry>
               <entry align="left"><para>
                 &app; searches for images with "family" and/or "me"
-                in the keywords list. 
+                in the keywords list.
               </para></entry>
             </row>
 
@@ -1838,13 +1838,13 @@
       </informaltable>
 	    </listitem>
 	  </varlistentry>
-          </variablelist> 
+          </variablelist>
         <para>
           <note>
             <title>NOTE</title>
             <para>
               If you use more than one criteria images must respect
-              all of them. 
+              all of them.
             </para>
           </note>
           <note>
@@ -1873,7 +1873,7 @@
       <title>Slide Shows</title>
       <para>
         You can start a slide show of the images in the current folder by
-	pressing <keycombo action="simul"><keycap>s</keycap></keycombo> or 
+	pressing <keycombo action="simul"><keycap>s</keycap></keycombo> or
 	selecting the <menuchoice><guimenu>View
 	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
         To stop the slide show press <keycombo action="simul">
@@ -1881,7 +1881,7 @@
       </para>
       <para>
         If the current selection contains two or more images the slide show will
-        be done only with the selected images, otherwise all of the images in 
+        be done only with the selected images, otherwise all of the images in
         the current folder or catalog will be showed.
       </para>
       <para>
@@ -1889,7 +1889,7 @@
         slide show.  If the <guilabel>Switch to full screen</guilabel> option
         is on then the slide show is started in
         fullscreen mode and exiting from the fullscreen mode will stop the
-        slide show. 
+        slide show.
       </para>
       <para>
         The slide show is interrupted when you change folder or re-load the
@@ -1898,7 +1898,7 @@
       <para>
         With the slideshow tool and the fullscreen mode you can do
         presetations. There are two types of presentations: automatic
-        presentations and manual presentations. 
+        presentations and manual presentations.
       </para>
       <sect2 id="gthumb-auto-presentation">
       <title>How To Do an Automatic Presentation</title>
@@ -1937,7 +1937,7 @@
       </sect2>
       <sect2 id="gthumb-manual-presentation">
       <title>How To Do a Manual Presentation</title>
-      <para>To do a manual presentation, perform the following steps:</para> 
+      <para>To do a manual presentation, perform the following steps:</para>
       <orderedlist>
         <listitem>
           <para>Go to the folder or catalog containing the images you
@@ -1996,20 +1996,20 @@
 	      the screen as tiles on the floor.</para>
 	  </listitem>
 	  <listitem>
-	    <para><guilabel>Scaled</guilabel>: The image will be scaled to fill 
+	    <para><guilabel>Scaled</guilabel>: The image will be scaled to fill
 	      the screen mantaining the aspect ratio.</para>
 	  </listitem>
 	  <listitem>
-	    <para><guilabel>Stretched</guilabel>: The image will be scaled to 
+	    <para><guilabel>Stretched</guilabel>: The image will be scaled to
 	      fill the screen changing proportions if needed.</para>
 	  </listitem>
 	</itemizedlist>
       </para>
       <para>
-         If you want to restore the old wallpaper choose 
+         If you want to restore the old wallpaper choose
 	 <menuchoice>
 	   <guimenu>Tools</guimenu>
-           <guisubmenu>Set Image as Wallpaper</guisubmenu> 
+           <guisubmenu>Set Image as Wallpaper</guisubmenu>
            <guimenuitem>Restore</guimenuitem>
          </menuchoice>.
        </para>
@@ -2020,15 +2020,15 @@
         Usually if you want to rotate an image you have to open the image with
         an editor, rotate the image, and then save it.  This works well for
         image formats such as PNG or GIF, but results in a loss of
-        quality for JPEG images. (The rotation functions in 
+        quality for JPEG images. (The rotation functions in
 	<menuchoice><guimenu>Image</guimenu><guimenuitem>Transform</guimenuitem>
 	</menuchoice> operate this way - with loss.)
       </para>
       <para>
         If you want to rotate JPEG images without losing image quality,
-	select the images you want to rotate and choose 
+	select the images you want to rotate and choose
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
-	Images</guimenuitem></menuchoice>.  &app; displays the 
+	Images</guimenuitem></menuchoice>.  &app; displays the
 	<guilabel>Rotate Images</guilabel> dialog.
       </para>
       <para>
@@ -2053,7 +2053,7 @@
       </para>
       <para>
         In general, there are two ways to rotate a JPEG image. The first way
-        is to re-arrange the pixels inside the image file, using a "physical"  
+        is to re-arrange the pixels inside the image file, using a "physical"
         transform. The second way is to leave the image data alone, and simply
         change the value of the Exif orientation tag inside the header of the JPEG file.
         Not all JPEG files have Exif tags however, and not all applications
@@ -2063,13 +2063,13 @@
       </para>
       <para>
         If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel>
-        checkbox is enabled, the physical transform will be used to re-arrange the image 
+        checkbox is enabled, the physical transform will be used to re-arrange the image
         data, and the Exif orientation tag will be reset to its default value
         of "top left".
       </para>
       <para>
         If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel>
-        checkbox is not enabled, then only the orientation tag will be changed. The 
+        checkbox is not enabled, then only the orientation tag will be changed. The
         raw image data itself will not be transformed.
       <note>
         <title>NOTE</title>
@@ -2083,8 +2083,8 @@
       <para>The physical transform of pixel data inside the JPEG file will not
         degrade image quality (that is, it is lossless) under most conditions.
         However, if the image dimensions (height and width) are not both multiples
-        of 8, some data corruption will occur along one or two of the edges of the 
-        image. If there is an Exif orientation tag, you can avoid this problem 
+        of 8, some data corruption will occur along one or two of the edges of the
+        image. If there is an Exif orientation tag, you can avoid this problem
         by disabling the <guilabel>Apply physical transform</guilabel> checkbox.
         If you must use the physical transform approach with
         images whose dimensions are not multiples of 8, &app; will allow you to
@@ -2103,7 +2103,7 @@
         a physical transformation without resetting the Exif orientation tag
         to "top-left". These previous versions ignored the orientation tag when
         displaying the images, so no problem was apparent (although the problem
-        was visible if other image viewers were used to view the same images). 
+        was visible if other image viewers were used to view the same images).
         Versions 2.9.0 and later respect this tag, so the incorrect rotation will be visible.
       </para>
       <para>
@@ -2117,7 +2117,7 @@
       <title>To Convert the Image Format</title>
       <para>
         To convert the image format,
-        select the images you want to convert and choose 
+        select the images you want to convert and choose
         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert
         Format</guimenuitem></menuchoice>.
       </para>
@@ -2161,9 +2161,9 @@
     <sect2 id="gthumb-scale-series">
       <title>To Scale a Series of Images</title>
       <para>
-        To scale multiple images downwards in size,   
+        To scale multiple images downwards in size,
         select the images you want to scale and choose
-        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Scale 
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Scale
 	Images</guimenuitem></menuchoice>.
       </para>
       <para>
@@ -2190,11 +2190,11 @@
 	    the specified width and height. This may result in a distorted
 	    image. If this checkbox is enabled, the image will be scaled
 	    by the same factor in both directions. The scaling factor will
-	    be calculated such that the output width and height are both 
+	    be calculated such that the output width and height are both
 	    equal to or less than the values specified in the <guilabel>Width</guilabel>
 	    and <guilabel>Height</guilabel> boxes, respectively.
           </para>
-        </listitem>	
+        </listitem>
         <listitem>
           <para>
             <guilabel>Image type</guilabel>: this is the format you want to
@@ -2259,7 +2259,7 @@
               <entry align="left">
                 <para>This symbol will be replaced with
                 the value of a counter that increments itself by 1
-	        passing from one image to another.  If you specify 
+	        passing from one image to another.  If you specify
 	        this symbols in sequence you'll get leading zeros if the
 	        counter value has a lesser number of digits, for example ###
 	        will produce the sequence: 001, 002, 003, etc..</para></entry>
@@ -2283,14 +2283,14 @@
                 <para><keycap>%d</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
-                modified date.</para></entry> 
+                modified date.</para></entry>
             </row>
             <row valign="top">
               <entry>
                 <para><keycap>%s</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
-                dimensions.</para></entry> 
+                dimensions.</para></entry>
             </row>
           </tbody>
         </tgroup>
@@ -2306,7 +2306,7 @@
         If the renaming of an image can overwrite an already existing
         image you will be asked how to proceed,  five options are
         available: overwrite the image; do not overwrite the image;
-        always overwrite; never overwrite; specify a new name. 
+        always overwrite; never overwrite; specify a new name.
       </para>
     </sect2>
     <sect2 id="gthumb-change-date">
@@ -2326,11 +2326,11 @@
     <sect2 id="gthumb-index-image">
       <title>To Create an Index Image</title>
       <para>
-        An index image is an image that contains small previews of a series of 
-	images.  If you want to create an index image select the images you 
+        An index image is an image that contains small previews of a series of
+	images.  If you want to create an index image select the images you
 	want to insert and choose
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index
-	Image</guimenuitem></menuchoice>. 
+	Image</guimenuitem></menuchoice>.
       </para>
     </sect2>
     <sect2 id="gthumb-web-album">
@@ -2351,9 +2351,9 @@
        </para>
        <para>
 	 All web albums will consist of one or more "index pages" (which show
-	 a series of small thumbnail images) and one or more "image pages" 
+	 a series of small thumbnail images) and one or more "image pages"
 	 (which show a single image at a time). If the <guilabel>Copy originals
-	 to destination</guilabel> checkbox is enabled, the photo shown in the 
+	 to destination</guilabel> checkbox is enabled, the photo shown in the
 	 image pages will link to a copy of the original image. If you
 	 click this link, the raw image will be loaded in your browser (with
 	 no accompanying HTML).
@@ -2376,31 +2376,31 @@
 	 the images to make the best possible use of space. (If you resize the
 	 browser window, the images will re-position themselves!) These themes
 	 will not respect the row and column settings, but they will keep the
-	 total number of images per index page to a maximum of ROW x COLUMNS 
-	 (unless the <guilabel>use a single index page</guilabel> checkbox is 
+	 total number of images per index page to a maximum of ROW x COLUMNS
+	 (unless the <guilabel>use a single index page</guilabel> checkbox is
 	 enabled).
        </para>
        <para>
-         A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be 
+         A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be
 	 defined. These labels will appear at the top and bottom of every page
-	 in the album.  HTML markup may be used in headers and footers, as long 
-	 every '&gt;', '&lt;', and '&amp;' character is preceeded by a 
-	 backslash.  For example, "&lt;hr/&gt;" must be written as 
-	 "\&lt;hr/\&gt;".  Also, the sequence "%d" will be replaced by the 
-	 current date.  To make a literal backslash ('\') or percent symbol 
-	 ('%') appear in the output, it must be entered as "\\" or "%%" in the 
+	 in the album.  HTML markup may be used in headers and footers, as long
+	 every '&gt;', '&lt;', and '&amp;' character is preceeded by a
+	 backslash.  For example, "&lt;hr/&gt;" must be written as
+	 "\&lt;hr/\&gt;".  Also, the sequence "%d" will be replaced by the
+	 current date.  To make a literal backslash ('\') or percent symbol
+	 ('%') appear in the output, it must be entered as "\\" or "%%" in the
 	 header or footer fields.
        </para>
        <para>
 	 A <guilabel>Theme</guilabel> must be specified. The <guilabel>Theme</guilabel>
-	 controls the overall appearance of your web album. To select a 
+	 controls the overall appearance of your web album. To select a
          <guilabel>Theme</guilabel>, press the <guibutton>...</guibutton> button
 	 and select one from the list. The <guilabel>Thumbnail Caption</guilabel>
 	 and <guilabel>Image Caption</guilabel> dialogs allow you to specify
-	 what textual information (photo date, image size, camera model, etc) 
-	 will be displayed next to each image in the index and image pages, 
+	 what textual information (photo date, image size, camera model, etc)
+	 will be displayed next to each image in the index and image pages,
 	 respectively.
-       </para>.
+       </para>
     </sect2>
     <sect2 id="gthumb-import-photos">
       <title>To Import Photos from a Digital Camera</title>
@@ -2433,18 +2433,18 @@
          after they have been imported.
        </para>
        <para>
-         &app; will rename the images (in numerical re-order) when they 
+         &app; will rename the images (in numerical re-order) when they
  	 are imported, unless the
          <guilabel>Keep original filenames</guilabel> checkbox is selected.
        </para>
        <para>
          If the <guilabel>Rotate images physically</guilabel> checkbox is selected,
-         and the imported photo contains an Exif orientation tag, the image data 
-         will be physically transformed (losslessly) so that the viewed image 
-         looks the same as before but the orientation tag is reset to "top left". 
-         If this checkbox is not enabled, the image data and the orientation tag 
-         are both left unchanged. The image will be displayed identically by 
-         gthumb for both possibilities, but for maximum compatibility with other 
+         and the imported photo contains an Exif orientation tag, the image data
+         will be physically transformed (losslessly) so that the viewed image
+         looks the same as before but the orientation tag is reset to "top left".
+         If this checkbox is not enabled, the image data and the orientation tag
+         are both left unchanged. The image will be displayed identically by
+         gthumb for both possibilities, but for maximum compatibility with other
          applications this checkbox should be enabled.
        </para>
        <sect3 id="gthumb-select-camera">
@@ -2471,14 +2471,14 @@
         <listitem>
           <para>Select the images you want to write to and choose
             <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
-            </guimenuitem></menuchoice>, &app; displays the 
+            </guimenuitem></menuchoice>, &app; displays the
             <guilabel>Write to CD</guilabel> dialog.
           </para>
         </listitem>
         <listitem>
-          <para>Click on <guilabel>Current folder</guilabel> if you want to 
+          <para>Click on <guilabel>Current folder</guilabel> if you want to
             write all of the images in the current folder and its subfolders.
-            Click on <guilabel>Selected images</guilabel> to write the current 
+            Click on <guilabel>Selected images</guilabel> to write the current
             selection only.
           </para>
         </listitem>
@@ -2489,7 +2489,7 @@
           </para>
         </listitem>
         <listitem>
-          <para>Click on the <guilabel>Write to CD</guilabel> toolbar button or 
+          <para>Click on the <guilabel>Write to CD</guilabel> toolbar button or
             choose
             <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
             </guimenuitem></menuchoice>.  Images are written to the CD or DVD.
@@ -2510,7 +2510,7 @@
     </menuchoice>.
   </para>
   <para>
-    This dialog contains four tabs described in detail below.  
+    This dialog contains four tabs described in detail below.
     At the bottom of the dialog window, you'll find the following buttons:
   </para>
   <itemizedlist>
@@ -2524,16 +2524,16 @@
     </listitem>
   </itemizedlist>
   <para>
-    Keep in mind that when you change an option it will automatically 
+    Keep in mind that when you change an option it will automatically
     applied,  this is why there is no <guibutton>Ok</guibutton> or
     <guibutton>Apply</guibutton> button.
   </para>
 
-<!-- ########### General Tab ################## -->    
+<!-- ########### General Tab ################## -->
     <sect2 id="preferences-general">
       <title>General Tab</title>
       <para>
-	This tab allows you to set the following 
+	This tab allows you to set the following
 	options:
 	</para>
       <itemizedlist>
@@ -2562,14 +2562,14 @@
       </itemizedlist>
     </sect2>
 
-<!-- ########### Browser Tab ################## -->    
+<!-- ########### Browser Tab ################## -->
     <sect2 id="preferences-browser">
       <title>Browser Tab</title>
       <para>
 	In this tab, you can configure the following options:
       </para>
       <variablelist>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Show filenames</guilabel></term>
 	  <listitem>
@@ -2578,7 +2578,7 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Show comments</guilabel></term>
 	  <listitem>
@@ -2590,17 +2590,17 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Show thumbnails</guilabel></term>
 	  <listitem>
-	    <para>This option (which you can activate simply pressing 
+	    <para>This option (which you can activate simply pressing
 	    <keycombo><keycap>T</keycap></keycombo>) controls whether
 	    &app; should show thumbnails.
 	    </para>
 	  </listitem>
 	</varlistentry>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Other</guilabel></term>
 	  <listitem>
@@ -2623,29 +2623,29 @@
       </variablelist>
 
     </sect2>
-<!-- ########### Viewer Tab ################## -->    
+<!-- ########### Viewer Tab ################## -->
     <sect2 id="preferences-viewer">
       <title>Viewer Tab</title>
       <para>This tab contains options for viewer window:
       </para>
       <variablelist>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>After loading an image</guilabel></term>
 	  <listitem>
 	    <para>Controls initial zoom level to use for an
-	    image.   
+	    image.
 	    </para>
 	  </listitem>
 	</varlistentry>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Transparency type</guilabel></term>
 	  <listitem>
 	    <para>Controls the background used for partly transparent
 	    images. By default the transparent part of the image is
 	    replaced the window background color,that is the
-	    <guilabel>none</guilabel> option. 
+	    <guilabel>none</guilabel> option.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -2660,7 +2660,7 @@
             </para>
           </listitem>
         </varlistentry>
-        <!-- ########### --> 
+        <!-- ########### -->
 	<varlistentry>
 	  <term><guilabel>Scrollbar positions after using Next/Previous</guilabel></term>
 	  <listitem>
@@ -2671,7 +2671,7 @@
 	    </para>
 	    <para>
 	    When you navigate from one image to another using the Next/Previous
-	    controls, the positions of the scrollbars can be retained, or they can be 
+	    controls, the positions of the scrollbars can be retained, or they can be
 	    reset to the default position.
 	    </para>
 	    <para>
@@ -2692,7 +2692,7 @@
       </variablelist>
 
     </sect2>
-<!-- ########### Slide Show Tab ################## -->    
+<!-- ########### Slide Show Tab ################## -->
     <sect2 id="preferences-slideshow">
       <title>Slide Show Tab</title>
       <para>
@@ -2700,12 +2700,12 @@
 	(which you can start by selecting
 	<menuchoice><guimenu>Tools</guimenu>
 	<guisubmenu>Slide Show</guisubmenu></menuchoice> or by using
-	<keycombo><keycap>S</keycap></keycombo> 
+	<keycombo><keycap>S</keycap></keycombo>
 	shortcut). The options include direction (forward/backwards/random),
 	and delay between images. You can also specify whether the
 	slide show should wrap around (i.e., after showing the last
 	image start again form the beginning) and automatically switch
-	to fullscreen mode. 
+	to fullscreen mode.
       </para>
      </sect2>
   </sect1>
@@ -2718,7 +2718,7 @@
     linkend="gthumb-TBL-keyword-shortcuts-other"/> and <xref
     linkend="gthumb-TBL-keyword-shortcuts-fullscreen"/> provide a quick
     reference for all of the &app; keyword shortcuts.  Look in the
-    menus for other shortcuts.</para>  
+    menus for other shortcuts.</para>
   <para>
       <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
       <title>Keyboard shortcuts to navigate folders</title>
@@ -2798,7 +2798,7 @@
 	      <para>
 	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Home
 		</keycap></keycombo> or
-	        <keycombo action="simul"><keycap>h</keycap></keycombo> 
+	        <keycombo action="simul"><keycap>h</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
@@ -2827,7 +2827,7 @@
 	      <para>
 	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Up
 		</keycap></keycombo> or
-	        <keycombo action="simul"><keycap>u</keycap></keycombo> 
+	        <keycombo action="simul"><keycap>u</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
@@ -2885,7 +2885,7 @@
 	    </entry>
             <entry>
 	      <para>Change the image properties pane content or
-	      display the pane if it is not visible.</para> 
+	      display the pane if it is not visible.</para>
 	    </entry>
             <entry>
 	      <para>no</para>
@@ -2901,7 +2901,7 @@
             <entry>
 	      <para>Set the image preview as the image properties pane
 	      content or hide the pane if this content type is already
-	      visible.</para> 
+	      visible.</para>
 	    </entry>
             <entry>
 	      <para>no</para>
@@ -2917,7 +2917,7 @@
             <entry>
 	      <para>Set the image exif data as the image properties pane
 	      content or hide the pane if this content type is already
-	      visible.</para> 
+	      visible.</para>
 	    </entry>
             <entry>
 	      <para>no</para>
@@ -2933,7 +2933,7 @@
             <entry>
 	      <para>Set the image comment as the image properties pane
 	      content or hide the pane if this content type is already
-	      visible.</para> 
+	      visible.</para>
 	    </entry>
             <entry>
 	      <para>no</para>
@@ -3127,7 +3127,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>r</keycap></keycombo> 
+	        <keycombo><keycap>r</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
@@ -3154,7 +3154,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>]</keycap></keycombo> 
+	        <keycombo><keycap>]</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
