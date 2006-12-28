@@ -1,3 +1,9 @@
+2006-12-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-redeye-removal.c (dlg_redeye_removal):
+	(image_selector_motion_notify_cb):
+	(help_cb): readded the help button.
+
 2006-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.9.1 released ]
