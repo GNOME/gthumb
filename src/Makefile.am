@@ -4,7 +4,7 @@ DIST_SUBDIRS = icons
 gladedir = $(datadir)/gthumb/glade
 
 if ENABLE_DEPRECATIONS
-DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED
+DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED
 else
 DISABLE_DEPRECATED =
 endif
@@ -20,13 +20,26 @@ INCLUDES =					\
 	-DGTHUMB_DATADIR=\"$(datadir)\"		\
 	-DGTHUMB_LIBDIR=\"$(libdir)\"		\
 	-DPIXMAPSDIR=\""$(datadir)/pixmaps/"\"	\
+	-DBONOBO_UIDIR=\""$(uidir)/"\"		\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
 	-I$(top_srcdir)/libgthumb		\
 	-I../libgthumb		
 
 bin_PROGRAMS = gthumb
 
+gnome_gthumb_idl_sources =              \
+	GNOME_GThumb-stubs.c            \
+	GNOME_GThumb-skels.c            \
+	GNOME_GThumb.h                  \
+	GNOME_GThumb-common.c
+
+$(gnome_gthumb_idl_sources): gnome_gthumb_idl_stamp
+gnome_gthumb_idl_stamp: GNOME_GThumb.idl $(ORBIT_IDL)
+	$(ORBIT_IDL) $(IDL_INCLUDES) $<
+	touch $@
+
 gthumb_SOURCES = 				\
+	$(gnome_gthumb_idl_sources)		\
 	bookmark-list.c				\
 	bookmark-list.h				\
 	catalog-list.c				\
@@ -75,6 +88,8 @@ gthumb_SOURCES = 				\
 	dlg-write-to-cd.h			\
 	gs-fade.c				\
 	gs-fade.h				\
+	gth-application.c			\
+	gth-application.h			\
 	gth-batch-op.c				\
 	gth-batch-op.h				\
 	gth-browser.c				\
@@ -197,9 +212,13 @@ libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpeg
 libphotoimporter_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 EXTRA_DIST = 			\
+	GNOME_GThumb.idl	\
 	albumtheme.c		\
 	albumtheme.y		\
 	albumtheme.l		\
 	lex.albumtheme.c
 
 
+CLEANFILES =				\
+	$(gnome_gthumb_idl_sources)	\
+	gnome_gthumb_idl_stamp

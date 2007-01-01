@@ -9,3 +9,8 @@ Makefile.in
 glade1
 gthumb
 gthumb.schemas
+gnome_gthumb_idl_stamp
+GNOME_GThumb-common.c
+GNOME_GThumb-skels.c
+GNOME_GThumb-stubs.c
+GNOME_GThumb.h
