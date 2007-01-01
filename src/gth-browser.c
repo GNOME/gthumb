@@ -650,8 +650,7 @@ window_update_infobar (GthBrowser *browser)
 		return;
 	}
 
-	images = gth_file_list_get_length (priv->file_list);
-
+	images = gth_file_view_get_images (priv->file_list->view);
 	current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
 
 	utf8_name = g_filename_display_basename (path);
@@ -734,17 +733,19 @@ window_update_statusbar_list_info (GthBrowser *browser)
 	char                  *total_info, *selected_info;
 	int                    tot_n, sel_n;
 	GnomeVFSFileSize       tot_size, sel_size;
-	GList                 *scan;
+	GList                 *file_list, *scan;
 	GList                 *selection;
 
 	tot_n = 0;
 	tot_size = 0;
 
-	for (scan = priv->file_list->list; scan; scan = scan->next) {
+	file_list = gth_file_view_get_list (priv->file_list->view);
+	for (scan = file_list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
 		tot_n++;
 		tot_size += fd->size;
 	}
+	g_list_free (file_list);
 
 	sel_n = 0;
 	sel_size = 0;
@@ -2871,6 +2872,9 @@ key_press_cb (GtkWidget   *widget,
 		if (event->keyval == GDK_space)
 			return FALSE;
 
+	if (gth_filter_bar_has_focus (GTH_FILTER_BAR (priv->filter_bar)))
+		return FALSE;
+
 	if (GTK_WIDGET_HAS_FOCUS (priv->dir_list->list_view)
 	    || GTK_WIDGET_HAS_FOCUS (priv->catalog_list->list_view))
 		if (sidebar_list_key_press (browser, event))
@@ -2984,6 +2988,26 @@ key_press_cb (GtkWidget   *widget,
 		image_viewer_set_zoom (viewer, 3.0);
 		return TRUE;
 
+		/* Set zoom to fit size if larger */
+	case GDK_x:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+		return TRUE;
+
+		/* Set zoom to fit width if larger */
+	case GDK_w:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_WIDTH_IF_LARGER);
+		return TRUE;
+
+		/* Toggle animation. */
+	case GDK_a:
+		gth_window_set_animation (window, ! gth_window_get_animation (window));
+		break;
+
+		/* Step animation. */
+	case GDK_j:
+        	gth_window_step_animation (window);
+		break;
+
 		/* Show previous image. */
 	case GDK_b:
 	case GDK_BackSpace:
@@ -3051,17 +3075,29 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_o:
 		if (! sel_not_null)
 			break;
-
 		gth_window_activate_action_file_open_with (NULL, browser);
+		return TRUE;
+
+		/* Edit comment */
+	case GDK_c:
+		if (! sel_not_null)
+			break;
+		gth_window_edit_comment (GTH_WINDOW (browser));
+		return TRUE;
+
+		/* Edit keywords */
+	case GDK_k:
+		if (! sel_not_null)
+			break;
+		gth_window_edit_categories (GTH_WINDOW (browser));
 		return TRUE;
 
 		/* gimp hotkey */
 	case GDK_g:
 		list = gth_window_get_file_list_selection (window);
-
 		if (list != NULL) {
-			exec_command ("gimp-remote",list);
-			g_list_free (list);
+			exec_command ("gimp-remote", list);
+			path_list_free (list);
 		}
 
 		return TRUE;
@@ -4303,6 +4339,8 @@ file_list_done_cb (GthFileList *file_list,
 		   GthBrowser  *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
+
+g_print ("FILE_LIST_DONE_CB\n");
 
 	gth_file_view_set_no_image_text (file_list->view, _("No image"));
 
@@ -6127,6 +6165,15 @@ dir_list_done_cb (GthDirList     *dir_list,
 
 
 static void
+filter_bar_changed_cb (GthFilterBar *filter_bar,
+		       GthBrowser   *browser)
+{
+	g_return_if_fail (GTH_IS_BROWSER (browser));
+	gth_file_list_set_filter (browser->priv->file_list, gth_filter_bar_get_filter (filter_bar));
+}
+
+
+static void
 gth_browser_construct (GthBrowser  *browser,
 		       const gchar *uri)
 {
@@ -6256,6 +6303,11 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Create the widgets. */
 
 	priv->filter_bar = gth_filter_bar_new ();
+	g_signal_connect (G_OBJECT (priv->filter_bar),
+			  "changed",
+			  G_CALLBACK (filter_bar_changed_cb),
+			  browser);
+
 	priv->file_list = create_new_file_list (browser);
 
 	/* Dir list. */
@@ -6472,7 +6524,7 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->file_list_pane = gtk_vbox_new (0, FALSE);
 	gtk_widget_show_all (priv->file_list->root_widget);
 
-	/*gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);*/
+	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->file_list->root_widget, TRUE, TRUE, 0);
 
 	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);

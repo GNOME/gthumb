@@ -47,13 +47,13 @@ typedef enum {
 	GTH_CURSOR_MOVE_END,
 } GthCursorMovement;
 
-typedef enum { 
+typedef enum {
 	GTH_SELCHANGE_NONE,           /* Do not change the selection. */
 	GTH_SELCHANGE_SET,            /* Select the cursor image. */
-	GTH_SELCHANGE_SET_RANGE       /* Select the images contained 
-				       * in the rectangle that has as 
-				       * opposite corners the last 
-				       * focused image and the 
+	GTH_SELCHANGE_SET_RANGE       /* Select the images contained
+				       * in the rectangle that has as
+				       * opposite corners the last
+				       * focused image and the
 				       * currently focused image. */
 } GthSelectionChange;
 
@@ -88,12 +88,15 @@ typedef struct {
 	guint             tmp_selected : 1;
 } GthImageListItem;
 
+
 typedef struct _GthImageListPrivate GthImageListPrivate;
+
 
 typedef struct {
 	GtkContainer __parent;
 	GthImageListPrivate *priv;
 } GthImageList;
+
 
 typedef struct {
 	GtkContainerClass __parent_class;
@@ -104,20 +107,20 @@ typedef struct {
 					      GtkAdjustment *hadj,
 					      GtkAdjustment *vadj);
 	void     (* selection_changed)       (GthImageList  *image_list);
-	void     (* item_activated)          (GthImageList  *image_list, 
+	void     (* item_activated)          (GthImageList  *image_list,
 					      int            pos);
-	void     (* cursor_changed)          (GthImageList  *image_list, 
+	void     (* cursor_changed)          (GthImageList  *image_list,
 					      int            pos);
 
         /* -- Key Binding signals -- */
 
-        gboolean (* move_cursor)             (GthImageList       *image_list, 
+        gboolean (* move_cursor)             (GthImageList       *image_list,
 					      GthCursorMovement   dir,
 					      GthSelectionChange  sel_change);
 	gboolean (* select_all)              (GthImageList       *image_list);
 	gboolean (* unselect_all)            (GthImageList       *image_list);
 	gboolean (* set_cursor_selection)    (GthImageList       *image_list);
-	gboolean (* toggle_cursor_selection) (GthImageList       *image_list);	      
+	gboolean (* toggle_cursor_selection) (GthImageList       *image_list);
 	gboolean (* start_interactive_search)(GthImageList       *image_list);
 } GthImageListClass;
 
@@ -140,7 +143,7 @@ gboolean       gth_image_list_is_frozen            (GthImageList  *image_list);
 /**/
 
 void           gth_image_list_insert               (GthImageList  *image_list,
-						    int            pos, 
+						    int            pos,
 						    GdkPixbuf     *pixbuf,
 						    const char    *text,
 						    const char    *comment);
@@ -153,8 +156,8 @@ int            gth_image_list_append_with_data     (GthImageList  *image_list,
 						    const char    *text,
 						    const char    *comment,
 						    gpointer       data);
-void           gth_image_list_remove               (GthImageList  *image_list, 
-						    int            pos);
+void           gth_image_list_remove               (GthImageList  *image_list,
+						    gpointer       data);
 void           gth_image_list_clear                (GthImageList  *image_list);
 void           gth_image_list_set_image_pixbuf     (GthImageList  *image_list,
 						    int            pos,
@@ -196,10 +199,10 @@ void           gth_image_list_set_image_width      (GthImageList     *image_list
 /* Attaching information to the items */
 
 void           gth_image_list_set_image_data       (GthImageList    *image_list,
-						    int              pos, 
+						    int              pos,
 						    gpointer         data);
 void           gth_image_list_set_image_data_full  (GthImageList    *image_list,
-						    int              pos, 
+						    int              pos,
 						    gpointer         data,
 						    GtkDestroyNotify destroy);
 int            gth_image_list_find_image_from_data (GthImageList    *image_list,
@@ -215,12 +218,12 @@ void           gth_image_list_set_view_mode        (GthImageList *image_list,
 						    GthViewMode   mode);
 GthViewMode    gth_image_list_get_view_mode        (GthImageList *image_list);
 void           gth_image_list_moveto               (GthImageList *image_list,
-						    int           pos, 
+						    int           pos,
 						    double        yalign);
 GthVisibility  gth_image_list_image_is_visible     (GthImageList *image_list,
 						    int           pos);
-int            gth_image_list_get_image_at         (GthImageList *image_list, 
-						    int           x, 
+int            gth_image_list_get_image_at         (GthImageList *image_list,
+						    int           x,
 						    int           y);
 int            gth_image_list_get_first_visible    (GthImageList *image_list);
 int            gth_image_list_get_last_visible     (GthImageList *image_list);
@@ -235,13 +238,16 @@ void           gth_image_list_unsorted             (GthImageList *image_list);
 
 /* Misc */
 
-void           gth_image_list_image_activated      (GthImageList *image_list, 
+void           gth_image_list_image_activated      (GthImageList *image_list,
 						    int           pos);
-void           gth_image_list_set_cursor           (GthImageList *image_list, 
+void           gth_image_list_set_cursor           (GthImageList *image_list,
 						    int           pos);
 int            gth_image_list_get_cursor           (GthImageList *image_list);
 void           gth_image_list_set_no_image_text    (GthImageList *image_list,
 						    const char   *text);
+void           gth_image_list_set_visible_func     (GthImageList   *image_list,
+			                      	    GthVisibleFunc  func,
+                      				    gpointer        data);
 
 /* DnD */
 

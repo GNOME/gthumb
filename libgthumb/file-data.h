@@ -28,6 +28,7 @@
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <time.h>
 #include <sys/stat.h>
+#include "comments.h"
 
 typedef struct {
 	guint               ref : 8;
@@ -45,6 +46,7 @@ typedef struct {
 	guint               thumb : 1;     /* Whether we have a thumb of this
 					    * image. */
 	char               *comment;
+	CommentData        *comment_data;
 } FileData;
 
 
@@ -55,6 +57,7 @@ void         file_data_unref             (FileData         *fd);
 void         file_data_set_path          (FileData         *fd,
 					  const char       *path);
 void         file_data_update            (FileData         *fd);
+void         file_data_load_comment_data (FileData         *fd);
 void         file_data_update_comment    (FileData         *fd);
 GList*       file_data_list_dup          (GList            *list);
 void         file_data_list_free         (GList            *list);

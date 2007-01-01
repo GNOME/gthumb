@@ -60,7 +60,8 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_SET_LIST,
 	GTH_FILE_LIST_OP_TYPE_DELETE_LIST,
 	GTH_FILE_LIST_OP_TYPE_EMPTY_LIST,
-	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS
+	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS,
+	GTH_FILE_LIST_OP_TYPE_SET_FILTER
 } GthFileListOpType;
 
 
@@ -82,6 +83,7 @@ struct _GthFileListPrivateData {
 
 	GthFileView   *view;                /* The view that contains the
 			 	             * file list. */
+	GthFilter     *filter;
 
 	gboolean       show_dot_files;      /* Whether to show files that starts
 					     * with a dot (hidden files).*/
@@ -168,11 +170,37 @@ gth_file_list_clear_queue (GthFileList *file_list)
 
 
 static void
+gth_file_list_remove_op (GthFileList       *file_list,
+			 GthFileListOpType  op_type)
+{
+	GList *scan;
+
+	scan = file_list->priv->queue;
+	while (scan != NULL) {
+		GthFileListOp *op = scan->data;
+
+		if (op->type != op_type) {
+			scan = scan->next;
+			continue;
+		}
+
+		file_list->priv->queue =  g_list_remove_link (file_list->priv->queue, scan);
+		gth_file_list_op_free (op);
+		g_list_free (scan);
+
+		scan = file_list->priv->queue;
+	}
+}
+
+
+static void
 gth_file_list_queue_op (GthFileList   *file_list,
 			GthFileListOp *op)
 {
 	if (op->type == GTH_FILE_LIST_OP_TYPE_SET_LIST)
 		gth_file_list_clear_queue (file_list);
+	if (op->type == GTH_FILE_LIST_OP_TYPE_SET_FILTER)
+		gth_file_list_remove_op (file_list, GTH_FILE_LIST_OP_TYPE_SET_FILTER);
 	file_list->priv->queue = g_list_append (file_list->priv->queue, op);
 	if (! file_list->busy)
 		gth_file_list_exec_next_op (file_list);
@@ -333,7 +361,6 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	last_pos = gth_file_view_get_last_visible (file_list->view);
 
 	pos = first_pos;
-
 	if ((pos == -1) || (last_pos < first_pos)) {
 		gth_file_list_done (file_list);
 		return;
@@ -341,6 +368,11 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	list = gth_file_view_get_list (file_list->view);
 	scan = g_list_nth (list, pos);
+	if (scan == NULL) {
+		gth_file_list_done (file_list);
+		return;
+	}
+
 	while (pos <= last_pos) {
 		fd = scan->data;
 		if (! fd->thumb && ! fd->error) {
@@ -517,6 +549,8 @@ gth_file_list_finalize (GObject *object)
 
 	gth_file_list_free_list (file_list);
 	g_object_unref (file_list->priv->thumb_loader);
+	if (file_list->priv->filter != NULL)
+		g_object_unref (file_list->priv->filter);
 
 	g_free (file_list->priv);
 
@@ -627,6 +661,7 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->busy                 = FALSE;
 	file_list->priv->stop_it        = FALSE;
 	file_list->priv->loading_thumbs = FALSE;
+	file_list->priv->filter         = NULL;
 
 	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
 			  "thumb_done",
@@ -858,15 +893,13 @@ add_list_in_chunks (gpointer callback_data)
 
 	for (i = 0, scan = gfi_data->filtered; (i < ADD_LIST_CHUNK_SIZE) && scan; i++, scan = scan->next) {
 		FileData *fd = scan->data;
-		int       pos;
 
 		file_data_update_comment (fd);
-
-		pos = gth_file_view_append_with_data (file_list->view,
-						      NULL,
-						      fd->utf8_name,
-						      fd->comment,
-						      fd);
+		gth_file_view_append_with_data (file_list->view,
+				      		NULL,
+						fd->utf8_name,
+						fd->comment,
+						fd);
 	}
 
 	gth_file_view_thaw (file_list->view);
@@ -1163,6 +1196,32 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 }
 
 
+FileData *
+gth_file_list_filedata_from_path (GthFileList *file_list,
+			          const char  *path)
+{
+	FileData *result = NULL;
+	GList    *list, *scan;
+
+	g_return_val_if_fail (file_list != NULL, NULL);
+
+	if (path == NULL)
+		return NULL;
+
+	list = gth_file_view_get_list (file_list->view);
+	for (scan = list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		if (same_uri (fd->path, path)) {
+			result = fd;
+			break;
+		}
+	}
+	g_list_free (list);
+
+	return result;
+}
+
+
 GList *
 gth_file_list_get_all (GthFileList *file_list)
 {
@@ -1403,21 +1462,13 @@ static void
 gfl_delete (GthFileList *file_list,
             const char  *uri)
 {
-	int pos;
+	FileData *fd;
 
-	pos = gth_file_list_pos_from_path (file_list, uri);
-	if ((pos >= 0) && (pos < gth_file_view_get_images (file_list->view))) {
-		FileData *fd;
+	fd = gth_file_list_filedata_from_path (file_list, uri);
+	if (fd == NULL)
+		return;
 
-		fd = gth_file_view_get_image_data (file_list->view, pos);
-		g_return_if_fail (fd != NULL);
-
-		file_data_unref (fd);
-		file_list->list = g_list_remove (file_list->list, fd);
-		file_data_unref (fd);
-
-		gth_file_view_remove (file_list->view, pos);
-	}
+	gth_file_view_remove (file_list->view, fd);
 }
 
 
@@ -1637,6 +1688,47 @@ gth_file_list_set_thumbs_size (GthFileList *file_list,
 }
 
 
+static gboolean
+gfl_visible_func (gpointer callback_data,
+    		  gpointer image_data)
+{
+	GthFileList *file_list = callback_data;
+	FileData    *fdata = image_data;
+
+	if (file_list->priv->filter == NULL)
+		return TRUE;
+
+	return gth_filter_match (file_list->priv->filter, fdata);
+}
+
+
+static void
+gfl_set_filter (GthFileList *file_list)
+{
+	if (file_list->priv->filter == NULL)
+		gth_file_view_set_visible_func (file_list->view, NULL, NULL);
+	else
+		gth_file_view_set_visible_func (file_list->view,
+                	                        gfl_visible_func,
+                        	                file_list);
+	g_signal_emit (file_list, gth_file_list_signals[DONE], 0);
+}
+
+
+void
+gth_file_list_set_filter (GthFileList *file_list,
+			  GthFilter   *filter)
+{
+	if (file_list->priv->filter != NULL)
+		g_object_unref (file_list->priv->filter);
+	if (filter != NULL)
+		g_object_ref (filter);
+	file_list->priv->filter = filter;
+
+	gth_file_list_queue_op (file_list, gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_SET_FILTER));
+}
+
+
 static void
 gth_file_list_exec_next_op (GthFileList *file_list)
 {
@@ -1692,6 +1784,10 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_EMPTY_LIST:
 		gfl_empty_list (file_list);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_SET_FILTER:
+		gfl_set_filter (file_list);
+		exec_next_op = FALSE;
 		break;
 	}
 	op->uri_list = NULL;

@@ -264,7 +264,6 @@ gth_image_list_item_new (GthImageList  *image_list,
 }
 
 
-/* FIXME
 static GthImageListItem*
 gth_image_list_item_ref (GthImageListItem *item)
 {
@@ -272,7 +271,6 @@ gth_image_list_item_ref (GthImageListItem *item)
 		item->ref++;
 	return item;
 }
-*/
 
 
 static void
@@ -295,7 +293,6 @@ gth_image_list_item_unref (GthImageListItem *item)
 }
 
 
-
 typedef struct {
 	int    y;
 	int    image_height;
@@ -306,10 +303,12 @@ typedef struct {
 
 
 struct _GthImageListPrivate {
+	GList            *all_images;
+	int               n_all_images;
 	GList            *image_list;
+	int               n_images;
 	GList            *selection;
 	GList            *lines;
-	int               images;
 	int               focused_item;
 	int               old_focused_item;    /* Used to do multiple
 						* selection with the
@@ -403,6 +402,9 @@ struct _GthImageListPrivate {
 #endif
 
 	char             *no_image_text;
+
+	GthVisibleFunc    filter_func;
+	gpointer          filter_data;
 };
 
 
@@ -472,6 +474,15 @@ free_line_info (GthImageList *image_list)
 
 
 static void
+image_list_free (GthImageList *image_list)
+{
+	g_list_foreach (image_list->priv->image_list, (GFunc) gth_image_list_item_unref, NULL);
+	g_list_free (image_list->priv->image_list);
+	image_list->priv->image_list = NULL;
+}
+
+
+static void
 gth_image_list_finalize (GObject *object)
 {
 	GthImageList         *image_list;
@@ -482,13 +493,11 @@ gth_image_list_finalize (GObject *object)
 	image_list = (GthImageList*) object;
 	priv = image_list->priv;
 
-	if (priv->image_list != NULL) {
-		GList *scan;
-		for (scan = priv->image_list; scan; scan = scan->next)
-			gth_image_list_item_unref (scan->data);
-		g_list_free (priv->image_list);
-		priv->image_list = NULL;
-	}
+	if (priv->image_list != NULL)
+		image_list_free (image_list);
+
+	g_list_foreach (image_list->priv->all_images, (GFunc) gth_image_list_item_unref, NULL);
+	g_list_free (image_list->priv->all_images);
 
 	g_free (priv->no_image_text);
 
@@ -998,6 +1007,21 @@ layout_all_images_cb (gpointer data)
 
 
 static void
+layout_all_images_now (GthImageList *image_list)
+{
+	if (! GTK_WIDGET_REALIZED (image_list))
+		return;
+
+	if (image_list->priv->layout_timeout != 0) {
+		g_source_remove (image_list->priv->layout_timeout);
+		image_list->priv->layout_timeout = 0;
+	}
+
+	layout_all_images_cb (image_list);
+}
+
+
+static void
 layout_all_images (GthImageList *image_list)
 {
 	if (! GTK_WIDGET_REALIZED (image_list))
@@ -1012,7 +1036,6 @@ layout_all_images (GthImageList *image_list)
 }
 
 
-
 /**/
 
 
@@ -1274,7 +1297,7 @@ get_first_visible_at_offset (GthImageList *image_list,
 	GList *scan;
 	int    pos, line_no;
 
-	if (image_list->priv->images == 0)
+	if (image_list->priv->n_images == 0)
 		return -1;
 
 	line_no = 0;
@@ -1288,8 +1311,8 @@ get_first_visible_at_offset (GthImageList *image_list,
 
 	if (pos < 0)
 		pos = 0;
-	if (pos >= image_list->priv->images)
-		pos = image_list->priv->images - 1;
+	if (pos >= image_list->priv->n_images)
+		pos = image_list->priv->n_images - 1;
 
 	return pos;
 }
@@ -1310,7 +1333,7 @@ get_last_visible_at_offset (GthImageList *image_list,
 	int    pos, line_no;
 	GList *scan;
 
-	if (image_list->priv->images == 0)
+	if (image_list->priv->n_images == 0)
 		return -1;
 
 	line_no = 0;
@@ -1325,8 +1348,8 @@ get_last_visible_at_offset (GthImageList *image_list,
 	if (pos < 0)
 		pos = 0;
 
-	if (pos >= image_list->priv->images)
-		pos = image_list->priv->images - 1;
+	if (pos >= image_list->priv->n_images)
+		pos = image_list->priv->n_images - 1;
 
 	return pos;
 }
@@ -1659,7 +1682,7 @@ paint_drop_target (GthImageList *image_list,
 
 	if (priv->drop_pos == GTH_DROP_POSITION_NONE)
 		return;
-	if ((priv->drop_image < 0) || (priv->drop_image >= priv->images))
+	if ((priv->drop_image < 0) || (priv->drop_image >= priv->n_images))
 		return;
 
 	item = g_list_nth (priv->image_list, priv->drop_image)->data;
@@ -1908,7 +1931,7 @@ gth_image_list_get_vadjustment (GthImageList  *image_list)
 static void
 keep_focus_consistent (GthImageList *image_list)
 {
-	if (image_list->priv->focused_item > image_list->priv->images - 1)
+	if (image_list->priv->focused_item > image_list->priv->n_images - 1)
 		image_list->priv->focused_item = - 1;
 }
 
@@ -1922,7 +1945,7 @@ gth_image_list_focus_in (GtkWidget     *widget,
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 
 	keep_focus_consistent (GTH_IMAGE_LIST (widget));
-	if ((image_list->priv->focused_item == -1) && (image_list->priv->images > 0))
+	if ((image_list->priv->focused_item == -1) && (image_list->priv->n_images > 0))
 		gth_image_list_set_cursor (image_list, 0);
 	queue_draw (image_list);
 
@@ -2082,7 +2105,7 @@ real_select_image (GthImageList *image_list,
 	GthImageListItem    *item;
 	GList               *link;
 
-	g_return_if_fail ((pos >= 0) && (pos < priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < priv->n_images));
 
 	link = g_list_nth (priv->image_list, pos);
 	g_return_if_fail (link != NULL);
@@ -2107,7 +2130,7 @@ real_unselect_image (GthImageList *image_list,
 	GthImageListItem    *item;
 	GList               *link;
 
-	g_return_if_fail ((pos >= 0) && (pos < priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < priv->n_images));
 
 	link = g_list_nth (priv->image_list, pos);
 	g_return_if_fail (link != NULL);
@@ -2923,7 +2946,7 @@ get_page_distance_image (GthImageList *image_list,
 		if (h > 0) {
 			int tmp;
 			tmp = focused_item + d * images_per_line;
-			if ((tmp > image_list->priv->images - 1) || (tmp < 0))
+			if ((tmp > image_list->priv->n_images - 1) || (tmp < 0))
 				return focused_item;
 			else
 				focused_item = tmp;
@@ -2938,7 +2961,7 @@ get_page_distance_image (GthImageList *image_list,
 	if (old_focused_item == focused_item) {
 		int tmp = focused_item + d * images_per_line;
 
-		if ((tmp >= 0) && (tmp <= image_list->priv->images - 1))
+		if ((tmp >= 0) && (tmp <= image_list->priv->n_images - 1))
 			focused_item = tmp;
 	}
 
@@ -2955,7 +2978,7 @@ real_move_cursor (GthImageList       *image_list,
 	int images_per_line;
 	int new_focused_item;
 
-	if (priv->images == 0)
+	if (priv->n_images == 0)
 		return FALSE;
 
 	if (! GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (image_list)))
@@ -2971,7 +2994,7 @@ real_move_cursor (GthImageList       *image_list,
 	} else {
 		switch (dir) {
 		case GTH_CURSOR_MOVE_RIGHT:
-			if (priv->focused_item + 1 < priv->images &&
+			if (priv->focused_item + 1 < priv->n_images &&
 			    priv->focused_item % images_per_line != (images_per_line - 1))
 				new_focused_item++;
 			break;
@@ -2983,7 +3006,7 @@ real_move_cursor (GthImageList       *image_list,
 			break;
 
 		case GTH_CURSOR_MOVE_DOWN:
-			if (priv->focused_item + images_per_line < priv->images)
+			if (priv->focused_item + images_per_line < priv->n_images)
 				new_focused_item += images_per_line;
 			break;
 
@@ -2996,14 +3019,14 @@ real_move_cursor (GthImageList       *image_list,
 			new_focused_item = get_page_distance_image (image_list,
 								     new_focused_item,
 								     FALSE);
-			new_focused_item = CLAMP (new_focused_item, 0, priv->images - 1);
+			new_focused_item = CLAMP (new_focused_item, 0, priv->n_images - 1);
 			break;
 
 		case GTH_CURSOR_MOVE_PAGE_DOWN:
 			new_focused_item = get_page_distance_image (image_list,
 								     new_focused_item,
 								     TRUE);
-			new_focused_item = CLAMP (new_focused_item, 0, priv->images - 1);
+			new_focused_item = CLAMP (new_focused_item, 0, priv->n_images - 1);
 			break;
 
 		case GTH_CURSOR_MOVE_BEGIN:
@@ -3011,7 +3034,7 @@ real_move_cursor (GthImageList       *image_list,
 			break;
 
 		case GTH_CURSOR_MOVE_END:
-			new_focused_item = priv->images - 1;
+			new_focused_item = priv->n_images - 1;
 			break;
 
 		default:
@@ -3582,11 +3605,11 @@ void
 gth_image_list_thaw (GthImageList *image_list)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail (image_list->priv->frozen > 0);
 
 	image_list->priv->frozen--;
 
-	if (image_list->priv->frozen == 0) {
+	if (image_list->priv->frozen <= 0) {
+		image_list->priv->frozen = 0;
 		if (image_list->priv->dirty) {
 			layout_all_images (image_list);
 			keep_focus_consistent (image_list);
@@ -3603,6 +3626,16 @@ gth_image_list_is_frozen (GthImageList *image_list)
 }
 
 
+static gboolean
+image_list_filter_match (GthImageList *image_list,
+			 gpointer      data)
+{
+	if (image_list->priv->filter_func == NULL)
+		return TRUE;
+	return (image_list->priv->filter_func) (image_list->priv->filter_data, data);
+}
+
+
 static int
 image_list_append_item (GthImageList     *image_list,
 			GthImageListItem *item)
@@ -3610,15 +3643,20 @@ image_list_append_item (GthImageList     *image_list,
 	GthImageListPrivate *priv = image_list->priv;
 	int                  pos;
 
-	pos = priv->images++;
+	priv->all_images = g_list_prepend (priv->all_images, item);
+	if (! image_list_filter_match (image_list, item))
+		return -1;
+
 	priv->image_list = g_list_append (priv->image_list, item);
+	gth_image_list_item_ref (item);
+	pos = priv->n_images++;
 
 	if (! priv->frozen)
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 	else
 		priv->dirty = TRUE;
 
-	return priv->images - 1;
+	return priv->n_images - 1;
 }
 
 
@@ -3629,25 +3667,27 @@ image_list_insert_item (GthImageList     *image_list,
 {
 	GthImageListPrivate *priv = image_list->priv;
 
+	if (! priv->sorted && (pos == priv->n_images))
+		return image_list_append_item (image_list, item);
+
+	priv->all_images = g_list_prepend (priv->all_images, item);
+	if (! image_list_filter_match (image_list, item))
+		return -1;
+
 	if (priv->sorted)
 		priv->image_list = g_list_insert_sorted (priv->image_list,
 							 item,
 							 priv->compare);
-	else {
-		if (pos == priv->images)
-			return image_list_append_item (image_list, item);
+	else
 		priv->image_list = g_list_insert (priv->image_list, item, pos);
-	}
-
-	priv->images++;
+	gth_image_list_item_ref (item);
+	priv->n_images++;
 
 	pos = g_list_index (priv->image_list, item);
-
 	if (! priv->frozen)
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 	else
 		priv->dirty = TRUE;
-
 	sync_selection (image_list, pos, SYNC_INSERT);
 
 	return pos;
@@ -3699,7 +3739,7 @@ gth_image_list_insert (GthImageList *image_list,
 
 	g_return_if_fail (image_list != NULL);
 	g_return_if_fail (pixbuf != NULL);
-	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->n_images));
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
 	item = gth_image_list_item_new (image_list, pixbuf, text, comment2);
@@ -3754,53 +3794,71 @@ gth_image_list_append (GthImageList  *image_list,
 }
 
 
-void
-gth_image_list_remove (GthImageList *image_list,
-		       int           pos)
+static int
+find_link_from_data (GList     *image_list,
+ 		     gpointer   data,
+ 		     GList    **link)
 {
-	GthImageListPrivate *priv = image_list->priv;
-	GList               *list;
-	GthImageListItem    *item;
-	int                  was_selected = FALSE;
+	GList *scan;
+	int    pos = 0;
 
-	g_return_if_fail (priv != NULL);
-	g_return_if_fail ((pos >= 0) && (pos < priv->images));
+	if (link != NULL)
+		*link = NULL;
 
-	list = g_list_nth (priv->image_list, pos);
-	item = list->data;
-
-	if (priv->focused_item == pos)
-		priv->focused_item = -1;
-
-	if (item->selected) {
-		was_selected = TRUE;
-
-		switch (priv->selection_mode) {
-		case GTK_SELECTION_SINGLE:
-		case GTK_SELECTION_MULTIPLE:
-			gth_image_list_unselect_image (image_list, pos);
-			break;
-
-		default:
+	for (scan = image_list; scan; scan = scan->next, pos++) {
+		GthImageListItem *item = scan->data;
+		if (item->data == data) {
+			if (link != NULL)
+				*link = scan;
 			break;
 		}
 	}
 
-	priv->image_list = g_list_remove_link (priv->image_list, list);
-	g_list_free_1 (list);
-	priv->images--;
+	return pos;
+}
+
+
+void
+gth_image_list_remove (GthImageList *image_list,
+		       gpointer      data)
+{
+	GthImageListPrivate *priv = image_list->priv;
+	GList               *item_link;
+	GthImageListItem    *item;
+	int                  pos;
+
+	find_link_from_data (priv->all_images, data, &item_link);
+	if (item_link == NULL)
+		return;
+
+	priv->all_images = g_list_remove_link (priv->all_images, item_link);
+	gth_image_list_item_unref ((GthImageListItem*)item_link->data);
+	g_list_free_1 (item_link);
+
+	pos = find_link_from_data (priv->image_list, data, &item_link);
+	if (item_link == NULL)
+		return;
+
+	item = item_link->data;
+
+	if (item->selected)
+		gth_image_list_unselect_image (image_list, pos);
+	if (priv->focused_item == pos)
+		priv->focused_item = -1;
+	if (priv->last_selected_item == item)
+		priv->last_selected_item = NULL;
+	if (priv->n_images >= priv->last_selected_pos)
+		priv->last_selected_pos = -1;
+
+	priv->image_list = g_list_remove_link (priv->image_list, item_link);
+	g_list_free_1 (item_link);
+	gth_image_list_item_unref (item);
+
+	priv->n_images--;
 
 	sync_selection (image_list, pos, SYNC_REMOVE);
 
-	if (priv->images >= priv->last_selected_pos)
-		priv->last_selected_pos = -1;
-
-	if (priv->last_selected_item == item)
-		priv->last_selected_item = NULL;
-
 	/**/
-
-	gth_image_list_item_unref (item);
 
 	if (! priv->frozen) {
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
@@ -3820,12 +3878,15 @@ gth_image_list_clear (GthImageList *image_list)
 	gth_image_list_freeze (image_list);
 
 	if (priv->image_list != NULL) {
-		GList *scan;
-
-		for (scan = priv->image_list; scan; scan = scan->next)
-			gth_image_list_item_unref (scan->data);
+		g_list_foreach (priv->image_list, (GFunc) gth_image_list_item_unref, NULL);
 		g_list_free (priv->image_list);
 		priv->image_list = NULL;
+	}
+
+	if (priv->all_images != NULL) {
+		g_list_foreach (priv->all_images, (GFunc) gth_image_list_item_unref, NULL);
+		g_list_free (priv->all_images);
+		priv->all_images = NULL;
 	}
 
 	free_line_info (image_list);
@@ -3835,7 +3896,7 @@ gth_image_list_clear (GthImageList *image_list)
 		priv->selection = NULL;
 	}
 
-	priv->images = 0;
+	priv->n_images = 0;
 	priv->last_selected_pos = -1;
 	priv->last_selected_item = NULL;
 
@@ -3859,7 +3920,7 @@ gth_image_list_set_image_pixbuf (GthImageList  *image_list,
 
 	priv = image_list->priv;
 
-	g_return_if_fail ((pos >= 0) && (pos < priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < priv->n_images));
 	g_return_if_fail (pixbuf != NULL);
 
 	item = g_list_nth (priv->image_list, pos)->data;
@@ -3892,7 +3953,7 @@ gth_image_list_set_image_text (GthImageList  *image_list,
 	GthImageListItem *item;
 
 	g_return_if_fail (image_list != NULL);
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 	g_return_if_fail (label != NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
@@ -3923,7 +3984,7 @@ gth_image_list_set_image_comment (GthImageList  *image_list,
 	GthImageListItem *item;
 
 	g_return_if_fail (image_list != NULL);
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 	g_return_if_fail (comment != NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
@@ -3952,7 +4013,7 @@ gth_image_list_get_image_text (GthImageList *image_list,
 	GthImageListItem *item;
 
 	g_return_val_if_fail (image_list != NULL, NULL);
-	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
+	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_val_if_fail (item != NULL, NULL);
@@ -3968,7 +4029,7 @@ gth_image_list_get_image_comment (GthImageList *image_list,
 	GthImageListItem *item;
 
 	g_return_val_if_fail (image_list != NULL, NULL);
-	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
+	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_val_if_fail (item != NULL, NULL);
@@ -3981,7 +4042,7 @@ int
 gth_image_list_get_images (GthImageList  *image_list)
 {
 	g_return_val_if_fail (image_list != NULL, 0);
-	return image_list->priv->images;
+	return image_list->priv->n_images;
 }
 
 
@@ -4065,7 +4126,7 @@ gth_image_list_set_image_data_full (GthImageList    *image_list,
 	GthImageListItem *item;
 
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
@@ -4114,7 +4175,7 @@ gth_image_list_get_image_data (GthImageList    *image_list,
 	FileData         *fdata;
 
 	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), NULL);
-	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
+	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	fdata = item->data;
@@ -4164,7 +4225,7 @@ gth_image_list_moveto (GthImageList *image_list,
 	float  value;
 
 	g_return_if_fail (image_list != NULL);
-	g_return_if_fail ((pos >= 0) && (pos < priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < priv->n_images));
 	g_return_if_fail ((yalign >= 0.0) && (yalign <= 1.0));
 
 	if (priv->lines == NULL)
@@ -4216,7 +4277,7 @@ gth_image_list_image_is_visible (GthImageList *image_list,
 	int        window_top, window_bottom;
 
 	g_return_val_if_fail (image_list != NULL, GTH_VISIBILITY_NONE);
-	g_return_val_if_fail ((pos >= 0) && (pos < priv->images), GTH_VISIBILITY_NONE);
+	g_return_val_if_fail ((pos >= 0) && (pos < priv->n_images), GTH_VISIBILITY_NONE);
 
 	if (priv->lines == NULL)
 		return GTH_VISIBILITY_NONE;
@@ -4350,7 +4411,7 @@ gth_image_list_image_activated (GthImageList *image_list,
 				int           pos)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 
 	g_signal_emit (image_list, image_list_signals[ITEM_ACTIVATED], 0, pos);
 }
@@ -4361,7 +4422,7 @@ gth_image_list_set_cursor (GthImageList *image_list,
 			   int           pos)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->images));
+	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 
 	g_signal_emit (image_list, image_list_signals[CURSOR_CHANGED], 0, pos);
 }
@@ -4395,13 +4456,47 @@ gth_image_list_set_no_image_text (GthImageList *image_list,
 	if (text != NULL)
 		priv->no_image_text = g_strdup (text);
 
-	if (priv->images == 0) {
+	if (priv->n_images == 0) {
 		if (! priv->frozen) {
 			layout_all_images (image_list);
 			keep_focus_consistent (image_list);
 		} else
 			priv->dirty = TRUE;
 	}
+}
+
+
+void
+gth_image_list_set_visible_func (GthImageList   *image_list,
+			         GthVisibleFunc  func,
+                      		 gpointer        data)
+{
+	GthImageListPrivate *priv = image_list->priv;
+	GList               *scan;
+
+	priv->filter_func = func;
+	priv->filter_data = data;
+
+	image_list_free (image_list);
+	for (scan = priv->all_images; scan; scan = scan->next) {
+		GthImageListItem *item = scan->data;
+		if (image_list_filter_match (image_list, item->data)) {
+			gth_image_list_item_ref (item);
+			priv->image_list = g_list_prepend (priv->image_list, item);
+		}
+	}
+
+	if (image_list->priv->sorted) {
+		priv->image_list = g_list_sort (priv->image_list, priv->compare);
+		if (priv->sort_type == GTK_SORT_DESCENDING)
+			priv->image_list = g_list_reverse (priv->image_list);
+	}
+	priv->n_images = g_list_length (priv->image_list);
+
+	if (! priv->frozen)
+		layout_all_images_now (image_list);
+	else
+		priv->dirty = TRUE;
 }
 
 
@@ -4474,8 +4569,8 @@ gth_image_list_set_drag_dest_pos (GthImageList *image_list,
 			drop_image = 0;
 			drop_pos = GTH_DROP_POSITION_LEFT;
 
-		} else if (drop_image >= priv->images) {
-			drop_image = priv->images - 1;
+		} else if (drop_image >= priv->n_images) {
+			drop_image = priv->n_images - 1;
 			drop_pos = GTH_DROP_POSITION_RIGHT;
 
 		} else {

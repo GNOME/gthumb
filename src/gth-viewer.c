@@ -1198,6 +1198,26 @@ viewer_key_press_cb (GtkWidget   *widget,
 		retval = TRUE;
 		break;
 
+		/* Set zoom to fit size if larger */
+	case GDK_x:
+		image_viewer_set_fit_mode (image_viewer, GTH_FIT_SIZE_IF_LARGER);
+		return TRUE;
+
+		/* Set zoom to fit width if larger */
+	case GDK_w:
+		image_viewer_set_fit_mode (image_viewer, GTH_FIT_WIDTH_IF_LARGER);
+		return TRUE;
+
+		/* Toggle animation. */
+	case GDK_a:
+		gth_window_set_animation (window, ! gth_window_get_animation (window));
+		break;
+
+		/* Step animation. */
+	case GDK_j:
+        	gth_window_step_animation (window);
+		break;
+
 		/* Rotate clockwise without saving */
 	case GDK_r:
 		gth_window_activate_action_alter_image_rotate90 (NULL, window);
@@ -1234,6 +1254,21 @@ viewer_key_press_cb (GtkWidget   *widget,
 		gth_window_set_fullscreen (GTH_WINDOW (viewer), TRUE);
 		retval = TRUE;
 		break;
+
+		/* Open images. */
+	case GDK_o:
+		gth_window_activate_action_file_open_with (NULL, viewer);
+		return TRUE;
+
+		/* Edit comment */
+	case GDK_c:
+		gth_window_edit_comment (GTH_WINDOW (viewer));
+		return TRUE;
+
+		/* Edit keywords */
+	case GDK_k:
+		gth_window_edit_categories (GTH_WINDOW (viewer));
+		return TRUE;
 
 	default:
 		break;

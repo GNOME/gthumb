@@ -42,7 +42,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_close_window) },
 
 	{ "File_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With..."), "O",
+	  N_("_Open With..."), "",
 	  N_("Open selected images with an application"),
 	  G_CALLBACK (gth_window_activate_action_file_open_with) },
 
@@ -72,17 +72,17 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_print) },
 
 	{ "Image_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With"), "O",
+	  N_("_Open With"), "",
 	  N_("Open this image with an application"),
 	  G_CALLBACK (gth_window_activate_action_image_open_with) },
 
 	{ "Edit_EditComment", GTHUMB_STOCK_ADD_COMMENT,
-	  N_("Comm_ent..."), "C",
+	  N_("Comm_ent..."), "",
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
 	{ "ToolBar_EditComment", GTHUMB_STOCK_ADD_COMMENT,
-	  N_("Comm_ent"), "C",
+	  N_("Comm_ent"), NULL,
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
@@ -92,12 +92,12 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_edit_delete_comment) },
 
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories..."), "K",
+	  N_("Ca_tegories..."), "",
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
 	{ "ToolBar_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories"), "K",
+	  N_("Ca_tegories"), NULL,
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
@@ -212,17 +212,17 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_view_zoom_100) },
 
 	{ "View_ZoomFit", GTK_STOCK_ZOOM_FIT,
-	  N_("Fit"), "X",
+	  N_("Fit"), "",
 	  N_("Zoom to fit window"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_fit) },
 
         { "View_ZoomWidth", GTHUMB_STOCK_ZOOM_WIDTH,
-          N_("Width"), "W",
+          N_("Width"), "",
           N_("Zoom to fit width"),
           G_CALLBACK (gth_window_activate_action_view_zoom_to_width) },
 
 	{ "View_StepAnimation", NULL,
-	  N_("Step A_nimation"), "J",
+	  N_("Step A_nimation"), "",
 	  N_("View next animation frame"),
 	  G_CALLBACK (gth_window_activate_action_view_step_animation) },
 
@@ -313,7 +313,7 @@ static guint gth_window_action_entries_size = G_N_ELEMENTS (gth_window_action_en
 
 static GtkToggleActionEntry gth_window_action_toggle_entries[] = {
 	{ "View_PlayAnimation", NULL,
-	  N_("Play _Animation"), "A",
+	  N_("Play _Animation"), "",
 	  N_("Start or stop current animation"),
 	  G_CALLBACK (gth_window_activate_action_view_toggle_animation),
 	  TRUE }

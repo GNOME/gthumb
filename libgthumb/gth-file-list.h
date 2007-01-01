@@ -27,6 +27,7 @@
 #include "typedefs.h"
 #include "thumb-loader.h"
 #include "file-data.h"
+#include "gth-filter.h"
 #include "gth-file-view.h"
 
 #define GTH_TYPE_FILE_LIST            (gth_file_list_get_type ())
@@ -81,6 +82,8 @@ void         gth_file_list_set_sort_method      (GthFileList   *file_list,
 void         gth_file_list_set_sort_type        (GthFileList   *file_list,
 						 GtkSortType    sort_type,
 						 gboolean       update);
+FileData *   gth_file_list_filedata_from_path   (GthFileList   *file_list,
+			          		 const char    *path);
 int          gth_file_list_pos_from_path        (GthFileList   *file_list,
 						 const char    *path);
 GList*       gth_file_list_get_all              (GthFileList   *file_list);
@@ -126,5 +129,7 @@ void         gth_file_list_restart_thumbs       (GthFileList   *file_list,
 						 gboolean       _continue);
 void         gth_file_list_set_thumbs_size      (GthFileList   *file_list,
 						 int            size);
+void         gth_file_list_set_filter           (GthFileList   *file_list,
+						 GthFilter     *filter);
 
 #endif /* GTH_FILE_LIST_H */

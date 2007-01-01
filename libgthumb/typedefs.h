@@ -244,7 +244,8 @@ typedef void (*AreaReadyFunc)      (guint x,
 				    guint w,
 				    guint h,
 				    gpointer data);
-typedef gboolean (*GthVisibleFunc) (gpointer data);
+typedef gboolean (*GthVisibleFunc) (gpointer data,
+				    gpointer image_data);
 
 
 #endif /* TYPEDEFS_H */

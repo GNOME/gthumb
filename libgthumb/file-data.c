@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2006 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -66,6 +66,32 @@ file_data_new (const char       *path,
 
 
 void
+file_data_ref (FileData *fd)
+{
+	g_return_if_fail (fd != NULL);
+	fd->ref++;
+}
+
+
+void
+file_data_unref (FileData *fd)
+{
+	g_return_if_fail (fd != NULL);
+
+	fd->ref--;
+
+	if (fd->ref == 0) {
+		g_free (fd->path);
+		g_free (fd->utf8_name);
+		if (fd->comment_data != NULL)
+			comment_data_free (fd->comment_data);
+		g_free (fd->comment);
+		g_free (fd);
+	}
+}
+
+
+void
 file_data_update (FileData *fd)
 {
 	GnomeVFSFileInfo *info;
@@ -109,8 +135,8 @@ file_data_update (FileData *fd)
 
 
 void
-file_data_set_path (FileData *fd,
-		    const gchar *path)
+file_data_set_path (FileData   *fd,
+		    const char *path)
 {
 	g_return_if_fail (fd != NULL);
 	g_return_if_fail (path != NULL);
@@ -123,51 +149,36 @@ file_data_set_path (FileData *fd,
 
 
 void
+file_data_load_comment_data (FileData *fd)
+{
+	g_return_if_fail (fd != NULL);
+
+	if (fd->comment_data != NULL)
+		return;
+	fd->comment_data = comments_load_comment (fd->path, FALSE);
+}
+
+
+void
 file_data_update_comment (FileData *fd)
 {
-	CommentData *data;
-
 	g_return_if_fail (fd != NULL);
 
 	if (fd->comment != NULL)
 		g_free (fd->comment);
+	if (fd->comment_data != NULL)
+		comment_data_free (fd->comment_data);
 
-	data = comments_load_comment (fd->path, FALSE);
+	fd->comment_data = comments_load_comment (fd->path, FALSE);
 
-	if (data == NULL) {
+	if (fd->comment_data == NULL) {
 		fd->comment = g_strdup ("");
 		return;
 	}
 
-	fd->comment = comments_get_comment_as_string (data, "\n", "\n");
+	fd->comment = comments_get_comment_as_string (fd->comment_data, "\n", "\n");
 	if (fd->comment == NULL)
 		fd->comment = g_strdup ("");
-
-	comment_data_free (data);
-}
-
-
-void
-file_data_ref (FileData *fd)
-{
-	g_return_if_fail (fd != NULL);
-	fd->ref++;
-}
-
-
-void
-file_data_unref (FileData *fd)
-{
-	g_return_if_fail (fd != NULL);
-
-	fd->ref--;
-
-	if (fd->ref == 0) {
-		g_free (fd->path);
-		g_free (fd->utf8_name);
-		g_free (fd->comment);
-		g_free (fd);
-	}
 }
 
 

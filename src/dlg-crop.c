@@ -29,6 +29,7 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "glib-utils.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "gconf-utils.h"
 #include "preferences.h"
@@ -129,6 +130,14 @@ save_cb (GtkWidget  *widget,
          DialogData *data)
 {
 	apply_cb (data, TRUE);
+}
+
+
+static void
+help_cb (GtkWidget  *widget,
+         DialogData *data)
+{
+	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-crop");
 }
 
 
@@ -453,6 +462,7 @@ dlg_crop (GthWindow *window)
 	GtkWidget    *ok_button;
 	GtkWidget    *save_button;
 	GtkWidget    *cancel_button;
+	GtkWidget    *help_button;
 	GtkWidget    *menu, *item;
 	GtkWidget    *image;
 	GtkWidget    *crop_button, *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
@@ -499,6 +509,7 @@ dlg_crop (GthWindow *window)
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
 	save_button = glade_xml_get_widget (data->gui, "crop_savebutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
+	help_button = glade_xml_get_widget (data->gui, "crop_helpbutton");
 
 	data->image_selector = gth_image_selector_new (GTH_SELECTOR_TYPE_REGION, NULL);
 
@@ -580,6 +591,10 @@ dlg_crop (GthWindow *window)
 	g_signal_connect (G_OBJECT (save_button),
 			  "clicked",
 			  G_CALLBACK (save_cb),
+			  data);
+	g_signal_connect (G_OBJECT (help_button),
+			  "clicked",
+			  G_CALLBACK (help_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->crop_x_spinbutton),
 			  "value_changed",

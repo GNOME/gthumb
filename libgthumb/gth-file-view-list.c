@@ -142,7 +142,7 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 	if (gfv_list->priv->max_image_size == 0)
 		return NULL;
 
-	result = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 
+	result = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 				 gfv_list->priv->max_image_size,
 				 gfv_list->priv->max_image_size);
 	gdk_pixbuf_fill (result, 0x00000000);
@@ -152,8 +152,8 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
-	x = (gfv_list->priv->max_image_size - w) / 2; 
-	y = (gfv_list->priv->max_image_size - h) / 2; 
+	x = (gfv_list->priv->max_image_size - w) / 2;
+	y = (gfv_list->priv->max_image_size - h) / 2;
 
 	gdk_pixbuf_copy_area (pixbuf,
 			      0, 0,
@@ -167,7 +167,7 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 
 static void
 gfv_insert (GthFileView  *file_view,
-	    int           pos, 
+	    int           pos,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment)
@@ -275,9 +275,11 @@ gfv_append_with_data (GthFileView  *file_view,
 
 
 static void
-gfv_remove (GthFileView  *file_view, 
-	    int           pos)
+gfv_remove (GthFileView *file_view,
+	    gpointer     data)
 {
+	/* FIXME */
+	/*
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
 	GtkTreePath     *path;
@@ -292,6 +294,7 @@ gfv_remove (GthFileView  *file_view,
 	gtk_tree_path_free (path);
 
 	gtk_list_store_remove (gfv_list->priv->list_store, &iter);
+	*/
 }
 
 
@@ -351,7 +354,7 @@ gfv_set_unknown_pixbuf (GthFileView  *file_view,
 
 	if (! gfv_list->priv->enable_thumbs)
 		real_pixbuf = g_object_ref (gfv_list->priv->unknown_pixbuf_small);
-	else 
+	else
 		real_pixbuf = get_sized_pixbuf (gfv_list, gfv_list->priv->unknown_pixbuf_big);
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
@@ -472,7 +475,7 @@ gfv_get_images (GthFileView  *file_view)
 
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return len;
-	
+
 	do {
 		len++;
 	} while (gtk_tree_model_iter_next (model, &iter));
@@ -491,7 +494,7 @@ gfv_get_list (GthFileView  *file_view)
 
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return NULL;
-	
+
 	do {
 		gpointer iter_data;
 
@@ -767,7 +770,7 @@ gfv_set_image_width (GthFileView     *file_view,
 
 static void
 gfv_set_image_data (GthFileView     *file_view,
-		    int              pos, 
+		    int              pos,
 		    gpointer         data)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -791,7 +794,7 @@ gfv_set_image_data (GthFileView     *file_view,
 
 static void
 gfv_set_image_data_full (GthFileView     *file_view,
-			 int              pos, 
+			 int              pos,
 			 gpointer         data,
 			 GtkDestroyNotify destroy)
 {
@@ -811,7 +814,7 @@ gfv_find_image_from_data (GthFileView     *file_view,
 
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return -1;
-	
+
 	do {
 		gpointer iter_data;
 
@@ -896,7 +899,7 @@ gfv_get_view_mode (GthFileView *file_view)
 
 static void
 gfv_moveto (GthFileView *file_view,
-	    int          pos, 
+	    int          pos,
 	    double       yalign)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -938,20 +941,20 @@ gfv_image_is_visible (GthFileView *file_view,
 
 	else if (image_rect.y < visible_rect.y)
 		visibility = GTH_VISIBILITY_PARTIAL_TOP;
-	
+
 	else if (image_rect.y + image_rect.height > visible_rect.y + visible_rect.height)
 		visibility = GTH_VISIBILITY_PARTIAL_BOTTOM;
-	
+
 	else
 		visibility = GTH_VISIBILITY_FULL;
-	
+
 	return visibility;
 }
 
 
 static int
-gfv_get_image_at (GthFileView *file_view, 
-		  int          x, 
+gfv_get_image_at (GthFileView *file_view,
+		  int          x,
 		  int          y)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -986,7 +989,7 @@ gfv_get_first_visible (GthFileView *file_view)
 					&rect);
 
 	if (! gtk_tree_view_get_path_at_pos (gfv_list->priv->tree_view,
-					     0, 
+					     0,
 					     0,
 					     &path,
 					     NULL,
@@ -1012,7 +1015,7 @@ gfv_get_last_visible (GthFileView *file_view)
 	gtk_tree_view_get_visible_rect (gfv_list->priv->tree_view,
 					&rect);
 	if (! gtk_tree_view_get_path_at_pos (gfv_list->priv->tree_view,
-					     0, 
+					     0,
 					     rect.height - 1,
 					     &path,
 					     NULL,
@@ -1079,7 +1082,7 @@ gfv_unsorted (GthFileView *file_view)
 
 
 static void
-gfv_image_activated (GthFileView *file_view, 
+gfv_image_activated (GthFileView *file_view,
 		     int          pos)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -1092,7 +1095,7 @@ gfv_image_activated (GthFileView *file_view,
 
 
 static void
-gfv_set_cursor (GthFileView *file_view, 
+gfv_set_cursor (GthFileView *file_view,
 		int          pos)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -1145,7 +1148,7 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 	icon_path = gnome_icon_theme_lookup_icon (icon_theme,
 						  icon_name,
 						  icon_size,
-						  NULL, 
+						  NULL,
 						  NULL);
 	g_free (icon_name);
 
@@ -1154,10 +1157,10 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 		g_free (icon_path);
 	}
 
-	if (pixbuf == NULL) 
-		pixbuf = gdk_pixbuf_new_from_inline (-1, 
-						     dir_16_rgba, 
-						     FALSE, 
+	if (pixbuf == NULL)
+		pixbuf = gdk_pixbuf_new_from_inline (-1,
+						     dir_16_rgba,
+						     FALSE,
 						     NULL);
 
 	width = gdk_pixbuf_get_width (pixbuf);
@@ -1181,10 +1184,10 @@ gfv_update_icon_theme (GthFileView *file_view)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 
-	if (gfv_list->priv->unknown_pixbuf_small != NULL) 
+	if (gfv_list->priv->unknown_pixbuf_small != NULL)
 		g_object_unref (gfv_list->priv->unknown_pixbuf_small);
 
-	if (gfv_list->priv->unknown_pixbuf_big != NULL) 
+	if (gfv_list->priv->unknown_pixbuf_big != NULL)
 		g_object_unref (gfv_list->priv->unknown_pixbuf_big);
 
 	gfv_list->priv->unknown_pixbuf_small = create_unknown_pixbuf (gfv_list, FALSE);
@@ -1220,7 +1223,7 @@ gfv_set_drag_dest_pos (GthFileView *file_view,
 		pos = GTK_TREE_VIEW_DROP_AFTER;
 	else if (pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE)
 		pos = GTK_TREE_VIEW_DROP_BEFORE;
-	
+
 	gtk_tree_view_set_drag_dest_row (gfv_list->priv->tree_view,
 					 path,
 					 pos);
@@ -1242,7 +1245,7 @@ gfv_get_drag_dest_pos (GthFileView     *file_view,
 		*dest_pos = -1;
 		return;
 	}
-		
+
 	gtk_tree_view_get_drag_dest_row (gfv_list->priv->tree_view,
 					 &path,
 					 &pos);
@@ -1250,11 +1253,11 @@ gfv_get_drag_dest_pos (GthFileView     *file_view,
 	if (path != NULL) {
 		idx = gtk_tree_path_get_indices (path);
 		*dest_pos = idx[0];
-		if ((pos == GTK_TREE_VIEW_DROP_AFTER) 
+		if ((pos == GTK_TREE_VIEW_DROP_AFTER)
 		    || (pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER))
 			(*dest_pos)++;
 		gtk_tree_path_free (path);
-	} else 
+	} else
 		*dest_pos = -1;
 }
 
@@ -1436,7 +1439,7 @@ gth_file_view_list_get_type (void)
 }
 
 
-static void 
+static void
 selection_changed_cb (GtkTreeSelection *selection,
 		      GthFileViewList  *gfv_list)
 {
@@ -1479,7 +1482,7 @@ add_columns (GtkTreeView *treeview)
 	GtkTreeViewColumn *column;
 	int                i, j;
 	GValue             value = { 0, };
-	
+
 	/* The Name column. */
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Name"));
@@ -1495,7 +1498,7 @@ add_columns (GtkTreeView *treeview)
         g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
         g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
         g_value_unset (&value);
-        	
+
 	gtk_tree_view_column_pack_start (column,
 					 renderer,
 					 TRUE);
@@ -1576,7 +1579,7 @@ comp_func_exif_date (gconstpointer  ptr1,
 		     gconstpointer  ptr2)
 {
 	FileData *fd1 = (FileData *) ptr1, *fd2 = (FileData *) ptr2;
-	
+
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
@@ -1615,7 +1618,7 @@ comp_func_none (gconstpointer  ptr1,
 }
 
 
-static GCompareFunc 
+static GCompareFunc
 get_compfunc_from_method (GthSortMethod sort_method)
 {
 	GCompareFunc func;
@@ -1637,8 +1640,8 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		func = comp_func_comment;
 		break;
 	case GTH_SORT_METHOD_BY_EXIF_DATE:
-		func = comp_func_exif_date;	
-		break;	
+		func = comp_func_exif_date;
+		break;
 	default:
 		func = comp_func_none;
 		break;
@@ -1649,9 +1652,9 @@ get_compfunc_from_method (GthSortMethod sort_method)
 
 
 static int
-default_sort_func (GtkTreeModel *model, 
-		   GtkTreeIter  *a, 
-		   GtkTreeIter  *b, 
+default_sort_func (GtkTreeModel *model,
+		   GtkTreeIter  *a,
+		   GtkTreeIter  *b,
 		   gpointer      user_data)
 {
 	GthFileViewList *gfv_list = user_data;
@@ -1682,7 +1685,7 @@ gth_file_view_list_new (guint image_width)
 	gfv_list = GTH_FILE_VIEW_LIST (g_object_new (GTH_TYPE_FILE_VIEW_LIST, NULL));
 	priv = gfv_list->priv;
 
-	priv->list_store = gtk_list_store_new (NUMBER_OF_COLUMNS, 
+	priv->list_store = gtk_list_store_new (NUMBER_OF_COLUMNS,
 					       G_TYPE_POINTER,
 					       GDK_TYPE_PIXBUF,
 					       G_TYPE_STRING,

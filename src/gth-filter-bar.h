@@ -24,6 +24,7 @@
 #define GTH_FILTER_BAR_H
 
 #include <gtk/gtkhbox.h>
+#include "gth-filter.h"
 
 #define GTH_TYPE_FILTER_BAR         (gth_filter_bar_get_type ())
 #define GTH_FILTER_BAR(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_FILTER_BAR, GthFilterBar))
@@ -53,5 +54,7 @@ struct _GthFilterBarClass
 
 GType                gth_filter_bar_get_type        (void) G_GNUC_CONST;
 GtkWidget *          gth_filter_bar_new             (void);
+GthFilter *          gth_filter_bar_get_filter      (GthFilterBar *filter_bar);
+gboolean             gth_filter_bar_has_focus       (GthFilterBar *filter_bar);
 
 #endif /* GTH_FILTER_BAR_H */

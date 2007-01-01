@@ -44,6 +44,7 @@ HEADER_FILES =				\
 	glib-utils.h			\
 	gstringlist.h			\
 	gth-exif-utils.h		\
+	gth-filter.h			\
 	gth-image-list.h		\
 	gth-iviewer.h			\
 	gth-file-list.h			\
@@ -101,6 +102,7 @@ libgthumb_la_SOURCES =			\
 	glib-utils.c			\
 	gstringlist.c			\
 	gth-exif-utils.c		\
+	gth-filter.c			\
 	gth-pixbuf-op.c			\
 	gth-image-list.c		\
 	gth-iviewer.c			\

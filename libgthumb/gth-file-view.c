@@ -139,7 +139,7 @@ gfv_append_with_data (GthFileView  *file_view,
 
 static void
 gfv_remove (GthFileView  *file_view,
-	    int           pos)
+	    gpointer      data)
 {
 }
 
@@ -755,9 +755,9 @@ gth_file_view_append_with_data (GthFileView  *file_view,
 
 void
 gth_file_view_remove (GthFileView  *file_view,
-		      int           pos)
+		      gpointer      data)
 {
-	GTH_FILE_VIEW_GET_CLASS (file_view)->remove (file_view, pos);
+	GTH_FILE_VIEW_GET_CLASS (file_view)->remove (file_view, data);
 }
 
 

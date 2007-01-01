@@ -35,6 +35,7 @@ enum {
 
 struct _GthFilterBarPrivate
 {
+	gboolean   has_focus;
 	GtkWidget *text_entry;
 };
 
@@ -75,10 +76,9 @@ gth_filter_bar_class_init (GthFilterBarClass *class)
                               G_SIGNAL_RUN_LAST,
                               G_STRUCT_OFFSET (GthFilterBarClass, changed),
                               NULL, NULL,
-                              g_cclosure_marshal_VOID__STRING,
+                              g_cclosure_marshal_VOID__VOID,
                               G_TYPE_NONE,
-                              1,
-			      G_TYPE_STRING);
+                              0);
 }
 
 
@@ -90,11 +90,52 @@ gth_filter_bar_init (GthFilterBar *filter_bar)
 
 
 static void
+text_entry_activate_cb (GtkEntry     *entry,
+                        GthFilterBar *filter_bar)
+{
+	g_signal_emit (filter_bar, gth_filter_bar_signals[CHANGED], 0);
+}
+
+
+static gboolean
+text_entry_focus_in_event_cb (GtkEntry      *entry,
+			      GdkEventFocus *event,
+                              GthFilterBar  *filter_bar)
+{
+	filter_bar->priv->has_focus = TRUE;
+	return FALSE;
+}
+
+
+static gboolean
+text_entry_focus_out_event_cb (GtkEntry      *entry,
+			       GdkEventFocus *event,
+                               GthFilterBar  *filter_bar)
+{
+	filter_bar->priv->has_focus = FALSE;
+	return FALSE;
+}
+
+
+static void
 gth_filter_bar_construct (GthFilterBar *filter_bar)
 {
 	gtk_container_set_border_width (GTK_CONTAINER (filter_bar), 6);
 
 	filter_bar->priv->text_entry = gtk_entry_new ();
+	g_signal_connect (G_OBJECT (filter_bar->priv->text_entry),
+			  "activate",
+			  G_CALLBACK (text_entry_activate_cb),
+			  filter_bar);
+	g_signal_connect (G_OBJECT (filter_bar->priv->text_entry),
+			  "focus-in-event",
+			  G_CALLBACK (text_entry_focus_in_event_cb),
+			  filter_bar);
+	g_signal_connect (G_OBJECT (filter_bar->priv->text_entry),
+			  "focus-out-event",
+			  G_CALLBACK (text_entry_focus_out_event_cb),
+			  filter_bar);
+
 	gtk_widget_set_size_request (filter_bar->priv->text_entry, 150, -1);
 	gtk_widget_show (filter_bar->priv->text_entry);
 	gtk_box_pack_end (GTK_BOX (filter_bar), filter_bar->priv->text_entry, FALSE, FALSE, 0);
@@ -102,7 +143,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 
 
 GType
-gth_filter_bar_get_type ()
+gth_filter_bar_get_type (void)
 {
         static GType type = 0;
 
@@ -138,4 +179,31 @@ gth_filter_bar_new (void)
 	gth_filter_bar_construct (GTH_FILTER_BAR (widget));
 
 	return widget;
+}
+
+
+GthFilter *
+gth_filter_bar_get_filter (GthFilterBar *filter_bar)
+{
+	const char *text;
+	GthFilter  *filter;
+	char       *pattern;
+
+	text = gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry));
+	if ((text == NULL) || (strlen (text) == 0))
+		return NULL;
+
+	filter = gth_filter_new ();
+	pattern = g_strdup_printf ("*%s*", text);
+	gth_filter_add_test (filter, gth_test_new_with_string (GTH_TEST_SCOPE_FILENAME, GTH_TEST_OP_MATCHES, FALSE, pattern));
+	g_free (pattern);
+
+	return filter;
+}
+
+
+gboolean
+gth_filter_bar_has_focus (GthFilterBar *filter_bar)
+{
+	return filter_bar->priv->has_focus;
 }

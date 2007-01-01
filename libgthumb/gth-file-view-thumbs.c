@@ -134,7 +134,7 @@ gfv_is_frozen (GthFileView  *file_view)
 
 static void
 gfv_insert (GthFileView  *file_view,
-	    int           pos, 
+	    int           pos,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment)
@@ -192,13 +192,13 @@ gfv_append_with_data (GthFileView  *file_view,
 
 
 static void
-gfv_remove (GthFileView  *file_view, 
-	    int           pos)
+gfv_remove (GthFileView  *file_view,
+	    gpointer      data)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
-	gth_image_list_remove (ilist, pos);
+	gth_image_list_remove (ilist, data);
 }
 
 
@@ -368,7 +368,7 @@ gfv_get_file_list_selection (GthFileView *file_view)
 		FileData *fd = scan->data;
 
 		if ((fd != NULL) && (fd->path != NULL))
-			file_list = g_list_prepend (file_list, 
+			file_list = g_list_prepend (file_list,
 						    g_strdup (fd->path));
 	}
 	file_data_list_free (list);
@@ -457,7 +457,7 @@ gfv_set_image_width (GthFileView     *file_view,
 
 static void
 gfv_set_image_data (GthFileView     *file_view,
-		    int              pos, 
+		    int              pos,
 		    gpointer         data)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -469,7 +469,7 @@ gfv_set_image_data (GthFileView     *file_view,
 
 static void
 gfv_set_image_data_full (GthFileView     *file_view,
-			 int              pos, 
+			 int              pos,
 			 gpointer         data,
 			 GtkDestroyNotify destroy)
 {
@@ -539,7 +539,7 @@ gfv_get_view_mode (GthFileView *file_view)
 
 static void
 gfv_moveto (GthFileView *file_view,
-	    int          pos, 
+	    int          pos,
 	    double       yalign)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -561,8 +561,8 @@ gfv_image_is_visible (GthFileView *file_view,
 
 
 static int
-gfv_get_image_at (GthFileView *file_view, 
-		  int          x, 
+gfv_get_image_at (GthFileView *file_view,
+		  int          x,
 		  int          y)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -597,7 +597,10 @@ gfv_set_visible_func (GthFileView    *file_view,
                       GthVisibleFunc  func,
                       gpointer        data)
 {
-	/* FIXME */
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	gth_image_list_set_visible_func (ilist, func, data);
 }
 
 
@@ -734,8 +737,8 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		func = comp_func_comment;
 		break;
 	case GTH_SORT_METHOD_BY_EXIF_DATE:
-		func = comp_func_exif_date;	
-		break;	
+		func = comp_func_exif_date;
+		break;
 	case GTH_SORT_METHOD_NONE:
 	case GTH_SORT_METHOD_MANUAL:
 	default:
@@ -775,7 +778,7 @@ gfv_unsorted (GthFileView *file_view)
 
 
 static void
-gfv_image_activated (GthFileView *file_view, 
+gfv_image_activated (GthFileView *file_view,
 		     int          pos)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -786,7 +789,7 @@ gfv_image_activated (GthFileView *file_view,
 
 
 static void
-gfv_set_cursor (GthFileView *file_view, 
+gfv_set_cursor (GthFileView *file_view,
 		int          pos)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -850,9 +853,9 @@ create_unknown_pixbuf (GthFileViewThumbs *gfv_thumbs)
 	}
 
 	if (pixbuf == NULL)
-		pixbuf = gdk_pixbuf_new_from_inline (-1, 
-						     dir_16_rgba, 
-						     FALSE, 
+		pixbuf = gdk_pixbuf_new_from_inline (-1,
+						     dir_16_rgba,
+						     FALSE,
 						     NULL);
 
 	width = gdk_pixbuf_get_width (pixbuf);
@@ -886,7 +889,7 @@ gfv_update_icon_theme (GthFileView *file_view)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 
-	if (gfv_thumbs->priv->unknown_pixbuf != NULL) 
+	if (gfv_thumbs->priv->unknown_pixbuf != NULL)
 		g_object_unref (gfv_thumbs->priv->unknown_pixbuf);
 
 	gfv_thumbs->priv->unknown_pixbuf = create_unknown_pixbuf (gfv_thumbs);
@@ -1100,7 +1103,7 @@ gth_file_view_thumbs_get_type (void)
 }
 
 
-static void 
+static void
 selection_changed_cb (GthImageList      *image_list,
 		      GthFileViewThumbs *gfv_thumbs)
 {
