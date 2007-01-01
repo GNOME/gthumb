@@ -27,7 +27,6 @@
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include <libbonobo.h>
 
 #include "catalog.h"
 #include "comments.h"
@@ -35,7 +34,6 @@
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
-#include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
 #include "gth-dir-list.h"
@@ -81,7 +79,6 @@ static gboolean        view_single_image = FALSE;
 static GdkPixbuf      *icon_pixbuf[ICON_NAMES] = { 0 };
 static GtkWidget      *first_window = NULL;
 static GnomeIconTheme *icon_theme = NULL;
-static BonoboObject   *gth_application = NULL;
 
 struct poptOption options[] = {
 	{ "fullscreen", 'f', POPT_ARG_NONE, &StartInFullscreen, 0,
@@ -494,9 +491,6 @@ initialize_data (poptContext pctx)
 static void
 release_data (void)
 {
-	if (gth_application != NULL)
-                bonobo_object_unref (gth_application);
-
 	free_icon_pixbufs ();
 
 	g_object_unref (icon_theme);
@@ -512,19 +506,9 @@ release_data (void)
 
 
 static void
-open_viewer_window (const char               *uri,
-		    gboolean                  use_factory,
-		    GNOME_GThumb_Application  app,
-		    CORBA_Environment        *env)
+open_viewer_window (const char               *uri)
 {
 	GtkWidget *current_window;
-
-	if (use_factory) {
-		if (uri == NULL)
-			uri = "";
-		GNOME_GThumb_Application_open_viewer (app, uri, env);
-		return;
-	}
 
 	current_window = gth_viewer_new (uri);
 	gtk_widget_show (current_window);
@@ -535,19 +519,9 @@ open_viewer_window (const char               *uri,
 
 static void
 open_browser_window (const char               *uri,
-		     gboolean                  show_window,
-		     gboolean                  use_factory,
-		     GNOME_GThumb_Application  app,
-		     CORBA_Environment        *env)
+		     gboolean                  show_window)
 {
 	GtkWidget *current_window;
-
-	if (use_factory) {
-		if (uri == NULL)
-			uri = "";
-		GNOME_GThumb_Application_open_browser (app, uri, env);
-		return;
-	}
 
 	current_window = gth_browser_new (uri);
 	if (show_window)
@@ -558,9 +532,7 @@ open_browser_window (const char               *uri,
 
 
 static void
-load_session (gboolean                  use_factory,
-	      GNOME_GThumb_Application  app,
-	      CORBA_Environment        *env)
+load_session (void)
 {
 	int i, n;
 
@@ -575,9 +547,9 @@ load_session (gboolean                  use_factory,
 		location = gnome_config_get_string (key);
 
 		if (uri_scheme_is_file (location) && path_is_file (location))
-			open_viewer_window (location, use_factory, app, env);
+			open_viewer_window (location);
 		else
-			open_browser_window (location, TRUE, use_factory, app, env);
+			open_browser_window (location, TRUE);
 
 		g_free (location);
 		g_free (key);
@@ -591,48 +563,26 @@ load_session (gboolean                  use_factory,
 static void
 prepare_app (void)
 {
-	CORBA_Object              factory;
-	gboolean                  use_factory = FALSE;
-	CORBA_Environment         env;
-	GNOME_GThumb_Application  app;
 	int                       i;
 
-	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application_Factory",
-                                                      Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
-                                                      NULL, NULL);
-
-	if (factory != NULL) {
-		use_factory = TRUE;
-		CORBA_exception_init (&env);
-		app = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application", 0, NULL, &env);
-	}
-
 	if (session_is_restored ()) {
-		load_session (use_factory, app, &env);
+		load_session ();
 		return;
 	}
 
 	if (ImportPhotos) {
-		if (use_factory)
-			GNOME_GThumb_Application_import_photos (app, &env);
-		else
-			gth_browser_activate_action_file_camera_import (NULL, NULL);
+		gth_browser_activate_action_file_camera_import (NULL, NULL);
 
 	} else if (! view_comline_catalog
 	    && (n_dir_urls == 0)
 	    && (n_file_urls == 0)) {
-		open_browser_window (NULL, TRUE, use_factory, app, &env);
+		open_browser_window (NULL, TRUE);
 
 	} else if (view_single_image) {
-		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE))
-			GNOME_GThumb_Application_load_image (app, file_urls[0], &env);
-		else {
-			if (UseViewer)
-				open_viewer_window (file_urls[0], use_factory, app, &env);
-			else
-				open_browser_window (file_urls[0], TRUE, use_factory, app, &env);
-		}
-
+		if (UseViewer)
+			open_viewer_window (file_urls[0]);
+		else
+			open_browser_window (file_urls[0], TRUE);
 	} else if (view_comline_catalog) {
 		char *catalog_uri;
 		char *catalog_path;
@@ -645,7 +595,7 @@ prepare_app (void)
 		catalog_path = get_catalog_full_path (catalog_name);
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 
-		open_browser_window (catalog_uri, TRUE, use_factory, app, &env);
+		open_browser_window (catalog_uri, TRUE);
 
 		g_free (catalog_name);
 		g_free (catalog_path);
@@ -654,7 +604,7 @@ prepare_app (void)
 
 	for (i = 0; i < n_dir_urls; i++) {
 		/* Go to the specified directory. */
-		open_browser_window (dir_urls[i], TRUE, use_factory, app, &env);
+		open_browser_window (dir_urls[i], TRUE);
 	}
 
 	/* Free urls. */
@@ -670,16 +620,6 @@ prepare_app (void)
 			g_free (dir_urls[i]);
 		g_free (dir_urls);
 	}
-
-	/**/
-
-	if (use_factory) {
-		bonobo_object_release_unref (app, &env);
-		CORBA_exception_free (&env);
-		gdk_notify_startup_complete ();
-		exit (0);
-	} else
-		gth_application = gth_application_new (gdk_screen_get_default ());
 }
 
 
