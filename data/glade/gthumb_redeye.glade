@@ -137,6 +137,7 @@
 				<widget class="GtkButton" id="redeye_undo_button">
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
+				  <property name="tooltip" translatable="yes">Undo</property>
 				  <property name="can_default">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
@@ -173,6 +174,7 @@
 				<widget class="GtkButton" id="redeye_redo_button">
 				  <property name="visible">True</property>
 				  <property name="sensitive">False</property>
+				  <property name="tooltip" translatable="yes">Redo</property>
 				  <property name="can_default">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
@@ -221,6 +223,7 @@
 			      <child>
 				<widget class="GtkButton" id="redeye_zoom_in_button">
 				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Zoom In</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
 				  <property name="focus_on_click">True</property>
@@ -255,6 +258,7 @@
 			      <child>
 				<widget class="GtkButton" id="redeye_zoom_out_button">
 				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Zoom Out</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
 				  <property name="focus_on_click">True</property>
@@ -289,6 +293,7 @@
 			      <child>
 				<widget class="GtkButton" id="redeye_zoom_100_button">
 				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Actual Size</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
 				  <property name="focus_on_click">True</property>
@@ -323,6 +328,7 @@
 			      <child>
 				<widget class="GtkButton" id="redeye_zoom_fit_button">
 				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Zoom to Fit</property>
 				  <property name="can_focus">True</property>
 				  <property name="relief">GTK_RELIEF_NONE</property>
 				  <property name="focus_on_click">True</property>

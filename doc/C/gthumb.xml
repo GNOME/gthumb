@@ -915,11 +915,17 @@
       result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes).
       (Clicking <guibutton>Cancel</guibutton> will abandon all changes and close the window.)
       Once you are satisfied with the result, you can click on more redeye regions, or
-      click <guibutton>OK</guibutton> to close the window.
+      click <guibutton>Save</guibutton> or <guibutton>Apply</guibutton> to close the window.
       </para>
-      <para>The image must be re-saved in the usual manner after using
+      <para>
+      If you click <guibutton>Apply</guibutton>, the image must be re-saved in the usual manner after using
       <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>.
       See <xref linkend="gthumb-save-images"/> for more information.
+      </para>
+      <para>
+      <guibutton>Zoom In</guibutton>, <guibutton>Zoom Out</guibutton>, <guibutton>Actual Size</guibutton>,
+      and <guibutton>Zoom to Fit</guibutton> buttons are provided to allow you to zoom to and from
+      regions of interest. The mouse wheel can also be used to zoom in and out.
       </para>
     </sect3>
     </sect2>

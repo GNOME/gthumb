@@ -42,7 +42,6 @@
 #include "typedefs.h"
 #include "gth-nav-window.h"
 
-#define PREVIEW_SIZE   400
 #define REGION_SEARCH_SIZE 3
 #define GLADE_FILE     "gthumb_redeye.glade"
 
@@ -509,6 +508,7 @@ dlg_redeye_removal (GthWindow *window)
 	GtkWidget  *cancel_button;
 	GtkWidget  *help_button;
 	GtkWidget  *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
+	GdkScreen  *screen;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -552,7 +552,14 @@ dlg_redeye_removal (GthWindow *window)
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), data->pixbuf);
 
 	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->image_selector));
-	gtk_widget_set_size_request (data->nav_win, PREVIEW_SIZE, PREVIEW_SIZE);
+
+	/* Size the image preview area so that it consumes 70% of the screen width and 60%
+           of the screen height. This should leave sufficient room for buttons, etc. */
+
+	screen = gdk_screen_get_default();	
+	gtk_widget_set_size_request (data->nav_win, 
+				     gdk_screen_get_width(screen) * 7 / 10, 
+				     gdk_screen_get_height(screen) * 6 / 10);
 
 	gtk_container_add (GTK_CONTAINER (data->nav_container), data->nav_win);
 

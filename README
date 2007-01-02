@@ -64,11 +64,6 @@ What is gThumb
    + Find duplicated images.
    + Write images to CD/DVD.
 
- * gThumb is a Bonobo component
-
-   + Image viewer component.  Differences with the EOG component:
-     display GIF animations, print the image and its comment.
-
 Licensing
 =========
 

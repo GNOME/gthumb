@@ -1,3 +1,14 @@
+2007-01-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* README: Removed mention of Bonobo components. Bug 389197.
+
+	* data/glade/gthumb_redeye.glade: Added tooltips.
+
+	* doc/C/gthumb.xml: Mention mousewheel-zooming in redeye removal tool.
+
+	* src/dlg-redeye-removal.c: (dlg_redeye_removal):
+	Larger preview area, based on gdk_screen_get_width/height. Bug 389587.
+
 2007-01-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-crop.c: added help button.
