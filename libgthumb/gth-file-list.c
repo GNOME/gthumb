@@ -71,7 +71,7 @@ typedef struct {
 		GList *uri_list;
 		char  *uri;
 		int    ival;
-	};
+	} file;
 } GthFileListOp;
 
 
@@ -145,13 +145,13 @@ gth_file_list_op_free (GthFileListOp *op)
 	case GTH_FILE_LIST_OP_TYPE_DELETE:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_COMMENT:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB:
-		g_free (op->uri);
+		g_free (op->file.uri);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_RENAME:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB_LIST:
 	case GTH_FILE_LIST_OP_TYPE_ADD_LIST:
 	case GTH_FILE_LIST_OP_TYPE_SET_LIST:
-		path_list_free (op->uri_list);
+		path_list_free (op->file.uri_list);
 		break;
 	default:
 		break;
@@ -215,7 +215,7 @@ gth_file_list_queue_op_with_uri (GthFileList       *file_list,
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (op_type);
-	op->uri = g_strdup (uri);
+	op->file.uri = g_strdup (uri);
 
 	gth_file_list_queue_op (file_list, op);
 }
@@ -229,7 +229,7 @@ gth_file_list_queue_op_with_list (GthFileList       *file_list,
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (op_type);
-	op->uri_list = path_list_dup (uri_list);
+	op->file.uri_list = path_list_dup (uri_list);
 
 	gth_file_list_queue_op (file_list, op);
 }
@@ -257,7 +257,7 @@ gth_file_list_queue_op_with_int (GthFileList       *file_list,
 	GthFileListOp *op;
 
 	op = gth_file_list_op_new (op_type);
-	op->ival = value;
+	op->file.ival = value;
 	gth_file_list_queue_op (file_list, op);
 }
 
@@ -1749,33 +1749,33 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 
 	switch (op->type) {
 	case GTH_FILE_LIST_OP_TYPE_DELETE:
-		gfl_delete (file_list, op->uri);
+		gfl_delete (file_list, op->file.uri);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_COMMENT:
-		gfl_update_comment (file_list, op->uri);
+		gfl_update_comment (file_list, op->file.uri);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB:
-		gfl_update_thumb (file_list, op->uri);
+		gfl_update_thumb (file_list, op->file.uri);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_RENAME:
-		gfl_rename (file_list, op->uri_list->data, op->uri_list->next->data);
+		gfl_rename (file_list, op->file.uri_list->data, op->file.uri_list->next->data);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB_LIST:
-		gfl_update_thumb_list (file_list, op->uri_list);
+		gfl_update_thumb_list (file_list, op->file.uri_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ADD_LIST:
-		gfl_add_list (file_list, op->uri_list);
+		gfl_add_list (file_list, op->file.uri_list);
 		exec_next_op = FALSE;
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_LIST:
-		gfl_set_list (file_list, op->uri_list);
+		gfl_set_list (file_list, op->file.uri_list);
 		exec_next_op = FALSE;
 		break;
 	case GTH_FILE_LIST_OP_TYPE_DELETE_LIST:
-		gfl_delete_list (file_list, op->uri_list);
+		gfl_delete_list (file_list, op->file.uri_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE:
-		gfl_set_thumbs_size (file_list, op->ival);
+		gfl_set_thumbs_size (file_list, op->file.ival);
 		exec_next_op = FALSE;
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS:
@@ -1790,7 +1790,7 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 		exec_next_op = FALSE;
 		break;
 	}
-	op->uri_list = NULL;
+	op->file.uri_list = NULL;
 	gth_file_list_op_free (op);
 
 	if (exec_next_op)

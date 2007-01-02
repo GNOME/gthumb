@@ -211,6 +211,9 @@ static void
 update_exif_thumbnail (ExifData    *edata, 
 		       JXFORM_CODE  transform)
 {
+	unsigned int osize;
+	unsigned char *out;
+
 	if (edata == NULL || edata->data == NULL)
 		return;
 
@@ -222,8 +225,8 @@ update_exif_thumbnail (ExifData    *edata,
 	 * jpegtran will return an error and the thumbnail will be discarded.
 	 * To prevent this, the size of the buffer should be increased somehow.
 	 */
-	unsigned int osize = edata->size * 2;
-	unsigned char *out = g_malloc (osize);
+	osize = edata->size * 2;
+	out = g_malloc (osize);
     	
 	/* Transform thumbnail */
 	if (jpegtran_thumbnail (edata->data, edata->size, 

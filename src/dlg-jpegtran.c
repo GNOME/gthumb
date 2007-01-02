@@ -266,6 +266,8 @@ apply_transformation (DialogData *data,
 	char             *path = current_image->data;
 	char             *dir;
 	GnomeVFSFileInfo  info;
+	gboolean          jpeg;
+	ExifShort         orientation;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
 	GthTransform	  required_transform;
 
@@ -285,8 +287,8 @@ apply_transformation (DialogData *data,
 
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	gboolean jpeg = image_is_jpeg (path);
-	ExifShort orientation = get_exif_tag_short(path, EXIF_TAG_ORIENTATION);
+	jpeg = image_is_jpeg (path);
+	orientation = get_exif_tag_short(path, EXIF_TAG_ORIENTATION);
 	required_transform = get_next_transformation (orientation, data->transform);
 
 	if ((jpeg && orientation) &&
