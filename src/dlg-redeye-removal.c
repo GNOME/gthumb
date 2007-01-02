@@ -407,8 +407,6 @@ image_selector_clicked_cb (GthImageSelector *selector,
 	GdkPixbuf *old_pixbuf;
 	GdkPixbuf *new_pixbuf;
 
-	g_print ("[%d, %d]\n", x, y);
-
 	old_pixbuf = gth_image_selector_get_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector));
 	new_pixbuf = gdk_pixbuf_copy (old_pixbuf);
 
@@ -556,10 +554,10 @@ dlg_redeye_removal (GthWindow *window)
 	/* Size the image preview area so that it consumes 70% of the screen width and 60%
            of the screen height. This should leave sufficient room for buttons, etc. */
 
-	screen = gdk_screen_get_default();	
-	gtk_widget_set_size_request (data->nav_win, 
-				     gdk_screen_get_width(screen) * 7 / 10, 
-				     gdk_screen_get_height(screen) * 6 / 10);
+	screen = gdk_screen_get_default();
+	gtk_widget_set_size_request (data->nav_win,
+				     gdk_screen_get_width (screen) * 7 / 10,
+				     gdk_screen_get_height (screen) * 6 / 10);
 
 	gtk_container_add (GTK_CONTAINER (data->nav_container), data->nav_win);
 

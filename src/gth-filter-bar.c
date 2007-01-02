@@ -37,6 +37,8 @@ struct _GthFilterBarPrivate
 {
 	gboolean   has_focus;
 	GtkWidget *text_entry;
+	GtkWidget *op_combo_box;
+	GtkWidget *scope_combo_box;
 };
 
 
@@ -117,10 +119,64 @@ text_entry_focus_out_event_cb (GtkEntry      *entry,
 }
 
 
+static struct {
+	char      *name;
+	GthTestOp  op;
+	gboolean   negative;
+} op_data[] = { { N_("contains"), GTH_TEST_OP_CONTAINS, FALSE },
+		{ N_("starts with"), GTH_TEST_OP_STARTS_WITH, FALSE },
+		{ N_("ends with"), GTH_TEST_OP_ENDS_WITH, FALSE },
+		{ N_("is"), GTH_TEST_OP_EQUAL, FALSE },
+		{ N_("is not"), GTH_TEST_OP_EQUAL, TRUE },
+		{ N_("does not contain"), GTH_TEST_OP_CONTAINS, TRUE } };
+
+
+enum {
+	SCOPE_FILENAME,
+	SCOPE_COMMENT,
+	SCOPE_PLACE,
+	SCOPE_DATE,
+	SCOPE_SIZE,
+	SCOPE_CATEGORY,
+	SCOPE_SEARCH
+};
+
+
+static struct {
+	char         *name;
+	GthTestScope  scope;
+} scope_data[] = { { N_("Filename"), GTH_TEST_SCOPE_FILENAME },
+		   { N_("Comment"), GTH_TEST_SCOPE_COMMENT },
+		   { N_("Place"), GTH_TEST_SCOPE_PLACE },
+		   { N_("Date"), GTH_TEST_SCOPE_DATE },
+		   { N_("Size"), GTH_TEST_SCOPE_SIZE },
+		   { N_("Category"), GTH_TEST_SCOPE_KEYWORDS },
+		   { N_("Search"), GTH_TEST_SCOPE_ALL } };
+
+
+static void
+scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
+			    GthFilterBar *filter_bar)
+{
+	int scope;
+
+	scope = gtk_combo_box_get_active (scope_combo_box);
+	if (scope == SCOPE_SEARCH)
+		gtk_widget_hide (filter_bar->priv->op_combo_box);
+	else
+		gtk_widget_show (filter_bar->priv->op_combo_box);
+}
+
+
 static void
 gth_filter_bar_construct (GthFilterBar *filter_bar)
 {
+	int i;
+
+	GTK_BOX (filter_bar)->spacing = 6;
 	gtk_container_set_border_width (GTK_CONTAINER (filter_bar), 6);
+
+	/* text entry */
 
 	filter_bar->priv->text_entry = gtk_entry_new ();
 	g_signal_connect (G_OBJECT (filter_bar->priv->text_entry),
@@ -135,10 +191,36 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 			  "focus-out-event",
 			  G_CALLBACK (text_entry_focus_out_event_cb),
 			  filter_bar);
-
 	gtk_widget_set_size_request (filter_bar->priv->text_entry, 150, -1);
 	gtk_widget_show (filter_bar->priv->text_entry);
+
+	/* operation combo box */
+
+	filter_bar->priv->op_combo_box = gtk_combo_box_new_text ();
+	for (i = 0; i < G_N_ELEMENTS (op_data); i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->op_combo_box),
+					   _(op_data[i].name));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->op_combo_box), 0);
+	gtk_widget_show (filter_bar->priv->op_combo_box);
+
+	/* scope combo box */
+
+	filter_bar->priv->scope_combo_box = gtk_combo_box_new_text ();
+	for (i = 0; i < G_N_ELEMENTS (scope_data); i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->scope_combo_box),
+					   _(scope_data[i].name));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->scope_combo_box), 0);
+	g_signal_connect (G_OBJECT (filter_bar->priv->scope_combo_box),
+			  "changed",
+			  G_CALLBACK (scope_combo_box_changed_cb),
+			  filter_bar);
+	gtk_widget_show (filter_bar->priv->scope_combo_box);
+
+	/**/
+
 	gtk_box_pack_end (GTK_BOX (filter_bar), filter_bar->priv->text_entry, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (filter_bar), filter_bar->priv->op_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (filter_bar), filter_bar->priv->scope_combo_box, FALSE, FALSE, 0);
 }
 
 
@@ -187,16 +269,18 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 {
 	const char *text;
 	GthFilter  *filter;
-	char       *pattern;
+	int         scope;
+	int         op;
+
 
 	text = gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry));
 	if ((text == NULL) || (strlen (text) == 0))
 		return NULL;
 
 	filter = gth_filter_new ();
-	pattern = g_strdup_printf ("*%s*", text);
-	gth_filter_add_test (filter, gth_test_new_with_string (GTH_TEST_SCOPE_FILENAME, GTH_TEST_OP_MATCHES, FALSE, pattern));
-	g_free (pattern);
+	scope = gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->scope_combo_box));
+	op = gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->op_combo_box));
+	gth_filter_add_test (filter, gth_test_new_with_string (scope_data[scope].scope, op_data[op].op, op_data[op].negative, text));
 
 	return filter;
 }

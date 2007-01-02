@@ -1,3 +1,12 @@
+2007-01-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-filter.c:
+	* src/gth-filter-bar.c: implemented starts_with, ends_with, contains
+	operations.  Make filter case insensitive.
+
+	* src/dlg-redeye-removal.c (image_selector_clicked_cb): removed call to
+	g_print
+
 2007-01-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-file-list.c: (gth_file_list_op_free),
@@ -27,7 +36,7 @@
 	* src/gth-window-actions-entries.h:
 	* src/gth-viewer.c:
 	* src/gth-browser.c: use the key_press callback for single-key shortcuts
-	to avoid conflit with the filter text entry.
+	to avoid conflict with the filter text entry.
 
 	* src/gth-filter-bar.h:
 	* src/gth-filter-bar.c:

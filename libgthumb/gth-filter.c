@@ -85,7 +85,7 @@ gth_test_new_with_string (GthTestScope  scope,
 
 	test = gth_test_new (scope, op, negavite);
 	if (data != NULL)
-		test->data.s = g_strdup (data);
+		test->data.s = g_utf8_casefold (data, -1);
 	else
 		test->data.s = NULL;
 
@@ -130,32 +130,46 @@ static gboolean
 test_string (GthTest    *test,
 	     const char *value)
 {
-	gboolean result = FALSE;
+	gboolean  result = FALSE;
+	char     *value2;
 
 	if ((test->data.s == NULL) || (value == NULL))
 		return FALSE;
 
+	value2 = g_utf8_casefold (value, -1);
+
 	switch (test->op) {
 	case GTH_TEST_OP_EQUAL:
-		result = g_utf8_collate (value, test->data.s) == 0;
+		result = g_utf8_collate (value2, test->data.s) == 0;
 		break;
 	case GTH_TEST_OP_LOWER:
-		result = g_utf8_collate (value, test->data.s) < 0;
+		result = g_utf8_collate (value2, test->data.s) < 0;
 		break;
 	case GTH_TEST_OP_GREATER:
-		result = g_utf8_collate (value, test->data.s) > 0;
+		result = g_utf8_collate (value2, test->data.s) > 0;
 		break;
 	case GTH_TEST_OP_CONTAINS:
-		result = g_strstr_len (test->data.s, -1, value) != NULL;
+		result = g_strstr_len (value2, -1, test->data.s) != NULL;
+		break;
+	case GTH_TEST_OP_STARTS_WITH:
+		result = g_str_has_prefix (value2, test->data.s);
+		break;
+	case GTH_TEST_OP_ENDS_WITH:
+		result = g_str_has_suffix (value2, test->data.s);
 		break;
 	case GTH_TEST_OP_MATCHES:
 		if (test->pattern == NULL)
 			test->pattern = g_pattern_spec_new (test->data.s);
-		result = g_pattern_match_string (test->pattern, value);
+		result = g_pattern_match_string (test->pattern, value2);
 		break;
 	default:
 		break;
 	}
+
+	if (test->negative)
+		result = ! result;
+
+	g_free (value2);
 
 	return result;
 }
