@@ -1,5 +1,9 @@
 2007-01-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-crop.c (dlg_crop):
+	* src/dlg-redeye-removal.c (dlg_redeye_removal): set the size of the window
+	instead of the size of the image selector.
+
 	* src/gth-browser.c (window_make_current_image_visible):
 
 	Fixed bug #389590 – update image after delete is broken.

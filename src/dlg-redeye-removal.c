@@ -550,15 +550,6 @@ dlg_redeye_removal (GthWindow *window)
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->image_selector), data->pixbuf);
 
 	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->image_selector));
-
-	/* Size the image preview area so that it consumes 70% of the screen width and 60%
-           of the screen height. This should leave sufficient room for buttons, etc. */
-
-	screen = gdk_screen_get_default();
-	gtk_widget_set_size_request (data->nav_win,
-				     gdk_screen_get_width (screen) * 7 / 10,
-				     gdk_screen_get_height (screen) * 6 / 10);
-
 	gtk_container_add (GTK_CONTAINER (data->nav_container), data->nav_win);
 
 	gtk_widget_show_all (data->nav_container);
@@ -632,6 +623,12 @@ dlg_redeye_removal (GthWindow *window)
 	/* Run dialog. */
 
 	gtk_widget_realize (data->dialog);
+
+	screen = gdk_screen_get_default();
+	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
+				     gdk_screen_get_width (screen) * 7 / 10,
+				     gdk_screen_get_height (screen) * 6 / 10);
+
 	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 	gtk_widget_grab_focus (data->image_selector);
 
