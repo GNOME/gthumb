@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 #include <string.h>
-
+#include <strings.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -68,16 +68,16 @@ filename_cell_data_func (GtkTreeViewColumn *column,
 	if (catalog_list->single_click) {
 		path = gtk_tree_model_get_path (model, iter);
 
-		if ((path == NULL) 
-		    || (catalog_list->hover_path == NULL) 
-		    || gtk_tree_path_compare (path, catalog_list->hover_path)) 
+		if ((path == NULL)
+		    || (catalog_list->hover_path == NULL)
+		    || gtk_tree_path_compare (path, catalog_list->hover_path))
 			underline = PANGO_UNDERLINE_NONE;
-		else 
+		else
 			underline = PANGO_UNDERLINE_SINGLE;
-		
+
 		gtk_tree_path_free (path);
 
-	} else 
+	} else
 		underline = PANGO_UNDERLINE_NONE;
 
 	g_object_set (G_OBJECT (renderer),
@@ -96,19 +96,19 @@ add_columns (CatalogList *cat_list,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 	GValue             value = { 0, };
-	
+
 	/* The Name column. */
 
 	column = gtk_tree_view_column_new ();
-	
+
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
 					     "pixbuf", CAT_LIST_COLUMN_ICON,
 					     NULL);
-	
+
 	cat_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
-	
+
 	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
         g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
         g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
@@ -121,7 +121,7 @@ add_columns (CatalogList *cat_list,
                                              "text", CAT_LIST_COLUMN_NAME,
                                              NULL);
 
-        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_column_set_sort_column_id (column, CAT_LIST_COLUMN_NAME);
 
 	gtk_tree_view_column_set_cell_data_func (column, renderer,
@@ -141,11 +141,11 @@ file_motion_notify_callback (GtkWidget *widget,
 	GdkCursor   *cursor;
 	GtkTreePath *last_hover_path;
 	GtkTreeIter  iter;
- 	
-	if (! cat_list->single_click) 
+
+	if (! cat_list->single_click)
 		return FALSE;
 
-	if (event->window != gtk_tree_view_get_bin_window (GTK_TREE_VIEW (cat_list->list_view))) 
+	if (event->window != gtk_tree_view_get_bin_window (GTK_TREE_VIEW (cat_list->list_view)))
                 return FALSE;
 
 	last_hover_path = cat_list->hover_path;
@@ -155,11 +155,11 @@ file_motion_notify_callback (GtkWidget *widget,
 				       &cat_list->hover_path,
 				       NULL, NULL, NULL);
 
-	if (cat_list->hover_path != NULL) 
+	if (cat_list->hover_path != NULL)
 		cursor = gdk_cursor_new (GDK_HAND2);
-	else 
+	else
 		cursor = NULL;
-	
+
 	gdk_window_set_cursor (event->window, cursor);
 
 	/* only redraw if the hover row has changed */
@@ -172,7 +172,7 @@ file_motion_notify_callback (GtkWidget *widget,
 			gtk_tree_model_row_changed (GTK_TREE_MODEL (cat_list->list_store),
 						    last_hover_path, &iter);
 		}
-		
+
 		if (cat_list->hover_path) {
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (cat_list->list_store),
 						 &iter, cat_list->hover_path);
@@ -180,14 +180,14 @@ file_motion_notify_callback (GtkWidget *widget,
 						    cat_list->hover_path, &iter);
 		}
 	}
-	
+
 	gtk_tree_path_free (last_hover_path);
 
  	return FALSE;
 }
 
 
-static gboolean 
+static gboolean
 file_leave_notify_callback (GtkWidget *widget,
 			    GdkEventCrossing *event,
 			    gpointer user_data)
@@ -197,7 +197,7 @@ file_leave_notify_callback (GtkWidget *widget,
 
 	if (cat_list->single_click && (cat_list->hover_path != NULL)) {
 		gtk_tree_model_get_iter (GTK_TREE_MODEL (cat_list->list_store),
-					 &iter, 
+					 &iter,
 					 cat_list->hover_path);
 		gtk_tree_model_row_changed (GTK_TREE_MODEL (cat_list->list_store),
 					    cat_list->hover_path,
@@ -232,7 +232,7 @@ catalog_list_new (gboolean single_click_policy)
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
                                              GTK_SHADOW_ETCHED_IN);
@@ -253,13 +253,13 @@ catalog_list_new (gboolean single_click_policy)
 	gtk_container_add (GTK_CONTAINER (scrolled), cat_list->list_view);
 	cat_list->root_widget = scrolled;
 
-	g_signal_connect (G_OBJECT (list_view), 
+	g_signal_connect (G_OBJECT (list_view),
 			  "motion_notify_event",
-			  G_CALLBACK (file_motion_notify_callback), 
+			  G_CALLBACK (file_motion_notify_callback),
 			  cat_list);
-	g_signal_connect (G_OBJECT (list_view), 
+	g_signal_connect (G_OBJECT (list_view),
 			  "leave_notify_event",
-			  G_CALLBACK (file_leave_notify_callback), 
+			  G_CALLBACK (file_leave_notify_callback),
 			  cat_list);
 
 	return cat_list;
@@ -286,10 +286,10 @@ catalog_list_get_path_from_tree_path (CatalogList *cat_list,
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (cat_list->list_store),
                                        &iter,
-                                       path)) 
+                                       path))
                 return NULL;
-	
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store), 
+
+	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
 			    &iter,
 			    CAT_LIST_COLUMN_PATH, &name,
 			    -1);
@@ -324,7 +324,7 @@ catalog_list_get_name_from_iter (CatalogList *cat_list,
 
 	g_return_val_if_fail (cat_list != NULL, NULL);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
 			    iter,
 			    CAT_LIST_COLUMN_NAME, &name,
 			    -1);
@@ -352,7 +352,7 @@ catalog_list_get_path_from_row (CatalogList *cat_list,
 
 
 gboolean
-catalog_list_get_selected_iter (CatalogList *cat_list, 
+catalog_list_get_selected_iter (CatalogList *cat_list,
 				GtkTreeIter *iter)
 {
 	GtkTreeView *tree_view;
@@ -382,7 +382,7 @@ catalog_list_is_catalog (CatalogList *cat_list,
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
 			    iter,
 			    CAT_LIST_COLUMN_TYPE, &type,
 			    -1);
@@ -398,7 +398,7 @@ catalog_list_is_dir (CatalogList *cat_list,
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
 			    iter,
 			    CAT_LIST_COLUMN_TYPE, &type,
 			    -1);
@@ -414,7 +414,7 @@ catalog_list_is_search (CatalogList *cat_list,
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
 			    iter,
 			    CAT_LIST_COLUMN_TYPE, &type,
 			    -1);
@@ -473,7 +473,7 @@ catalog_list_update_click_policy (CatalogList *cat_list)
 		gdk_window_set_cursor (win, NULL);
 
 	display = gtk_widget_get_display (GTK_WIDGET (cat_list->list_view));
-	if (display != NULL) 
+	if (display != NULL)
 		gdk_display_flush (display);
 }
 
@@ -487,14 +487,14 @@ catalog_list_refresh (CatalogList *cat_list)
 	GdkPixbuf *up_pixbuf;
 	GdkPixbuf *catalog_pixbuf;
 	GdkPixbuf *search_pixbuf;
-	char      *base; 
-	GList     *dir_list;            /* Contain the full path of the 
+	char      *base;
+	GList     *dir_list;            /* Contain the full path of the
 					 * sub dirs. */
-	GList     *dir_name;            /* Contains only the names of the 
+	GList     *dir_name;            /* Contains only the names of the
 					   dirs. */
 	GList     *file_list;           /* Contains the full path of the
 					 * catalog files. */
-	GList     *file_name;           /* Contains only the names of the 
+	GList     *file_name;           /* Contains only the names of the
 					 * catalogs. */
 
 	/* Set the file and dir lists. */
@@ -557,7 +557,7 @@ catalog_list_refresh (CatalogList *cat_list)
 
 		if (strcmp (name, "..") == 0)
 			pixbuf = dir_pixbuf /*up_pixbuf*/;
-		else 
+		else
 			pixbuf = dir_pixbuf;
 
 		utf8_name = g_filename_display_name (name);
@@ -580,7 +580,7 @@ catalog_list_refresh (CatalogList *cat_list)
 			GtkTreeIter  iter;
 			GdkPixbuf   *pixbuf;
 			int          type;
-			
+
 			if (file_is_search_result (scan->data)) {
 				type = CAT_LIST_TYPE_SEARCH;
 				pixbuf = search_pixbuf;
@@ -588,7 +588,7 @@ catalog_list_refresh (CatalogList *cat_list)
 				type = CAT_LIST_TYPE_CATALOG;
 				pixbuf = catalog_pixbuf;
 			}
-			
+
 			utf8_name = g_filename_display_name (name);
 			gtk_list_store_append (cat_list->list_store, &iter);
 			gtk_list_store_set (cat_list->list_store, &iter,

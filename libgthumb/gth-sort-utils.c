@@ -21,6 +21,7 @@
  */
 
 #include <string.h>
+#include <strings.h>
 #include <glib.h>
 #include <gnome.h>
 #include "file-data.h"

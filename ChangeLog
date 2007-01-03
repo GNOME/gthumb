@@ -1,3 +1,22 @@
+2007-01-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (window_make_current_image_visible):
+
+	Fixed bug #389590 – update image after delete is broken.
+
+	* src/gth-dir-list.c:
+	* src/dlg-photo-importer.c:
+	* src/catalog-list.c:
+	* libgthumb/jpegutils/jpegtran.c:
+	* libgthumb/pixbuf-utils.c:
+	* libgthumb/gth-sort-utils.c:
+	* libgthumb/file-utils.c:
+	* libgthumb/dlg-save-image.c:
+	* libgthumb/comments.c: #include <strings.h> when using strcasecmp
+
+	* libgthumb/gth-file-list.c: implement gth_file_list_delete as a special
+	case of gth_file_list_delete_list
+
 2007-01-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-filter.c:
@@ -15,7 +34,7 @@
 	(gth_file_list_queue_op_with_int), (gth_file_list_exec_next_op):
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):
 	* src/dlg-jpegtran.c: (apply_transformation):
-	Minor code tweaks for gcc 2.95 compatibility. 
+	Minor code tweaks for gcc 2.95 compatibility.
 	Patch by Jens Granseuer. Bug 391928.
 
 2007-01-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>

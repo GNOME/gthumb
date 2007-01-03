@@ -22,13 +22,15 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <sys/stat.h>   
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
+#include <strings.h>
 #include <ctype.h>
+#include <time.h>
 
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-types.h>
@@ -161,7 +163,7 @@ comment_data_dup (CommentData *data)
 		new_data->keywords = g_new0 (char*, data->keywords_n + 1);
 		new_data->keywords_n = data->keywords_n;
 
-		for (i = 0; i < data->keywords_n; i++) 
+		for (i = 0; i < data->keywords_n; i++)
 			new_data->keywords[i] = g_strdup (data->keywords[i]);
 		new_data->keywords[i] = NULL;
 	}
@@ -178,7 +180,7 @@ comment_data_dup (CommentData *data)
 
 
 gboolean
-comment_data_equal (CommentData *data1, 
+comment_data_equal (CommentData *data1,
 		    CommentData *data2)
 {
 	int i;
@@ -197,7 +199,7 @@ comment_data_equal (CommentData *data1,
 	if (data1->keywords_n != data2->keywords_n)
 		return FALSE;
 	for (i = 0; i < data1->keywords_n; i++)
-		if (strcmp_null_tollerant (data1->keywords[i], 
+		if (strcmp_null_tollerant (data1->keywords[i],
 					   data2->keywords[i]) != 0)
 			return FALSE;
 
@@ -208,14 +210,14 @@ comment_data_equal (CommentData *data1,
 char *
 comments_get_comment_filename__old (const char *source,
 				    gboolean    resolve_symlinks,
-				    gboolean    unescape) 
+				    gboolean    unescape)
 {
 	char        *source_real = NULL;
 	char        *directory = NULL;
 	const char  *filename = NULL;
 	char        *path = NULL;
 
-	if (source == NULL) 
+	if (source == NULL)
 		return NULL;
 
 	source_real = g_strdup (source);
@@ -226,7 +228,7 @@ comments_get_comment_filename__old (const char *source,
 
 		result = resolve_all_symlinks (source_real, &resolved);
 
-		if (result == GNOME_VFS_OK) { 
+		if (result == GNOME_VFS_OK) {
 			g_free (source_real);
 			source_real = resolved;
 		} else
@@ -236,13 +238,13 @@ comments_get_comment_filename__old (const char *source,
 	directory = remove_level_from_path (source_real);
 	filename = file_name_from_path (source_real);
 
-	path = g_strconcat (g_get_home_dir(), 
-			    "/", 
-			    RC_COMMENTS_DIR, 
+	path = g_strconcat (g_get_home_dir(),
+			    "/",
+			    RC_COMMENTS_DIR,
 			    directory,
 			    "/",
-			    filename, 
-			    COMMENT_EXT, 
+			    filename,
+			    COMMENT_EXT,
 			    NULL);
 
 	if (!unescape) {
@@ -261,7 +263,7 @@ comments_get_comment_filename__old (const char *source,
 char *
 comments_get_comment_dir__old (const char *directory,
 			       gboolean    resolve_symlinks,
-			       gboolean    unescape) 
+			       gboolean    unescape)
 {
 	char        *directory_resolved = NULL;
 	const char  *directory_real = directory;
@@ -271,7 +273,7 @@ comments_get_comment_dir__old (const char *directory,
 	if (resolve_symlinks && (directory != NULL)) {
 		GnomeVFSResult  result;
 		result = resolve_all_symlinks (directory, &directory_resolved);
-		if (result == GNOME_VFS_OK) 
+		if (result == GNOME_VFS_OK)
 			directory_real = directory_resolved;
 	}
 
@@ -280,9 +282,9 @@ comments_get_comment_dir__old (const char *directory,
 	else
 		separator = (directory_real[0] == '/') ? "" : "/";
 
-	path = g_strconcat (g_get_home_dir(), 
-			    "/", 
-			    RC_COMMENTS_DIR, 
+	path = g_strconcat (g_get_home_dir(),
+			    "/",
+			    RC_COMMENTS_DIR,
 			    separator,
 			    directory_real,
 			    NULL);
@@ -302,14 +304,14 @@ comments_get_comment_dir__old (const char *directory,
 char *
 comments_get_comment_filename (const char *source,
 			       gboolean    resolve_symlinks,
-			       gboolean    unescape) 
+			       gboolean    unescape)
 {
 	char  *source_real = NULL;
 	char  *directory = NULL;
 	char  *filename = NULL;
 	char  *path = NULL;
 
-	if (source == NULL) 
+	if (source == NULL)
 		return NULL;
 
 	source_real = g_strdup (source);
@@ -320,7 +322,7 @@ comments_get_comment_filename (const char *source,
 
 		result = resolve_all_symlinks (source_real, &resolved);
 
-		if (result == GNOME_VFS_OK) { 
+		if (result == GNOME_VFS_OK) {
 			g_free (source_real);
 			source_real = resolved;
 		} else
@@ -373,7 +375,7 @@ load_comment_from_iptc (const char *filename)
 	for (i = 0; i < d->count; i++) {
 		IptcDataSet * ds = d->datasets[i];
 
-		if ((ds->record == IPTC_RECORD_APP_2) 
+		if ((ds->record == IPTC_RECORD_APP_2)
 		    && (ds->tag == IPTC_TAG_CAPTION)) {
 			if (data->comment)
 				continue;
@@ -381,7 +383,7 @@ load_comment_from_iptc (const char *filename)
 			if (data->comment)
 				iptc_dataset_get_data (ds, (guchar*)data->comment, ds->size + 1);
 		}
-		else if ((ds->record == IPTC_RECORD_APP_2) 
+		else if ((ds->record == IPTC_RECORD_APP_2)
 			 && (ds->tag == IPTC_TAG_CONTENT_LOC_NAME)) {
 			if (data->place)
 				continue;
@@ -396,7 +398,7 @@ load_comment_from_iptc (const char *filename)
 				continue;
 			comment_data_add_keyword (data, keyword);
 		}
-		else if ((ds->record == IPTC_RECORD_APP_2) 
+		else if ((ds->record == IPTC_RECORD_APP_2)
 			 && (ds->tag == IPTC_TAG_DATE_CREATED)) {
 			int year, month;
 			iptc_dataset_get_date (ds, &year, &month, &t.tm_mday);
@@ -404,7 +406,7 @@ load_comment_from_iptc (const char *filename)
 			t.tm_mon = month - 1;
 			got_date = 1;
 		}
-		else if ((ds->record == IPTC_RECORD_APP_2) 
+		else if ((ds->record == IPTC_RECORD_APP_2)
 			 && (ds->tag == IPTC_TAG_TIME_CREATED)) {
 			iptc_dataset_get_time (ds, &t.tm_hour, &t.tm_min, &t.tm_sec, NULL);
 			got_time = 1;
@@ -431,7 +433,7 @@ clear_iptc_comment (IptcData *d)
 
 	for (i = 0; deletetag[i] != 0; i++) {
 		IptcDataSet *ds;
-		while ((ds = iptc_data_get_dataset (d, 
+		while ((ds = iptc_data_get_dataset (d,
 						    IPTC_RECORD_APP_2,
 						    deletetag[i]))) {
 			iptc_data_remove_dataset (d, ds);
@@ -442,7 +444,7 @@ clear_iptc_comment (IptcData *d)
 
 
 static void
-save_iptc_data (const char *filename, 
+save_iptc_data (const char *filename,
 		IptcData   *d)
 {
 	guint        buf_len = 256 * 256;
@@ -476,8 +478,8 @@ save_iptc_data (const char *filename,
 	if (iptc_data_save (d, &iptc_buf, &iptc_len) < 0)
 		goto abort3;
 
-	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len, 
-					   iptc_buf, iptc_len, 
+	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len,
+					   iptc_buf, iptc_len,
 					   ps3_out_buf, buf_len);
 	iptc_data_free_buf (d, iptc_buf);
 	if (ps3_len < 0)
@@ -492,7 +494,7 @@ save_iptc_data (const char *filename,
 	outfile = fopen (tmpfile, "w");
 	if (!outfile)
 		goto abort4;
-	
+
 	if (iptc_jpeg_save_with_ps3 (infile, outfile, (guchar*)ps3_out_buf, ps3_len) < 0)
 		goto abort5;
 
@@ -551,7 +553,7 @@ save_comment_iptc (const char  *filename,
 	if (data->time > 0) {
 		struct tm t;
 		localtime_r (&data->time, &t);
-		
+
 		ds = iptc_dataset_new ();
 		if (ds) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
@@ -657,7 +659,7 @@ comment_copy (const char *src,
 	}
 
 	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
-	if (path_is_file (comment_dest)) 
+	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
 	file_copy (comment_src, comment_dest);
@@ -681,7 +683,7 @@ comment_move (const char *src,
 	}
 
 	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
-	if (path_is_file (comment_dest)) 
+	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
 	file_move (comment_src, comment_dest);
@@ -701,7 +703,7 @@ comment_delete (const char *filename)
 	g_free (comment_name);
 
 #ifdef HAVE_LIBIPTCDATA
-	if (image_is_jpeg (filename)) 
+	if (image_is_jpeg (filename))
 		delete_comment_iptc (filename);
 #endif /* HAVE_LIBIPTCDATA */
 }
@@ -714,7 +716,7 @@ get_utf8_text (CommentData *data,
 	if (value == NULL)
 		return NULL;
 
-	if (data->utf8_format) 
+	if (data->utf8_format)
 		return g_strdup (value);
 	else
 		return g_locale_to_utf8 (value, -1, NULL, NULL, NULL);
@@ -724,7 +726,7 @@ get_utf8_text (CommentData *data,
 static void
 get_keywords (CommentData *data,
 	      char        *utf8_value)
-              
+
 {
 	char     *value;
         int       n;
@@ -761,7 +763,7 @@ get_keywords (CommentData *data,
 	do {
 		gunichar ch = g_utf8_get_char (p);
 
-		done = (*p == 0); 
+		done = (*p == 0);
 
 		if ((ch == ',') || (*p == 0)) {
 			data->keywords[n++] = g_strndup (keyword, p - keyword);
@@ -815,17 +817,17 @@ load_comment_from_xml (const char *filename)
 
                 value = xmlNodeListGetString (doc, node->xmlChildrenNode, 1);
 
-                if (strcmp (name, (char*)PLACE_TAG) == 0) 
+                if (strcmp (name, (char*)PLACE_TAG) == 0)
 			data->place = get_utf8_text (data, (char*)value);
-		else if (strcmp (name, (char*)NOTE_TAG) == 0) 
+		else if (strcmp (name, (char*)NOTE_TAG) == 0)
 			data->comment = get_utf8_text (data, (char*)value);
-		else if (strcmp (name, (char*)KEYWORDS_TAG) == 0) 
+		else if (strcmp (name, (char*)KEYWORDS_TAG) == 0)
 			get_keywords (data, (char*)value);
 		else if (strcmp (name, (char*)TIME_TAG) == 0) {
-			if (value != NULL) 
+			if (value != NULL)
 				data->time = atol ((char*)value);
 		}
-		
+
 		if (value)
 			xmlFree (value);
         }
@@ -835,7 +837,7 @@ load_comment_from_xml (const char *filename)
         xmlFreeDoc (doc);
 	g_free (comment_file);
 
-	return data;	
+	return data;
 }
 
 
@@ -854,7 +856,7 @@ save_comment (const char  *filename,
 
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename)) 
+		if (image_is_jpeg (filename))
 			save_comment_iptc (get_file_path_from_uri (filename), data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
@@ -891,7 +893,7 @@ save_comment (const char  *filename,
 
 	doc = xmlNewDoc ((xmlChar*)"1.0");
 
-	doc->xmlRootNode = xmlNewDocNode (doc, NULL, COMMENT_TAG, NULL); 
+	doc->xmlRootNode = xmlNewDocNode (doc, NULL, COMMENT_TAG, NULL);
 	xmlSetProp (doc->xmlRootNode, FORMAT_TAG, FORMAT_VER);
 
 	tree = doc->xmlRootNode;
@@ -935,7 +937,7 @@ comments_load_comment (const char *filename,
 
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename)) 
+		if (image_is_jpeg (filename))
 			img_comment = load_comment_from_iptc (get_file_path_from_uri (filename));
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
@@ -947,13 +949,13 @@ comments_load_comment (const char *filename,
 #endif /* HAVE_LIBIPTCDATA */
 		if ((img_comment != NULL)
 		    && (! comment_data_equal (xml_comment, img_comment))) {
-			/* Consider the image comment more up-to-date and 
+			/* Consider the image comment more up-to-date and
 			 * sync the xml comment with it. */
 			save_comment (filename, img_comment, FALSE);
 			comment_data_free (xml_comment);
 			xml_comment = img_comment;
 			xml_comment->changed = TRUE;
-		} else 
+		} else
 			comment_data_free (img_comment);
 	}
 
@@ -982,11 +984,11 @@ comments_save_comment (const char  *filename,
 	comment_data_free_comment (new_data);
 
 	if (data != NULL) {
-		if (data->place != NULL) 
+		if (data->place != NULL)
 			new_data->place = g_strdup (data->place);
 		if (data->time >= 0)
 			new_data->time = data->time;
-		if (data->comment != NULL) 
+		if (data->comment != NULL)
 			new_data->comment = g_strdup (data->comment);
 	}
 
@@ -1010,16 +1012,16 @@ comments_save_comment_non_null (const char  *filename,
 	/* Set non null fields. */
 
 	if (data->place != NULL) {
-		if (new_data->place != NULL) 
+		if (new_data->place != NULL)
 			g_free (new_data->place);
 		new_data->place = g_strdup (data->place);
 	}
-	
+
 	if (data->time >= 0)
 		new_data->time = data->time;
 
 	if (data->comment != NULL) {
-		if (new_data->comment != NULL) 
+		if (new_data->comment != NULL)
 			g_free (new_data->comment);
 		new_data->comment = g_strdup (data->comment);
 	}
@@ -1074,12 +1076,12 @@ comment_data_remove_keyword (CommentData *data,
 	gboolean  found = FALSE;
 	int       i;
 
-	if ((data->keywords == NULL) 
+	if ((data->keywords == NULL)
 	    || (data->keywords_n == 0)
 	    || (keyword == NULL))
 		return;
 
-	for (i = 0; i < data->keywords_n; i++) 
+	for (i = 0; i < data->keywords_n; i++)
 		if (g_utf8_collate (data->keywords[i], keyword) == 0) {
 			found = TRUE;
 			break;
@@ -1094,7 +1096,7 @@ comment_data_remove_keyword (CommentData *data,
 	data->keywords[i] = NULL;
 
 	data->keywords_n--;
-	data->keywords = g_realloc (data->keywords, 
+	data->keywords = g_realloc (data->keywords,
 				    sizeof (char*) * (data->keywords_n + 1));
 
 	if (data->keywords_n == 0) {
@@ -1113,12 +1115,12 @@ comment_data_add_keyword (CommentData *data,
 	if (keyword == NULL)
 		return;
 
- 	for (i = 0; i < data->keywords_n; i++) 
-		if (g_utf8_collate (data->keywords[i], keyword) == 0) 
+ 	for (i = 0; i < data->keywords_n; i++)
+		if (g_utf8_collate (data->keywords[i], keyword) == 0)
 			return;
-	
+
 	data->keywords_n++;
-	data->keywords = g_realloc (data->keywords, 
+	data->keywords = g_realloc (data->keywords,
 				    sizeof (char*) * (data->keywords_n + 1));
 	data->keywords[data->keywords_n - 1] = g_strdup (keyword);
 	data->keywords[data->keywords_n] = NULL;
@@ -1161,7 +1163,7 @@ comment_text_is_void (CommentData *data)
 }
 
 
-/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)  
+/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)
  * This version does not escape ' and ''. Needed  because IE does not recognize
  * &apos; and &quot; */
 static void
@@ -1176,53 +1178,53 @@ _append_escaped_text_for_html (GString     *str,
 
 	p = text;
 	end = text + length;
-	
+
 	while (p != end) {
 		const gchar *next;
 		next = g_utf8_next_char (p);
 		ch = g_utf8_get_char (p);
-		
+
 		switch (state) {
 		    case 1: /* escaped */
-			if ((ch > 127) ||  !isprint((char)ch)) 
+			if ((ch > 127) ||  !isprint((char)ch))
 				g_string_append_printf (str, "\\&#%d;", ch);
 			else
-				g_string_append_unichar (str, ch);			
+				g_string_append_unichar (str, ch);
 			state = 0;
 			break;
-			
+
 		    default: /* not escaped */
 			switch (*p) {
 			    case '\\':
 				state = 1; /* next character is escaped */
 				break;
-			
+
 			    case '&':
 				g_string_append (str, "&amp;");
 				break;
-			
+
 			    case '<':
 				g_string_append (str, "&lt;");
 				break;
-			
+
 			    case '>':
 				g_string_append (str, "&gt;");
 				break;
-			
+
 			    case '\n':
 				g_string_append (str, "<br />");
 				break;
 
 			    default:
-				if ((ch > 127) ||  !isprint((char)ch)) 
+				if ((ch > 127) ||  !isprint((char)ch))
 					g_string_append_printf (str, "&#%d;", ch);
 				else
-					g_string_append_unichar (str, ch);			
+					g_string_append_unichar (str, ch);
 				state = 0;
 				break;
 			}
 		}
-		
+
 		p = next;
 	}
 }
@@ -1235,7 +1237,7 @@ _g_escape_text_for_html (const gchar *text,
 	GString *str;
 
 	g_return_val_if_fail (text != NULL, NULL);
-	
+
 	if (length < 0)
 		length = strlen (text);
 
@@ -1250,22 +1252,22 @@ _g_escape_text_for_html (const gchar *text,
 static void
 _string_append (GString    *str,
 		const char *a,
-		gboolean    markup_escape) 
+		gboolean    markup_escape)
 {
 	if (a == NULL)
 		return;
 
  	if (markup_escape)
 		_append_escaped_text_for_html (str, a, strlen (a));
-	else 
+	else
 		g_string_append (str, a);
 }
 
 
 /* Note: separators are not escaped */
 static char *
-_get_comment_as_string_common (CommentData *data, 
-			       char        *sep1, 
+_get_comment_as_string_common (CommentData *data,
+			       char        *sep1,
 			       char        *sep2,
 			       gboolean     markup_escape)
 {
@@ -1276,7 +1278,7 @@ _get_comment_as_string_common (CommentData *data,
 
 	if (data == NULL)
 		return NULL;
- 
+
 	if (data->time != 0) {
 		tm = localtime (& data->time);
 		if (tm->tm_hour + tm->tm_min + tm->tm_sec == 0)
@@ -1284,52 +1286,52 @@ _get_comment_as_string_common (CommentData *data,
 		else
 			strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 		utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-	} 
+	}
 
-	if ((data->comment == NULL) 
-	    && (data->place == NULL) 
+	if ((data->comment == NULL)
+	    && (data->place == NULL)
 	    && (data->time == 0)) {
-		if (data->keywords_n > 0) 
+		if (data->keywords_n > 0)
 			as_string = NULL;
 		else if (markup_escape)
 			as_string = g_markup_escape_text (_("(No Comment)"), -1);
 		else
 			as_string = g_strdup (_("(No Comment)"));
-		
+
 	} else {
 		GString *comment;
 
 		comment = g_string_new ("");
 
-		if (data->comment != NULL) 
+		if (data->comment != NULL)
 			_string_append (comment, data->comment, markup_escape);
 
 		if ((data->comment != NULL)
 		    && ((data->place != NULL) || (*time_txt != 0)))
 			g_string_append (comment, sep1);
-		
-		if (data->place != NULL) 
+
+		if (data->place != NULL)
 			_string_append (comment, data->place, markup_escape);
 
 		if ((data->place != NULL) && (*time_txt != 0))
 			g_string_append (comment, sep2);
-		
-		if (utf8_time_txt != NULL) 
+
+		if (utf8_time_txt != NULL)
 			_string_append (comment, utf8_time_txt, markup_escape);
-		
+
 		as_string = comment->str;
 		g_string_free (comment, FALSE);
 	}
-	
+
 	g_free (utf8_time_txt);
-	
+
 	return as_string;
 }
 
 
 char *
-comments_get_comment_as_string (CommentData *data, 
-				char        *sep1, 
+comments_get_comment_as_string (CommentData *data,
+				char        *sep1,
 				char        *sep2)
 {
 	return _get_comment_as_string_common (data, sep1, sep2, FALSE);
@@ -1337,8 +1339,8 @@ comments_get_comment_as_string (CommentData *data,
 
 
 char *
-comments_get_comment_as_xml_string (CommentData *data, 
-				    char        *sep1, 
+comments_get_comment_as_xml_string (CommentData *data,
+				    char        *sep1,
 				    char        *sep2)
 {
 	return _get_comment_as_string_common (data, sep1, sep2, TRUE);

@@ -50,7 +50,6 @@
 
 
 typedef enum {
-	GTH_FILE_LIST_OP_TYPE_DELETE,
 	GTH_FILE_LIST_OP_TYPE_RENAME,
 	GTH_FILE_LIST_OP_TYPE_UPDATE_COMMENT,
 	GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB,
@@ -142,7 +141,6 @@ static void
 gth_file_list_op_free (GthFileListOp *op)
 {
 	switch (op->type) {
-	case GTH_FILE_LIST_OP_TYPE_DELETE:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_COMMENT:
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB:
 		g_free (op->file.uri);
@@ -1472,16 +1470,6 @@ gfl_delete (GthFileList *file_list,
 }
 
 
-void
-gth_file_list_delete (GthFileList *file_list,
-		      const char  *uri)
-{
-	gth_file_list_queue_op_with_uri (file_list,
-					 GTH_FILE_LIST_OP_TYPE_DELETE,
-					 uri);
-}
-
-
 static void
 gfl_delete_list (GthFileList *file_list,
                  GList       *uri_list)
@@ -1492,6 +1480,8 @@ gfl_delete_list (GthFileList *file_list,
 	for (scan = uri_list; scan; scan = scan->next)
 		gfl_delete (file_list, scan->data);
 	gth_file_view_thaw (file_list->view);
+
+	g_signal_emit (file_list, gth_file_list_signals[DONE], 0);
 }
 
 
@@ -1502,6 +1492,14 @@ gth_file_list_delete_list (GthFileList *file_list,
 	gth_file_list_queue_op_with_list (file_list,
 					  GTH_FILE_LIST_OP_TYPE_DELETE_LIST,
 					  uri_list);
+}
+
+
+void
+gth_file_list_delete (GthFileList *file_list,
+		      const char  *uri)
+{
+	gth_file_list_delete_list (file_list, g_list_append (NULL, (gpointer)uri));
 }
 
 
@@ -1748,9 +1746,6 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 	g_list_free (first);
 
 	switch (op->type) {
-	case GTH_FILE_LIST_OP_TYPE_DELETE:
-		gfl_delete (file_list, op->file.uri);
-		break;
 	case GTH_FILE_LIST_OP_TYPE_UPDATE_COMMENT:
 		gfl_update_comment (file_list, op->file.uri);
 		break;

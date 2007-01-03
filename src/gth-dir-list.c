@@ -22,11 +22,10 @@
 
 #include <config.h>
 #include <string.h>
-
+#include <strings.h>
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
-
 #include "typedefs.h"
 #include "gth-dir-list.h"
 #include "gth-file-list.h"

@@ -42,11 +42,11 @@
  */
 
 /* The jpeg saver is based upon the gdk-pixbuf library, which has the
- * following copyright note : 
+ * following copyright note :
  *
  * Copyright (C) 1999 Michael Zucchi
  * Copyright (C) 1999 The Free Software Foundation
- * 
+ *
  * Progressive loading code Copyright (C) 1999 Red Hat, Inc.
  *
  * Authors: Michael Zucchi <zucchi@zedzone.mmc.com.au>
@@ -95,11 +95,11 @@ enum {
 
 
 /*
- * Returns a copy of pixbuf src rotated 90 degrees clockwise or 90 
+ * Returns a copy of pixbuf src rotated 90 degrees clockwise or 90
  * counterclockwise.
  */
 GdkPixbuf *
-_gdk_pixbuf_copy_rotate_90 (GdkPixbuf *src, 
+_gdk_pixbuf_copy_rotate_90 (GdkPixbuf *src,
 			    gboolean counter_clockwise)
 {
 	GdkPixbuf *dest;
@@ -154,8 +154,8 @@ _gdk_pixbuf_copy_rotate_90 (GdkPixbuf *src,
  * if mirror and flip are FALSE, result is a simple copy.
  */
 GdkPixbuf *
-_gdk_pixbuf_copy_mirror (GdkPixbuf *src, 
-			 gboolean mirror, 
+_gdk_pixbuf_copy_mirror (GdkPixbuf *src,
+			 gboolean mirror,
 			 gboolean flip)
 {
 	GdkPixbuf *dest;
@@ -208,7 +208,7 @@ _gdk_pixbuf_copy_mirror (GdkPixbuf *src,
 			}
 		}
 	}
-	
+
 	return dest;
 }
 
@@ -217,13 +217,13 @@ _gdk_pixbuf_copy_mirror (GdkPixbuf *src,
  * Returns a transformed image.
  */
 GdkPixbuf *
-_gdk_pixbuf_transform (GdkPixbuf* src, 
+_gdk_pixbuf_transform (GdkPixbuf* src,
 				GthTransform transform)
 {
 	GdkPixbuf *temp = NULL, *dest = NULL;
-	
+
 	if (!src) return NULL;
-	
+
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
 		dest = src;
@@ -259,14 +259,14 @@ _gdk_pixbuf_transform (GdkPixbuf* src,
 		g_object_ref (dest);
 		break;
 	}
-	
+
 	return dest;
 }
 
 
 void
-pixmap_from_xpm (const char **data, 
-		 GdkPixmap **pixmap, 
+pixmap_from_xpm (const char **data,
+		 GdkPixmap **pixmap,
 		 GdkBitmap **mask)
 {
 	GdkPixbuf *pixbuf;
@@ -278,7 +278,7 @@ pixmap_from_xpm (const char **data,
 
 
 void
-_gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf, 
+_gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf,
 			       guint32    color1,
 			       guint32    color2)
 {
@@ -292,7 +292,7 @@ _gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf,
 	guint     width, height;
 	guint     w, h;
 	int       n_channels, rowstride;
-	
+
 	g_return_if_fail (GDK_IS_PIXBUF (pixbuf));
 
 	width = gdk_pixbuf_get_width (pixbuf);
@@ -368,7 +368,7 @@ _gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf,
 
 
 void
-_gdk_pixbuf_horizontal_gradient (GdkPixbuf *pixbuf, 
+_gdk_pixbuf_horizontal_gradient (GdkPixbuf *pixbuf,
 				 guint32    color1,
 				 guint32    color2)
 {
@@ -382,7 +382,7 @@ _gdk_pixbuf_horizontal_gradient (GdkPixbuf *pixbuf,
 	guint     width, height;
 	guint     w, h;
 	int       n_channels, rowstride;
-	
+
 	g_return_if_fail (GDK_IS_PIXBUF (pixbuf));
 
 	width = gdk_pixbuf_get_width (pixbuf);
@@ -458,7 +458,7 @@ _gdk_pixbuf_horizontal_gradient (GdkPixbuf *pixbuf,
 
 
 void
-_gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf, 
+_gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 			 guint32    hcolor1,
 			 guint32    hcolor2,
 			 guint32    vcolor1,
@@ -562,9 +562,9 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 
 /* error handler data */
 struct error_handler_data {
-	struct jpeg_error_mgr pub;
-	sigjmp_buf setjmp_buffer;
-        GError **error;
+	struct jpeg_error_mgr   pub;
+	sigjmp_buf              setjmp_buffer;
+        GError                **error;
 };
 
 
@@ -573,9 +573,9 @@ fatal_error_handler (j_common_ptr cinfo)
 {
 	struct error_handler_data *errmgr;
         char buffer[JMSG_LENGTH_MAX];
-        
+
 	errmgr = (struct error_handler_data *) cinfo->err;
-        
+
         /* Create the message */
         (* cinfo->err->format_message) (cinfo, buffer);
 
@@ -589,7 +589,7 @@ fatal_error_handler (j_common_ptr cinfo)
 			     "Error interpreting JPEG image file (%s)",
                              buffer);
         }
-        
+
 	siglongjmp (errmgr->setjmp_buffer, 1);
 
         g_assert_not_reached ();
@@ -605,7 +605,7 @@ output_message_handler (j_common_ptr cinfo)
 
 
 static gboolean
-_gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf, 
+_gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 			  const char    *filename,
 			  char         **keys,
 			  char         **values,
@@ -629,7 +629,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	if (keys && *keys) {
 		char **kiter = keys;
 		char **viter = values;
-		
+
 		while (*kiter) {
 			if (strcmp (*kiter, "quality") == 0) {
 				char *endptr = NULL;
@@ -641,17 +641,17 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG quality must be a value between 0 and 100; value '%s' could not be parsed.",
 						     *viter);
-					
+
 					return FALSE;
 				}
-				
+
 				if (quality < 0 || quality > 100) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG quality must be a value between 0 and 100; value '%d' is not allowed.",
 						     quality);
-					
+
 					return FALSE;
 				}
 
@@ -665,17 +665,17 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG smoothing must be a value between 0 and 100; value '%s' could not be parsed.",
 						     *viter);
-					
+
 					return FALSE;
 				}
-				
+
 				if (smoothing < 0 || smoothing > 100) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG smoothing must be a value between 0 and 100; value '%d' is not allowed.",
 						     smoothing);
-					
+
 					return FALSE;
 				}
 
@@ -689,7 +689,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG optimize option must be 'yes' or 'no', value is: %s", *viter);
-					
+
 					return FALSE;
 				}
 
@@ -703,33 +703,33 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "JPEG progressive option must be 'yes' or 'no', value is: %s", *viter);
-					
+
 					return FALSE;
 				}
-				
+
 			} else {
 				g_warning ("Bad option name '%s' passed to JPEG saver", *kiter);
 				return FALSE;
 			}
-			
+
 			++kiter;
 			++viter;
 		}
 	}
-	
+
 	file = fopen (filename, "wb");
-	
+
 	if (file == NULL) {
 		g_set_error (error,
 			     GDK_PIXBUF_ERROR,
 			     GDK_PIXBUF_ERROR_FAILED,
-			     "Can't write image to file '%s'", 
+			     "Can't write image to file '%s'",
 			     filename);
 		return FALSE;
 	}
-       
+
 	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	
+
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
 
@@ -737,11 +737,11 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 		bpp = 4;
 	else
 		bpp = 3;
-	
+
 	/* no image data? abort */
 	pixels = gdk_pixbuf_get_pixels (pixbuf);
 	g_return_val_if_fail (pixels != NULL, FALSE);
-	
+
 	/* allocate a small buffer to convert image data */
 	buf = g_try_malloc (w * bpp * sizeof (guchar));
 	if (! buf) {
@@ -769,9 +769,9 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	jpeg_stdio_dest (&cinfo, file);
 	cinfo.image_width      = w;
 	cinfo.image_height     = h;
-	cinfo.input_components = 3; 
+	cinfo.input_components = 3;
 	cinfo.in_color_space   = JCS_RGB;
-	
+
 	/* set up jepg compression parameters */
 	jpeg_set_defaults (&cinfo);
 	jpeg_set_quality (&cinfo, quality, TRUE);
@@ -779,7 +779,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	cinfo.optimize_coding = optimize;
 
 #ifdef HAVE_PROGRESSIVE_JPEG
-	if (progressive) 
+	if (progressive)
 		jpeg_simple_progression (&cinfo);
 #endif /* HAVE_PROGRESSIVE_JPEG */
 
@@ -793,23 +793,23 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 
 		/* convert scanline from ARGB to RGB packed */
 		for (j = 0; j < w; j++)
-			memcpy (&(buf[j * 3]), 
-				&(ptr[i * rowstride + j * bpp]), 
+			memcpy (&(buf[j * 3]),
+				&(ptr[i * rowstride + j * bpp]),
 				3);
-		
+
 		/* write scanline */
 		jbuf = (JSAMPROW *)(&buf);
 		jpeg_write_scanlines (&cinfo, jbuf, 1);
 		i++;
 	}
-	
+
 	/* finish off */
 	jpeg_finish_compress (&cinfo);
 	fclose (file);
 
 	jpeg_destroy_compress(&cinfo);
 	g_free (buf);
-	
+
 	return TRUE;
 }
 
@@ -847,13 +847,13 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	if (keys && *keys) {
 		char **kiter = keys;
 		char **viter = values;
-		
+
 		while (*kiter) {
 			if (strcmp (*kiter, "compression") == 0) {
 				if (*viter == NULL) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
-						     GDK_PIXBUF_ERROR_BAD_OPTION, 
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "Must specify a compression type");
 					return FALSE;
 				}
@@ -871,11 +871,11 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 				else {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
-						     GDK_PIXBUF_ERROR_BAD_OPTION,       
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "Unsupported compression type passed to the TIFF saver");
 					return FALSE;
 				}
-				
+
 			} else if (strcmp (*kiter, "vertical dpi") == 0) {
 				char *endptr = NULL;
 				vertical_dpi = strtol (*viter, &endptr, 10);
@@ -887,54 +887,54 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "TIFF vertical dpi must be a value greater than 0; value '%s' could not be parsed.",
 						     *viter);
-					
+
 					return FALSE;
 				}
-				
+
 				if (vertical_dpi < 0) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "TIFF vertical dpi must be a value greater than 0; value '%d' is not allowed.",
 						     vertical_dpi);
-					
+
 					return FALSE;
 				}
-				
+
 			} else if (strcmp (*kiter, "horizontal dpi") == 0) {
 				char *endptr = NULL;
 				horizontal_dpi = strtol (*viter, &endptr, 10);
 				save_resolution = TRUE;
-				
+
 				if (endptr == *viter) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "TIFF horizontal dpi must be a value greater than 0; value '%s' could not be parsed.",
 						     *viter);
-					
+
 					return FALSE;
 				}
-				
+
 				if (horizontal_dpi < 0) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "TIFF horizontal dpi must be a value greater than 0; value '%d' is not allowed.",
 						     horizontal_dpi);
-					
+
 					return FALSE;
 				}
 			} else {
 				g_warning ("Bad option name '%s' passed to the TIFF saver", *kiter);
 				return FALSE;
 			}
-			
+
 			++kiter;
 			++viter;
 		}
 	}
-				
+
 	predictor    = 0;
 	rowsperstrip = TILE_HEIGHT;
 
@@ -944,7 +944,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		g_set_error (error,
                              GDK_PIXBUF_ERROR,
                              GDK_PIXBUF_ERROR_FAILED,
-			     "Can't write image to file '%s'", 
+			     "Can't write image to file '%s'",
 			     filename);
 		return FALSE;
 	}
@@ -963,7 +963,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		samplesperpixel = 4;
 	else
 		samplesperpixel = 3;
-	
+
 	/* Set TIFF parameters. */
 
 	TIFFSetField (tif, TIFFTAG_SUBFILETYPE,   0);
@@ -1016,9 +1016,9 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		/* convert scanline from ARGB to RGB packed */
 		for (col = 0; col < cols; col++)
 			memcpy (&(buf[col * 3]), &(ptr[col * samplesperpixel /*3*/]), 3);
-		
+
 		success = TIFFWriteScanline (tif, buf, row, 0) >= 0;
-		
+
 		if (! success) {
 			g_set_error (error,
 				     GDK_PIXBUF_ERROR,
@@ -1030,12 +1030,12 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 		ptr += rowstride;
 	}
-	
+
 	TIFFFlushData (tif);
 	TIFFClose (tif);
 
 	g_free (buf);
-	
+
 	return TRUE;
 }
 
@@ -1062,7 +1062,7 @@ rle_write (FILE   *fp,
 	int     direct = 0;
 	guchar *from   = buffer;
 	guint   x;
-	
+
 	for (x = 1; x < width; ++x) {
 		if (memcmp (buffer, buffer + bytes, bytes)) {
 			/* next pixel is different */
@@ -1074,7 +1074,7 @@ rle_write (FILE   *fp,
 				direct = 0;
 			} else
 				direct += 1;
-			
+
 		} else {
 			/* next pixel is the same */
 			if (direct) {
@@ -1083,7 +1083,7 @@ rle_write (FILE   *fp,
 				from = buffer; /* point to first identical pixel */
 				direct = 0;
 				repeat = 1;
-			} else 
+			} else
 				repeat += 1;
 		}
 
@@ -1100,10 +1100,10 @@ rle_write (FILE   *fp,
 			direct = 0;
 			repeat = 0;
 		}
-		
+
 		buffer += bytes;
 	}
-	
+
 	if (repeat > 0) {
 		putc (128 + repeat, fp);
 		fwrite (from, bytes, 1, fp);
@@ -1122,22 +1122,22 @@ bgr2rgb (guchar *dest,
 	 guint   alpha)
 {
 	guint x;
-	
-	if (alpha) 
+
+	if (alpha)
 		for (x = 0; x < width; x++) {
 			*(dest++) = src[2];
 			*(dest++) = src[1];
 			*(dest++) = src[0];
 			*(dest++) = src[3];
-			
+
 			src += bytes;
 		}
-	else 
+	else
 		for (x = 0; x < width; x++) {
 			*(dest++) = src[2];
 			*(dest++) = src[1];
 			*(dest++) = src[0];
-			
+
 			src += bytes;
 		}
 }
@@ -1166,13 +1166,13 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 	if (keys && *keys) {
 		char **kiter = keys;
 		char **viter = values;
-		
+
 		while (*kiter) {
 			if (strcmp (*kiter, "compression") == 0) {
 				if (*viter == NULL) {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
-						     GDK_PIXBUF_ERROR_BAD_OPTION,   
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "Must specify a compression type");
 					return FALSE;
 				}
@@ -1186,7 +1186,7 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 				else {
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
-						     GDK_PIXBUF_ERROR_BAD_OPTION,    
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
 						     "Unsupported compression type passed to the TGA saver");
 					return FALSE;
 				}
@@ -1194,7 +1194,7 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 				g_warning ("Bad option name '%s' passed to the TGA saver", *kiter);
 				return FALSE;
 			}
-			
+
 			++kiter;
 			++viter;
 		}
@@ -1210,11 +1210,11 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 		g_set_error (error,
                              GDK_PIXBUF_ERROR,
                              GDK_PIXBUF_ERROR_FAILED,
-			     "Can't write image to file '%s'", 
+			     "Can't write image to file '%s'",
 			     filename);
 		return FALSE;
 	}
-	
+
 	header[0] = 0; /* No image identifier / description */
 
 	header[1]= 0;
@@ -1259,7 +1259,7 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 	for (row = 0; row < height; ++row) {
 		bgr2rgb (buf, ptr, width, out_bpp, alpha);
 
-		if (rle_compression) 
+		if (rle_compression)
 			rle_write (fp, buf, width, out_bpp);
 		else
 			fwrite (buf, width * out_bpp, 1, fp);
@@ -1273,9 +1273,9 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 	memset (footer, 0, 8); /* No extensions, no developer directory */
 	memcpy (footer + 8, magic, sizeof (magic)); /* magic signature */
 	fwrite (footer, sizeof (footer), 1, fp);
-	
+
 	fclose (fp);
-	
+
 	return TRUE;
 }
 
@@ -1300,23 +1300,23 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 	filename = get_file_path_from_uri (filename);
 
 #ifdef HAVE_LIBTIFF
-	if (strcmp (type, "tiff") == 0) 
-		result = _gdk_pixbuf_save_as_tiff (pixbuf, 
-						   filename, 
-						   keys, values, 
+	if (strcmp (type, "tiff") == 0)
+		result = _gdk_pixbuf_save_as_tiff (pixbuf,
+						   filename,
+						   keys, values,
 						   error);
 	else
 #endif
-	if (strcmp (type, "jpeg") == 0) 
-		result = _gdk_pixbuf_save_as_jpeg (pixbuf, 
-						   filename, 
-						   keys, values, 
+	if (strcmp (type, "jpeg") == 0)
+		result = _gdk_pixbuf_save_as_jpeg (pixbuf,
+						   filename,
+						   keys, values,
 						   error);
 	else
 	if ((strcmp (type, "x-tga") == 0) || (strcmp (type, "tga") == 0))
-		result = _gdk_pixbuf_save_as_tga (pixbuf, 
-						  filename, 
-						  keys, values, 
+		result = _gdk_pixbuf_save_as_tga (pixbuf,
+						  filename,
+						  keys, values,
 						  error);
 	else
 		result = gdk_pixbuf_savev (pixbuf, filename, type,
@@ -1340,7 +1340,7 @@ collect_save_options (va_list    opts,
 	count = 0;
 	*keys = NULL;
 	*vals = NULL;
-	
+
 	next = va_arg (opts, gchar*);
 	while (next) {
 		key = next;
@@ -1351,13 +1351,13 @@ collect_save_options (va_list    opts,
 		/* woo, slow */
 		*keys = g_realloc (*keys, sizeof(char*) * (count + 1));
 		*vals = g_realloc (*vals, sizeof(char*) * (count + 1));
-		
+
 		(*keys)[count-1] = g_strdup (key);
 		(*vals)[count-1] = g_strdup (val);
 
 		(*keys)[count] = NULL;
 		(*vals)[count] = NULL;
-		
+
 		next = va_arg (opts, gchar*);
 	}
 }
@@ -1386,7 +1386,7 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	result = _gdk_pixbuf_savev (pixbuf, filename, type,
 				    keys, values,
 				    error);
-	
+
 	g_strfreev (keys);
 	g_strfreev (values);
 
@@ -1408,13 +1408,13 @@ scale_keepping_ratio (int *width,
 	int      new_width, new_height;
 	gboolean modified;
 
-	if ((*width < max_width) && (*height < max_height)) 
+	if ((*width < max_width) && (*height < max_height))
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);
 	new_width  = MAX ((int) floor (w * factor + 0.50), 1);
 	new_height = MAX ((int) floor (h * factor + 0.50), 1);
-	
+
 	modified = (new_width != *width) || (new_height != *height);
 
 	*width = new_width;

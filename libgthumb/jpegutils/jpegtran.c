@@ -20,7 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-/* based upon file jpegtran.c from the libjpeg package, original copyright 
+/* based upon file jpegtran.c from the libjpeg package, original copyright
  * note follows:
  *
  * jpegtran.c
@@ -55,9 +55,9 @@
 
 
 static int
-jpegtran_thumbnail (const void   *idata, 
+jpegtran_thumbnail (const void   *idata,
 		    size_t        isize,
-		    void        **odata, 
+		    void        **odata,
 		    size_t       *osize,
 		    JXFORM_CODE   transformation,
 		    gboolean      trim);
@@ -77,9 +77,9 @@ fatal_error_handler (j_common_ptr cinfo)
 {
 	struct error_handler_data *errmgr;
         char buffer[JMSG_LENGTH_MAX];
-        
+
 	errmgr = (struct error_handler_data *) cinfo->err;
-        
+
         /* Create the message */
         (* cinfo->err->format_message) (cinfo, buffer);
 
@@ -94,7 +94,7 @@ fatal_error_handler (j_common_ptr cinfo)
 			     file_name_from_path (errmgr->filename),
                              buffer);
         }
-        
+
 	siglongjmp (errmgr->setjmp_buffer, 1);
 
         g_assert_not_reached ();
@@ -114,17 +114,17 @@ update_exif_orientation(ExifData *edata)
 {
 	unsigned int  i;
 	ExifByteOrder byte_order;
-	
+
 	if (edata == NULL)
 		return;
-	
+
 	byte_order = exif_data_get_byte_order (edata);
 
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 		ExifEntry   *entry;
 
-		if ((content == NULL) || (content->count == 0)) 
+		if ((content == NULL) || (content->count == 0))
 			continue;
 
 		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
@@ -143,32 +143,32 @@ swap_fields (ExifContent *content,
 	ExifEntry     *entry2 = NULL;
 	unsigned char *data;
 	unsigned int   size;
-	
+
 	entry1 = exif_content_get_entry (content, tag1);
-	if (entry1 == NULL) 
+	if (entry1 == NULL)
 		return;
-	
+
 	entry2 = exif_content_get_entry (content, tag2);
 	if (entry2 == NULL)
 		return;
 
 	data = entry1->data;
 	size = entry1->size;
-	
+
 	entry1->data = entry2->data;
 	entry1->size = entry2->size;
-	
+
 	entry2->data = data;
 	entry2->size = size;
 }
 
 
 static void
-update_exif_dimensions (ExifData    *edata, 
+update_exif_dimensions (ExifData    *edata,
 		        JXFORM_CODE  transform)
 {
 	unsigned int i;
-	
+
 	if (edata == NULL)
 		return;
 
@@ -185,22 +185,22 @@ update_exif_dimensions (ExifData    *edata,
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 
-		if ((content == NULL) || (content->count == 0)) 
+		if ((content == NULL) || (content->count == 0))
 			continue;
-		
-		swap_fields (content, 
+
+		swap_fields (content,
 			     EXIF_TAG_RELATED_IMAGE_WIDTH,
 			     EXIF_TAG_RELATED_IMAGE_LENGTH);
-		swap_fields (content, 
+		swap_fields (content,
 			     EXIF_TAG_IMAGE_WIDTH,
 			     EXIF_TAG_IMAGE_LENGTH);
-		swap_fields (content, 
+		swap_fields (content,
 			     EXIF_TAG_PIXEL_X_DIMENSION,
 			     EXIF_TAG_PIXEL_Y_DIMENSION);
-		swap_fields (content, 
+		swap_fields (content,
 			     EXIF_TAG_X_RESOLUTION,
 			     EXIF_TAG_Y_RESOLUTION);
-		swap_fields (content, 
+		swap_fields (content,
 			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
 			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
 	}
@@ -208,7 +208,7 @@ update_exif_dimensions (ExifData    *edata,
 
 
 static void
-update_exif_thumbnail (ExifData    *edata, 
+update_exif_thumbnail (ExifData    *edata,
 		       JXFORM_CODE  transform)
 {
 	unsigned int osize;
@@ -227,9 +227,9 @@ update_exif_thumbnail (ExifData    *edata,
 	 */
 	osize = edata->size * 2;
 	out = g_malloc (osize);
-    	
+
 	/* Transform thumbnail */
-	if (jpegtran_thumbnail (edata->data, edata->size, 
+	if (jpegtran_thumbnail (edata->data, edata->size,
 			(void**)&out, &osize, transform, FALSE) != 0) {
 		/* Failed: Discard thumbnail */
 		g_free (out);
@@ -246,18 +246,18 @@ update_exif_thumbnail (ExifData    *edata,
 
 
 static void
-update_exif_data (struct jpeg_decompress_struct *src, 
+update_exif_data (struct jpeg_decompress_struct *src,
                   JXFORM_CODE                    transform)
 {
 	jpeg_saved_marker_ptr  mark = NULL;
 	ExifData              *edata = NULL;
 	unsigned char         *data = NULL;
 	unsigned int           size;
-   
+
 	if (src == NULL)
 		return;
-   
-	// Find exif data.
+
+	/* Find exif data. */
 	for (mark = src->marker_list; mark != NULL; mark = mark->next) {
 		if (mark->marker != JPEG_APP0 +1)
 			continue;
@@ -267,20 +267,20 @@ update_exif_data (struct jpeg_decompress_struct *src,
 	if (edata == NULL)
 		return;
 
-	// Adjust exif orientation (set to top-left)
+	/* Adjust exif orientation (set to top-left) */
 	update_exif_orientation(edata);
 
-	// Adjust exif dimensions (swap values if necessary)
+	/* Adjust exif dimensions (swap values if necessary) */
 	update_exif_dimensions(edata, transform);
 
-	// Adjust thumbnail (transform)
+	/* Adjust thumbnail (transform) */
 	update_exif_thumbnail(edata, transform);
 
-	// Build new exif data block
+	/* Build new exif data block */
 	exif_data_save_data(edata, &data, &size);
 	exif_data_unref(edata);
 
-	// Update jpeg APP1 (EXIF) marker
+	/* Update jpeg APP1 (EXIF) marker */
 	mark->data = src->mem->alloc_large((j_common_ptr)src, JPOOL_IMAGE, size);
 	mark->original_length = size;
 	mark->data_length = size;
@@ -295,14 +295,14 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 		   JXFORM_CODE                    transformation,
 		   gboolean                       trim)
 {
-	jpeg_transform_info  transformoption; 
+	jpeg_transform_info  transformoption;
 	jvirt_barray_ptr    *src_coef_arrays;
 	jvirt_barray_ptr    *dst_coef_arrays;
 
 	transformoption.transform = transformation;
 	transformoption.trim = trim;
 	transformoption.force_grayscale = FALSE;
-	
+
 	/* Enable saving of extra markers that we want to copy */
 	jcopy_markers_setup (srcinfo, JCOPYOPT_ALL);
 
@@ -326,7 +326,7 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	/* Adjust destination parameters if required by transform options;
 	 * also find out which set of coefficient arrays will hold the output.
 	 */
-	dst_coef_arrays = jtransform_adjust_parameters (srcinfo, 
+	dst_coef_arrays = jtransform_adjust_parameters (srcinfo,
 							dstinfo,
 							src_coef_arrays,
 							&transformoption);
@@ -334,12 +334,12 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	/* Start compressor (note no image data is actually written here) */
 	jpeg_write_coefficients (dstinfo, dst_coef_arrays);
 
-	/* Copy to the output file any extra markers that we want to 
+	/* Copy to the output file any extra markers that we want to
 	 * preserve */
 	jcopy_markers_execute (srcinfo, dstinfo, JCOPYOPT_ALL);
 
 	/* Execute image transformation, if any */
-	jtransform_execute_transformation (srcinfo, 
+	jtransform_execute_transformation (srcinfo,
 					   dstinfo,
 					   src_coef_arrays,
 					   &transformoption);
@@ -351,9 +351,9 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 
 
 static int
-jpegtran_thumbnail (const void   *idata, 
+jpegtran_thumbnail (const void   *idata,
 		    size_t        isize,
-		    void        **odata, 
+		    void        **odata,
 		    size_t       *osize,
 		    JXFORM_CODE   transformation,
 		    gboolean      trim)
@@ -362,7 +362,7 @@ jpegtran_thumbnail (const void   *idata,
 	struct jpeg_compress_struct    dstinfo;
 	struct error_handler_data      jsrcerr, jdsterr;
 
-	/* Initialize the JPEG decompression object with default error 
+	/* Initialize the JPEG decompression object with default error
 	 * handling. */
 	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
 	jsrcerr.pub.error_exit = fatal_error_handler;
@@ -372,7 +372,7 @@ jpegtran_thumbnail (const void   *idata,
 
 	jpeg_create_decompress (&srcinfo);
 
-	/* Initialize the JPEG compression object with default error 
+	/* Initialize the JPEG compression object with default error
 	 * handling. */
 	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
 	jdsterr.pub.error_exit = fatal_error_handler;
@@ -381,7 +381,7 @@ jpegtran_thumbnail (const void   *idata,
 	jdsterr.error = NULL;
 
 	jpeg_create_compress (&dstinfo);
-	
+
 	dstinfo.err->trace_level = 0;
 	dstinfo.arith_code = FALSE;
 	dstinfo.optimize_coding = FALSE;
@@ -405,7 +405,7 @@ jpegtran_thumbnail (const void   *idata,
 
 	/* Specify data source for decompression */
 	jpeg_memory_src (&srcinfo, idata, isize);
-	
+
 	/* Specify data destination for compression */
 	jpeg_memory_dest (&dstinfo, odata, osize);
 
@@ -435,7 +435,7 @@ jpegtran (const char   *input_filename,
 
 	/* Open the input file. */
 	input_file = fopen (input_filename, "rb");
-	if (input_file == NULL) 
+	if (input_file == NULL)
 		return 1;
 
 	/* Open the output file. */
@@ -445,7 +445,7 @@ jpegtran (const char   *input_filename,
 		return 1;
 	}
 
-	/* Initialize the JPEG decompression object with default error 
+	/* Initialize the JPEG decompression object with default error
 	 * handling. */
 	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
 	jsrcerr.pub.error_exit = fatal_error_handler;
@@ -455,7 +455,7 @@ jpegtran (const char   *input_filename,
 
 	jpeg_create_decompress (&srcinfo);
 
-	/* Initialize the JPEG compression object with default error 
+	/* Initialize the JPEG compression object with default error
 	 * handling. */
 	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
 	jdsterr.pub.error_exit = fatal_error_handler;
@@ -464,7 +464,7 @@ jpegtran (const char   *input_filename,
 	jdsterr.error = error;
 
 	jpeg_create_compress (&dstinfo);
-	
+
 	dstinfo.err->trace_level = 0;
 	dstinfo.arith_code = FALSE;
 	dstinfo.optimize_coding = FALSE;
@@ -480,7 +480,7 @@ jpegtran (const char   *input_filename,
 		fclose (output_file);
 		return 1;
 	}
-	
+
 	/* Compression error handler */
 	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
 		jpeg_destroy_compress (&dstinfo);
@@ -492,7 +492,7 @@ jpegtran (const char   *input_filename,
 
 	/* Specify data source for decompression */
 	jpeg_stdio_src (&srcinfo, input_file);
-	
+
 	/* Specify data destination for compression */
 	jpeg_stdio_dest (&dstinfo, output_file);
 
@@ -515,7 +515,7 @@ jpegtran (const char   *input_filename,
 
 
 int
-main (int    argc, 
+main (int    argc,
       char **argv)
 {
 	char *input_filename;
@@ -525,7 +525,7 @@ main (int    argc,
 		fprintf (stderr, "%s input_image output_image", argv[0]);
 		return 1;
 	}
-	
+
 	input_filename  = argv[1];
 	output_filename = argv[2];
 
@@ -536,7 +536,7 @@ main (int    argc,
 	  JXFORM_FLIP_H
 	  JXFORM_FLIP_V
 	*/
-	
+
 	return jpegtran (input_filename, output_filename, JXFORM_FLIP_H);
 }
 

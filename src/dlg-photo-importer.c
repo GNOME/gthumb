@@ -26,6 +26,7 @@
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>
+#include <strings.h>
 #include <time.h>
 
 #include <glib/gi18n.h>
