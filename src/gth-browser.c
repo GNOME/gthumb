@@ -393,9 +393,6 @@ set_action_important (GthBrowser  *browser,
 }
 
 
-
-
-
 static void
 window_update_zoom_sensitivity (GthBrowser *browser)
 {
@@ -5329,10 +5326,18 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 		gtk_ui_manager_ensure_update (priv->ui);
 		add_rotate_toolbar_item (browser);
 
-	} else {
+		set_action_important (browser, "/ToolBar/ModeCommands/View_ShowFolders", TRUE);
+		set_action_important (browser, "/ToolBar/ModeCommands/View_ShowCatalogs", TRUE);
+		set_action_important (browser, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
+		set_action_important (browser, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
+	}
+	else {
 		if (!first_time)
 			gth_browser_hide_sidebar (browser);
 		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, viewer_ui_info, -1, NULL);
+		set_action_important (browser, "/ToolBar/ModeCommands/View_CloseImageMode", TRUE);
+		set_action_important (browser, "/ToolBar/ModeCommands/File_Save", TRUE);
+		set_action_important (browser, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
 	}
 
 	gtk_ui_manager_ensure_update (priv->ui);
@@ -6319,10 +6324,6 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
-
-	set_action_important (browser, "/ToolBar/View_ShowFolders", TRUE);
-	set_action_important (browser, "/ToolBar/View_ShowCatalogs", TRUE);
-	set_action_important (browser, "/ToolBar/View_ShowImage", TRUE);
 
 	gth_window_attach (GTH_WINDOW (browser), toolbar, GTH_WINDOW_TOOLBAR);
 

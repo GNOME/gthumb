@@ -1,5 +1,12 @@
 2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c: set actions as important after adding them to
+	the ui.
+
+	Fixes bug #385605 – toolbar style: "text beside icons" doesn't work
+
+2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-fullscreen.c:
 	* src/dlg-preferences.c:
 	* libgthumb/preferences.h:
