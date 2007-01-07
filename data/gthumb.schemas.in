@@ -429,11 +429,11 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/slideshow/delay</key>
-	<applyto>/apps/gthumb/slideshow/delay</applyto>
+	<key>/schemas/apps/gthumb/slideshow/change_delay</key>
+	<applyto>/apps/gthumb/slideshow/change_delay</applyto>
 	<owner>gthumb</owner>
-	<type>int</type>
-	<default>4</default>
+	<type>float</type>
+	<default>4.0</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -447,6 +447,19 @@
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/fading</key>
+	<applyto>/apps/gthumb/slideshow/fading</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

@@ -56,7 +56,7 @@
 #define X_PADDING  12
 #define Y_PADDING  6
 #define MOTION_THRESHOLD 3
-#define DEF_SLIDESHOW_DELAY 4
+#define DEF_SLIDESHOW_DELAY 4.0
 #define SECONDS 1000
 
 
@@ -74,6 +74,7 @@ struct _GthFullscreenPrivateData {
 	GthDirectionType slideshow_direction;
 	int              slideshow_delay;
 	gboolean         slideshow_wrap_around;
+	gboolean         fading_activated;
 	guint            slideshow_timeout;
 	guint            slideshow_paused;
 
@@ -134,7 +135,8 @@ gth_fullscreen_finalize (GObject *object)
 
 		g_object_unref (priv->screensaver);
 
-		gs_fade_reset (priv->fade);
+		if (priv->fading_activated)
+			gs_fade_reset (priv->fade);
 		g_object_unref (priv->fade);
 
 		g_free (priv->image_path);
@@ -206,12 +208,14 @@ viewer_image_loaded_cb (ImageViewer   *iviewer,
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
-	if (priv->use_fade) {
-		gs_fade_in (priv->fade);
-		return;
+	if (priv->fading_activated) {
+		if (priv->use_fade) {
+			gs_fade_in (priv->fade);
+			return;
+		}
+		gs_fade_reset (priv->fade);
 	}
 
-	gs_fade_reset (priv->fade);
 	if (priv->slideshow)
 		continue_slideshow (fullscreen);
 }
@@ -549,12 +553,14 @@ load_current_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
-	if (priv->use_fade) {
-		gs_fade_out (fullscreen->priv->fade);
-		return;
+	if (priv->fading_activated) {
+		if (priv->use_fade) {
+			gs_fade_out (fullscreen->priv->fade);
+			return;
+		}
+		gs_fade_reset (fullscreen->priv->fade);
 	}
 
-	gs_fade_reset (fullscreen->priv->fade);
 	real_load_current_image (fullscreen);
 }
 
@@ -1675,8 +1681,9 @@ gth_fullscreen_show (GtkWidget *widget)
 	create_toolbar_window (fullscreen);
 
 	priv->slideshow_direction = pref_get_slideshow_direction ();
-	priv->slideshow_delay = eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY);
+	priv->slideshow_delay = eel_gconf_get_float (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY);
 	priv->slideshow_wrap_around = eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE);
+	priv->fading_activated = eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE);
 
 	image_viewer_hide_cursor (IMAGE_VIEWER (priv->viewer));
 	gtk_window_fullscreen (GTK_WINDOW (widget));

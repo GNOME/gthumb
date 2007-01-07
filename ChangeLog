@@ -1,5 +1,17 @@
 2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c:
+	* src/dlg-preferences.c:
+	* libgthumb/preferences.h:
+	* data/glade/gthumb_preferences.glade:
+	* data/gthumb.schemas.in: removed /schemas/apps/gthumb/slideshow/delay
+	added /apps/gthumb/slideshow/change_delay as float.
+
+	allow to turn off the fading effect in the slideshow. Allow to specify a
+	delay of 0.5 seconds.
+
+2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-filter-bar.c:
 	* src/gth-filter-bar.h: implemented other features.
 
