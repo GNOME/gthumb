@@ -1,5 +1,8 @@
 2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (set_mode_specific_ui_info): call ensure_update before
+	setting actions as important
+
 	* src/gth-browser.c: set actions as important after adding them to
 	the ui.
 
