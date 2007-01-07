@@ -36,6 +36,7 @@
 #define GTHUMB_STOCK_ENHANCE              "gthumb-enhance"
 #define GTHUMB_STOCK_EDIT_IMAGE           "gthumb-edit-image"
 #define GTHUMB_STOCK_FILM                 "gthumb-film"
+#define GTHUMB_STOCK_FILTER               "gthumb-filter"
 #define GTHUMB_STOCK_FLIP                 "gthumb-flip"
 #define GTHUMB_STOCK_HISTOGRAM            "gthumb-histogram"
 #define GTHUMB_STOCK_HUE_SATURATION       "gthumb-hue-saturation"

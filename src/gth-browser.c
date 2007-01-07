@@ -177,7 +177,7 @@ struct _GthBrowserPrivateData {
 
 	/* browser stuff */
 
-	GtkWidget          *filter_bar;
+	GtkWidget          *filterbar;
 	GthFileList        *file_list;
 	GthDirList         *dir_list;
 	CatalogList        *catalog_list;
@@ -1648,8 +1648,7 @@ save_pixbuf__image_saved_step2 (gpointer data)
 	priv->image_modified = FALSE;
 	priv->saving_modified_image = FALSE;
 
-	pos = gth_file_list_pos_from_path (priv->file_list,
-					   priv->image_path);
+	pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
 	if (pos != -1) {
 		view_image_at_pos (browser, pos);
 		gth_file_list_select_image_by_pos (priv->file_list, pos);
@@ -2760,6 +2759,23 @@ gth_browser_hide_image_data (GthBrowser *browser)
 }
 
 
+void
+gth_browser_show_filterbar (GthBrowser *browser)
+{
+	gtk_widget_show (browser->priv->filterbar);
+	set_action_active_if_different (browser, "View_Filterbar", TRUE);
+}
+
+
+void
+gth_browser_hide_filterbar (GthBrowser *browser)
+{
+	gtk_widget_hide (browser->priv->filterbar);
+	set_action_active_if_different (browser, "View_Filterbar", FALSE);
+	gth_file_list_set_filter (browser->priv->file_list, NULL);
+}
+
+
 static void
 toggle_image_data_visibility (GthBrowser *browser)
 {
@@ -2892,7 +2908,7 @@ key_press_cb (GtkWidget   *widget,
 		if (event->keyval == GDK_space)
 			return FALSE;
 
-	if (gth_filter_bar_has_focus (GTH_FILTER_BAR (priv->filter_bar)))
+	if (gth_filter_bar_has_focus (GTH_FILTER_BAR (priv->filterbar)))
 		return FALSE;
 
 	if (GTK_WIDGET_HAS_FOCUS (priv->dir_list->list_view)
@@ -5369,6 +5385,17 @@ gth_browser_show (GtkWidget  *widget)
 	set_action_active (browser,
 			   "View_Statusbar",
 			   eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
+
+	/* filterbar */
+
+	if (eel_gconf_get_boolean (PREF_UI_FILTERBAR_VISIBLE, TRUE))
+		gtk_widget_show (priv->filterbar);
+	else
+		gtk_widget_hide (priv->filterbar);
+
+	set_action_active (browser,
+			   "View_Filterbar",
+			   eel_gconf_get_boolean (PREF_UI_FILTERBAR_VISIBLE, TRUE));
 }
 
 
@@ -5543,10 +5570,8 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
-		int   pos;
 
-		pos = gth_file_list_pos_from_path (priv->file_list, filename);
-		if (pos == -1)
+		if (gth_file_list_filedata_from_path (priv->file_list, filename) == NULL)
 			continue;
 
 		absent_files = g_list_prepend (absent_files, filename);
@@ -6192,6 +6217,15 @@ filter_bar_changed_cb (GthFilterBar *filter_bar,
 
 
 static void
+filter_bar_close_button_clicked_cb (GthFilterBar *filter_bar,
+		       		    GthBrowser   *browser)
+{
+	eel_gconf_set_boolean (PREF_UI_FILTERBAR_VISIBLE, FALSE);
+	gth_browser_hide_filterbar (browser);
+}
+
+
+static void
 gth_browser_construct (GthBrowser  *browser,
 		       const gchar *uri)
 {
@@ -6320,10 +6354,15 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* Create the widgets. */
 
-	priv->filter_bar = gth_filter_bar_new ();
-	g_signal_connect (G_OBJECT (priv->filter_bar),
+	priv->filterbar = gth_filter_bar_new ();
+	gtk_widget_show (priv->filterbar);
+	g_signal_connect (G_OBJECT (priv->filterbar),
 			  "changed",
 			  G_CALLBACK (filter_bar_changed_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (priv->filterbar),
+			  "close_button_clicked",
+			  G_CALLBACK (filter_bar_close_button_clicked_cb),
 			  browser);
 
 	priv->file_list = create_new_file_list (browser);
@@ -6331,6 +6370,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Dir list. */
 
 	priv->dir_list = gth_dir_list_new ();
+	gtk_widget_show_all (priv->dir_list->root_widget);
 	g_signal_connect (G_OBJECT (priv->dir_list),
 			  "started",
 			  G_CALLBACK (dir_list_started_cb),
@@ -6397,6 +6437,8 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Catalog list. */
 
 	priv->catalog_list = catalog_list_new (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
+	gtk_widget_show_all (priv->catalog_list->root_widget);
+
 	gtk_drag_dest_set (priv->catalog_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, G_N_ELEMENTS(target_table),
@@ -6439,6 +6481,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Location. */
 
 	priv->location = gth_location_new ();
+	gtk_widget_show_all (priv->location);
 	g_signal_connect (G_OBJECT (priv->location),
 			  "open_location",
 			  G_CALLBACK (open_location_cb),
@@ -6451,6 +6494,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Info bar. */
 
 	priv->info_bar = gthumb_info_bar_new ();
+	gtk_widget_show (priv->info_bar);
 	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (priv->info_bar), FALSE);
 	g_signal_connect (G_OBJECT (priv->info_bar),
 			  "button_press_event",
@@ -6460,6 +6504,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Image viewer. */
 
 	priv->viewer = image_viewer_new ();
+	gtk_widget_show (priv->viewer);
 	gtk_widget_set_size_request (priv->viewer,
 				     PANE_MIN_SIZE,
 				     PANE_MIN_SIZE);
@@ -6540,10 +6585,11 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Pack the widgets */
 
 	priv->file_list_pane = gtk_vbox_new (0, FALSE);
+	gtk_widget_show (priv->file_list_pane);
 	gtk_widget_show_all (priv->file_list->root_widget);
 
-	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filter_bar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->file_list->root_widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filterbar, FALSE, FALSE, 0);
 
 	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 
@@ -6555,6 +6601,9 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->content_pane = paned2 = gtk_vpaned_new ();
 	}
 
+	gtk_widget_show (priv->main_pane);
+	gtk_widget_show (priv->content_pane);
+
 	gth_window_attach (GTH_WINDOW (browser), priv->main_pane, GTH_WINDOW_CONTENTS);
 
 	if (priv->layout_type == 3)
@@ -6563,6 +6612,7 @@ gth_browser_construct (GthBrowser  *browser,
 		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
 
 	priv->notebook = gtk_notebook_new ();
+	gtk_widget_show (priv->notebook);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->notebook), FALSE);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
@@ -6573,6 +6623,7 @@ gth_browser_construct (GthBrowser  *browser,
 				  NULL);
 
 	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (priv->dir_list_pane);
 
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->location,
 			    FALSE, FALSE, 0);
@@ -6594,6 +6645,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/**/
 
 	image_vbox = priv->image_pane = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (image_vbox);
 
 	if (priv->layout_type <= 1)
 		gtk_paned_pack2 (GTK_PANED (paned1), image_vbox, TRUE, FALSE);
@@ -6603,6 +6655,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* image info bar */
 
 	info_frame = gtk_frame_new (NULL);
+	gtk_widget_show (info_frame);
 	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
 	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
 
@@ -6672,10 +6725,13 @@ gth_browser_construct (GthBrowser  *browser,
 				      NULL);
 	}
 
+	gtk_widget_show_all (info_hbox);
+
 	/* image preview, comment, exif data. */
 
 	priv->image_main_pane = image_pane_paned1 = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (browser->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
+	gtk_widget_show (priv->image_main_pane);
+
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
 
 	/**/
@@ -6686,7 +6742,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/**/
 
 	priv->preview_widget_data_comment = image_pane_paned2 = gtk_hpaned_new ();
-	gtk_paned_set_position (GTK_PANED (image_pane_paned2), eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH) / 2);
+	gtk_widget_show (priv->preview_widget_data_comment);
 	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, TRUE, FALSE);
 
 	priv->preview_widget_comment = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
@@ -6729,11 +6785,13 @@ gth_browser_construct (GthBrowser  *browser,
 			  G_CALLBACK (image_focus_changed_cb),
 			  browser);
 
+	gtk_widget_show_all (priv->image_main_pane);
+
 	/* Progress bar. */
 
 	priv->progress = gtk_progress_bar_new ();
-	gtk_widget_set_size_request (priv->progress, -1, 10);
 	gtk_widget_show (priv->progress);
+	gtk_widget_set_size_request (priv->progress, -1, 10);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->progress, FALSE, FALSE, 0);
 
 	/* Zoom info */
@@ -6742,6 +6800,7 @@ gth_browser_construct (GthBrowser  *browser,
 	gtk_widget_show (priv->zoom_info);
 
 	priv->zoom_info_frame = gtk_frame_new (NULL);
+	gtk_widget_show (priv->zoom_info_frame);
 	gtk_frame_set_shadow_type (GTK_FRAME (priv->zoom_info_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (priv->zoom_info_frame), priv->zoom_info);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->zoom_info_frame, FALSE, FALSE, 0);
@@ -6861,7 +6920,7 @@ gth_browser_construct (GthBrowser  *browser,
 	gtk_paned_set_position (GTK_PANED (paned1), eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE));
 	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, DEF_SIDEBAR_CONT_SIZE));
 
-	gtk_widget_show_all (priv->main_pane);
+	gtk_widget_show (priv->main_pane);
 
 	window_sync_menu_with_preferences (browser);
 
@@ -6890,15 +6949,10 @@ gth_browser_construct (GthBrowser  *browser,
 					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 	image_viewer_set_reset_scrollbars (IMAGE_VIEWER (priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
-	/*
-	if (path_is_file (uri)) {
-		_hide_sidebar (browser);
-		set_mode_specific_ui_info (browser, GTH_SIDEBAR_NO_LIST, TRUE);
-	} else
-		set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
-	*/
-
 	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
+
+	gtk_paned_set_position (GTK_PANED (browser->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
+	gtk_paned_set_position (GTK_PANED (image_pane_paned2), eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH) / 2);
 
 	/* Add notification callbacks. */
 

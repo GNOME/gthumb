@@ -1091,9 +1091,6 @@ search_images_async (DialogData *data)
 }
 
 
-
-
-
 typedef struct {
 	DialogData     *data;
 	GladeXML       *gui;

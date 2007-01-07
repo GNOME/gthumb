@@ -3644,7 +3644,7 @@ image_list_append_item (GthImageList     *image_list,
 	int                  pos;
 
 	priv->all_images = g_list_prepend (priv->all_images, item);
-	if (! image_list_filter_match (image_list, item))
+	if (! image_list_filter_match (image_list, item->data))
 		return -1;
 
 	priv->image_list = g_list_append (priv->image_list, item);
@@ -3671,7 +3671,7 @@ image_list_insert_item (GthImageList     *image_list,
 		return image_list_append_item (image_list, item);
 
 	priv->all_images = g_list_prepend (priv->all_images, item);
-	if (! image_list_filter_match (image_list, item))
+	if (! image_list_filter_match (image_list, item->data))
 		return -1;
 
 	if (priv->sorted)

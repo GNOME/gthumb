@@ -83,6 +83,7 @@
 #define  PREF_UI_IMAGE_PANE_VISIBLE  "/apps/gthumb/ui/image_pane_visible"
 #define  PREF_UI_TOOLBAR_VISIBLE     "/apps/gthumb/ui/toolbar_visible"
 #define  PREF_UI_STATUSBAR_VISIBLE   "/apps/gthumb/ui/statusbar_visible"
+#define  PREF_UI_FILTERBAR_VISIBLE   "/apps/gthumb/ui/filterbar_visible"
 #define  PREF_UI_SIDEBAR_SIZE        "/apps/gthumb/ui/sidebar_size"
 #define  PREF_UI_SIDEBAR_CONTENT_SIZE "/apps/gthumb/ui/sidebar_content_size"
 #define  PREF_UI_COMMENT_PANE_SIZE   "/apps/gthumb/ui/comment_pane_size"

@@ -83,6 +83,7 @@ static const gchar *main_ui_info =
 "        <separator/>"
 "        <menuitem action='View_Toolbar'/>"
 "        <menuitem action='View_Statusbar'/>"
+"        <menuitem action='View_Filterbar'/>"
 "      </menu>"
 "      <separator/>"
 "      <menuitem action='View_Fullscreen'/>"

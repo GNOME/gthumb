@@ -53,7 +53,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("New _Window"), NULL,
 	  N_("Create a new window"),
 	  G_CALLBACK (gth_browser_activate_action_file_new_window) },
-	
+
 	{ "File_ViewImage", GTK_STOCK_OPEN,
 	  NULL, NULL,
 	  N_("Open the selected image in a new window"),
@@ -355,12 +355,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_tools_slideshow) },
 
 	{ "Tools_FindImages", GTK_STOCK_FIND,
-	  N_("_Find..."), NULL, 
+	  N_("_Search..."), NULL,
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
 	{ "ToolBar_FindImages", GTK_STOCK_FIND,
-	  N_("_Find"), NULL, 
+	  N_("Search"), NULL,
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
@@ -380,12 +380,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_tools_convert_format) },
 
 	{ "Tools_FindDuplicates", NULL,
-	  N_("Fi_nd Duplicates..."), NULL,
+	  N_("Search for _Duplicates..."), NULL,
 	  " ",
 	  G_CALLBACK (gth_browser_activate_action_tools_find_duplicates) },
 
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
-	  N_("_Preferences..."), NULL, 
+	  N_("_Preferences..."), NULL,
 	  N_("Edit various preferences"),
 	  G_CALLBACK (gth_browser_activate_action_tools_preferences) },
 
@@ -401,33 +401,39 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	{ "View_Toolbar", NULL,
 	  N_("_Toolbar"), NULL,
 	  N_("View or hide the toolbar of this window"),
-	  G_CALLBACK (gth_browser_activate_action_view_toolbar), 
+	  G_CALLBACK (gth_browser_activate_action_view_toolbar),
 	  TRUE },
 	{ "View_Statusbar", NULL,
 	  N_("_Statusbar"), NULL,
 	  N_("View or hide the statusbar of this window"),
-	  G_CALLBACK (gth_browser_activate_action_view_statusbar), 
+	  G_CALLBACK (gth_browser_activate_action_view_statusbar),
 	  TRUE },
+	{ "View_Filterbar", GTHUMB_STOCK_FILTER,
+	  N_("_Filter"), "<shift><control>F",
+	  N_("View or hide the filterbar of this window"),
+	  G_CALLBACK (gth_browser_activate_action_view_filterbar),
+	  FALSE },
+
 	{ "View_Thumbnails", NULL,
 	  N_("_Thumbnails"), "<control>T",
 	  N_("View thumbnails"),
-	  G_CALLBACK (gth_browser_activate_action_view_thumbnails), 
+	  G_CALLBACK (gth_browser_activate_action_view_thumbnails),
 	  TRUE },
 	{ "View_ShowPreview", NULL,
 	  N_("_Image Preview"), NULL,
 	  N_("View the image"),
-	  G_CALLBACK (gth_browser_activate_action_view_show_preview), 
+	  G_CALLBACK (gth_browser_activate_action_view_show_preview),
 	  TRUE },
 	{ "View_ShowInfo", NULL,
 	  N_("Image _Comment"), NULL,
 	  N_("View image comment"),
-	  G_CALLBACK (gth_browser_activate_action_view_show_info), 
+	  G_CALLBACK (gth_browser_activate_action_view_show_info),
 	  TRUE },
-	  
+
 	{ "SortReversed", NULL,
 	  N_("_Reversed Order"), NULL,
 	  N_("Reverse images order"),
-	  G_CALLBACK (gth_browser_activate_action_sort_reversed), 
+	  G_CALLBACK (gth_browser_activate_action_sort_reversed),
 	  FALSE },
 };
 static guint gth_browser_action_toggle_entries_size = G_N_ELEMENTS (gth_browser_action_toggle_entries);

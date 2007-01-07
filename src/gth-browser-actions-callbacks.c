@@ -1870,6 +1870,20 @@ gth_browser_activate_action_view_statusbar (GtkAction *action,
 
 
 void
+gth_browser_activate_action_view_filterbar (GtkAction *action,
+					    gpointer   data)
+{
+	GthBrowser *browser = data;
+
+	eel_gconf_set_boolean (PREF_UI_FILTERBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		gth_browser_show_filterbar (browser);
+	else
+		gth_browser_hide_filterbar (browser);
+}
+
+
+void
 gth_browser_activate_action_view_thumbnails (GtkAction *action,
 					     gpointer   data)
 {

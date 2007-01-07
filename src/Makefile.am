@@ -98,6 +98,8 @@ gthumb_SOURCES = 				\
 	gth-browser-actions-callbacks.h		\
 	gth-browser-actions-callbacks.c		\
 	gth-browser-ui.h			\
+	gth-category-selection-dialog.c		\
+	gth-category-selection-dialog.h		\
 	gth-dir-list.c				\
 	gth-dir-list.h				\
 	gth-exif-data-viewer.c			\

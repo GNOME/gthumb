@@ -208,15 +208,21 @@ test_keywords (GthTest  *test,
 	int      i;
 
 	if ((test->data.s == NULL) || (keywords == NULL) || (keywords_n == 0))
-		return FALSE;
+		return test->negative;
 
 	if ((test->op != GTH_TEST_OP_CONTAINS)
 	    && (test->op != GTH_TEST_OP_CONTAINS_ALL))
-		return FALSE;
+		return test->negative;
 
 	result = (test->op == GTH_TEST_OP_CONTAINS_ALL);
-	for (i = 0; i < keywords_n; i++)
-		if (g_utf8_collate (keywords[i], test->data.s) == 0) {
+	for (i = 0; i < keywords_n; i++) {
+		char     *value2 = g_utf8_casefold (keywords[i], -1);
+		gboolean  partial_result;
+
+		partial_result = g_utf8_collate (value2, test->data.s) == 0;
+		g_free (value2);
+
+		if (partial_result) {
 			if (test->op == GTH_TEST_OP_CONTAINS) {
 				result = TRUE;
 				break;
@@ -226,6 +232,10 @@ test_keywords (GthTest  *test,
 			result = FALSE;
 			break;
 		}
+	}
+
+	if (test->negative)
+		result = ! result;
 
 	return result;
 }
@@ -245,6 +255,8 @@ gth_test_match (GthTest  *test,
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
 			result = test_string (test, fdata->comment_data->comment);
+		else
+			result = test->negative;
 		break;
 	case GTH_TEST_SCOPE_PLACE:
 		file_data_load_comment_data (fdata);
@@ -257,12 +269,17 @@ gth_test_match (GthTest  *test,
 			result = (test_string (test, fdata->utf8_name)
 		        	  || test_string (test, fdata->comment_data->comment)
 		          	  || test_string (test, fdata->comment_data->place));
+		else
+			result = test->negative;
 		break;
 	case GTH_TEST_SCOPE_SIZE:
 		result = test_integer (test, fdata->size);
 		break;
 	case GTH_TEST_SCOPE_KEYWORDS:
-		result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
+		if (fdata->comment_data != NULL)
+			result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
+		else
+			result = test->negative;
 		break;
 	case GTH_TEST_SCOPE_DATE:
 	case GTH_TEST_SCOPE_WIDTH:

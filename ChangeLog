@@ -1,3 +1,39 @@
+2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-filter-bar.c:
+	* src/gth-filter-bar.h: implemented other features.
+
+	* src/Makefile.am:
+	* src/gth-category-selection-dialog.c:
+	* src/gth-category-selection-dialog.h: new files.
+
+	* libgthumb/gth-image-list.c: pass item->data to image_list_filter_match
+	instead of item
+
+	* libgthumb/preferences.h:
+	* data/gthumb.schemas.in: added "/apps/gthumb/ui/filterbar_visible" key
+
+	* src/gth-browser-ui.h:
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-actions-callbacks.h:
+	* src/gth-browser-actions-callbacks.c:
+	* src/gth-browser.h:
+	* src/gth-browser.c:
+	* libgthumb/gth-filter.c:
+	* libgthumb/gth-file-list.c: allow to hide/show the filter bar.
+
+	* src/dlg-search.c: removed a non-printable character.
+
+2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/icons/filter-24.png:
+	* libgthumb/icons/Makefile.am:
+	* libgthumb/gthumb-stock.h:
+	* libgthumb/gthumb-stock.c: added the GTHUMB_STOCK_FILTER stock icon.
+
+	* data/glade/gthumb_search.glade:
+	* data/glade/gthumb_tools.glade: use "Search" instead of Find (#335390).
+
 2007-01-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-crop.c (dlg_crop):

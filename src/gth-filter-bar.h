@@ -49,7 +49,8 @@ struct _GthFilterBarClass
 
 	/* -- Signals -- */
 
-        void (* changed) (GthFilterBar *filter_bar);
+        void (* changed)              (GthFilterBar *filter_bar);
+        void (* close_button_clicked) (GthFilterBar *filter_bar);
 };
 
 GType                gth_filter_bar_get_type        (void) G_GNUC_CONST;

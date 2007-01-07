@@ -45,13 +45,14 @@ static struct {
 	{ GTHUMB_STOCK_ENHANCE,             enhance_22_rgba,             NULL },
 	{ GTHUMB_STOCK_EDIT_IMAGE,          edit_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_FILM,                film_16_rgba,                NULL },
+	{ GTHUMB_STOCK_FILTER,              filter_24_rgba,              NULL },
 	{ GTHUMB_STOCK_FLIP,                flip_24_rgba,                flip_16_rgba },
 	{ GTHUMB_STOCK_HISTOGRAM,           histogram_22_rgba,           histogram_16_rgba },
 	{ GTHUMB_STOCK_HUE_SATURATION,      hue_saturation_22_rgba,      hue_saturation_16_rgba },
 	{ GTHUMB_STOCK_IMAGE,               image_24_rgba,               NULL },
 	{ GTHUMB_STOCK_INDEX_IMAGE,         index_image_16_rgba,               NULL },
 	{ GTHUMB_STOCK_INVERT,              invert_16_rgba,              NULL },
-	{ GTHUMB_STOCK_LIBRARY,             library_19_rgba,             NULL },	
+	{ GTHUMB_STOCK_LIBRARY,             library_19_rgba,             NULL },
 	{ GTHUMB_STOCK_LEVELS,              levels_22_rgba,              levels_16_rgba },
 	{ GTHUMB_STOCK_MIRROR,              mirror_24_rgba,              mirror_16_rgba },
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           posterize_16_rgba },
@@ -105,9 +106,9 @@ gthumb_stock_init (void)
 		source = gtk_icon_source_new ();
 
 		if (items[i].menu_pixbuf != NULL) {
-			pixbuf = gdk_pixbuf_new_from_inline (-1, 
-							     items[i].menu_pixbuf, 
-							     FALSE, 
+			pixbuf = gdk_pixbuf_new_from_inline (-1,
+							     items[i].menu_pixbuf,
+							     FALSE,
 							     NULL);
 			gtk_icon_source_set_pixbuf (source, pixbuf);
 
@@ -118,11 +119,11 @@ gthumb_stock_init (void)
 			g_object_unref (pixbuf);
 		}
 
-		pixbuf = gdk_pixbuf_new_from_inline (-1, 
-						     items[i].default_pixbuf, 
-						     FALSE, 
+		pixbuf = gdk_pixbuf_new_from_inline (-1,
+						     items[i].default_pixbuf,
+						     FALSE,
 						     NULL);
-		
+
 		gtk_icon_source_set_pixbuf (source, pixbuf);
 
 		gtk_icon_source_set_size_wildcarded (source, FALSE);

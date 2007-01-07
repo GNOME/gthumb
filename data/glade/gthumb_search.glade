@@ -6,7 +6,7 @@
 
 <widget class="GtkDialog" id="search_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Find</property>
+  <property name="title" translatable="yes">Search</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

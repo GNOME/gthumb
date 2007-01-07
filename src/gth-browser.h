@@ -63,6 +63,8 @@ void            gth_browser_hide_image_pane              (GthBrowser        *bro
 void            gth_browser_show_image_pane              (GthBrowser        *browser);
 void            gth_browser_hide_image_data              (GthBrowser        *browser);
 void            gth_browser_show_image_data              (GthBrowser        *browser);
+void            gth_browser_show_filterbar               (GthBrowser        *browser);
+void            gth_browser_hide_filterbar               (GthBrowser        *browser);
 void            gth_browser_set_preview_content          (GthBrowser        *browser,
 							  GthPreviewContent  content);
 void            gth_browser_stop_loading                 (GthBrowser        *browser);
@@ -73,7 +75,7 @@ const char *    gth_browser_get_current_directory        (GthBrowser        *bro
 void            gth_browser_go_to_catalog_directory      (GthBrowser        *browser,
 							  const gchar       *dir_path);
 void            gth_browser_show_catalog_directory       (GthBrowser        *browser,
-			                                  const char        *catalog_dir);							  
+			                                  const char        *catalog_dir);
 void            gth_browser_go_to_catalog                (GthBrowser        *browser,
 							  const gchar       *catalog_path);
 const char *    gth_browser_get_current_catalog          (GthBrowser        *browser);
@@ -89,7 +91,7 @@ gboolean        gth_browser_show_first_image             (GthBrowser        *bro
 							  gboolean           only_selected);
 gboolean        gth_browser_show_last_image              (GthBrowser        *browser,
 							  gboolean           only_selected);
-void            gth_browser_load_image                   (GthBrowser        *browser, 
+void            gth_browser_load_image                   (GthBrowser        *browser,
 							  const gchar       *filename);
 void            gth_browser_reload_image                 (GthBrowser        *browser);
 void            gth_browser_show_image_prop              (GthBrowser        *browser);

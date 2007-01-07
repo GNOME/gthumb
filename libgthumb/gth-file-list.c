@@ -1004,7 +1004,7 @@ load_new_list (GthFileList *file_list)
 		char        *full_path = scan->data;
 		const char  *name_only = file_name_from_path (full_path);
 		GnomeVFSURI *uri;
-		int          pos;
+		FileData    *fd;
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
 		    || ! file_is_image (full_path, fast_file_type))
@@ -1013,9 +1013,8 @@ load_new_list (GthFileList *file_list)
 		/* if the image is already present invalidate the thumbnail
 		 * instead of adding the image twice. */
 
-		pos = gth_file_list_pos_from_path (file_list, full_path);
-		if (pos != -1) {
-			FileData *fd = gth_file_view_get_image_data (file_list->view, pos);
+		fd = gth_file_list_filedata_from_path (file_list, full_path);
+		if (fd != NULL) {
 			fd->error = FALSE;
 			fd->thumb = FALSE;
 			continue;
@@ -1043,6 +1042,9 @@ void
 gfl_set_list (GthFileList *file_list,
 	      GList       *new_list)
 {
+	if (file_list->priv->filter != NULL)
+		gth_filter_reset (file_list->priv->filter);
+
 	gth_file_view_clear (file_list->view);
 	gth_file_list_free_list (file_list);
 
@@ -1508,26 +1510,28 @@ gfl_rename (GthFileList *file_list,
 	    const char  *from_uri,
 	    const char  *to_uri)
 {
-	int pos;
+	FileData *fd;
+	int       pos;
+
+	fd = gth_file_list_filedata_from_path (file_list, from_uri);
+	if (fd == NULL)
+		return;
+
+	/* update the FileData structure. */
+
+	file_data_set_path (fd, to_uri);
+
+	/* Set the new name. */
 
 	pos = gth_file_list_pos_from_path (file_list, from_uri);
-	if ((pos >= 0) && (pos < gth_file_view_get_images (file_list->view))) {
-		FileData *fd;
-
-		/* update the FileData structure. */
-
-		fd = gth_file_view_get_image_data (file_list->view, pos);
-		file_data_set_path (fd, to_uri);
-
-		/* Set the new name. */
-
+	if (pos != -1) {
 		gth_file_view_set_image_text (file_list->view, pos, fd->utf8_name);
-		file_data_unref (fd);
-
 		gth_file_view_sorted (file_list->view,
 				      file_list->priv->sort_method,
 				      file_list->priv->sort_type);
 	}
+
+	file_data_unref (fd);
 }
 
 
@@ -1580,20 +1584,23 @@ static void
 gfl_update_thumb (GthFileList *file_list,
 		  const char  *uri)
 {
-	int pos;
+	FileData *fd;
+	int       pos;
+
+	fd = gth_file_list_filedata_from_path (file_list, uri);
+	if (fd == NULL)
+		return;
+
+	file_data_update (fd);
 
 	pos = gth_file_list_pos_from_path (file_list, uri);
-	if ((pos >= 0) && (pos < gth_file_view_get_images (file_list->view))) {
-		FileData *fd;
+	if (pos == -1)
+		return;
 
-		fd = gth_file_view_get_image_data (file_list->view, pos);
-		file_data_update (fd);
-
-		file_list->priv->thumb_pos = pos;
-		if (file_list->priv->thumb_fd != NULL)
-			file_data_unref (file_list->priv->thumb_fd);
-		file_list->priv->thumb_fd = fd;
-	}
+	file_list->priv->thumb_pos = pos;
+	if (file_list->priv->thumb_fd != NULL)
+		file_data_unref (file_list->priv->thumb_fd);
+	file_list->priv->thumb_fd = fd;
 }
 
 
@@ -1695,6 +1702,8 @@ gfl_visible_func (gpointer callback_data,
 
 	if (file_list->priv->filter == NULL)
 		return TRUE;
+	if (fdata == NULL)
+		return FALSE;
 
 	return gth_filter_match (file_list->priv->filter, fdata);
 }
@@ -1719,8 +1728,6 @@ gth_file_list_set_filter (GthFileList *file_list,
 {
 	if (file_list->priv->filter != NULL)
 		g_object_unref (file_list->priv->filter);
-	if (filter != NULL)
-		g_object_ref (filter);
 	file_list->priv->filter = filter;
 
 	gth_file_list_queue_op (file_list, gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_SET_FILTER));
