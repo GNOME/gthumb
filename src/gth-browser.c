@@ -1959,16 +1959,17 @@ window_make_current_image_visible (GthBrowser *browser,
 		return;
 
 	pos = gth_file_list_pos_from_path (priv->file_list, path);
-	g_free (path);
 
 	if (pos >= 0) {
 		priv->image_position = pos;
 		make_image_visible (browser, pos);
+		g_free (path);
 		return;
 	}
 
 	if (reset_if_not_found) {
 		window_image_viewer_set_void (browser);
+		g_free (path);
 		return;
 	}
 
@@ -1979,8 +1980,10 @@ window_make_current_image_visible (GthBrowser *browser,
 		gth_file_view_select_image (priv->file_list->view, priv->image_position);
 		gth_file_view_set_cursor (priv->file_list->view, priv->image_position);
 	}
-	else
+	else if (! path_is_file (path))
 		window_image_viewer_set_void (browser);
+
+	g_free (path);
 }
 
 

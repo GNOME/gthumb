@@ -1,5 +1,8 @@
 2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (window_make_current_image_visible): do not reset the
+	viewer if the image file exists.
+
 	* src/gth-browser.c (set_mode_specific_ui_info): call ensure_update before
 	setting actions as important
 
