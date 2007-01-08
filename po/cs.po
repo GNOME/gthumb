@@ -1,3 +1,4 @@
+# translation of cs.po to Czech
 # translation of cs.po to
 # Czech translation of gThumb
 # Copyright (C) 2002 Free Software Foundation
@@ -11,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-05 13:29+0100\n"
-"PO-Revision-Date: 2007-01-05 13:29+0100\n"
+"POT-Creation-Date: 2007-01-08 15:15+0100\n"
+"PO-Revision-Date: 2007-01-08 15:20+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
-"Language-Team:  <cs@li.org>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -449,7 +450,7 @@ msgid "Opti_mize"
 msgstr "Opti_malizovat"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Overwrite mode:"
 msgstr "Režim přepisu:"
 
@@ -458,12 +459,12 @@ msgid "PNG Options"
 msgstr "Volby PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
 msgstr "_Odstranit originál"
 
 #: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rename"
 msgstr "Přejmenovat"
 
@@ -1228,31 +1229,36 @@ msgid "Transparency _type:"
 msgstr "_Typ průhlednosti:"
 
 #: ../data/glade/gthumb_preferences.glade.h:60
+#, fuzzy
+msgid "Use a _fading effect when changing image"
+msgstr "_Prodleva před změnou obrázku:"
+
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Viewer"
 msgstr "Prohlížeč"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "White"
 msgstr "Bílá"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "_Filenames"
 msgstr "_Názvy souborů"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
-#: ../src/gth-browser-actions-entries.h:412
+#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../src/gth-browser-actions-entries.h:418
 msgid "_Thumbnails"
 msgstr "Minia_tury"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "_Toolbar style:"
 msgstr "_Styl lišty nástrojů:"
 
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "gThumb Preferences"
 msgstr "Nastavení gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "seconds"
 msgstr "sekund"
 
@@ -1395,7 +1401,6 @@ msgid "_Unit:"
 msgstr "_Jednotky:"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
-#, fuzzy
 msgid "Actual Size"
 msgstr "Skutečná velikost"
 
@@ -1457,29 +1462,30 @@ msgid "File _name:"
 msgstr "_Název souboru:"
 
 #: ../data/glade/gthumb_search.glade.h:14
-msgid "Find"
-msgstr "Hledat"
-
-#: ../data/glade/gthumb_search.glade.h:15
 msgid "Found images:"
 msgstr "Nalezeny obrázky:"
 
-#: ../data/glade/gthumb_search.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
 msgstr "Hledat _všechny vybrané kategorie"
 
-#: ../data/glade/gthumb_search.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
 msgstr "Hledat _libovolnou vybranou kategorii"
 
-#: ../data/glade/gthumb_search.glade.h:18
+#: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
 msgstr "Nové _hledání..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:829
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:829
 #: ../src/dlg-photo-importer.c:1516
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Search"
+msgstr "Hledat"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
@@ -1601,26 +1607,22 @@ msgid "Equal images:"
 msgstr "Shodné obrázky:"
 
 #: ../data/glade/gthumb_tools.glade.h:30
-msgid "Find Duplicates"
-msgstr "Hledat duplikáty"
-
-#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Found duplicates:"
 msgstr "Nalezeny duplikáty:"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Image c_reation date"
 msgstr "Datum _vytvoření obrázku"
 
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image horizontally (left-right)"
 msgstr "Zrcadlit obrázek horizontálně (zleva doprava)"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:34
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1628,38 +1630,42 @@ msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
 msgid "Move to _Trash"
 msgstr "Přesunout do _Koše"
 
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "New names _preview:"
 msgstr "_Náhled nových názvů:"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Datum digitalizace _fotografie (z dat EXIF)"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Re_verse Order"
 msgstr "_Obrácené pořadí"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Reset Exif Orientation Tags"
 msgstr "Přenastavit Exif údaj pro orientaci"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
 msgstr "Otočit obrázky"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Otočit obrázek o 90° po směru hodinových ručiček"
 
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Otočit obrázek o 90° proti směru hodinových ručiček"
 
-#: ../data/glade/gthumb_tools.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:45
 #: ../src/gth-browser-actions-entries.h:394
 msgid "Scale Images"
 msgstr "Zvětšit obrázky"
+
+#: ../data/glade/gthumb_tools.glade.h:46
+msgid "Search for Duplicates"
+msgstr "Hledat duplikáty"
 
 #: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
@@ -1902,9 +1908,8 @@ msgid "or _use a single index page"
 msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
-#, fuzzy
 msgid "rows per page,"
-msgstr "Obrázky na stránku:"
+msgstr "řádků na stránku,"
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
@@ -2021,10 +2026,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Možné hodnoty jsou: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:22
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
 
 #: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: white, black, checked, none."
@@ -2054,8 +2057,8 @@ msgstr "%d. %B %Y"
 
 #: ../libgthumb/comments.c:1287 ../src/catalog-web-exporter.c:55
 #: ../src/catalog-web-exporter.c:142 ../src/dlg-duplicates.c:553
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:496
-#: ../src/gth-exif-data-viewer.c:789 ../src/gth-fullscreen.c:848
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:493
+#: ../src/gth-exif-data-viewer.c:789 ../src/gth-fullscreen.c:854
 #: ../src/gth-viewer.c:575
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
@@ -2068,8 +2071,7 @@ msgstr "(Bez komentáře)"
 #: ../src/dlg-jpegtran.c:280 ../src/dlg-photo-importer.c:1541
 #: ../src/dlg-reset-exif.c:116
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři \"%s\""
 
 #: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:321
@@ -2127,8 +2129,8 @@ msgstr "Nelze odstranit katalog \"%s\": %s"
 msgid "Name"
 msgstr "Název"
 
-#: ../libgthumb/gth-image-list.c:3523 ../src/gth-browser.c:768
-#: ../src/gth-browser.c:4363 ../src/gth-viewer.c:753
+#: ../libgthumb/gth-image-list.c:3523 ../src/gth-browser.c:765
+#: ../src/gth-browser.c:4379 ../src/gth-viewer.c:753
 msgid "No image"
 msgstr "Žádný obrázek"
 
@@ -2136,7 +2138,7 @@ msgstr "Žádný obrázek"
 msgid "Could not display help"
 msgstr "Nelze zobrazit nápovědu"
 
-#: ../libgthumb/gthumb-stock.c:77 ../src/gth-window-actions-entries.h:275
+#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "_Otočit obrázky"
 
@@ -2158,14 +2160,14 @@ msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
-#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1276
-#: ../src/gth-browser.c:1280 ../src/gth-browser.c:1292
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1273
+#: ../src/gth-browser.c:1277 ../src/gth-browser.c:1289
 msgid "(Invalid Name)"
 msgstr "(Neplatný název)"
 
 #: ../src/catalog-png-exporter.c:818 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:500 ../src/gth-exif-data-viewer.c:785
-#: ../src/gth-fullscreen.c:839 ../src/gth-viewer.c:579
+#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:785
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:579
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
@@ -2252,8 +2254,7 @@ msgstr "Převádím obrázek: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název."
 
 #: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
@@ -2270,9 +2271,9 @@ msgid "%d x %d (Image)"
 msgstr "%d × %d (Obrázek)"
 
 #: ../src/dlg-crop.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Screen)"
-msgstr "%d × %d (Obrázek)"
+msgstr "%d × %d (Obrazovka)"
 
 #: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
 msgid "Duplicates"
@@ -2314,7 +2315,7 @@ msgid ""
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1134
-#: ../src/gth-browser.c:1843 ../src/gth-viewer.c:989
+#: ../src/gth-browser.c:1839 ../src/gth-viewer.c:989
 msgid "_Do not display this message again"
 msgstr "_Příště tuto zprávu nezobrazovat"
 
@@ -2337,10 +2338,8 @@ msgstr "Nezadali jste nový název"
 
 #: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
-msgstr ""
-"Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
 #: ../src/dlg-file-utils.c:1043
 msgid "Could not rename the image:"
@@ -2404,7 +2403,7 @@ msgstr "Velikost"
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:512
+#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:509
 #: ../src/gth-exif-data-viewer.c:801 ../src/gth-viewer.c:591
 msgid "Modified"
 msgstr "Změněn"
@@ -2525,11 +2524,11 @@ msgstr "Výsledek hledání"
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3657
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3673
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1069
+#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
 
@@ -2617,8 +2616,7 @@ msgstr "Nelze odstranit adresář \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1126
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
 
 #: ../src/gth-browser-actions-callbacks.c:1170
@@ -2684,7 +2682,7 @@ msgid "_Go"
 msgstr "Pře_jít"
 
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:483
+#: ../src/gth-browser-actions-entries.h:489
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Obrázek"
@@ -3082,12 +3080,8 @@ msgid "View as a slide show"
 msgstr "Zobrazit jako promítání snímků"
 
 #: ../src/gth-browser-actions-entries.h:358
-msgid "_Find..."
-msgstr "_Najít..."
-
-#: ../src/gth-browser-actions-entries.h:363
-msgid "_Find"
-msgstr "_Najít"
+msgid "_Search..."
+msgstr "_Hledat..."
 
 #: ../src/gth-browser-actions-entries.h:368
 #, fuzzy
@@ -3104,8 +3098,8 @@ msgid "Convert F_ormat..."
 msgstr "Převést _formát..."
 
 #: ../src/gth-browser-actions-entries.h:383
-msgid "Fi_nd Duplicates..."
-msgstr "Hledat d_uplikáty..."
+msgid "Search for _Duplicates..."
+msgstr "Hledat _duplikáty..."
 
 #: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
@@ -3140,166 +3134,175 @@ msgstr "_Stavová lišta"
 msgid "View or hide the statusbar of this window"
 msgstr "Zobrazit nebo skrýt stavovou lištu tohoto okna"
 
+#: ../src/gth-browser-actions-entries.h:412
+#, fuzzy
+msgid "_Filter"
+msgstr "_Soubor"
+
 #: ../src/gth-browser-actions-entries.h:413
+#, fuzzy
+msgid "View or hide the filterbar of this window"
+msgstr "Zobrazit nebo skrýt lištu nástrojů tohoto okna"
+
+#: ../src/gth-browser-actions-entries.h:419
 msgid "View thumbnails"
 msgstr "Zobrazit miniatury"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:423
 msgid "_Image Preview"
 msgstr "Náhled o_brázku"
 
-#: ../src/gth-browser-actions-entries.h:418
-#: ../src/gth-browser-actions-entries.h:484
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:490
 msgid "View the image"
 msgstr "Zobrazit obrázek"
 
-#: ../src/gth-browser-actions-entries.h:422
+#: ../src/gth-browser-actions-entries.h:428
 #: ../src/gth-viewer-actions-entries.h:83
 msgid "Image _Comment"
 msgstr "_Komentář obrázku"
 
-#: ../src/gth-browser-actions-entries.h:423
+#: ../src/gth-browser-actions-entries.h:429
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image comment"
 msgstr "Zobrazit komentář obrázku"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:434
 msgid "_Reversed Order"
 msgstr "_Obrácené pořadí"
 
-#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-browser-actions-entries.h:435
 msgid "Reverse images order"
 msgstr "Obrátit pořadí obrázků"
 
-#: ../src/gth-browser-actions-entries.h:438
+#: ../src/gth-browser-actions-entries.h:444
 msgid "by _Name"
 msgstr "podle _názvu"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:445
 msgid "Sort images by name"
 msgstr "Třídit obrázky podle názvu"
 
-#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:447
 msgid "by _Path"
 msgstr "podle _cesty"
 
-#: ../src/gth-browser-actions-entries.h:442
+#: ../src/gth-browser-actions-entries.h:448
 msgid "Sort images by path"
 msgstr "Třídit obrázky podle cesty"
 
-#: ../src/gth-browser-actions-entries.h:444
+#: ../src/gth-browser-actions-entries.h:450
 msgid "by _Size"
 msgstr "podle _velikosti"
 
-#: ../src/gth-browser-actions-entries.h:445
+#: ../src/gth-browser-actions-entries.h:451
 msgid "Sort images by file size"
 msgstr "Třídit obrázky podle velikosti souboru"
 
-#: ../src/gth-browser-actions-entries.h:447
+#: ../src/gth-browser-actions-entries.h:453
 msgid "by Modification _Time"
 msgstr "Podle ča_su změny"
 
-#: ../src/gth-browser-actions-entries.h:448
+#: ../src/gth-browser-actions-entries.h:454
 msgid "Sort images by file modification time"
 msgstr "Třídit obrázky podle času změny souboru"
 
-#: ../src/gth-browser-actions-entries.h:450
+#: ../src/gth-browser-actions-entries.h:456
 msgid "by _Exif Time"
 msgstr "podle času v _Exif"
 
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by Exif DateTime tag"
 msgstr "Třídit obrázky podle data a času v EXIF"
 
-#: ../src/gth-browser-actions-entries.h:453
+#: ../src/gth-browser-actions-entries.h:459
 msgid "by _Comment"
 msgstr "Podle _komentáře"
 
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:460
 msgid "Sort images by comment"
 msgstr "Třídit obrázky podle komentáře"
 
-#: ../src/gth-browser-actions-entries.h:456
+#: ../src/gth-browser-actions-entries.h:462
 msgid "_Manual Order"
 msgstr "_Ruční pořadí"
 
-#: ../src/gth-browser-actions-entries.h:457
+#: ../src/gth-browser-actions-entries.h:463
 msgid "Sort images manually"
 msgstr "Třídit obrázky ručně"
 
-#: ../src/gth-browser-actions-entries.h:464
-#: ../src/gth-browser-actions-entries.h:465
-#, fuzzy
+#: ../src/gth-browser-actions-entries.h:470
+#: ../src/gth-browser-actions-entries.h:471
 msgid "View As Slides"
-msgstr "Zobrazit jako promítání snímků"
+msgstr "Zobrazit jako promítání"
 
-#: ../src/gth-browser-actions-entries.h:467
-#: ../src/gth-browser-actions-entries.h:468
+#: ../src/gth-browser-actions-entries.h:473
+#: ../src/gth-browser-actions-entries.h:474
 msgid "View As List"
 msgstr "Zobrazit jako seznam"
 
-#: ../src/gth-browser-actions-entries.h:477
+#: ../src/gth-browser-actions-entries.h:483
 msgid "_Folders"
 msgstr "_Adresáře"
 
-#: ../src/gth-browser-actions-entries.h:478
+#: ../src/gth-browser-actions-entries.h:484
 msgid "View the folders"
 msgstr "Zobrazit adresáře"
 
-#: ../src/gth-browser-actions-entries.h:480
+#: ../src/gth-browser-actions-entries.h:486
 msgid "_Catalogs"
 msgstr "Katalo_gy"
 
-#: ../src/gth-browser-actions-entries.h:481
+#: ../src/gth-browser-actions-entries.h:487
 msgid "View the catalogs"
 msgstr "Zobrazit katalogy"
 
-#: ../src/gth-browser.c:562 ../src/gth-viewer.c:636
+#: ../src/gth-browser.c:559 ../src/gth-viewer.c:636
 msgid "[Press 'c' to add a comment]"
 msgstr "[Pro přidání komentáře stiskněte 'c']"
 
-#: ../src/gth-browser.c:665 ../src/gth-browser.c:684 ../src/gth-viewer.c:729
+#: ../src/gth-browser.c:662 ../src/gth-browser.c:681 ../src/gth-viewer.c:729
 #: ../src/gth-viewer.c:750
 msgid "[modified]"
 msgstr "[změněn]"
 
-#: ../src/gth-browser.c:709 ../src/main.c:392 ../src/main.c:702
+#: ../src/gth-browser.c:706 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:770
+#: ../src/gth-browser.c:767
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 obrázek (%s)"
 
-#: ../src/gth-browser.c:773
+#: ../src/gth-browser.c:770
 #, c-format
 msgid "%d images (%s)"
 msgstr "obrázků: %d (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:777
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 vybraný (%s)"
 
-#: ../src/gth-browser.c:783
+#: ../src/gth-browser.c:780
 #, c-format
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: ../src/gth-browser.c:1840 ../src/gth-viewer.c:986
+#: ../src/gth-browser.c:1836 ../src/gth-viewer.c:986
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
 
-#: ../src/gth-browser.c:1841 ../src/gth-viewer.c:987
+#: ../src/gth-browser.c:1837 ../src/gth-viewer.c:987
 msgid "Do Not Save"
 msgstr "Neukládat"
 
-#: ../src/gth-browser.c:3416
+#: ../src/gth-browser.c:3432
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: ../src/gth-browser.c:5272 ../src/gth-browser.c:5273
+#: ../src/gth-browser.c:5288 ../src/gth-browser.c:5289
 #: ../src/gth-viewer.c:1554 ../src/gth-viewer.c:1555
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
@@ -3307,33 +3310,33 @@ msgstr "Tažené obrázky"
 msgid "Rotate images without loss of quality"
 msgstr "Otočit obrázky beze ztráty kvality"
 
-#: ../src/gth-browser.c:6125 ../src/gth-browser.c:8318
+#: ../src/gth-browser.c:6160 ../src/gth-browser.c:8378
 #: ../src/gth-viewer.c:2237
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
-#: ../src/gth-browser.c:6146
+#: ../src/gth-browser.c:6181
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6629
+#: ../src/gth-browser.c:6688
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../src/gth-browser.c:6643 ../src/gth-viewer.c:1795
+#: ../src/gth-browser.c:6702 ../src/gth-viewer.c:1795
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: ../src/gth-browser.c:6657
+#: ../src/gth-browser.c:6716
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: ../src/gth-browser.c:6671
+#: ../src/gth-browser.c:6730
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: ../src/gth-browser.c:7709
+#: ../src/gth-browser.c:7769
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
@@ -3343,9 +3346,8 @@ msgid "Filesystem Data"
 msgstr "Systém souborů"
 
 #: ../src/gth-exif-data-viewer.c:64
-#, fuzzy
 msgid "General Information"
-msgstr "<b>Základní informace</b>"
+msgstr "Obecné informace"
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Picture-Taking Conditions"
@@ -3357,26 +3359,23 @@ msgstr ""
 
 #: ../src/gth-exif-data-viewer.c:67
 msgid "GPS Coordinates"
-msgstr ""
+msgstr "GPS souřadnice"
 
 #: ../src/gth-exif-data-viewer.c:68
-#, fuzzy
 msgid "Image Structure"
-msgstr "Typ obrázku:"
+msgstr "Struktura obrázku"
 
 #: ../src/gth-exif-data-viewer.c:69
-#, fuzzy
 msgid "Embedded Thumbnail"
-msgstr "Minia_tury"
+msgstr "Vložený náhled"
 
 #: ../src/gth-exif-data-viewer.c:70
 msgid "Versions & Interoperability"
 msgstr ""
 
 #: ../src/gth-exif-data-viewer.c:71
-#, fuzzy
 msgid "Other"
-msgstr "Jiné..."
+msgstr "Ostatní"
 
 #: ../src/gth-exif-data-viewer.c:400
 msgid "Field"
@@ -3387,9 +3386,8 @@ msgid "Value "
 msgstr "Hodnota "
 
 #: ../src/gth-folder-selection-dialog.c:395
-#, fuzzy
 msgid "<b>_Folder</b>"
-msgstr "<b>Zápatí</b>"
+msgstr "<b>_Složka</b>"
 
 #: ../src/gth-folder-selection-dialog.c:414
 msgid "_Browse..."
@@ -3463,9 +3461,8 @@ msgid "Close this window"
 msgstr "Zavřít toto okno"
 
 #: ../src/gth-window-actions-entries.h:45
-#, fuzzy
 msgid "_Open With..."
-msgstr "_Otevřít pomocí"
+msgstr "_Otevřít pomocí..."
 
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
@@ -3618,11 +3615,11 @@ msgstr "Upravit odstín a sytost"
 
 #: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
-msgstr ""
+msgstr "_Odstranění če_rvených očí..."
 
 #: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
-msgstr ""
+msgstr "Nástroj pro odstranění červených očí"
 
 #: ../src/gth-window-actions-entries.h:175
 #, fuzzy
@@ -3870,3 +3867,4 @@ msgstr "Rodina"
 #: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "Příkazový řádek"
+
