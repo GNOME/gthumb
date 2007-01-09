@@ -1,3 +1,10 @@
+2007-01-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: Set the is_important property on some actions;
+	don't unref actions got with gtk_action_group_get_action.
+
+	Really fixes bug #385605
+
 2007-01-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (window_make_current_image_visible): do not reset the

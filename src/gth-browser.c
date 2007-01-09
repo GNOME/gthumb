@@ -385,11 +385,9 @@ set_action_important (GthBrowser  *browser,
 {
 	GtkAction *action;
 
-	action = gtk_ui_manager_get_action (browser->priv->ui, action_name);
-	if (action != NULL) {
+	action = gtk_action_group_get_action (browser->priv->actions, action_name); /*gtk_ui_manager_get_action (browser->priv->ui, action_name);*/
+	if (action != NULL)
 		g_object_set (action, "is_important", is_important, NULL);
-		g_object_unref (action);
-	}
 }
 
 
@@ -5329,10 +5327,10 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 		gtk_ui_manager_ensure_update (priv->ui);
 		add_rotate_toolbar_item (browser);
 
-		set_action_important (browser, "/ToolBar/View_ShowFolders", TRUE);
-		set_action_important (browser, "/ToolBar/View_ShowCatalogs", TRUE);
-		set_action_important (browser, "/ToolBar/View_Fullscreen", TRUE);
-		set_action_important (browser, "/ToolBar/Tools_Slideshow", TRUE);
+		set_action_important (browser, "View_ShowFolders", TRUE);
+		set_action_important (browser, "View_ShowCatalogs", TRUE);
+		set_action_important (browser, "View_Fullscreen", TRUE);
+		set_action_important (browser, "Tools_Slideshow", TRUE);
 	}
 	else {
 		if (!first_time)
@@ -5340,9 +5338,9 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, viewer_ui_info, -1, NULL);
 		gtk_ui_manager_ensure_update (priv->ui);
 
-		set_action_important (browser, "/ToolBar/View_CloseImageMode", TRUE);
-		set_action_important (browser, "/ToolBar/File_Save", TRUE);
-		set_action_important (browser, "/ToolBar/View_Fullscreen", TRUE);
+		set_action_important (browser, "View_Fullscreen", TRUE);
+		set_action_important (browser, "View_CloseImageMode", TRUE);
+		set_action_important (browser, "File_Save", TRUE);
 	}
 
 	gtk_ui_manager_ensure_update (priv->ui);
@@ -6319,17 +6317,14 @@ gth_browser_construct (GthBrowser  *browser,
 	gtk_ui_manager_insert_action_group (ui, actions, 0);
 	gtk_window_add_accel_group (GTK_WINDOW (browser),
 				    gtk_ui_manager_get_accel_group (ui));
-
 	if (!gtk_ui_manager_add_ui_from_string (ui, main_ui_info, -1, &error)) {
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-
 	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
-
 	gth_window_attach (GTH_WINDOW (browser), toolbar, GTH_WINDOW_TOOLBAR);
 
 	priv->statusbar = gtk_statusbar_new ();
