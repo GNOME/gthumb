@@ -1,3 +1,10 @@
+2007-01-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-sort-utils.c:
+	(gth_sort_by_filename_but_ignore_path): Fixed bug 313562 - changed
+	name sorting to use g_utf8_collate_key_for_filename, for better
+	handling of numeric file names (similar to Nautilus).
+
 2007-01-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: Set the is_important property on some actions;

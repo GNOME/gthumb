@@ -30,6 +30,11 @@
 #include "gth-sort-utils.h"
 
 
+/* Files that start with these characters sort after files that don't. */
+#define SORT_LAST_CHAR1 '.'
+#define SORT_LAST_CHAR2 '#'
+
+
 int
 gth_sort_by_comment_then_name (const char *string1,
 			       const char *string2,
@@ -116,8 +121,33 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 {
 	/* This sorts by the filename. It ignores the path portion, if present. */
 
-	return strcasecmp (file_name_from_path (name1),
-			   file_name_from_path (name2));
+	/* Based heavily on the Nautilus compare_by_display_name (libnautilus-private/nautilus-file.c)
+	   function, for consistent Nautilus / gthumb behaviour. */
+	   
+	char *key_1, *key_2;
+	gboolean sort_last_1, sort_last_2;
+	int compare;
+
+	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1 
+			|| file_name_from_path (name1)[0] == SORT_LAST_CHAR2;
+	sort_last_2 = file_name_from_path (name2)[0] == SORT_LAST_CHAR1 
+			|| file_name_from_path (name2)[0] == SORT_LAST_CHAR2;
+
+	if (sort_last_1 && !sort_last_2) {
+		compare = +1;
+	} else if (!sort_last_1 && sort_last_2) {
+		compare = -1;
+	} else {
+		key_1 = g_utf8_collate_key_for_filename (file_name_from_path (name1), -1);
+		key_2 = g_utf8_collate_key_for_filename (file_name_from_path (name2), -1);
+
+		compare = strcmp (key_1, key_2);
+
+		g_free(key_1);
+		g_free(key_2);
+	}
+
+	return compare;
 }
 
 
