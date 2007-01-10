@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-08 15:15+0100\n"
-"PO-Revision-Date: 2007-01-08 15:20+0100\n"
+"POT-Creation-Date: 2007-01-10 14:09+0100\n"
+"PO-Revision-Date: 2007-01-10 14:16+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1942,11 +1942,12 @@ msgid "Possible values are: 1, 2, 3, 4."
 msgstr "Možné hodnoty jsou: 1, 2, 3, 4."
 
 #: ../data/gthumb.schemas.in.h:4
-#, fuzzy
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
-msgstr "Možné hodnoty jsou: actual_size, fit, keep_prev, fit_if_larger."
+msgstr ""
+"Možné hodnoty jsou: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
 
 #: ../data/gthumb.schemas.in.h:5
 msgid "Possible values are: ascending, descending."
@@ -1989,9 +1990,8 @@ msgid "Possible values are: none, deflate, jpeg."
 msgstr "Možné hodnoty jsou: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:15
-#, fuzzy
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Možné hodnoty jsou: none, name, path, size, time."
+msgstr "Možné hodnoty jsou: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:16
 msgid ""
@@ -3084,14 +3084,12 @@ msgid "_Search..."
 msgstr "_Hledat..."
 
 #: ../src/gth-browser-actions-entries.h:368
-#, fuzzy
 msgid "Create _Index Image..."
-msgstr "Vytvořit obrázek s _indexem"
+msgstr "Vytvořit obrázek s _indexem..."
 
 #: ../src/gth-browser-actions-entries.h:373
-#, fuzzy
 msgid "Create _Web Album..."
-msgstr "Vytvořit _WWW album"
+msgstr "Vytvořit _webové album... "
 
 #: ../src/gth-browser-actions-entries.h:378
 msgid "Convert F_ormat..."
@@ -3140,9 +3138,8 @@ msgid "_Filter"
 msgstr "_Soubor"
 
 #: ../src/gth-browser-actions-entries.h:413
-#, fuzzy
 msgid "View or hide the filterbar of this window"
-msgstr "Zobrazit nebo skrýt lištu nástrojů tohoto okna"
+msgstr "Zobrazit nebo skrýt filtrační lištu tohoto okna"
 
 #: ../src/gth-browser-actions-entries.h:419
 msgid "View thumbnails"
@@ -3341,9 +3338,8 @@ msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
 #: ../src/gth-exif-data-viewer.c:63
-#, fuzzy
 msgid "Filesystem Data"
-msgstr "Systém souborů"
+msgstr "Data souborového systému"
 
 #: ../src/gth-exif-data-viewer.c:64
 msgid "General Information"
@@ -3351,11 +3347,11 @@ msgstr "Obecné informace"
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Picture-Taking Conditions"
-msgstr ""
+msgstr "Podmínky při fotografování"
 
 #: ../src/gth-exif-data-viewer.c:66
 msgid "Maker Notes"
-msgstr ""
+msgstr "Poznámky výrobce"
 
 #: ../src/gth-exif-data-viewer.c:67
 msgid "GPS Coordinates"
@@ -3371,7 +3367,7 @@ msgstr "Vložený náhled"
 
 #: ../src/gth-exif-data-viewer.c:70
 msgid "Versions & Interoperability"
-msgstr ""
+msgstr "Verze a interoperabilita"
 
 #: ../src/gth-exif-data-viewer.c:71
 msgid "Other"
@@ -3394,14 +3390,12 @@ msgid "_Browse..."
 msgstr "Pro_bírat..."
 
 #: ../src/gth-folder-selection-dialog.c:429
-#, fuzzy
 msgid "<b>_Recents</b>"
-msgstr "Ne_dávné:"
+msgstr "<b>Ne_dávné</b>"
 
 #: ../src/gth-folder-selection-dialog.c:451
-#, fuzzy
 msgid "<b>Book_marks</b>"
-msgstr "Záložky"
+msgstr "<b>_Záložky</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
