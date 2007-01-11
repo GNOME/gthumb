@@ -157,3 +157,11 @@ int gth_sort_by_full_path (const char *path1,
 	return uricmp (path1, path2);
 }
 
+
+int
+gth_sort_none (gconstpointer  ptr1,
+                gconstpointer  ptr2)
+{
+        return 0;
+}
+

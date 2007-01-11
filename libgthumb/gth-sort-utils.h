@@ -43,6 +43,8 @@ int gth_sort_by_full_path                (const char       *path1,
 					  const char       *path2);
 int gth_sort_by_exiftime_then_name       (FileData         *fd1, 
 					  FileData         *fd2);
+int gth_sort_none			 (gconstpointer  ptr1,
+					  gconstpointer  ptr2);
 
 #endif /* _GTH_SORT_UTILS_H */
 

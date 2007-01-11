@@ -656,13 +656,6 @@ comp_func_size (gconstpointer a, gconstpointer b)
 }
 
 
-static int
-comp_func_none (gconstpointer a, gconstpointer b)
-{
-	return -1;
-}
-
-
 static GCompareFunc
 get_sortfunc (CatalogWebExporter *ce)
 {
@@ -688,10 +681,10 @@ get_sortfunc (CatalogWebExporter *ce)
 		func = comp_func_exif_date;
 		break;
 	case GTH_SORT_METHOD_NONE:
-		func = comp_func_none;
+		func = gth_sort_none;
 		break;
 	default:
-		func = comp_func_none;
+		func = gth_sort_none;
 		break;
 	}
 

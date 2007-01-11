@@ -477,9 +477,12 @@ initialize_data (poptContext pctx)
 		catalog_set_path (catalog, catalog_path);
 		g_free (catalog_path);
 
-		for (i = 0; i < n_file_urls; i++)
+		/* add in reverse order */
+		for (i = n_file_urls - 1; i >= 0; i--) 
 			catalog_add_item (catalog, file_urls[i]);
 
+		catalog->sort_method = GTH_SORT_METHOD_MANUAL;
+		
 		catalog_write_to_disk (catalog, NULL);
 		catalog_free (catalog);
 

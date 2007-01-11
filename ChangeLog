@@ -1,3 +1,18 @@
+2007-01-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c: (get_compfunc_from_method):
+	* libgthumb/gth-file-view-thumbs.c: (get_compfunc_from_method):
+	* libgthumb/gth-sort-utils.c: (gth_sort_none):
+	* libgthumb/gth-sort-utils.h:
+	* src/catalog-png-exporter.c: (get_sortfunc):
+	* src/catalog-web-exporter.c: (get_sortfunc):
+	* src/dlg-rename-series.c: (get_sortfunc):
+	Consolidated no-sort functions into gth-sort-utils.c.  
+
+	* src/main.c: (initialize_data):
+	Set manual sort mode when handling list of filenames from the
+	command line. Bug 326621.
+
 2007-01-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-sort-utils.c:

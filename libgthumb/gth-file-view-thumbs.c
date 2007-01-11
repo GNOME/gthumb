@@ -707,14 +707,6 @@ comp_func_comment (gconstpointer  ptr1, gconstpointer  ptr2)
 }
 
 
-static int
-comp_func_none (gconstpointer  ptr1,
-		gconstpointer  ptr2)
-{
-	return 0;
-}
-
-
 static GCompareFunc
 get_compfunc_from_method (GthSortMethod sort_method)
 {
@@ -742,7 +734,7 @@ get_compfunc_from_method (GthSortMethod sort_method)
 	case GTH_SORT_METHOD_NONE:
 	case GTH_SORT_METHOD_MANUAL:
 	default:
-		func = comp_func_none;
+		func = gth_sort_none;
 		break;
 	}
 

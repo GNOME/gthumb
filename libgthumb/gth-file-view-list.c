@@ -1610,15 +1610,6 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 }
 
 
-static int
-comp_func_none (gconstpointer  ptr1,
-		gconstpointer  ptr2)
-{
-	return -1;
-}
-
-
-static GCompareFunc
 get_compfunc_from_method (GthSortMethod sort_method)
 {
 	GCompareFunc func;
@@ -1643,7 +1634,7 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		func = comp_func_exif_date;
 		break;
 	default:
-		func = comp_func_none;
+		func = gth_sort_none;
 		break;
 	}
 

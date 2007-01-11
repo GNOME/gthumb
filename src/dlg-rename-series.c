@@ -218,14 +218,6 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 }
 
 
-static int
-comp_func_none (gconstpointer  ptr1,
-		gconstpointer  ptr2)
-{
-	return -1;
-}
-
-
 static GCompareFunc
 get_sortfunc (DialogData *data)
 {
@@ -251,10 +243,10 @@ get_sortfunc (DialogData *data)
                 func = comp_func_exif_date;
                 break;
         case GTH_SORT_METHOD_NONE:
-                func = comp_func_none;
+                func = gth_sort_none;
                 break;
         default:
-                func = comp_func_none;
+                func = gth_sort_none;
                 break;
         }
 
