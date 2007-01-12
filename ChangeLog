@@ -8,7 +8,7 @@
 	* src/main.c: (theme_changed_cb), (initialize_data), (get_fs_icon):
 	Removed deprecated GnomeIconTheme functions - bug 171593. Seems to
 	reduce memory usage as well - bug 310749. Modified version of
-	patch by Kristof Vansant.
+	patch by Jan de Groot.
 
 2007-01-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
