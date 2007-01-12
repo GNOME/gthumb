@@ -27,7 +27,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-icon-lookup.h>
-#include <libgnomeui/gnome-icon-theme.h>
 
 #include "typedefs.h"
 #include "gth-file-view.h"

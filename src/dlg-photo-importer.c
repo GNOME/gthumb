@@ -32,7 +32,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomeui/gnome-icon-lookup.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
