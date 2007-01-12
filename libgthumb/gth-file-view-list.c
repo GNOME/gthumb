@@ -60,7 +60,7 @@ struct _GthFileViewListPrivate {
 	GtkSortType     sort_type;
 	GthViewMode     view_mode;
 	int             max_image_size;
-	GnomeIconTheme *icon_theme;
+	GtkIconTheme   *icon_theme;
 	gboolean        enable_thumbs;
 	gboolean        reorderable;
 	GdkPixbuf      *unknown_pixbuf_small;
@@ -1125,10 +1125,10 @@ gfv_get_cursor (GthFileView *file_view)
 static GdkPixbuf *
 create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 {
-	GnomeIconTheme *icon_theme = gfv_list->priv->icon_theme;
+	GtkIconTheme   *icon_theme = gfv_list->priv->icon_theme;
+	GtkIconInfo    *icon_info = NULL;
 	int             icon_width, icon_height, icon_size;
 	char           *icon_name;
-	char           *icon_path;
 	GdkPixbuf      *pixbuf = NULL;
 	int             width, height;
 
@@ -1145,16 +1145,17 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 				       "image/*",
 				       GNOME_ICON_LOOKUP_FLAGS_NONE,
 				       NULL);
-	icon_path = gnome_icon_theme_lookup_icon (icon_theme,
-						  icon_name,
-						  icon_size,
-						  NULL,
-						  NULL);
+
+	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
+						icon_name,
+						icon_size,
+						0);
+
 	g_free (icon_name);
 
-	if (icon_path != NULL) {
-		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-		g_free (icon_path);
+	if (icon_info != NULL) {
+		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+		gtk_icon_info_free (icon_info);
 	}
 
 	if (pixbuf == NULL)
@@ -1731,8 +1732,7 @@ gth_file_view_list_new (guint image_width)
 
 	/**/
 
-	priv->icon_theme = gnome_icon_theme_new ();
-	gnome_icon_theme_set_allow_svg (priv->icon_theme, TRUE);
+	priv->icon_theme = gtk_icon_theme_get_default ();
 	priv->unknown_pixbuf_small = create_unknown_pixbuf (gfv_list, FALSE);
 	priv->unknown_pixbuf_big = create_unknown_pixbuf (gfv_list, TRUE);
 

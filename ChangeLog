@@ -1,3 +1,15 @@
+2007-01-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c: (create_unknown_pixbuf),
+	(gth_file_view_list_new):
+	* libgthumb/gth-file-view-thumbs.c: (create_unknown_pixbuf),
+	(gth_file_view_thumbs_new):
+	* src/dlg-photo-importer.c: (get_icon_from_mime_type):
+	* src/main.c: (theme_changed_cb), (initialize_data), (get_fs_icon):
+	Removed deprecated GnomeIconTheme functions - bug 171593. Seems to
+	reduce memory usage as well - bug 310749. Modified version of
+	patch by Kristof Vansant.
+
 2007-01-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-file-view-list.c: (get_compfunc_from_method):
