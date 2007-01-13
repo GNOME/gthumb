@@ -1,3 +1,9 @@
+2007-01-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c:
+	Restored accidentally-deleted function type declaration. 
+	Fixes compiler warning. Bug 395899.
+
 2007-01-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-file-view-list.c:

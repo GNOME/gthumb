@@ -1610,6 +1610,7 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 }
 
 
+static GCompareFunc
 get_compfunc_from_method (GthSortMethod sort_method)
 {
 	GCompareFunc func;
