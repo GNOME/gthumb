@@ -80,7 +80,7 @@ static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
 static GdkPixbuf      *icon_pixbuf[ICON_NAMES] = { 0 };
 static GtkWidget      *first_window = NULL;
-static GnomeIconTheme *icon_theme = NULL;
+static GtkIconTheme   *icon_theme = NULL;
 static BonoboObject   *gth_application = NULL;
 
 struct poptOption options[] = {
@@ -122,7 +122,7 @@ free_icon_pixbufs (void)
 
 
 static void
-theme_changed_cb (GnomeIconTheme *theme,
+theme_changed_cb (GtkIconTheme *theme,
 		  gpointer        data)
 {
 	free_icon_pixbufs ();
@@ -379,8 +379,7 @@ initialize_data (poptContext pctx)
 
 	/* Icon theme */
 
-	icon_theme = gnome_icon_theme_new ();
-	gnome_icon_theme_set_allow_svg (icon_theme, TRUE);
+	icon_theme = gtk_icon_theme_get_default ();
 	g_signal_connect (icon_theme,
 			  "changed",
 			  G_CALLBACK (theme_changed_cb),
@@ -501,8 +500,6 @@ release_data (void)
                 bonobo_object_unref (gth_application);
 
 	free_icon_pixbufs ();
-
-	g_object_unref (icon_theme);
 
 	if (monitor != NULL) {
 		g_object_unref (monitor);
@@ -920,29 +917,25 @@ get_fs_icon (IconName icon_name,
 	return icon_pixbuf[icon_name];
 	*/
 
-	if (icon_pixbuf[icon_name] == NULL) {
-		const GnomeIconData *icon_data;
-		int                  base_size;
-		char                *icon_path;
+        if (icon_pixbuf[icon_name] == NULL) {
+		GtkIconInfo         *icon_info = NULL;
+ 
+		icon_info = gtk_icon_theme_lookup_icon (icon_theme,
+							icon_mime_name[icon_name],
+							icon_size,
+							0);
 
-		icon_path = gnome_icon_theme_lookup_icon (icon_theme,
-							  icon_mime_name[icon_name],
-							  icon_size,
-							  &icon_data,
-							  &base_size);
-
-		if (icon_path == NULL) {
-			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1,
-									     dir_16_rgba,
-									     FALSE,
-									     NULL);
-			scale = FALSE;
-		} else {
-			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_file (icon_path,
-									   NULL);
-			g_free (icon_path);
-		}
-	}
+		if (icon_info == NULL) {
+                	icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1,
+                                                                             dir_16_rgba,
+                                                                             FALSE,
+                                                                             NULL);
+                        scale = FALSE;
+                } else {
+			icon_pixbuf[icon_name] = gtk_icon_info_load_icon (icon_info, NULL);
+			gtk_icon_info_free (icon_info);
+                }
+        }
 
 	/* Scale keeping aspect ratio. */
 

@@ -33,7 +33,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-icon-lookup.h>
-#include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -651,9 +650,9 @@ get_icon_from_mime_type (DialogData *data,
 {
 	GdkPixbuf      *pixbuf = NULL;
 	int             icon_size;
-        GnomeIconTheme *icon_theme = gnome_icon_theme_new ();
+        GtkIconTheme   *icon_theme = gtk_icon_theme_get_default ();
+        GtkIconInfo    *icon_info = NULL;
         char           *icon_name;
-        char           *icon_path;
 
         icon_size = get_default_icon_size (data->dialog);
         icon_name = gnome_icon_lookup (icon_theme,
@@ -664,19 +663,16 @@ get_icon_from_mime_type (DialogData *data,
                                        mime_type,
                                        GNOME_ICON_LOOKUP_FLAGS_NONE,
                                        NULL);
-	icon_path = gnome_icon_theme_lookup_icon (icon_theme,
-                                                  icon_name,
-                                                  icon_size,
-                                                  NULL,
-                                                  NULL);
+	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
+                                            icon_name,
+                                            icon_size,
+                                            0);
         g_free (icon_name);
 
-	if (icon_path != NULL) {
-		 pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-                g_free (icon_path);
+	if (icon_info != NULL) {
+		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+		gtk_icon_info_free (icon_info);
 	}
-
-	g_object_unref (icon_theme);
 
 	return pixbuf;
 }
