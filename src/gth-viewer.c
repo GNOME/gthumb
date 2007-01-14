@@ -1414,6 +1414,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 			 GList           *list,
 			 GthViewer       *viewer)
 {
+printf ("monitor cb\n\r");	
 	g_return_if_fail (viewer != NULL);
 
 	if (viewer->priv->image_path == NULL)
@@ -1431,6 +1432,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
+printf ("delete cb\n\r");		
 		if (! viewer->priv->image_modified)
 			gth_window_close (GTH_WINDOW (viewer));
 		break;

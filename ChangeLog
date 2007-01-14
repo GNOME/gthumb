@@ -1,3 +1,15 @@
+2007-01-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c: (create_unknown_pixbuf),
+	(gth_file_view_list_new):
+	* libgthumb/gth-file-view-thumbs.c: (create_unknown_pixbuf),
+	(gth_file_view_thumbs_new):
+	* src/dlg-photo-importer.c: (get_icon_from_mime_type):
+	* src/gth-viewer.c: (monitor_update_files_cb):
+	* src/main.c: (theme_changed_cb), (initialize_data), (get_fs_icon):
+	Reverted GnomeIconTheme -> GtkIconTheme change, because something
+	broke in the photo importer. Bug 171593.
+
 2007-01-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-file-view-list.c:

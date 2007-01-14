@@ -37,7 +37,7 @@
 
 struct _GthFileViewThumbsPrivate {
 	GthImageList   *ilist;
-	GtkIconTheme   *icon_theme;
+	GnomeIconTheme *icon_theme;
 	GdkPixbuf      *unknown_pixbuf;
 };
 
@@ -816,11 +816,11 @@ get_default_icon_size (GtkWidget *widget)
 static GdkPixbuf *
 create_unknown_pixbuf (GthFileViewThumbs *gfv_thumbs)
 {
-	GtkIconInfo *icon_info = NULL;
-	int          icon_size;
-	char        *icon_name;
-	GdkPixbuf   *pixbuf = NULL;
-	int          width, height;
+	int         icon_size;
+	char       *icon_name;
+	char       *icon_path;
+	GdkPixbuf  *pixbuf = NULL;
+	int         width, height;
 
 	icon_size = get_default_icon_size (GTK_WIDGET (gfv_thumbs->priv->ilist));
 
@@ -832,15 +832,16 @@ create_unknown_pixbuf (GthFileViewThumbs *gfv_thumbs)
 				       "image/*",
 				       GNOME_ICON_LOOKUP_FLAGS_NONE,
 				       NULL);
-	icon_info = gtk_icon_theme_lookup_icon (gfv_thumbs->priv->icon_theme,
+	icon_path = gnome_icon_theme_lookup_icon (gfv_thumbs->priv->icon_theme,
 						  icon_name,
 						  icon_size,
-						  0);
+						  NULL,
+						  NULL);
 	g_free (icon_name);
 
-	if (icon_info != NULL) {
-		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
-		gtk_icon_info_free (icon_info);
+	if (icon_path != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
+		g_free (icon_path);
 	}
 
 	if (pixbuf == NULL)
@@ -1143,7 +1144,8 @@ gth_file_view_thumbs_new (guint image_width)
 
 	/**/
 
-	gfv_thumbs->priv->icon_theme = gtk_icon_theme_get_default ();
+	gfv_thumbs->priv->icon_theme = gnome_icon_theme_new ();
+	gnome_icon_theme_set_allow_svg (gfv_thumbs->priv->icon_theme, TRUE);
 	gfv_thumbs->priv->unknown_pixbuf = create_unknown_pixbuf (gfv_thumbs);
 
 	return GTH_FILE_VIEW (gfv_thumbs);
