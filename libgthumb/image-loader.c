@@ -271,7 +271,22 @@ image_loader_init (ImageLoader *il)
 	priv->loader = NULL;
 	priv->loader_data = NULL;
 
-	priv->thread = g_thread_create (load_image_thread, il, TRUE, NULL);
+	// priv->thread = g_thread_create (load_image_thread, il, TRUE, NULL);
+
+	/* The g_thread_create function assigns a very large default stacksize for each
+	   thread (10 MB on FC6), which is probably excessive. 16k seems to be
+	   sufficient. To be conversative, we'll try 32k. Use g_thread_create_full to 
+	   manually specify a small stack size. See Bug 310749 - Memory usage. 
+	   This reduces the virtual memory requirements, and the "writeable/private"
+	   figure reported by "pmap -d". */
+
+	priv->thread = g_thread_create_full (load_image_thread, 
+					     il, 
+					     32768, 
+					     TRUE, 
+					     FALSE, 
+					     G_THREAD_PRIORITY_NORMAL, 
+					     NULL);
 }
 
 
