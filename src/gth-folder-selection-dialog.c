@@ -299,6 +299,8 @@ browse_button_clicked_cb (GtkWidget *widget,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
+	/* Permit VFS URIs */
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
 	
 	entry = folder_sel->priv->file_entry;
 

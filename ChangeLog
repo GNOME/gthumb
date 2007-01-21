@@ -1,5 +1,13 @@
 2007-01-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser-actions-callbacks.c:
+	(gth_browser_activate_action_go_location):
+	* src/gth-folder-selection-dialog.c: (browse_button_clicked_cb):
+	Set gtk_file_chooser_set_local_only to FALSE to permit
+	browsing of VFS URIs.
+
+2007-01-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (resolve_all_symlinks),
 	(gth_pixbuf_new_from_uri), (gth_pixbuf_animation_new_from_uri):
 	* libgthumb/file-utils.h:
