@@ -1,3 +1,8 @@
+2007-01-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-filter-bar.c (gth_filter_bar_construct): removed the
+	"Personalize" command.  It will be implemented in 2.12
+
 2007-01-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_init):
@@ -34,7 +39,7 @@
 2007-01-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-file-view-list.c:
-	Restored accidentally-deleted function type declaration. 
+	Restored accidentally-deleted function type declaration.
 	Fixes compiler warning. Bug 395899.
 
 2007-01-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -64,7 +69,7 @@
 	* src/catalog-png-exporter.c: (get_sortfunc):
 	* src/catalog-web-exporter.c: (get_sortfunc):
 	* src/dlg-rename-series.c: (get_sortfunc):
-	Consolidated no-sort functions into gth-sort-utils.c.  
+	Consolidated no-sort functions into gth-sort-utils.c.
 
 	* src/main.c: (initialize_data):
 	Set manual sort mode when handling list of filenames from the

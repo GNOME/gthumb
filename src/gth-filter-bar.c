@@ -446,6 +446,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 			    	    -1);
 	}
 
+	/* FIXME: todo for 2.12
 	gtk_list_store_append (filter_bar->priv->model, &iter);
 	gtk_list_store_set (filter_bar->priv->model, &iter,
 			    TYPE_COLUMN, FILTER_TYPE_SEPARATOR,
@@ -455,6 +456,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 			    TYPE_COLUMN, FILTER_TYPE_PERSONALIZE,
 			    NAME_COLUMN, _("Personalize..."),
 			    -1);
+	*/
 
 	g_signal_connect (G_OBJECT (filter_bar->priv->scope_combo_box),
 			  "changed",
