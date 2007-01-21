@@ -4984,6 +4984,8 @@ pref_view_as_changed (GConfClient *client,
 	priv->file_list = file_list;
 
 	gtk_widget_show_all (priv->file_list->root_widget);
+
+	gth_file_list_set_filter (browser->priv->file_list, gth_filter_bar_get_filter (GTH_FILTER_BAR (browser->priv->filterbar)));
 	window_update_file_list (browser);
 }
 
@@ -6590,7 +6592,7 @@ gth_browser_construct (GthBrowser  *browser,
 	gtk_widget_show_all (priv->file_list->root_widget);
 
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->file_list->root_widget, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), priv->filterbar, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (priv->file_list_pane), priv->filterbar, FALSE, FALSE, 0);
 
 	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 

@@ -1,5 +1,15 @@
 2007-01-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c: use pack_end to add the filterbar, this way the
+	filterbar will remain at the bottom when changing between list and thumb
+	view.
+
+	* libgthumb/gth-file-view-list.c: added filter support to the list
+	view.
+
+	* libgthumb/image-loader.c (image_loader_init):	make threads bound to
+	system threads.
+
 	* src/gth-filter-bar.c (gth_filter_bar_construct): removed the
 	"Personalize" command.  It will be implemented in 2.12
 

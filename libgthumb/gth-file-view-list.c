@@ -54,10 +54,13 @@ enum {
 
 struct _GthFileViewListPrivate {
 	GtkTreeView    *tree_view;
+	GtkTreeModel   *filter_model;
 	GtkListStore   *list_store;
 	GthSortMethod   sort_method;
 	GtkSortType     sort_type;
 	GthViewMode     view_mode;
+	GthVisibleFunc  filter_func;
+	gpointer        filter_data;
 	int             max_image_size;
 	GtkIconTheme   *icon_theme;
 	gboolean        enable_thumbs;
@@ -309,6 +312,33 @@ gfv_clear (GthFileView  *file_view)
 }
 
 
+static gboolean
+get_list_store_iter_from_pos (GthFileViewList *gfv_list,
+			      int              pos,
+			      GtkTreeIter     *iter)
+{
+	GtkTreePath *filter_path;
+	GtkTreePath *store_path;
+	gboolean     retval = FALSE;
+
+	filter_path = gtk_tree_path_new_from_indices (pos, -1);
+	store_path = gtk_tree_model_filter_convert_path_to_child_path (GTK_TREE_MODEL_FILTER (gfv_list->priv->filter_model), filter_path);
+	gtk_tree_path_free (filter_path);
+
+	if (store_path == NULL)
+		return FALSE;
+
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
+				       iter,
+				       store_path))
+		retval = TRUE;
+
+	gtk_tree_path_free (store_path);
+
+	return retval;
+}
+
+
 static void
 gfv_set_image_pixbuf (GthFileView  *file_view,
 		      int           pos,
@@ -316,16 +346,9 @@ gfv_set_image_pixbuf (GthFileView  *file_view,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
-	GtkTreePath     *path;
 
-	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
-				       &iter,
-				       path)) {
-		gtk_tree_path_free (path);
+	if (! get_list_store_iter_from_pos (gfv_list, pos, &iter))
 		return;
-	}
-	gtk_tree_path_free (path);
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_ICON, get_sized_pixbuf (gfv_list, pixbuf),
@@ -339,17 +362,10 @@ gfv_set_unknown_pixbuf (GthFileView  *file_view,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
-	GtkTreePath     *path;
 	GdkPixbuf       *real_pixbuf;
 
-	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
-				       &iter,
-				       path)) {
-		gtk_tree_path_free (path);
+	if (! get_list_store_iter_from_pos (gfv_list, pos, &iter))
 		return;
-	}
-	gtk_tree_path_free (path);
 
 	if (! gfv_list->priv->enable_thumbs)
 		real_pixbuf = g_object_ref (gfv_list->priv->unknown_pixbuf_small);
@@ -371,16 +387,9 @@ gfv_set_image_text (GthFileView  *file_view,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
-	GtkTreePath     *path;
 
-	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
-				       &iter,
-				       path)) {
-		gtk_tree_path_free (path);
+	if (! get_list_store_iter_from_pos (gfv_list, pos, &iter))
 		return;
-	}
-	gtk_tree_path_free (path);
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_NAME, text,
@@ -398,7 +407,7 @@ gfv_get_image_text (GthFileView  *file_view,
 	char            *text = NULL;
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->filter_model),
 				       &iter,
 				       path)) {
 		gtk_tree_path_free (path);
@@ -406,7 +415,7 @@ gfv_get_image_text (GthFileView  *file_view,
 	}
 	gtk_tree_path_free (path);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), &iter,
+	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
                             COLUMN_NAME, &text,
                             -1);
 
@@ -421,16 +430,9 @@ gfv_set_image_comment (GthFileView  *file_view,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
-	GtkTreePath     *path;
 
-	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
-				       &iter,
-				       path)) {
-		gtk_tree_path_free (path);
+	if (! get_list_store_iter_from_pos (gfv_list, pos, &iter))
 		return;
-	}
-	gtk_tree_path_free (path);
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_COMMENT, comment,
@@ -448,7 +450,7 @@ gfv_get_image_comment (GthFileView  *file_view,
 	char            *comment = NULL;
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->filter_model),
 				       &iter,
 				       path)) {
 		gtk_tree_path_free (path);
@@ -456,7 +458,7 @@ gfv_get_image_comment (GthFileView  *file_view,
 	}
 	gtk_tree_path_free (path);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), &iter,
+	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
 			    COLUMN_COMMENT, &comment,
 			    -1);
 
@@ -468,7 +470,7 @@ static int
 gfv_get_images (GthFileView  *file_view)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
-	GtkTreeModel    *model = GTK_TREE_MODEL (gfv_list->priv->list_store);
+	GtkTreeModel    *model = GTK_TREE_MODEL (gfv_list->priv->filter_model);
 	GtkTreeIter      iter;
 	int              len = 0;
 
@@ -487,7 +489,7 @@ static GList *
 gfv_get_list (GthFileView  *file_view)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
-	GtkTreeModel    *model = GTK_TREE_MODEL (gfv_list->priv->list_store);
+	GtkTreeModel    *model = GTK_TREE_MODEL (gfv_list->priv->filter_model);
 	GtkTreeIter      iter;
 	GList           *list = NULL;
 
@@ -636,7 +638,7 @@ gfv_pos_is_selected (GthFileView     *file_view,
 	selection = gtk_tree_view_get_selection (gfv_list->priv->tree_view);
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->filter_model),
 				       &iter,
 				       path)) {
 		gtk_tree_path_free (path);
@@ -774,16 +776,9 @@ gfv_set_image_data (GthFileView     *file_view,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
-	GtkTreePath     *path;
 
-	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
-				       &iter,
-				       path)) {
-		gtk_tree_path_free (path);
+	if (! get_list_store_iter_from_pos (gfv_list, pos, &iter))
 		return;
-	}
-	gtk_tree_path_free (path);
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_FILE_DATA, data,
@@ -840,7 +835,7 @@ gfv_get_image_data (GthFileView     *file_view,
 	FileData        *fdata;
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->filter_model),
 				       &iter,
 				       path)) {
 		gtk_tree_path_free (path);
@@ -848,7 +843,7 @@ gfv_get_image_data (GthFileView     *file_view,
 	}
 	gtk_tree_path_free (path);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), &iter,
+	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
                             COLUMN_FILE_DATA, &fdata,
                             -1);
 	file_data_ref (fdata);
@@ -984,9 +979,7 @@ gfv_get_first_visible (GthFileView *file_view)
 	GtkTreePath     *path;
 	int              pos;
 
-	gtk_tree_view_get_visible_rect (gfv_list->priv->tree_view,
-					&rect);
-
+	gtk_tree_view_get_visible_rect (gfv_list->priv->tree_view, &rect);
 	if (! gtk_tree_view_get_path_at_pos (gfv_list->priv->tree_view,
 					     0,
 					     0,
@@ -1011,8 +1004,7 @@ gfv_get_last_visible (GthFileView *file_view)
 	GtkTreePath     *path;
 	int              pos;
 
-	gtk_tree_view_get_visible_rect (gfv_list->priv->tree_view,
-					&rect);
+	gtk_tree_view_get_visible_rect (gfv_list->priv->tree_view, &rect);
 	if (! gtk_tree_view_get_path_at_pos (gfv_list->priv->tree_view,
 					     0,
 					     rect.height - 1,
@@ -1026,6 +1018,39 @@ gfv_get_last_visible (GthFileView *file_view)
 	gtk_tree_path_free (path);
 
 	return pos;
+}
+
+
+static gboolean
+gfv_visible_func (GtkTreeModel *model,
+                  GtkTreeIter  *iter,
+                  gpointer      data)
+{
+	GthFileViewList *gfv_list = (GthFileViewList *) data;
+	FileData        *fdata;
+
+	if (gfv_list->priv->filter_func == NULL)
+		return TRUE;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), iter,
+                            COLUMN_FILE_DATA, &fdata,
+                            -1);
+
+	return (gfv_list->priv->filter_func) (gfv_list->priv->filter_data, fdata);
+}
+
+
+static void
+gfv_set_visible_func (GthFileView    *file_view,
+                      GthVisibleFunc  func,
+                      gpointer        data)
+{
+	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
+
+	gfv_list->priv->filter_func = func;
+	gfv_list->priv->filter_data = data;
+
+	gtk_tree_model_filter_refilter (GTK_TREE_MODEL_FILTER (gfv_list->priv->filter_model));
 }
 
 
@@ -1381,6 +1406,7 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->get_image_at         = gfv_get_image_at;
 	file_view_class->get_first_visible    = gfv_get_first_visible;
 	file_view_class->get_last_visible     = gfv_get_last_visible;
+	file_view_class->set_visible_func     = gfv_set_visible_func;
 	file_view_class->sorted               = gfv_sorted;
 	file_view_class->unsorted             = gfv_unsorted;
 	file_view_class->image_activated      = gfv_image_activated;
@@ -1684,9 +1710,11 @@ gth_file_view_list_new (guint image_width)
 					       G_TYPE_STRING,
 					       G_TYPE_STRING,
 					       G_TYPE_STRING);
-
-	priv->tree_view = (GtkTreeView*) gtk_tree_view_new_with_model (GTK_TREE_MODEL (priv->list_store));
+	priv->filter_model =  gtk_tree_model_filter_new (GTK_TREE_MODEL (priv->list_store), NULL);
 	g_object_unref (priv->list_store);
+
+	priv->tree_view = (GtkTreeView*) gtk_tree_view_new_with_model (priv->filter_model);
+	g_object_unref (priv->filter_model);
 
 	gtk_tree_view_set_rules_hint (priv->tree_view, FALSE);
 	gtk_tree_view_set_headers_visible (priv->tree_view, FALSE);
@@ -1715,6 +1743,11 @@ gth_file_view_list_new (guint image_width)
 
 	selection = gtk_tree_view_get_selection (priv->tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
+	gtk_tree_model_filter_set_visible_func (GTK_TREE_MODEL_FILTER (priv->filter_model),
+						gfv_visible_func,
+						gfv_list,
+						NULL);
 
 	g_signal_connect (G_OBJECT (selection),
 			  "changed",
