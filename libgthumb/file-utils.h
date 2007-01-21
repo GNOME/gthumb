@@ -31,6 +31,7 @@
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
@@ -205,4 +206,10 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);
 
+/* Pixbuf + VFS */
+GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char   *filename, 
+						       GError 	   **error);
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char   *filename, 
+						       GError      **error,
+						       gboolean      fast_file_type);
 #endif /* FILE_UTILS_H */

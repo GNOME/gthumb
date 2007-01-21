@@ -217,7 +217,7 @@ apply_transformation_generic (GtkWindow    *win,
 	if (transform == GTH_TRANSFORM_NONE)
 		return;
 
-	pixbuf1 = gdk_pixbuf_new_from_file (path, NULL);
+	pixbuf1 = gth_pixbuf_new_from_uri (path, NULL);
 	if (pixbuf1 == NULL)
 		return;
 

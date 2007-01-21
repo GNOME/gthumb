@@ -603,18 +603,13 @@ load_image_thread (void *thread_data)
 		if (path != NULL) {
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, &error, priv->loader_data);
-			else {
-				if (image_is_gif__accurate (path))
-					animation = gdk_pixbuf_animation_new_from_file (path, &error);
-				else {
-					GdkPixbuf *pixbuf;
-					pixbuf = gdk_pixbuf_new_from_file (path, &error);
-					if (pixbuf != NULL) {
-						animation = gdk_pixbuf_non_anim_new (pixbuf);
-						g_object_unref (pixbuf);
-					}
-				}
-			}
+        		else {  
+		                /* Get an animation. Use slow content-checking to determine
+				   file types. */
+		                animation = gth_pixbuf_animation_new_from_uri (path, 
+						                               error,
+					                                       FALSE);
+		        }
 		}
 
 		G_UNLOCK (pixbuf_loader_lock);
@@ -1014,7 +1009,7 @@ image_loader_get_path (ImageLoader *il)
 
 	uri = gnome_vfs_uri_dup (priv->uri);
 
-        path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+        path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
         esc_path = gnome_vfs_unescape_string (path, NULL);
         g_free (path);
 	gnome_vfs_uri_unref (uri);

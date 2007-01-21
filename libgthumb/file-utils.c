@@ -20,6 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#define GDK_PIXBUF_ENABLE_BACKEND
+
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +39,8 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <libgnomeui/gnome-vfs-util.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -48,7 +52,7 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
-
+#include "pixbuf-utils.h"
 
 #define BUF_SIZE 4096
 #define CHUNK_SIZE 128
@@ -1508,7 +1512,7 @@ resolve_all_symlinks (const char  *text_uri,
 	my_text_uri = g_strdup (text_uri);
 	info = gnome_vfs_file_info_new ();
 
-	for (p = my_text_uri; (p != NULL) && (*p != 0); ) {
+	for (p = remove_scheme_from_uri(my_text_uri); (p != NULL) && (*p != 0); ) {
 		char           *new_text_uri;
 		GnomeVFSURI    *new_uri;
 
@@ -2097,3 +2101,49 @@ check_permissions (const char *path,
 
 	return TRUE;
 }
+
+
+/* Pixbuf + VFS */
+
+GdkPixbuf*
+gth_pixbuf_new_from_uri (const char *filename, GError **error)
+{
+	/* Very temporary - borrow code from libgnomeui directly, since
+	   libgnomeui is or will be deprecated. See bug 143197. */
+
+	/* RAW file handling could be added here. That is, we could call dcraw instead
+	   of the gdk functions if is_raw_image were true. */
+
+	if (!(uri_has_scheme(filename)) || uri_scheme_is_file(filename)) {
+		/* Local files: use standard gdk pixbuf loader. */
+		return gdk_pixbuf_new_from_file (remove_scheme_from_uri(filename), error);
+	} 
+	else {
+		/* Remote files: special vfs wrapper required. */
+		return gnome_gdk_pixbuf_new_from_uri (filename);
+	}
+}
+
+
+GdkPixbufAnimation*
+gth_pixbuf_animation_new_from_uri (const char 	*filename, 
+				   GError      **error, 
+				   gboolean      fast_file_type)
+{
+	/* Currently GIF animations can only be loaded if they are in a local
+	   file (not ssh://, for example). This needs to be fixed! */
+
+	if (image_is_type__common (filename, "image/gif", fast_file_type)
+	    && (!(uri_has_scheme(filename)) || uri_scheme_is_file(filename))) {
+		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
+	}
+	else {
+		GdkPixbuf *pixbuf;
+                pixbuf = gth_pixbuf_new_from_uri (filename, error);
+                if (pixbuf != NULL) {
+                	return gdk_pixbuf_non_anim_new (pixbuf);
+                        g_object_unref (pixbuf);
+		}
+	}	
+}
+

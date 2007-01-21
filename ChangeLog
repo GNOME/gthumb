@@ -1,3 +1,24 @@
+2007-01-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (resolve_all_symlinks),
+	(gth_pixbuf_new_from_uri), (gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gtk-utils.c: (create_pixbuf):
+	* libgthumb/image-loader.c: (load_image_thread),
+	(image_loader_get_path):
+	* libgthumb/jpeg-utils.c: (do_load_internal):
+	* libgthumb/print-callbacks.c: (draw_page):
+	* libgthumb/thumb-loader.c: (thumb_loader),
+	(thumb_loader_set_path), (thumb_loader_get_path),
+	(thumb_loader_start__step2), (thumb_loader_error_cb):
+	* src/dlg-photo-importer.c: (load_images_preview__step),
+	(dlg_photo_importer):
+	* src/dlg-web-exporter.c: (theme_dialog__sel_changed_cb):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	Initial attempt to implement Gnome VFS support. Folders and images
+	can now be opened using the "Other..." folder function (but not
+	through the command line. Bug 143197. Tested with ssh:// URIs.
+
 2007-01-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: use pack_end to add the filterbar, this way the

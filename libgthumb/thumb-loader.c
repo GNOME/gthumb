@@ -256,19 +256,14 @@ thumb_loader (const char  *path,
 		} else
 			debug (DEBUG_INFO, "PIXBUF == NULL\n");
 
-	} else
-		{
-			if (image_is_gif (path))
-				animation = gdk_pixbuf_animation_new_from_file (path, error);
-			else {
-				GdkPixbuf *pixbuf;
-				pixbuf = gdk_pixbuf_new_from_file (path, error);
-				if (pixbuf != NULL) {
-					animation = gdk_pixbuf_non_anim_new (pixbuf);
-					g_object_unref (pixbuf);
-				}
-			}
-		}
+	} 
+	else {
+		/* Get an animation. Use fast file-type checking by default, unless
+		   content-checking is enabled. */
+		animation = gth_pixbuf_animation_new_from_uri (path, 
+				       error,
+				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	}
 
 	return animation;
 }
@@ -374,8 +369,7 @@ thumb_loader_set_path (ThumbLoader *tl,
 
 	tl->priv->uri = get_uri_from_path (path);
 	tl->priv->e_uri = gnome_vfs_escape_host_and_path_string (tl->priv->uri);
-
-	image_loader_set_path (tl->priv->il, remove_scheme_from_uri (tl->priv->uri));
+	image_loader_set_path (tl->priv->il, tl->priv->uri);
 }
 
 
@@ -432,7 +426,7 @@ thumb_loader_get_path (ThumbLoader *tl)
 	if (tl->priv->uri == NULL)
 		return NULL;
 
-	return g_strdup (remove_scheme_from_uri (tl->priv->uri));
+	return g_strdup (tl->priv->uri);
 }
 
 
@@ -475,7 +469,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 	} else {
 		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri));
+		image_loader_set_path (priv->il, priv->uri);
 
 		/* Check file dimensions. */
 
@@ -696,7 +690,7 @@ thumb_loader_error_cb (ImageLoader *il,
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri));
+	image_loader_set_path (priv->il, priv->uri);
 	image_loader_start (priv->il);
 }
 
