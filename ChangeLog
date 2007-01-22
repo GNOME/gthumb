@@ -1,5 +1,13 @@
 2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-window.c:
+	* src/main.c:
+	* src/main.h:
+	* src/Makefile.am:
+	* configure.in: the gtkunique dependency is now optional.
+
+2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* data/GNOME_GThumb.server.in.in: removed
 	* src/GNOME_GThumb.idl: removed
 	* src/gth-application.c: removed

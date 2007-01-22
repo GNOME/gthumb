@@ -15,6 +15,7 @@ INCLUDES =					\
 	$(IPTCDATA_CFLAGS)			\
 	$(DISABLE_DEPRECATED)			\
 	$(GPHOTO_CFLAGS)			\
+	$(GTKUNIQUE_CFLAGS)			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
 	-DGTHUMB_DATADIR=\"$(datadir)\"		\
@@ -146,7 +147,8 @@ gthumb_LDADD = 					\
 	$(RENDER_LIBS)				\
 	$(GPHOTO_LIBS)				\
 	$(XF86GAMMA_LIBS)			\
-	$(XTEST_LIBS)				
+	$(XTEST_LIBS)				\
+	$(GTKUNIQUE_LIBS)
 
 moduledir = $(libdir)/gthumb/modules
 module_LTLIBRARIES = 		\
