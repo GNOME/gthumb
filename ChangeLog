@@ -1,5 +1,10 @@
 2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-viewer.c:
+	* src/main.c: fixed compilation when gtkunique is disabled.
+
+2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-window.c:
 	* src/main.c:
 	* src/main.h:
