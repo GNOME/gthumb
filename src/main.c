@@ -26,6 +26,7 @@
 #include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomeui/gnome-authentication-manager.h>
 
 #include "catalog.h"
 #include "comments.h"
@@ -782,6 +783,7 @@ main (int   argc,
 		gdk_threads_init ();
 	}
 
+	gnome_authentication_manager_init ();
 	glade_gnome_init ();
 	gthumb_init ();
 	initialize_data ();

@@ -1,3 +1,9 @@
+2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/main.c: (main):
+	Added gnome_authentication_manager_init to provide VFS
+	authentication callbacks.
+
 2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/GNOME_GThumb.server.in.in: removed
