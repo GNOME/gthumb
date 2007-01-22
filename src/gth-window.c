@@ -27,6 +27,7 @@
 #include "gth-window.h"
 #include "dlg-comment.h"
 #include "dlg-categories.h"
+#include "main.h"
 
 enum {
         PROP_0,
@@ -59,9 +60,10 @@ gth_window_finalize (GObject *object)
 		window->priv = NULL;
 	}
 
+	window_list = g_list_remove (window_list, window);
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 
-	window_list = g_list_remove (window_list, window);
 	if (window_list == NULL)
 		gtk_main_quit ();
 }
@@ -236,6 +238,7 @@ gth_window_init (GthWindow *window)
 	priv->history = gth_image_history_new ();
 
 	window_list = g_list_prepend (window_list, window);
+	gtk_unique_app_add_window (gth_application, GTK_WINDOW (window));
 }
 
 
@@ -282,6 +285,8 @@ gth_window_close (GthWindow *window)
 		dlg_categories_close (priv->categories_dlg);
 		priv->categories_dlg = NULL;
 	}
+
+	gtk_unique_app_remove_window (gth_application, GTK_WINDOW (window));
 
 	class->close (window);
 }

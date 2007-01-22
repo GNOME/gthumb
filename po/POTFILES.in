@@ -1,6 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-data/GNOME_GThumb.server.in.in
 data/albumthemes/text.h
 data/glade/gthumb.glade
 data/glade/gthumb_camera.glade
@@ -153,8 +152,6 @@ src/dlg-web-exporter.c
 src/dlg-web-exporter.h
 src/dlg-write-to-cd.c
 src/dlg-write-to-cd.h
-src/gth-application.c
-src/gth-application.h
 src/gth-batch-op.c
 src/gth-browser-actions-callbacks.c
 src/gth-browser-actions-callbacks.h

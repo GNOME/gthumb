@@ -1,3 +1,24 @@
+2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/GNOME_GThumb.server.in.in: removed
+	* src/GNOME_GThumb.idl: removed
+	* src/gth-application.c: removed
+	* src/gth-application.h: removed
+	* data/Makefile.am:
+	* libgthumb/Makefile.am:
+	* libgthumb/jpegutils/Makefile.am:
+	* po/POTFILES.in:
+	* src/gth-viewer.c:
+	* src/gth-window.c:
+	* src/main.c:
+	* src/main.h:
+	* src/Makefile.am:
+	* configure.in:
+	* README:
+
+	Use GtkUnique to provide a single instance application.
+	Removed the bonobo dependency (#389197).
+
 2007-01-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: use pack_end to add the filterbar, this way the

@@ -1,5 +1,5 @@
 This is the distribution of gThumb, an image viewer and browser utility
-for the GNOME environment. 
+for the GNOME environment.
 
 Notes:
 
@@ -7,13 +7,13 @@ Notes:
 
  * versions from 1.100 to 2.0 are for the GNOME 2.0 environment, though
    they can be used even in the GNOME 2.2 environment but in this case
-   gThumb and Nautilus do not share the thumbnails database. 
+   gThumb and Nautilus do not share the thumbnails database.
 
  * versions 2.2.0 to 2.4.2 are for GNOME 2.2 and GNOME 2.4.
 
  * versions 2.5 and higher are for GNOME 2.6.
 
- * more information about gthumb can be found at: 
+ * more information about gthumb can be found at:
    http://gthumb.sourceforge.net
 
 What is gThumb
@@ -31,8 +31,8 @@ What is gThumb
  * gThumb is an image viewer
 
    + View single images (including GIF animations).  Supported image
-     types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.  
-   + View EXIF data attached to JPEG images.  
+     types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.
+   + View EXIF data attached to JPEG images.
    + View in fullscreen mode.
    + View images rotated, flipped, mirrored.
 
@@ -47,7 +47,7 @@ What is gThumb
 
  * gThumb is an image editor
 
-   + Change image hue, saturation, lightness, contrast and adjust colors. 
+   + Change image hue, saturation, lightness, contrast and adjust colors.
    + Scale and rotate images.
    + Save images in the following formats: JPEG, PNG, TIFF, TGA.
 
@@ -68,7 +68,7 @@ Licensing
 =========
 
   This program is released under the terms of the GNU General Public
-  License (GNU GPL).  
+  License (GNU GPL).
 
   You can find a copy of the license in the file COPYING.
 
@@ -76,29 +76,28 @@ Compiling
 =========
 
   In order to build this program you need a working GNOME environment
-  version 2 or greater, with the development tools installed properly.  
+  version 2 or greater, with the development tools installed properly.
   The following is the detailed list of libraries you need:
 
 	* glib	 		version >= 2.6.0
-	* gtk 			version >= 2.8.0 
+	* gtk 			version >= 2.8.0
 	* libxml 		version >= 2.4.0
-	* libgnome 		version >= 2.6.0 
-	* libgnomeui 		version >= 2.6.0 
-	* libgnomecanvas 	version >= 2.6.0 
-	* gnome-vfs 		version >= 2.6.0 
-	* libglade 		version >= 2.4.0 
+	* libgnome 		version >= 2.6.0
+	* libgnomeui 		version >= 2.6.0
+	* libgnomecanvas 	version >= 2.6.0
+	* gnome-vfs 		version >= 2.6.0
+	* libglade 		version >= 2.4.0
 	* libgnomeprint 	version >= 2.6.0
 	* libgnomeprintui 	version >= 2.6.0
-	* libbonobo 		version >= 2.6.0 
-	* libbonoboui 		version >= 2.6.0
 	* intltool		version >= 0.35.0
 	* libexif               version >= 0.6.9
 	* libjpeg
+	* gtkunique		version >= 0.9.1
 
   If the libtiff library is present you can save images in TIFF
   format.
 
-  If the libgphoto2 library version >= 2.1.3 is present you can import 
+  If the libgphoto2 library version >= 2.1.3 is present you can import
   photos from your camera.
 
   If the libiptc library version >= 0.2.1 is present you can store
@@ -107,7 +106,7 @@ Compiling
 Download
 ========
 
-  * Tar archives can be found here: 
+  * Tar archives can be found here:
 
     http://ftp.gnome.org/pub/GNOME/sources/gthumb
 
