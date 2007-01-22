@@ -23,11 +23,9 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-window-icon.h>
-#include <libgnomeui/gnome-ui-init.h>
+#include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include <libbonobo.h>
 
 #include "catalog.h"
 #include "comments.h"
@@ -35,7 +33,6 @@
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
-#include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
 #include "gth-dir-list.h"
@@ -63,40 +60,50 @@ static char*icon_mime_name[ICON_NAMES] = { "gnome-fs-directory",
 					   "gnome-fs-home",
 					   "gnome-fs-desktop" };
 
-GthMonitor  *monitor = NULL;
-char       **file_urls, **dir_urls;
-int          n_file_urls, n_dir_urls;
-int          StartInFullscreen = FALSE;
-int          StartSlideshow = FALSE;
-int          ViewFirstImage = FALSE;
-int          HideSidebar = FALSE;
-gboolean     ExitAll = FALSE;
-char        *ImageToDisplay = NULL;
-gboolean     FirstStart = TRUE;
-gboolean     ImportPhotos = FALSE;
-gboolean     UseViewer = FALSE;
+GtkUniqueApp  *gth_application = NULL;
+GthMonitor    *monitor = NULL;
+GList         *file_urls = NULL, *dir_urls = NULL;
+int            n_file_urls, n_dir_urls;
+int            StartInFullscreen = FALSE;
+int            StartSlideshow = FALSE;
+int            ViewFirstImage = FALSE;
+int            HideSidebar = FALSE;
+gboolean       ExitAll = FALSE;
+char          *ImageToDisplay = NULL;
+gboolean       FirstStart = TRUE;
+gboolean       ImportPhotos = FALSE;
+gboolean       UseViewer = FALSE;
 
-static gboolean        view_comline_catalog = FALSE;
-static gboolean        view_single_image = FALSE;
-static GdkPixbuf      *icon_pixbuf[ICON_NAMES] = { 0 };
-static GtkWidget      *first_window = NULL;
-static GtkIconTheme   *icon_theme = NULL;
-static BonoboObject   *gth_application = NULL;
+static gboolean         view_comline_catalog = FALSE;
+static gboolean         view_single_image = FALSE;
+static GdkPixbuf       *icon_pixbuf[ICON_NAMES] = { 0 };
+static GtkWidget       *first_window = NULL;
+static GtkIconTheme    *icon_theme = NULL;
+static GOptionContext  *context;
+static char           **remaining_args;
 
-struct poptOption options[] = {
-	{ "fullscreen", 'f', POPT_ARG_NONE, &StartInFullscreen, 0,
+static const GOptionEntry options[] = {
+	{ "fullscreen", 'f', 0, G_OPTION_ARG_NONE, &StartInFullscreen,
 	  N_("Start in fullscreen mode"),
 	  0 },
-	{ "slideshow", 's', POPT_ARG_NONE, &StartSlideshow, 0,
+
+	{ "slideshow", 's', 0, G_OPTION_ARG_NONE, &StartSlideshow,
 	  N_("Automatically start a slideshow"),
 	  0 },
-	{ "import-photos", '\0', POPT_ARG_NONE, &ImportPhotos, 0,
+
+	{ "import-photos", '\0', 0, G_OPTION_ARG_NONE, &ImportPhotos,
 	  N_("Automatically import digital camera photos"),
 	  0 },
-	{ "viewer", '\0', POPT_ARG_NONE, &UseViewer, 0,
-	  "Use the viewer mode to view single images",
+
+	{ "viewer", '\0', 0, G_OPTION_ARG_NONE, &UseViewer,
+	  N_("Use the viewer mode to view single images"),
 	  0 },
-	{ NULL, '\0', 0, NULL, 0 }
+
+	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args,
+          NULL,
+          NULL },
+
+	{ NULL }
 };
 
 
@@ -362,13 +369,11 @@ session_is_restored (void)
 
 /* Initialize application data. */
 static void
-initialize_data (poptContext pctx)
+initialize_data (void)
 {
-	const char **argv;
-	int          argc;
-	char        *current_dir;
-	char        *path;
-	int          i;
+	char *current_dir;
+	char *path, *filename;
+	int   i = 0;
 
 	convert_to_new_comment_system ();
 	create_default_categories_if_needed ();
@@ -399,32 +404,18 @@ initialize_data (poptContext pctx)
 
 	/* Parse command line arguments. */
 
-	argv = poptGetArgs (pctx);
-
-	if (argv == NULL)
+	if (remaining_args == NULL) /* No arguments specified. */
 		return;
-
-	for (argc = 0; argv[argc] != NULL; argc++)
-		;
-
-	if (argc == 0)
-		return;
-
-	file_urls = g_new0 (char*, argc);
-	dir_urls = g_new0 (char*, argc);
-
-	n_file_urls = 0;
-	n_dir_urls = 0;
 
 	current_dir = g_get_current_dir ();
-	for (i = 0; i < argc; i++) {
+	while ((filename = remaining_args[i++]) != NULL) {
 		char     *tmp1, *tmp2;
 		gboolean  is_dir;
 
-		if (! g_path_is_absolute (argv[i]))
-			tmp1 = g_strconcat (current_dir, "/", argv[i], NULL);
+		if (! g_path_is_absolute (filename))
+			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
 		else
-			tmp1 = g_strdup (argv[i]);
+			tmp1 = g_strdup (filename);
 
 		tmp2 = remove_special_dirs_from_path (tmp1);
 
@@ -448,13 +439,16 @@ initialize_data (poptContext pctx)
 		}
 
 		if (is_dir) {
-			dir_urls[n_dir_urls++] = get_uri_from_path (path);
+			dir_urls = g_list_prepend (dir_urls, get_uri_from_path (path));
 			g_free (path);
 		} else
-			file_urls[n_file_urls++] = path;
+			file_urls = g_list_prepend (file_urls, path);
 	}
 
-	if ((n_file_urls == 1) && (file_urls[0] != NULL)) {
+	n_file_urls = g_list_length (file_urls);
+	n_dir_urls = g_list_length (dir_urls);
+
+	if (n_file_urls == 1) {
 		view_single_image = TRUE;
 
 	} else if (n_file_urls > 1) {
@@ -462,6 +456,7 @@ initialize_data (poptContext pctx)
 		Catalog *catalog;
 		char    *catalog_path;
 		char    *catalog_name, *catalog_name_utf8;
+		GList   *scan;
 
 		catalog = catalog_new ();
 
@@ -476,12 +471,11 @@ initialize_data (poptContext pctx)
 		catalog_set_path (catalog, catalog_path);
 		g_free (catalog_path);
 
-		/* add in reverse order */
-		for (i = n_file_urls - 1; i >= 0; i--) 
-			catalog_add_item (catalog, file_urls[i]);
+		for (scan = file_urls; scan; scan = scan->next)
+			catalog_add_item (catalog, scan->data);
 
 		catalog->sort_method = GTH_SORT_METHOD_MANUAL;
-		
+
 		catalog_write_to_disk (catalog, NULL);
 		catalog_free (catalog);
 
@@ -497,7 +491,7 @@ static void
 release_data (void)
 {
 	if (gth_application != NULL)
-                bonobo_object_unref (gth_application);
+                g_object_unref (gth_application);
 
 	free_icon_pixbufs ();
 
@@ -512,17 +506,19 @@ release_data (void)
 
 
 static void
-open_viewer_window (const char               *uri,
-		    gboolean                  use_factory,
-		    GNOME_GThumb_Application  app,
-		    CORBA_Environment        *env)
+open_viewer_window (const char *uri,
+		    gboolean    use_factory)
 {
 	GtkWidget *current_window;
 
 	if (use_factory) {
+		char *command;
+
 		if (uri == NULL)
 			uri = "";
-		GNOME_GThumb_Application_open_viewer (app, uri, env);
+		command = g_strjoin ("|", "viewer", uri, NULL);
+    		gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, command);
+		g_free (command);
 		return;
 	}
 
@@ -534,18 +530,20 @@ open_viewer_window (const char               *uri,
 
 
 static void
-open_browser_window (const char               *uri,
-		     gboolean                  show_window,
-		     gboolean                  use_factory,
-		     GNOME_GThumb_Application  app,
-		     CORBA_Environment        *env)
+open_browser_window (const char *uri,
+		     gboolean    show_window,
+		     gboolean    use_factory)
 {
 	GtkWidget *current_window;
 
 	if (use_factory) {
+		char *command;
+
 		if (uri == NULL)
 			uri = "";
-		GNOME_GThumb_Application_open_browser (app, uri, env);
+		command = g_strjoin ("|", "browser", uri, NULL);
+    		gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, command);
+		g_free (command);
 		return;
 	}
 
@@ -558,9 +556,7 @@ open_browser_window (const char               *uri,
 
 
 static void
-load_session (gboolean                  use_factory,
-	      GNOME_GThumb_Application  app,
-	      CORBA_Environment        *env)
+load_session (gboolean use_factory)
 {
 	int i, n;
 
@@ -575,9 +571,9 @@ load_session (gboolean                  use_factory,
 		location = gnome_config_get_string (key);
 
 		if (uri_scheme_is_file (location) && path_is_file (location))
-			open_viewer_window (location, use_factory, app, env);
+			open_viewer_window (location, use_factory);
 		else
-			open_browser_window (location, TRUE, use_factory, app, env);
+			open_browser_window (location, TRUE, use_factory);
 
 		g_free (location);
 		g_free (key);
@@ -587,50 +583,135 @@ load_session (gboolean                  use_factory,
 }
 
 
+static void
+show_grabbing_focus (GtkWidget *new_window)
+{
+	const char *startup_id = NULL;
+	guint32     timestamp = 0;
+
+	gtk_widget_realize (new_window);
+
+	startup_id = g_getenv ("DESKTOP_STARTUP_ID");
+	if (startup_id != NULL) {
+		char *startup_id_str = g_strdup (startup_id);
+		char *ts;
+
+		ts = g_strrstr (startup_id_str, "_TIME");
+		if (ts != NULL) {
+			ts = ts + 5;
+			errno = 0;
+			timestamp = strtoul (ts, NULL, 0);
+			if ((errno == EINVAL) || (errno == ERANGE))
+				timestamp = 0;
+		}
+
+		g_free (startup_id_str);
+	}
+
+	if (timestamp == 0)
+		timestamp = gdk_x11_get_server_time (new_window->window);
+	gdk_x11_window_set_user_time (new_window->window, timestamp);
+
+	gtk_window_present (GTK_WINDOW (new_window));
+}
+
+
+static GtkUniqueResponse
+application_message_cb (GtkUniqueApp     *app,
+                        GtkUniqueCommand  command,
+                        const gchar      *command_data,
+                        const gchar      *startup_id,
+                        GdkScreen        *screen,
+                        guint             workspace,
+                        gpointer          user_data)
+{
+	char **tokens;
+	char *sub_command;
+	char *uri;
+
+	if (command != GTK_UNIQUE_CUSTOM)
+		return GTK_UNIQUE_RESPONSE_ABORT;
+
+	tokens = g_strsplit (command_data, "|", 2);
+	sub_command = tokens[0];
+	uri = tokens[1];
+
+	if ((uri != NULL) && (*uri == '\0'))
+		uri = NULL;
+
+      	if (strcmp (sub_command, "browser") == 0)
+        	show_grabbing_focus (gth_browser_new (uri));
+
+	else if (strcmp (sub_command, "viewer") == 0)
+        	show_grabbing_focus (gth_viewer_new (uri));
+
+      	else if (strcmp (sub_command, "load_image") == 0) {
+		if (UseViewer) {
+			GtkWidget *viewer = gth_viewer_get_current_viewer ();
+			if (viewer == NULL)
+				show_grabbing_focus (gth_viewer_new (uri));
+			else {
+				gth_viewer_load (GTH_VIEWER (viewer), uri);
+				show_grabbing_focus (viewer);
+			}
+		} else {
+			GtkWidget *browser = gth_browser_get_current_browser ();
+			if (browser == NULL)
+				show_grabbing_focus (gth_browser_new (uri));
+			else {
+				gth_browser_load_uri (GTH_BROWSER (browser), uri);
+				show_grabbing_focus (browser);
+			}
+		}
+      	}
+      	else if (strcmp (sub_command, "import") == 0)
+        	gth_browser_activate_action_file_camera_import (NULL, NULL);
+
+	return GTK_UNIQUE_RESPONSE_OK;
+}
+
+
 /* Create the windows. */
 static void
 prepare_app (void)
 {
-	CORBA_Object              factory;
-	gboolean                  use_factory = FALSE;
-	CORBA_Environment         env;
-	GNOME_GThumb_Application  app;
-	int                       i;
+	gboolean  use_factory;
+	GList    *scan;
 
-	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application_Factory",
-                                                      Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
-                                                      NULL, NULL);
+	gth_application = gtk_unique_app_new ("org.gnome.GThumb");
+	use_factory = gtk_unique_app_is_running (gth_application);
 
-	if (factory != NULL) {
-		use_factory = TRUE;
-		CORBA_exception_init (&env);
-		app = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application", 0, NULL, &env);
-	}
+	if (! use_factory)
+		g_signal_connect (gth_application, "message",
+                		  G_CALLBACK (application_message_cb),
+                          	  NULL);
 
 	if (session_is_restored ()) {
-		load_session (use_factory, app, &env);
+		load_session (use_factory);
 		return;
 	}
 
 	if (ImportPhotos) {
 		if (use_factory)
-			GNOME_GThumb_Application_import_photos (app, &env);
+		 	gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, "import");
 		else
 			gth_browser_activate_action_file_camera_import (NULL, NULL);
 
 	} else if (! view_comline_catalog
 	    && (n_dir_urls == 0)
 	    && (n_file_urls == 0)) {
-		open_browser_window (NULL, TRUE, use_factory, app, &env);
+		open_browser_window (NULL, TRUE, use_factory);
 
 	} else if (view_single_image) {
-		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE))
-			GNOME_GThumb_Application_load_image (app, file_urls[0], &env);
-		else {
+		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
+			char *command = g_strjoin ("|", "load_image", file_urls->data, NULL);
+    			gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, command);
+			g_free (command);
+		} else {
 			if (UseViewer)
-				open_viewer_window (file_urls[0], use_factory, app, &env);
+				open_viewer_window (file_urls->data, use_factory);
 			else
-				open_browser_window (file_urls[0], TRUE, use_factory, app, &env);
+				open_browser_window (file_urls->data, TRUE, use_factory);
 		}
 
 	} else if (view_comline_catalog) {
@@ -645,41 +726,27 @@ prepare_app (void)
 		catalog_path = get_catalog_full_path (catalog_name);
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 
-		open_browser_window (catalog_uri, TRUE, use_factory, app, &env);
+		open_browser_window (catalog_uri, TRUE, use_factory);
 
 		g_free (catalog_name);
 		g_free (catalog_path);
 		g_free (catalog_uri);
 	}
 
-	for (i = 0; i < n_dir_urls; i++) {
+	for (scan = dir_urls; scan; scan = scan->next) {
 		/* Go to the specified directory. */
-		open_browser_window (dir_urls[i], TRUE, use_factory, app, &env);
+		open_browser_window (scan->data, TRUE, use_factory);
 	}
 
-	/* Free urls. */
-
-	if (n_file_urls > 0) {
-		for (i = 0; i < n_file_urls; i++)
-			g_free (file_urls[i]);
-		g_free (file_urls);
-	}
-
-	if (n_dir_urls > 0) {
-		for (i = 0; i < n_dir_urls; i++)
-			g_free (dir_urls[i]);
-		g_free (dir_urls);
-	}
+	path_list_free (file_urls);
+	path_list_free (dir_urls);
 
 	/**/
 
 	if (use_factory) {
-		bonobo_object_release_unref (app, &env);
-		CORBA_exception_free (&env);
 		gdk_notify_startup_complete ();
 		exit (0);
-	} else
-		gth_application = gth_application_new (gdk_screen_get_default ());
+	}
 }
 
 
@@ -688,17 +755,21 @@ main (int   argc,
       char *argv[])
 {
 	GnomeProgram *program;
-	GValue        value = { 0 };
-	poptContext   pctx;
+	char         *description;
 
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	description = g_strdup_printf ("- %s", _("View and organize your images"));
+        context = g_option_context_new (description);
+        g_free (description);
+        g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+
 	program = gnome_program_init ("gthumb", VERSION,
 				      LIBGNOMEUI_MODULE,
 				      argc, argv,
-				      GNOME_PARAM_POPT_TABLE, options,
+				      GNOME_PARAM_GOPTION_CONTEXT, context,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("gThumb"),
 				      GNOME_PARAM_APP_PREFIX, GTHUMB_PREFIX,
 				      GNOME_PARAM_APP_SYSCONFDIR, GTHUMB_SYSCONFDIR,
@@ -711,15 +782,9 @@ main (int   argc,
 		gdk_threads_init ();
 	}
 
-	g_object_get_property (G_OBJECT (program),
-			       GNOME_PARAM_POPT_CONTEXT,
-			       g_value_init (&value, G_TYPE_POINTER));
-
-	pctx = g_value_get_pointer (&value);
 	glade_gnome_init ();
 	gthumb_init ();
-	initialize_data (pctx);
-	poptFreeContext (pctx);
+	initialize_data ();
 	prepare_app ();
 
 	gtk_main ();
@@ -919,7 +984,7 @@ get_fs_icon (IconName icon_name,
 
         if (icon_pixbuf[icon_name] == NULL) {
 		GtkIconInfo         *icon_info = NULL;
- 
+
 		icon_info = gtk_icon_theme_lookup_icon (icon_theme,
 							icon_mime_name[icon_name],
 							icon_size,
