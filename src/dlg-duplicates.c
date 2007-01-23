@@ -1501,7 +1501,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
-			if (file_is_image (unesc_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
+			if (file_is_image (unesc_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE))
+			    || file_is_video (unesc_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
 				files = g_list_prepend (files, unesc_uri);
 			else
 				g_free (unesc_uri);

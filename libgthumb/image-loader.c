@@ -607,7 +607,7 @@ load_image_thread (void *thread_data)
 		                /* Get an animation. Use slow content-checking to determine
 				   file types. */
 		                animation = gth_pixbuf_animation_new_from_uri (path, 
-						                               error,
+						                               &error,
 					                                       FALSE);
 		        }
 		}

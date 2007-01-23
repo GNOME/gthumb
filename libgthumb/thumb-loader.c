@@ -31,6 +31,7 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 
 #include "gthumb-init.h"
@@ -234,13 +235,29 @@ thumb_loader (const char  *path,
 	      GError     **error,
 	      gpointer     data)
 {
-	GdkPixbufAnimation *animation = NULL;
+	GdkPixbufAnimation     *animation = NULL;
+	ThumbLoader            *tl = data;
+	ThumbLoaderPrivateData *priv = tl->priv;
+	GdkPixbuf	       *pixbuf = NULL;
 
-	if (image_is_jpeg (path)) {
-		ThumbLoader *tl = data;
-		ThumbLoaderPrivateData *priv = tl->priv;
-		GdkPixbuf *pixbuf;
+	if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
+		/* use the gnome thumbnailer for videos */
+		pixbuf = gnome_thumbnail_factory_generate_thumbnail (priv->thumb_factory,
+								     path,
+								     get_mime_type (path));
 
+                if (pixbuf != NULL) {
+                        animation = gdk_pixbuf_non_anim_new (pixbuf);
+                        g_object_unref (pixbuf);
+
+                        if (animation == NULL)
+                                debug (DEBUG_INFO, "ANIMATION == NULL\n");
+
+                } else
+                        debug (DEBUG_INFO, "PIXBUF == NULL\n");
+	}
+	else if (image_is_jpeg (path)) {
+		
 		pixbuf = f_load_scaled_jpeg (path,
 					     priv->cache_max_w,
 					     priv->cache_max_h,
@@ -260,7 +277,7 @@ thumb_loader (const char  *path,
 	else {
 		/* Get an animation. Use fast file-type checking by default, unless
 		   content-checking is enabled. */
-		animation = gth_pixbuf_animation_new_from_uri (path, 
+	animation = gth_pixbuf_animation_new_from_uri (path, 
 				       error,
 				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	}

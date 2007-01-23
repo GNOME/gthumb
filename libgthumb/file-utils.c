@@ -646,11 +646,12 @@ get_mime_type_from_ext (const char *ext)
 
 
 gboolean
-file_is_image (const gchar *name,
-	       gboolean     fast_file_type)
+file_is_mimetype (const gchar *name,
+	          gboolean     fast_file_type,
+		  const char  *type_to_check)
 {
 	const char *result = NULL;
-	gboolean    is_an_image;
+	gboolean    is_that_type;
 
 	if (fast_file_type) {
 		char *filename, *n1;
@@ -682,15 +683,30 @@ file_is_image (const gchar *name,
 	if (result == NULL)
 		return FALSE;
 
-	/* If the description contains the word 'image' than we suppose
-	 * it is an image that gdk-pixbuf can load. */
-	is_an_image = strstr (result, "image") != NULL;
+	/* If the description contains the word 'image' or 'video' then we suppose
+	 * it is an image that gdk-pixbuf can load, or a video that we can refer
+	   to an external program. */
+	is_that_type = (strstr (result, type_to_check) != NULL);
 
-	return is_an_image;
+	return is_that_type;
 }
 
 
 gboolean
+file_is_image (const gchar *name,
+	       gboolean     fast_file_type)
+{
+	return file_is_mimetype (name, fast_file_type, "image");
+}
+
+gboolean
+file_is_video (const gchar *name,
+               gboolean     fast_file_type)
+{
+        return file_is_mimetype (name, fast_file_type, "video");
+}
+
+
 file_is_hidden (const gchar *name)
 {
 	if (name[0] != '.') return FALSE;
@@ -2120,6 +2136,9 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 	} 
 	else {
 		/* Remote files: special vfs wrapper required. */
+
+		/* Add error reporting? */
+
 		return gnome_gdk_pixbuf_new_from_uri (filename);
 	}
 }

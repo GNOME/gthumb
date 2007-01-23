@@ -1,5 +1,21 @@
 2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (file_is_mimetype), (file_is_image),
+	(file_is_video), (gth_pixbuf_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-file-list.c: (load_new_list):
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	* src/dlg-duplicates.c: (directory_load_cb):
+	* src/dlg-search.c: (file_respects_search_criteria):
+	* src/gth-browser.c: (launch_videos_in_list),
+	(gth_browser_hide_sidebar):
+	* src/gth-monitor.c: (add_monitor_event):
+	Preliminary attempt to add video thumbnailing and viewing.
+	Bug 134366. Still a work in progress.
+
+2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/main.c: (main):
 	Added gnome_authentication_manager_init to provide VFS
 	authentication callbacks.

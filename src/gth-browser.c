@@ -2886,6 +2886,30 @@ sidebar_list_key_press (GthBrowser  *browser,
 	return retval;
 }
 
+static gint
+launch_videos_in_list (GList *list)
+{
+	int    video_count=0;
+	GList *scan;
+	GList *video_list=NULL;
+
+        for (scan = list; scan; scan = scan->next) {
+                char *path = scan->data;
+                if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
+			printf ("video: %s\n\r",path);
+			video_list = g_list_append (video_list, path);
+                        video_count++;
+		}
+        }
+
+	if (video_count) {
+		exec_command ("totem", video_list);
+	}
+
+	return video_count;
+}
+
+
 
 static gint
 key_press_cb (GtkWidget   *widget,
@@ -2958,7 +2982,7 @@ key_press_cb (GtkWidget   *widget,
 		/* Hide/Show sidebar. */
 	case GDK_Return:
 	case GDK_KP_Enter:
-		if (priv->sidebar_visible)
+		if (priv->sidebar_visible) 
 			gth_browser_hide_sidebar (browser);
 		else
 			gth_browser_show_sidebar (browser);
@@ -7452,16 +7476,22 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkWidget             *widget_to_focus = priv->viewer;
+	GList		      *list;
 
 	if (priv->image_path == NULL)
 		return;
 
-	_hide_sidebar (browser);
+	/* If the list of selected files contains video files, launch the
+	   external video viewer. Otherwise, for normal image files, just
+	   display the image by its self. */
 
-	gtk_widget_grab_focus (widget_to_focus);
-
-	window_update_sensitivity (browser);
-	window_update_statusbar_zoom_info (browser);
+	list = gth_window_get_file_list_selection ( (GthWindow *) browser);
+	if (!launch_videos_in_list (list)) {
+		_hide_sidebar (browser);
+		gtk_widget_grab_focus (widget_to_focus);
+		window_update_sensitivity (browser);
+		window_update_statusbar_zoom_info (browser);
+	}
 }
 
 
