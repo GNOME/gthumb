@@ -29,7 +29,6 @@
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
-#include <gtkunique/gtkunique.h>
 
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"

@@ -61,7 +61,10 @@ static char*icon_mime_name[ICON_NAMES] = { "gnome-fs-directory",
 					   "gnome-fs-home",
 					   "gnome-fs-desktop" };
 
+#ifdef HAVE_GTKUNIQUE
 GtkUniqueApp  *gth_application = NULL;
+#endif /* HAVE_GTKUNIQUE */
+
 GthMonitor    *monitor = NULL;
 GList         *file_urls = NULL, *dir_urls = NULL;
 int            n_file_urls, n_dir_urls;
@@ -491,8 +494,10 @@ initialize_data (void)
 static void
 release_data (void)
 {
+#ifdef HAVE_GTKUNIQUE
 	if (gth_application != NULL)
                 g_object_unref (gth_application);
+#endif /* HAVE_GTKUNIQUE */
 
 	free_icon_pixbufs ();
 
@@ -512,6 +517,7 @@ open_viewer_window (const char *uri,
 {
 	GtkWidget *current_window;
 
+#ifdef HAVE_GTKUNIQUE
 	if (use_factory) {
 		char *command;
 
@@ -522,6 +528,7 @@ open_viewer_window (const char *uri,
 		g_free (command);
 		return;
 	}
+#endif /* HAVE_GTKUNIQUE */
 
 	current_window = gth_viewer_new (uri);
 	gtk_widget_show (current_window);
@@ -537,6 +544,7 @@ open_browser_window (const char *uri,
 {
 	GtkWidget *current_window;
 
+#ifdef HAVE_GTKUNIQUE
 	if (use_factory) {
 		char *command;
 
@@ -547,6 +555,7 @@ open_browser_window (const char *uri,
 		g_free (command);
 		return;
 	}
+#endif /* HAVE_GTKUNIQUE */
 
 	current_window = gth_browser_new (uri);
 	if (show_window)
@@ -617,6 +626,7 @@ show_grabbing_focus (GtkWidget *new_window)
 }
 
 
+#ifdef HAVE_GTKUNIQUE
 static GtkUniqueResponse
 application_message_cb (GtkUniqueApp     *app,
                         GtkUniqueCommand  command,
@@ -670,15 +680,17 @@ application_message_cb (GtkUniqueApp     *app,
 
 	return GTK_UNIQUE_RESPONSE_OK;
 }
+#endif /* HAVE_GTKUNIQUE */
 
 
 /* Create the windows. */
 static void
 prepare_app (void)
 {
-	gboolean  use_factory;
+	gboolean  use_factory = FALSE;
 	GList    *scan;
 
+#ifdef HAVE_GTKUNIQUE
 	gth_application = gtk_unique_app_new ("org.gnome.GThumb");
 	use_factory = gtk_unique_app_is_running (gth_application);
 
@@ -686,6 +698,7 @@ prepare_app (void)
 		g_signal_connect (gth_application, "message",
                 		  G_CALLBACK (application_message_cb),
                           	  NULL);
+#endif /* HAVE_GTKUNIQUE */
 
 	if (session_is_restored ()) {
 		load_session (use_factory);
@@ -693,9 +706,11 @@ prepare_app (void)
 	}
 
 	if (ImportPhotos) {
+#ifdef HAVE_GTKUNIQUE
 		if (use_factory)
 		 	gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, "import");
 		else
+#endif /* HAVE_GTKUNIQUE */
 			gth_browser_activate_action_file_camera_import (NULL, NULL);
 
 	} else if (! view_comline_catalog
@@ -705,9 +720,11 @@ prepare_app (void)
 
 	} else if (view_single_image) {
 		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
+#ifdef HAVE_GTKUNIQUE
 			char *command = g_strjoin ("|", "load_image", file_urls->data, NULL);
     			gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, command);
 			g_free (command);
+#endif /* HAVE_GTKUNIQUE */
 		} else {
 			if (UseViewer)
 				open_viewer_window (file_urls->data, use_factory);
