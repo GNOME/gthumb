@@ -2896,7 +2896,6 @@ launch_videos_in_list (GList *list)
         for (scan = list; scan; scan = scan->next) {
                 char *path = scan->data;
                 if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
-			printf ("video: %s\n\r",path);
 			video_list = g_list_append (video_list, path);
                         video_count++;
 		}
@@ -2906,6 +2905,8 @@ launch_videos_in_list (GList *list)
 		exec_command ("totem", video_list);
 	}
 
+	g_list_free (video_list);
+			
 	return video_count;
 }
 
@@ -2982,10 +2983,22 @@ key_press_cb (GtkWidget   *widget,
 		/* Hide/Show sidebar. */
 	case GDK_Return:
 	case GDK_KP_Enter:
-		if (priv->sidebar_visible) 
+		if (priv->sidebar_visible) {
+			/* When files are selected in the browser view and you press enter,
+			   launch the video viewer if videos are selected. If no videos are
+			   selected, go to image viewer mode. */
 			gth_browser_hide_sidebar (browser);
-		else
-			gth_browser_show_sidebar (browser);
+		}
+		else {
+			/* When in the image viewer mode and you press enter, launch the video
+			   viewer if a video thumbnail is shown. Otherwise, for regular images,
+			   return to the browser listing. This overloading might seem a little
+			   odd, but seems comfortable in practice. Use the Escape key to return
+			   from a video thumbnail in viewer mode to the browser mode. */
+		        list = gth_window_get_file_list_selection ( (GthWindow *) browser);
+		        if (!launch_videos_in_list (list)) 
+				gth_browser_show_sidebar (browser);
+		}
 		return TRUE;
 
 		/* Show sidebar */
@@ -7486,6 +7499,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	   display the image by its self. */
 
 	list = gth_window_get_file_list_selection ( (GthWindow *) browser);
+
 	if (!launch_videos_in_list (list)) {
 		_hide_sidebar (browser);
 		gtk_widget_grab_focus (widget_to_focus);

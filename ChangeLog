@@ -1,3 +1,12 @@
+2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/image-loader.c: (image_loader_finalize),
+	(image_loader_init), (image_loader_new), (load_image_thread):
+	* src/gth-browser.c: (launch_videos_in_list), (key_press_cb),
+	(gth_browser_hide_sidebar):
+	Show a video thumbnail in image viewer mode. Launch external
+	viewer (in browser or viewer mode) by pressing "enter".
+
 2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (file_is_mimetype), (file_is_image),
