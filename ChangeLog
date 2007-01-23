@@ -1,5 +1,10 @@
 2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/image-loader.c: (load_image_thread):
+	Cache the "large" video thumbnails made in image viewer mode.
+
+2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/image-loader.c: (image_loader_finalize),
 	(image_loader_init), (image_loader_new), (load_image_thread):
 	* src/gth-browser.c: (launch_videos_in_list), (key_press_cb),

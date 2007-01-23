@@ -626,9 +626,6 @@ load_image_thread (void *thread_data)
 									path,
 									mtime);
 
-					/* This doesn't seem to be working - gnome_thumbnail_factory_lookup is always
-					   returning NULL, forcing a slow thumbnail generation below. Why? */
-
 					if (existing_video_thumbnail != NULL) {
 						animation = gth_pixbuf_animation_new_from_uri (existing_video_thumbnail,
 								                               &error,
@@ -642,6 +639,10 @@ load_image_thread (void *thread_data)
 
 				                if (pixbuf != NULL) {
         	                			animation = gdk_pixbuf_non_anim_new (pixbuf);
+							gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
+												pixbuf,
+												path,
+												mtime);
 				                        g_object_unref (pixbuf);
 
 				                        if (animation == NULL)
