@@ -1,5 +1,11 @@
 2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/gthumb.desktop.in:
+	Change "Exec=gthumb %F" to "Exec=gthumb %U" to allow launching
+	of VFS URIs from Nautilus. 
+
+2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (file_is_image_or_video),
 	(remove_special_dirs_from_path), (gth_pixbuf_new_from_uri),
 	(gth_pixbuf_animation_new_from_uri):
