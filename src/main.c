@@ -413,25 +413,16 @@ initialize_data (void)
 
 	current_dir = g_get_current_dir ();
 	while ((filename = remaining_args[i++]) != NULL) {
-		char     *tmp1, *tmp2;
+		char     *tmp1 = NULL;
 		gboolean  is_dir;
 
-		if (! g_path_is_absolute (filename))
-			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
-		else
+		if (uri_has_scheme (filename) || g_path_is_absolute (filename)) 
 			tmp1 = g_strdup (filename);
+		else 
+			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
 
-		tmp2 = remove_special_dirs_from_path (tmp1);
-
-		if (! g_path_is_absolute (tmp2))
-			path = g_strconcat (current_dir, "/", tmp2, NULL);
-		else {
-			path = tmp2;
-			tmp2 = NULL;
-		}
-
+		path = remove_special_dirs_from_path (tmp1);
 		g_free (tmp1);
-		g_free (tmp2);
 
 		if (path_is_dir (path))
 			is_dir = TRUE;

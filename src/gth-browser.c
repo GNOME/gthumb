@@ -2895,7 +2895,10 @@ launch_videos_in_list (GList *list)
 
         for (scan = list; scan; scan = scan->next) {
                 char *path = scan->data;
-                if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
+                if (file_is_image_or_video (path, 
+					    eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
+					    FALSE,
+					    TRUE)) {
 			video_list = g_list_append (video_list, path);
                         video_count++;
 		}

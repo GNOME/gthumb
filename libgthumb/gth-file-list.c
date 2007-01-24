@@ -1007,7 +1007,7 @@ load_new_list (GthFileList *file_list)
 		FileData    *fd;
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
-		    || ! (file_is_image (full_path, fast_file_type) || file_is_video (full_path, fast_file_type)))
+		    || ! file_is_image_or_video (full_path, fast_file_type, TRUE, TRUE))
 			continue;
 
 		/* if the image is already present invalidate the thumbnail

@@ -240,7 +240,10 @@ thumb_loader (const char  *path,
 	ThumbLoaderPrivateData *priv = tl->priv;
 	GdkPixbuf	       *pixbuf = NULL;
 
-	if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
+	if (file_is_image_or_video (path, 
+				   eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE), 
+				   FALSE, 
+				   TRUE )) {
 		/* use the gnome thumbnailer for videos */
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (priv->thumb_factory,
 								     path,

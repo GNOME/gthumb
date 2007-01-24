@@ -102,10 +102,10 @@ gboolean            visit_rc_directory_sync       (const char       *rc_dir,
 
 /* File utils */ 
 
-gboolean            file_is_image                 (const char       *name,
-						   gboolean          fast_file_type);
-gboolean            file_is_video                 (const char       *name,
-                                                   gboolean          fast_file_type);
+gboolean            file_is_image_or_video	  (const gchar      *name,
+			                           gboolean          fast_file_type,
+                        			   gboolean          image_check,
+                        			   gboolean          video_check);
 gboolean            file_is_hidden                (const char       *name);
 gboolean            file_copy                     (const char       *from, 
 						   const char       *to);

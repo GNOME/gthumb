@@ -1356,7 +1356,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 
 	gnome_vfs_get_file_info (filepath, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	if (file_is_image (filepath, TRUE)) {
+	if (file_is_image_or_video (filepath, TRUE, TRUE, FALSE)) {
 		FileData     *fd = file_data_new (filepath, &info);
 		GthTransform transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (filepath))

@@ -613,7 +613,7 @@ load_image_thread (void *thread_data)
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, &error, priv->loader_data);
         		else {  
-			        if (file_is_video (path, FALSE)) {
+			        if (file_is_image_or_video (path, FALSE, FALSE, TRUE)) {
 					/* use the gnome thumbnailer for videos */
 
 				        GdkPixbuf *pixbuf = NULL;

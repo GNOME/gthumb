@@ -646,9 +646,10 @@ get_mime_type_from_ext (const char *ext)
 
 
 gboolean
-file_is_mimetype (const gchar *name,
-	          gboolean     fast_file_type,
-		  const char  *type_to_check)
+file_is_image_or_video (const gchar *name,
+	                gboolean     fast_file_type,
+	                gboolean     image_check,
+	                gboolean     video_check)
 {
 	const char *result = NULL;
 	gboolean    is_that_type;
@@ -686,27 +687,13 @@ file_is_mimetype (const gchar *name,
 	/* If the description contains the word 'image' or 'video' then we suppose
 	 * it is an image that gdk-pixbuf can load, or a video that we can refer
 	   to an external program. */
-	is_that_type = (strstr (result, type_to_check) != NULL);
 
-	return is_that_type;
+	return (   ((strstr (result, "image") != NULL) && image_check)
+		|| ((strstr (result, "video") != NULL) && video_check));
 }
 
 
 gboolean
-file_is_image (const gchar *name,
-	       gboolean     fast_file_type)
-{
-	return file_is_mimetype (name, fast_file_type, "image");
-}
-
-gboolean
-file_is_video (const gchar *name,
-               gboolean     fast_file_type)
-{
-        return file_is_mimetype (name, fast_file_type, "video");
-}
-
-
 file_is_hidden (const gchar *name)
 {
 	if (name[0] != '.') return FALSE;
@@ -1420,18 +1407,28 @@ remove_special_dirs_from_path (const char *uri)
 	GString     *result_s;
 	char        *scheme;
 	char        *result;
+	int	     start_at;
+
+	scheme = get_uri_scheme (uri);
+
+	g_assert ((scheme != NULL) || g_path_is_absolute (uri)); 
 
 	path = remove_scheme_from_uri (uri);
 
-	if ((path == NULL)
-	    || (*path != '/')
-	    || (strstr (path, ".") == NULL))
+	if ((path == NULL) || (strstr (path, ".") == NULL))
 		return g_strdup (path);
 
 	pathv = g_strsplit (path, "/", 0);
 
-	/* start from 1 to remove the first / that will be re-added later. */
-	for (i = 1; pathv[i] != NULL; i++) {
+	/* Trimmed uris might not start with a slash */
+	if (*path != '/')
+		start_at=0;
+	else
+		start_at=1;
+
+
+	/* Ignore first slash, if present. It will be re-added later. */
+	for (i = start_at; pathv[i] != NULL; i++) {
 		if (strcmp (pathv[i], ".") == 0) {
 			/* nothing to do. */
 		} else if (strcmp (pathv[i], "..") == 0) {
@@ -1446,11 +1443,15 @@ remove_special_dirs_from_path (const char *uri)
 	}
 
 	result_s = g_string_new (NULL);
-	scheme = get_uri_scheme (uri);
+
+	/* re-insert URI scheme */
 	if (scheme != NULL) {
 		g_string_append (result_s, scheme);
+		/* delete trailing slash - an extra one is added below */
+		g_string_truncate (result_s, result_s->len - 1);
 		g_free (scheme);
 	}
+
 	if (list == NULL)
 		g_string_append_c (result_s, '/');
 	else {
@@ -2130,7 +2131,7 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 	/* RAW file handling could be added here. That is, we could call dcraw instead
 	   of the gdk functions if is_raw_image were true. */
 
-	if (!(uri_has_scheme(filename)) || uri_scheme_is_file(filename)) {
+	if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
 		/* Local files: use standard gdk pixbuf loader. */
 		return gdk_pixbuf_new_from_file (remove_scheme_from_uri(filename), error);
 	} 
@@ -2153,7 +2154,7 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	   file (not ssh://, for example). This needs to be fixed! */
 
 	if (image_is_type__common (filename, "image/gif", fast_file_type)
-	    && (!(uri_has_scheme(filename)) || uri_scheme_is_file(filename))) {
+	    && (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename))) {
 		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
 	}
 	else {

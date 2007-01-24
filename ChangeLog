@@ -1,3 +1,27 @@
+2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (file_is_image_or_video),
+	(remove_special_dirs_from_path), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-file-list.c: (load_new_list):
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	* src/dlg-duplicates.c: (directory_load_cb):
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	* src/dlg-search.c: (file_respects_search_criteria):
+	* src/gth-browser.c: (launch_videos_in_list):
+	* src/gth-monitor.c: (add_monitor_event):
+	* src/main.c: (initialize_data):
+
+	Fixed remove_special_dirs_from_path to work properly with URIs.
+
+	Made file_is_image_or_video more efficient - fewer file accesses.
+
+	Allow single VFS files and directories to be launched from the
+	command line. Command-line-catalog (multiple files) still does
+	not work yet.
+
 2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/image-loader.c: (load_image_thread):
