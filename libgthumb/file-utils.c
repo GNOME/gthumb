@@ -1447,8 +1447,11 @@ remove_special_dirs_from_path (const char *uri)
 	/* re-insert URI scheme */
 	if (scheme != NULL) {
 		g_string_append (result_s, scheme);
-		/* delete trailing slash - an extra one is added below */
-		g_string_truncate (result_s, result_s->len - 1);
+
+		if (start_at==0)
+			/* delete trailing slash, because an extra one is added below */
+			g_string_truncate (result_s, result_s->len - 1);
+
 		g_free (scheme);
 	}
 

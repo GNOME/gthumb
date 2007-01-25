@@ -1,3 +1,9 @@
+2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (remove_special_dirs_from_path):
+	Further tweaks to remove_special_dirs_from_path, to work properly
+	with file:/// URIs. Fixes catalog browsing.
+
 2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/gthumb.desktop.in:
