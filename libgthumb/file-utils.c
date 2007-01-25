@@ -2153,20 +2153,62 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 				   GError      **error, 
 				   gboolean      fast_file_type)
 {
-	/* Currently GIF animations can only be loaded if they are in a local
-	   file (not ssh://, for example). This needs to be fixed! */
+	char               *tmp_dir = NULL;
+	char               *tmp_file = NULL;
+	GdkPixbufAnimation *tmp_animation = NULL;
 
+	/* Local gifs: use gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type)
 	    && (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename))) {
 		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
 	}
-	else {
-		GdkPixbuf *pixbuf;
-                pixbuf = gth_pixbuf_new_from_uri (filename, error);
-                if (pixbuf != NULL) {
-                	return gdk_pixbuf_non_anim_new (pixbuf);
-                        g_object_unref (pixbuf);
-		}
-	}	
+	
+	/* Remote gifs: copy file to local tmp_dir, then use
+	   gdk_pixbuf_animation_new_from_file */
+	if (image_is_type__common (filename, "image/gif", fast_file_type)
+		 && ((tmp_dir = get_temp_dir_name ()) != NULL) ) {
+
+		GnomeVFSResult result;
+		GnomeVFSURI   *source_uri;
+		GnomeVFSURI   *target_uri;
+
+		tmp_file = get_temp_file_name (tmp_dir, ".gif");
+		
+		source_uri = gnome_vfs_uri_new (filename);
+		target_uri = gnome_vfs_uri_new (tmp_file);
+
+		result = gnome_vfs_xfer_uri (source_uri, target_uri, 
+				     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+				     NULL,
+				     NULL);
+
+		gnome_vfs_uri_unref (target_uri);
+		gnome_vfs_uri_unref (source_uri);
+   
+	       	if (result == GNOME_VFS_OK)	
+			tmp_animation = gdk_pixbuf_animation_new_from_file (tmp_file, error);
+
+		file_unlink (tmp_file);
+		g_free (tmp_file);
+	}
+
+	if (tmp_dir != NULL) {
+                dir_remove (tmp_dir);
+                g_free (tmp_dir);
+	}
+
+        if (tmp_animation != NULL) 
+                return tmp_animation;
+ 
+	/* All other file types, or if previous methods fail for GIFs: read in a 
+	   non-animated pixbuf, and convert to a single-frame animation. */
+	GdkPixbuf *pixbuf;
+        pixbuf = gth_pixbuf_new_from_uri (filename, error);
+        if (pixbuf != NULL) {
+              	return gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+	}
 }
 

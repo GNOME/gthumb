@@ -1,5 +1,10 @@
 2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
+	Animated remote gifs work now, using gnome_vfs_xfer_uri. 
+
+2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/dlg-save-image.c: (dlg_save_image_as):
 	* src/dlg-web-exporter.c: (theme_dialog__install_theme_clicked):
 	Set gtk_file_chooser_set_local_only to FALSE, for VFS browsing.
