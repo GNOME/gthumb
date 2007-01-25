@@ -277,6 +277,9 @@ dlg_save_image_as (GtkWindow       *parent,
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
 
+	 /* Permit VFS URIs */
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
+
 	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
 
 	/**/

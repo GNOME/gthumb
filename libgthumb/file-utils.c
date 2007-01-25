@@ -1416,7 +1416,7 @@ remove_special_dirs_from_path (const char *uri)
 	path = remove_scheme_from_uri (uri);
 
 	if ((path == NULL) || (strstr (path, ".") == NULL))
-		return g_strdup (path);
+		return g_strdup (uri);
 
 	pathv = g_strsplit (path, "/", 0);
 

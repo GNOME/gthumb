@@ -859,6 +859,10 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
+
+	/* Permit VFS URIs */
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
+
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 

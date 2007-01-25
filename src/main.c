@@ -417,7 +417,7 @@ initialize_data (void)
 		gboolean  is_dir;
 
 		if (uri_has_scheme (filename) || g_path_is_absolute (filename)) 
-			tmp1 = g_strdup (filename);
+			tmp1 = gnome_vfs_make_uri_from_shell_arg (filename);
 		else 
 			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
 
