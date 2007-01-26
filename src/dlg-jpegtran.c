@@ -228,36 +228,6 @@ notify_file_changed (DialogData *data,
 }
 
 
-#define GTK_RESPONSE_TRIM 1
-static gint jpeg_mcu_dialog (GtkWindow *parent)
-{
- 	GtkWidget *d =  _gtk_message_dialog_new (parent,
-		GTK_DIALOG_MODAL,
-		GTK_STOCK_DIALOG_WARNING,
-		_("This transformation may introduce small image distortions along "
-		"one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
-		"is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
-		"transformation to return to the original image.\n\ngThumb can also discard (or trim) any "
-		"untransformable edge pixels. For practical use, this mode gives the best looking results, "
-		"but the transformation is not strictly lossless anymore.\n\nTo avoid this problem in the "
-		"future, consider disabling the \"Apply physical transform\" option in the rotation dialog."),
-		NULL,
-		_("Trim"), GTK_RESPONSE_TRIM,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
-		NULL);
-
-	gint result = gtk_dialog_run (GTK_DIALOG (d));
-
- 	gtk_widget_destroy (d);
-
-	if (result == GTK_RESPONSE_DELETE_EVENT)
-		return GTK_RESPONSE_CANCEL;
-	else
- 		return result;
-}
-
-
 static void
 apply_transformation (DialogData *data,
 		      GList      *current_image,
@@ -297,19 +267,7 @@ apply_transformation (DialogData *data,
 		write_orientation_field (path, required_transform);
 	} else if (jpeg) {
  		// Lossless jpeg transform.
-		gint width, height;
-		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
-		if (!jtransform_perfect_transform (width, height, 8, 8, required_transform)) {
- 			// Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
- 			// Warn about possible image distortions along one or more edges.
- 			gint result = jpeg_mcu_dialog (window);
-			if (result != GTK_RESPONSE_CANCEL) {
-				gboolean trim = (result == GTK_RESPONSE_TRIM);
-				apply_transformation_jpeg (window, path, required_transform, trim);
-			}
- 		} else {
-			apply_transformation_jpeg (window, path, required_transform, FALSE);
-		}
+		apply_transformation_jpeg (window, path, required_transform);
 	} else {
 		// Generic image transform.
 		apply_transformation_generic (window, path, required_transform);

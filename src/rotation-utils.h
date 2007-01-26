@@ -29,14 +29,9 @@
 
 #include "gth-exif-utils.h"
 
-gboolean	jtransform_perfect_transform   (gint image_width, gint image_height,
-						gint MCU_width, gint MCU_height,
-						GthTransform transform);
-
 void		apply_transformation_jpeg      (GtkWindow    *win,
 						const char   *filename,
-						GthTransform  transform,
-						gboolean	     trim);
+						GthTransform  transform);
 void		apply_transformation_generic   (GtkWindow    *win,
 						const char   *filename,
 						GthTransform  transform);

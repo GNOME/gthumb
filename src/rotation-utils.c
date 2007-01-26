@@ -81,48 +81,52 @@ write_orientation_field (const char   *path,
 }
 
 
-gboolean
-jtransform_perfect_transform(gint image_width, gint image_height,
-				gint MCU_width, gint MCU_height,
-				GthTransform transform)
+static boolean
+jpeg_mcu_dialog (JXFORM_CODE *transform, boolean *trim, GtkWindow *parent)
 {
-	/* This function determines if it is possible to perform a lossless
-	   jpeg transformation without trimming, based on the image dimensions 
-	   and MCU size. Further details at http://jpegclub.org/jpegtran. */
+	/*
+	 * Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
+	 * Warn about possible image distortions along one or more edges.
+	 */
 
-	gboolean result = TRUE;
+ 	GtkWidget *d =  _gtk_message_dialog_new (parent,
+		GTK_DIALOG_MODAL,
+		GTK_STOCK_DIALOG_WARNING,
+		_("This transformation may introduce small image distortions along "
+		"one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
+		"is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
+		"transformation to return to the original image.\n\ngThumb can also discard (or trim) any "
+		"untransformable edge pixels. For practical use, this mode gives the best looking results, "
+		"but the transformation is not strictly lossless anymore.\n\nTo avoid this problem in the "
+		"future, consider disabling the \"Apply physical transform\" option in the rotation dialog."),
+		NULL,
+		_("Trim"), 1,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
 
-	switch (transform) {
-	case GTH_TRANSFORM_FLIP_H:
-	case GTH_TRANSFORM_ROTATE_270:
-		if (image_width % MCU_width)
-			result = FALSE;
-		break;
-	case GTH_TRANSFORM_FLIP_V:
-	case GTH_TRANSFORM_ROTATE_90:
-		if (image_height % MCU_height)
-			result = FALSE;
-		break;
-	case GTH_TRANSFORM_TRANSVERSE:
-	case GTH_TRANSFORM_ROTATE_180:
-		if (image_width % MCU_width)
-			result = FALSE;
-		if (image_height % MCU_height)
-			result = FALSE;
-		break;
+	gint result = gtk_dialog_run (GTK_DIALOG (d));
+
+ 	gtk_widget_destroy (d);
+
+	switch (result) {
+	case GTK_RESPONSE_OK:
+		return TRUE;
+	case GTK_RESPONSE_CANCEL:
+		return FALSE;
+	case 1:
+		*trim = TRUE;
+		return TRUE;
 	default:
-		break;
+		return FALSE;
 	}
-
-	return result;
 }
 
 
 void
 apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
-			   GthTransform  transform,
-			   gboolean	 trim)
+			   GthTransform  transform)
 {
 	char        *line;
 	char        *tmp;
@@ -175,7 +179,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran ((char*)path, tmp, transf, trim, &err) != 0) {
+	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, win, &err) != 0) {
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
