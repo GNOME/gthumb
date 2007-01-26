@@ -28,11 +28,17 @@
 #include <glib.h>
 #include "transupp.h"
 
+typedef boolean (*jpegtran_mcu_callback) (JXFORM_CODE *transform, boolean *trim, void *userdata);
+
+#define JPEGTRAN_MCU_CONTINUE	((jpegtran_mcu_callback)0)
+#define JPEGTRAN_MCU_TRIM	((jpegtran_mcu_callback)-1)
+#define JPEGTRAN_MCU_CANCEL	((jpegtran_mcu_callback)-2)
 
 int jpegtran (const char *input_filename,
 		const char *output_filename,
 		JXFORM_CODE transformation,
-		gboolean trim,
+		jpegtran_mcu_callback callback,
+		void *userdata,
 		GError **error);
 
 #endif /* JPEGTRAN_H */

@@ -2241,8 +2241,7 @@ export__copy_image (CatalogWebExporter *ce)
 		if (transform > 1)
 			apply_transformation_jpeg(GTK_WINDOW (ce->window),
 						  dest_filename,
-						  transform,
-						  FALSE);
+						  transform);
 	}
 }
 

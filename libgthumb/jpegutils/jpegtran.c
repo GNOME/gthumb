@@ -50,6 +50,7 @@
 #include "file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
 #include "jpeg-memory-mgr.h"
+#include "jpegtran.h"
 
 #include <libexif/exif-data.h>
 
@@ -59,8 +60,7 @@ jpegtran_thumbnail (const void   *idata,
 		    size_t        isize,
 		    void        **odata,
 		    size_t       *osize,
-		    JXFORM_CODE   transformation,
-		    gboolean      trim);
+		    JXFORM_CODE   transformation);
 
 
 /* error handler data */
@@ -230,7 +230,7 @@ update_exif_thumbnail (ExifData    *edata,
 
 	/* Transform thumbnail */
 	if (jpegtran_thumbnail (edata->data, edata->size,
-			(void**)&out, &osize, transform, FALSE) != 0) {
+			(void**)&out, &osize, transform) != 0) {
 		/* Failed: Discard thumbnail */
 		g_free (out);
 		g_free (edata->data);
@@ -289,18 +289,54 @@ update_exif_data (struct jpeg_decompress_struct *src,
 }
 
 
-static void
+static boolean
+jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
+			     int MCU_width, int MCU_height,
+			     JXFORM_CODE transform)
+{
+	/* This function determines if it is possible to perform a lossless
+	   jpeg transformation without trimming, based on the image dimensions 
+	   and MCU size. Further details at http://jpegclub.org/jpegtran. */
+
+	boolean result = TRUE;
+
+	switch (transform) {
+	case JXFORM_FLIP_H:
+	case JXFORM_ROT_270:
+		if (image_width % (JDIMENSION) MCU_width)
+			result = FALSE;
+		break;
+	case JXFORM_FLIP_V:
+	case JXFORM_ROT_90:
+		if (image_height % (JDIMENSION) MCU_height)
+			result = FALSE;
+		break;
+	case JXFORM_TRANSVERSE:
+	case JXFORM_ROT_180:
+		if (image_width % (JDIMENSION) MCU_width)
+			result = FALSE;
+		if (image_height % (JDIMENSION) MCU_height)
+			result = FALSE;
+		break;
+	}
+
+	return result;
+}
+
+
+static int
 jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 		   struct jpeg_compress_struct   *dstinfo,
 		   JXFORM_CODE                    transformation,
-		   gboolean                       trim)
+		   jpegtran_mcu_callback          callback,
+		   void                          *userdata)
 {
 	jpeg_transform_info  transformoption;
 	jvirt_barray_ptr    *src_coef_arrays;
 	jvirt_barray_ptr    *dst_coef_arrays;
 
 	transformoption.transform = transformation;
-	transformoption.trim = trim;
+	transformoption.trim = FALSE;
 	transformoption.force_grayscale = FALSE;
 
 	/* Enable saving of extra markers that we want to copy */
@@ -308,6 +344,24 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 
 	/* Read file header */
 	(void) jpeg_read_header (srcinfo, TRUE);
+	
+	/* Check JPEG Minimal Coding Unit (mcu) */
+	if (callback &&	!jtransform_perfect_transform(
+			srcinfo->image_width, 
+			srcinfo->image_height, 
+			srcinfo->max_h_samp_factor * DCTSIZE, 
+			srcinfo->max_v_samp_factor * DCTSIZE,
+			transformation)) {
+
+		if (callback == JPEGTRAN_MCU_TRIM) {
+			// Continue transform and trim partial MCUs 
+			transformoption.trim = TRUE;
+		} else if ((callback == JPEGTRAN_MCU_CANCEL) ||
+			(callback (&transformoption.transform, &transformoption.trim, userdata) == FALSE)) {
+			// Abort transform
+			return 1;
+		}
+	}
 
 	/* Update exif data */
 	update_exif_data(srcinfo, transformation);
@@ -344,9 +398,11 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 					   src_coef_arrays,
 					   &transformoption);
 
-	/* Finish compression and release memory */
+	/* Finish compression */
 	jpeg_finish_compress (dstinfo);
 	jpeg_finish_decompress (srcinfo);
+	
+	return 0;
 }
 
 
@@ -355,8 +411,7 @@ jpegtran_thumbnail (const void   *idata,
 		    size_t        isize,
 		    void        **odata,
 		    size_t       *osize,
-		    JXFORM_CODE   transformation,
-		    gboolean      trim)
+		    JXFORM_CODE   transformation)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
@@ -410,7 +465,11 @@ jpegtran_thumbnail (const void   *idata,
 	jpeg_memory_dest (&dstinfo, odata, osize);
 
 	/* Apply transformation */
-	jpegtran_internal(&srcinfo, &dstinfo, transformation, trim);
+	if (jpegtran_internal(&srcinfo, &dstinfo, transformation, NULL, NULL) != 0) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		return 1;
+	}
 
 	/* Release memory */
 	jpeg_destroy_compress (&dstinfo);
@@ -424,7 +483,8 @@ int
 jpegtran (const char   *input_filename,
 	  const char   *output_filename,
 	  JXFORM_CODE   transformation,
-	  gboolean      trim,
+	  jpegtran_mcu_callback callback,
+	  void         *userdata,
 	  GError      **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
@@ -497,7 +557,13 @@ jpegtran (const char   *input_filename,
 	jpeg_stdio_dest (&dstinfo, output_file);
 
 	/* Apply transformation */
-	jpegtran_internal(&srcinfo, &dstinfo, transformation, trim);
+	if (jpegtran_internal(&srcinfo, &dstinfo, transformation, callback, userdata) != 0) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		fclose (input_file);
+		fclose (output_file);
+		return 1;
+	}
 
 	/* Release memory */
 	jpeg_destroy_compress (&dstinfo);

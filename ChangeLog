@@ -1,3 +1,18 @@
+2007-01-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail),
+	(jtransform_perfect_transform), (jpegtran_internal),
+	(jpegtran_thumbnail), (jpegtran):
+	* libgthumb/jpegutils/jpegtran.h:
+	* src/catalog-web-exporter.c: (export__copy_image):
+	* src/dlg-jpegtran.c: (apply_transformation):
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	* src/rotation-utils.c: (jpeg_mcu_dialog),
+	(apply_transformation_jpeg):
+	* src/rotation-utils.h:
+	Applied Jef Driesen's callback-based jpegtran scheme, for greater
+	efficiency during lossless rotates, etc. Bug 361913.
+
 2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer.c:
