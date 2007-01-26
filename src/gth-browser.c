@@ -2994,13 +2994,11 @@ key_press_cb (GtkWidget   *widget,
 		}
 		else {
 			/* When in the image viewer mode and you press enter, launch the video
-			   viewer if a video thumbnail is shown. Otherwise, for regular images,
-			   return to the browser listing. This overloading might seem a little
-			   odd, but seems comfortable in practice. Use the Escape key to return
-			   from a video thumbnail in viewer mode to the browser mode. */
+			   viewer if a video thumbnail is shown, and then return to the browser
+			   mode in the normal fashion. */
 		        list = gth_window_get_file_list_selection ( (GthWindow *) browser);
-		        if (!launch_videos_in_list (list)) 
-				gth_browser_show_sidebar (browser);
+		        launch_videos_in_list (list); 
+			gth_browser_show_sidebar (browser);
 		}
 		return TRUE;
 

@@ -1,3 +1,8 @@
+2007-01-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (key_press_cb):
+	Return to browser mode after showing a video in viewer mode.
+
 2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
