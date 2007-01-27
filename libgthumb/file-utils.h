@@ -214,5 +214,6 @@ GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char   *filename,
 						       GError 	   **error);
 GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char   *filename, 
 						       GError      **error,
-						       gboolean      fast_file_type);
+						       gboolean      fast_file_type,
+						       gint          requested_width_if_used);
 #endif /* FILE_UTILS_H */

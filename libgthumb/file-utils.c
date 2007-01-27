@@ -54,6 +54,10 @@
 #include "file-utils.h"
 #include "pixbuf-utils.h"
 
+#ifdef HAVE_LIBOPENRAW
+#include <libopenraw-gnome/gdkpixbuf.h>
+#endif
+
 #define BUF_SIZE 4096
 #define CHUNK_SIZE 128
 #define MAX_SYMLINKS_FOLLOWED 32
@@ -838,7 +842,8 @@ gboolean
 image_is_raw (const char *name)
 {
 	return image_is_type(name, "application/x-crw")
-		|| image_is_type (name, "image/x-dcraw");
+		|| image_is_type (name, "image/x-dcraw")
+		|| image_is_type (name, "image/x-nikon-nef");
 }
 
 gboolean
@@ -2131,16 +2136,53 @@ check_permissions (const char *path,
 }
 
 
+/* VFS caching */
+static char* 
+make_local_copy_of_remote_file (const char *remote_filename,
+				char       *tmp_dir)
+{
+	/* make a local copy of a remote VFS file, and return the new filename */
+
+	GnomeVFSResult result;
+	GnomeVFSURI   *source_uri;
+	GnomeVFSURI   *target_uri;
+	char	      *tmp_file = NULL;
+
+	if (tmp_dir == NULL)
+		return NULL;
+
+	tmp_file = get_temp_file_name (tmp_dir, get_extension(remote_filename));
+
+	source_uri = gnome_vfs_uri_new (remote_filename);
+	target_uri = gnome_vfs_uri_new (tmp_file);
+
+	result = gnome_vfs_xfer_uri (source_uri, target_uri,
+                                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+                                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+                                     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+                                     NULL,
+                                     NULL);
+
+	gnome_vfs_uri_unref (target_uri);
+	gnome_vfs_uri_unref (source_uri);
+
+        if (result == GNOME_VFS_OK)
+		return tmp_file;
+	else
+		return NULL;
+}
+
+
 /* Pixbuf + VFS */
+
+
+
 
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char *filename, GError **error)
 {
 	/* Very temporary - borrow code from libgnomeui directly, since
 	   libgnomeui is or will be deprecated. See bug 143197. */
-
-	/* RAW file handling could be added here. That is, we could call dcraw instead
-	   of the gdk functions if is_raw_image were true. */
 
 	if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
 		/* Local files: use standard gdk pixbuf loader. */
@@ -2159,61 +2201,82 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 GdkPixbufAnimation*
 gth_pixbuf_animation_new_from_uri (const char 	*filename, 
 				   GError      **error, 
-				   gboolean      fast_file_type)
+				   gboolean      fast_file_type,
+				   gint		 requested_width_if_used)
 {
-	char               *tmp_dir = NULL;
 	char               *tmp_file = NULL;
 	GdkPixbufAnimation *tmp_animation = NULL;
+	GdkPixbuf          *pixbuf = NULL;
 
 	/* Local gifs: use gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type)
 	    && (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename))) {
+printf ("Local gif: %s\n\r",filename);		
 		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
 	}
 	
 	/* Remote gifs: copy file to local tmp_dir, then use
 	   gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (filename, "image/gif", fast_file_type)
-		 && ((tmp_dir = get_temp_dir_name ()) != NULL) ) {
+	if (image_is_type__common (filename, "image/gif", fast_file_type) ) {
+		char *tmp_dir;
+printf ("Remote gif: %s\n\r",filename); 
 
-		GnomeVFSResult result;
-		GnomeVFSURI   *source_uri;
-		GnomeVFSURI   *target_uri;
-
-		tmp_file = get_temp_file_name (tmp_dir, ".gif");
+		tmp_dir	= get_temp_dir_name ();
+		tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
 		
-		source_uri = gnome_vfs_uri_new (filename);
-		target_uri = gnome_vfs_uri_new (tmp_file);
-
-		result = gnome_vfs_xfer_uri (source_uri, target_uri, 
-				     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				     NULL,
-				     NULL);
-
-		gnome_vfs_uri_unref (target_uri);
-		gnome_vfs_uri_unref (source_uri);
-   
-	       	if (result == GNOME_VFS_OK)	
+	       	if (tmp_file != NULL) {
 			tmp_animation = gdk_pixbuf_animation_new_from_file (tmp_file, error);
+			file_unlink (tmp_file);
+			g_free (tmp_file);
+		}
 
-		file_unlink (tmp_file);
-		g_free (tmp_file);
+		if (tmp_dir != NULL) {
+	                dir_remove (tmp_dir);
+        	        g_free (tmp_dir);
+		}
 	}
+	
+	if (tmp_animation != NULL) 
+		return tmp_animation;
 
-	if (tmp_dir != NULL) {
-                dir_remove (tmp_dir);
-                g_free (tmp_dir);
+#ifdef HAVE_LIBOPENRAW
+	/* raw thumbnails */
+printf ("Is raw? %d\n\r",image_is_raw(filename)); 	
+	if (image_is_raw (filename) && (requested_width_if_used > 0)) {
+
+		if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
+			/* Local raw images */
+printf("local raw: %s\n\r",filename);			
+			pixbuf = or_gdkpixbuf_extract_thumbnail(remove_scheme_from_uri(filename), requested_width_if_used);
+		} else {
+			/* Remote raw images */
+	                char *tmp_dir;
+
+        	        tmp_dir = get_temp_dir_name ();
+                	tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
+
+printf("remote raw: %s, %s\n\r",filename, tmp_file);			
+	                if (tmp_file != NULL) {
+        	                pixbuf = or_gdkpixbuf_extract_thumbnail(tmp_file, requested_width_if_used);
+                	        file_unlink (tmp_file);
+                        	g_free (tmp_file);
+	                }
+
+        	        if (tmp_dir != NULL) {
+                	        dir_remove (tmp_dir);
+                        	g_free (tmp_dir);
+	                }
+		}
 	}
+#endif
 
-        if (tmp_animation != NULL) 
-                return tmp_animation;
- 
-	/* All other file types, or if previous methods fail for GIFs: read in a 
+	/* All other file types, or if previous methods fail: read in a 
 	   non-animated pixbuf, and convert to a single-frame animation. */
-	GdkPixbuf *pixbuf;
-        pixbuf = gth_pixbuf_new_from_uri (filename, error);
+
+	if (pixbuf == NULL)
+	        pixbuf = gth_pixbuf_new_from_uri (filename, error);
+
+printf ("Other: %s\n\r",filename); 	
         if (pixbuf != NULL) {
               	return gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);

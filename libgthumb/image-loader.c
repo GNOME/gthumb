@@ -629,7 +629,8 @@ load_image_thread (void *thread_data)
 					if (existing_video_thumbnail != NULL) {
 						animation = gth_pixbuf_animation_new_from_uri (existing_video_thumbnail,
 								                               &error,
-								                               FALSE);
+								                               FALSE,
+											       0);
 						g_free (existing_video_thumbnail);
 					}
 					else {
@@ -655,7 +656,8 @@ load_image_thread (void *thread_data)
 					   file types. */
 		                	animation = gth_pixbuf_animation_new_from_uri (path, 
 						                               &error,
-					                                       FALSE);
+					                                       FALSE,
+									       0);
 				}
 		        }
 		}
