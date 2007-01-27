@@ -1,3 +1,10 @@
+2007-01-26  Hubert Figuiere  <hub@figuiere.net>
+
+	* libgthumb/file-utils.[ch] (image_is_raw): detect raw files.
+	* libgthumb/thumb-loader.c (thumb_loader): load thumbnails for
+	RAW user libopenraw. Partially fix bug #145564.
+	* configure.in: detect libopenraw.
+
 2007-01-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail),

@@ -688,8 +688,10 @@ file_is_image_or_video (const gchar *name,
 	 * it is an image that gdk-pixbuf can load, or a video that we can refer
 	   to an external program. */
 
-	return (   ((strstr (result, "image") != NULL) && image_check)
-		|| ((strstr (result, "video") != NULL) && video_check));
+	return (   (((strstr (result, "image") != NULL) 
+		    || (strcmp(result, "application/x-crw") == 0)) 
+		    && image_check)
+		   || ((strstr (result, "video") != NULL) && video_check));
 }
 
 
@@ -832,6 +834,12 @@ image_is_jpeg (const char *name)
 	return image_is_type (name, "image/jpeg");
 }
 
+gboolean
+image_is_raw (const char *name)
+{
+	return image_is_type(name, "application/x-crw")
+		|| image_is_type (name, "image/x-dcraw");
+}
 
 gboolean
 image_is_gif (const char *name)

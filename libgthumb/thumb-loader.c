@@ -4,6 +4,7 @@
  *  GThumb
  *
  *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2006-2007 Hubert Figuiere <hub@figuiere.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -46,6 +47,10 @@
 #include "jpeg-utils.h"
 #include "gthumb-marshal.h"
 
+#ifdef HAVE_LIBOPENRAW
+#include <libopenraw-gnome/gdkpixbuf.h>
+
+#endif
 
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
 
@@ -277,6 +282,27 @@ thumb_loader (const char  *path,
 			debug (DEBUG_INFO, "PIXBUF == NULL\n");
 
 	} 
+#ifdef HAVE_LIBOPENRAW
+	else if (image_is_raw(path))
+	{
+		GdkPixbuf *pixbuf = NULL;
+		ThumbLoader *tl = data;
+		ThumbLoaderPrivateData *priv = tl->priv;
+		GnomeVFSURI *uri = gnome_vfs_uri_new(path);
+		const char *scheme = gnome_vfs_uri_get_scheme(uri);
+		if (strcmp(scheme, "file") == 0) {
+			pixbuf = or_gdkpixbuf_extract_thumbnail(
+				gnome_vfs_uri_get_path(uri), 
+				priv->cache_max_w
+				);
+			if (pixbuf != NULL) {
+				animation = gdk_pixbuf_non_anim_new (pixbuf);
+				g_object_unref (pixbuf);
+			}
+		}
+		gnome_vfs_uri_unref(uri);
+	}
+#endif
 	else {
 		/* Get an animation. Use fast file-type checking by default, unless
 		   content-checking is enabled. */

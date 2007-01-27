@@ -115,6 +115,7 @@ gboolean            file_rename                   (const gchar      *old_path,
 						   const gchar      *new_path);
 gboolean            file_unlink                   (const char       *path);
 gboolean            image_is_jpeg                 (const char       *name);
+gboolean            image_is_raw                  (const char       *name);
 gboolean            image_is_gif                  (const char       *name);
 gboolean            image_is_gif__accurate        (const char       *name);
 gboolean            path_is_file                  (const char       *s);
