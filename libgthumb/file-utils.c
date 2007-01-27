@@ -36,6 +36,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
+#include <config.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
@@ -2211,7 +2212,6 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	/* Local gifs: use gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type)
 	    && (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename))) {
-printf ("Local gif: %s\n\r",filename);		
 		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
 	}
 	
@@ -2219,7 +2219,6 @@ printf ("Local gif: %s\n\r",filename);
 	   gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type) ) {
 		char *tmp_dir;
-printf ("Remote gif: %s\n\r",filename); 
 
 		tmp_dir	= get_temp_dir_name ();
 		tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
@@ -2241,12 +2240,10 @@ printf ("Remote gif: %s\n\r",filename);
 
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
-printf ("Is raw? %d\n\r",image_is_raw(filename)); 	
 	if (image_is_raw (filename) && (requested_width_if_used > 0)) {
 
 		if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
 			/* Local raw images */
-printf("local raw: %s\n\r",filename);			
 			pixbuf = or_gdkpixbuf_extract_thumbnail(remove_scheme_from_uri(filename), requested_width_if_used);
 		} else {
 			/* Remote raw images */
@@ -2255,7 +2252,6 @@ printf("local raw: %s\n\r",filename);
         	        tmp_dir = get_temp_dir_name ();
                 	tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
 
-printf("remote raw: %s, %s\n\r",filename, tmp_file);			
 	                if (tmp_file != NULL) {
         	                pixbuf = or_gdkpixbuf_extract_thumbnail(tmp_file, requested_width_if_used);
                 	        file_unlink (tmp_file);
@@ -2276,7 +2272,6 @@ printf("remote raw: %s, %s\n\r",filename, tmp_file);
 	if (pixbuf == NULL)
 	        pixbuf = gth_pixbuf_new_from_uri (filename, error);
 
-printf ("Other: %s\n\r",filename); 	
         if (pixbuf != NULL) {
               	return gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
