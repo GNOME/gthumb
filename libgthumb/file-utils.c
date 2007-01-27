@@ -842,9 +842,17 @@ image_is_jpeg (const char *name)
 gboolean
 image_is_raw (const char *name)
 {
-	return image_is_type(name, "application/x-crw")
-		|| image_is_type (name, "image/x-dcraw")
-		|| image_is_type (name, "image/x-nikon-nef");
+	return 	   image_is_type (name, "application/x-crw")	/* ? */
+		|| image_is_type (name, "image/x-dcraw")	/* dcraw */
+		|| image_is_type (name, "image/x-minolta-mrw")  /* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-canon-crw")    /* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-nikon-nef")	/* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-kodak-dcr")    /* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-kodak-kdc")    /* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-olympus-orf")	/* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-fuji-raf")    	/* freedesktop.org.xml */
+		|| image_is_type (name, "image/x-raw")		/* mimelnk */
+		;
 }
 
 gboolean
