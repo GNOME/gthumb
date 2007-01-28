@@ -67,7 +67,7 @@ typedef struct {
 	GtkSpinButton *ratio_w_spinbutton;
 	GtkSpinButton *ratio_h_spinbutton;
 	GtkWidget     *custom_ratio_box;
-	GtkWidget     *ratio_swap_button;
+	GtkWidget     *invert_ratio_checkbutton;
 	GtkWidget     *mask_button;
 	GtkWidget     *undo_button;
 	GtkWidget     *redo_button;
@@ -281,6 +281,7 @@ ratio_optionmenu_changed_cb (GtkOptionMenu *optionmenu,
 	}
 
 	gtk_widget_set_sensitive (data->custom_ratio_box, idx == GTH_CROP_RATIO_CUSTOM);
+	gtk_widget_set_sensitive (data->invert_ratio_checkbutton, use_ratio);
 	set_spin_value (data, data->ratio_w_spinbutton, w);
 	set_spin_value (data, data->ratio_h_spinbutton, h);
 
@@ -294,32 +295,22 @@ static void
 ratio_value_changed_cb (GtkSpinButton *spin,
 			DialogData    *data)
 {
-	int w, h;
+	gboolean use_ratio;
+	int      w, h;
+	double   ratio;
+
+	use_ratio = gtk_option_menu_get_history (GTK_OPTION_MENU (data->ratio_optionmenu)) != GTH_CROP_RATIO_NONE;
 
 	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
 	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
 
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->invert_ratio_checkbutton)))
+		ratio = (double) h / w;
+	else
+		ratio = (double) w / h;
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
-				      TRUE,
-				      (double) w / h);
-}
-
-
-static void
-ratio_swap_button_cb (GtkButton *button,
-		      DialogData *data)
-{
-	int w, h;
-
-	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
-	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
-
-	set_spin_value (data, data->ratio_w_spinbutton, h);
-	set_spin_value (data, data->ratio_h_spinbutton, w);
-
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
-				      TRUE,
-				      (double) h / w);
+				      use_ratio,
+				      ratio);
 }
 
 
@@ -495,7 +486,7 @@ dlg_crop (GthWindow *window)
 	data->ratio_w_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "ratio_w_spinbutton");
 	data->ratio_h_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "ratio_h_spinbutton");
 	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
-	data->ratio_swap_button = glade_xml_get_widget (data->gui, "ratio_swap_button");
+	data->invert_ratio_checkbutton = glade_xml_get_widget (data->gui, "invert_ratio_checkbutton");
 
 	crop_button = glade_xml_get_widget (data->gui, "crop_crop_button");
 	data->undo_button = glade_xml_get_widget (data->gui, "crop_undo_button");
@@ -512,9 +503,6 @@ dlg_crop (GthWindow *window)
 	help_button = glade_xml_get_widget (data->gui, "crop_helpbutton");
 
 	data->image_selector = gth_image_selector_new (GTH_SELECTOR_TYPE_REGION, NULL);
-
-	image = glade_xml_get_widget (data->gui, "ratio_swap_image");
-	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_SWAP, GTK_ICON_SIZE_MENU);
 
 	image = glade_xml_get_widget (data->gui, "crop_image");
 	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_CROP, GTK_ICON_SIZE_MENU);
@@ -567,7 +555,7 @@ dlg_crop (GthWindow *window)
 				     crop_ratio);
 	gtk_widget_set_sensitive (data->custom_ratio_box,
 				  (crop_ratio == GTH_CROP_RATIO_CUSTOM));
-
+        gtk_widget_set_sensitive (data->invert_ratio_checkbutton, (crop_ratio != GTH_CROP_RATIO_NONE));
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      (crop_ratio != GTH_CROP_RATIO_NONE),
 				      (double) ratio_w / ratio_h);
@@ -630,9 +618,9 @@ dlg_crop (GthWindow *window)
 			  "value_changed",
 			  G_CALLBACK (ratio_value_changed_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ratio_swap_button),
-			  "clicked",
-			  G_CALLBACK (ratio_swap_button_cb),
+	g_signal_connect (G_OBJECT (data->invert_ratio_checkbutton),
+			  "toggled",
+			  G_CALLBACK (ratio_value_changed_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (crop_button),

@@ -1,5 +1,13 @@
 2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/glade/gthumb_crop.glade:
+	* src/dlg-crop.c:
+
+	Added option to invert the aspect ratio even for non-custom ratios.
+	Fixes bug #389870 – Missing option in Image Crop Aspect Ratio
+
+2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-fullscreen.c (viewer_key_press_cb):
 	* src/gth-browser.c (key_press_cb):
 	* src/gth-viewer.c (viewer_key_press_cb):
