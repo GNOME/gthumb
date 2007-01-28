@@ -1,3 +1,32 @@
+2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_crop.glade:
+	* src/dlg-crop.c:
+
+	Added option to invert the aspect ratio even for non-custom ratios.
+	Fixes bug #389870 – Missing option in Image Crop Aspect Ratio
+
+2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (viewer_key_press_cb):
+	* src/gth-browser.c (key_press_cb):
+	* src/gth-viewer.c (viewer_key_press_cb):
+	* libgthumb/jpegutils/jpegtran.c (jtransform_perfect_transform):
+
+	Fixed compiler warnings.
+
+2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c:
+	* src/gth-browser.c:
+	* src/gth-browser.c:
+	* src/gth-viewer.c:
+	* libgthumb/image-viewer.c:
+	* libgthumb/image-viewer.h:
+
+	Add more signals to ImageViewer so that it can handle more keypresses
+	autonomically (#401544).  Patch by Björn Lindqvist.
+
 2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (image_is_raw):

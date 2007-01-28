@@ -57,6 +57,10 @@
 enum {
 	CLICKED,
 	IMAGE_LOADED,
+	ZOOM_IN,
+	ZOOM_OUT,
+	SET_ZOOM,
+	SET_FIT_MODE,
 	ZOOM_CHANGED,
 	REPAINTED,
 	MOUSE_WHEEL_SCROLL,
@@ -155,6 +159,42 @@ image_viewer_class_init (ImageViewerClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
+	image_viewer_signals[ZOOM_IN] =
+		g_signal_new ("zoom_in",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ImageViewerClass, zoom_in),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	image_viewer_signals[ZOOM_OUT] =
+		g_signal_new ("zoom_out",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ImageViewerClass, zoom_out),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	image_viewer_signals[SET_ZOOM] =
+		g_signal_new ("set_zoom",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ImageViewerClass, set_zoom),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__DOUBLE,
+			      G_TYPE_NONE,
+			      1, GTK_TYPE_DOUBLE);
+	image_viewer_signals[SET_FIT_MODE] =
+		g_signal_new ("set_fit_mode",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ImageViewerClass, set_fit_mode),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__ENUM,
+			      G_TYPE_NONE,
+			      1, GTK_TYPE_INT);
 	image_viewer_signals[ZOOM_CHANGED] =
 		g_signal_new ("zoom_changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -224,10 +264,16 @@ image_viewer_class_init (ImageViewerClass *class)
 	class->image_loaded = NULL;
 	class->zoom_changed = NULL;
 	class->scroll       = scroll_signal;
+	class->zoom_in      = image_viewer_zoom_in;
+	class->zoom_out     = image_viewer_zoom_out;
+	class->set_zoom     = image_viewer_set_zoom;
+	class->set_fit_mode = image_viewer_set_fit_mode;
 
 	/* Add key bindings */
 
         binding_set = gtk_binding_set_by_class (class);
+
+	/* For scrolling */
 
 	gtk_binding_entry_add_signal (binding_set, GDK_Right, 0,
 			      "scroll", 2,
@@ -271,6 +317,45 @@ image_viewer_class_init (ImageViewerClass *class)
 			      "scroll", 2,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_NONE,
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_UP);
+
+	/* Zoom in */
+	gtk_binding_entry_add_signal (binding_set, GDK_plus, 0,
+				      "zoom_in", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_equal, 0,
+				      "zoom_in", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Add, 0,
+				      "zoom_in", 0);
+
+	/* Zoom out */
+	gtk_binding_entry_add_signal (binding_set, GDK_minus, 0,
+				      "zoom_out", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Subtract, 0,
+				      "zoom_out", 0);
+
+	/* Set zoom */
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Divide, 0,
+				      "set_zoom", 1,
+				      GTK_TYPE_DOUBLE, 1.0);
+	gtk_binding_entry_add_signal (binding_set, GDK_1, 0,
+				      "set_zoom", 1,
+				      GTK_TYPE_DOUBLE, 1.0);
+	gtk_binding_entry_add_signal (binding_set, GDK_z, 0,
+				      "set_zoom", 1,
+				      GTK_TYPE_DOUBLE, 1.0);
+	gtk_binding_entry_add_signal (binding_set, GDK_2, 0,
+				      "set_zoom", 1,
+				      GTK_TYPE_DOUBLE, 2.0);
+	gtk_binding_entry_add_signal (binding_set, GDK_3, 0,
+				      "set_zoom", 1,
+				      GTK_TYPE_DOUBLE, 3.0);
+
+	/* Set fit mode */
+	gtk_binding_entry_add_signal (binding_set, GDK_x, 0,
+				      "set_fit_mode", 1,
+				      GTK_TYPE_INT, GTH_FIT_SIZE_IF_LARGER);
+	gtk_binding_entry_add_signal (binding_set, GDK_w, 0,
+				      "set_fit_mode", 1,
+				      GTK_TYPE_INT, GTH_FIT_WIDTH_IF_LARGER);
 }
 
 
@@ -2438,7 +2523,6 @@ scroll_signal (GtkWidget     *widget,
 
 	scroll_relative (viewer, xstep, ystep);
 }
-
 
 void
 image_viewer_scroll_step_x (ImageViewer *viewer,

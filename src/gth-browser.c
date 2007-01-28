@@ -2923,7 +2923,6 @@ key_press_cb (GtkWidget   *widget,
 	GthBrowser            *browser = data;
 	GthWindow             *window = (GthWindow*) browser;
 	GthBrowserPrivateData *priv = browser->priv;
-	ImageViewer           *viewer = IMAGE_VIEWER (priv->viewer);
 	gboolean               sel_not_null;
 	gboolean               image_is_void;
 	GList		      *list = NULL;
@@ -3028,46 +3027,6 @@ key_press_cb (GtkWidget   *widget,
 		/* View/hide thumbnails. */
 	case GDK_t:
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, !priv->file_list->enable_thumbs);
-		return TRUE;
-
-		/* Zoom in. */
-	case GDK_plus:
-	case GDK_equal:
-	case GDK_KP_Add:
-		image_viewer_zoom_in (viewer);
-		return TRUE;
-
-		/* Zoom out. */
-	case GDK_minus:
-	case GDK_KP_Subtract:
-		image_viewer_zoom_out (viewer);
-		return TRUE;
-
-		/* Actual size. */
-	case GDK_KP_Divide:
-	case GDK_1:
-	case GDK_z:
-		image_viewer_set_zoom (viewer, 1.0);
-		return TRUE;
-
-		/* Set zoom to 2.0. */
-	case GDK_2:
-		image_viewer_set_zoom (viewer, 2.0);
-		return TRUE;
-
-		/* Set zoom to 3.0. */
-	case GDK_3:
-		image_viewer_set_zoom (viewer, 3.0);
-		return TRUE;
-
-		/* Set zoom to fit size if larger */
-	case GDK_x:
-		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
-		return TRUE;
-
-		/* Set zoom to fit width if larger */
-	case GDK_w:
-		image_viewer_set_fit_mode (viewer, GTH_FIT_WIDTH_IF_LARGER);
 		return TRUE;
 
 		/* Toggle animation. */

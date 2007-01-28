@@ -188,6 +188,12 @@ struct _ImageViewerClass
 	void (*scroll)                  (GtkWidget          *widget,
 					 GtkScrollType       x_scroll_type,
 					 GtkScrollType       y_scroll_type);
+	void (* zoom_in)                (ImageViewer        *viewer);
+	void (* zoom_out)               (ImageViewer        *viewer);
+	void (* set_zoom)               (ImageViewer        *viewer,
+					 gdouble             zoom);
+	void (* set_fit_mode)           (ImageViewer        *viewer,
+					 GthFit              fit_mode);
 };
 
 
