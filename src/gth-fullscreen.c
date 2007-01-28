@@ -1142,36 +1142,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 			retval = FALSE;
 		break;
 
-		/* Zoom in. */
-	case GDK_plus:
-	case GDK_equal:
-	case GDK_KP_Add:
-		image_viewer_zoom_in (viewer);
-		break;
-
-		/* Zoom out. */
-	case GDK_minus:
-	case GDK_KP_Subtract:
-		image_viewer_zoom_out (viewer);
-		break;
-
-		/* Actual size. */
-	case GDK_KP_Divide:
-	case GDK_1:
-	case GDK_z:
-		image_viewer_set_zoom (viewer, 1.0);
-		break;
-
-		/* Set zoom to 2.0. */
-	case GDK_2:
-		image_viewer_set_zoom (viewer, 2.0);
-		break;
-
-		/* Set zoom to 3.0. */
-	case GDK_3:
-		image_viewer_set_zoom (viewer, 3.0);
-		break;
-
 		/* Toggle animation. */
 	case GDK_a:
 		gth_window_set_animation (window, ! gth_window_get_animation (window));
@@ -1237,18 +1207,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 			priv->image_data_visible = TRUE;
 			show_comment_on_image (fullscreen);
 		}
-		break;
-
-		/* Zoom to fit */
-	case GDK_x:
-		gth_window_activate_action_view_zoom_fit (NULL, window);
-		retval = TRUE;
-		break;
-
-		/* Zoom to fit width */
-	case GDK_w:
-		gth_window_activate_action_view_zoom_to_width (NULL, window);
-		retval = TRUE;
 		break;
 
 		/* Rotate clockwise without saving */

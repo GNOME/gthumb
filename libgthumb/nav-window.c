@@ -281,7 +281,6 @@ nav_window_events (GtkWidget *widget,
 			nav_window_draw_sqr (nav_win, FALSE, 
 					     nav_win->sqr_x, 
 					     nav_win->sqr_y);
-
 			switch (event->key.keyval) {
 			case GDK_plus: 
 				gth_iviewer_zoom_in (viewer); 

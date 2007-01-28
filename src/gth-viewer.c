@@ -1163,51 +1163,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 		retval = TRUE;
 		break;
 
-		/* Zoom in. */
-	case GDK_plus:
-	case GDK_equal:
-	case GDK_KP_Add:
-		image_viewer_zoom_in (image_viewer);
-		retval = TRUE;
-		break;
-
-		/* Zoom out. */
-	case GDK_minus:
-	case GDK_KP_Subtract:
-		image_viewer_zoom_out (image_viewer);
-		retval = TRUE;
-		break;
-
-		/* Actual size. */
-	case GDK_KP_Divide:
-	case GDK_1:
-	case GDK_z:
-		image_viewer_set_zoom (image_viewer, 1.0);
-		retval = TRUE;
-		break;
-
-		/* Set zoom to 2.0. */
-	case GDK_2:
-		image_viewer_set_zoom (image_viewer, 2.0);
-		retval = TRUE;
-		break;
-
-		/* Set zoom to 3.0. */
-	case GDK_3:
-		image_viewer_set_zoom (image_viewer, 3.0);
-		retval = TRUE;
-		break;
-
-		/* Set zoom to fit size if larger */
-	case GDK_x:
-		image_viewer_set_fit_mode (image_viewer, GTH_FIT_SIZE_IF_LARGER);
-		return TRUE;
-
-		/* Set zoom to fit width if larger */
-	case GDK_w:
-		image_viewer_set_fit_mode (image_viewer, GTH_FIT_WIDTH_IF_LARGER);
-		return TRUE;
-
 		/* Toggle animation. */
 	case GDK_a:
 		gth_window_set_animation (window, ! gth_window_get_animation (window));
@@ -1729,7 +1684,6 @@ gth_viewer_construct (GthViewer   *viewer,
 			  "drag_data_received",
 			  G_CALLBACK (viewer_drag_data_received),
 			  viewer);
-
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "key_press_event",
 			  G_CALLBACK (viewer_key_press_cb),
