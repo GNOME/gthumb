@@ -1,3 +1,10 @@
+2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (remove_temp_file), (remove_temp_dir),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	Added temporary file/directory removal convenience functions.
+
 2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_crop.glade:

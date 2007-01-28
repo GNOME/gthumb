@@ -190,6 +190,9 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
+void		    remove_temp_file              (char             *tmp_file);
+void                remove_temp_dir               (char             *tmp_dir);
+
 
 /* VFS extensions */
 
@@ -208,6 +211,9 @@ const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);
+
+char* 		    make_local_copy_of_remote_file (const char      *remote_filename,
+                                                    char            *tmp_dir);
 
 /* Pixbuf + VFS */
 GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char   *filename, 

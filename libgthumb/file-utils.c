@@ -2004,6 +2004,26 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 }
 
 
+void
+remove_temp_file (char *tmp_file) 
+{
+	if (tmp_file != NULL) {
+		file_unlink (tmp_file);
+                g_free (tmp_file);
+	}
+}
+
+
+void
+remove_temp_dir (char *tmp_dir)
+{
+	if (tmp_dir != NULL) {
+		dir_remove (tmp_dir);
+                g_free (tmp_dir);
+	}
+}
+
+
 /* VFS extensions */
 
 
@@ -2146,7 +2166,7 @@ check_permissions (const char *path,
 
 
 /* VFS caching */
-static char* 
+char* 
 make_local_copy_of_remote_file (const char *remote_filename,
 				char       *tmp_dir)
 {
@@ -2185,8 +2205,6 @@ make_local_copy_of_remote_file (const char *remote_filename,
 /* Pixbuf + VFS */
 
 
-
-
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char *filename, GError **error)
 {
@@ -2214,6 +2232,7 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 				   gint		 requested_width_if_used)
 {
 	char               *tmp_file = NULL;
+	char		   *tmp_dir = NULL;
 	GdkPixbufAnimation *tmp_animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
 
@@ -2226,21 +2245,15 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	/* Remote gifs: copy file to local tmp_dir, then use
 	   gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type) ) {
-		char *tmp_dir;
 
 		tmp_dir	= get_temp_dir_name ();
 		tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
 		
-	       	if (tmp_file != NULL) {
+	       	if (tmp_file != NULL) 
 			tmp_animation = gdk_pixbuf_animation_new_from_file (tmp_file, error);
-			file_unlink (tmp_file);
-			g_free (tmp_file);
-		}
 
-		if (tmp_dir != NULL) {
-	                dir_remove (tmp_dir);
-        	        g_free (tmp_dir);
-		}
+		remove_temp_file (tmp_file);
+		remove_temp_dir (tmp_dir);
 	}
 	
 	if (tmp_animation != NULL) 
@@ -2255,21 +2268,15 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 			pixbuf = or_gdkpixbuf_extract_thumbnail(remove_scheme_from_uri(filename), requested_width_if_used);
 		} else {
 			/* Remote raw images */
-	                char *tmp_dir;
 
         	        tmp_dir = get_temp_dir_name ();
                 	tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
 
-	                if (tmp_file != NULL) {
+	                if (tmp_file != NULL)
         	                pixbuf = or_gdkpixbuf_extract_thumbnail(tmp_file, requested_width_if_used);
-                	        file_unlink (tmp_file);
-                        	g_free (tmp_file);
-	                }
-
-        	        if (tmp_dir != NULL) {
-                	        dir_remove (tmp_dir);
-                        	g_free (tmp_dir);
-	                }
+	                
+	                remove_temp_file (tmp_file);
+        	        remove_temp_dir (tmp_dir);
 		}
 	}
 #endif
