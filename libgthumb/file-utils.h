@@ -211,9 +211,11 @@ const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);
-
+gboolean	    is_local_file                 (const char *filename);
 char* 		    make_local_copy_of_remote_file (const char      *remote_filename,
                                                     char            *tmp_dir);
+gboolean	    make_remote_copy_of_local_file (const char      *local_filename,
+                                                    const char      *dest_uri);
 
 /* Pixbuf + VFS */
 GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char   *filename, 

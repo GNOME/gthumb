@@ -1,5 +1,18 @@
 2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (check_permissions)
+	Added printfs to debug remote permissions problems.
+	Delete these later.
+
+	* libgthumb/file-utils.c: (is_local_file),
+	(make_remote_copy_of_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	New convenience function (is_local_file), and a new function to
+	copy local files to a remote VFS URI.
+
+2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (remove_temp_file), (remove_temp_dir),
 	(gth_pixbuf_animation_new_from_uri):
 	* libgthumb/file-utils.h:

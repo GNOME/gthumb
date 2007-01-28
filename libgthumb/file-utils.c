@@ -2142,6 +2142,7 @@ check_permissions (const char *path,
 
 	info = gnome_vfs_file_info_new ();
 	escaped = escape_uri (path);
+printf("%s, %s\n\r\n\r",path,escaped);	
 	vfs_result = gnome_vfs_get_file_info (escaped,
 					      info,
 					      (GNOME_VFS_FILE_INFO_DEFAULT
@@ -2152,20 +2153,51 @@ check_permissions (const char *path,
 	if (vfs_result != GNOME_VFS_OK)
 		return FALSE;
 
-	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE))
-		return FALSE;
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_USER_READ);
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_USER_WRITE);
+printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_USER_EXEC);
 
-	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
-		return FALSE;
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_GROUP_READ);
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_GROUP_WRITE);
+printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_GROUP_EXEC);
 
-	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_OTHER_READ);
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_OTHER_WRITE);
+printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_OTHER_EXEC);
+
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_READABLE);
+printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE);
+printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE);
+
+
+	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE)) {
+		printf ("No read permission\n\r");
 		return FALSE;
+		}
+
+	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) {
+		printf ("No write permission\n\r");
+		return FALSE;
+		}
+
+	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE)) {
+		printf ("No execute permission\n\r");
+		return FALSE;
+		}
 
 	return TRUE;
 }
 
 
 /* VFS caching */
+
+gboolean
+is_local_file (const char *filename)
+{
+	return !(uri_has_scheme (filename)) || uri_scheme_is_file (filename);
+}
+
+
 char* 
 make_local_copy_of_remote_file (const char *remote_filename,
 				char       *tmp_dir)
@@ -2202,6 +2234,33 @@ make_local_copy_of_remote_file (const char *remote_filename,
 }
 
 
+gboolean
+make_remote_copy_of_local_file (const char *local_filename,
+                                const char *dest_uri)
+{
+        /* make a remote copy of a local file */
+
+        GnomeVFSResult result;
+        GnomeVFSURI   *source_uri;
+        GnomeVFSURI   *target_uri;
+
+        source_uri = gnome_vfs_uri_new (local_filename);
+        target_uri = gnome_vfs_uri_new (dest_uri);
+
+        result = gnome_vfs_xfer_uri (source_uri, target_uri,
+                                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+                                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+                                     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+                                     NULL,
+                                     NULL);
+
+        gnome_vfs_uri_unref (target_uri);
+        gnome_vfs_uri_unref (source_uri);
+
+        return (result == GNOME_VFS_OK);
+}
+
+
 /* Pixbuf + VFS */
 
 
@@ -2211,9 +2270,9 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 	/* Very temporary - borrow code from libgnomeui directly, since
 	   libgnomeui is or will be deprecated. See bug 143197. */
 
-	if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
+	if (is_local_file (filename)) {
 		/* Local files: use standard gdk pixbuf loader. */
-		return gdk_pixbuf_new_from_file (remove_scheme_from_uri(filename), error);
+		return gdk_pixbuf_new_from_file (remove_scheme_from_uri (filename), error);
 	} 
 	else {
 		/* Remote files: special vfs wrapper required. */
@@ -2237,9 +2296,9 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	GdkPixbuf          *pixbuf = NULL;
 
 	/* Local gifs: use gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (filename, "image/gif", fast_file_type)
-	    && (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename))) {
-		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri(filename), error);
+	if (image_is_type__common (filename, "image/gif", fast_file_type) 
+	    && (is_local_file (filename))) {
+		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri (filename), error);
 	}
 	
 	/* Remote gifs: copy file to local tmp_dir, then use
@@ -2263,9 +2322,10 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	/* raw thumbnails */
 	if (image_is_raw (filename) && (requested_width_if_used > 0)) {
 
-		if (!(uri_has_scheme (filename)) || uri_scheme_is_file (filename)) {
+		if (is_local_file (filename)) {
 			/* Local raw images */
-			pixbuf = or_gdkpixbuf_extract_thumbnail(remove_scheme_from_uri(filename), requested_width_if_used);
+			pixbuf = or_gdkpixbuf_extract_thumbnail (remove_scheme_from_uri (filename), 
+								 requested_width_if_used);
 		} else {
 			/* Remote raw images */
 
