@@ -1,5 +1,14 @@
 2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c (viewer_key_press_cb):
+	* src/gth-browser.c (key_press_cb):
+	* src/gth-viewer.c (viewer_key_press_cb):
+	* libgthumb/jpegutils/jpegtran.c (jtransform_perfect_transform):
+
+	Fixed compiler warnings.
+
+2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-fullscreen.c:
 	* src/gth-browser.c:
 	* src/gth-browser.c:

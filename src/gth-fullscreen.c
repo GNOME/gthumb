@@ -1104,7 +1104,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 	GthFullscreen *fullscreen = data;
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GthWindow     *window = (GthWindow*) fullscreen;
-	ImageViewer   *viewer = (ImageViewer*) fullscreen->priv->viewer;
 	gboolean       retval = TRUE;
 	GtkAction     *a;
 

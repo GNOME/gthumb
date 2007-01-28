@@ -295,7 +295,7 @@ jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
 			     JXFORM_CODE transform)
 {
 	/* This function determines if it is possible to perform a lossless
-	   jpeg transformation without trimming, based on the image dimensions 
+	   jpeg transformation without trimming, based on the image dimensions
 	   and MCU size. Further details at http://jpegclub.org/jpegtran. */
 
 	boolean result = TRUE;
@@ -317,6 +317,8 @@ jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
 			result = FALSE;
 		if (image_height % (JDIMENSION) MCU_height)
 			result = FALSE;
+		break;
+	default:
 		break;
 	}
 
@@ -344,17 +346,17 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 
 	/* Read file header */
 	(void) jpeg_read_header (srcinfo, TRUE);
-	
+
 	/* Check JPEG Minimal Coding Unit (mcu) */
 	if (callback &&	!jtransform_perfect_transform(
-			srcinfo->image_width, 
-			srcinfo->image_height, 
-			srcinfo->max_h_samp_factor * DCTSIZE, 
+			srcinfo->image_width,
+			srcinfo->image_height,
+			srcinfo->max_h_samp_factor * DCTSIZE,
 			srcinfo->max_v_samp_factor * DCTSIZE,
 			transformation)) {
 
 		if (callback == JPEGTRAN_MCU_TRIM) {
-			// Continue transform and trim partial MCUs 
+			// Continue transform and trim partial MCUs
 			transformoption.trim = TRUE;
 		} else if ((callback == JPEGTRAN_MCU_CANCEL) ||
 			(callback (&transformoption.transform, &transformoption.trim, userdata) == FALSE)) {
@@ -401,7 +403,7 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	/* Finish compression */
 	jpeg_finish_compress (dstinfo);
 	jpeg_finish_decompress (srcinfo);
-	
+
 	return 0;
 }
 

@@ -2895,7 +2895,6 @@ key_press_cb (GtkWidget   *widget,
 	GthBrowser            *browser = data;
 	GthWindow             *window = (GthWindow*) browser;
 	GthBrowserPrivateData *priv = browser->priv;
-	ImageViewer           *viewer = IMAGE_VIEWER (priv->viewer);
 	gboolean               sel_not_null;
 	gboolean               image_is_void;
 	GList		      *list = NULL;

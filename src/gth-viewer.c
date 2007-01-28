@@ -1152,7 +1152,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 {
 	GthViewer   *viewer = data;
 	GthWindow   *window = (GthWindow*) viewer;
-	ImageViewer *image_viewer = (ImageViewer*)viewer->priv->viewer;
 	gboolean     retval = FALSE;
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
