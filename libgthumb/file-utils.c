@@ -2139,10 +2139,10 @@ check_permissions (const char *path,
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    vfs_result;
 	char             *escaped;
+	gboolean	  everything_OK = TRUE;
 
 	info = gnome_vfs_file_info_new ();
 	escaped = escape_uri (path);
-printf("%s, %s\n\r\n\r",path,escaped);	
 	vfs_result = gnome_vfs_get_file_info (escaped,
 					      info,
 					      (GNOME_VFS_FILE_INFO_DEFAULT
@@ -2151,41 +2151,20 @@ printf("%s, %s\n\r\n\r",path,escaped);
 	g_free (escaped);
 
 	if (vfs_result != GNOME_VFS_OK)
-		return FALSE;
+		everything_OK = FALSE;
 
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_USER_READ);
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_USER_WRITE);
-printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_USER_EXEC);
+	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE))
+		everything_OK = FALSE;
 
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_GROUP_READ);
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_GROUP_WRITE);
-printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_GROUP_EXEC);
+	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
+		everything_OK = FALSE;
 
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_OTHER_READ);
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_OTHER_WRITE);
-printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_OTHER_EXEC);
+	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE))
+		everything_OK = FALSE;
 
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_READABLE);
-printf ("%d\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE);
-printf ("%d\n\r\n\r",info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE);
+	gnome_vfs_file_info_unref (info);
 
-
-	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE)) {
-		printf ("No read permission\n\r");
-		return FALSE;
-		}
-
-	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) {
-		printf ("No write permission\n\r");
-		return FALSE;
-		}
-
-	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE)) {
-		printf ("No execute permission\n\r");
-		return FALSE;
-		}
-
-	return TRUE;
+	return everything_OK;
 }
 
 

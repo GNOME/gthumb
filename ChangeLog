@@ -1,3 +1,13 @@
+2007-01-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (check_permissions):
+	Deleted debugging printfs, and fixed a memory leak (was
+	missing gnome_vfs_file_info_unref)
+
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Enabled rotation of remote VFS files, and fixed a memory leak (was
+        missing gnome_vfs_file_info_unref)
+
 2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (check_permissions)
