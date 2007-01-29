@@ -1,5 +1,14 @@
 2007-01-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Better error messages.
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Better error reporting, and make better use of convenience
+	functions like file_move, remove_temp_file, remove_temp_dir.
+
+2007-01-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (check_permissions):
 	Deleted debugging printfs, and fixed a memory leak (was
 	missing gnome_vfs_file_info_unref)

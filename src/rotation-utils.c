@@ -128,12 +128,10 @@ apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
 			   GthTransform  transform)
 {
-	char        *line;
 	char        *tmp;
 	char        *tmpdir;
 	GError      *err = NULL;
 	JXFORM_CODE  transf;
-	char        *e1, *e2;
 
 	path = get_file_path_from_uri (path);
 	if (path == NULL)
@@ -183,26 +181,16 @@ apply_transformation_jpeg (GtkWindow    *win,
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
-		dir_remove (tmpdir);
-		g_free (tmpdir);
+		remove_temp_dir (tmpdir);
 		return;
 	}
 
-	e1 = shell_escape (tmp);
-	e2 = shell_escape (path);
+	if (!file_move (tmp, path))
+		_gtk_error_dialog_run (win, 
+			_("Could not move temporary file to local destination. Check folder permissions."));
 
-	line = g_strdup_printf ("mv -f %s %s", e1, e2);
-	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-	dir_remove (tmpdir);
-	g_free (tmpdir);
-
-	if (err != NULL)
-		_gtk_error_dialog_from_gerror_run (win, &err);
-
-	g_free (e1);
-	g_free (e2);
-	g_free (line);
-	g_free (tmp);
+	remove_temp_file (tmp);
+	remove_temp_dir (tmpdir);
 }
 
 

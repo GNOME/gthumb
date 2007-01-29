@@ -265,7 +265,8 @@ apply_transformation (DialogData *data,
 	}
 
 	if (local_file_to_modify == NULL) {
-		_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a local copy of the remote file"));
+		_gtk_error_dialog_run (GTK_WINDOW (window), 
+			_("Could not create a local temporary copy of the remote file."));
 		remove_temp_dir (tmp_dir);
 		return;
 	}
@@ -296,7 +297,8 @@ apply_transformation (DialogData *data,
 	}
 
 	if (!is_local && !remote_copy_ok) {
-		_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not copy local file to remote location"));
+		_gtk_error_dialog_run (GTK_WINDOW (window), 
+				_("Could not move temporary file to remote location. Check remote permissions."));
 	} else {
 		gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
                 notify_file_changed (data, path, notify_soon);
