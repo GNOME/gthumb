@@ -34,20 +34,21 @@
 #include "typedefs.h"
 
 
-char *      get_exif_tag            (const char *filename,
-				     ExifTag     etag);
-ExifShort   get_exif_tag_short      (const char *filename,
-				     ExifTag     etag);
-time_t      get_exif_time           (const char *filename);
-char *      get_exif_aperture_value (const char *filename);
-gboolean    have_exif_time          (const char *filename);
-const char *get_exif_entry_value    (ExifEntry  *entry);
-ExifData *  load_exif_data          (const char *filename);
-void        save_exif_data          (const char *filename,
-				     ExifData   *edata);
-void        copy_exif_data          (const char *src,
-				     const char *dest);
-void   set_orientation_in_exif_data (GthTransform  transform,
-				     ExifData     *edata);
+ExifData   *gth_exif_data_new_from_uri    (const char   *path);
+char *      get_exif_tag                  (const char   *filename,
+				           ExifTag       etag);
+ExifShort   get_exif_tag_short            (const char   *filename,
+				           ExifTag       etag);
+time_t      get_exif_time                 (const char   *filename);
+char *      get_exif_aperture_value       (const char   *filename);
+gboolean    have_exif_time                (const char   *filename);
+const char *get_exif_entry_value          (ExifEntry    *entry);
+ExifData   *load_exif_data                (const char   *filename);
+void        save_exif_data                (const char   *filename,
+				           ExifData     *edata);
+void        copy_exif_data                (const char   *src,
+				           const char   *dest);
+void        set_orientation_in_exif_data  (GthTransform  transform,
+				           ExifData     *edata);
 
 #endif /* EXIF_UTILS_H */

@@ -31,6 +31,48 @@
 #include "gth-exif-utils.h"
 
 
+ExifData *
+gth_exif_data_new_from_uri (const char *path)
+{
+        char        *local_file = NULL;
+        char        *tmp_dir = NULL;
+        gboolean     is_local;
+	ExifData    *new_exif_data;
+
+	if (path==NULL)
+		return NULL;
+
+        /* libexif does not support VFS URIs directly, so make a temporary local
+           copy of remote jpeg files. */
+
+        is_local = is_local_file (path);
+
+        if (is_local)
+                local_file = g_strdup (remove_scheme_from_uri (path));
+        else if (image_is_jpeg (path)) {
+                tmp_dir = get_temp_dir_name ();
+                if (tmp_dir == NULL) return NULL;
+                local_file = make_local_copy_of_remote_file (path, tmp_dir);
+	}
+	else
+		return NULL;
+
+        if (local_file == NULL) {
+                if (!is_local) remove_temp_dir (tmp_dir);
+                return NULL;
+        }
+
+	new_exif_data = exif_data_new_from_file (local_file);
+
+	if (!is_local) {
+		remove_temp_file (local_file);
+		remove_temp_dir (tmp_dir);
+	}
+	
+	return new_exif_data;
+}
+
+
 char *
 get_exif_tag (const char *filename,
 	      ExifTag     etag)
@@ -42,7 +84,7 @@ get_exif_tag (const char *filename,
 	if (filename == NULL)
 		return g_strdup ("-");
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return g_strdup ("-");
@@ -92,7 +134,7 @@ get_exif_tag_short (const char *filename,
 	if (filename == NULL)
 		return 0;
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return 0;
@@ -141,7 +183,7 @@ get_exif_time (const char *filename)
 	if (filename == NULL)
 		return (time_t)0;
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
                 return (time_t)0;
@@ -213,7 +255,7 @@ get_exif_aperture_value (const char *filename)
 	if (filename == NULL)
 		return g_strdup ("-");
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return g_strdup ("-");
@@ -329,7 +371,7 @@ copy_exif_data (const char *src,
 	if (dest == NULL)
 		return;
 
-	edata = exif_data_new_from_file (src);
+	edata = gth_exif_data_new_from_uri (src);
 	if (edata == NULL) 
 		return;
 	save_exif_data (dest, edata);

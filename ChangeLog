@@ -1,5 +1,15 @@
 2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri),
+	(get_exif_tag), (get_exif_tag_short), (get_exif_time),
+	(get_exif_aperture_value), (copy_exif_data):
+	* src/gth-exif-data-viewer.c: (update_exif_data):
+	* libgthumb/gth-exif-utils.h:
+	Added remote VFS support for reading EXIF tags.
+        Writing tags isn't supported, yet.
+
+2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/comments.c: (load_comment_from_iptc):
 	Added remote VFS support for reading IPTC comments.
         Writing comments isn't supported, yet.

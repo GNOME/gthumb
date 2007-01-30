@@ -615,16 +615,14 @@ static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
-	const char   *path;
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
 
-	path = get_file_path_from_uri (edv->priv->path);
-	if (path == NULL)
+	if (edv->priv->path == NULL)
 		return;
 
 	if (edata == NULL)
-		edata = exif_data_new_from_file (path);
+		edata = gth_exif_data_new_from_uri (edv->priv->path);
 	else
 		exif_data_ref (edata);
 
@@ -636,7 +634,7 @@ update_exif_data (GthExifDataViewer *edv,
 
 	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
 
-        for (i = 0; i < EXIF_IFD_COUNT; i++) {
+        for (i = 0; i < EXIF_IFD_COUNT; i++) {		
                 ExifContent *content = edata->ifd[i];
 		const char  *value;
 		char        *utf8_name;
