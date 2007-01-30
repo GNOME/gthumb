@@ -781,10 +781,13 @@ load_comment_from_xml (const char *filename)
 {
 	CommentData *data;
 	char        *comment_file;
+	char	    *local_comment_file = NULL;
+	char	    *tmp_dir = NULL;
 	xmlDocPtr    doc;
         xmlNodePtr   root, node;
         xmlChar     *value;
 	xmlChar     *format;
+	gboolean     is_local;
 
 	if (filename == NULL)
 		return NULL;
@@ -795,9 +798,32 @@ load_comment_from_xml (const char *filename)
 		return NULL;
 	}
 
-        doc = xmlParseFile (comment_file);
+	/* libxml2 does not support VFS URIs directly, so make a temporary local
+	   copy of remote comment files. */
+
+	is_local = is_local_file (comment_file);
+
+	if (is_local)
+		local_comment_file = g_strdup (remove_scheme_from_uri (comment_file));
+	else {
+		tmp_dir = get_temp_dir_name ();
+                if (tmp_dir == NULL) return NULL;
+                local_comment_file = make_local_copy_of_remote_file (comment_file, tmp_dir);
+	}
+
+        if (local_comment_file == NULL) {
+		g_free (comment_file);
+                if (!is_local) remove_temp_dir (tmp_dir);
+                return NULL;
+        }
+
+        doc = xmlParseFile (local_comment_file);
 	if (doc == NULL) {
 		g_free (comment_file);
+		if (!is_local) {
+			remove_temp_file (local_comment_file);
+	                remove_temp_dir (tmp_dir);
+		}
 		return NULL;
 	}
 
@@ -836,6 +862,11 @@ load_comment_from_xml (const char *filename)
 
         xmlFreeDoc (doc);
 	g_free (comment_file);
+
+        if (!is_local) {
+                remove_temp_file (local_comment_file);
+                remove_temp_dir (tmp_dir);
+        }
 
 	return data;
 }
