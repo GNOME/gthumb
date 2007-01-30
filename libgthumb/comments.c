@@ -359,13 +359,39 @@ load_comment_from_iptc (const char *filename)
 	struct tm    t;
 	int          i;
 	int          got_date = 0, got_time = 0;
+        char        *local_file = NULL;
+        char        *tmp_dir = NULL;
+	gboolean    is_local;
 
 	if (filename == NULL)
 		return NULL;
 
-	d = iptc_data_new_from_jpeg (filename);
-	if (!d)
+        /* libiptcdata does not support VFS URIs directly, so make a temporary local
+           copy of remote comment files. */
+
+        is_local = is_local_file (filename);
+
+        if (is_local)
+                local_file = g_strdup (remove_scheme_from_uri (filename));
+        else {
+                tmp_dir = get_temp_dir_name ();
+                if (tmp_dir == NULL) return NULL;
+                local_file = make_local_copy_of_remote_file (filename, tmp_dir);
+        }
+
+        if (local_file == NULL) {
+                if (!is_local) remove_temp_dir (tmp_dir);
+                return NULL;
+        }
+
+	d = iptc_data_new_from_jpeg (local_file);
+	if (!d) {
+                if (!is_local) {
+                        remove_temp_file (local_file);
+                        remove_temp_dir (tmp_dir);
+                }
 		return NULL;
+	}
 
 	data = comment_data_new ();
 
@@ -417,6 +443,11 @@ load_comment_from_iptc (const char *filename)
 		data->time = mktime (&t);
 
 	data->iptc_data = d;
+
+	if (!is_local) {
+		remove_temp_file (local_file);
+		remove_temp_dir (tmp_dir);
+		}
 
 	return data;
 }
