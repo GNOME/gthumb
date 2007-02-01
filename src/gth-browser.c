@@ -1030,11 +1030,6 @@ gth_browser_stop_activity_mode (GthBrowser *browser)
 
 	g_return_if_fail (browser != NULL);
 
-	/*
-	if (--priv->activity_ref > 0)
-		return;
-	*/
-
 	priv->activity_ref = 0;
 
 	gtk_widget_hide (priv->progress);
@@ -1049,30 +1044,6 @@ gth_browser_stop_activity_mode (GthBrowser *browser)
 
 
 /* -- set file list -- */
-
-
-/*
-static void
-window_set_file_list_continue (gpointer callback_data)
-{
-	WindowSetListData     *data = callback_data;
-	GthBrowser            *browser = data->browser;
-	GthBrowserPrivateData *priv = browser->priv;
-
-	gth_browser_stop_activity_mode (browser);
-	window_update_statusbar_list_info (browser);
-	priv->setting_file_list = FALSE;
-
-	window_update_infobar (browser);
-	window_update_sensitivity (browser);
-
-	if (data->done_func != NULL)
-		(*data->done_func) (data->done_func_data);
-	g_free (data);
-
-	g_idle_add (set_file_list__final_step_cb, browser);
-}
-*/
 
 
 static void

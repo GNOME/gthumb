@@ -292,7 +292,7 @@ gth_file_list_update_current_thumb (GthFileList *file_list)
 	gboolean  error = TRUE;
 	char     *path;
 
-	if (file_list->priv->stop_it) {
+	if (file_list->priv->stop_it || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
 		return;
 	}
@@ -348,7 +348,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	GList    *list, *scan;
 	int       new_pos = -1;
 
-	if (file_list->priv->stop_it) {
+	if (file_list->priv->stop_it || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
 		return;
 	}
@@ -486,7 +486,7 @@ load_thumb_error_cb (ThumbLoader *tl,
 {
 	GthFileList *file_list = data;
 
-	if (file_list->priv->stop_it) {
+	if (file_list->priv->stop_it || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
 		return;
 	}
@@ -506,7 +506,7 @@ load_thumb_done_cb (ThumbLoader *tl,
 {
 	GthFileList *file_list = data;
 
-	if (file_list->priv->stop_it) {
+	if (file_list->priv->stop_it || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
 		return;
 	}
@@ -876,9 +876,9 @@ add_list_in_chunks (gpointer callback_data)
 	}
 
 	if (gfi_data->filtered == NULL) {
-		add_list_done (file_list);
 		gfi_data->destroyed = TRUE;
 		get_file_info_data_free (gfi_data);
+		add_list_done (file_list);
 		return FALSE;
 	}
 
@@ -951,7 +951,6 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
 	if (file_list->priv->stop_it) {
-		/*gnome_vfs_async_cancel (handle);*/
 		gfi_data->destroyed = TRUE;
 		g_idle_add (set_list_stopped, gfi_data);
 		return;
