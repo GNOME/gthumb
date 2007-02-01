@@ -1187,11 +1187,14 @@ get_uri_display_name (const char *uri)
 	gboolean  catalog_or_search;
 	char     *name;
 
-	tmp_path = g_strdup (remove_scheme_from_uri (uri));
-
 	/* if it is a catalog then remove the extension */
-
 	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
+
+	if (catalog_or_search || is_local_file (uri))
+		tmp_path = g_strdup (remove_scheme_from_uri (uri));
+	else
+		tmp_path = g_strdup (uri);
+
 	if (catalog_or_search && file_extension_is (uri, CATALOG_EXT))
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 
@@ -2234,6 +2237,7 @@ obtain_local_file (const char *remote_filename)
 	GnomeVFSURI      *target_uri;
 	char	         *cache_file;
 	char             *md5_file;
+	char	         *cache_file_full;
 
 
 	/* If the file is local, simply return a copy of the filename, without
@@ -2245,9 +2249,12 @@ obtain_local_file (const char *remote_filename)
 	/* If the file is remote, copy it to a local cache. */
 
 	md5_file = gnome_thumbnail_md5 (remote_filename);
-	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file_full = get_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	g_free (cache_file_full);
 	g_free (md5_file);
 	if (cache_file == NULL) return NULL;
+
 
 	/* I can't imagine how the cache would be non-local, but check anyways */
 	g_assert (is_local_file (cache_file));
@@ -2322,13 +2329,13 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 
         /* gdk_pixbuf does not support VFS URIs directly, so make a temporary local
            copy of remote files. */
-
+	
         local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
                 return NULL;
 
-	pixbuf = gdk_pixbuf_new_from_file (remove_scheme_from_uri (filename), error);
+	pixbuf = gdk_pixbuf_new_from_file (filename, error);
 
 	g_free (local_file);
 
@@ -2350,7 +2357,6 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 
         if (local_file == NULL)
                 return NULL;
-
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type)) {

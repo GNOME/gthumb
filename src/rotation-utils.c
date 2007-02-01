@@ -39,7 +39,6 @@ read_orientation_field (const char *path)
 {
 	ExifShort orientation;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return GTH_TRANSFORM_NONE;
 
@@ -58,7 +57,6 @@ write_orientation_field (const char   *path,
 	JPEGData     *jdata;
 	ExifData     *edata;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 
@@ -133,7 +131,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 	GError      *err = NULL;
 	JXFORM_CODE  transf;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 	
@@ -201,7 +198,6 @@ apply_transformation_generic (GtkWindow    *win,
 	GdkPixbuf  *pixbuf1, *pixbuf2;
 	const char *mime_type;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 

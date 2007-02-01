@@ -1,5 +1,22 @@
 2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (get_uri_display_name)
+	Fixed display of remote URIs.
+
+	(obtain_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	Stripped out "file://" from cache file names.
+
+	* libgthumb/gth-exif-utils.c: (get_exif_tag), (get_exif_tag_short),
+	(get_exif_time), (get_exif_aperture_value):
+	* libgthumb/print-callbacks.c: (image_info_new):
+	* src/rotation-utils.c: (read_orientation_field),
+	(write_orientation_field), (apply_transformation_jpeg),
+	(apply_transformation_generic):
+	Removed extraneous remove_scheme_from_uri calls.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (prune_cache), (obtain_local_file):
 	* libgthumb/file-utils.h:
 	* libgthumb/gthumb-init.c: (ensure_directories_exist):

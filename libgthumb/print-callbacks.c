@@ -164,7 +164,7 @@ image_info_new (const char *filename)
 {
 	ImageInfo *image = g_new0(ImageInfo, 1);
 
-	image->filename = g_strdup (get_file_path_from_uri (filename));
+	image->filename = g_strdup (filename);
 	image->comment = NULL;
 	image->thumbnail = NULL;
 	image->thumbnail_active = NULL;

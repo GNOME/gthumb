@@ -66,7 +66,6 @@ get_exif_tag (const char *filename,
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return g_strdup ("-");
 
@@ -116,7 +115,6 @@ get_exif_tag_short (const char *filename,
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return 0;
 
@@ -165,7 +163,6 @@ get_exif_time (const char *filename)
 	time_t        time = 0;
 	struct tm     tm = { 0, };
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return (time_t)0;
 
@@ -237,7 +234,6 @@ get_exif_aperture_value (const char *filename)
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return g_strdup ("-");
 
