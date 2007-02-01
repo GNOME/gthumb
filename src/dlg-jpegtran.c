@@ -250,10 +250,7 @@ apply_transformation (DialogData *data,
 	   temp file, modify it, then copy it back. This is easier than modifying the
 	   underlying jpeg code (and other code) to handle VFS URIs. */
 
-	if (is_local)
-		local_file_to_modify = g_strdup (remove_scheme_from_uri (path));
-	else 
-		local_file_to_modify = make_cache_copy_of_remote_file (path);
+	local_file_to_modify = obtain_local_file (path);
 
 	if (local_file_to_modify == NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (window), 
@@ -282,8 +279,9 @@ apply_transformation (DialogData *data,
 
 	if (!is_local) {
 		remote_copy_ok = make_remote_copy_of_local_file (local_file_to_modify, path);
-		remove_temp_file_and_dir (local_file_to_modify);
 	}
+
+	g_free (local_file_to_modify);
 
 	if (!is_local && !remote_copy_ok) {
 		_gtk_error_dialog_run (GTK_WINDOW (window), 

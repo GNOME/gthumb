@@ -35,7 +35,6 @@ ExifData *
 gth_exif_data_new_from_uri (const char *path)
 {
         char        *local_file = NULL;
-        gboolean     is_local;
 	ExifData    *new_exif_data;
 
 	if (path==NULL)
@@ -44,12 +43,8 @@ gth_exif_data_new_from_uri (const char *path)
         /* libexif does not support VFS URIs directly, so make a temporary local
            copy of remote jpeg files. */
 
-        is_local = is_local_file (path);
-
-        if (is_local)
-                local_file = g_strdup (remove_scheme_from_uri (path));
-        else if (image_is_jpeg (path)) 
-                local_file = make_cache_copy_of_remote_file (path);
+        if (is_local_file (path) || image_is_jpeg (path)) 
+                local_file = obtain_local_file (path);
 	else
 		return NULL;
 
@@ -58,7 +53,7 @@ gth_exif_data_new_from_uri (const char *path)
 
 	new_exif_data = exif_data_new_from_file (local_file);
 
-	if (!is_local) remove_temp_file_and_dir (local_file);
+	g_free (local_file);
 
 	return new_exif_data;
 }

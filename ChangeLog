@@ -2,6 +2,22 @@
 
 	* libgthumb/comments.c: (load_comment_from_iptc),
 	(load_comment_from_xml):
+	* libgthumb/file-utils.c: (get_cache_full_path),
+	(obtain_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri):
+	* libgthumb/gthumb-init.c: (ensure_directories_exist):
+	* libgthumb/typedefs.h:
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Further simplification of local-copy-of-VFS-files creation routines.
+	Added basic semi-permanent remote file caching. Need to added
+	mtime checks and purging of old / excess files.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_iptc),
+	(load_comment_from_xml):
 	* libgthumb/file-utils.c: (remove_temp_file_and_dir),
 	(make_cache_copy_of_remote_file), (gth_pixbuf_new_from_uri),
 	(gth_pixbuf_animation_new_from_uri):

@@ -43,6 +43,7 @@
 #define RC_BOOKMARKS_FILE         ".gnome2/gthumb/bookmarks"
 #define RC_HISTORY_FILE           ".gnome2/gthumb/history"
 #define RC_CATEGORIES_FILE        ".gnome2/gthumb/categories"
+#define RC_REMOTE_CACHE_DIR	  ".gnome2/gthumb/remote_cache"
 
 #define OLD_RC_CATALOG_DIR        ".gqview/collections"
 #define OLD_RC_COMMENTS_DIR       ".gqview/comments"

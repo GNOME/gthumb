@@ -41,6 +41,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -2177,61 +2178,83 @@ is_local_file (const char *filename)
 }
 
 
-char* 
-make_cache_copy_of_remote_file (const char *remote_filename)
+char *
+get_cache_full_path (const char *relative_path, const char *extension)
 {
-	/* make a local copy of a remote VFS file, and return the new filename */
+        char *path;
+        char *separator;
 
-	GnomeVFSResult result;
-	GnomeVFSURI   *source_uri;
-	GnomeVFSURI   *target_uri;
-	char	      *tmp_file = NULL;
-	char          *tmp_dir = NULL;
+        /* Do not allow .. in the relative_path otherwise the user can go
+         * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+        if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
+                return NULL;
 
-	/* mjc TO-DO: currently, this copies the remote file to a local
-	   tmp directory. The file and directory are normally deleted 
-	   immediately after use, using remove_temp_file_and_dir. 
+        if (relative_path == NULL)
+                separator = NULL;
+        else
+                separator = (relative_path[0] == '/') ? "" : "/";
 
-	   We should change this to use a more permanent cache folder, to
-	   reduce redundant (slow) VFS transfers. The calls to
-	   remove_temp_file_and_dir (filename) would simply be
-	   replaced with g_free (filename) then.
-	
-	   This function would need to prune the cache on each access.
-	   I guess we could add a configurable cache size. We would need
-	   to check available disk space, too. (We should do this in the
-	   temp file functions as well.) */
+        path = g_strconcat ("file://",
+                            g_get_home_dir (),
+                            "/",
+                            RC_REMOTE_CACHE_DIR,
+                            separator,
+                            relative_path,
+			    extension,
+                            NULL);
 
-	tmp_dir = get_temp_dir_name ();
-	if (tmp_dir == NULL) return NULL;
+        return path;
+}
 
-	tmp_file = get_temp_file_name (tmp_dir, get_extension(remote_filename));
 
-	if (tmp_file == NULL) {
-		dir_remove (tmp_dir);
-		g_free (tmp_dir);
-		return NULL;
-	}
+char* 
+obtain_local_file (const char *remote_filename)
+{
+	GnomeVFSResult    result;
+	GnomeVFSURI      *source_uri;
+	GnomeVFSURI      *target_uri;
+	char	         *cache_file;
+	char             *md5_file;
+	GnomeVFSFileSize  free_space;
 
-	g_free (tmp_dir);
+	/* If the file is local, simply return a copy of the filename, without
+	   any "file:///" prefix. */
+
+        if (is_local_file (remote_filename))
+		return g_strdup (remove_scheme_from_uri (remote_filename));
+
+	/* If the file is remote, copy it to a local cache. */
+
+	md5_file = gnome_thumbnail_md5 (remote_filename);
+	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
+	g_free (md5_file);
+	if (cache_file == NULL) return NULL;
 
 	source_uri = gnome_vfs_uri_new (remote_filename);
-	target_uri = gnome_vfs_uri_new (tmp_file);
+	target_uri = gnome_vfs_uri_new (cache_file);
 
-	result = gnome_vfs_xfer_uri (source_uri, target_uri,
-                                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-                                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-                                     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-                                     NULL,
-                                     NULL);
+	/* need to add mtime checks, and purging of old / over-quota files */
 
-	gnome_vfs_uri_unref (target_uri);
-	gnome_vfs_uri_unref (source_uri);
+	if (!gnome_vfs_uri_exists (target_uri)) {
+		printf ("No cache for %s\n\r",remote_filename);
+		result = gnome_vfs_xfer_uri (source_uri, target_uri,
+        	                             GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+                	                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+                        	             GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+                                	     NULL,
+	                                     NULL);
 
-        if (result == GNOME_VFS_OK)
-		return tmp_file;
-	else
-		return NULL;
+		gnome_vfs_uri_unref (target_uri);
+		gnome_vfs_uri_unref (source_uri);
+
+        	if (result == GNOME_VFS_OK)
+			return cache_file;
+		else
+			return NULL;
+	} else {
+		printf ("Cache file found for %s: %s\n\r",remote_filename,cache_file);
+		return cache_file;
+	}
 }
 
 
@@ -2270,7 +2293,6 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 {
 	GdkPixbuf   *pixbuf = NULL;        
 	char        *local_file = NULL;
-        gboolean     is_local;
 
         if (filename == NULL)
                 return NULL;
@@ -2278,19 +2300,14 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
         /* gdk_pixbuf does not support VFS URIs directly, so make a temporary local
            copy of remote files. */
 
-        is_local = is_local_file (filename);
-
-        if (is_local)
-                local_file = g_strdup (remove_scheme_from_uri (filename));
-        else 
-                local_file = make_cache_copy_of_remote_file (filename);
+        local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
                 return NULL;
 
 	pixbuf = gdk_pixbuf_new_from_file (remove_scheme_from_uri (filename), error);
 
-	if (!is_local) remove_temp_file_and_dir (local_file);
+	g_free (local_file);
 
 	return pixbuf;
 }
@@ -2305,14 +2322,8 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
         char               *local_file = NULL;
-        gboolean            is_local;
 
-        is_local = is_local_file (filename);
-
-        if (is_local)
-                local_file = g_strdup (remove_scheme_from_uri (filename));
-        else
-                local_file = make_cache_copy_of_remote_file (filename);
+        local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
                 return NULL;
@@ -2321,8 +2332,7 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if (image_is_type__common (filename, "image/gif", fast_file_type)) {
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
-		if (!is_local)
-	                remove_temp_file_and_dir (local_file);
+		g_free (local_file);
 		return animation;
 	}
 	
@@ -2343,9 +2353,7 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
                 g_object_unref (pixbuf);
 		}
 
-	/* remove local copies of remote files */
-	if (!is_local)
-        	remove_temp_file_and_dir (local_file);
+	g_free (local_file);
                 
 	/* return the animation */
 	return animation;

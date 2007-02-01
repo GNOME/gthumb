@@ -360,7 +360,6 @@ load_comment_from_iptc (const char *filename)
 	int          i;
 	int          got_date = 0, got_time = 0;
         char        *local_file = NULL;
-	gboolean    is_local;
 
 	if (filename == NULL)
 		return NULL;
@@ -368,19 +367,14 @@ load_comment_from_iptc (const char *filename)
         /* libiptcdata does not support VFS URIs directly, so make a temporary local
            copy of remote comment files. */
 
-        is_local = is_local_file (filename);
-
-        if (is_local)
-                local_file = g_strdup (remove_scheme_from_uri (filename));
-        else
-                local_file = make_cache_copy_of_remote_file (filename);
+        local_file = obtain_local_file (filename);
 
         if (local_file == NULL) 
                 return NULL;
 
 	d = iptc_data_new_from_jpeg (local_file);
 	if (!d) {
-                if (!is_local) remove_temp_file_and_dir (local_file);
+                g_free (local_file);
 		return NULL;
 	}
 
@@ -435,7 +429,7 @@ load_comment_from_iptc (const char *filename)
 
 	data->iptc_data = d;
 
-	if (!is_local) remove_temp_file_and_dir (local_file);
+	g_free (local_file);
 
 	return data;
 }
@@ -805,7 +799,6 @@ load_comment_from_xml (const char *filename)
         xmlNodePtr   root, node;
         xmlChar     *value;
 	xmlChar     *format;
-	gboolean     is_local;
 
 	if (filename == NULL)
 		return NULL;
@@ -819,12 +812,7 @@ load_comment_from_xml (const char *filename)
 	/* libxml2 does not support VFS URIs directly, so make a temporary local
 	   copy of remote comment files. */
 
-	is_local = is_local_file (comment_file);
-
-	if (is_local)
-		local_comment_file = g_strdup (remove_scheme_from_uri (comment_file));
-	else 
-                local_comment_file = make_cache_copy_of_remote_file (comment_file);
+        local_comment_file = obtain_local_file (comment_file);
 
         if (local_comment_file == NULL) {
 		g_free (comment_file);
@@ -834,7 +822,7 @@ load_comment_from_xml (const char *filename)
         doc = xmlParseFile (local_comment_file);
 	if (doc == NULL) {
 		g_free (comment_file);
-		if (!is_local) remove_temp_file_and_dir (local_comment_file);
+		g_free (local_comment_file);
 		return NULL;
 	}
 
@@ -873,8 +861,7 @@ load_comment_from_xml (const char *filename)
 
         xmlFreeDoc (doc);
 	g_free (comment_file);
-
-        if (!is_local) remove_temp_file_and_dir (local_comment_file);
+        g_free (local_comment_file);
 
 	return data;
 }

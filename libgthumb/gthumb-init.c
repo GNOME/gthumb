@@ -61,6 +61,10 @@ ensure_directories_exist (void)
 	path = get_home_relative_dir (RC_COMMENTS_DIR);
 	ensure_dir_exists (path, 0700);
 	g_free (path);
+
+	path = get_home_relative_dir (RC_REMOTE_CACHE_DIR);
+        ensure_dir_exists (path, 0700);
+        g_free (path);
 }
 
 
