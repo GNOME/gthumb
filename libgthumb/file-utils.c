@@ -2215,6 +2215,10 @@ obtain_local_file (const char *remote_filename)
 	GnomeVFSURI      *target_uri;
 	char	         *cache_file;
 	char             *md5_file;
+	char             *command;
+	GError           *err = NULL;
+	gboolean	  error;
+
 
 	/* If the file is local, simply return a copy of the filename, without
 	   any "file:///" prefix. */
@@ -2229,20 +2233,29 @@ obtain_local_file (const char *remote_filename)
 	g_free (md5_file);
 	if (cache_file == NULL) return NULL;
 
+	/* I can't imagine how the cache would be non-local, but check anyways */
+	g_assert (is_local_file (cache_file));
+
 	source_uri = gnome_vfs_uri_new (remote_filename);
 	target_uri = gnome_vfs_uri_new (cache_file);
-
-	/* Need to add purging of old / over-quota files */
-
-	// printf ("\n\rmtime for %s: %d\n\r", cache_file, get_file_mtime (cache_file));
-	// printf ("mtime for %s: %d\n\r\n\r", remote_filename, get_file_mtime (remote_filename));
-
+	
 	if ( gnome_vfs_uri_exists (target_uri) &&
-	     (get_file_mtime (cache_file) >= get_file_mtime (remote_filename)) ) {
-                // printf ("Up-to-date cache file found for %s\n\r",remote_filename);
+	     (get_file_mtime (cache_file) == get_file_mtime (remote_filename)) ) {
+		/* use existing cache file */
                 return cache_file;
 	} else {
-		// printf ("No cache file for %s\n\r",remote_filename);
+		/* Purge old files before transferring new ones. */
+		/* Old = ctime older than 2 days. */
+		command = g_strconcat (	"find ",  
+					g_get_home_dir (), 
+					"/", 
+					RC_REMOTE_CACHE_DIR, 
+					" -maxdepth 1 -mindepth 1 -ctime +2 -print0 | xargs -0 rm -rf",
+					NULL );
+		system (command);
+		g_free (command);
+
+		/* move a new file into the cache */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
         	                             GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
                 	                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
