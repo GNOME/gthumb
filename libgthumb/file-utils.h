@@ -190,8 +190,7 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
-void		    remove_temp_file              (char             *tmp_file);
-void                remove_temp_dir               (char             *tmp_dir);
+void		    remove_temp_file_and_dir      (char             *tmp_file);
 
 
 /* VFS extensions */
@@ -212,8 +211,7 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);
 gboolean	    is_local_file                 (const char *filename);
-char* 		    make_local_copy_of_remote_file (const char      *remote_filename,
-                                                    char            *tmp_dir);
+char* 		    make_cache_copy_of_remote_file (const char      *remote_filename);
 gboolean	    make_remote_copy_of_local_file (const char      *local_filename,
                                                     const char      *dest_uri);
 

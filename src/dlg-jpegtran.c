@@ -235,7 +235,6 @@ apply_transformation (DialogData *data,
 {
 	char             *path = current_image->data;
 	char		 *local_file_to_modify = NULL;
-	char		 *tmp_dir = NULL;
 	GnomeVFSFileInfo *info;
 	gboolean          jpeg;
 	gboolean	  is_local;
@@ -253,21 +252,12 @@ apply_transformation (DialogData *data,
 
 	if (is_local)
 		local_file_to_modify = g_strdup (remove_scheme_from_uri (path));
-	else {
-		tmp_dir = get_temp_dir_name ();
-
-		if (tmp_dir == NULL) {
-	                _gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a temporary folder"));
-			return;
-		        }
-
-		local_file_to_modify = make_local_copy_of_remote_file (path, tmp_dir);
-	}
+	else 
+		local_file_to_modify = make_cache_copy_of_remote_file (path);
 
 	if (local_file_to_modify == NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (window), 
 			_("Could not create a local temporary copy of the remote file."));
-		remove_temp_dir (tmp_dir);
 		return;
 	}
 
@@ -292,8 +282,7 @@ apply_transformation (DialogData *data,
 
 	if (!is_local) {
 		remote_copy_ok = make_remote_copy_of_local_file (local_file_to_modify, path);
-		remove_temp_file (local_file_to_modify);
-		remove_temp_dir (tmp_dir);
+		remove_temp_file_and_dir (local_file_to_modify);
 	}
 
 	if (!is_local && !remote_copy_ok) {

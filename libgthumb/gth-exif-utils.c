@@ -35,7 +35,6 @@ ExifData *
 gth_exif_data_new_from_uri (const char *path)
 {
         char        *local_file = NULL;
-        char        *tmp_dir = NULL;
         gboolean     is_local;
 	ExifData    *new_exif_data;
 
@@ -49,26 +48,18 @@ gth_exif_data_new_from_uri (const char *path)
 
         if (is_local)
                 local_file = g_strdup (remove_scheme_from_uri (path));
-        else if (image_is_jpeg (path)) {
-                tmp_dir = get_temp_dir_name ();
-                if (tmp_dir == NULL) return NULL;
-                local_file = make_local_copy_of_remote_file (path, tmp_dir);
-	}
+        else if (image_is_jpeg (path)) 
+                local_file = make_cache_copy_of_remote_file (path);
 	else
 		return NULL;
 
-        if (local_file == NULL) {
-                if (!is_local) remove_temp_dir (tmp_dir);
+        if (local_file == NULL) 
                 return NULL;
-        }
 
 	new_exif_data = exif_data_new_from_file (local_file);
 
-	if (!is_local) {
-		remove_temp_file (local_file);
-		remove_temp_dir (tmp_dir);
-	}
-	
+	if (!is_local) remove_temp_file_and_dir (local_file);
+
 	return new_exif_data;
 }
 

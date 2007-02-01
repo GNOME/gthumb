@@ -181,7 +181,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
-		remove_temp_dir (tmpdir);
+		remove_temp_file_and_dir (tmp);
 		return;
 	}
 
@@ -189,8 +189,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		_gtk_error_dialog_run (win, 
 			_("Could not move temporary file to local destination. Check folder permissions."));
 
-	remove_temp_file (tmp);
-	remove_temp_dir (tmpdir);
+	remove_temp_file_and_dir (tmp);
 }
 
 

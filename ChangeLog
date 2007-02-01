@@ -1,3 +1,21 @@
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_iptc),
+	(load_comment_from_xml):
+	* libgthumb/file-utils.c: (remove_temp_file_and_dir),
+	(make_cache_copy_of_remote_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri):
+	* src/dlg-jpegtran.c: (apply_transformation):
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+
+	Simplified the local-copy-of-VFS-files creation routines.
+	Added initial framework to cache VFS files over longer term.
+	Removed gnome_gdk_pixbuf_new_from_uri (will be deprecated).
+	Known issue: "local_file" variables not always g_free'd 
+	properly. This will be fixed when caching is added.
+
 2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri),

@@ -360,7 +360,6 @@ load_comment_from_iptc (const char *filename)
 	int          i;
 	int          got_date = 0, got_time = 0;
         char        *local_file = NULL;
-        char        *tmp_dir = NULL;
 	gboolean    is_local;
 
 	if (filename == NULL)
@@ -373,23 +372,15 @@ load_comment_from_iptc (const char *filename)
 
         if (is_local)
                 local_file = g_strdup (remove_scheme_from_uri (filename));
-        else {
-                tmp_dir = get_temp_dir_name ();
-                if (tmp_dir == NULL) return NULL;
-                local_file = make_local_copy_of_remote_file (filename, tmp_dir);
-        }
+        else
+                local_file = make_cache_copy_of_remote_file (filename);
 
-        if (local_file == NULL) {
-                if (!is_local) remove_temp_dir (tmp_dir);
+        if (local_file == NULL) 
                 return NULL;
-        }
 
 	d = iptc_data_new_from_jpeg (local_file);
 	if (!d) {
-                if (!is_local) {
-                        remove_temp_file (local_file);
-                        remove_temp_dir (tmp_dir);
-                }
+                if (!is_local) remove_temp_file_and_dir (local_file);
 		return NULL;
 	}
 
@@ -444,10 +435,7 @@ load_comment_from_iptc (const char *filename)
 
 	data->iptc_data = d;
 
-	if (!is_local) {
-		remove_temp_file (local_file);
-		remove_temp_dir (tmp_dir);
-		}
+	if (!is_local) remove_temp_file_and_dir (local_file);
 
 	return data;
 }
@@ -813,7 +801,6 @@ load_comment_from_xml (const char *filename)
 	CommentData *data;
 	char        *comment_file;
 	char	    *local_comment_file = NULL;
-	char	    *tmp_dir = NULL;
 	xmlDocPtr    doc;
         xmlNodePtr   root, node;
         xmlChar     *value;
@@ -836,25 +823,18 @@ load_comment_from_xml (const char *filename)
 
 	if (is_local)
 		local_comment_file = g_strdup (remove_scheme_from_uri (comment_file));
-	else {
-		tmp_dir = get_temp_dir_name ();
-                if (tmp_dir == NULL) return NULL;
-                local_comment_file = make_local_copy_of_remote_file (comment_file, tmp_dir);
-	}
+	else 
+                local_comment_file = make_cache_copy_of_remote_file (comment_file);
 
         if (local_comment_file == NULL) {
 		g_free (comment_file);
-                if (!is_local) remove_temp_dir (tmp_dir);
                 return NULL;
         }
 
         doc = xmlParseFile (local_comment_file);
 	if (doc == NULL) {
 		g_free (comment_file);
-		if (!is_local) {
-			remove_temp_file (local_comment_file);
-	                remove_temp_dir (tmp_dir);
-		}
+		if (!is_local) remove_temp_file_and_dir (local_comment_file);
 		return NULL;
 	}
 
@@ -894,10 +874,7 @@ load_comment_from_xml (const char *filename)
         xmlFreeDoc (doc);
 	g_free (comment_file);
 
-        if (!is_local) {
-                remove_temp_file (local_comment_file);
-                remove_temp_dir (tmp_dir);
-        }
+        if (!is_local) remove_temp_file_and_dir (local_comment_file);
 
 	return data;
 }

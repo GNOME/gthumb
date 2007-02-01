@@ -41,7 +41,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
-#include <libgnomeui/gnome-vfs-util.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -2005,22 +2004,23 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 
 
 void
-remove_temp_file (char *tmp_file) 
+remove_temp_file_and_dir (char *tmp_file) 
 {
-	if (tmp_file != NULL) {
-		file_unlink (tmp_file);
-                g_free (tmp_file);
-	}
-}
+	char *tmp_dir;
 
+	if (tmp_file == NULL)
+		return;
 
-void
-remove_temp_dir (char *tmp_dir)
-{
-	if (tmp_dir != NULL) {
-		dir_remove (tmp_dir);
-                g_free (tmp_dir);
-	}
+	tmp_dir = remove_level_from_path (tmp_file);
+
+	file_unlink (tmp_file);
+        g_free (tmp_file);
+
+	if (tmp_dir == NULL)
+		return;
+
+	dir_remove (tmp_dir);
+	g_free (tmp_dir);
 }
 
 
@@ -2178,8 +2178,7 @@ is_local_file (const char *filename)
 
 
 char* 
-make_local_copy_of_remote_file (const char *remote_filename,
-				char       *tmp_dir)
+make_cache_copy_of_remote_file (const char *remote_filename)
 {
 	/* make a local copy of a remote VFS file, and return the new filename */
 
@@ -2187,11 +2186,34 @@ make_local_copy_of_remote_file (const char *remote_filename,
 	GnomeVFSURI   *source_uri;
 	GnomeVFSURI   *target_uri;
 	char	      *tmp_file = NULL;
+	char          *tmp_dir = NULL;
 
-	if (tmp_dir == NULL)
-		return NULL;
+	/* mjc TO-DO: currently, this copies the remote file to a local
+	   tmp directory. The file and directory are normally deleted 
+	   immediately after use, using remove_temp_file_and_dir. 
+
+	   We should change this to use a more permanent cache folder, to
+	   reduce redundant (slow) VFS transfers. The calls to
+	   remove_temp_file_and_dir (filename) would simply be
+	   replaced with g_free (filename) then.
+	
+	   This function would need to prune the cache on each access.
+	   I guess we could add a configurable cache size. We would need
+	   to check available disk space, too. (We should do this in the
+	   temp file functions as well.) */
+
+	tmp_dir = get_temp_dir_name ();
+	if (tmp_dir == NULL) return NULL;
 
 	tmp_file = get_temp_file_name (tmp_dir, get_extension(remote_filename));
+
+	if (tmp_file == NULL) {
+		dir_remove (tmp_dir);
+		g_free (tmp_dir);
+		return NULL;
+	}
+
+	g_free (tmp_dir);
 
 	source_uri = gnome_vfs_uri_new (remote_filename);
 	target_uri = gnome_vfs_uri_new (tmp_file);
@@ -2246,20 +2268,31 @@ make_remote_copy_of_local_file (const char *local_filename,
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char *filename, GError **error)
 {
-	/* Very temporary - borrow code from libgnomeui directly, since
-	   libgnomeui is or will be deprecated. See bug 143197. */
+	GdkPixbuf   *pixbuf = NULL;        
+	char        *local_file = NULL;
+        gboolean     is_local;
 
-	if (is_local_file (filename)) {
-		/* Local files: use standard gdk pixbuf loader. */
-		return gdk_pixbuf_new_from_file (remove_scheme_from_uri (filename), error);
-	} 
-	else {
-		/* Remote files: special vfs wrapper required. */
+        if (filename == NULL)
+                return NULL;
 
-		/* Add error reporting? */
+        /* gdk_pixbuf does not support VFS URIs directly, so make a temporary local
+           copy of remote files. */
 
-		return gnome_gdk_pixbuf_new_from_uri (filename);
-	}
+        is_local = is_local_file (filename);
+
+        if (is_local)
+                local_file = g_strdup (remove_scheme_from_uri (filename));
+        else 
+                local_file = make_cache_copy_of_remote_file (filename);
+
+        if (local_file == NULL)
+                return NULL;
+
+	pixbuf = gdk_pixbuf_new_from_file (remove_scheme_from_uri (filename), error);
+
+	if (!is_local) remove_temp_file_and_dir (local_file);
+
+	return pixbuf;
 }
 
 
@@ -2269,66 +2302,52 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 				   gboolean      fast_file_type,
 				   gint		 requested_width_if_used)
 {
-	char               *tmp_file = NULL;
-	char		   *tmp_dir = NULL;
-	GdkPixbufAnimation *tmp_animation = NULL;
+	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
+        char               *local_file = NULL;
+        gboolean            is_local;
 
-	/* Local gifs: use gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (filename, "image/gif", fast_file_type) 
-	    && (is_local_file (filename))) {
-		return gdk_pixbuf_animation_new_from_file (remove_scheme_from_uri (filename), error);
+        is_local = is_local_file (filename);
+
+        if (is_local)
+                local_file = g_strdup (remove_scheme_from_uri (filename));
+        else
+                local_file = make_cache_copy_of_remote_file (filename);
+
+        if (local_file == NULL)
+                return NULL;
+
+
+	/* gifs: use gdk_pixbuf_animation_new_from_file */
+	if (image_is_type__common (filename, "image/gif", fast_file_type)) {
+		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
+		if (!is_local)
+	                remove_temp_file_and_dir (local_file);
+		return animation;
 	}
 	
-	/* Remote gifs: copy file to local tmp_dir, then use
-	   gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (filename, "image/gif", fast_file_type) ) {
-
-		tmp_dir	= get_temp_dir_name ();
-		tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
-		
-	       	if (tmp_file != NULL) 
-			tmp_animation = gdk_pixbuf_animation_new_from_file (tmp_file, error);
-
-		remove_temp_file (tmp_file);
-		remove_temp_dir (tmp_dir);
-	}
-	
-	if (tmp_animation != NULL) 
-		return tmp_animation;
 
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
-	if (image_is_raw (filename) && (requested_width_if_used > 0)) {
-
-		if (is_local_file (filename)) {
-			/* Local raw images */
-			pixbuf = or_gdkpixbuf_extract_thumbnail (remove_scheme_from_uri (filename), 
-								 requested_width_if_used);
-		} else {
-			/* Remote raw images */
-
-        	        tmp_dir = get_temp_dir_name ();
-                	tmp_file = make_local_copy_of_remote_file (filename, tmp_dir);
-
-	                if (tmp_file != NULL)
-        	                pixbuf = or_gdkpixbuf_extract_thumbnail(tmp_file, requested_width_if_used);
-	                
-	                remove_temp_file (tmp_file);
-        	        remove_temp_dir (tmp_dir);
-		}
-	}
+	if (image_is_raw (filename) && (requested_width_if_used > 0))
+		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
 	/* All other file types, or if previous methods fail: read in a 
 	   non-animated pixbuf, and convert to a single-frame animation. */
-
 	if (pixbuf == NULL)
-	        pixbuf = gth_pixbuf_new_from_uri (filename, error);
+	        pixbuf = gth_pixbuf_new_from_uri (local_file, error);
 
         if (pixbuf != NULL) {
-              	return gdk_pixbuf_non_anim_new (pixbuf);
+              	animation = gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
-	}
+		}
+
+	/* remove local copies of remote files */
+	if (!is_local)
+        	remove_temp_file_and_dir (local_file);
+                
+	/* return the animation */
+	return animation;
 }
 
