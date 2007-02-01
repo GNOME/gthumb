@@ -211,6 +211,7 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);
 gboolean	    is_local_file                 (const char *filename);
+void	            prune_cache			  ();
 char* 		    obtain_local_file             (const char      *remote_filename);
 gboolean	    make_remote_copy_of_local_file (const char      *local_filename,
                                                     const char      *dest_uri);

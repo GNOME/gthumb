@@ -54,6 +54,7 @@
 #include "gconf-utils.h"
 #include "file-utils.h"
 #include "pixbuf-utils.h"
+#include "typedefs.h"
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -2207,6 +2208,24 @@ get_cache_full_path (const char *relative_path, const char *extension)
 }
 
 
+void
+prune_cache ()
+{
+	char *command;
+
+	/* Purge old files before transferring new ones. */
+	/* Old = ctime older than 2 days. */
+	command = g_strconcat (	"find ",  
+				g_get_home_dir (), 
+				"/", 
+				RC_REMOTE_CACHE_DIR, 
+				" -maxdepth 1 -mindepth 1 -ctime +2 -print0 | xargs -0 rm -rf",
+				NULL );
+	system (command);
+	g_free (command);
+}
+
+
 char* 
 obtain_local_file (const char *remote_filename)
 {
@@ -2215,9 +2234,6 @@ obtain_local_file (const char *remote_filename)
 	GnomeVFSURI      *target_uri;
 	char	         *cache_file;
 	char             *md5_file;
-	char             *command;
-	GError           *err = NULL;
-	gboolean	  error;
 
 
 	/* If the file is local, simply return a copy of the filename, without
@@ -2244,16 +2260,7 @@ obtain_local_file (const char *remote_filename)
 		/* use existing cache file */
                 return cache_file;
 	} else {
-		/* Purge old files before transferring new ones. */
-		/* Old = ctime older than 2 days. */
-		command = g_strconcat (	"find ",  
-					g_get_home_dir (), 
-					"/", 
-					RC_REMOTE_CACHE_DIR, 
-					" -maxdepth 1 -mindepth 1 -ctime +2 -print0 | xargs -0 rm -rf",
-					NULL );
-		system (command);
-		g_free (command);
+		prune_cache ();
 
 		/* move a new file into the cache */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
