@@ -450,7 +450,7 @@ gth_dir_list_update_icon_theme (GthDirList *dir_list)
 
 
 static void
-gth_dir_list_change_to__step3 (PathListData *pld,
+gth_dir_list_change_to__step2 (PathListData *pld,
 			       gpointer      data)
 {
 	GthDirList *dir_list = data;
@@ -458,8 +458,7 @@ gth_dir_list_change_to__step3 (PathListData *pld,
 	GList      *new_file_list = NULL;
 	GList      *filtered;
 
-	if (pld == NULL)
-		return;
+	g_return_if_fail (pld != NULL);
 
 	dir_list = data;
 
@@ -575,14 +574,6 @@ gth_dir_list_change_to__step3 (PathListData *pld,
 }
 
 
-static void
-gth_dir_list_change_to__step2 (gpointer callback_data)
-{
-	GthDirList *dir_list = callback_data;
-	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step3, dir_list);
-}
-
-
 void
 gth_dir_list_change_to (GthDirList *dir_list,
 		        const char *path)
@@ -596,9 +587,9 @@ gth_dir_list_change_to (GthDirList *dir_list,
 	dir_list->try_path = remove_ending_separator (path);
 
 	if (dir_list->dir_load_handle != NULL)
-		path_list_async_interrupt (dir_list->dir_load_handle, gth_dir_list_change_to__step2, dir_list);
-	else
-		dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step3, dir_list);
+		path_list_async_interrupt (dir_list->dir_load_handle, NULL, NULL);
+
+	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step2, dir_list);
 }
 
 

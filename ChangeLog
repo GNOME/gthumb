@@ -15,6 +15,17 @@
 	(apply_transformation_generic):
 	Removed extraneous remove_scheme_from_uri calls.
 
+2007-02-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: removed commented code.
+
+	* libgthumb/gth-file-list.c: stop loading the thumbnails if the queue
+	is not void.
+
+	* src/gth-dir-list.c (gth_dir_list_change_to): always call
+	path_list_async_new, instead of waiting for the file list to be
+	interrupted.
+
 2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (prune_cache), (obtain_local_file):
