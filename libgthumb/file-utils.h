@@ -31,6 +31,7 @@
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
 
@@ -217,10 +218,12 @@ gboolean	    make_remote_copy_of_local_file (const char      *local_filename,
                                                     const char      *dest_uri);
 
 /* Pixbuf + VFS */
-GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char   *filename, 
-						       GError 	   **error);
-GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char   *filename, 
-						       GError      **error,
-						       gboolean      fast_file_type,
-						       gint          requested_width_if_used);
+GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename, 
+						       GError 	            **error);
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename, 
+						       GError               **error,
+						       gboolean               fast_file_type,
+						       gint                   requested_width_if_used,
+						       gint	              requested_height_if_used,
+						       GnomeThumbnailFactory *factory);
 #endif /* FILE_UTILS_H */

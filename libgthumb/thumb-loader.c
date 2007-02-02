@@ -240,52 +240,14 @@ thumb_loader (const char  *path,
 	ThumbLoaderPrivateData *priv = tl->priv;
 	GdkPixbuf	       *pixbuf = NULL;
 
-	if (file_is_image_or_video (path, 
-				   eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE), 
-				   FALSE, 
-				   TRUE )) {
-		/* use the gnome thumbnailer for videos */
-		pixbuf = gnome_thumbnail_factory_generate_thumbnail (priv->thumb_factory,
-								     path,
-								     get_mime_type (path));
-
-                if (pixbuf != NULL) {
-                        animation = gdk_pixbuf_non_anim_new (pixbuf);
-                        g_object_unref (pixbuf);
-
-                        if (animation == NULL)
-                                debug (DEBUG_INFO, "ANIMATION == NULL\n");
-
-                } else
-                        debug (DEBUG_INFO, "PIXBUF == NULL\n");
-	}
-	else if (image_is_jpeg (path)) {
-		
-		pixbuf = f_load_scaled_jpeg (path,
-					     priv->cache_max_w,
-					     priv->cache_max_h,
-					     NULL, NULL);
-
-		if (pixbuf != NULL) {
-			animation = gdk_pixbuf_non_anim_new (pixbuf);
-			g_object_unref (pixbuf);
-
-			if (animation == NULL)
-				debug (DEBUG_INFO, "ANIMATION == NULL\n");
-
-		} else
-			debug (DEBUG_INFO, "PIXBUF == NULL\n");
-
-	} 
-	else {
-		/* Get an animation. Use fast file-type checking by default, unless
-		   content-checking is enabled. */
+	/* Get an animation. Use fast file-type checking by 
+	   default, unless content-checking is enabled. */
 	animation = gth_pixbuf_animation_new_from_uri (path, 
 				       error,
 				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
-				       priv->cache_max_w);
-	}
-
+				       priv->cache_max_w,
+				       priv->cache_max_h,
+				       priv->thumb_factory);
 	return animation;
 }
 

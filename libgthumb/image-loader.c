@@ -612,54 +612,15 @@ load_image_thread (void *thread_data)
 		if (path != NULL) {
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, &error, priv->loader_data);
-        		else {  
-			        if (file_is_image_or_video (path, FALSE, FALSE, TRUE)) {
-					/* use the gnome thumbnailer for videos */
-
-				        GdkPixbuf *pixbuf = NULL;
-					time_t     mtime;
-					char      *existing_video_thumbnail;
-
-					mtime = get_file_mtime (path);
-
-					existing_video_thumbnail = gnome_thumbnail_factory_lookup (priv->thumb_factory,
-									path,
-									mtime);
-
-					if (existing_video_thumbnail != NULL) {
-						animation = gth_pixbuf_animation_new_from_uri (existing_video_thumbnail,
-								                               &error,
-								                               FALSE,
-											       0);
-						g_free (existing_video_thumbnail);
-					}
-					else {
-				                pixbuf = gnome_thumbnail_factory_generate_thumbnail (priv->thumb_factory,
-                                                                     	path,
-                                                                     	get_mime_type (path));
-
-				                if (pixbuf != NULL) {
-        	                			animation = gdk_pixbuf_non_anim_new (pixbuf);
-							gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
-												pixbuf,
-												path,
-												mtime);
-				                        g_object_unref (pixbuf);
-
-				                        if (animation == NULL)
-                        				        debug (DEBUG_INFO, "ANIMATION == NULL\n");
-						}
-					}
-
-		                } else {
-			                /* Get an animation. Use slow content-checking to determine
-					   file types. */
-		                	animation = gth_pixbuf_animation_new_from_uri (path, 
-						                               &error,
-					                                       FALSE,
-									       0);
-				}
-		        }
+        		else
+				/* Get an animation. Use slow content-checking to determine
+				   file types. */
+		                animation = gth_pixbuf_animation_new_from_uri (path, 
+									       &error,
+									       FALSE, 
+									       0, 
+									       0,
+									       priv->thumb_factory);
 		}
 
 		G_UNLOCK (pixbuf_loader_lock);

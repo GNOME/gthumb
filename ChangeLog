@@ -1,3 +1,17 @@
+2007-02-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	News from vfs-testing branch
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_video),
+	(gth_pixbuf_new_from_uri), (gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	Moved remaining pixbuf/animation loading routines out of
+	image-loader.c and thumb-loader.c into file-utils.c, to reduce
+	duplication.
+
 2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_uri_display_name)

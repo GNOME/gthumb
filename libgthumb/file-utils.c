@@ -53,6 +53,7 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
+#include "jpeg-utils.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 
@@ -2317,6 +2318,38 @@ make_remote_copy_of_local_file (const char *local_filename,
 
 /* Pixbuf + VFS */
 
+static GdkPixbuf*
+gth_pixbuf_new_from_video (const char *path, GnomeThumbnailFactory *factory, GError **error)
+{
+      	GdkPixbuf *pixbuf = NULL;
+	time_t     mtime;
+        char      *existing_video_thumbnail;
+
+        /* use the gnome thumbnailer for videos */
+        mtime = get_file_mtime (path);
+
+        existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
+                                                                   path,
+                                                                   mtime);
+
+	if (existing_video_thumbnail != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (existing_video_thumbnail, 
+						   error);
+                g_free (existing_video_thumbnail);
+        } else {
+		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
+                                                                     path,
+                                                                     get_mime_type (path));
+                if (pixbuf != NULL)
+			gnome_thumbnail_factory_save_thumbnail (factory,
+                                                                pixbuf,
+                                                                path,
+                                                                mtime);
+	}
+
+        return pixbuf;
+}
+
 
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char *filename, GError **error)
@@ -2327,9 +2360,8 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
         if (filename == NULL)
                 return NULL;
 
-        /* gdk_pixbuf does not support VFS URIs directly, so make a temporary local
-           copy of remote files. */
-	
+        /* gdk_pixbuf does not support VFS URIs directly, so 
+	   make a local cache copy of remote files. */
         local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
@@ -2344,15 +2376,45 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 
 
 GdkPixbufAnimation*
-gth_pixbuf_animation_new_from_uri (const char 	*filename, 
-				   GError      **error, 
-				   gboolean      fast_file_type,
-				   gint		 requested_width_if_used)
+gth_pixbuf_animation_new_from_uri (const char 	         *filename, 
+				   GError               **error, 
+				   gboolean               fast_file_type,
+				   gint		          requested_width_if_used,
+				   gint		          requested_height_if_used,
+				   GnomeThumbnailFactory *factory)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
         char               *local_file = NULL;
 
+
+        /* The video thumbnailer can handle VFS URIs directly */
+        if (file_is_image_or_video (filename, FALSE, FALSE, TRUE) 
+	    && factory != NULL) {		
+		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
+		if (pixbuf == NULL) return NULL;
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+		return animation;
+	}
+
+
+	/* The jpeg thumbnailer can handle VFS URIs directly. */
+	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
+       if (image_is_jpeg (filename) && requested_width_if_used > 0) {
+                pixbuf = f_load_scaled_jpeg (filename,
+                                             requested_width_if_used,
+                                             requested_height_if_used,
+                                             NULL, NULL);
+		if (pixbuf == NULL) return NULL;
+                animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+                return animation;
+        }
+	
+
+        /* gdk_pixbuf and libopenraw do not support VFS URIs directly, 
+	   so make a local cache copy of remote files. */	
         local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
@@ -2365,7 +2427,6 @@ gth_pixbuf_animation_new_from_uri (const char 	*filename,
 		return animation;
 	}
 	
-
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
 	if (image_is_raw (filename) && (requested_width_if_used > 0))
