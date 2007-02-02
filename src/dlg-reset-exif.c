@@ -104,23 +104,8 @@ apply_transformation (DialogData *data,
 		      gboolean    notify_soon)
 {
 	char             *path = current_image->data;
-	char             *dir;
 	GnomeVFSFileInfo  info;
 	
-	/* Check directory permissions. */
-
-	dir = remove_level_from_path (path);
-	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
-		char *utf8_path = g_filename_display_name (dir);
-		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-				       _("You don't have the right permissions to create images in the folder \"%s\""),
-				       utf8_path);
-		g_free (utf8_path);
-		g_free (dir);
-		return;
-	} 
-	g_free (dir);
-
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	write_orientation_field (path, GTH_TRANSFORM_NONE);
 

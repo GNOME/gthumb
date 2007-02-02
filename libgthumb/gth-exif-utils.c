@@ -295,46 +295,40 @@ get_exif_entry_value (ExifEntry *entry)
 }
 
 
-ExifData *
-load_exif_data (const char *filename)
-{
-	JPEGData *jdata = NULL;
-	ExifData *exif_data = NULL;
-
-	filename = get_file_path_from_uri (filename);
-	if (filename == NULL)
-		return NULL;
-
-	jdata = jpeg_data_new_from_file (filename);
-	if (jdata == NULL) 
-		return NULL;
-
-	exif_data = jpeg_data_get_exif_data (jdata);
-	jpeg_data_unref (jdata);
-
-	return exif_data;
-}
-
-
 void 
-save_exif_data (const char *filename,
-		ExifData   *edata)
+save_exif_data_to_uri (const char *filename,
+		       ExifData   *edata)
 {
-	JPEGData *jdata;
+	JPEGData  *jdata;
+        gboolean   is_local;
+        gboolean   remote_copy_ok = TRUE;
+        char      *local_file_to_modify = NULL;
 
-	filename = get_file_path_from_uri (filename);
-	if (filename == NULL)
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+	
+	if (local_file_to_modify == NULL)
 		return;
 
-	jdata = jpeg_data_new_from_file (filename);
+	jdata = jpeg_data_new_from_file (local_file_to_modify);
 	if (jdata == NULL) 
 		return;
 
 	if (edata != NULL)
 		jpeg_data_set_exif_data (jdata, edata);
 
-	jpeg_data_save_file (jdata, filename);
+	jpeg_data_save_file (jdata, local_file_to_modify);
 	jpeg_data_unref (jdata);
+
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
 }
 
 
@@ -346,17 +340,11 @@ copy_exif_data (const char *src,
 
 	if (!image_is_jpeg (src) || !image_is_jpeg (dest))
 		return;
-	src = get_file_path_from_uri (src);
-	if (src == NULL)
-		return;
-	dest = get_file_path_from_uri (dest);
-	if (dest == NULL)
-		return;
 
 	edata = gth_exif_data_new_from_uri (src);
 	if (edata == NULL) 
 		return;
-	save_exif_data (dest, edata);
+	save_exif_data_to_uri (dest, edata);
 
 	exif_data_unref (edata);
 }

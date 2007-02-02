@@ -1,5 +1,24 @@
 2007-02-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (save_comment_iptc), (save_comment),
+	(comments_load_comment):
+	* libgthumb/dlg-save-image.c: (save_image):
+	* libgthumb/file-utils.c: (copy_cache_file_to_remote_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (save_exif_data_to_uri),
+	(copy_exif_data):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
+	* src/dlg-jpegtran.c: (apply_transformation):
+	* src/dlg-reset-exif.c: (apply_transformation):
+	* src/gth-browser.c: (window_update_image_info), (save_jpeg_data):
+	* src/gth-viewer.c: (viewer_update_image_info), (save_jpeg_data):
+	Enabled editing / saving of remote VFS files.
+	Enabled IPTC comment editing/saving on remote VFS files.
+	Still minor issues with XML comment handling.
+
+2007-02-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	News from vfs-testing branch
 

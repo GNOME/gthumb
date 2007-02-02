@@ -277,9 +277,8 @@ apply_transformation (DialogData *data,
 		apply_transformation_generic (window, local_file_to_modify, required_transform);
 	}
 
-	if (!is_local) {
-		remote_copy_ok = make_remote_copy_of_local_file (local_file_to_modify, path);
-	}
+	if (!is_local) 
+		remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
 
 	g_free (local_file_to_modify);
 

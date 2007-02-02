@@ -214,7 +214,7 @@ gboolean            check_permissions             (const char       *path,
 gboolean	    is_local_file                 (const char *filename);
 void	            prune_cache			  ();
 char* 		    obtain_local_file             (const char      *remote_filename);
-gboolean	    make_remote_copy_of_local_file (const char      *local_filename,
+gboolean	    copy_cache_file_to_remote_uri (const char      *local_filename,
                                                     const char      *dest_uri);
 
 /* Pixbuf + VFS */

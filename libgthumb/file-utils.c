@@ -2290,10 +2290,10 @@ obtain_local_file (const char *remote_filename)
 
 
 gboolean
-make_remote_copy_of_local_file (const char *local_filename,
+copy_cache_file_to_remote_uri (const char *local_filename,
                                 const char *dest_uri)
 {
-        /* make a remote copy of a local file */
+        /* make a remote copy of a local cache file */
 
         GnomeVFSResult result;
         GnomeVFSURI   *source_uri;

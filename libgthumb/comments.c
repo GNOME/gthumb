@@ -550,10 +550,24 @@ save_comment_iptc (const char  *filename,
 	IptcDataSet *ds;
 	time_t       mtime;
 	int          i;
+        gboolean     is_local;
+        gboolean     remote_copy_ok = TRUE;
+        char         *local_file_to_modify = NULL;
 
-	mtime = get_file_mtime (filename);
+        is_local = is_local_file (filename);
 
-	d = iptc_data_new_from_jpeg (filename);
+	/* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+
+        if (local_file_to_modify == NULL)
+                return;
+
+	mtime = get_file_mtime (local_file_to_modify);
+
+	d = iptc_data_new_from_jpeg (local_file_to_modify);
 	if (d) {
 		clear_iptc_comment (d);
 	}
@@ -628,10 +642,14 @@ save_comment_iptc (const char  *filename,
 	iptc_data_set_encoding_utf8 (d);
 	iptc_data_sort (d);
 
-	save_iptc_data (filename, d);
-	set_file_mtime (filename, mtime);
-
+	save_iptc_data (local_file_to_modify, d);
+	set_file_mtime (local_file_to_modify, mtime);
 	iptc_data_unref (d);
+
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
 }
 
 
@@ -883,7 +901,7 @@ save_comment (const char  *filename,
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
-			save_comment_iptc (get_file_path_from_uri (filename), data);
+			save_comment_iptc (filename, data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
 
@@ -964,7 +982,7 @@ comments_load_comment (const char *filename,
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
-			img_comment = load_comment_from_iptc (get_file_path_from_uri (filename));
+			img_comment = load_comment_from_iptc (filename);
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();
