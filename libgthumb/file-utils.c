@@ -2223,7 +2223,7 @@ prune_cache ()
 				g_get_home_dir (), 
 				"/", 
 				RC_REMOTE_CACHE_DIR, 
-				" -maxdepth 1 -mindepth 1 -ctime +2 -print0 | xargs -0 rm -rf",
+				" -mindepth 1 -type f -ctime +2 -print0 | xargs -0 rm -rf",
 				NULL );
 	system (command);
 	g_free (command);

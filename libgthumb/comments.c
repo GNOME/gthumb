@@ -893,10 +893,14 @@ save_comment (const char  *filename,
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
 	char        *comment_file = NULL;
+	char        *remote_comment_file = NULL;
 	char        *time_str = NULL;
 	char        *keywords_str = NULL;
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
+        gboolean     is_local;
+        char        *local_file = NULL;
+
 
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
@@ -904,6 +908,18 @@ save_comment (const char  *filename,
 			save_comment_iptc (filename, data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
+
+
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file = obtain_local_file (filename);
+
+        if (local_file == NULL)
+                return;
 
 	if (comment_data_is_void (data)) {
 		comment_delete (filename);
@@ -953,7 +969,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+	comment_file = comments_get_comment_filename (local_file, TRUE, TRUE);
 
 	dest_dir = remove_level_from_path (comment_file);
 
@@ -962,7 +978,15 @@ save_comment (const char  *filename,
 		xmlSaveFile (comment_file, doc);
 	}
 	g_free (dest_dir);
+
+	if (!is_local) {
+		remote_comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+		copy_cache_file_to_remote_uri (comment_file, remote_comment_file);	
+		g_free (remote_comment_file);
+	}
+		
 	g_free (comment_file);
+	g_free (local_file);
 
         xmlFreeDoc (doc);
 }
