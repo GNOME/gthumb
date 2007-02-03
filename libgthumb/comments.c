@@ -551,8 +551,7 @@ save_comment_iptc (const char  *filename,
 	time_t       mtime;
 	int          i;
         gboolean     is_local;
-        gboolean     remote_copy_ok = TRUE;
-        char         *local_file_to_modify = NULL;
+        char        *local_file_to_modify = NULL;
 
         is_local = is_local_file (filename);
 
@@ -647,7 +646,7 @@ save_comment_iptc (const char  *filename,
 	iptc_data_unref (d);
 
         if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+                copy_cache_file_to_remote_uri (local_file_to_modify, filename);
 
         g_free (local_file_to_modify);
 }

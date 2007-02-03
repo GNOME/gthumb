@@ -759,6 +759,7 @@ static void
 update_file_info (GthExifDataViewer *edv)
 {
 	char              *utf8_name;
+	char		  *utf8_fullname;
 	int                width, height;
 	char              *size_txt;
 	time_t             mtime;
@@ -772,6 +773,7 @@ update_file_info (GthExifDataViewer *edv)
 		return;
 
 	utf8_name = g_filename_display_basename (edv->priv->path);
+	utf8_fullname =g_filename_display_name (edv->priv->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
@@ -793,7 +795,8 @@ update_file_info (GthExifDataViewer *edv)
 
 	/**/
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -6);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Path"), utf8_fullname, -6);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
@@ -803,6 +806,7 @@ update_file_info (GthExifDataViewer *edv)
 
 	g_free (utf8_time_txt);
 	g_free (utf8_name);
+	g_free (utf8_fullname);
 	g_free (size_txt);
 	g_free (file_size_txt);
 }

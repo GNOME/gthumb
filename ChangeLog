@@ -1,5 +1,17 @@
 2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (save_comment_iptc):
+ 	  Removed unused variable.
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	  Enabled VFS support.
+
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	  Show full path in file info sidebar.
+
+2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/comments.c: (save_comment):
 	  Fixed XML comment editing of remote files.
 

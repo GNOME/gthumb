@@ -1753,16 +1753,19 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 {
 	JPEGData     *jdata_src, *jdata_dest;
 	ExifData     *edata_src;
+	char         *local_src_filename = NULL;
+	char         *local_dest_filename = NULL;
+	gboolean      is_local;
 
-	src_filename = get_file_path_from_uri (src_filename);
-	if (src_filename == NULL)
+	is_local = is_local_file (dest_filename);
+
+	local_src_filename = obtain_local_file (src_filename);
+	local_dest_filename = obtain_local_file (dest_filename);
+
+	if ((local_src_filename == NULL) || (local_dest_filename == NULL))
 		return;
 
-	dest_filename = get_file_path_from_uri (dest_filename);
-	if (dest_filename == NULL)
-		return;
-
-	jdata_src = jpeg_data_new_from_file (src_filename);
+	jdata_src = jpeg_data_new_from_file (local_src_filename);
 	if (jdata_src == NULL)
 		return;
 
@@ -1772,7 +1775,7 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 		return;
 	}
 
-	jdata_dest = jpeg_data_new_from_file (dest_filename);
+	jdata_dest = jpeg_data_new_from_file (local_dest_filename);
 	if (jdata_dest == NULL)
 		return;
 
@@ -1795,6 +1798,12 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 	exif_data_unref (edata_src);
 	jpeg_data_unref (jdata_src);
 	jpeg_data_unref (jdata_dest);
+
+        if (!is_local)
+		copy_cache_file_to_remote_uri (local_dest_filename, dest_filename);
+
+	g_free (local_src_filename);
+	g_free (local_dest_filename);
 }
 
 
