@@ -1,5 +1,15 @@
 2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_camera.glade:
+	* data/glade/gthumb_convert.glade:
+	* data/glade/gthumb_png_exporter.glade:
+	* data/glade/gthumb_preferences.glade:
+	* data/glade/gthumb_search.glade:
+	* data/glade/gthumb_tools.glade:
+	  Set local_only to false, to fix bug 403932.
+
+2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/comments.c: (save_comment_iptc):
  	  Removed unused variable.
 
