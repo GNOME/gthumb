@@ -2398,20 +2398,6 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	}
 
 
-	/* The jpeg thumbnailer can handle VFS URIs directly. */
-	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-       if (image_is_jpeg (filename) && requested_width_if_used > 0) {
-                pixbuf = f_load_scaled_jpeg (filename,
-                                             requested_width_if_used,
-                                             requested_height_if_used,
-                                             NULL, NULL);
-		if (pixbuf == NULL) return NULL;
-                animation = gdk_pixbuf_non_anim_new (pixbuf);
-                g_object_unref (pixbuf);
-                return animation;
-        }
-	
-
         /* gdk_pixbuf and libopenraw do not support VFS URIs directly, 
 	   so make a local cache copy of remote files. */	
         local_file = obtain_local_file (filename);
@@ -2419,8 +2405,26 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
         if (local_file == NULL)
                 return NULL;
 
+	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
+	   actually 3 times slower than copying it to a local cache. 
+	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
+
+	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
+       if (image_is_jpeg (local_file) && requested_width_if_used > 0) {
+                pixbuf = f_load_scaled_jpeg (local_file,
+                                             requested_width_if_used,
+                                             requested_height_if_used,
+                                             NULL, NULL);
+		if (pixbuf == NULL) return NULL;
+                animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+		g_free (local_file);
+                return animation;
+        }
+	
+
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (filename, "image/gif", fast_file_type)) {
+	if (image_is_type__common (local_file, "image/gif", fast_file_type)) {
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
 		g_free (local_file);
 		return animation;
@@ -2428,7 +2432,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
-	if (image_is_raw (filename) && (requested_width_if_used > 0))
+	if (image_is_raw (local_file) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
