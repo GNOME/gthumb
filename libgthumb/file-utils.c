@@ -2268,9 +2268,8 @@ obtain_local_file (const char *remote_filename)
 		/* use existing cache file */
                 return cache_file;
 	} else {
-		prune_cache ();
-
-		/* move a new file into the cache */
+		/* Move a new file into the cache.
+		   The cache is pruned at startup. */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
         	                             GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
                 	                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
