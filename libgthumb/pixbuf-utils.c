@@ -1292,38 +1292,53 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		   GError      **error)
 {
 	gboolean   result;
+	gboolean   is_local;
+	gboolean   remote_copy_ok = TRUE;
+	char      *local_file_to_modify = NULL;
 
 	g_return_val_if_fail (pixbuf != NULL, TRUE);
 	g_return_val_if_fail (filename != NULL, TRUE);
 	g_return_val_if_fail (type != NULL, TRUE);
 
-	filename = get_file_path_from_uri (filename);
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+	g_return_val_if_fail (local_file_to_modify != NULL, FALSE);
 
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0)
 		result = _gdk_pixbuf_save_as_tiff (pixbuf,
-						   filename,
+						   local_file_to_modify,
 						   keys, values,
 						   error);
 	else
 #endif
 	if (strcmp (type, "jpeg") == 0)
 		result = _gdk_pixbuf_save_as_jpeg (pixbuf,
-						   filename,
+						   local_file_to_modify,
 						   keys, values,
 						   error);
 	else
 	if ((strcmp (type, "x-tga") == 0) || (strcmp (type, "tga") == 0))
 		result = _gdk_pixbuf_save_as_tga (pixbuf,
-						  filename,
+						  local_file_to_modify,
 						  keys, values,
 						  error);
 	else
-		result = gdk_pixbuf_savev (pixbuf, filename, type,
+		result = gdk_pixbuf_savev (pixbuf, local_file_to_modify, type,
 					   keys, values,
 					   error);
 
-	return result;
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
+	
+	return (result && remote_copy_ok);
 }
 
 

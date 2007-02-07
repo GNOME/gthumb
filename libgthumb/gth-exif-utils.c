@@ -31,6 +31,34 @@
 #include "gth-exif-utils.h"
 
 
+ExifData *
+gth_exif_data_new_from_uri (const char *path)
+{
+        char        *local_file = NULL;
+	ExifData    *new_exif_data;
+
+	if (path==NULL)
+		return NULL;
+
+        /* libexif does not support VFS URIs directly, so make a temporary local
+           copy of remote jpeg files. */
+
+        if (is_local_file (path) || image_is_jpeg (path)) 
+                local_file = obtain_local_file (path);
+	else
+		return NULL;
+
+        if (local_file == NULL) 
+                return NULL;
+
+	new_exif_data = exif_data_new_from_file (local_file);
+
+	g_free (local_file);
+
+	return new_exif_data;
+}
+
+
 char *
 get_exif_tag (const char *filename,
 	      ExifTag     etag)
@@ -38,11 +66,10 @@ get_exif_tag (const char *filename,
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return g_strdup ("-");
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return g_strdup ("-");
@@ -88,11 +115,10 @@ get_exif_tag_short (const char *filename,
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return 0;
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return 0;
@@ -137,11 +163,10 @@ get_exif_time (const char *filename)
 	time_t        time = 0;
 	struct tm     tm = { 0, };
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return (time_t)0;
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
                 return (time_t)0;
@@ -209,11 +234,10 @@ get_exif_aperture_value (const char *filename)
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	filename = get_file_path_from_uri (filename);
 	if (filename == NULL)
 		return g_strdup ("-");
 
-	edata = exif_data_new_from_file (filename);
+	edata = gth_exif_data_new_from_uri (filename);
 
 	if (edata == NULL) 
 		return g_strdup ("-");
@@ -271,46 +295,40 @@ get_exif_entry_value (ExifEntry *entry)
 }
 
 
-ExifData *
-load_exif_data (const char *filename)
-{
-	JPEGData *jdata = NULL;
-	ExifData *exif_data = NULL;
-
-	filename = get_file_path_from_uri (filename);
-	if (filename == NULL)
-		return NULL;
-
-	jdata = jpeg_data_new_from_file (filename);
-	if (jdata == NULL) 
-		return NULL;
-
-	exif_data = jpeg_data_get_exif_data (jdata);
-	jpeg_data_unref (jdata);
-
-	return exif_data;
-}
-
-
 void 
-save_exif_data (const char *filename,
-		ExifData   *edata)
+save_exif_data_to_uri (const char *filename,
+		       ExifData   *edata)
 {
-	JPEGData *jdata;
+	JPEGData  *jdata;
+        gboolean   is_local;
+        gboolean   remote_copy_ok = TRUE;
+        char      *local_file_to_modify = NULL;
 
-	filename = get_file_path_from_uri (filename);
-	if (filename == NULL)
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+	
+	if (local_file_to_modify == NULL)
 		return;
 
-	jdata = jpeg_data_new_from_file (filename);
+	jdata = jpeg_data_new_from_file (local_file_to_modify);
 	if (jdata == NULL) 
 		return;
 
 	if (edata != NULL)
 		jpeg_data_set_exif_data (jdata, edata);
 
-	jpeg_data_save_file (jdata, filename);
+	jpeg_data_save_file (jdata, local_file_to_modify);
 	jpeg_data_unref (jdata);
+
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
 }
 
 
@@ -322,17 +340,11 @@ copy_exif_data (const char *src,
 
 	if (!image_is_jpeg (src) || !image_is_jpeg (dest))
 		return;
-	src = get_file_path_from_uri (src);
-	if (src == NULL)
-		return;
-	dest = get_file_path_from_uri (dest);
-	if (dest == NULL)
-		return;
 
-	edata = exif_data_new_from_file (src);
+	edata = gth_exif_data_new_from_uri (src);
 	if (edata == NULL) 
 		return;
-	save_exif_data (dest, edata);
+	save_exif_data_to_uri (dest, edata);
 
 	exif_data_unref (edata);
 }

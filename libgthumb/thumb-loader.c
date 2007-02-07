@@ -4,6 +4,7 @@
  *  GThumb
  *
  *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2006-2007 Hubert Figuiere <hub@figuiere.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -31,6 +32,7 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 
 #include "gthumb-init.h"
@@ -44,7 +46,6 @@
 #include "glib-utils.h"
 #include "jpeg-utils.h"
 #include "gthumb-marshal.h"
-
 
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
 
@@ -236,34 +237,20 @@ thumb_loader (const char  *path,
 	      GError     **error,
 	      gpointer     data)
 {
-	GdkPixbufAnimation *animation = NULL;
+	GdkPixbufAnimation     *animation = NULL;
+	ThumbLoader            *tl = data;
+	ThumbLoaderPrivateData *priv = tl->priv;
+	GdkPixbuf	       *pixbuf = NULL;
 
-        if (mime_type == NULL)
-        	return NULL; /*mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));*/
-
-	if (mime_type_is (mime_type, "image/jpeg")) {
-		ThumbLoader *tl = data;
-		GdkPixbuf   *pixbuf;
-
-		pixbuf = f_load_scaled_jpeg (path,
-					     tl->priv->cache_max_w,
-					     tl->priv->cache_max_h,
-					     NULL, NULL);
-		if (pixbuf != NULL) {
-			animation = gdk_pixbuf_non_anim_new (pixbuf);
-			g_object_unref (pixbuf);
-		}
-	}
-	else {
-		GdkPixbuf *pixbuf;
-
-		pixbuf = gdk_pixbuf_new_from_file (path, error);
-		if (pixbuf != NULL) {
-			animation = gdk_pixbuf_non_anim_new (pixbuf);
-			g_object_unref (pixbuf);
-		}
-	}
-
+	/* Get an animation. Use fast file-type checking by 
+	   default, unless content-checking is enabled. */
+	animation = gth_pixbuf_animation_new_from_uri (path, 
+				       error,
+				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
+				       priv->cache_max_w,
+				       priv->cache_max_h,
+				       priv->thumb_factory,
+				       mime_type);
 	return animation;
 }
 
@@ -369,11 +356,12 @@ thumb_loader_set_path (ThumbLoader *tl,
 
 	tl->priv->uri = get_uri_from_path (path);
 	tl->priv->e_uri = gnome_vfs_escape_host_and_path_string (tl->priv->uri);
+
 	if (mime_type == NULL)
 		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	tl->priv->mime_type = mime_type;
 
-	image_loader_set_path (tl->priv->il, remove_scheme_from_uri (tl->priv->uri), tl->priv->mime_type);
+	image_loader_set_path (tl->priv->il, tl->priv->uri, tl->priv->mime_type);
 }
 
 
@@ -431,7 +419,7 @@ thumb_loader_get_path (ThumbLoader *tl)
 	if (tl->priv->uri == NULL)
 		return NULL;
 
-	return g_strdup (remove_scheme_from_uri (tl->priv->uri));
+	return g_strdup (tl->priv->uri);
 }
 
 
@@ -474,7 +462,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 	} else {
 		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri), priv->mime_type);
+		image_loader_set_path (priv->il, priv->uri, priv->mime_type);
 
 		/* Check file dimensions. */
 
@@ -695,7 +683,7 @@ thumb_loader_error_cb (ImageLoader *il,
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri), priv->mime_type);
+	image_loader_set_path (priv->il, priv->uri, priv->mime_type);
 	image_loader_start (priv->il);
 }
 

@@ -39,7 +39,6 @@ read_orientation_field (const char *path)
 {
 	ExifShort orientation;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return GTH_TRANSFORM_NONE;
 
@@ -58,7 +57,6 @@ write_orientation_field (const char   *path,
 	JPEGData     *jdata;
 	ExifData     *edata;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 
@@ -128,14 +126,11 @@ apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
 			   GthTransform  transform)
 {
-	char        *line;
 	char        *tmp;
 	char        *tmpdir;
 	GError      *err = NULL;
 	JXFORM_CODE  transf;
-	char        *e1, *e2;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 	
@@ -183,26 +178,15 @@ apply_transformation_jpeg (GtkWindow    *win,
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
-		dir_remove (tmpdir);
-		g_free (tmpdir);
+		remove_temp_file_and_dir (tmp);
 		return;
 	}
 
-	e1 = shell_escape (tmp);
-	e2 = shell_escape (path);
+	if (!file_move (tmp, path))
+		_gtk_error_dialog_run (win, 
+			_("Could not move temporary file to local destination. Check folder permissions."));
 
-	line = g_strdup_printf ("mv -f %s %s", e1, e2);
-	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-	dir_remove (tmpdir);
-	g_free (tmpdir);
-
-	if (err != NULL)
-		_gtk_error_dialog_from_gerror_run (win, &err);
-
-	g_free (e1);
-	g_free (e2);
-	g_free (line);
-	g_free (tmp);
+	remove_temp_file_and_dir (tmp);
 }
 
 
@@ -214,14 +198,13 @@ apply_transformation_generic (GtkWindow    *win,
 	GdkPixbuf  *pixbuf1, *pixbuf2;
 	const char *mime_type;
 
-	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 
 	if (transform == GTH_TRANSFORM_NONE)
 		return;
 
-	pixbuf1 = gdk_pixbuf_new_from_file (path, NULL);
+	pixbuf1 = gth_pixbuf_new_from_uri (path, NULL);
 	if (pixbuf1 == NULL)
 		return;
 

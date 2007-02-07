@@ -20,6 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#define GDK_PIXBUF_ENABLE_BACKEND
+
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,9 +36,12 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <errno.h>
+#include <config.h>
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -48,7 +53,13 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
+#include "jpeg-utils.h"
+#include "pixbuf-utils.h"
+#include "typedefs.h"
 
+#ifdef HAVE_LIBOPENRAW
+#include <libopenraw-gnome/gdkpixbuf.h>
+#endif
 
 #define BUF_SIZE 4096
 #define CHUNK_SIZE 128
@@ -641,19 +652,15 @@ get_mime_type_from_ext (const char *ext)
 }
 
 
-gboolean
-can_load_mime_type (const char *mime_type)
+gboolean mime_type_is_image (const char *mime_type)
 {
-	/* If the description contains the word 'image' than we suppose
-	 * it is an image that gdk-pixbuf can load. */
-
-	return strstr (mime_type, "image") != NULL;
+	return (   (strstr (mime_type, "image") != NULL)
+		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
 
 
-gboolean
-file_is_image (const gchar *name,
-	       gboolean     fast_file_type)
+gboolean file_is_image (const gchar *name,
+	                gboolean     fast_file_type)
 {
 	const char *mime_type = NULL;
 
@@ -661,7 +668,39 @@ file_is_image (const gchar *name,
 	if (mime_type == NULL)
 		return FALSE;
 
-	return can_load_mime_type (mime_type);
+	return mime_type_is_image (mime_type);
+}
+
+
+gboolean file_is_video (const gchar *name,
+                        gboolean     fast_file_type)
+{
+        const char *mime_type = NULL;
+
+        mime_type = get_file_mime_type (name, fast_file_type);
+        if (mime_type == NULL)
+                return FALSE;
+
+        return mime_type_is_video (mime_type);
+}
+
+
+gboolean mime_type_is_video (const char *mime_type)
+{
+	return (strstr (mime_type, "video") != NULL);
+}
+
+
+gboolean file_is_image_or_video (const gchar *name,
+                                 gboolean     fast_file_type)
+{
+        const char *mime_type = NULL;
+
+        mime_type = get_file_mime_type (name, fast_file_type);
+        if (mime_type == NULL)
+                return FALSE;
+
+        return mime_type_is_image (mime_type) || mime_type_is_video (mime_type);
 }
 
 
@@ -815,6 +854,21 @@ image_is_jpeg (const char *name)
 	return image_is_type__gconf_file_type (name, "image/jpeg");
 }
 
+gboolean
+mime_type_is_raw (const char *mime_type)
+{
+	return 	   mime_type_is (mime_type, "application/x-crw")	/* ? */
+		|| mime_type_is (mime_type, "image/x-dcraw")		/* dcraw */
+		|| mime_type_is (mime_type, "image/x-minolta-mrw")  	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-canon-crw")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-nikon-nef")	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-kodak-dcr")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-kodak-kdc")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-olympus-orf")	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-fuji-raf")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-raw")		/* mimelnk */
+		;
+}
 
 gboolean
 image_is_gif (const char *name)
@@ -1140,11 +1194,14 @@ get_uri_display_name (const char *uri)
 	gboolean  catalog_or_search;
 	char     *name;
 
-	tmp_path = g_strdup (remove_scheme_from_uri (uri));
-
 	/* if it is a catalog then remove the extension */
-
 	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
+
+	if (catalog_or_search || is_local_file (uri))
+		tmp_path = g_strdup (remove_scheme_from_uri (uri));
+	else
+		tmp_path = g_strdup (uri);
+
 	if (catalog_or_search && file_extension_is (uri, CATALOG_EXT))
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 
@@ -1383,18 +1440,28 @@ remove_special_dirs_from_path (const char *uri)
 	GString     *result_s;
 	char        *scheme;
 	char        *result;
+	int	     start_at;
+
+	scheme = get_uri_scheme (uri);
+
+	g_assert ((scheme != NULL) || g_path_is_absolute (uri)); 
 
 	path = remove_scheme_from_uri (uri);
 
-	if ((path == NULL)
-	    || (*path != '/')
-	    || (strstr (path, ".") == NULL))
-		return g_strdup (path);
+	if ((path == NULL) || (strstr (path, ".") == NULL))
+		return g_strdup (uri);
 
 	pathv = g_strsplit (path, "/", 0);
 
-	/* start from 1 to remove the first / that will be re-added later. */
-	for (i = 1; pathv[i] != NULL; i++) {
+	/* Trimmed uris might not start with a slash */
+	if (*path != '/')
+		start_at=0;
+	else
+		start_at=1;
+
+
+	/* Ignore first slash, if present. It will be re-added later. */
+	for (i = start_at; pathv[i] != NULL; i++) {
 		if (strcmp (pathv[i], ".") == 0) {
 			/* nothing to do. */
 		} else if (strcmp (pathv[i], "..") == 0) {
@@ -1409,11 +1476,18 @@ remove_special_dirs_from_path (const char *uri)
 	}
 
 	result_s = g_string_new (NULL);
-	scheme = get_uri_scheme (uri);
+
+	/* re-insert URI scheme */
 	if (scheme != NULL) {
 		g_string_append (result_s, scheme);
+
+		if (start_at==0)
+			/* delete trailing slash, because an extra one is added below */
+			g_string_truncate (result_s, result_s->len - 1);
+
 		g_free (scheme);
 	}
+
 	if (list == NULL)
 		g_string_append_c (result_s, '/');
 	else {
@@ -1491,7 +1565,7 @@ resolve_all_symlinks (const char  *text_uri,
 	my_text_uri = g_strdup (text_uri);
 	info = gnome_vfs_file_info_new ();
 
-	for (p = my_text_uri; (p != NULL) && (*p != 0); ) {
+	for (p = remove_scheme_from_uri(my_text_uri); (p != NULL) && (*p != 0); ) {
 		char           *new_text_uri;
 		GnomeVFSURI    *new_uri;
 
@@ -1941,6 +2015,27 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 }
 
 
+void
+remove_temp_file_and_dir (char *tmp_file) 
+{
+	char *tmp_dir;
+
+	if (tmp_file == NULL)
+		return;
+
+	tmp_dir = remove_level_from_path (tmp_file);
+
+	file_unlink (tmp_file);
+        g_free (tmp_file);
+
+	if (tmp_dir == NULL)
+		return;
+
+	dir_remove (tmp_dir);
+	g_free (tmp_dir);
+}
+
+
 /* VFS extensions */
 
 
@@ -2056,6 +2151,7 @@ check_permissions (const char *path,
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    vfs_result;
 	char             *escaped;
+	gboolean	  everything_OK = TRUE;
 
 	info = gnome_vfs_file_info_new ();
 	escaped = escape_uri (path);
@@ -2067,16 +2163,300 @@ check_permissions (const char *path,
 	g_free (escaped);
 
 	if (vfs_result != GNOME_VFS_OK)
-		return FALSE;
+		everything_OK = FALSE;
 
 	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE))
-		return FALSE;
+		everything_OK = FALSE;
 
 	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
-		return FALSE;
+		everything_OK = FALSE;
 
-	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
-		return FALSE;
+	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE))
+		everything_OK = FALSE;
 
-	return TRUE;
+	gnome_vfs_file_info_unref (info);
+
+	return everything_OK;
 }
+
+
+/* VFS caching */
+
+gboolean
+is_local_file (const char *filename)
+{
+	return !(uri_has_scheme (filename)) || uri_scheme_is_file (filename);
+}
+
+
+char *
+get_cache_full_path (const char *relative_path, const char *extension)
+{
+        char *path;
+        char *separator;
+
+        /* Do not allow .. in the relative_path otherwise the user can go
+         * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+        if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
+                return NULL;
+
+        if (relative_path == NULL)
+                separator = NULL;
+        else
+                separator = (relative_path[0] == '/') ? "" : "/";
+
+        path = g_strconcat ("file://",
+                            g_get_home_dir (),
+                            "/",
+                            RC_REMOTE_CACHE_DIR,
+                            separator,
+                            relative_path,
+			    extension,
+                            NULL);
+
+        return path;
+}
+
+
+void
+prune_cache ()
+{
+	char *command;
+
+	/* Purge old files before transferring new ones. */
+	/* Old = ctime older than 2 days. */
+	command = g_strconcat (	"find ",  
+				g_get_home_dir (), 
+				"/", 
+				RC_REMOTE_CACHE_DIR, 
+				" -mindepth 1 -type f -ctime +2 -print0 | xargs -0 rm -rf",
+				NULL );
+	system (command);
+	g_free (command);
+}
+
+
+char* 
+obtain_local_file (const char *remote_filename)
+{
+	GnomeVFSResult    result;
+	GnomeVFSURI      *source_uri;
+	GnomeVFSURI      *target_uri;
+	char	         *cache_file;
+	char             *md5_file;
+	char	         *cache_file_full;
+
+
+	/* If the file is local, simply return a copy of the filename, without
+	   any "file:///" prefix. */
+
+        if (is_local_file (remote_filename))
+		return g_strdup (remove_scheme_from_uri (remote_filename));
+
+	/* If the file is remote, copy it to a local cache. */
+
+	md5_file = gnome_thumbnail_md5 (remote_filename);
+	cache_file_full = get_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	g_free (cache_file_full);
+	g_free (md5_file);
+	if (cache_file == NULL) return NULL;
+
+
+	/* I can't imagine how the cache would be non-local, but check anyways */
+	g_assert (is_local_file (cache_file));
+
+	source_uri = gnome_vfs_uri_new (remote_filename);
+	target_uri = gnome_vfs_uri_new (cache_file);
+	
+	if ( gnome_vfs_uri_exists (target_uri) &&
+	     (get_file_mtime (cache_file) == get_file_mtime (remote_filename)) ) {
+		/* use existing cache file */
+                return cache_file;
+	} else {
+		/* Move a new file into the cache.
+		   The cache is pruned at startup. */
+		result = gnome_vfs_xfer_uri (source_uri, target_uri,
+        	                             GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+                	                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+                        	             GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+                                	     NULL,
+	                                     NULL);
+
+		gnome_vfs_uri_unref (target_uri);
+		gnome_vfs_uri_unref (source_uri);
+
+        	if (result == GNOME_VFS_OK)
+			return cache_file;
+		else
+			return NULL;
+	}
+}
+
+
+gboolean
+copy_cache_file_to_remote_uri (const char *local_filename,
+                                const char *dest_uri)
+{
+        /* make a remote copy of a local cache file */
+
+        GnomeVFSResult result;
+        GnomeVFSURI   *source_uri;
+        GnomeVFSURI   *target_uri;
+
+        source_uri = gnome_vfs_uri_new (local_filename);
+        target_uri = gnome_vfs_uri_new (dest_uri);
+
+        result = gnome_vfs_xfer_uri (source_uri, target_uri,
+                                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+                                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+                                     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+                                     NULL,
+                                     NULL);
+
+        gnome_vfs_uri_unref (target_uri);
+        gnome_vfs_uri_unref (source_uri);
+
+        return (result == GNOME_VFS_OK);
+}
+
+
+/* Pixbuf + VFS */
+
+static GdkPixbuf*
+gth_pixbuf_new_from_video (const char *path, GnomeThumbnailFactory *factory, GError **error)
+{
+      	GdkPixbuf *pixbuf = NULL;
+	time_t     mtime;
+        char      *existing_video_thumbnail;
+
+        /* use the gnome thumbnailer for videos */
+        mtime = get_file_mtime (path);
+
+        existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
+                                                                   path,
+                                                                   mtime);
+
+	if (existing_video_thumbnail != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (existing_video_thumbnail, 
+						   error);
+                g_free (existing_video_thumbnail);
+        } else {
+		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
+                                                                     path,
+                                                                     get_mime_type (path));
+                if (pixbuf != NULL)
+			gnome_thumbnail_factory_save_thumbnail (factory,
+                                                                pixbuf,
+                                                                path,
+                                                                mtime);
+	}
+
+        return pixbuf;
+}
+
+
+GdkPixbuf*
+gth_pixbuf_new_from_uri (const char *filename, GError **error)
+{
+	GdkPixbuf   *pixbuf = NULL;        
+	char        *local_file = NULL;
+
+        if (filename == NULL)
+                return NULL;
+
+        /* gdk_pixbuf does not support VFS URIs directly, so 
+	   make a local cache copy of remote files. */
+        local_file = obtain_local_file (filename);
+
+        if (local_file == NULL)
+                return NULL;
+
+	pixbuf = gdk_pixbuf_new_from_file (filename, error);
+
+	g_free (local_file);
+
+	return pixbuf;
+}
+
+
+GdkPixbufAnimation*
+gth_pixbuf_animation_new_from_uri (const char 	         *filename, 
+				   GError               **error, 
+				   gboolean               fast_file_type,
+				   gint		          requested_width_if_used,
+				   gint		          requested_height_if_used,
+				   GnomeThumbnailFactory *factory,
+				   const char            *mime_type)
+{
+	GdkPixbufAnimation *animation = NULL;
+	GdkPixbuf          *pixbuf = NULL;
+        char               *local_file = NULL;
+
+	if (mime_type == NULL)
+		return NULL;
+
+
+        /* The video thumbnailer can handle VFS URIs directly */
+        if (mime_type_is_video (mime_type) && factory != NULL) {		
+		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
+		if (pixbuf == NULL) return NULL;
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+		return animation;
+	}
+
+        /* gdk_pixbuf and libopenraw do not support VFS URIs directly, 
+	   so make a local cache copy of remote files. */	
+        local_file = obtain_local_file (filename);
+
+        if (local_file == NULL)
+                return NULL;
+
+	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
+	   actually 3 times slower than copying it to a local cache. 
+	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
+
+	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
+       if ( mime_type_is (mime_type, "image/jpeg") && requested_width_if_used > 0) {
+                pixbuf = f_load_scaled_jpeg (local_file,
+                                             requested_width_if_used,
+                                             requested_height_if_used,
+                                             NULL, NULL);
+		if (pixbuf == NULL) return NULL;
+                animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+		g_free (local_file);
+                return animation;
+        }
+	
+
+	/* gifs: use gdk_pixbuf_animation_new_from_file */
+	if ( mime_type_is (mime_type, "image/gif")) {
+		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
+		g_free (local_file);
+		return animation;
+	}
+	
+#ifdef HAVE_LIBOPENRAW
+	/* raw thumbnails */
+	if (mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
+		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
+#endif
+
+	/* All other file types, or if previous methods fail: read in a 
+	   non-animated pixbuf, and convert to a single-frame animation. */
+	if (pixbuf == NULL) 
+	        pixbuf = gth_pixbuf_new_from_uri (local_file, error);
+
+        if (pixbuf != NULL) {
+              	animation = gdk_pixbuf_non_anim_new (pixbuf);
+                g_object_unref (pixbuf);
+		}
+
+	g_free (local_file);
+                
+	/* return the animation */
+	return animation;
+}
+

@@ -234,48 +234,63 @@ apply_transformation (DialogData *data,
 		      gboolean    notify_soon)
 {
 	char             *path = current_image->data;
-	char             *dir;
-	GnomeVFSFileInfo  info;
+	char		 *local_file_to_modify = NULL;
+	GnomeVFSFileInfo *info;
 	gboolean          jpeg;
+	gboolean	  is_local;
+	gboolean	  remote_copy_ok;
 	ExifShort         orientation;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
 	GthTransform	  required_transform;
 
-	/* Check directory permissions. */
 
-	dir = remove_level_from_path (path);
-	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
-		char *utf8_path = g_filename_display_name (dir);
-		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-				       _("You don't have the right permissions to create images in the folder \"%s\""),
-				       utf8_path);
-		g_free (utf8_path);
-		g_free (dir);
+	is_local = is_local_file (path);
+
+	/* If the original file is stored on a remote VFS location, copy it to a local
+	   temp file, modify it, then copy it back. This is easier than modifying the
+	   underlying jpeg code (and other code) to handle VFS URIs. */
+
+	local_file_to_modify = obtain_local_file (path);
+
+	if (local_file_to_modify == NULL) {
+		_gtk_error_dialog_run (GTK_WINDOW (window), 
+			_("Could not create a local temporary copy of the remote file."));
 		return;
 	}
-	g_free (dir);
 
-	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	info = gnome_vfs_file_info_new ();
+	gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	jpeg = image_is_jpeg (path);
-	orientation = get_exif_tag_short(path, EXIF_TAG_ORIENTATION);
+	jpeg = image_is_jpeg (local_file_to_modify);
+	orientation = get_exif_tag_short(local_file_to_modify, EXIF_TAG_ORIENTATION);
 	required_transform = get_next_transformation (orientation, data->transform);
 
 	if ((jpeg && orientation) &&
 	    !eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
 		// Adjust Exif orientation tag.
-		write_orientation_field (path, required_transform);
+		write_orientation_field (local_file_to_modify, required_transform);
 	} else if (jpeg) {
  		// Lossless jpeg transform.
-		apply_transformation_jpeg (window, path, required_transform);
+		apply_transformation_jpeg (window, local_file_to_modify, required_transform);
 	} else {
 		// Generic image transform.
-		apply_transformation_generic (window, path, required_transform);
+		apply_transformation_generic (window, local_file_to_modify, required_transform);
 	}
 
-	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	if (!is_local) 
+		remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
 
-	notify_file_changed (data, path, notify_soon);
+	g_free (local_file_to_modify);
+
+	if (!is_local && !remote_copy_ok) {
+		_gtk_error_dialog_run (GTK_WINDOW (window), 
+				_("Could not move temporary file to remote location. Check remote permissions."));
+	} else {
+		gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+                notify_file_changed (data, path, notify_soon);
+	}
+
+	gnome_vfs_file_info_unref (info);
 }
 
 

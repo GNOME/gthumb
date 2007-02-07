@@ -55,6 +55,102 @@
 	* libgthumb/file-utils.c: function image_is_type is now public
  	added function can_load_mime_type, removed image_is_gif__accurate.
 
+2007-02-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
+	  Don't use f_load_scaled_jpeg on remote VFS files. It is MUCH
+	  faster to use a cached copy, for typical file sizes.
+
+	* src/gth-browser.c: (dir_list_started_cb):
+	  Changed "Wait Please..." string to "Getting directory listing...",
+	  for clarity.
+
+2007-02-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (obtain_local_file):
+	  Do not prune the cache every time the remote 
+	  cache is added to - just at startup.
+
+2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_camera.glade:
+	* data/glade/gthumb_convert.glade:
+	* data/glade/gthumb_png_exporter.glade:
+	* data/glade/gthumb_preferences.glade:
+	* data/glade/gthumb_search.glade:
+	* data/glade/gthumb_tools.glade:
+	  Set local_only to false, to fix bug 403932.
+
+2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (save_comment_iptc):
+ 	  Removed unused variable.
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	  Enabled VFS support.
+
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	  Show full path in file info sidebar.
+
+2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (save_comment):
+	  Fixed XML comment editing of remote files.
+
+	* libgthumb/file-utils.c: (prune_cache):
+	  Prune cached comment files too.
+
+2007-02-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (save_comment_iptc), (save_comment),
+	(comments_load_comment):
+	* libgthumb/dlg-save-image.c: (save_image):
+	* libgthumb/file-utils.c: (copy_cache_file_to_remote_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (save_exif_data_to_uri),
+	(copy_exif_data):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
+	* src/dlg-jpegtran.c: (apply_transformation):
+	* src/dlg-reset-exif.c: (apply_transformation):
+	* src/gth-browser.c: (window_update_image_info), (save_jpeg_data):
+	* src/gth-viewer.c: (viewer_update_image_info), (save_jpeg_data):
+	Enabled editing / saving of remote VFS files.
+	Enabled IPTC comment editing/saving on remote VFS files.
+	Still minor issues with XML comment handling.
+
+2007-02-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	News from vfs-testing branch
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_video),
+	(gth_pixbuf_new_from_uri), (gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	Moved remaining pixbuf/animation loading routines out of
+	image-loader.c and thumb-loader.c into file-utils.c, to reduce
+	duplication.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_uri_display_name)
+	Fixed display of remote URIs.
+
+	(obtain_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	Stripped out "file://" from cache file names.
+
+	* libgthumb/gth-exif-utils.c: (get_exif_tag), (get_exif_tag_short),
+	(get_exif_time), (get_exif_aperture_value):
+	* libgthumb/print-callbacks.c: (image_info_new):
+	* src/rotation-utils.c: (read_orientation_field),
+	(write_orientation_field), (apply_transformation_jpeg),
+	(apply_transformation_generic):
+	Removed extraneous remove_scheme_from_uri calls.
+
 2007-02-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: removed commented code.
@@ -65,6 +161,120 @@
 	* src/gth-dir-list.c (gth_dir_list_change_to): always call
 	path_list_async_new, instead of waiting for the file list to be
 	interrupted.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (prune_cache), (obtain_local_file):
+	* libgthumb/file-utils.h:
+	* libgthumb/gthumb-init.c: (ensure_directories_exist):
+	Added prune_cache function separately. Call it at start-up also.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (obtain_local_file):
+	Added cache pruning. This should be a workable cache for
+	remote VFS URIs now.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (obtain_local_file):
+	Added mtime checking for remote file caching. Need to add
+	mechanism to prune cache next.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_iptc),
+	(load_comment_from_xml):
+	* libgthumb/file-utils.c: (get_cache_full_path),
+	(obtain_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri):
+	* libgthumb/gthumb-init.c: (ensure_directories_exist):
+	* libgthumb/typedefs.h:
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Further simplification of local-copy-of-VFS-files creation routines.
+	Added basic semi-permanent remote file caching. Need to added
+	mtime checks and purging of old / excess files.
+
+2007-02-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_iptc),
+	(load_comment_from_xml):
+	* libgthumb/file-utils.c: (remove_temp_file_and_dir),
+	(make_cache_copy_of_remote_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri):
+	* src/dlg-jpegtran.c: (apply_transformation):
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+
+	Simplified the local-copy-of-VFS-files creation routines.
+	Added initial framework to cache VFS files over longer term.
+	Removed gnome_gdk_pixbuf_new_from_uri (will be deprecated).
+	Known issue: "local_file" variables not always g_free'd 
+	properly. This will be fixed when caching is added.
+
+2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (gth_exif_data_new_from_uri),
+	(get_exif_tag), (get_exif_tag_short), (get_exif_time),
+	(get_exif_aperture_value), (copy_exif_data):
+	* src/gth-exif-data-viewer.c: (update_exif_data):
+	* libgthumb/gth-exif-utils.h:
+	Added remote VFS support for reading EXIF tags.
+        Writing tags isn't supported, yet.
+
+2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_iptc):
+	Added remote VFS support for reading IPTC comments.
+        Writing comments isn't supported, yet.
+
+2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_xml):
+	Added remote VFS support for reading comments.
+	Writing comments isn't supported, yet.
+
+2007-01-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Better error messages.
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Better error reporting, and make better use of convenience
+	functions like file_move, remove_temp_file, remove_temp_dir.
+
+2007-01-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (check_permissions):
+	Deleted debugging printfs, and fixed a memory leak (was
+	missing gnome_vfs_file_info_unref)
+
+	* src/dlg-jpegtran.c: (apply_transformation):
+	Enabled rotation of remote VFS files, and fixed a memory leak (was
+        missing gnome_vfs_file_info_unref)
+
+2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (check_permissions)
+	Added printfs to debug remote permissions problems.
+	Delete these later.
+
+	* libgthumb/file-utils.c: (is_local_file),
+	(make_remote_copy_of_local_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	New convenience function (is_local_file), and a new function to
+	copy local files to a remote VFS URI.
+
+2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (remove_temp_file), (remove_temp_dir),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	Added temporary file/directory removal convenience functions.
 
 2007-01-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -95,6 +305,35 @@
 	Add more signals to ImageViewer so that it can handle more keypresses
 	autonomically (#401544).  Patch by Björn Lindqvist.
 
+2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (image_is_raw):
+	Added more complete list of raw image mime types.
+
+2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
+	Added missing config.h include to fix raw thumbnailing. Deleted 
+	debugging printfs.
+
+2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (image_is_raw),
+	(make_local_copy_of_remote_file), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	Added initial VFS support for raw thumbnailing. Something
+	doesn't quite work yet though...
+
+2007-01-26  Hubert Figuiere  <hub@figuiere.net>
+
+	* libgthumb/file-utils.[ch] (image_is_raw): detect raw files.
+	* libgthumb/thumb-loader.c (thumb_loader): load thumbnails for
+	RAW user libopenraw. Partially fix bug #145564.
+	* configure.in: detect libopenraw.
+
 2007-01-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail),
@@ -109,6 +348,98 @@
 	* src/rotation-utils.h:
 	Applied Jef Driesen's callback-based jpegtran scheme, for greater
 	efficiency during lossless rotates, etc. Bug 361913.
+
+2007-01-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (key_press_cb):
+	Return to browser mode after showing a video in viewer mode.
+
+2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
+	Animated remote gifs work now, using gnome_vfs_xfer_uri. 
+
+2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/dlg-save-image.c: (dlg_save_image_as):
+	* src/dlg-web-exporter.c: (theme_dialog__install_theme_clicked):
+	Set gtk_file_chooser_set_local_only to FALSE, for VFS browsing.
+
+	* libgthumb/file-utils.c: (remove_special_dirs_from_path):
+	* src/main.c: (initialize_data):
+	Minor corrections to URI/path handling.
+
+2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (remove_special_dirs_from_path):
+	Further tweaks to remove_special_dirs_from_path, to work properly
+	with file:/// URIs. Fixes catalog browsing.
+
+2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/gthumb.desktop.in:
+	Change "Exec=gthumb %F" to "Exec=gthumb %U" to allow launching
+	of VFS URIs from Nautilus. 
+
+2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (file_is_image_or_video),
+	(remove_special_dirs_from_path), (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-file-list.c: (load_new_list):
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	* src/dlg-duplicates.c: (directory_load_cb):
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	* src/dlg-search.c: (file_respects_search_criteria):
+	* src/gth-browser.c: (launch_videos_in_list):
+	* src/gth-monitor.c: (add_monitor_event):
+	* src/main.c: (initialize_data):
+
+	Fixed remove_special_dirs_from_path to work properly with URIs.
+
+	Made file_is_image_or_video more efficient - fewer file accesses.
+
+	Allow single VFS files and directories to be launched from the
+	command line. Command-line-catalog (multiple files) still does
+	not work yet.
+
+2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/image-loader.c: (load_image_thread):
+	Cache the "large" video thumbnails made in image viewer mode.
+
+2007-01-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/image-loader.c: (image_loader_finalize),
+	(image_loader_init), (image_loader_new), (load_image_thread):
+	* src/gth-browser.c: (launch_videos_in_list), (key_press_cb),
+	(gth_browser_hide_sidebar):
+	Show a video thumbnail in image viewer mode. Launch external
+	viewer (in browser or viewer mode) by pressing "enter".
+
+2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (file_is_mimetype), (file_is_image),
+	(file_is_video), (gth_pixbuf_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-file-list.c: (load_new_list):
+	* libgthumb/image-loader.c: (load_image_thread):
+	* libgthumb/thumb-loader.c: (thumb_loader):
+	* src/dlg-duplicates.c: (directory_load_cb):
+	* src/dlg-search.c: (file_respects_search_criteria):
+	* src/gth-browser.c: (launch_videos_in_list),
+	(gth_browser_hide_sidebar):
+	* src/gth-monitor.c: (add_monitor_event):
+	Preliminary attempt to add video thumbnailing and viewing.
+	Bug 134366. Still a work in progress.
+
+2007-01-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/main.c: (main):
+	Added gnome_authentication_manager_init to provide VFS
+	authentication callbacks.
 
 2007-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -143,6 +474,35 @@
 
 	Use GtkUnique to provide a single instance application.
 	Removed the bonobo dependency (#389197).
+
+2007-01-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser-actions-callbacks.c:
+	(gth_browser_activate_action_go_location):
+	* src/gth-folder-selection-dialog.c: (browse_button_clicked_cb):
+	Set gtk_file_chooser_set_local_only to FALSE to permit
+	browsing of VFS URIs.
+
+2007-01-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (resolve_all_symlinks),
+	(gth_pixbuf_new_from_uri), (gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gtk-utils.c: (create_pixbuf):
+	* libgthumb/image-loader.c: (load_image_thread),
+	(image_loader_get_path):
+	* libgthumb/jpeg-utils.c: (do_load_internal):
+	* libgthumb/print-callbacks.c: (draw_page):
+	* libgthumb/thumb-loader.c: (thumb_loader),
+	(thumb_loader_set_path), (thumb_loader_get_path),
+	(thumb_loader_start__step2), (thumb_loader_error_cb):
+	* src/dlg-photo-importer.c: (load_images_preview__step),
+	(dlg_photo_importer):
+	* src/dlg-web-exporter.c: (theme_dialog__sel_changed_cb):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	Initial attempt to implement Gnome VFS support. Folders and images
+	can now be opened using the "Other..." folder function (but not
+	through the command line. Bug 143197. Tested with ssh:// URIs.
 
 2007-01-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

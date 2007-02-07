@@ -1721,6 +1721,9 @@ gth_browser_activate_action_go_location (GtkAction  *action,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
+	/* Permit VFS URIs */
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
+
 	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
 

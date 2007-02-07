@@ -94,27 +94,11 @@ save_image (GtkWindow       *parent,
 	    SaveImageData   *data,
 	    GtkDialog       *file_sel)
 {
-	char     *dir;
 	gboolean  file_exists;
 	gboolean  image_saved = FALSE;
 
 	if (filename == NULL)
 		return FALSE;
-
-	/* Check permissions */
-
-	dir = remove_level_from_path (filename);
-	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
-		char *utf8_path;
-		utf8_path = g_filename_display_name (dir);
-		_gtk_error_dialog_run (parent,
-				       _("You don't have the right permissions to create images in the folder \"%s\""),
-				       utf8_path);
-		g_free (utf8_path);
-		g_free (dir);
-		return FALSE;
-	}
-	g_free (dir);
 
 	file_exists = path_is_file (filename);
 
@@ -276,6 +260,9 @@ dlg_save_image_as (GtkWindow       *parent,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
+
+	 /* Permit VFS URIs */
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
 
 	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
 

@@ -359,13 +359,24 @@ load_comment_from_iptc (const char *filename)
 	struct tm    t;
 	int          i;
 	int          got_date = 0, got_time = 0;
+        char        *local_file = NULL;
 
 	if (filename == NULL)
 		return NULL;
 
-	d = iptc_data_new_from_jpeg (filename);
-	if (!d)
+        /* libiptcdata does not support VFS URIs directly, so make a temporary local
+           copy of remote comment files. */
+
+        local_file = obtain_local_file (filename);
+
+        if (local_file == NULL) 
+                return NULL;
+
+	d = iptc_data_new_from_jpeg (local_file);
+	if (!d) {
+                g_free (local_file);
 		return NULL;
+	}
 
 	data = comment_data_new ();
 
@@ -417,6 +428,8 @@ load_comment_from_iptc (const char *filename)
 		data->time = mktime (&t);
 
 	data->iptc_data = d;
+
+	g_free (local_file);
 
 	return data;
 }
@@ -537,10 +550,23 @@ save_comment_iptc (const char  *filename,
 	IptcDataSet *ds;
 	time_t       mtime;
 	int          i;
+        gboolean     is_local;
+        char        *local_file_to_modify = NULL;
 
-	mtime = get_file_mtime (filename);
+        is_local = is_local_file (filename);
 
-	d = iptc_data_new_from_jpeg (filename);
+	/* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+
+        if (local_file_to_modify == NULL)
+                return;
+
+	mtime = get_file_mtime (local_file_to_modify);
+
+	d = iptc_data_new_from_jpeg (local_file_to_modify);
 	if (d) {
 		clear_iptc_comment (d);
 	}
@@ -615,10 +641,14 @@ save_comment_iptc (const char  *filename,
 	iptc_data_set_encoding_utf8 (d);
 	iptc_data_sort (d);
 
-	save_iptc_data (filename, d);
-	set_file_mtime (filename, mtime);
-
+	save_iptc_data (local_file_to_modify, d);
+	set_file_mtime (local_file_to_modify, mtime);
 	iptc_data_unref (d);
+
+        if (!is_local)
+                copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
 }
 
 
@@ -781,6 +811,7 @@ load_comment_from_xml (const char *filename)
 {
 	CommentData *data;
 	char        *comment_file;
+	char	    *local_comment_file = NULL;
 	xmlDocPtr    doc;
         xmlNodePtr   root, node;
         xmlChar     *value;
@@ -795,9 +826,20 @@ load_comment_from_xml (const char *filename)
 		return NULL;
 	}
 
-        doc = xmlParseFile (comment_file);
+	/* libxml2 does not support VFS URIs directly, so make a temporary local
+	   copy of remote comment files. */
+
+        local_comment_file = obtain_local_file (comment_file);
+
+        if (local_comment_file == NULL) {
+		g_free (comment_file);
+                return NULL;
+        }
+
+        doc = xmlParseFile (local_comment_file);
 	if (doc == NULL) {
 		g_free (comment_file);
+		g_free (local_comment_file);
 		return NULL;
 	}
 
@@ -836,6 +878,7 @@ load_comment_from_xml (const char *filename)
 
         xmlFreeDoc (doc);
 	g_free (comment_file);
+        g_free (local_comment_file);
 
 	return data;
 }
@@ -849,17 +892,33 @@ save_comment (const char  *filename,
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
 	char        *comment_file = NULL;
+	char        *remote_comment_file = NULL;
 	char        *time_str = NULL;
 	char        *keywords_str = NULL;
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
+        gboolean     is_local;
+        char        *local_file = NULL;
+
 
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
-			save_comment_iptc (get_file_path_from_uri (filename), data);
+			save_comment_iptc (filename, data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
+
+
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file = obtain_local_file (filename);
+
+        if (local_file == NULL)
+                return;
 
 	if (comment_data_is_void (data)) {
 		comment_delete (filename);
@@ -909,7 +968,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+	comment_file = comments_get_comment_filename (local_file, TRUE, TRUE);
 
 	dest_dir = remove_level_from_path (comment_file);
 
@@ -918,7 +977,15 @@ save_comment (const char  *filename,
 		xmlSaveFile (comment_file, doc);
 	}
 	g_free (dest_dir);
+
+	if (!is_local) {
+		remote_comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+		copy_cache_file_to_remote_uri (comment_file, remote_comment_file);	
+		g_free (remote_comment_file);
+	}
+		
 	g_free (comment_file);
+	g_free (local_file);
 
         xmlFreeDoc (doc);
 }
@@ -938,7 +1005,7 @@ comments_load_comment (const char *filename,
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
-			img_comment = load_comment_from_iptc (get_file_path_from_uri (filename));
+			img_comment = load_comment_from_iptc (filename);
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();

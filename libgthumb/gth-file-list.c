@@ -1014,7 +1014,7 @@ load_new_list (GthFileList *file_list)
 		mime_type = get_file_mime_type (full_path, fast_file_type);
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
-		    || ! can_load_mime_type (mime_type))
+		    || ! (mime_type_is_image (mime_type) || mime_type_is_video (mime_type)))
 			continue;
 
 		/* if the image is already present invalidate the thumbnail

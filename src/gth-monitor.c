@@ -322,7 +322,7 @@ add_monitor_event (GthMonitor                *monitor,
 			type = MONITOR_EVENT_DIR_CREATED;
 
 	} else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
-		if (file_is_image (path, TRUE))
+		if (file_is_image_or_video (path, TRUE))
 			type = MONITOR_EVENT_FILE_DELETED;
 		else
 			type = MONITOR_EVENT_DIR_DELETED;

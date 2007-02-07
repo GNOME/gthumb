@@ -1,3 +1,9 @@
+vfs-testing branch
+------------------
+	* Added support for displaying gnome-vfs locations (bug #143197)
+	* Added thumbnailing and player-launching for videos (bug #134366)
+	* Added thumbnailing for RAW photos (bug #145564)
+
 version 2.9.1
 -------------
 	* Added red-eye removal tool (bug #140533).

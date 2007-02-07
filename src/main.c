@@ -26,6 +26,7 @@
 #include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomeui/gnome-authentication-manager.h>
 
 #include "catalog.h"
 #include "comments.h"
@@ -412,25 +413,16 @@ initialize_data (void)
 
 	current_dir = g_get_current_dir ();
 	while ((filename = remaining_args[i++]) != NULL) {
-		char     *tmp1, *tmp2;
+		char     *tmp1 = NULL;
 		gboolean  is_dir;
 
-		if (! g_path_is_absolute (filename))
+		if (uri_has_scheme (filename) || g_path_is_absolute (filename)) 
+			tmp1 = gnome_vfs_make_uri_from_shell_arg (filename);
+		else 
 			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
-		else
-			tmp1 = g_strdup (filename);
 
-		tmp2 = remove_special_dirs_from_path (tmp1);
-
-		if (! g_path_is_absolute (tmp2))
-			path = g_strconcat (current_dir, "/", tmp2, NULL);
-		else {
-			path = tmp2;
-			tmp2 = NULL;
-		}
-
+		path = remove_special_dirs_from_path (tmp1);
 		g_free (tmp1);
-		g_free (tmp2);
 
 		if (path_is_dir (path))
 			is_dir = TRUE;
@@ -799,6 +791,7 @@ main (int   argc,
 		gdk_threads_init ();
 	}
 
+	gnome_authentication_manager_init ();
 	glade_gnome_init ();
 	gthumb_init ();
 	initialize_data ();

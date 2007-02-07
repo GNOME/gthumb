@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -48,50 +49,52 @@ G_LOCK_DEFINE_STATIC (pixbuf_loader_lock);
 
 
 struct _ImageLoaderPrivateData {
-	GdkPixbuf            *pixbuf;
-	GdkPixbufAnimation   *animation;
+	GdkPixbuf             *pixbuf;
+	GdkPixbufAnimation    *animation;
 
-	gboolean              as_animation; /* Whether to load the image in a
+	GnomeThumbnailFactory *thumb_factory;
+
+	gboolean               as_animation; /* Whether to load the image in a
 					     * GdkPixbufAnimation structure. */
 
-	GnomeVFSURI          *uri;
+	GnomeVFSURI           *uri;
 	const char           *mime_type;
 
-	GnomeVFSAsyncHandle  *info_handle;
+	GnomeVFSAsyncHandle   *info_handle;
 
-	GnomeVFSFileSize      bytes_read;
-	GnomeVFSFileSize      bytes_total;
+	GnomeVFSFileSize       bytes_read;
+	GnomeVFSFileSize       bytes_total;
 
-	gboolean              done;
-	gboolean              error;
-	gboolean              loader_done;
-	gboolean              interrupted;
-	gboolean              loading;
+	gboolean               done;
+	gboolean               error;
+	gboolean               loader_done;
+	gboolean               interrupted;
+	gboolean               loading;
 
-	GTimer               *timer;
-	int                   priority;
+	GTimer                *timer;
+	int                    priority;
 
-	DoneFunc              done_func;
-	gpointer              done_func_data;
+	DoneFunc               done_func;
+	gpointer               done_func_data;
 
-	gboolean              emit_signal;
+	gboolean               emit_signal;
 
-	guint                 check_id;
-	guint                 idle_id;
+	guint                  check_id;
+	guint                  idle_id;
 
-	GThread              *thread;
+	GThread               *thread;
 
-	GMutex               *yes_or_no;
+	GMutex                *yes_or_no;
 
-	gboolean              exit_thread;
-	GMutex               *exit_thread_mutex;
+	gboolean               exit_thread;
+	GMutex                *exit_thread_mutex;
 
-	gboolean              start_loading;
-	GMutex               *start_loading_mutex;
-	GCond                *start_loading_cond;
+	gboolean               start_loading;
+	GMutex                *start_loading_mutex;
+	GCond                 *start_loading_cond;
 
-	LoaderFunc            loader;
-	gpointer              loader_data;
+	LoaderFunc             loader;
+	gpointer               loader_data;
 };
 
 
@@ -174,6 +177,9 @@ image_loader_finalize (GObject *object)
         il = IMAGE_LOADER (object);
 	priv = il->priv;
 
+	if (priv->thumb_factory != NULL)
+		g_object_unref (priv->thumb_factory);
+
 	if (priv->idle_id != 0) {
 		g_source_remove (priv->idle_id);
 		priv->idle_id = 0;
@@ -239,6 +245,7 @@ image_loader_init (ImageLoader *il)
 	il->priv = g_new0 (ImageLoaderPrivateData, 1);
 	priv = il->priv;
 
+	priv->thumb_factory = NULL;
 	priv->pixbuf = NULL;
 	priv->animation = NULL;
 	priv->uri = NULL;
@@ -333,6 +340,8 @@ image_loader_new (const gchar *path,
 
 	priv->as_animation = as_animation;
 	image_loader_set_path (il, path, NULL);
+
+	priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
 
 	return G_OBJECT (il);
 }
@@ -614,17 +623,16 @@ load_image_thread (void *thread_data)
 		if (path != NULL) {
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, priv->mime_type, &error, priv->loader_data);
-			else if (mime_type_is (priv->mime_type, "image/gif"))
-				animation = gdk_pixbuf_animation_new_from_file (path, &error);
-			else {
-				GdkPixbuf *pixbuf;
-
-				pixbuf = gdk_pixbuf_new_from_file (path, &error);
-				if (pixbuf != NULL) {
-					animation = gdk_pixbuf_non_anim_new (pixbuf);
-					g_object_unref (pixbuf);
-				}
-			}
+        		else
+				/* Get an animation. Use slow content-checking to determine
+				   file types. */
+		                animation = gth_pixbuf_animation_new_from_uri (path, 
+									       &error,
+									       FALSE, 
+									       0, 
+									       0,
+									       priv->thumb_factory,
+									       priv->mime_type);
 		}
 
 		G_UNLOCK (pixbuf_loader_lock);
@@ -1024,7 +1032,7 @@ image_loader_get_path (ImageLoader *il)
 
 	uri = gnome_vfs_uri_dup (priv->uri);
 
-        path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+        path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
         esc_path = gnome_vfs_unescape_string (path, NULL);
         g_free (path);
 	gnome_vfs_uri_unref (uri);

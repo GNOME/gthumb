@@ -31,6 +31,8 @@
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnomeui/gnome-thumbnail.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
@@ -101,9 +103,14 @@ gboolean            visit_rc_directory_sync       (const char       *rc_dir,
 
 /* File utils */
 
-gboolean            can_load_mime_type            (const char       *mime_type);
-gboolean            file_is_image                 (const char       *name,
+gboolean	    mime_type_is_image	          (const char       *mime_type);
+gboolean            mime_type_is_video            (const char       *mime_type);
+gboolean	    file_is_image 		  (const gchar      *name,
 						   gboolean          fast_file_type);
+gboolean            file_is_video                 (const gchar      *name,
+                                                   gboolean          fast_file_type);
+gboolean            file_is_image_or_video        (const gchar      *name,
+                                                   gboolean          fast_file_type);
 gboolean            file_is_hidden                (const char       *name);
 gboolean            file_copy                     (const char       *from,
 						   const char       *to);
@@ -118,6 +125,7 @@ gboolean            image_is_type                 (const char       *name,
 	       					   const char       *type,
 	       					   gboolean          fast_file_type);
 gboolean            image_is_jpeg                 (const char       *name);
+gboolean            mime_type_is_raw              (const char       *name);
 gboolean            image_is_gif                  (const char       *name);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
@@ -191,6 +199,8 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
+void		    remove_temp_file_and_dir      (char             *tmp_file);
+
 
 /* VFS extensions */
 
@@ -209,5 +219,20 @@ const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
+gboolean	    is_local_file                 (const char *filename);
+void	            prune_cache			  ();
+char* 		    obtain_local_file             (const char      *remote_filename);
+gboolean	    copy_cache_file_to_remote_uri (const char      *local_filename,
+                                                    const char      *dest_uri);
 
+/* Pixbuf + VFS */
+GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename, 
+						       GError 	            **error);
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename, 
+						       GError               **error,
+						       gboolean               fast_file_type,
+						       gint                   requested_width_if_used,
+						       gint	              requested_height_if_used,
+						       GnomeThumbnailFactory *factory,
+						       const char            *mime_type);
 #endif /* FILE_UTILS_H */

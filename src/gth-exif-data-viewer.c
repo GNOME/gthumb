@@ -615,16 +615,14 @@ static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
-	const char   *path;
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
 
-	path = get_file_path_from_uri (edv->priv->path);
-	if (path == NULL)
+	if (edv->priv->path == NULL)
 		return;
 
 	if (edata == NULL)
-		edata = exif_data_new_from_file (path);
+		edata = gth_exif_data_new_from_uri (edv->priv->path);
 	else
 		exif_data_ref (edata);
 
@@ -636,7 +634,7 @@ update_exif_data (GthExifDataViewer *edv,
 
 	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
 
-        for (i = 0; i < EXIF_IFD_COUNT; i++) {
+        for (i = 0; i < EXIF_IFD_COUNT; i++) {		
                 ExifContent *content = edata->ifd[i];
 		const char  *value;
 		char        *utf8_name;
@@ -761,6 +759,7 @@ static void
 update_file_info (GthExifDataViewer *edv)
 {
 	char              *utf8_name;
+	char		  *utf8_fullname;
 	int                width, height;
 	char              *size_txt;
 	time_t             mtime;
@@ -774,6 +773,7 @@ update_file_info (GthExifDataViewer *edv)
 		return;
 
 	utf8_name = g_filename_display_basename (edv->priv->path);
+	utf8_fullname =g_filename_display_name (edv->priv->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
@@ -795,7 +795,8 @@ update_file_info (GthExifDataViewer *edv)
 
 	/**/
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -6);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Path"), utf8_fullname, -6);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
@@ -805,6 +806,7 @@ update_file_info (GthExifDataViewer *edv)
 
 	g_free (utf8_time_txt);
 	g_free (utf8_name);
+	g_free (utf8_fullname);
 	g_free (size_txt);
 	g_free (file_size_txt);
 }

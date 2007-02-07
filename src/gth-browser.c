@@ -611,9 +611,14 @@ window_update_image_info (GthBrowser *browser)
 		}
 
 		if (priv->image_path != NULL) {
-			const char *path = get_file_path_from_uri (priv->image_path);
-			if (path != NULL)
-				jdata = jpeg_data_new_from_file (path);
+			if (priv->image_path != NULL) {
+				char *local_file_to_modify = NULL;
+				local_file_to_modify = obtain_local_file (priv->image_path);
+				if (local_file_to_modify != NULL) {
+					jdata = jpeg_data_new_from_file (local_file_to_modify);
+					g_free (local_file_to_modify);
+				}
+			}
 		}
 
 		if (jdata != NULL) {
@@ -1649,12 +1654,22 @@ save_jpeg_data (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
+        gboolean               is_local;
+        gboolean               remote_copy_ok = TRUE;
+        char                  *local_file_to_modify = NULL;
 
-	filename = get_file_path_from_uri (filename);
-	if (filename == NULL)
+        is_local = is_local_file (filename);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+           temp file, modify it, then copy it back. This is easier than modifying the
+           underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (filename);
+
+	if (local_file_to_modify == NULL)
 		return;
 
-	if (!image_is_jpeg (filename))
+	if (!image_is_jpeg (local_file_to_modify))
 		return;
 
 	if (priv->exif_data != NULL)
@@ -1668,7 +1683,7 @@ save_jpeg_data (GthBrowser *browser,
 	if (!data_to_save)
 		return;
 
-	jdata = jpeg_data_new_from_file (filename);
+	jdata = jpeg_data_new_from_file (local_file_to_modify);
 	if (jdata == NULL)
 		return;
 
@@ -1693,15 +1708,19 @@ save_jpeg_data (GthBrowser *browser,
 	if (priv->exif_data != NULL)
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
 
-	jpeg_data_save_file (jdata, filename);
+	jpeg_data_save_file (jdata, local_file_to_modify);
 	jpeg_data_unref (jdata);
 
 	/* The exif orientation tag, if present, must be reset to "top-left",
    	   because the jpeg was saved from a gthumb-generated pixbuf, and
    	   the pixbug image loader always rotates the pixbuf to account for
    	   the orientation tag. */
-	write_orientation_field (filename, GTH_TRANSFORM_NONE);
+	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
 
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+
+        g_free (local_file_to_modify);
 }
 
 
@@ -2877,6 +2896,31 @@ sidebar_list_key_press (GthBrowser  *browser,
 	return retval;
 }
 
+static gint
+launch_videos_in_list (GList *list)
+{
+	int    video_count=0;
+	GList *scan;
+	GList *video_list=NULL;
+
+        for (scan = list; scan; scan = scan->next) {
+                char *path = scan->data;
+                if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
+			video_list = g_list_append (video_list, path);
+                        video_count++;
+		}
+        }
+
+	if (video_count) {
+		exec_command ("totem", video_list);
+	}
+
+	g_list_free (video_list);
+			
+	return video_count;
+}
+
+
 
 static gint
 key_press_cb (GtkWidget   *widget,
@@ -2948,10 +2992,20 @@ key_press_cb (GtkWidget   *widget,
 		/* Hide/Show sidebar. */
 	case GDK_Return:
 	case GDK_KP_Enter:
-		if (priv->sidebar_visible)
+		if (priv->sidebar_visible) {
+			/* When files are selected in the browser view and you press enter,
+			   launch the video viewer if videos are selected. If no videos are
+			   selected, go to image viewer mode. */
 			gth_browser_hide_sidebar (browser);
-		else
+		}
+		else {
+			/* When in the image viewer mode and you press enter, launch the video
+			   viewer if a video thumbnail is shown, and then return to the browser
+			   mode in the normal fashion. */
+		        list = gth_window_get_file_list_selection ( (GthWindow *) browser);
+		        launch_videos_in_list (list); 
 			gth_browser_show_sidebar (browser);
+		}
 		return TRUE;
 
 		/* Show sidebar */
@@ -6110,7 +6164,7 @@ dir_list_started_cb (GthDirList  *dir_list,
 		     gpointer     data)
 {
 	GthBrowser *browser = data;
-	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Wait please..."));
+	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Getting directory listing..."));
 	gth_file_list_set_empty_list (browser->priv->file_list);
 }
 
@@ -7405,16 +7459,23 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkWidget             *widget_to_focus = priv->viewer;
+	GList		      *list;
 
 	if (priv->image_path == NULL)
 		return;
 
-	_hide_sidebar (browser);
+	/* If the list of selected files contains video files, launch the
+	   external video viewer. Otherwise, for normal image files, just
+	   display the image by its self. */
 
-	gtk_widget_grab_focus (widget_to_focus);
+	list = gth_window_get_file_list_selection ( (GthWindow *) browser);
 
-	window_update_sensitivity (browser);
-	window_update_statusbar_zoom_info (browser);
+	if (!launch_videos_in_list (list)) {
+		_hide_sidebar (browser);
+		gtk_widget_grab_focus (widget_to_focus);
+		window_update_sensitivity (browser);
+		window_update_statusbar_zoom_info (browser);
+	}
 }
 
 

@@ -191,8 +191,6 @@ do_load_internal (const char *path,
 	GnomeVFSResult result;
 	unsigned int i;
 
-	path = remove_scheme_from_uri (path);
-	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
 	if (original_width_return != NULL)
 		*original_width_return = 0;
