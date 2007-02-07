@@ -40,7 +40,7 @@ typedef struct _ImageLoader            ImageLoader;
 typedef struct _ImageLoaderClass       ImageLoaderClass;
 typedef struct _ImageLoaderPrivateData ImageLoaderPrivateData;
 
-struct _ImageLoader 
+struct _ImageLoader
 {
 	GObject                __parent;
 	ImageLoaderPrivateData  *priv;
@@ -56,11 +56,11 @@ struct _ImageLoaderClass
 
 	void (* image_done)        (ImageLoader *il);
 
-	void (* image_progress)    (ImageLoader *il, 
+	void (* image_progress)    (ImageLoader *il,
 				    float        percent);
 };
 
-typedef GdkPixbufAnimation * (*LoaderFunc) (const char *path, GError **error, gpointer data);
+typedef GdkPixbufAnimation * (*LoaderFunc) (const char *path, const char *mime_type, GError **error, gpointer data);
 
 GType                image_loader_get_type           (void);
 
@@ -72,12 +72,14 @@ void                 image_loader_set_loader         (ImageLoader *il,
 						      gpointer     data);
 
 void                 image_loader_set_path           (ImageLoader *il,
-						      const gchar *path);
+						      const char  *path,
+						      const char  *mime_type);
 
 gchar *              image_loader_get_path           (ImageLoader *il);
 
 void                 image_loader_set_uri            (ImageLoader *il,
-						      const GnomeVFSURI *uri);
+						      const GnomeVFSURI *uri,
+						      const char  *mime_type);
 
 GnomeVFSURI *        image_loader_get_uri            (ImageLoader *il);
 

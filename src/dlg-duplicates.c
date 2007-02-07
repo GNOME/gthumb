@@ -140,8 +140,8 @@ typedef struct {
 	int        size;
 	GtkWidget *dup_label;
 	GtkWidget *view_duplicates;
-	gboolean   summed;          /* Used to make the sum of the 
-				     * size of all duplicates in 
+	gboolean   summed;          /* Used to make the sum of the
+				     * size of all duplicates in
 				     * update_duplicates_label */
 } ImageDataCommon;
 
@@ -185,7 +185,7 @@ image_data_free (ImageData *idata)
 
 
 static void
-destroy_search_dialog_cb (GtkWidget  *widget, 
+destroy_search_dialog_cb (GtkWidget  *widget,
 			  DialogData *data)
 {
 	g_object_unref (G_OBJECT (data->gui));
@@ -212,7 +212,7 @@ static void search_finished (DialogData *data);
 
 /* called when the "cancel" button in the progress dialog is pressed. */
 static void
-cancel_progress_dlg_cb (GtkWidget  *widget, 
+cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
 	if (data->handle == NULL)
@@ -226,7 +226,7 @@ cancel_progress_dlg_cb (GtkWidget  *widget,
 
 
 static void
-destroy_results_dialog_cb (GtkWidget  *widget, 
+destroy_results_dialog_cb (GtkWidget  *widget,
 			   DialogData *data)
 {
 	cancel_progress_dlg_cb (NULL, data);
@@ -316,14 +316,14 @@ update_ops_sensitivity (DialogData *data)
 
 	model = data->duplicates_model;
 
-	if (! gtk_tree_model_get_iter_first (model, &iter)) 
+	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return;
-	
+
 	gtk_tree_model_get (model, &iter, DCOLUMN_IMAGE_DATA, &idata, -1);
-	
+
 	do {
 		gboolean checked;
-		gtk_tree_model_get (model, &iter, 
+		gtk_tree_model_get (model, &iter,
 				    DCOLUMN_CHECKED, &checked, -1);
 
 		if (checked) {
@@ -349,11 +349,11 @@ image_toggled_cb (GtkCellRendererToggle *cell,
 	GtkTreeIter   iter;
 	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
 	gboolean      value;
-	
+
 	gtk_tree_model_get_iter (model, &iter, path);
 	value = gtk_cell_renderer_toggle_get_active (cell);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, DCOLUMN_CHECKED, !value, -1);
-	
+
 	gtk_tree_path_free (path);
 
 	update_ops_sensitivity (data);
@@ -373,9 +373,9 @@ duplicates_add_columns (DialogData  *data,
 	gtk_tree_view_column_set_title (column, _("Name"));
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), 
+	g_signal_connect (G_OBJECT (renderer),
 			  "toggled",
-			  G_CALLBACK (image_toggled_cb), 
+			  G_CALLBACK (image_toggled_cb),
 			  data);
 	gtk_tree_view_insert_column_with_attributes (treeview,
 						     -1, " ",
@@ -429,9 +429,9 @@ duplicates_add_columns (DialogData  *data,
 
 
 static int
-size_column_sort_func (GtkTreeModel *model, 
-		       GtkTreeIter  *a, 
-		       GtkTreeIter  *b, 
+size_column_sort_func (GtkTreeModel *model,
+		       GtkTreeIter  *a,
+		       GtkTreeIter  *b,
 		       gpointer      user_data)
 {
 	ImageData *idata1, *idata2;
@@ -453,9 +453,9 @@ size_column_sort_func (GtkTreeModel *model,
 
 
 static int
-n_column_sort_func (GtkTreeModel *model, 
-		    GtkTreeIter  *a, 
-		    GtkTreeIter  *b, 
+n_column_sort_func (GtkTreeModel *model,
+		    GtkTreeIter  *a,
+		    GtkTreeIter  *b,
 		    gpointer      user_data)
 {
 	ImageData *idata1, *idata2;
@@ -477,9 +477,9 @@ n_column_sort_func (GtkTreeModel *model,
 
 
 static int
-time_column_sort_func (GtkTreeModel *model, 
-		       GtkTreeIter  *a, 
-		       GtkTreeIter  *b, 
+time_column_sort_func (GtkTreeModel *model,
+		       GtkTreeIter  *a,
+		       GtkTreeIter  *b,
 		       gpointer      user_data)
 {
 	ImageData *idata1, *idata2;
@@ -501,9 +501,9 @@ time_column_sort_func (GtkTreeModel *model,
 
 
 static int
-default_sort_func (GtkTreeModel *model, 
-		   GtkTreeIter  *a, 
-		   GtkTreeIter  *b, 
+default_sort_func (GtkTreeModel *model,
+		   GtkTreeIter  *a,
+		   GtkTreeIter  *b,
 		   gpointer      user_data)
 {
 	return 0;
@@ -545,7 +545,7 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 		location = remove_level_from_path (idata2->path);
 		location_utf8 = g_filename_display_name (location);
 		g_free (location);
-			
+
 		name = file_name_from_path (idata2->path);
 		name_utf8 = g_filename_display_name (name);
 
@@ -554,7 +554,7 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 		time_txt_utf8 = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
 		gtk_list_store_append (GTK_LIST_STORE (data->duplicates_model), &iter2);
-		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model), 
+		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model),
 				    &iter2,
 				    DCOLUMN_IMAGE_DATA, idata2,
 				    DCOLUMN_NAME, name_utf8,
@@ -570,18 +570,18 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 
 
 static void
-select_all_cb (GtkWidget  *widget, 
+select_all_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
 	GtkTreeIter iter;
 
 	if (! gtk_tree_model_get_iter_first (data->duplicates_model, &iter))
 		return;
-	
+
 	do {
-		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model), 
-				    &iter, 
-				    DCOLUMN_CHECKED, TRUE, 
+		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model),
+				    &iter,
+				    DCOLUMN_CHECKED, TRUE,
 				    -1);
 	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
 
@@ -590,18 +590,18 @@ select_all_cb (GtkWidget  *widget,
 
 
 static void
-select_none_cb (GtkWidget  *widget, 
+select_none_cb (GtkWidget  *widget,
 		DialogData *data)
 {
 	GtkTreeIter iter;
 
 	if (! gtk_tree_model_get_iter_first (data->duplicates_model, &iter))
 		return;
-	
+
 	do {
-		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model), 
-				    &iter, 
-				    DCOLUMN_CHECKED, FALSE, 
+		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model),
+				    &iter,
+				    DCOLUMN_CHECKED, FALSE,
 				    -1);
 	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
 
@@ -617,26 +617,26 @@ get_checked_images (DialogData *data)
 
 	if (! gtk_tree_model_get_iter_first (data->duplicates_model, &iter))
 		return list;
-	
+
 	do {
 		ImageData *idata;
 		gboolean   checked;
 
-		gtk_tree_model_get (data->duplicates_model, &iter, 
+		gtk_tree_model_get (data->duplicates_model, &iter,
 				    DCOLUMN_CHECKED, &checked,
 				    DCOLUMN_IMAGE_DATA, &idata, -1);
 
 		if (checked)
 			list = g_list_prepend (list, g_strdup (idata->path));
 
-	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));	
+	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
 
 	return list;
 }
 
 
 static void
-view_cb (GtkWidget  *widget, 
+view_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	GList     *list, *scan;
@@ -662,7 +662,7 @@ view_cb (GtkWidget  *widget,
 	for (scan = list; scan; scan = scan->next)
 		catalog_add_item (catalog, (char*) scan->data);
 
-	if (! catalog_write_to_disk (catalog, &gerror)) 
+	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), &gerror);
 	else {
 		/* View the Drag&Drop catalog. */
@@ -692,19 +692,19 @@ delete_images_from_lists (DialogData *data,
 
 	model = data->duplicates_model;
 
-	if (! gtk_tree_model_get_iter_first (model, &iter)) 
+	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return;
-	
+
 	gtk_tree_model_get (model, &iter, DCOLUMN_IMAGE_DATA, &idata, -1);
-	
+
 	do {
 		gboolean checked;
-		gtk_tree_model_get (model, &iter, 
+		gtk_tree_model_get (model, &iter,
 				    DCOLUMN_CHECKED, &checked, -1);
 
 		if (checked) {
 			gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-			if (! gtk_tree_model_get_iter_first (model, &iter)) 
+			if (! gtk_tree_model_get_iter_first (model, &iter))
 				break;
 		} else if (! gtk_tree_model_iter_next (model, &iter))
 			break;
@@ -714,22 +714,22 @@ delete_images_from_lists (DialogData *data,
 
 	model = data->images_model;
 
-	images_deleted = g_list_length (list);	
+	images_deleted = g_list_length (list);
 	if (images_deleted == idata->common->duplicates + 1) {
 
 		if (! gtk_tree_model_get_iter_first (model, &iter))
 			return;
-		
+
 		do {
-			gtk_tree_model_get (model, &iter, 
+			gtk_tree_model_get (model, &iter,
 					    ICOLUMN_IMAGE_DATA, &idata2, -1);
-			
+
 			if (idata->common == idata2->common) {
-				gtk_list_store_remove (GTK_LIST_STORE (model), 
+				gtk_list_store_remove (GTK_LIST_STORE (model),
 						       &iter);
 				break;
 			}
-			
+
 		} while (gtk_tree_model_iter_next (model, &iter));
 
 		data->duplicates -= idata->common->duplicates;
@@ -745,7 +745,7 @@ delete_images_from_lists (DialogData *data,
 
 
 static void
-delete_cb (GtkWidget  *widget, 
+delete_cb (GtkWidget  *widget,
 	   DialogData *data)
 {
 	GList *list;
@@ -754,9 +754,9 @@ delete_cb (GtkWidget  *widget,
 	if (list == NULL)
 		return;
 
-	if (dlg_file_delete__confirm (GTH_WINDOW (data->browser), 
+	if (dlg_file_delete__confirm (GTH_WINDOW (data->browser),
 				      path_list_dup (list),
-				      _("Checked images will be moved to the Trash, are you sure?"))) 
+				      _("Checked images will be moved to the Trash, are you sure?")))
 		delete_images_from_lists (data, list);
 
 	path_list_free (list);
@@ -818,7 +818,7 @@ dlg_duplicates (GthBrowser *browser)
 
 	/* * Images model */
 
-	data->images_model = GTK_TREE_MODEL (gtk_list_store_new (INUMBER_OF_COLUMNS, 
+	data->images_model = GTK_TREE_MODEL (gtk_list_store_new (INUMBER_OF_COLUMNS,
 								 G_TYPE_POINTER,
 								 GDK_TYPE_PIXBUF,
 								 G_TYPE_STRING,
@@ -830,24 +830,24 @@ dlg_duplicates (GthBrowser *browser)
 	images_add_columns (GTK_TREE_VIEW (data->fdr_images_treeview));
 
 	gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (data->images_model), default_sort_func,  NULL, NULL);
-	
+
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->images_model),
 					 ICOLUMN_N, n_column_sort_func,
 					 NULL, NULL);
-	
+
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->images_model),
 					 ICOLUMN_SIZE, size_column_sort_func,
 					 NULL, NULL);
 
 	/* * Duplicates model */
 
-	data->duplicates_model = GTK_TREE_MODEL (gtk_list_store_new (DNUMBER_OF_COLUMNS, 
+	data->duplicates_model = GTK_TREE_MODEL (gtk_list_store_new (DNUMBER_OF_COLUMNS,
 								     G_TYPE_POINTER,
 								     G_TYPE_BOOLEAN,
 								     G_TYPE_STRING,
 								     G_TYPE_STRING,
 								     G_TYPE_STRING));
-	
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->fdr_duplicates_treeview),
 				 data->duplicates_model);
 	g_object_unref (data->duplicates_model);
@@ -858,18 +858,18 @@ dlg_duplicates (GthBrowser *browser)
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->duplicates_model),
 					 DCOLUMN_LAST_MODIFIED, time_column_sort_func,
 					 NULL, NULL);
-	
+
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_search_dialog_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (close_button), 
+	g_signal_connect_swapped (G_OBJECT (close_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (find_cb),
 			  data);
@@ -878,28 +878,28 @@ dlg_duplicates (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (destroy_results_dialog_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->fdr_close_button), 
+	g_signal_connect_swapped (G_OBJECT (data->fdr_close_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->results_dialog));
-	g_signal_connect (G_OBJECT (data->fdr_stop_button), 
+	g_signal_connect (G_OBJECT (data->fdr_stop_button),
 			  "clicked",
 			  G_CALLBACK (cancel_progress_dlg_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->fdr_select_all_button), 
+	g_signal_connect (G_OBJECT (data->fdr_select_all_button),
 			  "clicked",
 			  G_CALLBACK (select_all_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->fdr_select_none_button), 
+	g_signal_connect (G_OBJECT (data->fdr_select_none_button),
 			  "clicked",
 			  G_CALLBACK (select_none_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->fdr_view_button), 
+	g_signal_connect (G_OBJECT (data->fdr_view_button),
 			  "clicked",
 			  G_CALLBACK (view_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->fdr_delete_button), 
+	g_signal_connect (G_OBJECT (data->fdr_delete_button),
 			  "clicked",
 			  G_CALLBACK (delete_cb),
 			  data);
@@ -912,7 +912,7 @@ dlg_duplicates (GthBrowser *browser)
 
 	/* Run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (browser));
 	gtk_widget_grab_focus (data->fdr_stop_button);
 	gtk_widget_show (data->dialog);
@@ -924,23 +924,23 @@ dlg_duplicates (GthBrowser *browser)
 
 
 static gboolean
-get_iter_from_image_data (DialogData  *data, 
+get_iter_from_image_data (DialogData  *data,
 			  ImageData   *idata,
 			  GtkTreeIter *iter)
 {
 	if (! gtk_tree_model_get_iter_first (data->images_model, iter))
 		return FALSE;
-	
+
 	do {
 		ImageData *idata2;
-		
+
 		gtk_tree_model_get (data->images_model, iter,
 				    ICOLUMN_IMAGE_DATA, &idata2,
 				    -1);
 		if (idata->common == idata2->common)
 			return TRUE;
 	} while (gtk_tree_model_iter_next (data->images_model, iter));
-	
+
 	return FALSE;
 }
 
@@ -949,7 +949,7 @@ static void start_loading_image (DialogData *data);
 
 
 static void
-set_image_and_go_on (DialogData  *data, 
+set_image_and_go_on (DialogData  *data,
 		     GdkPixbuf   *pixbuf)
 {
 	ImageData   *idata;
@@ -961,7 +961,7 @@ set_image_and_go_on (DialogData  *data,
 	idata = node->data;
 	data->loader_queue = g_list_remove_link (data->loader_queue, node);
 	g_list_free (node);
-	
+
 	if (! get_iter_from_image_data (data, idata, &iter))
 		return;
 
@@ -973,7 +973,7 @@ set_image_and_go_on (DialogData  *data,
 					  MINI_IMAGE_SIZE);
 	else
 		pixbuf2 = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
-					  TRUE, 
+					  TRUE,
 					  8,
 					  MINI_IMAGE_SIZE,
 					  MINI_IMAGE_SIZE);
@@ -993,7 +993,7 @@ set_image_and_go_on (DialogData  *data,
 				      start_x, start_y);
 	}
 
-	gtk_list_store_set (GTK_LIST_STORE (data->images_model), 
+	gtk_list_store_set (GTK_LIST_STORE (data->images_model),
 			    &iter,
 			    ICOLUMN_ICON, pixbuf2,
 			    -1);
@@ -1045,23 +1045,23 @@ start_loading_image (DialogData *data)
 	idata = data->loader_queue->data;
 
 	data->loading_image = TRUE;
-	thumb_loader_set_path (data->loader, idata->path);
+	thumb_loader_set_path (data->loader, idata->path, NULL);
 	thumb_loader_start (data->loader);
 }
 
 
 static void
-queue_image_to_load (DialogData *data, 
+queue_image_to_load (DialogData *data,
 		     ImageData  *idata)
 {
 	if (data->loader == NULL) {
 		data->loader = THUMB_LOADER (thumb_loader_new (NULL, MINI_IMAGE_SIZE, MINI_IMAGE_SIZE));
 		thumb_loader_use_cache (data->loader, TRUE);
-		g_signal_connect (G_OBJECT (data->loader), 
+		g_signal_connect (G_OBJECT (data->loader),
 				  "thumb_done",
 				  G_CALLBACK (image_loader_done),
 				  data);
-		g_signal_connect (G_OBJECT (data->loader), 
+		g_signal_connect (G_OBJECT (data->loader),
 				  "thumb_error",
 				  G_CALLBACK (image_loader_error),
 				  data);
@@ -1071,13 +1071,13 @@ queue_image_to_load (DialogData *data,
 
 	if (data->loading_image)
 		return;
-	
+
 	start_loading_image (data);
 }
 
 
 static void
-update_entry (DialogData *data, 
+update_entry (DialogData *data,
 	      ImageData  *idata)
 {
 	GtkTreeIter  iter;
@@ -1090,7 +1090,7 @@ update_entry (DialogData *data,
 	size_txt = gnome_vfs_format_file_size_for_display (idata->common->size * idata->common->duplicates);
 	n_txt = g_strdup_printf ("%d", idata->common->duplicates);
 
-	gtk_list_store_set (GTK_LIST_STORE (data->images_model), 
+	gtk_list_store_set (GTK_LIST_STORE (data->images_model),
 			    &iter,
 			    ICOLUMN_N, n_txt,
 			    ICOLUMN_SIZE, size_txt,
@@ -1102,7 +1102,7 @@ update_entry (DialogData *data,
 
 
 static void
-add_entry (DialogData *data, 
+add_entry (DialogData *data,
 	   ImageData  *idata)
 {
         GtkTreeIter  iter;
@@ -1111,7 +1111,7 @@ add_entry (DialogData *data,
 	size_txt = gnome_vfs_format_file_size_for_display (idata->common->size);
 
 	gtk_list_store_append (GTK_LIST_STORE (data->images_model), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (data->images_model), 
+	gtk_list_store_set (GTK_LIST_STORE (data->images_model),
 			    &iter,
 			    ICOLUMN_IMAGE_DATA, idata,
 			    ICOLUMN_N, "1",
@@ -1159,7 +1159,7 @@ update_duplicates_label (DialogData *data)
 
 
 static void
-check_image (DialogData *data, 
+check_image (DialogData *data,
 	     ImageData  *idata)
 {
 	GList *scan;
@@ -1204,24 +1204,24 @@ scan_next_dir (DialogData *data)
 		search_finished (data);
 		return;
 	}
-		
+
 	do {
 		GList *first_dir;
 		char  *dir;
-		
+
 		if (data->dirs == NULL) {
 			data->scanning_dir = FALSE;
 			search_finished (data);
 			return;
 		}
-		
+
 		first_dir = data->dirs;
 		data->dirs = g_list_remove_link (data->dirs, first_dir);
-		dir = (char*) first_dir->data; 
+		dir = (char*) first_dir->data;
 		g_list_free (first_dir);
-		
+
 		good_dir_to_search_into = ! file_is_hidden (file_name_from_path (dir));
-		if (good_dir_to_search_into) 
+		if (good_dir_to_search_into)
 			search_dir_async (data, dir);
 		g_free (dir);
 	} while (! good_dir_to_search_into);
@@ -1275,9 +1275,9 @@ process_block (DialogData *data)
 		*/
 		md5_process_block (buffer, BLOCKSIZE, &data->md5_context);
 		return;
-	} 
+	}
 
-	/* We can copy 64 byte because the buffer is always big enough.  
+	/* We can copy 64 byte because the buffer is always big enough.
 	   FILLBUF  contains the needed bits.  */
 	memcpy (&buffer[sum], fillbuf, 64);
 
@@ -1287,11 +1287,11 @@ process_block (DialogData *data)
 	   is correctly aligned 64 padding bytes are added.  */
 	pad = sum & 63;
 	pad = pad >= 56 ? 64 + 56 - pad : 56 - pad;
-	
+
 	/* Put the 64-bit file length in *bits* at the end of the buffer.  */
 	*(md5_uint32 *) &buffer[sum + pad] = SWAP (data->md5_len[0] << 3);
 	*(md5_uint32 *) &buffer[sum + pad + 4] = SWAP ((data->md5_len[1] << 3) | (data->md5_len[0] >> 29));
-	
+
 	/* Process last bytes.  */
 	md5_process_block (buffer, sum + pad + 8, &data->md5_context);
 }
@@ -1332,7 +1332,7 @@ read_callback (GnomeVFSAsyncHandle *handle,
 				char          sum2[16*2+1] = "";
 				int           error;
 				size_t        cnt;
-				
+
 				error = md5_stream (fp, md5_sum);
 				fclose (fp);
 
@@ -1343,7 +1343,7 @@ read_callback (GnomeVFSAsyncHandle *handle,
 				}
 
 				printf ("%s <-> %s", sum, sum2);
-				if (strcmp (sum, sum2) != 0) 
+				if (strcmp (sum, sum2) != 0)
 					printf ("[ERROR]\n");
 				else
 					printf ("\n");
@@ -1363,10 +1363,10 @@ read_callback (GnomeVFSAsyncHandle *handle,
         if (result != GNOME_VFS_OK) {
 		gnome_vfs_async_close (handle, close_callback, data);
 		return;
-        } 
+        }
 
 	/* Take care for partial reads. */
-	
+
 	data->md5_bytes_read += bytes_read;
 	if (data->md5_bytes_read < BLOCKSIZE) {
 		gnome_vfs_async_read (handle,
@@ -1416,7 +1416,7 @@ open_callback  (GnomeVFSAsyncHandle *handle,
 }
 
 
-static void 
+static void
 start_next_checksum (DialogData *data)
 {
 	GnomeVFSAsyncHandle *handle;
@@ -1447,11 +1447,11 @@ start_next_checksum (DialogData *data)
 	data->md5_len[1] = 0;
 	data->md5_bytes_read = 0;
 
-	gnome_vfs_async_open (&handle, 
-			      data->current_path, 
+	gnome_vfs_async_open (&handle,
+			      data->current_path,
 			      GNOME_VFS_OPEN_READ,
                               GNOME_VFS_PRIORITY_MIN,
-                              open_callback, 
+                              open_callback,
 			      data);
 }
 
@@ -1459,7 +1459,7 @@ start_next_checksum (DialogData *data)
 static void
 search_finished (DialogData *data)
 {
-	if (data->scanning_dir || data->checking_file || data->loading_image) 
+	if (data->scanning_dir || data->checking_file || data->loading_image)
 		return;
 
 	gtk_entry_set_text (GTK_ENTRY (data->fdr_current_dir_entry), "");
@@ -1470,7 +1470,7 @@ search_finished (DialogData *data)
 	gtk_widget_set_sensitive (data->fdr_close_button, TRUE);
 	if (data->duplicates > 0)
 		gtk_widget_set_sensitive (data->fdr_ops_hbox, TRUE);
-	
+
 	gtk_widget_grab_focus (data->fdr_close_button);
 
 	if (data->duplicates == 0)
@@ -1501,10 +1501,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
-			if (file_is_image_or_video (unesc_uri, 
-						    eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE),
-						    TRUE,
-						    TRUE) )
+			if (file_is_image_or_video (unesc_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
 				files = g_list_prepend (files, unesc_uri);
 			else
 				g_free (unesc_uri);
@@ -1532,20 +1529,20 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			gnome_vfs_uri_unref (full_uri);
 	}
 
-	if (files != NULL) 
+	if (files != NULL)
 		data->queue = g_list_concat (data->queue, files);
 
 	if (result == GNOME_VFS_ERROR_EOF) {
 		if (data->queue != NULL) {
-			if (! data->checking_file) 
+			if (! data->checking_file)
 				start_next_checksum (data);
 		} else
 			scan_next_dir (data);
-				
+
 	} else if (result != GNOME_VFS_OK) {
 		char *path;
 
-		path = gnome_vfs_uri_to_string (data->uri, 
+		path = gnome_vfs_uri_to_string (data->uri,
 						GNOME_VFS_URI_HIDE_NONE);
 		g_warning ("Cannot load directory \"%s\": %s\n", path,
 			   gnome_vfs_result_to_string (result));
@@ -1557,7 +1554,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 }
 
 
-static void 
+static void
 search_dir_async (DialogData *data, const char *path)
 {
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->fdr_current_dir_entry), path);

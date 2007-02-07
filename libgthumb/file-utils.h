@@ -64,19 +64,19 @@ typedef struct {
 PathListData *      path_list_data_new            (void);
 void                path_list_data_free           (PathListData     *dli);
 void                path_list_handle_free         (PathListHandle   *handle);
-PathListHandle *    path_list_async_new           (const char       *uri, 
+PathListHandle *    path_list_async_new           (const char       *uri,
 						   PathListDoneFunc  f,
 						   gpointer          data);
 void                path_list_async_interrupt     (PathListHandle   *handle,
 						   DoneFunc          f,
 						   gpointer          data);
-gboolean            path_list_new                 (const char       *path, 
-						   GList           **files, 
+gboolean            path_list_new                 (const char       *path,
+						   GList           **files,
 						   GList           **dirs);
 GList *             path_list_dup                 (GList            *path_list);
 void                path_list_free                (GList            *list);
 void                path_list_print               (GList            *list);
-GList *             path_list_find_path           (GList            *list, 
+GList *             path_list_find_path           (GList            *list,
 						   const char       *path);
 
 /* Directory utils */
@@ -101,24 +101,32 @@ gboolean            visit_rc_directory_sync       (const char       *rc_dir,
 						   VisitFunc         do_something,
 						   gpointer          data);
 
-/* File utils */ 
+/* File utils */
 
-gboolean            file_is_image_or_video	  (const gchar      *name,
-			                           gboolean          fast_file_type,
-                        			   gboolean          image_check,
-                        			   gboolean          video_check);
+gboolean	    mime_type_is_image	          (const char       *mime_type);
+gboolean            mime_type_is_video            (const char       *mime_type);
+gboolean	    file_is_image 		  (const gchar      *name,
+						   gboolean          fast_file_type);
+gboolean            file_is_video                 (const gchar      *name,
+                                                   gboolean          fast_file_type);
+gboolean            file_is_image_or_video        (const gchar      *name,
+                                                   gboolean          fast_file_type);
 gboolean            file_is_hidden                (const char       *name);
-gboolean            file_copy                     (const char       *from, 
+gboolean            file_copy                     (const char       *from,
 						   const char       *to);
-gboolean            file_move                     (const char       *from, 
+gboolean            file_move                     (const char       *from,
 						   const char       *to);
 gboolean            file_rename                   (const gchar      *old_path,
 						   const gchar      *new_path);
 gboolean            file_unlink                   (const char       *path);
+gboolean            mime_type_is                  (const char       *mime_type,
+	      				 	   const char       *value);
+gboolean            image_is_type                 (const char       *name,
+	       					   const char       *type,
+	       					   gboolean          fast_file_type);
 gboolean            image_is_jpeg                 (const char       *name);
-gboolean            image_is_raw                  (const char       *name);
+gboolean            mime_type_is_raw              (const char       *name);
 gboolean            image_is_gif                  (const char       *name);
-gboolean            image_is_gif__accurate        (const char       *name);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
 GnomeVFSFileSize    get_file_size                 (const char       *s);
@@ -150,7 +158,7 @@ int                 uricmp                        (const char       *uri1,
 gboolean            same_uri                      (const char       *uri1,
 						   const char       *uri2);
 
-char *              get_path_relative_to_dir      (const char       *filename, 
+char *              get_path_relative_to_dir      (const char       *filename,
 						   const char       *destdir);
 char *              remove_level_from_path        (const char       *path);
 
@@ -166,7 +174,7 @@ gboolean            uri_is_root                   (const char       *uri);
 /* Catalogs */
 
 char *              get_catalog_full_path         (const char       *relative_path);
-gboolean            delete_catalog_dir            (const char       *full_path, 
+gboolean            delete_catalog_dir            (const char       *full_path,
 						   gboolean          recursive,
 						   GError          **error);
 gboolean            delete_catalog                (const char       *full_path,
@@ -181,7 +189,7 @@ char *              shell_escape                  (const char       *filename);
 
 /* extesion */
 
-gboolean            file_extension_is             (const char       *filename, 
+gboolean            file_extension_is             (const char       *filename,
 						   const char       *ext);
 const char *        get_filename_extension        (const char       *filename);
 char *              remove_extension_from_path    (const char       *path);
@@ -209,7 +217,7 @@ const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
 const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
-gboolean            check_permissions             (const char       *path, 
+gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char *filename);
 void	            prune_cache			  ();
@@ -225,5 +233,6 @@ GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *fi
 						       gboolean               fast_file_type,
 						       gint                   requested_width_if_used,
 						       gint	              requested_height_if_used,
-						       GnomeThumbnailFactory *factory);
+						       GnomeThumbnailFactory *factory,
+						       const char            *mime_type);
 #endif /* FILE_UTILS_H */

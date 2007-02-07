@@ -310,7 +310,7 @@ gth_file_list_update_current_thumb (GthFileList *file_list)
 
 		if (result == GNOME_VFS_OK) {
 			if (resolved_path != NULL) {
-				thumb_loader_set_path (file_list->priv->thumb_loader, resolved_path);
+				thumb_loader_set_path (file_list->priv->thumb_loader, resolved_path, file_list->priv->thumb_fd->mime_type);
 				thumb_loader_start (file_list->priv->thumb_loader);
 				error = FALSE;
 			}
@@ -772,6 +772,7 @@ typedef struct {
 	GList       *new_list;
 	GList       *filtered;
 	GList       *uri_list;
+	GHashTable  *mime_types;
 	guint        timeout_id;
 	gboolean     doing_thumbs;
 	gboolean     destroyed;
@@ -789,6 +790,7 @@ get_file_info_data_new (GthFileList *file_list)
 	file_list->priv->new_list = NULL;
 	data->filtered = NULL;
 	data->uri_list = NULL;
+	data->mime_types = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, NULL);
 	data->timeout_id = 0;
 	data->destroyed = FALSE;
 
@@ -801,6 +803,8 @@ get_file_info_data_free (GetFileInfoData *data)
 {
 	if (data == NULL)
 		return;
+
+	g_hash_table_destroy (data->mime_types);
 
 	if (data->uri_list != NULL) {
 		g_list_foreach (data->uri_list,
@@ -968,6 +972,7 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_NONE);
 		full_path = gnome_vfs_unescape_string (escaped, "/");
 		fd = file_data_new (full_path, info_result->file_info);
+		fd->mime_type = g_hash_table_lookup (gfi_data->mime_types, full_path);
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 
 		g_free (full_path);
@@ -1002,11 +1007,14 @@ load_new_list (GthFileList *file_list)
 	for (scan = gfi_data->new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
 		const char  *name_only = file_name_from_path (full_path);
+		const char  *mime_type;
 		GnomeVFSURI *uri;
 		FileData    *fd;
 
+		mime_type = get_file_mime_type (full_path, fast_file_type);
+
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
-		    || ! file_is_image_or_video (full_path, fast_file_type, TRUE, TRUE))
+		    || ! (mime_type_is_image (mime_type) || mime_type_is_video (mime_type)))
 			continue;
 
 		/* if the image is already present invalidate the thumbnail
@@ -1014,14 +1022,19 @@ load_new_list (GthFileList *file_list)
 
 		fd = gth_file_list_filedata_from_path (file_list, full_path);
 		if (fd != NULL) {
+			fd->mime_type = mime_type;
 			fd->error = FALSE;
 			fd->thumb = FALSE;
 			continue;
 		}
 
 		uri = new_uri_from_path (full_path);
-		if (uri != NULL)
+		if (uri != NULL) {
 			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
+			g_hash_table_insert (gfi_data->mime_types,
+					     full_path,
+					     mime_type);
+		}
 	}
 
 	path_list_free (gfi_data->new_list);

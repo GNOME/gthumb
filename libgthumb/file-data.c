@@ -50,6 +50,9 @@ file_data_new (const char       *path,
 		fd->mtime = info->mtime;
 	}
 
+	if (info->mime_type != NULL)
+		fd->mime_type = info->mime_type;
+
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */
@@ -103,6 +106,9 @@ file_data_update (FileData *fd)
 	fd->error = FALSE;
 	fd->thumb = FALSE;
 
+	g_free (fd->mime_type);
+	fd->mime_type = NULL;
+
 	escaped = escape_uri (fd->path);
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (escaped,
@@ -124,6 +130,9 @@ file_data_update (FileData *fd)
 
 	g_free (fd->utf8_name);
 	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
+
+	if (info->mime_type != NULL)
+		fd->mime_type = info->mime_type;
 
 	fd->size = info->size;
 	fd->mtime = info->mtime;

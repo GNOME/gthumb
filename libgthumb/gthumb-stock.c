@@ -54,6 +54,7 @@ static struct {
 	{ GTHUMB_STOCK_INVERT,              invert_16_rgba,              NULL },
 	{ GTHUMB_STOCK_LIBRARY,             library_19_rgba,             NULL },
 	{ GTHUMB_STOCK_LEVELS,              levels_22_rgba,              levels_16_rgba },
+	{ GTHUMB_STOCK_METADATA,            preview_data_16_rgba,        NULL },
 	{ GTHUMB_STOCK_MIRROR,              mirror_24_rgba,              mirror_16_rgba },
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           posterize_16_rgba },
 	{ GTHUMB_STOCK_REDEYE_REMOVAL,      redeye_removal_16_rgba,      NULL },

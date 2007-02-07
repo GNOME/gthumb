@@ -139,6 +139,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *image_prop_dlg;        /* no-modal dialogs. */
 	GtkWidget          *bookmarks_dlg;
 
+	GtkWidget          *info_frame;
 	GtkWidget          *info_bar;
 	GtkWidget          *info_combo;
 	GtkWidget          *info_icon;
@@ -707,8 +708,14 @@ window_update_title (GthBrowser *browser)
 			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
+
 	} else {
-		const char *image_name = g_filename_display_basename (path);
+		char *image_name;
+		int   images, current;
+
+		image_name = g_filename_display_basename (path);
+		images = gth_file_view_get_images (priv->file_list->view);
+		current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
 
 		if (priv->image_catalog != NULL) {
 			char *cat_name = g_filename_display_basename (priv->image_catalog);
@@ -716,13 +723,26 @@ window_update_title (GthBrowser *browser)
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
 
-			info_txt = g_strdup_printf ("%s %s - %s", image_name, modified, cat_name);
+			info_txt = g_strdup_printf ("%s %s (%d/%d) - %s",
+						    image_name,
+						    modified,
+						    current,
+						    images,
+						    cat_name);
 			g_free (cat_name);
-		} else
-			info_txt = g_strdup_printf ("%s %s", image_name, modified);
+		}
+		else
+			info_txt = g_strdup_printf ("%s %s (%d/%d)",
+						    image_name,
+						    modified,
+						    current,
+						    images);
+
+		g_free (image_name);
 	}
 
 	gtk_window_set_title (GTK_WINDOW (browser), info_txt);
+
 	g_free (info_txt);
 }
 
@@ -958,7 +978,7 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "File_ImageProp", priv->image_path != NULL);
 	set_action_sensitive (browser, "View_Fullscreen", priv->file_list->list != NULL);
 	set_action_sensitive (browser, "View_ShowPreview", priv->sidebar_visible);
-	set_action_sensitive (browser, "View_ShowInfo", ! priv->sidebar_visible);
+	set_action_sensitive (browser, "View_ShowMetadata", ! priv->sidebar_visible);
 	set_action_sensitive (browser, "View_PrevImage", image_pos > 0);
 	set_action_sensitive (browser, "View_NextImage", (image_pos != -1) && (image_pos < gth_file_view_get_images (priv->file_list->view) - 1));
 	set_action_sensitive (browser, "SortManual", viewing_catalog);
@@ -2731,7 +2751,7 @@ gth_browser_show_image_data (GthBrowser *browser)
 	set_button_active_no_notify (browser, priv->preview_button_data, TRUE);
 
 	priv->image_data_visible = TRUE;
-	set_action_active_if_different (browser, "View_ShowInfo", TRUE);
+	set_action_active_if_different (browser, "View_ShowMetadata", TRUE);
 }
 
 
@@ -2743,7 +2763,7 @@ gth_browser_hide_image_data (GthBrowser *browser)
 	gtk_widget_hide (priv->preview_widget_data_comment);
 	set_button_active_no_notify (browser, priv->preview_button_data, FALSE);
 	priv->image_data_visible = FALSE;
-	set_action_active_if_different (browser, "View_ShowInfo", FALSE);
+	set_action_active_if_different (browser, "View_ShowMetadata", FALSE);
 }
 
 
@@ -2885,10 +2905,7 @@ launch_videos_in_list (GList *list)
 
         for (scan = list; scan; scan = scan->next) {
                 char *path = scan->data;
-                if (file_is_image_or_video (path, 
-					    eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
-					    FALSE,
-					    TRUE)) {
+                if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
 			video_list = g_list_append (video_list, path);
                         video_count++;
 		}
@@ -4473,7 +4490,7 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 	set_action_active (browser, "View_ShowCatalogs", FALSE);
 
 	set_action_active (browser, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE));
-	set_action_active (browser, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
+	set_action_active (browser, "View_ShowMetadata", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 
 	window_sync_sort_menu (browser, priv->sort_method, priv->sort_type);
 }
@@ -5330,6 +5347,7 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 		set_action_important (browser, "View_Fullscreen", TRUE);
 		set_action_important (browser, "View_CloseImageMode", TRUE);
 		set_action_important (browser, "File_Save", TRUE);
+		set_action_important (browser, "View_ShowMetadata", TRUE);
 	}
 
 	gtk_ui_manager_ensure_update (priv->ui);
@@ -6136,6 +6154,8 @@ _hide_sidebar (GthBrowser *browser)
 	gtk_widget_hide (priv->preview_button_comment);
 	if (! priv->image_pane_visible)
 		gth_browser_show_image_pane (browser);
+
+	gtk_widget_hide (priv->info_frame);
 }
 
 
@@ -6231,8 +6251,8 @@ gth_browser_construct (GthBrowser  *browser,
 	GtkWidget             *paned2;      /* Secondary paned widget. */
 	GtkWidget             *image_vbox;
 	GtkWidget             *dir_list_vbox;
+	GtkWidget             *info_box;
 	GtkWidget             *info_frame;
-	GtkWidget             *info_hbox;
 	GtkWidget             *image_pane_paned1;
 	GtkWidget             *image_pane_paned2;
 	GtkWidget             *scrolled_win;
@@ -6644,15 +6664,15 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* image info bar */
 
-	info_frame = gtk_frame_new (NULL);
-	gtk_widget_show (info_frame);
-	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
-	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
+	priv->info_frame = gtk_frame_new (NULL);
+	gtk_widget_show (priv->info_frame);
+	gtk_frame_set_shadow_type (GTK_FRAME (priv->info_frame), GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (image_vbox), priv->info_frame, FALSE, FALSE, 0);
 
-	info_hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (info_frame), info_hbox);
+	info_box = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (priv->info_frame), info_box);
 
-	gtk_box_pack_start (GTK_BOX (info_hbox), priv->info_bar, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (info_box), priv->info_bar, TRUE, TRUE, 0);
 
 	{
 		GtkWidget *button;
@@ -6662,7 +6682,7 @@ gth_browser_construct (GthBrowser  *browser,
 		image = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (info_box), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button),
 				  "clicked",
 				  G_CALLBACK (close_preview_image_button_cb),
@@ -6676,7 +6696,7 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->preview_button_comment = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (info_box), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button),
 				  "toggled",
 				  G_CALLBACK (preview_comment_button_cb),
@@ -6690,7 +6710,7 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->preview_button_data = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (info_box), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button),
 				  "toggled",
 				  G_CALLBACK (preview_data_button_cb),
@@ -6704,7 +6724,7 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->preview_button_image = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (info_box), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button),
 				  "toggled",
 				  G_CALLBACK (preview_image_button_cb),
@@ -6715,7 +6735,7 @@ gth_browser_construct (GthBrowser  *browser,
 				      NULL);
 	}
 
-	gtk_widget_show_all (info_hbox);
+	gtk_widget_show_all (info_box);
 
 	/* image preview, comment, exif data. */
 
@@ -7508,6 +7528,8 @@ gth_browser_show_sidebar (GthBrowser *browser)
 	else
 		gth_browser_hide_image_pane (browser);
 
+	gtk_widget_show (priv->info_frame);
+
 	/**/
 
 	gtk_widget_grab_focus (gth_file_view_get_widget (priv->file_list->view));
@@ -7556,6 +7578,8 @@ gth_browser_show_image_pane (GthBrowser *browser)
 		set_action_active_if_different (browser,
 						"View_ShowPreview",
 						TRUE);
+
+		gtk_widget_show (priv->info_frame);
 	}
 
 	gtk_widget_show (priv->image_pane);
@@ -8360,6 +8384,9 @@ gth_browser_exec_pixbuf_op (GthWindow   *window,
 {
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->pixop != NULL)
+		return;
 
 	priv->pixop = pixop;
 	g_object_ref (priv->pixop);

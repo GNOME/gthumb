@@ -1,3 +1,60 @@
+2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (gth_viewer_exec_pixbuf_op):
+	* src/gth-browser.c (gth_browser_exec_pixbuf_op):
+
+	Ignore a new gth_pixbuf_op when there already one running.
+	Fixes bug #392632 – crash in gThumb Image Viewer: repeatedly
+	pressing Ctrl...  Patch by manuel
+
+2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-ui.h:
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer-actions-entries.h:
+	* src/gth-browser-actions-entries.h:
+	* src/gth-viewer.c:
+	* src/gth-browser.c: removed the info_bar in the viewer window and
+	in the browser window when the file list is hidden.  Added a
+	'properties' button on the toolbar.
+	Added a 'zoot to fit width' button in the viewer toolbar.
+
+	* libgthumb/gthumb-stock.h:
+	* libgthumb/gthumb-stock.c: added GTHUMB_STOCK_METADATA
+
+	* src/gth-window.c: indentation fix.
+
+	* libgthumb/gth-file-list.c: get the mime type only once and only here,
+	this is used to	speed up list loading when slow mime detection is
+	used, and is also used to avoid to get the image mime type in the
+	image-loader thread (which is dangerous).
+
+	* libgthumb/file-data.c:
+	* libgthumb/file-data.h: added a mime_type field.
+
+	* libgthumb/thumb-loader.c: no need to use the accurate mime detection
+	system and no need to load a gif image as an animation in the
+	thumbnail loader.
+	* libgthumb/image-loader.c: removed an identation level.
+
+	* libgthumb/image-loader.h:
+	* libgthumb/thumb-loader.h: added a mime_type argument to the
+	[thumb|image]_loader_set_path functions
+
+	* src/gthumb-preloader.c:
+	* src/gth-batch-op.c:
+	* src/dlg-jpegtran.c:
+	* src/dlg-duplicates.c:
+	* src/catalog-web-exporter.c:
+	* src/dlg-convert.c:
+	* src/catalog-png-exporter.c:
+	* libgthumb/print-callbacks.c: updated calls to image_loader_set_path
+	adding the new mime_type argument (setting the mime_type to NULL for now).
+
+	* libgthumb/file-utils.h:
+	* libgthumb/file-utils.c: function image_is_type is now public
+ 	added function can_load_mime_type, removed image_is_gif__accurate.
+
 2007-02-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):

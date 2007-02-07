@@ -652,53 +652,55 @@ get_mime_type_from_ext (const char *ext)
 }
 
 
-gboolean
-file_is_image_or_video (const gchar *name,
-	                gboolean     fast_file_type,
-	                gboolean     image_check,
-	                gboolean     video_check)
+gboolean mime_type_is_image (const char *mime_type)
 {
-	const char *result = NULL;
-	gboolean    is_that_type;
+	return (   (strstr (mime_type, "image") != NULL)
+		|| (strcmp (mime_type, "application/x-crw") == 0) );
+}
 
-	if (fast_file_type) {
-		char *filename, *n1;
 
-		filename = get_sample_name (name);
-		if (filename == NULL)
-			return FALSE;
+gboolean file_is_image (const gchar *name,
+	                gboolean     fast_file_type)
+{
+	const char *mime_type = NULL;
 
-		n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
-		if (n1 != NULL) {
-			char *n2, *n3;
-			n2 = g_utf8_strdown (n1, -1);
-			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-
-			if (n3 != NULL)
-				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-
-			g_free (n3);
-			g_free (n2);
-			g_free (n1);
-		}
-	} else {
-		if (uri_scheme_is_file (name))
-			name = get_file_path_from_uri (name);
-		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
-	}
-
-	/* Unknown file type. */
-	if (result == NULL)
+	mime_type = get_file_mime_type (name, fast_file_type);
+	if (mime_type == NULL)
 		return FALSE;
 
-	/* If the description contains the word 'image' or 'video' then we suppose
-	 * it is an image that gdk-pixbuf can load, or a video that we can refer
-	   to an external program. */
+	return mime_type_is_image (mime_type);
+}
 
-	return (   (((strstr (result, "image") != NULL) 
-		    || (strcmp(result, "application/x-crw") == 0)) 
-		    && image_check)
-		   || ((strstr (result, "video") != NULL) && video_check));
+
+gboolean file_is_video (const gchar *name,
+                        gboolean     fast_file_type)
+{
+        const char *mime_type = NULL;
+
+        mime_type = get_file_mime_type (name, fast_file_type);
+        if (mime_type == NULL)
+                return FALSE;
+
+        return mime_type_is_video (mime_type);
+}
+
+
+gboolean mime_type_is_video (const char *mime_type)
+{
+	return (strstr (mime_type, "video") != NULL);
+}
+
+
+gboolean file_is_image_or_video (const gchar *name,
+                                 gboolean     fast_file_type)
+{
+        const char *mime_type = NULL;
+
+        mime_type = get_file_mime_type (name, fast_file_type);
+        if (mime_type == NULL)
+                return FALSE;
+
+        return mime_type_is_image (mime_type) || mime_type_is_video (mime_type);
 }
 
 
@@ -799,6 +801,9 @@ get_file_mime_type (const char *name,
 {
 	const char *result = NULL;
 
+	if (name == NULL)
+		return NULL;
+
 	if (fast_file_type) {
 		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
 		if (n1 != NULL) {
@@ -817,10 +822,18 @@ get_file_mime_type (const char *name,
 }
 
 
-static gboolean
-image_is_type__common (const char *name,
-		       const char *type,
-		       gboolean    fast_file_type)
+gboolean
+mime_type_is (const char *mime_type,
+	      const char *value)
+{
+	return (strcmp_null_tollerant (mime_type, value) == 0);
+}
+
+
+gboolean
+image_is_type (const char *name,
+	       const char *type,
+	       gboolean    fast_file_type)
 {
 	const char *result = get_file_mime_type (name, fast_file_type);
 	return (strcmp_null_tollerant (result, type) == 0);
@@ -828,46 +841,39 @@ image_is_type__common (const char *name,
 
 
 static gboolean
-image_is_type (const char *name,
-	       const char *type)
+image_is_type__gconf_file_type (const char *name,
+	                       const char *type)
 {
-	return image_is_type__common (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	return image_is_type (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 }
 
 
 gboolean
 image_is_jpeg (const char *name)
 {
-	return image_is_type (name, "image/jpeg");
+	return image_is_type__gconf_file_type (name, "image/jpeg");
 }
 
 gboolean
-image_is_raw (const char *name)
+mime_type_is_raw (const char *mime_type)
 {
-	return 	   image_is_type (name, "application/x-crw")	/* ? */
-		|| image_is_type (name, "image/x-dcraw")	/* dcraw */
-		|| image_is_type (name, "image/x-minolta-mrw")  /* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-canon-crw")    /* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-nikon-nef")	/* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-kodak-dcr")    /* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-kodak-kdc")    /* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-olympus-orf")	/* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-fuji-raf")    	/* freedesktop.org.xml */
-		|| image_is_type (name, "image/x-raw")		/* mimelnk */
+	return 	   mime_type_is (mime_type, "application/x-crw")	/* ? */
+		|| mime_type_is (mime_type, "image/x-dcraw")		/* dcraw */
+		|| mime_type_is (mime_type, "image/x-minolta-mrw")  	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-canon-crw")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-nikon-nef")	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-kodak-dcr")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-kodak-kdc")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-olympus-orf")	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-fuji-raf")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-raw")		/* mimelnk */
 		;
 }
 
 gboolean
 image_is_gif (const char *name)
 {
-	return image_is_type (name, "image/gif");
-}
-
-
-gboolean
-image_is_gif__accurate (const char *name)
-{
-	return image_is_type__common (name, "image/gif", FALSE);
+	return image_is_type__gconf_file_type (name, "image/gif");
 }
 
 
@@ -2380,23 +2386,25 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 				   gboolean               fast_file_type,
 				   gint		          requested_width_if_used,
 				   gint		          requested_height_if_used,
-				   GnomeThumbnailFactory *factory)
+				   GnomeThumbnailFactory *factory,
+				   const char            *mime_type)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
         char               *local_file = NULL;
 
+	if (mime_type == NULL)
+		return NULL;
+
 
         /* The video thumbnailer can handle VFS URIs directly */
-        if (file_is_image_or_video (filename, FALSE, FALSE, TRUE) 
-	    && factory != NULL) {		
+        if (mime_type_is_video (mime_type) && factory != NULL) {		
 		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
 		if (pixbuf == NULL) return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
 		return animation;
 	}
-
 
         /* gdk_pixbuf and libopenraw do not support VFS URIs directly, 
 	   so make a local cache copy of remote files. */	
@@ -2410,7 +2418,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
 
 	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-       if (image_is_jpeg (local_file) && requested_width_if_used > 0) {
+       if ( mime_type_is (mime_type, "image/jpeg") && requested_width_if_used > 0) {
                 pixbuf = f_load_scaled_jpeg (local_file,
                                              requested_width_if_used,
                                              requested_height_if_used,
@@ -2424,7 +2432,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
-	if (image_is_type__common (local_file, "image/gif", fast_file_type)) {
+	if ( mime_type_is (mime_type, "image/gif")) {
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
 		g_free (local_file);
 		return animation;
@@ -2432,13 +2440,13 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
-	if (image_is_raw (local_file) && (requested_width_if_used > 0))
+	if (mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
 	/* All other file types, or if previous methods fail: read in a 
 	   non-animated pixbuf, and convert to a single-frame animation. */
-	if (pixbuf == NULL)
+	if (pixbuf == NULL) 
 	        pixbuf = gth_pixbuf_new_from_uri (local_file, error);
 
         if (pixbuf != NULL) {

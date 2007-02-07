@@ -90,7 +90,7 @@ typedef struct {
 	const char   *image_type;
 	const char   *ext;
 	char         *destination;
-	char         *new_path;	
+	char         *new_path;
 	char        **keys;
 	char        **values;
 } DialogData;
@@ -98,7 +98,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	if (data->rename_dialog)
@@ -112,7 +112,7 @@ destroy_cb (GtkWidget  *widget,
 	path_list_free (data->deleted_list);
 
 	g_strfreev (data->keys);
-	g_strfreev (data->values);	
+	g_strfreev (data->values);
 
 	g_free (data->new_path);
 	g_free (data->destination);
@@ -180,8 +180,8 @@ load_current_image (DialogData *data)
 
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_bar),
 				       (double) data->image / (data->images+1));
-	
-	image_loader_set_path (data->loader, fd->path);
+
+	image_loader_set_path (data->loader, fd->path, NULL);
 	image_loader_start (data->loader);
 }
 
@@ -195,10 +195,10 @@ show_rename_dialog (DialogData *data)
 	utf8_name = g_filename_display_basename (data->new_path);
 
 	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
-	
+
 	_gtk_label_set_locale_text (GTK_LABEL (data->conv_ren_message_label), message);
 	g_free (message);
-	
+
 	gtk_entry_set_text (GTK_ENTRY (data->conv_ren_name_entry), utf8_name);
 
 	g_free (utf8_name);
@@ -217,10 +217,10 @@ save_image_and_remove_original (DialogData *data)
 	if (path_is_file (data->new_path))
 		file_unlink (data->new_path);
 
-	if (_gdk_pixbuf_savev (data->pixbuf, 
-			       data->new_path, 
-			       data->image_type, 
-			       data->keys, 
+	if (_gdk_pixbuf_savev (data->pixbuf,
+			       data->new_path,
+			       data->image_type,
+			       data->keys,
 			       data->values,
 			       &error)) {
 		FileData *fd = data->current_image->data;
@@ -230,7 +230,7 @@ save_image_and_remove_original (DialogData *data)
 			file_unlink (fd->path);
 			data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd->path));
 		}
-	} else 
+	} else
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
 }
 
@@ -257,10 +257,10 @@ rename_response_cb (GtkWidget  *dialog,
 		if (path_is_file (data->new_path)) {
 			show_rename_dialog (data);
 			return;
-		} else 
+		} else
 			save_image_and_remove_original (data);
 	}
-	
+
 	g_object_unref (data->pixbuf);
 	data->pixbuf = NULL;
 
@@ -275,7 +275,7 @@ overwrite_response_cb (GtkWidget  *dialog,
 {
 	gtk_widget_destroy (dialog);
 
-	if (response_id == GTK_RESPONSE_YES) 
+	if (response_id == GTK_RESPONSE_YES)
 		save_image_and_remove_original (data);
 
 	g_object_unref (data->pixbuf);
@@ -335,12 +335,12 @@ loader_done (ImageLoader *il,
 
 			gtk_widget_show (d);
 			return;
-			
+
 		case GTH_OVERWRITE_RENAME:
 			show_rename_dialog (data);
 			return;
 		}
-	} 
+	}
 
 	if (save_image)
 		save_image_and_remove_original (data);
@@ -348,7 +348,7 @@ loader_done (ImageLoader *il,
 	g_object_unref (data->pixbuf);
 	data->pixbuf = NULL;
 
-	load_next_image (data);	
+	load_next_image (data);
 }
 
 
@@ -361,7 +361,7 @@ loader_error (ImageLoader *il,
 
 
 static void
-ok_cb (GtkWidget  *widget, 
+ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	char *esc_path;
@@ -414,9 +414,9 @@ ok_cb (GtkWidget  *widget,
 
 	gtk_widget_hide (data->dialog);
 
-	if (dlg_save_options (GTK_WINDOW (data->window), 
-			      data->image_type, 
-			      &data->keys, 
+	if (dlg_save_options (GTK_WINDOW (data->window),
+			      data->image_type,
+			      &data->keys,
 			      &data->values)) {
 		data->images = g_list_length (data->file_list);
 		data->image = 1;
@@ -428,7 +428,7 @@ ok_cb (GtkWidget  *widget,
 
 
 static gboolean
-stop_convertion_cb (GtkWidget  *widget, 
+stop_convertion_cb (GtkWidget  *widget,
 		    DialogData *data)
 {
 	data->stop_convertion = TRUE;
@@ -438,7 +438,7 @@ stop_convertion_cb (GtkWidget  *widget,
 
 /* called when the "help" button is clicked. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-convert-format");
@@ -446,8 +446,8 @@ help_cb (GtkWidget  *widget,
 
 
 static gboolean
-progress_dlg_delete_event_cb (GtkWidget  *caller, 
-			      GdkEvent   *event, 
+progress_dlg_delete_event_cb (GtkWidget  *caller,
+			      GdkEvent   *event,
 			      DialogData *data)
 {
 	stop_operation (data);
@@ -456,8 +456,8 @@ progress_dlg_delete_event_cb (GtkWidget  *caller,
 
 
 static gboolean
-rename_dlg_delete_event_cb (GtkWidget  *caller, 
-			    GdkEvent   *event, 
+rename_dlg_delete_event_cb (GtkWidget  *caller,
+			    GdkEvent   *event,
 			    DialogData *data)
 {
 	return TRUE;
@@ -497,18 +497,18 @@ dlg_convert (GthBrowser *browser)
 
 	if (! data->gui) {
 		g_warning ("Could not find " CONVERT_GLADE_FILE "\n");
-		if (data->file_list != NULL) 
+		if (data->file_list != NULL)
 			g_list_free (data->file_list);
 		g_free (data);
 		return;
 	}
 
-	data->progress_gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE, 
+	data->progress_gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE,
 					    NULL, NULL);
 
 	if (! data->progress_gui) {
 		g_warning ("Could not find " PROGRESS_GLADE_FILE "\n");
-		if (data->file_list != NULL) 
+		if (data->file_list != NULL)
 			g_list_free (data->file_list);
 		g_object_unref (data->gui);
 		g_free (data);
@@ -568,7 +568,7 @@ dlg_convert (GthBrowser *browser)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->conv_om_combobox),
 				  pref_get_convert_overwrite_mode ());
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->conv_remove_orig_checkbutton), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->conv_remove_orig_checkbutton),
 				      eel_gconf_get_boolean (PREF_CONVERT_REMOVE_ORIGINAL, FALSE));
 
 	/**/
@@ -579,33 +579,33 @@ dlg_convert (GthBrowser *browser)
 
 	/**/
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->rename_dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->rename_dialog),
 				      GTK_WINDOW (data->progress_dialog));
-	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
 				      GTK_WINDOW (window));
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
-	g_signal_connect (G_OBJECT (help_button), 
+	g_signal_connect (G_OBJECT (help_button),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
-	g_signal_connect (G_OBJECT (progress_cancel), 
+	g_signal_connect (G_OBJECT (progress_cancel),
 			  "clicked",
 			  G_CALLBACK (stop_convertion_cb),
 			  data);
@@ -617,13 +617,13 @@ dlg_convert (GthBrowser *browser)
 			  "delete_event",
 			  G_CALLBACK (rename_dlg_delete_event_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->rename_dialog), 
+	g_signal_connect (G_OBJECT (data->rename_dialog),
 			  "response",
 			  G_CALLBACK (rename_response_cb),
 			  data);
 
 	/* Run dialog. */
 
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

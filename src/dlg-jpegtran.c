@@ -189,7 +189,7 @@ load_current_image (DialogData *data)
 	gtk_widget_set_sensitive (data->j_revert_button, FALSE);
 
 	path = data->current_image->data;
-	image_loader_set_path (data->loader, path);
+	image_loader_set_path (data->loader, path, NULL);
 	image_loader_start (data->loader);
 
 	data->transform = GTH_TRANSFORM_NONE;

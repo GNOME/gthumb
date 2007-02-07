@@ -65,6 +65,7 @@ struct _ThumbLoaderPrivateData
 
 	char *uri;
 	char *e_uri;
+	const char *mime_type;
 
 	gboolean use_cache : 1;
 	gboolean from_cache : 1;
@@ -232,6 +233,7 @@ thumb_loader_get_type ()
 
 static GdkPixbufAnimation*
 thumb_loader (const char  *path,
+              const char  *mime_type,
 	      GError     **error,
 	      gpointer     data)
 {
@@ -247,7 +249,8 @@ thumb_loader (const char  *path,
 				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
 				       priv->cache_max_w,
 				       priv->cache_max_h,
-				       priv->thumb_factory);
+				       priv->thumb_factory,
+				       mime_type);
 	return animation;
 }
 
@@ -278,7 +281,7 @@ thumb_loader_new (const char *path,
 	priv->max_h = height;
 
 	if (path != NULL)
-		thumb_loader_set_path (tl, path);
+		thumb_loader_set_path (tl, path, NULL);
 	else {
 		priv->uri = NULL;
 		priv->e_uri = NULL;
@@ -342,7 +345,8 @@ thumb_loader_get_max_file_size (ThumbLoader      *tl)
 
 void
 thumb_loader_set_path (ThumbLoader *tl,
-		       const char  *path)
+		       const char  *path,
+		       const char  *mime_type)
 {
 	g_return_if_fail (tl != NULL);
 	g_return_if_fail (path != NULL);
@@ -352,13 +356,19 @@ thumb_loader_set_path (ThumbLoader *tl,
 
 	tl->priv->uri = get_uri_from_path (path);
 	tl->priv->e_uri = gnome_vfs_escape_host_and_path_string (tl->priv->uri);
-	image_loader_set_path (tl->priv->il, tl->priv->uri);
+
+	if (mime_type == NULL)
+		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	tl->priv->mime_type = mime_type;
+
+	image_loader_set_path (tl->priv->il, tl->priv->uri, tl->priv->mime_type);
 }
 
 
 void
 thumb_loader_set_uri (ThumbLoader       *tl,
-		      const GnomeVFSURI *vfs_uri)
+		      const GnomeVFSURI *vfs_uri,
+		      const char        *mime_type)
 {
 	ThumbLoaderPrivateData *priv;
 
@@ -369,11 +379,11 @@ thumb_loader_set_uri (ThumbLoader       *tl,
 	g_free (priv->uri);
 	g_free (priv->e_uri);
 
-
 	priv->e_uri = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_NONE);
 	priv->uri = gnome_vfs_unescape_string (priv->e_uri, NULL);
+	tl->priv->mime_type = mime_type;
 
-	image_loader_set_uri (priv->il, vfs_uri);
+	image_loader_set_uri (priv->il, vfs_uri, mime_type);
 }
 
 
@@ -447,12 +457,12 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 	if (cache_path != NULL) {
 		priv->from_cache = TRUE;
-		image_loader_set_path (priv->il, cache_path);
+		image_loader_set_path (priv->il, cache_path, "image/png");
 		g_free (cache_path);
 
 	} else {
 		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, priv->uri);
+		image_loader_set_path (priv->il, priv->uri, priv->mime_type);
 
 		/* Check file dimensions. */
 
@@ -673,7 +683,7 @@ thumb_loader_error_cb (ImageLoader *il,
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, priv->uri);
+	image_loader_set_path (priv->il, priv->uri, priv->mime_type);
 	image_loader_start (priv->il);
 }
 
