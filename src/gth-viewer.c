@@ -2088,6 +2088,9 @@ gth_viewer_exec_pixbuf_op (GthWindow   *window,
 	GthViewer            *viewer = (GthViewer*) window;
 	GthViewerPrivateData *priv = viewer->priv;
 
+	if (priv->pixop != NULL)
+		return;
+
 	priv->pixop = pixop;
 	g_object_ref (priv->pixop);
 	priv->pixop_preview = preview;

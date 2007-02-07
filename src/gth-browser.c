@@ -8324,6 +8324,9 @@ gth_browser_exec_pixbuf_op (GthWindow   *window,
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 
+	if (priv->pixop != NULL)
+		return;
+
 	priv->pixop = pixop;
 	g_object_ref (priv->pixop);
 	priv->pixop_preview = preview;

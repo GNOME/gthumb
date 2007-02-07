@@ -1,5 +1,14 @@
 2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-viewer.c (gth_viewer_exec_pixbuf_op):
+	* src/gth-browser.c (gth_browser_exec_pixbuf_op):
+
+	Ignore a new gth_pixbuf_op when there already one running.
+	Fixes bug #392632 – crash in gThumb Image Viewer: repeatedly
+	pressing Ctrl...  Patch by manuel
+
+2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-browser-ui.h:
 	* src/gth-viewer-ui.h:
 	* src/gth-viewer-actions-entries.h:
