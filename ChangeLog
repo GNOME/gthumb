@@ -1,5 +1,13 @@
 2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c (load_new_list):
+	* libgthumb/file-data.c (file_data_update):
+	* libgthumb/file-utils.c (get_file_mime_type):
+
+	Fixed compiler warnings.
+
+2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-viewer.c (gth_viewer_exec_pixbuf_op):
 	* src/gth-browser.c (gth_browser_exec_pixbuf_op):
 
@@ -68,7 +76,7 @@
 2007-02-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (obtain_local_file):
-	  Do not prune the cache every time the remote 
+	  Do not prune the cache every time the remote
 	  cache is added to - just at startup.
 
 2007-02-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -212,7 +220,7 @@
 	Simplified the local-copy-of-VFS-files creation routines.
 	Added initial framework to cache VFS files over longer term.
 	Removed gnome_gdk_pixbuf_new_from_uri (will be deprecated).
-	Known issue: "local_file" variables not always g_free'd 
+	Known issue: "local_file" variables not always g_free'd
 	properly. This will be fixed when caching is added.
 
 2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -313,7 +321,7 @@
 2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
-	Added missing config.h include to fix raw thumbnailing. Deleted 
+	Added missing config.h include to fix raw thumbnailing. Deleted
 	debugging printfs.
 
 2007-01-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -357,7 +365,7 @@
 2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_animation_new_from_uri):
-	Animated remote gifs work now, using gnome_vfs_xfer_uri. 
+	Animated remote gifs work now, using gnome_vfs_xfer_uri.
 
 2007-01-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -379,7 +387,7 @@
 
 	* data/gthumb.desktop.in:
 	Change "Exec=gthumb %F" to "Exec=gthumb %U" to allow launching
-	of VFS URIs from Nautilus. 
+	of VFS URIs from Nautilus.
 
 2007-01-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

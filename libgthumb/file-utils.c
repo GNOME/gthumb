@@ -615,17 +615,6 @@ get_extension (const char *path)
 }
 
 
-static char*
-get_sample_name (const char *filename)
-{
-	const char *ext;
-	ext = get_extension (filename);
-	if (ext == NULL)
-		return NULL;
-	return g_strconcat ("a", get_extension (filename), NULL);
-}
-
-
 /* File utils */
 
 
@@ -795,17 +784,35 @@ file_unlink (const gchar *path)
 }
 
 
+static char*
+get_sample_name (const char *filename)
+{
+	const char *ext;
+	ext = get_extension (filename);
+	if (ext == NULL)
+		return NULL;
+	return g_strconcat ("a", get_extension (filename), NULL);
+}
+
+
 const char*
-get_file_mime_type (const char *name,
+get_file_mime_type (const char *filename,
 		    gboolean    fast_file_type)
 {
 	const char *result = NULL;
 
-	if (name == NULL)
+	if (filename == NULL)
 		return NULL;
 
 	if (fast_file_type) {
-		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
+		char *sample_name;
+		char *n1;
+
+		sample_name = get_sample_name (filename);
+		if (sample_name == NULL)
+			return NULL;
+
+		n1 = g_filename_to_utf8 (sample_name, -1, 0, 0, 0);
 		if (n1 != NULL) {
 			char *n2 = g_utf8_strdown (n1, -1);
 			char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
@@ -815,8 +822,11 @@ get_file_mime_type (const char *name,
 			g_free (n2);
 			g_free (n1);
 		}
+
+		g_free (sample_name);
+
 	} else
-		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
+		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 
 	return result;
 }
@@ -1444,7 +1454,7 @@ remove_special_dirs_from_path (const char *uri)
 
 	scheme = get_uri_scheme (uri);
 
-	g_assert ((scheme != NULL) || g_path_is_absolute (uri)); 
+	g_assert ((scheme != NULL) || g_path_is_absolute (uri));
 
 	path = remove_scheme_from_uri (uri);
 
@@ -2016,7 +2026,7 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 
 
 void
-remove_temp_file_and_dir (char *tmp_file) 
+remove_temp_file_and_dir (char *tmp_file)
 {
 	char *tmp_dir;
 
@@ -2225,10 +2235,10 @@ prune_cache ()
 
 	/* Purge old files before transferring new ones. */
 	/* Old = ctime older than 2 days. */
-	command = g_strconcat (	"find ",  
-				g_get_home_dir (), 
-				"/", 
-				RC_REMOTE_CACHE_DIR, 
+	command = g_strconcat (	"find ",
+				g_get_home_dir (),
+				"/",
+				RC_REMOTE_CACHE_DIR,
 				" -mindepth 1 -type f -ctime +2 -print0 | xargs -0 rm -rf",
 				NULL );
 	system (command);
@@ -2236,7 +2246,7 @@ prune_cache ()
 }
 
 
-char* 
+char*
 obtain_local_file (const char *remote_filename)
 {
 	GnomeVFSResult    result;
@@ -2268,7 +2278,7 @@ obtain_local_file (const char *remote_filename)
 
 	source_uri = gnome_vfs_uri_new (remote_filename);
 	target_uri = gnome_vfs_uri_new (cache_file);
-	
+
 	if ( gnome_vfs_uri_exists (target_uri) &&
 	     (get_file_mtime (cache_file) == get_file_mtime (remote_filename)) ) {
 		/* use existing cache file */
@@ -2338,7 +2348,7 @@ gth_pixbuf_new_from_video (const char *path, GnomeThumbnailFactory *factory, GEr
                                                                    mtime);
 
 	if (existing_video_thumbnail != NULL) {
-		pixbuf = gdk_pixbuf_new_from_file (existing_video_thumbnail, 
+		pixbuf = gdk_pixbuf_new_from_file (existing_video_thumbnail,
 						   error);
                 g_free (existing_video_thumbnail);
         } else {
@@ -2359,13 +2369,13 @@ gth_pixbuf_new_from_video (const char *path, GnomeThumbnailFactory *factory, GEr
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char *filename, GError **error)
 {
-	GdkPixbuf   *pixbuf = NULL;        
+	GdkPixbuf   *pixbuf = NULL;
 	char        *local_file = NULL;
 
         if (filename == NULL)
                 return NULL;
 
-        /* gdk_pixbuf does not support VFS URIs directly, so 
+        /* gdk_pixbuf does not support VFS URIs directly, so
 	   make a local cache copy of remote files. */
         local_file = obtain_local_file (filename);
 
@@ -2381,8 +2391,8 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 
 
 GdkPixbufAnimation*
-gth_pixbuf_animation_new_from_uri (const char 	         *filename, 
-				   GError               **error, 
+gth_pixbuf_animation_new_from_uri (const char 	         *filename,
+				   GError               **error,
 				   gboolean               fast_file_type,
 				   gint		          requested_width_if_used,
 				   gint		          requested_height_if_used,
@@ -2398,7 +2408,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 
 
         /* The video thumbnailer can handle VFS URIs directly */
-        if (mime_type_is_video (mime_type) && factory != NULL) {		
+        if (mime_type_is_video (mime_type) && factory != NULL) {
 		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
 		if (pixbuf == NULL) return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
@@ -2406,15 +2416,15 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		return animation;
 	}
 
-        /* gdk_pixbuf and libopenraw do not support VFS URIs directly, 
-	   so make a local cache copy of remote files. */	
+        /* gdk_pixbuf and libopenraw do not support VFS URIs directly,
+	   so make a local cache copy of remote files. */
         local_file = obtain_local_file (filename);
 
         if (local_file == NULL)
                 return NULL;
 
 	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
-	   actually 3 times slower than copying it to a local cache. 
+	   actually 3 times slower than copying it to a local cache.
 	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
 
 	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
@@ -2429,7 +2439,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		g_free (local_file);
                 return animation;
         }
-	
+
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if ( mime_type_is (mime_type, "image/gif")) {
@@ -2437,16 +2447,16 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		g_free (local_file);
 		return animation;
 	}
-	
+
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
 	if (mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
-	/* All other file types, or if previous methods fail: read in a 
+	/* All other file types, or if previous methods fail: read in a
 	   non-animated pixbuf, and convert to a single-frame animation. */
-	if (pixbuf == NULL) 
+	if (pixbuf == NULL)
 	        pixbuf = gth_pixbuf_new_from_uri (local_file, error);
 
         if (pixbuf != NULL) {
@@ -2455,7 +2465,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		}
 
 	g_free (local_file);
-                
+
 	/* return the animation */
 	return animation;
 }

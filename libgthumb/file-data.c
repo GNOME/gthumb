@@ -106,7 +106,6 @@ file_data_update (FileData *fd)
 	fd->error = FALSE;
 	fd->thumb = FALSE;
 
-	g_free (fd->mime_type);
 	fd->mime_type = NULL;
 
 	escaped = escape_uri (fd->path);

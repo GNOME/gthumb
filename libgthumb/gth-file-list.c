@@ -1033,7 +1033,7 @@ load_new_list (GthFileList *file_list)
 			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
 			g_hash_table_insert (gfi_data->mime_types,
 					     full_path,
-					     mime_type);
+					     (gpointer) mime_type);
 		}
 	}
 
