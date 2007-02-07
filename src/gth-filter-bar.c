@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -61,6 +62,7 @@ struct _GthFilterBarPrivate
 	GtkWidget    *category_op_combo_box;
 	GtkWidget    *date_op_combo_box;
 	GtkWidget    *int_op_combo_box;
+	GtkWidget    *size_combo_box;
 	GtkWidget    *scope_combo_box;
 	GtkWidget    *choose_categories_button;
 	GtkTooltips  *tooltips;
@@ -92,11 +94,11 @@ gth_filter_bar_finalize (GObject *object)
 static void
 gth_filter_bar_class_init (GthFilterBarClass *class)
 {
-	GObjectClass *object_class;
+	GObjectClass   *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
 
+	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_filter_bar_finalize;
 
 	gth_filter_bar_signals[CHANGED] =
@@ -190,6 +192,12 @@ GthOpData date_op_data[] = { { N_("is equal to"), GTH_TEST_OP_EQUAL, FALSE },
 GthOpData category_op_data[] = { { N_("is"), GTH_TEST_OP_CONTAINS, FALSE },
 		         { N_("is not"), GTH_TEST_OP_CONTAINS, TRUE } };
 
+static struct {
+	char  *name;
+	gsize  size;
+} size_data[] = { { N_("KB"), 1024 },
+		  { N_("MB"), 1024*1024 } };
+
 
 static struct {
 	char         *name;
@@ -240,10 +248,13 @@ scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 	else
 		gtk_widget_hide (filter_bar->priv->date_op_combo_box);
 
-	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_SIZE))
+	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_SIZE)) {
 		gtk_widget_show (filter_bar->priv->int_op_combo_box);
-	else
+		gtk_widget_show (filter_bar->priv->size_combo_box);
+	} else {
 		gtk_widget_hide (filter_bar->priv->int_op_combo_box);
+		gtk_widget_hide (filter_bar->priv->size_combo_box);
+	}
 
 	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_KEYWORDS))
 		gtk_widget_show (filter_bar->priv->category_op_combo_box);
@@ -404,6 +415,14 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 					      filter_bar,
 					      NULL);
 
+	/* size combo box */
+
+	filter_bar->priv->size_combo_box = gtk_combo_box_new_text ();
+	for (i = 0; i < G_N_ELEMENTS (size_data); i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->size_combo_box),
+					   _(size_data[i].name));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->size_combo_box), 0);
+
 	/* icon renderer */
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
@@ -497,6 +516,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->category_op_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->text_entry, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->choose_categories_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->size_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (filter_bar), button, FALSE, FALSE, 0);
 }
 
@@ -550,6 +570,8 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 	const char *text;
 	GthFilter  *filter;
 	GthOpData   op_data;
+	GthTest    *test = NULL;
+	gsize       size;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (filter_bar->priv->scope_combo_box), &iter))
 		return NULL;
@@ -583,12 +605,15 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 		case GTH_TEST_SCOPE_PLACE:
 		case GTH_TEST_SCOPE_ALL:
 			op_data = text_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->text_op_combo_box))];
+			test = gth_test_new_with_string (scope_type, op_data.op, op_data.negative, text);
 			break;
 		case GTH_TEST_SCOPE_DATE:
 			op_data = date_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->date_op_combo_box))];
 			break;
 		case GTH_TEST_SCOPE_SIZE:
 			op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->int_op_combo_box))];
+			size = atoi(text) * size_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->size_combo_box))].size;
+			test = gth_test_new_with_int (scope_type, op_data.op, op_data.negative, size);
 			break;
 		case GTH_TEST_SCOPE_KEYWORDS:
 			op_data = category_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->category_op_combo_box))];
@@ -596,10 +621,12 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 				op_data.op = GTH_TEST_OP_CONTAINS_ALL;
 			else
 				op_data.op = GTH_TEST_OP_CONTAINS;
+			test = gth_test_new_with_string (scope_type, op_data.op, op_data.negative, text);
 			break;
 		}
 
-		gth_filter_add_test (filter, gth_test_new_with_string (scope_type, op_data.op, op_data.negative, text));
+		if (test != NULL)
+			gth_filter_add_test (filter, test);
 		break;
 
 	default:

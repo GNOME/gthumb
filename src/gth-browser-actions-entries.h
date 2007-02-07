@@ -424,9 +424,9 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  N_("View the image"),
 	  G_CALLBACK (gth_browser_activate_action_view_show_preview),
 	  TRUE },
-	{ "View_ShowInfo", NULL,
-	  N_("Image _Comment"), NULL,
-	  N_("View image comment"),
+	{ "View_ShowMetadata", GTK_STOCK_PROPERTIES,
+	  NULL, NULL,
+	  N_("View image properties"),
 	  G_CALLBACK (gth_browser_activate_action_view_show_info),
 	  TRUE },
 

@@ -78,12 +78,14 @@ void           thumb_loader_set_max_file_size  (ThumbLoader      *tl,
 GnomeVFSFileSize thumb_loader_get_max_file_size  (ThumbLoader      *tl);
 
 void           thumb_loader_set_path           (ThumbLoader *tl,
-						const gchar *path);
+						const char  *path,
+						const char  *mime_type);
 
 char *         thumb_loader_get_path           (ThumbLoader *tl);
 
 void           thumb_loader_set_uri            (ThumbLoader *tl,
-						const GnomeVFSURI *uri);
+						const GnomeVFSURI *uri,
+						const char  *mime_type);
 
 GnomeVFSURI *  thumb_loader_get_uri            (ThumbLoader *tl);
 

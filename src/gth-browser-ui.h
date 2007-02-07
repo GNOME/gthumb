@@ -79,7 +79,7 @@ static const gchar *main_ui_info =
 "    <menu name='View' action='ViewMenu'>"
 "      <menu name='ShowHide' action='ViewShowHideMenu'>"
 "        <menuitem action='View_ShowPreview'/>"
-"        <menuitem action='View_ShowInfo'/>"
+"        <menuitem action='View_ShowMetadata'/>"
 "        <separator/>"
 "        <menuitem action='View_Toolbar'/>"
 "        <menuitem action='View_Statusbar'/>"
@@ -407,6 +407,8 @@ static const gchar *viewer_ui_info =
 "      <toolitem action='View_Zoom100'/>"
 "      <toolitem action='View_ZoomFit'/>"
 "      <toolitem action='View_ZoomWidth'/>"
+"      <separator/>"
+"      <toolitem action='View_ShowMetadata'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";

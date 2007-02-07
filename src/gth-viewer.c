@@ -51,7 +51,6 @@
 #include "gth-exif-data-viewer.h"
 #include "gth-exif-utils.h"
 #include "gth-fullscreen.h"
-#include "gthumb-info-bar.h"
 #include "gtk-utils.h"
 #include "main.h"
 #include "gth-nav-window.h"
@@ -69,9 +68,8 @@
 #define DEFAULT_COMMENT_PANE_SIZE 100
 #define DISPLAY_PROGRESS_DELAY 750
 #define PANE_MIN_SIZE 60
-#define GCONF_NOTIFICATIONS 3
+#define GCONF_NOTIFICATIONS 5
 #define OPEN_TOOLITEM_POS 0
-#define ROTATE_TOOLITEM_POS 10
 
 
 GthViewer *SingleViewer = NULL;
@@ -94,7 +92,6 @@ struct _GthViewerPrivateData {
 	GtkWidget       *toolbar;
 	GtkWidget       *statusbar;
 	GtkWidget       *image_popup_menu;
-	GtkWidget       *info_bar;
 	GtkWidget       *viewer;
 	GtkWidget       *image_data_hpaned;
 	GtkWidget       *image_comment;
@@ -369,6 +366,42 @@ gth_viewer_set_toolbar_visibility (GthViewer *viewer,
 		gtk_widget_show (viewer->priv->toolbar->parent);
 	else
 		gtk_widget_hide (viewer->priv->toolbar->parent);
+}
+
+
+static void
+gth_viewer_notify_update_toolbar_style (GthViewer *viewer)
+{
+	GthToolbarStyle toolbar_style;
+	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
+
+	toolbar_style = pref_get_real_toolbar_style ();
+
+	switch (toolbar_style) {
+	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
+		prop = GTK_TOOLBAR_BOTH; break;
+	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
+		prop = GTK_TOOLBAR_BOTH_HORIZ; break;
+	case GTH_TOOLBAR_STYLE_ICONS:
+		prop = GTK_TOOLBAR_ICONS; break;
+	case GTH_TOOLBAR_STYLE_TEXT:
+		prop = GTK_TOOLBAR_TEXT; break;
+	default:
+		break;
+	}
+
+	gtk_toolbar_set_style (GTK_TOOLBAR (viewer->priv->toolbar), prop);
+}
+
+
+static void
+pref_ui_toolbar_style_changed (GConfClient *client,
+			       guint        cnxn_id,
+			       GConfEntry  *entry,
+			       gpointer     user_data)
+{
+	GthViewer *viewer = user_data;
+	gth_viewer_notify_update_toolbar_style (viewer);
 }
 
 
@@ -707,38 +740,6 @@ viewer_update_image_info (GthViewer *viewer)
 
 
 static void
-viewer_update_infobar (GthViewer *viewer)
-{
-	GthViewerPrivateData *priv = viewer->priv;
-	char                 *text;
-	char                 *escaped_name;
-	char                 *utf8_name;
-	/*int                   images, current;*/
-
-	if (priv->image_path == NULL) {
-		gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar),
-					  NULL, NULL);
-		return;
-	}
-
-	utf8_name = g_filename_display_basename (priv->image_path);
-	escaped_name = g_markup_escape_text (utf8_name, -1);
-
-	text = g_strdup_printf ("<b>%s</b> %s",
-				escaped_name,
-				priv->image_modified ? _("[modified]") : "");
-
-	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar),
-				  text,
-				  NULL);
-
-	g_free (utf8_name);
-	g_free (escaped_name);
-	g_free (text);
-}
-
-
-static void
 viewer_update_title (GthViewer *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
@@ -920,12 +921,11 @@ save_pixbuf__image_saved_cb (const char *filename,
 	if (! same_uri (priv->image_path, filename)) {
 		/*FIXME: gtk_widget_show (gth_viewer_new (filename));*/
 		gth_viewer_load (viewer, filename);
-
-	} else {
+	}
+	else {
 		viewer_update_statusbar_image_info (viewer);
 		viewer_update_image_info (viewer);
 		viewer_update_title (viewer);
-		viewer_update_infobar (viewer);
 		viewer_update_sensitivity (viewer);
 	}
 }
@@ -1002,16 +1002,6 @@ ask_whether_to_save (GthViewer      *viewer,
 }
 
 
-static gboolean
-info_bar_clicked_cb (GtkWidget      *widget,
-		     GdkEventButton *event,
-		     GthViewer      *viewer)
-{
-	gtk_widget_grab_focus (viewer->priv->viewer);
-	return TRUE;
-}
-
-
 static void
 real_set_void (const char *filename,
 	       gpointer    data)
@@ -1031,7 +1021,6 @@ real_set_void (const char *filename,
 	viewer_update_statusbar_image_info (viewer);
  	viewer_update_image_info (viewer);
 	viewer_update_title (viewer);
-	viewer_update_infobar (viewer);
 	viewer_update_open_with_menu (viewer);
 	viewer_update_sensitivity (viewer);
 }
@@ -1066,7 +1055,6 @@ image_loaded_cb (GtkWidget  *widget,
 	priv->image_modified = FALSE;
 
 	viewer_update_image_info (viewer);
-	viewer_update_infobar (viewer);
 	viewer_update_title (viewer);
 	viewer_update_open_with_menu (viewer);
 	viewer_update_sensitivity (viewer);
@@ -1232,21 +1220,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 }
 
 
-static gboolean
-image_focus_changed_cb (GtkWidget     *widget,
-			GdkEventFocus *event,
-			gpointer       data)
-{
-	GthViewer            *viewer = data;
-	GthViewerPrivateData *priv = viewer->priv;
-
-	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (priv->info_bar),
-				     GTK_WIDGET_HAS_FOCUS (priv->viewer));
-
-	return FALSE;
-}
-
-
 static int
 image_comment_button_press_cb (GtkWidget      *widget,
 			       GdkEventButton *event,
@@ -1288,7 +1261,7 @@ comment_button_toggled_cb (GtkToggleButton *button,
 {
 	gboolean visible = gtk_toggle_button_get_active (button);
 
-	set_action_active (viewer, "View_ShowInfo", visible);
+	set_action_active (viewer, "View_ShowMetadata", visible);
 	viewer->priv->image_data_visible = visible;
 	if (visible)
 		gtk_widget_show (viewer->priv->image_data_hpaned);
@@ -1423,9 +1396,27 @@ monitor_update_icon_theme_cb (GthMonitor *monitor,
 
 
 static void
+set_action_important (GthViewer  *viewer,
+		      char       *action_name,
+		      gboolean    is_important)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (viewer->priv->actions, action_name);
+	if (action != NULL)
+		g_object_set (action, "is_important", is_important, NULL);
+}
+
+
+static void
 sync_menu_with_preferences (GthViewer *viewer)
 {
 	char *prop;
+
+	set_action_important (viewer, "Image_OpenWith", TRUE);
+	set_action_important (viewer, "File_Save", TRUE);
+	set_action_important (viewer, "View_Fullscreen", TRUE);
+	set_action_important (viewer, "View_ShowMetadata", TRUE);
 
 	set_action_active (viewer, "View_PlayAnimation", TRUE);
 
@@ -1440,7 +1431,7 @@ sync_menu_with_preferences (GthViewer *viewer)
 	}
 	set_action_active (viewer, prop, TRUE);
 
-	set_action_active (viewer, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
+	set_action_active (viewer, "View_ShowMetadata", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 	set_action_active (viewer, "View_SingleWindow", eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE));
 }
 
@@ -1480,52 +1471,12 @@ add_open_with_toolbar_item (GthViewer *viewer)
 
 
 static void
-add_rotate_toolbar_item (GthViewer *viewer)
-{
-	GthViewerPrivateData *priv = viewer->priv;
-	GtkToolItem *sep;
-
-	gtk_ui_manager_ensure_update (priv->ui);
-
-	sep = gtk_separator_tool_item_new ();
-	gtk_widget_show (GTK_WIDGET (sep));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
-			    sep,
-			    ROTATE_TOOLITEM_POS);
-
-	if (priv->rotate_tool_item != NULL) {
-		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
-				    priv->rotate_tool_item,
-				    ROTATE_TOOLITEM_POS + 1);
-		return;
-	}
-
-	priv->rotate_tool_item = gtk_menu_tool_button_new_from_stock (GTHUMB_STOCK_TRANSFORM);
-	g_object_ref (priv->rotate_tool_item);
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item),
-				       gtk_ui_manager_get_widget (priv->ui, "/RotateImageMenu"));
-	gtk_tool_item_set_homogeneous (priv->rotate_tool_item, FALSE);
-	gtk_tool_item_set_tooltip (priv->rotate_tool_item, priv->tooltips, _("Rotate images without loss of quality"), NULL);
-	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), priv->tooltips,	_("Rotate images without loss of quality"), NULL);
-	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
-				  GTK_WIDGET (priv->rotate_tool_item));
-
-	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
-			    priv->rotate_tool_item,
-			    ROTATE_TOOLITEM_POS + 1);
-}
-
-
-static void
 gth_viewer_construct (GthViewer   *viewer,
 		      const gchar *filename)
 {
 	GthViewerPrivateData *priv = viewer->priv;
 	GtkWidget            *menubar, *toolbar;
 	GtkWidget            *image_vbox;
-	GtkWidget            *info_frame;
-	GtkWidget            *info_hbox;
 	GtkWidget            *button;
 	GtkWidget            *image;
 	GtkWidget            *image_vpaned;
@@ -1601,7 +1552,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	priv->image_popup_menu = gtk_ui_manager_get_widget (ui, "/ImagePopupMenu");
 
 	add_open_with_toolbar_item (viewer);
-	add_rotate_toolbar_item (viewer);
 
 	/* Create the statusbar. */
 
@@ -1633,15 +1583,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_container_add (GTK_CONTAINER (priv->image_info_frame), priv->image_info);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->image_info_frame, FALSE, FALSE, 0);
 
-	/* Info bar. */
-
-	priv->info_bar = gthumb_info_bar_new ();
-	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (priv->info_bar), FALSE);
-	g_signal_connect (G_OBJECT (priv->info_bar),
-			  "button_press_event",
-			  G_CALLBACK (info_bar_clicked_cb),
-			  viewer);
-
 	/* Image viewer. */
 
 	priv->viewer = image_viewer_new ();
@@ -1664,14 +1605,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "zoom_changed",
 			  G_CALLBACK (zoom_changed_cb),
-			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer),
-			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb),
-			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer),
-			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb),
 			  viewer);
 
 	g_signal_connect (G_OBJECT (priv->viewer),
@@ -1711,14 +1644,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->image_comment), FALSE);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->image_comment), GTK_WRAP_WORD);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (priv->image_comment), TRUE);
-	g_signal_connect (G_OBJECT (priv->image_comment),
-			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb),
-			  viewer);
-	g_signal_connect (G_OBJECT (priv->image_comment),
-			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb),
-			  viewer);
+
 	g_signal_connect (G_OBJECT (priv->image_comment),
 			  "button_press_event",
 			  G_CALLBACK (image_comment_button_press_cb),
@@ -1727,14 +1653,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	/* Exif data viewer */
 
 	priv->exif_data_viewer = gth_exif_data_viewer_new (TRUE);
-	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))),
-			  "focus_in_event",
-			  G_CALLBACK (image_focus_changed_cb),
-			  viewer);
-	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer))),
-			  "focus_out_event",
-			  G_CALLBACK (image_focus_changed_cb),
-			  viewer);
 
 	/* Comment button */
 
@@ -1756,14 +1674,6 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	   image_vbox
              |
-             +- info_frame
-             |   |
-	     |	 +- info_hbox
-             |       |
-             |       +- priv->info_bar
-	     |       |
-             |       +- button
-             |
              +- image_vpaned
                   |
                   +- nav_window
@@ -1781,17 +1691,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	*/
 
 	image_vbox = gtk_vbox_new (FALSE, 0);
-
-	/* * info_frame */
-
-	info_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
-
-	info_hbox = gtk_hbox_new (FALSE, 0);
-
-	gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (info_hbox), priv->info_bar, TRUE, TRUE, 0);
-	gtk_container_add (GTK_CONTAINER (info_frame), info_hbox);
 
 	/* * image_vpaned */
 
@@ -1816,7 +1715,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_paned_pack1 (GTK_PANED (image_vpaned), nav_window, FALSE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (image_vpaned), priv->image_data_hpaned, TRUE, FALSE);
 
-	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_vpaned, TRUE, TRUE, 0);
         gtk_widget_show_all (image_vbox);
 	gtk_widget_hide (priv->image_data_hpaned); /* FIXME */
@@ -1848,6 +1746,14 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	i = 0;
 
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_TOOLBAR_STYLE,
+					   pref_ui_toolbar_style_changed,
+					   viewer);
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   "/desktop/gnome/interface/toolbar_style",
+					   pref_ui_toolbar_style_changed,
+					   viewer);
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_TOOLBAR_VISIBLE,
 					   pref_ui_toolbar_visible_changed,
@@ -1891,6 +1797,7 @@ gth_viewer_construct (GthViewer   *viewer,
 				  viewer);
 	}
 
+	gth_viewer_notify_update_toolbar_style (viewer);
 	sync_menu_with_preferences (viewer);
 
 	/**/
@@ -2078,7 +1985,6 @@ gth_viewer_set_image_modified (GthWindow *window,
 	GthViewerPrivateData *priv = viewer->priv;
 
 	priv->image_modified = value;
-	viewer_update_infobar (viewer);
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_title (viewer);
 

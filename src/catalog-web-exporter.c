@@ -2070,7 +2070,7 @@ load_next_file (CatalogWebExporter *ce)
 
 	} else {
 		char *filename = IMAGE_DATA (ce->file_to_load->data)->src_filename;
-		image_loader_set_path (ce->iloader, filename);
+		image_loader_set_path (ce->iloader, filename, NULL);
 		image_loader_start (ce->iloader);
 	}
 }
@@ -2604,7 +2604,8 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 
 	ce->file_to_load = ce->file_list;
 	image_loader_set_path (ce->iloader,
-			       IMAGE_DATA (ce->file_to_load->data)->src_filename);
+			       IMAGE_DATA (ce->file_to_load->data)->src_filename,
+			       NULL);
 	image_loader_start (ce->iloader);
 }
 

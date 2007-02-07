@@ -160,7 +160,7 @@ preloader_set_path (PreLoader  *ploader,
 	if (path != NULL) {
 		ploader->path = g_strdup (path);
 		ploader->mtime = get_file_mtime (path);
-		image_loader_set_path (ploader->loader, path);
+		image_loader_set_path (ploader->loader, path, NULL);
 	} else {
 		ploader->path = NULL;
 		ploader->mtime = 0;

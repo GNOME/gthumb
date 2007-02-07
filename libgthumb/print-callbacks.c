@@ -1922,7 +1922,7 @@ load_current_image (PrintCatalogDialogData *data)
 	progress_dialog_set_info (data->pd, msg);
 	g_free (msg);
 
-	image_loader_set_path (data->loader, filename);
+	image_loader_set_path (data->loader, filename, NULL);
 
 	image_loader_start (data->loader);
 }

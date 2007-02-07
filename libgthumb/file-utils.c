@@ -642,47 +642,26 @@ get_mime_type_from_ext (const char *ext)
 
 
 gboolean
+can_load_mime_type (const char *mime_type)
+{
+	/* If the description contains the word 'image' than we suppose
+	 * it is an image that gdk-pixbuf can load. */
+
+	return strstr (mime_type, "image") != NULL;
+}
+
+
+gboolean
 file_is_image (const gchar *name,
 	       gboolean     fast_file_type)
 {
-	const char *result = NULL;
-	gboolean    is_an_image;
+	const char *mime_type = NULL;
 
-	if (fast_file_type) {
-		char *filename, *n1;
-
-		filename = get_sample_name (name);
-		if (filename == NULL)
-			return FALSE;
-
-		n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
-		if (n1 != NULL) {
-			char *n2, *n3;
-			n2 = g_utf8_strdown (n1, -1);
-			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-
-			if (n3 != NULL)
-				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-
-			g_free (n3);
-			g_free (n2);
-			g_free (n1);
-		}
-	} else {
-		if (uri_scheme_is_file (name))
-			name = get_file_path_from_uri (name);
-		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
-	}
-
-	/* Unknown file type. */
-	if (result == NULL)
+	mime_type = get_file_mime_type (name, fast_file_type);
+	if (mime_type == NULL)
 		return FALSE;
 
-	/* If the description contains the word 'image' than we suppose
-	 * it is an image that gdk-pixbuf can load. */
-	is_an_image = strstr (result, "image") != NULL;
-
-	return is_an_image;
+	return can_load_mime_type (mime_type);
 }
 
 
@@ -783,6 +762,9 @@ get_file_mime_type (const char *name,
 {
 	const char *result = NULL;
 
+	if (name == NULL)
+		return NULL;
+
 	if (fast_file_type) {
 		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
 		if (n1 != NULL) {
@@ -801,10 +783,18 @@ get_file_mime_type (const char *name,
 }
 
 
-static gboolean
-image_is_type__common (const char *name,
-		       const char *type,
-		       gboolean    fast_file_type)
+gboolean
+mime_type_is (const char *mime_type,
+	      const char *value)
+{
+	return (strcmp_null_tollerant (mime_type, value) == 0);
+}
+
+
+gboolean
+image_is_type (const char *name,
+	       const char *type,
+	       gboolean    fast_file_type)
 {
 	const char *result = get_file_mime_type (name, fast_file_type);
 	return (strcmp_null_tollerant (result, type) == 0);
@@ -812,31 +802,24 @@ image_is_type__common (const char *name,
 
 
 static gboolean
-image_is_type (const char *name,
-	       const char *type)
+image_is_type__gconf_file_type (const char *name,
+	                       const char *type)
 {
-	return image_is_type__common (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	return image_is_type (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 }
 
 
 gboolean
 image_is_jpeg (const char *name)
 {
-	return image_is_type (name, "image/jpeg");
+	return image_is_type__gconf_file_type (name, "image/jpeg");
 }
 
 
 gboolean
 image_is_gif (const char *name)
 {
-	return image_is_type (name, "image/gif");
-}
-
-
-gboolean
-image_is_gif__accurate (const char *name)
-{
-	return image_is_type__common (name, "image/gif", FALSE);
+	return image_is_type__gconf_file_type (name, "image/gif");
 }
 
 

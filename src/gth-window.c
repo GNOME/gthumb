@@ -448,33 +448,33 @@ gth_window_attach (GthWindow     *window,
 		   GtkWidget     *child,
 		   GthWindowArea  area)
 {
-	gint position;
+	int position;
+
 	g_return_if_fail (window != NULL);
 	g_return_if_fail (GTH_IS_WINDOW (window));
 	g_return_if_fail (child != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
-	switch(area)
-	{
-		case GTH_WINDOW_MENUBAR:
-			position = 0;
-			break;
-		case GTH_WINDOW_TOOLBAR:
-			position = 1;
-			break;
-		case GTH_WINDOW_CONTENTS:
-			position = 2;
-			if(window->priv->contents != NULL)
-				gtk_widget_destroy (window->priv->contents);
-			window->priv->contents = child;
-			break;
-		case GTH_WINDOW_STATUSBAR:
-			position = 3;
-			break;
-		default:
-			g_critical("%s: area not recognized!", G_STRFUNC);
-			return;
-			break;
+	switch (area) {
+	case GTH_WINDOW_MENUBAR:
+		position = 0;
+		break;
+	case GTH_WINDOW_TOOLBAR:
+		position = 1;
+		break;
+	case GTH_WINDOW_CONTENTS:
+		position = 2;
+		if (window->priv->contents != NULL)
+			gtk_widget_destroy (window->priv->contents);
+		window->priv->contents = child;
+		break;
+	case GTH_WINDOW_STATUSBAR:
+		position = 3;
+		break;
+	default:
+		g_critical("%s: area not recognized!", G_STRFUNC);
+		return;
+		break;
 	}
 
 	gtk_table_attach (GTK_TABLE (window->priv->table),

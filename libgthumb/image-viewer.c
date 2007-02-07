@@ -1769,7 +1769,7 @@ typedef struct {
 void
 load_image__step2 (LoadImageData *lidata)
 {
-	image_loader_set_path (lidata->viewer->loader, lidata->path);
+	image_loader_set_path (lidata->viewer->loader, lidata->path, NULL);
 	image_loader_start (lidata->viewer->loader);
 
 	g_free (lidata->path);

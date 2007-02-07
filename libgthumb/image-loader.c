@@ -37,8 +37,10 @@
 #include "gthumb-marshal.h"
 #include "file-utils.h"
 #include "glib-utils.h"
+#include "gconf-utils.h"
 #include "gth-exif-utils.h"
 #include "pixbuf-utils.h"
+#include "preferences.h"
 
 
 #define REFRESH_RATE 5
@@ -53,6 +55,7 @@ struct _ImageLoaderPrivateData {
 					     * GdkPixbufAnimation structure. */
 
 	GnomeVFSURI          *uri;
+	const char           *mime_type;
 
 	GnomeVFSAsyncHandle  *info_handle;
 
@@ -329,7 +332,7 @@ image_loader_new (const gchar *path,
 	priv = (ImageLoaderPrivateData*) il->priv;
 
 	priv->as_animation = as_animation;
-	image_loader_set_path (il, path);
+	image_loader_set_path (il, path, NULL);
 
 	return G_OBJECT (il);
 }
@@ -351,7 +354,8 @@ image_loader_set_loader (ImageLoader *il,
 
 void
 image_loader_set_path (ImageLoader *il,
-		       const char  *path)
+		       const char  *path,
+		       const char  *mime_type)
 {
 	ImageLoaderPrivateData *priv;
 
@@ -360,6 +364,10 @@ image_loader_set_path (ImageLoader *il,
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
+
+	if (mime_type == NULL)
+		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	priv->mime_type = mime_type;
 
 	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
@@ -374,7 +382,8 @@ image_loader_set_path (ImageLoader *il,
 
 void
 image_loader_set_uri (ImageLoader       *il,
-		      const GnomeVFSURI *uri)
+		      const GnomeVFSURI *uri,
+		      const char        *mime_type)
 {
 	ImageLoaderPrivateData *priv;
 
@@ -383,6 +392,8 @@ image_loader_set_uri (ImageLoader       *il,
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
+
+	priv->mime_type = mime_type;
 
 	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
@@ -602,17 +613,16 @@ load_image_thread (void *thread_data)
 		animation = NULL;
 		if (path != NULL) {
 			if (priv->loader != NULL)
-				animation = (*priv->loader) (path, &error, priv->loader_data);
+				animation = (*priv->loader) (path, priv->mime_type, &error, priv->loader_data);
+			else if (mime_type_is (priv->mime_type, "image/gif"))
+				animation = gdk_pixbuf_animation_new_from_file (path, &error);
 			else {
-				if (image_is_gif__accurate (path))
-					animation = gdk_pixbuf_animation_new_from_file (path, &error);
-				else {
-					GdkPixbuf *pixbuf;
-					pixbuf = gdk_pixbuf_new_from_file (path, &error);
-					if (pixbuf != NULL) {
-						animation = gdk_pixbuf_non_anim_new (pixbuf);
-						g_object_unref (pixbuf);
-					}
+				GdkPixbuf *pixbuf;
+
+				pixbuf = gdk_pixbuf_new_from_file (path, &error);
+				if (pixbuf != NULL) {
+					animation = gdk_pixbuf_non_anim_new (pixbuf);
+					g_object_unref (pixbuf);
 				}
 			}
 		}

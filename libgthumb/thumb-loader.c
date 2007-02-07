@@ -64,6 +64,7 @@ struct _ThumbLoaderPrivateData
 
 	char *uri;
 	char *e_uri;
+	const char *mime_type;
 
 	gboolean use_cache : 1;
 	gboolean from_cache : 1;
@@ -231,44 +232,37 @@ thumb_loader_get_type ()
 
 static GdkPixbufAnimation*
 thumb_loader (const char  *path,
+              const char  *mime_type,
 	      GError     **error,
 	      gpointer     data)
 {
 	GdkPixbufAnimation *animation = NULL;
 
-	if (image_is_jpeg (path)) {
+        if (mime_type == NULL)
+        	return NULL; /*mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));*/
+
+	if (mime_type_is (mime_type, "image/jpeg")) {
 		ThumbLoader *tl = data;
-		ThumbLoaderPrivateData *priv = tl->priv;
-		GdkPixbuf *pixbuf;
+		GdkPixbuf   *pixbuf;
 
 		pixbuf = f_load_scaled_jpeg (path,
-					     priv->cache_max_w,
-					     priv->cache_max_h,
+					     tl->priv->cache_max_w,
+					     tl->priv->cache_max_h,
 					     NULL, NULL);
-
 		if (pixbuf != NULL) {
 			animation = gdk_pixbuf_non_anim_new (pixbuf);
 			g_object_unref (pixbuf);
-
-			if (animation == NULL)
-				debug (DEBUG_INFO, "ANIMATION == NULL\n");
-
-		} else
-			debug (DEBUG_INFO, "PIXBUF == NULL\n");
-
-	} else
-		{
-			if (image_is_gif (path))
-				animation = gdk_pixbuf_animation_new_from_file (path, error);
-			else {
-				GdkPixbuf *pixbuf;
-				pixbuf = gdk_pixbuf_new_from_file (path, error);
-				if (pixbuf != NULL) {
-					animation = gdk_pixbuf_non_anim_new (pixbuf);
-					g_object_unref (pixbuf);
-				}
-			}
 		}
+	}
+	else {
+		GdkPixbuf *pixbuf;
+
+		pixbuf = gdk_pixbuf_new_from_file (path, error);
+		if (pixbuf != NULL) {
+			animation = gdk_pixbuf_non_anim_new (pixbuf);
+			g_object_unref (pixbuf);
+		}
+	}
 
 	return animation;
 }
@@ -300,7 +294,7 @@ thumb_loader_new (const char *path,
 	priv->max_h = height;
 
 	if (path != NULL)
-		thumb_loader_set_path (tl, path);
+		thumb_loader_set_path (tl, path, NULL);
 	else {
 		priv->uri = NULL;
 		priv->e_uri = NULL;
@@ -364,7 +358,8 @@ thumb_loader_get_max_file_size (ThumbLoader      *tl)
 
 void
 thumb_loader_set_path (ThumbLoader *tl,
-		       const char  *path)
+		       const char  *path,
+		       const char  *mime_type)
 {
 	g_return_if_fail (tl != NULL);
 	g_return_if_fail (path != NULL);
@@ -374,14 +369,18 @@ thumb_loader_set_path (ThumbLoader *tl,
 
 	tl->priv->uri = get_uri_from_path (path);
 	tl->priv->e_uri = gnome_vfs_escape_host_and_path_string (tl->priv->uri);
+	if (mime_type == NULL)
+		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	tl->priv->mime_type = mime_type;
 
-	image_loader_set_path (tl->priv->il, remove_scheme_from_uri (tl->priv->uri));
+	image_loader_set_path (tl->priv->il, remove_scheme_from_uri (tl->priv->uri), tl->priv->mime_type);
 }
 
 
 void
 thumb_loader_set_uri (ThumbLoader       *tl,
-		      const GnomeVFSURI *vfs_uri)
+		      const GnomeVFSURI *vfs_uri,
+		      const char        *mime_type)
 {
 	ThumbLoaderPrivateData *priv;
 
@@ -392,11 +391,11 @@ thumb_loader_set_uri (ThumbLoader       *tl,
 	g_free (priv->uri);
 	g_free (priv->e_uri);
 
-
 	priv->e_uri = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_NONE);
 	priv->uri = gnome_vfs_unescape_string (priv->e_uri, NULL);
+	tl->priv->mime_type = mime_type;
 
-	image_loader_set_uri (priv->il, vfs_uri);
+	image_loader_set_uri (priv->il, vfs_uri, mime_type);
 }
 
 
@@ -470,12 +469,12 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 	if (cache_path != NULL) {
 		priv->from_cache = TRUE;
-		image_loader_set_path (priv->il, cache_path);
+		image_loader_set_path (priv->il, cache_path, "image/png");
 		g_free (cache_path);
 
 	} else {
 		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri));
+		image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri), priv->mime_type);
 
 		/* Check file dimensions. */
 
@@ -696,7 +695,7 @@ thumb_loader_error_cb (ImageLoader *il,
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri));
+	image_loader_set_path (priv->il, remove_scheme_from_uri (priv->uri), priv->mime_type);
 	image_loader_start (priv->il);
 }
 

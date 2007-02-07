@@ -31,7 +31,7 @@
 #include "gth-viewer-actions-entries.h"
 
 
-static const gchar *viewer_window_ui_info = 
+static const gchar *viewer_window_ui_info =
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu name='File' action='FileMenu'>"
@@ -58,9 +58,10 @@ static const gchar *viewer_window_ui_info =
 "      <menuitem action='Edit_AddToCatalog'/>"
 "    </menu>"
 "    <menu name='View' action='ViewMenu'>"
-"      <menuitem action='View_ShowInfo'/>"
 "      <menuitem action='View_Toolbar'/>"
 "      <menuitem action='View_Statusbar'/>"
+"      <separator/>"
+"      <menuitem action='View_ShowMetadata'/>"
 "      <separator/>"
 "      <menuitem action='View_Fullscreen'/>"
 "      <separator/>"
@@ -139,6 +140,9 @@ static const gchar *viewer_window_ui_info =
 "    <toolitem action='View_ZoomOut'/>"
 "    <toolitem action='View_Zoom100'/>"
 "    <toolitem action='View_ZoomFit'/>"
+"    <toolitem action='View_ZoomWidth'/>"
+"    <separator/>"
+"    <toolitem action='View_ShowMetadata'/>"
 "  </toolbar>"
 "  <popup name='ImagePopupMenu'>"
 "    <menuitem action='View_Fullscreen'/>"
