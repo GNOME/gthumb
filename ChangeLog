@@ -1,6 +1,11 @@
 2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-file-list.c (load_new_list):
+	check whether the mime_type is NULL.
+
+2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-list.c (load_new_list):
 	* libgthumb/file-data.c (file_data_update):
 	* libgthumb/file-utils.c (get_file_mime_type):
 

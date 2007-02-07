@@ -1012,6 +1012,8 @@ load_new_list (GthFileList *file_list)
 		FileData    *fd;
 
 		mime_type = get_file_mime_type (full_path, fast_file_type);
+		if (mime_type == NULL)
+			continue;
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
 		    || ! (mime_type_is_image (mime_type) || mime_type_is_video (mime_type)))
