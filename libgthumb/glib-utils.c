@@ -87,23 +87,23 @@ _g_get_template_from_text (const char *utf8_template)
 		chunk_end = chunk_start;
 
 		ch = g_utf8_get_char (chunk_end);
-		while (reading_sharps 
-		       && (*chunk_end != 0) 
+		while (reading_sharps
+		       && (*chunk_end != 0)
 		       && (ch == '#')) {
 			chunk_end = g_utf8_next_char (chunk_end);
 			ch = g_utf8_get_char (chunk_end);
 			chunk_len++;
 		}
-		
+
 		ch = g_utf8_get_char (chunk_end);
-		while (! reading_sharps 
-		       && (*chunk_end != 0) 
+		while (! reading_sharps
+		       && (*chunk_end != 0)
 		       && (*chunk_end != '#')) {
 			chunk_end = g_utf8_next_char (chunk_end);
 			ch = g_utf8_get_char (chunk_end);
 			chunk_len++;
 		}
-		
+
 		chunk = _g_utf8_strndup (chunk_start, chunk_len);
 		str_list = g_list_prepend (str_list, chunk);
 		n++;
@@ -151,7 +151,7 @@ _g_get_name_from_template (char **utf8_template,
 				g_string_append_c (s, '0');
 				sharps_len--;
 			}
-				
+
 			g_string_append (s, s_n);
 			g_free (s_n);
 		}
@@ -180,7 +180,7 @@ _g_substitute (const char *from,
 		return g_strdup (from);
 
 	r = g_string_new (NULL);
-	for (s = from; *s != 0; s++) 
+	for (s = from; *s != 0; s++)
 		if (*s == this)
 			g_string_append (r, with_this);
 		else
@@ -194,8 +194,8 @@ _g_substitute (const char *from,
 
 
 char *
-_g_substitute_pattern (const char *utf8_text, 
-		       gunichar    pattern, 
+_g_substitute_pattern (const char *utf8_text,
+		       gunichar    pattern,
 		       const char *value)
 {
 	const char *s;
@@ -214,7 +214,7 @@ _g_substitute_pattern (const char *utf8_text,
 
 		if (ch == '%') {
 			s = g_utf8_next_char (s);
-			
+
 			if (*s == 0) {
 				g_string_append_unichar (r, ch);
 				break;
@@ -285,7 +285,7 @@ _g_utf8_strsplit (const char     *str,
 				t = s = g_utf8_next_char (t);
 			else
 				break;
-		} else 
+		} else
 			t = g_utf8_next_char (t);
 	} while (TRUE);
 
@@ -314,7 +314,7 @@ gboolean
 _g_utf8_all_spaces (const char *utf8_string)
 {
 	gunichar c;
-	
+
 	c = g_utf8_get_char (utf8_string);
 	while (c != 0) {
 		if (! g_unichar_isspace (c))
@@ -338,7 +338,7 @@ debug (const char *file,
 	char    *str;
 
 	g_return_if_fail (format != NULL);
-	
+
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
 	va_end (args);
@@ -365,7 +365,7 @@ get_file_list_from_url_list (char *url_list)
 
 		if (strncmp (url_start, "file:", 5) == 0) {
 			url_start += 5;
-			if ((url_start[0] == '/') 
+			if ((url_start[0] == '/')
 			    && (url_start[1] == '/')) url_start += 2;
 		}
 
@@ -388,7 +388,7 @@ get_file_list_from_url_list (char *url_list)
 			   || (url_start[i] == '\n'))) i++;
 		url_start += i;
 	}
-	
+
 	return g_list_reverse (list);
 }
 
@@ -416,11 +416,11 @@ _g_list_insert_list_before (GList *list1,
     {
       return list1;
     }
-  else if (!list1) 
+  else if (!list1)
     {
       return list2;
     }
-  else if (sibling) 
+  else if (sibling)
     {
       GList *list2_last = g_list_last (list2);
       if (sibling->prev)
@@ -446,7 +446,7 @@ _g_list_insert_list_before (GList *list1,
 
 
 gboolean
-str_ends_with (const char *s1, 
+str_ends_with (const char *s1,
 	       const char *s2)
 {
 	int s1_len, s2_len;
@@ -500,8 +500,8 @@ idle_call_exec (IdleCall *call,
 {
 	if (use_idle_cb)
 		return g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
-					idle_call_exec_cb, 
-					call, 
+					idle_call_exec_cb,
+					call,
 					(GDestroyNotify) idle_call_free);
 	else {
 		(*call->func) (call->data);

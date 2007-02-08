@@ -2179,6 +2179,11 @@ real_select__emit (GthImageList *image_list,
 }
 
 
+static int
+real_unselect_all (GthImageList *image_list,
+		   gpointer      keep);
+
+
 void
 gth_image_list_select_image (GthImageList *image_list,
 			     int           pos)
@@ -2204,7 +2209,12 @@ gth_image_list_select_image (GthImageList *image_list,
 		break;
 
 	case GTK_SELECTION_MULTIPLE:
-		real_select (image_list, TRUE, pos);
+		image_list->priv->select_pending = FALSE;
+
+		real_unselect_all (image_list, NULL);
+		real_select__emit (image_list, TRUE, image_list->priv->select_pending_pos);
+		priv->last_selected_pos = pos;
+		priv->last_selected_item = g_list_nth (image_list->priv->image_list, pos)->data;
 		break;
 
 	default:
@@ -2372,7 +2382,6 @@ select_range (GthImageList     *image_list,
 	}
 
 	scan = g_list_nth (priv->image_list, a);
-
 	for (; a <= b; a++, scan = scan->next) {
 		GthImageListItem *item = scan->data;
 
@@ -3845,10 +3854,14 @@ gth_image_list_remove (GthImageList *image_list,
 		gth_image_list_unselect_image (image_list, pos);
 	if (priv->focused_item == pos)
 		priv->focused_item = -1;
-	if (priv->last_selected_item == item)
+	if (priv->last_selected_item == item) {
 		priv->last_selected_item = NULL;
-	if (priv->n_images >= priv->last_selected_pos)
 		priv->last_selected_pos = -1;
+	}
+	if (priv->last_selected_pos >= priv->n_images - 1) {
+		priv->last_selected_item = NULL;
+		priv->last_selected_pos = -1;
+	}
 
 	priv->image_list = g_list_remove_link (priv->image_list, item_link);
 	g_list_free_1 (item_link);
@@ -3861,8 +3874,8 @@ gth_image_list_remove (GthImageList *image_list,
 	/**/
 
 	if (! priv->frozen) {
-		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 		keep_focus_consistent (image_list);
+		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
 	} else
 		priv->dirty = TRUE;
 }

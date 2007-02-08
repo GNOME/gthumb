@@ -1189,6 +1189,28 @@ uri_has_scheme (const char *uri)
 }
 
 
+char *
+get_base_uri (const char *uri)
+{
+	const char *idx;
+
+	if (uri == NULL)
+		return NULL;
+
+	if (*uri == '/')
+		return g_strdup ("/");
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return NULL;
+	idx = strstr (idx + 3, "/");
+	if (idx == NULL)
+		return g_strdup (uri);
+	else
+		return g_strndup (uri, idx - uri);
+}
+
+
 gboolean
 uri_scheme_is_file (const char *uri)
 {
@@ -1428,22 +1450,33 @@ remove_level_from_path (const char *path)
 {
 	int         p;
 	const char *ptr = path;
-	char       *new_path;
+	char       *base_path;
+	char       *parent_path;
 
-	if (! path)
+	if (path == NULL)
 		return NULL;
 
 	p = strlen (path) - 1;
 	if (p < 0)
 		return NULL;
 
+	base_path = get_base_uri (path);
+	if (base_path == NULL)
+		return NULL;
+
 	while ((p > 0) && (ptr[p] != '/'))
 		p--;
 	if ((p == 0) && (ptr[p] == '/'))
-		p++;
-	new_path = g_strndup (path, (guint)p);
+		p = 1;
 
-	return new_path;
+	if (strlen (base_path) > p)
+		parent_path = base_path;
+	else {
+		parent_path = g_strndup (path, (guint)p);
+		g_free (base_path);
+	}
+
+	return parent_path;
 }
 
 
