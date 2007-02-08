@@ -1278,8 +1278,12 @@ get_uri_display_name (const char *uri)
 	    || (strcmp (tmp_path, "/") == 0)) {
 	    	if (catalog_or_search)
 	    		name = g_strdup (_("Catalogs"));
-	    	else
-			name = g_strdup (_("File System"));
+	    	else {
+			if (uri_scheme_is_file (uri))
+				name = g_strdup (_("File System"));
+			else
+				name = g_strdup (uri);
+	    	}
 	} else {
 		if (catalog_or_search) {
 			char *base_uri;
@@ -2450,7 +2454,7 @@ static GdkPixbuf* convert_exotic_format_to_tiff (const char *path, const char *m
         	g_free (command);
 	}
 
-	if (path_is_file (cache_file)) 
+	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
 	g_free (cache_file);

@@ -1,6 +1,12 @@
 2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/gth-location.c: make the parent work list with remote uris too.
+	* src/gth-location.c:
+	* libgthumb/file-utils.c: use the hostname for remote uris, and
+	'File System' only for local uris.
+
+2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-location.c: make the parent list work with remote uris too.
 
 2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

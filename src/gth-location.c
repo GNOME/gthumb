@@ -762,8 +762,12 @@ update_uri (GthLocation *loc,
 			else {
 				if (volume != NULL)
 					uri_name = gnome_vfs_volume_get_display_name (volume);
-				else
-					uri_name = g_strdup (_("File System"));
+				else {
+					if (uri_scheme_is_file (base_uri))
+						uri_name = g_strdup (_("File System"));
+					else
+						uri_name = g_strdup (base_uri);
+				}
 			}
 		} else {
 			if (same_uri (uri, home_uri))
