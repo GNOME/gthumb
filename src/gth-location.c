@@ -24,6 +24,8 @@
 #include <string.h>
 
 #include <glib/gi18n.h>
+#include <glib.h>
+#include <glib/gprintf.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-drive.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
@@ -165,19 +167,19 @@ gth_location_init (GthLocation *loc)
 	loc->priv->catalog_uri = FALSE;
 
 	loc->priv->volume_monitor = gnome_vfs_get_volume_monitor ();
-	g_signal_connect (loc->priv->volume_monitor, 
+	g_signal_connect (loc->priv->volume_monitor,
 			  "drive-connected",
 			  G_CALLBACK (monitor_changed_cb),
 			  loc);
-	g_signal_connect (loc->priv->volume_monitor, 
+	g_signal_connect (loc->priv->volume_monitor,
 			  "drive-disconnected",
 			  G_CALLBACK (monitor_changed_cb),
 			  loc);
-	g_signal_connect (loc->priv->volume_monitor, 
+	g_signal_connect (loc->priv->volume_monitor,
 			  "volume-mounted",
 			  G_CALLBACK (monitor_changed_cb),
 			  loc);
-	g_signal_connect (loc->priv->volume_monitor, 
+	g_signal_connect (loc->priv->volume_monitor,
 			  "volume-unmounted",
 			  G_CALLBACK (monitor_changed_cb),
 			  loc);
@@ -190,7 +192,7 @@ static void combo_changed_cb (GtkComboBox *widget,
 
 
 static void
-reset_active_index (GthLocation *loc) 
+reset_active_index (GthLocation *loc)
 {
 	g_signal_handlers_block_by_func (loc->priv->combo, combo_changed_cb, loc);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (loc->priv->combo), loc->priv->current_idx);
@@ -209,7 +211,7 @@ combo_changed_cb (GtkComboBox *widget,
 
 	if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loc->priv->combo), &iter))
 		return;
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (loc->priv->model),
 			    &iter,
 			    PATH_COLUMN, &path,
@@ -224,7 +226,7 @@ combo_changed_cb (GtkComboBox *widget,
 
 	loc->priv->current_idx = gtk_combo_box_get_active (GTK_COMBO_BOX (loc->priv->combo));
 
-	if (path == NULL) 
+	if (path == NULL)
 		return;
 
 	g_signal_emit (G_OBJECT (loc), gth_location_signals[CHANGED], 0, path);
@@ -242,7 +244,7 @@ row_separator_func (GtkTreeModel *model,
 			    iter,
 			    TYPE_COLUMN, &item_type,
 			    -1);
-	return ((item_type == ITEM_TYPE_SEPARATOR) 
+	return ((item_type == ITEM_TYPE_SEPARATOR)
 		|| (item_type == ITEM_TYPE_BOOKMARK_SEPARATOR));
 }
 
@@ -256,9 +258,9 @@ gth_location_construct (GthLocation *loc)
 	int              icon_size;
 	GdkPixbuf       *icon;
 
-	loc->priv->model = gtk_list_store_new (N_COLUMNS, 
-					       GDK_TYPE_PIXBUF, 
-					       G_TYPE_STRING, 
+	loc->priv->model = gtk_list_store_new (N_COLUMNS,
+					       GDK_TYPE_PIXBUF,
+					       G_TYPE_STRING,
 					       G_TYPE_STRING,
 					       G_TYPE_INT);
 	loc->priv->combo = gtk_combo_box_new_with_model (GTK_TREE_MODEL (loc->priv->model));
@@ -307,14 +309,14 @@ gth_location_construct (GthLocation *loc)
 	/* Add standard items. */
 
 	/* separator #1 */
-	
+
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
 			    -1);
 
 	/* separator #2 */
-	
+
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
@@ -366,7 +368,7 @@ gth_location_get_type ()
 }
 
 
-GtkWidget*     
+GtkWidget*
 gth_location_new (void)
 {
 	GtkWidget *widget;
@@ -391,7 +393,7 @@ get_item_from_uri (GthLocation *loc,
 
 	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (loc->priv->model), iter))
 		return FALSE;
-	
+
 	do {
 		char *path = NULL;
 		int   item_type = ITEM_TYPE_NONE;
@@ -412,7 +414,7 @@ get_item_from_uri (GthLocation *loc,
 		if (idx != NULL)
 			*idx = *idx + 1;
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (loc->priv->model), iter));
-	
+
 	return found;
 }
 
@@ -435,7 +437,7 @@ clear_items (GthLocation *loc,
 				    PATH_COLUMN, &uri,
 				    -1);
 
-		if (item_type == clear_type) 
+		if (item_type == clear_type)
 			valid = gtk_list_store_remove (loc->priv->model, &iter);
 		else
 			valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (loc->priv->model), &iter);
@@ -457,7 +459,7 @@ get_first_separator_pos (GthLocation *loc,
 
 	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (loc->priv->model), &iter))
 		return FALSE;
-	
+
 	do {
 		int item_type = ITEM_TYPE_NONE;
 
@@ -473,7 +475,7 @@ get_first_separator_pos (GthLocation *loc,
 		if (idx != NULL)
 			*idx = *idx + 1;
 	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (loc->priv->model), &iter));
-	
+
 	return found;
 }
 
@@ -671,11 +673,13 @@ get_volume_from_uri (GthLocation *loc,
 		     const char  *from_uri)
 {
 	GnomeVFSVolume *volume = NULL;
+	char           *base_uri;
 	char           *uri;
 
 	if (from_uri == NULL)
 		return NULL;
 
+	base_uri = get_base_uri (from_uri);
 	uri = g_strdup (from_uri);
 
 	while ((uri != NULL) && (volume == NULL)) {
@@ -685,18 +689,19 @@ get_volume_from_uri (GthLocation *loc,
 			g_free (uri);
 			uri = parent;
 		}
-		if (str_ends_with (uri, "://"))
+		if (same_uri (uri, base_uri))
 			uri = NULL;
 	}
 
 	g_free (uri);
+	g_free (base_uri);
 
 	return volume;
 }
 
 
 static void
-update_uri (GthLocation *loc, 
+update_uri (GthLocation *loc,
 	    gboolean     reset_history)
 {
 	GtkTreeIter     iter;
@@ -731,8 +736,8 @@ update_uri (GthLocation *loc,
 					NULL);
 	else {
 		volume = get_volume_from_uri (loc, uri);
-		if (volume == NULL) 
-			base_uri = g_strdup ("file://");
+		if (volume == NULL)
+			base_uri = get_base_uri (uri);
 		else {
 			base_uri = gnome_vfs_volume_get_activation_uri (volume);
 			drive = gnome_vfs_volume_get_drive (volume);
@@ -742,10 +747,10 @@ update_uri (GthLocation *loc,
 	while (uri != NULL) {
 		char *parent;
 
-		if (loc->priv->catalog_uri) 
+		if (loc->priv->catalog_uri)
 			pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 		else {
-			if (same_uri (uri, base_uri)) 
+			if (same_uri (uri, base_uri))
 				pixbuf = get_drive_icon (loc, drive);
 			else
 				pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
@@ -819,7 +824,7 @@ gth_location_set_folder_uri (GthLocation *loc,
 {
 	loc->priv->catalog_uri = FALSE;
 	gth_location_set_uri (loc, uri, reset_history);
-	
+
 }
 
 

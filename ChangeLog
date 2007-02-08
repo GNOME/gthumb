@@ -1,5 +1,9 @@
 2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-location.c: make the parent work list with remote uris too.
+
+2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* libgthumb/gth-image-list.c:
 
 	Fixed bug #363643 – Shift+arrow expands selection, Shift+mouse doesn't
