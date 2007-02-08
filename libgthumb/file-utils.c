@@ -813,6 +813,20 @@ get_file_mime_type (const char *filename,
 	if (filename == NULL)
 		return NULL;
 
+
+	/* Check for HDR file types, which are not well represented in the
+	   freedesktop mime database currently. This section can be purged
+	   when they are. This is an unpleasant hack. Some file extensions
+	   may be missing here; please file a bug if they are. */
+	const char *extension = get_filename_extension (filename);
+	if (extension != NULL) {
+		if (   !strcasecmp (extension, "exr")
+		    || !strcasecmp (extension, "hdr")
+		    || !strcasecmp (extension, "pic"))
+			return g_strdup ("image/x-hdr");
+	}
+
+
 	if (fast_file_type) {
 		char *sample_name;
 		char *n1;
@@ -876,6 +890,7 @@ image_is_jpeg (const char *name)
 	return image_is_type__gconf_file_type (name, "image/jpeg");
 }
 
+
 gboolean
 mime_type_is_raw (const char *mime_type)
 {
@@ -891,6 +906,16 @@ mime_type_is_raw (const char *mime_type)
 		|| mime_type_is (mime_type, "image/x-raw")		/* mimelnk */
 		;
 }
+
+
+gboolean
+mime_type_is_hdr (const char *mime_type)
+{
+	/* Note that some HDR file extensions have been hard-coded into
+	   the get_file_mime_type function above. */
+        return mime_type_is (mime_type, "image/x-hdr");
+}
+
 
 gboolean
 image_is_gif (const char *name)
@@ -2345,6 +2370,64 @@ copy_cache_file_to_remote_uri (const char *local_filename,
 
 /* Pixbuf + VFS */
 
+
+static GdkPixbuf* convert_exotic_format_to_tiff (const char *path, const char *mime_type)
+{
+	char	         *cache_file;
+	char             *md5_file;
+	char	         *cache_file_full;
+	char	         *cache_file_esc;
+	char		 *input_file_esc;
+	char		 *command;
+	GdkPixbuf        *pixbuf = NULL;
+
+	md5_file = gnome_thumbnail_md5 (path);
+
+	input_file_esc = shell_escape (path);
+
+	cache_file_full = get_cache_full_path (md5_file, ".tiff");
+	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	cache_file_esc = shell_escape (cache_file);
+
+	g_free (cache_file_full);
+	g_free (md5_file);
+
+	if (cache_file == NULL)
+		return NULL;
+
+	g_assert (is_local_file (cache_file));
+
+	/* Do nothing if an up-to-date converted file is already in the cache */
+        if (!path_is_file (cache_file) ||
+            (get_file_mtime (path) > get_file_mtime (cache_file))) {
+		if ( mime_type_is_raw (mime_type) ) {
+		        command = g_strconcat ( "pfsindcraw ",
+        	        	                input_file_esc,
+                	        	        " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
+                        	        	cache_file_esc,
+                                		NULL );
+		} else {
+        	        command = g_strconcat ( "pfsin ",
+                	                        input_file_esc,
+                        	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
+                                	        cache_file_esc,
+                                        	NULL );
+		}
+	       	system (command);
+        	g_free (command);
+	}
+
+	if (path_is_file (cache_file)) 
+		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
+
+	g_free (cache_file);
+        g_free (cache_file_esc);
+        g_free (input_file_esc);
+
+	return pixbuf;
+}
+
+
 static GdkPixbuf*
 gth_pixbuf_new_from_video (const char *path, GnomeThumbnailFactory *factory, GError **error)
 {
@@ -2464,6 +2547,15 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	if (mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
+
+
+	/* Use pfstools for raw images (non-thumbnails) and HDR images.
+	   Use libopenraw in the future for raw images, because the API and
+	   library requirements are much simpler. */
+	if ( (pixbuf == NULL) &&
+	     (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)) )
+		pixbuf = convert_exotic_format_to_tiff (local_file, mime_type);
+
 
 	/* All other file types, or if previous methods fail: read in a
 	   non-animated pixbuf, and convert to a single-frame animation. */
