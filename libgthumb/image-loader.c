@@ -624,12 +624,9 @@ load_image_thread (void *thread_data)
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, priv->mime_type, &error, priv->loader_data);
         		else
-				/* Get an animation. Use slow content-checking to determine
-				   file types. */
-		                animation = gth_pixbuf_animation_new_from_uri (path, 
+		                animation = gth_pixbuf_animation_new_from_uri (path,
 									       &error,
-									       FALSE, 
-									       0, 
+									       0,
 									       0,
 									       priv->thumb_factory,
 									       priv->mime_type);

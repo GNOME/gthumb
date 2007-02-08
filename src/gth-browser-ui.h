@@ -96,6 +96,8 @@ static const gchar *main_ui_info =
 "      <menuitem action='View_ShowCatalogs'/>"
 "      <menuitem action='View_ShowImage'/>"
 "      <separator/>"
+"      <menuitem action='View_ShowHiddenFiles'/>"
+"      <separator/>"
 "      <menu name='ViewSort' action='ViewSortMenu'>"
 "        <menuitem action='SortByName'/>"
 "        <menuitem action='SortByPath'/>"

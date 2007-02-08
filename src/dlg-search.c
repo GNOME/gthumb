@@ -139,6 +139,7 @@ typedef struct {
 	char           *catalog_path;
 
 	GHashTable     *folders_comment;
+	GHashTable     *hidden_files;
 } DialogData;
 
 
@@ -211,6 +212,7 @@ destroy_cb (GtkWidget  *widget,
 	if (data->catalog_path != NULL)
 		g_free (data->catalog_path);
 	g_hash_table_destroy (data->folders_comment);
+	g_hash_table_destroy (data->hidden_files);
 	g_free (data);
 }
 
@@ -540,6 +542,7 @@ dlg_search_ui (GthBrowser *browser,
 	data->uri = NULL;
 	data->catalog_path = catalog_path;
 	data->folders_comment = g_hash_table_new (g_str_hash, g_str_equal);
+	data->hidden_files = NULL;
 
 	/* Get the widgets. */
 
@@ -970,6 +973,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
+			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
+				break;
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
@@ -985,7 +990,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
 			if (SPECIAL_DIR (info->name))
 				break;
-
+			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
+				break;
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
@@ -1058,6 +1064,10 @@ search_dir_async (DialogData *data,
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
 	data->uri = new_uri_from_path (dir);
+
+	if (data->hidden_files != NULL)
+		g_hash_table_destroy (data->hidden_files);
+	data->hidden_files = read_dot_hidden_file (dir);
 
 	gnome_vfs_async_load_directory_uri (
 		& (data->handle),

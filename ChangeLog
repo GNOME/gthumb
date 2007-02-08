@@ -1,3 +1,28 @@
+2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-ui.h:
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-actions-callbacks.h:
+	* src/gth-browser-actions-callbacks.c:
+	* src/gth-browser.c:
+	* src/dlg-search.c:
+	* libgthumb/file-utils.h:
+	* libgthumb/file-utils.c:
+
+	Fixed bug #354482 – Show "hidden" images.
+	Fixed bug #145334 – Folder list should respect .hidden files
+
+
+2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.h:
+	* libgthumb/file-utils.c (gth_pixbuf_animation_new_from_uri): the
+	fast_file_type argument is not used anymore, removed from the signature.
+
+	* libgthumb/thumb-loader.c (thumb_loader):
+	* libgthumb/image-loader.c (load_image_thread): removed the fast_file_type
+	argument from the gth_pixbuf_animation_new_from_uri calls.
+
 2007-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-file-list.c (load_new_list):

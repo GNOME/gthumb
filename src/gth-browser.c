@@ -2916,7 +2916,7 @@ launch_videos_in_list (GList *list)
 	}
 
 	g_list_free (video_list);
-			
+
 	return video_count;
 }
 
@@ -3003,7 +3003,7 @@ key_press_cb (GtkWidget   *widget,
 			   viewer if a video thumbnail is shown, and then return to the browser
 			   mode in the normal fashion. */
 		        list = gth_window_get_file_list_selection ( (GthWindow *) browser);
-		        launch_videos_in_list (list); 
+		        launch_videos_in_list (list);
 			gth_browser_show_sidebar (browser);
 		}
 		return TRUE;
@@ -4491,6 +4491,7 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 
 	set_action_active (browser, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE));
 	set_action_active (browser, "View_ShowMetadata", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
+	set_action_active (browser, "View_ShowHiddenFiles", eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 
 	window_sync_sort_menu (browser, priv->sort_method, priv->sort_type);
 }

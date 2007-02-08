@@ -85,6 +85,7 @@ path_list_data_new ()
 	pli->interrupt_func = NULL;
 	pli->interrupt_data = NULL;
 	pli->interrupted = FALSE;
+	pli->hidden_files = NULL;
 
 	return pli;
 }
@@ -107,6 +108,9 @@ path_list_data_free (PathListData *pli)
 		g_list_foreach (pli->dirs, (GFunc) g_free, NULL);
 		g_list_free (pli->dirs);
 	}
+
+	if (pli->hidden_files != NULL)
+		g_hash_table_unref (pli->hidden_files);
 
 	g_free (pli);
 }
@@ -151,6 +155,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
+			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
+				break;
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
@@ -161,7 +167,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
 			if (SPECIAL_DIR (info->name))
 				break;
-
+			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
+				break;
 			full_uri = gnome_vfs_uri_append_path (pli->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
@@ -215,6 +222,8 @@ path_list_async_new (const char       *uri,
 			(f) (NULL, data);
 		return NULL;
 	}
+
+	pli->hidden_files = read_dot_hidden_file (uri);
 
 	pli->done_func = f;
 	pli->done_data = data;
@@ -2229,7 +2238,7 @@ get_cache_full_path (const char *relative_path, const char *extension)
 
 
 void
-prune_cache ()
+prune_cache (void)
 {
 	char *command;
 
@@ -2270,8 +2279,8 @@ obtain_local_file (const char *remote_filename)
 	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
 	g_free (cache_file_full);
 	g_free (md5_file);
-	if (cache_file == NULL) return NULL;
-
+	if (cache_file == NULL)
+		return NULL;
 
 	/* I can't imagine how the cache would be non-local, but check anyways */
 	g_assert (is_local_file (cache_file));
@@ -2279,8 +2288,8 @@ obtain_local_file (const char *remote_filename)
 	source_uri = gnome_vfs_uri_new (remote_filename);
 	target_uri = gnome_vfs_uri_new (cache_file);
 
-	if ( gnome_vfs_uri_exists (target_uri) &&
-	     (get_file_mtime (cache_file) == get_file_mtime (remote_filename)) ) {
+	if (gnome_vfs_uri_exists (target_uri) &&
+	    (get_file_mtime (cache_file) == get_file_mtime (remote_filename)) ) {
 		/* use existing cache file */
                 return cache_file;
 	} else {
@@ -2393,7 +2402,6 @@ gth_pixbuf_new_from_uri (const char *filename, GError **error)
 GdkPixbufAnimation*
 gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 				   GError               **error,
-				   gboolean               fast_file_type,
 				   gint		          requested_width_if_used,
 				   gint		          requested_height_if_used,
 				   GnomeThumbnailFactory *factory,
@@ -2406,11 +2414,11 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	if (mime_type == NULL)
 		return NULL;
 
-
         /* The video thumbnailer can handle VFS URIs directly */
-        if (mime_type_is_video (mime_type) && factory != NULL) {
+        if (mime_type_is_video (mime_type) && (factory != NULL)) {
 		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
-		if (pixbuf == NULL) return NULL;
+		if (pixbuf == NULL)
+			return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
 		return animation;
@@ -2428,21 +2436,21 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
 
 	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-       if ( mime_type_is (mime_type, "image/jpeg") && requested_width_if_used > 0) {
+        if (mime_type_is (mime_type, "image/jpeg") && (requested_width_if_used > 0)) {
                 pixbuf = f_load_scaled_jpeg (local_file,
                                              requested_width_if_used,
                                              requested_height_if_used,
                                              NULL, NULL);
-		if (pixbuf == NULL) return NULL;
+		if (pixbuf == NULL)
+			return NULL;
                 animation = gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
 		g_free (local_file);
                 return animation;
         }
 
-
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
-	if ( mime_type_is (mime_type, "image/gif")) {
+	if (mime_type_is (mime_type, "image/gif")) {
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
 		g_free (local_file);
 		return animation;
@@ -2462,11 +2470,57 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
         if (pixbuf != NULL) {
               	animation = gdk_pixbuf_non_anim_new (pixbuf);
                 g_object_unref (pixbuf);
-		}
+	}
 
 	g_free (local_file);
 
-	/* return the animation */
 	return animation;
 }
 
+
+GHashTable *
+read_dot_hidden_file (const char *uri)
+{
+	GHashTable     *hidden_files;
+	char           *dot_hidden_uri;
+	GnomeVFSHandle *handle;
+	GnomeVFSResult  result;
+	char            line [BUF_SIZE];
+
+	hidden_files = g_hash_table_new_full (g_str_hash,
+					      g_str_equal,
+					      (GDestroyNotify) g_free,
+					      NULL);
+
+	if (eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE))
+		return hidden_files;
+
+	dot_hidden_uri = g_build_filename (uri, ".hidden", NULL);
+
+	result = gnome_vfs_open (&handle, dot_hidden_uri, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK) {
+		g_free (dot_hidden_uri);
+		return hidden_files;
+	}
+
+	while (_gnome_vfs_read_line (handle,
+				     line,
+				     BUF_SIZE,
+				     NULL) == GNOME_VFS_OK) {
+		char *path;
+
+		line[strlen (line)] = 0;
+		path = gnome_vfs_escape_string (line);
+
+		if (g_hash_table_lookup (hidden_files, path) == NULL)
+			g_hash_table_insert (hidden_files, path, GINT_TO_POINTER (1));
+		else
+			g_free (path);
+	}
+
+	gnome_vfs_close (handle);
+
+	g_free (dot_hidden_uri);
+
+	return hidden_files;
+}

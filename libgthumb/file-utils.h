@@ -54,6 +54,7 @@ struct _PathListData {
 	DoneFunc          interrupt_func;
 	gpointer          interrupt_data;
 	gboolean          interrupted;
+	GHashTable       *hidden_files;
 };
 
 typedef struct {
@@ -219,18 +220,18 @@ const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
-gboolean	    is_local_file                 (const char *filename);
-void	            prune_cache			  ();
-char* 		    obtain_local_file             (const char      *remote_filename);
-gboolean	    copy_cache_file_to_remote_uri (const char      *local_filename,
-                                                    const char      *dest_uri);
+gboolean	    is_local_file                 (const char       *filename);
+void	            prune_cache			  (void);
+char* 		    obtain_local_file             (const char       *remote_filename);
+gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
+                                                   const char       *dest_uri);
+GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
-GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename, 
+GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename,
 						       GError 	            **error);
-GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename, 
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename,
 						       GError               **error,
-						       gboolean               fast_file_type,
 						       gint                   requested_width_if_used,
 						       gint	              requested_height_if_used,
 						       GnomeThumbnailFactory *factory,

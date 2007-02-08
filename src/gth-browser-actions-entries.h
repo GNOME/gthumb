@@ -430,6 +430,12 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_view_show_info),
 	  TRUE },
 
+	{ "View_ShowHiddenFiles", NULL,
+	  N_("Show _Hidden Files"), "<control>H",
+	  N_("Show hidden files and folders"),
+	  G_CALLBACK (gth_browser_activate_action_view_show_hidden_files),
+	  TRUE },
+
 	{ "SortReversed", NULL,
 	  N_("_Reversed Order"), NULL,
 	  N_("Reverse images order"),

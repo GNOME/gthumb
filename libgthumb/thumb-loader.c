@@ -237,28 +237,21 @@ thumb_loader (const char  *path,
 	      GError     **error,
 	      gpointer     data)
 {
-	GdkPixbufAnimation     *animation = NULL;
-	ThumbLoader            *tl = data;
-	ThumbLoaderPrivateData *priv = tl->priv;
-	GdkPixbuf	       *pixbuf = NULL;
+	ThumbLoader *tl = data;
 
-	/* Get an animation. Use fast file-type checking by 
-	   default, unless content-checking is enabled. */
-	animation = gth_pixbuf_animation_new_from_uri (path, 
-				       error,
-				       eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
-				       priv->cache_max_w,
-				       priv->cache_max_h,
-				       priv->thumb_factory,
-				       mime_type);
-	return animation;
+	return gth_pixbuf_animation_new_from_uri (path,
+				       		  error,
+				       		  tl->priv->cache_max_w,
+				       		  tl->priv->cache_max_h,
+				       		  tl->priv->thumb_factory,
+				       		  mime_type);
 }
 
 
 GObject*
 thumb_loader_new (const char *path,
-		  int width,
-		  int height)
+		  int         width,
+		  int         height)
 {
 	ThumbLoaderPrivateData *priv;
 	ThumbLoader *tl;
