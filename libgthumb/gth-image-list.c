@@ -2212,7 +2212,7 @@ gth_image_list_select_image (GthImageList *image_list,
 		image_list->priv->select_pending = FALSE;
 
 		real_unselect_all (image_list, NULL);
-		real_select__emit (image_list, TRUE, image_list->priv->select_pending_pos);
+		real_select__emit (image_list, TRUE, pos);
 		priv->last_selected_pos = pos;
 		priv->last_selected_item = g_list_nth (image_list->priv->image_list, pos)->data;
 		break;
@@ -2221,7 +2221,7 @@ gth_image_list_select_image (GthImageList *image_list,
 		break;
 	}
 
-	emit_selection_changed (image_list);
+	/*emit_selection_changed (image_list);*/
 }
 
 

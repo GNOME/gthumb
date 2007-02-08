@@ -1,5 +1,7 @@
 2007-02-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-image-list.c: use pos instead of selection_pending_pos
+
 	* src/gth-location.c:
 	* libgthumb/file-utils.c: use the hostname for remote uris, and
 	'File System' only for local uris.
