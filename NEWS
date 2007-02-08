@@ -1,8 +1,9 @@
-vfs-testing branch
-------------------
+version 2.9.2
+-------------
 	* Added support for displaying gnome-vfs locations (bug #143197)
 	* Added thumbnailing and player-launching for videos (bug #134366)
-	* Added thumbnailing for RAW photos (bug #145564)
+	* Added initial RAW photo support (bug #145564)
+	* Added initial HDR photo supprt (bug #312896)
 
 version 2.9.1
 -------------
