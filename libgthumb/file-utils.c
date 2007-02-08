@@ -834,8 +834,11 @@ get_file_mime_type (const char *filename,
 
 		g_free (sample_name);
 
-	} else
+	} else {
+		if (uri_scheme_is_file (filename))
+                        filename = get_file_path_from_uri (filename);
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
+	}
 
 	return result;
 }
