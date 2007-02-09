@@ -211,6 +211,7 @@ struct _GthBrowserPrivateData {
 	char               *initial_location;
 
 	gboolean            image_modified;
+	gboolean            loading_image;
 	ImageSavedFunc      image_saved_func;
 	gboolean            setting_file_list;
 	gboolean            can_set_file_list;
@@ -2689,6 +2690,7 @@ image_loaded_cb (GtkWidget  *widget,
 
 	priv->image_mtime = get_file_mtime (priv->image_path);
 	priv->image_modified = FALSE;
+	priv->loading_image = FALSE;
 	gth_window_clear_undo_history (GTH_WINDOW (browser));
 
 	window_update_image_info (browser);
@@ -2724,6 +2726,8 @@ image_requested_done_cb (GThumbPreloader *gploader,
 	priv->image_error = FALSE;
 	if (priv->image_path == NULL)
 		return;
+
+	priv->loading_image = TRUE;
 
 	loader = gthumb_preloader_get_loader (priv->preloader, priv->image_path);
 	if (loader != NULL)
@@ -8149,8 +8153,8 @@ gth_browser_set_image_modified (GthWindow *window,
 
 static char *
 get_image_to_preload (GthBrowser *browser,
-		      int           pos,
-		      int           priority)
+		      int         pos,
+		      int         priority)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	FileData              *fdata;
@@ -8546,7 +8550,7 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	if (file_list == NULL)
 		return;
 
-	if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
+	if (! (priv->loading_image || image_viewer_is_animation (IMAGE_VIEWER (priv->viewer))))
 		image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
 
 	priv->fullscreen = gth_fullscreen_new (image, priv->image_path, file_list);

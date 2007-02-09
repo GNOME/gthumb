@@ -1,5 +1,12 @@
 2007-02-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (_set_fullscreen_or_slideshow): do not use the
+	current pixbuf if the image is not loaded yet.
+
+	Fixes bug #406092 – old image is displayed
+
+2007-02-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-browser.c: do not load the last viewed image in the
 	fullscreen, if it's same image loaded in the browser.  This avoids
 	the ask whether to save the image after viewing a modified image
