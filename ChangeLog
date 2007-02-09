@@ -1,3 +1,10 @@
+2007-02-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: do not load the last viewed image in the
+	fullscreen, if it's same image loaded in the browser.  This avoids
+	the ask whether to save the image after viewing a modified image
+	in fullscreen mode.
+
 2007-02-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* README:

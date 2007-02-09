@@ -8497,6 +8497,9 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
 
+	if (strcmp (priv->image_path, current_image) == 0)
+		return FALSE;
+
 	pos = gth_file_list_pos_from_path (priv->file_list, current_image);
 	if (pos != -1) {
 		view_image_at_pos (browser, pos);
