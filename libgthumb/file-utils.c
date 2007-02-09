@@ -813,45 +813,49 @@ get_file_mime_type (const char *filename,
 	if (filename == NULL)
 		return NULL;
 
-
-	/* Check for HDR file types, which are not well represented in the
-	   freedesktop mime database currently. This section can be purged
-	   when they are. This is an unpleasant hack. Some file extensions
-	   may be missing here; please file a bug if they are. */
-	const char *extension = get_filename_extension (filename);
-	if (extension != NULL) {
-		if (   !strcasecmp (extension, "exr")
-		    || !strcasecmp (extension, "hdr")
-		    || !strcasecmp (extension, "pic"))
-			return g_strdup ("image/x-hdr");
-	}
-
-
 	if (fast_file_type) {
 		char *sample_name;
 		char *n1;
 
 		sample_name = get_sample_name (filename);
-		if (sample_name == NULL)
-			return NULL;
+		if (sample_name != NULL) {
+			n1 = g_filename_to_utf8 (sample_name, -1, 0, 0, 0);
+			if (n1 != NULL) {
+				char *n2 = g_utf8_strdown (n1, -1);
+				char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+				if (n3 != NULL)
+					result = gnome_vfs_mime_type_from_name_or_default (file_name_from_path (n3), NULL);
+				g_free (n3);
+				g_free (n2);
+				g_free (n1);
+			}
 
-		n1 = g_filename_to_utf8 (sample_name, -1, 0, 0, 0);
-		if (n1 != NULL) {
-			char *n2 = g_utf8_strdown (n1, -1);
-			char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-			if (n3 != NULL)
-				result = gnome_vfs_mime_type_from_name_or_default (file_name_from_path (n3), NULL);
-			g_free (n3);
-			g_free (n2);
-			g_free (n1);
+			g_free (sample_name);
 		}
-
-		g_free (sample_name);
 
 	} else {
 		if (uri_scheme_is_file (filename))
                         filename = get_file_path_from_uri (filename);
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
+	}
+
+
+	/* If the file extension is not recognized, or the content is
+	   determined to be binary data (octet-stream), check for HDR file
+	   types, which are not well represented in the freedesktop mime 
+	   database currently. This section can be purged when they are. 
+	   This is an unpleasant hack. Some file extensions
+	   may be missing here; please file a bug if they are. */
+
+	if ( (result==NULL) ||
+	     !strcmp (result, "application/octet-stream")) {
+		const char *extension = get_filename_extension (filename);
+		if (extension != NULL) {
+			if (   !strcasecmp (extension, "exr")	/* OpenEXR format */
+			    || !strcasecmp (extension, "hdr")	/* Radiance rgbe */
+			    || !strcasecmp (extension, "pic"))	/* Radiance rgbe */
+				return "image/x-hdr";
+		}
 	}
 
 	return result;

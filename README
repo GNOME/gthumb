@@ -103,6 +103,9 @@ Compiling
   If the libiptc library version >= 0.2.1 is present you can store
   comments in the IPTC metadata of a JPEG image.
 
+  If dcraw, pfstools, and pfstmo are installed, gthumb can view
+  RAW and HDR images. See http://www.mpi-inf.mpg.de/resources/pfstools.
+
 Download
 ========
 
@@ -116,4 +119,4 @@ Download
     cvs -d:pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co gthumb
 
 
-11 October 2006
+9 February 2007
