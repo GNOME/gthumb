@@ -1,5 +1,12 @@
 2007-02-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in:
+	* src/dlg-rename-series.c: (get_image_date):
+	Removed HAVE_LIBEXIF cruft. This library was made mandatory
+	some time ago.
+
+2007-02-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* README:
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter),
 	(gth_pixbuf_animation_new_from_uri):

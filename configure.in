@@ -72,10 +72,6 @@ AC_C_BIGENDIAN
 AC_PROG_CPP
 
 
-# This can be removed once we've cleaned out all the "#ifdef HAVE_LIBEXIF"s
-AC_DEFINE(HAVE_LIBEXIF, 1, [Define to 1 if we have libexif support])
-
-
 #
 # Checks for libjpeg
 #
