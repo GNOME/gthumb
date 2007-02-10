@@ -35,6 +35,8 @@
 #include "gth-exif-utils.h"
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
+#include "gconf-utils.h"
+#include "preferences.h"
 
 #include <libexif/exif-data.h>
 #include <libexif/exif-content.h>
@@ -768,6 +770,7 @@ update_file_info (GthExifDataViewer *edv)
 	double             sec;
 	GnomeVFSFileSize   file_size;
 	char              *file_size_txt;
+	const char	  *mime_type;
 
 	if (edv->priv->viewer == NULL)
 		return;
@@ -793,6 +796,8 @@ update_file_info (GthExifDataViewer *edv)
 	file_size = get_file_size (edv->priv->path);
 	file_size_txt = gnome_vfs_format_file_size_for_display (file_size);
 
+	mime_type = get_file_mime_type (edv->priv->path, 
+					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	/**/
 
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
@@ -800,7 +805,7 @@ update_file_info (GthExifDataViewer *edv)
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Type"), gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)), -2);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Type"), mime_type, -2);
 
 	/**/
 

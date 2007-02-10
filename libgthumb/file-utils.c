@@ -2412,7 +2412,7 @@ copy_cache_file_to_remote_uri (const char *local_filename,
 /* Pixbuf + VFS */
 
 
-static GdkPixbuf* convert_exotic_format_to_tiff (const char *path, const char *mime_type)
+static GdkPixbuf* get_pixbuf_using_external_converter (const char *path, const char *mime_type)
 {
 	char	         *cache_file;
 	char             *md5_file;
@@ -2421,12 +2421,21 @@ static GdkPixbuf* convert_exotic_format_to_tiff (const char *path, const char *m
 	char		 *input_file_esc;
 	char		 *command;
 	GdkPixbuf        *pixbuf = NULL;
+	gboolean	  is_raw;
+
+	is_raw = mime_type_is_raw (mime_type);
 
 	md5_file = gnome_thumbnail_md5 (path);
 
 	input_file_esc = shell_escape (path);
 
-	cache_file_full = get_cache_full_path (md5_file, ".tiff");
+	if (is_raw)
+		/* pnm is dcraw's default output format */
+		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
+	else
+		/* what's best for pfstools? tiff or png? */
+		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
+
 	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
 	cache_file_esc = shell_escape (cache_file);
 
@@ -2441,13 +2450,15 @@ static GdkPixbuf* convert_exotic_format_to_tiff (const char *path, const char *m
 	/* Do nothing if an up-to-date converted file is already in the cache */
         if (!path_is_file (cache_file) ||
             (get_file_mtime (path) > get_file_mtime (cache_file))) {
-		if ( mime_type_is_raw (mime_type) ) {
-		        command = g_strconcat ( "pfsindcraw ",
+		if ( is_raw ) {
+			/* raw files */
+		        command = g_strconcat ( "dcraw -c ",
         	        	                input_file_esc,
-                	        	        " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
+                	        	        " > ",
                         	        	cache_file_esc,
                                 		NULL );
 		} else {
+			/* hdr files */
         	        command = g_strconcat ( "pfsin ",
                 	                        input_file_esc,
                         	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
@@ -2590,12 +2601,12 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 #endif
 
 
-	/* Use pfstools for raw images (non-thumbnails) and HDR images.
-	   Use libopenraw in the future for raw images, because the API and
-	   library requirements are much simpler. */
+	/* Use dcraw for raw images (non-thumbnails) and pfstools for HDR images.
+	   Use libopenraw preferentially in the future for raw images, once
+	   it matures. */
 	if ( (pixbuf == NULL) &&
 	     (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)) )
-		pixbuf = convert_exotic_format_to_tiff (local_file, mime_type);
+		pixbuf = get_pixbuf_using_external_converter (local_file, mime_type);
 
 
 	/* All other file types, or if previous methods fail: read in a

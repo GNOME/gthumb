@@ -103,8 +103,16 @@ Compiling
   If the libiptc library version >= 0.2.1 is present you can store
   comments in the IPTC metadata of a JPEG image.
 
-  If dcraw, pfstools, and pfstmo are installed, gthumb can view
-  RAW and HDR images. See http://www.mpi-inf.mpg.de/resources/pfstools.
+  If the libopenraw library version >= 0.0.2 is present you can view
+  RAW photo thumbnails.
+
+  If dcraw is present (and is in your executable search path), 
+  gthumb can view full RAW photos.
+
+  If pfstools and pfstmo are installed, gthumb can view HDR images. 
+  See http://www.mpi-inf.mpg.de/resources/pfstools.
+  To view OpenEXR files with pfstools, the OpenEXR libraries need
+  to be installed. See http://www.openexr.com/.
 
 Download
 ========
