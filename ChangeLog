@@ -1,3 +1,8 @@
+2007-02-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* many files: store uris in escaped mode, and unescape when need to
+	display an uri or part of it.
+
 2007-02-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* configure.in:
