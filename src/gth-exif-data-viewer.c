@@ -60,17 +60,17 @@ typedef enum {
 } GthMetadataCategory;
 
 
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] = 
+static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 {
 	N_("Filesystem Data"),
-       	N_("General Information"), 
-	N_("Picture-Taking Conditions"), 
-	N_("Maker Notes"), 
-	N_("GPS Coordinates"), 
-	N_("Image Structure"), 
-	N_("Embedded Thumbnail"), 
-	N_("Versions & Interoperability"), 
-	N_("Other") 
+       	N_("General Information"),
+	N_("Picture-Taking Conditions"),
+	N_("Maker Notes"),
+	N_("GPS Coordinates"),
+	N_("Image Structure"),
+	N_("Embedded Thumbnail"),
+	N_("Versions & Interoperability"),
+	N_("Other")
 };
 
 
@@ -103,7 +103,7 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 
 static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY] = {
 
-	/* GTH_METADATA_CATEGORY_FILE */ 
+	/* GTH_METADATA_CATEGORY_FILE */
 	/* The filesystem info is generated and inserted by gthumb in the
 	   correct order, so we don't need to sort it. */
 	{ -1 },
@@ -184,14 +184,14 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 
 	  EXIF_TAG_DEVICE_SETTING_DESCRIPTION,
 	  EXIF_TAG_OECF,
-	  EXIF_TAG_SPATIAL_FREQUENCY_RESPONSE, 
+	  EXIF_TAG_SPATIAL_FREQUENCY_RESPONSE,
 	  EXIF_TAG_SPECTRAL_SENSITIVITY,
 	  EXIF_TAG_GAIN_CONTROL,
 
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_MAKERNOTE */ 
-	/* These tags are semi-proprietary and vary from manufacturer to 
+	/* GTH_METADATA_CATEGORY_MAKERNOTE */
+	/* These tags are semi-proprietary and vary from manufacturer to
 	   manufacturer, so we don't bother trying to sort them. They are
 	   listed in the order that they appear in the jpeg file. */
 	{ -1 },
@@ -234,7 +234,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	/* GTH_METADATA_CATEGORY_EXIF_IMAGE */
 	/* These tags describe the main image data structures, and
 	   come from the IFD0 and EXIF blocks. */
-	{ 
+	{
 
 	  // Image data structure
 
@@ -281,11 +281,11 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */ 
+	/* GTH_METADATA_CATEGORY_EXIF_THUMBNAIL */
 	/* There are normally only a few of these tags, so we don't bother
 	   sorting them. They are displayed in the order that they appear in
 	   the file. IFD0 (main image) and IFD1 (thumbnail) share many of the
-	   same tags. The IFD0 tags are sorted by the structures above. The 
+	   same tags. The IFD0 tags are sorted by the structures above. The
 	   IFD1 tags are placed into this category. */
 	{ -1 },
 
@@ -300,7 +300,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
           EXIF_TAG_RELATED_IMAGE_LENGTH,
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_OTHER */ 
+	/* GTH_METADATA_CATEGORY_OTHER */
 	/* New and unrecognized tags automatically go here. */
 	{ -1 }
 };
@@ -578,7 +578,7 @@ tag_category (ExifTag  tag,
 		/* Data in IFD1 is for the embedded thumbnail. Keep it separate, do not sort */
 		return GTH_METADATA_CATEGORY_EXIF_THUMBNAIL;
 		break;
-	
+
 	case EXIF_IFD_GPS:
 		/* Go straight to the GPS category if this is in a GPS IFD, to
 		   avoid the tag ID overlap problem. Do sort. */
@@ -636,7 +636,7 @@ update_exif_data (GthExifDataViewer *edv,
 
 	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
 
-        for (i = 0; i < EXIF_IFD_COUNT; i++) {		
+        for (i = 0; i < EXIF_IFD_COUNT; i++) {
                 ExifContent *content = edata->ifd[i];
 		const char  *value;
 		char        *utf8_name;
@@ -775,8 +775,8 @@ update_file_info (GthExifDataViewer *edv)
 	if (edv->priv->viewer == NULL)
 		return;
 
-	utf8_name = g_filename_display_basename (edv->priv->path);
-	utf8_fullname =g_filename_display_name (edv->priv->path);
+	utf8_name = basename_for_display (edv->priv->path);
+	utf8_fullname = gnome_vfs_unescape_string_for_display (edv->priv->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
@@ -796,7 +796,7 @@ update_file_info (GthExifDataViewer *edv)
 	file_size = get_file_size (edv->priv->path);
 	file_size_txt = gnome_vfs_format_file_size_for_display (file_size);
 
-	mime_type = get_file_mime_type (edv->priv->path, 
+	mime_type = get_file_mime_type (edv->priv->path,
 					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	/**/
 

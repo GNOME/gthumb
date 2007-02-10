@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "typedefs.h"
 #include "file-utils.h"
 #include "catalog.h"
@@ -551,7 +552,7 @@ catalog_list_refresh (CatalogList *cat_list)
 	name_scan = dir_name;
 	for (scan = dir_list; scan; scan = scan->next) {
 		char        *name = name_scan->data;
-		char        *utf8_name;
+		char        *display_name;
 		GtkTreeIter  iter;
 		GdkPixbuf   *pixbuf;
 
@@ -560,15 +561,15 @@ catalog_list_refresh (CatalogList *cat_list)
 		else
 			pixbuf = dir_pixbuf;
 
-		utf8_name = g_filename_display_name (name);
+		display_name = gnome_vfs_unescape_string_for_display (name);
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,
 				    CAT_LIST_COLUMN_ICON, pixbuf,
-				    CAT_LIST_COLUMN_NAME, utf8_name,
+				    CAT_LIST_COLUMN_NAME, display_name,
 				    CAT_LIST_COLUMN_PATH, scan->data,
 				    CAT_LIST_COLUMN_TYPE, CAT_LIST_TYPE_DIR,
 				    -1);
-		g_free (utf8_name);
+		g_free (display_name);
 		name_scan = name_scan->next;
 	}
 
@@ -589,7 +590,7 @@ catalog_list_refresh (CatalogList *cat_list)
 				pixbuf = catalog_pixbuf;
 			}
 
-			utf8_name = g_filename_display_name (name);
+			utf8_name = gnome_vfs_unescape_string_for_display (name);
 			gtk_list_store_append (cat_list->list_store, &iter);
 			gtk_list_store_set (cat_list->list_store, &iter,
 					    CAT_LIST_COLUMN_ICON, pixbuf,

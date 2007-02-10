@@ -211,8 +211,10 @@ destroy_cb (GtkWidget  *widget,
 		gnome_vfs_uri_unref (data->uri);
 	if (data->catalog_path != NULL)
 		g_free (data->catalog_path);
-	g_hash_table_destroy (data->folders_comment);
-	g_hash_table_destroy (data->hidden_files);
+	if (data->folders_comment != NULL)
+		g_hash_table_destroy (data->folders_comment);
+	if (data->hidden_files != NULL)
+		g_hash_table_destroy (data->hidden_files);
 	g_free (data);
 }
 
@@ -248,7 +250,6 @@ search_clicked_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
 	char       *full_path;
-	char       *esc_path;
 	const char *entry;
 
 	/* collect search data. */
@@ -259,9 +260,7 @@ search_clicked_cb (GtkWidget  *widget,
 
 	/* * start from */
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
-	full_path = gnome_vfs_unescape_string (esc_path, "");
-	g_free (esc_path);
+	full_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
 
 	search_data_set_start_from (data->search_data, full_path);
 	g_free (full_path);
@@ -358,7 +357,7 @@ view_result_cb (GtkWidget  *widget,
 	catalog_name_utf8 = g_strconcat (_("Search Result"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
@@ -590,18 +589,12 @@ dlg_search_ui (GthBrowser *browser,
 	/* Set widgets data. */
 
 	if (catalog_path == NULL) {
-		char *esc_uri = NULL;
-
-		esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
-		g_free (esc_uri);
-
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), gth_browser_get_current_directory (data->browser));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
 
 	} else {
 		Catalog    *catalog;
 		SearchData *search_data;
-		char       *esc_uri = NULL;
 
 		catalog = catalog_new ();
 		catalog_load_from_disk (catalog, data->catalog_path, NULL);
@@ -621,9 +614,7 @@ dlg_search_ui (GthBrowser *browser,
 
 		/**/
 
-		esc_uri = gnome_vfs_escape_host_and_path_string (search_data->start_from);
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
-		g_free (esc_uri);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), search_data->start_from);
 
 		/**/
 
@@ -967,7 +958,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSURI *full_uri = NULL;
-		char        *str_uri, *unesc_uri;
+		char        *str_uri;
 
 		info = node->data;
 
@@ -977,14 +968,10 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				break;
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
-
-			if (file_respects_search_criteria (data, unesc_uri))
-				files = g_list_prepend (files, unesc_uri);
+			if (file_respects_search_criteria (data, str_uri))
+				files = g_list_prepend (files, str_uri);
 			else
-				g_free (unesc_uri);
-
-			g_free (str_uri);
+				g_free (str_uri);
 			break;
 
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
@@ -993,11 +980,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
 				break;
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
-			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
-
-			data->dirs = g_list_prepend (data->dirs, unesc_uri);
-			g_free (str_uri);
+			data->dirs = g_list_prepend (data->dirs, gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE));
 			break;
 
 		default:

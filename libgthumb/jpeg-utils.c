@@ -1,26 +1,26 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
  *
  * f-jpeg-utils.c: Utility functions for JPEG files.
- * 
+ *
  * Copyright (C) 2001 Red Hat Inc.
  * Copyright (C) 2001 The Free Software Foundation, Inc.
  * Copyright (C) 2003 Ettore Perazzoli
- *  
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program; if not, write to the
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
- *  
+ *
  * Authors: Alexander Larsson <alexl@redhat.com>
  *          Ettore Perazzoli <ettore@perazzoli.org>
  *          Paolo Bacchilega <paolo.bacch@tin.it>
@@ -82,23 +82,23 @@ fill_input_buffer (j_decompress_ptr cinfo)
 	Source *src;
 	GnomeVFSFileSize nbytes;
 	GnomeVFSResult result;
-	
+
 	src = (Source *) cinfo->src;
 	result = gnome_vfs_read (src->handle,
 				 src->buffer,
 				 G_N_ELEMENTS (src->buffer),
 				 &nbytes);
-	
+
 	if (result != GNOME_VFS_OK || nbytes == 0) {
 		/* return a fake EOI marker so we will eventually terminate */
 		src->buffer[0] = (JOCTET) 0xFF;
 		src->buffer[1] = (JOCTET) JPEG_EOI;
 		nbytes = 2;
 	}
-	
+
 	src->pub.next_input_byte = src->buffer;
 	src->pub.bytes_in_buffer = nbytes;
-	
+
 	return TRUE;
 }
 
@@ -127,7 +127,7 @@ static void
 vfs_src (j_decompress_ptr cinfo, GnomeVFSHandle *handle)
 {
 	Source *src;
-	
+
 	if (cinfo->src == NULL) {	/* first time for this JPEG object? */
 		cinfo->src = &(g_new (Source, 1))->pub;
 	}
@@ -176,8 +176,10 @@ free_buffer (guchar *pixels, gpointer data)
 
 static GdkPixbuf *
 do_load_internal (const char *path,
-		  int target_width, int target_height,
-		  int *original_width_return, int *original_height_return)
+		  int         target_width,
+		  int         target_height,
+		  int        *original_width_return,
+		  int        *original_height_return)
 {
 	struct jpeg_decompress_struct cinfo;
 	ErrorHandlerData jerr;
@@ -186,26 +188,18 @@ do_load_internal (const char *path,
 	guchar * volatile buffer;
 	guchar * volatile pixels;
 	guchar *ptr;
-	char   *e_path;
-	gchar  *uri;
 	GnomeVFSResult result;
 	unsigned int i;
-
 
 	if (original_width_return != NULL)
 		*original_width_return = 0;
 	if (original_height_return != NULL)
 		*original_height_return = 0;
 
-	e_path = escape_uri (path);
-	uri = get_uri_from_path (e_path);
-	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	g_free (uri);
-	g_free (e_path);
-
-	if (result != GNOME_VFS_OK) 
+	result = gnome_vfs_open (&handle, path, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK)
 		return NULL;
-	
+
 	cinfo.err = jpeg_std_error (&jerr.pub);
 	jerr.pub.error_exit = fatal_error_handler;
 	jerr.pub.output_message = output_message_handler;
@@ -234,7 +228,7 @@ do_load_internal (const char *path,
 						       target_height);
 		cinfo.dct_method = JDCT_FASTEST;
 		cinfo.do_fancy_upsampling = FALSE;
-	
+
 		jpeg_start_decompress (&cinfo);
 
 		pixels = g_malloc (cinfo.output_width *	cinfo.output_height * 3);
@@ -244,10 +238,10 @@ do_load_internal (const char *path,
 		lines[0] = buffer;
 		while (cinfo.output_scanline < cinfo.output_height) {
 			jpeg_read_scanlines (&cinfo,lines, 1);
-		
+
 			for (i = 0; i < cinfo.output_width; i++) {
 				int ofs = 0;
-				
+
 				ptr[i*3] = buffer[i*cinfo.num_components];
 
 				if (cinfo.num_components >= 3)
@@ -258,7 +252,7 @@ do_load_internal (const char *path,
 					ofs++;
 				ptr[i*3+2] = buffer[i*cinfo.num_components+ofs];
 			}
-			
+
 			ptr += cinfo.output_width * 3;
 		}
 
@@ -271,7 +265,7 @@ do_load_internal (const char *path,
 	jpeg_destroy_decompress (&cinfo);
 
 	vfs_src_free (&cinfo);
-	
+
 	gnome_vfs_close (handle);
 
 	if (original_width_return != NULL)
@@ -279,7 +273,7 @@ do_load_internal (const char *path,
 	if (original_height_return != NULL)
 		*original_height_return = cinfo.image_height;
 
-	if (target_width == 0 || target_height == 0) 
+	if (target_width == 0 || target_height == 0)
 		return NULL;
 
 	if (pixels == NULL)

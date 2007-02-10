@@ -57,9 +57,9 @@
 #define DEF_THUMB_SIZE      128
 
 static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
-static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
-					      GTH_SORT_METHOD_BY_PATH, 
-					      GTH_SORT_METHOD_BY_SIZE, 
+static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
+					      GTH_SORT_METHOD_BY_PATH,
+					      GTH_SORT_METHOD_BY_SIZE,
 					      GTH_SORT_METHOD_BY_TIME,
 					      GTH_SORT_METHOD_BY_EXIF_DATE,
 					      GTH_SORT_METHOD_BY_COMMENT,
@@ -93,7 +93,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->gui);
@@ -109,7 +109,6 @@ export (GtkWidget  *widget,
 {
 	CatalogPngExporter *exporter = data->exporter;
 	char               *dir;
-	char               *esc_dir;
 	int                 type_id;
 	guint32             bg_color;
 	guint32             hgrad1;
@@ -131,9 +130,9 @@ export (GtkWidget  *widget,
 
 	type_id = gtk_option_menu_get_history (GTK_OPTION_MENU (data->file_type_option_menu));
 	switch (type_id) {
-	case 0: 
+	case 0:
 		type_extension = "png"; break;
-	case 1: 
+	case 1:
 	default:
 		type_extension = "jpeg"; break;
 	}
@@ -144,11 +143,8 @@ export (GtkWidget  *widget,
 	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_TEXT, gtk_entry_get_text (GTK_ENTRY (data->footer_entry)));
 
 	/**/
-	
-	esc_dir = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton));
-	dir = gnome_vfs_unescape_string (esc_dir, "");
-	g_free (esc_dir);
 
+	dir = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton));
 	if (! dlg_check_folder (GTH_WINDOW (data->browser), dir)) {
 		g_free (dir);
 		return;
@@ -257,7 +253,7 @@ export (GtkWidget  *widget,
 	color = eel_gconf_get_string (PREF_EXP_FRAME_COLOR, "#94d6cd");
 	catalog_png_exporter_set_frame_color (exporter, color);
 	g_free (color);
-	
+
 	catalog_png_exporter_set_thumb_size (exporter, eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE), eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE));
 
 	color = eel_gconf_get_string (PREF_EXP_TEXT_COLOR, "#414141");
@@ -267,7 +263,7 @@ export (GtkWidget  *widget,
 	s = eel_gconf_get_string (PREF_EXP_TEXT_FONT, "Arial Bold 12");
 	catalog_png_exporter_set_caption_font (exporter, s);
 	g_free (s);
-	
+
 	catalog_png_exporter_write_image_map (exporter, eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP, FALSE));
 
 	/* Export. */
@@ -329,7 +325,6 @@ dlg_exporter (GthBrowser *browser)
 	GList        *list;
 	char         *template;
 	char         *s;
-	char         *esc_uri = NULL;
 
 	data = g_new (DialogData, 1);
 
@@ -360,7 +355,7 @@ dlg_exporter (GthBrowser *browser)
 	data->dest_filechooserbutton = glade_xml_get_widget (data->gui, "dest_filechooserbutton");
 	data->template_entry = glade_xml_get_widget (data->gui, "template_entry");
 	data->file_type_option_menu = glade_xml_get_widget (data->gui, "type_optionmenu");
-	
+
 	data->progress_dialog = glade_xml_get_widget (data->gui, "progress_dialog");
 	data->progress_progressbar = glade_xml_get_widget (data->gui, "progress_progressbar");
 	data->progress_info = glade_xml_get_widget (data->gui, "progress_info");
@@ -378,41 +373,41 @@ dlg_exporter (GthBrowser *browser)
 
 	/* Signals. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+	g_signal_connect_swapped (G_OBJECT (btn_cancel),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (data->btn_ok), 
+	g_signal_connect (G_OBJECT (data->btn_ok),
 			  "clicked",
 			  G_CALLBACK (export),
 			  data);
-	g_signal_connect (G_OBJECT (btn_pref), 
+	g_signal_connect (G_OBJECT (btn_pref),
 			  "clicked",
 			  G_CALLBACK (popup_pref_dialog),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "png_exporter_done",
 			  G_CALLBACK (export_done),
 			  data);
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "png_exporter_progress",
 			  G_CALLBACK (export_progress),
 			  data);
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "png_exporter_info",
 			  G_CALLBACK (export_info),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (data->progress_dialog), 
+	g_signal_connect_swapped (G_OBJECT (data->progress_dialog),
 				  "delete_event",
 				  G_CALLBACK (catalog_png_exporter_interrupt),
 				  data->exporter);
-	g_signal_connect_swapped (G_OBJECT (data->progress_cancel), 
+	g_signal_connect_swapped (G_OBJECT (data->progress_cancel),
 				  "clicked",
 				  G_CALLBACK (catalog_png_exporter_interrupt),
 				  data->exporter);
@@ -421,13 +416,11 @@ dlg_exporter (GthBrowser *browser)
 
 	/**/
 
-	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), esc_uri);
-	g_free (esc_uri);
-	
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), gth_browser_get_current_directory (browser));
+
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	if (template != NULL)
-		gtk_entry_set_text (GTK_ENTRY (data->template_entry), 
+		gtk_entry_set_text (GTK_ENTRY (data->template_entry),
 				    template);
 	else
 		_gtk_entry_set_locale_text (GTK_ENTRY (data->template_entry), "###");
@@ -435,7 +428,7 @@ dlg_exporter (GthBrowser *browser)
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->start_at_spinbutton),
 				   eel_gconf_get_integer (PREF_EXP_START_FROM, 1));
-				    
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_map_checkbutton), eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP, FALSE));
 
 	s = eel_gconf_get_string (PREF_EXP_FILE_TYPE, DEF_FILE_TYPE);
@@ -446,7 +439,7 @@ dlg_exporter (GthBrowser *browser)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (data->file_type_option_menu), 1);
 		g_free (s);
 	}
-	
+
 	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_TEXT, "");
 	if (s != NULL)
 		gtk_entry_set_text (GTK_ENTRY (data->header_entry), s);
@@ -511,7 +504,7 @@ typedef struct {
 	GtkWidget *frame_colorpicker;
 	GtkWidget *draw_frame_checkbutton;
 	GtkWidget *prop_frame_table;
-	GtkWidget *prop_thumb_preview; 
+	GtkWidget *prop_thumb_preview;
 
 	GtkWidget *header_fontpicker;
 	GtkWidget *header_colorpicker;
@@ -528,7 +521,7 @@ typedef struct {
 
 /* called when the pref dialog is closed. */
 static void
-pref_destroy_cb (GtkWidget *widget, 
+pref_destroy_cb (GtkWidget *widget,
 		 PrefDialogData *data)
 {
 	if (data->pixmap != NULL)
@@ -635,7 +628,7 @@ paint_sample_text (GtkWidget   *drawable,
 
 	font_desc = pango_font_description_from_string (text_font);
 	pango_layout_set_font_description (layout, font_desc);
-	pango_font_description_free (font_desc); 
+	pango_font_description_free (font_desc);
 
 	gdk_gc_set_rgb_fg_color (gc, text_color);
 	gdk_draw_layout (pixmap, gc, x, y, layout);
@@ -644,7 +637,7 @@ paint_sample_text (GtkWidget   *drawable,
 }
 
 
-static int 
+static int
 get_text_height (GtkWidget   *drawable,
 		 const char  *text,
 		 const char  *font_name,
@@ -718,7 +711,7 @@ paint_background (PrefDialogData *data,
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, width, height);
 
-	if (use_solid_color) 
+	if (use_solid_color)
 		gdk_pixbuf_fill (pixbuf, bg_color);
 	else {
 		GdkPixbuf *tmp;
@@ -726,19 +719,19 @@ paint_background (PrefDialogData *data,
 		tmp = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 1, 8, width, height);
 		gdk_pixbuf_fill (tmp, 0xFFFFFFFF);
 
-		if (use_hgradient && use_vgradient) 
+		if (use_hgradient && use_vgradient)
 			_gdk_pixbuf_hv_gradient (tmp, hgrad1, hgrad2, vgrad1, vgrad2);
-		
-		else if (use_hgradient) 
+
+		else if (use_hgradient)
 			_gdk_pixbuf_horizontal_gradient (tmp, hgrad1, hgrad2);
-		
-		else if (use_vgradient) 
+
+		else if (use_vgradient)
 			_gdk_pixbuf_vertical_gradient (tmp, vgrad1, vgrad2);
-		
-		gdk_pixbuf_composite (tmp, pixbuf, 
-				      0, 0, width, height, 
+
+		gdk_pixbuf_composite (tmp, pixbuf,
+				      0, 0, width, height,
 				      0, 0,
-				      1.0, 1.0, 
+				      1.0, 1.0,
 				      GDK_INTERP_NEAREST, 255);
 
 		g_object_unref (tmp);
@@ -803,7 +796,7 @@ update_thumb_preview (PrefDialogData *data,
 
 	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->frame_colorpicker),
 				    &frame_color);
-	
+
 	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker),
 				    &bg_color);
 
@@ -820,12 +813,12 @@ update_thumb_preview (PrefDialogData *data,
 
 	/* Clear. */
 
-	paint_background (data, 
+	paint_background (data,
 			  drawable,
 			  data->pixmap,
-			  drawable->allocation.width, 
+			  drawable->allocation.width,
 			  drawable->allocation.height);
-	
+
 	/* Paint the frame. */
 
 	border = 8;
@@ -860,18 +853,18 @@ update_thumb_preview (PrefDialogData *data,
 	case GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW:
 	case GTH_FRAME_STYLE_SHADOW:
 		if (frame_style == GTH_FRAME_STYLE_SHADOW)
-			gthumb_draw_image_shadow (image_x, image_y, 
+			gthumb_draw_image_shadow (image_x, image_y,
 						  image_width, image_height,
 						  data->pixmap);
 
 		if (frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)
-			gthumb_draw_frame_shadow (image_x, image_y, 
+			gthumb_draw_frame_shadow (image_x, image_y,
 						  image_width, image_height,
 						  data->pixmap);
-		
+
 		if ((frame_style == GTH_FRAME_STYLE_SIMPLE)
 		    || (frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)) {
-			gthumb_draw_frame (image_x, image_y, 
+			gthumb_draw_frame (image_x, image_y,
 					   image_width, image_height,
 					   data->pixmap,
 					   &frame_color);
@@ -880,16 +873,16 @@ update_thumb_preview (PrefDialogData *data,
 
 	case GTH_FRAME_STYLE_SHADOW_IN:
 		gthumb_draw_image_shadow_in (image_x,
-					     image_y, 
-					     image_width, 
+					     image_y,
+					     image_width,
 					     image_height,
 					     data->pixmap);
 		break;
 
 	case GTH_FRAME_STYLE_SHADOW_OUT:
 		gthumb_draw_image_shadow_out (image_x,
-					      image_y, 
-					      image_width, 
+					      image_y,
+					      image_width,
 					      image_height,
 					      data->pixmap);
 		break;
@@ -900,7 +893,7 @@ update_thumb_preview (PrefDialogData *data,
 				    &text_color);
 	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->text_fontpicker));
 
-	paint_sample_text (drawable, 
+	paint_sample_text (drawable,
 			   data->pixmap,
 			   gc,
 			   _("Image Caption"),
@@ -921,7 +914,7 @@ update_thumb_preview (PrefDialogData *data,
 	gdk_draw_rectangle (data->pixmap,
 			    gc,
 			    TRUE,
-			    x, 
+			    x,
 			    y,
 			    width,
 			    height);
@@ -931,19 +924,19 @@ update_thumb_preview (PrefDialogData *data,
 		gdk_draw_rectangle (data->pixmap,
 				    gc,
 				    FALSE,
-				    x, 
+				    x,
 				    y,
 				    width,
 				    height);
 	gdk_draw_line (data->pixmap,
 		       gc,
-		       x, 
+		       x,
 		       y,
 		       x + width - 1,
 		       y + height - 1);
 	gdk_draw_line (data->pixmap,
 		       gc,
-		       x + width - 1, 
+		       x + width - 1,
 		       y,
 		       x,
 		       y + height - 1);
@@ -954,7 +947,7 @@ update_thumb_preview (PrefDialogData *data,
 				    &text_color);
 	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->header_fontpicker));
 
-	paint_sample_text (drawable, 
+	paint_sample_text (drawable,
 			   data->pixmap,
 			   gc,
 			   _("Header"),
@@ -969,11 +962,11 @@ update_thumb_preview (PrefDialogData *data,
 				    &text_color);
 	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->footer_fontpicker));
 
-	y = (drawable->allocation.height - get_text_height (drawable, 
-							    _("Footer"), 
-							    text_font, 
+	y = (drawable->allocation.height - get_text_height (drawable,
+							    _("Footer"),
+							    text_font,
 							    drawable->allocation.width));
-	paint_sample_text (drawable,  
+	paint_sample_text (drawable,
 			   data->pixmap,
 			   gc,
 			   _("Footer"),
@@ -1007,7 +1000,7 @@ preview_expose_cb (GtkWidget      *widget,
 
 
 static void
-color_button_color_set_cb (GtkColorButton *color_button, 
+color_button_color_set_cb (GtkColorButton *color_button,
 			   PrefDialogData *data)
 {
 	update_thumb_preview (data, TRUE);
@@ -1022,15 +1015,15 @@ optionmenu_changed_cb (GtkWidget      *widget,
 }
 
 
-static void 
-font_button_font_set_cb (GtkFontButton   *font_button, 
+static void
+font_button_font_set_cb (GtkFontButton   *font_button,
 			 PrefDialogData  *data)
 {
 	update_thumb_preview (data, TRUE);
 }
 
 
-static void 
+static void
 toggled_cb (GtkWidget      *widget,
 	    PrefDialogData *data)
 {
@@ -1057,7 +1050,7 @@ hgrad_toggled_cb (GtkWidget      *widget,
 static void
 vgrad_toggled_cb (GtkWidget      *widget,
 		  PrefDialogData *data)
-{	
+{
 	gboolean state;
 
 	state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
@@ -1072,7 +1065,7 @@ vgrad_toggled_cb (GtkWidget      *widget,
 
 /* called when the "ok" button is clicked. */
 static void
-ok_cb (GtkWidget *widget, 
+ok_cb (GtkWidget *widget,
        PrefDialogData *data)
 {
 	GdkColor color;
@@ -1234,7 +1227,7 @@ use_gradient_cb (GtkWidget *widget,
 
 	gtk_widget_set_sensitive (data->page_bg_colorpicker, FALSE);
 	gtk_widget_set_sensitive (data->hgrad_checkbutton, TRUE);
-	gtk_widget_set_sensitive (data->vgrad_checkbutton, TRUE); 
+	gtk_widget_set_sensitive (data->vgrad_checkbutton, TRUE);
 
 	state = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->hgrad_checkbutton));
 
@@ -1309,7 +1302,7 @@ vgrad_swap_cb (GtkWidget      *button,
 
 
 /* create the exporter preferences dialog. */
-static void 
+static void
 dlg_png_exporter_pref (DialogData *ddata)
 {
 	PrefDialogData *data;
@@ -1397,31 +1390,31 @@ dlg_png_exporter_pref (DialogData *ddata)
 
 	/* Signals. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (pref_destroy_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+	g_signal_connect_swapped (G_OBJECT (btn_cancel),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (btn_ok), 
+	g_signal_connect (G_OBJECT (btn_ok),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->pixel_size_radiobutton), 
+	g_signal_connect (G_OBJECT (data->pixel_size_radiobutton),
 			  "toggled",
 			  G_CALLBACK (use_pixel_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->row_col_size_radiobutton), 
+	g_signal_connect (G_OBJECT (data->row_col_size_radiobutton),
 			  "toggled",
 			  G_CALLBACK (use_row_col_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->solid_color_radiobutton), 
+	g_signal_connect (G_OBJECT (data->solid_color_radiobutton),
 			  "toggled",
 			  G_CALLBACK (use_solid_color_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->gradient_radiobutton), 
+	g_signal_connect (G_OBJECT (data->gradient_radiobutton),
 			  "toggled",
 			  G_CALLBACK (use_gradient_cb),
 			  data);
@@ -1513,11 +1506,11 @@ dlg_png_exporter_pref (DialogData *ddata)
 			  G_CALLBACK (radio_button_clicked_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->hgrad_swap_button), 
+	g_signal_connect (G_OBJECT (data->hgrad_swap_button),
 			  "clicked",
 			  G_CALLBACK (hgrad_swap_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->vgrad_swap_button), 
+	g_signal_connect (G_OBJECT (data->vgrad_swap_button),
 			  "clicked",
 			  G_CALLBACK (vgrad_swap_cb),
 			  data);
@@ -1531,31 +1524,31 @@ dlg_png_exporter_pref (DialogData *ddata)
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR, "#62757b");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker),
 				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1, "#e0d3c0");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker),
 				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2, "#b1c3ad");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker),
 				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1, "#e8e8ea");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker),
 				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2, "#bad8d8");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker),
 				    &color);
 	g_free (v);
 
@@ -1592,9 +1585,9 @@ dlg_png_exporter_pref (DialogData *ddata)
 	sprintf (s, "%d", eel_gconf_get_integer (PREF_EXP_PAGE_HEIGHT, DEF_PAGE_HEIGHT));
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->height_entry), s);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rows_spinbutton), 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rows_spinbutton),
 				   eel_gconf_get_integer (PREF_EXP_PAGE_ROWS, DEF_ROWS));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->cols_spinbutton), 
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->cols_spinbutton),
 				   eel_gconf_get_integer (PREF_EXP_PAGE_COLS, DEF_COLS));
 
 	use_rc = eel_gconf_get_boolean (PREF_EXP_PAGE_SIZE_USE_RC, TRUE);
@@ -1616,18 +1609,18 @@ dlg_png_exporter_pref (DialogData *ddata)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->gradient_radiobutton), TRUE);
 		use_gradient_cb (data->gradient_radiobutton, data);
 	}
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->hgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_HGRADIENT, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->vgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_VGRADIENT, TRUE));
 
 	/* * Thumbnails */
 
 	/* ** Caption */
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->comment_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT, FALSE));
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filepath_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_PATH, FALSE));
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filename_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_NAME, FALSE));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filesize_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE, FALSE));
@@ -1635,12 +1628,12 @@ dlg_png_exporter_pref (DialogData *ddata)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_dim_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM, FALSE));
 
 	/* ** Frame */
-	
+
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->frame_style_optionmenu), get_idx_from_style (pref_get_exporter_frame_style ()));
 
 	v = eel_gconf_get_string (PREF_EXP_FRAME_COLOR, "#94d6cd");
 	pref_util_get_color_from_hex (v, &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->frame_colorpicker), 
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->frame_colorpicker),
 				    &color);
 	g_free (v);
 
@@ -1693,7 +1686,7 @@ dlg_png_exporter_pref (DialogData *ddata)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (ddata->dialog));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);

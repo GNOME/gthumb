@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <sys/stat.h>   
+#include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -50,10 +50,9 @@
 
 
 char *
-cache_get_nautilus_cache_name (const char *path) 
+cache_get_nautilus_cache_name (const char *path)
 {
 	char           *parent;
-	char           *escaped_path;
 	char           *resolved_parent;
 	char           *resolved_path = NULL;
 	GnomeVFSResult  result;
@@ -65,23 +64,21 @@ cache_get_nautilus_cache_name (const char *path)
 	result = resolve_all_symlinks (parent, &resolved_parent);
 	g_free (parent);
 
-	if (result == GNOME_VFS_OK) 
-		resolved_path = g_strconcat (resolved_parent, 
-					     "/", 
-					     file_name_from_path (path), 
+	if (result == GNOME_VFS_OK)
+		resolved_path = g_strconcat (resolved_parent,
+					     "/",
+					     file_name_from_path (path),
 					     NULL);
 	else
 		resolved_path = g_strdup (path);
 
 	uri = new_uri_from_path (resolved_path);
+
 	g_free (resolved_path);
 	g_free (resolved_parent);
 
-	escaped_path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	uri_txt = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 	gnome_vfs_uri_unref (uri);
-
-	uri_txt = gnome_vfs_unescape_string (escaped_path, NULL);
-	g_free (escaped_path);
 
 	if (uri_txt == NULL)
 		return NULL;
@@ -104,7 +101,7 @@ cache_copy (const char *src,
 	if (path_is_file (cache_src)) {
 		char *cache_dest = cache_get_nautilus_cache_name (dest);
 
-		if (path_is_file (cache_dest)) 
+		if (path_is_file (cache_dest))
 			file_unlink (cache_dest);
 		if (file_copy (cache_src, cache_dest))
 			set_file_mtime (cache_dest, dest_mtime);
@@ -127,11 +124,11 @@ cache_move (const char *src,
 	if (path_is_file (cache_src)) {
 		char *cache_dest = cache_get_nautilus_cache_name (dest);
 
-		if (path_is_file (cache_dest)) 
+		if (path_is_file (cache_dest))
 			file_unlink (cache_dest);
 		if (file_move (cache_src, cache_dest))
 			set_file_mtime (cache_dest, dest_mtime);
-		
+
 		g_free (cache_dest);
 	}
 	g_free (cache_src);
@@ -234,9 +231,9 @@ png_simple_error_callback(png_structp     png_save_ptr,
                           png_const_charp error_msg)
 {
 	GError **error;
-	
+
 	error = png_get_error_ptr(png_save_ptr);
-	
+
 	/* I don't trust libpng to call the error callback only once,
 	 * so check for already-set error
 	 */
@@ -274,26 +271,26 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 	png_infop      info_ptr = NULL;
 	png_textp      text_ptr = NULL;
 	int            num_texts;
-	
+
 	cache_path = get_file_path_from_uri (cache_path);
 	if (cache_path == NULL)
 		return NULL;
 
 	f = fopen (cache_path, "r");
-	
+
 	if (f == NULL)
 		return NULL;
-	
+
 	png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING,
 					  NULL,
 					  png_simple_error_callback,
 					  png_simple_warning_callback);
-	
+
         if (png_ptr == NULL) {
 		fclose (f);
 		return NULL;
 	}
-	
+
 	info_ptr = png_create_info_struct (png_ptr);
 	if (info_ptr == NULL) {
 		png_destroy_read_struct (&png_ptr, NULL, NULL);
@@ -306,11 +303,11 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 		fclose (f);
 		return NULL;
 	}
-	
+
 	result = NULL;
 	png_init_io (png_ptr, f);
 	png_read_info (png_ptr, info_ptr);
-	
+
 	if (png_get_text (png_ptr, info_ptr, &text_ptr, &num_texts)) {
 		int    i;
 		char  *key;
@@ -330,11 +327,11 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 			g_free (value);
 		}
 	}
-	
+
 	png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
-	
+
 	fclose (f);
-	
+
 	return result;
 }
 
@@ -412,7 +409,7 @@ process_files_cb (gpointer data)
 			continue;
 
 		if (ncrd->clear_all || ! path_is_file (real_file)) {
-			if (! file_unlink (rc_file)) 
+			if (! file_unlink (rc_file))
 				g_warning ("Cannot delete %s\n", rc_file);
 		}
 
@@ -420,8 +417,8 @@ process_files_cb (gpointer data)
 	}
 
 	ncrd->scan = scan;
-	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY, 
-					       process_files_cb, 
+	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY,
+					       process_files_cb,
 					       ncrd);
 
 	return FALSE;
@@ -429,7 +426,7 @@ process_files_cb (gpointer data)
 
 
 static void
-path_list_done_cb (PathListData *pld, 
+path_list_done_cb (PathListData *pld,
 		   gpointer      data)
 {
 	NautilusCacheRemoveData *ncrd = data;
@@ -452,8 +449,8 @@ path_list_done_cb (PathListData *pld,
 	}
 
 	ncrd->scan = pld->files;
-	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY, 
-					       process_files_cb, 
+	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY,
+					       process_files_cb,
 					       ncrd);
 }
 
@@ -472,14 +469,14 @@ ncrop_interrupt_cb (GtkDialog *dialog,
 		    NautilusCacheRemoveData *ncrd)
 {
 	ncrd->interrupted = TRUE;
-	if (ncrd->handle != NULL) 
+	if (ncrd->handle != NULL)
 		path_list_async_interrupt (ncrd->handle,
 					   (DoneFunc) process__final_step,
 					   ncrd);
 }
 
 
-static void 
+static void
 nautilus_cache_remove_old_previews_async (gboolean recursive,
 					  gboolean clear_all)
 {

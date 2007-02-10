@@ -43,7 +43,7 @@ file_data_new (const char       *path,
 	fd->ref = 1;
 	fd->path = get_uri_from_path (path);
 	fd->name = file_name_from_path (fd->path);
-	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
+	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 	if (info != NULL) {
 		fd->size = info->size;
 		fd->ctime = info->ctime;
@@ -85,7 +85,7 @@ file_data_unref (FileData *fd)
 
 	if (fd->ref == 0) {
 		g_free (fd->path);
-		g_free (fd->utf8_name);
+		g_free (fd->display_name);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
@@ -99,7 +99,6 @@ file_data_update (FileData *fd)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    result;
-	char             *escaped;
 
 	g_return_if_fail (fd != NULL);
 
@@ -108,13 +107,11 @@ file_data_update (FileData *fd)
 
 	fd->mime_type = NULL;
 
-	escaped = escape_uri (fd->path);
 	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (escaped,
+	result = gnome_vfs_get_file_info (fd->path,
 					  info,
 					  (GNOME_VFS_FILE_INFO_DEFAULT
 					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	g_free (escaped);
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -127,8 +124,8 @@ file_data_update (FileData *fd)
 
 	fd->name = file_name_from_path (fd->path);
 
-	g_free (fd->utf8_name);
-	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
+	g_free (fd->display_name);
+	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
 	if (info->mime_type != NULL)
 		fd->mime_type = info->mime_type;

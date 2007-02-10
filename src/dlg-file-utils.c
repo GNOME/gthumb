@@ -100,7 +100,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
-		utf8_path = g_filename_display_name (dir);
+		utf8_path = gnome_vfs_unescape_string_for_display (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
@@ -114,7 +114,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
-		utf8_path = g_filename_display_name (dir);
+		utf8_path = gnome_vfs_unescape_string_for_display (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
@@ -540,7 +540,7 @@ set_filename_labels (GladeXML    *gui,
 	_gtk_label_set_filename_text (GTK_LABEL (label), name);
 	g_free (name);
 
-	utf8_name = g_filename_display_name (filename);
+	utf8_name = gnome_vfs_unescape_string_for_display (filename);
 	gtk_tooltips_set_tip (tooltips, eventbox, utf8_name, NULL);
 	g_free (utf8_name);
 
@@ -798,7 +798,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			if (path_is_file (new_path)) {
 				char *utf8_name;
 
-				utf8_name = g_filename_display_name (new_name);
+				utf8_name = gnome_vfs_unescape_string_for_display (new_name);
 				_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 						       _("The name \"%s\" is already used in this folder. Please use a different name."),
 						       utf8_name);
@@ -899,7 +899,7 @@ dlg_overwrite_run (GthWindow     *window,
 		if (path_is_file (new_path)) {
 			char *utf8_name;
 
-			utf8_name = g_filename_display_name (*new_name);
+			utf8_name = gnome_vfs_unescape_string_for_display (*new_name);
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
 					       utf8_name);
@@ -946,22 +946,24 @@ dlg_file_rename_series (GthWindow *window,
 			GList     *old_names,
 			GList     *new_names)
 {
-	GList    *o_scan, *n_scan;
-	GList    *error_list = NULL;
-	int       overwrite_result;
-	gboolean  file_exists, show_ow_all_none;
-	gboolean  error = FALSE;
-	GList    *files_deleted = NULL;
-	GList    *files_created = NULL;
+	GList          *o_scan, *n_scan;
+	GList          *error_list = NULL;
+	int             overwrite_result;
+	gboolean        file_exists, show_ow_all_none;
+	gboolean        error = FALSE;
+	GList          *files_deleted = NULL;
+	GList          *files_created = NULL;
+	GnomeVFSResult  result = GNOME_VFS_OK;
 
 	all_windows_remove_monitor ();
 
 	show_ow_all_none = g_list_length (old_names) > 1;
 	overwrite_result = OVERWRITE_RESULT_NO;
 	for (n_scan = new_names, o_scan = old_names; o_scan && n_scan;) {
-		char *old_full_path = o_scan->data;
-		char *new_full_path = n_scan->data;
-		char *new_name = NULL;
+		char           *old_full_path = o_scan->data;
+		char           *new_full_path = n_scan->data;
+		char           *new_name = NULL;
+		;
 
 		if (! path_is_file (old_full_path))
 			continue;
@@ -1008,7 +1010,8 @@ dlg_file_rename_series (GthWindow *window,
 			continue;
 		}
 
-		if (file_rename (old_full_path, new_full_path)) {
+		result = file_rename (old_full_path, new_full_path);
+		if (result == GNOME_VFS_OK) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);
 
@@ -1047,7 +1050,7 @@ dlg_file_rename_series (GthWindow *window,
 		dlg_show_error (window,
 				msg,
 				error_list,
-				errno_to_string ());
+				gnome_vfs_result_to_string (result));
 	}
 
 	path_list_free (error_list);
@@ -1179,7 +1182,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 		error = _("Could not move the image:");
 	else
 		error = _("Could not copy the image:");
-	utf8_name = g_filename_display_basename (src_file);
+	utf8_name = basename_for_display (src_file);
 	message = g_strconcat (error,
 			       " ",
 			       utf8_name,
@@ -1482,8 +1485,8 @@ copy_next_file (FileCopyData *fcdata)
 					 file_name_from_path (src_file),
 					 NULL);
 
-		src_cache_file = comments_get_comment_filename (src_file, TRUE, TRUE);
-		dest_cache_file = comments_get_comment_filename (dest_file, TRUE, TRUE);
+		src_cache_file = comments_get_comment_filename (src_file, TRUE);
+		dest_cache_file = comments_get_comment_filename (dest_file, TRUE);
 
 		if (path_is_file (src_cache_file)) {
 			char *parent_dir;
@@ -1681,7 +1684,7 @@ dlg_files_move_to_trash (GthWindow      *window,
 	if (trash_uri != NULL) {
 		char *trash_path;
 
-		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_NONE);
 		dlg_files_copy (window,
 				file_list,
 				trash_path,
@@ -2215,11 +2218,11 @@ folder_copy (GthWindow      *window,
 	if (fcdata->include_cache) {
 		char *src_folder_comment;
 
-		src_folder_comment = comments_get_comment_filename (src_path, TRUE, TRUE);
+		src_folder_comment = comments_get_comment_filename (src_path, TRUE);
 
 		if (path_is_file (src_folder_comment)) {
 			char *dest_folder_comment;
-			dest_folder_comment = comments_get_comment_filename (dest_path, TRUE, TRUE);
+			dest_folder_comment = comments_get_comment_filename (dest_path, TRUE);
 			src_list = g_list_append (src_list, new_uri_from_path (src_folder_comment));
 			if (fcdata->file_op != FILE_OP_DELETE) {
 				if (path_is_file (dest_folder_comment))
@@ -2316,7 +2319,7 @@ dlg_folder_move_to_trash (GthWindow      *window,
 		char *trash_path;
 		char *dest_folder;
 
-		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_NONE);
 		dest_folder = g_strconcat (trash_path, "/", file_name_from_path (folder), NULL);
 
 		folder_copy (window,
@@ -2440,7 +2443,7 @@ copy_item__continue1 (GnomeVFSResult result,
 		else
 			error = _("Could not move the folder \"%s\": %s");
 
-		utf8_name = g_filename_display_basename (folder);
+		utf8_name = basename_for_display (folder);
 		message = g_strdup_printf (error,
 					   utf8_name,
 					   gnome_vfs_result_to_string (result),

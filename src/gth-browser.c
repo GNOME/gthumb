@@ -645,7 +645,7 @@ window_update_infobar (GthBrowser *browser)
 	char       *text;
 	const char *path;
 	char       *escaped_name;
-	char       *utf8_name;
+	char       *display_name;
 	int         images, current;
 
 	path = priv->image_path;
@@ -657,8 +657,8 @@ window_update_infobar (GthBrowser *browser)
 	images = gth_file_view_get_images (priv->file_list->view);
 	current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
 
-	utf8_name = g_filename_display_basename (path);
-	escaped_name = g_markup_escape_text (utf8_name, -1);
+	display_name = gnome_vfs_unescape_string_for_display (file_name_from_path (path));
+	escaped_name = g_markup_escape_text (display_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s",
 				current,
@@ -668,7 +668,7 @@ window_update_infobar (GthBrowser *browser)
 
 	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar), text, NULL);
 
-	g_free (utf8_name);
+	g_free (display_name);
 	g_free (escaped_name);
 	g_free (text);
 }
@@ -689,7 +689,7 @@ window_update_title (GthBrowser *browser)
 		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (priv->dir_list->path != NULL)) {
 			char *dir_name = get_uri_display_name (priv->dir_list->path);
-			char *display_name = g_filename_display_name (dir_name);
+			char *display_name = gnome_vfs_unescape_string_for_display (dir_name);
 			info_txt = g_strconcat (display_name, " ", modified, NULL);
 			g_free (dir_name);
 			g_free (display_name);
@@ -705,7 +705,7 @@ window_update_title (GthBrowser *browser)
 			/* Cut out the file extension. */
 			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
 
-			info_txt = g_filename_display_name (cat_name_no_ext);
+			info_txt = gnome_vfs_unescape_string_for_display (cat_name_no_ext);
 			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
@@ -714,12 +714,12 @@ window_update_title (GthBrowser *browser)
 		char *image_name;
 		int   images, current;
 
-		image_name = g_filename_display_basename (path);
+		image_name = gnome_vfs_unescape_string_for_display (file_name_from_path (path));
 		images = gth_file_view_get_images (priv->file_list->view);
 		current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
 
 		if (priv->image_catalog != NULL) {
-			char *cat_name = g_filename_display_basename (priv->image_catalog);
+			char *cat_name = gnome_vfs_unescape_string_for_display (file_name_from_path (priv->image_catalog));
 
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
@@ -2202,7 +2202,7 @@ dir_list_key_press_cb ( GtkWidget *widget,
 			return TRUE;
 
 		utf8_name = gth_dir_list_get_name_from_iter (browser->priv->dir_list, &iter);
-		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		name = gnome_vfs_escape_string (utf8_name);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2333,7 +2333,7 @@ dir_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = gth_dir_list_get_name_from_iter (priv->dir_list, &iter);
-		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		name = gnome_vfs_escape_string (utf8_name);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2596,7 +2596,7 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = catalog_list_get_name_from_iter (priv->catalog_list, &iter);
-		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		name = gnome_vfs_escape_string (utf8_name);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -3176,7 +3176,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = catalog_list_get_name_from_iter (priv->catalog_list, &iter);
-			name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			name = gnome_vfs_escape_string (utf8_name);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0)
@@ -3212,7 +3212,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = gth_dir_list_get_name_from_iter (priv->dir_list, &iter);
-			name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			name = gnome_vfs_escape_string (utf8_name);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0)
@@ -3438,7 +3438,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	catalog_name_utf8 = g_strconcat (_("Dragged Images"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
@@ -6188,7 +6188,7 @@ dir_list_done_cb (GthDirList     *dir_list,
 	if (result != GNOME_VFS_ERROR_EOF) {
 		char *utf8_path;
 
-		utf8_path = g_filename_display_name (dir_list->try_path);
+		utf8_path = gnome_vfs_unescape_string_for_display (dir_list->try_path);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("Cannot load folder \"%s\": %s\n"),
 				       utf8_path,

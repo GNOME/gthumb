@@ -899,7 +899,7 @@ add_list_in_chunks (gpointer callback_data)
 		file_data_update_comment (fd);
 		gth_file_view_append_with_data (file_list->view,
 				      		NULL,
-						fd->utf8_name,
+						fd->display_name,
 						fd->comment,
 						fd);
 	}
@@ -962,21 +962,19 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 
 	for (scan = results; scan; scan = scan->next) {
 		GnomeVFSGetFileInfoResult *info_result = scan->data;
-		char                      *full_path;
-		char                      *escaped;
+		char                      *uri;
 		FileData                  *fd;
 
 		if ((info_result->result != GNOME_VFS_OK) || (info_result->uri == NULL))
 			continue;
 
-		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_NONE);
-		full_path = gnome_vfs_unescape_string (escaped, "/");
-		fd = file_data_new (full_path, info_result->file_info);
-		fd->mime_type = g_hash_table_lookup (gfi_data->mime_types, full_path);
+		uri = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_NONE);
+
+		fd = file_data_new (uri, info_result->file_info);
+		fd->mime_type = g_hash_table_lookup (gfi_data->mime_types, uri);
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 
-		g_free (full_path);
-		g_free (escaped);
+		g_free (uri);
 	}
 
 	add_list_in_chunks (gfi_data);
@@ -1539,7 +1537,7 @@ gfl_rename (GthFileList *file_list,
 
 	pos = gth_file_list_pos_from_path (file_list, from_uri);
 	if (pos != -1) {
-		gth_file_view_set_image_text (file_list->view, pos, fd->utf8_name);
+		gth_file_view_set_image_text (file_list->view, pos, fd->display_name);
 		gth_file_view_sorted (file_list->view,
 				      file_list->priv->sort_method,
 				      file_list->priv->sort_type);

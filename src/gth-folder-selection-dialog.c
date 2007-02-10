@@ -40,7 +40,7 @@
 
 #define RC_RECENT_FILE      ".gnome2/gthumb/recents"
 #define DEFAULT_DIALOG_WIDTH  540
-#define DEFAULT_DIALOG_HEIGHT 480 
+#define DEFAULT_DIALOG_HEIGHT 480
 #define MAX_RECENT_LIST     20
 
 
@@ -135,7 +135,7 @@ list_view_button_press_cb (GdkEventButton     *event,
         char         *folder_path, *utf8_folder_path;
 	BookmarkList *bookmark_list;
 
-	if (bookmarks) 
+	if (bookmarks)
 		bookmark_list = folder_sel->priv->bookmark_list;
 	else
 		bookmark_list = folder_sel->priv->recent_list;
@@ -145,8 +145,8 @@ list_view_button_press_cb (GdkEventButton     *event,
                                              &path, NULL, NULL, NULL))
                 return FALSE;
 
-        if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store), 
-				       &iter, 
+        if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
+				       &iter,
 				       path)) {
                 gtk_tree_path_free (path);
                 return FALSE;
@@ -205,20 +205,20 @@ list_view_activated_cb (GtkTreePath        *path,
 	char         *folder_path, *utf8_folder_path;
 	BookmarkList *bookmark_list;
 
-	if (bookmarks) 
+	if (bookmarks)
 		bookmark_list = folder_sel->priv->bookmark_list;
 	else
 		bookmark_list = folder_sel->priv->recent_list;
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
-				       &iter, 
-				       path)) 
+				       &iter,
+				       path))
 		return;
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (bookmark_list->list_store), &iter,
 			    2, &folder_path,
 			    -1);
-	
+
 	if (bookmarks)
 		utf8_folder_path = g_filename_to_utf8 (remove_scheme_from_uri (folder_path), -1, 0, 0, 0);
 	else
@@ -262,7 +262,7 @@ file_sel_ok_clicked_cb (GtkDialog  *file_sel,
 			gpointer    data)
 {
 	GthFolderSelection *folder_sel;
-	char               *esc_folder;
+	char               *folder;
 
 	if (button_number != GTK_RESPONSE_ACCEPT) {
 		gtk_widget_destroy (GTK_WIDGET (file_sel));
@@ -270,22 +270,17 @@ file_sel_ok_clicked_cb (GtkDialog  *file_sel,
 	}
 
 	folder_sel = g_object_get_data (G_OBJECT (file_sel), "folder_sel");
-	
-	esc_folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
-	if (esc_folder != NULL) {
-		char *folder = gnome_vfs_unescape_string (esc_folder, "");
+
+	folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
+	if (folder != NULL)
 		gth_folder_selection_set_folder (folder_sel, folder);
-		g_free (folder);
-	}
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
-
-	g_free (esc_folder);
 }
 
 
 static void
-browse_button_clicked_cb (GtkWidget *widget, 
+browse_button_clicked_cb (GtkWidget *widget,
 			  gpointer   data)
 {
 	GthFolderSelection *folder_sel = data;
@@ -293,7 +288,7 @@ browse_button_clicked_cb (GtkWidget *widget,
 	GtkWidget   *entry;
 	const char  *utf8_folder;
 	char        *folder;
-	
+
 	file_sel = gtk_file_chooser_dialog_new (folder_sel->priv->title, NULL,
 						GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -301,11 +296,11 @@ browse_button_clicked_cb (GtkWidget *widget,
 						NULL);
 	/* Permit VFS URIs */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
-	
+
 	entry = folder_sel->priv->file_entry;
 
 	utf8_folder = gtk_entry_get_text (GTK_ENTRY (entry));
-	folder = g_filename_from_utf8 (utf8_folder, -1, 0, 0, 0);
+	folder = gnome_vfs_escape_string (utf8_folder);
 	if (folder[strlen (folder) - 1] != '/') {
 		char *tmp;
 		tmp = g_strconcat (folder, "/", NULL);
@@ -315,15 +310,15 @@ browse_button_clicked_cb (GtkWidget *widget,
 
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_sel), folder);
 	g_free (folder);
-	
+
 	g_object_set_data (G_OBJECT (file_sel), "folder_sel", folder_sel);
 
 	g_signal_connect (G_OBJECT (GTK_DIALOG (file_sel)),
-			  "response", 
-			  G_CALLBACK (file_sel_ok_clicked_cb), 
+			  "response",
+			  G_CALLBACK (file_sel_ok_clicked_cb),
 			  folder_sel);
-	
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel), 
+
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel),
 				      GTK_WINDOW (folder_sel));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
@@ -336,13 +331,13 @@ folder_sel__response_cb (GObject *object,
 			 gpointer data)
 {
 	GthFolderSelection *folder_sel = data;
-	char               *folder, *dir;	
+	char               *folder, *dir;
 
-	if (response_id != GTK_RESPONSE_OK) 
+	if (response_id != GTK_RESPONSE_OK)
 		return;
 
 	folder = gth_folder_selection_get_folder (folder_sel);
-	if (folder == NULL) 
+	if (folder == NULL)
 		return;
 
 	dir = remove_ending_separator (folder);
@@ -374,7 +369,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_window_set_title (GTK_WINDOW (folder_sel), title);
 
 	dialog = GTK_DIALOG (folder_sel);
-	gtk_dialog_add_buttons (dialog, 
+	gtk_dialog_add_buttons (dialog,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
@@ -442,7 +437,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 
 	folder_sel->priv->recents = bookmarks_new (RC_RECENT_FILE);
 	bookmarks_load_from_disk (folder_sel->priv->recents);
-	bookmark_list_set (folder_sel->priv->recent_list, 
+	bookmark_list_set (folder_sel->priv->recent_list,
 			   folder_sel->priv->recents->list);
 
 	/* Bookmarks */
@@ -477,7 +472,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 			scan = scan->next;
 	}
 
-	bookmark_list_set (folder_sel->priv->bookmark_list, 
+	bookmark_list_set (folder_sel->priv->bookmark_list,
 			   folder_sel->priv->bookmarks->list);
 
 	gtk_widget_show_all (main_box);
@@ -510,8 +505,8 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
                           folder_sel);
 
 	g_signal_connect (G_OBJECT (folder_sel),
-			  "response", 
-			  G_CALLBACK (folder_sel__response_cb), 
+			  "response",
+			  G_CALLBACK (folder_sel__response_cb),
 			  folder_sel);
 }
 
@@ -544,7 +539,7 @@ gth_folder_selection_get_type ()
 }
 
 
-GtkWidget*     
+GtkWidget*
 gth_folder_selection_new (const char *title)
 {
 	GtkWidget *widget;
@@ -560,7 +555,7 @@ void
 gth_folder_selection_set_folder (GthFolderSelection *fsel,
 				 const char         *folder)
 {
-	if ((folder == NULL) || (fsel == NULL)) 
+	if ((folder == NULL) || (fsel == NULL))
 		return;
 	_gtk_entry_set_filename_text (GTK_ENTRY (fsel->priv->file_entry), folder);
 }
@@ -569,14 +564,7 @@ gth_folder_selection_set_folder (GthFolderSelection *fsel,
 char *
 gth_folder_selection_get_folder (GthFolderSelection *fsel)
 {
-	char *value;
-	char *retval;
-	
-	value = _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
-	retval = gnome_vfs_unescape_string (value, "");
-	g_free (value);
-	
-	return retval;
+	return _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
 }
 
 

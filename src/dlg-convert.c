@@ -170,7 +170,7 @@ load_current_image (DialogData *data)
 
 	g_free (name_no_ext);
 
-	utf8_name = g_filename_display_basename (data->new_path);
+	utf8_name = basename_for_display (data->new_path);
 	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
 
 	gtk_label_set_text (GTK_LABEL (data->progress_label), message);
@@ -192,7 +192,7 @@ show_rename_dialog (DialogData *data)
 	char  *message;
 	char  *utf8_name;
 
-	utf8_name = g_filename_display_basename (data->new_path);
+	utf8_name = basename_for_display (data->new_path);
 
 	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
 
@@ -317,7 +317,7 @@ loader_done (ImageLoader *il,
 			break;
 
 		case GTH_OVERWRITE_ASK:
-			utf8_name = g_filename_display_basename (data->new_path);
+			utf8_name = basename_for_display (data->new_path);
 			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),
@@ -364,8 +364,6 @@ static void
 ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
-	char *esc_path;
-
 	all_windows_remove_monitor ();
 
 	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
@@ -400,9 +398,7 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton));
-	data->destination = gnome_vfs_unescape_string (esc_path, "");
-	g_free (esc_path);
+	data->destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton));
 
 	/* Save options. */
 
@@ -476,7 +472,6 @@ dlg_convert (GthBrowser *browser)
 	GtkWidget   *progress_cancel;
 	GList       *list;
 	char        *image_type;
-	char        *esc_uri = NULL;
 
 	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
@@ -573,9 +568,7 @@ dlg_convert (GthBrowser *browser)
 
 	/**/
 
-	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton), gth_browser_get_current_directory (browser));
 
 	/**/
 

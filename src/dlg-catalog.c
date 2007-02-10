@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "typedefs.h"
 #include "catalog.h"
@@ -74,7 +75,7 @@ typedef struct {
 
 /* called when the user click on the "new catalog" button. */
 static void
-new_catalog_cb (GtkWidget *widget, 
+new_catalog_cb (GtkWidget *widget,
 		gpointer   p)
 {
 	DialogData     *data = p;
@@ -91,11 +92,11 @@ new_catalog_cb (GtkWidget *widget,
 					     1024,
 					     GTK_STOCK_CANCEL,
 					     _("C_reate"));
-	
+
 	if (name_utf8 == NULL)
 		return;
 
-	name = g_filename_from_utf8 (name_utf8, -1, 0, 0, 0);
+	name = gnome_vfs_escape_string (name_utf8);
 	g_free (name_utf8);
 
 	path = g_strconcat (data->current_dir,
@@ -131,7 +132,7 @@ new_catalog_cb (GtkWidget *widget,
 
 /* called when the user click on the "new directory" button. */
 static void
-new_dir_cb (GtkWidget *widget, 
+new_dir_cb (GtkWidget *widget,
 	    DialogData *data)
 {
 	char *utf8_name;
@@ -149,7 +150,7 @@ new_dir_cb (GtkWidget *widget,
 	if (utf8_name == NULL)
 		return;
 
-	name = g_filename_from_utf8 (utf8_name, -1, 0, 0, 0);
+	name = gnome_vfs_escape_string (utf8_name);
 	if (name == NULL)
 		return;
 	path = g_strconcat (data->current_dir,
@@ -174,7 +175,7 @@ new_dir_cb (GtkWidget *widget,
 
 /* called when the "ok" button is clicked. */
 static void
-add_to_catalog__ok_cb (GtkWidget *widget, 
+add_to_catalog__ok_cb (GtkWidget *widget,
 		       DialogData *data)
 {
 	Catalog  *catalog;
@@ -193,7 +194,7 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	}
 	for (scan = data->data.list; scan; scan = scan->next)
 		catalog_add_item (catalog, (char*) scan->data);
-	if (! catalog_write_to_disk (catalog, &gerror)) 
+	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 	else
 		all_windows_notify_cat_files_created (cat_path, data->data.list);
@@ -215,7 +216,7 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 
 
 /* called when an item of the catalog list is activated. */
-static void 
+static void
 add_to_catalog__activated_cb (GtkTreeView *tree_view,
 			      GtkTreePath *path,
 			      GtkTreeViewColumn *column,
@@ -227,19 +228,19 @@ add_to_catalog__activated_cb (GtkTreeView *tree_view,
 	cat_path = catalog_list_get_path_from_tree_path (data->cat_list, path);
 	if (cat_path == NULL)
 		return;
-	
+
 	if (path_is_dir (cat_path)) {
 		catalog_list_change_to (data->cat_list, cat_path);
 		g_free (data->current_dir);
 		data->current_dir = cat_path;
 
-	} else if (path_is_file (cat_path)) 
+	} else if (path_is_file (cat_path))
 		add_to_catalog__ok_cb (NULL, data);
 }
 
 
 /* called when an item of the catalog list is selected. */
-static void 
+static void
 add_to_catalog__sel_changed_cb (GtkTreeSelection *selection,
 				gpointer p)
 {
@@ -257,7 +258,7 @@ add_to_catalog__sel_changed_cb (GtkTreeSelection *selection,
 
 /* called when the main dialog is closed. */
 static void
-add_to_catalog__destroy_cb (GtkWidget *widget, 
+add_to_catalog__destroy_cb (GtkWidget *widget,
 			    DialogData *data)
 {
 	g_object_unref (G_OBJECT (data->gui));
@@ -310,7 +311,7 @@ dlg_add_to_catalog (GthWindow *window,
 	data->cancel_btn = glade_xml_get_widget (data->gui, "cat_cancel_btn");
 
 	gtk_container_add (GTK_CONTAINER (list_hbox), data->cat_list->root_widget);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (cat_catalogs_label), 
+	gtk_label_set_mnemonic_widget (GTK_LABEL (cat_catalogs_label),
 				       data->cat_list->list_view);
 
 	/* Set the signals handlers. */
@@ -323,7 +324,7 @@ dlg_add_to_catalog (GthWindow *window,
 			  "clicked",
 			  G_CALLBACK (new_catalog_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->new_dir_btn), 
+	g_signal_connect (G_OBJECT (data->new_dir_btn),
 			  "clicked",
 			  G_CALLBACK (new_dir_cb),
 			  data);
@@ -331,7 +332,7 @@ dlg_add_to_catalog (GthWindow *window,
 			  "clicked",
 			  G_CALLBACK (add_to_catalog__ok_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->cancel_btn), 
+	g_signal_connect_swapped (G_OBJECT (data->cancel_btn),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
@@ -358,7 +359,7 @@ dlg_add_to_catalog (GthWindow *window,
 		g_free (last_catalog);
 	}
 
-	if (data->can_view_catalog) 
+	if (data->can_view_catalog)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->cat_view_dest_checkbutton),
 					      eel_gconf_get_boolean (PREF_ADD_TO_CATALOG_VIEW, FALSE));
 	else
@@ -380,7 +381,7 @@ dlg_add_to_catalog (GthWindow *window,
 
 
 static void
-move_to_catalog_dir__destroy_cb (GtkWidget *widget, 
+move_to_catalog_dir__destroy_cb (GtkWidget *widget,
 				 DialogData *data)
 {
         g_object_unref (G_OBJECT (data->gui));
@@ -392,7 +393,7 @@ move_to_catalog_dir__destroy_cb (GtkWidget *widget,
 
 
 /* called when an item of the catalog list is selected. */
-static void 
+static void
 move_to_catalog_dir__activated_cb (GtkTreeView *tree_view,
 				   GtkTreePath *path,
 				   GtkTreeViewColumn *column,
@@ -406,7 +407,7 @@ move_to_catalog_dir__activated_cb (GtkTreeView *tree_view,
 	if (! path_is_dir (cat_path)) {
 		g_free (cat_path);
 		return;
-	} 
+	}
 
 	catalog_list_change_to (data->cat_list, cat_path);
 	g_free (data->current_dir);
@@ -416,7 +417,7 @@ move_to_catalog_dir__activated_cb (GtkTreeView *tree_view,
 
 /* called when the "ok" button is clicked. */
 static void
-move_to_catalog_dir__ok_cb (GtkWidget  *widget, 
+move_to_catalog_dir__ok_cb (GtkWidget  *widget,
 			    DialogData *data)
 {
 	char *new_path;
@@ -469,20 +470,20 @@ dlg_move_to_catalog_directory (GthWindow *window,
 
 	/* Set the signals handlers. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (move_to_catalog_dir__destroy_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->new_dir_btn), 
+	g_signal_connect (G_OBJECT (data->new_dir_btn),
 			  "clicked",
 			  G_CALLBACK (new_dir_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->ok_btn), 
+	g_signal_connect (G_OBJECT (data->ok_btn),
 			  "clicked",
 			  G_CALLBACK (move_to_catalog_dir__ok_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->cancel_btn), 
+	g_signal_connect_swapped (G_OBJECT (data->cancel_btn),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
@@ -502,9 +503,9 @@ dlg_move_to_catalog_directory (GthWindow *window,
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
-	
+
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 
 	gtk_widget_show (data->dialog);

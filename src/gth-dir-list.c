@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "typedefs.h"
 #include "gth-dir-list.h"
 #include "gth-file-list.h"
@@ -44,7 +45,7 @@
 enum {
 	DIR_LIST_COLUMN_ICON,
 	DIR_LIST_COLUMN_NAME,
-	DIR_LIST_COLUMN_UTF_NAME,
+	DIR_LIST_COLUMN_DISPLAY_NAME,
 	DIR_LIST_NUM_COLUMNS
 };
 
@@ -119,7 +120,7 @@ filename_cell_data_func (GtkTreeViewColumn *column,
 	PangoUnderline  underline;
 
 	gtk_tree_model_get (model, iter,
-			    DIR_LIST_COLUMN_UTF_NAME, &text,
+			    DIR_LIST_COLUMN_DISPLAY_NAME, &text,
 			    -1);
 
 	if (dir_list->single_click) {
@@ -174,11 +175,11 @@ add_columns (GthDirList  *dir_list,
                                          renderer,
                                          TRUE);
         gtk_tree_view_column_set_attributes (column, renderer,
-                                             "text", DIR_LIST_COLUMN_UTF_NAME,
+                                             "text", DIR_LIST_COLUMN_DISPLAY_NAME,
                                              NULL);
 
         gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_UTF_NAME);
+	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_DISPLAY_NAME);
 	gtk_tree_view_column_set_cell_data_func (column, renderer,
 						 (GtkTreeCellDataFunc) filename_cell_data_func,
 						 dir_list, NULL);
@@ -305,7 +306,7 @@ gth_dir_list_init (GthDirList *dir_list)
         add_columns (dir_list, list_view);
 	gtk_tree_view_set_headers_visible (list_view, FALSE);
         gtk_tree_view_set_enable_search (list_view, TRUE);
-        gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_UTF_NAME);
+        gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_DISPLAY_NAME);
 
 	g_signal_connect (G_OBJECT (list_view),
 			  "motion_notify_event",
@@ -425,11 +426,11 @@ gth_dir_list_update_view (GthDirList *dir_list)
 		else
 			pixbuf = dir_pixbuf;
 
-		utf8_name = g_filename_display_name (name);
+		utf8_name = gnome_vfs_unescape_string_for_display (name);
 		gtk_list_store_append (dir_list->list_store, &iter);
 		gtk_list_store_set (dir_list->list_store, &iter,
 				    DIR_LIST_COLUMN_ICON, pixbuf,
-				    DIR_LIST_COLUMN_UTF_NAME, utf8_name,
+				    DIR_LIST_COLUMN_DISPLAY_NAME, utf8_name,
 				    DIR_LIST_COLUMN_NAME, name,
 				    -1);
 
@@ -654,11 +655,11 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 	else
 		pixbuf = dir_pixbuf;
 
-	utf8_name = g_filename_display_name (name_only);
+	utf8_name = gnome_vfs_unescape_string_for_display (name_only);
 	gtk_list_store_insert (dir_list->list_store, &iter, pos);
 	gtk_list_store_set (dir_list->list_store, &iter,
 			    DIR_LIST_COLUMN_ICON, pixbuf,
-			    DIR_LIST_COLUMN_UTF_NAME, utf8_name,
+			    DIR_LIST_COLUMN_DISPLAY_NAME, utf8_name,
 			    DIR_LIST_COLUMN_NAME, name_only,
 			    -1);
 	g_free (utf8_name);
@@ -720,7 +721,7 @@ gth_dir_list_get_name_from_iter (GthDirList  *dir_list,
 
 	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store),
 			    iter,
-			    DIR_LIST_COLUMN_UTF_NAME, &utf8_name,
+			    DIR_LIST_COLUMN_DISPLAY_NAME, &utf8_name,
 			    -1);
 
 	return utf8_name;

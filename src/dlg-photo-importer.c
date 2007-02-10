@@ -683,7 +683,7 @@ get_mime_type_from_filename (const char*filename)
 {
 	const char *result;
 
-	char *n1 = g_filename_display_name (filename);
+	char *n1 = gnome_vfs_unescape_string_for_display (filename);
 	char *n2 = g_utf8_strdown (n1, -1);
 	char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
 	result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
@@ -1060,15 +1060,11 @@ is_valid_filename (const char *name)
 static char*
 get_folder_name (DialogData *data)
 {
-	char *esc_destination;
 	char *destination;
 	char *film_name;
 	char *path;
 
-	esc_destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
-	destination = gnome_vfs_unescape_string (esc_destination, "");
-	g_free (esc_destination);
-
+	destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
 	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
 
 	if (! dlg_check_folder (GTH_WINDOW (data->browser), destination)) {
@@ -1516,7 +1512,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! ensure_dir_exists (data->local_folder, 0755)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = g_filename_display_name (data->local_folder);
+		utf8_path = gnome_vfs_unescape_string_for_display (data->local_folder);
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
@@ -1533,7 +1529,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! check_permissions (data->local_folder, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = g_filename_display_name (data->local_folder);
+		utf8_path = gnome_vfs_unescape_string_for_display (data->local_folder);
 		msg = g_strdup_printf (_("You don't have the right permissions to create images in the folder \"%s\""), utf8_path);
 
 		display_error_dialog (data, _("Could not import photos"), msg);
@@ -1792,7 +1788,6 @@ dlg_photo_importer (GthBrowser *browser)
 	GtkWidget    *btn_help;
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
-	char         *esc_uri;
 	char         *default_film_name;
 
 	data = g_new0 (DialogData, 1);
@@ -1893,9 +1888,7 @@ dlg_photo_importer (GthBrowser *browser)
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))
 		default_path = g_strdup (g_get_home_dir());
-	esc_uri = gnome_vfs_escape_host_and_path_string (default_path);
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton), default_path);
 	g_free (default_path);
 
 	default_film_name = eel_gconf_get_path (PREF_PHOTO_IMPORT_FILM, "");

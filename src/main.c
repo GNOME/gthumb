@@ -187,7 +187,7 @@ convert_old_comment (char     *real_file,
 	char *comment_file;
 	char *comment_dir;
 
-	comment_file = comments_get_comment_filename (real_file, TRUE, TRUE);
+	comment_file = comments_get_comment_filename (real_file, TRUE);
 	comment_dir = remove_level_from_path (comment_file);
 	ensure_dir_exists (comment_dir, 0755);
 
@@ -416,9 +416,9 @@ initialize_data (void)
 		char     *tmp1 = NULL;
 		gboolean  is_dir;
 
-		if (uri_has_scheme (filename) || g_path_is_absolute (filename)) 
+		if (uri_has_scheme (filename) || g_path_is_absolute (filename))
 			tmp1 = gnome_vfs_make_uri_from_shell_arg (filename);
-		else 
+		else
 			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
 
 		path = remove_special_dirs_from_path (tmp1);
@@ -432,6 +432,8 @@ initialize_data (void)
 			g_free (path);
 			continue;
 		}
+
+g_print ("[0] ==> %s\n", path);
 
 		if (is_dir) {
 			dir_urls = g_list_prepend (dir_urls, get_uri_from_path (path));
@@ -458,7 +460,7 @@ initialize_data (void)
 		catalog_name_utf8 = g_strconcat (_("Command Line"),
 						 CATALOG_EXT,
 						 NULL);
-		catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+		catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
 		catalog_path = get_catalog_full_path (catalog_name);
 		g_free (catalog_name);
 		g_free (catalog_name_utf8);
@@ -547,6 +549,8 @@ open_browser_window (const char *uri,
 		return;
 	}
 #endif /* HAVE_GTKUNIQUE */
+
+g_print ("[1] ==> %s\n", uri);
 
 	current_window = gth_browser_new (uri);
 	if (show_window)
@@ -724,14 +728,18 @@ prepare_app (void)
 		}
 
 	} else if (view_comline_catalog) {
-		char *catalog_uri;
-		char *catalog_path;
+		char *tmp;
 		char *catalog_name;
+		char *catalog_path;
+		char *catalog_uri;
 
 		ViewFirstImage = TRUE;
 		HideSidebar = TRUE;
 
-		catalog_name = g_strconcat (_("Command Line"), CATALOG_EXT, NULL);
+		tmp = g_strconcat (_("Command Line"), CATALOG_EXT, NULL);
+		catalog_name = gnome_vfs_escape_string (tmp);
+		g_free (tmp);
+
 		catalog_path = get_catalog_full_path (catalog_name);
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 

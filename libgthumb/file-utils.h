@@ -117,8 +117,8 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from,
 						   const char       *to);
-gboolean            file_rename                   (const gchar      *old_path,
-						   const gchar      *new_path);
+GnomeVFSResult      file_rename                   (const char       *old_path,
+						   const char       *new_path);
 gboolean            file_unlink                   (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
 	      				 	   const char       *value);
@@ -128,6 +128,7 @@ gboolean            image_is_type                 (const char       *name,
 gboolean            image_is_jpeg                 (const char       *name);
 gboolean            mime_type_is_raw              (const char       *name);
 gboolean            image_is_gif                  (const char       *name);
+gboolean            path_exists                   (const char       *s);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
 GnomeVFSFileSize    get_file_size                 (const char       *s);
@@ -153,12 +154,14 @@ gboolean            uri_scheme_is_search          (const char       *uri);
 char *              get_uri_from_path             (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
+char *              get_local_path_from_uri       (const char       *uri);
 gboolean            path_in_path                  (const char       *path_src,
 						   const char       *path_dest);
 int                 uricmp                        (const char       *uri1,
 						   const char       *uri2);
 gboolean            same_uri                      (const char       *uri1,
 						   const char       *uri2);
+char               *basename_for_display          (const char       *uri);
 
 char *              get_path_relative_to_dir      (const char       *filename,
 						   const char       *destdir);

@@ -35,7 +35,7 @@ typedef struct {
 
 	char               *path;          /* Full path name. */
 	const char         *name;          /* File name only. */
-	char               *utf8_name;
+	char               *display_name;
 	const char         *mime_type;
 	GnomeVFSFileSize    size;
 	time_t              ctime;

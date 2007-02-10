@@ -208,108 +208,13 @@ comment_data_equal (CommentData *data1,
 
 
 char *
-comments_get_comment_filename__old (const char *source,
-				    gboolean    resolve_symlinks,
-				    gboolean    unescape)
-{
-	char        *source_real = NULL;
-	char        *directory = NULL;
-	const char  *filename = NULL;
-	char        *path = NULL;
-
-	if (source == NULL)
-		return NULL;
-
-	source_real = g_strdup (source);
-
-	if (resolve_symlinks) {
-		char           *resolved = NULL;
-		GnomeVFSResult  result;
-
-		result = resolve_all_symlinks (source_real, &resolved);
-
-		if (result == GNOME_VFS_OK) {
-			g_free (source_real);
-			source_real = resolved;
-		} else
-			g_free (resolved);
-	}
-
-	directory = remove_level_from_path (source_real);
-	filename = file_name_from_path (source_real);
-
-	path = g_strconcat (g_get_home_dir(),
-			    "/",
-			    RC_COMMENTS_DIR,
-			    directory,
-			    "/",
-			    filename,
-			    COMMENT_EXT,
-			    NULL);
-
-	if (!unescape) {
-		char *escaped_path = escape_uri (path);
-		g_free (path);
-		path = escaped_path;
-	}
-
-	g_free (directory);
-	g_free (source_real);
-
-	return path;
-}
-
-
-char *
-comments_get_comment_dir__old (const char *directory,
-			       gboolean    resolve_symlinks,
-			       gboolean    unescape)
-{
-	char        *directory_resolved = NULL;
-	const char  *directory_real = directory;
-	const char  *separator;
-	char        *path;
-
-	if (resolve_symlinks && (directory != NULL)) {
-		GnomeVFSResult  result;
-		result = resolve_all_symlinks (directory, &directory_resolved);
-		if (result == GNOME_VFS_OK)
-			directory_real = directory_resolved;
-	}
-
-	if (directory_real == NULL)
-		separator = NULL;
-	else
-		separator = (directory_real[0] == '/') ? "" : "/";
-
-	path = g_strconcat (g_get_home_dir(),
-			    "/",
-			    RC_COMMENTS_DIR,
-			    separator,
-			    directory_real,
-			    NULL);
-
-	g_free (directory_resolved);
-
-	if (unescape) {
-		char *unesc_path = gnome_vfs_unescape_string (path, NULL);
-		g_free (path);
-		path = unesc_path;
-	}
-
-	return path;
-}
-
-
-char *
 comments_get_comment_filename (const char *source,
-			       gboolean    resolve_symlinks,
-			       gboolean    unescape)
+			       gboolean    resolve_symlinks)
 {
-	char  *source_real = NULL;
-	char  *directory = NULL;
-	char  *filename = NULL;
-	char  *path = NULL;
+	char *source_real = NULL;
+	char *directory = NULL;
+	char *filename = NULL;
+	char *path = NULL;
 
 	if (source == NULL)
 		return NULL;
@@ -333,12 +238,6 @@ comments_get_comment_filename (const char *source,
 	filename = g_strconcat (file_name_from_path (source_real), COMMENT_EXT, NULL);
 
 	path = g_build_filename (directory, ".comments", filename, NULL);
-
-	if (!unescape) {
-		char *escaped_path = escape_uri (path);
-		g_free (path);
-		path = escaped_path;
-	}
 
 	g_free (directory);
 	g_free (filename);
@@ -369,7 +268,7 @@ load_comment_from_iptc (const char *filename)
 
         local_file = obtain_local_file (filename);
 
-        if (local_file == NULL) 
+        if (local_file == NULL)
                 return NULL;
 
 	d = iptc_data_new_from_jpeg (local_file);
@@ -682,13 +581,13 @@ comment_copy (const char *src,
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
 
-	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
+	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
 		return;
 	}
 
-	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
+	comment_dest = comments_get_comment_filename (dest, TRUE);
 	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
@@ -706,13 +605,13 @@ comment_move (const char *src,
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
 
-	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
+	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
 		return;
 	}
 
-	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
+	comment_dest = comments_get_comment_filename (dest, TRUE);
 	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
@@ -728,7 +627,7 @@ comment_delete (const char *filename)
 {
 	char *comment_name;
 
-	comment_name = comments_get_comment_filename (filename, TRUE, TRUE);
+	comment_name = comments_get_comment_filename (filename, TRUE);
 	file_unlink (comment_name);
 	g_free (comment_name);
 
@@ -820,7 +719,7 @@ load_comment_from_xml (const char *filename)
 	if (filename == NULL)
 		return NULL;
 
-	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+	comment_file = comments_get_comment_filename (filename, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
 		return NULL;
@@ -968,7 +867,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (local_file, TRUE, TRUE);
+	comment_file = comments_get_comment_filename (local_file, TRUE);
 
 	dest_dir = remove_level_from_path (comment_file);
 
@@ -979,11 +878,11 @@ save_comment (const char  *filename,
 	g_free (dest_dir);
 
 	if (!is_local) {
-		remote_comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
-		copy_cache_file_to_remote_uri (comment_file, remote_comment_file);	
+		remote_comment_file = comments_get_comment_filename (filename, TRUE);
+		copy_cache_file_to_remote_uri (comment_file, remote_comment_file);
 		g_free (remote_comment_file);
 	}
-		
+
 	g_free (comment_file);
 	g_free (local_file);
 

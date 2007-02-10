@@ -249,7 +249,7 @@ gth_test_match (GthTest  *test,
 
 	switch (test->scope) {
 	case GTH_TEST_SCOPE_FILENAME:
-		result = test_string (test, fdata->utf8_name);
+		result = test_string (test, fdata->display_name);
 		break;
 	case GTH_TEST_SCOPE_COMMENT:
 		file_data_load_comment_data (fdata);
@@ -266,7 +266,7 @@ gth_test_match (GthTest  *test,
 	case GTH_TEST_SCOPE_ALL:
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
-			result = (test_string (test, fdata->utf8_name)
+			result = (test_string (test, fdata->display_name)
 		        	  || test_string (test, fdata->comment_data->comment)
 		          	  || test_string (test, fdata->comment_data->place));
 		else

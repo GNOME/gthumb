@@ -759,7 +759,7 @@ viewer_update_title (GthViewer *viewer)
 		title = g_strdup (_("No image"));
 
 	else {
-		char *image_name = g_filename_display_basename (path);
+		char *image_name = basename_for_display (path);
 		title = g_strdup_printf ("%s %s", image_name, modified);
 		g_free (image_name);
 	}

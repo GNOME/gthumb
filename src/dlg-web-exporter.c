@@ -48,9 +48,9 @@
 #include "glib-utils.h"
 
 static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
-static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
-					      GTH_SORT_METHOD_BY_PATH, 
-					      GTH_SORT_METHOD_BY_SIZE, 
+static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
+					      GTH_SORT_METHOD_BY_PATH,
+					      GTH_SORT_METHOD_BY_SIZE,
 					      GTH_SORT_METHOD_BY_TIME,
 					      GTH_SORT_METHOD_BY_EXIF_DATE,
 					      GTH_SORT_METHOD_BY_COMMENT,
@@ -107,7 +107,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->gui);
@@ -132,18 +132,16 @@ export (GtkWidget  *widget,
 {
 	CatalogWebExporter *exporter = data->exporter;
 	char               *location;
-	char               *esc_path, *path;
+	char               *path;
 	char               *theme, *index_file;
 	const char         *header;
 	const char         *footer;
 
 	/* Save options. */
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton));
-	path = gnome_vfs_unescape_string (esc_path, "");
+	path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton));
 	location = remove_ending_separator (path);
 	g_free (path);
-	g_free (esc_path);
 
 	eel_gconf_set_path (PREF_WEB_ALBUM_DESTINATION, location);
 
@@ -198,14 +196,14 @@ export (GtkWidget  *widget,
 
 	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
-	catalog_web_exporter_set_resize_images (exporter, 
+	catalog_web_exporter_set_resize_images (exporter,
 						eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE),
 						idx_to_resize_width[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))],
 						idx_to_resize_height[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
 
 	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
 	catalog_web_exporter_set_single_index (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_SINGLE_INDEX, FALSE));
-	
+
 	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE, FALSE));
 	catalog_web_exporter_set_header (exporter, header);
 	catalog_web_exporter_set_footer (exporter, footer);
@@ -214,7 +212,7 @@ export (GtkWidget  *widget,
 	g_free (location);
 	g_free (theme);
 	g_free (index_file);
-	
+
 	/* Export. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
@@ -307,7 +305,7 @@ single_index_toggled_cb (GtkToggleButton *button,
 	gtk_widget_set_sensitive (data->wa_rows_hbox, !gtk_toggle_button_get_active (button));
 }
 
- 
+
 
 static gboolean
 theme_present (const char *theme_name,
@@ -322,13 +320,13 @@ theme_present (const char *theme_name,
 		return FALSE;
 
 	if (theme_dir != NULL)
-		result = gnome_vfs_directory_list_load (&file_list, 
-							theme_dir, 
+		result = gnome_vfs_directory_list_load (&file_list,
+							theme_dir,
 							GNOME_VFS_FILE_INFO_DEFAULT);
 	else
 		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
-	
-	if (result == GNOME_VFS_OK) 
+
+	if (result == GNOME_VFS_OK)
 		for (scan = file_list; scan; scan = scan->next) {
 			GnomeVFSFileInfo *info = scan->data;
 
@@ -393,14 +391,13 @@ dlg_web_exporter (GthBrowser *browser)
 	GtkWidget    *btn_help;
 	GList        *list;
 	char         *svalue;
-	char         *esc_uri;
 	gboolean      reorderable;
 	int           idx;
 
 	data = g_new0 (DialogData, 1);
 
 	data->browser = browser;
-	
+
 	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
@@ -423,7 +420,7 @@ dlg_web_exporter (GthBrowser *browser)
         }
 
 	/* Get the widgets. */
-	
+
 	data->dialog = glade_xml_get_widget (data->gui, "web_album_dialog");
 	data->wa_destination_filechooserbutton = glade_xml_get_widget (data->gui, "wa_destination_filechooserbutton");
 	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
@@ -463,7 +460,7 @@ dlg_web_exporter (GthBrowser *browser)
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
 	g_free (svalue);
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
 	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
@@ -526,16 +523,13 @@ dlg_web_exporter (GthBrowser *browser)
 
 	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
 	if (svalue == NULL)
-		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
-	else
-		esc_uri = gnome_vfs_escape_host_and_path_string (svalue);
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+		svalue = g_strdup (g_get_home_dir ());
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton), svalue);
 	g_free (svalue);
 
 	/* Signals. */
 
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
@@ -543,24 +537,24 @@ dlg_web_exporter (GthBrowser *browser)
                           "clicked",
                           G_CALLBACK (help_cb),
                           data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+	g_signal_connect_swapped (G_OBJECT (btn_cancel),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (data->btn_ok), 
+	g_signal_connect (G_OBJECT (data->btn_ok),
 			  "clicked",
 			  G_CALLBACK (export),
 			  data);
-	g_signal_connect (G_OBJECT (data->wa_select_theme_button), 
+	g_signal_connect (G_OBJECT (data->wa_select_theme_button),
 			  "clicked",
 			  G_CALLBACK (show_album_theme_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->wa_copy_images_checkbutton), 
+	g_signal_connect (G_OBJECT (data->wa_copy_images_checkbutton),
 			  "toggled",
 			  G_CALLBACK (copy_image_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->wa_resize_images_checkbutton), 
+	g_signal_connect (G_OBJECT (data->wa_resize_images_checkbutton),
 			  "toggled",
 			  G_CALLBACK (resize_image_toggled_cb),
 			  data);
@@ -570,28 +564,28 @@ dlg_web_exporter (GthBrowser *browser)
 			  G_CALLBACK (single_index_toggled_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "web_exporter_done",
 			  G_CALLBACK (export_done),
 			  data);
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "web_exporter_progress",
 			  G_CALLBACK (export_progress),
 			  data);
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "web_exporter_info",
 			  G_CALLBACK (export_info),
 			  data);
-	g_signal_connect (G_OBJECT (data->exporter), 
+	g_signal_connect (G_OBJECT (data->exporter),
 			  "web_exporter_start_copying",
 			  G_CALLBACK (export_start_copying),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (data->progress_dialog), 
+	g_signal_connect_swapped (G_OBJECT (data->progress_dialog),
 				  "delete_event",
 				  G_CALLBACK (catalog_web_exporter_interrupt),
 				  data->exporter);
-	g_signal_connect_swapped (G_OBJECT (data->progress_cancel), 
+	g_signal_connect_swapped (G_OBJECT (data->progress_cancel),
 				  "clicked",
 				  G_CALLBACK (catalog_web_exporter_interrupt),
 				  data->exporter);
@@ -635,7 +629,7 @@ enum {
 
 /* called when the main dialog is closed. */
 static void
-theme_dialog_destroy_cb (GtkWidget       *widget, 
+theme_dialog_destroy_cb (GtkWidget       *widget,
 			 ThemeDialogData *tdata)
 {
 	g_object_unref (tdata->gui);
@@ -644,7 +638,7 @@ theme_dialog_destroy_cb (GtkWidget       *widget,
 
 
 static void
-theme_dialog__ok_clicked (GtkWidget       *widget, 
+theme_dialog__ok_clicked (GtkWidget       *widget,
 			  ThemeDialogData *tdata)
 {
 	GtkTreeSelection *selection;
@@ -680,13 +674,13 @@ add_theme_dir (ThemeDialogData *tdata,
 	debug (DEBUG_INFO, "theme dir: %s", theme_dir);
 
 	if (theme_dir != NULL)
-		result = gnome_vfs_directory_list_load (&file_list, 
-							theme_dir, 
+		result = gnome_vfs_directory_list_load (&file_list,
+							theme_dir,
 							GNOME_VFS_FILE_INFO_DEFAULT);
 	else
 		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
-	
-	if (result == GNOME_VFS_OK) 
+
+	if (result == GNOME_VFS_OK)
 		for (scan = file_list; scan; scan = scan->next) {
 			GnomeVFSFileInfo *info = scan->data;
 			char             *utf8_name;
@@ -699,13 +693,13 @@ add_theme_dir (ThemeDialogData *tdata,
 			    || (strcmp (info->name, "..") == 0))
 				continue;
 
-			utf8_name = g_filename_display_name (info->name);
-			
+			utf8_name = gnome_vfs_unescape_string_for_display (info->name);
+
 			gtk_list_store_append (tdata->list_store, &iter);
 			gtk_list_store_set (tdata->list_store, &iter,
 					    THEME_NAME_COLUMN, utf8_name,
 					    -1);
-			
+
 			g_free (utf8_name);
 		}
 
@@ -743,13 +737,13 @@ load_themes (ThemeDialogData *tdata)
 	model = GTK_TREE_MODEL (tdata->list_store);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview));
 	theme_name = gtk_entry_get_text (GTK_ENTRY (tdata->data->wa_theme_combo_entry));
-	if (! gtk_tree_model_get_iter_first (model, &iter)) 
+	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return;
 
 	do {
 		char *utf8_name;
-		gtk_tree_model_get (model, &iter, 
-				    THEME_NAME_COLUMN, &utf8_name, 
+		gtk_tree_model_get (model, &iter,
+				    THEME_NAME_COLUMN, &utf8_name,
 				    -1);
 		if (strcmp (utf8_name, theme_name) == 0)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -790,42 +784,40 @@ install_theme__ok_cb (GtkDialog  *file_sel,
 		      gpointer    data)
 {
 	ThemeDialogData  *tdata;
-	char             *theme_archive, *e_theme_archive;
+	char             *theme_archive;
 	char             *command_line = NULL;
 	GError           *err = NULL;
 
 	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");
-	e_theme_archive = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
+	theme_archive = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
+
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
-	if (e_theme_archive == NULL)
+	if (theme_archive == NULL)
 		return;
 
 	/**/
 
-	theme_archive = gnome_vfs_unescape_string (e_theme_archive, "");
-	g_free (e_theme_archive);
-
 	ensure_local_theme_dir_exists ();
-            
+
 	if (file_extension_is (theme_archive, ".tar.gz")
 	    || file_extension_is (theme_archive, ".tgz"))
 		command_line = g_strdup_printf ("tar -C %s%s -zxf %s",
 						g_get_home_dir (),
 						"/.gnome2/gthumb/albumthemes",
 						theme_archive);
-	
+
 	else if (file_extension_is (theme_archive, ".tar.bz2"))
 		command_line = g_strdup_printf ("tar -C %s%s -xf %s --use-compress-program bzip2",
 						g_get_home_dir (),
 						"/.gnome2/gthumb/albumthemes",
 						theme_archive);
 
-	if ((command_line != NULL) 
+	if ((command_line != NULL)
 	    && ! g_spawn_command_line_sync (command_line, NULL, NULL, NULL, &err)
 	    && (err != NULL))
 		_gtk_error_dialog_from_gerror_run (NULL, &err);
-	
+
 	g_free (command_line);
 	g_free (theme_archive);
 
@@ -841,15 +833,15 @@ install_theme_response_cb (GtkDialog  *file_sel,
 			   int         button_number,
 			   gpointer    userdata)
 {
-	if (button_number == GTK_RESPONSE_ACCEPT) 
+	if (button_number == GTK_RESPONSE_ACCEPT)
 		install_theme__ok_cb (file_sel, button_number, userdata);
-	 else 
+	 else
 		gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 
 static void
-theme_dialog__install_theme_clicked (GtkWidget       *widget, 
+theme_dialog__install_theme_clicked (GtkWidget       *widget,
 				     ThemeDialogData *tdata)
 {
 	GtkWidget *file_sel;
@@ -881,13 +873,13 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 
 
 static void
-theme_dialog__go_to_folder_clicked (GtkWidget       *widget, 
+theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 				    ThemeDialogData *tdata)
 {
 	char         *path;
 	GError       *err;
 
-	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes", 
+	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes",
 			       g_get_home_dir ());
 
 	ensure_dir_exists (path, 0775);
@@ -911,8 +903,8 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 	char             *theme, *path;
 
 	theme_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
-	
-	if (!theme_selected) 
+
+	if (!theme_selected)
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (tdata->list_store),
@@ -920,7 +912,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 			    THEME_NAME_COLUMN, &utf8_name,
 			    -1);
 
-	theme = g_filename_from_utf8 (utf8_name, -1, 0, 0, 0);
+	theme = gnome_vfs_escape_string (utf8_name);
 	path = g_build_path (G_DIR_SEPARATOR_S,
 			     g_get_home_dir (),
 			     ".gnome2",
@@ -939,8 +931,8 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 
 	if (path_is_dir (path)) {
 		char *filename = g_build_path (G_DIR_SEPARATOR_S,
-					       path, 
-					       "preview.png", 
+					       path,
+					       "preview.png",
 					       NULL);
 		if (path_is_file (filename)) {
 			GdkPixbuf *image = gth_pixbuf_new_from_uri (filename, NULL);
@@ -1004,15 +996,15 @@ show_album_theme_cb (GtkWidget  *widget,
 
 	/* Signals. */
 
-	g_signal_connect (G_OBJECT (tdata->dialog), 
+	g_signal_connect (G_OBJECT (tdata->dialog),
 			  "destroy",
 			  G_CALLBACK (theme_dialog_destroy_cb),
 			  tdata);
-	g_signal_connect_swapped (G_OBJECT (tdata->wat_cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (tdata->wat_cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (tdata->dialog));
-	g_signal_connect (G_OBJECT (tdata->wat_ok_button), 
+	g_signal_connect (G_OBJECT (tdata->wat_ok_button),
 			  "clicked",
 			  G_CALLBACK (theme_dialog__ok_clicked),
 			  tdata);
@@ -1031,15 +1023,15 @@ show_album_theme_cb (GtkWidget  *widget,
 			  "clicked",
 			  G_CALLBACK (theme_dialog__install_theme_clicked),
 			  tdata);
-	g_signal_connect (G_OBJECT (tdata->wat_go_to_folder_button), 
+	g_signal_connect (G_OBJECT (tdata->wat_go_to_folder_button),
 			  "clicked",
 			  G_CALLBACK (theme_dialog__go_to_folder_clicked),
 			  tdata);
-	g_signal_connect (G_OBJECT (tdata->wat_thumbnail_caption_button), 
+	g_signal_connect (G_OBJECT (tdata->wat_thumbnail_caption_button),
 			  "clicked",
 			  G_CALLBACK (show_thumbnail_caption_dialog_cb),
 			  tdata);
-	g_signal_connect (G_OBJECT (tdata->wat_image_caption_button), 
+	g_signal_connect (G_OBJECT (tdata->wat_image_caption_button),
 			  "clicked",
 			  G_CALLBACK (show_image_caption_dialog_cb),
 			  tdata);
@@ -1060,7 +1052,7 @@ show_album_theme_cb (GtkWidget  *widget,
                                              "text", THEME_NAME_COLUMN,
                                              NULL);
 
-        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_column_set_sort_column_id (column, THEME_NAME_COLUMN);
         gtk_tree_view_append_column (GTK_TREE_VIEW (tdata->wat_theme_treeview), column);
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (tdata->list_store), THEME_NAME_COLUMN, GTK_SORT_ASCENDING);
@@ -1069,7 +1061,7 @@ show_album_theme_cb (GtkWidget  *widget,
 
 	/* Run dialog. */
 
-	gtk_widget_grab_focus (tdata->wat_theme_treeview); 
+	gtk_widget_grab_focus (tdata->wat_theme_treeview);
 
 	gtk_window_set_transient_for (GTK_WINDOW (tdata->dialog), GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (tdata->dialog), FALSE);
@@ -1108,7 +1100,7 @@ typedef struct {
 
 /* called when the dialog is closed. */
 static void
-caption_dialog_destroy_cb (GtkWidget         *widget, 
+caption_dialog_destroy_cb (GtkWidget         *widget,
 			   CaptionDialogData *cdata)
 {
 	g_object_unref (cdata->gui);
@@ -1117,7 +1109,7 @@ caption_dialog_destroy_cb (GtkWidget         *widget,
 
 
 static void
-caption_dialog__ok_clicked (GtkWidget         *widget, 
+caption_dialog__ok_clicked (GtkWidget         *widget,
 			    CaptionDialogData *cdata)
 {
 	const char       *gconf_key;
@@ -1212,24 +1204,24 @@ show_caption_dialog_cb (GtkWidget       *widget,
 
 	/* Signals. */
 
-	g_signal_connect (G_OBJECT (cdata->dialog), 
+	g_signal_connect (G_OBJECT (cdata->dialog),
 			  "destroy",
 			  G_CALLBACK (caption_dialog_destroy_cb),
 			  cdata);
-	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (cdata->dialog));
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (caption_dialog__ok_clicked),
 			  cdata);
 
 	/* Set widgets data. */
 
-	if (cdata->thumbnail_caption) 
+	if (cdata->thumbnail_caption)
 		gconf_key = PREF_WEB_ALBUM_INDEX_CAPTION;
-	 else 
+	 else
 		gconf_key = PREF_WEB_ALBUM_IMAGE_CAPTION;
 	caption = eel_gconf_get_integer (gconf_key, 0);
 

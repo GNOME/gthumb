@@ -170,7 +170,7 @@ print_done_cb (gpointer data)
 	if (tmp_filename == NULL)
 		return;
 
-	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE, TRUE);
+	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE);
 	tmp_dir = remove_level_from_path (tmp_comment);
 	file_unlink (tmp_comment);
 	dir_remove (tmp_dir);

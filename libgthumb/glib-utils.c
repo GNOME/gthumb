@@ -221,11 +221,10 @@ _g_substitute_pattern (const char *utf8_text,
 			}
 
 			ch = g_utf8_get_char (s);
-			if (ch == pattern)
-				{
+			if (ch == pattern) {
 				if (value)
 					g_string_append (r, value);
-				}
+			}
 			else {
 				g_string_append (r, "%");
 				g_string_append_unichar (r, ch);
@@ -360,8 +359,7 @@ get_file_list_from_url_list (char *url_list)
 
 	url_start = url_list;
 	while (url_start[0] != '\0') {
-		char *escaped;
-		char *unescaped;
+		char *url;
 
 		if (strncmp (url_start, "file:", 5) == 0) {
 			url_start += 5;
@@ -375,11 +373,8 @@ get_file_list_from_url_list (char *url_list)
 		       && (url_start[i] != '\n')) i++;
 		url_end = url_start + i;
 
-		escaped = g_strndup (url_start, url_end - url_start);
-		unescaped = gnome_vfs_unescape_string_for_display (escaped);
-		g_free (escaped);
-
-		list = g_list_prepend (list, unescaped);
+		url = g_strndup (url_start, url_end - url_start);
+		list = g_list_prepend (list, url);
 
 		url_start = url_end;
 		i = 0;

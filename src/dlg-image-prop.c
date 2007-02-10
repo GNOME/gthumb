@@ -399,7 +399,7 @@ update_general_info (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
 	} else {
-		utf8_name = g_filename_display_basename (image_filename);
+		utf8_name = basename_for_display (image_filename);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
 		g_free (utf8_name);
 		
@@ -729,7 +729,7 @@ update_title (DialogData *data)
 		char *utf8_name;
 		char *title;
 
-		utf8_name = g_filename_display_basename (image_filename);
+		utf8_name = basename_for_display (image_filename);
 		title = g_strdup_printf (_("%s Properties"), utf8_name); 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 		g_free (utf8_name);

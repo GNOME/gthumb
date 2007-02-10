@@ -100,9 +100,9 @@ static void
 ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
-	GList *old_names = NULL;
-	GList *new_names = NULL;
-	GList *o_scan, *n_scan;
+	GList       *old_names = NULL;
+	GList       *new_names = NULL;
+	GList       *o_scan, *n_scan;
 	const char  *template;
 
 	/* Save options */
@@ -261,7 +261,9 @@ get_image_date (const char *filename)
 	struct tm *ltime;
 	char      *stime;
 
+#ifdef HAVE_LIBEXIF
 	mtime = get_exif_time (filename);
+#endif /* HAVE_LIBEXIF */
 
 	if (mtime == 0)
 		mtime = get_file_mtime (filename);
@@ -278,10 +280,10 @@ get_image_date (const char *filename)
 static void
 update_list (DialogData *data)
 {
-	GList  *scan, *on_scan, *nn_scan;
-	int     start_at;
-	char  **template;
-	const char   *template_s;
+	GList       *scan, *on_scan, *nn_scan;
+	int          start_at;
+	char       **template;
+	const char  *template_s;
 
 	data->sort_method = idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))];
 
@@ -314,11 +316,12 @@ update_list (DialogData *data)
 		char     *name2;
 		char     *name3;
 		char     *name4;
+		char     *name5;
 		char     *extension = NULL;
 		char     *new_name;
 
 		name1 = _g_get_name_from_template (template, start_at++);
-		utf8_txt = g_filename_to_utf8 (name_wo_ext, -1, 0, 0, 0);
+		utf8_txt = gnome_vfs_unescape_string_for_display (name_wo_ext);
 		name2 = _g_substitute_pattern (name1, 'f', utf8_txt);
 		g_free (name_wo_ext);
 		g_free (utf8_txt);
@@ -336,16 +339,16 @@ update_list (DialogData *data)
 		if (strrchr (fdata->name, '.') != NULL)
 			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
 
-		new_name = _g_substitute_pattern (name4, 'e', extension);
-
-		data->new_names_list = g_list_prepend (data->new_names_list, g_filename_from_utf8 (new_name, -1, 0, 0, 0));
+		name5 = _g_substitute_pattern (name4, 'e', extension);
+		new_name = gnome_vfs_escape_string (name5);
+		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
 
 		g_free (extension);
 		g_free (name1);
 		g_free (name2);
 		g_free (name3);
 		g_free (name4);
-		g_free (new_name);
+		g_free (name5);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);
@@ -363,8 +366,8 @@ update_list (DialogData *data)
 
 		gtk_list_store_append (data->rs_list_model, &iter);
 
-		utf8_on = g_filename_display_name (fdata->name);
-		utf8_nn = g_filename_display_name (new_name);
+		utf8_on = gnome_vfs_unescape_string_for_display (fdata->name);
+		utf8_nn = gnome_vfs_unescape_string_for_display (new_name);
 		gtk_list_store_set (data->rs_list_model, &iter,
 				    RS_OLDNAME_COLUMN, utf8_on,
 				    RS_NEWNAME_COLUMN, utf8_nn,
@@ -538,18 +541,24 @@ dlg_rename_series (GthBrowser *browser)
 	if (data->single_file) {
 		FileData   *fd = data->original_file_list->data;
 		const char *last_dot;
+		char       *template;
 
-		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), fd->utf8_name);
-		last_dot = strrchr (fd->name, '.');
+		template = gnome_vfs_unescape_string_for_display (fd->name);
+		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
+		last_dot = strrchr (template, '.');
 		if (last_dot == NULL)
-			last_dot = fd->name + strlen (fd->name) - 1;
-		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, last_dot - fd->name);
+			last_dot = template + strlen (template) - 1;
+		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, last_dot - template);
+		g_free (template);
 	}
 	else {
 		char *svalue;
+		char *template;
 
 		svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
-		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), svalue);
+		template = gnome_vfs_unescape_string_for_display (svalue);
+		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
+		g_free (template);
 		g_free (svalue);
 	}
 

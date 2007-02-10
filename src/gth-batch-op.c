@@ -395,7 +395,7 @@ load_current_image (GthBatchOp *bop)
 	g_free (folder);
 	g_free (name_no_ext);
 
-	utf8_name = g_filename_display_basename (PD(bop)->new_path);
+	utf8_name = basename_for_display (PD(bop)->new_path);
 	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
 
 	gtk_label_set_text (GTK_LABEL (PD(bop)->progress_label), message);
@@ -417,7 +417,7 @@ show_rename_dialog (GthBatchOp *bop)
 	char  *message;
 	char  *utf8_name;
 
-	utf8_name = g_filename_display_basename (PD(bop)->new_path);
+	utf8_name = basename_for_display (PD(bop)->new_path);
 
 	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
 
@@ -566,7 +566,7 @@ loader_done (ImageLoader *il,
 			break;
 
 		case GTH_OVERWRITE_ASK:
-			utf8_name = g_filename_display_basename (PD(bop)->new_path);
+			utf8_name = basename_for_display (PD(bop)->new_path);
 			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (PD(bop)->progress_dlg),

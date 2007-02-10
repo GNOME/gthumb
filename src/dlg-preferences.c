@@ -125,13 +125,9 @@ apply_cb (GtkWidget  *widget,
 	eel_gconf_set_boolean (PREF_USE_STARTUP_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_use_startup)));
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
-		char *esc_path;
 		char *location;
 
-		esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton));
-		location = gnome_vfs_unescape_string (esc_path, "");
-		g_free (esc_path);
-
+		location = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton));
 		eel_gconf_set_path (PREF_STARTUP_LOCATION, location);
 		preferences_set_startup_location (location);
 		g_free (location);
@@ -193,11 +189,7 @@ static void
 set_to_current_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
-	char *esc_uri;
-
-	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), gth_browser_get_current_directory (data->browser));
 }
 
 
@@ -454,12 +446,8 @@ dlg_preferences (GthBrowser *browser)
 
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
 
-	if (uri_scheme_is_file (startup_location)) {
-		char *esc_uri;
-		esc_uri = gnome_vfs_escape_host_and_path_string (startup_location);
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
-		g_free (esc_uri);
-	}
+	if (uri_scheme_is_file (startup_location))
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), startup_location);
 
 	g_free (startup_location);
 

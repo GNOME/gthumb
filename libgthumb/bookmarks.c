@@ -27,6 +27,7 @@
 
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "typedefs.h"
 #include "bookmarks.h"
@@ -100,15 +101,15 @@ bookmarks_free (Bookmarks *bookmarks)
 
 static char *
 get_menu_item_tip (const char *path)
-{	
+{
 	int   offset = 0;
 	char *tmp_path;
 	char *tip;
 
-	tmp_path = g_strdup (path);
+	tmp_path = gnome_vfs_unescape_string_for_display (path);
 
 	if (uri_scheme_is_catalog (tmp_path) || uri_scheme_is_search (tmp_path)) {
-		gchar *rc_dir_prefix;
+		char *rc_dir_prefix;
 
 		/* if it is a catalog then remove the extension */
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
@@ -120,18 +121,22 @@ get_menu_item_tip (const char *path)
 					     NULL);
 
 		offset = strlen (rc_dir_prefix);
+		tip = g_strdup (remove_scheme_from_uri (tmp_path) + offset);
 
 		g_free (rc_dir_prefix);
 	}
+	else {
+		tip = tmp_path;
+		tmp_path = NULL;
+	}
 
-	tip = g_strdup (remove_scheme_from_uri (tmp_path) + offset);
 	g_free (tmp_path);
 
 	return tip;
 }
 
 
-static void 
+static void
 my_insert (GHashTable    *hash_table,
 	   gconstpointer  key,
 	   gpointer       value)
@@ -151,9 +156,9 @@ my_remove (GHashTable    *hash_table,
 {
 	gpointer orig_key, value;
 
-	if (g_hash_table_lookup_extended (hash_table, 
+	if (g_hash_table_lookup_extended (hash_table,
 					  lookup_key,
-					  &orig_key, 
+					  &orig_key,
 					  &value)) {
 		g_hash_table_remove (hash_table, lookup_key);
 		g_free (orig_key);
@@ -169,7 +174,7 @@ bookmarks_add (Bookmarks   *bookmarks,
 	       gboolean     append)
 {
 	g_return_if_fail (bookmarks != NULL);
-	g_return_if_fail (path != NULL);	
+	g_return_if_fail (path != NULL);
 
 	if (avoid_duplicates) {
 		GList *scan;
@@ -177,26 +182,26 @@ bookmarks_add (Bookmarks   *bookmarks,
 			if (same_uri ((char*) scan->data, path))
 				return;
 	}
-	
+
 	if (append)
-		bookmarks->list = g_list_append (bookmarks->list, 
+		bookmarks->list = g_list_append (bookmarks->list,
 						 g_strdup (path));
 	else
-		bookmarks->list = g_list_prepend (bookmarks->list, 
+		bookmarks->list = g_list_prepend (bookmarks->list,
 						  g_strdup (path));
 
-	my_insert (bookmarks->names, 
-		   path, 
+	my_insert (bookmarks->names,
+		   path,
 		   get_uri_display_name (path));
 
-	my_insert (bookmarks->tips, 
-		   path, 
+	my_insert (bookmarks->tips,
+		   path,
 		   get_menu_item_tip (path));
 }
 
 
 static GList *
-get_link_from_path (GList      *list, 
+get_link_from_path (GList      *list,
 		    const char *path)
 {
 	GList *scan;
@@ -204,7 +209,7 @@ get_link_from_path (GList      *list,
 	for (scan = list; scan; scan = scan->next)
 		if (same_uri ((char*) scan->data, path))
 			return scan;
-	
+
 	return NULL;
 }
 
@@ -216,7 +221,7 @@ bookmarks_remove (Bookmarks  *bookmarks,
 	GList *link;
 
 	g_return_if_fail (bookmarks != NULL);
-	g_return_if_fail (path != NULL);	
+	g_return_if_fail (path != NULL);
 
 	link = get_link_from_path (bookmarks->list, path);
 	if (link == NULL)
@@ -240,7 +245,7 @@ bookmarks_remove_all_instances (Bookmarks   *bookmarks,
 	GList *link;
 
 	g_return_if_fail (bookmarks != NULL);
-	g_return_if_fail (path != NULL);	
+	g_return_if_fail (path != NULL);
 
 	link = get_link_from_path (bookmarks->list, path);
 
@@ -327,14 +332,14 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 		line[strlen (line) - 1] = 0;
 		path = line + 1;
 
-		bookmarks->list = g_list_prepend (bookmarks->list, 
+		bookmarks->list = g_list_prepend (bookmarks->list,
 						  g_strdup (path));
-		my_insert (bookmarks->names, 
-			   path, 
+		my_insert (bookmarks->names,
+			   path,
 			   get_uri_display_name (path));
 
-		my_insert (bookmarks->tips, 
-			   path, 
+		my_insert (bookmarks->tips,
+			   path,
 			   get_menu_item_tip (path));
 	}
 
@@ -371,8 +376,8 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	/* write the file list. */
 
 	lines = 0;
-	scan = bookmarks->list; 
-	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines)) 
+	scan = bookmarks->list;
+	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines))
 	       && (scan != NULL)) {
 		if (_gnome_vfs_write_line (handle,
 					   "\"%s\"",

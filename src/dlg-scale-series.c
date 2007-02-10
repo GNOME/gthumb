@@ -84,7 +84,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	if (data->bop != NULL)
@@ -96,7 +96,7 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
-static void 
+static void
 batch_op_done_cb (GthBatchOp *pixbuf_op,
 		  gboolean    completed,
 		  DialogData *data)
@@ -107,11 +107,10 @@ batch_op_done_cb (GthBatchOp *pixbuf_op,
 
 /* called when the ok button is clicked. */
 static void
-ok_cb (GtkWidget  *widget, 
+ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	GthPixbufOp *pixop;
-	char        *esc_path;
 	gboolean     keep_ratio;
 	int          width, height;
 
@@ -133,10 +132,8 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton));
-	data->destination = gnome_vfs_unescape_string (esc_path, "");
-	g_free (esc_path);
-	
+	data->destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton));
+
 	/* Save options */
 
 	eel_gconf_set_string (PREF_CONVERT_IMAGE_TYPE, data->image_type);
@@ -160,7 +157,7 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	pixop = _gdk_pixbuf_scale (NULL, NULL, 
+	pixop = _gdk_pixbuf_scale (NULL, NULL,
 				   data->percentage,
 				   keep_ratio,
 				   width,
@@ -173,9 +170,9 @@ ok_cb (GtkWidget  *widget,
 			  G_CALLBACK (batch_op_done_cb),
 			  data);
 
-	gth_batch_op_start (data->bop, 
-			    data->image_type, 
-			    data->file_list, 
+	gth_batch_op_start (data->bop,
+			    data->image_type,
+			    data->file_list,
 			    data->destination,
 			    data->overwrite_mode,
 			    data->remove_original,
@@ -185,7 +182,7 @@ ok_cb (GtkWidget  *widget,
 
 /* called when the "help" button is clicked. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-scale-series");
@@ -202,7 +199,7 @@ unit_changed (GtkOptionMenu *option_menu,
 			return;
 		data->percentage = FALSE;
 		break;
-		
+
 	case UNIT_PERCENT:
 		if (data->percentage)
 			return;
@@ -221,10 +218,8 @@ dlg_scale_series (GthBrowser *browser)
 	GtkWidget  *cancel_button;
 	GtkWidget  *button;
 	GtkWidget  *help_button;
-
 	char       *unit;
 	char       *image_type;
-	char       *esc_uri = NULL;
 	int         default_width, default_height;
 
 	data = g_new0 (DialogData, 1);
@@ -307,33 +302,31 @@ dlg_scale_series (GthBrowser *browser)
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->ss_om_combobox),
 				  pref_get_convert_overwrite_mode ());
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->ss_remove_orig_checkbutton), 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->ss_remove_orig_checkbutton),
 				      eel_gconf_get_boolean (PREF_CONVERT_REMOVE_ORIGINAL, FALSE));
 
 	/**/
 
-	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton), gth_browser_get_current_directory (browser));
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
 
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (help_button), 
+	g_signal_connect (G_OBJECT (help_button),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);

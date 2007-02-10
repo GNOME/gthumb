@@ -241,12 +241,7 @@ static void
 find_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
-	char *esc_path;
-
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
-	data->start_from_path = gnome_vfs_unescape_string (esc_path, "");
-	g_free (esc_path);
-
+	data->start_from_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
 	data->recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->fd_include_subfolders_checkbutton));
 
 	gtk_widget_hide (data->dialog);
@@ -543,11 +538,11 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 			continue;
 
 		location = remove_level_from_path (idata2->path);
-		location_utf8 = g_filename_display_name (location);
+		location_utf8 = gnome_vfs_unescape_string_for_display (location);
 		g_free (location);
 
 		name = file_name_from_path (idata2->path);
-		name_utf8 = g_filename_display_name (name);
+		name_utf8 = gnome_vfs_unescape_string_for_display (name);
 
 		tm = localtime (&idata2->last_modified);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
@@ -770,7 +765,6 @@ dlg_duplicates (GthBrowser *browser)
 	GtkWidget         *ok_button;
 	GtkWidget         *close_button;
 	GtkTreeSelection  *selection;
-	char              *esc_uri = NULL;
 
 	data = g_new0 (DialogData, 1);
 
@@ -812,9 +806,7 @@ dlg_duplicates (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton), esc_uri);
-	g_free (esc_uri);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton), gth_browser_get_current_directory (data->browser));
 
 	/* * Images model */
 
@@ -1491,34 +1483,26 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSURI *full_uri = NULL;
-		char        *str_uri, *unesc_uri;
+		char        *str_uri;
 
 		info = node->data;
 
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
-			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
-
-			if (file_is_image_or_video (unesc_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
-				files = g_list_prepend (files, unesc_uri);
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
+			if (file_is_image_or_video (str_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
+				files = g_list_prepend (files, str_uri);
 			else
-				g_free (unesc_uri);
-
-			g_free (str_uri);
+				g_free (str_uri);
 			break;
 
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
 			if (SPECIAL_DIR (info->name))
 				break;
-
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
-			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
-
-			data->dirs = g_list_prepend (data->dirs,  unesc_uri);
-			g_free (str_uri);
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
+			data->dirs = g_list_prepend (data->dirs,  str_uri);
 			break;
 
 		default:

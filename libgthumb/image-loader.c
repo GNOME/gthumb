@@ -58,7 +58,7 @@ struct _ImageLoaderPrivateData {
 					     * GdkPixbufAnimation structure. */
 
 	GnomeVFSURI           *uri;
-	const char           *mime_type;
+	const char            *mime_type;
 
 	GnomeVFSAsyncHandle   *info_handle;
 
@@ -1013,9 +1013,8 @@ gchar *
 image_loader_get_path (ImageLoader *il)
 {
 	ImageLoaderPrivateData *priv;
-	char                   *path;
-        char                   *esc_path;
 	GnomeVFSURI            *uri;
+	char                   *path;
 
 	g_return_val_if_fail (il != NULL, 0);
 	priv = il->priv;
@@ -1028,15 +1027,12 @@ image_loader_get_path (ImageLoader *il)
 	}
 
 	uri = gnome_vfs_uri_dup (priv->uri);
-
         path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
-        esc_path = gnome_vfs_unescape_string (path, NULL);
-        g_free (path);
 	gnome_vfs_uri_unref (uri);
 
 	g_mutex_unlock (priv->yes_or_no);
 
-        return esc_path;
+        return path;
 }
 
 

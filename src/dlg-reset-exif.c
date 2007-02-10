@@ -154,7 +154,7 @@ apply_transformation_to_all (DialogData *data)
 		char *path = scan->data;
 		char *name;
 
-		name = g_filename_display_basename (path);
+		name = basename_for_display (path);
 		_gtk_label_set_filename_text (GTK_LABEL (label), name);
 		g_free (name);
 

@@ -376,11 +376,8 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 {
 	GthMonitor            *monitor = user_data;
 	GthMonitorPrivateData *priv = monitor->priv;
-	char                  *path;
 
-	path = gnome_vfs_unescape_string (info_uri, NULL);
-	add_monitor_event (monitor, event_type, path, priv->monitor_events);
-	g_free (path);
+	add_monitor_event (monitor, event_type, info_uri, priv->monitor_events);
 
 	if (priv->update_changes_timeout != 0)
 		g_source_remove (priv->update_changes_timeout);

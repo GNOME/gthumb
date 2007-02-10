@@ -772,7 +772,7 @@ escape_filename (const char *text)
 	char *utf8_text;
 	char *escaped_text;
 
-	utf8_text = g_filename_display_name (text);
+	utf8_text = gnome_vfs_unescape_string_for_display (text);
 	escaped_text = g_markup_escape_text (utf8_text, -1);
 	g_free (utf8_text);
 
