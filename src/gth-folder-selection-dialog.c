@@ -306,7 +306,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 
 	/* Go to destination */
 
-	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_Go to the folder");
+	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_Go to the destination folder");
 	gtk_box_pack_start (GTK_BOX (vbox), folder_sel->priv->goto_destination, FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (folder_sel->priv->goto_destination),
