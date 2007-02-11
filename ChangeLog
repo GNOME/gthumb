@@ -1,5 +1,9 @@
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.c (open_browser_window): removed debug code.
+
+2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-folder-selection-dialog.h:
 	* src/gth-folder-selection-dialog.c: use a gth_location instead of
 	a text entry.

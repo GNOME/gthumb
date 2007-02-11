@@ -433,8 +433,6 @@ initialize_data (void)
 			continue;
 		}
 
-g_print ("[0] ==> %s\n", path);
-
 		if (is_dir) {
 			dir_urls = g_list_prepend (dir_urls, get_uri_from_path (path));
 			g_free (path);
@@ -549,8 +547,6 @@ open_browser_window (const char *uri,
 		return;
 	}
 #endif /* HAVE_GTKUNIQUE */
-
-g_print ("[1] ==> %s\n", uri);
 
 	current_window = gth_browser_new (uri);
 	if (show_window)
