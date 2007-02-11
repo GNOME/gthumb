@@ -1252,7 +1252,7 @@ folder_copy__response_cb (GObject *object,
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	old_path = g_object_get_data (G_OBJECT (file_sel), "path");
-	dest_dir = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+	dest_dir = g_strdup (gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel)));
 	move = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (file_sel), "folder_op"));
 
 	if (dest_dir == NULL)

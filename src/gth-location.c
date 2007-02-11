@@ -64,12 +64,12 @@ enum {
 
 enum {
         CHANGED,
-	OPEN_LOCATION,
         LAST_SIGNAL
 };
 
 struct _GthLocationPrivate
 {
+	gboolean               folders_only;
 	char                  *uri;
 	int                    current_idx;
 	gboolean               catalog_uri;
@@ -146,16 +146,6 @@ gth_location_class_init (GthLocationClass *class)
                               G_TYPE_NONE,
                               1,
 			      G_TYPE_STRING);
-
-	gth_location_signals[OPEN_LOCATION] =
-                g_signal_new ("open_location",
-                              G_TYPE_FROM_CLASS (class),
-                              G_SIGNAL_RUN_LAST,
-                              G_STRUCT_OFFSET (GthLocationClass, open_location),
-                              NULL, NULL,
-                              g_cclosure_marshal_VOID__VOID,
-                              G_TYPE_NONE,
-                              0);
 }
 
 
@@ -165,6 +155,7 @@ gth_location_init (GthLocation *loc)
 	loc->priv = g_new0 (GthLocationPrivate, 1);
 	loc->priv->current_idx = 0;
 	loc->priv->catalog_uri = FALSE;
+	loc->priv->folders_only = FALSE;
 
 	loc->priv->volume_monitor = gnome_vfs_get_volume_monitor ();
 	g_signal_connect (loc->priv->volume_monitor,
@@ -184,6 +175,64 @@ gth_location_init (GthLocation *loc)
 			  G_CALLBACK (monitor_changed_cb),
 			  loc);
 	loc->priv->drives = gnome_vfs_volume_monitor_get_connected_drives (loc->priv->volume_monitor);
+}
+
+
+static void
+open_other_location_response_cb (GtkDialog *file_sel,
+			         int        button_number,
+			         gpointer   data)
+{
+	GthLocation *location = data;
+	char        *folder;
+
+	if (button_number != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+		return;
+	}
+
+	folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
+	if (folder != NULL) {
+		gth_location_set_folder_uri (location, folder, FALSE);
+		g_signal_emit (G_OBJECT (location), gth_location_signals[CHANGED], 0, folder);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
+}
+
+
+G_CONST_RETURN static char*
+gth_location_get_folder_uri (GthLocation *loc)
+{
+	if (uri_scheme_is_catalog (loc->priv->uri) || (uri_scheme_is_search (loc->priv->uri)))
+		return get_home_uri();
+	else
+		return loc->priv->uri;
+}
+
+
+void
+gth_location_open_other (GthLocation *location)
+{
+	GtkWidget *chooser;
+
+	chooser = gtk_file_chooser_dialog_new (_("Open Location"),
+					       GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (location))),
+					       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					       NULL);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_location_get_folder_uri (location));
+
+	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
+			  "response",
+			  G_CALLBACK (open_other_location_response_cb),
+			  location);
+
+	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
+	gtk_widget_show (chooser);
 }
 
 
@@ -220,7 +269,7 @@ combo_changed_cb (GtkComboBox *widget,
 
 	if (item_type == ITEM_TYPE_OPEN_LOCATION) {
 		reset_active_index (loc);
-		g_signal_emit (G_OBJECT (loc), gth_location_signals[OPEN_LOCATION], 0);
+		gth_location_open_other (loc);
 		return;
 	}
 
@@ -250,7 +299,8 @@ row_separator_func (GtkTreeModel *model,
 
 
 static void
-gth_location_construct (GthLocation *loc)
+gth_location_construct (GthLocation *loc,
+			gboolean     folders_only)
 {
 	GtkCellRenderer *renderer;
 	GValue           value = { 0, };
@@ -258,6 +308,7 @@ gth_location_construct (GthLocation *loc)
 	int              icon_size;
 	GdkPixbuf       *icon;
 
+	loc->priv->folders_only = folders_only;
 	loc->priv->model = gtk_list_store_new (N_COLUMNS,
 					       GDK_TYPE_PIXBUF,
 					       G_TYPE_STRING,
@@ -369,12 +420,12 @@ gth_location_get_type ()
 
 
 GtkWidget*
-gth_location_new (void)
+gth_location_new (gboolean folders_only)
 {
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (g_object_new (GTH_TYPE_LOCATION, NULL));
-	gth_location_construct (GTH_LOCATION (widget));
+	gth_location_construct (GTH_LOCATION (widget), folders_only);
 
 	return widget;
 }
@@ -593,7 +644,8 @@ update_drives (GthLocation *loc)
 	/* Home, File System */
 
 	insert_drive_from_uri (loc, get_home_uri (), pos++);
-	insert_drive_from_uri (loc, "catalog://", pos++);
+	if (!loc->priv->folders_only)
+		insert_drive_from_uri (loc, "catalog://", pos++);
 	insert_drive_from_uri (loc, "file://", pos++);
 
 	/* Other drives */
@@ -869,6 +921,13 @@ gth_location_set_bookmarks (GthLocation *loc,
 	clear_items (loc, ITEM_TYPE_BOOKMARK);
 	clear_items (loc, ITEM_TYPE_BOOKMARK_SEPARATOR);
 
+	if (max_size < 0) {
+		if (bookmark_list != NULL)
+			max_size = g_list_length (bookmark_list);
+		else
+			max_size = 0;
+	}
+
 	if (max_size == 0)
 		return;
 
@@ -885,6 +944,9 @@ gth_location_set_bookmarks (GthLocation *loc,
 		const char *uri = scan->data;
 		char       *uri_name;
 		GdkPixbuf  *pixbuf;
+
+		if (loc->priv->folders_only && (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)))
+			continue;
 
 		uri_name = get_uri_display_name (uri);
 

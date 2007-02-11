@@ -2647,14 +2647,6 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 
 
 static void
-open_location_cb (GthLocation *loc,
-		  GthBrowser  *browser)
-{
-	gth_browser_activate_action_go_location (NULL, browser);
-}
-
-
-static void
 location_changed_cb (GthLocation *loc,
 		     const char  *uri,
 		     GthBrowser  *browser)
@@ -6495,12 +6487,8 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* Location. */
 
-	priv->location = gth_location_new ();
+	priv->location = gth_location_new (FALSE);
 	gtk_widget_show_all (priv->location);
-	g_signal_connect (G_OBJECT (priv->location),
-			  "open_location",
-			  G_CALLBACK (open_location_cb),
-			  browser);
 	g_signal_connect (G_OBJECT (priv->location),
 			  "changed",
 			  G_CALLBACK (location_changed_cb),

@@ -1,3 +1,20 @@
+2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-folder-selection-dialog.h:
+	* src/gth-folder-selection-dialog.c: use a gth_location instead of
+	a text entry.
+	* src/gth-location.h:
+	* src/gth-location.c:
+	* src/gth-browser.c: removed the open_location signal from the
+	gth_location widget.
+	* src/gth-browser-actions-callbacks.c:
+	* src/dlg-file-utils.c: gth_folder_selection_get_folder returns a const
+	string now.
+	* src/bookmark-list.c: fixed double escape issue.
+	* libgthumb/gtk-utils.c (_gtk_entry_get_filename_text): use escape_uri
+	instead of gnome_vfs_escape_string.
+	* data/glade/gthumb.glade: use 'Bookmarks:' instead of 'Select a bookmark:'
+
 2007-02-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* many files: store uris in escaped mode, and unescape when need to

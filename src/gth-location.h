@@ -36,7 +36,7 @@ typedef struct _GthLocation         GthLocation;
 typedef struct _GthLocationPrivate  GthLocationPrivate;
 typedef struct _GthLocationClass    GthLocationClass;
 
-struct _GthLocation 
+struct _GthLocation
 {
 	GtkHBox __parent;
 	GthLocationPrivate *priv;
@@ -44,26 +44,27 @@ struct _GthLocation
 
 struct _GthLocationClass
 {
-	GtkHBoxClass __parent_class; 
+	GtkHBoxClass __parent_class;
 
 	/* -- Signals -- */
 
-        void (* changed)       (GthLocation *loc,
-				const char  *uri);
-        void (* open_location) (GthLocation *loc);
+        void (* changed) (GthLocation *loc,
+			  const char  *uri);
 };
 
-GType                gth_location_get_type        (void) G_GNUC_CONST;
-GtkWidget *          gth_location_new             (void);
-void                 gth_location_set_folder_uri  (GthLocation *loc,
-						   const char  *uri,
-						   gboolean     reset_history);
-void                 gth_location_set_catalog_uri (GthLocation *loc,
-						   const char  *uri,
-						   gboolean     reset_history);
-G_CONST_RETURN char* gth_location_get_uri         (GthLocation *loc);
-void                 gth_location_set_bookmarks   (GthLocation *loc,
-						   GList       *bookmark_list,
-						   int          max_size);
+GType                gth_location_get_type         (void) G_GNUC_CONST;
+GtkWidget *          gth_location_new              (gboolean     folders_only);
+void                 gth_location_set_folder_uri   (GthLocation *loc,
+						    const char  *uri,
+						    gboolean     reset_history);
+void                 gth_location_set_catalog_uri  (GthLocation *loc,
+						    const char  *uri,
+						    gboolean     reset_history);
+G_CONST_RETURN char* gth_location_get_uri          (GthLocation *loc);
+void                 gth_location_set_bookmarks    (GthLocation *loc,
+						    GList       *bookmark_list,
+						    int          max_size);
+void                 gth_location_update_bookmarks (GthLocation *loc);
+void                 gth_location_open_other       (GthLocation *location);
 
 #endif /* GTH_LOCATION_H */

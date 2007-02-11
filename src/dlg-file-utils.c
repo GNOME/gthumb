@@ -317,11 +317,7 @@ file_move_ask__continue (GnomeVFSResult result,
 	if (GTH_IS_BROWSER (window) &&
 	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
 		GthBrowser *browser = GTH_BROWSER (window);
-		char       *path;
-
-		path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
-		gth_browser_go_to_directory (browser, path);
-		g_free (path);
+		gth_browser_go_to_directory (browser, gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel)));
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
@@ -345,7 +341,7 @@ file_move_response_cb (GtkWidget *w,
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
-	path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+	path = g_strdup (gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel)));
 
 	if (path == NULL)
 		return;
@@ -422,11 +418,7 @@ file_copy_ask__continue (GnomeVFSResult result,
 	if (GTH_IS_BROWSER (window) &&
 	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
 		GthBrowser *browser = GTH_BROWSER (window);
-		char       *path;
-
-		path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
-		gth_browser_go_to_directory (browser, path);
-		g_free (path);
+		gth_browser_go_to_directory (browser, gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel)));
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
@@ -452,7 +444,7 @@ file_copy_response_cb (GtkWidget *w,
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
-	path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+	path = g_strdup (gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel)));
 
 	/* ignore ending slash. */
 	len = strlen (path);

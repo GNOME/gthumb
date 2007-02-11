@@ -638,7 +638,7 @@ _gtk_entry_get_filename_text (GtkEntry   *entry)
 	if (utf8_text == NULL)
 		return NULL;
 
-	text = gnome_vfs_escape_string (utf8_text);
+	text = escape_uri (utf8_text);
 
 	return text;
 }

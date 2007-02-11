@@ -50,17 +50,17 @@ add_columns (GtkTreeView *treeview)
 {
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
-	
+
 	/* The Name column. */
 
 	column = gtk_tree_view_column_new ();
-	
+
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
 					     "pixbuf", BOOK_LIST_COLUMN_ICON,
 					     NULL);
-	
+
 	renderer = gtk_cell_renderer_text_new ();
         gtk_tree_view_column_pack_start (column,
                                          renderer,
@@ -69,7 +69,7 @@ add_columns (GtkTreeView *treeview)
                                              "text", BOOK_LIST_COLUMN_NAME,
                                              NULL);
 
-        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 }
 
@@ -89,7 +89,7 @@ bookmark_list_new (gboolean menu_icons)
 	/* Create the widgets. */
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
                                              GTK_SHADOW_ETCHED_IN);
@@ -124,7 +124,7 @@ bookmark_list_free (BookmarkList *book_list)
 }
 
 
-void 
+void
 bookmark_list_set (BookmarkList *book_list,
 		   GList        *list)
 {
@@ -148,21 +148,18 @@ bookmark_list_set (BookmarkList *book_list,
 
 	for (scan = book_list->list; scan; scan = scan->next) {
 		char        *name = scan->data;
-		char        *menu_name;
-		char        *utf8_name;
-		GtkTreeIter   iter;
+		char        *display_name;
+		GtkTreeIter  iter;
 		GdkPixbuf   *pixbuf;
 
-		menu_name = get_uri_display_name (name);
-		utf8_name = g_locale_to_utf8 (menu_name, -1, NULL, NULL, NULL);
-		
-		if (utf8_name == NULL)
-			utf8_name = g_strdup (_("(Invalid Name)"));
+		display_name = get_uri_display_name (name);
+		if (display_name == NULL)
+			display_name = g_strdup (_("(Invalid Name)"));
 
 		if (book_list->menu_icons)
-			pixbuf = gtk_widget_render_icon (book_list->list_view, 
+			pixbuf = gtk_widget_render_icon (book_list->list_view,
 							 get_stock_id_for_uri (name),
-							 GTK_ICON_SIZE_MENU, 
+							 GTK_ICON_SIZE_MENU,
 							 NULL);
 		else
 			pixbuf = get_icon_for_uri (book_list->list_view, name);
@@ -170,12 +167,11 @@ bookmark_list_set (BookmarkList *book_list,
 		gtk_list_store_append (book_list->list_store, &iter);
 		gtk_list_store_set (book_list->list_store, &iter,
 				    BOOK_LIST_COLUMN_ICON, pixbuf,
-				    BOOK_LIST_COLUMN_NAME, utf8_name,
+				    BOOK_LIST_COLUMN_NAME, display_name,
 				    BOOK_LIST_COLUMN_PATH, name,
 				    -1);
 
-		g_free (menu_name);
-		g_free (utf8_name);
+		g_free (display_name);
 		g_object_unref (pixbuf);
 	}
 }
@@ -192,10 +188,10 @@ bookmark_list_get_path_from_tree_path (BookmarkList *book_list,
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (book_list->list_store),
                                        &iter,
-                                       path)) 
+                                       path))
                 return NULL;
-	
-	gtk_tree_model_get (GTK_TREE_MODEL (book_list->list_store), 
+
+	gtk_tree_model_get (GTK_TREE_MODEL (book_list->list_store),
 			    &iter,
 			    BOOK_LIST_COLUMN_PATH, &name,
 			    -1);
@@ -235,7 +231,7 @@ bookmark_list_get_selected_path (BookmarkList *book_list)
 	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return NULL;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (book_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (book_list->list_store),
 			    &iter,
 			    BOOK_LIST_COLUMN_PATH, &name,
 			    -1);

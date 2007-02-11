@@ -40,7 +40,7 @@ typedef struct _GthFolderSelectionPrivate  GthFolderSelectionPrivate;
 typedef struct _GthFolderSelectionClass    GthFolderSelectionClass;
 
 
-struct _GthFolderSelection 
+struct _GthFolderSelection
 {
 	GtkDialog __parent;
 	GthFolderSelectionPrivate *priv;
@@ -57,7 +57,7 @@ GType         gth_folder_selection_get_type             (void) G_GNUC_CONST;
 GtkWidget *   gth_folder_selection_new                  (const char         *title);
 void          gth_folder_selection_set_folder           (GthFolderSelection *fsel,
 							 const char         *folder);
-char *        gth_folder_selection_get_folder           (GthFolderSelection *fsel);
+const char *  gth_folder_selection_get_folder           (GthFolderSelection *fsel);
 gboolean      gth_folder_selection_get_goto_destination (GthFolderSelection *fsel);
 
 
