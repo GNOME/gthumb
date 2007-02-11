@@ -317,14 +317,16 @@ eel_gconf_get_string (const char *key,
 	
 	val = gconf_client_get_string (client, key, &error);
 
-	if (val != NULL) {
+	/* Return the default value if the key does not exist,
+	   or if it is empty. */
+	if (val != NULL && strcmp (val, "")) {
 		g_return_val_if_fail (error == NULL, result);
 		g_free (result);
 		result = g_strdup (val);
 
 	} else if (error != NULL)
 		eel_gconf_handle_error (&error);
-	
+
 	return result;
 }
 

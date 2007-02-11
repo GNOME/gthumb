@@ -1,3 +1,13 @@
+2007-02-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_preferences.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/gconf-utils.c: (eel_gconf_get_string):
+	* libgthumb/preferences.h:
+	* src/dlg-preferences.c: (apply_cb), (dlg_preferences):
+	Added initial support for shell-script hotkeys. Added prefs.
+	The hotkeys don't function yet, though.
+
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c:

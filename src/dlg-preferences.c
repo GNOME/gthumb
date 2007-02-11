@@ -42,6 +42,7 @@
 #include "gconf-utils.h"
 #include "typedefs.h"
 #include "gth-browser.h"
+#include "preferences.h"
 
 #include "icons/layout1.xpm"
 #include "icons/layout2.xpm"
@@ -99,6 +100,18 @@ typedef struct {
 	GtkWidget  *spin_ss_delay;
 	GtkWidget  *toggle_ss_wrap_around;
 	GtkWidget  *toggle_ss_fading;
+
+	GtkWidget  *hotkey0;
+        GtkWidget  *hotkey1;
+        GtkWidget  *hotkey2;
+        GtkWidget  *hotkey3;
+        GtkWidget  *hotkey4;
+        GtkWidget  *hotkey5;
+        GtkWidget  *hotkey6;
+        GtkWidget  *hotkey7;
+        GtkWidget  *hotkey8;
+        GtkWidget  *hotkey9;
+
 } DialogData;
 
 
@@ -150,6 +163,17 @@ apply_cb (GtkWidget  *widget,
 		direction = GTH_DIRECTION_RANDOM;
 
 	pref_set_slideshow_direction (direction);
+
+	eel_gconf_set_string (PREF_HOTKEY0, gtk_entry_get_text (GTK_ENTRY (data->hotkey0)));
+        eel_gconf_set_string (PREF_HOTKEY1, gtk_entry_get_text (GTK_ENTRY (data->hotkey1)));
+        eel_gconf_set_string (PREF_HOTKEY2, gtk_entry_get_text (GTK_ENTRY (data->hotkey2)));
+        eel_gconf_set_string (PREF_HOTKEY3, gtk_entry_get_text (GTK_ENTRY (data->hotkey3)));
+        eel_gconf_set_string (PREF_HOTKEY4, gtk_entry_get_text (GTK_ENTRY (data->hotkey4)));
+        eel_gconf_set_string (PREF_HOTKEY5, gtk_entry_get_text (GTK_ENTRY (data->hotkey5)));
+        eel_gconf_set_string (PREF_HOTKEY6, gtk_entry_get_text (GTK_ENTRY (data->hotkey6)));
+        eel_gconf_set_string (PREF_HOTKEY7, gtk_entry_get_text (GTK_ENTRY (data->hotkey7)));
+        eel_gconf_set_string (PREF_HOTKEY8, gtk_entry_get_text (GTK_ENTRY (data->hotkey8)));
+        eel_gconf_set_string (PREF_HOTKEY9, gtk_entry_get_text (GTK_ENTRY (data->hotkey9)));	
 }
 
 
@@ -425,6 +449,17 @@ dlg_preferences (GthBrowser *browser)
         data->toggle_ss_wrap_around = glade_xml_get_widget (data->gui, "toggle_ss_wrap_around");
         data->toggle_ss_fading = glade_xml_get_widget (data->gui, "toggle_ss_fading");
 
+	data->hotkey0 = glade_xml_get_widget (data->gui, "hotkey0");
+        data->hotkey1 = glade_xml_get_widget (data->gui, "hotkey1");
+        data->hotkey2 = glade_xml_get_widget (data->gui, "hotkey2");
+        data->hotkey3 = glade_xml_get_widget (data->gui, "hotkey3");
+        data->hotkey4 = glade_xml_get_widget (data->gui, "hotkey4");
+        data->hotkey5 = glade_xml_get_widget (data->gui, "hotkey5");
+        data->hotkey6 = glade_xml_get_widget (data->gui, "hotkey6");
+        data->hotkey7 = glade_xml_get_widget (data->gui, "hotkey7");
+        data->hotkey8 = glade_xml_get_widget (data->gui, "hotkey8");
+        data->hotkey9 = glade_xml_get_widget (data->gui, "hotkey9");
+
 	btn_close  = glade_xml_get_widget (data->gui, "p_close_button");
 	btn_help   = glade_xml_get_widget (data->gui, "p_help_button");
 
@@ -512,6 +547,17 @@ dlg_preferences (GthBrowser *browser)
 				   eel_gconf_get_float (PREF_SLIDESHOW_DELAY, 4.0));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fading), eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE));
+
+	gtk_entry_set_text (GTK_ENTRY (data->hotkey0), eel_gconf_get_string (PREF_HOTKEY0, "gimp-remote %f"));
+	gtk_entry_set_text (GTK_ENTRY (data->hotkey1), eel_gconf_get_string (PREF_HOTKEY1, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey2), eel_gconf_get_string (PREF_HOTKEY2, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey3), eel_gconf_get_string (PREF_HOTKEY3, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey4), eel_gconf_get_string (PREF_HOTKEY4, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey5), eel_gconf_get_string (PREF_HOTKEY5, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey6), eel_gconf_get_string (PREF_HOTKEY6, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey7), eel_gconf_get_string (PREF_HOTKEY7, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey8), eel_gconf_get_string (PREF_HOTKEY8, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey9), eel_gconf_get_string (PREF_HOTKEY9, ""));
 
 	/* Set the signals handlers. */
 

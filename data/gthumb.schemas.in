@@ -467,6 +467,136 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/hotkeys/hotkey0</key>
+	<applyto>/apps/gthumb/hotkeys/hotkey0</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey1</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey1</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey2</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey2</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey3</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey3</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey4</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey4</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey5</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey5</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey6</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey6</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey7</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey7</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey8</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey8</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/hotkeys/hotkey9</key>
+        <applyto>/apps/gthumb/hotkeys/hotkey9</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
       <!-- UI -->
 
       <schema>

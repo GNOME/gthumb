@@ -75,6 +75,17 @@
 #define  PREF_SLIDESHOW_WRAP_AROUND  "/apps/gthumb/slideshow/wrap_around"
 #define  PREF_SLIDESHOW_FADING       "/apps/gthumb/slideshow/fading"
 
+#define  PREF_HOTKEY0                "/apps/gthumb/hotkeys/hotkey0"
+#define  PREF_HOTKEY1                "/apps/gthumb/hotkeys/hotkey1"
+#define  PREF_HOTKEY2                "/apps/gthumb/hotkeys/hotkey2"
+#define  PREF_HOTKEY3                "/apps/gthumb/hotkeys/hotkey3"
+#define  PREF_HOTKEY4                "/apps/gthumb/hotkeys/hotkey4"
+#define  PREF_HOTKEY5                "/apps/gthumb/hotkeys/hotkey5"
+#define  PREF_HOTKEY6                "/apps/gthumb/hotkeys/hotkey6"
+#define  PREF_HOTKEY7                "/apps/gthumb/hotkeys/hotkey7"
+#define  PREF_HOTKEY8                "/apps/gthumb/hotkeys/hotkey8"
+#define  PREF_HOTKEY9                "/apps/gthumb/hotkeys/hotkey9"
+
 #define  PREF_UI_LAYOUT              "/apps/gthumb/ui/layout"
 #define  PREF_UI_TOOLBAR_STYLE       "/apps/gthumb/ui/toolbar_style"
 #define  PREF_UI_WINDOW_WIDTH        "/apps/gthumb/ui/window_width"
