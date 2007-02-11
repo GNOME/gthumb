@@ -2067,14 +2067,11 @@ remove_temp_file_and_dir (char *tmp_file)
 	if (tmp_file == NULL)
 		return;
 
-	tmp_dir = remove_level_from_path (tmp_file);
-
 	file_unlink (tmp_file);
-        g_free (tmp_file);
 
+	tmp_dir = remove_level_from_path (tmp_file);
 	if (tmp_dir == NULL)
 		return;
-
 	dir_remove (tmp_dir);
 	g_free (tmp_dir);
 }

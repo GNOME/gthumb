@@ -34,6 +34,9 @@
 #include "jpegutils/transupp.h"
 #include "jpegutils/jpegtran.h"
 
+#define RESPONSE_TRIM 1
+
+
 GthTransform
 read_orientation_field (const char *path)
 {
@@ -98,7 +101,7 @@ jpeg_mcu_dialog (JXFORM_CODE *transform, boolean *trim, GtkWindow *parent)
 		"but the transformation is not strictly lossless anymore.\n\nTo avoid this problem in the "
 		"future, consider disabling the \"Apply physical transform\" option in the rotation dialog."),
 		NULL,
-		_("Trim"), 1,
+		_("_Trim"), RESPONSE_TRIM,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK,
 		NULL);
@@ -112,7 +115,7 @@ jpeg_mcu_dialog (JXFORM_CODE *transform, boolean *trim, GtkWindow *parent)
 		return TRUE;
 	case GTK_RESPONSE_CANCEL:
 		return FALSE;
-	case 1:
+	case RESPONSE_TRIM:
 		*trim = TRUE;
 		return TRUE;
 	default:
@@ -133,15 +136,15 @@ apply_transformation_jpeg (GtkWindow    *win,
 
 	if (path == NULL)
 		return;
-	
+
 	tmpdir = get_temp_dir_name ();
 	if (tmpdir == NULL)
 	{
-		_gtk_error_dialog_run (GTK_WINDOW (win), 
+		_gtk_error_dialog_run (GTK_WINDOW (win),
 				      _("Could not create a temporary folder"));
 		return;
 	}
-	
+
 	tmp = get_temp_file_name (tmpdir, NULL);
 
 	switch (transform) {
@@ -175,18 +178,19 @@ apply_transformation_jpeg (GtkWindow    *win,
 	}
 
 	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, win, &err) != 0) {
-		g_free (tmp);
-		if (err != NULL) 
+		if (err != NULL)
 			_gtk_error_dialog_from_gerror_run (win, &err);
 		remove_temp_file_and_dir (tmp);
+		g_free (tmp);
 		return;
 	}
 
 	if (!file_move (tmp, path))
-		_gtk_error_dialog_run (win, 
+		_gtk_error_dialog_run (win,
 			_("Could not move temporary file to local destination. Check folder permissions."));
 
 	remove_temp_file_and_dir (tmp);
+	g_free (tmp);
 }
 
 
@@ -214,10 +218,10 @@ apply_transformation_generic (GtkWindow    *win,
 	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
 		const char  *image_type = mime_type + 6;
-		if (! _gdk_pixbuf_save (pixbuf2, 
-					path, 
-					image_type, 
-					&error, 
+		if (! _gdk_pixbuf_save (pixbuf2,
+					path,
+					image_type,
+					&error,
 					NULL))
 			_gtk_error_dialog_from_gerror_run (win, &error);
 	} else
@@ -256,11 +260,11 @@ get_next_value_flip (GthTransform value)
 
 GthTransform
 get_next_transformation(GthTransform original, GthTransform transform)
-{			
-	GthTransform result = (original >= 1 && original <= 8 ? 
-									original : 
+{
+	GthTransform result = (original >= 1 && original <= 8 ?
+									original :
 									GTH_TRANSFORM_NONE);
-	
+
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
 		break;
@@ -281,7 +285,7 @@ get_next_transformation(GthTransform original, GthTransform transform)
 		break;
 	case GTH_TRANSFORM_FLIP_V:
 		result = get_next_value_flip (result);
-		break;		
+		break;
 	case GTH_TRANSFORM_TRANSPOSE:
 		result = get_next_value_rotation_90 (result);
 		result = get_next_value_mirror (result);
@@ -289,8 +293,8 @@ get_next_transformation(GthTransform original, GthTransform transform)
 	case GTH_TRANSFORM_TRANSVERSE:
 		result = get_next_value_rotation_90 (result);
 		result = get_next_value_flip (result);
-		break;			
+		break;
 	}
-	
+
 	return result;
 }

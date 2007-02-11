@@ -1,5 +1,12 @@
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/rotation-utils.c: free the 'tmp' variable when it's not used
+	anymore.
+	* libgthumb/file-utils.c (remove_temp_file_and_dir): do not free the
+	input argument.
+
+2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-folder-selection-dialog.c: Use "Recent folders" and
 	"Go to the destination folder".
 
