@@ -278,6 +278,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_container_set_border_width (GTK_CONTAINER (main_box), 4);
 
 	/* Folder */
+
 	frame1 = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame1), GTK_SHADOW_NONE);
 
@@ -304,28 +305,33 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_box_pack_start (GTK_BOX (hbox), browse_button, FALSE, FALSE, 0);
 
 	/* Go to destination */
-	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_View the destination");
+
+	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_Go to the folder");
 	gtk_box_pack_start (GTK_BOX (vbox), folder_sel->priv->goto_destination, FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (folder_sel->priv->goto_destination),
 				      eel_gconf_get_boolean (PREF_CHOOSE_DESTINATION_VIEW, FALSE));
 
 	/* Recents */
-	frame2 = gtk_frame_new(NULL);
+
+	frame2 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (main_box), frame2, TRUE, TRUE, 0);
 
 	label2 = gtk_label_new (NULL);
-	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label2), _("<b>_Recents</b>"));
+	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label2), _("<b>_Recent folders:</b>"));
 	gtk_frame_set_label_widget (GTK_FRAME (frame2), label2);
-	gtk_box_pack_start (GTK_BOX (main_box), frame2, TRUE, TRUE, 0);
 
 	alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
 	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 0);
 	gtk_container_add (GTK_CONTAINER (frame2), alignment);
 
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (alignment), vbox);
+
 	folder_sel->priv->recent_list = bookmark_list_new (FALSE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label2), folder_sel->priv->recent_list->list_view);
-	gtk_container_add (GTK_CONTAINER (alignment), folder_sel->priv->recent_list->root_widget);
+	gtk_box_pack_start (GTK_BOX (vbox), folder_sel->priv->recent_list->root_widget, TRUE, TRUE, 0);
 
 	folder_sel->priv->recents = bookmarks_new (RC_RECENT_FILE);
 	bookmarks_load_from_disk (folder_sel->priv->recents);
