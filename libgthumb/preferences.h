@@ -193,6 +193,7 @@
 
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
+#define  PREF_MSG_JPEG_MCU_WARNING     "/apps/gthumb/dialogs/messages/jpeg_mcu_warning"
 
 #define  PREF_CHOOSE_DESTINATION_VIEW  "/apps/gthumb/dialogs/choose_destination/view"
 

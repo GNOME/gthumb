@@ -465,6 +465,118 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 }
 
 
+GtkWidget*
+_gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
+			 		  GtkDialogFlags    flags,
+			 		  const char       *stock_id,
+			 		  const char       *message,
+			 		  const char       *secondary_message,
+			 		  const char       *gconf_key,
+			 		  const char       *check_button_label,
+			 		  const char       *first_button_text,
+			 		  ...)
+{
+	GtkWidget  *d;
+	GtkWidget  *label;
+	GtkWidget  *image;
+	GtkWidget  *hbox;
+	GtkWidget  *check_button;
+	va_list     args;
+	const char *text;
+	int         response_id;
+	char       *escaped_message, *markup_text;
+
+	g_return_val_if_fail (message != NULL, NULL);
+
+	if (stock_id == NULL)
+		stock_id = GTK_STOCK_DIALOG_INFO;
+
+	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
+	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+
+	/* Add label and image */
+
+	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
+
+	label = gtk_label_new ("");
+
+	escaped_message = g_markup_escape_text (message, -1);
+	if (secondary_message != NULL) {
+		char *escaped_secondary_message = g_markup_escape_text (secondary_message, -1);
+		markup_text = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s",
+					       escaped_message,
+					       escaped_secondary_message);
+		g_free (escaped_secondary_message);
+	} else
+		markup_text = g_strdup (escaped_message);
+	gtk_label_set_markup (GTK_LABEL (label), markup_text);
+	g_free (markup_text);
+	g_free (escaped_message);
+
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
+
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+
+	gtk_box_pack_start (GTK_BOX (hbox), image,
+			    FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (hbox), label,
+			    TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    hbox,
+			    FALSE, FALSE, 0);
+
+	gtk_widget_show_all (hbox);
+
+	/* Add checkbutton */
+
+	check_button = gtk_check_button_new_with_mnemonic (check_button_label);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    check_button,
+			    FALSE, FALSE, 0);
+	gtk_widget_show (check_button);
+
+	/* Add buttons */
+
+	if (first_button_text == NULL)
+		return d;
+
+	va_start (args, first_button_text);
+
+	text = first_button_text;
+	response_id = va_arg (args, gint);
+
+	while (text != NULL) {
+		gtk_dialog_add_button (GTK_DIALOG (d), text, response_id);
+
+		text = va_arg (args, gchar*);
+		if (text == NULL)
+			break;
+		response_id = va_arg (args, int);
+	}
+
+	va_end (args);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
+
+	g_signal_connect (G_OBJECT (check_button),
+			  "toggled",
+			  G_CALLBACK (yesno__check_button_toggled_cb),
+			  (gpointer) gconf_key);
+
+	return d;
+}
+
+
 void
 _gtk_error_dialog_from_gerror_run (GtkWindow        *parent,
 				   GError          **gerror)

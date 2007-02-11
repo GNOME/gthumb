@@ -327,7 +327,8 @@ jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
 
 
 static int
-jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
+jpegtran_internal (const char                    *path,
+		   struct jpeg_decompress_struct *srcinfo,
 		   struct jpeg_compress_struct   *dstinfo,
 		   JXFORM_CODE                    transformation,
 		   jpegtran_mcu_callback          callback,
@@ -348,7 +349,7 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	(void) jpeg_read_header (srcinfo, TRUE);
 
 	/* Check JPEG Minimal Coding Unit (mcu) */
-	if (callback &&	!jtransform_perfect_transform(
+	if (callback &&	! jtransform_perfect_transform (
 			srcinfo->image_width,
 			srcinfo->image_height,
 			srcinfo->max_h_samp_factor * DCTSIZE,
@@ -358,8 +359,9 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 		if (callback == JPEGTRAN_MCU_TRIM) {
 			// Continue transform and trim partial MCUs
 			transformoption.trim = TRUE;
-		} else if ((callback == JPEGTRAN_MCU_CANCEL) ||
-			(callback (&transformoption.transform, &transformoption.trim, userdata) == FALSE)) {
+		}
+		else if ((callback == JPEGTRAN_MCU_CANCEL) ||
+			  ! callback (path, &transformoption.transform, &transformoption.trim, userdata)) {
 			// Abort transform
 			return 1;
 		}
@@ -467,7 +469,7 @@ jpegtran_thumbnail (const void   *idata,
 	jpeg_memory_dest (&dstinfo, odata, osize);
 
 	/* Apply transformation */
-	if (jpegtran_internal(&srcinfo, &dstinfo, transformation, NULL, NULL) != 0) {
+	if (jpegtran_internal ("", &srcinfo, &dstinfo, transformation, NULL, NULL) != 0) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		return 1;
@@ -482,12 +484,12 @@ jpegtran_thumbnail (const void   *idata,
 
 
 int
-jpegtran (const char   *input_filename,
-	  const char   *output_filename,
-	  JXFORM_CODE   transformation,
-	  jpegtran_mcu_callback callback,
-	  void         *userdata,
-	  GError      **error)
+jpegtran (const char             *input_filename,
+	  const char             *output_filename,
+	  JXFORM_CODE             transformation,
+	  jpegtran_mcu_callback   callback,
+	  void                   *userdata,
+	  GError                **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
@@ -559,7 +561,7 @@ jpegtran (const char   *input_filename,
 	jpeg_stdio_dest (&dstinfo, output_file);
 
 	/* Apply transformation */
-	if (jpegtran_internal(&srcinfo, &dstinfo, transformation, callback, userdata) != 0) {
+	if (jpegtran_internal (input_filename, &srcinfo, &dstinfo, transformation, callback, userdata) != 0) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);

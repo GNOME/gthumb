@@ -1784,6 +1784,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/jpeg_mcu_warning</key>
+	<applyto>/apps/gthumb/dialogs/messages/jpeg_mcu_warning</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Choose destination dialog -->
 
       <schema>

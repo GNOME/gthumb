@@ -36,6 +36,17 @@ GtkWidget*  _gtk_message_dialog_new      (GtkWindow        *parent,
 					  const char       *first_button_text,
 					  ...);
 
+GtkWidget*
+_gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
+			 		  GtkDialogFlags    flags,
+			 		  const char       *stock_id,
+			 		  const char       *message,
+			 		  const char       *secondary_message,
+			 		  const char       *gconf_key,
+			 		  const char       *check_button_label,
+			 		  const char       *first_button_text,
+			 		  ...);
+
 gchar*      _gtk_request_dialog_run      (GtkWindow        *parent,
 					  GtkDialogFlags    flags,
 					  const char       *message,
@@ -89,7 +100,7 @@ void        _gtk_label_set_filename_text (GtkLabel   *label,
 
 char *      _gtk_label_get_filename_text (GtkLabel   *label);
 
-gboolean    exec_command                 (const char *application, 
+gboolean    exec_command                 (const char *application,
 					  GList      *file_list);
 
 GdkPixbuf * create_pixbuf                (GtkIconTheme  *icon_theme,

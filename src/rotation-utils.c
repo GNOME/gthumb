@@ -27,9 +27,11 @@
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include "file-utils.h"
+#include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "pixbuf-utils.h"
 #include "rotation-utils.h"
+#include "preferences.h"
 #include "jpegutils/jpeg-data.h"
 #include "jpegutils/transupp.h"
 #include "jpegutils/jpegtran.h"
@@ -83,38 +85,57 @@ write_orientation_field (const char   *path,
 
 
 static boolean
-jpeg_mcu_dialog (JXFORM_CODE *transform, boolean *trim, GtkWindow *parent)
+jpeg_mcu_dialog (const char  *path,
+		 JXFORM_CODE *transform,
+		 boolean     *trim,
+		 GtkWindow   *parent)
 {
+	char      *display_name;
+	char      *msg;
+	GtkWidget *d;
+	int        result;
+
+	/* If the user disabled the warning dialog trim the image */
+
+	if (! eel_gconf_get_boolean (PREF_MSG_JPEG_MCU_WARNING, TRUE)) {
+		*trim = TRUE;
+		return TRUE;
+	}
+
 	/*
 	 * Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
 	 * Warn about possible image distortions along one or more edges.
 	 */
 
- 	GtkWidget *d =  _gtk_message_dialog_new (parent,
+	display_name = basename_for_display (path);
+	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
+	d = _gtk_message_dialog_with_checkbutton_new (
+		parent,
 		GTK_DIALOG_MODAL,
 		GTK_STOCK_DIALOG_WARNING,
+		msg,
 		_("This transformation may introduce small image distortions along "
-		"one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
-		"is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
-		"transformation to return to the original image.\n\ngThumb can also discard (or trim) any "
-		"untransformable edge pixels. For practical use, this mode gives the best looking results, "
-		"but the transformation is not strictly lossless anymore.\n\nTo avoid this problem in the "
-		"future, consider disabling the \"Apply physical transform\" option in the rotation dialog."),
-		NULL,
+		  "one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
+		  "is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
+		  "transformation to return to the original image.\n\nYou can also choose to discard (or trim) any "
+		  "untransformable edge pixels. For practical use, this mode gives the best looking results, "
+		  "but the transformation is not strictly lossless anymore."),
+ 		PREF_MSG_JPEG_MCU_WARNING,
+		_("_Do not display this message again"),
 		_("_Trim"), RESPONSE_TRIM,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK,
 		NULL);
 
-	gint result = gtk_dialog_run (GTK_DIALOG (d));
+	g_free (display_name);
+	g_free (msg);
 
+	result = gtk_dialog_run (GTK_DIALOG (d));
  	gtk_widget_destroy (d);
 
 	switch (result) {
 	case GTK_RESPONSE_OK:
 		return TRUE;
-	case GTK_RESPONSE_CANCEL:
-		return FALSE;
 	case RESPONSE_TRIM:
 		*trim = TRUE;
 		return TRUE;
