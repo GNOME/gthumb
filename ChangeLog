@@ -1,3 +1,7 @@
+2007-02-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* README: Updated library requirements. Use svn rather than cvs.
+
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c: free the 'tmp' variable when it's not used

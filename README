@@ -13,6 +13,8 @@ Notes:
 
  * versions 2.5 and higher are for GNOME 2.6.
 
+ * versions 2.9.1 and higher are for GNOME 2.16.
+
  * more information about gthumb can be found at:
    http://gthumb.sourceforge.net
 
@@ -32,6 +34,7 @@ What is gThumb
 
    + View single images (including GIF animations).  Supported image
      types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.
+   + Optional support for RAW and HDR (high dynamic range) images.
    + View EXIF data attached to JPEG images.
    + View in fullscreen mode.
    + View images rotated, flipped, mirrored.
@@ -80,17 +83,15 @@ Compiling
   The following is the detailed list of libraries you need:
 
 	* glib	 		version >= 2.6.0
-	* gtk 			version >= 2.8.0
+	* gtk 			version >= 2.10.0
 	* libxml 		version >= 2.4.0
 	* libgnome 		version >= 2.6.0
 	* libgnomeui 		version >= 2.6.0
 	* libgnomecanvas 	version >= 2.6.0
 	* gnome-vfs 		version >= 2.6.0
 	* libglade 		version >= 2.4.0
-	* libgnomeprint 	version >= 2.6.0
-	* libgnomeprintui 	version >= 2.6.0
 	* intltool		version >= 0.35.0
-	* libexif               version >= 0.6.9
+	* libexif               version >= 0.6.13
 	* libjpeg
 	* gtkunique		version >= 0.9.1
 
@@ -121,10 +122,10 @@ Download
 
     http://ftp.gnome.org/pub/GNOME/sources/gthumb
 
-  * If you know what the CVS is and how to use it, you can download the
+  * If you know what the SVN is and how to use it, you can download the
     latest development version using the following command:
 
-    cvs -d:pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co gthumb
+    svn checkout http://svn.gnome.org/svn/gthumb/trunk
 
 
-9 February 2007
+11 February 2007
