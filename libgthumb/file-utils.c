@@ -1272,7 +1272,7 @@ get_uri_display_name (const char *uri)
 				if (uri_len == base_path_len)
 					name = g_strdup (_("Home"));
 				else if (uri_len > base_path_len)
-					name = g_strdup (uri + 1 + base_path_len);
+					name = gnome_vfs_unescape_string_for_display (uri + 1 + base_path_len);
 			} else
 				name = gnome_vfs_unescape_string_for_display (tmp_path);
 		}

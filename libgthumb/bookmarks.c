@@ -332,12 +332,10 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 		line[strlen (line) - 1] = 0;
 		path = line + 1;
 
-		bookmarks->list = g_list_prepend (bookmarks->list,
-						  g_strdup (path));
+		bookmarks->list = g_list_prepend (bookmarks->list, g_strdup (path));
 		my_insert (bookmarks->names,
 			   path,
 			   get_uri_display_name (path));
-
 		my_insert (bookmarks->tips,
 			   path,
 			   get_menu_item_tip (path));

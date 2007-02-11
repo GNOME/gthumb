@@ -1,5 +1,9 @@
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/bookmarks.c:
+	* libgthumb/file-utils.c (get_uri_display_name): escape uris under the home
+	folders as well.
+
 	* src/main.c (open_browser_window): removed debug code.
 
 2007-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
