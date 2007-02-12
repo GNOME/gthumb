@@ -3136,6 +3136,97 @@ key_press_cb (GtkWidget   *widget,
 
 		return TRUE;
 
+		/* hot keys */
+	case GDK_KP_0:
+	case GDK_KP_Insert:
+		list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY0, NULL), list);
+                        path_list_free (list);
+		} 
+		return TRUE;
+
+        case GDK_KP_1:
+        case GDK_KP_End:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY1, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_2:
+        case GDK_KP_Down:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY2, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_3:
+        case GDK_KP_Page_Down:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY3, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_4:
+        case GDK_KP_Left:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY4, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_5:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY5, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_6:
+        case GDK_KP_Right:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY6, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_7:
+        case GDK_KP_Home:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY7, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_8:
+        case GDK_KP_Up:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY8, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+        case GDK_KP_9:
+        case GDK_KP_Page_Up:
+                list = gth_window_get_file_list_selection (window);
+                if (list != NULL) {
+                        exec_shell_script (eel_gconf_get_string (PREF_HOTKEY9, NULL), list);
+                        path_list_free (list);
+                } 
+                return TRUE;
+
+
 		/* Go up one level */
 	case GDK_u:
 		gth_browser_go_up (browser);

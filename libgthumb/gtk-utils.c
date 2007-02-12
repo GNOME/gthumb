@@ -29,7 +29,7 @@
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
-
+#include "glib-utils.h"
 
 #define REQUEST_ENTRY_WIDTH 220
 
@@ -814,6 +814,40 @@ exec_command (const char *application,
 	g_string_free (command, TRUE);
 
 	return ! error;
+}
+
+
+void
+exec_shell_script (const char *script,
+		   GList      *file_list)
+{
+        char    *command;
+        GList   *scan;
+        GError  *err = NULL;
+        gboolean error;
+
+	if ((script == NULL) || (file_list == NULL)) 
+		return;
+
+        for (scan = file_list; scan; scan = scan->next) {
+                char *filename;
+                char *e_filename;
+
+		if (is_local_file (scan->data))
+	                filename = g_strdup (remove_scheme_from_uri (scan->data));
+	        else
+	                filename = g_strdup (scan->data);
+
+                e_filename = shell_escape (filename);
+		command = _g_substitute_pattern (script, 'f', e_filename);
+                g_free (e_filename);
+
+	        error = (! g_spawn_command_line_async (command, &err) || (err != NULL));
+        	if (error)
+                	_gtk_error_dialog_from_gerror_run (NULL, &err);
+        }
+
+	g_free (command);
 }
 
 
