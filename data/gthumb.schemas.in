@@ -1886,7 +1886,72 @@
 	</locale>
       </schema>
 
-      <!-- Messages -->
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/image_sizing</key>
+	<applyto>/apps/gthumb/dialogs/print/image_sizing</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>manual</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: manual, auto.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/image_unit</key>
+	<applyto>/apps/gthumb/dialogs/print/image_unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>in</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: mm, in.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/image_width</key>
+	<applyto>/apps/gthumb/dialogs/print/image_width</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>4.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/image_height</key>
+	<applyto>/apps/gthumb/dialogs/print/image_height</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>7.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/image_resolution</key>
+	<applyto>/apps/gthumb/dialogs/print/image_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>300</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: 72, 150, 300, 600.
+	  </long>
+	</locale>
+      </schema>
+
+     <!-- Messages -->
 
       <schema>
 	<key>/schemas/apps/gthumb/dialogs/messages/cannot_move_to_trash</key>

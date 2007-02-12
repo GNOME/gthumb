@@ -201,6 +201,12 @@
 #define  PREF_PRINT_MARGIN_BOTTOM     "/apps/gthumb/dialogs/print/margin_bottom"
 #define  PREF_PRINT_PAPER_UNIT        "/apps/gthumb/dialogs/print/paper_unit"
 #define  PREF_PRINT_IMAGES_PER_PAGE   "/apps/gthumb/dialogs/print/images_per_page"
+#define  PREF_PRINT_IMAGE_UNIT	      "/apps/gthumb/dialogs/print/image_unit"
+#define  PREF_PRINT_IMAGE_SIZING      "/apps/gthumb/dialogs/print/image_sizing"
+#define  PREF_PRINT_IMAGE_WIDTH	      "/apps/gthumb/dialogs/print/image_width"
+#define  PREF_PRINT_IMAGE_HEIGHT      "/apps/gthumb/dialogs/print/image_height"
+#define  PREF_PRINT_IMAGE_RESOLUTION  "/apps/gthumb/dialogs/print/image_resolution"
+
 
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
@@ -306,6 +312,12 @@ GthPreviewContent  pref_get_preview_content        (void);
 GthViewMode        pref_get_view_mode              (void);
 void               pref_set_print_unit             (GthPrintUnit value);
 GthPrintUnit       pref_get_print_unit             (void);
+void               pref_set_image_unit             (GthPrintUnit value);
+GthPrintUnit       pref_get_image_unit             (void);
+void               pref_set_image_sizing           (GthImageSizing value);
+GthImageSizing     pref_get_image_sizing           (void);
+void               pref_set_image_resolution       (GthImageResolution value);
+GthImageResolution pref_get_image_resolution       (void);
 void               pref_set_crop_ratio             (GthCropRatio value);
 GthCropRatio       pref_get_crop_ratio             (void);
 

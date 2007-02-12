@@ -1,5 +1,32 @@
 2007-02-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_print.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/preferences.c:
+	* libgthumb/preferences.h:
+	* libgthumb/print-callbacks.c: (convert_to_points),
+	(convert_from_points), (image_info_rotate), (add_catalog_preview),
+	(catalog_update_page), (catalog_update_image_size),
+	(catalog_get_image_width), (catalog_get_image_height),
+	(catalog_get_image_unit), (catalog_update_page_size_from_config),
+	(catalog_update_image_size_from_config),
+	(catalog_set_standard_page_size), (catalog_update_margins),
+	(draw_page), (catalog_get_current_image_resolution),
+	(catalog_get_current_image_sizing),
+	(catalog_image_width_changed_cb),
+	(catalog_image_height_changed_cb), (catalog_portrait_toggled_cb),
+	(catalog_landscape_toggled_cb), (catalog_image_unit_changed_cb),
+	(catalog_image_resolution_changed_cb),
+	(catalog_auto_size_toggled_cb), (catalog_manual_size_toggled_cb),
+	(print_catalog_cb), (images_per_page_value_changed_cb),
+	(print_catalog_dlg_full):
+	* libgthumb/typedefs.h:
+	Allow print sizes to be "auto-sized" or manually specified, so
+	that photos can be printed at common frame sizes (4x6", 5x7", etc).
+	Bug 385449.
+
+2007-02-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_tools.glade:
 	* libgthumb/gtk-utils.c: (exec_shell_script):
 	* libgthumb/gtk-utils.h:

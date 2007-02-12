@@ -120,6 +120,17 @@ typedef enum { /*< skip >*/
 	GTH_PRINT_UNIT_IN
 } GthPrintUnit;
 
+typedef enum { /*< skip >*/
+	GTH_IMAGE_SIZING_AUTO = 0,
+	GTH_IMAGE_SIZING_MANUAL
+} GthImageSizing;
+
+typedef enum { /*< skip >*/
+	GTH_IMAGE_RESOLUTION_72 = 0,
+	GTH_IMAGE_RESOLUTION_150,
+	GTH_IMAGE_RESOLUTION_300,
+	GTH_IMAGE_RESOLUTION_600,
+} GthImageResolution;
 
 /* keep the order of the items in sync with the order of the
  * sort_names structure in the file libgthumb/catalog.c */

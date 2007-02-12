@@ -207,6 +207,27 @@ static EnumStringTable print_unit_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable image_unit_table [] = {
+	{ GTH_PRINT_UNIT_MM,     "mm" },
+	{ GTH_PRINT_UNIT_IN,     "in" },
+	{ 0, NULL }
+};
+
+static EnumStringTable image_resolution_table [] = {
+	{ GTH_IMAGE_RESOLUTION_72,      "72" },
+	{ GTH_IMAGE_RESOLUTION_150,     "150" },
+	{ GTH_IMAGE_RESOLUTION_300,     "300" },
+	{ GTH_IMAGE_RESOLUTION_600,     "600" },
+	{ 0, NULL }
+};
+
+
+static EnumStringTable image_sizing_table [] = {
+	{ GTH_IMAGE_SIZING_AUTO,    "auto" },
+	{ GTH_IMAGE_SIZING_MANUAL,  "manual" },
+	{ 0, NULL }
+};
+
 static EnumStringTable crop_ratio_table [] = {
 	{ GTH_CROP_RATIO_NONE,     "none" },
 	{ GTH_CROP_RATIO_SQUARE,   "square" },
@@ -458,26 +479,29 @@ pref_set_##func_name (type i_value)					\
 }
 
 
-GET_SET_FUNC(click_policy,           PREF_CLICK_POLICY,        GthClickPolicy)
-GET_SET_FUNC(arrange_type,           PREF_ARRANGE_IMAGES,      GthSortMethod)
-GET_SET_FUNC(sort_order,             PREF_SORT_IMAGES,         GtkSortType)
-GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,        GthZoomQuality)
-GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,         GthZoomChange)
-GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,         GthTranspType)
-GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,          GthCheckType)
-GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,          GthCheckSize)
-GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,       GthDirectionType)
-GET_SET_FUNC(toolbar_style,          PREF_UI_TOOLBAR_STYLE,    GthToolbarStyle)
-GET_SET_FUNC(exp_arrange_type,       PREF_EXP_ARRANGE_IMAGES,  GthSortMethod)
-GET_SET_FUNC(exp_sort_order,         PREF_EXP_SORT_IMAGES,     GtkSortType)
-GET_SET_FUNC(exporter_frame_style,   PREF_EXP_FRAME_STYLE,     GthFrameStyle)
-GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   GthOverwriteMode)
-GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  GthSortMethod)
-GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
-GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)
-GET_SET_FUNC(preview_content,        PREF_PREVIEW_CONTENT,     GthPreviewContent)
-GET_SET_FUNC(print_unit,             PREF_PRINT_PAPER_UNIT,    GthPrintUnit)
-GET_SET_FUNC(crop_ratio,             PREF_CROP_ASPECT_RATIO,   GthCropRatio)
+GET_SET_FUNC(click_policy,           PREF_CLICK_POLICY,            GthClickPolicy)
+GET_SET_FUNC(arrange_type,           PREF_ARRANGE_IMAGES,          GthSortMethod)
+GET_SET_FUNC(sort_order,             PREF_SORT_IMAGES,             GtkSortType)
+GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,            GthZoomQuality)
+GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,             GthZoomChange)
+GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,             GthTranspType)
+GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,              GthCheckType)
+GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,              GthCheckSize)
+GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,           GthDirectionType)
+GET_SET_FUNC(toolbar_style,          PREF_UI_TOOLBAR_STYLE,        GthToolbarStyle)
+GET_SET_FUNC(exp_arrange_type,       PREF_EXP_ARRANGE_IMAGES,      GthSortMethod)
+GET_SET_FUNC(exp_sort_order,         PREF_EXP_SORT_IMAGES,         GtkSortType)
+GET_SET_FUNC(exporter_frame_style,   PREF_EXP_FRAME_STYLE,         GthFrameStyle)
+GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,       GthOverwriteMode)
+GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,      GthSortMethod)
+GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,          GthSortMethod)
+GET_SET_FUNC(view_as,                PREF_VIEW_AS,                 GthViewAs)
+GET_SET_FUNC(preview_content,        PREF_PREVIEW_CONTENT,         GthPreviewContent)
+GET_SET_FUNC(print_unit,             PREF_PRINT_PAPER_UNIT,        GthPrintUnit)
+GET_SET_FUNC(image_unit,             PREF_PRINT_IMAGE_UNIT,        GthPrintUnit)
+GET_SET_FUNC(image_sizing,           PREF_PRINT_IMAGE_SIZING,      GthImageSizing)
+GET_SET_FUNC(image_resolution,       PREF_PRINT_IMAGE_RESOLUTION,  GthImageResolution)
+GET_SET_FUNC(crop_ratio,             PREF_CROP_ASPECT_RATIO,       GthCropRatio)
 
 
 GthViewMode
