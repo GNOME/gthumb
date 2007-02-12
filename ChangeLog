@@ -1,3 +1,10 @@
+2007-02-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_preferences.glade:
+	* libgthumb/gtk-utils.c: (exec_shell_script):
+	* src/dlg-preferences.c: (dlg_preferences):
+	Added more hotkey format codes.
+
 2007-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_preferences.glade: removed gtk_event as container

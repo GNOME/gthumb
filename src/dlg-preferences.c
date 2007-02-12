@@ -548,9 +548,18 @@ dlg_preferences (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fading), eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE));
 
-	gtk_entry_set_text (GTK_ENTRY (data->hotkey0), eel_gconf_get_string (PREF_HOTKEY0, "gimp-remote %f"));
-	gtk_entry_set_text (GTK_ENTRY (data->hotkey1), eel_gconf_get_string (PREF_HOTKEY1, ""));
-        gtk_entry_set_text (GTK_ENTRY (data->hotkey2), eel_gconf_get_string (PREF_HOTKEY2, ""));
+	gtk_entry_set_text (GTK_ENTRY (data->hotkey0), 
+			    eel_gconf_get_string (PREF_HOTKEY0, 
+			    "gimp-remote %f"));
+
+	gtk_entry_set_text (GTK_ENTRY (data->hotkey1), 
+			    eel_gconf_get_string (PREF_HOTKEY1, 
+			    "convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e"));
+
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey2), 
+			    eel_gconf_get_string (PREF_HOTKEY2, 
+			    "mkdir -p %p/approved ; cp %f %p/approved/"));
+
         gtk_entry_set_text (GTK_ENTRY (data->hotkey3), eel_gconf_get_string (PREF_HOTKEY3, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey4), eel_gconf_get_string (PREF_HOTKEY4, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey5), eel_gconf_get_string (PREF_HOTKEY5, ""));
