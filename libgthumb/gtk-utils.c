@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <glade/glade.h>
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
@@ -818,17 +819,40 @@ exec_command (const char *application,
 
 
 void
-exec_shell_script (const char *script,
+exec_shell_script (GtkWindow  *window,
+		   const char *script,
 		   GList      *file_list)
 {
+        GladeXML  *gui;
+        GtkWidget *dialog;
+        GtkWidget *label;
+        GtkWidget *bar;
         GList     *scan;
-        GError    *err = NULL;
-        gboolean   error;
+        int        i, n;
 
 	if ((script == NULL) || (file_list == NULL)) 
 		return;
 
-	/* Add a progress indicator? */
+	/* Add a progress indicator */
+        gui = glade_xml_new (GTHUMB_GLADEDIR "/gthumb_tools.glade",
+                             NULL,
+                             NULL);
+
+        dialog = glade_xml_get_widget (gui, "hotkey_progress");
+        label = glade_xml_get_widget (gui, "progress_info");
+        bar = glade_xml_get_widget (gui, "progress_progressbar");
+
+        n = g_list_length (file_list);
+
+        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+        gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+        gtk_widget_show (dialog);
+
+        while (gtk_events_pending())
+                gtk_main_iteration();
+
+        i = 0;
 
         for (scan = file_list; scan; scan = scan->next) {
                 char *filename;
@@ -873,9 +897,20 @@ exec_shell_script (const char *script,
 		g_free (extension);
 		g_free (parent);
 
+		_gtk_label_set_filename_text (GTK_LABEL (label), command0);
+                gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+                                               (gdouble) (i + 0.5) / n);
+
 		system (command0);
 		g_free (command0);
+
+                while (gtk_events_pending())
+                        gtk_main_iteration();
+
+		i++;
         }
+        gtk_widget_destroy (dialog);
+        g_object_unref (gui);	
 }
 
 

@@ -560,7 +560,10 @@ dlg_preferences (GthBrowser *browser)
 			    eel_gconf_get_string (PREF_HOTKEY2, 
 			    "mkdir -p %p/approved ; cp %f %p/approved/"));
 
-        gtk_entry_set_text (GTK_ENTRY (data->hotkey3), eel_gconf_get_string (PREF_HOTKEY3, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey3), 
+			    eel_gconf_get_string (PREF_HOTKEY3, 
+			    "uuencode %f %f | mail -s Photos your@emailaddress.com"));
+
         gtk_entry_set_text (GTK_ENTRY (data->hotkey4), eel_gconf_get_string (PREF_HOTKEY4, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey5), eel_gconf_get_string (PREF_HOTKEY5, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey6), eel_gconf_get_string (PREF_HOTKEY6, ""));

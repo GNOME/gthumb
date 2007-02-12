@@ -102,7 +102,8 @@ char *      _gtk_label_get_filename_text (GtkLabel   *label);
 
 gboolean    exec_command                 (const char *application,
 					  GList      *file_list);
-void 	    exec_shell_script            (const char *script,
+void 	    exec_shell_script            (GtkWindow  *window,
+				          const char *script,
                                           GList      *file_list);
 
 GdkPixbuf * create_pixbuf                (GtkIconTheme  *icon_theme,
