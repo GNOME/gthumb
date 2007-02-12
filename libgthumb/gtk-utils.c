@@ -821,12 +821,14 @@ void
 exec_shell_script (const char *script,
 		   GList      *file_list)
 {
-        GList   *scan;
-        GError  *err = NULL;
-        gboolean error;
+        GList     *scan;
+        GError    *err = NULL;
+        gboolean   error;
 
 	if ((script == NULL) || (file_list == NULL)) 
 		return;
+
+	/* Add a progress indicator? */
 
         for (scan = file_list; scan; scan = scan->next) {
                 char *filename;
@@ -855,28 +857,23 @@ exec_shell_script (const char *script,
 		e_filename = shell_escape (name_wo_ext);
 		command2 = _g_substitute_pattern (command3, 'n', e_filename);
 		g_free (e_filename);
-
+		g_free (command3);
 		e_filename = shell_escape (extension);
 		command1 = _g_substitute_pattern (command2, 'e', e_filename);
 		g_free (e_filename);
+		g_free (command2);
 
                 e_filename = shell_escape (parent);
                 command0 = _g_substitute_pattern (command1, 'p', e_filename);
                 g_free (e_filename);		
+		g_free (command1);
 
 		g_free (filename);
 		g_free (name_wo_ext);
 		g_free (extension);
 		g_free (parent);
-		g_free (command3);
-		g_free (command2);
-		g_free (command1);
 
-printf ("command0: %s\n\r",command0);		
-	        error = (! g_spawn_command_line_async (command0, &err) || (err != NULL));
-        	if (error)
-                	_gtk_error_dialog_from_gerror_run (NULL, &err);
-
+		system (command0);
 		g_free (command0);
         }
 }
