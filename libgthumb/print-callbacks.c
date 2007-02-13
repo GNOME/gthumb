@@ -1785,7 +1785,7 @@ draw_page (GtkPrintOperation *operation,
 			cairo_restore (cr);
 		}
 
-		image_pixbuf = gth_pixbuf_new_from_uri (image->filename, NULL);
+		image_pixbuf = gth_pixbuf_new_from_uri (image->filename, NULL, 0, 0, NULL);
 
 		pixbuf = print__gdk_pixbuf_rotate (image_pixbuf, image->rotate);
 		g_object_unref (image_pixbuf);

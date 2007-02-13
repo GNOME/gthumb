@@ -233,7 +233,11 @@ GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
 GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename,
-						       GError 	            **error);
+						       GError 	            **error,
+				                       gint                   requested_width_if_used,
+				                       gint                   requested_height_if_used,
+				                       const char            *mime_type);
+
 GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename,
 						       GError               **error,
 						       gint                   requested_width_if_used,

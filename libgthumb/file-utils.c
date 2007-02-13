@@ -2473,7 +2473,10 @@ gth_pixbuf_new_from_video (const char             *path,
 
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char  *uri,
-			 GError     **error)
+			 GError     **error,
+                         gint         requested_width_if_used,
+                         gint         requested_height_if_used,
+                         const char  *mime_type)
 {
 	GdkPixbuf *pixbuf = NULL;
 	char      *local_file = NULL;
@@ -2484,11 +2487,31 @@ gth_pixbuf_new_from_uri (const char  *uri,
         /* gdk_pixbuf does not support VFS URIs directly, so
 	   make a local cache copy of remote files. */
         local_file = obtain_local_file (uri);
-        if (local_file != NULL) {
-		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
-		g_free (local_file);
-        }
+	if (local_file == NULL)
+		return NULL;
 
+	if (mime_type == NULL)
+		mime_type = get_file_mime_type (local_file, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+
+#ifdef HAVE_LIBOPENRAW
+	/* raw thumbnails */
+	if ((pixbuf == NULL) && 
+	    mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
+		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
+#endif
+
+	/* Use dcraw for raw images (non-thumbnails) and pfstools for HDR images.
+	   Use libopenraw preferentially in the future for raw images, once
+	   it matures. */
+	if ((pixbuf == NULL) &&
+	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
+		pixbuf = get_pixbuf_using_external_converter (local_file, mime_type);
+
+	/* Otherwise, use standard gdk_pixbuf loaders */
+        if (pixbuf == NULL)
+		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
+
+	g_free (local_file);
 	return pixbuf;
 }
 
@@ -2550,24 +2573,15 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		return animation;
 	}
 
-#ifdef HAVE_LIBOPENRAW
-	/* raw thumbnails */
-	if (mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
-		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
-#endif
-
-	/* Use dcraw for raw images (non-thumbnails) and pfstools for HDR images.
-	   Use libopenraw preferentially in the future for raw images, once
-	   it matures. */
-	if ((pixbuf == NULL) &&
-	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
-		pixbuf = get_pixbuf_using_external_converter (local_file, mime_type);
-
 	/* All other file types, or if previous methods fail: read in a
 	   non-animated pixbuf, and convert to a single-frame animation. */
 	if (pixbuf == NULL) {
 		char *local_uri = escape_uri(local_file);
-	        pixbuf = gth_pixbuf_new_from_uri (local_uri, error);
+	        pixbuf = gth_pixbuf_new_from_uri (local_uri, 
+				                  error,
+						  requested_width_if_used,
+						  requested_height_if_used,
+						  mime_type);
 	        g_free (local_uri);
 	}
 

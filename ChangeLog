@@ -1,5 +1,19 @@
 2007-02-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gtk-utils.c: (create_pixbuf):
+	* libgthumb/print-callbacks.c: (draw_page):
+	* src/dlg-photo-importer.c: (load_images_preview__step),
+	(dlg_photo_importer):
+	* src/dlg-web-exporter.c: (theme_dialog__sel_changed_cb):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	Fixed RAW/HDR print issue, bug 407112, by adding RAW/HDR
+	support in the pixbuf loader, rather than the animation loader.
+
+2007-02-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	Updated with new features and bug fixes.
 

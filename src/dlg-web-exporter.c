@@ -935,7 +935,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 					       "preview.png",
 					       NULL);
 		if (path_is_file (filename)) {
-			GdkPixbuf *image = gth_pixbuf_new_from_uri (filename, NULL);
+			GdkPixbuf *image = gth_pixbuf_new_from_uri (filename, NULL, 0, 0, NULL);
 			int        w = gdk_pixbuf_get_width (image);
 			int        h = gdk_pixbuf_get_height (image);
 			if (scale_keepping_ratio (&w, &h, MAX_PREVIEW_SIZE, MAX_PREVIEW_SIZE)) {

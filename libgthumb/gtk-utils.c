@@ -1039,7 +1039,7 @@ create_pixbuf (GtkIconTheme  *icon_theme,
 	if (icon_path == NULL)
 		return NULL;
 
-	pixbuf = gth_pixbuf_new_from_uri (icon_path, NULL);
+	pixbuf = gth_pixbuf_new_from_uri (icon_path, NULL, 0, 0, NULL);
         g_free (icon_path);
 
         if (pixbuf == NULL)

@@ -746,7 +746,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 		int        width, height;
 		FileData  *fdata;
 
-		pixbuf = gth_pixbuf_new_from_uri (tmp_filename, NULL);
+		pixbuf = gth_pixbuf_new_from_uri (tmp_filename, NULL, 0, 0, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, camera_filename);
 
@@ -1861,8 +1861,8 @@ dlg_photo_importer (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	data->camera_present_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL);
-	mute_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL);
+	data->camera_present_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL, 0, 0, NULL);
+	mute_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL, 0, 0, NULL);
 
 	data->no_camera_pixbuf = gdk_pixbuf_copy (data->camera_present_pixbuf);
 	gdk_pixbuf_composite (mute_pixbuf,
