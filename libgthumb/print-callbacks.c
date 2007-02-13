@@ -253,14 +253,14 @@ typedef struct {
 	double                paper_rmargin;
 	double                paper_tmargin;
 	double                paper_bmargin;
-			 
+
 	gboolean              print_comments;
 	gboolean              print_filenames;
 	gboolean              portrait;
-			 
+
 	gboolean              use_colors;
 	gboolean	      is_preview;
-			 
+
 
 	int                   images_per_page;
 	int                   n_images;
@@ -1200,7 +1200,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 			rows = cols;
 			cols = tmp;
 		}
-		
+
 		pci->max_image_width = (max_w - ((cols-1) * image_space_x)) / cols;
 		pci->max_image_height = (max_h - ((rows-1) * image_space_y)) / rows;
 
@@ -1231,7 +1231,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 		    || ((pci->max_image_width < pci->max_image_height)
 			&& (image->pixbuf_width > image->pixbuf_height)) )
 			image_info_rotate (image, 270);
-		
+
 		reset_zoom (data, image);
 
 		image->min_x = lmargin + ((col-1) * (pci->max_image_width + image_space_x));
@@ -1389,7 +1389,7 @@ catalog_update_image_size (PrintCatalogDialogData *data)
 
 	pci->image_unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->img_unit_optionmenu))];
 	pci->image_width = convert_to_points (gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->img_width_spinbutton)), pci->image_unit);
-	pci->image_height = convert_to_points (gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->img_height_spinbutton)), 
+	pci->image_height = convert_to_points (gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->img_height_spinbutton)),
 					       pci->image_unit);
 
 	catalog_update_page (data);
@@ -1576,11 +1576,11 @@ catalog_update_image_size_from_config (PrintCatalogDialogData *data)
 	width = convert_from_points (pci->image_width, unit);
 	height = convert_from_points (pci->image_height, unit);
 
-	max_width = gtk_page_setup_get_paper_width(pci->page_setup, unit) - 
+	max_width = gtk_page_setup_get_paper_width(pci->page_setup, unit) -
 		gtk_page_setup_get_left_margin(pci->page_setup, unit) -
 		gtk_page_setup_get_right_margin(pci->page_setup, unit);
 
-	max_height = gtk_page_setup_get_paper_height(pci->page_setup, unit) - 
+	max_height = gtk_page_setup_get_paper_height(pci->page_setup, unit) -
 		gtk_page_setup_get_top_margin(pci->page_setup, unit) -
 		gtk_page_setup_get_bottom_margin(pci->page_setup, unit);
 
@@ -1608,7 +1608,7 @@ catalog_update_image_size_from_config (PrintCatalogDialogData *data)
 
 	g_signal_handlers_unblock_by_func (data->img_width_spinbutton, catalog_image_width_changed_cb, data);
 	g_signal_handlers_unblock_by_func (data->img_height_spinbutton, catalog_image_height_changed_cb, data);
-	
+
 }
 
 
@@ -2441,8 +2441,6 @@ print_catalog_dlg_full (GtkWindow *parent,
 	data->img_height_spinbutton = glade_xml_get_widget (data->gui, "img_height_spinbutton");
 	data->img_unit_optionmenu = glade_xml_get_widget (data->gui, "img_unit_optionmenu");
 
-
-
 	data->resolution_optionmenu = glade_xml_get_widget (data->gui, "resolution_optionmenu");
 	data->unit_optionmenu = glade_xml_get_widget (data->gui, "unit_optionmenu");
 	data->width_spinbutton = glade_xml_get_widget (data->gui, "width_spinbutton");
@@ -2480,7 +2478,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	gtk_widget_show (data->comment_fontpicker);
 	gtk_container_add (GTK_CONTAINER (comment_fontpicker_hbox), data->comment_fontpicker);
 
-	hscale = glade_xml_get_widget (data->gui, "hscale");
+	hscale = glade_xml_get_widget (data->gui, "image_scale");
 	data->adj = gtk_range_get_adjustment (GTK_RANGE (hscale));
 
 	/* Set widgets data. */
