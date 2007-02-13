@@ -1,3 +1,7 @@
+2007-02-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c: fixed compiler warnings.
+
 2007-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_print.glade:

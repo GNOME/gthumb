@@ -79,26 +79,48 @@ static const char *paper_sizes[] = {"A4", "USLetter", "USLegal", "Tabloid",
 #define MM_PER_INCH 25.4
 #define POINTS_PER_INCH 72
 
-static double
-convert_to_points (double value, GtkUnit unit)
-{
-	switch (unit) {
-		case GTK_UNIT_MM:
-			return (value * POINTS_PER_INCH / MM_PER_INCH);
-		case GTK_UNIT_INCH:
-			return (value * POINTS_PER_INCH);
-	}
-}
 
 static double
-convert_from_points (double value, GtkUnit unit)
+convert_to_points (double  value,
+		   GtkUnit unit)
 {
+	double points = 0.0;
+
 	switch (unit) {
 		case GTK_UNIT_MM:
-			return (value * MM_PER_INCH / POINTS_PER_INCH);
+			points = value * POINTS_PER_INCH / MM_PER_INCH;
+			break;
 		case GTK_UNIT_INCH:
-			return (value / POINTS_PER_INCH);
+			points = value * POINTS_PER_INCH;
+			break;
+		default:
+			points = 0.0;
+			break;
 	}
+
+	return points;
+}
+
+
+static double
+convert_from_points (double  points,
+		     GtkUnit unit)
+{
+	double value = 0.0;
+
+	switch (unit) {
+		case GTK_UNIT_MM:
+			value = points * MM_PER_INCH / POINTS_PER_INCH;
+			break;
+		case GTK_UNIT_INCH:
+			value = points / POINTS_PER_INCH;
+			break;
+		default:
+			value = 0.0;
+			break;
+	}
+
+	return value;
 }
 
 
@@ -1385,7 +1407,6 @@ static void
 catalog_update_image_size (PrintCatalogDialogData *data)
 {
 	PrintCatalogInfo* pci = data->pci;
-	GtkUnit unit;
 
 	pci->image_unit = print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->img_unit_optionmenu))];
 	pci->image_width = convert_to_points (gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->img_width_spinbutton)), pci->image_unit);
@@ -2386,7 +2407,6 @@ print_catalog_dlg_full (GtkWindow *parent,
 	GtkWidget               *hscale;
 	char                    *value;
 	char                    *button_name;
-	int			 sizing_mode;
 
 	if (file_list == NULL)
 		return;
