@@ -2330,9 +2330,9 @@
 		      <child>
 			<widget class="GtkLabel" id="label191">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Keys 0-9 on the numeric keypad are programmable hot keys. They can be used in the browser to apply special effects, email files, and other functions that can be implements in shell scripts.</property>
+			  <property name="label" translatable="yes">Keys 0-9 on the numeric keypad can be used in the browser to open or modify the selected images with other applications.</property>
 			  <property name="use_underline">False</property>
-			  <property name="use_markup">True</property>
+			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
 			  <property name="wrap">True</property>
 			  <property name="selectable">False</property>
@@ -2347,8 +2347,8 @@
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
-			  <property name="expand">False</property>
-			  <property name="fill">False</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
 			</packing>
 		      </child>
 		    </widget>
