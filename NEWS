@@ -1,9 +1,32 @@
 version 2.9.2
 -------------
+	New features:
 	* Added support for displaying gnome-vfs locations (bug #143197)
 	* Added thumbnailing and player-launching for videos (bug #134366)
 	* Added initial RAW photo support (bug #145564)
 	* Added initial HDR photo supprt (bug #312896)
+	* Added programmable hotkeys (numeric keypad 0-9)
+	* Added the ability to manually specify photo print sizes
+	* Added a filter bar, to limit displayed images
+
+	Bug fixes:
+	* Fixed bug #406092 - old image is displayed
+	* Fixed bug #363643 - Shift+arrow expands selection, Shift+mouse doesn't
+	* Fixed bug #354482 - Show "hidden" images.
+        * Fixed bug #145334 - Folder list should respect .hidden files
+	* Fixed bug #392632 - crash when repeatedly pressing Ctrl+E
+	* Fixed bug #389870 - Add option to invert the crop aspect ratio
+	* Fixed bug #361913 - greater efficiency during lossless rotates, etc
+	* Removed the bonobo dependency, use gtkunique (bug #389197).
+	* Reduced reported memory consumption - bug #310749.
+	* Replace GnomeIconTheme with GtkIconTheme. Bugs #171593 and #396474.
+	* Set manual sort mode for command line lists. Bug #326621.
+	* Fixed bug #313562 - sort using same collation routines as Nautilus
+	* Fixed bug #385605 - toolbar style: "text beside icons" doesn't work
+	* Fixed bug #342994 - crossfading in slide shows should be optional
+	* Fixed bug #335390 - "Find" should be "Search"
+	* Fixed bug #389590 - update image after delete is broken.
+	* Larger redeye preview area. Bug 389587.
 
 version 2.9.1
 -------------

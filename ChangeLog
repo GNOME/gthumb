@@ -1,5 +1,10 @@
 2007-02-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	Updated with new features and bug fixes.
+
+2007-02-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_preferences.glade:
 	* doc/C/gthumb.xml:
 	Added hot key documentation, and explained the default scripts. 
