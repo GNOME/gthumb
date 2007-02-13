@@ -2965,7 +2965,8 @@
 %n = a single filename, including path, with no extension
 %e = a single extension (starting with a period)
 %p = the parent folder of the single file&lt;/i&gt;
-Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.&lt;/small&gt;</property>
+Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.
+The default scripts are explained in the Help file.&lt;/small&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
