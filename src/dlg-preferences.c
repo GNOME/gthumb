@@ -550,7 +550,7 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_entry_set_text (GTK_ENTRY (data->hotkey0), 
 			    eel_gconf_get_string (PREF_HOTKEY0, 
-			    "gimp-remote %f"));
+			    "gimp-remote %F"));
 
 	gtk_entry_set_text (GTK_ENTRY (data->hotkey1), 
 			    eel_gconf_get_string (PREF_HOTKEY1, 
@@ -564,8 +564,14 @@ dlg_preferences (GthBrowser *browser)
 			    eel_gconf_get_string (PREF_HOTKEY3, 
 			    "uuencode %f %f | mail -s Photos your@emailaddress.com"));
 
-        gtk_entry_set_text (GTK_ENTRY (data->hotkey4), eel_gconf_get_string (PREF_HOTKEY4, ""));
-        gtk_entry_set_text (GTK_ENTRY (data->hotkey5), eel_gconf_get_string (PREF_HOTKEY5, ""));
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey4), 
+			    eel_gconf_get_string (PREF_HOTKEY4, 
+			    "rm ~/myarchive.zip; zip -j ~/myarchive %F"));
+
+        gtk_entry_set_text (GTK_ENTRY (data->hotkey5), 
+			    eel_gconf_get_string (PREF_HOTKEY5, 
+		 	    "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com"));
+
         gtk_entry_set_text (GTK_ENTRY (data->hotkey6), eel_gconf_get_string (PREF_HOTKEY6, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey7), eel_gconf_get_string (PREF_HOTKEY7, ""));
         gtk_entry_set_text (GTK_ENTRY (data->hotkey8), eel_gconf_get_string (PREF_HOTKEY8, ""));

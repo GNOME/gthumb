@@ -852,63 +852,105 @@ exec_shell_script (GtkWindow  *window,
         while (gtk_events_pending())
                 gtk_main_iteration();
 
-        i = 0;
+	/* If the %F code is present, all selected files are processed by
+	   one script instance. Otherwise, each file is handled sequentially. */
 
-        for (scan = file_list; scan; scan = scan->next) {
-                char *filename;
-                char *e_filename;
-		char *name_wo_ext = NULL;
-		char *extension = NULL;
-		char *parent = NULL;
-		char *command0 = NULL;
-		char *command1 = NULL;
-		char *command2 = NULL;
-		char *command3 = NULL;
+	if (strstr (script, "%F")) {
+		char *command = NULL;
+		char *file_list_string;
 
-		if (is_local_file (scan->data))
-	                filename = gnome_vfs_unescape_string_for_display (remove_scheme_from_uri (scan->data));
-	        else
-	                filename = gnome_vfs_unescape_string_for_display (scan->data);
+		file_list_string = g_strdup (" ");
 
-		name_wo_ext = remove_extension_from_path (filename);
-		extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
-		parent = remove_level_from_path (filename);
+	        for (scan = file_list; scan; scan = scan->next) {
+			char *filename;
+			char *e_filename;
+			char *new_file_list;
+		
+			if (is_local_file (scan->data))
+                                filename = gnome_vfs_unescape_string_for_display (remove_scheme_from_uri (scan->data));
+                        else
+	                        filename = gnome_vfs_unescape_string_for_display (scan->data);
 
-                e_filename = shell_escape (filename);
-		command3 = _g_substitute_pattern (script, 'f', e_filename);
-                g_free (e_filename);
+			e_filename = shell_escape (filename);
 
-		e_filename = shell_escape (name_wo_ext);
-		command2 = _g_substitute_pattern (command3, 'n', e_filename);
-		g_free (e_filename);
-		g_free (command3);
-		e_filename = shell_escape (extension);
-		command1 = _g_substitute_pattern (command2, 'e', e_filename);
-		g_free (e_filename);
-		g_free (command2);
+			new_file_list = g_strconcat (file_list_string, e_filename, " ", NULL);
 
-                e_filename = shell_escape (parent);
-                command0 = _g_substitute_pattern (command1, 'p', e_filename);
-                g_free (e_filename);		
-		g_free (command1);
+			g_free (e_filename);
+			g_free (file_list_string);
+			file_list_string = g_strdup (new_file_list);
 
-		g_free (filename);
-		g_free (name_wo_ext);
-		g_free (extension);
-		g_free (parent);
+			g_free (new_file_list);
+        	}
+		command = _g_substitute_pattern (script, 'F', file_list_string);
+		g_free (file_list_string);
 
-		_gtk_label_set_filename_text (GTK_LABEL (label), command0);
+		system (command);
+		g_free (command);
+
+		_gtk_label_set_filename_text (GTK_LABEL (label), script);
                 gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
-                                               (gdouble) (i + 0.5) / n);
-
-		system (command0);
-		g_free (command0);
-
+                                               (gdouble) 1.0);
                 while (gtk_events_pending())
-                        gtk_main_iteration();
+                	gtk_main_iteration();
+	} else {
+	        i = 0;
+        	for (scan = file_list; scan; scan = scan->next) {
+                	char *filename;
+	                char *e_filename;
+			char *name_wo_ext = NULL;
+			char *extension = NULL;
+			char *parent = NULL;
+			char *command0 = NULL;
+			char *command1 = NULL;
+			char *command2 = NULL;
+			char *command3 = NULL;
 
-		i++;
-        }
+			if (is_local_file (scan->data))
+		                filename = gnome_vfs_unescape_string_for_display (remove_scheme_from_uri (scan->data));
+		        else
+		                filename = gnome_vfs_unescape_string_for_display (scan->data);
+
+			name_wo_ext = remove_extension_from_path (filename);
+			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
+			parent = remove_level_from_path (filename);
+	
+        	        e_filename = shell_escape (filename);
+			command3 = _g_substitute_pattern (script, 'f', e_filename);
+	                g_free (e_filename);
+
+			e_filename = shell_escape (name_wo_ext);
+			command2 = _g_substitute_pattern (command3, 'n', e_filename);
+			g_free (e_filename);
+			g_free (command3);
+			e_filename = shell_escape (extension);
+			command1 = _g_substitute_pattern (command2, 'e', e_filename);
+			g_free (e_filename);
+			g_free (command2);
+
+	                e_filename = shell_escape (parent);
+        	        command0 = _g_substitute_pattern (command1, 'p', e_filename);
+                	g_free (e_filename);		
+			g_free (command1);
+
+			g_free (filename);
+			g_free (name_wo_ext);
+			g_free (extension);
+			g_free (parent);
+
+			_gtk_label_set_filename_text (GTK_LABEL (label), command0);
+        	        gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+                	                               (gdouble) (i + 0.5) / n);
+
+			system (command0);
+			g_free (command0);
+
+	                while (gtk_events_pending())
+        	                gtk_main_iteration();
+
+			i++;
+	        }
+	}
+
         gtk_widget_destroy (dialog);
         g_object_unref (gui);	
 }
