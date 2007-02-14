@@ -3143,7 +3143,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY0, NULL), list);
                         path_list_free (list);
-		} 
+		}
 		return TRUE;
 
         case GDK_KP_1:
@@ -3152,7 +3152,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY1, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_2:
@@ -3161,7 +3161,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY2, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_3:
@@ -3170,7 +3170,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY3, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_4:
@@ -3179,7 +3179,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY4, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_5:
@@ -3187,7 +3187,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY5, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_6:
@@ -3196,7 +3196,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY6, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_7:
@@ -3205,7 +3205,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY7, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_8:
@@ -3214,7 +3214,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY8, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
         case GDK_KP_9:
@@ -3223,7 +3223,7 @@ key_press_cb (GtkWidget   *widget,
                 if (list != NULL) {
                         exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY9, NULL), list);
                         path_list_free (list);
-                } 
+                }
                 return TRUE;
 
 
@@ -8579,6 +8579,9 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
+
+	if (current_image == NULL)
+		return FALSE;
 
 	if (strcmp (priv->image_path, current_image) == 0)
 		return FALSE;

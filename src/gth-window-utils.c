@@ -40,6 +40,9 @@ remove_files_from_catalog (GthWindow  *window,
 	GList   *scan;
 	GError  *gerror;
 
+	if ((catalog_path == NULL) || (list == NULL))
+		return;
+
 	catalog = catalog_new ();
 	if (! catalog_load_from_disk (catalog, catalog_path, &gerror)) {
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &gerror);
@@ -48,7 +51,7 @@ remove_files_from_catalog (GthWindow  *window,
 		return;
 	}
 
-	for (scan = list; scan; scan = scan->next) 
+	for (scan = list; scan; scan = scan->next)
 		catalog_remove_item (catalog, (char*) scan->data);
 
 	if (! catalog_write_to_disk (catalog, &gerror)) {

@@ -1368,6 +1368,28 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 
 
 static void
+monitor_update_cat_files_cb (GthMonitor      *monitor,
+			     const char      *catalog_name,
+			     GthMonitorEvent  event,
+			     GList           *list,
+			     GthFullscreen   *fullscreen)
+{
+	if (fullscreen->priv->catalog_path == NULL)
+		return;
+	if (! same_uri (fullscreen->priv->catalog_path, catalog_name))
+		return;
+
+	switch (event) {
+	case GTH_MONITOR_EVENT_DELETED:
+		delete_list_from_file_list (fullscreen, list);
+		break;
+	default:
+		break;
+	}
+}
+
+
+static void
 monitor_update_files_cb (GthMonitor      *monitor,
 			 GthMonitorEvent  event,
 			 GList           *list,
@@ -1534,6 +1556,10 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	g_signal_connect (G_OBJECT (monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
+			  fullscreen);
+	g_signal_connect (G_OBJECT (monitor),
+			  "update_cat_files",
+			  G_CALLBACK (monitor_update_cat_files_cb),
 			  fullscreen);
 	g_signal_connect (G_OBJECT (monitor),
 			  "update_metadata",
@@ -1816,7 +1842,6 @@ gth_fullscreen_set_catalog (GthFullscreen *fullscreen,
 
 	g_free (fullscreen->priv->catalog_path);
 	fullscreen->priv->catalog_path = NULL;
-
 	if (catalog_path != NULL)
 		fullscreen->priv->catalog_path = g_strdup (catalog_path);
 }
