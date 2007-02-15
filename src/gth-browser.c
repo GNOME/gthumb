@@ -8580,7 +8580,7 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
 
-	if (current_image == NULL)
+	if ((current_image == NULL || priv->image_path == NULL))
 		return FALSE;
 
 	if (strcmp (priv->image_path, current_image) == 0)

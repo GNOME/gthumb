@@ -1,3 +1,8 @@
+2007-02-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (fullscreen_destroy_cb):
+	Fix crash if you exit slideshow while it is paused. Bug 408323.
+
 2007-02-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c:
