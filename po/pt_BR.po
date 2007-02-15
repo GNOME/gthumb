@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-01-18 03:30+0000\n"
-"PO-Revision-Date: 2007-01-18 13:57-0200\n"
+"PO-Revision-Date: 2007-02-15 15:24-0200\n"
 "Last-Translator: Igor Pires Soares <igor@projetofedora.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -439,7 +439,7 @@ msgstr "Selecione um modelo de câmera"
 
 #: ../data/glade/gthumb_camera.glade.h:9
 msgid "Update previews"
-msgstr "Atualizar pré-visualizações"
+msgstr "Atualizar visualizações"
 
 #: ../data/glade/gthumb_camera.glade.h:10
 msgid "_Auto Detect"
@@ -3365,7 +3365,7 @@ msgstr "Visualização da imagem"
 #: ../src/gth-browser.c:7658
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "Impossível carregar pasta \"%s\": %s\n"
+msgstr "Não foi possível carregar pasta \"%s\": %s\n"
 
 #: ../src/gth-browser.c:7997
 msgid "The specified catalog does not exist."
