@@ -163,6 +163,8 @@ src/gth-dir-list.c
 src/gth-dir-list.h
 src/gth-exif-data-viewer.c
 src/gth-exif-data-viewer.h
+src/gth-filter-bar.c
+src/gth-filter-bar.h
 src/gth-folder-selection-dialog.c
 src/gth-folder-selection-dialog.h
 src/gth-fullscreen-actions-callbacks.c
