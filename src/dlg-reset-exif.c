@@ -104,14 +104,45 @@ apply_transformation (DialogData *data,
 		      gboolean    notify_soon)
 {
 	char             *path = current_image->data;
-	GnomeVFSFileInfo  info;
+	GnomeVFSFileInfo *info;
+	char             *local_file_to_modify = NULL;
+        gboolean          is_local;
+        gboolean          remote_copy_ok;
+	GtkWindow        *window = GTK_WINDOW (data->dialog);
+
+        is_local = is_local_file (path);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+              temp file, modify it, then copy it back. This is easier than modifying the
+              underlying jpeg code (and other code) to handle VFS URIs. */
+
+        local_file_to_modify = obtain_local_file (path);
+
+        if (local_file_to_modify == NULL) {
+                _gtk_error_dialog_run (GTK_WINDOW (window),
+	                               _("Could not create a local temporary copy of the remote file."));
+                return;
+        }
 	
-	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	write_orientation_field (path, GTH_TRANSFORM_NONE);
+	info = gnome_vfs_file_info_new ();
+	gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
 
-	notify_file_changed (data, path, notify_soon);
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
+
+        g_free (local_file_to_modify);
+
+        if (!is_local && !remote_copy_ok) {
+                _gtk_error_dialog_run (GTK_WINDOW (window),
+                                _("Could not move temporary file to remote location. Check remote permissions."));
+        } else {
+                gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+                notify_file_changed (data, path, notify_soon);
+        }
+
+	gnome_vfs_file_info_unref (info);
 }
 
 
