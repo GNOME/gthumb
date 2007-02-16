@@ -1,5 +1,11 @@
 2007-02-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c: (gth_file_list_update_next_thumb):
+	Prepare thumbnails for all images, not just the visible
+	ones. Bug 142735.
+
+2007-02-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-reset-exif.c: (apply_transformation):
 	Added missing VFS support (using local cache).
 

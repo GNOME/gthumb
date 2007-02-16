@@ -371,7 +371,13 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		return;
 	}
 
-	while (pos <= last_pos) {
+	/* Previously, only the visible images were thumbnailed. I've changed 
+	   this to thumbnail everything, to speed up browsing. I think the
+	   tradeoffs are worth it. */
+
+	/* Start at the first visible image, and scan forwards looking for
+	   the first image that has no thumbnail. */
+	while (scan) {
 		fd = scan->data;
 		if (! fd->thumb && ! fd->error) {
 			new_pos = pos;
@@ -381,9 +387,28 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 			scan = scan->next;
 		}
 	}
+
+	/* If no non-thumbnailed image was found in the forward direction,
+	   scan backwards from the first visible image. */
+	if (scan == NULL) {
+		pos = first_pos;
+		scan = g_list_nth (list, first_pos);
+	        while (scan) {
+        	        fd = scan->data;
+                	if (! fd->thumb && ! fd->error) {
+                        	new_pos = pos;
+	                        break;
+        		} else {
+                	        pos--;
+                        	scan = scan->prev;
+	        	}
+		}	
+	}
+
 	g_list_free (list);
 
-	if (new_pos == -1) {
+	/* Return if no images are missing thumbnails. */
+	if (scan == NULL) {
 		gth_file_list_done (file_list);
 		return;
 	}
