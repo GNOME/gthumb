@@ -43,12 +43,12 @@ file_data_new (const char       *path,
 	fd->ref = 1;
 	fd->path = get_uri_from_path (path);
 	fd->name = file_name_from_path (fd->path);
-	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);	
+	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 	if (info != NULL) {
 		fd->size = info->size;
 		fd->ctime = info->ctime;
 		fd->mtime = info->mtime;
-		
+
 		if (info->mime_type != NULL)
 			fd->mime_type = info->mime_type;
 	}
@@ -61,7 +61,8 @@ file_data_new (const char       *path,
 	fd->exif_time = 0;
 
 	fd->error = FALSE;
-	fd->thumb = FALSE;
+	fd->thumb_loaded = FALSE;
+	fd->thumb_created = FALSE;
 	fd->comment = g_strdup ("");
 
 	return fd;
@@ -103,7 +104,8 @@ file_data_update (FileData *fd)
 	g_return_if_fail (fd != NULL);
 
 	fd->error = FALSE;
-	fd->thumb = FALSE;
+	fd->thumb_loaded = FALSE;
+	fd->thumb_created = FALSE;
 
 	fd->mime_type = NULL;
 

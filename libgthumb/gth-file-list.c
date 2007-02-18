@@ -98,6 +98,7 @@ struct _GthFileListPrivateData {
 	int            thumb_pos;           /* The position of the item we are
 					     * genereting a thumbnail. */
 	guint          scroll_timer;
+	gboolean       update_thumb_in_image_list;
 
 	/**/
 
@@ -371,15 +372,10 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		return;
 	}
 
-	/* Previously, only the visible images were thumbnailed. I've changed 
-	   this to thumbnail everything, to speed up browsing. I think the
-	   tradeoffs are worth it. */
-
-	/* Start at the first visible image, and scan forwards looking for
-	   the first image that has no thumbnail. */
-	while (scan) {
+	/* Find a not loaded thumbnail among the visible images. */
+	while (pos <= last_pos) {
 		fd = scan->data;
-		if (! fd->thumb && ! fd->error) {
+		if (! fd->thumb_loaded && ! fd->error) {
 			new_pos = pos;
 			break;
 		} else {
@@ -388,33 +384,26 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 	}
 
-	/* If no non-thumbnailed image was found in the forward direction,
-	   scan backwards from the first visible image. */
-	if (scan == NULL) {
-		pos = first_pos;
-		scan = g_list_nth (list, first_pos);
-	        while (scan) {
+	/* Find a not created thumbnail among the not-visible images. */
+	if (new_pos == -1)
+	        for (scan = list, pos = 0; scan; scan = scan->next, pos++) {
         	        fd = scan->data;
-                	if (! fd->thumb && ! fd->error) {
+                	if (! fd->thumb_created && ! fd->error) {
                         	new_pos = pos;
 	                        break;
-        		} else {
-                	        pos--;
-                        	scan = scan->prev;
-	        	}
-		}	
-	}
+        		}
+		}
 
 	g_list_free (list);
 
-	/* Return if no images are missing thumbnails. */
-	if (scan == NULL) {
+	if (new_pos == -1) {
 		gth_file_list_done (file_list);
 		return;
 	}
 
 	g_assert (fd != NULL);
 
+	file_list->priv->update_thumb_in_image_list = (new_pos >= first_pos) && (new_pos <= last_pos);
 	file_list->priv->thumb_pos = new_pos;
 	file_list->priv->thumbs_num++;
 
@@ -450,7 +439,8 @@ gth_file_list_update_thumbs (GthFileList *file_list)
 
 	for (scan = file_list->list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		fd->thumb = FALSE;
+		fd->thumb_loaded = FALSE;
+		fd->thumb_created = FALSE;
 		fd->error = FALSE;
 	}
 
@@ -490,22 +480,6 @@ gth_file_list_enable_thumbs (GthFileList *file_list,
 
 
 static void
-update_thumb_in_clist (GthFileList *file_list)
-{
-	GdkPixbuf *pixbuf;
-
-	pixbuf = thumb_loader_get_pixbuf (file_list->priv->thumb_loader);
-
-	if (pixbuf == NULL)
-		return;
-
-	gth_file_view_set_image_pixbuf (file_list->view,
-					file_list->priv->thumb_pos,
-					pixbuf);
-}
-
-
-static void
 load_thumb_error_cb (ThumbLoader *tl,
 		     gpointer     data)
 {
@@ -519,9 +493,25 @@ load_thumb_error_cb (ThumbLoader *tl,
 	gth_file_view_set_unknown_pixbuf (file_list->view,  file_list->priv->thumb_pos);
 
 	file_list->priv->thumb_fd->error = TRUE;
-	file_list->priv->thumb_fd->thumb = FALSE;
+	file_list->priv->thumb_fd->thumb_loaded = FALSE;
+	file_list->priv->thumb_fd->thumb_created = FALSE;
 
 	gth_file_list_update_next_thumb (file_list);
+}
+
+
+static void
+update_thumb_in_image_list (GthFileList *file_list)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = thumb_loader_get_pixbuf (file_list->priv->thumb_loader);
+	if (pixbuf == NULL)
+		return;
+
+	gth_file_view_set_image_pixbuf (file_list->view,
+					file_list->priv->thumb_pos,
+					pixbuf);
 }
 
 
@@ -536,9 +526,12 @@ load_thumb_done_cb (ThumbLoader *tl,
 		return;
 	}
 
-	update_thumb_in_clist (file_list);
+	if (file_list->priv->update_thumb_in_image_list) {
+		update_thumb_in_image_list (file_list);
+		file_list->priv->thumb_fd->thumb_loaded = TRUE;
+	}
 	file_list->priv->thumb_fd->error = FALSE;
-	file_list->priv->thumb_fd->thumb = TRUE;
+	file_list->priv->thumb_fd->thumb_created = TRUE;
 
 	gth_file_list_update_next_thumb (file_list);
 }
@@ -1049,7 +1042,8 @@ load_new_list (GthFileList *file_list)
 		if (fd != NULL) {
 			fd->mime_type = mime_type;
 			fd->error = FALSE;
-			fd->thumb = FALSE;
+			fd->thumb_loaded = FALSE;
+			fd->thumb_created = FALSE;
 			continue;
 		}
 

@@ -42,10 +42,13 @@ typedef struct {
 	time_t              mtime;
 	guint               exif_data_loaded : 1;
 	time_t		    exif_time;
-	guint               error : 1;     /* Whether an error occurred loading
-					    * this file. */
-	guint               thumb : 1;     /* Whether we have a thumb of this
-					    * image. */
+	guint               error : 1;         /* Whether an error occurred loading
+					        * this file. */
+	guint               thumb_loaded : 1;  /* Whether we have a thumb of this
+					        * image. */
+	guint               thumb_created : 1; /* Whether a thumb has been
+						* created for this image. */
+
 	char               *comment;
 	CommentData        *comment_data;
 } FileData;
