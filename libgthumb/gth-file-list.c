@@ -407,7 +407,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (new_pos == -1) {
 		pos = 0;
 		scan = list;
-	        while (scan) {
+	        while (scan && (pos < first_pos)) {
         	        fd = scan->data;
                 	if (! fd->thumb_created && ! fd->error) {
                         	new_pos = pos;
@@ -1781,9 +1781,14 @@ void
 gth_file_list_set_filter (GthFileList *file_list,
 			  GthFilter   *filter)
 {
+	if (file_list->priv->filter == filter)
+		return;
+
 	if (file_list->priv->filter != NULL)
 		g_object_unref (file_list->priv->filter);
 	file_list->priv->filter = filter;
+	if (file_list->priv->filter != NULL)
+		g_object_ref (file_list->priv->filter);
 
 	gth_file_list_queue_op (file_list, gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_SET_FILTER));
 }

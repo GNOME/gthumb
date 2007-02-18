@@ -624,17 +624,12 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 			    SUBTYPE_COLUMN, &scope_type,
 			    -1);
 
+	if (filter_type == FILTER_TYPE_ALL)
+		return NULL;
+
 	filter = gth_filter_new ();
 
 	switch (filter_type) {
-	case FILTER_TYPE_ALL:
-		g_object_unref (filter);
-		filter = NULL;
-		break;
-
-	case FILTER_TYPE_CUSTOM:
-		break;
-
 	case FILTER_TYPE_SCOPE:
 		if (scope_type == GTH_TEST_SCOPE_DATE) {
 			GDate *date;
@@ -652,8 +647,10 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 		/* text based filters */
 
 		text = gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry));
-		if ((text == NULL) || (strlen (text) == 0))
+		if ((text == NULL) || (strlen (text) == 0)) {
+			g_object_unref (filter);
 			return NULL;
+		}
 
 		switch (scope_type) {
 		case GTH_TEST_SCOPE_FILENAME:
@@ -682,6 +679,9 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 
 		if (test != NULL)
 			gth_filter_add_test (filter, test);
+		break;
+
+	case FILTER_TYPE_CUSTOM:
 		break;
 
 	default:

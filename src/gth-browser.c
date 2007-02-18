@@ -5059,6 +5059,7 @@ pref_view_as_changed (GConfClient *client,
 	GthBrowserPrivateData *priv = browser->priv;
 	GthFileList           *file_list;
 	gboolean               enable_thumbs;
+	GthFilter             *filter;
 
 	enable_thumbs = priv->file_list->enable_thumbs;
 
@@ -5077,7 +5078,10 @@ pref_view_as_changed (GConfClient *client,
 
 	gtk_widget_show_all (priv->file_list->root_widget);
 
-	gth_file_list_set_filter (browser->priv->file_list, gth_filter_bar_get_filter (GTH_FILTER_BAR (browser->priv->filterbar)));
+	filter = gth_filter_bar_get_filter (GTH_FILTER_BAR (browser->priv->filterbar));
+	gth_file_list_set_filter (browser->priv->file_list, filter);
+	g_object_unref (filter);
+
 	window_update_file_list (browser);
 }
 

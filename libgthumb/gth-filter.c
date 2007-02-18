@@ -303,6 +303,7 @@ gth_test_match (GthTest  *test,
 	case GTH_TEST_SCOPE_FILENAME:
 		result = test_string (test, fdata->display_name);
 		break;
+
 	case GTH_TEST_SCOPE_COMMENT:
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
@@ -310,11 +311,13 @@ gth_test_match (GthTest  *test,
 		else
 			result = test->negative;
 		break;
+
 	case GTH_TEST_SCOPE_PLACE:
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
 			result = test_string (test, fdata->comment_data->place);
 		break;
+
 	case GTH_TEST_SCOPE_ALL:
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL) {
@@ -326,15 +329,18 @@ gth_test_match (GthTest  *test,
 		} else
 			result = test->negative;
 		break;
+
 	case GTH_TEST_SCOPE_SIZE:
 		result = test_integer (test, fdata->size);
 		break;
+
 	case GTH_TEST_SCOPE_KEYWORDS:
 		if (fdata->comment_data != NULL)
 			result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
 		else
 			result = test->negative;
 		break;
+
 	case GTH_TEST_SCOPE_DATE:
 		file_data_load_exif_data (fdata);
 		if (fdata->exif_time != 0)
@@ -342,6 +348,7 @@ gth_test_match (GthTest  *test,
 		else
 			result = test_date (test, fdata->mtime);
 		break;
+
 	case GTH_TEST_SCOPE_WIDTH:
 	case GTH_TEST_SCOPE_HEIGHT:
 		break;
