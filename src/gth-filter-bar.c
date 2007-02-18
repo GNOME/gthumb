@@ -23,10 +23,11 @@
 #include <config.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-
+#include <libgnomeui/gnome-dateedit.h>
 #include "gth-filter-bar.h"
 #include "gth-category-selection-dialog.h"
 
@@ -65,6 +66,7 @@ struct _GthFilterBarPrivate
 	GtkWidget    *size_combo_box;
 	GtkWidget    *scope_combo_box;
 	GtkWidget    *choose_categories_button;
+	GtkWidget    *date_edit;
 	GtkTooltips  *tooltips;
 	GtkListStore *model;
 };
@@ -248,6 +250,11 @@ scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 	else
 		gtk_widget_hide (filter_bar->priv->date_op_combo_box);
 
+	if (scope_type == GTH_TEST_SCOPE_DATE)
+		gtk_widget_show (filter_bar->priv->date_edit);
+	else
+		gtk_widget_hide (filter_bar->priv->date_edit);
+
 	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_SIZE)) {
 		gtk_widget_show (filter_bar->priv->int_op_combo_box);
 		gtk_widget_show (filter_bar->priv->size_combo_box);
@@ -261,7 +268,9 @@ scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 	else
 		gtk_widget_hide (filter_bar->priv->category_op_combo_box);
 
-	if (filter_type == FILTER_TYPE_ALL)
+	if ((filter_type == FILTER_TYPE_ALL)
+	    || ((filter_type == FILTER_TYPE_SCOPE)
+	        && (scope_type == GTH_TEST_SCOPE_DATE)))
 		gtk_widget_hide (filter_bar->priv->text_entry);
 	else
 		gtk_widget_show (filter_bar->priv->text_entry);
@@ -330,6 +339,22 @@ choose_categories_button_clicked_cb (GtkButton    *button,
 
 
 static void
+date_edit_changed_cb (GnomeDateEdit *dateedit,
+                      GthFilterBar  *filter_bar)
+{
+	gth_filter_bar_changed (filter_bar);
+}
+
+
+static void
+date_op_combo_box_changed_cb (GtkComboBox  *widget,
+                              GthFilterBar *filter_bar)
+{
+	gth_filter_bar_changed (filter_bar);
+}
+
+
+static void
 gth_filter_bar_construct (GthFilterBar *filter_bar)
 {
 	GtkCellRenderer *renderer;
@@ -350,6 +375,18 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	g_signal_connect (G_OBJECT (filter_bar->priv->choose_categories_button),
 			  "clicked",
 			  G_CALLBACK (choose_categories_button_clicked_cb),
+			  filter_bar);
+
+	/* date edit */
+
+	filter_bar->priv->date_edit = gnome_date_edit_new_flags (time(NULL), 0);
+	g_signal_connect (G_OBJECT (filter_bar->priv->date_edit),
+			  "date-changed",
+			  G_CALLBACK (date_edit_changed_cb),
+			  filter_bar);
+	g_signal_connect (G_OBJECT (filter_bar->priv->date_edit),
+			  "time-changed",
+			  G_CALLBACK (date_edit_changed_cb),
 			  filter_bar);
 
 	/* text entry */
@@ -392,6 +429,10 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->date_op_combo_box),
 					   _(date_op_data[i].name));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->date_op_combo_box), 0);
+	g_signal_connect (G_OBJECT (filter_bar->priv->date_op_combo_box),
+			  "changed",
+			  G_CALLBACK (date_op_combo_box_changed_cb),
+			  filter_bar);
 
 	/* category operation combo box */
 
@@ -517,6 +558,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->text_entry, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->choose_categories_button, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->size_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->date_edit, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (filter_bar), button, FALSE, FALSE, 0);
 }
 
@@ -594,8 +636,22 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 		break;
 
 	case FILTER_TYPE_SCOPE:
-		text = gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry));
+		if (scope_type == GTH_TEST_SCOPE_DATE) {
+			GDate *date;
 
+			op_data = date_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->date_op_combo_box))];
+			date = g_date_new ();
+			g_date_set_time_t (date, gnome_date_edit_get_time (GNOME_DATE_EDIT (filter_bar->priv->date_edit)));
+			test = gth_test_new_with_date (scope_type, op_data.op, op_data.negative, date);
+			g_date_free (date);
+
+			gth_filter_add_test (filter, test);
+			break;
+		}
+
+		/* text based filters */
+
+		text = gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry));
 		if ((text == NULL) || (strlen (text) == 0))
 			return NULL;
 
@@ -606,9 +662,6 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 		case GTH_TEST_SCOPE_ALL:
 			op_data = text_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->text_op_combo_box))];
 			test = gth_test_new_with_string (scope_type, op_data.op, op_data.negative, text);
-			break;
-		case GTH_TEST_SCOPE_DATE:
-			op_data = date_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->date_op_combo_box))];
 			break;
 		case GTH_TEST_SCOPE_SIZE:
 			op_data = int_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->int_op_combo_box))];
@@ -622,6 +675,8 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 			else
 				op_data.op = GTH_TEST_OP_CONTAINS;
 			test = gth_test_new_with_string (scope_type, op_data.op, op_data.negative, text);
+			break;
+		default:
 			break;
 		}
 

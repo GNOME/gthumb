@@ -62,6 +62,7 @@ void         file_data_set_path          (FileData         *fd,
 					  const char       *path);
 void         file_data_update            (FileData         *fd);
 void         file_data_load_comment_data (FileData         *fd);
+void         file_data_load_exif_data    (FileData         *fd);
 void         file_data_update_comment    (FileData         *fd);
 GList*       file_data_list_dup          (GList            *list);
 void         file_data_list_free         (GList            *list);

@@ -1,5 +1,19 @@
 2007-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-filter-bar.c:
+	* libgthumb/gth-filter.h:
+	* libgthumb/gth-filter.c: implemented filter on date.
+
+	* libgthumb/file-data.h:
+	* libgthumb/file-data.c: added file_data_load_exif_data
+
+	* libgthumb/gth-file-list.c (gth_file_list_update_next_thumb):
+
+	continue creating thumbnails from after the last visible image and then
+	restart from the beginning (#142735).
+
+2007-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* libgthumb/gth-file-list.c:
 	* libgthumb/file-data.h:
 	* libgthumb/file-data.c:

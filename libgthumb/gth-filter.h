@@ -88,6 +88,10 @@ GthTest *            gth_test_new_with_string   (GthTestScope      scope,
 	                  			 GthTestOp         op,
 	                  			 gboolean          negavite,
 	                  			 const char       *data);
+GthTest *            gth_test_new_with_date     (GthTestScope      scope,
+	                			 GthTestOp         op,
+	                			 gboolean          negavite,
+	                			 GDate            *date);
 void                 gth_test_ref               (GthTest          *test);
 void                 gth_test_unref             (GthTest          *test);
 gboolean             gth_test_match             (GthTest          *test,

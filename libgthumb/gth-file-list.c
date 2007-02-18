@@ -385,14 +385,38 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	}
 
 	/* Find a not created thumbnail among the not-visible images. */
-	if (new_pos == -1)
-	        for (scan = list, pos = 0; scan; scan = scan->next, pos++) {
+
+	/* start from after the last visible image... */
+
+	if (new_pos == -1) {
+		pos = last_pos + 1;
+		scan = g_list_nth (list, pos);
+	        while (scan) {
         	        fd = scan->data;
                 	if (! fd->thumb_created && ! fd->error) {
                         	new_pos = pos;
 	                        break;
         		}
+        		pos++;
+        		scan = scan->next;
 		}
+	}
+
+	/* ...continue from the beginning */
+
+	if (new_pos == -1) {
+		pos = 0;
+		scan = list;
+	        while (scan) {
+        	        fd = scan->data;
+                	if (! fd->thumb_created && ! fd->error) {
+                        	new_pos = pos;
+	                        break;
+        		}
+        		pos++;
+        		scan = scan->next;
+		}
+	}
 
 	g_list_free (list);
 

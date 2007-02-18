@@ -98,15 +98,8 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 	/* Update the exif DateTime tags in memory if they haven't been
 	   read yet, or if the file has changed. */
 
-	if (! fd1->exif_data_loaded) {
-		fd1->exif_time = get_exif_time (fd1->path);
-		fd1->exif_data_loaded = TRUE;
-	}
-
-	if (! fd2->exif_data_loaded) {
-		fd2->exif_time = get_exif_time (fd2->path);
-		fd2->exif_data_loaded = TRUE;
-	}
+	file_data_load_exif_data (fd1);
+	file_data_load_exif_data (fd2);
 
 	if (fd1->exif_time < fd2->exif_time) return -1;
 	if (fd1->exif_time > fd2->exif_time) return 1;
@@ -123,14 +116,14 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 
 	/* Based heavily on the Nautilus compare_by_display_name (libnautilus-private/nautilus-file.c)
 	   function, for consistent Nautilus / gthumb behaviour. */
-	   
+
 	char *key_1, *key_2;
 	gboolean sort_last_1, sort_last_2;
 	int compare;
 
-	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1 
+	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1
 			|| file_name_from_path (name1)[0] == SORT_LAST_CHAR2;
-	sort_last_2 = file_name_from_path (name2)[0] == SORT_LAST_CHAR1 
+	sort_last_2 = file_name_from_path (name2)[0] == SORT_LAST_CHAR1
 			|| file_name_from_path (name2)[0] == SORT_LAST_CHAR2;
 
 	if (sort_last_1 && !sort_last_2) {

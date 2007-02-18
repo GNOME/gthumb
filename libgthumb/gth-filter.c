@@ -36,8 +36,9 @@ struct _GthTest {
 	GthTestOp     op;
 	gboolean      negative;
 	union {
-		char *s;
-		int   i;
+		char  *s;
+		int    i;
+		GDate *date;
 	} data;
 	GPatternSpec *pattern;
 };
@@ -93,6 +94,25 @@ gth_test_new_with_string (GthTestScope  scope,
 }
 
 
+GthTest *
+gth_test_new_with_date (GthTestScope  scope,
+	                GthTestOp     op,
+	                gboolean      negavite,
+	                GDate        *date)
+{
+	GthTest *test;
+
+	g_return_val_if_fail (date != NULL, NULL);
+
+	test = gth_test_new (scope, op, negavite);
+	test->data.date = g_date_new_dmy (g_date_get_day (date),
+					  g_date_get_month (date),
+					  g_date_get_year (date));
+
+	return test;
+}
+
+
 void
 gth_test_ref (GthTest *test)
 {
@@ -116,6 +136,7 @@ gth_test_unref (GthTest *test)
 		g_free (test->data.s);
 		break;
 	case GTH_TEST_SCOPE_DATE:
+		g_date_free (test->data.date);
 		break;
 	default:
 		break;
@@ -241,6 +262,37 @@ test_keywords (GthTest  *test,
 }
 
 
+static gboolean
+test_date (GthTest *test,
+	   time_t   time)
+{
+	gboolean result = FALSE;
+	GDate    *date;
+	int       compare;
+
+	date = g_date_new ();
+	g_date_set_time_t (date, time);
+
+	compare = g_date_compare (date, test->data.date);
+
+	switch (test->op) {
+	case GTH_TEST_OP_EQUAL:
+		result = (compare == 0);
+		break;
+	case GTH_TEST_OP_BEFORE:
+		result = (compare < 0);
+		break;
+	case GTH_TEST_OP_AFTER:
+		result = (compare > 0);
+		break;
+	default:
+		break;
+	}
+
+	return result;
+}
+
+
 gboolean
 gth_test_match (GthTest  *test,
 		FileData *fdata)
@@ -265,11 +317,13 @@ gth_test_match (GthTest  *test,
 		break;
 	case GTH_TEST_SCOPE_ALL:
 		file_data_load_comment_data (fdata);
-		if (fdata->comment_data != NULL)
+		if (fdata->comment_data != NULL) {
 			result = (test_string (test, fdata->display_name)
 		        	  || test_string (test, fdata->comment_data->comment)
 		          	  || test_string (test, fdata->comment_data->place));
-		else
+		        if (! result && (fdata->comment_data != NULL))
+		        	result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
+		} else
 			result = test->negative;
 		break;
 	case GTH_TEST_SCOPE_SIZE:
@@ -282,6 +336,12 @@ gth_test_match (GthTest  *test,
 			result = test->negative;
 		break;
 	case GTH_TEST_SCOPE_DATE:
+		file_data_load_exif_data (fdata);
+		if (fdata->exif_time != 0)
+			result = test_date (test, fdata->exif_time);
+		else
+			result = test_date (test, fdata->mtime);
+		break;
 	case GTH_TEST_SCOPE_WIDTH:
 	case GTH_TEST_SCOPE_HEIGHT:
 		break;
