@@ -185,6 +185,11 @@ image_loader_finalize (GObject *object)
 		priv->idle_id = 0;
 	}
 
+	if (priv->check_id != 0) {
+		g_source_remove (priv->check_id);
+		priv->check_id = 0;
+	}
+
 	image_loader_stop_common (il,
 				  (DoneFunc) image_loader_finalize__step2,
 				  object,
@@ -883,7 +888,7 @@ image_loader_stop_common (ImageLoader *il,
 	priv->emit_signal = emit_sig;
 
 	if (priv->info_handle != NULL)
-		gnome_vfs_async_close (priv->info_handle, close_info_cb, il);
+		gnome_vfs_async_cancel (priv->info_handle);
 
 	priv->info_handle = NULL;
 	image_loader_stop__final_step (il, use_idle_cb);

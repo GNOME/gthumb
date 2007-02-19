@@ -1,3 +1,12 @@
+2007-02-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* AUTHORS:
+	Credit to Manuel Braga, Jef Driesen, and Rennie deGraaf
+
+	* libgthumb/image-loader.c: (image_loader_finalize),
+	(image_loader_stop_common): fix for "image_loader_start" crashes. 
+	Bugs 351959, 386674, and many duplicates. Patch by Manuel Braga.
+
 2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.9.2 released ]
