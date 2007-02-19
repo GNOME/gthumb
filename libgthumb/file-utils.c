@@ -797,21 +797,29 @@ get_file_mime_type (const char *filename,
 	}
 
 
-	/* If the file extension is not recognized, or the content is
-	   determined to be binary data (octet-stream), check for HDR file
-	   types, which are not well represented in the freedesktop mime
-	   database currently. This section can be purged when they are.
-	   This is an unpleasant hack. Some file extensions
-	   may be missing here; please file a bug if they are. */
+	/* Check unrecognized binary types for special types that are not
+	   handled correctly in the normal mime databases. */
 
 	if ( (result==NULL) ||
 	     !strcmp (result, "application/octet-stream")) {
 		const char *extension = get_filename_extension (filename);
 		if (extension != NULL) {
+
+			/* If the file extension is not recognized, or the content is
+			   determined to be binary data (octet-stream), check for HDR file
+			   types, which are not well represented in the freedesktop mime
+			   database currently. This section can be purged when they are.
+			   This is an unpleasant hack. Some file extensions
+			   may be missing here; please file a bug if they are. */
 			if (   !strcasecmp (extension, "exr")	/* OpenEXR format */
 			    || !strcasecmp (extension, "hdr")	/* Radiance rgbe */
 			    || !strcasecmp (extension, "pic"))	/* Radiance rgbe */
 				return "image/x-hdr";
+
+			/* Bug 329072: gnome-vfs doesn't recognize pcx files.
+			   This is the work-around until bug 329072 is fixed. */
+			if ( !strcasecmp (extension, "pcx") )
+				return "image/x-pcx";
 		}
 	}
 

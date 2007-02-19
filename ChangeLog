@@ -1,5 +1,15 @@
 2007-02-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/gthumb.applications:
+	* data/gthumb.desktop.in:
+	Add image/x-pcx to registered file types.
+
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	Temporary hack to make gThumb recognize pcx files. This is a 
+	workaround for gnomevfs bug 329072.
+
+2007-02-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* AUTHORS:
 	Credit to Manuel Braga, Jef Driesen, and Rennie deGraaf
 
