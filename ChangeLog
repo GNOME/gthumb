@@ -1,3 +1,9 @@
+2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.9.2 released ]
+
+	* configure.in: changed version to 2.9.2
+
 2007-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-filter.c: small changes.
