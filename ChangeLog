@@ -1,3 +1,8 @@
+2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (file_list_done_cb): update the window title after
+	loading the image list.
+
 2007-02-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/gthumb.applications:
@@ -5,7 +10,7 @@
 	Add image/x-pcx to registered file types.
 
 	* libgthumb/file-utils.c: (get_file_mime_type):
-	Temporary hack to make gThumb recognize pcx files. This is a 
+	Temporary hack to make gThumb recognize pcx files. This is a
 	workaround for gnomevfs bug 329072.
 
 2007-02-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -14,7 +19,7 @@
 	Credit to Manuel Braga, Jef Driesen, and Rennie deGraaf
 
 	* libgthumb/image-loader.c: (image_loader_finalize),
-	(image_loader_stop_common): fix for "image_loader_start" crashes. 
+	(image_loader_stop_common): fix for "image_loader_start" crashes.
 	Bugs 351959, 386674, and many duplicates. Patch by Manuel Braga.
 
 2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>

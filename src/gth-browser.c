@@ -1884,7 +1884,6 @@ real_set_void (const char *filename,
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
 
-
 	if (priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (priv->image_prop_dlg);
 }
@@ -4471,6 +4470,7 @@ file_list_done_cb (GthFileList *file_list,
 	window_update_statusbar_list_info (browser);
 	priv->setting_file_list = FALSE;
 
+	window_update_title (browser);
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
 
