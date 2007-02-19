@@ -1,5 +1,9 @@
 2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/image-loader.c: removed unused function close_info_cb
+
+2007-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-browser.c (file_list_done_cb): update the window title after
 	loading the image list.
 

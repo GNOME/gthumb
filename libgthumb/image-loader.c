@@ -852,23 +852,6 @@ image_loader_start (ImageLoader *il)
 /* -- image_loader_stop -- */
 
 
-
-static void
-close_info_cb (GnomeVFSAsyncHandle *handle,
-	       GnomeVFSResult       result,
-	       gpointer             data)
-{
-	/* FIXME */
-
-	/*
-	ImageLoader            *il = data;
-	ImageLoaderPrivateData *priv = il->priv;
-	priv->info_handle = NULL;
-	image_loader_stop__final_step (il);
-	*/
-}
-
-
 static void
 image_loader_stop_common (ImageLoader *il,
 			  DoneFunc     done_func,
