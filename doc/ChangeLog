@@ -1,3 +1,8 @@
+2007-02-20  Daniel Nylander <po@danielnylander.se>
+
+	* sv/sv.po: Updated Swedish translation.
+	* sv/figures/*png: Added screenshots.
+
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
         * ru: Deleted obsolete Russian manual translation.
