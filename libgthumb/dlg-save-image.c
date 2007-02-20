@@ -128,9 +128,11 @@ save_image (GtkWindow       *parent,
 	if ((mime_type != NULL)
 	    && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
-		const char  *image_type = mime_type + strlen("image/");
+		char        *image_type = NULL;
 		char       **keys = NULL;
 		char       **values = NULL;
+
+		image_type = g_strdup (mime_type + strlen("image/"));
 
 		if (dlg_save_options (parent,
 				      image_type,
@@ -146,6 +148,7 @@ save_image (GtkWindow       *parent,
 				image_saved = TRUE;
 		}
 
+		g_free (image_type);
 		g_strfreev (keys);
 		g_strfreev (values);
 	} else

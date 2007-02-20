@@ -1,6 +1,12 @@
 2007-02-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/dlg-save-image.c: (save_image):
+	Another attempt to fix bug 409799 - mime_type occasionally
+	gets corrupted (why??), so make a copy for image_type.
+
+2007-02-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/dlg-save-image.c: (save_image):
 	Make file-selection dialog the parent of the overwrite dialog,
 	to avoid bug 409799.
 
