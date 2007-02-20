@@ -108,7 +108,7 @@ save_image (GtkWindow       *parent,
 		int        r;
 
 		message = g_strdup_printf (_("An image named \"%s\" is already present. Do you want to overwrite it?"), file_name_from_path (filename));
-		d = _gtk_yesno_dialog_new (parent,
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (file_sel),
 					   GTK_DIALOG_MODAL,
 					   message,
 					   GTK_STOCK_NO,

@@ -1,3 +1,11 @@
+version 2.9.3
+-------------
+
+	Bug fixes:
+	* Fixed bug #409799 - destroys file when double-clicking in Save dialog
+	* Workaround for bug #329072 - gthumb doesn't display PCX image files
+	* Fix for "image_loader_start" crashes. Bugs 351959, 386674 + dupes.
+
 version 2.9.2
 -------------
 	New features:
