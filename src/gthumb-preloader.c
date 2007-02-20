@@ -201,7 +201,7 @@ gthumb_preloader_finalize (GObject *object)
 		gploader->load_id = 0;
 	}
 
-	gthumb_preloader_stop (gploader, (DoneFunc) gploader_finalize__step2, object);
+	gploader_finalize__step2 (object);
 }
 
 
