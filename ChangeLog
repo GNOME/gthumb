@@ -1,3 +1,11 @@
+2007-02-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (launch_selected_videos), (key_press_cb),
+	(gth_browser_hide_sidebar): Pass all selected video files to the
+	default video player, if they are supported by that player and the
+	player supports multiple file inputs. Skip selected files if they
+	require a different player than the current file.
+
 2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* NEWS: updated

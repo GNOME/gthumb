@@ -7,8 +7,8 @@ version 2.9.3
 	* Fix for "image_loader_start" crashes. Bugs 351959, 386674 + dupes.
 	* Fixed bug #378546 - Crash after exiting slideshow
 	* Launch the registered video player instead of always launching "totem"
-	* Use the default gtk+ overwrite confirmation dialog when saving an
-	  image.
+	* Use the default gtk+ overwrite confirmation dialog
+	* Fixed bug #409799 - destroys file when double-clicking "Save" dialog
 
 version 2.9.2
 -------------

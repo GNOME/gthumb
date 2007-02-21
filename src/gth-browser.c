@@ -2891,28 +2891,59 @@ sidebar_list_key_press (GthBrowser  *browser,
 
 
 static gboolean
-launch_current_video (GthBrowser *browser)
+launch_selected_videos (GthBrowser *browser)
 {
 	gboolean                 result = FALSE;
 	const char              *path;
 	GnomeVFSMimeApplication *app;
-	const char              *mime_type;
+	const char              *current_mime_type;
+	GList		        *video_list = NULL;
+	GList			*scan;
 
+	/* Determine the application to use based on the current (single) item. */
 	path = browser->priv->image_path;
+
 	if (path == NULL)
 		return FALSE;
 	if (! file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
-	mime_type = get_file_mime_type (path, FALSE);
-	app = gnome_vfs_mime_get_default_application_for_uri (path, mime_type);
-	if (app != NULL) {
-		GList *video_list = g_list_append (NULL, (char*)path);
+	current_mime_type = get_file_mime_type (path, FALSE);
+	app = gnome_vfs_mime_get_default_application_for_uri (path, current_mime_type);
 
-		result = gnome_vfs_mime_application_launch (app, video_list) == GNOME_VFS_OK;
-		gnome_vfs_mime_application_free (app);
-		g_list_free (video_list);
+	if (app == NULL)
+		return FALSE;
+
+	if (! (app->can_open_multiple_files)) {
+		/* just pass the current (single) item */
+		video_list = g_list_append (video_list, (char*) path);
+	} else {
+		/* Scan through the list of selected items, and identify those that have the
+		   same mime_type, or can be launched by the same application. */
+		for (scan = gth_window_get_file_list_selection ( (GthWindow *) browser); scan; scan = scan->next) {
+			const char *selected_mime_type;
+			const char *selected_path = scan->data;
+
+			selected_mime_type = get_file_mime_type (selected_path, FALSE);
+
+			if (selected_mime_type == NULL)
+				continue;
+
+			if ( !strcmp(selected_mime_type, current_mime_type))
+				video_list = g_list_append (video_list, (char*) selected_path);
+			else {
+				GnomeVFSMimeApplication *selected_app;
+				selected_app = gnome_vfs_mime_get_default_application_for_uri (selected_path, selected_mime_type);
+				if ( !strcmp (app->name, selected_app->name))
+					video_list = g_list_append (video_list, (char*) selected_path);
+				gnome_vfs_mime_application_free (selected_app);
+			}
+		}
 	}
+
+	result = gnome_vfs_mime_application_launch (app, video_list) == GNOME_VFS_OK;
+	gnome_vfs_mime_application_free (app);
+	g_list_free (video_list);
 
 	return result;
 }
@@ -2998,7 +3029,7 @@ key_press_cb (GtkWidget   *widget,
 			/* When in the image viewer mode and you press enter, launch the video
 			   viewer if a video thumbnail is shown, and then return to the browser
 			   mode in the normal fashion. */
-		        launch_current_video (browser);
+		        launch_selected_videos (browser);
 			gth_browser_show_sidebar (browser);
 		}
 		return TRUE;
@@ -7555,7 +7586,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	   external video viewer. Otherwise, for normal image files, just
 	   display the image by its self. */
 
-	if (launch_current_video (browser))
+	if (launch_selected_videos (browser))
 		return;
 
 	_hide_sidebar (browser);
