@@ -6,6 +6,9 @@ version 2.9.3
 	* Workaround for bug #329072 - gthumb doesn't display PCX image files
 	* Fix for "image_loader_start" crashes. Bugs 351959, 386674 + dupes.
 	* Fixed bug #378546 - Crash after exiting slideshow
+	* Launch the registered video player instead of always launching "totem"
+	* Use the default gtk+ overwrite confirmation dialog when saving an
+	  image.
 
 version 2.9.2
 -------------
