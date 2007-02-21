@@ -1,7 +1,12 @@
+2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-preloader.c (gthumb_preloader_finalize): set ploaders to NULL
+	after finalizing them, removed useless function.
+
 2007-02-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gthumb-preloader.c: (gthumb_preloader_finalize):
-	Fixed bug 378546 - Crash after exiting slideshow. 
+	Fixed bug 378546 - Crash after exiting slideshow.
 	Patch by Manuel Braga.
 
 2007-02-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>

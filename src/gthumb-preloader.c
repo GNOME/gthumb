@@ -139,10 +139,10 @@ preloader_new (GThumbPreloader *gploader)
 static void
 preloader_free (PreLoader *ploader)
 {
-	g_return_if_fail (ploader != NULL);
-
-	g_free (ploader->path);
+	if (ploader == NULL)
+		return;
 	g_object_unref (ploader->loader);
+	g_free (ploader->path);
 	g_free (ploader);
 }
 
@@ -168,28 +168,14 @@ preloader_set_path (PreLoader  *ploader,
 }
 
 
-
 /* -- GThumbPreloader -- */
-
-
-void
-gploader_finalize__step2 (GObject *object)
-{
-	GThumbPreloader *gploader = GTHUMB_PRELOADER (object);
-	int              i;
-
-	for (i = 0; i < N_LOADERS; i++)
-		preloader_free (gploader->loader[i]);
-
-	/* Chain up */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
 
 
 static void
 gthumb_preloader_finalize (GObject *object)
 {
 	GThumbPreloader *gploader;
+	int              i;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GTHUMB_IS_PRELOADER (object));
@@ -201,7 +187,13 @@ gthumb_preloader_finalize (GObject *object)
 		gploader->load_id = 0;
 	}
 
-	gploader_finalize__step2 (object);
+	for (i = 0; i < N_LOADERS; i++) {
+		preloader_free (gploader->loader[i]);
+		gploader->loader[i] = NULL;
+	}
+
+	/* Chain up */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
