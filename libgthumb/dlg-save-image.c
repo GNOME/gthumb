@@ -176,7 +176,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	GtkWidget     *opt_menu;
 	GdkPixbuf     *pixbuf;
 	char          *filename = NULL;
-	char          *mime_type = NULL;
+	const char    *mime_type = NULL;
 	int            idx;
 	SaveImageData *data;
 
@@ -188,13 +188,12 @@ file_save_ok_cb (GtkDialog *file_sel,
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
 	if (idx == IMAGE_TYPE_AUTOMATIC)
-		mime_type = g_strdup (get_file_mime_type (filename, FALSE));
+		mime_type = get_file_mime_type (filename, FALSE);
 	else
-		mime_type = g_strdup (mime_types [idx - 2]);
+		mime_type = mime_types [idx - 2];
 
 	save_image (parent, filename, mime_type, pixbuf, data, file_sel);
 
-	g_free (mime_type);
 	g_free (filename);
 }
 
