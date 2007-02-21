@@ -256,15 +256,13 @@ thumb_loader_new (const char *path,
 	tl = THUMB_LOADER (g_object_new (THUMB_LOADER_TYPE, NULL));
 	priv = tl->priv;
 
-	if (width <= THUMBNAIL_NORMAL_SIZE && height <= THUMBNAIL_NORMAL_SIZE) {
+	if ((width <= THUMBNAIL_NORMAL_SIZE) && (height <= THUMBNAIL_NORMAL_SIZE)) {
 		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
-		priv->thumb_factory =
-			gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
 	}
 	else {
 		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
-		priv->thumb_factory =
-			gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
 	}
 
 	priv->max_w = width;

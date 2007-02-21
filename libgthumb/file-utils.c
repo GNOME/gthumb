@@ -2451,29 +2451,40 @@ gth_pixbuf_new_from_video (const char             *path,
 {
       	GdkPixbuf *pixbuf = NULL;
 	time_t     mtime;
+	char      *real_path = NULL;
         char      *existing_video_thumbnail;
 
-        /* use the gnome thumbnailer for videos */
-        mtime = get_file_mtime (path);
+	if (resolve_all_symlinks (path, &real_path) != GNOME_VFS_OK)
+		return NULL;
 
+        mtime = get_file_mtime (real_path);
         existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
-                                                                   path,
+                                                                   real_path,
                                                                    mtime);
 
 	if (existing_video_thumbnail != NULL) {
-		pixbuf = gdk_pixbuf_new_from_file (existing_video_thumbnail,
-						   error);
+		char *thumbnail_path = get_local_path_from_uri (existing_video_thumbnail);
+
+		pixbuf = gdk_pixbuf_new_from_file (thumbnail_path, error);
+		g_free (thumbnail_path);
                 g_free (existing_video_thumbnail);
-        } else {
+        }
+        else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, real_path, mtime)) {
+		g_free (real_path);
+        	return NULL;
+	}
+	else {
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-                                                                     path,
-                                                                     get_mime_type (path));
+                                                                     real_path,
+                                                                     get_mime_type (real_path));
                 if (pixbuf != NULL)
 			gnome_thumbnail_factory_save_thumbnail (factory,
                                                                 pixbuf,
-                                                                path,
+                                                                real_path,
                                                                 mtime);
 	}
+
+	g_free (real_path);
 
         return pixbuf;
 }
@@ -2503,7 +2514,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 #ifdef HAVE_LIBOPENRAW
 	/* raw thumbnails */
-	if ((pixbuf == NULL) && 
+	if ((pixbuf == NULL) &&
 	    mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
@@ -2525,12 +2536,12 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 
 GdkPixbufAnimation*
-gth_pixbuf_animation_new_from_uri (const char 	         *filename,
-				   GError               **error,
-				   gint		          requested_width_if_used,
-				   gint		          requested_height_if_used,
-				   GnomeThumbnailFactory *factory,
-				   const char            *mime_type)
+gth_pixbuf_animation_new_from_uri (const char 	          *filename,
+				   GError                **error,
+				   gint		           requested_width_if_used,
+				   gint		           requested_height_if_used,
+				   GnomeThumbnailFactory  *factory,
+				   const char             *mime_type)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
@@ -2540,6 +2551,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 		return NULL;
 
         /* The video thumbnailer can handle VFS URIs directly */
+
         if (mime_type_is_video (mime_type) && (factory != NULL)) {
 		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
 		if (pixbuf == NULL)
@@ -2585,7 +2597,7 @@ gth_pixbuf_animation_new_from_uri (const char 	         *filename,
 	   non-animated pixbuf, and convert to a single-frame animation. */
 	if (pixbuf == NULL) {
 		char *local_uri = escape_uri(local_file);
-	        pixbuf = gth_pixbuf_new_from_uri (local_uri, 
+	        pixbuf = gth_pixbuf_new_from_uri (local_uri,
 				                  error,
 						  requested_width_if_used,
 						  requested_height_if_used,

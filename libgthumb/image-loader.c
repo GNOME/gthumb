@@ -44,7 +44,10 @@
 #include "preferences.h"
 
 
-#define REFRESH_RATE 5
+#define DEF_THUMB_SIZE        128
+#define THUMBNAIL_NORMAL_SIZE 128
+#define REFRESH_RATE          5
+
 G_LOCK_DEFINE_STATIC (pixbuf_loader_lock);
 
 
@@ -339,6 +342,7 @@ image_loader_new (const gchar *path,
 {
 	ImageLoaderPrivateData *priv;
 	ImageLoader            *il;
+	int                     size;
 
 	il = IMAGE_LOADER (g_object_new (IMAGE_LOADER_TYPE, NULL));
 	priv = (ImageLoaderPrivateData*) il->priv;
@@ -346,7 +350,11 @@ image_loader_new (const gchar *path,
 	priv->as_animation = as_animation;
 	image_loader_set_path (il, path, NULL);
 
-	priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+	size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
+	if (size <= THUMBNAIL_NORMAL_SIZE)
+		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+	else
+		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
 
 	return G_OBJECT (il);
 }
@@ -447,23 +455,22 @@ image_loader_set_pixbuf (ImageLoader *il,
 	g_mutex_unlock (priv->yes_or_no);
 }
 
+
 static void
 image_loader_sync_pixbuf (ImageLoader *il)
 {
 	GdkPixbuf              *pixbuf;
 	GdkPixbuf              *temp;
 	ImageLoaderPrivateData *priv;
-	ExifShort				orientation;
-	GthTransform			transform;
+	ExifShort		orientation;
+	GthTransform		transform;
 
 	g_return_if_fail (il != NULL);
 
 	priv = il->priv;
 
 	orientation = get_exif_tag_short (image_loader_get_path(il), EXIF_TAG_ORIENTATION);
-	transform =  (orientation >= 1 && orientation <= 8 ?
-						orientation :
-						GTH_TRANSFORM_NONE);
+	transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 
 	g_mutex_lock (priv->yes_or_no);
 

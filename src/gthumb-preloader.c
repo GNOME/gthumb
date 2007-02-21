@@ -83,9 +83,6 @@ loader_error_cb (ImageLoader  *il,
 		timeout = NEXT_LOAD_BIG_TIMEOUT;
 	}
 
-	/*
-	gploader->load_id = g_timeout_add (timeout, load_next, gploader);
-	*/
 	gploader->load_id = g_idle_add (load_next, gploader);
 }
 
