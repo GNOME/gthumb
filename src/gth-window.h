@@ -106,6 +106,7 @@ typedef enum {
 	GTH_WINDOW_CONTENTS,
 	GTH_WINDOW_STATUSBAR,
 } GthWindowArea;
+
 void           gth_window_attach                         (GthWindow     *window,
 							  GtkWidget     *child,
 							  GthWindowArea  area);

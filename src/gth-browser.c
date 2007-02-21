@@ -2891,30 +2891,33 @@ sidebar_list_key_press (GthBrowser  *browser,
 	return retval;
 }
 
-static gint
-launch_videos_in_list (GList *list)
+
+static gboolean
+launch_current_video (GthBrowser *browser)
 {
-	int    video_count=0;
-	GList *scan;
-	GList *video_list=NULL;
+	gboolean                 result = FALSE;
+	const char              *path;
+	GnomeVFSMimeApplication *app;
+	const char              *mime_type;
 
-        for (scan = list; scan; scan = scan->next) {
-                char *path = scan->data;
-                if (file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))) {
-			video_list = g_list_append (video_list, path);
-                        video_count++;
-		}
-        }
+	path = browser->priv->image_path;
+	if (path == NULL)
+		return FALSE;
+	if (! file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+		return FALSE;
 
-	if (video_count) {
-		exec_command ("totem", video_list);
+	mime_type = get_file_mime_type (path, FALSE);
+	app = gnome_vfs_mime_get_default_application_for_uri (path, mime_type);
+	if (app != NULL) {
+		GList *video_list = g_list_append (NULL, (char*)path);
+
+		result = gnome_vfs_mime_application_launch (app, video_list) == GNOME_VFS_OK;
+		gnome_vfs_mime_application_free (app);
+		g_list_free (video_list);
 	}
 
-	g_list_free (video_list);
-
-	return video_count;
+	return result;
 }
-
 
 
 static gint
@@ -2997,8 +3000,7 @@ key_press_cb (GtkWidget   *widget,
 			/* When in the image viewer mode and you press enter, launch the video
 			   viewer if a video thumbnail is shown, and then return to the browser
 			   mode in the normal fashion. */
-		        list = gth_window_get_file_list_selection ( (GthWindow *) browser);
-		        launch_videos_in_list (list);
+		        launch_current_video (browser);
 			gth_browser_show_sidebar (browser);
 		}
 		return TRUE;
@@ -7547,7 +7549,6 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkWidget             *widget_to_focus = priv->viewer;
-	GList		      *list;
 
 	if (priv->image_path == NULL)
 		return;
@@ -7556,14 +7557,13 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	   external video viewer. Otherwise, for normal image files, just
 	   display the image by its self. */
 
-	list = gth_window_get_file_list_selection ( (GthWindow *) browser);
+	if (launch_current_video (browser))
+		return;
 
-	if (!launch_videos_in_list (list)) {
-		_hide_sidebar (browser);
-		gtk_widget_grab_focus (widget_to_focus);
-		window_update_sensitivity (browser);
-		window_update_statusbar_zoom_info (browser);
-	}
+	_hide_sidebar (browser);
+	gtk_widget_grab_focus (widget_to_focus);
+	window_update_sensitivity (browser);
+	window_update_statusbar_zoom_info (browser);
 }
 
 

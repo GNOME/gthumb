@@ -94,33 +94,10 @@ save_image (GtkWindow     *parent,
 	    SaveImageData *data,
 	    GtkDialog     *file_sel)
 {
-	gboolean file_exists;
 	gboolean image_saved = FALSE;
 
 	if (filename == NULL)
 		return FALSE;
-
-	file_exists = path_is_file (filename);
-
-	if ((file_sel != NULL) && file_exists) {
-		char      *message;
-		GtkWidget *d;
-		int        r;
-
-		message = g_strdup_printf (_("An image named \"%s\" is already present. Do you want to overwrite it?"), file_name_from_path (filename));
-		d = _gtk_yesno_dialog_new (GTK_WINDOW (file_sel),
-					   GTK_DIALOG_MODAL,
-					   message,
-					   GTK_STOCK_NO,
-					   GTK_STOCK_YES);
-		g_free (message);
-
-		r = gtk_dialog_run (GTK_DIALOG (d));
-		gtk_widget_destroy (d);
-
-		if (r != GTK_RESPONSE_YES)
-			return FALSE;
-	}
 
 	if (file_sel != NULL)
 		gtk_widget_hide (GTK_WIDGET (file_sel));
@@ -260,6 +237,7 @@ dlg_save_image_as (GtkWindow       *parent,
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (file_sel), TRUE);
 	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
 
 	/**/
