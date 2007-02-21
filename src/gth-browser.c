@@ -1748,7 +1748,7 @@ save_pixbuf__image_saved_cb (const char *filename,
 	/**/
 
 	file_list = g_list_prepend (NULL, (char*)filename);
-	if ((priv->image_path != NULL) && same_uri (priv->image_path, filename))
+	if (gth_file_list_pos_from_path (priv->file_list, filename) != -1)
 		all_windows_notify_files_changed (file_list);
 	else
 		all_windows_notify_files_created (file_list);

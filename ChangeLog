@@ -1,5 +1,12 @@
 2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): use get_uri instead of
+	get_filename.
+	* src/gth-browser.c (save_pixbuf__image_saved_cb): notify a change
+	if the filename is present in the list.
+
+2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gthumb-preloader.c (gthumb_preloader_finalize): set ploaders to NULL
 	after finalizing them, removed useless function.
 
