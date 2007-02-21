@@ -1,5 +1,10 @@
 2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c: exec next op in queue after setting
+	the filter.
+
+2007-02-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gthumb-preloader.c: removed commented out code.
 
 	* src/gth-browser.c (window_update_image_info): load the jpeg data

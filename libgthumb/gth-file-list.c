@@ -1849,7 +1849,6 @@ gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_FILTER:
 		gfl_set_filter (file_list);
-		exec_next_op = FALSE;
 		break;
 	}
 	op->file.uri_list = NULL;
