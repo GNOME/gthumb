@@ -839,7 +839,7 @@ file_respects_search_criteria (DialogData *data,
 	time_t       time = 0;
 	const char  *name_only;
 
-	if (! file_is_image_or_video (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+	if (! file_is_image_video_or_audio (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
 	load_parents_comments (data, filename);

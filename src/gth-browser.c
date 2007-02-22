@@ -2891,7 +2891,7 @@ sidebar_list_key_press (GthBrowser  *browser,
 
 
 static gboolean
-launch_selected_videos (GthBrowser *browser)
+launch_selected_videos_or_audio (GthBrowser *browser)
 {
 	gboolean                 result = FALSE;
 	const char              *path;
@@ -2905,7 +2905,10 @@ launch_selected_videos (GthBrowser *browser)
 
 	if (path == NULL)
 		return FALSE;
-	if (! file_is_video (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+
+	/* Images are handled by gThumb directly. Other supported media (video,
+	   audio) require external players, which are launched by this function. */
+	if (file_is_image (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
 	current_mime_type = get_file_mime_type (path, FALSE);
@@ -3029,7 +3032,7 @@ key_press_cb (GtkWidget   *widget,
 			/* When in the image viewer mode and you press enter, launch the video
 			   viewer if a video thumbnail is shown, and then return to the browser
 			   mode in the normal fashion. */
-		        launch_selected_videos (browser);
+		        launch_selected_videos_or_audio (browser);
 			gth_browser_show_sidebar (browser);
 		}
 		return TRUE;
@@ -7586,7 +7589,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	   external video viewer. Otherwise, for normal image files, just
 	   display the image by its self. */
 
-	if (launch_selected_videos (browser))
+	if (launch_selected_videos_or_audio (browser))
 		return;
 
 	_hide_sidebar (browser);

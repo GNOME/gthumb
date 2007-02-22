@@ -1056,7 +1056,9 @@ load_new_list (GthFileList *file_list)
 			continue;
 
 		if ((! file_list->priv->show_dot_files && file_is_hidden (name_only))
-		    || ! (mime_type_is_image (mime_type) || mime_type_is_video (mime_type)))
+		    || ! (mime_type_is_image (mime_type) || 
+			  mime_type_is_video (mime_type) ||
+			  mime_type_is_audio (mime_type) ))
 			continue;
 
 		/* if the image is already present invalidate the thumbnail

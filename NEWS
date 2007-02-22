@@ -1,5 +1,7 @@
 version 2.9.3
 -------------
+	New features:
+	* Play audio clips using external player
 
 	Bug fixes:
 	* Fixed bug #409799 - destroys file when double-clicking in Save dialog

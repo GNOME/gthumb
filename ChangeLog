@@ -1,3 +1,18 @@
+2007-02-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/file-utils.c: (mime_type_is_video),
+	(mime_type_is_audio), (file_is_audio),
+	(file_is_image_video_or_audio):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-file-list.c: (load_new_list):
+	* src/dlg-duplicates.c: (directory_load_cb):
+	* src/dlg-search.c: (file_respects_search_criteria):
+	* src/gth-browser.c: (launch_selected_videos_or_audio),
+	(key_press_cb), (gth_browser_hide_sidebar):
+	* src/gth-monitor.c: (add_monitor_event):
+	Modified video launcher to permit audio launching as well.
+
 2007-02-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (launch_selected_videos), (key_press_cb),
