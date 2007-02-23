@@ -3078,13 +3078,11 @@ key_press_cb (GtkWidget   *widget,
 		/* Show previous image. */
 	case GDK_b:
 	case GDK_BackSpace:
-	case GDK_Page_Up:
 		gth_browser_show_prev_image (browser, FALSE);
 		return TRUE;
 
 		/* Show next image. */
 	case GDK_n:
-	case GDK_Page_Down:
 		gth_browser_show_next_image (browser, FALSE);
 		return TRUE;
 

@@ -298,9 +298,11 @@ image_loader_init (ImageLoader *il)
 	   This reduces the virtual memory requirements, and the "writeable/private"
 	   figure reported by "pmap -d". */
 
+	/* Update: 32k caused crashes with svg images. Boosting to 512k. Bug 410827. */
+
 	priv->thread = g_thread_create_full (load_image_thread,
 					     il,
-					     32768,
+					     524288,
 					     TRUE,
 					     TRUE,
 					     G_THREAD_PRIORITY_NORMAL,

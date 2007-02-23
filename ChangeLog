@@ -1,5 +1,14 @@
 2007-02-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/image-loader.c: (image_loader_init):
+	Increased stack size to 512k, to prevent crashes when viewing
+	svg files. Bug 410827. Patch by Manuel Braga.
+
+	* src/gth-browser.c: (key_press_cb): Enabled PgUp/PgDown scrolling
+	in browser mode. Bug 409605. Patch by Manuel Braga.
+
+2007-02-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* libgthumb/file-utils.c: (mime_type_is_video),
 	(mime_type_is_audio), (file_is_audio),
