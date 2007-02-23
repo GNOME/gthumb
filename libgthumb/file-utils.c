@@ -817,14 +817,19 @@ get_file_mime_type (const char *filename,
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 	}
 
+	const char *extension = get_filename_extension (filename);
 
-	/* Check unrecognized binary types for special types that are not
-	   handled correctly in the normal mime databases. */
+	/* Check files with special or problematic extensions */
+	if (extension != NULL) {
 
-	if ( (result==NULL) ||
-	     !strcmp (result, "application/octet-stream")) {
-		const char *extension = get_filename_extension (filename);
-		if (extension != NULL) {
+		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
+		if (!strcmp (result,"image/tiff") && !strcasecmp (extension, "nef"))
+			return "image/x-nikon-nef";
+
+		/* Check unrecognized binary types for special types that are not
+		   handled correctly in the normal mime databases. */
+
+		if ( (result==NULL) || !strcmp (result, "application/octet-stream")) {
 
 			/* If the file extension is not recognized, or the content is
 			   determined to be binary data (octet-stream), check for HDR file
@@ -2449,7 +2454,10 @@ get_pixbuf_using_external_converter (const char *url,
                                 	        cache_file_esc,
                                         	NULL );
 		}
-	       	system (command);
+
+		if (gnome_vfs_is_executable_command_string (command))
+		       	system (command);
+
         	g_free (command);
 	}
 
@@ -2534,15 +2542,14 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		mime_type = get_file_mime_type (local_file, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 
 #ifdef HAVE_LIBOPENRAW
-	/* raw thumbnails */
+	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
+	   thumbnails. Use libopenraw for full raw images too, once it matures. */
 	if ((pixbuf == NULL) &&
 	    mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
-	/* Use dcraw for raw images (non-thumbnails) and pfstools for HDR images.
-	   Use libopenraw preferentially in the future for raw images, once
-	   it matures. */
+	/* Use dcraw for raw images and pfstools for HDR images. */
 	if ((pixbuf == NULL) &&
 	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
 		pixbuf = get_pixbuf_using_external_converter (local_file, mime_type);
