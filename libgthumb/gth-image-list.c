@@ -3467,21 +3467,13 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
         binding_set = gtk_binding_set_by_class (image_list_class);
 
 	add_move_binding (binding_set, GDK_Right, GTH_CURSOR_MOVE_RIGHT);
-	add_move_binding (binding_set, GDK_KP_Right, GTH_CURSOR_MOVE_RIGHT);
 	add_move_binding (binding_set, GDK_Left, GTH_CURSOR_MOVE_LEFT);
-	add_move_binding (binding_set, GDK_KP_Left, GTH_CURSOR_MOVE_LEFT);
 	add_move_binding (binding_set, GDK_Down, GTH_CURSOR_MOVE_DOWN);
-	add_move_binding (binding_set, GDK_KP_Down, GTH_CURSOR_MOVE_DOWN);
 	add_move_binding (binding_set, GDK_Up, GTH_CURSOR_MOVE_UP);
-	add_move_binding (binding_set, GDK_KP_Up, GTH_CURSOR_MOVE_UP);
 	add_move_binding (binding_set, GDK_Page_Up, GTH_CURSOR_MOVE_PAGE_UP);
-	add_move_binding (binding_set, GDK_KP_Page_Up, GTH_CURSOR_MOVE_PAGE_UP);
 	add_move_binding (binding_set, GDK_Page_Down, GTH_CURSOR_MOVE_PAGE_DOWN);
-	add_move_binding (binding_set, GDK_KP_Page_Down, GTH_CURSOR_MOVE_PAGE_DOWN);
 	add_move_binding (binding_set, GDK_Home, GTH_CURSOR_MOVE_BEGIN);
-	add_move_binding (binding_set, GDK_KP_Home, GTH_CURSOR_MOVE_BEGIN);
 	add_move_binding (binding_set, GDK_End, GTH_CURSOR_MOVE_END);
-	add_move_binding (binding_set, GDK_KP_End, GTH_CURSOR_MOVE_END);
 
         gtk_binding_entry_add_signal (binding_set, GDK_space, 0,
 				      "set_cursor_selection", 0);
