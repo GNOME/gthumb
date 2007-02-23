@@ -1,10 +1,9 @@
 version 2.9.3
 -------------
 	New features:
-	* Play audio clips using external player
+	* Play audio clips using default external player
 
 	Bug fixes:
-	* Fixed bug #409799 - destroys file when double-clicking in Save dialog
 	* Workaround for bug #329072 - gthumb doesn't display PCX image files
 	* Fix for "image_loader_start" crashes. Bugs 351959, 386674 + dupes.
 	* Fixed bug #378546 - Crash after exiting slideshow
