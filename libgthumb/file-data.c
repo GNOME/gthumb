@@ -28,6 +28,8 @@
 #include "file-data.h"
 #include "file-utils.h"
 #include "comments.h"
+#include "gth-exif-utils.h"
+
 
 #define MAX_COMMENT_LEN 60
 
