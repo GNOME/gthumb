@@ -1,3 +1,9 @@
+2007-02-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (pref_view_as_changed):
+
+	Do not unref a NULL pointer.  Fixes bug #409596.
+
 2007-02-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: Removed duplicate line.
@@ -8,7 +14,7 @@
 	Recognize NEF files as raw when gnome-vfs says they are TIFF.
 
 	* get_pixbuf_using_external_converter), (gth_pixbuf_new_from_uri):
-	Check if dcraw/pfstools are executable first, to avoid 
+	Check if dcraw/pfstools are executable first, to avoid
 	errors messages if they are not present.
 
 2007-02-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
