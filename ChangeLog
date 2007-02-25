@@ -1,5 +1,12 @@
 2007-02-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-categories.c (dlg_categories_common): add the renderes to the
+	same column instead of creating a column for each renderer.
+
+	Fixes bug # 347657 – Click on category text to checkmark a category
+
+2007-02-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* libgthumb/search.h:
 	* libgthumb/search.c (search_util_get_patterns):
 	* src/dlg-search.c (search_clicked_cb):

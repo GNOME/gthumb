@@ -93,7 +93,7 @@ free_dialog_data (DialogData *data)
 		g_list_free (data->file_list);
 		data->file_list = NULL;
 	}
-	
+
 	if (data->original_cdata != NULL) {
 		comment_data_free (data->original_cdata);
 		data->original_cdata = NULL;
@@ -103,7 +103,7 @@ free_dialog_data (DialogData *data)
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	if (data->window != NULL)
@@ -121,7 +121,7 @@ destroy_cb (GtkWidget  *widget,
 
 
 static gboolean
-unrealize_cb (GtkWidget  *widget, 
+unrealize_cb (GtkWidget  *widget,
 	  DialogData *data)
 {
 	pref_util_save_window_geometry (GTK_WINDOW (widget), DIALOG_NAME);
@@ -148,8 +148,8 @@ update_category_entry (DialogData *data)
 		if (use_category == 1) {
 			char *utf8_name;
 
-			gtk_tree_model_get (model, &iter, 
-					    CATEGORY_COLUMN, &utf8_name, 
+			gtk_tree_model_get (model, &iter,
+					    CATEGORY_COLUMN, &utf8_name,
 					    -1);
 
 			if (categories->len > 0)
@@ -167,13 +167,13 @@ update_category_entry (DialogData *data)
 
 /* if state_to_get == -1 get all categories. */
 static GList *
-get_categories (GtkListStore *store, 
+get_categories (GtkListStore *store,
 		guint         state_to_get)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (store);
 	GList        *list = NULL;
 	GtkTreeIter   iter;
-	
+
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return NULL;
 
@@ -181,12 +181,12 @@ get_categories (GtkListStore *store,
 		guint  state;
 		char  *utf8_name;
 
-		gtk_tree_model_get (model, 
-				    &iter, 
-				    USE_CATEGORY_COLUMN, &state, 
-				    CATEGORY_COLUMN, &utf8_name, 
+		gtk_tree_model_get (model,
+				    &iter,
+				    USE_CATEGORY_COLUMN, &state,
+				    CATEGORY_COLUMN, &utf8_name,
 				    -1);
-		if ((state_to_get == -1) || (state == state_to_get)) 
+		if ((state_to_get == -1) || (state == state_to_get))
 			list = g_list_prepend (list, utf8_name);
 		else
 			g_free (utf8_name);
@@ -208,11 +208,11 @@ category_present (DialogData *data,
 	all_categories = get_categories (data->keywords_list_model, -1);
 	for (scan = all_categories; scan; scan = scan->next) {
 		char *category2 = scan->data;
-		if (strcmp (category2, category) == 0) 
+		if (strcmp (category2, category) == 0)
 			present = TRUE;
 	}
 	path_list_free (all_categories);
-	
+
 	return present;
 }
 
@@ -229,7 +229,7 @@ category_name_is_valid (const char *name)
 
 /* called when the "add category" button is pressed. */
 static void
-add_category_cb (GtkWidget  *widget, 
+add_category_cb (GtkWidget  *widget,
 		 DialogData *data)
 {
 	GtkTreeIter  iter;
@@ -253,7 +253,7 @@ add_category_cb (GtkWidget  *widget,
 
 	} else if (category_present (data, new_category)) {
 		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-				       _("The category \"%s\" is already present. Please use a different name."), 
+				       _("The category \"%s\" is already present. Please use a different name."),
 				       new_category);
 
 	} else {
@@ -272,7 +272,7 @@ add_category_cb (GtkWidget  *widget,
 
 /* called when the "remove category" button is pressed. */
 static void
-remove_category_cb (GtkWidget *widget, 
+remove_category_cb (GtkWidget *widget,
 		    DialogData *data)
 {
 	GtkTreeSelection *selection;
@@ -312,7 +312,7 @@ save_categories (DialogData *data)
 
 /* called when the "cancel" button is pressed. */
 static void
-cancel_clicked_cb (GtkWidget  *widget, 
+cancel_clicked_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
 	save_categories (data);
@@ -322,7 +322,7 @@ cancel_clicked_cb (GtkWidget  *widget,
 
 /* called when the "ok" button is pressed. */
 static void
-ok_clicked_cb (GtkWidget  *widget, 
+ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
 	save_categories (data);
@@ -352,7 +352,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 /* called when the "help" button in the search dialog is pressed. */
 static void
-help_cb (GtkWidget  *widget, 
+help_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-categories");
@@ -369,11 +369,11 @@ use_category_toggled (GtkCellRendererThreeStates *cell,
 	GtkTreeIter   iter;
 	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
 	guint         value;
-	
+
 	gtk_tree_model_get_iter (model, &iter, path);
 	value = gtk_cell_renderer_three_states_get_next_state (cell);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, USE_CATEGORY_COLUMN, value, -1);
-	
+
 	gtk_tree_path_free (path);
 	update_category_entry (data);
 }
@@ -402,7 +402,7 @@ add_saved_categories (DialogData *data)
 				found = TRUE;
 		}
 
-		if (found) 
+		if (found)
 			continue;
 
 		gtk_list_store_append (data->keywords_list_model, &iter);
@@ -420,7 +420,7 @@ add_saved_categories (DialogData *data)
 
 
 static gboolean
-key_in_list (GList      *list, 
+key_in_list (GList      *list,
 	     const char *key)
 {
 	GList *scan;
@@ -433,9 +433,9 @@ key_in_list (GList      *list,
 
 
 static int
-name_column_sort_func (GtkTreeModel *model, 
-                       GtkTreeIter  *a, 
-                       GtkTreeIter  *b, 
+name_column_sort_func (GtkTreeModel *model,
+                       GtkTreeIter  *a,
+                       GtkTreeIter  *b,
                        gpointer      user_data)
 {
         char *category1, *category2;
@@ -455,7 +455,7 @@ name_column_sort_func (GtkTreeModel *model,
 
 static gboolean
 keyword_equal_func (GtkTreeModel *model,
-		    gint          column, 
+		    gint          column,
 		    const gchar  *key,
 		    GtkTreeIter  *iter,
 		    gpointer      search_data)
@@ -464,9 +464,6 @@ keyword_equal_func (GtkTreeModel *model,
 	gtk_tree_model_get (model, iter, column, &cell, -1);
 	return g_strcasecmp (key, cell) > 0;
 }
-    
-
-
 
 
 static GtkWidget*
@@ -534,75 +531,75 @@ dlg_categories_common (GtkWindow     *parent,
 	data->keywords_list_model = gtk_list_store_new (NUM_COLUMNS,
 							G_TYPE_BOOLEAN,
 							G_TYPE_BOOLEAN,
-							G_TYPE_UINT, 
+							G_TYPE_UINT,
 							G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->keywords_list_view),
 				 GTK_TREE_MODEL (data->keywords_list_model));
 	g_object_unref (data->keywords_list_model);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->keywords_list_view), FALSE);
 
-	gtk_tree_view_set_search_column (GTK_TREE_VIEW (data->keywords_list_view), 
+	gtk_tree_view_set_search_column (GTK_TREE_VIEW (data->keywords_list_view),
 					 CATEGORY_COLUMN);
 	gtk_tree_view_set_search_equal_func (GTK_TREE_VIEW (data->keywords_list_view),
 					     keyword_equal_func,
 					     NULL,
 					     NULL);
 
+	column = gtk_tree_view_column_new ();
+
 	renderer = gtk_cell_renderer_three_states_new ();
-	g_signal_connect (G_OBJECT (renderer), 
+	g_signal_connect (G_OBJECT (renderer),
 			  "toggled",
-			  G_CALLBACK (use_category_toggled), 
+			  G_CALLBACK (use_category_toggled),
 			  data);
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (data->keywords_list_view),
-						     -1, "Use",
-						     renderer,
-						     "state", USE_CATEGORY_COLUMN,
-						     "has_third_state", HAS_THIRD_STATE_COLUMN,
-						     NULL);
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "state", USE_CATEGORY_COLUMN,
+					     "has_third_state", HAS_THIRD_STATE_COLUMN,
+					     NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("",
-							   renderer,
-							   "text", CATEGORY_COLUMN,
-							   "editable", IS_EDITABLE_COLUMN,
-							   NULL);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "text", CATEGORY_COLUMN,
+					     "editable", IS_EDITABLE_COLUMN,
+					     NULL);
 
 	gtk_tree_view_column_set_sort_column_id (column, 0);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->keywords_list_view),
 				     column);
 
 	gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (data->keywords_list_model), name_column_sort_func, NULL, NULL);
-
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->keywords_list_model), GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, GTK_SORT_ASCENDING);
 
 	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
+
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->dialog), 
+	g_signal_connect (G_OBJECT (data->dialog),
 			  "unrealize",
 			  G_CALLBACK (unrealize_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_ok), 
+	g_signal_connect (G_OBJECT (btn_ok),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_cancel), 
+	g_signal_connect (G_OBJECT (btn_cancel),
 			  "clicked",
 			  G_CALLBACK (cancel_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_help), 
+	g_signal_connect (G_OBJECT (btn_help),
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->add_key_button), 
+	g_signal_connect (G_OBJECT (data->add_key_button),
 			  "clicked",
 			  G_CALLBACK (add_category_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->remove_key_button), 
+	g_signal_connect (G_OBJECT (data->remove_key_button),
 			  "clicked",
 			  G_CALLBACK (remove_category_cb),
 			  data);
@@ -665,7 +662,7 @@ dlg_categories__done (gpointer data)
 
 	path_list_free (dcdata->add_list);
 	dcdata->add_list = NULL;
-	
+
 	path_list_free (dcdata->remove_list);
 	dcdata->remove_list = NULL;
 
@@ -679,7 +676,7 @@ dlg_categories__save (GList    *file_list,
 {
 	DlgCategoriesData *dcdata = data;
 	GList             *scan;
-	
+
 	for (scan = file_list; scan; scan = scan->next) {
 		const char  *filename = scan->data;
 		CommentData *cdata;
@@ -688,7 +685,7 @@ dlg_categories__save (GList    *file_list,
 		cdata = comments_load_comment (filename, TRUE);
 		if (cdata == NULL)
 			cdata = comment_data_new ();
-		else 
+		else
 			for (scan2 = dcdata->remove_list; scan2; scan2 = scan2->next) {
 				const char *k = scan2->data;
 				comment_data_remove_keyword (cdata, k);
@@ -772,7 +769,7 @@ dlg_categories_update (GtkWidget *dlg)
 		char *first_image = data->file_list->data;
 		data->original_cdata = cdata = comments_load_comment (first_image, TRUE);
 	}
-	
+
 	if (cdata != NULL) {
 		comment_data_free_comment (cdata);
 
@@ -782,7 +779,7 @@ dlg_categories_update (GtkWidget *dlg)
 			int          i;
 
 			scan_cdata = comments_load_comment (scan->data, TRUE);
-		
+
 			if (scan_cdata == NULL) {
 				comment_data_free_keywords (cdata);
 				break;
@@ -792,7 +789,7 @@ dlg_categories_update (GtkWidget *dlg)
 				char     *k1 = cdata->keywords[i];
 				gboolean  found = FALSE;
 				int       j;
-				
+
 				for (j = 0; j < scan_cdata->keywords_n; j++) {
 					char *k2 = scan_cdata->keywords[j];
 					if (strcmp (k1, k2) == 0) {
@@ -801,7 +798,7 @@ dlg_categories_update (GtkWidget *dlg)
 					}
 				}
 
-				if (!found) 
+				if (!found)
 					comment_data_remove_keyword (cdata, k1);
 			}
 
@@ -814,10 +811,10 @@ dlg_categories_update (GtkWidget *dlg)
 		int          j;
 
 		scan_cdata = comments_load_comment (scan->data, TRUE);
-		
-		if (scan_cdata == NULL) 
+
+		if (scan_cdata == NULL)
 			continue;
-				
+
 		for (j = 0; j < scan_cdata->keywords_n; j++) {
 			char     *k2 = scan_cdata->keywords[j];
 			gboolean  found = FALSE;
@@ -831,21 +828,21 @@ dlg_categories_update (GtkWidget *dlg)
 						break;
 					}
 				}
-			
+
 			if (! found && ! key_in_list (other_keys, k2))
 				other_keys = g_list_prepend (other_keys,
 							     g_strdup (k2));
 		}
 		comment_data_free (scan_cdata);
 	}
-		
+
 	if (cdata != NULL) {
-		int i;	
+		int i;
 
 		for (i = 0; i < cdata->keywords_n; i++) {
 			GtkTreeIter  iter;
 
-			gtk_list_store_append (data->keywords_list_model, 
+			gtk_list_store_append (data->keywords_list_model,
 					       &iter);
 
 			gtk_list_store_set (data->keywords_list_model, &iter,
@@ -860,10 +857,10 @@ dlg_categories_update (GtkWidget *dlg)
 	for (scan = data->default_categories_list; scan; scan = scan->next) {
 		char        *keyword = scan->data;
 		GtkTreeIter  iter;
-		
-		gtk_list_store_append (data->keywords_list_model, 
+
+		gtk_list_store_append (data->keywords_list_model,
 				       &iter);
-		
+
 		gtk_list_store_set (data->keywords_list_model, &iter,
 				    IS_EDITABLE_COLUMN, FALSE,
 				    HAS_THIRD_STATE_COLUMN, FALSE,
@@ -875,10 +872,10 @@ dlg_categories_update (GtkWidget *dlg)
 	for (scan = other_keys; scan; scan = scan->next) {
 		char        *keyword = scan->data;
 		GtkTreeIter  iter;
-		
-		gtk_list_store_append (data->keywords_list_model, 
+
+		gtk_list_store_append (data->keywords_list_model,
 				       &iter);
-		
+
 		gtk_list_store_set (data->keywords_list_model, &iter,
 				    IS_EDITABLE_COLUMN, FALSE,
 				    HAS_THIRD_STATE_COLUMN, TRUE,
