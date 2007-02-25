@@ -56,6 +56,7 @@ typedef enum {
 	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
 	GTH_METADATA_CATEGORY_VERSIONS,
 	GTH_METADATA_CATEGORY_OTHER,
+	GTH_METADATA_CATEGORY_TESTING,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
 
@@ -70,7 +71,8 @@ static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 	N_("Image Structure"),
 	N_("Embedded Thumbnail"),
 	N_("Versions & Interoperability"),
-	N_("Other")
+	N_("Other"),
+	N_("Testing")
 };
 
 
@@ -302,6 +304,10 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 
 	/* GTH_METADATA_CATEGORY_OTHER */
 	/* New and unrecognized tags automatically go here. */
+	{ -1 },
+
+	/* GTH_METADATA_CATEGORY_TESTING */
+	/* For development work */
 	{ -1 }
 };
 
@@ -837,6 +843,11 @@ set_path (GthExifDataViewer *edv,
 		edv->priv->path = g_strdup (path);
 }
 
+void
+update_metadata_display (gpointer key, gpointer value, gpointer edv)
+{
+	add_to_exif_display_list (edv, (GthMetadataCategory) GTH_METADATA_CATEGORY_TESTING, key, value, 0);
+}
 
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
@@ -864,9 +875,19 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
 
-	update_exif_data (edv, exif_data);
+// mjc testing hacks
+	GHashTable* metadata_hash;
+	metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	get_metadata_for_file (edv->priv->path, metadata_hash);
+	
+        g_hash_table_foreach (metadata_hash, update_metadata_display, edv);
+
+//	update_exif_data (edv, exif_data);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
+
+	g_hash_table_destroy (metadata_hash);
 }
 
 

@@ -1,5 +1,17 @@
 2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in:
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (update_metadata_display),
+	(gth_exif_data_viewer_update):
+	Change metadata viewer to use exiftool instead of libexif. Adds
+	support for iptc, xmp, tiff exif, even audio tags! Very rough
+	initial implementation with no sorting, grouping, or editing.
+
+2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
 	Backed out RAW thumbnailing speed-ups. It's not worth the added
 	complexity to do it right (dcraw is not elegant). Keep HDR

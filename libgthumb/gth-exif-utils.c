@@ -26,7 +26,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <glib.h>
-
+#include <libgnomeui/gnome-thumbnail.h>
+#include <libgnomevfs/gnome-vfs.h>
 #include "file-utils.h"
 #include "gth-exif-utils.h"
 
@@ -370,5 +371,88 @@ set_orientation_in_exif_data (GthTransform  transform,
 			exif_set_short (entry->data, byte_order, transform);
 		}
 	}
+}
+
+
+void
+get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
+{
+        char *path;
+        char *cache_file;
+        char *md5_file;
+        char *cache_file_full;
+        char *cache_file_esc;
+        char *input_file_esc;
+        char *command;
+	char *local_file;
+	FILE *in_file;
+	char  buf[65535];
+
+	if (uri == NULL)
+		return;
+
+        local_file = obtain_local_file (uri);
+        if (local_file == NULL)
+                return;
+
+        path = gnome_vfs_unescape_string (uri, NULL);
+        md5_file = gnome_thumbnail_md5 (path);
+	g_free (path);
+
+	input_file_esc = shell_escape (local_file);
+	g_free (local_file);
+
+        cache_file_full = get_cache_full_path (md5_file, ".metadata");
+	g_free (md5_file);
+
+        cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	g_free (cache_file_full);
+
+        if (cache_file == NULL) {
+                g_free (input_file_esc);
+                return;
+        }
+
+        g_assert (is_local_file (cache_file));
+        cache_file_esc = shell_escape (cache_file);
+
+        /* Do nothing if an up-to-date converted file is already in the cache */
+        if (!path_is_file (cache_file) ||
+            (get_file_mtime (uri) > get_file_mtime (cache_file))) {
+		command = g_strconcat ( "exiftool -s -s -e -G1 ",
+                                        input_file_esc,
+                                        " > ",
+                                        cache_file_esc,
+                                        NULL );
+
+                if (gnome_vfs_is_executable_command_string (command))
+                        system (command);
+
+                g_free (command);
+        }
+
+	in_file = fopen(cache_file, "r");
+	if (in_file == NULL)
+		return;
+
+	/* read, file line by line */
+	while(fgets(buf, sizeof (buf), in_file)) {
+        	char  group[256];
+	        char  tag_name[256];
+		char  value[65536];
+		char *key;
+		
+		if (sscanf (buf, "[%255[^]]] %255[^:]: %65535[^\n]", group, tag_name, value) != 3)
+			continue;
+
+		key = g_strconcat (group, ":", tag_name, NULL);
+		g_hash_table_insert (metadata_hash, g_strdup (key), g_strdup (value));
+  	}			
+
+	fclose(in_file);
+
+        g_free (cache_file);
+        g_free (cache_file_esc);
+        g_free (input_file_esc);
 }
 
