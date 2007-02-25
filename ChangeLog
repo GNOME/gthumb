@@ -1,6 +1,13 @@
 2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Backed out RAW thumbnailing speed-ups. It's not worth the added
+	complexity to do it right (dcraw is not elegant). Keep HDR
+	speed-ups, though.
+
+2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
 	Delete cached converted RAW/HDR files used for thumbnails, because 
 	the thumbnails will be cached in the standard .thumbnails dir.
 

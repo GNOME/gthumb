@@ -2409,25 +2409,25 @@ get_pixbuf_using_external_converter (const char *url,
 	char	   *command;
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
+	gboolean    is_hdr;
 
 	path = gnome_vfs_unescape_string (url, NULL);
 
 	is_raw = mime_type_is_raw (mime_type);
+	is_hdr = !is_raw;
 
 	md5_file = gnome_thumbnail_md5 (path);
 
 	input_file_esc = shell_escape (path);
 
-	if (is_raw && (requested_width_if_used > 0))
-		/* pnm is dcraw's default output format */
-		cache_file_full = get_cache_full_path (md5_file, "thumb.pnm");
-	else if (is_raw)
-		cache_file_full = get_cache_full_path (md5_file, "full.pnm");
+	if (is_raw)
+		/* Same file used for RAW thumbnailing and full image loading */
+		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
 	else if (requested_width_if_used > 0)
-		/* what's best for pfstools? tiff or png? */
-		cache_file_full = get_cache_full_path (md5_file, "thumb.tiff");
+		/* HDR: separate files for thumbnails, full images */
+		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
-		cache_file_full = get_cache_full_path (md5_file, "full.tiff");
+		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
 	cache_file_esc = shell_escape (cache_file);
@@ -2445,24 +2445,21 @@ get_pixbuf_using_external_converter (const char *url,
 	/* Do nothing if an up-to-date converted file is already in the cache */
         if (!path_is_file (cache_file) ||
             (get_file_mtime (path) > get_file_mtime (cache_file))) {
-		char *resize_command;
 
-		if ( is_raw ) {
-			/* raw files */
-			
-			if (requested_width_if_used > 0)
-                                resize_command = g_strdup_printf ("-e ");
-			else	
-				resize_command = g_strdup_printf (" ");
-
+		if (is_raw) {
+			/* RAW files - dcraw doesn't support thumbnailing very
+			   elegantly (even with the -e option), so we just convert
+			   the full file (which will speed up image loading). */
 		        command = g_strconcat ( "dcraw -c ",
-						resize_command,
         	        	                input_file_esc,
                 	        	        " > ",
                         	        	cache_file_esc,
                                 		NULL );
 		} else {
-			/* hdr files */
+			/* HDR files. We can use the pfssize tool to speed up
+			   thumbnail generation considerably, so we treat
+			   thumbnailing as a special case. */
+			char *resize_command;
 
 			if (requested_width_if_used > 0)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
@@ -2477,9 +2474,8 @@ get_pixbuf_using_external_converter (const char *url,
                         	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
                                 	        cache_file_esc,
                                         	NULL );
+			g_free (resize_command);
 		}
-
-		g_free (resize_command);
 
 		if (gnome_vfs_is_executable_command_string (command))
 		       	system (command);
@@ -2490,8 +2486,9 @@ get_pixbuf_using_external_converter (const char *url,
 	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
-	/* Thumbnail files are cached elsewhere */
-	if (requested_width_if_used > 0)
+	/* Thumbnail files are already cached, so delete the conversion cache 
+	   copies of HDR files. */
+	if (requested_width_if_used > 0 && is_hdr)
 		file_unlink (cache_file);
 
 	g_free (cache_file);
