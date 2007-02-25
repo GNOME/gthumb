@@ -2465,6 +2465,7 @@ get_pixbuf_using_external_converter (const char *url,
                         	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
                                 	        cache_file_esc,
                                         	NULL );
+			g_free (resize_command);
 		}
 
 		if (gnome_vfs_is_executable_command_string (command))
