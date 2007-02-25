@@ -39,7 +39,7 @@ typedef struct {
 	char      *file_pattern;
 	char      *comment_pattern;
 	char      *place_pattern;
-	char      *keywords_pattern; 
+	char      *keywords_pattern;
 	gboolean   all_keywords;
 	time_t     date;
 	DateScope  date_scope;
@@ -47,39 +47,29 @@ typedef struct {
 
 
 SearchData* search_data_new                  ();
-
 void        search_data_free                 (SearchData  *data);
-
 void        search_data_set_start_from       (SearchData  *data,
 					      const char  *start_from);
-
 void        search_data_set_recursive        (SearchData  *data,
 					      gboolean     recursive);
-
 void        search_data_set_file_pattern     (SearchData  *data,
 					      const gchar *file_pattern);
-
 void        search_data_set_comment_pattern  (SearchData  *data,
 					      const gchar *comment_pattern);
-
 void        search_data_set_place_pattern    (SearchData  *data,
 					      const gchar *place_pattern);
-
 void        search_data_set_keywords_pattern (SearchData  *data,
 					      const gchar *keywords_pattern,
 					      gboolean     all_keywords);
-
 void        search_data_set_date             (SearchData  *data,
 					      time_t       date);
-
 void        search_data_set_date_scope       (SearchData  *data,
 					      DateScope    date_scope);
-
 void        search_data_copy                 (SearchData  *dest,
 					      SearchData  *source);
-
-gchar **    search_util_get_patterns         (const char  *pattern_string);
-
+gchar **    search_util_get_patterns         (const char  *pattern_string,
+			  		      gboolean     exact_match);
 gchar **    search_util_get_file_patterns    (const char  *pattern_string);
+
 
 #endif /* SEARCH_H */

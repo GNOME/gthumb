@@ -26,7 +26,7 @@
 #include "glib-utils.h"
 
 
-SearchData* 
+SearchData*
 search_data_new ()
 {
 	SearchData *data;
@@ -47,7 +47,7 @@ search_data_new ()
 }
 
 
-void 
+void
 search_data_free (SearchData *data)
 {
 	if (data == NULL)
@@ -71,7 +71,7 @@ search_data_free (SearchData *data)
 	if (data->keywords_pattern) {
 		g_free (data->keywords_pattern);
 		data->keywords_pattern = NULL;
-	} 
+	}
 
 	if (data->start_from) {
 		g_free (data->start_from);
@@ -83,10 +83,10 @@ search_data_free (SearchData *data)
 
 
 static void
-set_string (gchar **dest, 
+set_string (gchar **dest,
 	    const gchar *source)
 {
-	if (*dest) 
+	if (*dest)
 		g_free (*dest);
 	*dest = g_strdup (source);
 }
@@ -178,7 +178,7 @@ search_data_copy (SearchData *dest,
 	search_data_set_file_pattern     (dest, source->file_pattern);
 	search_data_set_comment_pattern  (dest, source->comment_pattern);
 	search_data_set_place_pattern    (dest, source->place_pattern);
-	search_data_set_keywords_pattern (dest, source->keywords_pattern, 
+	search_data_set_keywords_pattern (dest, source->keywords_pattern,
 					  source->all_keywords);
 	search_data_set_date             (dest, source->date);
 	search_data_set_date_scope       (dest, source->date_scope);
@@ -186,7 +186,8 @@ search_data_copy (SearchData *dest,
 
 
 char **
-search_util_get_patterns (const char *pattern_string)
+search_util_get_patterns (const char *pattern_string,
+			  gboolean    exact_match)
 {
 	char  *case_pattern;
 	char **patterns;
@@ -201,7 +202,14 @@ search_util_get_patterns (const char *pattern_string)
 
 		if (stripped == NULL)
 			continue;
-		
+
+		if (exact_match) {
+			char *temp = patterns[i];
+			patterns[i] = stripped;
+			g_free (temp);
+			continue;
+		}
+
 		if (g_utf8_strchr (stripped, -1, '*') == NULL) {
 			char *temp = patterns[i];
 			patterns[i] = g_strconcat ("*", stripped, "*", NULL);
@@ -231,7 +239,7 @@ search_util_get_file_patterns (const char *pattern_string)
 
 		if (stripped == NULL)
 			continue;
-		
+
 		if (g_utf8_strchr (stripped, -1, '*') == NULL) {
 			char *temp = patterns[i];
 			patterns[i] = g_strconcat ("*", stripped, "*", NULL);

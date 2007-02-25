@@ -281,21 +281,21 @@ search_clicked_cb (GtkWidget  *widget,
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_comment_entry));
 	search_data_set_comment_pattern (data->search_data, entry);
 	if (entry != NULL)
-		data->comment_patterns = search_util_get_patterns (entry);
+		data->comment_patterns = search_util_get_patterns (entry, FALSE);
 
 	/* * place pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_place_entry));
 	search_data_set_place_pattern (data->search_data, entry);
 	if (entry != NULL)
-		data->place_patterns = search_util_get_patterns (entry);
+		data->place_patterns = search_util_get_patterns (entry, FALSE);
 
 	/* * keywords pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry));
 	search_data_set_keywords_pattern (data->search_data, entry, data->all_keywords);
 	if (entry != NULL)
-		data->keywords_patterns = search_util_get_patterns (entry);
+		data->keywords_patterns = search_util_get_patterns (entry, TRUE);
 
 	/* * date scope pattern */
 
@@ -608,9 +608,9 @@ dlg_search_ui (GthBrowser *browser,
 
 		data->all_keywords =  data->search_data->all_keywords;
 		data->file_patterns = search_util_get_file_patterns (data->search_data->file_pattern);
-		data->comment_patterns = search_util_get_patterns (data->search_data->comment_pattern);
-		data->place_patterns = search_util_get_patterns (data->search_data->place_pattern);
-		data->keywords_patterns = search_util_get_patterns (data->search_data->keywords_pattern);
+		data->comment_patterns = search_util_get_patterns (data->search_data->comment_pattern, FALSE);
+		data->place_patterns = search_util_get_patterns (data->search_data->place_pattern, FALSE);
+		data->keywords_patterns = search_util_get_patterns (data->search_data->keywords_pattern, TRUE);
 
 		/**/
 

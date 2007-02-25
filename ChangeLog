@@ -1,3 +1,11 @@
+2007-02-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/search.h:
+	* libgthumb/search.c (search_util_get_patterns):
+	* src/dlg-search.c (search_clicked_cb):
+
+	Fixed bug #346382 – False Positives in Catagory Search
+
 2007-02-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (pref_view_as_changed):
