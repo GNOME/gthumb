@@ -1,5 +1,10 @@
 2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb.glade:
+	Changed "Photo Data (EXIF)" glade label to "Metadata"
+
+2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
 	Minor formatting tweaks.
 
