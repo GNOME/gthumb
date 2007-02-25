@@ -368,7 +368,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     const char        *path,
 			     gpointer           exif_data)
 {
-	int i;
+	GHashTable *metadata_hash;
 
 	set_path (edv, path);
 
@@ -385,15 +385,10 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
 
-// mjc testing hacks
-	GHashTable* metadata_hash;
 	metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	get_metadata_for_file (edv->priv->path, metadata_hash);
-	
         g_hash_table_foreach (metadata_hash, update_metadata_display, edv);
-
-//	update_exif_data (edv, exif_data);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
 
