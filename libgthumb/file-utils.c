@@ -2396,7 +2396,9 @@ copy_cache_file_to_remote_uri (const char *local_filename,
 
 static GdkPixbuf*
 get_pixbuf_using_external_converter (const char *url,
-				     const char *mime_type)
+				     const char *mime_type,
+				     int requested_width_if_used,
+				     int requested_height_if_used)
 {
 	char       *path;
 	char	   *cache_file;
@@ -2441,15 +2443,25 @@ get_pixbuf_using_external_converter (const char *url,
             (get_file_mtime (path) > get_file_mtime (cache_file))) {
 		if ( is_raw ) {
 			/* raw files */
-		        command = g_strconcat ( "dcraw -c ",
+		        command = g_strconcat ( "dcraw -e -c ",
         	        	                input_file_esc,
                 	        	        " > ",
                         	        	cache_file_esc,
                                 		NULL );
 		} else {
 			/* hdr files */
+			char *resize_command;
+
+			if (requested_width_if_used > 0)
+				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
+						                  requested_width_if_used,
+								  requested_height_if_used);
+			else
+				resize_command = g_strdup_printf ("");
+
         	        command = g_strconcat ( "pfsin ",
                 	                        input_file_esc,
+						resize_command,
                         	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
                                 	        cache_file_esc,
                                         	NULL );
@@ -2552,7 +2564,10 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	/* Use dcraw for raw images and pfstools for HDR images. */
 	if ((pixbuf == NULL) &&
 	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
-		pixbuf = get_pixbuf_using_external_converter (local_file, mime_type);
+		pixbuf = get_pixbuf_using_external_converter (local_file, 
+							      mime_type,
+							      requested_width_if_used,
+							      requested_height_if_used);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
         if (pixbuf == NULL)
