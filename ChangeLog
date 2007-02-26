@@ -1,3 +1,12 @@
+2007-02-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-image-prop.c: (update_notebook_page):
+	* src/gth-browser.c: (window_update_image_info):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gth-exif-data-viewer.h:
+	* src/gth-viewer.c: (viewer_update_image_info):
+	Code tidy-up. Remove obsolete references to exif_data.
+
 2007-02-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb.glade:

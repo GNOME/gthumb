@@ -365,8 +365,7 @@ free_roots (gpointer key, gpointer value, gpointer edv)
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     ImageViewer       *viewer,
-			     const char        *path,
-			     gpointer           exif_data)
+			     const char        *path)
 {
 	GHashTable *metadata_hash;
 
