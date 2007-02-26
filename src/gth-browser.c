@@ -6289,7 +6289,7 @@ dir_list_started_cb (GthDirList  *dir_list,
 		     gpointer     data)
 {
 	GthBrowser *browser = data;
-	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Getting directory listing..."));
+	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Getting folder listing..."));
 	gth_file_list_set_empty_list (browser->priv->file_list);
 }
 
