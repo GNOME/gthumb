@@ -51,5 +51,7 @@ void        set_orientation_in_exif_data  (GthTransform  transform,
 				           ExifData     *edata);
 void	    get_metadata_for_file         (const char   *url,
 					   GHashTable   *metadata_hash);
- 
+gboolean    write_metadata_tag_to_file    (const char *path,
+					   const char *tag_name,
+					   const char *value);
 #endif /* EXIF_UTILS_H */

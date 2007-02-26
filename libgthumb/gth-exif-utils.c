@@ -419,15 +419,13 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
         /* Do nothing if an up-to-date converted file is already in the cache */
         if (!path_is_file (cache_file) ||
             (get_file_mtime (uri) > get_file_mtime (cache_file))) {
-		command = g_strconcat ( "exiftool -s -s -e -G1 ",
+		command = g_strconcat ( "exiftool -S -a -e -G1 ",
                                         input_file_esc,
                                         " > ",
                                         cache_file_esc,
                                         NULL );
 
-                if (gnome_vfs_is_executable_command_string (command))
-                        system (command);
-
+                system (command);
                 g_free (command);
         }
 
@@ -441,7 +439,7 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	        char  tag_name[256];
 		char  value[65536];
 		char *key;
-		
+
 		if (sscanf (buf, "[%255[^]]] %255[^:]: %65535[^\n]", group, tag_name, value) != 3)
 			continue;
 
@@ -456,3 +454,52 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
         g_free (input_file_esc);
 }
 
+
+gboolean
+write_metadata_tag_to_file (const char *path, 
+		            const char *tag_name,
+			    const char *value)
+{
+        char             *local_file_to_modify = NULL;
+        gboolean          is_local;
+        gboolean          remote_copy_ok = TRUE;
+        char 	         *local_file_esc;
+        char             *command;
+	GnomeVFSFileInfo *info;
+
+        is_local = is_local_file (path);
+        local_file_to_modify = obtain_local_file (path);
+
+        if (local_file_to_modify == NULL) {
+                return FALSE;
+        }
+	
+        info = gnome_vfs_file_info_new ();
+        gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+	local_file_esc = shell_escape (local_file_to_modify);
+
+	command = g_strconcat ("exiftool -q -",
+			       tag_name,
+			       "=\'",
+			       value,
+			       "\' ",
+			       local_file_esc,
+			       NULL);
+	g_free (local_file_esc);
+
+	/* check for _original file, delete it */
+	/* add error reporting! */
+	system (command);
+	g_free (command);
+
+        if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
+
+        g_free (local_file_to_modify);
+
+        gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+        gnome_vfs_file_info_unref (info);
+
+	return remote_copy_ok;
+}

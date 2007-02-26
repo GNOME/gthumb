@@ -109,7 +109,7 @@ gth_exif_data_viewer_init (GthExifDataViewer *edv)
 
 	edv->priv->category_roots = g_hash_table_new_full (g_str_hash,
 							   g_str_equal,
-							   NULL,
+							   g_free,
 							   NULL);
 }
 
@@ -234,7 +234,7 @@ add_to_exif_display_list (GthExifDataViewer *edv,
                             	    -1);
 		path = gtk_tree_model_get_path (model, &root_iter);
 		g_hash_table_insert (edv->priv->category_roots, 
-				     category, 
+				     g_strdup (category), 
 				     gtk_tree_row_reference_new (model, path));
 		gtk_tree_path_free (path);
 	}
