@@ -10,6 +10,8 @@ version 2.9.3
 	* Launch the registered video player instead of always launching "totem"
 	* Use the default gtk+ overwrite confirmation dialog
 	* Fixed bug #409799 - destroys file when double-clicking "Save" dialog
+	* Fixed bug #347657 - Click on category text to checkmark a category
+	* Fixed bug #346382 - False Positives in Catagory Search
 
 version 2.9.2
 -------------
