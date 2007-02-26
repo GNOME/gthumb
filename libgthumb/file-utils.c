@@ -1290,7 +1290,7 @@ get_uri_display_name (const char *uri)
 			base_uri_len = strlen (remove_scheme_from_uri (base_uri));
 			g_free (base_uri);
 
-			name = g_strdup (tmp_path + 1 + base_uri_len);
+			name = gnome_vfs_unescape_string_for_display (tmp_path + 1 + base_uri_len);
 		} else {
 			const char *base_path;
 			int         base_path_len;
@@ -2486,7 +2486,7 @@ get_pixbuf_using_external_converter (const char *url,
 	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
-	/* Thumbnail files are already cached, so delete the conversion cache 
+	/* Thumbnail files are already cached, so delete the conversion cache
 	   copies of HDR files. */
 	if (requested_width_if_used > 0 && is_hdr)
 		file_unlink (cache_file);
@@ -2579,7 +2579,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	/* Use dcraw for raw images and pfstools for HDR images. */
 	if ((pixbuf == NULL) &&
 	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
-		pixbuf = get_pixbuf_using_external_converter (local_file, 
+		pixbuf = get_pixbuf_using_external_converter (local_file,
 							      mime_type,
 							      requested_width_if_used,
 							      requested_height_if_used);
