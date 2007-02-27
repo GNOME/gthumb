@@ -1,5 +1,9 @@
 2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in: Note presence or absence of dcraw and exiftool.
+
+2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
 	Corrected error; metadata cache wasn't actually being used.
 

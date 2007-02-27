@@ -252,6 +252,25 @@ if test x$enable_libopenraw = xyes ; then
 fi
 
 
+#
+# Checks for exiftool
+#
+AC_CHECK_PROG([HAVE_EXIFTOOL],[exiftool],[yes],[no])
+	 if test $HAVE_EXIFTOOL = no ; then 	 
+	    AC_MSG_WARN([gThumb will support many additional metadata types if you install exiftool.]) 	 
+	 fi
+
+
+#
+# Checks for dcraw
+#
+AC_CHECK_PROG([HAVE_DCRAW],[dcraw],[yes],[no])
+         if test $HAVE_DCRAW = no ; then      
+            AC_MSG_WARN([gThumb will be able to display raw photo images if you install dcraw.])   
+         fi
+
+
+
 dnl ###############################################
 
 
@@ -359,5 +378,7 @@ Configuration:
 	Have libgphoto:           ${HAVE_GPHOTO2}
 	Have gtkunique:		  ${HAVE_GTKUNIQUE}
 	Have libopenraw:          ${HAVE_LIBOPENRAW}
+	Have dcraw:               ${HAVE_DCRAW}
+	Have exiftool:		  ${HAVE_EXIFTOOL}
 
 "
