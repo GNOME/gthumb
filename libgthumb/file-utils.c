@@ -787,6 +787,7 @@ get_file_mime_type (const char *filename,
 		    gboolean    fast_file_type)
 {
 	const char *result = NULL;
+	const char *extension;
 
 	if (filename == NULL)
 		return NULL;
@@ -817,7 +818,7 @@ get_file_mime_type (const char *filename,
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 	}
 
-	const char *extension = get_filename_extension (filename);
+	extension = get_filename_extension (filename);
 
 	/* Check files with special or problematic extensions */
 	if (extension != NULL) {

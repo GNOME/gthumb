@@ -1,3 +1,10 @@
+2007-02-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (get_file_mime_type):
+
+	Fixed bug #412444 – fix build with gcc 2.
+	Patch by Jens Granseuer.
+
 2007-02-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (dir_list_started_cb): change message to
