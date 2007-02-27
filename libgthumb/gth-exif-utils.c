@@ -387,6 +387,10 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	char *local_file;
 	FILE *in_file;
 	char  buf[65535];
+	
+	GHashTable *tag_grouping_hash;
+	int         group_count = 1;
+	int	    tag_count = 1;
 
 	if (uri == NULL)
 		return;
@@ -419,19 +423,26 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
         /* Do nothing if an up-to-date converted file is already in the cache */
         if (!path_is_file (cache_file) ||
             (get_file_mtime (uri) > get_file_mtime (cache_file))) {
-		command = g_strconcat ( "exiftool -S -a -e -G1 ",
-                                        input_file_esc,
-                                        " > ",
-                                        cache_file_esc,
-                                        NULL );
-
-                system (command);
-                g_free (command);
+		if (gnome_vfs_is_executable_command_string ("exiftool")) {
+			/* if exiftool is present, use it */
+			command = g_strconcat ( "exiftool -S -a -e -G1 ",
+        	                                input_file_esc,
+                	                        " > ",
+                        	                cache_file_esc,
+                                	        NULL );
+	                system (command);
+        	        g_free (command);
+		} else {
+			/* to do: add libexif fallback routine */
+			;
+		}
         }
 
 	in_file = fopen(cache_file, "r");
 	if (in_file == NULL)
 		return;
+
+	tag_grouping_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	/* read, file line by line */
 	while(fgets(buf, sizeof (buf), in_file)) {
@@ -439,16 +450,39 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	        char  tag_name[256];
 		char  value[65536];
 		char *key;
+		char *group_count_string;
 
 		if (sscanf (buf, "[%255[^]]] %255[^:]: %65535[^\n]", group, tag_name, value) != 3)
 			continue;
 
+		tag_count++;
+
+		/* New group identified? */
+		if (g_hash_table_lookup (tag_grouping_hash, group) == NULL)
+			g_hash_table_insert (tag_grouping_hash, 
+					     g_strdup (group), 
+					     g_strdup_printf ("%d", group_count++));
+
+		group_count_string = g_hash_table_lookup (tag_grouping_hash, group);
+
+		/* key format - group:tag. For example - IFD0:Orientation
+		   value format - groupcount:tagcount:value. For example: 7:45:Horizontal (Normal)
+
+		   The groupcount and tagcount values determine the sorting of the groups and
+		   tags in the displayed list. */
+
 		key = g_strconcat (group, ":", tag_name, NULL);
-		g_hash_table_insert (metadata_hash, g_strdup (key), g_strdup (value));
+		g_hash_table_insert (metadata_hash, 
+				     g_strdup (key), 
+				     g_strdup_printf ("%s:%d:%s",
+					     	      group_count_string,
+						      tag_count,
+						      value));
   	}			
 
 	fclose(in_file);
 
+	g_hash_table_destroy (tag_grouping_hash);
         g_free (cache_file);
         g_free (cache_file_esc);
         g_free (input_file_esc);

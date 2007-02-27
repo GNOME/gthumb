@@ -218,7 +218,8 @@ add_to_exif_display_list (GthExifDataViewer *edv,
 			  char              *category, 
 			  const char 	    *utf8_name,
 			  const char	    *utf8_value,
-	 		  int		     position)
+	 		  int		     category_position,
+			  int		     tag_position)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (edv->priv->image_exif_model);
 	GtkTreeIter   root_iter;
@@ -230,7 +231,7 @@ add_to_exif_display_list (GthExifDataViewer *edv,
 		gtk_tree_store_set (edv->priv->image_exif_model, &root_iter,
         		    	    NAME_COLUMN, category,
 			    	    VALUE_COLUMN, "",
-			    	    POS_COLUMN, 0,
+			    	    POS_COLUMN, category_position,
                             	    -1);
 		path = gtk_tree_model_get_path (model, &root_iter);
 		g_hash_table_insert (edv->priv->category_roots, 
@@ -252,7 +253,7 @@ add_to_exif_display_list (GthExifDataViewer *edv,
         gtk_tree_store_set (edv->priv->image_exif_model, &iter,
         		    NAME_COLUMN, utf8_name,
 			    VALUE_COLUMN, utf8_value,
-			    POS_COLUMN, position,
+			    POS_COLUMN, tag_position,
                             -1);
 }
 
@@ -300,12 +301,12 @@ update_file_info (GthExifDataViewer *edv)
 					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	/**/
 
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Name"), utf8_name, -7);
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Path"), utf8_fullname, -6);
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Dimensions"), size_txt, -5);
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Size"), file_size_txt, -4);
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Modified"), utf8_time_txt, -3);
-	add_to_exif_display_list (edv, _("Filesystem Data"), _("Type"), mime_type, -2);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Name"), utf8_name, 0, 0);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Path"), utf8_fullname, 0, 1);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Dimensions"), size_txt, 0, 2);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Size"), file_size_txt, 0, 3);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Modified"), utf8_time_txt, 0, 4);
+	add_to_exif_display_list (edv, _("Filesystem Data"), _("Type"), mime_type, 0, 5);
 
 	/**/
 
@@ -342,16 +343,22 @@ update_metadata_display (gpointer key, gpointer value, gpointer edv)
 {
 	char group_name[256];
 	char key_name[256];
+	char value_string[65536];
+	int category_position, tag_position;
 
 	if (sscanf (key, "%255[^:]:%255[^\n]", group_name, key_name) != 2)
+		return;
+	if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, value_string) != 3)
 		return;
 
 	/* Don't use exiftool's reading of filesystem data - we can do 
 	   that better. */
 	if (!strcmp(group_name,"File"))
 		return;
+	if (!strcmp(group_name,"ExifTool"))
+		return;
 
-	add_to_exif_display_list (edv, group_name, key_name, value, 0);
+	add_to_exif_display_list (edv, group_name, key_name, value_string, category_position, tag_position);
 }
 
 

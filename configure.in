@@ -252,14 +252,6 @@ if test x$enable_libopenraw = xyes ; then
 fi
 
 
-#
-# Checks for exiftool
-#
-AC_CHECK_PROG([EXIFTOOL],[exiftool],[yes],[no])
-if test $EXIFTOOL = no ; then
-   AC_MSG_ERROR([*** exiftool program not found ***])
-fi
-
 dnl ###############################################
 
 
