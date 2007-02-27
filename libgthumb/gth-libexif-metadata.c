@@ -351,8 +351,8 @@ tag_category (ExifTag  tag,
 }
 
 
-static void
-update_exif_data (ExifData *edata)
+void
+libexif_to_hash (ExifData *edata, GHashTable* metadata_hash)
 {
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
@@ -385,6 +385,7 @@ update_exif_data (ExifData *edata)
 			if (e->tag != EXIF_TAG_MAKER_NOTE) {
 				GthMetadataCategory category;
 				int                 position;
+				char               *key;
 
 				/* The tag IDs for the GPS and non-GPS IFDs overlap slightly,
 				   so it is important to use the exif_tag_get_name_in_ifd
@@ -423,9 +424,14 @@ update_exif_data (ExifData *edata)
 				if (!position)
 					position = unique_id_for_unsorted_tags;
 
-				// mjc to-do
-				// add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
-
+				key = g_strconcat (metadata_category_name[category], ":", utf8_name, NULL);
+		                g_hash_table_insert (metadata_hash,
+                		                     g_strdup (key),
+                                		     g_strdup_printf ("%d:%d:%s",
+                                                		      category,
+		                                                      position,
+                		                                      utf8_value));
+				g_free (key);
 				g_free (utf8_name);
 				g_free (utf8_value);
 			}
@@ -435,9 +441,10 @@ update_exif_data (ExifData *edata)
 				   types of manufacturer note styles. */
 
 				ExifMnoteData *mnote;
-				unsigned int k;
-				unsigned int subnote_count;
-				char	     mnote_buf[1024];
+				unsigned int   k;
+				unsigned int   subnote_count;
+				char	       mnote_buf[1024];
+				char	      *key;
 
 				mnote = exif_data_get_mnote_data (edata);
 				if (mnote == NULL)
@@ -468,14 +475,19 @@ update_exif_data (ExifData *edata)
 	                        	}
 
 					++unique_id_for_unsorted_tags;
-					// mjc to-do
-					// add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, unique_id_for_unsorted_tags);
 
+			                key = g_strconcat (metadata_category_name[GTH_METADATA_CATEGORY_MAKERNOTE], ":", utf8_name, NULL);
+			                g_hash_table_insert (metadata_hash,
+                			                     g_strdup (key),
+                        	        		     g_strdup_printf ("%d:%d:%s",
+                                	                		      GTH_METADATA_CATEGORY_MAKERNOTE,
+		                        	                              unique_id_for_unsorted_tags,
+                		                	                      utf8_value));
+					g_free (key);
 	   	                        g_free (utf8_name);
 		                        g_free (utf8_value);
 				}
 			}
-
 			list_is_empty = FALSE;
 		}
 	}

@@ -30,7 +30,9 @@
 #include <libgnomevfs/gnome-vfs.h>
 #include "file-utils.h"
 #include "gth-exif-utils.h"
-
+#include <libexif/exif-data.h>
+#include "jpegutils/jpeg-data.h"
+#include "jpeg-utils.h"
 
 ExifData *
 gth_exif_data_new_from_uri (const char *path)
@@ -374,69 +376,14 @@ set_orientation_in_exif_data (GthTransform  transform,
 }
 
 
-void
-get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
+static void
+cache_to_hash (const char *cache_file, GHashTable* metadata_hash)
 {
-        char *path;
-        char *cache_file;
-        char *md5_file;
-        char *cache_file_full;
-        char *cache_file_esc;
-        char *input_file_esc;
-        char *command;
-	char *local_file;
-	FILE *in_file;
-	char  buf[65535];
-	
 	GHashTable *tag_grouping_hash;
 	int         group_count = 1;
 	int	    tag_count = 1;
-
-	if (uri == NULL)
-		return;
-
-        local_file = obtain_local_file (uri);
-        if (local_file == NULL)
-                return;
-
-        path = gnome_vfs_unescape_string (uri, NULL);
-        md5_file = gnome_thumbnail_md5 (path);
-	g_free (path);
-
-	input_file_esc = shell_escape (local_file);
-	g_free (local_file);
-
-        cache_file_full = get_cache_full_path (md5_file, ".metadata");
-	g_free (md5_file);
-
-        cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
-	g_free (cache_file_full);
-
-        if (cache_file == NULL) {
-                g_free (input_file_esc);
-                return;
-        }
-
-        g_assert (is_local_file (cache_file));
-        cache_file_esc = shell_escape (cache_file);
-
-        /* Do nothing if an up-to-date converted file is already in the cache */
-        if (!path_is_file (cache_file) ||
-            (get_file_mtime (uri) > get_file_mtime (cache_file))) {
-		if (gnome_vfs_is_executable_command_string ("exiftool")) {
-			/* if exiftool is present, use it */
-			command = g_strconcat ( "exiftool -S -a -e -G1 ",
-        	                                input_file_esc,
-                	                        " > ",
-                        	                cache_file_esc,
-                                	        NULL );
-	                system (command);
-        	        g_free (command);
-		} else {
-			/* to do: add libexif fallback routine */
-			;
-		}
-        }
+	FILE       *in_file;
+	char        buf[65535];
 
 	in_file = fopen(cache_file, "r");
 	if (in_file == NULL)
@@ -483,6 +430,81 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	fclose(in_file);
 
 	g_hash_table_destroy (tag_grouping_hash);
+}
+
+void
+get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
+{
+        char *path;
+        char *cache_file;
+        char *md5_file;
+        char *cache_file_full;
+        char *cache_file_esc;
+        char *input_file_esc;
+        char *command;
+	char *local_file;
+	
+	if (uri == NULL)
+		return;
+
+        local_file = obtain_local_file (uri);
+        if (local_file == NULL)
+                return;
+
+        path = gnome_vfs_unescape_string (uri, NULL);
+        md5_file = gnome_thumbnail_md5 (path);
+	g_free (path);
+
+	input_file_esc = shell_escape (local_file);
+
+	cache_file_full = get_cache_full_path (md5_file, ".metadata");
+	g_free (md5_file);
+
+        cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	g_free (cache_file_full);
+
+        if (cache_file == NULL) {
+                g_free (input_file_esc);
+                return;
+        }
+
+        g_assert (is_local_file (cache_file));
+        cache_file_esc = shell_escape (cache_file);
+
+        /* Do nothing if an up-to-date converted file is already in the cache */
+        if (!path_is_file (cache_file) ||
+            (get_file_mtime (uri) > get_file_mtime (cache_file))) {
+		if (gnome_vfs_is_executable_command_string ("exiftool")) {
+			/* if exiftool is present, use it */
+			command = g_strconcat ( "exiftool -S -a -e -G1 ",
+        	                                input_file_esc,
+                	                        " > ",
+                        	                cache_file_esc,
+                                	        NULL );
+	                system (command);
+        	        g_free (command);
+
+			cache_to_hash (cache_file, metadata_hash);
+		} 
+		
+		if (g_hash_table_size (metadata_hash) == 0) {
+			/* fallback to libexif */
+			ExifData *exif_data = NULL;
+			JPEGData *jdata = NULL;
+
+			jdata = jpeg_data_new_from_file (local_file);
+			if (jdata != NULL) {
+				exif_data = jpeg_data_get_exif_data (jdata);
+				if (exif_data != NULL) {
+					libexif_to_hash (exif_data, metadata_hash);
+					exif_data_unref (exif_data);
+				}
+	                        jpeg_data_unref (jdata);
+			}
+		}
+        }
+
+	g_free (local_file);
         g_free (cache_file);
         g_free (cache_file_esc);
         g_free (input_file_esc);
@@ -522,6 +544,7 @@ write_metadata_tag_to_file (const char *path,
 			       NULL);
 	g_free (local_file_esc);
 
+	/* This isn't really usable yet. */
 	/* check for _original file, delete it */
 	/* add error reporting! */
 	system (command);

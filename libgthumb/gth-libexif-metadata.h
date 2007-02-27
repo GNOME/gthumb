@@ -23,6 +23,7 @@
 #ifndef GTH_EXIF_DATA_VIEWER_H
 #define GTH_EXIF_DATA_VIEWER_H
 
-
+void
+libexif_to_hash (ExifData *edata, GHashTable* metadata_hash);
 
 #endif /* GTH_EXIF_DATA_VIEWER_H */
