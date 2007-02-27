@@ -52,6 +52,7 @@ HEADER_FILES =				\
 	gth-file-view.h			\
 	gth-file-view-list.h		\
 	gth-file-view-thumbs.h		\
+	gth-libexif-metadata.h		\
 	gth-nav-window.h		\
 	gth-pixbuf-op.h			\
 	gth-sort-utils.h		\
@@ -111,6 +112,7 @@ libgthumb_la_SOURCES =			\
 	gth-file-view.c			\
 	gth-file-view-list.c		\
 	gth-file-view-thumbs.c		\
+	gth-libexif-metadata.c		\
 	gth-nav-window.c		\
 	gth-sort-utils.c		\
 	gth-utils.c			\

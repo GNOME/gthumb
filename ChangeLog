@@ -1,5 +1,14 @@
 2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-libexif-metadata.c: (tag_category),
+	(update_exif_data):
+	* libgthumb/gth-libexif-metadata.h:
+	New files (with functions formerly in src/gth-exif-data-viewer.*), 
+	for the libexif metadata reading fallback. They don't work yet.
+
+2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* configure.in:
 	Making exiftool mandatory isn't practical.
 
