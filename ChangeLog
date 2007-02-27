@@ -1,5 +1,10 @@
 2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	Corrected error; metadata cache wasn't actually being used.
+
+2007-02-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (cache_to_hash),
 	(get_metadata_for_file), (write_metadata_tag_to_file):
 	* libgthumb/gth-libexif-metadata.c: (libexif_to_hash):

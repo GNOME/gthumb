@@ -502,7 +502,8 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	                        jpeg_data_unref (jdata);
 			}
 		}
-        }
+        } else
+		cache_to_hash (cache_file, metadata_hash);
 
 	g_free (local_file);
         g_free (cache_file);
