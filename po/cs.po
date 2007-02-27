@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-26 16:02+0100\n"
-"PO-Revision-Date: 2007-02-26 16:02+0100\n"
+"POT-Creation-Date: 2007-02-27 13:32+0100\n"
+"PO-Revision-Date: 2007-02-27 13:31+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2044,9 +2044,8 @@ msgid "Possible values are: 1, 2, 3, 4."
 msgstr "Možné hodnoty jsou: 1, 2, 3, 4."
 
 #: ../data/gthumb.schemas.in.h:4
-#, fuzzy
 msgid "Possible values are: 72, 150, 300, 600."
-msgstr "Možné hodnoty jsou: 1, 2, 3, 4."
+msgstr "Možné hodnoty jsou: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
 msgid ""
@@ -2085,9 +2084,8 @@ msgid "Possible values are: list, thumbnails."
 msgstr "Možné hodnoty jsou: list, thumbnails."
 
 #: ../data/gthumb.schemas.in.h:13
-#, fuzzy
 msgid "Possible values are: manual, auto."
-msgstr "Možné hodnoty jsou: mm, in."
+msgstr "Možné hodnoty jsou: manual, auto."
 
 #: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: mm, in."
@@ -2198,28 +2196,28 @@ msgstr "Uložit obrázek"
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
-#: ../libgthumb/file-utils.c:1277 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1278 ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Katalogy"
 
-#: ../libgthumb/file-utils.c:1280 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1281 ../src/gth-location.c:819
 msgid "File System"
 msgstr "Systém souborů"
 
-#: ../libgthumb/file-utils.c:1307 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1308 ../src/gth-location.c:826
 msgid "Home"
 msgstr "Domov"
 
-#: ../libgthumb/file-utils.c:1796
+#: ../libgthumb/file-utils.c:1797
 msgid "Library not empty"
 msgstr "Knihovna není prázdná"
 
-#: ../libgthumb/file-utils.c:1805
+#: ../libgthumb/file-utils.c:1806
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nelze odstranit knihovnu \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:1832
+#: ../libgthumb/file-utils.c:1833
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nelze odstranit katalog \"%s\": %s"
@@ -3263,13 +3261,12 @@ msgid "View the image"
 msgstr "Zobrazit obrázek"
 
 #: ../src/gth-browser-actions-entries.h:434
-#, fuzzy
 msgid "Show _Hidden Files"
-msgstr "Zobrazit/S_krýt"
+msgstr "Zobrazit s_kryté soubory"
 
 #: ../src/gth-browser-actions-entries.h:435
 msgid "Show hidden files and folders"
-msgstr ""
+msgstr "Zobrazit skryté soubory a složky"
 
 #: ../src/gth-browser-actions-entries.h:440
 msgid "_Reversed Order"
@@ -3413,7 +3410,7 @@ msgid "Rotate images without loss of quality"
 msgstr "Otočit obrázky beze ztráty kvality"
 
 #: ../src/gth-browser.c:6292
-msgid "Getting directory listing..."
+msgid "Getting folder listing..."
 msgstr ""
 
 #: ../src/gth-browser.c:6313
@@ -3490,90 +3487,80 @@ msgid "Value "
 msgstr "Hodnota "
 
 #: ../src/gth-exif-data-viewer.c:804
-#, fuzzy
 msgid "Path"
-msgstr "podle _cesty"
+msgstr "Cesta"
 
 #: ../src/gth-filter-bar.c:176
-#, fuzzy
 msgid "contains"
-msgstr "Pokračovat"
+msgstr "obsahuje"
 
 #: ../src/gth-filter-bar.c:177
 msgid "starts with"
-msgstr ""
+msgstr "začíná"
 
 #: ../src/gth-filter-bar.c:178
-#, fuzzy
 msgid "ends with"
-msgstr "_Otevřít pomocí"
+msgstr "končí"
 
 #: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
 msgid "is"
-msgstr ""
+msgstr "je"
 
 #: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
 msgid "is not"
-msgstr ""
+msgstr "není"
 
 #: ../src/gth-filter-bar.c:181
 msgid "does not contain"
-msgstr ""
+msgstr "neobsahuje"
 
 #: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
-#, fuzzy
 msgid "is equal to"
-msgstr "Rovno"
+msgstr "je rovno"
 
 #: ../src/gth-filter-bar.c:185
 msgid "is lower than"
-msgstr ""
+msgstr "je menší než"
 
 #: ../src/gth-filter-bar.c:186
 msgid "is greater than"
-msgstr ""
+msgstr "je větší než"
 
 #: ../src/gth-filter-bar.c:190
-#, fuzzy
 msgid "is before"
-msgstr "Před"
+msgstr "je před"
 
 #: ../src/gth-filter-bar.c:191
-#, fuzzy
 msgid "is after"
-msgstr "Po"
+msgstr "je za"
 
 #: ../src/gth-filter-bar.c:200
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ../src/gth-filter-bar.c:201
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../src/gth-filter-bar.c:207
-#, fuzzy
 msgid "Filename"
-msgstr "Název s_ouboru"
+msgstr "Jméno souboru"
 
 #: ../src/gth-filter-bar.c:209
-#, fuzzy
 msgid "Place"
-msgstr "_Umístění"
+msgstr "Umístění"
 
 #: ../src/gth-filter-bar.c:212
-#, fuzzy
 msgid "Category"
 msgstr "Kategorie"
 
 #: ../src/gth-filter-bar.c:213
-#, fuzzy
 msgid "Text contains"
-msgstr "Pouze text"
+msgstr "Text obsahuje"
 
 #: ../src/gth-filter-bar.c:494
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
