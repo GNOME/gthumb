@@ -228,8 +228,10 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char       *filename);
-char * 		    get_cache_full_path		  (const char *relative_path, const char *extension);
-void	            prune_cache			  (void);
+char * 		    get_metadata_cache_full_path  (const char       *relative_path, 
+					           const char       *extension);
+void	            prune_cache			  (const char       *dir,
+				                   int max_age_in_days);
 char* 		    obtain_local_file             (const char       *remote_filename);
 gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
                                                    const char       *dest_uri);

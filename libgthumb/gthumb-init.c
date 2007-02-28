@@ -65,7 +65,12 @@ ensure_directories_exist (void)
 	path = get_home_relative_dir (RC_REMOTE_CACHE_DIR);
         ensure_dir_exists (path, 0700);
         g_free (path);
-	prune_cache();
+	prune_cache(RC_REMOTE_CACHE_DIR,2);
+
+	path = get_home_relative_dir (RC_METADATA_CACHE_DIR);
+        ensure_dir_exists (path, 0700);
+        g_free (path);
+	prune_cache(RC_METADATA_CACHE_DIR,30);
 }
 
 

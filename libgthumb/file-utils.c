@@ -2262,8 +2262,8 @@ is_local_file (const char *filename)
 }
 
 
-char *
-get_cache_full_path (const char *relative_path, const char *extension)
+static char *
+get_remote_cache_full_path (const char *relative_path, const char *extension)
 {
         char *path;
         char *separator;
@@ -2291,19 +2291,44 @@ get_cache_full_path (const char *relative_path, const char *extension)
 }
 
 
+char *
+get_metadata_cache_full_path (const char *relative_path, const char *extension)
+{
+        char *path;
+        char *separator;
+
+        /* Do not allow .. in the relative_path otherwise the user can go
+         * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+        if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
+                return NULL;
+
+        if (relative_path == NULL)
+                separator = NULL;
+        else
+                separator = (relative_path[0] == '/') ? "" : "/";
+
+        path = g_strconcat (g_get_home_dir (),
+                            "/",
+                            RC_METADATA_CACHE_DIR,
+                            separator,
+                            relative_path,
+			    extension,
+                            NULL);
+
+        return path;
+}
+
+
 void
-prune_cache (void)
+prune_cache (const char *dir, int max_age_in_days)
 {
 	char *command;
 
-	/* Purge old files before transferring new ones. */
-	/* Old = ctime older than 2 days. */
-	command = g_strconcat (	"find ",
-				g_get_home_dir (),
-				"/",
-				RC_REMOTE_CACHE_DIR,
-				" -mindepth 1 -type f -ctime +2 -print0 | xargs -0 rm -rf",
-				NULL );
+	/* Purge old cache files. */
+	command = g_strdup_printf ("find %s/%s -mindepth 1 -type f -ctime +%d -print0 | xargs -0 rm -rf",
+				   g_get_home_dir (),
+				   dir,
+				   max_age_in_days);
 	system (command);
 	g_free (command);
 }
@@ -2325,7 +2350,7 @@ obtain_local_file (const char *remote_filename)
 	/* If the file is remote, copy it to a local cache. */
 
 	md5_file = gnome_thumbnail_md5 (remote_filename);
-	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file = get_remote_cache_full_path (md5_file, get_extension (remote_filename));
 	g_free (md5_file);
 
 	if (cache_file == NULL)
@@ -2423,12 +2448,12 @@ get_pixbuf_using_external_converter (const char *url,
 
 	if (is_raw)
 		/* Same file used for RAW thumbnailing and full image loading */
-		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
 	else if (requested_width_if_used > 0)
 		/* HDR: separate files for thumbnails, full images */
-		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
-		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
 	cache_file_esc = shell_escape (cache_file);
