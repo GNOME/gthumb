@@ -69,6 +69,48 @@ struct _GthExifDataViewerPrivate
 static GtkHBoxClass *parent_class = NULL;
 
 
+/* This function needs work. Obvious issues:
+   	1. Typing activates short-cut keys, mading editing basically impossible.
+	2. Triggers a "file modified" event, which re-saves, thus losing metadata!
+	3. How to add new keys?
+*/	
+static void
+cell_edited (GtkCellRendererText *cell,
+             const gchar         *path_string,
+             const gchar         *new_text,
+             gpointer             data)
+{
+	GtkTreeModel *model = (GtkTreeModel *) data;
+	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
+	GtkTreePath  *path_to_filename = gtk_tree_path_new_from_string ("0:1");
+	GtkTreeIter   iter;
+	GtkTreeIter   root_iter;
+	GtkTreeIter   filename_iter;
+
+	gchar        *group_name;
+	gchar	     *tag_name;
+	gchar        *full_tag_name;
+	gchar	     *filename;
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_iter_parent  (model, &root_iter, &iter);
+	gtk_tree_model_get_iter (model, &filename_iter, path_to_filename);
+
+        gtk_tree_model_get (model, &iter, NAME_COLUMN, &tag_name, -1);
+	gtk_tree_model_get (model, &root_iter, NAME_COLUMN, &group_name, -1);
+	gtk_tree_model_get (model, &filename_iter, VALUE_COLUMN, &filename, -1);
+
+	full_tag_name = g_strconcat (group_name, ":", tag_name, NULL);
+printf ("%s, %s, %s, %s\n\r", filename, path_string, full_tag_name, new_text);
+
+	write_metadata_tag_to_file (filename, full_tag_name, new_text);
+
+        g_free (tag_name);	
+	g_free (group_name);
+	gtk_tree_path_free (path);
+}
+
+
 static void
 gth_exif_data_viewer_destroy (GtkObject *object)
 {
@@ -164,6 +206,17 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
 	g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
 	g_value_unset (&value);
+
+//	Not ready to implement this yet.
+
+	/* Make the value cell editable if exiftool is present */
+//	if (gnome_vfs_is_executable_command_string ("exiftool")) {
+//		g_object_set(G_OBJECT (renderer), "editable", TRUE, NULL);
+//		g_signal_connect (renderer, 
+//				  "edited", 
+//				  G_CALLBACK (cell_edited),
+//				  GTK_TREE_MODEL (edv->priv->image_exif_model));
+//	}
 
 	gtk_tree_view_append_column (GTK_TREE_VIEW (edv->priv->image_exif_view),
 				     column);

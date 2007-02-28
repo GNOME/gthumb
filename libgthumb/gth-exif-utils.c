@@ -553,7 +553,7 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 
 
 gboolean
-write_metadata_tag_to_file (const char *path, 
+write_metadata_tag_to_file (const char *path,
 		            const char *tag_name,
 			    const char *value)
 {
@@ -576,7 +576,7 @@ write_metadata_tag_to_file (const char *path,
 
 	local_file_esc = shell_escape (local_file_to_modify);
 
-	command = g_strconcat ("exiftool -q -",
+	command = g_strconcat ("exiftool -q -overwrite_original -",
 			       tag_name,
 			       "=\'",
 			       value,
@@ -585,9 +585,6 @@ write_metadata_tag_to_file (const char *path,
 			       NULL);
 	g_free (local_file_esc);
 
-	/* This isn't really usable yet. */
-	/* check for _original file, delete it */
-	/* add error reporting! */
 	system (command);
 	g_free (command);
 

@@ -1,5 +1,12 @@
 2007-02-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (write_metadata_tag_to_file):
+	* src/gth-exif-data-viewer.c: (cell_edited),
+	(gth_exif_data_viewer_construct):
+	Added skeleton code for metadata editing. Not functional yet.
+
+2007-02-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (get_remote_cache_full_path),
 	(get_metadata_cache_full_path), (prune_cache), (obtain_local_file),
 	(get_pixbuf_using_external_converter):
