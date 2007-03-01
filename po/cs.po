@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-27 13:32+0100\n"
-"PO-Revision-Date: 2007-02-27 13:31+0100\n"
+"POT-Creation-Date: 2007-02-28 15:17+0100\n"
+"PO-Revision-Date: 2007-02-28 15:16+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1401,7 +1401,7 @@ msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:25
 msgid "Automatic sizing"
-msgstr ""
+msgstr "Automatická velikost"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
@@ -1470,9 +1470,8 @@ msgid "Print"
 msgstr "Tisk"
 
 #: ../data/glade/gthumb_print.glade.h:43
-#, fuzzy
 msgid "Scale to this size"
-msgstr "Nastavit obrázek na skutečnou velikost"
+msgstr "Škálovat na tuto velikost"
 
 #: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
@@ -2533,14 +2532,15 @@ msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
 #: ../src/dlg-jpegtran.c:257 ../src/dlg-reset-exif.c:123
-#, fuzzy
 msgid "Could not create a local temporary copy of the remote file."
-msgstr "Nelze vytvořit dočasný adresář"
+msgstr "Nelze vytvořit dočasnou kopii vzdáleného souboru."
 
 #: ../src/dlg-jpegtran.c:287 ../src/dlg-reset-exif.c:139
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
+"Nelze přesunout dočasný soubor do vzdáleného umístění. Zkontrolujte vzdálená "
+"oprávnění."
 
 #: ../src/dlg-photo-importer.c:892 ../src/dlg-photo-importer.c:1457
 #: ../src/dlg-photo-importer.c:1507 ../src/dlg-photo-importer.c:1519
@@ -3215,9 +3215,8 @@ msgid "Edit various preferences"
 msgstr "Upravit různá nastavení"
 
 #: ../src/gth-browser-actions-entries.h:393
-#, fuzzy
 msgid "Scale Images..."
-msgstr "Zvětšit obrázky"
+msgstr "Škálovat obrázky..."
 
 #: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:73
@@ -3411,7 +3410,7 @@ msgstr "Otočit obrázky beze ztráty kvality"
 
 #: ../src/gth-browser.c:6292
 msgid "Getting folder listing..."
-msgstr ""
+msgstr "Získávání výpisu adresáře..."
 
 #: ../src/gth-browser.c:6313
 #, c-format
@@ -3564,9 +3563,8 @@ msgstr "Vše"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
-#, fuzzy
 msgid "S_how:"
-msgstr "Řád_ky:"
+msgstr "_Zobrazit:"
 
 #: ../src/gth-folder-selection-dialog.c:286
 msgid "<b>_Folder</b>"
@@ -3577,9 +3575,8 @@ msgid "_Browse..."
 msgstr "Pro_bírat..."
 
 #: ../src/gth-folder-selection-dialog.c:322
-#, fuzzy
 msgid "<b>_Recent folders:</b>"
-msgstr "<b>Ne_dávné</b>"
+msgstr "<b>Ne_dávné složky:</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
@@ -3803,9 +3800,8 @@ msgid "Adjust color balance"
 msgstr "Upravit barevné vyvážení"
 
 #: ../src/gth-window-actions-entries.h:180
-#, fuzzy
 msgid "_Resize..."
-msgstr "Z_měnit velikost"
+msgstr "Z_měnit velikost..."
 
 #: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
@@ -3941,9 +3937,8 @@ msgid "Show information about gThumb"
 msgstr "Zobrazit informace o gThumb"
 
 #: ../src/gth-window-actions-entries.h:295
-#, fuzzy
 msgid "Contents"
-msgstr "Ko_mentáře"
+msgstr "Obsah"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
