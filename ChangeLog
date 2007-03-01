@@ -1,5 +1,17 @@
 2007-03-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exif-utils.h:
+	Removed set_orientation_in_exif_data. Its function can be
+	handled by update_exif_orientation or write_orientation_field.
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Use write_orientation_field to reset orientation, to avoid
+	MakerNote corruption.
+
+2007-03-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* AUTHORS:
 	* data/glade/gthumb_tools.glade:
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write):

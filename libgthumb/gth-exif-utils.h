@@ -56,8 +56,6 @@ void        save_exif_data_to_uri         (const char   *filename,
 				           ExifData     *edata);
 void        copy_exif_data                (const char   *src,
 				           const char   *dest);
-void        set_orientation_in_exif_data  (GthTransform  transform,
-				           ExifData     *edata);
 void	    get_metadata_for_file         (const char   *url,
 					   GHashTable   *metadata_hash);
 gboolean    write_metadata_tag_to_file    (const char   *path,

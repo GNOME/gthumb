@@ -354,29 +354,6 @@ copy_exif_data (const char *src,
 }
 
 
-void
-set_orientation_in_exif_data (GthTransform  transform,
-			      ExifData     *edata)
-{
-	unsigned int  i;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-		ExifEntry   *entry;
-
-		if ((content == NULL) || (content->count == 0)) 
-			continue;
-
-		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
-		if (entry != NULL) {
-			ExifByteOrder byte_order;
-			byte_order = exif_data_get_byte_order (edata);
-			exif_set_short (entry->data, byte_order, transform);
-		}
-	}
-}
-
-
 static void
 write_line_to_cache (gpointer key, gpointer value, gpointer out_file)
 {
@@ -617,7 +594,7 @@ const char types[] = {0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x00, 0x08, 0x00, 0x04
 #define IFD_NAME_PUSH(val) names[ni++] = val;
 #define IFD_NAME_PULL()    names[--ni]
  
-#define DEBUG(x) x
+#define DEBUG(x) //x
  
 int
 gth_minimal_exif_tag_write (const char *filename,
