@@ -33,6 +33,15 @@
 #include "jpegutils/jpeg-data.h"
 #include "typedefs.h"
 
+// Return values from gth_minimal_exif_tag_writes() 
+#define PATCH_EXIF_OK               0
+#define PATCH_EXIF_TOO_MANY_IFDS    1
+#define PATCH_EXIF_TOO_FEW_IFDS     2
+#define PATCH_EXIF_FILE_ERROR       3
+#define PATCH_EXIF_NO_TIFF          4
+#define PATCH_EXIF_NO_TAGS          5
+#define PATCH_EXIF_UNSUPPORTED_TYPE 6
+#define PATCH_EXIF_TRASHED_IFD      7
 
 ExifData   *gth_exif_data_new_from_uri    (const char   *path);
 char *      get_exif_tag                  (const char   *filename,
@@ -51,7 +60,13 @@ void        set_orientation_in_exif_data  (GthTransform  transform,
 				           ExifData     *edata);
 void	    get_metadata_for_file         (const char   *url,
 					   GHashTable   *metadata_hash);
-gboolean    write_metadata_tag_to_file    (const char *path,
-					   const char *tag_name,
-					   const char *value);
+gboolean    write_metadata_tag_to_file    (const char   *path,
+					   const char   *tag_name,
+					   const char   *value);
+int         gth_minimal_exif_tag_write    (const char   *filename,
+                                           ExifTag       etag,
+                                           void         *data,
+                                           int           size,
+                                           int           ifds);
+
 #endif /* EXIF_UTILS_H */

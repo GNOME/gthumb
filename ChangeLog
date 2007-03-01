@@ -1,3 +1,17 @@
+2007-03-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* AUTHORS:
+	* data/glade/gthumb_tools.glade:
+	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write):
+	* libgthumb/gth-exif-utils.h:
+	* src/dlg-change-date.c: (ok_clicked), (update_sensitivity),
+	(dlg_change_date):
+	* src/rotation-utils.c: (write_orientation_field):
+	Added gth_minimal_exif_tag_write, to update exif tags without
+	corrupting the MakerNotes. Also, added the ability to update
+	the exif DateTime tag using the "Change Date" tool. Patches
+	by Joakim Larsson.
+
 2007-02-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (write_metadata_tag_to_file):
