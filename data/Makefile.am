@@ -6,9 +6,6 @@ desktopdir = $(datadir)/applications
 desktop_in_files=gthumb.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop) 
 
-applicationsdir = $(datadir)/application-registry
-applications_DATA = gthumb.applications
-
 icondir = $(datadir)/icons/hicolor/48x48/apps
 icon_DATA = gthumb.png
 
@@ -40,7 +37,6 @@ endif
 EXTRA_DIST = 			\
 	gthumb.schemas		\
 	gthumb.schemas.in	\
-	$(applications_DATA)	\
 	$(desktop_in_files)	\
 	$(desktop_DATA)		\
 	$(icon_DATA)		\

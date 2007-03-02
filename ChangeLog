@@ -1,3 +1,10 @@
+2007-03-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/Makefile.am:
+	* data/gthumb.applications:
+	* data/gthumb.desktop.in:
+	Removed application-registry cruft. Added image/svg+xml mime type.
+
 2007-03-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c:
