@@ -1,5 +1,17 @@
 2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_orientation):
+	* libgthumb/jpegutils/jpegtran.h:
+	Make update_exif_orientation non-static (usable elsewhere).
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Use update_exif_orientation to reset orientation tag in memory,
+	rather than the file-based write_orientation_field. MakerNote
+	corruption will happen either way, but in-memory is faster.
+
+2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS: general updates
 
 	* src/dlg-photo-importer.c: (save_image), (ok_clicked_cb):

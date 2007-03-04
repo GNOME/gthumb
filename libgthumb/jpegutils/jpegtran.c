@@ -109,8 +109,8 @@ output_message_handler (j_common_ptr cinfo)
 }
 
 
-static void
-update_exif_orientation(ExifData *edata)
+void
+update_exif_orientation (ExifData *edata)
 {
 	unsigned int  i;
 	ExifByteOrder byte_order;
