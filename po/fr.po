@@ -2,19 +2,19 @@
 # Copyright (C) 2002-2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
-# maintainer: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2002-2006.
+# Christophe Merlet (RedFox) <redfox@redfoxcenter.org>, 2002-2006.
 # Stéphane Genaud <genaud@icps.u-strasbg.fr>, 2002.
 # Christian Marillat <marillat.christian@wanadoo.fr>, 2003.
 # Fabien Gatell-Rica <f.gatell@gmail.com>, 2005.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006.
-# Christophe Bliard <christophe.bliard@trux.info>, 2006.
+# Christophe Bliard <christophe.bliard@trux.info>, 2006-2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.7.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-22 12:21+0200\n"
-"PO-Revision-Date: 2006-10-22 12:21+0200\n"
+"POT-Creation-Date: 2007-03-04 03:20+0100\n"
+"PO-Revision-Date: 2007-03-02 00:00+0100\n"
 "Last-Translator: Christophe Bliard <christophe.bliard@trux.info>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -2133,11 +2133,11 @@ msgstr "Enregistrer l'image"
 msgid "Image type:"
 msgstr "Type d'image :"
 
-#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:757
+#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:761
 msgid "File System"
 msgstr "Système de fichiers"
 
-#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:761
+#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:765
 msgid "Home"
 msgstr "Dossier personnel"
 
@@ -2247,7 +2247,7 @@ msgid "Wait please..."
 msgstr "Veuillez patienter..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:772
+#: ../libgthumb/gth-image-list.c:3500 ../src/gth-browser.c:772
 #: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "Aucune image"
@@ -2410,8 +2410,7 @@ msgstr "Emplacement"
 
 #: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
-"Les images sélectionnées seront mises dans la corbeille, êtes-vous sûr ?"
+msgstr "Les images sélectionnées seront mises à la corbeille, êtes-vous sûr ?"
 
 #: ../src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
@@ -2431,8 +2430,8 @@ msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Les images ne peuvent être mises dans la corbeille. Voulez-vous les "
-"supprimer définitivement ?"
+"Les images ne peuvent être mises à la corbeille. Voulez-vous les supprimer "
+"définitivement ?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
 #: ../src/gth-browser.c:1958 ../src/gth-viewer.c:993
@@ -2644,7 +2643,7 @@ msgstr "La source et la destination sont les mêmes"
 
 #: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1077
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "L'image sera mise dans la corbeille, êtes-vous sûr ?"
+msgstr "L'image sera mise à la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:400
 #, c-format
@@ -2661,8 +2660,7 @@ msgstr "Continuer"
 
 #: ../src/gth-browser-actions-callbacks.c:464
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
-"Les images sélectionnées seront mises dans la corbeille, êtes-vous sûr ?"
+msgstr "Les images sélectionnées seront mises à la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:641
 #: ../src/gth-browser-actions-callbacks.c:853
@@ -2724,12 +2722,12 @@ msgstr "Impossible de supprimer le dossier « %s » : %s"
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
-"« %s » ne peut être mise dans la corbeille. Voulez-vous la supprimer "
+"« %s » ne peut être mise à la corbeille. Voulez-vous la supprimer "
 "définitivement ?"
 
 #: ../src/gth-browser-actions-callbacks.c:1304
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Le dossier sélectionné sera mis dans la corbeille, êtes-vous sûr ?"
+msgstr "Le dossier sélectionné sera mis à la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:1352
 #: ../src/gth-browser-actions-callbacks.c:1407
@@ -2857,7 +2855,7 @@ msgstr "Renomme cette image"
 
 #: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
-msgstr "Met cette image dans la corbeille"
+msgstr "Met cette image à la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:88
 #: ../src/gth-browser-actions-entries.h:113
@@ -2897,7 +2895,7 @@ msgstr "Dupliquer les images sélectionnées"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
-msgstr "Met les images sélectionnées dans la corbeille"
+msgstr "Met les images sélectionnées à la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
@@ -3035,7 +3033,7 @@ msgstr "Renomme le dossier sélectionné"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
-msgstr "Met le dossier sélectionné dans la corbeille"
+msgstr "Met le dossier sélectionné à la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
@@ -3065,7 +3063,7 @@ msgstr "Renomme le dossier en cours"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
-msgstr "Met le dossier actuel dans la corbeille"
+msgstr "Met le dossier actuel à la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
@@ -3403,11 +3401,11 @@ msgstr "_Récents :"
 msgid "Proper_ties"
 msgstr "_Propriétés"
 
-#: ../src/gth-location.c:328
+#: ../src/gth-location.c:332
 msgid "Other..."
 msgstr "Autre..."
 
-#: ../src/gth-location.c:752
+#: ../src/gth-location.c:756
 msgid "Catalogs"
 msgstr "Catalogues"
 
