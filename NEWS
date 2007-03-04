@@ -1,3 +1,11 @@
+version 2.9.4
+-------------
+
+	Bug fixes:
+	* Fixed bug 414665 - Photo importer hangs and does not import photos
+	* Fixed bug 413595 - Add SVG to supported mime types?
+	* Removed application-registry cruft.
+
 version 2.9.3
 -------------
 	New features:

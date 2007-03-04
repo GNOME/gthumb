@@ -1,201 +1,25 @@
-# translation of gthumb-HEAD.HEAD.po to Punjabi
+# translation of gthumb.HEAD.po to Punjabi
 # Copyright (C) 2004 THE gthumb'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 #
 # Punjab Linux Technology <punjablinux@netscape.net>, 2004.
 # Amanpreet Singh Alam <aalam@redhat.com>, 2004, 2006.
 # Amanpreet Singh Alam <amanpreetalam@yahoo.com>, 2005.
-# Amanpreet Singh Brar <amanpreetsinghalam@redhat.com>, 2005.
 # A S Alam <apbrar@gmail.com>, 2006.
+# A S Alam <aalam@users.sf.net>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb-HEAD.HEAD\n"
+"Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-10 03:58+0100\n"
-"PO-Revision-Date: 2006-11-10 16:34+0530\n"
-"Last-Translator: A S Alam <apbrar@gmail.com>\n"
-"Language-Team: Punjabi <fedora-trans-pa@redhat.com>\n"
+"POT-Creation-Date: 2007-02-27 03:42+0000\n"
+"PO-Revision-Date: 2007-03-03 11:25+0530\n"
+"Last-Translator: A S Alam <aalam@users.sf.net>\n"
+"Language-Team: Punjabi <punjabi-l10n@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
-msgid "Catalog"
-msgstr "ਸੂਚੀ"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
-msgid "GThumb Catalog View"
-msgstr "ਜੀ-ਥੱਮ ਸੂਚੀ ਝਾਤੀ"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
-msgid "View as Catalog"
-msgstr "ਸੂਚੀ"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: ../src/gth-window-actions-entries.h:66
-msgid "Print the current image"
-msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਛਾਪੋ"
-
-#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-msgid "_Print"
-msgstr "ਛਾਪੋ(_P)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
-msgid "GThumb Image"
-msgstr "ਜੀ-ਥੱਮ ਚਿੱਤਰ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
-msgid "GThumb Viewer"
-msgstr "ਜੀ-ਥੱਮ ਦਰਸ਼ਕ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
-msgid "View with GThumb"
-msgstr "ਜੀ-ਥੱਮ ਨਾਲ ਵੇਖੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
-msgid "Flip"
-msgstr "ਝਟਕੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
-msgid "Flip the image"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਝਟਕੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
-msgid "High"
-msgstr "ਵੱਧ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
-msgid "Low"
-msgstr "ਘੱਟ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
-msgid "Mirror"
-msgstr "ਦਰਪਨ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
-msgid "Mirror the image"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਦਰਪਨ ਬਣਾਓ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-msgid "Rotate"
-msgstr "ਘੁੰਮਾਓ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-msgid "Rotate 180 _Degrees"
-msgstr "180 ਡਿਗਰੀ 'ਤੇ ਘੁੰਮਾਓ(_D)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
-msgid "Rotate the image clockwise"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਸੱਜੇ ਦਾਅ ਘੁੰਮਾਓ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
-msgid "Rotate the image of 180 degrees"
-msgstr "ਚਿੱਤਰ ਨੂੰ 180 ਡਿਗਰੀ 'ਤੇ ਘੁੰਮਾਓ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
-#: ../src/gth-window-actions-entries.h:55
-msgid "Save _As..."
-msgstr "ਇੰਜ ਸੰਭਾਲੋ(_A)..."
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: ../src/gth-window-actions-entries.h:51
-#: ../src/gth-window-actions-entries.h:56
-msgid "Save current image"
-msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਨੂੰ ਸੰਭਾਲੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: ../src/gth-window-actions-entries.h:297
-msgid "Start or stop current animation"
-msgstr "ਮੌਜੂਦਾ ਸਜੀਵਤਾ ਨੂੰ ਸ਼ੁਰੂ ਕਰੋ ਜਾਂ ਰੋਕੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-msgid "Start/Stop _Animation"
-msgstr "ਸਜੀਵਤਾ ਚਲਾਉ/ਰੋਕੋ(_A)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
-msgid "Transparency T_ype"
-msgstr "ਪਾਰਦਰਸ਼ਤਾ ਕਿਸਮ(_y)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#: ../src/gth-window-actions-entries.h:206
-msgid "View next animation frame"
-msgstr "ਅਗਲਾ ਸਜੀਵਤਾ ਫਰੇਮ ਵੇਖੋ"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-msgid "_Black"
-msgstr "ਕਾਲਾ(_B)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-msgid "_Checked"
-msgstr "ਡੱਬੀਦਾਰ(_C)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: ../src/gth-window-actions-entries.h:110
-msgid "_Flip"
-msgstr "ਝਟਕੋ(_F)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:469
-#: ../src/gth-viewer-actions-entries.h:40
-msgid "_Image"
-msgstr "ਚਿੱਤਰ(_I)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: ../src/gth-window-actions-entries.h:115
-msgid "_Mirror"
-msgstr "ਦਰਪਨ(_M)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:820
-msgid "_None"
-msgstr "ਕੁਝ ਨਹੀਂ(_N)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-msgid "_Rotate Clockwise"
-msgstr "ਸੱਜੇ ਦਾਅ ਘੁੰਮਾਓ(_R)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-msgid "_Step Animation"
-msgstr "ਸਜੀਵਤਾ ਪਗ(_S)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
-#: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:72
-#: ../src/gth-browser-actions-entries.h:41
-#: ../src/gth-viewer-actions-entries.h:37
-msgid "_View"
-msgstr "ਵੇਖੋ(_V)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
-msgid "_White"
-msgstr "ਚਿੱਟਾ(_W)"
-
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-msgid "_Zoom Quality"
-msgstr "ਜ਼ੂਮ ਗੁਣ(_Z)"
-
-#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
-msgid "%d %b %Y, %H:%M"
-msgstr "%d %b %Y, %H:%M"
-
-#: ../components/image-viewer/viewer-stream.c:99
-#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:475
-#: ../src/gth-fullscreen.c:841 ../src/gth-viewer.c:576
-#, c-format
-msgid "%d x %d pixels"
-msgstr "%d x %d ਪਿਕਸਲ"
-
-#: ../data/GNOME_GThumb.server.in.in.h:1
-msgid "GThumb Application"
-msgstr "ਜੀ-ਥੱਮ ਕਾਰਜ"
-
-#: ../data/GNOME_GThumb.server.in.in.h:2
-msgid "GThumb Application Factory"
-msgstr "ਜੀ-ਥੱਮ ਕਾਰਜ ਫੈਕਟਰੀ"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
@@ -211,22 +35,21 @@ msgstr "ਅੱਗੇ"
 msgid "Index"
 msgstr "ਤਤਕਰਾ"
 
-#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:266
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
 msgid "Image"
 msgstr "ਚਿੱਤਰ"
 
-#: ../data/albumthemes/text.h:31
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:805
 msgid "Dimensions"
 msgstr "ਮਾਪ"
 
 #: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
-#: ../src/gth-exif-data-viewer.c:504
 msgid "Bytes"
 msgstr "ਬਾਈਟ"
 
-#: ../data/albumthemes/text.h:33
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
 msgid "Date"
-msgstr "ਮਿਤੀ"
+msgstr "ਤਾਰੀਖ"
 
 #: ../data/albumthemes/text.h:34
 msgid "Exposure time"
@@ -238,7 +61,7 @@ msgstr "ਪੇਸ਼ਕਾਰੀ ਢੰਗ"
 
 #: ../data/albumthemes/text.h:36
 msgid "Flash"
-msgstr "ਝਲਕ"
+msgstr "ਫਲੈਸ਼"
 
 #: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
@@ -262,7 +85,7 @@ msgid "pixels"
 msgstr "ਪਿਕਸਲ"
 
 #: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
-#: ../data/glade/gthumb_crop.glade.h:1 ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_edit.glade.h:1
 #: ../data/glade/gthumb_png_exporter.glade.h:1
 #: ../data/glade/gthumb_preferences.glade.h:1
 #: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
@@ -280,11 +103,11 @@ msgstr "<b>ਚੈਨਲ 'ਤੇ ਜਾਣਕਾਰੀ:</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>ਕੀ ਨਵੇਂ ਚਿੱਤਰਾਂ ਨੂੰ ਪੁਰਾਣਿਆਂ ਉੱਪਰ ਹੀ ਲਿਖਣਾ ਹੈ?</b>"
+msgstr "<b>ਕੀ ਨਵੇਂ ਚਿੱਤਰਾਂ ਨੂੰ ਪੁਰਾਣਿਆਂ ਉੱਤੇ ਹੀ ਲਿਖਣਾ ਹੈ?</b>"
 
 #: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
-msgstr "ਉਪਲੱਬਧ ਕਾਰਝ(_v):"
+msgstr "ਉਪਲੱਬਧ ਕਾਰਜ(_v):"
 
 #: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
@@ -306,13 +129,13 @@ msgstr "ਵਰਗ(_a):"
 msgid "Choose a Catalog"
 msgstr "ਇੱਕ ਵਰਗ ਚੁਣੋ"
 
-#: ../data/glade/gthumb.glade.h:11
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
 msgstr "ਟਿੱਪਣੀ(_e)"
 
 #: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
-msgstr "ਪੁਰਾਣੇ ਚਿੱਤਰ ਉੱਪਰ ਨਾ ਲਿਖੋ(_t)"
+msgstr "ਪੁਰਾਣੇ ਚਿੱਤਰ ਉੱਤੇ ਨਾ ਲਿਖੋ(_t)"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
@@ -336,15 +159,15 @@ msgstr "ਚਿੱਤਰ ਖੋਲ੍ਹੋ"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
-msgstr "ਪੁਰਾਣੇ ਚਿੱਤਰਾਂ ਉੱਪਰ ਲਿਖੋ(_w)"
+msgstr "ਪੁਰਾਣੇ ਚਿੱਤਰਾਂ ਉੱਤੇ ਲਿਖੋ(_w)"
 
 #: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
-msgstr "ਚਿੱਤਰ ਉੱਪਰ ਲਿਖੋ"
+msgstr "ਚਿੱਤਰ ਉੱਤੇ ਲਿਖੋ"
 
 #: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
-msgstr "ਸਭ ਚਿੱਤਰ ਉੱਪਰ ਲਿਖੋ(_a)"
+msgstr "ਸਭ ਚਿੱਤਰ ਉੱਤੇ ਲਿਖੋ(_a)"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
@@ -359,20 +182,20 @@ msgid "Red"
 msgstr "ਲਾਲ"
 
 #: ../data/glade/gthumb.glade.h:24
-msgid "Select a _bookmark:"
-msgstr "ਇੱਕ ਬੁੱਕਮਾਰਕ ਚੁਣੋ(_b):"
-
-#: ../data/glade/gthumb.glade.h:25
 msgid "Value"
 msgstr "ਮੁੱਲ"
 
-#: ../data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "ਕਾਰਜ(_A):"
 
+#: ../data/glade/gthumb.glade.h:26
+msgid "_Bookmarks:"
+msgstr "ਬੁੱਕਮਾਰਕ(_B):"
+
 #: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
-msgstr "ਕਿਸੇ ਵੀ ਚਿੱਤਰ ਦੇ ਉੱਪਰ ਨਾ ਲਿਖੋ(_D)"
+msgstr "ਕਿਸੇ ਵੀ ਚਿੱਤਰ ਦੇ ਉੱਤੇ ਨਾ ਲਿਖੋ(_D)"
 
 #: ../data/glade/gthumb.glade.h:28
 msgid "_General"
@@ -396,7 +219,7 @@ msgstr "ਪਿੱਛੇ(_P)"
 
 #: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
-msgstr "ਨਵੇਂ ਚਿੱਤਰ ਨੂੰ ਏਦਾਂ ਸੰਭਾਲੋ(_S):"
+msgstr "ਨਵੇਂ ਚਿੱਤਰ ਨੂੰ ਇੰਝ ਸੰਭਾਲੋ(_S):"
 
 #: ../data/glade/gthumb.glade.h:34
 msgid "_View the destination"
@@ -408,8 +231,8 @@ msgid "..."
 msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
-msgid "Auto-_detected cameras:"
-msgstr "ਸਵੈ-ਖੋਜੇ ਕੈਮਰੇ(_d):"
+msgid "C_hoose from the catalog"
+msgstr "ਵਰਗ ਤੋਂ ਚੁਣੋ(_h)"
 
 #: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
@@ -420,14 +243,6 @@ msgid "Camera Model"
 msgstr "ਕੈਮਰਾ ਮਾਡਲ"
 
 #: ../data/glade/gthumb_camera.glade.h:5
-msgid "Camera _Model:"
-msgstr "ਕੈਮਰਾ ਮਾਡਲ(_M):"
-
-#: ../data/glade/gthumb_camera.glade.h:6
-msgid "Camera _Port:"
-msgstr "ਕੈਮਰਾ ਪੋਰਟ(_P):"
-
-#: ../data/glade/gthumb_camera.glade.h:7
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
 #: ../data/glade/gthumb_tools.glade.h:25
@@ -435,11 +250,11 @@ msgstr "ਕੈਮਰਾ ਪੋਰਟ(_P):"
 msgid "Choose destination folder"
 msgstr "ਨਿਯਤ ਟਿਕਾਣਾ ਫੋਲਡਰ ਚੁਣੋ"
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
-msgstr "ਕੈਮਰੇ ਤੋ ਚੁਣੇ ਚਿੱਤਰ ਹਟਾ ਦਿਓ"
+msgstr "ਕੈਮਰੇ ਤੋਂ ਚੁਣੇ ਚਿੱਤਰ ਹਟਾ ਦਿਓ"
 
-#: ../data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:7
 msgid ""
 "If this checkbox is enabled and the imported photo contains an Exif "
 "orientation tag, the image data will be physically transformed (losslessly) "
@@ -450,36 +265,33 @@ msgid ""
 "with other applications this checkbox should be enabled."
 msgstr ""
 
-#: ../data/glade/gthumb_camera.glade.h:10
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
 msgstr "ਤਸਵੀਰਾਂ ਅਯਾਤ"
 
-#: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:859
-#: ../src/dlg-photo-importer.c:898 ../src/dlg-photo-importer.c:1465
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:856
+#: ../src/dlg-photo-importer.c:895 ../src/dlg-photo-importer.c:1458
+#: ../src/dlg-photo-importer.c:2174
 msgid "No camera detected"
 msgstr "ਕੋਈ ਕੈਮਰਾ ਜੁਡ਼ਿਆ ਨਹੀ ਹੈ"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "Rotate images physically"
 msgstr "ਚਿੱਤਰ ਅਸਲ ਵਿੱਚ ਘੁੰਮਾਓ"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
 msgstr "ਇੱਕ ਕੈਮਰਾ ਮਾਡਲ ਚੁਣੋ"
 
-#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:12
 msgid "Update previews"
 msgstr "ਝਲਕ ਅੱਪਡੇਟ"
 
-#: ../data/glade/gthumb_camera.glade.h:15
-msgid "Use manual selection instead:"
-msgstr ""
-
-#: ../data/glade/gthumb_camera.glade.h:16
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
-msgstr "ਕੈਮਰੇ ਤੋਂ ਲਿਆਦੇ ਚਿੱਤਰਾਂ ਨੂੰ ਹਟਾਓ(_D)"
+msgstr "ਕੈਮਰੇ ਤੋਂ ਲਿਆਂਦੇ ਚਿੱਤਰਾਂ ਨੂੰ ਹਟਾਓ(_D)"
 
-#: ../data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:14
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
 #: ../data/glade/gthumb_tools.glade.h:58
@@ -487,21 +299,25 @@ msgstr "ਕੈਮਰੇ ਤੋਂ ਲਿਆਦੇ ਚਿੱਤਰਾਂ ਨੂ�
 msgid "_Destination:"
 msgstr "ਨਿਯਤ ਟਿਕਾਣਾ(_D):"
 
-#: ../data/glade/gthumb_camera.glade.h:18
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
 msgstr "ਫਿਲਮ(_F):"
 
-#: ../data/glade/gthumb_camera.glade.h:19
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
 msgstr "ਅਯਾਤ(_I)"
 
-#: ../data/glade/gthumb_camera.glade.h:20
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
 msgstr "ਅਸਲੀ ਫਾਇਲ-ਨਾਂ ਰੱਖੋ(_K)"
 
-#: ../data/glade/gthumb_camera.glade.h:21
-msgid "_Refresh list"
-msgstr "ਸੂਚੀ ਤਾਜ਼ਾ(_R)"
+#: ../data/glade/gthumb_camera.glade.h:18
+msgid "_Model:"
+msgstr "ਮਾਡਲ(_M):"
+
+#: ../data/glade/gthumb_camera.glade.h:19
+msgid "_Port:"
+msgstr "ਪੋਰਟ(_P):"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -519,7 +335,7 @@ msgid "Co_mment:"
 msgstr "ਟਿੱਪਣੀ(_m):"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1476
+#: ../libgthumb/gth-file-view-list.c:1505 ../src/gth-filter-bar.c:208
 msgid "Comment"
 msgstr "ਟਿੱਪਣੀ"
 
@@ -529,7 +345,7 @@ msgstr "ਇੱਕ ਨਵਾਂ ਵਰਗ ਬਣਾਓ"
 
 #: ../data/glade/gthumb_comments.glade.h:6
 msgid "Current date"
-msgstr "ਮੌਜੂਦਾ ਮਿਤੀ"
+msgstr "ਮੌਜੂਦਾ ਤਾਰੀਖ"
 
 #: ../data/glade/gthumb_comments.glade.h:7
 msgid "Do not modify"
@@ -537,19 +353,19 @@ msgstr "ਨਾ ਸੋਧੋ"
 
 #: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
-msgstr "ਚਿੱਤਰ ਬਣਾਉਣ ਦੀ ਮਿਤੀ"
+msgstr "ਚਿੱਤਰ ਬਣਾਉਣ ਤਾਰੀਖ"
 
 #: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
-msgstr "ਅਖੀਰੀ ਸੋਧ ਮਿਤੀ"
+msgstr "ਅਖੀਰੀ ਸੋਧ ਤਾਰੀਖ"
 
 #: ../data/glade/gthumb_comments.glade.h:10
 msgid "No date"
-msgstr "ਕੋਈ ਮਿਤੀ ਨਹੀ"
+msgstr "ਕੋਈ ਤਾਰੀਖ ਨਹੀਂ"
 
 #: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
-msgstr "ਤਸਵੀਰ ਡਿਜ਼ੀਟਾਲੀਜਿੰਡ ਮਿਤੀ ( EXIF ਡਾਟਾ ਤੋ)"
+msgstr "ਤਸਵੀਰ ਡਿਜ਼ੀਟਾਲੀਜਿੰਡ ਤਾਰੀਖ ( EXIF ਡਾਟਾ ਤੋਂ)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -557,16 +373,16 @@ msgstr "ਚੁਣਿਆ ਵਰਗ ਹਟਾਓ"
 
 #: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
-msgstr "ਸਿਰਫ ਚੁਣੇ ਖੇਤਰ ਹੀ ਹਟਾਓ"
+msgstr "ਸਿਰਫ ਚੁਣੇ ਖੇਤਰ ਹੀ ਹਟਾਓ(_n)"
 
 #: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
-msgstr "ਹੇਠ ਲਿਖੀ ਮਿਤੀ"
+msgstr "ਹੇਠ ਲਿਖੀ ਤਾਰੀਖ"
 
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
 msgid "_Date:"
-msgstr "ਮਿਤੀ(_D):"
+msgstr "ਤਾਰੀਖ(_D):"
 
 #: ../data/glade/gthumb_comments.glade.h:16
 #: ../data/glade/gthumb_search.glade.h:26
@@ -580,13 +396,14 @@ msgstr "ਚੁਣੇ ਵਰਗ(_S):"
 
 #: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
-msgstr "<b>ਸੁੰਘਡ਼ਨ</b>"
+msgstr "<b>ਨਪੀੜਨਾ</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
 msgstr "<b>ਚਿੱਤਰ ਕਿਸਮ</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
 msgstr "<b>ਰੈਜ਼ੋਲੇਸ਼ਨ</b>"
 
@@ -595,15 +412,15 @@ msgstr "<b>ਰੈਜ਼ੋਲੇਸ਼ਨ</b>"
 #: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
-msgstr "<b>ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ</b>"
+msgstr "<b>ਸੰਭਾਲਣਾ</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
-msgstr "ਸੁੰਘਡ਼ਨ ਪੱਧਰ(_L):"
+msgstr "ਨਪੀੜਨ ਪੱਧਰ(_L):"
 
 #: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
-msgstr "ਫਾਰਮਿਟ ਤਬਦੀਲ"
+msgstr "ਫਾਰਮੈਟ ਬਦਲੋ"
 
 #: ../data/glade/gthumb_convert.glade.h:9
 msgid "JPEG Options"
@@ -618,22 +435,23 @@ msgid "Opti_mize"
 msgstr "ਅਨੁਕੂਲ(_m)"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Overwrite mode:"
-msgstr "ਉੱਪਰ ਲਿਖਣ ਢੰਗ:"
+msgstr "ਉੱਤੇ ਲਿਖਣ ਢੰਗ:"
 
 #: ../data/glade/gthumb_convert.glade.h:13
 msgid "PNG Options"
 msgstr "PNG ਚੋਣ"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
 msgstr "ਅਸਲੀ ਹਟਾਓ(_e)"
 
 #: ../data/glade/gthumb_convert.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rename"
-msgstr "ਨਾਂ ਤਬਦੀਲ"
+msgstr "ਨਾਂ ਬਦਲੋ"
 
 #: ../data/glade/gthumb_convert.glade.h:16
 #: ../data/glade/gthumb_tools.glade.h:49
@@ -644,9 +462,9 @@ msgid ""
 "Overwrite"
 msgstr ""
 "ਛੱਡੋ\n"
-"ਨਾਂ-ਤਬਦੀਲ\n"
+"ਨਾਂ-ਬਦਲੋ\n"
 "ਪੁੱਛੋ\n"
-"ਉੱਪਰ ਲਿਖੋ"
+"ਉੱਤੇ ਲਿਖੋ"
 
 #: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
@@ -673,11 +491,11 @@ msgstr "_JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
-msgstr "ਘੱਟ ਸੁੰਘਡ਼ਨ (JPEG) (_L)"
+msgstr "ਘੱਟ ਨਪੀੜਨ (JPEG) (_L)"
 
 #: ../data/glade/gthumb_convert.glade.h:27
 msgid "_No compression"
-msgstr "ਕੋਈ ਦਬਾਉ ਨਹੀ(_N)"
+msgstr "ਕੋਈ ਨਪੀੜਨ ਨਹੀਂ(_N)"
 
 #: ../data/glade/gthumb_convert.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:64
@@ -686,15 +504,15 @@ msgstr "_PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Progressive"
-msgstr ""
+msgstr "ਸਿਲਸਿਲੇਵਾਰ(_P)"
 
 #: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
-msgstr "ਗੁਣਵੱਤਾ(_Q):"
+msgstr "ਕੁਆਲਟੀ(_Q):"
 
 #: ../data/glade/gthumb_convert.glade.h:31
 msgid "_RLE compression"
-msgstr "_RLE ਸੁੰਘਡ਼ਨ"
+msgstr "_RLE ਨਪੀੜਨ"
 
 #: ../data/glade/gthumb_convert.glade.h:32
 msgid "_Smoothing:"
@@ -711,43 +529,48 @@ msgid "_Vertical:"
 msgstr "ਲੰਬਕਾਰੀ(_V):"
 
 #: ../data/glade/gthumb_convert.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:53
 msgid "dpi"
 msgstr "dpi"
 
-#: ../data/glade/gthumb_crop.glade.h:2
+#: ../data/glade/gthumb_crop.glade.h:1
 msgid "4 x 3 (Book, DVD)"
-msgstr "4 x 3 (ਕਿਤਾਬ, ਡੀਵੀਡੀ)"
+msgstr "4 x 3 (ਕਿਤਾਬ, DVD)"
 
-#: ../data/glade/gthumb_crop.glade.h:3
+#: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
 msgstr "4 x 6 (ਪੋਸਟ-ਕਾਰਡ)"
 
-#: ../data/glade/gthumb_crop.glade.h:4
+#: ../data/glade/gthumb_crop.glade.h:3
 msgid "5 x 7"
 msgstr "5 x 7"
 
-#: ../data/glade/gthumb_crop.glade.h:5
+#: ../data/glade/gthumb_crop.glade.h:4
 msgid "8 x 10"
 msgstr "8 x 10"
 
-#: ../data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>ਅਕਾਰ ਅਨੁਪਾਤ</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
 msgstr "<b>ਚੋਣ</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:8
+#: ../data/glade/gthumb_crop.glade.h:7
 msgid "Crop"
 msgstr "ਉਭਾਰੋ"
 
-#: ../data/glade/gthumb_crop.glade.h:9 ../data/glade/gthumb_print.glade.h:17
+#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "ਸੋਧ"
 
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid "I_nvert aspect ratio"
+msgstr "ਅਕਾਰ ਅਨੁਪਾਤ ਉਲਟ(_n)"
+
 #: ../data/glade/gthumb_crop.glade.h:10
-#: ../data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
 
@@ -760,20 +583,20 @@ msgid "_Crop"
 msgstr "ਉਭਾਰੋ(_C)"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:34 ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
 msgstr "ਉਚਾਈ(_H):"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:40 ../data/glade/gthumb_tools.glade.h:73
+#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
 msgstr "ਚੌੜਾਈ(_W):"
 
-#: ../data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -829,7 +652,7 @@ msgstr "ਉਚਾਈ:"
 
 #: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
-msgstr "ਉੱਤਮ ਗੁਣ(_q)"
+msgstr "ਉੱਚ ਕੁਆਲਟੀ(_q)"
 
 #: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
@@ -845,7 +668,7 @@ msgstr "ਪਰਾਕਸ਼ਵਾਨੀ ਰੱਖੋ(_u)"
 
 #: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr "ਚਿੱਤਰ ਪੈਮਾਨਾ"
+msgstr "ਚਿੱਤਰ ਸਕੇਲ"
 
 #: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
@@ -881,7 +704,7 @@ msgstr "ਝਲਕ(_P)"
 
 #: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
-msgstr "ਮੁੜ-ਸੈਟ(_R)"
+msgstr "ਮੁੜ-ਸੈੱਟ(_R)"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
@@ -889,7 +712,7 @@ msgstr "ਸੰਤਰਿਪਤ(_S):"
 
 #: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
-msgstr "ਪੈਮਾਨਾ(_S)"
+msgstr "ਸਕੇਲ(_S)"
 
 #: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
@@ -937,7 +760,7 @@ msgstr "95"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:13
 msgid "<b>Background style</b>"
-msgstr "<b>ਪਿੱਠਭੂਮੀ ਸ਼ੈਲੀ</b>"
+msgstr "<b>ਬੈਕਗਰਾਊਂਡ ਸ਼ੈਲੀ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
@@ -957,11 +780,11 @@ msgstr "<b>ਸਿਰਲੇਖ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
-msgstr "<b>ਤਤਕਰਾ ਚਿੱਤਰ</b>"
+msgstr "<b>ਚਿੱਤਰ ਤਤਕਰਾ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
-msgstr "<b>ਸਫਾ ਅਕਾਰ</b>"
+msgstr "<b>ਸਫ਼ਾ ਅਕਾਰ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
@@ -972,12 +795,12 @@ msgstr "<small><i><b>ਟਿੱਪਣੀ:</b> # (ਗਣਨਕਾਰ)</i>.</small>
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b>ਟਿੱਪਣੀ:</b> %p (ਸਫਾ ਨੰਬਰ), %n (ਸਫਿਆ ਦੀ ਕੁੱਲ ਗਿਣਤੀ)</i>.</small>"
+msgstr "<small><i><b>ਟਿੱਪਣੀ:</b> %p (ਸਫ਼ਾ ਨੰਬਰ), %n (ਸਫ਼ਿਆਂ ਦੀ ਕੁੱਲ ਗਿਣਤੀ)</i>।</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Co_mment"
-msgstr "ਟਿੱਪਣੀ(_m)"
+msgstr "ਸੁਰਖੀ(_m)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
@@ -989,7 +812,7 @@ msgstr "ਰੰਗ(_r):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr "ਤਤਕਰਾ ਚਿੱਤਰ ਬਣਾਉ"
+msgstr "ਤਤਕਰਾ ਚਿੱਤਰ ਬਣਾਓ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
@@ -1048,7 +871,7 @@ msgstr "ਤਤਕਰਾ ਚਿੱਤਰ ਸ਼ੈਲੀ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
-msgstr "ਸਫਾ"
+msgstr "ਸਫ਼ਾ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
@@ -1124,7 +947,7 @@ msgstr "ਚੌਡ਼ਾਈ(_d):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr "ਸਭ ਸਫ਼ੇ ਇਕੋ ਅਕਾਰ ਨਾਲ(_A)"
+msgstr "ਸਭ ਸਫ਼ੇ ਇੱਕੋ ਅਕਾਰ ਨਾਲ(_A)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
@@ -1170,251 +993,324 @@ msgid "png"
 msgstr "png"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
+msgid "0:"
+msgstr "0:"
+
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: ../data/glade/gthumb_preferences.glade.h:4
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: ../data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: ../data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:7
+msgid "1:"
+msgstr "1:"
+
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: ../data/glade/gthumb_preferences.glade.h:7
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: ../data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:10
+msgid "2:"
+msgstr "2:"
+
+#: ../data/glade/gthumb_preferences.glade.h:11
+msgid "3:"
+msgstr "3:"
+
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: ../data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:13
+msgid "4:"
+msgstr "4:"
+
+#: ../data/glade/gthumb_preferences.glade.h:14
+msgid "5:"
+msgstr "5:"
+
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: ../data/glade/gthumb_preferences.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "6:"
+msgstr "6:"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "7:"
+msgstr "7:"
+
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: ../data/glade/gthumb_preferences.glade.h:11
+#: ../data/glade/gthumb_preferences.glade.h:19
+msgid "8:"
+msgstr "8:"
+
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: ../data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:21
+msgid "9:"
+msgstr "9:"
+
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "<b>Direction</b>"
 msgstr "<b>ਦਿਸ਼ਾ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:13
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "<b>Hide/Show</b>"
 msgstr "<b>ਓਹਲੇ/ਵੇਖਾਓ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:14
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
-msgstr "<b>ਝਾਤੀ</b>"
+msgstr "<b>ਇੰਟਰਫੇਸ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
 msgstr "<b>ਸ਼ੁਰੂ ਵੇਲੇ:</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:16
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "<b>Other</b>"
 msgstr "<b>ਹੋਰ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:17
+#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "<b>Slide show</b>"
 msgstr "<b>ਸਲਾਈਡ ਸ਼ੋ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "<b>Viewer</b>"
 msgstr "<b>ਦਰਸ਼ਕ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:19
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "<b>Zoom quality</b>"
-msgstr "<b>ਜ਼ੂਮ ਗੁਣਵੱਤਾ</b>"
+msgstr "<b>ਜ਼ੂਮ ਕੁਆਲਟੀ</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:31
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%n = a single filename, including path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
 msgstr "ਦੋ ਵਾਰ ਦਬਾਉਣ ਨਾਲ ਚਿੱਤਰ ਸਰਗਰਮ"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Activate items with a single click"
 msgstr "ਇੱਕ ਵਾਰ ਦਬਾਉਣ ਨਾਲ ਇਕਾਈਆਂ ਸਰਗਰਮ"
 
-#: ../data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "After _loading an image:"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਲੋਡ ਕਰਨ ਉਪਰੰਤ(_L):"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਲੋਡ ਕਰਨ ਬਾਅਦ(_L):"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "ਚਿੱਤਰ ਜਾਂ ਵਰਗ ਨੂੰ ਹਟਾਉਣ ਤੋ ਪਹਿਲਾਂ ਪੁਸ਼ਟੀ(_k)"
+msgstr "ਚਿੱਤਰ ਜਾਂ ਵਰਗ ਨੂੰ ਹਟਾਉਣ ਤੋਂ ਪਹਿਲਾਂ ਪੁਸ਼ਟੀ(_k)"
 
-#: ../data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Ask whether to save _modified images"
 msgstr "ਪੁੱਛੋ ਕਿ ਤਬਦੀਲ ਕੀਤੇ ਚਿੱਤਰਾਂ ਨੂੰ ਸੰਭਾਲਣਾ ਹੈ(_m)"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Black"
 msgstr "ਕਾਲਾ"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Browser"
 msgstr "ਝਲਕ"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "C_lick policy:"
-msgstr "ਦਬਾਉ ਨੀਤੀ(_l):"
+msgstr "ਦੱਬਣ ਨੀਤੀ(_l):"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Checked"
 msgstr "ਜਾਂਚਿਆ"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Choose startup folder"
 msgstr "ਸ਼ੁਰੂਆਤੀ ਫੋਲਡਰ ਚੁਣੋ"
 
-#: ../data/glade/gthumb_preferences.glade.h:30
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Co_mments"
 msgstr "ਟਿੱਪਣੀ(_m)"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
-msgstr "ਚਿੱਤਰ ਤਬਦੀਲ ਕਰਨ ਤੋ ਪਹਿਲਾਂ ਅੰਤਰਾਲ(_e):"
+msgstr "ਚਿੱਤਰ ਬਦਲਣ ਤੋਂ ਪਹਿਲਾਂ ਅੰਤਰਾਲ(_e):"
 
-#: ../data/glade/gthumb_preferences.glade.h:32
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
-msgstr "ਭਾਗ ਦੇ ਅਧਾਰ ਉੱਤੇ ਚਿੱਤਰ ਕਿਸਮ ਦੀ ਪਛਾਣ ਕਰੋ (ਹੌਲੀ) (_e)"
+msgstr "ਭਾਗ ਦੇ ਅਧਾਰ ਉੱਤੇ ਚਿੱਤਰ ਕਿਸਮ ਦੀ ਪਛਾਣ ਕਰੋ (ਹੌਲੀ)(_e)"
 
-#: ../data/glade/gthumb_preferences.glade.h:33
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
-msgstr "ਫੋਲਡਰ ਤਬਦੀਲ ਨਾ ਕਰੋ(_n)"
+msgstr "ਫੋਲਡਰ ਨਾ ਬਦਲੋ(_n)"
 
-#: ../data/glade/gthumb_preferences.glade.h:34
-msgid "Fit image to window"
-msgstr "ਚਿੱਤਰ ਝਰੋਖੇ 'ਚ ਫਿੱਟ"
+#: ../data/glade/gthumb_preferences.glade.h:53
+msgid "Fit to width if larger"
+msgstr "ਜੇਕਰ ਵੱਧ ਹੈ ਤਾਂ ਚੌੜਾਈ ਫਿੱਟ"
 
-#: ../data/glade/gthumb_preferences.glade.h:35
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Fit to window if larger"
-msgstr "ਜੇਕਰ ਵੱਧ ਹੈ ਤਾਂ ਝਰੋਖੇ 'ਚ ਫਿੱਟ"
+msgstr "ਜੇਕਰ ਵੱਧ ਹੈ ਤਾਂ ਝਰੋਖਾ ਫਿੱਟ"
 
-#: ../data/glade/gthumb_preferences.glade.h:36
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Follow Nautilus behaviour"
-msgstr "ਨਾਟੀਲਸ ਵਿਹਾਰ ਅਨੁਸਾਰ"
+msgstr "ਨਟੀਲਸ ਰਵੱਈਆ ਮੁਤਾਬਕ"
 
-#: ../data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "For_ward"
 msgstr "ਅੱਗੇ(_w)"
 
-#: ../data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "General"
 msgstr "ਸਧਾਰਨ"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Go to last _visited folder or catalog"
-msgstr "ਆਖਰੀ ਖੋਲੋ ਫੋਲਡਰ ਜਾਂ ਵਰਗ 'ਤੇ ਜਾਓ(_v)"
+msgstr "ਆਖਰੀ ਖੋਲ੍ਹੋ ਫੋਲਡਰ ਜਾਂ ਵਰਗ 'ਤੇ ਜਾਓ(_v)"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Go to this _folder:"
 msgstr "ਇਸ ਫੋਲਡਰ 'ਤੇ ਜਾਓ(_f):"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "H_igh"
 msgstr "ਵੱਧ(_i)"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:61
+msgid "Hot Keys"
+msgstr "ਹਾਟ ਸਵਿੱਚਾਂ"
+
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
 msgstr "ਸਿਰਫ ਆਈਕਾਨ"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Keep previous zoom"
 msgstr "ਪਿਛਲਾ ਜ਼ੂਮ ਰੱਖੋ"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:64
+msgid ""
+"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
+"the selected images with other applications."
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
 msgstr "ਖਾਕਾ:"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "Lo_w"
 msgstr "ਘੱਟ(_w)"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "Ran_dom"
 msgstr "ਰਲਵਾਂ(_d)"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "Re_verse"
 msgstr "ਉੱਲਟ(_v)"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:70
+msgid "Reset scrollbar positions after loading an image"
+msgstr "ਇੱਕ ਚਿੱਤਰ ਲੋਡ ਕਰਨ ਬਾਅਦ ਸਕਰੋਲ-ਪੱਟੀ ਸਥਿਤੀਆਂ ਮੁੜ-ਸੈੱਟ"
+
+#: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
-msgstr "ਸਮਾਪਤ ਹੋਣ ਉਪਰੰਤ ਮੁੜ ਚਾਲੂ ਕਰੋ"
+msgstr "ਖਤਮ ਹੋਣ ਬਾਅਦ ਮੁੜ-ਚਲਾਓ"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:72
 msgid "Set image to actual size"
-msgstr "ਚਿੱਤਰ ਦਾ ਅਸਲੀ ਅਕਾਰ ਕਰੋ"
+msgstr "ਚਿੱਤਰ ਦਾ ਅਸਲੀ ਅਕਾਰ ਸੈੱਟ ਕਰੋ"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
-msgstr "ਮੌਜੂਦਾ ਸੈਟ(_u)"
+msgstr "ਮੌਜੂਦਾ ਲਈ ਸੈੱਟ(_u)"
 
-#: ../data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
-msgstr "ਸਲਾਈਡ ਦਰਿਸ਼"
+msgstr "ਸਲਾਈਡ ਸ਼ੋ"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:75
 msgid "System settings"
 msgstr "ਸਿਸਟਮ ਸੈਟਿੰਗ"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:76
 msgid "Text below icons"
 msgstr "ਆਈਕਾਨ ਹੇਠ ਅੱਖਰ"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:77
 msgid "Text beside icons"
 msgstr "ਆਈਕਾਨ ਨਾਲ ਅੱਖਰ"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:78
 msgid "Text only"
 msgstr "ਸਿਰਫ ਅੱਖਰ"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
-msgstr "ਥੱਬਨੇਲ ਅਕਾਰ(_u):"
+msgstr "ਥੰਮਨੇਲ ਅਕਾਰ(_u):"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
 msgstr "ਪਾਰਦਰਸ਼ਤਾ ਕਿਸਮ(_t):"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:81
+msgid "Use a _fading effect when changing image"
+msgstr "ਚਿੱਤਰ ਬਦਲਣ ਦੌਰਾਨ ਫਿੱਕਾ ਪੈਣ ਪਰਭਾਵ ਵਰਤੋਂ(_f)"
+
+#: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
 msgstr "ਦਰਸ਼ਕ"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:83
 msgid "White"
 msgstr "ਚਿੱਟਾ"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:84
 msgid "_Filenames"
 msgstr "ਫਾਇਲ ਨਾਂ(_F)"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
-#: ../src/gth-browser-actions-entries.h:402
+#: ../data/glade/gthumb_preferences.glade.h:85
+#: ../src/gth-browser-actions-entries.h:418
 msgid "_Thumbnails"
 msgstr "ਥੰਬਨੇਲ(_T)"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:86
 msgid "_Toolbar style:"
-msgstr "ਸੰਦਖਾਨਾ ਸ਼ੈਲੀ(_T):"
+msgstr "ਸੰਦ-ਪੱਟੀ ਸ਼ੈਲੀ(_T):"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:87
 msgid "gThumb Preferences"
-msgstr "ਜੀ-ਥੱਮ ਮੇਰੀ ਪਸੰਦ"
+msgstr "ਜੀ-ਥੰਮ ਮੇਰੀ ਪਸੰਦ"
 
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:88
 msgid "seconds"
 msgstr "ਸਕਿੰਟ"
 
@@ -1423,34 +1319,54 @@ msgid "1"
 msgstr "1"
 
 #: ../data/glade/gthumb_print.glade.h:5
+msgid "150"
+msgstr "150"
+
+#: ../data/glade/gthumb_print.glade.h:6
 msgid "16"
 msgstr "16"
 
-#: ../data/glade/gthumb_print.glade.h:6
+#: ../data/glade/gthumb_print.glade.h:7
 msgid "2"
 msgstr "2"
 
-#: ../data/glade/gthumb_print.glade.h:7
+#: ../data/glade/gthumb_print.glade.h:8
+msgid "300"
+msgstr "300"
+
+#: ../data/glade/gthumb_print.glade.h:9
 msgid "4"
 msgstr "4"
 
-#: ../data/glade/gthumb_print.glade.h:8
+#: ../data/glade/gthumb_print.glade.h:10
+msgid "600"
+msgstr "600"
+
+#: ../data/glade/gthumb_print.glade.h:11
+msgid "72"
+msgstr "72"
+
+#: ../data/glade/gthumb_print.glade.h:12
 msgid "8"
 msgstr "8"
 
-#: ../data/glade/gthumb_print.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:13
+msgid "<b>Image Sizing</b>"
+msgstr "<b>ਚਿੱਤਰ ਆਕਾਰ</b>"
+
+#: ../data/glade/gthumb_print.glade.h:14
 msgid "<b>Margins</b>"
 msgstr "<b>ਹਾਸ਼ੀਆ</b>"
 
-#: ../data/glade/gthumb_print.glade.h:10
+#: ../data/glade/gthumb_print.glade.h:15
 msgid "<b>Orientation</b>"
 msgstr "<b>ਸਥਿਤੀ</b>"
 
-#: ../data/glade/gthumb_print.glade.h:11
+#: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
 msgstr "<b>ਅਕਾਰ</b>"
 
-#: ../data/glade/gthumb_print.glade.h:12
+#: ../data/glade/gthumb_print.glade.h:18
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
@@ -1458,111 +1374,147 @@ msgstr ""
 "<small><i><b>ਸੂਚਨਾ:</b> ਚਿੱਤਰ ਨੂੰ ਸਫ਼ੇ ਵਿੱਚ ਭੇਜਣ ਲਈ ਸੁੱਟੋ।\n"
 "ਇੱਕ ਚਿੱਤਰ ਨੂੰ ਘੁੰਮਾਉਣ ਲਈ ਦਬਾਉ।</i></small>"
 
-#: ../data/glade/gthumb_print.glade.h:14
+#: ../data/glade/gthumb_print.glade.h:20
+msgid ""
+"<small><i><b>Note:</b> High-resolution images will be\n"
+"down-sampled to this resolution. Increase\n"
+"the resolution to get better image quality.\n"
+"Decrease it to get shorter print times.</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
 msgstr "A4"
 
-#: ../data/glade/gthumb_print.glade.h:15
-msgid "Center _on Page"
-msgstr "ਸਫੇ 'ਤੇ ਕੇਂਦਰਿਤ(_o)"
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Automatic sizing"
+msgstr "ਆਟੋਮੈਟਿਕ ਆਕਾਰ"
 
-#: ../data/glade/gthumb_print.glade.h:16
+#: ../data/glade/gthumb_print.glade.h:26
+msgid "Center _on Page"
+msgstr "ਸਫ਼ੇ 'ਤੇ ਕੇਂਦਰਿਤ(_o)"
+
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "Comment _font:"
 msgstr "ਟਿੱਪਣੀ ਫੋਟ(_f):"
 
-#: ../data/glade/gthumb_print.glade.h:18
+#: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
 msgstr "ਐਕਜੀਕਿਊਟਿਵ"
 
-#: ../data/glade/gthumb_print.glade.h:19
+#: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
 msgstr "ਟਿੱਪਣੀ ਸ਼ਾਮਲ(_n)"
 
-#: ../data/glade/gthumb_print.glade.h:20
+#: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
-msgstr "ਚਿੱਤਰ ਪ੍ਰਤੀ ਸਫਾ:"
+msgstr "ਚਿੱਤਰ ਪ੍ਰਤੀ ਸਫ਼ਾ:"
 
-#: ../data/glade/gthumb_print.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
 msgstr "ਇੰਚ"
 
-#: ../data/glade/gthumb_print.glade.h:22
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "Include filename"
 msgstr "ਫਾਇਲ-ਨਾਂ ਸ਼ਾਮਿਲ"
 
-#: ../data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
-msgstr "ਲੈਡਸਕੇਪ"
+msgstr "ਲੈਡਸਕੇਪ(_d)"
 
-#: ../data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:35
 msgid "Layout"
 msgstr "ਖਾਕਾ"
 
-#: ../data/glade/gthumb_print.glade.h:25
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
 msgstr "ਲੀਗਲ"
 
-#: ../data/glade/gthumb_print.glade.h:26
+#: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
 msgstr "ਪੱਤਰ"
 
-#: ../data/glade/gthumb_print.glade.h:27
+#: ../data/glade/gthumb_print.glade.h:38
 msgid "Millimeters"
 msgstr "ਮਿਲੀਮੀਟਰ"
 
-#: ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
 msgstr "ਪੋਰਟਰੇਟ(_o)"
 
-#: ../data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_print.glade.h:40
 msgid "Paper Details"
-msgstr "ਪੰਨਾ ਵੇਰਵਾ"
+msgstr "ਪੇਪਰ ਵੇਰਵਾ"
 
-#: ../data/glade/gthumb_print.glade.h:30
+#: ../data/glade/gthumb_print.glade.h:41
 msgid "Postcard"
 msgstr "ਪੋਸਟ-ਕਾਰਡ"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:31 ../libgthumb/print-callbacks.c:1723
-#: ../libgthumb/print-callbacks.c:1737 ../libgthumb/print-callbacks.c:2217
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2719
+#: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "ਛਾਪੋ"
 
-#: ../data/glade/gthumb_print.glade.h:32
+#: ../data/glade/gthumb_print.glade.h:43
+msgid "Scale to this size"
+msgstr "ਇਹ ਆਕਾਰ ਲਈ ਸਕੇਲ"
+
+#: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
 msgstr "ਸਾਰਣੀ"
 
-#: ../data/glade/gthumb_print.glade.h:33
+#: ../data/glade/gthumb_print.glade.h:45
 msgid "_Bottom:"
 msgstr "ਹੇਠਾਂ(_B):"
 
-#: ../data/glade/gthumb_print.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:47
 msgid "_Left:"
 msgstr "ਖੱਬੇ(_L):"
 
-#: ../data/glade/gthumb_print.glade.h:36
+#: ../data/glade/gthumb_print.glade.h:48
 msgid "_Right:"
 msgstr "ਸੱਜੇ(_R):"
 
-#: ../data/glade/gthumb_print.glade.h:37
+#: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
-msgstr "ਪੈਮਾਨਾ(_S):"
+msgstr "ਸਕੇਲ(_S):"
 
-#: ../data/glade/gthumb_print.glade.h:38
+#: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
-msgstr "ਉੱਪਰ(_T):"
+msgstr "ਉੱਤੇ(_T):"
 
-#: ../data/glade/gthumb_print.glade.h:39
+#: ../data/glade/gthumb_print.glade.h:51
 msgid "_Unit:"
 msgstr "ਇਕਾਈ(_U):"
 
-#: ../data/glade/gthumb_redeye.glade.h:1
-msgid "Click the mouse on the red-eye regions that need to be fixed."
-msgstr ""
-
 #: ../data/glade/gthumb_redeye.glade.h:2
-msgid "Redeye Removal"
-msgstr ""
+msgid "Actual Size"
+msgstr "ਅਸਲ ਆਕਾਰ"
+
+#: ../data/glade/gthumb_redeye.glade.h:3
+msgid "Red-Eye Removal"
+msgstr "ਲਾਲ-ਅੱਖ ਹਟਾਓ"
+
+#: ../data/glade/gthumb_redeye.glade.h:4
+msgid "Redo"
+msgstr "ਪਰਤਾਓ"
+
+#: ../data/glade/gthumb_redeye.glade.h:5
+msgid "Undo"
+msgstr "ਵਾਪਿਸ"
+
+#: ../data/glade/gthumb_redeye.glade.h:6
+msgid "Zoom In"
+msgstr "ਜ਼ੂਮ ਇਨ"
+
+#: ../data/glade/gthumb_redeye.glade.h:7
+msgid "Zoom Out"
+msgstr "ਅਕਾਰ ਆਉਟ"
+
+#: ../data/glade/gthumb_redeye.glade.h:8
+msgid "Zoom to Fit"
+msgstr "ਫਿੱਟ ਕਰਨ ਲਈ ਫਿੱਟ"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1586,7 +1538,7 @@ msgstr "ਪਹਿਲਾਂ"
 
 #: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
-msgstr "ਸੰਭਾਲੀ ਸੂਚੀ 'ਚੋਂ ਵਰਗ ਚੁਣੋ"
+msgstr "ਸੰਭਾਲੀ ਲਿਸਟ 'ਚੋਂ ਵਰਗ ਚੁਣੋ"
 
 #: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
@@ -1597,29 +1549,30 @@ msgid "File _name:"
 msgstr "ਫਾਇਲ ਨਾਂ(_n):"
 
 #: ../data/glade/gthumb_search.glade.h:14
-msgid "Find"
-msgstr "ਖੋਜ"
-
-#: ../data/glade/gthumb_search.glade.h:15
 msgid "Found images:"
 msgstr "ਮਿਲੇ ਚਿੱਤਰ:"
 
-#: ../data/glade/gthumb_search.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
 msgstr "ਚੁਣੇ ਸਭ ਵਰਗਾਂ ਨਾਲ ਮਿਲਦੇ(_l)"
 
-#: ../data/glade/gthumb_search.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
 msgstr "ਚੁਣੇ ਕਿਸੇ ਵੀ ਵਰਗ ਨਾਲ ਮਿਲਦੇ(_n)"
 
-#: ../data/glade/gthumb_search.glade.h:18
+#: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
 msgstr "ਨਵੀਂ ਖੋਜ(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:828
-#: ../src/dlg-photo-importer.c:1515
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:825
+#: ../src/dlg-photo-importer.c:1508
 msgid "No images found"
 msgstr "ਕੋਈ ਚਿੱਤਰ ਨਹੀ ਲੱਭਿਆ ਹੈ"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Search"
+msgstr "ਖੋਜ"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
@@ -1637,7 +1590,7 @@ msgstr "ਖੋਜ ਸੋਧ(_E)"
 #: ../data/glade/gthumb_search.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:60
 msgid "_Include sub-folders"
-msgstr "ਅਧੀਨ-ਫੋਲਡਰ ਸ਼ਾਮਲ(_I)"
+msgstr "ਸਬ-ਫੋਲਡਰ ਸਮੇਤ(_I)"
 
 #: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
@@ -1646,6 +1599,13 @@ msgstr "ਸੰਭਾਲੋ(_S)"
 #: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
 msgstr "ਖੋਜ(_S)"
+
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:72
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
+msgid "_View"
+msgstr "ਵੇਖੋ(_V)"
 
 #: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Change the following values:</b>"
@@ -1667,21 +1627,19 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
-msgstr ""
-"<small><i><b>ਖਾਸ ਅੱਖਰ:</b> # (ਅੰਕ), %f (ਅਸਲੀ ਫਾਇਲ-ਨਾਂ), %d (ਚਿੱਤਰ ਮਿਤੀ), %s "
-"(ਚਿੱਤਰ ਅਕਾਰ)।</i></small>"
+msgstr "<small><i><b>ਖਾਸ ਅੱਖਰ:</b> # (ਅੰਕ), %f (ਅਸਲੀ ਫਾਇਲ-ਨਾਂ), %d (ਚਿੱਤਰ ਤਾਰੀਖ), %s (ਚਿੱਤਰ ਅਕਾਰ), %e (ਅਸਲੀ ਐਕਸ਼ਟੇਸ਼ਨ)।</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
-msgstr "ਸਮਾਂ-ਖੇਤਰ ਅਨੁਕੂਲ(_d):"
+msgstr "ਸਮਾਂ-ਖੇਤਰ ਬਦਲੋ(_d):"
 
 #: ../data/glade/gthumb_tools.glade.h:17
 msgid "Apply physical _transform"
-msgstr ""
+msgstr "ਭੌਤਿਕ ਬਦਲਾਅ ਲਾਗੂ ਕਰੋ(_t)"
 
 #: ../data/glade/gthumb_tools.glade.h:18
 msgid "Apply to all _images"
@@ -1689,7 +1647,7 @@ msgstr "ਸਭ ਚਿੱਤਰਾਂ 'ਤੇ ਲਾਗੂ(_i)"
 
 #: ../data/glade/gthumb_tools.glade.h:19
 msgid "C_urrent date"
-msgstr "ਮੌਜੂਦਾ ਮਿਤੀ(_u)"
+msgstr "ਮੌਜੂਦਾ ਤਾਰੀਖ(_u)"
 
 #: ../data/glade/gthumb_tools.glade.h:20
 #: ../src/gth-browser-actions-entries.h:38
@@ -1699,15 +1657,15 @@ msgstr "ਵਰਗ(_t)"
 
 #: ../data/glade/gthumb_tools.glade.h:21
 msgid "Change Date"
-msgstr "ਮਿਤੀ ਤਬਦੀਲ"
+msgstr "ਤਾਰੀਖ ਬਦਲੋ"
 
 #: ../data/glade/gthumb_tools.glade.h:22
 msgid "Check _All"
-msgstr "ਸਭ ਦੀ ਜਾਂਚ(_A)"
+msgstr "ਸਭ ਜਾਂਚ(_A)"
 
 #: ../data/glade/gthumb_tools.glade.h:23
 msgid "Check _None"
-msgstr "ਕਿਸੇ ਦੀ ਜਾਂਚ ਨਾ ਕਰੋ(_N)"
+msgstr "ਕਿਸੇ ਦੀ ਜਾਂਚ ਨਹੀਂ(_N)"
 
 #: ../data/glade/gthumb_tools.glade.h:24
 msgid "Checking image:"
@@ -1732,26 +1690,22 @@ msgid "Equal images:"
 msgstr "ਸਮਾਨ ਚਿੱਤਰ:"
 
 #: ../data/glade/gthumb_tools.glade.h:30
-msgid "Find Duplicates"
-msgstr "ਨਕਲੀ ਖੋਜ"
+msgid "Found duplicates:"
+msgstr "ਖੋਜੇ ਡੁਪਲੀਕੇਟ:"
 
 #: ../data/glade/gthumb_tools.glade.h:31
-msgid "Found duplicates:"
-msgstr "ਖੋਜੇ ਨਕਲੀ:"
+msgid "Image c_reation date"
+msgstr "ਚਿੱਤਰ ਨਿਰਮਾਣ ਤਾਰੀਖ(_r)"
 
 #: ../data/glade/gthumb_tools.glade.h:32
-msgid "Image c_reation date"
-msgstr "ਚਿੱਤਰ ਨਿਰਮਾਣ ਮਿਤੀ(_r)"
-
-#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image horizontally (left-right)"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image vertically (top-bottom)"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:34
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1759,50 +1713,50 @@ msgstr ""
 msgid "Move to _Trash"
 msgstr "ਰੱਦੀ ਵਿੱਚ ਭੇਜੋ(_T)"
 
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "New names _preview:"
-msgstr "ਨਵੇ ਨਾਂ ਨਮੂਨਾ(_p):"
+msgstr "ਨਵਾਂ ਨਾਂ ਝਲਕ(_p):"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "ਤਸਵੀਰ ਡਿਜ਼ੀਟਲ ਮਿਤੀ (EXIF ਡਾਟਾ ਤੋਂ)"
+msgstr "ਫੋਟੋ ਡਿਜ਼ੀਟਲ ਤਾਰੀਖ (EXIF ਡਾਟਾ ਤੋਂ)(_h)"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Re_verse Order"
 msgstr "ਉਲੱਟਕਰਮ(_v)"
 
 #: ../data/glade/gthumb_tools.glade.h:41
-msgid "Rename Series"
-msgstr "ਨਾਂ-ਤਬਦੀਲੀ ਕਰਮ"
+msgid "Reset Exif Orientation Tags"
+msgstr "Exif ਸਥਿਤੀ ਟੈਗ ਮੁੜ-ਸੈੱਟ"
 
 #: ../data/glade/gthumb_tools.glade.h:42
-msgid "Reset Exif Orientation Tags"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate Images"
 msgstr "ਚਿੱਤਰ ਘੁੰਮਾਓ"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
 msgstr "ਚਿੱਤਰ ਨੂੰ 90 ਡਿਗਰੀ 'ਤੇ ਸੱਜੇ ਦਾਅ ਘੁੰਮਾਓ"
 
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "ਚਿੱਤਰ ਨੂੰ 90 ਡਿਗਰੀ 'ਤੇ ਖੱਬੇ ਦਾਅ ਘੁੰਮਾਓ"
 
-#: ../data/glade/gthumb_tools.glade.h:46
-#: ../src/gth-browser-actions-entries.h:384
+#: ../data/glade/gthumb_tools.glade.h:45
+#: ../src/gth-browser-actions-entries.h:394
 msgid "Scale Images"
-msgstr "ਚਿੱਤਰ ਪੈਮਾਨਾ"
+msgstr "ਚਿੱਤਰ ਸਕੇਲ"
+
+#: ../data/glade/gthumb_tools.glade.h:46
+msgid "Search for Duplicates"
+msgstr "ਡੁਪਲੀਕੇਟ ਲਈ ਖੋਜ"
 
 #: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
-msgstr "ਖੋਜ ਸਮਾਪਤ, ਕੋਈ ਨਕਲੀ ਨਹੀ ਲੱਭਾ।"
+msgstr "ਖੋਜ ਸਮਾਪਤ ਹੋਈ, ਕੋਈ ਡੁਪਲੀਕੇਟ ਨਹੀਂ ਲੱਭਾ"
 
 #: ../data/glade/gthumb_tools.glade.h:55
 msgid "The _following date:"
-msgstr "ਹੇਠ ਲਿਖੀ ਮਿਤੀ(_f):"
+msgstr "ਹੇਠ ਲਿਖੀ ਤਾਰੀਖ(_f):"
 
 #: ../data/glade/gthumb_tools.glade.h:56
 msgid ""
@@ -1820,14 +1774,13 @@ msgstr "CD 'ਤੇ ਲਿਖੋ"
 
 #: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Last modified date"
-msgstr "ਆਖਰੀ ਸੋਧ ਮਿਤੀ(_L)"
+msgstr "ਆਖਰੀ ਸੋਧ ਤਾਰੀਖ(_L)"
 
 #: ../data/glade/gthumb_tools.glade.h:65
-#: ../src/gth-browser-actions-callbacks.c:166
-#: ../src/gth-browser-actions-callbacks.c:603
-#: ../src/gth-browser-actions-callbacks.c:1111
+#: ../src/gth-browser-actions-callbacks.c:469
+#: ../src/gth-browser-actions-callbacks.c:977
 msgid "_Rename"
-msgstr "ਨਾਂ-ਤਬਦੀਲ(_R)"
+msgstr "ਨਾਂ-ਬਦਲੋ(_R)"
 
 #: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Selected Images"
@@ -1887,7 +1840,7 @@ msgstr "<b>ਐਲਬਮ ਸ਼ੈਲੀ</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:15
 msgid "<b>Basic Information</b>"
-msgstr "   ਮੁੱਢਲੀ ਜਾਣਕਾਰੀ</b>               <b>"
+msgstr "<b>ਮੁੱਢਲੀ ਜਾਣਕਾਰੀ</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:16
 msgid "<b>Camera Data</b>"
@@ -1899,7 +1852,7 @@ msgstr "<b>ਟਿੱਪਣੀ</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "<b>Index Page Layout</b>"
-msgstr ""
+msgstr "<b>ਤਤਕਰਾ ਸਫ਼ਾ ਖਾਕਾ</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
@@ -1912,7 +1865,7 @@ msgstr "<b>ਸਰੂਪ</b>"
 #: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b>ਸੂਚਨਾ:</b> %d (ਮੌਜੂਦਾ ਮਿਤੀ)।</i></small>"
+msgstr "<small><i><b>ਸੂਚਨਾ:</b> %d (ਮੌਜੂਦਾ ਤਾਰੀਖ)।</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
@@ -1931,7 +1884,7 @@ msgstr "ਸੁਰਖੀ"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Da_te and Time"
-msgstr "ਮਿਤੀ ਅਤੇ ਸਮਾਂ(_T)"
+msgstr "ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ(_T)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "E_xposure mode"
@@ -1939,7 +1892,7 @@ msgstr "ਐਕਸਪੋਜਰ ਢੰਗ(_x)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Exposure _time"
-msgstr "ਐਕਪੋਸਰ ਸਮਾਂ(_t)"
+msgstr "ਐਕਸਪੋਜਰ ਸਮਾਂ(_t)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Focal _length"
@@ -1955,7 +1908,7 @@ msgstr "ਤਤਕਰਾ ਫਾਇਲ(_x):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "S_ort:"
-msgstr "ਕ੍ਰਮਬੱਧ(_o):"
+msgstr "ਲੜੀਬੱਧ(_o):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
@@ -1975,7 +1928,7 @@ msgstr "ਟਿਕਾਣੇ ਉੱਤੇ ਅਸਲੀ ਨਕਲ ਕਰੋ(_C)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
-msgstr "ਮਿਤੀ ਅਤੇ ਸਮਾਂ(_D)"
+msgstr "ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ(_D)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "_Flash"
@@ -2023,7 +1976,7 @@ msgstr "ਸਰੂਪ(_T):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
-msgstr "ਥੱਮਨੇਲ ਸੁਰਖੀ(_T)..."
+msgstr "ਥੰਮਨੇਲ ਸੁਰਖੀ(_T)..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:62
 msgid "columns, by"
@@ -2035,23 +1988,23 @@ msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
-msgstr ""
+msgstr "ਜਾਂ ਇੱਕਲਾ ਤਤਕਰਾ ਸਫ਼ਾ ਵਰਤੋਂ(_u)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
 msgid "rows per page,"
-msgstr "ਕਤਾਰਾਂ ਪ੍ਰਤੀ ਸਫ਼ਾ, "
+msgstr "ਕਤਾਰਾਂ ਪ੍ਰਤੀ ਸਫ਼ਾ,"
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "ਚਿੱਤਰ ਦਰਸ਼ਕ"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:777
 msgid "View and organize your images"
 msgstr "ਆਪਣੇ ਚਿੱਤਰ ਵੇਖੋ ਤੇ ਇਹਨਾਂ ਦੀ ਸੰਭਾਲ ਕਰੋ"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
-msgstr "ਜੀ-ਥੱਮ ਚਿੱਤਰ ਦਰਸ਼ਕ"
+msgstr "ਜੀ-ਥੰਮ ਚਿੱਤਰ ਦਰਸ਼ਕ"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
@@ -2060,428 +2013,364 @@ msgid ""
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:2
-msgid "Possible values are: 1, 2, 3, 4."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: 1,2,3,4 ।"
+msgid ""
+"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
+"(reverse landscape)"
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:3
-msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਅਸਲੀ ਅਕਾਰ, ਅਨੁਕੂਲ, ਪਿਛਲਾ, ਜੇਕਰ ਵੱਡਾ ਤਾਂ ਅਨੁਕੂਲ ।"
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: 1,2,3,4।"
 
 #: ../data/gthumb.schemas.in.h:4
-msgid "Possible values are: ascending, descending."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਆਰੋਹੀ, ਅਵਰੋਹੀ"
+msgid "Possible values are: 72, 150, 300, 600."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
-msgid "Possible values are: forward, backward, random."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਅੱਗੇ, ਪਿੱਛੇ, ਤਰਤੀਬ ।"
+msgid ""
+"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+msgstr ""
+"ਸੰਭਵ ਮੁੱਲ ਹਨ: ਅਸਲੀ ਆਕਾਰ, ਫਿੱਟ, ਪਿਛਲਾ ਰੱਖੋ, ਜੇ ਵੱਡਾ ਹੈ ਤਾਂ ਫਿੱਟ, "
+"ਚੌੜਾਈ ਫਿੱਟ ਜੇ ਵੱਡਾ ਹੈ।"
 
 #: ../data/gthumb.schemas.in.h:6
-msgid "Possible values are: high, low."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਘੱਟ, ਜਿਆਦਾ"
+msgid "Possible values are: ascending, descending."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਆਰੋਹੀ (ਵੱਧਦਾ), ਅਵਰੋਹੀ (ਘੱਟਦਾ)।"
 
 #: ../data/gthumb.schemas.in.h:7
-msgid "Possible values are: image, data, comment."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਚਿੱਤਰ, ਡਾਟਾ, ਟਿੱਪਣੀ"
+msgid "Possible values are: forward, backward, random."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਅੱਗੇ, ਪਿੱਛੇ, ਰਲਵੇਂ।"
 
 #: ../data/gthumb.schemas.in.h:8
-msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: jpeg, png, tga, tiff ।"
+msgid "Possible values are: high, low."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਜ਼ਿਆਦਾ, ਘੱਟ।"
 
 #: ../data/gthumb.schemas.in.h:9
-msgid "Possible values are: light, midtone, dark."
-msgstr ""
+msgid "Possible values are: image, data, comment."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਚਿੱਤਰ, ਡਾਟਾ, ਟਿੱਪਣੀ।"
 
 #: ../data/gthumb.schemas.in.h:10
-msgid "Possible values are: list, thumbnails."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਸੂਚੀ, ਥੱਮਨੇਲ"
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: jpeg, png, tga, tiff।"
 
 #: ../data/gthumb.schemas.in.h:11
-msgid "Possible values are: mm, in."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਮਿਲੀ, ਇੰਚ ।"
+msgid "Possible values are: light, midtone, dark."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਰੋਸ਼ਨੀ, ਮਿਡਟੋਨ, ਹਨ੍ਹੇਰਾ"
 
 #: ../data/gthumb.schemas.in.h:12
-msgid "Possible values are: name, path, size, time."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਨਾਂ, ਰਸਤਾ, ਅਕਾਰ, ਸਮਾਂ"
+msgid "Possible values are: list, thumbnails."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਲਿਸਟ, ਥੰਮਨੇਲ"
 
 #: ../data/gthumb.schemas.in.h:13
-msgid "Possible values are: name, size, time."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਨਾਂ, ਅਕਾਰ, ਸਮਾਂ ।"
+msgid "Possible values are: manual, auto."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਦਸਤੀ, ਆਟੋ।"
 
 #: ../data/gthumb.schemas.in.h:14
-msgid "Possible values are: nautilus, single, double."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਨਟਾਲਿਸ, ਇੱਕਲਾ, ਦੂਹਰਾ ।"
+msgid "Possible values are: mm, in."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: mm, in"
 
 #: ../data/gthumb.schemas.in.h:15
-msgid "Possible values are: none, deflate, jpeg."
-msgstr ""
+msgid "Possible values are: nautilus, single, double."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਨਟੀਲਸ, ਇੱਕਲਾ, ਦੂਹਰਾ।"
 
 #: ../data/gthumb.schemas.in.h:16
-msgid "Possible values are: none, name, path, size, time, comment."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਕੋਈ ਨਹੀ, ਨਾਂ, ਮਾਰਗ, ਅਕਾਰ, ਸਮਾਂ, ਟਿੱਪਣੀ"
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਕੋਈ ਨਹੀਂ, deflate, jpeg"
 
 #: ../data/gthumb.schemas.in.h:17
+msgid "Possible values are: none, name, path, size, time, exifdate, comment."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਕੋਈ ਨਹੀਂ, ਨਾਂ, ਮਾਰਗ, ਆਕਾਰ, ਸਮਾਂ, exifdate, ਟਿੱਪਣੀ।"
+
+#: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 msgstr ""
 
-#: ../data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:19
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 msgstr ""
+"ਸੰਭਵ ਮੁੱਲ ਹਨ: ਕੋਈ ਨਹੀਂ, ਵਰਗ, ਚਿੱਤਰ, ਡਿਸਪਲੇਅ, 4x3, 4x6, 5x7, 8x10, "
+"ਪਸੰਦੀਦਾ।"
 
-#: ../data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: pixels, percentage."
 msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਪਿਕਸਲ, ਫੀ-ਸਦੀ"
 
-#: ../data/gthumb.schemas.in.h:20
+#: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: png, jpeg."
 msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: png, jpeg"
 
-#: ../data/gthumb.schemas.in.h:21
-msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਛੱਡੋ, ਨਾਂ-ਤਬਦੀਲ, ਪੁੱਛੋ, ਉੱਪਰ-ਲਿਖੋ।"
-
 #: ../data/gthumb.schemas.in.h:22
-msgid "Possible values are: small, medium, large."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਛੋਟਾ, ਮੱਧਮ, ਵੱਡਾ"
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਛੱਡੋ, ਨਾਂ-ਬਦਲੋ, ਪੁੱਛੋ, ਉੱਤੇ ਲਿਖੋ।"
 
 #: ../data/gthumb.schemas.in.h:23
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਸਿਸਘਨ, ਹੇਠਾਂ ਪਾਠ, ਨਾਲ ਪਾਠ, ਆਈਕਾਨ ਹੀ"
+msgid "Possible values are: small, medium, large."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਛੋਟਾ, ਮੱਧਮ, ਵੱਡਾ।"
 
 #: ../data/gthumb.schemas.in.h:24
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਸਿਸਟਮ, ਹੇਠਾਂ ਪਾਠ, ਨਾਲ ਪਾਠ, ਆਈਕਾਨ ਹੀ।"
+
+#: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: white, black, checked, none."
 msgstr "ਸੰਭਵ ਮੁੱਲ ਹਨ: ਚਿੱਟਾ, ਕਾਲਾ, ਡੱਬੀਦਾਰ, ਕੋਈ ਨਹੀਂ।"
 
-#: ../data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:26
 msgid "Whether to always use a black background."
-msgstr "ਕੀ ਕਾਲੀ ਪਿੱਠਭੂਮੀ ਵਰਤਣੀ ਹੈ।"
+msgstr "ਕੀ ਹਮੇਸ਼ਾਂ ਇੱਕ ਕਾਲੀ ਬੈਕਗਰਾਊਂਡ ਵਰਤਣੀ ਹੈ।"
+
+#: ../data/gthumb.schemas.in.h:27
+msgid "Whether to reset the scrollbar positions after changing image"
+msgstr "ਕੀ ਚਿੱਤਰ ਬਦਲਣ ਬਾਅਦ ਸਕਰੋਲ-ਪੱਟੀ ਸਥਿਤੀਆਂ ਮੁੜ-ਸੈੱਟ ਕਰਨੀਆਂ ਹਨ"
 
 #: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "ਵਰਗ \"%s\" ਨੂੰ ਖੋਲਿਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s"
+msgstr "ਵਰਗ \"%s\" ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ: %s"
 
 #: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "ਵਰਗ \"%s\" ਨੂੰ ਸੰਭਾਲਿਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s"
+msgstr "ਵਰਗ \"%s\" ਨੂੰ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ: %s"
 
-#: ../libgthumb/comments.c:1280 ../src/catalog-web-exporter.c:139
+#: ../libgthumb/comments.c:1251 ../src/catalog-web-exporter.c:140
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1282 ../src/catalog-web-exporter.c:54
-#: ../src/catalog-web-exporter.c:141 ../src/dlg-duplicates.c:553
+#: ../libgthumb/comments.c:1253 ../src/catalog-web-exporter.c:55
+#: ../src/catalog-web-exporter.c:142 ../src/dlg-duplicates.c:548
 #: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:493
-#: ../src/gth-exif-data-viewer.c:479 ../src/gth-fullscreen.c:850
-#: ../src/gth-viewer.c:572
+#: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
+#: ../src/gth-viewer.c:608
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1292 ../libgthumb/comments.c:1294
+#: ../libgthumb/comments.c:1263 ../libgthumb/comments.c:1265
 msgid "(No Comment)"
 msgstr "(ਕੋਈ ਟਿੱਪਣੀ ਨਹੀ)"
 
-#: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:277 ../src/dlg-photo-importer.c:1540
-#: ../src/dlg-reset-exif.c:116
-#, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "ਤੁਹਾਨੂੰ ਫੋਲਡਰ \"%s\" ਵਿੱਚ ਚਿੱਤਰ ਬਣਾਉਣ ਲਈ ਅਧਿਕਾਰ ਨਹੀਂ ਹਨ।"
-
-#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:570 ../src/gth-browser-actions-callbacks.c:200
-#, c-format
-msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "ਚਿੱਤਰ \"%s\" ਨਾਂ ਨਾਲ ਪਹਿਲਾਂ ਵੀ ਮੌਜੂਦ ਹੈ। ਕੀ ਤੁਸੀਂ ਉਪਰ ਲਿਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
-
-#: ../libgthumb/dlg-save-image.c:169 ../src/rotation-utils.c:246
+#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:250
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "ਇਹ ਚਿੱਤਰ ਕਿਸਮ ਲਈ ਸਹਾਇਕ ਨਹੀ ਹੈ: %s"
 
-#: ../libgthumb/dlg-save-image.c:240
+#: ../libgthumb/dlg-save-image.c:200
 msgid "Determine by extension"
 msgstr "ਐਕਸ਼ਟੇਸ਼ਨ ਨਾਲ ਜਾਣੋ"
 
-#: ../libgthumb/dlg-save-image.c:274
+#: ../libgthumb/dlg-save-image.c:234
 msgid "Save Image"
 msgstr "ਚਿੱਤਰ ਸੰਭਾਲੋ"
 
-#: ../libgthumb/dlg-save-image.c:293
+#: ../libgthumb/dlg-save-image.c:254
 msgid "Image type:"
 msgstr "ਚਿੱਤਰ ਕਿਸਮ:"
 
-#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:757
+#: ../libgthumb/file-utils.c:1277 ../src/gth-location.c:813
+msgid "Catalogs"
+msgstr "ਵਰਗ"
+
+#: ../libgthumb/file-utils.c:1280 ../src/gth-location.c:819
 msgid "File System"
 msgstr "ਫਾਇਲ ਸਿਸਟਮ"
 
-#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:761
+#: ../libgthumb/file-utils.c:1307 ../src/gth-location.c:826
 msgid "Home"
 msgstr "ਘਰ"
 
-#: ../libgthumb/file-utils.c:1628
+#: ../libgthumb/file-utils.c:1796
 msgid "Library not empty"
-msgstr "ਲਾਇਬਰੇਰੀ ਖਾਲੀ ਨਹੀ"
+msgstr "ਲਾਇਬਰੇਰੀ ਖਾਲੀ ਨਹੀਂ"
 
-#: ../libgthumb/file-utils.c:1637
+#: ../libgthumb/file-utils.c:1805
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "ਲ਼ਾਇਬਰੇਰੀ \"%s\" ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s"
+msgstr "ਲਾਇਬਰੇਰੀ \"%s\" ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s"
 
-#: ../libgthumb/file-utils.c:1664
+#: ../libgthumb/file-utils.c:1832
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "\"%s\" ਵਰਗ ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s"
 
-#: ../libgthumb/gnome-print-font-dialog.c:113
-msgid "_Insert a new preview phrase."
-msgstr "ਨਵਾਂ ਝਲਕ ਪ੍ਹੈਰਾ ਦਿਓ(_I)"
-
-#: ../libgthumb/gnome-print-font-dialog.c:119
-msgid "Modify preview phrase..."
-msgstr "ਝਲਕ ਪੈਰਾ ਸੋਧ.."
-
-#: ../libgthumb/gnome-print-font-dialog.c:173
-msgid "Preview"
-msgstr "ਝਲਕ"
-
-#: ../libgthumb/gnome-print-font-dialog.c:186
-msgid "_Modify preview phrase..."
-msgstr "ਝਲਕ ਪ੍ਹੈਰਾ ਸੋਧ(_M)..."
-
-#: ../libgthumb/gnome-print-font-dialog.c:247
-msgid "Font Selection"
-msgstr "ਫੋਂਟ ਚੋਣ"
-
-#: ../libgthumb/gnome-print-font-picker.c:87
-msgid "Sans Regular 12"
-msgstr "Sans Regular 12"
-
-#: ../libgthumb/gnome-print-font-picker.c:88
-msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-
-#: ../libgthumb/gnome-print-font-picker.c:89
-msgid "Pick a Font"
-msgstr "ਇੱਕ ਫੋਂਟ ਚੁਣੋ"
-
-#: ../libgthumb/gnome-print-font-picker.c:174
-msgid "Title"
-msgstr "ਨਾਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:175
-msgid "The title of the selection dialog box"
-msgstr "ਚੁਣੇ ਵਾਰਤਾਲਾਪ ਬਕਸੇ ਦਾ ਨਾਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:195
-msgid "Font name"
-msgstr "ਫੋਂਟ ਨਾਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:196
-msgid "Name of the selected font"
-msgstr "ਚੁਣੇ ਫੋਂਟ ਦਾ ਨਾਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:204
-msgid "Preview text"
-msgstr "ਪਾਠ ਝਲਕ"
-
-#: ../libgthumb/gnome-print-font-picker.c:205
-msgid "Preview text shown in the dialog"
-msgstr "ਵਾਰਤਾਲਾਪ 'ਚ ਝਲਕ ਪਾਠ ਵੇਖਾਓ"
-
-#: ../libgthumb/gnome-print-font-picker.c:213
-msgid "Use font in label"
-msgstr "ਲੇਬਲ ਵਿੱਚ ਫੋਂਟ ਵਰਤੋਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:214
-msgid "Use font in the label in font info mode"
-msgstr "ਫੋਂਟ ਜਾਣਕਾਰੀ ਢੰਗ ਵਿੱਚ ਲੇਬਲ ਵਿੱਚ ਫੋਂਟ ਵਰਤੋਂ"
-
-#: ../libgthumb/gnome-print-font-picker.c:222
-msgid "Font size for label"
-msgstr "ਲੇਬਲ ਲਈ ਫੋਂਟ ਅਕਾਰ"
-
-#: ../libgthumb/gnome-print-font-picker.c:223
-msgid "Font size for label in font info mode"
-msgstr "ਫੋਂਟ ਜਾਣਕਾਰੀ ਢੰਗ ਵਿੱਚ ਲੇਬਲ ਲਈ ਫੋਂਟ ਅਕਾਰ"
-
-#: ../libgthumb/gnome-print-font-picker.c:233
-msgid "Show size"
-msgstr "ਅਕਾਰ ਵੇਖਾਓ"
-
-#: ../libgthumb/gnome-print-font-picker.c:234
-msgid "Show size in font info mode"
-msgstr "ਫੋਂਟ ਜਾਣਕਾਰੀ ਢੰਗ 'ਚ ਅਕਾਰ ਵੇਖਾਓ"
-
-#: ../libgthumb/gnome-print-font-picker.c:1013
-msgid "Font"
-msgstr "ਫੋਂਟ"
-
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8637
-#: ../src/gth-viewer.c:2216
-msgid "Wait please..."
-msgstr "ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕੋ..."
-
-#: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:766
-#: ../src/gth-viewer.c:750
-msgid "No image"
-msgstr "ਕੋਈ ਚਿੱਤਰ ਨਹੀ"
-
-#: ../libgthumb/gth-file-view-list.c:1483 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:594 ../src/gth-exif-data-viewer.c:490
+#.
+#: ../libgthumb/gth-file-view-list.c:1513 ../src/dlg-duplicates.c:368
+#: ../src/dlg-image-prop.c:594 ../src/gth-exif-data-viewer.c:803
 msgid "Name"
 msgstr "ਨਾਂ"
+
+#: ../libgthumb/gth-image-list.c:3524 ../src/gth-browser.c:787
+#: ../src/gth-browser.c:4499 ../src/gth-viewer.c:759
+msgid "No image"
+msgstr "ਕੋਈ ਚਿੱਤਰ ਨਹੀਂ"
 
 #: ../libgthumb/gth-utils.c:46
 msgid "Could not display help"
 msgstr "ਸਹਾਇਤਾ ਨਹੀਂ ਵੇਖਾਈ ਜਾ ਸਕਦੀ"
 
-#: ../libgthumb/gthumb-stock.c:77
+#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "ਚਿੱਤਰ ਘੁੰਮਾਓ(_t)"
 
-#: ../libgthumb/print-callbacks.c:713
+#: ../libgthumb/print-callbacks.c:824
 #, c-format
 msgid "Page %d of %d"
-msgstr "%2d ਦਾ %1d ਸਫਾ"
+msgstr "%2$d ਦਾ %1$d ਸਫ਼ਾ"
 
-#: ../libgthumb/print-callbacks.c:1796 ../src/catalog-png-exporter.c:1358
+#: ../libgthumb/print-callbacks.c:2248 ../src/catalog-png-exporter.c:1354
 #, c-format
 msgid "Loading image: %s"
 msgstr "ਚਿੱਤਰ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ: %s"
 
-#: ../libgthumb/thumb-cache.c:490
+#: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr "ਸਭ ਥੱਮਨੇਲ ਹਟਾਏ ਜਾ ਰਹੇ ਹਨ, ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕੋ..."
+msgstr "ਸਭ ਥੰਮਨੇਲ ਹਟਾਏ ਜਾ ਰਹੇ ਹਨ, ਉਡੀਕੋ ਜੀ..."
 
-#: ../libgthumb/thumb-cache.c:492
+#: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr "ਪੁਰਾਣੇ ਥੱਮਨੇਲ ਹਟਾਏ ਜਾ ਰਹੇ ਹਨ, ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕੋ..."
+msgstr "ਪੁਰਾਣੇ ਥੰਮਨੇਲ ਹਟਾਏ ਜਾ ਰਹੇ ਹਨ, ਉਡੀਕੋ ਜੀ..."
 
-#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1404
-#: ../src/gth-browser.c:1408 ../src/gth-browser.c:1420
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1266
+#: ../src/gth-browser.c:1270 ../src/gth-browser.c:1282
 msgid "(Invalid Name)"
 msgstr "(ਗਲਤ ਨਾਂ)"
+
+#: ../src/catalog-png-exporter.c:818 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:788
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:612
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d ਪਿਕਸਲ"
 
 #: ../src/catalog-png-exporter.c:1587
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "ਚਿੱਤਰ ਬਣਾਇਆ ਜਾ ਰਿਹਾ ਹੈ: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1856
+#: ../src/catalog-web-exporter.c:1868
 msgid "Saving thumbnails"
-msgstr "ਥੱਮਨੇਲ ਸੰਭਾਲੇ ਜਾ ਰਹੇ ਹਨ"
+msgstr "ਥੰਮਨੇਲ ਸੰਭਾਲੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../src/catalog-web-exporter.c:1922
+#: ../src/catalog-web-exporter.c:1934
 msgid "Saving HTML pages: Images"
 msgstr "HTML ਸਫ਼ੇ ਸੰਭਾਲੇ ਜਾਂਦੇ ਹਨ: ਚਿੱਤਰ"
 
-#: ../src/catalog-web-exporter.c:1997
+#: ../src/catalog-web-exporter.c:2009
 msgid "Saving HTML pages: Indexes"
-msgstr "HTML ਸਫ਼ੇ ਸੰਭਾਲੇ ਜਾਂਦੇ ਹਨ: ਤਤਕਰਾ"
+msgstr "HTML ਸਫ਼ੇ ਸੰਭਾਲੇ ਜਾਂਦੇ ਹਨ: ਤਤਕਰੇ"
 
-#: ../src/catalog-web-exporter.c:2127 ../src/catalog-web-exporter.c:2187
-#: ../src/catalog-web-exporter.c:2357
+#: ../src/catalog-web-exporter.c:2139 ../src/catalog-web-exporter.c:2392
 msgid "Saving images"
 msgstr "ਚਿੱਤਰ ਸੰਭਾਲੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../src/catalog-web-exporter.c:2541
-#: ../src/gth-window-actions-callbacks.c:219 ../src/rotation-utils.c:142
+#. This function is used when "Copy originals to destination" is
+#. enabled, and resizing is NOT enabled. This allows us to use a
+#. lossless copy (and rotate). When resizing is enabled, a lossy
+#. save has to be used.
+#: ../src/catalog-web-exporter.c:2203
+msgid "Copying original images"
+msgstr "ਅਸਲੀ ਫਾਇਲ-ਨਾਂ ਨਕਲ ਜਾਰੀ(_K)"
+
+#: ../src/catalog-web-exporter.c:2576
+#: ../src/gth-window-actions-callbacks.c:218 ../src/rotation-utils.c:165
 msgid "Could not create a temporary folder"
-msgstr "ਆਰਜ਼ੀ ਫੋਲਡਰ ਨਹੀ ਬਣਾਇਆ ਜਾ ਸਕਿਆ"
+msgstr "ਆਰਜ਼ੀ ਫੋਲਡਰ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2574
+#: ../src/catalog-web-exporter.c:2609
 msgid "Loading images"
 msgstr "ਚਿੱਤਰ ਲੋਡ ਕੀਤੇ ਜਾ ਰਹੇ ਹਨ"
 
-#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:818
+#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:684
 msgid "Enter the catalog name: "
 msgstr "ਵਰਗ ਨਾਂ ਭਰੋ:"
 
-#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:147
+#: ../src/dlg-catalog.c:94 ../src/dlg-catalog.c:148
 #: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:91
-#: ../src/gth-browser-actions-callbacks.c:904
+#: ../src/gth-browser-actions-callbacks.c:770
 msgid "C_reate"
 msgstr "ਬਣਾਓ(_r)"
 
-#: ../src/dlg-catalog.c:143 ../src/gth-browser-actions-callbacks.c:959
+#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:825
 msgid "Enter the library name: "
 msgstr "ਲਾਇਬਰੇਰੀ ਦਾ ਨਾਂ ਭਰੋ:"
 
-#: ../src/dlg-catalog.c:499
+#: ../src/dlg-catalog.c:500
 msgid "Move Catalog to..."
-msgstr "ਵਰਗ ਨੂੰ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ..."
+msgstr "ਵਰਗ ਵਿੱਚ ਭੇਜੋ..."
 
 #: ../src/dlg-categories.c:240
 msgid "Enter the new category name"
-msgstr "ਨਵੀਂ ਸੂਚੀ ਦਾ ਨਾਂ ਭਰੋ"
+msgstr "ਨਵਾਂ ਵਰਗ ਨਾਂ ਦਿਓ"
 
 #: ../src/dlg-categories.c:251
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr "ਨਾਂ \"%s\" ਠੀਕ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ ਇਸ ਵਿੱਚ \",\" ਅੱਖਰ ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਵੱਖਰਾ ਨਾਂ ਦਿਓ।"
+msgstr "ਨਾਂ \"%s\" ਠੀਕ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ ਇਸ ਵਿੱਚ \",\" ਅੱਖਰ ਮੌਜੂਦ ਹੈ। ਇੱਕ ਵੱਖਰਾ ਨਾਂ ਦਿਓ ਜੀ।"
 
 #: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "ਵਰਗ \"%s\" ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ।"
+msgstr "ਵਰਗ \"%s\" ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ ਜੀ।"
 
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
 #, c-format
 msgid "Converting image: %s"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਤਬਦੀਲ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ: %s"
+msgstr "ਚਿੱਤਰਾਂ ਬਦਲੇ ਜਾਂਦੇ ਹੈ: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
 #, c-format
 msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "ਚਿੱਤਰ ਨਾਂ \"%s\" ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ।"
+msgstr "ਚਿੱਤਰ ਨਾਂ \"%s\" ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ ਜੀ।"
+
+#: ../src/dlg-convert.c:321 ../src/gth-batch-op.c:570
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "ਚਿੱਤਰ \"%s\" ਨਾਂ ਨਾਲ ਪਹਿਲਾਂ ਵੀ ਮੌਜੂਦ ਹੈ। ਕੀ ਤੁਸੀਂ ਉੱਤੇ ਲਿਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
 msgid "Skip"
 msgstr "ਛੱਡੋ"
 
 #: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:576
-#: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
-msgstr "ਉੱਪਰ ਲਿਖੋ(_O)"
+msgstr "ਉੱਤੇ ਲਿਖੋ(_O)"
 
-#: ../src/dlg-crop.c:427
+#: ../src/dlg-crop.c:527
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (ਚਿੱਤਰ)"
 
-#: ../src/dlg-crop.c:435
+#: ../src/dlg-crop.c:535
 #, c-format
-msgid "%d x %d (Display)"
-msgstr "%d x %d (ਝਾਤੀ)"
+msgid "%d x %d (Screen)"
+msgstr "%d x %d (ਸਕਰੀਨ)"
 
-#: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
+#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
 msgid "Duplicates"
-msgstr "ਨਕਲੀ"
+msgstr "ਡੁਪਲੀਕੇਟ"
 
-#: ../src/dlg-duplicates.c:295
+#: ../src/dlg-duplicates.c:290
 msgid "Duplicates Size"
-msgstr "ਨਕਲ਼ੀ ਅਕਾਰ"
+msgstr "ਡੁਪਲੀਕੇਟ ਆਕਾਰ"
 
-#: ../src/dlg-duplicates.c:402
+#: ../src/dlg-duplicates.c:397
 msgid "Last modified"
 msgstr "ਆਖਰੀ ਸੋਧ"
 
-#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:614
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:614
 msgid "Location"
 msgstr "ਟਿਕਾਣਾ"
 
-#: ../src/dlg-duplicates.c:759
+#: ../src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "ਚੁਣੇ ਚਿੱਤਰ ਰੱਦੀ ਵਿੱਚ ਭੇਜਣ ਦੀ ਤੁਸੀਂ ਕੀ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਭੇਜਣ ਦੀ ਤੁਸੀਂ ਕੀ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
 
 #: ../src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
@@ -2490,11 +2379,16 @@ msgstr "ਟਿਕਾਣਾ ਫੋਲਡਰ ਮੌਜੂਦ ਨਹੀਂ ਹੈ�
 #: ../src/dlg-file-utils.c:105
 #, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ: %s."
+msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ: %s."
+
+#: ../src/dlg-file-utils.c:119 ../src/dlg-photo-importer.c:1533
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "ਤੁਹਾਨੂੰ ਫੋਲਡਰ \"%s\" ਵਿੱਚ ਚਿੱਤਰ ਬਣਾਉਣ ਲਈ ਅਧਿਕਾਰ ਨਹੀਂ ਹਨ।"
 
 #: ../src/dlg-file-utils.c:202
 msgid "Could not delete the images:"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ:"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਹਟਾਇਆ ਨਹੀ ਜਾ ਸਕਿਆ:"
 
 #: ../src/dlg-file-utils.c:225
 msgid ""
@@ -2502,93 +2396,99 @@ msgid ""
 "permanently?"
 msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਨਹੀਂ ਭੇਜਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਨੂੰ ਹਮੇਸ਼ਾਂ ਲਈ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
-#: ../src/gth-browser.c:1956 ../src/gth-viewer.c:983
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1135
+#: ../src/gth-browser.c:1846 ../src/gth-viewer.c:1009
+#: ../src/rotation-utils.c:124
 msgid "_Do not display this message again"
 msgstr "ਇਹ ਸੁਨੇਹਾ ਮੁਡ਼ ਨਾ ਵੇਖਾਓ(_D)"
 
-#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1306
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1173
 msgid "_Move"
 msgstr "ਭੇਜੋ(_M)"
 
-#: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1515
+#: ../src/dlg-file-utils.c:379 ../src/dlg-file-utils.c:479
+#: ../src/gth-browser-actions-callbacks.c:1384
 msgid "Choose the destination folder"
 msgstr "ਨਿਯਤ ਫੋਲਡਰ ਚੁਣੋ"
 
-#: ../src/dlg-file-utils.c:791 ../src/dlg-file-utils.c:892
-msgid "You didn't enter the new name"
-msgstr "ਤੁਸੀ ਨਵਾਂ ਨਾਂ ਨਹੀ ਭਰਿਆ"
+#: ../src/dlg-file-utils.c:547
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
+#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+msgid "You didn't enter the new name"
+msgstr "ਤੁਸੀ ਨਵਾਂ ਨਾਂ ਨਹੀਂ ਭਰਿਆ"
+
+#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
-msgstr "ਇਸ ਫੋਲਡਰ ਵਿੱਚ \"%s\" ਨਾਂ ਪਹਿਲਾਂ ਹੀ ਇਸਤੇਮਾਲ ਅਧੀਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ।"
+msgstr "ਇਸ ਫੋਲਡਰ ਵਿੱਚ \"%s\" ਨਾਂ ਪਹਿਲਾਂ ਹੀ ਇਸਤੇਮਾਲ ਅਧੀਨ ਹੈ। ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ ਜੀ।"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1038
 msgid "Could not rename the image:"
-msgstr "ਚਿੱਤਰ ਦਾ ਨਾਂ ਬਦਲਣਾ ਸੰਭਵ ਨਹੀ ਹੈ:"
+msgstr "ਚਿੱਤਰ ਦਾ ਨਾਂ ਬਦਲਣਾ ਸੰਭਵ ਨਹੀਂ ਹੈ:"
 
-#: ../src/dlg-file-utils.c:1045
+#: ../src/dlg-file-utils.c:1040
 msgid "Could not rename the following images:"
-msgstr "ਹੇਠ ਦਿੱਤੇ ਚਿੱਤਰਾਂ ਦਾ ਨਾਂ-ਤਬਦੀਲ ਨਹੀਂ ਹੋ ਸਕੇ:"
+msgstr "ਹੇਠ ਦਿੱਤੇ ਚਿੱਤਰਾਂ ਦਾ ਨਾਂ-ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ:"
 
-#: ../src/dlg-file-utils.c:1179
+#: ../src/dlg-file-utils.c:1174
 msgid "Could not move the image:"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਭੇਜਿਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ:"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ:"
 
-#: ../src/dlg-file-utils.c:1181
+#: ../src/dlg-file-utils.c:1176
 msgid "Could not copy the image:"
-msgstr "ਚਿੱਤਰ ਦੀ ਨਕਲ ਨਹੀ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ:"
+msgstr "ਚਿੱਤਰ ਦੀ ਨਕਲ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
+#: ../src/dlg-file-utils.c:1200 ../src/dlg-file-utils.c:2457
 msgid "_Abort"
 msgstr "ਅਧੂਰਾ ਛੱਡੋ(_A)"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1201 ../src/dlg-file-utils.c:2458
 msgid "_Continue"
 msgstr "ਜਾਰੀ ਰੱਖੋ(_C)"
 
-#: ../src/dlg-file-utils.c:1380
+#: ../src/dlg-file-utils.c:1375
 #, c-format
 msgid "Copying file %d of %d"
-msgstr "%d ਵਿੱਚੋਂ ਫਾਇਲ %d ਨਕਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
+msgstr "%2$d ਵਿੱਚੋਂ %1$d ਫਾਇਲ ਦੀ ਨਕਲ ਜਾਰੀ"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
+#: ../src/dlg-file-utils.c:1787 ../src/dlg-file-utils.c:2014
 msgid "Collecting images info"
 msgstr "ਚਿੱਤਰ ਜਾਣਕਾਰੀ ਖੋਜੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
+#: ../src/dlg-file-utils.c:1790 ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "%ld ਵਿੱਚੋਂ ਫਾਇਲ %ld ਹਟਾਈ ਜਾ ਰਹੀ ਹੈ"
+msgstr "%2$ld ਵਿੱਚੋਂ ਫਾਇਲ %1$ld ਹਟਾਈ ਜਾ ਰਹੀ ਹੈ"
+
+#: ../src/dlg-file-utils.c:2017
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "%2$ld ਵਿੱਚੋਂ ਫਾਇਲ %1$ld ਨਕਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
 #: ../src/dlg-file-utils.c:2022
 #, c-format
-msgid "Copying file %ld of %ld"
-msgstr "%ld ਵਿੱਚੋਂ ਫਾਇਲ %ld ਨਕਲ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
-
-#: ../src/dlg-file-utils.c:2027
-#, c-format
 msgid "Moving file %ld of %ld"
-msgstr "%ld ਵਿੱਚੋਂ ਫਾਇਲ %ld ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ"
+msgstr "%2$ld ਵਿੱਚੋਂ ਫਾਇਲ %1$ld ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
-#: ../src/gth-browser-actions-callbacks.c:1407
+#: ../src/dlg-file-utils.c:2434 ../src/dlg-file-utils.c:2436
+#: ../src/gth-browser-actions-callbacks.c:1274
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ: %s"
+msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:497
+#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:806
+#: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "ਅਕਾਰ"
 
-#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:518
+#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:808
 msgid "Type"
 msgstr "ਕਿਸਮ"
 
 #: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:509
-#: ../src/gth-exif-data-viewer.c:511 ../src/gth-viewer.c:588
+#: ../src/gth-exif-data-viewer.c:807 ../src/gth-viewer.c:624
 msgid "Modified"
 msgstr "ਸੋਧਿਆ"
 
@@ -2599,245 +2499,222 @@ msgstr "ਚੈਨਲ ਉੱਤੇ ਜਾਣਕਾਰੀ"
 #: ../src/dlg-image-prop.c:733
 #, c-format
 msgid "%s Properties"
-msgstr "%s ਵਿਸ਼ੇਸਤਾ"
+msgstr "%s ਵਿਸ਼ੇਸ਼ਤਾ"
 
-#: ../src/dlg-jpegtran.c:237
-msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
-"\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
-"\n"
-"gThumb can also discard (or trim) any untransformable edge pixels. For "
-"practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore.\n"
-"\n"
-"To avoid this problem in the future, consider disabling the \"Apply physical "
-"transform\" option in the rotation dialog."
-msgstr ""
+#: ../src/dlg-jpegtran.c:257 ../src/dlg-reset-exif.c:123
+msgid "Could not create a local temporary copy of the remote file."
+msgstr "ਰਿਮੋਟ ਫਾਇਲ ਦੀ ਇੱਕ ਲੋਕਲ ਆਰਜ਼ੀ ਨਕਲ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ।"
 
-#: ../src/dlg-jpegtran.c:245
-msgid "Trim"
-msgstr "ਛਾਂਟੋ"
+#: ../src/dlg-jpegtran.c:287 ../src/dlg-reset-exif.c:139
+msgid "Could not move temporary file to remote location. Check remote permissions."
+msgstr "ਰਿਮੋਟ ਟਿਕਾਣੇ ਲਈ ਆਰਜ਼ੀ ਫਾਇਲ ਏਧਰ-ਓਧਰ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ। ਰਿਮੋਟ ਅਧਿਕਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰੋ।"
 
-#: ../src/dlg-photo-importer.c:895 ../src/dlg-photo-importer.c:1464
-#: ../src/dlg-photo-importer.c:1514 ../src/dlg-photo-importer.c:1526
-#: ../src/dlg-photo-importer.c:1542 ../src/dlg-photo-importer.c:1571
+#: ../src/dlg-photo-importer.c:892 ../src/dlg-photo-importer.c:1457
+#: ../src/dlg-photo-importer.c:1507 ../src/dlg-photo-importer.c:1519
+#: ../src/dlg-photo-importer.c:1535 ../src/dlg-photo-importer.c:1564
 msgid "Could not import photos"
 msgstr "ਚਿੱਤਰ ਅਯਾਤ ਨਹੀ ਕੀਤੇ ਜਾ ਸਕੇ"
 
-#: ../src/dlg-photo-importer.c:1254 ../src/main.c:1012
+#: ../src/dlg-photo-importer.c:1247 ../src/main.c:1089
 msgid "Film"
 msgstr "ਫਿਲਮ"
 
-#: ../src/dlg-photo-importer.c:1523
-#: ../src/gth-browser-actions-callbacks.c:1718
+#: ../src/dlg-photo-importer.c:1516
+#: ../src/gth-browser-actions-callbacks.c:1587
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "ਫੋਲਡਰ \"%s\" ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/dlg-png-exporter.c:905
+#: ../src/dlg-png-exporter.c:899
 msgid "Image Caption"
 msgstr "ਚਿੱਤਰ ਸੁਰਖੀ"
 
-#: ../src/dlg-png-exporter.c:959
+#: ../src/dlg-png-exporter.c:953
 msgid "Header"
 msgstr "ਸਿਰਲੇਖ"
 
-#: ../src/dlg-png-exporter.c:972 ../src/dlg-png-exporter.c:978
+#: ../src/dlg-png-exporter.c:966 ../src/dlg-png-exporter.c:972
 msgid "Footer"
 msgstr "ਪਦਲੇਖ"
 
-#: ../src/dlg-png-exporter.c:1566 ../src/dlg-web-exporter.c:487
+#: ../src/dlg-png-exporter.c:1560 ../src/dlg-rename-series.c:474
+#: ../src/dlg-web-exporter.c:485
 msgid "by path"
-msgstr "ਮਾਰਗ ਨਾਲ"
+msgstr "ਮਾਰਗ"
 
-#: ../src/dlg-png-exporter.c:1568 ../src/dlg-rename-series.c:414
-#: ../src/dlg-web-exporter.c:489
+#: ../src/dlg-png-exporter.c:1562 ../src/dlg-rename-series.c:476
+#: ../src/dlg-web-exporter.c:487
 msgid "by size"
-msgstr "ਅਕਾਰ ਨਾਲ"
+msgstr "ਅਕਾਰ"
 
-#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:416
+#: ../src/dlg-png-exporter.c:1564 ../src/dlg-rename-series.c:478
+#: ../src/dlg-web-exporter.c:489
+msgid "by file modified time"
+msgstr "ਸੋਧ ਸਮਾਂ"
+
+#: ../src/dlg-png-exporter.c:1566 ../src/dlg-rename-series.c:480
 #: ../src/dlg-web-exporter.c:491
-msgid "by modified time"
-msgstr "ਸੋਧ ਸਮੇਂ ਨਾਲ"
+msgid "by Exif DateTime tag"
+msgstr "Exif DateTime ਟੈਗ"
 
-#: ../src/dlg-png-exporter.c:1572 ../src/dlg-web-exporter.c:493
+#: ../src/dlg-png-exporter.c:1568 ../src/dlg-rename-series.c:482
+#: ../src/dlg-web-exporter.c:493
 msgid "by comment"
-msgstr "ਟਿੱਪਣੀ ਰਾਹੀਂ"
+msgstr "ਟਿੱਪਣੀ"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:419
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:485
 #: ../src/dlg-web-exporter.c:496
 msgid "manual order"
-msgstr "ਦਸਤੀ ਕ੍ਰਮ"
+msgstr "ਦਸਤੀ ਲੜੀਬੱਧ"
 
-#: ../src/dlg-rename-series.c:398
-msgid "Old Name"
-msgstr "ਪੁਰਾਣਾ ਨਾਂ"
-
-#: ../src/dlg-rename-series.c:406
-msgid "New Name"
-msgstr "ਨਵਾਂ ਨਾਂ"
-
-#: ../src/dlg-search.c:356
-msgid "Search Result"
-msgstr "ਖੋਜ ਨਤੀਜਾ"
-
-#: ../src/dlg-search.c:653
-msgid "Filename"
-msgstr "ਫਾਇਲ ਨਾਂ"
-
-#: ../src/dlg-search.c:662 ../src/gth-folder-selection-dialog.c:396
-msgid "Folder"
-msgstr "ਫੋਲਡਰ"
-
-#: ../src/dlg-web-exporter.c:854
-msgid "Select Album Theme"
-msgstr "ਐਲਬਮ ਸਰੂਪ ਚੁਣੋ"
-
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3745
-msgid "Could not move the items:"
-msgstr "ਇਕਾਈਆਂ ਨੂੰ ਭੇਜਿਆ ਨਹੀ ਜਾ ਸਕਦਾ ਹੈ:"
-
-#: ../src/gth-browser-actions-callbacks.c:162
-#: ../src/gth-browser-actions-callbacks.c:599
-#: ../src/gth-browser-actions-callbacks.c:1107
-msgid "Enter the new name: "
-msgstr "ਨਵਾਂ ਨਾਂ ਭਰੋ:"
-
-#: ../src/gth-browser-actions-callbacks.c:180
-#: ../src/gth-browser-actions-callbacks.c:619
-#: ../src/gth-browser-actions-callbacks.c:834
-#: ../src/gth-browser-actions-callbacks.c:917
-#: ../src/gth-browser-actions-callbacks.c:1125
+#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:485
+#: ../src/gth-browser-actions-callbacks.c:700
+#: ../src/gth-browser-actions-callbacks.c:783
+#: ../src/gth-browser-actions-callbacks.c:991
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr "ਨਾਂ \"%s\" ਠੀਕ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ ਇਸ ਵਿੱਚ \"/\" ਮੌਜੂਦ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ।"
+msgstr "ਨਾਂ \"%s\" ਠੀਕ ਨਹੀਂ ਹੈ, ਕਿਉਂਕਿ ਇਸ ਵਿੱਚ \"/\" ਮੌਜੂਦ ਹੈ। ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ ਜੀ।"
 
-#: ../src/gth-browser-actions-callbacks.c:227
-#: ../src/gth-browser-actions-callbacks.c:242
-#, c-format
-msgid "Could not rename the image \"%s\": %s"
-msgstr "ਚਿੱਤਰ \"%s\" ਦਾ ਨਾਂ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
+#: ../src/dlg-rename-series.c:458
+msgid "Old Name"
+msgstr "ਪੁਰਾਣਾ ਨਾਂ"
 
-#: ../src/gth-browser-actions-callbacks.c:229
-#: ../src/gth-browser-actions-callbacks.c:1147
-#: ../src/gth-browser-actions-callbacks.c:1417
-msgid "source and destination are the same"
-msgstr "ਸਰੋਤ ਅਤੇ ਨਿਯਤ ਟਿਕਾਣਾ ਇੱਕ ਹੀ ਹੈ"
+#: ../src/dlg-rename-series.c:466
+msgid "New Name"
+msgstr "ਨਵਾਂ ਨਾਂ"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1071
+#: ../src/dlg-search.c:357
+msgid "Search Result"
+msgstr "ਖੋਜ ਨਤੀਜਾ"
+
+#: ../src/dlg-web-exporter.c:849
+msgid "Select Album Theme"
+msgstr "ਐਲਬਮ ਸਰੂਪ ਚੁਣੋ"
+
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3793
+msgid "Could not move the items:"
+msgstr "ਇਕਾਈਆਂ ਨੂੰ ਭੇਜਿਆ ਨਹੀ ਜਾ ਸਕਿਆ:"
+
+#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "ਚਿੱਤਰ ਨੂੰ ਰੱਦੀ 'ਚ ਭੇਜਿਆ ਜਾਵੇਗਾ, ਕੀ ਤੁਸੀਂ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:400
+#: ../src/gth-browser-actions-callbacks.c:266
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "ਚਿੱਤਰ \"%s\" ਦਾ ਦੂਹਰਾ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ: %s"
+msgstr "ਚਿੱਤਰ \"%s\" ਦਾ ਡੁਪਲੀਕੇਟ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:408
+#: ../src/gth-browser-actions-callbacks.c:274
 msgid "Stop"
 msgstr "ਰੋਕੋ"
 
-#: ../src/gth-browser-actions-callbacks.c:409
+#: ../src/gth-browser-actions-callbacks.c:275
 msgid "Continue"
 msgstr "ਜਾਰੀ ਰੱਖੋ"
 
-#: ../src/gth-browser-actions-callbacks.c:464
+#: ../src/gth-browser-actions-callbacks.c:330
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਰੱਦੀ 'ਚ ਭੇਜਿਆ ਜਾਵੇਗਾ, ਕੀ ਤੁਸੀਂ ਸਹਿਮਤ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:641
-#: ../src/gth-browser-actions-callbacks.c:853
-#: ../src/gth-browser-actions-callbacks.c:933
-#: ../src/gth-browser-actions-callbacks.c:1155
+#: ../src/gth-browser-actions-callbacks.c:465
+#: ../src/gth-browser-actions-callbacks.c:973
+msgid "Enter the new name: "
+msgstr "ਨਵਾਂ ਨਾਂ ਭਰੋ:"
+
+#: ../src/gth-browser-actions-callbacks.c:507
+#: ../src/gth-browser-actions-callbacks.c:719
+#: ../src/gth-browser-actions-callbacks.c:799
+#: ../src/gth-browser-actions-callbacks.c:1021
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "ਨਾਂ \"%s\" ਪਹਿਲਾਂ ਹੀ ਵਰਤੋਂ ਅਧੀਨ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ।"
+msgstr "ਨਾਂ \"%s\" ਪਹਿਲਾਂ ਹੀ ਵਰਤੋਂ ਅਧੀਨ ਹੈ। ਵੱਖਰਾ ਨਾਂ ਚੁਣੋ ਜੀ।"
 
-#: ../src/gth-browser-actions-callbacks.c:652
+#: ../src/gth-browser-actions-callbacks.c:518
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "ਲਾਇਬਰੇਰੀ \"%s\" ਦਾ ਨਾਂ ਤਬਦੀਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: %s"
+msgstr "ਲਾਇਬਰੇਰੀ \"%s\" ਦਾ ਨਾਂ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:652
+#: ../src/gth-browser-actions-callbacks.c:518
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "ਵਰਗ \"%s\" ਦਾ ਨਾਂ ਤਬਦੀਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: %s"
+msgstr "ਵਰਗ \"%s\" ਦਾ ਨਾਂ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:722
+#: ../src/gth-browser-actions-callbacks.c:588
 msgid "The selected library will be removed, are you sure?"
 msgstr "ਚੁਣੀ ਲਾਇਬਰੇਰੀ ਹਟਾਈ ਜਾਵੇਗੀ, ਕੀ ਤੁਸੀਂ ਸਹਿਮਤ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:724
+#: ../src/gth-browser-actions-callbacks.c:590
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "ਚੁਣਿਆ ਵਰਗ ਹਟਾਇਆ ਜਾਵੇਗਾ, ਕੀ ਤੁਸੀਂ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:819
+#: ../src/gth-browser-actions-callbacks.c:685
 msgid "New Catalog"
 msgstr "ਨਵਾਂ ਵਰਗ"
 
-#: ../src/gth-browser-actions-callbacks.c:865
+#: ../src/gth-browser-actions-callbacks.c:731
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr "ਵਰਗ \"%s\" ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕੀ: %s"
+msgstr "ਵਰਗ \"%s\" ਬਣਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:958
+#: ../src/gth-browser-actions-callbacks.c:824
 msgid "New Library"
 msgstr "ਨਵੀਂ ਲਾਇਬਰੇਰੀ"
 
-#: ../src/gth-browser-actions-callbacks.c:960
+#: ../src/gth-browser-actions-callbacks.c:826
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "ਲਾਇਬਰੇਰੀ \"%s\" ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1145
-#: ../src/gth-browser-actions-callbacks.c:1179
+#: ../src/gth-browser-actions-callbacks.c:1011
+#: ../src/gth-browser-actions-callbacks.c:1046
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "ਫੋਲਡਰ \"%s\" ਦਾ ਨਾਂ-ਤਬਦੀਲ ਨਹੀਂ ਹੋ ਸਕਿਆ: %s"
+msgstr "ਫੋਲਡਰ \"%s\" ਦਾ ਨਾਂ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1229
+#: ../src/gth-browser-actions-callbacks.c:1013
+#: ../src/gth-browser-actions-callbacks.c:1284
+msgid "source and destination are the same"
+msgstr "ਸਰੋਤ ਅਤੇ ਨਿਯਤ ਟਿਕਾਣਾ ਇੱਕ ਹੀ ਹੈ"
+
+#: ../src/gth-browser-actions-callbacks.c:1096
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਹਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1260
+#: ../src/gth-browser-actions-callbacks.c:1127
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" ਨੂੰ ਰੱਦੀ 'ਚ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਹਮੇਸ਼ਾ ਲਈ ਹਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:1304
+#: ../src/gth-browser-actions-callbacks.c:1171
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "ਕੀ ਤੁਸੀਂ ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਰੱਦੀ ਵਿੱਚ ਭੇਜਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹੋ?"
 
-#: ../src/gth-browser-actions-callbacks.c:1352
-#: ../src/gth-browser-actions-callbacks.c:1407
+#: ../src/gth-browser-actions-callbacks.c:1219
+#: ../src/gth-browser-actions-callbacks.c:1274
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "ਫੋਲਡਰ \"%s\" ਦੀ ਨਕਲ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ: %s"
+msgstr "ਫੋਲਡਰ \"%s\" ਦੀ ਨਕਲ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1428
+#: ../src/gth-browser-actions-callbacks.c:1295
 msgid "source contains destination"
 msgstr "ਸਰੋਤ ਹੀ ਟਿਕਾਣਾ ਰੱਖਦਾ ਹੈ"
 
-#: ../src/gth-browser-actions-callbacks.c:1439
+#: ../src/gth-browser-actions-callbacks.c:1306
 msgid "a folder with that name is already present."
 msgstr "ਉਸ ਨਾਂ ਨਾਲ ਫੋਲਡਰ ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ।"
 
-#: ../src/gth-browser-actions-callbacks.c:1716
+#: ../src/gth-browser-actions-callbacks.c:1585
 msgid "New Folder"
 msgstr "ਨਵਾਂ ਫੋਲਡਰ"
 
-#: ../src/gth-browser-actions-callbacks.c:1717
+#: ../src/gth-browser-actions-callbacks.c:1586
 msgid "Enter the folder name: "
 msgstr "ਨਵੇਂ ਫੋਲਡਰ ਦਾ ਨਾਂ ਭਰੋ:"
 
-#: ../src/gth-browser-actions-callbacks.c:1852
+#: ../src/gth-browser-actions-callbacks.c:1716 ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "ਟਿਕਾਣਾ ਖੋਲ੍ਹੋ"
 
@@ -2873,6 +2750,12 @@ msgstr "ਜ਼ੂਮ(_Z)"
 msgid "_Go"
 msgstr "ਜਾਓ(_G)"
 
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:495
+#: ../src/gth-viewer-actions-entries.h:40
+msgid "_Image"
+msgstr "ਚਿੱਤਰ(_I)"
+
 #: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
 msgstr "ਬੁੱਕਮਾਰਕ(_B)"
@@ -2885,7 +2768,7 @@ msgstr "ਸੰਦ(_T)"
 #: ../src/gth-browser-actions-entries.h:49
 #: ../src/gth-viewer-actions-entries.h:44
 msgid "Set Image as _Wallpaper"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਪਿੱਠਭੂਮੀ ਵਾਂਗ ਲਗਾਓ(_W)"
+msgstr "ਚਿੱਤਰ ਬੈਕਗਰਾਊਂਡ ਵਾਂਗ ਲਾਓ(_W)"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:45
@@ -2900,13 +2783,15 @@ msgstr "ਨਵਾਂ ਝਰੋਖਾ(_W)"
 #: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
-msgstr "ਨਵਾਂ ਝਰੋਖਾ ਬਣਾਓ"
+msgstr "ਇੱਕ ਨਵਾਂ ਝਰੋਖਾ ਬਣਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
-msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲੋ"
+msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:64
+#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-viewer-actions-entries.h:84
 msgid "View image properties"
 msgstr "ਚਿੱਤਰ ਵਿਸ਼ੇਸਤਾ ਵੇਖੋ"
 
@@ -2916,7 +2801,7 @@ msgstr "ਤਸਵੀਰਾਂ ਅਯਾਤ(_I)..."
 
 #: ../src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
-msgstr "ਡਿਜ਼ੀਟਲ ਕੈਮਰੇ ਤੋ ਤਸਵੀਰਾਂ ਅਯਾਤ ਕਰੋ"
+msgstr "ਡਿਜ਼ੀਟਲ ਕੈਮਰੇ ਤੋਂ ਤਸਵੀਰਾਂ ਲਵੋ"
 
 #: ../src/gth-browser-actions-entries.h:73
 msgid "_Write To CD..."
@@ -2924,7 +2809,7 @@ msgstr "CD 'ਤੇ ਲਿਖੋ(_W)..."
 
 #: ../src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
-msgstr "ਚੋਣ ਨੂੰ ਸੀਡੀ 'ਤੇ ਲਿਖੋ"
+msgstr "ਚੋਣ ਨੂੰ CD 'ਤੇ ਲਿਖੋ"
 
 #: ../src/gth-browser-actions-entries.h:78
 #: ../src/gth-browser-actions-entries.h:98
@@ -2933,11 +2818,11 @@ msgstr "ਚੋਣ ਨੂੰ ਸੀਡੀ 'ਤੇ ਲਿਖੋ"
 #: ../src/gth-browser-actions-entries.h:223
 #: ../src/gth-browser-actions-entries.h:253
 msgid "_Rename..."
-msgstr "ਨਾਂ-ਤਬਦੀਲ(_R)..."
+msgstr "ਨਾਂ-ਬਦਲੋ(_R)..."
 
 #: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
-msgstr "ਇਸ ਚਿੱਤਰ ਦਾ ਨਾਂ ਤਬਦੀਲ ਕਰੋ"
+msgstr "ਇਸ ਚਿੱਤਰ ਦਾ ਨਾਂ ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
@@ -2969,15 +2854,15 @@ msgstr "ਇਸ ਚਿੱਤਰ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ 'ਤੇ �
 
 #: ../src/gth-browser-actions-entries.h:99
 msgid "Rename selected images"
-msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਦਾ ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਦਾ ਨਾਂ-ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
-msgstr "ਨਕਲੀ(_u)"
+msgstr "ਡੁਪਲੀਕੇਟ(_u)"
 
 #: ../src/gth-browser-actions-entries.h:104
 msgid "Duplicate selected images"
-msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਦੇ ਨਕਲੀ ਬਣਾਓ"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਦੇ ਡੁਪਲੀਕੇਟ ਬਣਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
@@ -3002,20 +2887,20 @@ msgstr "ਸਭ ਚਿੱਤਰ ਚੁਣੋ"
 #: ../src/gth-browser-actions-entries.h:128
 #: ../src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
-msgstr "ਵਰਗ ਵਿੱਚ ਸ਼ਾਮਲ(_A)..."
+msgstr "ਸੂਚੀ ਵਿੱਚ ਸ਼ਾਮਲ(_A)..."
 
 #: ../src/gth-browser-actions-entries.h:129
 #: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
-msgstr "ਚੁਣੇ ਚਿੱਤਰ ਵਰਗ ਵਿੱਚ ਸ਼ਾਮਲ"
+msgstr "ਚੁਣੇ ਚਿੱਤਰ ਸੂਚੀ ਵਿੱਚ ਸ਼ਾਮਲ"
 
 #: ../src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
-msgstr "ਵਰਗ ਵਿੱਚੋਂ ਹਟਾਓ(_v)"
+msgstr "ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾਓ(_v)"
 
 #: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
-msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਵਰਗ ਵਿੱਚੋਂ ਹਟਾਓ"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਸੂਚੀ ਵਿੱਚੋਂ ਹਟਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
@@ -3024,7 +2909,7 @@ msgstr "ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:139
 msgid "Open the selected catalog"
-msgstr "ਚੁਣਿਆਂ ਵਰਗ ਖੋਲੋ"
+msgstr "ਚੁਣੀ ਸੂਚੀ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:143
 #: ../src/gth-browser-actions-entries.h:213
@@ -3033,11 +2918,11 @@ msgstr "ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:144
 msgid "Open the selected catalog in a new window"
-msgstr "ਚੁਣਿਆ ਵਰਗ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲੋ"
+msgstr "ਚੁਣੀ ਸੂਚੀ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:149
 msgid "Rename selected catalog"
-msgstr "ਚੁਣੇ ਵਰਗ ਦਾ ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਚੁਣੀ ਸੂਚੀ ਦਾ ਨਾਂ ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:153
 #: ../src/gth-browser-actions-entries.h:188
@@ -3046,11 +2931,11 @@ msgstr "ਹਟਾਓ(_o)"
 
 #: ../src/gth-browser-actions-entries.h:154
 msgid "Remove selected catalog"
-msgstr "ਚੁਣਿਆ ਵਰਗ ਹਟਾਓ"
+msgstr "ਚੁਣੀ ਸੂਚੀ ਹਟਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:159
 msgid "Move selected catalog to another location"
-msgstr "ਮੌਜੂਦਾ ਵਰਗ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ 'ਤੇ ਭੇਜੋ"
+msgstr "ਮੌਜੂਦਾ ਵਰਗ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ ਉੱਤੇ ਭੇਜੋ"
 
 #: ../src/gth-browser-actions-entries.h:163
 #: ../src/gth-browser-actions-entries.h:198
@@ -3074,52 +2959,52 @@ msgstr "ਮੁਡ਼ ਖੋਜ"
 
 #: ../src/gth-browser-actions-entries.h:173
 msgid "_New Catalog..."
-msgstr "ਨਵਾਂ ਵਰਗ(_N)..."
+msgstr "ਨਵੀਂ ਸੂਚੀ(_N)..."
 
 #: ../src/gth-browser-actions-entries.h:174
 msgid "Create a new catalog"
-msgstr "ਨਵਾਂ ਵਰਗ ਬਣਾਓ"
+msgstr "ਇੱਕ ਨਵੀਂ ਸੂਚੀ ਬਣਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:178
 msgid "New _Library..."
-msgstr "ਨਵੀ ਲਾਇਬਰੇਰੀ(_L)..."
+msgstr "ਨਵੀਂ ਲਾਇਬਰੇਰੀ(_L)..."
 
 #: ../src/gth-browser-actions-entries.h:179
 msgid "Create a new catalog library"
-msgstr "ਨਵੀਂ ਵਰਗ-ਲਾਇਬਰੇਰੀ ਬਣਾਓ"
+msgstr "ਇੱਕ ਨਵੀਂ ਸੂਚੀ (ਕੈਟਾਲਾਗ) ਲਾਇਬਰੇਰੀ ਬਣਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:184
 msgid "Rename current catalog"
-msgstr "ਮੌਜੂਦਾ ਵਰਗ ਦਾ ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਮੌਜੂਦਾ ਸੂਚੀ ਨਾਂ-ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:189
 msgid "Remove current catalog"
-msgstr "ਮੌਜੂਦਾ ਵਰਗ ਹਟਾਓ"
+msgstr "ਮੌਜੂਦਾ ਸੂਚੀ ਹਟਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:194
 msgid "Move current catalog to another location"
-msgstr "ਚੁਣੇ ਵਰਗ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ 'ਤੇ ਭੇਜੋ"
+msgstr "ਚੁਣੀ ਸੂਚੀ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ 'ਤੇ ਭੇਜੋ"
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
-msgstr "ਚੁਣਿਆ ਫੋਲਡਰ ਖੋਲੋ"
+msgstr "ਚੁਣਿਆ ਫੋਲਡਰ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
-msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲੋ"
+msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਵੇਂ ਝਰੋਖੇ ਵਿੱਚ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:218
 #: ../src/gth-browser-actions-entries.h:248
 msgid "Open with the _File Manager"
-msgstr "ਫਾਇਲ ਪਰਬੰਧਕ ਨਾਲ ਖੋਲੋ(_F)"
+msgstr "ਫਾਇਲ ਮੈਨੇਜਰ ਨਾਲ ਖੋਲ੍ਹੋ(_F)"
 
 #: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਾਟੀਲਸ ਫਾਇਲ ਪਰਬੰਧਕ ਨਾਲ ਖੋਲੋ"
+msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਨਟੀਲਸ ਫਾਇਲ ਮੈਨੇਜਰ ਨਾਲ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
-msgstr "ਚੁਣੇ ਫੋਲਡਰ ਦਾ ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਚੁਣੇ ਫੋਲਡਰ ਦਾ ਨਾਂ-ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
@@ -3135,7 +3020,7 @@ msgstr "ਚੁਣਿਆ ਫੋਲਡਰ ਭੇਜੋ"
 
 #: ../src/gth-browser-actions-entries.h:243
 #: ../src/gth-browser-actions-entries.h:273
-#: ../src/gth-window-actions-entries.h:85
+#: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories..."
 msgstr "ਵਰਗ(_t)..."
 
@@ -3145,11 +3030,11 @@ msgstr "ਚੁਣੇ ਫੋਲਡਰ ਨੂੰ ਵਰਗ ਦਿਓ"
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
-msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ ਨੂੰ ਨਾਟੀਲਸ ਫਾਇਲ ਪਰਬੰਧਕ ਨਾਲ ਖੋਲੋ"
+msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ ਨੂੰ ਨਟੀਲਸ ਫਾਇਲ ਮੈਨੇਜਰ ਨਾਲ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
-msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ ਨਾਂ-ਤਬਦੀਲ"
+msgstr "ਮੌਜੂਦਾ ਫੋਲਡਰ ਨਾਂ-ਬਦਲੋ"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
@@ -3185,352 +3070,485 @@ msgstr "ਅੱਗੇ ਚਿੱਤਰ ਵੇਖਾਓ"
 msgid "View previous image"
 msgstr "ਪਿੱਛੇ ਚਿੱਤਰ ਵੇਖਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:294
+#: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
 msgstr "ਪਿਛਲੇ ਟਿਕਾਣੇ 'ਤੇ ਜਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
 msgstr "ਜਾ ਚੁੱਕੀ ਪਹਿਲੇ ਟਿਕਾਣੇ 'ਤੇ ਜਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:304
+#: ../src/gth-browser-actions-entries.h:309
 msgid "Go up one level"
-msgstr "ਇੱਕ ਪਗ ਉੱਪਰ"
+msgstr "ਇੱਕ ਪਗ ਉੱਤੇ"
 
-#: ../src/gth-browser-actions-entries.h:308
+#: ../src/gth-browser-actions-entries.h:313
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "ਮੁੜ-ਲੋਡ(_R)"
 
-#: ../src/gth-browser-actions-entries.h:309
+#: ../src/gth-browser-actions-entries.h:314
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਮੁੜ ਖੋਲ੍ਹੋ"
 
-#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
 msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਲੋਡ ਕਰਨ ਤੋਂ ਰੁਕੋ"
 
-#: ../src/gth-browser-actions-entries.h:319
+#: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
 msgstr "ਘਰ ਫੋਲਡਰ 'ਤੇ ਜਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:323
+#: ../src/gth-browser-actions-entries.h:328
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "ਚਿੱਤਰ ਫੋਲਡਰ 'ਤੇ ਜਾਓ(_G)"
 
-#: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-browser-actions-entries.h:329
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "ਚੁਣੇ ਚਿੱਤਰ ਰੱਖਣ ਵਾਲੇ ਫੋਲਡਰ ਤੇ ਜਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
 msgstr "ਅਤੀਤ ਹਟਾਓ(_D)"
 
-#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-browser-actions-entries.h:334
 msgid "Delete the list of visited locations"
-msgstr "ਖੋਲੀਆਂ ਸਾਇਟਾਂ ਦੀ ਸੂਚੀ ਹਟਾਓ"
+msgstr "ਖੋਲ੍ਹੀਆਂ ਸਾਇਟਾਂ ਦੀ ਲਿਸਟ ਹਟਾਓ"
 
-#: ../src/gth-browser-actions-entries.h:333
+#: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
 msgstr "ਟਿਕਾਣਾ(_L)..."
 
-#: ../src/gth-browser-actions-entries.h:334
+#: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
-msgstr "ਖੋਲਣ ਲਈ ਟਿਕਾਣਾ ਦਿਓ"
+msgstr "ਖੋਲ੍ਹਣ ਲਈ ਟਿਕਾਣਾ ਦਿਓ"
 
-#: ../src/gth-browser-actions-entries.h:338
+#: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
 msgstr "ਬੁੱਕਮਾਰਕ ਸ਼ਾਮਲ(_A)"
 
-#: ../src/gth-browser-actions-entries.h:339
+#: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
 msgstr "ਮੌਜੂਦਾ ਟਿਕਾਣਾ ਬੁੱਕਮਾਰਕ ਵਿੱਚ ਸ਼ਾਮਲ"
 
-#: ../src/gth-browser-actions-entries.h:343
+#: ../src/gth-browser-actions-entries.h:348
 msgid "_Edit Bookmarks..."
 msgstr "ਬੁੱਕਮਾਰਕ ਸੋਧ(_E)..."
 
-#: ../src/gth-browser-actions-entries.h:344
+#: ../src/gth-browser-actions-entries.h:349
 msgid "Edit bookmarks"
 msgstr "ਬੁੱਕਮਾਰਕ ਸੋਧ"
 
-#: ../src/gth-browser-actions-entries.h:348
+#: ../src/gth-browser-actions-entries.h:353
 msgid "_Slide Show"
 msgstr "ਸਲਾਇਡ ਸ਼ੋ(_S)"
 
-#: ../src/gth-browser-actions-entries.h:349
+#: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
-msgstr "ਚਿੱਤਰ ਪਰਦਾ ਵੇਖਾਓ"
-
-#: ../src/gth-browser-actions-entries.h:353
-msgid "_Find..."
-msgstr "ਖੋਜ(_F)..."
+msgstr "ਇੱਕ ਸਲਾਇਡ-ਸ਼ੋ ਵਾਂਗ ਵੇਖਾਓ"
 
 #: ../src/gth-browser-actions-entries.h:358
+msgid "_Search..."
+msgstr "ਖੋਜ(_S)..."
+
+#: ../src/gth-browser-actions-entries.h:368
 msgid "Create _Index Image..."
 msgstr "ਤਤਕਰਾ ਚਿੱਤਰ ਬਣਾਓ(_I)..."
 
-#: ../src/gth-browser-actions-entries.h:363
+#: ../src/gth-browser-actions-entries.h:373
 msgid "Create _Web Album..."
 msgstr "ਵੈਬ-ਐਲਬਮ ਬਣਾਓ(_W)..."
 
-#: ../src/gth-browser-actions-entries.h:368
-msgid "Convert F_ormat..."
-msgstr "ਫਾਰਮੈਟ ਤਬਦੀਲ(_o)..."
-
-#: ../src/gth-browser-actions-entries.h:373
-msgid "Fi_nd Duplicates..."
-msgstr "ਨਕਲੀ ਖੋਜ(_n)..."
-
 #: ../src/gth-browser-actions-entries.h:378
+msgid "Convert F_ormat..."
+msgstr "ਫਾਰਮੈਟ ਬਦਲੋ(_o)..."
+
+#: ../src/gth-browser-actions-entries.h:383
+msgid "Search for _Duplicates..."
+msgstr "ਡੁਪਲੀਕੇਟ ਲਈ ਖੋਜ(_D)..."
+
+#: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
 msgstr "ਮੇਰੀ ਪਸੰਦ(_P)..."
 
-#: ../src/gth-browser-actions-entries.h:379
+#: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
 msgstr "ਵੱਖੋ-ਵੱਖ ਪਸੰਦ ਸੋਧ"
 
-#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-browser-actions-entries.h:393
 msgid "Scale Images..."
-msgstr "ਚਿੱਤਰ ਪੈਮਾਨਾ..."
+msgstr "ਚਿੱਤਰ ਸਕੇਲ..."
 
-#: ../src/gth-browser-actions-entries.h:392
+#: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "ਸੰਦਪੱਟੀ(_T)"
 
-#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:403
 #: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "ਇਸ ਝਰੋਖੇ ਦੀ ਸੰਦ-ਪੱਟੀ ਵੇਖਾਓ ਜਾਂ ਓਹਲੇ"
 
-#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-browser-actions-entries.h:407
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "ਹਾਲਤ-ਪੱਟੀ(_S)"
 
-#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-browser-actions-entries.h:408
 #: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "ਇਸ ਝਰੋਖੇ ਦੀ ਹਾਲਤ ਪੱਟੀ ਵੇਖਾਓ ਜਾਂ ਓਹਲੇ"
 
-#: ../src/gth-browser-actions-entries.h:403
-msgid "View thumbnails"
-msgstr "ਥੱਮਨੇਲ ਵੇਖਾਓ"
+#: ../src/gth-browser-actions-entries.h:412
+msgid "_Filter"
+msgstr "ਫਿਲਟਰ(_F)"
 
-#: ../src/gth-browser-actions-entries.h:407
+#: ../src/gth-browser-actions-entries.h:413
+msgid "View or hide the filterbar of this window"
+msgstr "ਇਸ ਝਰੋਖੇ ਦੀ ਫਿਲਟਰ-ਪੱਟੀ ਵੇਖਾਓ ਜਾਂ ਓਹਲੇ ਕਰੋ।"
+
+#: ../src/gth-browser-actions-entries.h:419
+msgid "View thumbnails"
+msgstr "ਥੰਮਨੇਲ ਵੇਖਾਓ"
+
+#: ../src/gth-browser-actions-entries.h:423
 msgid "_Image Preview"
 msgstr "ਚਿੱਤਰ ਝਲਕ(_I)"
 
-#: ../src/gth-browser-actions-entries.h:408
-#: ../src/gth-browser-actions-entries.h:470
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:496
 msgid "View the image"
 msgstr "ਚਿੱਤਰ ਵੇਖੋ"
 
-#: ../src/gth-browser-actions-entries.h:412
-#: ../src/gth-viewer-actions-entries.h:83
-msgid "Image _Comment"
-msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ(_C)"
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Show _Hidden Files"
+msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਵੇਖਾਓ(_H)"
 
-#: ../src/gth-browser-actions-entries.h:413
-#: ../src/gth-viewer-actions-entries.h:84
-msgid "View image comment"
-msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ ਵੇਖੋ"
+#: ../src/gth-browser-actions-entries.h:435
+msgid "Show hidden files and folders"
+msgstr "ਲੁਕਵੀਆਂ ਫਾਇਲਾਂ ਅਤੇ ਫੋਲਡਰ ਵੇਖੋ"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:440
 msgid "_Reversed Order"
 msgstr "ਉੱਲਟ-ਕਰਮ(_R)"
 
-#: ../src/gth-browser-actions-entries.h:418
+#: ../src/gth-browser-actions-entries.h:441
 msgid "Reverse images order"
 msgstr "ਚਿੱਤਰ ਕਰਮ ਉਲਟ ਕਰੋ"
 
-#: ../src/gth-browser-actions-entries.h:427
+#: ../src/gth-browser-actions-entries.h:450
 msgid "by _Name"
 msgstr "ਨਾਂ(_N)"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:451
 msgid "Sort images by name"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਨਾਂ ਅਨੁਸਾਰ ਕਰਮਬੱਧ"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਨਾਂ ਅਨੁਸਾਰ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:430
+#: ../src/gth-browser-actions-entries.h:453
 msgid "by _Path"
 msgstr "ਮਾਰਗ(_P)"
 
-#: ../src/gth-browser-actions-entries.h:431
+#: ../src/gth-browser-actions-entries.h:454
 msgid "Sort images by path"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਮਾਰਗ ਅਨੁਸਾਰ ਕਰਮਬੱਧ"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਮਾਰਗ ਅਨੁਸਾਰ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:433
+#: ../src/gth-browser-actions-entries.h:456
 msgid "by _Size"
 msgstr "ਅਕਾਰ(_S)"
 
-#: ../src/gth-browser-actions-entries.h:434
+#: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by file size"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਫਾਇਲ ਅਕਾਰ ਅਨੁਸਾਰ ਕਰਮਬੱਧ"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਫਾਇਲ ਅਕਾਰ ਅਨੁਸਾਰ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:436
-msgid "by _Time"
-msgstr "ਸਮਾਂ(_T)"
+#: ../src/gth-browser-actions-entries.h:459
+msgid "by Modification _Time"
+msgstr "ਸੋਧ ਸਮੇਂ(_T)"
 
-#: ../src/gth-browser-actions-entries.h:437
-msgid "Sort images by modification time"
-msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਸੋਧ ਸਮੇਂ ਅਨੁਸਾਰ ਕਰਮਬੱਧ"
+#: ../src/gth-browser-actions-entries.h:460
+msgid "Sort images by file modification time"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ ਸੋਧ ਸਮੇਂ ਅਨੁਸਾਰ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:462
+msgid "by _Exif Time"
+msgstr "Exif ਸਮਾਂ(_E)"
+
+#: ../src/gth-browser-actions-entries.h:463
+msgid "Sort images by Exif DateTime tag"
+msgstr "ਚਿੱਤਰਾਂ ਨੂੰ Exif DateTime ਟੈਗ ਨਾਲ ਲੜੀਬੱਧ"
+
+#: ../src/gth-browser-actions-entries.h:465
 msgid "by _Comment"
 msgstr "ਟਿੱਪਣੀ(_C)"
 
-#: ../src/gth-browser-actions-entries.h:440
+#: ../src/gth-browser-actions-entries.h:466
 msgid "Sort images by comment"
-msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ ਮੁਤਾਬਕ ਕ੍ਰਮਬੱਧ"
+msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ ਮੁਤਾਬਕ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:442
+#: ../src/gth-browser-actions-entries.h:468
 msgid "_Manual Order"
 msgstr "ਦਸਤੀ ਕ੍ਰਮ(_M)"
 
-#: ../src/gth-browser-actions-entries.h:443
+#: ../src/gth-browser-actions-entries.h:469
 msgid "Sort images manually"
-msgstr "ਚਿੱਤਰ ਦਸਤੀ ਕ੍ਰਮਬੱਧ"
+msgstr "ਚਿੱਤਰ ਦਸਤੀ ਲੜੀਬੱਧ"
 
-#: ../src/gth-browser-actions-entries.h:450
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:476
+#: ../src/gth-browser-actions-entries.h:477
 msgid "View As Slides"
-msgstr "ਸਲਾਈਡ ਵਾਂਗ ਵੇਖਾਓ"
+msgstr "ਸਲਾਇਡਾਂ ਵਾਂਗ ਵੇਖੋ"
 
-#: ../src/gth-browser-actions-entries.h:453
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:479
+#: ../src/gth-browser-actions-entries.h:480
 msgid "View As List"
-msgstr "ਸੂਚੀ ਵਾਂਗ ਵੇਖੋ"
+msgstr "ਲਿਸਟ ਵਾਂਗ ਵੇਖੋ"
 
-#: ../src/gth-browser-actions-entries.h:463
+#: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
 msgstr "ਫੋਲਡਰ(_F)"
 
-#: ../src/gth-browser-actions-entries.h:464
+#: ../src/gth-browser-actions-entries.h:490
 msgid "View the folders"
 msgstr "ਫੋਲਡਰ ਵੇਖੋ"
 
-#: ../src/gth-browser-actions-entries.h:466
+#: ../src/gth-browser-actions-entries.h:492
 msgid "_Catalogs"
-msgstr "ਵਰਗ(_C)"
+msgstr "ਸੂਚੀ(_C)"
 
-#: ../src/gth-browser-actions-entries.h:467
+#: ../src/gth-browser-actions-entries.h:493
 msgid "View the catalogs"
 msgstr "ਵਰਗ ਵੇਖੋ"
 
-#: ../src/gth-browser.c:559 ../src/gth-viewer.c:633
+#: ../src/gth-browser.c:559 ../src/gth-viewer.c:669
 msgid "[Press 'c' to add a comment]"
-msgstr "[ਟਿੱਪਣੀ ਲਈ 'c' ਦਬਾਓ]"
+msgstr "[ਟਿੱਪਣੀ ਲਿਖਣ ਲਈ 'c' ਦਬਾਓ]"
 
-#: ../src/gth-browser.c:665 ../src/gth-browser.c:684 ../src/gth-viewer.c:726
-#: ../src/gth-viewer.c:747
+#: ../src/gth-browser.c:665 ../src/gth-browser.c:684 ../src/gth-viewer.c:756
 msgid "[modified]"
 msgstr "[ਸੋਧਿਆ]"
 
-#: ../src/gth-browser.c:709 ../src/main.c:392 ../src/main.c:702
+#: ../src/gth-browser.c:709 ../src/main.c:400 ../src/main.c:786
 msgid "gThumb"
-msgstr "ਜੀ-ਥੱਮ"
+msgstr "ਜੀ-ਥੰਮ"
 
-#: ../src/gth-browser.c:768
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 ਚਿੱਤਰ (%s)"
 
-#: ../src/gth-browser.c:771
+#: ../src/gth-browser.c:792
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d ਚਿੱਤਰ (%s)"
 
-#: ../src/gth-browser.c:778
+#: ../src/gth-browser.c:799
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 ਚੁਣਿਆ (%s)"
 
-#: ../src/gth-browser.c:781
+#: ../src/gth-browser.c:802
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d ਚੁਣੇ (%s)"
 
-#: ../src/gth-browser.c:1953 ../src/gth-viewer.c:980
+#: ../src/gth-browser.c:1843 ../src/gth-viewer.c:1006
 msgid "The current image has been modified, do you want to save it?"
-msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਸੰਭਾਲਿਆ ਗਿਆ ਹੈ, ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਨੂੰ ਸੰਭਾਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਸੋਧਿਆ ਗਿਆ ਹੈ, ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਨੂੰ ਸੰਭਾਲਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: ../src/gth-browser.c:1954 ../src/gth-viewer.c:981
+#: ../src/gth-browser.c:1844 ../src/gth-viewer.c:1007
 msgid "Do Not Save"
 msgstr "ਨਾ ਸੰਭਾਲੋ"
 
-#: ../src/gth-browser.c:3504
+#: ../src/gth-browser.c:3552
 msgid "Dragged Images"
 msgstr "ਸੁੱਟੇ ਚਿੱਤਰ"
 
-#: ../src/gth-browser.c:5191 ../src/gth-browser.c:5192
-#: ../src/gth-viewer.c:1519 ../src/gth-viewer.c:1520
-#: ../src/gth-window-actions-entries.h:256
-#: ../src/gth-window-actions-entries.h:261
-#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-browser.c:5417 ../src/gth-browser.c:5418
+#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:281
+#: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
-msgstr "ਗੁਣਵੱਤਾ ਗੁਆਏ ਬਿਨਾਂ ਚਿੱਤਰਾਂ ਨੂੰ ਘੁੰਮਾਓ"
+msgstr "ਕੁਆਲਟੀ ਗੁਆਏ ਬਿਨਾਂ ਚਿੱਤਰਾਂ ਨੂੰ ਘੁੰਮਾਓ"
 
-#: ../src/gth-browser.c:6634
-msgid "Close"
-msgstr "ਬੰਦ"
+#: ../src/gth-browser.c:6292
+msgid "Getting folder listing..."
+msgstr "ਫੋਲਡਰ ਸੂਚੀ ਲਈ ਜਾ ਰਹੀ ਹੈ..."
 
-#: ../src/gth-browser.c:6648 ../src/gth-viewer.c:1774
-msgid "Image comment"
-msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ"
-
-#: ../src/gth-browser.c:6662
-msgid "Image data"
-msgstr "ਚਿੱਤਰ ਡਾਟਾ"
-
-#: ../src/gth-browser.c:6676
-msgid "Image preview"
-msgstr "ਚਿੱਤਰ ਝਲਕ"
-
-#: ../src/gth-browser.c:7701
+#: ../src/gth-browser.c:6313
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "ਫੋਲਡਰ \"%s\" ਨੂੰ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: %s\n"
 
-#: ../src/gth-browser.c:8040
-msgid "The specified catalog does not exist."
-msgstr "ਦਿੱਤਾ ਵਰਗ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।"
+#: ../src/gth-browser.c:6813 ../src/gth-filter-bar.c:537
+msgid "Close"
+msgstr "ਬੰਦ ਕਰੋ"
 
-#: ../src/gth-exif-data-viewer.c:131
+#: ../src/gth-browser.c:6827 ../src/gth-viewer.c:1686
+msgid "Image comment"
+msgstr "ਚਿੱਤਰ ਟਿੱਪਣੀ"
+
+#: ../src/gth-browser.c:6841
+msgid "Image data"
+msgstr "ਚਿੱਤਰ ਡਾਟਾ"
+
+#: ../src/gth-browser.c:6855
+msgid "Image preview"
+msgstr "ਚਿੱਤਰ ਝਲਕ"
+
+#: ../src/gth-browser.c:7903
+msgid "The specified catalog does not exist."
+msgstr "ਦਿੱਤੀ ਸੂਚੀ ਮੌਜੂਦ ਨਹੀਂ ਹੈ।"
+
+#: ../src/gth-browser.c:8515 ../src/gth-viewer.c:2119
+msgid "Wait please..."
+msgstr "ਉਡੀਕੋ ਜੀ..."
+
+#: ../src/gth-exif-data-viewer.c:65
+msgid "Filesystem Data"
+msgstr "ਫਾਇਲ-ਸਿਸਟਮ ਡਾਟਾ"
+
+#: ../src/gth-exif-data-viewer.c:66
+msgid "General Information"
+msgstr "ਸਧਾਰਨ ਜਾਣਕਾਰੀ"
+
+#: ../src/gth-exif-data-viewer.c:67
+msgid "Picture-Taking Conditions"
+msgstr "ਤਸਵੀਰ-ਲੈਣ ਹਾਲਤ"
+
+#: ../src/gth-exif-data-viewer.c:68
+msgid "Maker Notes"
+msgstr "ਮੇਕਰ ਨੋਟਿਸ"
+
+#: ../src/gth-exif-data-viewer.c:69
+msgid "GPS Coordinates"
+msgstr "GPS ਧੁਰੇ"
+
+#: ../src/gth-exif-data-viewer.c:70
+msgid "Image Structure"
+msgstr "ਚਿੱਤਰ ਢਾਂਚਾ"
+
+#: ../src/gth-exif-data-viewer.c:71
+msgid "Embedded Thumbnail"
+msgstr "ਇੰਬੈੱਡ ਥੰਬਨੇਲ(_T)"
+
+#: ../src/gth-exif-data-viewer.c:72
+msgid "Versions & Interoperability"
+msgstr "ਵਰਜਨ ਅਤੇ ਇੰਟਰਪੋਰਟੇਬਿਲਟੀ"
+
+#: ../src/gth-exif-data-viewer.c:73
+msgid "Other"
+msgstr "ਹੋਰ"
+
+#: ../src/gth-exif-data-viewer.c:402
 msgid "Field"
 msgstr "ਖੇਤਰ"
 
-#: ../src/gth-exif-data-viewer.c:141
+#: ../src/gth-exif-data-viewer.c:414
 msgid "Value "
 msgstr "ਮੁੱਲ "
 
-#: ../src/gth-folder-selection-dialog.c:418
+#: ../src/gth-exif-data-viewer.c:804
+msgid "Path"
+msgstr "ਮਾਰਗ"
+
+#: ../src/gth-filter-bar.c:176
+msgid "contains"
+msgstr "ਰੱਖਦਾ ਹੈ"
+
+#: ../src/gth-filter-bar.c:177
+msgid "starts with"
+msgstr "ਨਾਲ ਸ਼ੁਰੂ"
+
+#: ../src/gth-filter-bar.c:178
+msgid "ends with"
+msgstr "ਖਤਮ ਹੁੰਦਾ ਹੈ"
+
+#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+msgid "is"
+msgstr "ਹੈ"
+
+#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+msgid "is not"
+msgstr "ਨਹੀਂ ਹੈ"
+
+#: ../src/gth-filter-bar.c:181
+msgid "does not contain"
+msgstr "ਨਹੀਂ ਰੱਖਦਾ"
+
+#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+msgid "is equal to"
+msgstr "ਬਰਾਬਰ"
+
+#: ../src/gth-filter-bar.c:185
+msgid "is lower than"
+msgstr "ਘੱਟ ਹੈ"
+
+#: ../src/gth-filter-bar.c:186
+msgid "is greater than"
+msgstr "ਵੱਧ ਹੈ"
+
+#: ../src/gth-filter-bar.c:190
+msgid "is before"
+msgstr "ਪਹਿਲਾਂ"
+
+#: ../src/gth-filter-bar.c:191
+msgid "is after"
+msgstr "ਬਾਅਦ"
+
+#: ../src/gth-filter-bar.c:200
+msgid "KB"
+msgstr "KB"
+
+#: ../src/gth-filter-bar.c:201
+msgid "MB"
+msgstr "MB"
+
+#: ../src/gth-filter-bar.c:207
+msgid "Filename"
+msgstr "ਫਾਇਲ ਨਾਂ"
+
+#: ../src/gth-filter-bar.c:209
+msgid "Place"
+msgstr "ਥਾਂ"
+
+#: ../src/gth-filter-bar.c:212
+msgid "Category"
+msgstr "ਵਰਗ"
+
+#: ../src/gth-filter-bar.c:213
+msgid "Text contains"
+msgstr "ਅੱਖਰ ਹਨ"
+
+#: ../src/gth-filter-bar.c:494
+msgid "All"
+msgstr "ਸਭ"
+
+#. view label
+#: ../src/gth-filter-bar.c:546
+msgid "S_how:"
+msgstr "ਵੇਖਾਓ(_h):"
+
+#: ../src/gth-folder-selection-dialog.c:286
+msgid "<b>_Folder</b>"
+msgstr "<b>ਫੋਲਡਰ(_F)</b>"
+
+#: ../src/gth-folder-selection-dialog.c:304
 msgid "_Browse..."
 msgstr "ਝਲਕ(_B)..."
 
-#: ../src/gth-folder-selection-dialog.c:427
-msgid "_Recents:"
-msgstr "ਤਾਜ਼ਾ(_R):"
-
-#: ../src/gth-folder-selection-dialog.c:458
-msgid "_Bookmarks:"
-msgstr "ਬੁੱਕਮਾਰਕ(_B):"
+#: ../src/gth-folder-selection-dialog.c:322
+msgid "<b>_Recent folders:</b>"
+msgstr "<b>ਤਾਜ਼ਾ ਫੋਲਡਰ(_R):</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
-msgstr "ਵਿਸ਼ੇਸਤਾ(_t)"
+msgstr "ਵਿਸ਼ੇਸ਼ਤਾ(_t)"
 
-#: ../src/gth-location.c:328
+#: ../src/gth-location.c:385
 msgid "Other..."
 msgstr "ਹੋਰ..."
-
-#: ../src/gth-location.c:752
-msgid "Catalogs"
-msgstr "ਵਰਗ"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3540,7 +3558,7 @@ msgstr "ਤਬਦੀਲ(_T)"
 #: ../src/gth-viewer-actions-entries.h:42
 #: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
-msgstr "ਸਵੈ"
+msgstr "ਆਟੋ"
 
 #: ../src/gth-viewer-actions-entries.h:88
 msgid "_Single Window"
@@ -3550,24 +3568,29 @@ msgstr "ਇੱਕਲਾ ਝਰੋਖਾ(_S)"
 msgid "Reuse this window to view other images"
 msgstr "ਹੋਰ ਚਿੱਤਰ ਵੇਖਣ ਲਈ ਇਹ ਝਰੋਖਾ ਮੁੜ-ਵਰਤੋਂ"
 
-#: ../src/gth-viewer.c:1475
+#: ../src/gth-viewer.c:829
+msgid "_None"
+msgstr "ਕੁਝ ਨਹੀਂ(_N)"
+
+#: ../src/gth-viewer.c:1475 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
-msgstr "ਇਸ ਨਾਲ ਖੋਲੋ(_O)"
+msgstr "ਇਸ ਨਾਲ ਖੋਲ੍ਹੋ(_O)"
 
 #: ../src/gth-viewer.c:1481 ../src/gth-viewer.c:1482
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਇੱਕ ਕਾਰਜ ਨਾਲ ਖੋਲੋ"
-
-#: ../src/gth-window-actions-callbacks.c:800
-msgid "An image viewer and browser for GNOME."
-msgstr "ਗਨੋਮ ਲਈ ਇੱਕ ਚਿੱਤਰ ਦਰਸ਼ਕ ਤੇ ਝਲਕਾਰਾ ਹੈ।"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਨੂੰ ਇੱਕ ਕਾਰਜ ਨਾਲ ਖੋਲ੍ਹੋ"
 
 #: ../src/gth-window-actions-callbacks.c:803
+msgid "An image viewer and browser for GNOME."
+msgstr "ਗਨੋਮ ਲਈ ਇੱਕ ਚਿੱਤਰ ਦਰਸ਼ਕ ਅਤੇ ਝਲਕਾਰਾ ਹੈ।"
+
+#: ../src/gth-window-actions-callbacks.c:806
 msgid "translator_credits"
 msgstr ""
 "ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ\n"
-"aalam@redhat.com"
+"ਪੰਜਾਬੀ ਓਪਨ ਸੋਰਸ ਟੀਮ(POST)\n"
+"http://www.satluj.org"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3578,356 +3601,426 @@ msgid "Close this window"
 msgstr "ਇਹ ਝਰੋਖਾ ਬੰਦ ਕਰੋ"
 
 #: ../src/gth-window-actions-entries.h:45
-#: ../src/gth-window-actions-entries.h:70
 msgid "_Open With..."
 msgstr "ਇਸ ਨਾਲ ਖੋਲ੍ਹੋ(_O)..."
 
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
+msgid "Save current image"
+msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਸੰਭਾਲੋ"
+
+#: ../src/gth-window-actions-entries.h:55
+msgid "Save _As..."
+msgstr "ਇੰਜ ਸੰਭਾਲੋ(_A)..."
+
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
-msgstr "ਸੰਭਾਲਿਆ ਚਿੱਤਰ ਮੁੜ-ਪਰਾਪਤ"
+msgstr "ਸੰਭਾਲਿਆ ਚਿੱਤਰ ਪਰਤਾਓ"
 
 #: ../src/gth-window-actions-entries.h:65
 msgid "Print..."
 msgstr "ਛਾਪੋ..."
 
+#: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
-msgid "Open this image with an application"
-msgstr "ਇਸ ਚਿੱਤਰ ਨੂੰ ਕਾਰਜ ਨਾਲ ਖੋਲੋ"
+msgid "Print the current image"
+msgstr "ਮੌਜੂਦਾ ਚਿੱਤਰ ਛਾਪੋ"
 
-#: ../src/gth-window-actions-entries.h:75
+#: ../src/gth-window-actions-entries.h:76
+msgid "Open this image with an application"
+msgstr "ਇਸ ਚਿੱਤਰ ਨੂੰ ਕਾਰਜ ਨਾਲ ਖੋਲ੍ਹੋ"
+
+#: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
 msgstr "ਟਿੱਪਣੀ(_e)..."
 
-#: ../src/gth-window-actions-entries.h:76
+#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
-msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਲਈ ਸੁਰਖੀ ਦਿਓ"
+msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਲਈ ਇੱਕ ਸੁਰਖੀ ਦਿਓ"
 
-#: ../src/gth-window-actions-entries.h:80
+#: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
 msgstr "ਸੁਰਖੀ ਹਟਾਓ(_o)"
 
-#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
 msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਲਈ ਟਿੱਪਣੀਆਂ ਹਟਾਓ"
 
-#: ../src/gth-window-actions-entries.h:86
+#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
 msgstr "ਚੁਣੇ ਚਿੱਤਰਾਂ ਲਈ ਵਰਗ ਦਿਓ"
 
 #: ../src/gth-window-actions-entries.h:100
-#: ../src/gth-window-actions-entries.h:265
+msgid "Ca_tegories"
+msgstr "ਵਰਗ(_t)"
+
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
 msgstr "ਸੱਜੇ ਘੁੰਮਾਓ(_g)"
 
-#: ../src/gth-window-actions-entries.h:101
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
 msgstr "ਸੱਜੇ ਦਾਅ ਘੁੰਮਾਇਆ ਚਿੱਤਰ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:105
-#: ../src/gth-window-actions-entries.h:260
+#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
 msgstr "ਖੱਬੇ ਘੁੰਮਾਓ(_L)"
 
-#: ../src/gth-window-actions-entries.h:106
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
 msgstr "ਖੱਬੇ ਦਾਅ ਘੁੰਮਾਇਆ ਚਿੱਤਰ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:111
+#: ../src/gth-window-actions-entries.h:125
+msgid "_Flip"
+msgstr "ਝਟਕੋ(_F)"
+
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
 msgstr "ਝਟਕਿਆ ਚਿੱਤਰ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:130
+msgid "_Mirror"
+msgstr "ਦਰਪਨ(_M)"
+
+#: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
 msgstr "ਦਰਪਨ ਚਿੱਤਰ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
 msgstr "ਅਸੰਤਰਿਪਤ(_D)"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
 msgstr "ਚਿੱਤਰ ਨੂੰ ਕਾਲਾ ਅਤੇ ਚਿੱਟਾ ਬਣਾਓ"
 
-#: ../src/gth-window-actions-entries.h:125
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
 msgstr "ਨੈਗਟਿਵ(_N)"
 
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
 msgstr "ਚਿੱਤਰ ਨੂੰ ਉਲਟ ਰੰਗਾਂ ਨਾਲ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:130
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
 msgstr "ਵਾਧਾ(_E)"
 
-#: ../src/gth-window-actions-entries.h:131
+#: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
-msgstr "ਰੰਗ ਪੱਧਰ ਸਵੈ-ਚਾਲਤ ਹੋ ਅਨੁਕੂਲ ਕਰੋ"
+msgstr "ਰੰਗ ਪੱਧਰ ਆਟੋਮੈਟਿਕ ਅਨੁਕੂਲ ਕਰੋ"
 
-#: ../src/gth-window-actions-entries.h:135
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
 msgstr "ਇਕਸਾਰ(_E)"
 
-#: ../src/gth-window-actions-entries.h:136
+#: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
-msgstr ""
+msgstr "ਚਿੱਤਰ ਹਿਸਟੋਗਰਾਮ ਆਟੋਮੈਟਿਕ ਸਮਾਨ ਕਰੋ"
 
-#: ../src/gth-window-actions-entries.h:140
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Posterize..."
 msgstr "ਪੋਸਟਰਾਈਜ਼(_P)..."
 
-#: ../src/gth-window-actions-entries.h:141
-#: ../src/gth-window-actions-entries.h:176
-#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
 msgstr "ਰੰਗਾਂ ਦੀ ਗਿਣਤੀ ਘਟਾਓ"
 
-#: ../src/gth-window-actions-entries.h:145
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Brightness-Contrast..."
-msgstr "ਚਮੀਕਲਾਪਨ-ਵੱਖਰੇਵਾਂ(_B)...."
+msgstr "ਚਮਕ-ਵੱਖਰੇਵਾਂ(_B)...."
 
-#: ../src/gth-window-actions-entries.h:146
+#: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
-msgstr "ਚਮਕ ਅਤੇ ਵੱਖਰੇਵਾਂ ਅਨੁਕੂਲ"
+msgstr "ਚਮਕ ਅਤੇ ਵੱਖਰੇਵਾਂ ਅਨੁਕੂਲ ਕਰੋ"
 
-#: ../src/gth-window-actions-entries.h:150
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Hue-Saturation..."
 msgstr "ਰੰਗਤ-ਸੰਤਰਿਪਤ(_H)..."
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
-msgstr "ਆਭਾ ਅਤੇ ਸਤਰਿਤਪਤਾ ਅਨੁਕੂਲ"
+msgstr "ਆਭਾ ਅਤੇ ਸੰਤਰਿਤਪਤਾ ਅਨੁਕੂਲ"
 
-#: ../src/gth-window-actions-entries.h:155
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
-msgstr ""
+msgstr "ਰੈੱਡ-ਆਈ ਹਟਾਓ(_R)..."
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
-msgstr ""
+msgstr "ਲਾਲ ਅੱਖਰ (ਰੈੱਡ-ਅੱਖਰ) ਹਟਾਉਣ ਸੰਦ"
 
-#: ../src/gth-window-actions-entries.h:160
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
 msgstr "ਰੰਗ ਸਾਵਾਂ(_C)..."
 
-#: ../src/gth-window-actions-entries.h:161
+#: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
-msgstr "ਰੰਗ ਸਾਵਾਂ ਲਾਗੂ ਕਰੋ"
+msgstr "ਰੰਗ ਸਾਵੇਂ ਕਰੋ"
 
-#: ../src/gth-window-actions-entries.h:165
+#: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
 msgstr "ਮੁਡ਼-ਅਕਾਰ(_R)..."
 
-#: ../src/gth-window-actions-entries.h:166
+#: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
-msgstr "ਚਿੱਤਰ ਅਕਾਰ ਤਬਦੀਲ"
+msgstr "ਚਿੱਤਰ ਮੁੜ-ਅਕਾਰ"
 
-#: ../src/gth-window-actions-entries.h:170
+#: ../src/gth-window-actions-entries.h:185
 msgid "_Crop..."
 msgstr "ਫੈਲਾਓ(_C)..."
 
-#: ../src/gth-window-actions-entries.h:171
+#: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
 msgstr "ਚਿੱਤਰ ਉਭਾਰੋ"
 
-#: ../src/gth-window-actions-entries.h:175
+#: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
 msgstr "ਕਾਲਾ ਅਤੇ ਚਿੱਟਾ"
 
-#: ../src/gth-window-actions-entries.h:180
+#: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
 msgstr "ਵੈਬ ਰੰਗ-ਪੱਟੀ"
 
-#: ../src/gth-window-actions-entries.h:185
-#: ../src/gth-window-actions-entries.h:287
+#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:307
 msgid "In"
-msgstr "ਵਧਾਓ"
+msgstr "ਇਨ"
 
-#: ../src/gth-window-actions-entries.h:186
+#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
-msgstr "ਜ਼ੂਮ ਵਧਾਓ"
+msgstr "ਜ਼ੂਮ ਇਨ"
 
-#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:205
 msgid "Out"
-msgstr "ਬਾਹਰ"
+msgstr "ਆਉਟ"
 
-#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
-msgstr "ਅਕਾਰ ਛੋਟਾ"
+msgstr "ਅਕਾਰ ਆਉਟ"
 
-#: ../src/gth-window-actions-entries.h:195
+#: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
 msgstr "1:1"
 
-#: ../src/gth-window-actions-entries.h:196
+#: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
-msgstr "ਅਸਲੀ ਅਕਾਰ"
+msgstr "ਅਸਲ ਅਕਾਰ"
 
-#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
 msgstr "ਫਿੱਟ"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
 msgstr "ਝਰੋਖੇ 'ਚ ਫਿੱਟ ਕਰਨ ਲਈ ਜ਼ੂਮ"
 
-#: ../src/gth-window-actions-entries.h:205
+#: ../src/gth-window-actions-entries.h:220
+msgid "Width"
+msgstr "ਚੌਡ਼ਾਈ"
+
+#: ../src/gth-window-actions-entries.h:221
+msgid "Zoom to fit width"
+msgstr "ਚੌੜਾਈ ਫਿੱਟ ਕਰਨ ਲਈ ਜ਼ੂਮ"
+
+#: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
 msgstr "ਸਜੀਵਤਾ ਪਗ(_n)"
 
-#: ../src/gth-window-actions-entries.h:220
-msgid "_Centered"
-msgstr "ਕੇਂਦਰੀ(_C)"
-
-#: ../src/gth-window-actions-entries.h:221
-msgid "Set the image as desktop background (centered)"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਵੇਹਡ਼ੇ ਦੀ ਪਿੱਠਭੂਮੀ ਵਿੱਚ ਲਗਾਓ (ਕੇਂਦਰੀ)"
-
-#: ../src/gth-window-actions-entries.h:225
-msgid "_Tiled"
-msgstr "ਟਾਇਲਡ(_T)"
-
 #: ../src/gth-window-actions-entries.h:226
-msgid "Set the image as desktop background (tiled)"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਵੇਹਡ਼ੇ ਦੀ ਪਿੱਠਭੂਮੀ ਵਿੱਚ ਲਗਾਓ (ਖਿੱਚਿਆ)"
-
-#: ../src/gth-window-actions-entries.h:230
-msgid "_Scaled"
-msgstr "ਪੈਮਾਨਾ(_S)"
-
-#: ../src/gth-window-actions-entries.h:231
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਵੇਹਡ਼ੇ ਦੀ ਪਿੱਠਭੂਮੀ ਲਗਾਓ (ਅਕਾਰ ਅਨੁਪਾਤ ਦਾ ਪੈਮਾਨਾ)"
-
-#: ../src/gth-window-actions-entries.h:235
-msgid "Str_etched"
-msgstr "ਤਾਣੋ(_e)"
-
-#: ../src/gth-window-actions-entries.h:236
-msgid "Set the image as desktop background (stretched)"
-msgstr "ਚਿੱਤਰ ਨੂੰ ਵੇਹਡ਼ੇ ਦੀ ਪਿੱਠਭੂਮੀ ਲਗਾਓ (ਤਣਿਆ)"
+msgid "View next animation frame"
+msgstr "ਅਗਲਾ ਸਜੀਵਤਾ ਫਰੇਮ ਵੇਖੋ"
 
 #: ../src/gth-window-actions-entries.h:240
-msgid "_Restore"
-msgstr "ਮੁੜ-ਪਰਾਪਤ(_R)"
+msgid "_Centered"
+msgstr "ਵਿਚਾਲੇ(_C)"
 
 #: ../src/gth-window-actions-entries.h:241
-msgid "Restore the original desktop wallpaper"
-msgstr "ਅਸਲੀ ਵੇਹੜਾ ਚਿੱਤਰ ਮੁੜ-ਪਰਾਪਤ ਕਰੋ"
+msgid "Set the image as desktop background (centered)"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਡੈਸਕਟਾਪ ਬੈਕਗਰਾਊਂਡ ਵਿੱਚ ਲਗਾਓ (ਸੈਂਟਰਡ)"
 
 #: ../src/gth-window-actions-entries.h:245
-msgid "Change _Date..."
-msgstr "ਮਿਤੀ ਬਦਲੋ(_D)..."
+msgid "_Tiled"
+msgstr "ਟਾਈਲ(_T)"
 
 #: ../src/gth-window-actions-entries.h:246
-msgid "Change images last modified date"
-msgstr "ਚਿੱਤਰਾਂ ਦੀ ਆਖਰੀ ਸੋਧ ਮਿਤੀ ਬਦਲੋ"
+msgid "Set the image as desktop background (tiled)"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਡੈਸਕਟਾਪ ਬੈਕਗਰਾਊਂਡ ਵਿੱਚ ਲਗਾਓ (ਟਾਈਲ)"
 
 #: ../src/gth-window-actions-entries.h:250
-msgid "Reset Exif Orientation"
-msgstr ""
+msgid "_Scaled"
+msgstr "ਸਕੇਲ(_S)"
 
 #: ../src/gth-window-actions-entries.h:251
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਡੈਸਕਟਾਪ ਬੈਕਗਰਾਊਂਡ ਲਗਾਓ (ਅਕਾਰ ਅਨੁਪਾਤ ਦਾ ਸਕੇਲ)"
+
+#: ../src/gth-window-actions-entries.h:255
+msgid "Str_etched"
+msgstr "ਤਣਿਆ(_e)"
+
+#: ../src/gth-window-actions-entries.h:256
+msgid "Set the image as desktop background (stretched)"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਡੈਸਕਟਾਪ ਬੈਕਗਰਾਊਂਡ ਲਗਾਓ (ਤਣਿਆ)"
+
+#: ../src/gth-window-actions-entries.h:260
+msgid "_Restore"
+msgstr "ਮੁੜ-ਸਟੋਰ(_R)"
+
+#: ../src/gth-window-actions-entries.h:261
+msgid "Restore the original desktop wallpaper"
+msgstr "ਅਸਲੀ ਡੈਸਕਟਾਪ ਵਾਲਪੇਪਰ ਮੁੜ-ਸਟੋਰ ਕਰੋ"
+
+#: ../src/gth-window-actions-entries.h:265
+msgid "Change _Date..."
+msgstr "ਤਾਰੀਖ ਬਦਲੋ(_D)..."
+
+#: ../src/gth-window-actions-entries.h:266
+msgid "Change images last modified date"
+msgstr "ਚਿੱਤਰਾਂ ਦੀ ਆਖਰੀ ਸੋਧ ਤਾਰੀਖ ਬਦਲੋ"
+
+#: ../src/gth-window-actions-entries.h:270
+msgid "Reset _Exif Orientation"
+msgstr "_Exif ਸਥਿਤੀ ਮੁੜ-ਸੈੱਟ"
+
+#: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:255
-msgid "Ro_tate Images..."
-msgstr "ਚਿੱਤਰ ਘੁੰਮਾਓ(_t)..."
-
-#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
-msgstr "ਜੀ-ਥੱਮ ਬਾਰੇ ਜਾਣਕਾਰੀ ਵੇਖਾਓ"
+msgstr "ਜੀ-ਥੰਮ ਬਾਰੇ ਜਾਣਕਾਰੀ ਵੇਖਾਓ"
 
-#: ../src/gth-window-actions-entries.h:275
+#: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
-msgstr "ਭਾਗ"
+msgstr "ਸਮੱਗਰੀ"
 
-#: ../src/gth-window-actions-entries.h:280
+#: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
 msgstr "ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ(_K)"
 
-#: ../src/gth-window-actions-entries.h:296
+#: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
 msgstr "ਸਜੀਵਤਾ ਚਲਾਓ(_A)"
 
-#: ../src/gth-window-actions-entries.h:307
+#: ../src/gth-window-actions-entries.h:317
+msgid "Start or stop current animation"
+msgstr "ਮੌਜੂਦਾ ਸਜੀਵਤਾ ਨੂੰ ਸ਼ੁਰੂ ਕਰੋ ਜਾਂ ਰੋਕੋ"
+
+#: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
-msgstr "ਉੱਤਮ(_H)"
+msgstr "ਉੱਚ ਕੁਆਲਟੀ(_H)"
 
-#: ../src/gth-window-actions-entries.h:308
+#: ../src/gth-window-actions-entries.h:328
 msgid "Use high quality zoom"
-msgstr "ਸਰਵੋਤਮ ਜ਼ੂਮ ਵੇਖਾਓ"
+msgstr "ਵੱਧ ਕੁਆਲਟੀ ਜ਼ੂਮ ਵਰਤੋਂ"
 
-#: ../src/gth-window-actions-entries.h:310
+#: ../src/gth-window-actions-entries.h:330
 msgid "_Low Quality"
-msgstr "ਘਟੀਆ(_L)"
+msgstr "ਘਟੀਆ ਕੁਆਲਟੀ(_L)"
 
-#: ../src/gth-window-actions-entries.h:311
+#: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
-msgstr "ਨਿਊਨਤਮ ਜ਼ੂਮ ਵੇਖਾਓ"
-
-#: ../src/main.c:88
-msgid "Start in fullscreen mode"
-msgstr "ਪੂਰੇ ਪਰਦੇ ਦੇ ਮੋਡ ਨਾਲ ਆਰੰਭ ਕਰੋ"
+msgstr "ਘੱਟ ਕੁਆਲਟੀ ਜ਼ੂਮ ਵਰਤੋਂ"
 
 #: ../src/main.c:91
+msgid "Start in fullscreen mode"
+msgstr "ਪੂਰੀ-ਸਕਰੀਨ ਢੰਗ ਨਾਲ ਚਾਲੂ"
+
+#: ../src/main.c:95
 msgid "Automatically start a slideshow"
-msgstr "ਸਵੈ-ਸਿੱਧ ਹੀ ਸਲਾਇਡ ਸ਼ੋ ਚਲਾਓ"
+msgstr "ਆਟੋਮੈਟਿਕ ਹੀ ਇੱਕ ਸਲਾਇਡ-ਸ਼ੋ ਚਲਾਓ"
 
-#: ../src/main.c:94
+#: ../src/main.c:99
 msgid "Automatically import digital camera photos"
-msgstr "ਡਿਜ਼ੀਟਲ ਕੈਮਰੇ ਤੋ ਤਸਵੀਰਾਂ ਸਵੈ ਹੀ ਆਯਾਤ"
+msgstr "ਡਿਜ਼ੀਟਲ ਕੈਮਰੇ ਤੋਂ ਤਸਵੀਰਾਂ ਆਟੋਮੈਟਿਕ ਹੀ ਆਯਾਤ ਕਰੋ"
 
-#: ../src/main.c:137
+#: ../src/main.c:103
+msgid "Use the viewer mode to view single images"
+msgstr "ਇੱਕਲੇ ਚਿੱਤਰ ਵੇਖਣ ਲਈ ਦਰਸ਼ਕ ਢੰਗ ਵਰਤੋਂ"
+
+#: ../src/main.c:148
 msgid "Holidays"
 msgstr "ਛੁੱਟੀਆਂ"
 
-#: ../src/main.c:138
+#: ../src/main.c:149
 msgid "Temporary"
 msgstr "ਆਰਜ਼ੀ"
 
-#: ../src/main.c:139
+#: ../src/main.c:150
 msgid "Screenshots"
-msgstr "ਪਰਦਾ ਤਸਵੀਰਾਂ"
+msgstr "ਸਕਰੀਨ-ਸ਼ਾਟ"
 
-#: ../src/main.c:140
+#: ../src/main.c:151
 msgid "Science"
-msgstr "ਵਿਗਿਆਨ"
+msgstr "ਸਾਇੰਸ"
 
-#: ../src/main.c:141
+#: ../src/main.c:152
 msgid "Favourite"
-msgstr "ਮੇਰੀ ਪਸੰਦ"
+msgstr "ਮਨ-ਪਸੰਦ"
 
-#: ../src/main.c:142
+#: ../src/main.c:153
 msgid "Important"
 msgstr "ਖਾਸ"
 
-#: ../src/main.c:143
+#: ../src/main.c:154
 msgid "GNOME"
 msgstr "ਗਨੋਮ"
 
-#: ../src/main.c:144
+#: ../src/main.c:155
 msgid "Games"
 msgstr "ਖੇਡਾਂ"
 
-#: ../src/main.c:145
+#: ../src/main.c:156
 msgid "Party"
 msgstr "ਪਾਰਟੀ"
 
-#: ../src/main.c:146
+#: ../src/main.c:157
 msgid "Birthday"
 msgstr "ਜਨਮ-ਦਿਨ"
 
-#: ../src/main.c:147
+#: ../src/main.c:158
 msgid "Astronomy"
 msgstr "ਗਰੈਹ ਵਿਦਿਆ"
 
-#: ../src/main.c:148
+#: ../src/main.c:159
 msgid "Family"
 msgstr "ਪਰਿਵਾਰ"
 
-#: ../src/main.c:469 ../src/main.c:644
+#: ../src/main.c:458 ../src/main.c:735
 msgid "Command Line"
 msgstr "ਕਮਾਂਡ ਲਾਇਨ"
+
+#: ../src/rotation-utils.c:111
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr "ਚਿੱਤਰ ਨੂੰ ਬਦਲਣ ਦੌਰਾਨ ਸਮੱਸਿਆ: %s"
+
+#: ../src/rotation-utils.c:117
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+
+#: ../src/rotation-utils.c:125
+msgid "_Trim"
+msgstr "ਛਾਂਟੋ(_T)"
+
+#: ../src/rotation-utils.c:211
+msgid "Could not move temporary file to local destination. Check folder permissions."
+msgstr "ਲੋਕਲ ਟਿਕਾਣੇ ਉੱਤੇ ਆਰਜ਼ੀ ਫਾਇਲ ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਫੋਲਡਰ ਅਧਿਕਾਰਾਂ ਦੀ ਜਾਂਚ ਕਰੋ।"
 

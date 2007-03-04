@@ -1,3 +1,15 @@
+2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates
+
+	* src/dlg-photo-importer.c: (save_image), (ok_clicked_cb):
+	Unescape destination folder URI when saving, because the
+	save functions are strictly local (non-URI). Bug 414665. 
+
+2007-03-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.applications: removed
+
 2007-03-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/Makefile.am:
