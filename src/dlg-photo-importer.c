@@ -1199,6 +1199,7 @@ save_image (DialogData *data,
 	char       *camera_folder;
 	const char *camera_filename, *local_path;
 	char       *file_uri;
+	char	   *unescaped_local_folder;
 
 	gp_file_new (&file);
 
@@ -1210,8 +1211,10 @@ save_image (DialogData *data,
 			    GP_FILE_TYPE_NORMAL,
 			    file,
 			    data->context);
-
-	file_uri = get_file_name (data, camera_path, local_folder, n);
+	
+	unescaped_local_folder = gnome_vfs_unescape_string (local_folder, "");
+	file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
+	g_free (unescaped_local_folder);
 
 	/* FIXME: support non-local saving */
 	local_path = get_file_path_from_uri (file_uri);
@@ -1562,7 +1565,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (get_dest_free_space (data->local_folder) < total_size) {
 		display_error_dialog (data,
 				      _("Could not import photos"),
-				      "Not enough free space left on disk"); /* FIXME: mark for translation. */
+				      _("Not enough free space left on disk"));
 
 		g_free (data->local_folder);
 		data->local_folder = NULL;
