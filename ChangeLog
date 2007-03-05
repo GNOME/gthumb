@@ -1,3 +1,15 @@
+2007-03-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-crop.c: (dlg_crop): The crop ratio was initialized
+	incorrectly. The last custom w/h settings defined the crop
+	ratio, even when custom mode was not the initial mode. Fixes
+	bug 389872.
+
+2007-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c (gfv_remove): implemented "remove" 
+	for the list view (#389590).
+
 2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_orientation):
