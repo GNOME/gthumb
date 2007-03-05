@@ -1,3 +1,8 @@
+2007-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-list.c (gfv_remove): implemented "remove" 
+	for the list view (#389590).
+
 2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: general updates

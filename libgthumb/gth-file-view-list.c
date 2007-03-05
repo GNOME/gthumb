@@ -280,12 +280,12 @@ static void
 gfv_remove (GthFileView *file_view,
 	    gpointer     data)
 {
-	/* FIXME */
-	/*
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
 	GtkTreePath     *path;
+	int              pos;
 
+	pos = gth_file_view_find_image_from_data (file_view, data);
 	path = gtk_tree_path_new_from_indices (pos, -1);
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (gfv_list->priv->list_store),
 				       &iter,
@@ -296,7 +296,6 @@ gfv_remove (GthFileView *file_view,
 	gtk_tree_path_free (path);
 
 	gtk_list_store_remove (gfv_list->priv->list_store, &iter);
-	*/
 }
 
 
