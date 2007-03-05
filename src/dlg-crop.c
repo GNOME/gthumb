@@ -553,12 +553,10 @@ dlg_crop (GthWindow *window)
 	crop_ratio = pref_get_crop_ratio ();
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->ratio_optionmenu),
 				     crop_ratio);
-	gtk_widget_set_sensitive (data->custom_ratio_box,
-				  (crop_ratio == GTH_CROP_RATIO_CUSTOM));
-        gtk_widget_set_sensitive (data->invert_ratio_checkbutton, (crop_ratio != GTH_CROP_RATIO_NONE));
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
-				      (crop_ratio != GTH_CROP_RATIO_NONE),
-				      (double) ratio_w / ratio_h);
+
+	/* Update the crop viewer with all the crop ratio settings */
+	ratio_optionmenu_changed_cb (GTK_OPTION_MENU (data->ratio_optionmenu),
+				     data);
 
 	/* Set the signals handlers. */
 
