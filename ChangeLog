@@ -1,3 +1,9 @@
+2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/gthumb.desktop.in:
+	"Application" is not a valid category. Added some valid
+	freedesktop categories.
+
 2007-03-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-crop.c: (dlg_crop): The crop ratio was initialized
