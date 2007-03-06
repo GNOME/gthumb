@@ -1,5 +1,9 @@
 2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/gthumb.desktop.in: Added missing semicolon.
+
+2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS: general updates
 
 	* libgthumb/jpegutils/jpegtran.c: (jpegtran_internal):
