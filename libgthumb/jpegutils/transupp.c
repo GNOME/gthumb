@@ -938,6 +938,56 @@ jcopy_markers_setup (j_decompress_ptr srcinfo, JCOPY_OPTION option)
 #endif /* SAVE_MARKERS_SUPPORTED */
 }
 
+/* Adjust the markers to create a standard EXIF file if an EXIF marker
+ * is present in the input. By default, libjpeg creates a JFIF file, 
+ * which is incompatible with the EXIF standard.
+ *
+ * This must be called after jpeg_copy_critical_parameters()
+ * and before jpeg_write_coefficients().
+ */
+
+void
+jcopy_markers_exif (j_decompress_ptr srcinfo, j_compress_ptr dstinfo,
+		    JCOPY_OPTION option)
+{
+	/* In the current implementation, we don't actually need to examine the
+	 * option flag here; we just analyse everything that got saved by
+	 * jcopy_markers_setup. */
+
+	jpeg_saved_marker_ptr cur_marker, prev_marker;
+
+	/* Look for an EXIF marker. */
+	prev_marker = NULL;
+	cur_marker = srcinfo->marker_list;
+	while (cur_marker != NULL) {
+		if (cur_marker->marker == JPEG_APP0+1 &&
+			cur_marker->data_length >= 6 &&
+			GETJOCTET(cur_marker->data[0]) == 0x45 &&
+			GETJOCTET(cur_marker->data[1]) == 0x78 &&
+			GETJOCTET(cur_marker->data[2]) == 0x69 &&
+			GETJOCTET(cur_marker->data[3]) == 0x66 &&
+			GETJOCTET(cur_marker->data[4]) == 0 &&
+			GETJOCTET(cur_marker->data[5]) == 0)
+			break; /* Found an EXIF marker. */
+		prev_marker = cur_marker;
+		cur_marker = cur_marker->next;
+	}
+	/* Do not emit a (incompatible) JFIF marker if an EXIF marker is found. 
+	 * The EXIF standard requires the EXIF marker to be the first extra marker, 
+	 * but JFIF has the same requirement. */
+	if (cur_marker != NULL) {
+		dstinfo->write_JFIF_header = FALSE;
+	}
+	/* Force the EXIF marker to be the first marker (if necessary).
+	 * This will also recover EXIF files that where converted to JFIF 
+	 * by non EXIF-aware software (if the EXIF marker is still present). */
+	if (cur_marker != NULL && prev_marker != NULL) {
+		prev_marker->next = cur_marker->next;
+		cur_marker->next = srcinfo->marker_list;
+		srcinfo->marker_list = cur_marker;
+	}
+}
+
 /* Copy markers saved in the given source object to the destination object.
  * This should be called just after jpeg_start_compress() or
  * jpeg_write_coefficients().
@@ -950,6 +1000,22 @@ jcopy_markers_execute (j_decompress_ptr srcinfo, j_compress_ptr dstinfo,
 		       JCOPY_OPTION option)
 {
   jpeg_saved_marker_ptr marker;
+
+	/* If the first marker is an EXIF marker, we do not
+	 * copy any (incompatible) JFIF marker, by pretending 
+	 * the library already wrote one. This should have no 
+	 * effect unless jcopy_markers_exif was used before.*/
+	marker = srcinfo->marker_list;
+	if (marker != NULL && 
+		marker->marker == JPEG_APP0+1 &&
+		marker->data_length >= 6 &&
+		GETJOCTET(marker->data[0]) == 0x45 &&
+		GETJOCTET(marker->data[1]) == 0x78 &&
+		GETJOCTET(marker->data[2]) == 0x69 &&
+		GETJOCTET(marker->data[3]) == 0x66 &&
+		GETJOCTET(marker->data[4]) == 0 &&
+		GETJOCTET(marker->data[5]) == 0)
+		dstinfo->write_JFIF_header = TRUE;
 
   /* In the current implementation, we don't actually need to examine the
    * option flag here; we just copy everything that got saved.

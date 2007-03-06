@@ -2,7 +2,7 @@
 _Name=gThumb Image Viewer
 _GenericName=Image Viewer
 _Comment=View and organize your images
-Categories=GNOME;GTK;Application;Graphics;Viewer;
+Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography
 Encoding=UTF-8
 Exec=gthumb %U
 Icon=gthumb
