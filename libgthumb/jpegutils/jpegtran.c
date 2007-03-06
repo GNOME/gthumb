@@ -381,6 +381,11 @@ jpegtran_internal (const char                    *path,
 	/* Initialize destination compression parameters from source values */
 	jpeg_copy_critical_parameters (srcinfo, dstinfo);
 
+	/* Adjust the markers to create a standard EXIF file if an EXIF marker
+	 * is present in the input. By default, libjpeg creates a JFIF file, 
+	 * which is incompatible with the EXIF standard. */
+	jcopy_markers_exif (srcinfo, dstinfo, JCOPYOPT_ALL);
+
 	/* Adjust destination parameters if required by transform options;
 	 * also find out which set of coefficient arrays will hold the output.
 	 */

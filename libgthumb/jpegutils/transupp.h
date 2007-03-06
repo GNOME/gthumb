@@ -144,6 +144,10 @@ typedef enum {
 void jcopy_markers_setup (j_decompress_ptr srcinfo, 
 			  JCOPY_OPTION     option);
 
+void jcopy_markers_exif (j_decompress_ptr srcinfo, 
+			 j_compress_ptr   dstinfo,
+			 JCOPY_OPTION     option);
+
 /* Copy markers saved in the given source object to the destination object */
 void jcopy_markers_execute (j_decompress_ptr srcinfo, 
 			    j_compress_ptr   dstinfo,

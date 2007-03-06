@@ -1,10 +1,16 @@
 version 2.9.4
 -------------
 
-	Bug fixes:
+	Major bug fixes:
 	* Fixed bug 414665 - Photo importer hangs and does not import photos
+	* Fixed bug 389590 - List view not updated after file deleted
+
+	Minor bug fixes:
 	* Fixed bug 413595 - Add SVG to supported mime types?
 	* Removed application-registry cruft.
+	* Removed invalid menu categories in gthumb.desktop
+	* Fixed bug 389872 - Incorrect initial cropping aspect ratio
+	* Fixed bug 411861 - a JFIF marker is written, incompatible with EXIF
 
 version 2.9.3
 -------------
