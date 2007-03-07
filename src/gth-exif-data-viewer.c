@@ -210,7 +210,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 //	Not ready to implement this yet.
 
 	/* Make the value cell editable if exiftool is present */
-//	if (gnome_vfs_is_executable_command_string ("exiftool")) {
+//	if (use_exiftool_for_metadata ()) {
 //		g_object_set(G_OBJECT (renderer), "editable", TRUE, NULL);
 //		g_signal_connect (renderer, 
 //				  "edited", 

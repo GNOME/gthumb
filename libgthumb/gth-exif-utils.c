@@ -444,6 +444,13 @@ cache_to_hash (const char *cache_file, GHashTable* metadata_hash)
 	g_hash_table_destroy (tag_grouping_hash);
 }
 
+
+gboolean
+use_exiftool_for_metadata ()
+{
+	return gnome_vfs_is_executable_command_string ("exiftool");
+}
+
 void
 get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 {
@@ -487,14 +494,14 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	/* Ignore the cache file if it was generated from libexif
 	   and exiftool is now available */
 	if ( (g_hash_table_lookup (metadata_hash, "ExifTool:ExifToolVersion") == NULL) &&
-	      gnome_vfs_is_executable_command_string ("exiftool")) {
+	      use_exiftool_for_metadata ()) {
 		g_hash_table_remove_all (metadata_hash);
 		file_unlink (cache_file);
 	}
 
 	/* Generate a cache file using exiftool, if needed and if possible */
 	if ( (g_hash_table_size (metadata_hash) == 0) &&
-	      gnome_vfs_is_executable_command_string ("exiftool")) {
+	      use_exiftool_for_metadata ()) {
 		command = g_strconcat ( "exiftool -S -a -e -G1 ",
        	                                local_file_esc,
                	                        " > ",

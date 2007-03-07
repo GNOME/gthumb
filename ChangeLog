@@ -1,3 +1,11 @@
+2007-03-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (use_exiftool_for_metadata),
+	(get_metadata_for_file):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct):
+	Added use_exiftool_for_metadata convenience function.
+
 2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: general updates
