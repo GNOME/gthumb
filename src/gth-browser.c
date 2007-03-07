@@ -6219,7 +6219,7 @@ gth_browser_notify_update_icon_theme (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	gth_file_view_update_icon_theme (priv->file_list->view);
+	gth_file_list_update_icon_theme (priv->file_list);
 	gth_dir_list_update_icon_theme (priv->dir_list);
 
 	window_update_bookmark_list (browser);

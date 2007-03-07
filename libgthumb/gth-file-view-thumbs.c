@@ -22,7 +22,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gnome.h>
 #include "gth-file-view.h"
 #include "gth-file-view-thumbs.h"
 #include "gthumb-marshal.h"
@@ -30,15 +29,11 @@
 #include "gth-image-list.h"
 #include "file-utils.h"
 #include "file-data.h"
-#include "icons/pixbufs.h"
-#include "pixbuf-utils.h"
 #include "gth-sort-utils.h"
 
 
 struct _GthFileViewThumbsPrivate {
 	GthImageList   *ilist;
-	GtkIconTheme   *icon_theme;
-	GdkPixbuf      *unknown_pixbuf;
 };
 
 
@@ -141,14 +136,10 @@ gfv_insert (GthFileView  *file_view,
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-	GdkPixbuf         *real_pixbuf;
 
-	if (pixbuf == NULL)
-		real_pixbuf = gfv_thumbs->priv->unknown_pixbuf;
-	else
-		real_pixbuf = pixbuf;
+	g_return_if_fail (pixbuf != NULL);
 
-	gth_image_list_insert (ilist, pos, real_pixbuf, text, comment);
+	gth_image_list_insert (ilist, pos, pixbuf, text, comment);
 }
 
 
@@ -160,14 +151,10 @@ gfv_append (GthFileView  *file_view,
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-	GdkPixbuf         *real_pixbuf;
 
-	if (pixbuf == NULL)
-		real_pixbuf = gfv_thumbs->priv->unknown_pixbuf;
-	else
-		real_pixbuf = pixbuf;
+	g_return_val_if_fail (pixbuf != NULL, -1);
 
-	return 	gth_image_list_append (ilist, real_pixbuf, text, comment);
+	return 	gth_image_list_append (ilist, pixbuf, text, comment);
 }
 
 
@@ -180,14 +167,10 @@ gfv_append_with_data (GthFileView  *file_view,
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-	GdkPixbuf         *real_pixbuf;
 
-	if (pixbuf == NULL)
-		real_pixbuf = gfv_thumbs->priv->unknown_pixbuf;
-	else
-		real_pixbuf = pixbuf;
+	g_return_val_if_fail (pixbuf != NULL, -1);
 
-	return 	gth_image_list_append_with_data (ilist, real_pixbuf, text, comment, data);
+	return 	gth_image_list_append_with_data (ilist, pixbuf, text, comment, data);
 }
 
 
@@ -221,17 +204,6 @@ gfv_set_image_pixbuf (GthFileView  *file_view,
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
 	gth_image_list_set_image_pixbuf (ilist, pos, pixbuf);
-}
-
-
-static void
-gfv_set_unknown_pixbuf (GthFileView  *file_view,
-			int           pos)
-{
-	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
-	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-
-	gth_image_list_set_image_pixbuf (ilist, pos, gfv_thumbs->priv->unknown_pixbuf);
 }
 
 
@@ -801,70 +773,6 @@ gfv_get_cursor (GthFileView *file_view)
 }
 
 
-static int
-get_default_icon_size (GtkWidget *widget)
-{
-	int icon_width, icon_height;
-
-	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-                                           GTK_ICON_SIZE_DIALOG,
-                                           &icon_width, &icon_height);
-	return MAX (icon_width, icon_height);
-}
-
-
-static GdkPixbuf *
-create_unknown_pixbuf (GthFileViewThumbs *gfv_thumbs)
-{
-	GtkIconInfo *icon_info = NULL;
-	int          icon_size;
-	char        *icon_name;
-	GdkPixbuf   *pixbuf = NULL;
-	int          width, height;
-
-	icon_size = get_default_icon_size (GTK_WIDGET (gfv_thumbs->priv->ilist));
-
-	icon_name = gnome_icon_lookup (gfv_thumbs->priv->icon_theme,
-				       NULL,
-				       NULL,
-				       NULL,
-				       NULL,
-				       "image/*",
-				       GNOME_ICON_LOOKUP_FLAGS_NONE,
-				       NULL);
-	icon_info = gtk_icon_theme_lookup_icon (gfv_thumbs->priv->icon_theme,
-						  icon_name,
-						  icon_size,
-						  0);
-	g_free (icon_name);
-
-	if (icon_info != NULL) {
-		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
-		gtk_icon_info_free (icon_info);
-	}
-
-	if (pixbuf == NULL)
-		pixbuf = gdk_pixbuf_new_from_inline (-1,
-						     dir_16_rgba,
-						     FALSE,
-						     NULL);
-
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
-	if (scale_keepping_ratio (&width, &height, icon_size, icon_size)) {
-		GdkPixbuf *scaled;
-		scaled = gdk_pixbuf_scale_simple (pixbuf,
-						  width,
-						  height,
-						  GDK_INTERP_BILINEAR);
-		g_object_unref (pixbuf);
-		pixbuf = scaled;
-	}
-
-	return pixbuf;
-}
-
-
 static void
 gth_file_view_thumbs_init (GthFileViewThumbs *gfv_thumbs)
 {
@@ -872,18 +780,6 @@ gth_file_view_thumbs_init (GthFileViewThumbs *gfv_thumbs)
 
 	priv = g_new0 (GthFileViewThumbsPrivate, 1);
 	gfv_thumbs->priv = priv;
-}
-
-
-static void
-gfv_update_icon_theme (GthFileView *file_view)
-{
-	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
-
-	if (gfv_thumbs->priv->unknown_pixbuf != NULL)
-		g_object_unref (gfv_thumbs->priv->unknown_pixbuf);
-
-	gfv_thumbs->priv->unknown_pixbuf = create_unknown_pixbuf (gfv_thumbs);
 }
 
 
@@ -981,7 +877,6 @@ gth_file_view_thumbs_finalize (GObject *object)
 
 	gfv_thumbs = (GthFileViewThumbs*) object;
 
-	g_object_unref (gfv_thumbs->priv->unknown_pixbuf);
 	g_free (gfv_thumbs->priv);
 
         /* Chain up */
@@ -1017,7 +912,6 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->remove               = gfv_remove;
 	file_view_class->clear                = gfv_clear;
 	file_view_class->set_image_pixbuf     = gfv_set_image_pixbuf;
-	file_view_class->set_unknown_pixbuf     = gfv_set_unknown_pixbuf;
 	file_view_class->set_image_text       = gfv_set_image_text;
 	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
@@ -1054,7 +948,6 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->image_activated      = gfv_image_activated;
 	file_view_class->set_cursor           = gfv_set_cursor;
 	file_view_class->get_cursor           = gfv_get_cursor;
-	file_view_class->update_icon_theme    = gfv_update_icon_theme;
 	file_view_class->set_no_image_text    = gfv_set_no_image_text;
 	file_view_class->set_drag_dest_pos    = gfv_set_drag_dest_pos;
 	file_view_class->get_drag_dest_pos    = gfv_get_drag_dest_pos;
@@ -1139,11 +1032,6 @@ gth_file_view_thumbs_new (guint image_width)
 			  "cursor_changed",
 			  G_CALLBACK (cursor_changed_cb),
 			  gfv_thumbs);
-
-	/**/
-
-	gfv_thumbs->priv->icon_theme = gtk_icon_theme_get_default ();
-	gfv_thumbs->priv->unknown_pixbuf = create_unknown_pixbuf (gfv_thumbs);
 
 	return GTH_FILE_VIEW (gfv_thumbs);
 }

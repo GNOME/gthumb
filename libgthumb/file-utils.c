@@ -782,6 +782,31 @@ get_sample_name (const char *filename)
 }
 
 
+GHashTable *static_strings = NULL;
+
+
+static const char *
+get_static_string (const char *s) 
+{
+	const char *result;
+	
+	if (s == NULL)
+		return NULL;
+	
+	if (static_strings == NULL)
+		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	if (! g_hash_table_lookup_extended (static_strings, s, (gpointer*) &result, NULL)) {
+		result = g_strdup (s);
+		g_hash_table_insert (static_strings,
+				     (gpointer) result,
+				     GINT_TO_POINTER (1));
+	}
+	
+	return result;				    	
+}
+
+
 const char*
 get_file_mime_type (const char *filename,
 		    gboolean    fast_file_type)
@@ -818,19 +843,20 @@ get_file_mime_type (const char *filename,
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 	}
 
-	extension = get_filename_extension (filename);
+	result = get_static_string (result);
 
 	/* Check files with special or problematic extensions */
+	extension = get_filename_extension (filename);
 	if (extension != NULL) {
 
 		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp (result,"image/tiff") && !strcasecmp (extension, "nef"))
+		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
 
-		if ( (result==NULL) || !strcmp (result, "application/octet-stream")) {
+		if ((result == NULL) || (strcmp (result, "application/octet-stream") == 0)) {
 
 			/* If the file extension is not recognized, or the content is
 			   determined to be binary data (octet-stream), check for HDR file
@@ -845,7 +871,7 @@ get_file_mime_type (const char *filename,
 
 			/* Bug 329072: gnome-vfs doesn't recognize pcx files.
 			   This is the work-around until bug 329072 is fixed. */
-			if ( !strcasecmp (extension, "pcx") )
+			if (strcasecmp (extension, "pcx") == 0)
 				return "image/x-pcx";
 		}
 	}

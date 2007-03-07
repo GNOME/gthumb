@@ -131,5 +131,6 @@ void         gth_file_list_set_thumbs_size      (GthFileList   *file_list,
 						 int            size);
 void         gth_file_list_set_filter           (GthFileList   *file_list,
 						 GthFilter     *filter);
+void         gth_file_list_update_icon_theme    (GthFileList   *file_list);
 
 #endif /* GTH_FILE_LIST_H */

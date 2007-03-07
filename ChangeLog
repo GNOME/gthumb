@@ -1,3 +1,19 @@
+2007-03-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-list.c: 
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-view.c: 
+	* libgthumb/gth-file-view.h: 
+	* libgthumb/gth-file-view-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: moved the icons handling from the 
+	gth-file-view-* widgets to gth-file-list to avoid duplicated code.  
+	Use the icon associated to the file mime type instead of always using 
+	the "image/*" icon.
+	
+	* libgthumb/file-utils.c: save the mime_type strings in a local hash.
+
 2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/gthumb.desktop.in: Added missing semicolon.

@@ -568,7 +568,6 @@ gth_image_list_map (GtkWidget *widget)
 }
 
 
-
 /* Layout stuff */
 
 
