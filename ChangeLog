@@ -1,3 +1,14 @@
+2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c: reset the startup location if it was set to the command 
+	line catalog.  
+	Fixes bug #98933 – Command Line collection should be deleted on startup
+	if no files are passed as arguments
+	
+	* src/gth-browser.c: go to the catalog directory before activating the
+	catalog.  
+	Fixes bug #407871 – Crash after deleting catalog file.
+
 2007-03-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: 

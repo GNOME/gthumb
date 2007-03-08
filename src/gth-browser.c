@@ -7898,6 +7898,20 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 	if (priv->setting_file_list && FirstStart)
 		return;
 
+	/* go to the catalog directory */
+
+	gth_browser_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST);
+	if (! priv->refreshing && ! ViewFirstImage)
+		gth_browser_show_sidebar (browser);
+	else
+		priv->refreshing = FALSE;
+
+	catalog_dir = remove_level_from_path (catalog_path);
+	gth_browser_go_to_catalog_directory (browser, catalog_dir);
+	g_free (catalog_dir);
+
+	/* display the catalog */
+	
 	if ((catalog_path != NULL) && ! path_is_file (catalog_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The specified catalog does not exist."));
@@ -7920,16 +7934,6 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 			g_free (priv->catalog_path);
 		priv->catalog_path = g_strdup (catalog_path);
 	}
-
-	gth_browser_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST);
-	if (! priv->refreshing && ! ViewFirstImage)
-		gth_browser_show_sidebar (browser);
-	else
-		priv->refreshing = FALSE;
-
-	catalog_dir = remove_level_from_path (catalog_path);
-	gth_browser_go_to_catalog_directory (browser, catalog_dir);
-	g_free (catalog_dir);
 
 	catalog_activate (browser, catalog_path);
 }
