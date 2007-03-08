@@ -1,5 +1,13 @@
 2007-03-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (delete_comment_xmp), (comment_delete),
+	(save_comment_xmp), (save_comment):
+	* libgthumb/gth-exif-utils.c: (append_to_command),
+	(write_metadata_tag_to_file):
+	Initial support for deleting XMP comments.
+
+2007-03-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct):
 	* libgthumb/gth-exif-utils.c: (append_to_command),
 	(write_metadata_tag_to_file):

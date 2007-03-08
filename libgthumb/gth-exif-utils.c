@@ -541,10 +541,26 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 static void
 append_to_command (gpointer key, gpointer value, gpointer command_string)
 {
+	char *esc_value;
+	char *str_value;
+
+	if (value == NULL)
+		esc_value = g_strdup (" ");
+	else {
+		str_value = g_strdup ((char *) value);
+		g_strstrip (str_value);
+		if (str_value[0] == 0)
+			esc_value = g_strdup (" ");
+		else
+			esc_value = shell_escape ((char *) value);
+		g_free (str_value);
+	}
+
 	g_string_append_printf ((GString *) command_string, 
-                                "-%s=\'%s\' ", 
+                                "-%s=%s ", 
                                 (char *) key, 
-                                (char *) value); 
+                                esc_value); 
+	g_free (esc_value);
 }
 
 
@@ -580,7 +596,7 @@ write_metadata_tag_to_file (const char *path,
 	command = g_string_append (command, local_file_esc);
 	g_free (local_file_esc);
 
-//printf ("command: %s\n\r",command->str);	
+// printf ("command: %s\n\r",command->str);	
 	system (command->str);
 	g_string_free (command,TRUE);
 

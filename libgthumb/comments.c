@@ -623,6 +623,23 @@ comment_move (const char *src,
 }
 
 
+static void
+delete_comment_xmp (const char *filename)
+{
+        GHashTable *metadata_hash_to_write;
+
+        metadata_hash_to_write = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+        g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:UserComment"), g_strdup (" "));
+        g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:Location"), g_strdup (" "));
+        g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:DateTime"), g_strdup (" "));
+        g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:Keywords"), g_strdup (" "));
+
+        write_metadata_tag_to_file (filename, metadata_hash_to_write);
+
+        g_hash_table_destroy (metadata_hash_to_write);
+}
+
+
 void
 comment_delete (const char *filename)
 {
@@ -636,6 +653,9 @@ comment_delete (const char *filename)
 	if (image_is_jpeg (filename))
 		delete_comment_iptc (filename);
 #endif /* HAVE_LIBIPTCDATA */
+
+	if (use_exiftool_for_metadata ())
+		delete_comment_xmp (filename);
 }
 
 
@@ -785,7 +805,7 @@ load_comment_from_xml (const char *filename)
 
 
 static void
-save_comment_exiftool (const char  *filename,
+save_comment_xmp (const char  *filename,
 	               CommentData *data)
 {
 	GHashTable *metadata_hash_to_write;
@@ -837,7 +857,7 @@ save_comment (const char  *filename,
 
 	if (save_embedded) {
 		if (use_exiftool_for_metadata ())
-			save_comment_exiftool (filename, data);
+			save_comment_xmp (filename, data);
 
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
