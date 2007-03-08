@@ -786,13 +786,13 @@ GHashTable *static_strings = NULL;
 
 
 static const char *
-get_static_string (const char *s) 
+get_static_string (const char *s)
 {
 	const char *result;
-	
+
 	if (s == NULL)
 		return NULL;
-	
+
 	if (static_strings == NULL)
 		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
@@ -802,8 +802,8 @@ get_static_string (const char *s)
 				     (gpointer) result,
 				     GINT_TO_POINTER (1));
 	}
-	
-	return result;				    	
+
+	return result;
 }
 
 
@@ -1660,20 +1660,20 @@ build_uri (const char *s1,
 	   const char *s2)
 {
 	char *s = NULL;
-	
+
 	if ((s1 == NULL) && (s2 == NULL))
 		return NULL;
-	
+
 	if ((s1 == NULL) || (strcmp (s1, "") == 0))
 		return g_strdup (s2);
 	if ((s2 == NULL) || (strcmp (s2, "") == 0))
 		return g_strdup (s1);
-	
+
 	if ((s1[strlen (s1) - 1] == GNOME_VFS_URI_PATH_CHR) || (s2[0] == GNOME_VFS_URI_PATH_CHR))
 		s = g_strconcat (s1, s2, NULL);
 	else
 		s = g_strconcat (s1, GNOME_VFS_URI_PATH_STR, s2, NULL);
-		
+
 	return s;
 }
 
@@ -1691,46 +1691,44 @@ resolve_symlinks (const char  *text_uri,
 	char 		  *uri;
 	char              *resolved_uri;
 	char              *tmp;
-		
+
 	*resolved_text_uri = NULL;
 
 	if (text_uri == NULL)
 		return result;
-	
+
 	if (*text_uri == '\0')
 		return GNOME_VFS_ERROR_INVALID_URI;
-	
+
 	resolved_uri = get_uri_scheme (text_uri);
 	if (resolved_uri == NULL)
 		resolved_uri = g_strdup ("file://");
-	
-	uri = build_uri (text_uri, relative_link);
-	
-	tmp = remove_special_dirs_from_path (uri);
-	g_free (uri);
-	uri = tmp;
+
+	tmp = build_uri (text_uri, relative_link);
+	uri = remove_special_dirs_from_path (tmp);
+	g_free (tmp);
 
 	info = gnome_vfs_file_info_new ();
 	names = g_strsplit (remove_scheme_from_uri (uri), GNOME_VFS_URI_PATH_STR, -1);
 	for (i = 0; names[i] != NULL; i++) {
 		char *name;
 		char *try_uri;
-		char *tmp;
-						
+
 		if (strcmp (names[i], "") == 0)
 			continue;
-			
+
 		name = g_strdup (names[i]);
 		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
-			
+
 		gnome_vfs_file_info_clear (info);
 		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
 		if (result != GNOME_VFS_OK) {
-			g_free (try_uri); 
+			g_free (name);
+			g_free (try_uri);
 			result = GNOME_VFS_ERROR_INVALID_URI;
 			break;
 		}
-			
+
 		if ((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
 		    (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME)) {
 		    	char **symlink_names;
@@ -1739,73 +1737,74 @@ resolve_symlinks (const char  *text_uri,
 
 			n_followed_symlinks++;
 			if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
+				g_free (name);
 				g_free (try_uri);
 				result = GNOME_VFS_ERROR_TOO_MANY_LINKS;
 				break;
 			}
-			    	
+
 		    	g_free (name);
 		    	name = g_strdup ("");
-			    	
+
 		    	symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);
 		    	for (j = 0; symlink_names[j] != NULL; j++) {
 		    		char *symlink_name = symlink_names[j];
 		    		char *e_symlink_name;
-		    			    				    		
+
 		    		if ((strcmp (symlink_name, "..") == 0) || (strcmp (symlink_name, ".") == 0))
 		    			e_symlink_name = g_strdup (symlink_name);
 		    		if (strcmp (symlink_name, "") == 0)
 		    			e_symlink_name = g_strdup (GNOME_VFS_URI_PATH_STR);
-		    		else 
+		    		else
 		    			e_symlink_name = gnome_vfs_escape_string (symlink_name);
-		    		
+
 		    		if (strcmp (name, "") == 0) {
 		    			g_free (name);
 		    			name = e_symlink_name;
 		    		}
 		    		else {
 		    			char *tmp;
-			    		
+
 			    		tmp = build_uri (name, e_symlink_name);
-			    		
+
 		    			g_free (name);
 		    			g_free (e_symlink_name);
-		    			
+
 		    			name = tmp;
 		    		}
 		    	}
 		    	g_strfreev (symlink_names);
-		    		    	
+
 		    	if (name[0] == GNOME_VFS_URI_PATH_CHR) {
 		    		g_free (resolved_uri);
 		    		base_uri = get_uri_scheme (text_uri);
 		    	} else
 		    		base_uri = resolved_uri;
-	    		
+
 		    	result = resolve_symlinks (base_uri, name, &resolved_uri, n_followed_symlinks);
-		    	
+
 		    	g_free (base_uri);
-		    	
-		    	if (result != GNOME_VFS_OK) 
+
+		    	if (result != GNOME_VFS_OK)
 				break;
 		}
 		else {
-			tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
+			char *tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
 			g_free (resolved_uri);
 			resolved_uri = tmp;
-		}			
+		}
 
 		g_free (name);
-	} 
-	
+	}
+
 	g_strfreev (names);
-	g_free (uri);	
+	g_free (uri);
 	gnome_vfs_file_info_unref (info);
-	
+
 	if (result == GNOME_VFS_OK)
 		*resolved_text_uri = resolved_uri;
 
-	return result;	
+	return result;
 }
 
 
