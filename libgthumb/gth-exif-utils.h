@@ -60,8 +60,7 @@ gboolean    use_exiftool_for_metadata     ();
 void	    get_metadata_for_file         (const char   *url,
 					   GHashTable   *metadata_hash);
 gboolean    write_metadata_tag_to_file    (const char   *path,
-					   const char   *tag_name,
-					   const char   *value);
+                                           GHashTable   *metadata_hash_to_write);
 int         gth_minimal_exif_tag_write    (const char   *filename,
                                            ExifTag       etag,
                                            void         *data,

@@ -51,6 +51,7 @@
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
+#include "gth-exif-utils.h"
 
 #define COMMENT_TAG  ((xmlChar *)"Comment")
 #define PLACE_TAG    ((xmlChar *)"Place")
@@ -783,6 +784,39 @@ load_comment_from_xml (const char *filename)
 }
 
 
+static void
+save_comment_exiftool (const char  *filename,
+	               CommentData *data)
+{
+	GHashTable *metadata_hash_to_write;
+        char       *keywords_str = NULL;
+	GTimeVal    time_val = { (GTime) data->time, 0 };
+	char       *time_str = NULL;
+
+	time_str = g_time_val_to_iso8601 (&time_val);
+	g_strcanon (time_str,"0123456879:- ",' ');
+	g_strcanon (time_str,"0123456879: ",':');
+
+	metadata_hash_to_write = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:UserComment"), g_strdup (data->comment));
+	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:Location"), g_strdup (data->place));
+	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:DateTime"), time_str);
+
+        if (data->keywords_n > 0) {
+                if (data->keywords_n == 1)
+                        keywords_str = g_strdup (data->keywords[0]);
+                else
+                        keywords_str = g_strjoinv (",", data->keywords);
+        } else
+                keywords_str = g_strdup ("");
+	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:Keywords"), keywords_str);
+
+	write_metadata_tag_to_file (filename, metadata_hash_to_write);
+
+	g_hash_table_destroy (metadata_hash_to_write);
+}
+
+
 void
 save_comment (const char  *filename,
 	      CommentData *data,
@@ -801,6 +835,9 @@ save_comment (const char  *filename,
 
 
 	if (save_embedded) {
+		if (use_exiftool_for_metadata ())
+			save_comment_exiftool (filename, data);
+
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename))
 			save_comment_iptc (filename, data);

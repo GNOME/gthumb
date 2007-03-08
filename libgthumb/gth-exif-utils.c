@@ -451,6 +451,7 @@ use_exiftool_for_metadata ()
 	return gnome_vfs_is_executable_command_string ("exiftool");
 }
 
+
 void
 get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 {
@@ -537,17 +538,26 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 }
 
 
+static void
+append_to_command (gpointer key, gpointer value, gpointer command_string)
+{
+	g_string_append_printf ((GString *) command_string, 
+                                "-%s=\'%s\' ", 
+                                (char *) key, 
+                                (char *) value); 
+}
+
+
 gboolean
 write_metadata_tag_to_file (const char *path,
-		            const char *tag_name,
-			    const char *value)
+			    GHashTable *metadata_hash_to_write)
 {
         char             *local_file_to_modify = NULL;
         gboolean          is_local;
         gboolean          remote_copy_ok = TRUE;
         char 	         *local_file_esc;
-        char             *command;
 	GnomeVFSFileInfo *info;
+	GString          *command;
 
         is_local = is_local_file (path);
         local_file_to_modify = obtain_local_file (path);
@@ -561,17 +571,17 @@ write_metadata_tag_to_file (const char *path,
 
 	local_file_esc = shell_escape (local_file_to_modify);
 
-	command = g_strconcat ("exiftool -q -overwrite_original -",
-			       tag_name,
-			       "=\'",
-			       value,
-			       "\' ",
-			       local_file_esc,
-			       NULL);
+	command = g_string_new  ("exiftool -q -overwrite_original ");
+
+	g_hash_table_foreach (metadata_hash_to_write, 
+			      append_to_command, 
+			      command);	
+
+	command = g_string_append (command, local_file_esc);
 	g_free (local_file_esc);
 
-	system (command);
-	g_free (command);
+	system (command->str);
+	g_string_free (command,TRUE);
 
         if (!is_local)
                 remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);

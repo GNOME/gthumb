@@ -1,3 +1,14 @@
+2007-03-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct):
+	* libgthumb/gth-exif-utils.c: (append_to_command),
+	(write_metadata_tag_to_file):
+	* libgthumb/gth-exif-utils.h: Supply hash when writing tags,
+	instead of just one tag/value pair.
+
+	* libgthumb/comments.c: (save_comment_exiftool), (save_comment):
+	Initial support for storing comments in XMP tags.
+
 2007-03-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (use_exiftool_for_metadata),
