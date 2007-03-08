@@ -1,5 +1,8 @@
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: reimplemented resolve_all_symlinks to
+	fix bug #159884.
+	
 	* src/main.c (reset_command_line_catalog): reset even when no arguments
 	were specified.
 

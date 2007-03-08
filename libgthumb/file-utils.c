@@ -1566,7 +1566,8 @@ remove_special_dirs_from_path (const char *uri)
 
 	scheme = get_uri_scheme (uri);
 
-	g_assert ((scheme != NULL) || g_path_is_absolute (uri));
+	if ((scheme == NULL) && ! g_path_is_absolute (uri))
+		return g_strdup (uri);
 
 	path = remove_scheme_from_uri (uri);
 
@@ -1577,10 +1578,9 @@ remove_special_dirs_from_path (const char *uri)
 
 	/* Trimmed uris might not start with a slash */
 	if (*path != '/')
-		start_at=0;
+		start_at = 0;
 	else
-		start_at=1;
-
+		start_at = 1;
 
 	/* Ignore first slash, if present. It will be re-added later. */
 	for (i = start_at; pathv[i] != NULL; i++) {
@@ -1656,91 +1656,132 @@ new_path_from_uri (GnomeVFSURI *uri)
 
 
 GnomeVFSResult
-resolve_all_symlinks (const char  *text_uri,
-		      char       **resolved_text_uri)
+resolve_symlinks (const char  *text_uri,
+	          const char  *relative_link,
+		  char       **resolved_text_uri,
+		  int          n_followed_symlinks)
 {
-	GnomeVFSResult    res = GNOME_VFS_OK;
-	char             *my_text_uri;
-	GnomeVFSFileInfo *info;
-	const char       *p;
-	int               n_followed_symlinks = 0;
-	gboolean          first_level = TRUE;
-
+	GnomeVFSResult     result = GNOME_VFS_OK;
+	GnomeVFSFileInfo  *info;
+	char             **names;
+	int                i;
+	char 		  *uri;
+	char              *resolved_uri;
+	char              *tmp;
+		
 	*resolved_text_uri = NULL;
 
 	if (text_uri == NULL)
-		return res;
+		return result;
+	
+	if (*text_uri == '\0')
+		return GNOME_VFS_ERROR_INVALID_URI;
+	
+	resolved_uri = get_uri_scheme (text_uri);
+	if (resolved_uri == NULL)
+		resolved_uri = g_strdup ("file://");
+	
+	uri = g_build_path (GNOME_VFS_URI_PATH_STR, text_uri, relative_link, NULL);
+	
+	tmp = remove_special_dirs_from_path (uri);
+	g_free (uri);
+	uri = tmp;
 
-	my_text_uri = g_strdup (text_uri);
 	info = gnome_vfs_file_info_new ();
-
-	for (p = remove_scheme_from_uri(my_text_uri); (p != NULL) && (*p != 0); ) {
-		char           *new_text_uri;
-		GnomeVFSURI    *new_uri;
-
-		while (*p == GNOME_VFS_URI_PATH_CHR)
-			p++;
-		while (*p != 0 && *p != GNOME_VFS_URI_PATH_CHR)
-			p++;
-
-		new_text_uri = g_strndup (my_text_uri, p - my_text_uri);
-		new_uri = new_uri_from_path (new_text_uri);
-		g_free (new_text_uri);
-
+	names = g_strsplit (remove_scheme_from_uri (uri), GNOME_VFS_URI_PATH_STR, -1);
+	for (i = 0; names[i] != NULL; i++) {
+		char *name;
+		char *try_uri;
+		char *tmp;
+						
+		if (strcmp (names[i], "") == 0)
+			continue;
+			
+		name = g_strdup (names[i]);
+		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
+			
 		gnome_vfs_file_info_clear (info);
-		res = gnome_vfs_get_file_info_uri (new_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
-
-		if (res != GNOME_VFS_OK) {
-			char *old_uri = my_text_uri;
-			my_text_uri = g_build_filename (old_uri, p, NULL);
-			g_free (old_uri);
-			p = NULL;
-
-		} else if (info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK &&
-			   info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME) {
-			GnomeVFSURI *resolved_uri;
-			char        *tmp_resolved_text_uri = NULL;
-			char        *symbolic_link = NULL;
+		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
+		if (result != GNOME_VFS_OK) {
+			g_free (try_uri); 
+			result = GNOME_VFS_ERROR_INVALID_URI;
+			break;
+		}
+			
+		if ((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
+		    (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME)) {
+		    	char **symlink_names;
+		    	int    j;
+		    	char  *base_uri;
 
 			n_followed_symlinks++;
 			if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
-				res = GNOME_VFS_ERROR_TOO_MANY_LINKS;
-				gnome_vfs_uri_unref (new_uri);
-				goto out;
+				g_free (try_uri);
+				result = GNOME_VFS_ERROR_TOO_MANY_LINKS;
+				break;
 			}
-
-			if (first_level && (info->symlink_name[0] != '/'))
-				symbolic_link = g_strconcat ("/", info->symlink_name, NULL);
-			else
-				symbolic_link = g_strdup (info->symlink_name);
-			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri, symbolic_link);
-			g_free (symbolic_link);
-
-			tmp_resolved_text_uri = new_path_from_uri (resolved_uri);
-			gnome_vfs_uri_unref (resolved_uri);
-
-			if (*p != 0) {
-				char *old_uri = my_text_uri;
-				my_text_uri = g_build_filename (tmp_resolved_text_uri, p, NULL);
-				g_free (old_uri);
-				g_free (tmp_resolved_text_uri);
-			} else {
-				g_free (my_text_uri);
-				my_text_uri = tmp_resolved_text_uri;
-			}
-
-			p = my_text_uri;
+			    	
+		    	g_free (name);
+		    	name = g_strdup ("");
+			    	
+		    	symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);
+		    	for (j = 0; symlink_names[j] != NULL; j++) {
+		    		char *symlink_name = symlink_names[j];
+		    		char *e_symlink_name;
+		    		    				    		
+		    		if ((strcmp (symlink_name, "..") == 0) || (strcmp (symlink_name, ".") == 0))
+		    			e_symlink_name = g_strdup (symlink_name);
+		    		else 
+		    			e_symlink_name = gnome_vfs_escape_string (symlink_name);
+		    		
+		    		if (strcmp (name, "") == 0) {
+		    			g_free (name);
+		    			name = e_symlink_name;
+		    		}
+		    		else {
+		    			char *tmp;
+			    			
+		    			tmp =  g_strconcat (name, GNOME_VFS_URI_PATH_STR, e_symlink_name, NULL);
+		    			g_free (name);
+		    			name = tmp;
+			    			
+		    			g_free (e_symlink_name);
+		    		}
+		    	}
+		    	g_strfreev (symlink_names);
+		    	
+		    	base_uri = resolved_uri;
+		    	result = resolve_symlinks (base_uri, name, &resolved_uri, n_followed_symlinks);
+		    	g_free (base_uri);
+		    	
+		    	if (result != GNOME_VFS_OK) 
+				break;
 		}
-		first_level = FALSE;
+		else {
+			tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
+			g_free (resolved_uri);
+			resolved_uri = tmp;
+		}			
 
-		gnome_vfs_uri_unref (new_uri);
-	}
-
-	res = GNOME_VFS_OK;
-	*resolved_text_uri = my_text_uri;
- out:
+		g_free (name);
+	} 
+	
+	g_strfreev (names);
+	g_free (uri);	
 	gnome_vfs_file_info_unref (info);
-	return res;
+	
+	if (result == GNOME_VFS_OK)
+		*resolved_text_uri = resolved_uri;
+
+	return result;	
+}
+
+
+GnomeVFSResult
+resolve_all_symlinks (const char  *text_uri,
+		      char       **resolved_text_uri)
+{
+	return resolve_symlinks (text_uri, "", resolved_text_uri, 0);
 }
 
 
