@@ -804,6 +804,47 @@ load_comment_from_xml (const char *filename)
 }
 
 
+static CommentData *
+load_comment_from_xmp (const char *filename)
+{
+	CommentData *data;
+	GHashTable  *metadata_hash;
+	const char *value;
+	char value_string[65536];
+        int category_position, tag_position;
+	
+	
+	data = comment_data_new ();
+
+        metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+        get_metadata_for_file (filename, metadata_hash);
+
+	/* comments - preferred fields first */
+	value = g_hash_table_lookup (metadata_hash, "XMP-exif:UserComment");
+	if (!value)
+		value = g_hash_table_lookup (metadata_hash, "IPTC:Caption-Abstract");
+	if (!value)
+		value = g_hash_table_lookup (metadata_hash, "ExifIFD:UserComment");
+	if (value)
+		if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, value_string) == 3)
+			data->comment = g_strdup (value_string);
+
+        /*location - preferred fields first */
+        value = g_hash_table_lookup (metadata_hash, "XMP-iptcCore:Location");
+        if (!value)
+                value = g_hash_table_lookup (metadata_hash, "IPTC:ContentLocationName");
+        if (value)
+                if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, value_string) == 3)
+                        data->place = g_strdup (value_string);
+
+	/* TO DO: time, keywords */
+
+        g_hash_table_destroy (metadata_hash);
+
+	return data;
+}
+
+
 static void
 save_comment_xmp (const char  *filename,
 	               CommentData *data)
@@ -813,7 +854,6 @@ save_comment_xmp (const char  *filename,
 	GTimeVal    time_val = { (GTime) data->time, 0 };
 	char       *time_str = NULL;
 
-	/* TO DO: time zone issues? */
 	time_str = g_time_val_to_iso8601 (&time_val);
 	g_strcanon (time_str,"0123456879:- ",' ');
 	g_strcanon (time_str,"0123456879: ",':');
@@ -853,14 +893,17 @@ save_comment (const char  *filename,
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
         gboolean     is_local;
         char        *local_file = NULL;
+	gboolean     use_xmp;
 
 
 	if (save_embedded) {
-		if (use_exiftool_for_metadata ())
+		use_xmp = use_exiftool_for_metadata ();
+
+		if (use_xmp)
 			save_comment_xmp (filename, data);
 
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
+		if (!use_xmp && image_is_jpeg (filename))
 			save_comment_iptc (filename, data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
@@ -953,6 +996,8 @@ comments_load_comment (const char *filename,
 		       gboolean    try_embedded)
 {
 	CommentData *xml_comment = NULL, *img_comment = NULL;
+	gboolean     use_xmp;
+
 
 	if (filename == NULL)
 		return NULL;
@@ -960,17 +1005,26 @@ comments_load_comment (const char *filename,
 	xml_comment = load_comment_from_xml (filename);
 
 	if (try_embedded) {
+		use_xmp = use_exiftool_for_metadata ();
+
+	 	if (use_xmp)
+			img_comment = load_comment_from_xmp (filename);
+
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
+		if (!use_xmp && image_is_jpeg (filename))
 			img_comment = load_comment_from_iptc (filename);
+#endif /* HAVE_LIBIPTCDATA */
+
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();
+#ifdef HAVE_LIBIPTCDATA
 			xml_comment->iptc_data = img_comment->iptc_data;
 			if (xml_comment->iptc_data != NULL)
 				iptc_data_ref (xml_comment->iptc_data);
+#endif /* HAVE_LIBIPTCDATA */			
 		}
-#endif /* HAVE_LIBIPTCDATA */
+
 		if ((img_comment != NULL)
 		    && (! comment_data_equal (xml_comment, img_comment))) {
 			/* Consider the image comment more up-to-date and
