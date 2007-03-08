@@ -1,5 +1,9 @@
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (resolve_symlinks): fixed links to absolute paths.
+
+2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: reimplemented resolve_all_symlinks to
 	fix bug #159884.
 	
