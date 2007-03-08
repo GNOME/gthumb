@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-02-28 15:17+0100\n"
-"PO-Revision-Date: 2007-02-28 15:16+0100\n"
+"POT-Creation-Date: 2007-03-08 13:24+0100\n"
+"PO-Revision-Date: 2007-03-08 13:23+0100\n"
 "Last-Translator: Jakub Friedl <jfriedl@suse.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -278,8 +278,8 @@ msgid "Import Photos"
 msgstr "Importovat fotografie"
 
 #: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:856
-#: ../src/dlg-photo-importer.c:895 ../src/dlg-photo-importer.c:1458
-#: ../src/dlg-photo-importer.c:2174
+#: ../src/dlg-photo-importer.c:895 ../src/dlg-photo-importer.c:1461
+#: ../src/dlg-photo-importer.c:2177
 msgid "No camera detected"
 msgstr "Nedetekován fotoaparát"
 
@@ -343,7 +343,7 @@ msgid "Co_mment:"
 msgstr "_Komentář:"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1505 ../src/gth-filter-bar.c:208
+#: ../libgthumb/gth-file-view-list.c:1386 ../src/gth-filter-bar.c:208
 msgid "Comment"
 msgstr "Komentář"
 
@@ -1216,7 +1216,7 @@ msgstr "_Vysoká"
 
 #: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Hot Keys"
-msgstr ""
+msgstr "Klávesové zkratky"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
@@ -1363,9 +1363,8 @@ msgid "8"
 msgstr "8"
 
 #: ../data/glade/gthumb_print.glade.h:13
-#, fuzzy
 msgid "<b>Image Sizing</b>"
-msgstr "<b>Velikost stránky</b>"
+msgstr "<b>Velikost obrázku</b>"
 
 #: ../data/glade/gthumb_print.glade.h:14
 msgid "<b>Margins</b>"
@@ -1394,6 +1393,9 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
+"<small><i><b>Poznámka:</b> Obrázky ve vysokém rozlišení\n"
+"budou zmenšeny na toto rozlišení. Pro zvýšení kvality rozlišení\n"
+"zvyšte. Pro zrychlení tisku rozlišení snižte.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1579,7 +1581,7 @@ msgid "New _Search..."
 msgstr "Nové _hledání..."
 
 #: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:825
-#: ../src/dlg-photo-importer.c:1508
+#: ../src/dlg-photo-importer.c:1511
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
 
@@ -1639,6 +1641,10 @@ msgid ""
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
+"<small><i><b>Poznámka</b>: Transformace JPEG obrázků jsou za\n"
+"běžných okolností bezeztrátové. Při prohlížení obrázků můžete použít\n"
+"klávesy [ a ] pro bezeztrátové otočení a uložení obrázku a obejít tak\n"
+"tento dialog.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, fuzzy, no-c-format
@@ -2016,7 +2022,7 @@ msgstr "řádků na stránku,"
 msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:777
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:805
 msgid "View and organize your images"
 msgstr "Prohlížení a uspořádání vašich obrázků"
 
@@ -2195,39 +2201,39 @@ msgstr "Uložit obrázek"
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
-#: ../libgthumb/file-utils.c:1278 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1304 ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Katalogy"
 
-#: ../libgthumb/file-utils.c:1281 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1307 ../src/gth-location.c:819
 msgid "File System"
 msgstr "Systém souborů"
 
-#: ../libgthumb/file-utils.c:1308 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1334 ../src/gth-location.c:826
 msgid "Home"
 msgstr "Domov"
 
-#: ../libgthumb/file-utils.c:1797
+#: ../libgthumb/file-utils.c:1823
 msgid "Library not empty"
 msgstr "Knihovna není prázdná"
 
-#: ../libgthumb/file-utils.c:1806
+#: ../libgthumb/file-utils.c:1832
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nelze odstranit knihovnu \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:1833
+#: ../libgthumb/file-utils.c:1859
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nelze odstranit katalog \"%s\": %s"
 
 #.
-#: ../libgthumb/gth-file-view-list.c:1513 ../src/dlg-duplicates.c:368
+#: ../libgthumb/gth-file-view-list.c:1394 ../src/dlg-duplicates.c:368
 #: ../src/dlg-image-prop.c:594 ../src/gth-exif-data-viewer.c:803
 msgid "Name"
 msgstr "Název"
 
-#: ../libgthumb/gth-image-list.c:3524 ../src/gth-browser.c:787
+#: ../libgthumb/gth-image-list.c:3523 ../src/gth-browser.c:787
 #: ../src/gth-browser.c:4499 ../src/gth-viewer.c:759
 msgid "No image"
 msgstr "Žádný obrázek"
@@ -2408,7 +2414,7 @@ msgstr "Cílový adresář neexistuje. Chcete jej vytvořit?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: ../src/dlg-file-utils.c:119 ../src/dlg-photo-importer.c:1533
+#: ../src/dlg-file-utils.c:119 ../src/dlg-photo-importer.c:1536
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2542,21 +2548,25 @@ msgstr ""
 "Nelze přesunout dočasný soubor do vzdáleného umístění. Zkontrolujte vzdálená "
 "oprávnění."
 
-#: ../src/dlg-photo-importer.c:892 ../src/dlg-photo-importer.c:1457
-#: ../src/dlg-photo-importer.c:1507 ../src/dlg-photo-importer.c:1519
-#: ../src/dlg-photo-importer.c:1535 ../src/dlg-photo-importer.c:1564
+#: ../src/dlg-photo-importer.c:892 ../src/dlg-photo-importer.c:1460
+#: ../src/dlg-photo-importer.c:1510 ../src/dlg-photo-importer.c:1522
+#: ../src/dlg-photo-importer.c:1538 ../src/dlg-photo-importer.c:1567
 msgid "Could not import photos"
 msgstr "Nemohu importovat fotografie"
 
-#: ../src/dlg-photo-importer.c:1247 ../src/main.c:1089
+#: ../src/dlg-photo-importer.c:1250 ../src/main.c:1104
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1516
+#: ../src/dlg-photo-importer.c:1519
 #: ../src/gth-browser-actions-callbacks.c:1587
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nelze vytvořit adresář \"%s\": %s"
+
+#: ../src/dlg-photo-importer.c:1568
+msgid "Not enough free space left on disk"
+msgstr "Na disku nezbývá dost volného místa"
 
 #: ../src/dlg-png-exporter.c:899
 msgid "Image Caption"
@@ -3365,7 +3375,7 @@ msgstr "[Pro přidání komentáře stiskněte 'c']"
 msgid "[modified]"
 msgstr "[změněn]"
 
-#: ../src/gth-browser.c:709 ../src/main.c:400 ../src/main.c:786
+#: ../src/gth-browser.c:709 ../src/main.c:440 ../src/main.c:814
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -3433,11 +3443,11 @@ msgstr "Data obrázku"
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: ../src/gth-browser.c:7903
+#: ../src/gth-browser.c:7917
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: ../src/gth-browser.c:8515 ../src/gth-viewer.c:2119
+#: ../src/gth-browser.c:8519 ../src/gth-viewer.c:2119
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -3924,9 +3934,8 @@ msgid "Change images last modified date"
 msgstr "Změna data poslední úpravy obrázku"
 
 #: ../src/gth-window-actions-entries.h:270
-#, fuzzy
 msgid "Reset _Exif Orientation"
-msgstr "Resetovat Exif orientaci"
+msgstr "Resetovat _Exif orientaci"
 
 #: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
@@ -3968,79 +3977,79 @@ msgstr "Nízká kva_lita"
 msgid "Use low quality zoom"
 msgstr "Použít málo kvalitní přiblížení"
 
-#: ../src/main.c:91
+#: ../src/main.c:92
 msgid "Start in fullscreen mode"
 msgstr "Začít v celoobrazovkovém režimu"
 
-#: ../src/main.c:95
+#: ../src/main.c:96
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít s promítáním snímků"
 
-#: ../src/main.c:99
+#: ../src/main.c:100
 msgid "Automatically import digital camera photos"
 msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
-#: ../src/main.c:103
+#: ../src/main.c:104
 #, fuzzy
 msgid "Use the viewer mode to view single images"
 msgstr "Využít toto okno pro zobrazování jiných obrázků"
 
-#: ../src/main.c:148
+#: ../src/main.c:149
 msgid "Holidays"
 msgstr "Dovolená"
 
-#: ../src/main.c:149
+#: ../src/main.c:150
 msgid "Temporary"
 msgstr "Dočasné"
 
-#: ../src/main.c:150
+#: ../src/main.c:151
 msgid "Screenshots"
 msgstr "Sejmuté obrazovky"
 
-#: ../src/main.c:151
+#: ../src/main.c:152
 msgid "Science"
 msgstr "Věda"
 
-#: ../src/main.c:152
+#: ../src/main.c:153
 msgid "Favourite"
 msgstr "Oblíbené"
 
-#: ../src/main.c:153
+#: ../src/main.c:154
 msgid "Important"
 msgstr "Důležité"
 
-#: ../src/main.c:154
+#: ../src/main.c:155
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:155
+#: ../src/main.c:156
 msgid "Games"
 msgstr "Hry"
 
-#: ../src/main.c:156
+#: ../src/main.c:157
 msgid "Party"
 msgstr "Večírek"
 
-#: ../src/main.c:157
+#: ../src/main.c:158
 msgid "Birthday"
 msgstr "Narozeniny"
 
-#: ../src/main.c:158
+#: ../src/main.c:159
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: ../src/main.c:159
+#: ../src/main.c:160
 msgid "Family"
 msgstr "Rodina"
 
-#: ../src/main.c:458 ../src/main.c:735
+#: ../src/main.c:382
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
 #: ../src/rotation-utils.c:111
 #, c-format
 msgid "Problem transforming the image: %s"
-msgstr ""
+msgstr "Problém při transformaci obrázku: %s"
 
 #: ../src/rotation-utils.c:117
 msgid ""
@@ -4064,3 +4073,5 @@ msgstr ""
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
+"Nelze přemístit dočasný soubor do lokálního umístění. Zkontrolujte oprávnění "
+"složky."
