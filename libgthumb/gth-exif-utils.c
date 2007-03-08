@@ -580,6 +580,7 @@ write_metadata_tag_to_file (const char *path,
 	command = g_string_append (command, local_file_esc);
 	g_free (local_file_esc);
 
+//printf ("command: %s\n\r",command->str);	
 	system (command->str);
 	g_string_free (command,TRUE);
 

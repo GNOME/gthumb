@@ -793,6 +793,7 @@ save_comment_exiftool (const char  *filename,
 	GTimeVal    time_val = { (GTime) data->time, 0 };
 	char       *time_str = NULL;
 
+	/* TO DO: time zone issues? */
 	time_str = g_time_val_to_iso8601 (&time_val);
 	g_strcanon (time_str,"0123456879:- ",' ');
 	g_strcanon (time_str,"0123456879: ",':');

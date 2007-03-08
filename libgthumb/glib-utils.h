@@ -37,44 +37,31 @@
     g_signal_handlers_unblock_matched ((instance), G_SIGNAL_MATCH_DATA, \
                                        0, 0, NULL, NULL, (data))
 
-
-char *   _g_strdup_with_max_size   (const char *s,
-				    int         max_size);
-
-char **  _g_get_template_from_text (const char *template);
-
-char *   _g_get_name_from_template (char      **template,
-				    int         num);
-
-char *   _g_substitute             (const char *from,
-				    const char  this,
-				    const char *with_this);
-
-char *   _g_substitute_pattern     (const char *utf8_text, 
-				    gunichar    pattern, 
-				    const char *value);
-
-char *   _g_utf8_strndup           (const char *str,
-				    gsize       n);
-
-char **  _g_utf8_strsplit          (const char *str,
-				    gunichar    delimiter);
-
-char *   _g_utf8_strstrip          (const char *str);
-
-gboolean _g_utf8_all_spaces        (const char *utf8_string);
-
-int      strcmp_null_tollerant     (const char *s1, const char *s2);
-
-GList *  _g_list_insert_list_before (GList *list1,
-				     GList *sibling,
-				     GList *list2);
-
-gboolean str_ends_with             (const char *s1, const char *s2);
-
+char *   _g_strdup_with_max_size    (const char  *s,
+				     int          max_size);
+char **  _g_get_template_from_text  (const char  *template);
+char *   _g_get_name_from_template  (char       **template,
+				     int          num);
+char *   _g_substitute              (const char  *from,
+				     const char   this,
+				     const char  *with_this);
+char *   _g_substitute_pattern      (const char  *utf8_text, 
+				     gunichar     pattern, 
+				     const char  *value);
+char *   _g_utf8_strndup            (const char  *str,
+				     gsize        n);
+char **  _g_utf8_strsplit           (const char  *str,
+				     gunichar     delimiter);
+char *   _g_utf8_strstrip           (const char  *str);
+gboolean _g_utf8_all_spaces         (const char  *utf8_string);
+int      strcmp_null_tollerant      (const char  *s1, const char *s2);
+GList *  _g_list_insert_list_before (GList       *list1,
+				     GList       *sibling,
+				     GList       *list2);
+gboolean str_ends_with              (const char  *s1, 
+				     const char  *s2);
 
 /**/
-
 
 typedef struct {
 	DoneFunc func;

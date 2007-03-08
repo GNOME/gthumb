@@ -32,6 +32,7 @@
 #include "comments.h"
 #include "main.h"
 #include "file-utils.h"
+#include "glib-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "gth-browser.h"
@@ -371,6 +372,45 @@ session_is_restored (void)
 }
 
 
+static char *
+get_command_line_catalog_path (void) 
+{
+	char *catalog_name_utf8;
+	char *catalog_name;
+	char *catalog_path;
+			
+	catalog_name_utf8 = g_strconcat (_("Command Line"),
+					 CATALOG_EXT,
+					 NULL);
+	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
+	catalog_path = get_catalog_full_path (catalog_name);
+	g_free (catalog_name);
+	g_free (catalog_name_utf8);	
+	
+	return catalog_path;
+}
+
+
+static void
+reset_command_line_catalog (void) 
+{
+	char *catalog_path;
+	char *catalog_uri;
+	
+	/* Reset the startup location if it was set to the command 
+	 * line catalog. */
+
+	catalog_path = get_command_line_catalog_path ();		
+	catalog_uri = g_strconcat ("catalog://", remove_scheme_from_uri (catalog_path), NULL);
+		
+	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0) 
+		preferences_set_startup_location (get_home_uri ());
+			
+	g_free (catalog_uri);
+	g_free (catalog_path);
+}
+
+
 /* Initialize application data. */
 static void
 initialize_data (void)
@@ -408,8 +448,10 @@ initialize_data (void)
 
 	/* Parse command line arguments. */
 
-	if (remaining_args == NULL) /* No arguments specified. */
+	if (remaining_args == NULL) { /* No arguments specified. */
+		reset_command_line_catalog ();
 		return;
+	}
 
 	current_dir = g_get_current_dir ();
 	while ((filename = remaining_args[i++]) != NULL) {
@@ -443,26 +485,17 @@ initialize_data (void)
 	n_file_urls = g_list_length (file_urls);
 	n_dir_urls = g_list_length (dir_urls);
 
-	if (n_file_urls == 1) {
+	if (n_file_urls == 1) 
 		view_single_image = TRUE;
-
-	} else if (n_file_urls > 1) {
+	
+	if (n_file_urls > 1) {
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
 		char    *catalog_path;
-		char    *catalog_name, *catalog_name_utf8;
 		GList   *scan;
 
 		catalog = catalog_new ();
-
-		catalog_name_utf8 = g_strconcat (_("Command Line"),
-						 CATALOG_EXT,
-						 NULL);
-		catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
-		catalog_path = get_catalog_full_path (catalog_name);
-		g_free (catalog_name);
-		g_free (catalog_name_utf8);
-
+		catalog_path = get_command_line_catalog_path ();
 		catalog_set_path (catalog, catalog_path);
 		g_free (catalog_path);
 
@@ -476,7 +509,9 @@ initialize_data (void)
 
 		view_comline_catalog = TRUE;
 	}
-
+	else 
+		reset_command_line_catalog ();
+		
 	g_free (current_dir);
 }
 
@@ -724,24 +759,17 @@ prepare_app (void)
 		}
 
 	} else if (view_comline_catalog) {
-		char *tmp;
-		char *catalog_name;
 		char *catalog_path;
 		char *catalog_uri;
 
 		ViewFirstImage = TRUE;
 		HideSidebar = TRUE;
 
-		tmp = g_strconcat (_("Command Line"), CATALOG_EXT, NULL);
-		catalog_name = gnome_vfs_escape_string (tmp);
-		g_free (tmp);
-
-		catalog_path = get_catalog_full_path (catalog_name);
+		catalog_path = get_command_line_catalog_path ();
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 
 		open_browser_window (catalog_uri, TRUE, use_factory);
 
-		g_free (catalog_name);
 		g_free (catalog_path);
 		g_free (catalog_uri);
 	}
@@ -982,19 +1010,6 @@ get_fs_icon (IconName icon_name,
 {
 	GdkPixbuf *pixbuf = NULL;
 	gboolean   scale = TRUE;
-
-	/*
-	if (icon_pixbuf[icon_name] != NULL) {
-		g_object_ref (icon_pixbuf[icon_name]);
-		return icon_pixbuf[icon_name];
-	}
-
-	icon_pixbuf[icon_name] = create_pixbuf (icon_theme,
-						icon_mime_name[icon_name],
-						icon_size);
-
-	return icon_pixbuf[icon_name];
-	*/
 
         if (icon_pixbuf[icon_name] == NULL) {
 		GtkIconInfo         *icon_info = NULL;
