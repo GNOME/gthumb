@@ -1,5 +1,10 @@
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.c (reset_command_line_catalog): reset even when no arguments
+	were specified.
+
+2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/main.c: reset the startup location if it was set to the command 
 	line catalog.  
 	Fixes bug #98933 – Command Line collection should be deleted on startup

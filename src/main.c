@@ -391,6 +391,26 @@ get_command_line_catalog_path (void)
 }
 
 
+static void
+reset_command_line_catalog (void) 
+{
+	char *catalog_path;
+	char *catalog_uri;
+	
+	/* Reset the startup location if it was set to the command 
+	 * line catalog. */
+
+	catalog_path = get_command_line_catalog_path ();		
+	catalog_uri = g_strconcat ("catalog://", remove_scheme_from_uri (catalog_path), NULL);
+		
+	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0) 
+		preferences_set_startup_location (get_home_uri ());
+			
+	g_free (catalog_uri);
+	g_free (catalog_path);
+}
+
+
 /* Initialize application data. */
 static void
 initialize_data (void)
@@ -428,8 +448,10 @@ initialize_data (void)
 
 	/* Parse command line arguments. */
 
-	if (remaining_args == NULL) /* No arguments specified. */
+	if (remaining_args == NULL) { /* No arguments specified. */
+		reset_command_line_catalog ();
 		return;
+	}
 
 	current_dir = g_get_current_dir ();
 	while ((filename = remaining_args[i++]) != NULL) {
@@ -487,21 +509,8 @@ initialize_data (void)
 
 		view_comline_catalog = TRUE;
 	}
-	else {
-		char *catalog_path;
-		char *catalog_uri;
-	
-		/* Reset the startup location if it was set to the command 
-		 * line catalog. */
-
-		catalog_path = get_command_line_catalog_path ();		
-		catalog_uri = g_strconcat ("catalog://", remove_scheme_from_uri (catalog_path), NULL);
-		if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0) 
-			preferences_set_startup_location (get_home_uri ());
-			
-		g_free (catalog_uri);
-		g_free (catalog_path);
-	}
+	else 
+		reset_command_line_catalog ();
 		
 	g_free (current_dir);
 }
