@@ -7,6 +7,16 @@
 	* libgthumb/gth-exif-utils.h:
 	New convenience function for handling metadata values.
 
+2007-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (folder_is_film): do not remove the scheme.
+
+	* libgthumb/file-utils.c (resolve_symlinks): removed double g_strconcat
+	call,  added other comments.
+
+	* libgthumb/file-utils.c (resolve_symlinks): simplified the code, added
+	some comments.
+
 2007-03-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xmp),
@@ -35,37 +45,46 @@
 
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (resolve_symlinks): fixed memory leak.
+
+2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (resolve_symlinks): fixed links to absolute
+	paths.
+
+2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: reimplemented resolve_all_symlinks to
 	fix bug #159884.
-	
+
 	* src/main.c (reset_command_line_catalog): reset even when no arguments
 	were specified.
 
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/main.c: reset the startup location if it was set to the command 
-	line catalog.  
+	* src/main.c: reset the startup location if it was set to the command
+	line catalog.
 	Fixes bug #98933 – Command Line collection should be deleted on startup
 	if no files are passed as arguments
-	
+
 	* src/gth-browser.c: go to the catalog directory before activating the
-	catalog.  
+	catalog.
 	Fixes bug #407871 – Crash after deleting catalog file.
 
 2007-03-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/gth-browser.c: 
-	* libgthumb/gth-image-list.c: 
-	* libgthumb/gth-file-list.c: 
-	* libgthumb/gth-file-list.h: 
-	* libgthumb/gth-file-view.c: 
-	* libgthumb/gth-file-view.h: 
-	* libgthumb/gth-file-view-list.c: 
-	* libgthumb/gth-file-view-thumbs.c: moved the icons handling from the 
-	gth-file-view-* widgets to gth-file-list to avoid duplicated code.  
-	Use the icon associated to the file mime type instead of always using 
+	* src/gth-browser.c:
+	* libgthumb/gth-image-list.c:
+	* libgthumb/gth-file-list.c:
+	* libgthumb/gth-file-list.h:
+	* libgthumb/gth-file-view.c:
+	* libgthumb/gth-file-view.h:
+	* libgthumb/gth-file-view-list.c:
+	* libgthumb/gth-file-view-thumbs.c: moved the icons handling from the
+	gth-file-view-* widgets to gth-file-list to avoid duplicated code.
+	Use the icon associated to the file mime type instead of always using
 	the "image/*" icon.
-	
+
 	* libgthumb/file-utils.c: save the mime_type strings in a local hash.
 
 2007-03-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -87,7 +106,7 @@
 	* libgthumb/jpegutils/jpegtran.c: (jpegtran_internal):
 	* libgthumb/jpegutils/transupp.c: (jcopy_markers_exif),
 	(jcopy_markers_execute):
-	* libgthumb/jpegutils/transupp.h: Do not write a JFIF marker 
+	* libgthumb/jpegutils/transupp.h: Do not write a JFIF marker
 	when it conflicts with the EXIF marker. Patch by Jef Driesen.
 
 2007-03-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -105,7 +124,7 @@
 
 2007-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* libgthumb/gth-file-view-list.c (gfv_remove): implemented "remove" 
+	* libgthumb/gth-file-view-list.c (gfv_remove): implemented "remove"
 	for the list view (#389590).
 
 2007-03-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -126,7 +145,7 @@
 
 	* src/dlg-photo-importer.c: (save_image), (ok_clicked_cb):
 	Unescape destination folder URI when saving, because the
-	save functions are strictly local (non-URI). Bug 414665. 
+	save functions are strictly local (non-URI). Bug 414665.
 
 2007-03-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -1080,13 +1099,13 @@
 	* src/gth-exif-data-viewer.c: (update_exif_data):
 	* libgthumb/gth-exif-utils.h:
 	Added remote VFS support for reading EXIF tags.
-        Writing tags isn't supported, yet.
+	Writing tags isn't supported, yet.
 
 2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_iptc):
 	Added remote VFS support for reading IPTC comments.
-        Writing comments isn't supported, yet.
+	Writing comments isn't supported, yet.
 
 2007-01-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -1111,7 +1130,7 @@
 
 	* src/dlg-jpegtran.c: (apply_transformation):
 	Enabled rotation of remote VFS files, and fixed a memory leak (was
-        missing gnome_vfs_file_info_unref)
+	missing gnome_vfs_file_info_unref)
 
 2007-01-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -2285,7 +2304,7 @@
 	* src/gth-window-actions-entries.h:
 	  Added a zoom-to-fit-width function. Bug 148971.
 
-        * src/gth-fullscreen.c: (mouse_wheel_scrolled_cb),
+	* src/gth-fullscreen.c: (mouse_wheel_scrolled_cb),
 	(gth_fullscreen_construct):
 	  Extended mouse-wheel navigation to fullscreen mode.
 
@@ -2475,7 +2494,7 @@
 
 	* src/catalog-web-exporter.c: (image_data_new):
 	  Corrected output file naming of non-jpeg images in web
-          album export. Always use original file extension.
+	  album export. Always use original file extension.
 
 	* src/catalog-web-exporter.c:
 	  (export__copy_image__progress_update_cb), (export__copy_image):
@@ -2609,13 +2628,13 @@
 
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-        * src/dlg-jpegtran.c: (jpeg_mcu_dialog):
-          Fixed action of jpeg-mcu-trim dialog when the close
-          button was pressed. Bug 361913. Patch by Jef Driesen.
+	* src/dlg-jpegtran.c: (jpeg_mcu_dialog):
+	  Fixed action of jpeg-mcu-trim dialog when the close
+	  button was pressed. Bug 361913. Patch by Jef Driesen.
 
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-        * doc/ru: Deleted obsolete Russian manual translation.
+	* doc/ru: Deleted obsolete Russian manual translation.
 	  Bug #346889.
 
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -2765,7 +2784,7 @@
 	(yy_get_previous_state), (input), (yy_load_buffer_state),
 	(yy_pop_state), (yy_top_state), (main):
 	  Major web album formatting enhancements. Proper iso-code escaping
-          of non-ASCII characters. Initial development patch, some known issues.
+	  of non-ASCII characters. Initial development patch, some known issues.
 	  Additional tweaks are expected shortly. See bug 319933.
 	  Patch by Rennie deGraaf.
 
@@ -2839,7 +2858,7 @@
 2006-11-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c: (image_data_new): Patch to
-          include original filename within album-generated image filenames.
+	  include original filename within album-generated image filenames.
 	  Patch by Christophe Bisière. Bug #173025.
 
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -2850,13 +2869,13 @@
 	* src/rotation-utils.c: (jtransform_perfect_transform),
 	(apply_transformation_jpeg):
 	* src/rotation-utils.h: Added option to trim jpegs during
-          transformations on images whose dimensions are not multiples of
+	  transformations on images whose dimensions are not multiples of
 	  the jpeg MCU (8). See bug #361913. Patch by Jef Driesen.
 
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-web-exporter.c: (help_cb), (dlg_web_exporter): The
-          web album "Help" button didn't do anything (bug #369436). Fixed!
+	  web album "Help" button didn't do anything (bug #369436). Fixed!
 
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -2864,8 +2883,8 @@
 	* src/dlg-web-exporter.c: (get_idx_from_size), (dlg_web_exporter):
 
 	  New re-size options in web exporter to allow equal landscape and
-          portrait image sizes (square bounding box). Bug #313671. Patch
-          by Stanislav Brabec.
+	  portrait image sizes (square bounding box). Bug #313671. Patch
+	  by Stanislav Brabec.
 
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -2883,8 +2902,8 @@
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb_tools.glade: Fixed duplicate and missing
-          shortcut keys in the lossless rotate dialog, and added note
-          mentioning [ and ] shortcuts. Fixes bugs #145130 and #142936.
+	  shortcut keys in the lossless rotate dialog, and added note
+	  mentioning [ and ] shortcuts. Fixes bugs #145130 and #142936.
 
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -2894,31 +2913,31 @@
 
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-        * libgthumb/print-callbacks.c:  (pci_get_next_line_to_print_delimiter):
-          Fixes bug 305046, by making printed comments wrap between words, rather than
-          blindly wrapping in the middle of words.
+	* libgthumb/print-callbacks.c:  (pci_get_next_line_to_print_delimiter):
+	  Fixes bug 305046, by making printed comments wrap between words, rather than
+	  blindly wrapping in the middle of words.
 
-        * data/gthumb.schemas.in:
-        * data/glade/gthumb_tools.glade:
-        * libgthumb/glib-utils.c: (_g_substitute_pattern):
-        * src/dlg-rename-series.c: (update_list): Fixes bug 338623 and bug 339037,
-          by adding a "%e" file-extension symbol when renaming a series of files.
-          This allows extensions to be changed, and fixes a crash when files without
-          extensions were renamed.
+	* data/gthumb.schemas.in:
+	* data/glade/gthumb_tools.glade:
+	* libgthumb/glib-utils.c: (_g_substitute_pattern):
+	* src/dlg-rename-series.c: (update_list): Fixes bug 338623 and bug 339037,
+	  by adding a "%e" file-extension symbol when renaming a series of files.
+	  This allows extensions to be changed, and fixes a crash when files without
+	  extensions were renamed.
 
-        * data/glade/gthumb_comments.glade:
-        * doc/C/gthumb.xml:
-        * src/dlg-categories.c: (add_category_cb), (remove_category_cb),
-        (ok_clicked_cb), (use_category_toggled), (dlg_categories_common),
-        (dlg_categories_update):
-        * src/dlg-comment.c: (save_clicked_cb),
-        (date_optionmenu_changed_cb), (dlg_comment_new),
-        (dlg_comment_update):
-        * src/gth-fullscreen.c: (gth_fullscreen_init):
-        * src/gth-viewer.c: (gth_viewer_init):
-        * src/gth-window.c: (gth_window_class_init), (gth_window_init):
-          The "Close" and "Save" buttons in the comments and categories dialogs have
-          been changed to "Cancel" and "OK". The save is automatic when OK is clicked,
+	* data/glade/gthumb_comments.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-categories.c: (add_category_cb), (remove_category_cb),
+	(ok_clicked_cb), (use_category_toggled), (dlg_categories_common),
+	(dlg_categories_update):
+	* src/dlg-comment.c: (save_clicked_cb),
+	(date_optionmenu_changed_cb), (dlg_comment_new),
+	(dlg_comment_update):
+	* src/gth-fullscreen.c: (gth_fullscreen_init):
+	* src/gth-viewer.c: (gth_viewer_init):
+	* src/gth-window.c: (gth_window_class_init), (gth_window_init):
+	  The "Close" and "Save" buttons in the comments and categories dialogs have
+	  been changed to "Cancel" and "OK". The save is automatic when OK is clicked,
 	  for more intuitive operation.
 
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -2977,7 +2996,7 @@
 	* src/gth-window-actions-entries.h:
 
 	Adds a redeye removal tool. See bug #140533. Patch by
-        Carl Michal, Marty Leisner, and Michael Chudobiak.
+	Carl Michal, Marty Leisner, and Michael Chudobiak.
 
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -3621,7 +3640,7 @@
 
 2006-03-01  Daniel Nylander  <po@danielnylander.se>
 
-        * po/sv.po: Updated Swedish translation.
+	* po/sv.po: Updated Swedish translation.
 
 2006-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -5317,7 +5336,7 @@
 
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
-        * configure.in: Added "rw" to ALL_LINGUAS.
+	* configure.in: Added "rw" to ALL_LINGUAS.
 
 2005-03-23  Adi Attar  <aattar@cvs.gnome.org>
 
@@ -5912,8 +5931,8 @@
 2004-08-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* components/catalog-view/GNOME_GThumb_CatalogView.server.in.in:
-        added nautilus:required_directory_content_mime_types
-        attribute.  Suggested by Alexander Larsson.
+	added nautilus:required_directory_content_mime_types
+	attribute.  Suggested by Alexander Larsson.
 
 2004-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -6035,7 +6054,7 @@
 2004-06-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-comment.c (dlg_comment_update): If there is no comment then
-        all fields must be considered to differ.  Patch by Martin Ebourne.
+	all fields must be considered to differ.  Patch by Martin Ebourne.
 
 2004-06-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -6276,7 +6295,7 @@
 2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-web-exporter.c (install_theme__ok_cb): init command_line to
-        NULL
+	NULL
 
 	* src/dlg-png-exporter.c (export): set the default value for
 	type_extension.
@@ -6477,7 +6496,7 @@
 	_gtk_label_set_locale_text.
 
 	Fix bug #135110 (An UTF8 string was not converted to
-        the current locale (again)).
+	the current locale (again)).
 
 2004-02-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
@@ -7530,7 +7549,7 @@
 
 2003-04-06  Paul Duffy <dubhthach@frink.nuigalway.ie>
 
-        * configure.in: Added ga (irish) to ALL_LINGUAS
+	* configure.in: Added ga (irish) to ALL_LINGUAS
 
 2003-04-06  Christian Neumair  <chris@gnome-de.org>
 
@@ -7605,11 +7624,11 @@
 	instead of 3.
 
 	* src/albumtheme-private.c (gth_expr_eval): fix problem with unary
-        operations.
+	operations.
 
 2003-05-06  Duarte Loreto <happyguy_pt@hotmail.com>
 
-        * configure.in: Added "pt" to ALL_LINGUAS.
+	* configure.in: Added "pt" to ALL_LINGUAS.
 
 2003-03-01  Paolo Bacchilega  <paolo.bacch@tin.it>
 
@@ -7722,7 +7741,7 @@
 
 	* src/dlg-file-utils.c (folder_copy):
 	* src/commands-impl.c (folder_rename, folder_copy__response_cb): cannot
-        update the thumbnail cache any more.
+	update the thumbnail cache any more.
 
 	* libgthumb/thumb-cache.h:
 	* libgthumb/thumb-cache.c: use the new thumbnail system.
@@ -8334,7 +8353,7 @@
 
 2002-11-09  Hasbullah Bin Pit  <sebol@ikhlas.com>
 
-        * configure.in: Added ms to ALL_LINGUAS.
+	* configure.in: Added ms to ALL_LINGUAS.
 
 2002-11-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
