@@ -810,9 +810,11 @@ load_comment_from_xmp (const char *filename)
 	CommentData *data;
 	GHashTable  *metadata_hash;
 	const char *value;
-	char value_string[65536];
-        int category_position, tag_position;
-	
+	const char *value2;
+	char       *value_string = NULL;
+	char       *value2_string = NULL;
+	char       *time_string = NULL;
+	GTimeVal    time_val;	
 	
 	data = comment_data_new ();
 
@@ -826,20 +828,56 @@ load_comment_from_xmp (const char *filename)
 	if (!value)
 		value = g_hash_table_lookup (metadata_hash, "ExifIFD:UserComment");
 	if (value)
-		if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, value_string) == 3)
+		if (value_string = strip_sort_codes (value))
 			data->comment = g_strdup (value_string);
 
-        /*location - preferred fields first */
+        /* location - preferred fields first */
         value = g_hash_table_lookup (metadata_hash, "XMP-iptcCore:Location");
         if (!value)
                 value = g_hash_table_lookup (metadata_hash, "IPTC:ContentLocationName");
         if (value)
-                if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, value_string) == 3)
+		if (value_string = strip_sort_codes (value))
                         data->place = g_strdup (value_string);
 
-	/* TO DO: time, keywords */
+	/* time - preferred fields first */
+	value = g_hash_table_lookup (metadata_hash, "XMP-tiff:DateTime");
+	if (value)
+		time_string = strip_sort_codes (value);
+	if (!time_string) {
+		/* IPTC has separate date and time tags. Combine them. */
+                value = g_hash_table_lookup (metadata_hash, "IPTC:DateCreated");
+		if (value) {
+			value_string = strip_sort_codes (value);
+			value2 = g_hash_table_lookup (metadata_hash, "IPTC:TimeCreated");
+			if (value2)
+				value2_string = strip_sort_codes (value2);
+			time_string = g_strconcat (value_string, " ", value2_string, NULL);
+		}
+	}
+	/* Don't get Exif date tags, because almost all cameras provide them automatically.
+	   The user may wish to manually specify a comment date, so we shouldn't overwrite
+	   the XML date. If XMP or IPTC date tags are present, they were probably
+	   deliberately added by the user, so in those cases we will respect them. */
+        if (time_string) {
+		/* Convert the exiftool default date format to ISO8601 format */
+		time_string[10]='T';
+		time_string[4]='-';
+		time_string[7]='-';
+
+		if (g_time_val_from_iso8601 (time_string, &time_val)) {
+			data->time = (time_t) (time_val.tv_sec);
+		}
+
+		g_free (time_string);
+	}
+			
+
+	/* TO DO: keywords */
 
         g_hash_table_destroy (metadata_hash);
+
+	g_free (value_string);
+	g_free (value2_string);
 
 	return data;
 }

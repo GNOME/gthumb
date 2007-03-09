@@ -452,6 +452,23 @@ use_exiftool_for_metadata ()
 }
 
 
+char *
+strip_sort_codes (const char *value) {
+	int      category_position, tag_position;
+	char     scanned_string[65536];
+
+	/* The value portion of the metadata hash is normally prefixed by
+	   a category and tag sorting code, to determine the placement
+	   in the display tree. This function removes those codes for
+	   applications where they aren't needed. */
+
+	if (sscanf (value, "%d:%d:%65535[^\n]", &category_position, &tag_position, scanned_string) == 3)
+		return g_strdup (scanned_string);
+	else
+		return NULL;
+}
+
+
 void
 get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 {
