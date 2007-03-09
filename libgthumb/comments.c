@@ -871,8 +871,32 @@ load_comment_from_xmp (const char *filename)
 		g_free (time_string);
 	}
 			
+        /* keywords - preferred fields first */
+        value = g_hash_table_lookup (metadata_hash, "XMP-pdf:Keywords");
+        if (!value)
+                value = g_hash_table_lookup (metadata_hash, "IPTC:Keywords");
+        if (value)
+		if (value_string = strip_sort_codes (value)) {
+			char **keywords_v;
+			int  i = 0;
 
-	/* TO DO: keywords */
+			comment_data_free_keywords (data);
+
+			keywords_v = g_strsplit (value_string, ",", 0);
+
+			while (keywords_v[i] != NULL) {
+				i++;
+			}
+
+			data->keywords_n = i;
+			data->keywords = g_new0 (char*, data->keywords_n + 1);
+
+			for (i = 0; i < data->keywords_n; i++) 
+				data->keywords[i] = g_strdup (keywords_v[i]);
+
+			data->keywords[i] = NULL;
+			g_strfreev (keywords_v);
+		}
 
         g_hash_table_destroy (metadata_hash);
 

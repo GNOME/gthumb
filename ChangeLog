@@ -1,6 +1,11 @@
 2007-03-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xmp):
+	Initial support for loading XMP comment keywords.
+
+2007-03-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_xmp):
 	Support for loading XMP and IPTC comment dates.
 
 	* libgthumb/gth-exif-utils.c: (strip_sort_codes):
