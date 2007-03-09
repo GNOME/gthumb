@@ -1,3 +1,8 @@
+2007-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (resolve_symlinks): simplified the code, added
+	some comments.
+
 2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (resolve_symlinks): fixed memory leak.

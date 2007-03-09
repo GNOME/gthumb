@@ -484,27 +484,27 @@ dir_list_filter_and_sort (GList    *dir_list,
 			  gboolean  show_dot_files)
 {
 	GList *filtered;
-        GList *scan;
+	GList *scan;
 
-        /* Apply filters on dir list. */
-        filtered = NULL;
-        scan = dir_list;
-        while (scan) {
-                const char *name_only = file_name_from_path (scan->data);
+	/* Apply filters on dir list. */
+	filtered = NULL;
+	scan = dir_list;
+	while (scan) {
+		const char *name_only = file_name_from_path (scan->data);
 
-                if (! (file_is_hidden (name_only) && ! show_dot_files)
-                    && (strcmp (name_only, CACHE_DIR) != 0)) {
-                        char *s;
-                        char *path = (char*) scan->data;
+		if (! (file_is_hidden (name_only) && ! show_dot_files)
+		    && (strcmp (name_only, CACHE_DIR) != 0)) {
+			char *s;
+			char *path = (char*) scan->data;
 
-                        s = g_strdup (names_only ? name_only : path);
-                        filtered = g_list_prepend (filtered, s);
-                }
-                scan = scan->next;
-        }
-        filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
+			s = g_strdup (names_only ? name_only : path);
+			filtered = g_list_prepend (filtered, s);
+		}
+		scan = scan->next;
+	}
+	filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
 
-        return filtered;
+	return filtered;
 }
 
 
@@ -517,46 +517,46 @@ visit_rc_directory_sync (const char *rc_dir,
 			 gpointer    data)
 {
 	char  *rc_dir_full_path;
-        GList *files, *dirs;
-        GList *scan;
-        int    prefix_len, ext_len;
-        char  *prefix;
+	GList *files, *dirs;
+	GList *scan;
+	int    prefix_len, ext_len;
+	char  *prefix;
 
-        prefix = g_strconcat ("file://",
+	prefix = g_strconcat ("file://",
 			      g_get_home_dir(),
-                              "/",
-                              rc_dir,
-                              NULL);
-        prefix_len = strlen (prefix);
-        rc_dir_full_path = g_strconcat (prefix,
-                                        dir,
-                                        NULL);
-        g_free (prefix);
-        ext_len = strlen (rc_ext);
+			      "/",
+			      rc_dir,
+			      NULL);
+	prefix_len = strlen (prefix);
+	rc_dir_full_path = g_strconcat (prefix,
+					dir,
+					NULL);
+	g_free (prefix);
+	ext_len = strlen (rc_ext);
 
-        if (! path_is_dir (rc_dir_full_path)) {
-                g_free (rc_dir_full_path);
-                return FALSE;
-        }
+	if (! path_is_dir (rc_dir_full_path)) {
+		g_free (rc_dir_full_path);
+		return FALSE;
+	}
 
-        path_list_new (rc_dir_full_path, &files, &dirs);
+	path_list_new (rc_dir_full_path, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
-                char *rc_file, *real_file;
+		char *rc_file, *real_file;
 
-                rc_file = (char*) scan->data;
-                real_file = g_strndup (rc_file + prefix_len,
-                                       strlen (rc_file) - prefix_len - ext_len);
-                if (do_something)
+		rc_file = (char*) scan->data;
+		real_file = g_strndup (rc_file + prefix_len,
+				       strlen (rc_file) - prefix_len - ext_len);
+		if (do_something)
 			(*do_something) (real_file, rc_file, data);
 
-                g_free (real_file);
-        }
+		g_free (real_file);
+	}
 
-        if (! recursive)
-                return TRUE;
+	if (! recursive)
+		return TRUE;
 
-        for (scan = dirs; scan; scan = scan->next) {
+	for (scan = dirs; scan; scan = scan->next) {
 		char *sub_dir = (gchar*) scan->data;
 
 		visit_rc_directory_sync (rc_dir,
@@ -567,7 +567,7 @@ visit_rc_directory_sync (const char *rc_dir,
 					 data);
 	}
 
-        return TRUE;
+	return TRUE;
 }
 
 
@@ -630,7 +630,7 @@ gboolean mime_type_is_image (const char *mime_type)
 
 
 gboolean file_is_image (const gchar *name,
-	                gboolean     fast_file_type)
+			gboolean     fast_file_type)
 {
 	const char *mime_type = NULL;
 
@@ -649,47 +649,47 @@ gboolean mime_type_is_video (const char *mime_type)
 
 
 gboolean file_is_video (const gchar *name,
-                        gboolean     fast_file_type)
+			gboolean     fast_file_type)
 {
-        const char *mime_type = NULL;
+	const char *mime_type = NULL;
 
-        mime_type = get_file_mime_type (name, fast_file_type);
-        if (mime_type == NULL)
-                return FALSE;
+	mime_type = get_file_mime_type (name, fast_file_type);
+	if (mime_type == NULL)
+		return FALSE;
 
-        return mime_type_is_video (mime_type);
+	return mime_type_is_video (mime_type);
 }
 
 
 gboolean mime_type_is_audio (const char *mime_type)
 {
-        return (strstr (mime_type, "audio") != NULL);
+	return (strstr (mime_type, "audio") != NULL);
 }
 
 
 gboolean file_is_audio (const gchar *name,
-                        gboolean     fast_file_type)
+			gboolean     fast_file_type)
 {
-        const char *mime_type = NULL;
+	const char *mime_type = NULL;
 
-        mime_type = get_file_mime_type (name, fast_file_type);
-        if (mime_type == NULL)
-                return FALSE;
+	mime_type = get_file_mime_type (name, fast_file_type);
+	if (mime_type == NULL)
+		return FALSE;
 
-        return mime_type_is_audio (mime_type);
+	return mime_type_is_audio (mime_type);
 }
 
 
 gboolean file_is_image_video_or_audio (const gchar *name,
-                                 gboolean     fast_file_type)
+				 gboolean     fast_file_type)
 {
-        const char *mime_type = NULL;
+	const char *mime_type = NULL;
 
-        mime_type = get_file_mime_type (name, fast_file_type);
-        if (mime_type == NULL)
-                return FALSE;
+	mime_type = get_file_mime_type (name, fast_file_type);
+	if (mime_type == NULL)
+		return FALSE;
 
-        return mime_type_is_image (mime_type) ||
+	return mime_type_is_image (mime_type) ||
 	       mime_type_is_video (mime_type) ||
 	       mime_type_is_audio (mime_type);
 }
@@ -839,7 +839,7 @@ get_file_mime_type (const char *filename,
 
 	} else {
 		if (uri_scheme_is_file (filename))
-                        filename = get_file_path_from_uri (filename);
+			filename = get_file_path_from_uri (filename);
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
 	}
 
@@ -900,7 +900,7 @@ image_is_type (const char *name,
 
 static gboolean
 image_is_type__gconf_file_type (const char *name,
-	                       const char *type)
+			       const char *type)
 {
 	return image_is_type (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 }
@@ -935,7 +935,7 @@ mime_type_is_hdr (const char *mime_type)
 {
 	/* Note that some HDR file extensions have been hard-coded into
 	   the get_file_mime_type function above. */
-        return mime_type_is (mime_type, "image/x-hdr");
+	return mime_type_is (mime_type, "image/x-hdr");
 }
 
 
@@ -1351,24 +1351,24 @@ G_CONST_RETURN char *
 file_name_from_path (const char *file_name)
 {
 	register gssize base;
-        register gssize last_char;
+	register gssize last_char;
 
-        if (file_name == NULL)
-                return NULL;
+	if (file_name == NULL)
+		return NULL;
 
-        if (file_name[0] == '\0')
-                return "";
+	if (file_name[0] == '\0')
+		return "";
 
-        last_char = strlen (file_name) - 1;
+	last_char = strlen (file_name) - 1;
 
-        if (file_name [last_char] == G_DIR_SEPARATOR)
-                return "";
+	if (file_name [last_char] == G_DIR_SEPARATOR)
+		return "";
 
-        base = last_char;
-        while ((base >= 0) && (file_name [base] != G_DIR_SEPARATOR))
-                base--;
+	base = last_char;
+	while ((base >= 0) && (file_name [base] != G_DIR_SEPARATOR))
+		base--;
 
-        return file_name + base + 1;
+	return file_name + base + 1;
 }
 
 
@@ -1680,25 +1680,26 @@ build_uri (const char *s1,
 
 GnomeVFSResult
 resolve_symlinks (const char  *text_uri,
-	          const char  *relative_link,
+		  const char  *relative_link,
 		  char       **resolved_text_uri,
 		  int          n_followed_symlinks)
 {
 	GnomeVFSResult     result = GNOME_VFS_OK;
+	char              *resolved_uri;
+	char 		  *uri;
+	char              *tmp;
 	GnomeVFSFileInfo  *info;
 	char             **names;
 	int                i;
-	char 		  *uri;
-	char              *resolved_uri;
-	char              *tmp;
 
 	*resolved_text_uri = NULL;
 
 	if (text_uri == NULL)
-		return result;
-
+		return GNOME_VFS_OK;
 	if (*text_uri == '\0')
 		return GNOME_VFS_ERROR_INVALID_URI;
+
+	info = gnome_vfs_file_info_new ();
 
 	resolved_uri = get_uri_scheme (text_uri);
 	if (resolved_uri == NULL)
@@ -1708,97 +1709,100 @@ resolve_symlinks (const char  *text_uri,
 	uri = remove_special_dirs_from_path (tmp);
 	g_free (tmp);
 
-	info = gnome_vfs_file_info_new ();
 	names = g_strsplit (remove_scheme_from_uri (uri), GNOME_VFS_URI_PATH_STR, -1);
-	for (i = 0; names[i] != NULL; i++) {
-		char *name;
-		char *try_uri;
+	g_free (uri);
+
+	for (i = 0; (result == GNOME_VFS_OK) && (names[i] != NULL); i++) {
+		char  *try_uri;
+		char  *symlink;
+	    	char **symlink_names;
+	    	int    j;
+	    	char  *base_uri;
 
 		if (strcmp (names[i], "") == 0)
 			continue;
 
-		name = g_strdup (names[i]);
-		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
-
 		gnome_vfs_file_info_clear (info);
+
+		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
 		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
-		if (result != GNOME_VFS_OK) {
-			g_free (name);
-			g_free (try_uri);
-			result = GNOME_VFS_ERROR_INVALID_URI;
+		g_free (try_uri);
+
+		if (result != GNOME_VFS_OK)
+			break;
+
+		if (!((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
+		      (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME))) {
+
+			/* names[i] isn't a symbolic link, add it to the resolved uri and continue */
+
+		       	char *tmp;
+
+		       	tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
+			g_free (resolved_uri);
+			resolved_uri = tmp;
+
+			continue;
+		}
+
+		/* names[i] is a symbolic link */
+
+		n_followed_symlinks++;
+		if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
+			result = GNOME_VFS_ERROR_TOO_MANY_LINKS;
 			break;
 		}
 
-		if ((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
-		    (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME)) {
-		    	char **symlink_names;
-		    	int    j;
-		    	char  *base_uri;
+		/* get the symlink escaping info->symlink_name */
 
-			n_followed_symlinks++;
-			if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
-				g_free (name);
-				g_free (try_uri);
-				result = GNOME_VFS_ERROR_TOO_MANY_LINKS;
-				break;
-			}
+		symlink = g_strdup ("");
+		symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);
+		for (j = 0; symlink_names[j] != NULL; j++) {
+			char *symlink_name = symlink_names[j];
+	    		char *e_symlink_name;
 
-		    	g_free (name);
-		    	name = g_strdup ("");
+		    	if ((strcmp (symlink_name, "..") == 0) || (strcmp (symlink_name, ".") == 0))
+		    		e_symlink_name = g_strdup (symlink_name);
+		    	if (strcmp (symlink_name, "") == 0)
+		    		e_symlink_name = g_strdup (GNOME_VFS_URI_PATH_STR);
+		    	else
+		    		e_symlink_name = gnome_vfs_escape_string (symlink_name);
 
-		    	symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);
-		    	for (j = 0; symlink_names[j] != NULL; j++) {
-		    		char *symlink_name = symlink_names[j];
-		    		char *e_symlink_name;
-
-		    		if ((strcmp (symlink_name, "..") == 0) || (strcmp (symlink_name, ".") == 0))
-		    			e_symlink_name = g_strdup (symlink_name);
-		    		if (strcmp (symlink_name, "") == 0)
-		    			e_symlink_name = g_strdup (GNOME_VFS_URI_PATH_STR);
-		    		else
-		    			e_symlink_name = gnome_vfs_escape_string (symlink_name);
-
-		    		if (strcmp (name, "") == 0) {
-		    			g_free (name);
-		    			name = e_symlink_name;
-		    		}
-		    		else {
-		    			char *tmp;
-
-			    		tmp = build_uri (name, e_symlink_name);
-
-		    			g_free (name);
-		    			g_free (e_symlink_name);
-
-		    			name = tmp;
-		    		}
+		    	if (strcmp (symlink, "") == 0) {
+		    		g_free (symlink);
+		    		symlink = e_symlink_name;
 		    	}
-		    	g_strfreev (symlink_names);
+		    	else {
+		    		char *tmp;
 
-		    	if (name[0] == GNOME_VFS_URI_PATH_CHR) {
-		    		g_free (resolved_uri);
-		    		base_uri = get_uri_scheme (text_uri);
-		    	} else
-		    		base_uri = resolved_uri;
+		   		tmp = build_uri (symlink, e_symlink_name);
 
-		    	result = resolve_symlinks (base_uri, name, &resolved_uri, n_followed_symlinks);
+	    			g_free (symlink);
+	    			g_free (e_symlink_name);
 
-		    	g_free (base_uri);
+	    			symlink = tmp;
+	    		}
+	    	}
+	    	g_strfreev (symlink_names);
 
-		    	if (result != GNOME_VFS_OK)
-				break;
-		}
-		else {
-			char *tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, name, NULL);
-			g_free (resolved_uri);
-			resolved_uri = tmp;
-		}
+		/* if the symlink is absolute reset the base uri, else use
+		 * the currently resolved uri as base. */
 
-		g_free (name);
+	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) { 
+	    		g_free (resolved_uri);
+	    		base_uri = get_uri_scheme (text_uri);
+	    	} else
+	    		base_uri = resolved_uri;
+
+		/* resolve the new uri recursively */
+
+	    	result = resolve_symlinks (base_uri, symlink, &resolved_uri, n_followed_symlinks);
+
+	    	g_free (base_uri);
+		g_free (symlink);
 	}
 
 	g_strfreev (names);
-	g_free (uri);
 	gnome_vfs_file_info_unref (info);
 
 	if (result == GNOME_VFS_OK)
@@ -2363,29 +2367,29 @@ is_local_file (const char *filename)
 char *
 get_cache_full_path (const char *relative_path, const char *extension)
 {
-        char *path;
-        char *separator;
+	char *path;
+	char *separator;
 
-        /* Do not allow .. in the relative_path otherwise the user can go
-         * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
-        if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
-                return NULL;
+	/* Do not allow .. in the relative_path otherwise the user can go
+	 * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+	if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
+		return NULL;
 
-        if (relative_path == NULL)
-                separator = NULL;
-        else
-                separator = (relative_path[0] == '/') ? "" : "/";
+	if (relative_path == NULL)
+		separator = NULL;
+	else
+		separator = (relative_path[0] == '/') ? "" : "/";
 
-        path = g_strconcat ("file://",
-                            g_get_home_dir (),
-                            "/",
-                            RC_REMOTE_CACHE_DIR,
-                            separator,
-                            relative_path,
+	path = g_strconcat ("file://",
+			    g_get_home_dir (),
+			    "/",
+			    RC_REMOTE_CACHE_DIR,
+			    separator,
+			    relative_path,
 			    extension,
-                            NULL);
+			    NULL);
 
-        return path;
+	return path;
 }
 
 
@@ -2417,8 +2421,8 @@ obtain_local_file (const char *remote_filename)
 	/* If the file is local, simply return a copy of the filename, without
 	   any "file:///" prefix. */
 
-        if (is_local_file (remote_filename))
-        	return get_local_path_from_uri (remote_filename);
+	if (is_local_file (remote_filename))
+		return get_local_path_from_uri (remote_filename);
 
 	/* If the file is remote, copy it to a local cache. */
 
@@ -2441,11 +2445,11 @@ obtain_local_file (const char *remote_filename)
 		GnomeVFSResult  result;
 
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
-                	                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-               	        	             GNOME_VFS_XFER_ERROR_MODE_ABORT,
-                       	        	     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-                               	     	     NULL,
-                                     	     NULL);
+					     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+						    GNOME_VFS_XFER_ERROR_MODE_ABORT,
+						    GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+							 NULL,
+						  NULL);
 
 		gnome_vfs_uri_unref (source_uri);
 		gnome_vfs_uri_unref (target_uri);
@@ -2465,28 +2469,28 @@ obtain_local_file (const char *remote_filename)
 
 gboolean
 copy_cache_file_to_remote_uri (const char *local_filename,
-                               const char *dest_uri)
+			       const char *dest_uri)
 {
-        /* make a remote copy of a local cache file */
+	/* make a remote copy of a local cache file */
 
-        GnomeVFSURI    *source_uri;
-        GnomeVFSURI    *target_uri;
-        GnomeVFSResult  result;
+	GnomeVFSURI    *source_uri;
+	GnomeVFSURI    *target_uri;
+	GnomeVFSResult  result;
 
-        source_uri = gnome_vfs_uri_new (local_filename);
-        target_uri = gnome_vfs_uri_new (dest_uri);
+	source_uri = gnome_vfs_uri_new (local_filename);
+	target_uri = gnome_vfs_uri_new (dest_uri);
 
-        result = gnome_vfs_xfer_uri (source_uri, target_uri,
-                                     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-                                     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-                                     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-                                     NULL,
-                                     NULL);
+	result = gnome_vfs_xfer_uri (source_uri, target_uri,
+				     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+				     NULL,
+				     NULL);
 
-        gnome_vfs_uri_unref (target_uri);
-        gnome_vfs_uri_unref (source_uri);
+	gnome_vfs_uri_unref (target_uri);
+	gnome_vfs_uri_unref (source_uri);
 
-        return (result == GNOME_VFS_OK);
+	return (result == GNOME_VFS_OK);
 }
 
 
@@ -2542,18 +2546,18 @@ get_pixbuf_using_external_converter (const char *url,
 	g_assert (is_local_file (cache_file));
 
 	/* Do nothing if an up-to-date converted file is already in the cache */
-        if (!path_is_file (cache_file) ||
-            (get_file_mtime (path) > get_file_mtime (cache_file))) {
+	if (!path_is_file (cache_file) ||
+	    (get_file_mtime (path) > get_file_mtime (cache_file))) {
 
 		if (is_raw) {
 			/* RAW files - dcraw doesn't support thumbnailing very
 			   elegantly (even with the -e option), so we just convert
 			   the full file (which will speed up image loading). */
-		        command = g_strconcat ( "dcraw -c ",
-        	        	                input_file_esc,
-                	        	        " > ",
-                        	        	cache_file_esc,
-                                		NULL );
+			command = g_strconcat ( "dcraw -c ",
+						input_file_esc,
+						" > ",
+						cache_file_esc,
+						NULL );
 		} else {
 			/* HDR files. We can use the pfssize tool to speed up
 			   thumbnail generation considerably, so we treat
@@ -2562,24 +2566,24 @@ get_pixbuf_using_external_converter (const char *url,
 
 			if (requested_width_if_used > 0)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
-						                  requested_width_if_used,
+								  requested_width_if_used,
 								  requested_height_if_used);
 			else
 				resize_command = g_strdup_printf (" ");
 
-        	        command = g_strconcat ( "pfsin ",
-                	                        input_file_esc,
+			command = g_strconcat ( "pfsin ",
+						input_file_esc,
 						resize_command,
-                        	                " |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
-                                	        cache_file_esc,
-                                        	NULL );
+						" |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
+						cache_file_esc,
+						NULL );
 			g_free (resize_command);
 		}
 
 		if (gnome_vfs_is_executable_command_string (command))
 		       	system (command);
 
-        	g_free (command);
+		g_free (command);
 	}
 
 	if (path_is_file (cache_file))
@@ -2591,9 +2595,9 @@ get_pixbuf_using_external_converter (const char *url,
 		file_unlink (cache_file);
 
 	g_free (cache_file);
-        g_free (cache_file_esc);
-        g_free (input_file_esc);
-        g_free (path);
+	g_free (cache_file_esc);
+	g_free (input_file_esc);
+	g_free (path);
 
 	return pixbuf;
 }
@@ -2607,60 +2611,60 @@ gth_pixbuf_new_from_video (const char             *path,
       	GdkPixbuf *pixbuf = NULL;
 	time_t     mtime;
 	char      *real_path = NULL;
-        char      *existing_video_thumbnail;
+	char      *existing_video_thumbnail;
 
 	if (resolve_all_symlinks (path, &real_path) != GNOME_VFS_OK)
 		return NULL;
 
-        mtime = get_file_mtime (real_path);
-        existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
-                                                                   real_path,
-                                                                   mtime);
+	mtime = get_file_mtime (real_path);
+	existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
+								   real_path,
+								   mtime);
 
 	if (existing_video_thumbnail != NULL) {
 		char *thumbnail_path = get_local_path_from_uri (existing_video_thumbnail);
 
 		pixbuf = gdk_pixbuf_new_from_file (thumbnail_path, error);
 		g_free (thumbnail_path);
-                g_free (existing_video_thumbnail);
-        }
-        else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, real_path, mtime)) {
+		g_free (existing_video_thumbnail);
+	}
+	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, real_path, mtime)) {
 		g_free (real_path);
-        	return NULL;
+		return NULL;
 	}
 	else {
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-                                                                     real_path,
-                                                                     get_mime_type (real_path));
-                if (pixbuf != NULL)
+								     real_path,
+								     get_mime_type (real_path));
+		if (pixbuf != NULL)
 			gnome_thumbnail_factory_save_thumbnail (factory,
-                                                                pixbuf,
-                                                                real_path,
-                                                                mtime);
+								pixbuf,
+								real_path,
+								mtime);
 	}
 
 	g_free (real_path);
 
-        return pixbuf;
+	return pixbuf;
 }
 
 
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char  *uri,
 			 GError     **error,
-                         gint         requested_width_if_used,
-                         gint         requested_height_if_used,
-                         const char  *mime_type)
+			 gint         requested_width_if_used,
+			 gint         requested_height_if_used,
+			 const char  *mime_type)
 {
 	GdkPixbuf *pixbuf = NULL;
 	char      *local_file = NULL;
 
-        if (uri == NULL)
-                return NULL;
+	if (uri == NULL)
+		return NULL;
 
-        /* gdk_pixbuf does not support VFS URIs directly, so
+	/* gdk_pixbuf does not support VFS URIs directly, so
 	   make a local cache copy of remote files. */
-        local_file = obtain_local_file (uri);
+	local_file = obtain_local_file (uri);
 	if (local_file == NULL)
 		return NULL;
 
@@ -2684,7 +2688,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 							      requested_height_if_used);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-        if (pixbuf == NULL)
+	if (pixbuf == NULL)
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
 	g_free (local_file);
@@ -2702,46 +2706,46 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
-        char               *local_file = NULL;
+	char               *local_file = NULL;
 
 	if (mime_type == NULL)
 		return NULL;
 
-        /* The video thumbnailer can handle VFS URIs directly */
+	/* The video thumbnailer can handle VFS URIs directly */
 
-        if (mime_type_is_video (mime_type) && (factory != NULL)) {
+	if (mime_type_is_video (mime_type) && (factory != NULL)) {
 		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
 		if (pixbuf == NULL)
 			return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
-                g_object_unref (pixbuf);
+		g_object_unref (pixbuf);
 		return animation;
 	}
 
-        /* gdk_pixbuf and libopenraw do not support VFS URIs directly,
+	/* gdk_pixbuf and libopenraw do not support VFS URIs directly,
 	   so make a local cache copy of remote files. */
-        local_file = obtain_local_file (filename);
+	local_file = obtain_local_file (filename);
 
-        if (local_file == NULL)
-                return NULL;
+	if (local_file == NULL)
+		return NULL;
 
 	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
 	   actually 3 times slower than copying it to a local cache.
 	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
 
 	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-        if (mime_type_is (mime_type, "image/jpeg") && (requested_width_if_used > 0)) {
-                pixbuf = f_load_scaled_jpeg (local_file,
-                                             requested_width_if_used,
-                                             requested_height_if_used,
-                                             NULL, NULL);
+	if (mime_type_is (mime_type, "image/jpeg") && (requested_width_if_used > 0)) {
+		pixbuf = f_load_scaled_jpeg (local_file,
+					     requested_width_if_used,
+					     requested_height_if_used,
+					     NULL, NULL);
 		if (pixbuf == NULL)
 			return NULL;
-                animation = gdk_pixbuf_non_anim_new (pixbuf);
-                g_object_unref (pixbuf);
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
+		g_object_unref (pixbuf);
 		g_free (local_file);
-                return animation;
-        }
+		return animation;
+	}
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if (mime_type_is (mime_type, "image/gif")) {
@@ -2754,17 +2758,17 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 	   non-animated pixbuf, and convert to a single-frame animation. */
 	if (pixbuf == NULL) {
 		char *local_uri = escape_uri(local_file);
-	        pixbuf = gth_pixbuf_new_from_uri (local_uri,
-				                  error,
+		pixbuf = gth_pixbuf_new_from_uri (local_uri,
+						  error,
 						  requested_width_if_used,
 						  requested_height_if_used,
 						  mime_type);
-	        g_free (local_uri);
+		g_free (local_uri);
 	}
 
-        if (pixbuf != NULL) {
-              	animation = gdk_pixbuf_non_anim_new (pixbuf);
-                g_object_unref (pixbuf);
+	if (pixbuf != NULL) {
+		      animation = gdk_pixbuf_non_anim_new (pixbuf);
+		g_object_unref (pixbuf);
 	}
 
 	g_free (local_file);
