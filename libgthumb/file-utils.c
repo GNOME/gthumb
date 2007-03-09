@@ -1709,6 +1709,8 @@ resolve_symlinks (const char  *text_uri,
 	uri = remove_special_dirs_from_path (tmp);
 	g_free (tmp);
 
+	/* split the uri and resolve one name at a time. */
+
 	names = g_strsplit (remove_scheme_from_uri (uri), GNOME_VFS_URI_PATH_STR, -1);
 	g_free (uri);
 
@@ -1726,24 +1728,23 @@ resolve_symlinks (const char  *text_uri,
 
 		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
 		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
-		g_free (try_uri);
-
-		if (result != GNOME_VFS_OK)
+		if (result != GNOME_VFS_OK) {
+			g_free (try_uri);
 			break;
+		}
+
+		/* if names[i] isn't a symbolic link add it to the resolved uri and continue */
 
 		if (!((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
 		      (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME))) {
 
-			/* names[i] isn't a symbolic link, add it to the resolved uri and continue */
-
-		       	char *tmp;
-
-		       	tmp = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
 			g_free (resolved_uri);
-			resolved_uri = tmp;
+			resolved_uri = try_uri;
 
 			continue;
 		}
+
+		g_free (try_uri);
 
 		/* names[i] is a symbolic link */
 
@@ -1753,7 +1754,7 @@ resolve_symlinks (const char  *text_uri,
 			break;
 		}
 
-		/* get the symlink escaping info->symlink_name */
+		/* get the symlink escaping the value info->symlink_name */
 
 		symlink = g_strdup ("");
 		symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);

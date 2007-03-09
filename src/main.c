@@ -105,8 +105,8 @@ static const GOptionEntry options[] = {
 	  0 },
 
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args,
-          NULL,
-          NULL },
+	  NULL,
+	  NULL },
 
 	{ NULL }
 };
@@ -373,39 +373,39 @@ session_is_restored (void)
 
 
 static char *
-get_command_line_catalog_path (void) 
+get_command_line_catalog_path (void)
 {
 	char *catalog_name_utf8;
 	char *catalog_name;
 	char *catalog_path;
-			
+
 	catalog_name_utf8 = g_strconcat (_("Command Line"),
 					 CATALOG_EXT,
 					 NULL);
 	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
-	g_free (catalog_name_utf8);	
-	
+	g_free (catalog_name_utf8);
+
 	return catalog_path;
 }
 
 
 static void
-reset_command_line_catalog (void) 
+reset_command_line_catalog (void)
 {
 	char *catalog_path;
 	char *catalog_uri;
-	
-	/* Reset the startup location if it was set to the command 
+
+	/* Reset the startup location if it was set to the command
 	 * line catalog. */
 
-	catalog_path = get_command_line_catalog_path ();		
+	catalog_path = get_command_line_catalog_path ();
 	catalog_uri = g_strconcat ("catalog://", remove_scheme_from_uri (catalog_path), NULL);
-		
-	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0) 
+
+	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0)
 		preferences_set_startup_location (get_home_uri ());
-			
+
 	g_free (catalog_uri);
 	g_free (catalog_path);
 }
@@ -485,9 +485,9 @@ initialize_data (void)
 	n_file_urls = g_list_length (file_urls);
 	n_dir_urls = g_list_length (dir_urls);
 
-	if (n_file_urls == 1) 
+	if (n_file_urls == 1)
 		view_single_image = TRUE;
-	
+
 	if (n_file_urls > 1) {
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
@@ -509,9 +509,9 @@ initialize_data (void)
 
 		view_comline_catalog = TRUE;
 	}
-	else 
+	else
 		reset_command_line_catalog ();
-		
+
 	g_free (current_dir);
 }
 
@@ -522,7 +522,7 @@ release_data (void)
 {
 #ifdef HAVE_GTKUNIQUE
 	if (gth_application != NULL)
-                g_object_unref (gth_application);
+		g_object_unref (gth_application);
 #endif /* HAVE_GTKUNIQUE */
 
 	free_icon_pixbufs ();
@@ -655,12 +655,12 @@ show_grabbing_focus (GtkWidget *new_window)
 #ifdef HAVE_GTKUNIQUE
 static GtkUniqueResponse
 application_message_cb (GtkUniqueApp     *app,
-                        GtkUniqueCommand  command,
-                        const gchar      *command_data,
-                        const gchar      *startup_id,
-                        GdkScreen        *screen,
-                        guint             workspace,
-                        gpointer          user_data)
+			GtkUniqueCommand  command,
+			const gchar      *command_data,
+			const gchar      *startup_id,
+			GdkScreen        *screen,
+			guint             workspace,
+			gpointer          user_data)
 {
 	char **tokens;
 	char *sub_command;
@@ -677,10 +677,10 @@ application_message_cb (GtkUniqueApp     *app,
 		uri = NULL;
 
       	if (strcmp (sub_command, "browser") == 0)
-        	show_grabbing_focus (gth_browser_new (uri));
+		show_grabbing_focus (gth_browser_new (uri));
 
 	else if (strcmp (sub_command, "viewer") == 0)
-        	show_grabbing_focus (gth_viewer_new (uri));
+		show_grabbing_focus (gth_viewer_new (uri));
 
       	else if (strcmp (sub_command, "load_image") == 0) {
 		if (UseViewer) {
@@ -702,7 +702,7 @@ application_message_cb (GtkUniqueApp     *app,
 		}
       	}
       	else if (strcmp (sub_command, "import") == 0)
-        	gth_browser_activate_action_file_camera_import (NULL, NULL);
+		gth_browser_activate_action_file_camera_import (NULL, NULL);
 
 	return GTK_UNIQUE_RESPONSE_OK;
 }
@@ -722,8 +722,8 @@ prepare_app (void)
 
 	if (! use_factory)
 		g_signal_connect (gth_application, "message",
-                		  G_CALLBACK (application_message_cb),
-                          	  NULL);
+				  G_CALLBACK (application_message_cb),
+				    NULL);
 #endif /* HAVE_GTKUNIQUE */
 
 	if (session_is_restored ()) {
@@ -803,9 +803,9 @@ main (int   argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	description = g_strdup_printf ("- %s", _("View and organize your images"));
-        context = g_option_context_new (description);
-        g_free (description);
-        g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
+	context = g_option_context_new (description);
+	g_free (description);
+	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
 
 	program = gnome_program_init ("gthumb", VERSION,
 				      LIBGNOMEUI_MODULE,
@@ -1011,7 +1011,7 @@ get_fs_icon (IconName icon_name,
 	GdkPixbuf *pixbuf = NULL;
 	gboolean   scale = TRUE;
 
-        if (icon_pixbuf[icon_name] == NULL) {
+	if (icon_pixbuf[icon_name] == NULL) {
 		GtkIconInfo         *icon_info = NULL;
 
 		icon_info = gtk_icon_theme_lookup_icon (icon_theme,
@@ -1020,16 +1020,16 @@ get_fs_icon (IconName icon_name,
 							0);
 
 		if (icon_info == NULL) {
-                	icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1,
-                                                                             dir_16_rgba,
-                                                                             FALSE,
-                                                                             NULL);
-                        scale = FALSE;
-                } else {
+			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1,
+									     dir_16_rgba,
+									     FALSE,
+									     NULL);
+			scale = FALSE;
+		} else {
 			icon_pixbuf[icon_name] = gtk_icon_info_load_icon (icon_info, NULL);
 			gtk_icon_info_free (icon_info);
-                }
-        }
+		}
+	}
 
 	/* Scale keeping aspect ratio. */
 
@@ -1071,8 +1071,8 @@ get_folder_pixbuf_size_for_list (GtkWidget *widget)
 	int icon_width, icon_height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-                                           GTK_ICON_SIZE_SMALL_TOOLBAR,
-                                           &icon_width, &icon_height);
+					   GTK_ICON_SIZE_SMALL_TOOLBAR,
+					   &icon_width, &icon_height);
 	return MAX (icon_width, icon_height);
 }
 
@@ -1083,8 +1083,8 @@ get_folder_pixbuf_size_for_menu (GtkWidget *widget)
 	int icon_width, icon_height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-                                           GTK_ICON_SIZE_MENU,
-                                           &icon_width, &icon_height);
+					   GTK_ICON_SIZE_MENU,
+					   &icon_width, &icon_height);
 	return MAX (icon_width, icon_height);
 }
 
@@ -1094,8 +1094,6 @@ folder_is_film (const char *folder)
 {
 	CommentData *cdata;
 	gboolean     film = FALSE;
-
-	folder = remove_scheme_from_uri (folder);
 
 	cdata = comments_load_comment (folder, FALSE);
 	if (cdata != NULL) {

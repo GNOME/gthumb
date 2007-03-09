@@ -1,5 +1,10 @@
 2007-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.c (folder_is_film): do not remove the scheme.
+
+	* libgthumb/file-utils.c (resolve_symlinks): removed double g_strconcat
+	call,  added other comments.
+
 	* libgthumb/file-utils.c (resolve_symlinks): simplified the code, added
 	some comments.
 
