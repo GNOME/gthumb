@@ -116,7 +116,7 @@ ok_cb (GtkWidget  *widget,
 
 static void
 save_cb (GtkWidget  *widget,
-         DialogData *data)
+	 DialogData *data)
 {
 	apply_cb (data, TRUE);
 }
@@ -124,7 +124,7 @@ save_cb (GtkWidget  *widget,
 
 static void
 help_cb (GtkWidget  *widget,
-         DialogData *data)
+	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-redeye");
 }
@@ -134,7 +134,7 @@ static void
 image_selector_motion_notify_cb (GthImageSelector *selector,
 			   	 int               x,
 			   	 int               y,
-		           	 DialogData       *data)
+				    DialogData       *data)
 {
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->redeye_x_spinbutton), x);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->redeye_y_spinbutton), y);
@@ -299,7 +299,7 @@ find_region (int   row,
 /* returns TRUE if the pixbuf has been modified */
 static gboolean
 fix_redeye (GdkPixbuf *pixbuf,
-            char      *isred,
+	    char      *isred,
 	    int        x,
 	    int        y)
 {
@@ -402,7 +402,7 @@ static void
 image_selector_clicked_cb (GthImageSelector *selector,
 			   int               x,
 			   int               y,
-		           DialogData       *data)
+			   DialogData       *data)
 {
 	GdkPixbuf *old_pixbuf;
 	GdkPixbuf *new_pixbuf;
@@ -634,5 +634,6 @@ dlg_redeye_removal (GthWindow *window)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

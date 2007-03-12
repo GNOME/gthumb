@@ -126,7 +126,7 @@ ok_cb (GtkWidget  *widget,
 
 static void
 save_cb (GtkWidget  *widget,
-         DialogData *data)
+	 DialogData *data)
 {
 	apply_cb (data, TRUE);
 }
@@ -134,7 +134,7 @@ save_cb (GtkWidget  *widget,
 
 static void
 help_cb (GtkWidget  *widget,
-         DialogData *data)
+	 DialogData *data)
 {
 	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-crop");
 }
@@ -672,5 +672,6 @@ dlg_crop (GthWindow *window)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

@@ -1,3 +1,19 @@
+2007-03-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-redeye-removal.c (dlg_redeye_removal):
+	* src/dlg-crop.c (dlg_crop):
+	* src/dlg-scale-image.c (dlg_scale_image):
+	* src/dlg-hue-saturation.c (dlg_hue_saturation):
+	* src/dlg-brightness-contrast.c (dlg_brightness_contrast):
+	* src/dlg-color-balance.c (dlg_color_balance):
+	* src/dlg-posterize.c (dlg_posterize):
+
+	Set modal flag on for dialogs that modify the current image.
+	Fixes bug #417178 – saved image to the wrong file
+
+	* NEWS:
+	* configure.in: updated for 2.9.4
+
 2007-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c (folder_is_film): do not remove the scheme.
