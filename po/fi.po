@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-03-13 14:25+0300\n"
-"PO-Revision-Date: 2007-03-13 14:26+0300\n"
+"PO-Revision-Date: 2007-03-13 14:28+0300\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Seuraava"
 
 #: ../data/albumthemes/text.h:29
 msgid "Index"
-msgstr "Indeksi"
+msgstr "Kuvaluettelo"
 
 #: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
 msgid "Image"
@@ -2332,7 +2332,7 @@ msgstr "Tallennetaan HTML-sivuja: Kuvia"
 
 #: ../src/catalog-web-exporter.c:2009
 msgid "Saving HTML pages: Indexes"
-msgstr "Tallennetaan HTML-sivuja: Sisällysluettelot"
+msgstr "Tallennetaan HTML-sivuja: kuvaluettelot"
 
 #: ../src/catalog-web-exporter.c:2139 ../src/catalog-web-exporter.c:2392
 msgid "Saving images"
