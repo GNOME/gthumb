@@ -132,7 +132,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_RELATED_SOUND_FILE,
 	  -1 },
 
-        /* GTH_METADATA_CATEGORY_EXIF_CONDITIONS */
+	/* GTH_METADATA_CATEGORY_EXIF_CONDITIONS */
 	/* These tags describe the conditions when the photo was taken,
 	   and are located in the IFD0 or EXIF blocks. */
 	{ EXIF_TAG_ISO_SPEED_RATINGS,
@@ -296,8 +296,8 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_INTEROPERABILITY_INDEX,
 	  EXIF_TAG_INTEROPERABILITY_VERSION,
 	  EXIF_TAG_RELATED_IMAGE_FILE_FORMAT,
-          EXIF_TAG_RELATED_IMAGE_WIDTH,
-          EXIF_TAG_RELATED_IMAGE_LENGTH,
+	  EXIF_TAG_RELATED_IMAGE_WIDTH,
+	  EXIF_TAG_RELATED_IMAGE_LENGTH,
 	  -1 },
 
 	/* GTH_METADATA_CATEGORY_OTHER */
@@ -385,7 +385,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	gtk_container_add (GTK_CONTAINER (edv), edv->priv->scrolled_win);
 
 	edv->priv->image_exif_view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
 	edv->priv->image_exif_model = gtk_tree_store_new (3,
 							  G_TYPE_STRING,
@@ -399,7 +399,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	/**/
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Field"),
+	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "text", NAME_COLUMN,
 							   NULL);
@@ -411,7 +411,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	/**/
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value "),
+	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
@@ -433,10 +433,10 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 GType
 gth_exif_data_viewer_get_type ()
 {
-        static GType type = 0;
+	static GType type = 0;
 
-        if (! type) {
-                GTypeInfo type_info = {
+	if (! type) {
+		GTypeInfo type_info = {
 			sizeof (GthExifDataViewerClass),
 			NULL,
 			NULL,
@@ -454,7 +454,7 @@ gth_exif_data_viewer_get_type ()
 					       0);
 	}
 
-        return type;
+	return type;
 }
 
 
@@ -535,10 +535,10 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 		GtkTreePath *path;
 		gtk_tree_store_append (edv->priv->image_exif_model, &root_iter, NULL);
 		gtk_tree_store_set (edv->priv->image_exif_model, &root_iter,
-        		    	    NAME_COLUMN, _(metadata_category_name[category]),
-			    	    VALUE_COLUMN, "",
-			    	    POS_COLUMN, category,
-                            	    -1);
+				    NAME_COLUMN, _(metadata_category_name[category]),
+				    VALUE_COLUMN, "",
+				    POS_COLUMN, category,
+				    -1);
 		path = gtk_tree_model_get_path (model, &root_iter);
 		edv->priv->category_root[category] = gtk_tree_row_reference_new (model, path);
 		gtk_tree_path_free (path);
@@ -553,11 +553,11 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 	}
 
 	gtk_tree_store_append (edv->priv->image_exif_model, &iter, &root_iter);
-        gtk_tree_store_set (edv->priv->image_exif_model, &iter,
-        		    NAME_COLUMN, utf8_name,
+	gtk_tree_store_set (edv->priv->image_exif_model, &iter,
+			    NAME_COLUMN, utf8_name,
 			    VALUE_COLUMN, utf8_value,
 			    POS_COLUMN, position,
-                            -1);
+			    -1);
 }
 
 
@@ -629,27 +629,27 @@ update_exif_data (GthExifDataViewer *edv,
 		exif_data_ref (edata);
 
 	if (edata == NULL)
-                return;
+		return;
 
 	/* Iterate through every IFD in the Exif data, checking for tags. The GPS tags are
 	   stored in their own private IFD. */
 
 	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
 
-        for (i = 0; i < EXIF_IFD_COUNT; i++) {
-                ExifContent *content = edata->ifd[i];
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
 		const char  *value;
 		char        *utf8_name;
 		char        *utf8_value;
 
-                if (! edata->ifd[i] || ! edata->ifd[i]->count)
-                        continue;
+		if (! edata->ifd[i] || ! edata->ifd[i]->count)
+			continue;
 
-                for (j = 0; j < content->count; j++) {
-                        ExifEntry *e = content->entries[j];
+		for (j = 0; j < content->count; j++) {
+			ExifEntry *e = content->entries[j];
 
-                        if (! content->entries[j])
-                                continue;
+			if (! content->entries[j])
+				continue;
 
 			/* Accept all tags, but handle "maker notes" separately below */
 
@@ -719,33 +719,33 @@ update_exif_data (GthExifDataViewer *edv,
 
 				/* Iterate through each "sub-note" */
 				for (k = 0; k < subnote_count; k++) {
-	                               	value = exif_mnote_data_get_title (mnote, k);
+					value = exif_mnote_data_get_title (mnote, k);
 
-        	                       	if (value == NULL)
-                	                	continue;
+					if (value == NULL)
+						continue;
 
-	      	                       	utf8_name = g_strdup (value);
-                	               	if (tag_is_present_in_category (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name)) {
-                        	               	g_free (utf8_name);
-                                	       	continue;
-	                               	}
+					utf8_name = g_strdup (value);
+					if (tag_is_present_in_category (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name)) {
+						g_free (utf8_name);
+						continue;
+					}
 
-        	                       	exif_mnote_data_get_value (mnote, k, mnote_buf, sizeof (mnote_buf));
+					exif_mnote_data_get_value (mnote, k, mnote_buf, sizeof (mnote_buf));
 
 					utf8_value = g_strdup (mnote_buf);
-	                               	if ((utf8_value == NULL)
-        	                           || (*utf8_value == 0)
-                	                   || _g_utf8_all_spaces (utf8_value)) {
-                        	              	g_free (utf8_name);
-                                	      	g_free (utf8_value);
-                                        	continue;
-	                        	}
+					if ((utf8_value == NULL)
+					   || (*utf8_value == 0)
+					   || _g_utf8_all_spaces (utf8_value)) {
+						g_free (utf8_name);
+						g_free (utf8_value);
+						continue;
+					}
 
 					++unique_id_for_unsorted_tags;
 					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, unique_id_for_unsorted_tags);
 
-	   	                        g_free (utf8_name);
-		                        g_free (utf8_value);
+					g_free (utf8_name);
+					g_free (utf8_value);
 				}
 			}
 

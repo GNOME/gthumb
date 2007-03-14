@@ -35,6 +35,7 @@
 #include "file-utils.h"
 #include "file-data.h"
 #include "gth-sort-utils.h"
+#include "pixbuf-utils.h"
 
 
 enum {
@@ -61,6 +62,7 @@ struct _GthFileViewListPrivate {
 	int             max_image_size;
 	gboolean        enable_thumbs;
 	gboolean        reorderable;
+	GHashTable     *scaled_pixbufs;
 };
 
 
@@ -133,14 +135,27 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 		  GdkPixbuf       *pixbuf)
 {
 	GdkPixbuf *result;
+	int        max_image_size;
 	int        x, y, w, h;
 
 	if (gfv_list->priv->max_image_size == 0)
 		return NULL;
 
+	/**/
+
+	max_image_size = gfv_list->priv->max_image_size;
+
+	if (! gfv_list->priv->enable_thumbs) {
+		int icon_width, icon_height;
+		gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (GTK_WIDGET (gfv_list->priv->tree_view)),
+						   GTK_ICON_SIZE_MENU,
+						   &icon_width, &icon_height);
+		max_image_size = MAX (icon_width, icon_height);
+	}
+
 	result = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-				 gfv_list->priv->max_image_size,
-				 gfv_list->priv->max_image_size);
+				 max_image_size,
+				 max_image_size);
 	gdk_pixbuf_fill (result, 0x00000000);
 
 	if (pixbuf == NULL)
@@ -148,14 +163,46 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
-	x = (gfv_list->priv->max_image_size - w) / 2;
-	y = (gfv_list->priv->max_image_size - h) / 2;
+	if (scale_keepping_ratio (&w, &h, max_image_size, max_image_size)) {
+		GdkPixbuf *try_pixbuf;
 
-	gdk_pixbuf_copy_area (pixbuf,
-			      0, 0,
-			      w, h,
-			      result,
-			      x, y);
+		/* look in the hash table. */
+
+		try_pixbuf = g_hash_table_lookup (gfv_list->priv->scaled_pixbufs, pixbuf);
+		if (try_pixbuf != NULL) {
+			g_object_unref (result);
+			result = try_pixbuf;
+			g_object_ref (G_OBJECT (result));
+			return result;
+		}
+		else {
+			GdkPixbuf *scaled;
+
+			scaled = gdk_pixbuf_scale_simple (pixbuf,
+							  w,
+							  h,
+							  GDK_INTERP_BILINEAR);
+			x = (max_image_size - w) / 2;
+			y = (max_image_size - h) / 2;
+			gdk_pixbuf_copy_area (scaled,
+					      0, 0,
+					      w, h,
+					      result,
+					      x, y);
+
+			g_hash_table_insert (gfv_list->priv->scaled_pixbufs, pixbuf, scaled);
+		}
+	}
+	else {
+		x = (max_image_size - w) / 2;
+		y = (max_image_size - h) / 2;
+
+		gdk_pixbuf_copy_area (pixbuf,
+				      0, 0,
+				      w, h,
+				      result,
+				      x, y);
+	}
 
 	return result;
 }
@@ -292,7 +339,7 @@ gfv_clear (GthFileView  *file_view)
 	gtk_list_store_clear (gfv_list->priv->list_store);
 
 	if (GTK_WIDGET_REALIZED (gfv_list->priv->tree_view))
-                gtk_tree_view_scroll_to_point (GTK_TREE_VIEW (gfv_list->priv->tree_view), 0, 0);
+		gtk_tree_view_scroll_to_point (GTK_TREE_VIEW (gfv_list->priv->tree_view), 0, 0);
 }
 
 
@@ -336,7 +383,7 @@ gfv_set_image_pixbuf (GthFileView  *file_view,
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_ICON, get_sized_pixbuf (gfv_list, pixbuf),
-                            -1);
+			    -1);
 }
 
 
@@ -353,7 +400,7 @@ gfv_set_image_text (GthFileView  *file_view,
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_NAME, text,
-                            -1);
+			    -1);
 }
 
 
@@ -376,8 +423,8 @@ gfv_get_image_text (GthFileView  *file_view,
 	gtk_tree_path_free (path);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
-                            COLUMN_NAME, &text,
-                            -1);
+			    COLUMN_NAME, &text,
+			    -1);
 
 	return text;
 }
@@ -396,7 +443,7 @@ gfv_set_image_comment (GthFileView  *file_view,
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_COMMENT, comment,
-                            -1);
+			    -1);
 }
 
 
@@ -742,7 +789,7 @@ gfv_set_image_data (GthFileView     *file_view,
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
 			    COLUMN_FILE_DATA, data,
-                            -1);
+			    -1);
 }
 
 
@@ -804,8 +851,8 @@ gfv_get_image_data (GthFileView     *file_view,
 	gtk_tree_path_free (path);
 
 	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
-                            COLUMN_FILE_DATA, &fdata,
-                            -1);
+			    COLUMN_FILE_DATA, &fdata,
+			    -1);
 	file_data_ref (fdata);
 
 	return fdata;
@@ -833,13 +880,8 @@ gfv_set_view_mode (GthFileView *file_view,
 
 	gfv_list->priv->view_mode = mode;
 
-	column = gtk_tree_view_get_column (gfv_list->priv->tree_view, 1);
-
-	/* FIXME
-        gtk_tree_view_column_set_visible (column, mode == GTH_VIEW_MODE_ALL);
-	*/
-
-        gtk_tree_view_column_set_visible (column, FALSE);
+	column = gtk_tree_view_get_column (gfv_list->priv->tree_view, 2);
+	gtk_tree_view_column_set_visible (column, FALSE /*mode == GTH_VIEW_MODE_ALL*/);
 }
 
 
@@ -983,8 +1025,8 @@ gfv_get_last_visible (GthFileView *file_view)
 
 static gboolean
 gfv_visible_func (GtkTreeModel *model,
-                  GtkTreeIter  *iter,
-                  gpointer      data)
+		  GtkTreeIter  *iter,
+		  gpointer      data)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) data;
 	FileData        *fdata;
@@ -993,8 +1035,8 @@ gfv_visible_func (GtkTreeModel *model,
 		return TRUE;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), iter,
-                            COLUMN_FILE_DATA, &fdata,
-                            -1);
+			    COLUMN_FILE_DATA, &fdata,
+			    -1);
 
 	return (gfv_list->priv->filter_func) (gfv_list->priv->filter_data, fdata);
 }
@@ -1002,8 +1044,8 @@ gfv_visible_func (GtkTreeModel *model,
 
 static void
 gfv_set_visible_func (GthFileView    *file_view,
-                      GthVisibleFunc  func,
-                      gpointer        data)
+		      GthVisibleFunc  func,
+		      gpointer        data)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 
@@ -1218,6 +1260,29 @@ gfv_get_enable_search (GthFileView *file_view)
 
 
 static void
+gh_unref_pixbuf (gpointer  key,
+		 gpointer  value,
+		 gpointer  user_data)
+{
+	g_object_unref (value);
+}
+
+
+static void
+gth_file_list_free_pixbufs (GthFileViewList *gfv_list)
+{
+	if (gfv_list->priv->scaled_pixbufs == NULL)
+		return;
+
+	g_hash_table_foreach (gfv_list->priv->scaled_pixbufs,
+			      gh_unref_pixbuf,
+			      NULL);
+	g_hash_table_destroy (gfv_list->priv->scaled_pixbufs);
+	gfv_list->priv->scaled_pixbufs = NULL;
+}
+
+
+static void
 gth_file_view_list_finalize (GObject *object)
 {
   	GthFileViewList *gfv_list;
@@ -1225,9 +1290,10 @@ gth_file_view_list_finalize (GObject *object)
 
 	gfv_list = (GthFileViewList*) object;
 
+	gth_file_list_free_pixbufs (gfv_list);
 	g_free (gfv_list->priv);
 
-        /* Chain up */
+	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -1314,6 +1380,8 @@ gth_file_view_list_init (GthFileViewList *gfv_list)
 	priv->sort_method = GTH_SORT_METHOD_NONE;
 	priv->sort_type   = GTK_SORT_ASCENDING;
 	priv->reorderable = FALSE;
+
+	priv->scaled_pixbufs = g_hash_table_new (g_direct_hash, NULL);
 }
 
 
@@ -1333,13 +1401,13 @@ gth_file_view_list_get_type (void)
 			sizeof (GthFileViewList),
 			0,
 			(GInstanceInitFunc) gth_file_view_list_init
-                };
+		};
 
 		type = g_type_register_static (GTH_TYPE_FILE_VIEW,
 					       "GthFileViewList",
 					       &type_info,
 					       0);
-        }
+	}
 
 	return type;
 }
@@ -1383,57 +1451,69 @@ cursor_changed_cb (GtkTreeView     *tree_view,
 static void
 add_columns (GtkTreeView *treeview)
 {
-	static char       *titles[] = {N_("Comment")};
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	int                i, j;
 	GValue             value = { 0, };
 
-	/* The Name column. */
+	/* The icon column */
+
 	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Name"));
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
-                                             "pixbuf", COLUMN_ICON,
-                                             NULL);
+					     "pixbuf", COLUMN_ICON,
+					     NULL);
+
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_resizable (column, FALSE);
+	gtk_tree_view_column_set_expand (column, FALSE);
+
+	gtk_tree_view_append_column (treeview, column);
+
+	/* The name column */
+
+	column = gtk_tree_view_column_new ();
 
 	renderer = gtk_cell_renderer_text_new ();
-        g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
-        g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
-        g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
-        g_value_unset (&value);
-
-	gtk_tree_view_column_pack_start (column,
-					 renderer,
-					 TRUE);
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes (column, renderer,
-                                             "text", COLUMN_NAME,
-                                             NULL);
+					     "text", COLUMN_NAME,
+					     NULL);
 
-	/*gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);*/
-	/*
+	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+	g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+	g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+	g_value_unset (&value);
+
 	gtk_tree_view_column_set_sort_column_id (column, COLUMN_NAME);
-	gtk_tree_view_column_set_sort_column_id (column, COLUMN_PATH);
-	gtk_tree_view_column_set_sort_column_id (column, COLUMN_SIZE);
-	gtk_tree_view_column_set_sort_column_id (column, COLUMN_TIME);
-	*/
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_resizable (column, FALSE);
+	gtk_tree_view_column_set_expand (column, TRUE);
 
-	/* Other columns */
-	for (j = 0, i = COLUMN_COMMENT; i < NUMBER_OF_COLUMNS; i++, j++) {
-		renderer = gtk_cell_renderer_text_new ();
-		column = gtk_tree_view_column_new_with_attributes (_(titles[j]),
-								   renderer,
-								   "text", i,
-								   NULL);
+	gtk_tree_view_append_column (treeview, column);
 
-		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-		gtk_tree_view_column_set_sort_column_id (column, i);
+	/* Comment column */
 
-		gtk_tree_view_append_column (treeview, column);
-	}
+	column = gtk_tree_view_column_new ();
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "text", COLUMN_COMMENT,
+					     NULL);
+
+	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+	g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+	g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+	g_value_unset (&value);
+
+	gtk_tree_view_column_set_sort_column_id (column, COLUMN_COMMENT);
+	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_resizable (column, FALSE);
+	gtk_tree_view_column_set_expand (column, TRUE);
+
+	gtk_tree_view_append_column (treeview, column);
 }
 
 
@@ -1560,8 +1640,8 @@ default_sort_func (GtkTreeModel *model,
 	GCompareFunc     cmp_func;
 	int              ret_val;
 
-        gtk_tree_model_get (model, a, COLUMN_FILE_DATA, &fdata1, -1);
-        gtk_tree_model_get (model, b, COLUMN_FILE_DATA, &fdata2, -1);
+	gtk_tree_model_get (model, a, COLUMN_FILE_DATA, &fdata1, -1);
+	gtk_tree_model_get (model, b, COLUMN_FILE_DATA, &fdata2, -1);
 
 	g_return_val_if_fail (fdata1 != NULL, 0);
 	g_return_val_if_fail (fdata2 != NULL, 0);
@@ -1610,17 +1690,17 @@ gth_file_view_list_new (guint image_width)
 						 gfv_list, NULL);
 
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
-                                         COLUMN_NAME, default_sort_func,
-                                         gfv_list, NULL);
+					 COLUMN_NAME, default_sort_func,
+					 gfv_list, NULL);
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
-                                         COLUMN_PATH, default_sort_func,
-                                         gfv_list, NULL);
+					 COLUMN_PATH, default_sort_func,
+					 gfv_list, NULL);
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
-                                         COLUMN_SIZE, default_sort_func,
-                                         gfv_list, NULL);
+					 COLUMN_SIZE, default_sort_func,
+					 gfv_list, NULL);
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
-                                         COLUMN_TIME, default_sort_func,
-                                         gfv_list, NULL);
+					 COLUMN_TIME, default_sort_func,
+					 gfv_list, NULL);
 
 	selection = gtk_tree_view_get_selection (priv->tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
