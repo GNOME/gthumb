@@ -478,11 +478,18 @@ gth_file_list_free_pixbufs (GthFileList *file_list)
 }
 
 
-void
-gth_file_list_update_icon_theme (GthFileList *file_list)
+static void
+create_new_pixbufs_cache (GthFileList *file_list)
 {
 	gth_file_list_free_pixbufs (file_list);
 	file_list->priv->pixbufs = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+
+void
+gth_file_list_update_icon_theme (GthFileList *file_list)
+{
+	create_new_pixbufs_cache (file_list);
 }
 
 
@@ -1881,6 +1888,8 @@ gfl_set_thumbs_size (GthFileList *file_list,
 		     int          size)
 {
 	file_list->priv->thumb_size = size;
+
+	create_new_pixbufs_cache (file_list);
 
 	thumb_loader_set_thumb_size (file_list->priv->thumb_loader, size, size);
 	gth_file_view_set_image_width (file_list->view, size + THUMB_BORDER);

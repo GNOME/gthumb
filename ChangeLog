@@ -1,5 +1,10 @@
 2007-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c (gfl_set_thumbs_size): free the pixbufs cache
+	when changing thumbnails size.
+
+2007-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: removed the headers.
 
 	* libgthumb/thumb-loader.c (thumb_loader_set_thumb_size):
