@@ -940,6 +940,13 @@ mime_type_is_hdr (const char *mime_type)
 
 
 gboolean
+mime_type_is_tiff (const char *mime_type)
+{
+	return mime_type_is (mime_type, "image/tiff");
+}
+
+
+gboolean
 image_is_gif (const char *name)
 {
 	return image_is_type__gconf_file_type (name, "image/gif");
@@ -2511,23 +2518,25 @@ get_pixbuf_using_external_converter (const char *url,
 	char	   *cache_file_esc;
 	char	   *input_file_esc;
 	char	   *command;
-	GdkPixbuf  *pixbuf = NULL;
-	gboolean    is_raw;
-	gboolean    is_hdr;
+        GdkPixbuf  *pixbuf = NULL;
+        gboolean    is_raw;
+        gboolean    is_hdr;
+	gboolean    is_tiff;
 
-	path = gnome_vfs_unescape_string (url, NULL);
+        path = gnome_vfs_unescape_string (url, NULL);
 
-	is_raw = mime_type_is_raw (mime_type);
-	is_hdr = !is_raw;
+        is_raw = mime_type_is_raw (mime_type);
+	is_hdr = mime_type_is_hdr (mime_type);
+	is_tiff = mime_type_is_tiff (mime_type);
 
-	md5_file = gnome_thumbnail_md5 (path);
+        md5_file = gnome_thumbnail_md5 (path);
 
-	input_file_esc = shell_escape (path);
+        input_file_esc = shell_escape (path);
 
-	if (is_raw)
-		/* Same file used for RAW thumbnailing and full image loading */
-		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
-	else if (requested_width_if_used > 0)
+	if (is_raw || is_tiff)
+                /* Same file used for RAW thumbnailing and full image loading */
+                cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
+	else if (is_hdr && requested_width_if_used > 0)
 		/* HDR: separate files for thumbnails, full images */
 		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
@@ -2559,7 +2568,9 @@ get_pixbuf_using_external_converter (const char *url,
 						" > ",
 						cache_file_esc,
 						NULL );
-		} else {
+		} 
+		
+		if (is_hdr) {
 			/* HDR files. We can use the pfssize tool to speed up
 			   thumbnail generation considerably, so we treat
 			   thumbnailing as a special case. */
@@ -2581,6 +2592,18 @@ get_pixbuf_using_external_converter (const char *url,
 			g_free (resize_command);
 		}
 
+		if (is_tiff) {
+			/* The standard gdk thumbnailer doesn't handle large-dimension tiff
+			   images elegantly, bugs 142428 and 160460. Memory blows up. We can 
+			   do it more efficiently. */
+
+			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s", 
+					 	    input_file_esc, 
+						    requested_width_if_used,
+						    requested_height_if_used,
+						    cache_file_esc);
+		}
+
 		if (gnome_vfs_is_executable_command_string (command))
 		       	system (command);
 
@@ -2590,9 +2613,10 @@ get_pixbuf_using_external_converter (const char *url,
 	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
-	/* Thumbnail files are already cached, so delete the conversion cache
-	   copies of HDR files. */
-	if (requested_width_if_used > 0 && is_hdr)
+	/* Thumbnail files are already cached, so delete the conversion cache copies,
+	   except for raw files (because the same cache file is used for raw
+ 	   thumbnails and raw full images). */
+	if (requested_width_if_used > 0 && !is_raw)
 		file_unlink (cache_file);
 
 	g_free (cache_file);
@@ -2680,9 +2704,11 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
-	/* Use dcraw for raw images and pfstools for HDR images. */
+	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
 	if ((pixbuf == NULL) &&
-	    (mime_type_is_raw (mime_type) || mime_type_is_hdr (mime_type)))
+	     (mime_type_is_raw (mime_type) || 	
+	      mime_type_is_hdr (mime_type) ||
+	      (mime_type_is_tiff (mime_type) && (requested_width_if_used > 0))))
 		pixbuf = get_pixbuf_using_external_converter (local_file,
 							      mime_type,
 							      requested_width_if_used,
@@ -2824,3 +2850,4 @@ read_dot_hidden_file (const char *uri)
 
 	return hidden_files;
 }
+
