@@ -62,7 +62,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->image);
@@ -85,7 +85,7 @@ preview_done_cb (GthPixbufOp *pixop,
 
 
 static void
-apply_changes (DialogData *data, 
+apply_changes (DialogData *data,
 	       GdkPixbuf  *src, 
 	       GdkPixbuf  *dest, 
 	       gboolean    dialog_preview,
@@ -115,13 +115,13 @@ apply_changes (DialogData *data,
 	} else {
 		gth_window_exec_pixbuf_op (data->window, pixop, window_preview);
 		g_object_unref (pixop);
-	}		
+	}
 }
 
 
 /* called when the ok button is clicked. */
 static void
-ok_cb (GtkWidget  *widget, 
+ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	apply_changes (data, data->image, data->image, FALSE, FALSE);
@@ -131,10 +131,10 @@ ok_cb (GtkWidget  *widget,
 
 /* called when the cancel button is clicked. */
 static void
-cancel_cb (GtkWidget  *widget, 
+cancel_cb (GtkWidget  *widget,
 	   DialogData *data)
 {
-	if (data->modified) 
+	if (data->modified)
 		image_viewer_set_pixbuf (data->viewer, data->image);
 	gtk_widget_destroy (data->dialog);
 }
@@ -142,7 +142,7 @@ cancel_cb (GtkWidget  *widget,
 
 /* called when the preview button is clicked. */
 static void
-preview_cb (GtkWidget  *widget, 
+preview_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	GdkPixbuf *preview;
@@ -157,7 +157,7 @@ preview_cb (GtkWidget  *widget,
 
 /* called when the revert button is clicked. */
 static void
-reset_cb (GtkWidget  *widget, 
+reset_cb (GtkWidget  *widget,
 	  DialogData *data)
 {
 	gtk_range_set_value (GTK_RANGE (data->bc_hue_hscale), 0.0);
@@ -177,10 +177,10 @@ range_value_changed (GtkRange   *range,
 static GtkWidget*
 gimp_scale_entry_new (GtkWidget  *parent_box,
 		      gfloat      value,
-                      gfloat      lower,
-                      gfloat      upper,
-                      gfloat      step_increment,
-                      gfloat      page_increment)
+		      gfloat      lower,
+		      gfloat      upper,
+		      gfloat      step_increment,
+		      gfloat      page_increment)
 {
 	GtkWidget *hbox;
 	GtkWidget *scale;
@@ -190,7 +190,7 @@ gimp_scale_entry_new (GtkWidget  *parent_box,
 	adj = gtk_adjustment_new (value, lower, upper,
 				  step_increment, page_increment,
 				  0.0);
-	
+
 	spinbutton = gtk_spin_button_new  (GTK_ADJUSTMENT (adj), 1.0, 0);
 	scale = gtk_hscale_new (GTK_ADJUSTMENT (adj));
 	gtk_scale_set_draw_value (GTK_SCALE (scale), FALSE);
@@ -244,21 +244,21 @@ dlg_hue_saturation (GthWindow *window)
 	preview_button = glade_xml_get_widget (data->gui, "hl_preview_button");
 
 	hbox = glade_xml_get_widget (data->gui, "hl_hue_hbox");
-	data->bc_hue_hscale = gimp_scale_entry_new (hbox, 
+	data->bc_hue_hscale = gimp_scale_entry_new (hbox,
 						    0.0, 
 						    -180.0, 180.0,
 						    1.0,
 						    15.0);
 
 	hbox = glade_xml_get_widget (data->gui, "hl_lightness_hbox");
-	data->bc_lightness_hscale = gimp_scale_entry_new (hbox, 
+	data->bc_lightness_hscale = gimp_scale_entry_new (hbox,
 							  0.0, 
 							  -100.0, 100.0,
 							  1.0,
 							  10.0);
 
 	hbox = glade_xml_get_widget (data->gui, "hl_saturation_hbox");
-	data->bc_saturation_hscale = gimp_scale_entry_new (hbox, 
+	data->bc_saturation_hscale = gimp_scale_entry_new (hbox,
 							   0.0, 
 							   -100.0, 100.0,
 							   1.0,
@@ -280,41 +280,41 @@ dlg_hue_saturation (GthWindow *window)
 	preview_width  = image_width;
 	preview_height = image_height;
 	scale_keepping_ratio (&preview_width, &preview_height, PREVIEW_SIZE, PREVIEW_SIZE);
-	
-	data->orig_pixbuf = gdk_pixbuf_scale_simple (image, 
+
+	data->orig_pixbuf = gdk_pixbuf_scale_simple (image,
 						     preview_width, 
 						     preview_height,
 						     GDK_INTERP_BILINEAR);
 	data->new_pixbuf = gdk_pixbuf_copy (data->orig_pixbuf);
 
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->bc_preview_image), 
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->bc_preview_image),
 				   data->new_pixbuf);
-	
+
 	/* Set widgets data. */
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (cancel_button), 
+	g_signal_connect (G_OBJECT (cancel_button),
 			  "clicked",
 			  G_CALLBACK (cancel_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (reset_button), 
+	g_signal_connect (G_OBJECT (reset_button),
 			  "clicked",
 			  G_CALLBACK (reset_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (preview_button), 
+	g_signal_connect (G_OBJECT (preview_button),
 			  "clicked",
 			  G_CALLBACK (preview_cb),
 			  data);
@@ -340,6 +340,7 @@ dlg_hue_saturation (GthWindow *window)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 
 	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);

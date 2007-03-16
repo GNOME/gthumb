@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 2.9.3, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
+AC_INIT(gthumb, 2.9.4, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -62,7 +62,7 @@ PKG_CHECK_MODULES(GTHUMB,				\
 	libgnomecanvas-2.0 >= $LIBGNOMECANVAS_REQUIRED	\
 	gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED		\
 	gnome-vfs-module-2.0				\
-        libexif >= $LIBEXIF_REQUIRED                    \
+	libexif >= $LIBEXIF_REQUIRED                    \
 	libxml-2.0 >= $LIBXML_REQUIRED			\
 	libglade-2.0 >= $LIBGLADE_REQUIRED)
 AC_SUBST(GTHUMB_LIBS)
@@ -79,12 +79,12 @@ AC_MSG_CHECKING(JPEG Support)
 AC_MSG_RESULT()
 
 AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
-             [AC_CHECK_HEADER(jpeglib.h,,[AC_MSG_ERROR([*** JPEG headers not found ***])])],
-             [AC_MSG_ERROR([*** JPEG library not found ***])])
+	     [AC_CHECK_HEADER(jpeglib.h,,[AC_MSG_ERROR([*** JPEG headers not found ***])])],
+	     [AC_MSG_ERROR([*** JPEG library not found ***])])
 
 AC_CHECK_LIB(jpeg, jpeg_simple_progression,
-             [AC_DEFINE(HAVE_PROGRESSIVE_JPEG, 1, [Define to 1 if libjpeg supports progressive JPEG.])],
-             [AC_MSG_WARN(JPEG library does not support progressive saving.)])
+	     [AC_DEFINE(HAVE_PROGRESSIVE_JPEG, 1, [Define to 1 if libjpeg supports progressive JPEG.])],
+	     [AC_MSG_WARN(JPEG library does not support progressive saving.)])
 
 AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
 
@@ -96,20 +96,20 @@ AC_SUBST(JPEG_LIBS)
 # Checks for libtiff
 #
 AC_ARG_ENABLE([tiff],
-              [AC_HELP_STRING([--disable-tiff],[disable support for tiff])],,
-              [enable_tiff=yes])
+	      [AC_HELP_STRING([--disable-tiff],[disable support for tiff])],,
+	      [enable_tiff=yes])
 
 HAVE_TIFF=no
 if test x$enable_tiff = xyes ; then
    AC_MSG_CHECKING(TIFF Support)
    AC_MSG_RESULT()
    AC_CHECK_LIB(tiff, TIFFWriteScanline,
-                [AC_CHECK_HEADER(tiffio.h,
-                                 AC_DEFINE(HAVE_LIBTIFF, 1, [Define to 1 if libtiff support is included])
-                                 TIFF_LIBS='-ltiff -lm -lz'
-                                 HAVE_TIFF=yes
-                                 ,[AC_MSG_WARN([*** TIFF headers not found ***])])],
-                [AC_MSG_WARN([*** TIFF library not found ***])])
+		[AC_CHECK_HEADER(tiffio.h,
+				 AC_DEFINE(HAVE_LIBTIFF, 1, [Define to 1 if libtiff support is included])
+				 TIFF_LIBS='-ltiff -lm -lz'
+				 HAVE_TIFF=yes
+				 ,[AC_MSG_WARN([*** TIFF headers not found ***])])],
+		[AC_MSG_WARN([*** TIFF library not found ***])])
    AC_SUBST(TIFF_LIBS)
 fi
 
@@ -118,18 +118,18 @@ fi
 # Checks for Xft/XRender
 #
 AC_ARG_ENABLE([render],
-              [AC_HELP_STRING([--disable-render],[disable support for Xrender])],,
-              [enable_render=yes])
+	      [AC_HELP_STRING([--disable-render],[disable support for Xrender])],,
+	      [enable_render=yes])
 
 HAVE_RENDER=no
 if test x$enable_render = xyes ; then
    AC_MSG_CHECKING(Xrender Support)
    AC_MSG_RESULT()
    AC_CHECK_LIB(Xrender, XRenderFindFormat,
-                AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
-                RENDER_LIBS='-lXrender -lXext'
-                HAVE_RENDER=yes
-                ,,[-lXext $GTHUMB_LIBS])
+		AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
+		RENDER_LIBS='-lXrender -lXext'
+		HAVE_RENDER=yes
+		,,[-lXext $GTHUMB_LIBS])
    AC_SUBST(RENDER_LIBS)
 fi
 
@@ -153,23 +153,23 @@ AC_SUBST(XTEST_LIBS)
 have_xf86gamma=no
 XF86GAMMA_LIBS=""
 AC_CHECK_HEADER(X11/extensions/xf86vmode.h,
-                [have_xf86gamma=yes],,
-                [#include <X11/Xlib.h>])
+		[have_xf86gamma=yes],,
+		[#include <X11/Xlib.h>])
 
 # if that succeeded, then check for the -lXxf86vm
 if test "$have_xf86gamma" = yes; then
   have_xf86gamma=no
   AC_CHECK_LIB(Xxf86vm, XF86VidModeSetGamma,
-               [have_xf86gamma=yes],
-               [true], -lXext -lX11)
+	       [have_xf86gamma=yes],
+	       [true], -lXext -lX11)
 fi
 
 # check for the Ramp versions of the functions too.
 if test "$have_xf86gamma" = yes; then
   have_xf86gamma_ramp=no
   AC_CHECK_LIB(Xxf86vm, XF86VidModeSetGammaRamp,
-               [have_xf86gamma_ramp=yes],
-               [true], -lXext -lX11)
+	       [have_xf86gamma_ramp=yes],
+	       [true], -lXext -lX11)
 fi
 
 # if those tests succeeded, then we've really got the functions.
@@ -188,8 +188,8 @@ AC_SUBST(XF86GAMMA_LIBS)
 # Checks for libiptcdata
 #
 AC_ARG_ENABLE([iptcdata],
-              [AC_HELP_STRING([--disable-iptcdata],[disable support for iptc data])],,
-              [enable_iptcdata=yes])
+	      [AC_HELP_STRING([--disable-iptcdata],[disable support for iptc data])],,
+	      [enable_iptcdata=yes])
 
 HAVE_IPTC=no
 if test x$enable_iptcdata = xyes ; then
@@ -211,44 +211,44 @@ AC_SUBST(IPTCDATA_CFLAGS)
 # Checks for libgphoto2
 #
 AC_ARG_ENABLE([gphoto2],
-              [AC_HELP_STRING([--disable-gphoto2],[disable support for libgphoto2])],,
-              [enable_gphoto2=yes])
+	      [AC_HELP_STRING([--disable-gphoto2],[disable support for libgphoto2])],,
+	      [enable_gphoto2=yes])
 
 HAVE_GPHOTO2=no
 if test x$enable_gphoto2 = xyes ; then
    PKG_CHECK_MODULES(GPHOTO, libgphoto2 >= $LIBGPHOTO_REQUIRED,
-                     [AC_DEFINE(HAVE_LIBGPHOTO, 1, [Define to 1 to enable libgphoto2 support])
-                      HAVE_GPHOTO2=yes],
-                     [HAVE_GPHOTO2=no])
+		     [AC_DEFINE(HAVE_LIBGPHOTO, 1, [Define to 1 to enable libgphoto2 support])
+		      HAVE_GPHOTO2=yes],
+		     [HAVE_GPHOTO2=no])
 fi
 
 #
 # Checks for gtkunique
 #
 AC_ARG_ENABLE([gtkunique],
-              [AC_HELP_STRING([--disable-gtkunique],[disable support for gtkunique])],,
-              [enable_gtkunique=yes])
+	      [AC_HELP_STRING([--disable-gtkunique],[disable support for gtkunique])],,
+	      [enable_gtkunique=yes])
 
 HAVE_GTKUNIQUE=no
 if test x$enable_gtkunique = xyes ; then
    PKG_CHECK_MODULES(GTKUNIQUE, gtkunique-1.0 >= $GTKUNIQUE_REQUIRED,
-                     [AC_DEFINE(HAVE_GTKUNIQUE, 1, [Define to 1 to enable gtkunique support])
-                      HAVE_GTKUNIQUE=yes],
-                     [HAVE_GTKUNIQUE=no])
+		     [AC_DEFINE(HAVE_GTKUNIQUE, 1, [Define to 1 to enable gtkunique support])
+		      HAVE_GTKUNIQUE=yes],
+		     [HAVE_GTKUNIQUE=no])
 fi
 
 #
 # Checks for libopenraw
 #
 AC_ARG_ENABLE([libopenraw],
-              [AC_HELP_STRING([--disable-libopenraw],[disable support for libopenraw])],,
-              [enable_libopenraw=yes])
+	      [AC_HELP_STRING([--disable-libopenraw],[disable support for libopenraw])],,
+	      [enable_libopenraw=yes])
 HAVE_LIBOPENRAW=no
 if test x$enable_libopenraw = xyes ; then
    PKG_CHECK_MODULES(LIBOPENRAW, libopenraw-gnome-1.0 >= $LIBOPENRAW_REQUIRED,
-                     [AC_DEFINE(HAVE_LIBOPENRAW, 1, [Define to 1 to enable libopenraw support])
-                      HAVE_LIBOPENRAW=yes],
-                     [HAVE_LIBOPENRAW=no])
+		     [AC_DEFINE(HAVE_LIBOPENRAW, 1, [Define to 1 to enable libopenraw support])
+		      HAVE_LIBOPENRAW=yes],
+		     [HAVE_LIBOPENRAW=no])
 fi
 
 
@@ -303,7 +303,7 @@ dnl ******************************
 
 AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
 if test x"$GCONFTOOL" = xno; then
-        AC_MSG_ERROR([gconftool-2 executable not found in your path - should be
+	AC_MSG_ERROR([gconftool-2 executable not found in your path - should be
 installed with GConf])
 fi
 AM_GCONF_SOURCE_2

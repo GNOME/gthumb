@@ -54,55 +54,36 @@ struct _ThumbLoaderClass
 	/* -- Signals -- */
 
 	void (* thumb_error)       (ThumbLoader *il);
-
 	void (* thumb_done)        (ThumbLoader *il);
-
 	void (* thumb_progress)    (ThumbLoader *il,
 				    float        percent);
 };
 
-
-GType          thumb_loader_get_type           (void);
-
-GObject *      thumb_loader_new                (const gchar *path,
-						gint width,
-						gint height);
-
-/* whether to load from and save to cache. */
-void           thumb_loader_use_cache          (ThumbLoader *tl,
-						gboolean     use);
-
-void           thumb_loader_set_max_file_size  (ThumbLoader      *tl,
-						GnomeVFSFileSize  size);
-
-GnomeVFSFileSize thumb_loader_get_max_file_size  (ThumbLoader      *tl);
-
-void           thumb_loader_set_path           (ThumbLoader *tl,
-						const char  *path,
-						const char  *mime_type);
-
-char *         thumb_loader_get_path           (ThumbLoader *tl);
-
-void           thumb_loader_set_uri            (ThumbLoader *tl,
-						const GnomeVFSURI *uri,
-						const char  *mime_type);
-
-GnomeVFSURI *  thumb_loader_get_uri            (ThumbLoader *tl);
-
-GdkPixbuf *    thumb_loader_get_pixbuf         (ThumbLoader *tl);
-
-ImageLoader *  thumb_loader_get_image_loader   (ThumbLoader *tl);
-
-void           thumb_loader_start              (ThumbLoader *tl);
-
-void           thumb_loader_stop               (ThumbLoader *tl,
-						DoneFunc     done_func,
-						gpointer     done_func_data);
-
-int            thumb_from_xpm_d                (const char **data,
-						int          max_w,
-						int          max_h,
-						GdkPixmap  **pixmap,
-						GdkBitmap  **mask);
+GType             thumb_loader_get_type           (void);
+GObject *         thumb_loader_new                (const char        *path,
+						   int                width,
+						   int                height);
+void              thumb_loader_set_thumb_size     (ThumbLoader       *tl,
+						   int                width,
+						   int                height);					   
+void              thumb_loader_use_cache          (ThumbLoader       *tl,
+						   gboolean           use);
+void              thumb_loader_set_max_file_size  (ThumbLoader       *tl,
+						   GnomeVFSFileSize   size);
+GnomeVFSFileSize  thumb_loader_get_max_file_size  (ThumbLoader       *tl);
+void              thumb_loader_set_path           (ThumbLoader       *tl,
+						   const char        *path,
+						   const char        *mime_type);
+char *            thumb_loader_get_path           (ThumbLoader       *tl);
+void              thumb_loader_set_uri            (ThumbLoader       *tl,
+						   const GnomeVFSURI *uri,
+						   const char        *mime_type);
+GnomeVFSURI *     thumb_loader_get_uri            (ThumbLoader       *tl);
+GdkPixbuf *       thumb_loader_get_pixbuf         (ThumbLoader       *tl);
+ImageLoader *     thumb_loader_get_image_loader   (ThumbLoader       *tl);
+void              thumb_loader_start              (ThumbLoader       *tl);
+void              thumb_loader_stop               (ThumbLoader       *tl,
+						   DoneFunc           done_func,
+						   gpointer           done_func_data);
 
 #endif /* THUMB_LOADER_H */

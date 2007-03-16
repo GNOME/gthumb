@@ -1,3 +1,53 @@
+2007-03-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (mime_type_is_tiff),
+	(get_pixbuf_using_external_converter), (gth_pixbuf_new_from_uri):
+	Use tifftopnm and pamscale to generate tiff thumbnails, to reduce 
+	memory usage for very large tiff files. Partially resolves bug 
+	160460. Hopefully the gdk thumbnailing routines will be improved
+	in the future, obsoleting this.	
+
+2007-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-list.c (gfl_set_thumbs_size): free the pixbufs cache
+	when changing thumbnails size.
+
+2007-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: removed the headers.
+
+	* libgthumb/thumb-loader.c (thumb_loader_set_thumb_size):
+	* libgthumb/thumb-loader.h: added function thumb_loader_set_thumb_size
+	to change the size of the thumbnails.
+
+	* libgthumb/gth-file-list.c (gfl_set_thumbs_size): use
+	thumb_loader_set_thumb_size instead of creating a new thumb-loader.
+
+	* libgthumb/gth-file-view-list.c: use small images when thumbnails are
+	disabled.
+
+2007-03-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c: removed unused function thumb_from_xpm_d
+	* src/gth-exif-data-viewer.c (gth_exif_data_viewer_construct):
+	hide the headers.
+
+2007-03-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-redeye-removal.c (dlg_redeye_removal):
+	* src/dlg-crop.c (dlg_crop):
+	* src/dlg-scale-image.c (dlg_scale_image):
+	* src/dlg-hue-saturation.c (dlg_hue_saturation):
+	* src/dlg-brightness-contrast.c (dlg_brightness_contrast):
+	* src/dlg-color-balance.c (dlg_color_balance):
+	* src/dlg-posterize.c (dlg_posterize):
+
+	Set modal flag on for dialogs that modify the current image.
+	Fixes bug #417178 – saved image to the wrong file
+
+	* NEWS:
+	* configure.in: updated for 2.9.4
+
 2007-03-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xmp):

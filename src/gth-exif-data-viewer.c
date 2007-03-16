@@ -127,7 +127,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	gtk_container_add (GTK_CONTAINER (edv), edv->priv->scrolled_win);
 
 	edv->priv->image_exif_view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
 	edv->priv->image_exif_model = gtk_tree_store_new (3,
 							  G_TYPE_STRING,
@@ -141,7 +141,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	/**/
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Field"),
+	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "text", NAME_COLUMN,
 							   NULL);
@@ -153,7 +153,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	/**/
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value "),
+	column = gtk_tree_view_column_new_with_attributes ("",
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
@@ -175,10 +175,10 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 GType
 gth_exif_data_viewer_get_type ()
 {
-        static GType type = 0;
+	static GType type = 0;
 
-        if (! type) {
-                GTypeInfo type_info = {
+	if (! type) {
+		GTypeInfo type_info = {
 			sizeof (GthExifDataViewerClass),
 			NULL,
 			NULL,
@@ -196,7 +196,7 @@ gth_exif_data_viewer_get_type ()
 					       0);
 	}
 
-        return type;
+	return type;
 }
 
 
@@ -250,15 +250,14 @@ add_to_exif_display_list (GthExifDataViewer *edv,
 	}
 
 	gtk_tree_store_append (edv->priv->image_exif_model, &iter, &root_iter);
-        gtk_tree_store_set (edv->priv->image_exif_model, &iter,
-        		    NAME_COLUMN, utf8_name,
+	gtk_tree_store_set (edv->priv->image_exif_model, &iter,
+			    NAME_COLUMN, utf8_name,
 			    VALUE_COLUMN, utf8_value,
 			    POS_COLUMN, tag_position,
-                            -1);
+			    -1);
 }
 
 
-static void
 update_file_info (GthExifDataViewer *edv)
 {
 	char              *utf8_name;

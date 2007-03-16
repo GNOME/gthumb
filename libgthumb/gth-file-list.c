@@ -93,7 +93,7 @@ struct _GthFileListPrivateData {
 
 	GtkIconTheme   *icon_theme;
 	GHashTable     *pixbufs;
-	
+
 	/* -- thumbs update data -- */
 
 	ThumbLoader   *thumb_loader;
@@ -205,7 +205,7 @@ gth_file_list_queue_op (GthFileList   *file_list,
 	if (op->type == GTH_FILE_LIST_OP_TYPE_SET_FILTER)
 		gth_file_list_remove_op (file_list, GTH_FILE_LIST_OP_TYPE_SET_FILTER);
 	file_list->priv->queue = g_list_append (file_list->priv->queue, op);
-	
+
 	if (! file_list->busy)
 		gth_file_list_exec_next_op (file_list);
 }
@@ -213,8 +213,8 @@ gth_file_list_queue_op (GthFileList   *file_list,
 
 static void
 gth_file_list_queue_op_with_uri (GthFileList       *file_list,
-			         GthFileListOpType  op_type,
-			         const char        *uri)
+				 GthFileListOpType  op_type,
+				 const char        *uri)
 {
 	GthFileListOp *op;
 
@@ -241,9 +241,9 @@ gth_file_list_queue_op_with_list (GthFileList       *file_list,
 
 static void
 gth_file_list_queue_op_with_2_uris (GthFileList       *file_list,
-			            GthFileListOpType  op_type,
-			            const char        *uri1,
-			            const char        *uri2)
+				    GthFileListOpType  op_type,
+				    const char        *uri1,
+				    const char        *uri2)
 {
 	GList *uri_list = NULL;
 
@@ -255,8 +255,8 @@ gth_file_list_queue_op_with_2_uris (GthFileList       *file_list,
 
 static void
 gth_file_list_queue_op_with_int (GthFileList       *file_list,
-			         GthFileListOpType  op_type,
-			         int                value)
+				 GthFileListOpType  op_type,
+				 int                value)
 {
 	GthFileListOp *op;
 
@@ -396,14 +396,14 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (new_pos == -1) {
 		pos = last_pos + 1;
 		scan = g_list_nth (list, pos);
-	        while (scan) {
-        	        fd = scan->data;
-                	if (! fd->thumb_created && ! fd->error) {
-                        	new_pos = pos;
-	                        break;
-        		}
-        		pos++;
-        		scan = scan->next;
+		while (scan) {
+			fd = scan->data;
+			if (! fd->thumb_created && ! fd->error) {
+				new_pos = pos;
+				break;
+			}
+			pos++;
+			scan = scan->next;
 		}
 	}
 
@@ -412,14 +412,14 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	if (new_pos == -1) {
 		pos = 0;
 		scan = list;
-	        while (scan && (pos < first_pos)) {
-        	        fd = scan->data;
-                	if (! fd->thumb_created && ! fd->error) {
-                        	new_pos = pos;
-	                        break;
-        		}
-        		pos++;
-        		scan = scan->next;
+		while (scan && (pos < first_pos)) {
+			fd = scan->data;
+			if (! fd->thumb_created && ! fd->error) {
+				new_pos = pos;
+				break;
+			}
+			pos++;
+			scan = scan->next;
 		}
 	}
 
@@ -467,9 +467,9 @@ gh_unref_pixbuf (gpointer  key,
 static void
 gth_file_list_free_pixbufs (GthFileList *file_list)
 {
-	if (file_list->priv->pixbufs == NULL) 
+	if (file_list->priv->pixbufs == NULL)
 		return;
-		
+
 	g_hash_table_foreach (file_list->priv->pixbufs,
 			      gh_unref_pixbuf,
 			      NULL);
@@ -478,11 +478,18 @@ gth_file_list_free_pixbufs (GthFileList *file_list)
 }
 
 
-void
-gth_file_list_update_icon_theme (GthFileList *file_list)
+static void
+create_new_pixbufs_cache (GthFileList *file_list)
 {
 	gth_file_list_free_pixbufs (file_list);
 	file_list->priv->pixbufs = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+
+void
+gth_file_list_update_icon_theme (GthFileList *file_list)
+{
+	create_new_pixbufs_cache (file_list);
 }
 
 
@@ -492,16 +499,16 @@ get_default_icon_size (GtkWidget *widget)
 	int icon_width, icon_height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-                                           GTK_ICON_SIZE_DIALOG,
-                                           &icon_width, &icon_height);
-                                           
+					   GTK_ICON_SIZE_DIALOG,
+					   &icon_width, &icon_height);
+
 	return MAX (icon_width, icon_height);
 }
 
 
 static GdkPixbuf *
 get_pixbuf_from_mime_type (GthFileList *file_list,
-		           const char  *mime_type)
+			   const char  *mime_type)
 {
 	GtkIconInfo *icon_info = NULL;
 	int          icon_size;
@@ -522,7 +529,7 @@ get_pixbuf_from_mime_type (GthFileList *file_list,
 		g_object_ref (G_OBJECT (pixbuf));
 		return pixbuf;
 	}
-	
+
 	/**/
 
 	icon_size = get_default_icon_size (file_list->root_widget);
@@ -576,18 +583,18 @@ set_unknown_pixbuf (GthFileList *file_list,
 {
 	FileData  *fd;
 	GdkPixbuf *pixbuf;
-	
+
 	fd = gth_file_view_get_image_data (file_list->view, pos);
 	if ((fd == NULL) || (fd->path == NULL))
 		return;
-		
+
 	pixbuf = get_pixbuf_from_mime_type (file_list, fd->mime_type);
 	if (pixbuf != NULL) {
 		gth_file_view_set_image_pixbuf (file_list->view, pos, pixbuf);
 		g_object_unref (pixbuf);
 	}
-	
-	file_data_unref (fd);	
+
+	file_data_unref (fd);
 }
 
 
@@ -722,7 +729,7 @@ gth_file_list_finalize (GObject *object)
 {
 	GthFileList *file_list;
 
-        g_return_if_fail (GTH_IS_FILE_LIST (object));
+	g_return_if_fail (GTH_IS_FILE_LIST (object));
 	file_list = GTH_FILE_LIST (object);
 
 	if (file_list->priv->thumb_fd != NULL) {
@@ -848,7 +855,7 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->loading_thumbs = FALSE;
 	file_list->priv->filter         = NULL;
 	file_list->priv->pixbufs        = g_hash_table_new (g_str_hash, g_str_equal);
-	
+
 	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
 			  "thumb_done",
 			  G_CALLBACK (load_thumb_done_cb),
@@ -913,23 +920,23 @@ gth_file_list_get_type ()
 	if (! type) {
 		GTypeInfo type_info = {
 			sizeof (GthFileListClass),
-                        NULL,
-                        NULL,
-                        (GClassInitFunc) gth_file_list_class_init,
-                        NULL,
-                        NULL,
-                        sizeof (GthFileList),
-                        0,
-                        (GInstanceInitFunc) gth_file_list_init
-                };
+			NULL,
+			NULL,
+			(GClassInitFunc) gth_file_list_class_init,
+			NULL,
+			NULL,
+			sizeof (GthFileList),
+			0,
+			(GInstanceInitFunc) gth_file_list_init
+		};
 
-                type = g_type_register_static (G_TYPE_OBJECT,
-                                               "GthFileList",
-                                               &type_info,
-                                               0);
-        }
+		type = g_type_register_static (G_TYPE_OBJECT,
+					       "GthFileList",
+					       &type_info,
+					       0);
+	}
 
-        return type;
+	return type;
 }
 
 
@@ -1033,8 +1040,8 @@ add_list_done (GthFileList *file_list)
 
 	gth_file_view_freeze (file_list->view);
 	gth_file_view_sorted (file_list->view,
-		      	      file_list->priv->sort_method,
-		              file_list->priv->sort_type);
+			      file_list->priv->sort_method,
+			      file_list->priv->sort_type);
 	gth_file_view_thaw (file_list->view);
 
 	g_signal_emit (file_list, gth_file_list_signals[DONE], 0);
@@ -1086,9 +1093,9 @@ add_list_in_chunks (gpointer callback_data)
 	for (i = 0, scan = gfi_data->filtered; (i < ADD_LIST_CHUNK_SIZE) && scan; i++, scan = scan->next) {
 		FileData  *fd = scan->data;
 		GdkPixbuf *pixbuf;
-		
+
 		file_data_update_comment (fd);
-		
+
 		pixbuf = get_pixbuf_from_mime_type (file_list, fd->mime_type);
 		if (pixbuf != NULL) {
 			gth_file_view_append_with_data (file_list->view,
@@ -1168,7 +1175,7 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 
 		fd = file_data_new (uri, info_result->file_info);
 		fd->mime_type = g_hash_table_lookup (gfi_data->mime_types, uri);
-		
+
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 
 		g_free (uri);
@@ -1234,7 +1241,7 @@ load_new_list (GthFileList *file_list)
 			g_hash_table_insert (gfi_data->mime_types,
 					     full_path,
 					     (gpointer) mime_type);
-			
+
 			/* do not free this path because its used in the mime_type hash. */
 			scan->data = NULL;
 		}
@@ -1413,7 +1420,7 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 
 FileData *
 gth_file_list_filedata_from_path (GthFileList *file_list,
-			          const char  *path)
+				  const char  *path)
 {
 	FileData *result = NULL;
 	GList    *list, *scan;
@@ -1675,7 +1682,7 @@ gth_file_list_prev_image (GthFileList *file_list,
 
 static void
 gfl_delete (GthFileList *file_list,
-            const char  *uri)
+	    const char  *uri)
 {
 	FileData *fd;
 
@@ -1689,7 +1696,7 @@ gfl_delete (GthFileList *file_list,
 
 static void
 gfl_delete_list (GthFileList *file_list,
-                 GList       *uri_list)
+		 GList       *uri_list)
 {
 	GList *scan;
 
@@ -1878,23 +1885,14 @@ gth_file_list_restart_thumbs (GthFileList *file_list,
 
 static void
 gfl_set_thumbs_size (GthFileList *file_list,
-	             int          size)
+		     int          size)
 {
 	file_list->priv->thumb_size = size;
 
-	g_object_unref (G_OBJECT (file_list->priv->thumb_loader));
-	file_list->priv->thumb_loader = THUMB_LOADER (thumb_loader_new (NULL, size, size));
-	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
-			  "thumb_done",
-			  G_CALLBACK (load_thumb_done_cb),
-			  file_list);
-	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
-			  "thumb_error",
-			  G_CALLBACK (load_thumb_error_cb),
-			  file_list);
+	create_new_pixbufs_cache (file_list);
 
+	thumb_loader_set_thumb_size (file_list->priv->thumb_loader, size, size);
 	gth_file_view_set_image_width (file_list->view, size + THUMB_BORDER);
-
 	gth_file_list_update_thumbs (file_list);
 }
 
@@ -1932,8 +1930,8 @@ gfl_set_filter (GthFileList *file_list)
 		gth_file_view_set_visible_func (file_list->view, NULL, NULL);
 	else
 		gth_file_view_set_visible_func (file_list->view,
-                	                        gfl_visible_func,
-                        	                file_list);
+						gfl_visible_func,
+						file_list);
 	g_signal_emit (file_list, gth_file_list_signals[DONE], 0);
 }
 

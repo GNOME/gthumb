@@ -115,8 +115,8 @@ thumb_loader_finalize (GObject *object)
 	ThumbLoader            *tl;
 	ThumbLoaderPrivateData *priv;
 
-        g_return_if_fail (object != NULL);
-        g_return_if_fail (IS_THUMB_LOADER (object));
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_THUMB_LOADER (object));
 
 	tl = THUMB_LOADER (object);
 	priv = tl->priv;
@@ -201,12 +201,12 @@ thumb_loader_init (ThumbLoader *tl)
 
 
 GType
-thumb_loader_get_type ()
+thumb_loader_get_type (void)
 {
-        static GType type = 0;
+	static GType type = 0;
 
-        if (! type) {
-                GTypeInfo type_info = {
+	if (! type) {
+		GTypeInfo type_info = {
 			sizeof (ThumbLoaderClass),
 			NULL,
 			NULL,
@@ -224,24 +224,24 @@ thumb_loader_get_type ()
 					       0);
 	}
 
-        return type;
+	return type;
 }
 
 
 static GdkPixbufAnimation*
 thumb_loader (const char  *path,
-              const char  *mime_type,
+	      const char  *mime_type,
 	      GError     **error,
 	      gpointer     data)
 {
 	ThumbLoader *tl = data;
 
 	return gth_pixbuf_animation_new_from_uri (path,
-				       		  error,
-				       		  tl->priv->cache_max_w,
-				       		  tl->priv->cache_max_h,
-				       		  tl->priv->thumb_factory,
-				       		  mime_type);
+						  error,
+						  tl->priv->cache_max_w,
+						  tl->priv->cache_max_h,
+						  tl->priv->thumb_factory,
+						  mime_type);
 }
 
 
@@ -256,17 +256,7 @@ thumb_loader_new (const char *path,
 	tl = THUMB_LOADER (g_object_new (THUMB_LOADER_TYPE, NULL));
 	priv = tl->priv;
 
-	if ((width <= THUMBNAIL_NORMAL_SIZE) && (height <= THUMBNAIL_NORMAL_SIZE)) {
-		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
-		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
-	}
-	else {
-		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
-		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
-	}
-
-	priv->max_w = width;
-	priv->max_h = height;
+	thumb_loader_set_thumb_size (tl, width, height);
 
 	if (path != NULL)
 		thumb_loader_set_path (tl, path, NULL);
@@ -274,9 +264,7 @@ thumb_loader_new (const char *path,
 		priv->uri = NULL;
 
 	priv->il = IMAGE_LOADER (image_loader_new (path, FALSE));
-
 	image_loader_set_loader (priv->il, thumb_loader, tl);
-
 	g_signal_connect (G_OBJECT (priv->il),
 			  "image_done",
 			  G_CALLBACK (thumb_loader_done_cb),
@@ -287,6 +275,30 @@ thumb_loader_new (const char *path,
 			  tl);
 
 	return G_OBJECT (tl);
+}
+
+
+void
+thumb_loader_set_thumb_size (ThumbLoader *tl,
+			     int          width,
+			     int          height)
+{
+	if (tl->priv->thumb_factory != NULL) {
+		g_object_unref (tl->priv->thumb_factory);
+		tl->priv->thumb_factory = NULL;
+	}
+
+	if ((width <= THUMBNAIL_NORMAL_SIZE) && (height <= THUMBNAIL_NORMAL_SIZE)) {
+		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
+		tl->priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+	}
+	else {
+		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
+		tl->priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+	}
+
+	tl->priv->max_w = width;
+	tl->priv->max_h = height;
 }
 
 
@@ -484,39 +496,6 @@ thumb_loader_stop (ThumbLoader *tl,
 
 	image_loader_stop (priv->il, done_func, done_func_data);
 }
-
-
-int
-thumb_from_xpm_d (const char **data,
-		  int          max_w,
-		  int          max_h,
-		  GdkPixmap  **pixmap,
-		  GdkBitmap  **mask)
-{
-	GdkPixbuf *pixbuf;
-	int        w, h;
-
-	pixbuf = gdk_pixbuf_new_from_xpm_data (data);
-	w = gdk_pixbuf_get_width (pixbuf);
-	h = gdk_pixbuf_get_height (pixbuf);
-
-	if (scale_keepping_ratio (&w, &h, max_w, max_h)) {
-		/* Scale */
-		GdkPixbuf *tmp;
-
-		tmp = pixbuf;
-		pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
-		g_object_unref (tmp);
-	}
-
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, mask, 127);
-	g_object_unref (pixbuf);
-
-	return w;
-}
-
-
-
 
 
 /* -- local functions -- */

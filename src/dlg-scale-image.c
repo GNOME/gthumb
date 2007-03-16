@@ -70,7 +70,7 @@ typedef struct {
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget  *widget, 
+destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->gui);
@@ -80,7 +80,7 @@ destroy_cb (GtkWidget  *widget,
 
 /* called when the ok button is clicked. */
 static void
-ok_cb (GtkWidget  *widget, 
+ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	GdkPixbuf *orig_pixbuf;
@@ -112,7 +112,7 @@ ok_cb (GtkWidget  *widget,
 	if (data->percentage) {
 		d_width  = d_width / 100.0 * data->width;
 		d_height = d_height / 100.0 * data->height;
-	} 
+	}
 
 	width  = MAX (2, (int) d_width);
 	height = MAX (2, (int) d_height);
@@ -181,7 +181,7 @@ h_spinbutton_value_changed (GtkSpinButton *button,
 						 data);
 
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), width);
-		
+
 		g_signal_handlers_unblock_by_func (data->s_new_width_spinbutton,
 						   w_spinbutton_value_changed,
 						   data);
@@ -255,7 +255,7 @@ unit_changed (GtkOptionMenu *option_menu,
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), width);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), height);
 		break;
-		
+
 	case UNIT_PERCENT:
 		if (data->percentage)
 			return;
@@ -263,10 +263,10 @@ unit_changed (GtkOptionMenu *option_menu,
 
 		width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
 		height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
-		
+
 		w_value = width / data->width * 100.0;
 		h_value = height / data->height * 100.0;
-		
+
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), w_value);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), h_value);
 		break;
@@ -353,28 +353,28 @@ dlg_scale_image (GthWindow *window)
 				      eel_gconf_get_boolean (PREF_SCALE_HIGH_QUALITY, TRUE));
 
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+	g_signal_connect_swapped (G_OBJECT (cancel_button),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
 
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (ok_button),
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->s_new_width_spinbutton), 
+	g_signal_connect (G_OBJECT (data->s_new_width_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (w_spinbutton_value_changed),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->s_new_height_spinbutton), 
+	g_signal_connect (G_OBJECT (data->s_new_height_spinbutton),
 			  "value_changed",
 			  G_CALLBACK (h_spinbutton_value_changed),
 			  data);
@@ -393,6 +393,7 @@ dlg_scale_image (GthWindow *window)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 
 	update_ratio (data);
