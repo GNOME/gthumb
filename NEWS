@@ -16,6 +16,8 @@ version 2.9.4
 	  startup if no files are passed as arguments
 	* Fixed bug #159884 - problems resolving relative symlinks with
 	  reserved URI characters
+	* Partly addressed bug #160460 - TIFF Image causes large memory 
+	  consumption
 
 version 2.9.3
 -------------
