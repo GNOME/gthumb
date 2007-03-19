@@ -53,6 +53,8 @@ What is gThumb
    + Change image hue, saturation, lightness, contrast and adjust colors.
    + Scale and rotate images.
    + Save images in the following formats: JPEG, PNG, TIFF, TGA.
+   + Crop images.
+   + Red-eye removal tool.
 
  * gThumb is an advanced tool
 

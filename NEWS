@@ -1,5 +1,5 @@
-version 2.9.4
--------------
+version 2.10.0
+--------------
 	Major bug fixes:
 	* Fixed bug #414665 - Photo importer hangs and does not import photos
 	* Fixed bug #389590 - List view not updated after file deleted
@@ -16,7 +16,7 @@ version 2.9.4
 	  startup if no files are passed as arguments
 	* Fixed bug #159884 - problems resolving relative symlinks with
 	  reserved URI characters
-	* Partly addressed bug #160460 - TIFF Image causes large memory 
+	* Partly addressed bug #160460 - TIFF Image causes large memory
 	  consumption
 
 version 2.9.3
