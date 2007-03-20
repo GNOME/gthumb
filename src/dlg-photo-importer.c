@@ -525,6 +525,7 @@ typedef void (*AsyncOpFunc) (AsyncOperationData *aodata,
 
 struct _AsyncOperationData {
 	DialogData  *data;
+	char        *operation_info;
 	GList       *list, *scan;
 	int          total, current;
 	AsyncOpFunc  init_func, step_func, done_func;
@@ -533,7 +534,8 @@ struct _AsyncOperationData {
 
 
 static AsyncOperationData *
-async_operation_new (GList       *list,
+async_operation_new (const char  *operation_info,
+		     GList       *list,
 		     AsyncOpFunc  init_func,
 		     AsyncOpFunc  step_func,
 		     AsyncOpFunc  done_func,
@@ -543,6 +545,10 @@ async_operation_new (GList       *list,
 
 	aodata = g_new0 (AsyncOperationData, 1);
 
+	if (operation_info != NULL)
+		aodata->operation_info = g_strdup (operation_info);
+	else
+		aodata->operation_info = NULL;
 	aodata->list = list;
 	aodata->init_func = init_func;
 	aodata->step_func = step_func;
@@ -581,6 +587,7 @@ async_operation_step (gpointer callback_data)
 
 		if (aodata->done_func != NULL)
 			(*aodata->done_func) (aodata, aodata->data);
+		g_free (aodata->operation_info);
 		g_free (aodata);
 
 		return FALSE;
@@ -616,13 +623,16 @@ async_operation_start (AsyncOperationData *aodata)
 	g_mutex_lock (aodata->data->yes_or_no);
 	aodata->data->async_operation = TRUE;
 	aodata->data->interrupted = FALSE;
+	if (aodata->data->progress_info != NULL)
+		g_free (aodata->data->progress_info);
+	aodata->data->progress_info = g_strdup (aodata->operation_info);
 	g_mutex_unlock (aodata->data->yes_or_no);
 
 	async_operation_step (aodata);
 }
 
 
- /**/
+/* load_images_preview */
 
 
 static void
@@ -834,7 +844,8 @@ load_images_preview (DialogData *data)
 		gtk_window_set_resizable (GTK_WINDOW (data->dialog), TRUE);
 	}
 
-	aodata = async_operation_new (file_list,
+	aodata = async_operation_new (NULL,
+				      file_list,
 				      load_images_preview__init,
 				      load_images_preview__step,
 				      load_images_preview__done,
@@ -1337,7 +1348,8 @@ adjust_orientation__done (AsyncOperationData *aodata,
 	if (interrupted)
 		return;
 
-	new_aodata = async_operation_new (data->delete_list,
+	new_aodata = async_operation_new (NULL,
+					  data->delete_list,
 					  NULL,
 					  delete_images__step,
 					  delete_images__done,
@@ -1418,7 +1430,8 @@ save_images__done (AsyncOperationData *aodata,
 	if (interrupted || error)
 		return;
 
-	new_aodata = async_operation_new (data->adjust_orientation_list,
+	new_aodata = async_operation_new (NULL,
+					  data->adjust_orientation_list,
 					  NULL,
 					  adjust_orientation__step,
 					  adjust_orientation__done,
@@ -1576,7 +1589,8 @@ ok_clicked_cb (GtkButton  *button,
 
 	add_film_keyword (data->local_folder);
 
-	aodata = async_operation_new (file_list,
+	aodata = async_operation_new (NULL,
+				      file_list,
 				      save_images__init,
 				      save_images__step,
 				      save_images__done,
@@ -1640,13 +1654,51 @@ import_reload_cb (GtkButton  *button,
 }
 
 
+/* delete_imported_images */
+
+
+static void
+delete_imported_images__init (AsyncOperationData *aodata,
+			      DialogData         *data)
+{
+}
+
+
+static void
+delete_imported_images__step (AsyncOperationData *aodata,
+			      DialogData         *data)
+{
+	const char *camera_path = aodata->scan->data;
+	char       *camera_folder;
+	const char *camera_filename;
+
+	camera_folder = remove_level_from_path (camera_path);
+	camera_filename = file_name_from_path (camera_path);
+
+	gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
+
+	g_free (camera_folder);
+}
+
+
+static void
+delete_imported_images__done (AsyncOperationData *aodata,
+			      DialogData         *data)
+{
+	path_list_free (aodata->list);
+	task_terminated (data);
+	load_images_preview (data);
+}
+
+
 static void
 import_delete_cb (GtkButton  *button,
 		  DialogData *data)
 {
-	GList *sel_list;
-	GList *scan;
-	GList *delete_list = NULL;
+	GList              *sel_list;
+	GList              *scan;
+	GList              *delete_list = NULL;
+	AsyncOperationData *aodata;
 
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
 	if (sel_list != NULL) {
@@ -1660,23 +1712,13 @@ import_delete_cb (GtkButton  *button,
 		file_data_list_free (sel_list);
 	}
 
-	for (scan = delete_list; scan; scan = scan->next) {
-		const char *camera_path = scan->data;
-		char       *camera_folder;
-		const char *camera_filename;
-
-		camera_folder = remove_level_from_path (camera_path);
-		camera_filename = file_name_from_path (camera_path);
-
-		gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
-		/* FIXME */
-	}
-
-	path_list_free (delete_list);
-
-	task_terminated (data);
-
-	load_images_preview (data);
+	aodata = async_operation_new (NULL,
+				      delete_list,
+				      delete_imported_images__init,
+				      delete_imported_images__step,
+				      delete_imported_images__done,
+				      data);
+	async_operation_start (aodata);
 }
 
 
