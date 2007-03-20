@@ -1,3 +1,8 @@
+2007-03-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_redeye.glade: Use "Position" instead of 
+	"Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780
+
 2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c: make the progess bar in the import dialog
