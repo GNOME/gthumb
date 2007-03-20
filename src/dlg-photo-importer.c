@@ -23,6 +23,7 @@
 
 #include <config.h>
 
+#define HAVE_LIBGPHOTO 1
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>
@@ -111,7 +112,7 @@ typedef struct {
 
 	Camera              *camera;
 	gboolean             camera_setted, view_folder;
-        GPContext           *context;
+	GPContext           *context;
 	CameraAbilitiesList *abilities_list;
 	GPPortInfoList      *port_list;
 
@@ -245,7 +246,7 @@ task_terminated (DialogData *data)
 static unsigned int
 ctx_progress_start_func (GPContext  *context,
 			 float       target,
-                         const char *format,
+			 const char *format,
 			 va_list     args,
 			 gpointer    callback_data)
 {
@@ -256,7 +257,7 @@ ctx_progress_start_func (GPContext  *context,
 	data->update_ui = TRUE;
 	data->interrupted = FALSE;
 	data->target = target;
-	data->fraction = 0.0;
+	/*data->fraction = 0.0;*/
 	if (data->progress_info != NULL)
 		g_free (data->progress_info);
 	locale_string = g_strdup_vprintf (format, args);
@@ -271,14 +272,14 @@ ctx_progress_start_func (GPContext  *context,
 static void
 ctx_progress_update_func (GPContext    *context,
 			  unsigned int  id,
-                          float         current,
+			  float         current,
 			  gpointer      callback_data)
 {
 	DialogData *data = callback_data;
 
 	g_mutex_lock (data->yes_or_no);
 	data->update_ui = TRUE;
-	data->fraction = current / data->target;
+	/*data->fraction = current / data->target;*/
 	g_mutex_unlock (data->yes_or_no);
 }
 
@@ -635,12 +636,12 @@ load_images_preview__init (AsyncOperationData *aodata,
 static int
 get_default_icon_size (GtkWidget *widget)
 {
-        int icon_width, icon_height;
+	int icon_width, icon_height;
 
-        gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-                                           GTK_ICON_SIZE_DIALOG,
-                                           &icon_width, &icon_height);
-        return MAX (icon_width, icon_height);
+	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
+					   GTK_ICON_SIZE_DIALOG,
+					   &icon_width, &icon_height);
+	return MAX (icon_width, icon_height);
 }
 
 
@@ -650,24 +651,24 @@ get_icon_from_mime_type (DialogData *data,
 {
 	GdkPixbuf      *pixbuf = NULL;
 	int             icon_size;
-        GtkIconTheme   *icon_theme = gtk_icon_theme_get_default ();
-        GtkIconInfo    *icon_info = NULL;
-        char           *icon_name;
+	GtkIconTheme   *icon_theme = gtk_icon_theme_get_default ();
+	GtkIconInfo    *icon_info = NULL;
+	char           *icon_name;
 
-        icon_size = get_default_icon_size (data->dialog);
-        icon_name = gnome_icon_lookup (icon_theme,
-                                       NULL,
-                                       NULL,
-                                       NULL,
-                                       NULL,
-                                       mime_type,
-                                       GNOME_ICON_LOOKUP_FLAGS_NONE,
-                                       NULL);
+	icon_size = get_default_icon_size (data->dialog);
+	icon_name = gnome_icon_lookup (icon_theme,
+				       NULL,
+				       NULL,
+				       NULL,
+				       NULL,
+				       mime_type,
+				       GNOME_ICON_LOOKUP_FLAGS_NONE,
+				       NULL);
 	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
-                                            icon_name,
-                                            icon_size,
-                                            0);
-        g_free (icon_name);
+					    icon_name,
+					    icon_size,
+					    0);
+	g_free (icon_name);
 
 	if (icon_info != NULL) {
 		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
@@ -848,7 +849,7 @@ set_camera_model (DialogData *data,
 		  const char *model,
 		  const char *port)
 {
-        int r;
+	int r;
 
 	if ((model == NULL) || (port == NULL)) {
 		data->camera_setted = FALSE;
@@ -1211,7 +1212,7 @@ save_image (DialogData *data,
 			    GP_FILE_TYPE_NORMAL,
 			    file,
 			    data->context);
-	
+
 	unescaped_local_folder = gnome_vfs_unescape_string (local_folder, "");
 	file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
 	g_free (unescaped_local_folder);
@@ -1290,13 +1291,13 @@ delete_images__done (AsyncOperationData *aodata,
 
 	data->view_folder = TRUE;
 
-        if (ImportPhotos) {
-                ImportPhotos = FALSE;
+	if (ImportPhotos) {
+		ImportPhotos = FALSE;
 		if (data->browser != NULL)
 			gtk_widget_show (GTK_WIDGET (data->browser));
-        }
+	}
 
-        gtk_widget_destroy (data->dialog);
+	gtk_widget_destroy (data->dialog);
 }
 
 
@@ -1621,7 +1622,7 @@ choose_categories_cb (GtkButton  *button,
 
 static void
 reset_exif_tag_on_import_cb (GtkButton  *button,
-		                            DialogData *data)
+					    DialogData *data)
 {
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION,
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton)));
@@ -1797,24 +1798,24 @@ dlg_photo_importer (GthBrowser *browser)
 	data->browser = browser;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
-        if (!data->gui) {
+	if (!data->gui) {
 		g_free (data);
-                g_warning ("Could not find " GLADE_FILE "\n");
-                return;
-        }
+		g_warning ("Could not find " GLADE_FILE "\n");
+		return;
+	}
 
 	gp_camera_new (&data->camera);
 	data->context = gp_context_new ();
 	gp_context_set_cancel_func (data->context, ctx_cancel_func, data);
-        gp_context_set_error_func (data->context, ctx_error_func, data);
-        gp_context_set_status_func (data->context, ctx_status_func, data);
-        gp_context_set_message_func (data->context, ctx_message_func, data);
+	gp_context_set_error_func (data->context, ctx_error_func, data);
+	gp_context_set_status_func (data->context, ctx_status_func, data);
+	gp_context_set_message_func (data->context, ctx_message_func, data);
 	gp_context_set_progress_funcs (data->context,
 				       ctx_progress_start_func,
 				       ctx_progress_update_func,
 				       ctx_progress_stop_func,
 				       data);
-        gp_abilities_list_new (&data->abilities_list);
+	gp_abilities_list_new (&data->abilities_list);
 	gp_port_info_list_new (&data->port_list);
 
 	data->categories_list = NULL;
@@ -1850,7 +1851,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
 	data->i_commands_table = glade_xml_get_widget (data->gui, "i_commands_table");
 	data->import_ok_button = glade_xml_get_widget (data->gui, "import_okbutton");
-        data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
+	data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 	btn_help = glade_xml_get_widget (data->gui, "import_helpbutton");
 
@@ -2022,8 +2023,8 @@ get_camera_port_list (ModelDialogData *mdata, GPPortType types)
 	for (i = 0; i < n; i++) {
 		GPPortInfo info;
 		gp_port_info_list_get_info (mdata->data->port_list, i, &info);
-                if (info.type & types)
-                        list = g_list_prepend (list, g_strdup_printf ("%s", info.path));
+		if (info.type & types)
+			list = g_list_prepend (list, g_strdup_printf ("%s", info.path));
 	}
 
 	return g_list_reverse (list);
@@ -2114,7 +2115,7 @@ static void
 model__selection_changed_cb (GtkTreeSelection *selection,
 			     ModelDialogData  *mdata)
 {
-        GtkTreeIter     iter;
+	GtkTreeIter     iter;
 	GtkTreeModel    *treemodel;
 	gchar           *model;
 	GtkListStore    *store;
@@ -2123,8 +2124,8 @@ model__selection_changed_cb (GtkTreeSelection *selection,
 	GList           *list, *l;
 	gboolean        is_manual_selection;
 
-        if (gtk_tree_selection_get_selected (selection, &treemodel, &iter)) {
-                gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
+	if (gtk_tree_selection_get_selected (selection, &treemodel, &iter)) {
+		gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
 
 		store =  gtk_list_store_new (1, G_TYPE_STRING);
 		is_manual_selection = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mdata->cm_manual_selection_checkbutton));
@@ -2151,8 +2152,8 @@ model__selection_changed_cb (GtkTreeSelection *selection,
  		gtk_combo_box_set_active (GTK_COMBO_BOX (mdata->cm_port_combo_box), 0);
 
 		g_object_unref (store);
-                g_free (model);
-        }
+		g_free (model);
+	}
 }
 
 
@@ -2231,11 +2232,11 @@ dlg_select_camera_model_cb (GtkButton  *button,
 	mdata->data = data;
 
 	mdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
-        if (!mdata->gui) {
+	if (!mdata->gui) {
 		g_free (mdata);
-                g_warning ("Could not find " GLADE_FILE "\n");
-                return;
-        }
+		g_warning ("Could not find " GLADE_FILE "\n");
+		return;
+	}
 
 	/* Get the widgets. */
 
@@ -2270,10 +2271,10 @@ dlg_select_camera_model_cb (GtkButton  *button,
 			  "clicked",
 			  G_CALLBACK (model__ok_clicked_cb),
 			  mdata);
-        g_signal_connect (G_OBJECT (btn_help),
-                          "clicked",
-                          G_CALLBACK (help_cb),
-                          mdata);
+	g_signal_connect (G_OBJECT (btn_help),
+			  "clicked",
+			  G_CALLBACK (help_cb),
+			  mdata);
 	g_signal_connect_swapped (G_OBJECT (btn_cancel),
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),

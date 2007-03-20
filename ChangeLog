@@ -1,5 +1,8 @@
 2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-photo-importer.c: make the progess bar in the import dialog
+	show the overall download progress (bug #156994).
+
 	* src/gth-folder-selection-dialog.c: do not convert the path to utf8.
 
 	* src/gth-browser-actions-callbacks.c: respect the
