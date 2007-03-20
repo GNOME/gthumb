@@ -1,3 +1,14 @@
+2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-folder-selection-dialog.c: do not convert the path to utf8.
+
+	* src/gth-browser-actions-callbacks.c: respect the
+	'go to destination folder' option in the copy/move dialogs.
+
+	* src/dlg-file-utils.c: fixed a bug that prevented the user to choose
+	'overwrite this image' or 'do not overwrite this image' options in the
+	overwrite dialog.
+
 2007-03-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.0 released ]

@@ -49,6 +49,7 @@
 #define PREVIEW_SIZE           150
 
 typedef enum {
+	OVERWRITE_RESULT_UNSPECIFIED,
 	OVERWRITE_RESULT_YES,
 	OVERWRITE_RESULT_NO,
 	OVERWRITE_RESULT_ALL,
@@ -381,7 +382,7 @@ dlg_file_move__ask_dest (GthWindow  *window,
 	if (default_dir != NULL)
 		path = default_dir;
 	else
-		path = g_get_home_dir ();
+		path = get_home_uri ();
 
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), path);
 
@@ -481,7 +482,7 @@ dlg_file_copy__ask_dest (GthWindow  *window,
 	if (default_dir != NULL)
 		path = default_dir;
 	else
-		path = g_get_home_dir ();
+		path = get_home_uri ();
 
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), path);
 
@@ -621,7 +622,7 @@ create_overwrite_dialog (GthWindow         *window,
 		g_warning ("Could not find " GLADE_FILE "\n");
 		g_free (owdata);
 		return NULL;
-        }
+	}
 
 	owdata->tooltips = gtk_tooltips_new ();
 	owdata->done_func = done_func;
@@ -940,7 +941,7 @@ dlg_file_rename_series (GthWindow *window,
 {
 	GList          *o_scan, *n_scan;
 	GList          *error_list = NULL;
-	int             overwrite_result;
+	int             overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
 	gboolean        file_exists, show_ow_all_none;
 	gboolean        error = FALSE;
 	GList          *files_deleted = NULL;
@@ -950,12 +951,10 @@ dlg_file_rename_series (GthWindow *window,
 	all_windows_remove_monitor ();
 
 	show_ow_all_none = g_list_length (old_names) > 1;
-	overwrite_result = OVERWRITE_RESULT_NO;
 	for (n_scan = new_names, o_scan = old_names; o_scan && n_scan;) {
-		char           *old_full_path = o_scan->data;
-		char           *new_full_path = n_scan->data;
-		char           *new_name = NULL;
-		;
+		char *old_full_path = o_scan->data;
+		char *new_full_path = n_scan->data;
+		char *new_name = NULL;
 
 		if (! path_is_file (old_full_path))
 			continue;
@@ -971,8 +970,11 @@ dlg_file_rename_series (GthWindow *window,
 		new_full_path = g_strdup (new_full_path);
 		file_exists = path_is_file (new_full_path);
 
-		while ((overwrite_result != OVERWRITE_RESULT_ALL)
-		       && (overwrite_result != OVERWRITE_RESULT_NONE)
+		if ((overwrite_result != OVERWRITE_RESULT_ALL)
+		    && (overwrite_result != OVERWRITE_RESULT_NONE))
+			overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
+
+		while ((overwrite_result == OVERWRITE_RESULT_UNSPECIFIED)
 		       && file_exists) {
 
 			overwrite_result = dlg_overwrite_run (window,
@@ -981,6 +983,7 @@ dlg_file_rename_series (GthWindow *window,
 							      new_full_path,
 							      show_ow_all_none,
 							      &new_name);
+
 			if (overwrite_result == OVERWRITE_RESULT_RENAME) {
 				char *parent_dir;
 
@@ -988,9 +991,10 @@ dlg_file_rename_series (GthWindow *window,
 				new_full_path = g_build_path ("/", parent_dir,  new_name, NULL);
 				g_free (parent_dir);
 				g_free (new_name);
-			}
 
-			file_exists = path_is_file (new_full_path);
+				overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
+				file_exists = path_is_file (new_full_path);
+			}
 		}
 
 		if (file_exists
@@ -1357,6 +1361,9 @@ copy_current_file__overwrite (OverwriteResult  result,
 	case OVERWRITE_RESULT_NO:
 	case OVERWRITE_RESULT_NONE:
 		copy_next_file (fcdata);
+		break;
+
+	default:
 		break;
 	}
 }

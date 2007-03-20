@@ -62,7 +62,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 					     GthBrowser *browser)
 {
 	const char *path;
-        char       *uri = NULL;
+	char       *uri = NULL;
 	GtkWidget  *new_browser;
 
 	switch (gth_browser_get_sidebar_content (browser)) {
@@ -515,9 +515,9 @@ catalog_rename (GthBrowser *browser,
 
 		utf8_name = gnome_vfs_unescape_string_for_display (name_only);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-                                       is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
-                                       utf8_name,
-                                       errno_to_string ());
+				       is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
+				       utf8_name,
+				       errno_to_string ());
 		g_free (utf8_name);
 	}
 
@@ -728,9 +728,9 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 
 		utf8_name = gnome_vfs_unescape_string_for_display (new_name);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-                                       _("Could not create the catalog \"%s\": %s"),
-                                       utf8_name,
-                                       errno_to_string ());
+				       _("Could not create the catalog \"%s\": %s"),
+				       utf8_name,
+				       errno_to_string ());
 		g_free (utf8_name);
 	}
 
@@ -804,9 +804,9 @@ create_new_folder_or_library (GthBrowser *browser,
 
 		utf8_path = gnome_vfs_unescape_string_for_display (new_path);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-                                       str_error,
-                                       utf8_path,
-                                       errno_to_string ());
+				       str_error,
+				       utf8_path,
+				       errno_to_string ());
 		g_free (utf8_path);
 	} else
 		all_windows_notify_directory_new (new_path);
@@ -1210,14 +1210,19 @@ static void
 folder_copy__continue (GnomeVFSResult result,
 		       gpointer       data)
 {
-	char *path = data;
+	GtkWidget *file_sel = data;
+	GthWindow *window;
+	char      *new_path;
+
+	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
+	new_path = g_object_get_data (G_OBJECT (file_sel), "new_path");
 
 	if (result != GNOME_VFS_OK) {
 		const char *message;
 		char       *utf8_name;
 
 		message = _("Could not copy the folder \"%s\": %s");
-		utf8_name = basename_for_display (path);
+		utf8_name = basename_for_display (new_path);
 
 		_gtk_error_dialog_run (NULL,
 				       message,
@@ -1225,8 +1230,11 @@ folder_copy__continue (GnomeVFSResult result,
 				       gnome_vfs_result_to_string (result));
 		g_free (utf8_name);
 	}
+	else if (gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel)))
+		gth_browser_go_to_directory (GTH_BROWSER (window), new_path);
 
-	g_free (path);
+	if (file_sel != NULL)
+		gtk_widget_destroy (file_sel);
 }
 
 
@@ -1307,6 +1315,10 @@ folder_copy__response_cb (GObject *object,
 		g_free (utf8_name);
 
 	} else if (! (move && same_fs)) {
+		g_object_set_data_full (G_OBJECT (file_sel),
+					"new_path",
+					g_strdup (new_path),
+					g_free);
 		dlg_folder_copy (window,
 				 old_path,
 				 new_path,
@@ -1314,7 +1326,8 @@ folder_copy__response_cb (GObject *object,
 				 TRUE,
 				 FALSE,
 				 folder_copy__continue,
-				 g_strdup (old_path));
+				 file_sel);
+		file_sel = NULL;
 
 	} else {
 		char           *old_folder_comment = NULL;
@@ -1322,7 +1335,7 @@ folder_copy__response_cb (GObject *object,
 
 		/* Comment cache. */
 
-		old_folder_comment= comments_get_comment_filename (old_path, TRUE);
+		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
 		result = file_rename (old_path, new_path);
 		if (result == GNOME_VFS_OK) {
@@ -1336,6 +1349,9 @@ folder_copy__response_cb (GObject *object,
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
+
+			if (gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel)))
+				gth_browser_go_to_directory (GTH_BROWSER (window), new_path);
 
 		} else {
 			char *utf8_path;
@@ -1353,7 +1369,8 @@ folder_copy__response_cb (GObject *object,
 
 	g_free (dest_dir);
 	g_free (new_path);
-	gtk_widget_destroy (file_sel);
+	if (file_sel != NULL)
+		gtk_widget_destroy (file_sel);
 }
 
 
@@ -1376,7 +1393,6 @@ folder_copy (GthWindow   *window,
 {
 	GtkWidget *file_sel;
 	char      *parent;
-	char      *start_from;
 
 	if (path == NULL)
 		return;
@@ -1384,11 +1400,8 @@ folder_copy (GthWindow   *window,
 	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
 
 	parent = remove_level_from_path (path);
-	start_from = g_strconcat (parent, "/", NULL);
+	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), parent);
 	g_free (parent);
-
-	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), start_from);
-	g_free (start_from);
 
 	g_object_set_data (G_OBJECT (file_sel), "path", g_strdup (path));
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
@@ -1831,7 +1844,7 @@ void
 gth_browser_activate_action_tools_convert_format (GtkAction  *action,
 						  GthBrowser *browser)
 {
-        dlg_convert (browser);
+	dlg_convert (browser);
 }
 
 
@@ -1916,7 +1929,7 @@ gth_browser_activate_action_view_show_info (GtkAction  *action,
 
 void
 gth_browser_activate_action_view_show_hidden_files (GtkAction  *action,
-					    	    GthBrowser *browser)
+							GthBrowser *browser)
 {
 	eel_gconf_set_boolean (PREF_SHOW_HIDDEN_FILES, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }

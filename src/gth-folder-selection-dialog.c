@@ -124,39 +124,34 @@ static gboolean
 list_view_button_press_cb (GdkEventButton     *event,
 			   GthFolderSelection *folder_sel)
 {
-        GtkTreePath  *path;
-        GtkTreeIter   iter;
-        char         *folder_path, *utf8_folder_path;
+	GtkTreePath  *path;
+	GtkTreeIter   iter;
+	char         *folder_path;
 	BookmarkList *bookmark_list;
 
 	bookmark_list = folder_sel->priv->recent_list;
 
-        if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (bookmark_list->list_view),
-                                             event->x, event->y,
-                                             &path, NULL, NULL, NULL))
-                return FALSE;
+	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (bookmark_list->list_view),
+					     event->x, event->y,
+					     &path, NULL, NULL, NULL))
+		return FALSE;
 
-        if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
 				       &iter,
 				       path)) {
-                gtk_tree_path_free (path);
-                return FALSE;
-        }
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
 
-        gtk_tree_model_get (GTK_TREE_MODEL (bookmark_list->list_store), &iter,
-                            2, &folder_path,
-                            -1);
+	gtk_tree_model_get (GTK_TREE_MODEL (bookmark_list->list_store), &iter,
+			    2, &folder_path,
+			    -1);
+	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel), folder_path);
+	g_free (folder_path);
 
-	utf8_folder_path = g_filename_to_utf8 (folder_path, -1, 0, 0, 0);
+	gtk_tree_path_free (path);
 
-	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
-					 utf8_folder_path);
-
-        g_free (utf8_folder_path);
-        g_free (folder_path);
-        gtk_tree_path_free (path);
-
-        return FALSE;
+	return FALSE;
 }
 
 
@@ -194,8 +189,8 @@ list_view_activated_cb (GtkTreePath        *path,
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
 
-        g_free (utf8_folder_path);
-        g_free (folder_path);
+	g_free (utf8_folder_path);
+	g_free (folder_path);
 
 	gtk_dialog_response (GTK_DIALOG (folder_sel), GTK_RESPONSE_OK);
 }
@@ -351,14 +346,14 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	/**/
 
 	g_signal_connect (G_OBJECT (folder_sel->priv->recent_list->list_view),
-                          "button_press_event",
-                          G_CALLBACK (recent_button_press_cb),
-                          folder_sel);
+			  "button_press_event",
+			  G_CALLBACK (recent_button_press_cb),
+			  folder_sel);
 
 	g_signal_connect (G_OBJECT (folder_sel->priv->recent_list->list_view),
-                          "row_activated",
-                          G_CALLBACK (recent_activated_cb),
-                          folder_sel);
+			  "row_activated",
+			  G_CALLBACK (recent_activated_cb),
+			  folder_sel);
 
 	g_signal_connect (G_OBJECT (folder_sel),
 			  "response",
@@ -375,10 +370,10 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 GType
 gth_folder_selection_get_type ()
 {
-        static GType type = 0;
+	static GType type = 0;
 
-        if (! type) {
-                GTypeInfo type_info = {
+	if (! type) {
+		GTypeInfo type_info = {
 			sizeof (GthFolderSelectionClass),
 			NULL,
 			NULL,
@@ -396,7 +391,7 @@ gth_folder_selection_get_type ()
 					       0);
 	}
 
-        return type;
+	return type;
 }
 
 
