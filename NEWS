@@ -8,6 +8,7 @@ version 2.10.1
 	* Fixed a bug that prevented the user to choose
 	  'overwrite this image' or 'do not overwrite this image' options in 
 	  the overwrite dialog.
+	* Fixed bug #420557 - View > Show/Hide > Toolbar is broken, no display
 
 version 2.10.0
 --------------
