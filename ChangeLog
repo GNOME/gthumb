@@ -1,5 +1,7 @@
 2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* NEWS: updated.
+
 	* data/glade/gthumb_redeye.glade: reverted commit, no string changes
 	are allowed in the stable branch.
 

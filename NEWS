@@ -1,3 +1,14 @@
+version 2.10.1
+--------------
+	Bugfixes:
+	* The progess bar in the import dialog shows the overall download
+	  progress now.  The delete operation is now asynchronous. (#156994)
+	* Go to the destination folder when the 'go to destination folder'
+	  option is active in the copy/move dialogs.
+	* Fixed a bug that prevented the user to choose
+	  'overwrite this image' or 'do not overwrite this image' options in 
+	  the overwrite dialog.
+
 version 2.10.0
 --------------
 	Major bug fixes:
