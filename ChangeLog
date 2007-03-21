@@ -1,3 +1,8 @@
+2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_redeye.glade: reverted commit, no string changes
+	are allowed in the stable branch.
+
 2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c: The progess bar in the import dialog
