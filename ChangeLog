@@ -1,5 +1,10 @@
 2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/thumb-loader.c: (thumb_loader_save_to_cache):
+	Do not thumbnail the thumbnail directory. Bug 414711.
+
+2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-browser.c: (gth_browser_set_toolbar_visibility),
 	(gth_browser_show):
 	* src/gth-viewer.c: (gth_viewer_set_toolbar_visibility):

@@ -9,6 +9,7 @@ version 2.10.1
 	  'overwrite this image' or 'do not overwrite this image' options in 
 	  the overwrite dialog.
 	* Fixed bug #420557 - View > Show/Hide > Toolbar is broken, no display
+	* Fixed bug #414711 - thumbnail explosion if opening ~/.thumbnails
 
 version 2.10.0
 --------------
