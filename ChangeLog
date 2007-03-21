@@ -1,3 +1,7 @@
+2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: removed forgotten debug code
+
 2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_file_mime_type):
