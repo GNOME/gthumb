@@ -1,3 +1,13 @@
+2007-03-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c: insert the function show_grabbing_focus inside the
+	#ifdef HAVE_GTKUNIQUE
+
+	* libgthumb/file-utils.c:
+	* libgthumb/file-utils.h: added remove_host_from_uri and get_uri_host.
+
+	Fixed problems resolving relative symlinks for ssh: URIs (#159884)
+
 2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c: removed forgotten debug code
