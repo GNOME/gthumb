@@ -363,9 +363,9 @@ gth_viewer_set_toolbar_visibility (GthViewer *viewer,
 
 	set_action_active (viewer, "View_Toolbar", visible);
 	if (visible)
-		gtk_widget_show (viewer->priv->toolbar->parent);
+		gtk_widget_show (viewer->priv->toolbar);
 	else
-		gtk_widget_hide (viewer->priv->toolbar->parent);
+		gtk_widget_hide (viewer->priv->toolbar);
 }
 
 

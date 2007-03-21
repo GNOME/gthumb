@@ -4764,9 +4764,9 @@ gth_browser_set_toolbar_visibility (GthBrowser *browser,
 
 	set_action_active (browser, "View_Toolbar", visible);
 	if (visible)
-		gtk_widget_show (browser->priv->toolbar->parent);
+		gtk_widget_show (browser->priv->toolbar);
 	else
-		gtk_widget_hide (browser->priv->toolbar->parent);
+		gtk_widget_hide (browser->priv->toolbar);
 }
 
 
@@ -5507,9 +5507,9 @@ gth_browser_show (GtkWidget  *widget)
 	/* toolbar */
 
 	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE))
-		gtk_widget_show (priv->toolbar->parent);
+		gtk_widget_show (priv->toolbar);
 	else
-		gtk_widget_hide (priv->toolbar->parent);
+		gtk_widget_hide (priv->toolbar);
 
 	set_action_active (browser,
 			   "View_Toolbar",
