@@ -1,11 +1,60 @@
+2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c: (thumb_loader_save_to_cache):
+	Do not thumbnail the thumbnail directory. Bug 414711.
+
+2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (gth_browser_set_toolbar_visibility),
+	(gth_browser_show):
+	* src/gth-viewer.c: (gth_viewer_set_toolbar_visibility):
+	Fixed broken toolbar visibility pref. Bug 420557.
+
+2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* NEWS: updated.
+
+	* data/glade/gthumb_redeye.glade: reverted commit, no string changes
+	are allowed in the stable branch.
+
+2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: The progess bar in the import dialog
+	shows the overall download progress.  The delete operation is now
+	asynchronous. (bug #156994).
+
+2007-03-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_redeye.glade: Use "Position" instead of
+	"Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780
+
+2007-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-folder-selection-dialog.c: do not convert the path to utf8.
+
+	* src/gth-browser-actions-callbacks.c: respect the
+	'go to destination folder' option in the copy/move dialogs.
+
+	* src/dlg-file-utils.c: fixed a bug that prevented the user to choose
+	'overwrite this image' or 'do not overwrite this image' options in the
+	overwrite dialog.
+
+2007-03-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.10.0 released ]
+
+	* NEWS:
+	* README:
+	* configure.in: updated for version 2.10.0
+
 2007-03-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (mime_type_is_tiff),
 	(get_pixbuf_using_external_converter), (gth_pixbuf_new_from_uri):
-	Use tifftopnm and pamscale to generate tiff thumbnails, to reduce 
-	memory usage for very large tiff files. Partially resolves bug 
+	Use tifftopnm and pamscale to generate tiff thumbnails, to reduce
+	memory usage for very large tiff files. Partially resolves bug
 	160460. Hopefully the gdk thumbnailing routines will be improved
-	in the future, obsoleting this.	
+	in the future, obsoleting this.
 
 2007-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

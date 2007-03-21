@@ -508,6 +508,8 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	time_t                  mtime;
 	char                   *cache_dir;
 	char                   *cache_path;
+	char		       *uri_path = NULL;
+	char                   *uri_dir = NULL;
 
 	if (tl == NULL)
 		return FALSE;
@@ -524,6 +526,20 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 
 	if (cache_dir == NULL)
 		return FALSE;
+
+	if (is_local_file (priv->uri)) {
+		uri_path = gnome_vfs_get_local_path_from_uri (priv->uri);
+		uri_dir = remove_level_from_path (uri_path);
+		g_free (uri_path);
+
+		/* Do not save thumbnails from the user's thumbnail directory,
+		   or an endless loop of thumbnailing may be triggered. */
+		if (strcmp_null_tollerant (cache_dir, uri_dir) == 0) {
+			g_free (uri_dir);	
+			return FALSE;
+		}
+		g_free (uri_dir);
+	}
 
 	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))
 		gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
