@@ -853,6 +853,10 @@ get_file_mime_type (const char *filename,
 		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
+		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
+                if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
+                        return "image/x-canon-crw";
+
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
 

@@ -1,5 +1,11 @@
 2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	CR2 files sometimes misdetected as TIFF. Add special
+	override, like we do for NEF files.
+
+2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/thumb-loader.c: (thumb_loader_save_to_cache):
 	Do not thumbnail the thumbnail directory. Bug 414711.
 
