@@ -177,12 +177,12 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_color_balance) },
 
 	{ "AlterImage_Resize", GTHUMB_STOCK_RESIZE,
-	  N_("_Resize..."), NULL,
+	  N_("_Resize..."), "<alt>r",
 	  N_("Resize image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_resize) },
 
 	{ "AlterImage_Crop", GTHUMB_STOCK_CROP,
-	  N_("_Crop..."), NULL,
+	  N_("_Crop..."), "<alt>c",
 	  N_("Crop image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_crop) },
 

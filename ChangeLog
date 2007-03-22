@@ -1,3 +1,8 @@
+2007-03-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-window-actions-entries.h:
+	Added Alt+C for crop, Alt+R for resize.
+
 2007-03-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-search.c:
