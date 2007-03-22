@@ -1,5 +1,11 @@
 2007-03-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-search.c:
+	* libgthumb/gth-image-list.c:
+	* libgthumb/gth-file-list.c: stop loading the thumbnails before closing
+	the search progress dialog.  Remove all timeouts before finalizing the
+	gth_file_list.  Attempt to fix bug #420788.
+
 	* src/main.c: insert the function show_grabbing_focus inside the
 	#ifdef HAVE_GTKUNIQUE
 

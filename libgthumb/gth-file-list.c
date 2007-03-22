@@ -104,10 +104,13 @@ struct _GthFileListPrivateData {
 	guint          scroll_timer;
 	gboolean       update_thumb_in_image_list;
 
+	GnomeVFSAsyncHandle *get_file_list_handle;
+
 	/**/
 
 	gboolean       stop_it;
 	gboolean       loading_thumbs;
+	gboolean       finalizing;
 	GList         *queue; /* list of GthFileListOp */
 };
 
@@ -732,6 +735,10 @@ gth_file_list_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_FILE_LIST (object));
 	file_list = GTH_FILE_LIST (object);
 
+	file_list->priv->finalizing = TRUE;
+	file_list->view = NULL;
+	gth_file_list_stop (file_list);
+
 	if (file_list->priv->thumb_fd != NULL) {
 		file_data_unref (file_list->priv->thumb_fd);
 		file_list->priv->thumb_fd = NULL;
@@ -795,10 +802,10 @@ update_thumbnails_cb (gpointer data)
 {
 	GthFileList *file_list = data;
 
-	if (file_list->priv->scroll_timer != 0)
+	if (file_list->priv->scroll_timer != 0) {
 		g_source_remove (file_list->priv->scroll_timer);
-	file_list->priv->scroll_timer = 0;
-
+		file_list->priv->scroll_timer = 0;
+	}
 	gth_file_list_restart_thumbs (file_list, TRUE);
 
 	return FALSE;
@@ -821,8 +828,8 @@ file_list_adj_value_changed (GtkAdjustment *adj,
 	}
 
 	file_list->priv->scroll_timer = g_timeout_add (SCROLL_DELAY,
-						 update_thumbnails_cb,
-						 file_list);
+						       update_thumbnails_cb,
+						       file_list);
 
 	return FALSE;
 }
@@ -1069,10 +1076,11 @@ add_list_in_chunks (gpointer callback_data)
 		gfi_data->timeout_id = 0;
 	}
 
-	if (file_list->priv->stop_it) {
+	if (file_list->priv->finalizing || file_list->priv->stop_it) {
 		gfi_data->destroyed = TRUE;
 		file_list->priv->load_thumbs = file_list->enable_thumbs;
-		g_idle_add (add_list_in_chunks_stopped, gfi_data);
+		if (! file_list->priv->finalizing)
+			g_idle_add (add_list_in_chunks_stopped, gfi_data);
 		return FALSE;
 	}
 
@@ -1155,6 +1163,13 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		return;
 
 	file_list = gfi_data->file_list;
+	file_list->priv->get_file_list_handle = NULL;
+
+	if (file_list->priv->finalizing) {
+		get_file_info_data_free (gfi_data);
+		return;
+	}
+
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
 	if (file_list->priv->stop_it) {
@@ -1188,10 +1203,12 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 static void
 load_new_list (GthFileList *file_list)
 {
-	GetFileInfoData     *gfi_data;
-	GnomeVFSAsyncHandle *handle;
-	GList               *scan;
-	gboolean             fast_file_type;
+	GetFileInfoData *gfi_data;
+	GList           *scan;
+	gboolean         fast_file_type;
+
+	if (file_list->priv->stop_it)
+		return;
 
 	if (file_list->priv->new_list == NULL) {
 		add_list_done (file_list);
@@ -1250,7 +1267,7 @@ load_new_list (GthFileList *file_list)
 	path_list_free (gfi_data->new_list);
 	gfi_data->new_list = NULL;
 
-	gnome_vfs_async_get_file_info (&handle,
+	gnome_vfs_async_get_file_info (&file_list->priv->get_file_list_handle,
 				       gfi_data->uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT
 					| GNOME_VFS_FILE_INFO_FOLLOW_LINKS),
@@ -1338,6 +1355,9 @@ gth_file_list_add_list (GthFileList *file_list,
 void
 gth_file_list_stop (GthFileList *file_list)
 {
+	if (file_list->priv->get_file_list_handle != NULL)
+		gnome_vfs_async_cancel (file_list->priv->get_file_list_handle);
+
 	path_list_free (file_list->priv->new_list);
 	file_list->priv->new_list = NULL;
 	gth_file_list_clear_queue (file_list);

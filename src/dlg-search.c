@@ -173,7 +173,7 @@ remove_folder_comment_cb (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
 	comment_data_free (value);
-        return TRUE;
+	return TRUE;
 }
 
 
@@ -344,16 +344,17 @@ static void
 view_result_cb (GtkWidget  *widget,
 		DialogData *data)
 {
-	Catalog      *catalog;
-	char         *catalog_name, *catalog_path, *catalog_name_utf8;
-	GList        *scan;
-	GError       *gerror;
+	Catalog *catalog;
+	char    *catalog_name, *catalog_path, *catalog_name_utf8;
+	GList   *scan;
+	GError  *gerror;
 
 	if (data->files == NULL)
 		return;
 
-	catalog = catalog_new ();
+	cancel_progress_dlg_cb (widget, data);
 
+	catalog = catalog_new ();
 	catalog_name_utf8 = g_strconcat (_("Search Result"),
 					 CATALOG_EXT,
 					 NULL);
@@ -373,9 +374,10 @@ view_result_cb (GtkWidget  *widget,
 
 	gth_browser_go_to_catalog (data->browser, catalog_path);
 
-	gtk_widget_destroy (data->search_progress_dialog);
 	catalog_free (catalog);
 	g_free (catalog_path);
+
+	gtk_widget_destroy (data->search_progress_dialog);
 }
 
 
@@ -441,6 +443,7 @@ static void
 cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
+	gth_file_list_stop (data->file_list);
 	if (data->handle == NULL)
 		return;
 	gnome_vfs_async_cancel (data->handle);
