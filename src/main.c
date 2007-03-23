@@ -619,6 +619,9 @@ load_session (gboolean use_factory)
 }
 
 
+#ifdef HAVE_GTKUNIQUE
+
+
 static void
 show_grabbing_focus (GtkWidget *new_window)
 {
@@ -652,7 +655,6 @@ show_grabbing_focus (GtkWidget *new_window)
 }
 
 
-#ifdef HAVE_GTKUNIQUE
 static GtkUniqueResponse
 application_message_cb (GtkUniqueApp     *app,
 			GtkUniqueCommand  command,

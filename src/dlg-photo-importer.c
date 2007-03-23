@@ -23,7 +23,6 @@
 
 #include <config.h>
 
-#define HAVE_LIBGPHOTO 1
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>

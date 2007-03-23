@@ -149,6 +149,8 @@ const char *        get_catalog_path_from_uri     (const char       *uri);
 const char *        get_search_path_from_uri      (const char       *uri);
 const char *        remove_scheme_from_uri        (const char       *uri);
 char *              get_uri_scheme                (const char       *uri);
+const char *        remove_host_from_uri          (const char       *uri);
+char *              get_uri_host                  (const char       *uri);
 char *              get_base_uri                  (const char       *uri);
 gboolean            uri_has_scheme                (const char       *uri);
 gboolean            uri_scheme_is_file            (const char       *uri);

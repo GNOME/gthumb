@@ -1,3 +1,39 @@
+2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (prune_cache):
+	Fix cache-pruning command on Solaris (bug 421787).
+
+2007-03-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-window-actions-entries.h:
+	Added Alt+C for crop, Alt+R for resize.
+
+2007-03-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-search.c:
+	* libgthumb/gth-image-list.c:
+	* libgthumb/gth-file-list.c: stop loading the thumbnails before closing
+	the search progress dialog.  Remove all timeouts before finalizing the
+	gth_file_list.  Attempt to fix bug #420788.
+
+	* src/main.c: insert the function show_grabbing_focus inside the
+	#ifdef HAVE_GTKUNIQUE
+
+	* libgthumb/file-utils.c:
+	* libgthumb/file-utils.h: added remove_host_from_uri and get_uri_host.
+
+	Fixed problems resolving relative symlinks for ssh: URIs (#159884)
+
+2007-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: removed forgotten debug code
+
+2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	CR2 files sometimes misdetected as TIFF. Add special
+	override, like we do for NEF files.
+
 2007-03-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c: (thumb_loader_save_to_cache):

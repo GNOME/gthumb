@@ -493,6 +493,16 @@ gth_image_list_finalize (GObject *object)
 	image_list = (GthImageList*) object;
 	priv = image_list->priv;
 
+	if (priv->layout_timeout != 0) {
+		g_source_remove (priv->layout_timeout);
+		priv->layout_timeout = 0;
+	}
+
+	if (priv->timer_tag != 0) {
+		g_source_remove (priv->timer_tag);
+		priv->timer_tag = 0;
+	}
+
 	if (priv->image_list != NULL)
 		image_list_free (image_list);
 
@@ -547,7 +557,7 @@ gth_image_list_finalize (GObject *object)
 	g_free (image_list->priv);
 	image_list->priv = NULL;
 
-        /* Chain up */
+	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -1460,7 +1470,7 @@ paint_item (GthImageList     *image_list,
 			   image_list->priv->enable_thumbs);
 
 	if (item->selected) {
-                GdkGC *sel_gc;
+		GdkGC *sel_gc;
 
 		sel_gc = gdk_gc_new (image_list->priv->bin_window);
 		gdk_gc_copy (sel_gc, widget->style->base_gc[state]);
@@ -1475,7 +1485,7 @@ paint_item (GthImageList     *image_list,
 				    image_list->priv->max_item_width + (FRAME_SELECTION_BORDER * 2) - 2);
 
 		g_object_unref (sel_gc);
-        }
+	}
 
 	/* Image */
 
@@ -1815,15 +1825,15 @@ set_scroll_adjustments (GthImageList  *image_list,
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
 
-        if (hadj != NULL)
-                g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
-        else
-                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
+	if (hadj != NULL)
+		g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
+	else
+		hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
-        if (vadj != NULL)
-                g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
-        else
+	if (vadj != NULL)
+		g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
+	else
 		vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
 							   0.0, 0.0, 0.0));
 
@@ -1833,7 +1843,7 @@ set_scroll_adjustments (GthImageList  *image_list,
 						      image_list);
 		g_object_unref (image_list->priv->hadjustment);
 		image_list->priv->hadjustment = NULL;
-        }
+	}
 
 	if ((image_list->priv->vadjustment != NULL)
 	    && (image_list->priv->vadjustment != vadj)) {
@@ -1841,12 +1851,12 @@ set_scroll_adjustments (GthImageList  *image_list,
 						      image_list);
 		g_object_unref (image_list->priv->vadjustment);
 		image_list->priv->vadjustment = NULL;
-        }
+	}
 
-        if (image_list->priv->hadjustment != hadj) {
-                image_list->priv->hadjustment = hadj;
-                g_object_ref (image_list->priv->hadjustment);
-                gtk_object_sink (GTK_OBJECT (image_list->priv->hadjustment));
+	if (image_list->priv->hadjustment != hadj) {
+		image_list->priv->hadjustment = hadj;
+		g_object_ref (image_list->priv->hadjustment);
+		gtk_object_sink (GTK_OBJECT (image_list->priv->hadjustment));
 
 		g_signal_connect (G_OBJECT (image_list->priv->hadjustment),
 				  "value_changed",
@@ -1856,12 +1866,12 @@ set_scroll_adjustments (GthImageList  *image_list,
 				  "changed",
 				  G_CALLBACK (gth_image_list_adjustment_changed),
 				  image_list);
-        }
+	}
 
-        if (image_list->priv->vadjustment != vadj) {
-                image_list->priv->vadjustment = vadj;
-                g_object_ref (image_list->priv->vadjustment);
-                gtk_object_sink (GTK_OBJECT (image_list->priv->vadjustment));
+	if (image_list->priv->vadjustment != vadj) {
+		image_list->priv->vadjustment = vadj;
+		g_object_ref (image_list->priv->vadjustment);
+		gtk_object_sink (GTK_OBJECT (image_list->priv->vadjustment));
 
 		g_signal_connect (G_OBJECT (image_list->priv->vadjustment),
 				  "value_changed",
@@ -1871,7 +1881,7 @@ set_scroll_adjustments (GthImageList  *image_list,
 				  "changed",
 				  G_CALLBACK (gth_image_list_adjustment_changed),
 				  image_list);
-        }
+	}
 }
 
 
@@ -2316,10 +2326,10 @@ gth_image_list_pos_is_selected (GthImageList     *image_list,
 	GList *scan;
 
 	for (scan = image_list->priv->selection; scan; scan = scan->next)
-                if (GPOINTER_TO_INT (scan->data) == pos)
+		if (GPOINTER_TO_INT (scan->data) == pos)
 			return TRUE;
 
-        return FALSE;
+	return FALSE;
 }
 
 
@@ -2333,7 +2343,7 @@ gth_image_list_get_first_selected (GthImageList *image_list)
 		return -1;
 
 	pos = GPOINTER_TO_INT (scan->data);
-        for (scan = scan->next; scan; scan = scan->next)
+	for (scan = scan->next; scan; scan = scan->next)
 		pos = MIN (pos, GPOINTER_TO_INT (scan->data));
 
 	return pos;
@@ -2350,7 +2360,7 @@ gth_image_list_get_last_selected (GthImageList *image_list)
 		return -1;
 
 	pos = GPOINTER_TO_INT (scan->data);
-        for (scan = scan->next; scan; scan = scan->next)
+	for (scan = scan->next; scan; scan = scan->next)
 		pos = MAX (pos, GPOINTER_TO_INT (scan->data));
 
 	return pos;
@@ -2993,7 +3003,7 @@ real_move_cursor (GthImageList       *image_list,
 		return FALSE;
 
 	images_per_line = gth_image_list_get_items_per_line (image_list);
-        new_focused_item = priv->focused_item;
+	new_focused_item = priv->focused_item;
 
 	if (priv->focused_item == -1) {
 		priv->old_focused_item = 0;
@@ -3171,11 +3181,11 @@ real_set_cursor (GthImageList *image_list,
 
 	stop_dragging (image_list);
 
-        if (priv->focused_item >= 0) {
+	if (priv->focused_item >= 0) {
 		link = g_list_nth (priv->image_list, priv->focused_item);
 		if (link != NULL)
 			old_item = link->data;
-        }
+	}
 
 	link = g_list_nth (priv->image_list, pos);
 	g_return_if_fail (link != NULL);
@@ -3210,22 +3220,22 @@ real_start_interactive_search (GthImageList *image_list)
 
 static void
 add_move_binding (GtkBindingSet     *binding_set,
-                  guint              keyval,
+		  guint              keyval,
 		  GthCursorMovement  dir)
 {
-        gtk_binding_entry_add_signal (binding_set, keyval, 0,
+	gtk_binding_entry_add_signal (binding_set, keyval, 0,
 				      "move_cursor", 2,
-                                      G_TYPE_ENUM, dir,
+				      G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_SET);
 
-        gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK,
 				      "move_cursor", 2,
-                                      G_TYPE_ENUM, dir,
+				      G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_NONE);
 
 	gtk_binding_entry_add_signal (binding_set, keyval, GDK_SHIFT_MASK,
 				      "move_cursor", 2,
-                                      G_TYPE_ENUM, dir,
+				      G_TYPE_ENUM, dir,
 				      G_TYPE_ENUM, GTH_SELCHANGE_SET_RANGE);
 }
 
@@ -3322,13 +3332,13 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 	image_list_class->move_cursor             = real_move_cursor;
 	image_list_class->select_all              = key_binding_select_all;
 	image_list_class->unselect_all            = key_binding_unselect_all;
-        image_list_class->set_cursor_selection    = real_set_cursor_selection;
-        image_list_class->toggle_cursor_selection = real_toggle_cursor_selection;
+	image_list_class->set_cursor_selection    = real_set_cursor_selection;
+	image_list_class->toggle_cursor_selection = real_toggle_cursor_selection;
 	image_list_class->start_interactive_search = real_start_interactive_search;
 
 	/* Signals */
 
-        widget_class->set_scroll_adjustments_signal =
+	widget_class->set_scroll_adjustments_signal =
 		g_signal_new ("set_scroll_adjustments",
 			      G_TYPE_FROM_CLASS (image_list_class),
 			      G_SIGNAL_RUN_LAST,
@@ -3364,7 +3374,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
-        image_list_signals[MOVE_CURSOR] =
+	image_list_signals[MOVE_CURSOR] =
 		g_signal_new ("move_cursor",
 			      G_TYPE_FROM_CLASS (gobject_class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -3463,7 +3473,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 
 	/* Key bindings */
 
-        binding_set = gtk_binding_set_by_class (image_list_class);
+	binding_set = gtk_binding_set_by_class (image_list_class);
 
 	add_move_binding (binding_set, GDK_Right, GTH_CURSOR_MOVE_RIGHT);
 	add_move_binding (binding_set, GDK_Left, GTH_CURSOR_MOVE_LEFT);
@@ -3474,21 +3484,21 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 	add_move_binding (binding_set, GDK_Home, GTH_CURSOR_MOVE_BEGIN);
 	add_move_binding (binding_set, GDK_End, GTH_CURSOR_MOVE_END);
 
-        gtk_binding_entry_add_signal (binding_set, GDK_space, 0,
+	gtk_binding_entry_add_signal (binding_set, GDK_space, 0,
 				      "set_cursor_selection", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_space, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_space, GDK_CONTROL_MASK,
 				      "toggle_cursor_selection", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_a, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_a, GDK_CONTROL_MASK,
 				      "select_all", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_slash, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_slash, GDK_CONTROL_MASK,
 				      "select_all", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_A, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_A, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
 				      "unselect_all", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_backslash, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_backslash, GDK_CONTROL_MASK,
 				      "unselect_all", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_f, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_f, GDK_CONTROL_MASK,
 				      "start_interactive_search", 0);
-        gtk_binding_entry_add_signal (binding_set, GDK_F, GDK_CONTROL_MASK,
+	gtk_binding_entry_add_signal (binding_set, GDK_F, GDK_CONTROL_MASK,
 				      "start_interactive_search", 0);
 }
 
@@ -3540,15 +3550,15 @@ gth_image_list_get_type (void)
 			sizeof (GthImageList),
 			0,
 			(GInstanceInitFunc) gth_image_list_init
-                };
+		};
 
 		type = g_type_register_static (GTK_TYPE_CONTAINER,
 					       "GthImageList",
 					       &type_info,
-                                               0);
-        }
+					       0);
+	}
 
-        return type;
+	return type;
 }
 
 
@@ -3696,7 +3706,7 @@ image_list_insert_item (GthImageList     *image_list,
 
 static char *
 truncate_comment_if_needed (GthImageList  *image_list,
-                            const char    *comment)
+			    const char    *comment)
 {
 	char *result;
 	int   max_len;
@@ -3708,7 +3718,7 @@ truncate_comment_if_needed (GthImageList  *image_list,
 	if (!GTK_WIDGET_REALIZED (image_list))
 		gtk_widget_realize (GTK_WIDGET (image_list));
 
-        if (*comment == 0)
+	if (*comment == 0)
 		return g_strdup ("");
 	max_len = (image_list->priv->max_item_width / image_list->priv->approx_char_width) * COMMENT_MAX_LINES;
 	comment_len = g_utf8_strlen (comment, -1);
@@ -4370,7 +4380,7 @@ gth_image_list_get_image_at (GthImageList *image_list,
 
 static int
 default_compare (gconstpointer  ptr1,
-                 gconstpointer  ptr2)
+		 gconstpointer  ptr2)
 {
 	return 0;
 }
@@ -4472,8 +4482,8 @@ gth_image_list_set_no_image_text (GthImageList *image_list,
 
 void
 gth_image_list_set_visible_func (GthImageList   *image_list,
-			         GthVisibleFunc  func,
-                      		 gpointer        data)
+				 GthVisibleFunc  func,
+				       gpointer        data)
 {
 	GthImageListPrivate *priv = image_list->priv;
 	GList               *scan;

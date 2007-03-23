@@ -853,6 +853,10 @@ get_file_mime_type (const char *filename,
 		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
+		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
+                if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
+                        return "image/x-canon-crw";
+
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
 
@@ -1213,6 +1217,36 @@ get_uri_scheme (const char *uri)
 }
 
 
+const char *
+remove_host_from_uri (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return uri;
+	idx = strstr (idx + 3, "/");
+	if (idx == NULL)
+		return NULL;
+	return idx + 1;
+}
+
+
+char *
+get_uri_host (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return NULL;
+	idx = strstr (idx + 3, "/");
+	if (idx == NULL)
+		return NULL;
+	return g_strndup (uri, (idx - uri));
+}
+
+
 gboolean
 uri_has_scheme (const char *uri)
 {
@@ -1564,7 +1598,7 @@ remove_special_dirs_from_path (const char *uri)
 {
 	const char  *path;
 	char       **pathv;
-	GList       *list = NULL, *scan;
+	GList       *list = NULL;
 	int          i;
 	GString     *result_s;
 	char        *scheme;
@@ -1610,7 +1644,7 @@ remove_special_dirs_from_path (const char *uri)
 	if (scheme != NULL) {
 		g_string_append (result_s, scheme);
 
-		if (start_at==0)
+		if (start_at == 0)
 			/* delete trailing slash, because an extra one is added below */
 			g_string_truncate (result_s, result_s->len - 1);
 
@@ -1620,6 +1654,8 @@ remove_special_dirs_from_path (const char *uri)
 	if (list == NULL)
 		g_string_append_c (result_s, '/');
 	else {
+		GList *scan;
+
 		list = g_list_reverse (list);
 		for (scan = list; scan; scan = scan->next) {
 			g_string_append_c (result_s, '/');
@@ -1696,6 +1732,7 @@ resolve_symlinks (const char  *text_uri,
 	char 		  *uri;
 	char              *tmp;
 	GnomeVFSFileInfo  *info;
+	const char        *path;
 	char             **names;
 	int                i;
 
@@ -1708,7 +1745,7 @@ resolve_symlinks (const char  *text_uri,
 
 	info = gnome_vfs_file_info_new ();
 
-	resolved_uri = get_uri_scheme (text_uri);
+	resolved_uri = get_uri_host (text_uri);
 	if (resolved_uri == NULL)
 		resolved_uri = g_strdup ("file://");
 
@@ -1718,7 +1755,13 @@ resolve_symlinks (const char  *text_uri,
 
 	/* split the uri and resolve one name at a time. */
 
-	names = g_strsplit (remove_scheme_from_uri (uri), GNOME_VFS_URI_PATH_STR, -1);
+	path = remove_host_from_uri (uri);
+	if (path == NULL) {
+		*resolved_text_uri = resolved_uri;
+		return GNOME_VFS_OK;
+	}
+
+	names = g_strsplit (path, GNOME_VFS_URI_PATH_STR, -1);
 	g_free (uri);
 
 	for (i = 0; (result == GNOME_VFS_OK) && (names[i] != NULL); i++) {
@@ -1734,6 +1777,7 @@ resolve_symlinks (const char  *text_uri,
 		gnome_vfs_file_info_clear (info);
 
 		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
+
 		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
 		if (result != GNOME_VFS_OK) {
 			g_free (try_uri);
@@ -1796,7 +1840,7 @@ resolve_symlinks (const char  *text_uri,
 		/* if the symlink is absolute reset the base uri, else use
 		 * the currently resolved uri as base. */
 
-	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) { 
+	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) {
 	    		g_free (resolved_uri);
 	    		base_uri = get_uri_scheme (text_uri);
 	    	} else
@@ -2435,7 +2479,7 @@ prune_cache (const char *dir, int max_age_in_days)
 	char *command;
 
 	/* Purge old cache files. */
-	command = g_strdup_printf ("find %s/%s -mindepth 1 -type f -ctime +%d -print0 | xargs -0 rm -rf",
+	command = g_strdup_printf ("find %s/%s -type f -ctime +%d | xargs rm -rf",
 				   g_get_home_dir (),
 				   dir,
 				   max_age_in_days);
@@ -2593,8 +2637,8 @@ get_pixbuf_using_external_converter (const char *url,
 						" > ",
 						cache_file_esc,
 						NULL );
-		} 
-		
+		}
+
 		if (is_hdr) {
 			/* HDR files. We can use the pfssize tool to speed up
 			   thumbnail generation considerably, so we treat
@@ -2619,11 +2663,11 @@ get_pixbuf_using_external_converter (const char *url,
 
 		if (is_tiff) {
 			/* The standard gdk thumbnailer doesn't handle large-dimension tiff
-			   images elegantly, bugs 142428 and 160460. Memory blows up. We can 
+			   images elegantly, bugs 142428 and 160460. Memory blows up. We can
 			   do it more efficiently. */
 
-			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s", 
-					 	    input_file_esc, 
+			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s",
+					 	    input_file_esc,
 						    requested_width_if_used,
 						    requested_height_if_used,
 						    cache_file_esc);
@@ -2731,7 +2775,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
 	if ((pixbuf == NULL) &&
-	     (mime_type_is_raw (mime_type) || 	
+	     (mime_type_is_raw (mime_type) ||
 	      mime_type_is_hdr (mime_type) ||
 	      (mime_type_is_tiff (mime_type) && (requested_width_if_used > 0))))
 		pixbuf = get_pixbuf_using_external_converter (local_file,
