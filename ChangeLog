@@ -1,5 +1,14 @@
 2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/jpegutils/jpegtran.c: (jpegtran_internal),
+	(jpegtran_thumbnail), (jpegtran):
+	* libgthumb/jpegutils/jpegtran.h:
+	* src/rotation-utils.c: (jpeg_mcu_dialog),
+	(apply_transformation_jpeg): Do not add APPn and COM markers to
+	the EXIF thumbnail. Bug 411861. Patch by Jef Driesen.
+
+2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (prune_cache):
 	Fix cache-pruning command on Solaris (bug 421787).
 

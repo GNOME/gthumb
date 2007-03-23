@@ -28,8 +28,7 @@
 #include <glib.h>
 #include "transupp.h"
 
-typedef boolean (*jpegtran_mcu_callback) (const char  *path,
-					  JXFORM_CODE *transform,
+typedef boolean (*jpegtran_mcu_callback) (JXFORM_CODE *transform,
 					  boolean     *trim,
 					  void        *userdata);
 

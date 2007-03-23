@@ -327,10 +327,10 @@ jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
 
 
 static int
-jpegtran_internal (const char                    *path,
-		   struct jpeg_decompress_struct *srcinfo,
+jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 		   struct jpeg_compress_struct   *dstinfo,
 		   JXFORM_CODE                    transformation,
+		   JCOPY_OPTION                   option,
 		   jpegtran_mcu_callback          callback,
 		   void                          *userdata)
 {
@@ -343,7 +343,7 @@ jpegtran_internal (const char                    *path,
 	transformoption.force_grayscale = FALSE;
 
 	/* Enable saving of extra markers that we want to copy */
-	jcopy_markers_setup (srcinfo, JCOPYOPT_ALL);
+	jcopy_markers_setup (srcinfo, option);
 
 	/* Read file header */
 	(void) jpeg_read_header (srcinfo, TRUE);
@@ -361,7 +361,7 @@ jpegtran_internal (const char                    *path,
 			transformoption.trim = TRUE;
 		}
 		else if ((callback == JPEGTRAN_MCU_CANCEL) ||
-			  ! callback (path, &transformoption.transform, &transformoption.trim, userdata)) {
+			  ! callback (&transformoption.transform, &transformoption.trim, userdata)) {
 			// Abort transform
 			return 1;
 		}
@@ -380,11 +380,20 @@ jpegtran_internal (const char                    *path,
 
 	/* Initialize destination compression parameters from source values */
 	jpeg_copy_critical_parameters (srcinfo, dstinfo);
+	
+	
+	/* Do not output a JFIF marker for EXIF thumbnails. 
+	 * This is not the optimal way to detect the difference 
+	 * between a thumbnail and a normal image, but it works
+	 * well for gThumb. */
+	if (option == JCOPYOPT_NONE) {
+		dstinfo->write_JFIF_header = FALSE;
+	}
 
 	/* Adjust the markers to create a standard EXIF file if an EXIF marker
 	 * is present in the input. By default, libjpeg creates a JFIF file, 
 	 * which is incompatible with the EXIF standard. */
-	jcopy_markers_exif (srcinfo, dstinfo, JCOPYOPT_ALL);
+	jcopy_markers_exif (srcinfo, dstinfo, option);
 
 	/* Adjust destination parameters if required by transform options;
 	 * also find out which set of coefficient arrays will hold the output.
@@ -399,7 +408,7 @@ jpegtran_internal (const char                    *path,
 
 	/* Copy to the output file any extra markers that we want to
 	 * preserve */
-	jcopy_markers_execute (srcinfo, dstinfo, JCOPYOPT_ALL);
+	jcopy_markers_execute (srcinfo, dstinfo, option);
 
 	/* Execute image transformation, if any */
 	jtransform_execute_transformation (srcinfo,
@@ -474,7 +483,7 @@ jpegtran_thumbnail (const void   *idata,
 	jpeg_memory_dest (&dstinfo, odata, osize);
 
 	/* Apply transformation */
-	if (jpegtran_internal ("", &srcinfo, &dstinfo, transformation, NULL, NULL) != 0) {
+	if (jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_NONE, NULL, NULL) != 0) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		return 1;
@@ -566,7 +575,7 @@ jpegtran (const char             *input_filename,
 	jpeg_stdio_dest (&dstinfo, output_file);
 
 	/* Apply transformation */
-	if (jpegtran_internal (input_filename, &srcinfo, &dstinfo, transformation, callback, userdata) != 0) {
+	if (jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_ALL, callback, userdata) != 0) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);
