@@ -2456,7 +2456,7 @@ prune_cache (void)
 				g_get_home_dir (),
 				"/",
 				RC_REMOTE_CACHE_DIR,
-				" -mindepth 1 -type f -ctime +2 -print0 | xargs -0 rm -rf",
+				" -type f -ctime +2 | xargs rm -rf",
 				NULL );
 	system (command);
 	g_free (command);
