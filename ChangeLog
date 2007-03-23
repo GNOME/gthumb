@@ -1,5 +1,9 @@
 2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS: general updates.
+
+2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/jpegutils/jpegtran.c: (jpegtran_internal),
 	(jpegtran_thumbnail), (jpegtran):
 	* libgthumb/jpegutils/jpegtran.h:
