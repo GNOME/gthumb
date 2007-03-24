@@ -69,13 +69,17 @@
 #define REFRESH_RATE 10
 
 
+typedef struct _DialogData DialogData;
+typedef struct _AsyncOperationData AsyncOperationData;
+
+
 typedef enum {
 	GTH_IMPORTER_OP_LIST_ABILITIES,
 	GTH_IMPORTER_OP_AUTO_DETECT
 } GthImporterOp;
 
 
-typedef struct {
+struct _DialogData {
 	GthBrowser     *browser;
 	GladeXML       *gui;
 
@@ -147,7 +151,150 @@ typedef struct {
 
 	guint                idle_id;
 
-} DialogData;
+	AsyncOperationData  *aodata;
+};
+
+
+/* Pseudo-Async Operation */
+
+
+#define ASYNC_STEP_TIMEOUT 60
+
+typedef void (*AsyncOpFunc) (AsyncOperationData *aodata,
+			     DialogData         *data);
+
+struct _AsyncOperationData {
+	DialogData  *data;
+	char        *operation_info;
+	GList       *list, *scan;
+	int          total, current;
+	AsyncOpFunc  init_func, step_func, done_func;
+	guint        timer_id;
+};
+
+
+static AsyncOperationData *
+async_operation_new (const char  *operation_info,
+		     GList       *list,
+		     AsyncOpFunc  init_func,
+		     AsyncOpFunc  step_func,
+		     AsyncOpFunc  done_func,
+		     DialogData  *data)
+{
+	AsyncOperationData *aodata;
+
+	aodata = g_new0 (AsyncOperationData, 1);
+
+	if (operation_info != NULL)
+		aodata->operation_info = g_strdup (operation_info);
+	else
+		aodata->operation_info = NULL;
+	aodata->list = list;
+	aodata->init_func = init_func;
+	aodata->step_func = step_func;
+	aodata->done_func = done_func;
+	aodata->data = data;
+	aodata->total = g_list_length (aodata->list);
+	aodata->current = 1;
+
+	return aodata;
+}
+
+
+static void
+async_operation_free (AsyncOperationData *aodata)
+{
+	g_free (aodata->operation_info);
+	g_free (aodata);
+}
+
+
+static void main_dialog_set_sensitive (DialogData *data, gboolean value);
+static void update_info (DialogData *data);
+
+
+static gboolean
+async_operation_step (gpointer callback_data)
+{
+	AsyncOperationData *aodata = callback_data;
+	gboolean            interrupted;
+
+	if (aodata->timer_id != 0) {
+		g_source_remove (aodata->timer_id);
+		aodata->timer_id = 0;
+	}
+
+	g_mutex_lock (aodata->data->yes_or_no);
+	interrupted = aodata->data->interrupted;
+	aodata->data->update_ui = TRUE;
+	aodata->data->fraction = (float) aodata->current / aodata->total;
+	g_mutex_unlock (aodata->data->yes_or_no);
+
+	if ((aodata->scan == NULL) || interrupted) {
+		g_mutex_lock (aodata->data->yes_or_no);
+		aodata->data->async_operation = FALSE;
+		g_mutex_unlock (aodata->data->yes_or_no);
+
+		main_dialog_set_sensitive (aodata->data, TRUE);
+
+		if (aodata->done_func != NULL)
+			(*aodata->done_func) (aodata, aodata->data);
+		async_operation_free (aodata);
+
+		return FALSE;
+	}
+
+	if (aodata->step_func) {
+		(*aodata->step_func) (aodata, aodata->data);
+		update_info (aodata->data);
+	}
+
+	aodata->current++;
+	aodata->scan = aodata->scan->next;
+
+	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT,
+					  async_operation_step,
+					  aodata);
+
+	return FALSE;
+}
+
+
+static void
+async_operation_start (AsyncOperationData *aodata)
+{
+	aodata->timer_id = 0;
+	aodata->scan = aodata->list;
+	aodata->current = 1;
+	if (aodata->init_func)
+		(*aodata->init_func) (aodata, aodata->data);
+
+	main_dialog_set_sensitive (aodata->data, FALSE);
+
+	g_mutex_lock (aodata->data->yes_or_no);
+	aodata->data->async_operation = TRUE;
+	aodata->data->interrupted = FALSE;
+	if (aodata->data->progress_info != NULL)
+		g_free (aodata->data->progress_info);
+	aodata->data->progress_info = g_strdup (aodata->operation_info);
+	g_mutex_unlock (aodata->data->yes_or_no);
+
+	async_operation_step (aodata);
+}
+
+
+static void
+async_operation_cancel (AsyncOperationData *aodata)
+{
+	if (aodata->timer_id == 0)
+		return;
+	g_source_remove (aodata->timer_id);
+	aodata->timer_id = 0;
+	async_operation_free (aodata);
+}
+
+
+/**/
 
 
 /* called when the main dialog is closed. */
@@ -168,6 +315,11 @@ destroy_cb (GtkWidget  *widget,
 	if (data->idle_id != 0) {
 		g_source_remove (data->idle_id);
 		data->idle_id = 0;
+	}
+
+	if (data->aodata != NULL) {
+		async_operation_cancel (data->aodata);
+		data->aodata = NULL;
 	}
 
 	/**/
@@ -511,126 +663,6 @@ main_dialog_set_sensitive (DialogData *data,
 }
 
 
- /**/
-
-
-#define ASYNC_STEP_TIMEOUT 60
-
-typedef struct _AsyncOperationData AsyncOperationData;
-
-typedef void (*AsyncOpFunc) (AsyncOperationData *aodata,
-			     DialogData         *data);
-
-
-struct _AsyncOperationData {
-	DialogData  *data;
-	char        *operation_info;
-	GList       *list, *scan;
-	int          total, current;
-	AsyncOpFunc  init_func, step_func, done_func;
-	guint        timer_id;
-};
-
-
-static AsyncOperationData *
-async_operation_new (const char  *operation_info,
-		     GList       *list,
-		     AsyncOpFunc  init_func,
-		     AsyncOpFunc  step_func,
-		     AsyncOpFunc  done_func,
-		     DialogData  *data)
-{
-	AsyncOperationData *aodata;
-
-	aodata = g_new0 (AsyncOperationData, 1);
-
-	if (operation_info != NULL)
-		aodata->operation_info = g_strdup (operation_info);
-	else
-		aodata->operation_info = NULL;
-	aodata->list = list;
-	aodata->init_func = init_func;
-	aodata->step_func = step_func;
-	aodata->done_func = done_func;
-	aodata->data = data;
-	aodata->total = g_list_length (aodata->list);
-	aodata->current = 1;
-
-	return aodata;
-}
-
-
-static gboolean
-async_operation_step (gpointer callback_data)
-{
-	AsyncOperationData *aodata = callback_data;
-	gboolean            interrupted;
-
-	if (aodata->timer_id != 0) {
-		g_source_remove (aodata->timer_id);
-		aodata->timer_id = 0;
-	}
-
-	g_mutex_lock (aodata->data->yes_or_no);
-	interrupted = aodata->data->interrupted;
-	aodata->data->update_ui = TRUE;
-	aodata->data->fraction = (float) aodata->current / aodata->total;
-	g_mutex_unlock (aodata->data->yes_or_no);
-
-	if ((aodata->scan == NULL) || interrupted) {
-		g_mutex_lock (aodata->data->yes_or_no);
-		aodata->data->async_operation = FALSE;
-		g_mutex_unlock (aodata->data->yes_or_no);
-
-		main_dialog_set_sensitive (aodata->data, TRUE);
-
-		if (aodata->done_func != NULL)
-			(*aodata->done_func) (aodata, aodata->data);
-		g_free (aodata->operation_info);
-		g_free (aodata);
-
-		return FALSE;
-	}
-
-	if (aodata->step_func) {
-		(*aodata->step_func) (aodata, aodata->data);
-		update_info (aodata->data);
-	}
-
-	aodata->current++;
-	aodata->scan = aodata->scan->next;
-
-	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT,
-					  async_operation_step,
-					  aodata);
-
-	return FALSE;
-}
-
-
-static void
-async_operation_start (AsyncOperationData *aodata)
-{
-	aodata->timer_id = 0;
-	aodata->scan = aodata->list;
-	aodata->current = 1;
-	if (aodata->init_func)
-		(*aodata->init_func) (aodata, aodata->data);
-
-	main_dialog_set_sensitive (aodata->data, FALSE);
-
-	g_mutex_lock (aodata->data->yes_or_no);
-	aodata->data->async_operation = TRUE;
-	aodata->data->interrupted = FALSE;
-	if (aodata->data->progress_info != NULL)
-		g_free (aodata->data->progress_info);
-	aodata->data->progress_info = g_strdup (aodata->operation_info);
-	g_mutex_unlock (aodata->data->yes_or_no);
-
-	async_operation_step (aodata);
-}
-
-
 /* load_images_preview */
 
 
@@ -800,15 +832,15 @@ load_images_preview__done (AsyncOperationData *aodata,
 {
 	path_list_free (aodata->list);
 	task_terminated (data);
+	data->aodata = NULL;
 }
 
 
 static void
 load_images_preview (DialogData *data)
 {
-	GList              *file_list;
-	gboolean            error;
-	AsyncOperationData *aodata;
+	GList    *file_list;
+	gboolean  error;
 
 	gth_image_list_clear (GTH_IMAGE_LIST (data->image_list));
 
@@ -843,14 +875,13 @@ load_images_preview (DialogData *data)
 		gtk_window_set_resizable (GTK_WINDOW (data->dialog), TRUE);
 	}
 
-	aodata = async_operation_new (NULL,
-				      file_list,
-				      load_images_preview__init,
-				      load_images_preview__step,
-				      load_images_preview__done,
-				      data);
-
-	async_operation_start (aodata);
+	data->aodata = async_operation_new (NULL,
+					    file_list,
+					    load_images_preview__init,
+					    load_images_preview__step,
+					    load_images_preview__done,
+					    data);
+	async_operation_start (data->aodata);
 }
 
 
@@ -1291,6 +1322,7 @@ delete_images__done (AsyncOperationData *aodata,
 	gboolean interrupted;
 
 	task_terminated (data);
+	data->aodata = NULL;
 
 	g_mutex_lock (data->yes_or_no);
 	interrupted = data->interrupted;
@@ -1335,8 +1367,9 @@ static void
 adjust_orientation__done (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
-	gboolean            interrupted;
-	AsyncOperationData *new_aodata;
+	gboolean interrupted;
+
+	data->aodata = NULL;
 
 	g_mutex_lock (data->yes_or_no);
 	interrupted = data->interrupted;
@@ -1347,13 +1380,13 @@ adjust_orientation__done (AsyncOperationData *aodata,
 	if (interrupted)
 		return;
 
-	new_aodata = async_operation_new (NULL,
-					  data->delete_list,
-					  NULL,
-					  delete_images__step,
-					  delete_images__done,
-					  data);
-	async_operation_start (new_aodata);
+	data->aodata = async_operation_new (NULL,
+				  	    data->delete_list,
+					    NULL,
+					    delete_images__step,
+					    delete_images__done,
+					    data);
+	async_operation_start (data->aodata);
 }
 
 
@@ -1417,25 +1450,25 @@ static void
 save_images__done (AsyncOperationData *aodata,
 		   DialogData         *data)
 {
-	gboolean            interrupted;
-	gboolean            error;
-	AsyncOperationData *new_aodata;
+	gboolean interrupted;
+	gboolean error;
 
 	g_mutex_lock (data->yes_or_no);
 	interrupted = data->interrupted;
 	error = data->error;
 	g_mutex_unlock (data->yes_or_no);
 
+	data->aodata = NULL;
 	if (interrupted || error)
 		return;
 
-	new_aodata = async_operation_new (NULL,
-					  data->adjust_orientation_list,
-					  NULL,
-					  adjust_orientation__step,
-					  adjust_orientation__done,
-					  data);
-	async_operation_start (new_aodata);
+	data->aodata = async_operation_new (NULL,
+					    data->adjust_orientation_list,
+					    NULL,
+					    adjust_orientation__step,
+					    adjust_orientation__done,
+					    data);
+	async_operation_start (data->aodata);
 }
 
 
@@ -1462,11 +1495,10 @@ static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
-	GList              *file_list = NULL, *scan;
-	GList              *sel_list;
-	gboolean            error;
-	AsyncOperationData *aodata;
-	GnomeVFSFileSize    total_size = 0;
+	GList            *file_list = NULL, *scan;
+	GList            *sel_list;
+	gboolean          error;
+	GnomeVFSFileSize  total_size = 0;
 
 	if (!data->camera_setted) {
 		display_error_dialog (data,
@@ -1588,13 +1620,13 @@ ok_clicked_cb (GtkButton  *button,
 
 	add_film_keyword (data->local_folder);
 
-	aodata = async_operation_new (NULL,
-				      file_list,
-				      save_images__init,
-				      save_images__step,
-				      save_images__done,
-				      data);
-	async_operation_start (aodata);
+	data->aodata = async_operation_new (NULL,
+					    file_list,
+					    save_images__init,
+					    save_images__step,
+					    save_images__done,
+					    data);
+	async_operation_start (data->aodata);
 }
 
 
@@ -1686,6 +1718,7 @@ delete_imported_images__done (AsyncOperationData *aodata,
 {
 	path_list_free (aodata->list);
 	task_terminated (data);
+	data->aodata = NULL;
 	load_images_preview (data);
 }
 
@@ -1694,10 +1727,9 @@ static void
 import_delete_cb (GtkButton  *button,
 		  DialogData *data)
 {
-	GList              *sel_list;
-	GList              *scan;
-	GList              *delete_list = NULL;
-	AsyncOperationData *aodata;
+	GList *sel_list;
+	GList *scan;
+	GList *delete_list = NULL;
 
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
 	if (sel_list != NULL) {
@@ -1711,13 +1743,13 @@ import_delete_cb (GtkButton  *button,
 		file_data_list_free (sel_list);
 	}
 
-	aodata = async_operation_new (NULL,
-				      delete_list,
-				      delete_imported_images__init,
-				      delete_imported_images__step,
-				      delete_imported_images__done,
-				      data);
-	async_operation_start (aodata);
+	data->aodata = async_operation_new (NULL,
+					    delete_list,
+					    delete_imported_images__init,
+					    delete_imported_images__step,
+					    delete_imported_images__done,
+					    data);
+	async_operation_start (data->aodata);
 }
 
 

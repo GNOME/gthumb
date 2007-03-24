@@ -1,3 +1,8 @@
+2007-03-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: cancel the async operation before closing
+	the dialog (#420614).
+
 2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: general updates.
