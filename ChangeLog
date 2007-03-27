@@ -1,3 +1,24 @@
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+        * NEWS: general updates.
+
+	* libgthumb/gth-sort-utils.c:
+	(gth_sort_by_filename_but_ignore_path):
+	Use unescaped URI for file sorting.
+
+	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
+	Convert user-typed Unicode input dialog into "NFC" normalized
+	form for consistency, and to avoid catalogs/libraries/categories
+	with apparently identical names. Bug 423271.
+
+	* src/dlg-search.c: (pattern_matched_by_keywords),
+	(match_patterns), (directory_load_cb): Convert Unicode search 
+	patterns and search targets into NFC normalized form, to account
+	for the fact that Unicode strings with identical meaning can
+	be stored in different ways (composite vs non-composite
+	characters, for instace). Also, use unescaped URI for
+	file searches. Bug 423272.
+
 2007-03-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c: cancel the async operation before closing
