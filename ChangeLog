@@ -1,3 +1,53 @@
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_redeye.glade: Use "Position" instead of
+        "Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780.
+
+2007-03-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.10.1 released ]
+
+	* configure.in: updated for 2.10.1
+
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates.
+
+	* libgthumb/gth-sort-utils.c:
+	(gth_sort_by_filename_but_ignore_path):
+	Use unescaped URI for file sorting.
+
+	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
+	Convert user-typed Unicode input dialog into "NFC" normalized
+	form for consistency, and to avoid catalogs/libraries/categories
+	with apparently identical names. Bug 423271.
+
+	* src/dlg-search.c: (pattern_matched_by_keywords),
+	(match_patterns), (directory_load_cb): Convert Unicode search
+	patterns and search targets into NFC normalized form, to account
+	for the fact that Unicode strings with identical meaning can
+	be stored in different ways (composite vs non-composite
+	characters, for instace). Also, use unescaped URI for
+	file searches. Bug 423272.
+
+2007-03-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: cancel the async operation before closing
+	the dialog (#420614).
+
+2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates.
+
+2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpegutils/jpegtran.c: (jpegtran_internal),
+	(jpegtran_thumbnail), (jpegtran):
+	* libgthumb/jpegutils/jpegtran.h:
+	* src/rotation-utils.c: (jpeg_mcu_dialog),
+	(apply_transformation_jpeg): Do not add APPn and COM markers to
+	the EXIF thumbnail. Bug 411861. Patch by Jef Driesen.
+
 2007-03-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (prune_cache):

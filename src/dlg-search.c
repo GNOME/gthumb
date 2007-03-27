@@ -711,6 +711,7 @@ pattern_matched_by_keywords (char  *pattern,
 	GPatternSpec *spec;
 	gboolean      retval = FALSE;
 	int           i;
+	char	     *norm_pattern;
 
 	if (pattern == NULL)
 		return TRUE;
@@ -718,14 +719,26 @@ pattern_matched_by_keywords (char  *pattern,
 	if ((keywords == NULL) || (keywords[0] == NULL))
 		return FALSE;
 
-	spec = g_pattern_spec_new (pattern);
+	norm_pattern = g_utf8_normalize (pattern,
+	                                 -1,
+	                                 G_NORMALIZE_NFC);
+	spec = g_pattern_spec_new (norm_pattern);
+	g_free (norm_pattern);
+
 	for (i = 0; keywords[i] != NULL; i++) {
 		char     *case_string;
+		char     *norm_string;
 		gboolean  match;
 
 		case_string = g_utf8_casefold (keywords[i], -1);
-		match = g_pattern_match_string (spec, case_string);
+		norm_string = g_utf8_normalize (case_string,
+		                                -1,
+		                                G_NORMALIZE_NFC);
+
+		match = g_pattern_match_string (spec, norm_string);
+
 		g_free (case_string);
+		g_free (norm_string);
 
 		if (match) {
 			retval = TRUE;
@@ -743,6 +756,7 @@ match_patterns (char       **patterns,
 		const char  *string)
 {
 	char     *case_string;
+	char     *norm_string;
 	int       i;
 	gboolean  retval = FALSE;
 
@@ -753,13 +767,29 @@ match_patterns (char       **patterns,
 		return FALSE;
 
 	case_string = g_utf8_casefold (string, -1);
+	norm_string = g_utf8_normalize (case_string,
+	                                -1,
+	                                G_NORMALIZE_NFC);
+
 	for (i = 0; patterns[i] != NULL; i++) {
-		if (g_pattern_match_simple (patterns[i], case_string)) {
+		gboolean  match;
+		char     *norm_pattern;
+
+		norm_pattern = g_utf8_normalize (patterns[i],
+                                                 -1,
+	                                         G_NORMALIZE_NFC);
+
+		match = g_pattern_match_simple (norm_pattern, norm_string);
+
+		g_free (norm_pattern);
+
+		if (match) {
 			retval = TRUE;
 			break;
 		}
 	}
 	g_free (case_string);
+	g_free (norm_string);
 
 	return retval;
 }
@@ -962,6 +992,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSURI *full_uri = NULL;
 		char        *str_uri;
+		char	    *unesc_uri;
 
 		info = node->data;
 
@@ -971,10 +1002,14 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				break;
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			if (file_respects_search_criteria (data, str_uri))
+			unesc_uri = gnome_vfs_unescape_string (str_uri, "");
+
+			if (file_respects_search_criteria (data, unesc_uri))
 				files = g_list_prepend (files, str_uri);
 			else
 				g_free (str_uri);
+
+			g_free (unesc_uri);
 			break;
 
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:

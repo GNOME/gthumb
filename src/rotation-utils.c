@@ -67,12 +67,15 @@ write_orientation_field (const char   *path,
 	gth_minimal_exif_tag_write(path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
 }
 
+typedef struct {
+	const char  *path;
+	GtkWindow   *parent;
+} jpeg_mcu_dialog_data;
 
 static boolean
-jpeg_mcu_dialog (const char  *path,
-		 JXFORM_CODE *transform,
+jpeg_mcu_dialog (JXFORM_CODE *transform,
 		 boolean     *trim,
-		 GtkWindow   *parent)
+		 jpeg_mcu_dialog_data *userdata)
 {
 	char      *display_name;
 	char      *msg;
@@ -91,10 +94,10 @@ jpeg_mcu_dialog (const char  *path,
 	 * Warn about possible image distortions along one or more edges.
 	 */
 
-	display_name = basename_for_display (path);
+	display_name = basename_for_display (userdata->path);
 	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
 	d = _gtk_message_dialog_with_checkbutton_new (
-		parent,
+		userdata->parent,
 		GTK_DIALOG_MODAL,
 		GTK_STOCK_DIALOG_WARNING,
 		msg,
@@ -182,7 +185,8 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, win, &err) != 0) {
+	jpeg_mcu_dialog_data userdata = {path, win};
+	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, &err) != 0) {
 		if (err != NULL)
 			_gtk_error_dialog_from_gerror_run (win, &err);
 		remove_temp_file_and_dir (tmp);

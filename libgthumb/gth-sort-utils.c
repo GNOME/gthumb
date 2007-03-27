@@ -24,6 +24,7 @@
 #include <strings.h>
 #include <glib.h>
 #include <gnome.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
 #include "file-utils.h"
 #include "gth-exif-utils.h"
@@ -117,9 +118,10 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 	/* Based heavily on the Nautilus compare_by_display_name (libnautilus-private/nautilus-file.c)
 	   function, for consistent Nautilus / gthumb behaviour. */
 
-	char *key_1, *key_2;
-	gboolean sort_last_1, sort_last_2;
-	int compare;
+	char     *key_1, *key_2;
+	gboolean  sort_last_1, sort_last_2;
+	int       compare;
+	char     *unesc_name1, *unesc_name2;
 
 	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1
 			|| file_name_from_path (name1)[0] == SORT_LAST_CHAR2;
@@ -131,13 +133,18 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 	} else if (!sort_last_1 && sort_last_2) {
 		compare = -1;
 	} else {
-		key_1 = g_utf8_collate_key_for_filename (file_name_from_path (name1), -1);
-		key_2 = g_utf8_collate_key_for_filename (file_name_from_path (name2), -1);
+		unesc_name1 = gnome_vfs_unescape_string (name1, "");
+		unesc_name2 = gnome_vfs_unescape_string (name2, "");
+
+		key_1 = g_utf8_collate_key_for_filename (file_name_from_path (unesc_name1), -1);
+		key_2 = g_utf8_collate_key_for_filename (file_name_from_path (unesc_name2), -1);
 
 		compare = strcmp (key_1, key_2);
 
 		g_free(key_1);
 		g_free(key_2);
+		g_free(unesc_name1);
+		g_free(unesc_name2);
 	}
 
 	return compare;
