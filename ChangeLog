@@ -1,3 +1,8 @@
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_redeye.glade: Use "Position" instead of
+        "Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780.
+
 2007-03-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.1 released ]
