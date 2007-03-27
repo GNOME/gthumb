@@ -51,6 +51,7 @@
 #include "rotation-utils.h"
 #include "typedefs.h"
 #include "gth-sort-utils.h"
+#include "jpegutils/jpegtran.h"
 
 #define DATE_FORMAT _("%d %B %Y, %H:%M")
 
@@ -1757,6 +1758,9 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 	char         *local_dest_filename = NULL;
 	gboolean      is_local;
 
+	/* Due to shortcomings in libexif, this function may corrupt
+	   the MakerNotes in the exif data. */
+
 	is_local = is_local_file (dest_filename);
 
 	local_src_filename = obtain_local_file (src_filename);
@@ -1779,20 +1783,17 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 	if (jdata_dest == NULL)
 		return;
 
-	/* The exif orientation tag, if present, must be reset to "top-left",
-	   because the jpeg was saved from a gthumb-generated pixbuf, and
-	   the pixbug image loader always rotates the pixbuf to account for
-	   the orientation tag. This tag change can be performed in memory,
-	   rather than using the file-based write_orientation_field
-	   function, because edata_src is local to this function, and it
-	   is unref'd below. */
-	set_orientation_in_exif_data (GTH_TRANSFORM_NONE, edata_src);
+	/* The exif orientation tag, if present, must be reset to "top-left", 	 
+           because the jpeg was saved from a gthumb-generated pixbuf, and 	 
+           the pixbug image loader always rotates the pixbuf to account for 	 
+           the orientation tag. */
+	update_exif_orientation (edata_src);
 
 	/* Update the exif data within the jpeg data, in memory. */
 	jpeg_data_set_exif_data (jdata_dest, edata_src);
 
 	/* Commit the jpeg data in memory to a file. */
-	jpeg_data_save_file (jdata_dest, dest_filename);
+	jpeg_data_save_file (jdata_dest, local_dest_filename);
 
 	/* Remove the jpeg and exif data in memory. */
 	exif_data_unref (edata_src);

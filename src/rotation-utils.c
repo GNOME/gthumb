@@ -59,28 +59,12 @@ void
 write_orientation_field (const char   *path,
 			 GthTransform  transform)
 {
-	JPEGData     *jdata;
-	ExifData     *edata;
+	guint16 tf = (guint16) transform;
 
 	if (path == NULL)
 		return;
 
-	jdata = jpeg_data_new_from_file (path);
-	if (jdata == NULL)
-		return;
-
-	edata = jpeg_data_get_exif_data (jdata);
-	if (edata == NULL) {
-		jpeg_data_unref (jdata);
-		return;
-	}
-
-	set_orientation_in_exif_data (transform, edata);
-
-	jpeg_data_save_file (jdata, path);
-
-	exif_data_unref (edata);
-	jpeg_data_unref (jdata);
+	gth_minimal_exif_tag_write(path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
 }
 
 typedef struct {

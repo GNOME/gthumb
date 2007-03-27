@@ -50,6 +50,7 @@ typedef struct {
 
 	GtkWidget    *cd_last_modified_checkbutton;
 	GtkWidget    *cd_comment_checkbutton;
+	GtkWidget    *cd_exif_checkbutton;
 
 	GtkWidget    *cd_following_date_radiobutton;
 	GtkWidget    *cd_created_radiobutton;
@@ -156,6 +157,60 @@ ok_clicked (GtkWidget  *button,
 			comment_data_free (cdata);
 		}
 
+		if (is_active (data->cd_exif_checkbutton)) {
+			char buf[32];
+			struct tm tm;
+			int    res;
+
+			char             *local_file_to_modify = NULL;
+			GnomeVFSFileInfo *info;
+			gboolean          is_local;
+			gboolean          remote_copy_ok;
+		
+		        is_local = is_local_file (fdata->path);
+
+		        /* If the original file is stored on a remote VFS location, copy it to a local
+		           temp file, modify it, then copy it back. This is easier than modifying the
+		           underlying jpeg code (and other code) to handle VFS URIs. */
+
+		        local_file_to_modify = obtain_local_file (fdata->path);
+
+		        if (local_file_to_modify == NULL) {
+		                _gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+		                        _("Could not create a local temporary copy of the remote file."));
+		                return;
+		        }
+		        info = gnome_vfs_file_info_new ();
+		        gnome_vfs_get_file_info (fdata->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+			localtime_r(&mtime, &tm);
+			snprintf(buf, 32, "%04d:%02d:%02d %02d:%02d:%02d ", 
+			       tm.tm_year + 1900,
+			       tm.tm_mon + 1,
+			       tm.tm_mday,
+			       tm.tm_hour,
+			       tm.tm_min,
+			       tm.tm_sec );
+			if ((res = gth_minimal_exif_tag_write(local_file_to_modify, EXIF_TAG_DATE_TIME, buf, 20, 0)) != PATCH_EXIF_OK)
+				fprintf(stderr, "gth_minimal_exif_tag_write: error %d\n", res);
+
+			mtime++; // Step the time to enable sorting of pictures according to EXIF time
+
+		        if (!is_local)
+		                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, fdata->path);
+
+		        g_free (local_file_to_modify);
+
+		        if (!is_local && !remote_copy_ok) {
+                		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+                            		_("Could not move temporary file to remote location. Check remote permissions."));
+		        } else {
+                		gnome_vfs_set_file_info (fdata->path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+		        }
+
+		        gnome_vfs_file_info_unref (info);
+		}
+
 		file_list = g_list_prepend (file_list, fdata->path);
 	}
 
@@ -173,7 +228,8 @@ update_sensitivity (DialogData *data)
 {
 	gtk_widget_set_sensitive (data->ok_button,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_last_modified_checkbutton))
-				  || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_comment_checkbutton)));
+				  || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_comment_checkbutton))
+				  || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_exif_checkbutton)));
 		
 	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
 	gtk_widget_set_sensitive (data->cd_timezone_box, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_adjust_timezone_radiobutton)));
@@ -234,6 +290,7 @@ dlg_change_date (GthWindow *window)
 
 	data->cd_last_modified_checkbutton = glade_xml_get_widget (data->gui, "cd_last_modified_checkbutton");
 	data->cd_comment_checkbutton = glade_xml_get_widget (data->gui, "cd_comment_checkbutton");
+	data->cd_exif_checkbutton = glade_xml_get_widget (data->gui, "cd_exif_checkbutton");
 
 	data->cd_following_date_radiobutton = glade_xml_get_widget (data->gui, "cd_following_date_radiobutton");
 	data->cd_created_radiobutton = glade_xml_get_widget (data->gui, "cd_created_radiobutton");
@@ -285,6 +342,10 @@ dlg_change_date (GthWindow *window)
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);
+	g_signal_connect (G_OBJECT (data->cd_exif_checkbutton), 
+			  "clicked",
+			  G_CALLBACK (radio_button_clicked),
+			  data); 
 	
 	g_signal_connect (G_OBJECT (data->cd_following_date_radiobutton), 
 			  "clicked",

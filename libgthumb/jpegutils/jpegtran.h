@@ -26,6 +26,7 @@
 #define JPEGTRAN_H
 
 #include <glib.h>
+#include <libexif/exif-data.h>
 #include "transupp.h"
 
 typedef boolean (*jpegtran_mcu_callback) (JXFORM_CODE *transform,
@@ -42,5 +43,7 @@ int jpegtran (const char *input_filename,
 		jpegtran_mcu_callback callback,
 		void *userdata,
 		GError **error);
+
+void update_exif_orientation (ExifData *edata);
 
 #endif /* JPEGTRAN_H */
