@@ -1,5 +1,9 @@
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-sort-utils.c: added missing include.
+
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_redeye.glade: Use "Position" instead of
         "Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780.
 

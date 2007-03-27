@@ -24,6 +24,7 @@
 #include <strings.h>
 #include <glib.h>
 #include <gnome.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
 #include "file-utils.h"
 #include "gth-exif-utils.h"
