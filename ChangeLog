@@ -1,6 +1,12 @@
+2007-03-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.10.1 released ]
+
+	* configure.in: updated for 2.10.1
+
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-        * NEWS: general updates.
+	* NEWS: general updates.
 
 	* libgthumb/gth-sort-utils.c:
 	(gth_sort_by_filename_but_ignore_path):
@@ -12,7 +18,7 @@
 	with apparently identical names. Bug 423271.
 
 	* src/dlg-search.c: (pattern_matched_by_keywords),
-	(match_patterns), (directory_load_cb): Convert Unicode search 
+	(match_patterns), (directory_load_cb): Convert Unicode search
 	patterns and search targets into NFC normalized form, to account
 	for the fact that Unicode strings with identical meaning can
 	be stored in different ways (composite vs non-composite
