@@ -1,3 +1,7 @@
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-sort-utils.c: added missing include.
+
 2007-03-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.1 released ]
