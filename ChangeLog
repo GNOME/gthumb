@@ -1,9 +1,16 @@
+2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c (apply_transformation_jpeg):
+
+	Fixed bug #423497 – fix build with gcc 2
+	Patch by Jens Granseuer.
+
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* AUTHORS:
 	* data/glade/gthumb_tools.glade:
 	* src/dlg-change-date.c: (ok_clicked), (update_sensitivity),
-	(dlg_change_date): 
+	(dlg_change_date):
 	Added Joakim Larsson's change exif-date tool. Bug 408183.
 
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write):
@@ -13,8 +20,8 @@
 	* src/catalog-web-exporter.c:
 	(copy_exif_from_orig_and_reset_orientation):
 	* src/rotation-utils.c: (write_orientation_field):
-	Bypass libexif and use gth_minimal_exif_tag_write when writing tags, 
-	if possible, to avoid MakerNote corruption. Bug 408185. Based on 
+	Bypass libexif and use gth_minimal_exif_tag_write when writing tags,
+	if possible, to avoid MakerNote corruption. Bug 408185. Based on
 	Joakim Larsson's patches. Merged from metadata-ideas branch.
 
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
@@ -24,7 +31,7 @@
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb_redeye.glade: Use "Position" instead of
-        "Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780.
+	"Selection". http://launchpad.net/ubuntu/+source/gthumb/+bug/85780.
 
 2007-03-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
