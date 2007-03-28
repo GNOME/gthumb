@@ -10,14 +10,14 @@ version 2.10.1
 	  the overwrite dialog.
 	* Fixed bug #420557 - View > Show/Hide > Toolbar is broken, no display
 	* Fixed bug #414711 - thumbnail explosion if opening ~/.thumbnails
-	* Do not add APPn and COM markers to the EXIF thumbnail. Bug 411861.
-	* Fixed cache-pruning command on Solaris (bug 421787).
+	* Do not add APPn and COM markers to the EXIF thumbnail. Bug #411861.
+	* Fixed cache-pruning command on Solaris (bug #421787).
 	* Added Alt+C for crop, Alt+R for resize.
 	* Fixed problems resolving relative symlinks for ssh: URIs (#159884)
 	* Fixed crash in search function when clicking "View". Bug #420788.
 	* Fixed misdetection of CR2 files as TIFF files. Part of bug #421175.
-	* Better search support for Unicode equivalencies. Bug 423272.
-	* Normalize Unicode category names. Bug 423271.
+	* Better search support for Unicode equivalencies. Bug #423272.
+	* Normalize Unicode category names. Bug #423271.
 	* Fixed bug #420614 - cancel async operation before closing importer
 
 version 2.10.0

@@ -153,10 +153,11 @@ apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
 			   GthTransform  transform)
 {
-	char        *tmp;
-	char        *tmpdir;
-	GError      *err = NULL;
-	JXFORM_CODE  transf;
+	char                 *tmp;
+	char                 *tmpdir;
+	GError               *err = NULL;
+	JXFORM_CODE           transf;
+	jpeg_mcu_dialog_data  userdata = {path, win};
 
 	if (path == NULL)
 		return;
@@ -201,7 +202,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	jpeg_mcu_dialog_data userdata = {path, win};
 	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, &err) != 0) {
 		if (err != NULL)
 			_gtk_error_dialog_from_gerror_run (win, &err);

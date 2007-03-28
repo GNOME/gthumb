@@ -1,3 +1,10 @@
+2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c (apply_transformation_jpeg):
+
+	Fixed bug #423497 – fix build with gcc 2.
+	Patch by Jens Granseuer.
+
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-sort-utils.c: added missing include.
