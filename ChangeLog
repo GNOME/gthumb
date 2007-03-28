@@ -1,3 +1,9 @@
+2007-03-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Rotate-on-import was broken, due to use of file:// URI. Added
+	URI support to apply_transformation_jpeg to fix it.
+
 2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-hue-saturation.c:

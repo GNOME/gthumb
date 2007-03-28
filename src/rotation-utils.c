@@ -158,6 +158,11 @@ apply_transformation_jpeg (GtkWindow    *win,
 	GError               *err = NULL;
 	JXFORM_CODE           transf;
 	jpeg_mcu_dialog_data  userdata = {path, win};
+	gboolean	      is_local;
+	gboolean	      remote_copy_ok;
+	char		     *local_file_to_modify;
+	GnomeVFSFileInfo     *info;
+
 
 	if (path == NULL)
 		return;
@@ -169,8 +174,25 @@ apply_transformation_jpeg (GtkWindow    *win,
 				      _("Could not create a temporary folder"));
 		return;
 	}
-
 	tmp = get_temp_file_name (tmpdir, NULL);
+
+        /* If the original file is stored on a remote VFS location, copy it to a local
+              temp file, modify it, then copy it back. This is easier than modifying the
+              underlying jpeg code (and other code) to handle VFS URIs. */
+
+	is_local = is_local_file (path);
+        local_file_to_modify = obtain_local_file (path);
+
+        if (local_file_to_modify == NULL) {
+                _gtk_error_dialog_run (win,
+                                       _("Could not create a local temporary copy of the remote file."));
+                return;
+        }
+
+	if (!is_local) {
+		info = gnome_vfs_file_info_new ();
+        	gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	}
 
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
@@ -202,7 +224,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran ((char*)path, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, &err) != 0) {
+	if (jpegtran (local_file_to_modify, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, &err) != 0) {
 		if (err != NULL)
 			_gtk_error_dialog_from_gerror_run (win, &err);
 		remove_temp_file_and_dir (tmp);
@@ -210,9 +232,23 @@ apply_transformation_jpeg (GtkWindow    *win,
 		return;
 	}
 
-	if (!file_move (tmp, path))
+	if (!file_move (tmp, local_file_to_modify))
 		_gtk_error_dialog_run (win,
 			_("Could not move temporary file to local destination. Check folder permissions."));
+
+	if (!is_local)
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
+
+        g_free (local_file_to_modify);
+
+        if (!is_local) {
+		if (!remote_copy_ok) {
+                	_gtk_error_dialog_run (win, _("Could not move temporary file to remote location. Check remote permissions."));
+		} else {
+	               gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+		}
+		gnome_vfs_file_info_unref (info);
+        }
 
 	remove_temp_file_and_dir (tmp);
 	g_free (tmp);
