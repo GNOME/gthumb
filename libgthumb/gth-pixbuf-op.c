@@ -25,9 +25,9 @@
 #include "gth-pixbuf-op.h"
 
 
-#define N_STEPS          20   /* number of lines to process in a single 
+#define N_STEPS          20   /* number of lines to process in a single
 			       * timeout handler. */
-#define PROGRESS_STEP    5    /* notify progress each PROGRESS_STEP lines. */ 
+#define PROGRESS_STEP    5    /* notify progress each PROGRESS_STEP lines. */
 
 
 enum {
@@ -56,7 +56,7 @@ release_pixbufs (GthPixbufOp *pixbuf_op)
 }
 
 
-static void 
+static void
 gth_pixbuf_op_finalize (GObject *object)
 {
 	GthPixbufOp *pixbuf_op;
@@ -70,7 +70,7 @@ gth_pixbuf_op_finalize (GObject *object)
 	}
 	release_pixbufs (pixbuf_op);
 	if (pixbuf_op->free_data_func != NULL)
-		(*pixbuf_op->free_data_func)(pixbuf_op);
+		(*pixbuf_op->free_data_func) (pixbuf_op);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -142,23 +142,23 @@ gth_pixbuf_op_get_type ()
 	if (! type) {
 		GTypeInfo type_info = {
 			sizeof (GthPixbufOpClass),
-                        NULL,
-                        NULL,
-                        (GClassInitFunc) gth_pixbuf_op_class_init,
-                        NULL,
-                        NULL,
-                        sizeof (GthPixbufOp),
-                        0,
-                        (GInstanceInitFunc) gth_pixbuf_op_init
-                };
+			NULL,
+			NULL,
+			(GClassInitFunc) gth_pixbuf_op_class_init,
+			NULL,
+			NULL,
+			sizeof (GthPixbufOp),
+			0,
+			(GInstanceInitFunc) gth_pixbuf_op_init
+		};
 
-                type = g_type_register_static (G_TYPE_OBJECT,
-                                               "GthPixbufOp",
-                                               &type_info,
-                                               0);
-        }
+		type = g_type_register_static (G_TYPE_OBJECT,
+					       "GthPixbufOp",
+					       &type_info,
+					       0);
+	}
 
-        return type;
+	return type;
 }
 
 
@@ -191,8 +191,8 @@ one_step (gpointer data)
 	GthPixbufOp *pixbuf_op = data;
 	int          dir = 1;
 
-	if (pixbuf_op->single_step)
-		(*pixbuf_op->step_func) (pixbuf_op);	
+	if (! pixbuf_op->interrupt && pixbuf_op->single_step)
+		(*pixbuf_op->step_func) (pixbuf_op);
 
 	if ((pixbuf_op->line >= pixbuf_op->height)
 	    || pixbuf_op->single_step
@@ -208,11 +208,11 @@ one_step (gpointer data)
 
 	pixbuf_op->src_pixel = pixbuf_op->src_line;
 	pixbuf_op->src_line += pixbuf_op->rowstride;
-	
+
 	pixbuf_op->dest_pixel = pixbuf_op->dest_line;
 	pixbuf_op->dest_line += pixbuf_op->rowstride;
-	
-	if (pixbuf_op->line % PROGRESS_STEP == 0) 
+
+	if (pixbuf_op->line % PROGRESS_STEP == 0)
 		g_signal_emit (G_OBJECT (pixbuf_op),
 			       gth_pixbuf_op_signals[PIXBUF_OP_PROGRESS],
 			       0,
@@ -252,7 +252,7 @@ step (gpointer data)
 		g_source_remove (pixbuf_op->timeout_id);
 		pixbuf_op->timeout_id = 0;
 	}
-	
+
 	for (i = 0; i < N_STEPS; i++)
 		if (! one_step (data))
 			return FALSE;
@@ -280,8 +280,8 @@ gth_pixbuf_op_set_pixbufs (GthPixbufOp  *pixbuf_op,
 		return;
 
 	/* NOTE that src and dest MAY be the same pixbuf! */
-  
-        g_return_if_fail (GDK_IS_PIXBUF (src));
+
+	g_return_if_fail (GDK_IS_PIXBUF (src));
 	if (dest != NULL) {
 		g_return_if_fail (GDK_IS_PIXBUF (dest));
 		g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));

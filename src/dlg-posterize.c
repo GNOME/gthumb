@@ -32,6 +32,7 @@
 #include "async-pixbuf-ops.h"
 #include "gth-window.h"
 #include "gthumb-stock.h"
+#include "glib-utils.h"
 #include "pixbuf-utils.h"
 
 
@@ -48,8 +49,10 @@ typedef struct {
 	GdkPixbuf    *orig_pixbuf;
 	GdkPixbuf    *new_pixbuf;
 
+	GthPixbufOp  *pixop;
 	gboolean      original_modified;
 	gboolean      modified;
+	gboolean      dialog_preview;
 
 	GladeXML     *gui;
 
@@ -64,6 +67,12 @@ static void
 destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
+	if (data->pixop != NULL) {
+		if (data->dialog_preview)
+			g_signal_handlers_disconnect_by_data (data->pixop, data);
+		gth_pixbuf_op_stop (data->pixop);
+		g_object_unref (data->pixop);
+	}
 	g_object_unref (data->image);
 	g_object_unref (data->orig_pixbuf);
 	g_object_unref (data->new_pixbuf);
@@ -77,8 +86,11 @@ preview_done_cb (GthPixbufOp *pixop,
 		 gboolean     completed,
 		 DialogData  *data)
 {
-	gtk_widget_queue_draw (data->p_preview_image);
-	g_object_unref (pixop);
+	if (completed)
+		gtk_widget_queue_draw (data->p_preview_image);
+	g_object_unref (data->pixop);
+	data->pixop = NULL;
+
 	return FALSE;
 }
 
@@ -90,22 +102,27 @@ apply_changes (DialogData *data,
 	       gboolean    dialog_preview,
 	       gboolean    window_preview)
 {
-	int          levels;
-	GthPixbufOp *pixop;
+	int levels;
+
+	if (data->pixop != NULL) {
+		gth_pixbuf_op_stop (data->pixop);
+		g_object_unref (data->pixop);
+	}
 
 	levels = (int) gtk_range_get_value (GTK_RANGE (data->p_levels_hscale));
-	pixop = _gdk_pixbuf_posterize (src, dest, levels);
 
+	data->pixop = _gdk_pixbuf_posterize (src, dest, levels);
+
+	data->dialog_preview = dialog_preview;
 	if (dialog_preview) {
-		g_signal_connect (G_OBJECT (pixop),
+		g_signal_connect (G_OBJECT (data->pixop),
 				  "pixbuf_op_done",
 				  G_CALLBACK (preview_done_cb),
 				  data);
-		gth_pixbuf_op_start (pixop);
-	} else {
-		gth_window_exec_pixbuf_op (data->window, pixop, window_preview);
-		g_object_unref (pixop);
+		gth_pixbuf_op_start (data->pixop);
 	}
+	else
+		gth_window_exec_pixbuf_op (data->window, data->pixop, window_preview);
 }
 
 
