@@ -1,5 +1,9 @@
 2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (resolve_symlinks): fixed call to get_uri_host
+
+2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/gth-browser-actions-callbacks.c:
 	* libgthumb/gtk-utils.c (exec_shell_script):
 	* src/rotation-utils.c:

@@ -1605,7 +1605,7 @@ remove_special_dirs_from_path (const char *uri)
 	char        *result;
 	int	     start_at;
 
-	scheme = get_host_scheme (uri);
+	scheme = get_uri_host (uri);
 
 	if ((scheme == NULL) && ! g_path_is_absolute (uri))
 		return g_strdup (uri);
@@ -1842,7 +1842,7 @@ resolve_symlinks (const char  *text_uri,
 
 	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) {
 	    		g_free (resolved_uri);
-	    		base_uri = get_host_scheme (text_uri);
+	    		base_uri = get_uri_host (text_uri);
 	    	} else
 	    		base_uri = resolved_uri;
 
