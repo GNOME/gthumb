@@ -121,7 +121,7 @@ get_menu_item_tip (const char *path)
 					     NULL);
 
 		offset = strlen (rc_dir_prefix);
-		tip = g_strdup (remove_scheme_from_uri (tmp_path) + offset);
+		tip = g_strdup (remove_host_from_uri (tmp_path) + offset);
 
 		g_free (rc_dir_prefix);
 	}

@@ -794,14 +794,14 @@ gboolean
 exec_command (const char *application,
 	      GList      *file_list)
 {
-        GString *command;
-        GList   *scan;
+	GString *command;
+	GList   *scan;
 	GError  *err = NULL;
 	gboolean error;
 
 	command = g_string_new ("");
 	g_string_append (command, application);
-        for (scan = file_list; scan; scan = scan->next) {
+	for (scan = file_list; scan; scan = scan->next) {
 		char *filename = scan->data;
 		char *e_filename;
 
@@ -810,7 +810,7 @@ exec_command (const char *application,
 		g_string_append (command, e_filename);
 
 		g_free (e_filename);
-        }
+	}
 
 	error = (! g_spawn_command_line_async (command->str, &err) || (err != NULL));
 	if (error)
@@ -826,34 +826,34 @@ exec_shell_script (GtkWindow  *window,
 		   const char *script,
 		   GList      *file_list)
 {
-        GladeXML  *gui;
-        GtkWidget *dialog;
-        GtkWidget *label;
-        GtkWidget *bar;
-        GList     *scan;
-        int        i, n;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GtkWidget *label;
+	GtkWidget *bar;
+	GList     *scan;
+	int        i, n;
 
-	if ((script == NULL) || (file_list == NULL)) 
+	if ((script == NULL) || (file_list == NULL))
 		return;
 
 	/* Add a progress indicator */
-        gui = glade_xml_new (GTHUMB_GLADEDIR "/gthumb_tools.glade",
-                             NULL,
-                             NULL);
+	gui = glade_xml_new (GTHUMB_GLADEDIR "/gthumb_tools.glade",
+			     NULL,
+			     NULL);
 
-        dialog = glade_xml_get_widget (gui, "hotkey_progress");
-        label = glade_xml_get_widget (gui, "progress_info");
-        bar = glade_xml_get_widget (gui, "progress_progressbar");
+	dialog = glade_xml_get_widget (gui, "hotkey_progress");
+	label = glade_xml_get_widget (gui, "progress_info");
+	bar = glade_xml_get_widget (gui, "progress_progressbar");
 
-        n = g_list_length (file_list);
+	n = g_list_length (file_list);
 
-        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
-        gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
-        gtk_widget_show (dialog);
+	gtk_widget_show (dialog);
 
-        while (gtk_events_pending())
-                gtk_main_iteration();
+	while (gtk_events_pending())
+		gtk_main_iteration();
 
 	/* If the %F code is present, all selected files are processed by
 	   one script instance. Otherwise, each file is handled sequentially. */
@@ -864,15 +864,15 @@ exec_shell_script (GtkWindow  *window,
 
 		file_list_string = g_strdup (" ");
 
-	        for (scan = file_list; scan; scan = scan->next) {
+		for (scan = file_list; scan; scan = scan->next) {
 			char *filename;
 			char *e_filename;
 			char *new_file_list;
-		
+
 			if (is_local_file (scan->data))
-                                filename = gnome_vfs_unescape_string_for_display (remove_scheme_from_uri (scan->data));
-                        else
-	                        filename = gnome_vfs_unescape_string_for_display (scan->data);
+				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+			else
+				filename = gnome_vfs_unescape_string_for_display (scan->data);
 
 			e_filename = shell_escape (filename);
 
@@ -883,7 +883,7 @@ exec_shell_script (GtkWindow  *window,
 			file_list_string = g_strdup (new_file_list);
 
 			g_free (new_file_list);
-        	}
+		}
 		command = _g_substitute_pattern (script, 'F', file_list_string);
 		g_free (file_list_string);
 
@@ -891,15 +891,15 @@ exec_shell_script (GtkWindow  *window,
 		g_free (command);
 
 		_gtk_label_set_filename_text (GTK_LABEL (label), script);
-                gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
-                                               (gdouble) 1.0);
-                while (gtk_events_pending())
-                	gtk_main_iteration();
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+					       (gdouble) 1.0);
+		while (gtk_events_pending())
+			gtk_main_iteration();
 	} else {
-	        i = 0;
-        	for (scan = file_list; scan; scan = scan->next) {
-                	char *filename;
-	                char *e_filename;
+		i = 0;
+		for (scan = file_list; scan; scan = scan->next) {
+			char *filename;
+			char *e_filename;
 			char *name_wo_ext = NULL;
 			char *extension = NULL;
 			char *parent = NULL;
@@ -909,17 +909,17 @@ exec_shell_script (GtkWindow  *window,
 			char *command3 = NULL;
 
 			if (is_local_file (scan->data))
-		                filename = gnome_vfs_unescape_string_for_display (remove_scheme_from_uri (scan->data));
-		        else
-		                filename = gnome_vfs_unescape_string_for_display (scan->data);
+				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+			else
+				filename = gnome_vfs_unescape_string_for_display (scan->data);
 
 			name_wo_ext = remove_extension_from_path (filename);
 			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
 			parent = remove_level_from_path (filename);
-	
-        	        e_filename = shell_escape (filename);
+
+			e_filename = shell_escape (filename);
 			command3 = _g_substitute_pattern (script, 'f', e_filename);
-	                g_free (e_filename);
+			g_free (e_filename);
 
 			e_filename = shell_escape (name_wo_ext);
 			command2 = _g_substitute_pattern (command3, 'n', e_filename);
@@ -930,9 +930,9 @@ exec_shell_script (GtkWindow  *window,
 			g_free (e_filename);
 			g_free (command2);
 
-	                e_filename = shell_escape (parent);
-        	        command0 = _g_substitute_pattern (command1, 'p', e_filename);
-                	g_free (e_filename);		
+			e_filename = shell_escape (parent);
+			command0 = _g_substitute_pattern (command1, 'p', e_filename);
+			g_free (e_filename);
 			g_free (command1);
 
 			g_free (filename);
@@ -941,21 +941,21 @@ exec_shell_script (GtkWindow  *window,
 			g_free (parent);
 
 			_gtk_label_set_filename_text (GTK_LABEL (label), command0);
-        	        gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
-                	                               (gdouble) (i + 0.5) / n);
+			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+						       (gdouble) (i + 0.5) / n);
 
 			system (command0);
 			g_free (command0);
 
-	                while (gtk_events_pending())
-        	                gtk_main_iteration();
+			while (gtk_events_pending())
+				gtk_main_iteration();
 
 			i++;
-	        }
+		}
 	}
 
-        gtk_widget_destroy (dialog);
-        g_object_unref (gui);	
+	gtk_widget_destroy (dialog);
+	g_object_unref (gui);
 }
 
 
@@ -974,55 +974,55 @@ exec_shell_script (GtkWindow  *window,
  */
 static char*
 panel_find_icon (GtkIconTheme  *icon_theme,
-                 const char    *icon_name,
-                 gint           size)
+		 const char    *icon_name,
+		 gint           size)
 {
-        char        *retval  = NULL;
+	char        *retval  = NULL;
 	GtkIconInfo *icon_info = NULL;
-        char        *icon_no_extension;
-        char        *p;
+	char        *icon_no_extension;
+	char        *p;
 
 
-        if (icon_name == NULL || strcmp (icon_name, "") == 0)
-                return NULL;
+	if (icon_name == NULL || strcmp (icon_name, "") == 0)
+		return NULL;
 
-        if (g_path_is_absolute (icon_name)) {
-                if (g_file_test (icon_name, G_FILE_TEST_EXISTS)) {
-                        return g_strdup (icon_name);
-                } else {
-                        char *basename;
+	if (g_path_is_absolute (icon_name)) {
+		if (g_file_test (icon_name, G_FILE_TEST_EXISTS)) {
+			return g_strdup (icon_name);
+		} else {
+			char *basename;
 
 			basename = g_path_get_basename (icon_name);
-                        retval = panel_find_icon (icon_theme,
+			retval = panel_find_icon (icon_theme,
 						  basename,
-                                                  size);
-                        g_free (basename);
+						  size);
+			g_free (basename);
 
-                        return retval;
-                }
-        }
+			return retval;
+		}
+	}
 
-        /* This is needed because some .desktop files have an icon name *and*
-         * an extension as icon */
-        icon_no_extension = g_strdup (icon_name);
-        p = strrchr (icon_no_extension, '.');
-        if (p &&
-            (strcmp (p, ".png") == 0 ||
-             strcmp (p, ".xpm") == 0 ||
-             strcmp (p, ".svg") == 0)) {
-            *p = 0;
-        }
+	/* This is needed because some .desktop files have an icon name *and*
+	 * an extension as icon */
+	icon_no_extension = g_strdup (icon_name);
+	p = strrchr (icon_no_extension, '.');
+	if (p &&
+	    (strcmp (p, ".png") == 0 ||
+	     strcmp (p, ".xpm") == 0 ||
+	     strcmp (p, ".svg") == 0)) {
+	    *p = 0;
+	}
 
-        icon_info = gtk_icon_theme_lookup_icon (icon_theme,
+	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
 						icon_no_extension,
 						size,
 						0);
 	retval = g_strdup (gtk_icon_info_get_filename (icon_info));
 
-        g_free (icon_no_extension);
+	g_free (icon_no_extension);
 	gtk_icon_info_free (icon_info);
 
-        return retval;
+	return retval;
 }
 
 
@@ -1043,31 +1043,31 @@ create_pixbuf (GtkIconTheme  *icon_theme,
 		return NULL;
 
 	pixbuf = gth_pixbuf_new_from_uri (icon_path, NULL, 0, 0, NULL);
-        g_free (icon_path);
+	g_free (icon_path);
 
-        if (pixbuf == NULL)
-                return NULL;
+	if (pixbuf == NULL)
+		return NULL;
 
-        iw = gdk_pixbuf_get_width (pixbuf);
-        ih = gdk_pixbuf_get_height (pixbuf);
+	iw = gdk_pixbuf_get_width (pixbuf);
+	ih = gdk_pixbuf_get_height (pixbuf);
 
-        if ((iw > icon_size) || (ih > icon_size)) {
-                GdkPixbuf *scaled;
-                gdouble    factor;
-                gdouble    max = icon_size;
-                int        new_w, new_h;
+	if ((iw > icon_size) || (ih > icon_size)) {
+		GdkPixbuf *scaled;
+		gdouble    factor;
+		gdouble    max = icon_size;
+		int        new_w, new_h;
 
-                factor = MIN (max / iw, max / ih);
-                new_w  = MAX ((int) (iw * factor), 1);
-                new_h = MAX ((int) (ih * factor), 1);
+		factor = MIN (max / iw, max / ih);
+		new_w  = MAX ((int) (iw * factor), 1);
+		new_h = MAX ((int) (ih * factor), 1);
 
-                scaled = gdk_pixbuf_scale_simple (pixbuf,
-                                                  new_w,
-                                                  new_h,
-                                                  GDK_INTERP_BILINEAR);
-                g_object_unref (pixbuf);
-                pixbuf = scaled;
-        }
+		scaled = gdk_pixbuf_scale_simple (pixbuf,
+						  new_w,
+						  new_h,
+						  GDK_INTERP_BILINEAR);
+		g_object_unref (pixbuf);
+		pixbuf = scaled;
+	}
 
 	return pixbuf;
 }
