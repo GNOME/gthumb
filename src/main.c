@@ -401,7 +401,7 @@ reset_command_line_catalog (void)
 	 * line catalog. */
 
 	catalog_path = get_command_line_catalog_path ();
-	catalog_uri = g_strconcat ("catalog://", remove_scheme_from_uri (catalog_path), NULL);
+	catalog_uri = g_strconcat ("catalog://", remove_host_from_uri (catalog_path), NULL);
 
 	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0)
 		preferences_set_startup_location (get_home_uri ());
