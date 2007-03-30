@@ -37,6 +37,7 @@
 #include "image-viewer.h"
 #include "gconf-utils.h"
 #include "preferences.h"
+#include "file-data.h"
 
 #include <libexif/exif-data.h>
 #include <libexif/exif-content.h>
@@ -371,9 +372,26 @@ free_roots (gpointer key, gpointer value, gpointer edv)
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     ImageViewer       *viewer,
-			     const char        *path)
+			     const char        *path,
+			     FileData	       *fd)
 {
-	GHashTable *metadata_hash;
+	GHashTable *working_metadata_hash;
+
+	gboolean  use_existing_file_data_hash = 1;
+
+        if (path == NULL)
+                return;
+
+	debug (DEBUG_INFO, "requested metadata for %s\n", path);
+
+	if (fd == NULL) {
+		debug (DEBUG_INFO, "Generating new temporary metadata hash structure\n");		
+		use_existing_file_data_hash = 0;
+		working_metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	} else {
+		debug (DEBUG_INFO, "Use existing filedata->metadata hash stucture\n");
+		working_metadata_hash = fd->metadata_hash;
+	}
 
 	set_path (edv, path);
 
@@ -384,20 +402,20 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 	g_hash_table_remove_all (edv->priv->category_roots);
 	gtk_tree_store_clear (edv->priv->image_exif_model);
 
-	if (path == NULL)
-		return;
+	if (g_hash_table_size (working_metadata_hash) == 0) {
+		debug (DEBUG_INFO, "No existing metadata found. Read from %s\n",path);		
+		get_metadata_for_file (edv->priv->path, working_metadata_hash);
+	}
 
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
 
-	metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-
-	get_metadata_for_file (edv->priv->path, metadata_hash);
-        g_hash_table_foreach (metadata_hash, update_metadata_display, edv);
+	g_hash_table_foreach (working_metadata_hash, update_metadata_display, edv);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
 
-	g_hash_table_destroy (metadata_hash);
+	if (!use_existing_file_data_hash) 
+		g_hash_table_destroy (working_metadata_hash);
 }
 
 

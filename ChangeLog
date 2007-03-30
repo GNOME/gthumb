@@ -1,5 +1,17 @@
 2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_new), (file_data_unref):
+	* libgthumb/file-data.h:
+	* src/dlg-image-prop.c: (update_notebook_page):
+	* src/gth-browser.c: (window_update_image_info):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gth-exif-data-viewer.h:
+	* src/gth-viewer.c: (viewer_update_image_info):
+	Store metadata hash in the file_data structure, when it is
+	convenient, to eliminate duplicate file reads.
+
+2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/glib-utils.c: (debug):
 	Enable debug messages with an environment variable. Bug 361367.
 

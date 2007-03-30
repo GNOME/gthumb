@@ -67,6 +67,8 @@ file_data_new (const char       *path,
 	fd->thumb_created = FALSE;
 	fd->comment = g_strdup ("");
 
+	fd->metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
 	return fd;
 }
 
@@ -87,11 +89,13 @@ file_data_unref (FileData *fd)
 	fd->ref--;
 
 	if (fd->ref == 0) {
+		g_hash_table_destroy (fd->metadata_hash);
 		g_free (fd->path);
 		g_free (fd->display_name);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
+
 		g_free (fd);
 	}
 }

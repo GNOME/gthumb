@@ -711,7 +711,8 @@ viewer_update_image_info (GthViewer *viewer)
 
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer),
 				     IMAGE_VIEWER (priv->viewer),
-				     priv->image_path );
+				     priv->image_path,
+		       		     NULL);
 
 	update_image_comment (viewer);
 }

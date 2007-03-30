@@ -599,12 +599,17 @@ update_image_comment (GthBrowser *browser)
 static void
 window_update_image_info (GthBrowser *browser)
 {
+	FileData *fdata;
+
 	window_update_statusbar_image_info (browser);
 	window_update_statusbar_zoom_info (browser);
 
+	fdata = gth_file_view_get_image_data (browser->priv->file_list->view, browser->priv->image_position);
+
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer),
 				     IMAGE_VIEWER (browser->priv->viewer),
-				     browser->priv->image_path );
+				     browser->priv->image_path,
+		       		     fdata);
 
 	update_image_comment (browser);
 }

@@ -51,6 +51,9 @@ typedef struct {
 
 	char               *comment;
 	CommentData        *comment_data;
+
+	GHashTable         *metadata_hash;
+
 } FileData;
 
 
