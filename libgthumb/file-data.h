@@ -53,6 +53,7 @@ typedef struct {
 	CommentData        *comment_data;
 
 	GHashTable         *metadata_hash;
+	time_t		    metadata_time;
 
 } FileData;
 

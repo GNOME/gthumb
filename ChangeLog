@@ -1,5 +1,12 @@
 2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_new):
+	* libgthumb/file-data.h:
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	Keep track of metadata mtimes in the filedata structure.
+
+2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_new), (file_data_unref):
 	* libgthumb/file-data.h:
 	* src/dlg-image-prop.c: (update_notebook_page):

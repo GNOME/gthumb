@@ -68,6 +68,7 @@ file_data_new (const char       *path,
 	fd->comment = g_strdup ("");
 
 	fd->metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	fd->metadata_time = 0;
 
 	return fd;
 }
