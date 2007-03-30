@@ -854,8 +854,8 @@ get_file_mime_type (const char *filename,
 			return "image/x-nikon-nef";
 
 		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
-                if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
-                        return "image/x-canon-crw";
+		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
+			return "image/x-canon-crw";
 
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
@@ -1228,7 +1228,7 @@ remove_host_from_uri (const char *uri)
 	idx = strstr (idx + 3, "/");
 	if (idx == NULL)
 		return NULL;
-	return idx + 1;
+	return idx;
 }
 
 
@@ -1332,7 +1332,7 @@ get_uri_display_name (const char *uri)
 	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
 
 	if (catalog_or_search || is_local_file (uri))
-		tmp_path = g_strdup (remove_scheme_from_uri (uri));
+		tmp_path = g_strdup (remove_host_from_uri (uri));
 	else
 		tmp_path = g_strdup (uri);
 
@@ -1355,7 +1355,7 @@ get_uri_display_name (const char *uri)
 			int   base_uri_len;
 
 			base_uri = get_catalog_full_path (NULL);
-			base_uri_len = strlen (remove_scheme_from_uri (base_uri));
+			base_uri_len = strlen (remove_host_from_uri (base_uri));
 			g_free (base_uri);
 
 			name = gnome_vfs_unescape_string_for_display (tmp_path + 1 + base_uri_len);
@@ -1416,7 +1416,7 @@ file_name_from_path (const char *file_name)
 char *
 get_local_path_from_uri (const char *uri)
 {
-       	return gnome_vfs_unescape_string (remove_scheme_from_uri (uri), NULL);
+       	return gnome_vfs_unescape_string (remove_host_from_uri (uri), NULL);
 }
 
 
@@ -1492,9 +1492,9 @@ get_path_relative_to_dir (const char *uri,
 	char     *result;
 	GString  *relpath;
 
-	sourcedir = remove_level_from_path (remove_scheme_from_uri (uri));
+	sourcedir = remove_level_from_path (remove_host_from_uri (uri));
 	sourcedir_v = g_strsplit (sourcedir, "/", 0);
-	destdir_v = g_strsplit (remove_scheme_from_uri (destdir), "/", 0);
+	destdir_v = g_strsplit (remove_host_from_uri (destdir), "/", 0);
 
 	relpath = g_string_new (NULL);
 
@@ -1605,12 +1605,12 @@ remove_special_dirs_from_path (const char *uri)
 	char        *result;
 	int	     start_at;
 
-	scheme = get_uri_scheme (uri);
+	scheme = get_uri_host (uri);
 
 	if ((scheme == NULL) && ! g_path_is_absolute (uri))
 		return g_strdup (uri);
 
-	path = remove_scheme_from_uri (uri);
+	path = remove_host_from_uri (uri);
 
 	if ((path == NULL) || (strstr (path, ".") == NULL))
 		return g_strdup (uri);
@@ -1842,7 +1842,7 @@ resolve_symlinks (const char  *text_uri,
 
 	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) {
 	    		g_free (resolved_uri);
-	    		base_uri = get_uri_scheme (text_uri);
+	    		base_uri = get_uri_host (text_uri);
 	    	} else
 	    		base_uri = resolved_uri;
 
@@ -2587,20 +2587,20 @@ get_pixbuf_using_external_converter (const char *url,
 	char	   *cache_file_esc;
 	char	   *input_file_esc;
 	char	   *command;
-        GdkPixbuf  *pixbuf = NULL;
-        gboolean    is_raw;
-        gboolean    is_hdr;
+	GdkPixbuf  *pixbuf = NULL;
+	gboolean    is_raw;
+	gboolean    is_hdr;
 	gboolean    is_tiff;
 
-        path = gnome_vfs_unescape_string (url, NULL);
+	path = gnome_vfs_unescape_string (url, NULL);
 
-        is_raw = mime_type_is_raw (mime_type);
+	is_raw = mime_type_is_raw (mime_type);
 	is_hdr = mime_type_is_hdr (mime_type);
 	is_tiff = mime_type_is_tiff (mime_type);
 
-        md5_file = gnome_thumbnail_md5 (path);
+	md5_file = gnome_thumbnail_md5 (path);
 
-        input_file_esc = shell_escape (path);
+	input_file_esc = shell_escape (path);
 
 	if (is_raw || is_tiff)
                 /* Same file used for RAW thumbnailing and full image loading */
@@ -2611,7 +2611,7 @@ get_pixbuf_using_external_converter (const char *url,
 	else
 		cache_file_full = get_remote_cache_full_path (md5_file, "conv.tiff");
 
-	cache_file = g_strdup (remove_scheme_from_uri (cache_file_full));
+	cache_file = g_strdup (remove_host_from_uri (cache_file_full));
 	cache_file_esc = shell_escape (cache_file);
 
 	g_free (cache_file_full);

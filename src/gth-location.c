@@ -63,8 +63,8 @@ enum {
 };
 
 enum {
-        CHANGED,
-        LAST_SIGNAL
+	CHANGED,
+	LAST_SIGNAL
 };
 
 struct _GthLocationPrivate
@@ -137,14 +137,14 @@ gth_location_class_init (GthLocationClass *class)
 	object_class->finalize = gth_location_finalize;
 
 	gth_location_signals[CHANGED] =
-                g_signal_new ("changed",
-                              G_TYPE_FROM_CLASS (class),
-                              G_SIGNAL_RUN_LAST,
-                              G_STRUCT_OFFSET (GthLocationClass, changed),
-                              NULL, NULL,
-                              g_cclosure_marshal_VOID__STRING,
-                              G_TYPE_NONE,
-                              1,
+		g_signal_new ("changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthLocationClass, changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__STRING,
+			      G_TYPE_NONE,
+			      1,
 			      G_TYPE_STRING);
 }
 
@@ -180,8 +180,8 @@ gth_location_init (GthLocation *loc)
 
 static void
 open_other_location_response_cb (GtkDialog *file_sel,
-			         int        button_number,
-			         gpointer   data)
+				 int        button_number,
+				 gpointer   data)
 {
 	GthLocation *location = data;
 	char        *folder;
@@ -394,10 +394,10 @@ gth_location_construct (GthLocation *loc,
 GType
 gth_location_get_type ()
 {
-        static GType type = 0;
+	static GType type = 0;
 
-        if (! type) {
-                GTypeInfo type_info = {
+	if (! type) {
+		GTypeInfo type_info = {
 			sizeof (GthLocationClass),
 			NULL,
 			NULL,
@@ -415,7 +415,7 @@ gth_location_get_type ()
 					       0);
 	}
 
-        return type;
+	return type;
 }
 
 
@@ -894,7 +894,7 @@ gth_location_set_catalog_uri (GthLocation *loc,
 	loc->priv->catalog_uri = TRUE;
 
 	if (! uri_scheme_is_catalog (uri))
-		catalog_uri = g_strconcat (CATALOG_PREFIX, remove_scheme_from_uri (uri), NULL);
+		catalog_uri = g_strconcat (CATALOG_PREFIX, remove_host_from_uri (uri), NULL);
 	else
 		catalog_uri = g_strdup (uri);
 	gth_location_set_uri (loc, catalog_uri, reset_history);

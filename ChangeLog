@@ -1,3 +1,43 @@
+2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (resolve_symlinks): fixed call to get_uri_host
+
+2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-actions-callbacks.c:
+	* libgthumb/gtk-utils.c (exec_shell_script):
+	* src/rotation-utils.c:
+	* src/gth-location.c (gth_location_set_catalog_uri):
+	* src/gth-browser.c (close__step6):
+	* libgthumb/bookmarks.c (get_menu_item_tip):
+	* src/main.c (reset_command_line_catalog):
+	* libgthumb/file-utils.c:
+
+	Use remove_host_from_uri and get_uri_host instead of
+	remove_scheme_from_uri and get_uri_scheme (#423956).
+
+2007-03-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Rotate-on-import was broken, due to use of file:// URI. Added
+	URI support to apply_transformation_jpeg to fix it.
+
+2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-hue-saturation.c:
+	* src/dlg-color-balance.c:
+	* src/dlg-brightness-contrast.c:
+	* src/dlg-posterize.c:
+
+	Cancel the pixbuf operation before closing the dialog (#423715).
+
+2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c (apply_transformation_jpeg):
+
+	Fixed bug #423497 – fix build with gcc 2
+	Patch by Jens Granseuer.
+
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb_redeye.glade: Use "Position" instead of

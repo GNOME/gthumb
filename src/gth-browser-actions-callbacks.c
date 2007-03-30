@@ -428,7 +428,7 @@ gth_browser_activate_action_edit_catalog_view_new_window (GtkAction  *action,
 	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (path == NULL)
 		return;
-	uri = g_strconcat ("catalog://", remove_scheme_from_uri (path), NULL);
+	uri = g_strconcat ("catalog://", remove_host_from_uri (path), NULL);
 
 	gtk_widget_show (gth_browser_new (uri));
 
@@ -1767,7 +1767,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 			prefix = g_strdup (CATALOG_PREFIX);
 		catalog_path = catalog_list_get_path_from_iter (catalog_list, &iter);
 
-		path = g_strconcat (prefix, remove_scheme_from_uri (catalog_path), NULL);
+		path = g_strconcat (prefix, remove_host_from_uri (catalog_path), NULL);
 
 		g_free (catalog_path);
 		g_free (prefix);
