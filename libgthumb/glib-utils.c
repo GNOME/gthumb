@@ -332,9 +332,20 @@ debug (const char *file,
        const char *function,
        const char *format, ...)
 {
-#ifdef DEBUG
+	static gboolean first_time = 0;
+	static gboolean print_debug_info = 0;
 	va_list  args;
 	char    *str;
+
+	if (!first_time) {
+		first_time = 1;
+		if(g_getenv("GTHUMB_DEBUG")) {
+			print_debug_info = 1;
+		} 
+	}
+
+	if (!print_debug_info)
+		return;
 
 	g_return_if_fail (format != NULL);
 
@@ -345,8 +356,6 @@ debug (const char *file,
 	g_fprintf (stderr, "[GTHUMB] %s:%d (%s):\n\t%s\n", file, line, function, str);
 
 	g_free (str);
-#else /* ! DEBUG */
-#endif
 }
 
 

@@ -1,3 +1,13 @@
+2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/glib-utils.c: (debug):
+	Enable debug messages with an environment variable. Bug 361367.
+
+	* src/gth-browser.c: (get_image_to_preload):
+	Check dimensions of all images types, not just jpegs, to avoid
+	preloading giant tiff files. Bug 160460. Also, don't preload
+	remote files. Added more debug messages.
+
 2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (resolve_symlinks): fixed call to get_uri_host
