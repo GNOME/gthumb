@@ -1,5 +1,17 @@
 2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (load_comment_from_xmp):
+	* libgthumb/file-data.c: (file_data_new), (file_data_update):
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gthumb-preloader.c: (loader_done_cb):
+	Return cache mtime when using get_metadata_for_file.
+	Add initial support for fast comment scanning, to reduce
+	unnecessary metadata loads.
+
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gthumb-preloader.c: (loader_done_cb): Do not
 	preload metadata for the "requested" item, just the "next"
 	and "prev" items.

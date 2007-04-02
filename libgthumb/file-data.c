@@ -27,6 +27,7 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
 #include "file-utils.h"
+#include "glib-utils.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
 
@@ -68,7 +69,7 @@ file_data_new (const char       *path,
 	fd->comment = g_strdup ("");
 
 	fd->metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	fd->metadata_time = 0;
+	fd->metadata_time = get_metadata_for_file (fd->path, fd->metadata_hash, 1);
 
 	return fd;
 }
@@ -143,6 +144,7 @@ file_data_update (FileData *fd)
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 	fd->exif_data_loaded = FALSE;
+	fd->metadata_time = get_metadata_for_file (fd->path, fd->metadata_hash, 1);
 
 	gnome_vfs_file_info_unref (info);
 }
