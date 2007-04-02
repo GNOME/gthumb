@@ -1,3 +1,11 @@
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (xdg_user_dir_lookup):
+	* libgthumb/file-utils.h:
+	* src/dlg-photo-importer.c: (dlg_photo_importer):
+	Makes the PICTURES xdg-user-dir the default for photo import. 
+	Bug 425365. Based on patch from Matthias Clasen.
+
 2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/glib-utils.c: (debug):
