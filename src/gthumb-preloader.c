@@ -97,6 +97,12 @@ loader_done_cb (ImageLoader  *il,
 	ploader->loaded = TRUE;
 	ploader->error  = FALSE;
 
+	debug (DEBUG_INFO, "preloader done for %s, checking metadata cache\n", ploader->path);
+
+	/* Make sure the metadata is cached to a file,
+	   as part of the preload process. */
+	get_metadata_for_file (ploader->path, NULL);
+
 	if (ploader == requested_preloader (gploader)) {
 		g_signal_emit (G_OBJECT (gploader),
 			       gthumb_preloader_signals[REQUESTED_DONE], 0);
