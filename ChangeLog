@@ -1,5 +1,11 @@
 2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gthumb-preloader.c: (loader_done_cb): Do not
+	preload metadata for the "requested" item, just the "next"
+	and "prev" items.
+
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
 	Add mode where it just ensures that the metadata cache is
 	up-to-date, rather than fully loading it.
