@@ -482,18 +482,11 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash, gboolean fast
 	char       *local_file;
 	gboolean    just_update_cache;
 	gboolean    cache_is_good;
-	gboolean    comments_found = 0;
 	GHashTable *working_metadata_hash;
 
 
 	if (uri == NULL)
 		return;
-
-	if (fast_comment_scan) {
-		/* TO DO! Needs Joakim's code here. */
-		debug (DEBUG_INFO, "Scanning %s for comments\n", uri);
-		comments_found = 1;
-	}
 
 	/* If no metadata_hash structure is supplied, that means we 
 	   just want to update the disk metadata cache. */
@@ -538,8 +531,7 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash, gboolean fast
 	/* Do nothing if the cache is good, and we just wanted to ensure
 	   it existed. Otherwise, refresh the cache as required. */
 
-	if ( !(cache_is_good && just_update_cache) &&
-	     !(fast_comment_scan && !comments_found)) {
+	if ( !(cache_is_good && just_update_cache) ) {
 
 		/* Ignore the cache file if it was generated from libexif
 		   and exiftool is now available */
