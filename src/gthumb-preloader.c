@@ -109,7 +109,7 @@ loader_done_cb (ImageLoader  *il,
 		   as part of the preload process. We don't do this for
 		   the "requested" preloader, because the sidebar
 		   code will load it anyway. */
-		get_metadata_for_file (ploader->path, NULL, 0);
+		get_metadata_for_file (ploader->path, NULL);
 	}
 
 	gploader->load_id = g_timeout_add (timeout, load_next, gploader);

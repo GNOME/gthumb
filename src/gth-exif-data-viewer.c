@@ -410,7 +410,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 
 	if (g_hash_table_size (working_metadata_hash) == 0) {
 		debug (DEBUG_INFO, "No existing metadata found. Read from %s\n",path);
-		cache_mtime = get_metadata_for_file (path, working_metadata_hash, 0);
+		cache_mtime = get_metadata_for_file (path, working_metadata_hash);
 		if (fd != NULL)
 			fd->metadata_time = cache_mtime;
 	} else if (current_mtime > old_mtime) {
@@ -418,7 +418,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		/* Delete existing metadata hash entries */
 		g_hash_table_remove_all (working_metadata_hash);
 		/* Get the newer ones */
-        	cache_mtime = get_metadata_for_file (path, working_metadata_hash, 0);
+        	cache_mtime = get_metadata_for_file (path, working_metadata_hash);
                 if (fd != NULL)
                         fd->metadata_time = cache_mtime;
 	}

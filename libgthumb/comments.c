@@ -819,7 +819,7 @@ load_comment_from_xmp (const char *filename)
 	data = comment_data_new ();
 
         metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-        get_metadata_for_file (filename, metadata_hash, 0);
+        get_metadata_for_file (filename, metadata_hash);
 
 	/* comments - preferred fields first */
 	value = g_hash_table_lookup (metadata_hash, "XMP-exif:UserComment");
@@ -916,14 +916,16 @@ save_comment_xmp (const char  *filename,
 	GTimeVal    time_val = { (GTime) data->time, 0 };
 	char       *time_str = NULL;
 
-	time_str = g_time_val_to_iso8601 (&time_val);
-	g_strcanon (time_str,"0123456879:- ",' ');
-	g_strcanon (time_str,"0123456879: ",':');
-
 	metadata_hash_to_write = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:UserComment"), g_strdup (data->comment));
 	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:Location"), g_strdup (data->place));
-	g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:DateTime"), time_str);
+
+	if (data->time > 0) {
+		time_str = g_time_val_to_iso8601 (&time_val);
+		g_strcanon (time_str,"0123456879:- ",' ');
+		g_strcanon (time_str,"0123456879: ",':');
+		g_hash_table_insert (metadata_hash_to_write, g_strdup ("XMP:DateTime"), time_str);
+	}
 
         if (data->keywords_n > 0) {
                 if (data->keywords_n == 1)

@@ -1,5 +1,17 @@
 2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (load_comment_from_xmp),
+	(save_comment_xmp): Don't save time comment in xmp if
+	it is zero.
+
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gthumb-preloader.c: (loader_done_cb):
+	Tidy up.
+
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_new), (file_data_update):
 	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
 	Don't read metadata except for the metadata viewer. It is too

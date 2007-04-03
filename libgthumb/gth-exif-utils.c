@@ -471,7 +471,7 @@ strip_sort_codes (const char *value) {
 
 
 time_t
-get_metadata_for_file (const char *uri, GHashTable* metadata_hash, gboolean fast_comment_scan)
+get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 {
         char       *path;
         char       *cache_file;
