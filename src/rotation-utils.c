@@ -133,6 +133,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		return;
 	}
 	tmp = get_temp_file_name (tmpdir, NULL);
+	g_free (tmpdir);
 
 	/* If the original file is stored on a remote VFS location, copy it to a local
 	      temp file, modify it, then copy it back. This is easier than modifying the

@@ -1,5 +1,10 @@
 2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Small memory leak fixed - tmpdir was not gfree'd.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write),
 	(read_orientation_field), (write_orientation_field):
 	* libgthumb/gth-exif-utils.h:
