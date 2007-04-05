@@ -54,8 +54,6 @@ gboolean      have_exif_time              (const char   *filename);
 const char   *get_exif_entry_value        (ExifEntry    *entry);
 void          save_exif_data_to_uri       (const char   *filename,
 				           ExifData     *edata);
-void          copy_exif_data              (const char   *src,
-				           const char   *dest);
 gboolean      use_exiftool_for_metadata   ();
 char *        strip_sort_codes            (const char   *value); 
 time_t        get_metadata_for_file       (const char   *url,
@@ -70,5 +68,7 @@ int           gth_minimal_exif_tag_write  (const char   *filename,
 GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
+void 	      copy_exif_data              (const char *local_src_filename,
+                                           const char *local_dest_filename);
 
 #endif /* EXIF_UTILS_H */

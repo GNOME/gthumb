@@ -1750,63 +1750,39 @@ export__save_other_files (CatalogWebExporter *ce)
 
 static void
 copy_exif_from_orig_and_reset_orientation (const char *src_filename,
-		     const char *dest_filename)
+					   const char *dest_filename)
 {
-	JPEGData     *jdata_src, *jdata_dest;
-	ExifData     *edata_src;
 	char         *local_src_filename = NULL;
 	char         *local_dest_filename = NULL;
 	gboolean      is_local;
 
-	/* Due to shortcomings in libexif, this function may corrupt
-	   the MakerNotes in the exif data. */
-
 	is_local = is_local_file (dest_filename);
 
 	local_src_filename = obtain_local_file (src_filename);
+	if (local_src_filename == NULL)
+		return;
+
 	local_dest_filename = obtain_local_file (dest_filename);
-
-	if ((local_src_filename == NULL) || (local_dest_filename == NULL))
-		return;
-
-	jdata_src = jpeg_data_new_from_file (local_src_filename);
-	if (jdata_src == NULL)
-		return;
-
-	edata_src = jpeg_data_get_exif_data (jdata_src);
-	if (edata_src == NULL) {
-		jpeg_data_unref (jdata_src);
+	if (local_dest_filename == NULL) {
+		g_free (local_src_filename);
 		return;
 	}
 
-	jdata_dest = jpeg_data_new_from_file (local_dest_filename);
-	if (jdata_dest == NULL)
-		return;
+	copy_exif_data (local_src_filename, local_dest_filename);
 
-	/* The exif orientation tag, if present, must be reset to "top-left", 	 
-           because the jpeg was saved from a gthumb-generated pixbuf, and 	 
-           the pixbug image loader always rotates the pixbuf to account for 	 
+       /* The exif orientation tag, if present, must be reset to "top-left",    
+           because the jpeg was saved from a gthumb-generated pixbuf, and       
+           the pixbug image loader always rotates the pixbuf to account for     
            the orientation tag. */
-	update_exif_orientation (edata_src);
 
-	/* Update the exif data within the jpeg data, in memory. */
-	jpeg_data_set_exif_data (jdata_dest, edata_src);
+	write_orientation_field (local_dest_filename, GTH_TRANSFORM_NONE);
 
-	/* Commit the jpeg data in memory to a file. */
-	jpeg_data_save_file (jdata_dest, local_dest_filename);
-
-	/* Remove the jpeg and exif data in memory. */
-	exif_data_unref (edata_src);
-	jpeg_data_unref (jdata_src);
-	jpeg_data_unref (jdata_dest);
-
-        if (!is_local)
+	if (!is_local)
 		copy_cache_file_to_remote_uri (local_dest_filename, dest_filename);
-
+	
 	g_free (local_src_filename);
 	g_free (local_dest_filename);
 }
-
 
 static gboolean
 save_thumbnail_cb (gpointer data)
