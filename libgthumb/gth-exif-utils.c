@@ -29,6 +29,7 @@
 
 #include "file-utils.h"
 #include "gth-exif-utils.h"
+#include "glib-utils.h"
 
 
 ExifData *
@@ -366,8 +367,6 @@ const char types[] = {0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x00, 0x08, 0x00, 0x04
 #define IFD_NAME_PUSH(val) names[ni++] = val;
 #define IFD_NAME_PULL()    names[--ni]
  
-#define DEBUG(x) //x
- 
 int
 gth_minimal_exif_tag_write (const char *filename,
  	                    ExifTag     etag,
@@ -406,7 +405,7 @@ gth_minimal_exif_tag_write (const char *filename,
         int           ni = 0;       // iundex into names
  	int           cifdi = 0;    // curret ifd index
  
- 	DEBUG(printf("gth_minimal_exif_tag_write(%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds);)
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds);
  
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
@@ -473,7 +472,7 @@ gth_minimal_exif_tag_write (const char *filename,
  	  
  		cifdi    = oi; // remember which ifd we are at
  
- 		DEBUG(printf("%s:\n", IFD_NAME_PULL());)
+ 		debug (DEBUG_INFO, "%s:\n", IFD_NAME_PULL());
  		tags    = DE_ENDIAN16(*((unsigned short*)(&buf[i])));
  		i       = i + 2;
  
@@ -483,14 +482,14 @@ gth_minimal_exif_tag_write (const char *filename,
  			count  = DE_ENDIAN32(*((unsigned long*) (&buf[i + 4])));
  			offset = DE_ENDIAN32(*((unsigned long*) (&buf[i + 8])));
  
- 			DEBUG(printf("TAG: %04x type:%02d count:%02d offset:%04lx ", 
- 				     DE_ENDIAN16(*((unsigned short*)(&buf[i]))), type, count, offset);)
+ 			debug (DEBUG_INFO, "TAG: %04x type:%02d count:%02d offset:%04lx ", 
+ 				     DE_ENDIAN16(*((unsigned short*)(&buf[i]))), type, count, offset);
  
  			// Our tag?
  			if (bcmp(&buf[i], (char *)&tag, 2) == 0){ 
  
- 				DEBUG(printf("*");)
- 				
+ 				debug (DEBUG_INFO, "*");
+
  				// Local value that can be patched directly in TAG table 
  				if ((types[type] * count) <= 4){
  
@@ -547,7 +546,7 @@ gth_minimal_exif_tag_write (const char *filename,
  				IFD_NAME_PUSH("GPS");
  			}
  
- 			DEBUG(printf("\n");)
+ 			debug (DEBUG_INFO, "\n");
  					
  			i = i + 12;
  		}
@@ -575,3 +574,31 @@ gth_minimal_exif_tag_write (const char *filename,
  	return readsize == writesize ? PATCH_EXIF_OK : PATCH_EXIF_FILE_ERROR; 
 }
 
+
+GthTransform
+read_orientation_field (const char *path)
+{
+	ExifShort orientation;
+
+	if (path == NULL)
+		return GTH_TRANSFORM_NONE;
+
+	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
+	if (orientation >= 1 && orientation <= 8)
+		return orientation;
+	else
+		return GTH_TRANSFORM_NONE;
+}
+
+
+void
+write_orientation_field (const char   *path,
+			 GthTransform  transform)
+{
+	guint16 tf = (guint16) transform;
+
+	if (path == NULL)
+		return;
+
+	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
+}

@@ -191,8 +191,9 @@ ok_clicked (GtkWidget  *button,
 			       tm.tm_hour,
 			       tm.tm_min,
 			       tm.tm_sec );
-			if ((res = gth_minimal_exif_tag_write(local_file_to_modify, EXIF_TAG_DATE_TIME, buf, 20, 0)) != PATCH_EXIF_OK)
-				fprintf(stderr, "gth_minimal_exif_tag_write: error %d\n", res);
+			if ((res = gth_minimal_exif_tag_write (local_file_to_modify, EXIF_TAG_DATE_TIME, buf, 20, 0)) != PATCH_EXIF_OK)
+				 _gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+			         	_("Could not write Exif DataTime tag. Error %d."), res);
 
 			mtime++; // Step the time to enable sorting of pictures according to EXIF time
 
