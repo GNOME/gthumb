@@ -39,38 +39,11 @@
 #define RESPONSE_TRIM 1
 
 
-GthTransform
-read_orientation_field (const char *path)
-{
-	ExifShort orientation;
-
-	if (path == NULL)
-		return GTH_TRANSFORM_NONE;
-
-	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
-	if (orientation >= 1 && orientation <= 8)
-		return orientation;
-	else
-		return GTH_TRANSFORM_NONE;
-}
-
-
-void
-write_orientation_field (const char   *path,
-			 GthTransform  transform)
-{
-	guint16 tf = (guint16) transform;
-
-	if (path == NULL)
-		return;
-
-	gth_minimal_exif_tag_write(path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
-}
-
 typedef struct {
 	const char  *path;
 	GtkWindow   *parent;
 } jpeg_mcu_dialog_data;
+
 
 static boolean
 jpeg_mcu_dialog (JXFORM_CODE *transform,

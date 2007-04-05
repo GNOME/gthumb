@@ -1,3 +1,23 @@
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write),
+	(read_orientation_field), (write_orientation_field):
+	* libgthumb/gth-exif-utils.h:
+	* src/dlg-change-date.c: (ok_clicked):
+	* src/rotation-utils.c:
+	* src/rotation-utils.h:
+	Moved read_orientation_field, write_orientation_field into
+	libgthumb/gth-exif-utils.c. General tidy-up of the new
+	gth_minimal_exif_tag_write code.
+
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (xdg_user_dir_lookup):
+	* libgthumb/file-utils.h:
+	* src/dlg-photo-importer.c: (dlg_photo_importer):
+	Makes the PICTURES xdg-user-dir the default for photo import. 
+	Bug 425365. Based on patch from Matthias Clasen.
+
 2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xmp),
