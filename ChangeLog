@@ -1,5 +1,11 @@
 2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Small memory leak fixed in error handling.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/rotation-utils.c: (apply_transformation_jpeg):
 	Small memory leak fixed - tmpdir was not gfree'd.
 
