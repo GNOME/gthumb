@@ -1,3 +1,10 @@
+2007-04-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-data.c: (compare_key), (file_data_load_exif_data):
+	Load DateTime tags (and equivalents) for all files (like AVI files),
+	not just JPG files, using exiftool if present. This permits videos
+	to be sorted properly when sorting by Exif DateTime.
+
 2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (copy_exif_data):

@@ -21,6 +21,7 @@
  */
 
 #include <glib.h>
+#include <string.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -174,14 +175,75 @@ file_data_load_comment_data (FileData *fd)
 }
 
 
+gboolean
+compare_key (gpointer key, gpointer value, gpointer substring) 
+{
+	/* return true if the string is in the key name */
+	return (strstr ((const char *) key, (const char *) substring) != NULL);
+}
+
+
 void
 file_data_load_exif_data (FileData *fd)
 {
+	char       *time_string = NULL;
+	const char *value;
+	GTimeVal    time_val;
+
 	g_return_if_fail (fd != NULL);
 
+	/* date is already valid, return */
 	if (fd->exif_data_loaded)
 		return;
-	fd->exif_time = get_exif_time (fd->path);
+
+	/* if the image is a jpeg, use libexif to quickly
+	   read the datetime tags */ 
+	if ((fd->metadata_time == 0) && (image_is_jpeg (fd->path)))
+		fd->exif_time = get_exif_time (fd->path);
+
+	/* if that didn't work, load the metadata using the
+	   slower exiftool functions */
+
+	if (fd->exif_time == 0) {
+
+		/* Read metadata from file, if not already loaded */
+		if (fd->metadata_time == 0)
+			fd->metadata_time = get_metadata_for_file (fd->path, 
+								   fd->metadata_hash);
+
+		/* Read tags in order of preference */
+		value = g_hash_table_find (fd->metadata_hash, 
+						   compare_key, 
+						   "DateTimeOriginal");
+		if (value == NULL)
+			value = g_hash_table_find (fd->metadata_hash, 
+						   compare_key, 
+						   "CreateDate");
+		if (value == NULL)
+			value = g_hash_table_find (fd->metadata_hash, 
+						   compare_key, 
+						   "ModifyDate");
+		if (value == NULL)
+                        value = g_hash_table_find (fd->metadata_hash, 
+                                                   compare_key, 
+                                                   "DateTime");
+
+		if (value != NULL)
+			time_string = strip_sort_codes (value);
+
+		if (time_string) {
+	                /* Convert the exiftool default date format to ISO8601 format */
+        	        time_string[10]='T';
+                	time_string[4]='-';
+	                time_string[7]='-';
+
+        	        if (g_time_val_from_iso8601 (time_string, &time_val)) 
+                	        fd->exif_time = (time_t) (time_val.tv_sec);
+		}
+
+                g_free (time_string);
+        }
+
 	fd->exif_data_loaded = TRUE;
 }
 
