@@ -709,6 +709,29 @@ viewer_update_image_info (GthViewer *viewer)
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
 
+	JPEGData *jdata = NULL;
+
+        if (priv->exif_data != NULL) {
+		exif_data_unref (priv->exif_data);
+                priv->exif_data = NULL;
+        }
+
+        if (priv->image_path != NULL) {
+        	if (priv->image_path != NULL) {
+                	char *local_file_to_modify = NULL;
+                        local_file_to_modify = obtain_local_file (priv->image_path);
+                        if (local_file_to_modify != NULL) {
+                        	jdata = jpeg_data_new_from_file (local_file_to_modify);
+                                g_free (local_file_to_modify);
+                        }
+                }
+        }
+
+        if (jdata != NULL) {
+        	priv->exif_data = jpeg_data_get_exif_data (jdata);
+                jpeg_data_unref (jdata);
+        }
+	
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer),
 				     IMAGE_VIEWER (priv->viewer),
 				     priv->image_path,
