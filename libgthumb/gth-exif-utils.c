@@ -162,12 +162,41 @@ get_exif_tag_short (const char *filename,
 
 
 time_t
+exif_string_to_time_t (char *string) 
+{
+	char       *data;
+	struct tm   tm = { 0, };
+
+	data = g_strdup (string);
+
+	data[4] = data[7] = data[10] = '\0';
+
+	tm.tm_year = atoi (data) - 1900;
+	tm.tm_mon  = atoi (data + 5) - 1;
+	tm.tm_mday = atoi (data + 8);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_isdst = -1;
+
+	if (strlen (string) > 10) {
+		data[13] = data[16] = '\0';
+		tm.tm_hour = atoi (data + 11);
+		tm.tm_min  = atoi (data + 14);
+		tm.tm_sec  = atoi (data + 17);
+	}
+
+	g_free (data);
+	return mktime (&tm);
+}
+
+
+time_t
 get_exif_time (const char *filename)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
 	time_t        time = 0;
-	struct tm     tm = { 0, };
 
 	if (filename == NULL)
 		return (time_t)0;
@@ -201,28 +230,7 @@ get_exif_time (const char *filename)
 			if (strlen ((char*)e->data) < 10)
 				continue;
 
-			data = g_strdup ((char*)e->data);
-
-			data[4] = data[7] = data[10] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = 0;
-			tm.tm_min  = 0;
-			tm.tm_sec  = 0;
-			tm.tm_isdst = -1;
-
-			if (strlen ((char*)e->data) > 10) {
-				data[13] = data[16] = '\0';
-				tm.tm_hour = atoi (data + 11);
-				tm.tm_min  = atoi (data + 14);
-				tm.tm_sec  = atoi (data + 17);
-			}
-
-			time = mktime (&tm);
-
-			g_free (data);
+			time = exif_string_to_time_t ( (char*) e->data);
 
 			break;
 		}

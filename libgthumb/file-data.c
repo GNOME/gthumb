@@ -227,19 +227,11 @@ file_data_load_exif_data (FileData *fd)
                         value = g_hash_table_find (fd->metadata_hash, 
                                                    compare_key, 
                                                    "DateTime");
-
 		if (value != NULL)
 			time_string = strip_sort_codes (value);
 
-		if (time_string) {
-	                /* Convert the exiftool default date format to ISO8601 format */
-        	        time_string[10]='T';
-                	time_string[4]='-';
-	                time_string[7]='-';
-
-        	        if (g_time_val_from_iso8601 (time_string, &time_val)) 
-                	        fd->exif_time = (time_t) (time_val.tv_sec);
-		}
+		if (time_string)
+                	fd->exif_time = exif_string_to_time_t (time_string);
 
                 g_free (time_string);
         }

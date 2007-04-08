@@ -1,5 +1,17 @@
 2007-04-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/gth-exif-utils.c: (exif_string_to_time_t),
+	(get_exif_time):
+	* libgthumb/gth-exif-utils.h:
+	Make date-string to time_t conversions consistent
+	between libexif and exiftool.
+
+	* src/gth-window-actions-entries.h: Alt+S for scaling,
+	Alt+R for redeye removal.
+
+2007-04-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-browser.c: (window_update_image_info):
 	* src/gth-viewer.c: (viewer_update_image_info):
 	Overzealous code pruning in svn rev 1423 was reverted. The exif
