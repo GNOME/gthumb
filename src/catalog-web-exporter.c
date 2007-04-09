@@ -1758,15 +1758,15 @@ copy_exif_from_orig_and_reset_orientation (const char *src_filename,
 
 	is_local = is_local_file (dest_filename);
 
-	local_src_filename = obtain_local_file (src_filename);
-	if (local_src_filename == NULL)
-		return;
+        local_src_filename = obtain_local_file (src_filename);
+        if (local_src_filename == NULL)
+                return;
 
-	local_dest_filename = obtain_local_file (dest_filename);
-	if (local_dest_filename == NULL) {
-		g_free (local_src_filename);
-		return;
-	}
+        local_dest_filename = obtain_local_file (dest_filename);
+        if (local_dest_filename == NULL) {
+                g_free (local_src_filename);
+                return;
+        }
 
 	copy_exif_data (local_src_filename, local_dest_filename);
 

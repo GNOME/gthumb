@@ -1,3 +1,14 @@
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
+	Return NULL if the dialog text entry is empty, instead of
+	an empty string.
+
+2007-04-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+        * src/gth-window-actions-entries.h: Alt+S for scaling,
+        Alt+R for redeye removal.
+
 2007-04-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-data.c: (file_data_load_exif_data):
@@ -35,6 +46,17 @@
 	Added non-corrupting exif data copy function to the
 	web exporter, based on Joakim Larsson's patch.
 	Experimental, needs dimension tag updates. Bug 408185.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Small memory leak fixed in error handling.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Small memory leak fixed - tmpdir was not gfree'd.
 
 2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
