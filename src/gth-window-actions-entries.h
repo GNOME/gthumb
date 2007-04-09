@@ -167,7 +167,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_hue_saturation) },
 
          { "AlterImage_RedeyeRemoval", GTHUMB_STOCK_REDEYE_REMOVAL,
-            N_("_Redeye Removal..."), NULL,
+            N_("_Redeye Removal..."), "<alt>r",
             N_("Redeye Removal Tool"),
 	    G_CALLBACK (gth_window_activate_action_alter_image_redeye_removal) },
 
@@ -177,7 +177,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_color_balance) },
 
 	{ "AlterImage_Resize", GTHUMB_STOCK_RESIZE,
-	  N_("_Resize..."), "<alt>r",
+	  N_("_Resize..."), "<alt>s",
 	  N_("Resize image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_resize) },
 

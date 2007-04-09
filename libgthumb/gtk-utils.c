@@ -294,7 +294,8 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 
 	/* Run dialog */
 
-	if (gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_YES)
+	if ((gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_YES) &&
+	    (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0) )
 		/* Normalize unicode text to "NFC" form for consistency. */
 		result = g_utf8_normalize (gtk_entry_get_text (GTK_ENTRY (entry)),
 					   -1,

@@ -455,9 +455,11 @@ valid_mime_type (const char *name,
 
 	name_ext = get_filename_extension (name);
 	if ((name_ext != NULL) && (strcmp (name_ext, "") != 0)) {
-		const char *exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF",
-				       "AVI", "MPG", "MPEG",
-				       "AU", "WAV", "OGG", "MP3", "FLAC" };
+		const char *exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF",	/* images */
+				       "CR2", "CRW", "RAF", "DCR", "MOS", "RAW", "DNG", /* RAW images */
+				       "XCF", "SRF", "ORF", "MRW", "NEF", "PEF", "ARW", /* RAW images */
+				       "AVI", "MPG", "MPEG",				/* video */
+				       "AU", "WAV", "OGG", "MP3", "FLAC" };		/* audio */
 		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
 			const char *ext = exts[i];
 			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0)

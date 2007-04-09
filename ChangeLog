@@ -1,5 +1,24 @@
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/gth-window-actions-entries.h:
+
+	Backports from trunk, and updated scale/crop/redeye shortcuts.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: (valid_mime_type):
+	Do not filter out RAW photo types.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
+	Return NULL if the dialog text entry is empty, instead of
+	an empty string.
+
 2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser-actions-callbacks.c:
 	* libgthumb/gtk-utils.c (exec_shell_script):
 	* src/rotation-utils.c:
 	* src/gth-location.c (gth_location_set_catalog_uri):

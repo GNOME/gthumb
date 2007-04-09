@@ -1,3 +1,14 @@
+version 2.10.2
+--------------
+
+	Bugfixes:
+	* Fixed bug #427868 - Import of photos cannot download RAW files
+	* Return NULL if the dialog text entry is empty, instead of
+          an empty string, to avoid creation of "no-name" catalogs
+	* Fixed bug #423956 - Creating a web album at a ssh URI causes crash.
+	* Fixed rotate-on-import function.
+	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
+
 version 2.10.1
 --------------
 	Bugfixes:
