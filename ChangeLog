@@ -1,5 +1,23 @@
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* src/gth-browser.c: (go_to_uri):
+	* src/main.c: (prepare_app): 
+	  Fixed bug 427846 - Can't launch command line collections, and
+          crash when selecting "Catalogs" from the location bar. Patch
+	  by Manuel Braga.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: (valid_mime_type):
+	Do not filter out RAW photo types.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
 	Return NULL if the dialog text entry is empty, instead of
 	an empty string.
