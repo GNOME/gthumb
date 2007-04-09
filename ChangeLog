@@ -1,11 +1,17 @@
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-filter-bar.c: (gth_filter_bar_construct):
+	Changed "S_how" to "Sh_ow", to avoid conflict with
+	help menu mnemonic.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* src/gth-browser.c: (go_to_uri):
 	* src/main.c: (prepare_app): 
-	  Fixed bug 427846 - Can't launch command line collections, and
-          crash when selecting "Catalogs" from the location bar. Patch
-	  by Manuel Braga.
+	Fixed bug 427846 - Can't launch command line collections, and
+        crash when selecting "Catalogs" from the location bar. Patch
+	by Manuel Braga.
 
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
