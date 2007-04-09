@@ -1,5 +1,9 @@
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS: general updates
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-photo-importer.c: (valid_mime_type):
 	Do not filter out RAW photo types.
 
