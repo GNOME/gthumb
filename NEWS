@@ -8,6 +8,8 @@ version 2.10.2
 	* Fixed bug #423956 - Creating a web album at a ssh URI causes crash.
 	* Fixed rotate-on-import function.
 	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
+	* Fixed bug 427846 - Can't launch command line collections, and
+	  crash when selecting "Catalogs" from the location bar.
 
 version 2.10.1
 --------------

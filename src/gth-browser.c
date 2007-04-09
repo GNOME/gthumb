@@ -1214,7 +1214,7 @@ go_to_uri (GthBrowser  *browser,
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = get_uri_from_path (remove_host_from_uri (uri));
 
-		if (file_extension_is (file_uri, CATALOG_EXT))
+		if (file_uri != NULL && file_extension_is (file_uri, CATALOG_EXT))
 			gth_browser_go_to_catalog (browser, file_uri);
 		else
 			gth_browser_show_catalog_directory (browser, file_uri);
