@@ -768,7 +768,7 @@ prepare_app (void)
 		HideSidebar = TRUE;
 
 		catalog_path = get_command_line_catalog_path ();
-		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
+		catalog_uri = g_strconcat ("catalog://", remove_host_from_uri (catalog_path), NULL);
 
 		open_browser_window (catalog_uri, TRUE, use_factory);
 

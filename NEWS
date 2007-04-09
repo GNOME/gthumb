@@ -19,6 +19,8 @@ current svn
 	* Bypass libexif when writing tags, to avoid MakerNote corruption. 
 	  Bug #408185.
 	* Use "Position" instead of "Selection" in redeye removal dialog.
+	* Fixed bug 427846 - Can't launch command line collections, and
+	  crash when selecting "Catalogs" from the location bar.
 
 version 2.10.1
 --------------
