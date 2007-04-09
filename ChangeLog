@@ -1,11 +1,17 @@
+2007-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.10.2 released ]
+
+	* configure.in: updated for 2.10.2
+
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-        * NEWS:
-        * src/gth-browser.c: (go_to_uri):
-        * src/main.c: (prepare_app):
-        Fixed bug 427846 - Can't launch command line collections, and
-        crash when selecting "Catalogs" from the location bar. Patch
-        by Manuel Braga.
+	* NEWS:
+	* src/gth-browser.c: (go_to_uri):
+	* src/main.c: (prepare_app):
+	Fixed bug 427846 - Can't launch command line collections, and
+	crash when selecting "Catalogs" from the location bar. Patch
+	by Manuel Braga.
 
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

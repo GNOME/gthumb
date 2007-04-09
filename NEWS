@@ -1,15 +1,18 @@
 version 2.10.2
 --------------
-
 	Bugfixes:
 	* Fixed bug #427868 - Import of photos cannot download RAW files
 	* Return NULL if the dialog text entry is empty, instead of
-          an empty string, to avoid creation of "no-name" catalogs
+	  an empty string, to avoid creation of "no-name" catalogs
 	* Fixed bug #423956 - Creating a web album at a ssh URI causes crash.
 	* Fixed rotate-on-import function.
 	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
-	* Fixed bug 427846 - Can't launch command line collections, and
+	* Fixed bug #427846 - Can't launch command line collections, and
 	  crash when selecting "Catalogs" from the location bar.
+
+	Updated translations:
+	Dzongkha (dz), French (fr), Brazilian Portuguese (pt_BR),
+	Japanese (ja).
 
 version 2.10.1
 --------------
