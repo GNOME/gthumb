@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-30 16:20+0200\n"
-"PO-Revision-Date: 2007-03-30 16:18+0200\n"
+"POT-Creation-Date: 2007-04-10 15:35+0200\n"
+"PO-Revision-Date: 2007-04-10 15:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -277,9 +277,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "Importovat fotografie"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:898
-#: ../src/dlg-photo-importer.c:937 ../src/dlg-photo-importer.c:1506
-#: ../src/dlg-photo-importer.c:2251
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:900
+#: ../src/dlg-photo-importer.c:939 ../src/dlg-photo-importer.c:1508
+#: ../src/dlg-photo-importer.c:2253
 msgid "No camera detected"
 msgstr "Nedetekován fotoaparát"
 
@@ -1592,8 +1592,8 @@ msgstr "Hledat _libovolnou vybranou kategorii"
 msgid "New _Search..."
 msgstr "Nové _hledání..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:867
-#: ../src/dlg-photo-importer.c:1556
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:869
+#: ../src/dlg-photo-importer.c:1558
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
 
@@ -1807,6 +1807,12 @@ msgid ""
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
 msgstr ""
+"Toto zaškrtávací políčko ovlivňuje způsob otáčení JPEG obrázků obsahujících "
+"Exif značky pro orientaci. Je-li zaškrtnuto, bude otáčení prováděno fyzickou "
+"transformací obrázku a Exif značka bude nastavena na výchozí hodnotu (vlevo "
+"nahoře). Pokud políčko zaškrtnuto není, bude otáčení prováděno pouze úpravou "
+"Exif značky. Zaškrtnutím této volby se zvýší kompatibilita s dalšími "
+"aplikacemi."
 
 #: ../data/glade/gthumb_tools.glade.h:58
 msgid "Write To CD"
@@ -2205,7 +2211,7 @@ msgstr "%d. %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
-#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:275
+#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:249
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Nepodporovaný typ obrázku: %s"
@@ -2296,19 +2302,19 @@ msgstr "%d × %d bodů"
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1869
+#: ../src/catalog-web-exporter.c:1873
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: ../src/catalog-web-exporter.c:1935
+#: ../src/catalog-web-exporter.c:1939
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: ../src/catalog-web-exporter.c:2010
+#: ../src/catalog-web-exporter.c:2014
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: ../src/catalog-web-exporter.c:2140 ../src/catalog-web-exporter.c:2393
+#: ../src/catalog-web-exporter.c:2144 ../src/catalog-web-exporter.c:2397
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
@@ -2316,17 +2322,17 @@ msgstr "Ukládám obrázky"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2204
+#: ../src/catalog-web-exporter.c:2208
 msgid "Copying original images"
 msgstr "Kopírování originálních obrázků"
 
-#: ../src/catalog-web-exporter.c:2577
-#: ../src/gth-window-actions-callbacks.c:218 ../src/rotation-utils.c:159
+#: ../src/catalog-web-exporter.c:2581
+#: ../src/gth-window-actions-callbacks.c:218 ../src/rotation-utils.c:132
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2610
+#: ../src/catalog-web-exporter.c:2614
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -2367,12 +2373,17 @@ msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
 
 #: ../src/dlg-change-date.c:180 ../src/dlg-jpegtran.c:257
-#: ../src/dlg-reset-exif.c:123 ../src/rotation-utils.c:173
+#: ../src/dlg-reset-exif.c:123 ../src/rotation-utils.c:147
 msgid "Could not create a local temporary copy of the remote file."
 msgstr "Nelze vytvořit dočasnou kopii vzdáleného souboru."
 
-#: ../src/dlg-change-date.c:206 ../src/dlg-jpegtran.c:287
-#: ../src/dlg-reset-exif.c:139 ../src/rotation-utils.c:231
+#: ../src/dlg-change-date.c:196
+#, c-format
+msgid "Could not write Exif DataTime tag. Error %d."
+msgstr "Nelze zapsat Exif značku DataTime. Chyba %d."
+
+#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:287
+#: ../src/dlg-reset-exif.c:139 ../src/rotation-utils.c:205
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
@@ -2448,7 +2459,7 @@ msgstr "Cílový adresář neexistuje. Chcete jej vytvořit?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1581
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1583
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2466,7 +2477,7 @@ msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1135
 #: ../src/gth-browser.c:1846 ../src/gth-viewer.c:1009
-#: ../src/rotation-utils.c:112
+#: ../src/rotation-utils.c:85
 msgid "_Do not display this message again"
 msgstr "_Příště tuto zprávu nezobrazovat"
 
@@ -2571,23 +2582,23 @@ msgstr "Informace o kanálu"
 msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
-#: ../src/dlg-photo-importer.c:934 ../src/dlg-photo-importer.c:1505
-#: ../src/dlg-photo-importer.c:1555 ../src/dlg-photo-importer.c:1567
-#: ../src/dlg-photo-importer.c:1583 ../src/dlg-photo-importer.c:1612
+#: ../src/dlg-photo-importer.c:936 ../src/dlg-photo-importer.c:1507
+#: ../src/dlg-photo-importer.c:1557 ../src/dlg-photo-importer.c:1569
+#: ../src/dlg-photo-importer.c:1585 ../src/dlg-photo-importer.c:1614
 msgid "Could not import photos"
 msgstr "Nemohu importovat fotografie"
 
-#: ../src/dlg-photo-importer.c:1292 ../src/main.c:1104
+#: ../src/dlg-photo-importer.c:1294 ../src/main.c:1104
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1564
+#: ../src/dlg-photo-importer.c:1566
 #: ../src/gth-browser-actions-callbacks.c:1600
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1613
+#: ../src/dlg-photo-importer.c:1615
 msgid "Not enough free space left on disk"
 msgstr "Na disku nezbývá dost volného místa"
 
@@ -3588,8 +3599,8 @@ msgstr "Vše"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
-msgid "S_how:"
-msgstr "_Zobrazit:"
+msgid "Sh_ow:"
+msgstr "Z_obrazit:"
 
 #: ../src/gth-folder-selection-dialog.c:281
 msgid "<b>_Folder</b>"
@@ -4059,12 +4070,12 @@ msgstr "Rodina"
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
-#: ../src/rotation-utils.c:99
+#: ../src/rotation-utils.c:72
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Problém při transformaci obrázku: %s"
 
-#: ../src/rotation-utils.c:105
+#: ../src/rotation-utils.c:78
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -4084,14 +4095,14 @@ msgstr ""
 "Zkreslení je nicméně reverzibilní. Je-li výsledek nepřijatelný, stačí "
 "provést opačnou transformaci a získat tak původní obrázek.\n"
 "\n"
-"Můžete také odstranit problematické okrajové pixely. Tento režim dává v "
-"praxi nejlepší výsledky, transformace již ovšem není bezeztrátová."
+"Můžete také odstranit (oříznout) problematické okrajové pixely. Tento režim "
+"dává v praxi nejlepší výsledky, transformace již ovšem není bezeztrátová."
 
-#: ../src/rotation-utils.c:113
+#: ../src/rotation-utils.c:86
 msgid "_Trim"
-msgstr ""
+msgstr "_Oříznout"
 
-#: ../src/rotation-utils.c:222
+#: ../src/rotation-utils.c:196
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
