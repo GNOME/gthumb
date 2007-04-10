@@ -1,3 +1,8 @@
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	Fixed a crash when a file has no recognized mime type. Bug 428278.
+
 2007-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.2 released ]

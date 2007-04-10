@@ -9,6 +9,7 @@ version 2.10.2
 	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
 	* Fixed bug #427846 - Can't launch command line collections, and
 	  crash when selecting "Catalogs" from the location bar.
+        * Fixed a crash when a file has no recognized mime type. Bug 428278.
 
 	Updated translations:
 	Dzongkha (dz), French (fr), Brazilian Portuguese (pt_BR),
