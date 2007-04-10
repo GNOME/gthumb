@@ -850,17 +850,20 @@ get_file_mime_type (const char *filename,
 	if (extension != NULL) {
 
 		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "nef"))
+		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		    !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
 		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
+		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		    !strcasecmp (extension, "cr2"))
 			return "image/x-canon-crw";
 
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
 
-		if ((result == NULL) || (strcmp (result, "application/octet-stream") == 0)) {
+		if ((result == NULL) || 
+		    (strcmp_null_tollerant (result, "application/octet-stream") == 0)) {
 
 			/* If the file extension is not recognized, or the content is
 			   determined to be binary data (octet-stream), check for HDR file

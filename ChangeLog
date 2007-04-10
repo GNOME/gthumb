@@ -1,5 +1,10 @@
 2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	Fixed a crash when a file has no recognized mime type. Bug 428278.
+
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/catalog-list.c: (catalog_list_get_iter_from_path):
 	Return a boolean (FALSE) when path is NULL. Bug 407871.
 	Patch by Manuel Braga.
