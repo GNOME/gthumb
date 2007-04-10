@@ -1,3 +1,9 @@
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-list.c: (catalog_list_get_iter_from_path):
+	Return a boolean (FALSE) when path is NULL. Bug 407871.
+	Patch by Manuel Braga.
+
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-filter-bar.c: (gth_filter_bar_construct):
