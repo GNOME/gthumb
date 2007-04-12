@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-11 01:46+0200\n"
-"PO-Revision-Date: 2007-04-11 02:06+0200\n"
+"POT-Creation-Date: 2007-04-12 21:54+0200\n"
+"PO-Revision-Date: 2007-04-12 21:56+0200\n"
 "Last-Translator: Sílvia Miranda <silvia.gnome@gmail.com>\n"
 "Language-Team: catalan <tradgnome@softcatala.net>\n"
 "MIME-Version: 1.0\n"
@@ -264,7 +264,7 @@ msgstr ""
 "Si habiliteu aquesta casella de selecció i la fotografia que heu importat "
 "conté una etiqueta d'orientació, les dades de la imatge es transformaran "
 "físicament (sense pèrdua) de manera que la imatge visualitzada es vegi igual "
-"que abans pero l'etiqueta d'orientació es reiniciï a «dalt a l'esquerra». Si "
+"que abans però l'etiqueta d'orientació es reiniciï a «dalt a l'esquerra». Si "
 "la casella no està habilitada, les dades de la imatge i l'etiqueta "
 "d'orientació es mantindran sense canvis. El gthumb mostrarà la imatge de "
 "manera idèntica amb les dues possibilitats, però, per a obtenir la màxima "
@@ -1535,11 +1535,11 @@ msgstr "Desfés"
 
 #: ../data/glade/gthumb_redeye.glade.h:6
 msgid "Zoom In"
-msgstr "_Amplia el zoom"
+msgstr "_Apropa"
 
 #: ../data/glade/gthumb_redeye.glade.h:7
 msgid "Zoom Out"
-msgstr "_Redueix el zoom"
+msgstr "A_llunya"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
 msgid "Zoom to Fit"
@@ -1676,7 +1676,7 @@ msgstr "Ajusta el fus _horari:"
 
 #: ../data/glade/gthumb_tools.glade.h:17
 msgid "Apply physical _transform"
-msgstr "Aplica la _transformació física"
+msgstr "Aplica la _transformació físicament"
 
 #: ../data/glade/gthumb_tools.glade.h:18
 msgid "Apply to all _images"
@@ -1713,8 +1713,8 @@ msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
 msgstr ""
-"Feu clic a D'acord per a reiniciar l'etiqueta Exif d'orientació per a les "
-"imatges seleccionades a dalt-esquerra."
+"Feu clic a D'acord per a establir a dalt-esquerra l'etiqueta d'orientació "
+"Exif per a les imatges seleccionades"
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1904,7 +1904,7 @@ msgstr "<b>Comentaris</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "<b>Index Page Layout</b>"
-msgstr "<b>Format de l'índex</b>"
+msgstr "<b>Format de la pàgina d'índex</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
@@ -2893,7 +2893,7 @@ msgstr "Visualitza les propietats de la imatge"
 
 #: ../src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
-msgstr "Importa _fotografies..."
+msgstr "I_mporta fotografies..."
 
 #: ../src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
@@ -3168,11 +3168,11 @@ msgstr "Visualitza la imatge anterior"
 
 #: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
-msgstr "Vés a la ubicació visitada anterior"
+msgstr "Vés a l'anterior ubicació visitada"
 
 #: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
-msgstr "Vés a la ubicació visitada següent"
+msgstr "Vés a la següent ubicació visitada"
 
 #: ../src/gth-browser-actions-entries.h:309
 msgid "Go up one level"
@@ -3244,7 +3244,7 @@ msgstr "_Diapositives"
 
 #: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
-msgstr "Visualitza com una presentació de diapositives"
+msgstr "Visualitza com a presentació de diapositives"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "_Search..."
@@ -3304,7 +3304,7 @@ msgstr "_Filtra"
 
 #: ../src/gth-browser-actions-entries.h:413
 msgid "View or hide the filterbar of this window"
-msgstr "Visualitza o amaga la barra de filtració d'aquesta finestra"
+msgstr "Visualitza o amaga la barra de filtres d'aquesta finestra"
 
 #: ../src/gth-browser-actions-entries.h:419
 msgid "View thumbnails"
@@ -3361,7 +3361,7 @@ msgstr "Ordena les imatges per la mida de fitxer"
 
 #: ../src/gth-browser-actions-entries.h:459
 msgid "by Modification _Time"
-msgstr "per _hora de modificació "
+msgstr "per _hora de modificació"
 
 #: ../src/gth-browser-actions-entries.h:460
 msgid "Sort images by file modification time"
@@ -3394,12 +3394,12 @@ msgstr "Ordena les imatges manualment"
 #: ../src/gth-browser-actions-entries.h:476
 #: ../src/gth-browser-actions-entries.h:477
 msgid "View As Slides"
-msgstr "Visualitza com diapositives"
+msgstr "Visualitza com a diapositives"
 
 #: ../src/gth-browser-actions-entries.h:479
 #: ../src/gth-browser-actions-entries.h:480
 msgid "View As List"
-msgstr "Visualitza com una llista"
+msgstr "Visualitza com a llista"
 
 #: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
@@ -3773,7 +3773,7 @@ msgstr "Visualitza la imatge invertida"
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr "_Reflecteix en un mirall"
+msgstr "_Reflecteix"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
@@ -3949,8 +3949,8 @@ msgstr "_Escalat"
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
-"Utilitza la imatge com a fons de l'escriptori (escalat, mantenint la relació "
-"d'aspecte)"
+"Utilitza la imatge com a fons de l'escriptori (escalada, mantenint la "
+"relació d'aspecte)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
@@ -3958,7 +3958,7 @@ msgstr "Am_pliat"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr "Utilitza la imatge com a fons de l'escriptori (ampliat)"
+msgstr "Utilitza la imatge com a fons de l'escriptori (ampliada)"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
