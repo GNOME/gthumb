@@ -66,6 +66,11 @@ int           gth_minimal_exif_tag_write  (const char   *filename,
                                            void         *data,
                                            int           size,
                                            int           ifds);
+int           gth_minimal_exif_tag_read   (const char   *filename,
+                                           ExifTag       etag,
+                                           void         *data,
+                                           int           size,
+                                           int           ifds);
 GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
