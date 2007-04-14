@@ -1,3 +1,20 @@
+2007-04-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpeg-utils.c:
+	* libgthumb/jpeg-utils.h:
+	Deleted. We don't need our own scaled jpeg loader.
+
+	* libgthumb/Makefile.am:
+	* libgthumb/thumb-loader.c:
+	* src/gth-browser.c:
+	* src/gth-viewer.c:
+	Removed jpeg-utils.h includes.
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	Use gdk_pixbuf_new_from_file_at_scale to load jpeg thumbnails. It 
+	is just as fast as the old f_load_scaled_jpeg function.
+
 2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_file_mime_type):

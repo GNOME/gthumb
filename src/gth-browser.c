@@ -64,7 +64,6 @@
 #include "gthumb-stock.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
-#include "jpeg-utils.h"
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
