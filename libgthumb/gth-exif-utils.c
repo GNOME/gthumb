@@ -34,7 +34,6 @@
 #include "glib-utils.h"
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
-#include "jpeg-utils.h"
 
 
 ExifData *

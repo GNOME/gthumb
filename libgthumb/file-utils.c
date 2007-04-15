@@ -53,7 +53,6 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
-#include "jpeg-utils.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 
@@ -850,17 +849,20 @@ get_file_mime_type (const char *filename,
 	if (extension != NULL) {
 
 		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "nef"))
+		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		    !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
 		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp (result, "image/tiff") && !strcasecmp (extension, "cr2"))
+		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		    !strcasecmp (extension, "cr2"))
 			return "image/x-canon-crw";
 
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
 
-		if ((result == NULL) || (strcmp (result, "application/octet-stream") == 0)) {
+		if ((result == NULL) || 
+		    (strcmp_null_tollerant (result, "application/octet-stream") == 0)) {
 
 			/* If the file extension is not recognized, or the content is
 			   determined to be binary data (octet-stream), check for HDR file
@@ -2769,7 +2771,8 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
 	   thumbnails. Use libopenraw for full raw images too, once it matures. */
 	if ((pixbuf == NULL) &&
-	    mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
+	    mime_type_is_raw (mime_type) && 
+	    (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
@@ -2784,7 +2787,15 @@ gth_pixbuf_new_from_uri (const char  *uri,
 							      requested_height_if_used);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-	if (pixbuf == NULL)
+	if (pixbuf == NULL && (requested_width_if_used > 0))
+		/* for thumbnails, request a scaled image */
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
+                                                            requested_width_if_used,
+                                                            requested_height_if_used,
+                                                            TRUE,
+                                                            error);
+	else if (pixbuf == NULL)
+		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
 	g_free (local_file);
@@ -2824,24 +2835,6 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 
 	if (local_file == NULL)
 		return NULL;
-
-	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
-	   actually 3 times slower than copying it to a local cache.
-	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
-
-	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-	if (mime_type_is (mime_type, "image/jpeg") && (requested_width_if_used > 0)) {
-		pixbuf = f_load_scaled_jpeg (local_file,
-					     requested_width_if_used,
-					     requested_height_if_used,
-					     NULL, NULL);
-		if (pixbuf == NULL)
-			return NULL;
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
-		g_object_unref (pixbuf);
-		g_free (local_file);
-		return animation;
-	}
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if (mime_type_is (mime_type, "image/gif")) {

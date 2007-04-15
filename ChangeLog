@@ -1,11 +1,45 @@
 2007-04-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/jpeg-utils.c:
+	* libgthumb/jpeg-utils.h:
+	Deleted. We don't need our own scaled jpeg loader.
+
+	* libgthumb/Makefile.am:
+	* libgthumb/thumb-loader.c:
+	* src/gth-browser.c:
+	* src/gth-viewer.c:
+	Removed jpeg-utils.h includes.
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	Use gdk_pixbuf_new_from_file_at_scale to load jpeg thumbnails. It 
+	is just as fast as the old f_load_scaled_jpeg function.
+
+2007-04-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_action),
 	(gth_minimal_exif_tag_read), (gth_minimal_exif_tag_write),
 	(read_orientation_field):
 	* libgthumb/gth-exif-utils.h:
 	Added a gth_minimal_exif_tag_read function, to permit quick exif 
 	tag reads without libexif. Patch by Joakim Larsson. Bug 428725.
+
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	Fixed a crash when a file has no recognized mime type. Bug 428278.
+
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-list.c: (catalog_list_get_iter_from_path):
+	Return a boolean (FALSE) when path is NULL. Bug 407871.
+	Patch by Manuel Braga.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-filter-bar.c: (gth_filter_bar_construct):
+	Changed "S_how" to "Sh_ow", to avoid conflict with
+	help menu mnemonic.
 
 2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

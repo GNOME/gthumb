@@ -21,6 +21,8 @@ current svn
 	* Use "Position" instead of "Selection" in redeye removal dialog.
 	* Fixed bug 427846 - Can't launch command line collections, and
 	  crash when selecting "Catalogs" from the location bar.
+        * Fixed a crash when a file has no recognized mime type. Bug 428278.
+
 
 version 2.10.1
 --------------
