@@ -47,13 +47,6 @@ void       _gdk_pixbuf_hv_gradient            (GdkPixbuf *pixbuf,
 					       guint32    vcolor1,
 					       guint32    vcolor2);
 
-GdkPixbuf *_gdk_pixbuf_copy_rotate_90         (GdkPixbuf *src, 
-					       gboolean   counter_clockwise);
-
-GdkPixbuf *_gdk_pixbuf_copy_mirror            (GdkPixbuf *src, 
-					       gboolean   mirror, 
-					       gboolean   flip);
-
 GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf* src, 
 					       GthTransform transform);
 

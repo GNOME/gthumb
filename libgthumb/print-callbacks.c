@@ -840,13 +840,13 @@ print__gdk_pixbuf_rotate (GdkPixbuf *pixbuf,
 		g_object_ref (rotated);
 		break;
 	case 90:
-		rotated = _gdk_pixbuf_copy_rotate_90 (pixbuf, FALSE);
+		rotated = gdk_pixbuf_rotate_simple (pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
 		break;
 	case 180:
-		rotated = _gdk_pixbuf_copy_mirror (pixbuf, TRUE, TRUE);
+		rotated = gdk_pixbuf_rotate_simple (pixbuf, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
 		break;
 	case 270:
-		rotated = _gdk_pixbuf_copy_rotate_90 (pixbuf, TRUE);
+		rotated = gdk_pixbuf_rotate_simple (pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 		break;
 	}
 
