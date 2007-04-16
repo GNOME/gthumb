@@ -1,3 +1,17 @@
+2007-04-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_transform):
+	* libgthumb/pixbuf-utils.h:
+	* libgthumb/print-callbacks.c: (print__gdk_pixbuf_rotate):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_alter_image_rotate90),
+	(gth_window_activate_action_alter_image_rotate90cc),
+	(gth_window_activate_action_alter_image_flip),
+	(gth_window_activate_action_alter_image_mirror):
+	Better code sharing. Use gdk_pixbuf_rotate_simple and gdk_pixbuf_flip
+	instead of having our own _gdk_pixbuf_copy_rotate_90 and
+	_gdk_pixbuf_copy_mirror functions.
+
 2007-04-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpeg-utils.c:
