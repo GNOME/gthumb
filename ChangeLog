@@ -1,3 +1,8 @@
+2007-04-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/Makefile.am: Run gtk-update-icon-cache in uninstall-hook,
+	as per bug 362604.
+
 2007-04-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_transform):
