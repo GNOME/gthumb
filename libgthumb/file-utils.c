@@ -643,7 +643,8 @@ gboolean file_is_image (const gchar *name,
 
 gboolean mime_type_is_video (const char *mime_type)
 {
-	return (strstr (mime_type, "video") != NULL);
+	return ( (strstr (mime_type, "video") != NULL) ||
+		 (strcmp (mime_type, "application/ogg") == 0));
 }
 
 
@@ -2677,7 +2678,8 @@ get_pixbuf_using_external_converter (const char *url,
 static GdkPixbuf*
 gth_pixbuf_new_from_video (const char             *path,
 			   GnomeThumbnailFactory  *factory,
-			   GError                **error)
+			   GError                **error,
+			   const char	          *mime_type)
 {
       	GdkPixbuf *pixbuf = NULL;
 	time_t     mtime;
@@ -2706,8 +2708,8 @@ gth_pixbuf_new_from_video (const char             *path,
 	else {
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
 								     real_path,
-								     get_mime_type (real_path));
-		if (pixbuf != NULL)
+								     mime_type);
+		if (pixbuf != NULL) 
 			gnome_thumbnail_factory_save_thumbnail (factory,
 								pixbuf,
 								real_path,
@@ -2796,7 +2798,7 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 	/* The video thumbnailer can handle VFS URIs directly */
 
 	if (mime_type_is_video (mime_type) && (factory != NULL)) {
-		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
+		pixbuf = gth_pixbuf_new_from_video (filename, factory, error, mime_type);
 		if (pixbuf == NULL)
 			return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
