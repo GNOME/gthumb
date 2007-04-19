@@ -1,3 +1,13 @@
+2007-04-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/image-loader.c: (image_loader_sync_pixbuf):
+	Remove the orientation check from this function.
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri):
+	Check for orientation tag here instead. Look for pixbuf
+	option key first, then use libexif if that doesn't work.
+	Related to bug 428725.
+
 2007-04-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (mime_type_is_video),

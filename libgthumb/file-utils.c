@@ -55,6 +55,7 @@
 #include "file-utils.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
+#include "gth-exif-utils.h"
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -2754,8 +2755,13 @@ gth_pixbuf_new_from_uri (const char  *uri,
 			 gint         requested_height_if_used,
 			 const char  *mime_type)
 {
-	GdkPixbuf *pixbuf = NULL;
-	char      *local_file = NULL;
+	GdkPixbuf     *pixbuf = NULL;
+	GdkPixbuf     *temp = NULL;
+	char          *local_file = NULL;
+	ExifShort      orientation;
+	GthTransform   transform = GTH_TRANSFORM_NONE;
+	const gchar   *exif_orientation_string;
+
 
 	if (uri == NULL)
 		return NULL;
@@ -2800,8 +2806,41 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
+
+	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
+
+	if (mime_type_is (mime_type, "image/jpeg")) {
+		/* debugging code */
+		printf ("Check orientation tag of %s...\n\r", local_file);
+
+		if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
+			/* The gdk_pixbuf loader has detected an exif orientation tag. */
+			sscanf (exif_orientation_string, "%d", &transform);
+
+			/* debugging code */
+			printf ("gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
+
+		} else {
+			/* If gdk_pixbuf did not find an exif orientation tag, check
+			   again using our own code. This can be removed once gdk_pixbuf
+			   has accepted the tag-reading patch, and our gtk library
+			   requirements have been increased accordingly. */
+			orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+			transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
+
+			/* debugging code */
+			printf ("libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+		}
+	}
+
 	g_free (local_file);
-	return pixbuf;
+
+	if (transform != GTH_TRANSFORM_NONE) {
+		temp = _gdk_pixbuf_transform (pixbuf, transform);
+		g_object_unref (pixbuf);
+		return temp;
+	} else
+		return pixbuf;
 }
 
 
