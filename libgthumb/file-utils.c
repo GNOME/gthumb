@@ -2610,7 +2610,7 @@ get_pixbuf_using_external_converter (const char *url,
 			/* RAW files - dcraw doesn't support thumbnailing very
 			   elegantly (even with the -e option), so we just convert
 			   the full file (which will speed up image loading). */
-			command = g_strconcat ( "dcraw -c ",
+			command = g_strconcat ( "dcraw -w -c ",
 						input_file_esc,
 						" > ",
 						cache_file_esc,

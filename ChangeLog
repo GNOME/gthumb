@@ -1,3 +1,9 @@
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Added -w option to dcraw calls, to use the camera-specified
+	white balance on raw images.
+
 2007-04-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (mime_type_is_video),
