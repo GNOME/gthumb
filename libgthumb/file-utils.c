@@ -2595,6 +2595,9 @@ get_pixbuf_using_external_converter (const char *url,
 	gboolean    is_raw;
 	gboolean    is_hdr;
 	gboolean    is_tiff;
+	gboolean    is_thumbnail;
+
+	is_thumbnail = requested_width_if_used > 0;
 
 	path = gnome_vfs_unescape_string (url, NULL);
 
@@ -2606,13 +2609,20 @@ get_pixbuf_using_external_converter (const char *url,
 
 	input_file_esc = shell_escape (path);
 
-	if (is_raw || is_tiff)
-                /* Same file used for RAW thumbnailing and full image loading */
-                cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
-	else if (is_hdr && requested_width_if_used > 0)
-		/* HDR: separate files for thumbnails, full images */
+	/* The output filename, and its persistence, depend on the input file
+	   type, and whether or not a thumbnail has been requested. */
+
+	if ((is_tiff || is_raw) && !is_thumbnail)
+		/* Full-sized converted TIFF or RAW files */
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
+	else if ((is_tiff || is_raw) && is_thumbnail)
+		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.pnm");
+	else if (is_hdr && is_thumbnail)
+		/* HDR: thumbnails generated in tiff format. The converted file is later removed. */
 		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
+		/* Full-sized converted HDR files */
 		cache_file_full = get_remote_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_host_from_uri (cache_file_full));
@@ -2633,14 +2643,17 @@ get_pixbuf_using_external_converter (const char *url,
 	    (get_file_mtime (path) > get_file_mtime (cache_file))) {
 
 		if (is_raw) {
-			/* RAW files - dcraw doesn't support thumbnailing very
-			   elegantly (even with the -e option), so we just convert
-			   the full file (which will speed up image loading). */
-			command = g_strconcat ( "dcraw -c ",
-						input_file_esc,
-						" > ",
-						cache_file_esc,
-						NULL );
+			if (is_thumbnail) {
+				/* add -h option to speed up thumbnail generation */
+				command = g_strdup_printf ("dcraw -w -c -h %s > %s",
+							   input_file_esc,
+							   cache_file_esc);
+			} else {
+				/* -w option = camera-specified white balance */
+                                command = g_strdup_printf ("dcraw -w -c %s > %s",
+                                                           input_file_esc,
+                                                           cache_file_esc);
+			}
 		}
 
 		if (is_hdr) {
@@ -2649,7 +2662,7 @@ get_pixbuf_using_external_converter (const char *url,
 			   thumbnailing as a special case. */
 			char *resize_command;
 
-			if (requested_width_if_used > 0)
+			if (is_thumbnail)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
 								  requested_width_if_used,
 								  requested_height_if_used);
@@ -2686,10 +2699,8 @@ get_pixbuf_using_external_converter (const char *url,
 	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
-	/* Thumbnail files are already cached, so delete the conversion cache copies,
-	   except for raw files (because the same cache file is used for raw
- 	   thumbnails and raw full images). */
-	if (requested_width_if_used > 0 && !is_raw)
+	/* Thumbnail files are already cached, so delete the conversion cache copies */
+	if (is_thumbnail)
 		file_unlink (cache_file);
 
 	g_free (cache_file);
@@ -2809,7 +2820,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
-	if (mime_type_is (mime_type, "image/jpeg")) {
+	if (mime_type_is (mime_type, "image/jpeg") || mime_type_is (mime_type, "image/tiff")) {
 		/* debugging code */
 		printf ("Check orientation tag of %s...\n\r", local_file);
 
@@ -2820,11 +2831,11 @@ gth_pixbuf_new_from_uri (const char  *uri,
 			/* debugging code */
 			printf ("gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
 
-		} else {
+		} else if (mime_type_is (mime_type, "image/jpeg")) {
 			/* If gdk_pixbuf did not find an exif orientation tag, check
-			   again using our own code. This can be removed once gdk_pixbuf
-			   has accepted the tag-reading patch, and our gtk library
-			   requirements have been increased accordingly. */
+			   again using our own libexif-based code, which only works on jpegs.
+			   This can be removed once gdk_pixbuf has accepted the tag-reading patch, 
+			   and our gtk library requirements have been increased accordingly. */
 			orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 			transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 

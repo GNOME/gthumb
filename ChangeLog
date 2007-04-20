@@ -1,3 +1,21 @@
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri):
+	Add initial support for reading tiff orientation tag via
+	the in-progress gdk-pixbuf tag reading patch.
+
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Speed up thumbnail generation of raw files by using dcraw's -h
+	option. Only applies if libopenraw is not present/usable.
+
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Added -w option to dcraw calls, to use the camera-specified
+	white balance on raw images.
+
 2007-04-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_sync_pixbuf):
