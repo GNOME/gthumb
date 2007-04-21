@@ -1,5 +1,14 @@
 2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/async-pixbuf-ops.c: (scale_step):
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
+	* libgthumb/pixbuf-utils.h:
+	* src/dlg-scale-image.c: (ok_cb):
+	When scaling down by a factor > 100, call gdk_pixbuf_scale_simple
+	twice to avoid crashes, freezes. Related to bug 80925.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-rename-series.c: (get_image_date):
 	Removed obsolete ifdef that prevented correct date-based
 	renaming. Bug 431838.

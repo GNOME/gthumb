@@ -71,4 +71,9 @@ gboolean   scale_keepping_ratio               (int *width,
 GdkPixbuf* create_void_pixbuf                 (int width,
 					       int height);
 
+GdkPixbuf* _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
+                                               int              dest_width,
+                                               int              dest_height,
+                                               GdkInterpType    interp_type);
+
 #endif
