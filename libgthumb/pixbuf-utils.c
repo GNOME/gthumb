@@ -465,10 +465,10 @@ _gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
 	if ( (temp_width != dest_width) || (temp_height != dest_height)) {
 		temp_pixbuf1 = gdk_pixbuf_scale_simple (src, temp_width, temp_height, interp_type);
 		temp_pixbuf2 = gdk_pixbuf_scale_simple (temp_pixbuf1, dest_width, dest_height, interp_type);
+		g_object_unref (temp_pixbuf1);
 	} else
 		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
 
-	g_object_unref (temp_pixbuf1);
 	return temp_pixbuf2;
 }
 

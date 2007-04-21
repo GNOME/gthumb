@@ -1,5 +1,11 @@
 2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
+	Corrected a g_object_unref on a possibly-null object introduced
+	in the previous commit.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/async-pixbuf-ops.c: (scale_step):
 	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
 	* libgthumb/pixbuf-utils.h:
