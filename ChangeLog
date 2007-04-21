@@ -1,5 +1,11 @@
 2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Try to extract thumbnail from RAW images using "dcraw -e".
+	Something weird is happening with the file monitor, though.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
 	Corrected a g_object_unref on a possibly-null object introduced
 	in the previous commit.
