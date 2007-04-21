@@ -1,3 +1,9 @@
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-rename-series.c: (get_image_date):
+	Removed obsolete ifdef that prevented correct date-based
+	renaming. Bug 431838.
+
 2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
