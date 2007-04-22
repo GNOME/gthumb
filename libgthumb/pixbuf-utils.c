@@ -432,6 +432,45 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 }
 
 
+GdkPixbuf*          
+_gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
+                               int              dest_width,
+                               int              dest_height,
+                               GdkInterpType    interp_type)
+{
+	GdkPixbuf* temp_pixbuf1;
+	GdkPixbuf* temp_pixbuf2;
+	int        x_ratio, y_ratio;
+	int        temp_width = dest_width, temp_height = dest_height;
+
+	g_assert (dest_width > 1);
+	g_assert (dest_height > 1);
+
+	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
+	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
+
+	/* The gdk_pixbuf scaling routines do not handle large-ratio downscaling
+	   very well. Memory usage explodes and the application may freeze or crash.
+	   For scale-down ratios in excess of 100, do the scale in two steps.
+	   It is faster and safer that way. See bug 80925 for background info. */
+
+	if (x_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_width = 10 * dest_width;
+
+	if (y_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_height = 10 * dest_height;
+
+	if ( (temp_width != dest_width) || (temp_height != dest_height)) {
+		temp_pixbuf1 = gdk_pixbuf_scale_simple (src, temp_width, temp_height, interp_type);
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (temp_pixbuf1, dest_width, dest_height, interp_type);
+		g_object_unref (temp_pixbuf1);
+	} else
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
+
+	return temp_pixbuf2;
+}
 
 /* error handler data */
 struct error_handler_data {

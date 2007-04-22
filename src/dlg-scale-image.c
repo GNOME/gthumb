@@ -116,10 +116,10 @@ ok_cb (GtkWidget  *widget,
 
 	width  = MAX (2, (int) d_width);
 	height = MAX (2, (int) d_height);
-	new_pixbuf = gdk_pixbuf_scale_simple (orig_pixbuf,
-					      width,
-					      height,
-					      high_quality ? GDK_INTERP_BILINEAR : GDK_INTERP_NEAREST);
+	new_pixbuf = _gdk_pixbuf_scale_simple_safe (orig_pixbuf,
+					            width,
+					            height,
+					            high_quality ? GDK_INTERP_BILINEAR : GDK_INTERP_NEAREST);
 
 	gth_window_set_image_pixbuf (data->window, new_pixbuf);
 	gth_window_set_image_modified (data->window, TRUE);

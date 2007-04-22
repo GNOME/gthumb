@@ -2590,7 +2590,7 @@ get_pixbuf_using_external_converter (const char *url,
 	char	   *cache_file_full;
 	char	   *cache_file_esc;
 	char	   *input_file_esc;
-	char	   *command;
+	char	   *command = NULL;
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
@@ -2644,10 +2644,43 @@ get_pixbuf_using_external_converter (const char *url,
 
 		if (is_raw) {
 			if (is_thumbnail) {
-				/* add -h option to speed up thumbnail generation */
-				command = g_strdup_printf ("dcraw -w -c -h %s > %s",
-							   input_file_esc,
-							   cache_file_esc);
+				char *first_part;
+			       	char *jpg_thumbnail;
+				char *tiff_thumbnail;
+				char *ppm_thumbnail;
+				char *thumb_command;
+
+				/* Check for an embedded thumbnail first */
+				thumb_command = g_strdup_printf ("dcraw -e %s", input_file_esc);
+                		if (gnome_vfs_is_executable_command_string (thumb_command))
+			        	system (thumb_command);
+				g_free (thumb_command);
+
+				first_part = remove_extension_from_path (path);
+				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg",first_part);
+				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff",first_part);
+				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm",first_part);
+
+				if (path_exists (jpg_thumbnail)) {
+					g_free (cache_file);
+					cache_file = g_strdup (jpg_thumbnail);
+				} else if (path_exists (tiff_thumbnail)) {
+                                        g_free (cache_file);
+                                        cache_file = g_strdup (tiff_thumbnail);
+				} else if (path_exists (ppm_thumbnail)) {
+                                        g_free (cache_file);
+                                        cache_file = g_strdup (ppm_thumbnail);
+				} else {
+					/* No embedded thumbnail. Read the whole file. */
+					/* Add -h option to speed up thumbnail generation. */
+					command = g_strdup_printf ("dcraw -w -c -h %s > %s",
+								   input_file_esc,
+								   cache_file_esc);
+				}
+				g_free (first_part);
+				g_free (jpg_thumbnail);
+				g_free (tiff_thumbnail);
+				g_free (ppm_thumbnail);
 			} else {
 				/* -w option = camera-specified white balance */
                                 command = g_strdup_printf ("dcraw -w -c %s > %s",
@@ -2690,10 +2723,11 @@ get_pixbuf_using_external_converter (const char *url,
 						    cache_file_esc);
 		}
 
-		if (gnome_vfs_is_executable_command_string (command))
-		       	system (command);
-
-		g_free (command);
+		if (command != NULL) {
+			if (gnome_vfs_is_executable_command_string (command))
+			       	system (command);
+			g_free (command);
+		}
 	}
 
 	if (path_is_file (cache_file))
@@ -2821,7 +2855,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
 	/* debugging code */
-	printf ("Check orientation tag of %s...\n\r", local_file);
+	printf ("Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
 
 	if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
 		/* The gdk_pixbuf loader has detected an exif orientation tag. */

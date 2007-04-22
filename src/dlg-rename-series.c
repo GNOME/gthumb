@@ -261,9 +261,7 @@ get_image_date (const char *filename)
 	struct tm *ltime;
 	char      *stime;
 
-#ifdef HAVE_LIBEXIF
 	mtime = get_exif_time (filename);
-#endif /* HAVE_LIBEXIF */
 
 	if (mtime == 0)
 		mtime = get_file_mtime (filename);
