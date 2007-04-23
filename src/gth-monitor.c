@@ -318,8 +318,10 @@ add_monitor_event (GthMonitor                *monitor,
 	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
 		if (path_is_file (path))
 			type = MONITOR_EVENT_FILE_CREATED;
-		else
+		else if (path_is_dir (path))
 			type = MONITOR_EVENT_DIR_CREATED;
+		else
+			return;
 
 	} else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
 		if (file_is_image_video_or_audio (path, TRUE))

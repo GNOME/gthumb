@@ -1,3 +1,10 @@
+2007-04-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-monitor.c: (add_monitor_event): 
+	Fixed bug 432084 - Transient files confuse gThumb. Do not assume
+	non-file is a directory; test for directory existence separately.
+	Patch by Manuel Braga.
+
 2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
