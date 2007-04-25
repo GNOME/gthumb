@@ -1,3 +1,10 @@
+2007-04-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/dlg-rename-series.c: (get_image_date):
+	Backported fix for Bug 431838 - renaming a series of pictures with exif 
+	date and time doesn't work correctly.
+
 2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_file_mime_type):

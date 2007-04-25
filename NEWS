@@ -1,3 +1,8 @@
+current svn (gthumb-2-10-branch)
+--------------------------------
+
+	* Fixed bug 431838 - renaming with exif date and time doesn't work
+
 version 2.10.2
 --------------
 	Bugfixes:
