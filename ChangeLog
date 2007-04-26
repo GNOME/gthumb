@@ -1,3 +1,9 @@
+2007-04-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* doc/C/gthumb.xml:
+	* libgthumb/image-viewer.c: (image_viewer_class_init):
+	New keybinding: keypad-* = zoom to fit. Bug 432700.
+
 2007-04-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-monitor.c: (add_monitor_event): 

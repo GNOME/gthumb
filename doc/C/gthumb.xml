@@ -3200,7 +3200,8 @@
             <entry>
 	      <para>
 	        <keycombo><keycap>1</keycap></keycombo> or
-		<keycombo><keycap>z</keycap></keycombo>
+		<keycombo><keycap>z</keycap></keycombo> or
+		<keycombo><keycap>/ (numeric keypad)</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
@@ -3213,7 +3214,8 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>x</keycap></keycombo>
+	        <keycombo><keycap>x</keycap></keycombo> or
+		<keycombo><keycap>* (numeric keypad)</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
