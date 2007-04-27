@@ -53,7 +53,6 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
-#include "jpeg-utils.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 
@@ -624,7 +623,17 @@ get_mime_type_from_ext (const char *ext)
 
 gboolean mime_type_is_image (const char *mime_type)
 {
-	return (   (strstr (mime_type, "image") != NULL)
+	/* Valid image mime types:
+	   	1. All image* types, 
+		1b.	except for image/x-xcf, image/x-compressed-xcf
+			because we can't read these gimp files, and fast,
+			reliable converters are not really available.
+		2. application/x-crw
+			This is a RAW photo file, which for some reason
+			uses an "application" prefix instead of "image".
+	*/
+
+	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
 		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
 
@@ -644,7 +653,8 @@ gboolean file_is_image (const gchar *name,
 
 gboolean mime_type_is_video (const char *mime_type)
 {
-	return (strstr (mime_type, "video") != NULL);
+	return ( (strstr (mime_type, "video") != NULL) ||
+		 (strcmp (mime_type, "application/ogg") == 0));
 }
 
 
@@ -2564,11 +2574,14 @@ get_pixbuf_using_external_converter (const char *url,
 	char	   *cache_file_full;
 	char	   *cache_file_esc;
 	char	   *input_file_esc;
-	char	   *command;
+	char	   *command = NULL;
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
 	gboolean    is_tiff;
+	gboolean    is_thumbnail;
+
+	is_thumbnail = requested_width_if_used > 0;
 
 	path = gnome_vfs_unescape_string (url, NULL);
 
@@ -2580,13 +2593,20 @@ get_pixbuf_using_external_converter (const char *url,
 
 	input_file_esc = shell_escape (path);
 
-	if (is_raw || is_tiff)
-		/* Same file used for RAW thumbnailing and full image loading */
+	/* The output filename, and its persistence, depend on the input file
+	   type, and whether or not a thumbnail has been requested. */
+
+	if ((is_tiff || is_raw) && !is_thumbnail)
+		/* Full-sized converted TIFF or RAW files */
 		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
-	else if (is_hdr && requested_width_if_used > 0)
-		/* HDR: separate files for thumbnails, full images */
+	else if ((is_tiff || is_raw) && is_thumbnail)
+		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
+		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.pnm");
+	else if (is_hdr && is_thumbnail)
+		/* HDR: thumbnails generated in tiff format. The converted file is later removed. */
 		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
+		/* Full-sized converted HDR files */
 		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_host_from_uri (cache_file_full));
@@ -2607,14 +2627,50 @@ get_pixbuf_using_external_converter (const char *url,
 	    (get_file_mtime (path) > get_file_mtime (cache_file))) {
 
 		if (is_raw) {
-			/* RAW files - dcraw doesn't support thumbnailing very
-			   elegantly (even with the -e option), so we just convert
-			   the full file (which will speed up image loading). */
-			command = g_strconcat ( "dcraw -c ",
-						input_file_esc,
-						" > ",
-						cache_file_esc,
-						NULL );
+			if (is_thumbnail) {
+				char *first_part;
+			       	char *jpg_thumbnail;
+				char *tiff_thumbnail;
+				char *ppm_thumbnail;
+				char *thumb_command;
+
+				/* Check for an embedded thumbnail first */
+				thumb_command = g_strdup_printf ("dcraw -e %s", input_file_esc);
+                		if (gnome_vfs_is_executable_command_string (thumb_command))
+			        	system (thumb_command);
+				g_free (thumb_command);
+
+				first_part = remove_extension_from_path (path);
+				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg",first_part);
+				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff",first_part);
+				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm",first_part);
+
+				if (path_exists (jpg_thumbnail)) {
+					g_free (cache_file);
+					cache_file = g_strdup (jpg_thumbnail);
+				} else if (path_exists (tiff_thumbnail)) {
+                                        g_free (cache_file);
+                                        cache_file = g_strdup (tiff_thumbnail);
+				} else if (path_exists (ppm_thumbnail)) {
+                                        g_free (cache_file);
+                                        cache_file = g_strdup (ppm_thumbnail);
+				} else {
+					/* No embedded thumbnail. Read the whole file. */
+					/* Add -h option to speed up thumbnail generation. */
+					command = g_strdup_printf ("dcraw -w -c -h %s > %s",
+								   input_file_esc,
+								   cache_file_esc);
+				}
+				g_free (first_part);
+				g_free (jpg_thumbnail);
+				g_free (tiff_thumbnail);
+				g_free (ppm_thumbnail);
+			} else {
+				/* -w option = camera-specified white balance */
+                                command = g_strdup_printf ("dcraw -w -c %s > %s",
+                                                           input_file_esc,
+                                                           cache_file_esc);
+			}
 		}
 
 		if (is_hdr) {
@@ -2623,7 +2679,7 @@ get_pixbuf_using_external_converter (const char *url,
 			   thumbnailing as a special case. */
 			char *resize_command;
 
-			if (requested_width_if_used > 0)
+			if (is_thumbnail)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
 								  requested_width_if_used,
 								  requested_height_if_used);
@@ -2651,19 +2707,18 @@ get_pixbuf_using_external_converter (const char *url,
 						    cache_file_esc);
 		}
 
-		if (gnome_vfs_is_executable_command_string (command))
-		       	system (command);
-
-		g_free (command);
+		if (command != NULL) {
+			if (gnome_vfs_is_executable_command_string (command))
+			       	system (command);
+			g_free (command);
+		}
 	}
 
 	if (path_is_file (cache_file))
 		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
-	/* Thumbnail files are already cached, so delete the conversion cache copies,
-	   except for raw files (because the same cache file is used for raw
- 	   thumbnails and raw full images). */
-	if (requested_width_if_used > 0 && !is_raw)
+	/* Thumbnail files are already cached, so delete the conversion cache copies */
+	if (is_thumbnail)
 		file_unlink (cache_file);
 
 	g_free (cache_file);
@@ -2678,7 +2733,8 @@ get_pixbuf_using_external_converter (const char *url,
 static GdkPixbuf*
 gth_pixbuf_new_from_video (const char             *path,
 			   GnomeThumbnailFactory  *factory,
-			   GError                **error)
+			   GError                **error,
+			   const char	          *mime_type)
 {
       	GdkPixbuf *pixbuf = NULL;
 	time_t     mtime;
@@ -2707,8 +2763,8 @@ gth_pixbuf_new_from_video (const char             *path,
 	else {
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
 								     real_path,
-								     get_mime_type (real_path));
-		if (pixbuf != NULL)
+								     mime_type);
+		if (pixbuf != NULL) 
 			gnome_thumbnail_factory_save_thumbnail (factory,
 								pixbuf,
 								real_path,
@@ -2747,7 +2803,8 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
 	   thumbnails. Use libopenraw for full raw images too, once it matures. */
 	if ((pixbuf == NULL) &&
-	    mime_type_is_raw (mime_type) && (requested_width_if_used > 0))
+	    mime_type_is_raw (mime_type) && 
+	    (requested_width_if_used > 0))
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
@@ -2762,7 +2819,15 @@ gth_pixbuf_new_from_uri (const char  *uri,
 							      requested_height_if_used);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-	if (pixbuf == NULL)
+	if (pixbuf == NULL && (requested_width_if_used > 0))
+		/* for thumbnails, request a scaled image */
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
+                                                            requested_width_if_used,
+                                                            requested_height_if_used,
+                                                            TRUE,
+                                                            error);
+	else if (pixbuf == NULL)
+		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
 	g_free (local_file);
@@ -2788,7 +2853,7 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 	/* The video thumbnailer can handle VFS URIs directly */
 
 	if (mime_type_is_video (mime_type) && (factory != NULL)) {
-		pixbuf = gth_pixbuf_new_from_video (filename, factory, error);
+		pixbuf = gth_pixbuf_new_from_video (filename, factory, error, mime_type);
 		if (pixbuf == NULL)
 			return NULL;
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
@@ -2802,24 +2867,6 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 
 	if (local_file == NULL)
 		return NULL;
-
-	/* The jpeg thumbnailer can handle VFS URIs directly, but it is
-	   actually 3 times slower than copying it to a local cache.
-	   (Tested with ~ 3.7 MB jpeg files over ssh:// on DSL lines). */
-
-	/* Thumbnailing mode is signaled by requested_width_if_used > 0. */
-	if (mime_type_is (mime_type, "image/jpeg") && (requested_width_if_used > 0)) {
-		pixbuf = f_load_scaled_jpeg (local_file,
-					     requested_width_if_used,
-					     requested_height_if_used,
-					     NULL, NULL);
-		if (pixbuf == NULL)
-			return NULL;
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
-		g_object_unref (pixbuf);
-		g_free (local_file);
-		return animation;
-	}
 
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
 	if (mime_type_is (mime_type, "image/gif")) {
@@ -2896,5 +2943,120 @@ read_dot_hidden_file (const char *uri)
 	g_free (dot_hidden_uri);
 
 	return hidden_files;
+}
+
+
+char *
+xdg_user_dir_lookup (const char *type)
+{
+	/* This function is used by gthumb to determine the default "PICTURES"
+	   directory for imports. The actually directory name is localized. 
+	   Bug 425365. */
+
+	FILE *file;
+	char *home_dir, *config_home, *config_file;
+	char buffer[512];
+	char *user_dir;
+	char *p, *d;
+	int len;
+	int relative;
+
+	home_dir = getenv ("HOME");
+	if (home_dir == NULL)
+		return strdup ("/tmp");
+
+	config_home = getenv ("XDG_CONFIG_HOME");
+	if (config_home == NULL || config_home[0] == 0) {
+		config_file = malloc (strlen (home_dir) + strlen ("/.config/user-dirs.dirs") + 1);
+		strcpy (config_file, home_dir);
+		strcat (config_file, "/.config/user-dirs.dirs");
+	} else {
+		config_file = malloc (strlen (config_home) + strlen ("/user-dirs.dirs") + 1);
+		strcpy (config_file, config_home);
+		strcat (config_file, "/user-dirs.dirs");
+	}
+
+	file = fopen (config_file, "r");
+	free (config_file);
+	if (file == NULL)
+		goto error;
+
+	user_dir = NULL;
+
+	while (fgets (buffer, sizeof (buffer), file)) {
+		/* Remove newline at end */
+		len = strlen (buffer);
+		if (len > 0 && buffer[len-1] == '\n')
+		buffer[len-1] = 0;
+      
+		p = buffer;
+		while (*p == ' ' || *p == '\t')
+			p++;
+      
+		if (strncmp (p, "XDG_", 4) != 0)
+			continue;
+		p += 4;
+
+		if (strncmp (p, type, strlen (type)) != 0)
+			continue;
+		p += strlen (type);
+
+		if (strncmp (p, "_DIR", 4) != 0)
+		continue;
+		p += 4;
+
+		while (*p == ' ' || *p == '\t')
+			p++;
+
+		if (*p != '=')
+			continue;
+		p++;
+      
+		while (*p == ' ' || *p == '\t')
+			p++;
+
+		if (*p != '"')
+			continue;
+		p++;
+      
+		relative = 0;
+		if (strncmp (p, "$HOME/", 6) == 0) {
+			p += 6;
+			relative = 1;
+		} else if (*p != '/')
+			continue;
+      
+		if (relative) {
+			user_dir = malloc (strlen (home_dir) + 1 + strlen (p) + 1);
+			strcpy (user_dir, home_dir);
+			strcat (user_dir, "/");
+		} else {
+			user_dir = malloc (strlen (p) + 1);
+			*user_dir = 0;
+		}
+      
+		d = user_dir + strlen (user_dir);
+		while (*p && *p != '"')	{
+			if ((*p == '\\') && (*(p+1) != 0))
+				p++;
+			*d++ = *p++;
+		}
+		*d = 0;
+	}  
+	
+	fclose (file);
+
+	if (user_dir)
+		return user_dir;
+
+error:
+	 /* Special case desktop for historical compatibility */
+	if (strcmp (type, "DESKTOP") == 0) {
+		user_dir = malloc (strlen (home_dir) + strlen ("/Desktop") + 1);
+		strcpy (user_dir, home_dir);
+		strcat (user_dir, "/Desktop");
+		return user_dir;
+	} else
+		return strdup (home_dir);
 }
 

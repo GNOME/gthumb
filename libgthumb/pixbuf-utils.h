@@ -47,13 +47,6 @@ void       _gdk_pixbuf_hv_gradient            (GdkPixbuf *pixbuf,
 					       guint32    vcolor1,
 					       guint32    vcolor2);
 
-GdkPixbuf *_gdk_pixbuf_copy_rotate_90         (GdkPixbuf *src, 
-					       gboolean   counter_clockwise);
-
-GdkPixbuf *_gdk_pixbuf_copy_mirror            (GdkPixbuf *src, 
-					       gboolean   mirror, 
-					       gboolean   flip);
-
 GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf* src, 
 					       GthTransform transform);
 
@@ -77,5 +70,10 @@ gboolean   scale_keepping_ratio               (int *width,
 
 GdkPixbuf* create_void_pixbuf                 (int width,
 					       int height);
+
+GdkPixbuf* _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
+                                               int              dest_width,
+                                               int              dest_height,
+                                               GdkInterpType    interp_type);
 
 #endif

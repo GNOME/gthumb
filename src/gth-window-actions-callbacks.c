@@ -32,6 +32,7 @@
 #include <libgnome/gnome-help.h>
 #include <libgnome/gnome-url.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "async-pixbuf-ops.h"
 #include "catalog.h"
@@ -325,7 +326,7 @@ gth_window_activate_action_alter_image_rotate90 (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
+	dest_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 }
@@ -339,7 +340,7 @@ gth_window_activate_action_alter_image_rotate90cc (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
+	dest_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 }
@@ -353,7 +354,7 @@ gth_window_activate_action_alter_image_flip (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
+	dest_pixbuf = gdk_pixbuf_flip (src_pixbuf, FALSE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 }
@@ -367,7 +368,7 @@ gth_window_activate_action_alter_image_mirror (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
+	dest_pixbuf = gdk_pixbuf_flip (src_pixbuf, TRUE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 }

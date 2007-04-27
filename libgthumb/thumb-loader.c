@@ -44,7 +44,6 @@
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
-#include "jpeg-utils.h"
 #include "gthumb-marshal.h"
 
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)

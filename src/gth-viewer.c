@@ -55,7 +55,6 @@
 #include "main.h"
 #include "gth-nav-window.h"
 #include "image-viewer.h"
-#include "jpeg-utils.h"
 #include "preferences.h"
 #include "rotation-utils.h"
 #include "typedefs.h"

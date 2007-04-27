@@ -39,8 +39,4 @@ void		apply_transformation_generic   (GtkWindow    *win,
 GthTransform	get_next_transformation	       (GthTransform  original, 
 						GthTransform  transform);
 
-GthTransform	read_orientation_field	       (const char   *path);
-void		write_orientation_field        (const char   *filename, 
-						GthTransform  transform);
-
 #endif /* ROTATION_UTILS_H */

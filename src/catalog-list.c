@@ -432,8 +432,8 @@ catalog_list_get_iter_from_path (CatalogList *cat_list,
 	gboolean      exists;
 	int           i = 0;
 
-	g_return_val_if_fail (cat_list != NULL, -1);
-	g_return_val_if_fail (path != NULL, -1);
+	g_return_val_if_fail (cat_list != NULL, FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
 
 	model = GTK_TREE_MODEL (cat_list->list_store);
 	exists = gtk_tree_model_get_iter_first (model, iter);

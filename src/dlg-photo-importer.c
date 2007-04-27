@@ -1966,7 +1966,7 @@ dlg_photo_importer (GthBrowser *browser)
 
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))
-		default_path = g_strdup (g_get_home_dir());
+		default_path = xdg_user_dir_lookup ("PICTURES");
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton), default_path);
 	g_free (default_path);
 

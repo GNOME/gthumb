@@ -40,54 +40,11 @@
 #define RESPONSE_TRIM 1
 
 
-GthTransform
-read_orientation_field (const char *path)
-{
-	ExifShort orientation;
-
-	if (path == NULL)
-		return GTH_TRANSFORM_NONE;
-
-	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
-	if (orientation >= 1 && orientation <= 8)
-		return orientation;
-	else
-		return GTH_TRANSFORM_NONE;
-}
-
-
-void
-write_orientation_field (const char   *path,
-			 GthTransform  transform)
-{
-	JPEGData     *jdata;
-	ExifData     *edata;
-
-	if (path == NULL)
-		return;
-
-	jdata = jpeg_data_new_from_file (path);
-	if (jdata == NULL)
-		return;
-
-	edata = jpeg_data_get_exif_data (jdata);
-	if (edata == NULL) {
-		jpeg_data_unref (jdata);
-		return;
-	}
-
-	set_orientation_in_exif_data (transform, edata);
-
-	jpeg_data_save_file (jdata, path);
-
-	exif_data_unref (edata);
-	jpeg_data_unref (jdata);
-}
-
 typedef struct {
 	const char  *path;
 	GtkWindow   *parent;
 } jpeg_mcu_dialog_data;
+
 
 static boolean
 jpeg_mcu_dialog (JXFORM_CODE *transform,
@@ -176,6 +133,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		return;
 	}
 	tmp = get_temp_file_name (tmpdir, NULL);
+	g_free (tmpdir);
 
 	/* If the original file is stored on a remote VFS location, copy it to a local
 	      temp file, modify it, then copy it back. This is easier than modifying the

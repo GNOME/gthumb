@@ -33,21 +33,36 @@
 #include "jpegutils/jpeg-data.h"
 #include "typedefs.h"
 
+// Return values from gth_minimal_exif_tag_writes() 
+#define PATCH_EXIF_OK               0
+#define PATCH_EXIF_TOO_MANY_IFDS    1
+#define PATCH_EXIF_TOO_FEW_IFDS     2
+#define PATCH_EXIF_FILE_ERROR       3
+#define PATCH_EXIF_NO_TIFF          4
+#define PATCH_EXIF_NO_TAGS          5
+#define PATCH_EXIF_UNSUPPORTED_TYPE 6
+#define PATCH_EXIF_TRASHED_IFD      7
 
-ExifData   *gth_exif_data_new_from_uri    (const char   *path);
-char *      get_exif_tag                  (const char   *filename,
+ExifData     *gth_exif_data_new_from_uri  (const char   *path);
+char *        get_exif_tag                (const char   *filename,
 				           ExifTag       etag);
-ExifShort   get_exif_tag_short            (const char   *filename,
+ExifShort     get_exif_tag_short          (const char   *filename,
 				           ExifTag       etag);
-time_t      get_exif_time                 (const char   *filename);
-char *      get_exif_aperture_value       (const char   *filename);
-gboolean    have_exif_time                (const char   *filename);
-const char *get_exif_entry_value          (ExifEntry    *entry);
-void        save_exif_data_to_uri         (const char   *filename,
+time_t        get_exif_time               (const char   *filename);
+char *        get_exif_aperture_value     (const char   *filename);
+gboolean      have_exif_time              (const char   *filename);
+const char   *get_exif_entry_value        (ExifEntry    *entry);
+void          save_exif_data_to_uri       (const char   *filename,
 				           ExifData     *edata);
-void        copy_exif_data                (const char   *src,
+void          copy_exif_data              (const char   *src,
 				           const char   *dest);
-void        set_orientation_in_exif_data  (GthTransform  transform,
-				           ExifData     *edata);
+int           gth_minimal_exif_tag_write  (const char   *filename,
+                                           ExifTag       etag,
+                                           void         *data,
+                                           int           size,
+                                           int           ifds);
+GthTransform  read_orientation_field      (const char   *path);
+void	      write_orientation_field     (const char   *filename, 
+				  	   GthTransform  transform);
 
 #endif /* EXIF_UTILS_H */

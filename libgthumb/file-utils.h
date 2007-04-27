@@ -249,4 +249,7 @@ GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *fi
 						       gint	              requested_height_if_used,
 						       GnomeThumbnailFactory *factory,
 						       const char            *mime_type);
+
+char *              xdg_user_dir_lookup               (const char            *type);
+
 #endif /* FILE_UTILS_H */

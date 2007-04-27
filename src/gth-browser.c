@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include <gdk/gdkkeysyms.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
@@ -63,7 +64,6 @@
 #include "gthumb-stock.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
-#include "jpeg-utils.h"
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
@@ -291,7 +291,6 @@ static GthWindowClass *parent_class = NULL;
 #define DEFAULT_COMMENT_PANE_SIZE 100
 #define DEF_SIDEBAR_SIZE       255
 #define DEF_SIDEBAR_CONT_SIZE  190
-#define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
@@ -8277,6 +8276,8 @@ get_image_to_preload (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	FileData              *fdata;
 	int                    max_size;
+	int		       width = 0, height = 0;
+	char 		      *local_file;
 
 	if (pos < 0)
 		return NULL;
@@ -8287,33 +8288,39 @@ get_image_to_preload (GthBrowser *browser,
 	if (fdata == NULL)
 		return NULL;
 
-	debug (DEBUG_INFO, "%ld <-> %ld\n", (long int) fdata->size, (long int)PRELOADED_IMAGE_MAX_SIZE);
+	if (!is_local_file ( gth_file_list_path_from_pos (priv->file_list, pos))) {
+		debug (DEBUG_INFO, "Do not preload remote files. %s\n", gth_file_list_path_from_pos (priv->file_list, pos));
+		return NULL;
+		}
+
+	local_file = get_local_path_from_uri (gth_file_list_path_from_pos (priv->file_list, pos));
 
 	if (priority == 1)
 		max_size = PRELOADED_IMAGE_MAX_DIM1;
 	else
 		max_size = PRELOADED_IMAGE_MAX_DIM2;
 
+	debug (DEBUG_INFO, "File size of %s: %d\n", local_file, fdata->size);
+
 	if (fdata->size > max_size) {
-		debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (priv->file_list, pos));
+		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", local_file);
+		file_data_unref (fdata);
+		g_free (local_file);
+		return NULL;
+	}
+
+	gdk_pixbuf_get_file_info (local_file, &width, &height);
+
+	debug (DEBUG_INFO, "%s dimensions: [%dx%d] <-> %d\n", local_file, width, height, max_size);
+
+	if (width * height > max_size) {
+		debug (DEBUG_INFO, "image %s dimensions are too large for preloading\n", local_file);
+		g_free (local_file);
 		file_data_unref (fdata);
 		return NULL;
 	}
 
-	if (image_is_jpeg (fdata->path)) {
-		int width = 0, height = 0;
-
-		f_get_jpeg_size (fdata->path, &width, &height);
-
-		debug (DEBUG_INFO, "[%dx%d] <-> %d\n", width, height, max_size);
-
-		if (width * height > max_size) {
-			debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (priv->file_list, pos));
-			file_data_unref (fdata);
-			return NULL;
-		}
-	}
-
+	g_free (local_file);
 	file_data_unref (fdata);
 
 	return gth_file_list_path_from_pos (priv->file_list, pos);

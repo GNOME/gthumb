@@ -1,14 +1,119 @@
-2007-04-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+2007-04-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
-	* NEWS:
+	* Many files: merged trunk fixes back into the gthumb-2-10 branch,
+	  except for those bits requiring string changes.
+	* configure.in: updated for 2.10.3
+
+2007-04-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates
+
+	* libgthumb/file-utils.c: (mime_type_is_image):
+	Ignore image/x-xcf files. No good xcf loader/converter is available.
+
+2007-04-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/image-viewer.c: (image_viewer_class_init):
+	New keybinding: keypad-* = zoom to fit. Bug 432700.
+
+2007-04-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-monitor.c: (add_monitor_event): 
+	Fixed bug 432084 - Transient files confuse gThumb. Do not assume
+	non-file is a directory; test for directory existence separately.
+	Patch by Manuel Braga.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Try to extract thumbnail from RAW images using "dcraw -e".
+	Something weird is happening with the file monitor, though.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
+	Corrected a g_object_unref on a possibly-null object introduced
+	in the previous commit.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/async-pixbuf-ops.c: (scale_step):
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_scale_simple_safe):
+	* libgthumb/pixbuf-utils.h:
+	* src/dlg-scale-image.c: (ok_cb):
+	When scaling down by a factor > 100, call gdk_pixbuf_scale_simple
+	twice to avoid crashes, freezes. Related to bug 80925.
+
+2007-04-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-rename-series.c: (get_image_date):
-	Backported fix for Bug 431838 - renaming a series of pictures with exif 
-	date and time doesn't work correctly.
+	Removed obsolete ifdef that prevented correct date-based
+	renaming. Bug 431838.
+
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Speed up thumbnail generation of raw files by using dcraw's -h
+	option. Only applies if libopenraw is not present/usable.
+
+2007-04-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Added -w option to dcraw calls, to use the camera-specified
+	white balance on raw images.
+
+2007-04-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (mime_type_is_video),
+	(gth_pixbuf_new_from_video), (gth_pixbuf_animation_new_from_uri):
+	Add support for ogg thumbnails. Bug 430777.
+
+2007-04-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/Makefile.am: Run gtk-update-icon-cache in uninstall-hook,
+	as per bug 362604.
+
+2007-04-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_transform):
+	* libgthumb/pixbuf-utils.h:
+	* libgthumb/print-callbacks.c: (print__gdk_pixbuf_rotate):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_alter_image_rotate90),
+	(gth_window_activate_action_alter_image_rotate90cc),
+	(gth_window_activate_action_alter_image_flip),
+	(gth_window_activate_action_alter_image_mirror):
+	Better code sharing. Use gdk_pixbuf_rotate_simple and gdk_pixbuf_flip
+	instead of having our own _gdk_pixbuf_copy_rotate_90 and
+	_gdk_pixbuf_copy_mirror functions.
+
+2007-04-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpeg-utils.c:
+	* libgthumb/jpeg-utils.h:
+	Deleted. We don't need our own scaled jpeg loader.
+
+	* libgthumb/Makefile.am:
+	* libgthumb/thumb-loader.c:
+	* src/gth-browser.c:
+	* src/gth-viewer.c:
+	Removed jpeg-utils.h includes.
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri),
+	(gth_pixbuf_animation_new_from_uri):
+	Use gdk_pixbuf_new_from_file_at_scale to load jpeg thumbnails. It 
+	is just as fast as the old f_load_scaled_jpeg function.
 
 2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_file_mime_type):
 	Fixed a crash when a file has no recognized mime type. Bug 428278.
+
+2007-04-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-list.c: (catalog_list_get_iter_from_path):
+	Return a boolean (FALSE) when path is NULL. Bug 407871.
+	Patch by Manuel Braga.
 
 2007-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -42,6 +147,86 @@
 	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
 	Return NULL if the dialog text entry is empty, instead of
 	an empty string.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-filter-bar.c: (gth_filter_bar_construct):
+	Changed "S_how" to "Sh_ow", to avoid conflict with
+	help menu mnemonic.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/gth-browser.c: (go_to_uri):
+	* src/main.c: (prepare_app): 
+	Fixed bug 427846 - Can't launch command line collections, and
+        crash when selecting "Catalogs" from the location bar. Patch
+	by Manuel Braga.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: general updates
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: (valid_mime_type):
+	Do not filter out RAW photo types.
+
+2007-04-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gtk-utils.c: (_gtk_request_dialog_run):
+	Return NULL if the dialog text entry is empty, instead of
+	an empty string.
+
+2007-04-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+        * src/gth-window-actions-entries.h: Alt+S for scaling,
+        Alt+R for redeye removal.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Small memory leak fixed in error handling.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Small memory leak fixed - tmpdir was not gfree'd.
+
+2007-04-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write),
+	(read_orientation_field), (write_orientation_field):
+	* libgthumb/gth-exif-utils.h:
+	* src/dlg-change-date.c: (ok_clicked):
+	* src/rotation-utils.c:
+	* src/rotation-utils.h:
+	Moved read_orientation_field, write_orientation_field into
+	libgthumb/gth-exif-utils.c. General tidy-up of the new
+	gth_minimal_exif_tag_write code.
+
+2007-04-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (xdg_user_dir_lookup):
+	* libgthumb/file-utils.h:
+	* src/dlg-photo-importer.c: (dlg_photo_importer):
+	Makes the PICTURES xdg-user-dir the default for photo import. 
+	Bug 425365. Based on patch from Matthias Clasen.
+
+2007-03-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/glib-utils.c: (debug):
+	Enable debug messages with an environment variable. Bug 361367.
+
+	* src/gth-browser.c: (get_image_to_preload):
+	Check dimensions of all images types, not just jpegs, to avoid
+	preloading giant tiff files. Bug 160460. Also, don't preload
+	remote files. Added more debug messages.
+
+2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (resolve_symlinks): fixed call to get_uri_host
 
 2007-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -78,6 +263,30 @@
 
 	Fixed bug #423497 – fix build with gcc 2.
 	Patch by Jens Granseuer.
+
+2007-03-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c (apply_transformation_jpeg):
+
+	Fixed bug #423497 – fix build with gcc 2
+	Patch by Jens Granseuer.
+
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-sort-utils.c: added missing include.
+
+2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_write):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_orientation):
+	* libgthumb/jpegutils/jpegtran.h:
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	* src/rotation-utils.c: (write_orientation_field):
+	Bypass libexif and use gth_minimal_exif_tag_write when writing tags,
+	if possible, to avoid MakerNote corruption. Bug 408185. Based on
+	Joakim Larsson's patches. Merged from metadata-ideas branch.
 
 2007-03-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
@@ -286,11 +495,6 @@
 
 	* libgthumb/file-utils.c: reimplemented resolve_all_symlinks to
 	fix bug #159884.
-
-	* src/main.c (reset_command_line_catalog): reset even when no arguments
-	were specified.
-
-2007-03-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c: reset the startup location if it was set to the command
 	line catalog.

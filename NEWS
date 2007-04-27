@@ -1,7 +1,33 @@
-current svn (gthumb-2-10-branch)
---------------------------------
+version 2.10.3
+--------------
 
-	* Fixed bug 431838 - renaming with exif date and time doesn't work
+	* New shortcuts: Alt+S scaling, Alt+C cropping, Alt+R redeye removal.
+	* New keybinding: keypad-* = zoom to fit. Bug 432700.
+	* Makes PICTURES xdg-user-dir the default for import, bug #425365.
+	* Try to extract embedded thumbnail from RAW images. Bug 431483.
+	* Return NULL if the dialog text entry is empty, instead of
+          an empty string, to avoid creation of "no-name" catalogs
+	* Small memory leak fixed in web-exported error handling.
+	* Small memory leak fixed in apply_transformation_jpeg.
+	* Enable debug messages with an environment variable. Bug 361367.
+	* Bypass libexif when writing tags, to avoid MakerNote corruption. 
+	  Bug #408185.
+	* Don't list xcf files, no loader is available for them. Bug 433639.
+	* Fixed bug 431838 - renaming with exif date and time doesn't work.
+	* Fixed bug 432084 - Transient files confuse gThumb.
+  	* When scaling down by a factor > 100, call gdk_pixbuf_scale_simple
+          twice to avoid crashes, freezes. Related to bug 80925.
+	* Added -w option to dcraw calls, to use the camera-specified
+          white balance on raw images. Bug 431484.
+	* Add support for ogg thumbnails. Bug 430777.
+	* Run gtk-update-icon-cache in uninstall-hook, as per bug 362604.
+	* Better code sharing: Use gdk_pixbuf_new_from_file_at_scale to load 
+	  jpeg thumbnails. Same speed as the old f_load_scaled_jpeg function.
+	* Fixed a crash when a file has no recognized mime type. Bug 428278.
+	* Fixed bug 407871 - Crash after deleting catalog file.
+	* Check dimensions of all images types, not just jpegs, to avoid
+          preloading giant tiff files. Bug 160460. 	
+
 
 version 2.10.2
 --------------
@@ -19,6 +45,7 @@ version 2.10.2
 	Updated translations:
 	Dzongkha (dz), French (fr), Brazilian Portuguese (pt_BR),
 	Japanese (ja).
+
 
 version 2.10.1
 --------------

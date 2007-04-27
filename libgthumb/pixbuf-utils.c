@@ -86,133 +86,6 @@
 #include <jpeglib.h>
 
 
-enum {
-	RED_PIX   = 0,
-	GREEN_PIX = 1,
-	BLUE_PIX  = 2,
-	ALPHA_PIX = 3
-};
-
-
-/*
- * Returns a copy of pixbuf src rotated 90 degrees clockwise or 90
- * counterclockwise.
- */
-GdkPixbuf *
-_gdk_pixbuf_copy_rotate_90 (GdkPixbuf *src,
-			    gboolean counter_clockwise)
-{
-	GdkPixbuf *dest;
-	int        has_alpha;
-	int        sw, sh, srs;
-	int        dw, dh, drs;
-	guchar    *s_pix;
-        guchar    *d_pix;
-	guchar    *sp;
-        guchar    *dp;
-	int        i, j;
-	int        a;
-
-	if (!src) return NULL;
-
-	sw = gdk_pixbuf_get_width (src);
-	sh = gdk_pixbuf_get_height (src);
-	has_alpha = gdk_pixbuf_get_has_alpha (src);
-	srs = gdk_pixbuf_get_rowstride (src);
-	s_pix = gdk_pixbuf_get_pixels (src);
-
-	dw = sh;
-	dh = sw;
-	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, has_alpha, 8, dw, dh);
-	drs = gdk_pixbuf_get_rowstride (dest);
-	d_pix = gdk_pixbuf_get_pixels (dest);
-
-	a = (has_alpha ? 4 : 3);
-
-	for (i = 0; i < sh; i++) {
-		sp = s_pix + (i * srs);
-		for (j = 0; j < sw; j++) {
-			if (counter_clockwise)
-				dp = d_pix + ((dh - j - 1) * drs) + (i * a);
-			else
-				dp = d_pix + (j * drs) + ((dw - i - 1) * a);
-
-			*(dp++) = *(sp++);	/* r */
-			*(dp++) = *(sp++);	/* g */
-			*(dp++) = *(sp++);	/* b */
-			if (has_alpha) *(dp) = *(sp++);	/* a */
-		}
-	}
-
-	return dest;
-}
-
-
-/*
- * Returns a copy of pixbuf mirrored and or flipped.
- * TO do a 180 degree rotations set both mirror and flipped TRUE
- * if mirror and flip are FALSE, result is a simple copy.
- */
-GdkPixbuf *
-_gdk_pixbuf_copy_mirror (GdkPixbuf *src,
-			 gboolean mirror,
-			 gboolean flip)
-{
-	GdkPixbuf *dest;
-	int        has_alpha;
-	int        w, h, srs;
-	int        drs;
-	guchar    *s_pix;
-        guchar    *d_pix;
-	guchar    *sp;
-        guchar    *dp;
-	int        i, j;
-	int        a;
-
-	if (!src) return NULL;
-
-	w = gdk_pixbuf_get_width (src);
-	h = gdk_pixbuf_get_height (src);
-	has_alpha = gdk_pixbuf_get_has_alpha (src);
-	srs = gdk_pixbuf_get_rowstride (src);
-	s_pix = gdk_pixbuf_get_pixels (src);
-
-	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
-	drs = gdk_pixbuf_get_rowstride (dest);
-	d_pix = gdk_pixbuf_get_pixels (dest);
-
-	a = has_alpha ? 4 : 3;
-
-	for (i = 0; i < h; i++)	{
-		sp = s_pix + (i * srs);
-		if (flip)
-			dp = d_pix + ((h - i - 1) * drs);
-		else
-			dp = d_pix + (i * drs);
-
-		if (mirror) {
-			dp += (w - 1) * a;
-			for (j = 0; j < w; j++) {
-				*(dp++) = *(sp++);	/* r */
-				*(dp++) = *(sp++);	/* g */
-				*(dp++) = *(sp++);	/* b */
-				if (has_alpha) *(dp) = *(sp++);	/* a */
-				dp -= (a + 3);
-			}
-		} else {
-			for (j = 0; j < w; j++) {
-				*(dp++) = *(sp++);	/* r */
-				*(dp++) = *(sp++);	/* g */
-				*(dp++) = *(sp++);	/* b */
-				if (has_alpha) *(dp++) = *(sp++);	/* a */
-			}
-		}
-	}
-
-	return dest;
-}
-
-
 /*
  * Returns a transformed image.
  */
@@ -230,29 +103,29 @@ _gdk_pixbuf_transform (GdkPixbuf* src,
 		g_object_ref (dest);
 		break;
 	case GTH_TRANSFORM_FLIP_H:
-		dest = _gdk_pixbuf_copy_mirror (src, TRUE, FALSE);
+		dest = gdk_pixbuf_flip (src, TRUE);
 		break;
 	case GTH_TRANSFORM_ROTATE_180:
-		dest = _gdk_pixbuf_copy_mirror (src, TRUE, TRUE);
+		dest = gdk_pixbuf_rotate_simple (src, GDK_PIXBUF_ROTATE_UPSIDEDOWN);
 		break;
 	case GTH_TRANSFORM_FLIP_V:
-		dest = _gdk_pixbuf_copy_mirror (src, FALSE, TRUE);
+		dest = gdk_pixbuf_flip (src, FALSE);
 		break;
 	case GTH_TRANSFORM_TRANSPOSE:
-		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
-		dest = _gdk_pixbuf_copy_mirror (temp, TRUE, FALSE);
+		temp = gdk_pixbuf_rotate_simple (src, GDK_PIXBUF_ROTATE_CLOCKWISE);
+		dest = gdk_pixbuf_flip (temp, TRUE);
 		g_object_unref (temp);
 		break;
 	case GTH_TRANSFORM_ROTATE_90:
-		dest = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		dest = gdk_pixbuf_rotate_simple (src, GDK_PIXBUF_ROTATE_CLOCKWISE);
 		break;
 	case GTH_TRANSFORM_TRANSVERSE:
-		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
-		dest = _gdk_pixbuf_copy_mirror (temp, FALSE, TRUE);
+		temp = gdk_pixbuf_rotate_simple (src, GDK_PIXBUF_ROTATE_CLOCKWISE);
+		dest = gdk_pixbuf_flip (temp, FALSE);
 		g_object_unref (temp);
 		break;
 	case GTH_TRANSFORM_ROTATE_270:
-		dest = _gdk_pixbuf_copy_rotate_90 (src, TRUE);
+		dest = gdk_pixbuf_rotate_simple (src, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 		break;
 	default:
 		dest = src;
@@ -559,6 +432,45 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 }
 
 
+GdkPixbuf*          
+_gdk_pixbuf_scale_simple_safe (const GdkPixbuf *src,
+                               int              dest_width,
+                               int              dest_height,
+                               GdkInterpType    interp_type)
+{
+	GdkPixbuf* temp_pixbuf1;
+	GdkPixbuf* temp_pixbuf2;
+	int        x_ratio, y_ratio;
+	int        temp_width = dest_width, temp_height = dest_height;
+
+	g_assert (dest_width > 1);
+	g_assert (dest_height > 1);
+
+	x_ratio = gdk_pixbuf_get_width (src) / dest_width;
+	y_ratio = gdk_pixbuf_get_height (src) / dest_height;
+
+	/* The gdk_pixbuf scaling routines do not handle large-ratio downscaling
+	   very well. Memory usage explodes and the application may freeze or crash.
+	   For scale-down ratios in excess of 100, do the scale in two steps.
+	   It is faster and safer that way. See bug 80925 for background info. */
+
+	if (x_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_width = 10 * dest_width;
+
+	if (y_ratio > 100)
+		/* Scale down to 10x the requested size first. */
+		temp_height = 10 * dest_height;
+
+	if ( (temp_width != dest_width) || (temp_height != dest_height)) {
+		temp_pixbuf1 = gdk_pixbuf_scale_simple (src, temp_width, temp_height, interp_type);
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (temp_pixbuf1, dest_width, dest_height, interp_type);
+		g_object_unref (temp_pixbuf1);
+	} else
+		temp_pixbuf2 = gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
+
+	return temp_pixbuf2;
+}
 
 /* error handler data */
 struct error_handler_data {
