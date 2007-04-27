@@ -624,7 +624,17 @@ get_mime_type_from_ext (const char *ext)
 
 gboolean mime_type_is_image (const char *mime_type)
 {
-	return (   (strstr (mime_type, "image") != NULL)
+	/* Valid image mime types:
+	   	1. All image* types, 
+		1b.	except for image/x-xcf, image/x-compressed-xcf
+			because we can't read these gimp files, and fast,
+			reliable converters are not really available.
+		2. application/x-crw
+			This is a RAW photo file, which for some reason
+			uses an "application" prefix instead of "image".
+	*/
+
+	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
 		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
 
@@ -2594,7 +2604,6 @@ get_pixbuf_using_external_converter (const char *url,
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
-	gboolean    is_tiff;
 	gboolean    is_thumbnail;
 
 	is_thumbnail = requested_width_if_used > 0;
@@ -2603,7 +2612,6 @@ get_pixbuf_using_external_converter (const char *url,
 
 	is_raw = mime_type_is_raw (mime_type);
 	is_hdr = mime_type_is_hdr (mime_type);
-	is_tiff = mime_type_is_tiff (mime_type);
 
 	md5_file = gnome_thumbnail_md5 (path);
 
@@ -2612,10 +2620,10 @@ get_pixbuf_using_external_converter (const char *url,
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
-	if ((is_tiff || is_raw) && !is_thumbnail)
+	if (is_raw && !is_thumbnail)
 		/* Full-sized converted TIFF or RAW files */
 		cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
-	else if ((is_tiff || is_raw) && is_thumbnail)
+	else if (is_raw && is_thumbnail)
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
 		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.pnm");
 	else if (is_hdr && is_thumbnail)
@@ -2709,18 +2717,6 @@ get_pixbuf_using_external_converter (const char *url,
 						cache_file_esc,
 						NULL );
 			g_free (resize_command);
-		}
-
-		if (is_tiff) {
-			/* The standard gdk thumbnailer doesn't handle large-dimension tiff
-			   images elegantly, bugs 142428 and 160460. Memory blows up. We can
-			   do it more efficiently. */
-
-			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s",
-					 	    input_file_esc,
-						    requested_width_if_used,
-						    requested_height_if_used,
-						    cache_file_esc);
 		}
 
 		if (command != NULL) {
@@ -2829,11 +2825,10 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
-	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
+	/* Use dcraw for raw images, pfstools for HDR images */
 	if ((pixbuf == NULL) &&
-	     (mime_type_is_raw (mime_type) ||
-	      mime_type_is_hdr (mime_type) ||
-	      (mime_type_is_tiff (mime_type) && (requested_width_if_used > 0))))
+	     (mime_type_is_raw (mime_type) || 
+	      mime_type_is_hdr (mime_type) ))
 		pixbuf = get_pixbuf_using_external_converter (local_file,
 							      mime_type,
 							      requested_width_if_used,

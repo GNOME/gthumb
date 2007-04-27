@@ -353,6 +353,9 @@ image_viewer_class_init (ImageViewerClass *class)
 	gtk_binding_entry_add_signal (binding_set, GDK_x, 0,
 				      "set_fit_mode", 1,
 				      GTK_TYPE_INT, GTH_FIT_SIZE_IF_LARGER);
+	gtk_binding_entry_add_signal (binding_set, GDK_KP_Multiply, 0,
+                                      "set_fit_mode", 1,
+                                      GTK_TYPE_INT, GTH_FIT_SIZE_IF_LARGER);
 	gtk_binding_entry_add_signal (binding_set, GDK_w, 0,
 				      "set_fit_mode", 1,
 				      GTK_TYPE_INT, GTH_FIT_WIDTH_IF_LARGER);
