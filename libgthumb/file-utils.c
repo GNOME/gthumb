@@ -623,7 +623,17 @@ get_mime_type_from_ext (const char *ext)
 
 gboolean mime_type_is_image (const char *mime_type)
 {
-	return (   (strstr (mime_type, "image") != NULL)
+	/* Valid image mime types:
+	   	1. All image* types, 
+		1b.	except for image/x-xcf, image/x-compressed-xcf
+			because we can't read these gimp files, and fast,
+			reliable converters are not really available.
+		2. application/x-crw
+			This is a RAW photo file, which for some reason
+			uses an "application" prefix instead of "image".
+	*/
+
+	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
 		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
 
