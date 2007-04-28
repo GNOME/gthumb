@@ -1397,13 +1397,14 @@ adjust_orientation__step (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
 	const char       *filepath = aodata->scan->data;
-	GnomeVFSFileInfo  info;
+	GnomeVFSFileInfo *info;
 	GtkWindow        *window = GTK_WINDOW (data->dialog);
 
-	gnome_vfs_get_file_info (filepath, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	info = gnome_vfs_file_info_new();
+	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	if (file_is_image (filepath, TRUE)) {
-		FileData     *fd = file_data_new (filepath, &info);
+		FileData     *fd = file_data_new (filepath, info);
 		GthTransform transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (filepath))
 			apply_transformation_jpeg (window, fd->path, transform);
@@ -1413,7 +1414,8 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		file_data_unref (fd);
 	}
 
-	gnome_vfs_set_file_info (filepath, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	gnome_vfs_file_info_unref(info); 
 }
 
 
