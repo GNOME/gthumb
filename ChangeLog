@@ -1,3 +1,9 @@
+2007-04-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	Fixed improperly initialized & unref'd GnomeVFSFileInfo instance.
+	Patch by Jerry Tan. Bug 434034.
+
 2007-04-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: general updates
