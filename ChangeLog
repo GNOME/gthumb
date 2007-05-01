@@ -1,3 +1,11 @@
+2007-05-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_space_used_in_kb),
+	(check_cache_space), (obtain_local_file),
+	(get_pixbuf_using_external_converter):
+	Delete files one at a time until the size of the remote / conversion
+	cache is < 256 MB. Bug 434445.
+
 2007-04-28  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c: (adjust_orientation__step):

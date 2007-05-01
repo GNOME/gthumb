@@ -27,6 +27,8 @@ version 2.10.3
 	* Fixed bug 407871 - Crash after deleting catalog file.
 	* Check dimensions of all images types, not just jpegs, to avoid
           preloading giant tiff files. Bug 160460. 	
+	* Fixed Bug 434445 - cache grows too large when viewing RAW files
+	* Fixed Bug 434034 - improperly initialized GnomeVFSFileInfo instance.
 
 
 version 2.10.2
