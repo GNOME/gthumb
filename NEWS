@@ -40,6 +40,7 @@ version 2.11.0
 	* Check dimensions of all images types, not just jpegs, to avoid
           preloading giant tiff files. Bug 160460. 	
 	* Fixed Bug 434445 - cache grows too large when viewing RAW files
+        * Fixed Bug 434034 - improperly initialized GnomeVFSFileInfo instance.
 
 
 version 2.10.1
