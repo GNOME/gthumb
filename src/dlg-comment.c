@@ -462,9 +462,13 @@ dlg_comment_update (GtkWidget *dlg)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton), FALSE);
 	}
 
-	/**/
-
-	data->have_exif_data = have_exif_time (data->file_list->data);
+	/* Does at least one image have exif data? */
+	data->have_exif_data = FALSE;
+	for (scan = data->file_list; scan; scan = scan->next)
+		if (have_exif_time (scan->data)) {
+			data->have_exif_data = TRUE;
+			break;
+		}
 	
 	first_image = data->file_list->data;
 	data->original_cdata = cdata = comments_load_comment (first_image, TRUE);
