@@ -2476,45 +2476,94 @@ prune_cache (void)
 }
 
 
+long
+get_space_used_in_kb (const char *path)
+{
+	char   *command;
+	char   *command_output = NULL;
+	long 	space_used = 0;
+
+        command = g_strdup_printf ("du -ks %s", path);
+        g_spawn_command_line_sync (command,
+                                   &command_output,
+                                   NULL, NULL, NULL);
+	g_free (command);
+
+        if (command_output != NULL) {
+                space_used = strtol (command_output, NULL, 10);
+                g_free (command_output);
+        }
+
+        return space_used;
+}
+
+#define MAX_CACHE_SIZE_IN_KB	(256 * 1024)
+
+void
+check_cache_space (void)
+{
+	char   *command;
+	char   *cache_dir;
+	int	i = 0;
+
+	cache_dir = g_strdup_printf ("%s/%s/",g_get_home_dir (),RC_REMOTE_CACHE_DIR);
+	if (cache_dir == NULL)
+		return;
+
+	command = g_strdup_printf ("cd %s; ls -t1 %s | tail -n 1 | xargs rm", cache_dir, cache_dir);
+
+	while ((get_space_used_in_kb (cache_dir) > MAX_CACHE_SIZE_IN_KB) && (i < 100) ) {
+		system (command);
+		i++;
+	}
+
+	g_free (cache_dir);
+	debug (DEBUG_INFO, "Deleted %d files from cache to fit %ld kB limit.\n", i, MAX_CACHE_SIZE_IN_KB);
+}
+
+
 char*
 obtain_local_file (const char *remote_filename)
 {
 	char *md5_file;
 	char *cache_file;
 	char *local_file;
+	char *command;
 
 	/* If the file is local, simply return a copy of the filename, without
 	   any "file:///" prefix. */
-
+ 
 	if (is_local_file (remote_filename))
 		return get_local_path_from_uri (remote_filename);
 
 	/* If the file is remote, copy it to a local cache. */
-
 	md5_file = gnome_thumbnail_md5 (remote_filename);
+	if (md5_file == NULL)
+		return NULL;
+
 	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
 	g_free (md5_file);
-
 	if (cache_file == NULL)
 		return NULL;
 
 	/* I can't imagine how the cache would be non-local, but check anyways */
 	g_assert (is_local_file (cache_file));
 
-	if (! path_exists (cache_file) || (get_file_mtime (cache_file) != get_file_mtime (remote_filename))) {
-		/* Move a new file into the cache.
-		 * The cache is pruned at startup. */
-
+	if (! path_exists (cache_file) || (get_file_mtime (cache_file) < get_file_mtime (remote_filename))) {
 		GnomeVFSURI    *source_uri = gnome_vfs_uri_new (remote_filename);
 		GnomeVFSURI    *target_uri = gnome_vfs_uri_new (cache_file);
 		GnomeVFSResult  result;
+	
+		/* delete some files if space is running out */
+		check_cache_space ();
 
+		/* Move a new file into the cache. */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
 					     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-						    GNOME_VFS_XFER_ERROR_MODE_ABORT,
-						    GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-							 NULL,
-						  NULL);
+					     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+					     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+					     NULL,
+					     NULL);
 
 		gnome_vfs_uri_unref (source_uri);
 		gnome_vfs_uri_unref (target_uri);
@@ -2523,10 +2572,17 @@ obtain_local_file (const char *remote_filename)
 			g_free (cache_file);
        			return NULL;
 		}
+
+		debug (DEBUG_INFO, "Copied %s into cache.\n", remote_filename);
 	}
 
 	local_file = get_local_path_from_uri (cache_file);
 	g_free (cache_file);
+
+	/* update mtimes so cache pruning works properly (delete oldest first) */
+	command = g_strdup_printf ("touch %s", local_file);
+	system (command);
+	g_free (command);
 
 	return local_file;
 }
@@ -2720,6 +2776,9 @@ get_pixbuf_using_external_converter (const char *url,
 	/* Thumbnail files are already cached, so delete the conversion cache copies */
 	if (is_thumbnail)
 		file_unlink (cache_file);
+	else
+		/* delete some files if space is running out */
+		check_cache_space ();
 
 	g_free (cache_file);
 	g_free (cache_file_esc);
