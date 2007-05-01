@@ -1,5 +1,12 @@
 2007-05-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-comment.c: (dlg_comment_update):
+	Fixed Bug 434951 - Setting displayed date to exif date is disabled 
+	when the first selected image does not have exif data. Patch by
+	Christophe Bisière.
+
+2007-05-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (get_space_used_in_kb),
 	(check_cache_space), (obtain_local_file),
 	(get_pixbuf_using_external_converter):

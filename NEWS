@@ -41,6 +41,8 @@ version 2.11.0
           preloading giant tiff files. Bug 160460. 	
 	* Fixed Bug 434445 - cache grows too large when viewing RAW files
         * Fixed Bug 434034 - improperly initialized GnomeVFSFileInfo instance.
+        * Fixed Bug 434951 - Setting displayed date to exif date is disabled 
+          when the first selected image does not have exif data.
 
 
 version 2.10.1
