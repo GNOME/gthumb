@@ -1,3 +1,8 @@
+2007-05-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-filter-bar.c: (gth_filter_bar_construct):
+	Revert one string change incorrectly added to stable branch.
+
 2007-05-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-comment.c: (dlg_comment_update):

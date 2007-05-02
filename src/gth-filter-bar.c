@@ -543,7 +543,7 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 
 	/* view label */
 
-	label = gtk_label_new_with_mnemonic (_("Sh_ow:"));
+	label = gtk_label_new_with_mnemonic (_("S_how:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), filter_bar->priv->scope_combo_box);
 	gtk_widget_show (label);
 
