@@ -43,6 +43,8 @@ version 2.11.0
         * Fixed Bug 434034 - improperly initialized GnomeVFSFileInfo instance.
         * Fixed Bug 434951 - Setting displayed date to exif date is disabled 
           when the first selected image does not have exif data.
+	* Fixed bug 435379. Add image/x-canon-cr2 to the list of known raw 
+	  photo mime types.
 
 
 version 2.10.1
