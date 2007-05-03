@@ -868,7 +868,7 @@ get_file_mime_type (const char *filename,
 		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
 		if (!strcmp_null_tollerant (result, "image/tiff") && 
 		    !strcasecmp (extension, "cr2"))
-			return "image/x-canon-crw";
+			return "image/x-canon-cr2";
 
 		/* Check unrecognized binary types for special types that are not
 		   handled correctly in the normal mime databases. */
@@ -938,6 +938,7 @@ mime_type_is_raw (const char *mime_type)
 		|| mime_type_is (mime_type, "image/x-dcraw")		/* dcraw */
 		|| mime_type_is (mime_type, "image/x-minolta-mrw")  	/* freedesktop.org.xml */
 		|| mime_type_is (mime_type, "image/x-canon-crw")    	/* freedesktop.org.xml */
+		|| mime_type_is (mime_type, "image/x-canon-cr2")    	/* freedesktop.org.xml */
 		|| mime_type_is (mime_type, "image/x-nikon-nef")	/* freedesktop.org.xml */
 		|| mime_type_is (mime_type, "image/x-kodak-dcr")    	/* freedesktop.org.xml */
 		|| mime_type_is (mime_type, "image/x-kodak-kdc")    	/* freedesktop.org.xml */

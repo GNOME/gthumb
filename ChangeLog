@@ -1,3 +1,9 @@
+2007-05-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_file_mime_type), (mime_type_is_raw):
+	Add image/x-canon-cr2 to the list of known raw photo mime types.
+	Bug 435379. Patch by Hubert Figuiere.	
+
 2007-05-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-comment.c: (dlg_comment_update):
