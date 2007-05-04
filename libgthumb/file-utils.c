@@ -2909,15 +2909,12 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
-	/* debugging code */
-	printf ("Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
+	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
 
 	if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
 		/* The gdk_pixbuf loader has detected an exif orientation tag. */
 		sscanf (exif_orientation_string, "%d", &transform);
-
-		/* debugging code */
-		printf ("gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
+		debug (DEBUG_INFO, "gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
 
 	} else if (mime_type_is (mime_type, "image/jpeg")) {
 		/* If gdk_pixbuf did not find an exif orientation tag, check
@@ -2926,9 +2923,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		   and our gtk library requirements have been increased accordingly. */
 		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
-
-		/* debugging code */
-		printf ("libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
 	}
 
 	g_free (local_file);

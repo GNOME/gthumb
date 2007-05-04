@@ -1,3 +1,9 @@
+2007-05-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri):
+	Changed orientation-tag debugging printf's into debug
+	calls. Activate with "export GTHUMB_DEBUG=1".
+
 2007-05-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_file_mime_type), (mime_type_is_raw):
