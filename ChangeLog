@@ -1,5 +1,16 @@
 2007-05-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* data/albumthemes/Classic/image.gthtml:
+	* data/albumthemes/ClassicClips/image.gthtml:
+	* data/albumthemes/Flicker/image.gthtml:
+	* data/albumthemes/NeatRound/image.gthtml:
+	* data/albumthemes/Wiki/image.gthtml:
+	Fixed bug 436881 - web export exports malformed xml.
+	Patch by Christophe Bisière.
+
+2007-05-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* AUTHORS:
 	* NEWS:
 	* src/catalog-web-exporter.c: (gth_parsed_doc_print),
