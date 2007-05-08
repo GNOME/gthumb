@@ -1143,7 +1143,7 @@ gth_parsed_doc_print (GList              *document,
 		ImageData  *idata;
 		char       *line = NULL;
 		char       *image_src, *image_src_relative;
-		char       *escaped_path, *e_escaped_path;
+		char       *unescaped_path, *attr_path;
 		int         idx;
 		int         image_width;
 		int         image_height;
@@ -1208,16 +1208,16 @@ gth_parsed_doc_print (GList              *document,
 						      max_size,
 						      max_size);
 
-			image_src_relative = get_path_relative_to_dir (image_src,
-								       ce->location);
-			escaped_path = escape_uri (image_src_relative);
-			e_escaped_path = _g_escape_text_for_html (escaped_path, -1);
+			image_src_relative = get_path_relative_to_dir (image_src, ce->location);
+ 	
+			unescaped_path = gnome_vfs_unescape_string (image_src_relative, NULL);
+			attr_path = _g_escape_text_for_html (unescaped_path, -1);
 
 			alt = gth_tag_get_str (ce, tag, "alt");
 			if (alt)
 				alt_attr = g_strdup (alt);
 			else
-				alt_attr = g_strdup (e_escaped_path);
+				alt_attr = g_strdup (attr_path);
 
 			id = gth_tag_get_str (ce, tag, "id");
 			if (id)
@@ -1226,7 +1226,7 @@ gth_parsed_doc_print (GList              *document,
 				id_attr = g_strdup("");
 
 			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s%s />",
-						e_escaped_path,
+						image_src_relative,
 						alt_attr,
 						image_width,
 						image_height,
@@ -1237,8 +1237,8 @@ gth_parsed_doc_print (GList              *document,
 			g_free (class_attr);
 			g_free (image_src);
 			g_free (image_src_relative);
-			g_free (escaped_path);
-			g_free (e_escaped_path);
+			g_free (unescaped_path);
+			g_free (attr_path);
 			write_line (line, fout);
 			break;
 
@@ -1248,9 +1248,6 @@ gth_parsed_doc_print (GList              *document,
 			line = g_strconcat (file_name_from_path (idata->dest_filename),
 					    ".html",
 					    NULL);
-			escaped_path = escape_uri (line);
-			g_free (line);
-			line = escaped_path;
 
 			write_markup_escape_line (line, fout);
 			break;
@@ -1293,14 +1290,14 @@ gth_parsed_doc_print (GList              *document,
 				g_free (path);
 			}
 
+			unescaped_path = gnome_vfs_unescape_string (line, NULL);
+			g_free(line);
+			line = unescaped_path;
+
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
-			else {
-				escaped_path = escape_uri (line);
-				g_free (line);
-				line = escaped_path;
+			else
 				write_markup_escape_line (line, fout);
-			}
 
 			break;
 
@@ -1318,14 +1315,14 @@ gth_parsed_doc_print (GList              *document,
 			line = remove_level_from_path (filename);
 			g_free (filename);
 
+			unescaped_path = gnome_vfs_unescape_string (line, NULL);
+			g_free(line);
+			line = unescaped_path;
+
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
-			else {
-				escaped_path = escape_uri (line);
-				g_free (line);
-				line = escaped_path;
+			else
 				write_markup_escape_line (line, fout);
-			}
 
 			break;
 
@@ -1867,7 +1864,7 @@ save_html_image_cb (gpointer data)
 
 	else {
 		ImageData *idata = ce->current_image->data;
-		char      *filename;
+		char      *escaped_filename, *filename;
 		FILE      *fout;
 
 		g_signal_emit (G_OBJECT (ce),
@@ -1875,11 +1872,14 @@ save_html_image_cb (gpointer data)
 			       0,
 			       (float) ce->image / ce->n_images);
 
-		filename = g_strconcat (ce->tmp_location,
+		escaped_filename = g_strconcat (ce->tmp_location,
 					"/",
 					file_name_from_path (idata->dest_filename),
 					".html",
 					NULL);
+
+		filename = gnome_vfs_unescape_string (escaped_filename, NULL);
+		g_free (escaped_filename);
 
 		debug (DEBUG_INFO, "write %s", filename);
 

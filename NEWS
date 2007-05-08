@@ -45,6 +45,8 @@ version 2.11.0
           when the first selected image does not have exif data.
 	* Fixed bug 435379. Add image/x-canon-cr2 to the list of known raw 
 	  photo mime types.
+	* Fixed Bug 436872 - web export fails when image filenames contain 
+	  escapable characters
 
 
 version 2.10.1

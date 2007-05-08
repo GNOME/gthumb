@@ -1,3 +1,11 @@
+2007-05-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* AUTHORS:
+	* NEWS:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print),
+	(save_html_image_cb): Fixed escaping/unescaping of
+	web-exported filenames. Patch by Christophe Bisière. Bug 436872.
+
 2007-05-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri):
