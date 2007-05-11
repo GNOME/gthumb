@@ -123,11 +123,15 @@ image_loader_finalize__step2 (GObject *object)
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
-	if (priv->pixbuf != NULL)
+	if (priv->pixbuf != NULL) {
 		g_object_unref (G_OBJECT (priv->pixbuf));
+		priv->pixbuf = NULL;
+	}
 
-	if (priv->animation != NULL)
+	if (priv->animation != NULL) {
 		g_object_unref (G_OBJECT (priv->animation));
+		priv->animation = NULL;
+	}
 
 	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
