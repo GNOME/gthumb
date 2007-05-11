@@ -2881,6 +2881,9 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
+	/* Did any of the loaders work? */
+	if (pixbuf == NULL)
+		return NULL;
 
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
