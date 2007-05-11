@@ -64,6 +64,7 @@ struct _ThumbLoaderPrivateData
 
 	char *uri;
 	const char *mime_type;
+	time_t mtime;
 
 	gboolean use_cache : 1;
 	gboolean from_cache : 1;
@@ -196,6 +197,7 @@ thumb_loader_init (ThumbLoader *tl)
 	priv->from_cache = FALSE;
 	priv->percent_done = 0.0;
 	priv->max_file_size = 0;
+	priv->mtime = 0;
 }
 
 
@@ -327,19 +329,6 @@ thumb_loader_set_max_file_size (ThumbLoader      *tl,
 }
 
 
-GnomeVFSFileSize
-thumb_loader_get_max_file_size (ThumbLoader      *tl)
-{
-	ThumbLoaderPrivateData *priv;
-
-	g_return_val_if_fail (tl != NULL, 0);
-
-	priv = tl->priv;
-
-	return priv->max_file_size;
-}
-
-
 void
 thumb_loader_set_path (ThumbLoader *tl,
 		       const char  *path,
@@ -360,34 +349,6 @@ thumb_loader_set_path (ThumbLoader *tl,
 }
 
 
-void
-thumb_loader_set_uri (ThumbLoader       *tl,
-		      const GnomeVFSURI *vfs_uri,
-		      const char        *mime_type)
-{
-	ThumbLoaderPrivateData *priv;
-
-	g_return_if_fail (tl != NULL);
-	g_return_if_fail (vfs_uri != NULL);
-
-	priv = tl->priv;
-	g_free (priv->uri);
-
-	priv->uri = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_NONE);
-	tl->priv->mime_type = mime_type;
-
-	image_loader_set_uri (priv->il, vfs_uri, mime_type);
-}
-
-
-GnomeVFSURI *
-thumb_loader_get_uri (ThumbLoader *tl)
-{
-	g_return_val_if_fail (tl != NULL, NULL);
-	return new_uri_from_path (tl->priv->uri);
-}
-
-
 GdkPixbuf *
 thumb_loader_get_pixbuf (ThumbLoader *tl)
 {
@@ -395,27 +356,7 @@ thumb_loader_get_pixbuf (ThumbLoader *tl)
 	return tl->priv->pixbuf;
 }
 
-
-ImageLoader *
-thumb_loader_get_image_loader (ThumbLoader *tl)
-{
-	g_return_val_if_fail (tl != NULL, NULL);
-	return tl->priv->il;
-}
-
-
-char *
-thumb_loader_get_path (ThumbLoader *tl)
-{
-	g_return_val_if_fail (tl != NULL, NULL);
-
-	if (tl->priv->uri == NULL)
-		return NULL;
-
-	return g_strdup (tl->priv->uri);
-}
-
-
+	
 static void
 thumb_loader_start__step2 (ThumbLoader *tl)
 {
@@ -427,20 +368,25 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	priv = tl->priv;
 
 	g_return_if_fail (priv->uri != NULL);
+	
+	priv->mtime = get_file_mtime (priv->uri);
 
 	if (priv->use_cache) {
-		time_t  mtime;
-
-		mtime = get_file_mtime (priv->uri);
-
+		
 		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory,
 							     priv->uri,
-							     mtime);
+							     priv->mtime);
 
-		if ((cache_path == NULL)
-		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory,
-									   priv->uri,
-									   mtime)) {
+		if ((cache_path == NULL) &&
+		    ((time (NULL) - priv->mtime) > (time_t) 5) &&
+		    gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory,
+									priv->uri,
+									priv->mtime)) {
+			/* Use the existing "failed" thumbnail, if it is over
+			   5 seconds old. Otherwise, try to thumbnail it again. 
+			   The minimum age requirement addresses bug 432759, 
+			   which occurs when a device like a scanner saves a file
+			   slowly in chunks. */
 			g_signal_emit (G_OBJECT (tl),
 				       thumb_loader_signals[THUMB_ERROR],
 				       0);
@@ -504,7 +450,6 @@ static gint
 thumb_loader_save_to_cache (ThumbLoader *tl)
 {
 	ThumbLoaderPrivateData *priv;
-	time_t                  mtime;
 	char                   *cache_dir;
 	char                   *cache_path;
 	char		       *uri_path = NULL;
@@ -516,8 +461,6 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	priv = tl->priv;
 	if (priv->pixbuf == NULL)
 		return FALSE;
-
-	mtime = get_file_mtime (priv->uri);
 
 	cache_path = gnome_thumbnail_path_for_uri (priv->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
 	cache_dir = remove_level_from_path (cache_path);
@@ -544,7 +487,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 		gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
 							priv->pixbuf,
 							priv->uri,
-							mtime);
+							priv->mtime);
 
 	g_free (cache_dir);
 
@@ -572,7 +515,7 @@ thumb_loader_done_cb (ImageLoader *il,
 	if (pixbuf == NULL) {
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
 								 priv->uri,
-								 get_file_mtime (priv->uri));
+								 priv->mtime);
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 		return;
 	}
@@ -649,7 +592,8 @@ thumb_loader_error_cb (ImageLoader *il,
 
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
 								 priv->uri,
-								 get_file_mtime (priv->uri));
+								 priv->mtime);
+
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 
 		return;

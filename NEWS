@@ -48,6 +48,7 @@ version 2.11.0
 	* Fixed Bug 436872 - web export fails when image filenames contain 
 	  escapable characters
 	* Fixed Bug 436881 - web export exports malformed xml
+	* Fixed Bug 432759 - update of the thumbnail index when files are added
 
 
 version 2.10.1
