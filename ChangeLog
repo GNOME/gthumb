@@ -1,3 +1,16 @@
+2007-05-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter),
+	(gth_pixbuf_new_from_uri):
+	* libgthumb/image-loader.c: (image_loader_finalize__step2),
+	(image_loader_set_pixbuf), (image_loader_sync_pixbuf):
+	Backport from metadata-ideas branch. Move orientation-checking
+	of new pixbufs from image_loader_sync_pixbuf to gth_pixbuf_new_from_uri,
+	where all the other image loading trickery is. Also, added support for
+	gdk-pixbuf reporting of orientation tags (bug 428725, patch pending)
+	instead of using libexif. This will provide new orientation tag
+	support for tiff images.
+
 2007-05-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

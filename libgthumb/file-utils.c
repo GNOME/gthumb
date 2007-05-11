@@ -55,6 +55,7 @@
 #include "file-utils.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
+#include "gth-exif-utils.h"
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -2635,7 +2636,6 @@ get_pixbuf_using_external_converter (const char *url,
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
-	gboolean    is_tiff;
 	gboolean    is_thumbnail;
 
 	is_thumbnail = requested_width_if_used > 0;
@@ -2644,7 +2644,6 @@ get_pixbuf_using_external_converter (const char *url,
 
 	is_raw = mime_type_is_raw (mime_type);
 	is_hdr = mime_type_is_hdr (mime_type);
-	is_tiff = mime_type_is_tiff (mime_type);
 
 	md5_file = gnome_thumbnail_md5 (path);
 
@@ -2653,10 +2652,10 @@ get_pixbuf_using_external_converter (const char *url,
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
-	if ((is_tiff || is_raw) && !is_thumbnail)
+	if (is_raw && !is_thumbnail)
 		/* Full-sized converted TIFF or RAW files */
 		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
-	else if ((is_tiff || is_raw) && is_thumbnail)
+	else if (is_raw && is_thumbnail)
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
 		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.pnm");
 	else if (is_hdr && is_thumbnail)
@@ -2752,18 +2751,6 @@ get_pixbuf_using_external_converter (const char *url,
 			g_free (resize_command);
 		}
 
-		if (is_tiff) {
-			/* The standard gdk thumbnailer doesn't handle large-dimension tiff
-			   images elegantly, bugs 142428 and 160460. Memory blows up. We can
-			   do it more efficiently. */
-
-			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s",
-					 	    input_file_esc,
-						    requested_width_if_used,
-						    requested_height_if_used,
-						    cache_file_esc);
-		}
-
 		if (command != NULL) {
 			if (gnome_vfs_is_executable_command_string (command))
 			       	system (command);
@@ -2844,8 +2831,13 @@ gth_pixbuf_new_from_uri (const char  *uri,
 			 gint         requested_height_if_used,
 			 const char  *mime_type)
 {
-	GdkPixbuf *pixbuf = NULL;
-	char      *local_file = NULL;
+	GdkPixbuf     *pixbuf = NULL;
+	GdkPixbuf     *temp = NULL;
+	char          *local_file = NULL;
+	ExifShort      orientation;
+	GthTransform   transform = GTH_TRANSFORM_NONE;
+	const gchar   *exif_orientation_string;
+
 
 	if (uri == NULL)
 		return NULL;
@@ -2868,11 +2860,10 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
 #endif
 
-	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
+	/* Use dcraw for raw images, pfstools for HDR images */
 	if ((pixbuf == NULL) &&
-	     (mime_type_is_raw (mime_type) ||
-	      mime_type_is_hdr (mime_type) ||
-	      (mime_type_is_tiff (mime_type) && (requested_width_if_used > 0))))
+	     (mime_type_is_raw (mime_type) || 
+	      mime_type_is_hdr (mime_type) ))
 		pixbuf = get_pixbuf_using_external_converter (local_file,
 							      mime_type,
 							      requested_width_if_used,
@@ -2890,8 +2881,34 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
+
+	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
+
+	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
+
+	if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
+		/* The gdk_pixbuf loader has detected an exif orientation tag. */
+		sscanf (exif_orientation_string, "%d", &transform);
+		debug (DEBUG_INFO, "gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
+
+	} else if (mime_type_is (mime_type, "image/jpeg")) {
+		/* If gdk_pixbuf did not find an exif orientation tag, check
+		   again using our own libexif-based code, which only works on jpegs.
+		   This can be removed once gdk_pixbuf has accepted the tag-reading patch, 
+		   and our gtk library requirements have been increased accordingly. */
+		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
+		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+	}
+
 	g_free (local_file);
-	return pixbuf;
+
+	if (transform != GTH_TRANSFORM_NONE) {
+		temp = _gdk_pixbuf_transform (pixbuf, transform);
+		g_object_unref (pixbuf);
+		return temp;
+	} else
+		return pixbuf;
 }
 
 
