@@ -1,5 +1,10 @@
 2007-05-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/image-loader.c: (image_loader_set_pixbuf):
+	Remove obsolete commented code.
+
+2007-05-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/image-loader.c: (image_loader_sync_pixbuf):
 	Don't copy pixbuf, just ref it. This reverts to trunk behaviour.
 
