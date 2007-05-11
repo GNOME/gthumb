@@ -70,17 +70,10 @@ void              thumb_loader_use_cache          (ThumbLoader       *tl,
 						   gboolean           use);
 void              thumb_loader_set_max_file_size  (ThumbLoader       *tl,
 						   GnomeVFSFileSize   size);
-GnomeVFSFileSize  thumb_loader_get_max_file_size  (ThumbLoader       *tl);
 void              thumb_loader_set_path           (ThumbLoader       *tl,
 						   const char        *path,
 						   const char        *mime_type);
-char *            thumb_loader_get_path           (ThumbLoader       *tl);
-void              thumb_loader_set_uri            (ThumbLoader       *tl,
-						   const GnomeVFSURI *uri,
-						   const char        *mime_type);
-GnomeVFSURI *     thumb_loader_get_uri            (ThumbLoader       *tl);
 GdkPixbuf *       thumb_loader_get_pixbuf         (ThumbLoader       *tl);
-ImageLoader *     thumb_loader_get_image_loader   (ThumbLoader       *tl);
 void              thumb_loader_start              (ThumbLoader       *tl);
 void              thumb_loader_stop               (ThumbLoader       *tl,
 						   DoneFunc           done_func,
