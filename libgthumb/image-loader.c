@@ -493,6 +493,7 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		g_object_unref (priv->pixbuf);
 		priv->pixbuf = NULL;
 	}
+
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
 		priv->pixbuf = pixbuf;

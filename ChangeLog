@@ -1,5 +1,10 @@
 2007-05-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri):
+	Do not check for orientation if the loaders failed.
+
+2007-05-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/image-loader.c: (image_loader_finalize__step2):
 	Null pixbuf/animation after unref'ing.
 
