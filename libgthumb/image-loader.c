@@ -490,8 +490,10 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		g_object_unref (priv->pixbuf);
 		priv->pixbuf = NULL;
 	}
-	if (pixbuf != NULL)
-		priv->pixbuf = gdk_pixbuf_copy (pixbuf);
+	if (pixbuf != NULL) {
+		g_object_ref (pixbuf);
+		priv->pixbuf = pixbuf;
+	}
 
 	g_mutex_unlock (priv->yes_or_no);
 }
