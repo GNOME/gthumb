@@ -2162,10 +2162,16 @@ dir_list_activated_cb (GtkTreeView       *tree_view,
 {
 	GthBrowser *browser = data;
 	char       *new_dir;
+	GthBrowserPrivateData *priv = browser->priv;
 
 	new_dir = gth_dir_list_get_path_from_tree_path (browser->priv->dir_list, path);
 	gth_browser_go_to_directory (browser, new_dir);
 	g_free (new_dir);
+
+	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+		gtk_widget_grab_focus (priv->dir_list->list_view);
+	else
+		gtk_widget_grab_focus (priv->catalog_list->list_view);
 }
 
 
@@ -2879,6 +2885,12 @@ sidebar_list_key_press (GthBrowser  *browser,
 
 		g_free (new_path);
 		retval = TRUE;
+
+		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+			gtk_widget_grab_focus (priv->dir_list->list_view);
+		else
+			gtk_widget_grab_focus (priv->catalog_list->list_view);
+
 		break;
 
 	default:

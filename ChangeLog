@@ -1,3 +1,23 @@
+2007-05-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (dir_list_activated_cb),
+	(sidebar_list_key_press):
+	* src/gth-window-actions-callbacks.c:
+	Keep focus on sidebar after keyboard/mouse folder navigation.
+	Bug 427986, patch by Patrick Wade.
+
+	(gth_window_activate_action_alter_image_rotate90),
+	(gth_window_activate_action_alter_image_rotate90cc),
+	(gth_window_activate_action_alter_image_flip),
+	(gth_window_activate_action_alter_image_mirror),
+	(gth_window_activate_action_alter_image_desaturate),
+	(gth_window_activate_action_alter_image_invert),
+	(gth_window_activate_action_alter_image_adjust_levels),
+	(gth_window_activate_action_alter_image_equalize),
+	(gth_window_activate_action_alter_image_dither_bw),
+	(gth_window_activate_action_alter_image_dither_web):
+	Return if input pixbuf is null. Bug 438414.
+
 2007-05-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

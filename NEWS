@@ -36,6 +36,8 @@ version 2.10.3
 	* Fixed Bug 436872 - web export fails when image filenames contain 
 	  escapable characters
 	* Fixed Bug 436881 - web export exports malformed xml
+	* Fixed Bug 427986 - Navigating folder list with keyboard is difficult
+	* Fixed Bug 438414 - crash when pressing e/r/l/m in empty folder
 
 
 version 2.10.2
