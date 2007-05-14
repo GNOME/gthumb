@@ -49,6 +49,8 @@ version 2.11.0
 	  escapable characters
 	* Fixed Bug 436881 - web export exports malformed xml
 	* Fixed Bug 432759 - update of the thumbnail index when files are added
+	* Fixed Bug 427986 - Navigating folder list with keyboard is difficult
+	* Fixed Bug 438414 - crash when pressing e/r/l/m in empty folder
 
 
 version 2.10.1

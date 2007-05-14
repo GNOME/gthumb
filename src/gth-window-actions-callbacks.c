@@ -326,6 +326,10 @@ gth_window_activate_action_alter_image_rotate90 (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_CLOCKWISE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -340,6 +344,10 @@ gth_window_activate_action_alter_image_rotate90cc (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_rotate_simple (src_pixbuf, GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -354,6 +362,10 @@ gth_window_activate_action_alter_image_flip (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_flip (src_pixbuf, FALSE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -368,6 +380,10 @@ gth_window_activate_action_alter_image_mirror (GtkAction *action,
 	GdkPixbuf *dest_pixbuf;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_flip (src_pixbuf, TRUE);
 	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -383,6 +399,10 @@ gth_window_activate_action_alter_image_desaturate (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -400,6 +420,10 @@ gth_window_activate_action_alter_image_invert (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -417,6 +441,10 @@ gth_window_activate_action_alter_image_adjust_levels (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -434,6 +462,10 @@ gth_window_activate_action_alter_image_equalize (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_eq_histogram (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
@@ -506,6 +538,10 @@ gth_window_activate_action_alter_image_dither_bw (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_dither (dest_pixbuf, dest_pixbuf, GTH_DITHER_BLACK_WHITE);
 	g_object_unref (dest_pixbuf);
@@ -523,6 +559,10 @@ gth_window_activate_action_alter_image_dither_web (GtkAction *action,
 	GthPixbufOp *pixop;
 
 	src_pixbuf = gth_window_get_image_pixbuf (window);
+
+        if (src_pixbuf == NULL)
+                return;
+
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_dither (dest_pixbuf, dest_pixbuf, GTH_DITHER_WEB_PALETTE);
 	g_object_unref (dest_pixbuf);
