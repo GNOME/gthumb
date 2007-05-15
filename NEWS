@@ -1,6 +1,6 @@
 version 2.10.3
 --------------
-
+	Bugfixes:
 	* New shortcuts: Alt+S scaling, Alt+C cropping, Alt+R redeye removal.
 	* New keybinding: keypad-* = zoom to fit. Bug 432700.
 	* Makes PICTURES xdg-user-dir the default for import, bug #425365.
@@ -39,6 +39,8 @@ version 2.10.3
 	* Fixed Bug 427986 - Navigating folder list with keyboard is difficult
 	* Fixed Bug 438414 - crash when pressing e/r/l/m in empty folder
 
+	Updated translations:
+	Catalan (ca), Swedish (sv), Arabic (ar), Portuguese (pt), Spanish (es).
 
 version 2.10.2
 --------------
