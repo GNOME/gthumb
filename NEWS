@@ -1,29 +1,24 @@
-version 2.11.0
+trunk, since 2.10.3
+-------------------
+
+	* Added tool to change exif date. Bug #408183.
+	* Fixed Bug 432759 - update of the thumbnail index when files are added
+	* Use "Position" instead of "Selection" in redeye removal dialog.
+
+
+version 2.10.3
 --------------
 
-	New features:
+	Bugfixes:
 	* New shortcuts: Alt+S scaling, Alt+C cropping, Alt+R redeye removal.
 	* New keybinding: keypad-* = zoom to fit. Bug 432700.
 	* Makes PICTURES xdg-user-dir the default for import, bug #425365.
-	* Added tool to change exif date. Bug #408183.
 	* Try to extract embedded thumbnail from RAW images. Bug 431483.
-
-	Bug fixes:
-	* Fixed bug #427868 - Import of photos cannot download RAW files
-	* Return NULL if the dialog text entry is empty, instead of
-          an empty string, to avoid creation of "no-name" catalogs
 	* Small memory leak fixed in web-exported error handling.
 	* Small memory leak fixed in apply_transformation_jpeg.
 	* Enable debug messages with an environment variable. Bug 361367.
-	* Fixed bug #423956 - Creating a web album at a ssh URI causes crash.
-	* Fixed rotate-on-import function.
-	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
 	* Bypass libexif when writing tags, to avoid MakerNote corruption. 
 	  Bug #408185.
-	* Use "Position" instead of "Selection" in redeye removal dialog.
-	* Fixed bug 427846 - Can't launch command line collections, and
-	  crash when selecting "Catalogs" from the location bar.
-        * Fixed a crash when a file has no recognized mime type. Bug 428278.
 	* Don't list xcf files, no loader is available for them. Bug 433639.
 	* Fixed bug 431838 - renaming with exif date and time doesn't work.
 	* Fixed bug 432084 - Transient files confuse gThumb.
@@ -48,9 +43,26 @@ version 2.11.0
 	* Fixed Bug 436872 - web export fails when image filenames contain 
 	  escapable characters
 	* Fixed Bug 436881 - web export exports malformed xml
-	* Fixed Bug 432759 - update of the thumbnail index when files are added
 	* Fixed Bug 427986 - Navigating folder list with keyboard is difficult
 	* Fixed Bug 438414 - crash when pressing e/r/l/m in empty folder
+
+
+version 2.10.2
+--------------
+        Bugfixes:
+        * Fixed bug #427868 - Import of photos cannot download RAW files
+	* Return NULL if the dialog text entry is empty, instead of
+          an empty string, to avoid creation of "no-name" catalogs
+	* Fixed bug #423956 - Creating a web album at a ssh URI causes crash.
+	* Fixed rotate-on-import function.
+	* Fixed bug #423715 - Cancel pixbuf operation before closing the dialog
+	* Fixed bug 427846 - Can't launch command line collections, and
+	  crash when selecting "Catalogs" from the location bar.
+        * Fixed a crash when a file has no recognized mime type. Bug 428278.
+
+        Updated translations:
+        Dzongkha (dz), French (fr), Brazilian Portuguese (pt_BR),
+        Japanese (ja).
 
 
 version 2.10.1
