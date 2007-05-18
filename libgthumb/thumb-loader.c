@@ -562,7 +562,8 @@ thumb_loader_done_cb (ImageLoader *il,
 								GDK_INTERP_BILINEAR);
 			g_object_unref (pixbuf);
 		}
-	} else {
+	} 
+	else {
 		modified = scale_keepping_ratio (&width, &height, priv->max_w, priv->max_h);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
