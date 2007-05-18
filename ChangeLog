@@ -1,3 +1,9 @@
+2007-05-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/file-utils.c: scale the image only if the original size 
+	is larger than the requested size. (Forward port from gthumb-2-10).
+
 2007-05-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: further clarify trunk/gthumb-2-10 differences
