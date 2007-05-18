@@ -1,3 +1,9 @@
+2007-05-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/file-utils.c: scale the image only if the original size 
+	is larger than the requested size.
+
 2007-05-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.3 released ]

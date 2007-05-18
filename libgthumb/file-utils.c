@@ -2879,13 +2879,25 @@ gth_pixbuf_new_from_uri (const char  *uri,
 							      requested_height_if_used);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-	if (pixbuf == NULL && (requested_width_if_used > 0))
-		/* for thumbnails, request a scaled image */
-		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
-                                                            requested_width_if_used,
-                                                            requested_height_if_used,
-                                                            TRUE,
-                                                            error);
+	if (pixbuf == NULL && (requested_width_if_used > 0)) {
+		int w, h;
+		
+		if (gdk_pixbuf_get_file_info (local_file, &w, &h) == NULL) {
+			w = -1;
+			h = -1;
+		}
+		
+		/* scale the image only if the original size is larger than
+		 * the requested size. */
+		if ((w > requested_width_if_used) || (h > requested_height_if_used))
+			pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
+                        	                                    requested_width_if_used,
+                                	                            requested_height_if_used,
+                                        	                    TRUE,
+                                                	            error);
+		else
+			pixbuf = gdk_pixbuf_new_from_file (local_file, error);
+	}
 	else if (pixbuf == NULL)
 		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
@@ -2938,7 +2950,7 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 	/* All other file types, or if previous methods fail: read in a
 	   non-animated pixbuf, and convert to a single-frame animation. */
 	if (pixbuf == NULL) {
-		char *local_uri = escape_uri(local_file);
+		char *local_uri = escape_uri (local_file);
 		pixbuf = gth_pixbuf_new_from_uri (local_uri,
 						  error,
 						  requested_width_if_used,
