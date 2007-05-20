@@ -9,13 +9,6 @@ trunk, since 2.10.3
 
 	Bugfixes:
 
-	* Fixed Bug 432759 - update of the thumbnail index when files are 
-	  added. Properly generates thumbnails for slowly generated files
-	  (e.g., files from a slow scanner, or oscilloscope images sent
-	  over a serial port).
-	* Deleted unused functions: thumb_loader_get_max_file_size,
-	  thumb_loader_get_path, thumb_loader_set_uri, thumb_loader_get_uri,
-	  thumb_loader_get_image_loader.
 	* When loading a pixbuf, check for "orientation" option associated 
 	  with the pixbuf if possible, instead of using libexif. Related to 
 	  Bug 428725. Move orientation-checking code from 
@@ -25,6 +18,18 @@ trunk, since 2.10.3
 	  orientation tag is not accounted for. Partial reversion of patch 
 	  for bug 142428.
 
+version 2.10.4
+--------------
+
+        * Fixed Bug 432759 - update of the thumbnail index when files are
+          added. Properly generates thumbnails for slowly generated files
+          (e.g., files from a slow scanner, or oscilloscope images sent
+          over a serial port).
+        * Deleted unused functions: thumb_loader_get_max_file_size,
+          thumb_loader_get_path, thumb_loader_set_uri, thumb_loader_get_uri,
+          thumb_loader_get_image_loader.
+        * When generating a new thumbnail, scale the image only if the
+          original size is larger than the requested size.
 
 version 2.10.3
 --------------
