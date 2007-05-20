@@ -1,3 +1,18 @@
+2007-05-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: backport from trunk, including:
+
+        * libgthumb/thumb-loader.c: (thumb_loader_init),
+        (thumb_loader_start__step2), (thumb_loader_save_to_cache),
+        (thumb_loader_done_cb), (thumb_loader_error_cb):
+        Do not use the "failed" thumbnail if it was generated in the
+        last 5 seconds. Instead, try to thumbnail it again. Also, read
+        the image file mtime once and save it in the private data,
+        rather than reading it several times (which may give different
+        values). The two changes fix bug 432759.
+
+        * libgthumb/thumb-loader.h: Deleted unused functions.
+
 2007-05-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c: 
