@@ -1,3 +1,7 @@
+2007-05-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: update to reflect backports to gthumb-2-10.
+
 2007-05-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c: 
