@@ -775,7 +775,7 @@
 	<applyto>/apps/gthumb/exporter/general/name_template</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>###%e</default>
+	<default>###</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
