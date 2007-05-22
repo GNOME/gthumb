@@ -100,6 +100,30 @@ static char *get_header_text                (CatalogPngExporter *ce,
 					     int                 page_n);
 
 
+#define HTML_PAGE_BEGIN "\
+<?xml version=\"1.0\" encoding=\"utf-8\"?>\n\
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\ 
+  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
+<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
+<head>\n\
+<title></title>\n\
+<style type=\"text/css\">\n\
+html { margin: 0px; border: 0px; padding: 0px; }\n\
+body { margin: 0px; }\n\
+img  { border: 0px; }\n\
+</style>\n\
+</head>\n\
+<body>\n\
+<div>\n\
+"
+
+#define HTML_PAGE_END "\
+</div>\n\
+</body>\n\
+</html>\n\
+"
+
+
 #define COL_SPACING      15
 #define ROW_SPACING      15
 #define THUMB_FRAME_BORDER     8
@@ -1624,12 +1648,14 @@ begin_page (CatalogPngExporter *ce,
 	path = g_strconcat (filename, ".", ce->file_type, NULL);
 	g_free (filename);
 
-	line = g_strdup_printf ("<IMG SRC=\"%s\" WIDTH=%d HEIGHT=%d BORDER=0 USEMAP=\"#map\">\n\n", path, width, height);
+	gnome_vfs_write (ce->imap_handle, HTML_PAGE_BEGIN, strlen (HTML_PAGE_BEGIN), &temp);
+
+	line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n", path, width, height, path);
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
 	g_free (line);
 	g_free (path);
 
-	line = g_strdup_printf ("<MAP NAME=\"map\">\n");
+	line = g_strdup_printf ("<map name=\"map\" id=\"map\">\n");
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
 	g_free (line);
 }
@@ -1676,9 +1702,11 @@ end_page (CatalogPngExporter *ce,
 	if (! ce->write_image_map || (ce->imap_handle == NULL))
 		return;
 
-	line = g_strdup_printf ("</MAP>\n");
+	line = g_strdup_printf ("</map>\n");
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
 	g_free (line);
+
+	gnome_vfs_write (ce->imap_handle, HTML_PAGE_END, strlen (HTML_PAGE_END), &temp);
 
 	gnome_vfs_close (ce->imap_handle);
 }
@@ -1691,6 +1719,7 @@ paint_frame (CatalogPngExporter *ce,
 	     gchar              *filename)
 {
 	GnomeVFSFileSize  temp;
+	char		 *unescaped_path, *attr_path;
 	char             *line;
 	char             *rel_path;
 	char             *dest_dir;
@@ -1768,13 +1797,19 @@ paint_frame (CatalogPngExporter *ce,
 	rel_path = get_path_relative_to_dir (filename, dest_dir);
 	g_free (dest_dir);
 
-	line = g_strdup_printf ("<AREA SHAPE=\"RECT\" COORDS=\"%d,%d,%d,%d\" HREF=\"%s\">\n",
+	unescaped_path = gnome_vfs_unescape_string (rel_path, NULL);
+	attr_path = _g_escape_text_for_html (unescaped_path, -1);
+	g_free (unescaped_path);
+
+	line = g_strdup_printf ("<area shape=\"rect\" coords=\"%d,%d,%d,%d\" href=\"%s\" alt=\"%s\" />\n",
 				frame_rect->x,
 				frame_rect->y,
 				frame_rect->x + frame_rect->width,
 				frame_rect->y + frame_rect->height,
-				rel_path);
+				rel_path,
+				attr_path);
 	g_free (rel_path);
+	g_free (attr_path);
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
 	g_free (line);
 }
