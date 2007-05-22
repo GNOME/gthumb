@@ -10,6 +10,7 @@ version 2.10.4
           thumb_loader_get_image_loader.
 	* When generating a new thumbnail, scale the image only if the 
 	  original size is larger than the requested size.
+	* Fixed Bug #440036 - index image maps are not xhtml compliant
 
 version 2.10.3
 --------------

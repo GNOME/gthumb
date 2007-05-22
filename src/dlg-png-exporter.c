@@ -160,6 +160,16 @@ export (GtkWidget  *widget,
 	g_free (file_type);
 
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
+        /* Bug fix: old default value was "###%e" for some reason.
+           The "%e" wasn't even used or processed, and with the
+           current code it actually causes a crash. Thus we 
+           override anything with an "%" in it with the proper,
+           safe default. */
+        if (strstr (template, "%")) {
+                g_free (template);
+                template = g_strdup (DEF_NAME_TEMPLATE);
+		eel_gconf_set_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
+        }
 	catalog_png_exporter_set_name_template (exporter, template);
 
 	catalog_png_exporter_set_start_at (exporter, eel_gconf_get_integer (PREF_EXP_START_FROM, 1));

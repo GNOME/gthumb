@@ -1,3 +1,14 @@
+2007-05-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/gthumb.schemas.in: Fixed incorrect (crash-causing) default
+	value for png exporter name_template.
+	* src/dlg-png-exporter.c: (export): Ignore template values
+	with "%" in them.
+
+	* src/catalog-png-exporter.c: (begin_page), (end_page),
+	(paint_frame): Make the output xhtml compliant. Patch
+	by Christophe Bisière. Bug #440036.
+
 2007-05-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: backport from trunk, including:
