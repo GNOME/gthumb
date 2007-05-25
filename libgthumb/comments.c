@@ -536,8 +536,14 @@ save_comment_iptc (const char  *filename,
 		}
 	}
 
-	iptc_data_set_version (d, IPTC_IIM_VERSION);
-	iptc_data_set_encoding_utf8 (d);
+	/* The iptc_data_set_version and iptc_data_set_encoding_utf8
+	   functions cause Picasa to choke, as indicated in the libiptc
+	   API docs. So we'll disable them and see if that fixes more
+	   things than it breaks. Bug 438716. */
+
+	/* iptc_data_set_version (d, IPTC_IIM_VERSION); */
+	/* iptc_data_set_encoding_utf8 (d); */
+
 	iptc_data_sort (d);
 
 	save_iptc_data (local_file_to_modify, d);
