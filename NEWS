@@ -32,6 +32,7 @@ version 2.10.4
         * When generating a new thumbnail, scale the image only if the
           original size is larger than the requested size.
         * Fixed Bug #440036 - index image maps are not xhtml compliant
+	* Fixed Bug #438716 - IPTC comments are not seen by Picasa
 
 version 2.10.3
 --------------
