@@ -1,3 +1,13 @@
+2007-05-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/comments.c: (save_comment_iptc):
+	Removed calls to iptc_data_set_version and 
+	iptc_data_set_encoding_utf8 when saving comments, because they
+	cause Picasa to not recognize the IPTC data, and the data
+	they store is not widely used, apparently. Bug 438716. Patch
+	by David Moore.
+
 2007-05-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* AUTHORS:
