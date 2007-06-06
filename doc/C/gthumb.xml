@@ -2721,6 +2721,15 @@
       <para>
 	This tab contains the shell script definitions that control the 
 	hot keys 0-9 on the numeric keypad.
+        <note>
+          <title>Numeric Keypad on Laptops</title>
+          <para>
+            Laptop computers may not have a numeric keypad, but most laptops
+            provide a way of emulating the numeric keypad, typically using 
+	    the <keycap>Fn</keycap> key. This feature may need to be enabled
+	    in the BIOS.
+          </para>
+        </note>
       </para>
       <para>
 	When a user presses one of these keys, an external shell script 

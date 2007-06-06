@@ -1,3 +1,8 @@
+2007-06-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* doc/C/gthumb.xml: Mention that laptops usually permit numeric
+	keypad emulation (for use with the hot key feature).
+
 2007-05-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
