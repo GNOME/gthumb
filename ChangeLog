@@ -1,3 +1,10 @@
+2007-06-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/dlg-write-to-cd.c: (ok_clicked_cb):
+	Fixed Bug #444656 - write folders to CD does not work. Patch by
+	Jerry Tan.
+
 2007-06-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* doc/C/gthumb.xml: Mention that laptops usually permit numeric
