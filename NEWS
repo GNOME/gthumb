@@ -33,6 +33,7 @@ version 2.10.4
           original size is larger than the requested size.
         * Fixed Bug #440036 - index image maps are not xhtml compliant
 	* Fixed Bug #438716 - IPTC comments are not seen by Picasa
+	* Fixed Bug #444656 - write folders to CD does not work
 
 version 2.10.3
 --------------
