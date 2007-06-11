@@ -1,3 +1,9 @@
+2007-06-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/dlg-photo-importer.c: (valid_mime_type):
+	Fixed Bug #446133 - Add PPM to supported types during import.
+
 2007-06-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
