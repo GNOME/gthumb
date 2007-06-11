@@ -2105,7 +2105,7 @@ escape_uri (const char *uri)
 /* characters to escape */
 static gchar bad_char[] = { '$', '\'', '`', '"', '\\', '!', '?', '*',
 			    ' ', '(', ')', '[', ']', '&', '|', '@' , '#',
-			    ';' };
+			    ';', '<', '>' };
 
 /* the size of bad_char */
 static const gint bad_chars = sizeof (bad_char) / sizeof (gchar);

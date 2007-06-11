@@ -14,6 +14,7 @@ version 2.10.4
 	* Fixed Bug #438716 - IPTC comments are not seen by Picasa
 	* Fixed Bug #444656 - write folders to CD does not work
 	* Fixed Bug #446133 - Add PPM to supported types during import
+	* Fixed Ubuntu bug 119769 - Escape angle brackets in filenames
 
 
 version 2.10.3
