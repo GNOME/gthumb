@@ -13,6 +13,8 @@ version 2.10.4
 	* Fixed Bug #440036 - index image maps are not xhtml compliant
 	* Fixed Bug #438716 - IPTC comments are not seen by Picasa
 	* Fixed Bug #444656 - write folders to CD does not work
+	* Fixed Bug #446133 - Add PPM to supported types during import
+
 
 version 2.10.3
 --------------
