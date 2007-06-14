@@ -800,6 +800,11 @@ main (int   argc,
 	GnomeProgram *program;
 	char         *description;
 
+	if (! g_thread_supported ()) {
+		g_thread_init (NULL);
+		gdk_threads_init ();
+	}
+
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
@@ -819,11 +824,6 @@ main (int   argc,
 				      GNOME_PARAM_APP_DATADIR, GTHUMB_DATADIR,
 				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
 				      NULL);
-
-	if (! g_thread_supported ()) {
-		g_thread_init (NULL);
-		gdk_threads_init ();
-	}
 
 	gnome_authentication_manager_init ();
 	glade_gnome_init ();
