@@ -1,5 +1,10 @@
 2007-06-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in: Make trunk = 2.11.0, to avoid confusion with
+	2.10.x branch.
+
+2007-06-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* src/main.c: (main): Fixed Bug #447311 - g_thread_init warning 
 	when starting gthumb, by moving g_thread_init to the very start of
