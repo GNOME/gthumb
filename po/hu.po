@@ -857,7 +857,7 @@ msgstr "Mag_asság:"
 #: ../data/glade/gthumb_png_exporter.glade.h:39
 #: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "Image dim_ensions"
-msgstr "Kép _méretei"
+msgstr "Ké_p méretei"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
@@ -1167,7 +1167,7 @@ msgstr "Meg_jegyzések"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
-msgstr "_Képváltások közötti szünet:"
+msgstr "Kép_váltások közötti szünet:"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
@@ -1281,7 +1281,7 @@ msgstr "Csak szöveg"
 
 #: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
-msgstr "_Bélyegképek mérete:"
+msgstr "Bélyegképek _mérete:"
 
 #: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
@@ -1306,7 +1306,7 @@ msgstr "_Fájlnevek"
 #: ../data/glade/gthumb_preferences.glade.h:85
 #: ../src/gth-browser-actions-entries.h:418
 msgid "_Thumbnails"
-msgstr "_Bélyegképek"
+msgstr "Bél_yegképek"
 
 #: ../data/glade/gthumb_preferences.glade.h:86
 msgid "_Toolbar style:"
@@ -1891,7 +1891,7 @@ msgstr "<small><i><b>Megjegyzés:</b> Egyes témák automatikusan beállíthatj�
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
-msgstr "Fé_nyképezőgép"
+msgstr "_Fényképezőgép típusa"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
@@ -1899,7 +1899,7 @@ msgstr "Cím"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Da_te and Time"
-msgstr "_Dátum és idő"
+msgstr "Dát_um és idő"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "E_xposure mode"
@@ -1939,7 +1939,7 @@ msgstr "_Apertúraérték"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr "Eredeti képek _másolása a célba"
+msgstr "Eredeti _képek másolása a célra"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
@@ -2992,7 +2992,7 @@ msgstr "Új katalógus létrehozása"
 
 #: ../src/gth-browser-actions-entries.h:178
 msgid "New _Library..."
-msgstr "Új _könyvtár..."
+msgstr "Új köny_vtár..."
 
 #: ../src/gth-browser-actions-entries.h:179
 msgid "Create a new catalog library"
@@ -3459,7 +3459,6 @@ msgid "Embedded Thumbnail"
 msgstr "Beágyazott bélyegkép"
 
 #: ../src/gth-exif-data-viewer.c:72
-#, fuzzy
 msgid "Versions & Interoperability"
 msgstr "Változatok és együttműködés"
 
