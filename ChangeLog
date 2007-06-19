@@ -1,5 +1,16 @@
 2007-06-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-posterize.c (destroy_cb): 
+	* src/dlg-hue-saturation.c (destroy_cb): 
+	* src/dlg-color-balance.c (destroy_cb): 
+	* src/dlg-brightness-contrast.c (destroy_cb): removed useless call to 
+	gth_pixbuf_op_stop.
+	
+	Fixes bug #448644 – Image brightness-contrast doesn't trigger 
+	save-ability.
+
+2007-06-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	[ gthumb 2.10.4 released ]
 	
 2007-06-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
