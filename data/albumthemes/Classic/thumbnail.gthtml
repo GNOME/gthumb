@@ -1,17 +1,17 @@
       <table class="photo" summary="photo">
       <tr>
-        <td colspan="3"><img class="photo_top" src="top.png" alt="Top" /></td>
+        <td colspan="3"><img class="photo_top" src="<gthumb:theme_link src='top.png'/>" alt="Top" /></td>
       </tr>
       <tr>
-        <td><img class="photo_left" src="left.png" alt="Left" /></td>
+        <td><img class="photo_left" src="<gthumb:theme_link src='left.png'/>" alt="Left" /></td>
         <td class="photo">
           <a href="<gthumb:image_link/>">
             <gthumb:image thumbnail class="photo_center" /></a>
         </td>
-        <td><img class="photo_right" src="right.png" alt="Right" /></td>
+        <td><img class="photo_right" src="<gthumb:theme_link src='right.png'/>" alt="Right" /></td>
       </tr>
       <tr>
-        <td colspan="3"><img class="photo_bottom" src="bot.png" alt="Bottom" /></td>
+        <td colspan="3"><img class="photo_bottom" src="<gthumb:theme_link src='bot.png'/>" alt="Bottom" /></td>
       </tr>
       </table>
 

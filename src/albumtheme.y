@@ -49,6 +49,7 @@ int   yylex   (void);
 %token <ivalue> NUMBER
 %token <ivalue> HEADER FOOTER 
 %token <ivalue> LANGUAGE 
+%token <ivalue> THEME_LINK 
 %token <ivalue> IMAGE 
 %token <ivalue> IMAGE_LINK 
 %token <ivalue> IMAGE_IDX 
@@ -316,6 +317,12 @@ expr		: '(' expr ')' {
 quoted_expr     : expr {
 			$$ = $1;
 		}
+		| STRING {
+			GthExpr *e = gth_expr_new ();
+			gth_expr_push_var(e, $1);
+			g_free($1);
+			$$ = e;
+		}
 		| constant1 constant constant_list {
 			GthExpr *e = gth_expr_new ();
 			g_string_append($1, $2->str);
@@ -373,6 +380,7 @@ gthumb_tag 	: tag_name arg_list END_TAG {
 tag_name	: HEADER              { $$ = $1; }
 		| FOOTER              { $$ = $1; }
 		| LANGUAGE            { $$ = $1; }
+		| THEME_LINK          { $$ = $1; }
 		| IMAGE               { $$ = $1; }
 		| IMAGE_LINK          { $$ = $1; }
 		| IMAGE_IDX           { $$ = $1; }
@@ -416,6 +424,11 @@ arg		: NAME '=' expr {
 			g_free ($1);
 		}
 
+		| NAME '=' '\'' quoted_expr '\'' { 
+			$$ = gth_var_new_expression ($1, $4);
+			g_free($1);
+		}
+		
 		| NAME '=' '"' quoted_expr '"' { 
 			$$ = gth_var_new_expression ($1, $4);
 			g_free($1);
