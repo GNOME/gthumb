@@ -40,6 +40,16 @@
 typedef struct _CatalogWebExporter       CatalogWebExporter;
 typedef struct _CatalogWebExporterClass  CatalogWebExporterClass;
 typedef struct _ImageData                ImageData;
+typedef struct _AlbumDirs		 AlbumDirs;
+
+struct _AlbumDirs {
+	char         *previews;
+	char         *thumbnails;
+	char         *images;
+	char         *html_images;
+	char         *html_indexes;
+	char         *theme_files;
+};
 
 struct _CatalogWebExporter {
 	GObject __parent;
@@ -49,7 +59,6 @@ struct _CatalogWebExporter {
 	GthWindow    *window;
 
 	GList        *file_list;              /* char* elements. */
-	GList        *album_files;
 
 	char         *header;
 	char         *footer;
@@ -60,9 +69,11 @@ struct _CatalogWebExporter {
 	int           page_cols;
 	gboolean      single_index;
 
-	char         *tmp_location;
-	char         *location;               /* Save files in this 
-					       * location. */
+	char         *base_dir;               /* Save files in this location. */
+	char         *base_tmp_dir;
+	gboolean      use_subfolders;
+	AlbumDirs    *ad;	
+					     					       
 	char         *index_file;
 
 	char         *info;
@@ -141,8 +152,8 @@ void       catalog_web_exporter_set_style             (CatalogWebExporter *ce,
 void       catalog_web_exporter_set_location          (CatalogWebExporter *ce,
 						       const char         *location);
 
-void       catalog_web_exporter_set_index_file        (CatalogWebExporter *ce,
-						       const char         *index_file);
+void       catalog_web_exporter_set_use_subfolders    (CatalogWebExporter *ce,
+						       gboolean            use_subfolders);
 
 void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 rows,

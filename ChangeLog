@@ -1,3 +1,24 @@
+2007-06-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* data/albumthemes/Classic/image.gthtml:
+	* data/albumthemes/Classic/index.gthtml:
+	* data/albumthemes/Classic/thumbnail.gthtml:
+	* data/glade/gthumb_web_exporter.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/preferences.h:
+	* src/albumtheme-private.h:
+	* src/albumtheme.c: 
+	* src/albumtheme.l:
+	* src/albumtheme.y:
+	* src/catalog-web-exporter.c:	
+	* src/catalog-web-exporter.h:
+	* src/dlg-web-exporter.c:
+	* src/lex.albumtheme.c: 
+	Initial patch to use subfolders when generating web albums.
+	Bug #119492. Patch by Christophe Bisière. Only classic theme
+	works; theme patches to follow.
+
 2007-06-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* configure.in: Make trunk = 2.11.0, to avoid confusion with

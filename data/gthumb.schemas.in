@@ -768,6 +768,99 @@
 	</locale>
       </schema>
 
+      <!-- Exporter/Web Album -->
+      
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/index_file</key>
+	<applyto>/apps/gthumb/exporter/web_album/index_file</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>index.html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/previews</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/previews</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>previews</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/thumbnails</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>thumbnails</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/images</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>images</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/html_images</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/html_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/html_indexes</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/html_indexes</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>html</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/web_album/directories/theme_files</key>
+	<applyto>/apps/gthumb/exporter/web_album/directories/theme_files</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>theme</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Exporter/General -->
 
       <schema>
@@ -1506,11 +1599,11 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/web_album/index_file</key>
-	<applyto>/apps/gthumb/dialogs/web_album/index_file</applyto>
+	<key>/schemas/apps/gthumb/dialogs/web_album/use_subfolders</key>
+	<applyto>/apps/gthumb/dialogs/web_album/use_subfolders</applyto>
 	<owner>gthumb</owner>
-	<type>string</type>
-	<default>index.html</default>
+	<type>bool</type>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

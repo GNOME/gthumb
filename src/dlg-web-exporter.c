@@ -78,7 +78,7 @@ typedef struct {
 	GtkWidget          *btn_ok;
 
 	GtkWidget          *wa_destination_filechooserbutton;
-	GtkWidget          *wa_index_file_entry;
+	GtkWidget          *wa_use_subfolders_checkbutton;
 	GtkWidget          *wa_copy_images_checkbutton;
 	GtkWidget          *wa_resize_images_checkbutton;
 	GtkWidget          *wa_resize_images_optionmenu;
@@ -145,9 +145,8 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_path (PREF_WEB_ALBUM_DESTINATION, location);
 
-	index_file = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_index_file_entry));
-	eel_gconf_set_string (PREF_WEB_ALBUM_INDEX_FILE, index_file);
-
+	eel_gconf_set_boolean (PREF_WEB_ALBUM_USE_SUBFOLDERS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_use_subfolders_checkbutton)));
+	
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton)));
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton)));
@@ -192,8 +191,9 @@ export (GtkWidget  *widget,
 	/* Set options. */
 
 	catalog_web_exporter_set_location (exporter, location);
-	catalog_web_exporter_set_index_file (exporter, index_file);
 
+	catalog_web_exporter_set_use_subfolders (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_USE_SUBFOLDERS, TRUE));
+	
 	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
 	catalog_web_exporter_set_resize_images (exporter,
@@ -211,7 +211,6 @@ export (GtkWidget  *widget,
 
 	g_free (location);
 	g_free (theme);
-	g_free (index_file);
 
 	/* Export. */
 
@@ -423,7 +422,7 @@ dlg_web_exporter (GthBrowser *browser)
 
 	data->dialog = glade_xml_get_widget (data->gui, "web_album_dialog");
 	data->wa_destination_filechooserbutton = glade_xml_get_widget (data->gui, "wa_destination_filechooserbutton");
-	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
+	data->wa_use_subfolders_checkbutton = glade_xml_get_widget (data->gui, "wa_use_subfolders_checkbutton");
 	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
 
 	data->wa_resize_images_checkbutton = glade_xml_get_widget (data->gui, "wa_resize_images_checkbutton");
@@ -457,10 +456,8 @@ dlg_web_exporter (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
-	g_free (svalue);
-
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_use_subfolders_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_USE_SUBFOLDERS, TRUE));
+	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
 	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
@@ -549,7 +546,6 @@ dlg_web_exporter (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (show_album_theme_cb),
 			  data);
-
 	g_signal_connect (G_OBJECT (data->wa_copy_images_checkbutton),
 			  "toggled",
 			  G_CALLBACK (copy_image_toggled_cb),

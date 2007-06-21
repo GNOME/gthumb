@@ -25,8 +25,9 @@
 
 number           [0-9]+
 name             [a-zA-Z_][0-9a-zA-Z_:@]*
+string           ([^'\n]|\\')*
 
-%x TAG STAG
+%x TAG STAG STR SSTR
 
 %%
 
@@ -44,6 +45,11 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_LANGUAGE;
 					return LANGUAGE;
+				}
+"<gthumb:theme_link"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_THEME_LINK;
+					return THEME_LINK;
 				}
 "<gthumb:image"			{ 
 					BEGIN (TAG);
@@ -205,7 +211,27 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					BEGIN (TAG);
 					return END;
 				}
-<TAG,STAG>{number}			{
+<TAG>"'"			{
+					BEGIN (STR);
+					return '\'';
+				}
+<STAG>"'"			{
+					BEGIN (SSTR);
+					return '\'';
+				}
+<STR,SSTR>{string}		{
+					yylval.text = g_strdup (yytext);
+					return STRING;
+				}
+<STR>"'"			{
+					BEGIN (TAG);
+					return '\'';
+				}
+<SSTR>"'"			{
+					BEGIN (STAG);
+					return '\'';
+				}
+<TAG,STAG>{number}		{
 					yylval.ivalue = atoi (yytext);
 					return NUMBER;
 				}
