@@ -1,8 +1,8 @@
-      <div class="thumbnail" id="thumb-<gthumb:image_link/>">
+      <div class="thumbnail" id="thumb-<gthumb:image_idx/>">
         <div style="width: inherit;"> <!-- necessary to make "display: -moz-inline-box" work properly -->
           <div class="shadowbox">
             <div class="thumbnailFrame">
-              <a href="<gthumb:image_link/>" onmouseover="showTip('<gthumb:image_link/>');" onmouseout="hideTip('<gthumb:image_link/>');">
+              <a href="<gthumb:image_link/>" onmouseover="showTip('<gthumb:image_idx/>');" onmouseout="hideTip('<gthumb:image_idx/>');">
             
                 <!-- image thumbnail -->
                 <gthumb:image thumbnail class="thumbnail" alt="picture thumbnail"/>
@@ -41,7 +41,7 @@
           || exif_flash_visibility_index || exif_shutter_speed_visibility_index
           || exif_aperture_value_visibility_index || exif_focal_length_visibility_index
           || exif_camera_model_visibility_index" />
-          <div class="tip" id="tip-<gthumb:image_link/>" style="width: 200px;">
+          <div class="tip" id="tip-<gthumb:image_idx/>" style="width: 200px;">
             <div class="caption">
               <table>
                 <col width="0*" />
@@ -62,7 +62,7 @@
                       <span class="property"><gthumb:text>Dimensions</gthumb:text></span>
                     </td>
                     <td>
-                      <gthumb:image_dim/> <gthumb:text>pixels</gthumb:text>
+                      <gthumb:image_dim/>&nbsp;<gthumb:text>pixels</gthumb:text>
                     </td>
                   </tr>
                 <gthumb:end/>

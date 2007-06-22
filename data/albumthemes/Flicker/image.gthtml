@@ -10,8 +10,8 @@
 <gthumb:end/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="Generator" content="gThumb Image Viewer" />
-  <link href="layout.css" rel="stylesheet" type="text/css" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='layout.css'/>" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='style.css'/>" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -71,12 +71,14 @@
       <td align="left" valign="middle" style="width: 90px; height: 110px;">
 
       <gthumb:if image_idx > 1 />
-        <a href="<gthumb:image_link idx_relative="-1" />">
-          <table class="nav_thumb">
+        <table class="nav_thumb">
           <tr><td>
-            <gthumb:image idx_relative="-1" thumbnail="1" class="nav_img" />
+            <a href="<gthumb:image_link idx_relative="-1" />">
+              <gthumb:image idx_relative="-1" thumbnail="1" class="nav_img" />
+            </a>
           </td></tr>
-          </table>
+        </table>
+        <a href="<gthumb:image_link idx_relative="-1" />">
           &lt; <gthumb:text>Previous</gthumb:text>
         </a>
       <gthumb:else/>
@@ -90,12 +92,14 @@
       <td align="right" valign="middle" style="width: 90px; height: 110px;">
 
       <gthumb:if image_idx < images />
-        <a href="<gthumb:image_link idx_relative="+1"/>">
-          <table class="nav_thumb">
+        <table class="nav_thumb">
           <tr><td>
-            <gthumb:image idx_relative="+1" thumbnail="1" class="nav_img" />
+            <a href="<gthumb:image_link idx_relative="+1"/>">
+              <gthumb:image idx_relative="+1" thumbnail="1" class="nav_img" />
+            </a>
           </td></tr>
-          </table>
+        </table>
+        <a href="<gthumb:image_link idx_relative="+1" />">
           &gt; <gthumb:text>Next</gthumb:text>
         </a>
       <gthumb:else/>
@@ -108,10 +112,8 @@
       </td>
 
       <td style="color: #c3bebd; padding-left: 10px; vertical-align: middle;">
-        <span style="font-size: 14px; font-weight: bold">
-          <nobr>
-            <gthumb:image_idx/> / <gthumb:images/> 
-          </nobr>
+        <span style="font-size: 14px; font-weight: bold; white-space: nowrap;">
+          <gthumb:image_idx/> / <gthumb:images/> 
         </span>
       </td>
 

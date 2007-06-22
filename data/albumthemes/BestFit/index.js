@@ -129,8 +129,8 @@ function startIndex ()
 
 function showTip ( objid )
 {
-    var container = document.getElementById(objid);
-    var obj = document.getElementById(objid + '.tip');
+    var container = document.getElementById('thumb-' + objid);
+    var obj = document.getElementById('tip-' + objid);
     if ( container != null && obj != null )
     {
         setProperty(obj, "top", (getTopOffset(container)-60)+"px");
@@ -141,7 +141,7 @@ function showTip ( objid )
 
 function hideTip ( objid )
 {
-    var obj = document.getElementById(objid+'.tip');
+    var obj = document.getElementById('tip-' + objid);
     if (obj != null)
-        setProperty(document.getElementById(objid+'.tip'), "display", "none");
+        setProperty(document.getElementById('tip-' + objid), "display", "none");
 }

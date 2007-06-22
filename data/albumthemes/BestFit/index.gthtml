@@ -7,14 +7,14 @@
 <!--
  index.ghtml
  Copyright (C) 2005-2006 Free Software Foundation, Inc.
- $Id$
+ $Id: index.gthtml,v 1.2 2006/11/09 10:26:59 mjc Exp $
  
  DHTML photo album template for use with gthumb - thumbnail index page
 -->
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
     <meta name="Author" content="Rennie deGraaf" />
-    <link rel="stylesheet" href="BestFit.css" />
+    <link rel="stylesheet" href="<gthumb:theme_link src='BestFit.css'/>" />
     <style type="text/css">
       <!--
       -->
@@ -32,8 +32,8 @@
         }
       </style>
     <![endif]-->
-    <script type="text/javascript" src="lib.js"></script>
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="<gthumb:theme_link src='lib.js'/>"></script>
+    <script type="text/javascript" src="<gthumb:theme_link src='index.js'/>"></script>
     <gthumb:if "pages > 1" />
       <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
     <gthumb:else/>
@@ -60,7 +60,7 @@
         <!-- previous/next page -->
         <gthumb:if "page_idx > 1" />
           <a href="<gthumb:page_link idx_relative=-1/>">
-            <img src="prev.png" width="40" height="30" alt="Previous page"/>
+            <img src="<gthumb:theme_link src='prev.png'/>" width="40" height="30" alt="Previous page"/>
             <span class="tip">Previous page</span>
           </a>
         <gthumb:end/>
@@ -69,7 +69,7 @@
         <gthumb:end/>
         <gthumb:if "page_idx < pages" />
           <a href="<gthumb:page_link idx_relative=+1/>">
-            <img src="next.png" width="40" height="30" alt="Next page"/>
+            <img src="<gthumb:theme_link src='next.png'/>" width="40" height="30" alt="Next page"/>
             <span class="tip">Next page</span>
           </a>
         <gthumb:end/>
