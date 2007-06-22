@@ -4,7 +4,7 @@
 <!--
  index.ghtml
  Copyright (C) 2005-2006 Free Software Foundation, Inc.
- $Id: image.gthtml 9 2005-10-21 06:39:05Z degraaf $
+ $Id: image.gthtml,v 1.2 2006/11/09 10:26:59 mjc Exp $
  
  DHTML photo album template for use with gthumb - photo preview page
 -->
@@ -12,7 +12,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="Author" content="Rennie deGraaf" />
     <meta name="Generator" content="gThumb Image Viewer" />
-    <link rel="stylesheet" href="BestFit.css"></link>
+    <link rel="stylesheet" href="<gthumb:theme_link src='BestFit.css'/>" />
     <style type="text/css">
       <!--
       -->
@@ -26,8 +26,8 @@
         }
       </style>
     <![endif]-->
-    <script type="text/javascript" src="lib.js"></script>
-    <script type="text/javascript" src="BestFit.js"></script>
+    <script type="text/javascript" src="<gthumb:theme_link src='lib.js'/>"></script>
+    <script type="text/javascript" src="<gthumb:theme_link src='BestFit.js'/>"></script>
     <gthumb:if "images > 1" />
       <title><gthumb:header/> (<gthumb:image_idx/>/<gthumb:images/>)</title>
     <gthumb:else/>
@@ -62,7 +62,7 @@
     <div id="indexPanel">
       <!-- back to menu -->
       <a href="<gthumb:page_link idx_relative=0 image_idx="1"/>">
-        <img src="back.png" width="30" height="30" alt="Back to menu"/>
+        <img src="<gthumb:theme_link src='back.png'/>" width="30" height="30" alt="Back to menu"/>
       </a>
       <div class="tip" style="top: 100%; left: 0%;">
         Return to thumbnail index
@@ -73,7 +73,7 @@
       <!-- previous/next image -->
       <gthumb:if "image_idx > 1" />
         <a href="<gthumb:image_link idx_relative=-1/>">
-          <img src="prev.png" width="40" height="30" alt="Previous picture"/>
+          <img src="<gthumb:theme_link src='prev.png'/>" width="40" height="30" alt="Previous picture"/>
         </a>
         <div class="tip" style="top: 100%; left: 0%;">
           Previous picture
@@ -84,7 +84,7 @@
       <gthumb:end/>
       <gthumb:if "image_idx < images" />
         <a href="<gthumb:image_link idx_relative=+1/>">
-          <img src="next.png" width="40" height="30" alt="Next picture"/>
+          <img src="<gthumb:theme_link src='next.png'/>" width="40" height="30" alt="Next picture"/>
         </a>
         <div class="tip" style="top: 100%; left: 0%;">
           Next picture

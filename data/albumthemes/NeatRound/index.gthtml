@@ -10,8 +10,8 @@
 <gthumb:end/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="Generator" content="gThumb Image Viewer" />
-  <link href="layout.css" rel="stylesheet" type="text/css" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='layout.css'/>" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='style.css'/>" rel="stylesheet" type="text/css" />
 </head>
 <gthumb:set_var thumbnail_width="120" thumbnail_height="100"/>
 <gthumb:set_var preview_width="450" preview_height="400"/>
@@ -43,23 +43,27 @@
   </td>
   <td class="button">
 <gthumb:if page_idx == 1 />
-    <img src="background.gif" alt="void" />
+    <img src="<gthumb:theme_link src='background.gif'/>" alt="void" />
 <gthumb:else/>
-    <a href="<gthumb:page_link idx_relative=-1/>"><img src="prev.png" alt="Previous" /></a>
+    <a href="<gthumb:page_link idx_relative=-1/>">
+        <img src="<gthumb:theme_link src='prev.png'/>" alt="Previous" />
+    </a>
 <gthumb:end/>
   </td>
   <td class="button">
 <gthumb:if pages == 1 />
-    <img src="background.gif" alt="void" />
+    <img src="<gthumb:theme_link src='background.gif'/>" alt="void" />
 <gthumb:else/>
     <span class="page_index"><gthumb:page_idx/> / <gthumb:pages/></span>
 <gthumb:end/>
   </td>
   <td class="button">
 <gthumb:if page_idx == pages />
-    <img src="background.gif" alt="void" />
+    <img src="<gthumb:theme_link src='background.gif'/>" alt="void" />
 <gthumb:else/>
-    <a href="<gthumb:page_link idx_relative=+1/>"><img src="next.png" alt="Next" /></a>
+    <a href="<gthumb:page_link idx_relative=+1/>">
+        <img src="<gthumb:theme_link src='next.png'/>" alt="Next" />
+    </a>
 <gthumb:end/>
   </td>
 </tr>

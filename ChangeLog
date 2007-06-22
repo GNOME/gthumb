@@ -1,3 +1,23 @@
+2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/albumthemes/BestFit/image.gthtml:
+	* data/albumthemes/BestFit/index.gthtml:
+	* data/albumthemes/BestFit/index.js:
+	* data/albumthemes/BestFit/thumbnail.gthtml:
+	* data/albumthemes/ClassicClips/image.gthtml:
+	* data/albumthemes/ClassicClips/index.gthtml:
+	* data/albumthemes/ClassicClips/thumbnail.gthtml:
+	* data/albumthemes/Flicker/image.gthtml:
+	* data/albumthemes/Flicker/index.gthtml:
+	* data/albumthemes/NeatRound/image.gthtml:
+	* data/albumthemes/NeatRound/index.gthtml:
+	* data/albumthemes/NeatRound/thumbnail.gthtml:
+	* data/albumthemes/Wiki/image.gthtml:
+	* data/albumthemes/Wiki/index.gthtml:
+	* data/albumthemes/Wiki/thumbnail.gthtml:
+	Enable sub-folder usage in all themes, and minor theme corrections.
+	Patch by Christophe Bisière. Bug #119492.
+
 2007-06-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

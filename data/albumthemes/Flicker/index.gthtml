@@ -10,8 +10,8 @@
 <gthumb:end/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="Generator" content="gThumb Image Viewer" />
-  <link href="layout.css" rel="stylesheet" type="text/css" />
-  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='layout.css'/>" rel="stylesheet" type="text/css" />
+  <link href="<gthumb:theme_link src='style.css'/>" rel="stylesheet" type="text/css" />
 </head>
 <gthumb:set_var thumbnail_width="90" thumbnail_height="90"/>
 <gthumb:set_var preview_width="450" preview_height="450"/>
