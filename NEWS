@@ -8,6 +8,8 @@ trunk, since last 2.10.x
 	* Fixed Bug 427984 - Show and Help items share the same mnemonic
 	* New Tango-ized app icon by Ulisse Perusin <uli.peru@gmail.com>.
 	* Optionally use subfolders when generating web albums. Bug #119492.
+	* Wrap to next/previous line when navigating with arrow keys
+          at start/end of a row of images. Bug 449338.
 
 	Bugfixes:
 
