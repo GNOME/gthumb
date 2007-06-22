@@ -1,5 +1,12 @@
 2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-image-list.c: (real_move_cursor):
+	Wrap to next/previous line when navigating with arrow keys
+	at start/end of a row of images. Bug 449338. Patch
+	by Christophe Bisière.
+
+2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* doc/C/gthumb.xml:
 	* doc/theme-xml.txt: Documentation updates regarding web album.
 
