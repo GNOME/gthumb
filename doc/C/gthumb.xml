@@ -2350,11 +2350,25 @@
 	 <guimenuitem>Create Web Album</guimenuitem></menuchoice> function.
        </para>
        <para>
-	 The web album will be generated in the  <guilabel>Destination</guilabel>
-	 folder. The starting page of the album will be given by the
-	 <guilabel>Index file</guilabel> setting - "index.html" is typically
-	 used.
+	 The web album will be generated in the <guilabel>Destination</guilabel>
+	 folder. The starting page of the album (index.html) will be stored in this
+	 folder. If the <guilabel>Use subfolders to organize files</guilabel> 
+	 checkbox is enabled, all other album files (such as images, thumbnails,
+	 and html pages) will be stored in subfolders of the the Destination 
+	 folder. If it is not enabled, all files will be stored in the Destination
+	 folder, and no subfolders will be created.
        </para>
+        <note>
+          <title>Old Custom Themes</title>
+          <para>
+	    The <guilabel>Use subfolders to organize files</guilabel> option
+	    was added in &app; version 2.11.0. If you created a custom theme for 
+	    use with an earlier version of &app; and wish to continue using it 
+	    without modification, make sure that 
+	    <guilabel>Use subfolders to organize files</guilabel> is disabled.
+	    Otherwise, modifications will be required to the custom theme. 
+          </para>
+        </note>
        <para>
 	 All web albums will consist of one or more "index pages" (which show
 	 a series of small thumbnail images) and one or more "image pages"
