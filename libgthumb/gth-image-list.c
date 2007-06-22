@@ -3012,14 +3012,12 @@ real_move_cursor (GthImageList       *image_list,
 	} else {
 		switch (dir) {
 		case GTH_CURSOR_MOVE_RIGHT:
-			if (priv->focused_item + 1 < priv->n_images &&
-			    priv->focused_item % images_per_line != (images_per_line - 1))
+			if (priv->focused_item + 1 < priv->n_images)
 				new_focused_item++;
 			break;
 
 		case GTH_CURSOR_MOVE_LEFT:
-			if (priv->focused_item - 1 >= 0 &&
-			    priv->focused_item % images_per_line != 0)
+			if (priv->focused_item - 1 >= 0)
 				new_focused_item--;
 			break;
 
