@@ -1,5 +1,13 @@
 2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* doc/C/gthumb.xml:
+	* doc/theme-xml.txt: Documentation updates regarding web album.
+
+	* src/catalog-png-exporter.c: Remove extra space that causes build 
+	error. Bug #450110.
+
+2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/albumthemes/BestFit/image.gthtml:
 	* data/albumthemes/BestFit/index.gthtml:
 	* data/albumthemes/BestFit/index.js:

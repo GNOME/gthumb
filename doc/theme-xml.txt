@@ -77,6 +77,9 @@ WVAR (Writable Variables):
 
 <gthumb:title/>                     Display the album title.
 
+<gthumb:theme_link/>                Display a link to a theme file.
+  src='FILENAME'                    Name of the theme file.
+
 <gthumb:image/>                     Display the image.
   idx="EXPR"
   idx_relative="EXPR"
