@@ -33,6 +33,7 @@
 #include "gth-pixbuf-op.h"
 #include "gth-window.h"
 #include "gthumb-stock.h"
+#include "glib-utils.h"
 #include "pixbuf-utils.h"
 
 
@@ -48,7 +49,9 @@ typedef struct {
 	GdkPixbuf    *orig_pixbuf;
 	GdkPixbuf    *new_pixbuf;
 
+	GthPixbufOp  *pixop;
 	gboolean      modified;
+	gboolean      dialog_preview;
 
 	GladeXML     *gui;
 
@@ -66,6 +69,11 @@ static void
 destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
+	if (data->pixop != NULL) {
+		if (data->dialog_preview)
+			g_signal_handlers_disconnect_by_data (data->pixop, data);
+		g_object_unref (data->pixop);
+	}
 	g_object_unref (data->image);
 	g_object_unref (data->orig_pixbuf);
 	g_object_unref (data->new_pixbuf);
@@ -79,8 +87,11 @@ preview_done_cb (GthPixbufOp *pixop,
 		 gboolean     completed,
 		 DialogData  *data)
 {
-	gtk_widget_queue_draw (data->cb_preview_image);
-	g_object_unref (pixop);
+	if (completed)
+		gtk_widget_queue_draw (data->cb_preview_image);
+	g_object_unref (data->pixop);
+	data->pixop = NULL;
+
 	return FALSE;
 }
 
@@ -92,34 +103,38 @@ apply_changes (DialogData *data,
 	       gboolean    dialog_preview,
 	       gboolean    window_preview)
 {
-	double       cyan_red;
-	double       magenta_green;
-	double       yellow_blue;
-	gboolean     preserve_luminosity;
-	GthPixbufOp *pixop;
+	double   cyan_red;
+	double   magenta_green;
+	double   yellow_blue;
+	gboolean preserve_luminosity;
+
+	if (data->pixop != NULL) {
+		gth_pixbuf_op_stop (data->pixop);
+		g_object_unref (data->pixop);
+	}
 
 	cyan_red = gtk_range_get_value (GTK_RANGE (data->cb_cyan_red_hscale));
 	magenta_green = gtk_range_get_value (GTK_RANGE (data->cb_magenta_green_hscale));
 	yellow_blue = gtk_range_get_value (GTK_RANGE (data->cb_yellow_blue_hscale));
 	preserve_luminosity = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cb_luminosity_checkbutton));
 
-	pixop = _gdk_pixbuf_color_balance (src,
-					   dest,
-					   cyan_red,
-					   magenta_green,
-					   yellow_blue,
-					   preserve_luminosity);
+	data->pixop = _gdk_pixbuf_color_balance (src,
+						 dest,
+						 cyan_red,
+						 magenta_green,
+						 yellow_blue,
+						 preserve_luminosity);
 
+	data->dialog_preview = dialog_preview;
 	if (dialog_preview) {
-		g_signal_connect (G_OBJECT (pixop),
+		g_signal_connect (G_OBJECT (data->pixop),
 				  "pixbuf_op_done",
 				  G_CALLBACK (preview_done_cb),
 				  data);
-		gth_pixbuf_op_start (pixop);
-	} else {
-		gth_window_exec_pixbuf_op (data->window, pixop, window_preview);
-		g_object_unref (pixop);
+		gth_pixbuf_op_start (data->pixop);
 	}
+	else
+		gth_window_exec_pixbuf_op (data->window, data->pixop, window_preview);
 }
 
 
