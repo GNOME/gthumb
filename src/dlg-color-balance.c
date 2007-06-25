@@ -72,7 +72,6 @@ destroy_cb (GtkWidget  *widget,
 	if (data->pixop != NULL) {
 		if (data->dialog_preview)
 			g_signal_handlers_disconnect_by_data (data->pixop, data);
-		gth_pixbuf_op_stop (data->pixop);
 		g_object_unref (data->pixop);
 	}
 	g_object_unref (data->image);
