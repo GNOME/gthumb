@@ -1,3 +1,8 @@
+version 2.10.5
+--------------
+	* Fixed bug #448644 - Image brightness-contrast doesn't trigger 
+	  save-ability.
+
 version 2.10.4
 --------------
 

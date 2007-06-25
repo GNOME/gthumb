@@ -1,3 +1,12 @@
+2007-06-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.10.5 released ]
+
+	* NEWS:
+	* configure.in: updated for 2.10.5
+	* src/catalog-png-exporter.c: removed trailing space in 
+	HTML_PAGE_BEGIN
+	
 2007-06-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-posterize.c (destroy_cb): 
