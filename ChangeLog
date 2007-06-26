@@ -1,3 +1,15 @@
+2007-06-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/file-utils.c: (delete_thumbnail):
+	* libgthumb/file-utils.h: New function, to delete cached thumbnails
+	corresponding to a given image.
+
+	* src/dlg-file-utils.c: (xfer_file), (dlg_files_delete):
+	Use the new function to delete thumbnails when deleting images.
+	Only works at the file level - doesn't do anything when folders
+	are deleted. Bug #450675.
+
 2007-06-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.10.5 released ]

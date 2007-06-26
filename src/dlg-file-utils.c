@@ -1290,6 +1290,10 @@ xfer_file (FileCopyData *fcdata,
 	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
 	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
 
+	/* Delete thumbnail from cache, if source file is removed */
+	if (fcdata->remove_source)
+		delete_thumbnail (src_file);
+
 	result = gnome_vfs_async_xfer (&fcdata->handle,
 				       src_list,
 				       dest_list,
@@ -1909,7 +1913,12 @@ dlg_files_delete (GthWindow      *window,
 		GnomeVFSURI *uri;
 
 		uri = new_uri_from_path (path);
+
+		/* Prepare delete list */
 		src_list = g_list_prepend (src_list, uri);
+
+		/* delete associated thumbnails, if present */
+		delete_thumbnail (path);
 	}
 
 	if (src_list == NULL) {
