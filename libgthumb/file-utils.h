@@ -123,6 +123,7 @@ gboolean            file_move                     (const char       *from,
 GnomeVFSResult      file_rename                   (const char       *old_path,
 						   const char       *new_path);
 gboolean            file_unlink                   (const char       *path);
+void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
 	      				 	   const char       *value);
 gboolean            image_is_type                 (const char       *name,
