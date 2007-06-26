@@ -780,6 +780,28 @@ file_unlink (const char *path)
 }
 
 
+void
+delete_thumbnail (const char *path)
+{
+	char *uri;
+	char *large_thumbnail;
+	char *normal_thumbnail;
+
+	uri = get_uri_from_path (path);
+
+	/* delete associated thumbnails, if present */
+	large_thumbnail = gnome_thumbnail_path_for_uri (uri, GNOME_THUMBNAIL_SIZE_LARGE);
+	normal_thumbnail = gnome_thumbnail_path_for_uri (uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+
+	file_unlink (large_thumbnail);
+	file_unlink (normal_thumbnail);
+
+	g_free (large_thumbnail);
+	g_free (normal_thumbnail);
+	g_free (uri);
+}
+
+
 static char*
 get_sample_name (const char *filename)
 {

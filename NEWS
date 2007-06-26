@@ -23,6 +23,18 @@ trunk, since last 2.10.x
 	  for bug 142428.
 
 
+version 2.10.6
+--------------
+
+	* Fixed bug #450675 - should delete the thumbnails of deleted files
+
+
+version 2.10.5
+--------------
+        * Fixed bug #448644 - Image brightness-contrast doesn't trigger
+          save-ability.
+
+
 version 2.10.4
 --------------
 
