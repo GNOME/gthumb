@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-22 15:08+0200\n"
-"PO-Revision-Date: 2007-06-21 12:29+0100\n"
+"POT-Creation-Date: 2007-06-28 23:00+0200\n"
+"PO-Revision-Date: 2007-06-28 17:01+0100\n"
 "Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1957,7 +1957,7 @@ msgstr "S_ortowanie:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "Use subfolders to organize files"
-msgstr ""
+msgstr "Używanie podfolderów do organizowania plików"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
@@ -2225,33 +2225,33 @@ msgstr "Zapis obrazu"
 msgid "Image type:"
 msgstr "Typ obrazu:"
 
-#: ../libgthumb/file-utils.c:1360 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1382 ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Katalogi"
 
-#: ../libgthumb/file-utils.c:1363 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1385 ../src/gth-location.c:819
 msgid "File System"
 msgstr "System plików"
 
-#: ../libgthumb/file-utils.c:1390 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1412 ../src/gth-location.c:826
 msgid "Home"
 msgstr "Folder domowy"
 
-#: ../libgthumb/file-utils.c:1966
+#: ../libgthumb/file-utils.c:1988
 msgid "Library not empty"
 msgstr "Biblioteka nie jest pusta"
 
-#: ../libgthumb/file-utils.c:1975
+#: ../libgthumb/file-utils.c:1997
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nie można usunąć biblioteki \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2002
+#: ../libgthumb/file-utils.c:2024
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nie można usunąć katalogu \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3533 ../src/gth-browser.c:786
+#: ../libgthumb/gth-image-list.c:3531 ../src/gth-browser.c:786
 #: ../src/gth-browser.c:4510 ../src/gth-viewer.c:758
 msgid "No image"
 msgstr "Brak obrazów"
@@ -2517,39 +2517,39 @@ msgstr "Nie można przenieść obrazu:"
 msgid "Could not copy the image:"
 msgstr "Nie można skopiować obrazu:"
 
-#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2473
 msgid "_Abort"
 msgstr "_Przerwij"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2465
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2474
 msgid "_Continue"
 msgstr "_Kontynuuj"
 
-#: ../src/dlg-file-utils.c:1382
+#: ../src/dlg-file-utils.c:1386
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopiowanie pliku %d z %d"
 
-#: ../src/dlg-file-utils.c:1794 ../src/dlg-file-utils.c:2021
+#: ../src/dlg-file-utils.c:1798 ../src/dlg-file-utils.c:2030
 msgid "Collecting images info"
 msgstr "Zbieranie informacji o obrazach"
 
-#: ../src/dlg-file-utils.c:1797 ../src/dlg-file-utils.c:2034
+#: ../src/dlg-file-utils.c:1801 ../src/dlg-file-utils.c:2043
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Usuwanie %ld pliku z %ld"
 
-#: ../src/dlg-file-utils.c:2024
+#: ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopiowanie %ld pliku z %ld"
 
-#: ../src/dlg-file-utils.c:2029
+#: ../src/dlg-file-utils.c:2038
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Przenoszenie %ld pliku z %ld"
 
-#: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
+#: ../src/dlg-file-utils.c:2450 ../src/dlg-file-utils.c:2452
 #: ../src/gth-browser-actions-callbacks.c:1282
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
