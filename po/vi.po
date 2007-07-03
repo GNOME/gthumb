@@ -1,6 +1,7 @@
 # Vietnamese translation for GThumb.
 # Copyright © 2007 Gnome i18n Project for Vietnamese.
 # Clytie Siddall <clytie@riverland.net.au>, 2006-2007.
+# Nguyễn Thái Ngọc Duy <pclouds@gmail.com>, 2007.
 # 
 msgid ""
 ""
@@ -271,11 +272,11 @@ msgid ""
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
 msgstr "Nếu hộp chọn này được bật và ảnh chụp đã nhập khẩu cũng chứa một thẻ hướng "
-"EXIF, dữ liệu ảnh sẽ được chuyển đổi vật chất (không mất gì) để ảnh đã xem "
+"EXIF, dữ liệu ảnh sẽ được chuyển đổi vật chất (không mất mát) để ảnh đã xem "
 "có cùng một hình thức với ảnh gốc nhưng thẻ hướng đã được đặt lại thành « "
 "trái trên ». Còn nếu hộp chọn này không được bật, cả hai dữ liệu ảnh và thẻ "
 "hướng đều còn lại không được thay đổi. Ảnh sẽ được hiển thị trùng bằng "
-"gthumb cho cả hai trường hợp, nhưng ma để tương thích tối đa với các ứng "
+"gthumb cho cả hai trường hợp, nhưng mà để tương thích tối đa với các ứng "
 "dụng khác, khuyên bạn bật hộp chọn này."
 
 #: ../data/glade/gthumb_camera.glade.h:8
@@ -1555,7 +1556,7 @@ msgstr "Thu nhỏ"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
 msgid "Zoom to Fit"
-msgstr "Phóng/thu để vừa"
+msgstr "Phóng/thu cho vừa"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1667,8 +1668,8 @@ msgid ""
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr "<small><i><b>Chú thích </b>: các việc chuyển đổi JPEG bình thường không mất "
-"gì. Khi xem ảnh, bạn có khả năng sử dụng phím tắt [ ngoặc vu ] để xoay và "
-"lưu một cách không mất gì, cũng đi qua hộp thoại này.</i></small>"
+"mát. Khi xem ảnh, bạn có khả năng sử dụng phím tắt [ ngoặc vuông ] để xoay và "
+"lưu theo cách không mất mát, cũng đi qua hộp thoại này.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
@@ -2561,7 +2562,7 @@ msgstr "Không thể xoá các ảnh:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "Không thể chuyển các ảnh vào Sọt Rác. Bạn có muốn xoá hoàn toàn chúng không?"
+msgstr "Không thể chuyển các ảnh vào Sọt rác. Bạn có muốn xoá hoàn toàn chúng không?"
 
 #: ../src/dlg-file-utils.c:229
 #: ../src/gth-browser-actions-callbacks.c:1135
@@ -2682,7 +2683,7 @@ msgstr "Thông tin về kênh"
 #: ../src/dlg-image-prop.c:733
 #, c-format
 msgid "%s Properties"
-msgstr "Tài sản %s"
+msgstr "Thuộc tính %s"
 
 #: ../src/dlg-jpegtran.c:257
 #: ../src/dlg-reset-exif.c:123
@@ -2806,7 +2807,7 @@ msgstr "Không thể di chuyển mục:"
 #: ../src/gth-browser-actions-callbacks.c:167
 #: ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Ảnh này sẽ bị chuyển vào Sọt Rác: chắc ý không?"
+msgstr "Ảnh này sẽ bị chuyển vào Sọt rác: chắc ý không?"
 
 #: ../src/gth-browser-actions-callbacks.c:266
 #, c-format
@@ -2823,7 +2824,7 @@ msgstr "Tiếp tục"
 
 #: ../src/gth-browser-actions-callbacks.c:330
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Những ảnh đã chọn sẽ bị chuyển vào Sọt Rác: chắc ý không?"
+msgstr "Những ảnh đã chọn sẽ bị chuyển vào Sọt rác: chắc ý không?"
 
 #: ../src/gth-browser-actions-callbacks.c:465
 #: ../src/gth-browser-actions-callbacks.c:973
@@ -2894,11 +2895,11 @@ msgstr "Không thể xoá thư mục « %s »: %s"
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "Không thể chuyển « %s » vào Sọt Rác: bạn có muốn xoá hoàn toàn nó không?"
+msgstr "Không thể chuyển « %s » vào Sọt rác: bạn có muốn xoá hoàn toàn nó không?"
 
 #: ../src/gth-browser-actions-callbacks.c:1171
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Thư mục đã chọn sẽ bị chuyển vào Sọt Rác: chắc ý không?"
+msgstr "Thư mục đã chọn sẽ bị chuyển vào Sọt rác: chắc ý không?"
 
 #: ../src/gth-browser-actions-callbacks.c:1224
 #: ../src/gth-browser-actions-callbacks.c:1282
@@ -3002,7 +3003,7 @@ msgstr "Mở ảnh được chọn trong cửa sổ mới"
 #: ../src/gth-browser-actions-entries.h:429
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image properties"
-msgstr "Xem tài sản của ảnh"
+msgstr "Xem thuộc tính của ảnh"
 
 #: ../src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
@@ -3035,7 +3036,7 @@ msgstr "Thay đổi tên của ảnh này"
 
 #: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
-msgstr "Chuyển ảnh này vào Sọt Rác"
+msgstr "Chuyển ảnh này vào Sọt rác"
 
 #: ../src/gth-browser-actions-entries.h:88
 #: ../src/gth-browser-actions-entries.h:113
@@ -3075,7 +3076,7 @@ msgstr "Nhân đôi các ảnh đã chọn"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
-msgstr "Chuyển các ảnh được chọn vào Sọt Rác"
+msgstr "Chuyển các ảnh được chọn vào Sọt rác"
 
 #: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
@@ -3217,7 +3218,7 @@ msgstr "Đổi tên thư mục đã chọn"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
-msgstr "Di chuyển thư mục đã chọn vào Sọt Rác"
+msgstr "Di chuyển thư mục đã chọn vào Sọt rác"
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
@@ -3247,7 +3248,7 @@ msgstr "Đổi tên thư mục hiện có"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
-msgstr "Di chuyển thư mục hiện thời vào Sọt Rác"
+msgstr "Di chuyển thư mục hiện thời vào Sọt rác"
 
 #: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
@@ -3759,7 +3760,7 @@ msgstr "<b>Thư mục _vừa dùng:</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
-msgstr "_Tài sản"
+msgstr "_Thuộc tính"
 
 #: ../src/gth-location.c:385
 msgid "Other..."
@@ -4033,7 +4034,7 @@ msgstr "Vừa khít"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
-msgstr "Thu phóng để vừa khít cửa sổ"
+msgstr "Thu phóng cho vừa khít cửa sổ"
 
 #: ../src/gth-window-actions-entries.h:220
 msgid "Width"
@@ -4041,7 +4042,7 @@ msgstr "Rộng"
 
 #: ../src/gth-window-actions-entries.h:221
 msgid "Zoom to fit width"
-msgstr "Thu phóng để vừa khít độ rộng"
+msgstr "Thu phóng cho vừa khít độ rộng"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
