@@ -1,8 +1,24 @@
+2007-07-02  Nguyễn Thái Ngọc Duy <pclouds@gmail.com>
+
+	* vi.po: Updated Vietnamese translation.
+
+2007-06-30  Clytie Siddall <clytie@riverland.net.au>
+
+	* vi.po: Updated Vietnamese translation.
+
+2007-06-28  Artur Flinta  <aflinta@svn.gnome.org>
+
+	* pl.po: Updated Polish translation by GNOME PL Team.
+
 2007-06-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* en_GB.po:
 	* fr.po: Updated translations by Christophe Bisière, to reflect
 	changes in the web album export function. Bug #119492.
+
+2007-06-22  Artur Flinta  <aflinta@svn.gnome.org>
+
+	* pl.po: Updated Polish translation by GNOME PL Team.
 
 2007-06-15  Gabor Kelemen  <kelemeng@gnome.hu>
 

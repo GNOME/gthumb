@@ -27,6 +27,7 @@ version 2.10.6
 --------------
 
 	* Fixed bug #450675 - should delete the thumbnails of deleted files
+	* Fixed bug #453986. Check for invalid unicode in embedded comments. 
 
 
 version 2.10.5
