@@ -1677,7 +1677,7 @@ catalog_set_standard_page_size (PrintCatalogDialogData *data,
 
 	size = gtk_paper_size_new_custom (page_size, "", width, height, unit);
 	gtk_page_setup_set_paper_size (data->pci->page_setup, size);
-	g_free (size);
+	gtk_paper_size_free (size);
 
 	catalog_update_page_size_from_config (data);
 	catalog_update_image_size_from_config (data);
