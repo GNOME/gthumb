@@ -1,3 +1,9 @@
+2007-07-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/comments.c: (save_comment):
+	Check for invalid unicode in embedded comments. Bug #453986.
+
 2007-06-26  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
