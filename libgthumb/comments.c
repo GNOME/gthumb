@@ -843,13 +843,13 @@ save_comment (const char  *filename,
 
 	/* Escape text */
 
-	if (data->comment != NULL)
+	if (data->comment != NULL && g_utf8_validate (data->comment, -1, NULL))
 		e_comment = g_markup_escape_text (data->comment, -1);
 
-	if (data->place != NULL)
+	if (data->place != NULL && g_utf8_validate (data->place, -1, NULL))
 		e_place = g_markup_escape_text (data->place, -1);
 
-	if (keywords_str != NULL)
+	if (keywords_str != NULL && g_utf8_validate (keywords_str, -1, NULL))
 		e_keywords = g_markup_escape_text (keywords_str, -1);
 	g_free (keywords_str);
 
