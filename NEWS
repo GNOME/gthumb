@@ -3,6 +3,7 @@ version 2.10.6
 
 	* Fixed bug #450675 - should delete the thumbnails of deleted files
 	* Fixed bug #453986. Check for invalid unicode in embedded comments. 
+	* Fixed bug #454037 -Invalid free when selecting Print in the menu.
 
 
 version 2.10.5

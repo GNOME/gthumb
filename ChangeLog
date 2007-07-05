@@ -1,6 +1,13 @@
 2007-07-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
+	* libgthumb/print-callbacks.c: (catalog_set_standard_page_size):
+	Use gtk_paper_size_free instead of g_free. Bug #454037. 
+	Patch by Pascal Terjan.
+
+2007-07-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
 	* libgthumb/comments.c: (save_comment):
 	Check for invalid unicode in embedded comments. Bug #453986.
 
