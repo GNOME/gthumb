@@ -1,5 +1,12 @@
 2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri): Use the new
+	gdk_pixbuf_apply_embedded_orientation function, if available, to
+	auto-rotate images with orientation tags.
+
+2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-web-exporter.c: (dlg_web_exporter),
 	(show_album_theme_cb): Make dialogs modal.
 
