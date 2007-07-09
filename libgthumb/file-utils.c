@@ -2846,6 +2846,15 @@ gth_pixbuf_new_from_video (const char             *path,
 }
 
 
+#ifndef GDK_PIXBUF_CHECK_VERSION
+#define GDK_PIXBUF_CHECK_VERSION(major,minor,micro) \
+    (GDK_PIXBUF_MAJOR > (major) || \
+     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR > (minor)) || \
+     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR == (minor) && \
+      GDK_PIXBUF_MICRO >= (micro)))
+#endif
+
+
 GdkPixbuf*
 gth_pixbuf_new_from_uri (const char  *uri,
 			 GError     **error,
@@ -2923,29 +2932,39 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
 
+#if GDK_PIXBUF_CHECK_VERSION(2,11,0)
+	/* gtk 2.11.0 and higher can read orientation tags in jpegs and tiffs */
 	if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
 		/* The gdk_pixbuf loader has detected an exif orientation tag. */
 		sscanf (exif_orientation_string, "%d", &transform);
 		debug (DEBUG_INFO, "gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
 
-	} else if (mime_type_is (mime_type, "image/jpeg")) {
-		/* If gdk_pixbuf did not find an exif orientation tag, check
-		   again using our own libexif-based code, which only works on jpegs.
-		   This can be removed once gdk_pixbuf has accepted the tag-reading patch, 
-		   and our gtk library requirements have been increased accordingly. */
+	} 
+#else
+	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
+	if (mime_type_is (mime_type, "image/jpeg")) {
 		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
 	}
+#endif	
 
 	g_free (local_file);
 
-	if (transform != GTH_TRANSFORM_NONE) {
-		temp = _gdk_pixbuf_transform (pixbuf, transform);
-		g_object_unref (pixbuf);
-		return temp;
-	} else
-		return pixbuf;
+#if GDK_PIXBUF_CHECK_VERSION(2,11,5)
+	/* New in gtk 2.11.5 - see bug 439567 */
+	temp = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+	debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
+#else
+	/* The old way - delete this and the GDK_PIXBUF_CHECK_VERSION
+	   macro once gtk 2.12 is widely used. */
+	temp = _gdk_pixbuf_transform (pixbuf, transform);
+	debug (DEBUG_INFO, "Applying orientation using gthumb internal function.\n\r");
+#endif
+
+	g_object_unref (pixbuf);
+
+	return temp;
 }
 
 
