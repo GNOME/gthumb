@@ -1,5 +1,10 @@
 2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-web-exporter.c: (dlg_web_exporter),
+	(show_album_theme_cb): Make dialogs modal.
+
+2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* data/albumthemes/Classic/thumbnail.gthtml:
 	* data/albumthemes/ClassicClips/thumbnail.gthtml:
