@@ -9,13 +9,13 @@
       </table>
 
 <span class="comment">
-  <gthumb:if comment_visibility_image/>
+  <gthumb:if comment_visibility_index/>
     <gthumb:comment max_size=100/> <br />
   <gthumb:end/>
-  <gthumb:if place_visibility_image/>
+  <gthumb:if place_visibility_index/>
     <gthumb:place max_size=100/> <br />
   <gthumb:end/>
-  <gthumb:if date_time_visibility_image/>
+  <gthumb:if date_time_visibility_index/>
     <gthumb:date_time/>
   <gthumb:end/>
 </span><br />

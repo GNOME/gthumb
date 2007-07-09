@@ -1,3 +1,16 @@
+2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* data/albumthemes/Classic/thumbnail.gthtml:
+	* data/albumthemes/ClassicClips/thumbnail.gthtml:
+	* data/albumthemes/Flicker/thumbnail.gthtml:
+	* data/albumthemes/NeatRound/thumbnail.gthtml:
+	* data/albumthemes/Wiki/thumbnail.gthtml:
+	* src/albumtheme.c:
+	* src/lex.albumtheme.c:
+	Fixed bug #454489. Theme uses the wrong captions in the thumbnails.
+	Patched by Jef Driesen.
+
 2007-07-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
