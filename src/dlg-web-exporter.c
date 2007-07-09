@@ -593,7 +593,7 @@ dlg_web_exporter (GthBrowser *browser)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }
 
@@ -1064,12 +1064,10 @@ show_album_theme_cb (GtkWidget  *widget,
 	gtk_widget_grab_focus (tdata->wat_theme_treeview);
 
 	gtk_window_set_transient_for (GTK_WINDOW (tdata->dialog), GTK_WINDOW (data->dialog));
-	gtk_window_set_modal (GTK_WINDOW (tdata->dialog), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (tdata->dialog), TRUE);
 	gtk_widget_show_all (tdata->dialog);
 }
 
-
-
 
 typedef struct {
 	DialogData         *data;
