@@ -956,10 +956,10 @@ read_orientation_field (const char *path)
 	if (path == NULL)
 		return GTH_TRANSFORM_NONE;
 
-	// libexif method 
-	// orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
+	/* old libexif method 
+	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION); */
 
-	// our method - experimental
+	/* new internal method */
 	gth_minimal_exif_tag_read (path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
 
 	orientation = (GthTransform) tf;
