@@ -2943,16 +2943,16 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		/* The gdk_pixbuf loader has detected an exif orientation tag. */
 		sscanf (exif_orientation_string, "%d", &transform);
 		debug (DEBUG_INFO, "gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
-		rotated = _gdk_pixbuf_transform (pixbuf, transform);
-	} 
+	}
+	rotated = _gdk_pixbuf_transform (pixbuf, transform);
 #else
 	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
 	if (mime_type_is (mime_type, "image/jpeg")) {
 		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
-		rotated = _gdk_pixbuf_transform (pixbuf, transform);
 	}
+	rotated = _gdk_pixbuf_transform (pixbuf, transform);
 #endif	
 
 	g_object_unref (pixbuf);
