@@ -495,7 +495,7 @@ update_notebook_page (DialogData *data,
 		gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (data->i_exif_data_view),
 					     data->browser_viewer,
 					     gth_window_get_image_filename (GTH_WINDOW (data->browser)),
-			       		     NULL);
+					     NULL);
 		break;
 
 	case IPROP_PAGE_HISTOGRAM:
