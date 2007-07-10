@@ -1,3 +1,8 @@
+2007-07-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri): More elegant
+	and readable re-working of previous patch.
+
 2007-07-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
