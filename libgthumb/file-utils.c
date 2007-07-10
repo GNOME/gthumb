@@ -2453,8 +2453,8 @@ is_local_file (const char *filename)
 }
 
 
-char *
-get_cache_full_path (const char *relative_path, const char *extension)
+static char *
+get_remote_cache_full_path (const char *relative_path, const char *extension)
 {
 	char *path;
 	char *separator;
@@ -2483,18 +2483,15 @@ get_cache_full_path (const char *relative_path, const char *extension)
 
 
 void
-prune_cache (void)
+prune_cache (const char *dir, int max_age_in_days)
 {
 	char *command;
 
-	/* Purge old files before transferring new ones. */
-	/* Old = ctime older than 2 days. */
-	command = g_strconcat (	"find ",
-				g_get_home_dir (),
-				"/",
-				RC_REMOTE_CACHE_DIR,
-				" -type f -ctime +2 | xargs rm -rf",
-				NULL );
+	/* Purge old cache files. */
+	command = g_strdup_printf ("find %s/%s -type f -ctime +%d | xargs rm -rf",
+				   g_get_home_dir (),
+				   dir,
+				   max_age_in_days);
 	system (command);
 	g_free (command);
 }
@@ -2565,7 +2562,7 @@ obtain_local_file (const char *remote_filename)
 	if (md5_file == NULL)
 		return NULL;
 
-	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file = get_remote_cache_full_path (md5_file, get_extension (remote_filename));
 	g_free (md5_file);
 	if (cache_file == NULL)
 		return NULL;
@@ -2676,16 +2673,16 @@ get_pixbuf_using_external_converter (const char *url,
 
 	if (is_raw && !is_thumbnail)
 		/* Full-sized converted TIFF or RAW files */
-		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
 	else if (is_raw && is_thumbnail)
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
-		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.pnm");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.pnm");
 	else if (is_hdr && is_thumbnail)
 		/* HDR: thumbnails generated in tiff format. The converted file is later removed. */
-		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
 		/* Full-sized converted HDR files */
-		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
+		cache_file_full = get_remote_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_host_from_uri (cache_file_full));
 	cache_file_esc = shell_escape (cache_file);
