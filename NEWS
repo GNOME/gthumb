@@ -35,6 +35,7 @@ version 2.10.6
 	* Fixed bug #454489. Theme uses the wrong captions in the thumbnails.
 	* The default import folder was not properly set to the correct XDG 
 	  "PICTURES" folder. Fixed.
+	* Fixed bug #455911. Symlink/vfs problem (Ubuntu bug 109579).
 
 
 version 2.10.5

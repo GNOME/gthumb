@@ -1,6 +1,13 @@
 2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
+	* libgthumb/file-utils.c (get_uri_host): always return a non-NULL value
+	
+	Fixes bug #455911 – Symlink/vfs problem. Ported from gthumb-2-10.
+
+2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
 	* libgthumb/file-utils.c: (xdg_user_dir_lookup):
 	Ensure the XDG "PICTURES" folder exists before using it.
 
