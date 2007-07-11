@@ -1,3 +1,12 @@
+2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (window_update_image_info),
+	(gth_browser_save_pixbuf):
+	* src/gth-viewer.c: (viewer_update_image_info),
+	(gth_viewer_save_pixbuf):
+	No longer need to load priv->exif_data for update_info routines.
+	Load it before saving a file instead.
+
 2007-07-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/glade/gthumb.glade:

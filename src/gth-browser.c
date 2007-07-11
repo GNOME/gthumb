@@ -604,26 +604,6 @@ window_update_image_info (GthBrowser *browser)
 	window_update_statusbar_zoom_info (browser);
 
         GthBrowserPrivateData *priv = browser->priv;
-        JPEGData              *jdata = NULL;
-
-        if (priv->exif_data != NULL) {
-        	exif_data_unref (priv->exif_data);
-                priv->exif_data = NULL;
-        }
-
-	if ((priv->image_path != NULL) && (image_is_jpeg (priv->image_path))) {
-        	char *local_file_to_modify = NULL;
-                local_file_to_modify = obtain_local_file (priv->image_path);
-                if (local_file_to_modify != NULL) {
-                	jdata = jpeg_data_new_from_file (local_file_to_modify);
-                        g_free (local_file_to_modify);
-                }
-        }
-
-        if (jdata != NULL) {
-        	priv->exif_data = jpeg_data_get_exif_data (jdata);
-                jpeg_data_unref (jdata);
-        }
 
 	fdata = gth_file_view_get_image_data (browser->priv->file_list->view, browser->priv->image_position);
 
@@ -1762,7 +1742,29 @@ gth_browser_save_pixbuf (GthWindow  *window,
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *current_folder = NULL;
+	JPEGData              *jdata = NULL;
 
+
+        /* Make a copy of the exif data, so it can be put in the new file */
+        if (priv->exif_data != NULL) {
+                exif_data_unref (priv->exif_data);
+                priv->exif_data = NULL;
+        }
+
+	if ((priv->image_path != NULL) && (image_is_jpeg (priv->image_path))) {
+		char *local_file_to_modify = NULL;
+                local_file_to_modify = obtain_local_file (priv->image_path);
+                if (local_file_to_modify != NULL) {
+                	jdata = jpeg_data_new_from_file (local_file_to_modify);
+                        g_free (local_file_to_modify);
+                }
+	}
+
+        if (jdata != NULL) {
+                priv->exif_data = jpeg_data_get_exif_data (jdata);
+                jpeg_data_unref (jdata);
+        }
+	
 	if (priv->image_path != NULL)
 		current_folder = g_strdup (priv->image_path);
 
