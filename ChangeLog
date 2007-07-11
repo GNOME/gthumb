@@ -1,3 +1,9 @@
+2007-07-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (get_uri_host): always return a non-NULL value
+	
+	Fixes bug #455911 – Symlink/vfs problem 
+
 2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

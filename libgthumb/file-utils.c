@@ -1275,10 +1275,18 @@ get_uri_host (const char *uri)
 
 	idx = strstr (uri, "://");
 	if (idx == NULL)
-		return NULL;
+		return g_strdup ("file://");
+	
 	idx = strstr (idx + 3, "/");
-	if (idx == NULL)
-		return NULL;
+	if (idx == NULL) {
+		char *scheme;
+		
+		scheme = get_uri_scheme (uri);
+		if (scheme == NULL)
+			scheme = g_strdup ("file://");
+		return scheme;
+	}
+	
 	return g_strndup (uri, (idx - uri));
 }
 
@@ -1782,8 +1790,6 @@ resolve_symlinks (const char  *text_uri,
 	info = gnome_vfs_file_info_new ();
 
 	resolved_uri = get_uri_host (text_uri);
-	if (resolved_uri == NULL)
-		resolved_uri = g_strdup ("file://");
 
 	tmp = build_uri (text_uri, relative_link);
 	uri = remove_special_dirs_from_path (tmp);
