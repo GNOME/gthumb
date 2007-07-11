@@ -716,14 +716,12 @@ viewer_update_image_info (GthViewer *viewer)
 			priv->exif_data = NULL;
 		}
 
-		if (priv->image_path != NULL) {
-                        if (priv->image_path != NULL) {
-                                char *local_file_to_modify = NULL;
-                                local_file_to_modify = obtain_local_file (priv->image_path);
-                                if (local_file_to_modify != NULL) {
-                                        jdata = jpeg_data_new_from_file (local_file_to_modify);
-                                        g_free (local_file_to_modify);
-                                }
+		if ((priv->image_path != NULL) && (image_is_jpeg (priv->image_path))) {
+			char *local_file_to_modify = NULL;
+			local_file_to_modify = obtain_local_file (priv->image_path);
+			if (local_file_to_modify != NULL) {
+				jdata = jpeg_data_new_from_file (local_file_to_modify);
+				g_free (local_file_to_modify);
 			}
 		}
 

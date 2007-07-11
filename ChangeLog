@@ -1,5 +1,10 @@
 2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-viewer.c: (viewer_update_image_info):
+	Corrected duplicated and missing logic.
+
+2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-browser.c: (window_update_image_info):
 	Cosmetic - fixed indentation.
 
