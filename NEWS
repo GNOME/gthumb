@@ -5,6 +5,8 @@ version 2.10.6
 	* Fixed bug #453986. Check for invalid unicode in embedded comments. 
 	* Fixed bug #454037. Invalid free when selecting Print in the menu.
 	* Fixed bug #454489. Theme uses the wrong captions in the thumbnails.
+	* The default import folder was not properly set to the correct XDG 
+	  "PICTURES" folder. Fixed.
 
 
 version 2.10.5
