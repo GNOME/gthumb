@@ -3198,8 +3198,10 @@ xdg_user_dir_lookup (const char *type)
 	
 	fclose (file);
 
-	if (user_dir)
+	if (user_dir) {
+		ensure_dir_exists (user_dir, 0775);
 		return user_dir;
+	}
 
 error:
 	 /* Special case desktop for historical compatibility */
