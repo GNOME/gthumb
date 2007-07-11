@@ -1,5 +1,17 @@
 2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* libgthumb/file-utils.c: (xdg_user_dir_lookup):
+	Ensure the XDG "PICTURES" folder exists before using it.
+
+	* src/dlg-photo-importer.c: (dlg_photo_importer):
+	Set the import folder properly (use
+	gtk_file_chooser_set_current_folder_uri, not
+	gtk_file_chooser_set_uri. Required to make XDG default
+	folder work.	
+
+2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-viewer.c: (viewer_update_image_info):
 	Corrected duplicated and missing logic.
 
