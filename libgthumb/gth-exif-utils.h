@@ -58,7 +58,8 @@ void          save_exif_data_to_uri       (const char   *filename,
 gboolean      use_exiftool_for_metadata   ();
 char *        strip_sort_codes            (const char   *value); 
 time_t        get_metadata_for_file       (const char   *url,
-				           GHashTable   *metadata_hash);
+				           GHashTable   *metadata_hash,
+					   gboolean      only_if_cache_good);
 gboolean      write_metadata_tag_to_file  (const char   *path,
                                            GHashTable   *metadata_hash_to_write);
 int           gth_minimal_exif_tag_write  (const char   *filename,

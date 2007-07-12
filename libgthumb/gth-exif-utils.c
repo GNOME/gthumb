@@ -461,7 +461,7 @@ strip_sort_codes (const char *value) {
 
 
 time_t
-get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
+get_metadata_for_file (const char *uri, GHashTable* metadata_hash, gboolean only_if_cache_good)
 {
         char       *path;
         char       *cache_file;
@@ -470,7 +470,7 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
         char       *local_file_esc;
         char       *command;
 	char       *local_file;
-	time_t	    cache_mtime;
+	time_t	    cache_mtime = 0;
 	gboolean    just_update_cache;
 	gboolean    cache_is_good;
 	GHashTable *working_metadata_hash;
@@ -509,9 +509,11 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
         g_assert (is_local_file (cache_file));
         cache_file_esc = shell_escape (cache_file);
 
+
 	/* Is an up-to-date cache file present? */
 	cache_is_good = path_is_file (cache_file) && (get_file_mtime (uri) < get_file_mtime (cache_file));
 	debug (DEBUG_INFO, "Is metadata cache for %s good: %d\n", uri, cache_is_good);
+
 
 	/* Load the cache file if it is good, and if it is requested. */
 	if (cache_is_good && !just_update_cache) {
@@ -523,14 +525,17 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	/* Ignore the cache file if it was generated from libexif
 	   and exiftool is now available */
 	if ( (g_hash_table_lookup (working_metadata_hash, "ExifTool:ExifToolVersion") == NULL) &&
-	      use_exiftool_for_metadata ()) {
+	      use_exiftool_for_metadata () &&
+	      !only_if_cache_good) {
+		debug (DEBUG_INFO, "Purge libexif metadata cache, use exiftool.\n");
 		g_hash_table_remove_all (working_metadata_hash);
 		file_unlink (cache_file);
 	}
 
 	/* Generate a cache file using exiftool, if needed and if possible */
 	if ( (g_hash_table_size (working_metadata_hash) == 0) &&
-	      use_exiftool_for_metadata ()) {
+	      use_exiftool_for_metadata () &&
+	      !only_if_cache_good) {
 		debug (DEBUG_INFO, "Get metadata with exiftool.\n");
 
 		command = g_strconcat ( "exiftool -S -a -e -G1 ",
@@ -545,7 +550,9 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	}
 
 	/* If that didn't work, use libexif */
-	if ((g_hash_table_size (working_metadata_hash) == 0) && image_is_jpeg (local_file)) {
+	if ((g_hash_table_size (working_metadata_hash) == 0) && 
+	     image_is_jpeg (local_file) &&
+	     !only_if_cache_good) {
 		ExifData *exif_data = NULL;
 		JPEGData *jdata = NULL;
 
@@ -565,7 +572,8 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
 	if (just_update_cache)
 		g_hash_table_destroy (working_metadata_hash);
 
-	cache_mtime = get_file_mtime (cache_file);
+	if (!only_if_cache_good || cache_is_good)
+		cache_mtime = get_file_mtime (cache_file);
 
 	g_free (local_file);
         g_free (local_file_esc);

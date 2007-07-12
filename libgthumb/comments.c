@@ -825,7 +825,7 @@ load_comment_from_xmp (const char *filename)
 	data = comment_data_new ();
 
         metadata_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-        get_metadata_for_file (filename, metadata_hash);
+        get_metadata_for_file (filename, metadata_hash, FALSE);
 
 	/* comments - preferred fields first */
 	value = g_hash_table_lookup (metadata_hash, "XMP-exif:UserComment");

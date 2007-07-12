@@ -1,5 +1,16 @@
 2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/comments.c: (load_comment_from_xmp):
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gthumb-preloader.c: (loader_done_cb):
+	Use cached DateTime when sorting folder, to greatly speed
+	up display of previously-visited folders.
+
+2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
 	Fix memory leak. Fix faulty cache re-loading logic.
 
