@@ -1,6 +1,11 @@
 2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	Fix memory leak. Fix faulty cache re-loading logic.
+
+2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
 	Fixed broken (slow) metadata cache retrieval.
 
 2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
