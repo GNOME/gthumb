@@ -46,6 +46,7 @@
 #include "gth-browser.h"
 #include "gth-utils.h"
 #include "glib-utils.h"
+#include "gth-exif-utils.h"
 
 static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
 static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
@@ -80,6 +81,7 @@ typedef struct {
 	GtkWidget          *wa_destination_filechooserbutton;
 	GtkWidget          *wa_use_subfolders_checkbutton;
 	GtkWidget          *wa_copy_images_checkbutton;
+	GtkWidget          *wa_copy_metadata_checkbutton;
 	GtkWidget          *wa_resize_images_checkbutton;
 	GtkWidget          *wa_resize_images_optionmenu;
 	GtkWidget          *wa_resize_images_hbox;
@@ -149,6 +151,8 @@ export (GtkWidget  *widget,
 	
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton)));
 
+        eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_METADATA, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_metadata_checkbutton)));
+
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton)));
 
 	eel_gconf_set_integer (PREF_WEB_ALBUM_RESIZE_WIDTH, idx_to_resize_width[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
@@ -195,6 +199,8 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_use_subfolders (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_USE_SUBFOLDERS, TRUE));
 	
 	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
+
+	catalog_web_exporter_set_copy_metadata (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_METADATA, FALSE));
 
 	catalog_web_exporter_set_resize_images (exporter,
 						eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE),
@@ -424,6 +430,7 @@ dlg_web_exporter (GthBrowser *browser)
 	data->wa_destination_filechooserbutton = glade_xml_get_widget (data->gui, "wa_destination_filechooserbutton");
 	data->wa_use_subfolders_checkbutton = glade_xml_get_widget (data->gui, "wa_use_subfolders_checkbutton");
 	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
+	data->wa_copy_metadata_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_metadata_checkbutton");
 
 	data->wa_resize_images_checkbutton = glade_xml_get_widget (data->gui, "wa_resize_images_checkbutton");
 	data->wa_resize_images_optionmenu = glade_xml_get_widget (data->gui, "wa_resize_images_optionmenu");
@@ -459,8 +466,10 @@ dlg_web_exporter (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_use_subfolders_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_USE_SUBFOLDERS, TRUE));
 	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
-
 	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_metadata_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_METADATA, FALSE));
+	gtk_widget_set_sensitive (data->wa_copy_metadata_checkbutton, use_exiftool_for_metadata ());
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE));
 

@@ -180,6 +180,7 @@
 #define  PREF_WEB_ALBUM_DESTINATIONS   "/apps/gthumb/dialogs/web_album/destinations"
 #define  PREF_WEB_ALBUM_USE_SUBFOLDERS "/apps/gthumb/dialogs/web_album/use_subfolders"
 #define  PREF_WEB_ALBUM_COPY_IMAGES    "/apps/gthumb/dialogs/web_album/copy_images"
+#define  PREF_WEB_ALBUM_COPY_METADATA  "/apps/gthumb/dialogs/web_album/copy_metadata"
 #define  PREF_WEB_ALBUM_RESIZE_IMAGES  "/apps/gthumb/dialogs/web_album/resize_images"
 #define  PREF_WEB_ALBUM_RESIZE_WIDTH   "/apps/gthumb/dialogs/web_album/resize_width"
 #define  PREF_WEB_ALBUM_RESIZE_HEIGHT  "/apps/gthumb/dialogs/web_album/resize_height"

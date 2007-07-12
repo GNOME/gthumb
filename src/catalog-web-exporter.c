@@ -431,6 +431,7 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->thumb_height = DEFAULT_THUMB_SIZE;
 
 	ce->copy_images = FALSE;
+	ce->copy_metadata = FALSE;
 	ce->resize_images = FALSE;
 	ce->resize_max_width = 0;
 	ce->resize_max_height = 0;
@@ -552,6 +553,18 @@ catalog_web_exporter_set_copy_images (CatalogWebExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 	ce->copy_images = copy;
+}
+
+
+void
+catalog_web_exporter_set_copy_metadata (CatalogWebExporter *ce,
+		                        gboolean            copy)
+{
+        g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
+
+	/* Copying must be enabled, and the exiftool program must
+	   be present, before metadata will be copied */
+        ce->copy_metadata = copy && use_exiftool_for_metadata ();
 }
 
 
@@ -2065,12 +2078,16 @@ export__save_other_files (CatalogWebExporter *ce)
 
 
 static void
-copy_exif_from_orig_and_reset_orientation (const char *src_filename,
+copy_exif_from_orig_and_reset_orientation (gboolean    copy_metadata,
+					   const char *src_filename,
 					   const char *dest_filename)
 {
 	char         *local_src_filename = NULL;
 	char         *local_dest_filename = NULL;
 	gboolean      is_local;
+
+	if (!copy_metadata)
+		return;
 
 	is_local = is_local_file (dest_filename);
 
@@ -2132,7 +2149,9 @@ save_thumbnail_cb (gpointer data)
 					      filename,
 					      "jpeg",
 					      NULL, NULL)) {
-				copy_exif_from_orig_and_reset_orientation (idata->src_filename, filename);
+				copy_exif_from_orig_and_reset_orientation (ce->copy_metadata,
+								           idata->src_filename,
+									   filename);
 			} else
 				g_free (filename);
 
@@ -2398,7 +2417,9 @@ save_image_preview_cb (gpointer data)
 					      filename,
 					      "jpeg",
 					      NULL, NULL)) {
-				copy_exif_from_orig_and_reset_orientation (idata->src_filename, filename);
+				copy_exif_from_orig_and_reset_orientation (ce->copy_metadata,
+									   idata->src_filename,
+									   filename);
 			} else
 				g_free (filename);
 		}
@@ -2434,7 +2455,9 @@ save_resized_image_cb (gpointer data)
 					      filename,
 					      "jpeg",
 					      NULL, NULL)) {
-				copy_exif_from_orig_and_reset_orientation (idata->src_filename, filename);
+				copy_exif_from_orig_and_reset_orientation (ce->copy_metadata,
+									   idata->src_filename,
+									   filename);
 				idata->file_size = get_file_size (filename);
 			} else
 				g_free (filename);

@@ -82,6 +82,8 @@ struct _CatalogWebExporter {
 	int           thumb_height;
 
 	gboolean      copy_images;
+	gboolean      copy_metadata;
+
 	GthSortMethod sort_method;
 	GtkSortType   sort_type;
 

@@ -988,147 +988,23 @@ void
 copy_exif_data (const char *local_src_filename,
 		const char *local_dest_filename)
 {
-	/* This exif-copy function avoids the uses of the libexif routines,
-	   because they can re-write and corrupt some tags (MakerNotes
-	   especially). This routine is a "bulk copy", which does not
-	   modify the data. */
+	char *command;
 
-	const unsigned char soiapp1[] = {0xff, 0xd8, 0xff, 0xe1};
-	const unsigned char app2[]    = {0xff, 0xe2};
-
-	int           msize;            // generic placeholder for marker sizes
-	int           appsize[3];       // Sizes for APP0 to APP2
-	int          *asize;            // Pointer to current APP marker slot of appsize 
-	char         *app[3];           // pointer into imagggge data pointing to APP0 to APP2 
-	char         *ptr;              // working pointer through image data
-
-	// vars for setting tag in target file
-	guint16       tf = (guint16) 1; // top-left value of EXIF_TAG_ORIENTATION tag
-	int           res;              // result from call gth_minimal_exif_tag_write()
-
-	// vars for file copy
-	char          *tmp_dir;
-	char          *tmp_filename;     // temporary filename
-	FILE          *src, *dest, *tfd; // file descriptors
-	size_t        fsize;          // number of bytes read
-
-	char          buf[1024 * 129];  // Read buffer for EXIF data (Should be first and within 1 + 2 x 64Kb)
-	                               // re-used for copying the rest of the file to the temp destination file
-
-	debug (DEBUG_INFO, "copy_exif_from_orig_and_reset_orientation: %s -> %s\n",local_src_filename, local_dest_filename);
+	/* This function uses the external exiftool program, if present, because
+	   it reliably copies all common metadata (exif, iptc, xmp, etc, makernotes).
+	   It is not limited to just exif, for example. */
 
 	g_assert (!uri_has_scheme (local_src_filename));
 	g_assert (!uri_has_scheme (local_dest_filename));
 
-	// Open exif source file
-	if ((src = fopen(local_src_filename, "r")) == (void *) 0L){
-		fprintf(stderr, "catalog_web_exporter: Error opening file: %s\n", local_src_filename);
-		return;
-	}
+	debug (DEBUG_INFO, "Copy metadata from %s to %s with exiftool.\n", local_src_filename, local_dest_filename);
 
-	// Try to read a buffer from the beginning of the source file
-	fsize = fread(buf, 1, sizeof(buf), src); 
-
-        //
-	// Scan for markers 
-	//
-	ptr = buf;                    // Get point for start of search
-	memset(app, 0L, sizeof(app)); // Zero table for APP marker starts
-
-	// Loop through buffer as long as we find a marker start (0xff)
-	while (ptr - buf < fsize && (ptr = memchr(ptr, 0xff, fsize - (ptr - buf))) != NULL){
-
-		debug (DEBUG_INFO, ".");
-		ptr++; // Step over the marker start (0xff) to avoid it the next search
-
-		// Lookup what kind of marker, if one, we found
-		switch((int)ptr[0] & 0xff){
-		case 0xd8: debug (DEBUG_INFO, "SOI found\n "); continue;
-		case 0xe0: debug (DEBUG_INFO, "APP0 found "); app[0] = ptr + 1; asize = &appsize[0]; break;
-		case 0xe1: debug (DEBUG_INFO, "APP1 found "); app[1] = ptr + 1; asize = &appsize[1]; break;
-		case 0xe2: debug (DEBUG_INFO, "APP2 found "); app[2] = ptr + 1; asize = &appsize[2]; break;
-		case 0xda: debug (DEBUG_INFO, "SOS found\n "); ptr = buf + fsize; continue; // We are done
-		case 0xdb: // DQT
-		case 0xc4: // DHT
-		case 0xdd: // DRI
-		case 0xc0: debug (DEBUG_INFO, "Valid marker found\n "); asize = &msize; continue; // SOF
-
-		default: continue;   // False marker sync byte, continue to look for real ones
-		}
-
-		debug (DEBUG_INFO, "Sizebytes: %02x and %02x\n", ptr[1], ptr[2]);
-
-		*asize = GUINT16_FROM_BE(*(guint16 *)&ptr[1]); // Get size of marker
-		ptr = ptr + 1 + *asize;
-	}
-
-	// Open dest file which is already assumed to contain a JFIF (APP0 only) image
-	if ((dest = fopen(local_dest_filename, "r")) == (void *) 0L){
-		fprintf(stderr, "catalog_web_exporter: Error opening file: %s\n", local_dest_filename);
-		fclose(src);
-		return;
-	}
-	
-	// Open temp file that will contain the merged files
-
-        tmp_dir = get_temp_dir_name ();
-        if (tmp_dir == NULL) {
-                /* should we display an error message here? */
-                return;
-        }
-        tmp_filename = get_temp_file_name (tmp_dir, NULL);
-	g_free (tmp_dir);
-
-	if ((tfd = fopen(tmp_filename, "w+")) == (void *) 0L){
-		fprintf(stderr, "catalog_web_exporter: Error opening file: %s\n", tmp_filename);
-		fclose (dest);
-		fclose (src);
-		remove_temp_file_and_dir (tmp_filename);
-		g_free (tmp_filename);
-		return;
-	}
-	    
-	// Check that we found some EXIF data
-	if (app[1] != 0L){
-		// write SOI + APP1 marker
-		fwrite(soiapp1, sizeof(soiapp1), 1, tfd);
-
-		// write APP1 data
-		fwrite(app[1],  appsize[1], 1, tfd);
-
-		// Write APP2 if available
-		if (app[2] != 0L){
-			// write APP2 marker
-			fwrite(app2, sizeof(app2), 1, tfd);
-
-			// write APP2 data
-			fwrite(app[2],  appsize[2], 1, tfd);
-		}
-		
-		// write rest of dest file to the tmp file from APP0 onwards
-		fseek(dest, 2L, SEEK_SET); // Skip SOI since we already got that written
-	} else {
-		debug (DEBUG_INFO, "catalog_web_exporter: No EXIF data found in %s\n", local_src_filename);
-
-		// Just copy the whole file
-		fseek(dest, 0L, SEEK_SET); 
-	}
-
-
-	while (!feof(dest)){
-		fsize = fread(buf, 1, sizeof(buf), dest);
-		fwrite(buf, 1, fsize, tfd);
-        }
-
-	// Close files
-	fclose(src);
-	fclose(dest);
-	fclose(tfd);
-
-	// Move tmp to dest
-	file_move (tmp_filename, local_dest_filename);
-
-	remove_temp_file_and_dir (tmp_filename);
-	g_free (tmp_filename);
+	command = g_strconcat ( "exiftool -q -q -overwrite_original -TagsFromFile ",
+        			local_src_filename,
+				" -all:all ",
+				local_dest_filename,
+				NULL );
+	system (command);
+	g_free (command);
 }
 

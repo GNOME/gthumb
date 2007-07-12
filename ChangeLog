@@ -1,3 +1,17 @@
+2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_web_exporter.glade:
+	* libgthumb/gth-exif-utils.c: (copy_exif_data):
+	* libgthumb/preferences.h:
+	* src/catalog-web-exporter.c: (catalog_web_exporter_init),
+	(catalog_web_exporter_set_copy_metadata),
+	(copy_exif_from_orig_and_reset_orientation), (save_thumbnail_cb),
+	(save_image_preview_cb), (save_resized_image_cb):
+	* src/catalog-web-exporter.h:
+	* src/dlg-web-exporter.c: (export), (dlg_web_exporter):
+	When making web albums, allow metadata to be optionally copied
+	using exiftool. Slow but thorough.
+
 2007-07-11  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
