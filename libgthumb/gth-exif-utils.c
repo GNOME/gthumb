@@ -518,10 +518,9 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash)
                 cache_to_hash (cache_file, working_metadata_hash);
 	}
 
-	/* Do nothing if the cache is good, and we just wanted to ensure
-	   it existed. Otherwise, refresh the cache as required. */
+	/* Do nothing else if the cache is good. Otherwise, refresh the cache as required. */
 
-	if ( !(cache_is_good && just_update_cache) ) {
+	if (!cache_is_good) {
 
 		/* Ignore the cache file if it was generated from libexif
 		   and exiftool is now available */
