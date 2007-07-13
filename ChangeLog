@@ -1,5 +1,13 @@
 2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/gth-exif-utils.c: (exif_string_to_time_t),
+	(get_exif_time):
+	Implement faster exif DataTime loading for sorts, by reading the
+	DateTime tags using the new minimal tag reader, instead of libexif.
+
+2007-07-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (gth_pixbuf_new_from_uri), (if):
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_action),
 	(gth_minimal_exif_tag_read), (gth_minimal_exif_tag_write),

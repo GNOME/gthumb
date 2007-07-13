@@ -193,51 +193,17 @@ exif_string_to_time_t (char *string)
 time_t
 get_exif_time (const char *filename)
 {
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
+        char    date_string[21]={0};
+        time_t  time = 0;
 
-	if (filename == NULL)
-		return (time_t)0;
-
-	edata = gth_exif_data_new_from_uri (filename);
-
-	if (edata == NULL) 
+        if (filename == NULL)
                 return (time_t)0;
 
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
+        gth_minimal_exif_tag_read (filename, EXIF_TAG_DATE_TIME, date_string, 20);
 
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
+        time = exif_string_to_time_t (date_string);
 
-		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			char        *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			if (e->data == NULL)
-				continue;
-
-			if (strlen ((char*)e->data) < 10)
-				continue;
-
-			time = exif_string_to_time_t ( (char*) e->data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return time;
+        return time;
 }
 
 
