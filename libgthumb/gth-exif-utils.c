@@ -508,6 +508,7 @@ get_metadata_for_file (const char *uri, GHashTable* metadata_hash, gboolean only
        	       	                        local_file_esc,
          	        	        " > ",
                       	        	cache_file_esc,
+					" 2>/dev/null",
                                	        NULL );
                 system (command);
     		g_free (command);

@@ -629,12 +629,16 @@ gboolean mime_type_is_image (const char *mime_type)
 		1b.	except for image/x-xcf, image/x-compressed-xcf
 			because we can't read these gimp files, and fast,
 			reliable converters are not really available.
+		1c.     We can't do much with svg or eps files either.
 		2. application/x-crw
 			This is a RAW photo file, which for some reason
 			uses an "application" prefix instead of "image".
 	*/
 
-	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
+	return (   ((strstr (mime_type, "image") != NULL) && 
+			(strstr (mime_type, "xcf") == NULL) &&
+			(strstr (mime_type, "svg") == NULL) &&
+			(strstr (mime_type, "eps") == NULL))
 		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
 
@@ -971,7 +975,7 @@ mime_type_is_raw (const char *mime_type)
 }
 
 
-gboolean
+static gboolean
 mime_type_is_hdr (const char *mime_type)
 {
 	/* Note that some HDR file extensions have been hard-coded into

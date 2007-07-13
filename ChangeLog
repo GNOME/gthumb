@@ -1,5 +1,15 @@
 2007-07-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/file-utils.c: (mime_type_is_image):
+	* libgthumb/file-utils.h:
+	Don't try to load EPS or SVG files.
+
+	* libgthumb/gth-exif-utils.c: (get_metadata_for_file):
+	Send exiftool errors to /dev/null.
+
+2007-07-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gthumb-preloader.c: (loader_done_cb): Don't preload metadata.
 	It doesn't really speed up anything.
 
