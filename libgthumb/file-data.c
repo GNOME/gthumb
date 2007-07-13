@@ -171,12 +171,15 @@ file_data_load_comment_data (FileData *fd)
 void
 file_data_load_exif_data (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);
+        g_return_if_fail (fd != NULL);
 
-	if (fd->exif_data_loaded)
-		return;
-	fd->exif_time = get_exif_time (fd->path);
-	fd->exif_data_loaded = TRUE;
+        if (fd->exif_data_loaded)
+                return;
+
+        if (mime_type_is (fd->mime_type, "image/jpeg"))
+                fd->exif_time = get_exif_time (fd->path);
+
+        fd->exif_data_loaded = TRUE;
 }
 
 

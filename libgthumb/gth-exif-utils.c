@@ -157,75 +157,49 @@ get_exif_tag_short (const char *filename,
 
 
 time_t
+exif_string_to_time_t (char *string) 
+{
+        char       *data;
+        struct tm   tm = { 0, };
+
+        data = g_strdup (string);
+
+        data[4] = data[7] = data[10] = '\0';
+
+        tm.tm_year = atoi (data) - 1900;
+        tm.tm_mon  = atoi (data + 5) - 1;
+        tm.tm_mday = atoi (data + 8);
+        tm.tm_hour = 0;
+        tm.tm_min  = 0;
+        tm.tm_sec  = 0;
+        tm.tm_isdst = -1;
+
+        if (strlen (string) > 10) {
+                data[13] = data[16] = '\0';
+                tm.tm_hour = atoi (data + 11);
+                tm.tm_min  = atoi (data + 14);
+                tm.tm_sec  = atoi (data + 17);
+        }
+
+        g_free (data);
+        return mktime (&tm);
+}
+
+
+time_t
 get_exif_time (const char *filename)
 {
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
-	struct tm     tm = { 0, };
+        char    date_string[21]={0};
+        time_t  time = 0;
 
-	if (filename == NULL)
-		return (time_t)0;
-
-	edata = gth_exif_data_new_from_uri (filename);
-
-	if (edata == NULL) 
+        if (filename == NULL)
                 return (time_t)0;
 
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
+        gth_minimal_exif_tag_read (filename, EXIF_TAG_DATE_TIME, date_string, 20);
 
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
+        time = exif_string_to_time_t (date_string);
 
-		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			char        *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			if (e->data == NULL)
-				continue;
-
-			if (strlen ((char*)e->data) < 10)
-				continue;
-
-			data = g_strdup ((char*)e->data);
-
-			data[4] = data[7] = data[10] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = 0;
-			tm.tm_min  = 0;
-			tm.tm_sec  = 0;
-			tm.tm_isdst = -1;
-
-			if (strlen ((char*)e->data) > 10) {
-				data[13] = data[16] = '\0';
-				tm.tm_hour = atoi (data + 11);
-				tm.tm_min  = atoi (data + 14);
-				tm.tm_sec  = atoi (data + 17);
-			}
-
-			time = mktime (&tm);
-
-			g_free (data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return time;
+        return time;
 }
 
 
@@ -366,14 +340,15 @@ const char types[] = {0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x00, 0x08, 0x00, 0x04
  
 #define IFD_NAME_PUSH(val) names[ni++] = val;
 #define IFD_NAME_PULL()    names[--ni]
- 
-int
-gth_minimal_exif_tag_write (const char *filename,
- 	                    ExifTag     etag,
- 			    void       *data,
- 			    int         size)
+
+int static
+gth_minimal_exif_tag_action (const char *filename,
+			     ExifTag     etag,
+			     void       *data,
+			     int         size,
+			     int         access)
 {
-	/* This function updates ONLY the affected tag. Unlike libexif, it does
+	/* This function updates/reads ONLY the affected tag. Unlike libexif, it does
 	   not attempt to correct or re-format other data. This helps preserve
 	   the integrity of certain MakerNote entries, by avoiding re-positioning
 	   of the data whenever possible. Some MakerNotes incorporate absolute
@@ -404,7 +379,7 @@ gth_minimal_exif_tag_write (const char *filename,
         int           ni = 0;       // iundex into names
  	int           cifdi = 0;    // curret ifd index
  
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", filename, etag, data, size);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d)\n", filename, etag, data, size);
  
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
@@ -417,26 +392,26 @@ gth_minimal_exif_tag_write (const char *filename,
  		return PATCH_EXIF_FILE_ERROR;
  
  	// open file r (read (r))
- 	if ((jf = fopen(filename, "r")) == NULL)
+ 	if ((jf = fopen (filename, "r")) == NULL)
  		return PATCH_EXIF_FILE_ERROR;
  
         // Fill buffer
-        readsize = fread(buf, 1, sizeof(buf), jf);
+        readsize = fread (buf, 1, sizeof (buf), jf);
  
  	// close file during prcessing
- 	fclose(jf);
+ 	fclose (jf);
  
         // Check for TIFF header and catch endianess
  	i = 0;
  	while (i < readsize){
  
  		// Little endian TIFF header
- 		if (bcmp(&buf[i], leth, 4) == 0){ 
+ 		if (bcmp (&buf[i], leth, 4) == 0){ 
  			endian = G_LITTLE_ENDIAN;
                 }
  
  		// Big endian TIFF header
- 		else if (bcmp(&buf[i], beth, 4) == 0){ 
+ 		else if (bcmp (&buf[i], beth, 4) == 0){ 
  			endian = G_BIG_ENDIAN;
                 }
  
@@ -446,7 +421,7 @@ gth_minimal_exif_tag_write (const char *filename,
  			continue;
  		}
  		// We have found either big or little endian TIFF header
- 		tiff    = i;
+ 		tiff = i;
  		break;
         }
  
@@ -485,62 +460,108 @@ gth_minimal_exif_tag_write (const char *filename,
  				     DE_ENDIAN16(*((unsigned short*)(&buf[i]))), type, count, offset);
  
  			// Our tag?
- 			if (bcmp(&buf[i], (char *)&tag, 2) == 0){ 
+ 			if (bcmp (&buf[i], (char *)&tag, 2) == 0){ 
  
- 				debug (DEBUG_INFO, "*");
+				// Write TAG value
+				if (access == 1){ 
 
- 				// Local value that can be patched directly in TAG table 
- 				if ((types[type] * count) <= 4){
+					// Local value that can be patched directly in TAG table 
+					if ((types[type] * count) <= 4){
  
- 					// Fake TIFF offset
- 					offset = i + 8 - tiff; 
- 					patches++;
- 				}
- 				// Offseted value of same or larger size that we can patch
- 				else if (types[type] * count >= size){
- 
- 					// Adjust count to new length
- 					count = size / types[type]; 
- 					*((unsigned short*)(&buf[i + 4])) = ENDIAN32_IT(count);
- 					patches++;
- 				}
- 				// Otherwise we are not able to patch the new value, at least not here
- 				else {
- 					fprintf(stderr, "gth_minimal_exif_tag_write: New TAG value does not fit, no patch applied\n");
- 					continue;
- 				}
-				
-				if (offset + tiff + count * types[type] > sizeof(buf)) return PATCH_EXIF_TRASHED_IFD;
+						// Fake TIFF offset
+						offset = i + 8 - tiff; 
+						patches++;
+					}
+					// Offseted value of same or larger size that we can patch
+					else if (types[type] * count >= size){
+						
+						// Adjust count to new length
+						count = size / types[type]; 
+						*((unsigned short*)(&buf[i + 4])) = ENDIAN32_IT(count);
+						patches++;
+					}
+					// Otherwise we are not able to patch the new value, at least not here
+					else {
+						fprintf(stderr, "gth_minimal_exif_tag_write: New TAG value does not fit, no patch applied\n");
+						continue;
+					}
+					
+					if (offset + tiff + count * types[type] > sizeof (buf)) return PATCH_EXIF_TRASHED_IFD;
 
- 				// Copy the data
- 				stitch = 0;			       
- 				while (stitch < count){
- 					switch (types[type]){
- 					case 1:
- 						buf[tiff + offset + stitch] = *(char *) (data + stitch);
- 						break;
- 					case 2:
- 						*((unsigned short*)(&buf[tiff + offset + stitch * 2])) = 
- 							ENDIAN16_IT(*(guint16 *) (data + stitch * 2));
- 						break;
- 					case 4:
- 						*((unsigned long*) (&buf[tiff + offset + stitch * 4])) = 
- 							ENDIAN32_IT(*(guint32 *) (data + stitch * 4));
- 						break;
- 					default:
- 						fprintf(stderr, "gth_minimal_exif_tag_write:unsupported element size\n");
-						return PATCH_EXIF_UNSUPPORTED_TYPE;
- 					}
- 					stitch++;
- 				}
- 			}
+					// Copy the data
+					stitch = 0;
+					while (stitch < count){
+						switch (types[type]){
+						case 1:
+							buf[tiff + offset + stitch] = *(char *) (data + stitch);
+							break;
+						case 2:
+							*((unsigned short*)(&buf[tiff + offset + stitch * 2])) = 
+								ENDIAN16_IT(*(guint16 *) (data + stitch * 2));
+							break;
+						case 4:
+							*((unsigned long*) (&buf[tiff + offset + stitch * 4])) = 
+								ENDIAN32_IT(*(guint32 *) (data + stitch * 4));
+							break;
+						default:
+							fprintf(stderr, "gth_minimal_exif_tag_write:unsupported element size\n");
+							return PATCH_EXIF_UNSUPPORTED_TYPE;
+						}
+						stitch++;
+					}
+				}
+				// Read a TAG value
+				else{ 
+
+					// Local value that can be read directly in TAG table 
+					if ((types[type] * count) <= 4 && size >= (types[type] * count)){
+ 
+						// Fake TIFF offset
+						offset = i + 8 - tiff; 
+						patches++;
+					}
+					// Offseted value of less or equal size than buffer
+					else if (types[type] * count <= size){
+						patches++;
+					}
+					// Otherwise we are not able to read the value
+					else {
+						fprintf(stderr, "gth_minimal_exif_tag_read: TAG value does not fit, Can't read value\n");
+						continue;
+					}
+					
+					stitch = 0;
+					while (stitch < count){
+						switch (types[type]){
+						case 1:
+							*(char *) (data + stitch) = buf[tiff + offset + stitch];
+							break;
+						case 2:
+							*(guint16 *) (data + stitch * 2) = 
+								DE_ENDIAN16(*((unsigned short*)(&buf[tiff + offset + stitch * 2])));
+							
+							break;
+						case 4:
+							*(guint32 *) (data + stitch * 4) =
+								DE_ENDIAN32(*((unsigned long*) (&buf[tiff + offset + stitch * 4])));
+							
+							break;
+						default:
+							fprintf(stderr, "gth_minimal_exif_tag_read:unsupported element size\n");
+							return PATCH_EXIF_UNSUPPORTED_TYPE;
+						}
+						stitch++;
+					}					
+					return PATCH_EXIF_OK;
+				}
+			}
  			// EXIF pointer tag?
- 			else if (bcmp(&buf[i], (char *)&exififd, 2) == 0){ 
+ 			else if (bcmp (&buf[i], (char *) &exififd, 2) == 0){ 
  				IFD_OFFSET_PUSH(offset + tiff);
  				IFD_NAME_PUSH("EXIF");
  			}
  			// GPS pointer tag?
- 			else if (bcmp(&buf[i], (char *)&gpsifd, 2) == 0){ 
+ 			else if (bcmp (&buf[i], (char *) &gpsifd, 2) == 0){ 
  				IFD_OFFSET_PUSH(offset + tiff);
  				IFD_NAME_PUSH("GPS");
  			}
@@ -574,15 +595,45 @@ gth_minimal_exif_tag_write (const char *filename,
 }
 
 
+int
+gth_minimal_exif_tag_read (const char *filename,
+ 	                    ExifTag     etag,
+ 			    void       *data,
+ 			    int         size)
+{
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
+	return gth_minimal_exif_tag_action (filename, etag, data, size, 0);
+}
+
+
+int
+gth_minimal_exif_tag_write (const char *filename,
+ 	                    ExifTag     etag,
+ 			    void       *data,
+ 			    int         size)
+{
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
+	return gth_minimal_exif_tag_action (filename, etag, data, size, 1);
+}
+
+
 GthTransform
 read_orientation_field (const char *path)
 {
 	ExifShort orientation;
+	guint16   tf;
 
 	if (path == NULL)
 		return GTH_TRANSFORM_NONE;
 
-	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
+	/* old libexif method
+	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION); */
+
+	/* new internal method */
+	gth_minimal_exif_tag_read (path, EXIF_TAG_ORIENTATION, &tf, 2);
+
+	orientation = (GthTransform) tf;
+
 	if (orientation >= 1 && orientation <= 8)
 		return orientation;
 	else
