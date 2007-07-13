@@ -36,6 +36,8 @@ version 2.10.6
 	* The default import folder was not properly set to the correct XDG 
 	  "PICTURES" folder. Fixed.
 	* Fixed bug #455911. Symlink/vfs problem (Ubuntu bug 109579).
+        * Much faster loading of exif DataTime tags. This provides faster
+          folder loading in the sort-by-DateTime mode.
 
 
 version 2.10.5
