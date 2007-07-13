@@ -176,7 +176,7 @@ file_data_load_exif_data (FileData *fd)
 	if (fd->exif_data_loaded)
 		return;
 
-	if (image_is_jpeg (fd->path))
+	if (mime_type_is (fd->mime_type, "image/jpeg"))
 		fd->exif_time = get_exif_time (fd->path);
 
 	fd->exif_data_loaded = TRUE;
