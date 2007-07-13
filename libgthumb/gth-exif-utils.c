@@ -371,8 +371,7 @@ int
 gth_minimal_exif_tag_write (const char *filename,
  	                    ExifTag     etag,
  			    void       *data,
- 			    int         size,
- 			    int         ifds)
+ 			    int         size)
 {
 	/* This function updates ONLY the affected tag. Unlike libexif, it does
 	   not attempt to correct or re-format other data. This helps preserve
@@ -405,7 +404,7 @@ gth_minimal_exif_tag_write (const char *filename,
         int           ni = 0;       // iundex into names
  	int           cifdi = 0;    // curret ifd index
  
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", filename, etag, data, size);
  
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
@@ -600,5 +599,5 @@ write_orientation_field (const char   *path,
 	if (path == NULL)
 		return;
 
-	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
+	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2);
 }
