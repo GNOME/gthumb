@@ -679,7 +679,6 @@ gth_minimal_exif_tag_action (const char *filename,
 			     ExifTag     etag,
 			     void       *data,
 			     int         size,
-			     int         ifds,
 			     int         access)
 {
 	/* This function updates/reads ONLY the affected tag. Unlike libexif, it does
@@ -713,7 +712,7 @@ gth_minimal_exif_tag_action (const char *filename,
         int           ni = 0;       // iundex into names
  	int           cifdi = 0;    // curret ifd index
  
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d)\n", filename, etag, data, size);
  
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
@@ -933,11 +932,10 @@ int
 gth_minimal_exif_tag_read (const char *filename,
  	                    ExifTag     etag,
  			    void       *data,
- 			    int         size,
- 			    int         ifds)
+ 			    int         size)
 {
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds); 
-	return gth_minimal_exif_tag_action (filename, etag, data, size, ifds, 0);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
+	return gth_minimal_exif_tag_action (filename, etag, data, size, 0);
 }
 
 
@@ -945,11 +943,10 @@ int
 gth_minimal_exif_tag_write (const char *filename,
  	                    ExifTag     etag,
  			    void       *data,
- 			    int         size,
- 			    int         ifds)
+ 			    int         size)
 {
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d, %02x)\n", filename, etag, data, size, ifds); 
-	return gth_minimal_exif_tag_action (filename, etag, data, size, ifds, 1);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
+	return gth_minimal_exif_tag_action (filename, etag, data, size, 1);
 }
 
 
@@ -966,7 +963,7 @@ read_orientation_field (const char *path)
 	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION); */
 
 	/* new internal method */
-	gth_minimal_exif_tag_read (path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
+	gth_minimal_exif_tag_read (path, EXIF_TAG_ORIENTATION, &tf, 2);
 
 	orientation = (GthTransform) tf;
 
@@ -986,7 +983,7 @@ write_orientation_field (const char   *path,
 	if (path == NULL)
 		return;
 
-	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2, 0);
+	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2);
 }
 
 
