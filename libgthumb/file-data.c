@@ -175,7 +175,10 @@ file_data_load_exif_data (FileData *fd)
 
 	if (fd->exif_data_loaded)
 		return;
-	fd->exif_time = get_exif_time (fd->path);
+
+	if (image_is_jpeg (fd->path))
+		fd->exif_time = get_exif_time (fd->path);
+
 	fd->exif_data_loaded = TRUE;
 }
 
