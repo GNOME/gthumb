@@ -205,10 +205,13 @@ file_data_load_exif_data (FileData *fd)
 	if (fd->exif_time == 0)
 		fd->metadata_time = get_metadata_for_file (fd->path, fd->metadata_hash, TRUE);
 
-	/* if that didn't work, load the metadata using the
-	   slower exiftool functions */
+	/* If that didn't work, load the metadata using the
+	   slower exiftool functions. Skip HDR files, exiftool
+	   can't read them. */
 
-	if ((fd->exif_time == 0) && (fd->metadata_time == 0))
+	if ((fd->exif_time == 0) && 
+	    (fd->metadata_time == 0) &&
+	    !mime_type_is_hdr (fd->mime_type))
 		fd->metadata_time = get_metadata_for_file (fd->path, fd->metadata_hash, FALSE);
 
 	if (fd->metadata_time != 0) {
