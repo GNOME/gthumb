@@ -103,14 +103,7 @@ loader_done_cb (ImageLoader  *il,
 			       gthumb_preloader_signals[REQUESTED_DONE], 0);
 		debug (DEBUG_INFO, "[requested] done");
 		timeout = NEXT_LOAD_BIG_TIMEOUT;
-	} else {
-		debug (DEBUG_INFO, "preloader done for %s, checking metadata cache\n", ploader->path);
-		/* Make sure the metadata is cached to a file,
-		   as part of the preload process. We don't do this for
-		   the "requested" preloader, because the sidebar
-		   code will load it anyway. */
-		get_metadata_for_file (ploader->path, NULL, FALSE);
-	}
+	} 
 
 	gploader->load_id = g_timeout_add (timeout, load_next, gploader);
 }
