@@ -2,6 +2,12 @@
 
 	* NEWS:
 	* data/gthumb.schemas.in:
+	Show filenames by default. Bug #452831.
+
+2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* data/gthumb.schemas.in:
 	Show preview pane by default. Bug #452833.
 
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
