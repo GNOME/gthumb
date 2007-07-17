@@ -40,6 +40,7 @@ version 2.10.6
           folder loading in the sort-by-DateTime mode.
 	* Preload more thumbnails into memory in browser mode. Bug #457529.
 	* Fixed bug #457685. Sort by Exif DateTime broken in list mode.
+	* Show preview pane by default. Bug #452833.
 
 
 version 2.10.5

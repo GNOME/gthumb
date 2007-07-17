@@ -272,7 +272,7 @@
 	<applyto>/apps/gthumb/browser/show_preview</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>false</default>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
