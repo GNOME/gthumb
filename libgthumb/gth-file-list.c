@@ -435,7 +435,11 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	g_assert (fd != NULL);
 
-	file_list->priv->update_thumb_in_image_list = (new_pos >= first_pos) && (new_pos <= last_pos);
+	/* We create thumbnail files for all images in the folder, but we only
+	   load the visible ones (and 200 before and 200 after the visible range),
+	   to minimize memory consumption in large folders. */
+	file_list->priv->update_thumb_in_image_list = (new_pos >= (first_pos - 200)) &&
+						      (new_pos <= (last_pos + 200));
 	file_list->priv->thumb_pos = new_pos;
 	file_list->priv->thumbs_num++;
 
