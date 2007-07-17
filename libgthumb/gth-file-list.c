@@ -853,7 +853,6 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->list                 = NULL;
 	file_list->priv->sort_method    = pref_get_arrange_type ();
 	file_list->priv->sort_type      = pref_get_sort_order ();
-	file_list->priv->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	file_list->enable_thumbs        = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE);
 	file_list->priv->thumb_size     = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
 	file_list->priv->thumb_loader   = THUMB_LOADER (thumb_loader_new (NULL, file_list->priv->thumb_size, file_list->priv->thumb_size));
@@ -1221,6 +1220,7 @@ load_new_list (GthFileList *file_list)
 
 	gfi_data = get_file_info_data_new (file_list);
 
+	file_list->priv->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	file_list->busy = TRUE;
 	file_list->priv->stop_it = FALSE;
 
