@@ -1,5 +1,10 @@
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (get_exif_time): Return DateTimeOriginal
+	or DateTimeDigitized if DateTime is not present.
+
+2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_exif_time):
 	Add support for remote files, and return 0 for invalid times,
 	instead of -1.

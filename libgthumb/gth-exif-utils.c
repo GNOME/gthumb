@@ -194,14 +194,22 @@ get_exif_time (const char *filename)
 	char   *local_file_to_modify = NULL;
 
         if (filename == NULL)
-                return (time_t)0;
+                return (time_t) 0;
 
         local_file_to_modify = obtain_local_file (filename);
 	if (local_file_to_modify == NULL)
-	                return;
+                return (time_t) 0;
 
         gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME, date_string, 20);
+
+	if (date_string[0] == 0)
+		gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
+
+	if (date_string[0] == 0)
+		gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
+
         time = exif_string_to_time_t (date_string);
+
 	g_free (local_file_to_modify);
 
 	if (time < (time_t) 0)
