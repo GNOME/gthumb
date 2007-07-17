@@ -1,5 +1,11 @@
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c: (gth_file_list_update_next_thumb):
+	Try loading more thumbnails into memory for faster navigation (load
+	visible images, plus 200 before and 200 after visible range).
+
+2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_exif_time): Return DateTimeOriginal
 	or DateTimeDigitized if DateTime is not present.
 

@@ -10,6 +10,7 @@ version 2.10.6
 	* Fixed bug #455911. Symlink/vfs problem (Ubuntu bug 109579).
 	* Much faster loading of exif DataTime tags. This provides faster 
 	  folder loading in the sort-by-DateTime mode.
+	* Preload more thumbnails into memory in browser mode. Bug #457529.
 
 
 version 2.10.5
