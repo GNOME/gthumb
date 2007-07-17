@@ -1,6 +1,12 @@
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
+	* data/gthumb.schemas.in:
+	Show preview pane by default. Bug #452833.
+
+2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
 	* libgthumb/gth-file-view-list.c: (gfv_sorted),
 	(gth_file_view_list_new): Fixed bug #457685 - sort by Exif DateTime broken
 	in list mode.
