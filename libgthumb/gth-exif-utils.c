@@ -195,13 +195,21 @@ get_exif_time (const char *filename)
 {
         char    date_string[21]={0};
         time_t  time = 0;
+	char   *local_file_to_modify = NULL;
 
         if (filename == NULL)
                 return (time_t)0;
 
-        gth_minimal_exif_tag_read (filename, EXIF_TAG_DATE_TIME, date_string, 20);
+        local_file_to_modify = obtain_local_file (filename);
+	if (local_file_to_modify == NULL)
+	                return;
 
+        gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME, date_string, 20);
         time = exif_string_to_time_t (date_string);
+	g_free (local_file_to_modify);
+
+	if (time < (time_t) 0)
+		return (time_t) 0;
 
         return time;
 }
