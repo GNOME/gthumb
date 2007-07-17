@@ -46,6 +46,7 @@ enum {
 	COLUMN_SIZE,
 	COLUMN_TIME,
 	COLUMN_COMMENT,
+	COLUMN_EXIF_DATE,
 	NUMBER_OF_COLUMNS
 };
 
@@ -1074,6 +1075,7 @@ gfv_sorted (GthFileView   *file_view,
 	case GTH_SORT_METHOD_BY_SIZE: col = COLUMN_SIZE; break;
 	case GTH_SORT_METHOD_BY_TIME: col = COLUMN_TIME; break;
 	case GTH_SORT_METHOD_BY_COMMENT: col = COLUMN_COMMENT; break;
+	case GTH_SORT_METHOD_BY_EXIF_DATE: col = COLUMN_EXIF_DATE; break;
 	default: col = GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID; break;
 	}
 
@@ -1670,6 +1672,7 @@ gth_file_view_list_new (guint image_width)
 					       G_TYPE_STRING,
 					       G_TYPE_STRING,
 					       G_TYPE_STRING,
+					       G_TYPE_STRING,
 					       G_TYPE_STRING);
 	priv->filter_model =  gtk_tree_model_filter_new (GTK_TREE_MODEL (priv->list_store), NULL);
 	g_object_unref (priv->list_store);
@@ -1692,15 +1695,22 @@ gth_file_view_list_new (guint image_width)
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
 					 COLUMN_NAME, default_sort_func,
 					 gfv_list, NULL);
+
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
 					 COLUMN_PATH, default_sort_func,
 					 gfv_list, NULL);
+
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
 					 COLUMN_SIZE, default_sort_func,
 					 gfv_list, NULL);
+
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
 					 COLUMN_TIME, default_sort_func,
 					 gfv_list, NULL);
+
+	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (priv->list_store),
+                                         COLUMN_EXIF_DATE, default_sort_func,
+                                         gfv_list, NULL);
 
 	selection = gtk_tree_view_get_selection (priv->tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);

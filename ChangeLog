@@ -1,5 +1,12 @@
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* libgthumb/gth-file-view-list.c: (gfv_sorted),
+	(gth_file_view_list_new): Fixed bug #457685 - sort by Exif DateTime broken
+	in list mode.
+
+2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-file-list.c: (gth_file_list_update_next_thumb):
 	Try loading more thumbnails into memory for faster navigation (load
 	visible images, plus 200 before and 200 after visible range).
