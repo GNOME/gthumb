@@ -213,10 +213,6 @@ struct _GthBrowserPrivateData {
 	gboolean            image_modified;
 	gboolean            loading_image;
 	ImageSavedFunc      image_saved_func;
-	gboolean            setting_file_list;
-	gboolean            can_set_file_list;
-	gboolean            changing_directory;
-	gboolean            can_change_directory;
 	gboolean            refreshing;         /* true if we are refreshing
 						 * the file list.  Used to
 						 * handle the refreshing case
@@ -833,10 +829,7 @@ window_update_go_sensitivity (GthBrowser *browser)
 	sensitive = (priv->history_current != NULL) && (priv->history_current->prev != NULL);
 	set_action_sensitive (browser, "Go_Forward", sensitive);
 
-	set_action_sensitive (browser, "Go_Stop",
-			      ((priv->activity_ref > 0)
-			       || priv->setting_file_list
-			       || priv->changing_directory));
+	set_action_sensitive (browser, "Go_Stop", (priv->activity_ref > 0));
 }
 
 
@@ -1014,8 +1007,6 @@ window_progress (gfloat   percent,
 	if (percent == 0.0)
 		set_action_sensitive (browser, "Go_Stop",
 				       ((priv->activity_ref > 0)
-					|| priv->setting_file_list
-					|| priv->changing_directory
 					|| priv->file_list->busy));
 }
 
@@ -1990,9 +1981,6 @@ window_make_current_image_visible (GthBrowser *browser,
 	char                  *path;
 	int                    pos, n_images;
 
-	if (priv->setting_file_list || priv->changing_directory)
-		return;
-
 	path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
 	if (path == NULL)
 		return;
@@ -2081,9 +2069,6 @@ gth_file_list_cursor_changed_cb (GtkWidget *widget,
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *focused_image;
-
-	if (priv->setting_file_list || priv->changing_directory)
-		return;
 
 	focused_image = gth_file_list_path_from_pos (priv->file_list, pos);
 
@@ -2883,8 +2868,6 @@ window_enable_thumbs (GthBrowser *browser,
 	gth_file_list_enable_thumbs (priv->file_list, enable, TRUE);
 	set_action_sensitive (browser, "Go_Stop",
 			       ((priv->activity_ref > 0)
-				|| priv->setting_file_list
-				|| priv->changing_directory
 				|| priv->file_list->busy));
 }
 
@@ -3417,8 +3400,7 @@ image_clicked_cb (GtkWidget  *widget,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	if (! priv->setting_file_list && ! priv->changing_directory)
-		gth_browser_show_next_image (browser, FALSE);
+	gth_browser_show_next_image (browser, FALSE);
 	return TRUE;
 }
 
@@ -3429,9 +3411,6 @@ mouse_wheel_scrolled_cb (GtkWidget 		*widget,
 			 GthBrowser		*browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->setting_file_list || priv->changing_directory)
-		return TRUE;
 
 	if (direction == GDK_SCROLL_UP)
 		gth_browser_show_prev_image (browser, FALSE);
@@ -4492,8 +4471,6 @@ file_list_done_cb (GthFileList *file_list,
 
 	gth_browser_stop_activity_mode (browser);
 	window_update_statusbar_list_info (browser);
-	priv->setting_file_list = FALSE;
-
 	window_update_title (browser);
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
@@ -6289,7 +6266,6 @@ dir_list_done_cb (GthDirList     *dir_list,
 	GthBrowserPrivateData *priv = browser->priv;
 
 	gth_browser_stop_activity_mode (browser);
-	priv->changing_directory = FALSE;
 
 	if (result != GNOME_VFS_ERROR_EOF) {
 		char *utf8_path;
@@ -6987,10 +6963,6 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->activity_timeout = 0;
 	priv->activity_ref = 0;
-	priv->setting_file_list = FALSE;
-	priv->can_set_file_list = TRUE;
-	priv->changing_directory = FALSE;
-	priv->can_change_directory = TRUE;
 
 	priv->image_prop_dlg = NULL;
 
@@ -7442,8 +7414,6 @@ close__step4 (GthBrowser *browser)
 static void
 close__step2 (GthBrowser *browser)
 {
-	browser->priv->changing_directory = FALSE;
-	browser->priv->setting_file_list = FALSE;
 	gth_file_list_stop (browser->priv->file_list);
 	close__step4 (browser);
 }
@@ -7471,8 +7441,6 @@ gth_browser_close (GthWindow *window)
 		priv->image_prop_dlg = NULL;
 	}
 
-	if (priv->changing_directory)
-		gth_dir_list_stop (priv->dir_list);
 	close__step2 (browser);
 }
 
@@ -7700,8 +7668,6 @@ stop__step5 (GthBrowser *browser)
 
 	set_action_sensitive (browser, "Go_Stop",
 			       (priv->activity_ref > 0)
-			       || priv->setting_file_list
-			       || priv->changing_directory
 			       || priv->file_list->busy);
 }
 
@@ -7717,8 +7683,6 @@ stop__step4 (GthBrowser *browser)
 
 	set_action_sensitive (browser, "Go_Stop",
 			       (priv->activity_ref > 0)
-			       || priv->setting_file_list
-			       || priv->changing_directory
 			       || priv->file_list->busy);
 }
 
@@ -7728,8 +7692,6 @@ stop__step2 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	priv->changing_directory = FALSE;
-	priv->setting_file_list = FALSE;
 	gth_file_list_stop (priv->file_list);
 
 	stop__step4 (browser);
@@ -7878,8 +7840,6 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	priv = browser->priv;
-	if (priv->setting_file_list && FirstStart)
-		return;
 
 	/* go to the catalog directory */
 
@@ -8076,9 +8036,6 @@ gth_browser_show_next_image (GthBrowser *browser,
 
 	g_return_val_if_fail (browser != NULL, FALSE);
 
-	if (priv->setting_file_list || priv->changing_directory)
-		return FALSE;
-
 	skip_broken = FALSE;
 
 	if (priv->image_path == NULL) {
@@ -8113,9 +8070,6 @@ gth_browser_show_prev_image (GthBrowser *browser,
 	int                    pos;
 
 	g_return_val_if_fail (browser != NULL, FALSE);
-
-	if (priv->setting_file_list || priv->changing_directory)
-		return FALSE;
 
 	skip_broken = FALSE;
 
