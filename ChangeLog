@@ -1,5 +1,13 @@
 2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* src/gth-browser.c: (catalog_activate),
+	(gth_browser_go_to_directory):
+	Fixed bug #439043 - Preview area always shows last selected image.
+	Set image viewer to void when switching folders or catalogs.
+
+2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-browser.c: (window_update_go_sensitivity),
 	(window_progress), (window_make_current_image_visible),
 	(gth_file_list_cursor_changed_cb), (window_enable_thumbs),
