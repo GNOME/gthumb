@@ -228,9 +228,10 @@ struct _GthBrowserPrivateData {
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
 	guint               sel_change_timeout;
-	guint               busy_cursor_timeout;
 	guint               auto_load_timeout;
 	guint               update_layout_timeout;
+
+	gboolean            busy_cursor_active;
 
 	GThumbPreloader    *preloader;
 
@@ -1044,6 +1045,39 @@ gth_browser_stop_activity_mode (GthBrowser *browser)
 	g_source_remove (priv->activity_timeout);
 	priv->activity_timeout = 0;
 	window_progress (0.0, browser);
+}
+
+
+static void
+set_cursor_busy (GthBrowser *browser, gboolean track_state)
+{
+	GdkCursor *cursor;
+
+	/* Track file-list busy states so that the preloader can only 
+	   stop a busy cursor if no file-list-triggered busy cursors 
+	   are active. */
+	if (track_state)
+		browser->priv->busy_cursor_active = TRUE;
+
+	cursor = gdk_cursor_new (GDK_WATCH);
+	gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
+	gdk_cursor_unref (cursor);
+}
+
+
+static void
+set_cursor_not_busy (GthBrowser *browser, gboolean track_state)
+{
+	GdkCursor *cursor;
+
+	if (track_state)
+		browser->priv->busy_cursor_active = FALSE;
+
+	if (browser->priv->busy_cursor_active == FALSE) {
+        	cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	        gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
+        	gdk_cursor_unref (cursor);
+	}
 }
 
 
@@ -2459,6 +2493,8 @@ catalog_activate (GthBrowser *browser,
 		sort_type = priv->sort_type;
 	}
 
+	set_cursor_busy (browser, TRUE);
+
 	window_set_file_list (browser, catalog->list, sort_method, sort_type);
 	catalog->list = NULL;
 	catalog_free (catalog);
@@ -2707,6 +2743,8 @@ static void
 image_requested_error_cb (GThumbPreloader *gploader,
 			  GthBrowser      *browser)
 {
+	set_cursor_not_busy (browser, FALSE);
+
 	window_image_viewer_set_error (browser);
 	if (browser->priv->load_image_folder_after_image)
 		go_to_folder_after_image_loaded (browser);
@@ -2719,6 +2757,8 @@ image_requested_done_cb (GThumbPreloader *gploader,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	ImageLoader           *loader;
+
+	set_cursor_not_busy (browser, FALSE);
 
 	priv->image_error = FALSE;
 	if (priv->image_path == NULL)
@@ -4378,65 +4418,6 @@ catalog_list_drag_leave (GtkWidget          *widget,
 /* -- */
 
 
-static gboolean
-set_busy_cursor_cb (gpointer data)
-{
-	GthBrowser *browser = data;
-	GdkCursor  *cursor;
-
-	if (browser->priv->busy_cursor_timeout != 0) {
-		g_source_remove (browser->priv->busy_cursor_timeout);
-		browser->priv->busy_cursor_timeout = 0;
-	}
-
-	cursor = gdk_cursor_new (GDK_WATCH);
-	gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
-	gdk_cursor_unref (cursor);
-
-	return FALSE;
-}
-
-
-static void
-file_list_busy_cb (GthFileList *file_list,
-		   GthBrowser  *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (! GTK_WIDGET_REALIZED (browser))
-		return;
-
-	if (priv->busy_cursor_timeout != 0)
-		g_source_remove (priv->busy_cursor_timeout);
-
-	priv->busy_cursor_timeout = g_timeout_add (BUSY_CURSOR_DELAY,
-						   set_busy_cursor_cb,
-						   browser);
-}
-
-
-static void
-file_list_idle_cb (GthFileList *file_list,
-		   GthBrowser  *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GdkCursor             *cursor;
-
-	if (! GTK_WIDGET_REALIZED (browser))
-		return;
-
-	if (priv->busy_cursor_timeout != 0) {
-		g_source_remove (priv->busy_cursor_timeout);
-		priv->busy_cursor_timeout = 0;
-	}
-
-	cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
-	gdk_cursor_unref (cursor);
-}
-
-
-static void
 gth_browser_remove_monitor (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -4581,6 +4562,8 @@ file_list_done_cb (GthFileList *file_list,
 	priv->refreshing = FALSE;
 
 	gth_browser_add_monitor (browser);
+
+	set_cursor_not_busy (browser, TRUE);
 }
 
 
@@ -5078,14 +5061,6 @@ create_new_file_list (GthBrowser *browser)
 			  G_CALLBACK (gth_file_list_drag_leave),
 			  browser);
 
-	g_signal_connect (G_OBJECT (file_list),
-			  "busy",
-			  G_CALLBACK (file_list_busy_cb),
-			  browser);
-	g_signal_connect (G_OBJECT (file_list),
-			  "idle",
-			  G_CALLBACK (file_list_idle_cb),
-			  browser);
 	g_signal_connect (G_OBJECT (file_list),
 			  "done",
 			  G_CALLBACK (file_list_done_cb),
@@ -7022,7 +6997,7 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->image_prop_dlg = NULL;
 
-	priv->busy_cursor_timeout = 0;
+	priv->busy_cursor_active = FALSE;
 
 	priv->view_image_timeout = 0;
 	priv->load_dir_timeout = 0;
@@ -7384,11 +7359,6 @@ close__step6 (const char *filename,
 	if (priv->sel_change_timeout != 0) {
 		g_source_remove (priv->sel_change_timeout);
 		priv->sel_change_timeout = 0;
-	}
-
-	if (priv->busy_cursor_timeout != 0) {
-		g_source_remove (priv->busy_cursor_timeout);
-		priv->busy_cursor_timeout = 0;
 	}
 
 	if (priv->view_image_timeout != 0) {
@@ -7794,6 +7764,8 @@ gth_browser_go_to_directory (GthBrowser *browser,
 			     const char *dir_path)
 {
 	g_return_if_fail (browser != NULL);
+
+	set_cursor_busy (browser, TRUE);
 
 	gth_browser_set_sidebar (browser, GTH_SIDEBAR_DIR_LIST);
 	if (! browser->priv->refreshing)
@@ -8363,6 +8335,8 @@ load_timeout_cb (gpointer data)
 		prev1 = get_image_to_preload (browser, priv->image_position - 1, 1);
 		next1 = get_image_to_preload (browser, priv->image_position + 1, 1);
 	}
+
+	set_cursor_busy (browser, FALSE);
 
 	gthumb_preloader_start (priv->preloader,
 				priv->image_path,

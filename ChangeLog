@@ -1,3 +1,14 @@
+2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* src/gth-browser.c: (set_cursor_busy), (set_cursor_not_busy),
+	(catalog_activate), (image_requested_error_cb),
+	(image_requested_done_cb), (file_list_done_cb),
+	(create_new_file_list), (gth_browser_construct), (close__step6),
+	(gth_browser_go_to_directory), (load_timeout_cb):
+        Add/fix a busy cursor when loading folders and preloading the
+        selected image.
+
 2007-07-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
