@@ -1,5 +1,30 @@
 2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser.c: (window_update_go_sensitivity),
+	(window_progress), (window_make_current_image_visible),
+	(gth_file_list_cursor_changed_cb), (window_enable_thumbs),
+	(image_clicked_cb), (mouse_wheel_scrolled_cb), (file_list_done_cb),
+	(dir_list_done_cb), (gth_browser_construct), (close__step2),
+	(gth_browser_close), (stop__step5), (stop__step4), (stop__step2),
+	(gth_browser_go_to_catalog), (gth_browser_show_next_image),
+	(gth_browser_show_prev_image):
+	Deleted some unused (i.e., never set to TRUE) boolean variables.
+
+2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	reviewed by: <delete if not using a buddy>
+
+	* src/gth-browser.c: (window_update_go_sensitivity),
+	(window_progress), (window_make_current_image_visible),
+	(gth_file_list_cursor_changed_cb), (window_enable_thumbs),
+	(image_clicked_cb), (mouse_wheel_scrolled_cb), (file_list_done_cb),
+	(dir_list_done_cb), (gth_browser_construct), (close__step2),
+	(gth_browser_close), (stop__step5), (stop__step4), (stop__step2),
+	(gth_browser_go_to_catalog), (gth_browser_show_next_image),
+	(gth_browser_show_prev_image):
+
+2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* src/gth-browser.c: (set_cursor_busy), (set_cursor_not_busy),
 	(catalog_activate), (image_requested_error_cb),
