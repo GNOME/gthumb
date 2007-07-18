@@ -43,6 +43,8 @@ version 2.10.6
 	* Show preview pane by default. Bug #452833.
 	* Show filenames by default. Bug #452831.
 	* Fixed Ctrl+H (show/hide hidden files) function.
+	* Add/fix a busy cursor when loading folders and preloading the
+	  selected image.
 
 
 version 2.10.5
