@@ -2434,6 +2434,8 @@ catalog_activate (GthBrowser *browser,
 	GtkSortType            sort_type;
 	GtkTreeIter            iter;
 
+	window_image_viewer_set_void (browser);
+
 	/* catalog directory */
 
 	if (path_is_dir (cat_path)) {
@@ -2446,10 +2448,9 @@ catalog_activate (GthBrowser *browser,
 
 	if (! catalog_list_get_iter_from_path (priv->catalog_list,
 					       cat_path,
-					       &iter)) {
-		window_image_viewer_set_void (browser);
+					       &iter))
 		return FALSE;
-	} else
+	else
 		catalog_list_select_iter (priv->catalog_list, &iter);
 
 	if (priv->catalog_path != cat_path) {
@@ -2464,7 +2465,6 @@ catalog_activate (GthBrowser *browser,
 	if (! catalog_load_from_disk (catalog, cat_path, &gerror)) {
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
 		catalog_free (catalog);
-		window_image_viewer_set_void (browser);
 		return FALSE;
 	}
 
@@ -7723,6 +7723,8 @@ gth_browser_go_to_directory (GthBrowser *browser,
 			     const char *dir_path)
 {
 	g_return_if_fail (browser != NULL);
+
+	window_image_viewer_set_void (browser);
 
 	set_cursor_busy (browser, TRUE);
 
