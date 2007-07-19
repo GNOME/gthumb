@@ -1,6 +1,18 @@
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
+	* src/dlg-photo-importer.c: (delete_images__init),
+	(delete_images__step), (adjust_orientation__done),
+	(adjust_orientation__step):
+	* src/rotation-utils.c: (apply_transformation_jpeg),
+	(apply_transformation_generic):
+	* src/rotation-utils.h:
+	Fixed bug #446792, gThumb deletes pictures on failed import, by
+	stopping deletes if the rotation functions fail.
+
+2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
 	* src/rotation-utils.c: (apply_transformation_jpeg):
 	Part of the rotation code needs to use escaped file names. Fixes
 	bug #457936. Patch by Manuel Braga.

@@ -29,10 +29,10 @@
 
 #include "gth-exif-utils.h"
 
-void		apply_transformation_jpeg      (GtkWindow    *win,
+gboolean	apply_transformation_jpeg      (GtkWindow    *win,
 						const char   *filename,
 						GthTransform  transform);
-void		apply_transformation_generic   (GtkWindow    *win,
+gboolean	apply_transformation_generic   (GtkWindow    *win,
 						const char   *filename,
 						GthTransform  transform);
 
