@@ -887,12 +887,12 @@ get_file_mime_type (const char *filename,
 	if (extension != NULL) {
 
 		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		if (!strcmp_null_tolerant (result, "image/tiff") && 
 		    !strcasecmp (extension, "nef"))
 			return "image/x-nikon-nef";
 
 		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp_null_tollerant (result, "image/tiff") && 
+		if (!strcmp_null_tolerant (result, "image/tiff") && 
 		    !strcasecmp (extension, "cr2"))
 			return "image/x-canon-cr2";
 
@@ -900,7 +900,7 @@ get_file_mime_type (const char *filename,
 		   handled correctly in the normal mime databases. */
 
 		if ((result == NULL) || 
-		    (strcmp_null_tollerant (result, "application/octet-stream") == 0)) {
+		    (strcmp_null_tolerant (result, "application/octet-stream") == 0)) {
 
 			/* If the file extension is not recognized, or the content is
 			   determined to be binary data (octet-stream), check for HDR file
@@ -928,7 +928,7 @@ gboolean
 mime_type_is (const char *mime_type,
 	      const char *value)
 {
-	return (strcmp_null_tollerant (mime_type, value) == 0);
+	return (strcmp_null_tolerant (mime_type, value) == 0);
 }
 
 
@@ -938,7 +938,7 @@ image_is_type (const char *name,
 	       gboolean    fast_file_type)
 {
 	const char *result = get_file_mime_type (name, fast_file_type);
-	return (strcmp_null_tollerant (result, type) == 0);
+	return (strcmp_null_tolerant (result, type) == 0);
 }
 
 
@@ -1495,10 +1495,13 @@ uricmp (const char *path1,
 	char *uri1, *uri2;
 	int   result;
 
+	if ((path1 == NULL) || (path2 == NULL))
+		return 0;
+	
 	uri1 = get_uri_from_path (path1);
 	uri2 = get_uri_from_path (path2);
 
-	result = strcmp_null_tollerant (uri1, uri2);
+	result = strcmp_null_tolerant (uri1, uri2);
 
 	g_free (uri1);
 	g_free (uri2);

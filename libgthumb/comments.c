@@ -191,16 +191,16 @@ comment_data_equal (CommentData *data1,
 	if ((data1 == NULL) || (data2 == NULL))
 		return FALSE;
 
-	if (strcmp_null_tollerant (data1->place, data2->place) != 0)
+	if (strcmp_null_tolerant (data1->place, data2->place) != 0)
 		return FALSE;
 	if (data1->time != data2->time)
 		return FALSE;
-	if (strcmp_null_tollerant (data1->comment, data2->comment) != 0)
+	if (strcmp_null_tolerant (data1->comment, data2->comment) != 0)
 		return FALSE;
 	if (data1->keywords_n != data2->keywords_n)
 		return FALSE;
 	for (i = 0; i < data1->keywords_n; i++)
-		if (strcmp_null_tollerant (data1->keywords[i],
+		if (strcmp_null_tolerant (data1->keywords[i],
 					   data2->keywords[i]) != 0)
 			return FALSE;
 

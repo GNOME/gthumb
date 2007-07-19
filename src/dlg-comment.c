@@ -128,7 +128,7 @@ text_field_cmp (const char *s1, const char *s2)
 	if ((s2 != NULL) && (*s2 == 0))
 		s2 = NULL;
 
-	return strcmp_null_tollerant (s1, s2);
+	return strcmp_null_tolerant (s1, s2);
 }
 
 
@@ -486,7 +486,7 @@ dlg_comment_update (GtkWidget *dlg)
 			 * considered to differ. */
 
 			if ((scan_cdata == NULL) 
-			    || strcmp_null_tollerant (cdata->place, 
+			    || strcmp_null_tolerant (cdata->place, 
 						      scan_cdata->place) != 0) {
 				g_free (cdata->place);
 				cdata->place = NULL;
@@ -497,7 +497,7 @@ dlg_comment_update (GtkWidget *dlg)
 				cdata->time = 0;
 			
 			if ((scan_cdata == NULL) 
-			    || strcmp_null_tollerant (cdata->comment, 
+			    || strcmp_null_tolerant (cdata->comment, 
 						      scan_cdata->comment) != 0) {
 				g_free (cdata->comment);
 				cdata->comment = NULL;
