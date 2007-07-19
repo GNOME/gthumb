@@ -18,6 +18,8 @@ version 2.10.6
 	* Add/fix a busy cursor when loading folders and preloading the
 	  selected image.
 	* Fixed bug #439043. Preview area always shows last selected image.
+	* Fixed bug #457936. Names with '#' character break rotation.
+
 
 version 2.10.5
 --------------

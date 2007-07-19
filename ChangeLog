@@ -1,5 +1,12 @@
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	Part of the rotation code needs to use escaped file names. Fixes
+	bug #457936. Patch by Manuel Braga.
+
+2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-utils.c: (uricmp): Add some NULL checks to try
 	to fix vexatious bug #443006.
 
