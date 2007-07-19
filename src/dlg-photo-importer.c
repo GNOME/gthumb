@@ -130,6 +130,7 @@ struct _DialogData {
 	gboolean             async_operation;
 	gboolean             interrupted;
 	gboolean             error;
+	gboolean	     renamed_files;
 	float                target;
 	float                fraction;
 	char                *progress_info;
@@ -1201,6 +1202,7 @@ get_file_name (DialogData *data,
 		g_free (file_path);
 		file_path = g_build_filename (local_folder, test_name, NULL);
 		g_free (test_name);
+		data->renamed_files = TRUE;
 	}
 
 	g_free (file_name);
@@ -1444,6 +1446,8 @@ save_images__init (AsyncOperationData *aodata,
 	all_windows_remove_monitor ();
 
 	data->image_n = 1;
+	data->renamed_files = FALSE;
+
 	if (data->delete_list != NULL) {
 		path_list_free (data->delete_list);
 		data->delete_list = NULL;
@@ -1475,6 +1479,10 @@ save_images__done (AsyncOperationData *aodata,
 	gboolean interrupted;
 	gboolean error;
 
+	if (data->renamed_files)
+		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), 
+				      "Warning - one or more files were renamed (by adding a numeric prefix) to avoid overwriting existing files.");
+	
 	g_mutex_lock (data->yes_or_no);
 	interrupted = data->interrupted;
 	error = data->error;

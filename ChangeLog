@@ -1,6 +1,14 @@
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
+	* src/dlg-photo-importer.c: (get_file_name), (save_images__init),
+	(save_images__done): 
+	Added a warning when renaming imported photos to avoid file 
+	overwrites. Bug #332684.
+
+2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
 	* src/dlg-photo-importer.c: (delete_images__init),
 	(delete_images__step), (adjust_orientation__done),
 	(adjust_orientation__step):

@@ -10,6 +10,8 @@ trunk, since last 2.10.x
 	* Optionally use subfolders when generating web albums. Bug #119492.
 	* Wrap to next/previous line when navigating with arrow keys
           at start/end of a row of images. Bug 449338.
+	* Added a warning when renaming imported photos to avoid file
+	  overwrites. Bug #332684.
 
 	Bugfixes:
 
