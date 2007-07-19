@@ -107,7 +107,7 @@ jpeg_mcu_dialog (JXFORM_CODE *transform,
 }
 
 
-void
+gboolean
 apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
 			   GthTransform  transform)
@@ -125,14 +125,14 @@ apply_transformation_jpeg (GtkWindow    *win,
 
 
 	if (path == NULL)
-		return;
+		return FALSE;
 
 	tmpdir = get_temp_dir_name ();
 	if (tmpdir == NULL)
 	{
 		_gtk_error_dialog_run (GTK_WINDOW (win),
 				      _("Could not create a temporary folder"));
-		return;
+		return FALSE;
 	}
 	tmp = get_temp_file_name (tmpdir, NULL);
 	g_free (tmpdir);
@@ -147,7 +147,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 	if (local_file_to_modify == NULL) {
 		_gtk_error_dialog_run (win,
 				       _("Could not create a local temporary copy of the remote file."));
-		return;
+		return FALSE;
 	}
 
 	if (!is_local) {
@@ -190,13 +190,18 @@ apply_transformation_jpeg (GtkWindow    *win,
 			_gtk_error_dialog_from_gerror_run (win, &err);
 		remove_temp_file_and_dir (tmp);
 		g_free (tmp);
-		return;
+		return FALSE;
 	}
 
 	escaped_local_file = gnome_vfs_escape_path_string (local_file_to_modify);
-	if (!file_move (tmp, escaped_local_file))
+	if (!file_move (tmp, escaped_local_file)) {
 		_gtk_error_dialog_run (win,
 			_("Could not move temporary file to local destination. Check folder permissions."));
+		remove_temp_file_and_dir (tmp);
+		g_free (tmp);
+		g_free (escaped_local_file);
+		return FALSE;
+	}
 
 	if (!is_local)
 		remote_copy_ok = copy_cache_file_to_remote_uri (escaped_local_file, path);
@@ -207,6 +212,9 @@ apply_transformation_jpeg (GtkWindow    *win,
 	if (!is_local) {
 		if (!remote_copy_ok) {
 			_gtk_error_dialog_run (win, _("Could not move temporary file to remote location. Check remote permissions."));
+	                remove_temp_file_and_dir (tmp);
+        	        g_free (tmp);
+                	return FALSE;
 		} else {
 		       gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 		}
@@ -215,26 +223,30 @@ apply_transformation_jpeg (GtkWindow    *win,
 
 	remove_temp_file_and_dir (tmp);
 	g_free (tmp);
+
+	/* report success */
+	return TRUE;
 }
 
 
-void
+gboolean
 apply_transformation_generic (GtkWindow    *win,
 			      const char   *path,
 			      GthTransform transform)
 {
 	GdkPixbuf  *pixbuf1, *pixbuf2;
 	const char *mime_type;
+	gboolean     success = TRUE;
 
 	if (path == NULL)
-		return;
+		return FALSE;
 
 	if (transform == GTH_TRANSFORM_NONE)
-		return;
+		return FALSE;
 
 	pixbuf1 = gth_pixbuf_new_from_uri (path, NULL, 0, 0, NULL);
 	if (pixbuf1 == NULL)
-		return;
+		return FALSE;
 
 	pixbuf2 = _gdk_pixbuf_transform (pixbuf1, transform);
 
@@ -246,15 +258,21 @@ apply_transformation_generic (GtkWindow    *win,
 					path,
 					image_type,
 					&error,
-					NULL))
+					NULL)) {
 			_gtk_error_dialog_from_gerror_run (win, &error);
-	} else
+			success = FALSE;
+		}
+	} else {
 		_gtk_error_dialog_run (win,
 				       _("Image type not supported: %s"),
 				       mime_type);
+		success = FALSE;
+	}
 
 	g_object_unref (pixbuf1);
 	g_object_unref (pixbuf2);
+
+	return success;
 }
 
 
