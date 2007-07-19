@@ -1298,12 +1298,26 @@ add_film_keyword (const char *folder)
 
 
 static void
+delete_images__init (AsyncOperationData *aodata,
+                     DialogData         *data)
+{
+	if (data->error)
+		display_error_dialog (data,
+                                      _("Import errors detected"),
+                                      _("The files on the camera will not be deleted"));
+}
+
+
+static void
 delete_images__step (AsyncOperationData *aodata,
 		     DialogData         *data)
 {
 	const char *camera_path = aodata->scan->data;
 	char       *camera_folder;
 	const char *camera_filename;
+
+	if (data->error)
+		return;
 
 	camera_folder = remove_level_from_path (camera_path);
 	camera_filename = file_name_from_path (camera_path);
@@ -1384,7 +1398,7 @@ adjust_orientation__done (AsyncOperationData *aodata,
 
 	data->aodata = async_operation_new (NULL,
 				  	    data->delete_list,
-					    NULL,
+					    delete_images__init,
 					    delete_images__step,
 					    delete_images__done,
 					    data);
@@ -1399,6 +1413,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 	const char       *filepath = aodata->scan->data;
 	GnomeVFSFileInfo *info;
 	GtkWindow        *window = GTK_WINDOW (data->dialog);
+	gboolean	  success = TRUE;
 
 	info = gnome_vfs_file_info_new();
 	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
@@ -1407,12 +1422,15 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		FileData     *fd = file_data_new (filepath, info);
 		GthTransform transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (filepath))
-			apply_transformation_jpeg (window, fd->path, transform);
+			success = apply_transformation_jpeg (window, fd->path, transform);
 		else
-			apply_transformation_generic (window, fd->path, transform);
+			success = apply_transformation_generic (window, fd->path, transform);
 
 		file_data_unref (fd);
 	}
+
+	if (!success)
+		data->error = TRUE;
 
 	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 	gnome_vfs_file_info_unref(info); 

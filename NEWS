@@ -19,6 +19,7 @@ version 2.10.6
 	  selected image.
 	* Fixed bug #439043. Preview area always shows last selected image.
 	* Fixed bug #457936. Names with '#' character break rotation.
+	* Fixed bug #446792. gThumb deletes pictures on failed import.
 
 
 version 2.10.5
