@@ -476,7 +476,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 
 		/* Do not save thumbnails from the user's thumbnail directory,
 		   or an endless loop of thumbnailing may be triggered. */
-		if (strcmp_null_tollerant (cache_dir, uri_dir) == 0) {
+		if (strcmp_null_tolerant (cache_dir, uri_dir) == 0) {
 			g_free (uri_dir);	
 			return FALSE;
 		}

@@ -398,7 +398,7 @@ get_file_list_from_url_list (char *url_list)
 
 
 int
-strcmp_null_tollerant (const char *s1, const char *s2)
+strcmp_null_tolerant (const char *s1, const char *s2)
 {
         if ((s1 == NULL) && (s2 == NULL))
                 return 0;
