@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
@@ -119,6 +120,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 	gboolean	      is_local;
 	gboolean	      remote_copy_ok;
 	char		     *local_file_to_modify;
+	gchar                *escaped_local_file;
 	GnomeVFSFileInfo     *info;
 
 
@@ -191,13 +193,15 @@ apply_transformation_jpeg (GtkWindow    *win,
 		return;
 	}
 
-	if (!file_move (tmp, local_file_to_modify))
+	escaped_local_file = gnome_vfs_escape_path_string (local_file_to_modify);
+	if (!file_move (tmp, escaped_local_file))
 		_gtk_error_dialog_run (win,
 			_("Could not move temporary file to local destination. Check folder permissions."));
 
 	if (!is_local)
-		remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
+		remote_copy_ok = copy_cache_file_to_remote_uri (escaped_local_file, path);
 
+	g_free (escaped_local_file);
 	g_free (local_file_to_modify);
 
 	if (!is_local) {
