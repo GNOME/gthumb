@@ -223,6 +223,7 @@ time_t
 get_mplayer_time (const char *filename)
 {
         time_t  time = 0;
+	char   *unesc_local_file_to_modify = NULL;
 	char   *local_file_to_modify = NULL;
 	char   *tmp_dir;
         char   *tmp_filename;
@@ -233,9 +234,12 @@ get_mplayer_time (const char *filename)
         if (filename == NULL)
                 return (time_t) 0;
 
-        local_file_to_modify = obtain_local_file (filename);
-	if (local_file_to_modify == NULL)
+        unesc_local_file_to_modify = obtain_local_file (filename);
+	if (unesc_local_file_to_modify == NULL)
                 return (time_t) 0;
+
+	local_file_to_modify = gnome_vfs_unescape_string (unesc_local_file_to_modify);
+	g_free (unesc_local_file_to_modify);
 
         tmp_dir = get_temp_dir_name ();
         if (tmp_dir == NULL) {
@@ -249,9 +253,9 @@ get_mplayer_time (const char *filename)
    	   like dates. The sed script below strips out everything before the "=" sign,
 	   removes backslashes, removes forward slashes with trailing white space,
 	   and then hopes that the date command can understand the result. */	   
-	command = g_strconcat(	"midentify ",
+	command = g_strconcat(	"midentify '",
 				local_file_to_modify,
-			        " 2>/dev/null | grep ':' | sed -e 's/[^=]*=//' -e 's/\\\\//g' -e 's/\\/ / /g' | xargs -n 1 -i date --date '{}' +%s 2>/dev/null 1>",
+			        "' 2>/dev/null | grep ':' | sed -e 's/[^=]*=//' -e 's/\\\\//g' -e 's/\\/ / /g' | xargs -n 1 -i date --date '{}' +%s 2>/dev/null 1>",
 				tmp_filename,
 				NULL  );
 	system (command);
