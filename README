@@ -95,7 +95,7 @@ Compiling
 	* intltool		version >= 0.35.0
 	* libexif               version >= 0.6.13
 	* libjpeg
-	* gtkunique		version >= 0.9.1
+	* gtkunique		version >= 0.9.1 (optional)
 
   If the libtiff library is present you can save images in TIFF
   format.
@@ -117,6 +117,9 @@ Compiling
   To view OpenEXR files with pfstools, the OpenEXR libraries need
   to be installed. See http://www.openexr.com/.
 
+  If mplayer (and its helper script, midentify) is installed, gThumb
+  can properly sort video files using the embedded DateTime tag.
+
 Download
 ========
 
@@ -130,4 +133,4 @@ Download
     svn checkout http://svn.gnome.org/svn/gthumb/trunk
 
 
-11 February 2007
+20 July 2007
