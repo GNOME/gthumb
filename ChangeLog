@@ -1,5 +1,24 @@
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/gth-exif-utils.c: (get_mplayer_time),
+	(get_metadata_time), (have_exif_time):
+	* libgthumb/gth-exif-utils.h:
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print),
+	(image_loader_done):
+	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):
+	* src/dlg-comment.c: (get_requested_time),
+	(date_optionmenu_changed_cb):
+	* src/dlg-rename-series.c: (get_image_date):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-fullscreen.c: (get_file_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+	Replace get_exif_time and get_mplayer_time with a more
+	genereal get_metadata_time function. Minor corrections.
+	
+2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
 	Use unescaped filenames.
 

@@ -48,8 +48,8 @@ char *        get_exif_tag                (const char   *filename,
 				           ExifTag       etag);
 ExifShort     get_exif_tag_short          (const char   *filename,
 				           ExifTag       etag);
-time_t        get_exif_time               (const char   *filename);
-time_t        get_mplayer_time            (const char   *filename);
+time_t        get_metadata_time           (const char   *mime_type,
+					   const char   *filename);
 char *        get_exif_aperture_value     (const char   *filename);
 gboolean      have_exif_time              (const char   *filename);
 const char   *get_exif_entry_value        (ExifEntry    *entry);

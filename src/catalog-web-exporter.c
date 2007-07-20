@@ -1538,7 +1538,7 @@ gth_parsed_doc_print (GList              *document,
 				struct tm *tp;
 				char s[100];
 
-				t = get_exif_time (idata->src_filename);
+				t = get_metadata_time (NULL, idata->src_filename);
 				if (t != 0) {
 					tp = localtime (&t);
 					strftime (s, 99, DATE_FORMAT, tp);
@@ -2381,7 +2381,7 @@ image_loader_done (ImageLoader *iloader,
 
 	idata->file_size = get_file_size (idata->src_filename);
 	idata->file_time = get_file_mtime (idata->src_filename);
-	idata->exif_time = get_exif_time (idata->src_filename);
+	idata->exif_time = get_metadata_time (NULL, idata->src_filename);
 
 	/* save the image */
 

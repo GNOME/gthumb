@@ -600,7 +600,7 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 		height = 0;
 	}
 
-	timer = get_exif_time (path);
+	timer = get_metadata_time (NULL, path);
 	if (timer == 0)
 		timer = get_file_mtime (path);
 	tm = localtime (&timer);

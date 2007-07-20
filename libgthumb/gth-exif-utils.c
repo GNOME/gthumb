@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <glib.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #include "file-utils.h"
 #include "gth-exif-utils.h"
@@ -186,7 +187,7 @@ exif_string_to_time_t (char *string)
 }
 
 	
-time_t
+static time_t
 get_exif_time (const char *filename)
 {
         char    date_string[21]={0};
@@ -219,7 +220,7 @@ get_exif_time (const char *filename)
 }
 
 
-time_t
+static time_t
 get_mplayer_time (const char *filename)
 {
         time_t  time = 0;
@@ -238,7 +239,7 @@ get_mplayer_time (const char *filename)
 	if (unesc_local_file_to_modify == NULL)
                 return (time_t) 0;
 
-	local_file_to_modify = gnome_vfs_unescape_string (unesc_local_file_to_modify);
+	local_file_to_modify = gnome_vfs_unescape_string (unesc_local_file_to_modify, NULL);
 	g_free (unesc_local_file_to_modify);
 
         tmp_dir = get_temp_dir_name ();
@@ -284,6 +285,23 @@ get_mplayer_time (const char *filename)
 		return (time_t) 0;
 
         return time;
+}
+
+
+time_t
+get_metadata_time (const char *mime_type, 
+		   const char *filename)
+{
+	if (mime_type == NULL)
+		mime_type = get_mime_type (filename);
+
+        if (mime_type_is (mime_type, "image/jpeg"))
+                return get_exif_time (filename);
+
+        if (mime_type_is_video (mime_type))
+                return get_mplayer_time (filename);
+
+	return (time_t) 0;
 }
 
 
@@ -339,7 +357,7 @@ get_exif_aperture_value (const char *filename)
 gboolean 
 have_exif_time (const char *filename)
 {
-	return get_exif_time (filename) != (time_t)0;
+	return get_metadata_time (NULL, filename) != (time_t)0;
 }
 
 
