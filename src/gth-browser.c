@@ -5693,18 +5693,14 @@ monitor_update_files_cb (GthMonitor      *monitor,
 {
 	g_return_if_fail (browser != NULL);
 
-#if DEBUG
-	{
-		GList *scan;
-		char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
-		debug (DEBUG_INFO, "%s:\n", event_name[event]);
+	GList *scan;
+	char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
+	debug (DEBUG_INFO, "%s:\n", event_name[event]);
 
-		for (scan = list; scan; scan = scan->next) {
-			char *filename = scan->data;
-			debug (DEBUG_INFO, "%s\n", filename);
-		}
+	for (scan = list; scan; scan = scan->next) {
+		char *filename = scan->data;
+		debug (DEBUG_INFO, "%s\n", filename);
 	}
-#endif
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:

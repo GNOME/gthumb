@@ -300,20 +300,16 @@ add_monitor_event (GthMonitor                *monitor,
 	if (!monitor->priv->monitor_enabled)
 		return;
 
-#ifdef DEBUG
-	{
-		char *op;
+	char *op;
 
-		if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
-			op = "CREATED";
-		else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
-			op = "DELETED";
-		else
-			op = "CHANGED";
+	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
+		op = "CREATED";
+	else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
+		op = "DELETED";
+	else
+		op = "CHANGED";
 
-		debug (DEBUG_INFO, "[%s] %s", op, path);
-	}
-#endif
+	debug (DEBUG_INFO, "[%s] %s", op, path);
 
 	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
 		if (path_is_file (path))
