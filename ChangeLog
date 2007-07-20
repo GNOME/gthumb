@@ -1,5 +1,9 @@
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* README: mention optional use of midentify.
+
+2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_load_exif_data):
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time),
 	(get_metadata_time), (have_exif_time):
