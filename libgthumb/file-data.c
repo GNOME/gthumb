@@ -175,12 +175,8 @@ file_data_load_exif_data (FileData *fd)
 
 	if (fd->exif_data_loaded)
 		return;
-
-	if (mime_type_is (fd->mime_type, "image/jpeg"))
-		fd->exif_time = get_exif_time (fd->path);
-
-	if (mime_type_is_video (fd->mime_type))
-		fd->exif_time = get_mplayer_time (fd->path);
+		
+	fd->exif_time = get_metadata_time (fd->mime_type, fd->path);
 
 	fd->exif_data_loaded = TRUE;
 }
