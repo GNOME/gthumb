@@ -1,5 +1,12 @@
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser.c: (monitor_update_files_cb):
+	* src/gth-monitor.c: (add_monitor_event):
+	Removed debugging ifdefs that were overlooked before. 
+	Run-time debug message control is used now.
+
+2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* README: mention optional use of midentify.
 
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
