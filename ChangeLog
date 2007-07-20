@@ -1,6 +1,11 @@
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
+	Use unescaped filenames.
+
+2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
 	Delete tmp dirs properly.
 
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
