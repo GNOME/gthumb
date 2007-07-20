@@ -243,6 +243,7 @@ get_mplayer_time (const char *filename)
                 return;
         }
         tmp_filename = get_temp_file_name (tmp_dir, NULL);
+        g_free (tmp_dir);	
 
 	/* midentify is a helper script supplied with mplayer. It can extract metadata
    	   like dates. The sed script below strips out everything before the "=" sign,
@@ -267,10 +268,11 @@ get_mplayer_time (const char *filename)
 	
 	debug (DEBUG_INFO, "mplayer timestamp read for %s: %d", filename, time);
 
-	fclose(in_file);
+	fclose (in_file);
+
+	remove_temp_file_and_dir (tmp_filename);
         g_free (tmp_filename);
-        dir_remove (tmp_dir);
-        g_free (tmp_dir);	
+
 	g_free (local_file_to_modify);
 	g_free (command);
 
