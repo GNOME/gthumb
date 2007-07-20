@@ -185,7 +185,7 @@ exif_string_to_time_t (char *string)
         return mktime (&tm);
 }
 
-
+	
 time_t
 get_exif_time (const char *filename)
 {
@@ -211,6 +211,68 @@ get_exif_time (const char *filename)
         time = exif_string_to_time_t (date_string);
 
 	g_free (local_file_to_modify);
+
+	if (time < (time_t) 0)
+		return (time_t) 0;
+
+        return time;
+}
+
+
+time_t
+get_mplayer_time (const char *filename)
+{
+        time_t  time = 0;
+	char   *local_file_to_modify = NULL;
+	char   *tmp_dir;
+        char   *tmp_filename;
+	char   *command;
+        FILE   *in_file;
+        char    buf[256];
+
+        if (filename == NULL)
+                return (time_t) 0;
+
+        local_file_to_modify = obtain_local_file (filename);
+	if (local_file_to_modify == NULL)
+                return (time_t) 0;
+
+        tmp_dir = get_temp_dir_name ();
+        if (tmp_dir == NULL) {
+		g_free (local_file_to_modify);
+                return;
+        }
+        tmp_filename = get_temp_file_name (tmp_dir, NULL);
+
+	/* midentify is a helper script supplied with mplayer. It can extract metadata
+   	   like dates. The sed script below strips out everything before the "=" sign,
+	   removes backslashes, removes forward slashes with trailing white space,
+	   and then hopes that the date command can understand the result. */	   
+	command = g_strconcat(	"midentify ",
+				local_file_to_modify,
+			        " 2>/dev/null | grep ':' | sed -e 's/[^=]*=//' -e 's/\\\\//g' -e 's/\\/ / /g' | xargs -n 1 -i date --date '{}' +%s 2>/dev/null 1>",
+				tmp_filename,
+				NULL  );
+	system (command);
+
+	in_file = fopen (tmp_filename, "r");
+	while (fgets (buf, sizeof (buf), in_file)) {
+		/* Next line if this doesn't work */
+		if (sscanf (buf, "%d", &time) != 1)
+                        continue;
+		/* OK if date > Jan 1 1980 */
+		if (time > (time_t) 315550800)
+			break;
+	}
+	
+	debug (DEBUG_INFO, "mplayer timestamp read for %s: %d", filename, time);
+
+	fclose(in_file);
+        g_free (tmp_filename);
+        dir_remove (tmp_dir);
+        g_free (tmp_dir);	
+	g_free (local_file_to_modify);
+	g_free (command);
 
 	if (time < (time_t) 0)
 		return (time_t) 0;

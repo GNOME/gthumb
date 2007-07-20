@@ -1,3 +1,12 @@
+2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/file-data.c: (file_data_load_exif_data):
+	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
+	* libgthumb/gth-exif-utils.h:
+	Added code to extract video DateTime tags using mplayer's
+        midentify tool, if present.
+
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
