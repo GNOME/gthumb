@@ -1490,8 +1490,12 @@ uricmp (const char *path1,
 	char *uri1, *uri2;
 	int   result;
 
-	if ((path1 == NULL) || (path2 == NULL))
-		return 0;
+	if (path1 == NULL) {
+		if (path2 == NULL) 
+			return 0;
+		else
+			return -1;
+	}
 	
 	uri1 = get_uri_from_path (path1);
 	uri2 = get_uri_from_path (path2);
