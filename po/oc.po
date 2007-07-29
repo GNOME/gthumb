@@ -151,7 +151,7 @@ msgstr ""
 
 #: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
-msgstr "Dubrir imatges"
+msgstr "Dobrir imatges"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
@@ -2198,7 +2198,7 @@ msgstr "Pas cap d'imatge"
 
 #: ../libgthumb/gth-utils.c:46
 msgid "Could not display help"
-msgstr "Impossible de mostrar l'ajuda"
+msgstr "Impossible de visualizar l'ajuda"
 
 #: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
@@ -2721,7 +2721,7 @@ msgstr "Picatz lo nom del repertòri : "
 
 #: ../src/gth-browser-actions-callbacks.c:1729 ../src/gth-location.c:219
 msgid "Open Location"
-msgstr "Dubrir un emplaçament"
+msgstr "Dobrir un emplaçament"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
@@ -2910,7 +2910,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
 msgid "Open"
-msgstr "Dubrir"
+msgstr "Dobrir"
 
 #: ../src/gth-browser-actions-entries.h:139
 msgid "Open the selected catalog"
@@ -2919,7 +2919,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:143
 #: ../src/gth-browser-actions-entries.h:213
 msgid "Open in New Window"
-msgstr "Dubrir dins una novèla fenèstra"
+msgstr "Dobrir dins una novèla fenèstra"
 
 #: ../src/gth-browser-actions-entries.h:144
 msgid "Open the selected catalog in a new window"
@@ -2992,7 +2992,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
-msgstr "Dubrir lo repertòri seleccionat"
+msgstr "Dobrir lo repertòri seleccionat"
 
 #: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
@@ -3230,7 +3230,7 @@ msgstr "Véser l'imatge"
 
 #: ../src/gth-browser-actions-entries.h:434
 msgid "Show _Hidden Files"
-msgstr "Mostrar los fichièrs _aganits"
+msgstr "Visualizar los fichièrs _aganits"
 
 #: ../src/gth-browser-actions-entries.h:435
 msgid "Show hidden files and folders"
@@ -3388,7 +3388,7 @@ msgstr ""
 
 #: ../src/gth-browser.c:6813 ../src/gth-filter-bar.c:537
 msgid "Close"
-msgstr "Barrar"
+msgstr "Tampar"
 
 #: ../src/gth-browser.c:6827 ../src/gth-viewer.c:1686
 msgid "Image comment"
@@ -3585,8 +3585,7 @@ msgstr ""
 #: ../src/gth-window-actions-callbacks.c:806
 msgid "translator_credits"
 msgstr ""
-"La còla occitana de revirada d'Ubuntu, 2006 - ubuntu-l10n-"
-"oci@lists.ubuntu.com"
+"La còla occitana de revirada d'Ubuntu, 2007 - ubuntu-l10n-oci@lists.ubuntu.com"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3594,7 +3593,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
-msgstr "Barrar la fenèstra"
+msgstr "Tampar la fenèstra"
 
 #: ../src/gth-window-actions-entries.h:45
 msgid "_Open With..."
@@ -3624,7 +3623,7 @@ msgstr "Estampar l'imatge actiu"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
-msgstr "Dubrir l'imatge amb una aplicacion"
+msgstr "Dobrir l'imatge amb una aplicacion"
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
@@ -3891,7 +3890,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
-msgstr "Mostrar las informacions a prepaus de gThumb"
+msgstr "Visualizar las informacions a prepaus de gThumb"
 
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
