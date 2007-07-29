@@ -134,7 +134,7 @@ static void gth_file_list_exec_next_op (GthFileList *file_list);
 
 
 static GthFileListOp *
-gth_file_list_op_new (op_type)
+gth_file_list_op_new (GthFileListOpType op_type)
 {
 	GthFileListOp *op;
 

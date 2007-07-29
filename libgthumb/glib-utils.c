@@ -332,19 +332,18 @@ debug (const char *file,
        const char *function,
        const char *format, ...)
 {
-	static gboolean first_time = 0;
-	static gboolean print_debug_info = 0;
+	static   gboolean first_time = 0;
+	static   gboolean print_debug_info = 0;
 	va_list  args;
 	char    *str;
 
-	if (!first_time) {
+	if (! first_time) {
 		first_time = 1;
-		if(g_getenv("GTHUMB_DEBUG")) {
+		if (g_getenv ("GTHUMB_DEBUG")) 
 			print_debug_info = 1;
-		} 
 	}
 
-	if (!print_debug_info)
+	if (! print_debug_info)
 		return;
 
 	g_return_if_fail (format != NULL);

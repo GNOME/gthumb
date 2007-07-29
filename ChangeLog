@@ -1,5 +1,11 @@
 2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c (gth_file_list_op_new): specify missing 
+	argument type for gth_file_list_op_new
+	
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+
+	* libgthumb/gth-file-list.c: 	
 	* libgthumb/gth-image-list.h: 
 	* libgthumb/gth-image-list.c: 
 	* libgthumb/gth-file-view-thumbs.c: relayout without calling a timeout 
