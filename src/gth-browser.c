@@ -2434,8 +2434,6 @@ catalog_activate (GthBrowser *browser,
 	GtkSortType            sort_type;
 	GtkTreeIter            iter;
 
-	window_image_viewer_set_void (browser);
-
 	/* catalog directory */
 
 	if (path_is_dir (cat_path)) {
@@ -4454,7 +4452,7 @@ activate_catalog_done (GthBrowser *browser)
 
 	window_update_history_list (browser);
 	window_update_title (browser);
-	window_make_current_image_visible (browser, FALSE /*TRUE*/);
+	window_make_current_image_visible (browser, TRUE);
 }
 
 
@@ -4529,7 +4527,7 @@ file_list_done_cb (GthFileList *file_list,
 	if (FirstStart)
 		FirstStart = FALSE;
 
-	window_make_current_image_visible (browser, FALSE /*! priv->refreshing*/);
+	window_make_current_image_visible (browser, TRUE);
 	priv->refreshing = FALSE;
 
 	gth_browser_add_monitor (browser);
@@ -7717,8 +7715,6 @@ gth_browser_go_to_directory (GthBrowser *browser,
 			     const char *dir_path)
 {
 	g_return_if_fail (browser != NULL);
-
-	window_image_viewer_set_void (browser);
 
 	set_cursor_busy (browser, TRUE);
 
