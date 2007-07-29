@@ -1,5 +1,14 @@
 2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-image-list.h: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: relayout without calling a timeout 
+	callback after thawing the list, this is because make_image_visible,
+	in gth-browser.c, needs an already layouted list in order to work 
+	correctly.
+
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	* src/gth-browser.c (activate_catalog_done): 
 	(file_list_done_cb): 
 	

@@ -137,7 +137,8 @@ GtkAdjustment *gth_image_list_get_vadjustment      (GthImageList  *image_list);
 /* To avoid excesive recomputes during insertion/deletion */
 
 void           gth_image_list_freeze               (GthImageList  *image_list);
-void           gth_image_list_thaw                 (GthImageList  *image_list);
+void           gth_image_list_thaw                 (GthImageList  *image_list,
+		     				    gboolean       relayout_now);
 gboolean       gth_image_list_is_frozen            (GthImageList  *image_list);
 
 /**/

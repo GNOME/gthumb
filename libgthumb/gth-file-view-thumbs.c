@@ -110,7 +110,7 @@ gfv_thaw (GthFileView  *file_view)
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
-	gth_image_list_thaw (ilist);
+	gth_image_list_thaw (ilist, TRUE);
 }
 
 
