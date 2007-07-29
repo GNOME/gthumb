@@ -100,6 +100,8 @@ void         gth_file_list_select_image_by_pos  (GthFileList   *file_list,
 						 int            pos);
 void         gth_file_list_select_all           (GthFileList   *file_list);
 void         gth_file_list_unselect_all         (GthFileList   *file_list);
+void         gth_file_list_set_show_hidden_files(GthFileList   *file_list,
+						 gboolean       show);
 void         gth_file_list_enable_thumbs        (GthFileList   *file_list,
 						 gboolean       enable,
 						 gboolean       update);

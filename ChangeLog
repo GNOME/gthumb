@@ -1,3 +1,16 @@
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: call gth_file_list_set_show_hidden_files when
+	the PREF_SHOW_HIDDEN_FILES value changes.
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c: added a 
+	gth_file_list_set_show_hidden_files	function.
+	
+	Read the PREF_SHOW_HIDDEN_FILES value only after a gconf notification.
+	
+	* libgthumb/gth-exif-utils.c: removed the get_mplayer_time function 
+	because new features do not belong to stable branches.
+
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (monitor_update_files_cb):

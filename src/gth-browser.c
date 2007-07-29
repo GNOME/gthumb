@@ -3398,8 +3398,6 @@ static gboolean
 image_clicked_cb (GtkWidget  *widget,
 		  GthBrowser *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
 	gth_browser_show_next_image (browser, FALSE);
 	return TRUE;
 }
@@ -3410,8 +3408,6 @@ mouse_wheel_scrolled_cb (GtkWidget 		*widget,
   		   	 GdkScrollDirection 	 direction,
 			 GthBrowser		*browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
 	if (direction == GDK_SCROLL_UP)
 		gth_browser_show_prev_image (browser, FALSE);
 	else
@@ -4394,6 +4390,7 @@ catalog_list_drag_leave (GtkWidget          *widget,
 /* -- */
 
 
+static void
 gth_browser_remove_monitor (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -4820,6 +4817,7 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
+	gth_file_list_set_show_hidden_files (browser->priv->file_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 	window_update_file_list (browser);
 }
 
