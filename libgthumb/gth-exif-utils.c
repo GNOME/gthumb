@@ -482,7 +482,7 @@ gth_minimal_exif_tag_action (const char *filename,
  		i       = i + 2;
  
  		// Check this IFD for tags of interest
- 		while (tags-- && i < readsize - 12 ){
+ 		while (tags-- && i < readsize - 12) {
  			type   = DE_ENDIAN16(*((unsigned short*)(&buf[i + 2])));
  			count  = DE_ENDIAN32(*((unsigned long*) (&buf[i + 4])));
  			offset = DE_ENDIAN32(*((unsigned long*) (&buf[i + 8])));
@@ -513,7 +513,7 @@ gth_minimal_exif_tag_action (const char *filename,
 					}
 					// Otherwise we are not able to patch the new value, at least not here
 					else {
-						fprintf(stderr, "gth_minimal_exif_tag_write: New TAG value does not fit, no patch applied\n");
+						fprintf (stderr, "gth_minimal_exif_tag_write: New TAG value does not fit, no patch applied\n");
 						continue;
 					}
 					
@@ -545,25 +545,25 @@ gth_minimal_exif_tag_action (const char *filename,
 				else{ 
 
 					// Local value that can be read directly in TAG table 
-					if ((types[type] * count) <= 4 && size >= (types[type] * count)){
+					if ((types[type] * count) <= 4 && size >= (types[type] * count)) {
  
 						// Fake TIFF offset
 						offset = i + 8 - tiff; 
 						patches++;
 					}
 					// Offseted value of less or equal size than buffer
-					else if (types[type] * count <= size){
+					else if (types[type] * count <= size) {
 						patches++;
 					}
 					// Otherwise we are not able to read the value
 					else {
 						fprintf(stderr, "gth_minimal_exif_tag_read: TAG value does not fit, Can't read value\n");
-						continue;
+						return PATCH_EXIF_NO_TAGS;
 					}
 					
 					stitch = 0;
-					while (stitch < count){
-						switch (types[type]){
+					while (stitch < count) {
+						switch (types[type]) {
 						case 1:
 							*(char *) (data + stitch) = buf[tiff + offset + stitch];
 							break;
@@ -601,12 +601,12 @@ gth_minimal_exif_tag_action (const char *filename,
  					
  			i = i + 12;
  		}
+
  		// Check for a valid next pointer and assume that to be IFD1 if we just checked IFD0
  		if (cifdi == 1 && i < readsize - 2 && (i = DE_ENDIAN32((*((unsigned long*) (&buf[i]))))) != 0){ 
  			i = i + tiff;
  			IFD_OFFSET_PUSH(i);
  			IFD_NAME_PUSH("IFD1");
- 			
  		}
         }
 
