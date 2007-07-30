@@ -2432,8 +2432,6 @@ catalog_activate (GthBrowser *browser,
 	GtkSortType            sort_type;
 	GtkTreeIter            iter;
 
-	window_image_viewer_set_void (browser);
-
 	/* catalog directory */
 
 	if (path_is_dir (cat_path)) {
@@ -2969,7 +2967,7 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 			else {
 				GnomeVFSMimeApplication *selected_app;
 				selected_app = gnome_vfs_mime_get_default_application_for_uri (selected_path, selected_mime_type);
-				if ( !strcmp (app->name, selected_app->name))
+				if (gnome_vfs_mime_application_equal (app, selected_app))
 					video_list = g_list_append (video_list, (char*) selected_path);
 				gnome_vfs_mime_application_free (selected_app);
 			}
@@ -3396,8 +3394,6 @@ static gboolean
 image_clicked_cb (GtkWidget  *widget,
 		  GthBrowser *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
 	gth_browser_show_next_image (browser, FALSE);
 	return TRUE;
 }
@@ -3408,8 +3404,6 @@ mouse_wheel_scrolled_cb (GtkWidget 		*widget,
   		   	 GdkScrollDirection 	 direction,
 			 GthBrowser		*browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
 	if (direction == GDK_SCROLL_UP)
 		gth_browser_show_prev_image (browser, FALSE);
 	else
@@ -4392,6 +4386,7 @@ catalog_list_drag_leave (GtkWidget          *widget,
 /* -- */
 
 
+static void
 gth_browser_remove_monitor (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -4455,7 +4450,7 @@ activate_catalog_done (GthBrowser *browser)
 
 	window_update_history_list (browser);
 	window_update_title (browser);
-	window_make_current_image_visible (browser, FALSE /*TRUE*/);
+	window_make_current_image_visible (browser, TRUE);
 }
 
 
@@ -4530,7 +4525,7 @@ file_list_done_cb (GthFileList *file_list,
 	if (FirstStart)
 		FirstStart = FALSE;
 
-	window_make_current_image_visible (browser, FALSE /*! priv->refreshing*/);
+	window_make_current_image_visible (browser, TRUE);
 	priv->refreshing = FALSE;
 
 	gth_browser_add_monitor (browser);
@@ -4818,6 +4813,7 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
+	gth_file_list_set_show_hidden_files (browser->priv->file_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 	window_update_file_list (browser);
 }
 
@@ -7717,8 +7713,6 @@ gth_browser_go_to_directory (GthBrowser *browser,
 			     const char *dir_path)
 {
 	g_return_if_fail (browser != NULL);
-
-	window_image_viewer_set_void (browser);
 
 	set_cursor_busy (browser, TRUE);
 

@@ -1,3 +1,65 @@
+2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.h: 
+	* libgthumb/gth-exif-utils.c: 
+
+	Applied patch #92687 in bug #461538 to read the exif value even
+	when the standard is not followed correctly.  Patch by Joakim.
+
+2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
+	* libgthumb/gth-exif-utils.c (gth_minimal_exif_tag_action): 
+	
+	Fixes crash described in bug #461538.  Patch by Joakim.
+
+2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c:  use gnome_vfs_mime_application_equal to 
+	compare apps.
+
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (uricmp): return 0 only if both uris are NULL
+
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.c (gth_minimal_exif_tag_action): 
+	return PATCH_EXIF_NO_TAGS instead of continuing when we are not able 
+	to read the value (see bug #461538).
+
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-list.c (gth_file_list_op_new): specify missing 
+	argument type for gth_file_list_op_new
+	
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+
+	* libgthumb/gth-file-list.c: 	
+	* libgthumb/gth-image-list.h: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: relayout without calling a timeout 
+	callback after thawing the list, this is because make_image_visible,
+	in gth-browser.c, needs an already layouted list in order to work 
+	correctly.
+
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
+	* src/gth-browser.c (activate_catalog_done): 
+	(file_list_done_cb): 
+	
+	Fixed bug #439043 calling window_make_current_image_visible with
+	reset_if_not_found set to TRUE.
+	
+2007-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: call gth_file_list_set_show_hidden_files when
+	the PREF_SHOW_HIDDEN_FILES value changes.
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c: added a 
+	gth_file_list_set_show_hidden_files	function.
+	
+	Read the PREF_SHOW_HIDDEN_FILES value only after a gconf notification.
+	
 2007-07-20  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (monitor_update_files_cb):
@@ -108,19 +170,6 @@
 	(gth_browser_go_to_catalog), (gth_browser_show_next_image),
 	(gth_browser_show_prev_image):
 	Deleted some unused (i.e., never set to TRUE) boolean variables.
-
-2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
-
-	reviewed by: <delete if not using a buddy>
-
-	* src/gth-browser.c: (window_update_go_sensitivity),
-	(window_progress), (window_make_current_image_visible),
-	(gth_file_list_cursor_changed_cb), (window_enable_thumbs),
-	(image_clicked_cb), (mouse_wheel_scrolled_cb), (file_list_done_cb),
-	(dir_list_done_cb), (gth_browser_construct), (close__step2),
-	(gth_browser_close), (stop__step5), (stop__step4), (stop__step2),
-	(gth_browser_go_to_catalog), (gth_browser_show_next_image),
-	(gth_browser_show_prev_image):
 
 2007-07-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

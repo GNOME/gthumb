@@ -71,7 +71,7 @@
  (gil->priv->max_item_width \
   + ((((il)->comment_height > 0) || ((il)->text_height > 0)) ? (gil)->priv->text_spacing : 0) \
   + (il)->comment_height \
-  + ((((il)->comment_height > 0) && ((il)->text_height > 0)) ? TEXT_COMMENT_SPACE: 0) \
+  + ((((il)->comment_height > 0) && ((il)->text_height > 0)) ? TEXT_COMMENT_SPACE : 0) \
   + (il)->text_height \
   + (gil)->priv->row_spacing)
 
@@ -588,23 +588,15 @@ get_text_size (GthImageList *image_list,
 	       int          *height,
 	       gboolean      comment)
 {
-	PangoLayout         *layout;
-	GthImageListPrivate *priv = image_list->priv;
-	PangoRectangle       bounds;
+	PangoLayout *layout;
 
 	if (comment)
-		layout = priv->comment_layout;
+		layout = image_list->priv->comment_layout;
 	else
-		layout = priv->layout;
+		layout = image_list->priv->layout;
 
 	pango_layout_set_text (layout, text, strlen (text));
-	pango_layout_get_pixel_extents (layout, NULL, &bounds);
-
-	if (width != NULL)
-		*width = bounds.width;
-
-	if (height != NULL)
-		*height = bounds.height;
+	pango_layout_get_pixel_size (layout, width, height);
 }
 
 
@@ -3610,7 +3602,8 @@ gth_image_list_freeze (GthImageList *image_list)
 
 
 void
-gth_image_list_thaw (GthImageList *image_list)
+gth_image_list_thaw (GthImageList *image_list,
+		     gboolean      relayout_now)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
 
@@ -3619,7 +3612,10 @@ gth_image_list_thaw (GthImageList *image_list)
 	if (image_list->priv->frozen <= 0) {
 		image_list->priv->frozen = 0;
 		if (image_list->priv->dirty) {
-			layout_all_images (image_list);
+			if (relayout_now)
+				layout_all_images_now (image_list);
+			else
+				layout_all_images (image_list);
 			keep_focus_consistent (image_list);
 		}
 	}
@@ -3915,7 +3911,7 @@ gth_image_list_clear (GthImageList *image_list)
 	gtk_adjustment_set_value (priv->hadjustment, 0);
 	gtk_adjustment_set_value (priv->vadjustment, 0);
 
-	gth_image_list_thaw (image_list);
+	gth_image_list_thaw (image_list, TRUE);
 }
 
 
@@ -4258,7 +4254,7 @@ gth_image_list_moveto (GthImageList *image_list,
 
 	uh = GTK_WIDGET (image_list)->allocation.height - IMAGE_LINE_HEIGHT (image_list, line);
 	value = CLAMP ((y
-			- uh * yalign
+			- (uh * yalign)
 			- (1.0 - yalign) * priv->row_spacing),
 		       0.0,
 		       priv->vadjustment->upper - priv->vadjustment->page_size);
