@@ -2969,7 +2969,7 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 			else {
 				GnomeVFSMimeApplication *selected_app;
 				selected_app = gnome_vfs_mime_get_default_application_for_uri (selected_path, selected_mime_type);
-				if ( !strcmp (app->name, selected_app->name))
+				if (gnome_vfs_mime_application_equal (app, selected_app))
 					video_list = g_list_append (video_list, (char*) selected_path);
 				gnome_vfs_mime_application_free (selected_app);
 			}

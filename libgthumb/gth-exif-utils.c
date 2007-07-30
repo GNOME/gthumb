@@ -514,6 +514,7 @@ gth_minimal_exif_tag_action (const char *filename,
 					// Otherwise we are not able to patch the new value, at least not here
 					else {
 						fprintf (stderr, "gth_minimal_exif_tag_write: New TAG value does not fit, no patch applied\n");
+						i = i + 12;
 						continue;
 					}
 					
@@ -558,7 +559,8 @@ gth_minimal_exif_tag_action (const char *filename,
 					// Otherwise we are not able to read the value
 					else {
 						fprintf(stderr, "gth_minimal_exif_tag_read: TAG value does not fit, Can't read value\n");
-						return PATCH_EXIF_NO_TAGS;
+						i = i + 12;
+						continue;
 					}
 					
 					stitch = 0;
