@@ -42,6 +42,7 @@
 #define PATCH_EXIF_NO_TAGS          5
 #define PATCH_EXIF_UNSUPPORTED_TYPE 6
 #define PATCH_EXIF_TRASHED_IFD      7
+#define PATCH_EXIF_TAGVAL_OVERFLOW  8
 
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
 char *        get_exif_tag                (const char   *filename,

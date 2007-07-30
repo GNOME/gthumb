@@ -1,4 +1,12 @@
 2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-exif-utils.h: 
+	* libgthumb/gth-exif-utils.c: 
+
+	Applied patch #92687 in bug #461538 to read the exif value even
+	when the standard is not followed correctly.  Patch by Joakim.
+
+2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 	
 	* libgthumb/gth-exif-utils.c (gth_minimal_exif_tag_action): 
 	

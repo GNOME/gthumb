@@ -544,6 +544,7 @@ gth_minimal_exif_tag_action (const char *filename,
 				}
 				// Read a TAG value
 				else{ 
+					int ret = PATCH_EXIF_OK;
 
 					// Local value that can be read directly in TAG table 
 					if ((types[type] * count) <= 4 && size >= (types[type] * count)) {
@@ -558,9 +559,10 @@ gth_minimal_exif_tag_action (const char *filename,
 					}
 					// Otherwise we are not able to read the value
 					else {
-						fprintf(stderr, "gth_minimal_exif_tag_read: TAG value does not fit, Can't read value\n");
-						i = i + 12;
-						continue;
+						fprintf(stderr, "gth_minimal_exif_tag_read: TAG value does not fit, Can't read full value\n");
+						// Adjust count and warn for partial data
+						count = size / types[type];
+						ret = PATCH_EXIF_TAGVAL_OVERFLOW;
 					}
 					
 					stitch = 0;
@@ -585,7 +587,7 @@ gth_minimal_exif_tag_action (const char *filename,
 						}
 						stitch++;
 					}					
-					return PATCH_EXIF_OK;
+					return ret;
 				}
 			}
  			// EXIF pointer tag?
