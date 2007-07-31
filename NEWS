@@ -26,6 +26,10 @@ trunk, since last 2.10.x
 	  even though this greatly reduces memory usage, because the tiff 
 	  orientation tag is not accounted for. Partial reversion of patch 
 	  for bug 142428.
+	* Added code to extract video DateTime tags using mplayer's
+	  midentify tool, if present.
+	* Fixed bug #454492. Web export does not support themes with spaces 
+	  in the name.
 
 
 version 2.10.6
@@ -50,8 +54,6 @@ version 2.10.6
 	* Fixed bug #439043. Preview area always shows last selected image.
 	* Fixed bug #457936. Names with '#' character break rotation.
 	* Fixed bug #446792. gThumb deletes pictures on failed import.
-	* Added code to extract video DateTime tags using mplayer's
-	  midentify tool, if present.
 
 
 version 2.10.5
