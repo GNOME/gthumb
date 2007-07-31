@@ -1,3 +1,8 @@
+2007-07-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c: (get_style_dir):
+	Unescape style path names. Patch by Christophe Bisière.
+
 2007-07-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: call window_make_current_image_visible with

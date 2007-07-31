@@ -1934,28 +1934,34 @@ static char *
 get_style_dir (CatalogWebExporter *ce)
 {
 	char *path;
+	char *style_dir;
 
+	style_dir = gnome_vfs_unescape_string (ce->style, NULL);
+	
 	path = g_build_filename (g_get_home_dir (),
 			     ".gnome2",
 			     "gthumb",
 			     "albumthemes",
-			     ce->style,
+			     style_dir,
 			     NULL);
 
-	if (path_is_dir (path))
-		return path;
-	g_free (path);
+	if (!path_is_dir (path)) {
+		g_free (path);
 
-	path = g_build_filename (GTHUMB_DATADIR,
-			     "gthumb",
-			     "albumthemes",
-			     ce->style,
-			     NULL);
+		path = g_build_filename (GTHUMB_DATADIR,
+				     "gthumb",
+				     "albumthemes",
+				     style_dir,
+				     NULL);
 
-	if (path_is_dir (path))
-		return path;
+		if (!path_is_dir (path)) {
+			g_free (path);
+			path = NULL;
+		}
+	}
 
-	return NULL;
+	g_free (style_dir);
+	return path;
 }
 
 
