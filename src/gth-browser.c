@@ -2680,7 +2680,6 @@ go_to_folder_after_image_loaded (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;
 	char *folder_uri = remove_level_from_path (priv->image_path);
 
-	priv->load_image_folder_after_image = FALSE;
 	priv->focus_current_image = TRUE;
 	gth_browser_hide_sidebar (browser);
 
@@ -4525,9 +4524,10 @@ file_list_done_cb (GthFileList *file_list,
 	if (FirstStart)
 		FirstStart = FALSE;
 
-	window_make_current_image_visible (browser, TRUE);
+	window_make_current_image_visible (browser, ! priv->load_image_folder_after_image);
 	priv->refreshing = FALSE;
-
+	priv->load_image_folder_after_image = FALSE;
+	
 	gth_browser_add_monitor (browser);
 
 	set_cursor_not_busy (browser, TRUE);

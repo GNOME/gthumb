@@ -1,3 +1,8 @@
+2007-07-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: call window_make_current_image_visible with
+	reset_if_not_found set to FALSE if load_image_folder_after_image is TRUE.
+
 2007-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.h: 
