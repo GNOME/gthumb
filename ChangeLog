@@ -1,3 +1,9 @@
+2007-08-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* doc/C/gthumb.xml: Corrected the Rename tool documentation, to
+	reflect the move from the Tools menu to the Edit menu.
+
 2007-07-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c: (get_style_dir):

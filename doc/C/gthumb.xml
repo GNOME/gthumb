@@ -988,25 +988,87 @@
   </para>
   </sect2>
 
-  <sect2 id="gthumb-image-rename">
-  <title>To Rename an Image</title>
-  <para>
-    To rename an image filename, perform the following steps:
-    <orderedlist>
-      <listitem>
-        <para>Go to the folder or catalog where the image is.</para>
-      </listitem>
-      <listitem>
-        <para>Select the image and choose
-        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice>.</para>
-      </listitem>
-      <listitem>
-        <para>Enter the new filename and click on
-        <guibutton>Rename</guibutton>. &app; renames the image
-        filename.</para>
-      </listitem>
-    </orderedlist>
-  </para>
+  <sect2 id="gthumb-rename-series">
+    <title>To Rename One or More Images</title>
+    <para>
+      To rename one or more images using a name template, choose
+      <menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice>.
+    </para>
+    <para>
+      The name template is simply a pattern that is used for renaming all
+      of the selected images. You can use some special characters
+      to make the new names differ each other (this is essential if you
+      are renaming more than one image, and optional if you are renaming
+      a single image):
+    </para>
+      <informaltable frame="all">
+      <tgroup cols="2" colsep="1" rowsep="1">
+        <colspec colname="COLSPEC0" colwidth="50.00*"/>
+        <colspec colname="COLSPEC1" colwidth="50.00*"/>
+        <thead>
+          <row valign="top">
+            <entry colname="COLSPEC0">
+              <para>Symbol</para></entry>
+            <entry colname="COLSPEC1" align="left">
+              <para>Description</para></entry>
+          </row>
+        </thead>
+        <tbody>
+          <row valign="top">
+            <entry>
+              <para><keycap>#</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with
+              the value of a counter that increments itself by 1
+	      passing from one image to another.  If you specify
+	      this symbols in sequence you'll get leading zeros if the
+	      counter value has a lesser number of digits, for example ###
+	      will produce the sequence: 001, 002, 003, etc..</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%f</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the image
+              original name, excluding the extension.</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%e</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the image
+              original filename extension.</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%d</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the image
+              modified date.</para></entry>
+          </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%s</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with the image
+              dimensions.</para></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </informaltable>
+    <para>
+      The list at the bottom of the dialog displays how the filenames
+      will be renamed.
+    </para>
+    <para>
+      To rename the images click on <guibutton>Rename</guibutton>.
+    </para>
+    <para>
+      If the renaming of an image can overwrite an already existing
+      image you will be asked how to proceed,  five options are
+      available: overwrite the image; do not overwrite the image;
+      always overwrite; never overwrite; specify a new name.
+    </para>
   </sect2>
 
   <sect2 id="gthumb-image-delete">
@@ -2232,87 +2294,6 @@
       </para>
       <para>
         To perform the scaling click on <guibutton>Scale</guibutton>.
-      </para>
-    </sect2>
-    <sect2 id="gthumb-rename-series">
-      <title>To Rename a Series of Images</title>
-      <para>
-        To rename a series of images specifing a name template, choose
-        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Rename
-        Series</guimenuitem></menuchoice>.
-      </para>
-      <para>
-        The name template is simply a name that must be used for all
-        of the images,  furthermore you can use some special characters
-        to make the new names differ each other:
-      </para>
-        <informaltable frame="all">
-        <tgroup cols="2" colsep="1" rowsep="1">
-          <colspec colname="COLSPEC0" colwidth="50.00*"/>
-          <colspec colname="COLSPEC1" colwidth="50.00*"/>
-          <thead>
-            <row valign="top">
-              <entry colname="COLSPEC0">
-                <para>Symbol</para></entry>
-              <entry colname="COLSPEC1" align="left">
-                <para>Description</para></entry>
-            </row>
-          </thead>
-          <tbody>
-            <row valign="top">
-              <entry>
-                <para><keycap>#</keycap></para></entry>
-              <entry align="left">
-                <para>This symbol will be replaced with
-                the value of a counter that increments itself by 1
-	        passing from one image to another.  If you specify
-	        this symbols in sequence you'll get leading zeros if the
-	        counter value has a lesser number of digits, for example ###
-	        will produce the sequence: 001, 002, 003, etc..</para></entry>
-            </row>
-            <row valign="top">
-              <entry>
-                <para><keycap>%f</keycap></para></entry>
-              <entry align="left">
-                <para>This symbol will be replaced with the image
-                original name, excluding the extension.</para></entry>
-            </row>
-            <row valign="top">
-              <entry>
-                <para><keycap>%e</keycap></para></entry>
-              <entry align="left">
-                <para>This symbol will be replaced with the image
-                original filename extension.</para></entry>
-            </row>
-            <row valign="top">
-              <entry>
-                <para><keycap>%d</keycap></para></entry>
-              <entry align="left">
-                <para>This symbol will be replaced with the image
-                modified date.</para></entry>
-            </row>
-            <row valign="top">
-              <entry>
-                <para><keycap>%s</keycap></para></entry>
-              <entry align="left">
-                <para>This symbol will be replaced with the image
-                dimensions.</para></entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </informaltable>
-      <para>
-        The list at the bottom of the dialog displays how the filenames
-        will be renamed.
-      </para>
-      <para>
-        To rename the images click on <guibutton>Rename</guibutton>.
-      </para>
-      <para>
-        If the renaming of an image can overwrite an already existing
-        image you will be asked how to proceed,  five options are
-        available: overwrite the image; do not overwrite the image;
-        always overwrite; never overwrite; specify a new name.
       </para>
     </sect2>
     <sect2 id="gthumb-change-date">

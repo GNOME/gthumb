@@ -12,6 +12,7 @@ trunk, since last 2.10.x
           at start/end of a row of images. Bug 449338.
 	* Added a warning when renaming imported photos to avoid file
 	  overwrites. Bug #332684.
+	* Corrected the Rename tool documentation (help file).
 
 	Bugfixes:
 
