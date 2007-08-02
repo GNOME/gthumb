@@ -247,7 +247,7 @@ msgstr "Välj målmapp"
 
 #: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
-msgstr "Ta bort de valda bilderna från kameran"
+msgstr "Ta bort de markerade bilderna från kameran"
 
 #: ../data/glade/gthumb_camera.glade.h:7
 msgid ""
@@ -2982,7 +2982,7 @@ msgstr "Ta _bort från album"
 
 #: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
-msgstr "Ta bort de valda bilderna från albumet"
+msgstr "Ta bort de markerade bilderna från albumet"
 
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
@@ -3013,11 +3013,11 @@ msgstr "Ta _bort"
 
 #: ../src/gth-browser-actions-entries.h:154
 msgid "Remove selected catalog"
-msgstr "Ta bort valt album"
+msgstr "Ta bort markerat album"
 
 #: ../src/gth-browser-actions-entries.h:159
 msgid "Move selected catalog to another location"
-msgstr "Flytta det valda albumet till en annan plats"
+msgstr "Flytta det markerade albumet till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:163
 #: ../src/gth-browser-actions-entries.h:198
