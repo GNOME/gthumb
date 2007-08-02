@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-02 19:39+0200\n"
-"PO-Revision-Date: 2007-08-02 21:49+0100\n"
+"PO-Revision-Date: 2007-08-02 22:39+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -571,7 +571,7 @@ msgstr "Anpassat"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
-msgstr "I_nvertera höjd-/breddförhållande"
+msgstr "I_nvertera aspektförhållande"
 
 #: ../data/glade/gthumb_crop.glade.h:10
 #: ../data/glade/gthumb_preferences.glade.h:67
@@ -697,7 +697,7 @@ msgstr "_Nyans:"
 #: ../data/glade/gthumb_edit.glade.h:23
 #: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Keep aspect ratio"
-msgstr "_Behåll höjd-/breddförhållande"
+msgstr "_Behåll aspektförhållande"
 
 #: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
@@ -718,7 +718,7 @@ msgstr "_Förhandsgranska"
 #: ../data/glade/gthumb_edit.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:67
 msgid "_Reset"
-msgstr "_Återställ"
+msgstr "_Nollställ"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
@@ -1269,7 +1269,7 @@ msgstr "Ställ in bilden till naturlig storlek"
 
 #: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
-msgstr "Gör till a_ktuell"
+msgstr "Ställ in till a_ktuell"
 
 #: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
@@ -3948,7 +3948,7 @@ msgstr "_Centrerad"
 
 #: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr "Använd bilden som bakgrund på skrivbordet (centrerad)"
+msgstr "Ställ in bilden som bakgrund på skrivbordet (centrerad)"
 
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
@@ -3956,7 +3956,7 @@ msgstr "_Sida vid sida"
 
 #: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr "Använd bilden som skrivbordsbakgrund (sida vid sida)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (sida vid sida)"
 
 #: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
@@ -3964,7 +3964,7 @@ msgstr "_Skalad"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Använd bilden som skrivbordsbakgrund (skalad och behåll höjd-/breddförhållande)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (skalad och behåll aspektförhållande)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
@@ -3972,7 +3972,7 @@ msgstr "Utstr_äckt"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr "Använd bilden som skrivbordsbakgrund (utsträckt)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (utsträckt)"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
