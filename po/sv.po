@@ -2847,7 +2847,7 @@ msgstr "_Gå"
 #: ../src/gth-browser-actions-entries.h:495
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
-msgstr "_Bild"
+msgstr "B_ild"
 
 #: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
