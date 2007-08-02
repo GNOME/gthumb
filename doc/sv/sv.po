@@ -1955,7 +1955,7 @@ msgstr "<guibutton>Stäng</guibutton>: stänger dialogrutan."
 
 #: C/gthumb.xml:2532(para)
 msgid "Keep in mind that when you change an option it will automatically applied, this is why there is no <guibutton>Ok</guibutton> or <guibutton>Apply</guibutton> button."
-msgstr "Ko ihåg att när du ändrar ett alternativ kommer det automatiskt att börja gälla. Det är därför inte knapparna <guibutton>Ok</guibutton> eller <guibutton>Verkställ</guibutton> finns."
+msgstr "Kom ihåg att när du ändrar ett alternativ kommer det automatiskt att börja gälla. Det är därför inte knapparna <guibutton>Ok</guibutton> eller <guibutton>Verkställ</guibutton> finns."
 
 #: C/gthumb.xml:2540(title)
 msgid "General Tab"
