@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
 "POT-Creation-Date: 2007-03-31 03:23+0100\n"
-"PO-Revision-Date: 2007-04-17 11:39+0100\n"
+"PO-Revision-Date: 2007-08-03 00:52+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "<application>gThumb</application> är en bildvisare och -bläddrare skri
 
 #: C/gthumb.xml:107(para)
 msgid "The most common image formats are JPEG and GIF. The JPEG format is good for medium and big sized images because it has a high compression rate keeping a good image quality. The GIF format is used in Web pages for displaying little animations or little static images. Another important image format is PNG, this format is very common on Unix platforms and is considered a replacement of the GIF format."
-msgstr "De vanligast bildformaten är JPEG och GIF. JPEG-formatet är bra för medelstora och stora bilder därför att det har en hög komprimeringsgrad med en bra bildkvalitet. GIF-formatet används av webbsidor för att visa små animeringar eller små statiska bilder. Ett annat viktigt bildformat är PNG, det här formatet är mycket vanligt på Unix-plattformar och anses vara en ersättare för GIF-formatet."
+msgstr "De vanligaste bildformaten är JPEG och GIF. JPEG-formatet är bra för medelstora och stora bilder därför att det har en hög komprimeringsgrad med en bra bildkvalitet. GIF-formatet används av webbsidor för att visa små animeringar eller små statiska bilder. Ett annat viktigt bildformat är PNG, det här formatet är mycket vanligt på Unix-plattformar och anses vara en ersättare för GIF-formatet."
 
 #: C/gthumb.xml:117(para)
 msgid "<application>gThumb</application> supports all this formats and many others, it also displays GIF animations."
@@ -730,27 +730,27 @@ msgstr "Auto"
 
 #: C/gthumb.xml:841(guimenuitem)
 msgid "Equalize Histogram"
-msgstr ""
+msgstr "Jämna ut histogram"
 
 #: C/gthumb.xml:846(para)
 msgid "Enhance the image equalizing its histogram."
-msgstr ""
+msgstr "Förbättra bilden genom att jämna ut dess histogram."
 
 #: C/gthumb.xml:856(guimenuitem)
 msgid "Normalize"
-msgstr ""
+msgstr "Normalisera"
 
 #: C/gthumb.xml:861(para)
 msgid "Automatically normalize the contrast."
-msgstr ""
+msgstr "Normalisera kontrasten automatiskt."
 
 #: C/gthumb.xml:871(guimenuitem)
 msgid "Stretch Contrast"
-msgstr ""
+msgstr "Sträck ut kontrast"
 
 #: C/gthumb.xml:876(para)
 msgid "Automatically stretch the contrast."
-msgstr ""
+msgstr "Sträck automatiskt ut kontrasten."
 
 #: C/gthumb.xml:887(title)
 #: C/gthumb.xml:1850(title)
@@ -762,31 +762,31 @@ msgstr "OBSERVERA"
 
 #: C/gthumb.xml:888(para)
 msgid "Please note that this modifications do not change the image file. If you want to view the original image just click on its thumbnail again or use the <menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem></menuchoice> command."
-msgstr ""
+msgstr "Observera att dessa ändringar inte ändrar på bildfilen. Om du vill visa originalbilden är det bara att klicka på dess miniatyrbild igen eller använda kommandot <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Återställ</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:884(para)
 msgid "When an image is modified the label \"[modified]\" is displayed near the image filename. <placeholder-1/>"
-msgstr ""
+msgstr "När en bild ändras kommer etiketten \"[ändrad]\" att visas när bildens filnamn. <placeholder-1/>"
 
 #: C/gthumb.xml:897(para)
 msgid "You can save modified images, see <xref linkend=\"gthumb-save-images\"/> for more information."
-msgstr ""
+msgstr "Du kan spara ändrade bilder, se <xref linkend=\"gthumb-save-images\"/> för mer information."
 
 #: C/gthumb.xml:903(para)
 msgid "Many inexpensive cameras have a flash that is too close to the camera lens. As a result, the light from the flash may travel from the camera and be partially reflected by a subject's retina right back into the camera lens. This causes \"redeye\"."
-msgstr ""
+msgstr "Många billiga kameror har en blixt som är för nära kameralinsen. Som ett resultat av det kan ljuset från blixten flyttas från kameran och delvis reflekteras av motivets retina tillbaka till kameralinsen. Detta orsakar \"röda ögon\"."
 
 #: C/gthumb.xml:909(para)
 msgid "<application>gThumb</application> provides a tool to remove this unwanted redeye. When viewing an image with redeye, select <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>. A new window will be launched. Move the mouse pointer over top a redeye region, and click on or near it. This should remove the red region, replacing it with a blacker region. If you are unhappy with the result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes). (Clicking <guibutton>Cancel</guibutton> will abandon all changes and close the window.) Once you are satisfied with the result, you can click on more redeye regions, or click <guibutton>Save</guibutton> or <guibutton>Apply</guibutton> to close the window."
-msgstr ""
+msgstr "<application>gThumb</application> tillhandahåller ett verktyg för att ta bort dessa oönskade röda ögon. När du visar en bild med röda ögon, välj <menuchoice><guimenu>Bild</guimenu><guimenuitem>Ta bort röda ögon</guimenuitem></menuchoice>. Ett nytt fönster kommer att öppnas. Flytta muspekaren över ett område med röda ögon och klicka på det eller i närheten av det. Det här bör ta bort det röda området och ersätta det med ett mörkare område. Om du inte är nöjd med resultaten kan du klicka på <guibutton>Ångra</guibutton> för att återställa tidigare ändring (eller ändringar). (Klicka på <guibutton>Avbryt</guibutton> kommer att förkasta alla ändringar och stänga fönstret.) När du är nöjd med resultatet kan du klicka på fler områden med röda ögon, eller klicka på <guibutton>Spara</guibutton> eller <guibutton>Verkställ</guibutton> för att stänga fönstret."
 
 #: C/gthumb.xml:920(para)
 msgid "If you click <guibutton>Apply</guibutton>, the image must be re-saved in the usual manner after using <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>. See <xref linkend=\"gthumb-save-images\"/> for more information."
-msgstr ""
+msgstr "Om du klickar på <guibutton>Verkställ</guibutton> måste bilden sparas igen på vanligt sätt efter användning av <menuchoice><guimenu>Bild</guimenu><guimenuitem>Ta bort röda ögon</guimenuitem></menuchoice>. Se <xref linkend=\"gthumb-save-images\"/> för mer information."
 
 #: C/gthumb.xml:925(para)
 msgid "<guibutton>Zoom In</guibutton>, <guibutton>Zoom Out</guibutton>, <guibutton>Actual Size</guibutton>, and <guibutton>Zoom to Fit</guibutton> buttons are provided to allow you to zoom to and from regions of interest. The mouse wheel can also be used to zoom in and out."
-msgstr ""
+msgstr "Knapparna <guibutton>Zooma in</guibutton>, <guibutton>Zooma ut</guibutton>, <guibutton>Naturlig storlek</guibutton> och <guibutton>Zooma för att passa</guibutton> finns där för att låta dig zooma in och ut i intressanta områden. Mushjulet kan även användas för att zooma in och ut."
 
 #: C/gthumb.xml:933(title)
 msgid "To Save an Image"
@@ -810,7 +810,7 @@ msgstr "Välj filnamnet och klicka på <guibutton>Ok</guibutton>."
 
 #: C/gthumb.xml:954(para)
 msgid "<application>gThumb</application> displays the image format dialog from which you can choose specific file format options. Once you are ok with the options click on <guibutton>Ok</guibutton>. <application>gThumb</application> saves the image."
-msgstr ""
+msgstr "<application>gThumb</application> visar bildformatsdialogen från vilken du kan välja specifik filformatsalternativ. När du är nöjd med alternativen kan du klicka på <guibutton>Ok</guibutton>. <application>gThumb</application> sparar bilden."
 
 #: C/gthumb.xml:934(para)
 msgid "To save an image, perform the following steps: <placeholder-1/>"
@@ -835,7 +835,7 @@ msgstr "Markera bilderna och välj <menuchoice><guimenu>Arkiv</guimenu><guimenui
 
 #: C/gthumb.xml:978(para)
 msgid "Select an application from the <guilabel>Available applications</guilabel> list, or from the <guilabel>Recent applications</guilabel> list; or type a command in the <guilabel>Application</guilabel> entry."
-msgstr ""
+msgstr "Välj ett program från listan <guilabel>Tillgängliga program</guilabel> eller från listan <guilabel>Senaste program</guilabel>; eller ange ett kommando i fältet <guilabel>Program</guilabel>."
 
 #: C/gthumb.xml:984(para)
 msgid "Click on <guibutton>Open</guibutton>. <application>gThumb</application> opens the images."
@@ -888,7 +888,7 @@ msgstr "Markera bilderna och välj <menuchoice><guimenu>Redigera</guimenu><guime
 #: C/gthumb.xml:1046(para)
 #: C/gthumb.xml:1074(para)
 msgid "Select a folder from the <guilabel>Recents</guilabel> list, or from the <guilabel>Bookmarks</guilabel> list; or type a folder name in the <guilabel>Folder</guilabel> entry."
-msgstr ""
+msgstr "Välj en mapp från listan <guilabel>Tidigare</guilabel>, eller från listan <guilabel>Bokmärken</guilabel>; eller ange ett mappnamn i fältet <guilabel>Mapp</guilabel>."
 
 #: C/gthumb.xml:1052(para)
 msgid "Click on <guibutton>Ok</guibutton>. <application>gThumb</application> copies the images."
@@ -924,11 +924,11 @@ msgstr "Markera bilderna och välj <menuchoice><guimenu>Arkiv</guimenu><guimenui
 
 #: C/gthumb.xml:1100(para)
 msgid "In the <guilabel>Print</guilabel> dialog there are two tags: <guilabel>Layout</guilabel> and <guilabel>Paper Details</guilabel>."
-msgstr ""
+msgstr "I dialogrutan <guilabel>Skriv ut</guilabel> finns det två taggar: <guilabel>Layout</guilabel> och <guilabel>Pappersdetaljer</guilabel>."
 
 #: C/gthumb.xml:1106(para)
 msgid "Choose the number of images per page."
-msgstr "Välj antalet bilder per sida."
+msgstr "Välja antalet bilder per sida."
 
 #: C/gthumb.xml:1109(para)
 msgid "Include the image comment."
@@ -948,27 +948,27 @@ msgstr "Ändra storlek på bilden."
 
 #: C/gthumb.xml:1122(para)
 msgid "Recenter the image on the page using the <guibutton>Center on Page</guibutton> button."
-msgstr ""
+msgstr "Centrera bilden på sidan med hjälp av knappen <guibutton>Centrera på sidan</guibutton>."
 
 #: C/gthumb.xml:1103(para)
 msgid "From the <guilabel>Layout</guilabel> tag you can <placeholder-1/>"
-msgstr ""
+msgstr "Från <guilabel>Layout</guilabel>-taggen kan du <placeholder-1/>"
 
 #: C/gthumb.xml:1130(para)
 msgid "Choose the paper format."
-msgstr "Välj pappersformatet."
+msgstr "Välja pappersformatet."
 
 #: C/gthumb.xml:1133(para)
 msgid "Choose the paper orientation."
-msgstr "Välj sidorienteringen."
+msgstr "Välja sidorientering."
 
 #: C/gthumb.xml:1127(para)
 msgid "From the <guilabel>Paper Details</guilabel> tag you can <placeholder-1/>"
-msgstr ""
+msgstr "Från <guilabel>Pappersdetaljer</guilabel>-taggen kan du <placeholder-1/>"
 
 #: C/gthumb.xml:1139(para)
 msgid "When you are ready to print click on <guibutton>Print</guibutton>. <application>gThumb</application> prints the images."
-msgstr ""
+msgstr "När du är redo att skriva ut kan du klicka på <guibutton>Skriv ut</guibutton>. <application>gThumb</application> skriver ut bilderna."
 
 #: C/gthumb.xml:1090(para)
 msgid "To print a series of images, perform the following steps: <placeholder-1/>"
@@ -980,7 +980,7 @@ msgstr "Kommentarer"
 
 #: C/gthumb.xml:1155(para)
 msgid "Comments are not embedded in image files, they are saved separately. This means that if you move images or folders with other programs you will lose the comments."
-msgstr ""
+msgstr "Kommentarer är inte inbäddade i bildfiler, de sparas separat. Det betyder att om du flyttar bilder eller mappar med andra program kommer du att förlora kommentarerna."
 
 #: C/gthumb.xml:1161(title)
 #: C/gthumb.xml:1291(title)
@@ -990,7 +990,7 @@ msgstr "FÖR EXPERTER"
 
 #: C/gthumb.xml:1162(para)
 msgid "The image comment is saved in a subfolder of the image folder named <filename>.comments</filename>."
-msgstr ""
+msgstr "Bildkommentaren sparas i en undermapp till bildmappen med namnet <filename>.comments</filename>."
 
 #: C/gthumb.xml:1151(para)
 msgid "Comments are pieces of information attached to images. <placeholder-1/><placeholder-2/>"
@@ -1002,7 +1002,7 @@ msgstr "Lägg till en kommentar"
 
 #: C/gthumb.xml:1169(para)
 msgid "To add a comment to an image select the image and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit comment</guimenuitem></menuchoice> or type <keycombo><keycap>C</keycap></keycombo>."
-msgstr ""
+msgstr "För att lägga till en kommentar till en bild kan du markera bilden och välja <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Redigera kommentar</guimenuitem></menuchoice> eller trycka på <keycombo><keycap>C</keycap></keycombo>."
 
 #: C/gthumb.xml:1178(para)
 msgid "<guilabel>Comment</guilabel>: a free text describing the picture."
@@ -1018,11 +1018,11 @@ msgstr "<guilabel>Datum</guilabel>: datumet när bilden togs."
 
 #: C/gthumb.xml:1174(para)
 msgid "Comments are structured in various parts : <placeholder-1/>"
-msgstr ""
+msgstr "Kommentarer är strukturerade i olika delar: <placeholder-1/>"
 
 #: C/gthumb.xml:1194(para)
 msgid "Image comments are displayed in the image list in italic text above the image filename. If the comment is too long the simbol \"[..]\" is appended to the displayed part of the comment to signal you that the comment is not entirely visible, to view the whole comment use the image properties dialog that can be displayed using the <menuchoice><guimenu>File</guimenu><guimenuitem>Properties </guimenuitem></menuchoice> command or pressing <keycombo><keycap>I</keycap></keycombo>."
-msgstr ""
+msgstr "Bildkommentarer visas med kursiv text i bildlistan ovanför bildens filnamn. Om kommentaren är för lång kommer symbolen \"[..]\" att läggas till för den visade delen av kommentaren för att signalera att hela kommentaren inte är synlig. För att visa hela kommentaren kan du använda bildegenskapsdialogen som kan visas genom att välja kommandot <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Egenskaper </guimenuitem></menuchoice> eller genom att trycka på <keycombo><keycap>I</keycap></keycombo>."
 
 #: C/gthumb.xml:1206(title)
 #: C/gthumb.xml:1208(screeninfo)
@@ -1031,19 +1031,19 @@ msgstr "En bildkommentar"
 
 #: C/gthumb.xml:1215(title)
 msgid "To Add a Comment to Many Images"
-msgstr "Lägg till en kommentar för många bilder"
+msgstr "Lägg till en kommentar till flera bilder"
 
 #: C/gthumb.xml:1216(para)
 msgid "To add a comment to many images, select the images and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit comment</guimenuitem></menuchoice> or type <keycombo><keycap>C</keycap></keycombo>."
-msgstr ""
+msgstr "För att lägga till en kommentar till flera bilder ska du markera bilderna och välja <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Redigera kommentar</guimenuitem></menuchoice> eller trycka på <keycombo><keycap>C</keycap></keycombo>."
 
 #: C/gthumb.xml:1222(para)
 msgid "The <guilabel>Comment</guilabel> dialog will fill in the fields that have the same value for all the images leaving all other fields empty."
-msgstr ""
+msgstr "Dialogrutan <guilabel>Kommentar</guilabel> kommer att fylla i de fält som har samma värde för alla bilderna och lämna de andra fälten tomma."
 
 #: C/gthumb.xml:1227(para)
 msgid "You can activate the <guilabel>Save only changed fields </guilabel> option (which is active by default) to change one or more fields of many comments leaving all other fields unchanged."
-msgstr ""
+msgstr "Du kan aktivera alternativet <guilabel>Spara endast ändrade fält </guilabel> (som är aktiverat som standard) för att ändra ett eller flera fält för flera kommentarer och lämna övriga fält oförändrade."
 
 #: C/gthumb.xml:1235(title)
 msgid "To Remove Comments"
@@ -1051,7 +1051,7 @@ msgstr "Ta bort kommentarer"
 
 #: C/gthumb.xml:1243(para)
 msgid "Select the images and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Remove comment</guimenuitem></menuchoice>. <application>gThumb</application> removes the comments."
-msgstr ""
+msgstr "Markera bilderna och välj <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Ta bort kommentar</guimenuitem></menuchoice>. <application>gThumb</application> tar bort kommentarerna."
 
 #: C/gthumb.xml:1236(para)
 msgid "To remove comments, perform the following steps: <placeholder-1/>"
@@ -1063,11 +1063,11 @@ msgstr "Visa en bildkommentar"
 
 #: C/gthumb.xml:1266(para)
 msgid "Press <keycap>I</keycap> or choose <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image Comment</guimenuitem></menuchoice>. <application>gThumb</application> displays the image comment."
-msgstr ""
+msgstr "Tryck på <keycap>I</keycap> eller välj <menuchoice><guimenu>Visa</guimenu><guisubmenu>Visa/dölj</guisubmenu><guimenuitem>Bildkommentar</guimenuitem></menuchoice>. <application>gThumb</application> visar bildkommentaren."
 
 #: C/gthumb.xml:1253(para)
 msgid "To view an image comment, use the <guilabel>Properties</guilabel> dialog (<xref linkend=\"gthumb-view-prop\"/>) or perform the following steps: <placeholder-1/>"
-msgstr ""
+msgstr "För att visa en bildkommentar, använd dialogrutan <guilabel>Egenskaper</guilabel> (<xref linkend=\"gthumb-view-prop\"/>) eller genomför följande steg: <placeholder-1/>"
 
 #: C/gthumb.xml:1279(title)
 #: C/gthumb.xml:1794(guilabel)
@@ -1076,15 +1076,15 @@ msgstr "Kategorier"
 
 #: C/gthumb.xml:1285(para)
 msgid "Categories are not embedded in image files, they are instead saved separately. This means that if you move images or folders with other programs you will lose your comments."
-msgstr ""
+msgstr "Kategorier är inte inbäddade i bildfilerna, istället sparas de separat. Det betyder att om du flyttar bilder eller mappar med andra program kommer du att förlora dina kommentarer."
 
 #: C/gthumb.xml:1292(para)
 msgid "Categories are saved in the subfolder <filename>.comments</filename> of the image folder and in the same file where the image comment is saved."
-msgstr ""
+msgstr "Kategorier sparas i undermappen <filename>.comments</filename> i bildmappen och i samma fil där bildkommentarerna sparas."
 
 #: C/gthumb.xml:1280(para)
 msgid "Categories are keywords assigned to images and can be used to perform fine grained searches as described in <xref linkend=\"gthumb-finding\"/>. <placeholder-1/><placeholder-2/>"
-msgstr ""
+msgstr "Kategorier är nyckelord som tilldelas bilder och kan användas för att genomföra specifika sökningar, som beskrivs i <xref linkend=\"gthumb-finding\"/>. <placeholder-1/><placeholder-2/>"
 
 #: C/gthumb.xml:1299(title)
 msgid "To Assign Categories to a Series of Images"
@@ -1097,7 +1097,7 @@ msgstr "Markera bilderna och välj <menuchoice><guimenu>Redigera</guimenu><guime
 #: C/gthumb.xml:1310(para)
 #: C/gthumb.xml:1343(para)
 msgid "Check the categories in the <guilabel>Available Categories </guilabel> List. You can create new categories clicking on the <guilabel>New</guilabel> button, and delete categories from the list clicking on the <guilabel>Remove</guilabel> button."
-msgstr ""
+msgstr "Kryssa i kategorierna i listan <guilabel>Tillgängliga kategorier </guilabel>. Du kan skapa nya kategorier genom att klicka på knappen <guilabel>Ny</guilabel> och ta bort kategorier från listan genom att klicka på knappen <guilabel>Ta bort</guilabel>."
 
 #: C/gthumb.xml:1316(para)
 msgid "Click on <guibutton>Save</guibutton>. <application>gThumb</application> assigns the catories to the images."
@@ -1113,11 +1113,11 @@ msgstr "Tilldela kategorier till en mapp"
 
 #: C/gthumb.xml:1325(para)
 msgid "Instead of assigning categories to single images you can assign them to a folder, this is equivalent to assign the categories to all the images contained in the folder and in all of its subfolders."
-msgstr ""
+msgstr "Istället för att tilldela kategorier till enstaka bilder kan du tilldela dem till en mapp. Det är samma sak som att tilldela kategorier till alla bilderna som finns i mappen och i alla dess undermappar."
 
 #: C/gthumb.xml:1334(para)
 msgid "Go to the parent folder in order to visualize the folder name in the folder list pane, right-click on the folder name and select the <menuchoice><guimenuitem>Categories</guimenuitem></menuchoice> command; alternatively go to the folder and select the <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Categories</guimenuitem></menuchoice> commands. In both cases <application>gThumb</application> shows the <guilabel>Categories</guilabel> dialog."
-msgstr ""
+msgstr "Gå till föräldramappen för att visa mappnamnet i mapplistpanelen, högerklicka på mappnamnet och välj kommandot <menuchoice><guimenuitem>Kategorier</guimenuitem></menuchoice>; alternativt kan du gå till mappen och välja kommandot <menuchoice><guimenu>Arkiv</guimenu><guisubmenu>Mapp</guisubmenu><guimenuitem>Kategorier</guimenuitem></menuchoice>. I båda fallen kommer <application>gThumb</application> att visa dialogrutan <guilabel>Kategorier</guilabel>."
 
 #: C/gthumb.xml:1349(para)
 msgid "Click on <guibutton>Ok</guibutton>. <application>gThumb</application> assigns the catories to the folder."
@@ -1133,7 +1133,7 @@ msgstr "Ta bort kategorier från en bild eller mapp"
 
 #: C/gthumb.xml:1358(para)
 msgid "To remove categories from a series of images or a folder perform the same steps as described above an uncheck the categories you want to remove, the click on <guibutton>Ok</guibutton> to confirm the operation."
-msgstr ""
+msgstr "För att ta bort kategorier från en bildserie eller en mapp kan du genomföra samma steg som beskrevs här ovan och kryssa bort de kategorier du vill ta bort. Klicka sedan på <guibutton>Ok</guibutton> för att bekräfta åtgärden."
 
 #: C/gthumb.xml:1369(title)
 msgid "Catalogs"
@@ -1149,7 +1149,7 @@ msgstr "Album kan organiseras i bibliotek. Ett bibliotek är som en mapp som kan
 
 #: C/gthumb.xml:1381(para)
 msgid "Catalogs are not updated when you move images, if you want a more flexible catalog you can use the searches described in <xref linkend=\"gthumb-find\"/>, searches are catalogs with search criteria attached, after moving images you can redo the search to get the catalog updated."
-msgstr ""
+msgstr "Album uppdateras inte när du flyttar bilder. Om du vill få ett mer flexibelt album kan du använda sökningar som beskrivs i <xref linkend=\"gthumb-find\"/>. Sökningar är album med angivna sökkriterier. Efter att du flyttat bilderna kan du göra om sökningen för att uppdatera albumet."
 
 #: C/gthumb.xml:1390(para)
 msgid "Catalogs are saved in the <filename>$(HOME)/.gnome2/gthumb/collections</filename> folder."
@@ -1189,7 +1189,7 @@ msgstr "Genomför följande steg för att visa innehållet i ett album: <placeho
 
 #: C/gthumb.xml:1424(para)
 msgid "If you want to go to the image folder, select the image and use the <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu><guimenuitem>Go to the image folder </guimenuitem></menuchoice> command or press <keycombo action=\"simul\"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. <application>gThumb</application> will display the image folder and will scroll the image list in order to make the image visible."
-msgstr ""
+msgstr "Om du vill gå till bildmappen, markera bilden och använd kommandot <menuchoice><guimenu>Visa</guimenu><guisubmenu>Gå</guisubmenu><guimenuitem>Gå till bildmappen </guimenuitem></menuchoice> eller tryck på <keycombo action=\"simul\"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. <application>gThumb</application> kommer att visa bildmappen och kommer att rulla i bildlistan för att göra bilden synlig."
 
 #: C/gthumb.xml:1436(title)
 msgid "To Add Images to a Catalog"
@@ -1250,7 +1250,7 @@ msgstr "Byt namn, ta bort eller flytta ett album"
 
 #: C/gthumb.xml:1510(para)
 msgid "Choose the corrisponding command in the <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice> menu, or use the context menu that can be displayed pressing the right mouse button on the name of the catalog in the catalog list."
-msgstr ""
+msgstr "Välj motsvarande kommando i menyn <menuchoice><guimenu>Arkiv</guimenu><guisubmenu>Album</guisubmenu></menuchoice>, eller använd sammanhangsmenyn som kan visas genom att trycka på högra musknappen på albumets namn i albumlistan."
 
 #: C/gthumb.xml:1499(para)
 msgid "To rename, remove or move a catalog, perform the following steps: <placeholder-1/>"
@@ -1266,7 +1266,7 @@ msgstr "Välj <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Nytt bibliotek</g
 
 #: C/gthumb.xml:1534(para)
 msgid "Enter the library name and click on <guibutton>Ok</guibutton>. <application>gThumb</application> creates the library."
-msgstr ""
+msgstr "Ange biblioteksnamnet och klicka på <guibutton>Ok</guibutton>. <application>gThumb</application> skapar biblioteket."
 
 #: C/gthumb.xml:1521(para)
 msgid "To create a library of catalogs, perform the following steps: <placeholder-1/>"
@@ -1274,15 +1274,15 @@ msgstr "Genomför följande steg för att skapa ett albumbibliotek: <placeholder
 
 #: C/gthumb.xml:1545(title)
 msgid "Finding Images"
-msgstr "Sök bilder"
+msgstr "Sök efter bilder"
 
 #: C/gthumb.xml:1547(title)
 msgid "To Find Images"
-msgstr "Sök bilder"
+msgstr "Sök efter bilder"
 
 #: C/gthumb.xml:1548(para)
 msgid "To find images on your hard disk choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice>. <application>gThumb</application> displays the <guilabel>Find</guilabel> dialog."
-msgstr ""
+msgstr "För att hitta bilder på din hårddisk kan du välja <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Sök</guimenuitem></menuchoice>. <application>gThumb</application> visar dialogrutan <guilabel>Sök</guilabel>."
 
 #: C/gthumb.xml:1552(title)
 msgid "To Do a Simple Search"
@@ -1290,7 +1290,7 @@ msgstr "Gör en enkel sökning"
 
 #: C/gthumb.xml:1553(para)
 msgid "From the <guilabel>Find</guilabel> dialog you can specify a file name or a pattern in the <guilabel>File name </guilabel> entry."
-msgstr ""
+msgstr "I dialogrutan <guilabel>Sök</guilabel> kan du ange ett filnamn eller ett mönster i fältet <guilabel>Filnamn </guilabel>."
 
 #: C/gthumb.xml:1567(para)
 #: C/gthumb.xml:1668(para)
@@ -1332,35 +1332,35 @@ msgstr "Exempel: <informaltable frame=\"all\"><tgroup cols=\"2\" colsep=\"1\" ro
 
 #: C/gthumb.xml:1604(para)
 msgid "Click on <guibutton>Search</guibutton> to start the search. Once the search has finished you will see the list of images that matches your search, if you want to see these images click on <guibutton>View</guibutton>, if you want to make another search click on <guibutton>New Search</guibutton>."
-msgstr ""
+msgstr "Klicka på <guibutton>Sök</guibutton> för att starta sökningen. När sökningen är färdig kommer du att se listan över bilder som matchade din sökning. Om du vill se dessa bilder kan du klicka på <guibutton>Visa</guibutton>. Om du vill göra en ny sökning kan du klicka på <guibutton>Ny sökning</guibutton>."
 
 #: C/gthumb.xml:1611(para)
 msgid "If you choose to view the images, a catalog named <guilabel>Search Results</guilabel> will be created and visualized automatically. A catalog created in this way has a special icon, a magnifier, this is because on this type of catalogs you can perform two more operations: <guibutton>Edit Search</guibutton> and <guibutton>Redo Search </guibutton>. These operations can be selected from the <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice> menu, or from the menu that pops up when pressing the right mouse button on the catalog name."
-msgstr ""
+msgstr "Om du väljer att visa bilderna kommer ett album med namnet <guilabel>Sökresultat</guilabel> att skapas och visas automatiskt. Ett album som skapas på det här sättet får en speciell ikon, ett förstorningsglas. Det är på grund av att du kan genomföra ytterligare två åtgärder på den här typen av album: <guibutton>Redigera sökning</guibutton> och <guibutton>Gör om sökning </guibutton>. Dessa åtgärder kan väljas från menyn <menuchoice><guimenu>Arkiv</guimenu><guisubmenu>Album</guisubmenu></menuchoice> eller från sammanhangsmenyn som visas när du trycker på högra musknappen på albumnamnet."
 
 #: C/gthumb.xml:1625(para)
 msgid "The <guilabel>Edit Search</guilabel> command lets you re-edit the search rules, while <guilabel>Redo Search</guilabel> lets you restart the search, at the end of the search you can decide whether to save the result in the catalog or not."
-msgstr ""
+msgstr "Kommandot <guilabel>Redigera sökning</guilabel> låter dig redigera sökvillkoren och <guilabel>Gör om sökning</guilabel> låter dig starta om sökningen. När sökningen är färdig kan du bestämma om du vill spara resultatet i albumet eller inte."
 
 #: C/gthumb.xml:1634(title)
 msgid "Other Search Options"
-msgstr ""
+msgstr "Andra sökalternativ"
 
 #: C/gthumb.xml:1637(guilabel)
 msgid "Start at"
-msgstr ""
+msgstr "Starta från"
 
 #: C/gthumb.xml:1639(para)
 msgid "The folder where the search will start from."
-msgstr ""
+msgstr "Mappen där sökningen ska starta från."
 
 #: C/gthumb.xml:1644(guilabel)
 msgid "Include subfolder"
-msgstr ""
+msgstr "Inkludera undermappar"
 
 #: C/gthumb.xml:1646(para)
 msgid "Whether to search even in the sub folders."
-msgstr ""
+msgstr "Huruvida sökningen även ska inkludera undermappar."
 
 #: C/gthumb.xml:1652(guilabel)
 msgid "Comment"
@@ -1441,23 +1441,23 @@ msgstr "Datum"
 
 #: C/gthumb.xml:1776(para)
 msgid "<guilabel>any</guilabel>: the date field is ignored."
-msgstr ""
+msgstr "<guilabel>alla</guilabel>: datumfältet ignoreras."
 
 #: C/gthumb.xml:1782(para)
 msgid "<guilabel>before, equal to, after</guilabel>: the date must be less recent, equal to or more recent than the date specified."
-msgstr ""
+msgstr "<guilabel>före, lika med, efter</guilabel>: datumet måste vara tidigare, lika med eller efter angivet datum."
 
 #: C/gthumb.xml:1771(para)
 msgid "The criteria the date field of the comment must respect: <placeholder-1/>"
-msgstr ""
+msgstr "Kriteriet som datumfältet i kommentaren måste uppfylla: <placeholder-1/>"
 
 #: C/gthumb.xml:1796(para)
 msgid "The list of categories an images must belong to. Categories can be added to images using the <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories</guimenuitem></menuchoice> command or pressing <keycombo><keycap>K</keycap></keycombo>."
-msgstr ""
+msgstr "Listan över kategorier som en bild måste tillhöra. Kategorier kan läggas till i bilder med kommandot <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Kategorier</guimenuitem></menuchoice> eller genom att trycka på <keycombo><keycap>K</keycap></keycombo>."
 
 #: C/gthumb.xml:1803(para)
 msgid "You can choose to search for images that belongs to all the specified categories or at least to one of them, checking the corresponding option."
-msgstr ""
+msgstr "Du kan välja att söka efter bilder som tillhör alla de angivna kategorierna eller åtminstone en av dem genom att kryssa för motsvarande alternativ."
 
 #: C/gthumb.xml:1826(userinput)
 #, no-wrap
@@ -1475,11 +1475,11 @@ msgstr "jag; familj"
 
 #: C/gthumb.xml:1836(para)
 msgid "<application>gThumb</application> searches for images with \"family\" and/or \"me\" in the keywords list."
-msgstr ""
+msgstr "<application>gThumb</application> söker efter bilder som innehåller \"familj\" och/eller \"jag\" i nyckelordslistan."
 
 #: C/gthumb.xml:1851(para)
 msgid "If you use more than one criteria images must respect all of them."
-msgstr ""
+msgstr "Om du använder fler än ett kriteria måste bilderna uppfylla alla."
 
 #: C/gthumb.xml:1858(para)
 msgid "The search is always case insensitive."
@@ -1487,11 +1487,11 @@ msgstr "Sökningen gör aldrig skillnad på versaler och gemener."
 
 #: C/gthumb.xml:1867(title)
 msgid "To Find Duplicated Images"
-msgstr "Hitta dubbletter av bilder"
+msgstr "Sök efter dubletter av bilder"
 
 #: C/gthumb.xml:1868(para)
 msgid "To find duplicated images, choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find Duplicates</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "För att hitta dubletter av dina bilder kan du välja <menuchoice><guimenu>Redigera</guimenu><guimenuitem>Sök efter dubletter</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:1879(title)
 msgid "Slide Shows"
@@ -1499,23 +1499,23 @@ msgstr "Bildspel"
 
 #: C/gthumb.xml:1880(para)
 msgid "You can start a slide show of the images in the current folder by pressing <keycombo action=\"simul\"><keycap>s</keycap></keycombo> or selecting the <menuchoice><guimenu>View </guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item. To stop the slide show press <keycombo action=\"simul\"><keycap>S</keycap></keycombo> again."
-msgstr ""
+msgstr "Du kan starta ett bildspel för bilderna i den aktuella mappen genom att trycka på <keycombo action=\"simul\"><keycap>s</keycap></keycombo> eller välja menyobjektet <menuchoice><guimenu>Visa </guimenu><guimenuitem>Bildspel</guimenuitem></menuchoice>. För att stoppa bildspelet kan du trycka på <keycombo action=\"simul\"><keycap>S</keycap></keycombo> igen."
 
 #: C/gthumb.xml:1888(para)
 msgid "If the current selection contains two or more images the slide show will be done only with the selected images, otherwise all of the images in the current folder or catalog will be showed."
-msgstr ""
+msgstr "Om den aktuella markeringen innehåller två eller fler bilder kommer bildspelet endast att visa de markerade bilderna, annars kommer alla bilder i den aktuella mappen eller albumet att visas."
 
 #: C/gthumb.xml:1893(para)
 msgid "Switching on/off the full screen mode does not stop the slide show. If the <guilabel>Switch to full screen</guilabel> option is on then the slide show is started in fullscreen mode and exiting from the fullscreen mode will stop the slide show."
-msgstr ""
+msgstr "Växla till/från helskärmsläget stoppar inte bildspelet. Om alternativet <guilabel>Växla till helskärm</guilabel> är aktiverat kommer bildspelet att starta i helskärmsläget och bildspelet stoppas du lämnar det."
 
 #: C/gthumb.xml:1900(para)
 msgid "The slide show is interrupted when you change folder or re-load the current one."
-msgstr ""
+msgstr "Bildspelet avbryts när du byter mapp eller läser om den aktuella mappen."
 
 #: C/gthumb.xml:1904(para)
 msgid "With the slideshow tool and the fullscreen mode you can do presetations. There are two types of presentations: automatic presentations and manual presentations."
-msgstr ""
+msgstr "Med bildspelsverktyget och helskärmsläget kan du göra presentationer. Det finns två typer av presentationer: automatiska och manuella presentationer."
 
 #: C/gthumb.xml:1910(title)
 msgid "How To Do an Automatic Presentation"
@@ -1528,23 +1528,23 @@ msgstr "Genomför följande steg för att göra en automatisk presentation:"
 #: C/gthumb.xml:1915(para)
 #: C/gthumb.xml:1949(para)
 msgid "Go to the folder or catalog containing the images you want to present."
-msgstr ""
+msgstr "Gå till mappen eller albumet som innehåller bilderna som du vill visa."
 
 #: C/gthumb.xml:1919(para)
 msgid "Select the images you want to view in the slideshow, or select none to view all the images in the current folder or catalog."
-msgstr ""
+msgstr "Markera bilderna som du vill visa i bildspelet eller markera ingen för att visa alla bilder i den aktuella mappen eller albumet."
 
 #: C/gthumb.xml:1924(para)
 msgid "Press <keycombo action=\"simul\"><keycap>S</keycap></keycombo> or choose <menuchoice><guimenu>View</guimenu><guimenuitem>Slide Show </guimenuitem></menuchoice>. <application>gThumb</application> starts an automatic presentation of the images."
-msgstr ""
+msgstr "Tryck på <keycombo action=\"simul\"><keycap>S</keycap></keycombo> eller välj <menuchoice><guimenu>Visa</guimenu><guimenuitem>Bildspel </guimenuitem></menuchoice>. <application>gThumb</application> startar automatiskt en presentation av bilderna."
 
 #: C/gthumb.xml:1932(para)
 msgid "To stop the presentation press <keycombo action=\"simul\"><keycap>S</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Q</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Esc</keycap></keycombo>."
-msgstr ""
+msgstr "För att stoppa presentationen kan du trycka på <keycombo action=\"simul\"><keycap>S</keycap></keycombo>, <keycombo action=\"simul\"><keycap>Q</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Esc</keycap></keycombo>."
 
 #: C/gthumb.xml:1938(para)
 msgid "The slide show behaviour can be personalized from the <guilabel>Preferences</guilabel> dialog in the <xref linkend=\"preferences-slideshow\"/>"
-msgstr ""
+msgstr "Beteendet för bildspelet kan anpassas i dialogrutan <guilabel>Inställningar</guilabel> i <xref linkend=\"preferences-slideshow\"/>"
 
 #: C/gthumb.xml:1945(title)
 msgid "How To Do a Manual Presentation"
@@ -1556,7 +1556,7 @@ msgstr "Genomför följande steg för att göra en manuell presentation:"
 
 #: C/gthumb.xml:1953(para)
 msgid "Select the image from which you want to start the presentation."
-msgstr ""
+msgstr "Markera bilden från vilken du vill starta presentationen."
 
 #: C/gthumb.xml:1957(para)
 msgid "Press <keycombo action=\"simul\"><keycap>F</keycap></keycombo>. <application>gThumb</application> displays the image in fullscreen mode."
@@ -1568,11 +1568,11 @@ msgstr "Tryck <keycombo action=\"simul\"><keycap>Blanksteg</keycap></keycombo> e
 
 #: C/gthumb.xml:1969(para)
 msgid "Press <keycombo action=\"simul\"><keycap>BackSpace</keycap></keycombo> or <keycombo action=\"simul\"><keycap>B</keycap></keycombo>. <application>gThumb</application> displays the previuos image."
-msgstr "Tryck <keycombo action=\"simul\"><keycap>Backsteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>B</keycap></keycombo>. <application>gThumb</application> visar föregående bild."
+msgstr "Tryck på <keycombo action=\"simul\"><keycap>Backsteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>B</keycap></keycombo>. <application>gThumb</application> visar föregående bild."
 
 #: C/gthumb.xml:1975(para)
 msgid "To stop the presentation press <keycombo action=\"simul\"><keycap>Q</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Esc</keycap></keycombo>."
-msgstr ""
+msgstr "För att stoppa presentationen, tryck på <keycombo action=\"simul\"><keycap>Q</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Esc</keycap></keycombo>."
 
 #: C/gthumb.xml:1985(title)
 msgid "Advanced Tools"
@@ -1584,27 +1584,27 @@ msgstr "Ställ in skrivbordsbakgrunden"
 
 #: C/gthumb.xml:1997(para)
 msgid "<guilabel>Centered</guilabel>: The image will be centered on the screen."
-msgstr ""
+msgstr "<guilabel>Centrerad</guilabel>: Bilden kommer att centreras på skärmen."
 
 #: C/gthumb.xml:2001(para)
 msgid "<guilabel>Tiled</guilabel>: The image will be duplicated on the screen as tiles on the floor."
-msgstr ""
+msgstr "<guilabel>Sida vid sida</guilabel>: Bilden kommer att dupliceras på skärmen som plattor på golvet."
 
 #: C/gthumb.xml:2005(para)
 msgid "<guilabel>Scaled</guilabel>: The image will be scaled to fill the screen mantaining the aspect ratio."
-msgstr ""
+msgstr "<guilabel>Skalad</guilabel>: Bilden kommer att skalas för att fylla skärmen men upprätthåller aspektförhållandet."
 
 #: C/gthumb.xml:2009(para)
 msgid "<guilabel>Stretched</guilabel>: The image will be scaled to fill the screen changing proportions if needed."
-msgstr ""
+msgstr "<guilabel>Utsträckt</guilabel>: Bilden kommer att skalas för att fylla skärmen och ändra proportioner om det behövs."
 
 #: C/gthumb.xml:1989(para)
 msgid "If you want to set an image as desktop wallpaper, select the image and choose the menu <menuchoice><guimenu>Tools</guimenu><guisubmenu>Set Image as Wallpaper</guisubmenu></menuchoice>. This menu contains the following items: <placeholder-1/>"
-msgstr ""
+msgstr "Om du vill ställa in en bild som skrivbordsbakgrund kan du markera bilden och välja menyn <menuchoice><guimenu>Verktyg</guimenu><guisubmenu>Ställ in bild som bakgrund</guisubmenu></menuchoice>. Den här menyn innehåller följande objekt: <placeholder-1/>"
 
 #: C/gthumb.xml:2014(para)
 msgid "If you want to restore the old wallpaper choose <menuchoice><guimenu>Tools</guimenu><guisubmenu>Set Image as Wallpaper</guisubmenu><guimenuitem>Restore</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "Om du vill återställa den gamla bakgrundsbilden kan du välja <menuchoice><guimenu>Verktyg</guimenu><guisubmenu>Ställ in bild som bakgrund</guisubmenu><guimenuitem>Återställ</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2024(title)
 msgid "To Rotate Images Without Loss of Quality"
@@ -1612,55 +1612,55 @@ msgstr "Rotera bilder utan kvalitetsförsämring"
 
 #: C/gthumb.xml:2025(para)
 msgid "Usually if you want to rotate an image you have to open the image with an editor, rotate the image, and then save it. This works well for image formats such as PNG or GIF, but results in a loss of quality for JPEG images. (The rotation functions in <menuchoice><guimenu>Image</guimenu><guimenuitem>Transform</guimenuitem></menuchoice> operate this way - with loss.)"
-msgstr ""
+msgstr "Vanligtvis om du vill rotera en bild så måste du öppna bilden med en redigerare, rotera bilden och sedan spara den. Det fungerar bra för bildformat såsom PNG eller GIF, men resulterar i en kvalitetsförsämring för JPEG-bilder. (Roteringsfunktionerna i <menuchoice><guimenu>Bild</guimenu><guimenuitem>Transformera</guimenuitem></menuchoice> fungerar på det här sätter - utan försämring.)"
 
 #: C/gthumb.xml:2033(para)
 msgid "If you want to rotate JPEG images without losing image quality, select the images you want to rotate and choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate Images</guimenuitem></menuchoice>. <application>gThumb</application> displays the <guilabel>Rotate Images</guilabel> dialog."
-msgstr ""
+msgstr "Om du vill rotera JPEG-bilder utan att förlora bildkvalitet kan du markera bilderna som du vill rotera och välja <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Rotera bilder</guimenuitem></menuchoice>. <application>gThumb</application> kommer att visa dialogrutan <guilabel>Rotera bilder</guilabel>."
 
 #: C/gthumb.xml:2040(para)
 msgid "Click on <guibutton>Apply</guibutton> to apply the changes. The files are automatically saved after clicking <guibutton>Apply</guibutton>."
-msgstr ""
+msgstr "Klicka på <guibutton>Verkställ</guibutton> för att verkställa ändringarna. Filerna sparas automatiskt efter att du klickat på <guibutton>Verkställ</guibutton>."
 
 #: C/gthumb.xml:2054(para)
 msgid "If the selection contains some non-JPEG images, they are rotated as well. (Not all file formats are supported, however.)"
-msgstr ""
+msgstr "Om markeringen innehåller några bilder som inte är JPEG-bilder kommer även de att roteras. (Inte alla filformat stöds dock.)"
 
 #: C/gthumb.xml:2044(para)
 msgid "If you check the <guilabel>Apply to all images</guilabel> option, the rotation is applied to the currently displayed image as well as to all the remaining images you have selected; otherwise, once the rotation has been performed on the current image, the next image in the selection is displayed, and you can choose another type of rotation. <placeholder-1/>"
-msgstr ""
+msgstr "Om du kryssade för alternativet <guilabel>Tillämpa på alla bilder</guilabel> kommer roteringen att tillämpas på den för närvarande visade bilden såväl som de återstående bilderna som du har markerat; om inte, när roteringen har genomförts på den aktuella bilden kommer nästa bild i markeringen att visas och du kan välja en annan typ av rotering. <placeholder-1/>"
 
 #: C/gthumb.xml:2060(para)
 msgid "In general, there are two ways to rotate a JPEG image. The first way is to re-arrange the pixels inside the image file, using a \"physical\" transform. The second way is to leave the image data alone, and simply change the value of the Exif orientation tag inside the header of the JPEG file. Not all JPEG files have Exif tags however, and not all applications support them. If your image does not have Exif tags, the pixels will be re-arranged inside the image file automatically, since that is the only possible method."
-msgstr ""
+msgstr "I allmänhet finns det två sätt att rotera en JPEG-bild på. Första sättet är att arrangera om bildpunkterna inne i bildfilen med en \"fysisk\" transformering. Det andra sättet är att inte röra bilddatat och helt enkelt ändra värdet för Exif-orienteringstaggen inne i huvudet för JPEG-filen. Inte alla JPEG-filer har Exif-taggar dock, och inte alla program har stöd för dem. Om din bild inte har Exif-taggar kommer bildpunkterna att automatiskt arrangeras om inne i bildfilen eftersom det är den enda möjliga metoden."
 
 #: C/gthumb.xml:2070(para)
 msgid "If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel> checkbox is enabled, the physical transform will be used to re-arrange the image data, and the Exif orientation tag will be reset to its default value of \"top left\"."
-msgstr ""
+msgstr "Om din bild har en Exif-orienteringstagg och kryssrutan <guilabel>Tillämpa fysisk transformering</guilabel> är aktiverad kommer den fysiska transformeringen att användas för att arrangera om bildens data, och Exif-orienteringstaggen kommer att nollställas till dess standardvärde, \"övre-vänster\"."
 
 #: C/gthumb.xml:2082(para)
 msgid "For maximum compatibility with other applications, it is recommended that the <guilabel>Apply physical transform</guilabel> checkbox normally be enabled in both the rotation and import dialogs."
-msgstr ""
+msgstr "För maximal kompatibilitet med andra program är det rekommenderat att kryssrutan <guilabel>Tillämpa fysisk transformering</guilabel> vanligtvis är aktiverad i både rotering- och importdialogrutorna."
 
 #: C/gthumb.xml:2076(para)
 msgid "If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel> checkbox is not enabled, then only the orientation tag will be changed. The raw image data itself will not be transformed. <placeholder-1/>"
-msgstr ""
+msgstr "Om din bild har en Exif-orienteringstagg och kryssrutan <guilabel>Tillämpa fysisk transformering</guilabel> inte är aktiverad kommer endast orienteringstaggen att ändras. Själva råbilddatat kommer inte att transformeras.  <placeholder-1/>"
 
 #: C/gthumb.xml:2089(para)
 msgid "The physical transform of pixel data inside the JPEG file will not degrade image quality (that is, it is lossless) under most conditions. However, if the image dimensions (height and width) are not both multiples of 8, some data corruption will occur along one or two of the edges of the image. If there is an Exif orientation tag, you can avoid this problem by disabling the <guilabel>Apply physical transform</guilabel> checkbox. If you must use the physical transform approach with images whose dimensions are not multiples of 8, <application>gThumb</application> will allow you to proceed despite with possible image distortion, but it will also ask if you would like the trim the image slightly (by up to 7 columns and/or rows of pixels) to remove the problem areas."
-msgstr ""
+msgstr "Den fysiska transformeringen av bildpunktsdata inne i JPEG-filen kommer inte att försämra bildkvaliteten (alltså, den är ickeförstörande) i de flesta fall. Dock om bildens dimensioner (höjd och bredd) inte är multiplicerbara med 8 kan viss data skadas längs en eller två av kanterna av bilden. Om det finns en Exif-orienteringstagg kan du undvika det här problemet genom att inaktivera kryssrutan <guilabel>Tillämpa fysisk transformering</guilabel>. Om du måste använda den fysiska transformeringen med bilder vars dimensioner inte är multiplicerbara med 8, kommer <application>gThumb</application> att låta dig fortsätta även om det möjligen kan leda till bildproblem, men det kommer även att fråga dig om du vill trimma bilden lite (upp till 7 kolumner och/eller rader av bildpunkter) för att ta bort problemområden."
 
 #: C/gthumb.xml:2103(title)
 msgid "Resetting the Exif Orientation Tag"
-msgstr ""
+msgstr "Nollställ Exif-orienteringstaggen"
 
 #: C/gthumb.xml:2104(para)
 msgid "The previous section describes how JPEG images can be rotated using two methods (physical transforms or Exif orientation tag changes). <application>gThumb</application> supports both methods properly as of version 2.9.0. Some previous versions of <application>gThumb</application> auto-rotated images improperly when importing, by performing a physical transformation without resetting the Exif orientation tag to \"top-left\". These previous versions ignored the orientation tag when displaying the images, so no problem was apparent (although the problem was visible if other image viewers were used to view the same images). Versions 2.9.0 and later respect this tag, so the incorrect rotation will be visible."
-msgstr ""
+msgstr "Föregående avsnitt beskrev hur JPEG-bilder kan roteras med två olika metoder (fysisk transformering eller ändring av Exif-orienteringstaggen). <application>gThumb</application> har fullständigt stöd för båda metoderna sedan version 2.9.0. Vissa tidigare versioner av <application>gThumb</application> hade problem med automatiskt roterade bilder vid importering, genom att tillämpa en fysisk transformering utan att nollställa Exif-orienteringstaggen till \"övre-vänster\". Dessa tidigare versioner ignorerade orienteringstaggen när bilderna visades, så inga problem syntes (även om problemet var synligt om andra bildvisare användes för att visa samma bilder). Versionerna 2.9.0 och senare respekterar den här taggen så den felaktiga roteringen kommer att vara synlig."
 
 #: C/gthumb.xml:2115(para)
 msgid "The <guilabel>Reset Exif orientation tag</guilabel> tool is provided to fix this problem. Simply select the affected images, and apply the <guilabel>Reset Exif orientation tag</guilabel> tool. This will reset the Exif orientation tag to \"top-left\"."
-msgstr ""
+msgstr "Verktyget <guilabel>Nollställ Exif-orienteringstaggar</guilabel> tillhandahålls för att rätta till det här problemet. Markera helt enkelt de berörda bilderna och använd verktyget <guilabel>Nollställ Exif-orienteringstaggar</guilabel>. Det här kommer att nollställa Exif-orienteringstaggen till \"övre-vänster\"."
 
 #: C/gthumb.xml:2123(title)
 msgid "To Convert the Image Format"
@@ -1668,28 +1668,28 @@ msgstr "Konvertera bildformatet"
 
 #: C/gthumb.xml:2124(para)
 msgid "To convert the image format, select the images you want to convert and choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert Format</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "För att konvertera bildformatet, markera bilderna som du vill konvertera och välj <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Konvertera format</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2135(para)
 msgid "<guilabel>Image type</guilabel>: this is the format you want to convert images into."
-msgstr ""
+msgstr "<guilabel>Bildtyp</guilabel>: det här är formatet som du vill konvertera bilderna till."
 
 #: C/gthumb.xml:2141(para)
 msgid "<guilabel>Overwrite mode</guilabel>: a converted image has the same name of the original image except for the extension which is determined by the new format, so an image with the new name can already exist in the destination folder. This option lets you decide what to do when such a case occurs. If you choose <guilabel>skip</guilabel> the new image won't be created; <guilabel>rename</guilabel> will ask you to specify a new name; <guilabel>ask</guilabel> will ask you whether to overwrite the old image or not and <guilabel>overwrite</guilabel> will overwrite the old image without asking."
-msgstr ""
+msgstr "<guilabel>Överskrivningsläge</guilabel>: en konverterad bild har samma namn som originalbilden förutom filändelsen som fastställs av det nya formatet, så en bild med det nya namnet kan redan finnas i målmappen. Det här alternativet låter dig bestämma vad som ska göras när en sådan situation uppstår. Om du väljer <guilabel>Hoppa över</guilabel> kommer den nya bilden inte att skapas; <guilabel>Byt namn</guilabel> kommer att fråga dig om att ange ett nytt namn; <guilabel>Fråga</guilabel> kommer att fråga dig om den gamla bilden ska skrivas över eller inte och <guilabel>Skriv över</guilabel> kommer att skriva över den gamla bilden utan att fråga."
 
 #: C/gthumb.xml:2155(para)
 #: C/gthumb.xml:2225(para)
 msgid "<guilabel>Remove original</guilabel>: lets you remove the original image. If an image is not converted because of an error it will not be removed."
-msgstr ""
+msgstr "<guilabel>Ta bort original</guilabel>: låter dig ta bort originalbilden. Om en bild inte konverteras på grund av ett fel kommer bilden inte att tas bort."
 
 #: C/gthumb.xml:2130(para)
 msgid "The <guilabel>Convert Format</guilabel> dialog offers you the following options: <placeholder-1/>"
-msgstr ""
+msgstr "Dialogrutan <guilabel>Konvertera format</guilabel> erbjuder dig följande alternativ: <placeholder-1/>"
 
 #: C/gthumb.xml:2163(para)
 msgid "To perform the conversion click on <guibutton>Convert</guibutton>."
-msgstr ""
+msgstr "Klicka på <guibutton>Konvertera</guibutton> för att genomföra konverteringen."
 
 #: C/gthumb.xml:2168(title)
 msgid "To Scale a Series of Images"
@@ -1697,35 +1697,35 @@ msgstr "Skala en serie bilder"
 
 #: C/gthumb.xml:2169(para)
 msgid "To scale multiple images downwards in size, select the images you want to scale and choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Scale Images</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "För att skala flera bilder till en mindre storlek kan du markera bilderna som du vill skala ner och välja <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Skala bilder</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2180(para)
 msgid "<guilabel>Width</guilabel>: The desired maximum width of the scaled images."
-msgstr ""
+msgstr "<guilabel>Bredd</guilabel>: Den önskade maximala bredden för de skalade bilderna."
 
 #: C/gthumb.xml:2186(para)
 msgid "<guilabel>Height</guilabel>: The desired maximum height of the scaled images."
-msgstr ""
+msgstr "<guilabel>Höjd</guilabel>: Den önskade maximala höjden för de skalade bilderna."
 
 #: C/gthumb.xml:2192(para)
 msgid "<guilabel>Keep aspect ratio</guilabel>: If this checkbox is not enabled, the image may be stretched by different factors in the horizontal and vertical directions, in order to achieve both the specified width and height. This may result in a distorted image. If this checkbox is enabled, the image will be scaled by the same factor in both directions. The scaling factor will be calculated such that the output width and height are both equal to or less than the values specified in the <guilabel>Width</guilabel> and <guilabel>Height</guilabel> boxes, respectively."
-msgstr ""
+msgstr "<guilabel>Behåll aspektförhållande</guilabel>: Om den här kryssrutan inte är aktiverad kan bilden sträckas ut med olika faktorer i både horisontal och vertikal riktning, för att uppnå både angiven bredd och höjd. Det här kan resultera i en felaktig bild. Om den här kryssrutan är aktiverad kommer bilden att skalas med samma faktor i båda riktningarna. Skalfaktorn kommer att beräknas så att bredd och höjd på resultatbilden är lika med eller mindre än angivna värden i respektive rutor, <guilabel>Bredd</guilabel> och <guilabel>Höjd</guilabel>."
 
 #: C/gthumb.xml:2205(para)
 msgid "<guilabel>Image type</guilabel>: this is the format you want to save the scaled images as."
-msgstr ""
+msgstr "<guilabel>Bildtyp</guilabel>: det här är formatet som du vill spara de skalade bilderna som."
 
 #: C/gthumb.xml:2211(para)
 msgid "<guilabel>Overwrite mode</guilabel>: a scaled image has the same name of the original image except for the extension which is determined by the new format, so an image with the new name can already exist in the destination folder. This option lets you decide what to do when such a case occurs. If you choose <guilabel>skip</guilabel> the new image won't be created; <guilabel>rename</guilabel> will ask you to specify a new name; <guilabel>ask</guilabel> will ask you whether to overwrite the old image or not and <guilabel>overwrite</guilabel> will overwrite the old image without asking."
-msgstr ""
+msgstr "<guilabel>Överskrivningsläge</guilabel>: en skalad bild har samma namn som den ursprungliga bilden förutom filändelsen som fastställs av det nya formatet, därför kanske en bild med det nya namnet redan finns i målmappen. Det här alternativet låter dig bestämma vad som ska göras om en sådan situation uppstår. Om du väljer <guilabel>Hoppa över</guilabel> kommer den nya bilden inte att skapas; <guilabel>Byt namn</guilabel> kommer att fråga dig om att ange ett nytt namn; <guilabel>Fråga</guilabel> kommer att fråga dig om den gamla bilden ska skrivas över eller inte och <guilabel>Skriv över</guilabel> kommer att skriva över den gamla bilden utan att fråga."
 
 #: C/gthumb.xml:2175(para)
 msgid "The <guilabel>Scale Images</guilabel> dialog offers you the following options: <placeholder-1/>"
-msgstr ""
+msgstr "Dialogrutan <guilabel>Skala bilder</guilabel> erbjuder dig följande alternativ: <placeholder-1/>"
 
 #: C/gthumb.xml:2233(para)
 msgid "To perform the scaling click on <guibutton>Scale</guibutton>."
-msgstr ""
+msgstr "Klicka på <guibutton>Skala</guibutton> för att genomföra skalningen."
 
 #: C/gthumb.xml:2238(title)
 msgid "To Rename a Series of Images"
@@ -1733,11 +1733,11 @@ msgstr "Byt namn på en serie bilder"
 
 #: C/gthumb.xml:2239(para)
 msgid "To rename a series of images specifing a name template, choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Rename Series</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "För att byta namn på en serie bilder angivna med en namnmall, välj <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Byt namn på serier</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2244(para)
 msgid "The name template is simply a name that must be used for all of the images, furthermore you can use some special characters to make the new names differ each other:"
-msgstr ""
+msgstr "Namnmallen är helt enkelt ett namn som måste användas för alla bilder. Du kan även använda vissa specialtecken för att göra att de nya namnen skiljer sig från varandra:"
 
 #: C/gthumb.xml:2256(para)
 msgid "Symbol"
@@ -1757,7 +1757,7 @@ msgstr "#"
 
 #: C/gthumb.xml:2266(para)
 msgid "This symbol will be replaced with the value of a counter that increments itself by 1 passing from one image to another. If you specify this symbols in sequence you'll get leading zeros if the counter value has a lesser number of digits, for example ### will produce the sequence: 001, 002, 003, etc.."
-msgstr ""
+msgstr "Den här symbolen kommer att ersättas med värdet för en räknare som ökar sig själv med 1 från en bild till en annan. Om du anger den här symbolen i en sekvens kommer du att få inledande noller om räknarens värde har ett mindre antal siffror, till exempel ### kommer att producera sekvensen: 001, 002, 003, etc.."
 
 #: C/gthumb.xml:2275(keycap)
 #: C/gthumb.xml:2749(para)
@@ -1766,7 +1766,7 @@ msgstr "%f"
 
 #: C/gthumb.xml:2277(para)
 msgid "This symbol will be replaced with the image original name, excluding the extension."
-msgstr ""
+msgstr "Den här symbolen kommer att ersättas med bildens originalnamn, undantaget filändelsen."
 
 #: C/gthumb.xml:2282(keycap)
 #: C/gthumb.xml:2757(para)
@@ -1775,7 +1775,7 @@ msgstr "%e"
 
 #: C/gthumb.xml:2284(para)
 msgid "This symbol will be replaced with the image original filename extension."
-msgstr ""
+msgstr "Den här symbolen kommer att ersättas med bildens ursprungliga filändelse."
 
 #: C/gthumb.xml:2289(keycap)
 msgid "%d"
@@ -1783,7 +1783,7 @@ msgstr "%d"
 
 #: C/gthumb.xml:2291(para)
 msgid "This symbol will be replaced with the image modified date."
-msgstr ""
+msgstr "Den här symbolen kommer att ersättas med bildens ändringsdatum."
 
 #: C/gthumb.xml:2296(keycap)
 msgid "%s"
@@ -1791,19 +1791,19 @@ msgstr "%s"
 
 #: C/gthumb.xml:2298(para)
 msgid "This symbol will be replaced with the image dimensions."
-msgstr ""
+msgstr "Den här symbolen kommer att ersättas med bildens dimensioner."
 
 #: C/gthumb.xml:2304(para)
 msgid "The list at the bottom of the dialog displays how the filenames will be renamed."
-msgstr ""
+msgstr "Listan i nederkant av dialogrutan visar hur filnamnen kommer att byta namn."
 
 #: C/gthumb.xml:2308(para)
 msgid "To rename the images click on <guibutton>Rename</guibutton>."
-msgstr ""
+msgstr "För att byta namn på bilderna, klicka på <guibutton>Byt namn</guibutton>."
 
 #: C/gthumb.xml:2311(para)
 msgid "If the renaming of an image can overwrite an already existing image you will be asked how to proceed, five options are available: overwrite the image; do not overwrite the image; always overwrite; never overwrite; specify a new name."
-msgstr ""
+msgstr "Om namnbytet för en bild kan skriva över en redan befintlig bild så kommer du att bli tillfrågad vad som ska göras. Fem alternativ finns tillgängliga: skriv över bilden; skriv inte över bilden; skriv alltid över; skriv aldrig över; ange ett nytt namn."
 
 #: C/gthumb.xml:2319(title)
 msgid "To Change Images Date"
@@ -1811,7 +1811,7 @@ msgstr "Ändra bilddata"
 
 #: C/gthumb.xml:2320(para)
 msgid "If you want to change the last modified date of a series of images, select the images and choose <menuchoice><guimenu> Tools</guimenu><guimenuitem>Change Date</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "Om du vill ändra datumet för senaste ändringen i en serie bilder kan du markera bilderna och välja <menuchoice><guimenu> Verktyg</guimenu><guimenuitem>Ändra datum</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2325(para)
 msgid "Select the new date."
@@ -1819,7 +1819,7 @@ msgstr "Välj det nya datumet."
 
 #: C/gthumb.xml:2328(para)
 msgid "Click on <guibutton>Ok</guibutton>. <application>gThumb</application> changes the date."
-msgstr ""
+msgstr "Klicka på <guibutton>Ok</guibutton>. <application>gThumb</application> ändrar datumet."
 
 #: C/gthumb.xml:2333(title)
 msgid "To Create an Index Image"
@@ -1827,7 +1827,7 @@ msgstr "Skapa en indexbild"
 
 #: C/gthumb.xml:2334(para)
 msgid "An index image is an image that contains small previews of a series of images. If you want to create an index image select the images you want to insert and choose <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice>."
-msgstr ""
+msgstr "En indexbild är en bild som innehåller små förhandsvisningar av en serie bilder. Om du vill skapa en indexbild kan du markera bilderna som du vill infoga och välja <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Skapa indexbild</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2343(title)
 msgid "To Create a Web Album"
@@ -1835,35 +1835,35 @@ msgstr "Skapa ett webbalbum"
 
 #: C/gthumb.xml:2344(para)
 msgid "To create a web album, view a folder or a catalog and select the images that you want to include in your album. (The usual selection methods apply - you can click to select one image, shift+click or shift+arrow to expand the selection continuously, ctrl+click to add images one at time, ctrl+A to select everything.) Then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Web Album</guimenuitem></menuchoice> function."
-msgstr ""
+msgstr "För att skapa ett webbalbum kan du visa en mapp eller ett album och markera de bilder som du vill inkludera i ditt album. (De vanliga markeringsmetoderna gäller - du kan klicka för att markera en bild, Skift+klick eller Skift+piltangent för att expandera markeringen, Ctrl+klick för att lägga till bilder en och en, Ctrl+A för att markera allt.) Använd sedan funktionen <menuchoice><guimenu>Verktyg</guimenu><guimenuitem>Skapa webbalbum</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2352(para)
 msgid "The web album will be generated in the <guilabel>Destination</guilabel> folder. The starting page of the album will be given by the <guilabel>Index file</guilabel> setting - \"index.html\" is typically used."
-msgstr ""
+msgstr "Webbalbumet kommer att generersa i mappen <guilabel>Mål</guilabel>. Startsidan för albumet kommer att anges av inställningen <guilabel>Indexfil</guilabel> - \"index.html\" används vanligtvis."
 
 #: C/gthumb.xml:2358(para)
 msgid "All web albums will consist of one or more \"index pages\" (which show a series of small thumbnail images) and one or more \"image pages\" (which show a single image at a time). If the <guilabel>Copy originals to destination</guilabel> checkbox is enabled, the photo shown in the image pages will link to a copy of the original image. If you click this link, the raw image will be loaded in your browser (with no accompanying HTML)."
-msgstr ""
+msgstr "Alla webbalbum kommer att innehålla en eller flera \"indexsidor\" (som visar en serie små miniatyrbilder) och en eller flera \"bildsidor\" (som visar en bild åt gången). Om kryssrutan <guilabel>Kopiera originalbilder till mål</guilabel> är aktiverad kommer bilden som visas i bildsidorna att länka till en kopia av originalbilden. Om du klickar på den här länken kommer råbilden att läsas in i din webbläsare (utan någon medföljande HTML)."
 
 #: C/gthumb.xml:2367(para)
 msgid "If desired, images can be scaled down if they exceed a certain size defined in the <guilabel>Resize if larger than</guilabel> box."
-msgstr ""
+msgstr "Om du vill kan bilderna skalas ned om de överstiger en viss storlek som definieras i rutan <guilabel>Ändra storlek om större än</guilabel>."
 
 #: C/gthumb.xml:2371(para)
 msgid "The number of thumbnail images shown on each index page of the web album is controlled by the <guilabel>Size</guilabel> row and column boxes. Alternatively, all images can be forced onto a single index page by enabling the <guilabel>use a single index page</guilabel> checkbox."
-msgstr ""
+msgstr "Antalet miniatyrbilder som visas på varje indexsida i webbalbumet styrs av rad- och kolumnrutorna <guilabel>Storlek</guilabel>. Alternativt kan alla bilder tvingas till en enda indexsida genom att aktivera kryssrutan <guilabel>använd en enda indexsida</guilabel>."
 
 #: C/gthumb.xml:2378(para)
 msgid "Most themes will respect the row and column settings that you specify, because they are based on HTML tables. However other themes (the BestFit theme for example) use Cascading Style Sheets that automatically space the images to make the best possible use of space. (If you resize the browser window, the images will re-position themselves!) These themes will not respect the row and column settings, but they will keep the total number of images per index page to a maximum of ROW x COLUMNS (unless the <guilabel>use a single index page</guilabel> checkbox is enabled)."
-msgstr ""
+msgstr "De flesta teman kommer att respektera inställningarna för rad och kolumn som du anger, därfär att de baserade på HTML-tabeller. Dock kan andra teman (exempelvis temat BestFit) använda Cascading Style Sheets som automatiskt placerar om bilderna för att använda utrymmet på bästa sätt. (Om du ändrar storlek på webbläsarfönstret kommer bilderna själva att placera om sig!) Dessa teman kommer inte att respektera inställningarna för rad och kolumn men de kommer att hålla antalet bilder per indexsida till maximalt RAD x KOLUMNER (såvida inte kryssrutan <guilabel>använd en enda indexsida</guilabel> är aktiverad)."
 
 #: C/gthumb.xml:2389(para)
 msgid "A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be defined. These labels will appear at the top and bottom of every page in the album. HTML markup may be used in headers and footers, as long every '&gt;', '&lt;', and '&amp;' character is preceeded by a backslash. For example, \"&lt;hr/&gt;\" must be written as \"\\&lt;hr/\\&gt;\". Also, the sequence \"%d\" will be replaced by the current date. To make a literal backslash ('\\') or percent symbol ('%') appear in the output, it must be entered as \"\\\\\" or \"%%\" in the header or footer fields."
-msgstr ""
+msgstr "Ett <guilabel>Sidhuvud</guilabel> och <guilabel>Sidfot</guilabel> kan definieras. Dessa etiketter kommer att visas i överkant och nederkant på varje sida i albumet. HTML-markup kan användas i sidhuvudet och sidfoten, så länge som varje \"&gt;\", \"&lt;\" och \"&amp;\" inleds med ett bakåtstreck. Till exempel måste \"&lt;hr/&gt;\" skrivas som \"\\&lt;hr/\\&gt;\". Sekvensen \"%d\" kommer att ersättas av det aktuella datumet. För att göra så att ett bakåtstreck (\"\\\") eller procentsymbol (\"%\") visas i utdata måste de anges som \"\\\\\" eller \"%%\" i fältet sidhuvud eller sidfot."
 
 #: C/gthumb.xml:2400(para)
 msgid "A <guilabel>Theme</guilabel> must be specified. The <guilabel>Theme</guilabel> controls the overall appearance of your web album. To select a <guilabel>Theme</guilabel>, press the <guibutton>...</guibutton> button and select one from the list. The <guilabel>Thumbnail Caption</guilabel> and <guilabel>Image Caption</guilabel> dialogs allow you to specify what textual information (photo date, image size, camera model, etc) will be displayed next to each image in the index and image pages, respectively."
-msgstr ""
+msgstr "Ett <guilabel>Tema</guilabel> måste anges. <guilabel>Tema</guilabel> styr det övergripande utseendet för ditt webbalbum. För att välja ett <guilabel>Tema</guilabel> kan du trycka på knappen <guibutton>...</guibutton> och välja ett från listan. Dialogrutorna <guilabel>Miniatyrbildstext</guilabel> och <guilabel>Bildtext</guilabel> låter dig ange vilken textinformation (bilddatum, bildstorlek, kameramodell, etc) som ska visas vid varje bild i index- och bildsidorna."
 
 #: C/gthumb.xml:2412(title)
 msgid "To Import Photos from a Digital Camera"
@@ -1871,43 +1871,43 @@ msgstr "Importera foton från en digitalkamera"
 
 #: C/gthumb.xml:2413(para)
 msgid "To import photos from a digital camera, choose <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos </guimenuitem></menuchoice>."
-msgstr ""
+msgstr "För att importera foton från en digitalkamera kan du välja <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Importera bilder </guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2418(para)
 msgid "Several options are presented in the <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos </guimenuitem></menuchoice> dialog."
-msgstr ""
+msgstr "Flera alternativ visas i dialogrutan <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Importera bilder </guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2423(para)
 msgid "The destination folder can be selected through the <guilabel>Destination</guilabel> box. The photos will be imported into a sub-folder of the <guilabel>Destination</guilabel> folder. The name of the sub-folder is set by the <guilabel>Film</guilabel> box. If no \"Film\" folder is specified, a sub-folder name consisting of the import data and time will be automatically generated."
-msgstr ""
+msgstr "Målmappen kan väljas genom rutan <guilabel>Mål</guilabel>. Bilderna kommer att importeras till en undermapp till mappen <guilabel>Mål</guilabel>. Namnet på undermappen ställs in av rutan <guilabel>Film</guilabel>. Om ingen \"Film\"-mapp anges kommer namnet på undermappen att automatiskt genereras baserat på importerat data och tid."
 
 #: C/gthumb.xml:2432(para)
 msgid "<guilabel>Categories</guilabel> can be specified for the imported photos using the <guilabel>Categories</guilabel> box."
-msgstr ""
+msgstr "<guilabel>Kategorier</guilabel> kan anges för de importerade bilderna med hjälp av rutan <guilabel>Kategorier</guilabel>."
 
 #: C/gthumb.xml:2436(para)
 msgid "If the <guilabel>Delete imported images from the camera</guilabel> checkbox is enabled, the photos will be deleted from the camera after they have been imported."
-msgstr ""
+msgstr "Om kryssrutan <guilabel>Ta bort importerade bilder från kameran</guilabel> är aktiverad kommer bilderna att tas bort från kameran efter att de har importerats."
 
 #: C/gthumb.xml:2441(para)
 msgid "<application>gThumb</application> will rename the images (in numerical re-order) when they are imported, unless the <guilabel>Keep original filenames</guilabel> checkbox is selected."
-msgstr ""
+msgstr "<application>gThumb</application> kommer att byta namn på bilderna (i numerisk ordning) när de importeras, såvida inte kryssrutan <guilabel>Behåll ursprungliga filnamn</guilabel> är aktiverad."
 
 #: C/gthumb.xml:2446(para)
 msgid "If the <guilabel>Rotate images physically</guilabel> checkbox is selected, and the imported photo contains an Exif orientation tag, the image data will be physically transformed (losslessly) so that the viewed image looks the same as before but the orientation tag is reset to \"top left\". If this checkbox is not enabled, the image data and the orientation tag are both left unchanged. The image will be displayed identically by gthumb for both possibilities, but for maximum compatibility with other applications this checkbox should be enabled."
-msgstr ""
+msgstr "Om kryssrutan <guilabel>Rotera bilder fysiskt</guilabel> är aktiverad, och de importerade bilderna innehåller en Exif-orienteringsstagg, kommer bilddatat att fysiskt transformeras (ickeförstörande) så att de visade bilderna ser likadana ut som tidigare men orienteringstaggen är nollställd till \"övre-vänster\". Om den här kryssrutan inte är aktiverad kommer bilddatat och orienteringstaggen förbli orörda. Bilden kommer att visas identisk av gthumb för båda möjligheterna, men för maximal kompatibilitet med andra program bör den här kryssrutan vara aktiverad."
 
 #: C/gthumb.xml:2457(title)
 msgid "Selecting the Camera Model"
-msgstr ""
+msgstr "Val av kameramodell"
 
 #: C/gthumb.xml:2458(para)
 msgid "<application>gThumb</application> should auto-detect your camera (if it is turned on) when you launch the <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos </guimenuitem></menuchoice> dialog. If it does, a camera icon will be displayed in the dialog box. If not, a camera with an \"X\" through it will be shown."
-msgstr ""
+msgstr "<application>gThumb</application> bör automatiskt identifiera din kamera (om den är påslagen) när du startar dialogrutan <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Importera bilder </guimenuitem></menuchoice>. Om den gör det kommer en kameraikon att visas i dialogrutan. Om inte kommer en kamera med ett \"X\" över sig att visas."
 
 #: C/gthumb.xml:2465(para)
 msgid "If the wrong camera has been detected, click the camera icon to select a different one. A drop-down box listing all auto-detected cameras will be shown. If the <guilabel>Use manual selection instead</guilabel> checkbox is enabled, the user can manually set the camera model and port."
-msgstr ""
+msgstr "Om fel kamera har identifierats kan du klicka på kameraikonen för att välja en annan. En rullgardinsruta som listar alla automatiskt identifierade kameror kommer att visas. Om kryssrutan <guilabel>Använd manuellt val istället</guilabel> är aktiverad kan användaren manuellt ställa in kameramodellen och porten."
 
 #: C/gthumb.xml:2474(title)
 msgid "To Write Images to a CD or DVD"
@@ -1915,19 +1915,19 @@ msgstr "Skriv bilder till en cd eller dvd"
 
 #: C/gthumb.xml:2478(para)
 msgid "Select the images you want to write to and choose <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD </guimenuitem></menuchoice>, <application>gThumb</application> displays the <guilabel>Write to CD</guilabel> dialog."
-msgstr ""
+msgstr "Markera bilderna som du vill skriva och välj <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Skriv till cd </guimenuitem></menuchoice>, <application>gThumb</application> visar dialogrutan <guilabel>Skriv till cd</guilabel>."
 
 #: C/gthumb.xml:2485(para)
 msgid "Click on <guilabel>Current folder</guilabel> if you want to write all of the images in the current folder and its subfolders. Click on <guilabel>Selected images</guilabel> to write the current selection only."
-msgstr ""
+msgstr "Klicka på <guilabel>Aktuell mapp</guilabel> om du vill skriva alla bilderna i den aktuella mappen och dess undermappar. Klicka på <guilabel>Markerade bilder</guilabel> för att endast skriva den aktuella markeringen."
 
 #: C/gthumb.xml:2492(para)
 msgid "Click on <guibutton>Ok</guibutton>. <application>gThumb</application>, after preparing the images for CD/DVD writing, displays the <filename>burn:///</filename> location with <guilabel>Nautilus</guilabel>."
-msgstr ""
+msgstr "Klicka på <guibutton>Ok</guibutton>. <application>gThumb</application>, efter förberedelse av bilderna för skrivning till cd/dvd, visar platsen <filename>burn:///</filename> med <guilabel>Nautilus</guilabel>."
 
 #: C/gthumb.xml:2498(para)
 msgid "Click on the <guilabel>Write to CD</guilabel> toolbar button or choose <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD </guimenuitem></menuchoice>. Images are written to the CD or DVD."
-msgstr ""
+msgstr "Klicka på knappen <guilabel>Skriv till cd</guilabel> i verktygsraden eller välj <menuchoice><guimenu>Arkiv</guimenu><guimenuitem>Skriv till cd </guimenuitem></menuchoice>. Bilderna skrivs till cd- eller dvd-skivan."
 
 #: C/gthumb.xml:2475(para)
 msgid "To write a series of images to a CD or DVD, perform the following steps: <placeholder-1/>"
@@ -1939,11 +1939,11 @@ msgstr "Inställningar"
 
 #: C/gthumb.xml:2512(para)
 msgid "To configure <application>gThumb</application>, open the <guilabel>Preferences</guilabel> dialog by choosing <menuchoice><guimenu>Edit</guimenu><guisubmenu>Preferences</guisubmenu></menuchoice>."
-msgstr ""
+msgstr "Konfigurera <application>gThumb</application> genom att öppna dialogrutan <guilabel>Inställningar</guilabel> genom att välja <menuchoice><guimenu>Redigera</guimenu><guisubmenu>Inställningar</guisubmenu></menuchoice>."
 
 #: C/gthumb.xml:2518(para)
 msgid "This dialog contains four tabs described in detail below. At the bottom of the dialog window, you'll find the following buttons:"
-msgstr ""
+msgstr "Den här dialogrutan innehåller fyra flikar som beskrivs mer i detalj här nedan. I nederkant av dialogrutan hittar du följande knappar:"
 
 #: C/gthumb.xml:2524(para)
 msgid "<guibutton>Help</guibutton>: shows this manual."
@@ -1955,43 +1955,43 @@ msgstr "<guibutton>Stäng</guibutton>: stänger dialogrutan."
 
 #: C/gthumb.xml:2532(para)
 msgid "Keep in mind that when you change an option it will automatically applied, this is why there is no <guibutton>Ok</guibutton> or <guibutton>Apply</guibutton> button."
-msgstr ""
+msgstr "Ko ihåg att när du ändrar ett alternativ kommer det automatiskt att börja gälla. Det är därför inte knapparna <guibutton>Ok</guibutton> eller <guibutton>Verkställ</guibutton> finns."
 
 #: C/gthumb.xml:2540(title)
 msgid "General Tab"
-msgstr ""
+msgstr "Fliken Allmänt"
 
 #: C/gthumb.xml:2541(para)
 msgid "This tab allows you to set the following options:"
-msgstr ""
+msgstr "Den här fliken låter dig ställa in följande alternativ:"
 
 #: C/gthumb.xml:2547(para)
 msgid "Select the layout of <application>gThumb</application> main window, i.e. the positions of directory list window, the image (thumbnail) list window, and the main image viewer window."
-msgstr ""
+msgstr "Välj layout för huvudfönstret i <application>gThumb</application>, t.ex. positionerna för kataloglistfönstret, bildlistfönstret (miniatyrbild) och bildvisarfönstret."
 
 #: C/gthumb.xml:2554(para)
 msgid "The toolbar style"
-msgstr ""
+msgstr "Verktygsradsstil"
 
 #: C/gthumb.xml:2558(para)
 msgid "Directory to show on startup"
-msgstr ""
+msgstr "Katalog att visa vid uppstart"
 
 #: C/gthumb.xml:2562(para)
 msgid "Whether to ask confirmation when an image or a catalog will be deleted."
-msgstr ""
+msgstr "Fråga efter bekräftelse innan bilder eller album tas bort."
 
 #: C/gthumb.xml:2566(para)
 msgid "Whether to ask to save a modified image."
-msgstr ""
+msgstr "Fråga huruvida ändrade bilder ska sparas."
 
 #: C/gthumb.xml:2573(title)
 msgid "Browser Tab"
-msgstr ""
+msgstr "Fliken Bläddrare"
 
 #: C/gthumb.xml:2574(para)
 msgid "In this tab, you can configure the following options:"
-msgstr ""
+msgstr "I den här fliken kan du konfigurera följande alternativ:"
 
 #: C/gthumb.xml:2580(guilabel)
 msgid "Show filenames"
@@ -1999,7 +1999,7 @@ msgstr "Visa filnamn"
 
 #: C/gthumb.xml:2582(para)
 msgid "This option controls whether <application>gThumb</application> should show image filenames."
-msgstr ""
+msgstr "Det här alternativet styr huruvida <application>gThumb</application> ska visa bildfilnamn."
 
 #: C/gthumb.xml:2589(guilabel)
 msgid "Show comments"
@@ -2007,7 +2007,7 @@ msgstr "Visa kommentarer"
 
 #: C/gthumb.xml:2591(para)
 msgid "This option controls whether <application>gThumb</application> should show comments (including date and place) in the image list. By default, <application>gThumb</application> shows the comment as a caption under the thumbnail."
-msgstr ""
+msgstr "Det här alternativet styr huruvida <application>gThumb</application> ska visa kommentarer (inklusive datum och plats) i bildlistan. Som standard visar <application>gThumb</application> kommentaren som en text under miniatyrbilden."
 
 #: C/gthumb.xml:2601(guilabel)
 msgid "Show thumbnails"
@@ -2015,39 +2015,39 @@ msgstr "Visa miniatyrbilder"
 
 #: C/gthumb.xml:2603(para)
 msgid "This option (which you can activate simply pressing <keycombo><keycap>T</keycap></keycombo>) controls whether <application>gThumb</application> should show thumbnails."
-msgstr ""
+msgstr "Det här alternativet (som du kan aktivera genom att trycka på <keycombo><keycap>T</keycap></keycombo>) styr huruvida <application>gThumb</application> ska visa miniatyrbilder."
 
 #: C/gthumb.xml:2611(guilabel)
 msgid "Other"
-msgstr ""
+msgstr "Annat"
 
 #: C/gthumb.xml:2613(para)
 msgid "Here you can choose whether to change folder by doing a single or a double click on the folder name. The single click can be useful if you are used to quickly browse your hard disk searching for images. The default behaviour is to follow the Nautilus file manager policy. Furthermore you can select whether <application>gThumb</application> should determine image type by looking at the file extension or by looking at the file content. Determining file type from the content is more reliable (some applications may create files with extension not matching the actual file type) but slower. If you have a fast system, select <guilabel>Determine image type from content</guilabel>."
-msgstr ""
+msgstr "Här kan du välja huruvida byte av mapp ska ske genom ett enkelklick eller dubbelklick på mappnamnet. Enkelklick kan vara användbart om du är van vid att snabbt bläddra på din hårddisk när du söker efter bilder. Standardbeteendet är att följa policyn för filhanteraren Nautilus. Du kan även välja huruvida <application>gThumb</application> ska fastställa bildtypen genom att se på filändelsen eller genom att se på filens innehåll. Fastställa filtypen från innehållet är mer tillförlitligt (vissa program kan skapa filer med en filändelse som inte matchar den faktiska filtypen) men är långsammare. Om du har ett snabbt system kan du välja <guilabel>Fastställ bildtyp från innehåll</guilabel>."
 
 #: C/gthumb.xml:2634(title)
 msgid "Viewer Tab"
-msgstr ""
+msgstr "Fliken Visare"
 
 #: C/gthumb.xml:2635(para)
 msgid "This tab contains options for viewer window:"
-msgstr ""
+msgstr "Den här fliken innehåller alternativ för visarfönstret:"
 
 #: C/gthumb.xml:2640(guilabel)
 msgid "After loading an image"
-msgstr ""
+msgstr "När en bild är inläst"
 
 #: C/gthumb.xml:2642(para)
 msgid "Controls initial zoom level to use for an image."
-msgstr ""
+msgstr "Styr initial zoomnivå för en bild."
 
 #: C/gthumb.xml:2649(guilabel)
 msgid "Transparency type"
-msgstr ""
+msgstr "Transparenstyp"
 
 #: C/gthumb.xml:2651(para)
 msgid "Controls the background used for partly transparent images. By default the transparent part of the image is replaced the window background color,that is the <guilabel>none</guilabel> option."
-msgstr ""
+msgstr "Styr vilken bakgrund som ska användas för delvis transparenta bilder. Som standard ersätt den transparenta delen av bilden med fönstrets bakgrundsfärg. Det är alternativet <guilabel>Ingen</guilabel>."
 
 #: C/gthumb.xml:2660(guilabel)
 msgid "Zoom quality"
@@ -2055,47 +2055,47 @@ msgstr "Zoomkvalitet"
 
 #: C/gthumb.xml:2662(para)
 msgid "This controls the method used for showing rescaled image. Possible choices are high quality (slow on old machines or when viewing big images) and low quality (always fast)."
-msgstr ""
+msgstr "Den här styr metoden som ska användas för att visa omskalade bilder. Möjliga val är hög kvalitet (långsam på äldre maskiner eller när stora bilder visas) och låg kvalitet (alltid snabb)."
 
 #: C/gthumb.xml:2671(guilabel)
 msgid "Scrollbar positions after using Next/Previous"
-msgstr ""
+msgstr "Rullistens positioner efter Nästa/Föregående använts"
 
 #: C/gthumb.xml:2673(para)
 msgid "Depending on the selected zoom level, your images may be larger than the display window. If this happens, vertical and/or horizontal scrollbars will be present, allowing you to view different areas of your image."
-msgstr ""
+msgstr "Beroende på vald zoomnivå kan dina bilder vara större än visningsfönstret. Om det händer kommer de vertikala och/eller horisontella rullisterna att finnas kvar och låter dig visa olika områden av din bild."
 
 #: C/gthumb.xml:2678(para)
 msgid "When you navigate from one image to another using the Next/Previous controls, the positions of the scrollbars can be retained, or they can be reset to the default position."
-msgstr ""
+msgstr "När du navigerar från en sida till en annan med Nästa/Föregående kan positionerna för rullisterna bibehållas eller så kan de nollställas till standardpositionen."
 
 #: C/gthumb.xml:2683(para)
 msgid "If you are viewing pages of scanned text, for example, you will probably want to set this to <guilabel>Reset to top-left of image</guilabel>, so that the top of the page is shown when you move to a new image."
-msgstr ""
+msgstr "Om du visar sidor med inläst text, till exempel, vill du antagligen ställa in det här till <guilabel>Återställ till övre-vänster av bilden</guilabel> så att övre delen av sidan visas när du går till en ny bild."
 
 #: C/gthumb.xml:2688(para)
 msgid "If you are trying to compare small areas on several large images (perhaps to compare similar images taken at different times, such as photos taken in a \"continuous\" mode on a digital camera, or satellite images of the same area at different dates) then the <guilabel>Keep same position</guilabel> mode is probably more appropriate for you."
-msgstr ""
+msgstr "Om du försöker jämföra små områden på flera stora bilder (kanske för att jämföra liknande bilder tagna på olika tidpunkter, såsom foton tagna i ett \"kontinuerligt\" läge med en digitalkamera, eller satellitbilder på samma område på olika datum) är kanske läget <guilabel>Behåll samma position</guilabel> mer lämpligt för dig."
 
 #: C/gthumb.xml:2703(title)
 msgid "Slide Show Tab"
-msgstr ""
+msgstr "Fliken Bildspel"
 
 #: C/gthumb.xml:2704(para)
 msgid "This tab contains the options controlling slide show mode (which you can start by selecting <menuchoice><guimenu>Tools</guimenu><guisubmenu>Slide Show</guisubmenu></menuchoice> or by using <keycombo><keycap>S</keycap></keycombo> shortcut). The options include direction (forward/backwards/random), and delay between images. You can also specify whether the slide show should wrap around (i.e., after showing the last image start again form the beginning) and automatically switch to fullscreen mode."
-msgstr ""
+msgstr "Den här fliken innehåller alternativ för att styra bildspelsläget (som du kan starta genom att välja <menuchoice><guimenu>Verktyg</guimenu><guisubmenu>Bildspel</guisubmenu></menuchoice> eller genom att använda genvägen <keycombo><keycap>S</keycap></keycombo>). Alternativen inkluderar riktning (framåt/omvänd/slumpmässig) och fördröjning mellan bilder. Du kan även ange huruvida bildspelet ska starta om (t.ex. börja om från början efter visning av sista bilden) och automatiskt växla till helskärmsläget."
 
 #: C/gthumb.xml:2720(title)
 msgid "Hot Keys Tab"
-msgstr ""
+msgstr "Fliken Snabbtangenter"
 
 #: C/gthumb.xml:2721(para)
 msgid "This tab contains the shell script definitions that control the hot keys 0-9 on the numeric keypad."
-msgstr ""
+msgstr "Den här fliken innehåller skalskriptsdefinitioner som styr snabbtangenterna 0-9 på det numeriska tangentbordet."
 
 #: C/gthumb.xml:2725(para)
 msgid "When a user presses one of these keys, an external shell script will be launched. Certain codes can be including in the script. These codes will be replaced by <application>gThumb</application> when the script is actually launched, as follows:"
-msgstr ""
+msgstr "När en användare trycker på en av dessa tangenter kommer ett externt skalskript att startas. Vissa koder kan inkluderas i skriptet. Dessa koder kommer att ersättas av <application>gThumb</application> när skriptet startas upp. Här är en förklaring:"
 
 #: C/gthumb.xml:2738(para)
 msgid "Code"
@@ -2107,11 +2107,11 @@ msgstr "%F"
 
 #: C/gthumb.xml:2746(para)
 msgid "all selected filenames on one line, space delimited"
-msgstr ""
+msgstr "alla markerade filnamn på en rad, blankstegsavgränsade"
 
 #: C/gthumb.xml:2750(para)
 msgid "a single filename, including path"
-msgstr ""
+msgstr "ett enda filnamn, inklusive sökväg"
 
 #: C/gthumb.xml:2753(para)
 msgid "%n"
@@ -2119,11 +2119,11 @@ msgstr "%n"
 
 #: C/gthumb.xml:2754(para)
 msgid "a single filename, including path, with no extension"
-msgstr ""
+msgstr "ett enda filnamn, inklusive sökväg, utan filändelse"
 
 #: C/gthumb.xml:2758(para)
 msgid "a single extension (starting with a period)"
-msgstr ""
+msgstr "en enda filändelse (börjar med en punkt)"
 
 #: C/gthumb.xml:2761(para)
 msgid "%p"
@@ -2131,15 +2131,15 @@ msgstr "%p"
 
 #: C/gthumb.xml:2762(para)
 msgid "the parent folder of the single file"
-msgstr ""
+msgstr "föräldramappen för en enda fil"
 
 #: C/gthumb.xml:2767(para)
 msgid "Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file."
-msgstr ""
+msgstr "Skript med koden %F kommer att köras en gång, oavsett antalet markerade filer. Alla andra skript kommer att köras en gång per markerad fil."
 
 #: C/gthumb.xml:2771(para)
 msgid "Several default scripts are provided. These can be replaced by the user, if desired. The default scripts are explained below:"
-msgstr ""
+msgstr "Flera standardskript tillhandahålls. Dessa kan ersättas av användaren om så önskas. Standardskripten förklaras här nedanför:"
 
 #: C/gthumb.xml:2778(command)
 msgid "gimp-remote %F"
@@ -2147,7 +2147,7 @@ msgstr "gimp-remote %F"
 
 #: C/gthumb.xml:2780(para)
 msgid "This script tells the GNU Image Manipulation Program (gimp) to open all of the select files. This is most efficient if we include all of the filenames on one line, rather than calling <command>gimp-remote</command> once for each file, so we have used the %F code."
-msgstr ""
+msgstr "Det här skriptet talar om för GNU Image Manipulation Program (gimp) att öppna alla markerade filer. Det är mest effektivt om vi inkluderar alla filnamnen på en rad istället för att anropa <command>gimp-remote</command> en gång för varje fil så vi måste använda koden %F."
 
 #: C/gthumb.xml:2789(command)
 msgid "convert %f -font Helvetica -pointsize 20 -fill white -box '#00000080' -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e"
@@ -2155,15 +2155,15 @@ msgstr "convert %f -font Helvetica -pointsize 20 -fill white -box '#00000080' -g
 
 #: C/gthumb.xml:2791(para)
 msgid "This script makes a copy of your image file, and adds a copyright notice to it. The \"convert\" command is part of the ImageMagick package. If the original file is named sample.jpg, the new file will be named sample-copyright.jpg."
-msgstr ""
+msgstr "Det här skriptet skapar en kopia av din bildfil och lägger till en copyrightnotis till den. Kommandot \"convert\" är en del av paketet ImageMagick. Om originalfilen har namnet exempel.jpg kommer den nya filen att få namnet exempel-copyright.jpg."
 
 #: C/gthumb.xml:2799(command)
 msgid "mkdir -p %p/approved ; cp %f %p/approved/"
-msgstr ""
+msgstr "mkdir -p %p/godkända ; cp %f %p/godkända/"
 
 #: C/gthumb.xml:2801(para)
 msgid "This script creates a new sub-folder called \"approved\", if it does not exist already. It then copies the select files to the \"approved\" sub-folder."
-msgstr ""
+msgstr "Det här skriptet skapar en ny undermapp kallad \"godkända\", om den inte redan finns. Den kopierar sedan de markerade filerna till undermappen \"godkända\"."
 
 #: C/gthumb.xml:2808(command)
 msgid "uuencode %f %f | mail -s Photos your@emailaddress.com"
@@ -2171,7 +2171,7 @@ msgstr "uuencode %f %f | mail -s Foton din@e-postadress.se"
 
 #: C/gthumb.xml:2810(para)
 msgid "This script encodes images files in a format suitable for email attachments, and then emails each photo to the specified address. One email per photo is sent."
-msgstr ""
+msgstr "Det här skriptet kodar bildfiler i en format som är lämpligt för e-postbilagor, och sedan skickar varje bild via e-post till den angivna adressen. Ett e-postmeddelande per bild skickas."
 
 #: C/gthumb.xml:2817(command)
 msgid "rm ~/myarchive.zip; zip -j ~/myarchive %F"
@@ -2179,7 +2179,7 @@ msgstr "rm ~/mittarkiv.zip; zip -j ~/mittarkiv %F"
 
 #: C/gthumb.xml:2819(para)
 msgid "This script overwrites an existing zip file, if present, with a new zip file containing the selected images."
-msgstr ""
+msgstr "Det här skriptet skriver över en befintlig zip-fil, om den finns, med en ny zip-fil som innehåller de markerade bilderna."
 
 #: C/gthumb.xml:2826(command)
 msgid "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com"
@@ -2187,7 +2187,7 @@ msgstr "rm ~/mittarkiv.zip; zip -j ~/mittarkiv %F; uuencode ~/mittarkiv.zip ~/mi
 
 #: C/gthumb.xml:2828(para)
 msgid "This combines the previous two scripts, so that the selected images are combined into a single zip file, which is then emailed."
-msgstr ""
+msgstr "Den här kombinerar de föregående två skripten så att de markerade bilderna kombineras i en enda zip-fil som sedan skickas via e-post."
 
 #: C/gthumb.xml:2840(title)
 msgid "Quick Reference: Keyboard Shortcuts"
@@ -2216,7 +2216,7 @@ msgstr "Tillgänglig i helskärmsläget"
 
 #: C/gthumb.xml:2867(para)
 msgid "<keycombo><keycap>n</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Space</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Page Down</keycap></keycombo>"
-msgstr "<keycombo><keycap>n</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Blanksteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Page Down</keycap></keycombo>"
+msgstr "<keycombo><keycap>n</keycap></keycombo>, <keycombo action=\"simul\"><keycap>Blanksteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Page Down</keycap></keycombo>"
 
 #: C/gthumb.xml:2874(para)
 msgid "View the next image."
@@ -2247,11 +2247,11 @@ msgstr "Visa nästa bild."
 #: C/gthumb.xml:3419(para)
 #: C/gthumb.xml:3432(para)
 msgid "yes"
-msgstr "ja"
+msgstr "Ja"
 
 #: C/gthumb.xml:2882(para)
 msgid "<keycombo action=\"simul\"><keycap>b</keycap></keycombo> or <keycombo><keycap>Backspace</keycap></keycombo> or <keycombo action=\"simul\"><keycap>Page Up</keycap></keycombo>"
-msgstr "<keycombo action=\"simul\"><keycap>b</keycap></keycombo> eller <keycombo><keycap>Backsteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Page Up</keycap></keycombo>"
+msgstr "<keycombo action=\"simul\"><keycap>b</keycap></keycombo>, <keycombo><keycap>Backsteg</keycap></keycombo> eller <keycombo action=\"simul\"><keycap>Page Up</keycap></keycombo>"
 
 #: C/gthumb.xml:2889(para)
 msgid "View the previous image."
@@ -2296,7 +2296,7 @@ msgstr "Gå till din hemmapp."
 #: C/gthumb.xml:3103(para)
 #: C/gthumb.xml:3116(para)
 msgid "no"
-msgstr "nej"
+msgstr "Nej"
 
 #: C/gthumb.xml:2939(keycap)
 msgid "Alt"
@@ -2308,7 +2308,7 @@ msgstr "Vänster"
 
 #: C/gthumb.xml:2944(para)
 msgid "Go to the previously visited folder."
-msgstr "Gå till föregående besökta mapp."
+msgstr "Gå till den tidigare besökta mappen."
 
 #: C/gthumb.xml:2952(para)
 msgid "<keycombo action=\"simul\"><keycap>Alt</keycap><keycap>Up </keycap></keycombo> or <keycombo action=\"simul\"><keycap>u</keycap></keycombo>"
@@ -2355,7 +2355,7 @@ msgstr "q"
 
 #: C/gthumb.xml:3012(para)
 msgid "Change the image properties pane content or display the pane if it is not visible."
-msgstr ""
+msgstr "Ändra innehåll i bildegenskapspanelen eller visa panelen om den inte är synlig."
 
 #: C/gthumb.xml:3022(keycap)
 msgid "1"
@@ -2363,7 +2363,7 @@ msgstr "1"
 
 #: C/gthumb.xml:3027(para)
 msgid "Set the image preview as the image properties pane content or hide the pane if this content type is already visible."
-msgstr ""
+msgstr "Ställ in bildförhandsvisning som innehåll i bildegenskapspanelen eller dölj panelen om innehållstypen redan är synlig."
 
 #: C/gthumb.xml:3038(keycap)
 msgid "2"
@@ -2371,7 +2371,7 @@ msgstr "2"
 
 #: C/gthumb.xml:3043(para)
 msgid "Set the image exif data as the image properties pane content or hide the pane if this content type is already visible."
-msgstr ""
+msgstr "Ställ in bildens exif-data som innehåll i bildegenskapspanelen eller dölj panelen om innehållstypen redan är synlig."
 
 #: C/gthumb.xml:3054(keycap)
 msgid "3"
@@ -2379,7 +2379,7 @@ msgstr "3"
 
 #: C/gthumb.xml:3059(para)
 msgid "Set the image comment as the image properties pane content or hide the pane if this content type is already visible."
-msgstr ""
+msgstr "Ställ in bildkommentar som innehåll i bildegenskapspanelen eller dölj panelen om innehållstypen redan är synlig."
 
 #: C/gthumb.xml:3070(keycap)
 msgid "t"
@@ -2427,7 +2427,7 @@ msgstr "Tangentbordsgenvägar för att visa bilder"
 
 #: C/gthumb.xml:3159(para)
 msgid "<keycombo><keycap>v</keycap></keycombo> or <keycombo><keycap>f</keycap></keycombo> or <keycombo><keycap>F11</keycap></keycombo>"
-msgstr "<keycombo><keycap>v</keycap></keycombo> eller <keycombo><keycap>f</keycap></keycombo> eller <keycombo><keycap>F11</keycap></keycombo>"
+msgstr "<keycombo><keycap>v</keycap></keycombo>, <keycombo><keycap>f</keycap></keycombo> eller <keycombo><keycap>F11</keycap></keycombo>"
 
 #: C/gthumb.xml:3166(para)
 msgid "Set/Unset the full screen mode."
@@ -2455,7 +2455,7 @@ msgstr "<keycombo><keycap>1</keycap></keycombo> eller <keycombo><keycap>z</keyca
 
 #: C/gthumb.xml:3207(para)
 msgid "Actual size."
-msgstr ""
+msgstr "Naturlig storlek."
 
 #: C/gthumb.xml:3216(keycap)
 msgid "x"
@@ -2463,7 +2463,7 @@ msgstr "x"
 
 #: C/gthumb.xml:3220(para)
 msgid "Zoom to fit."
-msgstr ""
+msgstr "Zooma för att passa."
 
 #: C/gthumb.xml:3229(keycap)
 msgid "l"
@@ -2487,7 +2487,7 @@ msgstr "r"
 
 #: C/gthumb.xml:3259(para)
 msgid "Rotate the image clockwise of 90 degrees without saving."
-msgstr ""
+msgstr "Rotera bilden 90 grader medsols utan att spara."
 
 #: C/gthumb.xml:3268(keycap)
 msgid "e"
@@ -2495,7 +2495,7 @@ msgstr "e"
 
 #: C/gthumb.xml:3272(para)
 msgid "Rotate the image counter-clockwise of 90 degrees without saving."
-msgstr ""
+msgstr "Rotera bilden 90 grader motsols utan att spara."
 
 #: C/gthumb.xml:3282(keycap)
 msgid "]"
@@ -2503,7 +2503,7 @@ msgstr "]"
 
 #: C/gthumb.xml:3286(para)
 msgid "Rotate and save the image clockwise of 90 degrees. The rotation is lossless for jpeg images."
-msgstr ""
+msgstr "Rotera 90 grader medsols och spara bilden. Roteringen är icke-förstörande för jpeg-bilder."
 
 #: C/gthumb.xml:3295(keycap)
 msgid "["
@@ -2511,7 +2511,7 @@ msgstr "["
 
 #: C/gthumb.xml:3299(para)
 msgid "Rotate and save the image counter-clockwise of 90 degrees. The rotation is lossless for jpeg images."
-msgstr ""
+msgstr "Rotera 90 grader motsols och spara bilden. Roteringen är icke-förstörande för jpeg-bilder."
 
 #: C/gthumb.xml:3309(keycap)
 msgid "a"
@@ -2596,7 +2596,7 @@ msgstr "Pausa/spela upp ett bildspel."
 
 #: C/gthumb.xml:3464(para)
 msgid "<keycombo><keycap>Escape</keycap></keycombo> or <keycombo><keycap>f</keycap></keycombo> or <keycombo><keycap>v</keycap></keycombo> or <keycombo><keycap>F11</keycap></keycombo> or <keycombo><keycap>q</keycap></keycombo>"
-msgstr "<keycombo><keycap>Escape</keycap></keycombo> eller <keycombo><keycap>f</keycap></keycombo> eller <keycombo><keycap>v</keycap></keycombo> eller <keycombo><keycap>F11</keycap></keycombo> eller <keycombo><keycap>q</keycap></keycombo>"
+msgstr "<keycombo><keycap>Escape</keycap></keycombo>, <keycombo><keycap>f</keycap></keycombo>, <keycombo><keycap>v</keycap></keycombo>, <keycombo><keycap>F11</keycap></keycombo> eller <keycombo><keycap>q</keycap></keycombo>"
 
 #: C/gthumb.xml:3473(para)
 msgid "Exit the fullscreen mode."
