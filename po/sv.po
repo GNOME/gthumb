@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-02 19:39+0200\n"
-"PO-Revision-Date: 2007-08-02 22:40+0100\n"
+"PO-Revision-Date: 2007-08-03 00:39+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -783,15 +783,15 @@ msgstr "<b>Rubrik</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
-msgstr "<b>Fot</b>"
+msgstr "<b>Sidfot</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
-msgstr "<b>Huvud och fot</b>"
+msgstr "<b>Sidhuvud och sidfot</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
-msgstr "<b>Huvud</b>"
+msgstr "<b>Sidhuvud</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
@@ -863,7 +863,7 @@ msgstr "H_uvud:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
-msgstr "Huvud/fot:"
+msgstr "Sidhuvud/sidfot:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
@@ -1964,7 +1964,7 @@ msgstr "_Blixt"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "_Footer:"
-msgstr "_Fot:"
+msgstr "Sid_fot:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Go to Theme Folder"
@@ -1972,7 +1972,7 @@ msgstr "_Gå till temamappen"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "_Header:"
-msgstr "_Huvud:"
+msgstr "Sid_huvud:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Install Theme..."
@@ -2611,16 +2611,16 @@ msgstr "Det finns inte tillräckligt med ledigt utrymme på disken"
 
 #: ../src/dlg-png-exporter.c:909
 msgid "Image Caption"
-msgstr "Bildrubrik"
+msgstr "Bildtext"
 
 #: ../src/dlg-png-exporter.c:963
 msgid "Header"
-msgstr "Huvud"
+msgstr "Sidhuvud"
 
 #: ../src/dlg-png-exporter.c:976
 #: ../src/dlg-png-exporter.c:982
 msgid "Footer"
-msgstr "Fot"
+msgstr "Sidfot"
 
 #: ../src/dlg-png-exporter.c:1570
 #: ../src/dlg-rename-series.c:472
