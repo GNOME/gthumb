@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-29 00:35+0200\n"
-"PO-Revision-Date: 2007-07-29 00:36+0100\n"
+"POT-Creation-Date: 2007-08-02 10:38+0200\n"
+"PO-Revision-Date: 2007-08-02 10:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -2205,23 +2205,23 @@ msgstr "Filsystem"
 msgid "Home"
 msgstr "Hem"
 
-#: ../libgthumb/file-utils.c:1997
+#: ../libgthumb/file-utils.c:2001
 msgid "Library not empty"
 msgstr "Biblioteket är inte tomt"
 
-#: ../libgthumb/file-utils.c:2006
+#: ../libgthumb/file-utils.c:2010
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Kan inte ta bort biblioteket \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2033
+#: ../libgthumb/file-utils.c:2037
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Kan inte ta bort albumet \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3531
+#: ../libgthumb/gth-image-list.c:3523
 #: ../src/gth-browser.c:781
-#: ../src/gth-browser.c:4468
+#: ../src/gth-browser.c:4462
 #: ../src/gth-viewer.c:756
 msgid "No image"
 msgstr "Ingen bild"
@@ -2248,11 +2248,11 @@ msgstr "Läser in bild: %s"
 
 #: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
+msgstr "Tar bort alla miniatyrbilder, var god vänta..."
 
 #: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
+msgstr "Tar bort gamla miniatyrbilder, var god vänta..."
 
 #: ../src/bookmark-list.c:157
 #: ../src/gth-browser.c:1288
@@ -2276,20 +2276,20 @@ msgstr "%d × %d bildpunkter"
 msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2188
+#: ../src/catalog-web-exporter.c:2194
 msgid "Saving thumbnails"
 msgstr "Sparar miniatyrbilder"
 
-#: ../src/catalog-web-exporter.c:2258
+#: ../src/catalog-web-exporter.c:2264
 msgid "Saving HTML pages: Images"
 msgstr "Sparar HTML-sidor: Bilder"
 
-#: ../src/catalog-web-exporter.c:2336
+#: ../src/catalog-web-exporter.c:2342
 msgid "Saving HTML pages: Indexes"
 msgstr "Sparar HTML-sidor: Index"
 
-#: ../src/catalog-web-exporter.c:2457
-#: ../src/catalog-web-exporter.c:2708
+#: ../src/catalog-web-exporter.c:2463
+#: ../src/catalog-web-exporter.c:2714
 msgid "Saving images"
 msgstr "Sparar bilder"
 
@@ -2297,18 +2297,18 @@ msgstr "Sparar bilder"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2520
+#: ../src/catalog-web-exporter.c:2526
 msgid "Copying original images"
 msgstr "Kopierar ursprungliga bilder"
 
-#: ../src/catalog-web-exporter.c:2901
+#: ../src/catalog-web-exporter.c:2907
 #: ../src/gth-window-actions-callbacks.c:219
 #: ../src/rotation-utils.c:134
 msgid "Could not create a temporary folder"
 msgstr "Kunde inte skapa temporär mapp"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2960
+#: ../src/catalog-web-exporter.c:2966
 msgid "Loading images"
 msgstr "Läser in bilder"
 
@@ -2684,7 +2684,7 @@ msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
 #: ../src/dlg-write-to-cd.c:79
-#: ../src/gth-browser.c:3821
+#: ../src/gth-browser.c:3814
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
@@ -3461,53 +3461,53 @@ msgstr "Den aktuella bilden har ändrats. Vill du spara den?"
 msgid "Do Not Save"
 msgstr "Spara inte"
 
-#: ../src/gth-browser.c:3580
+#: ../src/gth-browser.c:3573
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: ../src/gth-browser.c:5378
-#: ../src/gth-browser.c:5379
+#: ../src/gth-browser.c:5374
+#: ../src/gth-browser.c:5375
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotera bilder utan kvalitetsförlust"
 
-#: ../src/gth-browser.c:6249
+#: ../src/gth-browser.c:6245
 msgid "Getting folder listing..."
 msgstr "Hämtar mapplistning..."
 
-#: ../src/gth-browser.c:6269
+#: ../src/gth-browser.c:6265
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6769
+#: ../src/gth-browser.c:6765
 #: ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Stäng"
 
-#: ../src/gth-browser.c:6783
+#: ../src/gth-browser.c:6779
 #: ../src/gth-viewer.c:1683
 msgid "Image comment"
 msgstr "Bildkommentar"
 
-#: ../src/gth-browser.c:6797
+#: ../src/gth-browser.c:6793
 msgid "Image data"
 msgstr "Bilddata"
 
-#: ../src/gth-browser.c:6811
+#: ../src/gth-browser.c:6807
 msgid "Image preview"
 msgstr "Bildförhandsgranskning"
 
-#: ../src/gth-browser.c:7856
+#: ../src/gth-browser.c:7850
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: ../src/gth-browser.c:8462
+#: ../src/gth-browser.c:8456
 #: ../src/gth-viewer.c:2116
 msgid "Wait please..."
-msgstr "Var vänlig vänta..."
+msgstr "Var god vänta..."
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
