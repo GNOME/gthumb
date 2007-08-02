@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-02 19:39+0200\n"
-"PO-Revision-Date: 2007-08-03 00:39+0100\n"
+"PO-Revision-Date: 2007-08-03 00:45+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -779,7 +779,7 @@ msgstr "<b>Bakgrundsstil</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
-msgstr "<b>Rubrik</b>"
+msgstr "<b>Text</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
@@ -1908,7 +1908,7 @@ msgstr "Kame_ramodell"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
-msgstr "Rubrik"
+msgstr "Text"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Da_te and Time"
@@ -1928,7 +1928,7 @@ msgstr "Fokal_längd"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
-msgstr "_Bildrubrik..."
+msgstr "_Bildtext..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "S_ort:"
@@ -2004,7 +2004,7 @@ msgstr "_Tema:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
-msgstr "_Miniatyrbildsrubrik..."
+msgstr "_Miniatyrbildstext..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:62
 msgid "columns, by"
