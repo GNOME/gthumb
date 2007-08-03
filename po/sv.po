@@ -1,29 +1,29 @@
 # Swedish messages for gThumb.
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2001-2007 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2006, 2007.
 # Christian Rose <menthos@menthos.com>, 2002, 2003, 2004.
 # Bo Rosén <bo.rosen@home.se>, 2001.
-#
-# $Id: sv.po,v 1.38 2006/12/26 13:13:05 dnylande Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-16 19:32+0200\n"
-"PO-Revision-Date: 2007-04-16 19:25+0100\n"
+"POT-Creation-Date: 2007-08-03 08:03+0200\n"
+"PO-Revision-Date: 2007-08-03 08:04+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../data/albumthemes/text.h:27
+#: ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
 msgstr "Föregående"
 
-#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../data/albumthemes/text.h:28
+#: ../src/gth-browser-actions-entries.h:283
 #: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Next"
 msgstr "Nästa"
@@ -32,19 +32,23 @@ msgstr "Nästa"
 msgid "Index"
 msgstr "Index"
 
-#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
+#: ../data/albumthemes/text.h:30
+#: ../src/dlg-duplicates.c:261
 msgid "Image"
 msgstr "Bild"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:805
+#: ../data/albumthemes/text.h:31
+#: ../src/gth-exif-data-viewer.c:805
 msgid "Dimensions"
 msgstr "Dimensioner"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
+#: ../data/albumthemes/text.h:32
+#: ../src/dlg-image-prop.c:609
 msgid "Bytes"
 msgstr "Byte"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33
+#: ../src/gth-filter-bar.c:210
 msgid "Date"
 msgstr "Datum"
 
@@ -76,16 +80,19 @@ msgstr "Fokallängd"
 msgid "Camera model"
 msgstr "Kameramodell"
 
-#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/albumthemes/text.h:41
+#: ../data/glade/gthumb_edit.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:76
 msgid "pixels"
 msgstr "bildpunkter"
 
-#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb.glade.h:1
+#: ../data/glade/gthumb_convert.glade.h:1
 #: ../data/glade/gthumb_edit.glade.h:1
 #: ../data/glade/gthumb_png_exporter.glade.h:1
 #: ../data/glade/gthumb_preferences.glade.h:1
-#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1
+#: ../data/glade/gthumb_tools.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
@@ -126,7 +133,8 @@ msgstr "_Album:"
 msgid "Choose a Catalog"
 msgstr "Välj ett album"
 
-#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
+#: ../data/glade/gthumb.glade.h:11
+#: ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
 msgstr "Komm_entar"
 
@@ -222,7 +230,8 @@ msgstr "_Spara den nya bilden som:"
 msgid "_View the destination"
 msgstr "_Visa målet"
 
-#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_camera.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
@@ -231,7 +240,8 @@ msgstr "..."
 msgid "C_hoose from the catalog"
 msgstr "Vä_lj från albumet"
 
-#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "Ka_tegorier:"
 
@@ -249,36 +259,23 @@ msgstr "Välj målmapp"
 
 #: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
-msgstr "Ta bort de valda bilderna från kameran"
+msgstr "Ta bort de markerade bilderna från kameran"
 
 #: ../data/glade/gthumb_camera.glade.h:7
-msgid ""
-"If this checkbox is enabled and the imported photo contains an Exif "
-"orientation tag, the image data will be physically transformed (losslessly) "
-"so that the viewed image looks the same as before but the orientation tag is "
-"reset to \"top left\". If this checkbox is not enabled, the image data and "
-"the orientation tag are both left unchanged. The image will be displayed "
-"identically by gthumb for both possibilities, but for maximum compatibility "
-"with other applications this checkbox should be enabled."
-msgstr ""
-"Om den här kryssrutan är aktiverad och det importerade fotot innehållet en "
-"Exif-orienteringstagg, kommer bilddatat att fysiskt transformeras (utan att "
-"förstöra data), så att den visade bilden ser likadan utan som innan men "
-"orienteringstaggen nollställs till \"övre vänster\". Om den här kryssrutan "
-"inte är aktiverad, kommer både bilddatat och orienteringstaggen lämnas "
-"oförändrade. Bilden kommer att visas identiskt av gthumb för båda "
-"möjligheterna, men för maximal kompatibilitet med andra program bör den här "
-"kryssrutan vara aktiverad."
+msgid "If this checkbox is enabled and the imported photo contains an Exif orientation tag, the image data will be physically transformed (losslessly) so that the viewed image looks the same as before but the orientation tag is reset to \"top left\". If this checkbox is not enabled, the image data and the orientation tag are both left unchanged. The image will be displayed identically by gthumb for both possibilities, but for maximum compatibility with other applications this checkbox should be enabled."
+msgstr "Om den här kryssrutan är aktiverad och det importerade fotot innehållet en Exif-orienteringstagg, kommer bilddatat att fysiskt transformeras (utan att förstöra data), så att den visade bilden ser likadan utan som innan men orienteringstaggen nollställs till \"övre vänster\". Om den här kryssrutan inte är aktiverad, kommer både bilddatat och orienteringstaggen lämnas oförändrade. Bilden kommer att visas identiskt av gthumb för båda möjligheterna, men för maximal kompatibilitet med andra program bör den här kryssrutan vara aktiverad."
 
 #: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
 msgstr "Importera bilder"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:900
-#: ../src/dlg-photo-importer.c:939 ../src/dlg-photo-importer.c:1508
-#: ../src/dlg-photo-importer.c:2253
+#: ../data/glade/gthumb_camera.glade.h:9
+#: ../src/dlg-photo-importer.c:900
+#: ../src/dlg-photo-importer.c:939
+#: ../src/dlg-photo-importer.c:1528
+#: ../src/dlg-photo-importer.c:2275
 msgid "No camera detected"
-msgstr "Ingen kamera detekterad"
+msgstr "Ingen kamera hittades"
 
 #: ../data/glade/gthumb_camera.glade.h:10
 msgid "Rotate images physically"
@@ -337,9 +334,10 @@ msgstr "Kategorier"
 #: ../data/glade/gthumb_comments.glade.h:3
 #: ../data/glade/gthumb_search.glade.h:11
 msgid "Co_mment:"
-msgstr "Ko_mmentar:"
+msgstr "Komm_entar:"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4
+#: ../src/gth-filter-bar.c:208
 msgid "Comment"
 msgstr "Kommentar"
 
@@ -373,7 +371,7 @@ msgstr "Bilddigitaliseringsdatum (från EXIF-data)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
-msgstr "Ta bort vald kategori"
+msgstr "Ta bort markerad kategori"
 
 #: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
@@ -396,13 +394,14 @@ msgstr "_Plats:"
 #: ../data/glade/gthumb_comments.glade.h:17
 #: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
-msgstr "_Valda kategorier:"
+msgstr "_Markerade kategorier:"
 
 #: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
 msgstr "<b>Komprimering</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
 msgstr "<b>Bildtyp</b>"
 
@@ -416,7 +415,7 @@ msgstr "<b>Upplösning</b>"
 #: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
-msgstr "<b>Sparar</b>"
+msgstr "<b>Sparning</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -557,7 +556,8 @@ msgstr "8 × 10"
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Proportioner</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
 msgstr "<b>Markering</b>"
 
@@ -565,13 +565,14 @@ msgstr "<b>Markering</b>"
 msgid "Crop"
 msgstr "Beskär"
 
-#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_crop.glade.h:8
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "Anpassat"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
-msgstr "I_nvertera höjd-/breddförhållande"
+msgstr "I_nvertera aspektförhållande"
 
 #: ../data/glade/gthumb_crop.glade.h:10
 #: ../data/glade/gthumb_preferences.glade.h:67
@@ -586,21 +587,27 @@ msgstr "Kvadratiskt"
 msgid "_Crop"
 msgstr "_Beskär"
 
-#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_crop.glade.h:13
+#: ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
 msgstr "_Höjd:"
 
-#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
+#: ../data/glade/gthumb_crop.glade.h:14
+#: ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
 msgstr "_Bredd:"
 
-#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
+#: ../data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -612,7 +619,8 @@ msgstr "_Y:"
 msgid "     "
 msgstr "     "
 
-#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_edit.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:3
 #: ../data/glade/gthumb_tools.glade.h:4
 #, no-c-format
 msgid "%"
@@ -622,7 +630,8 @@ msgstr "%"
 msgid "<b>Color levels</b>"
 msgstr "<b>Färgnivåer</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_edit.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
 msgstr "<b>Nya dimensioner</b>"
 
@@ -686,9 +695,10 @@ msgstr "_Ljusstyrka:"
 msgid "_Hue:"
 msgstr "_Nyans:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_edit.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:62
 msgid "_Keep aspect ratio"
-msgstr "_Behåll höjd-/breddförhållande"
+msgstr "_Behåll aspektförhållande"
 
 #: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
@@ -706,15 +716,17 @@ msgstr "_Magenta-Grön:"
 msgid "_Preview"
 msgstr "_Förhandsgranska"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
+#: ../data/glade/gthumb_edit.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
-msgstr "_Återställ"
+msgstr "_Nollställ"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
 msgstr "_Mättnad:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_edit.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
 msgstr "_Skala"
 
@@ -768,19 +780,19 @@ msgstr "<b>Bakgrundsstil</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
-msgstr "<b>Rubrik</b>"
+msgstr "<b>Text</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
-msgstr "<b>Fot</b>"
+msgstr "<b>Sidfot</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
-msgstr "<b>Huvud och fot</b>"
+msgstr "<b>Sidhuvud och sidfot</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
-msgstr "<b>Huvud</b>"
+msgstr "<b>Sidhuvud</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
@@ -796,16 +808,13 @@ msgstr "<small><i><b>Obs:</b> # (enumerator)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
-msgid ""
-"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-"small>"
-msgstr ""
-"<small><i><b>Obs:</b> %p (sidnummer), %n (totala antalet sidor)</i>.</small>"
+msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
+msgstr "<small><i><b>Obs:</b> %p (sidnummer), %n (totala antalet sidor)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Co_mment"
-msgstr "Ko_mmentar"
+msgstr "Komm_entar"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
@@ -855,7 +864,7 @@ msgstr "H_uvud:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
-msgstr "Huvud/fot:"
+msgstr "Sidhuvud/sidfot:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
@@ -1114,9 +1123,7 @@ msgid ""
 "%n = a single filename, including path, with no extension\n"
 "%e = a single extension (starting with a period)\n"
 "%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the "
-"number of files selected. All other scripts will be executed once per "
-"selected file.\n"
+"Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
 "<small><i><b>Specialtecken:</b>\n"
@@ -1125,9 +1132,7 @@ msgstr ""
 "%n = ett enstaka filnamn, inklusive sökväg, utan filändelse\n"
 "%e = en enda filändelse (börjar med en punkt)\n"
 "%p = föräldramappen för den enstaka filen</i>\n"
-"Skript med koden %F kommer endast att köras en gång, oavsett antalet "
-"markerade filer. Alla andra skript kommer att köras en gång per markerad "
-"fil.\n"
+"Skript med koden %F kommer endast att köras en gång, oavsett antalet markerade filer. Alla andra skript kommer att köras en gång per markerad fil.\n"
 "Standardskripten förklaras i Hjälp-filen.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
@@ -1172,7 +1177,7 @@ msgstr "Välj uppstartsmapp"
 
 #: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Co_mments"
-msgstr "Ko_mmentarer"
+msgstr "Komm_entarer"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
@@ -1180,7 +1185,7 @@ msgstr "F_ördröjning innan ändring av bild:"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
-msgstr "A_vgör bildtyp från innehåll (långsammare)"
+msgstr "Fa_stställ bildtyp från innehåll (långsammare)"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
@@ -1232,12 +1237,8 @@ msgid "Keep previous zoom"
 msgstr "Behåll föregående zoomning"
 
 #: ../data/glade/gthumb_preferences.glade.h:64
-msgid ""
-"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
-"the selected images with other applications."
-msgstr ""
-"Tangenterna 0-9 på det numeriska tangentbordet kan användas i bläddraren för "
-"att öppna eller ändra de markerade bilderna med andra program."
+msgid "Keys 0-9 on the numeric keypad can be used in the browser to open or modify the selected images with other applications."
+msgstr "Tangenterna 0-9 på det numeriska tangentbordet kan användas i bläddraren för att öppna eller ändra de markerade bilderna med andra program."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1269,7 +1270,7 @@ msgstr "Ställ in bilden till naturlig storlek"
 
 #: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
-msgstr "Gör till a_ktuell"
+msgstr "Ställ in till a_ktuell"
 
 #: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
@@ -1293,7 +1294,7 @@ msgstr "Endast text"
 
 #: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
-msgstr "_Miniatyrbildsstorlek:"
+msgstr "M_iniatyrbildsstorlek:"
 
 #: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
@@ -1473,7 +1474,8 @@ msgid "Postcard"
 msgstr "4 × 6 (vykort)"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2719
+#: ../data/glade/gthumb_print.glade.h:42
+#: ../libgthumb/print-callbacks.c:2719
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Skriv ut"
@@ -1586,8 +1588,9 @@ msgstr "Matcha n_ågon markerad kategori"
 msgid "New _Search..."
 msgstr "Ny _sökning..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:869
-#: ../src/dlg-photo-importer.c:1558
+#: ../data/glade/gthumb_search.glade.h:18
+#: ../src/dlg-photo-importer.c:869
+#: ../src/dlg-photo-importer.c:1578
 msgid "No images found"
 msgstr "Inga bilder hittades"
 
@@ -1648,19 +1651,13 @@ msgid ""
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
 "<small><i><b>Observera</b>: JPEG-transformeringar sker normalt utan.\n"
-"att förstöra data. När bilder visas, kan du använda tangentgenvägarna "
-"[ och ]\n"
-"för att rotera och spara utan att förstöra, vilket åsidosätter den här "
-"dialogen.</i></small>"
+"att förstöra data. När bilder visas, kan du använda tangentgenvägarna [ och ]\n"
+"för att rotera och spara utan att förstöra, vilket åsidosätter den här dialogen.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
-"%d (image date), %s (image size), %e (original extension).</i></small>"
-msgstr ""
-"<small><i><b>Specialtecken:</b> # (enumerator), %f (ursprungliga filnamnet), "
-"%d (bilddatum), %s (bildstorlek), %e (ursprunglig filändelse).</i></small>"
+msgid "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %d (image date), %s (image size), %e (original extension).</i></small>"
+msgstr "<small><i><b>Specialtecken:</b> # (enumerator), %f (ursprungliga filnamnet), %d (bilddatum), %s (bildstorlek), %e (ursprunglig filändelse).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
@@ -1701,12 +1698,8 @@ msgid "Checking image:"
 msgstr "Kryssar för bild:"
 
 #: ../data/glade/gthumb_tools.glade.h:26
-msgid ""
-"Click OK to reset the Exif orientation tag for the selected images to Top-"
-"Left."
-msgstr ""
-"Klicka OK för att nollställa Exif-orienteringstaggen för de markerade "
-"bilderna till övre-vänster."
+msgid "Click OK to reset the Exif orientation tag for the selected images to Top-Left."
+msgstr "Klicka OK för att nollställa Exif-orienteringstaggen för de markerade bilderna till övre-vänster."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1790,21 +1783,8 @@ msgid "The _following date:"
 msgstr "_Följande datum:"
 
 #: ../data/glade/gthumb_tools.glade.h:56
-msgid ""
-"This checkbox governs the rotation method used for JPEG images that contain "
-"Exif orientation tags. If this checkbox is enabled, the rotation will be "
-"performed using a physical transform, and the Exif orientation tag will be "
-"reset to the default \"top left\" value. If it is not enabled, the rotation "
-"will be performed by changing the Exif orientation tag only. For maximum "
-"compatibility with other applications, this checkbox should be enabled."
-msgstr ""
-"Den här kryssrutan styr roteringsmetoden som används för JPEG-bilder som "
-"innehåller Exif-orienteringstaggar. Om den här kryssrutan är aktiverad, "
-"kommer roteringen att genomföras med en fysisk transformering, och Exif-"
-"orienteringstaggen kommer att nollställas till standardvärdet \"övre vänster"
-"\". Om den inte är aktiverad, kommer roteringen att genomföras endast genom "
-"att ändra Exif-orienteringstaggen. För maximal kompatibilitet med andra "
-"program bör den här kryssrutan vara aktiverad."
+msgid "This checkbox governs the rotation method used for JPEG images that contain Exif orientation tags. If this checkbox is enabled, the rotation will be performed using a physical transform, and the Exif orientation tag will be reset to the default \"top left\" value. If it is not enabled, the rotation will be performed by changing the Exif orientation tag only. For maximum compatibility with other applications, this checkbox should be enabled."
+msgstr "Den här kryssrutan styr roteringsmetoden som används för JPEG-bilder som innehåller Exif-orienteringstaggar. Om den här kryssrutan är aktiverad, kommer roteringen att genomföras med en fysisk transformering, och Exif-orienteringstaggen kommer att nollställas till standardvärdet \"övre vänster\". Om den inte är aktiverad, kommer roteringen att genomföras endast genom att ändra Exif-orienteringstaggen. För maximal kompatibilitet med andra program bör den här kryssrutan vara aktiverad."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -1822,7 +1802,7 @@ msgstr "_Byt namn"
 
 #: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Selected Images"
-msgstr "_Valda bilder"
+msgstr "_Markerade bilder"
 
 #: ../data/glade/gthumb_tools.glade.h:69
 msgid "_Sort:"
@@ -1921,7 +1901,7 @@ msgstr "Kame_ramodell"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
-msgstr "Rubrik"
+msgstr "Text"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Da_te and Time"
@@ -1941,7 +1921,7 @@ msgstr "Fokal_längd"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
-msgstr "_Bildrubrik..."
+msgstr "_Bildtext..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "Inde_x file:"
@@ -1977,7 +1957,7 @@ msgstr "_Blixt"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "_Footer:"
-msgstr "_Fot:"
+msgstr "Sid_fot:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Go to Theme Folder"
@@ -1985,7 +1965,7 @@ msgstr "_Gå till temamappen"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "_Header:"
-msgstr "_Huvud:"
+msgstr "Sid_huvud:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Install Theme..."
@@ -2017,7 +1997,7 @@ msgstr "_Tema:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
-msgstr "_Miniatyrbildsrubrik..."
+msgstr "_Miniatyrbildstext..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:62
 msgid "columns, by"
@@ -2039,7 +2019,8 @@ msgstr "rader per sida,"
 msgid "Image Viewer"
 msgstr "Bildvisare"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:807
+#: ../data/gthumb.desktop.in.h:2
+#: ../src/main.c:812
 msgid "View and organize your images"
 msgstr "Visa och organisera dina bilder"
 
@@ -2048,20 +2029,12 @@ msgid "gThumb Image Viewer"
 msgstr "Bildvisaren gThumb"
 
 #: ../data/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"Bilder över denna storlek (i byte) kommer det inte att skapas miniatyrbilder "
-"för. Använd 0 om du vill generera miniatyrbilder för alla bilder."
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "Bilder över denna storlek (i byte) kommer det inte att skapas miniatyrbilder för. Använd 0 om du vill generera miniatyrbilder för alla bilder."
 
 #: ../data/gthumb.schemas.in.h:2
-msgid ""
-"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-"(reverse landscape)"
-msgstr ""
-"Möjliga värden är 0 (porträtt), 1 (landskap), 2 (omvänt porträtt), 3 (omvänt "
-"landskap)"
+msgid "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)"
+msgstr "Möjliga värden är 0 (porträtt), 1 (landskap), 2 (omvänt porträtt), 3 (omvänt landskap)"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2072,12 +2045,8 @@ msgid "Possible values are: 72, 150, 300, 600."
 msgstr "Möjliga värden är: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
-msgid ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
-msgstr ""
-"Möjliga värden är: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
+msgstr "Möjliga värden är: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
 
 #: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
@@ -2128,19 +2097,12 @@ msgid "Possible values are: none, name, path, size, time, exifdate, comment."
 msgstr "Möjliga värden är: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:18
-msgid ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-msgstr ""
-"Möjliga värden är: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
+msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr "Möjliga värden är: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
 
 #: ../data/gthumb.schemas.in.h:19
-msgid ""
-"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom."
-msgstr ""
-"Möjliga värden är: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgstr "Möjliga värden är: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
 #: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: pixels, percentage."
@@ -2159,10 +2121,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Möjliga värden är: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:24
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Möjliga värden är: system, text_below, text_beside, text_only, icons_only."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Möjliga värden är: system, text_below, text_beside, text_only, icons_only."
 
 #: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: white, black, checked, none."
@@ -2176,7 +2136,8 @@ msgstr "Huruvida en svart bakgrund alltid ska användas."
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Huruvida rullistens positioner ska nollställas efter bild har ändrats"
 
-#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
+#: ../libgthumb/catalog.c:141
+#: ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Kan inte öppna albumet \"%s\": %s"
@@ -2186,23 +2147,30 @@ msgstr "Kan inte öppna albumet \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
 
-#: ../libgthumb/comments.c:1251 ../src/catalog-web-exporter.c:140
+#: ../libgthumb/comments.c:1257
+#: ../src/catalog-web-exporter.c:141
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1253 ../src/catalog-web-exporter.c:55
-#: ../src/catalog-web-exporter.c:142 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:493
-#: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
-#: ../src/gth-viewer.c:608
+#: ../libgthumb/comments.c:1259
+#: ../src/catalog-web-exporter.c:56
+#: ../src/catalog-web-exporter.c:143
+#: ../src/dlg-duplicates.c:548
+#: ../src/dlg-image-prop.c:441
+#: ../src/gth-browser.c:489
+#: ../src/gth-exif-data-viewer.c:792
+#: ../src/gth-fullscreen.c:854
+#: ../src/gth-viewer.c:607
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: ../libgthumb/comments.c:1263 ../libgthumb/comments.c:1265
+#: ../libgthumb/comments.c:1269
+#: ../libgthumb/comments.c:1271
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
-#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:291
+#: ../libgthumb/dlg-save-image.c:129
+#: ../src/rotation-utils.c:267
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Bildtypen stöds inte: %s"
@@ -2219,34 +2187,39 @@ msgstr "Spara bild"
 msgid "Image type:"
 msgstr "Bildtyp:"
 
-#: ../libgthumb/file-utils.c:1348 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1389
+#: ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Album"
 
-#: ../libgthumb/file-utils.c:1351 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1392
+#: ../src/gth-location.c:819
 msgid "File System"
 msgstr "Filsystem"
 
-#: ../libgthumb/file-utils.c:1378 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1419
+#: ../src/gth-location.c:826
 msgid "Home"
 msgstr "Hem"
 
-#: ../libgthumb/file-utils.c:1954
+#: ../libgthumb/file-utils.c:2000
 msgid "Library not empty"
 msgstr "Biblioteket är inte tomt"
 
-#: ../libgthumb/file-utils.c:1963
+#: ../libgthumb/file-utils.c:2009
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Kan inte ta bort biblioteket \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:1990
+#: ../libgthumb/file-utils.c:2036
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Kan inte ta bort albumet \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3533 ../src/gth-browser.c:787
-#: ../src/gth-browser.c:4499 ../src/gth-viewer.c:759
+#: ../libgthumb/gth-image-list.c:3525
+#: ../src/gth-browser.c:783
+#: ../src/gth-browser.c:4464
+#: ../src/gth-viewer.c:758
 msgid "No image"
 msgstr "Ingen bild"
 
@@ -2254,7 +2227,8 @@ msgstr "Ingen bild"
 msgid "Could not display help"
 msgstr "Kunde inte visa hjälp"
 
-#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
+#: ../libgthumb/gthumb-stock.c:79
+#: ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "Ro_tera bilder"
 
@@ -2263,49 +2237,56 @@ msgstr "Ro_tera bilder"
 msgid "Page %d of %d"
 msgstr "Sida %d av %d"
 
-#: ../libgthumb/print-callbacks.c:2248 ../src/catalog-png-exporter.c:1354
+#: ../libgthumb/print-callbacks.c:2248
+#: ../src/catalog-png-exporter.c:1378
 #, c-format
 msgid "Loading image: %s"
 msgstr "Läser in bild: %s"
 
 #: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
+msgstr "Tar bort alla miniatyrbilder, var god vänta..."
 
 #: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
+msgstr "Tar bort gamla miniatyrbilder, var god vänta..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1266
-#: ../src/gth-browser.c:1270 ../src/gth-browser.c:1282
+#: ../src/bookmark-list.c:157
+#: ../src/gth-browser.c:1290
+#: ../src/gth-browser.c:1294
+#: ../src/gth-browser.c:1306
 msgid "(Invalid Name)"
 msgstr "(Ogiltigt namn)"
 
-#: ../src/catalog-png-exporter.c:818 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:788
-#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:612
+#: ../src/catalog-png-exporter.c:842
+#: ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:493
+#: ../src/gth-exif-data-viewer.c:788
+#: ../src/gth-fullscreen.c:845
+#: ../src/gth-viewer.c:611
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
 
-#: ../src/catalog-png-exporter.c:1587
+#: ../src/catalog-png-exporter.c:1611
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1868
+#: ../src/catalog-web-exporter.c:1870
 msgid "Saving thumbnails"
 msgstr "Sparar miniatyrbilder"
 
-#: ../src/catalog-web-exporter.c:1934
+#: ../src/catalog-web-exporter.c:1939
 msgid "Saving HTML pages: Images"
 msgstr "Sparar HTML-sidor: Bilder"
 
-#: ../src/catalog-web-exporter.c:2009
+#: ../src/catalog-web-exporter.c:2014
 msgid "Saving HTML pages: Indexes"
 msgstr "Sparar HTML-sidor: Index"
 
-#: ../src/catalog-web-exporter.c:2139 ../src/catalog-web-exporter.c:2392
+#: ../src/catalog-web-exporter.c:2144
+#: ../src/catalog-web-exporter.c:2397
 msgid "Saving images"
 msgstr "Sparar bilder"
 
@@ -2313,31 +2294,36 @@ msgstr "Sparar bilder"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2203
+#: ../src/catalog-web-exporter.c:2208
 msgid "Copying original images"
 msgstr "Kopierar ursprungliga bilder"
 
-#: ../src/catalog-web-exporter.c:2576
-#: ../src/gth-window-actions-callbacks.c:218 ../src/rotation-utils.c:175
+#: ../src/catalog-web-exporter.c:2581
+#: ../src/gth-window-actions-callbacks.c:219
+#: ../src/rotation-utils.c:134
 msgid "Could not create a temporary folder"
 msgstr "Kunde inte skapa temporär mapp"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2609
+#: ../src/catalog-web-exporter.c:2614
 msgid "Loading images"
 msgstr "Läser in bilder"
 
-#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:684
+#: ../src/dlg-catalog.c:90
+#: ../src/gth-browser-actions-callbacks.c:684
 msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
-#: ../src/dlg-catalog.c:94 ../src/dlg-catalog.c:148
-#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
+#: ../src/dlg-catalog.c:94
+#: ../src/dlg-catalog.c:148
+#: ../src/dlg-categories.c:244
+#: ../src/dlg-file-utils.c:92
 #: ../src/gth-browser-actions-callbacks.c:770
 msgid "C_reate"
 msgstr "S_kapa"
 
-#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:825
+#: ../src/dlg-catalog.c:144
+#: ../src/gth-browser-actions-callbacks.c:825
 msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
@@ -2351,39 +2337,39 @@ msgstr "Ange det nya kategorinamnet"
 
 #: ../src/dlg-categories.c:251
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \",\". Please "
-"use a different name."
-msgstr ""
-"Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \",\". Använd "
-"ett annat namn."
+msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
+msgstr "Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \",\". Använd ett annat namn."
 
 #: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorin \"%s\" finns redan. Använd ett annat namn."
 
-#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
+#: ../src/dlg-convert.c:174
+#: ../src/gth-batch-op.c:399
 #, c-format
 msgid "Converting image: %s"
 msgstr "Konverterar bild: %s"
 
-#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
+#: ../src/dlg-convert.c:197
+#: ../src/gth-batch-op.c:422
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "En bild med namnet \"%s\" finns redan. Ange ett annat namn."
 
-#: ../src/dlg-convert.c:321 ../src/gth-batch-op.c:570
+#: ../src/dlg-convert.c:321
+#: ../src/gth-batch-op.c:570
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "En bild med namnet \"%s\" finns redan. Vill du skriva över den?"
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
+#: ../src/dlg-convert.c:326
+#: ../src/gth-batch-op.c:575
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:576
+#: ../src/dlg-convert.c:327
+#: ../src/gth-batch-op.c:576
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
@@ -2397,7 +2383,8 @@ msgstr "%d × %d (bild)"
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (skärm)"
 
-#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
+#: ../src/dlg-duplicates.c:275
+#: ../src/dlg-duplicates.c:649
 msgid "Duplicates"
 msgstr "Dubletter"
 
@@ -2406,7 +2393,8 @@ msgid "Duplicates Size"
 msgstr "Dublettstorlek"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:594
+#: ../src/dlg-duplicates.c:368
+#: ../src/dlg-image-prop.c:594
 #: ../src/gth-exif-data-viewer.c:803
 msgid "Name"
 msgstr "Namn"
@@ -2415,7 +2403,8 @@ msgstr "Namn"
 msgid "Last modified"
 msgstr "Senast ändrad"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:614
+#: ../src/dlg-duplicates.c:412
+#: ../src/dlg-image-prop.c:614
 msgid "Location"
 msgstr "Plats"
 
@@ -2432,10 +2421,10 @@ msgstr "Målmappen finns inte. Vill du skapa den?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Kunde inte skapa mappen \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1583
+#: ../src/dlg-file-utils.c:120
+#: ../src/dlg-photo-importer.c:1603
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Du har inte rätt rättigheter för att skapa bilder i mappen \"%s\""
 
 #: ../src/dlg-file-utils.c:203
@@ -2443,23 +2432,24 @@ msgid "Could not delete the images:"
 msgstr "Kunde inte ta bort bilderna:"
 
 #: ../src/dlg-file-utils.c:226
-msgid ""
-"The images cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
-msgstr ""
-"Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1135
-#: ../src/gth-browser.c:1846 ../src/gth-viewer.c:1009
-#: ../src/rotation-utils.c:128
+#: ../src/dlg-file-utils.c:229
+#: ../src/gth-browser-actions-callbacks.c:1135
+#: ../src/gth-browser.c:1870
+#: ../src/gth-viewer.c:1008
+#: ../src/rotation-utils.c:86
 msgid "_Do not display this message again"
 msgstr "_Visa inte detta meddelande igen"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1173
+#: ../src/dlg-file-utils.c:283
+#: ../src/gth-browser-actions-callbacks.c:1173
 msgid "_Move"
 msgstr "_Flytta"
 
-#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
+#: ../src/dlg-file-utils.c:380
+#: ../src/dlg-file-utils.c:480
 #: ../src/gth-browser-actions-callbacks.c:1400
 msgid "Choose the destination folder"
 msgstr "Välj målmappen"
@@ -2468,14 +2458,15 @@ msgstr "Välj målmappen"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
-#: ../src/dlg-file-utils.c:784 ../src/dlg-file-utils.c:885
+#: ../src/dlg-file-utils.c:784
+#: ../src/dlg-file-utils.c:885
 msgid "You didn't enter the new name"
 msgstr "Du angav inte det nya namnet"
 
-#: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
+#: ../src/dlg-file-utils.c:796
+#: ../src/dlg-file-utils.c:897
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Namnet \"%s\" används redan i denna mapp. Använd ett annat namn."
 
 #: ../src/dlg-file-utils.c:1042
@@ -2494,55 +2485,64 @@ msgstr "Kunde inte flytta bilden:"
 msgid "Could not copy the image:"
 msgstr "Kunde inte kopiera bilden:"
 
-#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1204
+#: ../src/dlg-file-utils.c:2473
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2465
+#: ../src/dlg-file-utils.c:1205
+#: ../src/dlg-file-utils.c:2474
 msgid "_Continue"
 msgstr "_Fortsätt"
 
-#: ../src/dlg-file-utils.c:1382
+#: ../src/dlg-file-utils.c:1386
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopierar fil %d av %d"
 
-#: ../src/dlg-file-utils.c:1794 ../src/dlg-file-utils.c:2021
+#: ../src/dlg-file-utils.c:1798
+#: ../src/dlg-file-utils.c:2030
 msgid "Collecting images info"
 msgstr "Samlar bildinformation"
 
-#: ../src/dlg-file-utils.c:1797 ../src/dlg-file-utils.c:2034
+#: ../src/dlg-file-utils.c:1801
+#: ../src/dlg-file-utils.c:2043
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Tar bort fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2024
+#: ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopierar fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2029
+#: ../src/dlg-file-utils.c:2038
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
+#: ../src/dlg-file-utils.c:2450
+#: ../src/dlg-file-utils.c:2452
 #: ../src/gth-browser-actions-callbacks.c:1282
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:806
+#: ../src/dlg-image-prop.c:599
+#: ../src/gth-exif-data-viewer.c:806
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Storlek"
 
-#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:808
+#: ../src/dlg-image-prop.c:604
+#: ../src/gth-exif-data-viewer.c:808
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:509
-#: ../src/gth-exif-data-viewer.c:807 ../src/gth-viewer.c:624
+#: ../src/dlg-image-prop.c:619
+#: ../src/gth-browser.c:505
+#: ../src/gth-exif-data-viewer.c:807
+#: ../src/gth-viewer.c:623
 msgid "Modified"
 msgstr "Ändrad"
 
@@ -2555,98 +2555,113 @@ msgstr "Information om kanal"
 msgid "%s Properties"
 msgstr "Egenskaper för %s"
 
-#: ../src/dlg-jpegtran.c:257 ../src/dlg-reset-exif.c:123
-#: ../src/rotation-utils.c:189
+#: ../src/dlg-jpegtran.c:257
+#: ../src/dlg-reset-exif.c:123
+#: ../src/rotation-utils.c:149
 msgid "Could not create a local temporary copy of the remote file."
 msgstr "Kunde inte skapa en lokal temporär kopia av fjärrfilen."
 
-#: ../src/dlg-jpegtran.c:287 ../src/dlg-reset-exif.c:139
-#: ../src/rotation-utils.c:247
-msgid ""
-"Could not move temporary file to remote location. Check remote permissions."
-msgstr ""
-"Kunde inte flytta temporärfilen till fjärrplatsen. Kontrollera "
-"fjärrättigheterna."
+#: ../src/dlg-jpegtran.c:287
+#: ../src/dlg-reset-exif.c:139
+#: ../src/rotation-utils.c:214
+msgid "Could not move temporary file to remote location. Check remote permissions."
+msgstr "Kunde inte flytta temporärfilen till fjärrplatsen. Kontrollera fjärrättigheterna."
 
-#: ../src/dlg-photo-importer.c:936 ../src/dlg-photo-importer.c:1507
-#: ../src/dlg-photo-importer.c:1557 ../src/dlg-photo-importer.c:1569
-#: ../src/dlg-photo-importer.c:1585 ../src/dlg-photo-importer.c:1614
+#: ../src/dlg-photo-importer.c:936
+#: ../src/dlg-photo-importer.c:1527
+#: ../src/dlg-photo-importer.c:1577
+#: ../src/dlg-photo-importer.c:1589
+#: ../src/dlg-photo-importer.c:1605
+#: ../src/dlg-photo-importer.c:1634
 msgid "Could not import photos"
 msgstr "Kunde inte importera bilder"
 
-#: ../src/dlg-photo-importer.c:1294 ../src/main.c:1104
+#: ../src/dlg-photo-importer.c:1294
+#: ../src/main.c:1104
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1566
+#: ../src/dlg-photo-importer.c:1306
+msgid "Import errors detected"
+msgstr "Importfel hittades"
+
+#: ../src/dlg-photo-importer.c:1307
+msgid "The files on the camera will not be deleted"
+msgstr "Filerna på kameran kommer inte att tas bort"
+
+#: ../src/dlg-photo-importer.c:1586
 #: ../src/gth-browser-actions-callbacks.c:1600
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kunde inte skapa mappen \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1615
+#: ../src/dlg-photo-importer.c:1635
 msgid "Not enough free space left on disk"
 msgstr "Det finns inte tillräckligt med ledigt utrymme på disken"
 
-#: ../src/dlg-png-exporter.c:899
+#: ../src/dlg-png-exporter.c:909
 msgid "Image Caption"
-msgstr "Bildrubrik"
+msgstr "Bildtext"
 
-#: ../src/dlg-png-exporter.c:953
+#: ../src/dlg-png-exporter.c:963
 msgid "Header"
-msgstr "Huvud"
+msgstr "Sidhuvud"
 
-#: ../src/dlg-png-exporter.c:966 ../src/dlg-png-exporter.c:972
+#: ../src/dlg-png-exporter.c:976
+#: ../src/dlg-png-exporter.c:982
 msgid "Footer"
-msgstr "Fot"
+msgstr "Sidfot"
 
-#: ../src/dlg-png-exporter.c:1560 ../src/dlg-rename-series.c:474
+#: ../src/dlg-png-exporter.c:1570
+#: ../src/dlg-rename-series.c:472
 #: ../src/dlg-web-exporter.c:485
 msgid "by path"
 msgstr "efter sökväg"
 
-#: ../src/dlg-png-exporter.c:1562 ../src/dlg-rename-series.c:476
+#: ../src/dlg-png-exporter.c:1572
+#: ../src/dlg-rename-series.c:474
 #: ../src/dlg-web-exporter.c:487
 msgid "by size"
 msgstr "efter storlek"
 
-#: ../src/dlg-png-exporter.c:1564 ../src/dlg-rename-series.c:478
+#: ../src/dlg-png-exporter.c:1574
+#: ../src/dlg-rename-series.c:476
 #: ../src/dlg-web-exporter.c:489
 msgid "by file modified time"
 msgstr "efter filens ändringstid"
 
-#: ../src/dlg-png-exporter.c:1566 ../src/dlg-rename-series.c:480
+#: ../src/dlg-png-exporter.c:1576
+#: ../src/dlg-rename-series.c:478
 #: ../src/dlg-web-exporter.c:491
 msgid "by Exif DateTime tag"
 msgstr "efter Exif DateTime-tagg"
 
-#: ../src/dlg-png-exporter.c:1568 ../src/dlg-rename-series.c:482
+#: ../src/dlg-png-exporter.c:1578
+#: ../src/dlg-rename-series.c:480
 #: ../src/dlg-web-exporter.c:493
 msgid "by comment"
 msgstr "efter kommentar"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:485
+#: ../src/dlg-png-exporter.c:1583
+#: ../src/dlg-rename-series.c:483
 #: ../src/dlg-web-exporter.c:496
 msgid "manual order"
 msgstr "manuell ordning"
 
-#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:485
+#: ../src/dlg-rename-series.c:113
+#: ../src/gth-browser-actions-callbacks.c:485
 #: ../src/gth-browser-actions-callbacks.c:700
 #: ../src/gth-browser-actions-callbacks.c:783
 #: ../src/gth-browser-actions-callbacks.c:991
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \"/\". Använd "
-"ett annat namn."
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
+msgstr "Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \"/\". Använd ett annat namn."
 
-#: ../src/dlg-rename-series.c:458
+#: ../src/dlg-rename-series.c:456
 msgid "Old Name"
 msgstr "Gammalt namn"
 
-#: ../src/dlg-rename-series.c:466
+#: ../src/dlg-rename-series.c:464
 msgid "New Name"
 msgstr "Nytt namn"
 
@@ -2658,11 +2673,13 @@ msgstr "Sökresultat"
 msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3793
+#: ../src/dlg-write-to-cd.c:79
+#: ../src/gth-browser.c:3816
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
+#: ../src/gth-browser-actions-callbacks.c:167
+#: ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Bilden kommer att flyttas till papperskorgen, är du säker?"
 
@@ -2681,7 +2698,7 @@ msgstr "Fortsätt"
 
 #: ../src/gth-browser-actions-callbacks.c:330
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
+msgstr "De markerade bilderna kommer att flyttas till papperskorgen. Är du säker?"
 
 #: ../src/gth-browser-actions-callbacks.c:465
 #: ../src/gth-browser-actions-callbacks.c:973
@@ -2708,11 +2725,11 @@ msgstr "Kunde inte byta namn på albumet \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:588
 msgid "The selected library will be removed, are you sure?"
-msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
+msgstr "Det markerade biblioteket kommer att tas bort. Är du säker?"
 
 #: ../src/gth-browser-actions-callbacks.c:590
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "Det valda albumet kommer att tas bort, är du säker?"
+msgstr "Det markerade albumet kommer att tas bort. Är du säker?"
 
 #: ../src/gth-browser-actions-callbacks.c:685
 msgid "New Catalog"
@@ -2750,14 +2767,12 @@ msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1127
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
-"\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
 #: ../src/gth-browser-actions-callbacks.c:1171
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Den valda mappen kommer att flyttas till papperskorgen, är du säker?"
+msgstr "Den markerade mappen kommer att flyttas till papperskorgen. Är du säker?"
 
 #: ../src/gth-browser-actions-callbacks.c:1224
 #: ../src/gth-browser-actions-callbacks.c:1282
@@ -2781,7 +2796,8 @@ msgstr "Ny mapp"
 msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
-#: ../src/gth-browser-actions-callbacks.c:1729 ../src/gth-location.c:219
+#: ../src/gth-browser-actions-callbacks.c:1729
+#: ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "Öppna plats"
 
@@ -2821,7 +2837,7 @@ msgstr "_Gå"
 #: ../src/gth-browser-actions-entries.h:495
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
-msgstr "_Bild"
+msgstr "B_ild"
 
 #: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
@@ -2835,7 +2851,7 @@ msgstr "_Verktyg"
 #: ../src/gth-browser-actions-entries.h:49
 #: ../src/gth-viewer-actions-entries.h:44
 msgid "Set Image as _Wallpaper"
-msgstr "Spara bild som _bakgrund"
+msgstr "Ställ in bild som _bakgrund"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:45
@@ -2854,7 +2870,7 @@ msgstr "Skapa ett nytt fönster"
 
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
-msgstr "Öppna den valda bilden i ett nytt fönster"
+msgstr "Öppna den markerade bilden i ett nytt fönster"
 
 #: ../src/gth-browser-actions-entries.h:64
 #: ../src/gth-browser-actions-entries.h:429
@@ -2921,7 +2937,7 @@ msgstr "Flytta denna bild till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:99
 msgid "Rename selected images"
-msgstr "Byt namn på valda bilder"
+msgstr "Byt namn på markerade bilder"
 
 #: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
@@ -2929,19 +2945,19 @@ msgstr "_Duplicera"
 
 #: ../src/gth-browser-actions-entries.h:104
 msgid "Duplicate selected images"
-msgstr "Duplicera de valda bilderna"
+msgstr "Duplicera de markerade bilderna"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
-msgstr "Flytta de valda bilderna till papperskorgen"
+msgstr "Flytta de markerade bilderna till papperskorgen"
 
 #: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
-msgstr "Kopiera de valda bilderna till en annan plats"
+msgstr "Kopiera de markerade bilderna till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:119
 msgid "Move selected images to another location"
-msgstr "Flytta de valda bilderna till en annan plats"
+msgstr "Flytta de markerade bilderna till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:123
 msgid "_Select All"
@@ -2959,7 +2975,7 @@ msgstr "_Lägg till i album..."
 #: ../src/gth-browser-actions-entries.h:129
 #: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
-msgstr "Lägg till valda bilder till ett album"
+msgstr "Lägg till markerade bilder till ett album"
 
 #: ../src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
@@ -2967,7 +2983,7 @@ msgstr "Ta _bort från album"
 
 #: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
-msgstr "Ta bort de valda bilderna från albumet"
+msgstr "Ta bort de markerade bilderna från albumet"
 
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
@@ -2976,7 +2992,7 @@ msgstr "Öppna"
 
 #: ../src/gth-browser-actions-entries.h:139
 msgid "Open the selected catalog"
-msgstr "Öppna det valda albumet"
+msgstr "Öppna det markerade albumet"
 
 #: ../src/gth-browser-actions-entries.h:143
 #: ../src/gth-browser-actions-entries.h:213
@@ -2985,7 +3001,7 @@ msgstr "Öppna i nytt fönster"
 
 #: ../src/gth-browser-actions-entries.h:144
 msgid "Open the selected catalog in a new window"
-msgstr "Öppna det valda albumet i ett nytt fönster"
+msgstr "Öppna det markerade albumet i ett nytt fönster"
 
 #: ../src/gth-browser-actions-entries.h:149
 msgid "Rename selected catalog"
@@ -2998,11 +3014,11 @@ msgstr "Ta _bort"
 
 #: ../src/gth-browser-actions-entries.h:154
 msgid "Remove selected catalog"
-msgstr "Ta bort valt album"
+msgstr "Ta bort markerat album"
 
 #: ../src/gth-browser-actions-entries.h:159
 msgid "Move selected catalog to another location"
-msgstr "Flytta det valda albumet till en annan plats"
+msgstr "Flytta det markerade albumet till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:163
 #: ../src/gth-browser-actions-entries.h:198
@@ -3054,11 +3070,11 @@ msgstr "Flytta aktuellt album till en annan plats"
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
-msgstr "Öppna den valda mappen"
+msgstr "Öppna den markerade mappen"
 
 #: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
-msgstr "Öppna den valda mappen i ett nytt fönster"
+msgstr "Öppna den markerade mappen i ett nytt fönster"
 
 #: ../src/gth-browser-actions-entries.h:218
 #: ../src/gth-browser-actions-entries.h:248
@@ -3067,19 +3083,19 @@ msgstr "Öppna med _filhanteraren"
 
 #: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Öppna den valda mappen med filhanteraren Nautilus"
+msgstr "Öppna den markerade mappen med filhanteraren Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
-msgstr "Byt namn på vald mapp"
+msgstr "Byt namn på markerad mapp"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
-msgstr "Flytta den valda mappen till papperskorgen"
+msgstr "Flytta den markerade mappen till papperskorgen"
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
-msgstr "Kopiera vald mapp"
+msgstr "Kopiera markerad mapp"
 
 #: ../src/gth-browser-actions-entries.h:239
 msgid "Move selected folder"
@@ -3093,7 +3109,7 @@ msgstr "Ka_tegorier..."
 
 #: ../src/gth-browser-actions-entries.h:244
 msgid "Assign categories to the selected folder"
-msgstr "Tilldela kategorier till den valda mappen"
+msgstr "Tilldela kategorier till den markerade mappen"
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
@@ -3175,7 +3191,7 @@ msgstr "_Gå till bildmappen"
 #: ../src/gth-browser-actions-entries.h:329
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
-msgstr "Gå till mappen som innehåller den valda bilden"
+msgstr "Gå till mappen som innehåller den markerade bilden"
 
 #: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
@@ -3388,89 +3404,100 @@ msgstr "_Album"
 msgid "View the catalogs"
 msgstr "Visa albumen"
 
-#: ../src/gth-browser.c:559 ../src/gth-viewer.c:669
+#: ../src/gth-browser.c:555
+#: ../src/gth-viewer.c:668
 msgid "[Press 'c' to add a comment]"
 msgstr "[Tryck \"c\" för att lägga till en kommentar]"
 
-#: ../src/gth-browser.c:665 ../src/gth-browser.c:684 ../src/gth-viewer.c:756
+#: ../src/gth-browser.c:661
+#: ../src/gth-browser.c:680
+#: ../src/gth-viewer.c:755
 msgid "[modified]"
 msgstr "[ändrad]"
 
-#: ../src/gth-browser.c:709 ../src/main.c:440 ../src/main.c:816
+#: ../src/gth-browser.c:705
+#: ../src/main.c:440
+#: ../src/main.c:821
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:785
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 bild (%s)"
 
-#: ../src/gth-browser.c:792
+#: ../src/gth-browser.c:788
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d bilder (%s)"
 
-#: ../src/gth-browser.c:799
+#: ../src/gth-browser.c:795
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 markerad (%s)"
 
-#: ../src/gth-browser.c:802
+#: ../src/gth-browser.c:798
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: ../src/gth-browser.c:1843 ../src/gth-viewer.c:1006
+#: ../src/gth-browser.c:1867
+#: ../src/gth-viewer.c:1005
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Den aktuella bilden har ändrats. Vill du spara den?"
 
-#: ../src/gth-browser.c:1844 ../src/gth-viewer.c:1007
+#: ../src/gth-browser.c:1868
+#: ../src/gth-viewer.c:1006
 msgid "Do Not Save"
 msgstr "Spara inte"
 
-#: ../src/gth-browser.c:3552
+#: ../src/gth-browser.c:3575
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: ../src/gth-browser.c:5417 ../src/gth-browser.c:5418
+#: ../src/gth-browser.c:5376
+#: ../src/gth-browser.c:5377
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotera bilder utan kvalitetsförlust"
 
-#: ../src/gth-browser.c:6292
+#: ../src/gth-browser.c:6247
 msgid "Getting folder listing..."
 msgstr "Hämtar mapplistning..."
 
-#: ../src/gth-browser.c:6313
+#: ../src/gth-browser.c:6267
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6813 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6767
+#: ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Stäng"
 
-#: ../src/gth-browser.c:6827 ../src/gth-viewer.c:1686
+#: ../src/gth-browser.c:6781
+#: ../src/gth-viewer.c:1685
 msgid "Image comment"
 msgstr "Bildkommentar"
 
-#: ../src/gth-browser.c:6841
+#: ../src/gth-browser.c:6795
 msgid "Image data"
 msgstr "Bilddata"
 
-#: ../src/gth-browser.c:6855
+#: ../src/gth-browser.c:6809
 msgid "Image preview"
 msgstr "Bildförhandsgranskning"
 
-#: ../src/gth-browser.c:7917
+#: ../src/gth-browser.c:7852
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: ../src/gth-browser.c:8519 ../src/gth-viewer.c:2119
+#: ../src/gth-browser.c:8458
+#: ../src/gth-viewer.c:2118
 msgid "Wait please..."
-msgstr "Var vänlig vänta..."
+msgstr "Var god vänta..."
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
@@ -3524,11 +3551,13 @@ msgstr "börjar med"
 msgid "ends with"
 msgstr "slutar med"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:179
+#: ../src/gth-filter-bar.c:194
 msgid "is"
 msgstr "är"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:180
+#: ../src/gth-filter-bar.c:195
 msgid "is not"
 msgstr "är inte"
 
@@ -3536,7 +3565,8 @@ msgstr "är inte"
 msgid "does not contain"
 msgstr "innehåller inte"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:184
+#: ../src/gth-filter-bar.c:189
 msgid "is equal to"
 msgstr "är lika med"
 
@@ -3627,24 +3657,26 @@ msgstr "_Enkelt fönster"
 msgid "Reuse this window to view other images"
 msgstr "Återanvänd detta fönster för att visa andra bilder"
 
-#: ../src/gth-viewer.c:829
+#: ../src/gth-viewer.c:828
 msgid "_None"
 msgstr "_Ingen"
 
-#: ../src/gth-viewer.c:1475 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1474
+#: ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_Öppna med"
 
-#: ../src/gth-viewer.c:1481 ../src/gth-viewer.c:1482
+#: ../src/gth-viewer.c:1480
+#: ../src/gth-viewer.c:1481
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "Öppna valda bilder med ett program"
+msgstr "Öppna markerade bilder med ett program"
 
-#: ../src/gth-window-actions-callbacks.c:803
+#: ../src/gth-window-actions-callbacks.c:844
 msgid "An image viewer and browser for GNOME."
 msgstr "En bildvisare och bläddrare för GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:806
+#: ../src/gth-window-actions-callbacks.c:847
 msgid "translator_credits"
 msgstr ""
 "Daniel Nylander\n"
@@ -3699,7 +3731,7 @@ msgstr "Komm_entar..."
 #: ../src/gth-window-actions-entries.h:81
 #: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
-msgstr "Lägg till en kommentar till valda bilder"
+msgstr "Lägg till en kommentar till markerade bilder"
 
 #: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
@@ -3707,12 +3739,12 @@ msgstr "Ta _bort kommentar"
 
 #: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
-msgstr "Ta bort kommentarer från valda bilder"
+msgstr "Ta bort kommentarer från markerade bilder"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
-msgstr "Tilldela kategorier till valda bilder"
+msgstr "Tilldela kategorier till markerade bilder"
 
 #: ../src/gth-window-actions-entries.h:100
 msgid "Ca_tegories"
@@ -3906,7 +3938,7 @@ msgstr "_Centrerad"
 
 #: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr "Använd bilden som bakgrund på skrivbordet (centrerad)"
+msgstr "Ställ in bilden som bakgrund på skrivbordet (centrerad)"
 
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
@@ -3914,7 +3946,7 @@ msgstr "_Sida vid sida"
 
 #: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr "Använd bilden som skrivbordsbakgrund (sida vid sida)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (sida vid sida)"
 
 #: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
@@ -3922,9 +3954,7 @@ msgstr "_Skalad"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr ""
-"Använd bilden som skrivbordsbakgrund (skalad och behåll höjd-/"
-"breddförhållande)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (skalad och behåll aspektförhållande)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
@@ -3932,7 +3962,7 @@ msgstr "Utstr_äckt"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr "Använd bilden som skrivbordsbakgrund (utsträckt)"
+msgstr "Ställ in bilden som skrivbordsbakgrund (utsträckt)"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
@@ -4016,11 +4046,11 @@ msgstr "Helger"
 
 #: ../src/main.c:150
 msgid "Temporary"
-msgstr "Tillfälligt"
+msgstr "Tillfälliga"
 
 #: ../src/main.c:151
 msgid "Screenshots"
-msgstr "Skärmdumpar"
+msgstr "Skärmbilder"
 
 #: ../src/main.c:152
 msgid "Science"
@@ -4062,264 +4092,189 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
-#: ../src/rotation-utils.c:115
+#: ../src/rotation-utils.c:73
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Problem vid transformering av bilden: %s"
 
-#: ../src/rotation-utils.c:121
+#: ../src/rotation-utils.c:79
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
-"Den här transformeringen kan introducera små bildstörningar längs en eller "
-"flera kanter på grund av att bilddimensionerna inte är delbara med 8.\n"
+"Den här transformeringen kan introducera små bildstörningar längs en eller flera kanter på grund av att bilddimensionerna inte är delbara med 8.\n"
 "\n"
-"Störningen är dock återkallelig, Om den resulterande bilden är oaccepterbar, "
-"tillämpa helt enkelt den omvända transformeringen för att återgå till den "
-"ursprungliga bilden.\n"
+"Störningen är dock återkallelig, Om den resulterande bilden är oaccepterbar, tillämpa helt enkelt den omvända transformeringen för att återgå till den ursprungliga bilden.\n"
 "\n"
-"Du kan även välja att förkasta (eller trimma) eventuella kantbildpunkter som "
-"inte kan transformeras. För praktisk användning innebär det att detta läge "
-"ger det snyggast resultatet, men transformeringen förstör bilddata numera."
+"Du kan även välja att förkasta (eller trimma) eventuella kantbildpunkter som inte kan transformeras. För praktisk användning innebär det att detta läge ger det snyggast resultatet, men transformeringen förstör bilddata numera."
 
-#: ../src/rotation-utils.c:129
+#: ../src/rotation-utils.c:87
 msgid "_Trim"
 msgstr "_Trimma"
 
-#: ../src/rotation-utils.c:238
-msgid ""
-"Could not move temporary file to local destination. Check folder permissions."
-msgstr ""
-"Kunde inte flytta temporärfilen till lokala målet. Kontrollera "
-"mapprättigheterna."
+#: ../src/rotation-utils.c:199
+msgid "Could not move temporary file to local destination. Check folder permissions."
+msgstr "Kunde inte flytta temporärfilen till lokala målet. Kontrollera mapprättigheterna."
 
+#~ msgid "_Metadata"
+#~ msgstr "_Metadata"
+#~ msgid "<b>Position</b>"
+#~ msgstr "<b>Position</b>"
+#~ msgid "EXIF date"
+#~ msgstr "EXIF-datum"
+#~ msgid "Use subfolders to organize files"
+#~ msgstr "Använd undermappar för att organisera filer"
+#~ msgid "Could not write Exif DataTime tag. Error %d."
+#~ msgstr "Kunde inte skriva Exif DataTime-tagg. Fel %d."
 #~ msgid "Field"
 #~ msgstr "Fält"
-
 #~ msgid "Value "
 #~ msgstr "Värde "
-
 #~ msgid "GThumb Application"
 #~ msgstr "GThumb-program"
-
 #~ msgid "GThumb Application Factory"
 #~ msgstr "GThumb-programfabrik"
-
 #~ msgid "Select a _bookmark:"
 #~ msgstr "Välj ett _bokmärke:"
-
 #~ msgid "<b>Auto-detected cameras</b>"
 #~ msgstr "<b>Automatiskt identiferade kameror</b>"
-
 #~ msgid "Use manual selection instead"
 #~ msgstr "Använd manuell markering istället"
-
 #~ msgid "_Refresh list"
 #~ msgstr "_Uppdatera lista"
-
 #~ msgid "Find"
 #~ msgstr "Sök"
-
 #~ msgid "Find Duplicates"
 #~ msgstr "Sök dubletter"
-
 #~ msgid "_Find..."
 #~ msgstr "_Sök..."
-
 #~ msgid "_Find"
 #~ msgstr "_Sök"
-
 #~ msgid "Image _Comment"
 #~ msgstr "Bild_kommentar"
-
 #~ msgid "View image comment"
 #~ msgstr "Visa bildkommentar"
-
 #~ msgid "<b>Book_marks</b>"
 #~ msgstr "<b>Bok_märken</b>"
-
 #~ msgid "Catalog"
 #~ msgstr "Album"
-
 #~ msgid "GThumb Catalog View"
 #~ msgstr "GThumb-albumvy"
-
 #~ msgid "View as Catalog"
 #~ msgstr "Visa som album"
-
 #~ msgid "_Print"
 #~ msgstr "Skriv _ut"
-
 #~ msgid "GThumb Image"
 #~ msgstr "GThumb-bild"
-
 #~ msgid "GThumb Viewer"
 #~ msgstr "Gthumb-visare"
-
 #~ msgid "View with GThumb"
 #~ msgstr "Visa med GThumb"
-
 #~ msgid "Flip"
 #~ msgstr "Vänd"
-
 #~ msgid "Flip the image"
 #~ msgstr "Vänd bilden"
-
 #~ msgid "High"
 #~ msgstr "Hög"
-
 #~ msgid "Low"
 #~ msgstr "Låg"
-
 #~ msgid "Mirror"
 #~ msgstr "Spegla"
-
 #~ msgid "Mirror the image"
 #~ msgstr "Spegla bilden"
-
 #~ msgid "Rotate"
 #~ msgstr "Rotera"
-
 #~ msgid "Rotate 180 _Degrees"
 #~ msgstr "Rotera 180 _grader"
-
 #~ msgid "Rotate the image clockwise"
 #~ msgstr "Rotera bilden medsols"
-
 #~ msgid "Rotate the image of 180 degrees"
 #~ msgstr "Rotera bilden 180 grader"
-
 #~ msgid "Start/Stop _Animation"
 #~ msgstr "Starta/stoppa _animering"
-
 #~ msgid "Transparency T_ype"
 #~ msgstr "_Transparenstyp"
-
 #~ msgid "_Black"
 #~ msgstr "_Svart"
-
 #~ msgid "_Checked"
 #~ msgstr "_Rutor"
-
 #~ msgid "_Rotate Clockwise"
 #~ msgstr "_Rotera medsols"
-
 #~ msgid "_Step Animation"
 #~ msgstr "_Stega igenom animering"
-
 #~ msgid "_White"
 #~ msgstr "_Vit"
-
 #~ msgid "_Zoom Quality"
 #~ msgstr "_Zoomkvalitet"
-
 #~ msgid "Camera _Port:"
 #~ msgstr "Kamera_port:"
-
 #~ msgid "Fit image to window"
 #~ msgstr "Anpassa bild till fönster"
-
 #~ msgid "Keep same position"
 #~ msgstr "Behåll samma position"
-
 #~ msgid "Reset to top-left of image"
 #~ msgstr "Återställ till övre-vänster av bilden"
-
 #~ msgid "Click the mouse on the red-eye regions that need to be fixed."
 #~ msgstr "Klicka med musen på de röda ögonregionerna som behöver rättas till."
-
 #~ msgid "Rename Series"
 #~ msgstr "Byt namn på serier"
-
 #~ msgid "Possible values are: reset, keep."
 #~ msgstr "Möjliga värden är: reset, keep."
-
 #~ msgid "_Insert a new preview phrase."
 #~ msgstr "_Infoga en ny förhandsvisningsfras."
-
 #~ msgid "Modify preview phrase..."
 #~ msgstr "Ändra förhandsvisningsfras..."
-
 #~ msgid "Preview"
 #~ msgstr "Förhandsgranska"
-
 #~ msgid "_Modify preview phrase..."
 #~ msgstr "_Ändra förhandsvisningsfras..."
-
 #~ msgid "Font Selection"
 #~ msgstr "Typsnittsval"
-
 #~ msgid "Sans Regular 12"
 #~ msgstr "Sans Regular 12"
-
 #~ msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 #~ msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvXxYyZzÅåÄäÖö"
-
 #~ msgid "Pick a Font"
 #~ msgstr "Välj ett typsnitt"
-
 #~ msgid "Title"
 #~ msgstr "Titel"
-
 #~ msgid "The title of the selection dialog box"
 #~ msgstr "Titeln på markeringsdialogrutan"
-
 #~ msgid "Font name"
 #~ msgstr "Typsnittsnamn"
-
 #~ msgid "Name of the selected font"
 #~ msgstr "Namn på det valda typsnittet"
-
 #~ msgid "Preview text"
 #~ msgstr "Förhandsvisningstext"
-
 #~ msgid "Preview text shown in the dialog"
 #~ msgstr "Förhandsvisningstext som visas i dialogfönstret"
-
 #~ msgid "Use font in label"
 #~ msgstr "Använd typsnitt i etikett"
-
 #~ msgid "Use font in the label in font info mode"
 #~ msgstr "Använd typsnitt i etiketten i typsnittsinformationsläge"
-
 #~ msgid "Font size for label"
 #~ msgstr "Typsnittsstorlek för etikett"
-
 #~ msgid "Font size for label in font info mode"
 #~ msgstr "Typsnittsstorlek för etikett i typsnittsinformationsläge"
-
 #~ msgid "Show size"
 #~ msgstr "Visa skugga"
-
 #~ msgid "Show size in font info mode"
 #~ msgstr "Visa storlek i typsnittsinformationsläge"
-
 #~ msgid "Font"
 #~ msgstr "Typsnitt"
-
 #~ msgid "%d x %d (Display)"
 #~ msgstr "%d × %d (display)"
-
 #~ msgid "Folder"
 #~ msgstr "Mapp"
-
 #~ msgid "by File _Time"
 #~ msgstr "efter filens _tid"
-
 #~ msgid "Possible values are: name, path, size, time."
 #~ msgstr "Möjliga värden är: name, path, size, time."
-
 #~ msgid "_Recents:"
 #~ msgstr "_Nyliga:"
-
 #~ msgid "Ro_tate Images..."
 #~ msgstr "Ro_tera bilder..."
+
