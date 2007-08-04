@@ -420,7 +420,7 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->frame_delay = 0;
 	viewer->anim_id = 0;
 
-	viewer->loader = IMAGE_LOADER (image_loader_new (NULL, TRUE));
+	viewer->loader = IMAGE_LOADER (image_loader_new (TRUE));
 	g_signal_connect (G_OBJECT (viewer->loader),
 			  "image_done",
 			  G_CALLBACK (image_loaded),

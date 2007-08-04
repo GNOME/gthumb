@@ -2599,7 +2599,7 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	if (ce->iloader != NULL)
 		g_object_unref (ce->iloader);
 
-	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	ce->iloader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (ce->iloader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done),

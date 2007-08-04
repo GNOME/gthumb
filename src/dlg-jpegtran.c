@@ -583,7 +583,7 @@ dlg_jpegtran (GthWindow *window)
 			  data);
 
 
-	data->loader = (ImageLoader*)image_loader_new (NULL, FALSE);
+	data->loader = (ImageLoader*)image_loader_new (FALSE);
 
 	g_signal_connect (G_OBJECT (data->loader),
 			  "image_done",

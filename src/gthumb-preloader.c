@@ -117,7 +117,7 @@ preloader_new (GThumbPreloader *gploader)
 	ploader->mtime    = 0;
 	ploader->loaded   = FALSE;
 	ploader->error    = FALSE;
-	ploader->loader   = IMAGE_LOADER (image_loader_new (NULL, TRUE));
+	ploader->loader   = IMAGE_LOADER (image_loader_new (TRUE));
 	ploader->gploader = gploader;
 
 	g_signal_connect (G_OBJECT (ploader->loader),

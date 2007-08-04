@@ -53,6 +53,7 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
+#include "file-data.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 
@@ -69,7 +70,7 @@
 
 
 PathListData *
-path_list_data_new ()
+path_list_data_new (void)
 {
 	PathListData *pli;
 
@@ -99,7 +100,7 @@ path_list_data_free (PathListData *pli)
 		gnome_vfs_uri_unref (pli->uri);
 
 	if (pli->files != NULL) {
-		g_list_foreach (pli->files, (GFunc) g_free, NULL);
+		g_list_foreach (pli->files, (GFunc) file_data_unref, NULL);
 		g_list_free (pli->files);
 	}
 
@@ -149,13 +150,20 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSFileInfo *info     = node->data;
 		GnomeVFSURI      *full_uri = NULL;
+		char             *txt_uri;
+		
+		if (pli->filter_func) 
+			if (! pli->filter_func (pli, info, pli->filter_data))
+				continue;
 
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
 				break;
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
-			pli->files = g_list_prepend (pli->files, gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE));
+			txt_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
+			pli->files = g_list_prepend (pli->files, file_data_new (txt_uri, info));
+			g_free (txt_uri);
 			break;
 
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
@@ -175,31 +183,33 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			gnome_vfs_uri_unref (full_uri);
 	}
 
-	if ((result == GNOME_VFS_ERROR_EOF)
-	    || (result != GNOME_VFS_OK)) {
-		if (pli->done_func)
+	if ((result == GNOME_VFS_ERROR_EOF) || (result != GNOME_VFS_OK)) {
+		if (pli->done_func) {
 			/* pli is deallocated in pli->done_func */
 			pli->done_func (pli, pli->done_data);
-		else
-			path_list_data_free (pli);
-
-		return;
+			return;
+		}
+		path_list_data_free (pli);
 	}
 }
 
 
 PathListHandle *
-path_list_async_new (const char       *uri,
-		     PathListDoneFunc  f,
-		     gpointer         data)
+path_list_async_new (const char         *uri,
+		     PathListFilterFunc  filter_func,
+		     gpointer            filter_data,
+		     gboolean            fast_file_type,
+		     PathListDoneFunc    done_func,
+		     gpointer            done_data)
 {
-	GnomeVFSAsyncHandle *handle;
-	PathListData        *pli;
-	PathListHandle      *pl_handle;
+	GnomeVFSAsyncHandle     *handle;
+	PathListData            *pli;
+	GnomeVFSFileInfoOptions  info_options;
+	PathListHandle          *pl_handle;
 
 	if (uri == NULL) {
-		if (f != NULL)
-			(f) (NULL, data);
+		if (done_func != NULL)
+			(done_func) (NULL, done_data);
 		return NULL;
 	}
 
@@ -208,24 +218,33 @@ path_list_async_new (const char       *uri,
 	pli->uri = new_uri_from_path (uri);
 	if (pli->uri == NULL) {
 		path_list_data_free (pli);
-		if (f != NULL)
-			(f) (NULL, data);
+		if (done_func != NULL)
+			(done_func) (NULL, done_data);
 		return NULL;
 	}
 
 	pli->hidden_files = read_dot_hidden_file (uri);
+	pli->filter_func = filter_func;
+	pli->filter_data = filter_data;
+	pli->done_func = done_func;
+	pli->done_data = done_data;
 
-	pli->done_func = f;
-	pli->done_data = data;
-
-	gnome_vfs_async_load_directory_uri (
-		&handle,
-		pli->uri,
-		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		128 /* items_per_notification FIXME */,
-		GNOME_VFS_PRIORITY_DEFAULT,
-		directory_load_cb,
-		pli);
+	info_options = GNOME_VFS_FILE_INFO_FOLLOW_LINKS;
+	if (filter_func != NULL) { /* the filter needs the mime type */
+		info_options |= GNOME_VFS_FILE_INFO_GET_MIME_TYPE;
+		if (fast_file_type)
+			info_options |= GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE;
+		else
+			info_options |= GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE;
+	}
+	
+	gnome_vfs_async_load_directory_uri (&handle,
+					    pli->uri,
+					    info_options,
+					    128 /* items_per_notification FIXME */,
+					    GNOME_VFS_PRIORITY_DEFAULT,
+					    directory_load_cb,
+					    pli);
 
 	pl_handle = g_new (PathListHandle, 1);
 	pl_handle->vfs_handle = handle;
@@ -811,31 +830,6 @@ get_sample_name (const char *filename)
 		return NULL;
 
 	return g_strconcat ("a", get_extension (filename), NULL);
-}
-
-
-GHashTable *static_strings = NULL;
-
-
-static const char *
-get_static_string (const char *s)
-{
-	const char *result;
-
-	if (s == NULL)
-		return NULL;
-
-	if (static_strings == NULL)
-		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	if (! g_hash_table_lookup_extended (static_strings, s, (gpointer*) &result, NULL)) {
-		result = g_strdup (s);
-		g_hash_table_insert (static_strings,
-				     (gpointer) result,
-				     GINT_TO_POINTER (1));
-	}
-
-	return result;
 }
 
 
@@ -2383,21 +2377,22 @@ _gnome_vfs_write_line (GnomeVFSHandle   *handle,
 }
 
 
+
 GnomeVFSFileSize
-get_dest_free_space (const char  *path)
+get_destination_free_space (const char *path)
 {
-	GnomeVFSURI      *uri;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  ret_val;
+        GnomeVFSURI      *vfs_uri;
+        GnomeVFSResult    result;
+        GnomeVFSFileSize  free_space;
 
-	uri = new_uri_from_path (path);
-	result = gnome_vfs_get_volume_free_space (uri, &ret_val);
-	gnome_vfs_uri_unref (uri);
+        vfs_uri = gnome_vfs_uri_new (path);
+        result = gnome_vfs_get_volume_free_space (vfs_uri, &free_space);
+        gnome_vfs_uri_unref (vfs_uri);
 
-	if (result != GNOME_VFS_OK)
-		return (GnomeVFSFileSize) 0;
-	else
-		return ret_val;
+        if (result != GNOME_VFS_OK)
+                return (GnomeVFSFileSize) 0;
+        else
+                return free_space;
 }
 
 
@@ -2458,6 +2453,7 @@ check_permissions (const char *path,
 
 /* VFS caching */
 
+
 gboolean
 is_local_file (const char *filename)
 {
@@ -2472,7 +2468,7 @@ get_cache_full_path (const char *relative_path, const char *extension)
 	char *separator;
 
 	/* Do not allow .. in the relative_path otherwise the user can go
-	 * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+	 * to any directory, while he shouldn't exit from RC_REMOTE_CACHE_DIR. */
 	if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
 		return NULL;
 
@@ -2535,6 +2531,7 @@ get_space_used_in_kb (const char *path)
 
 #define MAX_CACHE_SIZE_IN_KB	(256 * 1024)
 
+
 void
 check_cache_space (void)
 {
@@ -2582,16 +2579,13 @@ obtain_local_file (const char *remote_filename)
 	if (cache_file == NULL)
 		return NULL;
 
-	/* I can't imagine how the cache would be non-local, but check anyways */
-	g_assert (is_local_file (cache_file));
-
 	if (! path_exists (cache_file) || (get_file_mtime (cache_file) < get_file_mtime (remote_filename))) {
 		GnomeVFSURI    *source_uri = gnome_vfs_uri_new (remote_filename);
 		GnomeVFSURI    *target_uri = gnome_vfs_uri_new (cache_file);
 		GnomeVFSResult  result;
 	
 		/* delete some files if space is running out */
-		check_cache_space ();
+		/*check_cache_space ();*/
 
 		/* Move a new file into the cache. */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
@@ -2995,7 +2989,7 @@ gth_pixbuf_animation_new_from_uri (const char 	          *filename,
 	}
 
 	if (pixbuf != NULL) {
-		      animation = gdk_pixbuf_non_anim_new (pixbuf);
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
 		g_object_unref (pixbuf);
 	}
 

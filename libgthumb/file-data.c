@@ -26,6 +26,7 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
+#include "glib-utils.h"
 #include "file-utils.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
@@ -50,9 +51,7 @@ file_data_new (const char       *path,
 		fd->size = info->size;
 		fd->ctime = info->ctime;
 		fd->mtime = info->mtime;
-
-		if (info->mime_type != NULL)
-			fd->mime_type = info->mime_type;
+		fd->mime_type = get_static_string (info->mime_type);
 	}
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
@@ -71,18 +70,35 @@ file_data_new (const char       *path,
 }
 
 
-void
+GList*
+file_data_new_from_uri_list (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		result = g_list_prepend (result, file_data_new (path, NULL));
+	}
+	
+	return g_list_reverse (result);
+}
+
+
+FileData *
 file_data_ref (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);
+	g_return_val_if_fail (fd != NULL, NULL);
 	fd->ref++;
+	return fd;
 }
 
 
 void
 file_data_unref (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);
+	if (fd == NULL)
+		return;
 
 	fd->ref--;
 

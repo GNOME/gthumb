@@ -1129,7 +1129,6 @@ window_set_file_list (GthBrowser    *browser,
 {
 	gth_browser_start_activity_mode (browser);
 	window_update_sensitivity (browser);
-
 	window_sync_sort_menu (browser, sort_method, sort_type);
 	gth_file_list_set_list (browser->priv->file_list,
 				list,
@@ -1244,13 +1243,13 @@ go_to_uri (GthBrowser  *browser,
 			gth_browser_show_catalog_directory (browser, file_uri);
 
 		g_free (file_uri);
-
-	} else if (path_is_file (uri)) {
+	} 
+	else if (path_is_file (uri)) {
 		browser->priv->load_image_folder_after_image = TRUE;
 		gth_browser_load_image (browser, uri);
 		gth_browser_hide_sidebar (browser);
-
-	} else
+	} 
+	else
 		gth_browser_go_to_directory (browser, uri);
 }
 
@@ -2476,7 +2475,6 @@ catalog_activate (GthBrowser *browser,
 	set_cursor_busy (browser, TRUE);
 
 	window_set_file_list (browser, catalog->list, sort_method, sort_type);
-	catalog->list = NULL;
 	catalog_free (catalog);
 
 	return TRUE;
@@ -4815,7 +4813,7 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	gth_file_list_set_show_hidden_files (browser->priv->file_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
+	gth_dir_list_show_hidden_files (browser->priv->dir_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 	window_update_file_list (browser);
 }
 
@@ -5607,14 +5605,14 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			continue;
 
 		if (same_uri (parent_dir, current_dir))
-			created_in_current_dir = g_list_prepend (created_in_current_dir, g_strdup (path));
+			created_in_current_dir = g_list_prepend (created_in_current_dir, file_data_new (path, NULL));
 
 		g_free (parent_dir);
 	}
 
 	if (created_in_current_dir != NULL) {
 		gth_file_list_add_list (browser->priv->file_list, created_in_current_dir);
-		path_list_free (created_in_current_dir);
+		file_data_list_free (created_in_current_dir);
 	}
 }
 
@@ -5726,20 +5724,22 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 			     GList           *list,
 			     GthBrowser      *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
+	GList *fd_list;
+	
 	g_return_if_fail (browser != NULL);
 
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
+	if (browser->priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
 		return;
-	if (priv->catalog_path == NULL)
+	if (browser->priv->catalog_path == NULL)
 		return;
-	if (! same_uri (priv->catalog_path, catalog_name))
+	if (! same_uri (browser->priv->catalog_path, catalog_name))
 		return;
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
-		gth_file_list_add_list (browser->priv->file_list, list);
+		fd_list = file_data_new_from_uri_list (list);
+		gth_file_list_add_list (browser->priv->file_list, fd_list);
+		file_data_list_free (fd_list);
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
@@ -6244,6 +6244,7 @@ dir_list_started_cb (GthDirList  *dir_list,
 		     gpointer     data)
 {
 	GthBrowser *browser = data;
+	
 	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Getting folder listing..."));
 	gth_file_list_set_empty_list (browser->priv->file_list);
 }
@@ -6256,7 +6257,8 @@ dir_list_done_cb (GthDirList     *dir_list,
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
-
+	GList                 *file_list;
+	
 	gth_browser_stop_activity_mode (browser);
 
 	if (result != GNOME_VFS_ERROR_EOF) {
@@ -6288,7 +6290,8 @@ dir_list_done_cb (GthDirList     *dir_list,
 		if ((priv->history_current == NULL) || ! same_uri (uri, priv->history_current->data))
 			add_history_item (browser, uri, NULL);
 		g_free (uri);
-	} else
+	} 
+	else
 		priv->go_op = GTH_BROWSER_GO_TO;
 
 	window_update_history_list (browser);
@@ -6296,10 +6299,12 @@ dir_list_done_cb (GthDirList     *dir_list,
 
 	/**/
 
+	file_list = gth_dir_list_get_file_list (priv->dir_list);
 	window_set_file_list (browser,
-			      gth_dir_list_get_file_list (priv->dir_list),
+			      file_list,
 			      priv->sort_method,
 			      priv->sort_type);
+	file_data_list_free (file_list);
 }
 
 

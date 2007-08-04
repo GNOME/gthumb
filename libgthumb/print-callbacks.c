@@ -2438,7 +2438,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	data->done_func = done_func;
 	data->done_data = done_data;
 
-	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	data->loader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (data->loader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done_cb),

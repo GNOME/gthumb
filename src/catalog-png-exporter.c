@@ -1464,7 +1464,7 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 		ce->created_list = NULL;
 	}
 
-	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	ce->iloader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (ce->iloader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done),

@@ -1629,7 +1629,7 @@ ok_clicked_cb (GtkButton  *button,
 		g_free (camera_folder);
 	}
 
-	if (get_dest_free_space (data->local_folder) < total_size) {
+	if (get_destination_free_space (data->local_folder) < total_size) {
 		display_error_dialog (data,
 				      _("Could not import photos"),
 				      _("Not enough free space left on disk"));

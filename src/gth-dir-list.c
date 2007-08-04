@@ -67,7 +67,7 @@ gth_dir_list_finalize (GObject *object)
         g_return_if_fail (GTH_IS_DIR_LIST (object));
 	dir_list = GTH_DIR_LIST (object);
 
-	path_list_free (dir_list->file_list);
+	file_data_list_free (dir_list->file_list);
 	path_list_free (dir_list->list);
 	g_free (dir_list->path);
 	g_free (dir_list->try_path);
@@ -361,6 +361,14 @@ gth_dir_list_new (void)
 
 
 void
+gth_dir_list_show_hidden_files (GthDirList  *dir_list,
+	     		        gboolean     show)
+{
+	dir_list->show_dot_files = show;
+}
+
+
+void
 gth_dir_list_update_underline (GthDirList *dir_list)
 {
 	GdkWindow  *win;
@@ -516,7 +524,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 
 	/* Set the new file list. */
 
-	path_list_free (dir_list->file_list);
+	file_data_list_free (dir_list->file_list);
 	dir_list->file_list = new_file_list;
 
 	/* Set the new dir list */
@@ -575,6 +583,31 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 }
 
 
+static gboolean 
+gth_dir_list_filter_func (PathListData     *pld, 
+			  GnomeVFSFileInfo *info, 
+			  gpointer          data)
+{
+	GthDirList *dir_list = data;
+	
+	if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
+		return TRUE;
+	if (info->type != GNOME_VFS_FILE_TYPE_REGULAR)
+		return FALSE;
+		
+	if (info->mime_type == NULL)
+		return FALSE;
+
+	if ((! dir_list->show_dot_files && file_is_hidden (info->name))
+	    || ! (mime_type_is_image (info->mime_type) 
+	          || mime_type_is_video (info->mime_type)
+	          || mime_type_is_audio (info->mime_type)))
+		return FALSE;
+	
+	return TRUE;
+}
+
+
 void
 gth_dir_list_change_to (GthDirList *dir_list,
 		        const char *path)
@@ -590,7 +623,13 @@ gth_dir_list_change_to (GthDirList *dir_list,
 	if (dir_list->dir_load_handle != NULL)
 		path_list_async_interrupt (dir_list->dir_load_handle, NULL, NULL);
 
-	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step2, dir_list);
+	dir_list->dir_load_handle = path_list_async_new (
+		dir_list->try_path, 
+		gth_dir_list_filter_func, 
+		dir_list, 
+		eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE),
+		gth_dir_list_change_to__step2, 
+		dir_list);
 }
 
 
@@ -854,5 +893,5 @@ GList *
 gth_dir_list_get_file_list (GthDirList *dir_list)
 {
 	g_return_val_if_fail (dir_list != NULL, NULL);
-	return path_list_dup (dir_list->file_list);
+	return file_data_list_dup (dir_list->file_list);
 }

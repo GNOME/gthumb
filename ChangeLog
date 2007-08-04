@@ -1,3 +1,48 @@
+2007-08-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.h: 
+	* libgthumb/thumb-loader.c: use a file_data structure to store all the 
+	info about the file to load.  This minimize the number of accesses to 
+	the file, which is important for remote files.
+
+	* src/dlg-duplicates.c: 
+	
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: pass an optional filter function argument 
+	to path_list_async_new
+
+	* libgthumb/thumb-cache.c: 
+	* src/gth-dir-list.h: 
+	* src/gth-dir-list.c: make the filtering here instead of gth-file-list.c
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c: removed the file filtering from here.  This
+	reduces the number of accesses to files.
+
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: removed the path argument from the image
+	loader costructor.
+
+	* src/gthumb-preloader.c: 
+	* src/gth-batch-op.c: 
+	* src/dlg-search.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/dlg-convert.c: 
+	* src/catalog-web-exporter.c: 
+	* src/catalog-png-exporter.c: 	
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/image-viewer.c: changed all the calls to image_loader_new,
+	thumb_loader_new and other minor changes.
+
+	* libgthumb/glib-utils.h: 
+	* libgthumb/glib-utils.c: added get_static_string
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: minor api changes.
+
+	* libgthumb/gthumb-init.c: moved prune_cache outside 
+	ensure_directories_exist
+
 2007-07-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c: call window_make_current_image_visible with

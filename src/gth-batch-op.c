@@ -641,7 +641,7 @@ gth_batch_op_start (GthBatchOp       *bop,
 	PD(bop)->parent = window;
 
 	all_windows_remove_monitor ();
-	PD(bop)->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	PD(bop)->loader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (PD(bop)->loader),
 			  "image_done",
 			  G_CALLBACK (loader_done),

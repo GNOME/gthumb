@@ -339,8 +339,7 @@ image_loader_get_type ()
 
 
 GObject*
-image_loader_new (const gchar *path,
-		  gboolean     as_animation)
+image_loader_new (gboolean as_animation)
 {
 	ImageLoaderPrivateData *priv;
 	ImageLoader            *il;
@@ -350,7 +349,7 @@ image_loader_new (const gchar *path,
 	priv = (ImageLoaderPrivateData*) il->priv;
 
 	priv->as_animation = as_animation;
-	image_loader_set_path (il, path, NULL);
+	image_loader_set_path (il, NULL, NULL);
 
 	size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
 	if (size <= THUMBNAIL_NORMAL_SIZE)
@@ -389,7 +388,7 @@ image_loader_set_path (ImageLoader *il,
 
 	g_mutex_lock (priv->yes_or_no);
 
-	if (mime_type == NULL)
+	if ((mime_type == NULL) && (path != NULL))
 		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	priv->mime_type = mime_type;
 

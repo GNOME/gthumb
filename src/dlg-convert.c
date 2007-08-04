@@ -366,7 +366,7 @@ ok_cb (GtkWidget  *widget,
 {
 	all_windows_remove_monitor ();
 
-	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	data->loader = IMAGE_LOADER (image_loader_new (FALSE));
 
 	g_signal_connect (G_OBJECT (data->loader),
 			  "image_done",

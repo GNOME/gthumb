@@ -42,19 +42,22 @@
 /* Async directory list */
 
 typedef struct _PathListData PathListData;
-typedef void (*PathListDoneFunc) (PathListData *dld, gpointer data);
+typedef gboolean (*PathListFilterFunc) (PathListData *pld, GnomeVFSFileInfo *info, gpointer data);
+typedef void (*PathListDoneFunc) (PathListData *pld, gpointer data);
 
 struct _PathListData {
-	GnomeVFSURI      *uri;
-	GnomeVFSResult    result;
-	GList            *files;               /* char* items. */
-	GList            *dirs;                /* char* items. */
-	PathListDoneFunc  done_func;
-	gpointer          done_data;
-	DoneFunc          interrupt_func;
-	gpointer          interrupt_data;
-	gboolean          interrupted;
-	GHashTable       *hidden_files;
+	GnomeVFSURI        *uri;
+	GnomeVFSResult      result;
+	GList              *files;               /* char* items. */
+	GList              *dirs;                /* char* items. */
+	PathListFilterFunc  filter_func;
+	gpointer            filter_data;
+	PathListDoneFunc    done_func;
+	gpointer            done_data;
+	DoneFunc            interrupt_func;
+	gpointer            interrupt_data;
+	gboolean            interrupted;
+	GHashTable         *hidden_files;
 };
 
 typedef struct {
@@ -63,22 +66,25 @@ typedef struct {
 } PathListHandle;
 
 PathListData *      path_list_data_new            (void);
-void                path_list_data_free           (PathListData     *dli);
-void                path_list_handle_free         (PathListHandle   *handle);
-PathListHandle *    path_list_async_new           (const char       *uri,
-						   PathListDoneFunc  f,
-						   gpointer          data);
-void                path_list_async_interrupt     (PathListHandle   *handle,
-						   DoneFunc          f,
-						   gpointer          data);
-gboolean            path_list_new                 (const char       *path,
-						   GList           **files,
-						   GList           **dirs);
-GList *             path_list_dup                 (GList            *path_list);
-void                path_list_free                (GList            *list);
-void                path_list_print               (GList            *list);
-GList *             path_list_find_path           (GList            *list,
-						   const char       *path);
+void                path_list_data_free           (PathListData       *dli);
+void                path_list_handle_free         (PathListHandle     *handle);
+PathListHandle *    path_list_async_new           (const char         *uri,
+						   PathListFilterFunc  filter_func,
+		     				   gpointer            filter_data,
+		     				   gboolean            fast_file_type,
+						   PathListDoneFunc    done_func,
+						   gpointer            done_data);
+void                path_list_async_interrupt     (PathListHandle     *handle,
+						   DoneFunc            f,
+						   gpointer            data);
+gboolean            path_list_new                 (const char         *path,
+						   GList             **files,
+						   GList             **dirs);
+GList *             path_list_dup                 (GList              *path_list);
+void                path_list_free                (GList              *list);
+void                path_list_print               (GList              *list);
+GList *             path_list_find_path           (GList              *list,
+						   const char         *path);
 
 /* Directory utils */
 
@@ -222,7 +228,7 @@ GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,
 						   ...);
-GnomeVFSFileSize    get_dest_free_space           (const char       *path);
+GnomeVFSFileSize    get_destination_free_space    (const char       *path);
 const char *        get_mime_type                 (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);

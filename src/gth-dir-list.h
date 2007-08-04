@@ -69,6 +69,8 @@ struct _GthDirListClass {
 
 GType          gth_dir_list_get_type                (void);
 GthDirList *   gth_dir_list_new                     (void);
+void           gth_dir_list_show_hidden_files       (GthDirList  *dir_list,
+				     		     gboolean     show);
 void           gth_dir_list_change_to               (GthDirList  *dir_list,
 						     const char  *path);
 void           gth_dir_list_stop                    (GthDirList  *dir_list);

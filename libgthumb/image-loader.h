@@ -64,8 +64,7 @@ typedef GdkPixbufAnimation * (*LoaderFunc) (const char *path, const char *mime_t
 
 GType                image_loader_get_type           (void);
 
-GObject *            image_loader_new                (const gchar *path,
-						      gboolean as_animation);
+GObject *            image_loader_new                (gboolean as_animation);
 
 void                 image_loader_set_loader         (ImageLoader *il,
 						      LoaderFunc   loader,

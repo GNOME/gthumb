@@ -56,7 +56,8 @@ typedef struct {
 
 FileData *   file_data_new               (const char       *path,
 					  GnomeVFSFileInfo *info);
-void         file_data_ref               (FileData         *fd);
+GList*       file_data_new_from_uri_list (GList            *list);
+FileData *   file_data_ref               (FileData         *fd);
 void         file_data_unref             (FileData         *fd);
 void         file_data_set_path          (FileData         *fd,
 					  const char       *path);
