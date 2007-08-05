@@ -36,10 +36,10 @@
 ExifData *
 gth_exif_data_new_from_uri (const char *path)
 {
-        char        *local_file = NULL;
-	ExifData    *new_exif_data;
+        char     *local_file = NULL;
+	ExifData *new_exif_data;
 
-	if (path==NULL)
+	if (path == NULL)
 		return NULL;
 
         /* libexif does not support VFS URIs directly, so make a temporary local

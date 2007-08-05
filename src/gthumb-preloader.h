@@ -26,7 +26,7 @@
 
 #include <time.h>
 #include "image-loader.h"
-
+#include "file-data.h"
 
 #define GTHUMB_TYPE_PRELOADER            (gthumb_preloader_get_type ())
 #define GTHUMB_PRELOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTHUMB_TYPE_PRELOADER, GThumbPreloader))
@@ -44,9 +44,8 @@ typedef struct _GThumbPreloaderClass GThumbPreloaderClass;
 
 
 typedef struct {
+	FileData        *file;
 	ImageLoader     *loader;
-	char            *path;
-	time_t           mtime;
 	gboolean         loaded;
 	gboolean         error;
 	GThumbPreloader *gploader;
@@ -54,7 +53,7 @@ typedef struct {
 
 
 struct _GThumbPreloader {
-	GObject      __parent;
+	GObject __parent;
 
 	PreLoader   *loader[N_LOADERS];       /* Array of loaders, each loader
 					       * will load an image. */
@@ -94,18 +93,20 @@ GType               gthumb_preloader_get_type   (void) G_GNUC_CONST;
 
 GThumbPreloader    *gthumb_preloader_new        (void);
 
-/* images get loaded in the following order : requested, next1, prev1, next2. 
+/* images get loaded in the following order : requested, next1, prev1. 
  */
 
 void                gthumb_preloader_start      (GThumbPreloader  *gploader,
 						 const char       *requested,
 						 const char       *next1,
 						 const char       *prev1);
-
+void                gthumb_preloader_load       (GThumbPreloader  *gploader,
+						 FileData         *requested,
+						 FileData         *next1,
+						 FileData         *prev1);
 void                gthumb_preloader_stop       (GThumbPreloader  *gploader,
 						 DoneFunc          done_func,
 						 gpointer          done_func_data);
-
 ImageLoader        *gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 						 const char       *path);
 

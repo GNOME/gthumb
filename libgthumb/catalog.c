@@ -488,8 +488,36 @@ catalog_remove_all_items (Catalog *catalog)
 {
 	g_return_if_fail (catalog != NULL);
 
-	g_list_foreach (catalog->list, (GFunc) g_free, NULL);
-	g_list_free (catalog->list);
+	path_list_free (catalog->list);
 	catalog->list = NULL;
 }
 
+
+/* -- catalog_get_file_data_list -- */
+
+
+void
+catalog_get_file_data_list (Catalog         *catalog,
+			    CatalogDoneFunc  done_func,
+			    gpointer         done_data)
+{
+	GList *list = NULL;
+	GList *scan;
+	
+	/* FIXME: make this function async */
+	
+	for (scan = catalog->list; scan; scan = scan->next) {
+		char     *path = scan->data;
+		FileData *fd;
+		
+		fd = file_data_new (path, NULL);
+		file_data_update (fd);
+		list = g_list_prepend (list, fd);
+	}
+	list = g_list_reverse (list);
+	
+	if (done_func) 
+		(done_func) (catalog, list, done_data);
+	
+	file_data_list_free (list);
+}

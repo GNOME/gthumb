@@ -26,6 +26,7 @@
 
 #include <gtk/gtkhbox.h>
 #include "image-viewer.h"
+#include "file-data.h"
 
 
 #define GTH_TYPE_EXIF_DATA_VIEWER         (gth_exif_data_viewer_get_type ())
@@ -55,17 +56,13 @@ struct _GthExifDataViewerClass
 
 
 GType         gth_exif_data_viewer_get_type       (void) G_GNUC_CONST;
-
-GtkWidget *   gth_exif_data_viewer_new            (gboolean view_file_info);
-
+GtkWidget *   gth_exif_data_viewer_new            (gboolean           view_file_info);
 void          gth_exif_data_viewer_view_file_info (GthExifDataViewer *edv,
 						   gboolean           view_file_info);
-
 void          gth_exif_data_viewer_update         (GthExifDataViewer *edv,
 						   ImageViewer       *viewer,
-						   const char        *filename,
+						   FileData          *file_data,
 						   gpointer           exif_data);
-
 GtkWidget *   gth_exif_data_viewer_get_view       (GthExifDataViewer *edv);
 
 #endif /* GTH_EXIF_DATA_VIEWER_H */

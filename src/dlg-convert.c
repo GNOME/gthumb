@@ -181,7 +181,7 @@ load_current_image (DialogData *data)
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_bar),
 				       (double) data->image / (data->images+1));
 
-	image_loader_set_path (data->loader, fd->path, NULL);
+	image_loader_set_file (data->loader, fd);
 	image_loader_start (data->loader);
 }
 

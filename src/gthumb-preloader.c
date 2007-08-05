@@ -88,8 +88,8 @@ loader_error_cb (ImageLoader  *il,
 
 
 static void
-loader_done_cb (ImageLoader  *il,
-		PreLoader    *ploader)
+loader_done_cb (ImageLoader *il,
+		PreLoader   *ploader)
 {
 	GThumbPreloader *gploader = ploader->gploader;
 	int              timeout = NEXT_LOAD_SMALL_TIMEOUT;
@@ -113,8 +113,7 @@ preloader_new (GThumbPreloader *gploader)
 {
 	PreLoader *ploader = g_new (PreLoader, 1);
 
-	ploader->path     = NULL;
-	ploader->mtime    = 0;
+	ploader->file     = NULL;
 	ploader->loaded   = FALSE;
 	ploader->error    = FALSE;
 	ploader->loader   = IMAGE_LOADER (image_loader_new (TRUE));
@@ -139,29 +138,29 @@ preloader_free (PreLoader *ploader)
 	if (ploader == NULL)
 		return;
 	g_object_unref (ploader->loader);
-	g_free (ploader->path);
+	file_data_unref (ploader->file);
 	g_free (ploader);
 }
 
 
 static void
-preloader_set_path (PreLoader  *ploader,
-		    const char *path)
+preloader_set_file (PreLoader *ploader,
+		    FileData  *file)
 {
 	g_return_if_fail (ploader != NULL);
 
-	g_free (ploader->path);
+	if (ploader->file != file) {
+		file_data_unref (ploader->file);
+		ploader->file = NULL;
+	}
+	
+	if (file != NULL) {
+		ploader->file = file_data_ref (file);
+		image_loader_set_file (ploader->loader, ploader->file);
+	}
+	
 	ploader->loaded = FALSE;
 	ploader->error = FALSE;
-
-	if (path != NULL) {
-		ploader->path = g_strdup (path);
-		ploader->mtime = get_file_mtime (path);
-		image_loader_set_path (ploader->loader, path, NULL);
-	} else {
-		ploader->path = NULL;
-		ploader->mtime = 0;
-	}
 }
 
 
@@ -269,10 +268,12 @@ gthumb_preloader_get_type ()
 
 
 GThumbPreloader *
-gthumb_preloader_new ()
+gthumb_preloader_new (void)
 {
 	GObject *object;
+	
 	object = g_object_new (GTHUMB_TYPE_PRELOADER, NULL);
+	
 	return GTHUMB_PRELOADER (object);
 }
 
@@ -295,7 +296,7 @@ requested_preloader (GThumbPreloader *gploader)
 }
 
 
-/* -- gthumb_preloader_set_paths -- */
+/* -- gthumb_preloader_load -- */
 
 
 #define N_ARGS 3
@@ -303,110 +304,110 @@ requested_preloader (GThumbPreloader *gploader)
 
 typedef struct {
 	GThumbPreloader  *gploader;
-	char             *requested;
-	char             *next1;
-	char             *prev1;
-} SetPathData;
+	FileData         *requested;
+	FileData         *next1;
+	FileData         *prev1;
+} LoadData;
 
 
-static SetPathData*
-sp_data_new (GThumbPreloader  *gploader,
-	     const char       *requested,
-	     const char       *next1,
-	     const char       *prev1)
+static LoadData*
+load_data_new (GThumbPreloader *gploader,
+	       FileData        *requested,
+	       FileData        *next1,
+	       FileData        *prev1)
 {
-	SetPathData *sp_data;
+	LoadData *load_data;
 
-	sp_data = g_new0 (SetPathData, 1);
+	load_data = g_new0 (LoadData, 1);
 
-	sp_data->gploader = gploader;
-	sp_data->requested = g_strdup (requested);
-	sp_data->next1 = g_strdup (next1);
-	sp_data->prev1 = g_strdup (prev1);
+	load_data->gploader = gploader;
+	if (requested != NULL)
+		load_data->requested = file_data_ref (requested);
+	if (next1 != NULL)
+		load_data->next1 = file_data_ref (next1);
+	if (prev1 != NULL)
+		load_data->prev1 = file_data_ref (prev1);
 
-	return sp_data;
+	return load_data;
 }
 
 
 static void
-sp_data_free (SetPathData *sp_data)
+load_data_free (LoadData *load_data)
 {
-	if (sp_data == NULL)
+	if (load_data == NULL)
 		return;
 
-	g_free (sp_data->requested);
-	g_free (sp_data->next1);
-	g_free (sp_data->prev1);
-
-	g_free (sp_data);
+	file_data_unref (load_data->requested);
+	file_data_unref (load_data->next1);
+	file_data_unref (load_data->prev1);
+	g_free (load_data);
 }
 
 
 void
-set_paths__step2 (SetPathData *sp_data)
+gthumb_preloader_load__step2 (LoadData *load_data)
 {
-	GThumbPreloader *gploader = sp_data->gploader;
-	const char      *requested = sp_data->requested;
-	const char      *next1 = sp_data->next1;
-	const char      *prev1 = sp_data->prev1;
-	const char      *paths[N_ARGS];
-	gboolean         path_assigned[N_LOADERS];
+	GThumbPreloader *gploader = load_data->gploader;
+	FileData        *requested = load_data->requested;
+	FileData        *next1 = load_data->next1;
+	FileData        *prev1 = load_data->prev1;
+	FileData        *files[N_ARGS];
+	gboolean         file_assigned[N_LOADERS];
 	gboolean         loader_assigned[N_LOADERS];
 	int              i, j;
 
 	if (requested == NULL)
 		return;
 
-	paths[0] = requested;
-	paths[1] = next1;
-	paths[2] = prev1;
+	files[0] = requested;
+	files[1] = next1;
+	files[2] = prev1;
 
 	for (i = 0; i < N_LOADERS; i++) {
 		loader_assigned[i] = FALSE;
-		path_assigned[i] = FALSE;
+		file_assigned[i] = FALSE;
 	}
 
 	for (j = 0; j < N_ARGS; j++) {
-		const char *path = paths[j];
-		time_t      path_mtime;
+		FileData *file = files[j];
 
-		if (path == NULL)
+		if (file == NULL)
 			continue;
-
-		path_mtime = get_file_mtime (path);
 
 		/* check whether the image has already been loaded. */
 
 		for (i = 0; i < N_LOADERS; i++) {
 			PreLoader *ploader = gploader->loader[i];
 
-			if ((ploader->path != NULL)
-			    && same_uri (ploader->path, path)
-			    && (path_mtime == ploader->mtime)
+			if ((ploader->file != NULL)
+			    && same_uri (ploader->file->path, file->path)
+			    && (file->mtime == ploader->file->mtime)
 			    && ploader->loaded) {
 
 				loader_assigned[i] = TRUE;
-				path_assigned[j] = TRUE;
-				if (same_uri (path, requested)) {
+				file_assigned[j] = TRUE;
+				if (same_uri (file->path, requested->path)) {
 					gploader->requested = i;
 					g_signal_emit (G_OBJECT (gploader), gthumb_preloader_signals[REQUESTED_DONE], 0);
 					debug (DEBUG_INFO, "[requested] preloaded");
 				}
-				debug (DEBUG_INFO, "[=] [%d] <- %s", i, path);
+				debug (DEBUG_INFO, "[=] [%d] <- %s", i, file->path);
 			}
 		}
 	}
 
 	/* assign remaining paths. */
+	
 	for (j = 0; j < N_ARGS; j++) {
-		PreLoader  *ploader;
-		const char *path = paths[j];
-		int         k;
+		FileData  *file = files[j];
+		PreLoader *ploader;
+		int        k;
 
-		if (path == NULL)
+		if (file == NULL)
 			continue;
 
-		if (path_assigned[j])
+		if (file_assigned[j])
 			continue;
 
 		/* find the first non-assigned loader */
@@ -417,14 +418,14 @@ set_paths__step2 (SetPathData *sp_data)
 
 		ploader = gploader->loader[k];
 		loader_assigned[k] = TRUE;
-		preloader_set_path (ploader, path);
+		preloader_set_file (ploader, file);
 
-		if (same_uri (path, requested)) {
+		if (same_uri (file->path, requested->path)) {
 			gploader->requested = k;
-			debug (DEBUG_INFO, "[requested] %s", path);
+			debug (DEBUG_INFO, "[requested] %s", file->path);
 		}
 
-		debug (DEBUG_INFO, "[+] [%d] <- %s", k, path);
+		debug (DEBUG_INFO, "[+] [%d] <- %s", k, file->path);
 	}
 
 	for (i = 0; i < N_LOADERS; i++)
@@ -432,10 +433,10 @@ set_paths__step2 (SetPathData *sp_data)
 			PreLoader *ploader = gploader->loader[i];
 			int        priority;
 
-			if (ploader->path == NULL)
+			if (ploader->file == NULL)
 				continue;
 
-			if (same_uri (ploader->path, requested))
+			if (same_uri (ploader->file->path, requested->path))
 				priority = GNOME_VFS_PRIORITY_MAX;
 			else
 				priority = GNOME_VFS_PRIORITY_MIN;
@@ -443,24 +444,62 @@ set_paths__step2 (SetPathData *sp_data)
 			image_loader_set_priority (ploader->loader, priority);
 		}
 
-	sp_data_free (sp_data);
+	load_data_free (load_data);
 
 	gploader->stopped = FALSE;
 	start_next_loader (gploader);
 }
 
 
-void
-gthumb_preloader_start (GThumbPreloader  *gploader,
-			const char       *requested,
-			const char       *next1,
-			const char       *prev1)
+
+void                
+gthumb_preloader_load (GThumbPreloader  *gploader,
+		       FileData         *requested,
+		       FileData         *next1,
+		       FileData         *prev1)
 {
-	SetPathData *sp_data;
-	sp_data = sp_data_new (gploader, requested, next1, prev1);
-	gthumb_preloader_stop (gploader, (DoneFunc) set_paths__step2, sp_data);
+	LoadData *load_data;
+	
+	load_data = load_data_new (gploader, requested, next1, prev1);
+	gthumb_preloader_stop (gploader, (DoneFunc) gthumb_preloader_load__step2, load_data);	
 }
 
+
+void
+gthumb_preloader_start (GThumbPreloader *gploader,
+			const char      *requested,
+			const char      *next1,
+			const char      *prev1)
+{
+	FileData *f_requested = NULL;
+	FileData *f_next1 = NULL;
+	FileData *f_prev1 = NULL;
+	
+	g_return_if_fail (requested != NULL);
+	
+	if (! is_local_file (next1))
+		next1 = NULL;
+	if (! is_local_file (prev1))
+		prev1 = NULL;
+	
+	f_requested = file_data_new (requested, NULL);
+	file_data_update (f_requested);
+	if (next1 != NULL) {
+		f_next1 = file_data_new (next1, NULL);
+		file_data_update (f_next1);
+	}
+	if (prev1 != NULL) {
+		f_prev1 = file_data_new (prev1, NULL);
+		file_data_update (f_prev1);
+	}
+	
+	gthumb_preloader_load (gploader, f_requested, f_next1, f_prev1);
+	
+	file_data_unref (f_requested);
+	file_data_unref (f_next1);
+	file_data_unref (f_prev1);
+}
+						 
 
 ImageLoader *
 gthumb_preloader_get_loader (GThumbPreloader  *gploader,
@@ -477,9 +516,9 @@ gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 	for (i = 0; i < N_LOADERS; i++) {
 		PreLoader *ploader = gploader->loader[i];
 
-		if ((ploader->path != NULL)
-		    && same_uri (ploader->path, path)
-		    && (path_mtime == ploader->mtime)
+		if ((ploader->file != NULL)
+		    && same_uri (ploader->file->path, path)
+		    && (path_mtime == ploader->file->mtime)
 		    && ploader->loaded)
 			return ploader->loader;
 	}
@@ -509,7 +548,7 @@ start_next_loader (GThumbPreloader *gploader)
 
 	ploader = requested_preloader (gploader);
 	if ((ploader != NULL)
-	    && (ploader->path != NULL)
+	    && (ploader->file != NULL)
 	    && ! ploader->error
 	    && ! ploader->loaded)
 		i = gploader->requested;
@@ -525,7 +564,7 @@ start_next_loader (GThumbPreloader *gploader)
 			ploader = gploader->loader[i];
 
 			if ((ploader != NULL)
-			    && (ploader->path != NULL)
+			    && (ploader->file != NULL)
 			    && ! ploader->error
 			    && ! ploader->loaded)
 				break;
@@ -544,7 +583,7 @@ start_next_loader (GThumbPreloader *gploader)
 	ploader = current_preloader (gploader);
 
 	image_loader_start (ploader->loader);
-	debug (DEBUG_INFO, "load %s", ploader->path);
+	debug (DEBUG_INFO, "load %s", ploader->file->path);
 }
 
 

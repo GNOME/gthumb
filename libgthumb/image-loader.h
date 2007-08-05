@@ -26,8 +26,8 @@
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include "typedefs.h"
+#include "file-data.h"
 
 #define IMAGE_LOADER_TYPE            (image_loader_get_type ())
 #define IMAGE_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), IMAGE_LOADER_TYPE, ImageLoader))
@@ -52,67 +52,43 @@ struct _ImageLoaderClass
 
 	/* -- Signals -- */
 
-	void (* image_error)       (ImageLoader *il);
-
-	void (* image_done)        (ImageLoader *il);
-
-	void (* image_progress)    (ImageLoader *il,
-				    float        percent);
+	void (* image_error)    (ImageLoader *il);
+	void (* image_done)     (ImageLoader *il);
+	void (* image_progress) (ImageLoader *il,
+				 float        percent);
 };
 
-typedef GdkPixbufAnimation * (*LoaderFunc) (const char *path, const char *mime_type, GError **error, gpointer data);
+typedef GdkPixbufAnimation * (*LoaderFunc) (FileData *file, GError **error, gpointer data);
 
-GType                image_loader_get_type           (void);
-
-GObject *            image_loader_new                (gboolean as_animation);
-
-void                 image_loader_set_loader         (ImageLoader *il,
-						      LoaderFunc   loader,
-						      gpointer     data);
-
-void                 image_loader_set_path           (ImageLoader *il,
-						      const char  *path,
-						      const char  *mime_type);
-
-gchar *              image_loader_get_path           (ImageLoader *il);
-
-void                 image_loader_set_uri            (ImageLoader *il,
-						      const GnomeVFSURI *uri,
-						      const char  *mime_type);
-
-GnomeVFSURI *        image_loader_get_uri            (ImageLoader *il);
-
-void                 image_loader_set_pixbuf         (ImageLoader *il,
-						      GdkPixbuf   *pixbuf);
-
-GdkPixbuf *          image_loader_get_pixbuf         (ImageLoader *il);
-
-void                 image_loader_set_priority       (ImageLoader *il,
-						      int          priority);
-
-GdkPixbufAnimation * image_loader_get_animation      (ImageLoader *il);
-
-gfloat               image_loader_get_percent        (ImageLoader *il);
-
-gint                 image_loader_get_is_done        (ImageLoader *il);
-
-GTimer *             image_loader_get_timer          (ImageLoader *il);
-
-void                 image_loader_start              (ImageLoader *il);
-
-void                 image_loader_stop               (ImageLoader *il,
-						      DoneFunc     done_func,
-						      gpointer     done_func_data);
-
-void                 image_loader_stop_with_error    (ImageLoader *il,
-						      DoneFunc     done_func,
-						      gpointer     done_func_data);
-
-void                 image_loader_load_from_pixbuf_loader (ImageLoader *il,
-							   GdkPixbufLoader *pl);
-
-void                 image_loader_load_from_image_loader  (ImageLoader *to,
-							   ImageLoader *from);
-
+GType                image_loader_get_type                (void);
+GObject *            image_loader_new                     (gboolean           as_animation);
+void                 image_loader_set_loader              (ImageLoader       *il,
+						           LoaderFunc         loader,
+						           gpointer           data);
+void                 image_loader_set_file                (ImageLoader       *il,
+						           FileData          *file);
+FileData *           image_loader_get_file                (ImageLoader       *il);
+void                 image_loader_set_path                (ImageLoader       *il,
+						           const char        *path,
+						           const char        *mime_type);
+gchar *              image_loader_get_path                (ImageLoader       *il);
+void                 image_loader_set_pixbuf              (ImageLoader       *il,
+						           GdkPixbuf         *pixbuf);
+GdkPixbuf *          image_loader_get_pixbuf              (ImageLoader       *il);
+void                 image_loader_set_priority            (ImageLoader       *il,
+						           int                priority);
+GdkPixbufAnimation * image_loader_get_animation           (ImageLoader       *il);
+gint                 image_loader_get_is_done             (ImageLoader       *il);
+void                 image_loader_start                   (ImageLoader       *il);
+void                 image_loader_stop                    (ImageLoader       *il,
+						           DoneFunc           done_func,
+						           gpointer           done_func_data);
+void                 image_loader_stop_with_error         (ImageLoader       *il,
+						           DoneFunc           done_func,
+						           gpointer           done_func_data);
+void                 image_loader_load_from_pixbuf_loader (ImageLoader       *il,
+							   GdkPixbufLoader   *pl);
+void                 image_loader_load_from_image_loader  (ImageLoader       *to,
+							   ImageLoader       *from);
 
 #endif /* IMAGE_LOADER_H */

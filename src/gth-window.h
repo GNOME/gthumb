@@ -26,6 +26,7 @@
 #include <gtk/gtkwindow.h>
 #include "gth-pixbuf-op.h"
 #include "image-viewer.h"
+#include "file-data.h"
 
 
 #define GTH_TYPE_WINDOW              (gth_window_get_type ())
@@ -51,35 +52,36 @@ struct _GthWindowClass
 
 	/*<virtual functions>*/
 
-	void          (*close)                         (GthWindow *window);
-	ImageViewer * (*get_image_viewer)              (GthWindow   *window);
-	const char *  (*get_image_filename)            (GthWindow   *window);
-	void          (*set_image_modified)            (GthWindow   *window,
-							gboolean     value);
-	gboolean      (*get_image_modified)            (GthWindow   *window);
-	void          (*save_pixbuf)                   (GthWindow   *window,
-							GdkPixbuf   *pixbuf,
-							const char  *filename);
-	void          (*exec_pixbuf_op)                (GthWindow   *window,
-							GthPixbufOp *pixop,
-							gboolean     preview);
-	void          (*reload_current_image)          (GthWindow   *window);
-	void          (*update_current_image_metadata) (GthWindow   *window);
-	GList *       (*get_file_list_selection)       (GthWindow   *window);
-	GList *       (*get_file_list_selection_as_fd) (GthWindow   *window);
-	void          (*set_animation)                 (GthWindow   *window,
-							gboolean     value);
-	gboolean      (*get_animation)                 (GthWindow   *window);
-	void          (*step_animation)                (GthWindow   *window);
-	void          (*set_fullscreen)                (GthWindow   *window,
-							gboolean     value);
-	void          (*set_slideshow)                 (GthWindow   *window,
-							gboolean     value);
+	void             (*close)                         (GthWindow   *window);
+	ImageViewer *    (*get_image_viewer)              (GthWindow   *window);
+	FileData *       (*get_image_data)                (GthWindow   *window);
+	void             (*set_image_modified)            (GthWindow   *window,
+							   gboolean     value);
+	gboolean         (*get_image_modified)            (GthWindow   *window);
+	void             (*save_pixbuf)                   (GthWindow   *window,
+							   GdkPixbuf   *pixbuf,
+							   const char  *filename);
+	void             (*exec_pixbuf_op)                (GthWindow   *window,
+							   GthPixbufOp *pixop,
+							   gboolean     preview);
+	void             (*reload_current_image)          (GthWindow   *window);
+	void             (*update_current_image_metadata) (GthWindow   *window);
+	GList *          (*get_file_list_selection)       (GthWindow   *window);
+	GList *          (*get_file_list_selection_as_fd) (GthWindow   *window);
+	void             (*set_animation)                 (GthWindow   *window,
+							   gboolean     value);
+	gboolean         (*get_animation)                 (GthWindow   *window);
+	void             (*step_animation)                (GthWindow   *window);
+	void             (*set_fullscreen)                (GthWindow   *window,
+							   gboolean     value);
+	void             (*set_slideshow)                 (GthWindow   *window,
+							   gboolean     value);
 };
 
 GType          gth_window_get_type                       (void);
 void           gth_window_close                          (GthWindow   *window);
 ImageViewer *  gth_window_get_image_viewer               (GthWindow   *window);
+FileData *     gth_window_get_image_data                 (GthWindow   *window);
 const char *   gth_window_get_image_filename             (GthWindow   *window);
 void           gth_window_set_image_modified             (GthWindow   *window,
 							  gboolean     value);

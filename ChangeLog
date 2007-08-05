@@ -1,3 +1,40 @@
+2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c: 
+	* src/gth-window.h: 
+	* src/gth-window.c: 
+	* src/gth-viewer-actions-callbacks.c: 
+	* src/gth-viewer.h: 
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.h: 
+	* src/gthumb-preloader.c: 
+	* src/gth-fullscreen.h: 
+	* src/gth-fullscreen.c: 
+	* src/gth-exif-data-viewer.h: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.h: 
+	* src/gth-browser.c: 
+	* src/gth-batch-op.c: 
+	* src/dlg-image-prop.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-convert.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/image-viewer.h: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	* libgthumb/catalog.h: 
+	* libgthumb/catalog.c: 
+
+	Use a file_data instead of a simple uri to minimize accesses to files.
+	Started work to make loading of remote files async.
+
 2007-08-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.h: 

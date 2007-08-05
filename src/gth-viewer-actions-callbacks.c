@@ -40,7 +40,8 @@ gth_viewer_activate_action_file_new_window (GtkAction *action,
 	GthWindow *window = GTH_WINDOW (data);
 	GtkWidget *new_viewer;
 
-	new_viewer = gth_viewer_new (gth_window_get_image_filename (window));
+	new_viewer = gth_viewer_new (NULL);
+	gth_viewer_load (GTH_VIEWER (new_viewer), gth_window_get_image_data (window));
 	gtk_widget_show (new_viewer);
 }
 
@@ -68,7 +69,7 @@ gth_viewer_activate_action_file_revert (GtkAction *action,
 					gpointer   data)
 {	
 	GthViewer *viewer = data;
-	gth_viewer_load (viewer, gth_window_get_image_filename (GTH_WINDOW (viewer)));
+	gth_viewer_load (viewer, gth_window_get_image_data (GTH_WINDOW (viewer)));
 }
 
 

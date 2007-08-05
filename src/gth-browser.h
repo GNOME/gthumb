@@ -23,6 +23,7 @@
 #ifndef GTH_BROWSER_H
 #define GTH_BROWSER_H
 
+#include "file-data.h"
 #include "gth-file-list.h"
 #include "gth-file-view.h"
 #include "catalog-list.h"
@@ -92,7 +93,9 @@ gboolean        gth_browser_show_first_image             (GthBrowser        *bro
 gboolean        gth_browser_show_last_image              (GthBrowser        *browser,
 							  gboolean           only_selected);
 void            gth_browser_load_image                   (GthBrowser        *browser,
-							  const gchar       *filename);
+							  FileData          *file);
+void            gth_browser_load_image_from_uri          (GthBrowser        *browser,
+							  const char        *uri);
 void            gth_browser_reload_image                 (GthBrowser        *browser);
 void            gth_browser_show_image_prop              (GthBrowser        *browser);
 void            gth_browser_set_image_prop_dlg           (GthBrowser        *browser,

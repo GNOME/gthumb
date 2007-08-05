@@ -64,7 +64,7 @@ struct _GthFullscreenPrivateData {
 	GtkUIManager    *ui;
 	GtkActionGroup  *actions;
 	GdkPixbuf       *image;
-	char            *image_path;
+	FileData        *file;
 	GList           *file_list;
 	int              files;
 	int              viewed;
@@ -82,7 +82,7 @@ struct _GthFullscreenPrivateData {
 	guint            mouse_hide_id;
 
 	GThumbPreloader *preloader;
-	char            *requested_path;
+	FileData        *requested;
 
 	GtkWidget       *viewer;
 	GtkWidget       *toolbar_window;
@@ -139,9 +139,9 @@ gth_fullscreen_finalize (GObject *object)
 			gs_fade_reset (priv->fade);
 		g_object_unref (priv->fade);
 
-		g_free (priv->image_path);
-		g_free (priv->requested_path);
-		path_list_free (priv->file_list);
+		file_data_unref (priv->file);
+		file_data_list_free (priv->file_list);
+		file_data_unref (priv->requested);
 		g_free (priv->catalog_path);
 
 		g_object_unref (priv->preloader);
@@ -245,7 +245,7 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	ImageLoader              *loader;
 
-	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested_path);
+	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested->path);
 	if (loader != NULL)
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
@@ -367,8 +367,8 @@ motion_notify_event_cb (GtkWidget      *widget,
 }
 
 
-static const char*
-get_image_filename (GList *current)
+static FileData*
+get_image_filedata (GList *current)
 {
 	if (current == NULL)
 		return NULL;
@@ -519,24 +519,24 @@ real_load_current_image (GthFullscreen *fullscreen)
 	gboolean from_pixbuf = TRUE;
 
 	if (priv->current != NULL) {
-		char *filename = (char*) priv->current->data;
+		FileData *current = priv->current->data;
 
 		if ((priv->image != NULL)
-		    && (priv->image_path != NULL)
-		    && same_uri (priv->image_path, filename))
+		    && (priv->file != NULL)
+		    && same_uri (priv->file->path, current->path))
 			image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
 		else {
-			g_free (priv->requested_path);
-			priv->requested_path = g_strdup (filename);
-			gthumb_preloader_start (priv->preloader,
-						priv->requested_path,
-						get_image_filename (get_next_image (fullscreen)),
-						get_image_filename (get_prev_image (fullscreen)));
+			file_data_unref (priv->requested);
+			priv->requested = file_data_ref (current);
+			gthumb_preloader_load (priv->preloader,
+					       priv->requested,
+					       get_image_filedata (get_next_image (fullscreen)),
+					       get_image_filedata (get_prev_image (fullscreen)));
 			from_pixbuf = FALSE;
 		}
-
-	} else if (priv->image != NULL)
+	} 
+	else if (priv->image != NULL)
 		image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
 	priv->viewed++;
@@ -573,6 +573,14 @@ random_list_func (gconstpointer a,
 }
 
 
+int
+filedatacmp (FileData *fd1,
+	     FileData *fd2)
+{
+	return uricmp (fd1->path, fd2->path);
+}
+
+
 static void
 load_first_or_last_image (GthFullscreen *fullscreen,
 			  gboolean       first,
@@ -590,28 +598,29 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 					priv->current = g_list_last (priv->file_list);
 				else
 					priv->current = priv->file_list;
-			} else {
+			} 
+			else {
 				if (first)
 					priv->current = priv->file_list;
 				else
 					priv->current = g_list_last (priv->file_list);
 			}
-
-		} else if (priv->image_path != NULL)
+		} 
+		else if (priv->file != NULL)
 			priv->current = g_list_find_custom (priv->file_list,
-							    priv->image_path,
-							    (GCompareFunc) uricmp);
+							    priv->file,
+							    (GCompareFunc) filedatacmp);
 
 		if (priv->current == NULL)
 			priv->current = priv->file_list;
 	}
 
 	if (first_time
-	    && (priv->image_path != NULL)
+	    && (priv->file != NULL)
 	    && (priv->slideshow_direction != GTH_DIRECTION_RANDOM))
 		priv->current = g_list_find_custom (priv->file_list,
-						    priv->image_path,
-						    (GCompareFunc) uricmp);
+						    priv->file,
+						    (GCompareFunc) filedatacmp);
 
 	load_current_image (fullscreen);
 }
@@ -810,8 +819,8 @@ pos_from_path (GList      *list,
 		return 0;
 
 	for (scan = list; scan; scan = scan->next) {
-		char *l_path = scan->data;
-		if (same_uri (l_path, path))
+		FileData *fd = scan->data;
+		if (same_uri (fd->path, path))
 			return i;
 		i++;
 	}
@@ -1327,8 +1336,8 @@ update_current_image_link (GthFullscreen *fullscreen)
 		return;
 	}
 
-	g_free (priv->image_path);
-	priv->image_path = NULL;
+	file_data_unref (priv->file);
+	priv->file = NULL;
 }
 
 
@@ -1340,11 +1349,12 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 	GList    *scan;
 
 	for (scan = list; scan; scan = scan->next) {
-		char  *filename = scan->data;
-		GList *deleted;
+		FileData *file;
+		GList    *deleted;
 
+		file = file_data_new (scan->data, NULL);
 		deleted = g_list_find_custom (fullscreen->priv->file_list,
-					      filename,
+					      file,
 					      (GCompareFunc) uricmp);
 		if (deleted != NULL) {
 			if (fullscreen->priv->current == deleted) {
@@ -1353,9 +1363,11 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 			}
 
 			fullscreen->priv->file_list = g_list_remove_link (fullscreen->priv->file_list, deleted);
-			path_list_free (deleted);
+			file_data_list_free (deleted);
 			fullscreen->priv->files = g_list_length (fullscreen->priv->file_list);
 		}
+		
+		file_data_unref (file);
 	}
 
 	if (reload_current_image) {
@@ -1403,19 +1415,19 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
 	case GTH_MONITOR_EVENT_CHANGED:
-		if ((fullscreen->priv->image_path != NULL)
+		if ((fullscreen->priv->file != NULL)
 		    && (g_list_find_custom (list,
-					    fullscreen->priv->image_path,
-					    (GCompareFunc) uricmp) != NULL)) {
-			g_free (fullscreen->priv->image_path);
-			fullscreen->priv->image_path = NULL;
+					    fullscreen->priv->file,
+					    (GCompareFunc) filedatacmp) != NULL)) {
+			file_data_unref (fullscreen->priv->file);
+			fullscreen->priv->file = NULL;
 			if (fullscreen->priv->image != NULL)
 				g_object_unref (fullscreen->priv->image);
 		}
 		if ((fullscreen->priv->current != NULL)
 		    && (g_list_find_custom (list,
 					    fullscreen->priv->current->data,
-					    (GCompareFunc) uricmp) != NULL))
+					    (GCompareFunc) filedatacmp) != NULL))
 			load_current_image (fullscreen);
 		break;
 
@@ -1435,26 +1447,32 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 			 const char    *new_name,
 			 GthFullscreen *fullscreen)
 {
-	GList *renamed_image;
-
+	FileData *file;
+	GList    *renamed_image;
+	
+	file = file_data_new (old_name, NULL);
 	renamed_image = g_list_find_custom (fullscreen->priv->file_list,
-					    old_name,
-					    (GCompareFunc) uricmp);
+					    file,
+					    (GCompareFunc) filedatacmp);
+		
+	if (renamed_image == NULL) {
+		file_data_unref (file);
+		return;
+	}
 
-	if (renamed_image == NULL)
+	file_data_unref (renamed_image->data);
+	file_data_update (file);
+	renamed_image->data = file;
+
+	if (fullscreen->priv->file == NULL)
 		return;
 
-	g_free (renamed_image->data);
-	renamed_image->data = g_strdup (new_name);
-
-	if (fullscreen->priv->image_path == NULL)
+	if (! same_uri (old_name, fullscreen->priv->file->path))
 		return;
 
-	if (! same_uri (old_name, fullscreen->priv->image_path))
-		return;
-
-	g_free (fullscreen->priv->image_path);
-	fullscreen->priv->image_path = g_strdup (new_name);
+	file_data_unref (fullscreen->priv->file);
+	fullscreen->priv->file = file_data_new (new_name, NULL);
+	file_data_update (fullscreen->priv->file);
 
 	load_current_image (fullscreen);
 }
@@ -1463,7 +1481,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
-			  const char    *image_path,
+			  FileData      *file,
 			  GList         *file_list)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
@@ -1479,12 +1497,12 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 		g_object_ref (image);
 	}
 
-	if (image_path != NULL)
-		priv->image_path = g_strdup (image_path);
+	if (file != NULL)
+		priv->file = file_data_ref (file);
 	else
-		priv->image_path = NULL;
+		priv->file = NULL;
 
-	priv->file_list = file_list;
+	priv->file_list = file_data_list_dup (file_list);
 	if (file_list != NULL)
 		priv->files = MAX (g_list_length (priv->file_list), 1);
 	else
@@ -1580,14 +1598,14 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 
 
 GtkWidget *
-gth_fullscreen_new (GdkPixbuf  *image,
-		    const char *image_path,
-		    GList      *file_list)
+gth_fullscreen_new (GdkPixbuf *image,
+		    FileData  *file,
+		    GList     *file_list)
 {
 	GthFullscreen *fullscreen;
 
 	fullscreen = (GthFullscreen*) g_object_new (GTH_TYPE_FULLSCREEN, NULL);
-	gth_fullscreen_construct (fullscreen, image, image_path, file_list);
+	gth_fullscreen_construct (fullscreen, image, file, file_list);
 
 	return (GtkWidget*) fullscreen;
 }
@@ -1695,11 +1713,15 @@ gth_fullscreen_get_image_viewer (GthWindow *window)
 }
 
 
-static const char *
-gth_fullscreen_get_image_filename (GthWindow *window)
+static FileData *
+gth_fullscreen_get_image_data (GthWindow *window)
 {
 	GthFullscreen *fullscreen = (GthFullscreen*) window;
-	return get_image_filename (fullscreen->priv->current);
+	
+	if (fullscreen->priv->current == NULL)
+		return NULL;
+	else
+		return (FileData*) fullscreen->priv->current->data;
 }
 
 
@@ -1764,7 +1786,7 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	window_class->close = gth_fullscreen_close;
 	window_class->get_image_viewer = gth_fullscreen_get_image_viewer;
 
-	window_class->get_image_filename = gth_fullscreen_get_image_filename;
+	window_class->get_image_data = gth_fullscreen_get_image_data;
 	/*
 	window_class->get_image_modified = gth_fullscreen_get_image_modified;
 	window_class->set_image_modified = gth_fullscreen_set_image_modified;

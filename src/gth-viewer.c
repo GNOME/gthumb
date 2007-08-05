@@ -120,11 +120,9 @@ struct _GthViewerPrivateData {
 	guint            first_timeout_handle;
 
 	gboolean         image_data_visible;
-	char            *image_path;
-	time_t           image_mtime;
-	gboolean         image_error;
-
+	FileData        *image;
 	ExifData        *exif_data;
+	gboolean         image_error;
 
 #ifdef HAVE_LIBIPTCDATA
 	IptcData        *iptc_data;
@@ -139,7 +137,7 @@ struct _GthViewerPrivateData {
 	gboolean         image_modified;
 	gboolean         saving_modified_image;
 	ImageSavedFunc   image_saved_func;
-	char            *new_image_path;
+	FileData        *new_image;
 
 	GthPixbufOp     *pixop;
 	gboolean         pixop_preview;
@@ -190,7 +188,7 @@ viewer_update_zoom_sensitivity (GthViewer *viewer)
 	gboolean               image_is_void;
 	int                    zoom;
 
-	image_is_visible = (priv->image_path != NULL) && ! priv->image_error;
+	image_is_visible = (priv->image != NULL) && ! priv->image_error;
 	image_is_void = image_viewer_is_void (image_viewer);
 	zoom = (int) (image_viewer->zoom_level * 100.0);
 
@@ -285,8 +283,8 @@ gth_viewer_finalize (GObject *object)
 		}
 #endif /* HAVE_LIBIPTCDATA */
 
-		g_free (priv->image_path);
-		g_free (priv->new_image_path);
+		file_data_unref (priv->image);
+		file_data_unref (priv->new_image);
 
 		g_free (viewer->priv);
 		viewer->priv = NULL;
@@ -504,8 +502,8 @@ first_time_idle (gpointer callback_data)
 	g_source_remove (priv->first_timeout_handle);
 
 	gtk_widget_grab_focus (priv->viewer);
-	if (priv->image_path != NULL)
-		image_viewer_load_image (IMAGE_VIEWER (priv->viewer), priv->image_path);
+	if (priv->image != NULL)
+		image_viewer_load_image (IMAGE_VIEWER (priv->viewer), priv->image);
 
 	return FALSE;
 }
@@ -538,7 +536,6 @@ static void
 viewer_update_statusbar_zoom_info (GthViewer *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
-	const char           *path;
 	gboolean              image_is_visible;
 	int                   zoom;
 	char                 *text;
@@ -547,9 +544,7 @@ viewer_update_statusbar_zoom_info (GthViewer *viewer)
 
 	/**/
 
-	path = priv->image_path;
-
-	image_is_visible = (path != NULL) && !priv->image_error;
+	image_is_visible = (priv->image != NULL) && ! priv->image_error;
 	if (! image_is_visible) {
 		if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame))
 			return;
@@ -575,41 +570,37 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 	char                  time_txt[50], *utf8_time_txt;
 	char                 *size_txt;
 	char                 *file_size_txt;
-	const char           *path;
 	int                   width, height;
 	time_t                timer = 0;
 	struct tm            *tm;
-	gdouble               sec;
 
-	path = priv->image_path;
-
-	if ((path == NULL) || priv->image_error) {
+	if ((priv->image == NULL) || priv->image_error) {
 		if (! GTK_WIDGET_VISIBLE (priv->image_info_frame))
 			return;
 		gtk_widget_hide (priv->image_info_frame);
 		return;
-
-	} else if (! GTK_WIDGET_VISIBLE (priv->image_info_frame))
+	} 
+	else if (! GTK_WIDGET_VISIBLE (priv->image_info_frame))
 		gtk_widget_show (priv->image_info_frame);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (priv->viewer))) {
 		width = image_viewer_get_image_width (IMAGE_VIEWER (priv->viewer));
 		height = image_viewer_get_image_height (IMAGE_VIEWER (priv->viewer));
-	} else {
+	} 
+	else {
 		width = 0;
 		height = 0;
 	}
 
-	timer = get_metadata_time (NULL, path);
+	timer = get_metadata_time (NULL, priv->image->path);
 	if (timer == 0)
-		timer = get_file_mtime (path);
+		timer = priv->image->mtime;
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-	sec = g_timer_elapsed (image_loader_get_timer (IMAGE_VIEWER (priv->viewer)->loader),  NULL);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (path));
+	file_size_txt = gnome_vfs_format_file_size_for_display (priv->image->size);
 
 	/**/
 
@@ -647,21 +638,23 @@ update_image_comment (GthViewer *viewer)
 		iptc_data_unref (priv->iptc_data);
 		priv->iptc_data = NULL;
 	}
-
-	if (priv->image_path != NULL)
-		priv->iptc_data = iptc_data_new_from_jpeg (priv->image_path);
+	if (priv->image != NULL) {
+		char *local_file = get_cache_filename (priv->image->path);
+		priv->iptc_data = iptc_data_new_from_jpeg (local_file);
+		g_free (local_file);
+	}
 #endif /* HAVE_LIBIPTCDATA */
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
 
-	if (priv->image_path == NULL) {
+	if (priv->image == NULL) {
 		GtkTextIter start, end;
 		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
 		gtk_text_buffer_delete (text_buffer, &start, &end);
                 return;
 	}
 
-	cdata = comments_load_comment (priv->image_path, TRUE);
+	cdata = comments_load_comment (priv->image->path, TRUE);
 
 	if (cdata == NULL) {
 		GtkTextIter  iter;
@@ -689,7 +682,8 @@ update_image_comment (GthViewer *viewer)
 		gtk_text_buffer_set_text (text_buffer, comment, strlen (comment));
 		gtk_text_buffer_get_iter_at_line (text_buffer, &iter, 0);
 		gtk_text_buffer_place_cursor (text_buffer, &iter);
-	} else {
+	} 
+	else {
 		GtkTextIter start, end;
 		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
 		gtk_text_buffer_delete (text_buffer, &start, &end);
@@ -703,41 +697,39 @@ update_image_comment (GthViewer *viewer)
 static void
 viewer_update_image_info (GthViewer *viewer)
 {
-	GthViewerPrivateData *priv = viewer->priv;
-
+	JPEGData *jdata = NULL;
+	
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
 
-	{
-		JPEGData *jdata = NULL;
+	/* Load EXIF data */
 
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
-		}
+	if (viewer->priv->exif_data != NULL) {
+		exif_data_unref (viewer->priv->exif_data);
+		viewer->priv->exif_data = NULL;
+	}
 
-		if (priv->image_path != NULL) {
-                        if (priv->image_path != NULL) {
-                                char *local_file_to_modify = NULL;
-                                local_file_to_modify = obtain_local_file (priv->image_path);
-                                if (local_file_to_modify != NULL) {
-                                        jdata = jpeg_data_new_from_file (local_file_to_modify);
-                                        g_free (local_file_to_modify);
-                                }
-			}
-		}
-
-		if (jdata != NULL) {
-			priv->exif_data = jpeg_data_get_exif_data (jdata);
-			jpeg_data_unref (jdata);
+	if (viewer->priv->image != NULL) {
+		char *local_file;
+		
+		local_file = get_cache_filename (viewer->priv->image->path);
+		if (local_file != NULL) {
+			jdata = jpeg_data_new_from_file (local_file);
+			g_free (local_file);
 		}
 	}
 
-	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer),
-				     IMAGE_VIEWER (priv->viewer),
-				     priv->image_path,
-				     viewer->priv->exif_data
-				     );
+	if (jdata != NULL) {
+		viewer->priv->exif_data = jpeg_data_get_exif_data (jdata);
+		jpeg_data_unref (jdata);
+	}
+
+	/**/
+
+	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (viewer->priv->exif_data_viewer),
+				     IMAGE_VIEWER (viewer->priv->viewer),
+				     viewer->priv->image,
+				     viewer->priv->exif_data);
 
 	update_image_comment (viewer);
 }
@@ -748,17 +740,14 @@ viewer_update_title (GthViewer *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
 	char                 *title = NULL;
-	char                 *path;
 	char                 *modified;
 
-	path = priv->image_path;
 	modified = priv->image_modified ? _("[modified]") : "";
 
-	if (path == NULL)
+	if (viewer->priv->image == NULL)
 		title = g_strdup (_("No image"));
-
 	else {
-		char *image_name = basename_for_display (path);
+		char *image_name = basename_for_display (viewer->priv->image->path);
 		title = g_strdup_printf ("%s %s", image_name, modified);
 		g_free (image_name);
 	}
@@ -772,12 +761,15 @@ static void
 open_with_menu_item_activate_cb (GtkMenuItem *menuitem,
 				 gpointer     user_data)
 {
-	GthViewer *viewer = user_data;
+	GthViewer               *viewer = user_data;
 	GnomeVFSMimeApplication *app;
-	GList *uris;
+	GList                   *uris;
+
+	if (viewer->priv->image == NULL)
+		return;
 
 	app = g_object_get_data (G_OBJECT (menuitem), "app");
-	uris = g_list_prepend (NULL, viewer->priv->image_path);
+	uris = g_list_prepend (NULL, viewer->priv->image->path);
 	gnome_vfs_mime_application_launch (app, uris);
 	g_list_free (uris);
 }
@@ -797,8 +789,8 @@ viewer_update_open_with_menu (GthViewer *viewer)
 		gtk_widget_destroy ((GtkWidget*) scan->data);
 	g_list_free (menu_items);
 
-	if (priv->image_path != NULL)
-		mime_type = get_mime_type (priv->image_path);
+	if (priv->image != NULL)
+		mime_type = priv->image->mime_type;
 
 	if (mime_type != NULL) {
 		GList        *apps = gnome_vfs_mime_get_all_applications (mime_type);
@@ -937,9 +929,10 @@ save_pixbuf__image_saved_cb (const char *filename,
 	if (priv->closing)
 		return;
 
-	if (! same_uri (priv->image_path, filename)) {
+	if ((priv->image != NULL) && ! same_uri (priv->image->path, filename)) {
 		/*FIXME: gtk_widget_show (gth_viewer_new (filename));*/
-		gth_viewer_load (viewer, filename);
+		file_data_set_path (viewer->priv->image, filename);
+		gth_viewer_load (viewer, viewer->priv->image);
 	}
 	else {
 		viewer_update_statusbar_image_info (viewer);
@@ -974,13 +967,13 @@ ask_whether_to_save__response_cb (GtkWidget *dialog,
 
         if (response_id == GTK_RESPONSE_YES) {
 		dlg_save_image_as (GTK_WINDOW (viewer),
-				   priv->image_path,
+				   priv->image->path,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
 				   ask_whether_to_save__image_saved_cb,
 				   viewer);
 		priv->saving_modified_image = TRUE;
-
-	} else {
+	} 
+	else {
 		priv->saving_modified_image = FALSE;
 		priv->image_modified = FALSE;
 		if (priv->image_saved_func != NULL)
@@ -1028,10 +1021,9 @@ real_set_void (const char *filename,
 	GthViewer            *viewer = data;
 	GthViewerPrivateData *priv = viewer->priv;
 
-	if (!priv->image_error) {
-		g_free (priv->image_path);
-		priv->image_path = NULL;
-		priv->image_mtime = 0;
+	if (! priv->image_error) {
+		file_data_unref (priv->image);
+		priv->image = NULL;
 		priv->image_modified = FALSE;
 	}
 
@@ -1070,7 +1062,7 @@ image_loaded_cb (GtkWidget  *widget,
 		return;
 	}
 
-	priv->image_mtime = get_file_mtime (priv->image_path);
+	file_data_update (priv->image); /* FIXME: check if this is necessary */
 	priv->image_modified = FALSE;
 
 	viewer_update_image_info (viewer);
@@ -1143,7 +1135,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
 		if (scan == list)
-			gth_viewer_load (viewer, filename);
+			gth_viewer_load_from_uri (viewer, filename);
 		else
 			gtk_widget_show (gth_viewer_new (filename));
 	}
@@ -1336,7 +1328,7 @@ gth_viewer_init (GthViewer *viewer)
 
 	priv = viewer->priv = g_new0 (GthViewerPrivateData, 1);
 	priv->first_time_show = TRUE;
-	priv->image_path = NULL;
+	priv->image = NULL;
 	priv->image_error = FALSE;
 
 	if (SingleViewer == NULL)
@@ -1362,11 +1354,11 @@ monitor_update_files_cb (GthMonitor      *monitor,
 {
 	g_return_if_fail (viewer != NULL);
 
-	if (viewer->priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return;
 
 	if (g_list_find_custom (list,
-				viewer->priv->image_path,
+				viewer->priv->image->path,
 				(GCompareFunc) uricmp) == NULL)
 		return;
 
@@ -1393,15 +1385,13 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 			 const char *new_name,
 			 GthViewer  *viewer)
 {
-	if (viewer->priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return;
 
-	if (! same_uri (old_name, viewer->priv->image_path))
+	if (! same_uri (old_name, viewer->priv->image->path))
 		return;
 
-	g_free (viewer->priv->image_path);
-	viewer->priv->image_path = get_uri_from_path (new_name);
-
+	file_data_set_path (viewer->priv->image, get_uri_from_path (new_name)); 
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }
 
@@ -1795,7 +1785,8 @@ gth_viewer_construct (GthViewer   *viewer,
 		priv->progress_dialog = NULL;
 		priv->progress_progressbar = NULL;
 		priv->progress_info = NULL;
-	} else {
+	} 
+	else {
 		GtkWidget *cancel_button;
 
 		priv->progress_dialog = glade_xml_get_widget (priv->progress_gui, "progress_dialog");
@@ -1844,13 +1835,15 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
-	if (filename != NULL)
-		priv->image_path = get_uri_from_path (filename);
+	if (filename != NULL) {
+		priv->image = file_data_new (filename, NULL);
+		file_data_update (priv->image);
+	}
 }
 
 
 GtkWidget *
-gth_viewer_new (const gchar *filename)
+gth_viewer_new (const char *filename)
 {
 	GthViewer *viewer;
 
@@ -1865,36 +1858,37 @@ static void
 load_image__image_saved_cb (const char *filename,
 			    gpointer    data)
 {
-	GthViewer             *viewer = data;
-	GthViewerPrivateData  *priv = viewer->priv;
+	GthViewer *viewer = data;
 
-	if (priv->new_image_path == NULL) {
-		g_free (priv->image_path);
-		priv->image_path = NULL;
+	if (viewer->priv->new_image == NULL) {
+		file_data_unref (viewer->priv->image);
+		viewer->priv->image = NULL;
 		viewer_set_void (viewer, FALSE);
 		return;
 	}
 
-	if (priv->new_image_path != priv->image_path) {
-		g_free (priv->image_path);
-		priv->image_path = get_uri_from_path (priv->new_image_path);
+	if (viewer->priv->new_image != viewer->priv->image) {
+		file_data_unref (viewer->priv->image);
+		viewer->priv->image = file_data_ref (viewer->priv->new_image);
 	}
 
-	image_viewer_load_image (IMAGE_VIEWER (priv->viewer), priv->image_path);
+	image_viewer_load_image (IMAGE_VIEWER (viewer->priv->viewer), 
+				 viewer->priv->image);
 }
 
 
 void
-gth_viewer_load (GthViewer   *viewer,
-		 const gchar *filename)
-
+gth_viewer_load (GthViewer *viewer,
+		 FileData  *file)
 {
 	GthViewerPrivateData *priv = viewer->priv;
 
-	g_free (priv->new_image_path);
-	priv->new_image_path = NULL;
-	if (filename != NULL)
-		priv->new_image_path = get_uri_from_path (filename);
+	if (priv->new_image != file) {
+		file_data_unref (priv->new_image);
+		priv->new_image = NULL;
+	}
+	if (file != NULL)
+		priv->new_image = file_data_ref (file);
 
 	if (priv->image_modified) {
 		if (priv->saving_modified_image)
@@ -1904,6 +1898,19 @@ gth_viewer_load (GthViewer   *viewer,
 	}
 
 	load_image__image_saved_cb (NULL, viewer);
+}
+
+
+void
+gth_viewer_load_from_uri (GthViewer  *viewer,
+		          const char *uri)
+{
+	FileData *file;
+	
+	file = file_data_new (uri, NULL);
+	file_data_update (file);
+	gth_viewer_load (viewer, file);
+	file_data_unref (file);
 }
 
 
@@ -1980,11 +1987,11 @@ gth_viewer_get_image_viewer (GthWindow *window)
 }
 
 
-static const char *
-gth_viewer_get_image_filename (GthWindow *window)
+static FileData *
+gth_viewer_get_image_data (GthWindow *window)
 {
 	GthViewer *viewer = (GthViewer*) window;
-	return viewer->priv->image_path;
+	return viewer->priv->image;
 }
 
 
@@ -2023,8 +2030,8 @@ gth_viewer_save_pixbuf (GthWindow  *window,
 	GthViewerPrivateData *priv = viewer->priv;
 	char                 *current_folder = NULL;
 
-	if (priv->image_path != NULL)
-		current_folder = g_strdup (priv->image_path);
+	if (priv->image != NULL)
+		current_folder = g_strdup (priv->image->path);
 
 	if (filename == NULL)
 		dlg_save_image_as (GTK_WINDOW (viewer),
@@ -2138,7 +2145,11 @@ reload_current_image__step2 (const char *filename,
 			     gpointer    data)
 {
 	GthViewer *viewer = data;
-	gth_viewer_load (viewer, viewer->priv->image_path);
+	
+	if (viewer->priv->image != NULL)
+		gth_viewer_load_from_uri (viewer, viewer->priv->image->path);
+	else
+		gth_viewer_load (viewer, NULL);
 }
 
 
@@ -2147,7 +2158,7 @@ gth_viewer_reload_current_image (GthWindow *window)
 {
 	GthViewer *viewer = GTH_VIEWER (window);
 
-	if (viewer->priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return;
 
 	if (viewer->priv->image_modified)
@@ -2163,7 +2174,7 @@ gth_viewer_update_current_image_metadata (GthWindow *window)
 {
 	GthViewer *viewer = GTH_VIEWER (window);
 
-	if (viewer->priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return;
 	update_image_comment (viewer);
 }
@@ -2172,29 +2183,22 @@ gth_viewer_update_current_image_metadata (GthWindow *window)
 static GList *
 gth_viewer_get_file_list_selection (GthWindow *window)
 {
-	GthViewer            *viewer = GTH_VIEWER (window);
-	GthViewerPrivateData *priv = viewer->priv;
+	GthViewer *viewer = GTH_VIEWER (window);
 
-	if (priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return NULL;
-	return g_list_prepend (NULL, g_strdup (viewer->priv->image_path));
+	return g_list_prepend (NULL, g_strdup (viewer->priv->image->path));
 }
 
 
 static GList *
 gth_viewer_get_file_list_selection_as_fd (GthWindow *window)
 {
-	GthViewer            *viewer = GTH_VIEWER (window);
-	GthViewerPrivateData *priv = viewer->priv;
-	FileData             *fd;
+	GthViewer *viewer = GTH_VIEWER (window);
 
-	if (priv->image_path == NULL)
+	if (viewer->priv->image == NULL)
 		return NULL;
-
-	fd = file_data_new (priv->image_path, NULL);
-	file_data_update (fd);
-
-	return g_list_prepend (NULL, fd);
+	return g_list_prepend (NULL, file_data_ref (viewer->priv->image));
 }
 
 
@@ -2249,17 +2253,17 @@ gth_viewer_set_fullscreen (GthWindow *window,
 
 	if (fullscreen && (priv->fullscreen == NULL)) {
 		GdkPixbuf *image = NULL;
-
-		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
+		
+		if (! image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
 			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
-		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, gth_viewer_get_file_list_selection (window));
+		priv->fullscreen = gth_fullscreen_new (image, priv->image, gth_viewer_get_file_list_selection_as_fd (window));	
 		g_signal_connect (priv->fullscreen,
 				  "destroy",
 				  G_CALLBACK (fullscreen_destroy_cb),
 				  viewer);
 		gtk_widget_show (priv->fullscreen);
-
-	} else if (!fullscreen && (priv->fullscreen != NULL))
+	} 
+	else if (! fullscreen && (priv->fullscreen != NULL))
 		gtk_widget_destroy (priv->fullscreen);
 }
 
@@ -2302,7 +2306,7 @@ gth_viewer_class_init (GthViewerClass *class)
 
 	window_class->close = gth_viewer_close;
 	window_class->get_image_viewer = gth_viewer_get_image_viewer;
-	window_class->get_image_filename = gth_viewer_get_image_filename;
+	window_class->get_image_data = gth_viewer_get_image_data;
 	window_class->get_image_modified = gth_viewer_get_image_modified;
 	window_class->set_image_modified = gth_viewer_set_image_modified;
 	window_class->save_pixbuf = gth_viewer_save_pixbuf;

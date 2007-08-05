@@ -1766,23 +1766,31 @@ image_viewer_new (void)
 typedef struct {
 	ImageViewer *viewer;
 	char        *path;
+	FileData    *file;
 } LoadImageData;
 
 
-void
-load_image__step2 (LoadImageData *lidata)
+static void
+load_image_data_free (LoadImageData *lidata)
 {
-	image_loader_set_path (lidata->viewer->loader, lidata->path, NULL);
-	image_loader_start (lidata->viewer->loader);
-
 	g_free (lidata->path);
+	file_data_unref (lidata->file);
 	g_free (lidata);
 }
 
 
 void
-image_viewer_load_image (ImageViewer *viewer,
-			 const gchar *path)
+load_image_from_uri__step2 (LoadImageData *lidata)
+{
+	image_loader_set_path (lidata->viewer->loader, lidata->path, NULL);
+	image_loader_start (lidata->viewer->loader);
+	load_image_data_free (lidata);
+}
+
+
+void
+image_viewer_load_image_from_uri (ImageViewer *viewer,
+			          const char  *path)
 {
 	LoadImageData *lidata;
 
@@ -1790,12 +1798,39 @@ image_viewer_load_image (ImageViewer *viewer,
 	g_return_if_fail (path != NULL);
 
 	viewer->is_void = FALSE;
-
 	halt_animation (viewer);
 
-	lidata = g_new (LoadImageData, 1);
+	lidata = g_new0 (LoadImageData, 1);
 	lidata->viewer = viewer;
 	lidata->path = g_strdup (path);
+	image_loader_stop (viewer->loader, (DoneFunc) load_image_from_uri__step2, lidata);
+}
+
+
+void
+load_image__step2 (LoadImageData *lidata)
+{
+	image_loader_set_file (lidata->viewer->loader, lidata->file);
+	image_loader_start (lidata->viewer->loader);
+	load_image_data_free (lidata);
+}
+
+
+void
+image_viewer_load_image (ImageViewer *viewer,
+			 FileData    *file)
+{
+	LoadImageData *lidata;
+
+	g_return_if_fail (viewer != NULL);
+	g_return_if_fail (file != NULL);
+
+	viewer->is_void = FALSE;
+	halt_animation (viewer);
+
+	lidata = g_new0 (LoadImageData, 1);
+	lidata->viewer = viewer;
+	lidata->file = file_data_ref (file);
 	image_loader_stop (viewer->loader, (DoneFunc) load_image__step2, lidata);
 }
 

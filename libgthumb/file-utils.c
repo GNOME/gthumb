@@ -862,8 +862,8 @@ get_file_mime_type (const char *filename,
 
 			g_free (sample_name);
 		}
-
-	} else {
+	} 
+	else {
 		if (uri_scheme_is_file (filename))
 			filename = get_file_path_from_uri (filename);
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
@@ -1356,6 +1356,24 @@ get_uri_from_path (const char *path)
 	if ((path == "") || (path[0] == '/'))
 		return g_strconcat ("file://", path, NULL);
 	return g_strdup (path);
+}
+
+
+char *
+get_uri_from_local_path (const char *local_path)
+{
+        char *escaped;
+        char *uri;
+
+        escaped = escape_uri (local_path);
+        if (escaped[0] == '/') {
+                uri = g_strconcat ("file://", escaped, NULL);
+                g_free (escaped);
+        }
+        else
+                uri = escaped;
+
+        return uri;
 }
 
 
@@ -2457,36 +2475,52 @@ check_permissions (const char *path,
 gboolean
 is_local_file (const char *filename)
 {
-	return !(uri_has_scheme (filename)) || uri_scheme_is_file (filename);
+	return (! uri_has_scheme (filename)) || uri_scheme_is_file (filename);
 }
 
 
 char *
-get_cache_full_path (const char *relative_path, const char *extension)
+get_cache_full_path (const char *filename, 
+		     const char *extension)
 {
-	char *path;
-	char *separator;
-
-	/* Do not allow .. in the relative_path otherwise the user can go
-	 * to any directory, while he shouldn't exit from RC_REMOTE_CACHE_DIR. */
-	if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
-		return NULL;
-
-	if (relative_path == NULL)
-		separator = NULL;
-	else
-		separator = (relative_path[0] == '/') ? "" : "/";
-
-	path = g_strconcat ("file://",
-			    g_get_home_dir (),
+	return g_strconcat (g_get_home_dir (),
 			    "/",
 			    RC_REMOTE_CACHE_DIR,
-			    separator,
-			    relative_path,
+			    ((filename == NULL) ? "" : "/"),
+			    filename,
 			    extension,
 			    NULL);
+}
 
-	return path;
+
+char *
+get_cache_filename (const char *uri)
+{
+	char *name;
+	char *path;
+	
+	name = gnome_thumbnail_md5 (uri);
+	if (name == NULL)
+		return NULL;
+
+	path = get_cache_full_path (name, NULL);
+	g_free (name);
+	
+	return path;	
+}
+
+
+char *
+get_cache_uri (const char *uri)
+{
+	char *filename;
+	char *cache_uri;
+	
+	filename = get_cache_filename (uri);
+	cache_uri = get_uri_from_local_path (filename);
+	g_free (filename);
+	
+	return cache_uri;
 }
 
 
@@ -2820,24 +2854,20 @@ get_pixbuf_using_external_converter (const char *url,
 
 
 static GdkPixbuf*
-gth_pixbuf_new_from_video (const char             *path,
+gth_pixbuf_new_from_video (FileData               *file,
 			   GnomeThumbnailFactory  *factory,
-			   GError                **error,
-			   const char	          *mime_type)
+			   GError                **error)
 {
       	GdkPixbuf *pixbuf = NULL;
-	time_t     mtime;
-	char      *real_path = NULL;
+	/*char      *real_path = NULL;*/
 	char      *existing_video_thumbnail;
 
-	if (resolve_all_symlinks (path, &real_path) != GNOME_VFS_OK)
-		return NULL;
+	/*if (resolve_all_symlinks (path, &real_path) != GNOME_VFS_OK)
+		return NULL;*/
 
-	mtime = get_file_mtime (real_path);
 	existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
-								   real_path,
-								   mtime);
-
+								   file->path,
+								   file->mtime);
 	if (existing_video_thumbnail != NULL) {
 		char *thumbnail_path = get_local_path_from_uri (existing_video_thumbnail);
 
@@ -2845,22 +2875,12 @@ gth_pixbuf_new_from_video (const char             *path,
 		g_free (thumbnail_path);
 		g_free (existing_video_thumbnail);
 	}
-	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, real_path, mtime)) {
-		g_free (real_path);
+	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, file->path, file->mtime)) 
 		return NULL;
-	}
-	else {
+	else 
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-								     real_path,
-								     mime_type);
-		if (pixbuf != NULL) 
-			gnome_thumbnail_factory_save_thumbnail (factory,
-								pixbuf,
-								real_path,
-								mtime);
-	}
-
-	g_free (real_path);
+								     file->path, 
+								     file->mime_type);
 
 	return pixbuf;
 }
@@ -2879,14 +2899,12 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	if (uri == NULL)
 		return NULL;
 
-	/* gdk_pixbuf does not support VFS URIs directly, so
-	   make a local cache copy of remote files. */
-	local_file = obtain_local_file (uri);
+	local_file = get_local_path_from_uri (uri);
 	if (local_file == NULL)
 		return NULL;
 
 	if (mime_type == NULL)
-		mime_type = get_file_mime_type (local_file, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+		mime_type = get_file_mime_type (uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 
 #ifdef HAVE_LIBOPENRAW
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
@@ -2937,63 +2955,57 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 
 GdkPixbufAnimation*
-gth_pixbuf_animation_new_from_uri (const char 	          *filename,
+gth_pixbuf_animation_new_from_file (FileData              *file,
 				   GError                **error,
 				   gint		           requested_width_if_used,
 				   gint		           requested_height_if_used,
-				   GnomeThumbnailFactory  *factory,
-				   const char             *mime_type)
+				   GnomeThumbnailFactory  *factory)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
-	char               *local_file = NULL;
 
-	if (mime_type == NULL)
+	if (file->mime_type == NULL)
 		return NULL;
 
 	/* The video thumbnailer can handle VFS URIs directly */
 
-	if (mime_type_is_video (mime_type) && (factory != NULL)) {
-		pixbuf = gth_pixbuf_new_from_video (filename, factory, error, mime_type);
-		if (pixbuf == NULL)
-			return NULL;
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
-		g_object_unref (pixbuf);
+	if (mime_type_is_video (file->mime_type)) {
+		if (factory != NULL) {
+			pixbuf = gth_pixbuf_new_from_video (file, factory, error);
+			if (pixbuf == NULL)
+				return NULL;
+			animation = gdk_pixbuf_non_anim_new (pixbuf);
+			g_object_unref (pixbuf);
+		}
 		return animation;
 	}
 
-	/* gdk_pixbuf and libopenraw do not support VFS URIs directly,
-	   so make a local cache copy of remote files. */
-	local_file = obtain_local_file (filename);
-
-	if (local_file == NULL)
-		return NULL;
-
 	/* gifs: use gdk_pixbuf_animation_new_from_file */
-	if (mime_type_is (mime_type, "image/gif")) {
+	
+	if (mime_type_is (file->mime_type, "image/gif")) {
+		char *local_file;
+		
+		local_file = get_local_path_from_uri (file->path);
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
 		g_free (local_file);
+
 		return animation;
 	}
 
 	/* All other file types, or if previous methods fail: read in a
 	   non-animated pixbuf, and convert to a single-frame animation. */
-	if (pixbuf == NULL) {
-		char *local_uri = escape_uri (local_file);
-		pixbuf = gth_pixbuf_new_from_uri (local_uri,
+	   
+	if (pixbuf == NULL) 
+		pixbuf = gth_pixbuf_new_from_uri (file->path,
 						  error,
 						  requested_width_if_used,
 						  requested_height_if_used,
-						  mime_type);
-		g_free (local_uri);
-	}
+						  file->mime_type);
 
 	if (pixbuf != NULL) {
 		animation = gdk_pixbuf_non_anim_new (pixbuf);
 		g_object_unref (pixbuf);
 	}
-
-	g_free (local_file);
 
 	return animation;
 }
@@ -3163,3 +3175,179 @@ error:
 		return strdup (home_dir);
 }
 
+/* -- copy_file_async --  */
+
+
+struct _CopyData {
+        char                *source_uri;
+        char                *target_uri;
+        GnomeVFSResult       result;
+        GnomeVFSAsyncHandle *handle;
+        CopyDoneFunc         done_func;
+        gpointer             done_data;
+};
+
+
+static CopyData*
+copy_data_new (const char   *source_uri,
+	       const char   *target_uri,
+	       CopyDoneFunc  done_func,
+	       gpointer      done_data)
+{
+	CopyData *copy_data;
+	
+	copy_data = g_new0 (CopyData, 1);
+	copy_data->source_uri = g_strdup (source_uri);
+	copy_data->target_uri = g_strdup (target_uri);
+	copy_data->done_func = done_func;
+	copy_data->done_data = done_data;
+	copy_data->result = GNOME_VFS_OK;
+	
+	return copy_data;
+}
+
+
+static void
+copy_data_free (CopyData *data)
+{
+        if (data == NULL)
+                return;
+        g_free (data->source_uri);
+        g_free (data->target_uri);
+        g_free (data);
+}
+
+
+void
+copy_data_cancel (CopyData *data)
+{
+	if (data == NULL)
+		return;
+	if (data->handle != NULL) 
+		gnome_vfs_async_cancel (data->handle);
+	copy_data_free (data);
+}
+
+
+static gboolean
+copy_file_async_done (gpointer data)
+{
+	CopyData *copy_data = data;
+	
+	if ((copy_data->handle != NULL) && (copy_data->done_func != NULL)) {
+		copy_data->handle = NULL;	
+		(copy_data->done_func) (copy_data->result, copy_data->done_data);
+	}
+	copy_data_free (copy_data);
+	
+	return FALSE;
+}
+
+
+static int
+copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+				    GnomeVFSXferProgressInfo *info,
+				    gpointer                  user_data)
+{
+	CopyData *copy_data = user_data;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		copy_data->result = info->vfs_status;
+		return FALSE;
+	}
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
+		copy_file_async_done (copy_data);
+	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
+		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
+		g_signal_emit (G_OBJECT (copy_data->archive),
+			       fr_archive_signals[PROGRESS],
+			       0,
+			       (double) info->total_bytes_copied / info->bytes_total);*/
+			       
+	return TRUE;
+}
+
+
+CopyData *
+copy_file_async (const char   *source_uri,
+		 const char   *target_uri,
+		 CopyDoneFunc  done_func,
+		 gpointer      done_data)
+{
+	CopyData       *copy_data;
+	GList          *source_uri_list, *target_uri_list;
+	GnomeVFSResult  result;
+
+	copy_data = copy_data_new (source_uri, target_uri, done_func, done_data);
+
+	if (! path_is_file (source_uri)) {
+		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
+		g_idle_add (copy_file_async_done, copy_data);
+		return NULL;
+	}
+
+	source_uri_list = g_list_append (NULL, gnome_vfs_uri_new (source_uri));
+	target_uri_list = g_list_append (NULL, gnome_vfs_uri_new (target_uri));
+
+	result = gnome_vfs_async_xfer (&copy_data->handle,
+				       source_uri_list,
+				       target_uri_list,
+				       GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				       GNOME_VFS_XFER_OVERWRITE_MODE_ABORT,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       copy_file_async_progress_update_cb, copy_data,
+				       NULL, NULL);
+
+	gnome_vfs_uri_list_free (source_uri_list);
+	gnome_vfs_uri_list_free (target_uri_list);
+
+	if (result != GNOME_VFS_OK) {
+		copy_data->result = result;
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	
+	return copy_data;
+}
+
+
+CopyData *
+copy_remote_file_to_cache (FileData     *file,
+			   CopyDoneFunc  done_func,
+			   gpointer      done_data)
+{
+	CopyData *copy_data = NULL;
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri (file->path);
+	if (file->mtime <= get_file_mtime (cache_uri)) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else	
+		copy_file_async (file->path, cache_uri, done_func, done_data);
+	g_free (cache_uri);
+	
+	return copy_data;
+}
+
+
+CopyData *
+update_file_from_cache (FileData     *file,
+			CopyDoneFunc  done_func,
+			gpointer      done_data)
+{
+	CopyData *copy_data = NULL;	
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri (file->path);
+	if (file->mtime >= get_file_mtime (cache_uri)) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else
+		copy_file_async (cache_uri, file->path, done_func, done_data);
+	g_free (cache_uri);
+	
+	return copy_data;
+}

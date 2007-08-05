@@ -24,6 +24,7 @@
 #define GTH_VIEWER_H
 
 #include "gth-window.h"
+#include "file-data.h"
 
 #define GTH_TYPE_VIEWER              (gth_viewer_get_type ())
 #define GTH_VIEWER(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_VIEWER, GthViewer))
@@ -48,13 +49,15 @@ struct _GthViewerClass
 };
 
 GType          gth_viewer_get_type                 (void);
-GtkWidget *    gth_viewer_new                      (const char  *filename);
-void           gth_viewer_load                     (GthViewer   *viewer,
-						    const char  *filename);
-void           gth_viewer_set_metadata_visible     (GthViewer   *viewer,
-						    gboolean     visible);
-void           gth_viewer_set_single_window        (GthViewer   *viewer,
-						    gboolean     value);
+GtkWidget *    gth_viewer_new                      (const char     *filename);
+void           gth_viewer_load                     (GthViewer      *viewer,
+						    FileData       *file);
+void           gth_viewer_load_from_uri            (GthViewer      *viewer,
+						    const char     *uri);
+void           gth_viewer_set_metadata_visible     (GthViewer      *viewer,
+						    gboolean        visible);
+void           gth_viewer_set_single_window        (GthViewer      *viewer,
+						    gboolean        value);
 
 GtkWidget *    gth_viewer_get_current_viewer       (void);
 

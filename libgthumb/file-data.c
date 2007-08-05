@@ -70,26 +70,41 @@ file_data_new (const char       *path,
 }
 
 
-GList*
-file_data_new_from_uri_list (GList *list)
-{
-	GList *result = NULL;
-	GList *scan;
-	
-	for (scan = list; scan; scan = scan->next) {
-		char *path = scan->data;
-		result = g_list_prepend (result, file_data_new (path, NULL));
-	}
-	
-	return g_list_reverse (result);
-}
-
-
 FileData *
 file_data_ref (FileData *fd)
 {
 	g_return_val_if_fail (fd != NULL, NULL);
 	fd->ref++;
+	return fd;
+}
+
+
+FileData *
+file_data_dup (FileData *source)
+{
+	FileData *fd;
+	
+	if (source == NULL)
+		return NULL;
+	
+	fd = g_new0 (FileData, 1);
+
+	fd->ref = 1;
+	fd->path = g_strdup (source->path);
+	fd->name = g_strdup (source->name);
+	fd->display_name = g_strdup (source->display_name);
+	fd->mime_type = get_static_string (source->mime_type);
+	fd->size = source->size;
+	fd->ctime = source->ctime;
+	fd->mtime = source->mtime;
+	fd->exif_data_loaded = source->exif_data_loaded;
+	fd->exif_time = source->exif_time;
+	fd->error = source->error;
+	fd->thumb_loaded = source->thumb_loaded;
+	fd->thumb_created = source->thumb_created;
+	fd->comment = (source->comment != NULL) ? g_strdup (source->comment) : NULL;
+	fd->comment_data = comment_data_dup (source->comment_data);
+	
 	return fd;
 }
 
@@ -147,8 +162,7 @@ file_data_update (FileData *fd)
 	g_free (fd->display_name);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
-	if (info->mime_type != NULL)
-		fd->mime_type = info->mime_type;
+	fd->mime_type = get_file_mime_type (fd->path, ! is_local_file (fd->path));
 
 	fd->size = info->size;
 	fd->mtime = info->mtime;
@@ -218,6 +232,36 @@ file_data_update_comment (FileData *fd)
 	fd->comment = comments_get_comment_as_string (fd->comment_data, "\n", "\n");
 	if (fd->comment == NULL)
 		fd->comment = g_strdup ("");
+}
+
+
+GList*
+file_data_list_from_uri_list (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		result = g_list_prepend (result, file_data_new (path, NULL));
+	}
+	
+	return g_list_reverse (result);
+}
+
+
+GList*
+uri_list_from_file_data_list (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		result = g_list_prepend (result, g_strdup (fd->path));
+	}
+	
+	return g_list_reverse (result);	
 }
 
 

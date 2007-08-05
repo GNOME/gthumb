@@ -221,19 +221,17 @@ thumb_loader_get_type (void)
 
 
 static GdkPixbufAnimation*
-thumb_loader (const char  *path,
-	      const char  *mime_type,
-	      GError     **error,
-	      gpointer     data)
+thumb_loader (FileData   *file,
+	      GError    **error,
+	      gpointer    data)
 {
 	ThumbLoader *tl = data;
 
-	return gth_pixbuf_animation_new_from_uri (path,
-						  error,
-						  tl->priv->cache_max_w,
-						  tl->priv->cache_max_h,
-						  tl->priv->thumb_factory,
-						  mime_type);
+	return gth_pixbuf_animation_new_from_file (file,
+						   error,
+						   tl->priv->cache_max_w,
+						   tl->priv->cache_max_h,
+						   tl->priv->thumb_factory);
 }
 
 
@@ -328,10 +326,10 @@ thumb_loader_set_file (ThumbLoader *tl,
 	
 	if (fd != NULL) {
 		tl->priv->file = file_data_ref (fd);
-		image_loader_set_path (tl->priv->il, tl->priv->file->path, tl->priv->file->mime_type);
+		image_loader_set_file (tl->priv->il, tl->priv->file);
 	}
 	else	
-		image_loader_set_path (tl->priv->il, NULL, NULL);
+		image_loader_set_file (tl->priv->il, NULL);
 }
 
 
@@ -399,7 +397,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	} 
 	else {
 		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, priv->file->path, priv->file->mime_type);
+		image_loader_set_file (priv->il, priv->file);
 
 		/* Check file dimensions. */
 
@@ -602,7 +600,7 @@ thumb_loader_error_cb (ImageLoader *il,
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, priv->file->path, priv->file->mime_type);
+	image_loader_set_file (priv->il, priv->file);
 	image_loader_start (priv->il);
 }
 

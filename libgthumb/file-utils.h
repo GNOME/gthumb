@@ -34,10 +34,12 @@
 #include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
+#include "file-data.h"
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 
+typedef void (*CopyDoneFunc) (GnomeVFSResult, gpointer);
 
 /* Async directory list */
 
@@ -164,6 +166,7 @@ gboolean            uri_scheme_is_file            (const char       *uri);
 gboolean            uri_scheme_is_catalog         (const char       *uri);
 gboolean            uri_scheme_is_search          (const char       *uri);
 char *              get_uri_from_path             (const char       *path);
+char *              get_uri_from_local_path       (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
 char *              get_local_path_from_uri       (const char       *uri);
@@ -237,6 +240,7 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char       *filename);
+char *              get_cache_filename            (const char       *uri);
 void	            prune_cache			  (void);
 char* 		    obtain_local_file             (const char       *remote_filename);
 gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
@@ -244,19 +248,32 @@ gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
-GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename,
-						       GError 	            **error,
-				                       gint                   requested_width_if_used,
-				                       gint                   requested_height_if_used,
-				                       const char            *mime_type);
 
-GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename,
-						       GError               **error,
-						       gint                   requested_width_if_used,
-						       gint	              requested_height_if_used,
-						       GnomeThumbnailFactory *factory,
-						       const char            *mime_type);
+GdkPixbuf*	    gth_pixbuf_new_from_uri	       (const char            *filename,
+						        GError               **error,
+				                        gint                   requested_width_if_used,
+				                        gint                   requested_height_if_used,
+				                        const char            *mime_type);
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_file (FileData              *file,
+						        GError               **error,
+						        int                    requested_width_if_used,
+						        int	               requested_height_if_used,
+						        GnomeThumbnailFactory *factory);
 
 char *              xdg_user_dir_lookup               (const char            *type);
 
+typedef struct _CopyData CopyData;
+
+void                copy_data_cancel                  (CopyData     *data);
+CopyData *          copy_file_async                   (const char   *source_uri,
+		 				       const char   *target_uri,
+		 				       CopyDoneFunc  done_func,
+		 				       gpointer      done_data);
+CopyData *          copy_remote_file_to_cache         (FileData     *file,
+						       CopyDoneFunc  done_func,
+						       gpointer      done_data);
+CopyData *          update_file_from_cache            (FileData     *file,
+						       CopyDoneFunc  done_func,
+						       gpointer      done_data);
+						       
 #endif /* FILE_UTILS_H */

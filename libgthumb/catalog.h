@@ -28,7 +28,6 @@
 #include "search.h"
 #include "typedefs.h"
 
-
 typedef struct {
 	char          *path;  /* File name of the catalog. */
 	GList         *list;  /* The list of file names the catalog contains. */
@@ -37,33 +36,36 @@ typedef struct {
 	GtkSortType    sort_type;
 } Catalog;
 
+typedef void (*CatalogDoneFunc) (Catalog *, GList *, gpointer);
 
 /* functions to use the Catalog structure. */
 
 
 Catalog*  catalog_new                        (void);
-void      catalog_free                       (Catalog    *catalog);
-void      catalog_set_path                   (Catalog    *catalog,
-					      char       *full_path);
-void      catalog_set_search_data            (Catalog    *catalog,
-					      SearchData *search_data);
-gboolean  catalog_is_search_result           (Catalog    *catalog);
-gboolean  catalog_load_from_disk             (Catalog     *catalog,
-					      const char  *full_path,
-					      GError     **error);
-gboolean  catalog_load_search_data_from_disk (Catalog     *catalog,
-					      const char  *uri,
-					      GError     **gerror);
-gboolean  catalog_write_to_disk              (Catalog     *catalog,
-					      GError     **error);
-void      catalog_add_item                   (Catalog     *catalog,
-					      const char  *file_path);
-void      catalog_insert_items               (Catalog     *catalog,
-					      GList       *list,
-				              int          pos);
-int       catalog_remove_item                (Catalog     *catalog,
-					      const char  *file_path);
-void      catalog_remove_all_items           (Catalog     *catalog);
-
+void      catalog_free                       (Catalog          *catalog);
+void      catalog_set_path                   (Catalog          *catalog,
+					      char             *full_path);
+void      catalog_set_search_data            (Catalog          *catalog,
+					      SearchData       *search_data);
+gboolean  catalog_is_search_result           (Catalog          *catalog);
+gboolean  catalog_load_from_disk             (Catalog          *catalog,
+					      const char       *full_path,
+					      GError          **error);
+gboolean  catalog_load_search_data_from_disk (Catalog          *catalog,
+					      const char       *uri,
+					      GError          **gerror);
+gboolean  catalog_write_to_disk              (Catalog          *catalog,
+					      GError          **error);
+void      catalog_add_item                   (Catalog          *catalog,
+					      const char       *file_path);
+void      catalog_insert_items               (Catalog          *catalog,
+					      GList            *list,
+				              int               pos);
+int       catalog_remove_item                (Catalog          *catalog,
+					      const char       *file_path);
+void      catalog_remove_all_items           (Catalog          *catalog);
+void      catalog_get_file_data_list         (Catalog          *catalog,
+					      CatalogDoneFunc   done_func,
+					      gpointer          done_data);
 
 #endif /* CATALOG_H */
