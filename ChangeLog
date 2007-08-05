@@ -1,5 +1,14 @@
 2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/thumb-loader.c (thumb_loader): use the image_loader 
+	thumb_factory.
+	
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: added a file_mutex for handling the file
+	field.
+	
+2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/main.c: 
 	* src/gth-window.h: 
 	* src/gth-window.c: 

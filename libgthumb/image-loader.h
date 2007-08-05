@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include "typedefs.h"
 #include "file-data.h"
 
@@ -58,7 +59,7 @@ struct _ImageLoaderClass
 				 float        percent);
 };
 
-typedef GdkPixbufAnimation * (*LoaderFunc) (FileData *file, GError **error, gpointer data);
+typedef GdkPixbufAnimation * (*LoaderFunc) (FileData *file, GError **error, GnomeThumbnailFactory *, gpointer data);
 
 GType                image_loader_get_type                (void);
 GObject *            image_loader_new                     (gboolean           as_animation);

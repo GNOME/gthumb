@@ -221,9 +221,10 @@ thumb_loader_get_type (void)
 
 
 static GdkPixbufAnimation*
-thumb_loader (FileData   *file,
-	      GError    **error,
-	      gpointer    data)
+thumb_loader (FileData               *file,
+	      GError                **error,
+	      GnomeThumbnailFactory  *thumb_factory,
+	      gpointer                data)
 {
 	ThumbLoader *tl = data;
 
@@ -231,7 +232,7 @@ thumb_loader (FileData   *file,
 						   error,
 						   tl->priv->cache_max_w,
 						   tl->priv->cache_max_h,
-						   tl->priv->thumb_factory);
+						   thumb_factory);
 }
 
 

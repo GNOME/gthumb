@@ -80,6 +80,7 @@ struct _ImageLoaderPrivateData {
 	GThread               *thread;
 
 	GMutex                *yes_or_no;
+	GMutex                *file_mutex;
 
 	gboolean               exit_thread;
 	GMutex                *exit_thread_mutex;
@@ -116,17 +117,18 @@ image_loader_finalize__step2 (GObject *object)
         il = IMAGE_LOADER (object);
 	priv = il->priv;
 
-	g_mutex_lock (priv->yes_or_no);
-	if (priv->pixbuf != NULL)
-		g_object_unref (G_OBJECT (priv->pixbuf));
-
-	if (priv->animation != NULL)
-		g_object_unref (G_OBJECT (priv->animation));
-
+	g_mutex_lock (priv->file_mutex);
 	if (priv->file != NULL) {
 		file_data_unref (priv->file);
 		priv->file = NULL;
 	}
+	g_mutex_unlock (priv->file_mutex);
+	
+	g_mutex_lock (priv->yes_or_no);
+	if (priv->pixbuf != NULL)
+		g_object_unref (G_OBJECT (priv->pixbuf));
+	if (priv->animation != NULL)
+		g_object_unref (G_OBJECT (priv->animation));
 	g_mutex_unlock (priv->yes_or_no);
 
 	g_mutex_lock (priv->exit_thread_mutex);
@@ -142,6 +144,7 @@ image_loader_finalize__step2 (GObject *object)
 
 	g_cond_free  (priv->start_loading_cond);
 	g_mutex_free (priv->yes_or_no);
+	g_mutex_free (priv->file_mutex);
 	g_mutex_free (priv->start_loading_mutex);
 	g_mutex_free (priv->exit_thread_mutex);
 
@@ -264,6 +267,7 @@ image_loader_init (ImageLoader *il)
 	priv->idle_id = 0;
 
 	priv->yes_or_no = g_mutex_new ();
+	priv->file_mutex = g_mutex_new ();
 
 	priv->exit_thread = FALSE;
 	priv->exit_thread_mutex = g_mutex_new ();
@@ -365,12 +369,12 @@ void
 image_loader_set_file (ImageLoader *il,
 		       FileData    *file)
 {
-	g_mutex_lock (il->priv->yes_or_no);
+	g_mutex_lock (il->priv->file_mutex);
 	if (il->priv->file != file)
 		file_data_unref (il->priv->file);
 	if (file != NULL)
 		il->priv->file = file_data_dup (file);
-	g_mutex_unlock (il->priv->yes_or_no);	
+	g_mutex_unlock (il->priv->file_mutex);
 }
 
 
@@ -379,10 +383,10 @@ image_loader_get_file (ImageLoader *il)
 {
 	FileData *file = NULL;
 	
-	g_mutex_lock (il->priv->yes_or_no);
+	g_mutex_lock (il->priv->file_mutex);
 	if (il->priv->file != NULL)
 		file = file_data_dup (il->priv->file);
-	g_mutex_unlock (il->priv->yes_or_no);	
+	g_mutex_unlock (il->priv->file_mutex);	
 	
 	return file;
 }
@@ -395,7 +399,7 @@ image_loader_set_path (ImageLoader *il,
 {
 	FileData *file;
 	
-	g_mutex_lock (il->priv->yes_or_no);
+	g_mutex_lock (il->priv->file_mutex);
 	if (il->priv->file != NULL)
 		file_data_unref (il->priv->file);		
 	file = file_data_new (path, NULL);
@@ -403,7 +407,7 @@ image_loader_set_path (ImageLoader *il,
 		file->mime_type = get_static_string (mime_type);
 	if ((mime_type == NULL) || ! is_local_file (file->path))
 		file_data_update (file);
-	g_mutex_unlock (il->priv->yes_or_no);
+	g_mutex_unlock (il->priv->file_mutex);
 	
 	image_loader_set_file (il, file);
 	file_data_unref (file);
@@ -414,27 +418,20 @@ void
 image_loader_set_pixbuf (ImageLoader *il,
 			 GdkPixbuf   *pixbuf)
 {
-	ImageLoaderPrivateData *priv;
-
 	g_return_if_fail (il != NULL);
 	g_return_if_fail (pixbuf != NULL);
 
-	priv = il->priv;
-
-	g_mutex_lock (priv->yes_or_no);
-
-	if (priv->pixbuf != NULL) {
-		g_object_unref (priv->pixbuf);
-		priv->pixbuf = NULL;
+	g_mutex_lock (il->priv->yes_or_no);
+	if (il->priv->pixbuf != NULL) {
+		g_object_unref (il->priv->pixbuf);
+		il->priv->pixbuf = NULL;
 	}
-
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
-		priv->pixbuf = pixbuf;
-		/*priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
+		il->priv->pixbuf = pixbuf;
+		/*il->priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
 	}
-
-	g_mutex_unlock (priv->yes_or_no);
+	g_mutex_unlock (il->priv->yes_or_no);
 }
 
 
@@ -609,12 +606,17 @@ load_image_thread (void *thread_data)
 
 		file = image_loader_get_file (il);
 
+		g_mutex_lock (priv->yes_or_no);
+
 		G_LOCK (pixbuf_loader_lock);
 
 		animation = NULL;
 		if (file != NULL) {
 			if (priv->loader != NULL)
-				animation = (*priv->loader) (file, &error, priv->loader_data);
+				animation = (*priv->loader) (file, 
+							     &error,
+							     priv->thumb_factory,
+							     priv->loader_data);
         		else
 		                animation = gth_pixbuf_animation_new_from_file (file,
 									        &error,
@@ -625,8 +627,6 @@ load_image_thread (void *thread_data)
 
 		G_UNLOCK (pixbuf_loader_lock);
 
-		g_mutex_lock (priv->yes_or_no);
-	
 		priv->loader_done = TRUE;
 		if (priv->animation != NULL)
 			g_object_unref (priv->animation);
@@ -772,9 +772,9 @@ image_loader_start__step2 (ImageLoader *il)
 {
 	FileData *fd;
 	
-	g_mutex_lock (il->priv->yes_or_no);
+	g_mutex_lock (il->priv->file_mutex);
 	fd = file_data_dup (il->priv->file);
-	g_mutex_unlock (il->priv->yes_or_no);
+	g_mutex_unlock (il->priv->file_mutex);
 	
 	if (is_local_file (fd->path)) 
 		image_loader_start__step3 (GNOME_VFS_OK, il);
@@ -793,12 +793,12 @@ image_loader_start (ImageLoader *il)
 
 	priv = il->priv;
 
-	g_mutex_lock (priv->yes_or_no);
+	g_mutex_lock (priv->file_mutex);
 	if (priv->file == NULL) {
-		g_mutex_unlock (priv->yes_or_no);
+		g_mutex_unlock (priv->file_mutex);
 		return;
 	}
-	g_mutex_unlock (priv->yes_or_no);
+	g_mutex_unlock (priv->file_mutex);
 
 	image_loader_stop_common (il,
 				  (DoneFunc) image_loader_start__step2,
@@ -948,13 +948,13 @@ image_loader_get_path (ImageLoader *il)
 
 	g_return_val_if_fail (il != NULL, NULL);
 
-	g_mutex_lock (il->priv->yes_or_no);
+	g_mutex_lock (il->priv->file_mutex);
 	if (il->priv->file == NULL) {
-		g_mutex_unlock (il->priv->yes_or_no);
+		g_mutex_unlock (il->priv->file_mutex);
                 return NULL;
 	}
         path = g_strdup (il->priv->file->path);
-	g_mutex_unlock (il->priv->yes_or_no);
+	g_mutex_unlock (il->priv->file_mutex);
 
         return path;
 }
@@ -990,8 +990,8 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	g_return_if_fail (to != NULL);
 	g_return_if_fail (from != NULL);
 
-	g_mutex_lock (to->priv->yes_or_no);
-	g_mutex_lock (from->priv->yes_or_no);
+	g_mutex_lock (to->priv->file_mutex);
+	g_mutex_lock (from->priv->file_mutex);
 
 	if (to->priv->file != NULL) {
 		file_data_unref (to->priv->file);
@@ -1001,7 +1001,13 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	if (from->priv->file != NULL)
 		to->priv->file = file_data_dup (from->priv->file);
 
+	g_mutex_unlock (to->priv->file_mutex);
+	g_mutex_unlock (from->priv->file_mutex);
+
 	/**/
+
+	g_mutex_lock (to->priv->yes_or_no);
+	g_mutex_lock (from->priv->yes_or_no);
 
 	if (to->priv->pixbuf) {
 		g_object_unref (to->priv->pixbuf);
