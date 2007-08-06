@@ -232,7 +232,7 @@ thumb_loader (FileData               *file,
 						   error,
 						   tl->priv->cache_max_w,
 						   tl->priv->cache_max_h,
-						   thumb_factory);
+						   tl->priv->thumb_factory);
 }
 
 

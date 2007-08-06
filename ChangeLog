@@ -1,3 +1,8 @@
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/image-loader.c: 
+	* libgthumb/thumb-loader.c: reverted last change.
+
 2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c (thumb_loader): use the image_loader 
