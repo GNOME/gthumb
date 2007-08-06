@@ -274,10 +274,11 @@ static GthWindowClass *parent_class = NULL;
 #define HIDE_SIDEBAR_DELAY     150
 #define LOAD_DIR_DELAY         75
 #define PANE_MIN_SIZE          60
-#define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
+#define PROGRESS_BAR_WIDTH     60
+#define PROGRESS_BAR_HEIGHT    12
 
 #define DEF_WIN_WIDTH          690
 #define DEF_WIN_HEIGHT         460
@@ -6867,9 +6868,16 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Progress bar. */
 
 	priv->progress = gtk_progress_bar_new ();
-	gtk_widget_show (priv->progress);
-	gtk_widget_set_size_request (priv->progress, -1, 10);
-	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->progress, FALSE, FALSE, 0);
+	gtk_widget_set_size_request (priv->progress, -1, PROGRESS_BAR_HEIGHT);
+	
+	{
+		GtkWidget *vbox;
+		
+		vbox = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (vbox), priv->progress, TRUE, FALSE, 0);
+		gtk_widget_show_all (vbox);
+		gtk_box_pack_start (GTK_BOX (priv->statusbar), vbox, FALSE, FALSE, 0);
+	}
 
 	/* Zoom info */
 

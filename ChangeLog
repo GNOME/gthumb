@@ -1,5 +1,10 @@
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c: added the prograssbar to a vbox to make the
+	size_request work correctly.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	* src/gth-viewer.c: 
 	* libgthumb/image-loader.c: fix ref/unref of file_data values.
 		
