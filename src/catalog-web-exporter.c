@@ -2252,10 +2252,11 @@ export__copy_image (CatalogWebExporter *ce)
 		   Skip this step if there is no tag (0), or it is already
 		   top-left (1). */
 		transform = read_orientation_field (dest_filename);
-		if (transform > 1)
-			apply_transformation_jpeg(GTK_WINDOW (ce->window),
-						  dest_filename,
-						  transform);
+		/* FIXME if (transform > 1)
+			apply_transformation_jpeg (GTK_WINDOW (ce->window),
+						   dest_filename,
+						   transform,
+						   NULL);*/
 	}
 }
 

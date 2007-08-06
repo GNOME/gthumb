@@ -894,7 +894,7 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 /* called when an item of the catalog list is selected. */
 static void
 theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
-			      gpointer p)
+			      gpointer          p)
 {
 	ThemeDialogData  *tdata = p;
 	gboolean          theme_selected;
@@ -930,12 +930,15 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 	}
 
 	if (path_is_dir (path)) {
-		char *filename = g_build_path (G_DIR_SEPARATOR_S,
-					       path,
-					       "preview.png",
-					       NULL);
-		if (path_is_file (filename)) {
-			GdkPixbuf *image = gth_pixbuf_new_from_uri (filename, NULL, 0, 0, NULL);
+		char      *filename;
+		GdkPixbuf *image;
+					       
+		filename = g_build_path (G_DIR_SEPARATOR_S,
+					 path,
+					 "preview.png",
+					 NULL);
+		if (path_is_file (filename)
+		    && ((image = gdk_pixbuf_new_from_file (filename, NULL)) != NULL)) {
 			int        w = gdk_pixbuf_get_width (image);
 			int        h = gdk_pixbuf_get_height (image);
 			if (scale_keepping_ratio (&w, &h, MAX_PREVIEW_SIZE, MAX_PREVIEW_SIZE)) {
@@ -944,11 +947,13 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 				g_object_unref (tmp);
 			}
 			gtk_image_set_from_pixbuf (GTK_IMAGE (tdata->wat_preview_image), image);
-			g_object_unref (image);
-
-		} else
+		} 
+		else
 			gtk_image_set_from_stock (GTK_IMAGE (tdata->wat_preview_image), GTK_STOCK_MISSING_IMAGE, GTK_ICON_SIZE_BUTTON);
+
 		g_free (filename);
+		if (image != NULL)
+			g_object_unref (image);
 	}
 
 	g_free (utf8_name);

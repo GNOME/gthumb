@@ -324,18 +324,17 @@ thumb_loader_set_file (ThumbLoader *tl,
 	tl->priv->file = NULL;
 	
 	if (fd != NULL) {
-		char *resolved_path = NULL;
-		
 		tl->priv->file = file_data_dup (fd);
 		if (is_local_file (tl->priv->file->path)) {
+			char *resolved_path = NULL;
 			if (resolve_all_symlinks (tl->priv->file->path, &resolved_path) == GNOME_VFS_OK) 
 				tl->priv->file->path = g_strdup (resolved_path);
 			else {
 				file_data_unref (tl->priv->file);
 				tl->priv->file = NULL;
 			}
+			g_free (resolved_path);
 		}
-		g_free (resolved_path);
 	}
 	
 	image_loader_set_file (tl->priv->il, tl->priv->file);

@@ -1,5 +1,34 @@
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/rotation-utils.h: 
+	* src/rotation-utils.c: 
+	* src/gth-window-actions-callbacks.c: 
+	* src/gth-viewer.c: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.h: 
+	* src/dlg-jpegtran.c: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/pixbuf-utils.h: 
+	* libgthumb/pixbuf-utils.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gtk-utils.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	
+	Other batch of changes to make loading/saving of remote files async.  
+	Some functionality can be broken at this point.
+	
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
 	* libgthumb/thumb-loader.c: 
 	* libgthumb/gth-file-list.c: move the resolve_links op in the 
 	thumb_loader.  Resolve only local files.

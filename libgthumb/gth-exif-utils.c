@@ -34,27 +34,16 @@
 
 
 ExifData *
-gth_exif_data_new_from_uri (const char *path)
+gth_exif_data_new_from_uri (const char *uri)
 {
         char     *local_file = NULL;
 	ExifData *new_exif_data;
 
-	if (path == NULL)
+	if (uri == NULL)
 		return NULL;
 
-        /* libexif does not support VFS URIs directly, so make a temporary local
-           copy of remote jpeg files. */
-
-        if (is_local_file (path) || image_is_jpeg (path)) 
-                local_file = obtain_local_file (path);
-	else
-		return NULL;
-
-        if (local_file == NULL) 
-                return NULL;
-
+	local_file = get_cache_filename_from_uri (uri);
 	new_exif_data = exif_data_new_from_file (local_file);
-
 	g_free (local_file);
 
 	return new_exif_data;
@@ -62,17 +51,16 @@ gth_exif_data_new_from_uri (const char *path)
 
 
 char *
-get_exif_tag (const char *filename,
+get_exif_tag (const char *uri,
 	      ExifTag     etag)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	if (filename == NULL)
+	if (uri == NULL)
 		return g_strdup ("-");
 
-	edata = gth_exif_data_new_from_uri (filename);
-
+	edata = gth_exif_data_new_from_uri (uri);
 	if (edata == NULL) 
 		return g_strdup ("-");
 
@@ -111,17 +99,16 @@ get_exif_tag (const char *filename,
 
 
 ExifShort
-get_exif_tag_short (const char *filename,
+get_exif_tag_short (const char *uri,
 		    ExifTag     etag)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	if (filename == NULL)
+	if (uri == NULL)
 		return 0;
 
-	edata = gth_exif_data_new_from_uri (filename);
-
+	edata = gth_exif_data_new_from_uri (uri);
 	if (edata == NULL) 
 		return 0;
 
@@ -188,63 +175,60 @@ exif_string_to_time_t (char *string)
 
 	
 static time_t
-get_exif_time (const char *filename)
+get_exif_time (const char *uri)
 {
-        char    date_string[21]={0};
+	char   *local_file = NULL;
+        char    date_string[21] = {0};
         time_t  time = 0;
-	char   *local_file_to_modify = NULL;
 
-        if (filename == NULL)
+        if (uri == NULL)
                 return (time_t) 0;
 
-        local_file_to_modify = obtain_local_file (filename);
-	if (local_file_to_modify == NULL)
+        local_file = get_cache_filename_from_uri (uri);
+	if (local_file == NULL)
                 return (time_t) 0;
 
-        gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME, date_string, 20);
-
+        gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME, date_string, 20);
 	if (date_string[0] == 0)
-		gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
-
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
 	if (date_string[0] == 0)
-		gth_minimal_exif_tag_read (local_file_to_modify, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
 
         time = exif_string_to_time_t (date_string);
 
-	g_free (local_file_to_modify);
+	g_free (local_file);
 
 	if (time < (time_t) 0)
 		return (time_t) 0;
-
-        return time;
+	else
+        	return time;
 }
 
 
 time_t
 get_metadata_time (const char *mime_type, 
-		   const char *filename)
+		   const char *uri)
 {
 	if (mime_type == NULL)
-		mime_type = get_mime_type (filename);
+		mime_type = get_mime_type (uri);
 
         if (mime_type_is (mime_type, "image/jpeg"))
-                return get_exif_time (filename);
+                return get_exif_time (uri);
 
 	return (time_t) 0;
 }
 
 
 char *
-get_exif_aperture_value (const char *filename)
+get_exif_aperture_value (const char *uri)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
 
-	if (filename == NULL)
+	if (uri == NULL)
 		return g_strdup ("-");
 
-	edata = gth_exif_data_new_from_uri (filename);
-
+	edata = gth_exif_data_new_from_uri (uri);
 	if (edata == NULL) 
 		return g_strdup ("-");
 
@@ -284,9 +268,9 @@ get_exif_aperture_value (const char *filename)
 
 
 gboolean 
-have_exif_time (const char *filename)
+have_exif_time (const char *uri)
 {
-	return get_metadata_time (NULL, filename) != (time_t)0;
+	return get_metadata_time (NULL, uri) != (time_t)0;
 }
 
 
@@ -302,55 +286,40 @@ get_exif_entry_value (ExifEntry *entry)
 
 
 void 
-save_exif_data_to_uri (const char *filename,
+save_exif_data_to_uri (const char *uri,
 		       ExifData   *edata)
 {
+	char      *local_file = NULL;
 	JPEGData  *jdata;
-        gboolean   is_local;
-        gboolean   remote_copy_ok = TRUE;
-        char      *local_file_to_modify = NULL;
 
-        is_local = is_local_file (filename);
-
-        /* If the original file is stored on a remote VFS location, copy it to a local
-           temp file, modify it, then copy it back. This is easier than modifying the
-           underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file_to_modify = obtain_local_file (filename);
-	
-	if (local_file_to_modify == NULL)
-		return;
-
-	jdata = jpeg_data_new_from_file (local_file_to_modify);
+	local_file = get_cache_filename_from_uri (uri);
+	jdata = jpeg_data_new_from_file (local_file);
 	if (jdata == NULL) 
 		return;
 
 	if (edata != NULL)
 		jpeg_data_set_exif_data (jdata, edata);
 
-	jpeg_data_save_file (jdata, local_file_to_modify);
+	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
-        if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
-
-        g_free (local_file_to_modify);
+        g_free (local_file);
 }
 
 
 void 
-copy_exif_data (const char *src,
-		const char *dest)
+copy_exif_data (const char *uri_src,
+		const char *uri_dest)
 {
 	ExifData *edata;
 
-	if (!image_is_jpeg (src) || !image_is_jpeg (dest))
+	if (! image_is_jpeg (uri_src) || ! image_is_jpeg (uri_dest))
 		return;
 
-	edata = gth_exif_data_new_from_uri (src);
+	edata = gth_exif_data_new_from_uri (uri_src);
 	if (edata == NULL) 
 		return;
-	save_exif_data_to_uri (dest, edata);
+	save_exif_data_to_uri (uri_dest, edata);
 
 	exif_data_unref (edata);
 }
@@ -373,7 +342,7 @@ const char types[] = {0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x00, 0x08, 0x00, 0x04
 #define IFD_NAME_PULL()    names[--ni]
 
 int static
-gth_minimal_exif_tag_action (const char *filename,
+gth_minimal_exif_tag_action (const char *local_file,
 			     ExifTag     etag,
 			     void       *data,
 			     int         size,
@@ -410,20 +379,14 @@ gth_minimal_exif_tag_action (const char *filename,
         int           ni = 0;       // iundex into names
  	int           cifdi = 0;    // curret ifd index
  
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d)\n", filename, etag, data, size);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d)\n", local_file, etag, data, size);
  
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
  	IFD_NAME_PUSH("START");
  
-	g_assert (is_local_file (filename));
-
- 	// get path to file
- 	if ((filename = get_file_path_from_uri (filename)) == NULL )
- 		return PATCH_EXIF_FILE_ERROR;
- 
  	// open file r (read (r))
- 	if ((jf = fopen (filename, "r")) == NULL)
+ 	if ((jf = fopen (local_file, "r")) == NULL)
  		return PATCH_EXIF_FILE_ERROR;
  
         // Fill buffer
@@ -619,36 +582,36 @@ gth_minimal_exif_tag_action (const char *filename,
  		return PATCH_EXIF_NO_TAGS;
  
  	// open file rb+ (read (r) and modify (+), b indicates binary file accces on non-Unix systems
- 	if ((jf = fopen(filename, "rb+")) == NULL)
+ 	if ((jf = fopen (local_file, "rb+")) == NULL)
  		return PATCH_EXIF_FILE_ERROR;
  
         // Save changes
- 	writesize = fwrite(buf, 1, readsize, jf);
- 	fclose(jf);
+ 	writesize = fwrite (buf, 1, readsize, jf);
+ 	fclose (jf);
  
- 	return readsize == writesize ? PATCH_EXIF_OK : PATCH_EXIF_FILE_ERROR; 
+ 	return (readsize == writesize) ? PATCH_EXIF_OK : PATCH_EXIF_FILE_ERROR; 
 }
 
 
 int
-gth_minimal_exif_tag_read (const char *filename,
- 	                    ExifTag     etag,
- 			    void       *data,
- 			    int         size)
+gth_minimal_exif_tag_read (const char *local_file,
+ 	                   ExifTag     etag,
+ 			   void       *data,
+ 			   int         size)
 {
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
-	return gth_minimal_exif_tag_action (filename, etag, data, size, 0);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d)\n", local_file, etag, data, size); 
+	return gth_minimal_exif_tag_action (local_file, etag, data, size, 0);
 }
 
 
 int
-gth_minimal_exif_tag_write (const char *filename,
+gth_minimal_exif_tag_write (const char *local_file,
  	                    ExifTag     etag,
  			    void       *data,
  			    int         size)
 {
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", filename, etag, data, size); 
-	return gth_minimal_exif_tag_action (filename, etag, data, size, 1);
+ 	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", local_file, etag, data, size); 
+	return gth_minimal_exif_tag_action (local_file, etag, data, size, 1);
 }
 
 
@@ -677,13 +640,12 @@ read_orientation_field (const char *path)
 
 
 void
-write_orientation_field (const char   *path,
+write_orientation_field (const char   *local_file,
 			 GthTransform  transform)
 {
-	guint16 tf = (guint16) transform;
+	guint16  tf = (guint16) transform;
 
-	if (path == NULL)
+	if (local_file == NULL)
 		return;
-
-	gth_minimal_exif_tag_write (path, EXIF_TAG_ORIENTATION, &tf, 2);
+	gth_minimal_exif_tag_write (local_file, EXIF_TAG_ORIENTATION, &tf, 2);
 }

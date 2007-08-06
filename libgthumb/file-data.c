@@ -20,6 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
 #include <glib.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
@@ -66,6 +67,21 @@ file_data_new (const char       *path,
 	fd->thumb_created = FALSE;
 	fd->comment = g_strdup ("");
 
+	return fd;
+}
+
+
+FileData *
+file_data_new_from_local_path (const char *path)
+{
+	FileData *fd;
+	char     *uri;
+	
+	uri = get_uri_from_local_path (path);
+	fd = file_data_new (uri, NULL);
+	file_data_update (fd);
+	g_free (uri);
+	
 	return fd;
 }
 
@@ -293,8 +309,25 @@ file_data_list_free (GList *list)
 }
 
 
-const char *
+GList*
+file_data_list_find_path (GList      *list,
+			  const char *path)
+{
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		FileData *data = scan->data;
+		
+		if (strcmp (data->path, path) == 0)
+			return scan;
+	}
+	
+	return NULL;
+}
+
+
+char *
 file_data_local_path (FileData *fd)
 {
-	return get_file_path_from_uri (fd->path);
+	return get_local_path_from_uri (fd->path);
 }

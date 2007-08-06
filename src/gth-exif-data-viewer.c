@@ -623,13 +623,8 @@ update_exif_data (GthExifDataViewer *edv,
 	if (edv->priv->file == NULL)
 		return;
  
-	if (edata == NULL) {
-		char *local_file;
-		
-		local_file = get_cache_filename (edv->priv->file->path);
-		edata = gth_exif_data_new_from_uri (local_file);
-		g_free (local_file);
-	}
+	if (edata == NULL) 
+		edata = gth_exif_data_new_from_uri (edv->priv->file->path);
 	else
 		exif_data_ref (edata);
 

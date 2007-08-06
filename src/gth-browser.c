@@ -1662,7 +1662,7 @@ save_jpeg_data (GthBrowser *browser,
 	JPEGData              *jdata;
 	gboolean               is_local;
 	gboolean               remote_copy_ok = TRUE;
-	char                  *local_file_to_modify = NULL;
+	char                  *local_file = NULL;
 
 	is_local = is_local_file (filename);
 
@@ -1670,12 +1670,12 @@ save_jpeg_data (GthBrowser *browser,
 	   temp file, modify it, then copy it back. This is easier than modifying the
 	   underlying jpeg code (and other code) to handle VFS URIs. */
 
-	local_file_to_modify = obtain_local_file (filename);
+	local_file = obtain_local_file (filename);
 
-	if (local_file_to_modify == NULL)
+	if (local_file == NULL)
 		return;
 
-	if (!image_is_jpeg (local_file_to_modify))
+	if (!image_is_jpeg (local_file))
 		return;
 
 	if (priv->exif_data != NULL)
@@ -1689,7 +1689,7 @@ save_jpeg_data (GthBrowser *browser,
 	if (!data_to_save)
 		return;
 
-	jdata = jpeg_data_new_from_file (local_file_to_modify);
+	jdata = jpeg_data_new_from_file (local_file);
 	if (jdata == NULL)
 		return;
 
@@ -1714,19 +1714,19 @@ save_jpeg_data (GthBrowser *browser,
 	if (priv->exif_data != NULL)
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
 
-	jpeg_data_save_file (jdata, local_file_to_modify);
+	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
 	/* The exif orientation tag, if present, must be reset to "top-left",
    	   because the jpeg was saved from a gthumb-generated pixbuf, and
-   	   the pixbug image loader always rotates the pixbuf to account for
+   	   the pixbuf image loader always rotates the pixbuf to account for
    	   the orientation tag. */
-	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
+	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
 
 	if (!is_local)
-		remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+		remote_copy_ok = copy_cache_file_to_remote_uri (local_file, filename);
 
-	g_free (local_file_to_modify);
+	g_free (local_file);
 }
 
 
@@ -5656,7 +5656,7 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
 
-		if (gth_file_list_filedata_from_path (priv->file_list, filename) == NULL)
+		if (gth_file_list_filedata_from_path (priv->file_list, filename) != NULL)
 			continue;
 
 		absent_files = g_list_prepend (absent_files, filename);

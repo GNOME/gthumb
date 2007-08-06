@@ -639,7 +639,7 @@ update_image_comment (GthViewer *viewer)
 		priv->iptc_data = NULL;
 	}
 	if (priv->image != NULL) {
-		char *local_file = get_cache_filename (priv->image->path);
+		char *local_file = get_cache_filename_from_uri (priv->image->path);
 		priv->iptc_data = iptc_data_new_from_jpeg (local_file);
 		g_free (local_file);
 	}
@@ -712,7 +712,7 @@ viewer_update_image_info (GthViewer *viewer)
 	if (viewer->priv->image != NULL) {
 		char *local_file;
 		
-		local_file = get_cache_filename (viewer->priv->image->path);
+		local_file = get_cache_filename_from_uri (viewer->priv->image->path);
 		if (local_file != NULL) {
 			jdata = jpeg_data_new_from_file (local_file);
 			g_free (local_file);
@@ -841,7 +841,7 @@ save_jpeg_data (GthViewer  *viewer,
 	JPEGData              *jdata;
         gboolean               is_local;
         gboolean               remote_copy_ok = TRUE;
-        char                  *local_file_to_modify = NULL;
+        char                  *local_file = NULL;
 
         is_local = is_local_file (filename);
 
@@ -849,12 +849,12 @@ save_jpeg_data (GthViewer  *viewer,
            temp file, modify it, then copy it back. This is easier than modifying the
            underlying jpeg code (and other code) to handle VFS URIs. */
 
-        local_file_to_modify = obtain_local_file (filename);
+        local_file = obtain_local_file (filename);
 
-        if (local_file_to_modify == NULL)
+        if (local_file == NULL)
                 return;
 
-        if (!image_is_jpeg (local_file_to_modify))
+        if (!image_is_jpeg (local_file))
                 return;
 
 	if (priv->exif_data != NULL)
@@ -868,7 +868,7 @@ save_jpeg_data (GthViewer  *viewer,
 	if (!data_to_save)
 		return;
 
-	jdata = jpeg_data_new_from_file (local_file_to_modify);
+	jdata = jpeg_data_new_from_file (local_file);
 	if (jdata == NULL)
 		return;
 
@@ -893,19 +893,19 @@ save_jpeg_data (GthViewer  *viewer,
 	if (priv->exif_data != NULL)
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
 
-	jpeg_data_save_file (jdata, local_file_to_modify);
+	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
 	/* The exif orientation tag, if present, must be reset to "top-left",
    	   because the jpeg was saved from a gthumb-generated pixbuf, and
    	   the pixbug image loader always rotates the pixbuf to account for
    	   the orientation tag. */
-	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
+	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
 
 	if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
+                remote_copy_ok = copy_cache_file_to_remote_uri (local_file, filename);
 
-        g_free (local_file_to_modify);
+        g_free (local_file);
 }
 
 

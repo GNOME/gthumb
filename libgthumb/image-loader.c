@@ -438,7 +438,7 @@ image_loader_sync_pixbuf (ImageLoader *il)
 
 	priv = il->priv;
 
-	orientation = get_exif_tag_short (image_loader_get_path(il), EXIF_TAG_ORIENTATION);
+	orientation = get_exif_tag_short (image_loader_get_path (il), EXIF_TAG_ORIENTATION);
 	transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 
 	g_mutex_lock (priv->data_mutex);

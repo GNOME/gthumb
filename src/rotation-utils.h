@@ -26,16 +26,17 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "typedefs.h"
-
+#include "file-data.h"
 #include "gth-exif-utils.h"
 
 gboolean	apply_transformation_jpeg      (GtkWindow    *win,
-						const char   *filename,
-						GthTransform  transform);
+						FileData     *file,
+						GthTransform  transform,
+			   			GError       **error);
 gboolean	apply_transformation_generic   (GtkWindow    *win,
-						const char   *filename,
-						GthTransform  transform);
-
+						FileData     *file,
+						GthTransform  transform,
+			   			GError       **error);
 GthTransform	get_next_transformation	       (GthTransform  original, 
 						GthTransform  transform);
 

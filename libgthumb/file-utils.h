@@ -128,6 +128,8 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from,
 						   const char       *to);
+gboolean            local_file_move               (const char       *from,
+						   const char       *to);
 GnomeVFSResult      file_rename                   (const char       *old_path,
 						   const char       *new_path);
 gboolean            file_unlink                   (const char       *path);
@@ -219,7 +221,7 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
-void		    remove_temp_file_and_dir      (char             *tmp_file);
+void		    remove_file_and_parent_folder (char             *tmp_file);
 
 
 /* VFS extensions */
@@ -240,7 +242,7 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char       *filename);
-char *              get_cache_filename            (const char       *uri);
+char *              get_cache_filename_from_uri   (const char       *uri);
 void	            prune_cache			  (void);
 char* 		    obtain_local_file             (const char       *remote_filename);
 gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
@@ -249,15 +251,15 @@ GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
 
-GdkPixbuf*	    gth_pixbuf_new_from_uri	       (const char            *filename,
-						        GError               **error,
-				                        gint                   requested_width_if_used,
-				                        gint                   requested_height_if_used,
-				                        const char            *mime_type);
+GdkPixbuf*	    gth_pixbuf_new_from_file	       (FileData               *file,
+			  				GError                **error,
+			  				int                     requested_width,
+			  				int                     requested_height,
+			  				GnomeThumbnailFactory  *factory);
 GdkPixbufAnimation* gth_pixbuf_animation_new_from_file (FileData              *file,
 						        GError               **error,
-						        int                    requested_width_if_used,
-						        int	               requested_height_if_used,
+						        int                    requested_width,
+						        int	               requested_height,
 						        GnomeThumbnailFactory *factory);
 
 char *              xdg_user_dir_lookup               (const char            *type);
