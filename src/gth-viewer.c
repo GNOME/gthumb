@@ -833,29 +833,52 @@ viewer_update_open_with_menu (GthViewer *viewer)
 
 
 static void
-save_jpeg_data (GthViewer  *viewer,
-		const char *filename)
+save_pixbuf__jpeg_data_saved_cb (const char     *uri,
+				 GnomeVFSResult  result,
+    				 gpointer        data)
+{
+	GthViewer *viewer = data;
+	gboolean   closing = viewer->priv->closing;
+	
+	viewer->priv->image_modified = FALSE;
+	viewer->priv->saving_modified_image = FALSE;
+	if (viewer->priv->image_saved_func != NULL)
+		(*viewer->priv->image_saved_func) (NULL, viewer);
+
+	if (closing)
+		return;
+
+	if ((viewer->priv->image != NULL) && ! same_uri (viewer->priv->image->path, uri)) {
+		/*FIXME: gtk_widget_show (gth_viewer_new (uri));*/
+		file_data_set_path (viewer->priv->image, uri);
+		gth_viewer_load (viewer, viewer->priv->image);
+	}
+	else {
+		viewer_update_statusbar_image_info (viewer);
+		viewer_update_image_info (viewer);
+		viewer_update_title (viewer);
+		viewer_update_sensitivity (viewer);
+	}	
+}
+
+
+static CopyData*
+save_jpeg_data (GthViewer    *viewer,
+		FileData     *file,
+		CopyDoneFunc  done_func,
+		gpointer      done_data)
 {
 	GthViewerPrivateData  *priv = viewer->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
-        gboolean               is_local;
-        gboolean               remote_copy_ok = TRUE;
         char                  *local_file = NULL;
 
-        is_local = is_local_file (filename);
+	local_file = get_cache_filename_from_uri (file->path);
+	if (local_file == NULL)
+		return update_file_from_cache (file, done_func, done_data);
 
-        /* If the original file is stored on a remote VFS location, copy it to a local
-           temp file, modify it, then copy it back. This is easier than modifying the
-           underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file = obtain_local_file (filename);
-
-        if (local_file == NULL)
-                return;
-
-        if (!image_is_jpeg (local_file))
-                return;
+	if (! image_is_jpeg (local_file))
+		return update_file_from_cache (file, done_func, done_data);
 
 	if (priv->exif_data != NULL)
 		data_to_save = TRUE;
@@ -865,12 +888,12 @@ save_jpeg_data (GthViewer  *viewer,
 		data_to_save = TRUE;
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (!data_to_save)
-		return;
+	if (! data_to_save)
+		return update_file_from_cache (file, done_func, done_data);
 
 	jdata = jpeg_data_new_from_file (local_file);
 	if (jdata == NULL)
-		return;
+		return update_file_from_cache (file, done_func, done_data);
 
 #ifdef HAVE_LIBIPTCDATA
 	if (priv->iptc_data != NULL) {
@@ -885,7 +908,8 @@ save_jpeg_data (GthViewer  *viewer,
 		if (ps3_len > 0)
 			jpeg_data_set_header_data (jdata,
 						   JPEG_MARKER_APP13,
-						   out_buf, ps3_len);
+						   out_buf, 
+						   ps3_len);
 		g_free (out_buf);
 	}
 #endif /* HAVE_LIBIPTCDATA */
@@ -901,58 +925,31 @@ save_jpeg_data (GthViewer  *viewer,
    	   the pixbug image loader always rotates the pixbuf to account for
    	   the orientation tag. */
 	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
-
-	if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file, filename);
-
         g_free (local_file);
+        
+        return update_file_from_cache (file, done_func, done_data);
 }
 
 
 static void
-save_pixbuf__image_saved_cb (const char *filename,
-			     gpointer    data)
-{
-	GthViewer            *viewer = data;
-	GthViewerPrivateData *priv = viewer->priv;
-
-	if (filename == NULL)
-		return;
-
-	save_jpeg_data (viewer, filename);
-
-	/**/
-
-	priv->image_modified = FALSE;
-	priv->saving_modified_image = FALSE;
-
-	if (priv->closing)
-		return;
-
-	if ((priv->image != NULL) && ! same_uri (priv->image->path, filename)) {
-		/*FIXME: gtk_widget_show (gth_viewer_new (filename));*/
-		file_data_set_path (viewer->priv->image, filename);
-		gth_viewer_load (viewer, viewer->priv->image);
-	}
-	else {
-		viewer_update_statusbar_image_info (viewer);
-		viewer_update_image_info (viewer);
-		viewer_update_title (viewer);
-		viewer_update_sensitivity (viewer);
-	}
-}
-
-
-static void
-ask_whether_to_save__image_saved_cb (const char *filename,
-				     gpointer    data)
+save_pixbuf__image_saved_cb (FileData *file,
+			     gpointer  data)
 {
 	GthViewer *viewer = data;
+	
+	if (file != NULL)
+		save_jpeg_data (viewer, 
+				file, 
+				save_pixbuf__jpeg_data_saved_cb,
+				viewer);
+}
 
-	save_pixbuf__image_saved_cb (filename, data);
 
-	if (viewer->priv->image_saved_func != NULL)
-		(*viewer->priv->image_saved_func) (NULL, viewer);
+static void
+ask_whether_to_save__image_saved_cb (FileData *file,
+				     gpointer  data)
+{
+	save_pixbuf__image_saved_cb (file, data);
 }
 
 
@@ -1015,19 +1012,18 @@ ask_whether_to_save (GthViewer      *viewer,
 
 
 static void
-real_set_void (const char *filename,
-	       gpointer    data)
+real_set_void (FileData *file,
+	       gpointer  data)
 {
-	GthViewer            *viewer = data;
-	GthViewerPrivateData *priv = viewer->priv;
+	GthViewer *viewer = data;
 
-	if (! priv->image_error) {
-		file_data_unref (priv->image);
-		priv->image = NULL;
-		priv->image_modified = FALSE;
+	if (! viewer->priv->image_error) {
+		file_data_unref (viewer->priv->image);
+		viewer->priv->image = NULL;
+		viewer->priv->image_modified = FALSE;
 	}
 
-	image_viewer_set_void (IMAGE_VIEWER (priv->viewer));
+	image_viewer_set_void (IMAGE_VIEWER (viewer->priv->viewer));
 
 	viewer_update_statusbar_image_info (viewer);
  	viewer_update_image_info (viewer);
@@ -1855,8 +1851,8 @@ gth_viewer_new (const char *filename)
 
 
 static void
-load_image__image_saved_cb (const char *filename,
-			    gpointer    data)
+load_image__image_saved_cb (FileData *file,
+			    gpointer  data)
 {
 	GthViewer *viewer = data;
 
@@ -1914,33 +1910,32 @@ gth_viewer_load_from_uri (GthViewer  *viewer,
 
 
 static void
-close__step2 (const char *filename,
-	      gpointer    data)
+close__step2 (FileData *file,
+	      gpointer  data)
 {
-	GthViewer             *viewer = data;
-	GthViewerPrivateData  *priv = viewer->priv;
+	GthViewer *viewer = data;
 
-	if (priv->pixop != NULL)
-		g_object_unref (priv->pixop);
+	if (viewer->priv->pixop != NULL)
+		g_object_unref (viewer->priv->pixop);
 
-	if (priv->progress_gui != NULL)
-		g_object_unref (priv->progress_gui);
+	if (viewer->priv->progress_gui != NULL)
+		g_object_unref (viewer->priv->progress_gui);
 
-	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+	gtk_object_destroy (GTK_OBJECT (viewer->priv->tooltips));
 
-	if (priv->image_popup_menu != NULL) {
-		gtk_widget_destroy (priv->image_popup_menu);
-		priv->image_popup_menu = NULL;
+	if (viewer->priv->image_popup_menu != NULL) {
+		gtk_widget_destroy (viewer->priv->image_popup_menu);
+		viewer->priv->image_popup_menu = NULL;
 	}
 
-	if (priv->open_with_popup_menu != NULL) {
-		gtk_widget_destroy (priv->open_with_popup_menu);
-		priv->open_with_popup_menu = NULL;
+	if (viewer->priv->open_with_popup_menu != NULL) {
+		gtk_widget_destroy (viewer->priv->open_with_popup_menu);
+		viewer->priv->open_with_popup_menu = NULL;
 	}
 
-	if (priv->folder != NULL) {
-		g_object_unref (priv->folder);
-		priv->folder = NULL;
+	if (viewer->priv->folder != NULL) {
+		g_object_unref (viewer->priv->folder);
+		viewer->priv->folder = NULL;
 	}
 
 	if (SingleViewer == viewer)
@@ -2018,9 +2013,9 @@ gth_viewer_set_image_modified (GthWindow *window,
 
 
 static void
-gth_viewer_save_pixbuf (GthWindow  *window,
-			GdkPixbuf  *pixbuf,
-			const char *filename)
+gth_viewer_save_pixbuf (GthWindow *window,
+			GdkPixbuf *pixbuf,
+			FileData  *file)
 {
 	GthViewer            *viewer = (GthViewer*) window;
 	GthViewerPrivateData *priv = viewer->priv;
@@ -2029,7 +2024,7 @@ gth_viewer_save_pixbuf (GthWindow  *window,
 	if (priv->image != NULL)
 		current_folder = g_strdup (priv->image->path);
 
-	if (filename == NULL)
+	if (file == NULL)
 		dlg_save_image_as (GTK_WINDOW (viewer),
 				   current_folder,
 				   pixbuf,
@@ -2037,7 +2032,7 @@ gth_viewer_save_pixbuf (GthWindow  *window,
 				   viewer);
 	else
 		dlg_save_image (GTK_WINDOW (viewer),
-				filename,
+				file,
 				pixbuf,
 				save_pixbuf__image_saved_cb,
 				viewer);
@@ -2137,8 +2132,8 @@ gth_viewer_exec_pixbuf_op (GthWindow   *window,
 
 
 static void
-reload_current_image__step2 (const char *filename,
-			     gpointer    data)
+reload_current_image__step2 (FileData *file,
+			     gpointer  data)
 {
 	GthViewer *viewer = data;
 	

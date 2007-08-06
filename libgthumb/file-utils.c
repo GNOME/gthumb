@@ -3250,7 +3250,7 @@ copy_file_async_done (gpointer data)
 	
 	if (copy_data->done_func != NULL) {
 		copy_data->handle = NULL;	
-		(copy_data->done_func) (copy_data->result, copy_data->done_data);
+		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
 	}
 	copy_data_free (copy_data);
 	

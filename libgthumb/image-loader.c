@@ -721,8 +721,9 @@ check_thread (gpointer data)
 
 
 static void
-image_loader_start__step3 (GnomeVFSResult result,
-			   gpointer       data)
+image_loader_start__step3 (const char     *uri,
+			   GnomeVFSResult  result,
+			   gpointer        data)
 {
 	ImageLoader *il = data;
 	
@@ -767,7 +768,7 @@ image_loader_start__step2 (ImageLoader *il)
 	g_mutex_unlock (il->priv->data_mutex);
 	
 	if (is_local_file (file->path)) 
-		image_loader_start__step3 (GNOME_VFS_OK, il);
+		image_loader_start__step3 (file->path, GNOME_VFS_OK, il);
 	else
 		copy_remote_file_to_cache (file, image_loader_start__step3, il);
 	file_data_unref (file);

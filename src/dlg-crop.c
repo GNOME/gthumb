@@ -107,7 +107,7 @@ apply_cb (DialogData *data,
 	if (new_pixbuf != old_pixbuf) {
 		gth_window_set_image_pixbuf (data->window, new_pixbuf);
 		if (save)
-			gth_window_save_pixbuf (data->window, new_pixbuf, gth_window_get_image_filename (data->window));
+			gth_window_save_pixbuf (data->window, new_pixbuf, gth_window_get_image_data (data->window));
 		else
 			gth_window_set_image_modified (data->window, TRUE);
 	}

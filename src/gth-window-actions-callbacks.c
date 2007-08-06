@@ -138,7 +138,7 @@ gth_window_activate_action_file_save (GtkAction *action,
 
 	gth_window_save_pixbuf (window,
 				image_viewer_get_current_pixbuf (image_viewer),
-				gth_window_get_image_filename (window));
+				gth_window_get_image_data (window));
 }
 
 

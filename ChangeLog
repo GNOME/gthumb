@@ -1,6 +1,31 @@
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-window-actions-callbacks.c: 
+	* src/gth-window.h: 
+	* src/gth-window.c: 
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* src/dlg-reset-exif.c: 
+	* src/dlg-redeye-removal.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-crop.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/dlg-save-image.h: 
+	* libgthumb/dlg-save-image.c: 
+
+	Make saving of remote images async.  Duplicate the file_data in the
+	preloader in order to reload the image if changed.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c: 
 	* src/dlg-reset-exif.h: 
 	* src/dlg-reset-exif.c: 
 	* src/dlg-jpegtran.c: make reset_exif async for remote files.

@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 
 #include "dlg-save-image.h"
+#include "glib-utils.h"
 #include "file-utils.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
@@ -88,51 +89,56 @@ file_save_cancel_cb (GtkDialog *file_sel,
 
 static gboolean
 save_image (GtkWindow     *parent,
-     	    const char    *filename,
-	    const char    *mime_type,
+     	    FileData      *file,
 	    GdkPixbuf     *pixbuf,
 	    SaveImageData *data,
 	    GtkDialog     *file_sel)
 {
 	gboolean image_saved = FALSE;
 
-	if (filename == NULL)
+	if (file == NULL)
 		return FALSE;
 
 	if (file_sel != NULL)
 		gtk_widget_hide (GTK_WIDGET (file_sel));
 
-	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
+	if ((file->mime_type != NULL) && is_mime_type_writable (file->mime_type)) {
 		GError  *error = NULL;
 		char    *image_type;
 		char   **keys = NULL;
 		char   **values = NULL;
 
-		image_type = g_strdup (mime_type + strlen("image/"));
+		image_type = g_strdup (file->mime_type + strlen("image/"));
 
 		if (dlg_save_options (parent, image_type, &keys, &values)) {
-			if (! _gdk_pixbuf_savev (pixbuf,
-						 filename,
-						 image_type,
-						 keys, values,
-						 &error))
-				_gtk_error_dialog_from_gerror_run (parent, &error);
-			else
+			char *local_file;
+			
+			local_file = get_cache_filename_from_uri (file->path);
+			if (_gdk_pixbuf_savev (pixbuf,
+					       local_file,
+					       image_type,
+					       keys, values,
+					       &error))
 				image_saved = TRUE;
+			else
+				_gtk_error_dialog_from_gerror_run (parent, &error);
+				
+			g_free (local_file);
 		}
 
 		g_free (image_type);
 		g_strfreev (keys);
 		g_strfreev (values);
-	} else
+	} 
+	else
 		_gtk_error_dialog_run (parent,
 				       _("Image type not supported: %s"),
-				       mime_type);
+				       file->mime_type);
 
 	if (data->done_func != NULL) {
 		if (! image_saved)
-			filename = NULL;
-		(*data->done_func) (filename, data->done_data);
+			file = NULL;
+		(*data->done_func) (file, data->done_data);
 	}
 
 	if (file_sel != NULL)
@@ -152,7 +158,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	GtkWindow     *parent;
 	GtkWidget     *opt_menu;
 	GdkPixbuf     *pixbuf;
-	char          *filename = NULL;
+	FileData      *file = NULL;
 	const char    *mime_type = NULL;
 	int            idx;
 	SaveImageData *data;
@@ -160,18 +166,19 @@ file_save_ok_cb (GtkDialog *file_sel,
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
-	filename = g_strdup (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
+
+	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)), NULL);
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
 	if (idx == IMAGE_TYPE_AUTOMATIC)
-		mime_type = get_file_mime_type (filename, FALSE);
+		mime_type = get_file_mime_type (file->path, FALSE);
 	else
 		mime_type = mime_types [idx - 2];
-
-	save_image (parent, filename, mime_type, pixbuf, data, file_sel);
-
-	g_free (filename);
+	file->mime_type = get_static_string (mime_type);
+	
+	save_image (parent, file, pixbuf, data, file_sel);
+	g_free (file);
 }
 
 
@@ -300,23 +307,21 @@ dlg_save_image_as (GtkWindow       *parent,
 
 void
 dlg_save_image (GtkWindow       *parent,
-		const char      *filename,
+		FileData        *file,
 		GdkPixbuf       *pixbuf,
 		ImageSavedFunc   done_func,
 		gpointer         done_data)
 {
 	SaveImageData *data;
-	const char    *mime_type = NULL;
 
-	if (filename == NULL)
+	if (file == NULL)
 		return;
 
 	data = g_new0 (SaveImageData, 1);
 	data->done_func = done_func;
 	data->done_data = done_data;
 
-	mime_type = get_file_mime_type (filename, FALSE);
-	save_image (parent, filename, mime_type, pixbuf, data, NULL);
+	save_image (parent, file, pixbuf, data, NULL);
 }
 
 

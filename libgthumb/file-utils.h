@@ -39,7 +39,7 @@
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 
-typedef void (*CopyDoneFunc) (GnomeVFSResult, gpointer);
+typedef void (*CopyDoneFunc) (const char *, GnomeVFSResult, gpointer);
 
 /* Async directory list */
 

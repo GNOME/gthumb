@@ -241,8 +241,9 @@ notify_file_changed (DialogData *data,
 
 
 static void
-apply_transformation_done (GnomeVFSResult result,
-		           gpointer       callback_data)
+apply_transformation_done (const char     *uri,
+			   GnomeVFSResult  result,
+		           gpointer        callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
@@ -256,7 +257,7 @@ apply_transformation_done (GnomeVFSResult result,
 		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->window), _("Could not move temporary file to remote location. Check remote permissions."));
 	
 	if (at_data->done_func)
-		(at_data->done_func) (result, at_data->done_data);
+		(at_data->done_func) (uri, result, at_data->done_data);
 
 	if (at_data->info != NULL)
 		gnome_vfs_file_info_unref (at_data->info);
@@ -265,8 +266,9 @@ apply_transformation_done (GnomeVFSResult result,
 
 
 static void
-apply_transformation__step2 (GnomeVFSResult result,
-		             gpointer       callback_data)
+apply_transformation__step2 (const char     *uri,
+			     GnomeVFSResult  result,
+		             gpointer        callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
@@ -335,8 +337,9 @@ static void apply_transformation_to_all__apply_to_current (BatchTransformation *
 
 
 static void
-apply_transformation_to_all_continue (GnomeVFSResult result,
-				      gpointer       data)
+apply_transformation_to_all_continue (const char     *uri,
+				      GnomeVFSResult  result,
+				      gpointer        data)
 {
 	BatchTransformation *bt_data = data;
 
@@ -408,8 +411,9 @@ apply_transformation_to_all (DialogData *data)
 
 
 static void
-load_next_image_after_transformation (GnomeVFSResult result,
-				      gpointer       callback_data)
+load_next_image_after_transformation (const char     *uri,
+				      GnomeVFSResult  result,
+				      gpointer        callback_data)
 {
 	DialogData *data = callback_data;
 	load_next_image (data);

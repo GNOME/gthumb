@@ -25,28 +25,24 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtkwindow.h>
+#include "file-data.h"
 
+typedef void (*ImageSavedFunc) (FileData  *file,
+				gpointer   data);
 
-typedef void (*ImageSavedFunc)       (const char *filename,
-				      gpointer    data);
-
-
-void       dlg_save_image_as   (GtkWindow       *parent,
-				const char      *uri,
-				GdkPixbuf       *pixbuf,
-				ImageSavedFunc   done_func,
-				gpointer         done_data);
-
-void       dlg_save_image   (GtkWindow       *parent,
-			     const char      *filename,
-			     GdkPixbuf       *pixbuf,
-			     ImageSavedFunc   done_func,
-			     gpointer         done_data);
-
-gboolean   dlg_save_options (GtkWindow    *parent,
-			     const char   *image_type,
-			     char       ***keys,
-			     char       ***values);
-
+void       dlg_save_image_as (GtkWindow        *parent,
+			      const char       *uri,
+			      GdkPixbuf        *pixbuf,
+			      ImageSavedFunc    done_func,
+			      gpointer          done_data);
+void       dlg_save_image    (GtkWindow        *parent,
+			      FileData         *file,
+			      GdkPixbuf        *pixbuf,
+			      ImageSavedFunc    done_func,
+			      gpointer          done_data);
+gboolean   dlg_save_options  (GtkWindow        *parent,
+			      const char       *image_type,
+			      char           ***keys,
+			      char           ***values);
 
 #endif /* DLG_SAVE_IMAGE_H */

@@ -238,8 +238,8 @@ real_files_delete__continue (GnomeVFSResult result,
 					  cfddata->file_list,
 					  real_files_delete__continue2,
 					  cfddata);
-
-	} else
+	} 
+	else
 		real_files_delete__continue2 (result, data);
 }
 

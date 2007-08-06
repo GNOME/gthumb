@@ -643,7 +643,7 @@ void
 write_orientation_field (const char   *local_file,
 			 GthTransform  transform)
 {
-	guint16  tf = (guint16) transform;
+	guint16 tf = (guint16) transform;
 
 	if (local_file == NULL)
 		return;

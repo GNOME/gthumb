@@ -1148,8 +1148,8 @@ folder_delete__continue (GnomeVFSResult result,
 					   fddata->path,
 					   folder_delete__continue2,
 					   fddata);
-
-	} else
+	} 
+	else
 		folder_delete__continue2 (result, data);
 }
 

@@ -155,7 +155,7 @@ preloader_set_file (PreLoader *ploader,
 	}
 	
 	if (file != NULL) {
-		ploader->file = file_data_ref (file);
+		ploader->file = file_data_dup (file);
 		image_loader_set_file (ploader->loader, ploader->file);
 	}
 	
@@ -322,11 +322,11 @@ load_data_new (GThumbPreloader *gploader,
 
 	load_data->gploader = gploader;
 	if (requested != NULL)
-		load_data->requested = file_data_ref (requested);
+		load_data->requested = file_data_dup (requested);
 	if (next1 != NULL)
-		load_data->next1 = file_data_ref (next1);
+		load_data->next1 = file_data_dup (next1);
 	if (prev1 != NULL)
-		load_data->prev1 = file_data_ref (prev1);
+		load_data->prev1 = file_data_dup (prev1);
 
 	return load_data;
 }

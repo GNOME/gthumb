@@ -266,8 +266,9 @@ async_operation_next_step (AsyncOperationData *aodata)
 
 
 static void
-async_step_done (GnomeVFSResult result,
-                 gpointer       callback_data)
+async_step_done (const char     *uri,
+		 GnomeVFSResult  result,
+                 gpointer        callback_data)
 {
 	AsyncOperationData *aodata = callback_data;
 
