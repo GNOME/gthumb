@@ -315,9 +315,6 @@ update_thumbs_stopped (gpointer callback_data)
 static void
 gth_file_list_update_current_thumb (GthFileList *file_list)
 {
-	gboolean  error = TRUE;
-	char     *path;
-
 	if (file_list->priv->stop_it || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
 		return;
@@ -326,32 +323,8 @@ gth_file_list_update_current_thumb (GthFileList *file_list)
 	g_return_if_fail (file_list->priv->thumb_fd != NULL);
 
 	file_list->priv->loading_thumbs = TRUE;
-
-	path = g_strdup (file_list->priv->thumb_fd->path);
-	if (path_is_file (path)) {
-		GnomeVFSResult  result;
-		char           *resolved_path = NULL;
-
-		result = resolve_all_symlinks (path, &resolved_path);
-
-		if (result == GNOME_VFS_OK) {
-			if (resolved_path != NULL) {
-				thumb_loader_set_file (file_list->priv->thumb_loader, file_list->priv->thumb_fd);
-				thumb_loader_start (file_list->priv->thumb_loader);
-				error = FALSE;
-			}
-		} else
-			g_warning ("%s\n", gnome_vfs_result_to_string (result));
-
-		g_free (resolved_path);
-	}
-	g_free (path);
-
-	if (error) /* Error: the file does not exists. */
-		g_signal_emit_by_name (G_OBJECT (file_list->priv->thumb_loader),
-				       "thumb_error",
-				       0,
-				       file_list);
+	thumb_loader_set_file (file_list->priv->thumb_loader, file_list->priv->thumb_fd);
+	thumb_loader_start (file_list->priv->thumb_loader);
 }
 
 
@@ -462,9 +435,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 						      (new_pos <= (last_pos + 25));
 	file_list->priv->thumb_pos = new_pos;
 	file_list->priv->thumbs_num++;
-
-	if (file_list->priv->thumb_fd != NULL)
-		file_data_unref (file_list->priv->thumb_fd);
+	file_data_unref (file_list->priv->thumb_fd);
 	file_list->priv->thumb_fd = file_data_ref (fd);
 
 	gth_file_list_update_current_thumb (file_list);
@@ -639,11 +610,10 @@ gth_file_list_update_thumbs (GthFileList *file_list)
 	GList *scan;
 
 	thumb_loader_save_thumbnails (THUMB_LOADER (file_list->priv->thumb_loader), eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
+	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->priv->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 
 	for (i = 0; i < gth_file_view_get_images (file_list->view); i++)
 		set_unknown_pixbuf (file_list, i);
-
-	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->priv->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 
 	for (scan = file_list->list; scan; scan = scan->next) {
 		FileData *fd = scan->data;

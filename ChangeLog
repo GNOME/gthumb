@@ -1,5 +1,11 @@
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/gth-file-list.c: move the resolve_links op in the 
+	thumb_loader.  Resolve only local files.
+	
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
 	* src/gth-browser.c: added the prograssbar to a vbox to make the
 	size_request work correctly.
 

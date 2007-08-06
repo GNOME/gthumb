@@ -320,17 +320,25 @@ thumb_loader_set_file (ThumbLoader *tl,
 {
 	g_return_if_fail (tl != NULL);
 
-	if (fd != tl->priv->file) {
-		file_data_unref (tl->priv->file);
-		tl->priv->file = NULL;
-	}
+	file_data_unref (tl->priv->file);
+	tl->priv->file = NULL;
 	
 	if (fd != NULL) {
-		tl->priv->file = file_data_ref (fd);
-		image_loader_set_file (tl->priv->il, tl->priv->file);
+		char *resolved_path = NULL;
+		
+		tl->priv->file = file_data_dup (fd);
+		if (is_local_file (tl->priv->file->path)) {
+			if (resolve_all_symlinks (tl->priv->file->path, &resolved_path) == GNOME_VFS_OK) 
+				tl->priv->file->path = g_strdup (resolved_path);
+			else {
+				file_data_unref (tl->priv->file);
+				tl->priv->file = NULL;
+			}
+		}
+		g_free (resolved_path);
 	}
-	else	
-		image_loader_set_file (tl->priv->il, NULL);
+	
+	image_loader_set_file (tl->priv->il, tl->priv->file);
 }
 
 
@@ -360,25 +368,27 @@ thumb_loader_get_pixbuf (ThumbLoader *tl)
 static void
 thumb_loader_start__step2 (ThumbLoader *tl)
 {
-	ThumbLoaderPrivateData *priv;
 	char *cache_path = NULL;
 
 	g_return_if_fail (tl != NULL);
-
-	priv = tl->priv;
-
-	g_return_if_fail (priv->file != NULL);
 	
-	if (priv->use_cache) {
-		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory,
-							     priv->file->path,
-							     priv->file->mtime);
+	if (tl->priv->file == NULL) {
+		g_signal_emit (G_OBJECT (tl),
+			       thumb_loader_signals[THUMB_ERROR],
+			       0);
+		return;
+	}
+	
+	if (tl->priv->use_cache) {
+		cache_path = gnome_thumbnail_factory_lookup (tl->priv->thumb_factory,
+							     tl->priv->file->path,
+							     tl->priv->file->mtime);
 
 		if ((cache_path == NULL) &&
-		    ((time (NULL) - priv->file->mtime) > (time_t) 5) &&
-		    gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory,
-									priv->file->path,
-									priv->file->mtime)) {
+		    ((time (NULL) - tl->priv->file->mtime) > (time_t) 5) &&
+		    gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
+									tl->priv->file->path,
+									tl->priv->file->mtime)) {
 			/* Use the existing "failed" thumbnail, if it is over
 			   5 seconds old. Otherwise, try to thumbnail it again. 
 			   The minimum age requirement addresses bug 432759, 
@@ -392,20 +402,20 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	}
 
 	if (cache_path != NULL) {
-		priv->from_cache = TRUE;
-		image_loader_set_path (priv->il, cache_path, "image/png");
+		tl->priv->from_cache = TRUE;
+		image_loader_set_path (tl->priv->il, cache_path, "image/png");
 		g_free (cache_path);
 	} 
 	else {
-		priv->from_cache = FALSE;
-		image_loader_set_file (priv->il, priv->file);
+		tl->priv->from_cache = FALSE;
+		image_loader_set_file (tl->priv->il, tl->priv->file);
 
 		/* Check file dimensions. */
 
-		if ((priv->max_file_size > 0) && (priv->file->size > priv->max_file_size)) {
-			if (priv->pixbuf != NULL) {
-				g_object_unref (priv->pixbuf);
-				priv->pixbuf = NULL;
+		if ((tl->priv->max_file_size > 0) && (tl->priv->file->size > tl->priv->max_file_size)) {
+			if (tl->priv->pixbuf != NULL) {
+				g_object_unref (tl->priv->pixbuf);
+				tl->priv->pixbuf = NULL;
 			}
 			g_signal_emit (G_OBJECT (tl),
 				       thumb_loader_signals[THUMB_DONE],
@@ -414,7 +424,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 		}
 	}
 
-	image_loader_start (priv->il);
+	image_loader_start (tl->priv->il);
 }
 
 
