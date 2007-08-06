@@ -27,6 +27,6 @@
 
 
 void dlg_reset_exif (GthWindow *window); 
-
+void dlg_apply_reset_exif (GthWindow *window);
 
 #endif /* DLG_RESET_EXIF_H */

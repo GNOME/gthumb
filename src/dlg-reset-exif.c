@@ -67,7 +67,7 @@ dialog_data_free (DialogData *data)
 
 	all_windows_add_monitor ();
 
-	path_list_free (data->file_list);
+	file_data_list_free (data->file_list);
 	if (data->gui != NULL)
 		g_object_unref (data->gui);
 	g_free (data);
@@ -83,6 +83,19 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
+/* -- apply_transformation -- */
+
+
+typedef struct {
+	DialogData       *data;
+	GList            *current_image;
+	GnomeVFSFileInfo *info;
+	gboolean          notify_soon;
+	CopyDoneFunc      done_func;
+	gpointer          done_data;
+} ApplyTransformData;
+
+
 static void
 notify_file_changed (DialogData *data,
 		     const char *filename,
@@ -92,120 +105,162 @@ notify_file_changed (DialogData *data,
 		GList *list = g_list_prepend (NULL, (char*) filename);
 		all_windows_notify_files_changed (list);
 		g_list_free (list);
-	} else 
+	} 
+	else
 		data->files_changed_list = g_list_prepend (data->files_changed_list, g_strdup (filename));
 }
 
 
+static void
+apply_transformation_done (GnomeVFSResult result,
+		           gpointer       callback_data)
+{
+	ApplyTransformData *at_data = callback_data;
+	FileData           *file = at_data->current_image->data;
+		
+	if (result == GNOME_VFS_OK) {
+		if (at_data->info != NULL)
+			gnome_vfs_set_file_info (file->path, at_data->info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS | GNOME_VFS_SET_FILE_INFO_OWNER);
+		notify_file_changed (at_data->data, file->path, at_data->notify_soon);
+	}
+	else 
+		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->window), _("Could not move temporary file to remote location. Check remote permissions."));
+	
+	if (at_data->done_func)
+		(at_data->done_func) (result, at_data->done_data);
+
+	if (at_data->info != NULL)
+		gnome_vfs_file_info_unref (at_data->info);
+	g_free (at_data);
+}
+
 
 static void
-apply_transformation (DialogData *data,
-		      GList      *current_image,
-		      gboolean    notify_soon)
+apply_transformation__step2 (GnomeVFSResult result,
+		             gpointer       callback_data)
 {
-	char             *path = current_image->data;
-	GnomeVFSFileInfo *info;
-	char             *local_file_to_modify = NULL;
-        gboolean          is_local;
-        gboolean          remote_copy_ok;
-	GtkWindow        *window = GTK_WINDOW (data->dialog);
+	ApplyTransformData *at_data = callback_data;
+	FileData           *file = at_data->current_image->data;
+	char		   *local_file = NULL;
 
-        is_local = is_local_file (path);
-
-        /* If the original file is stored on a remote VFS location, copy it to a local
-              temp file, modify it, then copy it back. This is easier than modifying the
-              underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file_to_modify = obtain_local_file (path);
-
-        if (local_file_to_modify == NULL) {
-                _gtk_error_dialog_run (GTK_WINDOW (window),
-	                               _("Could not create a local temporary copy of the remote file."));
-                return;
-        }
+	local_file = get_cache_filename_from_uri (file->path);
+	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
+	g_free (local_file);
 	
-	info = gnome_vfs_file_info_new ();
-	gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	update_file_from_cache (file, apply_transformation_done, at_data);
+}
 
-	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
 
-        if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, path);
+static void
+apply_transformation (DialogData   *data,
+		      GList        *current_image,
+		      gboolean      notify_soon,
+		      CopyDoneFunc  done_func,
+		      gpointer      done_data)
+{
+	FileData           *file = current_image->data;
+	ApplyTransformData *at_data;
 
-        g_free (local_file_to_modify);
+	at_data = g_new0 (ApplyTransformData, 1);
+	at_data->data = data;
+	at_data->current_image = current_image;
+	at_data->notify_soon = notify_soon;
+	at_data->done_func = done_func;
+	at_data->done_data = done_data;
+	at_data->info = gnome_vfs_file_info_new ();
+	if (gnome_vfs_get_file_info (file->path, at_data->info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS) != GNOME_VFS_OK) {
+		gnome_vfs_file_info_unref (at_data->info);
+		at_data->info = NULL;
+	}
 
-        if (!is_local && !remote_copy_ok) {
-                _gtk_error_dialog_run (GTK_WINDOW (window),
-                                _("Could not move temporary file to remote location. Check remote permissions."));
-        } else {
-                gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-                notify_file_changed (data, path, notify_soon);
-        }
+	copy_remote_file_to_cache (file, apply_transformation__step2, at_data);
+}
 
-	gnome_vfs_file_info_unref (info);
+
+typedef struct {
+	DialogData *data;
+	GladeXML   *gui;
+	GtkWidget  *dialog;
+	GtkWidget  *label;
+	GtkWidget  *bar;
+	GList      *scan;
+	int         i, n;
+} BatchTransformation;
+
+
+static void apply_transformation_to_all__apply_to_current (BatchTransformation *);
+
+
+static void
+apply_transformation_to_all_continue (GnomeVFSResult result,
+				      gpointer       data)
+{
+	BatchTransformation *bt_data = data;
+
+	if (bt_data->scan == NULL) {
+		gtk_widget_destroy (bt_data->dialog);
+		g_object_unref (bt_data->gui);
+
+		if (bt_data->data->dialog == NULL)
+			dialog_data_free (bt_data->data);
+		else
+			gtk_widget_destroy (bt_data->data->dialog);
+		g_free (bt_data);
+	}
+	else
+		apply_transformation_to_all__apply_to_current (bt_data);
+}
+
+
+static void
+apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
+{
+	FileData *file = bt_data->scan->data;
+	char     *name;
+	
+	name = basename_for_display (file->path);
+	_gtk_label_set_filename_text (GTK_LABEL (bt_data->label), name);
+	g_free (name);
+
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
+				       (gdouble) (bt_data->i + 0.5) / bt_data->n);
+	
+	apply_transformation (bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
+	
+	bt_data->i++;	
+	bt_data->scan = bt_data->scan->next;
 }
 
 
 static void
 apply_transformation_to_all (DialogData *data)
 {
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GtkWidget *label;
-	GtkWidget *bar;
-	GList     *scan;
-	int        i, n;
+	BatchTransformation *bt_data;
 
-	gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE, 
-			     NULL,
-			     NULL);
-
-	dialog = glade_xml_get_widget (gui, "progress_dialog");
-	label = glade_xml_get_widget (gui, "progress_info");
-	bar = glade_xml_get_widget (gui, "progress_progressbar");
-
-	n = g_list_length (data->current_image);
+	bt_data = g_new0 (BatchTransformation, 1);
+	bt_data->data= data;
+	bt_data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE,
+			     	      NULL,
+			     	      NULL);
+	bt_data->dialog = glade_xml_get_widget (bt_data->gui, "progress_dialog");
+	bt_data->label = glade_xml_get_widget (bt_data->gui, "progress_info");
+	bt_data->bar = glade_xml_get_widget (bt_data->gui, "progress_progressbar");
 
 	if (data->dialog == NULL)
-		gtk_window_set_transient_for (GTK_WINDOW (dialog),
+		gtk_window_set_transient_for (GTK_WINDOW (bt_data->dialog),
 					      GTK_WINDOW (data->window));
 	else {
-		gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE); 
-		gtk_window_set_transient_for (GTK_WINDOW (dialog),
+		gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+		gtk_window_set_transient_for (GTK_WINDOW (bt_data->dialog),
 					      GTK_WINDOW (data->dialog));
 	}
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); 
-	gtk_widget_show (dialog);
+	gtk_window_set_modal (GTK_WINDOW (bt_data->dialog), TRUE);
+	gtk_widget_show (bt_data->dialog);
 
-	while (gtk_events_pending())
-		gtk_main_iteration();
-
-	i = 0;
-	for (scan = data->current_image; scan; scan = scan->next) {
-		char *path = scan->data;
-		char *name;
-
-		name = basename_for_display (path);
-		_gtk_label_set_filename_text (GTK_LABEL (label), name);
-		g_free (name);
-
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
-					       (gdouble) (i + 0.5) / n);
-		
-		while (gtk_events_pending())
-			gtk_main_iteration();
-		
-		apply_transformation (data, scan, FALSE);
-		i++;
-	}
-	
-	gtk_widget_destroy (dialog);
-	g_object_unref (gui);
-
-	if (data->dialog == NULL)
-		dialog_data_free (data);
-	else
-		gtk_widget_destroy (data->dialog);
+	bt_data->n = g_list_length (data->current_image);
+	bt_data->i = 0;
+	bt_data->scan = data->current_image;
+	apply_transformation_to_all__apply_to_current (bt_data);
 }
 
 
@@ -236,8 +291,7 @@ dlg_reset_exif (GthWindow *window)
 	GtkWidget   *x_ok_button;
 	GList       *list;
 
-
-	list = gth_window_get_file_list_selection (window);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -295,14 +349,12 @@ dlg_reset_exif (GthWindow *window)
 
 
 void
-dlg_apply_reset_exif (GthWindow    *window,
-		    GthTransform  rot_type,
-		    GthTransform  tran_type)
+dlg_apply_reset_exif (GthWindow *window)
 {
 	DialogData  *data;
 	GList       *list;
 
-	list = gth_window_get_file_list_selection (window);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;

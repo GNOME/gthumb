@@ -282,7 +282,7 @@ apply_transformation__step2 (GnomeVFSResult result,
 			/* Adjust Exif orientation tag. */
 			write_orientation_field (local_file, required_transform);
 		else
-	 		/* Lossless jpeg transform. */
+ 			/* Lossless jpeg transform. */
 			apply_transformation_jpeg (GTK_WINDOW (at_data->data->window), file, required_transform, NULL);
 	}
 	else 

@@ -906,7 +906,7 @@ gth_window_activate_action_tools_change_date (GtkAction *action,
 
 void
 gth_window_activate_action_tools_reset_exif (GtkAction *action,
-                                              GthWindow *window)
+                                             GthWindow *window)
 {
         dlg_reset_exif (window);
 }
