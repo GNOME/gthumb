@@ -1,5 +1,10 @@
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-viewer.c: 
+	* libgthumb/image-loader.c: fix ref/unref of file_data values.
+		
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
 	* libgthumb/image-loader.c: 
 	* libgthumb/thumb-loader.c: reverted last change.
 

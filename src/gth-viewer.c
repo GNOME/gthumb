@@ -264,12 +264,12 @@ gth_viewer_finalize (GObject *object)
 
 	debug (DEBUG_INFO, "Gth::Viewer::Finalize");
 
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (viewer->priv->cnxn_id[i] != -1)
-			eel_gconf_notification_remove (viewer->priv->cnxn_id[i]);
-
 	if (viewer->priv != NULL) {
 		GthViewerPrivateData *priv = viewer->priv;
+
+		for (i = 0; i < GCONF_NOTIFICATIONS; i++)
+			if (viewer->priv->cnxn_id[i] != -1)
+				eel_gconf_notification_remove (viewer->priv->cnxn_id[i]);
 
 		if (priv->exif_data != NULL) {
 			exif_data_unref (priv->exif_data);
@@ -815,8 +815,8 @@ viewer_update_open_with_menu (GthViewer *viewer)
 			gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
 		}
 		g_list_free (apps);
-
-	} else {
+	} 
+	else {
 		mitem = gtk_menu_item_new_with_label (_("_None"));
 		gtk_widget_set_sensitive (mitem, FALSE);
 		gtk_widget_show (mitem);
@@ -1864,16 +1864,14 @@ load_image__image_saved_cb (const char *filename,
 		file_data_unref (viewer->priv->image);
 		viewer->priv->image = NULL;
 		viewer_set_void (viewer, FALSE);
-		return;
 	}
-
-	if (viewer->priv->new_image != viewer->priv->image) {
+	else {
 		file_data_unref (viewer->priv->image);
 		viewer->priv->image = file_data_ref (viewer->priv->new_image);
-	}
 
-	image_viewer_load_image (IMAGE_VIEWER (viewer->priv->viewer), 
-				 viewer->priv->image);
+		image_viewer_load_image (IMAGE_VIEWER (viewer->priv->viewer), 
+					 viewer->priv->image);
+	}
 }
 
 
@@ -1883,10 +1881,8 @@ gth_viewer_load (GthViewer *viewer,
 {
 	GthViewerPrivateData *priv = viewer->priv;
 
-	if (priv->new_image != file) {
-		file_data_unref (priv->new_image);
-		priv->new_image = NULL;
-	}
+	file_data_unref (priv->new_image);
+	priv->new_image = NULL;
 	if (file != NULL)
 		priv->new_image = file_data_ref (file);
 

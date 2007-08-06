@@ -364,10 +364,11 @@ image_loader_set_file (ImageLoader *il,
 		       FileData    *file)
 {
 	g_mutex_lock (il->priv->data_mutex);
-	if (il->priv->file != file)
-		file_data_unref (il->priv->file);
+	file_data_unref (il->priv->file);
 	if (file != NULL)
 		il->priv->file = file_data_dup (file);
+	else
+		il->priv->file = NULL;
 	g_mutex_unlock (il->priv->data_mutex);
 }
 
@@ -393,16 +394,11 @@ image_loader_set_path (ImageLoader *il,
 {
 	FileData *file;
 	
-	g_mutex_lock (il->priv->data_mutex);
-	if (il->priv->file != NULL)
-		file_data_unref (il->priv->file);		
 	file = file_data_new (path, NULL);
 	if (mime_type != NULL)
 		file->mime_type = get_static_string (mime_type);
 	if ((mime_type == NULL) || ! is_local_file (file->path))
 		file_data_update (file);
-	g_mutex_unlock (il->priv->data_mutex);
-	
 	image_loader_set_file (il, file);
 	file_data_unref (file);
 }
@@ -764,35 +760,31 @@ image_loader_start__step3 (GnomeVFSResult result,
 static void
 image_loader_start__step2 (ImageLoader *il)
 {
-	FileData *fd;
+	FileData *file;
 	
 	g_mutex_lock (il->priv->data_mutex);
-	fd = file_data_dup (il->priv->file);
+	file = file_data_dup (il->priv->file);
 	g_mutex_unlock (il->priv->data_mutex);
 	
-	if (is_local_file (fd->path)) 
+	if (is_local_file (file->path)) 
 		image_loader_start__step3 (GNOME_VFS_OK, il);
 	else
-		copy_remote_file_to_cache (fd, image_loader_start__step3, il);
-	file_data_unref (fd);
+		copy_remote_file_to_cache (file, image_loader_start__step3, il);
+	file_data_unref (file);
 }
 
 
 void
 image_loader_start (ImageLoader *il)
 {
-	ImageLoaderPrivateData *priv;
-
 	g_return_if_fail (il != NULL);
 
-	priv = il->priv;
-
-	g_mutex_lock (priv->data_mutex);
-	if (priv->file == NULL) {
-		g_mutex_unlock (priv->data_mutex);
+	g_mutex_lock (il->priv->data_mutex);
+	if (il->priv->file == NULL) {
+		g_mutex_unlock (il->priv->data_mutex);
 		return;
 	}
-	g_mutex_unlock (priv->data_mutex);
+	g_mutex_unlock (il->priv->data_mutex);
 
 	image_loader_stop_common (il,
 				  (DoneFunc) image_loader_start__step2,
