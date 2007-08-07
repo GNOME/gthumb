@@ -1385,16 +1385,15 @@ window_update_bookmark_list (GthBrowser *browser)
 	if (priv->bookmarks_merge_id == 0)
 		priv->bookmarks_merge_id = gtk_ui_manager_new_merge_id (priv->ui);
 
-	for (i = 0, scan = names; scan; scan = scan->next) {
+	for (i = 0, scan = names; scan; scan = scan->next, i++)
 		add_bookmark_menu_item (browser,
 					priv->bookmark_actions,
 					priv->bookmarks_merge_id,
 					preferences.bookmarks,
 					"Bookmark",
-					i++,
+					i,
 					"/MenuBar/Bookmarks/BookmarkList",
 					scan->data);
-	}
 
 	priv->bookmarks_length = i;
 	gth_location_set_bookmarks (GTH_LOCATION (priv->location), names, i);

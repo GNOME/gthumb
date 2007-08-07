@@ -1097,6 +1097,9 @@ folder_is_film (const char *folder)
 	CommentData *cdata;
 	gboolean     film = FALSE;
 
+	if (! is_local_file (folder))
+		return FALSE;
+
 	cdata = comments_load_comment (folder, FALSE);
 	if (cdata != NULL) {
 		int i;

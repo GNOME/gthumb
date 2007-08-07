@@ -1,3 +1,7 @@
+2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (folder_is_film): return false for remote folders.
+
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-window-actions-callbacks.c: 
