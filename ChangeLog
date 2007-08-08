@@ -1,3 +1,8 @@
+2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* AUTHORS: use svn.gnome.org addresses, rather than cvs.gnome.org
+	* MAINTAINERS: update formatting as per desktop-devel-list@gnome.org
+
 2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c (folder_is_film): return false for remote folders.
