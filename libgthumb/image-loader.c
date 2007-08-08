@@ -1005,7 +1005,7 @@ image_loader_load_from_image_loader (ImageLoader *to,
 		to->priv->animation = NULL;
 	}
 
-	if (from->priv->animation) { /* FIXME */
+	if (from->priv->animation) { /* FIXME: check thread issues. */
 		g_object_ref (from->priv->animation);
 		to->priv->animation = from->priv->animation;
 	}

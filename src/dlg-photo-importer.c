@@ -1453,17 +1453,18 @@ static void
 adjust_orientation__step (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
-	const char       *filepath = aodata->scan->data;
-	GtkWindow        *window = GTK_WINDOW (data->dialog);
-	gboolean	  success = TRUE;
+	const char *uri = aodata->scan->data;
+	GtkWindow  *window = GTK_WINDOW (data->dialog);
+	gboolean    success = TRUE;
 
-	if (file_is_image (filepath, TRUE)) {
+	if (file_is_image (uri, TRUE)) {
 		FileData     *fd;
 		GthTransform  transform;
 
-		fd = file_data_new (filepath, info);
+		fd = file_data_new (uri, NULL);
+		file_data_update (fd);
 		transform = read_orientation_field (fd->path);
-		if (image_is_jpeg (filepath))
+		if (image_is_jpeg (uri))
 			success = apply_transformation_jpeg (window, fd, transform, NULL);
 		else
 			success = apply_transformation_generic (window, fd, transform, NULL);

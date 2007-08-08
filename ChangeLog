@@ -1,5 +1,14 @@
 2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/dlg-file-utils.c: 
+	* src/dlg-duplicates.c: 
+	* libgthumb/image-loader.c: added some comments to FIXMEs
+	
+	* src/dlg-photo-importer.c: removed info argument, update the file_data
+	structure before using it.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/rotation-utils.c (apply_transformation_jpeg): always
 	restore the file permissions here.
 	

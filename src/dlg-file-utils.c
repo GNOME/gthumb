@@ -138,7 +138,7 @@ dlg_show_error (GthWindow  *window,
 		GList      *error_list,
 		const char *reason)
 {
-	const int   max_files = 15; /* FIXME */
+	const int   max_files = 15; /* FIXME: find a good value */
 	GtkWidget  *d;
 	GList      *scan;
 	char       *msg;
