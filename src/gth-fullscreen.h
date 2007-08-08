@@ -24,6 +24,7 @@
 #define GTH_FULLSCREEN_H
 
 #include "gth-window.h"
+#include "file-data.h"
 
 #define GTH_TYPE_FULLSCREEN              (gth_fullscreen_get_type ())
 #define GTH_FULLSCREEN(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FULLSCREEN, GthFullscreen))
@@ -49,7 +50,7 @@ struct _GthFullscreenClass
 
 GType          gth_fullscreen_get_type         (void);
 GtkWidget *    gth_fullscreen_new              (GdkPixbuf     *image,
-						const char    *image_path,
+						FileData      *file,
 						GList         *file_list);
 void           gth_fullscreen_set_slideshow    (GthFullscreen *fullscreen,
 						gboolean       slideshow);

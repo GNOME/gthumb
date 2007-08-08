@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2007 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include "image-loader.h"
-
+#include "file-data.h"
 
 #define THUMB_LOADER_TYPE            (thumb_loader_get_type ())
 #define THUMB_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), THUMB_LOADER_TYPE, ThumbLoader))
@@ -59,24 +59,26 @@ struct _ThumbLoaderClass
 				    float        percent);
 };
 
-GType             thumb_loader_get_type           (void);
-GObject *         thumb_loader_new                (const char        *path,
-						   int                width,
-						   int                height);
-void              thumb_loader_set_thumb_size     (ThumbLoader       *tl,
-						   int                width,
-						   int                height);					   
-void              thumb_loader_use_cache          (ThumbLoader       *tl,
-						   gboolean           use);
-void              thumb_loader_set_max_file_size  (ThumbLoader       *tl,
-						   GnomeVFSFileSize   size);
-void              thumb_loader_set_path           (ThumbLoader       *tl,
-						   const char        *path,
-						   const char        *mime_type);
-GdkPixbuf *       thumb_loader_get_pixbuf         (ThumbLoader       *tl);
-void              thumb_loader_start              (ThumbLoader       *tl);
-void              thumb_loader_stop               (ThumbLoader       *tl,
-						   DoneFunc           done_func,
-						   gpointer           done_func_data);
+GType      thumb_loader_get_type           (void);
+GObject   *thumb_loader_new                (int                width,
+					    int                height);
+void       thumb_loader_set_thumb_size     (ThumbLoader       *tl,
+					    int                width,
+					    int                height);					   
+void       thumb_loader_use_cache          (ThumbLoader       *tl,
+					    gboolean           use);
+void       thumb_loader_save_thumbnails    (ThumbLoader       *tl,
+					    gboolean           save);
+void       thumb_loader_set_max_file_size  (ThumbLoader       *tl,
+					    GnomeVFSFileSize   size);
+void       thumb_loader_set_file           (ThumbLoader       *tl,
+					    FileData          *fd);
+void       thumb_loader_set_path           (ThumbLoader       *tl,
+					    const char        *path);
+GdkPixbuf *thumb_loader_get_pixbuf         (ThumbLoader       *tl);
+void       thumb_loader_start              (ThumbLoader       *tl);
+void       thumb_loader_stop               (ThumbLoader       *tl,
+					    DoneFunc           done_func,
+					    gpointer           done_func_data);
 
 #endif /* THUMB_LOADER_H */

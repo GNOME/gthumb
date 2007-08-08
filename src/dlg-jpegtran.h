@@ -26,9 +26,8 @@
 #include "typedefs.h"
 #include "gth-window.h"
 
-
-void dlg_jpegtran                 (GthWindow    *window);
-void dlg_apply_jpegtran           (GthWindow    *window,
-				   GthTransform  transform);
+void dlg_jpegtran       (GthWindow    *window);
+void dlg_apply_jpegtran (GthWindow    *window,
+			 GthTransform  transform);
 
 #endif /* DLG_JPEGTRAN_H */

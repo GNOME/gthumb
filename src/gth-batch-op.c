@@ -406,7 +406,7 @@ load_current_image (GthBatchOp *bop)
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (PD(bop)->overall_progressbar),
 				       (double) PD(bop)->image / PD(bop)->images);
 
-	image_loader_set_path (PD(bop)->loader, fd->path, NULL);
+	image_loader_set_file (PD(bop)->loader, fd);
 	image_loader_start (PD(bop)->loader);
 }
 
@@ -641,7 +641,7 @@ gth_batch_op_start (GthBatchOp       *bop,
 	PD(bop)->parent = window;
 
 	all_windows_remove_monitor ();
-	PD(bop)->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	PD(bop)->loader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (PD(bop)->loader),
 			  "image_done",
 			  G_CALLBACK (loader_done),

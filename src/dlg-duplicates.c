@@ -1037,7 +1037,7 @@ start_loading_image (DialogData *data)
 	idata = data->loader_queue->data;
 
 	data->loading_image = TRUE;
-	thumb_loader_set_path (data->loader, idata->path, NULL);
+	thumb_loader_set_path (data->loader, idata->path);
 	thumb_loader_start (data->loader);
 }
 
@@ -1047,7 +1047,7 @@ queue_image_to_load (DialogData *data,
 		     ImageData  *idata)
 {
 	if (data->loader == NULL) {
-		data->loader = THUMB_LOADER (thumb_loader_new (NULL, MINI_IMAGE_SIZE, MINI_IMAGE_SIZE));
+		data->loader = THUMB_LOADER (thumb_loader_new (MINI_IMAGE_SIZE, MINI_IMAGE_SIZE));
 		thumb_loader_use_cache (data->loader, TRUE);
 		g_signal_connect (G_OBJECT (data->loader),
 				  "thumb_done",

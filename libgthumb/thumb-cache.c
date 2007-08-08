@@ -43,6 +43,7 @@
 #include "typedefs.h"
 #include "thumb-cache.h"
 #include "file-utils.h"
+#include "file-data.h"
 #include "gtk-utils.h"
 
 #define PROCESS_DELAY 25
@@ -399,10 +400,10 @@ process_files_cb (gpointer data)
 	ncrd->handle = NULL;
 
 	for (; scan && i < PROCESS_MAX_FILES; scan = scan->next, i++) {
-		char *rc_file;
-		char *real_file;
+		FileData *fd = scan->data;
+		char     *rc_file = fd->path;
+		char     *real_file;
 
-		rc_file = (char*) scan->data;
 		real_file = get_real_name_from_nautilus_cache (rc_file);
 
 		if (real_file == NULL)
@@ -439,8 +440,7 @@ path_list_done_cb (PathListData *pld,
 	if (pld->result != GNOME_VFS_ERROR_EOF || ncrd->interrupted) {
 		char *path;
 
-		path = gnome_vfs_uri_to_string (pld->uri,
-						GNOME_VFS_URI_HIDE_NONE);
+		path = gnome_vfs_uri_to_string (pld->uri, GNOME_VFS_URI_HIDE_NONE);
 		g_warning ("Error reading cache directory %s.", path);
 		g_free (path);
 
@@ -459,7 +459,7 @@ static void
 visit_dir_async (const gchar *dir,
 		 NautilusCacheRemoveData *data)
 {
-	data->handle = path_list_async_new (dir, path_list_done_cb, data);
+	data->handle = path_list_async_new (dir, NULL, NULL, TRUE, path_list_done_cb, data);
 }
 
 

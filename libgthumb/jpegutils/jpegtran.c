@@ -86,17 +86,15 @@ fatal_error_handler (j_common_ptr cinfo)
         /* broken check for *error == NULL for robustness against
          * crappy JPEG library
          */
-        if (errmgr->error && *errmgr->error == NULL) {
+        if ((errmgr->error != NULL) && (*errmgr->error == NULL))
                 g_set_error (errmgr->error,
 			     GTHUMB_ERROR,
 			     0,
 			     "Error interpreting JPEG image file: %s\n\n%s",
 			     file_name_from_path (errmgr->filename),
                              buffer);
-        }
 
 	siglongjmp (errmgr->setjmp_buffer, 1);
-
         g_assert_not_reached ();
 }
 

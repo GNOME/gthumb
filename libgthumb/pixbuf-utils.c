@@ -1197,60 +1197,43 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 
 gboolean
 _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
-		   const char   *filename,
+		   const char   *local_file,
 		   const char   *type,
 		   char        **keys,
 		   char        **values,
 		   GError      **error)
 {
-	gboolean   result;
-	gboolean   is_local;
-	gboolean   remote_copy_ok = TRUE;
-	char      *local_file_to_modify = NULL;
+	gboolean result;
 
-	g_return_val_if_fail (pixbuf != NULL, TRUE);
-	g_return_val_if_fail (filename != NULL, TRUE);
-	g_return_val_if_fail (type != NULL, TRUE);
-
-        is_local = is_local_file (filename);
-
-        /* If the original file is stored on a remote VFS location, copy it to a local
-           temp file, modify it, then copy it back. This is easier than modifying the
-           underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file_to_modify = obtain_local_file (filename);
-	g_return_val_if_fail (local_file_to_modify != NULL, FALSE);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
+	g_return_val_if_fail (local_file != NULL, FALSE);
+	g_return_val_if_fail (type != NULL, FALSE);
 
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0)
 		result = _gdk_pixbuf_save_as_tiff (pixbuf,
-						   local_file_to_modify,
+						   local_file,
 						   keys, values,
 						   error);
 	else
 #endif
 	if (strcmp (type, "jpeg") == 0)
 		result = _gdk_pixbuf_save_as_jpeg (pixbuf,
-						   local_file_to_modify,
+						   local_file,
 						   keys, values,
 						   error);
 	else
 	if ((strcmp (type, "x-tga") == 0) || (strcmp (type, "tga") == 0))
 		result = _gdk_pixbuf_save_as_tga (pixbuf,
-						  local_file_to_modify,
+						  local_file,
 						  keys, values,
 						  error);
 	else
-		result = gdk_pixbuf_savev (pixbuf, local_file_to_modify, type,
+		result = gdk_pixbuf_savev (pixbuf, local_file, type,
 					   keys, values,
 					   error);
 
-        if (!is_local)
-                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
-
-        g_free (local_file_to_modify);
-	
-	return (result && remote_copy_ok);
+	return result;
 }
 
 
@@ -1292,7 +1275,7 @@ collect_save_options (va_list    opts,
 
 gboolean
 _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
-		  const char   *filename,
+		  const char   *local_file,
 		  const char   *type,
 		  GError      **error,
 		  ...)
@@ -1302,15 +1285,15 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	char     **values = NULL;
 	gboolean   result;
 
-	g_return_val_if_fail (pixbuf != NULL, TRUE);
-	g_return_val_if_fail (filename != NULL, TRUE);
-	g_return_val_if_fail (type != NULL, TRUE);
+	g_return_val_if_fail (pixbuf != NULL, FALSE);
+	g_return_val_if_fail (local_file != NULL, FALSE);
+	g_return_val_if_fail (type != NULL, FALSE);
 
 	va_start (args, error);
 	collect_save_options (args, &keys, &values);
 	va_end (args);
 
-	result = _gdk_pixbuf_savev (pixbuf, filename, type,
+	result = _gdk_pixbuf_savev (pixbuf, local_file, type,
 				    keys, values,
 				    error);
 

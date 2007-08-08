@@ -53,6 +53,7 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
+#include "file-data.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 #include "gth-exif-utils.h"
@@ -70,7 +71,7 @@
 
 
 PathListData *
-path_list_data_new ()
+path_list_data_new (void)
 {
 	PathListData *pli;
 
@@ -100,7 +101,7 @@ path_list_data_free (PathListData *pli)
 		gnome_vfs_uri_unref (pli->uri);
 
 	if (pli->files != NULL) {
-		g_list_foreach (pli->files, (GFunc) g_free, NULL);
+		g_list_foreach (pli->files, (GFunc) file_data_unref, NULL);
 		g_list_free (pli->files);
 	}
 
@@ -150,13 +151,20 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSFileInfo *info     = node->data;
 		GnomeVFSURI      *full_uri = NULL;
+		char             *txt_uri;
+		
+		if (pli->filter_func) 
+			if (! pli->filter_func (pli, info, pli->filter_data))
+				continue;
 
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
 				break;
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
-			pli->files = g_list_prepend (pli->files, gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE));
+			txt_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
+			pli->files = g_list_prepend (pli->files, file_data_new (txt_uri, info));
+			g_free (txt_uri);
 			break;
 
 		case GNOME_VFS_FILE_TYPE_DIRECTORY:
@@ -176,31 +184,33 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			gnome_vfs_uri_unref (full_uri);
 	}
 
-	if ((result == GNOME_VFS_ERROR_EOF)
-	    || (result != GNOME_VFS_OK)) {
-		if (pli->done_func)
+	if ((result == GNOME_VFS_ERROR_EOF) || (result != GNOME_VFS_OK)) {
+		if (pli->done_func) {
 			/* pli is deallocated in pli->done_func */
 			pli->done_func (pli, pli->done_data);
-		else
-			path_list_data_free (pli);
-
-		return;
+			return;
+		}
+		path_list_data_free (pli);
 	}
 }
 
 
 PathListHandle *
-path_list_async_new (const char       *uri,
-		     PathListDoneFunc  f,
-		     gpointer         data)
+path_list_async_new (const char         *uri,
+		     PathListFilterFunc  filter_func,
+		     gpointer            filter_data,
+		     gboolean            fast_file_type,
+		     PathListDoneFunc    done_func,
+		     gpointer            done_data)
 {
-	GnomeVFSAsyncHandle *handle;
-	PathListData        *pli;
-	PathListHandle      *pl_handle;
+	GnomeVFSAsyncHandle     *handle;
+	PathListData            *pli;
+	GnomeVFSFileInfoOptions  info_options;
+	PathListHandle          *pl_handle;
 
 	if (uri == NULL) {
-		if (f != NULL)
-			(f) (NULL, data);
+		if (done_func != NULL)
+			(done_func) (NULL, done_data);
 		return NULL;
 	}
 
@@ -209,24 +219,33 @@ path_list_async_new (const char       *uri,
 	pli->uri = new_uri_from_path (uri);
 	if (pli->uri == NULL) {
 		path_list_data_free (pli);
-		if (f != NULL)
-			(f) (NULL, data);
+		if (done_func != NULL)
+			(done_func) (NULL, done_data);
 		return NULL;
 	}
 
 	pli->hidden_files = read_dot_hidden_file (uri);
+	pli->filter_func = filter_func;
+	pli->filter_data = filter_data;
+	pli->done_func = done_func;
+	pli->done_data = done_data;
 
-	pli->done_func = f;
-	pli->done_data = data;
-
-	gnome_vfs_async_load_directory_uri (
-		&handle,
-		pli->uri,
-		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		128 /* items_per_notification FIXME */,
-		GNOME_VFS_PRIORITY_DEFAULT,
-		directory_load_cb,
-		pli);
+	info_options = GNOME_VFS_FILE_INFO_FOLLOW_LINKS;
+	if (filter_func != NULL) { /* the filter needs the mime type */
+		info_options |= GNOME_VFS_FILE_INFO_GET_MIME_TYPE;
+		if (fast_file_type)
+			info_options |= GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE;
+		else
+			info_options |= GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE;
+	}
+	
+	gnome_vfs_async_load_directory_uri (&handle,
+					    pli->uri,
+					    info_options,
+					    128 /* items_per_notification FIXME */,
+					    GNOME_VFS_PRIORITY_DEFAULT,
+					    directory_load_cb,
+					    pli);
 
 	pl_handle = g_new (PathListHandle, 1);
 	pl_handle->vfs_handle = handle;
@@ -765,6 +784,26 @@ file_move (const char *from,
 }
 
 
+gboolean
+local_file_move (const char *from,
+	         const char *to)
+{
+	char     *from_uri;
+	char     *to_uri;
+	gboolean  result;
+	
+	from_uri = get_uri_from_local_path (from);
+	to_uri = get_uri_from_local_path (to);
+	
+	result = xfer_file (from_uri, to_uri, TRUE);
+	
+	g_free (from_uri);
+	g_free (to_uri);
+	
+	return result;
+}
+
+
 GnomeVFSResult
 file_rename (const char *old_path,
 	     const char *new_path)
@@ -815,31 +854,6 @@ get_sample_name (const char *filename)
 }
 
 
-GHashTable *static_strings = NULL;
-
-
-static const char *
-get_static_string (const char *s)
-{
-	const char *result;
-
-	if (s == NULL)
-		return NULL;
-
-	if (static_strings == NULL)
-		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-
-	if (! g_hash_table_lookup_extended (static_strings, s, (gpointer*) &result, NULL)) {
-		result = g_strdup (s);
-		g_hash_table_insert (static_strings,
-				     (gpointer) result,
-				     GINT_TO_POINTER (1));
-	}
-
-	return result;
-}
-
-
 const char*
 get_file_mime_type (const char *filename,
 		    gboolean    fast_file_type)
@@ -869,8 +883,8 @@ get_file_mime_type (const char *filename,
 
 			g_free (sample_name);
 		}
-
-	} else {
+	} 
+	else {
 		if (uri_scheme_is_file (filename))
 			filename = get_file_path_from_uri (filename);
 		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
@@ -1367,6 +1381,24 @@ get_uri_from_path (const char *path)
 
 
 char *
+get_uri_from_local_path (const char *local_path)
+{
+        char *escaped;
+        char *uri;
+
+        escaped = escape_uri (local_path);
+        if (escaped[0] == '/') {
+                uri = g_strconcat ("file://", escaped, NULL);
+                g_free (escaped);
+        }
+        else
+                uri = escaped;
+
+        return uri;
+}
+
+
+char *
 get_uri_display_name (const char *uri)
 {
 	char     *tmp_path;
@@ -1394,7 +1426,8 @@ get_uri_display_name (const char *uri)
 			else
 				name = g_strdup (uri);
 	    	}
-	} else {
+	} 
+	else {
 		if (catalog_or_search) {
 			char *base_uri;
 			int   base_uri_len;
@@ -1404,7 +1437,8 @@ get_uri_display_name (const char *uri)
 			g_free (base_uri);
 
 			name = gnome_vfs_unescape_string_for_display (tmp_path + 1 + base_uri_len);
-		} else {
+		} 
+		else {
 			const char *base_path;
 			int         base_path_len;
 
@@ -1420,7 +1454,8 @@ get_uri_display_name (const char *uri)
 					name = g_strdup (_("Home"));
 				else if (uri_len > base_path_len)
 					name = gnome_vfs_unescape_string_for_display (uri + 1 + base_path_len);
-			} else
+			} 
+			else
 				name = gnome_vfs_unescape_string_for_display (tmp_path);
 		}
 	}
@@ -2274,7 +2309,8 @@ get_temp_dir_name (void)
 tmpdir.  Use get_temp_dir_name to create tmpdir securely. */
 /* NOTE: the pointer returned by this function must be freed using g_free() */
 char *
-get_temp_file_name (const char* tmpdir, const char *ext)
+get_temp_file_name (const char *tmpdir, 
+		    const char *ext)
 {
 	char *name, *filename;
 	static GStaticMutex count_mutex = G_STATIC_MUTEX_INIT;
@@ -2285,9 +2321,9 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 
 	g_static_mutex_lock(&count_mutex);
 	if (ext != NULL)
-		name = g_strdup_printf("%d%s", count++, ext);
+		name = g_strdup_printf ("%d%s", count++, ext);
 	else
-		name = g_strdup_printf("%d", count++);
+		name = g_strdup_printf ("%d", count++);
 	g_static_mutex_unlock(&count_mutex);
 
 	filename = g_build_filename (tmpdir, name, NULL);
@@ -2299,20 +2335,23 @@ get_temp_file_name (const char* tmpdir, const char *ext)
 
 
 void
-remove_temp_file_and_dir (char *tmp_file)
+remove_file_and_parent_folder (char *local_file)
 {
-	char *tmp_dir;
+	char *uri;
+	char *parent_uri;
 
-	if (tmp_file == NULL)
+	if (local_file == NULL)
 		return;
 
-	file_unlink (tmp_file);
+	uri = get_uri_from_local_path (local_file);
+	file_unlink (uri);
 
-	tmp_dir = remove_level_from_path (tmp_file);
-	if (tmp_dir == NULL)
-		return;
-	dir_remove (tmp_dir);
-	g_free (tmp_dir);
+	parent_uri = remove_level_from_path (uri);
+	if (parent_uri != NULL)
+		dir_remove (parent_uri);
+		
+	g_free (parent_uri);
+	g_free (uri);
 }
 
 
@@ -2384,21 +2423,22 @@ _gnome_vfs_write_line (GnomeVFSHandle   *handle,
 }
 
 
+
 GnomeVFSFileSize
-get_dest_free_space (const char  *path)
+get_destination_free_space (const char *path)
 {
-	GnomeVFSURI      *uri;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  ret_val;
+        GnomeVFSURI      *vfs_uri;
+        GnomeVFSResult    result;
+        GnomeVFSFileSize  free_space;
 
-	uri = new_uri_from_path (path);
-	result = gnome_vfs_get_volume_free_space (uri, &ret_val);
-	gnome_vfs_uri_unref (uri);
+        vfs_uri = gnome_vfs_uri_new (path);
+        result = gnome_vfs_get_volume_free_space (vfs_uri, &free_space);
+        gnome_vfs_uri_unref (vfs_uri);
 
-	if (result != GNOME_VFS_OK)
-		return (GnomeVFSFileSize) 0;
-	else
-		return ret_val;
+        if (result != GNOME_VFS_OK)
+                return (GnomeVFSFileSize) 0;
+        else
+                return free_space;
 }
 
 
@@ -2459,54 +2499,77 @@ check_permissions (const char *path,
 
 /* VFS caching */
 
+
 gboolean
 is_local_file (const char *filename)
 {
-	return !(uri_has_scheme (filename)) || uri_scheme_is_file (filename);
+	return (! uri_has_scheme (filename)) || uri_scheme_is_file (filename);
 }
 
 
-static char *
-get_remote_cache_full_path (const char *relative_path, const char *extension)
+char *
+get_cache_full_path (const char *filename, 
+		     const char *extension)
 {
-	char *path;
-	char *separator;
-
-	/* Do not allow .. in the relative_path otherwise the user can go
-	 * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
-	if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
-		return NULL;
-
-	if (relative_path == NULL)
-		separator = NULL;
-	else
-		separator = (relative_path[0] == '/') ? "" : "/";
-
-	path = g_strconcat ("file://",
-			    g_get_home_dir (),
+	return g_strconcat (g_get_home_dir (),
 			    "/",
 			    RC_REMOTE_CACHE_DIR,
-			    separator,
-			    relative_path,
+			    ((filename == NULL) ? "" : "/"),
+			    filename,
 			    extension,
 			    NULL);
+}
 
-	return path;
+
+char *
+get_cache_filename_from_uri (const char *uri)
+{
+	char *name;
+	char *path;
+	
+	if (is_local_file (uri))
+		return get_local_path_from_uri (uri);
+	
+	name = gnome_thumbnail_md5 (uri);
+	if (name == NULL)
+		return NULL;
+
+	path = get_cache_full_path (name, NULL);
+	g_free (name);
+	
+	return path;	
+}
+
+
+char *
+get_cache_uri (const char *uri)
+{
+	char *filename;
+	char *cache_uri;
+	
+	filename = get_cache_filename_from_uri (uri);
+	cache_uri = get_uri_from_local_path (filename);
+	g_free (filename);
+	
+	return cache_uri;
 }
 
 
 void
-prune_cache (const char *dir, int max_age_in_days)
+prune_cache (void)
 {
-	char *command;
+        char *command;
 
-	/* Purge old cache files. */
-	command = g_strdup_printf ("find %s/%s -type f -ctime +%d | xargs rm -rf",
-				   g_get_home_dir (),
-				   dir,
-				   max_age_in_days);
-	system (command);
-	g_free (command);
+        /* Purge old files before transferring new ones. */
+        /* Old = ctime older than 2 days. */
+        command = g_strconcat ( "find ",
+                                g_get_home_dir (),
+                                "/",
+                                RC_REMOTE_CACHE_DIR,
+                                " -type f -ctime +2 | xargs rm -rf",
+                                NULL );
+        system (command);
+        g_free (command);
 }
 
 
@@ -2532,6 +2595,7 @@ get_space_used_in_kb (const char *path)
 }
 
 #define MAX_CACHE_SIZE_IN_KB	(256 * 1024)
+
 
 void
 check_cache_space (void)
@@ -2575,13 +2639,10 @@ obtain_local_file (const char *remote_filename)
 	if (md5_file == NULL)
 		return NULL;
 
-	cache_file = get_remote_cache_full_path (md5_file, get_extension (remote_filename));
+	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
 	g_free (md5_file);
 	if (cache_file == NULL)
 		return NULL;
-
-	/* I can't imagine how the cache would be non-local, but check anyways */
-	g_assert (is_local_file (cache_file));
 
 	if (! path_exists (cache_file) || (get_file_mtime (cache_file) < get_file_mtime (remote_filename))) {
 		GnomeVFSURI    *source_uri = gnome_vfs_uri_new (remote_filename);
@@ -2589,7 +2650,7 @@ obtain_local_file (const char *remote_filename)
 		GnomeVFSResult  result;
 	
 		/* delete some files if space is running out */
-		check_cache_space ();
+		/*check_cache_space ();*/
 
 		/* Move a new file into the cache. */
 		result = gnome_vfs_xfer_uri (source_uri, target_uri,
@@ -2653,67 +2714,69 @@ copy_cache_file_to_remote_uri (const char *local_filename,
 
 
 static GdkPixbuf*
-get_pixbuf_using_external_converter (const char *url,
-				     const char *mime_type,
-				     int requested_width_if_used,
-				     int requested_height_if_used)
+get_pixbuf_using_external_converter (FileData   *file,
+				     int         requested_width,
+				     int         requested_height)
 {
-	char       *path;
+	char       *local_file;
+	char       *local_uri;
 	char	   *cache_file;
 	char       *md5_file;
 	char	   *cache_file_full;
 	char	   *cache_file_esc;
-	char	   *input_file_esc;
+	char	   *local_file_esc;
 	char	   *command = NULL;
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
 	gboolean    is_thumbnail;
 
-	is_thumbnail = requested_width_if_used > 0;
+	local_file = get_local_path_from_uri (file->path);
+	if (local_file == NULL)
+		return NULL;
 
-	path = gnome_vfs_unescape_string (url, NULL);
+	is_thumbnail = requested_width > 0;
+	local_uri = get_uri_from_local_path (local_file);
 
-	is_raw = mime_type_is_raw (mime_type);
-	is_hdr = mime_type_is_hdr (mime_type);
-
-	md5_file = gnome_thumbnail_md5 (path);
-
-	input_file_esc = shell_escape (path);
+	is_raw = mime_type_is_raw (file->mime_type);
+	is_hdr = mime_type_is_hdr (file->mime_type);
 
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
+	md5_file = gnome_thumbnail_md5 (local_uri);
+
 	if (is_raw && !is_thumbnail)
-		/* Full-sized converted TIFF or RAW files */
-		cache_file_full = get_remote_cache_full_path (md5_file, "conv.pnm");
+		/* Full-sized converted RAW file */
+		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
 	else if (is_raw && is_thumbnail)
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
-		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.pnm");
+		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.pnm");
 	else if (is_hdr && is_thumbnail)
 		/* HDR: thumbnails generated in tiff format. The converted file is later removed. */
-		cache_file_full = get_remote_cache_full_path (md5_file, "conv-thumb.tiff");
+		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.tiff");
 	else
 		/* Full-sized converted HDR files */
-		cache_file_full = get_remote_cache_full_path (md5_file, "conv.tiff");
+		cache_file_full = get_cache_full_path (md5_file, "conv.tiff");
 
 	cache_file = g_strdup (remove_host_from_uri (cache_file_full));
-	cache_file_esc = shell_escape (cache_file);
+	cache_file_esc = g_shell_quote (cache_file);
 
 	g_free (cache_file_full);
 	g_free (md5_file);
 
 	if (cache_file == NULL) {
-		g_free (path);
+		g_free (local_file);
+		g_free (local_uri);
+		g_free (cache_file);
+		g_free (cache_file_esc);
 		return NULL;
 	}
 
-	g_assert (is_local_file (cache_file));
+	local_file_esc = g_shell_quote (local_file);
 
 	/* Do nothing if an up-to-date converted file is already in the cache */
-	if (!path_is_file (cache_file) ||
-	    (get_file_mtime (path) > get_file_mtime (cache_file))) {
-
+	if (! path_is_file (cache_file) || (file->mtime > get_file_mtime (cache_file))) {
 		if (is_raw) {
 			if (is_thumbnail) {
 				char *first_part;
@@ -2723,40 +2786,44 @@ get_pixbuf_using_external_converter (const char *url,
 				char *thumb_command;
 
 				/* Check for an embedded thumbnail first */
-				thumb_command = g_strdup_printf ("dcraw -e %s", input_file_esc);
+				thumb_command = g_strdup_printf ("dcraw -e %s", local_file_esc);
                 		if (gnome_vfs_is_executable_command_string (thumb_command))
-			        	system (thumb_command);
+			        	g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
 				g_free (thumb_command);
 
-				first_part = remove_extension_from_path (path);
-				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg",first_part);
-				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff",first_part);
-				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm",first_part);
+				first_part = remove_extension_from_path (local_file);
+				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg", first_part);
+				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff", first_part);
+				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm", first_part);
 
 				if (path_exists (jpg_thumbnail)) {
 					g_free (cache_file);
 					cache_file = g_strdup (jpg_thumbnail);
-				} else if (path_exists (tiff_thumbnail)) {
+				} 
+				else if (path_exists (tiff_thumbnail)) {
                                         g_free (cache_file);
                                         cache_file = g_strdup (tiff_thumbnail);
-				} else if (path_exists (ppm_thumbnail)) {
+				} 
+				else if (path_exists (ppm_thumbnail)) {
                                         g_free (cache_file);
                                         cache_file = g_strdup (ppm_thumbnail);
-				} else {
+				} 
+				else {
 					/* No embedded thumbnail. Read the whole file. */
 					/* Add -h option to speed up thumbnail generation. */
 					command = g_strdup_printf ("dcraw -w -c -h %s > %s",
-								   input_file_esc,
+								   local_file_esc,
 								   cache_file_esc);
 				}
 				g_free (first_part);
 				g_free (jpg_thumbnail);
 				g_free (tiff_thumbnail);
 				g_free (ppm_thumbnail);
-			} else {
+			} 
+			else {
 				/* -w option = camera-specified white balance */
                                 command = g_strdup_printf ("dcraw -w -c %s > %s",
-                                                           input_file_esc,
+                                                           local_file_esc,
                                                            cache_file_esc);
 			}
 		}
@@ -2769,13 +2836,13 @@ get_pixbuf_using_external_converter (const char *url,
 
 			if (is_thumbnail)
 				resize_command = g_strdup_printf (" | pfssize --maxx %d --maxy %d",
-								  requested_width_if_used,
-								  requested_height_if_used);
+								  requested_width,
+								  requested_height);
 			else
 				resize_command = g_strdup_printf (" ");
 
 			command = g_strconcat ( "pfsin ",
-						input_file_esc,
+						local_file_esc,
 						resize_command,
 						" |  pfsclamp  --rgb  | pfstmo_drago03 | pfsout ",
 						cache_file_esc,
@@ -2785,49 +2852,38 @@ get_pixbuf_using_external_converter (const char *url,
 
 		if (command != NULL) {
 			if (gnome_vfs_is_executable_command_string (command))
-			       	system (command);
+			       	g_spawn_command_line_sync (command, NULL, NULL, NULL, NULL);
 			g_free (command);
 		}
 	}
 
-	if (path_is_file (cache_file))
-		pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
+	pixbuf = gdk_pixbuf_new_from_file (cache_file, NULL);
 
 	/* Thumbnail files are already cached, so delete the conversion cache copies */
 	if (is_thumbnail)
 		file_unlink (cache_file);
-	else
-		/* delete some files if space is running out */
-		check_cache_space ();
 
 	g_free (cache_file);
 	g_free (cache_file_esc);
-	g_free (input_file_esc);
-	g_free (path);
+	g_free (local_file_esc);
+	g_free (local_file);
+	g_free (local_uri);
 
 	return pixbuf;
 }
 
 
 static GdkPixbuf*
-gth_pixbuf_new_from_video (const char             *path,
+gth_pixbuf_new_from_video (FileData               *file,
 			   GnomeThumbnailFactory  *factory,
-			   GError                **error,
-			   const char	          *mime_type)
+			   GError                **error)
 {
       	GdkPixbuf *pixbuf = NULL;
-	time_t     mtime;
-	char      *real_path = NULL;
 	char      *existing_video_thumbnail;
 
-	if (resolve_all_symlinks (path, &real_path) != GNOME_VFS_OK)
-		return NULL;
-
-	mtime = get_file_mtime (real_path);
 	existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
-								   real_path,
-								   mtime);
-
+								   file->path,
+								   file->mtime);
 	if (existing_video_thumbnail != NULL) {
 		char *thumbnail_path = get_local_path_from_uri (existing_video_thumbnail);
 
@@ -2835,22 +2891,12 @@ gth_pixbuf_new_from_video (const char             *path,
 		g_free (thumbnail_path);
 		g_free (existing_video_thumbnail);
 	}
-	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, real_path, mtime)) {
-		g_free (real_path);
+	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, file->path, file->mtime)) 
 		return NULL;
-	}
-	else {
+	else 
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-								     real_path,
-								     mime_type);
-		if (pixbuf != NULL) 
-			gnome_thumbnail_factory_save_thumbnail (factory,
-								pixbuf,
-								real_path,
-								mtime);
-	}
-
-	g_free (real_path);
+								     file->path, 
+								     file->mime_type);
 
 	return pixbuf;
 }
@@ -2866,11 +2912,11 @@ gth_pixbuf_new_from_video (const char             *path,
 
 
 GdkPixbuf*
-gth_pixbuf_new_from_uri (const char  *uri,
-			 GError     **error,
-			 gint         requested_width_if_used,
-			 gint         requested_height_if_used,
-			 const char  *mime_type)
+gth_pixbuf_new_from_file (FileData               *file,
+			  GError                **error,
+			  int                     requested_width,
+			  int                     requested_height,
+			  GnomeThumbnailFactory  *factory)
 {
 	GdkPixbuf     *pixbuf = NULL;
 	GdkPixbuf     *rotated = NULL;
@@ -2879,39 +2925,38 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	GthTransform   transform = GTH_TRANSFORM_NONE;
 	const gchar   *exif_orientation_string;
 
-
-	if (uri == NULL)
+	if (file == NULL)
 		return NULL;
 
-	/* gdk_pixbuf does not support VFS URIs directly, so
-	   make a local cache copy of remote files. */
-	local_file = obtain_local_file (uri);
+	local_file = get_cache_filename_from_uri (file->path);
 	if (local_file == NULL)
 		return NULL;
 
-	if (mime_type == NULL)
-		mime_type = get_file_mime_type (local_file, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	if (mime_type_is_video (file->mime_type)) {
+		if (factory != NULL) 
+			return gth_pixbuf_new_from_video (file, factory, error);
+		return NULL;
+	}
 
 #ifdef HAVE_LIBOPENRAW
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
 	   thumbnails. Use libopenraw for full raw images too, once it matures. */
-	if ((pixbuf == NULL) &&
-	    mime_type_is_raw (mime_type) && 
-	    (requested_width_if_used > 0))
-		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width_if_used);
+	if ((pixbuf == NULL) 
+	    && mime_type_is_raw (file->mime_type) 
+	    && (requested_width > 0))
+		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width);
 #endif
 
 	/* Use dcraw for raw images, pfstools for HDR images */
 	if ((pixbuf == NULL) &&
-	     (mime_type_is_raw (mime_type) || 
-	      mime_type_is_hdr (mime_type) ))
-		pixbuf = get_pixbuf_using_external_converter (local_file,
-							      mime_type,
-							      requested_width_if_used,
-							      requested_height_if_used);
+	     (mime_type_is_raw (file->mime_type) || 
+	      mime_type_is_hdr (file->mime_type) ))
+		pixbuf = get_pixbuf_using_external_converter (file,
+							      requested_width,
+							      requested_height);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-	if (pixbuf == NULL && (requested_width_if_used > 0)) {
+	if (pixbuf == NULL && (requested_width > 0)) {
 		int w, h;
 		
 		if (gdk_pixbuf_get_file_info (local_file, &w, &h) == NULL) {
@@ -2921,10 +2966,10 @@ gth_pixbuf_new_from_uri (const char  *uri,
 		
 		/* scale the image only if the original size is larger than
 		 * the requested size. */
-		if ((w > requested_width_if_used) || (h > requested_height_if_used))
+		if ((w > requested_width) || (h > requested_height))
 			pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
-                        	                                    requested_width_if_used,
-                                	                            requested_height_if_used,
+                        	                                    requested_width,
+                                	                            requested_height,
                                         	                    TRUE,
                                                 	            error);
 		else
@@ -2940,7 +2985,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
-	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width_if_used);
+	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width);
 
 #if GDK_PIXBUF_CHECK_VERSION(2,11,5)
         /* New in gtk 2.11.5 - see bug 439567 */
@@ -2957,7 +3002,7 @@ gth_pixbuf_new_from_uri (const char  *uri,
 	rotated = _gdk_pixbuf_transform (pixbuf, transform);
 #else
 	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
-	if (mime_type_is (mime_type, "image/jpeg")) {
+	if (mime_type_is (file->mime_type, "image/jpeg")) {
 		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
@@ -2973,63 +3018,39 @@ gth_pixbuf_new_from_uri (const char  *uri,
 
 
 GdkPixbufAnimation*
-gth_pixbuf_animation_new_from_uri (const char 	          *filename,
-				   GError                **error,
-				   gint		           requested_width_if_used,
-				   gint		           requested_height_if_used,
-				   GnomeThumbnailFactory  *factory,
-				   const char             *mime_type)
+gth_pixbuf_animation_new_from_file (FileData               *file,
+				    GError                **error,
+				    int                     requested_width,
+				    int                     requested_height,
+				    GnomeThumbnailFactory  *factory)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;
-	char               *local_file = NULL;
 
-	if (mime_type == NULL)
+	if (file->mime_type == NULL)
 		return NULL;
 
-	/* The video thumbnailer can handle VFS URIs directly */
-
-	if (mime_type_is_video (mime_type) && (factory != NULL)) {
-		pixbuf = gth_pixbuf_new_from_video (filename, factory, error, mime_type);
-		if (pixbuf == NULL)
-			return NULL;
-		animation = gdk_pixbuf_non_anim_new (pixbuf);
-		g_object_unref (pixbuf);
-		return animation;
-	}
-
-	/* gdk_pixbuf and libopenraw do not support VFS URIs directly,
-	   so make a local cache copy of remote files. */
-	local_file = obtain_local_file (filename);
-
-	if (local_file == NULL)
-		return NULL;
-
-	/* gifs: use gdk_pixbuf_animation_new_from_file */
-	if (mime_type_is (mime_type, "image/gif")) {
+	if (mime_type_is (file->mime_type, "image/gif")) {
+		char *local_file;
+		
+		local_file = get_cache_filename_from_uri (file->path);
 		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
 		g_free (local_file);
+
 		return animation;
 	}
-
-	/* All other file types, or if previous methods fail: read in a
-	   non-animated pixbuf, and convert to a single-frame animation. */
-	if (pixbuf == NULL) {
-		char *local_uri = escape_uri (local_file);
-		pixbuf = gth_pixbuf_new_from_uri (local_uri,
-						  error,
-						  requested_width_if_used,
-						  requested_height_if_used,
-						  mime_type);
-		g_free (local_uri);
-	}
+ 
+	if (pixbuf == NULL) 
+		pixbuf = gth_pixbuf_new_from_file (file,
+						   error,
+						   requested_width,
+						   requested_height,
+						   factory);
 
 	if (pixbuf != NULL) {
-		      animation = gdk_pixbuf_non_anim_new (pixbuf);
+		animation = gdk_pixbuf_non_anim_new (pixbuf);
 		g_object_unref (pixbuf);
 	}
-
-	g_free (local_file);
 
 	return animation;
 }
@@ -3199,3 +3220,179 @@ error:
 		return strdup (home_dir);
 }
 
+/* -- copy_file_async --  */
+
+
+struct _CopyData {
+        char                *source_uri;
+        char                *target_uri;
+        GnomeVFSResult       result;
+        GnomeVFSAsyncHandle *handle;
+        CopyDoneFunc         done_func;
+        gpointer             done_data;
+};
+
+
+static CopyData*
+copy_data_new (const char   *source_uri,
+	       const char   *target_uri,
+	       CopyDoneFunc  done_func,
+	       gpointer      done_data)
+{
+	CopyData *copy_data;
+	
+	copy_data = g_new0 (CopyData, 1);
+	copy_data->source_uri = g_strdup (source_uri);
+	copy_data->target_uri = g_strdup (target_uri);
+	copy_data->done_func = done_func;
+	copy_data->done_data = done_data;
+	copy_data->result = GNOME_VFS_OK;
+	
+	return copy_data;
+}
+
+
+static void
+copy_data_free (CopyData *data)
+{
+        if (data == NULL)
+                return;
+        g_free (data->source_uri);
+        g_free (data->target_uri);
+        g_free (data);
+}
+
+
+void
+copy_data_cancel (CopyData *data)
+{
+	if (data == NULL)
+		return;
+	if (data->handle != NULL) 
+		gnome_vfs_async_cancel (data->handle);
+	copy_data_free (data);
+}
+
+
+static gboolean
+copy_file_async_done (gpointer data)
+{
+	CopyData *copy_data = data;
+	
+	if (copy_data->done_func != NULL) {
+		copy_data->handle = NULL;	
+		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
+	}
+	copy_data_free (copy_data);
+	
+	return FALSE;
+}
+
+
+static int
+copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+				    GnomeVFSXferProgressInfo *info,
+				    gpointer                  user_data)
+{
+	CopyData *copy_data = user_data;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		copy_data->result = info->vfs_status;
+		return FALSE;
+	}
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
+		copy_file_async_done (copy_data);
+	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
+		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
+		g_signal_emit (G_OBJECT (copy_data->archive),
+			       fr_archive_signals[PROGRESS],
+			       0,
+			       (double) info->total_bytes_copied / info->bytes_total);*/
+			       
+	return TRUE;
+}
+
+
+CopyData *
+copy_file_async (const char   *source_uri,
+		 const char   *target_uri,
+		 CopyDoneFunc  done_func,
+		 gpointer      done_data)
+{
+	CopyData       *copy_data;
+	GList          *source_uri_list, *target_uri_list;
+	GnomeVFSResult  result;
+
+	copy_data = copy_data_new (source_uri, target_uri, done_func, done_data);
+
+	if (! path_is_file (source_uri)) {
+		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
+		g_idle_add (copy_file_async_done, copy_data);
+		return NULL;
+	}
+
+	source_uri_list = g_list_append (NULL, gnome_vfs_uri_new (source_uri));
+	target_uri_list = g_list_append (NULL, gnome_vfs_uri_new (target_uri));
+
+	result = gnome_vfs_async_xfer (&copy_data->handle,
+				       source_uri_list,
+				       target_uri_list,
+				       GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				       GNOME_VFS_XFER_OVERWRITE_MODE_ABORT,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       copy_file_async_progress_update_cb, copy_data,
+				       NULL, NULL);
+
+	gnome_vfs_uri_list_free (source_uri_list);
+	gnome_vfs_uri_list_free (target_uri_list);
+
+	if (result != GNOME_VFS_OK) {
+		copy_data->result = result;
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	
+	return copy_data;
+}
+
+
+CopyData *
+copy_remote_file_to_cache (FileData     *file,
+			   CopyDoneFunc  done_func,
+			   gpointer      done_data)
+{
+	CopyData *copy_data = NULL;
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri (file->path);
+	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else	
+		copy_file_async (file->path, cache_uri, done_func, done_data);
+	g_free (cache_uri);
+	
+	return copy_data;
+}
+
+
+CopyData *
+update_file_from_cache (FileData     *file,
+			CopyDoneFunc  done_func,
+			gpointer      done_data)
+{
+	CopyData *copy_data = NULL;	
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri (file->path);
+	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else
+		copy_file_async (cache_uri, file->path, done_func, done_data);
+	g_free (cache_uri);
+	
+	return copy_data;
+}

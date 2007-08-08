@@ -690,7 +690,7 @@ application_message_cb (GtkUniqueApp     *app,
 			if (viewer == NULL)
 				show_grabbing_focus (gth_viewer_new (uri));
 			else {
-				gth_viewer_load (GTH_VIEWER (viewer), uri);
+				gth_viewer_load_from_uri (GTH_VIEWER (viewer), uri);
 				show_grabbing_focus (viewer);
 			}
 		} else {
@@ -1096,6 +1096,9 @@ folder_is_film (const char *folder)
 {
 	CommentData *cdata;
 	gboolean     film = FALSE;
+
+	if (! is_local_file (folder))
+		return FALSE;
 
 	cdata = comments_load_comment (folder, FALSE);
 	if (cdata != NULL) {

@@ -20,12 +20,14 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
 #include <glib.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
+#include "glib-utils.h"
 #include "file-utils.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
@@ -50,9 +52,7 @@ file_data_new (const char       *path,
 		fd->size = info->size;
 		fd->ctime = info->ctime;
 		fd->mtime = info->mtime;
-
-		if (info->mime_type != NULL)
-			fd->mime_type = info->mime_type;
+		fd->mime_type = get_static_string (info->mime_type);
 	}
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
@@ -71,18 +71,65 @@ file_data_new (const char       *path,
 }
 
 
-void
+FileData *
+file_data_new_from_local_path (const char *path)
+{
+	FileData *fd;
+	char     *uri;
+	
+	uri = get_uri_from_local_path (path);
+	fd = file_data_new (uri, NULL);
+	file_data_update (fd);
+	g_free (uri);
+	
+	return fd;
+}
+
+
+FileData *
 file_data_ref (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);
+	g_return_val_if_fail (fd != NULL, NULL);
 	fd->ref++;
+	return fd;
+}
+
+
+FileData *
+file_data_dup (FileData *source)
+{
+	FileData *fd;
+	
+	if (source == NULL)
+		return NULL;
+	
+	fd = g_new0 (FileData, 1);
+
+	fd->ref = 1;
+	fd->path = g_strdup (source->path);
+	fd->name = g_strdup (source->name);
+	fd->display_name = g_strdup (source->display_name);
+	fd->mime_type = get_static_string (source->mime_type);
+	fd->size = source->size;
+	fd->ctime = source->ctime;
+	fd->mtime = source->mtime;
+	fd->exif_data_loaded = source->exif_data_loaded;
+	fd->exif_time = source->exif_time;
+	fd->error = source->error;
+	fd->thumb_loaded = source->thumb_loaded;
+	fd->thumb_created = source->thumb_created;
+	fd->comment = (source->comment != NULL) ? g_strdup (source->comment) : NULL;
+	fd->comment_data = comment_data_dup (source->comment_data);
+	
+	return fd;
 }
 
 
 void
 file_data_unref (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);
+	if (fd == NULL)
+		return;
 
 	fd->ref--;
 
@@ -131,8 +178,7 @@ file_data_update (FileData *fd)
 	g_free (fd->display_name);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
-	if (info->mime_type != NULL)
-		fd->mime_type = info->mime_type;
+	fd->mime_type = get_file_mime_type (fd->path, ! is_local_file (fd->path));
 
 	fd->size = info->size;
 	fd->mtime = info->mtime;
@@ -206,6 +252,36 @@ file_data_update_comment (FileData *fd)
 
 
 GList*
+file_data_list_from_uri_list (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		result = g_list_prepend (result, file_data_new (path, NULL));
+	}
+	
+	return g_list_reverse (result);
+}
+
+
+GList*
+uri_list_from_file_data_list (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		result = g_list_prepend (result, g_strdup (fd->path));
+	}
+	
+	return g_list_reverse (result);	
+}
+
+
+GList*
 file_data_list_dup (GList *list)
 {
 	GList *new_list = NULL, *scan;
@@ -233,8 +309,25 @@ file_data_list_free (GList *list)
 }
 
 
-const char *
+GList*
+file_data_list_find_path (GList      *list,
+			  const char *path)
+{
+	GList *scan;
+	
+	for (scan = list; scan; scan = scan->next) {
+		FileData *data = scan->data;
+		
+		if (strcmp (data->path, path) == 0)
+			return scan;
+	}
+	
+	return NULL;
+}
+
+
+char *
 file_data_local_path (FileData *fd)
 {
-	return get_file_path_from_uri (fd->path);
+	return get_local_path_from_uri (fd->path);
 }

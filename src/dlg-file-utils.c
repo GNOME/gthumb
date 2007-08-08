@@ -238,8 +238,8 @@ real_files_delete__continue (GnomeVFSResult result,
 					  cfddata->file_list,
 					  real_files_delete__continue2,
 					  cfddata);
-
-	} else
+	} 
+	else
 		real_files_delete__continue2 (result, data);
 }
 
@@ -711,13 +711,13 @@ create_overwrite_dialog (GthWindow         *window,
 	gtk_container_add (GTK_CONTAINER (old_image_frame), old_image_viewer);
 
 	viewer = IMAGE_VIEWER (old_image_viewer);
-	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_size (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
 	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
-	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
-	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
-	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
-	image_viewer_set_fit_mode     (viewer, GTH_FIT_SIZE_IF_LARGER);
-	image_viewer_load_image       (viewer, old_filename);
+	image_viewer_set_check_type (viewer, image_viewer_get_check_type (w_viewer));
+	image_viewer_set_check_size (viewer, image_viewer_get_check_size (w_viewer));
+	image_viewer_set_transp_type (viewer, image_viewer_get_transp_type (w_viewer));
+	image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+	image_viewer_load_image_from_uri (viewer, old_filename);
 
 	gtk_widget_show (old_image_viewer);
 
@@ -727,13 +727,13 @@ create_overwrite_dialog (GthWindow         *window,
 	gtk_container_add (GTK_CONTAINER (new_image_frame), new_image_viewer);
 
 	viewer = IMAGE_VIEWER (new_image_viewer);
-	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_size (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
 	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
-	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
-	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
-	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
-	image_viewer_set_fit_mode     (viewer, GTH_FIT_SIZE_IF_LARGER);
-	image_viewer_load_image       (viewer, new_filename);
+	image_viewer_set_check_type (viewer, image_viewer_get_check_type (w_viewer));
+	image_viewer_set_check_size (viewer, image_viewer_get_check_size (w_viewer));
+	image_viewer_set_transp_type (viewer, image_viewer_get_transp_type (w_viewer));
+	image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+	image_viewer_load_image_from_uri (viewer, new_filename);
 
 	gtk_widget_show (new_image_viewer);
 

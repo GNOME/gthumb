@@ -190,7 +190,7 @@ orientation_is_portrait (GtkPageSetup *page_setup)
 
 
 typedef struct {
-	char        *filename;
+	FileData    *file;
 	char        *comment;
 	int          pixbuf_width, pixbuf_height;
 	GdkPixbuf   *thumbnail;
@@ -212,11 +212,11 @@ typedef struct {
 
 
 static ImageInfo *
-image_info_new (const char *filename)
+image_info_new (FileData *file)
 {
-	ImageInfo *image = g_new0(ImageInfo, 1);
+	ImageInfo *image = g_new0 (ImageInfo, 1);
 
-	image->filename = g_strdup (filename);
+	image->file = file_data_ref (file);
 	image->comment = NULL;
 	image->thumbnail = NULL;
 	image->thumbnail_active = NULL;
@@ -244,7 +244,7 @@ image_info_free (ImageInfo *image)
 {
 	g_return_if_fail (image != NULL);
 
-	g_free (image->filename);
+	file_data_unref (image->file);
 	g_free (image->comment);
 	if (image->thumbnail != NULL)
 		g_object_unref (image->thumbnail);
@@ -655,11 +655,11 @@ construct_comment (PrintCatalogInfo *pci,
 
 	if (pci->print_filenames) {
 		const gchar* end = NULL;
-		g_utf8_validate (image->filename, -1, &end);
-		if (end > image->filename) {
+		g_utf8_validate (image->file->path, -1, &end);
+		if (end > image->file->path) {
 			if (s->len > 0)
 				g_string_append (s, "\n");
-			g_string_append_len (s, image->filename, end - image->filename);
+			g_string_append_len (s, image->file->path, end - image->file->path);
 		}
 	}
 
@@ -1717,6 +1717,7 @@ catalog_update_margins (PrintCatalogDialogData *data)
 	catalog_update_page (data);
 }
 
+
 static void
 done_print (GtkPrintOperation       *operation,
 	    GtkPrintOperationResult  result,
@@ -1724,6 +1725,7 @@ done_print (GtkPrintOperation       *operation,
 {
 	print_catalog_info_unref (pci);
 }
+
 
 static void
 begin_print (GtkPrintOperation *operation,
@@ -1736,6 +1738,7 @@ begin_print (GtkPrintOperation *operation,
 
 }
 
+
 static gboolean
 preview (GtkPrintOperation        *operation,
 	 GtkPrintOperationPreview *preview,
@@ -1746,6 +1749,7 @@ preview (GtkPrintOperation        *operation,
 	pci->is_preview = TRUE;
 	return FALSE;
 }
+
 
 static void
 draw_page (GtkPrintOperation *operation,
@@ -1774,10 +1778,9 @@ draw_page (GtkPrintOperation *operation,
 	}
 
 	for (i = page_nr * pci->images_per_page; i < pci->n_images && i < (page_nr + 1) * pci->images_per_page; i++) {
-
 		ImageInfo *image = pci->image_info[i];
 		GdkPixbuf *image_pixbuf, *pixbuf = NULL;
-		double scale_factor;
+		double     scale_factor;
 
 		if (pci->print_comments || pci->print_filenames) {
 			cairo_save (cr);
@@ -1785,8 +1788,7 @@ draw_page (GtkPrintOperation *operation,
 			cairo_restore (cr);
 		}
 
-		image_pixbuf = gth_pixbuf_new_from_uri (image->filename, NULL, 0, 0, NULL);
-
+		image_pixbuf = gth_pixbuf_new_from_file (image->file, NULL, 0, 0, NULL);
 		pixbuf = print__gdk_pixbuf_rotate (image_pixbuf, image->rotate);
 		g_object_unref (image_pixbuf);
 
@@ -1885,6 +1887,7 @@ draw_page (GtkPrintOperation *operation,
 		}
 	}
 }
+
 
 static const char *
 catalog_get_current_paper_size (PrintCatalogDialogData *data)
@@ -2230,8 +2233,8 @@ prev_page_cb (GtkWidget              *widget,
 static void
 load_current_image (PrintCatalogDialogData *data)
 {
-	const char *filename;
-	char       *msg;
+	FileData *file;
+	char     *msg;
 
 	if (data->current_image >= data->pci->n_images) {
 		progress_dialog_hide (data->pd);
@@ -2243,14 +2246,13 @@ load_current_image (PrintCatalogDialogData *data)
 
 	progress_dialog_set_progress (data->pd, (double) data->current_image / data->pci->n_images);
 
-	filename = data->pci->image_info[data->current_image]->filename;
+	file = data->pci->image_info[data->current_image]->file;
 
-	msg = g_strdup_printf (_("Loading image: %s"), file_name_from_path (filename));
+	msg = g_strdup_printf (_("Loading image: %s"), basename_for_display (file->path));
 	progress_dialog_set_info (data->pd, msg);
 	g_free (msg);
 
-	image_loader_set_path (data->loader, filename, NULL);
-
+	image_loader_set_file (data->loader, file);
 	image_loader_start (data->loader);
 }
 
@@ -2333,7 +2335,7 @@ image_loader_done_cb (ImageLoader            *il,
 		}
 	}
 
-	cdata = comments_load_comment (image->filename, TRUE);
+	cdata = comments_load_comment (image->file->path, TRUE);
 	if (cdata != NULL) {
 		image->comment = comments_get_comment_as_string (cdata, "\n", " - ");
 		comment_data_free (cdata);
@@ -2421,8 +2423,8 @@ print_catalog_dlg_full (GtkWindow *parent,
 	pci->n_images = g_list_length (file_list);
 	pci->image_info = g_new (ImageInfo*, pci->n_images);
 	for (scan = file_list; scan; scan = scan->next) {
-		char *filename = scan->data;
-		pci->image_info[n++] = image_info_new (filename);
+		FileData *file = scan->data;
+		pci->image_info[n++] = image_info_new (file);
 	}
 
 	data = g_new0 (PrintCatalogDialogData, 1);
@@ -2438,7 +2440,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	data->done_func = done_func;
 	data->done_data = done_data;
 
-	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	data->loader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (data->loader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done_cb),
@@ -2512,7 +2514,6 @@ print_catalog_dlg_full (GtkWindow *parent,
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_top_spinbutton), eel_gconf_get_float (PREF_PRINT_MARGIN_TOP, DEF_MARGIN_TOP));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->margin_bottom_spinbutton), eel_gconf_get_float (PREF_PRINT_MARGIN_BOTTOM, DEF_MARGIN_BOTTOM));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->unit_optionmenu), pref_get_print_unit ());
-
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->resolution_optionmenu), pref_get_image_resolution());
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->img_unit_optionmenu), pref_get_image_unit ());

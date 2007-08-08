@@ -23,6 +23,8 @@
 
 #include <config.h>
 
+#define HAVE_LIBGPHOTO 1 /* FIXME: remove this line */
+
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>
@@ -80,36 +82,36 @@ typedef enum {
 
 
 struct _DialogData {
-	GthBrowser     *browser;
-	GladeXML       *gui;
+	GthBrowser          *browser;
+	GladeXML            *gui;
 
-	GtkWidget      *dialog;
-	GtkWidget      *import_dialog_vbox;
-	GtkWidget      *import_preview_scrolledwindow;
-	GtkWidget      *camera_model_label;
-	GtkWidget      *select_model_button;
-	GtkWidget      *destination_filechooserbutton;
-	GtkWidget      *film_entry;
-	GtkWidget      *keep_names_checkbutton;
-	GtkWidget      *delete_checkbutton;
-	GtkWidget      *choose_categories_button;
-	GtkWidget      *categories_entry;
-	GtkWidget      *import_progressbar;
-	GtkWidget      *progress_camera_image;
-	GtkWidget      *import_preview_box;
-	GtkWidget      *import_reload_button;
-	GtkWidget      *import_delete_button;
-	GtkWidget      *import_ok_button;
-	GtkWidget      *i_commands_table;
-	GtkWidget      *reset_exif_tag_on_import_checkbutton;
+	GtkWidget           *dialog;
+	GtkWidget           *import_dialog_vbox;
+	GtkWidget           *import_preview_scrolledwindow;
+	GtkWidget           *camera_model_label;
+	GtkWidget           *select_model_button;
+	GtkWidget           *destination_filechooserbutton;
+	GtkWidget           *film_entry;
+	GtkWidget           *keep_names_checkbutton;
+	GtkWidget           *delete_checkbutton;
+	GtkWidget           *choose_categories_button;
+	GtkWidget           *categories_entry;
+	GtkWidget           *import_progressbar;
+	GtkWidget           *progress_camera_image;
+	GtkWidget           *import_preview_box;
+	GtkWidget           *import_reload_button;
+	GtkWidget           *import_delete_button;
+	GtkWidget           *import_ok_button;
+	GtkWidget           *i_commands_table;
+	GtkWidget           *reset_exif_tag_on_import_checkbutton;
 
-	GtkWidget      *progress_info_image;
-	GtkWidget      *progress_info_label;
-	GtkWidget      *progress_info_box;
+	GtkWidget           *progress_info_image;
+	GtkWidget           *progress_info_label;
+	GtkWidget           *progress_info_box;
 
-	GtkWidget      *image_list;
+	GtkWidget           *image_list;
 
-	GdkPixbuf      *no_camera_pixbuf, *camera_present_pixbuf;
+	GdkPixbuf           *no_camera_pixbuf, *camera_present_pixbuf;
 
 	/**/
 
@@ -147,7 +149,7 @@ struct _DialogData {
 
 	GThread             *thread;
 	guint                check_id;
-	GMutex              *yes_or_no;
+	GMutex              *data_mutex;
 	gboolean             thread_done;
 
 	guint                idle_id;
@@ -163,14 +165,22 @@ struct _DialogData {
 
 typedef void (*AsyncOpFunc) (AsyncOperationData *aodata,
 			     DialogData         *data);
+typedef void (*AsyncAsyncOpFunc) (AsyncOperationData *aodata,
+				  DialogData         *data,
+				  CopyDoneFunc        done_func);
 
 struct _AsyncOperationData {
 	DialogData  *data;
 	char        *operation_info;
 	GList       *list, *scan;
 	int          total, current;
-	AsyncOpFunc  init_func, step_func, done_func;
+	AsyncOpFunc  init_func, done_func;
+	union {
+		AsyncOpFunc sync;
+		AsyncAsyncOpFunc async;
+	} step_func;
 	guint        timer_id;
+	gboolean     step_is_async;
 };
 
 
@@ -192,11 +202,41 @@ async_operation_new (const char  *operation_info,
 		aodata->operation_info = NULL;
 	aodata->list = list;
 	aodata->init_func = init_func;
-	aodata->step_func = step_func;
+	aodata->step_func.sync = step_func;
 	aodata->done_func = done_func;
 	aodata->data = data;
 	aodata->total = g_list_length (aodata->list);
 	aodata->current = 1;
+	aodata->step_is_async = FALSE;
+
+	return aodata;
+}
+
+
+static AsyncOperationData *
+async_operation_new_with_async_step (const char       *operation_info,
+		     		     GList            *list,
+		     		     AsyncOpFunc       init_func,
+		     		     AsyncAsyncOpFunc  step_func,
+		     		     AsyncOpFunc       done_func,
+		     		     DialogData       *data)
+{
+	AsyncOperationData *aodata;
+
+	aodata = g_new0 (AsyncOperationData, 1);
+
+	if (operation_info != NULL)
+		aodata->operation_info = g_strdup (operation_info);
+	else
+		aodata->operation_info = NULL;
+	aodata->list = list;
+	aodata->init_func = init_func;
+	aodata->step_func.async = step_func;
+	aodata->done_func = done_func;
+	aodata->data = data;
+	aodata->total = g_list_length (aodata->list);
+	aodata->current = 1;
+	aodata->step_is_async = TRUE;
 
 	return aodata;
 }
@@ -212,6 +252,30 @@ async_operation_free (AsyncOperationData *aodata)
 
 static void main_dialog_set_sensitive (DialogData *data, gboolean value);
 static void update_info (DialogData *data);
+static gboolean async_operation_step (gpointer callback_data);
+
+
+static void 
+async_operation_next_step (AsyncOperationData *aodata)
+{
+	aodata->current++;
+	aodata->scan = aodata->scan->next;
+	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT,
+					  async_operation_step,
+					  aodata);	
+}
+
+
+static void
+async_step_done (const char     *uri,
+		 GnomeVFSResult  result,
+                 gpointer        callback_data)
+{
+	AsyncOperationData *aodata = callback_data;
+
+	update_info (aodata->data);
+	async_operation_next_step (aodata);
+}
 
 
 static gboolean
@@ -225,16 +289,16 @@ async_operation_step (gpointer callback_data)
 		aodata->timer_id = 0;
 	}
 
-	g_mutex_lock (aodata->data->yes_or_no);
+	g_mutex_lock (aodata->data->data_mutex);
 	interrupted = aodata->data->interrupted;
 	aodata->data->update_ui = TRUE;
 	aodata->data->fraction = (float) aodata->current / aodata->total;
-	g_mutex_unlock (aodata->data->yes_or_no);
+	g_mutex_unlock (aodata->data->data_mutex);
 
 	if ((aodata->scan == NULL) || interrupted) {
-		g_mutex_lock (aodata->data->yes_or_no);
+		g_mutex_lock (aodata->data->data_mutex);
 		aodata->data->async_operation = FALSE;
-		g_mutex_unlock (aodata->data->yes_or_no);
+		g_mutex_unlock (aodata->data->data_mutex);
 
 		main_dialog_set_sensitive (aodata->data, TRUE);
 
@@ -245,17 +309,13 @@ async_operation_step (gpointer callback_data)
 		return FALSE;
 	}
 
-	if (aodata->step_func) {
-		(*aodata->step_func) (aodata, aodata->data);
+	if (aodata->step_is_async)
+		(*aodata->step_func.async) (aodata, aodata->data, async_step_done);
+	else {
+		(*aodata->step_func.sync) (aodata, aodata->data);
 		update_info (aodata->data);
+		async_operation_next_step (aodata);
 	}
-
-	aodata->current++;
-	aodata->scan = aodata->scan->next;
-
-	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT,
-					  async_operation_step,
-					  aodata);
 
 	return FALSE;
 }
@@ -272,13 +332,13 @@ async_operation_start (AsyncOperationData *aodata)
 
 	main_dialog_set_sensitive (aodata->data, FALSE);
 
-	g_mutex_lock (aodata->data->yes_or_no);
+	g_mutex_lock (aodata->data->data_mutex);
 	aodata->data->async_operation = TRUE;
 	aodata->data->interrupted = FALSE;
 	if (aodata->data->progress_info != NULL)
 		g_free (aodata->data->progress_info);
 	aodata->data->progress_info = g_strdup (aodata->operation_info);
-	g_mutex_unlock (aodata->data->yes_or_no);
+	g_mutex_unlock (aodata->data->data_mutex);
 
 	async_operation_step (aodata);
 }
@@ -325,14 +385,14 @@ destroy_cb (GtkWidget  *widget,
 
 	/**/
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	thread_done = data->thread_done;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (! thread_done && (data->thread != NULL))
 		g_thread_join (data->thread);
 
-	g_mutex_free (data->yes_or_no);
+	g_mutex_free (data->data_mutex);
 
 	/**/
 
@@ -405,7 +465,7 @@ ctx_progress_start_func (GPContext  *context,
 	DialogData *data = callback_data;
 	char *locale_string;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->update_ui = TRUE;
 	data->interrupted = FALSE;
 	data->target = target;
@@ -415,7 +475,7 @@ ctx_progress_start_func (GPContext  *context,
 	locale_string = g_strdup_vprintf (format, args);
 	data->progress_info = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
 	g_free (locale_string);
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	return data->current_op;
 }
@@ -429,10 +489,10 @@ ctx_progress_update_func (GPContext    *context,
 {
 	DialogData *data = callback_data;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->update_ui = TRUE;
 	/*data->fraction = current / data->target;*/
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -595,7 +655,7 @@ update_info (DialogData *data)
 	char       *msg_text = NULL;
 	const char *msg_icon = GTK_STOCK_DIALOG_ERROR;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	update_ui = data->update_ui;
 	if (update_ui) {
 		fraction = data->fraction;
@@ -613,7 +673,7 @@ update_info (DialogData *data)
 		msg_icon = data->msg_icon;
 		data->update_ui = FALSE;
 	}
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	/**/
 
@@ -723,32 +783,13 @@ get_icon_from_mime_type (DialogData *data,
 }
 
 
-static const char *
-get_mime_type_from_filename (const char*filename)
-{
-	const char *result;
-
-	char *n1 = gnome_vfs_unescape_string_for_display (filename);
-	char *n2 = g_utf8_strdown (n1, -1);
-	char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-	result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-	g_free (n3);
-	g_free (n2);
-	g_free (n1);
-
-	return result;
-}
-
-
 static GdkPixbuf*
 get_mime_type_icon (DialogData *data,
-		    const char *filename)
+		    FileData   *file)
 {
 	GdkPixbuf  *pixbuf = NULL;
-	const char *mime_type;
 
-	mime_type = get_mime_type_from_filename (filename);
-	pixbuf = get_icon_from_mime_type (data, mime_type);
+	pixbuf = get_icon_from_mime_type (data, file->mime_type);
 	if (pixbuf == NULL)
 		pixbuf = get_icon_from_mime_type (data, "image/*");
 
@@ -767,14 +808,6 @@ load_images_preview__step (AsyncOperationData *aodata,
 	char       *tmp_dir;
 	char       *tmp_filename;
 
-	tmp_dir = get_temp_dir_name ();
-	if (tmp_dir == NULL)
-	{
-		/* should we display an error message here? */
-		return;
-	}
-	tmp_filename = get_temp_file_name (tmp_dir, NULL);
-
 	gp_file_new (&file);
 
 	camera_folder = remove_level_from_path (camera_path);
@@ -786,29 +819,21 @@ load_images_preview__step (AsyncOperationData *aodata,
 			    file,
 			    data->context);
 
+	tmp_dir = get_temp_dir_name ();
+	if (tmp_dir == NULL) 
+		/* should we display an error message here? */
+		return;
+	tmp_filename = get_temp_file_name (tmp_dir, get_filename_extension (camera_filename));
+
 	if (gp_file_save (file, tmp_filename) >= 0) {
+		FileData  *tmp_file;
 		GdkPixbuf *pixbuf;
-		int        width, height;
 		FileData  *fdata;
 
-		pixbuf = gth_pixbuf_new_from_uri (tmp_filename, NULL, 0, 0, NULL);
+		tmp_file = file_data_new_from_local_path (tmp_filename);
+		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
-			pixbuf = get_mime_type_icon (data, camera_filename);
-
-		width = gdk_pixbuf_get_width (pixbuf);
-		height = gdk_pixbuf_get_height (pixbuf);
-
-		if (scale_keepping_ratio (&width,
-					  &height,
-					  THUMB_SIZE,
-					  THUMB_SIZE)) {
-			GdkPixbuf *tmp = pixbuf;
-			pixbuf = gdk_pixbuf_scale_simple (tmp,
-							  width,
-							  height,
-							  GDK_INTERP_BILINEAR);
-			g_object_unref (tmp);
-		}
+			pixbuf = get_mime_type_icon (data, tmp_file);
 
 		fdata = file_data_new (camera_path, NULL);
 		gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
@@ -816,7 +841,9 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 camera_filename,
 						 NULL,
 						 fdata);
+						 
 		g_object_unref (pixbuf);
+		file_data_unref (tmp_file);
 		file_unlink (tmp_filename);
 	}
 
@@ -847,15 +874,15 @@ load_images_preview (DialogData *data)
 
 	gth_image_list_clear (GTH_IMAGE_LIST (data->image_list));
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->error = FALSE;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	file_list = get_all_files (data, "/");
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	error = data->error;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (error) {
 		update_info (data);
@@ -871,8 +898,8 @@ load_images_preview (DialogData *data)
 		gtk_widget_show (data->progress_info_box);
 		gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 		return;
-
-	} else {
+	} 
+	else {
 		gtk_widget_show (data->import_preview_box);
 		gtk_widget_hide (data->progress_info_box);
 		gtk_window_set_resizable (GTK_WINDOW (data->dialog), TRUE);
@@ -930,8 +957,8 @@ set_camera_model (DialogData *data,
 		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), model);
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->camera_present_pixbuf);
 		load_images_preview (data);
-
-	} else {
+	} 
+	else {
 		data->camera_setted = FALSE;
 		display_error_dialog (data,
 				      _("Could not import photos"),
@@ -986,9 +1013,9 @@ ctx_progress_stop_func (GPContext    *context,
 {
 	DialogData *data = callback_data;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->interrupted = FALSE;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -999,9 +1026,9 @@ ctx_cancel_func (GPContext *context,
 	DialogData *data = callback_data;
 	gboolean    interrupted;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	interrupted = data->interrupted;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (interrupted)
 		return GP_CONTEXT_FEEDBACK_CANCEL;
@@ -1019,7 +1046,7 @@ ctx_error_func (GPContext  *context,
 	DialogData *data = callback_data;
 	char *locale_string;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->update_ui = TRUE;
 	data->error = TRUE;
 	if (data->msg_text != NULL)
@@ -1028,7 +1055,7 @@ ctx_error_func (GPContext  *context,
 	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
 	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_ERROR;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -1041,7 +1068,7 @@ ctx_status_func (GPContext  *context,
 	DialogData *data = callback_data;
 	char *locale_string;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->update_ui = TRUE;
 	if (data->msg_text != NULL)
 		g_free (data->msg_text);
@@ -1049,7 +1076,7 @@ ctx_status_func (GPContext  *context,
 	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
 	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_INFO;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -1062,7 +1089,7 @@ ctx_message_func (GPContext  *context,
 	DialogData *data = callback_data;
 	char *locale_string;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->update_ui = TRUE;
 	if (data->msg_text != NULL)
 		g_free (data->msg_text);
@@ -1070,7 +1097,7 @@ ctx_message_func (GPContext  *context,
 	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
 	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_WARNING;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -1181,8 +1208,8 @@ get_file_name (DialogData *data,
 	if (data->keep_original_filename) {
 		file_name = g_strdup (file_name_from_path (camera_path));
 		/* set_lowercase (file_name); see #339291 */
-
-	} else {
+	} 
+	else {
 		char *s, *new_ext;
 
 		new_ext = get_extension_lowercase (camera_path);
@@ -1213,15 +1240,17 @@ get_file_name (DialogData *data,
 
 static void
 add_categories_to_image (DialogData *data,
-			 const char *filename)
+			 const char *local_file)
 {
 	CommentData *cdata;
 	GList       *scan;
-
+	char        *uri;
+	
 	if (data->categories_list == NULL)
 		return;
 
-	cdata = comments_load_comment (filename, FALSE);
+	uri = get_uri_from_path (local_file);
+	cdata = comments_load_comment (uri, FALSE);
 	if (cdata == NULL)
 		cdata = comment_data_new ();
 
@@ -1230,8 +1259,10 @@ add_categories_to_image (DialogData *data,
 		comment_data_add_keyword (cdata, k);
 	}
 
-	comments_save_categories (filename, cdata);
+	comments_save_categories (uri, cdata);
 	comment_data_free (cdata);
+	
+	g_free (uri);
 }
 
 
@@ -1243,7 +1274,8 @@ save_image (DialogData *data,
 {
 	CameraFile *file;
 	char       *camera_folder;
-	const char *camera_filename, *local_path;
+	const char *camera_filename;
+	char       *local_path;
 	char       *file_uri;
 	char	   *unescaped_local_folder;
 
@@ -1262,25 +1294,25 @@ save_image (DialogData *data,
 	file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
 	g_free (unescaped_local_folder);
 
-	/* FIXME: support non-local saving */
-	local_path = get_file_path_from_uri (file_uri);
+	local_path = get_cache_filename_from_uri (file_uri);
 	if ((local_path != NULL) && gp_file_save (file, local_path) >= 0) {
+		if (data->adjust_orientation) 
+			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (file_uri));
 		if (data->delete_from_camera)
 			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
-		if (data->adjust_orientation) {
-			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (local_path));
-		}
-		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (camera_path));
+		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (file_uri));
 		add_categories_to_image (data, local_path);
-	} else {
-		g_mutex_lock (data->yes_or_no);
+	} 
+	else {
+		g_mutex_lock (data->data_mutex);
 		data->error = TRUE;
 		data->interrupted = TRUE;
-		g_mutex_unlock (data->yes_or_no);
+		g_mutex_unlock (data->data_mutex);
 	}
 
 	g_free (camera_folder);
 	g_free (file_uri);
+	g_free (local_path);
 	gp_file_unref (file);
 }
 
@@ -1342,9 +1374,9 @@ delete_images__done (AsyncOperationData *aodata,
 	task_terminated (data);
 	data->aodata = NULL;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	interrupted = data->interrupted;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (interrupted)
 		return;
@@ -1361,8 +1393,48 @@ delete_images__done (AsyncOperationData *aodata,
 }
 
 
+static void
+copy_images__step (AsyncOperationData *aodata,
+		   DialogData         *data,
+		   CopyDoneFunc        done_func)
+{
+	const char *uri = aodata->scan->data;
+	FileData   *file;
+	
+	file = file_data_new (uri, NULL);
+	update_file_from_cache (file, done_func, aodata);
+	file_data_unref (file);
+}
+
+
+static void
+copy_images__done (AsyncOperationData *aodata,
+		   DialogData         *data)
+{
+	gboolean interrupted;
+	gboolean error;
+
+	g_mutex_lock (data->data_mutex);
+	interrupted = data->interrupted;
+	error = data->error;
+	g_mutex_unlock (data->data_mutex);
+
+	data->aodata = NULL;
+	if (interrupted || error)
+		return;
+
+	data->aodata = async_operation_new (NULL,
+				  	    data->delete_list,
+					    delete_images__init,
+					    delete_images__step,
+					    delete_images__done,
+					    data);
+	async_operation_start (data->aodata);
+}
+
+
 static gboolean
-notify_cb (gpointer cb_data)
+notify_file_creation_cb (gpointer cb_data)
 {
 	DialogData *data = cb_data;
 
@@ -1382,6 +1454,39 @@ notify_cb (gpointer cb_data)
 
 
 static void
+adjust_orientation__step (AsyncOperationData *aodata,
+			  DialogData         *data)
+{
+	const char       *filepath = aodata->scan->data;
+	GtkWindow        *window = GTK_WINDOW (data->dialog);
+	GnomeVFSFileInfo *info;
+	gboolean	  success = TRUE;
+
+	info = gnome_vfs_file_info_new ();
+	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+
+	if (file_is_image (filepath, TRUE)) {
+		FileData     *fd;
+		GthTransform  transform;
+
+		fd = file_data_new (filepath, info);
+		transform = read_orientation_field (fd->path);
+		if (image_is_jpeg (filepath))
+			success = apply_transformation_jpeg (window, fd, transform, NULL);
+		else
+			success = apply_transformation_generic (window, fd, transform, NULL);
+		file_data_unref (fd);
+	}
+
+	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	gnome_vfs_file_info_unref (info); 
+
+	if (! success)
+		data->error = TRUE;
+}
+
+
+static void
 adjust_orientation__done (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
@@ -1389,53 +1494,22 @@ adjust_orientation__done (AsyncOperationData *aodata,
 
 	data->aodata = NULL;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	interrupted = data->interrupted;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
-	data->idle_id = g_idle_add (notify_cb, data);
+	data->idle_id = g_idle_add (notify_file_creation_cb, data);
 
 	if (interrupted)
 		return;
 
-	data->aodata = async_operation_new (NULL,
-				  	    data->delete_list,
-					    delete_images__init,
-					    delete_images__step,
-					    delete_images__done,
-					    data);
-	async_operation_start (data->aodata);
-}
-
-
-static void
-adjust_orientation__step (AsyncOperationData *aodata,
-			  DialogData         *data)
-{
-	const char       *filepath = aodata->scan->data;
-	GnomeVFSFileInfo *info;
-	GtkWindow        *window = GTK_WINDOW (data->dialog);
-	gboolean	  success = TRUE;
-
-	info = gnome_vfs_file_info_new();
-	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-
-	if (file_is_image (filepath, TRUE)) {
-		FileData     *fd = file_data_new (filepath, info);
-		GthTransform transform = read_orientation_field (fd->path);
-		if (image_is_jpeg (filepath))
-			success = apply_transformation_jpeg (window, fd->path, transform);
-		else
-			success = apply_transformation_generic (window, fd->path, transform);
-
-		file_data_unref (fd);
-	}
-
-	if (!success)
-		data->error = TRUE;
-
-	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-	gnome_vfs_file_info_unref(info); 
+	data->aodata = async_operation_new_with_async_step (NULL,
+					    		    data->adjust_orientation_list,
+					    		    NULL,
+					    		    copy_images__step,
+					    		    copy_images__done,
+					    		    data);
+	async_operation_start (data->aodata);	
 }
 
 
@@ -1483,17 +1557,16 @@ save_images__done (AsyncOperationData *aodata,
 		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), 
 				      "Warning - one or more files were renamed (by adding a numeric prefix) to avoid overwriting existing files.");
 	
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	interrupted = data->interrupted;
 	error = data->error;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	data->aodata = NULL;
 	if (interrupted || error)
 		return;
-
 	data->aodata = async_operation_new (NULL,
-					    data->adjust_orientation_list,
+				  	    data->adjust_orientation_list,
 					    NULL,
 					    adjust_orientation__step,
 					    adjust_orientation__done,
@@ -1508,14 +1581,14 @@ cancel_clicked_cb (GtkButton  *button,
 {
 	gboolean async_operation;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	async_operation = data->async_operation;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (async_operation) {
-		g_mutex_lock (data->yes_or_no);
+		g_mutex_lock (data->data_mutex);
 		data->interrupted = TRUE;
-		g_mutex_unlock (data->yes_or_no);
+		g_mutex_unlock (data->data_mutex);
 	} else
 		gtk_widget_destroy (data->dialog);
 }
@@ -1554,9 +1627,9 @@ ok_clicked_cb (GtkButton  *button,
 
 	/**/
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	error = data->error;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (error) {
 		update_info (data);
@@ -1571,9 +1644,8 @@ ok_clicked_cb (GtkButton  *button,
 
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
-			FileData   *fdata = scan->data;
-			const char *filename = file_data_local_path (fdata);
-			file_list = g_list_prepend (file_list, g_strdup (filename));
+			FileData *fdata = scan->data;
+			file_list = g_list_prepend (file_list, file_data_local_path (fdata));
 		}
 		if (file_list != NULL)
 			file_list = g_list_reverse (file_list);
@@ -1637,7 +1709,7 @@ ok_clicked_cb (GtkButton  *button,
 		g_free (camera_folder);
 	}
 
-	if (get_dest_free_space (data->local_folder) < total_size) {
+	if (get_destination_free_space (data->local_folder) < total_size) {
 		display_error_dialog (data,
 				      _("Could not import photos"),
 				      _("Not enough free space left on disk"));
@@ -1792,9 +1864,9 @@ load_abilities_thread (void *thread_data)
 	DialogData     *data = thread_data;
 	GthImporterOp   current_op;
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	current_op = data->current_op;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	switch (current_op) {
 	case GTH_IMPORTER_OP_LIST_ABILITIES:
@@ -1805,9 +1877,9 @@ load_abilities_thread (void *thread_data)
 		break;
 	}
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->thread_done = TRUE;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	g_thread_exit (NULL);
 
@@ -1826,9 +1898,9 @@ check_thread (gpointer cb_data)
 
 	update_info (data);
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	thread_done = data->thread_done;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	if (thread_done) {
 		data->thread = NULL;
@@ -1853,8 +1925,8 @@ check_thread (gpointer cb_data)
 		default:
 			break;
 		}
-
-	} else	/* Add check again. */
+	} 
+	else	/* Add check again. */
 		data->check_id = g_timeout_add (REFRESH_RATE, check_thread, data);
 
 	return FALSE;
@@ -1868,9 +1940,9 @@ start_operation (DialogData    *data,
 	if (data->check_id != 0)
 		g_source_remove (data->check_id);
 
-	g_mutex_lock (data->yes_or_no);
+	g_mutex_lock (data->data_mutex);
 	data->thread_done = FALSE;
-	g_mutex_unlock (data->yes_or_no);
+	g_mutex_unlock (data->data_mutex);
 
 	data->current_op = operation;
 	data->thread = g_thread_create (load_abilities_thread, data, TRUE, NULL);
@@ -1890,18 +1962,18 @@ help_cb (GtkWidget  *widget,
 void
 dlg_photo_importer (GthBrowser *browser)
 {
-	DialogData   *data;
-	GtkWidget    *btn_cancel;
-	GtkWidget    *btn_help;
-	GdkPixbuf    *mute_pixbuf;
-	char         *default_path;
-	char         *default_film_name;
+	DialogData *data;
+	GtkWidget  *btn_cancel;
+	GtkWidget  *btn_help;
+	GdkPixbuf  *mute_pixbuf;
+	char       *default_path;
+	char       *default_film_name;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
-	if (!data->gui) {
+	if (! data->gui) {
 		g_free (data);
 		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
@@ -1926,7 +1998,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->interrupted = FALSE;
 	data->camera_setted = FALSE;
 
-	data->yes_or_no = g_mutex_new ();
+	data->data_mutex = g_mutex_new ();
 	data->check_id = 0;
 	data->idle_id = 0;
 	data->msg_text  = NULL;
@@ -1968,8 +2040,8 @@ dlg_photo_importer (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	data->camera_present_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL, 0, 0, NULL);
-	mute_pixbuf = gth_pixbuf_new_from_uri (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL, 0, 0, NULL);
+	data->camera_present_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL);
+	mute_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL);
 
 	data->no_camera_pixbuf = gdk_pixbuf_copy (data->camera_present_pixbuf);
 	gdk_pixbuf_composite (mute_pixbuf,

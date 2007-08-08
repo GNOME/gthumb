@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2005 Free Software Foundation, Inc.
+ *  Copyright (C) 2007 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 #include "gtk-utils.h"
 #include "pixbuf-utils.h"
 #include "rotation-utils.h"
+#include "gthumb-error.h"
 #include "preferences.h"
 #include "jpegutils/jpeg-data.h"
 #include "jpegutils/transupp.h"
@@ -42,14 +43,14 @@
 
 
 typedef struct {
-	const char  *path;
-	GtkWindow   *parent;
+	FileData  *file;
+	GtkWindow *parent;
 } jpeg_mcu_dialog_data;
 
 
 static boolean
-jpeg_mcu_dialog (JXFORM_CODE *transform,
-		 boolean     *trim,
+jpeg_mcu_dialog (JXFORM_CODE          *transform,
+		 boolean              *trim,
 		 jpeg_mcu_dialog_data *userdata)
 {
 	char      *display_name;
@@ -69,7 +70,7 @@ jpeg_mcu_dialog (JXFORM_CODE *transform,
 	 * Warn about possible image distortions along one or more edges.
 	 */
 
-	display_name = basename_for_display (userdata->path);
+	display_name = basename_for_display (userdata->file->path);
 	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
 	d = _gtk_message_dialog_with_checkbutton_new (
 		userdata->parent,
@@ -108,51 +109,46 @@ jpeg_mcu_dialog (JXFORM_CODE *transform,
 
 
 gboolean
-apply_transformation_jpeg (GtkWindow    *win,
-			   const char   *path,
-			   GthTransform  transform)
+apply_transformation_jpeg (GtkWindow     *win,
+			   FileData      *file,
+			   GthTransform   transform,
+			   GError       **error)
 {
-	char                 *tmp;
-	char                 *tmpdir;
-	GError               *err = NULL;
+	gboolean              result = TRUE;
+	char                 *tmp_dir;
+	char                 *tmp_output_file;
 	JXFORM_CODE           transf;
-	jpeg_mcu_dialog_data  userdata = {path, win};
-	gboolean	      is_local;
-	gboolean	      remote_copy_ok;
-	char		     *local_file_to_modify;
-	gchar                *escaped_local_file;
-	GnomeVFSFileInfo     *info;
+	jpeg_mcu_dialog_data  userdata = { file, win };
+	char		     *local_file;
+	GnomeVFSFileInfo     *info = NULL;
 
-
-	if (path == NULL)
+	if (file == NULL)
 		return FALSE;
 
-	tmpdir = get_temp_dir_name ();
-	if (tmpdir == NULL)
-	{
-		_gtk_error_dialog_run (GTK_WINDOW (win),
-				      _("Could not create a temporary folder"));
-		return FALSE;
-	}
-	tmp = get_temp_file_name (tmpdir, NULL);
-	g_free (tmpdir);
+	if (transform == GTH_TRANSFORM_NONE)
+		return TRUE;
 
-	/* If the original file is stored on a remote VFS location, copy it to a local
-	      temp file, modify it, then copy it back. This is easier than modifying the
-	      underlying jpeg code (and other code) to handle VFS URIs. */
-
-	is_local = is_local_file (path);
-	local_file_to_modify = obtain_local_file (path);
-
-	if (local_file_to_modify == NULL) {
-		_gtk_error_dialog_run (win,
-				       _("Could not create a local temporary copy of the remote file."));
+	tmp_dir = get_temp_dir_name ();
+	if (tmp_dir == NULL) {
+		if (error != NULL)
+			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not create a temporary folder"));
 		return FALSE;
 	}
 
-	if (!is_local) {
+	tmp_output_file = get_temp_file_name (tmp_dir, NULL);
+	g_free (tmp_dir);
+
+	local_file = get_cache_filename_from_uri (file->path);
+	if (local_file == NULL) {
+		if (error != NULL)
+			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not create a local temporary copy of the remote file."));
+		result = FALSE;
+		goto apply_transformation_jpeg__free_and_close;
+	}
+
+	if (! is_local_file (file->path)) {
 		info = gnome_vfs_file_info_new ();
-		gnome_vfs_get_file_info (path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+		gnome_vfs_get_file_info (file->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	}
 
 	switch (transform) {
@@ -185,30 +181,24 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran (local_file_to_modify, tmp, transf, (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, &err) != 0) {
-		if (err != NULL)
-			_gtk_error_dialog_from_gerror_run (win, &err);
-		remove_temp_file_and_dir (tmp);
-		g_free (tmp);
-		return FALSE;
+	if (jpegtran (local_file, 
+		      tmp_output_file, 
+		      transf, 
+		      (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, 
+		      error) != 0) 
+	{
+		result = FALSE;
+		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	escaped_local_file = gnome_vfs_escape_path_string (local_file_to_modify);
-	if (!file_move (tmp, escaped_local_file)) {
-		_gtk_error_dialog_run (win,
-			_("Could not move temporary file to local destination. Check folder permissions."));
-		remove_temp_file_and_dir (tmp);
-		g_free (tmp);
-		g_free (escaped_local_file);
-		return FALSE;
+	if (! local_file_move (tmp_output_file, local_file)) {
+		if (error != NULL)
+			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not move temporary file to local destination. Check folder permissions."));
+		result = FALSE;
+		goto apply_transformation_jpeg__free_and_close;	
 	}
 
-	if (!is_local)
-		remote_copy_ok = copy_cache_file_to_remote_uri (escaped_local_file, path);
-
-	g_free (escaped_local_file);
-	g_free (local_file_to_modify);
-
+/*
 	if (!is_local) {
 		if (!remote_copy_ok) {
 			_gtk_error_dialog_run (win, _("Could not move temporary file to remote location. Check remote permissions."));
@@ -220,58 +210,57 @@ apply_transformation_jpeg (GtkWindow    *win,
 		}
 		gnome_vfs_file_info_unref (info);
 	}
+*/
 
-	remove_temp_file_and_dir (tmp);
-	g_free (tmp);
+apply_transformation_jpeg__free_and_close:
+	remove_file_and_parent_folder (tmp_output_file);
+	g_free (tmp_output_file);
 
-	/* report success */
-	return TRUE;
+	return result;
 }
 
 
 gboolean
 apply_transformation_generic (GtkWindow    *win,
-			      const char   *path,
-			      GthTransform transform)
+			      FileData     *file,
+			      GthTransform  transform,
+			      GError       **error)
 {
-	GdkPixbuf  *pixbuf1, *pixbuf2;
-	const char *mime_type;
-	gboolean     success = TRUE;
-
-	if (path == NULL)
+	gboolean   success = TRUE;
+	GdkPixbuf *original_pixbuf;
+	GdkPixbuf *transformed_pixbuf;
+	char	  *local_file;
+	
+	if (file == NULL)
 		return FALSE;
 
 	if (transform == GTH_TRANSFORM_NONE)
+		return TRUE;
+
+	original_pixbuf = gth_pixbuf_new_from_file (file, error, 0, 0, NULL);
+	if (original_pixbuf == NULL)
 		return FALSE;
 
-	pixbuf1 = gth_pixbuf_new_from_uri (path, NULL, 0, 0, NULL);
-	if (pixbuf1 == NULL)
-		return FALSE;
-
-	pixbuf2 = _gdk_pixbuf_transform (pixbuf1, transform);
-
-	mime_type = gnome_vfs_mime_type_from_name (path);
-	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
-		GError      *error = NULL;
-		const char  *image_type = mime_type + 6;
-		if (! _gdk_pixbuf_save (pixbuf2,
-					path,
-					image_type,
-					&error,
-					NULL)) {
-			_gtk_error_dialog_from_gerror_run (win, &error);
-			success = FALSE;
-		}
-	} else {
-		_gtk_error_dialog_run (win,
-				       _("Image type not supported: %s"),
-				       mime_type);
+	transformed_pixbuf = _gdk_pixbuf_transform (original_pixbuf, transform);
+	local_file = get_cache_filename_from_uri (file->path);
+	if (is_mime_type_writable (file->mime_type)) {
+		const char *image_type = file->mime_type + 6;
+		success = _gdk_pixbuf_save (transformed_pixbuf,
+					    file->path,
+					    image_type,
+					    error,
+					    NULL);
+	} 
+	else {
+		if (error != NULL)
+			*error = g_error_new (GTHUMB_ERROR, 0, _("Image type not supported: %s"), file->mime_type);
 		success = FALSE;
 	}
-
-	g_object_unref (pixbuf1);
-	g_object_unref (pixbuf2);
-
+	
+	g_free (local_file);
+	g_object_unref (transformed_pixbuf);
+	g_object_unref (original_pixbuf);
+	
 	return success;
 }
 
@@ -301,12 +290,12 @@ get_next_value_flip (GthTransform value)
 
 
 GthTransform
-get_next_transformation(GthTransform original, GthTransform transform)
+get_next_transformation (GthTransform original, 
+			 GthTransform transform)
 {
-	GthTransform result = (original >= 1 && original <= 8 ?
-									original :
-									GTH_TRANSFORM_NONE);
+	GthTransform result;
 
+	result = ((original >= 1) && (original <= 8)) ? original : GTH_TRANSFORM_NONE;
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
 		break;

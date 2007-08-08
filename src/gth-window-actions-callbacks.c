@@ -138,7 +138,7 @@ gth_window_activate_action_file_save (GtkAction *action,
 
 	gth_window_save_pixbuf (window,
 				image_viewer_get_current_pixbuf (image_viewer),
-				gth_window_get_image_filename (window));
+				gth_window_get_image_data (window));
 }
 
 
@@ -193,11 +193,11 @@ gth_window_activate_action_file_print (GtkAction *action,
 				       GthWindow *window)
 {
 	GList    *list;
-	char     *tmp_dir;
+	char     *tmp_dir = NULL;
 	char     *tmp_filename = NULL;
 	gboolean  remove_temp_file = FALSE;
 
-	list = gth_window_get_file_list_selection (window);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL)
 		return;
 
@@ -214,11 +214,15 @@ gth_window_activate_action_file_print (GtkAction *action,
 
 			g_object_ref (pixbuf);
 			tmp_dir = get_temp_dir_name ();
-			if (tmp_dir == NULL)
-			{
+			if (tmp_dir == NULL) {
 				_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a temporary folder"));
+				
+				g_object_unref (pixbuf);
+				file_data_list_free (list);
+				
 				return;
 			}
+			
 			tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
 			if (! _gdk_pixbuf_save (pixbuf,
 						tmp_filename,
@@ -226,39 +230,44 @@ gth_window_activate_action_file_print (GtkAction *action,
 						&error,
 						NULL)) {
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
-				g_object_unref (pixbuf);
+				
 				g_free (tmp_filename);
-				dir_remove(tmp_dir);
-				g_free(tmp_dir);
+				g_object_unref (pixbuf);
+				dir_remove (tmp_dir);
+				g_free (tmp_dir);
+				g_object_unref (pixbuf);
+				file_data_list_free (list);
+				
 				return;
 			}
 
 			g_object_unref (pixbuf);
 
 			image_filename = gth_window_get_image_filename (window);
-			current = g_list_find_custom (list,
-						      image_filename,
-						      (GCompareFunc) strcmp);
+			current = file_data_list_find_path (list, image_filename);
 			if (current != NULL) {
-				g_free (current->data);
-				current->data = g_strdup (tmp_filename);
+				FileData *fd;
+				
+				fd = file_data_dup (current->data);
+				g_free (fd->path);
+				fd->path =  g_strdup (tmp_filename);
 				comment_copy (image_filename, tmp_filename);
 			}
-
+			
 			remove_temp_file = TRUE;
 		}
 	}
 
-	if (remove_temp_file)
-	{
+	if (remove_temp_file) {
 		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, tmp_filename);
 		dir_remove (tmp_dir);
-		g_free (tmp_dir);
 	}
 	else
 		print_catalog_dlg (GTK_WINDOW (window), list);
 
-	path_list_free (list);
+	g_free (tmp_dir);
+	g_free (tmp_filename);
+	file_data_list_free (list);
 }
 
 
@@ -897,7 +906,7 @@ gth_window_activate_action_tools_change_date (GtkAction *action,
 
 void
 gth_window_activate_action_tools_reset_exif (GtkAction *action,
-                                              GthWindow *window)
+                                             GthWindow *window)
 {
         dlg_reset_exif (window);
 }

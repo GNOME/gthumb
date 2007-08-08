@@ -178,23 +178,19 @@ struct _GthBrowserPrivateData {
 
 	/* browser stuff */
 
+	FileData           *image;
+	FileData           *new_image;          /* The image to load after
+						 * asking whether to save
+						 * the current image. */
+
 	GtkWidget          *filterbar;
 	GthFileList        *file_list;
 	GthDirList         *dir_list;
 	CatalogList        *catalog_list;
 	char               *catalog_path;       /* The catalog file we are
 						 * showing in the file list. */
-	char               *image_path;         /* The image file we are
-						 * showing in the image
-						 * viewer. */
 	char               *image_path_saved;   /* The filename of the saved
 						 * image. */
-	char               *new_image_path;     /* The image to load after
-						 * asking whether to save
-						 * the current image. */
-	time_t              image_mtime;        /* Modification time of loaded
-						 * image, used to reload the
-						 * image only when needed.*/
 	char               *image_catalog;      /* The catalog the current
 						 * image belongs to, NULL if
 						 * the image is not from a
@@ -228,6 +224,7 @@ struct _GthBrowserPrivateData {
 	guint               update_layout_timeout;
 
 	gboolean            busy_cursor_active;
+	gboolean            closing;
 
 	GThumbPreloader    *preloader;
 
@@ -278,10 +275,11 @@ static GthWindowClass *parent_class = NULL;
 #define HIDE_SIDEBAR_DELAY     150
 #define LOAD_DIR_DELAY         75
 #define PANE_MIN_SIZE          60
-#define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
+#define PROGRESS_BAR_WIDTH     60
+#define PROGRESS_BAR_HEIGHT    12
 
 #define DEF_WIN_WIDTH          690
 #define DEF_WIN_HEIGHT         460
@@ -331,9 +329,6 @@ static GtkTreePath  *dir_list_tree_path = NULL;
 static GtkTreePath  *catalog_list_tree_path = NULL;
 static GList        *gth_file_list_drag_data = NULL;
 static char         *dir_list_drag_data = NULL;
-
-
-
 
 
 static void
@@ -397,7 +392,7 @@ window_update_zoom_sensitivity (GthBrowser *browser)
 	gboolean               image_is_void;
 	int                    zoom;
 
-	image_is_visible = (priv->image_path != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
+	image_is_visible = (priv->image != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
 
@@ -422,33 +417,31 @@ window_update_zoom_sensitivity (GthBrowser *browser)
 static void
 window_update_statusbar_zoom_info (GthBrowser *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-	const char            *path;
-	gboolean               image_is_visible;
-	int                    zoom;
-	char                  *text;
+	gboolean  image_is_visible;
+	int       zoom;
+	char     *text;
 
 	window_update_zoom_sensitivity (browser);
 
-	/**/
-
-	path = priv->image_path;
-
-	image_is_visible = (path != NULL) && !priv->image_error && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
-
+	image_is_visible = ((browser->priv->image != NULL) 
+			    && ! browser->priv->image_error 
+			    && ((browser->priv->sidebar_visible 
+			         && browser->priv->image_pane_visible 
+			         && browser->priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) 
+			        || ! browser->priv->sidebar_visible));
 	if (! image_is_visible) {
-		if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame))
+		if (! GTK_WIDGET_VISIBLE (browser->priv->zoom_info_frame))
 			return;
-		gtk_widget_hide (priv->zoom_info_frame);
+		gtk_widget_hide (browser->priv->zoom_info_frame);
 		return;
 	}
 
-	if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame))
-		gtk_widget_show (priv->zoom_info_frame);
+	if (! GTK_WIDGET_VISIBLE (browser->priv->zoom_info_frame))
+		gtk_widget_show (browser->priv->zoom_info_frame);
 
-	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	zoom = (int) (IMAGE_VIEWER (browser->priv->viewer)->zoom_level * 100.0);
 	text = g_strdup_printf (" %d%% ", zoom);
-	gtk_label_set_markup (GTK_LABEL (priv->zoom_info), text);
+	gtk_label_set_markup (GTK_LABEL (browser->priv->zoom_info), text);
 	g_free (text);
 }
 
@@ -461,15 +454,11 @@ window_update_statusbar_image_info (GthBrowser *browser)
 	char                   time_txt[50], *utf8_time_txt;
 	char                  *size_txt;
 	char                  *file_size_txt;
-	const char            *path;
 	int                    width, height;
 	time_t                 timer = 0;
 	struct tm             *tm;
-	gdouble                sec;
 
-	path = priv->image_path;
-
-	if ((path == NULL) || priv->image_error) {
+	if ((priv->image == NULL) || priv->image_error) {
 		gtk_label_set_text (GTK_LABEL (priv->image_info), "");
 		return;
 	}
@@ -477,21 +466,21 @@ window_update_statusbar_image_info (GthBrowser *browser)
 	if (!image_viewer_is_void (IMAGE_VIEWER (priv->viewer))) {
 		width = image_viewer_get_image_width (IMAGE_VIEWER (priv->viewer));
 		height = image_viewer_get_image_height (IMAGE_VIEWER (priv->viewer));
-	} else {
+	} 
+	else {
 		width = 0;
 		height = 0;
 	}
 
-	timer = get_metadata_time (NULL, path);
+	timer = get_metadata_time (NULL, priv->image->path);
 	if (timer == 0)
-		timer = get_file_mtime (path);
+		timer = priv->image->mtime;
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-	sec = g_timer_elapsed (image_loader_get_timer (IMAGE_VIEWER (priv->viewer)->loader),  NULL);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (path));
+	file_size_txt = gnome_vfs_format_file_size_for_display (priv->image->size);
 
 	/**/
 
@@ -533,14 +522,14 @@ update_image_comment (GthBrowser *browser)
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
 
-	if (priv->image_path == NULL) {
+	if (priv->image == NULL) {
 		GtkTextIter start, end;
 		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
 		gtk_text_buffer_delete (text_buffer, &start, &end);
 		return;
 	}
 
-	cdata = comments_load_comment (priv->image_path, TRUE);
+	cdata = comments_load_comment (priv->image->path, TRUE);
 
 #ifdef HAVE_LIBIPTCDATA
 	if (cdata != NULL) {
@@ -585,7 +574,7 @@ update_image_comment (GthBrowser *browser)
 	/**/
 
 	if (cdata->changed)
-		gth_file_list_update_comment (priv->file_list, priv->image_path);
+		gth_file_list_update_comment (priv->file_list, priv->image->path);
 
 	g_free (comment);
 	comment_data_free (cdata);
@@ -606,9 +595,9 @@ window_update_image_info (GthBrowser *browser)
                 priv->exif_data = NULL;
         }
 
-	if ((priv->image_path != NULL) && (image_is_jpeg (priv->image_path))) {
+	if ((priv->image != NULL) && (image_is_jpeg (priv->image->path))) {
         	char *local_file_to_modify = NULL;
-                local_file_to_modify = obtain_local_file (priv->image_path);
+                local_file_to_modify = obtain_local_file (priv->image->path);
                 if (local_file_to_modify != NULL) {
                 	jdata = jpeg_data_new_from_file (local_file_to_modify);
                         g_free (local_file_to_modify);
@@ -622,9 +611,8 @@ window_update_image_info (GthBrowser *browser)
 
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer),
 				     IMAGE_VIEWER (browser->priv->viewer),
-				     browser->priv->image_path,
-				     browser->priv->exif_data
-		       		     );
+				     browser->priv->image,
+				     browser->priv->exif_data);
 
 	update_image_comment (browser);
 }
@@ -635,21 +623,19 @@ window_update_infobar (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char       *text;
-	const char *path;
 	char       *escaped_name;
 	char       *display_name;
 	int         images, current;
 
-	path = priv->image_path;
-	if (path == NULL) {
+	if (priv->image == NULL) {
 		gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar), NULL, NULL);
 		return;
 	}
 
 	images = gth_file_view_get_images (priv->file_list->view);
-	current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
+	current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
-	display_name = gnome_vfs_unescape_string_for_display (file_name_from_path (path));
+	display_name = gnome_vfs_unescape_string_for_display (file_name_from_path (priv->image->path));
 	escaped_name = g_markup_escape_text (display_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s",
@@ -671,13 +657,11 @@ window_update_title (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char *info_txt = NULL;
-	char *path;
 	char *modified;
 
-	path = priv->image_path;
 	modified = priv->image_modified ? _("[modified]") : "";
 
-	if (path == NULL) {
+	if (priv->image == NULL) {
 		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (priv->dir_list->path != NULL)) {
 			char *dir_name = get_uri_display_name (priv->dir_list->path);
@@ -685,8 +669,8 @@ window_update_title (GthBrowser *browser)
 			info_txt = g_strconcat (display_name, " ", modified, NULL);
 			g_free (dir_name);
 			g_free (display_name);
-
-		} else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+		} 
+		else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			   && (priv->catalog_path != NULL)) {
 			const char *cat_name;
 			char       *cat_name_no_ext;
@@ -699,16 +683,17 @@ window_update_title (GthBrowser *browser)
 
 			info_txt = gnome_vfs_unescape_string_for_display (cat_name_no_ext);
 			g_free (cat_name_no_ext);
-		} else
+		} 
+		else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
-
-	} else {
+	} 
+	else {
 		char *image_name;
 		int   images, current;
 
-		image_name = gnome_vfs_unescape_string_for_display (file_name_from_path (path));
+		image_name = gnome_vfs_unescape_string_for_display (file_name_from_path (priv->image->path));
 		images = gth_file_view_get_images (priv->file_list->view);
-		current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
+		current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
 		if (priv->image_catalog != NULL) {
 			char *cat_name = gnome_vfs_unescape_string_for_display (file_name_from_path (priv->image_catalog));
@@ -869,8 +854,8 @@ window_update_sensitivity (GthBrowser *browser)
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST;
 	image_is_visible = ! image_is_void && window_image_pane_is_visible (browser);
 
-	if (priv->image_path != NULL)
-		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
+	if (priv->image != NULL)
+		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
 	else
 		image_pos = -1;
 
@@ -964,8 +949,8 @@ window_update_sensitivity (GthBrowser *browser)
 
 	/* View menu. */
 
-	set_action_sensitive (browser, "View_ShowImage", priv->image_path != NULL);
-	set_action_sensitive (browser, "File_ImageProp", priv->image_path != NULL);
+	set_action_sensitive (browser, "View_ShowImage", priv->image != NULL);
+	set_action_sensitive (browser, "File_ImageProp", priv->image != NULL);
 	set_action_sensitive (browser, "View_Fullscreen", priv->file_list->list != NULL);
 	set_action_sensitive (browser, "View_ShowPreview", priv->sidebar_visible);
 	set_action_sensitive (browser, "View_ShowMetadata", ! priv->sidebar_visible);
@@ -1127,7 +1112,6 @@ window_set_file_list (GthBrowser    *browser,
 {
 	gth_browser_start_activity_mode (browser);
 	window_update_sensitivity (browser);
-
 	window_sync_sort_menu (browser, sort_method, sort_type);
 	gth_file_list_set_list (browser->priv->file_list,
 				list,
@@ -1242,13 +1226,13 @@ go_to_uri (GthBrowser  *browser,
 			gth_browser_show_catalog_directory (browser, file_uri);
 
 		g_free (file_uri);
-
-	} else if (path_is_file (uri)) {
+	} 
+	else if (path_is_file (uri)) {
 		browser->priv->load_image_folder_after_image = TRUE;
-		gth_browser_load_image (browser, uri);
+		gth_browser_load_image_from_uri (browser, uri);
 		gth_browser_hide_sidebar (browser);
-
-	} else
+	} 
+	else
 		gth_browser_go_to_directory (browser, uri);
 }
 
@@ -1399,16 +1383,15 @@ window_update_bookmark_list (GthBrowser *browser)
 	if (priv->bookmarks_merge_id == 0)
 		priv->bookmarks_merge_id = gtk_ui_manager_new_merge_id (priv->ui);
 
-	for (i = 0, scan = names; scan; scan = scan->next) {
+	for (i = 0, scan = names; scan; scan = scan->next, i++)
 		add_bookmark_menu_item (browser,
 					priv->bookmark_actions,
 					priv->bookmarks_merge_id,
 					preferences.bookmarks,
 					"Bookmark",
-					i++,
+					i,
 					"/MenuBar/Bookmarks/BookmarkList",
 					scan->data);
-	}
 
 	priv->bookmarks_length = i;
 	gth_location_set_bookmarks (GTH_LOCATION (priv->location), names, i);
@@ -1488,16 +1471,16 @@ static void
 view_image_at_pos (GthBrowser *browser,
 		   int         pos)
 {
-	char *path;
+	FileData *file;
 
 	if ((pos < 0) || (pos >= gth_file_view_get_images (browser->priv->file_list->view)))
 		return;
 
-	path = gth_file_list_path_from_pos (browser->priv->file_list, pos);
-	if (path == NULL)
-		return;
-	gth_browser_load_image (browser, path);
-	g_free (path);
+	file = gth_file_view_get_image_data (browser->priv->file_list->view, pos);
+	if (file != NULL) {
+		gth_browser_load_image (browser, file);
+		file_data_unref (file);
+	}
 }
 
 
@@ -1647,51 +1630,54 @@ gth_browser_set_sidebar (GthBrowser *browser,
 /* -- window_save_pixbuf -- */
 
 
-void
-save_pixbuf__image_saved_step2 (gpointer data)
+static void
+save_pixbuf__jpeg_data_saved_cb (const char     *uri,
+				 GnomeVFSResult  result,
+    				 gpointer        data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	int                    pos;
+	GthBrowser *browser = data;
+	gboolean    closing = browser->priv->closing;
+			
+	g_free (browser->priv->image_path_saved);
+	browser->priv->image_path_saved = NULL;
+	if (uri != NULL)
+		browser->priv->image_path_saved = g_strdup (uri);
 
-	if (priv->image_path == NULL)
-		return;
+	browser->priv->image_modified = FALSE;
+	browser->priv->saving_modified_image = FALSE;
+	if (browser->priv->image_saved_func != NULL)
+		(*browser->priv->image_saved_func) (NULL, browser);
 
-	priv->image_modified = FALSE;
-	priv->saving_modified_image = FALSE;
-
-	pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
-	if (pos != -1) {
-		view_image_at_pos (browser, pos);
-		gth_file_list_select_image_by_pos (priv->file_list, pos);
+	if (! closing) {
+		GList *file_list;
+		
+		file_list = g_list_prepend (NULL, (char*) uri);
+		if (gth_file_list_pos_from_path (browser->priv->file_list, uri) != -1)
+			all_windows_notify_files_changed (file_list);
+		else
+			all_windows_notify_files_created (file_list);
+		g_list_free (file_list);
 	}
 }
 
 
-static void
-save_jpeg_data (GthBrowser *browser,
-		const char *filename)
+static CopyData*
+save_jpeg_data (GthBrowser   *browser,
+		FileData     *file,
+		CopyDoneFunc  done_func,
+		gpointer      done_data)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
-	gboolean               is_local;
-	gboolean               remote_copy_ok = TRUE;
-	char                  *local_file_to_modify = NULL;
+	char                  *local_file = NULL;
 
-	is_local = is_local_file (filename);
+	local_file = get_cache_filename_from_uri (file->path);
+	if (local_file == NULL)
+		return update_file_from_cache (file, done_func, done_data);
 
-	/* If the original file is stored on a remote VFS location, copy it to a local
-	   temp file, modify it, then copy it back. This is easier than modifying the
-	   underlying jpeg code (and other code) to handle VFS URIs. */
-
-	local_file_to_modify = obtain_local_file (filename);
-
-	if (local_file_to_modify == NULL)
-		return;
-
-	if (!image_is_jpeg (local_file_to_modify))
-		return;
+	if (! image_is_jpeg (local_file))
+		return update_file_from_cache (file, done_func, done_data);
 
 	if (priv->exif_data != NULL)
 		data_to_save = TRUE;
@@ -1701,12 +1687,12 @@ save_jpeg_data (GthBrowser *browser,
 		data_to_save = TRUE;
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (!data_to_save)
-		return;
+	if (! data_to_save)
+		return update_file_from_cache (file, done_func, done_data);
 
-	jdata = jpeg_data_new_from_file (local_file_to_modify);
+	jdata = jpeg_data_new_from_file (local_file);
 	if (jdata == NULL)
-		return;
+		return update_file_from_cache (file, done_func, done_data);
 
 #ifdef HAVE_LIBIPTCDATA
 	if (priv->iptc_data != NULL) {
@@ -1721,7 +1707,8 @@ save_jpeg_data (GthBrowser *browser,
 		if (ps3_len > 0)
 			jpeg_data_set_header_data (jdata,
 						   JPEG_MARKER_APP13,
-						   out_buf, ps3_len);
+						   out_buf, 
+						   ps3_len);
 		g_free (out_buf);
 	}
 #endif /* HAVE_LIBIPTCDATA */
@@ -1729,71 +1716,51 @@ save_jpeg_data (GthBrowser *browser,
 	if (priv->exif_data != NULL)
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
 
-	jpeg_data_save_file (jdata, local_file_to_modify);
+	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
 	/* The exif orientation tag, if present, must be reset to "top-left",
    	   because the jpeg was saved from a gthumb-generated pixbuf, and
-   	   the pixbug image loader always rotates the pixbuf to account for
+   	   the pixbuf image loader always rotates the pixbuf to account for
    	   the orientation tag. */
-	write_orientation_field (local_file_to_modify, GTH_TRANSFORM_NONE);
-
-	if (!is_local)
-		remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, filename);
-
-	g_free (local_file_to_modify);
+	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
+	g_free (local_file);
+	
+	return update_file_from_cache (file, done_func, done_data);
 }
 
 
 static void
-save_pixbuf__image_saved_cb (const char *filename,
-			     gpointer    data)
+save_pixbuf__image_saved_cb (FileData *file,
+			     gpointer  data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	GList                 *file_list;
-
-	if (filename == NULL)
-		return;
-
-	save_jpeg_data (browser, filename);
-
-	/**/
-
-	priv->image_modified = FALSE;
-	priv->saving_modified_image = FALSE;
-	g_free (priv->image_path_saved);
-	priv->image_path_saved = g_strdup (filename);
-
-	/**/
-
-	file_list = g_list_prepend (NULL, (char*)filename);
-	if (gth_file_list_pos_from_path (priv->file_list, filename) != -1)
-		all_windows_notify_files_changed (file_list);
-	else
-		all_windows_notify_files_created (file_list);
-	g_list_free (file_list);
+	GthBrowser *browser = data;
+	
+	if (file != NULL)
+		save_jpeg_data (browser, 
+				file, 
+				save_pixbuf__jpeg_data_saved_cb,
+				browser);
 }
 
 
 static void
-gth_browser_save_pixbuf (GthWindow  *window,
-			 GdkPixbuf  *pixbuf,
-			 const char *filename)
+gth_browser_save_pixbuf (GthWindow *window,
+			 GdkPixbuf *pixbuf,
+			 FileData  *file)
 {
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *current_folder = NULL;
 
-	if (priv->image_path != NULL)
-		current_folder = g_strdup (priv->image_path);
-
+	if (priv->image != NULL)
+		current_folder = g_strdup (priv->image->path);
 	else if (priv->dir_list->path != NULL)
 		current_folder = g_strconcat (priv->dir_list->path,
 					      "/",
 					      NULL);
 
-	if (filename == NULL)
+	if (file == NULL)
 		dlg_save_image_as (GTK_WINDOW (browser),
 				   current_folder,
 				   pixbuf,
@@ -1801,25 +1768,12 @@ gth_browser_save_pixbuf (GthWindow  *window,
 				   browser);
 	else
 		dlg_save_image (GTK_WINDOW (browser),
-				filename,
+				file,
 				pixbuf,
 				save_pixbuf__image_saved_cb,
 				browser);
 
 	g_free (current_folder);
-}
-
-
-static void
-ask_whether_to_save__image_saved_cb (const char *filename,
-				     gpointer    data)
-{
-	GthBrowser *browser = data;
-
-	save_pixbuf__image_saved_cb (filename, data);
-
-	if (browser->priv->image_saved_func != NULL)
-		(*browser->priv->image_saved_func) (NULL, browser);
 }
 
 
@@ -1834,13 +1788,13 @@ ask_whether_to_save__response_cb (GtkWidget  *dialog,
 
 	if (response_id == GTK_RESPONSE_YES) {
 		dlg_save_image_as (GTK_WINDOW (browser),
-				   priv->image_path,
+				   priv->image->path,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
-				   ask_whether_to_save__image_saved_cb,
+				   save_pixbuf__image_saved_cb,
 				   browser);
 		priv->saving_modified_image = TRUE;
-
-	} else {
+	} 
+	else {
 		priv->saving_modified_image = FALSE;
 		priv->image_modified = FALSE;
 		if (priv->image_saved_func != NULL)
@@ -1853,8 +1807,7 @@ static gboolean
 ask_whether_to_save (GthBrowser     *browser,
 		     ImageSavedFunc  image_saved_func)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-	GtkWidget             *d;
+	GtkWidget *d;
 
 	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE))
 		return FALSE;
@@ -1868,8 +1821,8 @@ ask_whether_to_save (GthBrowser     *browser,
 			    _("_Do not display this message again"),
 			    PREF_MSG_SAVE_MODIFIED_IMAGE);
 
-	priv->saving_modified_image = TRUE;
-	priv->image_saved_func = image_saved_func;
+	browser->priv->saving_modified_image = TRUE;
+	browser->priv->image_saved_func = image_saved_func;
 	g_signal_connect (G_OBJECT (d), "response",
 			  G_CALLBACK (ask_whether_to_save__response_cb),
 			  browser);
@@ -1881,21 +1834,19 @@ ask_whether_to_save (GthBrowser     *browser,
 
 
 static void
-real_set_void (const char *filename,
-	       gpointer    data)
+real_set_void (FileData *file,
+	       gpointer  data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
+	GthBrowser *browser = data;
 
-	if (!priv->image_error) {
-		g_free (priv->image_path);
-		priv->image_path = NULL;
-		priv->image_mtime = 0;
-		priv->image_modified = FALSE;
-		priv->image_position = -1;
+	if (! browser->priv->image_error) {
+		file_data_unref (browser->priv->image);
+		browser->priv->image = NULL;
+		browser->priv->image_modified = FALSE;
+		browser->priv->image_position = -1;
 	}
 
-	image_viewer_set_void (IMAGE_VIEWER (priv->viewer));
+	image_viewer_set_void (IMAGE_VIEWER (browser->priv->viewer));
 	gth_window_clear_undo_history (GTH_WINDOW (browser));
 
 	window_update_statusbar_image_info (browser);
@@ -1904,8 +1855,8 @@ real_set_void (const char *filename,
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
 
-	if (priv->image_prop_dlg != NULL)
-		dlg_image_prop_update (priv->image_prop_dlg);
+	if (browser->priv->image_prop_dlg != NULL)
+		dlg_image_prop_update (browser->priv->image_prop_dlg);
 }
 
 
@@ -2073,8 +2024,7 @@ gth_file_list_cursor_changed_cb (GtkWidget *widget,
 	if (focused_image == NULL)
 		return;
 
-	if ((priv->image_path == NULL)
-	    || ! same_uri (focused_image, priv->image_path))
+	if ((priv->image == NULL) || ! same_uri (focused_image, priv->image->path))
 		view_image_at_pos (browser, pos);
 
 	g_free (focused_image);
@@ -2421,6 +2371,27 @@ add_history_item (GthBrowser *browser,
 }
 
 
+void
+catalog_get_file_data_list_done (Catalog  *catalog,
+				 GList    *file_list,
+				 gpointer  data)
+{
+	GthBrowser    *browser = data;
+	GthSortMethod  sort_method;
+	GtkSortType    sort_type;
+	
+	sort_method = catalog->sort_method;
+	sort_type = catalog->sort_type;
+	if (sort_method == GTH_SORT_METHOD_NONE) {
+		sort_method = browser->priv->sort_method;
+		sort_type = browser->priv->sort_type;
+	}
+	catalog_free (catalog);
+	
+	window_set_file_list (browser, file_list, sort_method, sort_type);
+}
+
+
 static gboolean
 catalog_activate (GthBrowser *browser,
 		  const char *cat_path)
@@ -2428,8 +2399,6 @@ catalog_activate (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	Catalog               *catalog;
 	GError                *gerror;
-	GthSortMethod          sort_method;
-	GtkSortType            sort_type;
 	GtkTreeIter            iter;
 
 	/* catalog directory */
@@ -2464,18 +2433,8 @@ catalog_activate (GthBrowser *browser,
 		return FALSE;
 	}
 
-	sort_method = catalog->sort_method;
-	sort_type = catalog->sort_type;
-	if (sort_method == GTH_SORT_METHOD_NONE) {
-		sort_method = priv->sort_method;
-		sort_type = priv->sort_type;
-	}
-
 	set_cursor_busy (browser, TRUE);
-
-	window_set_file_list (browser, catalog->list, sort_method, sort_type);
-	catalog->list = NULL;
-	catalog_free (catalog);
+	catalog_get_file_data_list (catalog, catalog_get_file_data_list_done, browser);
 
 	return TRUE;
 }
@@ -2678,7 +2637,7 @@ static void
 go_to_folder_after_image_loaded (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	char *folder_uri = remove_level_from_path (priv->image_path);
+	char *folder_uri = remove_level_from_path (priv->image->path);
 
 	priv->focus_current_image = TRUE;
 	gth_browser_hide_sidebar (browser);
@@ -2698,7 +2657,7 @@ image_loaded_cb (GtkWidget  *widget,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	priv->image_mtime = get_file_mtime (priv->image_path);
+	/*priv->image_mtime = get_file_mtime (priv->image->path);*/
 	priv->image_modified = FALSE;
 	priv->loading_image = FALSE;
 	gth_window_clear_undo_history (GTH_WINDOW (browser));
@@ -2738,12 +2697,12 @@ image_requested_done_cb (GThumbPreloader *gploader,
 	set_cursor_not_busy (browser, FALSE);
 
 	priv->image_error = FALSE;
-	if (priv->image_path == NULL)
+	if (priv->image == NULL)
 		return;
 
 	priv->loading_image = TRUE;
 
-	loader = gthumb_preloader_get_loader (priv->preloader, priv->image_path);
+	loader = gthumb_preloader_get_loader (priv->preloader, priv->image->path);
 	if (loader != NULL)
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
@@ -2923,32 +2882,28 @@ static gboolean
 launch_selected_videos_or_audio (GthBrowser *browser)
 {
 	gboolean                 result = FALSE;
-	const char              *path;
 	GnomeVFSMimeApplication *app;
 	const char              *current_mime_type;
 	GList		        *video_list = NULL;
 	GList			*scan;
 
-	/* Determine the application to use based on the current (single) item. */
-	path = browser->priv->image_path;
-
-	if (path == NULL)
+	if (browser->priv->image == NULL)
 		return FALSE;
 
 	/* Images are handled by gThumb directly. Other supported media (video,
 	   audio) require external players, which are launched by this function. */
-	if (file_is_image (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+	if (file_is_image (browser->priv->image->path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
-	current_mime_type = get_file_mime_type (path, FALSE);
-	app = gnome_vfs_mime_get_default_application_for_uri (path, current_mime_type);
+	current_mime_type = get_file_mime_type (browser->priv->image->path, FALSE);
+	app = gnome_vfs_mime_get_default_application_for_uri (browser->priv->image->path, current_mime_type);
 
 	if (app == NULL)
 		return FALSE;
 
 	if (! (app->can_open_multiple_files)) {
 		/* just pass the current (single) item */
-		video_list = g_list_append (video_list, (char*) path);
+		video_list = g_list_append (video_list, (char*) browser->priv->image->path);
 	} else {
 		/* Scan through the list of selected items, and identify those that have the
 		   same mime_type, or can be launched by the same application. */
@@ -4813,7 +4768,7 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	gth_file_list_set_show_hidden_files (browser->priv->file_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
+	gth_dir_list_show_hidden_files (browser->priv->dir_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 	window_update_file_list (browser);
 }
 
@@ -5515,9 +5470,9 @@ gth_browser_finalize (GObject *object)
 			priv->catalog_path = NULL;
 		}
 
-		if (priv->image_path) {
-			g_free (priv->image_path);
-			priv->image_path = NULL;
+		if (priv->image) {
+			file_data_unref (priv->image);
+			priv->image = NULL;
 		}
 
 		if (priv->image_path_saved) {
@@ -5537,9 +5492,9 @@ gth_browser_finalize (GObject *object)
 		}
 #endif /* HAVE_LIBIPTCDATA */
 
-		if (priv->new_image_path) {
-			g_free (priv->new_image_path);
-			priv->new_image_path = NULL;
+		if (priv->new_image) {
+			file_data_unref (priv->new_image);
+			priv->new_image = NULL;
 		}
 
 		if (priv->image_catalog) {
@@ -5605,14 +5560,14 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			continue;
 
 		if (same_uri (parent_dir, current_dir))
-			created_in_current_dir = g_list_prepend (created_in_current_dir, g_strdup (path));
+			created_in_current_dir = g_list_prepend (created_in_current_dir, file_data_new (path, NULL));
 
 		g_free (parent_dir);
 	}
 
 	if (created_in_current_dir != NULL) {
 		gth_file_list_add_list (browser->priv->file_list, created_in_current_dir);
-		path_list_free (created_in_current_dir);
+		file_data_list_free (created_in_current_dir);
 	}
 }
 
@@ -5654,11 +5609,12 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 
 	/* update the current image if has changed. */
 
-	if ((priv->image_path != NULL)
+	if ((priv->image != NULL)
 	    && ! priv->image_modified
-	    && (path_list_find_path (list, priv->image_path) != NULL)) {
+	    && (path_list_find_path (list, priv->image->path) != NULL)) {
 		int pos;
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
+		
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
 		if (pos != -1)
 			view_image_at_pos (browser, pos);
 	}
@@ -5668,7 +5624,7 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
 
-		if (gth_file_list_filedata_from_path (priv->file_list, filename) == NULL)
+		if (gth_file_list_filedata_from_path (priv->file_list, filename) != NULL)
 			continue;
 
 		absent_files = g_list_prepend (absent_files, filename);
@@ -5724,20 +5680,22 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 			     GList           *list,
 			     GthBrowser      *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-
+	GList *fd_list;
+	
 	g_return_if_fail (browser != NULL);
 
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
+	if (browser->priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
 		return;
-	if (priv->catalog_path == NULL)
+	if (browser->priv->catalog_path == NULL)
 		return;
-	if (! same_uri (priv->catalog_path, catalog_name))
+	if (! same_uri (browser->priv->catalog_path, catalog_name))
 		return;
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
-		gth_file_list_add_list (browser->priv->file_list, list);
+		fd_list = file_data_list_from_uri_list (list);
+		gth_file_list_add_list (browser->priv->file_list, fd_list);
+		file_data_list_free (fd_list);
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
@@ -5811,8 +5769,8 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 	gth_file_list_delete (priv->file_list, new_name);
 	gth_file_list_rename (priv->file_list, old_name, new_name);
 
-	if (same_uri (old_name, priv->image_path))
-		gth_browser_load_image (browser, new_name);
+	if (same_uri (old_name, priv->image->path))
+		gth_browser_load_image_from_uri (browser, new_name);
 }
 
 
@@ -5849,18 +5807,18 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 		}
 	}
 
-	if ((priv->image_path != NULL)
+	if ((priv->image != NULL)
 	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-	    && (strncmp (priv->image_path,
+	    && (strncmp (priv->image->path,
 			 old_name,
 			 strlen (old_name)) == 0)) {
 		char *new_image_name;
 
 		new_image_name = g_strconcat (new_name,
-					      priv->image_path + strlen (old_name),
+					      priv->image->path + strlen (old_name),
 					      NULL);
 		gth_browser_notify_file_rename (browser,
-						priv->image_path,
+						priv->image->path,
 						new_image_name);
 		g_free (new_image_name);
 	}
@@ -5894,11 +5852,11 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 		}
 	}
 
-	if ((priv->image_path != NULL)
-	    && (path_in_path (priv->image_path, path))) {
+	if ((priv->image != NULL)
+	    && (path_in_path (priv->image->path, path))) {
 		GList *list;
 
-		list = g_list_append (NULL, priv->image_path);
+		list = g_list_append (NULL, priv->image->path);
 		gth_browser_notify_files_deleted (browser, list);
 		g_list_free (list);
 	}
@@ -6242,6 +6200,7 @@ dir_list_started_cb (GthDirList  *dir_list,
 		     gpointer     data)
 {
 	GthBrowser *browser = data;
+	
 	gth_file_view_set_no_image_text (browser->priv->file_list->view, _("Getting folder listing..."));
 	gth_file_list_set_empty_list (browser->priv->file_list);
 }
@@ -6254,7 +6213,8 @@ dir_list_done_cb (GthDirList     *dir_list,
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
-
+	GList                 *file_list;
+	
 	gth_browser_stop_activity_mode (browser);
 
 	if (result != GNOME_VFS_ERROR_EOF) {
@@ -6286,7 +6246,8 @@ dir_list_done_cb (GthDirList     *dir_list,
 		if ((priv->history_current == NULL) || ! same_uri (uri, priv->history_current->data))
 			add_history_item (browser, uri, NULL);
 		g_free (uri);
-	} else
+	} 
+	else
 		priv->go_op = GTH_BROWSER_GO_TO;
 
 	window_update_history_list (browser);
@@ -6294,10 +6255,12 @@ dir_list_done_cb (GthDirList     *dir_list,
 
 	/**/
 
+	file_list = gth_dir_list_get_file_list (priv->dir_list);
 	window_set_file_list (browser,
-			      gth_dir_list_get_file_list (priv->dir_list),
+			      file_list,
 			      priv->sort_method,
 			      priv->sort_type);
+	file_data_list_free (file_list);
 }
 
 
@@ -6873,9 +6836,16 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Progress bar. */
 
 	priv->progress = gtk_progress_bar_new ();
-	gtk_widget_show (priv->progress);
-	gtk_widget_set_size_request (priv->progress, -1, 10);
-	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->progress, FALSE, FALSE, 0);
+	gtk_widget_set_size_request (priv->progress, -1, PROGRESS_BAR_HEIGHT);
+	
+	{
+		GtkWidget *vbox;
+		
+		vbox = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (vbox), priv->progress, TRUE, FALSE, 0);
+		gtk_widget_show_all (vbox);
+		gtk_box_pack_start (GTK_BOX (priv->statusbar), vbox, FALSE, FALSE, 0);
+	}
 
 	/* Zoom info */
 
@@ -6907,7 +6877,8 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->progress_dialog = NULL;
 		priv->progress_progressbar = NULL;
 		priv->progress_info = NULL;
-	} else {
+	} 
+	else {
 		GtkWidget *cancel_button;
 
 		priv->progress_dialog = glade_xml_get_widget (priv->progress_gui, "progress_dialog");
@@ -6936,8 +6907,7 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->image_pane_visible = priv->preview_visible;
 	priv->image_data_visible = eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE);
 	priv->catalog_path = NULL;
-	priv->image_path = NULL;
-	priv->image_mtime = 0;
+	priv->image = NULL;
 	priv->image_catalog = NULL;
 	priv->image_modified = FALSE;
 	priv->image_position = -1;
@@ -7224,8 +7194,8 @@ _window_remove_notifications (GthBrowser *browser)
 
 
 static void
-close__step6 (const char *filename,
-	      gpointer    data)
+close__step6 (FileData *file,
+	      gpointer  data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7252,7 +7222,8 @@ close__step6 (const char *filename,
 	if (priv->sidebar_visible) {
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, gtk_paned_get_position (GTK_PANED (priv->main_pane)));
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (priv->content_pane)));
-	} else
+	} 
+	else
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, priv->sidebar_width);
 
 	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, _gtk_widget_get_height (GTK_WIDGET (browser)) - gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
@@ -7415,6 +7386,8 @@ gth_browser_close (GthWindow *window)
 	GthBrowser            *browser = (GthBrowser*) window;
 	GthBrowserPrivateData *priv = browser->priv;
 
+	browser->priv->closing = TRUE;
+
 	/* Interrupt any activity. */
 
 	if (priv->update_layout_timeout != 0) {
@@ -7459,16 +7432,17 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 	case GTH_SIDEBAR_DIR_LIST:
 		if (priv->dir_list->path == NULL) {
 			char *folder_uri = NULL;
-			if (priv->image_path != NULL) {
-				ImageToDisplay = g_strdup (priv->image_path);
-				folder_uri = remove_level_from_path (priv->image_path);
+			if (priv->image != NULL) {
+				ImageToDisplay = g_strdup (priv->image->path);
+				folder_uri = remove_level_from_path (priv->image->path);
 			} else
 				folder_uri = g_strdup (get_home_uri ());
 
 			gth_browser_go_to_directory (browser, folder_uri);
 
 			g_free (folder_uri);
-		} else
+		} 
+		else
 			gth_browser_go_to_directory (browser, priv->dir_list->path);
 		break;
 
@@ -7492,7 +7466,8 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 			}
 			catalog_list_select_iter (priv->catalog_list, &iter);
 			catalog_activate (browser, priv->catalog_path);
-		} else {
+		} 
+		else {
 			window_set_file_list (browser, NULL, priv->sort_method, priv->sort_type);
 			window_image_viewer_set_void (browser);
 		}
@@ -7520,7 +7495,7 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkWidget             *widget_to_focus = priv->viewer;
 
-	if (priv->image_path == NULL)
+	if (priv->image == NULL)
 		return;
 
 	/* If the list of selected files contains video files, launch the
@@ -8009,7 +7984,7 @@ view_focused_image (GthBrowser *browser)
 	if (focused == NULL)
 		return FALSE;
 
-	not_focused = !same_uri (priv->image_path, focused);
+	not_focused = (priv->image == NULL) || ! same_uri (priv->image->path, focused);
 	g_free (focused);
 
 	return not_focused;
@@ -8028,16 +8003,16 @@ gth_browser_show_next_image (GthBrowser *browser,
 
 	skip_broken = FALSE;
 
-	if (priv->image_path == NULL) {
+	if (priv->image == NULL) {
 		pos = gth_file_list_next_image (priv->file_list, -1, skip_broken, only_selected);
-
-	} else if (view_focused_image (browser)) {
+	} 
+	else if (view_focused_image (browser)) {
 		pos = gth_file_view_get_cursor (priv->file_list->view);
 		if (pos == -1)
 			pos = gth_file_list_next_image (priv->file_list, pos, skip_broken, only_selected);
-
-	} else {
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
+	} 
+	else {
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
 		pos = gth_file_list_next_image (priv->file_list, pos, skip_broken, only_selected);
 	}
 
@@ -8063,19 +8038,19 @@ gth_browser_show_prev_image (GthBrowser *browser,
 
 	skip_broken = FALSE;
 
-	if (priv->image_path == NULL) {
+	if (priv->image == NULL) {
 		pos = gth_file_view_get_images (priv->file_list->view);
 		pos = gth_file_list_prev_image (priv->file_list, pos, skip_broken, only_selected);
-
-	} else if (view_focused_image (browser)) {
+	} 
+	else if (view_focused_image (browser)) {
 		pos = gth_file_view_get_cursor (priv->file_list->view);
 		if (pos == -1) {
 			pos = gth_file_view_get_images (priv->file_list->view);
 			pos = gth_file_list_prev_image (priv->file_list, pos, skip_broken, only_selected);
 		}
-
-	} else {
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
+	} 
+	else {
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
 		pos = gth_file_list_prev_image (priv->file_list, pos, skip_broken, only_selected);
 	}
 
@@ -8098,9 +8073,9 @@ gth_browser_show_first_image (GthBrowser *browser,
 	if (gth_file_view_get_images (priv->file_list->view) == 0)
 		return FALSE;
 
-	if (priv->image_path != NULL) {
-		g_free (priv->image_path);
-		priv->image_path = NULL;
+	if (priv->image != NULL) {
+		file_data_unref (priv->image);
+		priv->image = NULL;
 		priv->image_position = -1;
 	}
 
@@ -8117,9 +8092,9 @@ gth_browser_show_last_image (GthBrowser *browser,
 	if (gth_file_view_get_images (priv->file_list->view) == 0)
 		return FALSE;
 
-	if (priv->image_path != NULL) {
-		g_free (priv->image_path);
-		priv->image_path = NULL;
+	if (priv->image != NULL) {
+		file_data_unref (priv->image);
+		priv->image = NULL;
 		priv->image_position = -1;
 	}
 
@@ -8155,11 +8130,11 @@ gth_browser_get_image_viewer (GthWindow *window)
 }
 
 
-static const char *
-gth_browser_get_image_filename (GthWindow *window)
+static FileData *
+gth_browser_get_image_data (GthWindow *window)
 {
 	GthBrowser *browser = GTH_BROWSER (window);
-	return browser->priv->image_path;
+	return browser->priv->image;
 }
 
 
@@ -8196,39 +8171,31 @@ gth_browser_set_image_modified (GthWindow *window,
 /* -- load image -- */
 
 
-static char *
+static FileData*
 get_image_to_preload (GthBrowser *browser,
 		      int         pos,
 		      int         priority)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-	FileData              *fdata;
-	int                    max_size;
-	int		       width = 0, height = 0;
-	char 		      *local_file;
+	FileData  *fdata;
+	int        max_size;
+	int	   width = 0, height = 0;
+	char 	  *local_file;
 
 	if (pos < 0)
 		return NULL;
-	if (pos >= gth_file_view_get_images (priv->file_list->view))
+	if (pos >= gth_file_view_get_images (browser->priv->file_list->view))
 		return NULL;
 
-	fdata = gth_file_view_get_image_data (priv->file_list->view, pos);
-	if (fdata == NULL)
+	fdata = gth_file_view_get_image_data (browser->priv->file_list->view, pos);
+	if ((fdata == NULL) || ! is_local_file (fdata->path) || ! mime_type_is_image (fdata->mime_type)) {
+		file_data_unref (fdata); 
 		return NULL;
-
-	if (!is_local_file ( gth_file_list_path_from_pos (priv->file_list, pos))) {
-		debug (DEBUG_INFO, "Do not preload remote files. %s\n", gth_file_list_path_from_pos (priv->file_list, pos));
-		return NULL;
-		}
-
-	local_file = get_local_path_from_uri (gth_file_list_path_from_pos (priv->file_list, pos));
+	}
 
 	if (priority == 1)
 		max_size = PRELOADED_IMAGE_MAX_DIM1;
 	else
 		max_size = PRELOADED_IMAGE_MAX_DIM2;
-
-	debug (DEBUG_INFO, "File size of %s: %d\n", local_file, fdata->size);
 
 	if (fdata->size > max_size) {
 		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", local_file);
@@ -8237,55 +8204,55 @@ get_image_to_preload (GthBrowser *browser,
 		return NULL;
 	}
 
+	local_file = get_local_path_from_uri (fdata->path);
 	gdk_pixbuf_get_file_info (local_file, &width, &height);
 
 	debug (DEBUG_INFO, "%s dimensions: [%dx%d] <-> %d\n", local_file, width, height, max_size);
 
 	if (width * height > max_size) {
 		debug (DEBUG_INFO, "image %s dimensions are too large for preloading\n", local_file);
-		g_free (local_file);
 		file_data_unref (fdata);
-		return NULL;
+		fdata = NULL;
 	}
 
 	g_free (local_file);
-	file_data_unref (fdata);
 
-	return gth_file_list_path_from_pos (priv->file_list, pos);
+	return fdata;
 }
 
 
 static gboolean
 load_timeout_cb (gpointer data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	char                  *prev1 = NULL;
-	char                  *next1 = NULL;
+	GthBrowser *browser = data;
+	FileData   *prev1 = NULL;
+	FileData   *next1 = NULL;
 
-	if (priv->view_image_timeout != 0) {
-		g_source_remove (priv->view_image_timeout);
-		priv->view_image_timeout = 0;
+	if (browser->priv->view_image_timeout != 0) {
+		g_source_remove (browser->priv->view_image_timeout);
+		browser->priv->view_image_timeout = 0;
 	}
 
-	if (priv->image_path == NULL)
+	if (browser->priv->image == NULL)
 		return FALSE;
 
-	priv->image_position = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
-	if (priv->image_position >= 0) {
-		prev1 = get_image_to_preload (browser, priv->image_position - 1, 1);
-		next1 = get_image_to_preload (browser, priv->image_position + 1, 1);
+	file_data_update (browser->priv->image);
+
+	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
+	if (browser->priv->image_position >= 0) {
+		prev1 = get_image_to_preload (browser, browser->priv->image_position - 1, 1);
+		next1 = get_image_to_preload (browser, browser->priv->image_position + 1, 1);
 	}
 
 	set_cursor_busy (browser, FALSE);
 
-	gthumb_preloader_start (priv->preloader,
-				priv->image_path,
-				next1,
-				prev1);
+	gthumb_preloader_load (browser->priv->preloader,
+			       browser->priv->image,
+			       next1,
+			       prev1);
 
-	g_free (prev1);
-	g_free (next1);
+	file_data_unref (prev1);
+	file_data_unref (next1);
 
 	return FALSE;
 }
@@ -8298,33 +8265,30 @@ gth_browser_reload_image (GthBrowser *browser)
 
 	g_return_if_fail (browser != NULL);
 
-	if (priv->image_path == NULL)
+	if (priv->image == NULL)
 		return;
 
 	if (priv->view_image_timeout != 0)
 		g_source_remove (priv->view_image_timeout);
-
-	priv->view_image_timeout = g_idle_add (load_timeout_cb,
-					       browser);
+	priv->view_image_timeout = g_idle_add (load_timeout_cb, browser);
 }
 
 
 static void
-load_image__image_saved_cb (const char *filename,
-			    gpointer    data)
+load_image__image_saved_cb (FileData *file,
+			    gpointer  data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
+	GthBrowser *browser = data;
 
-	priv->image_modified = FALSE;
-	priv->saving_modified_image = FALSE;
-	gth_browser_load_image (browser, priv->new_image_path);
+	browser->priv->image_modified = FALSE;
+	browser->priv->saving_modified_image = FALSE;
+	gth_browser_load_image (browser, browser->priv->new_image);
 }
 
 
 void
 gth_browser_load_image (GthBrowser *browser,
-			const char *filename)
+		        FileData   *file)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
@@ -8333,22 +8297,29 @@ gth_browser_load_image (GthBrowser *browser,
 	if (priv->image_modified) {
 		if (priv->saving_modified_image)
 			return;
-		g_free (priv->new_image_path);
-		priv->new_image_path = g_strdup (filename);
+		file_data_unref (priv->new_image);
+		priv->new_image = file_data_ref (file);
 		if (ask_whether_to_save (browser, load_image__image_saved_cb))
 			return;
 	}
 
-	if (filename == priv->image_path) {
+	if (file == NULL) {
+		window_image_viewer_set_void (browser);
+		return;
+	}
+
+	if ((priv->image != NULL) && same_uri (file->path, priv->image->path)) {
 		gth_browser_reload_image (browser);
 		return;
 	}
 
+	file_data_update (file);
+
 	if (! priv->image_modified
-	    && (priv->image_path != NULL)
-	    && (filename != NULL)
-	    && same_uri (filename, priv->image_path)
-	    && (priv->image_mtime == get_file_mtime (priv->image_path)))
+	    && (priv->image != NULL)
+	    && (file != NULL)
+	    && same_uri (file->path, priv->image->path)
+	    && (priv->image->mtime == file->mtime))
 		return;
 
 	if (priv->view_image_timeout != 0) {
@@ -8367,16 +8338,24 @@ gth_browser_load_image (GthBrowser *browser,
 
 	/**/
 
-	if (filename == NULL) {
-		window_image_viewer_set_void (browser);
-		return;
-	}
-
-	g_free (priv->image_path);
-	priv->image_path = g_strdup (filename);
+	if (priv->image != NULL)
+		file_data_unref (priv->image);
+	priv->image = file_data_dup (file);
 	priv->image_position = -1;
 
 	priv->view_image_timeout = g_idle_add (load_timeout_cb, browser);
+}
+
+
+void
+gth_browser_load_image_from_uri (GthBrowser *browser,
+		                 const char *filename)
+{
+	FileData *file;
+	
+	file = file_data_new (filename, NULL);
+	gth_browser_load_image (browser, file);
+	file_data_unref (file);
 }
 
 
@@ -8484,9 +8463,9 @@ gth_browser_update_current_image_metadata (GthWindow *window)
 {
 	GthBrowser *browser = GTH_BROWSER (window);
 
-	if (browser->priv->image_path == NULL)
+	if (browser->priv->image == NULL)
 		return;
-	gth_browser_notify_update_comment (browser, browser->priv->image_path);
+	gth_browser_notify_update_comment (browser, browser->priv->image->path);
 
 	if (browser->priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (browser->priv->image_prop_dlg);
@@ -8556,10 +8535,10 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
 
-	if ((current_image == NULL || priv->image_path == NULL))
+	if ((current_image == NULL || priv->image == NULL))
 		return FALSE;
 
-	if (strcmp (priv->image_path, current_image) == 0)
+	if (same_uri (priv->image->path, current_image))
 		return FALSE;
 
 	pos = gth_file_list_pos_from_path (priv->file_list, current_image);
@@ -8580,7 +8559,7 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 	GdkPixbuf             *image = NULL;
-	GList                 *selection, *file_list = NULL;
+	GList                 *selection, *file_list = NULL, *scan;
 
 	if (!_set) {
 		if (priv->fullscreen != NULL)
@@ -8592,16 +8571,18 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 		return;
 
 	selection = gth_file_view_get_selection (priv->file_list->view);
-	if ((selection == NULL) || (g_list_length (selection) == 1))
-		file_list = gth_file_list_get_all_from_view (priv->file_list);
-	else {
-		GList *scan;
-		for (scan = selection; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			file_list = g_list_prepend (file_list, g_strdup (fd->path));
-		}
-		file_list = g_list_reverse (file_list);
+	if ((selection == NULL) || (g_list_length (selection) == 1)) {
+		if (selection != NULL)
+			g_list_free (selection);
+		selection = gth_file_view_get_list (priv->file_list->view);
 	}
+	
+	for (scan = selection; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		file_list = g_list_prepend (file_list, file_data_ref (fd));
+	}
+	file_list = g_list_reverse (file_list);
+	
 	if (selection != NULL)
 		g_list_free (selection);
 
@@ -8611,12 +8592,14 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	if (! (priv->loading_image || image_viewer_is_animation (IMAGE_VIEWER (priv->viewer))))
 		image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
 
-	priv->fullscreen = gth_fullscreen_new (image, priv->image_path, file_list);
+	priv->fullscreen = gth_fullscreen_new (image, priv->image, file_list);
+	file_data_list_free (file_list);
+	
 	g_signal_connect (priv->fullscreen,
 			  "destroy",
 			  G_CALLBACK (fullscreen_destroy_cb),
 			  browser);
-
+	
 	gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
 	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		gth_fullscreen_set_catalog (GTH_FULLSCREEN (priv->fullscreen), gth_browser_get_current_catalog (browser));
@@ -8659,7 +8642,7 @@ gth_browser_class_init (GthBrowserClass *class)
 
 	window_class->close = gth_browser_close;
 	window_class->get_image_viewer = gth_browser_get_image_viewer;
-	window_class->get_image_filename = gth_browser_get_image_filename;
+	window_class->get_image_data = gth_browser_get_image_data;
 	window_class->get_image_modified = gth_browser_get_image_modified;
 	window_class->set_image_modified = gth_browser_set_image_modified;
 	window_class->save_pixbuf = gth_browser_save_pixbuf;

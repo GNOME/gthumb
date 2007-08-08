@@ -27,6 +27,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include "image-loader.h"
+#include "file-data.h"
 
 G_BEGIN_DECLS
 
@@ -202,8 +203,10 @@ GtkWidget*     image_viewer_new                      (void);
 
 /* viewer content. */
 
-void           image_viewer_load_image               (ImageViewer     *viewer,
+void           image_viewer_load_image_from_uri      (ImageViewer     *viewer,
 						      const char      *path);
+void           image_viewer_load_image                (ImageViewer     *viewer,
+			 			      FileData        *file);						      
 void           image_viewer_load_from_pixbuf_loader  (ImageViewer     *viewer,
 						      GdkPixbufLoader *loader);
 void           image_viewer_load_from_image_loader   (ImageViewer     *viewer,

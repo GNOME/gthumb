@@ -1,3 +1,188 @@
+2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* AUTHORS: use svn.gnome.org addresses, rather than cvs.gnome.org
+	* MAINTAINERS: update formatting as per desktop-devel-list@gnome.org
+
+2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (folder_is_film): return false for remote folders.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c: 
+	* src/gth-window.h: 
+	* src/gth-window.c: 
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* src/dlg-reset-exif.c: 
+	* src/dlg-redeye-removal.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-crop.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/dlg-save-image.h: 
+	* libgthumb/dlg-save-image.c: 
+
+	Make saving of remote images async.  Duplicate the file_data in the
+	preloader in order to reload the image if changed.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c: 
+	* src/dlg-reset-exif.h: 
+	* src/dlg-reset-exif.c: 
+	* src/dlg-jpegtran.c: make reset_exif async for remote files.
+	
+	* data/glade/gthumb_tools.glade: added a info icon in the reset exif 
+	dialog.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.h: 
+	* src/rotation-utils.c: 
+	* src/gth-window-actions-callbacks.c: 
+	* src/gth-viewer.c: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.h: 
+	* src/dlg-jpegtran.c: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/pixbuf-utils.h: 
+	* libgthumb/pixbuf-utils.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gtk-utils.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	
+	Other batch of changes to make loading/saving of remote files async.  
+	Some functionality can be broken at this point.
+	
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/gth-file-list.c: move the resolve_links op in the 
+	thumb_loader.  Resolve only local files.
+	
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
+	* src/gth-browser.c: added the prograssbar to a vbox to make the
+	size_request work correctly.
+
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
+	* src/gth-viewer.c: 
+	* libgthumb/image-loader.c: fix ref/unref of file_data values.
+		
+2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>	
+	
+	* libgthumb/image-loader.c: 
+	* libgthumb/thumb-loader.c: reverted last change.
+
+2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c (thumb_loader): use the image_loader 
+	thumb_factory.
+	
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: added a file_mutex for handling the file
+	field.
+	
+2007-08-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c: 
+	* src/gth-window.h: 
+	* src/gth-window.c: 
+	* src/gth-viewer-actions-callbacks.c: 
+	* src/gth-viewer.h: 
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.h: 
+	* src/gthumb-preloader.c: 
+	* src/gth-fullscreen.h: 
+	* src/gth-fullscreen.c: 
+	* src/gth-exif-data-viewer.h: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.h: 
+	* src/gth-browser.c: 
+	* src/gth-batch-op.c: 
+	* src/dlg-image-prop.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-convert.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/image-viewer.h: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	* libgthumb/catalog.h: 
+	* libgthumb/catalog.c: 
+
+	Use a file_data instead of a simple uri to minimize accesses to files.
+	Started work to make loading of remote files async.
+
+2007-08-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.h: 
+	* libgthumb/thumb-loader.c: use a file_data structure to store all the 
+	info about the file to load.  This minimize the number of accesses to 
+	the file, which is important for remote files.
+
+	* src/dlg-duplicates.c: 
+	
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: pass an optional filter function argument 
+	to path_list_async_new
+
+	* libgthumb/thumb-cache.c: 
+	* src/gth-dir-list.h: 
+	* src/gth-dir-list.c: make the filtering here instead of gth-file-list.c
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c: removed the file filtering from here.  This
+	reduces the number of accesses to files.
+
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: removed the path argument from the image
+	loader costructor.
+
+	* src/gthumb-preloader.c: 
+	* src/gth-batch-op.c: 
+	* src/dlg-search.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/dlg-convert.c: 
+	* src/catalog-web-exporter.c: 
+	* src/catalog-png-exporter.c: 	
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/image-viewer.c: changed all the calls to image_loader_new,
+	thumb_loader_new and other minor changes.
+
+	* libgthumb/glib-utils.h: 
+	* libgthumb/glib-utils.c: added get_static_string
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: minor api changes.
+
+	* libgthumb/gthumb-init.c: moved prune_cache outside 
+	ensure_directories_exist
+
 2007-08-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:

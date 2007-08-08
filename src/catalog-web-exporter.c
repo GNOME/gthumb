@@ -2569,10 +2569,11 @@ export__copy_image (CatalogWebExporter *ce)
 		   Skip this step if there is no tag (0), or it is already
 		   top-left (1). */
 		transform = read_orientation_field (dest_filename);
-		if (transform > 1)
-			apply_transformation_jpeg(GTK_WINDOW (ce->window),
-						  dest_filename,
-						  transform);
+		/* FIXME if (transform > 1)
+			apply_transformation_jpeg (GTK_WINDOW (ce->window),
+						   dest_filename,
+						   transform,
+						   NULL);*/
 	}
 }
 
@@ -2951,7 +2952,7 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	if (ce->iloader != NULL)
 		g_object_unref (ce->iloader);
 
-	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	ce->iloader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (ce->iloader),
 			  "image_done",
 			  G_CALLBACK (image_loader_done),

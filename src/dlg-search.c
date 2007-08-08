@@ -33,6 +33,7 @@
 #include <libgnomevfs/gnome-vfs.h>
 
 #include "file-utils.h"
+#include "file-data.h"
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-search.h"
@@ -181,7 +182,7 @@ static void
 free_search_results_data (DialogData *data)
 {
 	if (data->files) {
-		path_list_free (data->files);
+		file_data_list_free (data->files);
 		data->files = NULL;
 	}
 
@@ -366,8 +367,10 @@ view_result_cb (GtkWidget  *widget,
 	catalog_set_path (catalog, catalog_path);
 	catalog_set_search_data (catalog, data->search_data);
 
-	for (scan = data->files; scan; scan = scan->next)
-		catalog_add_item (catalog, (gchar*) scan->data);
+	for (scan = data->files; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		catalog_add_item (catalog, fd->path);
+	}
 
 	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
@@ -398,8 +401,10 @@ save_result_cb (GtkWidget  *widget,
 	catalog = catalog_new ();
 	catalog_set_path (catalog, catalog_path);
 	catalog_set_search_data (catalog, data->search_data);
-	for (scan = data->files; scan; scan = scan->next)
-		catalog_add_item (catalog, (gchar*) scan->data);
+	for (scan = data->files; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		catalog_add_item (catalog, fd->path);
+	}
 
 	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
@@ -1005,7 +1010,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			unesc_uri = gnome_vfs_unescape_string (str_uri, "");
 
 			if (file_respects_search_criteria (data, unesc_uri))
-				files = g_list_prepend (files, str_uri);
+				files = g_list_prepend (files, file_data_new (str_uri, info));
 			else
 				g_free (str_uri);
 
@@ -1059,8 +1064,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				search_dir_async (data, dir);
 			g_free (dir);
 		} while (! good_dir_to_search_into);
-
-	} else if (result != GNOME_VFS_OK) {
+	} 
+	else if (result != GNOME_VFS_OK) {
 		char *path;
 
 		path = gnome_vfs_uri_to_string (data->uri,

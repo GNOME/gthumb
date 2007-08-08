@@ -34,27 +34,32 @@
 #include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
+#include "file-data.h"
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 
+typedef void (*CopyDoneFunc) (const char *, GnomeVFSResult, gpointer);
 
 /* Async directory list */
 
 typedef struct _PathListData PathListData;
-typedef void (*PathListDoneFunc) (PathListData *dld, gpointer data);
+typedef gboolean (*PathListFilterFunc) (PathListData *pld, GnomeVFSFileInfo *info, gpointer data);
+typedef void (*PathListDoneFunc) (PathListData *pld, gpointer data);
 
 struct _PathListData {
-	GnomeVFSURI      *uri;
-	GnomeVFSResult    result;
-	GList            *files;               /* char* items. */
-	GList            *dirs;                /* char* items. */
-	PathListDoneFunc  done_func;
-	gpointer          done_data;
-	DoneFunc          interrupt_func;
-	gpointer          interrupt_data;
-	gboolean          interrupted;
-	GHashTable       *hidden_files;
+	GnomeVFSURI        *uri;
+	GnomeVFSResult      result;
+	GList              *files;               /* char* items. */
+	GList              *dirs;                /* char* items. */
+	PathListFilterFunc  filter_func;
+	gpointer            filter_data;
+	PathListDoneFunc    done_func;
+	gpointer            done_data;
+	DoneFunc            interrupt_func;
+	gpointer            interrupt_data;
+	gboolean            interrupted;
+	GHashTable         *hidden_files;
 };
 
 typedef struct {
@@ -63,22 +68,25 @@ typedef struct {
 } PathListHandle;
 
 PathListData *      path_list_data_new            (void);
-void                path_list_data_free           (PathListData     *dli);
-void                path_list_handle_free         (PathListHandle   *handle);
-PathListHandle *    path_list_async_new           (const char       *uri,
-						   PathListDoneFunc  f,
-						   gpointer          data);
-void                path_list_async_interrupt     (PathListHandle   *handle,
-						   DoneFunc          f,
-						   gpointer          data);
-gboolean            path_list_new                 (const char       *path,
-						   GList           **files,
-						   GList           **dirs);
-GList *             path_list_dup                 (GList            *path_list);
-void                path_list_free                (GList            *list);
-void                path_list_print               (GList            *list);
-GList *             path_list_find_path           (GList            *list,
-						   const char       *path);
+void                path_list_data_free           (PathListData       *dli);
+void                path_list_handle_free         (PathListHandle     *handle);
+PathListHandle *    path_list_async_new           (const char         *uri,
+						   PathListFilterFunc  filter_func,
+		     				   gpointer            filter_data,
+		     				   gboolean            fast_file_type,
+						   PathListDoneFunc    done_func,
+						   gpointer            done_data);
+void                path_list_async_interrupt     (PathListHandle     *handle,
+						   DoneFunc            f,
+						   gpointer            data);
+gboolean            path_list_new                 (const char         *path,
+						   GList             **files,
+						   GList             **dirs);
+GList *             path_list_dup                 (GList              *path_list);
+void                path_list_free                (GList              *list);
+void                path_list_print               (GList              *list);
+GList *             path_list_find_path           (GList              *list,
+						   const char         *path);
 
 /* Directory utils */
 
@@ -120,6 +128,8 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from,
 						   const char       *to);
+gboolean            local_file_move               (const char       *from,
+						   const char       *to);
 GnomeVFSResult      file_rename                   (const char       *old_path,
 						   const char       *new_path);
 gboolean            file_unlink                   (const char       *path);
@@ -158,6 +168,7 @@ gboolean            uri_scheme_is_file            (const char       *uri);
 gboolean            uri_scheme_is_catalog         (const char       *uri);
 gboolean            uri_scheme_is_search          (const char       *uri);
 char *              get_uri_from_path             (const char       *path);
+char *              get_uri_from_local_path       (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
 char *              get_local_path_from_uri       (const char       *uri);
@@ -210,7 +221,7 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
-void		    remove_temp_file_and_dir      (char             *tmp_file);
+void		    remove_file_and_parent_folder (char             *tmp_file);
 
 
 /* VFS extensions */
@@ -222,7 +233,7 @@ GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,
 						   ...);
-GnomeVFSFileSize    get_dest_free_space           (const char       *path);
+GnomeVFSFileSize    get_destination_free_space    (const char       *path);
 const char *        get_mime_type                 (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
@@ -231,27 +242,40 @@ gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char       *filename);
-void	            prune_cache			  (const char       *dir,
-				                   int	 	     max_age_in_days);
+char *              get_cache_filename_from_uri   (const char       *uri);
+void	            prune_cache			  (void);
 char* 		    obtain_local_file             (const char       *remote_filename);
 gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
                                                    const char       *dest_uri);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
-GdkPixbuf*	    gth_pixbuf_new_from_uri	      (const char            *filename,
-						       GError 	            **error,
-				                       gint                   requested_width_if_used,
-				                       gint                   requested_height_if_used,
-				                       const char            *mime_type);
 
-GdkPixbufAnimation* gth_pixbuf_animation_new_from_uri (const char            *filename,
-						       GError               **error,
-						       gint                   requested_width_if_used,
-						       gint	              requested_height_if_used,
-						       GnomeThumbnailFactory *factory,
-						       const char            *mime_type);
+GdkPixbuf*	    gth_pixbuf_new_from_file	       (FileData               *file,
+			  				GError                **error,
+			  				int                     requested_width,
+			  				int                     requested_height,
+			  				GnomeThumbnailFactory  *factory);
+GdkPixbufAnimation* gth_pixbuf_animation_new_from_file (FileData              *file,
+						        GError               **error,
+						        int                    requested_width,
+						        int	               requested_height,
+						        GnomeThumbnailFactory *factory);
 
 char *              xdg_user_dir_lookup               (const char            *type);
 
+typedef struct _CopyData CopyData;
+
+void                copy_data_cancel                  (CopyData     *data);
+CopyData *          copy_file_async                   (const char   *source_uri,
+		 				       const char   *target_uri,
+		 				       CopyDoneFunc  done_func,
+		 				       gpointer      done_data);
+CopyData *          copy_remote_file_to_cache         (FileData     *file,
+						       CopyDoneFunc  done_func,
+						       gpointer      done_data);
+CopyData *          update_file_from_cache            (FileData     *file,
+						       CopyDoneFunc  done_func,
+						       gpointer      done_data);
+						       
 #endif /* FILE_UTILS_H */

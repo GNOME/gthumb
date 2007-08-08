@@ -54,19 +54,25 @@ typedef struct {
 } FileData;
 
 
-FileData *   file_data_new               (const char       *path,
-					  GnomeVFSFileInfo *info);
-void         file_data_ref               (FileData         *fd);
-void         file_data_unref             (FileData         *fd);
-void         file_data_set_path          (FileData         *fd,
-					  const char       *path);
-void         file_data_update            (FileData         *fd);
-void         file_data_load_comment_data (FileData         *fd);
-void         file_data_load_exif_data    (FileData         *fd);
-void         file_data_update_comment    (FileData         *fd);
-GList*       file_data_list_dup          (GList            *list);
-void         file_data_list_free         (GList            *list);
+FileData *   file_data_new                 (const char       *path,
+					    GnomeVFSFileInfo *info);
+FileData *   file_data_new_from_local_path (const char       *path);				   
+FileData *   file_data_dup                 (FileData         *fd);
+FileData *   file_data_ref                 (FileData         *fd);
+void         file_data_unref               (FileData         *fd);
+void         file_data_set_path            (FileData         *fd,
+					    const char       *path);
+void         file_data_update              (FileData         *fd);
+void         file_data_load_comment_data   (FileData         *fd);
+void         file_data_load_exif_data      (FileData         *fd);
+void         file_data_update_comment      (FileData         *fd);
 
-const char * file_data_local_path        (FileData         *fd);
+GList*       file_data_list_from_uri_list  (GList            *list);
+GList*       uri_list_from_file_data_list  (GList            *list);
+GList*       file_data_list_dup            (GList            *list);
+void         file_data_list_free           (GList            *list);
+GList*       file_data_list_find_path      (GList            *list,
+					    const char       *path);
+char *       file_data_local_path          (FileData         *fd);
 
 #endif /* FILE_DATA_H */

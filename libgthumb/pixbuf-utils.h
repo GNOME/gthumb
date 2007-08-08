@@ -29,48 +29,39 @@
 
 #include "typedefs.h"
 
-void        pixmap_from_xpm                   (const char **data, 
-					       GdkPixmap  **pixmap, 
-					       GdkBitmap  **mask);
-
-void       _gdk_pixbuf_vertical_gradient      (GdkPixbuf *pixbuf, 
-					       guint32    color1,
-					       guint32    color2);
-
-void       _gdk_pixbuf_horizontal_gradient    (GdkPixbuf *pixbuf, 
-					       guint32    color1,
-					       guint32    color2);
-
-void       _gdk_pixbuf_hv_gradient            (GdkPixbuf *pixbuf, 
-					       guint32    hcolor1,
-					       guint32    hcolor2,
-					       guint32    vcolor1,
-					       guint32    vcolor2);
-
-GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf* src, 
-					       GthTransform transform);
-
+void        pixmap_from_xpm                   (const char     **data, 
+					       GdkPixmap      **pixmap, 
+					       GdkBitmap      **mask);
+void       _gdk_pixbuf_vertical_gradient      (GdkPixbuf       *pixbuf, 
+					       guint32          color1,
+					       guint32          color2);
+void       _gdk_pixbuf_horizontal_gradient    (GdkPixbuf       *pixbuf, 
+					       guint32          color1,
+					       guint32          color2);
+void       _gdk_pixbuf_hv_gradient            (GdkPixbuf       *pixbuf, 
+					       guint32          hcolor1,
+					       guint32          hcolor2,
+					       guint32          vcolor1,
+					       guint32          vcolor2);
+GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf       *src, 
+					       GthTransform     transform);
 gboolean   _gdk_pixbuf_save                   (GdkPixbuf       *pixbuf,
 					       const char      *filename,
 					       const char      *type,
 					       GError         **error,
 					       ...);
-
-gboolean   _gdk_pixbuf_savev                  (GdkPixbuf    *pixbuf,
-					       const char   *filename,
-					       const char   *type,
-					       char        **keys,
-					       char        **values,
-					       GError      **error);
-
-gboolean   scale_keepping_ratio               (int *width,
-					       int *height,
-					       int  max_width,
-					       int  max_height);
-
-GdkPixbuf* create_void_pixbuf                 (int width,
-					       int height);
-
+gboolean   _gdk_pixbuf_savev                  (GdkPixbuf       *pixbuf,
+					       const char      *filename,
+					       const char      *type,
+					       char           **keys,
+					       char           **values,
+					       GError         **error);
+gboolean   scale_keepping_ratio               (int             *width,
+					       int             *height,
+					       int              max_width,
+					       int              max_height);
+GdkPixbuf* create_void_pixbuf                 (int              width,
+					       int              height);
 GdkPixbuf* _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,
                                                int              dest_width,
                                                int              dest_height,

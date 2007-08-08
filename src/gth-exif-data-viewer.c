@@ -316,7 +316,7 @@ enum {
 
 struct _GthExifDataViewerPrivate
 {
-	char                *path;
+	FileData            *file;
 	gboolean             view_file_info;
 	GtkWidget           *scrolled_win;
 	GtkWidget           *image_exif_view;
@@ -337,8 +337,8 @@ gth_exif_data_viewer_destroy (GtkObject *object)
 	edv = GTH_EXIF_DATA_VIEWER (object);
 
 	if (edv->priv != NULL) {
-		g_free (edv->priv->path);
-		edv->priv->path = NULL;
+		file_data_unref (edv->priv->file);
+		edv->priv->file = NULL;
 		g_free (edv->priv);
 		edv->priv = NULL;
 	}
@@ -431,7 +431,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 
 
 GType
-gth_exif_data_viewer_get_type ()
+gth_exif_data_viewer_get_type (void)
 {
 	static GType type = 0;
 
@@ -620,11 +620,11 @@ update_exif_data (GthExifDataViewer *edv,
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
 
-	if (edv->priv->path == NULL)
+	if (edv->priv->file == NULL)
 		return;
-
-	if (edata == NULL)
-		edata = gth_exif_data_new_from_uri (edv->priv->path);
+ 
+	if (edata == NULL) 
+		edata = gth_exif_data_new_from_uri (edv->priv->file->path);
 	else
 		exif_data_ref (edata);
 
@@ -767,37 +767,34 @@ update_file_info (GthExifDataViewer *edv)
 	time_t             mtime;
 	struct tm         *tm;
 	char               time_txt[50], *utf8_time_txt;
-	double             sec;
-	GnomeVFSFileSize   file_size;
 	char              *file_size_txt;
 	const char	  *mime_type;
 
 	if (edv->priv->viewer == NULL)
 		return;
 
-	utf8_name = basename_for_display (edv->priv->path);
-	utf8_fullname = gnome_vfs_unescape_string_for_display (edv->priv->path);
+	utf8_name = basename_for_display (edv->priv->file->path);
+	utf8_fullname = gnome_vfs_unescape_string_for_display (edv->priv->file->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
 		height = image_viewer_get_image_height (edv->priv->viewer);
-	} else {
+	} 
+	else {
 		width = 0;
 		height = 0;
 	}
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
 
-	mtime = get_file_mtime (edv->priv->path);
+	mtime = edv->priv->file->mtime;
 	tm = localtime (&mtime);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-	sec = g_timer_elapsed (image_loader_get_timer (edv->priv->viewer->loader),  NULL);
 
-	file_size = get_file_size (edv->priv->path);
-	file_size_txt = gnome_vfs_format_file_size_for_display (file_size);
+	file_size_txt = gnome_vfs_format_file_size_for_display (edv->priv->file->size);
 
-	mime_type = get_file_mime_type (edv->priv->path,
-					eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	mime_type = edv->priv->file->mime_type;
+	
 	/**/
 
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
@@ -826,27 +823,27 @@ gth_exif_data_viewer_view_file_info (GthExifDataViewer *edv,
 
 
 static void
-set_path (GthExifDataViewer *edv,
-	  const char        *path)
+set_file_data (GthExifDataViewer *edv,
+	       FileData          *fd)
 {
 	g_return_if_fail (edv != NULL);
 
-	g_free (edv->priv->path);
-	edv->priv->path = NULL;
-	if (path != NULL)
-		edv->priv->path = g_strdup (path);
+	file_data_unref (edv->priv->file);
+	edv->priv->file = NULL;
+	if (fd != NULL)
+		edv->priv->file = file_data_ref (fd);
 }
 
 
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     ImageViewer       *viewer,
-			     const char        *path,
+			     FileData          *file_data,
 			     gpointer           exif_data)
 {
 	int i;
 
-	set_path (edv, path);
+	set_file_data (edv, file_data);
 
 	if (viewer != NULL)
 		edv->priv->viewer = viewer;
@@ -858,12 +855,11 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		}
 	gtk_tree_store_clear (edv->priv->image_exif_model);
 
-	if (path == NULL)
+	if (file_data == NULL)
 		return;
 
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
-
 	update_exif_data (edv, exif_data);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));

@@ -54,7 +54,7 @@ char **  _g_utf8_strsplit           (const char  *str,
 				     gunichar     delimiter);
 char *   _g_utf8_strstrip           (const char  *str);
 gboolean _g_utf8_all_spaces         (const char  *utf8_string);
-int      strcmp_null_tolerant      (const char  *s1, const char *s2);
+int      strcmp_null_tolerant       (const char  *s1, const char *s2);
 GList *  _g_list_insert_list_before (GList       *list1,
 				     GList       *sibling,
 				     GList       *list2);
@@ -85,13 +85,11 @@ guint     idle_call_exec (IdleCall *call,
 
 #define DEBUG_INFO __FILE__, __LINE__, __FUNCTION__
 
-void     debug                     (const char *file,
-				    int         line,
-				    const char *function,
-				    const char *format, ...);
-
-
-GList *  get_file_list_from_url_list (char *url_list);
-
+void     debug                        (const char *file,
+				       int         line,
+				       const char *function,
+				       const char *format, ...);
+GList *  get_file_list_from_url_list  (char       *url_list);
+const char * get_static_string (const char *s);
 
 #endif /* _GLIB_UTILS_H */

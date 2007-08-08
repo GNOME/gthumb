@@ -42,7 +42,6 @@
 #include "image-loader.h"
 #include "pixbuf-utils.h"
 #include "file-utils.h"
-#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gthumb-marshal.h"
 
@@ -55,32 +54,24 @@
 
 struct _ThumbLoaderPrivateData
 {
-	ImageLoader *il;
-
+	FileData              *file;
+	ImageLoader           *il;
 	GnomeThumbnailFactory *thumb_factory;
-
-	GdkPixbuf *pixbuf;	   /* Contains final (scaled if necessary)
-				    * image when done */
-
-	char *uri;
-	const char *mime_type;
-	time_t mtime;
-
-	gboolean use_cache : 1;
-	gboolean from_cache : 1;
-
-	float percent_done;
-
-	int max_w;
-	int max_h;
-
-	int cache_max_w;
-	int cache_max_h;
-
-	GnomeVFSFileSize max_file_size;    /* If the file size is greater
-					    * than this the thumbnail will
-					    * not be created, for
-					    * functionality reasons. */
+	GdkPixbuf             *pixbuf;	   	 /* Contains the final (scaled
+						  * if necessary) image when 
+						  * done. */
+	gboolean               use_cache : 1;
+	gboolean               from_cache : 1;
+	gboolean               save_thumbnails : 1;
+	float                  percent_done;
+	int                    max_w;
+	int                    max_h;
+	int                    cache_max_w;
+	int                    cache_max_h;
+	GnomeVFSFileSize       max_file_size;    /* If the file size is greater
+					    	  * than this the thumbnail 
+					    	  * will not be created, for
+					    	  * functionality reasons. */
 };
 
 
@@ -129,7 +120,7 @@ thumb_loader_finalize (GObject *object)
 
 	g_object_unref (G_OBJECT (priv->il));
 
-	g_free (priv->uri);
+	file_data_unref (priv->file);
 
 	g_free (priv);
 	tl->priv = NULL;
@@ -191,13 +182,13 @@ thumb_loader_init (ThumbLoader *tl)
 	priv = tl->priv;
 
 	priv->thumb_factory = NULL;
-	priv->uri = NULL;
+	priv->file = NULL;
 	priv->pixbuf = NULL;
 	priv->use_cache = TRUE;
+	priv->save_thumbnails = TRUE;
 	priv->from_cache = FALSE;
 	priv->percent_done = 0.0;
 	priv->max_file_size = 0;
-	priv->mtime = 0;
 }
 
 
@@ -230,26 +221,24 @@ thumb_loader_get_type (void)
 
 
 static GdkPixbufAnimation*
-thumb_loader (const char  *path,
-	      const char  *mime_type,
-	      GError     **error,
-	      gpointer     data)
+thumb_loader (FileData               *file,
+	      GError                **error,
+	      GnomeThumbnailFactory  *thumb_factory,
+	      gpointer                data)
 {
 	ThumbLoader *tl = data;
 
-	return gth_pixbuf_animation_new_from_uri (path,
-						  error,
-						  tl->priv->cache_max_w,
-						  tl->priv->cache_max_h,
-						  tl->priv->thumb_factory,
-						  mime_type);
+	return gth_pixbuf_animation_new_from_file (file,
+						   error,
+						   tl->priv->cache_max_w,
+						   tl->priv->cache_max_h,
+						   tl->priv->thumb_factory);
 }
 
 
 GObject*
-thumb_loader_new (const char *path,
-		  int         width,
-		  int         height)
+thumb_loader_new (int width,
+		  int height)
 {
 	ThumbLoaderPrivateData *priv;
 	ThumbLoader *tl;
@@ -259,12 +248,7 @@ thumb_loader_new (const char *path,
 
 	thumb_loader_set_thumb_size (tl, width, height);
 
-	if (path != NULL)
-		thumb_loader_set_path (tl, path, NULL);
-	else
-		priv->uri = NULL;
-
-	priv->il = IMAGE_LOADER (image_loader_new (path, FALSE));
+	priv->il = IMAGE_LOADER (image_loader_new (FALSE));
 	image_loader_set_loader (priv->il, thumb_loader, tl);
 	g_signal_connect (G_OBJECT (priv->il),
 			  "image_done",
@@ -307,12 +291,17 @@ void
 thumb_loader_use_cache (ThumbLoader *tl,
 			gboolean use)
 {
-	ThumbLoaderPrivateData *priv;
-
 	g_return_if_fail (tl != NULL);
+	tl->priv->use_cache = use;
+}
 
-	priv = tl->priv;
-	priv->use_cache = use;
+
+void
+thumb_loader_save_thumbnails (ThumbLoader *tl,
+			      gboolean     save)
+{
+	g_return_if_fail (tl != NULL);
+	tl->priv->save_thumbnails = save;
 }
 
 
@@ -320,32 +309,50 @@ void
 thumb_loader_set_max_file_size (ThumbLoader      *tl,
 				GnomeVFSFileSize  size)
 {
-	ThumbLoaderPrivateData *priv;
+	g_return_if_fail (tl != NULL);
+	tl->priv->max_file_size = size;
+}
 
+
+void
+thumb_loader_set_file (ThumbLoader *tl,
+		       FileData    *fd)
+{
 	g_return_if_fail (tl != NULL);
 
-	priv = tl->priv;
-	priv->max_file_size = size;
+	file_data_unref (tl->priv->file);
+	tl->priv->file = NULL;
+	
+	if (fd != NULL) {
+		tl->priv->file = file_data_dup (fd);
+		if (is_local_file (tl->priv->file->path)) {
+			char *resolved_path = NULL;
+			if (resolve_all_symlinks (tl->priv->file->path, &resolved_path) == GNOME_VFS_OK) 
+				tl->priv->file->path = g_strdup (resolved_path);
+			else {
+				file_data_unref (tl->priv->file);
+				tl->priv->file = NULL;
+			}
+			g_free (resolved_path);
+		}
+	}
+	
+	image_loader_set_file (tl->priv->il, tl->priv->file);
 }
 
 
 void
 thumb_loader_set_path (ThumbLoader *tl,
-		       const char  *path,
-		       const char  *mime_type)
+		       const char  *path)
 {
+	FileData *fd;
+	
 	g_return_if_fail (tl != NULL);
 	g_return_if_fail (path != NULL);
 
-	g_free (tl->priv->uri);
-
-	tl->priv->uri = get_uri_from_path (path);
-
-	if (mime_type == NULL)
-		mime_type = get_file_mime_type (path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
-	tl->priv->mime_type = mime_type;
-
-	image_loader_set_path (tl->priv->il, tl->priv->uri, tl->priv->mime_type);
+	fd = file_data_new (path, NULL);
+	file_data_update (fd);
+	thumb_loader_set_file (tl, fd);
 }
 
 
@@ -360,28 +367,27 @@ thumb_loader_get_pixbuf (ThumbLoader *tl)
 static void
 thumb_loader_start__step2 (ThumbLoader *tl)
 {
-	ThumbLoaderPrivateData *priv;
 	char *cache_path = NULL;
 
 	g_return_if_fail (tl != NULL);
-
-	priv = tl->priv;
-
-	g_return_if_fail (priv->uri != NULL);
 	
-	priv->mtime = get_file_mtime (priv->uri);
-
-	if (priv->use_cache) {
-		
-		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory,
-							     priv->uri,
-							     priv->mtime);
+	if (tl->priv->file == NULL) {
+		g_signal_emit (G_OBJECT (tl),
+			       thumb_loader_signals[THUMB_ERROR],
+			       0);
+		return;
+	}
+	
+	if (tl->priv->use_cache) {
+		cache_path = gnome_thumbnail_factory_lookup (tl->priv->thumb_factory,
+							     tl->priv->file->path,
+							     tl->priv->file->mtime);
 
 		if ((cache_path == NULL) &&
-		    ((time (NULL) - priv->mtime) > (time_t) 5) &&
-		    gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory,
-									priv->uri,
-									priv->mtime)) {
+		    ((time (NULL) - tl->priv->file->mtime) > (time_t) 5) &&
+		    gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
+									tl->priv->file->path,
+									tl->priv->file->mtime)) {
 			/* Use the existing "failed" thumbnail, if it is over
 			   5 seconds old. Otherwise, try to thumbnail it again. 
 			   The minimum age requirement addresses bug 432759, 
@@ -395,21 +401,20 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	}
 
 	if (cache_path != NULL) {
-		priv->from_cache = TRUE;
-		image_loader_set_path (priv->il, cache_path, "image/png");
+		tl->priv->from_cache = TRUE;
+		image_loader_set_path (tl->priv->il, cache_path, "image/png");
 		g_free (cache_path);
-
-	} else {
-		priv->from_cache = FALSE;
-		image_loader_set_path (priv->il, priv->uri, priv->mime_type);
+	} 
+	else {
+		tl->priv->from_cache = FALSE;
+		image_loader_set_file (tl->priv->il, tl->priv->file);
 
 		/* Check file dimensions. */
 
-		if ((priv->max_file_size != 0)
-		    && get_file_size (priv->uri) > priv->max_file_size) {
-			if (priv->pixbuf != NULL) {
-				g_object_unref (priv->pixbuf);
-				priv->pixbuf = NULL;
+		if ((tl->priv->max_file_size > 0) && (tl->priv->file->size > tl->priv->max_file_size)) {
+			if (tl->priv->pixbuf != NULL) {
+				g_object_unref (tl->priv->pixbuf);
+				tl->priv->pixbuf = NULL;
 			}
 			g_signal_emit (G_OBJECT (tl),
 				       thumb_loader_signals[THUMB_DONE],
@@ -418,8 +423,9 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 		}
 	}
 
-	image_loader_start (priv->il);
+	image_loader_start (tl->priv->il);
 }
+
 
 void
 thumb_loader_start (ThumbLoader *tl)
@@ -462,15 +468,15 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if (priv->pixbuf == NULL)
 		return FALSE;
 
-	cache_path = gnome_thumbnail_path_for_uri (priv->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+	cache_path = gnome_thumbnail_path_for_uri (priv->file->path, GNOME_THUMBNAIL_SIZE_NORMAL);
 	cache_dir = remove_level_from_path (cache_path);
 	g_free (cache_path);
 
 	if (cache_dir == NULL)
 		return FALSE;
 
-	if (is_local_file (priv->uri)) {
-		uri_path = gnome_vfs_get_local_path_from_uri (priv->uri);
+	if (is_local_file (priv->file->path)) {
+		uri_path = gnome_vfs_get_local_path_from_uri (priv->file->path);
 		uri_dir = remove_level_from_path (uri_path);
 		g_free (uri_path);
 
@@ -486,8 +492,8 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))
 		gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
 							priv->pixbuf,
-							priv->uri,
-							priv->mtime);
+							priv->file->path,
+							priv->file->mtime);
 
 	g_free (cache_dir);
 
@@ -514,8 +520,8 @@ thumb_loader_done_cb (ImageLoader *il,
 
 	if (pixbuf == NULL) {
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
-								 priv->uri,
-								 priv->mtime);
+								 priv->file->path,
+								 priv->file->mtime);
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 		return;
 	}
@@ -543,8 +549,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		}
 
 		/* Save the thumbnail if necessary. */
-		if (! priv->from_cache
-		    && eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE))
+		if (! priv->from_cache && priv->save_thumbnails)
 			thumb_loader_save_to_cache (tl);
 
 		/* Scale if the user wants a different size. */
@@ -592,8 +597,8 @@ thumb_loader_error_cb (ImageLoader *il,
 		}
 
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
-								 priv->uri,
-								 priv->mtime);
+								 priv->file->path,
+								 priv->file->mtime);
 
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 
@@ -601,10 +606,11 @@ thumb_loader_error_cb (ImageLoader *il,
 	}
 
 	/* Try from the original if cache load attempt failed. */
+	
 	priv->from_cache = FALSE;
 	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
-	image_loader_set_path (priv->il, priv->uri, priv->mime_type);
+	image_loader_set_file (priv->il, priv->file);
 	image_loader_start (priv->il);
 }
 
