@@ -23,8 +23,6 @@
 
 #include <config.h>
 
-#define HAVE_LIBGPHOTO 1 /* FIXME: remove this line */
-
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>

@@ -942,20 +942,20 @@ mime_type_is (const char *mime_type,
 
 
 gboolean
-image_is_type (const char *name,
+image_is_type (const char *uri,
 	       const char *type,
 	       gboolean    fast_file_type)
 {
-	const char *result = get_file_mime_type (name, fast_file_type);
+	const char *result = get_file_mime_type (uri, fast_file_type);
 	return (strcmp_null_tolerant (result, type) == 0);
 }
 
 
 static gboolean
-image_is_type__gconf_file_type (const char *name,
-			       const char *type)
+image_is_type__gconf_file_type (const char *uri,
+			        const char *type)
 {
-	return image_is_type (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	return image_is_type (uri, type, ! is_local_file (uri) || eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 }
 
 
@@ -1080,17 +1080,17 @@ path_is_dir (const char *path)
 
 
 GnomeVFSFileSize
-get_file_size (const char *path)
+get_file_size (const char *uri)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    result;
 	GnomeVFSFileSize  size;
 
-	if (! path || ! *path)
+	if (! uri || ! *uri)
 		return 0;
 
 	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
+	result = gnome_vfs_get_file_info (uri,
 					  info,
 					  (GNOME_VFS_FILE_INFO_DEFAULT
 					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
@@ -2541,7 +2541,7 @@ get_cache_filename_from_uri (const char *uri)
 
 
 char *
-get_cache_uri (const char *uri)
+get_cache_uri_from_uri (const char *uri)
 {
 	char *filename;
 	char *cache_uri;
@@ -2592,6 +2592,7 @@ get_space_used_in_kb (const char *path)
 
         return space_used;
 }
+
 
 #define MAX_CACHE_SIZE_IN_KB	(256 * 1024)
 
@@ -2957,7 +2958,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 							      requested_height);
 
 	/* Otherwise, use standard gdk_pixbuf loaders */
-	if (pixbuf == NULL && (requested_width > 0)) {
+	if ((pixbuf == NULL) && (requested_width > 0)) {
 		int w, h;
 		
 		if (gdk_pixbuf_get_file_info (local_file, &w, &h) == NULL) {
@@ -3333,7 +3334,7 @@ copy_remote_file_to_cache (FileData     *file,
 	CopyData *copy_data = NULL;
 	char     *cache_uri;
 	
-	cache_uri = get_cache_uri (file->path);
+	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
 		g_idle_add (copy_file_async_done, copy_data);
@@ -3354,7 +3355,7 @@ update_file_from_cache (FileData     *file,
 	CopyData *copy_data = NULL;	
 	char     *cache_uri;
 	
-	cache_uri = get_cache_uri (file->path);
+	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
 		g_idle_add (copy_file_async_done, copy_data);

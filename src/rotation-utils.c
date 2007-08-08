@@ -118,7 +118,7 @@ apply_transformation_jpeg (GtkWindow     *win,
 	char                 *tmp_dir;
 	char                 *tmp_output_file;
 	JXFORM_CODE           transf;
-	jpeg_mcu_dialog_data  userdata = { file, win };
+	jpeg_mcu_dialog_data *userdata;
 	char		     *local_file;
 	GnomeVFSFileInfo     *info = NULL;
 
@@ -181,10 +181,14 @@ apply_transformation_jpeg (GtkWindow     *win,
 		break;
 	}
 
+	userdata = g_new0 (jpeg_mcu_dialog_data, 1);
+	userdata->file = file;
+	userdata->parent = win;
+
 	if (jpegtran (local_file, 
 		      tmp_output_file, 
 		      transf, 
-		      (jpegtran_mcu_callback) jpeg_mcu_dialog, &userdata, 
+		      (jpegtran_mcu_callback) jpeg_mcu_dialog, userdata, 
 		      error) != 0) 
 	{
 		result = FALSE;
@@ -213,6 +217,7 @@ apply_transformation_jpeg (GtkWindow     *win,
 */
 
 apply_transformation_jpeg__free_and_close:
+	g_free (userdata);
 	remove_file_and_parent_folder (tmp_output_file);
 	g_free (tmp_output_file);
 

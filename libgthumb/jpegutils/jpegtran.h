@@ -44,6 +44,6 @@ int jpegtran (const char *input_filename,
 		void *userdata,
 		GError **error);
 
-void update_exif_orientation (ExifData *edata);
+void set_exif_orientation_to_top_left (ExifData *edata);
 
 #endif /* JPEGTRAN_H */

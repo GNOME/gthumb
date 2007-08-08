@@ -216,7 +216,7 @@ comments_get_comment_filename (const char *source,
 	char *filename = NULL;
 	char *path = NULL;
 
-	if (source == NULL)
+	if ((source == NULL) || ! is_local_file (source))
 		return NULL;
 
 	source_real = g_strdup (source);
@@ -230,7 +230,8 @@ comments_get_comment_filename (const char *source,
 		if (result == GNOME_VFS_OK) {
 			g_free (source_real);
 			source_real = resolved;
-		} else
+		} 
+		else
 			g_free (resolved);
 	}
 
@@ -251,7 +252,7 @@ comments_get_comment_filename (const char *source,
 
 
 static CommentData *
-load_comment_from_iptc (const char *filename)
+load_comment_from_iptc (const char *uri)
 {
 	CommentData *data;
 	IptcData    *d;
@@ -260,22 +261,18 @@ load_comment_from_iptc (const char *filename)
 	int          got_date = 0, got_time = 0;
         char        *local_file = NULL;
 
-	if (filename == NULL)
+	if (uri == NULL)
 		return NULL;
 
-        /* libiptcdata does not support VFS URIs directly, so make a temporary local
-           copy of remote comment files. */
-
-        local_file = obtain_local_file (filename);
-
+        local_file = get_cache_filename_from_uri (uri);
         if (local_file == NULL)
                 return NULL;
 
 	d = iptc_data_new_from_jpeg (local_file);
-	if (!d) {
-                g_free (local_file);
+	g_free (local_file);
+	
+	if (d == NULL) 
 		return NULL;
-	}
 
 	data = comment_data_new ();
 
@@ -327,8 +324,6 @@ load_comment_from_iptc (const char *filename)
 		data->time = mktime (&t);
 
 	data->iptc_data = d;
-
-	g_free (local_file);
 
 	return data;
 }
@@ -442,36 +437,28 @@ abort1:
 
 
 static void
-save_comment_iptc (const char  *filename,
+save_comment_iptc (const char  *uri,
 		   CommentData *data)
 {
+        char        *local_file;
+        char        *local_uri;
+	time_t       mtime;
 	IptcData    *d;
 	IptcDataSet *ds;
-	time_t       mtime;
 	int          i;
-        gboolean     is_local;
-        char        *local_file_to_modify = NULL;
 
-        is_local = is_local_file (filename);
-
-	/* If the original file is stored on a remote VFS location, copy it to a local
-           temp file, modify it, then copy it back. This is easier than modifying the
-           underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file_to_modify = obtain_local_file (filename);
-
-        if (local_file_to_modify == NULL)
+	local_file = get_cache_filename_from_uri (uri);
+        if (local_file == NULL)
                 return;
+	local_uri = get_uri_from_local_path (local_file);
+	mtime = get_file_mtime (local_uri);
 
-	mtime = get_file_mtime (local_file_to_modify);
-
-	d = iptc_data_new_from_jpeg (local_file_to_modify);
-	if (d) {
+	d = iptc_data_new_from_jpeg (local_file);
+	if (d != NULL) 
 		clear_iptc_comment (d);
-	}
 	else {
 		d = iptc_data_new ();
-		if (!d)
+		if (d == NULL)
 			return;
 	}
 
@@ -480,7 +467,7 @@ save_comment_iptc (const char  *filename,
 		localtime_r (&data->time, &t);
 
 		ds = iptc_dataset_new ();
-		if (ds) {
+		if (ds != NULL) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					IPTC_TAG_DATE_CREATED);
 			iptc_dataset_set_date (ds, t.tm_year + 1900, t.tm_mon + 1,
@@ -490,7 +477,7 @@ save_comment_iptc (const char  *filename,
 		}
 
 		ds = iptc_dataset_new ();
-		if (ds) {
+		if (ds != NULL) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					IPTC_TAG_TIME_CREATED);
 			iptc_dataset_set_time (ds, t.tm_hour, t.tm_min, t.tm_sec,
@@ -502,7 +489,7 @@ save_comment_iptc (const char  *filename,
 
 	for (i = 0; i < data->keywords_n; i++) {
 		ds = iptc_dataset_new ();
-		if (ds) {
+		if (ds != NULL) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					      IPTC_TAG_KEYWORDS);
 			iptc_dataset_set_data (ds, (guchar*)data->keywords[i],
@@ -514,7 +501,7 @@ save_comment_iptc (const char  *filename,
 
 	if (data->comment != NULL && data->comment[0]) {
 		ds = iptc_dataset_new ();
-		if (ds) {
+		if (ds != NULL) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					IPTC_TAG_CAPTION);
 			iptc_dataset_set_data (ds, (guchar*)data->comment,
@@ -526,7 +513,7 @@ save_comment_iptc (const char  *filename,
 
 	if (data->place != NULL && data->place[0]) {
 		ds = iptc_dataset_new ();
-		if (ds) {
+		if (ds != NULL) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					      IPTC_TAG_CONTENT_LOC_NAME);
 			iptc_dataset_set_data (ds, (guchar*)data->place,
@@ -546,34 +533,40 @@ save_comment_iptc (const char  *filename,
 
 	iptc_data_sort (d);
 
-	save_iptc_data (local_file_to_modify, d);
-	set_file_mtime (local_file_to_modify, mtime);
+	save_iptc_data (local_file, d);
+	set_file_mtime (local_uri, mtime);
 	iptc_data_unref (d);
 
-        if (!is_local)
-                copy_cache_file_to_remote_uri (local_file_to_modify, filename);
-
-        g_free (local_file_to_modify);
+        g_free (local_file);
+        g_free (local_uri);
 }
 
 
 static void
-delete_comment_iptc (const char  *filename)
+delete_comment_iptc (const char *uri)
 {
 	IptcData *d;
 	time_t    mtime;
+	char     *local_file;
+
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
 
 	mtime = get_file_mtime (filename);
 
-	d = iptc_data_new_from_jpeg (filename);
-	if (!d)
+	local_file = get_cache_filename_from_uri (uri);
+	d = iptc_data_new_from_jpeg (local_file);
+	if (d == NULL) {
+		g_free (local_file);
 		return;
+	}
 
 	clear_iptc_comment (d);
-	save_iptc_data (filename, d);
-	set_file_mtime (filename, mtime);
-
+	save_iptc_data (local_file, d);
 	iptc_data_unref (d);
+	g_free (local_file);
+	
+	set_file_mtime (uri, mtime);
 }
 
 
@@ -629,17 +622,20 @@ comment_move (const char *src,
 
 
 void
-comment_delete (const char *filename)
+comment_delete (const char *uri)
 {
-	char *comment_name;
+	char *comment_uri;
 
-	comment_name = comments_get_comment_filename (filename, TRUE);
-	file_unlink (comment_name);
-	g_free (comment_name);
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
+
+	comment_uri = comments_get_comment_filename (uri, TRUE);
+	file_unlink (comment_uri);
+	g_free (comment_uri);
 
 #ifdef HAVE_LIBIPTCDATA
-	if (image_is_jpeg (filename))
-		delete_comment_iptc (filename);
+	if (image_is_jpeg (uri))
+		delete_comment_iptc (uri);
 #endif /* HAVE_LIBIPTCDATA */
 }
 
@@ -712,54 +708,37 @@ get_keywords (CommentData *data,
 
 
 static CommentData *
-load_comment_from_xml (const char *filename)
+load_comment_from_xml (const char *uri)
 {
 	CommentData *data;
-	char        *comment_file;
-	char	    *local_comment_file = NULL;
+	char        *comment_uri;
+	char	    *local_file = NULL;
 	xmlDocPtr    doc;
         xmlNodePtr   root, node;
         xmlChar     *value;
 	xmlChar     *format;
 
-	if (filename == NULL)
+	if (uri == NULL)
 		return NULL;
 
-	comment_file = comments_get_comment_filename (filename, TRUE);
-	if (! path_is_file (comment_file)) {
-		g_free (comment_file);
+	comment_uri = comments_get_comment_filename (uri, TRUE);
+	local_file = get_cache_filename_from_uri (comment_uri);
+        doc = xmlParseFile (local_file);
+
+	g_free (comment_uri);
+        g_free (local_file);
+        
+	if (doc == NULL) 
 		return NULL;
-	}
-
-	/* libxml2 does not support VFS URIs directly, so make a temporary local
-	   copy of remote comment files. */
-
-        local_comment_file = obtain_local_file (comment_file);
-
-        if (local_comment_file == NULL) {
-		g_free (comment_file);
-                return NULL;
-        }
-
-        doc = xmlParseFile (local_comment_file);
-	if (doc == NULL) {
-		g_free (comment_file);
-		g_free (local_comment_file);
-		return NULL;
-	}
-
+	
 	data = comment_data_new ();
-
         root = xmlDocGetRootElement (doc);
-        node = root->xmlChildrenNode;
-
 	format = xmlGetProp (root, FORMAT_TAG);
 	if (strcmp ((char*)format, "1.0") == 0)
 		data->utf8_format = FALSE;
 	else
 		data->utf8_format = TRUE;
-
-	for (; node; node = node->next) {
+	for (node = root->xmlChildrenNode; node; node = node->next) {
 		const char *name = (char*) node->name;
 
                 value = xmlNodeListGetString (doc, node->xmlChildrenNode, 1);
@@ -780,53 +759,38 @@ load_comment_from_xml (const char *filename)
         }
 
 	xmlFree (format);
-
         xmlFreeDoc (doc);
-	g_free (comment_file);
-        g_free (local_comment_file);
 
 	return data;
 }
 
 
 void
-save_comment (const char  *filename,
+save_comment (const char  *uri,
 	      CommentData *data,
 	      gboolean     save_embedded)
 {
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
-	char        *comment_file = NULL;
-	char        *remote_comment_file = NULL;
+	char        *comment_uri = NULL;
+        char        *local_file = NULL;
 	char        *time_str = NULL;
 	char        *keywords_str = NULL;
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
-        gboolean     is_local;
-        char        *local_file = NULL;
 
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
 
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
-			save_comment_iptc (filename, data);
+		if (image_is_jpeg (uri))
+			save_comment_iptc (uri, data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
 
-
-        is_local = is_local_file (filename);
-
-        /* If the original file is stored on a remote VFS location, copy it to a local
-           temp file, modify it, then copy it back. This is easier than modifying the
-           underlying jpeg code (and other code) to handle VFS URIs. */
-
-        local_file = obtain_local_file (filename);
-
-        if (local_file == NULL)
-                return;
-
 	if (comment_data_is_void (data)) {
-		comment_delete (filename);
+		comment_delete (uri);
 		return;
 	}
 
@@ -838,7 +802,8 @@ save_comment (const char  *filename,
 			keywords_str = g_strdup (data->keywords[0]);
 		else
 			keywords_str = g_strjoinv (",", data->keywords);
-	} else
+	} 
+	else
 		keywords_str = g_strdup ("");
 
 	/* Escape text */
@@ -873,44 +838,37 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (local_file, TRUE);
-
-	dest_dir = remove_level_from_path (comment_file);
-
+	comment_uri = comments_get_comment_filename (uri, TRUE);
+        local_file = get_cache_filename_from_uri (comment_uri);
+	dest_dir = remove_level_from_path (comment_uri);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);
-		xmlSaveFile (comment_file, doc);
+		xmlSaveFile (local_file, doc);
 	}
+	
 	g_free (dest_dir);
-
-	if (!is_local) {
-		remote_comment_file = comments_get_comment_filename (filename, TRUE);
-		copy_cache_file_to_remote_uri (comment_file, remote_comment_file);
-		g_free (remote_comment_file);
-	}
-
-	g_free (comment_file);
+	g_free (comment_uri);
 	g_free (local_file);
-
         xmlFreeDoc (doc);
 }
 
 
 CommentData *
-comments_load_comment (const char *filename,
+comments_load_comment (const char *uri,
 		       gboolean    try_embedded)
 {
-	CommentData *xml_comment = NULL, *img_comment = NULL;
+	CommentData *xml_comment = NULL;
+	CommentData *img_comment = NULL;
 
-	if (filename == NULL)
+	if ((uri == NULL) || ! is_local_file (uri))
 		return NULL;
 
-	xml_comment = load_comment_from_xml (filename);
+	xml_comment = load_comment_from_xml (uri);
 
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
-			img_comment = load_comment_from_iptc (filename);
+		if (image_is_jpeg (uri))
+			img_comment = load_comment_from_iptc (uri);
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();
@@ -923,11 +881,12 @@ comments_load_comment (const char *filename,
 		    && (! comment_data_equal (xml_comment, img_comment))) {
 			/* Consider the image comment more up-to-date and
 			 * sync the xml comment with it. */
-			save_comment (filename, img_comment, FALSE);
+			save_comment (uri, img_comment, FALSE);
 			comment_data_free (xml_comment);
 			xml_comment = img_comment;
 			xml_comment->changed = TRUE;
-		} else
+		} 
+		else
 			comment_data_free (img_comment);
 	}
 
@@ -936,23 +895,27 @@ comments_load_comment (const char *filename,
 
 
 void
-comments_save_comment (const char  *filename,
+comments_save_comment (const char  *uri,
 		       CommentData *data)
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename, FALSE);
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
 
+	new_data = comments_load_comment (uri, FALSE);
+	
 	if ((new_data == NULL) && (data != NULL)) {
 		CommentData *data_without_categories;
 
 		data_without_categories = comment_data_dup (data);
 		comment_data_free_keywords (data_without_categories);
-		save_comment (filename, data_without_categories, TRUE);
+		save_comment (uri, data_without_categories, TRUE);
 		comment_data_free (data_without_categories);
 
 		return;
 	}
+	
 	comment_data_free_comment (new_data);
 
 	if (data != NULL) {
@@ -964,20 +927,23 @@ comments_save_comment (const char  *filename,
 			new_data->comment = g_strdup (data->comment);
 	}
 
-	save_comment (filename, new_data, TRUE);
+	save_comment (uri, new_data, TRUE);
 	comment_data_free (new_data);
 }
 
 
 void
-comments_save_comment_non_null (const char  *filename,
+comments_save_comment_non_null (const char  *uri,
 				CommentData *data)
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename, TRUE);
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
+
+	new_data = comments_load_comment (uri, TRUE);
 	if (new_data == NULL) {
-		comments_save_comment (filename, data);
+		comments_save_comment (uri, data);
 		return;
 	}
 
@@ -998,25 +964,28 @@ comments_save_comment_non_null (const char  *filename,
 		new_data->comment = g_strdup (data->comment);
 	}
 
-	comments_save_comment (filename, new_data);
+	comments_save_comment (uri, new_data);
 	comment_data_free (new_data);
 }
 
 
 void
-comments_save_categories (const char  *filename,
+comments_save_categories (const char  *uri,
 			  CommentData *data)
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename, TRUE);
+	if ((uri == NULL) || ! is_local_file (uri))
+		return;
+
+	new_data = comments_load_comment (uri, TRUE);
 
 	if (new_data == NULL) {
 		CommentData *data_without_comment;
 
 		data_without_comment = comment_data_dup (data);
 		comment_data_free_comment (data_without_comment);
-		save_comment (filename, data_without_comment, TRUE);
+		save_comment (uri, data_without_comment, TRUE);
 		comment_data_free (data_without_comment);
 
 		return;
@@ -1036,7 +1005,7 @@ comments_save_categories (const char  *filename,
 		new_data->keywords[i] = NULL;
 	}
 
-	save_comment (filename, new_data, TRUE);
+	save_comment (uri, new_data, TRUE);
 	comment_data_free (new_data);
 }
 

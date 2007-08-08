@@ -108,7 +108,7 @@ output_message_handler (j_common_ptr cinfo)
 
 
 void
-update_exif_orientation (ExifData *edata)
+set_exif_orientation_to_top_left (ExifData *edata)
 {
 	unsigned int  i;
 	ExifByteOrder byte_order;
@@ -266,7 +266,7 @@ update_exif_data (struct jpeg_decompress_struct *src,
 		return;
 
 	/* Adjust exif orientation (set to top-left) */
-	update_exif_orientation(edata);
+	set_exif_orientation_to_top_left (edata);
 
 	/* Adjust exif dimensions (swap values if necessary) */
 	update_exif_dimensions(edata, transform);

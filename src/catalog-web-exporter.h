@@ -113,80 +113,57 @@ struct _CatalogWebExporterClass {
 	/* -- signals -- */
 	
 	void (*web_exporter_done)             (CatalogWebExporter *ce);
-
 	void (*web_exporter_progress)         (CatalogWebExporter *ce,
 					       float               percent);
-
 	void (*web_exporter_info)             (CatalogWebExporter *ce,
 					       const char         *info);
-
 	void (*web_exporter_start_copying)    (CatalogWebExporter *ce);
 };
 
 
 GType      catalog_web_exporter_get_type              (void);
-
 CatalogWebExporter *  catalog_web_exporter_new        (GthWindow          *window,
 						       GList              *file_list);
-
 void       catalog_web_exporter_set_header            (CatalogWebExporter *ce,
 						       const char         *header);
-
 void       catalog_web_exporter_set_footer            (CatalogWebExporter *ce,
 						       const char         *footer);
-
 void       catalog_web_exporter_set_style             (CatalogWebExporter *ce,
 						       const char         *style);
-
 void       catalog_web_exporter_set_location          (CatalogWebExporter *ce,
 						       const char         *location);
-
 void       catalog_web_exporter_set_index_file        (CatalogWebExporter *ce,
 						       const char         *index_file);
-
 void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 rows,
 						       int                 cols);
-
 void       catalog_web_exporter_set_thumb_size        (CatalogWebExporter *ce,
 						       int                 width,
 						       int                 height);
-
 void       catalog_web_exporter_set_preview_size      (CatalogWebExporter *ce,
 						       int                 width,
 						       int                 height);
-
 void       catalog_web_exporter_set_copy_images       (CatalogWebExporter *ce,
 						       gboolean            copy);
-
 void       catalog_web_exporter_set_resize_images     (CatalogWebExporter *ce,
 						       gboolean            resize,
 						       int                 max_width,
 						       int                 max_height);
-
 void       catalog_web_exporter_set_sorted            (CatalogWebExporter *ce,
 						       GthSortMethod       method,
 						       GtkSortType         sort_type);
-
 void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 rows,
 						       int                 cols);
-
 void       catalog_web_exporter_set_single_index      (CatalogWebExporter *ce,
 						       gboolean            copy);
-
 void       catalog_web_exporter_set_image_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);
-
 guint16    catalog_web_exporter_get_image_caption     (CatalogWebExporter *ce);
-
 void       catalog_web_exporter_set_index_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);
-
 guint16    catalog_web_exporter_get_index_caption     (CatalogWebExporter *ce);
-
 void       catalog_web_exporter_export                (CatalogWebExporter *ce);
-
 void       catalog_web_exporter_interrupt             (CatalogWebExporter *ce);
 
 

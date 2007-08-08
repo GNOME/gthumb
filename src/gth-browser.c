@@ -590,20 +590,23 @@ window_update_image_info (GthBrowser *browser)
 	{
 		GthBrowserPrivateData *priv = browser->priv;
 		JPEGData              *jdata = NULL;
-
+		char                  *cache_uri = NULL;
+		
 		if (priv->exif_data != NULL) {
 			exif_data_unref (priv->exif_data);
 			priv->exif_data = NULL;
 		}
 
-		if ((priv->image != NULL) && (image_is_jpeg (priv->image->path))) {
-			char *local_file_to_modify = NULL;
-			local_file_to_modify = obtain_local_file (priv->image->path);
-			if (local_file_to_modify != NULL) {
-				jdata = jpeg_data_new_from_file (local_file_to_modify);
-				g_free (local_file_to_modify);
-			}
+		if (priv->image != NULL)
+			cache_uri = get_cache_filename_from_uri (priv->image->path);
+		if ((cache_uri != NULL) && (image_is_jpeg (cache_uri))) {
+			char *local_file = NULL;
+			
+			local_file = get_cache_filename_from_uri (priv->image->path);
+			jdata = jpeg_data_new_from_file (local_file);
+			g_free (local_file);
 		}
+		g_free (cache_uri);
 
 		if (jdata != NULL) {
 			priv->exif_data = jpeg_data_get_exif_data (jdata);

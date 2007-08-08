@@ -386,19 +386,19 @@ get_default_theme (void)
 void
 dlg_web_exporter (GthBrowser *browser)
 {
-	DialogData   *data;
-	GtkWidget    *btn_cancel;
-	GtkWidget    *btn_help;
-	GList        *list;
-	char         *svalue;
-	gboolean      reorderable;
-	int           idx;
+	DialogData *data;
+	GtkWidget  *btn_cancel;
+	GtkWidget  *btn_help;
+	GList      *list;
+	char       *svalue;
+	gboolean    reorderable;
+	int         idx;
 
 	data = g_new0 (DialogData, 1);
 
 	data->browser = browser;
 
-	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
+	list = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		g_free (data);
@@ -408,8 +408,7 @@ dlg_web_exporter (GthBrowser *browser)
 	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (browser));
 
 	data->exporter = catalog_web_exporter_new (GTH_WINDOW (browser), list);
-	g_list_foreach (list, (GFunc) g_free, NULL);
-	g_list_free (list);
+	file_data_list_free (list);
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
         if (!data->gui) {

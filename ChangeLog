@@ -1,3 +1,33 @@
+2007-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-photo-importer.c: 
+	* src/catalog-web-exporter.h: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.h: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/jpegutils/jpeg-data.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c: 
+	
+	Do not load/save comments for remote images because these operations
+	cannot be async	without big changes to the code.  Get the mime-type for
+	remote files  from the filename only.  Use a file_data list for the 
+	web exporter to minimize file access operations, fixed uri/local_path 
+	convertions.
+	
+2007-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/Wiki/image.gthtml: 
+	* data/albumthemes/Flicker/image.gthtml: 
+	* data/albumthemes/NeatRound/image.gthtml: removed max_size attribute
+	for the comment in the image page.
+
 2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* AUTHORS: use svn.gnome.org addresses, rather than cvs.gnome.org
@@ -5,6 +35,11 @@
 
 2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c: 
+	
+2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	* src/main.c (folder_is_film): return false for remote folders.
 
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
