@@ -722,6 +722,11 @@ load_comment_from_xml (const char *uri)
 		return NULL;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
+	if (! path_exists (comment_uri)) {
+		g_free (comment_uri);
+		return NULL;
+	}
+	
 	local_file = get_cache_filename_from_uri (comment_uri);
         doc = xmlParseFile (local_file);
 

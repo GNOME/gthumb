@@ -1,5 +1,22 @@
 2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/gth-image-list.h: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: 
+	* libgthumb/gth-file-view-list.c: 
+	* libgthumb/gth-file-view.h: 
+	* libgthumb/gth-file-view.c: 
+	* libgthumb/gth-file-list.c: ref/unref file_data values in the file 
+	views  (maybe fixes #464777).
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: added a boxed type.
+	
+	* libgthumb/comments.c: check file existence before trying to load
+	the xml file, to avoid a libxml warning.
+	
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/dlg-file-utils.c: 
 	* src/dlg-duplicates.c: 
 	* libgthumb/image-loader.c: added some comments to FIXMEs

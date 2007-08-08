@@ -841,6 +841,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 
 		g_object_unref (pixbuf);
 		file_data_unref (tmp_file);
+		file_data_unref (fdata);
 		file_unlink (tmp_filename);
 	}
 
@@ -1621,10 +1622,8 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-	if (sel_list == NULL) {
+	if (sel_list == NULL) 
 		sel_list = gth_image_list_get_list (GTH_IMAGE_LIST (data->image_list));
-		g_list_foreach (sel_list, (GFunc) file_data_ref, NULL);
-	}
 
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
@@ -2014,7 +2013,7 @@ dlg_photo_importer (GthBrowser *browser)
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 	btn_help = glade_xml_get_widget (data->gui, "import_helpbutton");
 
-	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
+	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER, GTH_TYPE_FILE_DATA);
 	gth_image_list_set_view_mode (GTH_IMAGE_LIST (data->image_list), GTH_VIEW_MODE_LABEL);
 	gtk_widget_show (data->image_list);
 	gtk_container_add (GTK_CONTAINER (data->import_preview_scrolledwindow), data->image_list);

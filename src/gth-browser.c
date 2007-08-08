@@ -750,7 +750,7 @@ window_update_statusbar_list_info (GthBrowser *browser)
 		tot_n++;
 		tot_size += fd->size;
 	}
-	g_list_free (file_list);
+	file_data_list_free (file_list);
 
 	sel_n = 0;
 	sel_size = 0;
@@ -8563,7 +8563,7 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 	GdkPixbuf             *image = NULL;
-	GList                 *selection, *file_list = NULL, *scan;
+	GList                 *file_list = NULL;
 
 	if (!_set) {
 		if (priv->fullscreen != NULL)
@@ -8574,22 +8574,14 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	if (priv->fullscreen != NULL)
 		return;
 
-	selection = gth_file_view_get_selection (priv->file_list->view);
-	if ((selection == NULL) || (g_list_length (selection) == 1)) {
-		if (selection != NULL)
-			g_list_free (selection);
-		selection = gth_file_view_get_list (priv->file_list->view);
-	}
-	
-	for (scan = selection; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		file_list = g_list_prepend (file_list, file_data_ref (fd));
+	file_list = gth_file_view_get_selection (priv->file_list->view);
+	if ((file_list == NULL) || (g_list_length (file_list) == 1)) {
+		if (file_list != NULL)
+			g_list_free (file_list);
+		file_list = gth_file_view_get_list (priv->file_list->view);
 	}
 	file_list = g_list_reverse (file_list);
 	
-	if (selection != NULL)
-		g_list_free (selection);
-
 	if (file_list == NULL)
 		return;
 

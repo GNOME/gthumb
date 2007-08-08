@@ -366,6 +366,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	list = gth_file_view_get_list (file_list->view);
 	scan = g_list_nth (list, pos);
 	if (scan == NULL) {
+		file_data_list_free (list);
 		gth_file_list_done (file_list);
 		return;
 	}
@@ -419,7 +420,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 	}
 
-	g_list_free (list);
+	file_data_list_free (list);
 
 	if (new_pos == -1) {
 		gth_file_list_done (file_list);
@@ -1301,7 +1302,7 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 
 		i++;
 	}
-	g_list_free (list);
+	file_data_list_free (list);
 
 	return retval;
 }
@@ -1327,7 +1328,7 @@ gth_file_list_filedata_from_path (GthFileList *file_list,
 			break;
 		}
 	}
-	g_list_free (list);
+	file_data_list_free (list);
 
 	return result;
 }
@@ -1363,7 +1364,7 @@ gth_file_list_get_all_from_view (GthFileList *file_list)
 		FileData *fd = scan->data;
 		path_list = g_list_prepend (path_list, g_strdup (fd->path));
 	}
-	g_list_free (list);
+	file_data_list_free (list);
 
 	return g_list_reverse (path_list);
 }

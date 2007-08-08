@@ -36,6 +36,18 @@
 #define MAX_COMMENT_LEN 60
 
 
+GType
+file_data_get_type (void)
+{
+        static GType type = 0;
+  
+        if (type == 0)
+                type = g_boxed_type_register_static ("GthFileData", (GBoxedCopyFunc) file_data_ref, (GBoxedFreeFunc) file_data_unref);
+  
+        return type;
+}
+
+
 FileData *
 file_data_new (const char       *path,
 	       GnomeVFSFileInfo *info)
@@ -111,7 +123,7 @@ file_data_dup (FileData *source)
 
 	fd->ref = 1;
 	fd->path = g_strdup (source->path);
-	fd->name = g_strdup (source->name);
+	fd->name = file_name_from_path (fd->path);
 	fd->display_name = g_strdup (source->display_name);
 	fd->mime_type = get_static_string (source->mime_type);
 	fd->size = source->size;
