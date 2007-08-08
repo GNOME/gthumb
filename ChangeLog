@@ -1,3 +1,8 @@
+2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (delete_comment_iptc):
+	filename <-> uri typo, which prevented building.
+
 2007-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c: 

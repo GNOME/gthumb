@@ -552,7 +552,7 @@ delete_comment_iptc (const char *uri)
 	if ((uri == NULL) || ! is_local_file (uri))
 		return;
 
-	mtime = get_file_mtime (filename);
+	mtime = get_file_mtime (uri);
 
 	local_file = get_cache_filename_from_uri (uri);
 	d = iptc_data_new_from_jpeg (local_file);
