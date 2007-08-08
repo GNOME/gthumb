@@ -1,3 +1,11 @@
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c: Set progress bar height to 10.
+	
+	* libgthumb/file-utils.c: 
+	* data/gthumb.schemas.in: hide filenames and image preview by 
+	default.
+
 2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/comments.c: (delete_comment_iptc):

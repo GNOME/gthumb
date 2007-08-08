@@ -3098,7 +3098,8 @@ xdg_user_dir_lookup (const char *type)
 		config_file = malloc (strlen (home_dir) + strlen ("/.config/user-dirs.dirs") + 1);
 		strcpy (config_file, home_dir);
 		strcat (config_file, "/.config/user-dirs.dirs");
-	} else {
+	} 
+	else {
 		config_file = malloc (strlen (config_home) + strlen ("/user-dirs.dirs") + 1);
 		strcpy (config_file, config_home);
 		strcat (config_file, "/user-dirs.dirs");

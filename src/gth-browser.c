@@ -279,7 +279,7 @@ static GthWindowClass *parent_class = NULL;
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
 #define PROGRESS_BAR_WIDTH     60
-#define PROGRESS_BAR_HEIGHT    12
+#define PROGRESS_BAR_HEIGHT    10
 
 #define DEF_WIN_WIDTH          690
 #define DEF_WIN_HEIGHT         460
@@ -6842,14 +6842,13 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->progress = gtk_progress_bar_new ();
 	gtk_widget_set_size_request (priv->progress, -1, PROGRESS_BAR_HEIGHT);
-	
 	{
 		GtkWidget *vbox;
 		
 		vbox = gtk_vbox_new (FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (priv->statusbar), vbox, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (vbox), priv->progress, TRUE, FALSE, 0);
 		gtk_widget_show_all (vbox);
-		gtk_box_pack_start (GTK_BOX (priv->statusbar), vbox, FALSE, FALSE, 0);
 	}
 
 	/* Zoom info */
@@ -6908,7 +6907,7 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->sidebar_content = GTH_SIDEBAR_NO_LIST;
 	priv->sidebar_visible = TRUE;
-	priv->preview_visible = eel_gconf_get_boolean (PREF_SHOW_PREVIEW, TRUE);
+	priv->preview_visible = eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE);
 	priv->image_pane_visible = priv->preview_visible;
 	priv->image_data_visible = eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE);
 	priv->catalog_path = NULL;
