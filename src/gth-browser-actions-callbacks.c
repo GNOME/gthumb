@@ -68,7 +68,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 	switch (gth_browser_get_sidebar_content (browser)) {
 	case GTH_SIDEBAR_DIR_LIST:
 		path = gth_browser_get_current_directory (browser);
-		uri = get_uri_from_path (path);
+		uri = add_scheme_if_absent (path);
 		break;
 
 	case GTH_SIDEBAR_CATALOG_LIST:
@@ -912,7 +912,7 @@ gth_browser_activate_action_edit_dir_view_new_window (GtkAction  *action,
 	if (path == NULL)
 		return;
 
-	uri = get_uri_from_path (path);
+	uri = add_scheme_if_absent (path);
 	gtk_widget_show (gth_browser_new (uri));
 
 	g_free (uri);
@@ -930,7 +930,7 @@ show_folder (GtkWindow  *window,
 	if (path == NULL)
 		return;
 
-	uri = get_uri_from_path (path);
+	uri = add_scheme_if_absent (path);
 	result = gnome_vfs_url_show (uri);
 	if (result != GNOME_VFS_OK)
 		_gtk_error_dialog_run (window, gnome_vfs_result_to_string (result));
@@ -1778,7 +1778,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 
 		if (dir_list->path == NULL)
 			return;
-		path = get_uri_from_path (dir_list->path);
+		path = add_scheme_if_absent (dir_list->path);
 	}
 
 	if (path == NULL)

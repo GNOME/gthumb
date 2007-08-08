@@ -167,7 +167,7 @@ gboolean            uri_has_scheme                (const char       *uri);
 gboolean            uri_scheme_is_file            (const char       *uri);
 gboolean            uri_scheme_is_catalog         (const char       *uri);
 gboolean            uri_scheme_is_search          (const char       *uri);
-char *              get_uri_from_path             (const char       *path);
+char *              add_scheme_if_absent          (const char       *path);
 char *              get_uri_from_local_path       (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);

@@ -1,5 +1,29 @@
 2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/rotation-utils.c (apply_transformation_jpeg): always
+	restore the file permissions here.
+	
+	* src/dlg-photo-importer.c: no need to restore file permissions here.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-viewer.c (monitor_file_renamed_cb): fixed memory leak.
+
+	* src/dlg-photo-importer.c: use get_uri_from_local_path instead of
+	get_uri_from_path
+	
+	* src/main.c: 	
+	* src/gth-location.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.c: 
+	rename get_uri_from_path as add_scheme_if_absent, do avoid confusion
+	with get_uri_from_local_path.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser.c: Set progress bar height to 10.
 	
 	* libgthumb/file-utils.c: 
@@ -348,7 +372,7 @@
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
 	* libgthumb/gth-exif-utils.h:
 	Added code to extract video DateTime tags using mplayer's
-        midentify tool, if present.
+	midentify tool, if present.
 
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

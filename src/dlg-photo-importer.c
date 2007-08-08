@@ -1245,7 +1245,7 @@ add_categories_to_image (DialogData *data,
 	if (data->categories_list == NULL)
 		return;
 
-	uri = get_uri_from_path (local_file);
+	uri = get_uri_from_local_path (local_file);
 	cdata = comments_load_comment (uri, FALSE);
 	if (cdata == NULL)
 		cdata = comment_data_new ();
@@ -1455,11 +1455,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 {
 	const char       *filepath = aodata->scan->data;
 	GtkWindow        *window = GTK_WINDOW (data->dialog);
-	GnomeVFSFileInfo *info;
 	gboolean	  success = TRUE;
-
-	info = gnome_vfs_file_info_new ();
-	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	if (file_is_image (filepath, TRUE)) {
 		FileData     *fd;
@@ -1473,9 +1469,6 @@ adjust_orientation__step (AsyncOperationData *aodata,
 			success = apply_transformation_generic (window, fd, transform, NULL);
 		file_data_unref (fd);
 	}
-
-	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-	gnome_vfs_file_info_unref (info); 
 
 	if (! success)
 		data->error = TRUE;

@@ -146,10 +146,8 @@ apply_transformation_jpeg (GtkWindow     *win,
 		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	if (! is_local_file (file->path)) {
-		info = gnome_vfs_file_info_new ();
-		gnome_vfs_get_file_info (file->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	}
+	info = gnome_vfs_file_info_new ();
+	gnome_vfs_get_file_info (file->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
@@ -202,21 +200,17 @@ apply_transformation_jpeg (GtkWindow     *win,
 		goto apply_transformation_jpeg__free_and_close;	
 	}
 
-/*
-	if (!is_local) {
-		if (!remote_copy_ok) {
-			_gtk_error_dialog_run (win, _("Could not move temporary file to remote location. Check remote permissions."));
-	                remove_temp_file_and_dir (tmp);
-        	        g_free (tmp);
-                	return FALSE;
-		} else {
-		       gnome_vfs_set_file_info (path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-		}
+	if (info != NULL) {
+		char *local_uri;
+		
+		local_uri = get_uri_from_local_path (local_uri);
+		gnome_vfs_set_file_info (local_uri, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS | GNOME_VFS_SET_FILE_INFO_OWNER);
 		gnome_vfs_file_info_unref (info);
+		g_free (local_uri);
 	}
-*/
 
 apply_transformation_jpeg__free_and_close:
+
 	g_free (userdata);
 	remove_file_and_parent_folder (tmp_output_file);
 	g_free (tmp_output_file);

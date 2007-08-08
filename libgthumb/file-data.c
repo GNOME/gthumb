@@ -45,14 +45,18 @@ file_data_new (const char       *path,
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->path = get_uri_from_path (path);
+	fd->path = add_scheme_if_absent (path);
 	fd->name = file_name_from_path (fd->path);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 	if (info != NULL) {
-		fd->size = info->size;
-		fd->ctime = info->ctime;
-		fd->mtime = info->mtime;
-		fd->mime_type = get_static_string (info->mime_type);
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_SIZE)
+			fd->size = info->size;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_CTIME)
+			fd->ctime = info->ctime;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MTIME)
+			fd->mtime = info->mtime;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE)
+			fd->mime_type = get_static_string (info->mime_type);
 	}
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
@@ -161,8 +165,7 @@ file_data_update (FileData *fd)
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (fd->path,
 					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -179,7 +182,6 @@ file_data_update (FileData *fd)
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
 	fd->mime_type = get_file_mime_type (fd->path, ! is_local_file (fd->path));
-
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;

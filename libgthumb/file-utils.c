@@ -825,7 +825,7 @@ delete_thumbnail (const char *path)
 	char *large_thumbnail;
 	char *normal_thumbnail;
 
-	uri = get_uri_from_path (path);
+	uri = add_scheme_if_absent (path);
 
 	/* delete associated thumbnails, if present */
 	large_thumbnail = gnome_thumbnail_path_for_uri (uri, GNOME_THUMBNAIL_SIZE_LARGE);
@@ -1369,7 +1369,7 @@ uri_scheme_is_search (const char *uri)
 
 
 char *
-get_uri_from_path (const char *path)
+add_scheme_if_absent (const char *path)
 {
 	if (path == NULL)
 		return NULL;
@@ -1532,8 +1532,8 @@ uricmp (const char *path1,
 			return -1;
 	}
 	
-	uri1 = get_uri_from_path (path1);
-	uri2 = get_uri_from_path (path2);
+	uri1 = add_scheme_if_absent (path1);
+	uri2 = add_scheme_if_absent (path2);
 
 	result = strcmp_null_tolerant (uri1, uri2);
 

@@ -1223,7 +1223,7 @@ go_to_uri (GthBrowser  *browser,
 		return;
 
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
-		char *file_uri = get_uri_from_path (remove_host_from_uri (uri));
+		char *file_uri = add_scheme_if_absent (remove_host_from_uri (uri));
 
 		if (file_uri != NULL && file_extension_is (file_uri, CATALOG_EXT))
 			gth_browser_go_to_catalog (browser, file_uri);
@@ -2365,7 +2365,7 @@ add_history_item (GthBrowser *browser,
 	bookmarks_remove_from (priv->history, priv->history_current);
 
 	if (prefix == NULL)
-		location = get_uri_from_path (path);
+		location = add_scheme_if_absent (path);
 	else
 		location = g_strconcat (prefix, path, NULL);
 	bookmarks_remove_all_instances (priv->history, location);
@@ -3660,7 +3660,7 @@ make_url_list (GList *list,
 			break;
 
 		case TARGET_URILIST:
-			url = get_uri_from_path (scan->data);
+			url = add_scheme_if_absent (scan->data);
 			if (url == NULL)
 				continue;
 			g_string_append (result, url);
@@ -4162,7 +4162,7 @@ dir_list_drag_data_get  (GtkWidget        *widget,
 	}
 	g_free (target);
 
-	uri = get_uri_from_path (dir_list_drag_data);
+	uri = add_scheme_if_absent (dir_list_drag_data);
 	uri_data = g_strconcat (uri, "\n", NULL);
 	g_free (uri);
 
@@ -4373,7 +4373,7 @@ gth_browser_add_monitor (GthBrowser *browser)
 		return;
 
 	if (priv->dir_list->path[0] == '/')
-		priv->monitor_uri = get_uri_from_path (priv->dir_list->path);
+		priv->monitor_uri = add_scheme_if_absent (priv->dir_list->path);
 	else
 		priv->monitor_uri = g_strdup (priv->dir_list->path);
 	gth_monitor_add_uri (monitor, priv->monitor_uri);
@@ -5552,7 +5552,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
-	current_dir = get_uri_from_path (priv->dir_list->path);
+	current_dir = add_scheme_if_absent (priv->dir_list->path);
 	if (current_dir == NULL)
 		return;
 
@@ -6247,7 +6247,7 @@ dir_list_done_cb (GthDirList     *dir_list,
 	/* Add to history list if not present as last entry. */
 
 	if (priv->go_op == GTH_BROWSER_GO_TO) {
-		char *uri = get_uri_from_path (dir_list->path);
+		char *uri = add_scheme_if_absent (dir_list->path);
 		if ((priv->history_current == NULL) || ! same_uri (uri, priv->history_current->data))
 			add_history_item (browser, uri, NULL);
 		g_free (uri);
@@ -7243,7 +7243,7 @@ close__step6 (FileData *file,
 		char *location = NULL;
 
 		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-			location = get_uri_from_path (priv->dir_list->path);
+			location = add_scheme_if_absent (priv->dir_list->path);
 		else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			 && (priv->catalog_path != NULL))
 			location = g_strconcat (CATALOG_PREFIX,
