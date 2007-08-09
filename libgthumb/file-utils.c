@@ -2741,7 +2741,6 @@ get_pixbuf_using_external_converter (FileData   *file,
 	GdkPixbuf  *pixbuf = NULL;
 	gboolean    is_raw;
 	gboolean    is_hdr;
-	gboolean    is_tiff;
 	gboolean    is_thumbnail;
 
 	local_file = get_local_path_from_uri (file->path);
@@ -2753,17 +2752,16 @@ get_pixbuf_using_external_converter (FileData   *file,
 
 	is_raw = mime_type_is_raw (file->mime_type);
 	is_hdr = mime_type_is_hdr (file->mime_type);
-	is_tiff = mime_type_is_tiff (file->mime_type);
 
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
 	md5_file = gnome_thumbnail_md5 (local_uri);
 	
-	if ((is_tiff || is_raw) && !is_thumbnail)
-		/* Full-sized converted TIFF or RAW files */
+	if (is_raw && !is_thumbnail)
+		/* Full-sized converted RAW file */
 		cache_file_full = get_cache_full_path (md5_file, "conv.pnm");
-	else if ((is_tiff || is_raw) && is_thumbnail)
+	else if (is_raw && is_thumbnail)
 		/* RAW: thumbnails generated in pnm format. The converted file is later removed. */
 		cache_file_full = get_cache_full_path (md5_file, "conv-thumb.pnm");
 	else if (is_hdr && is_thumbnail)
@@ -2864,21 +2862,9 @@ get_pixbuf_using_external_converter (FileData   *file,
 			g_free (resize_command);
 		}
 
-		if (is_tiff) {
-			/* The standard gdk thumbnailer doesn't handle large-dimension tiff
-			   images elegantly, bugs 142428 and 160460. Memory blows up. We can
-			   do it more efficiently. */
-
-			command = g_strdup_printf ( "tifftopnm -byrow %s 2>/dev/null | pamscale -xyfit %d %d 2>/dev/null 1> %s",
-					 	    local_file_esc,
-						    requested_width,
-						    requested_height,
-						    cache_file_esc);
-		}
-
 		if (command != NULL) {
 			if (gnome_vfs_is_executable_command_string (command))
-			       	g_spawn_command_line_sync (command, NULL, NULL, NULL, NULL);
+			       	system (command);
 			g_free (command);
 		}
 	}
@@ -2963,8 +2949,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
 	if ((pixbuf == NULL) &&
 	     (mime_type_is_raw (file->mime_type) ||
-	      mime_type_is_hdr (file->mime_type) ||
-	      (mime_type_is_tiff (file->mime_type) && (requested_width > 0))))
+	      mime_type_is_hdr (file->mime_type) )) 
 		pixbuf = get_pixbuf_using_external_converter (file,
 							      requested_width,
 							      requested_height);

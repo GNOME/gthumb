@@ -1,3 +1,19 @@
+2007-08-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter),
+	(gth_pixbuf_new_from_file):
+	get_pixbuf_using_external_converter was broken, because 
+	"g_spawn_command_line_sync" does not accept pipes ("|") in the command line.
+	Reverted to "system" for converting HDR files. The RAW dcraw convert command 
+	is simple enough that g_spawn_command_line_sync is OK.
+
+	For tiff files, I backported changes from trunk to just use the standard
+	gdk_pixbuf loader for thumbnails, even though it is a memory hog. This 
+	removes one instance of system/g_spawn_command_line_sync. (trunk used this
+	method because tifftopnm -byrow loses the tiff orientation tag.)
+
+	Still getting uricmp crashes (bug 464777).
+
 2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-dir-list.c: use the file_filter function to filter files.
