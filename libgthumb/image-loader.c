@@ -984,7 +984,6 @@ image_loader_load_from_image_loader (ImageLoader *to,
 		file_data_unref (to->priv->file);
 		to->priv->file = NULL;
 	}
-
 	if (from->priv->file != NULL)
 		to->priv->file = file_data_dup (from->priv->file);
 
@@ -992,7 +991,6 @@ image_loader_load_from_image_loader (ImageLoader *to,
 		g_object_unref (to->priv->pixbuf);
 		to->priv->pixbuf = NULL;
 	}
-
 	if (from->priv->pixbuf) {
 		g_object_ref (from->priv->pixbuf);
 		to->priv->pixbuf = from->priv->pixbuf;
@@ -1004,7 +1002,6 @@ image_loader_load_from_image_loader (ImageLoader *to,
 		g_object_unref (to->priv->animation);
 		to->priv->animation = NULL;
 	}
-
 	if (from->priv->animation) { /* FIXME: check thread issues. */
 		g_object_ref (from->priv->animation);
 		to->priv->animation = from->priv->animation;

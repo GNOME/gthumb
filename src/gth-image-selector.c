@@ -1217,6 +1217,9 @@ motion_notify (GtkWidget      *widget,
 	x += priv->x_offset;
 	y += priv->y_offset;
 
+	dx = x - priv->drag_start_x;
+	dy = y - priv->drag_start_y;
+
 	if (priv->type == GTH_SELECTOR_TYPE_POINT) {
 		x = selector_to_real (selector, x - priv->background_area.x);
 		y = selector_to_real (selector, y - priv->background_area.y);
@@ -1230,9 +1233,6 @@ motion_notify (GtkWidget      *widget,
 	}
 
 	/* priv->type == GTH_SELECTOR_TYPE_REGION */
-
-	dx = x - priv->drag_start_x;
-	dy = y - priv->drag_start_y;
 
 	if (! priv->dragging
 	    && priv->pressed

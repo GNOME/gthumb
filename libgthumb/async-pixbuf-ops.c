@@ -1440,7 +1440,7 @@ dither_step (GthPixbufOp *pixop)
 {
 	DitherData *data = pixop->data;
 	guchar      min, max, lightness;
-	int         red_pix, green_pix, blue_pix, alpha_pix;
+	int         red_pix, green_pix, blue_pix, alpha_pix = 0;
 	double     *error_pixel, *ngh_error_pixel;
 	int         dir = 1;
 

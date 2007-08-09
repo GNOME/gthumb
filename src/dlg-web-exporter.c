@@ -930,7 +930,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 
 	if (path_is_dir (path)) {
 		char      *filename;
-		GdkPixbuf *image;
+		GdkPixbuf *image = NULL;
 					       
 		filename = g_build_path (G_DIR_SEPARATOR_S,
 					 path,

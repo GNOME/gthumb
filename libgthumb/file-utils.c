@@ -1412,9 +1412,9 @@ get_uri_from_local_path (const char *local_path)
 char *
 get_uri_display_name (const char *uri)
 {
+	char     *name = NULL;
 	char     *tmp_path;
 	gboolean  catalog_or_search;
-	char     *name;
 
 	/* if it is a catalog then remove the extension */
 	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);

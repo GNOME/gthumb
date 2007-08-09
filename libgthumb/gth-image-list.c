@@ -1680,7 +1680,7 @@ paint_drop_target (GthImageList *image_list,
 	GtkWidget           *widget = (GtkWidget*) image_list;
 	GthImageListPrivate *priv = image_list->priv;
 	GthImageListItem    *item;
-	int                  x1;
+	int                  x1 = 0;
 	int                  ofs, len;
 
 	if (priv->drop_pos == GTH_DROP_POSITION_NONE)

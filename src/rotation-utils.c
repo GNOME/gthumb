@@ -118,7 +118,7 @@ apply_transformation_jpeg (GtkWindow     *win,
 	char                 *tmp_dir;
 	char                 *tmp_output_file;
 	JXFORM_CODE           transf;
-	jpeg_mcu_dialog_data *userdata;
+	jpeg_mcu_dialog_data *userdata = NULL;
 	char		     *local_file;
 	GnomeVFSFileInfo     *info = NULL;
 
@@ -203,7 +203,7 @@ apply_transformation_jpeg (GtkWindow     *win,
 	if (info != NULL) {
 		char *local_uri;
 		
-		local_uri = get_uri_from_local_path (local_uri);
+		local_uri = get_uri_from_local_path (local_file);
 		gnome_vfs_set_file_info (local_uri, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS | GNOME_VFS_SET_FILE_INFO_OWNER);
 		gnome_vfs_file_info_unref (info);
 		g_free (local_uri);

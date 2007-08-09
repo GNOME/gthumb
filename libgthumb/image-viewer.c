@@ -1635,7 +1635,7 @@ image_viewer_scroll_event (GtkWidget        *widget,
 {
 	ImageViewer   *viewer = IMAGE_VIEWER (widget);
 	GtkAdjustment *adj;
-	gdouble        new_value;
+	gdouble        new_value = 0.0;
 
 	g_return_val_if_fail (IS_IMAGE_VIEWER (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -1912,11 +1912,11 @@ image_viewer_load_from_image_loader (ImageViewer *viewer,
 	viewer->is_void = FALSE;
 	halt_animation (viewer);
 
-	g_object_ref (image_loader);
-
-	ivl_data = g_new (ImageViewerLoadData, 1);
+	ivl_data = g_new0 (ImageViewerLoadData, 1);
 	ivl_data->viewer = viewer;
 	ivl_data->data = image_loader;
+	g_object_ref (image_loader);
+	
 	image_loader_stop (viewer->loader,
 			   (DoneFunc) load_from_image_loader__step2,
 			   ivl_data);

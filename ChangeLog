@@ -1,3 +1,18 @@
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/rotation-utils.c: 
+	* src/gth-image-selector.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/async-pixbuf-ops.c: 
+
+	Some variables were used before initialization.  Initialize the false
+	positives too, in order to shut up compiler.
+
 2007-08-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter),
