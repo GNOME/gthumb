@@ -828,6 +828,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 		FileData  *fdata;
 
 		tmp_file = file_data_new_from_local_path (tmp_filename);
+		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
 		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, tmp_file);

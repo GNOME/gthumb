@@ -151,18 +151,21 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		GnomeVFSFileInfo *info     = node->data;
 		GnomeVFSURI      *full_uri = NULL;
 		char             *txt_uri;
+		FileData         *file;
 		
-		if (pli->filter_func) 
-			if (! pli->filter_func (pli, info, pli->filter_data))
-				continue;
-
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
 				break;
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
 			txt_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			pli->files = g_list_prepend (pli->files, file_data_new (txt_uri, info));
+			
+			file = file_data_new (txt_uri, info);
+			file_data_update_mime_type (file, pli->fast_file_type);
+			if ((pli->filter_func != NULL) && pli->filter_func (pli, file, pli->filter_data))
+				pli->files = g_list_prepend (pli->files, file);
+			else
+				file_data_unref  (file);
 			g_free (txt_uri);
 			break;
 
@@ -202,10 +205,9 @@ path_list_async_new (const char         *uri,
 		     PathListDoneFunc    done_func,
 		     gpointer            done_data)
 {
-	GnomeVFSAsyncHandle     *handle;
-	PathListData            *pli;
-	GnomeVFSFileInfoOptions  info_options;
-	PathListHandle          *pl_handle;
+	GnomeVFSAsyncHandle *handle;
+	PathListData        *pli;
+	PathListHandle      *pl_handle;
 
 	if (uri == NULL) {
 		if (done_func != NULL)
@@ -228,20 +230,12 @@ path_list_async_new (const char         *uri,
 	pli->filter_data = filter_data;
 	pli->done_func = done_func;
 	pli->done_data = done_data;
-
-	info_options = GNOME_VFS_FILE_INFO_FOLLOW_LINKS;
-	if (filter_func != NULL) { /* the filter needs the mime type */
-		info_options |= GNOME_VFS_FILE_INFO_GET_MIME_TYPE;
-		if (fast_file_type)
-			info_options |= GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE;
-		else
-			info_options |= GNOME_VFS_FILE_INFO_FORCE_SLOW_MIME_TYPE;
-	}
+	pli->fast_file_type = fast_file_type;
 	
 	gnome_vfs_async_load_directory_uri (&handle,
 					    pli->uri,
-					    info_options,
-					    128 /* items_per_notification FIXME */,
+					    GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
+					    128 /* items_per_notification FIXME: find a good value */,
 					    GNOME_VFS_PRIORITY_DEFAULT,
 					    directory_load_cb,
 					    pli);
@@ -523,6 +517,24 @@ dir_list_filter_and_sort (GList    *dir_list,
 	filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
 
 	return filtered;
+}
+
+
+/* return TRUE to add the file to the file list. */
+gboolean
+file_filter (FileData *file,
+	     gboolean  show_hidden_files)
+{
+	if (file->mime_type == NULL)
+		return FALSE;
+
+	if ((! show_hidden_files && file_is_hidden (file->name))
+	    || ! (mime_type_is_image (file->mime_type) 
+	          || mime_type_is_video (file->mime_type)
+	          || mime_type_is_audio (file->mime_type)))
+		return FALSE;
+			
+	return TRUE;
 }
 
 

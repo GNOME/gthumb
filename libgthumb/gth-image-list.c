@@ -3878,7 +3878,8 @@ gth_image_list_remove (GthImageList *image_list,
 	if (! priv->frozen) {
 		keep_focus_consistent (image_list);
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
-	} else
+	} 
+	else
 		priv->dirty = TRUE;
 }
 

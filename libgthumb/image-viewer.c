@@ -1782,7 +1782,13 @@ load_image_data_free (LoadImageData *lidata)
 void
 load_image_from_uri__step2 (LoadImageData *lidata)
 {
-	image_loader_set_path (lidata->viewer->loader, lidata->path, NULL);
+	FileData *file;
+	
+	file = file_data_new (lidata->path, NULL);
+	file_data_update_mime_type (file, FALSE);  /* always slow mime type ? */
+	image_loader_set_file (lidata->viewer->loader, file);
+	file_data_unref (file);
+	
 	image_loader_start (lidata->viewer->loader);
 	load_image_data_free (lidata);
 }

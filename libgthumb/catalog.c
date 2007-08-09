@@ -501,8 +501,8 @@ catalog_get_file_data_list (Catalog         *catalog,
 			    CatalogDoneFunc  done_func,
 			    gpointer         done_data)
 {
-	GList *list = NULL;
-	GList *scan;
+	GList    *list = NULL;
+	GList    *scan;
 	
 	/* FIXME: make this function async */
 	
@@ -511,7 +511,7 @@ catalog_get_file_data_list (Catalog         *catalog,
 		FileData *fd;
 		
 		fd = file_data_new (path, NULL);
-		file_data_update (fd);
+		file_data_update (fd);  /* FIXME: when to update the mime-type */
 		list = g_list_prepend (list, fd);
 	}
 	list = g_list_reverse (list);

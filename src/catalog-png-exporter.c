@@ -133,10 +133,8 @@ img  { border: 0px; }\n\
 #define DEFAULT_FONT "Sans 12"
 
 typedef struct {
+	FileData         *file;
 	char             *comment;
-	char             *filename;
-	GnomeVFSFileSize  file_size;
-	time_t            file_time;
 	time_t		  exif_time;
 	GdkPixbuf        *thumb;
 	int               image_width;
@@ -149,21 +147,20 @@ typedef struct {
 
 
 static ImageData *
-image_data_new (gchar *filename)
+image_data_new (FileData *file)
 {
 	ImageData   *idata;
 	CommentData *cdata;
 	int          i;
 
-	idata = g_new (ImageData, 1);
+	idata = g_new0 (ImageData, 1);
 
-	cdata = comments_load_comment (filename, TRUE);
-	idata->comment = comments_get_comment_as_string (cdata, "\n", "\n");
-	if (cdata != NULL)
+	idata->file = file_data_ref (file);
+	cdata = comments_load_comment (file->path, TRUE);
+	if (cdata != NULL) {
+		idata->comment = comments_get_comment_as_string (cdata, "\n", "\n");
 		comment_data_free (cdata);
-
-	idata->filename = g_strdup (filename);
-	idata->file_size = 0;
+	}
 	idata->thumb = NULL;
 	idata->image_width = 0;
 	idata->image_height = 0;
@@ -182,7 +179,7 @@ image_data_free (ImageData *idata)
 	int i;
 
 	g_free (idata->comment);
-	g_free (idata->filename);
+	file_data_unref (idata->file);
 
 	if (idata->thumb)
 		g_object_unref (G_OBJECT (idata->thumb));
@@ -473,7 +470,7 @@ catalog_png_exporter_new (GList *file_list)
 	for (scan = file_list; scan; scan = scan->next) {
 		ImageData *idata;
 
-		idata = image_data_new ((gchar*) scan->data);
+		idata = image_data_new ((FileData*) scan->data);
 		ce->file_list = g_list_prepend (ce->file_list, idata);
 	}
 	ce->file_list = g_list_reverse (ce->file_list);
@@ -819,23 +816,25 @@ set_item_caption (CatalogPngExporter *ce,
 
 	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH)
 	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
-		char *utf8_name = gnome_vfs_unescape_string_for_display (idata->filename);
+		char *utf8_name = gnome_vfs_unescape_string_for_display (idata->file->path);
 		idata->caption_row[row++] = utf8_name;
-	} else {
+	} 
+	else {
 		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
-			char *path = remove_level_from_path (idata->filename);
+			char *path = remove_level_from_path (idata->file->path);
 			char *utf8_name = gnome_vfs_unescape_string_for_display (path);
 			idata->caption_row[row++] = utf8_name;
 			g_free (path);
-		} else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
-			const char *name = file_name_from_path (idata->filename);
+		} 
+		else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
+			const char *name = file_name_from_path (idata->file->path);
 			char *utf8_name = gnome_vfs_unescape_string_for_display (name);
 			idata->caption_row[row++] = utf8_name;
 		}
 	}
 
 	if (ce->caption_fields & GTH_CAPTION_FILE_SIZE)
-		idata->caption_row[row++] = gnome_vfs_format_file_size_for_display (idata->file_size);
+		idata->caption_row[row++] = gnome_vfs_format_file_size_for_display (idata->file->size);
 
 	if (ce->caption_fields & GTH_CAPTION_IMAGE_DIM)
 		idata->caption_row[row++] = g_strdup_printf (
@@ -985,13 +984,11 @@ export (CatalogPngExporter *ce)
 		for (scan_row = row_first_item; scan_row != row_last_item; scan_row = scan_row->next) {
 			GdkPixbuf     *pixbuf;
 			char         **row;
-			char          *filename;
 			int            y1, h, i;
 			GdkRectangle   frame_rect, image_rect;
 			ImageData     *row_idata = IMAGE_DATA (scan_row->data);
 
 			row = row_idata->caption_row;
-			filename = row_idata->filename;
 
 			frame_rect.x = x;
 			frame_rect.y = y;
@@ -1011,7 +1008,7 @@ export (CatalogPngExporter *ce)
 				image_rect.height = theight;
 
 				paint_frame (ce, &frame_rect, &image_rect,
-					     filename);
+					     row_idata->file->path);
 				paint_image (ce, &image_rect, pixbuf);
 			}
 
@@ -1224,7 +1221,7 @@ comp_func_name (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filename_but_ignore_path (data_a->filename,data_b->filename);
+	return gth_sort_by_filename_but_ignore_path (data_a->file->path, data_b->file->path);
 }
 
 
@@ -1236,7 +1233,7 @@ comp_func_path (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_full_path (data_a->filename, data_b->filename);
+	return gth_sort_by_full_path (data_a->file->path, data_b->file->path);
 }
 
 
@@ -1249,7 +1246,7 @@ comp_func_comment (gconstpointer a, gconstpointer b)
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_comment_then_name (data_a->comment, data_b->comment,
-					data_a->filename, data_b->filename);
+					data_a->file->path, data_b->file->path);
 }
 
 
@@ -1261,8 +1258,8 @@ comp_func_time (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filetime_then_name (data_a->file_time, data_b->file_time,
-						data_a->filename, data_b->filename);
+	return gth_sort_by_filetime_then_name (data_a->file->mtime, data_b->file->mtime,
+						data_a->file->path, data_b->file->path);
 }
 
 
@@ -1275,7 +1272,7 @@ comp_func_exif_date (gconstpointer a, gconstpointer b)
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_filetime_then_name (data_a->exif_time, data_b->exif_time,
-						data_a->filename, data_b->filename);
+						data_a->file->path, data_b->file->path);
 }
 
 
@@ -1287,7 +1284,7 @@ comp_func_size (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_size_then_name (data_a->file_size, data_b->file_size, data_a->filename, data_b->filename);
+	return gth_sort_by_size_then_name (data_a->file->size, data_b->file->size, data_a->file->path, data_b->file->path);
 }
 
 
@@ -1330,8 +1327,7 @@ get_sortfunc (CatalogPngExporter *ce)
 static void
 load_next_file (CatalogPngExporter *ce)
 {
-	char *filename;
-	char *utf8_name;
+	ImageData *idata;
 
 	if (ce->interrupted) {
 		if (ce->file_list != NULL) {
@@ -1366,21 +1362,18 @@ load_next_file (CatalogPngExporter *ce)
 		return;
 	}
 
-	filename = IMAGE_DATA (ce->file_to_load->data)->filename;
-	image_loader_set_path (ce->iloader, filename, NULL);
-	image_loader_start (ce->iloader);
+	/* load the file */
 
-	/* info */
+	idata = IMAGE_DATA (ce->file_to_load->data);
 
 	g_free (ce->info);
-
-	utf8_name = gnome_vfs_unescape_string_for_display (file_name_from_path (filename));
-	ce->info = g_strdup_printf (_("Loading image: %s"), utf8_name);
-	g_free (utf8_name);
-
+	ce->info = g_strdup_printf (_("Loading image: %s"), idata->file->display_name);
 	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
 		       0,
 		       ce->info);
+
+	image_loader_set_file (ce->iloader, idata->file);
+	image_loader_start (ce->iloader);
 }
 
 
@@ -1399,14 +1392,9 @@ image_loader_done (ImageLoader *iloader,
 	idata->image_width = gdk_pixbuf_get_width (pixbuf);
 	idata->image_height = gdk_pixbuf_get_height (pixbuf);
 
-	/* file size. */
-	idata->file_size = get_file_size (idata->filename);
-
-	/* file time. */
-	idata->file_time = get_file_mtime (idata->filename);
-
 	/* time in exif tag, if present */
-	idata->exif_time = get_metadata_time (NULL, idata->filename);
+
+	idata->exif_time = get_metadata_time (NULL, idata->file->path);
 
 	/* thumbnail. */
 	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);
@@ -1478,9 +1466,8 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	ce->n_images_done = 0;
 
 	ce->file_to_load = ce->file_list;
-	image_loader_set_path (ce->iloader,
-			       IMAGE_DATA (ce->file_to_load->data)->filename,
-			       NULL);
+	image_loader_set_file (ce->iloader,
+			       IMAGE_DATA (ce->file_to_load->data)->file);
 	image_loader_start (ce->iloader);
 }
 

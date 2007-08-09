@@ -397,8 +397,8 @@ image_loader_set_path (ImageLoader *il,
 	file = file_data_new (path, NULL);
 	if (mime_type != NULL)
 		file->mime_type = get_static_string (mime_type);
-	if ((mime_type == NULL) || ! is_local_file (file->path))
-		file_data_update (file);
+	else
+		file_data_update_mime_type (file, TRUE); /* FIXME: always fast mime type is not good */
 	image_loader_set_file (il, file);
 	file_data_unref (file);
 }

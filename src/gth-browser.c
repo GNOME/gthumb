@@ -45,6 +45,7 @@
 #include "dlg-image-prop.h"
 #include "dlg-save-image.h"
 #include "file-utils.h"
+#include "file-data.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
@@ -216,7 +217,8 @@ struct _GthBrowserPrivateData {
 	gboolean            saving_modified_image;
 	gboolean            load_image_folder_after_image;
 	gboolean            focus_current_image;
-
+	gboolean            show_hidden_files;
+	
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
 	guint               sel_change_timeout;
@@ -2376,7 +2378,7 @@ add_history_item (GthBrowser *browser,
 }
 
 
-void
+static void
 catalog_get_file_data_list_done (Catalog  *catalog,
 				 GList    *file_list,
 				 gpointer  data)
@@ -4773,7 +4775,9 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	gth_dir_list_show_hidden_files (browser->priv->dir_list, eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
+	
+	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	gth_dir_list_show_hidden_files (browser->priv->dir_list, browser->priv->show_hidden_files);
 	window_update_file_list (browser);
 }
 
@@ -5548,13 +5552,16 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	char                  *current_dir;
 	GList                 *created_in_current_dir = NULL;
 	GList                 *scan;
-
+	gboolean               fast_mime_type;
+	
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
 	current_dir = add_scheme_if_absent (priv->dir_list->path);
 	if (current_dir == NULL)
 		return;
+
+	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	for (scan = list; scan; scan = scan->next) {
 		char *path = scan->data;
@@ -5564,8 +5571,16 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		if (parent_dir == NULL)
 			continue;
 
-		if (same_uri (parent_dir, current_dir))
-			created_in_current_dir = g_list_prepend (created_in_current_dir, file_data_new (path, NULL));
+		if (same_uri (parent_dir, current_dir)) {
+			FileData *file;
+			
+			file = file_data_new (path, NULL);
+			file_data_update_mime_type (file, fast_mime_type);
+			if (file_filter (file, browser->priv->show_hidden_files))
+				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
+			else
+				file_data_unref (file);
+		}
 
 		g_free (parent_dir);
 	}
@@ -5627,10 +5642,14 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	/* add to the file list the changed files not included in the list. */
 
 	for (scan = list; scan; scan = scan->next) {
-		char *filename = scan->data;
-
-		if (gth_file_list_filedata_from_path (priv->file_list, filename) != NULL)
+		char     *filename = scan->data;
+		FileData *fd;
+		
+		fd = gth_file_list_filedata_from_path (priv->file_list, filename); 
+		if (fd != NULL) {
+			file_data_unref (fd);
 			continue;
+		}
 
 		absent_files = g_list_prepend (absent_files, filename);
 	}
@@ -6937,6 +6956,8 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->auto_load_timeout = 0;
 
 	priv->sel_change_timeout = 0;
+	
+	priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 
 	/* preloader */
 

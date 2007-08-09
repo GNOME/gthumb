@@ -1485,8 +1485,11 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GList         *file_list)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
-	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fullscreen));
-	GthZoomChange zoom_change = pref_get_zoom_change ();
+	GdkScreen                *screen;
+	GthZoomChange             zoom_change;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (fullscreen));
+	zoom_change = pref_get_zoom_change ();
 
 	gtk_window_set_default_size (GTK_WINDOW (fullscreen),
 				     gdk_screen_get_width (screen),

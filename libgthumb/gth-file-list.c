@@ -420,14 +420,15 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 	}
 
+	if (new_pos != -1)
+		fd = file_data_ref (fd);
+
 	file_data_list_free (list);
 
 	if (new_pos == -1) {
 		gth_file_list_done (file_list);
 		return;
 	}
-
-	g_assert (fd != NULL);
 
 	/* We create thumbnail files for all images in the folder, but we only
 	   load the visible ones (and 25 before and 25 after the visible range),
@@ -437,7 +438,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	file_list->priv->thumb_pos = new_pos;
 	file_list->priv->thumbs_num++;
 	file_data_unref (file_list->priv->thumb_fd);
-	file_list->priv->thumb_fd = file_data_ref (fd);
+	file_list->priv->thumb_fd = fd; /* already ref-ed above */
 
 	gth_file_list_update_current_thumb (file_list);
 }
@@ -1324,7 +1325,7 @@ gth_file_list_filedata_from_path (GthFileList *file_list,
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
 		if (same_uri (fd->path, path)) {
-			result = fd;
+			result = file_data_ref (fd);
 			break;
 		}
 	}
@@ -1577,8 +1578,10 @@ gfl_delete (GthFileList *file_list,
 	FileData *fd;
 
 	fd = gth_file_list_filedata_from_path (file_list, uri);
-	if (fd != NULL)
+	if (fd != NULL) {
 		gth_file_view_remove (file_list->view, fd);
+		file_data_unref (fd);
+	}
 }
 
 
@@ -1697,20 +1700,22 @@ gfl_update_thumb (GthFileList *file_list,
 	FileData *fd;
 	int       pos;
 
+	pos = gth_file_list_pos_from_path (file_list, uri);
+	if (pos == -1)
+		return;
+
 	fd = gth_file_list_filedata_from_path (file_list, uri);
 	if (fd == NULL)
 		return;
 
 	file_data_update (fd);
 
-	pos = gth_file_list_pos_from_path (file_list, uri);
-	if (pos == -1)
-		return;
-
 	file_list->priv->thumb_pos = pos;
 	if (file_list->priv->thumb_fd != NULL)
 		file_data_unref (file_list->priv->thumb_fd);
 	file_list->priv->thumb_fd = file_data_ref (fd);
+	
+	file_data_unref (fd);
 }
 
 

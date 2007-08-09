@@ -1,3 +1,31 @@
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-dir-list.c: use the file_filter function to filter files.
+	* src/gth-browser.c: filter the changed files list, before adding them
+	to the list.
+
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-fullscreen.c: 
+	* src/dlg-photo-importer.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-list.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	* libgthumb/catalog.c: 
+
+	Added file_data_update_mime_type to update the mime-type when needed.
+	Fixed some file_data ref/unref bugs.
+
+	* src/dlg-png-exporter.c: 
+	* src/catalog-png-exporter.c: use a file_data list instead of a path
+	list.
+	
 2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/gth-image-list.h: 

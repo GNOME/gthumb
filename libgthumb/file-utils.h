@@ -44,7 +44,7 @@ typedef void (*CopyDoneFunc) (const char *, GnomeVFSResult, gpointer);
 /* Async directory list */
 
 typedef struct _PathListData PathListData;
-typedef gboolean (*PathListFilterFunc) (PathListData *pld, GnomeVFSFileInfo *info, gpointer data);
+typedef gboolean (*PathListFilterFunc) (PathListData *pld, FileData *, gpointer data);
 typedef void (*PathListDoneFunc) (PathListData *pld, gpointer data);
 
 struct _PathListData {
@@ -60,6 +60,7 @@ struct _PathListData {
 	gpointer            interrupt_data;
 	gboolean            interrupted;
 	GHashTable         *hidden_files;
+	gboolean            fast_file_type;
 };
 
 typedef struct {
@@ -101,6 +102,8 @@ gboolean            ensure_dir_exists             (const char       *a_path,
 GList *             dir_list_filter_and_sort      (GList            *dir_list,
 						   gboolean          names_only,
 						   gboolean          show_dot_files);
+gboolean            file_filter                   (FileData         *file,
+	     					   gboolean          show_hidden_files);
 
 typedef void (*VisitFunc) (char *real_file, char *rc_file, gpointer data);
 gboolean            visit_rc_directory_sync       (const char       *rc_dir,

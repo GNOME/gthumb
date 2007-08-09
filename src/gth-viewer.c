@@ -1839,6 +1839,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	if (filename != NULL) {
 		priv->image = file_data_new (filename, NULL);
 		file_data_update (priv->image);
+		file_data_update_mime_type (priv->image, FALSE); /* FIXME: always slow ? */
 	}
 }
 
@@ -1906,6 +1907,7 @@ gth_viewer_load_from_uri (GthViewer  *viewer,
 	
 	file = file_data_new (uri, NULL);
 	file_data_update (file);
+	file_data_update_mime_type (file, FALSE); /* FIXME: always slow ? */
 	gth_viewer_load (viewer, file);
 	file_data_unref (file);
 }

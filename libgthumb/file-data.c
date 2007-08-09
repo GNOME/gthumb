@@ -172,12 +172,12 @@ file_data_update (FileData *fd)
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
 
-	fd->mime_type = NULL;
-
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (fd->path,
 					  info,
-					  GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
+					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
+					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE));
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -185,6 +185,7 @@ file_data_update (FileData *fd)
 		fd->mtime = 0;
 		fd->ctime = 0;
 		fd->exif_data_loaded = FALSE;
+		fd->mime_type = NULL;
 		return;
 	}
 
@@ -193,13 +194,21 @@ file_data_update (FileData *fd)
 	g_free (fd->display_name);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
-	fd->mime_type = get_file_mime_type (fd->path, ! is_local_file (fd->path));
+	fd->mime_type = get_static_string (info->mime_type);
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 	fd->exif_data_loaded = FALSE;
 
 	gnome_vfs_file_info_unref (info);
+}
+
+
+void
+file_data_update_mime_type (FileData *fd,
+			    gboolean  fast_mime_type)
+{
+	fd->mime_type = get_file_mime_type (fd->path, fast_mime_type || ! is_local_file (fd->path));
 }
 
 
