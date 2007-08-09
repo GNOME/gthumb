@@ -1,5 +1,11 @@
 2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c (exif_string_to_time_t ): added some
+	checks on input string.
+	(get_exif_time): allocate 64 bytes instead of 21, just in case.
+	
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/rotation-utils.c: 
 	* src/gth-image-selector.c: 
 	* src/gth-browser.c: 

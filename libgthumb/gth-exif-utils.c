@@ -150,6 +150,9 @@ exif_string_to_time_t (char *string)
         char       *data;
         struct tm   tm = { 0, };
 
+	if ((string == NULL) || (strlen (string) < 10))
+		return (time_t) 0;
+
         data = g_strdup (string);
 
         data[4] = data[7] = data[10] = '\0';
@@ -178,7 +181,7 @@ static time_t
 get_exif_time (const char *uri)
 {
 	char   *local_file = NULL;
-        char    date_string[21] = {0};
+        char    date_string[64] = {0};
         time_t  time = 0;
 
         if (uri == NULL)
