@@ -868,7 +868,7 @@ gth_location_set_uri (GthLocation *loc,
 		      gboolean     reset_history)
 {
 	g_free (loc->priv->uri);
-	loc->priv->uri = get_uri_from_path (uri);
+	loc->priv->uri = add_scheme_if_absent (uri);
 	update_uri (loc, reset_history);
 }
 

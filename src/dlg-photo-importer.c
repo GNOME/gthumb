@@ -23,8 +23,6 @@
 
 #include <config.h>
 
-#define HAVE_LIBGPHOTO 1 /* FIXME: remove this line */
-
 #ifdef HAVE_LIBGPHOTO
 
 #include <string.h>
@@ -831,6 +829,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 		FileData  *fdata;
 
 		tmp_file = file_data_new_from_local_path (tmp_filename);
+		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
 		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, tmp_file);
@@ -844,6 +843,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 
 		g_object_unref (pixbuf);
 		file_data_unref (tmp_file);
+		file_data_unref (fdata);
 		file_unlink (tmp_filename);
 	}
 
@@ -1249,7 +1249,7 @@ add_categories_to_image (DialogData *data,
 	if (data->categories_list == NULL)
 		return;
 
-	uri = get_uri_from_path (local_file);
+	uri = get_uri_from_local_path (local_file);
 	cdata = comments_load_comment (uri, FALSE);
 	if (cdata == NULL)
 		cdata = comment_data_new ();
@@ -1457,29 +1457,23 @@ static void
 adjust_orientation__step (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
-	const char       *filepath = aodata->scan->data;
-	GtkWindow        *window = GTK_WINDOW (data->dialog);
-	GnomeVFSFileInfo *info;
-	gboolean	  success = TRUE;
+	const char *uri = aodata->scan->data;
+	GtkWindow  *window = GTK_WINDOW (data->dialog);
+	gboolean    success = TRUE;
 
-	info = gnome_vfs_file_info_new ();
-	gnome_vfs_get_file_info (filepath, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-
-	if (file_is_image (filepath, TRUE)) {
+	if (file_is_image (uri, TRUE)) {
 		FileData     *fd;
 		GthTransform  transform;
 
-		fd = file_data_new (filepath, info);
+		fd = file_data_new (uri, NULL);
+		file_data_update (fd);
 		transform = read_orientation_field (fd->path);
-		if (image_is_jpeg (filepath))
+		if (image_is_jpeg (uri))
 			success = apply_transformation_jpeg (window, fd, transform, NULL);
 		else
 			success = apply_transformation_generic (window, fd, transform, NULL);
 		file_data_unref (fd);
 	}
-
-	gnome_vfs_set_file_info (filepath, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-	gnome_vfs_file_info_unref (info); 
 
 	if (! success)
 		data->error = TRUE;
@@ -1637,10 +1631,8 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-	if (sel_list == NULL) {
+	if (sel_list == NULL) 
 		sel_list = gth_image_list_get_list (GTH_IMAGE_LIST (data->image_list));
-		g_list_foreach (sel_list, (GFunc) file_data_ref, NULL);
-	}
 
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
@@ -2030,7 +2022,7 @@ dlg_photo_importer (GthBrowser *browser)
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 	btn_help = glade_xml_get_widget (data->gui, "import_helpbutton");
 
-	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
+	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER, GTH_TYPE_FILE_DATA);
 	gth_image_list_set_view_mode (GTH_IMAGE_LIST (data->image_list), GTH_VIEW_MODE_LABEL);
 	gtk_widget_show (data->image_list);
 	gtk_container_add (GTK_CONTAINER (data->import_preview_scrolledwindow), data->image_list);

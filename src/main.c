@@ -246,9 +246,9 @@ save_session (GnomeClient *client)
 			location = gth_window_get_image_filename (window);
 			if (location == NULL)
 				continue;
-			uri = get_uri_from_path (location);
-
-		} else {
+			uri = add_scheme_if_absent (location);
+		} 
+		else {
 			GthBrowser *browser = (GthBrowser*) window;
 
 			switch (gth_browser_get_sidebar_content (browser)) {
@@ -256,14 +256,14 @@ save_session (GnomeClient *client)
 				location = gth_browser_get_current_directory (browser);
 				if (location == NULL)
 					continue;
-				uri = get_uri_from_path (location);
+				uri = add_scheme_if_absent (location);
 				break;
 
 			case GTH_SIDEBAR_CATALOG_LIST:
 				location = gth_browser_get_current_catalog (browser);
 				if (location == NULL)
 					continue;
-				uri = get_uri_from_path (location);
+				uri = add_scheme_if_absent (location);
 				break;
 
 			default:
@@ -476,9 +476,10 @@ initialize_data (void)
 		}
 
 		if (is_dir) {
-			dir_urls = g_list_prepend (dir_urls, get_uri_from_path (path));
+			dir_urls = g_list_prepend (dir_urls, add_scheme_if_absent (path));
 			g_free (path);
-		} else
+		} 
+		else
 			file_urls = g_list_prepend (file_urls, path);
 	}
 

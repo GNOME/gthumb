@@ -267,19 +267,18 @@ jpeg_data_new_from_file (const char *path)
 }
 
 void
-jpeg_data_load_file (JPEGData *data, const char *path)
+jpeg_data_load_file (JPEGData   *data, 
+		     const char *path)
 {
-	FILE *f;
+	FILE          *f;
 	unsigned char *d;
-	unsigned int size;
+	unsigned int   size;
 
-	if (!data)
-		return;
-	if (!path)
+	if ((data == NULL) || (path == NULL))
 		return;
 
 	f = fopen (path, "rb");
-	if (!f)
+	if (f == NULL)
 		return;
 
 	/* For now, we read the data into memory. Patches welcome... */

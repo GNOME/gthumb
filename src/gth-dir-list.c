@@ -584,27 +584,12 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 
 
 static gboolean 
-gth_dir_list_filter_func (PathListData     *pld, 
-			  GnomeVFSFileInfo *info, 
-			  gpointer          data)
+gth_dir_list_filter_func (PathListData  *pld, 
+			  FileData      *file, 
+			  gpointer       data)
 {
 	GthDirList *dir_list = data;
-	
-	if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
-		return TRUE;
-	if (info->type != GNOME_VFS_FILE_TYPE_REGULAR)
-		return FALSE;
-		
-	if (info->mime_type == NULL)
-		return FALSE;
-
-	if ((! dir_list->show_dot_files && file_is_hidden (info->name))
-	    || ! (mime_type_is_image (info->mime_type) 
-	          || mime_type_is_video (info->mime_type)
-	          || mime_type_is_audio (info->mime_type)))
-		return FALSE;
-	
-	return TRUE;
+	return file_filter (file, dir_list->show_dot_files);
 }
 
 

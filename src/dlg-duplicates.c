@@ -1554,7 +1554,7 @@ search_dir_async (DialogData *data, const char *path)
 		& (data->handle),
 		data->uri,
 		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		128 /* items_per_notification FIXME */,
+		128 /* items_per_notification FIXME: find a good value */,
 		GNOME_VFS_PRIORITY_MIN,
 		directory_load_cb,
 		data);

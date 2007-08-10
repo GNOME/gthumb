@@ -73,6 +73,7 @@ typedef struct {
 
 	/*< private >*/
 
+	GType             data_type;
 	guint             ref;
 
 	GdkPixmap        *pixmap;       /* Pixmap rendered from the image */
@@ -82,8 +83,6 @@ typedef struct {
 	GdkRectangle      image_area;
 	GdkRectangle      label_area;
 	GdkRectangle      comment_area;
-
-	GtkDestroyNotify  destroy;
 
 	guint             tmp_selected : 1;
 } GthImageListItem;
@@ -126,7 +125,8 @@ typedef struct {
 
 
 GType          gth_image_list_get_type             (void);
-GtkWidget     *gth_image_list_new                  (guint          image_width);
+GtkWidget     *gth_image_list_new                  (guint          image_width,
+						    GType          data_type);
 void           gth_image_list_set_hadjustment      (GthImageList  *image_list,
 						    GtkAdjustment *hadj);
 GtkAdjustment *gth_image_list_get_hadjustment      (GthImageList  *image_list);
@@ -202,10 +202,6 @@ void           gth_image_list_set_image_width      (GthImageList     *image_list
 void           gth_image_list_set_image_data       (GthImageList    *image_list,
 						    int              pos,
 						    gpointer         data);
-void           gth_image_list_set_image_data_full  (GthImageList    *image_list,
-						    int              pos,
-						    gpointer         data,
-						    GtkDestroyNotify destroy);
 int            gth_image_list_find_image_from_data (GthImageList    *image_list,
 						    gpointer         data);
 gpointer       gth_image_list_get_image_data       (GthImageList    *image_list,

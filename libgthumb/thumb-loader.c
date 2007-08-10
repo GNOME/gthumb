@@ -343,7 +343,7 @@ thumb_loader_set_file (ThumbLoader *tl,
 
 void
 thumb_loader_set_path (ThumbLoader *tl,
-		       const char  *path)
+		       const char  *path) /* FIXME: pass the mime_type too. */
 {
 	FileData *fd;
 	
@@ -351,7 +351,7 @@ thumb_loader_set_path (ThumbLoader *tl,
 	g_return_if_fail (path != NULL);
 
 	fd = file_data_new (path, NULL);
-	file_data_update (fd);
+	file_data_update (fd); 
 	thumb_loader_set_file (tl, fd);
 }
 

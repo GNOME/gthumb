@@ -36,6 +36,18 @@
 #define MAX_COMMENT_LEN 60
 
 
+GType
+file_data_get_type (void)
+{
+        static GType type = 0;
+  
+        if (type == 0)
+                type = g_boxed_type_register_static ("GthFileData", (GBoxedCopyFunc) file_data_ref, (GBoxedFreeFunc) file_data_unref);
+  
+        return type;
+}
+
+
 FileData *
 file_data_new (const char       *path,
 	       GnomeVFSFileInfo *info)
@@ -45,14 +57,18 @@ file_data_new (const char       *path,
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->path = get_uri_from_path (path);
+	fd->path = add_scheme_if_absent (path);
 	fd->name = file_name_from_path (fd->path);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 	if (info != NULL) {
-		fd->size = info->size;
-		fd->ctime = info->ctime;
-		fd->mtime = info->mtime;
-		fd->mime_type = get_static_string (info->mime_type);
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_SIZE)
+			fd->size = info->size;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_CTIME)
+			fd->ctime = info->ctime;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MTIME)
+			fd->mtime = info->mtime;
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE)
+			fd->mime_type = get_static_string (info->mime_type);
 	}
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
@@ -107,7 +123,7 @@ file_data_dup (FileData *source)
 
 	fd->ref = 1;
 	fd->path = g_strdup (source->path);
-	fd->name = g_strdup (source->name);
+	fd->name = file_name_from_path (fd->path);
 	fd->display_name = g_strdup (source->display_name);
 	fd->mime_type = get_static_string (source->mime_type);
 	fd->size = source->size;
@@ -156,13 +172,12 @@ file_data_update (FileData *fd)
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
 
-	fd->mime_type = NULL;
-
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (fd->path,
 					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
+					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
+					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE));
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -170,6 +185,7 @@ file_data_update (FileData *fd)
 		fd->mtime = 0;
 		fd->ctime = 0;
 		fd->exif_data_loaded = FALSE;
+		fd->mime_type = NULL;
 		return;
 	}
 
@@ -178,14 +194,21 @@ file_data_update (FileData *fd)
 	g_free (fd->display_name);
 	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
 
-	fd->mime_type = get_file_mime_type (fd->path, ! is_local_file (fd->path));
-
+	fd->mime_type = get_static_string (info->mime_type);
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 	fd->exif_data_loaded = FALSE;
 
 	gnome_vfs_file_info_unref (info);
+}
+
+
+void
+file_data_update_mime_type (FileData *fd,
+			    gboolean  fast_mime_type)
+{
+	fd->mime_type = get_file_mime_type (fd->path, fast_mime_type || ! is_local_file (fd->path));
 }
 
 

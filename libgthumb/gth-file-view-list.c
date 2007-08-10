@@ -794,17 +794,6 @@ gfv_set_image_data (GthFileView     *file_view,
 }
 
 
-static void
-gfv_set_image_data_full (GthFileView     *file_view,
-			 int              pos,
-			 gpointer         data,
-			 GtkDestroyNotify destroy)
-{
-	/* FIXME: not implemented yet */
-	gth_file_view_set_image_data (file_view, pos, data);
-}
-
-
 static int
 gfv_find_image_from_data (GthFileView     *file_view,
 			  gpointer         data)
@@ -823,9 +812,12 @@ gfv_find_image_from_data (GthFileView     *file_view,
 		gtk_tree_model_get (model, &iter,
 				    COLUMN_FILE_DATA, &iter_data,
 				    -1);
-		if (data == iter_data)
+		if (data == iter_data) {
+			file_data_unref (iter_data);
 			return pos;
-
+		}
+		file_data_unref (iter_data);
+		
 		pos++;
 	} while (gtk_tree_model_iter_next (model, &iter));
 
@@ -854,7 +846,6 @@ gfv_get_image_data (GthFileView     *file_view,
 	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->filter_model), &iter,
 			    COLUMN_FILE_DATA, &fdata,
 			    -1);
-	file_data_ref (fdata);
 
 	return fdata;
 }
@@ -1031,7 +1022,8 @@ gfv_visible_func (GtkTreeModel *model,
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) data;
 	FileData        *fdata;
-
+	gboolean         visible;
+	
 	if (gfv_list->priv->filter_func == NULL)
 		return TRUE;
 
@@ -1039,7 +1031,10 @@ gfv_visible_func (GtkTreeModel *model,
 			    COLUMN_FILE_DATA, &fdata,
 			    -1);
 
-	return (gfv_list->priv->filter_func) (gfv_list->priv->filter_data, fdata);
+	visible = (gfv_list->priv->filter_func) (gfv_list->priv->filter_data, fdata);
+	file_data_unref (fdata);
+	
+	return visible;
 }
 
 
@@ -1345,7 +1340,6 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->get_last_selected    = gfv_get_last_selected;
 	file_view_class->set_image_width      = gfv_set_image_width;
 	file_view_class->set_image_data       = gfv_set_image_data;
-	file_view_class->set_image_data_full  = gfv_set_image_data_full;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;
 	file_view_class->get_image_data       = gfv_get_image_data;
 	file_view_class->enable_thumbs        = gfv_enable_thumbs;
@@ -1651,6 +1645,9 @@ default_sort_func (GtkTreeModel *model,
 	cmp_func = get_compfunc_from_method (gfv_list->priv->sort_method);
 	ret_val = (*cmp_func) (fdata1, fdata2);
 
+	file_data_unref (fdata1);
+	file_data_unref (fdata2);
+
 	return ret_val;
 }
 
@@ -1666,7 +1663,7 @@ gth_file_view_list_new (guint image_width)
 	priv = gfv_list->priv;
 
 	priv->list_store = gtk_list_store_new (NUMBER_OF_COLUMNS,
-					       G_TYPE_POINTER,
+					       GTH_TYPE_FILE_DATA,
 					       GDK_TYPE_PIXBUF,
 					       G_TYPE_STRING,
 					       G_TYPE_STRING,

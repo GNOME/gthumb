@@ -1,3 +1,161 @@
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c (exif_string_to_time_t ): added some
+	checks on input string.
+	(get_exif_time): allocate 64 bytes instead of 21, just in case.
+	
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/rotation-utils.c: 
+	* src/gth-image-selector.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/async-pixbuf-ops.c: 
+
+	Some variables were used before initialization.  Initialize the false
+	positives too, in order to shut up compiler.
+
+2007-08-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter),
+	(gth_pixbuf_new_from_file):
+	get_pixbuf_using_external_converter was broken, because 
+	"g_spawn_command_line_sync" does not accept pipes ("|") in the command line.
+	Reverted to "system" for converting HDR files. The RAW dcraw convert command 
+	is simple enough that g_spawn_command_line_sync is OK.
+
+	For tiff files, I backported changes from trunk to just use the standard
+	gdk_pixbuf loader for thumbnails, even though it is a memory hog. This 
+	removes one instance of system/g_spawn_command_line_sync. (trunk used this
+	method because tifftopnm -byrow loses the tiff orientation tag.)
+
+	Still getting uricmp crashes (bug 464777).
+
+2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-dir-list.c: use the file_filter function to filter files.
+	* src/gth-browser.c: filter the changed files list, before adding them
+	to the list.
+
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-fullscreen.c: 
+	* src/dlg-photo-importer.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-list.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	* libgthumb/catalog.c: 
+
+	Added file_data_update_mime_type to update the mime-type when needed.
+	Fixed some file_data ref/unref bugs.
+
+	* src/dlg-png-exporter.c: 
+	* src/catalog-png-exporter.c: use a file_data list instead of a path
+	list.
+	
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/gth-image-list.h: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: 
+	* libgthumb/gth-file-view-list.c: 
+	* libgthumb/gth-file-view.h: 
+	* libgthumb/gth-file-view.c: 
+	* libgthumb/gth-file-list.c: ref/unref file_data values in the file 
+	views  (maybe fixes #464777).
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: added a boxed type.
+	
+	* libgthumb/comments.c: check file existence before trying to load
+	the xml file, to avoid a libxml warning.
+	
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/dlg-file-utils.c: 
+	* src/dlg-duplicates.c: 
+	* libgthumb/image-loader.c: added some comments to FIXMEs
+	
+	* src/dlg-photo-importer.c: removed info argument, update the file_data
+	structure before using it.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/rotation-utils.c (apply_transformation_jpeg): always
+	restore the file permissions here.
+	
+	* src/dlg-photo-importer.c: no need to restore file permissions here.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-viewer.c (monitor_file_renamed_cb): fixed memory leak.
+
+	* src/dlg-photo-importer.c: use get_uri_from_local_path instead of
+	get_uri_from_path
+	
+	* src/main.c: 	
+	* src/gth-location.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/file-data.c: 
+	rename get_uri_from_path as add_scheme_if_absent, do avoid confusion
+	with get_uri_from_local_path.
+
+2007-08-08  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c: Set progress bar height to 10.
+	
+	* libgthumb/file-utils.c: 
+	* data/gthumb.schemas.in: hide filenames and image preview by 
+	default.
+
+2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/comments.c: (delete_comment_iptc):
+	filename <-> uri typo, which prevented building.
+
+2007-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c: 
+	* src/gth-browser.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-photo-importer.c: 
+	* src/catalog-web-exporter.h: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.h: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/jpegutils/jpeg-data.c: 
+	* libgthumb/image-loader.c: 
+	* libgthumb/gth-exif-utils.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c: 
+	
+	Do not load/save comments for remote images because these operations
+	cannot be async	without big changes to the code.  Get the mime-type for
+	remote files  from the filename only.  Use a file_data list for the 
+	web exporter to minimize file access operations, fixed uri/local_path 
+	convertions.
+	
+2007-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/Wiki/image.gthtml: 
+	* data/albumthemes/Flicker/image.gthtml: 
+	* data/albumthemes/NeatRound/image.gthtml: removed max_size attribute
+	for the comment in the image page.
+
 2007-08-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* AUTHORS: use svn.gnome.org addresses, rather than cvs.gnome.org
@@ -5,6 +163,11 @@
 
 2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c: 
+	
+2007-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	* src/main.c (folder_is_film): return false for remote folders.
 
 2007-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
@@ -308,7 +471,7 @@
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
 	* libgthumb/gth-exif-utils.h:
 	Added code to extract video DateTime tags using mplayer's
-        midentify tool, if present.
+	midentify tool, if present.
 
 2007-07-19  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

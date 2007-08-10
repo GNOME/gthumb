@@ -304,15 +304,6 @@ gfv_set_image_data (GthFileView     *file_view,
 }
 
 
-static void
-gfv_set_image_data_full (GthFileView     *file_view,
-			 int              pos,
-			 gpointer         data,
-			 GtkDestroyNotify destroy)
-{
-}
-
-
 static int
 gfv_find_image_from_data (GthFileView     *file_view,
 			  gpointer         data)
@@ -542,7 +533,6 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->get_last_selected    = gfv_get_last_selected;
 	file_view_class->set_image_width      = gfv_set_image_width;
 	file_view_class->set_image_data       = gfv_set_image_data;
-	file_view_class->set_image_data_full  = gfv_set_image_data_full;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;
 	file_view_class->get_image_data       = gfv_get_image_data;
 	file_view_class->enable_thumbs        = gfv_enable_thumbs;
@@ -913,16 +903,6 @@ gth_file_view_set_image_data (GthFileView *file_view,
 			      gpointer     data)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_data (file_view, pos, data);
-}
-
-
-void
-gth_file_view_set_image_data_full (GthFileView     *file_view,
-				   int              pos,
-				   gpointer         data,
-				   GtkDestroyNotify destroy)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_data_full (file_view, pos, data, destroy);
 }
 
 

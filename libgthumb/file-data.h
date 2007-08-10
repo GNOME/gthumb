@@ -53,7 +53,9 @@ typedef struct {
 	CommentData        *comment_data;
 } FileData;
 
+#define GTH_TYPE_FILE_DATA (file_data_get_type ())
 
+GType        file_data_get_type            (void);
 FileData *   file_data_new                 (const char       *path,
 					    GnomeVFSFileInfo *info);
 FileData *   file_data_new_from_local_path (const char       *path);				   
@@ -63,6 +65,8 @@ void         file_data_unref               (FileData         *fd);
 void         file_data_set_path            (FileData         *fd,
 					    const char       *path);
 void         file_data_update              (FileData         *fd);
+void         file_data_update_mime_type    (FileData         *fd,
+					    gboolean          fast_mime_type);
 void         file_data_load_comment_data   (FileData         *fd);
 void         file_data_load_exif_data      (FileData         *fd);
 void         file_data_update_comment      (FileData         *fd);

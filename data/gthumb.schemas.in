@@ -115,7 +115,7 @@
 	<applyto>/apps/gthumb/browser/show_filenames</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>true</default>
+	<default>false</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -272,7 +272,7 @@
 	<applyto>/apps/gthumb/browser/show_preview</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
-	<default>true</default>
+	<default>false</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

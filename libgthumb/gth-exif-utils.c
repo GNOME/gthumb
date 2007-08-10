@@ -150,6 +150,9 @@ exif_string_to_time_t (char *string)
         char       *data;
         struct tm   tm = { 0, };
 
+	if ((string == NULL) || (strlen (string) < 10))
+		return (time_t) 0;
+
         data = g_strdup (string);
 
         data[4] = data[7] = data[10] = '\0';
@@ -178,7 +181,7 @@ static time_t
 get_exif_time (const char *uri)
 {
 	char   *local_file = NULL;
-        char    date_string[21] = {0};
+        char    date_string[64] = {0};
         time_t  time = 0;
 
         if (uri == NULL)
@@ -280,8 +283,8 @@ get_metadata_time (const char *mime_type,
 	if (mime_type == NULL)
 		mime_type = get_mime_type (uri);
 
-        if (mime_type_is (mime_type, "image/jpeg"))
-                return get_exif_time (uri);
+	if (mime_type_is (mime_type, "image/jpeg"))
+		return get_exif_time (uri);
 
         if (mime_type_is_video (mime_type))
                 return get_mplayer_time (uri);
@@ -687,23 +690,17 @@ gth_minimal_exif_tag_write (const char *local_file,
 
 
 GthTransform
-read_orientation_field (const char *path)
+read_orientation_field (const char *local_file)
 {
 	ExifShort orientation;
 	guint16   tf;
 
-	if (path == NULL)
+	if (local_file == NULL)
 		return GTH_TRANSFORM_NONE;
 
-	/* old libexif method
-	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION); */
-
-	/* new internal method */
-	gth_minimal_exif_tag_read (path, EXIF_TAG_ORIENTATION, &tf, 2);
-
+	gth_minimal_exif_tag_read (local_file, EXIF_TAG_ORIENTATION, &tf, 2);
 	orientation = (GthTransform) tf;
-
-	if (orientation >= 1 && orientation <= 8)
+	if ((orientation >= 1) && (orientation <= 8))
 		return orientation;
 	else
 		return GTH_TRANSFORM_NONE;

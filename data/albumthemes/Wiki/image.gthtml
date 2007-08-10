@@ -66,10 +66,10 @@
 <div class="preview_comment">
 <span class="comment">
   <gthumb:if comment_visibility_image/>
-    <gthumb:comment max_size=100/> <br />
+    <gthumb:comment /> <br />
   <gthumb:end/>
   <gthumb:if place_visibility_image/>
-    <gthumb:place max_size=100/> <br />
+    <gthumb:place /> <br />
   <gthumb:end/>
   <gthumb:if date_time_visibility_image/>
     <gthumb:date_time/>

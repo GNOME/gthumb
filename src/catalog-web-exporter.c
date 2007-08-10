@@ -1209,11 +1209,9 @@ get_image_filename (CatalogWebExporter *ce,
 							   filename, 
 							   NULL);
 		g_free (filename);
-	} else {
-		image_filename = get_uri_from_path (idata->src_filename);
-		if (image_filename == NULL)
-			image_filename = g_strdup (idata->src_filename);
-	}
+	} else
+		/* FIXME - merge in the correct stuff */
+		return NULL;		
 
 	return image_filename;
 }

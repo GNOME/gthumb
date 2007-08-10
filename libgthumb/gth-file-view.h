@@ -136,10 +136,6 @@ typedef struct {
 	void           (* set_image_data)       (GthFileView     *file_view,
 						 int              pos,
 						 gpointer         data);
-	void           (* set_image_data_full)  (GthFileView     *file_view,
-						 int              pos,
-						 gpointer         data,
-						 GtkDestroyNotify destroy);
 	int            (* find_image_from_data) (GthFileView     *file_view,
 						 gpointer         data);
 	gpointer       (* get_image_data)       (GthFileView     *file_view,
@@ -283,10 +279,6 @@ void           gth_file_view_set_image_width     (GthFileView     *file_view,
 void           gth_file_view_set_image_data       (GthFileView     *file_view,
 						   int              pos,
 						   gpointer         data);
-void           gth_file_view_set_image_data_full  (GthFileView     *file_view,
-						   int              pos,
-						   gpointer         data,
-						   GtkDestroyNotify destroy);
 int            gth_file_view_find_image_from_data (GthFileView     *file_view,
 						   gpointer         data);
 gpointer       gth_file_view_get_image_data       (GthFileView     *file_view,

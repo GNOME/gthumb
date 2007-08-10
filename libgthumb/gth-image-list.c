@@ -35,7 +35,6 @@
 #include <X11/extensions/Xrender.h>
 #endif
 
-#include "file-data.h"
 #include "glib-utils.h"
 #include "gth-image-list.h"
 #include "gthumb-marshal.h"
@@ -238,12 +237,14 @@ static GthImageListItem*
 gth_image_list_item_new (GthImageList  *image_list,
 			 GdkPixbuf     *image,
 			 const char    *label,
-			 const char    *comment)
+			 const char    *comment,
+			 GType          data_type)
 {
 	GthImageListItem *item;
 
 	item = g_new0 (GthImageListItem, 1);
 
+	item->data_type = data_type;
 	item->ref = 1;
 	item->slide_area.x = -1;
 	item->image_area.x = -1;
@@ -286,8 +287,8 @@ gth_image_list_item_unref (GthImageListItem *item)
 		gth_image_list_item_free_pixmap_and_mask (item);
 		g_free (item->label);
 		g_free (item->comment);
-		if ((item->destroy != NULL) && (item->data != NULL))
-			(item->destroy) (item->data);
+		if (item->data != NULL) 
+			g_boxed_free (item->data_type, item->data);
 		g_free (item);
 	}
 }
@@ -405,6 +406,7 @@ struct _GthImageListPrivate {
 
 	GthVisibleFunc    filter_func;
 	gpointer          filter_data;
+	GType             data_type;
 };
 
 
@@ -1678,7 +1680,7 @@ paint_drop_target (GthImageList *image_list,
 	GtkWidget           *widget = (GtkWidget*) image_list;
 	GthImageListPrivate *priv = image_list->priv;
 	GthImageListItem    *item;
-	int                  x1;
+	int                  x1 = 0;
 	int                  ofs, len;
 
 	if (priv->drop_pos == GTH_DROP_POSITION_NONE)
@@ -3553,12 +3555,14 @@ gth_image_list_get_type (void)
 
 
 GtkWidget *
-gth_image_list_new (guint image_width)
+gth_image_list_new (guint image_width,
+		    GType data_type)
 {
 	GthImageList *image_list;
 
 	image_list = (GthImageList*) g_object_new (GTH_TYPE_IMAGE_LIST, NULL);
 	image_list->priv->max_item_width = image_width;
+	image_list->priv->data_type = data_type;
 
 	return (GtkWidget*) image_list;
 }
@@ -3746,7 +3750,7 @@ gth_image_list_insert (GthImageList *image_list,
 	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->n_images));
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (image_list, pixbuf, text, comment2);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, image_list->priv->data_type);
 	g_free (comment2);
 
 	image_list_insert_item (image_list, item, pos);
@@ -3754,30 +3758,31 @@ gth_image_list_insert (GthImageList *image_list,
 
 
 int
-gth_image_list_append_with_data (GthImageList  *image_list,
-				 GdkPixbuf     *pixbuf,
-				 const char    *text,
-				 const char    *comment,
-				 gpointer       data)
+gth_image_list_append_with_data (GthImageList *image_list,
+				 GdkPixbuf    *pixbuf,
+				 const char   *text,
+				 const char   *comment,
+				 gpointer      data)
 {
 	GthImageListItem *item;
 	char             *comment2;
-
+		
 	g_return_val_if_fail (image_list != NULL, -1);
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (image_list, pixbuf, text, comment2);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, image_list->priv->data_type);
 	g_free (comment2);
 
 	/**/
 
-	if (data != NULL) {
-		if ((item->destroy != NULL) && (item->data != NULL))
-			(item->destroy) (item->data);
-		item->data = data;
-		item->destroy = NULL;
+	if (item->data != NULL) {
+		g_boxed_free (item->data_type, item->data);
+		item->data = NULL;		
 	}
+
+	if (data != NULL) 
+		item->data = g_boxed_copy (item->data_type, data);
 
 	/**/
 
@@ -3871,7 +3876,8 @@ gth_image_list_remove (GthImageList *image_list,
 	if (! priv->frozen) {
 		keep_focus_consistent (image_list);
 		layout_from_line (image_list, pos / gth_image_list_get_items_per_line (image_list));
-	} else
+	} 
+	else
 		priv->dirty = TRUE;
 }
 
@@ -4064,8 +4070,9 @@ gth_image_list_get_list (GthImageList  *image_list)
 
 	for (scan = image_list->priv->image_list; scan; scan = scan->next) {
 		GthImageListItem *item = scan->data;
+		
 		if (item->data != NULL)
-			list = g_list_prepend (list, item->data);
+			list = g_list_prepend (list, g_boxed_copy (item->data_type, item->data));
 	}
 
 	return g_list_reverse (list);
@@ -4075,18 +4082,16 @@ gth_image_list_get_list (GthImageList  *image_list)
 GList *
 gth_image_list_get_selection (GthImageList  *image_list)
 {
-	GList *scan;
-	GList *list = NULL;
-
+	GList  *scan;
+	GList  *list = NULL;
+		
 	g_return_val_if_fail (image_list != NULL, NULL);
 
 	for (scan = image_list->priv->image_list; scan; scan = scan->next) {
 		GthImageListItem *item = scan->data;
-		if (item->selected && (item->data != NULL)) {
-			FileData *fdata = item->data;
-			file_data_ref (fdata);
-			list = g_list_prepend (list, fdata);
-		}
+		
+		if (item->selected && (item->data != NULL)) 
+			list = g_list_prepend (list, g_boxed_copy (item->data_type, item->data));
 	}
 
 	return g_list_reverse (list);
@@ -4126,33 +4131,25 @@ gth_image_list_set_image_width (GthImageList *image_list,
 
 
 void
-gth_image_list_set_image_data_full (GthImageList    *image_list,
-				    int              pos,
-				    gpointer         data,
-				    GtkDestroyNotify destroy)
+gth_image_list_set_image_data (GthImageList    *image_list,
+			       int              pos,
+			       gpointer         data)
 {
 	GthImageListItem *item;
-
+	
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
 	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
-	if ((item->destroy != NULL) && (item->data != NULL))
-		(item->destroy) (item->data);
+	if (item->data != NULL) {
+		g_boxed_free (item->data_type, item->data);
+		item->data = NULL;		
+	}
 
-	item->data = data;
-	item->destroy = destroy;
-}
-
-
-void
-gth_image_list_set_image_data (GthImageList    *image_list,
-			       int              pos,
-			       gpointer         data)
-{
-	gth_image_list_set_image_data_full (image_list, pos, data, NULL);
+	if (data != NULL) 
+		item->data = g_boxed_copy (item->data_type, data);
 }
 
 
@@ -4176,20 +4173,20 @@ gth_image_list_find_image_from_data (GthImageList *image_list,
 
 
 gpointer
-gth_image_list_get_image_data (GthImageList    *image_list,
-			       int              pos)
+gth_image_list_get_image_data (GthImageList *image_list,
+			       int           pos)
 {
 	GthImageListItem *item;
-	FileData         *fdata;
-
+	
 	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), NULL);
 	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
-	fdata = item->data;
-	file_data_ref (fdata);
-
-	return fdata;
+	
+	if (item->data != NULL) 
+		return g_boxed_copy (item->data_type, item->data);
+	
+	return NULL;
 }
 
 

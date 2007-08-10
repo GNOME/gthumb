@@ -25,8 +25,11 @@
 #include <glib.h>
 #include "file-utils.h"
 #include "glib-utils.h"
+#include "gconf-utils.h"
 #include "gthumb-preloader.h"
 #include "gthumb-marshal.h"
+#include "preferences.h"
+
 
 #define NEXT_LOAD_SMALL_TIMEOUT 100
 #define NEXT_LOAD_BIG_TIMEOUT 400
@@ -474,6 +477,7 @@ gthumb_preloader_start (GThumbPreloader *gploader,
 	FileData *f_requested = NULL;
 	FileData *f_next1 = NULL;
 	FileData *f_prev1 = NULL;
+	gboolean  fast_mime_type;
 	
 	g_return_if_fail (requested != NULL);
 	
@@ -482,15 +486,20 @@ gthumb_preloader_start (GThumbPreloader *gploader,
 	if (! is_local_file (prev1))
 		prev1 = NULL;
 	
+	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	
 	f_requested = file_data_new (requested, NULL);
 	file_data_update (f_requested);
+	file_data_update_mime_type (f_requested, fast_mime_type);
 	if (next1 != NULL) {
 		f_next1 = file_data_new (next1, NULL);
 		file_data_update (f_next1);
+		file_data_update_mime_type (f_next1, fast_mime_type);
 	}
 	if (prev1 != NULL) {
 		f_prev1 = file_data_new (prev1, NULL);
 		file_data_update (f_prev1);
+		file_data_update_mime_type (f_prev1, fast_mime_type);
 	}
 	
 	gthumb_preloader_load (gploader, f_requested, f_next1, f_prev1);

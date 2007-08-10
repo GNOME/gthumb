@@ -1381,13 +1381,18 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 			 const char *new_name,
 			 GthViewer  *viewer)
 {
+	char *uri;
+	
 	if (viewer->priv->image == NULL)
 		return;
 
 	if (! same_uri (old_name, viewer->priv->image->path))
 		return;
 
-	file_data_set_path (viewer->priv->image, get_uri_from_path (new_name)); 
+	uri = add_scheme_if_absent (new_name);
+	file_data_set_path (viewer->priv->image, uri);
+	g_free (uri);
+	 
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }
 
@@ -1834,6 +1839,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	if (filename != NULL) {
 		priv->image = file_data_new (filename, NULL);
 		file_data_update (priv->image);
+		file_data_update_mime_type (priv->image, FALSE); /* FIXME: always slow ? */
 	}
 }
 
@@ -1901,6 +1907,7 @@ gth_viewer_load_from_uri (GthViewer  *viewer,
 	
 	file = file_data_new (uri, NULL);
 	file_data_update (file);
+	file_data_update_mime_type (file, FALSE); /* FIXME: always slow ? */
 	gth_viewer_load (viewer, file);
 	file_data_unref (file);
 }
