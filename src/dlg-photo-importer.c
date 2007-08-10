@@ -821,6 +821,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 	if (tmp_dir == NULL) 
 		/* should we display an error message here? */
 		return;
+	
 	tmp_filename = get_temp_file_name (tmp_dir, get_filename_extension (camera_filename));
 
 	if (gp_file_save (file, tmp_filename) >= 0) {
@@ -830,6 +831,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 
 		tmp_file = file_data_new_from_local_path (tmp_filename);
 		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
+		
 		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, tmp_file);
@@ -847,11 +849,11 @@ load_images_preview__step (AsyncOperationData *aodata,
 		file_unlink (tmp_filename);
 	}
 
+	local_dir_remove_recursive (tmp_dir);
+
 	g_free (tmp_filename);
-	dir_remove (tmp_dir);
 	g_free (tmp_dir);
 	g_free (camera_folder);
-
 	gp_file_unref (file);
 }
 

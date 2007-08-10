@@ -92,10 +92,11 @@ GList *             path_list_find_path           (GList              *list,
 /* Directory utils */
 
 gboolean            dir_is_empty                  (const char       *s);
-gboolean            dir_make                      (const char       *directory,
+gboolean            dir_make                      (const char       *uri,
 						   mode_t            mode);
-gboolean            dir_remove                    (const char       *directory);
-gboolean            dir_remove_recursive          (const char       *directory);
+gboolean            dir_remove                    (const char       *uri);
+gboolean            dir_remove_recursive          (const char       *uri);
+gboolean            local_dir_remove_recursive    (const char       *path);
 
 gboolean            ensure_dir_exists             (const char       *a_path,
 						   mode_t            mode);
@@ -224,11 +225,16 @@ char *              remove_extension_from_path    (const char       *path);
 char *              get_temp_dir_name             (void);
 char *              get_temp_file_name            (const char       *tmpdir,
 						   const char       *ext);
-void		    remove_file_and_parent_folder (char             *tmp_file);
-
 
 /* VFS extensions */
 
+typedef struct _CopyData CopyData;
+
+void                copy_data_cancel              (CopyData         *data);
+CopyData *          copy_file_async               (const char       *source_uri,
+		 				   const char       *target_uri,
+		 				   CopyDoneFunc      done_func,
+		 				   gpointer          done_data);
 GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 						   gpointer          buffer,
 						   GnomeVFSFileSize  buffer_size,
@@ -246,7 +252,15 @@ gboolean            check_permissions             (const char       *path,
 						   int               mode);
 gboolean	    is_local_file                 (const char       *filename);
 char *              get_cache_filename_from_uri   (const char       *uri);
-void	            prune_cache			  (void);
+char *              get_cache_uri_from_uri        (const char       *uri);
+void                free_cache                    (void);
+void                check_cache_free_space        (void);
+CopyData *          copy_remote_file_to_cache     (FileData         *file,
+						   CopyDoneFunc      done_func,
+						   gpointer          done_data);
+CopyData *          update_file_from_cache        (FileData         *file,
+						   CopyDoneFunc      done_func,
+						   gpointer          done_data);
 char* 		    obtain_local_file             (const char       *remote_filename);
 gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
                                                    const char       *dest_uri);
@@ -266,19 +280,5 @@ GdkPixbufAnimation* gth_pixbuf_animation_new_from_file (FileData              *f
 						        GnomeThumbnailFactory *factory);
 
 char *              xdg_user_dir_lookup               (const char            *type);
-
-typedef struct _CopyData CopyData;
-
-void                copy_data_cancel                  (CopyData     *data);
-CopyData *          copy_file_async                   (const char   *source_uri,
-		 				       const char   *target_uri,
-		 				       CopyDoneFunc  done_func,
-		 				       gpointer      done_data);
-CopyData *          copy_remote_file_to_cache         (FileData     *file,
-						       CopyDoneFunc  done_func,
-						       gpointer      done_data);
-CopyData *          update_file_from_cache            (FileData     *file,
-						       CopyDoneFunc  done_func,
-						       gpointer      done_data);
-						       
+					       
 #endif /* FILE_UTILS_H */

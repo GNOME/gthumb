@@ -585,7 +585,8 @@ catalog_list_refresh (CatalogList *cat_list)
 			if (file_is_search_result (scan->data)) {
 				type = CAT_LIST_TYPE_SEARCH;
 				pixbuf = search_pixbuf;
-			} else {
+			} 
+			else {
 				type = CAT_LIST_TYPE_CATALOG;
 				pixbuf = catalog_pixbuf;
 			}

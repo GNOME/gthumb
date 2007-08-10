@@ -173,15 +173,12 @@ print_done_cb (gpointer data)
 
 	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE);
 	tmp_dir = remove_level_from_path (tmp_comment);
-	file_unlink (tmp_comment);
-	dir_remove (tmp_dir);
+	local_dir_remove_recursive (tmp_dir);
 	g_free (tmp_comment);
 	g_free (tmp_dir);
 
-	file_unlink (tmp_filename);
-
 	tmp_dir = remove_level_from_path (tmp_filename);
-	dir_remove (tmp_dir);
+	local_dir_remove_recursive (tmp_dir);	
 	g_free (tmp_dir);
 
 	g_free (tmp_filename);
@@ -192,81 +189,76 @@ void
 gth_window_activate_action_file_print (GtkAction *action,
 				       GthWindow *window)
 {
-	GList    *list;
-	char     *tmp_dir = NULL;
-	char     *tmp_filename = NULL;
-	gboolean  remove_temp_file = FALSE;
+	GList *list;
 
 	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL)
 		return;
 
 	if (gth_window_get_image_modified (window)) {
+		char        *tmp_dir = NULL;
+		char        *tmp_filename = NULL;
 		ImageViewer *image_viewer;
 		GdkPixbuf   *pixbuf;
+		GError      *error = NULL;
+		const char  *image_filename;
+		GList       *current;
 
 		image_viewer = gth_window_get_image_viewer (window);
 		pixbuf = image_viewer_get_current_pixbuf (image_viewer);
-		if (pixbuf != NULL) {
-			GError     *error = NULL;
-			const char *image_filename;
-			GList      *current;
-
-			g_object_ref (pixbuf);
-			tmp_dir = get_temp_dir_name ();
-			if (tmp_dir == NULL) {
-				_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a temporary folder"));
-				
-				g_object_unref (pixbuf);
-				file_data_list_free (list);
-				
-				return;
-			}
+		if (pixbuf == NULL) 
+			return;
 			
-			tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
-			if (! _gdk_pixbuf_save (pixbuf,
-						tmp_filename,
-						"jpeg",
-						&error,
-						NULL)) {
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
-				
-				g_free (tmp_filename);
-				g_object_unref (pixbuf);
-				dir_remove (tmp_dir);
-				g_free (tmp_dir);
-				g_object_unref (pixbuf);
-				file_data_list_free (list);
-				
-				return;
-			}
+		g_object_ref (pixbuf);
+		tmp_dir = get_temp_dir_name ();
+		if (tmp_dir == NULL) {
+			_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a temporary folder"));
 
 			g_object_unref (pixbuf);
+			file_data_list_free (list);
 
-			image_filename = gth_window_get_image_filename (window);
-			current = file_data_list_find_path (list, image_filename);
-			if (current != NULL) {
-				FileData *fd;
-				
-				fd = file_data_dup (current->data);
-				g_free (fd->path);
-				fd->path =  g_strdup (tmp_filename);
-				comment_copy (image_filename, tmp_filename);
-			}
-			
-			remove_temp_file = TRUE;
+			return;
 		}
-	}
+			
+		tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
+		if (! _gdk_pixbuf_save (pixbuf,
+					tmp_filename,
+					"jpeg",
+					&error,
+					NULL)) 
+		{
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
+			local_dir_remove_recursive (tmp_dir);
 
-	if (remove_temp_file) {
-		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, tmp_filename);
-		dir_remove (tmp_dir);
+			g_object_unref (pixbuf);				
+			g_free (tmp_filename);
+			g_free (tmp_dir);
+			file_data_list_free (list);
+				
+			return;
+		}
+
+		g_object_unref (pixbuf);
+
+		image_filename = gth_window_get_image_filename (window);
+		current = file_data_list_find_path (list, image_filename);
+		if (current != NULL) {
+			FileData *fd;
+					
+			fd = file_data_dup (current->data);
+			g_free (fd->path);
+			fd->path =  get_uri_from_local_path (tmp_filename);
+			comment_copy (image_filename, fd->path);
+		}
+
+		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, get_uri_from_local_path (tmp_filename));
+
+		g_free (tmp_filename);		
+		g_free (tmp_dir);
 	}
 	else
 		print_catalog_dlg (GTK_WINDOW (window), list);
 
-	g_free (tmp_dir);
-	g_free (tmp_filename);
 	file_data_list_free (list);
 }
 

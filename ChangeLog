@@ -1,3 +1,16 @@
+2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/rotation-utils.c: 
+	* src/gth-window-actions-callbacks.c: 
+	* src/dlg-photo-importer.c: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/comments.c: 
+	
+	Create a temp dir where there is the bigger free space. Fixed 
+	escaping of	the temp dir.  
+	Use gnome-vfs to clear the local cache when it's too big.
+
 2007-08-09  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c (exif_string_to_time_t ): added some

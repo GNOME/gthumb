@@ -154,7 +154,6 @@ gthumb_init ()
 		migrate_to_new_directories ();
 
 	ensure_directories_exist ();
-	prune_cache ();
 		
 	eel_gconf_monitor_add ("/apps/gthumb/browser");
 	eel_gconf_monitor_add ("/apps/gthumb/ui");
@@ -180,4 +179,5 @@ gthumb_release ()
 	eel_gconf_monitor_remove ("/apps/gthumb/viewer");
 
 	preferences_release ();
+	free_cache ();
 }
