@@ -1,5 +1,19 @@
 2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-dir-list.c: 
+	* src/catalog-list.c: 
+	* libgthumb/file-utils.c: 
+
+	Updated all the calls to path_list_new, which returns a FileData list 
+	for files.  
+
+2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* configure.in: bumped version number to 2.10.6 to differentiate 
+	current development version from the latest released version.
+	
+2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/rotation-utils.c: 
 	* src/gth-window-actions-callbacks.c: 
 	* src/dlg-photo-importer.c: 

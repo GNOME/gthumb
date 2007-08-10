@@ -421,17 +421,17 @@ dir_remove_recursive (const char *uri)
 	path_list_new (uri, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
-		char *file = scan->data;
-		if (! file_unlink (file)) {
-			g_warning ("Cannot delete %s\n", file);
+		FileData *file = scan->data;
+		if (! file_unlink (file->path)) {
+			g_warning ("Cannot delete %s\n", file->path);
 			error = TRUE;
 		}
 	}
-	path_list_free (files);
+	file_data_list_free (files);
 
 	for (scan = dirs; scan; scan = scan->next) {
 		char *sub_dir = scan->data;
-		if (!dir_remove_recursive (sub_dir))
+		if (! dir_remove_recursive (sub_dir))
 			error = TRUE;
 	}
 	path_list_free (dirs);
@@ -587,9 +587,10 @@ visit_rc_directory_sync (const char *rc_dir,
 	path_list_new (rc_dir_full_path, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
-		char *rc_file, *real_file;
+		FileData *file = scan->data;
+		char     *rc_file, *real_file;
 
-		rc_file = (char*) scan->data;
+		rc_file = file->path;
 		real_file = g_strndup (rc_file + prefix_len,
 				       strlen (rc_file) - prefix_len - ext_len);
 		if (do_something)
@@ -611,6 +612,9 @@ visit_rc_directory_sync (const char *rc_dir,
 					 do_something,
 					 data);
 	}
+
+	file_data_list_free (files);
+	path_list_free (dirs);
 
 	return TRUE;
 }
@@ -2762,8 +2766,8 @@ free_cache (void)
 	if (path_list_new (cache_uri, &files, NULL)) {
 		GList *scan;
 		for (scan = files; scan; scan = scan->next ) {
-			FileData *fd = scan->data;
-			file_unlink (fd->path);
+			FileData *file = scan->data;
+			file_unlink (file->path);
 		}
 	}
 
@@ -2812,8 +2816,8 @@ check_cache_free_space (void)
 		
 		cache_used_space = 0;
 		for (scan = cache_files; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			cache_used_space += fd->size; 
+			FileData *file = scan->data;
+			cache_used_space += file->size; 
 		}		
 		
 		cache_loaded = TRUE;
@@ -2829,10 +2833,10 @@ check_cache_free_space (void)
 		 
 		cache_files = g_list_reverse (cache_files);
 		for (scan = cache_files; scan && (cache_used_space > MAX_CACHE_SIZE / 2); ) {
-			FileData *fd = scan->data;
+			FileData *file = scan->data;
 		
-			file_unlink (fd->path);
-			cache_used_space -= fd->size;
+			file_unlink (file->path);
+			cache_used_space -= file->size;
 			
 			cache_files = g_list_remove_link (cache_files, scan);
 			file_data_list_free (scan);
