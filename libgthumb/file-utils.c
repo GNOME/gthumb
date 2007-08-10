@@ -262,7 +262,7 @@ path_list_async_interrupt (PathListHandle   *handle,
 
 
 gboolean
-path_list_new (const char  *path,
+path_list_new (const char  *uri,
 	       GList      **files,
 	       GList      **dirs)
 {
@@ -277,13 +277,13 @@ path_list_new (const char  *path,
 	if (dirs) *dirs = NULL;
 
 	r = gnome_vfs_directory_list_load (&info_list,
-					   path,
+					   uri,
 					   GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	if (r != GNOME_VFS_OK)
 		return FALSE;
 
-	dir_uri = new_uri_from_path (path);
+	dir_uri = new_uri_from_path (uri);
 	for (scan = info_list; scan; scan = scan->next) {
 		GnomeVFSFileInfo *info = scan->data;
 		GnomeVFSURI      *full_uri = NULL;
@@ -295,8 +295,9 @@ path_list_new (const char  *path,
 		if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY) {
 			if (! SPECIAL_DIR (info->name))
 				d_list = g_list_prepend (d_list, s_uri);
-		} else if (info->type == GNOME_VFS_FILE_TYPE_REGULAR)
-			f_list = g_list_prepend (f_list, s_uri);
+		} 
+		else if (info->type == GNOME_VFS_FILE_TYPE_REGULAR)
+			f_list = g_list_prepend (f_list, file_data_new (s_uri, info));
 		else
 			g_free (s_uri);
 	}
@@ -310,7 +311,7 @@ path_list_new (const char  *path,
 	if (files)
 		*files = g_list_reverse (f_list);
 	else
-		path_list_free (f_list);
+		file_data_list_free (f_list);
 
 	return TRUE;
 }
@@ -408,16 +409,16 @@ dir_remove (const gchar *path)
 
 
 gboolean
-dir_remove_recursive (const gchar *directory)
+dir_remove_recursive (const char *uri)
 {
 	GList    *files, *dirs;
 	GList    *scan;
 	gboolean  error = FALSE;
 
-	if (! path_is_dir (directory))
+	if (! path_is_dir (uri))
 		return FALSE;
 
-	path_list_new (directory, &files, &dirs);
+	path_list_new (uri, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
 		char *file = scan->data;
@@ -435,10 +436,24 @@ dir_remove_recursive (const gchar *directory)
 	}
 	path_list_free (dirs);
 
-	if (!dir_remove (directory))
+	if (! dir_remove (uri))
 		error = TRUE;
 
-	return !error;
+	return ! error;
+}
+
+
+gboolean
+local_dir_remove_recursive (const char *path)
+{
+	char     *uri;
+	gboolean  result = FALSE;
+	
+	uri = get_uri_from_local_path (path);
+	result = dir_remove_recursive (uri);
+	g_free (uri);
+	
+	return result;
 }
 
 
@@ -2297,45 +2312,90 @@ remove_extension_from_path (const char *path)
 
 /* temp */
 
-/* NOTE: the directory created by this function must deleted when no longer
-needed. (delete all temporary files and use dir_remove() */
-/* NOTE: the pointer returned by this function must be freed using g_free() */
+
+static const char *try_folder[] = { "~", "tmp", NULL };
+
+
+static const char *
+get_folder_from_try_folder_list (int n)
+{
+        const char *folder;
+
+        folder = try_folder[n];
+        if (strcmp (folder, "~") == 0)
+                folder = g_get_home_dir ();
+        else if (strcmp (folder, "tmp") == 0)
+                folder = g_get_tmp_dir ();
+
+        return folder;
+}
+
+
 char *
 get_temp_dir_name (void)
 {
-	char *tmppath;
-	char *retval;
+        GnomeVFSFileSize  max_size = 0;
+        char             *best_folder = NULL;
+        int               i;
+        char             *template;
+        char             *result = NULL;
 
-	tmppath = (char*) g_build_filename (g_get_tmp_dir (), "gthumb.XXXXXX", NULL);
+        /* find the folder with the bigger free space. */
 
-	retval = mkdtemp (tmppath);
-	if (retval == NULL)
-		g_free(tmppath);
+        for (i = 0; try_folder[i] != NULL; i++) {
+                const char       *folder;
+                char             *uri;
+                GnomeVFSFileSize  size;
 
-	return retval;
+                folder = get_folder_from_try_folder_list (i);
+                uri = get_uri_from_local_path (folder);
+
+                size = get_destination_free_space (uri);
+                if (size > max_size) {
+                        max_size = size;
+                        g_free (best_folder);
+                        best_folder = get_local_path_from_uri (uri);
+                }
+                else
+                        g_free (uri);
+        }
+
+	if (best_folder == NULL)
+		return NULL;
+
+        template = g_strconcat (best_folder, "/.gth-XXXXXX", NULL);
+        g_free (best_folder);
+        
+        result = mkdtemp (template);
+
+        if ((result == NULL) || (*result == '\0')) {
+                g_free (template);
+                result = NULL;
+        }
+
+        return result;
 }
 
 
 /* WARNING: this is not secure unless only the current user has write access to
 tmpdir.  Use get_temp_dir_name to create tmpdir securely. */
-/* NOTE: the pointer returned by this function must be freed using g_free() */
 char *
 get_temp_file_name (const char *tmpdir, 
 		    const char *ext)
 {
-	char *name, *filename;
-	static GStaticMutex count_mutex = G_STATIC_MUTEX_INIT;
-	static int count = 0;
+	static GStaticMutex  count_mutex = G_STATIC_MUTEX_INIT;
+	static int           count = 0;
+	char                *name, *filename;
 
 	if (tmpdir == NULL)
 		return NULL;
 
-	g_static_mutex_lock(&count_mutex);
+	g_static_mutex_lock (&count_mutex);
 	if (ext != NULL)
 		name = g_strdup_printf ("%d%s", count++, ext);
 	else
 		name = g_strdup_printf ("%d", count++);
-	g_static_mutex_unlock(&count_mutex);
+	g_static_mutex_unlock (&count_mutex);
 
 	filename = g_build_filename (tmpdir, name, NULL);
 
@@ -2345,29 +2405,146 @@ get_temp_file_name (const char *tmpdir,
 }
 
 
-void
-remove_file_and_parent_folder (char *local_file)
+/* VFS extensions */
+
+
+/* -- copy_file_async --  */
+
+
+struct _CopyData {
+        char                *source_uri;
+        char                *target_uri;
+        GnomeVFSResult       result;
+        GnomeVFSAsyncHandle *handle;
+        CopyDoneFunc         done_func;
+        gpointer             done_data;
+};
+
+
+static CopyData*
+copy_data_new (const char   *source_uri,
+	       const char   *target_uri,
+	       CopyDoneFunc  done_func,
+	       gpointer      done_data)
 {
-	char *uri;
-	char *parent_uri;
-
-	if (local_file == NULL)
-		return;
-
-	uri = get_uri_from_local_path (local_file);
-	file_unlink (uri);
-
-	parent_uri = remove_level_from_path (uri);
-	if (parent_uri != NULL)
-		dir_remove (parent_uri);
-		
-	g_free (parent_uri);
-	g_free (uri);
+	CopyData *copy_data;
+	
+	copy_data = g_new0 (CopyData, 1);
+	copy_data->source_uri = g_strdup (source_uri);
+	copy_data->target_uri = g_strdup (target_uri);
+	copy_data->done_func = done_func;
+	copy_data->done_data = done_data;
+	copy_data->result = GNOME_VFS_OK;
+	
+	return copy_data;
 }
 
 
-/* VFS extensions */
+static void
+copy_data_free (CopyData *data)
+{
+        if (data == NULL)
+                return;
+        g_free (data->source_uri);
+        g_free (data->target_uri);
+        g_free (data);
+}
 
+
+void
+copy_data_cancel (CopyData *data)
+{
+	if (data == NULL)
+		return;
+	if (data->handle != NULL) 
+		gnome_vfs_async_cancel (data->handle);
+	copy_data_free (data);
+}
+
+
+static gboolean
+copy_file_async_done (gpointer data)
+{
+	CopyData *copy_data = data;
+	
+	if (copy_data->done_func != NULL) {
+		copy_data->handle = NULL;	
+		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
+	}
+	copy_data_free (copy_data);
+	
+	return FALSE;
+}
+
+
+static int
+copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+				    GnomeVFSXferProgressInfo *info,
+				    gpointer                  user_data)
+{
+	CopyData *copy_data = user_data;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		copy_data->result = info->vfs_status;
+		return FALSE;
+	}
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
+		copy_file_async_done (copy_data);
+	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
+		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
+		g_signal_emit (G_OBJECT (copy_data->archive),
+			       fr_archive_signals[PROGRESS],
+			       0,
+			       (double) info->total_bytes_copied / info->bytes_total);*/
+			       
+	return TRUE;
+}
+
+
+CopyData *
+copy_file_async (const char   *source_uri,
+		 const char   *target_uri,
+		 CopyDoneFunc  done_func,
+		 gpointer      done_data)
+{
+	CopyData       *copy_data;
+	GList          *source_uri_list, *target_uri_list;
+	GnomeVFSResult  result;
+
+	copy_data = copy_data_new (source_uri, target_uri, done_func, done_data);
+
+	if (! path_is_file (source_uri)) {
+		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
+		g_idle_add (copy_file_async_done, copy_data);
+		return NULL;
+	}
+
+	source_uri_list = g_list_append (NULL, gnome_vfs_uri_new (source_uri));
+	target_uri_list = g_list_append (NULL, gnome_vfs_uri_new (target_uri));
+
+	result = gnome_vfs_async_xfer (&copy_data->handle,
+				       source_uri_list,
+				       target_uri_list,
+				       GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				       GNOME_VFS_XFER_OVERWRITE_MODE_ABORT,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       copy_file_async_progress_update_cb, copy_data,
+				       NULL, NULL);
+
+	gnome_vfs_uri_list_free (source_uri_list);
+	gnome_vfs_uri_list_free (target_uri_list);
+
+	if (result != GNOME_VFS_OK) {
+		copy_data->result = result;
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	
+	return copy_data;
+}
+
+
+/* -- */
 
 GnomeVFSResult
 _gnome_vfs_read_line (GnomeVFSHandle   *handle,
@@ -2434,15 +2611,14 @@ _gnome_vfs_write_line (GnomeVFSHandle   *handle,
 }
 
 
-
 GnomeVFSFileSize
-get_destination_free_space (const char *path)
+get_destination_free_space (const char *uri)
 {
         GnomeVFSURI      *vfs_uri;
         GnomeVFSResult    result;
         GnomeVFSFileSize  free_space;
 
-        vfs_uri = gnome_vfs_uri_new (path);
+        vfs_uri = gnome_vfs_uri_new (uri);
         result = gnome_vfs_get_volume_free_space (vfs_uri, &free_space);
         gnome_vfs_uri_unref (vfs_uri);
 
@@ -2566,69 +2742,193 @@ get_cache_uri_from_uri (const char *uri)
 }
 
 
-void
-prune_cache (void)
-{
-	char *command;
-
-	/* Purge old files before transferring new ones. */
-	/* Old = ctime older than 2 days. */
-	command = g_strconcat (	"find ",
-				g_get_home_dir (),
-				"/",
-				RC_REMOTE_CACHE_DIR,
-				" -type f -ctime +2 | xargs rm -rf",
-				NULL );
-	system (command);
-	g_free (command);
-}
-
-
-long
-get_space_used_in_kb (const char *path)
-{
-	char   *command;
-	char   *command_output = NULL;
-	long 	space_used = 0;
-
-        command = g_strdup_printf ("du -ks %s", path);
-        g_spawn_command_line_sync (command,
-                                   &command_output,
-                                   NULL, NULL, NULL);
-	g_free (command);
-
-        if (command_output != NULL) {
-                space_used = strtol (command_output, NULL, 10);
-                g_free (command_output);
-        }
-
-        return space_used;
-}
-
-
-#define MAX_CACHE_SIZE_IN_KB	(256 * 1024)
+#define MAX_CACHE_SIZE (256 * 1024 * 1024)
+static GnomeVFSFileSize  cache_used_space = 0;
+static GList            *cache_files = NULL;
+static gboolean          cache_loaded = FALSE;
 
 
 void
-check_cache_space (void)
+free_cache (void)
 {
-	char   *command;
-	char   *cache_dir;
-	int	i = 0;
-
-	cache_dir = g_strdup_printf ("%s/%s/",g_get_home_dir (),RC_REMOTE_CACHE_DIR);
-	if (cache_dir == NULL)
-		return;
-
-	command = g_strdup_printf ("cd %s; ls -t1 %s | tail -n 1 | xargs rm", cache_dir, cache_dir);
-
-	while ((get_space_used_in_kb (cache_dir) > MAX_CACHE_SIZE_IN_KB) && (i < 100) ) {
-		system (command);
-		i++;
+	char  *cache_dir;
+	char  *cache_uri;
+	GList *files = NULL;
+	
+	cache_dir = get_cache_full_path (NULL, NULL);
+	cache_uri = get_uri_from_local_path (cache_dir);
+	g_free (cache_dir);
+	
+	if (path_list_new (cache_uri, &files, NULL)) {
+		GList *scan;
+		for (scan = files; scan; scan = scan->next ) {
+			FileData *fd = scan->data;
+			file_unlink (fd->path);
+		}
 	}
 
+	file_data_list_free (files);
+	g_free (cache_uri);
+	
+	file_data_list_free (cache_files);
+	cache_files = NULL;
+	cache_used_space = 0;
+}
+
+
+static gint
+comp_func_time (gconstpointer a, 
+		gconstpointer b)
+{
+	FileData *data_a, *data_b;
+
+	data_a = (FileData*) a;
+	data_b = (FileData*) b;
+
+	return data_a->mtime > data_b->mtime;
+}
+
+
+void
+check_cache_free_space (void)
+{
+	char  *cache_dir;
+	char  *cache_uri;
+	GList *scan;
+
+	cache_dir = get_cache_full_path (NULL, NULL);
+	cache_uri = get_uri_from_local_path (cache_dir);
 	g_free (cache_dir);
-	debug (DEBUG_INFO, "Deleted %d files from cache to fit %ld kB limit.\n", i, MAX_CACHE_SIZE_IN_KB);
+	
+	if (! cache_loaded) {
+		if (! path_list_new (cache_uri, &cache_files, NULL)) {
+			file_data_list_free (cache_files);
+			cache_files = NULL;
+			cache_loaded = FALSE;
+			g_free (cache_uri);
+			return;
+		}
+		cache_files = g_list_sort (cache_files, comp_func_time);
+		
+		cache_used_space = 0;
+		for (scan = cache_files; scan; scan = scan->next) {
+			FileData *fd = scan->data;
+			cache_used_space += fd->size; 
+		}		
+		
+		cache_loaded = TRUE;
+	}
+	
+	debug (DEBUG_INFO, "cache size: %"GNOME_VFS_SIZE_FORMAT_STR".\n", cache_used_space);
+	
+	if (cache_used_space > MAX_CACHE_SIZE) {
+		int n = 0;
+		
+		/* the first file is the last copied, so reverse the list to
+		 * delete the older files first. */
+		 
+		cache_files = g_list_reverse (cache_files);
+		for (scan = cache_files; scan && (cache_used_space > MAX_CACHE_SIZE / 2); ) {
+			FileData *fd = scan->data;
+		
+			file_unlink (fd->path);
+			cache_used_space -= fd->size;
+			
+			cache_files = g_list_remove_link (cache_files, scan);
+			file_data_list_free (scan);
+			scan = cache_files;
+			
+			n++;
+		}
+		cache_files = g_list_reverse (cache_files);
+		
+		debug (DEBUG_INFO, "deleted %d files, new cache size: %"GNOME_VFS_SIZE_FORMAT_STR".\n", n, cache_used_space);
+	}
+	
+	g_free (cache_uri);
+}
+
+
+typedef struct {
+	CopyDoneFunc done_func;
+	gpointer     done_data;
+} CopyToCacheData;
+
+
+static void
+copy_remote_file_to_cache_done (const char     *uri, 
+				GnomeVFSResult  result, 
+				gpointer        callback_data)
+{
+	CopyToCacheData *data = callback_data;
+
+	if (result == GNOME_VFS_OK) {
+		FileData *cache_file;
+		
+		cache_file = file_data_new (uri, NULL);
+		file_data_update (cache_file);
+		cache_used_space += cache_file->size;
+		cache_files = g_list_prepend (cache_files, cache_file);
+	}
+	
+	if (data->done_func != NULL)
+		data->done_func (uri, result, data->done_data);
+	
+	g_free (data);
+}
+
+
+CopyData *
+copy_remote_file_to_cache (FileData     *file,
+			   CopyDoneFunc  done_func,
+			   gpointer      done_data)
+{
+	CopyData *copy_data = NULL;
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri_from_uri (file->path);
+	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else {
+		CopyToCacheData *data;
+		
+		check_cache_free_space ();
+		
+		data = g_new0 (CopyToCacheData, 1);
+		data->done_func = done_func;
+		data->done_data = done_data;
+						
+		copy_file_async (file->path, 
+				 cache_uri, 
+				 copy_remote_file_to_cache_done, 
+				 data);
+	}
+	g_free (cache_uri);
+	
+	return copy_data;
+}
+
+
+CopyData *
+update_file_from_cache (FileData     *file,
+			CopyDoneFunc  done_func,
+			gpointer      done_data)
+{
+	CopyData *copy_data = NULL;	
+	char     *cache_uri;
+	
+	cache_uri = get_cache_uri_from_uri (file->path);
+	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
+		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
+		g_idle_add (copy_file_async_done, copy_data);
+	}
+	else
+		copy_file_async (cache_uri, file->path, done_func, done_data);
+	g_free (cache_uri);
+	
+	return copy_data;
 }
 
 
@@ -3186,181 +3486,4 @@ error:
 		return user_dir;
 	} else
 		return strdup (home_dir);
-}
-
-/* -- copy_file_async --  */
-
-
-struct _CopyData {
-        char                *source_uri;
-        char                *target_uri;
-        GnomeVFSResult       result;
-        GnomeVFSAsyncHandle *handle;
-        CopyDoneFunc         done_func;
-        gpointer             done_data;
-};
-
-
-static CopyData*
-copy_data_new (const char   *source_uri,
-	       const char   *target_uri,
-	       CopyDoneFunc  done_func,
-	       gpointer      done_data)
-{
-	CopyData *copy_data;
-	
-	copy_data = g_new0 (CopyData, 1);
-	copy_data->source_uri = g_strdup (source_uri);
-	copy_data->target_uri = g_strdup (target_uri);
-	copy_data->done_func = done_func;
-	copy_data->done_data = done_data;
-	copy_data->result = GNOME_VFS_OK;
-	
-	return copy_data;
-}
-
-
-static void
-copy_data_free (CopyData *data)
-{
-        if (data == NULL)
-                return;
-        g_free (data->source_uri);
-        g_free (data->target_uri);
-        g_free (data);
-}
-
-
-void
-copy_data_cancel (CopyData *data)
-{
-	if (data == NULL)
-		return;
-	if (data->handle != NULL) 
-		gnome_vfs_async_cancel (data->handle);
-	copy_data_free (data);
-}
-
-
-static gboolean
-copy_file_async_done (gpointer data)
-{
-	CopyData *copy_data = data;
-	
-	if (copy_data->done_func != NULL) {
-		copy_data->handle = NULL;	
-		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
-	}
-	copy_data_free (copy_data);
-	
-	return FALSE;
-}
-
-
-static int
-copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
-				    GnomeVFSXferProgressInfo *info,
-				    gpointer                  user_data)
-{
-	CopyData *copy_data = user_data;
-
-	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		copy_data->result = info->vfs_status;
-		return FALSE;
-	}
-	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
-		copy_file_async_done (copy_data);
-	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
-		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
-		g_signal_emit (G_OBJECT (copy_data->archive),
-			       fr_archive_signals[PROGRESS],
-			       0,
-			       (double) info->total_bytes_copied / info->bytes_total);*/
-			       
-	return TRUE;
-}
-
-
-CopyData *
-copy_file_async (const char   *source_uri,
-		 const char   *target_uri,
-		 CopyDoneFunc  done_func,
-		 gpointer      done_data)
-{
-	CopyData       *copy_data;
-	GList          *source_uri_list, *target_uri_list;
-	GnomeVFSResult  result;
-
-	copy_data = copy_data_new (source_uri, target_uri, done_func, done_data);
-
-	if (! path_is_file (source_uri)) {
-		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
-		g_idle_add (copy_file_async_done, copy_data);
-		return NULL;
-	}
-
-	source_uri_list = g_list_append (NULL, gnome_vfs_uri_new (source_uri));
-	target_uri_list = g_list_append (NULL, gnome_vfs_uri_new (target_uri));
-
-	result = gnome_vfs_async_xfer (&copy_data->handle,
-				       source_uri_list,
-				       target_uri_list,
-				       GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-				       GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				       GNOME_VFS_XFER_OVERWRITE_MODE_ABORT,
-				       GNOME_VFS_PRIORITY_DEFAULT,
-				       copy_file_async_progress_update_cb, copy_data,
-				       NULL, NULL);
-
-	gnome_vfs_uri_list_free (source_uri_list);
-	gnome_vfs_uri_list_free (target_uri_list);
-
-	if (result != GNOME_VFS_OK) {
-		copy_data->result = result;
-		g_idle_add (copy_file_async_done, copy_data);
-	}
-	
-	return copy_data;
-}
-
-
-CopyData *
-copy_remote_file_to_cache (FileData     *file,
-			   CopyDoneFunc  done_func,
-			   gpointer      done_data)
-{
-	CopyData *copy_data = NULL;
-	char     *cache_uri;
-	
-	cache_uri = get_cache_uri_from_uri (file->path);
-	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
-		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
-	}
-	else	
-		copy_file_async (file->path, cache_uri, done_func, done_data);
-	g_free (cache_uri);
-	
-	return copy_data;
-}
-
-
-CopyData *
-update_file_from_cache (FileData     *file,
-			CopyDoneFunc  done_func,
-			gpointer      done_data)
-{
-	CopyData *copy_data = NULL;	
-	char     *cache_uri;
-	
-	cache_uri = get_cache_uri_from_uri (file->path);
-	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
-		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
-	}
-	else
-		copy_file_async (cache_uri, file->path, done_func, done_data);
-	g_free (cache_uri);
-	
-	return copy_data;
 }

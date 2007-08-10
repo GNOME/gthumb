@@ -115,8 +115,8 @@ apply_transformation_jpeg (GtkWindow     *win,
 			   GError       **error)
 {
 	gboolean              result = TRUE;
-	char                 *tmp_dir;
-	char                 *tmp_output_file;
+	char                 *tmp_dir = NULL;
+	char                 *tmp_output_file = NULL;
 	JXFORM_CODE           transf;
 	jpeg_mcu_dialog_data *userdata = NULL;
 	char		     *local_file;
@@ -134,9 +134,6 @@ apply_transformation_jpeg (GtkWindow     *win,
 			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not create a temporary folder"));
 		return FALSE;
 	}
-
-	tmp_output_file = get_temp_file_name (tmp_dir, NULL);
-	g_free (tmp_dir);
 
 	local_file = get_cache_filename_from_uri (file->path);
 	if (local_file == NULL) {
@@ -183,6 +180,7 @@ apply_transformation_jpeg (GtkWindow     *win,
 	userdata->file = file;
 	userdata->parent = win;
 
+	tmp_output_file = get_temp_file_name (tmp_dir, NULL);
 	if (jpegtran (local_file, 
 		      tmp_output_file, 
 		      transf, 
@@ -211,9 +209,10 @@ apply_transformation_jpeg (GtkWindow     *win,
 
 apply_transformation_jpeg__free_and_close:
 
+	local_dir_remove_recursive (tmp_dir);
 	g_free (userdata);
-	remove_file_and_parent_folder (tmp_output_file);
 	g_free (tmp_output_file);
+	g_free (tmp_dir);
 
 	return result;
 }

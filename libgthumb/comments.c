@@ -208,18 +208,18 @@ comment_data_equal (CommentData *data1,
 
 
 char *
-comments_get_comment_filename (const char *source,
+comments_get_comment_filename (const char *uri,
 			       gboolean    resolve_symlinks)
 {
 	char *source_real = NULL;
 	char *directory = NULL;
 	char *filename = NULL;
-	char *path = NULL;
+	char *comment_uri = NULL;
 
-	if ((source == NULL) || ! is_local_file (source))
+	if ((uri == NULL) || ! is_local_file (uri))
 		return NULL;
 
-	source_real = g_strdup (source);
+	source_real = g_strdup (uri);
 
 	if (resolve_symlinks) {
 		char           *resolved = NULL;
@@ -238,13 +238,13 @@ comments_get_comment_filename (const char *source,
 	directory = remove_level_from_path (source_real);
 	filename = g_strconcat (file_name_from_path (source_real), COMMENT_EXT, NULL);
 
-	path = g_build_filename (directory, ".comments", filename, NULL);
+	comment_uri = g_strconcat (directory, "/.comments/", filename, NULL);
 
 	g_free (directory);
 	g_free (filename);
 	g_free (source_real);
 
-	return path;
+	return comment_uri;
 }
 
 

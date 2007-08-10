@@ -533,7 +533,7 @@ release_data (void)
 		monitor = NULL;
 	}
 
-	preferences_release ();
+	gthumb_release ();
 	eel_global_client_free ();
 }
 
@@ -741,27 +741,28 @@ prepare_app (void)
 		else
 #endif /* HAVE_GTKUNIQUE */
 			gth_browser_activate_action_file_camera_import (NULL, NULL);
-
-	} else if (! view_comline_catalog
-	    && (n_dir_urls == 0)
-	    && (n_file_urls == 0)) {
+	} 
+	else if (! view_comline_catalog
+		 && (n_dir_urls == 0)
+		 && (n_file_urls == 0)) {
 		open_browser_window (NULL, TRUE, use_factory);
-
-	} else if (view_single_image) {
+	} 
+	else if (view_single_image) {
 		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
 #ifdef HAVE_GTKUNIQUE
 			char *command = g_strjoin ("|", "load_image", file_urls->data, NULL);
     			gtk_unique_app_send_message (gth_application, GTK_UNIQUE_CUSTOM, command);
 			g_free (command);
 #endif /* HAVE_GTKUNIQUE */
-		} else {
+		} 
+		else {
 			if (UseViewer)
 				open_viewer_window (file_urls->data, use_factory);
 			else
 				open_browser_window (file_urls->data, TRUE, use_factory);
 		}
-
-	} else if (view_comline_catalog) {
+	} 
+	else if (view_comline_catalog) {
 		char *catalog_path;
 		char *catalog_uri;
 
