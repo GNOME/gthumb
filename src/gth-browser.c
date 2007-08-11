@@ -589,31 +589,31 @@ window_update_image_info (GthBrowser *browser)
 	window_update_statusbar_image_info (browser);
 	window_update_statusbar_zoom_info (browser);
 
-	{
-		GthBrowserPrivateData *priv = browser->priv;
-		JPEGData              *jdata = NULL;
-		char                  *cache_uri = NULL;
+	GthBrowserPrivateData *priv = browser->priv;
+	JPEGData              *jdata = NULL;
+	char                  *cache_uri = NULL;
 		
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
-		}
+	if (priv->exif_data != NULL) {
+		exif_data_unref (priv->exif_data);
+		priv->exif_data = NULL;
+	}
 
-		if (priv->image != NULL)
-			cache_uri = get_cache_filename_from_uri (priv->image->path);
-		if ((cache_uri != NULL) && (image_is_jpeg (cache_uri))) {
-			char *local_file = NULL;
+	if (priv->image != NULL)
+		cache_uri = get_cache_filename_from_uri (priv->image->path);
+
+	if ((cache_uri != NULL) && (image_is_jpeg (cache_uri))) {
+		char *local_file = NULL;
 			
-			local_file = get_cache_filename_from_uri (priv->image->path);
-			jdata = jpeg_data_new_from_file (local_file);
-			g_free (local_file);
-		}
-		g_free (cache_uri);
+		local_file = get_cache_filename_from_uri (priv->image->path);
+		jdata = jpeg_data_new_from_file (local_file);
+		g_free (local_file);
+	}
 
-		if (jdata != NULL) {
-			priv->exif_data = jpeg_data_get_exif_data (jdata);
-			jpeg_data_unref (jdata);
-		}
+	g_free (cache_uri);
+
+	if (jdata != NULL) {
+		priv->exif_data = jpeg_data_get_exif_data (jdata);
+		jpeg_data_unref (jdata);
 	}
 
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer),
