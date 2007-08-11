@@ -1,5 +1,12 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/dlg-rename-series.c (dlg_rename_series): no need to unescape 
+	the template.
+	
+	Fixes bug #464348 – Rename tool breaks if template = "%f1%e"
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/gth-browser.c: use a private variable to store the fast_file_type
 	preference, to avoid a lot of gconf key reads.
 
