@@ -586,12 +586,12 @@ update_image_comment (GthBrowser *browser)
 static void
 window_update_image_info (GthBrowser *browser)
 {
-	window_update_statusbar_image_info (browser);
-	window_update_statusbar_zoom_info (browser);
-
 	GthBrowserPrivateData *priv = browser->priv;
 	JPEGData              *jdata = NULL;
 	char                  *cache_uri = NULL;
+
+	window_update_statusbar_image_info (browser);
+	window_update_statusbar_zoom_info (browser);
 		
 	if (priv->exif_data != NULL) {
 		exif_data_unref (priv->exif_data);
@@ -2407,6 +2407,9 @@ catalog_activate (GthBrowser *browser,
 	Catalog               *catalog;
 	GError                *gerror;
 	GtkTreeIter            iter;
+
+	if (cat_path == NULL)
+		return;
 
 	/* catalog directory */
 
@@ -4396,9 +4399,10 @@ activate_catalog_done (GthBrowser *browser)
 		GtkTreeIter iter;
 		gboolean    is_search;
 
-		if (! catalog_list_get_iter_from_path (priv->catalog_list,
-						       priv->catalog_path,
-						       &iter)) {
+		if ((priv->catalog_path == NULL) 
+		    || ! catalog_list_get_iter_from_path (priv->catalog_list,
+						          priv->catalog_path,
+						          &iter)) {
 			window_image_viewer_set_void (browser);
 			return;
 		}
@@ -4406,7 +4410,8 @@ activate_catalog_done (GthBrowser *browser)
 		add_history_item (browser,
 				  remove_host_from_uri (priv->catalog_path),
 				  is_search ? SEARCH_PREFIX : CATALOG_PREFIX);
-	} else
+	} 
+	else
 		priv->go_op = GTH_BROWSER_GO_TO;
 
 	window_update_history_list (browser);
@@ -6086,7 +6091,8 @@ gth_browser_notify_catalog_delete (GthBrowser *browser,
 		if (current_cat_deleted) {
 			gth_browser_go_to_catalog (browser, NULL);
 			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-		} else {
+		} 
+		else {
 			GtkTreeIter iter;
 			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
 

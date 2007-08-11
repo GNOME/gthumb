@@ -1018,8 +1018,8 @@ dlg_file_rename_series (GthWindow *window,
 			files_created = my_list_remove (files_created, old_full_path);
 
 			o_scan = o_scan->next;
-
-		} else {
+		}
+		else {
 			old_names = g_list_remove_link (old_names, o_scan);
 			error_list = g_list_prepend (error_list, o_scan->data);
 			g_list_free (o_scan);

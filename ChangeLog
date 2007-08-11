@@ -1,3 +1,12 @@
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-catalog.c: 
+	
+	Fixed catalog renaming and moving.
+
 2007-08-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (window_update_image_info):

@@ -420,15 +420,21 @@ static void
 move_to_catalog_dir__ok_cb (GtkWidget  *widget,
 			    DialogData *data)
 {
+	char *new_dir;
 	char *new_path;
 
-	new_path = g_strconcat (data->cat_list->path,
+	new_dir = catalog_list_get_selected_path (data->cat_list);
+	if (new_dir == NULL)
+		new_dir = g_strdup (data->cat_list->path);
+	new_path = g_strconcat (new_dir,
 				"/",
 				file_name_from_path (data->data.catalog_path),
 				NULL);
 
 	file_move (data->data.catalog_path, new_path);
+
 	g_free (new_path);
+	g_free (new_dir);
 
 	all_windows_update_catalog_list ();
 	gtk_widget_destroy (data->dialog);
