@@ -80,7 +80,7 @@
 
 #include "icons/pixbufs.h"
 
-#define GCONF_NOTIFICATIONS 19
+#define GCONF_NOTIFICATIONS 20
 
 #define VIEW_AS_DELAY 500
 
@@ -218,6 +218,7 @@ struct _GthBrowserPrivateData {
 	gboolean            load_image_folder_after_image;
 	gboolean            focus_current_image;
 	gboolean            show_hidden_files;
+	gboolean            fast_file_type;
 	
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
@@ -2409,7 +2410,7 @@ catalog_activate (GthBrowser *browser,
 	GtkTreeIter            iter;
 
 	if (cat_path == NULL)
-		return;
+		return FALSE;
 
 	/* catalog directory */
 
@@ -2902,7 +2903,7 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 
 	/* Images are handled by gThumb directly. Other supported media (video,
 	   audio) require external players, which are launched by this function. */
-	if (file_is_image (browser->priv->image->path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+	if (file_is_image (browser->priv->image->path, browser->priv->fast_file_type))
 		return FALSE;
 
 	current_mime_type = get_file_mime_type (browser->priv->image->path, FALSE);
@@ -4788,6 +4789,19 @@ pref_show_hidden_files_changed (GConfClient *client,
 
 
 static void
+pref_fast_file_type_changed (GConfClient *client,
+			     guint        cnxn_id,
+			     GConfEntry  *entry,
+			     gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	
+	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	window_update_file_list (browser);
+}
+
+
+static void
 pref_thumbnail_size_changed (GConfClient *client,
 			     guint        cnxn_id,
 			     GConfEntry  *entry,
@@ -5557,7 +5571,6 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	char                  *current_dir;
 	GList                 *created_in_current_dir = NULL;
 	GList                 *scan;
-	gboolean               fast_mime_type;
 	
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
@@ -5565,8 +5578,6 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	current_dir = add_scheme_if_absent (priv->dir_list->path);
 	if (current_dir == NULL)
 		return;
-
-	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	for (scan = list; scan; scan = scan->next) {
 		char *path = scan->data;
@@ -5580,7 +5591,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			FileData *file;
 			
 			file = file_data_new (path, NULL);
-			file_data_update_mime_type (file, fast_mime_type);
+			file_data_update_mime_type (file, browser->priv->fast_file_type);
 			if (file_filter (file, browser->priv->show_hidden_files))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else
@@ -6964,7 +6975,8 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->sel_change_timeout = 0;
 	
 	priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
-
+	priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	
 	/* preloader */
 
 	priv->preloader = gthumb_preloader_new ();
@@ -7080,6 +7092,11 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_HIDDEN_FILES,
 					   pref_show_hidden_files_changed,
+					   browser);
+
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_FAST_FILE_TYPE,
+					   pref_fast_file_type_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
@@ -8268,7 +8285,7 @@ load_timeout_cb (gpointer data)
 	if (browser->priv->image == NULL)
 		return FALSE;
 
-	file_data_update (browser->priv->image);
+	file_data_update_info (browser->priv->image);
 
 	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
 	if (browser->priv->image_position >= 0) {
@@ -8345,7 +8362,7 @@ gth_browser_load_image (GthBrowser *browser,
 		return;
 	}
 
-	file_data_update (file);
+	file_data_update_info (file);
 
 	if (! priv->image_modified
 	    && (priv->image != NULL)

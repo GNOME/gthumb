@@ -1,5 +1,20 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c: use a private variable to store the fast_file_type
+	preference, to avoid a lot of gconf key reads.
+
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-browser.c: 
+	* libgthumb/gth-file-list.c: do not update the mime-type when we just
+	need to update the mtime.
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: added file_data_update_info to update the 
+	file info without updating the mime type.
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser-actions-callbacks.c: 
 	* src/gth-browser.c: 
 	* src/dlg-file-utils.c: 

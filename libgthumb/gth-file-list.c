@@ -1708,7 +1708,7 @@ gfl_update_thumb (GthFileList *file_list,
 	if (fd == NULL)
 		return;
 
-	file_data_update (fd);
+	file_data_update_info (fd);
 
 	file_list->priv->thumb_pos = pos;
 	if (file_list->priv->thumb_fd != NULL)
@@ -1745,7 +1745,7 @@ gfl_update_thumb_list (GthFileList  *file_list,
 			continue;
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
-		file_data_update (fd);
+		file_data_update_info (fd);
 		file_data_unref (fd);
 	}
 }
