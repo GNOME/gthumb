@@ -1,5 +1,21 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: added function add_filename_to_uri
+
+	* src/dlg-write-to-cd.c: 
+	* src/dlg-file-utils.c: use add_filename_to_uri here
+	
+	* libgthumb/comments.c (comments_get_comment_filename): do not return 
+	NULL for non-local uris.
+	
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/gth-browser.c (_set_fullscreen_or_slideshow): do not reverse the
+	file list.
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser.c (gth_browser_load_image_from_uri): update the 
 	mime-type here.
 	(load_timeout_cb): no need to update the file info here.

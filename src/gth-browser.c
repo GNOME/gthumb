@@ -8624,7 +8624,6 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 			g_list_free (file_list);
 		file_list = gth_file_view_get_list (priv->file_list->view);
 	}
-	file_list = g_list_reverse (file_list);
 	
 	if (file_list == NULL)
 		return;

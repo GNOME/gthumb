@@ -106,8 +106,8 @@ ok_clicked_cb (GtkWidget  *widget,
 				TRUE,
 				write_to_cd__continue,
 				data);
-
-	} else if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_CATALOG_LIST) {
+	} 
+	else if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_CATALOG_LIST) {
 		GList *file_list = gth_file_list_get_all (gth_browser_get_file_list (data->browser));
 		dlg_copy_items (GTH_WINDOW (data->browser),
 				file_list,
@@ -118,8 +118,8 @@ ok_clicked_cb (GtkWidget  *widget,
 				write_to_cd__continue,
 				data);
 		path_list_free (file_list);
-
-	} else {
+	} 
+	else {
 		char *dest_folder = g_build_path("///", "burn:", file_name_from_path (data->current_folder), NULL);
 		dlg_folder_copy (GTH_WINDOW (data->browser),
 				 data->current_folder,
@@ -134,7 +134,6 @@ ok_clicked_cb (GtkWidget  *widget,
 }
 
 
-
 void
 dlg_write_to_cd (GthBrowser *browser)
 {

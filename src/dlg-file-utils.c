@@ -1483,15 +1483,13 @@ copy_next_file (FileCopyData *fcdata)
 		char *src_cache_file;
 		char *dest_cache_file;
 
-		dest_file = g_strconcat (fcdata->destination,
-					 "/",
-					 file_name_from_path (src_file),
-					 NULL);
+		dest_file = add_filename_to_uri (fcdata->destination,
+						 file_name_from_path (src_file));
 
 		src_cache_file = comments_get_comment_filename (src_file, TRUE);
 		dest_cache_file = comments_get_comment_filename (dest_file, TRUE);
 
-		if (path_is_file (src_cache_file)) {
+		if (path_is_file (src_cache_file) && (dest_cache_file != NULL)) {
 			char *parent_dir;
 
 			parent_dir = remove_level_from_path (dest_cache_file);

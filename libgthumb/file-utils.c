@@ -1411,6 +1411,24 @@ add_scheme_if_absent (const char *path)
 
 
 char *
+add_filename_to_uri (const char *uri,
+		     const char *filename)
+{
+	gboolean  add_separator;
+	
+	if (str_ends_with (uri, ":///") || str_ends_with (uri, "/"))
+		add_separator = FALSE;
+	else
+		add_separator = TRUE;
+		
+	return g_strconcat (uri,
+			    (add_separator ? "/" : ""),
+			    filename,
+			    NULL);
+}
+
+
+char *
 get_uri_from_local_path (const char *local_path)
 {
         char *escaped;
