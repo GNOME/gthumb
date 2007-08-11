@@ -1131,19 +1131,46 @@ add_list_in_chunks (gpointer callback_data)
 static void
 load_new_list (GthFileList *file_list)
 {
+	GList *scan;
+	
 	if (file_list->priv->stop_it)
 		return;
+
+	/* if an image is already present invalidate the thumbnail
+	 * instead of adding the image twice. */
+
+	for (scan = file_list->priv->new_list; scan; /* empty */) {
+		FileData *new_fd = scan->data;
+		GList    *same_path_in_list;
+		GList    *next = scan->next;
+		
+		same_path_in_list = file_data_list_find_path (file_list->list, new_fd->path); 
+		if (same_path_in_list != NULL) {
+			FileData *old_fd = same_path_in_list->data;
+			
+			old_fd->error = FALSE;
+			old_fd->thumb_loaded = FALSE;
+			old_fd->thumb_created = FALSE;
+			
+			/* remove the file from new_list */
+			
+			file_list->priv->new_list = g_list_remove_link (file_list->priv->new_list, scan);
+			file_data_list_free (scan);
+		}
+		
+		scan = next;
+	}
 
 	if (file_list->priv->new_list == NULL) {
 		add_list_done (file_list);
 		return;
 	}
 
+	/**/
+
 	file_list->busy = TRUE;
 	file_list->priv->stop_it = FALSE;
-
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
-
 	add_list_in_chunks (add_list_data_new (file_list));
 }
 

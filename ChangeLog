@@ -1,5 +1,11 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/gth-file-list.c (load_new_list): 
+	
+	Fixed bug #465414 – change comment and image shown twice in browser
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/gth-window-actions-entries.h: 
 	* src/gth-window-actions-callbacks.h: 
 	* src/gth-window-actions-callbacks.c: 
