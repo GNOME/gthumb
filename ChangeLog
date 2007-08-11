@@ -1,5 +1,14 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/thumb-loader.c: do not save thumbnails from the user's
+	thumbnail directory.  Use the "large" subdirectory when using big 
+	thumbnails.
+	
+	* libgthumb/file-utils.c (remove_host_from_uri): return "/" if the uri
+	is "file://"
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* libgthumb/file-utils.h: 
 	* libgthumb/file-utils.c: added function add_filename_to_uri
 
