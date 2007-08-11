@@ -1,3 +1,8 @@
+2007-08-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (window_update_image_info):
+	Fixed indentation.
+
 2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/rotation-utils.c: 
