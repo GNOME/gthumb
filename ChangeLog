@@ -1,5 +1,11 @@
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c (gth_browser_load_image_from_uri): update the 
+	mime-type here.
+	(load_timeout_cb): no need to update the file info here.
+	
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* libgthumb/gth-file-list.c (load_new_list): 
 	
 	Fixed bug #465414 – change comment and image shown twice in browser

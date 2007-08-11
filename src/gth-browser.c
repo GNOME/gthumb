@@ -8285,8 +8285,6 @@ load_timeout_cb (gpointer data)
 	if (browser->priv->image == NULL)
 		return FALSE;
 
-	file_data_update_info (browser->priv->image);
-
 	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
 	if (browser->priv->image_position >= 0) {
 		prev1 = get_image_to_preload (browser, browser->priv->image_position - 1, 1);
@@ -8403,6 +8401,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 	FileData *file;
 	
 	file = file_data_new (filename, NULL);
+	file_data_update_mime_type (file, browser->priv->fast_file_type);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);
 }
