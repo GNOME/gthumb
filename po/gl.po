@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-22 21:29+0200\n"
+"POT-Creation-Date: 2007-08-12 12:30+0200\n"
 "PO-Revision-Date: 2007-07-22 21:47+0200\n"
 "Last-Translator: Ignacio Casal Quinteiro <icq@cvs.gnome.org>\n"
 "Language-Team: Galego <proxecto@trasno.net>\n"
@@ -36,7 +36,7 @@ msgstr "Índice"
 msgid "Image"
 msgstr "Imaxe"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:805
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
 msgid "Dimensions"
 msgstr "Dimensións"
 
@@ -266,9 +266,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "Importar fotos"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:901
-#: ../src/dlg-photo-importer.c:940 ../src/dlg-photo-importer.c:1536
-#: ../src/dlg-photo-importer.c:2283
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1605
+#: ../src/dlg-photo-importer.c:2349
 msgid "No camera detected"
 msgstr "Ningunha cámara detectada"
 
@@ -1217,7 +1217,9 @@ msgstr "Manter a ampliación anterior"
 msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
-msgstr "As teclas 0-9 do teclado numérico poden usarse no navegador para abrir ou modificar, con outras aplicacións, as imaxes seleccionadas."
+msgstr ""
+"As teclas 0-9 do teclado numérico poden usarse no navegador para abrir ou "
+"modificar, con outras aplicacións, as imaxes seleccionadas."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1237,7 +1239,9 @@ msgstr "Hacia a_trás"
 
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr "Restaurar as posicións das barras de desprazamento despois de cargar unha imaxe"
+msgstr ""
+"Restaurar as posicións das barras de desprazamento despois de cargar unha "
+"imaxe"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
@@ -1449,7 +1453,7 @@ msgid "Postcard"
 msgstr "Postal"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2719
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2720
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Imprimir"
@@ -1566,8 +1570,8 @@ msgstr "Coincidir con c_alquera categoría seleccionada"
 msgid "New _Search..."
 msgstr "Bús_queda nova..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:870
-#: ../src/dlg-photo-importer.c:1586
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
+#: ../src/dlg-photo-importer.c:1652
 msgid "No images found"
 msgstr "Non se atoparon imaxes"
 
@@ -1635,7 +1639,8 @@ msgid ""
 "%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
 "<small><i><b>Caracteres especiais:</b> # (enumerador), %f (nome do ficheiro "
-"orixinal), %d (data da imaxe), %s (tamaño da imaxe), %e (extensión orixinal).</i></small>"
+"orixinal), %d (data da imaxe), %s (tamaño da imaxe), %e (extensión orixinal)."
+"</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
@@ -1788,8 +1793,8 @@ msgid "_Last modified date"
 msgstr "Ú_ltima data de modificación"
 
 #: ../data/glade/gthumb_tools.glade.h:66
-#: ../src/gth-browser-actions-callbacks.c:469
-#: ../src/gth-browser-actions-callbacks.c:977
+#: ../src/gth-browser-actions-callbacks.c:470
+#: ../src/gth-browser-actions-callbacks.c:978
 msgid "_Rename"
 msgstr "_Renomear"
 
@@ -1847,7 +1852,7 @@ msgstr "800 x 800"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Album Style</b>"
-msgstr "<b>Estilo do álbume</b>"
+msgstr "<b>Estilo do álbum</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:15
 msgid "<b>Basic Information</b>"
@@ -1923,11 +1928,11 @@ msgstr "Usar subcartafoles para organizar ficheiros"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
-msgstr "Álbume para a web"
+msgstr "Álbum para a web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
-msgstr "Tema do álbume para a web"
+msgstr "Tema do álbum para a web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
@@ -2005,7 +2010,7 @@ msgstr "ringleiras por páxina,"
 msgid "Image Viewer"
 msgstr "Visor de imaxes"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:812
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:814
 msgid "View and organize your images"
 msgstr "Ver e organizar as túas imaxes"
 
@@ -2025,7 +2030,9 @@ msgstr ""
 msgid ""
 "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
 "(reverse landscape)"
-msgstr "Os posibles valores son 0 (vertical), 1 (horizontal), 2 (vertical invertido), 3 (horizontal invertido)"
+msgstr ""
+"Os posibles valores son 0 (vertical), 1 (horizontal), 2 (vertical "
+"invertido), 3 (horizontal invertido)"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2089,7 +2096,8 @@ msgstr "Os valores posibles son: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Os valores posibles son: none, name, path, size, time, exifdate, comment."
+msgstr ""
+"Os valores posibles son: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid ""
@@ -2124,7 +2132,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Os valores posibles son: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:24
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Os valores posibles son: system, text_below, text_beside, text_only, "
 "icons_only."
@@ -2153,67 +2162,67 @@ msgstr "Non se puido abrir o catálogo \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Non se puido gardar o catálogo \"%s\": %s"
 
-#: ../libgthumb/comments.c:1257 ../src/catalog-web-exporter.c:155
+#: ../libgthumb/comments.c:1231 ../src/catalog-web-exporter.c:155
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1259 ../src/catalog-web-exporter.c:57
+#: ../libgthumb/comments.c:1233 ../src/catalog-web-exporter.c:57
 #: ../src/catalog-web-exporter.c:157 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:489
-#: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
-#: ../src/gth-viewer.c:607
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:481
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
+#: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1269 ../libgthumb/comments.c:1271
+#: ../libgthumb/comments.c:1243 ../libgthumb/comments.c:1245
 msgid "(No Comment)"
 msgstr "(Sen comentario)"
 
-#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:267
+#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:254
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Tipo de imaxe non soportado: %s"
 
-#: ../libgthumb/dlg-save-image.c:200
+#: ../libgthumb/dlg-save-image.c:207
 msgid "Determine by extension"
 msgstr "Determinado pola extensión"
 
-#: ../libgthumb/dlg-save-image.c:234
+#: ../libgthumb/dlg-save-image.c:241
 msgid "Save Image"
 msgstr "Gardar imaxe"
 
-#: ../libgthumb/dlg-save-image.c:254
+#: ../libgthumb/dlg-save-image.c:261
 msgid "Image type:"
 msgstr "Tipo de imaxe:"
 
-#: ../libgthumb/file-utils.c:1390 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1449 ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Catálogos"
 
-#: ../libgthumb/file-utils.c:1393 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1452 ../src/gth-location.c:819
 msgid "File System"
 msgstr "Sistema de ficheiros"
 
-#: ../libgthumb/file-utils.c:1420 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1481 ../src/gth-location.c:826
 msgid "Home"
 msgstr "Inicio"
 
-#: ../libgthumb/file-utils.c:1997
+#: ../libgthumb/file-utils.c:2063
 msgid "Library not empty"
 msgstr "Biblioteca non baleira."
 
-#: ../libgthumb/file-utils.c:2006
+#: ../libgthumb/file-utils.c:2072
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Non se puido eliminar a biblioteca \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2033
+#: ../libgthumb/file-utils.c:2099
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Non se puido eliminar o catálogo \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3531 ../src/gth-browser.c:781
-#: ../src/gth-browser.c:4468 ../src/gth-viewer.c:756
+#: ../libgthumb/gth-image-list.c:3525 ../src/gth-browser.c:773
+#: ../src/gth-browser.c:4424 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "Ningunha imaxe"
 
@@ -2230,7 +2239,7 @@ msgstr "Ro_tar imaxes"
 msgid "Page %d of %d"
 msgstr "Páxina %d de %d"
 
-#: ../libgthumb/print-callbacks.c:2248 ../src/catalog-png-exporter.c:1378
+#: ../libgthumb/print-callbacks.c:2251 ../src/catalog-png-exporter.c:1370
 #, c-format
 msgid "Loading image: %s"
 msgstr "Cargando imaxe: %s"
@@ -2243,36 +2252,36 @@ msgstr "Borrando tódalas miniaturas, espere por favor..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Borrando as miniaturas antigas, espere por favor..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1288
-#: ../src/gth-browser.c:1292 ../src/gth-browser.c:1304
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1279
+#: ../src/gth-browser.c:1283 ../src/gth-browser.c:1295
 msgid "(Invalid Name)"
 msgstr "(Nome inválido)"
 
-#: ../src/catalog-png-exporter.c:842 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:493 ../src/gth-exif-data-viewer.c:788
-#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:611
+#: ../src/catalog-png-exporter.c:841 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:484 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d píxeles"
 
-#: ../src/catalog-png-exporter.c:1611
+#: ../src/catalog-png-exporter.c:1598
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Creando imaxe: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2188
+#: ../src/catalog-web-exporter.c:2181
 msgid "Saving thumbnails"
 msgstr "Gardando as miniaturas"
 
-#: ../src/catalog-web-exporter.c:2258
+#: ../src/catalog-web-exporter.c:2254
 msgid "Saving HTML pages: Images"
 msgstr "Gardando as páxinas HTML: Imaxes"
 
-#: ../src/catalog-web-exporter.c:2336
+#: ../src/catalog-web-exporter.c:2334
 msgid "Saving HTML pages: Indexes"
 msgstr "Gardando as páxinas HTML: Índices"
 
-#: ../src/catalog-web-exporter.c:2457 ../src/catalog-web-exporter.c:2708
+#: ../src/catalog-web-exporter.c:2466 ../src/catalog-web-exporter.c:2690
 msgid "Saving images"
 msgstr "Gardando as imaxes"
 
@@ -2280,31 +2289,31 @@ msgstr "Gardando as imaxes"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2520
+#: ../src/catalog-web-exporter.c:2508
 msgid "Copying original images"
 msgstr "Copiando imaxes orixinais"
 
-#: ../src/catalog-web-exporter.c:2901
-#: ../src/gth-window-actions-callbacks.c:219 ../src/rotation-utils.c:134
+#: ../src/catalog-web-exporter.c:2893
+#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:134
 msgid "Could not create a temporary folder"
 msgstr "Non se puido crear un directorio temporal"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2960
+#: ../src/catalog-web-exporter.c:2949
 msgid "Loading images"
 msgstr "Cargando as imaxes"
 
-#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:684
+#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:685
 msgid "Enter the catalog name: "
 msgstr "Introduza o nome do catálogo: "
 
 #: ../src/dlg-catalog.c:94 ../src/dlg-catalog.c:148
 #: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:770
+#: ../src/gth-browser-actions-callbacks.c:771
 msgid "C_reate"
 msgstr "C_rear"
 
-#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:825
+#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:826
 msgid "Enter the library name: "
 msgstr "Introduce o nome da biblioteca: "
 
@@ -2330,8 +2339,7 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "A categoría \"%s\" xa está presente. Por favor use un nome diferente."
 
-#: ../src/dlg-change-date.c:180 ../src/dlg-jpegtran.c:257
-#: ../src/dlg-reset-exif.c:123 ../src/rotation-utils.c:149
+#: ../src/dlg-change-date.c:180 ../src/rotation-utils.c:141
 msgid "Could not create a local temporary copy of the remote file."
 msgstr "Non se puido crear unha copia temporal local do ficheiro remoto."
 
@@ -2340,10 +2348,13 @@ msgstr "Non se puido crear unha copia temporal local do ficheiro remoto."
 msgid "Could not write Exif DataTime tag. Error %d."
 msgstr ""
 
-#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:287
-#: ../src/dlg-reset-exif.c:139 ../src/rotation-utils.c:214
-msgid "Could not move temporary file to remote location. Check remote permissions."
-msgstr "Non se puido mover o ficheiro temporal á ubicación remota. Comprobe os permisos remotos."
+#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:257
+#: ../src/dlg-reset-exif.c:128
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
+msgstr ""
+"Non se puido mover o ficheiro temporal á ubicación remota. Comprobe os "
+"permisos remotos."
 
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
 #, c-format
@@ -2352,7 +2363,8 @@ msgstr "Convertindo a imaxe: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
 "Xa existe unha imaxen chamada \"%s\". Por favor especifique un nome "
 "diferente."
@@ -2390,7 +2402,7 @@ msgstr "Tamaño dos duplicados"
 
 #.
 #: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:594
-#: ../src/gth-exif-data-viewer.c:803
+#: ../src/gth-exif-data-viewer.c:800
 msgid "Name"
 msgstr "Nome"
 
@@ -2415,9 +2427,10 @@ msgstr "O directorio de destino non existe. Quere crealo?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Non se puido crear o directorio \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1611
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1677
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Non tes permisos para crear imaxes neste directorio \"%s\""
 
 #: ../src/dlg-file-utils.c:203
@@ -2428,20 +2441,21 @@ msgstr "Non se puideron eliminar as imaxes:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "As imaxes non se puideron botar ao Lixo. Quere eliminalas permanentemente?"
+msgstr ""
+"As imaxes non se puideron botar ao Lixo. Quere eliminalas permanentemente?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1135
-#: ../src/gth-browser.c:1868 ../src/gth-viewer.c:1006
-#: ../src/rotation-utils.c:86
+#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1136
+#: ../src/gth-browser.c:1828 ../src/gth-viewer.c:998
+#: ../src/rotation-utils.c:87
 msgid "_Do not display this message again"
 msgstr "_Non mostrar esta mensaxe outra vez"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1173
+#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1174
 msgid "_Move"
 msgstr "_Mover"
 
 #: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
-#: ../src/gth-browser-actions-callbacks.c:1400
+#: ../src/gth-browser-actions-callbacks.c:1401
 msgid "Choose the destination folder"
 msgstr "Elixe o directorio de destino"
 
@@ -2455,7 +2469,8 @@ msgstr "Non introduciu o novo nome"
 
 #: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "O nome \"%s\" xa está en uso neste directorio. Por favor use un nome "
 "diferente."
@@ -2509,22 +2524,22 @@ msgid "Moving file %ld of %ld"
 msgstr "Movendo ficheiro %ld de %ld"
 
 #: ../src/dlg-file-utils.c:2450 ../src/dlg-file-utils.c:2452
-#: ../src/gth-browser-actions-callbacks.c:1282
+#: ../src/gth-browser-actions-callbacks.c:1283
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Non se puido mover o directorio \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:806
+#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:803
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:808
+#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:805
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:505
-#: ../src/gth-exif-data-viewer.c:807 ../src/gth-viewer.c:623
+#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:496
+#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "Modificado"
 
@@ -2537,80 +2552,80 @@ msgstr "Información sobre o canal"
 msgid "%s Properties"
 msgstr "Propiedades de %s"
 
-#: ../src/dlg-photo-importer.c:937 ../src/dlg-photo-importer.c:1535
-#: ../src/dlg-photo-importer.c:1585 ../src/dlg-photo-importer.c:1597
-#: ../src/dlg-photo-importer.c:1613 ../src/dlg-photo-importer.c:1642
+#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1604
+#: ../src/dlg-photo-importer.c:1651 ../src/dlg-photo-importer.c:1663
+#: ../src/dlg-photo-importer.c:1679 ../src/dlg-photo-importer.c:1708
 msgid "Could not import photos"
 msgstr "Non se puideron importar as fotos"
 
-#: ../src/dlg-photo-importer.c:1296 ../src/main.c:1104
+#: ../src/dlg-photo-importer.c:1330 ../src/main.c:1109
 msgid "Film"
 msgstr "Filme"
 
-#: ../src/dlg-photo-importer.c:1308
+#: ../src/dlg-photo-importer.c:1342
 msgid "Import errors detected"
 msgstr "Erros de importación detectados"
 
-#: ../src/dlg-photo-importer.c:1309
+#: ../src/dlg-photo-importer.c:1343
 msgid "The files on the camera will not be deleted"
 msgstr "Non se borrarán os ficheiros na cámara"
 
-#: ../src/dlg-photo-importer.c:1594
-#: ../src/gth-browser-actions-callbacks.c:1600
+#: ../src/dlg-photo-importer.c:1660
+#: ../src/gth-browser-actions-callbacks.c:1601
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Non se puido crear o directorio \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1643
+#: ../src/dlg-photo-importer.c:1709
 msgid "Not enough free space left on disk"
 msgstr "Non hai suficiente espazo libre no disco"
 
-#: ../src/dlg-png-exporter.c:909
+#: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
 msgstr "Descripción da imaxe"
 
-#: ../src/dlg-png-exporter.c:963
+#: ../src/dlg-png-exporter.c:962
 msgid "Header"
 msgstr "Cabeceira"
 
-#: ../src/dlg-png-exporter.c:976 ../src/dlg-png-exporter.c:982
+#: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
 msgid "Footer"
 msgstr "Pé"
 
-#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:472
-#: ../src/dlg-web-exporter.c:482
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:472
+#: ../src/dlg-web-exporter.c:481
 msgid "by path"
 msgstr "por ruta"
 
-#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:474
-#: ../src/dlg-web-exporter.c:484
+#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:474
+#: ../src/dlg-web-exporter.c:483
 msgid "by size"
 msgstr "por tamaño"
 
-#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:476
-#: ../src/dlg-web-exporter.c:486
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:476
+#: ../src/dlg-web-exporter.c:485
 msgid "by file modified time"
 msgstr "pola hora de modificación do ficheiro"
 
-#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:478
-#: ../src/dlg-web-exporter.c:488
+#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:478
+#: ../src/dlg-web-exporter.c:487
 msgid "by Exif DateTime tag"
 msgstr "pola etiqueta Exif de tempo"
 
-#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:480
-#: ../src/dlg-web-exporter.c:490
+#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:480
+#: ../src/dlg-web-exporter.c:489
 msgid "by comment"
 msgstr "por comentario"
 
-#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:483
-#: ../src/dlg-web-exporter.c:493
+#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:483
+#: ../src/dlg-web-exporter.c:492
 msgid "manual order"
 msgstr "orde manual"
 
-#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:485
-#: ../src/gth-browser-actions-callbacks.c:700
-#: ../src/gth-browser-actions-callbacks.c:783
-#: ../src/gth-browser-actions-callbacks.c:991
+#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:486
+#: ../src/gth-browser-actions-callbacks.c:701
+#: ../src/gth-browser-actions-callbacks.c:784
+#: ../src/gth-browser-actions-callbacks.c:992
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2627,136 +2642,137 @@ msgstr "Nome antigo"
 msgid "New Name"
 msgstr "Novo nome"
 
-#: ../src/dlg-search.c:358
+#: ../src/dlg-search.c:359
 msgid "Search Result"
 msgstr "Resultado da busca"
 
-#: ../src/dlg-web-exporter.c:845
+#: ../src/dlg-web-exporter.c:844
 msgid "Select Album Theme"
-msgstr "Seleccionar o tema do álbume"
+msgstr "Seleccionar o tema do álbum"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3821
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3776
 msgid "Could not move the items:"
 msgstr "Non se puideron mover os elementos:"
 
-#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "A imaxe vaise botar ao Lixo, está seguro?"
 
-#: ../src/gth-browser-actions-callbacks.c:266
+#: ../src/gth-browser-actions-callbacks.c:267
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Non se puido duplicar a imaxe \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:274
+#: ../src/gth-browser-actions-callbacks.c:275
 msgid "Stop"
 msgstr "Deter"
 
-#: ../src/gth-browser-actions-callbacks.c:275
+#: ../src/gth-browser-actions-callbacks.c:276
 msgid "Continue"
 msgstr "Continuar"
 
-#: ../src/gth-browser-actions-callbacks.c:330
+#: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "As imaxes vanse botar ao Lixo, está seguro?"
 
-#: ../src/gth-browser-actions-callbacks.c:465
-#: ../src/gth-browser-actions-callbacks.c:973
+#: ../src/gth-browser-actions-callbacks.c:466
+#: ../src/gth-browser-actions-callbacks.c:974
 msgid "Enter the new name: "
 msgstr "Introduza o novo nome:"
 
-#: ../src/gth-browser-actions-callbacks.c:507
-#: ../src/gth-browser-actions-callbacks.c:719
-#: ../src/gth-browser-actions-callbacks.c:799
-#: ../src/gth-browser-actions-callbacks.c:1021
+#: ../src/gth-browser-actions-callbacks.c:508
+#: ../src/gth-browser-actions-callbacks.c:720
+#: ../src/gth-browser-actions-callbacks.c:800
+#: ../src/gth-browser-actions-callbacks.c:1022
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "O nome \"%s\" xa está en uso. Introduce un nome diferente."
 
-#: ../src/gth-browser-actions-callbacks.c:518
+#: ../src/gth-browser-actions-callbacks.c:519
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Non se puido renomear a biblioteca \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:518
+#: ../src/gth-browser-actions-callbacks.c:519
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Non se puido renomear o catálogo \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:588
+#: ../src/gth-browser-actions-callbacks.c:589
 msgid "The selected library will be removed, are you sure?"
 msgstr "A biblioteca seleccionada vai ser eliminada, está seguro?"
 
-#: ../src/gth-browser-actions-callbacks.c:590
+#: ../src/gth-browser-actions-callbacks.c:591
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "O catálogo seleccionado vai ser eliminado, está seguro?"
 
-#: ../src/gth-browser-actions-callbacks.c:685
+#: ../src/gth-browser-actions-callbacks.c:686
 msgid "New Catalog"
 msgstr "Novo catálogo"
 
-#: ../src/gth-browser-actions-callbacks.c:731
+#: ../src/gth-browser-actions-callbacks.c:732
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Non se puido crear o catálogo \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:824
+#: ../src/gth-browser-actions-callbacks.c:825
 msgid "New Library"
 msgstr "Nova biblioteca"
 
-#: ../src/gth-browser-actions-callbacks.c:826
+#: ../src/gth-browser-actions-callbacks.c:827
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Non se puido crear a biblioteca \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1011
-#: ../src/gth-browser-actions-callbacks.c:1046
+#: ../src/gth-browser-actions-callbacks.c:1012
+#: ../src/gth-browser-actions-callbacks.c:1047
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Non se puido renomear o directorio \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1013
-#: ../src/gth-browser-actions-callbacks.c:1292
+#: ../src/gth-browser-actions-callbacks.c:1014
+#: ../src/gth-browser-actions-callbacks.c:1293
 msgid "source and destination are the same"
 msgstr "a orixe e o destino son o mesmo"
 
-#: ../src/gth-browser-actions-callbacks.c:1096
+#: ../src/gth-browser-actions-callbacks.c:1097
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Non se puido eliminar o directorio \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1127
+#: ../src/gth-browser-actions-callbacks.c:1128
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" non se puido botar ao Lixo. Quere eliminalo permanentemente?"
 
-#: ../src/gth-browser-actions-callbacks.c:1171
+#: ../src/gth-browser-actions-callbacks.c:1172
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "O directorio seleccionado vaise botar ao Lixo, está seguro?"
 
-#: ../src/gth-browser-actions-callbacks.c:1224
-#: ../src/gth-browser-actions-callbacks.c:1282
+#: ../src/gth-browser-actions-callbacks.c:1225
+#: ../src/gth-browser-actions-callbacks.c:1283
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Non se puido copiar o directorio \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1303
+#: ../src/gth-browser-actions-callbacks.c:1304
 msgid "source contains destination"
 msgstr "A orixe contén o destino"
 
-#: ../src/gth-browser-actions-callbacks.c:1314
+#: ../src/gth-browser-actions-callbacks.c:1315
 msgid "a folder with that name is already present."
 msgstr "O directorio con ese nome xa está presente."
 
-#: ../src/gth-browser-actions-callbacks.c:1598
+#: ../src/gth-browser-actions-callbacks.c:1599
 msgid "New Folder"
 msgstr "Novo directorio"
 
-#: ../src/gth-browser-actions-callbacks.c:1599
+#: ../src/gth-browser-actions-callbacks.c:1600
 msgid "Enter the folder name: "
 msgstr "Introduza o nome do directorio: "
 
-#: ../src/gth-browser-actions-callbacks.c:1729 ../src/gth-location.c:219
+#: ../src/gth-browser-actions-callbacks.c:1730 ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "Abrir enderezo"
 
@@ -3202,7 +3218,7 @@ msgstr "Crear índice de _imaxes..."
 
 #: ../src/gth-browser-actions-entries.h:373
 msgid "Create _Web Album..."
-msgstr "Crear un álbume para a web..."
+msgstr "Crear un álbum para a web..."
 
 #: ../src/gth-browser-actions-entries.h:378
 msgid "Convert F_ormat..."
@@ -3363,87 +3379,87 @@ msgstr "_Catálogos"
 msgid "View the catalogs"
 msgstr "Ver os catálogos"
 
-#: ../src/gth-browser.c:555 ../src/gth-viewer.c:668
+#: ../src/gth-browser.c:546 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[Prema 'c' para engadir un comentario]"
 
-#: ../src/gth-browser.c:659 ../src/gth-browser.c:678 ../src/gth-viewer.c:753
+#: ../src/gth-browser.c:652 ../src/gth-browser.c:669 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../src/gth-browser.c:703 ../src/main.c:440 ../src/main.c:821
+#: ../src/gth-browser.c:695 ../src/main.c:440 ../src/main.c:823
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:783
+#: ../src/gth-browser.c:775
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imaxe (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:778
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imaxes (%s)"
 
-#: ../src/gth-browser.c:793
+#: ../src/gth-browser.c:785
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 imaxen seleccionada (%s)"
 
-#: ../src/gth-browser.c:796
+#: ../src/gth-browser.c:788
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d imaxes seleccionadas (%s)"
 
-#: ../src/gth-browser.c:1865 ../src/gth-viewer.c:1003
+#: ../src/gth-browser.c:1825 ../src/gth-viewer.c:995
 msgid "The current image has been modified, do you want to save it?"
 msgstr "A imaxe actual foi modificada, quere gardala?"
 
-#: ../src/gth-browser.c:1866 ../src/gth-viewer.c:1004
+#: ../src/gth-browser.c:1826 ../src/gth-viewer.c:996
 msgid "Do Not Save"
 msgstr "Non gardar"
 
-#: ../src/gth-browser.c:3580
+#: ../src/gth-browser.c:3535
 msgid "Dragged Images"
 msgstr "Imaxes arrastradas"
 
-#: ../src/gth-browser.c:5378 ../src/gth-browser.c:5379
+#: ../src/gth-browser.c:5338 ../src/gth-browser.c:5339
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotar as imaxes sen pérdida de calidade"
 
-#: ../src/gth-browser.c:6249
+#: ../src/gth-browser.c:6228
 msgid "Getting folder listing..."
 msgstr "Obtendo o listado do cartafol..."
 
-#: ../src/gth-browser.c:6269
+#: ../src/gth-browser.c:6249
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Non se puido cargar o directorio \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6769 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6752 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Pechar"
 
-#: ../src/gth-browser.c:6783 ../src/gth-viewer.c:1683
+#: ../src/gth-browser.c:6766 ../src/gth-viewer.c:1676
 msgid "Image comment"
 msgstr "Comentario da imaxe"
 
-#: ../src/gth-browser.c:6797
+#: ../src/gth-browser.c:6780
 msgid "Image data"
 msgstr "Datos da imaxe"
 
-#: ../src/gth-browser.c:6811
+#: ../src/gth-browser.c:6794
 msgid "Image preview"
 msgstr "Previsualización da imaxe"
 
-#: ../src/gth-browser.c:7856
+#: ../src/gth-browser.c:7850
 msgid "The specified catalog does not exist."
 msgstr "O catálogo especificado non existe."
 
-#: ../src/gth-browser.c:8462 ../src/gth-viewer.c:2116
+#: ../src/gth-browser.c:8461 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "Agarde por favor..."
 
@@ -3483,7 +3499,7 @@ msgstr "Versións e interoperatibilidade"
 msgid "Other"
 msgstr "Outro"
 
-#: ../src/gth-exif-data-viewer.c:804
+#: ../src/gth-exif-data-viewer.c:801
 msgid "Path"
 msgstr "Ruta"
 
@@ -3602,24 +3618,24 @@ msgstr "Un_ha única ventá"
 msgid "Reuse this window to view other images"
 msgstr "Reutilizar esta ventá para ver outras imaxes"
 
-#: ../src/gth-viewer.c:826
+#: ../src/gth-viewer.c:820
 msgid "_None"
 msgstr "_Ningunha"
 
-#: ../src/gth-viewer.c:1472 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1465 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_Abrir con"
 
-#: ../src/gth-viewer.c:1478 ../src/gth-viewer.c:1479
+#: ../src/gth-viewer.c:1471 ../src/gth-viewer.c:1472
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Abrir as imaxes seleccionadas cunha aplicación"
 
-#: ../src/gth-window-actions-callbacks.c:844
+#: ../src/gth-window-actions-callbacks.c:845
 msgid "An image viewer and browser for GNOME."
 msgstr "Un visor e navegador de imaxes para GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:847
+#: ../src/gth-window-actions-callbacks.c:848
 msgid "translator_credits"
 msgstr "Ignacio Casal Quinteiro <icq@cvs.gnome.org>"
 
@@ -3890,7 +3906,8 @@ msgstr "E_scalado"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Establece a imaxe como fondo de escritorio (escalada mantendo a proporción)"
+msgstr ""
+"Establece a imaxe como fondo de escritorio (escalada mantendo a proporción)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
@@ -4028,12 +4045,12 @@ msgstr "Familia"
 msgid "Command Line"
 msgstr "Liña de comandos"
 
-#: ../src/rotation-utils.c:73
+#: ../src/rotation-utils.c:74
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "Houbo un problema transformando a imaxe: %s"
 
-#: ../src/rotation-utils.c:79
+#: ../src/rotation-utils.c:80
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -4047,11 +4064,13 @@ msgid ""
 "transformation is not strictly lossless anymore."
 msgstr ""
 
-#: ../src/rotation-utils.c:87
+#: ../src/rotation-utils.c:88
 msgid "_Trim"
 msgstr "Recor_tar"
 
-#: ../src/rotation-utils.c:199
-msgid "Could not move temporary file to local destination. Check folder permissions."
-msgstr "Non se puido mover o ficheiro temporal ao destino local. Comprobe os permisos do cartafol."
-
+#: ../src/rotation-utils.c:196
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
+msgstr ""
+"Non se puido mover o ficheiro temporal ao destino local. Comprobe os "
+"permisos do cartafol."
