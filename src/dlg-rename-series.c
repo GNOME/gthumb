@@ -550,14 +550,11 @@ dlg_rename_series (GthBrowser *browser)
 		g_free (template);
 	}
 	else {
-		char *svalue;
 		char *template;
 
-		svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
-		template = gnome_vfs_unescape_string_for_display (svalue);
+		template = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
 		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
 		g_free (template);
-		g_free (svalue);
 	}
 
 	update_list (data);

@@ -1018,8 +1018,8 @@ dlg_file_rename_series (GthWindow *window,
 			files_created = my_list_remove (files_created, old_full_path);
 
 			o_scan = o_scan->next;
-
-		} else {
+		}
+		else {
 			old_names = g_list_remove_link (old_names, o_scan);
 			error_list = g_list_prepend (error_list, o_scan->data);
 			g_list_free (o_scan);
@@ -1483,15 +1483,13 @@ copy_next_file (FileCopyData *fcdata)
 		char *src_cache_file;
 		char *dest_cache_file;
 
-		dest_file = g_strconcat (fcdata->destination,
-					 "/",
-					 file_name_from_path (src_file),
-					 NULL);
+		dest_file = add_filename_to_uri (fcdata->destination,
+						 file_name_from_path (src_file));
 
 		src_cache_file = comments_get_comment_filename (src_file, TRUE);
 		dest_cache_file = comments_get_comment_filename (dest_file, TRUE);
 
-		if (path_is_file (src_cache_file)) {
+		if (path_is_file (src_cache_file) && (dest_cache_file != NULL)) {
 			char *parent_dir;
 
 			parent_dir = remove_level_from_path (dest_cache_file);

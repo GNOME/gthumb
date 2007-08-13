@@ -422,17 +422,17 @@ dir_remove_recursive (const char *uri)
 	path_list_new (uri, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
-		char *file = scan->data;
-		if (! file_unlink (file)) {
-			g_warning ("Cannot delete %s\n", file);
+		FileData *file = scan->data;
+		if (! file_unlink (file->path)) {
+			g_warning ("Cannot delete %s\n", file->path);
 			error = TRUE;
 		}
 	}
-	path_list_free (files);
+	file_data_list_free (files);
 
 	for (scan = dirs; scan; scan = scan->next) {
 		char *sub_dir = scan->data;
-		if (!dir_remove_recursive (sub_dir))
+		if (! dir_remove_recursive (sub_dir))
 			error = TRUE;
 	}
 	path_list_free (dirs);
@@ -588,9 +588,10 @@ visit_rc_directory_sync (const char *rc_dir,
 	path_list_new (rc_dir_full_path, &files, &dirs);
 
 	for (scan = files; scan; scan = scan->next) {
-		char *rc_file, *real_file;
+		FileData *file = scan->data;
+		char     *rc_file, *real_file;
 
-		rc_file = (char*) scan->data;
+		rc_file = file->path;
 		real_file = g_strndup (rc_file + prefix_len,
 				       strlen (rc_file) - prefix_len - ext_len);
 		if (do_something)
@@ -612,6 +613,9 @@ visit_rc_directory_sync (const char *rc_dir,
 					 do_something,
 					 data);
 	}
+
+	file_data_list_free (files);
+	path_list_free (dirs);
 
 	return TRUE;
 }
@@ -1298,15 +1302,18 @@ get_uri_scheme (const char *uri)
 const char *
 remove_host_from_uri (const char *uri)
 {
-	const char *idx;
+	const char *idx, *sep;
 
 	idx = strstr (uri, "://");
 	if (idx == NULL)
 		return uri;
-	idx = strstr (idx + 3, "/");
+	idx += 3;
 	if (idx == NULL)
-		return NULL;
-	return idx;
+		return "/";
+	sep = strstr (idx, "/");
+	if (sep == NULL)
+		return idx;
+	return sep;
 }
 
 
@@ -1404,6 +1411,24 @@ add_scheme_if_absent (const char *path)
 	if ((path == "") || (path[0] == '/'))
 		return g_strconcat ("file://", path, NULL);
 	return g_strdup (path);
+}
+
+
+char *
+add_filename_to_uri (const char *uri,
+		     const char *filename)
+{
+	gboolean  add_separator;
+	
+	if (str_ends_with (uri, ":///") || str_ends_with (uri, "/"))
+		add_separator = FALSE;
+	else
+		add_separator = TRUE;
+		
+	return g_strconcat (uri,
+			    (add_separator ? "/" : ""),
+			    filename,
+			    NULL);
 }
 
 
@@ -2419,6 +2444,7 @@ struct _CopyData {
         GnomeVFSAsyncHandle *handle;
         CopyDoneFunc         done_func;
         gpointer             done_data;
+        guint                idle_id;
 };
 
 
@@ -2436,6 +2462,7 @@ copy_data_new (const char   *source_uri,
 	copy_data->done_func = done_func;
 	copy_data->done_data = done_data;
 	copy_data->result = GNOME_VFS_OK;
+	copy_data->idle_id = 0;
 	
 	return copy_data;
 }
@@ -2468,6 +2495,11 @@ copy_file_async_done (gpointer data)
 {
 	CopyData *copy_data = data;
 	
+	if (copy_data->idle_id != 0) {
+		g_source_remove (copy_data->idle_id);
+		copy_data->idle_id = 0;
+	}
+	
 	if (copy_data->done_func != NULL) {
 		copy_data->handle = NULL;	
 		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
@@ -2490,7 +2522,7 @@ copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		return FALSE;
 	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
-		copy_file_async_done (copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
 		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
 		g_signal_emit (G_OBJECT (copy_data->archive),
@@ -2516,7 +2548,7 @@ copy_file_async (const char   *source_uri,
 
 	if (! path_is_file (source_uri)) {
 		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 		return NULL;
 	}
 
@@ -2538,7 +2570,7 @@ copy_file_async (const char   *source_uri,
 
 	if (result != GNOME_VFS_OK) {
 		copy_data->result = result;
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	
 	return copy_data;
@@ -2763,8 +2795,8 @@ free_cache (void)
 	if (path_list_new (cache_uri, &files, NULL)) {
 		GList *scan;
 		for (scan = files; scan; scan = scan->next ) {
-			FileData *fd = scan->data;
-			file_unlink (fd->path);
+			FileData *file = scan->data;
+			file_unlink (file->path);
 		}
 	}
 
@@ -2813,8 +2845,8 @@ check_cache_free_space (void)
 		
 		cache_used_space = 0;
 		for (scan = cache_files; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			cache_used_space += fd->size; 
+			FileData *file = scan->data;
+			cache_used_space += file->size; 
 		}		
 		
 		cache_loaded = TRUE;
@@ -2830,10 +2862,10 @@ check_cache_free_space (void)
 		 
 		cache_files = g_list_reverse (cache_files);
 		for (scan = cache_files; scan && (cache_used_space > MAX_CACHE_SIZE / 2); ) {
-			FileData *fd = scan->data;
+			FileData *file = scan->data;
 		
-			file_unlink (fd->path);
-			cache_used_space -= fd->size;
+			file_unlink (file->path);
+			cache_used_space -= file->size;
 			
 			cache_files = g_list_remove_link (cache_files, scan);
 			file_data_list_free (scan);
@@ -2890,7 +2922,7 @@ copy_remote_file_to_cache (FileData     *file,
 	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	else {
 		CopyToCacheData *data;
@@ -2901,10 +2933,10 @@ copy_remote_file_to_cache (FileData     *file,
 		data->done_func = done_func;
 		data->done_data = done_data;
 						
-		copy_file_async (file->path, 
-				 cache_uri, 
-				 copy_remote_file_to_cache_done, 
-				 data);
+		copy_data = copy_file_async (file->path, 
+				 	     cache_uri, 
+				 	     copy_remote_file_to_cache_done, 
+				 	     data);
 	}
 	g_free (cache_uri);
 	
@@ -2923,10 +2955,10 @@ update_file_from_cache (FileData     *file,
 	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	else
-		copy_file_async (cache_uri, file->path, done_func, done_data);
+		copy_data = copy_file_async (cache_uri, file->path, done_func, done_data);
 	g_free (cache_uri);
 	
 	return copy_data;

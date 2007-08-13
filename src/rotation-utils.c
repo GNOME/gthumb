@@ -39,30 +39,57 @@
 #include "jpegutils/transupp.h"
 #include "jpegutils/jpegtran.h"
 
+
 #define RESPONSE_TRIM 1
 
 
 typedef struct {
-	FileData  *file;
-	GtkWindow *parent;
-} jpeg_mcu_dialog_data;
+	GtkWidget        *dialog;
+	GtkWindow        *parent_window;
+	gboolean          parent_is_modal;
+	TrimResponseFunc  done_func;
+	gpointer          done_data;
+} AskTrimData;
 
 
-static boolean
-jpeg_mcu_dialog (JXFORM_CODE          *transform,
-		 boolean              *trim,
-		 jpeg_mcu_dialog_data *userdata)
+static void 
+ask_whether_to_trim_response_cb (GtkDialog *dialog,
+                                 gint       response,
+                                 gpointer   user_data)
 {
-	char      *display_name;
-	char      *msg;
-	GtkWidget *d;
-	int        result;
+	AskTrimData *data = user_data;
+	
+ 	gtk_widget_destroy (data->dialog);
+	if (data->parent_is_modal)
+		gtk_window_set_modal (data->parent_window, TRUE);
 
+	if (data->done_func != NULL) {
+		JpegMcuAction action;
+
+		action = (response == RESPONSE_TRIM) ? JPEG_MCU_ACTION_TRIM : JPEG_MCU_ACTION_DONT_TRIM;
+		data->done_func (action, data->done_data);
+	}
+	
+	g_free (data);
+}
+
+
+void
+ask_whether_to_trim (GtkWindow        *parent_window,
+		     FileData         *file,
+		     TrimResponseFunc  done_func,
+		     gpointer          done_data)
+{
+	AskTrimData *data;
+	char        *display_name;
+	char        *msg;
+	
 	/* If the user disabled the warning dialog trim the image */
 
 	if (! eel_gconf_get_boolean (PREF_MSG_JPEG_MCU_WARNING, TRUE)) {
-		*trim = TRUE;
-		return TRUE;
+		if (done_func != NULL)
+			done_func (JPEG_MCU_ACTION_TRIM, done_data);
+		return;
 	}
 
 	/*
@@ -70,57 +97,58 @@ jpeg_mcu_dialog (JXFORM_CODE          *transform,
 	 * Warn about possible image distortions along one or more edges.
 	 */
 
-	display_name = basename_for_display (userdata->file->path);
-	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
-	d = _gtk_message_dialog_with_checkbutton_new (
-		userdata->parent,
-		GTK_DIALOG_MODAL,
-		GTK_STOCK_DIALOG_WARNING,
-		msg,
-		_("This transformation may introduce small image distortions along "
-		  "one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
-		  "is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
-		  "transformation to return to the original image.\n\nYou can also choose to discard (or trim) any "
-		  "untransformable edge pixels. For practical use, this mode gives the best looking results, "
-		  "but the transformation is not strictly lossless anymore."),
- 		PREF_MSG_JPEG_MCU_WARNING,
-		_("_Do not display this message again"),
-		_("_Trim"), RESPONSE_TRIM,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
-		NULL);
+	data = g_new0 (AskTrimData, 1);
+	data->done_func = done_func;
+	data->done_data = done_data;
+	data->parent_window = parent_window;
+	data->parent_is_modal = FALSE;
+	
+	if (parent_window != NULL) {
+		data->parent_is_modal = gtk_window_get_modal (parent_window);
+		if (data->parent_is_modal)
+			gtk_window_set_modal (data->parent_window, FALSE);
+	}
 
+	display_name = basename_for_display (file->path);
+	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
+	data->dialog = _gtk_message_dialog_with_checkbutton_new (parent_window,
+								 GTK_DIALOG_MODAL,
+								 GTK_STOCK_DIALOG_WARNING,
+								 msg,
+								 _("This transformation may introduce small image distortions along "
+		  						   "one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
+		  						   "is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
+		  						   "transformation to return to the original image.\n\nYou can also choose to discard (or trim) any "
+		  						   "untransformable edge pixels. For practical use, this mode gives the best looking results, "
+		  						   "but the transformation is not strictly lossless anymore."),
+ 								 PREF_MSG_JPEG_MCU_WARNING,
+								 _("_Do not display this message again"),
+								 _("_Trim"), RESPONSE_TRIM,
+								 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+								 GTK_STOCK_OK, GTK_RESPONSE_OK,
+								 NULL);
 	g_free (display_name);
 	g_free (msg);
 
-	result = gtk_dialog_run (GTK_DIALOG (d));
- 	gtk_widget_destroy (d);
-
-	switch (result) {
-	case GTK_RESPONSE_OK:
-		return TRUE;
-	case RESPONSE_TRIM:
-		*trim = TRUE;
-		return TRUE;
-	default:
-		return FALSE;
-	}
+	g_signal_connect (G_OBJECT (data->dialog), "response",
+			  G_CALLBACK (ask_whether_to_trim_response_cb),
+			  data);
+	gtk_widget_show (data->dialog);
 }
 
 
 gboolean
-apply_transformation_jpeg (GtkWindow     *win,
-			   FileData      *file,
-			   GthTransform   transform,
-			   GError       **error)
+apply_transformation_jpeg (FileData       *file,
+			   GthTransform    transform,
+			   JpegMcuAction   mcu_action,
+			   GError        **error)
 {
-	gboolean              result = TRUE;
-	char                 *tmp_dir = NULL;
-	char                 *tmp_output_file = NULL;
-	JXFORM_CODE           transf;
-	jpeg_mcu_dialog_data *userdata = NULL;
-	char		     *local_file;
-	GnomeVFSFileInfo     *info = NULL;
+	gboolean          result = TRUE;
+	char             *tmp_dir = NULL;
+	char             *tmp_output_file = NULL;
+	JXFORM_CODE       transf;
+	char		 *local_file;
+	GnomeVFSFileInfo *info = NULL;
 
 	if (file == NULL)
 		return FALSE;
@@ -176,17 +204,8 @@ apply_transformation_jpeg (GtkWindow     *win,
 		break;
 	}
 
-	userdata = g_new0 (jpeg_mcu_dialog_data, 1);
-	userdata->file = file;
-	userdata->parent = win;
-
 	tmp_output_file = get_temp_file_name (tmp_dir, NULL);
-	if (jpegtran (local_file, 
-		      tmp_output_file, 
-		      transf, 
-		      (jpegtran_mcu_callback) jpeg_mcu_dialog, userdata, 
-		      error) != 0) 
-	{
+	if (! jpegtran (local_file, tmp_output_file, transf, mcu_action, error)) {
 		result = FALSE;
 		goto apply_transformation_jpeg__free_and_close;
 	}
@@ -210,7 +229,6 @@ apply_transformation_jpeg (GtkWindow     *win,
 apply_transformation_jpeg__free_and_close:
 
 	local_dir_remove_recursive (tmp_dir);
-	g_free (userdata);
 	g_free (tmp_output_file);
 	g_free (tmp_dir);
 
@@ -219,8 +237,7 @@ apply_transformation_jpeg__free_and_close:
 
 
 gboolean
-apply_transformation_generic (GtkWindow    *win,
-			      FileData     *file,
+apply_transformation_generic (FileData     *file,
 			      GthTransform  transform,
 			      GError       **error)
 {

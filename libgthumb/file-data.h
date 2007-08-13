@@ -65,8 +65,11 @@ void         file_data_unref               (FileData         *fd);
 void         file_data_set_path            (FileData         *fd,
 					    const char       *path);
 void         file_data_update              (FileData         *fd);
+void         file_data_update_info         (FileData         *fd);
 void         file_data_update_mime_type    (FileData         *fd,
 					    gboolean          fast_mime_type);
+void         file_data_update_all          (FileData         *fd,
+					    gboolean          fast_mime_type);				    
 void         file_data_load_comment_data   (FileData         *fd);
 void         file_data_load_exif_data      (FileData         *fd);
 void         file_data_update_comment      (FileData         *fd);

@@ -68,6 +68,7 @@ struct _ThumbLoaderPrivateData
 	int                    max_h;
 	int                    cache_max_w;
 	int                    cache_max_h;
+	GnomeThumbnailSize     thumb_size;
 	GnomeVFSFileSize       max_file_size;    /* If the file size is greater
 					    	  * than this the thumbnail 
 					    	  * will not be created, for
@@ -275,13 +276,15 @@ thumb_loader_set_thumb_size (ThumbLoader *tl,
 
 	if ((width <= THUMBNAIL_NORMAL_SIZE) && (height <= THUMBNAIL_NORMAL_SIZE)) {
 		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
-		tl->priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+		tl->priv->thumb_size = GNOME_THUMBNAIL_SIZE_NORMAL;
 	}
 	else {
 		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
-		tl->priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+		tl->priv->thumb_size = GNOME_THUMBNAIL_SIZE_LARGE;
 	}
 
+	tl->priv->thumb_factory = gnome_thumbnail_factory_new (tl->priv->thumb_size);
+	
 	tl->priv->max_w = width;
 	tl->priv->max_h = height;
 }
@@ -455,46 +458,38 @@ thumb_loader_stop (ThumbLoader *tl,
 static gint
 thumb_loader_save_to_cache (ThumbLoader *tl)
 {
-	ThumbLoaderPrivateData *priv;
-	char                   *cache_dir;
-	char                   *cache_path;
-	char		       *uri_path = NULL;
-	char                   *uri_dir = NULL;
-
-	if (tl == NULL)
+	char *cache_file;
+	char *cache_dir;
+	
+	if ((tl == NULL) || (tl->priv->pixbuf == NULL))
 		return FALSE;
 
-	priv = tl->priv;
-	if (priv->pixbuf == NULL)
-		return FALSE;
-
-	cache_path = gnome_thumbnail_path_for_uri (priv->file->path, GNOME_THUMBNAIL_SIZE_NORMAL);
-	cache_dir = remove_level_from_path (cache_path);
-	g_free (cache_path);
-
-	if (cache_dir == NULL)
-		return FALSE;
-
-	if (is_local_file (priv->file->path)) {
-		uri_path = gnome_vfs_get_local_path_from_uri (priv->file->path);
-		uri_dir = remove_level_from_path (uri_path);
-		g_free (uri_path);
+	if (is_local_file (tl->priv->file->path)) {
+		char *cache_base_uri;
 
 		/* Do not save thumbnails from the user's thumbnail directory,
 		   or an endless loop of thumbnailing may be triggered. */
-		if (strcmp_null_tolerant (cache_dir, uri_dir) == 0) {
-			g_free (uri_dir);	
+		   
+		cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
+		if (path_in_path (cache_base_uri, tl->priv->file->path)) {
+			g_free (cache_base_uri);	
 			return FALSE;
 		}
-		g_free (uri_dir);
+		g_free (cache_base_uri);
 	}
 
-	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))
-		gnome_thumbnail_factory_save_thumbnail (priv->thumb_factory,
-							priv->pixbuf,
-							priv->file->path,
-							priv->file->mtime);
+	cache_file = gnome_thumbnail_path_for_uri (tl->priv->file->path, tl->priv->thumb_size);
+	if (cache_file == NULL)
+		return FALSE;
+		
+	cache_dir = remove_level_from_path (cache_file);
+	g_free (cache_file);
 
+	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))	
+		gnome_thumbnail_factory_save_thumbnail (tl->priv->thumb_factory,
+							tl->priv->pixbuf,
+							tl->priv->file->path,
+							tl->priv->file->mtime);
 	g_free (cache_dir);
 
 	return TRUE;
@@ -634,7 +629,8 @@ normalize_thumb (gint *width,
 	if ((max_width > cache_max_w) && (max_height > cache_max_h)) {
 		if ((*width < cache_max_w - 1) && (*height < cache_max_h - 1))
 			return FALSE;
-	} else if ((*width < max_width - 1) && (*height < max_height - 1))
+	} 
+	else if ((*width < max_width - 1) && (*height < max_height - 1))
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);

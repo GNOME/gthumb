@@ -1,3 +1,96 @@
+2007-08-13  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/rotation-utils.h: 
+	* src/rotation-utils.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.h: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/file-utils.c: 
+
+	Fixed ui freeze caused by the trim dialog.  Always trim images in the
+	web-exported, never trim images in the photo importer, ask what to do
+	when using the rotation utils.
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/thumb-loader.c: do not save thumbnails from the user's
+	thumbnail directory.  Use the "large" subdirectory when using big 
+	thumbnails.
+	
+	* libgthumb/file-utils.c (remove_host_from_uri): return "/" if the uri
+	is "file://"
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: added function add_filename_to_uri
+
+	* src/dlg-write-to-cd.c: 
+	* src/dlg-file-utils.c: use add_filename_to_uri here
+	
+	* libgthumb/comments.c (comments_get_comment_filename): do not return 
+	NULL for non-local uris.
+	
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/gth-browser.c (_set_fullscreen_or_slideshow): do not reverse the
+	file list.
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (gth_browser_load_image_from_uri): update the 
+	mime-type here.
+	(load_timeout_cb): no need to update the file info here.
+	
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* libgthumb/gth-file-list.c (load_new_list): 
+	
+	Fixed bug #465414 – change comment and image shown twice in browser
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* src/gth-window-actions-entries.h: 
+	* src/gth-window-actions-callbacks.h: 
+	* src/gth-window-actions-callbacks.c: 
+	* libgthumb/image-viewer.c: 
+	
+	Added shift+x keybinding to always perform zoom to fit.
+	Fixes bug #464446 – Zoom to Fit feature vanished from UI
+	
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/dlg-rename-series.c (dlg_rename_series): no need to unescape 
+	the template.
+	
+	Fixes bug #464348 – Rename tool breaks if template = "%f1%e"
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* src/gth-browser.c: use a private variable to store the fast_file_type
+	preference, to avoid a lot of gconf key reads.
+
+	* src/gth-viewer.c: 
+	* src/gthumb-preloader.c: 
+	* src/gth-browser.c: 
+	* libgthumb/gth-file-list.c: do not update the mime-type when we just
+	need to update the mtime.
+	
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: added file_data_update_info to update the 
+	file info without updating the mime type.
+
+2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-catalog.c: 
+	
+	Fixed catalog renaming and moving.
+
 2007-08-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (window_update_image_info):
@@ -5,6 +98,20 @@
 
 2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-dir-list.c: 
+	* src/catalog-list.c: 
+	* libgthumb/file-utils.c: 
+
+	Updated all the calls to path_list_new, which returns a FileData list 
+	for files.  
+
+2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* configure.in: bumped version number to 2.10.6 to differentiate 
+	current development version from the latest released version.
+	
+2007-08-10  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/rotation-utils.c: 
 	* src/gth-window-actions-callbacks.c: 
 	* src/dlg-photo-importer.c: 

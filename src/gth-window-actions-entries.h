@@ -214,7 +214,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	{ "View_ZoomFit", GTK_STOCK_ZOOM_FIT,
 	  N_("Fit"), "",
 	  N_("Zoom to fit window"),
-	  G_CALLBACK (gth_window_activate_action_view_zoom_fit) },
+	  G_CALLBACK (gth_window_activate_action_view_zoom_fit_if_larger) },
 
         { "View_ZoomWidth", GTHUMB_STOCK_ZOOM_WIDTH,
           N_("Width"), "",

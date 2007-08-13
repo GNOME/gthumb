@@ -534,7 +534,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
 	/* * Add the ".." entry if the current path is not "/".
-	 * path_list_new does not include the "." and ".." elements. */
+	 * path_list_async_new does not include the "." and ".." elements. */
 
 	if (! uri_is_root (dir_list->path))
 		filtered = g_list_prepend (filtered, g_strdup (".."));

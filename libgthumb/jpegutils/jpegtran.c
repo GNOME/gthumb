@@ -228,13 +228,14 @@ update_exif_thumbnail (ExifData    *edata,
 
 	/* Transform thumbnail */
 	if (jpegtran_thumbnail (edata->data, edata->size,
-			(void**)&out, &osize, transform) != 0) {
+			        (void**)&out, &osize, transform) != 0) {
 		/* Failed: Discard thumbnail */
 		g_free (out);
 		g_free (edata->data);
 		edata->data = NULL;
 		edata->size = 0;
-	} else {
+	} 
+	else {
 		/* Success: Replace thumbnail */
 		g_free (edata->data);
 		edata->data = out;
@@ -259,7 +260,7 @@ update_exif_data (struct jpeg_decompress_struct *src,
 	for (mark = src->marker_list; mark != NULL; mark = mark->next) {
 		if (mark->marker != JPEG_APP0 +1)
 			continue;
-		edata = exif_data_new_from_data(mark->data, mark->data_length);
+		edata = exif_data_new_from_data (mark->data, mark->data_length);
 		break;
 	}
 	if (edata == NULL)
@@ -269,34 +270,36 @@ update_exif_data (struct jpeg_decompress_struct *src,
 	set_exif_orientation_to_top_left (edata);
 
 	/* Adjust exif dimensions (swap values if necessary) */
-	update_exif_dimensions(edata, transform);
+	update_exif_dimensions (edata, transform);
 
 	/* Adjust thumbnail (transform) */
-	update_exif_thumbnail(edata, transform);
+	update_exif_thumbnail (edata, transform);
 
 	/* Build new exif data block */
-	exif_data_save_data(edata, &data, &size);
-	exif_data_unref(edata);
+	exif_data_save_data (edata, &data, &size);
+	exif_data_unref (edata);
 
 	/* Update jpeg APP1 (EXIF) marker */
 	mark->data = src->mem->alloc_large((j_common_ptr)src, JPOOL_IMAGE, size);
 	mark->original_length = size;
 	mark->data_length = size;
 	memcpy (mark->data, data, size);
-	free(data);
+	free (data);
 }
 
 
 static boolean
-jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
-			     int MCU_width, int MCU_height,
-			     JXFORM_CODE transform)
+jtransform_perfect_transform (JDIMENSION image_width, 
+			      JDIMENSION image_height,
+			      int MCU_width, 
+			      int MCU_height,
+			      JXFORM_CODE transform)
 {
+	boolean result = TRUE;
+	
 	/* This function determines if it is possible to perform a lossless
 	   jpeg transformation without trimming, based on the image dimensions
 	   and MCU size. Further details at http://jpegclub.org/jpegtran. */
-
-	boolean result = TRUE;
 
 	switch (transform) {
 	case JXFORM_FLIP_H:
@@ -324,20 +327,20 @@ jtransform_perfect_transform(JDIMENSION image_width, JDIMENSION image_height,
 }
 
 
-static int
-jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
-		   struct jpeg_compress_struct   *dstinfo,
-		   JXFORM_CODE                    transformation,
-		   JCOPY_OPTION                   option,
-		   jpegtran_mcu_callback          callback,
-		   void                          *userdata)
+static gboolean
+jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
+		   struct jpeg_compress_struct    *dstinfo,
+		   JXFORM_CODE                     transformation,
+		   JCOPY_OPTION                    option,
+		   JpegMcuAction                   mcu_action,
+		   GError                        **error)
 {
 	jpeg_transform_info  transformoption;
 	jvirt_barray_ptr    *src_coef_arrays;
 	jvirt_barray_ptr    *dst_coef_arrays;
 
 	transformoption.transform = transformation;
-	transformoption.trim = FALSE;
+	transformoption.trim = (mcu_action == JPEG_MCU_ACTION_TRIM);
 	transformoption.force_grayscale = FALSE;
 
 	/* Enable saving of extra markers that we want to copy */
@@ -347,26 +350,23 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	(void) jpeg_read_header (srcinfo, TRUE);
 
 	/* Check JPEG Minimal Coding Unit (mcu) */
-	if (callback &&	! jtransform_perfect_transform (
-			srcinfo->image_width,
-			srcinfo->image_height,
-			srcinfo->max_h_samp_factor * DCTSIZE,
-			srcinfo->max_v_samp_factor * DCTSIZE,
-			transformation)) {
-
-		if (callback == JPEGTRAN_MCU_TRIM) {
-			// Continue transform and trim partial MCUs
-			transformoption.trim = TRUE;
-		}
-		else if ((callback == JPEGTRAN_MCU_CANCEL) ||
-			  ! callback (&transformoption.transform, &transformoption.trim, userdata)) {
-			// Abort transform
-			return 1;
-		}
+	if ((mcu_action == JPEG_MCU_ACTION_ABORT) 
+	    && ! jtransform_perfect_transform (srcinfo->image_width,
+					       srcinfo->image_height,
+					       srcinfo->max_h_samp_factor * DCTSIZE,
+					       srcinfo->max_v_samp_factor * DCTSIZE,
+					       transformation)) 
+	{
+		if (error != NULL)
+                	g_set_error (error,
+				     GTHUMB_ERROR,
+				     JPEGTRAN_ERROR_MCU,
+				     "MCU Error");
+		return FALSE;
 	}
 
 	/* Update exif data */
-	update_exif_data(srcinfo, transformation);
+	update_exif_data (srcinfo, transformation);
 
 	/* Any space needed by a transform option must be requested before
 	 * jpeg_read_coefficients so that memory allocation will be done right.
@@ -384,9 +384,8 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	 * This is not the optimal way to detect the difference 
 	 * between a thumbnail and a normal image, but it works
 	 * well for gThumb. */
-	if (option == JCOPYOPT_NONE) {
+	if (option == JCOPYOPT_NONE) 
 		dstinfo->write_JFIF_header = FALSE;
-	}
 
 	/* Adjust the markers to create a standard EXIF file if an EXIF marker
 	 * is present in the input. By default, libjpeg creates a JFIF file, 
@@ -418,7 +417,7 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 	jpeg_finish_compress (dstinfo);
 	jpeg_finish_decompress (srcinfo);
 
-	return 0;
+	return TRUE;
 }
 
 
@@ -481,27 +480,26 @@ jpegtran_thumbnail (const void   *idata,
 	jpeg_memory_dest (&dstinfo, odata, osize);
 
 	/* Apply transformation */
-	if (jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_NONE, NULL, NULL) != 0) {
+	if (! jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_NONE, JPEG_MCU_ACTION_DONT_TRIM, NULL)) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
-		return 1;
+		return FALSE;
 	}
 
 	/* Release memory */
 	jpeg_destroy_compress (&dstinfo);
 	jpeg_destroy_decompress (&srcinfo);
 
-	return 0;
+	return TRUE;
 }
 
 
-int
-jpegtran (const char             *input_filename,
-	  const char             *output_filename,
-	  JXFORM_CODE             transformation,
-	  jpegtran_mcu_callback   callback,
-	  void                   *userdata,
-	  GError                **error)
+gboolean
+jpegtran (const char     *input_filename,
+	  const char     *output_filename,
+	  JXFORM_CODE     transformation,
+	  JpegMcuAction   mcu_action,
+	  GError        **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
@@ -512,13 +510,13 @@ jpegtran (const char             *input_filename,
 	/* Open the input file. */
 	input_file = fopen (input_filename, "rb");
 	if (input_file == NULL)
-		return 1;
+		return FALSE;
 
 	/* Open the output file. */
 	output_file = fopen (output_filename, "wb");
 	if (output_file == NULL) {
 		fclose (input_file);
-		return 1;
+		return FALSE;
 	}
 
 	/* Initialize the JPEG decompression object with default error
@@ -554,7 +552,7 @@ jpegtran (const char             *input_filename,
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);
 		fclose (output_file);
-		return 1;
+		return FALSE;
 	}
 
 	/* Compression error handler */
@@ -563,7 +561,7 @@ jpegtran (const char             *input_filename,
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);
 		fclose (output_file);
-		return 1;
+		return FALSE;
 	}
 
 	/* Specify data source for decompression */
@@ -573,12 +571,12 @@ jpegtran (const char             *input_filename,
 	jpeg_stdio_dest (&dstinfo, output_file);
 
 	/* Apply transformation */
-	if (jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_ALL, callback, userdata) != 0) {
+	if (! jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_ALL, mcu_action, error)) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);
 		fclose (output_file);
-		return 1;
+		return FALSE;
 	}
 
 	/* Release memory */
@@ -589,7 +587,7 @@ jpegtran (const char             *input_filename,
 	fclose (input_file);
 	fclose (output_file);
 
-	return 0;
+	return TRUE;
 }
 
 

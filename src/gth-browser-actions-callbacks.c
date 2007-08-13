@@ -507,11 +507,12 @@ catalog_rename (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
-
-	} else if (file_rename (catalog_path, new_catalog_path)) {
+	} 
+	else if (file_rename (catalog_path, new_catalog_path) == GNOME_VFS_OK) {
 		all_windows_notify_catalog_rename (catalog_path,
 						   new_catalog_path);
-	} else {
+	} 
+	else {
 		char *utf8_name;
 
 		utf8_name = gnome_vfs_unescape_string_for_display (name_only);
@@ -1013,16 +1014,16 @@ folder_rename (GtkWindow  *window,
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
-
-	} else if (path_is_dir (new_path)) {
+	} 
+	else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
 		utf8_name = gnome_vfs_unescape_string_for_display (new_name);
 		_gtk_error_dialog_run (window,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
-
-	} else {
+	} 
+	else {
 		char           *old_folder_comment;
 		GnomeVFSResult  result;
 
@@ -1039,8 +1040,8 @@ folder_rename (GtkWindow  *window,
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
-
-		} else {
+		} 
+		else {
 			char *utf8_path;
 			utf8_path = gnome_vfs_unescape_string_for_display (old_path);
 			_gtk_error_dialog_run (window,
@@ -1329,8 +1330,8 @@ folder_copy__response_cb (GObject *object,
 				 folder_copy__continue,
 				 file_sel);
 		file_sel = NULL;
-
-	} else {
+	} 
+	else {
 		char           *old_folder_comment = NULL;
 		GnomeVFSResult  result;
 
@@ -1353,8 +1354,8 @@ folder_copy__response_cb (GObject *object,
 
 			if (gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel)))
 				gth_browser_go_to_directory (GTH_BROWSER (window), new_path);
-
-		} else {
+		} 
+		else {
 			char *utf8_path;
 
 			utf8_path = gnome_vfs_unescape_string_for_display (old_path);

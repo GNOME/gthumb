@@ -80,7 +80,7 @@
 
 #include "icons/pixbufs.h"
 
-#define GCONF_NOTIFICATIONS 19
+#define GCONF_NOTIFICATIONS 20
 
 #define VIEW_AS_DELAY 500
 
@@ -218,6 +218,7 @@ struct _GthBrowserPrivateData {
 	gboolean            load_image_folder_after_image;
 	gboolean            focus_current_image;
 	gboolean            show_hidden_files;
+	gboolean            fast_file_type;
 	
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
@@ -586,23 +587,23 @@ update_image_comment (GthBrowser *browser)
 static void
 window_update_image_info (GthBrowser *browser)
 {
-        window_update_statusbar_image_info (browser);
-        window_update_statusbar_zoom_info (browser);
-
         GthBrowserPrivateData *priv = browser->priv;
         JPEGData              *jdata = NULL;
         char                  *cache_uri = NULL;
 
+        window_update_statusbar_image_info (browser);
+        window_update_statusbar_zoom_info (browser);
+
         if (priv->exif_data != NULL) {
-        	exif_data_unref (priv->exif_data);
+                exif_data_unref (priv->exif_data);
                 priv->exif_data = NULL;
         }
 
         if (priv->image != NULL)
-		cache_uri = get_cache_filename_from_uri (priv->image->path);
+                cache_uri = get_cache_filename_from_uri (priv->image->path);
 
         if ((cache_uri != NULL) && (image_is_jpeg (cache_uri))) {
-        	char *local_file = NULL;
+                char *local_file = NULL;
 
                 local_file = get_cache_filename_from_uri (priv->image->path);
                 jdata = jpeg_data_new_from_file (local_file);
@@ -611,8 +612,8 @@ window_update_image_info (GthBrowser *browser)
 
         g_free (cache_uri);
 
-	if (jdata != NULL) {
-        	priv->exif_data = jpeg_data_get_exif_data (jdata);
+        if (jdata != NULL) {
+                priv->exif_data = jpeg_data_get_exif_data (jdata);
                 jpeg_data_unref (jdata);
         }
 
@@ -2408,6 +2409,9 @@ catalog_activate (GthBrowser *browser,
 	GError                *gerror;
 	GtkTreeIter            iter;
 
+	if (cat_path == NULL)
+		return FALSE;
+
 	/* catalog directory */
 
 	if (path_is_dir (cat_path)) {
@@ -2899,7 +2903,7 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 
 	/* Images are handled by gThumb directly. Other supported media (video,
 	   audio) require external players, which are launched by this function. */
-	if (file_is_image (browser->priv->image->path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+	if (file_is_image (browser->priv->image->path, browser->priv->fast_file_type))
 		return FALSE;
 
 	current_mime_type = get_file_mime_type (browser->priv->image->path, FALSE);
@@ -4396,9 +4400,10 @@ activate_catalog_done (GthBrowser *browser)
 		GtkTreeIter iter;
 		gboolean    is_search;
 
-		if (! catalog_list_get_iter_from_path (priv->catalog_list,
-						       priv->catalog_path,
-						       &iter)) {
+		if ((priv->catalog_path == NULL) 
+		    || ! catalog_list_get_iter_from_path (priv->catalog_list,
+						          priv->catalog_path,
+						          &iter)) {
 			window_image_viewer_set_void (browser);
 			return;
 		}
@@ -4406,7 +4411,8 @@ activate_catalog_done (GthBrowser *browser)
 		add_history_item (browser,
 				  remove_host_from_uri (priv->catalog_path),
 				  is_search ? SEARCH_PREFIX : CATALOG_PREFIX);
-	} else
+	} 
+	else
 		priv->go_op = GTH_BROWSER_GO_TO;
 
 	window_update_history_list (browser);
@@ -4778,6 +4784,19 @@ pref_show_hidden_files_changed (GConfClient *client,
 	
 	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
 	gth_dir_list_show_hidden_files (browser->priv->dir_list, browser->priv->show_hidden_files);
+	window_update_file_list (browser);
+}
+
+
+static void
+pref_fast_file_type_changed (GConfClient *client,
+			     guint        cnxn_id,
+			     GConfEntry  *entry,
+			     gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	
+	browser->priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 	window_update_file_list (browser);
 }
 
@@ -5552,7 +5571,6 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	char                  *current_dir;
 	GList                 *created_in_current_dir = NULL;
 	GList                 *scan;
-	gboolean               fast_mime_type;
 	
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
@@ -5560,8 +5578,6 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	current_dir = add_scheme_if_absent (priv->dir_list->path);
 	if (current_dir == NULL)
 		return;
-
-	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	for (scan = list; scan; scan = scan->next) {
 		char *path = scan->data;
@@ -5575,7 +5591,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			FileData *file;
 			
 			file = file_data_new (path, NULL);
-			file_data_update_mime_type (file, fast_mime_type);
+			file_data_update_mime_type (file, browser->priv->fast_file_type);
 			if (file_filter (file, browser->priv->show_hidden_files))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else
@@ -6086,7 +6102,8 @@ gth_browser_notify_catalog_delete (GthBrowser *browser,
 		if (current_cat_deleted) {
 			gth_browser_go_to_catalog (browser, NULL);
 			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-		} else {
+		} 
+		else {
 			GtkTreeIter iter;
 			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
 
@@ -6958,7 +6975,8 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->sel_change_timeout = 0;
 	
 	priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
-
+	priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	
 	/* preloader */
 
 	priv->preloader = gthumb_preloader_new ();
@@ -7074,6 +7092,11 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_HIDDEN_FILES,
 					   pref_show_hidden_files_changed,
+					   browser);
+
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_FAST_FILE_TYPE,
+					   pref_fast_file_type_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
@@ -8262,8 +8285,6 @@ load_timeout_cb (gpointer data)
 	if (browser->priv->image == NULL)
 		return FALSE;
 
-	file_data_update (browser->priv->image);
-
 	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
 	if (browser->priv->image_position >= 0) {
 		prev1 = get_image_to_preload (browser, browser->priv->image_position - 1, 1);
@@ -8339,7 +8360,7 @@ gth_browser_load_image (GthBrowser *browser,
 		return;
 	}
 
-	file_data_update (file);
+	file_data_update_info (file);
 
 	if (! priv->image_modified
 	    && (priv->image != NULL)
@@ -8380,6 +8401,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 	FileData *file;
 	
 	file = file_data_new (filename, NULL);
+	file_data_update_mime_type (file, browser->priv->fast_file_type);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);
 }
@@ -8602,7 +8624,6 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 			g_list_free (file_list);
 		file_list = gth_file_view_get_list (priv->file_list->view);
 	}
-	file_list = g_list_reverse (file_list);
 	
 	if (file_list == NULL)
 		return;

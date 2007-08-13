@@ -479,6 +479,19 @@ catalog_list_update_click_policy (CatalogList *cat_list)
 }
 
 
+static gint
+comp_by_path (gconstpointer a, 
+	      gconstpointer b)
+{
+	FileData *data_a, *data_b;
+
+	data_a = (FileData*) a;
+	data_b = (FileData*) b;
+
+	return uricmp (data_a->path, data_b->path);
+}
+
+
 gboolean
 catalog_list_refresh (CatalogList *cat_list)
 {
@@ -492,11 +505,9 @@ catalog_list_refresh (CatalogList *cat_list)
 	GList     *dir_list;            /* Contain the full path of the
 					 * sub dirs. */
 	GList     *dir_name;            /* Contains only the names of the
-					   dirs. */
-	GList     *file_list;           /* Contains the full path of the
+					 * sub dirs. */
+	GList     *file_list;           /* Contains the file_data of the
 					 * catalog files. */
-	GList     *file_name;           /* Contains only the names of the
-					 * catalogs. */
 
 	/* Set the file and dir lists. */
 
@@ -506,7 +517,7 @@ catalog_list_refresh (CatalogList *cat_list)
 	}
 
 	dir_list = g_list_sort (dir_list, (GCompareFunc) strcasecmp);
-	file_list = g_list_sort (file_list, (GCompareFunc) strcasecmp);
+	file_list = g_list_sort (file_list, (GCompareFunc) comp_by_path);
 
 	/* get the list of dirs names (without path). */
 
@@ -527,15 +538,6 @@ catalog_list_refresh (CatalogList *cat_list)
 		dir_name = g_list_prepend (dir_name, g_strdup (".."));
 	}
 	g_free (base);
-
-	/* get the list of files names (without path). */
-
-	file_name = NULL;
-	for (scan = file_list; scan; scan = scan->next) {
-		char *name_only = remove_extension_from_path (file_name_from_path (scan->data));
-		file_name = g_list_prepend (file_name, name_only);
-	}
-	file_name = g_list_reverse (file_name);
 
 	/* Add items to the list. */
 
@@ -573,16 +575,16 @@ catalog_list_refresh (CatalogList *cat_list)
 		name_scan = name_scan->next;
 	}
 
-	if (!cat_list->dirs_only) {
-		name_scan = file_name;
+	if (! cat_list->dirs_only) {
 		for (scan = file_list; scan; scan = scan->next) {
-			char        *name = name_scan->data;
+			FileData    *file = scan->data;
+			char        *name;
 			char        *utf8_name;
 			GtkTreeIter  iter;
 			GdkPixbuf   *pixbuf;
 			int          type;
 
-			if (file_is_search_result (scan->data)) {
+			if (file_is_search_result (file->path)) {
 				type = CAT_LIST_TYPE_SEARCH;
 				pixbuf = search_pixbuf;
 			} 
@@ -591,16 +593,19 @@ catalog_list_refresh (CatalogList *cat_list)
 				pixbuf = catalog_pixbuf;
 			}
 
+			name = remove_extension_from_path (file->name);
 			utf8_name = gnome_vfs_unescape_string_for_display (name);
+			
 			gtk_list_store_append (cat_list->list_store, &iter);
 			gtk_list_store_set (cat_list->list_store, &iter,
 					    CAT_LIST_COLUMN_ICON, pixbuf,
 					    CAT_LIST_COLUMN_NAME, utf8_name,
-					    CAT_LIST_COLUMN_PATH, scan->data,
+					    CAT_LIST_COLUMN_PATH, file->path,
 					    CAT_LIST_COLUMN_TYPE, type,
 					    -1);
+					    
 			g_free (utf8_name);
-			name_scan = name_scan->next;
+			g_free (name);
 		}
 	}
 
@@ -609,11 +614,10 @@ catalog_list_refresh (CatalogList *cat_list)
 	g_object_unref (catalog_pixbuf);
 	g_object_unref (search_pixbuf);
 
-	path_list_free (dir_list);
 	path_list_free (dir_name);
-	path_list_free (file_list);
-	path_list_free (file_name);
-
+	path_list_free (dir_list);
+	file_data_list_free (file_list);
+		
 	return TRUE;
 }
 

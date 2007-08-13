@@ -1460,7 +1460,6 @@ adjust_orientation__step (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
 	const char *uri = aodata->scan->data;
-	GtkWindow  *window = GTK_WINDOW (data->dialog);
 	gboolean    success = TRUE;
 
 	if (file_is_image (uri, TRUE)) {
@@ -1471,9 +1470,9 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		file_data_update (fd);
 		transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (uri))
-			success = apply_transformation_jpeg (window, fd, transform, NULL);
+			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
 		else
-			success = apply_transformation_generic (window, fd, transform, NULL);
+			success = apply_transformation_generic (fd, transform, NULL);
 		file_data_unref (fd);
 	}
 

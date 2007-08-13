@@ -609,11 +609,20 @@ gth_window_activate_action_view_zoom_100 (GtkAction *action,
 
 
 void
+gth_window_activate_action_view_zoom_fit_if_larger (GtkAction *action,
+					            gpointer   data)
+{
+	GthWindow   *window = GTH_WINDOW (data);
+	image_viewer_set_fit_mode (gth_window_get_image_viewer (window), GTH_FIT_SIZE_IF_LARGER);
+}
+
+
+void
 gth_window_activate_action_view_zoom_fit (GtkAction *action,
 					  gpointer   data)
 {
 	GthWindow   *window = GTH_WINDOW (data);
-	image_viewer_set_fit_mode (gth_window_get_image_viewer (window), GTH_FIT_SIZE_IF_LARGER);
+	image_viewer_set_fit_mode (gth_window_get_image_viewer (window), GTH_FIT_SIZE);
 }
 
 

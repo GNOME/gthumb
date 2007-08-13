@@ -216,7 +216,7 @@ comments_get_comment_filename (const char *uri,
 	char *filename = NULL;
 	char *comment_uri = NULL;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if (uri == NULL) 
 		return NULL;
 
 	source_real = g_strdup (uri);
@@ -580,6 +580,9 @@ comment_copy (const char *src,
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
 
+	if (! is_local_file (src) || ! is_local_file (dest))
+		return;
+
 	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
@@ -603,6 +606,9 @@ comment_move (const char *src,
 {
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
+
+	if (! is_local_file (src) || ! is_local_file (dest))
+		return;
 
 	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
