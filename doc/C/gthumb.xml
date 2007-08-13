@@ -3223,7 +3223,20 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Zoom to fit.</para>
+	      <para>Zoom to fit (scales down only, does not magnify)</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>Shift</keycap><keycap>x</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit (scale down or magnify, as required)</para>
 	    </entry>
             <entry>
 	      <para>yes</para>
