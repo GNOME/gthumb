@@ -2218,9 +2218,9 @@ export__copy_image (CatalogWebExporter *ce)
 				
 				fd = file_data_new (temp_destination, NULL);
 				file_data_update (fd);
-				apply_transformation_jpeg (GTK_WINDOW (ce->window),
-							   fd,
+				apply_transformation_jpeg (fd,
 							   transform,
+							   JPEG_MCU_ACTION_TRIM,
 							   NULL);
 				file_data_unref (fd);
 			}

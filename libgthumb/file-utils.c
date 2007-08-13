@@ -2443,6 +2443,7 @@ struct _CopyData {
         GnomeVFSAsyncHandle *handle;
         CopyDoneFunc         done_func;
         gpointer             done_data;
+        guint                idle_id;
 };
 
 
@@ -2460,6 +2461,7 @@ copy_data_new (const char   *source_uri,
 	copy_data->done_func = done_func;
 	copy_data->done_data = done_data;
 	copy_data->result = GNOME_VFS_OK;
+	copy_data->idle_id = 0;
 	
 	return copy_data;
 }
@@ -2492,6 +2494,11 @@ copy_file_async_done (gpointer data)
 {
 	CopyData *copy_data = data;
 	
+	if (copy_data->idle_id != 0) {
+		g_source_remove (copy_data->idle_id);
+		copy_data->idle_id = 0;
+	}
+	
 	if (copy_data->done_func != NULL) {
 		copy_data->handle = NULL;	
 		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
@@ -2514,7 +2521,7 @@ copy_file_async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		return FALSE;
 	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) 
-		copy_file_async_done (copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	/*else if ((info->phase == GNOME_VFS_XFER_PHASE_COPYING)
 		 || (info->phase == GNOME_VFS_XFER_PHASE_MOVING))
 		g_signal_emit (G_OBJECT (copy_data->archive),
@@ -2540,7 +2547,7 @@ copy_file_async (const char   *source_uri,
 
 	if (! path_is_file (source_uri)) {
 		copy_data->result = GNOME_VFS_ERROR_NOT_FOUND;
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 		return NULL;
 	}
 
@@ -2562,7 +2569,7 @@ copy_file_async (const char   *source_uri,
 
 	if (result != GNOME_VFS_OK) {
 		copy_data->result = result;
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	
 	return copy_data;
@@ -2914,7 +2921,7 @@ copy_remote_file_to_cache (FileData     *file,
 	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	else {
 		CopyToCacheData *data;
@@ -2925,10 +2932,10 @@ copy_remote_file_to_cache (FileData     *file,
 		data->done_func = done_func;
 		data->done_data = done_data;
 						
-		copy_file_async (file->path, 
-				 cache_uri, 
-				 copy_remote_file_to_cache_done, 
-				 data);
+		copy_data = copy_file_async (file->path, 
+				 	     cache_uri, 
+				 	     copy_remote_file_to_cache_done, 
+				 	     data);
 	}
 	g_free (cache_uri);
 	
@@ -2947,10 +2954,10 @@ update_file_from_cache (FileData     *file,
 	cache_uri = get_cache_uri_from_uri (file->path);
 	if (is_local_file (file->path) || (file->mtime >= get_file_mtime (cache_uri))) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
-		g_idle_add (copy_file_async_done, copy_data);
+		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}
 	else
-		copy_file_async (cache_uri, file->path, done_func, done_data);
+		copy_data = copy_file_async (cache_uri, file->path, done_func, done_data);
 	g_free (cache_uri);
 	
 	return copy_data;

@@ -76,7 +76,7 @@ typedef struct {
 	GList        *current_image;
 	ImageLoader  *loader;
 	GdkPixbuf    *original_preview;
-	GthTransform	transform;
+	GthTransform  transform;
 } DialogData;
 
 
@@ -216,6 +216,7 @@ load_next_image (DialogData *data)
 
 
 typedef struct {
+	GtkWidget        *parent_window;
 	DialogData       *data;
 	GList            *current_image;
 	GnomeVFSFileInfo *info;
@@ -254,7 +255,7 @@ apply_transformation_done (const char     *uri,
 		notify_file_changed (at_data->data, file->path, at_data->notify_soon);
 	}
 	else 
-		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->window), _("Could not move temporary file to remote location. Check remote permissions."));
+		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->dialog), _("Could not move temporary file to remote location. Check remote permissions."));
 	
 	if (at_data->done_func)
 		(at_data->done_func) (uri, result, at_data->done_data);
@@ -262,6 +263,28 @@ apply_transformation_done (const char     *uri,
 	if (at_data->info != NULL)
 		gnome_vfs_file_info_unref (at_data->info);
 	g_free (at_data);
+}
+
+
+static void
+apply_transformation__trim_response (JpegMcuAction action,
+				     gpointer      callback_data)
+{
+	ApplyTransformData *at_data = callback_data;
+	FileData           *file = at_data->current_image->data;
+	char		   *local_file = NULL;
+	ExifShort           image_orientation;
+	GthTransform	    required_transform;
+
+	local_file = get_cache_filename_from_uri (file->path);
+	image_orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
+	
+	apply_transformation_jpeg (file, required_transform, action, NULL);
+	
+	g_free (local_file);
+	
+	update_file_from_cache (file, apply_transformation_done, at_data);
 }
 
 
@@ -275,7 +298,8 @@ apply_transformation__step2 (const char     *uri,
 	char		   *local_file = NULL;
 	ExifShort           image_orientation;
 	GthTransform	    required_transform;
-
+	gboolean            go_on = TRUE;
+	
 	local_file = get_cache_filename_from_uri (file->path);
 	image_orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
@@ -283,21 +307,35 @@ apply_transformation__step2 (const char     *uri,
 		if (image_orientation && ! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) 
 			/* Adjust Exif orientation tag. */
 			write_orientation_field (local_file, required_transform);
-		else
+		else { 
+			GError *error = NULL;
+ 			
  			/* Lossless jpeg transform. */
-			apply_transformation_jpeg (GTK_WINDOW (at_data->data->window), file, required_transform, NULL);
+ 			
+			if (! apply_transformation_jpeg (file, 
+							 required_transform, 
+							 JPEG_MCU_ACTION_ABORT, 
+							 &error)) {
+				if (error->code == JPEGTRAN_ERROR_MCU) {
+					ask_whether_to_trim (GTK_WINDOW (at_data->data->window), file, apply_transformation__trim_response, at_data);
+					go_on = FALSE;
+				}
+			}
+		}
 	}
 	else 
 		/* Generic image transform. */
-		apply_transformation_generic (GTK_WINDOW (at_data->data->window), file, required_transform, NULL);
+		apply_transformation_generic (file, required_transform, NULL);
 	g_free (local_file);
 	
-	update_file_from_cache (file, apply_transformation_done, at_data);
+	if (go_on)
+		update_file_from_cache (file, apply_transformation_done, at_data);
 }
 
 
 static void
-apply_transformation (DialogData   *data,
+apply_transformation (GtkWidget    *parent_window,
+		      DialogData   *data,
 		      GList        *current_image,
 		      gboolean      notify_soon,
 		      CopyDoneFunc  done_func,
@@ -307,6 +345,7 @@ apply_transformation (DialogData   *data,
 	ApplyTransformData *at_data;
 
 	at_data = g_new0 (ApplyTransformData, 1);
+	at_data->parent_window = parent_window;
 	at_data->data = data;
 	at_data->current_image = current_image;
 	at_data->notify_soon = notify_soon;
@@ -371,7 +410,7 @@ apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
 				       (gdouble) (bt_data->i + 0.5) / bt_data->n);
 	
-	apply_transformation (bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
+	apply_transformation (bt_data->dialog, bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
 	
 	bt_data->i++;	
 	bt_data->scan = bt_data->scan->next;
@@ -432,7 +471,7 @@ ok_clicked (GtkWidget  *button,
 		apply_transformation_to_all (data);
 	} 
 	else 
-		apply_transformation (data, data->current_image, TRUE, load_next_image_after_transformation, data);
+		apply_transformation (data->dialog, data, data->current_image, TRUE, load_next_image_after_transformation, data);
 }
 
 

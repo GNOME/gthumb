@@ -1,3 +1,18 @@
+2007-08-13  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/rotation-utils.h: 
+	* src/rotation-utils.c: 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/catalog-web-exporter.c: 
+	* libgthumb/jpegutils/jpegtran.h: 
+	* libgthumb/jpegutils/jpegtran.c: 
+	* libgthumb/file-utils.c: 
+
+	Fixed ui freeze caused by the trim dialog.  Always trim images in the
+	web-exported, never trim images in the photo importer, ask what to do
+	when using the rotation utils.
+
 2007-08-11  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/thumb-loader.c: do not save thumbnails from the user's

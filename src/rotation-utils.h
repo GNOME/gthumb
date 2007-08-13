@@ -26,18 +26,24 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "typedefs.h"
+#include "jpegutils/jpegtran.h"
 #include "file-data.h"
 #include "gth-exif-utils.h"
 
-gboolean	apply_transformation_jpeg      (GtkWindow    *win,
-						FileData     *file,
-						GthTransform  transform,
-			   			GError       **error);
-gboolean	apply_transformation_generic   (GtkWindow    *win,
-						FileData     *file,
-						GthTransform  transform,
-			   			GError       **error);
-GthTransform	get_next_transformation	       (GthTransform  original, 
-						GthTransform  transform);
+typedef void (*TrimResponseFunc) (JpegMcuAction, gpointer);
+
+gboolean	apply_transformation_jpeg      (FileData         *file,
+						GthTransform      transform,
+						JpegMcuAction     mcu_action,
+			   			GError          **error);
+gboolean	apply_transformation_generic   (FileData         *file,
+						GthTransform      transform,
+			   			GError          **error);
+GthTransform	get_next_transformation	       (GthTransform      original, 
+						GthTransform      transform);
+void            ask_whether_to_trim            (GtkWindow        *parent_window,
+		     				FileData         *file,
+		     				TrimResponseFunc  done_func,
+		     				gpointer          done_data);
 
 #endif /* ROTATION_UTILS_H */

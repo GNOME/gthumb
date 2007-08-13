@@ -29,21 +29,19 @@
 #include <libexif/exif-data.h>
 #include "transupp.h"
 
-typedef boolean (*jpegtran_mcu_callback) (JXFORM_CODE *transform,
-					  boolean     *trim,
-					  void        *userdata);
+#define JPEGTRAN_ERROR_MCU 2
 
-#define JPEGTRAN_MCU_CONTINUE	((jpegtran_mcu_callback)0)
-#define JPEGTRAN_MCU_TRIM	((jpegtran_mcu_callback)-1)
-#define JPEGTRAN_MCU_CANCEL	((jpegtran_mcu_callback)-2)
+typedef enum {
+	JPEG_MCU_ACTION_TRIM,
+	JPEG_MCU_ACTION_DONT_TRIM,
+	JPEG_MCU_ACTION_ABORT
+} JpegMcuAction;
 
-int jpegtran (const char *input_filename,
-		const char *output_filename,
-		JXFORM_CODE transformation,
-		jpegtran_mcu_callback callback,
-		void *userdata,
-		GError **error);
-
+gboolean   jpegtran                   (const char     *input_filename,
+		     		       const char     *output_filename,
+		     		       JXFORM_CODE     transformation,
+		     		       JpegMcuAction   mcu_action,
+		     		       GError        **error);
 void set_exif_orientation_to_top_left (ExifData *edata);
 
 #endif /* JPEGTRAN_H */
