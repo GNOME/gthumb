@@ -1,3 +1,8 @@
+2007-08-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser-actions-entries.h: Add mnemonics for View As Slides,
+	View as List. Patch by Patrick Wade. Bug 466684.
+
 2007-08-14  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c: 

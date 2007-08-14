@@ -473,10 +473,10 @@ static guint gth_browser_sort_by_entries_size = G_N_ELEMENTS (gth_browser_sort_b
 
 static GtkRadioActionEntry gth_browser_view_as_entries[] = {
         { "View_AsSlides", NULL,
-          N_("View As Slides"), NULL,
+          N_("View As Sli_des"), NULL,
           N_("View As Slides"), GTH_VIEW_AS_THUMBNAILS },
         { "View_AsList", NULL,
-          N_("View As List"), NULL,
+          N_("View As _List"), NULL,
           N_("View As List"), GTH_VIEW_AS_LIST }
 };
 static guint gth_browser_view_as_entries_size = G_N_ELEMENTS (gth_browser_view_as_entries);
