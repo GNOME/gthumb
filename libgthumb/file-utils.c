@@ -1307,7 +1307,7 @@ remove_host_from_uri (const char *uri)
 	if (idx == NULL)
 		return uri;
 	idx += 3;
-	if (idx == NULL)
+	if (*idx == '\0')
 		return "/";
 	sep = strstr (idx, "/");
 	if (sep == NULL)
