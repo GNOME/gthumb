@@ -1118,9 +1118,15 @@ window_set_file_list (GthBrowser    *browser,
 		      GthSortMethod  sort_method,
 		      GtkSortType    sort_type)
 {
+	gboolean remote_folder;
+	
 	gth_browser_start_activity_mode (browser);
 	window_update_sensitivity (browser);
 	window_sync_sort_menu (browser, sort_method, sort_type);
+	
+	remote_folder = ((browser->priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+			 && ! is_local_file (browser->priv->dir_list->path));
+	gth_file_list_ignore_hidden_thumbs (browser->priv->file_list, remote_folder);
 	gth_file_list_set_list (browser->priv->file_list,
 				list,
 				sort_method,

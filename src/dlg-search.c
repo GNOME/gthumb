@@ -262,8 +262,8 @@ search_clicked_cb (GtkWidget  *widget,
 	/* * start from */
 
 	full_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
-
 	search_data_set_start_from (data->search_data, full_path);
+	gth_file_list_ignore_hidden_thumbs (data->file_list, ! is_local_file (full_path));
 	g_free (full_path);
 
 	/* * recursive */
@@ -577,7 +577,8 @@ dlg_search_ui (GthBrowser *browser,
 		data->p_searching_in_hbox = glade_xml_get_widget (data->gui, "p_searching_in_hbox");
 		data->p_images_label = glade_xml_get_widget (data->gui, "p_images_label");
 		progress_hbox = glade_xml_get_widget (data->gui, "p_progress_hbox");
-	} else {
+	} 
+	else {
 		data->search_progress_dialog = glade_xml_get_widget (data->gui, "edit_search_progress_dialog");
 		data->p_current_dir_entry = glade_xml_get_widget (data->gui, "ep_current_dir_entry");
 		data->p_notebook = glade_xml_get_widget (data->gui, "ep_notebook");
@@ -591,6 +592,7 @@ dlg_search_ui (GthBrowser *browser,
 	}
 
 	data->file_list = gth_file_list_new ();
+	
 	gtk_widget_show_all (data->file_list->root_widget);
 	gtk_box_pack_start (GTK_BOX (progress_hbox), data->file_list->root_widget, TRUE, TRUE, 0);
 
@@ -599,8 +601,8 @@ dlg_search_ui (GthBrowser *browser,
 	if (catalog_path == NULL) {
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), gth_browser_get_current_directory (data->browser));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
-
-	} else {
+	} 
+	else {
 		Catalog    *catalog;
 		SearchData *search_data;
 
