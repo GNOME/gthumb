@@ -194,7 +194,7 @@ save_clicked_cb (GtkWidget  *widget,
 						 &start_iter, 
 						 &end_iter, 
 						 FALSE);
-	if (comment_text)
+	if (comment_text != NULL)
 		cdata->comment = comment_text;
 
 	/**/

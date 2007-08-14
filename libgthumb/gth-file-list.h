@@ -134,5 +134,7 @@ void         gth_file_list_set_filter           (GthFileList   *file_list,
 void         gth_file_list_update_icon_theme    (GthFileList   *file_list);
 void         gth_file_list_show_hidden_files    (GthFileList   *file_list,
 						 gboolean       show);
+void         gth_file_list_ignore_hidden_thumbs (GthFileList   *file_list,
+						 gboolean       ignore);
 
 #endif /* GTH_FILE_LIST_H */

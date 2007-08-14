@@ -1,6 +1,21 @@
+2007-08-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c: 
+	* src/dlg-search.c: 
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c: 
+
+	Do not create thumbnails for non-visible images on remote uri.
+
 2007-08-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* doc/C/gthumb.xml: Document Shift+x zoom key.
+
+2007-08-13  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/file-utils.c (remove_host_from_uri): check if idx is at the
+	end of the string instead of checking  whether it's NULL, as suggested
+	in #464023 by Christophe.
 
 2007-08-13  Paolo Bacchilega  <paobac@svn.gnome.org>
 

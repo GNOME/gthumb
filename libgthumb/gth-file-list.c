@@ -88,6 +88,7 @@ struct _GthFileListPrivateData {
 
 	gboolean       show_dot_files;      /* Whether to show files that starts
 					     * with a dot (hidden files).*/
+	gboolean       ignore_hidden_thumbs;
 	gboolean       load_thumbs;
 
 	int            thumb_size;          /* Thumbnails max size. */
@@ -385,38 +386,41 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 	}
 
-	/* Find a not created thumbnail among the not-visible images. */
+	if (! file_list->priv->ignore_hidden_thumbs) {
 
-	/* start from the one after the last visible image... */
+		/* Find a not created thumbnail among the not-visible images. */
 
-	if (new_pos == -1) {
-		pos = last_pos + 1;
-		scan = g_list_nth (list, pos);
-		while (scan) {
-			fd = scan->data;
-			if (! fd->thumb_created && ! fd->error) {
-				new_pos = pos;
-				break;
+		/* start from the one after the last visible image... */
+
+		if (new_pos == -1) {
+			pos = last_pos + 1;
+			scan = g_list_nth (list, pos);
+			while (scan) {
+				fd = scan->data;
+				if (! fd->thumb_created && ! fd->error) {
+					new_pos = pos;
+					break;
+				}
+				pos++;
+				scan = scan->next;
 			}
-			pos++;
-			scan = scan->next;
 		}
-	}
 
-	/* ...continue from the one before the first visible upward to 
-	 * the first one */
+		/* ...continue from the one before the first visible upward to 
+		 * the first one */
 
-	if (new_pos == -1) {
-		pos = first_pos - 1;
-		scan = g_list_nth (list, pos);
-		while (scan) {
-			fd = scan->data;
-			if (! fd->thumb_created && ! fd->error) {
-				new_pos = pos;
-				break;
+		if (new_pos == -1) {
+			pos = first_pos - 1;
+			scan = g_list_nth (list, pos);
+			while (scan) {
+				fd = scan->data;
+				if (! fd->thumb_created && ! fd->error) {
+					new_pos = pos;
+					break;
+				}
+				pos--;
+				scan = scan->prev;
 			}
-			pos--;
-			scan = scan->prev;
 		}
 	}
 
@@ -497,6 +501,14 @@ gth_file_list_show_hidden_files (GthFileList *file_list,
 				 gboolean     show)
 {
 	file_list->priv->show_dot_files = show;
+}
+
+
+void
+gth_file_list_ignore_hidden_thumbs (GthFileList *file_list,
+				    gboolean     ignore)
+{
+	file_list->priv->ignore_hidden_thumbs = ignore;
 }
 
 
@@ -867,7 +879,8 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->priv->loading_thumbs = FALSE;
 	file_list->priv->filter         = NULL;
 	file_list->priv->pixbufs        = g_hash_table_new (g_str_hash, g_str_equal);
-
+	file_list->priv->ignore_hidden_thumbs = FALSE;
+	
 	g_signal_connect (G_OBJECT (file_list->priv->thumb_loader),
 			  "thumb_done",
 			  G_CALLBACK (load_thumb_done_cb),
