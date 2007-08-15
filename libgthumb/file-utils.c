@@ -1310,6 +1310,9 @@ remove_host_from_uri (const char *uri)
 {
 	const char *idx, *sep;
 
+	if (uri == NULL)
+		return NULL;
+
 	idx = strstr (uri, "://");
 	if (idx == NULL)
 		return uri;

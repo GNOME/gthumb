@@ -73,7 +73,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 
 	case GTH_SIDEBAR_CATALOG_LIST:
 		path = gth_browser_get_current_catalog (browser);
-		uri = g_strconcat ("catalog://", path, NULL);
+		uri = g_strconcat ("catalog://", remove_host_from_uri (path), NULL);
 		break;
 
 	default:
