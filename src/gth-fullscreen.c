@@ -1570,7 +1570,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  fullscreen);
 
 	gtk_widget_show (priv->viewer);
-	gth_window_attach(GTH_WINDOW (fullscreen), priv->viewer, GTH_WINDOW_CONTENTS);
+	gth_window_attach (GTH_WINDOW (fullscreen), priv->viewer, GTH_WINDOW_CONTENTS);
 
 	/**/
 
@@ -1716,6 +1716,14 @@ gth_fullscreen_get_image_viewer (GthWindow *window)
 }
 
 
+static GThumbPreloader*
+gth_fullscreen_get_preloader (GthWindow *window)
+{
+	GthFullscreen *fullscreen = (GthFullscreen*) window;
+	return fullscreen->priv->preloader;
+}
+
+
 static FileData *
 gth_fullscreen_get_image_data (GthWindow *window)
 {
@@ -1788,7 +1796,7 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 
 	window_class->close = gth_fullscreen_close;
 	window_class->get_image_viewer = gth_fullscreen_get_image_viewer;
-
+	window_class->get_preloader = gth_fullscreen_get_preloader;
 	window_class->get_image_data = gth_fullscreen_get_image_data;
 	/*
 	window_class->get_image_modified = gth_fullscreen_get_image_modified;

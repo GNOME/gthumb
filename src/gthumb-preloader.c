@@ -454,7 +454,6 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 }
 
 
-
 void                
 gthumb_preloader_load (GThumbPreloader  *gploader,
 		       FileData         *requested,
@@ -609,4 +608,32 @@ gthumb_preloader_stop (GThumbPreloader *gploader,
 	gploader->stopped = TRUE;
 	gploader->done_func = done_func;
 	gploader->done_func_data = done_func_data;
+}
+
+
+void                
+gthumb_preloader_set (GThumbPreloader *dest,
+		      GThumbPreloader *src)
+{
+	int i;
+	
+	if (src == NULL)
+		return;
+	
+	for (i = 0; i < N_LOADERS; i++) {
+		PreLoader *src_loader = src->loader[i];
+		PreLoader *dest_loader = dest->loader[i];
+		
+		if ((src_loader->file != NULL) && src_loader->loaded && ! src_loader->error) {
+		    	file_data_unref (dest_loader->file);
+		    	dest_loader->file = file_data_dup (src_loader->file);
+		    	
+		    	g_signal_handlers_block_by_data (dest_loader->loader, dest_loader);
+			image_loader_load_from_image_loader (dest_loader->loader, src_loader->loader);
+			g_signal_handlers_unblock_by_data (dest_loader->loader, dest_loader);
+			
+			dest_loader->loaded = TRUE;
+			dest_loader->error = FALSE;
+		}
+	}
 }

@@ -26,6 +26,7 @@
 #include <gtk/gtkwindow.h>
 #include "gth-pixbuf-op.h"
 #include "image-viewer.h"
+#include "gthumb-preloader.h"
 #include "file-data.h"
 
 
@@ -54,6 +55,7 @@ struct _GthWindowClass
 
 	void             (*close)                         (GthWindow   *window);
 	ImageViewer *    (*get_image_viewer)              (GthWindow   *window);
+	GThumbPreloader *(*get_preloader)                 (GthWindow   *window);
 	FileData *       (*get_image_data)                (GthWindow   *window);
 	void             (*set_image_modified)            (GthWindow   *window,
 							   gboolean     value);
@@ -78,29 +80,30 @@ struct _GthWindowClass
 							   gboolean     value);
 };
 
-GType          gth_window_get_type                       (void);
-void           gth_window_close                          (GthWindow   *window);
-ImageViewer *  gth_window_get_image_viewer               (GthWindow   *window);
-FileData *     gth_window_get_image_data                 (GthWindow   *window);
-const char *   gth_window_get_image_filename             (GthWindow   *window);
-void           gth_window_set_image_modified             (GthWindow   *window,
-							  gboolean     value);
-gboolean       gth_window_get_image_modified             (GthWindow   *window);
-GdkPixbuf     *gth_window_get_image_pixbuf               (GthWindow   *window);
-void           gth_window_set_image_pixbuf               (GthWindow   *window,
-							  GdkPixbuf   *pixbuf);
-void           gth_window_save_pixbuf                    (GthWindow   *window,
-							  GdkPixbuf   *pixbuf,
-							  FileData    *file);
-void           gth_window_exec_pixbuf_op                 (GthWindow   *window,
-							  GthPixbufOp *pixop,
-							  gboolean     preview);
+GType             gth_window_get_type                     (void);
+void              gth_window_close                        (GthWindow   *window);
+ImageViewer *     gth_window_get_image_viewer             (GthWindow   *window);
+GThumbPreloader * gth_window_get_preloader                (GthWindow   *window);
+FileData *        gth_window_get_image_data               (GthWindow   *window);
+const char *      gth_window_get_image_filename           (GthWindow   *window);
+void              gth_window_set_image_modified           (GthWindow   *window,
+							   gboolean     value);
+gboolean          gth_window_get_image_modified           (GthWindow   *window);
+GdkPixbuf     *   gth_window_get_image_pixbuf             (GthWindow   *window);
+void              gth_window_set_image_pixbuf             (GthWindow   *window,
+							   GdkPixbuf   *pixbuf);
+void              gth_window_save_pixbuf                  (GthWindow   *window,
+							   GdkPixbuf   *pixbuf,
+							   FileData    *file);
+void              gth_window_exec_pixbuf_op               (GthWindow   *window,
+							   GthPixbufOp *pixop,
+							   gboolean     preview);
 
-void           gth_window_undo                           (GthWindow   *window);
-void           gth_window_redo                           (GthWindow   *window);
-void           gth_window_clear_undo_history             (GthWindow   *window);
-gboolean       gth_window_get_can_undo                   (GthWindow   *window);
-gboolean       gth_window_get_can_redo                   (GthWindow   *window);
+void              gth_window_undo                         (GthWindow   *window);
+void              gth_window_redo                         (GthWindow   *window);
+void              gth_window_clear_undo_history           (GthWindow   *window);
+gboolean          gth_window_get_can_undo                 (GthWindow   *window);
+gboolean          gth_window_get_can_redo                 (GthWindow   *window);
 
 typedef enum {
 	GTH_WINDOW_MENUBAR,

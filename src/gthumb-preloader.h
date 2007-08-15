@@ -109,6 +109,7 @@ void                gthumb_preloader_stop       (GThumbPreloader  *gploader,
 						 gpointer          done_func_data);
 ImageLoader        *gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 						 const char       *path);
-
+void                gthumb_preloader_set        (GThumbPreloader  *dest,
+				      		 GThumbPreloader  *src);						 
 
 #endif /* GTHUMB_PRELOADER_H */

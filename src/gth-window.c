@@ -91,6 +91,13 @@ base_get_image_viewer (GthWindow *window)
 }
 
 
+static GThumbPreloader *
+base_get_preloader (GthWindow *window)
+{
+	return NULL;
+}
+
+
 static FileData *
 base_get_image_data (GthWindow *window)
 {
@@ -204,6 +211,7 @@ gth_window_class_init (GthWindowClass *class)
 
 	class->close = base_close;
 	class->get_image_viewer = base_get_image_viewer;
+	class->get_preloader = base_get_preloader;
 	class->get_image_data = base_get_image_data;
 	class->set_image_modified = base_set_image_modified;
 	class->get_image_modified = base_get_image_modified;
@@ -301,6 +309,14 @@ gth_window_get_image_viewer (GthWindow *window)
 {
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
 	return class->get_image_viewer (window);
+}
+
+
+GThumbPreloader *
+gth_window_get_preloader (GthWindow *window)
+{
+	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
+	return class->get_preloader (window);
 }
 
 
