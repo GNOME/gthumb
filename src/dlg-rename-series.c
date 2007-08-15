@@ -75,6 +75,8 @@ typedef struct {
 	GList         *new_names_list;
 	GthSortMethod  sort_method;
 	gboolean       single_file;
+	
+	GHashTable    *date_cache;
 } DialogData;
 
 
@@ -90,6 +92,7 @@ destroy_cb (GtkWidget  *widget,
 		g_list_foreach (data->new_names_list, (GFunc) g_free, NULL);
 		g_list_free (data->new_names_list);
 	}
+	g_hash_table_destroy (data->date_cache);
 	g_object_unref (data->gui);
 	g_free (data);
 }
@@ -317,6 +320,7 @@ update_list (DialogData *data)
 		char     *name5;
 		char     *extension = NULL;
 		char     *new_name;
+		char     *cached_date;
 
 		name1 = _g_get_name_from_template (template, start_at++);
 		utf8_txt = gnome_vfs_unescape_string_for_display (name_wo_ext);
@@ -324,13 +328,20 @@ update_list (DialogData *data)
 		g_free (name_wo_ext);
 		g_free (utf8_txt);
 
-		image_date = get_image_date (fdata->path);
+		cached_date = g_hash_table_lookup (data->date_cache, fdata->path);
+		if (cached_date != NULL)
+			image_date = g_strdup (cached_date);
+		else {
+			image_date = get_image_date (fdata->path);
+			if (image_date != NULL)
+				g_hash_table_insert (data->date_cache, g_strdup (fdata->path), g_strdup (image_date));
+		}
 		utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
 		name3 = _g_substitute_pattern (name2, 'd', utf8_txt);
 		g_free (image_date);
 		g_free (utf8_txt);
 
-		image_size = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
+		image_size = gnome_vfs_format_file_size_for_display (fdata->size);
 		name4 = _g_substitute_pattern (name3, 's', image_size);
 		g_free (image_size);
 
@@ -427,6 +438,7 @@ dlg_rename_series (GthBrowser *browser)
 		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
+	data->date_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (browser));
 
@@ -539,14 +551,17 @@ dlg_rename_series (GthBrowser *browser)
 	if (data->single_file) {
 		FileData   *fd = data->original_file_list->data;
 		const char *last_dot;
+		glong       last_dot_pos;
 		char       *template;
 
 		template = gnome_vfs_unescape_string_for_display (fd->name);
 		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
-		last_dot = strrchr (template, '.');
-		if (last_dot == NULL)
-			last_dot = template + strlen (template) - 1;
-		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, last_dot - template);
+		last_dot = g_utf8_strrchr (template, -1, '.');
+		if (last_dot != NULL)
+			last_dot_pos = g_utf8_strlen (last_dot, -1);
+		else
+			last_dot_pos = 0;
+		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, g_utf8_strlen (template, -1) - last_dot_pos);
 		g_free (template);
 	}
 	else {

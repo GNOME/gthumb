@@ -1,5 +1,17 @@
 2007-08-15  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/dlg-rename-series.c: add the image date values into a cache to
+	avoid an excessive amount of file reads each time the template 
+	changes.  Use fdata->size instead of reading the file size each time.
+	
+	* libgthumb/catalog.c (catalog_get_file_data_list): 
+	
+	Filter the list to remove the deleted files.
+	Fixes bug #466967 - crash in gThumb Image Viewer: Clicked on an 
+	image in catalog browser mode...
+	
+2007-08-15  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/gth-window.h: 
 	* src/gth-window.c: 
 	* src/gthumb-preloader.h: 
