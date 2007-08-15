@@ -683,6 +683,8 @@ gboolean mime_type_is_image (const char *mime_type)
 			uses an "application" prefix instead of "image".
 	*/
 
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
 	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
 		|| (strcmp (mime_type, "application/x-crw") == 0) );
 }
@@ -703,6 +705,8 @@ gboolean file_is_image (const gchar *name,
 
 gboolean mime_type_is_video (const char *mime_type)
 {
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
 	return ( (strstr (mime_type, "video") != NULL) ||
 		 (strcmp (mime_type, "application/ogg") == 0));
 }
@@ -723,6 +727,8 @@ gboolean file_is_video (const gchar *name,
 
 gboolean mime_type_is_audio (const char *mime_type)
 {
+	g_return_val_if_fail (mime_type != NULL, FALSE);
+
 	return (strstr (mime_type, "audio") != NULL);
 }
 

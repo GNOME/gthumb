@@ -1,3 +1,10 @@
+2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (mime_type_is_image),
+	(mime_type_is_video), (mime_type_is_audio):
+	Warn, rather than crash, when mime_type is null. The underlying
+	problem still needs to be fixed.
+
 2007-08-14  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c: 
