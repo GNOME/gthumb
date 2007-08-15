@@ -1,3 +1,10 @@
+2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (mime_type_is_image),
+	(mime_type_is_video), (mime_type_is_audio):
+	Warn, rather than crash, when mime_type is null. The underlying
+	problem still needs to be fixed. Bug 466967.
+
 2007-08-14  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser-actions-entries.h: Add mnemonics for View As Slides,
