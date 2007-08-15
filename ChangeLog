@@ -1,3 +1,15 @@
+2007-08-15  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-window.h: 
+	* src/gth-window.c: 
+	* src/gthumb-preloader.h: 
+	* src/gthumb-preloader.c: 
+	* src/gth-fullscreen.c: 
+	* src/gth-browser.c: 
+
+	pass the preloader pixbufs to/from the fullscreen window, to avoid 
+	unnecessary image loading when entering/exiting the fullscreen mode.
+
 2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (mime_type_is_image),
@@ -17,7 +29,7 @@
 	* libgthumb/gth-file-list.h: 
 	* libgthumb/gth-file-list.c: 
 
-	Do not create thumbnails for non-visible images on remote uri.
+	Do not create thumbnails for non-visible images on remote uris.
 
 2007-08-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 

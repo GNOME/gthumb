@@ -8184,6 +8184,14 @@ gth_browser_get_image_viewer (GthWindow *window)
 }
 
 
+static GThumbPreloader *
+gth_browser_get_preloader (GthWindow *window)
+{
+	GthBrowser *browser = GTH_BROWSER (window);
+	return browser->priv->preloader;
+}
+
+
 static FileData *
 gth_browser_get_image_data (GthWindow *window)
 {
@@ -8580,25 +8588,25 @@ static gboolean
 fullscreen_destroy_cb (GtkWidget  *widget,
 		       GthBrowser *browser)
 {
-	GthBrowserPrivateData *priv = browser->priv;
 	const char *current_image;
-	int pos;
+	int         pos;
 
 	current_image = gth_window_get_image_filename (GTH_WINDOW (widget));
 
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
 
-	if ((current_image == NULL || priv->image == NULL))
+	if ((current_image == NULL || browser->priv->image == NULL))
 		return FALSE;
 
-	if (same_uri (priv->image->path, current_image))
+	if (same_uri (browser->priv->image->path, current_image))
 		return FALSE;
 
-	pos = gth_file_list_pos_from_path (priv->file_list, current_image);
+	pos = gth_file_list_pos_from_path (browser->priv->file_list, current_image);
 	if (pos != -1) {
+		gthumb_preloader_set (browser->priv->preloader, gth_window_get_preloader (GTH_WINDOW (widget)));
 		view_image_at_pos (browser, pos);
-		gth_file_list_select_image_by_pos (priv->file_list, pos);
+		gth_file_list_select_image_by_pos (browser->priv->file_list, pos);
 	}
 
 	return FALSE;
@@ -8626,8 +8634,7 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 
 	file_list = gth_file_view_get_selection (priv->file_list->view);
 	if ((file_list == NULL) || (g_list_length (file_list) == 1)) {
-		if (file_list != NULL)
-			g_list_free (file_list);
+		file_data_list_free (file_list);
 		file_list = gth_file_view_get_list (priv->file_list->view);
 	}
 	
@@ -8648,6 +8655,8 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
 	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		gth_fullscreen_set_catalog (GTH_FULLSCREEN (priv->fullscreen), gth_browser_get_current_catalog (browser));
+
+	gthumb_preloader_set (gth_window_get_preloader (GTH_WINDOW (priv->fullscreen)), browser->priv->preloader);
 
 	gtk_widget_show (priv->fullscreen);
 }
@@ -8687,6 +8696,7 @@ gth_browser_class_init (GthBrowserClass *class)
 
 	window_class->close = gth_browser_close;
 	window_class->get_image_viewer = gth_browser_get_image_viewer;
+	window_class->get_preloader = gth_browser_get_preloader;
 	window_class->get_image_data = gth_browser_get_image_data;
 	window_class->get_image_modified = gth_browser_get_image_modified;
 	window_class->set_image_modified = gth_browser_set_image_modified;
