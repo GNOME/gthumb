@@ -425,7 +425,8 @@ dlg_exporter (GthBrowser *browser)
 
 	/**/
 
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), gth_browser_get_current_directory (browser));
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton),
+						 gth_browser_get_current_directory (browser));
 
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	if (template != NULL)

@@ -568,7 +568,8 @@ dlg_convert (GthBrowser *browser)
 
 	/**/
 
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton), gth_browser_get_current_directory (browser));
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->conv_dest_filechooserbutton),
+						 gth_browser_get_current_directory (browser));
 
 	/**/
 
