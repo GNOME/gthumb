@@ -827,6 +827,7 @@ main (int   argc,
 				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
 				      NULL);
 
+	gnome_vfs_init ();				      
 	gnome_authentication_manager_init ();
 	glade_gnome_init ();
 	gthumb_init ();

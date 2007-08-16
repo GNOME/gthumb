@@ -1,3 +1,14 @@
+2007-08-16  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/main.c: 
+	* src/gth-browser.c: 
+	* libgthumb/gth-file-list.c: 
+	
+	Do not check whether the uri is a file if it's not necessary, change 
+	location in an idle callback to avoid a lock if the authentication
+	dialog is required.  Go to the previous location if an error occurs 
+	while loading the current location.
+
 2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/dlg-save-image.c: (dlg_save_image_as):
