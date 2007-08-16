@@ -520,7 +520,7 @@ dlg_web_exporter (GthBrowser *browser)
 	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
 	if (svalue == NULL)
 		svalue = g_strdup (g_get_home_dir ());
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton), svalue);
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton), svalue);
 	g_free (svalue);
 
 	/* Signals. */

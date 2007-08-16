@@ -599,8 +599,10 @@ dlg_search_ui (GthBrowser *browser,
 	/* Set widgets data. */
 
 	if (catalog_path == NULL) {
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), gth_browser_get_current_directory (data->browser));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
+		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton),
+							 gth_browser_get_current_directory (data->browser));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton),
+					      eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
 	} 
 	else {
 		Catalog    *catalog;
@@ -624,11 +626,13 @@ dlg_search_ui (GthBrowser *browser,
 
 		/**/
 
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), search_data->start_from);
+		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton),
+						         search_data->start_from);
 
 		/**/
 
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), 
+					      search_data->recursive);
 
 		gtk_entry_set_text (GTK_ENTRY (data->s_filename_entry),
 				    search_data->file_pattern);

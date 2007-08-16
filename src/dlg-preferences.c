@@ -213,7 +213,8 @@ static void
 set_to_current_cb (GtkWidget  *widget,
 		   DialogData *data)
 {
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), gth_browser_get_current_directory (data->browser));
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton),
+						 gth_browser_get_current_directory (data->browser));
 }
 
 
@@ -482,7 +483,7 @@ dlg_preferences (GthBrowser *browser)
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
 
 	if (uri_scheme_is_file (startup_location))
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), startup_location);
+		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), startup_location);
 
 	g_free (startup_location);
 

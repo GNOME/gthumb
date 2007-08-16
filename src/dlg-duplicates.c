@@ -806,7 +806,8 @@ dlg_duplicates (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton), gth_browser_get_current_directory (data->browser));
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton),
+						 gth_browser_get_current_directory (data->browser));
 
 	/* * Images model */
 

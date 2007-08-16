@@ -273,7 +273,7 @@ dlg_save_image_as (GtkWindow       *parent,
 	if (uri != NULL)
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
 	else
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), get_home_uri ());
+		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_sel), get_home_uri ());
 
 	g_object_ref (pixbuf);
 

@@ -671,7 +671,7 @@ window_update_title (GthBrowser *browser)
 
 	if (priv->image == NULL) {
 		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-		    && (priv->dir_list->path != NULL)) {
+		    && (priv->dir_list->path != NULL)) {			
 			char *dir_name = get_uri_display_name (priv->dir_list->path);
 			char *display_name = gnome_vfs_unescape_string_for_display (dir_name);
 			info_txt = g_strconcat (display_name, " ", modified, NULL);

@@ -1,3 +1,17 @@
+2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/dlg-save-image.c: (dlg_save_image_as):
+	* src/dlg-convert.c: (dlg_convert):
+	* src/dlg-duplicates.c: (dlg_duplicates):
+	* src/dlg-png-exporter.c: (dlg_exporter):
+	* src/dlg-preferences.c: (set_to_current_cb), (dlg_preferences):
+	* src/dlg-scale-series.c: (dlg_scale_series):
+	* src/dlg-search.c: (dlg_search_ui):
+	* src/dlg-web-exporter.c: (dlg_web_exporter):
+	Use gtk_file_chooser_set_current_folder_uri instead of 
+	gtk_file_chooser_set_uri when initializing most file chooser dialogs.
+	Fixes bug 467036.
+
 2007-08-15  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser-actions-callbacks.c: Fixed freeze after opening a new
