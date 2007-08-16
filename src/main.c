@@ -1075,7 +1075,7 @@ get_folder_pixbuf_size_for_list (GtkWidget *widget)
 	int icon_width, icon_height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-					   GTK_ICON_SIZE_SMALL_TOOLBAR,
+					   GTK_ICON_SIZE_MENU,
 					   &icon_width, &icon_height);
 	return MAX (icon_width, icon_height);
 }

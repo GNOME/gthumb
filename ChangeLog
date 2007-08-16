@@ -1,3 +1,10 @@
+2007-08-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/main.c: (get_folder_pixbuf_size_for_list):
+	GTK_ICON_SIZE_SMALL_TOOLBAR -> GTK_ICON_SIZE_MENU for folder icons
+	in dir list, to eliminate blurring and be consistent with other
+	apps.
+
 2007-08-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-browser-ui.h:
