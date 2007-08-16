@@ -362,6 +362,9 @@ image_viewer_class_init (ImageViewerClass *class)
 	gtk_binding_entry_add_signal (binding_set, GDK_w, 0,
 				      "set_fit_mode", 1,
 				      GTK_TYPE_INT, GTH_FIT_WIDTH_IF_LARGER);
+	gtk_binding_entry_add_signal (binding_set, GDK_w, GDK_SHIFT_MASK,
+				      "set_fit_mode", 1,
+				      GTK_TYPE_INT, GTH_FIT_WIDTH);
 }
 
 
@@ -2207,6 +2210,11 @@ image_loaded (ImageLoader *il,
 
 	case GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER:
 		image_viewer_set_fit_mode (viewer, GTH_FIT_SIZE_IF_LARGER);
+		add_change_frame_timeout (viewer);
+		break;
+
+	case GTH_ZOOM_CHANGE_FIT_WIDTH:
+		image_viewer_set_fit_mode (viewer, GTH_FIT_WIDTH);
 		add_change_frame_timeout (viewer);
 		break;
 

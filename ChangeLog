@@ -1,5 +1,12 @@
 2007-08-16  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-viewer.h: 
+
+	Added a shift-w keybinding to force a fit width action.
+
+2007-08-16  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/main.c: 
 	* src/gth-browser.c: 
 	* libgthumb/gth-file-list.c: 
