@@ -1,3 +1,16 @@
+2007-08-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_sync_menu_with_preferences),
+	(pref_zoom_quality_changed), (gth_browser_construct):
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer.c: (sync_menu_with_preferences),
+	(gth_viewer_construct):
+	* src/gth-window-actions-entries.h:
+	Simplify the UI and code by setting the zoom quality from the 
+	preferences dialog only, instead of both the preferences dialog
+	and the view menu. Bug 467038.
+
 2007-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/dlg-save-image.c: (dlg_save_image_as):

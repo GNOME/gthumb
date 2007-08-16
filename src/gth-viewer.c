@@ -1279,23 +1279,6 @@ comment_button_toggled_cb (GtkToggleButton *button,
 }
 
 
-static void
-zoom_quality_radio_action (GtkAction      *action,
-			   GtkRadioAction *current,
-			   GthViewer      *viewer)
-{
-	GthViewerPrivateData  *priv = viewer->priv;
-	GthZoomQuality         quality;
-
-	quality = gtk_radio_action_get_current_value (current);
-
-	gtk_radio_action_get_current_value (current);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (priv->viewer), quality);
-	image_viewer_update_view (IMAGE_VIEWER (priv->viewer));
-	pref_set_zoom_quality (quality);
-}
-
-
 static gboolean
 progress_cancel_cb (GtkButton *button,
 		    GthViewer *viewer)
@@ -1429,18 +1412,6 @@ sync_menu_with_preferences (GthViewer *viewer)
 	set_action_important (viewer, "View_ShowMetadata", TRUE);
 
 	set_action_active (viewer, "View_PlayAnimation", TRUE);
-
-	switch (pref_get_zoom_quality ()) {
-	case GTH_ZOOM_QUALITY_HIGH:
-		prop = "View_ZoomQualityHigh";
-		break;
-	case GTH_ZOOM_QUALITY_LOW:
-	default:
-		prop = "View_ZoomQualityLow";
-		break;
-	}
-	set_action_active (viewer, prop, TRUE);
-
 	set_action_active (viewer, "View_ShowMetadata", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 	set_action_active (viewer, "View_SingleWindow", eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE));
 }
@@ -1514,13 +1485,6 @@ gth_viewer_construct (GthViewer   *viewer,
 					     gth_window_action_toggle_entries,
 					     gth_window_action_toggle_entries_size,
 					     viewer);
-	gtk_action_group_add_radio_actions (actions,
-					    gth_window_zoom_quality_entries,
-					    gth_window_zoom_quality_entries_size,
-					    GTH_ZOOM_QUALITY_HIGH,
-					    G_CALLBACK (zoom_quality_radio_action),
-					    viewer);
-
 	gtk_action_group_add_actions (actions,
 				      gth_viewer_action_entries,
 				      gth_viewer_action_entries_size,

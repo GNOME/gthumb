@@ -4536,16 +4536,8 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 	char                  *prop = "TranspTypeNone";
 
 	set_action_active (browser, "View_PlayAnimation", TRUE);
-
-	switch (pref_get_zoom_quality ()) {
-	case GTH_ZOOM_QUALITY_HIGH: prop = "View_ZoomQualityHigh"; break;
-	case GTH_ZOOM_QUALITY_LOW:  prop = "View_ZoomQualityLow"; break;
-	}
-	set_action_active (browser, prop, TRUE);
-
 	set_action_active (browser, "View_ShowFolders", FALSE);
 	set_action_active (browser, "View_ShowCatalogs", FALSE);
-
 	set_action_active (browser, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE));
 	set_action_active (browser, "View_ShowMetadata", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 	set_action_active (browser, "View_ShowHiddenFiles", eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
@@ -4839,14 +4831,7 @@ pref_zoom_quality_changed (GConfClient *client,
 	GthBrowser  *browser = user_data;
 	ImageViewer *image_viewer = IMAGE_VIEWER (browser->priv->viewer);
 
-	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH) {
-		set_action_active_if_different (browser, "View_ZoomQualityHigh", 1);
-		image_viewer_set_zoom_quality (image_viewer, GTH_ZOOM_QUALITY_HIGH);
-	} else {
-		set_action_active_if_different (browser, "View_ZoomQualityLow", 1);
-		image_viewer_set_zoom_quality (image_viewer, GTH_ZOOM_QUALITY_LOW);
-	}
-
+	image_viewer_set_zoom_quality (image_viewer, pref_get_zoom_quality ());
 	image_viewer_update_view (image_viewer);
 }
 
@@ -5317,23 +5302,6 @@ gth_browser_set_sort_type (GthBrowser  *browser,
 	/* FIXME: save catalog order. */
 
 	gth_file_list_set_sort_type (priv->file_list, sort_type, TRUE);
-}
-
-
-static void
-zoom_quality_radio_action (GtkAction      *action,
-			   GtkRadioAction *current,
-			   gpointer        data)
-{
-	GthBrowser     *browser = data;
-	ImageViewer    *image_viewer = IMAGE_VIEWER (browser->priv->viewer);
-	GthZoomQuality  quality;
-
-	quality = gtk_radio_action_get_current_value (current);
-	gtk_radio_action_get_current_value (current);
-	image_viewer_set_zoom_quality (image_viewer, quality);
-	image_viewer_update_view (image_viewer);
-	pref_set_zoom_quality (quality);
 }
 
 
@@ -6369,13 +6337,6 @@ gth_browser_construct (GthBrowser  *browser,
 					     gth_window_action_toggle_entries,
 					     gth_window_action_toggle_entries_size,
 					     browser);
-	gtk_action_group_add_radio_actions (actions,
-					    gth_window_zoom_quality_entries,
-					    gth_window_zoom_quality_entries_size,
-					    GTH_ZOOM_QUALITY_HIGH,
-					    G_CALLBACK (zoom_quality_radio_action),
-					    browser);
-
 	gtk_action_group_add_actions (actions,
 				      gth_browser_action_entries,
 				      gth_browser_action_entries_size,

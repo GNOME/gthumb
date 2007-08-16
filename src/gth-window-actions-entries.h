@@ -321,16 +321,4 @@ static GtkToggleActionEntry gth_window_action_toggle_entries[] = {
 static guint gth_window_action_toggle_entries_size = G_N_ELEMENTS (gth_window_action_toggle_entries);
 
 
-#ifndef NO_ZOOM_QUALITY
-static GtkRadioActionEntry gth_window_zoom_quality_entries[] = {
-	{ "View_ZoomQualityHigh", NULL,
-	  N_("_High Quality"), NULL,
-	  N_("Use high quality zoom"), GTH_ZOOM_QUALITY_HIGH },
-	{ "View_ZoomQualityLow", NULL,
-	  N_("_Low Quality"), NULL,
-	  N_("Use low quality zoom"), GTH_ZOOM_QUALITY_LOW }
-};
-static guint gth_window_zoom_quality_entries_size = G_N_ELEMENTS (gth_window_zoom_quality_entries);
-#endif
-
 #endif /* GTH_WINDOW_ACTION_ENTRIES_H */
