@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gthumb 2.10\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-03 12:13+0200\n"
-"PO-Revision-Date: 2007-05-13 11:41+0200\n"
-"Last-Translator: Yannig MARCHEGAY <yannig@marchegay.org>\n"
+"PO-Revision-Date: 2007-08-07 14:21+0200\n"
+"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,7 +151,7 @@ msgstr ""
 
 #: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
-msgstr "Dobrir imatges"
+msgstr "Dobrir d'imatges"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
@@ -554,7 +554,7 @@ msgstr "Rosegar"
 
 #: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
-msgstr "Personalizat"
+msgstr "Personalisat"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
@@ -1565,7 +1565,7 @@ msgstr "Pas cap d'imatge trobat"
 #: ../data/glade/gthumb_search.glade.h:19
 #: ../src/gth-browser-actions-entries.h:363
 msgid "Search"
-msgstr "Recèrcar"
+msgstr "Recercar"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
@@ -1909,11 +1909,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
-msgstr "Albom oèb"
+msgstr "Albom web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
-msgstr "Tèma d'albom oèb"
+msgstr "Tèma d'albom web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
@@ -2587,7 +2587,7 @@ msgstr ""
 
 #: ../src/dlg-rename-series.c:466
 msgid "New Name"
-msgstr "Nom nòu"
+msgstr "Nom novèl"
 
 #: ../src/dlg-search.c:358
 msgid "Search Result"
@@ -2713,7 +2713,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-callbacks.c:1598
 msgid "New Folder"
-msgstr "Repertòri nòu"
+msgstr "Repertòri novèl"
 
 #: ../src/gth-browser-actions-callbacks.c:1599
 msgid "Enter the folder name: "
@@ -3035,7 +3035,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Dubrís lo repertòri actiu amb lo gestionari de fichièrs Nautilus"
+msgstr "Dobrís lo repertòri actiu amb lo gestionari de fichièrs Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
@@ -3059,21 +3059,21 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:278
 msgid "_New Folder..."
-msgstr "Repertòri nòu..."
+msgstr "Repertòri novèl..."
 
 #: ../src/gth-browser-actions-entries.h:279
 msgid "Create a new folder"
-msgstr ""
+msgstr "Crear un repertòri novèl"
 
 #: ../src/gth-browser-actions-entries.h:284
 #: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
-msgstr ""
+msgstr "Visualizar l'imatge seguent"
 
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
-msgstr ""
+msgstr "Visualizar l'imatge precedent"
 
 #: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
@@ -3571,7 +3571,7 @@ msgstr "_Pas cap"
 
 #: ../src/gth-viewer.c:1475 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
-msgstr "_Dubrir amb"
+msgstr "_Dobrir amb"
 
 #: ../src/gth-viewer.c:1481 ../src/gth-viewer.c:1482
 #: ../src/gth-window-actions-entries.h:46
