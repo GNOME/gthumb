@@ -1,3 +1,12 @@
+2007-08-17  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (uri_has_scheme):
+	Return false if null.
+
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev),
+	(_gdk_pixbuf_save):
+	Add assertion to make sure file is local.
+
 2007-08-16  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/image-viewer.c: 
