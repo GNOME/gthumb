@@ -1208,6 +1208,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (local_file != NULL, FALSE);
 	g_return_val_if_fail (type != NULL, FALSE);
+	g_return_val_if_fail (uri_has_scheme (local_file) != TRUE, FALSE);
 
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0)
@@ -1288,6 +1289,7 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (local_file != NULL, FALSE);
 	g_return_val_if_fail (type != NULL, FALSE);
+	g_return_val_if_fail (uri_has_scheme (local_file) != TRUE, FALSE);
 
 	va_start (args, error);
 	collect_save_options (args, &keys, &values);

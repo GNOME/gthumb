@@ -1352,6 +1352,9 @@ get_uri_host (const char *uri)
 gboolean
 uri_has_scheme (const char *uri)
 {
+	if (uri == NULL)
+		return FALSE;
+
 	return strstr (uri, "://") != NULL;
 }
 
