@@ -1,5 +1,14 @@
 2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c: check whether the uri is an image on start up.
+	
+	* src/gth-batch-op.c: 
+	* src/dlg-convert.c: 
+	
+	Fixed scale and convert tools for remote images.
+	
+2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/gth-image-selector.c: 
 	* src/dlg-preferences.c: 
 	* src/dlg-image-prop.c: 

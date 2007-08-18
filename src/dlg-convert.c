@@ -179,7 +179,7 @@ load_current_image (DialogData *data)
 	g_free (message);
 
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_bar),
-				       (double) data->image / (data->images+1));
+				       (double) data->image / (data->images + 1));
 
 	image_loader_set_file (data->loader, fd);
 	image_loader_start (data->loader);
@@ -210,28 +210,65 @@ show_rename_dialog (DialogData *data)
 
 
 static void
+convert_next_image (DialogData *data)
+{
+	if (data->pixbuf != NULL) {
+		g_object_unref (data->pixbuf);
+		data->pixbuf = NULL;
+	}
+	load_next_image (data);	
+}
+
+
+static void
+save_image_and_remove_original_step2 (const char     *uri, 
+				      GnomeVFSResult  result,
+				      gpointer        callback_data)
+{
+	DialogData *data = callback_data;
+	FileData   *fd;
+	
+	if (result == GNOME_VFS_OK)
+		data->saved_list = g_list_prepend (data->saved_list, g_strdup (data->new_path));
+	 
+	fd = (FileData*) data->current_image->data;
+	if (data->remove_original && ! same_uri (fd->path, data->new_path)) {
+		file_unlink (fd->path);
+		data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd->path));
+	}
+	
+	convert_next_image (data);
+}
+
+
+static void
 save_image_and_remove_original (DialogData *data)
 {
 	GError   *error = NULL;
-
+	char     *local_file;
+	FileData *fd;
+			
 	if (path_is_file (data->new_path))
 		file_unlink (data->new_path);
 
-	if (_gdk_pixbuf_savev (data->pixbuf,
-			       data->new_path,
-			       data->image_type,
-			       data->keys,
-			       data->values,
-			       &error)) {
-		FileData *fd = data->current_image->data;
-		data->saved_list = g_list_prepend (data->saved_list, g_strdup (data->new_path));
-
-		if (data->remove_original && ! same_uri (fd->path, data->new_path)) {
-			file_unlink (fd->path);
-			data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd->path));
-		}
-	} else
+	local_file = get_cache_filename_from_uri (data->new_path);
+	if (! _gdk_pixbuf_savev (data->pixbuf,
+			         local_file,
+			         data->image_type,
+			         data->keys,
+			         data->values,
+			         &error)) 
+	{
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
+		g_free (local_file);
+		convert_next_image (data);
+		return;
+	}
+	g_free (local_file);
+	
+	fd = file_data_new (data->new_path, NULL);
+	update_file_from_cache (fd, save_image_and_remove_original_step2, data);
+	file_data_unref (fd);
 }
 
 
@@ -240,31 +277,30 @@ rename_response_cb (GtkWidget  *dialog,
 		    int         response_id,
 		    DialogData *data)
 {
+	char *new_name, *folder;
+		
 	gtk_widget_hide (dialog);
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 
-	if (response_id == GTK_RESPONSE_OK) {
-		char *new_name, *folder;
-
-		new_name = _gtk_entry_get_filename_text (GTK_ENTRY (data->conv_ren_name_entry));
-		folder = remove_level_from_path (data->new_path);
-
-		g_free (data->new_path);
-		data->new_path = g_strconcat (folder, "/", new_name, NULL);
-		g_free (folder);
-		g_free (new_name);
-
-		if (path_is_file (data->new_path)) {
-			show_rename_dialog (data);
-			return;
-		} else
-			save_image_and_remove_original (data);
+	if (response_id != GTK_RESPONSE_OK) {
+		g_object_unref (data->pixbuf);
+		data->pixbuf = NULL;
+		load_next_image (data);
+		return;
 	}
 
-	g_object_unref (data->pixbuf);
-	data->pixbuf = NULL;
+	new_name = _gtk_entry_get_filename_text (GTK_ENTRY (data->conv_ren_name_entry));
+	folder = remove_level_from_path (data->new_path);
 
-	load_next_image (data);
+	g_free (data->new_path);
+	data->new_path = g_strconcat (folder, "/", new_name, NULL);
+	g_free (folder);
+	g_free (new_name);
+
+	if (path_is_file (data->new_path)) 
+		show_rename_dialog (data);
+	else
+		save_image_and_remove_original (data);
 }
 
 
@@ -292,7 +328,6 @@ loader_done (ImageLoader *il,
 	gboolean save_image;
 
 	data->pixbuf = image_loader_get_pixbuf (il);
-
 	if (data->pixbuf == NULL) {
 		load_next_image (data);
 		return;
@@ -344,11 +379,8 @@ loader_done (ImageLoader *il,
 
 	if (save_image)
 		save_image_and_remove_original (data);
-
-	g_object_unref (data->pixbuf);
-	data->pixbuf = NULL;
-
-	load_next_image (data);
+	else
+		convert_next_image (data);
 }
 
 
@@ -356,7 +388,7 @@ static void
 loader_error (ImageLoader *il,
 	      DialogData  *data)
 {
-	load_next_image (data);
+	convert_next_image (data);
 }
 
 
@@ -418,7 +450,8 @@ ok_cb (GtkWidget  *widget,
 		data->image = 1;
 		gtk_widget_show (data->progress_dialog);
 		load_current_image (data);
-	} else
+	} 
+	else
 		gtk_widget_destroy (data->dialog);
 }
 
@@ -485,7 +518,7 @@ dlg_convert (GthBrowser *browser)
 
 	data->window = window;
 	data->file_list = list;
-	data->current_image = list;
+	data->current_image = data->file_list;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" CONVERT_GLADE_FILE, NULL,
 				   NULL);

@@ -8827,7 +8827,7 @@ void
 gth_browser_load_uri (GthBrowser *browser,
 		      const char *uri)
 {
-	go_to_uri (browser, uri, FALSE);
+	go_to_uri (browser, uri, TRUE);
 }
 
 
