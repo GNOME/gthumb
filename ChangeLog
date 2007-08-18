@@ -1,3 +1,11 @@
+2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (load_timeout_cb): update the mtime to force a 
+	reload if the image	has changed.
+	
+	* libgthumb/file-utils.c: do not resolve symlinks for remote uris.
+	(copy_file_async): always overwrite the target file.
+
 2007-08-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (add_scheme_if_absent):
