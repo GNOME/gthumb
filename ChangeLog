@@ -1,5 +1,21 @@
 2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* configure.in: 
+	* src/Makefile.am: 
+	* src/main.c: 
+	* src/gth-window.c: 
+	* src/gth-application.h: 
+	* src/gth-application.c: 
+	* src/GNOME_GThumb.idl: 
+	* data/Makefile.am: 
+	* data/GNOME_GThumb.server: 
+	
+	Use again bonobo to provide the single instance application feature.  
+	Removed the gtk-unique dependecy as it's not well maintained, api 
+	unstable, poorly available, not enough powerfull.
+	
+2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/gth-browser-actions-callbacks.c: 
 	* src/dlg-write-to-cd.c: 
 	* src/dlg-web-exporter.c: 
