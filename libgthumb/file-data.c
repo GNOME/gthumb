@@ -70,7 +70,12 @@ file_data_new (const char       *path,
 		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE)
 			fd->mime_type = get_static_string (info->mime_type);
 	}
-
+	else {
+		fd->size = (GnomeVFSFileSize) 0;
+		fd->ctime = (time_t) 0;
+		fd->mtime = (time_t) 0;
+	}
+	
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */

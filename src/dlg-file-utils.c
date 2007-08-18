@@ -550,7 +550,6 @@ set_filename_labels (GladeXML    *gui,
 }
 
 
-
 /* -- dlg_overwrite -- */
 
 
@@ -1057,7 +1056,6 @@ dlg_file_rename_series (GthWindow *window,
 }
 
 
-
 /* -- dlg_files_copy -- */
 
 typedef struct {
@@ -1705,7 +1703,6 @@ dlg_files_move_to_trash (GthWindow      *window,
 }
 
 
-
 /* -- dlg_files_delete -- */
 
 
@@ -1949,7 +1946,6 @@ dlg_files_delete (GthWindow      *window,
 }
 
 
-
 /* -- dlg_folder_copy -- */
 
 

@@ -381,9 +381,6 @@ transp_type_changed_cb (GtkOptionMenu *option_menu,
 }
 
 
-
-
-
 /* create the main dialog. */
 void
 dlg_preferences (GthBrowser *browser)

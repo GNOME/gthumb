@@ -1388,7 +1388,6 @@ uri_scheme_is_file (const char *uri)
 	if (g_utf8_strlen (uri, -1) < FILE_PREFIX_L)
 		return FALSE;
 	return strncmp (uri, FILE_PREFIX, FILE_PREFIX_L) == 0;
-
 }
 
 

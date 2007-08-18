@@ -335,7 +335,6 @@ get_exif_date_option_item (DialogData *data)
 }
 
 
-
 GtkWidget *
 dlg_comment_new (GthWindow *window)
 {

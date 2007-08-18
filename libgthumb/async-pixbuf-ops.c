@@ -90,7 +90,6 @@ _gdk_pixbuf_iterate (GdkPixbuf   *src,
 }
 
 
-
 /* -- desaturate -- */
 
 
@@ -128,7 +127,6 @@ _gdk_pixbuf_desaturate (GdkPixbuf *src,
 }
 
 
-
 /* -- invert -- */
 
 
@@ -153,7 +151,6 @@ _gdk_pixbuf_invert (GdkPixbuf *src,
 }
 
 
-
 /* -- brightness contrast -- */
 
 
@@ -263,7 +260,6 @@ _gdk_pixbuf_brightness_contrast (GdkPixbuf *src,
 }
 
 
-
 /* -- posterize -- */
 
 
@@ -324,7 +320,6 @@ _gdk_pixbuf_posterize (GdkPixbuf *src,
 }
 
 
-
 /* -- gimpcolorspace -- */
 
 
@@ -471,7 +466,6 @@ gimp_hls_to_rgb_int (gint *hue,
 }
 
 
-
 /* -- hue, lightness, saturation -- */
 
 
@@ -630,7 +624,6 @@ _gdk_pixbuf_hue_lightness_saturation (GdkPixbuf *src,
 }
 
 
-
 /*  -- color balance -- */
 
 
@@ -840,7 +833,6 @@ _gdk_pixbuf_color_balance (GdkPixbuf *src,
 }
 
 
-
 /* -- equalize histogram -- */
 
 typedef struct {
@@ -968,7 +960,6 @@ _gdk_pixbuf_eq_histogram (GdkPixbuf *src,
 }
 
 
-
 /* -- adjust levels -- */
 
 
@@ -1173,9 +1164,6 @@ _gdk_pixbuf_adjust_levels (GdkPixbuf *src,
 }
 
 
-
-
-
 typedef struct {
 	int      alpha;
 	guchar   lut[256][3];
@@ -1264,9 +1252,6 @@ _gdk_pixbuf_stretch_contrast (GdkPixbuf *src,
 				  stretch_contrast_release,
 				  data);	
 }
-
-
-
 
 
 typedef struct {

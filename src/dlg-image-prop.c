@@ -528,7 +528,6 @@ i_notebook_switch_page_cb (GtkWidget       *widget,
 }
 
 
-
 GtkWidget *
 dlg_image_prop_new (GthBrowser *browser)
 {

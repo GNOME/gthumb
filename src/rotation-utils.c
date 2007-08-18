@@ -244,7 +244,6 @@ apply_transformation_generic (FileData     *file,
 	gboolean   success = TRUE;
 	GdkPixbuf *original_pixbuf;
 	GdkPixbuf *transformed_pixbuf;
-	char	  *local_file;
 	
 	if (file == NULL)
 		return FALSE;
@@ -257,14 +256,21 @@ apply_transformation_generic (FileData     *file,
 		return FALSE;
 
 	transformed_pixbuf = _gdk_pixbuf_transform (original_pixbuf, transform);
-	local_file = get_cache_filename_from_uri (file->path);
+		
 	if (is_mime_type_writable (file->mime_type)) {
 		const char *image_type = file->mime_type + 6;
+		char	   *local_file;
+		
+		image_type = file->mime_type + 6;
+		local_file = get_cache_filename_from_uri (file->path);
+		
 		success = _gdk_pixbuf_save (transformed_pixbuf,
-					    file->path,
+					    local_file,
 					    image_type,
 					    error,
 					    NULL);
+					    
+		g_free (local_file);
 	} 
 	else {
 		if (error != NULL)
@@ -272,7 +278,6 @@ apply_transformation_generic (FileData     *file,
 		success = FALSE;
 	}
 	
-	g_free (local_file);
 	g_object_unref (transformed_pixbuf);
 	g_object_unref (original_pixbuf);
 	

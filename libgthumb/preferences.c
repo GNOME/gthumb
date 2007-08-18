@@ -313,9 +313,6 @@ preferences_get_startup_location (void)
 }
 
 
-
-
-
 GthClickPolicy
 pref_get_real_click_policy (void)
 {
@@ -448,9 +445,6 @@ pref_util_get_ui32_from_color (GdkColor *color)
 
 	return (r << 24) + (g << 16) + (b << 8) + 0xFF;
 }
-
-
-
 
 
 #define GET_SET_FUNC(func_name, pref_name, type)			\

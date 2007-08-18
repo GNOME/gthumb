@@ -1,3 +1,31 @@
+2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-image-selector.c: 
+	* src/dlg-preferences.c: 
+	* src/dlg-image-prop.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-duplicates.c: 
+	* src/dlg-comment.c: 
+	* src/dlg-catalog.c: 
+	* src/albumtheme.c: 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/preferences.c: 
+	* libgthumb/pixbuf-utils.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/file-data.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/cursors.c: 
+	* libgthumb/async-pixbuf-ops.c: removed special char used in the 
+	emacs days.
+
+	* src/rotation-utils.c: 
+	* src/gth-window-actions-callbacks.c: 
+	* src/dlg-png-exporter.c: 
+	* src/catalog-png-exporter.h: 
+	* src/catalog-png-exporter.c: 
+	
+	Fixed pixbuf saving to remote locations.
+
 2007-08-17  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (uri_has_scheme):

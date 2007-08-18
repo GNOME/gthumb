@@ -709,15 +709,16 @@ set_wallpaper_from_window (GthWindow      *window,
 {
 	char *image_path = NULL;
 
-	if (!gth_window_get_image_modified (window)) {
+	if (! gth_window_get_image_modified (window)) {
 		const char *filename = gth_window_get_image_filename (window);
 		if (filename != NULL)
 			image_path = g_strdup (filename);
-
-	} else {
+	} 
+	else {
 		ImageViewer *image_viewer;
 		GdkPixbuf   *pixbuf;
 		char        *wallpaper_filename = NULL;
+		char        *local_file;
 		GError      *error = NULL;
 
 		image_viewer = gth_window_get_image_viewer (window);
@@ -737,20 +738,24 @@ set_wallpaper_from_window (GthWindow      *window,
 				file_unlink (wallpaper_filename);
 		}
 
+		local_file = get_local_path_from_uri (wallpaper_filename);
 		if (! _gdk_pixbuf_save (pixbuf,
-					wallpaper_filename,
+					local_file,
 					"jpeg",
 					&error,
-					NULL)) {
+					NULL)) 
+		{
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
 			g_object_unref (pixbuf);
+			g_free (local_file);			
 			g_free (wallpaper_filename);
 			return;
 		}
 
-		g_object_unref (pixbuf);
-
 		image_path = wallpaper_filename;
+		
+		g_object_unref (pixbuf);
+		g_free (local_file);
 	}
 
 	set_wallpaper (image_path, align);

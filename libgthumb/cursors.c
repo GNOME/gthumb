@@ -24,7 +24,6 @@
 #include <gdk/gdkdrawable.h>
 #include "cursors.h"
 
-
 
 /* Cursor definitions.  Keep in sync with the CursorType enumeration in
  * cursors.h.
@@ -61,7 +60,6 @@ static struct {
 	{ NULL, NULL, 0, 0, 0, 0 }
 };
 
-
 
 /**
  * cursor_get:

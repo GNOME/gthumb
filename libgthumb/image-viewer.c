@@ -1720,9 +1720,6 @@ gth_iviewer_interface_init (gpointer   g_iface,
 }
 
 
-
-
-
 GType
 image_viewer_get_type ()
 {
