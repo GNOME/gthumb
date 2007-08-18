@@ -1,3 +1,8 @@
+2007-08-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (add_scheme_if_absent):
+	Fix null-string check, bug 467906. Patch by Christophe Bisière.
+
 2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* configure.in: 

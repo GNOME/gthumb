@@ -1418,7 +1418,7 @@ add_scheme_if_absent (const char *path)
 {
 	if (path == NULL)
 		return NULL;
-	if ((path == "") || (path[0] == '/'))
+	if ((*path == '\0') || (path[0] == '/'))
 		return g_strconcat ("file://", path, NULL);
 	return g_strdup (path);
 }
