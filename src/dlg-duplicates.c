@@ -912,7 +912,6 @@ dlg_duplicates (GthBrowser *browser)
 }
 
 
-
 /* ---- */
 
 

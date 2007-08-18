@@ -69,7 +69,6 @@ typedef struct {
 } DialogData;
 
 
-
 /* -- "new catalog" dialog. -- */
 
 
@@ -126,7 +125,6 @@ new_catalog_cb (GtkWidget *widget,
 }
 
 
-
 /* -- "new catalog directory" dialog. -- */
 
 
@@ -168,7 +166,6 @@ new_dir_cb (GtkWidget *widget,
 }
 
 
-
 /* -- "add to catalog" dialog -- */
 
 
@@ -376,7 +373,6 @@ dlg_add_to_catalog (GthWindow *window,
 }
 
 
-
 /* -- "move to catalog directory" dialog -- */
 
 

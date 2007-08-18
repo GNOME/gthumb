@@ -212,9 +212,9 @@ catalog_png_exporter_finalize (GObject *object)
 
         ce = CATALOG_PNG_EXPORTER (object);
 
-	if (ce->directory != NULL) {
-		g_free (ce->directory);
-		ce->directory = NULL;
+	if (ce->location != NULL) {
+		g_free (ce->location);
+		ce->location = NULL;
 	}
 
 	if (ce->info != NULL) {
@@ -243,9 +243,9 @@ catalog_png_exporter_finalize (GObject *object)
 		ce->file_list = NULL;
 	}
 
-	if (ce->created_list != NULL) {
-		path_list_free (ce->created_list);
-		ce->created_list = NULL;
+	if (ce->created_files != NULL) {
+		path_list_free (ce->created_files);
+		ce->created_files = NULL;
 	}
 
 	if (ce->pages_height != NULL) {
@@ -291,6 +291,11 @@ catalog_png_exporter_finalize (GObject *object)
 	if (ce->iloader != NULL) {
 		g_object_unref (ce->iloader);
 		ce->iloader = NULL;
+	}
+
+	if (ce->imap_uri != NULL) {
+		g_free (ce->imap_uri);
+		ce->imap_uri = NULL;
 	}
 
 	/* Chain up */
@@ -346,7 +351,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 	PangoFontDescription *font_desc;
 
 	ce->file_list = NULL;
-	ce->created_list = NULL;
+	ce->created_files = NULL;
 
 	ce->page_width = 0;
 	ce->page_height = 0;
@@ -396,7 +401,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 
 	ce->frame_style = GTH_FRAME_STYLE_SIMPLE;
 
-	ce->directory = NULL;
+	ce->location = NULL;
 	ce->name_template = NULL;
 	ce->templatev = NULL;
 	ce->file_type = g_strdup ("png");
@@ -406,6 +411,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 
 	ce->write_image_map = FALSE;
 	ce->imap_handle = NULL;
+	ce->imap_uri = NULL;
 
 	ce->info = NULL;
 
@@ -480,14 +486,13 @@ catalog_png_exporter_new (GList *file_list)
 
 
 void
-catalog_png_exporter_set_directory (CatalogPngExporter *ce,
-				    char               *directory)
+catalog_png_exporter_set_location (CatalogPngExporter *ce,
+				   const char         *location)
 {
 	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
 
-	if (ce->directory)
-		g_free (ce->directory);
-	ce->directory = g_strdup (directory);
+	g_free (ce->location);
+	ce->location = g_strdup (location);
 }
 
 
@@ -862,6 +867,60 @@ get_page_height (CatalogPngExporter *ce,
 }
 
 
+static void copy_current_file_to_destination (CatalogPngExporter *ce);
+
+
+static void
+copy_current_file_to_destination_done (const char     *uri, 
+				       GnomeVFSResult  result, 
+				       gpointer        data)
+{
+	CatalogPngExporter *ce = data;
+	
+	ce->current_file = ce->current_file->next;
+	copy_current_file_to_destination (ce);
+}
+
+
+static void
+copy_current_file_to_destination (CatalogPngExporter *ce)
+{
+	FileData *file;
+	
+	if (ce->current_file == NULL) {
+		end_export (ce);
+		return;
+	}
+	
+	g_signal_emit (G_OBJECT (ce),
+		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
+		       0,
+		       ((float) ++ce->n_files_done) / (ce->n_files + 1));	
+
+	file = file_data_new ((char*) ce->current_file->data, NULL);
+	update_file_from_cache (file, copy_current_file_to_destination_done, ce);
+	
+	file_data_unref (file);
+}
+
+
+static void
+copy_created_files_to_destination (CatalogPngExporter *ce)
+{
+	g_free (ce->info);
+	ce->info = g_strdup (_("Saving images"));
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
+		       0,
+		       ce->info);
+		       	
+	ce->n_files_done = 0;
+	ce->n_files = g_list_length (ce->created_files);
+	ce->current_file = ce->created_files;
+	
+	copy_current_file_to_destination (ce);
+}
+
+
 static void
 export (CatalogPngExporter *ce)
 {
@@ -899,7 +958,6 @@ export (CatalogPngExporter *ce)
 				g_list_free (ce->file_list);
 				ce->file_list = NULL;
 			}
-			g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 			goto label_end;
 		}
 
@@ -1040,8 +1098,7 @@ export (CatalogPngExporter *ce)
 	} while (TRUE);
 
  label_end:
-	end_export (ce);
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
+	copy_created_files_to_destination (ce);
 }
 
 
@@ -1152,7 +1209,7 @@ compute_pages_size (CatalogPngExporter *ce)
 
 	cols = ce->page_cols;
 	rows = ce->page_rows;
-	pages = ce->n_images / (cols * rows) + 2;
+	pages = ce->n_files / (cols * rows) + 2;
 	ce->pages_height = g_new (int, pages);
 	ce->pages_n = 0;
 
@@ -1342,7 +1399,7 @@ load_next_file (CatalogPngExporter *ce)
 	g_signal_emit (G_OBJECT (ce),
 		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
 		       0,
-		       ((float) ++ce->n_images_done) / ce->n_images);
+		       ((float) ++ce->n_files_done) / (ce->n_files + 1));
 
 	ce->file_to_load = ce->file_to_load->next;
 	if (ce->file_to_load == NULL) {
@@ -1447,9 +1504,9 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	if (ce->iloader != NULL)
 		g_object_unref (ce->iloader);
 
-	if (ce->created_list != NULL) {
-		path_list_free (ce->created_list);
-		ce->created_list = NULL;
+	if (ce->created_files != NULL) {
+		path_list_free (ce->created_files);
+		ce->created_files = NULL;
 	}
 
 	ce->iloader = IMAGE_LOADER (image_loader_new (FALSE));
@@ -1462,8 +1519,8 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 			  G_CALLBACK (image_loader_error),
 			  ce);
 
-	ce->n_images = g_list_length (ce->file_list);
-	ce->n_images_done = 0;
+	ce->n_files = g_list_length (ce->file_list);
+	ce->n_files_done = 0;
 
 	ce->file_to_load = ce->file_list;
 	image_loader_set_file (ce->iloader,
@@ -1483,7 +1540,6 @@ catalog_png_exporter_interrupt (CatalogPngExporter *ce)
 }
 
 
-
 /* ----- */
 
 
@@ -1506,17 +1562,19 @@ begin_export (CatalogPngExporter *ce)
 
 static void
 end_export (CatalogPngExporter *ce)
-{
-	if (ce->created_list != NULL) {
+{	
+	if (ce->created_files != NULL) {
 		all_windows_remove_monitor ();
-		all_windows_notify_files_created (ce->created_list);
+		all_windows_notify_files_created (ce->created_files);
 		all_windows_add_monitor ();
-		path_list_free (ce->created_list);
-		ce->created_list = NULL;
+		path_list_free (ce->created_files);
+		ce->created_files = NULL;
 	}
 
 	g_object_unref (G_OBJECT (ce->gc));
 	g_object_unref (G_OBJECT (ce->pixmap));
+
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 }
 
 
@@ -1570,12 +1628,13 @@ static void
 begin_page (CatalogPngExporter *ce,
 	    int                 page_n)
 {
-	GnomeVFSURI      *uri;
+	GnomeVFSURI      *vfs_uri;
 	GnomeVFSResult    result;
 	GnomeVFSFileSize  temp;
 	int               width, height;
-	char             *path;
+	char             *local_file;
 	char             *filename;
+	char             *name;
 	char             *line;
 	char             *utf8_name;
 
@@ -1610,37 +1669,37 @@ begin_page (CatalogPngExporter *ce,
 	if (! ce->write_image_map)
 		return;
 
-	filename = _g_get_name_from_template (ce->templatev,
-					      ce->start_at + page_n - 1);
-	path = g_strconcat (ce->directory, "/", filename, ".html", NULL);
-
-	uri = new_uri_from_path (path);
-	g_free (path);
-
-	if (uri == NULL) {
-		g_warning ("URI not valid: %s", path);
-		return;
-	}
-
+	g_free (ce->imap_uri);
+	ce->imap_uri = NULL;
 	ce->imap_handle = NULL;
-	result = gnome_vfs_create_uri (&ce->imap_handle, uri,
-				       GNOME_VFS_OPEN_WRITE, FALSE, 0664);
-	gnome_vfs_uri_unref (uri);
+	
+	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
+	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
 
-	if (result != GNOME_VFS_OK) {
-		g_warning ("Cannot create file %s", path);
+	local_file = get_cache_uri_from_uri (ce->imap_uri);
+	vfs_uri = new_uri_from_path (local_file);
+	g_free (local_file);
+	
+	if (vfs_uri == NULL) {
+		g_warning ("URI not valid: %s", local_file);
 		return;
 	}
 
-	path = g_strconcat (filename, ".", ce->file_type, NULL);
-	g_free (filename);
+	result = gnome_vfs_create_uri (&ce->imap_handle, vfs_uri,
+				       GNOME_VFS_OPEN_WRITE, FALSE, 0664);
+	gnome_vfs_uri_unref (vfs_uri);
+	if (result != GNOME_VFS_OK) {
+		g_warning ("Cannot create file %s", ce->imap_uri);
+		return;
+	}
 
 	gnome_vfs_write (ce->imap_handle, HTML_PAGE_BEGIN, strlen (HTML_PAGE_BEGIN), &temp);
 
-	line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n", path, width, height, path);
+	filename = g_strconcat (name, ".", ce->file_type, NULL);
+	line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n", filename, width, height, filename);
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
 	g_free (line);
-	g_free (path);
+	g_free (filename);
 
 	line = g_strdup_printf ("<map name=\"map\" id=\"map\">\n");
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
@@ -1653,8 +1712,9 @@ end_page (CatalogPngExporter *ce,
 	  int                 page_n)
 {
 	GdkPixbuf        *pixbuf;
-	char             *path;
-	char             *filename;
+	char             *name;
+	char             *uri;
+	char             *local_file;
 	int               width, height;
 	GnomeVFSFileSize  temp;
 	char             *line;
@@ -1670,20 +1730,21 @@ end_page (CatalogPngExporter *ce,
 					       width,
 					       height);
 
-	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
-	path = g_strconcat (ce->directory, "/", filename, ".", ce->file_type, NULL);
-	g_free (filename);
-
+	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
+	uri = g_strconcat (ce->location, "/", name, ".", ce->file_type, NULL);
+	local_file = get_cache_filename_from_uri (uri);
+	
 	if (strcmp (ce->file_type, "jpeg") == 0)
-		_gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "85", NULL);
+		_gdk_pixbuf_save (pixbuf, local_file, "jpeg", NULL, "quality", "85", NULL);
 	else
-		_gdk_pixbuf_save (pixbuf, path, ce->file_type, NULL, NULL);
+		_gdk_pixbuf_save (pixbuf, local_file, ce->file_type, NULL, NULL);
 
-	ce->created_list = g_list_prepend (ce->created_list, g_strdup (path));
+	ce->created_files = g_list_prepend (ce->created_files, uri);
 
+	g_free (local_file);
+	g_free (name);
 	g_object_unref (pixbuf);
-	g_free (path);
-
+	
 	/* image map file. */
 
 	if (! ce->write_image_map || (ce->imap_handle == NULL))
@@ -1691,11 +1752,12 @@ end_page (CatalogPngExporter *ce,
 
 	line = g_strdup_printf ("</map>\n");
 	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
-	g_free (line);
-
 	gnome_vfs_write (ce->imap_handle, HTML_PAGE_END, strlen (HTML_PAGE_END), &temp);
-
 	gnome_vfs_close (ce->imap_handle);
+	
+	ce->created_files = g_list_prepend (ce->created_files, g_strdup (ce->imap_uri));
+	
+	g_free (line);
 }
 
 
@@ -1780,7 +1842,7 @@ paint_frame (CatalogPngExporter *ce,
 	if (! ce->write_image_map || (ce->imap_handle == NULL))
 		return;
 
-	dest_dir = remove_special_dirs_from_path (ce->directory);
+	dest_dir = remove_special_dirs_from_path (ce->location);
 	rel_path = get_path_relative_to_dir (filename, dest_dir);
 	g_free (dest_dir);
 

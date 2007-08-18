@@ -792,9 +792,6 @@ pci_print_comment (PrintCatalogInfo *pci,
 }
 
 
-
-
-
 static int catalog_rows[5] = {1, 2, 2, 4, 4};
 static int catalog_cols[5] = {1, 1, 2, 2, 4};
 #define IMAGE_SPACE 20

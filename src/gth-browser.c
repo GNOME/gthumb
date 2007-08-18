@@ -1224,12 +1224,23 @@ static void set_mode_specific_ui_info (GthBrowser        *browser,
 				       GthSidebarContent  content,
 				       gboolean           first_time);
 
-static void
-go_to_uri (GthBrowser  *browser,
-	   const char  *uri)
+
+typedef struct {
+	GthBrowser *browser;
+	char       *uri;
+	gboolean    check_if_uri_is_file;
+} GoToUriData;
+
+
+static gboolean
+go_to_uri__step_2 (gpointer callback_data)
 {
-	if (uri == NULL)
-		return;
+	GoToUriData *data = callback_data;
+	GthBrowser  *browser;
+	const char  *uri;
+	
+	browser = data->browser;
+	uri = data->uri;
 
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = add_scheme_if_absent (remove_host_from_uri (uri));
@@ -1241,13 +1252,37 @@ go_to_uri (GthBrowser  *browser,
 
 		g_free (file_uri);
 	} 
-	else if (path_is_file (uri)) {
+	else if (data->check_if_uri_is_file && path_is_file (uri)) {
 		browser->priv->load_image_folder_after_image = TRUE;
 		gth_browser_load_image_from_uri (browser, uri);
 		gth_browser_hide_sidebar (browser);
 	} 
 	else
 		gth_browser_go_to_directory (browser, uri);
+		
+	g_free (data->uri);
+	g_free (data);
+	
+	return FALSE;
+}
+
+
+static void
+go_to_uri (GthBrowser *browser,
+	   const char *uri,
+	   gboolean    check_if_uri_is_file)
+{
+	GoToUriData *data;
+	
+	if (uri == NULL)
+		return;
+	
+	data = g_new0 (GoToUriData, 1);
+	data->browser = browser;
+	data->uri = g_strdup (uri);
+	data->check_if_uri_is_file = check_if_uri_is_file;
+	
+	g_idle_add (go_to_uri__step_2, data);
 }
 
 
@@ -1256,7 +1291,7 @@ activate_action_bookmark (GtkAction *action,
 			  gpointer   data)
 {
 	GthBrowser  *browser = data;
-	go_to_uri (browser, g_object_get_data (G_OBJECT (action), "path"));
+	go_to_uri (browser, g_object_get_data (G_OBJECT (action), "path"), FALSE);
 }
 
 
@@ -2646,7 +2681,7 @@ location_changed_cb (GthLocation *loc,
 		     const char  *uri,
 		     GthBrowser  *browser)
 {
-	go_to_uri (browser, uri);
+	go_to_uri (browser, uri, FALSE);
 }
 
 
@@ -5163,7 +5198,7 @@ static gboolean
 initial_location_cb (gpointer data)
 {
 	GthBrowser *browser = data;
-	go_to_uri (browser, browser->priv->initial_location);
+	go_to_uri (browser, browser->priv->initial_location, TRUE);
 	gtk_widget_grab_focus (gth_file_view_get_widget (browser->priv->file_list->view));
 	return FALSE;
 }
@@ -6242,12 +6277,13 @@ dir_list_done_cb (GthDirList     *dir_list,
 				       gnome_vfs_result_to_string (result));
 		g_free (utf8_path);
 
+		set_cursor_not_busy (browser, TRUE);
 		priv->refreshing = FALSE;
 
-		if ((dir_list->path == NULL)
-		    || (! same_uri (get_home_uri (), dir_list->path)
-			&& (priv->history_current == NULL)))
+		if (priv->history_current == NULL)
 			gth_browser_go_to_directory (browser, get_home_uri ());
+		else
+			gth_browser_go_to_directory (browser, priv->history_current->data);
 
 		return;
 	}
@@ -7941,7 +7977,7 @@ go_to_current_location (GthBrowser *browser,
 	if (browser->priv->history_current == NULL)
 		return;
 	browser->priv->go_op = go_op;
-	go_to_uri (browser, browser->priv->history_current->data);
+	go_to_uri (browser, browser->priv->history_current->data, FALSE);
 }
 
 
@@ -8752,7 +8788,7 @@ void
 gth_browser_load_uri (GthBrowser *browser,
 		      const char *uri)
 {
-	go_to_uri (browser, uri);
+	go_to_uri (browser, uri, TRUE);
 }
 
 

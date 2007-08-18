@@ -246,9 +246,6 @@ gth_window_init (GthWindow *window)
 	priv->history = gth_image_history_new ();
 
 	window_list = g_list_prepend (window_list, window);
-#ifdef HAVE_GTKUNIQUE
-	gtk_unique_app_add_window (gth_application, GTK_WINDOW (window));
-#endif /* HAVE_GTKUNIQUE */
 }
 
 
@@ -295,10 +292,6 @@ gth_window_close (GthWindow *window)
 		dlg_categories_close (priv->categories_dlg);
 		priv->categories_dlg = NULL;
 	}
-
-#ifdef HAVE_GTKUNIQUE
-	gtk_unique_app_remove_window (gth_application, GTK_WINDOW (window));
-#endif /* HAVE_GTKUNIQUE */
 
 	class->close (window);
 }

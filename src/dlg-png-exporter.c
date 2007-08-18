@@ -152,7 +152,7 @@ export (GtkWidget  *widget,
 
 	gtk_widget_hide (data->dialog);
 
-	catalog_png_exporter_set_directory (exporter, dir);
+	catalog_png_exporter_set_location (exporter, dir);
 	g_free (dir);
 
 	file_type = eel_gconf_get_string (PREF_EXP_FILE_TYPE, DEF_FILE_TYPE);
@@ -470,7 +470,6 @@ dlg_exporter (GthBrowser *browser)
 }
 
 
-
 /* -- Exporter Preferences -- */
 
 typedef struct {

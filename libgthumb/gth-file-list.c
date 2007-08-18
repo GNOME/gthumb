@@ -1230,6 +1230,7 @@ gfl_empty_list (GthFileList *file_list)
 		path_list_free (file_list->priv->new_list);
 		file_list->priv->new_list = NULL;
 	}
+	gth_file_view_clear (file_list->view);
 }
 
 

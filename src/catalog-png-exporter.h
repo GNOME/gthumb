@@ -47,8 +47,9 @@ struct _CatalogPngExporter {
 	/*< private >*/
 
 	GList        *file_list;              /* gchar* elements. */
-	GList        *created_list;
-
+	GList        *created_files;
+	GList         *current_file;
+	
 	int           thumb_width;
 	int           thumb_height;
 	int           frame_width;
@@ -68,7 +69,7 @@ struct _CatalogPngExporter {
 					       * by the number of rows and 
 					       * columns. */
 	int           pages_n;                /* Number of pages. */
-	char         *directory;              /* Save files in this 
+	char         *location;               /* Save files in this 
 					       * directory. */
 	char         *name_template;          /* Name template : #'s will be
 					       * replaced with the enumerator
@@ -117,8 +118,8 @@ struct _CatalogPngExporter {
 	ImageLoader  *iloader;
 	GList        *file_to_load;          /* Next file to be loaded. */
 
-	gint          n_images;              /* Used for the progress signal.*/
-	gint          n_images_done;
+	gint          n_files;              /* Used for the progress signal.*/
+	gint          n_files_done;
 
 	GdkPixmap    *pixmap;
 	GdkGC        *gc;
@@ -127,6 +128,7 @@ struct _CatalogPngExporter {
 	GdkColor      gray;
 	GdkColor      dark_gray;
 
+	char           *imap_uri;
 	GnomeVFSHandle *imap_handle;         /* handle to write image map 
 					      * files. */
 
@@ -151,63 +153,44 @@ struct _CatalogPngExporterClass {
 
 
 GType      catalog_png_exporter_get_type              (void);
-
 CatalogPngExporter *  catalog_png_exporter_new        (GList *file_list);
-
-void       catalog_png_exporter_set_directory         (CatalogPngExporter *ce,
-						       char *directory);
-
+void       catalog_png_exporter_set_location          (CatalogPngExporter *ce,
+						       const char *location);
 void       catalog_png_exporter_set_name_template     (CatalogPngExporter *ce,
 						       const char *template);
-
 void       catalog_png_exporter_set_start_at          (CatalogPngExporter *ce,
 						       int                 n);
-
 void       catalog_png_exporter_set_file_type         (CatalogPngExporter *ce,
 						       const char *file_type);
-
 void       catalog_png_exporter_set_page_size         (CatalogPngExporter *ce,
 						       int width,
 						       int height);
-
 void       catalog_png_exporter_set_page_size_row_col (CatalogPngExporter *ce,
 						       int rows,
 						       int cols);
-
 void       catalog_png_exporter_all_pages_same_size   (CatalogPngExporter *ce,
 						       gboolean same_size);
-
 void       catalog_png_exporter_set_thumb_size        (CatalogPngExporter *ce,
 						       int width,
 						       int height);
-
 void       catalog_png_exporter_set_caption           (CatalogPngExporter *ce,
 						       GthCaptionFields caption);
-
 void       catalog_png_exporter_set_caption_font      (CatalogPngExporter *ce,
 						       char *font);
-
 void       catalog_png_exporter_set_caption_color     (CatalogPngExporter *ce,
 						       char *value);
-
 void       catalog_png_exporter_set_header            (CatalogPngExporter *ce,
 						       char *header);
-
 void       catalog_png_exporter_set_header_font       (CatalogPngExporter *ce,
 						       char *font);
-
 void       catalog_png_exporter_set_header_color      (CatalogPngExporter *ce,
 						       char *value);
-
 void       catalog_png_exporter_set_footer            (CatalogPngExporter *ce,
 						       char *header);
-
 void       catalog_png_exporter_set_footer_font       (CatalogPngExporter *ce,
 						       char *font);
-
 void       catalog_png_exporter_set_footer_color      (CatalogPngExporter *ce,
 						       char *value);
-
 void       catalog_png_exporter_set_page_color        (CatalogPngExporter *ce,
 						       gboolean  use_solid_col,
 						       gboolean  use_hgrad,
@@ -217,25 +200,17 @@ void       catalog_png_exporter_set_page_color        (CatalogPngExporter *ce,
 						       guint32   hgrad2,
 						       guint32   vgrad1,
 						       guint32   vgrad2);
-
 void       catalog_png_exporter_set_frame_color       (CatalogPngExporter *ce,
 						       char *value);
-
 void       catalog_png_exporter_set_frame_style       (CatalogPngExporter *ce,
 						       GthFrameStyle style);
-
 void       catalog_png_exporter_write_image_map       (CatalogPngExporter *ce,
 						       gboolean do_write);
-
 void       catalog_png_exporter_set_sort_method       (CatalogPngExporter *ce,
 						       GthSortMethod method);
-
-/* how to sort: ascending or discending. */
 void       catalog_png_exporter_set_sort_type         (CatalogPngExporter *ce,
 						       GtkSortType sort_type);
-
 void       catalog_png_exporter_export                (CatalogPngExporter *ce);
-
 void       catalog_png_exporter_interrupt             (CatalogPngExporter *ce);
 
 

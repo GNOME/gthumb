@@ -374,7 +374,7 @@ load_current_image (GthBatchOp *bop)
 	g_signal_emit (G_OBJECT (bop),
 		       gth_batch_op_signals[BOP_PROGRESS],
 		       0,
-		       (float) PD(bop)->image / (PD(bop)->images+1));
+		       (float) PD(bop)->image / (PD(bop)->images + 1));
 
 	g_free (PD(bop)->new_path);
 	PD(bop)->new_path = NULL;
@@ -435,38 +435,61 @@ show_rename_dialog (GthBatchOp *bop)
 
 
 static void
+save_image_and_remove_original_step2 (const char     *uri, 
+				      GnomeVFSResult  result,
+				      gpointer        callback_data)
+{
+	GthBatchOp *bop = callback_data;
+	FileData   *fd;
+	
+	if (result == GNOME_VFS_OK)
+		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
+	 
+	fd = PD(bop)->current_image->data;
+	if (! same_uri (fd->path, PD(bop)->new_path)) {
+		comment_copy (fd->path, PD(bop)->new_path);
+		if (PD(bop)->remove_original) {
+			file_unlink (fd->path);
+			PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
+		}
+	}
+	
+	load_next_image (bop);
+}
+
+
+static void
 pixbuf_op_done_cb (GthPixbufOp *pixop,
 		   gboolean     completed,
 		   GthBatchOp  *bop)
 {
 	GError   *error = NULL;
-	FileData *fd = PD(bop)->current_image->data;
-
-	if (!completed) {
+	FileData *fd;
+	char     *local_file;
+	
+	if (! completed) {
 		notify_termination (bop);
 		return;
 	}
 
-	if (_gdk_pixbuf_savev (pixop->dest,
-			       PD(bop)->new_path,
-			       PD(bop)->image_type,
-			       PD(bop)->keys,
-			       PD(bop)->values,
-			       &error)) {
-		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
-
-		if (! same_uri (fd->path, PD(bop)->new_path)) {
-			comment_copy (fd->path, PD(bop)->new_path);
-			if (PD(bop)->remove_original) {
-				file_unlink (fd->path);
-				PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
-			}
-		}
-
-	} else
+	local_file = get_cache_filename_from_uri (PD(bop)->new_path);
+	if (! _gdk_pixbuf_savev (pixop->dest,
+			         local_file,
+			         PD(bop)->image_type,
+			         PD(bop)->keys,
+			         PD(bop)->values,
+			         &error)) 
+	{
 		_gtk_error_dialog_from_gerror_run (PD(bop)->parent, &error);
-
-	load_next_image (bop);
+		g_free (local_file);
+		load_next_image (bop);
+		return;
+	}
+	g_free (local_file);
+	
+	fd = file_data_new (PD(bop)->new_path, NULL);
+	update_file_from_cache (fd, save_image_and_remove_original_step2, bop);
+	file_data_unref (fd);
 }
 
 
@@ -710,10 +733,11 @@ gth_batch_op_start (GthBatchOp       *bop,
 	PD(bop)->images = g_list_length (PD(bop)->file_list);
 	PD(bop)->image = 1;
 
-	if (!dlg_save_options (GTK_WINDOW (PD(bop)->parent),
-			       PD(bop)->image_type,
-			       &(PD(bop)->keys),
-			       &(PD(bop)->values))) {
+	if (! dlg_save_options (GTK_WINDOW (PD(bop)->parent),
+			        PD(bop)->image_type,
+			        &(PD(bop)->keys),
+			        &(PD(bop)->values))) 
+	{
 		free_progress_data (bop);
 		return;
 	}

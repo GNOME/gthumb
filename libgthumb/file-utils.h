@@ -195,6 +195,9 @@ char *              remove_special_dirs_from_path (const char       *path);
 
 GnomeVFSURI *       new_uri_from_path             (const char       *path);
 char *              new_path_from_uri             (GnomeVFSURI      *uri);
+char *              build_uri                     (const char       *s1,
+						   const char       *s2,
+						   ...);
 GnomeVFSResult      resolve_all_symlinks          (const char       *text_uri,
 						   char            **resolved_text_uri);
 gboolean            uri_is_root                   (const char       *uri);

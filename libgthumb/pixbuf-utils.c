@@ -954,9 +954,6 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 #endif
 
 
-
-
-
 /* TRUEVISION-XFILE magic signature string */
 static guchar magic[18] = {
 	0x54, 0x52, 0x55, 0x45, 0x56, 0x49, 0x53, 0x49, 0x4f,
@@ -1208,7 +1205,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (local_file != NULL, FALSE);
 	g_return_val_if_fail (type != NULL, FALSE);
-	g_return_val_if_fail (uri_has_scheme (local_file) != TRUE, FALSE);
+	g_return_val_if_fail (! uri_has_scheme (local_file), FALSE);
 
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0)
@@ -1289,7 +1286,7 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (local_file != NULL, FALSE);
 	g_return_val_if_fail (type != NULL, FALSE);
-	g_return_val_if_fail (uri_has_scheme (local_file) != TRUE, FALSE);
+	g_return_val_if_fail (! uri_has_scheme (local_file), FALSE);
 
 	va_start (args, error);
 	collect_save_options (args, &keys, &values);

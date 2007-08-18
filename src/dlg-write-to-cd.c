@@ -120,7 +120,7 @@ ok_clicked_cb (GtkWidget  *widget,
 		path_list_free (file_list);
 	} 
 	else {
-		char *dest_folder = g_build_path("///", "burn:", file_name_from_path (data->current_folder), NULL);
+		char *dest_folder = build_uri ("burn:///", file_name_from_path (data->current_folder), NULL);
 		dlg_folder_copy (GTH_WINDOW (data->browser),
 				 data->current_folder,
 				 dest_folder,

@@ -2049,9 +2049,6 @@ gth_iviewer_interface_init (gpointer g_iface,
 }
 
 
-
-
-
 GType
 gth_image_selector_get_type ()
 {

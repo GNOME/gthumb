@@ -550,7 +550,6 @@ set_filename_labels (GladeXML    *gui,
 }
 
 
-
 /* -- dlg_overwrite -- */
 
 
@@ -786,7 +785,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 				return;
 			}
 
-			new_path = g_build_path ("/", owdata->destination, new_name, NULL);
+			new_path = build_uri (owdata->destination, new_name, NULL);
 
 			if (path_is_file (new_path)) {
 				char *utf8_name;
@@ -887,7 +886,7 @@ dlg_overwrite_run (GthWindow     *window,
 			goto retry;
 		}
 
-		new_path = g_build_path ("/", owdata->destination, *new_name, NULL);
+		new_path = build_uri (owdata->destination, *new_name, NULL);
 
 		if (path_is_file (new_path)) {
 			char *utf8_name;
@@ -988,7 +987,7 @@ dlg_file_rename_series (GthWindow *window,
 				char *parent_dir;
 
 				parent_dir = remove_level_from_path (new_full_path);
-				new_full_path = g_build_path ("/", parent_dir,  new_name, NULL);
+				new_full_path = build_uri (parent_dir,  new_name, NULL);
 				g_free (parent_dir);
 				g_free (new_name);
 
@@ -1057,7 +1056,6 @@ dlg_file_rename_series (GthWindow *window,
 }
 
 
-
 /* -- dlg_files_copy -- */
 
 typedef struct {
@@ -1251,10 +1249,9 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 				char *dest_file;
 
 				src_file = fcdata->current_file->data;
-				dest_file = g_build_path ("/",
-							  fcdata->destination,
-							  file_name_from_path (src_file),
-							  NULL);
+				dest_file = build_uri (fcdata->destination,
+						       file_name_from_path (src_file),
+						       NULL);
 				fcdata->copied_list = g_list_prepend (fcdata->copied_list, src_file);
 				fcdata->created_list = g_list_prepend (fcdata->created_list, dest_file);
 				copy_next_file (fcdata);
@@ -1343,10 +1340,9 @@ copy_current_file__overwrite (OverwriteResult  result,
 			break;
 		}
 
-		dest_file = g_build_path ("/",
-					  fcdata->destination,
-					  new_name,
-					  NULL);
+		dest_file = build_uri (fcdata->destination,
+				       new_name,
+				       NULL);
 		xfer_file (fcdata, src_file, dest_file);
 		g_free (dest_file);
 		g_free (new_name);
@@ -1354,10 +1350,9 @@ copy_current_file__overwrite (OverwriteResult  result,
 
 	case OVERWRITE_RESULT_YES:
 	case OVERWRITE_RESULT_ALL:
-		dest_file = g_build_path ("/",
-					  fcdata->destination,
-					  file_name_from_path (src_file),
-					  NULL);
+		dest_file = build_uri (fcdata->destination,
+				       file_name_from_path (src_file),
+				       NULL);
 		xfer_file (fcdata, src_file, dest_file);
 		g_free (dest_file);
 		break;
@@ -1398,10 +1393,9 @@ copy_current_file (FileCopyData *fcdata)
 	fcdata->result = GNOME_VFS_OK;
 
 	src_file = fcdata->current_file->data;
-	dest_file = g_build_path ("/",
-				  fcdata->destination,
-				  file_name_from_path (src_file),
-				  NULL);
+	dest_file = build_uri (fcdata->destination,
+			       file_name_from_path (src_file),
+			       NULL);
 
 	if (same_uri (src_file, dest_file)) {
 		g_free (dest_file);
@@ -1705,7 +1699,6 @@ dlg_files_move_to_trash (GthWindow      *window,
 }
 
 
-
 /* -- dlg_files_delete -- */
 
 
@@ -1949,7 +1942,6 @@ dlg_files_delete (GthWindow      *window,
 }
 
 
-
 /* -- dlg_folder_copy -- */
 
 
