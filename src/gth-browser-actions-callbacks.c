@@ -256,8 +256,8 @@ duplicate_file (GtkWindow  *window,
 	if (file_copy (old_path, new_path)) {
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
-
-	} else {
+	} 
+	else {
 		char      *utf8_path;
 		char      *msg;
 		GtkWidget *d;

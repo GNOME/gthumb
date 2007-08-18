@@ -2057,7 +2057,12 @@ GnomeVFSResult
 resolve_all_symlinks (const char  *text_uri,
 		      char       **resolved_text_uri)
 {
-	return resolve_symlinks (text_uri, "", resolved_text_uri, 0);
+	if (! is_local_file (text_uri)) {
+		*resolved_text_uri = g_strdup (text_uri);
+		return GNOME_VFS_OK;
+	}
+	else
+		return resolve_symlinks (text_uri, "", resolved_text_uri, 0);
 }
 
 
@@ -2612,7 +2617,7 @@ copy_file_async (const char   *source_uri,
 				       target_uri_list,
 				       GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
 				       GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				       GNOME_VFS_XFER_OVERWRITE_MODE_ABORT,
+				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
 				       GNOME_VFS_PRIORITY_DEFAULT,
 				       copy_file_async_progress_update_cb, copy_data,
 				       NULL, NULL);
@@ -2972,7 +2977,7 @@ copy_remote_file_to_cache (FileData     *file,
 	char     *cache_uri;
 	
 	cache_uri = get_cache_uri_from_uri (file->path);
-	if (is_local_file (file->path) || (file->mtime <= get_file_mtime (cache_uri))) {
+	if (is_local_file (file->path) || (get_file_mtime (cache_uri) >= file->mtime)) {
 		copy_data = copy_data_new (file->path, cache_uri, done_func, done_data);
 		copy_data->idle_id = g_idle_add (copy_file_async_done, copy_data);
 	}

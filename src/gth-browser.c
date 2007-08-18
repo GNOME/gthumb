@@ -1725,7 +1725,7 @@ save_jpeg_data (GthBrowser   *browser,
 	if (local_file == NULL)
 		return update_file_from_cache (file, done_func, done_data);
 
-	if (! image_is_jpeg (local_file))
+	if (! image_is_jpeg (file->path))
 		return update_file_from_cache (file, done_func, done_data);
 
 	if (priv->exif_data != NULL)
@@ -2709,7 +2709,7 @@ image_loaded_cb (GtkWidget  *widget,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	/*priv->image_mtime = get_file_mtime (priv->image->path);*/
+	/*priv->image->mtime = get_file_mtime (priv->image->path);*/
 	priv->image_modified = FALSE;
 	priv->loading_image = FALSE;
 	gth_window_clear_undo_history (GTH_WINDOW (browser));
@@ -8296,6 +8296,9 @@ load_timeout_cb (gpointer data)
 	if (browser->priv->image == NULL)
 		return FALSE;
 
+	/* update the mtime in order to reload the image if required. */
+	file_data_update_info (browser->priv->image);
+
 	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
 	if (browser->priv->image_position >= 0) {
 		prev1 = get_image_to_preload (browser, browser->priv->image_position - 1, 1);
@@ -8356,7 +8359,7 @@ gth_browser_load_image (GthBrowser *browser,
 		if (priv->saving_modified_image)
 			return;
 		file_data_unref (priv->new_image);
-		priv->new_image = file_data_ref (file);
+		priv->new_image = file_data_dup (file);
 		if (ask_whether_to_save (browser, load_image__image_saved_cb))
 			return;
 	}
