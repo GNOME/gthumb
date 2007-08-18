@@ -765,11 +765,10 @@ ensure_local_theme_dir_exists (void)
 {
 	char *theme_dir;
 
-	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
-				  get_home_uri (),
-				  ".gnome2",
-				  "gthumb/albumthemes",
-				  NULL);
+	theme_dir = build_uri (get_home_uri (),
+			       ".gnome2",
+			       "gthumb/albumthemes",
+			       NULL);
 
 	dir_make (theme_dir, 0700);
 
@@ -932,10 +931,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 		char      *filename;
 		GdkPixbuf *image = NULL;
 					       
-		filename = g_build_path (G_DIR_SEPARATOR_S,
-					 path,
-					 "preview.png",
-					 NULL);
+		filename = build_uri (path, "preview.png", NULL);
 		if (path_is_file (filename)
 		    && ((image = gdk_pixbuf_new_from_file (filename, NULL)) != NULL)) {
 			int        w = gdk_pixbuf_get_width (image);

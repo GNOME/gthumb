@@ -243,7 +243,7 @@ duplicate_file (GtkWindow  *window,
 					    try,
 					    (ext == NULL) ? "" : ext);
 
-		new_path = g_build_path ("/", dir, new_name, NULL);
+		new_path = build_uri (dir, new_name, NULL);
 		if (! path_is_file (new_path))
 			break;
 		g_free (new_name);
@@ -791,7 +791,7 @@ create_new_folder_or_library (GthBrowser *browser,
 
 	/* Create folder */
 
-	new_path = g_build_path ("/", current_path, new_name, NULL);
+	new_path = build_uri (current_path, new_name, NULL);
 
 	if (path_is_dir (new_path)) {
 		char *utf8_name;
@@ -800,8 +800,8 @@ create_new_folder_or_library (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
-
-	} else if (! dir_make (new_path, 0755)) {
+	} 
+	else if (! dir_make (new_path, 0755)) {
 		char *utf8_path;
 
 		utf8_path = gnome_vfs_unescape_string_for_display (new_path);
@@ -810,7 +810,8 @@ create_new_folder_or_library (GthBrowser *browser,
 				       utf8_path,
 				       errno_to_string ());
 		g_free (utf8_path);
-	} else
+	} 
+	else
 		all_windows_notify_directory_new (new_path);
 
 	g_free (new_path);
@@ -1000,7 +1001,7 @@ folder_rename (GtkWindow  *window,
 	/* Rename */
 
 	parent_path = remove_level_from_path (old_path);
-	new_path = g_build_path ("/", parent_path, new_name, NULL);
+	new_path = build_uri (parent_path, new_name, NULL);
 	g_free (parent_path);
 
 	all_windows_remove_monitor ();
@@ -1276,7 +1277,7 @@ folder_copy__response_cb (GObject *object,
 	gtk_widget_hide (file_sel);
 
 	dir_name = file_name_from_path (old_path);
-	new_path = g_build_path ("/", dest_dir, dir_name, NULL);
+	new_path = build_uri (dest_dir, dir_name, NULL);
 
 	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
@@ -1293,8 +1294,8 @@ folder_copy__response_cb (GObject *object,
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
-
-	} else if (path_in_path (old_path, new_path)) {
+	} 
+	else if (path_in_path (old_path, new_path)) {
 		char *utf8_path;
 
 		utf8_path = gnome_vfs_unescape_string_for_display (old_path);
@@ -1304,8 +1305,8 @@ folder_copy__response_cb (GObject *object,
 				       utf8_path,
 				       _("source contains destination"));
 		g_free (utf8_path);
-
-	} else if (path_is_dir (new_path)) {
+	} 
+	else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
 		utf8_name = gnome_vfs_unescape_string_for_display (dir_name);
@@ -1315,8 +1316,8 @@ folder_copy__response_cb (GObject *object,
 				       utf8_name,
 				       _("a folder with that name is already present."));
 		g_free (utf8_name);
-
-	} else if (! (move && same_fs)) {
+	} 
+	else if (! (move && same_fs)) {
 		g_object_set_data_full (G_OBJECT (file_sel),
 					"new_path",
 					g_strdup (new_path),

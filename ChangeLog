@@ -1,5 +1,16 @@
 2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/dlg-write-to-cd.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-file-utils.c: use build_uri instead of g_build_path when
+	building uris.
+	
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: make build_uri available outside.
+
+2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser.c: check whether the uri is an image on start up.
 	
 	* src/gth-batch-op.c: 

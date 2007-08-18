@@ -1848,11 +1848,13 @@ new_path_from_uri (GnomeVFSURI *uri)
 
 
 static char *
-build_uri (const char *s1,
-	   const char *s2)
+build_uri_2 (const char *s1,
+	     const char *s2)
 {
-	char *s = NULL;
-
+	int      s1_len;
+	gboolean add_separator;
+	gboolean skip_s2_separator;
+	
 	if ((s1 == NULL) && (s2 == NULL))
 		return NULL;
 
@@ -1861,16 +1863,54 @@ build_uri (const char *s1,
 	if ((s2 == NULL) || (strcmp (s2, "") == 0))
 		return g_strdup (s1);
 
-	if ((s1[strlen (s1) - 1] == GNOME_VFS_URI_PATH_CHR) || (s2[0] == GNOME_VFS_URI_PATH_CHR))
-		s = g_strconcat (s1, s2, NULL);
-	else
-		s = g_strconcat (s1, GNOME_VFS_URI_PATH_STR, s2, NULL);
+	s1_len = strlen (s1);
 
-	return s;
+	/* Add a separator between s1 and s2 if s2 doesn't start with
+	 * a separator and either s1 doesn't end with a separator or it ends
+	 * with '://'. */
+
+	add_separator = (s2[0] != '/') && ((s1[s1_len - 1] != '/') || str_ends_with (s1, "://"));
+	
+	/* Skip the s2 separator if s2 starts with a separator and s1 ends
+	 * with a separator and doesn't end with '://'. */
+	
+	skip_s2_separator = (s2[0] == '/') && (s1[s1_len - 1] == '/') && ! str_ends_with (s1, "://");
+	
+	return g_strconcat (s1,
+			    (add_separator ? "/" : ""),
+			    (skip_s2_separator ? s2 + 1 : s2),
+			    NULL);
 }
 
 
-GnomeVFSResult
+char *
+build_uri (const char *s1,
+	   const char *s2,
+	   ...)
+{
+	va_list  args;
+	char    *r;
+	char    *sx;
+	
+	r = build_uri_2 (s1, s2);
+	
+	va_start (args, s2);
+	
+	while ((sx = va_arg (args, char*)) != NULL) {
+		char *tmp;
+		
+		tmp = build_uri_2 (r, sx);
+		g_free (r);
+		r = tmp;
+	}
+	
+	va_end (args);
+	
+	return r;
+}
+
+
+static GnomeVFSResult
 resolve_symlinks (const char  *text_uri,
 		  const char  *relative_link,
 		  char       **resolved_text_uri,
@@ -1896,7 +1936,7 @@ resolve_symlinks (const char  *text_uri,
 
 	resolved_uri = get_uri_host (text_uri);
 
-	tmp = build_uri (text_uri, relative_link);
+	tmp = build_uri (text_uri, relative_link, NULL);
 	uri = remove_special_dirs_from_path (tmp);
 	g_free (tmp);
 
@@ -1974,7 +2014,7 @@ resolve_symlinks (const char  *text_uri,
 		    	else {
 		    		char *tmp;
 
-		   		tmp = build_uri (symlink, e_symlink_name);
+		   		tmp = build_uri (symlink, e_symlink_name, NULL);
 
 	    			g_free (symlink);
 	    			g_free (e_symlink_name);
@@ -1990,7 +2030,8 @@ resolve_symlinks (const char  *text_uri,
 	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) {
 	    		g_free (resolved_uri);
 	    		base_uri = get_uri_host (text_uri);
-	    	} else
+	    	} 
+	    	else
 	    		base_uri = resolved_uri;
 
 		/* resolve the new uri recursively */
