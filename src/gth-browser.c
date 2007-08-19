@@ -8307,7 +8307,7 @@ get_image_to_preload (GthBrowser *browser,
 	else
 		max_size = PRELOADED_IMAGE_MAX_DIM2;
 
-	local_file = get_local_path_from_uri (fdata->path);
+	local_file = get_cache_filename_from_uri (fdata->path);
 
 	if (fdata->size > max_size) {
 		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", local_file);
