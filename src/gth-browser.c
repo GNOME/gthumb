@@ -5301,8 +5301,8 @@ sort_by_radio_action (GtkAction      *action,
 				catalog_write_to_disk (catalog, NULL);
 			}
 		}
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+	} 
+	else if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		priv->sort_method = sort_method;
 
 	gth_file_list_set_sort_method (browser->priv->file_list, sort_method, TRUE);
@@ -5632,7 +5632,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			FileData *file;
 			
 			file = file_data_new (path, NULL);
-			file_data_update_mime_type (file, browser->priv->fast_file_type);
+			file_data_update_all (file, browser->priv->fast_file_type);
 			if (file_filter (file, browser->priv->show_hidden_files))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else

@@ -596,7 +596,8 @@ comp_func_size (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->path, fd2->path);
+	return gth_sort_by_size_then_name (fd1->size, fd2->size, 
+					   fd1->path, fd2->path);
 }
 
 
@@ -614,7 +615,7 @@ comp_func_time (gconstpointer  ptr1,
 		return 0;
 
 	return gth_sort_by_filetime_then_name (fd1->mtime, fd2->mtime,
-						 fd1->path, fd2->path);
+					       fd1->path, fd2->path);
 }
 
 
