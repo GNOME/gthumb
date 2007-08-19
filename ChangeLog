@@ -1,5 +1,12 @@
 2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-location.c: always add the basic elements in the drives 
+	section	even if no drive is available.
+	* src/gth-browser.c: go to the base catalog dir when file:/// is 
+	specified.
+	
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* libgthumb/gthumb-stock.h: 
 	* libgthumb/gthumb-stock.c: 
 	* libgthumb/icons/zoom-width-16.png: 

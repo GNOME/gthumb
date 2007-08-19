@@ -1245,7 +1245,7 @@ go_to_uri__step_2 (gpointer callback_data)
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = add_scheme_if_absent (remove_host_from_uri (uri));
 
-		if (file_uri != NULL && file_extension_is (file_uri, CATALOG_EXT))
+		if ((file_uri != NULL) && file_extension_is (file_uri, CATALOG_EXT))
 			gth_browser_go_to_catalog (browser, file_uri);
 		else
 			gth_browser_show_catalog_directory (browser, file_uri);
@@ -7820,11 +7820,15 @@ gth_browser_show_catalog_directory (GthBrowser *browser,
 {
 	char *catalog_dir2;
 
-	if ((catalog_dir == NULL) || (strlen (catalog_dir) == 0))
+	if ((catalog_dir == NULL) 
+	    || (strlen (catalog_dir) == 0) 
+	    || (strcmp (catalog_dir, "file:///") == 0))
+	{
 		catalog_dir2 = g_strconcat (get_home_uri (),
-					   "/",
-					   RC_CATALOG_DIR,
-					   NULL);
+					    "/",
+					    RC_CATALOG_DIR,
+					    NULL);
+	}
 	else
 		catalog_dir2 = g_strdup (catalog_dir);
 

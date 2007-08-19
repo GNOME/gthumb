@@ -633,9 +633,6 @@ update_drives (GthLocation *loc)
 
 	clear_items (loc, ITEM_TYPE_DRIVE);
 
-	if (g_list_length (loc->priv->drives) == 0)
-		return;
-
 	if (!get_first_separator_pos (loc, &pos))
 		return;
 
@@ -644,11 +641,14 @@ update_drives (GthLocation *loc)
 	/* Home, File System */
 
 	insert_drive_from_uri (loc, get_home_uri (), pos++);
-	if (!loc->priv->folders_only)
-		insert_drive_from_uri (loc, "catalog://", pos++);
 	insert_drive_from_uri (loc, "file://", pos++);
+	if (!loc->priv->folders_only)
+		insert_drive_from_uri (loc, "catalog:///", pos++);
 
 	/* Other drives */
+
+	if (g_list_length (loc->priv->drives) == 0)
+		return;
 
 	for (scan = loc->priv->drives; scan; scan = scan->next) {
 		GnomeVFSDrive *drive = scan->data;
@@ -780,16 +780,18 @@ update_uri (GthLocation *loc,
 	home_uri = g_strconcat ("file://", g_get_home_dir(), NULL);
 	uri = g_strdup (loc->priv->uri);
 
-	if (loc->priv->catalog_uri)
+	if (loc->priv->catalog_uri) {
 		base_uri = g_strconcat (CATALOG_PREFIX,
 					g_get_home_dir(),
 					"/",
 					RC_CATALOG_DIR,
 					NULL);
+	}
 	else {
 		volume = get_volume_from_uri (loc, uri);
-		if (volume == NULL)
+		if (volume == NULL) {
 			base_uri = get_base_uri (uri);
+		}
 		else {
 			base_uri = gnome_vfs_volume_get_activation_uri (volume);
 			drive = gnome_vfs_volume_get_drive (volume);
@@ -809,11 +811,13 @@ update_uri (GthLocation *loc,
 		}
 
 		if (same_uri (uri, base_uri)) {
-			if (loc->priv->catalog_uri)
+			if (loc->priv->catalog_uri) {
 				uri_name = g_strdup (_("Catalogs"));
+			}
 			else {
-				if (volume != NULL)
+				if (volume != NULL) {
 					uri_name = gnome_vfs_volume_get_display_name (volume);
+				}
 				else {
 					if (uri_scheme_is_file (base_uri))
 						uri_name = g_strdup (_("File System"));
@@ -821,7 +825,8 @@ update_uri (GthLocation *loc,
 						uri_name = g_strdup (base_uri);
 				}
 			}
-		} else {
+		} 
+		else {
 			if (same_uri (uri, home_uri))
 				uri_name = g_strdup (_("Home"));
 			else
