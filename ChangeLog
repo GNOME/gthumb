@@ -1,5 +1,11 @@
 2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c: do not reload the file list if the 
+	show_hidden_files flags has not changed.  This fixes a problem that
+	caused the window to reload after a new window was created.
+
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser.c (gth_browser_notify_files_created): 
 
 	Update the file-data info for new files, this way the new files are 

@@ -2116,8 +2116,8 @@ gth_file_list_button_press_cb (GtkWidget      *widget,
 			view_image_at_pos (browser, pos);
 			return FALSE;
 		}
-
-	} else if (event->button == 3) {
+	} 
+	else if (event->button == 3) {
 		int  pos;
 
 		pos = gth_file_view_get_image_at (priv->file_list->view,
@@ -2127,7 +2127,8 @@ gth_file_list_button_press_cb (GtkWidget      *widget,
 		if (pos != -1) {
 			if (! gth_file_list_is_selected (priv->file_list, pos))
 				gth_file_list_select_image_by_pos (priv->file_list, pos);
-		} else
+		} 
+		else
 			gth_file_list_unselect_all (priv->file_list);
 
 		window_update_sensitivity (browser);
@@ -4822,8 +4823,14 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
+	gboolean    show_hidden_files;
 	
-	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	if (show_hidden_files == browser->priv->show_hidden_files) 
+		return;
+
+	set_action_active (browser, "View_ShowHiddenFiles", show_hidden_files);
+	browser->priv->show_hidden_files = show_hidden_files;
 	gth_dir_list_show_hidden_files (browser->priv->dir_list, browser->priv->show_hidden_files);
 	window_update_file_list (browser);
 }
@@ -6725,7 +6732,8 @@ gth_browser_construct (GthBrowser  *browser,
 	if (priv->layout_type == 1) {
 		priv->main_pane = paned1 = gtk_vpaned_new ();
 		priv->content_pane = paned2 = gtk_hpaned_new ();
-	} else {
+	} 
+	else {
 		priv->main_pane = paned1 = gtk_hpaned_new ();
 		priv->content_pane = paned2 = gtk_vpaned_new ();
 	}
