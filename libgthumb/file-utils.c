@@ -3133,7 +3133,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 	gboolean    is_hdr;
 	gboolean    is_thumbnail;
 
-	local_file = get_local_path_from_uri (file->path);
+	local_file = get_cache_filename_from_uri (file->path);
 	if (local_file == NULL)
 		return NULL;
 
