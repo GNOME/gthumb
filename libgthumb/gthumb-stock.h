@@ -64,7 +64,7 @@
 #define GTHUMB_STOCK_SWAP                 "gthumb-swap"
 #define GTHUMB_STOCK_THRESHOLD            "gthumb-threshold"
 #define GTHUMB_STOCK_TRANSFORM            "gthumb-transform"
-#define GTHUMB_STOCK_ZOOM_WIDTH		  "gthumb-zoom-width"
+#define GTHUMB_STOCK_ZOOM_WIDTH		  "zoom-fit-width"
 
 
 void gthumb_stock_init (void);

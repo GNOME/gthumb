@@ -1,5 +1,14 @@
 2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/gthumb-stock.h: 
+	* libgthumb/gthumb-stock.c: 
+	* libgthumb/icons/zoom-width-16.png: 
+	* libgthumb/icons/zoom-width-24.png: 
+	
+	Use the same icons used by evince for the zoom-width command.
+	
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* libgthumb/print-callbacks.c: do not hide the main print dialog
 	after selecting print.
 	
