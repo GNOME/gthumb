@@ -1,3 +1,8 @@
+2007-08-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):
+	Use cached copy of remote file. Fixes bug 468030.
+
 2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-location.c: always add the basic elements in the drives 
