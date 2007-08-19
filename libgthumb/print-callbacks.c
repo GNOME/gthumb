@@ -2143,8 +2143,6 @@ print_catalog_cb (GtkWidget              *widget,
 	/* pci is used to print, so we must add a reference. */
 
 	print_catalog_info_ref (pci);
-	gtk_widget_hide (data->dialog);
-
 
 	/* GTK Printing */
 	if (!pci->print_operation)
@@ -2164,8 +2162,7 @@ print_catalog_cb (GtkWidget              *widget,
 	g_object_unref (pci->print_operation);
 	pci->print_operation = NULL;
 
-	if (result == GTK_PRINT_OPERATION_RESULT_ERROR)
-	{
+	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) {
 		GtkWidget* error_dialog = gtk_message_dialog_new (GTK_WINDOW (data->parent),
 						       GTK_DIALOG_DESTROY_WITH_PARENT,
 						       GTK_MESSAGE_ERROR,
@@ -2177,22 +2174,17 @@ print_catalog_cb (GtkWidget              *widget,
 		gtk_widget_show (error_dialog);
 		g_error_free (error);
 	}
-	else if (result == GTK_PRINT_OPERATION_RESULT_APPLY)
-	{
+	else if (result == GTK_PRINT_OPERATION_RESULT_APPLY) {
 		/* printing completed successfully  */
 	}
-	else if (result == GTK_PRINT_OPERATION_RESULT_CANCEL)
-	{
-		gtk_widget_show (data->dialog);
+	else if (result == GTK_PRINT_OPERATION_RESULT_CANCEL) {
 		return;
 	}
 	else {
 		/* print in progress */
 	}
 
-	if (pci->is_preview)
-		gtk_widget_show (data->dialog);
-	else
+	if (! pci->is_preview)
 		gtk_widget_destroy (data->dialog);
 }
 

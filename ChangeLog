@@ -1,3 +1,37 @@
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-location.c: always add the basic elements in the drives 
+	section	even if no drive is available.
+	* src/gth-browser.c: go to the base catalog dir when file:/// is 
+	specified.
+	
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* libgthumb/gthumb-stock.h: 
+	* libgthumb/gthumb-stock.c: 
+	* libgthumb/icons/zoom-width-16.png: 
+	* libgthumb/icons/zoom-width-24.png: 
+	
+	Use the same icons used by evince for the zoom-width command.
+	
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/print-callbacks.c: do not hide the main print dialog
+	after selecting print.
+	
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/gth-browser.c: do not reload the file list if the 
+	show_hidden_files flags has not changed.  This fixes a problem that
+	caused the window to reload after a new window was created.
+
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (gth_browser_notify_files_created): 
+
+	Update the file-data info for new files, this way the new files are 
+	added respecting the sort order.
+
 2007-08-18  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (load_timeout_cb): update the mtime to force a 

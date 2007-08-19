@@ -144,6 +144,5 @@ gthumb_stock_init (void)
 	}
 
 	gtk_icon_factory_add_default (factory);
-
 	g_object_unref (factory);
 }

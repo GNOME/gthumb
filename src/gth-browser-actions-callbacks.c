@@ -1932,7 +1932,7 @@ gth_browser_activate_action_view_show_info (GtkAction  *action,
 
 void
 gth_browser_activate_action_view_show_hidden_files (GtkAction  *action,
-							GthBrowser *browser)
+						    GthBrowser *browser)
 {
 	eel_gconf_set_boolean (PREF_SHOW_HIDDEN_FILES, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }

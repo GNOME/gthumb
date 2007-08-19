@@ -1245,7 +1245,7 @@ go_to_uri__step_2 (gpointer callback_data)
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = add_scheme_if_absent (remove_host_from_uri (uri));
 
-		if (file_uri != NULL && file_extension_is (file_uri, CATALOG_EXT))
+		if ((file_uri != NULL) && file_extension_is (file_uri, CATALOG_EXT))
 			gth_browser_go_to_catalog (browser, file_uri);
 		else
 			gth_browser_show_catalog_directory (browser, file_uri);
@@ -2116,8 +2116,8 @@ gth_file_list_button_press_cb (GtkWidget      *widget,
 			view_image_at_pos (browser, pos);
 			return FALSE;
 		}
-
-	} else if (event->button == 3) {
+	} 
+	else if (event->button == 3) {
 		int  pos;
 
 		pos = gth_file_view_get_image_at (priv->file_list->view,
@@ -2127,7 +2127,8 @@ gth_file_list_button_press_cb (GtkWidget      *widget,
 		if (pos != -1) {
 			if (! gth_file_list_is_selected (priv->file_list, pos))
 				gth_file_list_select_image_by_pos (priv->file_list, pos);
-		} else
+		} 
+		else
 			gth_file_list_unselect_all (priv->file_list);
 
 		window_update_sensitivity (browser);
@@ -4814,8 +4815,14 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
+	gboolean    show_hidden_files;
 	
-	browser->priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	if (show_hidden_files == browser->priv->show_hidden_files) 
+		return;
+
+	set_action_active (browser, "View_ShowHiddenFiles", show_hidden_files);
+	browser->priv->show_hidden_files = show_hidden_files;
 	gth_dir_list_show_hidden_files (browser->priv->dir_list, browser->priv->show_hidden_files);
 	window_update_file_list (browser);
 }
@@ -5286,8 +5293,8 @@ sort_by_radio_action (GtkAction      *action,
 				catalog_write_to_disk (catalog, NULL);
 			}
 		}
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+	} 
+	else if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		priv->sort_method = sort_method;
 
 	gth_file_list_set_sort_method (browser->priv->file_list, sort_method, TRUE);
@@ -5600,7 +5607,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			FileData *file;
 			
 			file = file_data_new (path, NULL);
-			file_data_update_mime_type (file, browser->priv->fast_file_type);
+			file_data_update_all (file, browser->priv->fast_file_type);
 			if (file_filter (file, browser->priv->show_hidden_files))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else
@@ -6686,7 +6693,8 @@ gth_browser_construct (GthBrowser  *browser,
 	if (priv->layout_type == 1) {
 		priv->main_pane = paned1 = gtk_vpaned_new ();
 		priv->content_pane = paned2 = gtk_hpaned_new ();
-	} else {
+	} 
+	else {
 		priv->main_pane = paned1 = gtk_hpaned_new ();
 		priv->content_pane = paned2 = gtk_vpaned_new ();
 	}
@@ -7773,11 +7781,15 @@ gth_browser_show_catalog_directory (GthBrowser *browser,
 {
 	char *catalog_dir2;
 
-	if ((catalog_dir == NULL) || (strlen (catalog_dir) == 0))
+	if ((catalog_dir == NULL) 
+	    || (strlen (catalog_dir) == 0) 
+	    || (strcmp (catalog_dir, "file:///") == 0))
+	{
 		catalog_dir2 = g_strconcat (get_home_uri (),
-					   "/",
-					   RC_CATALOG_DIR,
-					   NULL);
+					    "/",
+					    RC_CATALOG_DIR,
+					    NULL);
+	}
 	else
 		catalog_dir2 = g_strdup (catalog_dir);
 
