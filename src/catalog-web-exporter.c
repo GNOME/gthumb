@@ -1206,7 +1206,7 @@ gth_parsed_doc_print (GList              *document,
 						      max_size,
 						      max_size);
 
-			image_src_relative = get_path_relative_to_dir (image_src, ce->location);
+			image_src_relative = get_path_relative_to_uri (image_src, ce->location);
 			
 			alt = gth_tag_get_str (ce, tag, "alt");
 			if (alt != NULL)
@@ -1279,7 +1279,7 @@ gth_parsed_doc_print (GList              *document,
 			} 
 			else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
 				uri = get_image_uri (ce, idata, ce->location);
-				line = get_path_relative_to_dir (uri, ce->location);
+				line = get_path_relative_to_uri (uri, ce->location);
 				g_free (uri);
 			} 
 			else {
@@ -1306,7 +1306,7 @@ gth_parsed_doc_print (GList              *document,
 			uri = get_image_uri (ce, idata, ce->location);
 			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
 				char *tmp;
-				tmp = get_path_relative_to_dir (uri, ce->location);
+				tmp = get_path_relative_to_uri (uri, ce->location);
 				g_free (uri);
 				uri = tmp;
 			}

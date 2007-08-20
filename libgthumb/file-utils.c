@@ -1622,40 +1622,47 @@ basename_for_display (const char *uri)
 }
 
 
-/* example 1 : filename = /xxx/yyy/zzz/foo
- *             destdir  = /xxx/www
+/* example 1 : uri      = file:///xxx/yyy/zzz/foo
+ *             desturi  = file:///xxx/www
  *             return   : ../yyy/zzz/foo
  *
- * example 2 : filename = /xxx/yyy/foo
- *             destdir  = /xxx
+ * example 2 : uri      = file:///xxx/yyy/foo
+ *             desturi  = file:///xxx
  *             return   : yyy/foo
+ *
+ * example 3 : uri      = smb:///xxx/yyy/foo
+ *             desturi  = file://hhh/xxx
+ *             return   : smb:///xxx/yyy/foo
  */
 char *
-get_path_relative_to_dir (const char *uri,
-			  const char *destdir)
+get_path_relative_to_uri (const char *uri,
+			  const char *desturi)
 {
 	char     *sourcedir;
 	char    **sourcedir_v;
-	char    **destdir_v;
+	char    **desturi_v;
 	int       i, j;
 	char     *result;
 	GString  *relpath;
 
+	if (strcmp (get_uri_host (uri), get_uri_host (desturi)) != 0)
+		return g_strdup (uri);
+
 	sourcedir = remove_level_from_path (remove_host_from_uri (uri));
 	sourcedir_v = g_strsplit (sourcedir, "/", 0);
-	destdir_v = g_strsplit (remove_host_from_uri (destdir), "/", 0);
+	desturi_v = g_strsplit (remove_host_from_uri (desturi), "/", 0);
 
 	relpath = g_string_new (NULL);
 
 	i = 0;
 	while ((sourcedir_v[i] != NULL)
-	       && (destdir_v[i] != NULL)
-	       && (strcmp (sourcedir_v[i], destdir_v[i]) == 0))
+	       && (desturi_v[i] != NULL)
+	       && (strcmp (sourcedir_v[i], desturi_v[i]) == 0))
 		i++;
 
 	j = i;
 
-	while (destdir_v[i++] != NULL)
+	while (desturi_v[i++] != NULL)
 		g_string_append (relpath, "../");
 
 	while (sourcedir_v[j] != NULL) {
@@ -1667,7 +1674,7 @@ get_path_relative_to_dir (const char *uri,
 	g_string_append (relpath, file_name_from_path (uri));
 
 	g_strfreev (sourcedir_v);
-	g_strfreev (destdir_v);
+	g_strfreev (desturi_v);
 	g_free (sourcedir);
 
 	result = relpath->str;
