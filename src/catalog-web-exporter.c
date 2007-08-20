@@ -1420,7 +1420,7 @@ gth_parsed_doc_print (GList              *document,
 				break;
 			
 			filename = get_theme_filename (ce, ce->base_dir, src);
-			line = get_path_relative_to_dir (filename, relative_to);
+			line = get_path_relative_to_uri (filename, relative_to);
 			g_free (filename);
 
 			write_markup_escape_line (line, fout);
@@ -1460,7 +1460,7 @@ gth_parsed_doc_print (GList              *document,
 						      max_size,
 						      max_size);
 
-			image_src_relative = get_path_relative_to_dir (image_src, relative_to);
+			image_src_relative = get_path_relative_to_uri (image_src, relative_to);
 			src_attr = _g_escape_text_for_html (image_src_relative, -1);
 
 			alt = gth_tag_get_str (ce, tag, "alt");
@@ -1501,7 +1501,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
 			filename = get_html_image_filename (ce, idata, ce->base_dir);
-			line = get_path_relative_to_dir (filename, relative_to);
+			line = get_path_relative_to_uri (filename, relative_to);
 			write_markup_escape_line (line, fout);
 
 			g_free (filename);
@@ -1535,7 +1535,7 @@ gth_parsed_doc_print (GList              *document,
 				line = get_image_uri (ce, idata, ce->base_dir);
 			} else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
 				uri = get_image_uri (ce, idata, ce->base_dir);
-				line = get_path_relative_to_dir (uri, relative_to);
+				line = get_path_relative_to_uri (uri, relative_to);
 				g_free (uri);
 
 			} else {
@@ -1563,7 +1563,7 @@ gth_parsed_doc_print (GList              *document,
 			uri = get_image_uri (ce, idata, ce->base_dir);
 			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
 				char *tmp;
-				tmp = get_path_relative_to_dir (uri, relative_to);
+				tmp = get_path_relative_to_uri (uri, relative_to);
 				g_free (uri);
 				uri = tmp;
 			}
@@ -1673,7 +1673,7 @@ gth_parsed_doc_print (GList              *document,
 			else
 				filename = get_html_index_filename (ce, idx, ce->base_dir);
 
-			line = get_path_relative_to_dir (filename, relative_to);
+			line = get_path_relative_to_uri (filename, relative_to);
 			g_free (filename);
 			
 			write_markup_escape_line (line, fout);

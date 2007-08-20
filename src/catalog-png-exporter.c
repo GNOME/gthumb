@@ -1843,7 +1843,7 @@ paint_frame (CatalogPngExporter *ce,
 		return;
 
 	dest_dir = remove_special_dirs_from_path (ce->location);
-	rel_path = get_path_relative_to_dir (filename, dest_dir);
+	rel_path = get_path_relative_to_uri (filename, dest_dir);
 	g_free (dest_dir);
 
 	unescaped_path = gnome_vfs_unescape_string (rel_path, NULL);

@@ -186,8 +186,8 @@ gboolean            same_uri                      (const char       *uri1,
 						   const char       *uri2);
 char               *basename_for_display          (const char       *uri);
 
-char *              get_path_relative_to_dir      (const char       *filename,
-						   const char       *destdir);
+char *              get_path_relative_to_uri      (const char       *uri,
+						   const char       *desturi);
 char *              remove_level_from_path        (const char       *path);
 
 char *              remove_ending_separator       (const char       *path);

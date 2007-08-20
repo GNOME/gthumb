@@ -1,3 +1,12 @@
+2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (get_path_relative_to_uri):
+	* libgthumb/file-utils.h:
+	* src/catalog-png-exporter.c: (paint_frame):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	Fixed relative URI handling when the two URIs have different
+	schemes. Bug 468541. Patch by Christophe Bisière.
+
 2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* configure.in: lowered required bonobo version to 2.6.0
