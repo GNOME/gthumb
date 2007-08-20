@@ -1,3 +1,7 @@
+2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/Makefile.am: Remove trailing whitespace.
+
 2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/image-viewer.c: use GTH_TYPE_FIT as enum type for the

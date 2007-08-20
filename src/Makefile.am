@@ -90,7 +90,7 @@ gthumb_SOURCES = 				\
 	gs-fade.c				\
 	gs-fade.h				\
 	gth-application.c			\
-	gth-application.h			\	
+	gth-application.h			\
 	gth-batch-op.c				\
 	gth-batch-op.h				\
 	gth-browser.c				\
