@@ -1,5 +1,9 @@
 2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* configure.in: lowered required bonobo version to 2.6.0
+	
+2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/gth-fullscreen.c: filter out non-images.
 	* src/gth-browser.c: do not allow to go fullscreen if there are no 
 	images in the list.
