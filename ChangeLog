@@ -1,3 +1,29 @@
+2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* configure.in: lowered required bonobo version to 2.6.0
+	
+2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/gth-fullscreen.c: filter out non-images.
+	* src/gth-browser.c: do not allow to go fullscreen if there are no 
+	images in the list.
+
+	* src/gthumb-preloader.c: 	
+	* libgthumb/gth-image-list.h: 
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-file-view-thumbs.c: 
+	* libgthumb/gth-file-view-list.c: 
+	* libgthumb/gth-file-view.h: 
+	* libgthumb/gth-file-view.c: removed gth_file_view_only_one_is_selected and 
+	gth_file_view_selection_not_null, added gth_file_view_get_n_selected
+	
+2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/file-utils.c (gth_pixbuf_new_from_video): resolve all symlinks
+	when loading the video preview for the image loader.  No need to resolve
+	the symlinks for the thumb loader because the thumb-loader already
+	resolve the symlinks before calling the image loader.
+
 2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/catalog-web-exporter.c: (ensure_album_dir_exists),

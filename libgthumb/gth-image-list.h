@@ -191,6 +191,7 @@ gboolean       gth_image_list_pos_is_selected      (GthImageList     *image_list
 						    int               pos);
 int            gth_image_list_get_first_selected   (GthImageList     *image_list);
 int            gth_image_list_get_last_selected    (GthImageList     *image_list);
+int            gth_image_list_get_n_selected       (GthImageList     *image_list);
 
 /* Setting spacing values */
 

@@ -255,20 +255,6 @@ gfv_pos_is_selected (GthFileView     *file_view,
 }
 
 
-static gboolean
-gfv_only_one_is_selected (GthFileView    *file_view)
-{
-	return FALSE;
-}
-
-
-static gboolean
-gfv_selection_not_null (GthFileView    *file_view)
-{
-	return FALSE;
-}
-
-
 static int
 gfv_get_first_selected (GthFileView *file_view)
 {
@@ -278,6 +264,13 @@ gfv_get_first_selected (GthFileView *file_view)
 
 static int
 gfv_get_last_selected (GthFileView *file_view)
+{
+	return -1;
+}
+
+
+static int
+gfv_get_n_selected (GthFileView *file_view)
 {
 	return -1;
 }
@@ -527,10 +520,9 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->unselect_all         = gfv_unselect_all;
 	file_view_class->get_file_list_selection = gfv_get_file_list_selection;
 	file_view_class->pos_is_selected      = gfv_pos_is_selected;
-	file_view_class->only_one_is_selected = gfv_only_one_is_selected;
-	file_view_class->selection_not_null   = gfv_selection_not_null;
 	file_view_class->get_first_selected   = gfv_get_first_selected;
 	file_view_class->get_last_selected    = gfv_get_last_selected;
+	file_view_class->get_n_selected       = gfv_get_n_selected;	
 	file_view_class->set_image_width      = gfv_set_image_width;
 	file_view_class->set_image_data       = gfv_set_image_data;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;
@@ -855,20 +847,6 @@ gth_file_view_pos_is_selected (GthFileView     *file_view,
 }
 
 
-gboolean
-gth_file_view_only_one_is_selected (GthFileView    *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->only_one_is_selected (file_view);
-}
-
-
-gboolean
-gth_file_view_selection_not_null (GthFileView    *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->selection_not_null (file_view);
-}
-
-
 int
 gth_file_view_get_first_selected (GthFileView *file_view)
 {
@@ -880,6 +858,13 @@ int
 gth_file_view_get_last_selected (GthFileView *file_view)
 {
 	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_last_selected (file_view);
+}
+
+
+int
+gth_file_view_get_n_selected (GthFileView *file_view)
+{
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_n_selected (file_view);
 }
 
 

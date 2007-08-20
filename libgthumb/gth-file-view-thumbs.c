@@ -360,36 +360,6 @@ gfv_pos_is_selected (GthFileView     *file_view,
 }
 
 
-static gboolean
-gfv_only_one_is_selected (GthFileView    *file_view)
-{
-	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
-	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-        GList             *sel_list = gth_image_list_get_selection (ilist);
-	gboolean           ret_val = FALSE;
-
-	ret_val = (sel_list != NULL) && (sel_list->next == NULL);
-	file_data_list_free (sel_list);
-
-	return ret_val;
-}
-
-
-static gboolean
-gfv_selection_not_null (GthFileView    *file_view)
-{
-	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
-	GthImageList      *ilist = gfv_thumbs->priv->ilist;
-        GList             *sel_list = gth_image_list_get_selection (ilist);
-	gboolean           ret_val;
-
-	ret_val = (sel_list != NULL);
-	file_data_list_free (sel_list);
-
-	return ret_val;
-}
-
-
 static int
 gfv_get_first_selected (GthFileView *file_view)
 {
@@ -407,6 +377,16 @@ gfv_get_last_selected (GthFileView *file_view)
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
 	return gth_image_list_get_last_selected (ilist);
+}
+
+
+static int
+gfv_get_n_selected (GthFileView    *file_view)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+	
+	return gth_image_list_get_n_selected (ilist);
 }
 
 
@@ -913,10 +893,9 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->unselect_all         = gfv_unselect_all;
 	file_view_class->get_file_list_selection = gfv_get_file_list_selection;
 	file_view_class->pos_is_selected      = gfv_pos_is_selected;
-	file_view_class->only_one_is_selected = gfv_only_one_is_selected;
-	file_view_class->selection_not_null   = gfv_selection_not_null;
 	file_view_class->get_first_selected   = gfv_get_first_selected;
 	file_view_class->get_last_selected    = gfv_get_last_selected;
+	file_view_class->get_n_selected       = gfv_get_n_selected;	
 	file_view_class->set_image_width      = gfv_set_image_width;
 	file_view_class->set_image_data       = gfv_set_image_data;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;

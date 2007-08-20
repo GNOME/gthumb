@@ -1478,6 +1478,23 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 }
 
 
+static GList *
+file_data_list_dup_filter_non_images (GList *list)
+{
+	GList *scan;
+	GList *new_list = NULL;
+	
+	for (scan = list; scan; scan = scan->next) {
+		FileData *file = scan->data;
+		
+		if (mime_type_is_image (file->mime_type))
+			new_list = g_list_prepend (new_list, file_data_ref (file));
+	}
+	
+	return g_list_reverse (new_list);
+}
+
+
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
@@ -1500,16 +1517,19 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 		g_object_ref (image);
 	}
 
-	if (file != NULL)
+	if ((file != NULL) && mime_type_is_image (file->mime_type))
 		priv->file = file_data_ref (file);
 	else
 		priv->file = NULL;
 
-	priv->file_list = file_data_list_dup (file_list);
+	priv->file_list = file_data_list_dup_filter_non_images (file_list);
+	
+	priv->files = 0;
 	if (file_list != NULL)
 		priv->files = MAX (g_list_length (priv->file_list), 1);
-	else
+	else if (priv->image != NULL)
 		priv->files = 1;
+		
 	priv->current = NULL;
 	priv->viewed = 0;
 

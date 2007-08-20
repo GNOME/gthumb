@@ -658,46 +658,6 @@ gfv_pos_is_selected (GthFileView     *file_view,
 }
 
 
-static gboolean
-gfv_only_one_is_selected (GthFileView    *file_view)
-{
-	GthFileViewList  *gfv_list = (GthFileViewList *) file_view;
-	GtkTreeSelection *selection;
-	GList            *sel_rows;
-	gboolean          ret_val;
-
-	selection = gtk_tree_view_get_selection (gfv_list->priv->tree_view);
-	sel_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
-
-	ret_val = ((sel_rows != NULL) && (sel_rows->next == NULL));
-
-	g_list_foreach (sel_rows, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (sel_rows);
-
-	return ret_val;
-}
-
-
-static gboolean
-gfv_selection_not_null (GthFileView    *file_view)
-{
-	GthFileViewList  *gfv_list = (GthFileViewList *) file_view;
-	GtkTreeSelection *selection;
-	GList            *sel_rows;
-	gboolean          ret_val;
-
-	selection = gtk_tree_view_get_selection (gfv_list->priv->tree_view);
-	sel_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
-
-	ret_val = (sel_rows != NULL);
-
-	g_list_foreach (sel_rows, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free (sel_rows);
-
-	return ret_val;
-}
-
-
 static int
 gfv_get_first_selected (GthFileView *file_view)
 {
@@ -759,6 +719,26 @@ gfv_get_last_selected (GthFileView *file_view)
 	g_list_free (sel_rows);
 
 	return max;
+}
+
+
+static int
+gfv_get_n_selected (GthFileView *file_view)
+{
+	GthFileViewList  *gfv_list = (GthFileViewList *) file_view;
+	GtkTreeSelection *selection;
+	GList            *sel_rows;
+	int               n_selected;
+
+	selection = gtk_tree_view_get_selection (gfv_list->priv->tree_view);
+	sel_rows = gtk_tree_selection_get_selected_rows (selection, NULL);
+
+	n_selected = g_list_length (sel_rows);
+
+	g_list_foreach (sel_rows, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (sel_rows);
+
+	return n_selected;	
 }
 
 
@@ -1334,10 +1314,9 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->unselect_all         = gfv_unselect_all;
 	file_view_class->get_file_list_selection = gfv_get_file_list_selection;
 	file_view_class->pos_is_selected      = gfv_pos_is_selected;
-	file_view_class->only_one_is_selected = gfv_only_one_is_selected;
-	file_view_class->selection_not_null   = gfv_selection_not_null;
 	file_view_class->get_first_selected   = gfv_get_first_selected;
 	file_view_class->get_last_selected    = gfv_get_last_selected;
+	file_view_class->get_n_selected       = gfv_get_n_selected;	
 	file_view_class->set_image_width      = gfv_set_image_width;
 	file_view_class->set_image_data       = gfv_set_image_data;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;

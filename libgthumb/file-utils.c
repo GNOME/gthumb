@@ -3278,27 +3278,43 @@ get_pixbuf_using_external_converter (FileData   *file,
 static GdkPixbuf*
 gth_pixbuf_new_from_video (FileData               *file,
 			   GnomeThumbnailFactory  *factory,
-			   GError                **error)
+			   GError                **error,
+			   gboolean                resolve_symlinks)
 {
       	GdkPixbuf *pixbuf = NULL;
-	char      *existing_video_thumbnail;
+      	char      *file_uri = NULL;
+	char      *thumbnail_uri;
 
-	existing_video_thumbnail = gnome_thumbnail_factory_lookup (factory,
-								   file->path,
-								   file->mtime);
-	if (existing_video_thumbnail != NULL) {
-		char *thumbnail_path = get_local_path_from_uri (existing_video_thumbnail);
+	if (! (resolve_symlinks 
+	       && is_local_file (file->path) 
+	       && (resolve_all_symlinks (file->path, &file_uri) == GNOME_VFS_OK)))
+	{
+		file_uri = g_strdup (file->path);
+	}
+		
+	thumbnail_uri = gnome_thumbnail_factory_lookup (factory,
+							file_uri,
+							file->mtime);
+	if (thumbnail_uri != NULL) {
+		char *thumbnail_path;
 
+		thumbnail_path = get_local_path_from_uri (thumbnail_uri);
 		pixbuf = gdk_pixbuf_new_from_file (thumbnail_path, error);
 		g_free (thumbnail_path);
-		g_free (existing_video_thumbnail);
 	}
-	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, file->path, file->mtime)) 
-		return NULL;
+	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, 
+								     file_uri, 
+								     file->mtime)) 
+	{ 
+		pixbuf = NULL;
+	}
 	else 
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-								     file->path, 
+								     file_uri, 
 								     file->mime_type);
+
+	g_free (thumbnail_uri);
+	g_free (file_uri);
 
 	return pixbuf;
 }
@@ -3336,7 +3352,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 
 	if (mime_type_is_video (file->mime_type)) {
 		if (factory != NULL) 
-			return gth_pixbuf_new_from_video (file, factory, error);
+			return gth_pixbuf_new_from_video (file, factory, error, (requested_width == 0));
 		return NULL;
 	}
 
