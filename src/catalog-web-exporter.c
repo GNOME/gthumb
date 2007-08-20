@@ -281,7 +281,9 @@ ensure_album_dir_exists (const char *base_dir, const char *subdir)
 	gboolean ok;
 	char *path;
 	
-	path = g_build_filename (base_dir, subdir, NULL);
+	path = build_uri (base_dir, 
+			  subdir,
+			  NULL);
 	ok = ensure_dir_exists (path, 0700);
 	
 	g_free (path);
@@ -1060,7 +1062,9 @@ get_index_filename (CatalogWebExporter *ce,
 		    const char         *base_dir)
 {
 	char *filename;
-	filename = g_build_filename (base_dir, ce->index_file, NULL);
+	filename = build_uri (base_dir, 
+			      ce->index_file,
+			      NULL);
 
 	return filename;
 }
@@ -1074,14 +1078,14 @@ get_theme_filename (CatalogWebExporter *ce,
 	char *filename1;
 	
 	if (ce->use_subfolders)
-		filename1 = g_build_filename (base_dir, 
-	        	                      ce->ad->theme_files,
-					      filename, 
-					      NULL);
+		filename1 = build_uri (base_dir,
+				       ce->ad->theme_files,
+				       filename,
+				       NULL);
 	else
-		filename1 = g_build_filename (base_dir, 
-					      filename, 
-					      NULL);
+		filename1 = build_uri (base_dir, 
+				       filename,
+				       NULL);
 	return filename1;
 }
 
@@ -1093,9 +1097,9 @@ get_html_index_dir (CatalogWebExporter *ce,
 	char *dir;
 	
 	if (ce->use_subfolders)
-                dir = g_build_filename (base_dir,
-                                        ce->ad->html_indexes,
-                                        NULL);
+                dir = build_uri (base_dir,
+				 ce->ad->html_indexes,
+				 NULL);
 	else
 		dir = g_strdup (base_dir);
 	return dir;
@@ -1115,9 +1119,9 @@ get_html_index_filename (CatalogWebExporter *ce,
 				  zero_padded (page + 1),
 				  ".html",
 				  NULL);
-	filename2 = g_build_filename (dir,
-				      filename1, 
-				      NULL);
+	filename2 = build_uri (dir,
+			       filename1,
+			       NULL);
 	g_free (dir);
 	g_free (filename1);
 
@@ -1132,9 +1136,9 @@ get_html_image_dir (CatalogWebExporter *ce,
 	char *dir;
 	
 	if (ce->use_subfolders)
-                dir = g_build_filename (base_dir,
-                                        ce->ad->html_images,
-                                        NULL);
+                dir = build_uri (base_dir,
+				 ce->ad->html_images,
+				 NULL);
 	else
 		dir = g_strdup (base_dir);
 	return dir;
@@ -1153,9 +1157,9 @@ get_html_image_filename (CatalogWebExporter *ce,
 	filename1 = g_strconcat (file_name_from_path (idata->dest_filename),
 				 ".html",
 				 NULL);
-	filename2 = g_build_filename (dir,
-				      filename1, 
-				      NULL);
+	filename2 = build_uri (dir,
+			       filename1,
+			       NULL);
 	g_free (dir);
 	g_free (filename1);
 
@@ -1175,14 +1179,14 @@ get_thumbnail_uri (CatalogWebExporter *ce,
 				 ".jpeg",
 				 NULL);
 	if (ce->use_subfolders)
-		filename2 = g_build_filename (base_dir,
-	   	                              ce->ad->thumbnails,
-					      filename1, 
-					      NULL);
+		filename2 = build_uri (base_dir, 
+				       ce->ad->thumbnails,
+				       filename1,
+				       NULL);
 	else
-		filename2 = g_build_filename (base_dir,
-					      filename1, 
-					      NULL);
+		filename2 = build_uri (base_dir,
+				       filename1,
+				       NULL);
 	
 	g_free (filename1);
 
@@ -1201,14 +1205,14 @@ get_image_uri (CatalogWebExporter *ce,
 		filename = g_strconcat (file_name_from_path (idata->dest_filename),
 					NULL);
 		if (ce->use_subfolders)
-			image_filename = g_build_filename (base_dir, 
-	                	  			   ce->ad->images,
-							   filename, 
-							   NULL);
+			image_filename = build_uri (base_dir,
+						    ce->ad->images,
+						    filename,
+						    NULL);
 		else
-			image_filename = g_build_filename (base_dir, 
-							   filename, 
-							   NULL);
+			image_filename = build_uri (base_dir, 
+						    filename,
+						    NULL);
 		g_free (filename);
 	} else
 		image_filename = g_strdup (idata->src_file->path);
@@ -1232,14 +1236,14 @@ get_preview_uri (CatalogWebExporter *ce,
 					".jpeg",
 					NULL);
 		if (ce->use_subfolders)
-			preview_filename = g_build_filename (base_dir, 
-		                  			     ce->ad->previews,
-							     filename, 
-							     NULL);
+			preview_filename = build_uri (base_dir, 
+						      ce->ad->previews,
+					   	      filename,
+					   	      NULL);
 		else
-			preview_filename = g_build_filename (base_dir, 
-							     filename, 
-							     NULL);
+			preview_filename = build_uri (base_dir, 
+						      filename,
+						      NULL);
 		g_free (filename);
 	}
 	return preview_filename;		
@@ -2723,7 +2727,9 @@ parse_theme_files (CatalogWebExporter *ce)
 	/* read and parse index.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = g_build_filename (style_dir, "index.gthtml", NULL);
+	template_uri = build_uri (style_dir, 
+				  "index.gthtml",
+				  NULL);
 	local_file = get_local_path_from_uri (template_uri);
 
 	debug (DEBUG_INFO, "load %s", local_file);
@@ -2748,7 +2754,9 @@ parse_theme_files (CatalogWebExporter *ce)
 	/* read and parse thumbnail.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = g_build_filename (style_dir, "thumbnail.gthtml", NULL);
+	template_uri = build_uri (style_dir, 
+				  "thumbnail.gthtml",
+				  NULL);
 	local_file = get_local_path_from_uri (template_uri);
 	
 	debug (DEBUG_INFO, "load %s", local_file);
@@ -2788,7 +2796,9 @@ parse_theme_files (CatalogWebExporter *ce)
 	/* Read and parse image.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = g_build_filename (style_dir, "image.gthtml", NULL);
+	template_uri = build_uri (style_dir, 
+				  "image.gthtml",
+				  NULL);
 	local_file = get_local_path_from_uri (template_uri);
 	
 	debug (DEBUG_INFO, "load %s", local_file);

@@ -1,5 +1,18 @@
 2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/catalog-web-exporter.c: (ensure_album_dir_exists),
+	(get_index_filename), (get_theme_filename), (get_html_index_dir),
+	(get_html_index_filename), (get_html_image_dir),
+	(get_html_image_filename), (get_thumbnail_uri), (get_image_uri),
+	(get_preview_uri), (parse_theme_files):
+	g_build_filename > build_uri, to partly fix bug 464023.
+	Patch by Christophe Bisière.
+
+	* src/gth-browser-actions-entries.h:
+	Mark string for translation. Patch by Stephane Raimbault, bug 468350.
+
+2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/Makefile.am: Remove trailing whitespace.
 
 2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>

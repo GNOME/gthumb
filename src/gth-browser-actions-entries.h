@@ -376,7 +376,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "Tools_ConvertFormat", GTK_STOCK_CONVERT,
 	  N_("Convert F_ormat..."), NULL,
-	  "Convert image format",
+	  N_("Convert image format"),
 	  G_CALLBACK (gth_browser_activate_action_tools_convert_format) },
 
 	{ "Tools_FindDuplicates", NULL,
