@@ -37,6 +37,7 @@
 #include "cursors.h"
 #include "pixbuf-utils.h"
 #include "gthumb-marshal.h"
+#include "gthumb-enum-types.h"
 #include "glib-utils.h"
 
 #define COLOR_GRAY_00   0x00000000
@@ -185,7 +186,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__DOUBLE,
 			      G_TYPE_NONE,
-			      1, GTK_TYPE_DOUBLE);
+			      1, G_TYPE_DOUBLE);
 	image_viewer_signals[SET_FIT_MODE] =
 		g_signal_new ("set_fit_mode",
 			      G_TYPE_FROM_CLASS (class),
@@ -194,7 +195,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__ENUM,
 			      G_TYPE_NONE,
-			      1, GTK_TYPE_INT);
+			      1, GTH_TYPE_FIT);
 	image_viewer_signals[ZOOM_CHANGED] =
 		g_signal_new ("zoom_changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -319,6 +320,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      GTK_TYPE_SCROLL_TYPE, GTK_SCROLL_PAGE_UP);
 
 	/* Zoom in */
+	
 	gtk_binding_entry_add_signal (binding_set, GDK_plus, 0,
 				      "zoom_in", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_equal, 0,
@@ -327,44 +329,47 @@ image_viewer_class_init (ImageViewerClass *class)
 				      "zoom_in", 0);
 
 	/* Zoom out */
+	
 	gtk_binding_entry_add_signal (binding_set, GDK_minus, 0,
 				      "zoom_out", 0);
 	gtk_binding_entry_add_signal (binding_set, GDK_KP_Subtract, 0,
 				      "zoom_out", 0);
 
 	/* Set zoom */
+	
 	gtk_binding_entry_add_signal (binding_set, GDK_KP_Divide, 0,
 				      "set_zoom", 1,
-				      GTK_TYPE_DOUBLE, 1.0);
+				      G_TYPE_DOUBLE, 1.0);
 	gtk_binding_entry_add_signal (binding_set, GDK_1, 0,
 				      "set_zoom", 1,
-				      GTK_TYPE_DOUBLE, 1.0);
+				      G_TYPE_DOUBLE, 1.0);
 	gtk_binding_entry_add_signal (binding_set, GDK_z, 0,
 				      "set_zoom", 1,
-				      GTK_TYPE_DOUBLE, 1.0);
+				      G_TYPE_DOUBLE, 1.0);
 	gtk_binding_entry_add_signal (binding_set, GDK_2, 0,
 				      "set_zoom", 1,
-				      GTK_TYPE_DOUBLE, 2.0);
+				      G_TYPE_DOUBLE, 2.0);
 	gtk_binding_entry_add_signal (binding_set, GDK_3, 0,
 				      "set_zoom", 1,
-				      GTK_TYPE_DOUBLE, 3.0);
+				      G_TYPE_DOUBLE, 3.0);
 
 	/* Set fit mode */
+	
 	gtk_binding_entry_add_signal (binding_set, GDK_x, 0,
 				      "set_fit_mode", 1,
-				      GTK_TYPE_INT, GTH_FIT_SIZE_IF_LARGER);
+				      GTH_TYPE_FIT, GTH_FIT_SIZE_IF_LARGER);
 	gtk_binding_entry_add_signal (binding_set, GDK_KP_Multiply, 0,
                                       "set_fit_mode", 1,
-                                      GTK_TYPE_INT, GTH_FIT_SIZE_IF_LARGER);
+                                      GTH_TYPE_FIT, GTH_FIT_SIZE_IF_LARGER);
 	gtk_binding_entry_add_signal (binding_set, GDK_x, GDK_SHIFT_MASK,
 				      "set_fit_mode", 1,
-				      GTK_TYPE_INT, GTH_FIT_SIZE);
+				      GTH_TYPE_FIT, GTH_FIT_SIZE);
 	gtk_binding_entry_add_signal (binding_set, GDK_w, 0,
 				      "set_fit_mode", 1,
-				      GTK_TYPE_INT, GTH_FIT_WIDTH_IF_LARGER);
+				      GTH_TYPE_FIT, GTH_FIT_WIDTH_IF_LARGER);
 	gtk_binding_entry_add_signal (binding_set, GDK_w, GDK_SHIFT_MASK,
 				      "set_fit_mode", 1,
-				      GTK_TYPE_INT, GTH_FIT_WIDTH);
+				      GTH_TYPE_FIT, GTH_FIT_WIDTH);
 }
 
 

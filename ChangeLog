@@ -1,3 +1,18 @@
+2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/Makefile.am: Remove trailing whitespace.
+
+2007-08-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/image-viewer.c: use GTH_TYPE_FIT as enum type for the
+	set_fit_mode signal, to avoid warnings in newer versions of gtk+
+	* libgthumb/image-viewer.h: create an gobject type for GthFit
+
+2007-08-19  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (get_image_to_preload): use 
+	get_cache_filename_from_uri instead of get_local_path_from_uri.
+
 2007-08-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (get_pixbuf_using_external_converter):

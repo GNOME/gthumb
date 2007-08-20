@@ -50,7 +50,7 @@ typedef enum { /*< skip >*/
 } GthZoomQuality;
 
 
-typedef enum { /*< skip >*/
+typedef enum { 
 	GTH_FIT_NONE = 0,
 	GTH_FIT_SIZE,
 	GTH_FIT_SIZE_IF_LARGER,
