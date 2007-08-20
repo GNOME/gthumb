@@ -835,12 +835,29 @@ window_image_pane_is_visible (GthBrowser *browser)
 }
 
 
+static gboolean
+at_least_an_image_is_present (GthBrowser *browser)
+{
+	GList *scan;
+	
+	for (scan = browser->priv->file_list->list; scan; scan = scan->next) {
+		FileData *file = scan->data;
+		
+		if (mime_type_is_image (file->mime_type))
+			return TRUE;
+	}
+	
+	return FALSE;
+}
+
+
 static void
 window_update_sensitivity (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkTreeIter iter;
 	int         sidebar_content = priv->sidebar_content;
+	int         n_selected;
 	gboolean    sel_not_null;
 	gboolean    only_one_is_selected;
 	gboolean    image_is_void;
@@ -851,17 +868,22 @@ window_update_sensitivity (GthBrowser *browser)
 	gboolean    is_catalog;
 	gboolean    is_search;
 	gboolean    image_is_visible;
+	gboolean    file_list_contains_images;
+	gboolean    image_is_image;
 	int         image_pos;
 
-	sel_not_null = gth_file_view_selection_not_null (priv->file_list->view);
-	only_one_is_selected = gth_file_view_only_one_is_selected (priv->file_list->view);
+	n_selected = gth_file_view_get_n_selected (priv->file_list->view);
+	sel_not_null = n_selected > 0;
+	only_one_is_selected = n_selected == 0;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (priv->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
 	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST;
 	image_is_visible = ! image_is_void && window_image_pane_is_visible (browser);
-
+	file_list_contains_images = at_least_an_image_is_present (browser); 
+	image_is_image = (browser->priv->image != NULL) && mime_type_is_image (browser->priv->image->mime_type);
+	
 	if (priv->image != NULL)
 		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
 	else
@@ -959,7 +981,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "View_ShowImage", priv->image != NULL);
 	set_action_sensitive (browser, "File_ImageProp", priv->image != NULL);
-	set_action_sensitive (browser, "View_Fullscreen", priv->file_list->list != NULL);
+	set_action_sensitive (browser, "View_Fullscreen", (image_is_image && ! image_is_void) || file_list_contains_images);
 	set_action_sensitive (browser, "View_ShowPreview", priv->sidebar_visible);
 	set_action_sensitive (browser, "View_ShowMetadata", ! priv->sidebar_visible);
 	set_action_sensitive (browser, "View_PrevImage", image_pos > 0);
@@ -968,7 +990,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	/* Tools menu. */
 
-	set_action_sensitive (browser, "Tools_Slideshow", priv->file_list->list != NULL);
+	set_action_sensitive (browser, "Tools_Slideshow", (image_is_image && ! image_is_void) || file_list_contains_images);
 	set_action_sensitive (browser, "Tools_IndexImage", sel_not_null);
 	set_action_sensitive (browser, "Tools_WebExporter", sel_not_null);
 	set_action_sensitive (browser, "Tools_ConvertFormat", sel_not_null);
@@ -3052,7 +3074,7 @@ key_press_cb (GtkWidget   *widget,
 		) || (event->state & GDK_MOD1_MASK))
 			return FALSE;
 
-	sel_not_null = gth_file_view_selection_not_null (priv->file_list->view);
+	sel_not_null = gth_file_view_get_n_selected (priv->file_list->view) > 0;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
@@ -3475,7 +3497,7 @@ image_comment_button_press_cb (GtkWidget      *widget,
 	GthBrowser *browser = data;
 
 	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS))
-		if (gth_file_view_selection_not_null (browser->priv->file_list->view)) {
+		if (gth_file_view_get_n_selected (browser->priv->file_list->view) > 0) {
 			gth_window_edit_comment (GTH_WINDOW (browser));
 			return TRUE;
 		}
@@ -8288,8 +8310,8 @@ get_image_to_preload (GthBrowser *browser,
 {
 	FileData  *fdata;
 	int        max_size;
-	int	   width = 0, height = 0;
-	char 	  *local_file;
+	char      *local_file;
+	int        width = 0, height = 0;
 
 	if (pos < 0)
 		return NULL;
@@ -8307,15 +8329,13 @@ get_image_to_preload (GthBrowser *browser,
 	else
 		max_size = PRELOADED_IMAGE_MAX_DIM2;
 
-	local_file = get_cache_filename_from_uri (fdata->path);
-
 	if (fdata->size > max_size) {
-		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", local_file);
+		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", fdata->path);
 		file_data_unref (fdata);
-		g_free (local_file);
 		return NULL;
 	}
 
+	local_file = get_cache_filename_from_uri (fdata->path);
 	gdk_pixbuf_get_file_info (local_file, &width, &height);
 
 	debug (DEBUG_INFO, "%s dimensions: [%dx%d] <-> %d\n", local_file, width, height, max_size);
@@ -8325,7 +8345,6 @@ get_image_to_preload (GthBrowser *browser,
 		file_data_unref (fdata);
 		fdata = NULL;
 	}
-
 	g_free (local_file);
 
 	return fdata;
@@ -8671,8 +8690,8 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 {
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
-	GdkPixbuf             *image = NULL;
-	GList                 *file_list = NULL;
+	GdkPixbuf             *image;
+	GList                 *file_list;
 
 	if (!_set) {
 		if (priv->fullscreen != NULL)
@@ -8692,9 +8711,15 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	if (file_list == NULL)
 		return;
 
-	if (! (priv->loading_image || image_viewer_is_animation (IMAGE_VIEWER (priv->viewer))))
+	if (! priv->loading_image 
+	    && ! image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)) 
+	    && ((priv->image != NULL) && mime_type_is_image (priv->image->mime_type)))
+	{
 		image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
-
+	}
+	else 
+		image = NULL;
+	
 	priv->fullscreen = gth_fullscreen_new (image, priv->image, file_list);
 	file_data_list_free (file_list);
 	

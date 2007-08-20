@@ -386,8 +386,8 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 			if ((ploader->file != NULL)
 			    && same_uri (ploader->file->path, file->path)
 			    && (file->mtime == ploader->file->mtime)
-			    && ploader->loaded) {
-
+			    && ploader->loaded) 
+			{
 				loader_assigned[i] = TRUE;
 				file_assigned[j] = TRUE;
 				if (same_uri (file->path, requested->path)) {
@@ -556,8 +556,10 @@ start_next_loader (GThumbPreloader *gploader)
 	if ((ploader != NULL)
 	    && (ploader->file != NULL)
 	    && ! ploader->error
-	    && ! ploader->loaded)
+	    && ! ploader->loaded) 
+	{
 		i = gploader->requested;
+	}
 	else {
 		int n = 0;
 
@@ -573,7 +575,9 @@ start_next_loader (GThumbPreloader *gploader)
 			    && (ploader->file != NULL)
 			    && ! ploader->error
 			    && ! ploader->loaded)
+			{
 				break;
+			}
 
 			n++;
 		}

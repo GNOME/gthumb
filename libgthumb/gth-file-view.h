@@ -121,10 +121,9 @@ typedef struct {
 	GList *        (* get_file_list_selection) (GthFileView  *file_view);
 	gboolean       (* pos_is_selected)      (GthFileView     *file_view,
 						 int              pos);
-	gboolean       (* only_one_is_selected) (GthFileView     *file_view);
-	gboolean       (* selection_not_null)   (GthFileView     *file_view);
 	int            (* get_first_selected)   (GthFileView     *file_view);
 	int            (* get_last_selected)    (GthFileView     *file_view);
+	int            (* get_n_selected)       (GthFileView     *file_view);
 
 	/* Setting spacing values */
 
@@ -264,10 +263,9 @@ void           gth_file_view_unselect_all         (GthFileView     *file_view);
 GList *        gth_file_view_get_file_list_selection (GthFileView *file_view);
 gboolean       gth_file_view_pos_is_selected      (GthFileView     *file_view,
 						   int              pos);
-gboolean       gth_file_view_only_one_is_selected (GthFileView    *file_view);
-gboolean       gth_file_view_selection_not_null   (GthFileView    *file_view);
 int            gth_file_view_get_first_selected   (GthFileView    *file_view);
 int            gth_file_view_get_last_selected    (GthFileView    *file_view);
+int            gth_file_view_get_n_selected       (GthFileView    *file_view);
 
 /* Setting spacing values */
 

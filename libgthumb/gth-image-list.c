@@ -2361,6 +2361,13 @@ gth_image_list_get_last_selected (GthImageList *image_list)
 }
 
 
+int
+gth_image_list_get_n_selected (GthImageList *image_list)
+{
+	return g_list_length (image_list->priv->selection);
+}
+
+
 static void
 select_range (GthImageList     *image_list,
 	      GthImageListItem *item,
