@@ -1,3 +1,17 @@
+2007-08-21  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c:
+	* src/gth-fullscreen.c: allow to view an image in fullscreen mode even
+	if the current file list is void.  This happens when viewing an image
+	from the web browser, which renames the filename with a .tmp extension
+	
+	* src/gth-browser.c (gth_browser_load_image_from_uri): always use slow
+	mime-type detection when loading an image from a uri.
+
+	* src/gth-browser.c (launch_selected_videos_or_audio): 
+	* src/gth-batch-op.c (load_current_image): no need to calculate the
+	mime-type again, just use the value available in the FileData structure.
+
 2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (get_path_relative_to_uri):

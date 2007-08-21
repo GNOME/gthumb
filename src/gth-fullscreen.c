@@ -1750,7 +1750,7 @@ gth_fullscreen_get_image_data (GthWindow *window)
 	GthFullscreen *fullscreen = (GthFullscreen*) window;
 	
 	if (fullscreen->priv->current == NULL)
-		return NULL;
+		return fullscreen->priv->file;
 	else
 		return (FileData*) fullscreen->priv->current->data;
 }

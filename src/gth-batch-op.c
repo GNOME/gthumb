@@ -364,7 +364,6 @@ load_current_image (GthBatchOp *bop)
 	char       *name_no_ext;
 	char       *utf8_name;
 	char       *message;
-	const char *file_mime_type;
 
 	if (PD(bop)->stop_operation || (PD(bop)->current_image == NULL)) {
 		notify_termination (bop);
@@ -386,8 +385,7 @@ load_current_image (GthBatchOp *bop)
 		folder = g_strdup (PD(bop)->destination);
 	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
 
-	file_mime_type = get_file_mime_type (fd->path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
-	if (strcmp_null_tolerant (file_mime_type, get_mime_type_from_ext (PD(bop)->image_type)) == 0)
+	if (mime_type_is (fd->mime_type, get_mime_type_from_ext (PD(bop)->image_type)))
 		PD(bop)->new_path = g_strconcat (folder, "/", file_name_from_path (fd->path), NULL);
 	else
 		PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", PD(bop)->image_type, NULL);

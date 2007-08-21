@@ -2957,8 +2957,8 @@ static gboolean
 launch_selected_videos_or_audio (GthBrowser *browser)
 {
 	gboolean                 result = FALSE;
-	GnomeVFSMimeApplication *app;
-	const char              *current_mime_type;
+	GnomeVFSMimeApplication *image_app;
+	const char              *image_mime_type;
 	GList		        *video_list = NULL;
 	GList			*scan;
 
@@ -2967,45 +2967,48 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 
 	/* Images are handled by gThumb directly. Other supported media (video,
 	   audio) require external players, which are launched by this function. */
-	if (file_is_image (browser->priv->image->path, browser->priv->fast_file_type))
+	if (mime_type_is_image (browser->priv->image->mime_type))
 		return FALSE;
 
-	current_mime_type = get_file_mime_type (browser->priv->image->path, FALSE);
-	app = gnome_vfs_mime_get_default_application_for_uri (browser->priv->image->path, current_mime_type);
+	image_mime_type = browser->priv->image->mime_type;
+	image_app = gnome_vfs_mime_get_default_application_for_uri (browser->priv->image->path, image_mime_type);
 
-	if (app == NULL)
+	if (image_app == NULL)
 		return FALSE;
 
-	if (! (app->can_open_multiple_files)) {
+	if (! image_app->can_open_multiple_files) {
 		/* just pass the current (single) item */
-		video_list = g_list_append (video_list, (char*) browser->priv->image->path);
-	} else {
+		video_list = g_list_append (video_list, g_strdup (browser->priv->image->path));
+	} 
+	else {
+		GList *selection;
+		
 		/* Scan through the list of selected items, and identify those that have the
 		   same mime_type, or can be launched by the same application. */
-		for (scan = gth_window_get_file_list_selection ( (GthWindow *) browser); scan; scan = scan->next) {
-			const char *selected_mime_type;
-			const char *selected_path = scan->data;
+		
+		selection = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
+		for (scan = selection; scan; scan = scan->next) {
+			FileData *file = scan->data;
 
-			selected_mime_type = get_file_mime_type (selected_path, FALSE);
-
-			if (selected_mime_type == NULL)
-				continue;
-
-			if ( !strcmp(selected_mime_type, current_mime_type))
-				video_list = g_list_append (video_list, (char*) selected_path);
+			if (mime_type_is (file->mime_type, image_mime_type)) {
+				video_list = g_list_append (video_list, g_strdup (file->path));
+			}
 			else {
 				GnomeVFSMimeApplication *selected_app;
-				selected_app = gnome_vfs_mime_get_default_application_for_uri (selected_path, selected_mime_type);
-				if (gnome_vfs_mime_application_equal (app, selected_app))
-					video_list = g_list_append (video_list, (char*) selected_path);
+				
+				selected_app = gnome_vfs_mime_get_default_application_for_uri (file->path, file->mime_type);
+				if (gnome_vfs_mime_application_equal (image_app, selected_app))
+					video_list = g_list_append (video_list, g_strdup (file->path));
 				gnome_vfs_mime_application_free (selected_app);
 			}
 		}
+		file_data_list_free (selection);
 	}
 
-	result = gnome_vfs_mime_application_launch (app, video_list) == GNOME_VFS_OK;
-	gnome_vfs_mime_application_free (app);
-	g_list_free (video_list);
+	result = gnome_vfs_mime_application_launch (image_app, video_list) == GNOME_VFS_OK;
+	
+	gnome_vfs_mime_application_free (image_app);
+	path_list_free (video_list);
 
 	return result;
 }
@@ -8485,7 +8488,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 	FileData *file;
 	
 	file = file_data_new (filename, NULL);
-	file_data_update_mime_type (file, browser->priv->fast_file_type);
+	file_data_update_all (file, FALSE /*browser->priv->fast_file_type*/);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);
 }
@@ -8708,9 +8711,6 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 		file_list = gth_file_view_get_list (priv->file_list->view);
 	}
 	
-	if (file_list == NULL)
-		return;
-
 	if (! priv->loading_image 
 	    && ! image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)) 
 	    && ((priv->image != NULL) && mime_type_is_image (priv->image->mime_type)))
