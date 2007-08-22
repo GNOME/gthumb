@@ -1,6 +1,6 @@
 2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 
-	* src/gth-window-actions-entries.h: added a undo icon to the 
+	* src/gth-window-actions-entries.h: added an undo icon to the 
 	Wallpaper_Restore command.
 	
 	* src/gth-window-actions-callbacks.c: allow to set a remote image
