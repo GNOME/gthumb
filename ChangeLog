@@ -1,3 +1,9 @@
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (dir_list_done_cb): add the priv->image to the 
+	file list if gth_dir_list returns a NULL list.  This fixes the problem
+	described in the previuos changlog entry in a more consistent way.
+
 2007-08-21  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c:

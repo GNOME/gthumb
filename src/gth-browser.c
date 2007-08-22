@@ -2732,7 +2732,6 @@ image_loaded_cb (GtkWidget  *widget,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	/*priv->image->mtime = get_file_mtime (priv->image->path);*/
 	priv->image_modified = FALSE;
 	priv->loading_image = FALSE;
 	gth_window_clear_undo_history (GTH_WINDOW (browser));
@@ -6371,6 +6370,8 @@ dir_list_done_cb (GthDirList     *dir_list,
 	/**/
 
 	file_list = gth_dir_list_get_file_list (priv->dir_list);
+	if ((file_list == NULL) && (browser->priv->image != NULL)) 
+		file_list = g_list_append (NULL, file_data_dup (browser->priv->image));
 	window_set_file_list (browser,
 			      file_list,
 			      priv->sort_method,
@@ -8488,7 +8489,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 	FileData *file;
 	
 	file = file_data_new (filename, NULL);
-	file_data_update_all (file, FALSE /*browser->priv->fast_file_type*/);
+	file_data_update_all (file, FALSE);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);
 }
