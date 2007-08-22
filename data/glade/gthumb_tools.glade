@@ -2737,7 +2737,10 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 
 <widget class="GtkDialog" id="scale_series_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Scale Images</property>
+  <property name="title" translatable="yes" context="yes" comments="Translators: This is a dialog window title. A different 
+translation may be required than for the identical 
+tooltip string used elsewhere, depending on your 
+language's grammar. Do not translate the prefix.">title|Scale Images</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

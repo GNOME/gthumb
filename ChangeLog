@@ -1,3 +1,9 @@
+2007-08-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_tools.glade:
+	* src/gth-browser-actions-entries.h:
+	Disambiguate "Scale Images" string for translators. Bug 468343.
+
 2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (file_list_done_cb): always call 

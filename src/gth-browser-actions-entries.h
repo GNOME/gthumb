@@ -391,6 +391,10 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "Tools_ScaleSeries", GTHUMB_STOCK_RESIZE,
 	  N_("Scale Images..."), NULL,
+	  /* Translators: This is a tooltip. A different translation
+	     may be required than for the identical string used as a
+	     dialog window title used elsewhere, depending on your 
+	     language's grammar. */
 	  N_("Scale Images"),
 	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) }
 };
