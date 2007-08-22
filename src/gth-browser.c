@@ -6370,12 +6370,15 @@ dir_list_done_cb (GthDirList     *dir_list,
 	/**/
 
 	file_list = gth_dir_list_get_file_list (priv->dir_list);
-	if ((file_list == NULL) && (browser->priv->image != NULL)) 
-		file_list = g_list_append (NULL, file_data_dup (browser->priv->image));
-	window_set_file_list (browser,
-			      file_list,
-			      priv->sort_method,
-			      priv->sort_type);
+	if ((file_list == NULL) && (browser->priv->image != NULL)) {
+		char *image_dir;
+		
+		image_dir = remove_level_from_path (browser->priv->image->path);
+		if (uricmp (image_dir, browser->priv->dir_list->path) == 0)
+			file_list = g_list_append (NULL, file_data_dup (browser->priv->image));
+		g_free (image_dir);
+	}
+	window_set_file_list (browser, file_list, priv->sort_method, priv->sort_type);
 	file_data_list_free (file_list);
 }
 

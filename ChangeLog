@@ -1,5 +1,10 @@
 2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c (dir_list_done_cb): add the image to the file list 
+	only if the image folder is the same of the file list.
+
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* src/gth-browser.c (dir_list_done_cb): add the priv->image to the 
 	file list if gth_dir_list returns a NULL list.  This fixes the problem
 	described in the previuos changlog entry in a more consistent way.
