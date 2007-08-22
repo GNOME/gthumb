@@ -1,3 +1,36 @@
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-window-actions-entries.h: added an undo icon to the 
+	Wallpaper_Restore command.
+	
+	* src/gth-window-actions-callbacks.c: allow to set a remote image
+	as desktop wallpaper.
+	
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
+	* src/gth-browser.c (dir_list_done_cb): add the image to the file list 
+	only if the image folder is the same of the file list.
+
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (dir_list_done_cb): add the priv->image to the 
+	file list if gth_dir_list returns a NULL list.  This fixes the problem
+	described in the previuos changlog entry in a more consistent way.
+
+2007-08-21  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c:
+	* src/gth-fullscreen.c: allow to view an image in fullscreen mode even
+	if the current file list is void.  This happens when viewing an image
+	from the web browser, which renames the filename with a .tmp extension
+	
+	* src/gth-browser.c (gth_browser_load_image_from_uri): always use slow
+	mime-type detection when loading an image from a uri.
+
+	* src/gth-browser.c (launch_selected_videos_or_audio): 
+	* src/gth-batch-op.c (load_current_image): no need to calculate the
+	mime-type again, just use the value available in the FileData structure.
+
 2007-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (get_path_relative_to_uri):

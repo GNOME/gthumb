@@ -256,7 +256,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Set the image as desktop background (stretched)"),
 	  G_CALLBACK (gth_window_activate_action_wallpaper_stretched) },
 
-	{ "Wallpaper_Restore", NULL,
+	{ "Wallpaper_Restore", GTK_STOCK_UNDO,
 	  N_("_Restore"), NULL,
 	  N_("Restore the original desktop wallpaper"),
 	  G_CALLBACK (gth_window_activate_action_wallpaper_restore) },
