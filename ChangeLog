@@ -1,5 +1,10 @@
 2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-window-actions-callbacks.c: allow to set a remote image
+	as desktop wallpaper.
+	
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>	
+	
 	* src/gth-browser.c (dir_list_done_cb): add the image to the file list 
 	only if the image folder is the same of the file list.
 

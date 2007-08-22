@@ -642,25 +642,40 @@ gth_window_activate_action_view_exit_fullscreen (GtkAction *action,
 }
 
 
-static void
-set_wallpaper (const char     *image_path,
-	       WallpaperAlign  align)
+typedef struct {
+	GthWindow      *window;
+	WallpaperAlign  align;
+} SetWallpaperData;
+
+
+static void 
+set_wallpaper_step_2 (const char     *uri, 
+		      GnomeVFSResult  result, 
+		      gpointer        callback_data)
 {
-	GConfClient *client;
-	char        *options = "none";
+	SetWallpaperData *data = callback_data;
+	GConfClient      *client;
+	char             *options = "none";
+
+	if (result != GNOME_VFS_OK) {
+		_gtk_error_dialog_run (GTK_WINDOW (data->window), "%s", gnome_vfs_result_to_string (result));
+		g_free (data);
+		return;
+	}
 
 	client = gconf_client_get_default ();
 
-	image_path = get_file_path_from_uri (image_path);
-	if ((image_path == NULL) || ! path_is_file (image_path))
-		options = "none";
-
-	else {
+	if (path_is_file (uri)) {
+		char *image_path;
+		
+		image_path = get_local_path_from_uri (uri);
 		gconf_client_set_string (client,
 					 "/desktop/gnome/background/picture_filename",
 					 image_path,
 					 NULL);
-		switch (align) {
+		g_free (image_path);
+		
+		switch (data->align) {
 		case WALLPAPER_ALIGN_TILED:
 			options = "wallpaper";
 			break;
@@ -684,6 +699,8 @@ set_wallpaper (const char     *image_path,
 				 options,
 				 NULL);
         g_object_unref (G_OBJECT (client));
+        
+	g_free (data);	
 }
 
 
@@ -693,13 +710,56 @@ get_wallpaper_filename (int n)
 	char *name, *filename;
 
 	name = g_strdup_printf (".temp_wallpaper_%d.png", n);
-	filename = g_build_filename ("file://",
-				     g_get_home_dir (),
-				     name,
-				     NULL);
+	filename = g_strconcat ("file://",
+				g_get_home_dir (),
+				"/",
+				name,
+				NULL);
 	g_free (name);
 
 	return filename;
+}
+
+
+static char *
+get_new_wallpaper_filename (void) 
+{
+	char *wallpaper_filename;
+	
+	wallpaper_filename = get_wallpaper_filename (1);
+	if (path_is_file (wallpaper_filename)) {
+		/* Use a new filename to force an update. */
+		file_unlink (wallpaper_filename);
+		g_free (wallpaper_filename);
+		wallpaper_filename = get_wallpaper_filename (2);
+		if (path_is_file (wallpaper_filename))
+			file_unlink (wallpaper_filename);
+	}
+	
+	return 	wallpaper_filename;
+}
+
+
+static void
+set_wallpaper (GthWindow      *window,
+	       const char     *image_path,
+	       WallpaperAlign  align)
+{
+	SetWallpaperData *data;
+	
+	data = g_new0 (SetWallpaperData, 1);
+	data->window = window;
+	data->align = align;
+	
+	if (is_local_file (image_path))
+		set_wallpaper_step_2 (image_path, GNOME_VFS_OK, data);
+	else {
+		char *wallpaper_filename;
+		
+		wallpaper_filename = get_new_wallpaper_filename ();
+		copy_file_async (image_path, wallpaper_filename, set_wallpaper_step_2, data);
+		g_free (wallpaper_filename);
+	}
 }
 
 
@@ -728,16 +788,7 @@ set_wallpaper_from_window (GthWindow      *window,
 
 		g_object_ref (pixbuf);
 
-		wallpaper_filename = get_wallpaper_filename (1);
-		if (path_is_file (wallpaper_filename)) {
-			/* Use a new filename to force an update. */
-			file_unlink (wallpaper_filename);
-			g_free (wallpaper_filename);
-			wallpaper_filename = get_wallpaper_filename (2);
-			if (path_is_file (wallpaper_filename))
-				file_unlink (wallpaper_filename);
-		}
-
+		wallpaper_filename = get_new_wallpaper_filename ();
 		local_file = get_local_path_from_uri (wallpaper_filename);
 		if (! _gdk_pixbuf_save (pixbuf,
 					local_file,
@@ -758,7 +809,7 @@ set_wallpaper_from_window (GthWindow      *window,
 		g_free (local_file);
 	}
 
-	set_wallpaper (image_path, align);
+	set_wallpaper (window, image_path, align);
 	g_free (image_path);
 }
 
@@ -803,7 +854,8 @@ void
 gth_window_activate_action_wallpaper_restore (GtkAction *action,
 					      gpointer   data)
 {
-	int align_type = WALLPAPER_ALIGN_CENTERED;
+	GthWindow *window = GTH_WINDOW (data);
+	int        align_type = WALLPAPER_ALIGN_CENTERED;
 
 	if (strcmp (preferences.wallpaperAlign, "wallpaper") == 0)
 		align_type = WALLPAPER_ALIGN_TILED;
@@ -816,7 +868,7 @@ gth_window_activate_action_wallpaper_restore (GtkAction *action,
 	else if (strcmp (preferences.wallpaperAlign, "none") == 0)
 		align_type = WALLPAPER_NONE;
 
-	set_wallpaper (preferences.wallpaper, align_type);
+	set_wallpaper (window, preferences.wallpaper, align_type);
 }
 
 
