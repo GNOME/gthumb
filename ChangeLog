@@ -1,5 +1,13 @@
 2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c (file_list_done_cb): always call 
+	window_make_current_image_visible with reset_if_not_found set to FALSE
+
+	Fixes #469273 – delete photo in viewer mode does not advance to next 
+	image
+	
+2007-08-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/gth-window-actions-entries.h: added an undo icon to the 
 	Wallpaper_Restore command.
 	

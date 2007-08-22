@@ -4558,7 +4558,7 @@ file_list_done_cb (GthFileList *file_list,
 	if (FirstStart)
 		FirstStart = FALSE;
 
-	window_make_current_image_visible (browser, ! priv->load_image_folder_after_image);
+	window_make_current_image_visible (browser, FALSE);
 	priv->refreshing = FALSE;
 	priv->load_image_folder_after_image = FALSE;
 	
