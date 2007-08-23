@@ -1,3 +1,9 @@
+2007-08-23  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (set_cursor_busy): use LEFT_PTR_WATCH as busy 
+	cursor instead of GDK_WATCH because we can still use the ui while 
+	loading an image or the file list.
+
 2007-08-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_tools.glade:
