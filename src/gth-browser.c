@@ -1402,12 +1402,12 @@ window_update_location (GthBrowser *browser)
 
 	uri = priv->history_current->data;
 
-	if (uri_scheme_is_catalog (uri)
-	    || uri_scheme_is_search (uri)) {
+	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *parent_uri = remove_level_from_path (uri);
 		gth_location_set_catalog_uri (GTH_LOCATION (priv->location), parent_uri, FALSE);
 		g_free (parent_uri);
-	} else
+	} 
+	else
 		gth_location_set_folder_uri (GTH_LOCATION (priv->location), uri, FALSE);
 }
 
@@ -7937,6 +7937,13 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 
 	priv = browser->priv;
 
+	if ((catalog_path != NULL) && ! path_is_file (catalog_path)) {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       _("The specified catalog does not exist."));
+		window_update_location (browser);
+		return;
+	}
+
 	/* go to the catalog directory */
 
 	gth_browser_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST);
@@ -7950,13 +7957,6 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 	g_free (catalog_dir);
 
 	/* display the catalog */
-
-	if ((catalog_path != NULL) && ! path_is_file (catalog_path)) {
-		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The specified catalog does not exist."));
-		window_update_location (browser);
-		return;
-	}
 
 	if (catalog_path == NULL) {
 		window_set_file_list (browser, NULL, priv->sort_method, priv->sort_type);
