@@ -66,6 +66,7 @@ typedef struct {
 	GtkWidget     *rs_template_entry;
 	GtkWidget     *rs_start_at_spinbutton;
 	GtkWidget     *rs_sort_combobox;
+	GtkWidget     *rs_change_case_combobox;
 	GtkWidget     *rs_reverse_checkbutton;
 	GtkWidget     *rs_list_treeview;
 
@@ -74,6 +75,7 @@ typedef struct {
 	GList         *file_list;
 	GList         *new_names_list;
 	GthSortMethod  sort_method;
+	GthChangeCase  change_case;
 	gboolean       single_file;
 	
 	GHashTable    *date_cache;
@@ -123,6 +125,8 @@ ok_clicked_cb (GtkWidget  *widget,
 		pref_set_rename_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))]);
 		eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)));
 	}
+
+	pref_set_change_case (gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_change_case_combobox)));
 
 	for (o_scan = data->file_list, n_scan = data->new_names_list; o_scan && n_scan; o_scan = o_scan->next, n_scan = n_scan->next) {
 		FileData *fdata         = o_scan->data;
@@ -287,6 +291,7 @@ update_list (DialogData *data)
 	const char  *template_s;
 
 	data->sort_method = idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))];
+	data->change_case = gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_change_case_combobox));
 
 	if (data->file_list != NULL)
 		g_list_free (data->file_list);
@@ -318,6 +323,7 @@ update_list (DialogData *data)
 		char     *name3;
 		char     *name4;
 		char     *name5;
+		char     *name6;
 		char     *extension = NULL;
 		char     *new_name;
 		char     *cached_date;
@@ -349,7 +355,21 @@ update_list (DialogData *data)
 			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
 
 		name5 = _g_substitute_pattern (name4, 'e', extension);
-		new_name = gnome_vfs_escape_string (name5);
+
+		switch (data->change_case) {
+			case GTH_CHANGE_CASE_LOWER:
+				name6 = g_utf8_strdown (name5, -1);
+				break;
+			case GTH_CHANGE_CASE_UPPER:
+				name6 = g_utf8_strup (name5, -1);
+				break;
+			case GTH_CHANGE_CASE_ORIGINAL:
+			default:
+				name6 = g_strdup (name5);
+				break;
+		}
+
+		new_name = gnome_vfs_escape_string (name6);
 		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
 
 		g_free (extension);
@@ -358,6 +378,7 @@ update_list (DialogData *data)
 		g_free (name3);
 		g_free (name4);
 		g_free (name5);
+		g_free (name6);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);
@@ -448,6 +469,7 @@ dlg_rename_series (GthBrowser *browser)
 	data->rs_template_entry = glade_xml_get_widget (data->gui, "rs_template_entry");
 	data->rs_start_at_spinbutton = glade_xml_get_widget (data->gui, "rs_start_at_spinbutton");
 	data->rs_sort_combobox = glade_xml_get_widget (data->gui, "rs_sort_combobox");
+	data->rs_change_case_combobox = glade_xml_get_widget (data->gui, "rs_change_case_combobox");	
 	data->rs_reverse_checkbutton = glade_xml_get_widget (data->gui, "rs_reverse_checkbutton");
 	data->rs_list_treeview = glade_xml_get_widget (data->gui, "rs_list_treeview");
 
@@ -497,6 +519,10 @@ dlg_rename_series (GthBrowser *browser)
 	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
 		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_sort_combobox), idx);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_change_case_combobox), 
+				  pref_get_change_case ());
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));
@@ -536,6 +562,10 @@ dlg_rename_series (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (update_list_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->rs_change_case_combobox),
+                          "changed",
+                          G_CALLBACK (update_list_cb),
+                          data);
 	g_signal_connect (G_OBJECT (data->rs_reverse_checkbutton),
 			  "toggled",
 			  G_CALLBACK (update_list_cb),

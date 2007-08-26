@@ -162,6 +162,13 @@ typedef enum { /*< skip >*/
 
 
 typedef enum { /*< skip >*/
+        GTH_CHANGE_CASE_ORIGINAL,
+        GTH_CHANGE_CASE_LOWER,
+        GTH_CHANGE_CASE_UPPER,
+} GthChangeCase;
+
+
+typedef enum { /*< skip >*/
 	GTH_CAPTION_COMMENT             = 1 << 0,
 	GTH_CAPTION_FILE_PATH           = 1 << 1,
 	GTH_CAPTION_FILE_NAME           = 1 << 2,

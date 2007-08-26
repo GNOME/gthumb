@@ -1514,6 +1514,20 @@
 	</locale>
       </schema>
 
+      <schema>
+        <key>/schemas/apps/gthumb/dialogs/rename_series/change_case</key>
+        <applyto>/apps/gthumb/dialogs/rename_series/change_case</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default>original</default>
+        <locale name="C">
+          <short></short>
+          <long> Possible values are: original, lower, upper.
+          </long>
+        </locale>
+      </schema>
+
+
       <!-- Scale Image -->
 
       <schema>

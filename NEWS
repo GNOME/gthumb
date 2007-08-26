@@ -13,6 +13,7 @@ trunk, since last 2.10.x
 	* Added a warning when renaming imported photos to avoid file
 	  overwrites. Bug #332684.
 	* Corrected the Rename tool documentation (help file).
+	* Add option to change text case when renaming files. Bug #459349.
 
 	Bugfixes:
 

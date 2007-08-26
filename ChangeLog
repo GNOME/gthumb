@@ -1,3 +1,15 @@
+2007-08-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_tools.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/preferences.c:
+	* libgthumb/preferences.h:
+	* libgthumb/typedefs.h:
+	* src/dlg-rename-series.c: (ok_clicked_cb), (update_list),
+	(dlg_rename_series):
+	Add change-text-case feature to rename-series tool. Bug #459349.
+
 2007-08-26  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (gth_browser_go_to_catalog): check whether the 

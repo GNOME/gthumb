@@ -168,6 +168,7 @@
 #define  PREF_RENAME_SERIES_START_AT  "/apps/gthumb/dialogs/rename_series/start_at"
 #define  PREF_RENAME_SERIES_SORT      "/apps/gthumb/dialogs/rename_series/sort_by"
 #define  PREF_RENAME_SERIES_REVERSE   "/apps/gthumb/dialogs/rename_series/reverse_order"
+#define  PREF_RENAME_SERIES_CHANGE_CASE "/apps/gthumb/dialogs/rename_series/change_case"
 
 #define  PREF_SCALE_UNIT              "/apps/gthumb/dialogs/scale_image/unit"
 #define  PREF_SCALE_KEEP_RATIO        "/apps/gthumb/dialogs/scale_image/keep_aspect_ratio"
@@ -309,6 +310,8 @@ GthFrameStyle      pref_get_exporter_frame_style   (void);
 void               pref_set_exporter_frame_style   (GthFrameStyle value);
 GthOverwriteMode   pref_get_convert_overwrite_mode (void);
 void               pref_set_convert_overwrite_mode (GthOverwriteMode value);
+GthChangeCase      pref_get_change_case		   (void);
+void               pref_set_change_case            (GthChangeCase value);
 GthSortMethod      pref_get_rename_sort_order      (void);
 void               pref_set_rename_sort_order      (GthSortMethod value);
 GthSortMethod      pref_get_web_album_sort_order   (void);
