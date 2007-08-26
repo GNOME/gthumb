@@ -1,3 +1,8 @@
+2007-08-26  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (gth_browser_go_to_catalog): check whether the 
+	catalog exist before changing to the catalog view.
+
 2007-08-23  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (set_cursor_busy): use LEFT_PTR_WATCH as busy 
