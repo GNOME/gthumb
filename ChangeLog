@@ -1,3 +1,14 @@
+2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/dlg-file-utils.c: 
+	* src/gth-browser.c (gth_browser_notify_directory_rename): use 
+	path_in_path instead  of strncmp.
+	
+2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (window_update_location): go to the home dir
+	if the history is null.
+
 2007-08-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-rename-series.c: (extract_utf8_digits), (update_list):
