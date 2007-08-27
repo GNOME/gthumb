@@ -1397,8 +1397,10 @@ window_update_location (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *uri;
 
-	if (priv->history_current == NULL)
+	if (priv->history_current == NULL) {
+		gth_browser_go_to_directory (browser, get_home_uri ());
 		return;
+	}
 
 	uri = priv->history_current->data;
 

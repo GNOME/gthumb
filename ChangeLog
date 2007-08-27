@@ -1,3 +1,8 @@
+2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (window_update_location): go to the home dir
+	if the history is null.
+
 2007-08-26  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (gth_browser_go_to_catalog): check whether the 
