@@ -1,5 +1,9 @@
 2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* NEWS: updated for version 2.10.6
+	
+2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/dlg-file-utils.c: 
 	* src/gth-browser.c (gth_browser_notify_directory_rename): use 
 	path_in_path instead  of strncmp.

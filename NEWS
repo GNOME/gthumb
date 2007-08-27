@@ -1,6 +1,14 @@
 version 2.10.6
 --------------
 
+	* Added shift+x keybinding to always perform zoom to fit.
+	* Added a shift-w keybinding to force a fit width action.
+	* Faster browsing of remote locations.
+	* Keep the ui responsive when loading and saving remote images and
+	  when creating video thumbnails.
+	* Much faster loading of exif DataTime tags. This provides faster 
+	  folder loading in the sort-by-DateTime mode.
+	* Fixed bug #464348. Rename tool breaks if template = "%f1%e"
 	* Fixed bug #450675. Should delete the thumbnails of deleted files
 	* Fixed bug #453986. Check for invalid unicode in embedded comments. 
 	* Fixed bug #454037. Invalid free when selecting Print in the menu.
@@ -8,21 +16,14 @@ version 2.10.6
 	* The default import folder was not properly set to the correct XDG 
 	  "PICTURES" folder. Fixed.
 	* Fixed bug #455911. Symlink/vfs problem (Ubuntu bug 109579).
-	* Much faster loading of exif DataTime tags. This provides faster 
-	  folder loading in the sort-by-DateTime mode.
 	* Preload more thumbnails into memory in browser mode. Bug #457529.
 	* Fixed bug #457685. Sort by Exif DateTime broken in list mode.
-	* Show preview pane by default. Bug #452833.
-	* Show filenames by default. Bug #452831.
 	* Fixed Ctrl+H (show/hide hidden files) function.
 	* Add/fix a busy cursor when loading folders and preloading the
 	  selected image.
 	* Fixed bug #439043. Preview area always shows last selected image.
 	* Fixed bug #457936. Names with '#' character break rotation.
 	* Fixed bug #446792. gThumb deletes pictures on failed import.
-	* Added code to extract video DateTime tags using mplayer's
-	  midentify tool, if present.
-
 
 version 2.10.5
 --------------
