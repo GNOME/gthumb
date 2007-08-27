@@ -1053,6 +1053,16 @@
               <para>This symbol will be replaced with the image
               dimensions.</para></entry>
           </row>
+          <row valign="top">
+            <entry>
+              <para><keycap>%n</keycap></para></entry>
+            <entry align="left">
+              <para>This symbol will be replaced with original image enumerator.
+	      For instance, if the original filename was IMG_9876.JPG, this
+	      extracts the "9876" portion. If the filename has more than
+	      one group of digits embedded in it (for example, IMG_123_456.JPG)
+	      only the first number will be used ("123" in this example).</para></entry>
+          </row>
         </tbody>
       </tgroup>
     </informaltable>

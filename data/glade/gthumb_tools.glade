@@ -291,7 +291,10 @@
 		  <child>
 		    <widget class="GtkLabel" id="label91">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Special characters:&lt;/b&gt; # (enumerator), %f (original filename), %d (image date), %s (image size), %e (original extension).&lt;/i&gt;&lt;/small&gt;</property>
+		      <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Special characters:&lt;/b&gt; # (new enumerator digit),
+%f (original filename), %e (original extension),
+%d (image date), %s (image size), 
+%n (original enumerator).&lt;/i&gt;&lt;/small&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>

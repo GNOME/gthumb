@@ -282,6 +282,52 @@ get_image_date (const char *filename)
 }
 
 
+static char *
+extract_utf8_digits (const char *filename)
+{
+	char *working_copy;
+	char *first_digit;
+	char *end_of_digits;
+	char *found_digits;
+
+	/* Find the first numeric sequence inside a filename, if any */
+
+	if (filename == NULL)
+		return NULL;
+
+	if (g_utf8_validate (filename, -1, NULL) == FALSE)
+		return NULL;
+
+	/* make a working copy so we can edit in-place */
+	working_copy = g_strdup (filename);
+
+	first_digit = working_copy;
+	while ((first_digit != NULL) && !g_unichar_isdigit (g_utf8_get_char (first_digit)))
+		first_digit = g_utf8_find_next_char (first_digit, NULL);
+
+	if (first_digit == NULL) {
+		/* no digits found */
+		g_free (working_copy);
+		return NULL;
+	}
+
+	/* start at first digit and scan to just after the last digit */
+	end_of_digits = first_digit;
+	while ((end_of_digits != NULL) && g_unichar_isdigit (g_utf8_get_char (end_of_digits)))
+		end_of_digits = g_utf8_find_next_char (end_of_digits, NULL);
+
+	/* replace the first non-digit character after the digits with 
+	   a string terminator */
+	if (end_of_digits != NULL)
+		end_of_digits[0] = 0;
+
+	/* copy the found digits, and free the working copy we made */
+	found_digits = g_strdup (first_digit);
+	g_free (working_copy);
+	return found_digits;
+}
+
+
 static void
 update_list (DialogData *data)
 {
@@ -324,9 +370,11 @@ update_list (DialogData *data)
 		char     *name4;
 		char     *name5;
 		char     *name6;
+		char     *name7;
 		char     *extension = NULL;
 		char     *new_name;
 		char     *cached_date;
+		char	 *original_enum = NULL;
 
 		name1 = _g_get_name_from_template (template, start_at++);
 		utf8_txt = gnome_vfs_unescape_string_for_display (name_wo_ext);
@@ -353,23 +401,30 @@ update_list (DialogData *data)
 
 		if (strrchr (fdata->name, '.') != NULL)
 			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
-
 		name5 = _g_substitute_pattern (name4, 'e', extension);
+
+		original_enum = extract_utf8_digits (fdata->name);
+		if (original_enum != NULL) {
+			name6 = _g_substitute_pattern (name5, 'n', original_enum);
+			g_free (original_enum);
+		}
+		else
+			name6 = g_strdup (name5);
 
 		switch (data->change_case) {
 			case GTH_CHANGE_CASE_LOWER:
-				name6 = g_utf8_strdown (name5, -1);
+				name7 = g_utf8_strdown (name6, -1);
 				break;
 			case GTH_CHANGE_CASE_UPPER:
-				name6 = g_utf8_strup (name5, -1);
+				name7 = g_utf8_strup (name6, -1);
 				break;
 			case GTH_CHANGE_CASE_ORIGINAL:
 			default:
-				name6 = g_strdup (name5);
+				name7 = g_strdup (name6);
 				break;
 		}
 
-		new_name = gnome_vfs_escape_string (name6);
+		new_name = gnome_vfs_escape_string (name7);
 		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
 
 		g_free (extension);
@@ -379,6 +434,7 @@ update_list (DialogData *data)
 		g_free (name4);
 		g_free (name5);
 		g_free (name6);
+		g_free (name7);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);

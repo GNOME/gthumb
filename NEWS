@@ -14,6 +14,8 @@ trunk, since last 2.10.x
 	  overwrites. Bug #332684.
 	* Corrected the Rename tool documentation (help file).
 	* Add option to change text case when renaming files. Bug #459349.
+	* Add option to preserve the original enumerator when renaming 
+	  files. Bug #459349.
 
 	Bugfixes:
 
