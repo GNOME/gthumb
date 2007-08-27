@@ -5859,7 +5859,8 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 		return;
 
 	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
-	    && (priv->catalog_path != NULL)) { /* update the catalog. */
+	    && (priv->catalog_path != NULL)) 
+	{ /* update the catalog. */
 		Catalog  *catalog;
 		GList    *scan;
 		gboolean  changed = FALSE;
@@ -5910,8 +5911,8 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 				gth_dir_list_add_directory (priv->dir_list,
 							    file_name_from_path (new_name));
 		}
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+	} 
+	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		if (same_uri (priv->catalog_list->path, old_name))
 			gth_browser_go_to_catalog_directory (browser, new_name);
 		else {
@@ -5923,9 +5924,8 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 
 	if ((priv->image != NULL)
 	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-	    && (strncmp (priv->image->path,
-			 old_name,
-			 strlen (old_name)) == 0)) {
+	    && path_in_path (old_name, priv->image->path)) 
+	{
 		char *new_image_name;
 
 		new_image_name = g_strconcat (new_name,
@@ -5954,8 +5954,8 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 				gth_dir_list_remove_directory (priv->dir_list,
 							       file_name_from_path (path));
 		}
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+	} 
+	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		if (same_uri (priv->catalog_list->path, path))
 			gth_browser_go_up (browser);
 		else {
@@ -5988,8 +5988,8 @@ gth_browser_notify_directory_new (GthBrowser *browser,
 		if (first_level_sub_directory (browser, current, path))
 			gth_dir_list_add_directory (priv->dir_list,
 						    file_name_from_path (path));
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+	} 
+	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		const char *current = priv->catalog_list->path;
 		if (path_in_path (current, path))
 			/* a sub directory was created, refresh. */

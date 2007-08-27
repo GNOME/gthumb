@@ -2012,29 +2012,29 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fcdata->result = info->vfs_status;
 		return FALSE;
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
 		/**/
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
 		message = g_strdup (_("Collecting images info"));
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COPYING) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COPYING) {
 		message = g_strdup_printf (_("Copying file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_MOVING) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_MOVING) {
 		message = g_strdup_printf (_("Moving file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
 		message = g_strdup_printf (_("Deleting file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+	} 
+	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 
 		if (fcdata->result == GNOME_VFS_OK) {
 			if (fcdata->file_op == FILE_OP_COPY)
