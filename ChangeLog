@@ -1,5 +1,11 @@
 2007-08-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-rename-series.c: (extract_utf8_digits), (update_list):
+	Fix original-enumerator code so it works if there is no original
+	enumerator.
+
+2007-08-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* data/glade/gthumb_tools.glade:
 	* doc/C/gthumb.xml:

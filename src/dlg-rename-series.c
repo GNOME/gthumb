@@ -302,10 +302,13 @@ extract_utf8_digits (const char *filename)
 	working_copy = g_strdup (filename);
 
 	first_digit = working_copy;
-	while ((first_digit != NULL) && !g_unichar_isdigit (g_utf8_get_char (first_digit)))
+	while ((first_digit != NULL) && 
+	       (first_digit[0] != 0) &&
+	       !g_unichar_isdigit (g_utf8_get_char (first_digit)))
 		first_digit = g_utf8_find_next_char (first_digit, NULL);
 
-	if (first_digit == NULL) {
+	if ((first_digit == NULL) || 
+	    (first_digit[0] == 0)) {
 		/* no digits found */
 		g_free (working_copy);
 		return NULL;
@@ -404,12 +407,8 @@ update_list (DialogData *data)
 		name5 = _g_substitute_pattern (name4, 'e', extension);
 
 		original_enum = extract_utf8_digits (fdata->name);
-		if (original_enum != NULL) {
-			name6 = _g_substitute_pattern (name5, 'n', original_enum);
-			g_free (original_enum);
-		}
-		else
-			name6 = g_strdup (name5);
+		name6 = _g_substitute_pattern (name5, 'n', original_enum);
+		g_free (original_enum);
 
 		switch (data->change_case) {
 			case GTH_CHANGE_CASE_LOWER:
