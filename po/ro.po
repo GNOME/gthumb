@@ -1,0 +1,4086 @@
+# Romanian translation of gthumb.
+# Copyright (C) 2007 THE gthumb'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gthumb package.
+# Alexandru Szasz <alexxed@gmail.com>, 2007.
+# , fuzzy
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-07 03:16+0100\n"
+"PO-Revision-Date: 2007-08-01 16:03+0300\n"
+"Last-Translator: Alexandru Szasz <alexxed@gmail.com>\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
+msgstr "Precedenta"
+
+#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../src/gth-fullscreen-actions-entries.h:42
+msgid "Next"
+msgstr "Următoarea"
+
+#: ../data/albumthemes/text.h:29
+msgid "Index"
+msgstr "Index"
+
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
+msgid "Image"
+msgstr "Imagine"
+
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:805
+msgid "Dimensions"
+msgstr "Dimensiuni"
+
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
+msgid "Bytes"
+msgstr "Octeţi"
+
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+msgid "Date"
+msgstr "Dată"
+
+#: ../data/albumthemes/text.h:34
+msgid "Exposure time"
+msgstr "Timp de expunere"
+
+#: ../data/albumthemes/text.h:35
+msgid "Exposure mode"
+msgstr "Mod de expunere"
+
+#: ../data/albumthemes/text.h:36
+msgid "Flash"
+msgstr "Bliț"
+
+#: ../data/albumthemes/text.h:37
+msgid "Shutter speed"
+msgstr ""
+
+#: ../data/albumthemes/text.h:38
+msgid "Aperture value"
+msgstr "Valoare pentru deschidere"
+
+#: ../data/albumthemes/text.h:39
+msgid "Focal length"
+msgstr "Distanţă focală"
+
+#: ../data/albumthemes/text.h:40
+msgid "Camera model"
+msgstr "Modelul camerei"
+
+#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:77
+msgid "pixels"
+msgstr "pixeli"
+
+#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_png_exporter.glade.h:1
+#: ../data/glade/gthumb_preferences.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../data/glade/gthumb.glade.h:2
+msgid "<b>Categories:</b>"
+msgstr "<b>Categorii:</b>"
+
+#: ../data/glade/gthumb.glade.h:3
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>Informaţii despre canal:</b>"
+
+#: ../data/glade/gthumb.glade.h:4
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>Suprascrieți imaginea veche cu cea nouă?</b>"
+
+#: ../data/glade/gthumb.glade.h:5
+msgid "A_vailable applications:"
+msgstr "A_plicaţii disponibile:"
+
+#: ../data/glade/gthumb.glade.h:6
+msgid "Alpha"
+msgstr ""
+
+#: ../data/glade/gthumb.glade.h:7
+msgid "Blue"
+msgstr "Albastru"
+
+#: ../data/glade/gthumb.glade.h:8
+msgid "Bookmarks"
+msgstr "Semne de carte"
+
+#: ../data/glade/gthumb.glade.h:9
+msgid "C_atalogs:"
+msgstr "C_ataloage:"
+
+#: ../data/glade/gthumb.glade.h:10
+msgid "Choose a Catalog"
+msgstr "Alegeţi un catalog"
+
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
+msgid "Comm_ent"
+msgstr "Com_entariu"
+
+#: ../data/glade/gthumb.glade.h:12
+msgid "Do not overwrite _the old image"
+msgstr "_Nu suprascrie imaginea veche"
+
+#: ../data/glade/gthumb.glade.h:13
+msgid "Green"
+msgstr "Verde"
+
+#: ../data/glade/gthumb.glade.h:14
+msgid "New Image:"
+msgstr "Imagine nouă:"
+
+#: ../data/glade/gthumb.glade.h:15
+msgid "New _Library"
+msgstr "Bibliotecă nouă"
+
+#: ../data/glade/gthumb.glade.h:16
+msgid "Old Image:"
+msgstr "Imagine veche:"
+
+#: ../data/glade/gthumb.glade.h:17
+msgid "Open Images"
+msgstr "Deschide imagini"
+
+#: ../data/glade/gthumb.glade.h:18
+msgid "Over_write the old image"
+msgstr "_Suprascrie imaginea veche"
+
+#: ../data/glade/gthumb.glade.h:19
+msgid "Overwrite Image"
+msgstr "Suprascrie imaginea"
+
+#: ../data/glade/gthumb.glade.h:20
+msgid "Overwrite _all images"
+msgstr "Suprascrie to_ate imaginile"
+
+#: ../data/glade/gthumb.glade.h:21
+msgid "Photo _Data (EXIF)"
+msgstr "Date foto (EXIF)"
+
+#: ../data/glade/gthumb.glade.h:22
+msgid "R_ecent applications:"
+msgstr "Aplicaţii r_ecente:"
+
+#: ../data/glade/gthumb.glade.h:23
+msgid "Red"
+msgstr "Roșu"
+
+#: ../data/glade/gthumb.glade.h:24
+msgid "Value"
+msgstr "Valoare"
+
+#: ../data/glade/gthumb.glade.h:25
+msgid "_Application:"
+msgstr "_Aplicaţie:"
+
+#: ../data/glade/gthumb.glade.h:26
+msgid "_Bookmarks:"
+msgstr "_Semne de carte:"
+
+#: ../data/glade/gthumb.glade.h:27
+msgid "_Do not overwrite any image"
+msgstr "Nu suprascrie nimic"
+
+#: ../data/glade/gthumb.glade.h:28
+msgid "_General"
+msgstr "_General"
+
+#: ../data/glade/gthumb.glade.h:29
+msgid "_Histogram"
+msgstr "_Histogramă"
+
+#: ../data/glade/gthumb.glade.h:30
+msgid "_New Catalog"
+msgstr "Catalog _nou"
+
+#: ../data/glade/gthumb.glade.h:31
+msgid "_Next"
+msgstr "_Următoarea"
+
+#: ../data/glade/gthumb.glade.h:32
+msgid "_Previous"
+msgstr "_Precedenta"
+
+#: ../data/glade/gthumb.glade.h:33
+msgid "_Save the new image as:"
+msgstr "Salvează imaginea nouă ca:"
+
+#: ../data/glade/gthumb.glade.h:34
+msgid "_View the destination"
+msgstr "_Vezi destinaţia"
+
+#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:3
+msgid "..."
+msgstr "..."
+
+#: ../data/glade/gthumb_camera.glade.h:2
+msgid "C_hoose from the catalog"
+msgstr "A_lege din catalog"
+
+#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
+msgid "Ca_tegories:"
+msgstr "C_ategorii:"
+
+#: ../data/glade/gthumb_camera.glade.h:4
+msgid "Camera Model"
+msgstr "Model de cameră"
+
+#: ../data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:29
+msgid "Choose destination folder"
+msgstr "Alegeți dosarul de destinație"
+
+#: ../data/glade/gthumb_camera.glade.h:6
+msgid "Delete selected images from the camera"
+msgstr "Şterge imaginile selectate de pe cameră"
+
+#: ../data/glade/gthumb_camera.glade.h:7
+msgid ""
+"If this checkbox is enabled and the imported photo contains an Exif "
+"orientation tag, the image data will be physically transformed (losslessly) "
+"so that the viewed image looks the same as before but the orientation tag is "
+"reset to \"top left\". If this checkbox is not enabled, the image data and "
+"the orientation tag are both left unchanged. The image will be displayed "
+"identically by gthumb for both possibilities, but for maximum compatibility "
+"with other applications this checkbox should be enabled."
+msgstr ""
+"Dacă această opţiune este bifată şi fotografia conţine o etichetă "
+"Exif de orientare, fotografia va fi transformată fizic (fără pierderi) "
+"pentru ca imaginea să poată fi văzută corect şi de alte programe. "
+"Eticheta de orientare este resetată la „sus stânga”. Dacă această "
+"opţiune nu este bifată, datele imaginii şi eticheta de orientare rămân "
+"nealterate. Imaginea va fi afişată corect de gthumb, indiferent de ce "
+"alegeţi, dar pentru compatibilitate cu alte aplicaţii, această opţiune "
+"ar trebui bifată."
+
+#: ../data/glade/gthumb_camera.glade.h:8
+msgid "Import Photos"
+msgstr "Import de fotografii"
+
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:900
+#: ../src/dlg-photo-importer.c:939 ../src/dlg-photo-importer.c:1510
+#: ../src/dlg-photo-importer.c:2255
+msgid "No camera detected"
+msgstr "Nicio cameră detectată"
+
+#: ../data/glade/gthumb_camera.glade.h:10
+msgid "Rotate images physically"
+msgstr "Rotește fizic imaginile"
+
+#: ../data/glade/gthumb_camera.glade.h:11
+msgid "Select a camera model"
+msgstr "Selectați un model de cameră"
+
+#: ../data/glade/gthumb_camera.glade.h:12
+msgid "Update previews"
+msgstr "Actualizează miniaturile"
+
+#: ../data/glade/gthumb_camera.glade.h:13
+msgid "_Delete imported images from the camera"
+msgstr "Șterge imaginile importate _de pe cameră"
+
+#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_web_exporter.glade.h:48
+msgid "_Destination:"
+msgstr "_Dosar de destinație:"
+
+#: ../data/glade/gthumb_camera.glade.h:15
+msgid "_Film:"
+msgstr "_Album"
+
+#: ../data/glade/gthumb_camera.glade.h:16
+msgid "_Import"
+msgstr "_Importă"
+
+#: ../data/glade/gthumb_camera.glade.h:17
+msgid "_Keep original filenames"
+msgstr "_Păstrează numele original al fișierelor"
+
+#: ../data/glade/gthumb_camera.glade.h:18
+msgid "_Model:"
+msgstr "_Model:"
+
+#: ../data/glade/gthumb_camera.glade.h:19
+msgid "_Port:"
+msgstr "_Port:"
+
+#: ../data/glade/gthumb_comments.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:4
+msgid "A_vailable categories:"
+msgstr "_Categorii disponibile"
+
+#: ../data/glade/gthumb_comments.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:9
+msgid "Categories"
+msgstr "Categorii"
+
+#: ../data/glade/gthumb_comments.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:11
+msgid "Co_mment:"
+msgstr "Co_mentariu:"
+
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+msgid "Comment"
+msgstr "Comentariu"
+
+#: ../data/glade/gthumb_comments.glade.h:5
+msgid "Create a new category"
+msgstr "Creează o categorie nouă"
+
+#: ../data/glade/gthumb_comments.glade.h:6
+msgid "Current date"
+msgstr "Data curentă"
+
+#: ../data/glade/gthumb_comments.glade.h:7
+msgid "Do not modify"
+msgstr "Nu modifica"
+
+#: ../data/glade/gthumb_comments.glade.h:8
+msgid "Image creation date"
+msgstr "Data creării imaginii"
+
+#: ../data/glade/gthumb_comments.glade.h:9
+msgid "Last modified date"
+msgstr "Data ultimei modificări"
+
+#: ../data/glade/gthumb_comments.glade.h:10
+msgid "No date"
+msgstr "Nicio dată"
+
+#: ../data/glade/gthumb_comments.glade.h:11
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Data digitalizării (din EXIF)"
+
+#: ../data/glade/gthumb_comments.glade.h:12
+msgid "Remove selected category"
+msgstr "Elimină categoria selectată"
+
+#: ../data/glade/gthumb_comments.glade.h:13
+msgid "Save only cha_nged fields"
+msgstr "Salvează _numai câmpurile schimbate"
+
+#: ../data/glade/gthumb_comments.glade.h:14
+msgid "The following date"
+msgstr "Data de mai jos"
+
+#: ../data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:23
+msgid "_Date:"
+msgstr "_Dată:"
+
+#: ../data/glade/gthumb_comments.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:26
+msgid "_Place:"
+msgstr "_Loc:"
+
+#: ../data/glade/gthumb_comments.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:29
+msgid "_Selected categories:"
+msgstr "Categorii _selectate:"
+
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "<b>Compression</b>"
+msgstr "<b>Compresie</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
+msgid "<b>Image type</b>"
+msgstr "<b>Tipul imaginii</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:16
+msgid "<b>Resolution</b>"
+msgstr "<b>Rezoluţie</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:5
+#: ../data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:20
+msgid "<b>Saving</b>"
+msgstr "<b>Salvare</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "Nive_l de compresie:"
+
+#: ../data/glade/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr ""
+
+#: ../data/glade/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "Opțiuni JPEG"
+
+#: ../data/glade/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "No_rmal (micşorare)"
+
+#: ../data/glade/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "Opti_m"
+
+#: ../data/glade/gthumb_convert.glade.h:12
+#: ../data/glade/gthumb_tools.glade.h:37
+msgid "Overwrite mode:"
+msgstr "Mod de suprascriere:"
+
+#: ../data/glade/gthumb_convert.glade.h:13
+msgid "PNG Options"
+msgstr "Opțiuni PNG"
+
+#: ../data/glade/gthumb_convert.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:39
+msgid "R_emove original"
+msgstr "_Elimină originalul"
+
+#: ../data/glade/gthumb_convert.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:41
+msgid "Rename"
+msgstr "Redenumire"
+
+#: ../data/glade/gthumb_convert.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid ""
+"Skip\n"
+"Rename\n"
+"Ask\n"
+"Overwrite"
+msgstr ""
+"Sari\n"
+"Redenumeşte\n"
+"Întreabă\n"
+"Suprascrie"
+
+#: ../data/glade/gthumb_convert.glade.h:20
+msgid "TGA Options"
+msgstr "Opţiuni TGA"
+
+#: ../data/glade/gthumb_convert.glade.h:21
+msgid "TIFF Options"
+msgstr "Opţiuni TIFF"
+
+#: ../data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:55
+msgid "T_GA"
+msgstr "T_GA"
+
+#: ../data/glade/gthumb_convert.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:65
+msgid "_Horizontal:"
+msgstr "_Orizontal:"
+
+#: ../data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:62
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: ../data/glade/gthumb_convert.glade.h:26
+msgid "_Loss compression (JPEG)"
+msgstr "Compresie cu _pierderi (JPEG)"
+
+#: ../data/glade/gthumb_convert.glade.h:27
+msgid "_No compression"
+msgstr "_Fără compresie"
+
+#: ../data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:65
+msgid "_PNG"
+msgstr "_PNG"
+
+#: ../data/glade/gthumb_convert.glade.h:29
+msgid "_Progressive"
+msgstr "_Progresiv"
+
+#: ../data/glade/gthumb_convert.glade.h:30
+msgid "_Quality:"
+msgstr "_Calitate:"
+
+#: ../data/glade/gthumb_convert.glade.h:31
+msgid "_RLE compression"
+msgstr "Compresie _RLE"
+
+#: ../data/glade/gthumb_convert.glade.h:32
+msgid "_Smoothing:"
+msgstr "Fini_sare:"
+
+#: ../data/glade/gthumb_convert.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:71
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: ../data/glade/gthumb_convert.glade.h:34
+#: ../data/glade/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "_Vertical:"
+
+#: ../data/glade/gthumb_convert.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:53
+msgid "dpi"
+msgstr "ppi"
+
+#: ../data/glade/gthumb_crop.glade.h:1
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 x 3 (Carte, DVD)"
+
+#: ../data/glade/gthumb_crop.glade.h:2
+msgid "4 x 6 (Postcard)"
+msgstr "4 x 6 (Carte poştală)"
+
+#: ../data/glade/gthumb_crop.glade.h:3
+msgid "5 x 7"
+msgstr "5 x 7"
+
+#: ../data/glade/gthumb_crop.glade.h:4
+msgid "8 x 10"
+msgstr "8 x 10"
+
+#: ../data/glade/gthumb_crop.glade.h:5
+msgid "<b>Aspect ratio</b>"
+msgstr "<b>Proporţii pentru aspect</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:6
+msgid "<b>Selection</b>"
+msgstr "<b>Selecţie</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "Crop"
+msgstr "Decupează"
+
+#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
+msgid "Custom"
+msgstr "Personalizat"
+
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid "I_nvert aspect ratio"
+msgstr "I_nversează proporţiile pentru aspect"
+
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:67
+msgid "None"
+msgstr "Fără"
+
+#: ../data/glade/gthumb_crop.glade.h:11
+msgid "Square"
+msgstr "Pătrat"
+
+#: ../data/glade/gthumb_crop.glade.h:12
+msgid "_Crop"
+msgstr "De_cupează"
+
+#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:60
+msgid "_Height:"
+msgstr "Înă_lţime:"
+
+#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:74
+msgid "_Width:"
+msgstr "Lăţi_me:"
+
+#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
+msgid "_X:"
+msgstr "_X:"
+
+#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../data/glade/gthumb_edit.glade.h:2
+#: ../data/glade/gthumb_png_exporter.glade.h:2
+#: ../data/glade/gthumb_preferences.glade.h:2
+#: ../data/glade/gthumb_tools.glade.h:2
+#: ../data/glade/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:4
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../data/glade/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>Nivelul culorilor</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
+msgid "<b>New dimensions</b>"
+msgstr "<b>Dimensiuni noi</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>Dimensiuni originale</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>Scară de proporţii</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "Luminozitate - Contrast"
+
+#: ../data/glade/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "Balans de culoare"
+
+#: ../data/glade/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "Con_trast:"
+
+#: ../data/glade/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "Înălțime:"
+
+#: ../data/glade/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "_Calitate înaltă"
+
+#: ../data/glade/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "Păstrează luminozitatea"
+
+#: ../data/glade/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "Redimensionează imaginea"
+
+#: ../data/glade/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "Lățime:"
+
+#: ../data/glade/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "_Luminozitate"
+
+#: ../data/glade/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:63
+msgid "_Keep aspect ratio"
+msgstr "_Păstrează aspectul"
+
+#: ../data/glade/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "_Niveluri:"
+
+#: ../data/glade/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "_Luminozitate:"
+
+#: ../data/glade/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "_Previzualizare"
+
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:67
+msgid "_Reset"
+msgstr ""
+
+#: ../data/glade/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "_Saturaţie"
+
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:68
+msgid "_Scale"
+msgstr "_Redimensionează"
+
+#: ../data/glade/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:3
+msgid "112"
+msgstr "112"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:4
+msgid "128"
+msgstr "128"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:5
+msgid "164"
+msgstr "164"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:6
+msgid "200"
+msgstr "200"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:7
+msgid "256"
+msgstr "256"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:8
+msgid "48"
+msgstr "48"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:9
+msgid "64"
+msgstr "64"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:10
+msgid "75"
+msgstr "75"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:11
+msgid "85"
+msgstr "85"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:12
+msgid "95"
+msgstr "95"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:13
+msgid "<b>Background style</b>"
+msgstr "<b>Stil fundal</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:14
+msgid "<b>Caption</b>"
+msgstr "<b>Titlu</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:15
+msgid "<b>Footer</b>"
+msgstr "<b>Subsol</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:16
+msgid "<b>Header and footer</b>"
+msgstr "<b>Antet şi subsol</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:17
+msgid "<b>Header</b>"
+msgstr "<b>Antet</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:18
+msgid "<b>Index images</b>"
+msgstr "<b>Index cu imagini</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:19
+msgid "<b>Page size</b>"
+msgstr "<b>Mărime pagină</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:21
+msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:23
+#, no-c-format
+msgid ""
+"<small><i><b>Note:</b> %p (page number), %n (total number of "
+"pages)</i>.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:30
+msgid "Co_mment"
+msgstr "Co_mentariu"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:26
+msgid "Col_umns:"
+msgstr "Col_oane:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:27
+msgid "Colo_r:"
+msgstr "Culoa_re:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:28
+msgid "Create Index Image"
+msgstr "Creează un index de imagini"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:29
+msgid "Create _HTML image map"
+msgstr "Creează o hartă _HTML cu imagini"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:30
+msgid "F_ooter:"
+msgstr "Subs_ol:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:34
+msgid "File _name"
+msgstr "_Nume fişier"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:32
+msgid "File pa_th"
+msgstr "Ca_le fişier"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:35
+msgid "File si_ze"
+msgstr "Mă_rime fişier"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:34
+msgid "Frame _style:"
+msgstr "_Stil cadru:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:35
+msgid "Frame co_lor:"
+msgstr "Cu_loare cadru:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:36
+msgid "H_eader:"
+msgstr "Ant_et:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:37
+msgid "Header/Footer"
+msgstr "Antet/Subsol"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:38
+msgid "Hei_ght:"
+msgstr "Înălţi_me:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:38
+msgid "Image dim_ensions"
+msgstr "Dim_ensiuni imagine"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:40
+msgid "Images"
+msgstr "Imagini"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:41
+msgid "Index Image Style"
+msgstr "Stilul imaginii index"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:42
+msgid "Page"
+msgstr "Pagină"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:43
+msgid "Pi_xels"
+msgstr "Pi_xeli"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:40
+msgid "Re_verse order"
+msgstr "Ordine in_versă"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:45
+msgid "Rows a_nd columns"
+msgstr "Râ_nduri şi coloane"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:46
+msgid "Select a color"
+msgstr "Alegeţi o culoare"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a font"
+msgstr "Alegeţi un font"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:48
+msgid "Shadow in"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:49
+msgid "Shadow only"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:50
+msgid "Shadow out"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:51
+msgid "Simple"
+msgstr "Simplă"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:52
+msgid "Simple with shadow"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:53
+msgid "Slide"
+msgstr "Cadru"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:54
+msgid "Sor_t:"
+msgstr "Sor_tare:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:55
+msgid "Sort"
+msgstr "Sortează"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:56
+msgid "St_yle"
+msgstr "St_il"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:57
+#: ../data/glade/gthumb_search.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:54
+msgid "Start _at:"
+msgstr "Începe l_a:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:42
+msgid "Style Preview"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "Lăţ_ime:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:62
+msgid "_Draw frame"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:63
+msgid "_Font:"
+msgstr "_Font:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:64
+msgid "_Gradient"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:66
+msgid "_Image size:"
+msgstr "Mărimea imaginii:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "_Rânduri:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:72
+msgid "_Template:"
+msgstr ""
+
+#: ../data/glade/gthumb_png_exporter.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:75
+#: ../data/glade/gthumb_web_exporter.glade.h:61
+msgid "by name"
+msgstr "după nume"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:72
+msgid "jpeg"
+msgstr "jpeg"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:73
+msgid "png"
+msgstr "png"
+
+#: ../data/glade/gthumb_preferences.glade.h:3
+msgid "0:"
+msgstr "0:"
+
+#: ../data/glade/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: ../data/glade/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: ../data/glade/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: ../data/glade/gthumb_preferences.glade.h:7
+msgid "1:"
+msgstr "1:"
+
+#: ../data/glade/gthumb_preferences.glade.h:8
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: ../data/glade/gthumb_preferences.glade.h:9
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: ../data/glade/gthumb_preferences.glade.h:10
+msgid "2:"
+msgstr "2:"
+
+#: ../data/glade/gthumb_preferences.glade.h:11
+msgid "3:"
+msgstr "3:"
+
+#: ../data/glade/gthumb_preferences.glade.h:12
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: ../data/glade/gthumb_preferences.glade.h:13
+msgid "4:"
+msgstr "4:"
+
+#: ../data/glade/gthumb_preferences.glade.h:14
+msgid "5:"
+msgstr "5:"
+
+#: ../data/glade/gthumb_preferences.glade.h:15
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "6:"
+msgstr "6:"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "7:"
+msgstr "7:"
+
+#: ../data/glade/gthumb_preferences.glade.h:18
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: ../data/glade/gthumb_preferences.glade.h:19
+msgid "8:"
+msgstr "8:"
+
+#: ../data/glade/gthumb_preferences.glade.h:20
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: ../data/glade/gthumb_preferences.glade.h:21
+msgid "9:"
+msgstr "9:"
+
+#: ../data/glade/gthumb_preferences.glade.h:22
+msgid "<b>Direction</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:23
+msgid "<b>Hide/Show</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:24
+msgid "<b>Interface</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:25
+msgid "<b>On startup:</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:26
+msgid "<b>Other</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:27
+msgid "<b>Slide show</b>"
+msgstr "<b>Prezentare</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:28
+msgid "<b>Viewer</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:29
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Calitate pentru zoom</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:31
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%n = a single filename, including path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:39
+msgid "Activate items with a double click"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:40
+msgid "Activate items with a single click"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:41
+msgid "After _loading an image:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:42
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:43
+msgid "Ask whether to save _modified images"
+msgstr "Întreabă dacă să se salveze imaginile _modificate"
+
+#: ../data/glade/gthumb_preferences.glade.h:44
+msgid "Black"
+msgstr "Negru"
+
+#: ../data/glade/gthumb_preferences.glade.h:45
+msgid "Browser"
+msgstr "Navigator"
+
+#: ../data/glade/gthumb_preferences.glade.h:46
+msgid "C_lick policy:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:47
+msgid "Checked"
+msgstr "Bifat"
+
+#: ../data/glade/gthumb_preferences.glade.h:48
+msgid "Choose startup folder"
+msgstr "Alegeți dosarul de început"
+
+#: ../data/glade/gthumb_preferences.glade.h:49
+msgid "Co_mments"
+msgstr "Co_mentariii"
+
+#: ../data/glade/gthumb_preferences.glade.h:50
+msgid "D_elay before changing image:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:51
+msgid "D_etermine image type from content (slower)"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:52
+msgid "Do _not change folder"
+msgstr "_Nu schimba dosarul"
+
+#: ../data/glade/gthumb_preferences.glade.h:53
+msgid "Fit to width if larger"
+msgstr "Adaptează la lățime dacă e mai mare"
+
+#: ../data/glade/gthumb_preferences.glade.h:54
+msgid "Fit to window if larger"
+msgstr "Adaptează la fereastră dacă e mai mare"
+
+#: ../data/glade/gthumb_preferences.glade.h:55
+msgid "Follow Nautilus behaviour"
+msgstr "Urmează comportamentul Nautilus"
+
+#: ../data/glade/gthumb_preferences.glade.h:56
+msgid "For_ward"
+msgstr "Î_nainte"
+
+#: ../data/glade/gthumb_preferences.glade.h:57
+msgid "General"
+msgstr "General"
+
+#: ../data/glade/gthumb_preferences.glade.h:58
+msgid "Go to last _visited folder or catalog"
+msgstr "Mergi la ultimul dosar sau catalog vizitat"
+
+#: ../data/glade/gthumb_preferences.glade.h:59
+msgid "Go to this _folder:"
+msgstr "Mergi la acest _dosar:"
+
+#: ../data/glade/gthumb_preferences.glade.h:60
+msgid "H_igh"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:61
+msgid "Hot Keys"
+msgstr "Taste rapide"
+
+#: ../data/glade/gthumb_preferences.glade.h:62
+msgid "Icons only"
+msgstr "Numai iconițe"
+
+#: ../data/glade/gthumb_preferences.glade.h:63
+msgid "Keep previous zoom"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:64
+msgid ""
+"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
+"the selected images with other applications."
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:65
+msgid "Layout:"
+msgstr "Aranjament:"
+
+#: ../data/glade/gthumb_preferences.glade.h:66
+msgid "Lo_w"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:68
+msgid "Ran_dom"
+msgstr "A_leator"
+
+#: ../data/glade/gthumb_preferences.glade.h:69
+msgid "Re_verse"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:70
+msgid "Reset scrollbar positions after loading an image"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:71
+msgid "Resta_rt when finished"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:72
+msgid "Set image to actual size"
+msgstr "Setează imaginea la mărimea actuală"
+
+#: ../data/glade/gthumb_preferences.glade.h:73
+msgid "Set to C_urrent"
+msgstr "Setează la cea c_urentă"
+
+#: ../data/glade/gthumb_preferences.glade.h:74
+msgid "Slide Show"
+msgstr "Prezentare"
+
+#: ../data/glade/gthumb_preferences.glade.h:75
+msgid "System settings"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:76
+msgid "Text below icons"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:77
+msgid "Text beside icons"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:78
+msgid "Text only"
+msgstr "Numai text"
+
+#: ../data/glade/gthumb_preferences.glade.h:79
+msgid "Th_umbnail size:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:80
+msgid "Transparency _type:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:81
+msgid "Use a _fading effect when changing image"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:82
+msgid "Viewer"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:83
+msgid "White"
+msgstr "Alb"
+
+#: ../data/glade/gthumb_preferences.glade.h:84
+msgid "_Filenames"
+msgstr "Nume de _fișiere:"
+
+#: ../data/glade/gthumb_preferences.glade.h:85
+#: ../src/gth-browser-actions-entries.h:418
+msgid "_Thumbnails"
+msgstr "Minia_turi"
+
+#: ../data/glade/gthumb_preferences.glade.h:86
+msgid "_Toolbar style:"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:87
+msgid "gThumb Preferences"
+msgstr "Preferinţe gThumb"
+
+#: ../data/glade/gthumb_preferences.glade.h:88
+msgid "seconds"
+msgstr "secunde"
+
+#: ../data/glade/gthumb_print.glade.h:4
+msgid "1"
+msgstr "1"
+
+#: ../data/glade/gthumb_print.glade.h:5
+msgid "150"
+msgstr "150"
+
+#: ../data/glade/gthumb_print.glade.h:6
+msgid "16"
+msgstr "16"
+
+#: ../data/glade/gthumb_print.glade.h:7
+msgid "2"
+msgstr "2"
+
+#: ../data/glade/gthumb_print.glade.h:8
+msgid "300"
+msgstr "300"
+
+#: ../data/glade/gthumb_print.glade.h:9
+msgid "4"
+msgstr "4"
+
+#: ../data/glade/gthumb_print.glade.h:10
+msgid "600"
+msgstr "600"
+
+#: ../data/glade/gthumb_print.glade.h:11
+msgid "72"
+msgstr "72"
+
+#: ../data/glade/gthumb_print.glade.h:12
+msgid "8"
+msgstr "8"
+
+#: ../data/glade/gthumb_print.glade.h:13
+msgid "<b>Image Sizing</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:14
+msgid "<b>Margins</b>"
+msgstr "<b>Margini</b>"
+
+#: ../data/glade/gthumb_print.glade.h:15
+msgid "<b>Orientation</b>"
+msgstr "<b>Orientare</b>"
+
+#: ../data/glade/gthumb_print.glade.h:17
+msgid "<b>Size</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:18
+msgid ""
+"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
+"Click on an image to rotate it.</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:20
+msgid ""
+"<small><i><b>Note:</b> High-resolution images will be\n"
+"down-sampled to this resolution. Increase\n"
+"the resolution to get better image quality.\n"
+"Decrease it to get shorter print times.</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "A4"
+msgstr "A4"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Automatic sizing"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:26
+msgid "Center _on Page"
+msgstr "Centrează _pe pagină"
+
+#: ../data/glade/gthumb_print.glade.h:27
+msgid "Comment _font:"
+msgstr "_Fontul comentariului:"
+
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Executive"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:30
+msgid "I_nclude comment"
+msgstr "I_nclude comentariul"
+
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Images per page:"
+msgstr "Imagini pe pagină:"
+
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "Inches"
+msgstr "Țoli"
+
+#: ../data/glade/gthumb_print.glade.h:33
+msgid "Include filename"
+msgstr "Include numele fișierului"
+
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "Lan_dscape"
+msgstr "Peisa_j"
+
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "Layout"
+msgstr "Aspect"
+
+#: ../data/glade/gthumb_print.glade.h:36
+msgid "Legal"
+msgstr "Legal"
+
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "Letter"
+msgstr "Scrisoare"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "Millimeters"
+msgstr "Milimetri"
+
+#: ../data/glade/gthumb_print.glade.h:39
+msgid "P_ortrait"
+msgstr "P_ortret"
+
+#: ../data/glade/gthumb_print.glade.h:40
+msgid "Paper Details"
+msgstr "Detalii despre hârtie"
+
+#: ../data/glade/gthumb_print.glade.h:41
+msgid "Postcard"
+msgstr "Carte poștală"
+
+#.
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2719
+#: ../src/gth-window-actions-entries.h:70
+msgid "Print"
+msgstr "Tipărește"
+
+#: ../data/glade/gthumb_print.glade.h:43
+msgid "Scale to this size"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:44
+msgid "Tabloid"
+msgstr "Tabloid"
+
+#: ../data/glade/gthumb_print.glade.h:45
+msgid "_Bottom:"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:47
+msgid "_Left:"
+msgstr "S_tânga:"
+
+#: ../data/glade/gthumb_print.glade.h:48
+msgid "_Right:"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:49
+msgid "_Scale:"
+msgstr "_Scară:"
+
+#: ../data/glade/gthumb_print.glade.h:50
+msgid "_Top:"
+msgstr ""
+
+#: ../data/glade/gthumb_print.glade.h:51
+msgid "_Unit:"
+msgstr ""
+
+#: ../data/glade/gthumb_redeye.glade.h:1
+msgid "<b>Position</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_redeye.glade.h:2
+msgid "Actual Size"
+msgstr ""
+
+#: ../data/glade/gthumb_redeye.glade.h:3
+msgid "Red-Eye Removal"
+msgstr "Înlătură ochii roșii"
+
+#: ../data/glade/gthumb_redeye.glade.h:4
+msgid "Redo"
+msgstr "Refă"
+
+#  (Toplevel Edit menu uses utilityOverlay)
+#: ../data/glade/gthumb_redeye.glade.h:5
+msgid "Undo"
+msgstr "Anulează"
+
+#: ../data/glade/gthumb_redeye.glade.h:6
+msgid "Zoom In"
+msgstr "Apropie"
+
+#: ../data/glade/gthumb_redeye.glade.h:7
+msgid "Zoom Out"
+msgstr "Depărtează"
+
+#: ../data/glade/gthumb_redeye.glade.h:8
+msgid "Zoom to Fit"
+msgstr ""
+
+#: ../data/glade/gthumb_search.glade.h:2
+msgid "<b>Search criteria</b>"
+msgstr "<b>Criteriu de căutare</b>"
+
+#: ../data/glade/gthumb_search.glade.h:3
+msgid "<b>Search scope</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_search.glade.h:5
+msgid "After"
+msgstr "După"
+
+#: ../data/glade/gthumb_search.glade.h:6
+msgid "Any"
+msgstr "Oricând"
+
+#: ../data/glade/gthumb_search.glade.h:7
+msgid "Before"
+msgstr "Înainte de"
+
+#: ../data/glade/gthumb_search.glade.h:10
+msgid "Choose categories from the saved list"
+msgstr "Alege categorii din lista celor salvate"
+
+#: ../data/glade/gthumb_search.glade.h:12
+msgid "Equal to"
+msgstr "În"
+
+#: ../data/glade/gthumb_search.glade.h:13
+msgid "File _name:"
+msgstr "_Nume fișier:"
+
+#: ../data/glade/gthumb_search.glade.h:14
+msgid "Found images:"
+msgstr ""
+
+#: ../data/glade/gthumb_search.glade.h:15
+msgid "Match a_ll selected categories"
+msgstr ""
+
+#: ../data/glade/gthumb_search.glade.h:16
+msgid "Match a_ny selected category"
+msgstr ""
+
+#: ../data/glade/gthumb_search.glade.h:17
+msgid "New _Search..."
+msgstr "_Căutare nouă..."
+
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:869
+#: ../src/dlg-photo-importer.c:1560
+msgid "No images found"
+msgstr "Nu s-a găsit nicio imagine"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Search"
+msgstr "Căutare"
+
+#: ../data/glade/gthumb_search.glade.h:20
+msgid "Search Progress"
+msgstr "Progresul căutării"
+
+#: ../data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:49
+msgid "Searching in:"
+msgstr "Căutare în:"
+
+#: ../data/glade/gthumb_search.glade.h:24
+msgid "_Edit Search"
+msgstr "_Editează căutarea"
+
+#: ../data/glade/gthumb_search.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:61
+msgid "_Include sub-folders"
+msgstr "_Include subdosarele"
+
+#: ../data/glade/gthumb_search.glade.h:27
+msgid "_Save"
+msgstr "_Salvează"
+
+#: ../data/glade/gthumb_search.glade.h:28
+msgid "_Search"
+msgstr "_Caută"
+
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:73
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
+msgid "_View"
+msgstr "_Vedere"
+
+#: ../data/glade/gthumb_tools.glade.h:5
+msgid "<b>Change the following values:</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:6
+msgid "<b>Change to:</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:10
+msgid "<b>Write to CD</b>"
+msgstr "<b>Scrie pe CD</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:11
+msgid ""
+"<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
+"When viewing images, you can use the [ and ] shortcut\n"
+"keys to rotate and save losslessly, bypassing this dialog.</i></small>"
+msgstr ""
+"<small><i><b>Notă</b>: Transformările JPEG se fac în mod normal fără "
+"pierderi.\n"
+"Când vizualizați imagini, puteți folosi [ și ] tastele rapide\n"
+"pentru a roti și salva fără pierderi, fără a afișa acest "
+"dialog.</i></small>"
+
+#: ../data/glade/gthumb_tools.glade.h:15
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
+"%d (image date), %s (image size), %e (original extension).</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:16
+msgid "A_djust timezone:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:17
+msgid "Apply physical _transform"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Apply to all _images"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:19
+msgid "C_urrent date"
+msgstr "Data c_urentă"
+
+#: ../data/glade/gthumb_tools.glade.h:20
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
+msgid "Ca_talog"
+msgstr "Ca_talog"
+
+#: ../data/glade/gthumb_tools.glade.h:21
+msgid "Change Date"
+msgstr "Schimbă data"
+
+#: ../data/glade/gthumb_tools.glade.h:22
+msgid "Check _All"
+msgstr "Bifează to_ate"
+
+#: ../data/glade/gthumb_tools.glade.h:23
+msgid "Check _None"
+msgstr "Niciuna bifată"
+
+#: ../data/glade/gthumb_tools.glade.h:24
+msgid "Checking image:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:26
+msgid ""
+"Click OK to reset the Exif orientation tag for the selected images to "
+"Top-Left."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:27
+msgid "Co_mment date"
+msgstr "Data co_mentariului"
+
+#: ../data/glade/gthumb_tools.glade.h:28
+msgid "Current _Folder"
+msgstr "_Dosarul curent"
+
+#: ../data/glade/gthumb_tools.glade.h:29
+msgid "EXIF date"
+msgstr "Dată EXIF"
+
+#: ../data/glade/gthumb_tools.glade.h:30
+msgid "Equal images:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:31
+msgid "Found duplicates:"
+msgstr "S-au găsit duplicate:"
+
+#: ../data/glade/gthumb_tools.glade.h:32
+msgid "Image c_reation date"
+msgstr "Data c_reării imaginii"
+
+#: ../data/glade/gthumb_tools.glade.h:33
+msgid "Mirror image horizontally (left-right)"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:34
+msgid "Mirror image vertically (top-bottom)"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:35
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
+msgid "Move to _Trash"
+msgstr "Mută în coșul de _gunoi"
+
+#: ../data/glade/gthumb_tools.glade.h:36
+msgid "New names _preview:"
+msgstr "_Previzualizare nume noi:"
+
+#: ../data/glade/gthumb_tools.glade.h:38
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "Data digitalizării fotografiei (Din datele EXIF)"
+
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "Re_verse Order"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:42
+msgid "Reset Exif Orientation Tags"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:43
+msgid "Rotate Images"
+msgstr "Roteşte imaginile"
+
+#: ../data/glade/gthumb_tools.glade.h:44
+msgid "Rotate image 90 degrees clockwise"
+msgstr "Roteşte imaginea 90 de grade în sensul acelor de ceas"
+
+#: ../data/glade/gthumb_tools.glade.h:45
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "Roteşte imaginea 90 de grade în sensul invers acelor de ceas"
+
+#: ../data/glade/gthumb_tools.glade.h:46
+#: ../src/gth-browser-actions-entries.h:394
+msgid "Scale Images"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:47
+msgid "Search for Duplicates"
+msgstr "Caută după duplicate"
+
+#: ../data/glade/gthumb_tools.glade.h:48
+msgid "Search terminated, no duplicates found."
+msgstr "Căutarea s-a încheiat, nu s-au găsit duplicate."
+
+#: ../data/glade/gthumb_tools.glade.h:56
+msgid "The _following date:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:57
+msgid ""
+"This checkbox governs the rotation method used for JPEG images that contain "
+"Exif orientation tags. If this checkbox is enabled, the rotation will be "
+"performed using a physical transform, and the Exif orientation tag will be "
+"reset to the default \"top left\" value. If it is not enabled, the rotation "
+"will be performed by changing the Exif orientation tag only. For maximum "
+"compatibility with other applications, this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:58
+msgid "Write To CD"
+msgstr "Scrie pe CD"
+
+#: ../data/glade/gthumb_tools.glade.h:64
+msgid "_Last modified date"
+msgstr "Data u_ltimei modificări"
+
+#: ../data/glade/gthumb_tools.glade.h:66
+#: ../src/gth-browser-actions-callbacks.c:469
+#: ../src/gth-browser-actions-callbacks.c:977
+msgid "_Rename"
+msgstr "_Redenumește"
+
+#: ../data/glade/gthumb_tools.glade.h:69
+msgid "_Selected Images"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:70
+msgid "_Sort:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:76
+msgid "hours"
+msgstr "ore"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:4
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:6
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:7
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:8
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:9
+msgid "320 x 320"
+msgstr "320 x 320"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:10
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:11
+msgid "640 x 640"
+msgstr "640 x 640"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:12
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:13
+msgid "800 x 800"
+msgstr "800 x 800"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:14
+msgid "<b>Album Style</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:15
+msgid "<b>Basic Information</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:16
+msgid "<b>Camera Data</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:17
+msgid "<b>Comments</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:18
+msgid "<b>Index Page Layout</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:19
+msgid "<b>Personalize theme</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:21
+msgid "<b>Theme</b>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:23
+#, no-c-format
+msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:24
+msgid ""
+"<small><i><b>Note:</b> Some themes may auto-adjust the\n"
+"number of rows and columns, but keep the total \n"
+"number of images per page constant.</i></small>"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:27
+msgid "Came_ra Model"
+msgstr "Modelul came_rei"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:28
+msgid "Caption"
+msgstr "Titlu"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:31
+msgid "Da_te and Time"
+msgstr "Da_ta și ora"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:32
+msgid "E_xposure mode"
+msgstr "Mod de e_xpunere"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:33
+msgid "Exposure _time"
+msgstr "_Timp de expunere"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:36
+msgid "Focal _length"
+msgstr "_Lungime focală"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:37
+msgid "I_mage Caption..."
+msgstr "Titlu i_magine..."
+
+#: ../data/glade/gthumb_web_exporter.glade.h:39
+msgid "Inde_x file:"
+msgstr "Fișier inde_x:"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:41
+msgid "S_ort:"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:43
+msgid "Web Album"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:44
+msgid "Web Album Theme"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:45
+msgid "_Aperture value"
+msgstr "V_aloare pentru deschidere"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:46
+msgid "_Copy originals to destination"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Date and Time"
+msgstr "_Data și ora"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:49
+msgid "_Flash"
+msgstr "_Bliț"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:50
+msgid "_Footer:"
+msgstr "Su_bsol:"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:51
+msgid "_Go to Theme Folder"
+msgstr "Mer_gi la dosarul cu teme"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:52
+msgid "_Header:"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:53
+msgid "_Install Theme..."
+msgstr "_Instalează tema..."
+
+#: ../data/glade/gthumb_web_exporter.glade.h:54
+msgid "_Place"
+msgstr "_Loc"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:55
+msgid "_Resize if larger than:"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:56
+msgid "_Select"
+msgstr "_Selectează"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:57
+msgid "_Shutter speed"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:58
+msgid "_Size :"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:59
+msgid "_Theme:"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:60
+msgid "_Thumbnail Caption..."
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:62
+msgid "columns, by"
+msgstr "coloane, după"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:63
+msgid "index.html"
+msgstr "index.html"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:64
+msgid "or _use a single index page"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:65
+msgid "rows per page,"
+msgstr ""
+
+#: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Vizualizator de imagini"
+
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:807
+msgid "View and organize your images"
+msgstr ""
+
+#: ../data/gthumb.desktop.in.h:3
+msgid "gThumb Image Viewer"
+msgstr "Vizualizatorul de imagini gThumb"
+
+#: ../data/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:2
+msgid ""
+"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
+"(reverse landscape)"
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:3
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:4
+msgid "Possible values are: 72, 150, 300, 600."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:5
+msgid ""
+"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:6
+msgid "Possible values are: ascending, descending."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:7
+msgid "Possible values are: forward, backward, random."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:8
+msgid "Possible values are: high, low."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:9
+msgid "Possible values are: image, data, comment."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:10
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:11
+msgid "Possible values are: light, midtone, dark."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:12
+msgid "Possible values are: list, thumbnails."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:13
+msgid "Possible values are: manual, auto."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:14
+msgid "Possible values are: mm, in."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:15
+msgid "Possible values are: nautilus, single, double."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, deflate, jpeg."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:17
+msgid "Possible values are: none, name, path, size, time, exifdate, comment."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:18
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:19
+msgid ""
+"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:20
+msgid "Possible values are: pixels, percentage."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:21
+msgid "Possible values are: png, jpeg."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:22
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:23
+msgid "Possible values are: small, medium, large."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:24
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:25
+msgid "Possible values are: white, black, checked, none."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:26
+msgid "Whether to always use a black background."
+msgstr ""
+
+#: ../data/gthumb.schemas.in.h:27
+msgid "Whether to reset the scrollbar positions after changing image"
+msgstr ""
+
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "Nu se poate deschide catalogul „%s”: %s"
+
+#: ../libgthumb/catalog.c:335
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr "Nu se poate salva catalogul „%s”: %s"
+
+#: ../libgthumb/comments.c:1257 ../src/catalog-web-exporter.c:141
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: ../libgthumb/comments.c:1259 ../src/catalog-web-exporter.c:56
+#: ../src/catalog-web-exporter.c:143 ../src/dlg-duplicates.c:548
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:492
+#: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
+#: ../src/gth-viewer.c:607
+msgid "%d %B %Y, %H:%M"
+msgstr "%d %B %Y, %H:%M"
+
+#: ../libgthumb/comments.c:1269 ../libgthumb/comments.c:1271
+msgid "(No Comment)"
+msgstr "(Fără comentariu)"
+
+#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:249
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "Tipul imaginii nu este suportat: %s"
+
+#: ../libgthumb/dlg-save-image.c:200
+msgid "Determine by extension"
+msgstr "Determină după extensie"
+
+#: ../libgthumb/dlg-save-image.c:234
+msgid "Save Image"
+msgstr "Salvare imagine"
+
+#: ../libgthumb/dlg-save-image.c:254
+msgid "Image type:"
+msgstr "Tipul imaginii:"
+
+#: ../libgthumb/file-utils.c:1360 ../src/gth-location.c:813
+msgid "Catalogs"
+msgstr "Cataloage"
+
+#: ../libgthumb/file-utils.c:1363 ../src/gth-location.c:819
+msgid "File System"
+msgstr "Sistem de fișiere"
+
+#: ../libgthumb/file-utils.c:1390 ../src/gth-location.c:826
+msgid "Home"
+msgstr "Acasă"
+
+#: ../libgthumb/file-utils.c:1966
+msgid "Library not empty"
+msgstr ""
+
+#: ../libgthumb/file-utils.c:1975
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr ""
+
+#: ../libgthumb/file-utils.c:2002
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr ""
+
+#: ../libgthumb/gth-image-list.c:3533 ../src/gth-browser.c:786
+#: ../src/gth-browser.c:4510 ../src/gth-viewer.c:758
+msgid "No image"
+msgstr "Nicio imagine"
+
+#: ../libgthumb/gth-utils.c:46
+msgid "Could not display help"
+msgstr ""
+
+#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
+msgid "Ro_tate Images"
+msgstr "Ro_teşte imaginile"
+
+#: ../libgthumb/print-callbacks.c:824
+#, c-format
+msgid "Page %d of %d"
+msgstr "Pagina %d din %d"
+
+#: ../libgthumb/print-callbacks.c:2248 ../src/catalog-png-exporter.c:1378
+#, c-format
+msgid "Loading image: %s"
+msgstr "Se încarcă imaginea: %s"
+
+#: ../libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr ""
+
+#: ../libgthumb/thumb-cache.c:489
+msgid "Deleting old thumbnails, wait please..."
+msgstr ""
+
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1265
+#: ../src/gth-browser.c:1269 ../src/gth-browser.c:1281
+msgid "(Invalid Name)"
+msgstr "(Nume invalid)"
+
+#: ../src/catalog-png-exporter.c:842 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:496 ../src/gth-exif-data-viewer.c:788
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:611
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d pixeli"
+
+#: ../src/catalog-png-exporter.c:1611
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr ""
+
+#: ../src/catalog-web-exporter.c:1870
+msgid "Saving thumbnails"
+msgstr ""
+
+#: ../src/catalog-web-exporter.c:1939
+msgid "Saving HTML pages: Images"
+msgstr ""
+
+#: ../src/catalog-web-exporter.c:2014
+msgid "Saving HTML pages: Indexes"
+msgstr ""
+
+#: ../src/catalog-web-exporter.c:2144 ../src/catalog-web-exporter.c:2397
+msgid "Saving images"
+msgstr ""
+
+#. This function is used when "Copy originals to destination" is
+#. enabled, and resizing is NOT enabled. This allows us to use a
+#. lossless copy (and rotate). When resizing is enabled, a lossy
+#. save has to be used.
+#: ../src/catalog-web-exporter.c:2208
+msgid "Copying original images"
+msgstr "Se copiază imaginile originale"
+
+#: ../src/catalog-web-exporter.c:2581
+#: ../src/gth-window-actions-callbacks.c:219 ../src/rotation-utils.c:132
+msgid "Could not create a temporary folder"
+msgstr "Nu se poate crea un dosar temporar"
+
+#. Load thumbnails.
+#: ../src/catalog-web-exporter.c:2614
+msgid "Loading images"
+msgstr "Se încarcă imaginile"
+
+#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:684
+msgid "Enter the catalog name: "
+msgstr ""
+
+#: ../src/dlg-catalog.c:94 ../src/dlg-catalog.c:148
+#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
+#: ../src/gth-browser-actions-callbacks.c:770
+msgid "C_reate"
+msgstr "C_reează"
+
+#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:825
+msgid "Enter the library name: "
+msgstr ""
+
+#: ../src/dlg-catalog.c:500
+msgid "Move Catalog to..."
+msgstr "Mută catalogul în..."
+
+#: ../src/dlg-categories.c:240
+msgid "Enter the new category name"
+msgstr "Introduceți numele noii categorii"
+
+#: ../src/dlg-categories.c:251
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+
+#: ../src/dlg-categories.c:256
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr ""
+
+#: ../src/dlg-change-date.c:180 ../src/dlg-jpegtran.c:257
+#: ../src/dlg-reset-exif.c:123 ../src/rotation-utils.c:147
+msgid "Could not create a local temporary copy of the remote file."
+msgstr ""
+
+#: ../src/dlg-change-date.c:196
+#, c-format
+msgid "Could not write Exif DataTime tag. Error %d."
+msgstr ""
+
+#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:287
+#: ../src/dlg-reset-exif.c:139 ../src/rotation-utils.c:205
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
+msgstr ""
+
+#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
+#, c-format
+msgid "Converting image: %s"
+msgstr ""
+
+#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
+#, c-format
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr ""
+
+#: ../src/dlg-convert.c:321 ../src/gth-batch-op.c:570
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr ""
+
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
+msgid "Skip"
+msgstr "Sări"
+
+#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:576
+msgid "_Overwrite"
+msgstr "S_uprascrie"
+
+#: ../src/dlg-crop.c:527
+#, c-format
+msgid "%d x %d (Image)"
+msgstr ""
+
+#: ../src/dlg-crop.c:535
+#, c-format
+msgid "%d x %d (Screen)"
+msgstr ""
+
+#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
+msgid "Duplicates"
+msgstr "Duplicate"
+
+#: ../src/dlg-duplicates.c:290
+msgid "Duplicates Size"
+msgstr ""
+
+#.
+#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:594
+#: ../src/gth-exif-data-viewer.c:803
+msgid "Name"
+msgstr "Nume"
+
+#: ../src/dlg-duplicates.c:397
+msgid "Last modified"
+msgstr "Modificat la"
+
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:614
+msgid "Location"
+msgstr "Amplasare"
+
+#: ../src/dlg-duplicates.c:754
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:90
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "Dosarul de destinație nu există. Doriți să-l creați?"
+
+#: ../src/dlg-file-utils.c:106
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "Nu se poate crea dosarul „%s”: %s."
+
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1585
+#, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+
+#: ../src/dlg-file-utils.c:203
+msgid "Could not delete the images:"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:226
+msgid ""
+"The images cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1135
+#: ../src/gth-browser.c:1845 ../src/gth-viewer.c:1008
+#: ../src/rotation-utils.c:85
+msgid "_Do not display this message again"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1173
+msgid "_Move"
+msgstr "_Mută"
+
+#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
+#: ../src/gth-browser-actions-callbacks.c:1400
+msgid "Choose the destination folder"
+msgstr "Alegeți dosarul de destinație"
+
+#: ../src/dlg-file-utils.c:548
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
+
+#: ../src/dlg-file-utils.c:784 ../src/dlg-file-utils.c:885
+msgid "You didn't enter the new name"
+msgstr "Nu ați introdus numele nou"
+
+#: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+"Numele „%s” este deja folosit în acest dosar. Vă rugăm folosiți un "
+"alt nume."
+
+#: ../src/dlg-file-utils.c:1042
+msgid "Could not rename the image:"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1044
+msgid "Could not rename the following images:"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1178
+msgid "Could not move the image:"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1180
+msgid "Could not copy the image:"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2464
+msgid "_Abort"
+msgstr "_Abandon"
+
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2465
+msgid "_Continue"
+msgstr "_Continuă"
+
+#: ../src/dlg-file-utils.c:1382
+#, c-format
+msgid "Copying file %d of %d"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1794 ../src/dlg-file-utils.c:2021
+msgid "Collecting images info"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:1797 ../src/dlg-file-utils.c:2034
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:2024
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:2029
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr ""
+
+#: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
+#: ../src/gth-browser-actions-callbacks.c:1282
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr ""
+
+#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:806
+#: ../src/gth-filter-bar.c:211
+msgid "Size"
+msgstr "Mărime"
+
+#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:808
+msgid "Type"
+msgstr "Tip"
+
+#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:508
+#: ../src/gth-exif-data-viewer.c:807 ../src/gth-viewer.c:623
+msgid "Modified"
+msgstr "Modificat"
+
+#: ../src/dlg-image-prop.c:624
+msgid "Information on Channel"
+msgstr "Informaţii despre canal"
+
+#: ../src/dlg-image-prop.c:733
+#, c-format
+msgid "%s Properties"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:936 ../src/dlg-photo-importer.c:1509
+#: ../src/dlg-photo-importer.c:1559 ../src/dlg-photo-importer.c:1571
+#: ../src/dlg-photo-importer.c:1587 ../src/dlg-photo-importer.c:1616
+msgid "Could not import photos"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:1294 ../src/main.c:1104
+msgid "Film"
+msgstr "Film"
+
+#: ../src/dlg-photo-importer.c:1568
+#: ../src/gth-browser-actions-callbacks.c:1600
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:1617
+msgid "Not enough free space left on disk"
+msgstr ""
+
+#: ../src/dlg-png-exporter.c:909
+msgid "Image Caption"
+msgstr "Titlu imagine"
+
+#: ../src/dlg-png-exporter.c:963
+msgid "Header"
+msgstr "Antet"
+
+#: ../src/dlg-png-exporter.c:976 ../src/dlg-png-exporter.c:982
+msgid "Footer"
+msgstr "Subsol"
+
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:472
+#: ../src/dlg-web-exporter.c:485
+msgid "by path"
+msgstr "după cale"
+
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:474
+#: ../src/dlg-web-exporter.c:487
+msgid "by size"
+msgstr "după mărime"
+
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:476
+#: ../src/dlg-web-exporter.c:489
+msgid "by file modified time"
+msgstr "după data modificării fișierului"
+
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:478
+#: ../src/dlg-web-exporter.c:491
+msgid "by Exif DateTime tag"
+msgstr "după eticheta exif DateTime"
+
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:480
+#: ../src/dlg-web-exporter.c:493
+msgid "by comment"
+msgstr "după comentariu"
+
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:483
+#: ../src/dlg-web-exporter.c:496
+msgid "manual order"
+msgstr ""
+
+#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:485
+#: ../src/gth-browser-actions-callbacks.c:700
+#: ../src/gth-browser-actions-callbacks.c:783
+#: ../src/gth-browser-actions-callbacks.c:991
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+
+#: ../src/dlg-rename-series.c:456
+msgid "Old Name"
+msgstr ""
+
+#: ../src/dlg-rename-series.c:464
+msgid "New Name"
+msgstr "Nume nou"
+
+#: ../src/dlg-search.c:358
+msgid "Search Result"
+msgstr "Rezultatele căutării"
+
+#: ../src/dlg-web-exporter.c:849
+msgid "Select Album Theme"
+msgstr ""
+
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3804
+msgid "Could not move the items:"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:266
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:274
+msgid "Stop"
+msgstr "Stop"
+
+#: ../src/gth-browser-actions-callbacks.c:275
+msgid "Continue"
+msgstr "Continuă"
+
+#: ../src/gth-browser-actions-callbacks.c:330
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:465
+#: ../src/gth-browser-actions-callbacks.c:973
+msgid "Enter the new name: "
+msgstr "Introduceți numele nou:"
+
+#: ../src/gth-browser-actions-callbacks.c:507
+#: ../src/gth-browser-actions-callbacks.c:719
+#: ../src/gth-browser-actions-callbacks.c:799
+#: ../src/gth-browser-actions-callbacks.c:1021
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:518
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:518
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:588
+msgid "The selected library will be removed, are you sure?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:590
+msgid "The selected catalog will be removed, are you sure?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:685
+msgid "New Catalog"
+msgstr "Catalog nou"
+
+#: ../src/gth-browser-actions-callbacks.c:731
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:824
+msgid "New Library"
+msgstr "Bibliotecă nouă"
+
+#: ../src/gth-browser-actions-callbacks.c:826
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1011
+#: ../src/gth-browser-actions-callbacks.c:1046
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1013
+#: ../src/gth-browser-actions-callbacks.c:1292
+msgid "source and destination are the same"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1096
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1127
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1171
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1224
+#: ../src/gth-browser-actions-callbacks.c:1282
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1303
+msgid "source contains destination"
+msgstr ""
+
+#: ../src/gth-browser-actions-callbacks.c:1314
+msgid "a folder with that name is already present."
+msgstr ""
+
+#  ***** BEGIN LICENSE BLOCK *****
+#  - Version: MPL 1.1/GPL 2.0/LGPL 2.1
+#  -
+#  - The contents of this file are subject to the Mozilla Public License Version
+#  - 1.1 (the "License"); you may not use this file except in compliance with
+#  - the License. You may obtain a copy of the License at
+#  - http://www.mozilla.org/MPL/
+#  -
+#  - Software distributed under the License is distributed on an "AS IS" basis,
+#  - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+#  - for the specific language governing rights and limitations under the
+#  - License.
+#  -
+#  - The Original Code is  Mozilla Communicator client code, released
+#  - March 31, 1998.
+#  -
+#  - The Initial Developer of the Original Code is
+#  - Netscape Communications Corporation
+#  - Portions created by the Initial Developer are Copyright (C) 1998-1999
+#  - the Initial Developer. All Rights Reserved.
+#  -
+#  - Contributor(s):
+#  -   Fabian Guisset <hidday@geocities.com>
+#  -
+#  - Alternatively, the contents of this file may be used under the terms of
+#  - either the GNU General Public License Version 2 or later (the "GPL"), or
+#  - the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+#  - in which case the provisions of the GPL or the LGPL are applicable instead
+#  - of those above. If you wish to allow use of your version of this file only
+#  - under the terms of either the GPL or the LGPL, and not to allow others to
+#  - use your version of this file under the terms of the MPL, indicate your
+#  - decision by deleting the provisions above and replace them with the notice
+#  - and other provisions required by the LGPL or the GPL. If you do not delete
+#  - the provisions above, a recipient may use your version of this file under
+#  - the terms of any one of the MPL, the GPL or the LGPL.
+#  -
+#  - ***** END LICENSE BLOCK *****
+#  Labels
+#: ../src/gth-browser-actions-callbacks.c:1598
+msgid "New Folder"
+msgstr "Dosar nou"
+
+#: ../src/gth-browser-actions-callbacks.c:1599
+msgid "Enter the folder name: "
+msgstr "Introduceți numele dosarului: "
+
+#: ../src/gth-browser-actions-callbacks.c:1729 ../src/gth-location.c:219
+msgid "Open Location"
+msgstr "Deschide locul unde se află"
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "_Fișier"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "Dosa_r"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "_Editare"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "Arată/A_scunde"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "S_ortează imaginile"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "Mer_gi"
+
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:495
+#: ../src/gth-viewer-actions-entries.h:40
+msgid "_Image"
+msgstr "_Imagine"
+
+#: ../src/gth-browser-actions-entries.h:47
+msgid "_Bookmarks"
+msgstr "_Semne de carte"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "Unel_te"
+
+#: ../src/gth-browser-actions-entries.h:49
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "Setează imaginea ca _fundal"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "_Ajutor"
+
+#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "_Fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "Creează o fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "Deschide imaginea selectată într-o fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:64
+#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-viewer-actions-entries.h:84
+msgid "View image properties"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:68
+msgid "_Import Photos..."
+msgstr "_Importă fotografii..."
+
+#: ../src/gth-browser-actions-entries.h:69
+msgid "Import photos from a digital camera"
+msgstr "Importă fotografii dintr-o cameră digitală"
+
+#: ../src/gth-browser-actions-entries.h:73
+msgid "_Write To CD..."
+msgstr "Scrie _pe CD..."
+
+#: ../src/gth-browser-actions-entries.h:74
+msgid "Write selection to CD"
+msgstr "Scrie imaginile selectate pe CD"
+
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
+msgid "_Rename..."
+msgstr "Redenumește..."
+
+#: ../src/gth-browser-actions-entries.h:79
+msgid "Rename this image"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:84
+msgid "Move this image to the Trash"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+msgid "_Copy..."
+msgstr "_Copiază..."
+
+#: ../src/gth-browser-actions-entries.h:89
+msgid "Copy this image to another location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
+#: ../src/gth-browser-actions-entries.h:238
+#: ../src/gth-browser-actions-entries.h:268
+msgid "_Move..."
+msgstr "_Mută..."
+
+#: ../src/gth-browser-actions-entries.h:94
+msgid "Move this image to another location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:103
+msgid "D_uplicate"
+msgstr "D_uplică"
+
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:109
+msgid "Move the selected images to the Trash"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:114
+msgid "Copy selected images to another location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:119
+msgid "Move selected images to another location"
+msgstr "Mută imaginile selectate într-un alt loc"
+
+#: ../src/gth-browser-actions-entries.h:123
+msgid "_Select All"
+msgstr "_Selectează toate"
+
+#: ../src/gth-browser-actions-entries.h:124
+msgid "Select all images"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "_Adaugă la catalog..."
+
+#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:133
+msgid "Remo_ve from Catalog"
+msgstr "E_limină din catalog"
+
+#: ../src/gth-browser-actions-entries.h:134
+msgid "Remove selected images from the catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:208
+msgid "Open"
+msgstr "Deschide"
+
+#: ../src/gth-browser-actions-entries.h:139
+msgid "Open the selected catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:213
+msgid "Open in New Window"
+msgstr "Deschide în fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:144
+msgid "Open the selected catalog in a new window"
+msgstr "Deschide catalogul selectat într-o fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:149
+msgid "Rename selected catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
+msgid "Rem_ove"
+msgstr "Elimi_nă"
+
+#: ../src/gth-browser-actions-entries.h:154
+msgid "Remove selected catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:159
+msgid "Move selected catalog to another location"
+msgstr "Mută catalogul selectat într-un alt loc"
+
+#: ../src/gth-browser-actions-entries.h:163
+#: ../src/gth-browser-actions-entries.h:198
+msgid "_Edit Search..."
+msgstr "_Editează căutarea..."
+
+#: ../src/gth-browser-actions-entries.h:164
+#: ../src/gth-browser-actions-entries.h:199
+msgid "Modify search criteria"
+msgstr "Modifică criteriul de căutare"
+
+#: ../src/gth-browser-actions-entries.h:168
+#: ../src/gth-browser-actions-entries.h:203
+msgid "Redo _Search"
+msgstr "Refă _căutarea"
+
+#: ../src/gth-browser-actions-entries.h:169
+#: ../src/gth-browser-actions-entries.h:204
+msgid "Redo the search"
+msgstr "Refă căutarea"
+
+#: ../src/gth-browser-actions-entries.h:173
+msgid "_New Catalog..."
+msgstr "Catalog _nou..."
+
+#: ../src/gth-browser-actions-entries.h:174
+msgid "Create a new catalog"
+msgstr "Creează un catalog nou"
+
+#: ../src/gth-browser-actions-entries.h:178
+msgid "New _Library..."
+msgstr "Bib_liotecă nouă..."
+
+#: ../src/gth-browser-actions-entries.h:179
+msgid "Create a new catalog library"
+msgstr "Creează o nouă bibliotecă de cataloage"
+
+#: ../src/gth-browser-actions-entries.h:184
+msgid "Rename current catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:189
+msgid "Remove current catalog"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:194
+msgid "Move current catalog to another location"
+msgstr "Mută catalogul curent într-un alt loc"
+
+#: ../src/gth-browser-actions-entries.h:209
+msgid "Open the selected folder"
+msgstr "Deschide dosarul selectat"
+
+#: ../src/gth-browser-actions-entries.h:214
+msgid "Open the selected folder in a new window"
+msgstr "Deschide dosarul selectat într-o fereastră nouă"
+
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
+msgid "Open with the _File Manager"
+msgstr "Deschide cu gestionarul de _fișiere"
+
+#: ../src/gth-browser-actions-entries.h:219
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Deschide dosarul selectat cu gestionarul de fișiere Nautilus"
+
+#: ../src/gth-browser-actions-entries.h:224
+msgid "Rename selected folder"
+msgstr "Redenumește dosarul selectat"
+
+#: ../src/gth-browser-actions-entries.h:229
+msgid "Move the selected folder to the Trash"
+msgstr "Mută dosarul selectat în coșul de gunoi"
+
+#: ../src/gth-browser-actions-entries.h:234
+msgid "Copy selected folder"
+msgstr "Copiază dosarul selectat"
+
+#: ../src/gth-browser-actions-entries.h:239
+msgid "Move selected folder"
+msgstr "Mută dosarul selectat"
+
+#: ../src/gth-browser-actions-entries.h:243
+#: ../src/gth-browser-actions-entries.h:273
+#: ../src/gth-window-actions-entries.h:95
+msgid "Ca_tegories..."
+msgstr "Ca_tegorii..."
+
+#: ../src/gth-browser-actions-entries.h:244
+msgid "Assign categories to the selected folder"
+msgstr "Atribuie categorii la dosarul selectat"
+
+#: ../src/gth-browser-actions-entries.h:249
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Deschide dosarul curent cu gestionarul de fișiere Nautilus"
+
+#: ../src/gth-browser-actions-entries.h:254
+msgid "Rename current folder"
+msgstr "Redenumește dosarul curent"
+
+#: ../src/gth-browser-actions-entries.h:259
+msgid "Move the current folder to the Trash"
+msgstr "Mută dosarul curent în coșul de gunoi"
+
+#: ../src/gth-browser-actions-entries.h:264
+msgid "Copy current folder"
+msgstr "Copiază dosarul curent"
+
+#: ../src/gth-browser-actions-entries.h:269
+msgid "Move current folder"
+msgstr "Mută dosarul curent"
+
+#: ../src/gth-browser-actions-entries.h:274
+msgid "Assign categories to the current folder"
+msgstr "Atribuie categorii dosarului curent"
+
+#: ../src/gth-browser-actions-entries.h:278
+msgid "_New Folder..."
+msgstr "Dosar _nou..."
+
+#: ../src/gth-browser-actions-entries.h:279
+msgid "Create a new folder"
+msgstr "Creează un dosar nou"
+
+#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-fullscreen-actions-entries.h:43
+msgid "View next image"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-fullscreen-actions-entries.h:48
+msgid "View previous image"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:299
+msgid "Go to the previous visited location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:304
+msgid "Go to the next visited location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:309
+msgid "Go up one level"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:313
+#: ../src/gth-viewer-actions-entries.h:63
+msgid "_Reload"
+msgstr "_Reîncarcă"
+
+#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-viewer-actions-entries.h:64
+msgid "Reload the current location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:319
+msgid "Stop loading current location"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:324
+msgid "Go to the home folder"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "_Go to the Image Folder"
+msgstr "Mer_gi la dosarul cu imaginea"
+
+#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Go to the folder that contains the selected image"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:333
+msgid "_Delete History"
+msgstr "Șterge _istoricul"
+
+#: ../src/gth-browser-actions-entries.h:334
+msgid "Delete the list of visited locations"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:338
+msgid "_Location..."
+msgstr "_La..."
+
+#: ../src/gth-browser-actions-entries.h:339
+msgid "Specify a location to visit"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:343
+msgid "_Add Bookmark"
+msgstr "_Adaugă semn de carte"
+
+#: ../src/gth-browser-actions-entries.h:344
+msgid "Add current location to bookmarks"
+msgstr "Adaugă locul curent la semne de carte"
+
+#: ../src/gth-browser-actions-entries.h:348
+msgid "_Edit Bookmarks..."
+msgstr "_Editează semnele de carte..."
+
+#: ../src/gth-browser-actions-entries.h:349
+msgid "Edit bookmarks"
+msgstr "Editează semnele de carte"
+
+#: ../src/gth-browser-actions-entries.h:353
+msgid "_Slide Show"
+msgstr "_Prezentare"
+
+#: ../src/gth-browser-actions-entries.h:354
+msgid "View as a slide show"
+msgstr "Vezi ca o succesiune automată de cadre"
+
+#: ../src/gth-browser-actions-entries.h:358
+msgid "_Search..."
+msgstr "_Caută..."
+
+#: ../src/gth-browser-actions-entries.h:368
+msgid "Create _Index Image..."
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:373
+msgid "Create _Web Album..."
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:378
+msgid "Convert F_ormat..."
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:383
+msgid "Search for _Duplicates..."
+msgstr "Caută după _duplicate..."
+
+#: ../src/gth-browser-actions-entries.h:388
+msgid "_Preferences..."
+msgstr "_Preferințe..."
+
+#: ../src/gth-browser-actions-entries.h:389
+msgid "Edit various preferences"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:393
+msgid "Scale Images..."
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:402
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "_Toolbar"
+msgstr "Bara de unel_te"
+
+#: ../src/gth-browser-actions-entries.h:403
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "View or hide the toolbar of this window"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:407
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "_Statusbar"
+msgstr "Bara de _stare"
+
+#: ../src/gth-browser-actions-entries.h:408
+#: ../src/gth-viewer-actions-entries.h:79
+msgid "View or hide the statusbar of this window"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:412
+msgid "_Filter"
+msgstr "_Filtru"
+
+#: ../src/gth-browser-actions-entries.h:413
+msgid "View or hide the filterbar of this window"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:419
+msgid "View thumbnails"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:423
+msgid "_Image Preview"
+msgstr "Previzualizare _imagine"
+
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:496
+msgid "View the image"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Show _Hidden Files"
+msgstr "Arată fişierele a_scunse"
+
+#: ../src/gth-browser-actions-entries.h:435
+msgid "Show hidden files and folders"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:440
+msgid "_Reversed Order"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:441
+msgid "Reverse images order"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:450
+msgid "by _Name"
+msgstr "după _nume"
+
+#: ../src/gth-browser-actions-entries.h:451
+msgid "Sort images by name"
+msgstr "Sortează imaginile după nume"
+
+#: ../src/gth-browser-actions-entries.h:453
+msgid "by _Path"
+msgstr "după _cale"
+
+#: ../src/gth-browser-actions-entries.h:454
+msgid "Sort images by path"
+msgstr "Sortează imaginile după cale"
+
+#: ../src/gth-browser-actions-entries.h:456
+msgid "by _Size"
+msgstr "după _mărime"
+
+#: ../src/gth-browser-actions-entries.h:457
+msgid "Sort images by file size"
+msgstr "Sortează după mărimea fişierului"
+
+#: ../src/gth-browser-actions-entries.h:459
+msgid "by Modification _Time"
+msgstr "după data modificării"
+
+#: ../src/gth-browser-actions-entries.h:460
+msgid "Sort images by file modification time"
+msgstr "Sortează după data modificării fişierului"
+
+#: ../src/gth-browser-actions-entries.h:462
+msgid "by _Exif Time"
+msgstr "după timpul _Exif"
+
+#: ../src/gth-browser-actions-entries.h:463
+msgid "Sort images by Exif DateTime tag"
+msgstr "Sortează după eticheta DateTime din Exif"
+
+#: ../src/gth-browser-actions-entries.h:465
+msgid "by _Comment"
+msgstr "după _comentariu"
+
+#: ../src/gth-browser-actions-entries.h:466
+msgid "Sort images by comment"
+msgstr "Sortează după comentarii"
+
+#: ../src/gth-browser-actions-entries.h:468
+msgid "_Manual Order"
+msgstr "Ordonare _manuală"
+
+#: ../src/gth-browser-actions-entries.h:469
+msgid "Sort images manually"
+msgstr "Sortează manual"
+
+#: ../src/gth-browser-actions-entries.h:476
+#: ../src/gth-browser-actions-entries.h:477
+msgid "View As Slides"
+msgstr "Vezi ca şi cadre"
+
+#: ../src/gth-browser-actions-entries.h:479
+#: ../src/gth-browser-actions-entries.h:480
+msgid "View As List"
+msgstr "Vezi ca listă"
+
+#: ../src/gth-browser-actions-entries.h:489
+msgid "_Folders"
+msgstr "_Dosare"
+
+#: ../src/gth-browser-actions-entries.h:490
+msgid "View the folders"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:492
+msgid "_Catalogs"
+msgstr "_Cataloage"
+
+#: ../src/gth-browser-actions-entries.h:493
+msgid "View the catalogs"
+msgstr "Vezi cataloagele"
+
+#: ../src/gth-browser.c:558 ../src/gth-viewer.c:668
+msgid "[Press 'c' to add a comment]"
+msgstr "[Apăsaţi „c” pentru a adăuga un comentariu]"
+
+#: ../src/gth-browser.c:664 ../src/gth-browser.c:683 ../src/gth-viewer.c:755
+msgid "[modified]"
+msgstr "[modificată]"
+
+#: ../src/gth-browser.c:708 ../src/main.c:440 ../src/main.c:816
+msgid "gThumb"
+msgstr ""
+
+#: ../src/gth-browser.c:788
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 imagine (%s)"
+
+#: ../src/gth-browser.c:791
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d imagini (%s)"
+
+#: ../src/gth-browser.c:798
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 selectată (%s)"
+
+#: ../src/gth-browser.c:801
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d selectate (%s)"
+
+#: ../src/gth-browser.c:1842 ../src/gth-viewer.c:1005
+msgid "The current image has been modified, do you want to save it?"
+msgstr "Imaginea curentă a fost modificată, doriți să o salvați?"
+
+#: ../src/gth-browser.c:1843 ../src/gth-viewer.c:1006
+msgid "Do Not Save"
+msgstr "Nu o salva"
+
+#: ../src/gth-browser.c:3563
+msgid "Dragged Images"
+msgstr ""
+
+#: ../src/gth-browser.c:5428 ../src/gth-browser.c:5429
+#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:281
+#: ../src/gth-window-actions-entries.h:286
+msgid "Rotate images without loss of quality"
+msgstr "Roteşte imaginile fără pierderea calităţii"
+
+#: ../src/gth-browser.c:6303
+msgid "Getting folder listing..."
+msgstr "Se obține listarea dosarului..."
+
+#: ../src/gth-browser.c:6324
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "Nu se poate încărca dosarul „%s”: %s\n"
+
+#: ../src/gth-browser.c:6824 ../src/gth-filter-bar.c:537
+msgid "Close"
+msgstr "Închide"
+
+#: ../src/gth-browser.c:6838 ../src/gth-viewer.c:1685
+msgid "Image comment"
+msgstr "Comentariu imagine"
+
+#: ../src/gth-browser.c:6852
+msgid "Image data"
+msgstr "Date despre imagine"
+
+#: ../src/gth-browser.c:6866
+msgid "Image preview"
+msgstr "Previzualizare imagine"
+
+#: ../src/gth-browser.c:7928
+msgid "The specified catalog does not exist."
+msgstr ""
+
+#: ../src/gth-browser.c:8538 ../src/gth-viewer.c:2118
+msgid "Wait please..."
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:65
+msgid "Filesystem Data"
+msgstr "Date din sistemul de fişiere"
+
+#: ../src/gth-exif-data-viewer.c:66
+msgid "General Information"
+msgstr "Informații generale"
+
+#: ../src/gth-exif-data-viewer.c:67
+msgid "Picture-Taking Conditions"
+msgstr "Condiţii de fotografiere"
+
+#: ../src/gth-exif-data-viewer.c:68
+msgid "Maker Notes"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:69
+msgid "GPS Coordinates"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:70
+msgid "Image Structure"
+msgstr "Structura imaginii"
+
+#: ../src/gth-exif-data-viewer.c:71
+msgid "Embedded Thumbnail"
+msgstr "Minatură inclusă"
+
+#: ../src/gth-exif-data-viewer.c:72
+msgid "Versions & Interoperability"
+msgstr "Versiuni şi interoperabilitate"
+
+#: ../src/gth-exif-data-viewer.c:73
+msgid "Other"
+msgstr "Altele"
+
+#: ../src/gth-exif-data-viewer.c:804
+msgid "Path"
+msgstr "Cale"
+
+#: ../src/gth-filter-bar.c:176
+msgid "contains"
+msgstr "conține"
+
+#: ../src/gth-filter-bar.c:177
+msgid "starts with"
+msgstr ""
+
+#: ../src/gth-filter-bar.c:178
+msgid "ends with"
+msgstr "se termină cu"
+
+#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+msgid "is"
+msgstr "este"
+
+#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+msgid "is not"
+msgstr "nu este"
+
+#: ../src/gth-filter-bar.c:181
+msgid "does not contain"
+msgstr "nu conține"
+
+#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+msgid "is equal to"
+msgstr "este egal cu"
+
+#: ../src/gth-filter-bar.c:185
+msgid "is lower than"
+msgstr "este sub"
+
+#: ../src/gth-filter-bar.c:186
+msgid "is greater than"
+msgstr "este mai mare ca"
+
+#: ../src/gth-filter-bar.c:190
+msgid "is before"
+msgstr "este înainte de"
+
+#: ../src/gth-filter-bar.c:191
+msgid "is after"
+msgstr "este după"
+
+#: ../src/gth-filter-bar.c:200
+msgid "KB"
+msgstr "KO"
+
+#: ../src/gth-filter-bar.c:201
+msgid "MB"
+msgstr "MO"
+
+#: ../src/gth-filter-bar.c:207
+msgid "Filename"
+msgstr "Nume fișier"
+
+#: ../src/gth-filter-bar.c:209
+msgid "Place"
+msgstr "Loc"
+
+#: ../src/gth-filter-bar.c:212
+msgid "Category"
+msgstr "Categorie"
+
+#: ../src/gth-filter-bar.c:213
+msgid "Text contains"
+msgstr ""
+
+#: ../src/gth-filter-bar.c:494
+msgid "All"
+msgstr "Tot"
+
+#. view label
+#: ../src/gth-filter-bar.c:546
+msgid "Sh_ow:"
+msgstr ""
+
+#: ../src/gth-folder-selection-dialog.c:281
+msgid "<b>_Folder</b>"
+msgstr ""
+
+#: ../src/gth-folder-selection-dialog.c:299
+msgid "_Browse..."
+msgstr ""
+
+#: ../src/gth-folder-selection-dialog.c:317
+msgid "<b>_Recent folders:</b>"
+msgstr ""
+
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "Proprie_tăți"
+
+#: ../src/gth-location.c:385
+msgid "Other..."
+msgstr "Altceva..."
+
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "_Transformă"
+
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "Automat"
+
+#: ../src/gth-viewer-actions-entries.h:88
+msgid "_Single Window"
+msgstr ""
+
+#: ../src/gth-viewer-actions-entries.h:89
+msgid "Reuse this window to view other images"
+msgstr ""
+
+#: ../src/gth-viewer.c:828
+msgid "_None"
+msgstr ""
+
+#: ../src/gth-viewer.c:1474 ../src/gth-window-actions-entries.h:75
+msgid "_Open With"
+msgstr "D_eschide cu"
+
+#: ../src/gth-viewer.c:1480 ../src/gth-viewer.c:1481
+#: ../src/gth-window-actions-entries.h:46
+msgid "Open selected images with an application"
+msgstr "Deschide imaginile selectate cu o aplicație"
+
+#: ../src/gth-window-actions-callbacks.c:844
+msgid "An image viewer and browser for GNOME."
+msgstr ""
+
+#: ../src/gth-window-actions-callbacks.c:847
+msgid "translator_credits"
+msgstr "Alexandru Szasz <alexxed@gmail.com>"
+
+#: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "Reducere culori"
+
+#: ../src/gth-window-actions-entries.h:41
+msgid "Close this window"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:45
+msgid "_Open With..."
+msgstr "D_eschide cu..."
+
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
+msgid "Save current image"
+msgstr "Salvează imaginea curentă"
+
+#: ../src/gth-window-actions-entries.h:55
+msgid "Save _As..."
+msgstr "Salvează c_a..."
+
+#: ../src/gth-window-actions-entries.h:61
+msgid "Revert to saved image"
+msgstr "Revenire la imaginea salvată"
+
+#: ../src/gth-window-actions-entries.h:65
+msgid "Print..."
+msgstr "Tipărește..."
+
+#: ../src/gth-window-actions-entries.h:66
+#: ../src/gth-window-actions-entries.h:71
+msgid "Print the current image"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:76
+msgid "Open this image with an application"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:80
+msgid "Comm_ent..."
+msgstr "Com_entariu..."
+
+#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:86
+msgid "Add a comment to selected images"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:90
+msgid "Rem_ove Comment"
+msgstr "Elimi_nă comentariul"
+
+#: ../src/gth-window-actions-entries.h:91
+msgid "Remove comments of selected images"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:101
+msgid "Assign categories to selected images"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:100
+msgid "Ca_tegories"
+msgstr "Ca_tegorii"
+
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:285
+msgid "Rotate Ri_ght"
+msgstr "Roteşte spre _dreapta"
+
+#: ../src/gth-window-actions-entries.h:116
+msgid "View the image rotated clockwise"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:280
+msgid "Rotate _Left"
+msgstr "Roteşte spre _stânga"
+
+#: ../src/gth-window-actions-entries.h:121
+msgid "View the image rotated counter-clockwise"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:125
+msgid "_Flip"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:126
+msgid "View the image flipped"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:130
+msgid "_Mirror"
+msgstr "O_glindă"
+
+#: ../src/gth-window-actions-entries.h:131
+msgid "View the image mirrored"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:135
+msgid "_Desaturate"
+msgstr "_Desaturare"
+
+#: ../src/gth-window-actions-entries.h:136
+msgid "View the image in black and white"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:140
+msgid "_Negative"
+msgstr "_Negativ"
+
+#: ../src/gth-window-actions-entries.h:141
+msgid "View the image with negative colors"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:145
+msgid "_Enhance"
+msgstr "Îmbunătăț_ește"
+
+#: ../src/gth-window-actions-entries.h:146
+msgid "Automatically adjust the color levels"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:150
+msgid "_Equalize"
+msgstr "_Egalizare"
+
+#: ../src/gth-window-actions-entries.h:151
+msgid "Automatically equalize the image histogram"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:155
+msgid "_Posterize..."
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:196
+msgid "Reduce the number of colors"
+msgstr "Redu numărul de culori"
+
+#: ../src/gth-window-actions-entries.h:160
+msgid "_Brightness-Contrast..."
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:161
+msgid "Adjust brightness and contrast"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:165
+msgid "_Hue-Saturation..."
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:166
+msgid "Adjust hue and saturation"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:170
+msgid "_Redeye Removal..."
+msgstr "Înlătură ochii _roșii..."
+
+#: ../src/gth-window-actions-entries.h:171
+msgid "Redeye Removal Tool"
+msgstr "Unealtă de înlăturare a ochilor roșii"
+
+#: ../src/gth-window-actions-entries.h:175
+msgid "_Color Balance..."
+msgstr "Balans de _culoare..."
+
+#: ../src/gth-window-actions-entries.h:176
+msgid "Adjust color balance"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:180
+msgid "_Resize..."
+msgstr "_Redimensionează..."
+
+#: ../src/gth-window-actions-entries.h:181
+msgid "Resize image"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:185
+msgid "_Crop..."
+msgstr "De_cupează..."
+
+#: ../src/gth-window-actions-entries.h:186
+msgid "Crop image"
+msgstr "Decupează imaginea"
+
+#: ../src/gth-window-actions-entries.h:190
+msgid "Black and White"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:195
+msgid "Web Palette"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:307
+msgid "In"
+msgstr "Apropie"
+
+#: ../src/gth-window-actions-entries.h:201
+msgid "Zoom in"
+msgstr "Apropie"
+
+#: ../src/gth-window-actions-entries.h:205
+msgid "Out"
+msgstr "Depărtează"
+
+#: ../src/gth-window-actions-entries.h:206
+msgid "Zoom out"
+msgstr "Depărtează"
+
+#: ../src/gth-window-actions-entries.h:210
+msgid "1:1"
+msgstr "1:1"
+
+#: ../src/gth-window-actions-entries.h:211
+msgid "Actual size"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:215
+msgid "Fit"
+msgstr "Încadrează"
+
+#: ../src/gth-window-actions-entries.h:216
+msgid "Zoom to fit window"
+msgstr "Mărește sau micșorează ca să încapă în fereastră"
+
+#: ../src/gth-window-actions-entries.h:220
+msgid "Width"
+msgstr "Lăţime"
+
+#: ../src/gth-window-actions-entries.h:221
+msgid "Zoom to fit width"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:225
+msgid "Step A_nimation"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:226
+msgid "View next animation frame"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:240
+msgid "_Centered"
+msgstr "_Centrată"
+
+#: ../src/gth-window-actions-entries.h:241
+msgid "Set the image as desktop background (centered)"
+msgstr "Setează imaginea ca fundal pe spaţiul de lucru (centrat)"
+
+#: ../src/gth-window-actions-entries.h:245
+msgid "_Tiled"
+msgstr "_Mozaic"
+
+#: ../src/gth-window-actions-entries.h:246
+msgid "Set the image as desktop background (tiled)"
+msgstr "Setează imaginea ca fundal pe spaţiul de lucru (mozaic)"
+
+#: ../src/gth-window-actions-entries.h:250
+msgid "_Scaled"
+msgstr "_Scalată"
+
+#: ../src/gth-window-actions-entries.h:251
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr ""
+"Setează imaginea ca fundal pe spaţiul de lucru (micşorare cu păstrarea "
+"aspectului)"
+
+#: ../src/gth-window-actions-entries.h:255
+msgid "Str_etched"
+msgstr "Înt_insă"
+
+#: ../src/gth-window-actions-entries.h:256
+msgid "Set the image as desktop background (stretched)"
+msgstr "Setează ca fundal pe spaţiul de lucru (întinsă)"
+
+#: ../src/gth-window-actions-entries.h:260
+msgid "_Restore"
+msgstr "_Restaurează"
+
+#: ../src/gth-window-actions-entries.h:261
+msgid "Restore the original desktop wallpaper"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:265
+msgid "Change _Date..."
+msgstr "Schimbă _data..."
+
+#: ../src/gth-window-actions-entries.h:266
+msgid "Change images last modified date"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:270
+msgid "Reset _Exif Orientation"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:271
+msgid "Reset Exif orientation to top-left"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:291
+msgid "Show information about gThumb"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:295
+msgid "Contents"
+msgstr "Conținut"
+
+#: ../src/gth-window-actions-entries.h:300
+msgid "_Keyboard Shortcuts"
+msgstr "S_curtături de taste"
+
+#: ../src/gth-window-actions-entries.h:316
+msgid "Play _Animation"
+msgstr "Redă _animația"
+
+#: ../src/gth-window-actions-entries.h:317
+msgid "Start or stop current animation"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:327
+msgid "_High Quality"
+msgstr "Calitate înal_tă"
+
+#: ../src/gth-window-actions-entries.h:328
+msgid "Use high quality zoom"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:330
+msgid "_Low Quality"
+msgstr "Ca_litate scăzută"
+
+#: ../src/gth-window-actions-entries.h:331
+msgid "Use low quality zoom"
+msgstr ""
+
+#: ../src/main.c:92
+msgid "Start in fullscreen mode"
+msgstr ""
+
+#: ../src/main.c:96
+msgid "Automatically start a slideshow"
+msgstr "Porneşte automat succesiunea de cadre"
+
+#: ../src/main.c:100
+msgid "Automatically import digital camera photos"
+msgstr ""
+
+#: ../src/main.c:104
+msgid "Use the viewer mode to view single images"
+msgstr ""
+
+#: ../src/main.c:149
+msgid "Holidays"
+msgstr "Zile de sărbătoare"
+
+#: ../src/main.c:150
+msgid "Temporary"
+msgstr ""
+
+#: ../src/main.c:151
+msgid "Screenshots"
+msgstr "Capturi de ecran"
+
+#: ../src/main.c:152
+msgid "Science"
+msgstr "Știință"
+
+#: ../src/main.c:153
+msgid "Favourite"
+msgstr "Favorită"
+
+#: ../src/main.c:154
+msgid "Important"
+msgstr "Important"
+
+#: ../src/main.c:155
+msgid "GNOME"
+msgstr ""
+
+#: ../src/main.c:156
+msgid "Games"
+msgstr "Jocuri"
+
+#: ../src/main.c:157
+msgid "Party"
+msgstr "Petrecere"
+
+#  VCARD_LDAP_BIRTHDAY
+#: ../src/main.c:158
+msgid "Birthday"
+msgstr "Zi de naștere"
+
+#: ../src/main.c:159
+msgid "Astronomy"
+msgstr ""
+
+#: ../src/main.c:160
+msgid "Family"
+msgstr "Familie"
+
+#: ../src/main.c:382
+msgid "Command Line"
+msgstr "Linie de comandă"
+
+#: ../src/rotation-utils.c:72
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr ""
+
+#: ../src/rotation-utils.c:78
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+
+#: ../src/rotation-utils.c:86
+msgid "_Trim"
+msgstr ""
+
+#: ../src/rotation-utils.c:196
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
+msgstr ""

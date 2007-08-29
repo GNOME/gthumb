@@ -1,3 +1,9 @@
+2007-08-30  Mugurel Tudor  <mugurelu@gnome.org>
+
+	* LINGUAS: added ro.
+	* ro.po: Added partial Romanian translation by
+	Alexandru Szasz <alexxed@gmail.com>
+
 2007-08-24  Artur Flinta  <aflinta@svn.gnome.org>
 
 	* pl.po: Updated Polish translation by GNOME PL Team.
