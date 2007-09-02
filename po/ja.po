@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb gthumb-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-20 10:30+0900\n"
-"PO-Revision-Date: 2007-05-20 10:28+0900\n"
+"POT-Creation-Date: 2007-09-02 12:02+0900\n"
+"PO-Revision-Date: 2007-09-02 12:02+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "目録"
 msgid "Image"
 msgstr "画像"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:805
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
 msgid "Dimensions"
 msgstr "画像の寸法"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
 msgid "Bytes"
 msgstr "バイト数"
 
@@ -267,9 +267,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "写真のインポート"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:900
-#: ../src/dlg-photo-importer.c:939 ../src/dlg-photo-importer.c:1510
-#: ../src/dlg-photo-importer.c:2255
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:929
+#: ../src/dlg-photo-importer.c:968 ../src/dlg-photo-importer.c:1596
+#: ../src/dlg-photo-importer.c:2340
 msgid "No camera detected"
 msgstr "カメラを検出できませんでした"
 
@@ -409,7 +409,7 @@ msgstr "<b>解像度</b>"
 #: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
-msgstr "<b>保存</b>"
+msgstr "<b>保存先</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -777,7 +777,7 @@ msgstr "<b>ヘッダ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
-msgstr "<b>画像の目録</b>"
+msgstr "<b>目録の画像</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
@@ -785,14 +785,15 @@ msgstr "<b>ページのサイズ</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b>注意:</b> # (通し番号)</i></small>"
+msgstr "<small><i><b>置き換え:</b> # (通し番号)</i></small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b>注意:</b> %p (ページ番号), %n (ページ総数)</i></small>"
+msgstr ""
+"<small><i><b>置き換え:</b> %p (ページ番号)、%n (ページ総数)</i></small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
@@ -801,7 +802,7 @@ msgstr "コメント(_M)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
-msgstr "行(_U):"
+msgstr "縦方向(_U):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
@@ -809,11 +810,11 @@ msgstr "色(_R):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr "画像の目録を作成します"
+msgstr "目録画像の作成"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
-msgstr "HTML の画像マップを生成する(_H)"
+msgstr "index.html ファイルも生成する(_H)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
@@ -864,7 +865,7 @@ msgstr "画像"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
-msgstr "画像スタイルの目次"
+msgstr "画像のスタイル"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
@@ -872,7 +873,7 @@ msgstr "ページ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
-msgstr "ピクセル(_X)"
+msgstr "ピクセルで指定する(_X)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:44
 #: ../data/glade/gthumb_web_exporter.glade.h:40
@@ -881,7 +882,7 @@ msgstr "逆順に並べる(_V)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
-msgstr "格子状(_N)"
+msgstr "格子状に並べる(_N)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
@@ -905,7 +906,7 @@ msgstr "シャドー・アウト"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
-msgstr "サンプル"
+msgstr "シンプル"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
@@ -964,7 +965,7 @@ msgstr "画像のサイズ(_I):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
-msgstr "列(_R):"
+msgstr "横方向(_R):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
@@ -1465,7 +1466,7 @@ msgid "Postcard"
 msgstr "はがき"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2719
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2709
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "印刷"
@@ -1578,8 +1579,8 @@ msgstr "選択したいくつかのカテゴリに一致する(_N)"
 msgid "New _Search..."
 msgstr "新規の検索(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:869
-#: ../src/dlg-photo-importer.c:1560
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:898
+#: ../src/dlg-photo-importer.c:1643
 msgid "No images found"
 msgstr "画像が見つかりませんでした"
 
@@ -1801,8 +1802,8 @@ msgid "_Last modified date"
 msgstr "最終修正日時(_L)"
 
 #: ../data/glade/gthumb_tools.glade.h:65
-#: ../src/gth-browser-actions-callbacks.c:469
-#: ../src/gth-browser-actions-callbacks.c:977
+#: ../src/gth-browser-actions-callbacks.c:470
+#: ../src/gth-browser-actions-callbacks.c:980
 msgid "_Rename"
 msgstr "ファイル名の変更(_R)"
 
@@ -1880,7 +1881,7 @@ msgstr "<b>Index ページのレイアウト</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
-msgstr "<b>個人専用のテーマ</b>"
+msgstr "<b>自分専用のテーマ</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
@@ -1889,7 +1890,7 @@ msgstr "<b>テーマ</b>"
 #: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b>注意:</b> %d (現在の日付)</i></small>"
+msgstr "<small><i><b>置き換え:</b> %d (現在の日付)</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
@@ -1898,7 +1899,7 @@ msgid ""
 "number of images per page constant.</i></small>"
 msgstr ""
 "<small><i><b>注意:</b> \n"
-"使用するテーマによってはタテとヨコの数を\n"
+"使用するテーマによっては行と列の数を\n"
 "自動的に調整する場合がありますが、\n"
 "１ページ毎の画像の総数は変化しません。</i></small>"
 
@@ -1940,11 +1941,11 @@ msgstr "並び替え(_O):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
-msgstr "Web アルバム"
+msgstr "ウェブ・アルバム"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
-msgstr "Web アルバムのテーマ"
+msgstr "ウェブ・アルバムのテーマ"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
@@ -1952,7 +1953,7 @@ msgstr "アパーチャの値(_A)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr "オリジナルを格納場所へコピーする(_C)"
+msgstr "元の画像を格納場所へコピーする(_C)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
@@ -2016,7 +2017,7 @@ msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
-msgstr "または index ページだけを使う(_U)"
+msgstr "または index.html に全て納める(U)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
 msgid "rows per page,"
@@ -2026,9 +2027,9 @@ msgstr "行/ページ:"
 msgid "Image Viewer"
 msgstr "画像ビューア"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:807
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
 msgid "View and organize your images"
-msgstr "画像を表示しながら管理するツールです"
+msgstr "画像を表示し管理するツールです"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
@@ -2169,67 +2170,67 @@ msgstr "カタログ \"%s\" が開けません: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を保存できません: %s"
 
-#: ../libgthumb/comments.c:1251 ../src/catalog-web-exporter.c:141
+#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
 msgstr "%Y年%B%e日"
 
-#: ../libgthumb/comments.c:1253 ../src/catalog-web-exporter.c:56
-#: ../src/catalog-web-exporter.c:143 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:492
-#: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
-#: ../src/gth-viewer.c:607
+#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:56
+#: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
+#: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y年%B%e日 %H:%M"
 
-#: ../libgthumb/comments.c:1263 ../libgthumb/comments.c:1265
+#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
 msgid "(No Comment)"
 msgstr "(コメントなし)"
 
-#: ../libgthumb/dlg-save-image.c:129 ../src/rotation-utils.c:249
+#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:277
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "サポートしていない画像の種類: %s"
 
-#: ../libgthumb/dlg-save-image.c:200
+#: ../libgthumb/dlg-save-image.c:207
 msgid "Determine by extension"
 msgstr "拡張子で決定する"
 
-#: ../libgthumb/dlg-save-image.c:234
+#: ../libgthumb/dlg-save-image.c:241
 msgid "Save Image"
 msgstr "画像の保存"
 
-#: ../libgthumb/dlg-save-image.c:254
+#: ../libgthumb/dlg-save-image.c:261
 msgid "Image type:"
 msgstr "画像の種類:"
 
-#: ../libgthumb/file-utils.c:1359 ../src/gth-location.c:813
+#: ../libgthumb/file-utils.c:1484 ../src/gth-location.c:815
 msgid "Catalogs"
 msgstr "カタログ"
 
-#: ../libgthumb/file-utils.c:1362 ../src/gth-location.c:819
+#: ../libgthumb/file-utils.c:1487 ../src/gth-location.c:823
 msgid "File System"
 msgstr "ファイル・システム"
 
-#: ../libgthumb/file-utils.c:1389 ../src/gth-location.c:826
+#: ../libgthumb/file-utils.c:1516 ../src/gth-location.c:831
 msgid "Home"
 msgstr "ホーム"
 
-#: ../libgthumb/file-utils.c:1965
+#: ../libgthumb/file-utils.c:2151
 msgid "Library not empty"
 msgstr "ライブラリは空ではありません"
 
-#: ../libgthumb/file-utils.c:1974
+#: ../libgthumb/file-utils.c:2160
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "ライブラリ \"%s\" を削除できません: %s"
 
-#: ../libgthumb/file-utils.c:2001
+#: ../libgthumb/file-utils.c:2187
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を削除できません: %s"
 
-#: ../libgthumb/gth-image-list.c:3533 ../src/gth-browser.c:786
-#: ../src/gth-browser.c:4510 ../src/gth-viewer.c:758
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4498 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "画像はありません"
 
@@ -2241,12 +2242,12 @@ msgstr "ヘルプを表示することができませんでした"
 msgid "Ro_tate Images"
 msgstr "画像の回転(_T)"
 
-#: ../libgthumb/print-callbacks.c:824
+#: ../libgthumb/print-callbacks.c:821
 #, c-format
 msgid "Page %d of %d"
 msgstr "ページ %d / %d"
 
-#: ../libgthumb/print-callbacks.c:2248 ../src/catalog-png-exporter.c:1354
+#: ../libgthumb/print-callbacks.c:2240 ../src/catalog-png-exporter.c:1427
 #, c-format
 msgid "Loading image: %s"
 msgstr "画像の読み込み中: %s"
@@ -2259,72 +2260,73 @@ msgstr "全てのサムネイルを削除しています。少々お待ち下さ
 msgid "Deleting old thumbnails, wait please..."
 msgstr "古いサムネイルを削除しています。少々お待ち下さい..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1265
-#: ../src/gth-browser.c:1269 ../src/gth-browser.c:1281
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1343
+#: ../src/gth-browser.c:1347 ../src/gth-browser.c:1359
 msgid "(Invalid Name)"
 msgstr "(不正な名前)"
 
-#: ../src/catalog-png-exporter.c:818 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:496 ../src/gth-exif-data-viewer.c:788
-#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:611
+#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "ピクセル数 %d x %d"
 
-#: ../src/catalog-png-exporter.c:1587
+#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2144
+#: ../src/catalog-web-exporter.c:2370
+msgid "Saving images"
+msgstr "画像の保存中"
+
+#: ../src/catalog-png-exporter.c:1657
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "画像の生成中: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1870
+#: ../src/catalog-web-exporter.c:1853
 msgid "Saving thumbnails"
 msgstr "サムネイルの保存"
 
-#: ../src/catalog-web-exporter.c:1939
+#: ../src/catalog-web-exporter.c:1923
 msgid "Saving HTML pages: Images"
 msgstr "HTML ページの保存: 画像"
 
-#: ../src/catalog-web-exporter.c:2014
+#: ../src/catalog-web-exporter.c:2003
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML ページの保存: 目録"
-
-#: ../src/catalog-web-exporter.c:2144 ../src/catalog-web-exporter.c:2397
-msgid "Saving images"
-msgstr "画像の保存中"
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2208
+#: ../src/catalog-web-exporter.c:2187
 msgid "Copying original images"
 msgstr "オリジナルの画像をコピーする"
 
-#: ../src/catalog-web-exporter.c:2581
-#: ../src/gth-window-actions-callbacks.c:219 ../src/rotation-utils.c:132
+#: ../src/catalog-web-exporter.c:2565
+#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "作業フォルダを生成できませんでした"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2614
+#: ../src/catalog-web-exporter.c:2598
 msgid "Loading images"
 msgstr "画像の読み込み中"
 
-#: ../src/dlg-catalog.c:90 ../src/gth-browser-actions-callbacks.c:684
+#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:686
 msgid "Enter the catalog name: "
 msgstr "カタログ名を入力して下さい: "
 
-#: ../src/dlg-catalog.c:94 ../src/dlg-catalog.c:148
+#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
 #: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:770
+#: ../src/gth-browser-actions-callbacks.c:772
 msgid "C_reate"
 msgstr "生成(_R)"
 
-#: ../src/dlg-catalog.c:144 ../src/gth-browser-actions-callbacks.c:825
+#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:828
 msgid "Enter the library name: "
 msgstr "ライブラリの名前を入力して下さい: "
 
-#: ../src/dlg-catalog.c:500
+#: ../src/dlg-catalog.c:502
 msgid "Move Catalog to..."
 msgstr "カタログの移動..."
 
@@ -2346,27 +2348,27 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "カテゴリ \"%s\" は既に存在します。別の名前を入力して下さい。"
 
-#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:399
+#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
 #, c-format
 msgid "Converting image: %s"
 msgstr "画像の変換: %s"
 
-#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
+#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "画像 \"%s\" は既に存在しています。別の名前を入力して下さい。"
 
-#: ../src/dlg-convert.c:321 ../src/gth-batch-op.c:570
+#: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "画像 \"%s\" は既に存在しています。上書きしてもよろしいですか？"
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:575
+#: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
 msgid "Skip"
 msgstr "何もしない"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:576
+#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
 msgid "_Overwrite"
 msgstr "上書き(_O)"
 
@@ -2389,8 +2391,8 @@ msgid "Duplicates Size"
 msgstr "複製のサイズ"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:594
-#: ../src/gth-exif-data-viewer.c:803
+#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
+#: ../src/gth-exif-data-viewer.c:800
 msgid "Name"
 msgstr "名前"
 
@@ -2398,7 +2400,7 @@ msgstr "名前"
 msgid "Last modified"
 msgstr "最終修正日時"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:614
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
 msgid "Location"
 msgstr "場所"
 
@@ -2415,7 +2417,7 @@ msgstr "送り先のフォルダが存在しません。そのフォルダを作
 msgid "Could not create folder \"%s\": %s."
 msgstr "フォルダ \"%s\" を生成できませんでした: %s"
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1585
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1668
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2431,18 +2433,18 @@ msgid ""
 "permanently?"
 msgstr "画像をゴミ箱に移動することができません。画像を完全に消去しますか？"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1135
-#: ../src/gth-browser.c:1845 ../src/gth-viewer.c:1008
-#: ../src/rotation-utils.c:85
+#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
+#: ../src/gth-browser.c:1894 ../src/gth-viewer.c:998
+#: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "次回からこのメッセージを表示しない(_D)"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1173
+#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
 msgid "_Move"
 msgstr "移動(_M)"
 
 #: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
-#: ../src/gth-browser-actions-callbacks.c:1400
+#: ../src/gth-browser-actions-callbacks.c:1403
 msgid "Choose the destination folder"
 msgstr "送り先のフォルダを選択して下さい"
 
@@ -2450,174 +2452,175 @@ msgstr "送り先のフォルダを選択して下さい"
 msgid "%d %b %Y, %H:%M"
 msgstr "%Y年%B%e日 %H:%M"
 
-#: ../src/dlg-file-utils.c:784 ../src/dlg-file-utils.c:885
+#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
 msgid "You didn't enter the new name"
 msgstr "新しい名前を入力していません。"
 
-#: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
+#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "名前 \"%s\" は既にこのフォルダで使用しています。別の名前を入力して下さい。"
 
-#: ../src/dlg-file-utils.c:1042
+#: ../src/dlg-file-utils.c:1041
 msgid "Could not rename the image:"
 msgstr "画像を削除することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1044
+#: ../src/dlg-file-utils.c:1043
 msgid "Could not rename the following images:"
 msgstr "次の画像の名前を変更することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1176
 msgid "Could not move the image:"
 msgstr "画像を移動することができませんでした:"
 
-#: ../src/dlg-file-utils.c:1180
+#: ../src/dlg-file-utils.c:1178
 msgid "Could not copy the image:"
 msgstr "画像をコピーすることができませんでした:"
 
-#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2465
+#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
 msgid "_Continue"
 msgstr "続行(_C)"
 
-#: ../src/dlg-file-utils.c:1382
+#: ../src/dlg-file-utils.c:1381
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "ファイルのコピー中: %d/%d"
 
-#: ../src/dlg-file-utils.c:1794 ../src/dlg-file-utils.c:2021
+#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
 msgid "Collecting images info"
 msgstr "画像情報の収集"
 
-#: ../src/dlg-file-utils.c:1797 ../src/dlg-file-utils.c:2034
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "ファイルの削除中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2024
+#: ../src/dlg-file-utils.c:2023
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "ファイルのコピー中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2029
+#: ../src/dlg-file-utils.c:2028
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "ファイルの移動中: %ld/%ld"
 
-#: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
-#: ../src/gth-browser-actions-callbacks.c:1282
+#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を移動できませんでした: %s"
 
-#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:806
+#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "サイズ"
 
-#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:808
+#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:805
 msgid "Type"
 msgstr "種類"
 
-#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:508
-#: ../src/gth-exif-data-viewer.c:807 ../src/gth-viewer.c:623
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
+#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "修正日時"
 
-#: ../src/dlg-image-prop.c:624
+#: ../src/dlg-image-prop.c:623
 msgid "Information on Channel"
 msgstr "チャンネルの情報"
 
-#: ../src/dlg-image-prop.c:733
+#: ../src/dlg-image-prop.c:732
 #, c-format
 msgid "%s Properties"
 msgstr "%s のプロパティ"
 
-#: ../src/dlg-jpegtran.c:257 ../src/dlg-reset-exif.c:123
-#: ../src/rotation-utils.c:147
-msgid "Could not create a local temporary copy of the remote file."
-msgstr ""
-"リモートにあるファイルの一時的なコピーをローカル上に生成できませんでした"
-
-#: ../src/dlg-jpegtran.c:287 ../src/dlg-reset-exif.c:139
-#: ../src/rotation-utils.c:205
+#: ../src/dlg-jpegtran.c:258 ../src/dlg-reset-exif.c:128
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 "一時的なファイルをリモートのマシン上に移動できませんでした (移動先の権限を確"
 "認して下さい)"
 
-#: ../src/dlg-photo-importer.c:936 ../src/dlg-photo-importer.c:1509
-#: ../src/dlg-photo-importer.c:1559 ../src/dlg-photo-importer.c:1571
-#: ../src/dlg-photo-importer.c:1587 ../src/dlg-photo-importer.c:1616
+#: ../src/dlg-photo-importer.c:965 ../src/dlg-photo-importer.c:1595
+#: ../src/dlg-photo-importer.c:1642 ../src/dlg-photo-importer.c:1654
+#: ../src/dlg-photo-importer.c:1670 ../src/dlg-photo-importer.c:1699
 msgid "Could not import photos"
 msgstr "写真をインポートできませんでした"
 
-#: ../src/dlg-photo-importer.c:1294 ../src/main.c:1104
+#: ../src/dlg-photo-importer.c:1328 ../src/main.c:1011
 msgid "Film"
 msgstr "フィルム"
 
-#: ../src/dlg-photo-importer.c:1568
-#: ../src/gth-browser-actions-callbacks.c:1600
+#: ../src/dlg-photo-importer.c:1340
+msgid "Import errors detected"
+msgstr "インポート・エラーです"
+
+#: ../src/dlg-photo-importer.c:1341
+msgid "The files on the camera will not be deleted"
+msgstr "カメラの中にあるファイルは削除されません"
+
+#: ../src/dlg-photo-importer.c:1651
+#: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を生成できませんでした: %s"
 
-#: ../src/dlg-photo-importer.c:1617
+#: ../src/dlg-photo-importer.c:1700
 msgid "Not enough free space left on disk"
 msgstr "空き容量が足りません"
 
-#: ../src/dlg-png-exporter.c:899
+#: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
 msgstr "画像の説明"
 
-#: ../src/dlg-png-exporter.c:953
+#: ../src/dlg-png-exporter.c:962
 msgid "Header"
 msgstr "ヘッダ"
 
-#: ../src/dlg-png-exporter.c:966 ../src/dlg-png-exporter.c:972
+#: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
 msgid "Footer"
 msgstr "フッタ"
 
-#: ../src/dlg-png-exporter.c:1560 ../src/dlg-rename-series.c:472
-#: ../src/dlg-web-exporter.c:485
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "パス名順"
 
-#: ../src/dlg-png-exporter.c:1562 ../src/dlg-rename-series.c:474
-#: ../src/dlg-web-exporter.c:487
+#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "サイズ順"
 
-#: ../src/dlg-png-exporter.c:1564 ../src/dlg-rename-series.c:476
-#: ../src/dlg-web-exporter.c:489
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "最終修正日時順"
 
-#: ../src/dlg-png-exporter.c:1566 ../src/dlg-rename-series.c:478
-#: ../src/dlg-web-exporter.c:491
+#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "Exif タグの日時順"
 
-#: ../src/dlg-png-exporter.c:1568 ../src/dlg-rename-series.c:480
-#: ../src/dlg-web-exporter.c:493
+#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "コメント順"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:483
-#: ../src/dlg-web-exporter.c:496
+#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "順番を指定する"
 
-#: ../src/dlg-rename-series.c:113 ../src/gth-browser-actions-callbacks.c:485
-#: ../src/gth-browser-actions-callbacks.c:700
-#: ../src/gth-browser-actions-callbacks.c:783
-#: ../src/gth-browser-actions-callbacks.c:991
+#: ../src/dlg-rename-series.c:116 ../src/gth-browser-actions-callbacks.c:486
+#: ../src/gth-browser-actions-callbacks.c:702
+#: ../src/gth-browser-actions-callbacks.c:785
+#: ../src/gth-browser-actions-callbacks.c:994
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2626,145 +2629,145 @@ msgstr ""
 "名前 \"%s\" には \"/\" 文字が含まれているため使用できません。別の名前を入力し"
 "て下さい。"
 
-#: ../src/dlg-rename-series.c:456
+#: ../src/dlg-rename-series.c:468
 msgid "Old Name"
 msgstr "古い名前"
 
-#: ../src/dlg-rename-series.c:464
+#: ../src/dlg-rename-series.c:476
 msgid "New Name"
 msgstr "新しい名前"
 
-#: ../src/dlg-search.c:358
+#: ../src/dlg-search.c:359
 msgid "Search Result"
 msgstr "検索結果"
 
-#: ../src/dlg-web-exporter.c:849
+#: ../src/dlg-web-exporter.c:847
 msgid "Select Album Theme"
 msgstr "アルバムのテーマの選択"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3804
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3848
 msgid "Could not move the items:"
 msgstr "アイテムを移動することができませんでした:"
 
-#: ../src/gth-browser-actions-callbacks.c:167 ../src/gth-fullscreen.c:1075
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "画像をゴミ箱に移動します。よろしいですか？"
 
-#: ../src/gth-browser-actions-callbacks.c:266
+#: ../src/gth-browser-actions-callbacks.c:267
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "画像 \"%s\" の複製を作成することができませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:274
+#: ../src/gth-browser-actions-callbacks.c:275
 msgid "Stop"
 msgstr "停止"
 
-#: ../src/gth-browser-actions-callbacks.c:275
+#: ../src/gth-browser-actions-callbacks.c:276
 msgid "Continue"
 msgstr "続行"
 
-#: ../src/gth-browser-actions-callbacks.c:330
+#: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "選択した画像をゴミ箱に移動します。よろしいですか？"
 
-#: ../src/gth-browser-actions-callbacks.c:465
-#: ../src/gth-browser-actions-callbacks.c:973
+#: ../src/gth-browser-actions-callbacks.c:466
+#: ../src/gth-browser-actions-callbacks.c:976
 msgid "Enter the new name: "
 msgstr "新しい名前を入力して下さい: "
 
-#: ../src/gth-browser-actions-callbacks.c:507
-#: ../src/gth-browser-actions-callbacks.c:719
-#: ../src/gth-browser-actions-callbacks.c:799
-#: ../src/gth-browser-actions-callbacks.c:1021
+#: ../src/gth-browser-actions-callbacks.c:508
+#: ../src/gth-browser-actions-callbacks.c:721
+#: ../src/gth-browser-actions-callbacks.c:801
+#: ../src/gth-browser-actions-callbacks.c:1024
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "名前 \"%s\" は既に使用されています。別の名前を入力して下さい。"
 
-#: ../src/gth-browser-actions-callbacks.c:518
+#: ../src/gth-browser-actions-callbacks.c:520
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "ライブラリ \"%s\" の名前を変更できませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:518
+#: ../src/gth-browser-actions-callbacks.c:520
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "カタログ \"%s\" の名前を変更できませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:588
+#: ../src/gth-browser-actions-callbacks.c:590
 msgid "The selected library will be removed, are you sure?"
 msgstr "選択したライブラリを削除します。よろしいですか？"
 
-#: ../src/gth-browser-actions-callbacks.c:590
+#: ../src/gth-browser-actions-callbacks.c:592
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "選択したカタログを削除します。よろしいですか？"
 
-#: ../src/gth-browser-actions-callbacks.c:685
+#: ../src/gth-browser-actions-callbacks.c:687
 msgid "New Catalog"
 msgstr "新しいカタログ"
 
-#: ../src/gth-browser-actions-callbacks.c:731
+#: ../src/gth-browser-actions-callbacks.c:733
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を生成することができませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:824
+#: ../src/gth-browser-actions-callbacks.c:827
 msgid "New Library"
 msgstr "新しいライブラリ"
 
-#: ../src/gth-browser-actions-callbacks.c:826
+#: ../src/gth-browser-actions-callbacks.c:829
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "ライブラリ \"%s\" を生成できませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1011
-#: ../src/gth-browser-actions-callbacks.c:1046
+#: ../src/gth-browser-actions-callbacks.c:1014
+#: ../src/gth-browser-actions-callbacks.c:1049
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" の名前を変更できませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1013
-#: ../src/gth-browser-actions-callbacks.c:1292
+#: ../src/gth-browser-actions-callbacks.c:1016
+#: ../src/gth-browser-actions-callbacks.c:1295
 msgid "source and destination are the same"
 msgstr "送り元と送り先が同じです"
 
-#: ../src/gth-browser-actions-callbacks.c:1096
+#: ../src/gth-browser-actions-callbacks.c:1099
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" を削除できませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1127
+#: ../src/gth-browser-actions-callbacks.c:1130
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" をゴミ箱に移動することはできません。これを完全に削除しますか？"
 
-#: ../src/gth-browser-actions-callbacks.c:1171
+#: ../src/gth-browser-actions-callbacks.c:1174
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "選択したフォルダをゴミ箱に移動します。よろしいですか？"
 
-#: ../src/gth-browser-actions-callbacks.c:1224
-#: ../src/gth-browser-actions-callbacks.c:1282
+#: ../src/gth-browser-actions-callbacks.c:1227
+#: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "フォルダ \"%s\" をコピーできませんでした: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1303
+#: ../src/gth-browser-actions-callbacks.c:1306
 msgid "source contains destination"
 msgstr "送り元に送り先が含まれています"
 
-#: ../src/gth-browser-actions-callbacks.c:1314
+#: ../src/gth-browser-actions-callbacks.c:1317
 msgid "a folder with that name is already present."
 msgstr "その名前のフォルダは既に存在します。"
 
-#: ../src/gth-browser-actions-callbacks.c:1598
+#: ../src/gth-browser-actions-callbacks.c:1601
 msgid "New Folder"
 msgstr "新しいフォルダ"
 
-#: ../src/gth-browser-actions-callbacks.c:1599
+#: ../src/gth-browser-actions-callbacks.c:1602
 msgid "Enter the folder name: "
 msgstr "フォルダ名を入力して下さい: "
 
-#: ../src/gth-browser-actions-callbacks.c:1729 ../src/gth-location.c:219
+#: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "場所を開く"
 
@@ -3206,11 +3209,11 @@ msgstr "検索(_S)..."
 
 #: ../src/gth-browser-actions-entries.h:368
 msgid "Create _Index Image..."
-msgstr "画像の目録の作成(_I)..."
+msgstr "目録画像の作成(_I)..."
 
 #: ../src/gth-browser-actions-entries.h:373
 msgid "Create _Web Album..."
-msgstr "Web アルバムの作成(_W)..."
+msgstr "ウェブ・アルバムの作成(_W)..."
 
 #: ../src/gth-browser-actions-entries.h:378
 msgid "Convert F_ormat..."
@@ -3371,87 +3374,87 @@ msgstr "カタログ(_C)"
 msgid "View the catalogs"
 msgstr "カタログを表示します"
 
-#: ../src/gth-browser.c:558 ../src/gth-viewer.c:668
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[コメントを追加する時は 'c' キーを押して下さい]"
 
-#: ../src/gth-browser.c:664 ../src/gth-browser.c:683 ../src/gth-viewer.c:755
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[変更済]"
 
-#: ../src/gth-browser.c:708 ../src/main.c:440 ../src/main.c:816
+#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:788
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr " 1個の画像 (%s)"
 
-#: ../src/gth-browser.c:791
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr " %d個の画像 (%s)"
 
-#: ../src/gth-browser.c:798
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr " 1つ選択 (%s)"
 
-#: ../src/gth-browser.c:801
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr " %dつ選択 (%s)"
 
-#: ../src/gth-browser.c:1842 ../src/gth-viewer.c:1005
+#: ../src/gth-browser.c:1891 ../src/gth-viewer.c:995
 msgid "The current image has been modified, do you want to save it?"
 msgstr "この画像が変更されました。保存しますか？"
 
-#: ../src/gth-browser.c:1843 ../src/gth-viewer.c:1006
+#: ../src/gth-browser.c:1892 ../src/gth-viewer.c:996
 msgid "Do Not Save"
 msgstr "保存しない"
 
-#: ../src/gth-browser.c:3563
+#: ../src/gth-browser.c:3607
 msgid "Dragged Images"
 msgstr "画像のドラッグ"
 
-#: ../src/gth-browser.c:5428 ../src/gth-browser.c:5429
+#: ../src/gth-browser.c:5431 ../src/gth-browser.c:5432
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "品質を維持したまま画像を回転します"
 
-#: ../src/gth-browser.c:6303
+#: ../src/gth-browser.c:6319
 msgid "Getting folder listing..."
 msgstr "フォルダの一覧を取得してます..."
 
-#: ../src/gth-browser.c:6324
+#: ../src/gth-browser.c:6340
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "フォルダ \"%s\" を読み込めません: %s\n"
 
-#: ../src/gth-browser.c:6824 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6850 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "このペインを閉じます"
 
-#: ../src/gth-browser.c:6838 ../src/gth-viewer.c:1685
+#: ../src/gth-browser.c:6864 ../src/gth-viewer.c:1676
 msgid "Image comment"
 msgstr "画像にコメントを追加します"
 
-#: ../src/gth-browser.c:6852
+#: ../src/gth-browser.c:6878
 msgid "Image data"
 msgstr "画像のデータを表示します"
 
-#: ../src/gth-browser.c:6866
+#: ../src/gth-browser.c:6892
 msgid "Image preview"
 msgstr "画像をプレビュー表示します"
 
-#: ../src/gth-browser.c:7928
+#: ../src/gth-browser.c:7944
 msgid "The specified catalog does not exist."
 msgstr "指定したカタログは存在しません。"
 
-#: ../src/gth-browser.c:8538 ../src/gth-viewer.c:2118
+#: ../src/gth-browser.c:8576 ../src/gth-viewer.c:2121
 msgid "Wait please..."
 msgstr "しばらくお待ち下さい..."
 
@@ -3491,7 +3494,7 @@ msgstr "バージョンと互換性"
 msgid "Other"
 msgstr "その他"
 
-#: ../src/gth-exif-data-viewer.c:804
+#: ../src/gth-exif-data-viewer.c:801
 msgid "Path"
 msgstr "パス"
 
@@ -3610,24 +3613,24 @@ msgstr "単一のウィンドウ(_S)"
 msgid "Reuse this window to view other images"
 msgstr "このウィンドウを他の画像を表示するのに使用します"
 
-#: ../src/gth-viewer.c:828
+#: ../src/gth-viewer.c:820
 msgid "_None"
 msgstr "なし(_N)"
 
-#: ../src/gth-viewer.c:1474 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1465 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "他で開く(_O)"
 
-#: ../src/gth-viewer.c:1480 ../src/gth-viewer.c:1481
+#: ../src/gth-viewer.c:1471 ../src/gth-viewer.c:1472
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "選択した画像を他のアプリケーションで開きます"
 
-#: ../src/gth-window-actions-callbacks.c:844
+#: ../src/gth-window-actions-callbacks.c:911
 msgid "An image viewer and browser for GNOME."
 msgstr "GNOME 向けの画像ビューアとブラウザです。"
 
-#: ../src/gth-window-actions-callbacks.c:847
+#: ../src/gth-window-actions-callbacks.c:914
 msgid "translator_credits"
 msgstr ""
 "相花 毅 <takeshi.aihana@gmail.com>\n"
@@ -3970,80 +3973,80 @@ msgstr "低品質(_L)"
 msgid "Use low quality zoom"
 msgstr "低品質ズームを使用します"
 
-#: ../src/main.c:92
+#: ../src/main.c:90
 msgid "Start in fullscreen mode"
 msgstr "全画面モードで起動する"
 
-#: ../src/main.c:96
+#: ../src/main.c:94
 msgid "Automatically start a slideshow"
 msgstr "自動的にスライドショーを起動する"
 
-#: ../src/main.c:100
+#: ../src/main.c:98
 msgid "Automatically import digital camera photos"
 msgstr "自動的にディジタル・カメラの写真をインポートする"
 
-#: ../src/main.c:104
+#: ../src/main.c:102
 msgid "Use the viewer mode to view single images"
 msgstr "単一の画像を表示するためにビューア・モードにする"
 
-#: ../src/main.c:149
+#: ../src/main.c:147
 msgid "Holidays"
 msgstr "祭日"
 
-#: ../src/main.c:150
+#: ../src/main.c:148
 msgid "Temporary"
 msgstr "作業用"
 
-#: ../src/main.c:151
+#: ../src/main.c:149
 msgid "Screenshots"
 msgstr "スクリーンショット"
 
-#: ../src/main.c:152
+#: ../src/main.c:150
 msgid "Science"
 msgstr "科学"
 
-#: ../src/main.c:153
+#: ../src/main.c:151
 msgid "Favourite"
 msgstr "お気に入り"
 
-#: ../src/main.c:154
+#: ../src/main.c:152
 msgid "Important"
 msgstr "重要"
 
-#: ../src/main.c:155
+#: ../src/main.c:153
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:156
+#: ../src/main.c:154
 msgid "Games"
 msgstr "ゲーム"
 
-#: ../src/main.c:157
+#: ../src/main.c:155
 msgid "Party"
 msgstr "パーティ"
 
-#: ../src/main.c:158
+#: ../src/main.c:156
 msgid "Birthday"
 msgstr "誕生日"
 
-#: ../src/main.c:159
+#: ../src/main.c:157
 msgid "Astronomy"
 msgstr "天文学"
 
-#: ../src/main.c:160
+#: ../src/main.c:158
 msgid "Family"
 msgstr "家族"
 
-#: ../src/main.c:382
+#: ../src/main.c:380
 msgid "Command Line"
 msgstr "コマンドライン"
 
-#: ../src/rotation-utils.c:72
+#: ../src/rotation-utils.c:113
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr "画像を変換する際に問題が発生しました: %s"
 
-#: ../src/rotation-utils.c:78
+#: ../src/rotation-utils.c:118
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -4066,11 +4069,16 @@ msgstr ""
 "際の使用では、このモードは最良の結果を提供してくれますが、変換についてはそれ"
 "ほど厳しく品質を維持するようなことはしていません。"
 
-#: ../src/rotation-utils.c:86
+#: ../src/rotation-utils.c:126
 msgid "_Trim"
 msgstr "角度(_T)"
 
-#: ../src/rotation-utils.c:196
+#: ../src/rotation-utils.c:169
+msgid "Could not create a local temporary copy of the remote file."
+msgstr ""
+"リモートにあるファイルの一時的なコピーをローカル上に生成できませんでした"
+
+#: ../src/rotation-utils.c:215
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
 msgstr "一時的なファイルを移動できませんでした (移動先の権限を確認して下さい)"
