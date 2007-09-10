@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-10 16:31+0200\n"
-"PO-Revision-Date: 2007-09-10 16:39+0200\n"
-"Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
+"POT-Creation-Date: 2007-09-10 16:56+0200\n"
+"PO-Revision-Date: 2007-09-10 17:41+0200\n"
+"Last-Translator: Stéphane Raimbault <stephane.raimbault@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -352,11 +352,11 @@ msgstr "Commentaire"
 
 #: ../data/glade/gthumb_comments.glade.h:5
 msgid "Create a new category"
-msgstr "Créer une nouvelle catégorie"
+msgstr "Crée une nouvelle catégorie"
 
 #: ../data/glade/gthumb_comments.glade.h:6
 msgid "Current date"
-msgstr "Date courante"
+msgstr "Date actuelle"
 
 #: ../data/glade/gthumb_comments.glade.h:7
 msgid "Do not modify"
@@ -380,7 +380,7 @@ msgstr "Date de numérisation de la photo (d'après les données EXIF)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
-msgstr "Renommer la catégorie sélectionnée"
+msgstr "Supprime la catégorie sélectionnée"
 
 #: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
@@ -825,7 +825,7 @@ msgstr "_Couleur :"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr "Créer une image d'index"
+msgstr "Création d'une image d'index"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
@@ -1087,7 +1087,7 @@ msgstr "<b>Direction</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:23
 msgid "<b>Hide/Show</b>"
-msgstr "<b>Afficher/Cacher</b>"
+msgstr "<b>Afficher/Masquer</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
@@ -1532,7 +1532,7 @@ msgstr "Retirer les yeux rouges"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
 msgid "Redo"
-msgstr "Refaire"
+msgstr "Rétablir"
 
 #: ../data/glade/gthumb_redeye.glade.h:5
 msgid "Undo"
@@ -1690,7 +1690,7 @@ msgstr "Appliquer à _toutes les images"
 
 #: ../data/glade/gthumb_tools.glade.h:19
 msgid "C_urrent date"
-msgstr "Date _courante"
+msgstr "Date _actuelle"
 
 #: ../data/glade/gthumb_tools.glade.h:20
 #: ../src/gth-browser-actions-entries.h:38
@@ -1718,7 +1718,9 @@ msgstr "Vérification de l'image :"
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
-msgstr "Cliquez sur OK pour réinitialiser l'étiquette Orientation d'Exif à « en haut à gauche » pour les images sélectionnées."
+msgstr ""
+"Cliquez sur OK pour réinitialiser l'étiquette Orientation d'Exif à « en haut "
+"à gauche » pour les images sélectionnées."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1726,7 +1728,7 @@ msgstr "_Date du commentaire"
 
 #: ../data/glade/gthumb_tools.glade.h:28
 msgid "Current _Folder"
-msgstr "_Dossier courant"
+msgstr "_Dossier actuel"
 
 #: ../data/glade/gthumb_tools.glade.h:29
 msgid "Equal images:"
@@ -1770,11 +1772,11 @@ msgstr "Ordre _inversé"
 
 #: ../data/glade/gthumb_tools.glade.h:41
 msgid "Reset Exif Orientation Tags"
-msgstr "Réinitialiser les étiquettes d'orientation Exif"
+msgstr "Réinitialisation des étiquettes d'orientation Exif"
 
 #: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
-msgstr "Pivoter l'image"
+msgstr "Rotation des images"
 
 #: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
@@ -1784,14 +1786,15 @@ msgstr "Rotation de 90 degrés sens horaire"
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Rotation de 90 degrés sens anti-horaire"
 
+# #468343
 #: ../data/glade/gthumb_tools.glade.h:45
 #: ../src/gth-browser-actions-entries.h:394
 msgid "Scale Images"
-msgstr "Redimensionner les images"
+msgstr "Redimensionnement des images"
 
 #: ../data/glade/gthumb_tools.glade.h:46
 msgid "Search for Duplicates"
-msgstr "Rechercher les doublons"
+msgstr "Recherche de doublons"
 
 #: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
@@ -1820,7 +1823,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
-msgstr "Graver sur un CD"
+msgstr "Gravure sur un CD"
 
 #: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Last modified date"
@@ -1915,7 +1918,7 @@ msgstr "<b>Thème</b>"
 #: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b>Note :</b> %d (date courante).</i></small>"
+msgstr "<small><i><b>Note :</b> %d (date actuelle).</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
@@ -1923,9 +1926,9 @@ msgid ""
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
 msgstr ""
-"<small><i><b>Note :</b> Certains thèmes peuvent ajuster\n"
-"automatiquement le nombre de lignes et de colonnes, mais garder\n"
-"constant le nombre total d'images par page.</i></small>"
+"<small><i><b>Note :</b> certains thèmes peuvent ajuster\n"
+"automatiquement le nombre de lignes et de colonnes, tout\n"
+"en conservant le nombre total d'images par page.</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
@@ -2324,11 +2327,11 @@ msgstr "Enregistrement des vignettes"
 
 #: ../src/catalog-web-exporter.c:1923
 msgid "Saving HTML pages: Images"
-msgstr "Enregistrement des pages HTML : Images"
+msgstr "Enregistrement des pages HTML : images"
 
 #: ../src/catalog-web-exporter.c:2003
 msgid "Saving HTML pages: Indexes"
-msgstr "Enregistrement des pages HTML : Index"
+msgstr "Enregistrement des pages HTML : index"
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
@@ -3044,12 +3047,12 @@ msgstr "_Éditer la requête de recherche..."
 #: ../src/gth-browser-actions-entries.h:164
 #: ../src/gth-browser-actions-entries.h:199
 msgid "Modify search criteria"
-msgstr "Modifier critère de recherche"
+msgstr "Modifie les critères de recherche"
 
 #: ../src/gth-browser-actions-entries.h:168
 #: ../src/gth-browser-actions-entries.h:203
 msgid "Redo _Search"
-msgstr "Rélancer la _recherche"
+msgstr "Relancer la _recherche"
 
 #: ../src/gth-browser-actions-entries.h:169
 #: ../src/gth-browser-actions-entries.h:204
@@ -3074,15 +3077,15 @@ msgstr "Crée une nouvelle bibliothèque de catalogue"
 
 #: ../src/gth-browser-actions-entries.h:184
 msgid "Rename current catalog"
-msgstr "Renomme le catalogue en cours"
+msgstr "Renomme le catalogue actuel"
 
 #: ../src/gth-browser-actions-entries.h:189
 msgid "Remove current catalog"
-msgstr "Supprime le catalogue en cours"
+msgstr "Supprime le catalogue actuel"
 
 #: ../src/gth-browser-actions-entries.h:194
 msgid "Move current catalog to another location"
-msgstr "Déplacer le catalogue courant à un autre emplacement"
+msgstr "Déplace le catalogue actuel vers un autre emplacement"
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
@@ -3129,11 +3132,11 @@ msgstr "Attribue des catégories au dossier sélectionné"
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Ouvre le dossier en cours avec le gestionnaire de fichiers Nautilus"
+msgstr "Ouvre le dossier actuel avec le gestionnaire de fichiers Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
-msgstr "Renomme le dossier en cours"
+msgstr "Renomme le dossier actuel"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
@@ -3141,15 +3144,15 @@ msgstr "Met le dossier actuel à la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
-msgstr "Copie le dossier courant"
+msgstr "Copie le dossier actuel"
 
 #: ../src/gth-browser-actions-entries.h:269
 msgid "Move current folder"
-msgstr "Déplace le dossier en cours"
+msgstr "Déplace le dossier actuel"
 
 #: ../src/gth-browser-actions-entries.h:274
 msgid "Assign categories to the current folder"
-msgstr "Attribue des catégories au dossier courant"
+msgstr "Attribue des catégories au dossier actuel"
 
 #: ../src/gth-browser-actions-entries.h:278
 msgid "_New Folder..."
@@ -3184,16 +3187,16 @@ msgstr "Remonte d'un niveau"
 #: ../src/gth-browser-actions-entries.h:313
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
-msgstr "_Recharger"
+msgstr "_Actualiser"
 
 #: ../src/gth-browser-actions-entries.h:314
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
-msgstr "Recharger l'emplacement courant"
+msgstr "Actualise l'emplacement actuel"
 
 #: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
-msgstr "Arrêt du chargement de l'emplacement en cours"
+msgstr "Arrête le chargement de l'emplacement actuel"
 
 #: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
@@ -3231,7 +3234,7 @@ msgstr "A_jouter un signet"
 
 #: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
-msgstr "Ajoute l'emplacement courant aux signets"
+msgstr "Ajoute l'emplacement actuel aux signets"
 
 #: ../src/gth-browser-actions-entries.h:348
 msgid "_Edit Bookmarks..."
@@ -3247,7 +3250,7 @@ msgstr "_Diaporama"
 
 #: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
-msgstr "Voir en tant que diaporama"
+msgstr "Affiche sous forme de diaporama"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "_Search..."
@@ -3320,7 +3323,7 @@ msgstr "_Aperçu de l'image"
 #: ../src/gth-browser-actions-entries.h:424
 #: ../src/gth-browser-actions-entries.h:496
 msgid "View the image"
-msgstr "Voir l'image"
+msgstr "Affiche l'image"
 
 #: ../src/gth-browser-actions-entries.h:434
 msgid "Show _Hidden Files"
@@ -3397,12 +3400,12 @@ msgstr "Trie les images manuellement"
 #: ../src/gth-browser-actions-entries.h:476
 #: ../src/gth-browser-actions-entries.h:477
 msgid "View As Slides"
-msgstr "Voir en tant que diaporama"
+msgstr "Afficher en diapositives"
 
 #: ../src/gth-browser-actions-entries.h:479
 #: ../src/gth-browser-actions-entries.h:480
 msgid "View As List"
-msgstr "Voir comme une liste"
+msgstr "Afficher en liste"
 
 #: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
@@ -3454,7 +3457,7 @@ msgstr "%d sélectionnés (%s)"
 
 #: ../src/gth-browser.c:1891 ../src/gth-viewer.c:995
 msgid "The current image has been modified, do you want to save it?"
-msgstr "L'image courante a été modifiée, voulez-vous l'enregistrer ?"
+msgstr "L'image actuelle a été modifiée, voulez-vous l'enregistrer ?"
 
 #: ../src/gth-browser.c:1892 ../src/gth-viewer.c:996
 msgid "Do Not Save"
@@ -3590,11 +3593,11 @@ msgstr "est après le"
 
 #: ../src/gth-filter-bar.c:200
 msgid "KB"
-msgstr "Ko"
+msgstr "Kio"
 
 #: ../src/gth-filter-bar.c:201
 msgid "MB"
-msgstr "Mo"
+msgstr "Mio"
 
 #: ../src/gth-filter-bar.c:207
 msgid "Filename"
@@ -3670,7 +3673,7 @@ msgstr "_Ouvrir avec"
 #: ../src/gth-viewer.c:1471 ../src/gth-viewer.c:1472
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "Ouvrir les images sélectionnées avec une application"
+msgstr "Ouvre les images sélectionnées avec une application"
 
 #: ../src/gth-window-actions-callbacks.c:911
 msgid "An image viewer and browser for GNOME."
@@ -3686,7 +3689,8 @@ msgstr ""
 "Jonathan Ernst <jonathan@ernstfamily.ch>\n"
 "Christophe Bliard <christophe.bliard@trux.info>\n"
 "Cyprien Le Pannérer <cyplp@free.fr>\n"
-"Claude Paroz <claude@2xlibre.net>"
+"Claude Paroz <claude@2xlibre.net>\n"
+"Stéphane Raimbault <stephane.raimbault@gmail.com>"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3703,7 +3707,7 @@ msgstr "_Ouvrir avec..."
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
-msgstr "Enregistre l'image courante"
+msgstr "Enregistre l'image actuelle"
 
 #: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
@@ -3720,11 +3724,11 @@ msgstr "Imprimer..."
 #: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
-msgstr "Imprime l'image en cours"
+msgstr "Imprime l'image actuelle"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
-msgstr "Ouvrir cette image avec une application"
+msgstr "Ouvre cette image avec une application"
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
@@ -3931,7 +3935,7 @@ msgstr "A_nimation pas à pas"
 
 #: ../src/gth-window-actions-entries.h:226
 msgid "View next animation frame"
-msgstr "Voir le pas suivant d'animation"
+msgstr "Voir l'image suivante de l'animation"
 
 #: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
@@ -4007,7 +4011,7 @@ msgstr "Jouer l'_animation"
 
 #: ../src/gth-window-actions-entries.h:317
 msgid "Start or stop current animation"
-msgstr "Démarre ou arrête l'animation en cours"
+msgstr "Démarre ou arrête l'animation actuelle"
 
 #: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
@@ -4027,19 +4031,19 @@ msgstr "Utilise un zoom de faible qualité"
 
 #: ../src/main.c:90
 msgid "Start in fullscreen mode"
-msgstr "Démarrer en mode plein écran"
+msgstr "Démarre en mode plein écran"
 
 #: ../src/main.c:94
 msgid "Automatically start a slideshow"
-msgstr "Démarrer automatiquement en diaporama"
+msgstr "Démarre automatiquement en diaporama"
 
 #: ../src/main.c:98
 msgid "Automatically import digital camera photos"
-msgstr "Importer automatiquement les photos de l'appareil photo"
+msgstr "Importe automatiquement les photos de l'appareil photo"
 
 #: ../src/main.c:102
 msgid "Use the viewer mode to view single images"
-msgstr "Utiliser le mode visionneur pour afficher des images uniques"
+msgstr "Utilise le mode visionneur pour afficher des images uniques"
 
 #: ../src/main.c:147
 msgid "Holidays"
