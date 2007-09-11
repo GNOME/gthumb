@@ -1,3 +1,14 @@
+2007-09-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-fullscreen.c: (motion_notify_event_cb):
+	Detect motion based on movement rather than acceleration.
+
+	* (str_concat_with_free), (get_file_info):
+	Added exposure time, f-number, ISO, focal length to fullscreen
+	properties display.
+
+	Patches by Michael Satlow. Bug #472491.
+
 2007-09-07  Claude Paroz  <claude@2xlibre.net>
 
 	* src/gth-folder-selection-dialog.c:

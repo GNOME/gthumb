@@ -16,6 +16,9 @@ trunk, since last 2.10.x
 	* Add option to change text case when renaming files. Bug #459349.
 	* Add option to preserve the original enumerator when renaming 
 	  files. Bug #459349.
+	* Added exposure time, f-number, ISO, focal length to fullscreen
+	  properties display. Bug #472491.
+
 
 	Bugfixes:
 
@@ -34,6 +37,8 @@ trunk, since last 2.10.x
 	  midentify tool, if present.
 	* Fixed bug #454492. Web export does not support themes with spaces 
 	  in the name.
+	* In fullscreen mode, detect motion based on movement rather than
+	  acceleration. Bug #472491.
 
 
 version 2.10.6

@@ -55,7 +55,7 @@
 #define HIDE_DELAY 1000
 #define X_PADDING  12
 #define Y_PADDING  6
-#define MOTION_THRESHOLD 3
+#define MOTION_THRESHOLD 200
 #define DEF_SLIDESHOW_DELAY 4.0
 #define SECONDS 1000
 
@@ -347,12 +347,16 @@ motion_notify_event_cb (GtkWidget      *widget,
 	if (last_py == 0)
 		last_py = py;
 
-	if ((abs (last_px - px) > MOTION_THRESHOLD)
-	    || (abs (last_py - py) > MOTION_THRESHOLD))
+        if ((abs (last_px - px) > MOTION_THRESHOLD) 
+            || (abs (last_py - py) > MOTION_THRESHOLD)) {
 		if (! GTK_WIDGET_VISIBLE (priv->toolbar_window)) {
 			gtk_widget_show (priv->toolbar_window);
 			image_viewer_show_cursor (IMAGE_VIEWER (priv->viewer));
+                        
 		}
+                last_px = px;
+                last_py = py;
+      }
 
 	if (priv->mouse_hide_id != 0)
 		g_source_remove (priv->mouse_hide_id);
@@ -360,8 +364,6 @@ motion_notify_event_cb (GtkWidget      *widget,
 					     hide_mouse_pointer_cb,
 					     fullscreen);
 
-	last_px = px;
-	last_py = py;
 
 	return FALSE;
 }
@@ -830,6 +832,16 @@ pos_from_path (GList      *list,
 
 
 static char *
+str_concat_with_free (char *str, char *add)
+{
+    char *oldbuffer = str;
+    str = g_strconcat (str, add, NULL);
+    g_free (oldbuffer);
+    return str;
+}
+
+
+static char *
 get_file_info (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
@@ -844,7 +856,15 @@ get_file_info (GthFullscreen *fullscreen)
 	char         time_txt[50], *utf8_time_txt;
 	time_t       timer = 0;
 	struct tm   *tm;
+        
+        char        *exif_exposure_time;
+        char        *exif_ISOSpeed_rating;
+        char        *exif_aperture_value;
+        char        *exif_focal_length;
+        char        *exif_file_info;
+        gboolean     has_exif_info = FALSE;
 
+        
 	image_filename = gth_window_get_image_filename (GTH_WINDOW (fullscreen));
 	e_filename = escape_filename (file_name_from_path (image_filename));
 
@@ -862,7 +882,7 @@ get_file_info (GthFullscreen *fullscreen)
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-
+                
 	file_info = g_strdup_printf ("<small><i>%s - %s (%d%%) - %s</i>\n%d/%d - <tt>%s</tt></small>",
 				     utf8_time_txt,
 				     size_txt,
@@ -870,12 +890,61 @@ get_file_info (GthFullscreen *fullscreen)
 				     file_size_txt,
 				     pos_from_path (priv->file_list, image_filename) + 1,
 				     priv->files,
-				     e_filename);
+				     e_filename
+                );
 
+        /* load exif data */
+        exif_exposure_time   = get_exif_tag (image_filename, EXIF_TAG_EXPOSURE_TIME);
+        exif_ISOSpeed_rating = get_exif_tag (image_filename, EXIF_TAG_ISO_SPEED_RATINGS);
+        exif_aperture_value  = get_exif_aperture_value (image_filename);
+        exif_focal_length    = get_exif_tag (image_filename, EXIF_TAG_FOCAL_LENGTH);
+        
+        /* build exif info string */
+        exif_file_info = g_strdup("\n<small>");
+
+        if (strcmp (exif_exposure_time, "-") != 0) {
+            exif_file_info = str_concat_with_free (exif_file_info, exif_exposure_time);
+            has_exif_info = TRUE;
+        }
+
+        if (strcmp (exif_aperture_value, "-") != 0) {
+            if (has_exif_info == TRUE)
+                exif_file_info = str_concat_with_free (exif_file_info, ", ");
+            exif_file_info = str_concat_with_free (exif_file_info, exif_aperture_value);
+            has_exif_info = TRUE;
+        }
+
+        if (strcmp (exif_ISOSpeed_rating, "-") != 0) {
+            if (has_exif_info == TRUE)
+                exif_file_info = str_concat_with_free (exif_file_info, ", ISO ");
+            else
+                exif_file_info = str_concat_with_free (exif_file_info, "ISO ");
+            exif_file_info = str_concat_with_free (exif_file_info, exif_ISOSpeed_rating);
+            has_exif_info = TRUE;
+        }
+
+        if (strcmp(exif_focal_length, "-") !=0) {
+            if (has_exif_info == TRUE)
+                exif_file_info = str_concat_with_free (exif_file_info,", ");
+            exif_file_info = str_concat_with_free (exif_file_info, exif_focal_length);
+            has_exif_info = TRUE;
+        }
+
+        /* if exif infos has been found, extend the file_info string */
+        if (has_exif_info == TRUE) {
+            exif_file_info = str_concat_with_free (exif_file_info, "</small>");
+            file_info = str_concat_with_free (file_info, exif_file_info);
+        }
+   
 	g_free (utf8_time_txt);
 	g_free (e_filename);
 	g_free (size_txt);
 	g_free (file_size_txt);
+        
+        g_free (exif_exposure_time);
+        g_free (exif_ISOSpeed_rating);
+        g_free (exif_aperture_value);
+        g_free (exif_file_info);
 
 	return file_info;
 }
