@@ -1,28 +1,20 @@
 # Vietnamese translation for GThumb.
 # Copyright © 2006 Gnome i18n Project for Vietnamese.
-# Clytie Siddall <clytie@riverland.net.au>, 2006.
+# Clytie Siddall <clytie@riverland.net.au>, 2006-2007.
 # 
 msgid ""
-""
-msgstr "Project-Id-Version: gthumb HEAD\n"
+msgstr ""
+"Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-12-23 21:31+0100\n"
-"PO-Revision-Date: 2006-12-24 16:48+1030\n"
+"POT-Creation-Date: 2007-07-20 03:17+0100\n"
+"PO-Revision-Date: 2007-09-14 21:58+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LocFactoryEditor 1.6fc1\n"
-
-#: ../data/GNOME_GThumb.server.in.in.h:1
-msgid "GThumb Application"
-msgstr "Ứng dụng GThumb"
-
-#: ../data/GNOME_GThumb.server.in.in.h:2
-msgid "GThumb Application Factory"
-msgstr "Bộ tạo ứng dụng GThumb"
+"X-Generator: LocFactoryEditor 1.7b1\n"
 
 #: ../data/albumthemes/text.h:27
 #: ../src/gth-browser-actions-entries.h:288
@@ -41,12 +33,12 @@ msgid "Index"
 msgstr "Phụ lục"
 
 #: ../data/albumthemes/text.h:30
-#: ../src/dlg-duplicates.c:266
+#: ../src/dlg-duplicates.c:261
 msgid "Image"
 msgstr "Ảnh"
 
 #: ../data/albumthemes/text.h:31
-#: ../src/gth-exif-data-viewer.c:799
+#: ../src/gth-exif-data-viewer.c:805
 msgid "Dimensions"
 msgstr "Các chiều"
 
@@ -56,6 +48,7 @@ msgid "Bytes"
 msgstr "Byte"
 
 #: ../data/albumthemes/text.h:33
+#: ../src/gth-filter-bar.c:210
 msgid "Date"
 msgstr "Ngày"
 
@@ -126,7 +119,7 @@ msgstr "Anfa"
 
 #: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
-msgstr "Xanh dương"
+msgstr "Xanh"
 
 #: ../data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
@@ -194,16 +187,16 @@ msgid "Red"
 msgstr "Đỏ"
 
 #: ../data/glade/gthumb.glade.h:24
-msgid "Select a _bookmark:"
-msgstr "Chọn _Dấu nhớ :"
-
-#: ../data/glade/gthumb.glade.h:25
 msgid "Value"
 msgstr "Giá trị"
 
-#: ../data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "Ứn_g dụng:"
+
+#: ../data/glade/gthumb.glade.h:26
+msgid "_Bookmarks:"
+msgstr "Đánh _dấu :"
 
 #: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
@@ -244,8 +237,8 @@ msgid "..."
 msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
-msgid "Auto-_detected cameras:"
-msgstr "Máy ảnh tự động _phát hiện:"
+msgid "C_hoose from the catalog"
+msgstr "C_họn trong phân loại"
 
 #: ../data/glade/gthumb_camera.glade.h:3
 #: ../data/glade/gthumb_search.glade.h:8
@@ -257,14 +250,6 @@ msgid "Camera Model"
 msgstr "Mô hình máy ảnh"
 
 #: ../data/glade/gthumb_camera.glade.h:5
-msgid "Camera _Model:"
-msgstr "_Mô hình máy ảnh:"
-
-#: ../data/glade/gthumb_camera.glade.h:6
-msgid "Camera _Port:"
-msgstr "_Cổng máy ảnh:"
-
-#: ../data/glade/gthumb_camera.glade.h:7
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
 #: ../data/glade/gthumb_tools.glade.h:25
@@ -272,11 +257,11 @@ msgstr "_Cổng máy ảnh:"
 msgid "Choose destination folder"
 msgstr "Chọn thư mục đích"
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
 msgstr "Xoá các ảnh đã chọn ra máy ảnh"
 
-#: ../data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:7
 msgid ""
 "If this checkbox is enabled and the imported photo contains an Exif "
 "orientation tag, the image data will be physically transformed (losslessly) "
@@ -285,40 +270,44 @@ msgid ""
 "the orientation tag are both left unchanged. The image will be displayed "
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
-msgstr "Nếu hộp chọn này được bật và ảnh chụp đã nhập khẩu cũng chứa một thẻ hướng EXIF, dữ liệu ảnh sẽ được chuyển đổi vật chất (không mất gì) để ảnh đã xem có cùng một hình thức với ảnh gốc nhưng thẻ hướng đã được đặt lại thành « trái trên ». Còn nếu hộp chọn này không được bật, cả hai dữ liệu ảnh và thẻ hướng đều còn lại không được thay đổi. Ảnh sẽ được hiển thị trùng bằng gthumb cho cả hai trường hợp, nhưng ma để tương thích tối đa với các ứng dụng khác, khuyên bạn bật hộp chọn này."
+msgstr ""
+"Nếu hộp chọn này được bật và ảnh chụp đã nhập khẩu cũng chứa một thẻ hướng "
+"EXIF, dữ liệu ảnh sẽ được chuyển đổi vật chất (không mất gì) để ảnh đã xem "
+"có cùng một hình thức với ảnh gốc nhưng thẻ hướng đã được đặt lại thành « "
+"trái trên ». Còn nếu hộp chọn này không được bật, cả hai dữ liệu ảnh và thẻ "
+"hướng đều còn lại không được thay đổi. Ảnh sẽ được hiển thị trùng bằng "
+"gthumb cho cả hai trường hợp, nhưng ma để tương thích tối đa với các ứng "
+"dụng khác, khuyên bạn bật hộp chọn này."
 
-#: ../data/glade/gthumb_camera.glade.h:10
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
 msgstr "Nhập ảnh chụp"
 
-#: ../data/glade/gthumb_camera.glade.h:11
-#: ../src/dlg-photo-importer.c:859
-#: ../src/dlg-photo-importer.c:898
-#: ../src/dlg-photo-importer.c:1465
+#: ../data/glade/gthumb_camera.glade.h:9
+#: ../src/dlg-photo-importer.c:900
+#: ../src/dlg-photo-importer.c:939
+#: ../src/dlg-photo-importer.c:1528
+#: ../src/dlg-photo-importer.c:2275
 msgid "No camera detected"
 msgstr "Chưa phát hiện máy ảnh nào"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "Rotate images physically"
 msgstr "Xoay vật chất ảnh"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
 msgstr "Chọn mô hình máy ảnh"
 
-#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:12
 msgid "Update previews"
 msgstr "Cập nhật ô xem thử"
 
-#: ../data/glade/gthumb_camera.glade.h:15
-msgid "Use manual selection instead:"
-msgstr "Chọn bằng tay thay thế:"
-
-#: ../data/glade/gthumb_camera.glade.h:16
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
 msgstr "_Xoá các ảnh đã nhập khẩu khỏi máy ảnh"
 
-#: ../data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:14
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
 #: ../data/glade/gthumb_tools.glade.h:58
@@ -326,21 +315,25 @@ msgstr "_Xoá các ảnh đã nhập khẩu khỏi máy ảnh"
 msgid "_Destination:"
 msgstr "Đíc_h:"
 
-#: ../data/glade/gthumb_camera.glade.h:18
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
 msgstr "_Phim:"
 
-#: ../data/glade/gthumb_camera.glade.h:19
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
 msgstr "_Nhập"
 
-#: ../data/glade/gthumb_camera.glade.h:20
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
 msgstr "_Giữ tên tập tin gốc"
 
-#: ../data/glade/gthumb_camera.glade.h:21
-msgid "_Refresh list"
-msgstr "_Cập nhật danh sách"
+#: ../data/glade/gthumb_camera.glade.h:18
+msgid "_Model:"
+msgstr "_Mô hình:"
+
+#: ../data/glade/gthumb_camera.glade.h:19
+msgid "_Port:"
+msgstr "_Cổng:"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -358,7 +351,7 @@ msgid "Co_mment:"
 msgstr "Chú _thích:"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1477
+#: ../src/gth-filter-bar.c:208
 msgid "Comment"
 msgstr "Chú thích"
 
@@ -427,6 +420,7 @@ msgid "<b>Image type</b>"
 msgstr "<b>Kiểu ảnh</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
 msgstr "<b>Độ phân giải</b>"
 
@@ -458,7 +452,7 @@ msgid "Opti_mize"
 msgstr "Tối ư_u hóa"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Overwrite mode:"
 msgstr "Chế độ ghi đè:"
 
@@ -467,12 +461,12 @@ msgid "PNG Options"
 msgstr "Tùy chọn PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
 msgstr "Gỡ _bỏ ảnh gốc"
 
 #: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rename"
 msgstr "Đổi tên"
 
@@ -483,7 +477,8 @@ msgid ""
 "Rename\n"
 "Ask\n"
 "Overwrite"
-msgstr "Bỏ qua\n"
+msgstr ""
+"Bỏ qua\n"
 "Đổi tên\n"
 "Hỏi\n"
 "Ghi đè"
@@ -552,6 +547,7 @@ msgid "_Vertical:"
 msgstr "_Dọc:"
 
 #: ../data/glade/gthumb_convert.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:53
 msgid "dpi"
 msgstr "điểm/insơ"
 
@@ -576,6 +572,7 @@ msgid "<b>Aspect ratio</b>"
 msgstr "<b>Tỷ lệ hình thể</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
 msgstr "<b>Vùng chọn</b>"
 
@@ -584,42 +581,48 @@ msgid "Crop"
 msgstr "Xén"
 
 #: ../data/glade/gthumb_crop.glade.h:8
-#: ../data/glade/gthumb_print.glade.h:17
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "Tự chọn"
 
 #: ../data/glade/gthumb_crop.glade.h:9
-#: ../data/glade/gthumb_preferences.glade.h:46
+msgid "I_nvert aspect ratio"
+msgstr "Đảo tỷ lệ hì_nh thể"
+
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
 msgstr "Không có"
 
-#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
 msgstr "Vuông"
 
-#: ../data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:12
 msgid "_Crop"
 msgstr "_Xén"
 
-#: ../data/glade/gthumb_crop.glade.h:12
+#: ../data/glade/gthumb_crop.glade.h:13
 #: ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:34
+#: ../data/glade/gthumb_print.glade.h:46
 #: ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
 msgstr "_Cao :"
 
-#: ../data/glade/gthumb_crop.glade.h:13
+#: ../data/glade/gthumb_crop.glade.h:14
 #: ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:40
+#: ../data/glade/gthumb_print.glade.h:52
 #: ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
 msgstr "_Rộng:"
 
-#: ../data/glade/gthumb_crop.glade.h:14
+#: ../data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -823,7 +826,8 @@ msgstr "<small><i><b>Chú thích :</b> # (bộ đếm)</i>.</small>"
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b>Chú thích :</b> %p (số hiệu trang), %n (tổng số trang)</i>.</"
+msgstr ""
+"<small><i><b>Chú thích :</b> %p (số hiệu trang), %n (tổng số trang)</i>.</"
 "small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
@@ -1023,255 +1027,331 @@ msgid "png"
 msgstr "png"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
+msgid "0:"
+msgstr "0:"
+
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 × 112"
 
-#: ../data/glade/gthumb_preferences.glade.h:4
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "128 x 128"
 msgstr "128 × 128"
 
-#: ../data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "164 x 164"
 msgstr "164 × 164"
 
-#: ../data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:7
+msgid "1:"
+msgstr "1:"
+
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "200 x 200"
 msgstr "200 × 200"
 
-#: ../data/glade/gthumb_preferences.glade.h:7
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "256 x 256"
 msgstr "256 × 256"
 
-#: ../data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:10
+msgid "2:"
+msgstr "2:"
+
+#: ../data/glade/gthumb_preferences.glade.h:11
+msgid "3:"
+msgstr "3:"
+
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "48 x 48"
 msgstr "48 × 48"
 
-#: ../data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:13
+msgid "4:"
+msgstr "4:"
+
+#: ../data/glade/gthumb_preferences.glade.h:14
+msgid "5:"
+msgstr "5:"
+
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "64 x 64"
 msgstr "64 × 64"
 
-#: ../data/glade/gthumb_preferences.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "6:"
+msgstr "6:"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "7:"
+msgstr "7:"
+
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "85 x 85"
 msgstr "85 × 85"
 
-#: ../data/glade/gthumb_preferences.glade.h:11
+#: ../data/glade/gthumb_preferences.glade.h:19
+msgid "8:"
+msgstr "8:"
+
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "95 x 95"
 msgstr "95 × 95"
 
-#: ../data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:21
+msgid "9:"
+msgstr "9:"
+
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "<b>Direction</b>"
 msgstr "<b>Hướng</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:13
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Ẩn/Hiện</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:14
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
 msgstr "<b>Giao diện</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
 msgstr "<b>Khi khởi chạy:</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:16
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "<b>Other</b>"
 msgstr "<b>Khác</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:17
+#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "<b>Slide show</b>"
 msgstr "<b>Chiều ảnh</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "<b>Viewer</b>"
 msgstr "<b>Bộ xem</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:19
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "<b>Zoom quality</b>"
 msgstr "<b>Chất lượng thu phóng</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:31
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%n = a single filename, including path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr "<small><i><b>Ký tự đặc biệt:</b>\n"
+"%F = các tên tập tin đã chọn nằm trên cùng dòng, định giới bằng dấu cách\n"
+"%f = một tên tập tin, gồm có đường dẫn\n"
+"%n = một tên tập tin, gồm có đường dẫn, không có phần mở rộng\n"
+"%e = một phần mở rộng, bắt đầu với dấu chấm\n"
+"%p = thư mục cha của tập tin đã ngụ ý</i>\n"
+"Văn lệnh có mã %F thì được thực hiện chỉ một lần, bất chấp số tập tin được chọn. Các văn lệnh khác sẽ được thực hiện một lần cho mỗi tập tin đã chọn.\n"
+"Các văn lệnh mặc định được diễn tả trong tập tin Trợ giúp (Help).</small>"
+
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
 msgstr "Kích hoạt mục bằng nhấn đúp"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Activate items with a single click"
 msgstr "Kích hoạt mục bằng nhấn đơn"
 
-#: ../data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "After _loading an image:"
 msgstr "_Sau khi nạp ảnh"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "Nhắc xác nhận trước _khi xoá ảnh hay phân loại"
 
-#: ../data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Ask whether to save _modified images"
 msgstr "Hỏi có nên lưu ảnh đã _sửa đổi không"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Black"
 msgstr "Đen"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Browser"
 msgstr "Bộ duyệt"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "C_lick policy:"
 msgstr "Chính _sách nhấn:"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Checked"
 msgstr "Đã chọn"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Choose startup folder"
 msgstr "Chọn thư mục khởi động"
 
-#: ../data/glade/gthumb_preferences.glade.h:30
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Co_mments"
 msgstr "C_hú thích"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
 msgstr "_Hoãn trước khi thay đổi ảnh:"
 
-#: ../data/glade/gthumb_preferences.glade.h:32
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
 msgstr "_Quyết định kiểu ảnh từ nội dung (chậm hơn)"
 
-#: ../data/glade/gthumb_preferences.glade.h:33
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
 msgstr "Khô_ng thay đổi thư mục"
 
-#: ../data/glade/gthumb_preferences.glade.h:34
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Fit to width if larger"
 msgstr "Vừa khít độ rộng nếu lớn hơn"
 
-#: ../data/glade/gthumb_preferences.glade.h:35
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Fit to window if larger"
 msgstr "Vừa khít cửa sổ nếu lớn hơn"
 
-#: ../data/glade/gthumb_preferences.glade.h:36
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Follow Nautilus behaviour"
 msgstr "Theo ứng xử Nautilus"
 
-#: ../data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "For_ward"
 msgstr "Chu_yển tiếp"
 
-#: ../data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "General"
 msgstr "Chung"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Go to last _visited folder or catalog"
 msgstr "Đi tới thư mục hay _phân loại đã thăm cuối cùng"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Go to this _folder:"
 msgstr "Đi tới thư _mục này:"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "H_igh"
 msgstr "C_ao"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:61
+msgid "Hot Keys"
+msgstr "Phím nóng"
+
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
 msgstr "Chỉ biểu tượng"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Keep previous zoom"
 msgstr "Giữ độ thu phóng trước"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:64
+msgid ""
+"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
+"the selected images with other applications."
+msgstr "Các phím 0-9 trong vùng số có thể được sử dụng trong bộ duyệt để mở hay sửa bằng ứng dụng khác các ảnh đã chọn."
+
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
 msgstr "Bố trí:"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "Lo_w"
 msgstr "Thấ_p"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "Ran_dom"
 msgstr "_Ngẫu nhiên"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "Re_verse"
 msgstr "N_gược lại"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
 msgstr "Đặt lại các vị trí thanh cuộn sau khi nạp ảnh"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
 msgstr "_Khởi chạy lại khi hoàn thành"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:72
 msgid "Set image to actual size"
 msgstr "Đặt ảnh thành kích cỡ thật"
 
-#: ../data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
 msgstr "Đặt thành _hiện thời"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
 msgstr "Chiếu ảnh"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:75
 msgid "System settings"
 msgstr "Thiết lập hệ thống"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:76
 msgid "Text below icons"
 msgstr "Nhãn dưới biểu tượng"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:77
 msgid "Text beside icons"
 msgstr "Nhãn cạnh biểu tượng"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:78
 msgid "Text only"
 msgstr "Chỉ nhãn"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
 msgstr "Cỡ hình th_u nhỏ :"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
 msgstr "Kiểu _trong suốt:"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:81
+msgid "Use a _fading effect when changing image"
+msgstr "Chạy hiệu ứng _mờ đi khi chuyển đổi ảnh"
+
+#: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
 msgstr "Bộ xem"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:83
 msgid "White"
 msgstr "Trắng"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:84
 msgid "_Filenames"
 msgstr "Tê_n tập tin"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
-#: ../src/gth-browser-actions-entries.h:412
+#: ../data/glade/gthumb_preferences.glade.h:85
+#: ../src/gth-browser-actions-entries.h:418
 msgid "_Thumbnails"
 msgstr "Hình _thu nhỏ"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:86
 msgid "_Toolbar style:"
 msgstr "Kiểu dáng _thanh công cụ :"
 
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:87
 msgid "gThumb Preferences"
 msgstr "Tùy thích gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:88
 msgid "seconds"
 msgstr "giây"
 
@@ -1280,146 +1360,206 @@ msgid "1"
 msgstr "1"
 
 #: ../data/glade/gthumb_print.glade.h:5
+msgid "150"
+msgstr "150"
+
+#: ../data/glade/gthumb_print.glade.h:6
 msgid "16"
 msgstr "16"
 
-#: ../data/glade/gthumb_print.glade.h:6
+#: ../data/glade/gthumb_print.glade.h:7
 msgid "2"
 msgstr "2"
 
-#: ../data/glade/gthumb_print.glade.h:7
+#: ../data/glade/gthumb_print.glade.h:8
+msgid "300"
+msgstr "300"
+
+#: ../data/glade/gthumb_print.glade.h:9
 msgid "4"
 msgstr "4"
 
-#: ../data/glade/gthumb_print.glade.h:8
+#: ../data/glade/gthumb_print.glade.h:10
+msgid "600"
+msgstr "600"
+
+#: ../data/glade/gthumb_print.glade.h:11
+msgid "72"
+msgstr "72"
+
+#: ../data/glade/gthumb_print.glade.h:12
 msgid "8"
 msgstr "8"
 
-#: ../data/glade/gthumb_print.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:13
+msgid "<b>Image Sizing</b>"
+msgstr "<b>Đặt kích cỡ ảnh</b>"
+
+#: ../data/glade/gthumb_print.glade.h:14
 msgid "<b>Margins</b>"
 msgstr "<b>Lề</b>"
 
-#: ../data/glade/gthumb_print.glade.h:10
+#: ../data/glade/gthumb_print.glade.h:15
 msgid "<b>Orientation</b>"
 msgstr "<b>Hướng</b>"
 
-#: ../data/glade/gthumb_print.glade.h:11
+#: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
 msgstr "<b>Cỡ</b>"
 
-#: ../data/glade/gthumb_print.glade.h:12
+#: ../data/glade/gthumb_print.glade.h:18
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
-msgstr "<small><i><b>Chú thích :</b> kéo ảnh để di chuyển nó trên trang.\n"
+msgstr ""
+"<small><i><b>Chú thích :</b> kéo ảnh để di chuyển nó trên trang.\n"
 "Nhấn vào ảnh để xoay nó.</i></small>"
 
-#: ../data/glade/gthumb_print.glade.h:14
+#: ../data/glade/gthumb_print.glade.h:20
+msgid ""
+"<small><i><b>Note:</b> High-resolution images will be\n"
+"down-sampled to this resolution. Increase\n"
+"the resolution to get better image quality.\n"
+"Decrease it to get shorter print times.</i></small>"
+msgstr "<small><i><b>Ghi chú :</b> các ảnh có độ phân giải cao\n"
+"thì bị giảm lấy mẫu thành độ phân giải này.\n"
+"Tăng độ phân giải để xem ảnh đẹp hơn.\n"
+"Giảm độ phân giải để in ấn nhanh hơn.</i></small>"
+
+#: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
 msgstr "A4"
 
-#: ../data/glade/gthumb_print.glade.h:15
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Automatic sizing"
+msgstr "Tự động đặt kích cỡ"
+
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
 msgstr "_Giữa lại trên trang"
 
-#: ../data/glade/gthumb_print.glade.h:16
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "Comment _font:"
 msgstr "_Phông chú thích:"
 
-#: ../data/glade/gthumb_print.glade.h:18
+#: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
 msgstr "Hành chính"
 
-#: ../data/glade/gthumb_print.glade.h:19
+#: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
 msgstr "_Gồm chú thích"
 
-#: ../data/glade/gthumb_print.glade.h:20
+#: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
 msgstr "Ảnh trên mỗi trang:"
 
-#: ../data/glade/gthumb_print.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
 msgstr "insơ"
 
-#: ../data/glade/gthumb_print.glade.h:22
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "Include filename"
 msgstr "Gồm tên tập tin"
 
-#: ../data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
 msgstr "_Nằm ngang"
 
-#: ../data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:35
 msgid "Layout"
 msgstr "Bố trí"
 
-#: ../data/glade/gthumb_print.glade.h:25
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
 msgstr "Hành pháp"
 
-#: ../data/glade/gthumb_print.glade.h:26
+#: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
 msgstr "Thư"
 
-#: ../data/glade/gthumb_print.glade.h:27
+#: ../data/glade/gthumb_print.glade.h:38
 msgid "Millimeters"
 msgstr "Mili-mét"
 
-#: ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
 msgstr "_Dọc"
 
-#: ../data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_print.glade.h:40
 msgid "Paper Details"
 msgstr "Chi tiết giấy"
 
-#: ../data/glade/gthumb_print.glade.h:30
+#: ../data/glade/gthumb_print.glade.h:41
 msgid "Postcard"
 msgstr "Bưu thiếp"
 
-#.
-#: ../data/glade/gthumb_print.glade.h:31
-#: ../libgthumb/print-callbacks.c:2339
+#: ../data/glade/gthumb_print.glade.h:42
+#: ../libgthumb/print-callbacks.c:2719
 #: ../src/gth-window-actions-entries.h:70
+#.
 msgid "Print"
 msgstr "In"
 
-#: ../data/glade/gthumb_print.glade.h:32
+#: ../data/glade/gthumb_print.glade.h:43
+msgid "Scale to this size"
+msgstr "Co dãn thành kích cỡ này"
+
+#: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
 msgstr "Vắn tắt"
 
-#: ../data/glade/gthumb_print.glade.h:33
+#: ../data/glade/gthumb_print.glade.h:45
 msgid "_Bottom:"
 msgstr "_Dưới:"
 
-#: ../data/glade/gthumb_print.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:47
 msgid "_Left:"
 msgstr "T_rái:"
 
-#: ../data/glade/gthumb_print.glade.h:36
+#: ../data/glade/gthumb_print.glade.h:48
 msgid "_Right:"
 msgstr "_Phải:"
 
-#: ../data/glade/gthumb_print.glade.h:37
+#: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
 msgstr "Tỷ _lệ:"
 
-#: ../data/glade/gthumb_print.glade.h:38
+#: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
 msgstr "_Trên:"
 
-#: ../data/glade/gthumb_print.glade.h:39
+#: ../data/glade/gthumb_print.glade.h:51
 msgid "_Unit:"
 msgstr "Đơn _vị:"
 
-#: ../data/glade/gthumb_redeye.glade.h:1
-msgid "Click the mouse on the red-eye regions that need to be fixed."
-msgstr "Nhấn chuột vào mỗi vùng mắt đỏ cần sửa."
-
 #: ../data/glade/gthumb_redeye.glade.h:2
-msgid "Redeye Removal"
+msgid "Actual Size"
+msgstr "Kích cỡ thật"
+
+#: ../data/glade/gthumb_redeye.glade.h:3
+msgid "Red-Eye Removal"
 msgstr "Sửa mắt đỏ"
+
+#: ../data/glade/gthumb_redeye.glade.h:4
+msgid "Redo"
+msgstr "Làm lại"
+
+#: ../data/glade/gthumb_redeye.glade.h:5
+msgid "Undo"
+msgstr "Hủy bước"
+
+#: ../data/glade/gthumb_redeye.glade.h:6
+msgid "Zoom In"
+msgstr "Phóng to"
+
+#: ../data/glade/gthumb_redeye.glade.h:7
+msgid "Zoom Out"
+msgstr "Thu nhỏ"
+
+#: ../data/glade/gthumb_redeye.glade.h:8
+msgid "Zoom to Fit"
+msgstr "Thu phóng để vừa"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1454,30 +1594,31 @@ msgid "File _name:"
 msgstr "Tê_n tập tin:"
 
 #: ../data/glade/gthumb_search.glade.h:14
-msgid "Find"
-msgstr "Tìm"
-
-#: ../data/glade/gthumb_search.glade.h:15
 msgid "Found images:"
 msgstr "Ảnh đã tìm:"
 
-#: ../data/glade/gthumb_search.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
 msgstr "Khớp với mọi _loại đã chọn"
 
-#: ../data/glade/gthumb_search.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
 msgstr "Khớp với bất kỳ loại đã chọ_n"
 
-#: ../data/glade/gthumb_search.glade.h:18
+#: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
 msgstr "Việc _tìm mới..."
 
-#: ../data/glade/gthumb_search.glade.h:19
-#: ../src/dlg-photo-importer.c:828
-#: ../src/dlg-photo-importer.c:1515
+#: ../data/glade/gthumb_search.glade.h:18
+#: ../src/dlg-photo-importer.c:869
+#: ../src/dlg-photo-importer.c:1578
 msgid "No images found"
 msgstr "Không tìm thấy ảnh"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Search"
+msgstr "Tìm"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
@@ -1529,14 +1670,18 @@ msgid ""
 "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
-msgstr "<small><i><b>Chú thích </b>: các việc chuyển đổi JPEG bình thường không mất gì. Khi xem ảnh, bạn có khả năng sử dụng phím tắt [ ngoặc vu ] để xoay và lưu một cách không mất gì, cũng đi qua hộp thoại này.</i></small>"
+msgstr ""
+"<small><i><b>Chú thích </b>: các việc chuyển đổi JPEG bình thường không mất "
+"gì. Khi xem ảnh, bạn có khả năng sử dụng phím tắt [ ngoặc vu ] để xoay và "
+"lưu một cách không mất gì, cũng đi qua hộp thoại này.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
-msgstr "<small><i><b>Ký tự đặc biệt:</b># (bộ đếm), %f (tên tập tin gốc), %d (ngày "
+msgstr ""
+"<small><i><b>Ký tự đặc biệt:</b># (bộ đếm), %f (tên tập tin gốc), %d (ngày "
 "ảnh), %s (kích cỡ ảnh), %e (phần mở rộng gốc).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
@@ -1581,7 +1726,9 @@ msgstr "Đang kiểm tra ảnh:"
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
-msgstr "Nhấn vào nút « Được » để đặc lại thẻ hướng EXIF cho các ảnh đã chọn thành « Trái trên »."
+msgstr ""
+"Nhấn vào nút « Được » để đặc lại thẻ hướng EXIF cho các ảnh đã chọn thành « "
+"Trái trên »."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1596,26 +1743,22 @@ msgid "Equal images:"
 msgstr "Ảnh bằng:"
 
 #: ../data/glade/gthumb_tools.glade.h:30
-msgid "Find Duplicates"
-msgstr "Tìm bản sao"
-
-#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Found duplicates:"
 msgstr "Bản sao đã tìm:"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Image c_reation date"
 msgstr "Ngày tạ_o ảnh"
 
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image horizontally (left-right)"
 msgstr "Phản chiếu ảnh theo chiều ngang (trái-phải)"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Phản chiếu ảnh theo chiều dọc (trên-dưới)"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:34
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1623,38 +1766,42 @@ msgstr "Phản chiếu ảnh theo chiều dọc (trên-dưới)"
 msgid "Move to _Trash"
 msgstr "Chuyển vào Sọt _rác"
 
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "New names _preview:"
 msgstr "_Xem thử tên mới:"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Ngày số _hoá ảnh (từ dữ liệu EXIF)"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Re_verse Order"
 msgstr "Đả_o lại thứ tự"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Reset Exif Orientation Tags"
 msgstr "Đặt lại các thẻ hướng EXIF"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
 msgstr "Xoay ảnh"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Xoay ảnh 90º theo xuôi chiều"
 
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Xoay ảnh 90º theo ngược chiều"
 
-#: ../data/glade/gthumb_tools.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:45
 #: ../src/gth-browser-actions-entries.h:394
 msgid "Scale Images"
 msgstr "Co dãn ảnh"
+
+#: ../data/glade/gthumb_tools.glade.h:46
+msgid "Search for Duplicates"
+msgstr "Tìm bản sao"
 
 #: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
@@ -1672,7 +1819,13 @@ msgid ""
 "reset to the default \"top left\" value. If it is not enabled, the rotation "
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
-msgstr "Hộp chọn này điều khiển phương pháp xoay dùng cho các ảnh JPEG chứa thẻ hướng EXIF. Nếu hộp chọn này được bật, việc xoay sẽ được thực hiện như là việc chuyển đổi vật chất, và thẻ hướng EXIF sẽ được đặt lại thành giá trị « trái trên ». Còn nếu hộp chọn này không được bật, việc xoay sẽ được thực hiện chỉ bằng cách thay đổi thẻ hướng EXIF. Để tương thích tối đa với các ứng dụng khách, khuyên bạn bật hộp chọn này."
+msgstr ""
+"Hộp chọn này điều khiển phương pháp xoay dùng cho các ảnh JPEG chứa thẻ "
+"hướng EXIF. Nếu hộp chọn này được bật, việc xoay sẽ được thực hiện như là "
+"việc chuyển đổi vật chất, và thẻ hướng EXIF sẽ được đặt lại thành giá trị « "
+"trái trên ». Còn nếu hộp chọn này không được bật, việc xoay sẽ được thực "
+"hiện chỉ bằng cách thay đổi thẻ hướng EXIF. Để tương thích tối đa với các "
+"ứng dụng khách, khuyên bạn bật hộp chọn này."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -1778,7 +1931,8 @@ msgid ""
 "<small><i><b>Note:</b> Some themes may auto-adjust the\n"
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
-msgstr "<small><i><b>Chú thích :</b> một số sắc thái riêng\n"
+msgstr ""
+"<small><i><b>Chú thích :</b> một số sắc thái riêng\n"
 "có thể tự động điều chỉnh số hàng và cột,\n"
 "còn giữ lại số ảnh trên mỗi trang.</i></small>"
 
@@ -1907,6 +2061,7 @@ msgid "Image Viewer"
 msgstr "Bộ xem ảnh"
 
 #: ../data/gthumb.desktop.in.h:2
+#: ../src/main.c:812
 msgid "View and organize your images"
 msgstr "Xem và tổ chức các ảnh của bạn"
 
@@ -1918,112 +2073,137 @@ msgstr "Bộ xem ảnh gThumb"
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr "Ảnh lớn hơn kích cỡ này (theo byte) sẽ không được thu nhỏ. Hãy dùng giá trị "
+msgstr ""
+"Ảnh lớn hơn kích cỡ này (theo byte) sẽ không được thu nhỏ. Hãy dùng giá trị "
 "0 nếu bạn muốn tạo ra hình thu nhỏ cho mọi ảnh."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
 "(reverse landscape)"
-msgstr "Giá trị có thể:\n"
-" 0	dọc\n"
-" 1	ngang\n"
-" 2	dọc đảo\n"
-" 3	ngang đảo"
+msgstr ""
+"Giá trị có thể:\n"
+" 0\tdọc\n"
+" 1\tngang\n"
+" 2\tdọc đảo\n"
+" 3\tngang đảo"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
 msgstr "Giá trị có thể: 1, 2, 3, 4"
 
 #: ../data/gthumb.schemas.in.h:4
+msgid "Possible values are: 72, 150, 300, 600."
+msgstr "Giá trị có thể: 72, 150, 300, 600."
+
+#: ../data/gthumb.schemas.in.h:5
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • actual_size\t\tkích cỡ thật\n"
 " • fit\t\t\t\tvừa khít\n"
 " • keep_prev\t\tgiữ trước\n"
 " • fit_if_larger\t\tvừa khít nếu lớn hơn."
 
-#: ../data/gthumb.schemas.in.h:5
+#: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • ascending\t\ttăng dần\n"
 " • descending\t\tgiảm dần."
 
-#: ../data/gthumb.schemas.in.h:6
+#: ../data/gthumb.schemas.in.h:7
 msgid "Possible values are: forward, backward, random."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • forward\t\ttới\n"
 " • backward\t\tlùi\n"
 " • random\t\tngẫu nhiên."
 
-#: ../data/gthumb.schemas.in.h:7
+#: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: high, low."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • high\t\tcao\n"
 " • low\t\tthấp."
 
-#: ../data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:9
 msgid "Possible values are: image, data, comment."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • image\t\t\tảnh\n"
 " • data\t\t\tdữ liệu\n"
 " • comment\t\tchú thích."
 
-#: ../data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: jpeg, png, tga, tiff."
 msgstr "Giá trị có thể: jpeg, png, tga, tiff."
 
-#: ../data/gthumb.schemas.in.h:10
+#: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: light, midtone, dark."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • light\t\t\tnhạt\n"
 " • midtone\t\tnửa sắc\n"
 " • dark\t\t\ttối."
 
-#: ../data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: list, thumbnails."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • list\t\t\tdanh sách\n"
 " • thumbnails\t\tcác hình thu nhỏ."
 
-#: ../data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:13
+msgid "Possible values are: manual, auto."
+msgstr ""
+"Giá trị có thể:\n"
+" • manual	tự làm\n"
+" • auto		tự động (viết tắt)."
+
+#: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: mm, in."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • mm\t\t\tmili-mét\n"
 " • in\t\t\t\tinsơ."
 
-#: ../data/gthumb.schemas.in.h:13
+#: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: nautilus, single, double."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • nautilus\n"
 " • single\t\tđơn\n"
 " • double\t\tđôi."
 
-#: ../data/gthumb.schemas.in.h:14
+#: ../data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, deflate, jpeg."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • none\t\tkhông có\n"
 " • deflate\t\tlàm xẹp\n"
 " • jpeg."
 
-#: ../data/gthumb.schemas.in.h:15
+#: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • none\t\tkhông có\n"
 " • name\t\ttên\n"
 " • path\t\tđường dẫn\n"
 " • size\t\tkích cỡ\n"
 " • time\t\tthời gian\n"
-"• exifdate	ngày EXIF\n"
-"• comment		chú thích."
+"• exifdate\tngày EXIF\n"
+"• comment\t\tchú thích."
 
-#: ../data/gthumb.schemas.in.h:16
+#: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • none\t\t\t\t\tkhông có\n"
 " • simple\t\t\t\t\tđơn giản\n"
 " • simple_with_shadow\t\tđơn giản với bóng\n"
@@ -2032,11 +2212,12 @@ msgstr "Giá trị có thể:\n"
 " • shadow_in\t\t\t\tbóng vào\n"
 " • shadow_out\t\t\t\tbóng ra."
 
-#: ../data/gthumb.schemas.in.h:17
+#: ../data/gthumb.schemas.in.h:19
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • none\t\t\tkhông có\n"
 " • square\t\t\tvuông\n"
 " • display\t\t\ttrình bày\n"
@@ -2046,54 +2227,59 @@ msgstr "Giá trị có thể:\n"
 " • 8x10\n"
 " • custom\t\ttự chọn."
 
-#: ../data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: pixels, percentage."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • pixels\t\t\tđiểm ảnh\n"
 " • percentage\t\tphần trăm."
 
-#: ../data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: png, jpeg."
 msgstr "Giá trị có thể: png, jpeg."
 
-#: ../data/gthumb.schemas.in.h:20
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • skip\t\t\tbỏ qua\n"
 " • rename\t\tthay đổi tên\n"
 " • ask\t\t\thỏi\n"
 " • overwrite\t\tghi đè."
 
-#: ../data/gthumb.schemas.in.h:21
+#: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: small, medium, large."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • small\t\t\tnhỏ\n"
 " • medium\t\tvừa\n"
 " • large\t\t\tlớn."
 
-#: ../data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:24
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Giá trị có thể là:\n"
+msgstr ""
+"Giá trị có thể là:\n"
 " • system\t\t\thệ thống\n"
 " • text_below\t\tnhãn dưới\n"
 " • text_beside\t\tnhãn ở cạnh\n"
 " • text_only\t\tchỉ nhãn\n"
 " • icons_only\t\tchỉ biểu tượng."
 
-#: ../data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: white, black, checked, none."
-msgstr "Giá trị có thể:\n"
+msgstr ""
+"Giá trị có thể:\n"
 " • white\t\t\ttrắng\n"
 " • black\t\t\tđen\n"
 " • checked\t\tđã chọn\n"
 " • none\t\t\tkhông có."
 
-#: ../data/gthumb.schemas.in.h:24
+#: ../data/gthumb.schemas.in.h:26
 msgid "Whether to always use a black background."
 msgstr "Có nên dùng luôn luôn ảnh nền màu đen hay không."
 
-#: ../data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:27
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Có nên đặt lại các vị trí thanh cuộn sau khi thay đổi ảnh hay không"
 
@@ -2108,104 +2294,79 @@ msgstr "Không thể mở phân loại « %s »: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Không thể lưu phân loại « %s »: %s"
 
-#: ../libgthumb/comments.c:1283
-#: ../src/catalog-web-exporter.c:140
+#: ../libgthumb/comments.c:1257
+#: ../src/catalog-web-exporter.c:141
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1285
-#: ../src/catalog-web-exporter.c:55
-#: ../src/catalog-web-exporter.c:142
-#: ../src/dlg-duplicates.c:553
+#: ../libgthumb/comments.c:1259
+#: ../src/catalog-web-exporter.c:56
+#: ../src/catalog-web-exporter.c:143
+#: ../src/dlg-duplicates.c:548
 #: ../src/dlg-image-prop.c:441
-#: ../src/gth-browser.c:494
-#: ../src/gth-exif-data-viewer.c:789
-#: ../src/gth-fullscreen.c:848
-#: ../src/gth-viewer.c:575
+#: ../src/gth-browser.c:489
+#: ../src/gth-exif-data-viewer.c:792
+#: ../src/gth-fullscreen.c:854
+#: ../src/gth-viewer.c:607
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1295
-#: ../libgthumb/comments.c:1297
+#: ../libgthumb/comments.c:1269
+#: ../libgthumb/comments.c:1271
 msgid "(No Comment)"
 msgstr "(Không chú thích)"
 
-#: ../libgthumb/dlg-save-image.c:110
-#: ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:278
-#: ../src/dlg-photo-importer.c:1540
-#: ../src/dlg-reset-exif.c:116
-#, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Bạn không có quyền tạo ảnh trong thư mục « %s »"
-
-#: ../libgthumb/dlg-save-image.c:125
-#: ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:570
-#, c-format
-msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "Ảnh tên « %s » đã có. Bạn có muốn ghi đè lên nó không?"
-
-#: ../libgthumb/dlg-save-image.c:168
-#: ../src/rotation-utils.c:238
+#: ../libgthumb/dlg-save-image.c:129
+#: ../src/rotation-utils.c:267
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Không hỗ trợ kiểu ảnh: %s"
 
-#: ../libgthumb/dlg-save-image.c:239
+#: ../libgthumb/dlg-save-image.c:200
 msgid "Determine by extension"
 msgstr "Quyết định theo phần mở rộng"
 
-#: ../libgthumb/dlg-save-image.c:273
+#: ../libgthumb/dlg-save-image.c:234
 msgid "Save Image"
 msgstr "Lưu ảnh"
 
-#: ../libgthumb/dlg-save-image.c:292
+#: ../libgthumb/dlg-save-image.c:254
 msgid "Image type:"
 msgstr "Kiểu ảnh:"
 
-#: ../libgthumb/file-utils.c:1170
-#: ../src/gth-location.c:756
+#: ../libgthumb/file-utils.c:1389
+#: ../src/gth-location.c:813
 msgid "Catalogs"
 msgstr "Phân loại"
 
-#: ../libgthumb/file-utils.c:1172
-#: ../src/gth-location.c:761
+#: ../libgthumb/file-utils.c:1392
+#: ../src/gth-location.c:819
 msgid "File System"
 msgstr "Hệ thống tập tin"
 
-#: ../libgthumb/file-utils.c:1196
-#: ../src/gth-location.c:765
+#: ../libgthumb/file-utils.c:1419
+#: ../src/gth-location.c:826
 msgid "Home"
 msgstr "Nhà"
 
-#: ../libgthumb/file-utils.c:1656
+#: ../libgthumb/file-utils.c:1996
 msgid "Library not empty"
 msgstr "Thư viện không rỗng"
 
-#: ../libgthumb/file-utils.c:1665
+#: ../libgthumb/file-utils.c:2005
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Không thể gỡ bỏ thư viện « %s »: %s"
 
-#: ../libgthumb/file-utils.c:1692
+#: ../libgthumb/file-utils.c:2032
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Không thể gỡ bỏ phân loại « %s »: %s"
 
-#.
-#: ../libgthumb/gth-file-view-list.c:1485
-#: ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:594
-#: ../src/gth-exif-data-viewer.c:798
-msgid "Name"
-msgstr "Tên"
-
-#: ../libgthumb/gth-image-list.c:3500
-#: ../src/gth-browser.c:765
-#: ../src/gth-browser.c:4307
-#: ../src/gth-viewer.c:753
+#: ../libgthumb/gth-image-list.c:3533
+#: ../src/gth-browser.c:783
+#: ../src/gth-browser.c:4470
+#: ../src/gth-viewer.c:758
 msgid "No image"
 msgstr "Không có ảnh"
 
@@ -2213,107 +2374,107 @@ msgstr "Không có ảnh"
 msgid "Could not display help"
 msgstr "Không thể hiển thị trợ giúp"
 
-#: ../libgthumb/gthumb-stock.c:77
+#: ../libgthumb/gthumb-stock.c:79
 #: ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "_Xoay ảnh"
 
-#: ../libgthumb/print-callbacks.c:752
+#: ../libgthumb/print-callbacks.c:824
 #, c-format
 msgid "Page %d of %d"
 msgstr "Trang %d trên %d"
 
-#: ../libgthumb/print-callbacks.c:1921
-#: ../src/catalog-png-exporter.c:1361
+#: ../libgthumb/print-callbacks.c:2248
+#: ../src/catalog-png-exporter.c:1378
 #, c-format
 msgid "Loading image: %s"
 msgstr "Đang nạp ảnh: %s"
 
-#: ../libgthumb/thumb-cache.c:490
+#: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Đang xoá mọi hình thu nhỏ, vui lòng đợi..."
 
-#: ../libgthumb/thumb-cache.c:492
+#: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Đang xoá các hình thu nhỏ cũ, vui lòng đợi..."
 
-#: ../src/bookmark-list.c:160
-#: ../src/gth-browser.c:1273
-#: ../src/gth-browser.c:1277
-#: ../src/gth-browser.c:1289
+#: ../src/bookmark-list.c:157
+#: ../src/gth-browser.c:1290
+#: ../src/gth-browser.c:1294
+#: ../src/gth-browser.c:1306
 msgid "(Invalid Name)"
 msgstr "(Tên không hợp lệ)"
 
-#: ../src/catalog-png-exporter.c:818
+#: ../src/catalog-png-exporter.c:842
 #: ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:498
-#: ../src/gth-exif-data-viewer.c:785
-#: ../src/gth-fullscreen.c:839
-#: ../src/gth-viewer.c:579
+#: ../src/gth-browser.c:493
+#: ../src/gth-exif-data-viewer.c:788
+#: ../src/gth-fullscreen.c:845
+#: ../src/gth-viewer.c:611
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d điểm ảnh"
 
-#: ../src/catalog-png-exporter.c:1593
+#: ../src/catalog-png-exporter.c:1611
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Đang tạo ảnh: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1866
+#: ../src/catalog-web-exporter.c:1870
 msgid "Saving thumbnails"
 msgstr "Đang lưu hình thu nhỏ..."
 
-#: ../src/catalog-web-exporter.c:1932
+#: ../src/catalog-web-exporter.c:1939
 msgid "Saving HTML pages: Images"
 msgstr "Lưu trang HTML: Ảnh"
 
-#: ../src/catalog-web-exporter.c:2007
+#: ../src/catalog-web-exporter.c:2014
 msgid "Saving HTML pages: Indexes"
 msgstr "Lưu trang HTML: Phụ lục"
 
-#: ../src/catalog-web-exporter.c:2137
-#: ../src/catalog-web-exporter.c:2391
+#: ../src/catalog-web-exporter.c:2144
+#: ../src/catalog-web-exporter.c:2397
 msgid "Saving images"
 msgstr "Đang lưu ảnh..."
 
-#.This function is used when "Copy originals to destination" is
-#.enabled, and resizing is NOT enabled. This allows us to use a
-#.lossless copy (and rotate). When resizing is enabled, a lossy
-#.save has to be used.
-#: ../src/catalog-web-exporter.c:2201
+#: ../src/catalog-web-exporter.c:2208
+#. This function is used when "Copy originals to destination" is
+#. enabled, and resizing is NOT enabled. This allows us to use a
+#. lossless copy (and rotate). When resizing is enabled, a lossy
+#. save has to be used.
 msgid "Copying original images"
 msgstr "Đang sao chép các ảnh gốc"
 
-#: ../src/catalog-web-exporter.c:2575
-#: ../src/gth-window-actions-callbacks.c:218
-#: ../src/rotation-utils.c:142
+#: ../src/catalog-web-exporter.c:2581
+#: ../src/gth-window-actions-callbacks.c:219
+#: ../src/rotation-utils.c:134
 msgid "Could not create a temporary folder"
 msgstr "Không thể tạo thư mục tạm thời"
 
-#.Load thumbnails.
-#: ../src/catalog-web-exporter.c:2608
+#: ../src/catalog-web-exporter.c:2614
+#. Load thumbnails.
 msgid "Loading images"
 msgstr "Đang tải ảnh..."
 
-#: ../src/dlg-catalog.c:89
+#: ../src/dlg-catalog.c:90
 #: ../src/gth-browser-actions-callbacks.c:684
 msgid "Enter the catalog name: "
 msgstr "Nhập tên phân loại : "
 
-#: ../src/dlg-catalog.c:93
-#: ../src/dlg-catalog.c:147
+#: ../src/dlg-catalog.c:94
+#: ../src/dlg-catalog.c:148
 #: ../src/dlg-categories.c:244
-#: ../src/dlg-file-utils.c:91
+#: ../src/dlg-file-utils.c:92
 #: ../src/gth-browser-actions-callbacks.c:770
 msgid "C_reate"
 msgstr "_Tạo"
 
-#: ../src/dlg-catalog.c:143
+#: ../src/dlg-catalog.c:144
 #: ../src/gth-browser-actions-callbacks.c:825
 msgid "Enter the library name: "
 msgstr "Nhập tên thư viện: "
 
-#: ../src/dlg-catalog.c:499
+#: ../src/dlg-catalog.c:500
 msgid "Move Catalog to..."
 msgstr "Chuyển loại sang..."
 
@@ -2326,7 +2487,8 @@ msgstr "Nhập tên loại mới"
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr "Tên « %s » không phải là hợp lệ vì nó có chứa ký tự dấu phẩy « , ». Hãy dùng "
+msgstr ""
+"Tên « %s » không phải là hợp lệ vì nó có chứa ký tự dấu phẩy « , ». Hãy dùng "
 "một tên khác."
 
 #: ../src/dlg-categories.c:256
@@ -2347,6 +2509,12 @@ msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Ảnh có tên « %s » đã có. Hãy xác định một tên khác."
 
+#: ../src/dlg-convert.c:321
+#: ../src/gth-batch-op.c:570
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "Ảnh tên « %s » đã có. Bạn có muốn ghi đè lên nó không?"
+
 #: ../src/dlg-convert.c:326
 #: ../src/gth-batch-op.c:575
 msgid "Skip"
@@ -2359,167 +2527,183 @@ msgstr "_Ghi đè"
 
 # eg: 75 %
 # Variable: don't translate / Biến: đừng dịch
-#: ../src/dlg-crop.c:530
+#: ../src/dlg-crop.c:527
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Ảnh)"
 
 # eg: 75 %
 # Variable: don't translate / Biến: đừng dịch
-#: ../src/dlg-crop.c:538
+#: ../src/dlg-crop.c:535
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (Màn hình)"
 
-#: ../src/dlg-duplicates.c:280
-#: ../src/dlg-duplicates.c:654
+#: ../src/dlg-duplicates.c:275
+#: ../src/dlg-duplicates.c:649
 msgid "Duplicates"
 msgstr "Bản sao"
 
-#: ../src/dlg-duplicates.c:295
+#: ../src/dlg-duplicates.c:290
 msgid "Duplicates Size"
 msgstr "Cỡ bản sao"
 
-#: ../src/dlg-duplicates.c:402
+#: ../src/dlg-duplicates.c:368
+#: ../src/dlg-image-prop.c:594
+#: ../src/gth-exif-data-viewer.c:803
+#.
+msgid "Name"
+msgstr "Tên"
+
+#: ../src/dlg-duplicates.c:397
 msgid "Last modified"
 msgstr "Sửa đổi cuối cùng"
 
-#: ../src/dlg-duplicates.c:417
+#: ../src/dlg-duplicates.c:412
 #: ../src/dlg-image-prop.c:614
 msgid "Location"
 msgstr "Địa điểm"
 
-#: ../src/dlg-duplicates.c:759
+#: ../src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Các ảnh đã chọn sẽ bị chuyển vào Sọc Rác: chắc ý không?"
 
-#: ../src/dlg-file-utils.c:89
+#: ../src/dlg-file-utils.c:90
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Thư mục đích không tồn tại. Bạn có muốn tạo nó không?"
 
-#: ../src/dlg-file-utils.c:105
+#: ../src/dlg-file-utils.c:106
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Không thể tạo thư mục « %s »: %s."
 
-#: ../src/dlg-file-utils.c:202
+#: ../src/dlg-file-utils.c:120
+#: ../src/dlg-photo-importer.c:1603
+#, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Bạn không có quyền tạo ảnh trong thư mục « %s »"
+
+#: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
 msgstr "Không thể xoá các ảnh:"
 
-#: ../src/dlg-file-utils.c:225
+#: ../src/dlg-file-utils.c:226
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "Không thể chuyển các ảnh vào Sọt Rác. Bạn có muốn xoá hoàn toàn chúng "
-"không?"
+msgstr ""
+"Không thể chuyển các ảnh vào Sọt Rác. Bạn có muốn xoá hoàn toàn chúng không?"
 
-#: ../src/dlg-file-utils.c:228
-#: ../src/gth-browser-actions-callbacks.c:1134
-#: ../src/gth-browser.c:1837
-#: ../src/gth-viewer.c:989
+#: ../src/dlg-file-utils.c:229
+#: ../src/gth-browser-actions-callbacks.c:1135
+#: ../src/gth-browser.c:1870
+#: ../src/gth-viewer.c:1008
+#: ../src/rotation-utils.c:86
 msgid "_Do not display this message again"
 msgstr "_Không hiện thông điệp này lần nữa"
 
-#: ../src/dlg-file-utils.c:282
-#: ../src/gth-browser-actions-callbacks.c:1172
+#: ../src/dlg-file-utils.c:283
+#: ../src/gth-browser-actions-callbacks.c:1173
 msgid "_Move"
 msgstr "Chu_yển"
 
-#: ../src/dlg-file-utils.c:383
-#: ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1381
+#: ../src/dlg-file-utils.c:380
+#: ../src/dlg-file-utils.c:480
+#: ../src/gth-browser-actions-callbacks.c:1400
 msgid "Choose the destination folder"
 msgstr "Chọn thư mục đích."
 
-#: ../src/dlg-file-utils.c:555
+#: ../src/dlg-file-utils.c:548
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:791
-#: ../src/dlg-file-utils.c:892
+#: ../src/dlg-file-utils.c:784
+#: ../src/dlg-file-utils.c:885
 msgid "You didn't enter the new name"
 msgstr "Bạn chưa nhập tên mới"
 
-#: ../src/dlg-file-utils.c:803
-#: ../src/dlg-file-utils.c:904
+#: ../src/dlg-file-utils.c:796
+#: ../src/dlg-file-utils.c:897
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Tên « %s » đã được dùng trong thư mục này. Hãy dùng một tên khác."
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1042
 msgid "Could not rename the image:"
 msgstr "Không thể thay đổi tên ảnh:"
 
-#: ../src/dlg-file-utils.c:1045
+#: ../src/dlg-file-utils.c:1044
 msgid "Could not rename the following images:"
 msgstr "Không thể thay đổi tên của những ảnh theo đây:"
 
-#: ../src/dlg-file-utils.c:1179
+#: ../src/dlg-file-utils.c:1178
 msgid "Could not move the image:"
 msgstr "Không thể di chuyển ảnh:"
 
-#: ../src/dlg-file-utils.c:1181
+#: ../src/dlg-file-utils.c:1180
 msgid "Could not copy the image:"
 msgstr "Không thể sao chép ảnh:"
 
-#: ../src/dlg-file-utils.c:1205
-#: ../src/dlg-file-utils.c:2462
+#: ../src/dlg-file-utils.c:1204
+#: ../src/dlg-file-utils.c:2473
 msgid "_Abort"
 msgstr "_Hủy bỏ"
 
-#: ../src/dlg-file-utils.c:1206
-#: ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205
+#: ../src/dlg-file-utils.c:2474
 msgid "_Continue"
 msgstr "_Tiếp tục"
 
-#: ../src/dlg-file-utils.c:1380
+#: ../src/dlg-file-utils.c:1386
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Đang sao chép tập tin %d trên %d"
 
-#: ../src/dlg-file-utils.c:1792
-#: ../src/dlg-file-utils.c:2019
+#: ../src/dlg-file-utils.c:1798
+#: ../src/dlg-file-utils.c:2030
 msgid "Collecting images info"
 msgstr "Đang thu thập thông tin về các ảnh"
 
-#: ../src/dlg-file-utils.c:1795
-#: ../src/dlg-file-utils.c:2032
+#: ../src/dlg-file-utils.c:1801
+#: ../src/dlg-file-utils.c:2043
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Đang xoá tập tin %ld trên %ld"
 
-#: ../src/dlg-file-utils.c:2022
+#: ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Đang sao chép tập tin %ld trên %ld"
 
-#: ../src/dlg-file-utils.c:2027
+#: ../src/dlg-file-utils.c:2038
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Đang di chuyển tập tin %ld trên %ld"
 
-#: ../src/dlg-file-utils.c:2439
-#: ../src/dlg-file-utils.c:2441
-#: ../src/gth-browser-actions-callbacks.c:1273
+#: ../src/dlg-file-utils.c:2450
+#: ../src/dlg-file-utils.c:2452
+#: ../src/gth-browser-actions-callbacks.c:1282
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Không thể di chuyển thư mục « %s »: %s"
 
 #: ../src/dlg-image-prop.c:599
-#: ../src/gth-exif-data-viewer.c:800
+#: ../src/gth-exif-data-viewer.c:806
+#: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Cỡ"
 
 #: ../src/dlg-image-prop.c:604
-#: ../src/gth-exif-data-viewer.c:802
+#: ../src/gth-exif-data-viewer.c:808
 msgid "Type"
 msgstr "Kiểu"
 
 #: ../src/dlg-image-prop.c:619
-#: ../src/gth-browser.c:510
-#: ../src/gth-exif-data-viewer.c:801
-#: ../src/gth-viewer.c:591
+#: ../src/gth-browser.c:505
+#: ../src/gth-exif-data-viewer.c:807
+#: ../src/gth-viewer.c:623
 msgid "Modified"
 msgstr "Đã sửa đổi"
 
@@ -2532,99 +2716,97 @@ msgstr "Thông tin về kênh"
 msgid "%s Properties"
 msgstr "Tài sản %s"
 
-#: ../src/dlg-jpegtran.c:237
+#: ../src/dlg-jpegtran.c:257
+#: ../src/dlg-reset-exif.c:123
+#: ../src/rotation-utils.c:149
+msgid "Could not create a local temporary copy of the remote file."
+msgstr "Không thể tạo bản sao tạm thời cục bộ của tập tin từ xa."
+
+#: ../src/dlg-jpegtran.c:287
+#: ../src/dlg-reset-exif.c:139
+#: ../src/rotation-utils.c:214
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
-"\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
-"\n"
-"gThumb can also discard (or trim) any untransformable edge pixels. For "
-"practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore.\n"
-"\n"
-"To avoid this problem in the future, consider disabling the \"Apply physical "
-"transform\" option in the rotation dialog."
-msgstr "Việc chuyển dạng này có thể giới thiệu một số sự méo mó trên một hay nhiều cạnh ảnh, vì các chiều ảnh không phải bội số 8.\n"
-"\n"
-"Tuy nhiên, bước gây ra sự méo mó này có thể được hủy. Nếu ảnh kết quả không phải có mức chất lượng đủ cao, hãy đơn giản áp dụng việc chuyển dạng ngược để trở về ảnh gốc.\n"
-"\n"
-"Trình gThumb cũng có khả năng hủy (hay tỉa) bất cứ điểm ảnh nào trên cạnh mà không chuyển dạng được. Để sử dụng trong trường hợp thật, chế độ này gây ra kết quả tốt nhất, nhưng mà việc chuyển dạng này không còn là kiểu không mất gì lại.\n"
-"\n"
-"Để tránh vấn đề này trong trường hợp sau, khuyên bạn tắt tùy chọn « Áp dụng việc chuyển dạng vật chất » trong hộp thoại xoay."
+"Could not move temporary file to remote location. Check remote permissions."
+msgstr "Không thể di chuyển tập tin tạm thời vào vị trí ở xa. Kiểm tra quyền hạn ở xa."
 
-#: ../src/dlg-jpegtran.c:245
-msgid "Trim"
-msgstr "Tỉa"
-
-#: ../src/dlg-photo-importer.c:895
-#: ../src/dlg-photo-importer.c:1464
-#: ../src/dlg-photo-importer.c:1514
-#: ../src/dlg-photo-importer.c:1526
-#: ../src/dlg-photo-importer.c:1542
-#: ../src/dlg-photo-importer.c:1571
+#: ../src/dlg-photo-importer.c:936
+#: ../src/dlg-photo-importer.c:1527
+#: ../src/dlg-photo-importer.c:1577
+#: ../src/dlg-photo-importer.c:1589
+#: ../src/dlg-photo-importer.c:1605
+#: ../src/dlg-photo-importer.c:1634
 msgid "Could not import photos"
 msgstr "Không thể nhập các ảnh"
 
-#: ../src/dlg-photo-importer.c:1254
-#: ../src/main.c:1014
+#: ../src/dlg-photo-importer.c:1294
+#: ../src/main.c:1104
 msgid "Film"
 msgstr "Phim"
 
-#: ../src/dlg-photo-importer.c:1523
-#: ../src/gth-browser-actions-callbacks.c:1584
+#: ../src/dlg-photo-importer.c:1306
+msgid "Import errors detected"
+msgstr "Phát hiện lỗi nhập khẩu"
+
+#: ../src/dlg-photo-importer.c:1307
+msgid "The files on the camera will not be deleted"
+msgstr "Các tập tin trên máy ảnh sẽ không bị xoá"
+
+#: ../src/dlg-photo-importer.c:1586
+#: ../src/gth-browser-actions-callbacks.c:1600
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Không thể tạo thư mục « %s »: %s"
 
-#: ../src/dlg-png-exporter.c:906
+#: ../src/dlg-photo-importer.c:1635
+msgid "Not enough free space left on disk"
+msgstr "Không đủ chỗ trống còn lại trên đĩa"
+
+#: ../src/dlg-png-exporter.c:909
 msgid "Image Caption"
 msgstr "Phụ đề ảnh"
 
-#: ../src/dlg-png-exporter.c:960
+#: ../src/dlg-png-exporter.c:963
 msgid "Header"
 msgstr "Đầu trang"
 
-#: ../src/dlg-png-exporter.c:973
-#: ../src/dlg-png-exporter.c:979
+#: ../src/dlg-png-exporter.c:976
+#: ../src/dlg-png-exporter.c:982
 msgid "Footer"
 msgstr "Chân trang"
 
-#: ../src/dlg-png-exporter.c:1567
-#: ../src/dlg-rename-series.c:481
-#: ../src/dlg-web-exporter.c:488
+#: ../src/dlg-png-exporter.c:1570
+#: ../src/dlg-rename-series.c:472
+#: ../src/dlg-web-exporter.c:485
 msgid "by path"
 msgstr "theo đường dẫn"
 
-#: ../src/dlg-png-exporter.c:1569
-#: ../src/dlg-rename-series.c:483
-#: ../src/dlg-web-exporter.c:490
+#: ../src/dlg-png-exporter.c:1572
+#: ../src/dlg-rename-series.c:474
+#: ../src/dlg-web-exporter.c:487
 msgid "by size"
 msgstr "theo cỡ"
 
-#: ../src/dlg-png-exporter.c:1571
-#: ../src/dlg-rename-series.c:485
-#: ../src/dlg-web-exporter.c:492
+#: ../src/dlg-png-exporter.c:1574
+#: ../src/dlg-rename-series.c:476
+#: ../src/dlg-web-exporter.c:489
 msgid "by file modified time"
 msgstr "theo giờ sửa đổi tập tin"
 
-#: ../src/dlg-png-exporter.c:1573
-#: ../src/dlg-rename-series.c:487
-#: ../src/dlg-web-exporter.c:494
+#: ../src/dlg-png-exporter.c:1576
+#: ../src/dlg-rename-series.c:478
+#: ../src/dlg-web-exporter.c:491
 msgid "by Exif DateTime tag"
 msgstr "theo thẻ NgàyGiờ EXIF"
 
-#: ../src/dlg-png-exporter.c:1575
-#: ../src/dlg-rename-series.c:489
-#: ../src/dlg-web-exporter.c:496
+#: ../src/dlg-png-exporter.c:1578
+#: ../src/dlg-rename-series.c:480
+#: ../src/dlg-web-exporter.c:493
 msgid "by comment"
 msgstr "theo chú thích"
 
-#: ../src/dlg-png-exporter.c:1580
-#: ../src/dlg-rename-series.c:492
-#: ../src/dlg-web-exporter.c:499
+#: ../src/dlg-png-exporter.c:1583
+#: ../src/dlg-rename-series.c:483
+#: ../src/dlg-web-exporter.c:496
 msgid "manual order"
 msgstr "thứ tự thủ công"
 
@@ -2637,32 +2819,33 @@ msgstr "thứ tự thủ công"
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr "Tên « %s » không phải là hợp lệ vì nó có chứa ký tự « / ». Hãy dùng một tên "
+msgstr ""
+"Tên « %s » không phải là hợp lệ vì nó có chứa ký tự « / ». Hãy dùng một tên "
 "khác."
 
-#: ../src/dlg-rename-series.c:465
+#: ../src/dlg-rename-series.c:456
 msgid "Old Name"
 msgstr "Tên cũ"
 
-#: ../src/dlg-rename-series.c:473
+#: ../src/dlg-rename-series.c:464
 msgid "New Name"
 msgstr "Tên mới"
 
-#: ../src/dlg-search.c:356
+#: ../src/dlg-search.c:358
 msgid "Search Result"
 msgstr "Kết quả tìm kiếm"
 
-#: ../src/dlg-web-exporter.c:857
+#: ../src/dlg-web-exporter.c:849
 msgid "Select Album Theme"
 msgstr "Chọn sắc thái tập ảnh"
 
 #: ../src/dlg-write-to-cd.c:79
-#: ../src/gth-browser.c:3601
+#: ../src/gth-browser.c:3823
 msgid "Could not move the items:"
 msgstr "Không thể di chuyển mục:"
 
 #: ../src/gth-browser-actions-callbacks.c:167
-#: ../src/gth-fullscreen.c:1069
+#: ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Ảnh này sẽ bị chuyển vào Sọt Rác: chắc ý không?"
 
@@ -2733,54 +2916,56 @@ msgid "Could not create the library \"%s\": %s"
 msgstr "Không thể tạo thư viện « %s »: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1011
-#: ../src/gth-browser-actions-callbacks.c:1045
+#: ../src/gth-browser-actions-callbacks.c:1046
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Không thể thay đổi tên của thư mục « %s »: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1013
-#: ../src/gth-browser-actions-callbacks.c:1283
+#: ../src/gth-browser-actions-callbacks.c:1292
 msgid "source and destination are the same"
 msgstr "nguồn và đích là trùng"
 
-#: ../src/gth-browser-actions-callbacks.c:1095
+#: ../src/gth-browser-actions-callbacks.c:1096
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Không thể xoá thư mục « %s »: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1126
+#: ../src/gth-browser-actions-callbacks.c:1127
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "Không thể chuyển « %s » vào Sọt Rác: bạn có muốn xoá hoàn toàn nó không?"
+msgstr ""
+"Không thể chuyển « %s » vào Sọt Rác: bạn có muốn xoá hoàn toàn nó không?"
 
-#: ../src/gth-browser-actions-callbacks.c:1170
+#: ../src/gth-browser-actions-callbacks.c:1171
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Thư mục đã chọn sẽ bị chuyển vào Sọt Rác: chắc ý không?"
 
-#: ../src/gth-browser-actions-callbacks.c:1218
-#: ../src/gth-browser-actions-callbacks.c:1273
+#: ../src/gth-browser-actions-callbacks.c:1224
+#: ../src/gth-browser-actions-callbacks.c:1282
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Không thể sao chép thư mục « %s »: %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1294
+#: ../src/gth-browser-actions-callbacks.c:1303
 msgid "source contains destination"
 msgstr "nguồn chứa đích"
 
-#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1314
 msgid "a folder with that name is already present."
 msgstr "một thư mục cùng tên đã có."
 
-#: ../src/gth-browser-actions-callbacks.c:1582
+#: ../src/gth-browser-actions-callbacks.c:1598
 msgid "New Folder"
 msgstr "Thư mục mới"
 
-#: ../src/gth-browser-actions-callbacks.c:1583
+#: ../src/gth-browser-actions-callbacks.c:1599
 msgid "Enter the folder name: "
 msgstr "Nhập tên thư mục: "
 
-#: ../src/gth-browser-actions-callbacks.c:1718
+#: ../src/gth-browser-actions-callbacks.c:1729
+#: ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "Mở địa điểm"
 
@@ -2817,7 +3002,7 @@ msgid "_Go"
 msgstr "_Tới"
 
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:483
+#: ../src/gth-browser-actions-entries.h:495
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "Ả_nh"
@@ -2856,6 +3041,8 @@ msgid "Open the selected image in a new window"
 msgstr "Mở ảnh được chọn trong cửa sổ mới"
 
 #: ../src/gth-browser-actions-entries.h:64
+#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-viewer-actions-entries.h:84
 msgid "View image properties"
 msgstr "Xem tài sản của ảnh"
 
@@ -3215,12 +3402,8 @@ msgid "View as a slide show"
 msgstr "Xem dạng chiếu ảnh"
 
 #: ../src/gth-browser-actions-entries.h:358
-msgid "_Find..."
+msgid "_Search..."
 msgstr "_Tìm..."
-
-#: ../src/gth-browser-actions-entries.h:363
-msgid "_Find"
-msgstr "_Tìm"
 
 #: ../src/gth-browser-actions-entries.h:368
 msgid "Create _Index Image..."
@@ -3235,8 +3418,8 @@ msgid "Convert F_ormat..."
 msgstr "Ch_uyển đổi định dạng..."
 
 #: ../src/gth-browser-actions-entries.h:383
-msgid "Fi_nd Duplicates..."
-msgstr "Tìm bả_n sao..."
+msgid "Search for _Duplicates..."
+msgstr "Tìm _bản sao..."
 
 #: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
@@ -3270,278 +3453,357 @@ msgstr "Thanh t_rạng thái"
 msgid "View or hide the statusbar of this window"
 msgstr "Hiện/ẩn thanh trạng thái của cửa sổ này"
 
+#: ../src/gth-browser-actions-entries.h:412
+msgid "_Filter"
+msgstr "_Lọc"
+
 #: ../src/gth-browser-actions-entries.h:413
+msgid "View or hide the filterbar of this window"
+msgstr "Hiện/ẩn thanh lọc của cửa sổ này"
+
+#: ../src/gth-browser-actions-entries.h:419
 msgid "View thumbnails"
 msgstr "Xem hình thu nhỏ"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:423
 msgid "_Image Preview"
 msgstr "_Xem thử Ảnh"
 
-#: ../src/gth-browser-actions-entries.h:418
-#: ../src/gth-browser-actions-entries.h:484
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:496
 msgid "View the image"
 msgstr "Xem ảnh"
 
-#: ../src/gth-browser-actions-entries.h:422
-#: ../src/gth-viewer-actions-entries.h:83
-msgid "Image _Comment"
-msgstr "_Chú thích ảnh"
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Show _Hidden Files"
+msgstr "_Hiện tập tin bị ẩn"
 
-#: ../src/gth-browser-actions-entries.h:423
-#: ../src/gth-viewer-actions-entries.h:84
-msgid "View image comment"
-msgstr "Xem chú thích về ảnh"
+#: ../src/gth-browser-actions-entries.h:435
+msgid "Show hidden files and folders"
+msgstr "Hiển thị các tập tin và thư mục bị ẩn"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:440
 msgid "_Reversed Order"
 msgstr "Thứ tự ngược _lại"
 
-#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-browser-actions-entries.h:441
 msgid "Reverse images order"
 msgstr "Đảo thứ tự các ảnh"
 
-#: ../src/gth-browser-actions-entries.h:438
+#: ../src/gth-browser-actions-entries.h:450
 msgid "by _Name"
 msgstr "theo tê_n"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:451
 msgid "Sort images by name"
 msgstr "Sắp xếp các ảnh theo tên"
 
-#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:453
 msgid "by _Path"
 msgstr "Theo đường _dẫn"
 
-#: ../src/gth-browser-actions-entries.h:442
+#: ../src/gth-browser-actions-entries.h:454
 msgid "Sort images by path"
 msgstr "Sắp xếp các ảnh theo đường dẫn"
 
-#: ../src/gth-browser-actions-entries.h:444
+#: ../src/gth-browser-actions-entries.h:456
 msgid "by _Size"
 msgstr "theo _cỡ"
 
-#: ../src/gth-browser-actions-entries.h:445
+#: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by file size"
 msgstr "Sắp xếp các ảnh theo kích cỡ"
 
-#: ../src/gth-browser-actions-entries.h:447
+#: ../src/gth-browser-actions-entries.h:459
 msgid "by Modification _Time"
 msgstr "_theo giờ sửa đổi"
 
-#: ../src/gth-browser-actions-entries.h:448
+#: ../src/gth-browser-actions-entries.h:460
 msgid "Sort images by file modification time"
 msgstr "Sắp xếp các ảnh theo giờ sửa đổi"
 
-#: ../src/gth-browser-actions-entries.h:450
+#: ../src/gth-browser-actions-entries.h:462
 msgid "by _Exif Time"
 msgstr "theo giờ _EXIF"
 
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:463
 msgid "Sort images by Exif DateTime tag"
 msgstr "Sắp xếp các ảnh theo NgàyGiờ EXIF"
 
-#: ../src/gth-browser-actions-entries.h:453
+#: ../src/gth-browser-actions-entries.h:465
 msgid "by _Comment"
 msgstr "theo _Chú thích"
 
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:466
 msgid "Sort images by comment"
 msgstr "Sắp xếp các ảnh theo chú thích"
 
-#: ../src/gth-browser-actions-entries.h:456
+#: ../src/gth-browser-actions-entries.h:468
 msgid "_Manual Order"
 msgstr "Tự sắp _xếp"
 
-#: ../src/gth-browser-actions-entries.h:457
+#: ../src/gth-browser-actions-entries.h:469
 msgid "Sort images manually"
 msgstr "Tự sắp xếp các ảnh"
 
-#: ../src/gth-browser-actions-entries.h:464
-#: ../src/gth-browser-actions-entries.h:465
+#: ../src/gth-browser-actions-entries.h:476
+#: ../src/gth-browser-actions-entries.h:477
 msgid "View As Slides"
 msgstr "Xem dạng ảnh chiếu"
 
-#: ../src/gth-browser-actions-entries.h:467
-#: ../src/gth-browser-actions-entries.h:468
+#: ../src/gth-browser-actions-entries.h:479
+#: ../src/gth-browser-actions-entries.h:480
 msgid "View As List"
 msgstr "Xem dạng danh sách"
 
-#: ../src/gth-browser-actions-entries.h:477
+#: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
 msgstr "Thư _mục"
 
-#: ../src/gth-browser-actions-entries.h:478
+#: ../src/gth-browser-actions-entries.h:490
 msgid "View the folders"
 msgstr "Xem các thư mục"
 
-#: ../src/gth-browser-actions-entries.h:480
+#: ../src/gth-browser-actions-entries.h:492
 msgid "_Catalogs"
 msgstr "_Loại"
 
-#: ../src/gth-browser-actions-entries.h:481
+#: ../src/gth-browser-actions-entries.h:493
 msgid "View the catalogs"
 msgstr "Xem các phân loại"
 
-#: ../src/gth-browser.c:560
-#: ../src/gth-viewer.c:636
+#: ../src/gth-browser.c:555
+#: ../src/gth-viewer.c:668
 msgid "[Press 'c' to add a comment]"
 msgstr "[Bấm phím C để thêm chú thích]"
 
-#: ../src/gth-browser.c:664
-#: ../src/gth-browser.c:683
-#: ../src/gth-viewer.c:729
-#: ../src/gth-viewer.c:750
+#: ../src/gth-browser.c:661
+#: ../src/gth-browser.c:680
+#: ../src/gth-viewer.c:755
 msgid "[modified]"
 msgstr "[đã sửa đổi]"
 
-#: ../src/gth-browser.c:708
-#: ../src/main.c:392
-#: ../src/main.c:702
+#: ../src/gth-browser.c:705
+#: ../src/main.c:440
+#: ../src/main.c:821
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:767
+#: ../src/gth-browser.c:785
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 ảnh (%s)"
 
-#: ../src/gth-browser.c:770
+#: ../src/gth-browser.c:788
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d ảnh (%s)"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:795
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 được chọn (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:798
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d được chọn (%s)"
 
-#: ../src/gth-browser.c:1834
-#: ../src/gth-viewer.c:986
+#: ../src/gth-browser.c:1867
+#: ../src/gth-viewer.c:1005
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Ảnh hiện thời đã bị sửa đổi. Bạn có muốn lưu nó không?"
 
-#: ../src/gth-browser.c:1835
-#: ../src/gth-viewer.c:987
+#: ../src/gth-browser.c:1868
+#: ../src/gth-viewer.c:1006
 msgid "Do Not Save"
 msgstr "Không lưu"
 
-#: ../src/gth-browser.c:3360
+#: ../src/gth-browser.c:3582
 msgid "Dragged Images"
 msgstr "Ảnh đã kéo"
 
-#: ../src/gth-browser.c:5216
-#: ../src/gth-browser.c:5217
-#: ../src/gth-viewer.c:1519
-#: ../src/gth-viewer.c:1520
+#: ../src/gth-browser.c:5380
+#: ../src/gth-browser.c:5381
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Xoay ảnh mà không mất chất lượng"
 
-#: ../src/gth-browser.c:6069
-#: ../src/gth-browser.c:8246
-#: ../src/gth-viewer.c:2202
-msgid "Wait please..."
-msgstr "Vui lòng đợi..."
+#: ../src/gth-browser.c:6255
+msgid "Getting folder listing..."
+msgstr "Đang lấy danh sách các thư mục..."
 
-#: ../src/gth-browser.c:6090
+#: ../src/gth-browser.c:6275
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Không thể tải thư mục « %s »: %s\n"
 
-#: ../src/gth-browser.c:6559
+#: ../src/gth-browser.c:6775
+#: ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Đóng"
 
-#: ../src/gth-browser.c:6573
-#: ../src/gth-viewer.c:1760
+#: ../src/gth-browser.c:6789
+#: ../src/gth-viewer.c:1685
 msgid "Image comment"
 msgstr "Chú thích ảnh"
 
-#: ../src/gth-browser.c:6587
+#: ../src/gth-browser.c:6803
 msgid "Image data"
 msgstr "Dữ liệu ảnh"
 
-#: ../src/gth-browser.c:6601
+#: ../src/gth-browser.c:6817
 msgid "Image preview"
 msgstr "Xem thử ảnh"
 
-#: ../src/gth-browser.c:7638
+#: ../src/gth-browser.c:7862
 msgid "The specified catalog does not exist."
 msgstr "Phân loại đã xác định không tồn tại."
 
-#: ../src/gth-exif-data-viewer.c:63
+#: ../src/gth-browser.c:8468
+#: ../src/gth-viewer.c:2118
+msgid "Wait please..."
+msgstr "Vui lòng đợi..."
+
+#: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
 msgstr "Dữ liệu hệ thống tập tin"
 
-#: ../src/gth-exif-data-viewer.c:64
+#: ../src/gth-exif-data-viewer.c:66
 msgid "General Information"
 msgstr "Thông tin chung"
 
-#: ../src/gth-exif-data-viewer.c:65
+#: ../src/gth-exif-data-viewer.c:67
 msgid "Picture-Taking Conditions"
 msgstr "Điều kiện chụp ảnh"
 
-#: ../src/gth-exif-data-viewer.c:66
+#: ../src/gth-exif-data-viewer.c:68
 msgid "Maker Notes"
 msgstr "Chú thích nhà tạo"
 
-#: ../src/gth-exif-data-viewer.c:67
+#: ../src/gth-exif-data-viewer.c:69
 msgid "GPS Coordinates"
 msgstr "Toạ độ GPS"
 
-#: ../src/gth-exif-data-viewer.c:68
+#: ../src/gth-exif-data-viewer.c:70
 msgid "Image Structure"
 msgstr "Cấu trúc ảnh"
 
-#: ../src/gth-exif-data-viewer.c:69
+#: ../src/gth-exif-data-viewer.c:71
 msgid "Embedded Thumbnail"
 msgstr "Hình thu nhỏ nhúng"
 
-#: ../src/gth-exif-data-viewer.c:70
+#: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
 msgstr "Phiên bản và Thao tác với nhau"
 
-#: ../src/gth-exif-data-viewer.c:71
+#: ../src/gth-exif-data-viewer.c:73
 msgid "Other"
 msgstr "Khác"
 
-#: ../src/gth-exif-data-viewer.c:400
-msgid "Field"
-msgstr "Trường"
+#: ../src/gth-exif-data-viewer.c:804
+msgid "Path"
+msgstr "Đường dẫn"
 
-#: ../src/gth-exif-data-viewer.c:412
-msgid "Value "
-msgstr "Giá trị "
+#: ../src/gth-filter-bar.c:176
+msgid "contains"
+msgstr "chứa"
 
-#: ../src/gth-folder-selection-dialog.c:395
+#: ../src/gth-filter-bar.c:177
+msgid "starts with"
+msgstr "bắt đầu với"
+
+#: ../src/gth-filter-bar.c:178
+msgid "ends with"
+msgstr "kết thúc với"
+
+#: ../src/gth-filter-bar.c:179
+#: ../src/gth-filter-bar.c:194
+msgid "is"
+msgstr "là"
+
+#: ../src/gth-filter-bar.c:180
+#: ../src/gth-filter-bar.c:195
+msgid "is not"
+msgstr "không phải"
+
+#: ../src/gth-filter-bar.c:181
+msgid "does not contain"
+msgstr "không chứa"
+
+#: ../src/gth-filter-bar.c:184
+#: ../src/gth-filter-bar.c:189
+msgid "is equal to"
+msgstr "bằng"
+
+#: ../src/gth-filter-bar.c:185
+msgid "is lower than"
+msgstr "nhỏ hơn"
+
+#: ../src/gth-filter-bar.c:186
+msgid "is greater than"
+msgstr "lớn hơn"
+
+#: ../src/gth-filter-bar.c:190
+msgid "is before"
+msgstr "nằm trước"
+
+#: ../src/gth-filter-bar.c:191
+msgid "is after"
+msgstr "nằm sau"
+
+#: ../src/gth-filter-bar.c:200
+msgid "KB"
+msgstr "KB"
+
+#: ../src/gth-filter-bar.c:201
+msgid "MB"
+msgstr "MB"
+
+#: ../src/gth-filter-bar.c:207
+msgid "Filename"
+msgstr "Tên tập tin"
+
+#: ../src/gth-filter-bar.c:209
+msgid "Place"
+msgstr "Nơi"
+
+#: ../src/gth-filter-bar.c:212
+msgid "Category"
+msgstr "Loại"
+
+#: ../src/gth-filter-bar.c:213
+msgid "Text contains"
+msgstr "Văn bản chứa"
+
+#: ../src/gth-filter-bar.c:494
+msgid "All"
+msgstr "Tất cả"
+
+#: ../src/gth-filter-bar.c:546
+#. view label
+msgid "S_how:"
+msgstr "_Hiện:"
+
+#: ../src/gth-folder-selection-dialog.c:281
 msgid "<b>_Folder</b>"
 msgstr "<b>Thư _mục</b>"
 
-#: ../src/gth-folder-selection-dialog.c:414
+#: ../src/gth-folder-selection-dialog.c:299
 msgid "_Browse..."
 msgstr "_Duyệt..."
 
-#: ../src/gth-folder-selection-dialog.c:429
-msgid "<b>_Recents</b>"
-msgstr "<b>_Gần đây</b>"
-
-#: ../src/gth-folder-selection-dialog.c:451
-msgid "<b>Book_marks</b>"
-msgstr "<b>_Dấu nhớ</b>"
+#: ../src/gth-folder-selection-dialog.c:317
+msgid "<b>_Recent folders:</b>"
+msgstr "<b>Thư mục _vừa dùng</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
 msgstr "_Tài sản"
 
-#: ../src/gth-location.c:332
+#: ../src/gth-location.c:385
 msgid "Other..."
 msgstr "Khác..."
 
@@ -3563,26 +3825,26 @@ msgstr "Cửa _sổ đơn"
 msgid "Reuse this window to view other images"
 msgstr "Xem ảnh khác trong cùng cửa sổ này"
 
-#: ../src/gth-viewer.c:823
+#: ../src/gth-viewer.c:828
 msgid "_None"
 msgstr "Khô_ng có"
 
-#: ../src/gth-viewer.c:1475
+#: ../src/gth-viewer.c:1474
 #: ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_Mở bằng"
 
+#: ../src/gth-viewer.c:1480
 #: ../src/gth-viewer.c:1481
-#: ../src/gth-viewer.c:1482
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Mở các ảnh được chọn bằng một ứng dụng"
 
-#: ../src/gth-window-actions-callbacks.c:803
+#: ../src/gth-window-actions-callbacks.c:844
 msgid "An image viewer and browser for GNOME."
 msgstr "Bộ xem và duyệt ảnh cho Gnome."
 
-#: ../src/gth-window-actions-callbacks.c:806
+#: ../src/gth-window-actions-callbacks.c:847
 msgid "translator_credits"
 msgstr "Nhóm Việt hóa Gnome <gnomevi-list@lists.sourceforge.net>"
 
@@ -3923,67 +4185,160 @@ msgstr "Chất lượng thấ_p"
 msgid "Use low quality zoom"
 msgstr "Phóng to chất lượng thấp"
 
-#: ../src/main.c:88
+#: ../src/main.c:92
 msgid "Start in fullscreen mode"
 msgstr "Khởi chạy trong chế độ toàn màn hình"
 
-#: ../src/main.c:91
+#: ../src/main.c:96
 msgid "Automatically start a slideshow"
 msgstr "Tự động khởi chạy trình chiều"
 
-#: ../src/main.c:94
+#: ../src/main.c:100
 msgid "Automatically import digital camera photos"
 msgstr "Nhập tự động các ảnh từ máy ảnh số"
 
-#: ../src/main.c:137
+#: ../src/main.c:104
+msgid "Use the viewer mode to view single images"
+msgstr "Dùng chế độ xem để xem mỗi ảnh"
+
+#: ../src/main.c:149
 msgid "Holidays"
 msgstr "Ngày nghỉ"
 
-#: ../src/main.c:138
+#: ../src/main.c:150
 msgid "Temporary"
 msgstr "Tạm"
 
-#: ../src/main.c:139
+#: ../src/main.c:151
 msgid "Screenshots"
 msgstr "Chụp màn hình"
 
-#: ../src/main.c:140
+#: ../src/main.c:152
 msgid "Science"
 msgstr "Khoa học"
 
-#: ../src/main.c:141
+#: ../src/main.c:153
 msgid "Favourite"
 msgstr "Ưa thích"
 
-#: ../src/main.c:142
+#: ../src/main.c:154
 msgid "Important"
 msgstr "Quan trọng"
 
-#: ../src/main.c:143
+#: ../src/main.c:155
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:144
+#: ../src/main.c:156
 msgid "Games"
 msgstr "Trò chơi"
 
-#: ../src/main.c:145
+#: ../src/main.c:157
 msgid "Party"
 msgstr "Tiệc"
 
-#: ../src/main.c:146
+#: ../src/main.c:158
 msgid "Birthday"
 msgstr "Ngày sinh"
 
-#: ../src/main.c:147
+#: ../src/main.c:159
 msgid "Astronomy"
 msgstr "Thiên văn học"
 
-#: ../src/main.c:148
+#: ../src/main.c:160
 msgid "Family"
 msgstr "Gia đình"
 
-#: ../src/main.c:469
-#: ../src/main.c:644
+#: ../src/main.c:382
 msgid "Command Line"
 msgstr "Dòng lệnh"
+
+#: ../src/rotation-utils.c:73
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr "Lỗi chuyển dạng ảnh: %s"
+
+#: ../src/rotation-utils.c:79
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+"Việc chuyển dạng này có thể giới thiệu một số sự méo mó nhỏ trên một hay nhiều "
+"cạnh, vì các chiều ảnh không phải bội số 8.\n"
+"\n"
+"Tuy nhiên, bước gây ra sự méo mó này có thể được hủy. Nếu ảnh kết quả không "
+"phải có mức chất lượng đủ cao, hãy đơn giản áp dụng việc chuyển dạng ngược lại "
+"để trở về ảnh gốc.\n"
+"\n"
+"Bạn cũng có khả năng hủy (hay tỉa) bất cứ điểm ảnh nào trên cạnh mà "
+"không chuyển dạng được. Để sử dụng trong trường hợp thật, chế độ này gây ra "
+"kết quả tốt nhất, nhưng mà việc chuyển dạng này không còn chính xác là kiểu không mất "
+"gì lại."
+
+#: ../src/rotation-utils.c:87
+msgid "_Trim"
+msgstr "_Tỉa"
+
+#: ../src/rotation-utils.c:199
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
+msgstr "Không thể di chuyển tập tin tạm thời vào đích cục bộ. Kiểm tra quyền hạn của thư mục."
+
+#~ msgid "GThumb Application"
+#~ msgstr "Ứng dụng GThumb"
+
+#~ msgid "GThumb Application Factory"
+#~ msgstr "Bộ tạo ứng dụng GThumb"
+
+#~ msgid "Select a _bookmark:"
+#~ msgstr "Chọn _Dấu nhớ :"
+
+#~ msgid "Auto-_detected cameras:"
+#~ msgstr "Máy ảnh tự động _phát hiện:"
+
+#~ msgid "Camera _Port:"
+#~ msgstr "_Cổng máy ảnh:"
+
+#~ msgid "Use manual selection instead:"
+#~ msgstr "Chọn bằng tay thay thế:"
+
+#~ msgid "_Refresh list"
+#~ msgstr "_Cập nhật danh sách"
+
+#~ msgid "Click the mouse on the red-eye regions that need to be fixed."
+#~ msgstr "Nhấn chuột vào mỗi vùng mắt đỏ cần sửa."
+
+#~ msgid "Find"
+#~ msgstr "Tìm"
+
+#~ msgid "Find Duplicates"
+#~ msgstr "Tìm bản sao"
+
+#~ msgid "_Find..."
+#~ msgstr "_Tìm..."
+
+#~ msgid "_Find"
+#~ msgstr "_Tìm"
+
+#~ msgid "Image _Comment"
+#~ msgstr "_Chú thích ảnh"
+
+#~ msgid "View image comment"
+#~ msgstr "Xem chú thích về ảnh"
+
+#~ msgid "Field"
+#~ msgstr "Trường"
+
+#~ msgid "Value "
+#~ msgstr "Giá trị "
+
+#~ msgid "<b>Book_marks</b>"
+#~ msgstr "<b>_Dấu nhớ</b>"
