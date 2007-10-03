@@ -41,6 +41,12 @@ trunk, since last 2.10.x
 	  acceleration. Bug #472491.
 
 
+version 2.10.7
+--------------
+
+	* Fixed bug #481729. Crash browsing thru images when one is empty.
+
+
 version 2.10.6
 --------------
 

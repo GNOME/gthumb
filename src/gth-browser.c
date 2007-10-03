@@ -2968,7 +2968,8 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 
 	/* Images are handled by gThumb directly. Other supported media (video,
 	   audio) require external players, which are launched by this function. */
-	if (mime_type_is_image (browser->priv->image->mime_type))
+	if ( !mime_type_is_video (browser->priv->image->mime_type) &&
+	     !mime_type_is_audio (browser->priv->image->mime_type))
 		return FALSE;
 
 	image_mime_type = browser->priv->image->mime_type;
