@@ -2,6 +2,7 @@ version 2.10.7
 --------------
 
 	* Fixed bug #481729. Crash browsing thru images when one is empty.
+	* Fixed bug #482751. gthumb crashes if it cannot find cursor.
 
 
 version 2.10.6

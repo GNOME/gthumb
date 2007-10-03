@@ -1,5 +1,11 @@
 2007-10-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* src/gth-browser.c: (set_cursor_busy): Do not assume that the
+	left_ptr_watch cursor is defined. Bug 482751.
+
+2007-10-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-browser.c: (launch_selected_videos_or_audio):
 	Better mime type checking, to avoid problems caused when the fast and
 	slow mime type checks report different values. Bug 481729.

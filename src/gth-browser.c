@@ -1083,8 +1083,15 @@ set_cursor_busy (GthBrowser *browser, gboolean track_state)
 		browser->priv->busy_cursor_active = TRUE;
 
 	cursor = gdk_cursor_new_from_name (gtk_widget_get_display (GTK_WIDGET (browser)), "left_ptr_watch");
-	gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
-	gdk_cursor_unref (cursor);
+
+	/* Use the standard "watch" cursor if "left_ptr_watch" is not defined */
+	if (cursor == NULL)
+		cursor = gdk_cursor_new (GDK_WATCH);
+
+	if (cursor != NULL) {
+		gdk_window_set_cursor (GTK_WIDGET (browser)->window, cursor);
+		gdk_cursor_unref (cursor);
+	}
 }
 
 
