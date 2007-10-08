@@ -1,3 +1,9 @@
+2007-10-08  Claude Paroz  <claude@2xlibre.net>
+
+	* Makefile.am: Added fr to DOC_LINGUAS.
+	* fr/fr.po: Added French translation by Bruno Annoa and Claude Paroz.
+	* fr/figures/*: Added screenshots.
+
 2007-08-03  Daniel Nylander <po@danielnylander.se>
 
 	* sv/sv.po: Updated Swedish translation.
