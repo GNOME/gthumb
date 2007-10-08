@@ -1579,7 +1579,7 @@
           <para>Select the catalog.</para>
         </listitem>
         <listitem>
-          <para>Choose the corrisponding command in the
+          <para>Choose the corresponding command in the
 	  <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice>
 	  menu, or use the context menu that can be displayed pressing
 	  the right mouse button on the name of the catalog in the
@@ -1756,7 +1756,7 @@
                 <userinput>my birthday</userinput>
               </para></entry>
               <entry align="left"><para>
-                &app; searches for images that have "paolo" in the comment.
+                &app; searches for images that have "my birthday" in the comment.
               </para></entry>
             </row>
             <row valign="top">
@@ -1975,7 +1975,7 @@
       </para>
       <para>
         With the slideshow tool and the fullscreen mode you can do
-        presetations. There are two types of presentations: automatic
+        presentations. There are two types of presentations: automatic
         presentations and manual presentations.
       </para>
       <sect2 id="gthumb-auto-presentation">
@@ -2040,7 +2040,7 @@
         <listitem>
           <para>Press <keycombo action="simul">
 	  <keycap>BackSpace</keycap></keycombo> or <keycombo action="simul">
-	  <keycap>B</keycap></keycombo>. &app; displays the previuos image.
+	  <keycap>B</keycap></keycombo>. &app; displays the previous image.
           </para>
         </listitem>
       </orderedlist>
