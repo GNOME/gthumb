@@ -1764,12 +1764,28 @@ gth_fullscreen_get_image_data (GthWindow *window)
 static GList *
 gth_fullscreen_get_file_list_selection (GthWindow *window)
 {
-	GthFullscreen            *fullscreen = GTH_FULLSCREEN (window);
-	GthFullscreenPrivateData *priv = fullscreen->priv;
-
-	if (priv->current == NULL)
+	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
+	FileData      *current_file;
+	
+	if (fullscreen->priv->current == NULL)
 		return NULL;
-	return g_list_prepend (NULL, g_strdup (priv->current->data));
+	
+	current_file = fullscreen->priv->current->data;
+	return g_list_prepend (NULL, g_strdup (current_file->path));
+}
+
+
+static GList *
+gth_fullscreen_get_file_list_selection_as_fd (GthWindow *window)
+{
+	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
+	FileData      *current_file;
+	
+	if (fullscreen->priv->current == NULL)
+		return NULL;
+	
+	current_file = fullscreen->priv->current->data;
+	return g_list_prepend (NULL, file_data_ref (current_file));
 }
 
 
@@ -1837,10 +1853,8 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	window_class->update_current_image_metadata = gth_fullscreen_update_current_image_metadata;
 	*/
 	window_class->get_file_list_selection = gth_fullscreen_get_file_list_selection;
-	/*
 	window_class->get_file_list_selection_as_fd = gth_fullscreen_get_file_list_selection_as_fd;
 
-	*/
 	window_class->set_animation = gth_fullscreen_set_animation;
 	window_class->get_animation = gth_fullscreen_get_animation;
 	window_class->step_animation = gth_fullscreen_step_animation;

@@ -1,5 +1,14 @@
 2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-fullscreen.c (gth_fullscreen_get_file_list_selection_as_fd): 
+	
+	Implemented the gth_fullscreen_get_file_list_selection_as_fd function.
+	Fixed gth_fullscreen_get_file_list_selection.
+
+	Fixes bug # 485998 – [ and ] don't work in fullscreen anymore.
+
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/gth-browser.c (monitor_update_files_cb): 
 	* src/gth-monitor.c (add_monitor_event): 
 
