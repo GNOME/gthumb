@@ -1,3 +1,34 @@
+2007-10-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (exif_string_to_time_t),
+	(get_exif_time): Read DateTimeOriginal or DateTimeDigitized if the
+	DateTime tag exists, but is full of spaces. Fixes Ubuntu bug
+	https://bugs.launchpad.net/ubuntu/+source/gthumb/+bug/152246.
+
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-fullscreen.c (gth_fullscreen_get_file_list_selection_as_fd): 
+	
+	Implemented the gth_fullscreen_get_file_list_selection_as_fd function.
+	Fixed gth_fullscreen_get_file_list_selection.
+
+	Fixes bug # 485998 – [ and ] don't work in fullscreen anymore.
+
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* src/gth-browser.c (monitor_update_files_cb): 
+	* src/gth-monitor.c (add_monitor_event): 
+
+	Fixed bug #471234 – fix build with gcc 2.x
+	Patch by Jens Granseuer
+
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
+	* src/gth-fullscreen.c: monitor_update_files_cb uses a list of paths
+	not a list of file_data.  
+	
+	Fixes bug #485721 – crash in fullscreen mode after deleting an image.
+
 2007-10-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
@@ -33,6 +64,12 @@
 
 2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	[ gthumb 2.10.6 released ]
+
+	* NEWS: updated for version 2.10.6
+	
+2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/dlg-file-utils.c: 
 	* src/gth-browser.c (gth_browser_notify_directory_rename): use 
 	path_in_path instead  of strncmp.

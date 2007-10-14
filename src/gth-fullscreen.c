@@ -1424,7 +1424,7 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 		file = file_data_new (scan->data, NULL);
 		deleted = g_list_find_custom (fullscreen->priv->file_list,
 					      file,
-					      (GCompareFunc) uricmp);
+					      (GCompareFunc) filedatacmp);
 		if (deleted != NULL) {
 			if (fullscreen->priv->current == deleted) {
 				reload_current_image = TRUE;
@@ -1486,18 +1486,23 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	case GTH_MONITOR_EVENT_CHANGED:
 		if ((fullscreen->priv->file != NULL)
 		    && (g_list_find_custom (list,
-					    fullscreen->priv->file,
-					    (GCompareFunc) filedatacmp) != NULL)) {
+					    fullscreen->priv->file->path,
+					    (GCompareFunc) uricmp) != NULL)) 
+		{
 			file_data_unref (fullscreen->priv->file);
 			fullscreen->priv->file = NULL;
 			if (fullscreen->priv->image != NULL)
 				g_object_unref (fullscreen->priv->image);
 		}
-		if ((fullscreen->priv->current != NULL)
-		    && (g_list_find_custom (list,
-					    fullscreen->priv->current->data,
-					    (GCompareFunc) filedatacmp) != NULL))
-			load_current_image (fullscreen);
+		if (fullscreen->priv->current != NULL) {
+			FileData *current_file = fullscreen->priv->current->data;
+			if (g_list_find_custom (list,
+						current_file->path,
+					        (GCompareFunc) uricmp) != NULL)
+			{
+				load_current_image (fullscreen);
+			}
+		}
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
@@ -1828,12 +1833,28 @@ gth_fullscreen_get_image_data (GthWindow *window)
 static GList *
 gth_fullscreen_get_file_list_selection (GthWindow *window)
 {
-	GthFullscreen            *fullscreen = GTH_FULLSCREEN (window);
-	GthFullscreenPrivateData *priv = fullscreen->priv;
-
-	if (priv->current == NULL)
+	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
+	FileData      *current_file;
+	
+	if (fullscreen->priv->current == NULL)
 		return NULL;
-	return g_list_prepend (NULL, g_strdup (priv->current->data));
+	
+	current_file = fullscreen->priv->current->data;
+	return g_list_prepend (NULL, g_strdup (current_file->path));
+}
+
+
+static GList *
+gth_fullscreen_get_file_list_selection_as_fd (GthWindow *window)
+{
+	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
+	FileData      *current_file;
+	
+	if (fullscreen->priv->current == NULL)
+		return NULL;
+	
+	current_file = fullscreen->priv->current->data;
+	return g_list_prepend (NULL, file_data_ref (current_file));
 }
 
 
@@ -1901,10 +1922,8 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	window_class->update_current_image_metadata = gth_fullscreen_update_current_image_metadata;
 	*/
 	window_class->get_file_list_selection = gth_fullscreen_get_file_list_selection;
-	/*
 	window_class->get_file_list_selection_as_fd = gth_fullscreen_get_file_list_selection_as_fd;
 
-	*/
 	window_class->set_animation = gth_fullscreen_set_animation;
 	window_class->get_animation = gth_fullscreen_get_animation;
 	window_class->step_animation = gth_fullscreen_step_animation;
