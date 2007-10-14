@@ -1355,7 +1355,7 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 		file = file_data_new (scan->data, NULL);
 		deleted = g_list_find_custom (fullscreen->priv->file_list,
 					      file,
-					      (GCompareFunc) uricmp);
+					      (GCompareFunc) filedatacmp);
 		if (deleted != NULL) {
 			if (fullscreen->priv->current == deleted) {
 				reload_current_image = TRUE;
@@ -1417,18 +1417,23 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	case GTH_MONITOR_EVENT_CHANGED:
 		if ((fullscreen->priv->file != NULL)
 		    && (g_list_find_custom (list,
-					    fullscreen->priv->file,
-					    (GCompareFunc) filedatacmp) != NULL)) {
+					    fullscreen->priv->file->path,
+					    (GCompareFunc) uricmp) != NULL)) 
+		{
 			file_data_unref (fullscreen->priv->file);
 			fullscreen->priv->file = NULL;
 			if (fullscreen->priv->image != NULL)
 				g_object_unref (fullscreen->priv->image);
 		}
-		if ((fullscreen->priv->current != NULL)
-		    && (g_list_find_custom (list,
-					    fullscreen->priv->current->data,
-					    (GCompareFunc) filedatacmp) != NULL))
-			load_current_image (fullscreen);
+		if (fullscreen->priv->current != NULL) {
+			FileData *current_file = fullscreen->priv->current->data;
+			if (g_list_find_custom (list,
+						current_file->path,
+					        (GCompareFunc) uricmp) != NULL)
+			{
+				load_current_image (fullscreen);
+			}
+		}
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:

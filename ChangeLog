@@ -1,3 +1,10 @@
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-fullscreen.c: monitor_update_files_cb uses a list of paths
+	not a list of file_data.  
+	
+	Fixes bug #485721 – crash in fullscreen mode after deleting an image.
+
 2007-10-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
@@ -11,6 +18,8 @@
 	slow mime type checks report different values. Bug 481729.
 
 2007-08-27  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	[ gthumb 2.10.6 released ]
 
 	* NEWS: updated for version 2.10.6
 	
