@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gthumb.help\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-08 20:49+0100\n"
-"PO-Revision-Date: 2007-10-14 15:51+0200\n"
+"PO-Revision-Date: 2007-10-14 23:25+0200\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>\n"
 "Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -1100,7 +1100,7 @@ msgstr ""
 
 #: C/gthumb.xml:1019(keycap)
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: C/gthumb.xml:1021(para)
 msgid ""
@@ -2143,7 +2143,7 @@ msgstr ""
 
 #: C/gthumb.xml:2057(title)
 msgid "Advanced Tools"
-msgstr ""
+msgstr "Espleches avançats"
 
 #: C/gthumb.xml:2060(title)
 msgid "To Set the Desktop Wallpaper"
@@ -3188,7 +3188,7 @@ msgstr ""
 
 #: C/gthumb.xml:3036(keycap)
 msgid "1"
-msgstr ""
+msgstr "1"
 
 # Ne correspond pas à ce qui se passe réellement.
 #: C/gthumb.xml:3041(para)
@@ -3199,7 +3199,7 @@ msgstr ""
 
 #: C/gthumb.xml:3052(keycap)
 msgid "2"
-msgstr ""
+msgstr "2"
 
 # Ne correspond pas à ce qui se passe réellement.
 #: C/gthumb.xml:3057(para)
@@ -3210,7 +3210,7 @@ msgstr ""
 
 #: C/gthumb.xml:3068(keycap)
 msgid "3"
-msgstr ""
+msgstr "3"
 
 # Ne correspond pas à ce qui se passe réellement.
 #: C/gthumb.xml:3073(para)
@@ -3285,7 +3285,7 @@ msgstr ""
 
 #: C/gthumb.xml:3203(keycap)
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: C/gthumb.xml:3207(para)
 msgid "Zoom out."
@@ -3299,7 +3299,7 @@ msgstr ""
 
 #: C/gthumb.xml:3222(para)
 msgid "Actual size."
-msgstr ""
+msgstr "Talha actuala."
 
 #: C/gthumb.xml:3230(para)
 msgid ""
@@ -3357,7 +3357,7 @@ msgstr ""
 
 #: C/gthumb.xml:3311(keycap)
 msgid "]"
-msgstr ""
+msgstr "]"
 
 #: C/gthumb.xml:3315(para)
 msgid ""
@@ -3367,7 +3367,7 @@ msgstr ""
 
 #: C/gthumb.xml:3324(keycap)
 msgid "["
-msgstr ""
+msgstr "["
 
 #: C/gthumb.xml:3328(para)
 msgid ""
@@ -3377,7 +3377,7 @@ msgstr ""
 
 #: C/gthumb.xml:3338(keycap)
 msgid "a"
-msgstr ""
+msgstr "a"
 
 #: C/gthumb.xml:3342(para)
 msgid "Start/Stop the animation"
