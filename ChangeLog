@@ -1,5 +1,13 @@
 2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c (monitor_update_files_cb): 
+	* src/gth-monitor.c (add_monitor_event): 
+
+	Fixed bug #471234 – fix build with gcc 2.x
+	Patch by Jens Granseuer
+
+2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/gth-fullscreen.c: monitor_update_files_cb uses a list of paths
 	not a list of file_data.  
 	

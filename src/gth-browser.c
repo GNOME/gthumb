@@ -5765,10 +5765,10 @@ monitor_update_files_cb (GthMonitor      *monitor,
 			 GList           *list,
 			 GthBrowser      *browser)
 {
+	const char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
+	GList      *scan;
+	
 	g_return_if_fail (browser != NULL);
-
-	GList *scan;
-	char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
 	debug (DEBUG_INFO, "%s:\n", event_name[event]);
 
 	for (scan = list; scan; scan = scan->next) {

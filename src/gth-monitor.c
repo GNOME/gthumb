@@ -295,12 +295,11 @@ add_monitor_event (GthMonitor                *monitor,
 		   const char                *path,
 		   GList                    **monitor_events)
 {
-	MonitorEventType type;
-
+	MonitorEventType  type;
+	char             *op;
+	
 	if (!monitor->priv->monitor_enabled)
 		return;
-
-	char *op;
 
 	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
 		op = "CREATED";
