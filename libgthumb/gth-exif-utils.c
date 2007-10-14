@@ -150,7 +150,11 @@ exif_string_to_time_t (char *string)
         char       *data;
         struct tm   tm = { 0, };
 
-	if ((string == NULL) || (strlen (string) < 10))
+	if (	(string == NULL) 	/* check for non-existent field */
+	     || (strlen (string) < 10)	/* check for too-small field */
+	     || (string[0] == 0)	/* check for empty field */
+	     				/* check for year 1xxx or 2xxx */
+	     || !((string[0] == '1') || (string[0] == '2')) )
 		return (time_t) 0;
 
         data = g_strdup (string);
@@ -192,12 +196,17 @@ get_exif_time (const char *uri)
                 return (time_t) 0;
 
         gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME, date_string, 20);
-	if (date_string[0] == 0)
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
-	if (date_string[0] == 0)
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
+	time = exif_string_to_time_t (date_string);
 
-        time = exif_string_to_time_t (date_string);
+	if (time <= (time_t) 0) {
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
+		time = exif_string_to_time_t (date_string);
+	}
+
+	if (time <= (time_t) 0) {
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
+		time = exif_string_to_time_t (date_string);
+	}
 
 	g_free (local_file);
 

@@ -1,3 +1,10 @@
+2007-10-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (exif_string_to_time_t),
+	(get_exif_time): Read DateTimeOriginal or DateTimeDigitized if the
+	DateTime tag exists, but is full of spaces. Fixes Ubuntu bug
+	https://bugs.launchpad.net/ubuntu/+source/gthumb/+bug/152246.
+
 2007-10-14  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-fullscreen.c (gth_fullscreen_get_file_list_selection_as_fd): 
