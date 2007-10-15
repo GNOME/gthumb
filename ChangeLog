@@ -1,3 +1,10 @@
+2007-10-15  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	[ gthumb 2.10.7 released ]
+
+	* configure.in: 
+	* NEWS: updated for version 2.10.7
+
 2007-10-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (exif_string_to_time_t),
