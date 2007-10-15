@@ -41,12 +41,22 @@ trunk, since last 2.10.x
 	  acceleration. Bug #472491.
 
 
+version 2.10.8
+--------------
+
+	* Fixed bug #486886: Crash opening an image with no Exif IFD1
+
 version 2.10.7
 --------------
 
-	* Fixed bug #481729. Crash browsing thru images when one is empty.
-	* Fixed bug #482751. gthumb crashes if it cannot find cursor.
-
+	* Fixed bug #481729: Crash browsing thru images when one is empty.
+	* Fixed bug #482751: gthumb crashes if it cannot find cursor.
+	* Fixed bug #485721: Crash in fullscreen mode after deleting an image.
+	* Fixed bug #471234: Fix build with gcc 2.x
+	* Fixed bug #485998: '[' and ']' don't work in fullscreen anymore.
+	* Fixed Ubuntu bug #152246: gThumb does not allow to change 
+	  picture's "Last modified date" to "Photo digitalization date
+	  (from EXIF data)"
 
 version 2.10.6
 --------------
