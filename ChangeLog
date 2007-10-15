@@ -1,3 +1,10 @@
+2007-10-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_action):
+	Fixed bug #486886: Crash opening an image with no Exif IFD1, caused
+	by an overflowing index. Cosmetic clean-ups also.
+
 2007-10-15  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	[ gthumb 2.10.7 released ]

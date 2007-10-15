@@ -409,15 +409,15 @@ gth_minimal_exif_tag_action (const char *local_file,
  
         // Check for TIFF header and catch endianess
  	i = 0;
- 	while (i < readsize){
+ 	while (i < readsize) {
  
  		// Little endian TIFF header
- 		if (bcmp (&buf[i], leth, 4) == 0){ 
+ 		if (bcmp (&buf[i], leth, 4) == 0) { 
  			endian = G_LITTLE_ENDIAN;
                 }
  
  		// Big endian TIFF header
- 		else if (bcmp (&buf[i], beth, 4) == 0){ 
+ 		else if (bcmp (&buf[i], beth, 4) == 0) { 
  			endian = G_BIG_ENDIAN;
                 }
  
@@ -448,7 +448,7 @@ gth_minimal_exif_tag_action (const char *local_file,
  	IFD_NAME_PUSH("IFD0");
  
         // As long as we find more IFDs check out the tags in each
- 	while ((oi >=0 && (i = IFD_OFFSET_PULL()) != 0 && i < readsize - 2)){
+ 	while ((oi >=0 && (i = IFD_OFFSET_PULL()) != 0 && i < readsize - 2)) {
  	  
  		cifdi    = oi; // remember which ifd we are at
  
@@ -466,20 +466,20 @@ gth_minimal_exif_tag_action (const char *local_file,
  				     DE_ENDIAN16(*((unsigned short*)(&buf[i]))), type, count, offset);
  
  			// Our tag?
- 			if (bcmp (&buf[i], (char *)&tag, 2) == 0){ 
+ 			if (bcmp (&buf[i], (char *)&tag, 2) == 0) { 
  
 				// Write TAG value
-				if (access == 1){ 
+				if (access == 1) { 
 
 					// Local value that can be patched directly in TAG table 
-					if ((types[type] * count) <= 4){
+					if ((types[type] * count) <= 4) {
  
 						// Fake TIFF offset
 						offset = i + 8 - tiff; 
 						patches++;
 					}
 					// Offseted value of same or larger size that we can patch
-					else if (types[type] * count >= size){
+					else if (types[type] * count >= size) {
 						
 						// Adjust count to new length
 						count = size / types[type]; 
@@ -497,8 +497,8 @@ gth_minimal_exif_tag_action (const char *local_file,
 
 					// Copy the data
 					stitch = 0;
-					while (stitch < count){
-						switch (types[type]){
+					while (stitch < count) {
+						switch (types[type]) {
 						case 1:
 							buf[tiff + offset + stitch] = *(char *) (data + stitch);
 							break;
@@ -566,12 +566,12 @@ gth_minimal_exif_tag_action (const char *local_file,
 				}
 			}
  			// EXIF pointer tag?
- 			else if (bcmp (&buf[i], (char *) &exififd, 2) == 0){ 
+ 			else if (bcmp (&buf[i], (char *) &exififd, 2) == 0) { 
  				IFD_OFFSET_PUSH(offset + tiff);
  				IFD_NAME_PUSH("EXIF");
  			}
  			// GPS pointer tag?
- 			else if (bcmp (&buf[i], (char *) &gpsifd, 2) == 0){ 
+ 			else if (bcmp (&buf[i], (char *) &gpsifd, 2) == 0) { 
  				IFD_OFFSET_PUSH(offset + tiff);
  				IFD_NAME_PUSH("GPS");
  			}
@@ -582,7 +582,7 @@ gth_minimal_exif_tag_action (const char *local_file,
  		}
 
  		// Check for a valid next pointer and assume that to be IFD1 if we just checked IFD0
- 		if (cifdi == 1 && i < readsize - 2 && (i = DE_ENDIAN32((*((unsigned long*) (&buf[i]))))) != 0){ 
+ 		if (cifdi == 1 && i < readsize - tiff && (i = DE_ENDIAN32((*((unsigned long*) (&buf[i]))))) != 0) { 
  			i = i + tiff;
  			IFD_OFFSET_PUSH(i);
  			IFD_NAME_PUSH("IFD1");

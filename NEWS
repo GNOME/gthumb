@@ -1,3 +1,8 @@
+version 2.10.8
+--------------
+
+	* Fixed bug #486886: Crash opening an image with no Exif IFD1
+
 version 2.10.7
 --------------
 
