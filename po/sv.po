@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-16 20:32+0200\n"
-"PO-Revision-Date: 2007-09-16 20:35+0100\n"
+"POT-Creation-Date: 2007-10-17 15:40+0200\n"
+"PO-Revision-Date: 2007-10-17 15:40+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -82,7 +82,7 @@ msgstr "Kameramodell"
 
 #: ../data/albumthemes/text.h:41
 #: ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:84
+#: ../data/glade/gthumb_tools.glade.h:85
 msgid "pixels"
 msgstr "bildpunkter"
 
@@ -522,7 +522,7 @@ msgid "_Smoothing:"
 msgstr "_Utjämning:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:78
+#: ../data/glade/gthumb_tools.glade.h:79
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -596,7 +596,7 @@ msgstr "_Höjd:"
 #: ../data/glade/gthumb_crop.glade.h:14
 #: ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52
-#: ../data/glade/gthumb_tools.glade.h:81
+#: ../data/glade/gthumb_tools.glade.h:82
 msgid "_Width:"
 msgstr "_Bredd:"
 
@@ -987,12 +987,12 @@ msgid "_Solid color"
 msgstr "_Helfärgad"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:79
+#: ../data/glade/gthumb_tools.glade.h:80
 msgid "_Template:"
 msgstr "_Mall:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:82
+#: ../data/glade/gthumb_tools.glade.h:83
 #: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "by name"
 msgstr "efter namn"
@@ -1625,11 +1625,12 @@ msgid "_Save"
 msgstr "_Spara"
 
 #: ../data/glade/gthumb_search.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:76
 msgid "_Search"
 msgstr "_Sök"
 
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:80
+#: ../data/glade/gthumb_tools.glade.h:81
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -1825,20 +1826,20 @@ msgstr "_Datum för senaste ändring"
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: ../data/glade/gthumb_tools.glade.h:76
+#: ../data/glade/gthumb_tools.glade.h:77
 msgid "_Selected Images"
 msgstr "_Markerade bilder"
 
-#: ../data/glade/gthumb_tools.glade.h:77
+#: ../data/glade/gthumb_tools.glade.h:78
 msgid "_Sort:"
 msgstr "_Sortera:"
 
-#: ../data/glade/gthumb_tools.glade.h:83
+#: ../data/glade/gthumb_tools.glade.h:84
 msgid "hours"
 msgstr "timmar"
 
 #. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
-#: ../data/glade/gthumb_tools.glade.h:86
+#: ../data/glade/gthumb_tools.glade.h:87
 msgid "title|Scale Images"
 msgstr "Skala bilder"
 
@@ -2248,7 +2249,7 @@ msgstr "Kan inte ta bort albumet \"%s\": %s"
 
 #: ../libgthumb/gth-image-list.c:3532
 #: ../src/gth-browser.c:774
-#: ../src/gth-browser.c:4498
+#: ../src/gth-browser.c:4506
 #: ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "Ingen bild"
@@ -2282,9 +2283,9 @@ msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var god vänta..."
 
 #: ../src/bookmark-list.c:157
-#: ../src/gth-browser.c:1343
-#: ../src/gth-browser.c:1347
-#: ../src/gth-browser.c:1359
+#: ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354
+#: ../src/gth-browser.c:1366
 msgid "(Invalid Name)"
 msgstr "(Ogiltigt namn)"
 
@@ -2484,7 +2485,7 @@ msgstr "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem perman
 
 #: ../src/dlg-file-utils.c:229
 #: ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1894
+#: ../src/gth-browser.c:1901
 #: ../src/gth-viewer.c:998
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
@@ -2709,7 +2710,7 @@ msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
 #: ../src/dlg-write-to-cd.c:79
-#: ../src/gth-browser.c:3848
+#: ../src/gth-browser.c:3856
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
@@ -3494,60 +3495,60 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: ../src/gth-browser.c:1891
+#: ../src/gth-browser.c:1898
 #: ../src/gth-viewer.c:995
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Den aktuella bilden har ändrats. Vill du spara den?"
 
-#: ../src/gth-browser.c:1892
+#: ../src/gth-browser.c:1899
 #: ../src/gth-viewer.c:996
 msgid "Do Not Save"
 msgstr "Spara inte"
 
-#: ../src/gth-browser.c:3607
+#: ../src/gth-browser.c:3615
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: ../src/gth-browser.c:5399
-#: ../src/gth-browser.c:5400
+#: ../src/gth-browser.c:5407
+#: ../src/gth-browser.c:5408
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotera bilder utan kvalitetsförlust"
 
-#: ../src/gth-browser.c:6287
+#: ../src/gth-browser.c:6295
 msgid "Getting folder listing..."
 msgstr "Hämtar mapplistning..."
 
-#: ../src/gth-browser.c:6308
+#: ../src/gth-browser.c:6316
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6811
+#: ../src/gth-browser.c:6819
 #: ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Stäng"
 
-#: ../src/gth-browser.c:6825
+#: ../src/gth-browser.c:6833
 #: ../src/gth-viewer.c:1640
 msgid "Image comment"
 msgstr "Bildkommentar"
 
-#: ../src/gth-browser.c:6839
+#: ../src/gth-browser.c:6847
 msgid "Image data"
 msgstr "Bilddata"
 
-#: ../src/gth-browser.c:6853
+#: ../src/gth-browser.c:6861
 msgid "Image preview"
 msgstr "Bildförhandsgranskning"
 
-#: ../src/gth-browser.c:7905
+#: ../src/gth-browser.c:7913
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: ../src/gth-browser.c:8537
+#: ../src/gth-browser.c:8545
 #: ../src/gth-viewer.c:2085
 msgid "Wait please..."
 msgstr "Var god vänta..."
@@ -3562,7 +3563,7 @@ msgstr "Allmän information"
 
 #: ../src/gth-exif-data-viewer.c:67
 msgid "Picture-Taking Conditions"
-msgstr "Fotografiska tillstånd"
+msgstr "Fotografiska förhållanden"
 
 #: ../src/gth-exif-data-viewer.c:68
 msgid "Maker Notes"
