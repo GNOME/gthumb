@@ -2157,6 +2157,9 @@ print_catalog_cb (GtkWidget              *widget,
 
 	pci->is_preview = FALSE;
 
+	/* Hide the setup dialog while the gtk-print dialog is shown */
+	gtk_widget_hide (data->dialog);
+
 	result = gtk_print_operation_run (pci->print_operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, GTK_WINDOW (data->parent), &error);
 
 	g_object_unref (pci->print_operation);
@@ -2178,6 +2181,8 @@ print_catalog_cb (GtkWidget              *widget,
 		/* printing completed successfully  */
 	}
 	else if (result == GTK_PRINT_OPERATION_RESULT_CANCEL) {
+		/* return to the setup dialog */
+		gtk_widget_show (data->dialog);
 		return;
 	}
 	else {
@@ -2185,7 +2190,11 @@ print_catalog_cb (GtkWidget              *widget,
 	}
 
 	if (! pci->is_preview)
+		/* Done printing */
 		gtk_widget_destroy (data->dialog);
+	else
+		/* Done preview, ready to really print */
+		gtk_widget_show (data->dialog);
 }
 
 

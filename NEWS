@@ -2,6 +2,7 @@ version 2.10.8
 --------------
 
 	* Fixed bug #486886: Crash opening an image with no Exif IFD1
+	* Fixed bug #487982: can freeze gthumb during printing
 
 version 2.10.7
 --------------

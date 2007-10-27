@@ -1,3 +1,10 @@
+2007-10-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* libgthumb/print-callbacks.c: (print_catalog_cb):
+	Fixed bug 487982 - can freeze gthumb during printing. Hide print 
+	setup dialog while gtk-print dialog is visible.
+	
 2007-10-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
