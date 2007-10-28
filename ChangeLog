@@ -1,3 +1,8 @@
+2007-10-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
+	Delete the tmp dir correctly.
+
 2007-10-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

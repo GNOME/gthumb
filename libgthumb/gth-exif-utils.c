@@ -271,7 +271,7 @@ get_mplayer_time (const char *filename)
 
 	fclose (in_file);
 
-	local_dir_remove_recursive (tmp_filename);
+	local_dir_remove_recursive (tmp_dir);
 
         g_free (tmp_filename);
         g_free (tmp_dir);	
