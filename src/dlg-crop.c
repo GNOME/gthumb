@@ -89,7 +89,7 @@ destroy_cb (GtkWidget  *widget,
 
 static void
 apply_cb (DialogData *data,
-	  gboolean    save)
+	 gboolean    save)
 {
 	GdkPixbuf *old_pixbuf;
 	GdkPixbuf *new_pixbuf;
@@ -117,8 +117,8 @@ apply_cb (DialogData *data,
 
 
 static void
-ok_cb (GtkWidget  *widget,
-       DialogData *data)
+done_cb (GtkWidget  *widget,
+	  DialogData *data)
 {
 	apply_cb (data, FALSE);
 }
@@ -449,7 +449,7 @@ void
 dlg_crop (GthWindow *window)
 {
 	DialogData   *data;
-	GtkWidget    *ok_button;
+	GtkWidget    *done_button;
 	GtkWidget    *save_button;
 	GtkWidget    *cancel_button;
 	GtkWidget    *help_button;
@@ -497,10 +497,10 @@ dlg_crop (GthWindow *window)
 	zoom_fit_button = glade_xml_get_widget (data->gui, "crop_zoom_fit_button");
 	data->mask_button = glade_xml_get_widget (data->gui, "crop_showmask_togglebutton");
 
-	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
-	save_button = glade_xml_get_widget (data->gui, "crop_savebutton");
-	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
-	help_button = glade_xml_get_widget (data->gui, "crop_helpbutton");
+	done_button = glade_xml_get_widget (data->gui, "crop_done_button");
+	save_button = glade_xml_get_widget (data->gui, "crop_save_button");
+	cancel_button = glade_xml_get_widget (data->gui, "crop_cancel_button");
+	help_button = glade_xml_get_widget (data->gui, "crop_help_button");
 
 	data->image_selector = gth_image_selector_new (GTH_SELECTOR_TYPE_REGION, NULL);
 
@@ -568,9 +568,9 @@ dlg_crop (GthWindow *window)
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  data->dialog);
-	g_signal_connect (G_OBJECT (ok_button),
-			  "clicked",
-			  G_CALLBACK (ok_cb),
+        g_signal_connect (G_OBJECT (done_button),
+                          "clicked",
+                          G_CALLBACK (done_cb),
 			  data);
 	g_signal_connect (G_OBJECT (save_button),
 			  "clicked",

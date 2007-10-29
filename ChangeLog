@@ -1,5 +1,13 @@
 2007-10-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* data/glade/gthumb_crop.glade:
+	* src/dlg-crop.c: (dlg_crop):
+	Make the cropping dialog more intuitive, so my mom can use it.
+	Bug #408342. Trunk-only experimental change.
+
+2007-10-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_mplayer_time):
 	Delete the tmp dir correctly.
 

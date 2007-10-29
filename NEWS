@@ -3,6 +3,7 @@ trunk, since last 2.10.x
 
 	UI Changes:
 
+	* Make the cropping dialog more intuitive. Bug #408342.
 	* Added tool to change exif date. Bug #408183.
 	* Use "Position" instead of "Selection" in redeye removal dialog.
 	* Fixed Bug 427984 - Show and Help items share the same mnemonic
