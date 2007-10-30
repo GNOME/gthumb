@@ -489,8 +489,12 @@ dlg_crop (GthWindow *window)
 	data->invert_ratio_checkbutton = glade_xml_get_widget (data->gui, "invert_ratio_checkbutton");
 
 	crop_button = glade_xml_get_widget (data->gui, "crop_crop_button");
+
 	data->undo_button = glade_xml_get_widget (data->gui, "crop_undo_button");
 	data->redo_button = glade_xml_get_widget (data->gui, "crop_redo_button");
+	gtk_widget_set_sensitive (data->redo_button, FALSE);
+	gtk_widget_set_sensitive (data->undo_button, FALSE);
+
 	zoom_in_button = glade_xml_get_widget (data->gui, "crop_zoom_in_button");
 	zoom_out_button = glade_xml_get_widget (data->gui, "crop_zoom_out_button");
 	zoom_100_button = glade_xml_get_widget (data->gui, "crop_zoom_100_button");

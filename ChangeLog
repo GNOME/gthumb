@@ -1,3 +1,10 @@
+2007-10-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_crop.glade: Tweak button spacing in crop dialog.
+
+	* src/dlg-crop.c: (dlg_crop): Make undo and redo buttons inactive 
+	initially.
+
 2007-10-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
