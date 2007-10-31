@@ -463,7 +463,10 @@ gth_minimal_exif_tag_action (const char *local_file,
  	int           cifdi = 0;    // curret ifd index
  
  	debug (DEBUG_INFO, "gth_minimal_exif_tag_access (%s, %04x, %08x, %d)\n", local_file, etag, data, size);
- 
+
+	// local files only
+	g_assert (uri_has_scheme (local_file) == FALSE);
+
         // Init IFD stack
  	IFD_OFFSET_PUSH(0);
  	IFD_NAME_PUSH("START");
