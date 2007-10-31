@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
 "POT-Creation-Date: 2007-10-08 20:49+0100\n"
-"PO-Revision-Date: 2007-10-31 23:03+0100\n"
+"PO-Revision-Date: 2007-10-31 23:09+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -2468,7 +2468,7 @@ msgstr "<keycombo><keycap>x</keycap></keycombo> eller <keycombo><keycap>* (numer
 
 #: C/gthumb.xml:3236(para)
 msgid "Zoom to fit (scales down only, does not magnify)"
-msgstr "Anpassa till fönstret (skalar endast ned, förstorar inte)"
+msgstr "Zooma för att passa (skalar endast ned, förstorar inte)"
 
 #: C/gthumb.xml:3245(keycap)
 #: C/gthumb.xml:3377(keycap)
@@ -2481,7 +2481,7 @@ msgstr "x"
 
 #: C/gthumb.xml:3249(para)
 msgid "Zoom to fit (scale down or magnify, as required)"
-msgstr "Anpassa till fönstret (skala ned eller förstora, det som krävs)"
+msgstr "Zooma för att passa (skala ned eller förstora, det som krävs)"
 
 #: C/gthumb.xml:3258(keycap)
 msgid "l"
