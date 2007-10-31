@@ -88,7 +88,8 @@ void       gth_image_selector_get_selection        (GthImageSelector *selector,
 						    GdkRectangle     *selection);
 void       gth_image_selector_set_ratio            (GthImageSelector *selector,
 						    gboolean          use_ratio,
-						    double            ratio);
+						    double            ratio,
+						    gboolean	      swap_x_and_y_to_start);
 double     gth_image_selector_get_ratio            (GthImageSelector *selector);
 gboolean   gth_image_selector_get_use_ratio        (GthImageSelector *selector);
 void       gth_image_selector_set_mask_visible     (GthImageSelector *selector,

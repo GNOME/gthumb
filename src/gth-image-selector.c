@@ -2228,15 +2228,23 @@ gth_image_selector_get_selection (GthImageSelector *selector,
 void
 gth_image_selector_set_ratio (GthImageSelector *selector,
 			      gboolean          use_ratio,
-			      double            ratio)
+			      double            ratio,
+			      gboolean		swap_x_and_y_to_start)
 {
+	int new_starting_width;
+
 	GthImageSelectorPriv *priv = selector->priv;
 
 	priv->use_ratio = use_ratio;
 	priv->ratio = ratio;
 
 	if (priv->use_ratio) {
-		gth_image_selector_set_selection_width (selector, priv->selection.width);
+		if (swap_x_and_y_to_start == FALSE)
+			new_starting_width = priv->selection.width;
+		else
+	       		new_starting_width = priv->selection.height;
+		
+		gth_image_selector_set_selection_width (selector, new_starting_width);
 		gth_image_selector_set_selection_height (selector, priv->selection.height);
 	}
 }

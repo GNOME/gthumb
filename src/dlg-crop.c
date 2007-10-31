@@ -287,7 +287,33 @@ ratio_optionmenu_changed_cb (GtkOptionMenu *optionmenu,
 
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
 				      use_ratio,
-				      (double) w / h);
+				      (double) w / h,
+				      FALSE);
+}
+
+
+static void 
+update_ratio (GtkSpinButton *spin,
+              DialogData    *data,
+	      gboolean       swap_x_and_y_to_start)
+{
+        gboolean use_ratio;
+        int      w, h;
+        double   ratio;
+
+        use_ratio = gtk_option_menu_get_history (GTK_OPTION_MENU (data->ratio_optionmenu)) != GTH_CROP_RATIO_NONE;
+
+        w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
+        h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
+
+        if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->invert_ratio_checkbutton)))
+                ratio = (double) h / w;
+        else
+                ratio = (double) w / h;
+        gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
+                                      use_ratio,
+                                      ratio,
+                                      swap_x_and_y_to_start);
 }
 
 
@@ -295,23 +321,19 @@ static void
 ratio_value_changed_cb (GtkSpinButton *spin,
 			DialogData    *data)
 {
-	gboolean use_ratio;
-	int      w, h;
-	double   ratio;
-
-	use_ratio = gtk_option_menu_get_history (GTK_OPTION_MENU (data->ratio_optionmenu)) != GTH_CROP_RATIO_NONE;
-
-	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
-	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
-
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->invert_ratio_checkbutton)))
-		ratio = (double) h / w;
-	else
-		ratio = (double) w / h;
-	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->image_selector),
-				      use_ratio,
-				      ratio);
+	update_ratio (spin, data, FALSE);
 }
+
+
+static void
+invert_ratio_changed_cb (GtkSpinButton *spin,
+                        DialogData    *data)
+{
+	update_ratio (spin, data, TRUE);
+}
+
+
+
 
 
 static void
@@ -622,7 +644,7 @@ dlg_crop (GthWindow *window)
 			  data);
 	g_signal_connect (G_OBJECT (data->invert_ratio_checkbutton),
 			  "toggled",
-			  G_CALLBACK (ratio_value_changed_cb),
+			  G_CALLBACK (invert_ratio_changed_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (crop_button),

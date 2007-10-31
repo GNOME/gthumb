@@ -1,3 +1,14 @@
+2007-10-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-crop.c: (ratio_optionmenu_changed_cb), (update_ratio),
+	(ratio_value_changed_cb), (invert_ratio_changed_cb), (dlg_crop):
+	* src/gth-image-selector.c: (gth_image_selector_set_ratio):
+	* src/gth-image-selector.h:
+	Make crop tool swap height/width values when clicking the "invert
+	aspect ratio button", rather than keeping the width constant and
+	just changing the height. Looks more natural. Still need to fix
+	condition where new area would exceed image boundary.
+
 2007-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
