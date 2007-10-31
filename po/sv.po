@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-17 15:40+0200\n"
-"PO-Revision-Date: 2007-10-17 15:40+0100\n"
+"POT-Creation-Date: 2007-10-31 23:06+0100\n"
+"PO-Revision-Date: 2007-10-31 23:12+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -553,59 +553,106 @@ msgid "8 x 10"
 msgstr "8 × 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
+msgid "<b>Actions</b>"
+msgstr "<b>Åtgärder</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Proportioner</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "<b>Display</b>"
+msgstr "<b>Visning</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:8
 msgid "<b>Selection</b>"
 msgstr "<b>Markering</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid ""
+"<small>Click and drag the mouse to \n"
+"select the cropping area, or\n"
+"use the dialogs below. Press \n"
+"the \"Crop\" button to perform\n"
+"the crop, and \"Done\" to finish.</small>"
+msgstr ""
+"<small>Klicka och dra musen för \n"
+"att markera beskäringsområdet, eller\n"
+"använd dialogrutorna nedan. Tryck på \n"
+"knappen \"Beskär\" för att genomföra\n"
+"beskäringen och \"Färdig\" för att slutföra.</small>"
+
+#: ../data/glade/gthumb_crop.glade.h:14
+msgid "Cro_p"
+msgstr "Beskä_r"
+
+#: ../data/glade/gthumb_crop.glade.h:15
 msgid "Crop"
 msgstr "Beskär"
 
-#: ../data/glade/gthumb_crop.glade.h:8
+#: ../data/glade/gthumb_crop.glade.h:16
 #: ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "Anpassat"
 
-#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:17
 msgid "I_nvert aspect ratio"
 msgstr "I_nvertera aspektförhållande"
 
-#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_crop.glade.h:18
 #: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
 msgstr "Ingen"
 
-#: ../data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:19
+msgid "Show / hide the cropping selection area"
+msgstr "Visa / dölj markeringsområde för beskäring"
+
+#: ../data/glade/gthumb_crop.glade.h:20
 msgid "Square"
 msgstr "Kvadratiskt"
 
-#: ../data/glade/gthumb_crop.glade.h:12
-msgid "_Crop"
-msgstr "_Beskär"
+#: ../data/glade/gthumb_crop.glade.h:22
+#, no-c-format
+msgid "Zoom at 100% scale"
+msgstr "Zooma till 100% skala"
 
-#: ../data/glade/gthumb_crop.glade.h:13
+#: ../data/glade/gthumb_crop.glade.h:23
+msgid "Zoom in. The mousewheel can also be used to zoom in."
+msgstr "Zooma in. Mushjulet kan även användas för att zooma in."
+
+#: ../data/glade/gthumb_crop.glade.h:24
+msgid "Zoom out. The mousewheel can also be used to zoom out."
+msgstr "Zooma ut. Mushjulet kan även användas för att zooma ut."
+
+#: ../data/glade/gthumb_crop.glade.h:25
+msgid "Zoom to fit"
+msgstr "Zooma för att passa"
+
+#: ../data/glade/gthumb_crop.glade.h:26
+msgid "_Done"
+msgstr "_Färdig"
+
+#: ../data/glade/gthumb_crop.glade.h:27
 #: ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:46
 #: ../data/glade/gthumb_tools.glade.h:67
 msgid "_Height:"
 msgstr "_Höjd:"
 
-#: ../data/glade/gthumb_crop.glade.h:14
+#: ../data/glade/gthumb_crop.glade.h:28
 #: ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52
 #: ../data/glade/gthumb_tools.glade.h:82
 msgid "_Width:"
 msgstr "_Bredd:"
 
-#: ../data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_crop.glade.h:29
 #: ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_crop.glade.h:30
 #: ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
 msgstr "_Y:"
@@ -1474,7 +1521,7 @@ msgstr "4 × 6 (vykort)"
 
 #.
 #: ../data/glade/gthumb_print.glade.h:42
-#: ../libgthumb/print-callbacks.c:2709
+#: ../libgthumb/print-callbacks.c:2718
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Skriv ut"
@@ -2268,7 +2315,7 @@ msgstr "Ro_tera bilder"
 msgid "Page %d of %d"
 msgstr "Sida %d av %d"
 
-#: ../libgthumb/print-callbacks.c:2240
+#: ../libgthumb/print-callbacks.c:2249
 #: ../src/catalog-png-exporter.c:1427
 #, c-format
 msgid "Loading image: %s"
@@ -2301,7 +2348,7 @@ msgstr "%d × %d bildpunkter"
 
 #: ../src/catalog-png-exporter.c:911
 #: ../src/catalog-web-exporter.c:2470
-#: ../src/catalog-web-exporter.c:2694
+#: ../src/catalog-web-exporter.c:2691
 msgid "Saving images"
 msgstr "Sparar bilder"
 
@@ -2330,14 +2377,14 @@ msgstr "Sparar HTML-sidor: Index"
 msgid "Copying original images"
 msgstr "Kopierar ursprungliga bilder"
 
-#: ../src/catalog-web-exporter.c:2903
+#: ../src/catalog-web-exporter.c:2900
 #: ../src/gth-window-actions-callbacks.c:215
 #: ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Kunde inte skapa temporär mapp"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2959
+#: ../src/catalog-web-exporter.c:2956
 msgid "Loading images"
 msgstr "Läser in bilder"
 
@@ -2421,12 +2468,12 @@ msgstr "Hoppa över"
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
-#: ../src/dlg-crop.c:527
+#: ../src/dlg-crop.c:531
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (bild)"
 
-#: ../src/dlg-crop.c:535
+#: ../src/dlg-crop.c:539
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d × %d (skärm)"
@@ -4162,6 +4209,8 @@ msgstr "_Trimma"
 msgid "Could not move temporary file to local destination. Check folder permissions."
 msgstr "Kunde inte flytta temporärfilen till lokala målet. Kontrollera mapprättigheterna."
 
+#~ msgid "_Crop"
+#~ msgstr "_Beskär"
 #~ msgid "_High Quality"
 #~ msgstr "_Hög kvalitet"
 #~ msgid "Use high quality zoom"
