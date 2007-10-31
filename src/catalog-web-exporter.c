@@ -2207,11 +2207,8 @@ export__copy_image (CatalogWebExporter *ce)
 		ce->album_files = g_list_prepend (ce->album_files, g_strdup (temp_destination));
 		if (image_is_jpeg (temp_destination)) {
 			GthTransform  transform;
-			char         *local_file;
 			
-			local_file = get_local_path_from_uri (temp_destination);
-			transform = read_orientation_field (local_file);
-			g_free (local_file);
+			transform = read_orientation_field (get_file_path_from_uri (temp_destination));
 			
 			if (transform > 1) {
 				FileData *fd;

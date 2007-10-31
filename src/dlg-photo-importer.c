@@ -1466,7 +1466,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 
 		fd = file_data_new (uri, NULL);
 		file_data_update (fd);
-		transform = read_orientation_field (fd->path);
+		transform = read_orientation_field (get_file_path_from_uri (fd->path));
 		if (image_is_jpeg (uri))
 			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
 		else

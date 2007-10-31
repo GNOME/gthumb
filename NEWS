@@ -4,6 +4,7 @@ version 2.10.8
 	* Fixed bug #486886: Crash opening an image with no Exif IFD1
 	* Fixed bug #487982: can freeze gthumb during printing
 	* Fixed a printing crash, g_free -> gtk_paper_size_free
+	* Fixed bug #492111: Doesn't rotate pictures while importing
 
 version 2.10.7
 --------------
