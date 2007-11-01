@@ -5892,7 +5892,7 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 	gth_file_list_delete (priv->file_list, new_name);
 	gth_file_list_rename (priv->file_list, old_name, new_name);
 
-	if (same_uri (old_name, priv->image->path))
+	if (priv->image != NULL && same_uri (old_name, priv->image->path))
 		gth_browser_load_image_from_uri (browser, new_name);
 }
 
@@ -5934,15 +5934,17 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 	    && path_in_path (old_name, priv->image->path)) 
 	{
+		char *new_image_path = g_strdup (priv->image->path);
 		char *new_image_name;
 
 		new_image_name = g_strconcat (new_name,
 					      priv->image->path + strlen (old_name),
 					      NULL);
 		gth_browser_notify_file_rename (browser,
-						priv->image->path,
+						new_image_path,
 						new_image_name);
 		g_free (new_image_name);
+		g_free (new_image_path);
 	}
 }
 

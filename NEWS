@@ -7,6 +7,7 @@ version 2.10.8
 	* Fixed bug #492111: Doesn't rotate pictures while importing
 	* Fixed bug #492262: Rotate removes thumbnail
 	* Fixed bug #492260: Crash on rotate on x86_64
+	* Fixed bug #492169: Crash when moving directory to trash
 
 version 2.10.7
 --------------
