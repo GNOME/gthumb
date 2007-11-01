@@ -1,5 +1,12 @@
 2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):
+	Fixed bug #492260: Crash on rotate on x86_64.
+	Patch by Ignacy Gawędzki.
+
+2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* AUTHORS:
 	* NEWS:
 	* libgthumb/jpegutils/jpegtran.c: (jpegtran_thumbnail): Fixed 

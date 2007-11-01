@@ -50,6 +50,7 @@ version 2.10.8
 	* Fixed a printing crash, g_free -> gtk_paper_size_free
 	* Fixed bug #492111: Doesn't rotate pictures while importing
 	* Fixed bug #492262: Rotate removes thumbnail
+	* Fixed bug #492260: Crash on rotate on x86_64
 
 version 2.10.7
 --------------
