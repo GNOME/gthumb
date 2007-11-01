@@ -209,7 +209,7 @@ static void
 update_exif_thumbnail (ExifData    *edata,
 		       JXFORM_CODE  transform)
 {
-	unsigned int osize;
+	size_t osize;
 	unsigned char *out;
 
 	if (edata == NULL || edata->data == NULL)
