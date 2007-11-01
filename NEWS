@@ -8,6 +8,7 @@ version 2.10.8
 	* Fixed bug #492262: Rotate removes thumbnail
 	* Fixed bug #492260: Crash on rotate on x86_64
 	* Fixed bug #492169: Crash when moving directory to trash
+	* Fixed bug #492370: monitor name conflict with libc on solaris10
 
 version 2.10.7
 --------------

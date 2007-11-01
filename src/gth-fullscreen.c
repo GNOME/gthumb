@@ -113,7 +113,7 @@ gth_fullscreen_finalize (GObject *object)
 	if (fullscreen->priv != NULL) {
 		GthFullscreenPrivateData *priv = fullscreen->priv;
 
-		g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), fullscreen);
+		g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor), fullscreen);
 
 		if (priv->slideshow_timeout != 0) {
 			g_source_remove (priv->slideshow_timeout);
@@ -1599,19 +1599,19 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 
 	/**/
 
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_cat_files",
 			  G_CALLBACK (monitor_update_cat_files_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_metadata",
 			  G_CALLBACK (monitor_update_metadata_cb),
 			  fullscreen);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  fullscreen);

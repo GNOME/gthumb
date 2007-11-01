@@ -4435,7 +4435,7 @@ gth_browser_remove_monitor (GthBrowser *browser)
 	if (priv->monitor_uri == NULL)
 		return;
 
-	gth_monitor_remove_uri (monitor, priv->monitor_uri);
+	gth_monitor_remove_uri (gth_monitor, priv->monitor_uri);
 	g_free (priv->monitor_uri);
 	priv->monitor_uri = NULL;
 }
@@ -4458,7 +4458,7 @@ gth_browser_add_monitor (GthBrowser *browser)
 		priv->monitor_uri = add_scheme_if_absent (priv->dir_list->path);
 	else
 		priv->monitor_uri = g_strdup (priv->dir_list->path);
-	gth_monitor_add_uri (monitor, priv->monitor_uri);
+	gth_monitor_add_uri (gth_monitor, priv->monitor_uri);
 }
 
 
@@ -7242,47 +7242,47 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/**/
 
-	g_signal_connect_swapped (G_OBJECT (monitor),
+	g_signal_connect_swapped (G_OBJECT (gth_monitor),
 				  "update_bookmarks",
 				  G_CALLBACK (window_update_bookmark_list),
 				  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_cat_files",
 			  G_CALLBACK (monitor_update_cat_files_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_directory",
 			  G_CALLBACK (monitor_update_directory_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_catalog",
 			  G_CALLBACK (monitor_update_catalog_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_metadata",
 			  G_CALLBACK (monitor_update_metadata_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "directory_renamed",
 			  G_CALLBACK (monitor_directory_renamed_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "catalog_renamed",
 			  G_CALLBACK (monitor_catalog_renamed_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "reload_catalogs",
 			  G_CALLBACK (monitor_reload_catalogs_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_icon_theme",
 			  G_CALLBACK (monitor_update_icon_theme_cb),
 			  browser);
@@ -7406,7 +7406,7 @@ close__step6 (FileData *file,
 	if (priv->fullscreen != NULL)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen), browser);
 
-	g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), browser);
+	g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor), browser);
 
 	/* Destroy the main window. */
 

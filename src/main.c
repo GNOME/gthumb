@@ -63,7 +63,7 @@ static char*icon_mime_name[ICON_NAMES] = { "gnome-fs-directory",
 					   "gnome-fs-home",
 					   "gnome-fs-desktop" };
 
-GthMonitor    *monitor = NULL;
+GthMonitor    *gth_monitor = NULL;
 GList         *file_urls = NULL, *dir_urls = NULL;
 int            n_file_urls, n_dir_urls;
 int            StartInFullscreen = FALSE;
@@ -422,7 +422,7 @@ initialize_data (void)
 
 	eel_gconf_monitor_add ("/apps/gthumb");
 
-	monitor = gth_monitor_new ();
+	gth_monitor = gth_monitor_new ();
 
 	/* Icon theme */
 
@@ -524,9 +524,9 @@ release_data (void)
                 	
 	free_icon_pixbufs ();
 
-	if (monitor != NULL) {
-		g_object_unref (monitor);
-		monitor = NULL;
+	if (gth_monitor != NULL) {
+		g_object_unref (gth_monitor);
+		gth_monitor = NULL;
 	}
 
 	gthumb_release ();
@@ -748,14 +748,14 @@ main (int   argc,
 void
 all_windows_update_catalog_list (void)
 {
-	gth_monitor_notify_reload_catalogs (monitor);
+	gth_monitor_notify_reload_catalogs (gth_monitor);
 }
 
 
 void
 all_windows_notify_update_bookmarks (void)
 {
-	gth_monitor_notify_update_bookmarks (monitor);
+	gth_monitor_notify_update_bookmarks (gth_monitor);
 }
 
 
@@ -763,7 +763,7 @@ void
 all_windows_notify_cat_files_created (const char *catalog_path,
 				      GList      *list)
 {
-	gth_monitor_notify_update_cat_files (monitor,
+	gth_monitor_notify_update_cat_files (gth_monitor,
 					     catalog_path,
 					     GTH_MONITOR_EVENT_CREATED,
 					     list);
@@ -774,7 +774,7 @@ void
 all_windows_notify_cat_files_deleted (const char *catalog_path,
 				      GList      *list)
 {
-	gth_monitor_notify_update_cat_files (monitor,
+	gth_monitor_notify_update_cat_files (gth_monitor,
 					     catalog_path,
 					     GTH_MONITOR_EVENT_DELETED,
 					     list);
@@ -784,21 +784,21 @@ all_windows_notify_cat_files_deleted (const char *catalog_path,
 void
 all_windows_notify_files_created (GList *list)
 {
-	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_CREATED, list);
+	gth_monitor_notify_update_files (gth_monitor, GTH_MONITOR_EVENT_CREATED, list);
 }
 
 
 void
 all_windows_notify_files_deleted (GList *list)
 {
-	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_DELETED, list);
+	gth_monitor_notify_update_files (gth_monitor, GTH_MONITOR_EVENT_DELETED, list);
 }
 
 
 void
 all_windows_notify_files_changed (GList *list)
 {
-	gth_monitor_notify_update_files (monitor, GTH_MONITOR_EVENT_CHANGED, list);
+	gth_monitor_notify_update_files (gth_monitor, GTH_MONITOR_EVENT_CHANGED, list);
 }
 
 
@@ -806,7 +806,7 @@ void
 all_windows_notify_file_rename (const gchar *old_name,
 				const gchar *new_name)
 {
-	gth_monitor_notify_file_renamed (monitor, old_name, new_name);
+	gth_monitor_notify_file_renamed (gth_monitor, old_name, new_name);
 }
 
 
@@ -820,7 +820,7 @@ all_windows_notify_files_rename (GList *old_names,
 		const char *old_name = o_scan->data;
 		const char *new_name = n_scan->data;
 
-		gth_monitor_notify_file_renamed (monitor, old_name, new_name);
+		gth_monitor_notify_file_renamed (gth_monitor, old_name, new_name);
 		all_windows_notify_file_rename (old_name, new_name);
 
 		o_scan = o_scan->next;
@@ -833,21 +833,21 @@ void
 all_windows_notify_directory_rename (const gchar *old_name,
 				     const gchar *new_name)
 {
-	gth_monitor_notify_directory_renamed (monitor, old_name, new_name);
+	gth_monitor_notify_directory_renamed (gth_monitor, old_name, new_name);
 }
 
 
 void
 all_windows_notify_directory_delete (const char *path)
 {
-	gth_monitor_notify_update_directory (monitor, path, GTH_MONITOR_EVENT_DELETED);
+	gth_monitor_notify_update_directory (gth_monitor, path, GTH_MONITOR_EVENT_DELETED);
 }
 
 
 void
 all_windows_notify_directory_new (const char *path)
 {
-	gth_monitor_notify_update_directory (monitor, path, GTH_MONITOR_EVENT_CREATED);
+	gth_monitor_notify_update_directory (gth_monitor, path, GTH_MONITOR_EVENT_CREATED);
 }
 
 
@@ -855,49 +855,49 @@ void
 all_windows_notify_catalog_rename (const char *old_name,
 				   const char *new_name)
 {
-	gth_monitor_notify_catalog_renamed (monitor, old_name, new_name);
+	gth_monitor_notify_catalog_renamed (gth_monitor, old_name, new_name);
 }
 
 
 void
 all_windows_notify_catalog_new (const gchar *path)
 {
-	gth_monitor_notify_update_catalog (monitor, path, GTH_MONITOR_EVENT_CREATED);
+	gth_monitor_notify_update_catalog (gth_monitor, path, GTH_MONITOR_EVENT_CREATED);
 }
 
 
 void
 all_windows_notify_catalog_delete (const gchar *path)
 {
-	gth_monitor_notify_update_catalog (monitor, path, GTH_MONITOR_EVENT_DELETED);
+	gth_monitor_notify_update_catalog (gth_monitor, path, GTH_MONITOR_EVENT_DELETED);
 }
 
 
 void
 all_windows_notify_catalog_reordered (const gchar *path)
 {
-	gth_monitor_notify_update_catalog (monitor, path, GTH_MONITOR_EVENT_CHANGED);
+	gth_monitor_notify_update_catalog (gth_monitor, path, GTH_MONITOR_EVENT_CHANGED);
 }
 
 
 void
 all_windows_notify_update_metadata (const gchar *filename)
 {
-	gth_monitor_notify_update_metadata (monitor, filename);
+	gth_monitor_notify_update_metadata (gth_monitor, filename);
 }
 
 
 void
 all_windows_notify_update_icon_theme (void)
 {
-	gth_monitor_notify_update_icon_theme (monitor);
+	gth_monitor_notify_update_icon_theme (gth_monitor);
 }
 
 
 gboolean
 all_windows_remove_monitor (void)
 {
-	gth_monitor_pause (monitor);
+	gth_monitor_pause (gth_monitor);
 	return FALSE;
 }
 
@@ -905,7 +905,7 @@ all_windows_remove_monitor (void)
 gboolean
 all_windows_add_monitor (void)
 {
-	gth_monitor_resume (monitor);
+	gth_monitor_resume (gth_monitor);
 	return FALSE;
 }
 
