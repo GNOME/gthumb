@@ -1781,19 +1781,19 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_metadata",
 			  G_CALLBACK (monitor_update_metadata_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  viewer);
-	g_signal_connect (G_OBJECT (monitor),
+	g_signal_connect (G_OBJECT (gth_monitor),
 			  "update_icon_theme",
 			  G_CALLBACK (monitor_update_icon_theme_cb),
 			  viewer);
@@ -1926,7 +1926,7 @@ gth_viewer_close (GthWindow *window)
 
 	priv->closing = TRUE;
 
-	g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), viewer);
+	g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor), viewer);
 
 	if (priv->fullscreen != NULL)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),

@@ -1,6 +1,38 @@
 2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
+	* src/gth-browser.c: (gth_browser_remove_monitor),
+	(gth_browser_add_monitor), (gth_browser_construct), (close__step6):
+	* src/gth-fullscreen.c: (gth_fullscreen_finalize),
+	(gth_fullscreen_construct):
+	* src/gth-viewer.c: (gth_viewer_construct), (gth_viewer_close):
+	* src/main.c: (initialize_data), (release_data),
+	(all_windows_update_catalog_list),
+	(all_windows_notify_update_bookmarks),
+	(all_windows_notify_cat_files_created),
+	(all_windows_notify_cat_files_deleted),
+	(all_windows_notify_files_created),
+	(all_windows_notify_files_deleted),
+	(all_windows_notify_files_changed),
+	(all_windows_notify_file_rename),
+	(all_windows_notify_files_rename),
+	(all_windows_notify_directory_rename),
+	(all_windows_notify_directory_delete),
+	(all_windows_notify_directory_new),
+	(all_windows_notify_catalog_rename),
+	(all_windows_notify_catalog_new),
+	(all_windows_notify_catalog_delete),
+	(all_windows_notify_catalog_reordered),
+	(all_windows_notify_update_metadata),
+	(all_windows_notify_update_icon_theme),
+	(all_windows_remove_monitor), (all_windows_add_monitor):
+	* src/main.h:
+	Fixed bug #492370: monitor name conflict with libc on solaris10.
+	Patch by Mark Wright.
+
+2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
 	* src/gth-browser.c: (gth_browser_notify_file_rename),
 	(gth_browser_notify_directory_rename):
 	Fixed bug #492169: Crash when moving directory to trash.

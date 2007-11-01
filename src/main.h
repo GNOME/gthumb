@@ -37,7 +37,7 @@ extern GtkUniqueApp     *gth_application;
 #endif /* HAVE_GTKUNIQUE */
 
 extern GthWindow        *current_window;
-extern GthMonitor       *monitor;
+extern GthMonitor       *gth_monitor;
 extern Preferences       preferences;
 
 extern gboolean          StartInFullscreen;
