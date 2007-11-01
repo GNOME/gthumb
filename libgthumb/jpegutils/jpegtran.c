@@ -483,14 +483,14 @@ jpegtran_thumbnail (const void   *idata,
 	if (! jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_NONE, JPEG_MCU_ACTION_DONT_TRIM, NULL)) {
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
-		return FALSE;
+		return 1;
 	}
 
 	/* Release memory */
 	jpeg_destroy_compress (&dstinfo);
 	jpeg_destroy_decompress (&srcinfo);
 
-	return TRUE;
+	return 0;
 }
 
 
