@@ -1,6 +1,14 @@
 2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
+	* src/gth-browser.c: (gth_browser_notify_file_rename),
+	(gth_browser_notify_directory_rename):
+	Fixed bug #492169: Crash when moving directory to trash.
+	Patch by Ignacy Gawędzki.
+
+2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):
 	Fixed bug #492260: Crash on rotate on x86_64.
 	Patch by Ignacy Gawędzki.
