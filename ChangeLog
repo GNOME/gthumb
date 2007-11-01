@@ -1,3 +1,10 @@
+2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* AUTHORS:
+	* NEWS:
+	* libgthumb/jpegutils/jpegtran.c: (jpegtran_thumbnail): Fixed 
+	bug #492262: Rotate removes thumbnail. Patch by Ignacy Gawędzki.
+
 2007-10-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-crop.c: (ratio_optionmenu_changed_cb), (update_ratio),

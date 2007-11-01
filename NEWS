@@ -49,6 +49,7 @@ version 2.10.8
 	* Fixed bug #487982: can freeze gthumb during printing
 	* Fixed a printing crash, g_free -> gtk_paper_size_free
 	* Fixed bug #492111: Doesn't rotate pictures while importing
+	* Fixed bug #492262: Rotate removes thumbnail
 
 version 2.10.7
 --------------
