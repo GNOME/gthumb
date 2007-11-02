@@ -1,3 +1,23 @@
+2007-11-01  David S. Miller  <davem@davemloft.net>
+
+	Applied by: Paolo Bacchilega
+
+	* libgthumb/gth-exif-utils.c (de_get16, de_get32): New functions.
+	(gth_minimal_exif_tag_action): Use them to avoid unaligned accesses
+	and access 32-bit values correctly on 64-bit platforms.
+
+	From the email:
+	
+	Several RISC cpus cannot access data which is not aligned
+	properly for it's type.
+
+	The EXIF handling dereferences potentially unaligned values.  It also
+	improperly casts the 32-bit ones, using "unsigned long" which is
+	typically 64-bit on 64-bit platforms.
+
+	This patch corrects both errors, curing the SIGBUS issues on
+	my sparc systems.
+
 2007-11-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

@@ -424,6 +424,26 @@ const char types[] = {0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x00, 0x08, 0x00, 0x04
 #define IFD_NAME_PUSH(val) names[ni++] = val;
 #define IFD_NAME_PULL()    names[--ni]
 
+static unsigned short de_get16(void *ptr, guint endian)
+{
+	unsigned short val;
+
+	memcpy(&val, ptr, sizeof(val));
+	val = DE_ENDIAN16(val);
+
+	return val;
+}
+
+static unsigned int de_get32(void *ptr, guint endian)
+{
+	unsigned int val;
+
+	memcpy(&val, ptr, sizeof(val));
+	val = DE_ENDIAN32(val);
+
+	return val;
+}
+
 int static
 gth_minimal_exif_tag_action (const char *local_file,
 			     ExifTag     etag,
@@ -514,7 +534,7 @@ gth_minimal_exif_tag_action (const char *local_file,
         tag     = ENDIAN16_IT(etag);
  
         // Read out the offset
-        offset  = DE_ENDIAN32(*((unsigned long*)(&buf[i] + 4)));
+        offset  = de_get32(&buf[i] + 4, endian);
  	i       = i + offset;
  
         // Start out with IFD0 (and add more IFDs while we go)
@@ -527,17 +547,17 @@ gth_minimal_exif_tag_action (const char *local_file,
  		cifdi    = oi; // remember which ifd we are at
  
  		debug (DEBUG_INFO, "%s:\n", IFD_NAME_PULL());
- 		tags    = DE_ENDIAN16(*((unsigned short*)(&buf[i])));
+ 		tags    = de_get16(&buf[i], endian);
  		i       = i + 2;
  
  		// Check this IFD for tags of interest
  		while (tags-- && i < readsize - 12) {
- 			type   = DE_ENDIAN16(*((unsigned short*)(&buf[i + 2])));
- 			count  = DE_ENDIAN32(*((unsigned long*) (&buf[i + 4])));
- 			offset = DE_ENDIAN32(*((unsigned long*) (&buf[i + 8])));
+ 			type   = de_get16(&buf[i + 2], endian);
+ 			count  = de_get32(&buf[i + 4], endian);
+ 			offset = de_get32(&buf[i + 8], endian);
  
  			debug (DEBUG_INFO, "TAG: %04x type:%02d count:%02d offset:%04lx ", 
- 				     DE_ENDIAN16(*((unsigned short*)(&buf[i]))), type, count, offset);
+			       de_get16(&buf[i], endian), type, count, offset);
  
  			// Our tag?
  			if (bcmp (&buf[i], (char *)&tag, 2) == 0) { 
@@ -622,12 +642,12 @@ gth_minimal_exif_tag_action (const char *local_file,
 							break;
 						case 2:
 							*(guint16 *) (data + stitch * 2) = 
-								DE_ENDIAN16(*((unsigned short*)(&buf[tiff + offset + stitch * 2])));
+								de_get16(&buf[tiff + offset + stitch * 2], endian);
 							
 							break;
 						case 4:
 							*(guint32 *) (data + stitch * 4) =
-								DE_ENDIAN32(*((unsigned long*) (&buf[tiff + offset + stitch * 4])));
+								de_get32(&buf[tiff + offset + stitch * 4], endian);
 							
 							break;
 						default:
@@ -656,7 +676,7 @@ gth_minimal_exif_tag_action (const char *local_file,
  		}
 
  		// Check for a valid next pointer and assume that to be IFD1 if we just checked IFD0
- 		if (cifdi == 1 && i < readsize - tiff && (i = DE_ENDIAN32((*((unsigned long*) (&buf[i]))))) != 0) { 
+ 		if (cifdi == 1 && i < readsize - tiff && (i = de_get32(&buf[i], endian)) != 0) { 
  			i = i + tiff;
  			IFD_OFFSET_PUSH(i);
  			IFD_NAME_PUSH("IFD1");
