@@ -256,6 +256,7 @@ combo_changed_cb (GtkComboBox *widget,
 	GthLocation *loc = user_data;
 	GtkTreeIter  iter;
 	char        *path = NULL;
+	char        *uri = NULL;
 	int          item_type = ITEM_TYPE_NONE;
 
 	if (!gtk_combo_box_get_active_iter (GTK_COMBO_BOX (loc->priv->combo), &iter))
@@ -265,6 +266,7 @@ combo_changed_cb (GtkComboBox *widget,
 			    &iter,
 			    PATH_COLUMN, &path,
 			    TYPE_COLUMN, &item_type,
+			    PATH_COLUMN, &uri,
 			    -1);
 
 	if (item_type == ITEM_TYPE_OPEN_LOCATION) {
@@ -278,8 +280,12 @@ combo_changed_cb (GtkComboBox *widget,
 	if (path == NULL)
 		return;
 
+	g_free (loc->priv->uri);
+	loc->priv->uri = add_scheme_if_absent (uri);
+
 	g_signal_emit (G_OBJECT (loc), gth_location_signals[CHANGED], 0, path);
 	g_free (path);
+	g_free (uri);
 }
 
 

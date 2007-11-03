@@ -11,6 +11,8 @@ version 2.10.8
 	* Fixed bug #492370: monitor name conflict with libc on solaris10
 	* Fixed exif tag read/write functions, so they can access 32-bit
 	  values correctly on 64-bit platforms
+	* Fixed bug #476989: gthumb doesn't move images if destination 
+	  directory is selected from folder drop down list
 
 version 2.10.7
 --------------

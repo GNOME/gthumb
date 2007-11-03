@@ -1,3 +1,10 @@
+2007-11-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/gth-location.c: (combo_changed_cb):
+	Fixed bug #476989: gthumb doesn't move images if destination 
+	directory is selected from folder drop down list
+
 2007-11-01  David S. Miller  <davem@davemloft.net>
 
 	Applied by: Paolo Bacchilega
