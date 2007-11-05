@@ -1,3 +1,10 @@
+2007-11-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-image-selector.c: (gth_image_selector_set_ratio):
+	Tweaked the invert-aspect-ratio function of the crop tool, so
+	that it falls back to a smaller region if the width and height can
+	not be directly swapped.
+
 2007-11-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

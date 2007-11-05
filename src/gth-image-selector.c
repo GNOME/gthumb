@@ -2239,13 +2239,25 @@ gth_image_selector_set_ratio (GthImageSelector *selector,
 	priv->ratio = ratio;
 
 	if (priv->use_ratio) {
-		if (swap_x_and_y_to_start == FALSE)
-			new_starting_width = priv->selection.width;
+		/* When changing the cropping aspect ratio, it looks more natural
+		   to swap the height and width, rather than (for example) keeping
+		   the width constant and shrinking the height. */
+		if (swap_x_and_y_to_start == TRUE)
+			new_starting_width = priv->selection.height;
 		else
-	       		new_starting_width = priv->selection.height;
+	       		new_starting_width = priv->selection.width;
 		
 		gth_image_selector_set_selection_width (selector, new_starting_width);
 		gth_image_selector_set_selection_height (selector, priv->selection.height);
+
+		/* However, if swapping the height and width fails because it exceeds
+		   the image size, then revert to keeping the width constant and shrinking
+		   the height. That is guaranteed to fit inside the old selection. */
+		if ( (swap_x_and_y_to_start == TRUE) &&
+		     (priv->selection.width != new_starting_width) ) {
+	                gth_image_selector_set_selection_width (selector, priv->selection.width);
+			gth_image_selector_set_selection_height (selector, priv->selection.height);
+		}
 	}
 }
 
