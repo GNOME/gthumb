@@ -1043,8 +1043,18 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	if (files != NULL)
 		add_file_list (data, files);
 
-	if (result == GNOME_VFS_ERROR_EOF) {
+	if (result != GNOME_VFS_OK) {
 		gboolean good_dir_to_search_into = TRUE;
+
+		if (result != GNOME_VFS_ERROR_EOF) {
+			char *path;
+
+			path = gnome_vfs_uri_to_string (data->uri,
+							GNOME_VFS_URI_HIDE_NONE);
+			g_warning ("Cannot load directory \"%s\": %s\n", path,
+				   gnome_vfs_result_to_string (result));
+			g_free (path);
+		}
 
 		if (! data->search_data->recursive) {
 			search_finished (data);
@@ -1071,17 +1081,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			g_free (dir);
 		} while (! good_dir_to_search_into);
 	} 
-	else if (result != GNOME_VFS_OK) {
-		char *path;
-
-		path = gnome_vfs_uri_to_string (data->uri,
-						GNOME_VFS_URI_HIDE_NONE);
-		g_warning ("Cannot load directory \"%s\": %s\n", path,
-			   gnome_vfs_result_to_string (result));
-		g_free (path);
-
-		search_finished (data);
-	}
 }
 
 
