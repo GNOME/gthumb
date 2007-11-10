@@ -1,5 +1,10 @@
 2007-11-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_crop.glade:
+	Change accelerator key to avoid duplication.
+
+2007-11-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* src/dlg-search.c: (directory_load_cb): Search would abort on first
 	non-readable directory (e.g., bad permissions). Fixed it so that it 

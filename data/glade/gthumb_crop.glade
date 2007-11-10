@@ -1172,7 +1172,7 @@ the crop, and &quot;Done&quot; to finish.&lt;/small&gt;</property>
 				      <child>
 					<widget class="GtkLabel" id="label24">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Cro_p</property>
+					  <property name="label" translatable="yes">Cr_op</property>
 					  <property name="use_underline">True</property>
 					  <property name="use_markup">False</property>
 					  <property name="justify">GTK_JUSTIFY_LEFT</property>
