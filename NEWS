@@ -57,6 +57,7 @@ version 2.10.8
 	  values correctly on 64-bit platforms
 	* Fixed bug #476989: gthumb doesn't move images if destination 
 	  directory is selected from folder drop down list
+	* Fixed bug #495529 (at least partly): Search not working
 
 version 2.10.7
 --------------

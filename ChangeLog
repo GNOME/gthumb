@@ -1,3 +1,10 @@
+2007-11-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-search.c: (directory_load_cb): Search would abort on first
+	non-readable directory (e.g., bad permissions). Fixed it so that it 
+	just skips it and continues to the next directory. Bug #495529.
+
 2007-11-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-image-selector.c: (gth_image_selector_set_ratio):
