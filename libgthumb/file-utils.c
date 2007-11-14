@@ -3348,7 +3348,6 @@ gth_pixbuf_new_from_file (FileData               *file,
 	char          *local_file = NULL;
 	ExifShort      orientation;
 	GthTransform   transform = GTH_TRANSFORM_NONE;
-	const gchar   *exif_orientation_string;
 
 	if (file == NULL)
 		return NULL;

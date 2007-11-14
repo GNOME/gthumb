@@ -1,6 +1,11 @@
 2007-11-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
+	Delete unused variable.
+
+2007-11-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
 	* libgthumb/image-loader.c: (image_loader_finalize__step2),
 	(image_loader_sync_pixbuf):
 	Backport orientation-tag-handling from trunk, because images
