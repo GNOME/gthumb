@@ -1,3 +1,11 @@
+2007-11-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
+	Three methods were optionally used to read the exif orientation
+	tags. The oldest and newest methods have been kept. The 
+	middle-aged one has been purged, because it is only useful for
+	gtk+ versions 2.11.0 to 2.11.4.
+
 2007-11-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_crop.glade:

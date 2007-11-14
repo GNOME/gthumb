@@ -3416,15 +3416,6 @@ gth_pixbuf_new_from_file (FileData               *file,
         /* New in gtk 2.11.5 - see bug 439567 */
         rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
         debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
-
-#elif GDK_PIXBUF_CHECK_VERSION(2,11,0)
-	/* gtk 2.11.0 and higher can read orientation tags in jpegs and tiffs */
-	if (exif_orientation_string = gdk_pixbuf_get_option (pixbuf, "orientation")) {
-		/* The gdk_pixbuf loader has detected an exif orientation tag. */
-		sscanf (exif_orientation_string, "%d", &transform);
-		debug (DEBUG_INFO, "gdk_pixbuf says orientation string is %s, transform needed is %d.\n\r", exif_orientation_string, transform);
-	}
-	rotated = _gdk_pixbuf_transform (pixbuf, transform);
 #else
 	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
