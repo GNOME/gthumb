@@ -56,6 +56,7 @@
 #include "file-data.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
+#include "gth-exif-utils.h"
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -3326,6 +3327,15 @@ gth_pixbuf_new_from_video (FileData               *file,
 }
 
 
+#ifndef GDK_PIXBUF_CHECK_VERSION
+#define GDK_PIXBUF_CHECK_VERSION(major,minor,micro) \
+    (GDK_PIXBUF_MAJOR > (major) || \
+     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR > (minor)) || \
+     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR == (minor) && \
+      GDK_PIXBUF_MICRO >= (micro)))
+#endif
+
+
 GdkPixbuf*
 gth_pixbuf_new_from_file (FileData               *file,
 			  GError                **error,
@@ -3333,8 +3343,12 @@ gth_pixbuf_new_from_file (FileData               *file,
 			  int                     requested_height,
 			  GnomeThumbnailFactory  *factory)
 {
-	GdkPixbuf *pixbuf = NULL;
-	char      *local_file = NULL;
+	GdkPixbuf     *pixbuf = NULL;
+	GdkPixbuf     *rotated = NULL;
+	char          *local_file = NULL;
+	ExifShort      orientation;
+	GthTransform   transform = GTH_TRANSFORM_NONE;
+	const gchar   *exif_orientation_string;
 
 	if (file == NULL)
 		return NULL;
@@ -3358,7 +3372,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width);
 #endif
 
-	/* Use dcraw for raw images, pfstools for HDR images, and tifftopnm for tiff thumbnails */
+	/* Use dcraw for raw images, pfstools for HDR images */
 	if ((pixbuf == NULL) &&
 	     (mime_type_is_raw (file->mime_type) ||
 	      mime_type_is_hdr (file->mime_type) )) 
@@ -3390,9 +3404,32 @@ gth_pixbuf_new_from_file (FileData               *file,
 		/* otherwise, no scaling required */
 		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
+	/* Did any of the loaders work? */
+	if (pixbuf == NULL)
+		return NULL;
+
+	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
+
+	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width);
+
+#if GDK_PIXBUF_CHECK_VERSION(2,11,5)
+        /* New in gtk 2.11.5 - see bug 439567 */
+        rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+        debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
+#else
+	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
+	if (mime_type_is (file->mime_type, "image/jpeg")) {
+		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
+		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+	}
+	rotated = _gdk_pixbuf_transform (pixbuf, transform);
+#endif	
+
+	g_object_unref (pixbuf);
 	g_free (local_file);
-	
-	return pixbuf;
+
+	return rotated;
 }
 
 

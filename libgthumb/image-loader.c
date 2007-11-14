@@ -121,10 +121,15 @@ image_loader_finalize__step2 (GObject *object)
 		file_data_unref (priv->file);
 		priv->file = NULL;
 	}	
-	if (priv->pixbuf != NULL)
+	if (priv->pixbuf != NULL) {
 		g_object_unref (G_OBJECT (priv->pixbuf));
-	if (priv->animation != NULL)
+		priv->pixbuf = NULL;
+	}
+
+	if (priv->animation != NULL) {
 		g_object_unref (G_OBJECT (priv->animation));
+		priv->animation = NULL;
+	}
 	g_mutex_unlock (priv->data_mutex);
 
 	g_mutex_lock (priv->exit_thread_mutex);
@@ -429,17 +434,11 @@ static void
 image_loader_sync_pixbuf (ImageLoader *il)
 {
 	GdkPixbuf              *pixbuf;
-	GdkPixbuf              *temp;
 	ImageLoaderPrivateData *priv;
-	ExifShort		orientation;
-	GthTransform		transform;
 
 	g_return_if_fail (il != NULL);
 
 	priv = il->priv;
-
-	orientation = get_exif_tag_short (image_loader_get_path (il), EXIF_TAG_ORIENTATION);
-	transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 
 	g_mutex_lock (priv->data_mutex);
 
@@ -451,8 +450,7 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		return;
 	}
 
-	temp = gdk_pixbuf_animation_get_static_image (priv->animation);
-	pixbuf = _gdk_pixbuf_transform (temp, transform);
+	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
 
 	if (priv->pixbuf == pixbuf) {
 		g_object_unref (pixbuf);
@@ -464,12 +462,11 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		g_object_unref (priv->pixbuf);
 		priv->pixbuf = NULL;
 	}
+
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
 		priv->pixbuf = pixbuf;
-		/*priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
 	}
-	g_object_unref (pixbuf);
 
 	g_mutex_unlock (priv->data_mutex);
 }
