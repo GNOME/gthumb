@@ -1,21 +1,25 @@
+# Translation of oc.po to Occitan
+# translation of oc.po to Occitan
 # Occitan translation of gthumb.
 # Copyright (C) 2002-2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Yannig MARCHEGAY (yannig@marchegay.org) - 2006-2007
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.10\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-13 17:49+0200\n"
-"PO-Revision-Date: 2007-08-19 21:34+0200\n"
-"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"PO-Revision-Date: 2007-11-20 14:57+0100\n"
+"Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
@@ -207,11 +211,11 @@ msgstr ""
 
 #: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
-msgstr "_Seguent"
+msgstr "Seguent"
 
 #: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
-msgstr "_Precedent"
+msgstr "Precedent"
 
 #: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
@@ -671,7 +675,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr ""
+msgstr "_Blau :"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:70
 msgid "_Keep aspect ratio"
@@ -683,7 +687,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
-msgstr ""
+msgstr "_Nautor :"
 
 #: ../data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
@@ -791,7 +795,7 @@ msgstr ""
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Co_mment"
-msgstr "_Comentari"
+msgstr "Co_mentari :"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
@@ -1303,7 +1307,7 @@ msgstr "Preferéncias gThumb"
 
 #: ../data/glade/gthumb_preferences.glade.h:88
 msgid "seconds"
-msgstr "segondas"
+msgstr "milisegondas"
 
 #: ../data/glade/gthumb_print.glade.h:4
 msgid "1"
@@ -1425,7 +1429,7 @@ msgstr "Letra"
 
 #: ../data/glade/gthumb_print.glade.h:38
 msgid "Millimeters"
-msgstr ""
+msgstr "Milimц╗tres"
 
 #: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
@@ -1599,7 +1603,7 @@ msgstr "_Recercar"
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
-msgstr "_Mostrar"
+msgstr "_Visualizacion"
 
 #: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Change the following values:</b>"
@@ -1803,9 +1807,8 @@ msgstr "oras"
 
 #. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
 #: ../data/glade/gthumb_tools.glade.h:87
-#, fuzzy
 msgid "title|Scale Images"
-msgstr "Imatges _seleccionats"
+msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 1024"
@@ -2122,8 +2125,7 @@ msgid "Possible values are: small, medium, large."
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:25
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:26
@@ -2335,8 +2337,7 @@ msgstr ""
 
 #: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:258
 #: ../src/dlg-reset-exif.c:128
-msgid ""
-"Could not move temporary file to remote location. Check remote permissions."
+msgid "Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
@@ -2346,8 +2347,7 @@ msgstr "Conversion de l'imatge : %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
 
 #: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
@@ -2410,8 +2410,7 @@ msgstr "Impossible crear lo repertòri \"%s\" : \"%s\"."
 
 #: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1676
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr ""
 
 #: ../src/dlg-file-utils.c:203
@@ -2449,8 +2448,7 @@ msgstr ""
 
 #: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 
 #: ../src/dlg-file-utils.c:1041
@@ -2641,7 +2639,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-callbacks.c:275
 msgid "Stop"
-msgstr "Arrèst"
+msgstr "Arrestar"
 
 #: ../src/gth-browser-actions-callbacks.c:276
 msgid "Continue"
@@ -2718,8 +2716,7 @@ msgstr "Impossible de suprimir lo repertòri \"%s\" : %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1130
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 
 #: ../src/gth-browser-actions-callbacks.c:1174
@@ -2778,7 +2775,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:44
 #: ../src/gth-viewer-actions-entries.h:39
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
@@ -2948,7 +2945,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:143
 #: ../src/gth-browser-actions-entries.h:213
 msgid "Open in New Window"
-msgstr "Dobrir dins una novèla fenèstra"
+msgstr "Dobrir dins una fenèstra novèla"
 
 #: ../src/gth-browser-actions-entries.h:144
 msgid "Open the selected catalog in a new window"
@@ -3201,9 +3198,8 @@ msgid "Convert F_ormat..."
 msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:379
-#, fuzzy
 msgid "Convert image format"
-msgstr "Conversion de l'imatge : %s"
+msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:383
 msgid "Search for _Duplicates..."
@@ -3544,7 +3540,7 @@ msgstr "es aprèp"
 
 #: ../src/gth-filter-bar.c:200
 msgid "KB"
-msgstr "Ko"
+msgstr "ko"
 
 #: ../src/gth-filter-bar.c:201
 msgid "MB"
@@ -3552,7 +3548,7 @@ msgstr "Mo"
 
 #: ../src/gth-filter-bar.c:207
 msgid "Filename"
-msgstr "Nom del fichièr"
+msgstr "Nom de fichièr"
 
 #: ../src/gth-filter-bar.c:209
 msgid "Place"
@@ -3572,9 +3568,8 @@ msgstr "Totes"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
-#, fuzzy
 msgid "Sh_ow:"
-msgstr "_Linhas :"
+msgstr ""
 
 #: ../src/gth-folder-selection-dialog.c:281
 msgid "<b>_Folder</b>"
@@ -3586,9 +3581,8 @@ msgstr "_Examinar..."
 
 #. Go to destination
 #: ../src/gth-folder-selection-dialog.c:304
-#, fuzzy
 msgid "_Go to the destination folder"
-msgstr "Anar al repertòri personal"
+msgstr ""
 
 #: ../src/gth-folder-selection-dialog.c:317
 msgid "<b>_Recent folders:</b>"
@@ -4054,12 +4048,6 @@ msgid "_Trim"
 msgstr ""
 
 #: ../src/rotation-utils.c:215
-msgid ""
-"Could not move temporary file to local destination. Check folder permissions."
+msgid "Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "_High Quality"
-#~ msgstr "_Nauta qualitat"
