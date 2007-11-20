@@ -5,8 +5,8 @@
 
 2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
-	* NEWS: updated for version 2.18.0
-	* configure.in: bumped version to 2.18.0
+	* NEWS: updated for version 2.10.8
+	* configure.in: bumped version to 2.10.8
 	
 	* src/gth-browser.c (window_update_history_list): use a different name 
 	for popup actions to avoid a run-time warning.
