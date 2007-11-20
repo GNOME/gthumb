@@ -323,6 +323,7 @@ static void
 destroy_progress_cb (GtkWidget *widget,
 		     DialogData *data)
 {
+	gth_file_list_stop (data->file_list);
 	cancel_progress_dlg_cb (widget, data);
 	gtk_widget_destroy (data->dialog);
 }
@@ -451,7 +452,6 @@ static void
 cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
-	gth_file_list_stop (data->file_list);
 	if (data->handle == NULL)
 		return;
 	gnome_vfs_async_cancel (data->handle);

@@ -1,5 +1,10 @@
 2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/dlg-search.c (cancel_progress_dlg_cb): keep loading the 
+	thumbnails even after the user presses the cancel button.
+
+2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
 	* NEWS: updated for version 2.18.0
 	* configure.in: bumped version to 2.18.0
 	
