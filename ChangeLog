@@ -1,12 +1,20 @@
 2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/file-utils.c (gth_pixbuf_new_from_file): moved transform
+	in the block where it's used.
+	
+	* libgthumb/image-loader.c (image_loader_sync_pixbuf): ref the pixbuf
+	before using it.
+
+2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/dlg-search.c (cancel_progress_dlg_cb): keep loading the 
 	thumbnails even after the user presses the cancel button.
 
 2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
-	* NEWS: updated for version 2.10.8
-	* configure.in: bumped version to 2.10.8
+	* NEWS: updated for version 2.18.0
+	* configure.in: bumped version to 2.18.0
 	
 	* src/gth-browser.c (window_update_history_list): use a different name 
 	for popup actions to avoid a run-time warning.
