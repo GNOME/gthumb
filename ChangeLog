@@ -1,3 +1,20 @@
+2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* NEWS: updated for version 2.18.0
+	* configure.in: bumped version to 2.18.0
+	
+	* src/gth-browser.c (window_update_history_list): use a different name 
+	for popup actions to avoid a run-time warning.
+	
+	* src/dlg-search.c: avoid a loop due to symlinks when searching 
+	recursively.  Fixes second part of bug #495529.
+	
+	* libgthumb/file-utils.c: declare the transform variable only if 
+	needed.
+	
+	* libgthumb/thumb-loader.c (thumb_loader_error_cb): removed useless 
+	warning.
+
 2007-11-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
