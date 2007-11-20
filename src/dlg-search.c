@@ -141,6 +141,7 @@ typedef struct {
 
 	GHashTable     *folders_comment;
 	GHashTable     *hidden_files;
+	GHashTable     *visited_dirs;
 } DialogData;
 
 
@@ -216,6 +217,8 @@ destroy_cb (GtkWidget  *widget,
 		g_hash_table_destroy (data->folders_comment);
 	if (data->hidden_files != NULL)
 		g_hash_table_destroy (data->hidden_files);
+	if (data->visited_dirs != NULL)
+		g_hash_table_destroy (data->visited_dirs);
 	g_free (data);
 }
 
@@ -320,6 +323,7 @@ static void
 destroy_progress_cb (GtkWidget *widget,
 		     DialogData *data)
 {
+	gth_file_list_stop (data->file_list);
 	cancel_progress_dlg_cb (widget, data);
 	gtk_widget_destroy (data->dialog);
 }
@@ -448,7 +452,6 @@ static void
 cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
-	gth_file_list_stop (data->file_list);
 	if (data->handle == NULL)
 		return;
 	gnome_vfs_async_cancel (data->handle);
@@ -550,6 +553,7 @@ dlg_search_ui (GthBrowser *browser,
 	data->catalog_path = catalog_path;
 	data->folders_comment = g_hash_table_new (g_str_hash, g_str_equal);
 	data->hidden_files = NULL;
+	data->visited_dirs = NULL;
 
 	/* Get the widgets. */
 
@@ -1003,7 +1007,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSURI *full_uri = NULL;
 		char        *str_uri;
-		char	    *unesc_uri;
+		char        *real_uri;
+		char	    *unesc_uri;  
 
 		info = node->data;
 
@@ -1029,7 +1034,15 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
 				break;
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
-			data->dirs = g_list_prepend (data->dirs, gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE));
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
+			if (resolve_all_symlinks (str_uri, &real_uri) == GNOME_VFS_OK) {
+				if (g_hash_table_lookup (data->visited_dirs, real_uri) == NULL) { 
+					data->dirs = g_list_prepend (data->dirs, g_strdup (real_uri));
+					g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
+				}
+				g_free (real_uri);
+			}
+			g_free (str_uri);
 			break;
 
 		default:
@@ -1051,8 +1064,8 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 			path = gnome_vfs_uri_to_string (data->uri,
 							GNOME_VFS_URI_HIDE_NONE);
-			g_warning ("Cannot load directory \"%s\": %s\n", path,
-				   gnome_vfs_result_to_string (result));
+			/*g_warning ("Cannot load directory \"%s\": %s\n", path,
+				   gnome_vfs_result_to_string (result));*/
 			g_free (path);
 		}
 
@@ -1088,18 +1101,37 @@ static void
 search_dir_async (DialogData *data,
 		  char       *dir)
 {
+	char *uri, *real_uri;
+	
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
 
 	/**/
 
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
-	data->uri = new_uri_from_path (dir);
+
+	if (data->visited_dirs != NULL)
+		g_hash_table_destroy (data->visited_dirs);
+	data->visited_dirs = g_hash_table_new_full (g_str_hash,
+					      	    g_str_equal,
+					            (GDestroyNotify) g_free,
+					            NULL);
+		
+	uri = add_scheme_if_absent (dir);
+	if (! resolve_all_symlinks (uri, &real_uri) == GNOME_VFS_OK) {
+		g_free (uri);
+		return;
+	}
+	g_free (uri);
+		 
+	g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
+	data->uri = new_uri_from_path (real_uri);
+	g_free (real_uri);
 
 	if (data->hidden_files != NULL)
 		g_hash_table_destroy (data->hidden_files);
 	data->hidden_files = read_dot_hidden_file (dir);
-
+				      
 	gnome_vfs_async_load_directory_uri (
 		& (data->handle),
 		data->uri,

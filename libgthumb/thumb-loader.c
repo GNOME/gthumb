@@ -603,7 +603,6 @@ thumb_loader_error_cb (ImageLoader *il,
 	/* Try from the original if cache load attempt failed. */
 	
 	priv->from_cache = FALSE;
-	g_warning ("Thumbnail image in cache failed to load, trying to recreate.");
 
 	image_loader_set_file (priv->il, priv->file);
 	image_loader_start (priv->il);

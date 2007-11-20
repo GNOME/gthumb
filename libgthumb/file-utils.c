@@ -3346,8 +3346,9 @@ gth_pixbuf_new_from_file (FileData               *file,
 	GdkPixbuf     *pixbuf = NULL;
 	GdkPixbuf     *rotated = NULL;
 	char          *local_file = NULL;
-	ExifShort      orientation;
+#if ! GDK_PIXBUF_CHECK_VERSION(2,11,5)	
 	GthTransform   transform = GTH_TRANSFORM_NONE;
+#endif
 
 	if (file == NULL)
 		return NULL;
@@ -3418,7 +3419,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 #else
 	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
-		orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+		ExifShort orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
 	}

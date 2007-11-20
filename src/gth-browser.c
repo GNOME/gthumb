@@ -1534,7 +1534,7 @@ window_update_history_list (GthBrowser *browser)
 						priv->history_actions,
 						priv->history_merge_id,
 						priv->history,
-						"History",
+						"HistoryPopup",
 						i,
 						HISTORY_LIST_POPUP,
 						scan->data);
