@@ -735,7 +735,9 @@ main (int   argc,
 	initialize_data ();
 	prepare_app ();
 
+	gdk_threads_enter ();
 	gtk_main ();
+	gdk_threads_leave ();
 
 	release_data ();
 	return 0;

@@ -1,5 +1,18 @@
+2007-11-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/main.c: (main): Lock thread around gtk_main. Bug #498995.
+	Patch by Matt Keenan
+
 2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* libgthumb/file-utils.c (gth_pixbuf_new_from_file): moved transform
+	in the block where it's used.
+	
+	* libgthumb/image-loader.c (image_loader_sync_pixbuf): ref the pixbuf
+	before using it.
+
+2007-11-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	* src/dlg-search.c (cancel_progress_dlg_cb): keep loading the 
 	thumbnails even after the user presses the cancel button.
 

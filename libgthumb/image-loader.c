@@ -451,7 +451,8 @@ image_loader_sync_pixbuf (ImageLoader *il)
 	}
 
 	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
-
+	g_object_ref (pixbuf);
+	
 	if (priv->pixbuf == pixbuf) {
 		g_object_unref (pixbuf);
 		g_mutex_unlock (priv->data_mutex);
@@ -468,6 +469,7 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		priv->pixbuf = pixbuf;
 	}
 
+	g_object_unref (pixbuf);
 	g_mutex_unlock (priv->data_mutex);
 }
 

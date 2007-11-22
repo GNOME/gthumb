@@ -3346,9 +3346,6 @@ gth_pixbuf_new_from_file (FileData               *file,
 	GdkPixbuf     *pixbuf = NULL;
 	GdkPixbuf     *rotated = NULL;
 	char          *local_file = NULL;
-#if ! GDK_PIXBUF_CHECK_VERSION(2,11,5)	
-	GthTransform   transform = GTH_TRANSFORM_NONE;
-#endif
 
 	if (file == NULL)
 		return NULL;
@@ -3414,17 +3411,29 @@ gth_pixbuf_new_from_file (FileData               *file,
 
 #if GDK_PIXBUF_CHECK_VERSION(2,11,5)
         /* New in gtk 2.11.5 - see bug 439567 */
-        rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+        rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);      	
         debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
 #else
 	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
-		ExifShort orientation = get_exif_tag_short (local_file, EXIF_TAG_ORIENTATION);
+		char         *uri;
+		ExifShort     orientation;
+		GthTransform  transform = GTH_TRANSFORM_NONE;
+		
+		uri = get_uri_from_local_path (local_file);
+		orientation = get_exif_tag_short (uri, EXIF_TAG_ORIENTATION);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
+		g_free (uri);
+		
 		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+		rotated = _gdk_pixbuf_transform (pixbuf, transform);
 	}
-	rotated = _gdk_pixbuf_transform (pixbuf, transform);
 #endif	
+
+	if (rotated == NULL) {
+		rotated = pixbuf;
+		g_object_ref (rotated);
+	}
 
 	g_object_unref (pixbuf);
 	g_free (local_file);
