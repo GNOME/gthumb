@@ -14,6 +14,7 @@ version 2.10.8
 	* Fixed bug #476989: gthumb doesn't move images if destination 
 	  directory is selected from folder drop down list
 	* Fixed bug #495529: Search not working
+	* Fixed bug #498995: gthumb gets it's locking wrong and crashes
 
 version 2.10.7
 --------------
