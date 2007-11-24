@@ -915,10 +915,10 @@
       result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes).
       (Clicking <guibutton>Cancel</guibutton> will abandon all changes and close the window.)
       Once you are satisfied with the result, you can click on more redeye regions, or
-      click <guibutton>Save</guibutton> or <guibutton>Apply</guibutton> to close the window.
+      click <guibutton>Save</guibutton> or <guibutton>Done</guibutton> to close the window.
       </para>
       <para>
-      If you click <guibutton>Apply</guibutton>, the image must be re-saved in the usual manner after using
+      If you click <guibutton>Done</guibutton>, the image must be re-saved in the usual manner after using
       <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>.
       See <xref linkend="gthumb-save-images"/> for more information.
       </para>

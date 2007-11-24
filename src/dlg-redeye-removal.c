@@ -530,15 +530,19 @@ dlg_redeye_removal (GthWindow *window)
 
 	data->undo_button = glade_xml_get_widget (data->gui, "redeye_undo_button");
 	data->redo_button = glade_xml_get_widget (data->gui, "redeye_redo_button");
+
+	gtk_widget_set_sensitive (data->redo_button, FALSE);
+	gtk_widget_set_sensitive (data->undo_button, FALSE);
+
 	zoom_in_button = glade_xml_get_widget (data->gui, "redeye_zoom_in_button");
 	zoom_out_button = glade_xml_get_widget (data->gui, "redeye_zoom_out_button");
 	zoom_100_button = glade_xml_get_widget (data->gui, "redeye_zoom_100_button");
 	zoom_fit_button = glade_xml_get_widget (data->gui, "redeye_zoom_fit_button");
 
-	ok_button = glade_xml_get_widget (data->gui, "redeye_okbutton");
-	save_button = glade_xml_get_widget (data->gui, "redeye_savebutton");
-	cancel_button = glade_xml_get_widget (data->gui, "redeye_cancelbutton");
-	help_button = glade_xml_get_widget (data->gui, "redeye_helpbutton");
+	ok_button = glade_xml_get_widget (data->gui, "redeye_done_button");
+	save_button = glade_xml_get_widget (data->gui, "redeye_save_button");
+	cancel_button = glade_xml_get_widget (data->gui, "redeye_cancel_button");
+	help_button = glade_xml_get_widget (data->gui, "redeye_help_button");
 
 	data->image_selector = gth_image_selector_new (GTH_SELECTOR_TYPE_POINT, NULL);
 

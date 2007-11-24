@@ -1,3 +1,12 @@
+2007-11-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_redeye.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-redeye-removal.c: (dlg_redeye_removal):
+	Update the redeye removal tool, incorporating the style changes 
+	made to the crop tool.
+
 2007-11-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/main.c: (main): Lock thread around gtk_main. Bug #498995.
