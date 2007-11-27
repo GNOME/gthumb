@@ -91,6 +91,8 @@ int
 gth_sort_by_exiftime_then_name (FileData *fd1,
 		                FileData *fd2)
 {
+	time_t time1, time2;
+
 	/* To reduce file accesses, the exif time is only recorded in the
 	   FileData structures when absolutely required, rather than when
 	   generating file lists. This reduces wait times when browsing
@@ -102,8 +104,20 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 	file_data_load_exif_data (fd1);
 	file_data_load_exif_data (fd2);
 
-	if (fd1->exif_time < fd2->exif_time) return -1;
-	if (fd1->exif_time > fd2->exif_time) return 1;
+	time1 = fd1->exif_time;
+	time2 = fd2->exif_time;
+
+	/* If no exif times are present, use the file mtimes. This is 
+	   important for sorting video files in a sane way. */
+
+	if (time1 == (time_t) 0)
+		time1 = fd1->mtime;
+
+        if (time2 == (time_t) 0)
+		time2 = fd2->mtime;
+
+	if (time1 < time2) return -1;
+	if (time1 > time2) return 1;
 
 	return gth_sort_by_filename_but_ignore_path (fd1->path, fd2->path);
 }

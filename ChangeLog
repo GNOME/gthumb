@@ -1,3 +1,10 @@
+2007-11-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_exiftime_then_name):
+	When sorting by exif time, fall back to sorting by mtime if no
+	exif time is present. 
+
 2007-11-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/main.c: (main): Lock thread around gtk_main. Bug #498995.
