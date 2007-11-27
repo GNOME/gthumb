@@ -229,6 +229,10 @@ get_mplayer_time (const char *filename)
         FILE   *in_file;
         char    buf[256];
 
+	/* This is a quick hack using midentify. It would be nicer if we
+	   could use a more gnomish approach to extract video metadata.
+	   Can we use gstreamer? */
+
         if (filename == NULL)
                 return (time_t) 0;
 
