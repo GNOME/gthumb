@@ -25,13 +25,6 @@ trunk, since last 2.10.x
 
 	Bugfixes:
 
-	* When loading a pixbuf, check for "orientation" option associated 
-	  with the pixbuf if possible, instead of using libexif. Related to 
-	  Bug 428725. Move orientation-checking code from 
-	  image_loader_sync_pixbuf to gth_pixbuf_new_from_uri.
-	* Use gdk_pixbuf_apply_embedded_orientation to auto-rotate tiffs and
-	  jpegs with embedded orientation tags, instead of using internal
-	  gthumb functions.
 	* Do not use tifftopnm / pamscale to load tiff thumbnails after all, 
 	  even though this greatly reduces memory usage, because the tiff 
 	  orientation tag is not accounted for. Partial reversion of patch 
@@ -47,6 +40,11 @@ trunk, since last 2.10.x
 version 2.10.8
 --------------
 
+	* Use gdk_pixbuf_apply_embedded_orientation to auto-rotate tiffs and
+	  jpegs with embedded orientation tags, instead of using internal
+	  gthumb functions. Move orientation-checking code from 
+	  image_loader_sync_pixbuf to gth_pixbuf_new_from_uri. Related to
+          bug #428725.
 	* Fixed bug #486886: Crash opening an image with no Exif IFD1
 	* Fixed bug #487982: can freeze gthumb during printing
 	* Fixed a printing crash, g_free -> gtk_paper_size_free
