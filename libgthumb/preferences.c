@@ -248,6 +248,14 @@ static EnumStringTable crop_ratio_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable import_subfolder_table [] = {
+	{ GTH_IMPORT_SUBFOLDER_GROUP_DAY,   "day" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_MONTH, "month" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_NOW,   "current date" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_NONE,  "none" },
+	{ 0, NULL }
+};
+
 /* --------------- */
 
 
@@ -504,7 +512,7 @@ GET_SET_FUNC(image_unit,             PREF_PRINT_IMAGE_UNIT,           GthPrintUn
 GET_SET_FUNC(image_sizing,           PREF_PRINT_IMAGE_SIZING,         GthImageSizing)
 GET_SET_FUNC(image_resolution,       PREF_PRINT_IMAGE_RESOLUTION,     GthImageResolution)
 GET_SET_FUNC(crop_ratio,             PREF_CROP_ASPECT_RATIO,          GthCropRatio)
-
+GET_SET_FUNC(import_subfolder,       PREF_PHOTO_IMPORT_SUBFOLDER,     GthSubFolder)
 
 GthViewMode
 pref_get_view_mode (void)

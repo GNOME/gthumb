@@ -28,6 +28,7 @@
 #include <string.h>
 #include <strings.h>
 #include <time.h>
+#include <stdio.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -89,7 +90,7 @@ struct _DialogData {
 	GtkWidget           *camera_model_label;
 	GtkWidget           *select_model_button;
 	GtkWidget           *destination_filechooserbutton;
-	GtkWidget           *film_entry;
+	GtkWidget           *subfolder_combobox;
 	GtkWidget           *keep_names_checkbutton;
 	GtkWidget           *delete_checkbutton;
 	GtkWidget           *choose_categories_button;
@@ -1135,8 +1136,9 @@ static char*
 get_folder_name (DialogData *data)
 {
 	char *destination;
-	char *film_name;
+	char *subfolder_name = NULL;
 	char *path;
+	GthSubFolder subfolder_value;
 
 	destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
 	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
@@ -1146,24 +1148,30 @@ get_folder_name (DialogData *data)
 		return NULL;
 	}
 
-	film_name = _gtk_entry_get_filename_text (GTK_ENTRY (data->film_entry));
-	if (! is_valid_filename (film_name)) {
+	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
+
+	/* If grouping by current date/time is enabled, we can append the current date and 
+	   time to the folder name directly. For modes based on the exif date, the 
+	   destination folder may be different for each image, so we deal with that later. */
+	if (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_NOW) {
 		time_t     now;
 		struct tm *tm;
 		char       time_txt[50 + 1];
 
-		g_free (film_name);
-
 		time (&now);
 		tm = localtime (&now);
 		strftime (time_txt, 50, "%Y-%m-%d--%H.%M.%S", tm);
+		subfolder_name = g_strdup (time_txt);
+	}
 
-		film_name = g_strdup (time_txt);
-	} else
-		eel_gconf_set_path (PREF_PHOTO_IMPORT_FILM, film_name);
+	pref_set_import_subfolder (subfolder_value);
 
-	path = g_build_filename (destination, film_name, NULL);
-	g_free (film_name);
+	if (subfolder_name != NULL) {
+		path = g_build_filename (destination, subfolder_name, NULL);
+		g_free (subfolder_name);
+	} else {
+		path = g_strdup (destination);
+	}
 	g_free (destination);
 
 	return path;
@@ -1274,13 +1282,18 @@ save_image (DialogData *data,
 	    const char *local_folder,
 	    int         n)
 {
-	CameraFile *file;
-	char       *camera_folder;
-	const char *camera_filename;
-	char       *local_path;
-	char       *file_uri;
-	char	   *unescaped_local_folder;
-
+	CameraFile   *file;
+	char         *camera_folder;
+	const char   *camera_filename;
+	char         *local_path;
+	char         *file_uri;
+	char	     *unescaped_local_folder;
+	time_t        exif_date;
+	int           result;
+	GthSubFolder  subfolder_value;
+	char	     *temp_dir = NULL;
+	gboolean      error_found = FALSE;
+	
 	gp_file_new (&file);
 
 	camera_folder = remove_level_from_path (camera_path);
@@ -1292,46 +1305,99 @@ save_image (DialogData *data,
 			    file,
 			    data->context);
 
+	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
 	unescaped_local_folder = gnome_vfs_unescape_string (local_folder, "");
-	file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
-	g_free (unescaped_local_folder);
 
-	local_path = get_cache_filename_from_uri (file_uri);
-	if ((local_path != NULL) && gp_file_save (file, local_path) >= 0) {
-		if (data->adjust_orientation) 
-			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (file_uri));
-		if (data->delete_from_camera)
-			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
-		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (file_uri));
-		add_categories_to_image (data, local_path);
+	/* When grouping by exif date, we need a temporary directory to upload the
+	   photo to. The exif date tags are then read, and the file is then moved
+	   to its final destination. */
+	if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
+	     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) ) {
+		temp_dir = get_temp_dir_name ();
+		local_path = get_temp_file_name (temp_dir, NULL);
+	} else {
+		/* Otherwise, the images go straight into the destination folder */
+		file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
+		local_path = get_cache_filename_from_uri (file_uri);		
+	}
+
+	if ( (local_path != NULL) && gp_file_save (file, local_path) >= 0) {
+
+		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
+		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) ) {
+			char *dest_folder;
+			
+			/* Name a subfolder based on the exif date */
+			exif_date = get_metadata_time (NULL, local_path);
+
+			/* Use the file mtime if no exif date if present */
+			if (exif_date == (time_t) 0)
+				exif_date = get_file_mtime (local_path);
+
+			if (exif_date != (time_t) 0) {
+				struct tm  *exif_tm = localtime(&exif_date);
+				char        dest_subfolder[14 + 1];
+				
+				if (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY)
+					strftime (dest_subfolder, 14, "%Y-%m-%d", exif_tm);
+				else
+					strftime (dest_subfolder, 14, "%Y-%m", exif_tm);
+
+				dest_folder = g_build_filename (unescaped_local_folder, dest_subfolder, NULL);
+			} else {
+				/* If no exif data was found, use the base folder */
+				dest_folder = g_strdup (unescaped_local_folder);
+			}
+
+			file_uri = get_file_name (data, camera_path, dest_folder, n);
+
+			/* Create the subfolder if necessary, and move the 
+			   temporary file to it */
+			if (ensure_dir_exists (dest_folder, 0755) ) {
+				if (!file_move (local_path, file_uri)) {
+					error_found = TRUE;
+				}
+			} else {
+				error_found = TRUE;
+			}
+
+			g_free (dest_folder);
+		}
+
+		/* Adjust the photo orientation based on the exif 
+		   orientation tag, if requested */
+		if (!error_found) {
+			if (data->adjust_orientation) 
+				data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (file_uri));
+			if (data->delete_from_camera)
+				data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
+			data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (file_uri));
+			add_categories_to_image (data, local_path);
+		}
 	} 
 	else {
+		error_found = TRUE;
+	}
+
+	if (error_found) { 
 		g_mutex_lock (data->data_mutex);
 		data->error = TRUE;
 		data->interrupted = TRUE;
 		g_mutex_unlock (data->data_mutex);
 	}
 
+	/* Clean up temp file and dir */
+	if (temp_dir != NULL) {
+		local_dir_remove_recursive (temp_dir);
+		g_free (temp_dir);
+	}
+		
+	g_free (unescaped_local_folder);
 	g_free (camera_folder);
 	g_free (file_uri);
 	g_free (local_path);
 	gp_file_unref (file);
 }
-
-
-static void
-add_film_keyword (const char *folder)
-{
-	CommentData *cdata;
-
-	cdata = comments_load_comment (folder, FALSE);
-	if (cdata == NULL)
-		cdata = comment_data_new ();
-	comment_data_add_keyword (cdata, _("Film"));
-	comments_save_categories (folder, cdata);
-	comment_data_free (cdata);
-}
-
 
 static void
 delete_images__init (AsyncOperationData *aodata,
@@ -1713,8 +1779,6 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 	}
 
-	add_film_keyword (data->local_folder);
-
 	data->aodata = async_operation_new (NULL,
 					    file_list,
 					    save_images__init,
@@ -1960,7 +2024,6 @@ dlg_photo_importer (GthBrowser *browser)
 	GtkWidget  *btn_help;
 	GdkPixbuf  *mute_pixbuf;
 	char       *default_path;
-	char       *default_film_name;
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -2004,7 +2067,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->camera_model_label = glade_xml_get_widget (data->gui, "camera_model_label");
 	data->select_model_button = glade_xml_get_widget (data->gui, "select_model_button");
 	data->destination_filechooserbutton = glade_xml_get_widget (data->gui, "destination_filechooserbutton");
-	data->film_entry = glade_xml_get_widget (data->gui, "film_entry");
+        data->subfolder_combobox = glade_xml_get_widget(data->gui, "group_into_subfolderscombobutton");
 	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
 	data->choose_categories_button = glade_xml_get_widget (data->gui, "choose_categories_button");
@@ -2065,11 +2128,18 @@ dlg_photo_importer (GthBrowser *browser)
 					         default_path);
 	g_free (default_path);
 
-	default_film_name = eel_gconf_get_path (PREF_PHOTO_IMPORT_FILM, "");
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->film_entry), default_film_name);
-	g_free (default_film_name);
-
 	task_terminated (data);
+
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
+                                   _("By day photo taken, yyyy-mm-dd"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
+                                   _("By month photo taken, yyyy-mm"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
+                                   _("By current date"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
+                                   _("No grouping"));
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_combobox), pref_get_import_subfolder());
 
 	/* Set the signals handlers. */
 

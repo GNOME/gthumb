@@ -20,7 +20,8 @@ trunk, since last 2.10.x
 	  files. Bug #459349.
 	* Added exposure time, f-number, ISO, focal length to fullscreen
 	  properties display. Bug #472491.
-
+	* Added exif-date-based and mtime-based subfolder grouping of images
+	  upon import. Removed the concept of a "film" name. Bug #431187.
 
 	Bugfixes:
 

@@ -1,3 +1,17 @@
+2007-11-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* AUTHORS:
+	* NEWS:
+	* data/glade/gthumb_camera.glade:
+	* libgthumb/preferences.c:
+	* libgthumb/preferences.h:
+	* libgthumb/typedefs.h:
+	* src/dlg-photo-importer.c: (get_folder_name), (save_image),
+	(ok_clicked_cb), (dlg_photo_importer):
+	Added exif-date-based and mtime-based subfolder grouping of images
+        upon import. Removed the concept of a "film" name. Bug #431187. 
+	Based on a modified version of Roalt Aalmoes's patch.
+
 2007-11-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

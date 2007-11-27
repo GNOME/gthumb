@@ -254,6 +254,14 @@ typedef enum { /*< skip >*/
 } GthDropPosition;
 
 
+typedef enum { /*< skip >*/
+        GTH_IMPORT_SUBFOLDER_GROUP_DAY         = 0,
+	GTH_IMPORT_SUBFOLDER_GROUP_MONTH,
+	GTH_IMPORT_SUBFOLDER_GROUP_NOW,
+	GTH_IMPORT_SUBFOLDER_GROUP_NONE
+} GthSubFolder;
+
+
 typedef void (*ErrorFunc)          (gpointer data);
 typedef void (*DoneFunc)           (gpointer data);
 typedef void (*ProgressFunc)       (gfloat percent,

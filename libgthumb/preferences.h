@@ -224,7 +224,7 @@
 #define  PREF_CHOOSE_DESTINATION_VIEW  "/apps/gthumb/dialogs/choose_destination/view"
 
 #define  PREF_PHOTO_IMPORT_DESTINATION    "/apps/gthumb/dialogs/photo_importer/destination"
-#define  PREF_PHOTO_IMPORT_FILM           "/apps/gthumb/dialogs/photo_importer/film"
+#define  PREF_PHOTO_IMPORT_SUBFOLDER      "/apps/gthumb/dialogs/photo_importer/subfolder"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
 #define  PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION	"/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import"
@@ -331,5 +331,7 @@ void               pref_set_image_resolution       (GthImageResolution value);
 GthImageResolution pref_get_image_resolution       (void);
 void               pref_set_crop_ratio             (GthCropRatio value);
 GthCropRatio       pref_get_crop_ratio             (void);
+GthSubFolder       pref_get_import_subfolder       (void);
+void               pref_set_import_subfolder       (GthSubFolder value);
 
 #endif /* PREFERENCES_H */
