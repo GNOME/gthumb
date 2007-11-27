@@ -75,7 +75,7 @@ file_data_new (const char       *path,
 		fd->ctime = (time_t) 0;
 		fd->mtime = (time_t) 0;
 	}
-	
+
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */

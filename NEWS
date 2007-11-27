@@ -59,6 +59,8 @@ version 2.10.8
 	  directory is selected from folder drop down list
 	* Fixed bug #495529: Search not working
 	* Fixed bug #498995: gthumb gets it's locking wrong and crashes
+	* When sorting by exif time, fall back to sorting by mtime if no
+          exif time is present. 
 
 version 2.10.7
 --------------
