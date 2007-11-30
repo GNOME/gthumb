@@ -1,3 +1,15 @@
+2007-11-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-jpegtran.c: (apply_transformation_to_all_continue),
+	(apply_transformation_to_all__apply_to_current), (cancel_cb),
+	(apply_transformation_to_all):
+	* src/dlg-reset-exif.c: (apply_transformation_to_all_continue),
+	(apply_transformation_to_all__apply_to_current), (cancel_cb),
+	(apply_transformation_to_all):
+	The "Cancel" button didn't actually do anything in the lossless
+	rotation dialog or the reset orientation dialog.
+
 2007-11-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

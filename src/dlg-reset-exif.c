@@ -187,6 +187,7 @@ typedef struct {
 	GtkWidget  *bar;
 	GList      *scan;
 	int         i, n;
+	gboolean    cancel;
 } BatchTransformation;
 
 
@@ -200,8 +201,9 @@ apply_transformation_to_all_continue (const char     *uri,
 {
 	BatchTransformation *bt_data = data;
 
-	if (bt_data->scan == NULL) {
-		gtk_widget_destroy (bt_data->dialog);
+	if ((bt_data->cancel == TRUE) || (bt_data->scan == NULL)) {
+		if (GTK_IS_WIDGET (bt_data->dialog))
+			gtk_widget_destroy (bt_data->dialog);
 		g_object_unref (bt_data->gui);
 
 		if (bt_data->data->dialog == NULL)
@@ -221,17 +223,31 @@ apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 	FileData *file = bt_data->scan->data;
 	char     *name;
 	
-	name = basename_for_display (file->path);
-	_gtk_label_set_filename_text (GTK_LABEL (bt_data->label), name);
-	g_free (name);
+	if (bt_data->cancel == FALSE) {
+		name = basename_for_display (file->path);
+		_gtk_label_set_filename_text (GTK_LABEL (bt_data->label), name);
+		g_free (name);
 
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
-				       (gdouble) (bt_data->i + 0.5) / bt_data->n);
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
+					       (gdouble) (bt_data->i + 0.5) / bt_data->n);
 	
-	apply_transformation (bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
+		apply_transformation (bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
 	
-	bt_data->i++;	
-	bt_data->scan = bt_data->scan->next;
+		bt_data->i++;	
+		bt_data->scan = bt_data->scan->next;
+	}
+}
+
+
+static void
+cancel_cb (GtkWidget           *dialog,
+	   int		        response_id,
+           BatchTransformation *bt_data)
+{
+	/* Close-dialog and cancel-button do the same thing, and
+	   there are no other buttons, so any response to this
+	   dialog causes a cancel action. */
+        bt_data->cancel = TRUE;
 }
 
 
@@ -239,6 +255,7 @@ static void
 apply_transformation_to_all (DialogData *data)
 {
 	BatchTransformation *bt_data;
+	GtkWidget           *progress_cancel;
 
 	bt_data = g_new0 (BatchTransformation, 1);
 	bt_data->data= data;
@@ -249,6 +266,9 @@ apply_transformation_to_all (DialogData *data)
 	bt_data->label = glade_xml_get_widget (bt_data->gui, "progress_info");
 	bt_data->bar = glade_xml_get_widget (bt_data->gui, "progress_progressbar");
 
+	progress_cancel = glade_xml_get_widget (bt_data->gui, "progress_cancel");
+	bt_data->cancel = FALSE;
+
 	if (data->dialog == NULL)
 		gtk_window_set_transient_for (GTK_WINDOW (bt_data->dialog),
 					      GTK_WINDOW (data->window));
@@ -257,6 +277,12 @@ apply_transformation_to_all (DialogData *data)
 		gtk_window_set_transient_for (GTK_WINDOW (bt_data->dialog),
 					      GTK_WINDOW (data->dialog));
 	}
+
+        g_signal_connect (G_OBJECT (bt_data->dialog),
+                          "response",
+                          G_CALLBACK (cancel_cb),
+                          bt_data);
+
 	gtk_window_set_modal (GTK_WINDOW (bt_data->dialog), TRUE);
 	gtk_widget_show (bt_data->dialog);
 
