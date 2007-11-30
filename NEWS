@@ -63,6 +63,7 @@ version 2.10.8
           exif time is present. 
 	* Fixed bug #438027: cancel isn't honoured in "reset exif orientation"
 	  progress dialog or rotation-tool dialog
+	* Fixed bug #499795: silently fails to save bmp picture
 
 version 2.10.7
 --------------

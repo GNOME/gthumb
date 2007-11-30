@@ -372,6 +372,7 @@ dlg_save_options (GtkWindow    *parent,
 	*keys   = NULL;
 	*values = NULL;
 
+	/* This shouldn't happen. */
 	if (image_type == NULL) {
 		g_warning ("Invalid image type\n");
 		return FALSE;
@@ -381,11 +382,14 @@ dlg_save_options (GtkWindow    *parent,
 		image_type += 2;
 
 	type = get_type_from_name (image_type);
-	if (type == NULL) {
-		g_warning ("Invalid image type\n");
-		return FALSE;
-	}
 
+	/* It doesn't have to be in our list to be writable.
+	   However, we don't know how to set options for this
+	   image type. */
+	if (type == NULL)
+		return TRUE;
+
+	/* This file type doesn't have any options. */
 	if (type->n_params == 0)
 		return TRUE;
 
