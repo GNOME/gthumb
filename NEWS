@@ -22,6 +22,8 @@ version 2.10.8
 	* Fixed bug #498995: gthumb gets it's locking wrong and crashes
 	* When sorting by exif time, fall back to sorting by mtime if no
           exif time is present. 
+	* Fixed bug #438027: cancel isn't honoured in "reset exif orientation"
+	  progress dialog or rotation-tool dialog
 
 version 2.10.7
 --------------
