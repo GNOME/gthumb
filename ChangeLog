@@ -1,6 +1,14 @@
 2007-11-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
+	* libgthumb/dlg-save-image.c: (dlg_save_options):
+	Fixed bug #499795: silently fails to save bmp picture.
+	Don't skip file types just because we don't know how to 
+	deal with its save options.
+
+2007-11-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
 	* src/dlg-jpegtran.c: (apply_transformation_to_all_continue),
 	(apply_transformation_to_all__apply_to_current), (cancel_cb),
 	(apply_transformation_to_all):
