@@ -1,3 +1,12 @@
+2007-12-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-crop.c: (dlg_crop):
+	* src/dlg-redeye-removal.c: (dlg_redeye_removal):
+	Fixed bug #496140: Crop Window opens too large for dual-screens.
+	Calculate default window width based on active screen only. 
+	Expanded version of patch by dynamotwain@aim.com.
+
 2007-11-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

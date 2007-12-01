@@ -64,6 +64,7 @@ version 2.10.8
 	* Fixed bug #438027: cancel isn't honoured in "reset exif orientation"
 	  progress dialog or rotation-tool dialog
 	* Fixed bug #499795: silently fails to save bmp picture
+	* Fixed bug #496140: Crop Window opens too large for dual-screens
 
 version 2.10.7
 --------------
