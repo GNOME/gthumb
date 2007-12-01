@@ -460,6 +460,7 @@ dlg_crop (GthWindow *window)
 	GthCropRatio  crop_ratio;
 	int           ratio_w, ratio_h;
 	GdkScreen    *screen;
+	GdkRectangle  screen_geom;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -530,8 +531,18 @@ dlg_crop (GthWindow *window)
 	g_free (label);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 2);
 
-	data->screen_width = gdk_screen_get_width (gdk_screen_get_default ());
-	data->screen_height = gdk_screen_get_height (gdk_screen_get_default ());
+
+	/* Get screen parent window is on. */
+	screen = gtk_widget_get_screen (GTK_WIDGET (window));
+
+	/* Get x,y,width,height of *monitor* parent window's GdkWindow is on. */
+	gdk_screen_get_monitor_geometry (screen,
+					 gdk_screen_get_monitor_at_window (screen, GTK_WIDGET(window)->window),
+					 &screen_geom);
+
+	data->screen_width = screen_geom.width;
+	data->screen_height = screen_geom.height;
+
 	label = g_strdup_printf (_("%d x %d (Screen)"), data->screen_width, data->screen_height);
 	item = gtk_menu_item_new_with_label (label);
 	gtk_widget_show (item);
@@ -662,10 +673,9 @@ dlg_crop (GthWindow *window)
 
 	gtk_widget_realize (data->dialog);
 
-	screen = gdk_screen_get_default();
 	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
-				     gdk_screen_get_width (screen) * 7 / 10,
-				     gdk_screen_get_height (screen) * 6 / 10);
+				     screen_geom.width * 7 / 10,
+				     screen_geom.height * 6 / 10);
 
 	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 	gtk_widget_grab_focus (data->image_selector);
