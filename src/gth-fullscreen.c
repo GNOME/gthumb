@@ -1568,24 +1568,68 @@ file_data_list_dup_filter_non_images (GList *list)
 	return g_list_reverse (new_list);
 }
 
+static void
+gth_fullscreen_toolbar_update_size (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+	GdkScreen                *screen;
+	GdkRectangle              screen_geom;
+	GtkWidget                *parent;
+
+	/* Get the parent window that we should be fullscreen over */
+	parent = GTK_WIDGET (fullscreen);
+
+	/* Get the monitor geometry for the monitor the in which parent window is located. */
+	screen = gtk_widget_get_screen(parent);
+	gdk_screen_get_monitor_geometry (screen,
+			gdk_screen_get_monitor_at_window (screen, parent->window),
+			&screen_geom);
+
+	/* Set the minimum size for the window. */
+	gtk_widget_set_size_request (priv->toolbar_window, screen_geom.width, -1);
+
+	/* Move window to top left corner of monitor */
+	gtk_window_move (GTK_WINDOW(priv->toolbar_window), screen_geom.x, screen_geom.y);
+
+}
+
+static void
+screen_size_changed_cb (GdkScreen     *screen,
+			GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+	/* The toolbar window has been created already.
+	 * Relocate it and resize it as well. */
+	gth_fullscreen_toolbar_update_size(fullscreen);
+
+	/* Force window to resize to minimum in case screen resolution is decreasing. */
+	gtk_window_resize(GTK_WINDOW (priv->toolbar_window), 1, 1);
+
+}
+
+static void
+gth_fullscreen_toolbar_size_request_cb (GtkWidget      *fullscreen_window,
+				GtkRequisition *requisition,
+				GthFullscreen  *fullscreen)
+{
+	gth_fullscreen_toolbar_update_size(fullscreen);
+}
 
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
 			  FileData      *file,
-			  GList         *file_list)
+			  GList         *file_list,
+			  GthWindow     *parent_window)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GdkScreen                *screen;
 	GthZoomChange             zoom_change;
+	GdkRectangle              screen_geom;
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (fullscreen));
 	zoom_change = pref_get_zoom_change ();
-
-	gtk_window_set_default_size (GTK_WINDOW (fullscreen),
-				     gdk_screen_get_width (screen),
-				     gdk_screen_get_height (screen));
-
+	
 	if (image != NULL) {
 		priv->image = image;
 		g_object_ref (image);
@@ -1629,6 +1673,17 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_WIDTH_IF_LARGER);
 	else
 		image_viewer_set_zoom (IMAGE_VIEWER (priv->viewer), 1.0);
+
+	/* Get the monitor geometry for the monitor the in which parent window is located. */
+	screen = gtk_widget_get_screen(GTK_WIDGET (parent_window));
+	gtk_window_set_screen(GTK_WINDOW (fullscreen), screen);
+
+	gdk_screen_get_monitor_geometry (screen,
+			gdk_screen_get_monitor_at_window (screen, GTK_WIDGET (parent_window)->window),
+			&screen_geom);
+
+	/* Move window to top left corner of monitor */
+	gtk_window_move (GTK_WINDOW(fullscreen), screen_geom.x, screen_geom.y);
 
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "key_press_event",
@@ -1697,12 +1752,13 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 GtkWidget *
 gth_fullscreen_new (GdkPixbuf *image,
 		    FileData  *file,
-		    GList     *file_list)
+		    GList     *file_list,
+		    GthWindow *parent_window)
 {
 	GthFullscreen *fullscreen;
 
 	fullscreen = (GthFullscreen*) g_object_new (GTH_TYPE_FULLSCREEN, NULL);
-	gth_fullscreen_construct (fullscreen, image, file, file_list);
+	gth_fullscreen_construct (fullscreen, image, file, file_list, parent_window);
 
 	return (GtkWidget*) fullscreen;
 }
@@ -1716,6 +1772,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 	GtkUIManager             *ui;
 	GError                   *error = NULL;
 	const gchar              *ui_info;
+	GdkScreen                *screen;
 
 	priv->actions = actions = gtk_action_group_new ("ToolbarActions");
 	gtk_action_group_set_translation_domain (actions, NULL);
@@ -1752,15 +1809,24 @@ create_toolbar_window (GthFullscreen *fullscreen)
 	/**/
 
 	priv->toolbar_window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_screen (GTK_WINDOW (priv->toolbar_window),
-			       gtk_widget_get_screen (priv->viewer));
-	gtk_window_set_default_size (GTK_WINDOW (priv->toolbar_window),
-				     gdk_screen_get_width (gtk_widget_get_screen (priv->toolbar_window)),
-				     -1);
+
+	screen = gtk_widget_get_screen(GTK_WIDGET (fullscreen));
+	gtk_window_set_screen (GTK_WINDOW (priv->toolbar_window), screen);
+	
 	gtk_container_set_border_width (GTK_CONTAINER (priv->toolbar_window), 0);
 
 	gtk_container_add (GTK_CONTAINER (priv->toolbar_window),
 			   gtk_ui_manager_get_widget (ui, "/ToolBar"));
+
+	/* Add signal to resize toolbar on screen resolution changes */
+	g_signal_connect (screen, "size-changed",
+			  G_CALLBACK (screen_size_changed_cb),
+			  fullscreen);
+
+	/* Add signal to force minimum size to be screen width on creation */
+	g_signal_connect (fullscreen, "size_request",
+			  G_CALLBACK (gth_fullscreen_toolbar_size_request_cb),
+			  fullscreen);
 }
 
 
@@ -1769,6 +1835,9 @@ gth_fullscreen_show (GtkWidget *widget)
 {
 	GthFullscreen            *fullscreen = GTH_FULLSCREEN (widget);
 	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+	/* Create the window in fullscreen mode */
+	gtk_window_fullscreen (GTK_WINDOW (widget));
 
 	GTK_WIDGET_CLASS (parent_class)->show (widget);
 
@@ -1784,7 +1853,6 @@ gth_fullscreen_show (GtkWidget *widget)
 	priv->fading_activated = eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE);
 
 	image_viewer_hide_cursor (IMAGE_VIEWER (priv->viewer));
-	gtk_window_fullscreen (GTK_WINDOW (widget));
 
 	if (fullscreen->priv->slideshow)
 		totem_scrsaver_disable (fullscreen->priv->screensaver);

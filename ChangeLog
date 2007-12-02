@@ -1,4 +1,21 @@
-2007-12-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+2007-12-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/gth-browser.c: (_set_fullscreen_or_slideshow):
+	* src/gth-fullscreen.c: (gth_fullscreen_toolbar_update_size),
+	(screen_size_changed_cb), (gth_fullscreen_toolbar_size_request_cb),
+	(gth_fullscreen_construct), (gth_fullscreen_new),
+	(create_toolbar_window), (gth_fullscreen_show):
+	* src/gth-fullscreen.h:
+	* src/gth-viewer.c: (gth_viewer_set_fullscreen):
+	Patch by Geoffrey Antos to fix slideshow on dual-screen
+	Xinerama systems. Bug #327245.
+
+2007-12-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* AUTHORS: Added Geoffrey Antos <dynamotwain@aim.com>.
+
+2007-12-01  Michael J. Chudobiak  <mj.@svn.gnome.org>
 
 	* NEWS:
 	* src/dlg-crop.c: (dlg_crop):

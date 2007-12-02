@@ -2216,7 +2216,7 @@ gth_viewer_set_fullscreen (GthWindow *window,
 		
 		if (! image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
 			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
-		priv->fullscreen = gth_fullscreen_new (image, priv->image, gth_viewer_get_file_list_selection_as_fd (window));	
+		priv->fullscreen = gth_fullscreen_new (image, priv->image, gth_viewer_get_file_list_selection_as_fd (window), window);	
 		g_signal_connect (priv->fullscreen,
 				  "destroy",
 				  G_CALLBACK (fullscreen_destroy_cb),

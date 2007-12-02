@@ -35,6 +35,7 @@ trunk, since last 2.10.x
 	  in the name.
 	* In fullscreen mode, detect motion based on movement rather than
 	  acceleration. Bug #472491.
+	* Fixed bug #327245: Full screen mode crippled if Xinerama is used
 
 
 version 2.10.8

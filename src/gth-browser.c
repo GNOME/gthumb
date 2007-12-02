@@ -8697,7 +8697,7 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	else 
 		image = NULL;
 	
-	priv->fullscreen = gth_fullscreen_new (image, priv->image, file_list);
+	priv->fullscreen = gth_fullscreen_new (image, priv->image, file_list, window);
 	file_data_list_free (file_list);
 	
 	g_signal_connect (priv->fullscreen,
