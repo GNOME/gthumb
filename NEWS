@@ -22,6 +22,8 @@ trunk, since last 2.10.x
 	  properties display. Bug #472491.
 	* Added exif-date-based and mtime-based subfolder grouping of images
 	  upon import. Removed the concept of a "film" name. Bug #431187.
+	* Added %b (basename) and %m (basename without extension) parameters
+	  for hotkeys. Bug #501420.
 
 	Bugfixes:
 

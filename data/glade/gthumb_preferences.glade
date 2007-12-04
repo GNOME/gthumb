@@ -2962,7 +2962,9 @@
 		  <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Special characters:&lt;/b&gt;
 %F = all selected filenames on one line, space delimited
 %f = a single filename, including path
+%b = a single filename, excluding path
 %n = a single filename, including path, with no extension
+%m = a single filename, excluding path, with no extension
 %e = a single extension (starting with a period)
 %p = the parent folder of the single file&lt;/i&gt;
 Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.

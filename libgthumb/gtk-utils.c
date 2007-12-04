@@ -904,10 +904,14 @@ exec_shell_script (GtkWindow  *window,
 			char *name_wo_ext = NULL;
 			char *extension = NULL;
 			char *parent = NULL;
+			char *basename = NULL;
+			char *basename_wo_ext = NULL;
 			char *command0 = NULL;
 			char *command1 = NULL;
 			char *command2 = NULL;
 			char *command3 = NULL;
+			char *command4 = NULL;
+			char *command5 = NULL;
 
 			if (is_local_file (scan->data))
 				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
@@ -917,15 +921,28 @@ exec_shell_script (GtkWindow  *window,
 			name_wo_ext = remove_extension_from_path (filename);
 			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
 			parent = remove_level_from_path (filename);
+			basename = g_strdup (file_name_from_path (filename));
+			basename_wo_ext = remove_extension_from_path (basename);
 
 			e_filename = shell_escape (filename);
-			command3 = _g_substitute_pattern (script, 'f', e_filename);
+			command5 = _g_substitute_pattern (script, 'f', e_filename);
 			g_free (e_filename);
 
+                        e_filename = shell_escape (basename);
+                        command4 = _g_substitute_pattern (command5, 'b', e_filename);
+                        g_free (e_filename);
+                        g_free (command5);
+
 			e_filename = shell_escape (name_wo_ext);
-			command2 = _g_substitute_pattern (command3, 'n', e_filename);
+			command3 = _g_substitute_pattern (command4, 'n', e_filename);
 			g_free (e_filename);
-			g_free (command3);
+			g_free (command4);
+
+                        e_filename = shell_escape (basename_wo_ext);
+                        command2 = _g_substitute_pattern (command3, 'm', e_filename);
+                        g_free (e_filename);
+                        g_free (command3);
+
 			e_filename = shell_escape (extension);
 			command1 = _g_substitute_pattern (command2, 'e', e_filename);
 			g_free (e_filename);
@@ -940,6 +957,8 @@ exec_shell_script (GtkWindow  *window,
 			g_free (name_wo_ext);
 			g_free (extension);
 			g_free (parent);
+			g_free (basename);
+			g_free (basename_wo_ext);
 
 			_gtk_label_set_filename_text (GTK_LABEL (label), command0);
 			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),

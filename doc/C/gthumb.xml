@@ -2764,8 +2764,16 @@
               <entry align="left"><para>a single filename, including path</para></entry>
             </row>
             <row valign="top">
+              <entry><para>%b</para></entry>
+              <entry align="left"><para>a single filename, excluding path</para></entry>
+            </row>
+            <row valign="top">
               <entry><para>%n</para></entry>
               <entry align="left"><para>a single filename, including path, with no extension</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%m</para></entry>
+              <entry align="left"><para>a single filename, excluding path, with no extension</para></entry>
             </row>
             <row valign="top">
               <entry><para>%e</para></entry>
