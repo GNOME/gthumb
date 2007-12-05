@@ -21,7 +21,7 @@
  */
 
 #include <config.h>
-
+#include <locale.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
@@ -31,6 +31,11 @@
 #include "file-utils.h"
 #include "gth-exif-utils.h"
 #include "glib-utils.h"
+
+#ifdef HAVE_EXEMPI
+#include <exempi/xmp.h>
+#include <exempi/xmpconsts.h>
+#endif
 
 
 ExifData *
@@ -753,3 +758,203 @@ write_orientation_field (const char   *local_file,
 		return;
 	gth_minimal_exif_tag_write (local_file, EXIF_TAG_ORIENTATION, &tf, 2);
 }
+
+
+#ifdef HAVE_EXEMPI
+void
+append_string_to_hash_table (GHashTable *metadata, const gchar *key, const gchar *value, gboolean append)
+{
+	gchar *new_value;
+
+	if (append) {
+		gchar *orig;
+		if (g_hash_table_lookup_extended (metadata, key, NULL, (gpointer)&orig )) {
+			new_value = g_strconcat (orig, " ", value, NULL);
+		} else {
+			new_value = g_strdup (value);
+		}
+	} else {
+		new_value = g_strdup (value);
+	}
+
+printf ("added %s %s\n\r",key,new_value);	
+	g_hash_table_insert (metadata, g_strdup(key), new_value);
+}
+
+
+void xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata, gboolean append);
+void xmp_iter_simple (GHashTable *metadata, const gchar *schema, const gchar *path, const gchar *value, gboolean append);
+
+
+/* We have an array, now recursively iterate over it's children.  Set 'append' to true so that all values of the array are added
+   under one entry. */
+void
+xmp_iter_array (XmpPtr xmp, GHashTable *metadata, const gchar *schema, const gchar *path)
+{
+		XmpIteratorPtr iter = xmp_iterator_new (xmp, schema, path, XMP_ITER_JUSTCHILDREN);
+		xmp_iter (xmp, iter, metadata, TRUE);
+		xmp_iterator_free (iter);
+}
+
+
+/* We have an array, now recursively iterate over it's children.  Set 'append' to false so that only one item is used. */
+void
+xmp_iter_alt_text (XmpPtr xmp, GHashTable *metadata, const gchar *schema, const gchar *path)
+{
+		XmpIteratorPtr iter = xmp_iterator_new (xmp, schema, path, XMP_ITER_JUSTCHILDREN);
+		xmp_iter (xmp, iter, metadata, FALSE);
+		xmp_iterator_free (iter);
+}
+
+
+/* We have a simple element, but need to iterate over the qualifiers */
+void
+xmp_iter_simple_qual (XmpPtr xmp, GHashTable *metadata,
+                              const gchar *schema, const gchar *path, const gchar *value, gboolean append)
+{
+	XmpIteratorPtr iter = xmp_iterator_new(xmp, schema, path, XMP_ITER_JUSTCHILDREN | XMP_ITER_JUSTLEAFNAME);
+
+	XmpStringPtr the_path = xmp_string_new ();
+	XmpStringPtr the_prop = xmp_string_new ();
+
+	gchar *locale = setlocale (LC_ALL, NULL);
+	gchar *sep = strchr (locale,'.');
+	if (sep) {
+		locale[sep - locale] = '\0';
+	}
+	sep = strchr (locale, '_');
+	if (sep) {
+		locale[sep - locale] = '-';
+	}
+
+	gboolean ignore_element = FALSE;
+
+	while (xmp_iterator_next (iter, NULL, the_path, the_prop, NULL)) {
+		const gchar *qual_path = xmp_string_cstr (the_path);
+		const gchar *qual_value = xmp_string_cstr (the_prop);
+
+		if (strcmp (qual_path, "xml:lang") == 0) {
+			/* is this a language we should ignore? */
+			if (strcmp (qual_value, "x-default") != 0 && strcmp (qual_value, "x-repair") != 0 && strcmp (qual_value, locale) != 0) {
+				ignore_element = TRUE;
+				break;
+			}
+		}
+	}
+
+	if (!ignore_element) {
+		xmp_iter_simple (metadata, schema, path, value, append);
+	}
+
+	xmp_string_free (the_prop);
+	xmp_string_free (the_path);
+
+	xmp_iterator_free (iter);
+}
+
+
+/* We have a simple element. Add any metadata we know about to the hash table  */
+void
+xmp_iter_simple (GHashTable *metadata,
+                         const gchar *schema, const gchar *path, const gchar *value, gboolean append)
+{
+	gchar *name = g_strdup (strchr (path, ':')+1);
+	const gchar *index = strrchr (name, '[');
+	if (index) {
+		name[index-name] = '\0';
+	}
+printf ("name %s\n\r",name);
+	/* Dublin Core */
+	if (strcmp(schema, NS_DC) == 0) {
+		if (strcmp (name, "title") == 0) {
+			append_string_to_hash_table (metadata, "Image:Title", value, append);
+		}
+		else if (strcmp (name, "rights") == 0) {
+			append_string_to_hash_table (metadata, "File:Copyright", value, append);
+		}
+		else if (strcmp (name, "creator") == 0) {
+			append_string_to_hash_table (metadata, "Image:Creator", value, append);
+		}
+		else if (strcmp (name, "description") == 0) {
+			append_string_to_hash_table (metadata, "Image:Description", value, append);
+		}
+		else if (strcmp (name, "date") == 0) {
+			append_string_to_hash_table (metadata, "Image:Date", value, append);
+		}
+		else if (strcmp (name, "keywords") == 0) {
+			append_string_to_hash_table (metadata, "Image:Keywords", value, append);
+		}
+	}
+	/* Creative Commons */
+	else if (strcmp (schema, NS_CC) == 0) {
+		if (strcmp (name, "license") == 0) {
+			append_string_to_hash_table (metadata, "File:License", value, append);
+		}
+	}
+
+	free(name);
+}
+
+
+/* Iterate over the XMP, dispatching to the appropriate element type (simple, simple w/qualifiers, or an array) handler */
+void
+xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata, gboolean append)
+{
+	XmpStringPtr the_schema = xmp_string_new ();
+	XmpStringPtr the_path = xmp_string_new ();
+	XmpStringPtr the_prop = xmp_string_new ();
+
+	uint32_t opt;
+	while (xmp_iterator_next (iter, the_schema, the_path, the_prop, &opt)) {
+		const gchar *schema = xmp_string_cstr (the_schema);
+		const gchar *path = xmp_string_cstr (the_path);
+		const gchar *value = xmp_string_cstr (the_prop);
+
+		if (XMP_IS_PROP_SIMPLE (opt)) {
+			if (strcmp (path,"") != 0) {
+				if (XMP_HAS_PROP_QUALIFIERS (opt)) {
+					xmp_iter_simple_qual (xmp, metadata, schema, path, value, append);
+				} else {
+					xmp_iter_simple (metadata, schema, path, value, append);
+				}
+			}	
+		}
+		else if (XMP_IS_PROP_ARRAY (opt)) {
+			if (XMP_IS_ARRAY_ALTTEXT (opt)) {
+				xmp_iter_alt_text (xmp, metadata, schema, path);
+				xmp_iterator_skip (iter, XMP_ITER_SKIPSUBTREE);
+			} else {
+				xmp_iter_array (xmp, metadata, schema, path);
+				xmp_iterator_skip (iter, XMP_ITER_SKIPSUBTREE);
+			}
+		}
+	}
+
+	xmp_string_free (the_prop);
+	xmp_string_free (the_path);
+	xmp_string_free (the_schema);
+}
+#endif
+
+
+void
+read_xmp (const gchar *buffer, size_t len, GHashTable *metadata)
+{
+#ifdef HAVE_EXEMPI
+	xmp_init ();
+
+	XmpPtr xmp = xmp_new_empty ();
+	xmp_parse (xmp, buffer, len);	
+	if (xmp != NULL) {
+		XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
+		xmp_iter (xmp, iter, metadata, FALSE);
+		xmp_iterator_free (iter);
+	
+		xmp_free (xmp);
+	}
+
+	xmp_terminate ();
+#endif
+}
+
+

@@ -754,6 +754,27 @@ update_exif_data (GthExifDataViewer *edv,
 	}
 
 	exif_data_unref (edata);
+
+	/* experimental stuff below */
+
+	/* Now read XMP metadata */
+        gchar      *contents;
+        gsize       length;
+        GError     *error = NULL;
+	GHashTable *xmp_metadata;
+	char       *local_file = NULL;
+
+	xmp_metadata = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+        local_file = get_cache_filename_from_uri (edv->priv->file->path);
+printf ("local_file: %s\n\r",local_file);
+
+        if ( g_file_get_contents (local_file, &contents, &length, &error ) )
+                read_xmp (contents, length, xmp_metadata);
+
+	g_free (contents);
+        g_free (local_file);
+	g_hash_table_destroy (xmp_metadata);
 }
 
 

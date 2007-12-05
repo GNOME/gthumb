@@ -1,5 +1,14 @@
 2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-exif-utils.c: (append_string_to_hash_table),
+	(xmp_iter_array), (xmp_iter_alt_text), (xmp_iter_simple_qual),
+	(xmp_iter_simple), (xmp_iter), (read_xmp):
+	* src/gth-exif-data-viewer.c: (update_exif_data):
+	Adding initial exempi XMP-reading functions. Doesn't work yet.
+
+2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in:
 	Added check for exempi.
 

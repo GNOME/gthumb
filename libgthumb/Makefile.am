@@ -15,6 +15,7 @@ INCLUDES =							\
 	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(LIBOPENRAW_CFLAGS)                                    \
+	$(EXEMPI_CFLAGS)					\
 	$(DISABLE_DEPRECATED)
 
 libgthumbdir = $(libdir)
@@ -139,6 +140,7 @@ libgthumb_la_LIBADD =		\
 	$(GTHUMB_LIBS)		\
 	$(IPTCDATA_LIBS)	\
 	$(LIBOPENRAW_LIBS)      \
+	$(EXEMPI_LIBS)		\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
