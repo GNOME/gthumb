@@ -1,3 +1,9 @@
+2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_help_about):
+	Update credits to match AUTHORS file.
+
 2007-12-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* AUTHORS: Added Geoffrey Antos <dynamotwain@aim.com>.
