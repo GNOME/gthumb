@@ -1,5 +1,10 @@
 2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* configure.in:
+	Added check for exempi.
+
+2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-window-actions-callbacks.c:
 	(gth_window_activate_action_help_about):
 	Update credits to match AUTHORS file.
