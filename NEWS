@@ -39,6 +39,9 @@ trunk, since last 2.10.x
 	  acceleration. Bug #472491.
 	* Fixed bug #327245: Full screen mode crippled if Xinerama is used
 
+	Other features:
+	* Added basic XMP metadata support (read only)
+
 
 version 2.10.8
 --------------

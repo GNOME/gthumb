@@ -55,6 +55,7 @@ typedef enum {
 	GTH_METADATA_CATEGORY_EXIF_IMAGE,
 	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
 	GTH_METADATA_CATEGORY_VERSIONS,
+	GTH_METADATA_CATEGORY_XMP,
 	GTH_METADATA_CATEGORY_OTHER,
 	GTH_METADATA_CATEGORIES
 } GthMetadataCategory;
@@ -63,13 +64,14 @@ typedef enum {
 static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 {
 	N_("Filesystem Data"),
-       	N_("General Information"),
-	N_("Picture-Taking Conditions"),
-	N_("Maker Notes"),
-	N_("GPS Coordinates"),
-	N_("Image Structure"),
-	N_("Embedded Thumbnail"),
-	N_("Versions & Interoperability"),
+       	N_("Exif General Information"),
+	N_("Exif Picture-Taking Conditions"),
+	N_("Exif Maker Notes"),
+	N_("Exif GPS Coordinates"),
+	N_("Exif Image Structure"),
+	N_("Exif Embedded Thumbnail"),
+	N_("Exif Versions & Interoperability"),
+	N_("XMP (Extensible Metadata Platform)"),
 	N_("Other")
 };
 
@@ -614,6 +616,15 @@ tag_category (ExifTag  tag,
 
 
 static void
+add_xmp_to_display (gpointer  key,
+		    gpointer  value,
+		    gpointer  edv)
+{
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_XMP, key, value, 0);
+}
+
+
+static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
@@ -635,7 +646,7 @@ update_exif_data (GthExifDataViewer *edv,
 	   stored in their own private IFD. */
 
 	unique_id_for_unsorted_tags = MAX_TAGS_TOTAL_INCLUDING_MAKERNOTES;
-
+	
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 		const char  *value;
@@ -758,22 +769,17 @@ update_exif_data (GthExifDataViewer *edv,
 	/* experimental stuff below */
 
 	/* Now read XMP metadata */
-        gchar      *contents;
-        gsize       length;
-        GError     *error = NULL;
 	GHashTable *xmp_metadata;
 	char       *local_file = NULL;
 
 	xmp_metadata = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
         local_file = get_cache_filename_from_uri (edv->priv->file->path);
-printf ("local_file: %s\n\r",local_file);
-
-        if ( g_file_get_contents (local_file, &contents, &length, &error ) )
-                read_xmp (contents, length, xmp_metadata);
-
-	g_free (contents);
+        read_xmp (local_file, xmp_metadata);
         g_free (local_file);
+
+	g_hash_table_foreach (xmp_metadata, add_xmp_to_display, edv);
+
 	g_hash_table_destroy (xmp_metadata);
 }
 

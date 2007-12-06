@@ -1,5 +1,16 @@
 2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* libgthumb/gth-exif-utils.c: (xmp_iter_array),
+	(xmp_iter_simple_qual), (xmp_iter_simple), (xmp_iter), (read_xmp):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c: (add_xmp_to_display),
+	(update_exif_data):
+	XMP metadata is now shown in the metadata viewer. It needs to be
+	sorted somehow, however.
+
+2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/Makefile.am:
 	* libgthumb/gth-exif-utils.c: (append_string_to_hash_table),
 	(xmp_iter_array), (xmp_iter_alt_text), (xmp_iter_simple_qual),

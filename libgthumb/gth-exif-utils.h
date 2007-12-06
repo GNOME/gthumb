@@ -69,5 +69,7 @@ int           gth_minimal_exif_tag_read   (const char   *filename,
 GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
+void	      read_xmp			  (const char   *filename,
+					   GHashTable   *metadata);
 
 #endif /* EXIF_UTILS_H */
