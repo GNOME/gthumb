@@ -287,6 +287,10 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_RELATED_IMAGE_LENGTH,
 	  -1 },
 
+	/* GTH_METADATA_CATEGORY_XMP */
+	/* Reserved for XMP, not exif */
+	{ -1},
+
 	/* GTH_METADATA_CATEGORY_OTHER */
 	/* New and unrecognized tags automatically go here. */
 	{ -1 }

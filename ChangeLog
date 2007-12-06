@@ -1,5 +1,10 @@
 2007-12-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-exif-data-viewer.c:
+	Fix error in categorization of "Other" exif tags.
+
+2007-12-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (free_metadata_entry),
 	(xmp_iter_simple), (read_xmp):
 	* libgthumb/gth-exif-utils.h:
