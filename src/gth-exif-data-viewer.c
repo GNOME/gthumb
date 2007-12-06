@@ -56,7 +56,8 @@ char *metadata_category_name[GTH_METADATA_CATEGORIES] =
         N_("Exif Structure"),  
         N_("Exif Thumbnail"),  
         N_("Exif Versions"),  
-        N_("XMP Metadata"),  
+        N_("XMP Embedded"),  
+	N_("XMP Sidecar"),
         N_("Other")  
 };  
 
@@ -287,7 +288,11 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 	  EXIF_TAG_RELATED_IMAGE_LENGTH,
 	  -1 },
 
-	/* GTH_METADATA_CATEGORY_XMP */
+	/* GTH_METADATA_CATEGORY_XMP_EMBEDDED */
+	/* Reserved for XMP, not exif */
+	{ -1},
+
+	/* GTH_METADATA_CATEGORY_XMP_SIDECAR */
 	/* Reserved for XMP, not exif */
 	{ -1},
 

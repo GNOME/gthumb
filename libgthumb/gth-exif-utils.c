@@ -778,9 +778,9 @@ void free_metadata (GList *metadata)
 #ifdef HAVE_EXEMPI
 
 static GList *
-xmp_iter_simple (GList *metadata, const gchar *schema, const gchar *path, const gchar *value);
+xmp_iter_simple (GList *metadata, const gchar *schema, const gchar *path, const gchar *value, GthMetadataCategory category);
 static GList *
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata);
+xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata, GthMetadataCategory category);
 
 
 /* We have an array, now recursively iterate over it's children. */
@@ -788,10 +788,11 @@ static GList *
 xmp_iter_array (XmpPtr xmp, 
 		GList *metadata, 
 		const gchar *schema, 
-		const gchar *path)
+		const gchar *path, 
+		GthMetadataCategory category)
 {
 		XmpIteratorPtr iter = xmp_iterator_new (xmp, schema, path, XMP_ITER_JUSTCHILDREN);
-		metadata = xmp_iter (xmp, iter, metadata);
+		metadata = xmp_iter (xmp, iter, metadata, category);
 		xmp_iterator_free (iter);
 
 		return metadata;
@@ -804,7 +805,8 @@ xmp_iter_simple_qual (XmpPtr xmp,
 		      GList *metadata,
                       const gchar *schema, 
 		      const gchar *path, 
-		      const gchar *value)
+		      const gchar *value, 
+		      GthMetadataCategory category)
 {
 	XmpIteratorPtr iter = xmp_iterator_new(xmp, schema, path, XMP_ITER_JUSTCHILDREN | XMP_ITER_JUSTLEAFNAME);
 
@@ -837,7 +839,7 @@ xmp_iter_simple_qual (XmpPtr xmp,
 	}
 
 	if (!ignore_element) {
-		metadata = xmp_iter_simple (metadata, schema, path, value);
+		metadata = xmp_iter_simple (metadata, schema, path, value, category);
 	}
 
 	xmp_string_free (the_prop);
@@ -854,12 +856,13 @@ static GList *
 xmp_iter_simple (GList *metadata,
 		 const gchar *schema, 
 		 const gchar *path, 
-		 const gchar *value)
+		 const gchar *value, 
+		 GthMetadataCategory category)
 {
 	GthMetadata *new_entry;
 
 	new_entry = g_new (GthMetadata, 1);
-	new_entry->category = GTH_METADATA_CATEGORY_XMP;
+	new_entry->category = category;
 	new_entry->name = g_strdup (path);
 	new_entry->value = g_strdup (value);
 	new_entry->position = 0;
@@ -873,7 +876,7 @@ xmp_iter_simple (GList *metadata,
    simple, simple w/qualifiers, or an array) handler */
 
 static GList *
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata)
+xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata, GthMetadataCategory category)
 {
 	XmpStringPtr the_schema = xmp_string_new ();
 	XmpStringPtr the_path = xmp_string_new ();
@@ -888,14 +891,14 @@ xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata)
 		if (XMP_IS_PROP_SIMPLE (opt)) {
 			if (strcmp (path,"") != 0) {
 				if (XMP_HAS_PROP_QUALIFIERS (opt)) {
-					metadata = xmp_iter_simple_qual (xmp, metadata, schema, path, value);
+					metadata = xmp_iter_simple_qual (xmp, metadata, schema, path, value, category);
 				} else {
-					metadata = xmp_iter_simple (metadata, schema, path, value);
+					metadata = xmp_iter_simple (metadata, schema, path, value, category);
 				}
 			}	
 		}
 		else if (XMP_IS_PROP_ARRAY (opt)) {
-			metadata = xmp_iter_array (xmp, metadata, schema, path);
+			metadata = xmp_iter_array (xmp, metadata, schema, path, category);
 			xmp_iterator_skip (iter, XMP_ITER_SKIPSUBTREE);
 		}
 	}
@@ -906,6 +909,42 @@ xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata)
 
 	return metadata;
 }
+
+static GList *
+read_xmp_file (const char *uri, GList *metadata, GthMetadataCategory category)
+{
+	char       *local_file;
+	XmpFilePtr  fp;
+        XmpPtr      xmp;
+
+        local_file = get_cache_filename_from_uri (uri);
+        if (local_file == NULL)
+                return metadata;
+
+	/* sidecar may not exist */
+	if (!path_exists (local_file))
+		return metadata;
+
+        fp = xmp_files_open_new (local_file, XMP_OPEN_READ);
+        if (fp == NULL) {
+                g_free (local_file);
+                return metadata;
+        }
+
+        xmp = xmp_files_get_new_xmp (fp);
+        if (xmp != NULL) {
+                XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
+                metadata = xmp_iter (xmp, iter, metadata, category);
+                xmp_iterator_free (iter);
+
+                xmp_free (xmp);
+        }
+
+        xmp_files_free (fp);
+        g_free (local_file);
+
+	return metadata;
+}
 #endif
 
 
@@ -913,38 +952,33 @@ GList *
 read_xmp (const char *uri, GList *metadata)
 {
 #ifdef HAVE_EXEMPI
-	XmpFilePtr fp;
-	XmpPtr     xmp;
-	char      *local_file;
-
-	xmp_init ();
-
-	local_file = get_cache_filename_from_uri (uri);
-	if (local_file == NULL)
-		return metadata;
-
-	fp = xmp_files_open_new (local_file, XMP_OPEN_READ);
-	if (fp == NULL) {
-		g_free (local_file);
-		return metadata;
-	}
-
-	xmp = xmp_files_get_new_xmp (fp);
+	XmpFilePtr          fp;
+	XmpPtr              xmp;
+	char               *local_file;
+	char		   *uri_wo_ext;
+	char               *sidecar_uri;
+	GthMetadataCategory category;
 
 	/* Because prepending is faster than appending */
 	metadata = g_list_reverse (metadata);
 
-	if (xmp != NULL) {
-		XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
-		metadata = xmp_iter (xmp, iter, metadata);
-		xmp_iterator_free (iter);
-	
-		xmp_free (xmp);
-	}
+	xmp_init ();
 
-	xmp_files_free (fp);
+	/* embedded xmp data */	
+	metadata = read_xmp_file (uri, 
+				  metadata, 
+				  GTH_METADATA_CATEGORY_XMP_EMBEDDED);
+
+	/* Check for sidecar (foo.jpg <-> foo.xmp) */
+	uri_wo_ext = remove_extension_from_path (uri);
+	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
+	metadata = read_xmp_file (sidecar_uri, 
+				  metadata, 
+				  GTH_METADATA_CATEGORY_XMP_SIDECAR);
+	g_free (sidecar_uri);
+        g_free (uri_wo_ext);
+
 	xmp_terminate ();
-	g_free (local_file);
 
 	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);

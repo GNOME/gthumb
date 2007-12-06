@@ -1,5 +1,14 @@
 2007-12-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (xmp_iter_array),
+	(xmp_iter_simple_qual), (xmp_iter_simple), (xmp_iter),
+	(read_xmp_file), (read_xmp):
+	* libgthumb/gth-exif-utils.h:
+	* src/gth-exif-data-viewer.c:
+	Added XMP sidecar reading.
+
+2007-12-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-exif-data-viewer.c:
 	Fix error in categorization of "Other" exif tags.
 
