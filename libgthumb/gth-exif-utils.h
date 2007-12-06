@@ -45,8 +45,23 @@
 #define PATCH_EXIF_TAGVAL_OVERFLOW  8
 
 
+typedef enum { 
+        GTH_METADATA_CATEGORY_FILE = 0, 
+        GTH_METADATA_CATEGORY_EXIF_CAMERA, 
+        GTH_METADATA_CATEGORY_EXIF_CONDITIONS, 
+        GTH_METADATA_CATEGORY_MAKERNOTE, 
+        GTH_METADATA_CATEGORY_GPS, 
+        GTH_METADATA_CATEGORY_EXIF_IMAGE, 
+        GTH_METADATA_CATEGORY_EXIF_THUMBNAIL, 
+        GTH_METADATA_CATEGORY_VERSIONS, 
+        GTH_METADATA_CATEGORY_XMP, 
+        GTH_METADATA_CATEGORY_OTHER, 
+        GTH_METADATA_CATEGORIES 
+} GthMetadataCategory; 
+ 
+ 
 typedef struct {
-        char *category;
+        GthMetadataCategory category;
         char *name;
         char *value;
         int   position;

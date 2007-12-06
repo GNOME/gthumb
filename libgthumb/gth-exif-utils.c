@@ -763,7 +763,6 @@ write_orientation_field (const char   *local_file,
 void free_metadata_entry (GthMetadata *entry)
 {
 	if (entry != NULL) {
-		g_free (entry->category);
 		g_free (entry->name);
 		g_free (entry->value);
 		g_free (entry);
@@ -860,7 +859,7 @@ xmp_iter_simple (GList *metadata,
 	GthMetadata *new_entry;
 
 	new_entry = g_new (GthMetadata, 1);
-	new_entry->category = g_strdup ("XMP");
+	new_entry->category = GTH_METADATA_CATEGORY_XMP;
 	new_entry->name = g_strdup (path);
 	new_entry->value = g_strdup (value);
 	new_entry->position = 0;
@@ -911,20 +910,29 @@ xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata)
 
 
 GList *
-read_xmp (const char *filename, GList *metadata)
+read_xmp (const char *uri, GList *metadata)
 {
 #ifdef HAVE_EXEMPI
 	XmpFilePtr fp;
-	XmpPtr xmp;
+	XmpPtr     xmp;
+	char      *local_file;
 
 	xmp_init ();
 
-	fp = xmp_files_open_new (filename, XMP_OPEN_READ);
-
-	if (fp == NULL)
+	local_file = get_cache_filename_from_uri (uri);
+	if (local_file == NULL)
 		return metadata;
 
+	fp = xmp_files_open_new (local_file, XMP_OPEN_READ);
+	if (fp == NULL) {
+		g_free (local_file);
+		return metadata;
+	}
+
 	xmp = xmp_files_get_new_xmp (fp);
+
+	/* Because prepending is faster than appending */
+	metadata = g_list_reverse (metadata);
 
 	if (xmp != NULL) {
 		XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
@@ -936,7 +944,9 @@ read_xmp (const char *filename, GList *metadata)
 
 	xmp_files_free (fp);
 	xmp_terminate ();
+	g_free (local_file);
 
+	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);
 
 	return metadata;

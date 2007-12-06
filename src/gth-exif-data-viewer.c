@@ -46,34 +46,19 @@
 #include <libexif/exif-mnote-data.h>
 
 
-typedef enum {
-	GTH_METADATA_CATEGORY_FILE = 0,
-	GTH_METADATA_CATEGORY_EXIF_CAMERA,
-	GTH_METADATA_CATEGORY_EXIF_CONDITIONS,
-	GTH_METADATA_CATEGORY_MAKERNOTE,
-	GTH_METADATA_CATEGORY_GPS,
-	GTH_METADATA_CATEGORY_EXIF_IMAGE,
-	GTH_METADATA_CATEGORY_EXIF_THUMBNAIL,
-	GTH_METADATA_CATEGORY_VERSIONS,
-	GTH_METADATA_CATEGORY_XMP,
-	GTH_METADATA_CATEGORY_OTHER,
-	GTH_METADATA_CATEGORIES
-} GthMetadataCategory;
-
-
-static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
-{
-	N_("Filesystem"),
-       	N_("Exif General"),
-	N_("Exif Conditions"),
-	N_("Exif Maker Notes"),
-	N_("Exif GPS"),
-	N_("Exif Structure"),
-	N_("Exif Thumbnail"),
-	N_("Exif Versions"),
-	N_("XMP Metadata"),
-	N_("Other")
-};
+char *metadata_category_name[GTH_METADATA_CATEGORIES] =  
+{  
+        N_("Filesystem"),  
+        N_("Exif General"),  
+        N_("Exif Conditions"),  
+        N_("Exif Maker Notes"),  
+        N_("Exif GPS"),  
+        N_("Exif Structure"),  
+        N_("Exif Thumbnail"),  
+        N_("Exif Versions"),  
+        N_("XMP Metadata"),  
+        N_("Other")  
+};  
 
 
 /* The mapping between exif tags and categories was taken (and heavily modified)
@@ -616,34 +601,34 @@ tag_category (ExifTag  tag,
 
 
 static void
-add_xmp_to_display (GthMetadata       *entry,
-		    GthExifDataViewer *edv)
+add_to_display (GthMetadata       *entry,
+		GthExifDataViewer *edv)
 {
 	add_to_exif_display_list (edv,
-		       		  GTH_METADATA_CATEGORY_XMP,  /*fix me */
+		       		  entry->category,
 			  	  entry->name,
 				  entry->value,
 				  entry->position);
 }
 
 
-static void
-update_exif_data (GthExifDataViewer *edv,
-		  ExifData          *edata)
+static GList *
+read_exif (char     *uri,
+	   GList    *metadata,
+	   ExifData *edata)
 {
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
 
-	if (edv->priv->file == NULL)
-		return;
- 
 	if (edata == NULL) 
-		edata = gth_exif_data_new_from_uri (edv->priv->file->path);
+		edata = gth_exif_data_new_from_uri (uri);
 	else
 		exif_data_ref (edata);
 
 	if (edata == NULL)
-		return;
+		return metadata;
+
+	metadata = g_list_reverse (metadata);
 
 	/* Iterate through every IFD in the Exif data, checking for tags. The GPS tags are
 	   stored in their own private IFD. */
@@ -670,6 +655,7 @@ update_exif_data (GthExifDataViewer *edv,
 			if (e->tag != EXIF_TAG_MAKER_NOTE) {
 				GthMetadataCategory category;
 				int                 position;
+				GthMetadata        *new_entry;
 
 				/* The tag IDs for the GPS and non-GPS IFDs overlap slightly,
 				   so it is important to use the exif_tag_get_name_in_ifd
@@ -708,7 +694,12 @@ update_exif_data (GthExifDataViewer *edv,
 				if (!position)
 					position = unique_id_for_unsorted_tags;
 
-				add_to_exif_display_list (edv, category, utf8_name, utf8_value, position);
+				new_entry = g_new (GthMetadata, 1);
+				new_entry->category = category;
+				new_entry->name = g_strdup (utf8_name);
+				new_entry->value = g_strdup (utf8_value);
+				new_entry->position = position;
+				metadata = g_list_prepend (metadata, new_entry);
 
 				g_free (utf8_name);
 				g_free (utf8_value);
@@ -719,9 +710,10 @@ update_exif_data (GthExifDataViewer *edv,
 				   types of manufacturer note styles. */
 
 				ExifMnoteData *mnote;
-				unsigned int k;
-				unsigned int subnote_count;
-				char	     mnote_buf[1024];
+				unsigned int   k;
+				unsigned int   subnote_count;
+				char	       mnote_buf[1024];
+				GthMetadata   *new_entry;
 
 				mnote = exif_data_get_mnote_data (edata);
 				if (mnote == NULL)
@@ -739,10 +731,6 @@ update_exif_data (GthExifDataViewer *edv,
 						continue;
 
 					utf8_name = g_strdup (value);
-					if (tag_is_present_in_category (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name)) {
-						g_free (utf8_name);
-						continue;
-					}
 
 					exif_mnote_data_get_value (mnote, k, mnote_buf, sizeof (mnote_buf));
 
@@ -756,7 +744,13 @@ update_exif_data (GthExifDataViewer *edv,
 					}
 
 					++unique_id_for_unsorted_tags;
-					add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_MAKERNOTE, utf8_name, utf8_value, unique_id_for_unsorted_tags);
+
+	                                new_entry = g_new (GthMetadata, 1);
+                                	new_entry->category = GTH_METADATA_CATEGORY_MAKERNOTE;
+                        	        new_entry->name = g_strdup (utf8_name);
+                	                new_entry->value = g_strdup (utf8_value);
+        	                        new_entry->position = unique_id_for_unsorted_tags;
+	                                metadata = g_list_prepend (metadata, new_entry);
 
 					g_free (utf8_name);
 					g_free (utf8_value);
@@ -769,21 +763,24 @@ update_exif_data (GthExifDataViewer *edv,
 
 	exif_data_unref (edata);
 
-	/* experimental stuff below */
-
-	/* Now read XMP metadata */
-	GList *xmp_metadata = NULL;
-	char  *local_file = NULL;
-
-        local_file = get_cache_filename_from_uri (edv->priv->file->path);
-
-        xmp_metadata = read_xmp (local_file, xmp_metadata);
-	g_list_foreach (xmp_metadata, (GFunc) add_xmp_to_display, edv);
-
-	free_metadata (xmp_metadata);
-        g_free (local_file);
+	metadata = g_list_reverse (metadata);
+	return metadata;
 }
 
+
+static GList *
+update_metadata (GList *metadata, ExifData *existing_edata, char *uri)
+{
+	char  *local_file = NULL;
+
+	if (uri == NULL)
+		return metadata;
+
+	metadata = read_exif (uri, metadata, existing_edata);
+	metadata = read_xmp (uri, metadata);
+
+	return metadata;
+}
 
 static void
 update_file_info (GthExifDataViewer *edv)
@@ -888,7 +885,15 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
-	update_exif_data (edv, exif_data);
+
+        /* Now read metadata */
+        GList *metadata = NULL;
+	metadata = update_metadata (metadata, exif_data, edv->priv->file->path);
+
+	/* Display the data */
+        g_list_foreach (metadata, (GFunc) add_to_display, edv);
+
+        free_metadata (metadata);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
 }
