@@ -760,31 +760,49 @@ write_orientation_field (const char   *local_file,
 }
 
 
+void free_metadata_entry (GthMetadata *entry)
+{
+	if (entry != NULL) {
+		g_free (entry->category);
+		g_free (entry->name);
+		g_free (entry->value);
+		g_free (entry);
+	}
+}
+
+void free_metadata (GList *metadata)
+{
+	g_list_foreach (metadata, (GFunc) free_metadata_entry, NULL);
+	g_list_free (metadata);
+}
+
 #ifdef HAVE_EXEMPI
 
-static void
-xmp_iter_simple (GHashTable *metadata, const gchar *schema, const gchar *path, const gchar *value);
-static void
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata);
+static GList *
+xmp_iter_simple (GList *metadata, const gchar *schema, const gchar *path, const gchar *value);
+static GList *
+xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata);
 
 
 /* We have an array, now recursively iterate over it's children. */
-static void
+static GList *
 xmp_iter_array (XmpPtr xmp, 
-		GHashTable *metadata, 
+		GList *metadata, 
 		const gchar *schema, 
 		const gchar *path)
 {
 		XmpIteratorPtr iter = xmp_iterator_new (xmp, schema, path, XMP_ITER_JUSTCHILDREN);
-		xmp_iter (xmp, iter, metadata);
+		metadata = xmp_iter (xmp, iter, metadata);
 		xmp_iterator_free (iter);
+
+		return metadata;
 }
 
 
 /* We have a simple element, but need to iterate over the qualifiers */
-static void
+static GList *
 xmp_iter_simple_qual (XmpPtr xmp, 
-		      GHashTable *metadata,
+		      GList *metadata,
                       const gchar *schema, 
 		      const gchar *path, 
 		      const gchar *value)
@@ -820,32 +838,43 @@ xmp_iter_simple_qual (XmpPtr xmp,
 	}
 
 	if (!ignore_element) {
-		xmp_iter_simple (metadata, schema, path, value);
+		metadata = xmp_iter_simple (metadata, schema, path, value);
 	}
 
 	xmp_string_free (the_prop);
 	xmp_string_free (the_path);
 
 	xmp_iterator_free (iter);
+
+	return metadata;
 }
 
 
 /* We have a simple element. Add any metadata we know about to the hash table  */
-static void
-xmp_iter_simple (GHashTable *metadata,
+static GList *
+xmp_iter_simple (GList *metadata,
 		 const gchar *schema, 
 		 const gchar *path, 
 		 const gchar *value)
 {
-	g_hash_table_insert (metadata, g_strdup (path), g_strdup (value));
+	GthMetadata *new_entry;
+
+	new_entry = g_new (GthMetadata, 1);
+	new_entry->category = g_strdup ("XMP");
+	new_entry->name = g_strdup (path);
+	new_entry->value = g_strdup (value);
+	new_entry->position = 0;
+	metadata = g_list_prepend (metadata, new_entry);
+
+	return metadata;
 }
 
 
 /* Iterate over the XMP, dispatching to the appropriate element type 
    simple, simple w/qualifiers, or an array) handler */
 
-static void
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata)
+static GList *
+xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata)
 {
 	XmpStringPtr the_schema = xmp_string_new ();
 	XmpStringPtr the_path = xmp_string_new ();
@@ -860,14 +889,14 @@ xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata)
 		if (XMP_IS_PROP_SIMPLE (opt)) {
 			if (strcmp (path,"") != 0) {
 				if (XMP_HAS_PROP_QUALIFIERS (opt)) {
-					xmp_iter_simple_qual (xmp, metadata, schema, path, value);
+					metadata = xmp_iter_simple_qual (xmp, metadata, schema, path, value);
 				} else {
-					xmp_iter_simple (metadata, schema, path, value);
+					metadata = xmp_iter_simple (metadata, schema, path, value);
 				}
 			}	
 		}
 		else if (XMP_IS_PROP_ARRAY (opt)) {
-			xmp_iter_array (xmp, metadata, schema, path);
+			metadata = xmp_iter_array (xmp, metadata, schema, path);
 			xmp_iterator_skip (iter, XMP_ITER_SKIPSUBTREE);
 		}
 	}
@@ -875,12 +904,14 @@ xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GHashTable *metadata)
 	xmp_string_free (the_prop);
 	xmp_string_free (the_path);
 	xmp_string_free (the_schema);
+
+	return metadata;
 }
 #endif
 
 
-void
-read_xmp (const char *filename, GHashTable *metadata)
+GList *
+read_xmp (const char *filename, GList *metadata)
 {
 #ifdef HAVE_EXEMPI
 	XmpFilePtr fp;
@@ -891,13 +922,13 @@ read_xmp (const char *filename, GHashTable *metadata)
 	fp = xmp_files_open_new (filename, XMP_OPEN_READ);
 
 	if (fp == NULL)
-		return;
+		return metadata;
 
 	xmp = xmp_files_get_new_xmp (fp);
 
 	if (xmp != NULL) {
 		XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
-		xmp_iter (xmp, iter, metadata);
+		metadata = xmp_iter (xmp, iter, metadata);
 		xmp_iterator_free (iter);
 	
 		xmp_free (xmp);
@@ -905,6 +936,10 @@ read_xmp (const char *filename, GHashTable *metadata)
 
 	xmp_files_free (fp);
 	xmp_terminate ();
+
+	metadata = g_list_reverse (metadata);
+
+	return metadata;
 #endif
 }
 

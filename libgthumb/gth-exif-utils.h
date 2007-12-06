@@ -44,6 +44,15 @@
 #define PATCH_EXIF_TRASHED_IFD      7
 #define PATCH_EXIF_TAGVAL_OVERFLOW  8
 
+
+typedef struct {
+        char *category;
+        char *name;
+        char *value;
+        int   position;
+} GthMetadata;
+
+
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
 char *        get_exif_tag                (const char   *filename,
 				           ExifTag       etag);
@@ -69,7 +78,8 @@ int           gth_minimal_exif_tag_read   (const char   *filename,
 GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
-void	      read_xmp			  (const char   *filename,
-					   GHashTable   *metadata);
+GList *       read_xmp			  (const char   *filename,
+					   GList        *metadata);
+void          free_metadata               (GList        *metadata);
 
 #endif /* EXIF_UTILS_H */

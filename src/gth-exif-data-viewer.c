@@ -63,15 +63,15 @@ typedef enum {
 
 static char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 {
-	N_("Filesystem Data"),
-       	N_("Exif General Information"),
-	N_("Exif Picture-Taking Conditions"),
+	N_("Filesystem"),
+       	N_("Exif General"),
+	N_("Exif Conditions"),
 	N_("Exif Maker Notes"),
-	N_("Exif GPS Coordinates"),
-	N_("Exif Image Structure"),
-	N_("Exif Embedded Thumbnail"),
-	N_("Exif Versions & Interoperability"),
-	N_("XMP (Extensible Metadata Platform)"),
+	N_("Exif GPS"),
+	N_("Exif Structure"),
+	N_("Exif Thumbnail"),
+	N_("Exif Versions"),
+	N_("XMP Metadata"),
 	N_("Other")
 };
 
@@ -616,11 +616,14 @@ tag_category (ExifTag  tag,
 
 
 static void
-add_xmp_to_display (gpointer  key,
-		    gpointer  value,
-		    gpointer  edv)
+add_xmp_to_display (GthMetadata       *entry,
+		    GthExifDataViewer *edv)
 {
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_XMP, key, value, 0);
+	add_to_exif_display_list (edv,
+		       		  GTH_METADATA_CATEGORY_XMP,  /*fix me */
+			  	  entry->name,
+				  entry->value,
+				  entry->position);
 }
 
 
@@ -769,18 +772,16 @@ update_exif_data (GthExifDataViewer *edv,
 	/* experimental stuff below */
 
 	/* Now read XMP metadata */
-	GHashTable *xmp_metadata;
-	char       *local_file = NULL;
-
-	xmp_metadata = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	GList *xmp_metadata = NULL;
+	char  *local_file = NULL;
 
         local_file = get_cache_filename_from_uri (edv->priv->file->path);
-        read_xmp (local_file, xmp_metadata);
+
+        xmp_metadata = read_xmp (local_file, xmp_metadata);
+	g_list_foreach (xmp_metadata, (GFunc) add_xmp_to_display, edv);
+
+	free_metadata (xmp_metadata);
         g_free (local_file);
-
-	g_hash_table_foreach (xmp_metadata, add_xmp_to_display, edv);
-
-	g_hash_table_destroy (xmp_metadata);
 }
 
 
