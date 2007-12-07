@@ -997,30 +997,6 @@ get_folder_pixbuf_size_for_menu (GtkWidget *widget)
 }
 
 
-gboolean
-folder_is_film (const char *folder)
-{
-	CommentData *cdata;
-	gboolean     film = FALSE;
-
-	if (! is_local_file (folder))
-		return FALSE;
-
-	cdata = comments_load_comment (folder, FALSE);
-	if (cdata != NULL) {
-		int i;
-		for (i = 0; i < cdata->keywords_n; i++)
-			if (g_utf8_collate (cdata->keywords[i], _("Film")) == 0) {
-				film = TRUE;
-				break;
-			}
-		comment_data_free (cdata);
-	}
-
-	return film;
-}
-
-
 G_CONST_RETURN char *
 get_stock_id_for_uri (const char *uri)
 {
@@ -1030,8 +1006,6 @@ get_stock_id_for_uri (const char *uri)
 		stock_id = GTK_STOCK_HOME;
 	else if (strcmp (uri, get_home_uri ()) == 0)
 		stock_id = GTK_STOCK_HOME;
-	else if (folder_is_film (uri))
-		stock_id = GTHUMB_STOCK_FILM;
 	else if (uri_scheme_is_catalog (uri))
 		stock_id = GTHUMB_STOCK_CATALOG;
 	else if (uri_scheme_is_search (uri))
@@ -1060,9 +1034,7 @@ get_icon_for_uri (GtkWidget  *widget,
 	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0))
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
 
-	if (folder_is_film (uri))
-		stock_id = GTHUMB_STOCK_FILM;
-	else if (uri_scheme_is_catalog (uri)) {
+	if (uri_scheme_is_catalog (uri)) {
 		if (file_extension_is (uri, CATALOG_EXT))
 			stock_id = GTHUMB_STOCK_CATALOG;
 		else

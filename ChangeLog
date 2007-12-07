@@ -1,5 +1,16 @@
 2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gthumb-stock.c:
+	* libgthumb/gthumb-stock.h:
+	* libgthumb/icons/Makefile.am:
+	* src/gth-dir-list.c: (gth_dir_list_update_view),
+	(gth_dir_list_add_directory):
+	* src/main.c: (get_stock_id_for_uri), (get_icon_for_uri):
+	* src/main.h:
+	Remove references to the film icon. It's no longer used.
+
+2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-photo-importer.c: (save_image):
 	Filter customer subfolder input, to avoid weird folder names.
 	
