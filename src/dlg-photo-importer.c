@@ -1343,16 +1343,41 @@ save_image (DialogData *data,
 			if (exif_date != (time_t) 0) {
 				struct tm  *exif_tm = localtime(&exif_date);
 				char        dest_subfolder[255 + 1];
-				
+				size_t	    ret = 0;
+				char       *tmp;
+
 				if (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY)
-					strftime (dest_subfolder, 255, "%Y-%m-%d", exif_tm);
+					ret = strftime (dest_subfolder, 255, "%Y-%m-%d", exif_tm);
 				else if (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH)
-					strftime (dest_subfolder, 255, "%Y-%m", exif_tm);
+					ret = strftime (dest_subfolder, 255, "%Y-%m", exif_tm);
 				else 
-					strftime (dest_subfolder, 
+					ret = strftime (dest_subfolder, 
 						  255, 
 						  gtk_entry_get_text (GTK_ENTRY (data->format_code_entry)), 
 						  exif_tm);
+
+				if (ret == 0)
+					dest_subfolder[0] = '\0';
+
+				/* Strip out weird characters possible in custom input. */
+
+				tmp = dest_subfolder;
+				while (*tmp) {
+					if ((*tmp == '\t') ||
+					    (*tmp == '\n') ||
+					    (*tmp == '~')  ||
+					    (*tmp == '\'') ||
+					    (*tmp == '"')  ||
+					    (*tmp == '|')  ||
+					    (*tmp == '`')  ||
+					    (*tmp == '/')  ||
+					    (*tmp == '#')  ||
+					    (*tmp == '%')  ||
+					    (*tmp == '$')  ||
+					    (*tmp == '&')     )
+						*tmp = ' ';
+					tmp++;
+				}
 
 				dest_folder = g_build_filename (unescaped_local_folder, dest_subfolder, NULL);
 			} else {

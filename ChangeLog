@@ -1,5 +1,10 @@
 2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-photo-importer.c: (save_image):
+	Filter customer subfolder input, to avoid weird folder names.
+	
+2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_camera.glade:
 	* libgthumb/preferences.c:
 	* libgthumb/preferences.h:
