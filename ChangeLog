@@ -1,3 +1,8 @@
+2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+        * doc/C/gthumb.xml:
+        Bump manual version numbers.
+
 2007-12-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-window-actions-callbacks.c:
