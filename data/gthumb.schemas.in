@@ -2156,16 +2156,29 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/photo_importer/film</key>
-	<applyto>/apps/gthumb/dialogs/photo_importer/film</applyto>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/subfolder</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/subfolder</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default></default>
+	<default>none</default>
 	<locale name="C">
 	  <short></short>
-	  <long>
+	  <long>Possible values are: none, day, month, now, custom
 	  </long>
 	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/dialogs/photo_importer/custom_format_code</key>
+        <applyto>/apps/gthumb/dialogs/photo_importer/custom_format_code</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
       </schema>
 
       <schema>
