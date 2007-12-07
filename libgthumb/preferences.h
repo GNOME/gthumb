@@ -225,6 +225,7 @@
 
 #define  PREF_PHOTO_IMPORT_DESTINATION    "/apps/gthumb/dialogs/photo_importer/destination"
 #define  PREF_PHOTO_IMPORT_SUBFOLDER      "/apps/gthumb/dialogs/photo_importer/subfolder"
+#define  PREF_PHOTO_IMPORT_CUSTOM_FORMAT  "/apps/gthumb/dialogs/photo_importer/custom_format_code"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
 #define  PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION	"/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import"

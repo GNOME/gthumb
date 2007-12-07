@@ -249,10 +249,11 @@ static EnumStringTable crop_ratio_table [] = {
 };
 
 static EnumStringTable import_subfolder_table [] = {
-	{ GTH_IMPORT_SUBFOLDER_GROUP_DAY,   "day" },
-	{ GTH_IMPORT_SUBFOLDER_GROUP_MONTH, "month" },
-	{ GTH_IMPORT_SUBFOLDER_GROUP_NOW,   "current date" },
-	{ GTH_IMPORT_SUBFOLDER_GROUP_NONE,  "none" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_NONE,    "none" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_DAY,     "day" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_MONTH,   "month" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_NOW,     "current date" },
+	{ GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM,  "custom" },
 	{ 0, NULL }
 };
 

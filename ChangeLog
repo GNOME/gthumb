@@ -1,3 +1,14 @@
+2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_camera.glade:
+	* libgthumb/preferences.c:
+	* libgthumb/preferences.h:
+	* libgthumb/typedefs.h:
+	* src/dlg-photo-importer.c: (get_folder_name), (save_image),
+	(subfolder_mode_changed_cb), (dlg_photo_importer):
+	Add custom subfolder feature to photo import dialog.
+	Still a bit rough - add some checking, schema update, help file.
+
 2007-12-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (xmp_iter_array),
