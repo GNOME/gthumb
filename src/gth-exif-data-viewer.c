@@ -777,6 +777,13 @@ read_exif (char     *uri,
 }
 
 
+static gint
+sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
+{
+	return strcmp_null_tolerant (entry1->name, entry2->name);
+}
+
+
 static GList *
 update_metadata (GList *metadata, ExifData *existing_edata, char *uri)
 {
@@ -787,6 +794,9 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri)
 
 	metadata = read_exif (uri, metadata, existing_edata);
 	metadata = read_xmp (uri, metadata);
+
+	/* sort alphabetically by tag name */
+	metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name);
 
 	return metadata;
 }

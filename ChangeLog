@@ -1,3 +1,9 @@
+2007-12-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-exif-data-viewer.c: (sort_by_tag_name),
+	(update_metadata):
+	Sort tag names alphabetically, by default.
+
 2007-12-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml:
