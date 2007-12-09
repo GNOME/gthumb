@@ -122,4 +122,6 @@ GtkWidget *     gth_browser_get_bookmarks_dlg            (GthBrowser        *bro
 
 GtkWidget *     gth_browser_get_current_browser          (void);
 
+void		gth_browser_update_script_menu 		 (GthBrowser 	    *browser);
+
 #endif /* GTH_BROWSER_H */

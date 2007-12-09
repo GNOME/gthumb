@@ -1966,3 +1966,10 @@ gth_browser_activate_action_tools_resize_images (GtkAction  *action,
 {
 	dlg_scale_series (browser);
 }
+
+
+void
+gth_browser_activate_action_scripts (GtkAction  *action,
+                                     GthBrowser *browser) {
+	dlg_scripts (GTH_WINDOW (browser), (DoneFunc) gth_browser_update_script_menu, browser);
+}

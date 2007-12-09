@@ -1,5 +1,21 @@
 2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-browser-actions-callbacks.c:
+	(gth_browser_activate_action_scripts):
+	* src/gth-browser-actions-callbacks.h:
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (key_press_cb), (update_scripts_cb),
+	(gth_browser_construct), (gth_browser_update_script_menu):
+	* src/gth-browser.h:
+	* src/gth-viewer-ui.h:
+	* src/gth-window-actions-callbacks.c:
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	The script menu now has dynamically named entries. Needs testing!
+
+2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_preferences.glade:
 	* data/glade/gthumb_tools.glade:
 	* doc/C/gthumb.xml:

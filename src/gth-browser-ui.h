@@ -189,6 +189,8 @@ static const gchar *main_ui_info =
 "      <menuitem action='Tools_WebExporter'/>"
 "    </menu>"
 "    <menu name='Scripts' action='ScriptMenu'>"
+"      <placeholder name='User_Defined_Scripts'/>"
+"      <separator/>"
 "      <menuitem action='External_Scripts'/>"
 "    </menu>"
 "    <menu name='Help' action='HelpMenu'>"

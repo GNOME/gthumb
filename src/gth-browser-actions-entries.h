@@ -397,7 +397,14 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	     dialog window title used elsewhere, depending on your 
 	     language's grammar. */
 	  N_("Scale Images"),
-	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) }
+	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) },
+
+        { "External_Scripts", NULL,
+          N_("_Edit Scripts"), NULL,
+          N_("Edit external scripts"),
+          G_CALLBACK (gth_browser_activate_action_scripts) }
+
+
 };
 static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
 

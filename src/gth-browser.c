@@ -101,6 +101,7 @@ struct _GthBrowserPrivateData {
 	guint               toolbar_merge_id;
 	guint               bookmarks_merge_id;
 	guint               history_merge_id;
+	guint		    scripts_merge_id;
 
 	GtkToolItem        *rotate_tool_item;
 	GtkToolItem        *sep_rotate_tool_item;
@@ -3242,91 +3243,51 @@ key_press_cb (GtkWidget   *widget,
 		/* hot keys */
 	case GDK_KP_0:
 	case GDK_KP_Insert:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY0, NULL), list);
-			path_list_free (list);
-		}
+		exec_script0 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_1:
 	case GDK_KP_End:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY1, NULL), list);
-			path_list_free (list);
-		}
+		exec_script1 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_2:
 	case GDK_KP_Down:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY2, NULL), list);
-			path_list_free (list);
-		}
+		exec_script2 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_3:
 	case GDK_KP_Page_Down:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY3, NULL), list);
-			path_list_free (list);
-		}
+		exec_script3 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_4:
 	case GDK_KP_Left:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY4, NULL), list);
-			path_list_free (list);
-		}
+		exec_script4 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_5:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY5, NULL), list);
-			path_list_free (list);
-		}
+		exec_script5 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_6:
 	case GDK_KP_Right:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY6, NULL), list);
-			path_list_free (list);
-		}
+		exec_script6 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_7:
 	case GDK_KP_Home:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY7, NULL), list);
-			path_list_free (list);
-		}
+		exec_script7 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_8:
 	case GDK_KP_Up:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY8, NULL), list);
-			path_list_free (list);
-		}
+		exec_script8 (NULL, window);
 		return TRUE;
 
 	case GDK_KP_9:
 	case GDK_KP_Page_Up:
-		list = gth_window_get_file_list_selection (window);
-		if (list != NULL) {
-			exec_shell_script ( GTK_WINDOW (browser), eel_gconf_get_string (PREF_HOTKEY9, NULL), list);
-			path_list_free (list);
-		}
+		exec_script9 (NULL, window);
 		return TRUE;
 
 
@@ -6383,6 +6344,17 @@ filter_bar_close_button_clicked_cb (GthFilterBar *filter_bar,
 
 
 static void
+update_scripts_cb (GtkActionGroup *actions, GthBrowser *browser) {
+
+        browser->priv->scripts_merge_id = generate_script_menu (browser->priv->ui,
+                                                       		actions,
+                                                       		GTH_WINDOW (browser),
+                                                       		browser->priv->scripts_merge_id);
+
+}
+
+
+static void
 gth_browser_construct (GthBrowser  *browser,
 		       const gchar *uri)
 {
@@ -6463,6 +6435,11 @@ gth_browser_construct (GthBrowser  *browser,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
+	priv->scripts_merge_id = generate_script_menu (ui, 
+						       priv->actions, 
+						       GTH_WINDOW (browser),
+						       priv->scripts_merge_id);
 
 	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
 
@@ -8857,4 +8834,14 @@ gth_browser_get_current_browser (void)
 		return NULL;
 	else
 		return (GtkWidget *) browser_list->data;
+}
+
+
+void
+gth_browser_update_script_menu (GthBrowser *browser)
+{
+	browser->priv->scripts_merge_id = generate_script_menu (browser->priv->ui, 
+								browser->priv->actions,
+								GTH_WINDOW (browser),
+								browser->priv->scripts_merge_id);
 }

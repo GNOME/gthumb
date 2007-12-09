@@ -1017,11 +1017,3 @@ gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
 		(*module) (window, GTH_TRANSFORM_ROTATE_270);
 }
 
-
-void
-gth_window_activate_action_scripts (GtkAction *action,
-                                    GthWindow *window)
-{
-        dlg_scripts (window);
-}
-
