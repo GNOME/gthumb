@@ -506,8 +506,7 @@ dlg_redeye_removal (GthWindow *window)
 	GtkWidget    *cancel_button;
 	GtkWidget    *help_button;
 	GtkWidget    *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
-	GdkScreen    *screen;
-	GdkRectangle  screen_geom;
+	int	      width, height;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -625,17 +624,11 @@ dlg_redeye_removal (GthWindow *window)
 
 	gtk_widget_realize (data->dialog);
 
-	/* Get screen parent window is on. */
-	screen = gtk_widget_get_screen (GTK_WIDGET (window));
-
-	/* Get x,y,width,height of *monitor* parent window's GdkWindow is on. */
-	gdk_screen_get_monitor_geometry (screen,
-					 gdk_screen_get_monitor_at_window (screen, GTK_WIDGET(window)->window),
-					 &screen_geom);
+	get_screen_size (GTK_WINDOW (window), &width, &height);
 
 	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
-				     screen_geom.width * 7 / 10,
-				     screen_geom.height * 6 / 10);
+				     width * 7 / 10,
+				     height * 6 / 10);
 
 	gth_iviewer_zoom_to_fit (GTH_IVIEWER (data->image_selector));
 	gtk_widget_grab_focus (data->image_selector);

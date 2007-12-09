@@ -116,4 +116,8 @@ GtkWidget * create_image                 (GtkIconTheme  *icon_theme,
 
 int         _gtk_widget_get_height       (GtkWidget     *widget);
 
+void	    get_screen_size 		 (GtkWindow     *window, 
+					  int 	        *width, 
+					  int 		*height);
+
 #endif /* _GTK_UTILS_H */

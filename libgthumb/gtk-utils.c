@@ -1104,3 +1104,23 @@ _gtk_widget_get_height (GtkWidget *widget)
 	gdk_drawable_get_size (widget->window, &w, &h);
 	return h;
 }
+
+
+void
+get_screen_size (GtkWindow *window, int *width, int *height)
+{
+        GdkScreen    *screen;
+        GdkRectangle  screen_geom;
+
+        /* Get screen parent window is on. */
+        screen = gtk_widget_get_screen (GTK_WIDGET (window));
+
+        /* Get x,y,width,height of *monitor* parent window's GdkWindow is on. */
+	
+        gdk_screen_get_monitor_geometry (screen,
+                                         gdk_screen_get_monitor_at_window (screen, GTK_WIDGET(window)->window),
+                                         &screen_geom);
+
+        *width = screen_geom.width;
+        *height = screen_geom.height;
+}
