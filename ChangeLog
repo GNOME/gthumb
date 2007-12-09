@@ -1,3 +1,11 @@
+2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gtk-utils.c: (get_screen_size):
+	* libgthumb/gtk-utils.h:
+	* src/dlg-crop.c: (dlg_crop):
+	* src/dlg-redeye-removal.c: (dlg_redeye_removal):
+	Refactor duplicated screen size code.
+
 2007-12-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (sort_by_tag_name),
