@@ -85,6 +85,8 @@ gthumb_SOURCES = 				\
 	dlg-scale-image.h			\
 	dlg-scale-series.c			\
 	dlg-scale-series.h			\
+	dlg-scripts.c				\
+	dlg-scripts.h				\
 	dlg-write-to-cd.c			\
 	dlg-write-to-cd.h			\
 	gs-fade.c				\

@@ -69,6 +69,7 @@
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
 #include "rotation-utils.h"
+#include "dlg-scripts.h"
 
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
@@ -6462,6 +6463,7 @@ gth_browser_construct (GthBrowser  *browser,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
 	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");

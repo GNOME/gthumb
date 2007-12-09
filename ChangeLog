@@ -1,5 +1,27 @@
 2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_preferences.glade:
+	* data/glade/gthumb_tools.glade:
+	* doc/C/gthumb.xml:
+	* libgthumb/preferences.h:
+	* src/Makefile.am:
+	* src/dlg-preferences.c: (apply_cb), (dlg_preferences):
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (gth_browser_construct):
+	* src/gth-viewer-actions-entries.h:
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer.c: (gth_viewer_construct):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_scripts):
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	Initial attempt to build a treeview-based scripting dialog.
+	The hotkey functions are defined in a "Script" menu now,
+	instead of in the preferences dialog. Still pretty rough.
+
+2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gtk-utils.c: (get_screen_size):
 	* libgthumb/gtk-utils.h:
 	* src/dlg-crop.c: (dlg_crop):

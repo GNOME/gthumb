@@ -1016,3 +1016,12 @@ gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
 	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
 		(*module) (window, GTH_TRANSFORM_ROTATE_270);
 }
+
+
+void
+gth_window_activate_action_scripts (GtkAction *action,
+                                    GthWindow *window)
+{
+        dlg_scripts (window);
+}
+

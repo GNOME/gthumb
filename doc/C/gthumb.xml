@@ -3053,7 +3053,141 @@
       </para>
     </sect2>
   </sect1>
-
+  <sect1 id="scripts">
+      <title>External Scripts and Hot Keys</title>
+      <para>
+	This dialog contains the shell script definitions that control the 
+	hot keys 0-9 on the numeric keypad. These scripts can also be
+	launched from the <guimenu>Scripts</guimenu>
+	menu.
+        <note>
+          <title>Numeric Keypad on Laptops</title>
+          <para>
+            Laptop computers may not have a numeric keypad, but most laptops
+            provide a way of emulating the numeric keypad, typically using 
+	    the <keycap>Fn</keycap> key. This feature may need to be enabled
+	    in the BIOS.
+          </para>
+        </note>
+      </para>
+      <para>
+	When a user presses one of these keys, an external shell script 
+	will be launched. Certain codes can be including in the script.
+	These codes will be replaced by &app; when the script is actually
+	launched, as follows:
+      </para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="20.00*"/>
+          <colspec colname="COLSPEC1" colwidth="80.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Code</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para>%F</para></entry>
+	      <entry align="left"><para>all selected filenames on one line, space delimited</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%f</para></entry>
+              <entry align="left"><para>a single filename, including path</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%b</para></entry>
+              <entry align="left"><para>a single filename, excluding path</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%n</para></entry>
+              <entry align="left"><para>a single filename, including path, with no extension</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%m</para></entry>
+              <entry align="left"><para>a single filename, excluding path, with no extension</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%e</para></entry>
+              <entry align="left"><para>a single extension (starting with a period)</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>%p</para></entry>
+              <entry align="left"><para>the parent folder of the single file</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      <para>
+	Scripts with the %F code will be executed just once, regardless of the number of files selected.
+	All other scripts will be executed once per selected file.
+      </para>
+      <para>
+      Several default scripts are provided. These can be replaced by the user, if desired. 
+      The default scripts are explained below:
+      </para>
+      <itemizedlist>
+	  <listitem>
+	    <para>
+		<command>gimp-remote %F</command>
+            </para>
+	    <para>
+		This script tells the GNU Image Manipulation Program (gimp) to open
+	        all of the select files. This is most efficient if we include all of
+	 	the filenames on one line, rather than calling <command>gimp-remote</command>
+		once for each file, so we have used the %F code.
+	    </para>
+          </listitem>
+          <listitem>
+            <para>
+                <command>convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e</command>
+            </para>
+            <para>
+                This script makes a copy of your image file, and adds a copyright notice
+                to it. The "convert" command is part of the ImageMagick package. If the
+                original file is named sample.jpg, the new file will be named sample-copyright.jpg.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+                <command>mkdir -p %p/approved ; cp %f %p/approved/</command>
+            </para>
+            <para>
+                This script creates a new sub-folder called "approved", if it does not
+                exist already. It then copies the select files to the "approved" sub-folder.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+                <command>uuencode %f %f | mail -s Photos your@emailaddress.com</command>
+            </para>
+            <para>
+                This script encodes images files in a format suitable for email attachments,
+                and then emails each photo to the specified address. One email per photo is sent.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+                <command>rm ~/myarchive.zip; zip -j ~/myarchive %F</command>
+            </para>
+            <para>
+                This script overwrites an existing zip file, if present, with a new zip file
+                containing the selected images.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+                <command>rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com</command>
+            </para>
+            <para>
+                This combines the previous two scripts, so that the selected images are combined into
+                a single zip file, which is then emailed.
+            </para>
+          </listitem>
+      </itemizedlist>
+     </sect1>
  <!-- ============= Preferences ================================== -->
  <sect1 id="preferences">
   <title>Preferences</title>
@@ -3262,142 +3396,6 @@
 	to fullscreen mode.
       </para>
      </sect2>
-
-<!-- ########### Hot Keys Tab ################## -->
-    <sect2 id="preferences-hotkeys">
-      <title>Hot Keys Tab</title>
-      <para>
-	This tab contains the shell script definitions that control the 
-	hot keys 0-9 on the numeric keypad.
-        <note>
-          <title>Numeric Keypad on Laptops</title>
-          <para>
-            Laptop computers may not have a numeric keypad, but most laptops
-            provide a way of emulating the numeric keypad, typically using 
-	    the <keycap>Fn</keycap> key. This feature may need to be enabled
-	    in the BIOS.
-          </para>
-        </note>
-      </para>
-      <para>
-	When a user presses one of these keys, an external shell script 
-	will be launched. Certain codes can be including in the script.
-	These codes will be replaced by &app; when the script is actually
-	launched, as follows:
-      </para>
-      <informaltable frame="all">
-        <tgroup cols="2" colsep="1" rowsep="1">
-          <colspec colname="COLSPEC0" colwidth="20.00*"/>
-          <colspec colname="COLSPEC1" colwidth="80.00*"/>
-          <thead>
-            <row valign="top">
-              <entry colname="COLSPEC0">
-                <para>Code</para></entry>
-              <entry colname="COLSPEC1" align="left">
-                <para>Explanation</para></entry>
-            </row>
-          </thead>
-          <tbody>
-            <row valign="top">
-              <entry><para>%F</para></entry>
-	      <entry align="left"><para>all selected filenames on one line, space delimited</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%f</para></entry>
-              <entry align="left"><para>a single filename, including path</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%b</para></entry>
-              <entry align="left"><para>a single filename, excluding path</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%n</para></entry>
-              <entry align="left"><para>a single filename, including path, with no extension</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%m</para></entry>
-              <entry align="left"><para>a single filename, excluding path, with no extension</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%e</para></entry>
-              <entry align="left"><para>a single extension (starting with a period)</para></entry>
-            </row>
-            <row valign="top">
-              <entry><para>%p</para></entry>
-              <entry align="left"><para>the parent folder of the single file</para></entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </informaltable>
-      <para>
-	Scripts with the %F code will be executed just once, regardless of the number of files selected.
-	All other scripts will be executed once per selected file.
-      </para>
-      <para>
-      Several default scripts are provided. These can be replaced by the user, if desired. 
-      The default scripts are explained below:
-      </para>
-      <itemizedlist>
-	  <listitem>
-	    <para>
-		<command>gimp-remote %F</command>
-            </para>
-	    <para>
-		This script tells the GNU Image Manipulation Program (gimp) to open
-	        all of the select files. This is most efficient if we include all of
-	 	the filenames on one line, rather than calling <command>gimp-remote</command>
-		once for each file, so we have used the %F code.
-	    </para>
-          </listitem>
-          <listitem>
-            <para>
-                <command>convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e</command>
-            </para>
-            <para>
-                This script makes a copy of your image file, and adds a copyright notice
-                to it. The "convert" command is part of the ImageMagick package. If the
-                original file is named sample.jpg, the new file will be named sample-copyright.jpg.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-                <command>mkdir -p %p/approved ; cp %f %p/approved/</command>
-            </para>
-            <para>
-                This script creates a new sub-folder called "approved", if it does not
-                exist already. It then copies the select files to the "approved" sub-folder.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-                <command>uuencode %f %f | mail -s Photos your@emailaddress.com</command>
-            </para>
-            <para>
-                This script encodes images files in a format suitable for email attachments,
-                and then emails each photo to the specified address. One email per photo is sent.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-                <command>rm ~/myarchive.zip; zip -j ~/myarchive %F</command>
-            </para>
-            <para>
-                This script overwrites an existing zip file, if present, with a new zip file
-                containing the selected images.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-                <command>rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com</command>
-            </para>
-            <para>
-                This combines the previous two scripts, so that the selected images are combined into
-                a single zip file, which is then emailed.
-            </para>
-          </listitem>
-      </itemizedlist>
-     </sect2>
-
   </sect1>
 
   <!-- ============= Keyboard Shortcuts ================================== -->

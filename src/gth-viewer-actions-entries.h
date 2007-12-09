@@ -42,6 +42,7 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	{ "ImageAutoMenu", NULL, N_("Auto") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
+	{ "ScriptMenu", NULL, N_("_Scripts") },
 	{ "HelpMenu", NULL, N_("_Help") },
 
 	{ "File_NewWindow", GTK_STOCK_NEW,

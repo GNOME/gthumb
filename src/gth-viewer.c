@@ -58,7 +58,7 @@
 #include "preferences.h"
 #include "rotation-utils.h"
 #include "typedefs.h"
-
+#include "dlg-scripts.h"
 #include "icons/pixbufs.h"
 
 #define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
@@ -1514,6 +1514,7 @@ gth_viewer_construct (GthViewer   *viewer,
 		g_error_free (error);
 	}
 	menubar = gtk_ui_manager_get_widget (ui, "/MenuBar");
+
 	gtk_widget_show (menubar);
 
 	gth_window_attach (GTH_WINDOW (viewer), menubar, GTH_WINDOW_MENUBAR);

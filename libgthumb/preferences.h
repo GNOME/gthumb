@@ -86,6 +86,17 @@
 #define  PREF_HOTKEY8                "/apps/gthumb/hotkeys/hotkey8"
 #define  PREF_HOTKEY9                "/apps/gthumb/hotkeys/hotkey9"
 
+#define  PREF_HOTKEY0_NAME           "/apps/gthumb/hotkeys/hotkey0_name"
+#define  PREF_HOTKEY1_NAME           "/apps/gthumb/hotkeys/hotkey1_name"
+#define  PREF_HOTKEY2_NAME           "/apps/gthumb/hotkeys/hotkey2_name"
+#define  PREF_HOTKEY3_NAME           "/apps/gthumb/hotkeys/hotkey3_name"
+#define  PREF_HOTKEY4_NAME           "/apps/gthumb/hotkeys/hotkey4_name"
+#define  PREF_HOTKEY5_NAME           "/apps/gthumb/hotkeys/hotkey5_name"
+#define  PREF_HOTKEY6_NAME           "/apps/gthumb/hotkeys/hotkey6_name"
+#define  PREF_HOTKEY7_NAME           "/apps/gthumb/hotkeys/hotkey7_name"
+#define  PREF_HOTKEY8_NAME           "/apps/gthumb/hotkeys/hotkey8_name"
+#define  PREF_HOTKEY9_NAME           "/apps/gthumb/hotkeys/hotkey9_name"
+
 #define  PREF_UI_LAYOUT              "/apps/gthumb/ui/layout"
 #define  PREF_UI_TOOLBAR_STYLE       "/apps/gthumb/ui/toolbar_style"
 #define  PREF_UI_WINDOW_WIDTH        "/apps/gthumb/ui/window_width"
