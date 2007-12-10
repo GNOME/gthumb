@@ -1,3 +1,9 @@
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-scripts.c: 	
+	* src/dlg-scripts.h:
+	Forgot to add these files to svn.
+
 2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-browser-actions-callbacks.c:
