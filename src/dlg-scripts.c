@@ -41,6 +41,7 @@
 
 #define SCRIPT_GLADE_FILE "gthumb_tools.glade"
 
+#define MAX_SCRIPTS 10
 
 typedef struct {
         GthWindow    *window;
@@ -518,210 +519,99 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
 }
 
 
+static void add_menu_item_and_action (GtkUIManager   *ui, 
+   				      GtkActionGroup *action_group,
+				      GthWindow      *window,
+				      guint           merge_id,
+				      char           *name, 
+				      char           *label, 
+				      GCallback       callback_func)
+{
+	GtkAction *action;
+
+	action = g_object_new (GTK_TYPE_ACTION,
+      			       "name", name,
+			       "label", label,
+			       NULL);
+        g_signal_connect (action, "activate",
+                          G_CALLBACK (callback_func),
+                          window);
+	gtk_action_group_add_action (action_group, action);
+	g_object_unref (action);	
+	gtk_ui_manager_add_ui (ui, 
+			       merge_id,
+			       "/MenuBar/Scripts/User_Defined_Scripts",
+			       name,
+			       name, 
+			       GTK_UI_MANAGER_MENUITEM,
+			       FALSE);
+}
+
+
 guint
 generate_script_menu (GtkUIManager   *ui,
 		      GtkActionGroup *action_group,
 		      GthWindow      *window,
 		      guint	      merge_id)
 {
-	GtkAction    *action;
-
+	/* Remove the previously-defined menu items and their associated actions */
         if (merge_id != 0) {
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_0"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_1"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_2"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_3"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_4"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_5"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_6"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_7"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_8"));
-		gtk_action_group_remove_action (action_group, 
-					        gtk_action_group_get_action (action_group, "Script_9"));
+		int i;	
+		char *action_name;
+
+		for (i = 0; i < MAX_SCRIPTS; i++) {
+			action_name = g_strdup_printf ("Script_%d", i);
+			gtk_action_group_remove_action (action_group, 
+				gtk_action_group_get_action (action_group, action_name));
+			g_free (action_name);
+		}
+
 	        gtk_ui_manager_remove_ui (ui, merge_id);
 	}
 
+	/* Identify this batch of menu additions (for later removal, if required) */
 	merge_id = gtk_ui_manager_new_merge_id (ui);                
 
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_0",
-			       "label", eel_gconf_get_string (PREF_HOTKEY0_NAME, "Script 0"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script0),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_0",
-			       "Script_0", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_1",
-			       "label", eel_gconf_get_string (PREF_HOTKEY1_NAME, "Script 1"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script1),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_1",
-			       "Script_1", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_2",
-			       "label", eel_gconf_get_string (PREF_HOTKEY2_NAME, "Script 2"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script2),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_2",
-			       "Script_2", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_3",
-			       "label", eel_gconf_get_string (PREF_HOTKEY3_NAME, "Script 3"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script3),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_3",
-			       "Script_3", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_4",
-			       "label", eel_gconf_get_string (PREF_HOTKEY4_NAME, "Script 4"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script4),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_4",
-			       "Script_4", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_5",
-			       "label", eel_gconf_get_string (PREF_HOTKEY5_NAME, "Script 5"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script5),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_5",
-			       "Script_5", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_6",
-			       "label", eel_gconf_get_string (PREF_HOTKEY6_NAME, "Script 6"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script6),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_6",
-			       "Script_6", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_7",
-			       "label", eel_gconf_get_string (PREF_HOTKEY7_NAME, "Script 7"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script7),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_7",
-			       "Script_7", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_8",
-			       "label", eel_gconf_get_string (PREF_HOTKEY8_NAME, "Script 8"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script8),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_8",
-			       "Script_8", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-      			       "name", "Script_9",
-			       "label", eel_gconf_get_string (PREF_HOTKEY9_NAME, "Script 9"),
-			       NULL);
-        g_signal_connect (action, "activate",
-                          G_CALLBACK (exec_script9),
-                          window);
-	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       "Script_9",
-			       "Script_9", 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_0",
+                                  eel_gconf_get_string (PREF_HOTKEY0_NAME, "Script 0"),
+                                  G_CALLBACK (exec_script0));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_1",
+                                  eel_gconf_get_string (PREF_HOTKEY1_NAME, "Script 1"),
+                                  G_CALLBACK (exec_script1));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_2",
+                                  eel_gconf_get_string (PREF_HOTKEY2_NAME, "Script 2"),
+                                  G_CALLBACK (exec_script2));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_3",
+                                  eel_gconf_get_string (PREF_HOTKEY3_NAME, "Script 3"),
+                                  G_CALLBACK (exec_script3));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_4",
+                                  eel_gconf_get_string (PREF_HOTKEY4_NAME, "Script 4"),
+                                  G_CALLBACK (exec_script4));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_5",
+                                  eel_gconf_get_string (PREF_HOTKEY5_NAME, "Script 5"),
+                                  G_CALLBACK (exec_script5));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_6",
+                                  eel_gconf_get_string (PREF_HOTKEY6_NAME, "Script 6"),
+                                  G_CALLBACK (exec_script6));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_7",
+                                  eel_gconf_get_string (PREF_HOTKEY7_NAME, "Script 7"),
+                                  G_CALLBACK (exec_script7));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_8",
+                                  eel_gconf_get_string (PREF_HOTKEY8_NAME, "Script 8"),
+                                  G_CALLBACK (exec_script8));
+	add_menu_item_and_action (ui, action_group, window, merge_id,
+                                  "Script_9",
+                                  eel_gconf_get_string (PREF_HOTKEY9_NAME, "Script 9"),
+                                  G_CALLBACK (exec_script9));
 
 	return merge_id;
 }
