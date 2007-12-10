@@ -2,6 +2,12 @@
 
 	* src/dlg-scripts.c: (add_menu_item_and_action),
 	(generate_script_menu):
+	Prefix script name with hotkey number in menu, for clarity.
+
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-scripts.c: (add_menu_item_and_action),
+	(generate_script_menu):
 	Tidy up new scripting code, add loops to make it smaller.
 
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>

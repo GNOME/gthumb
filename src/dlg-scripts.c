@@ -523,15 +523,25 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
    				      GtkActionGroup *action_group,
 				      GthWindow      *window,
 				      guint           merge_id,
-				      char           *name, 
-				      char           *label, 
+				      int	      hotkey,
+				      char           *pref_string, 
 				      GCallback       callback_func)
 {
 	GtkAction *action;
+	char      *full_label;
+	char	  *label_from_pref;
+	char	  *default_label;
+	char      *name;
+
+	name = g_strdup_printf ("Script_%d",hotkey);
+
+	default_label = g_strdup_printf ("Script %d", hotkey);
+	label_from_pref = eel_gconf_get_string (pref_string, default_label);
+	full_label = g_strdup_printf ("%d: %s", hotkey, label_from_pref);
 
 	action = g_object_new (GTK_TYPE_ACTION,
       			       "name", name,
-			       "label", label,
+			       "label", full_label,
 			       NULL);
         g_signal_connect (action, "activate",
                           G_CALLBACK (callback_func),
@@ -545,6 +555,11 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 			       name, 
 			       GTK_UI_MANAGER_MENUITEM,
 			       FALSE);
+
+	g_free (full_label);
+	g_free (label_from_pref);
+	g_free (default_label);
+	g_free (name);
 }
 
 
@@ -572,45 +587,45 @@ generate_script_menu (GtkUIManager   *ui,
 	/* Identify this batch of menu additions (for later removal, if required) */
 	merge_id = gtk_ui_manager_new_merge_id (ui);                
 
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_0",
-                                  eel_gconf_get_string (PREF_HOTKEY0_NAME, "Script 0"),
+	add_menu_item_and_action (ui, action_group, window, merge_id, 
+				  0,
+                                  PREF_HOTKEY0_NAME,
                                   G_CALLBACK (exec_script0));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_1",
-                                  eel_gconf_get_string (PREF_HOTKEY1_NAME, "Script 1"),
+                                  1,
+                                  PREF_HOTKEY1_NAME,
                                   G_CALLBACK (exec_script1));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_2",
-                                  eel_gconf_get_string (PREF_HOTKEY2_NAME, "Script 2"),
+				  2,
+                                  PREF_HOTKEY2_NAME,
                                   G_CALLBACK (exec_script2));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_3",
-                                  eel_gconf_get_string (PREF_HOTKEY3_NAME, "Script 3"),
+				  3,
+                                  PREF_HOTKEY3_NAME,
                                   G_CALLBACK (exec_script3));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_4",
-                                  eel_gconf_get_string (PREF_HOTKEY4_NAME, "Script 4"),
+				  4,
+                                  PREF_HOTKEY4_NAME,
                                   G_CALLBACK (exec_script4));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_5",
-                                  eel_gconf_get_string (PREF_HOTKEY5_NAME, "Script 5"),
+				  5,
+                                  PREF_HOTKEY5_NAME,
                                   G_CALLBACK (exec_script5));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_6",
-                                  eel_gconf_get_string (PREF_HOTKEY6_NAME, "Script 6"),
+				  6,
+                                  PREF_HOTKEY6_NAME,
                                   G_CALLBACK (exec_script6));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_7",
-                                  eel_gconf_get_string (PREF_HOTKEY7_NAME, "Script 7"),
+				  7,
+                                  PREF_HOTKEY7_NAME,
                                   G_CALLBACK (exec_script7));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_8",
-                                  eel_gconf_get_string (PREF_HOTKEY8_NAME, "Script 8"),
+				  8,
+                                  PREF_HOTKEY8_NAME,
                                   G_CALLBACK (exec_script8));
 	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  "Script_9",
-                                  eel_gconf_get_string (PREF_HOTKEY9_NAME, "Script 9"),
+				  9,
+                                  PREF_HOTKEY9_NAME,
                                   G_CALLBACK (exec_script9));
 
 	return merge_id;
