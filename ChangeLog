@@ -1,6 +1,11 @@
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gtk-utils.c: (exec_shell_script):
+	UI string tweak.
+
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gtk-utils.c: (exec_shell_script):
 	* libgthumb/gtk-utils.h:
 	* src/dlg-scripts.c: (exec_script0), (exec_script1),
 	(exec_script2), (exec_script3), (exec_script4), (exec_script5),

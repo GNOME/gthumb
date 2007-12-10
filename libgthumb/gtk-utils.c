@@ -851,9 +851,9 @@ exec_shell_script (GtkWindow  *window,
 	n = g_list_length (file_list);
 
 	if (name == NULL)
-		gtk_window_set_title (GTK_WINDOW (dialog), _("Progress"));
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Script Progress"));
 	else {
-		full_name = g_strconcat (name, " - ", _("Progress"), NULL);
+		full_name = g_strconcat (_("Script Progress"), " - ", name, NULL);
 		gtk_window_set_title (GTK_WINDOW (dialog), full_name);
 	}
 
