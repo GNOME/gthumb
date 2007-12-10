@@ -1900,7 +1900,8 @@ subfolder_mode_changed_cb (GtkComboBox  *subfolder_combobox,
 	switch (subfolder_value) {
 		case GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM:
 			gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), 
-					    eel_gconf_get_string (PREF_PHOTO_IMPORT_CUSTOM_FORMAT, ""));
+					    eel_gconf_get_string (PREF_PHOTO_IMPORT_CUSTOM_FORMAT,
+						    	          _("Put your format code here")));
 			break;
 		case GTH_IMPORT_SUBFOLDER_GROUP_DAY:
                         gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), "%Y-%m-%d");
@@ -1912,7 +1913,7 @@ subfolder_mode_changed_cb (GtkComboBox  *subfolder_combobox,
                         gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), "%Y-%m-%d--%H.%M.%S");
                         break;
 		default:
-			gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), "");
+			gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), "No subfolders");
                         break;
 	}
 

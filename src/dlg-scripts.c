@@ -159,52 +159,52 @@ add_scripts (void)
         g_return_if_fail (script_array != NULL);
 
         new_entry.number = 0;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY0_NAME, "Script 0");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY0_NAME, _("Script 0"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY0, "gimp-remote %F");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 1;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY1_NAME, "Script 1");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY1_NAME, _("Script 1"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY1, "convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 2;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY2_NAME, "Script 2");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY2_NAME, _("Script 2"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY2, "mkdir -p %p/approved ; cp %f %p/approved/");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 3;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY3_NAME, "Script 3");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY3_NAME, _("Script 3"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY3, "uuencode %f %f | mail -s Photos your@emailaddress.com");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 4;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY4_NAME, "Script 4");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY4_NAME, _("Script 4"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY4, "rm ~/myarchive.zip; zip -j ~/myarchive %F");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 5;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY5_NAME, "Script 5");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY5_NAME, _("Script 5"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY5, "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 6;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY6_NAME, "Script 6");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY6_NAME, _("Script 6"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY6, "");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 7;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY7_NAME, "Script 7");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY7_NAME, _("Script 7"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY7, "");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 8;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY8_NAME, "Script 8");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY8_NAME, _("Script 8"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY8, "");
         g_array_append_vals (script_array, &new_entry, 1);
 
         new_entry.number = 9;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY9_NAME, "Script 9");
+        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY9_NAME, _("Script 9"));
         new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY9, "");
         g_array_append_vals (script_array, &new_entry, 1);
 }
@@ -535,7 +535,7 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 
 	name = g_strdup_printf ("Script_%d",hotkey);
 
-	default_label = g_strdup_printf ("Script %d", hotkey);
+	default_label = g_strdup_printf (_("Script %d"), hotkey);
 	label_from_pref = eel_gconf_get_string (pref_string, default_label);
 	full_label = g_strdup_printf ("%d: %s", hotkey, label_from_pref);
 

@@ -1,5 +1,14 @@
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-photo-importer.c: (subfolder_mode_changed_cb):
+	Extra text to highlight the existence of the subfolder format
+	entry field.
+
+	* src/dlg-scripts.c: (add_scripts), (add_menu_item_and_action):
+	Mark strings for translation.
+
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-scripts.c: (add_menu_item_and_action):
 	* src/gth-browser-actions-entries.h:
 	Add icons to the script menu.
