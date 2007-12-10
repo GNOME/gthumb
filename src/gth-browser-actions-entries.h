@@ -399,7 +399,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Scale Images"),
 	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) },
 
-        { "External_Scripts", NULL,
+        { "External_Scripts", GTK_STOCK_EDIT,
           N_("_Edit Scripts"), NULL,
           N_("Edit external scripts"),
           G_CALLBACK (gth_browser_activate_action_scripts) }

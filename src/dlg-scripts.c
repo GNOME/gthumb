@@ -542,6 +542,7 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 	action = g_object_new (GTK_TYPE_ACTION,
       			       "name", name,
 			       "label", full_label,
+			       "stock_id", GTK_STOCK_EXECUTE,
 			       NULL);
         g_signal_connect (action, "activate",
                           G_CALLBACK (callback_func),

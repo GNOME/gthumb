@@ -1,5 +1,11 @@
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-scripts.c: (add_menu_item_and_action):
+	* src/gth-browser-actions-entries.h:
+	Add icons to the script menu.
+
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-scripts.c: (add_menu_item_and_action),
 	(generate_script_menu):
 	Prefix script name with hotkey number in menu, for clarity.
