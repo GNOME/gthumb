@@ -1,5 +1,14 @@
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gtk-utils.c: (exec_shell_script):
+	* libgthumb/gtk-utils.h:
+	* src/dlg-scripts.c: (exec_script0), (exec_script1),
+	(exec_script2), (exec_script3), (exec_script4), (exec_script5),
+	(exec_script6), (exec_script7), (exec_script8), (exec_script9):
+	Put a useful title on the script progress bar window.
+
+2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-photo-importer.c: (subfolder_mode_changed_cb):
 	Extra text to highlight the existence of the subfolder format
 	entry field.

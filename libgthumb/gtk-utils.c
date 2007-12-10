@@ -825,6 +825,7 @@ exec_command (const char *application,
 void
 exec_shell_script (GtkWindow  *window,
 		   const char *script,
+		   const char *name,
 		   GList      *file_list)
 {
 	GladeXML  *gui;
@@ -832,6 +833,7 @@ exec_shell_script (GtkWindow  *window,
 	GtkWidget *label;
 	GtkWidget *bar;
 	GList     *scan;
+	char	  *full_name;
 	int        i, n;
 
 	if ((script == NULL) || (file_list == NULL))
@@ -847,6 +849,13 @@ exec_shell_script (GtkWindow  *window,
 	bar = glade_xml_get_widget (gui, "progress_progressbar");
 
 	n = g_list_length (file_list);
+
+	if (name == NULL)
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Progress"));
+	else {
+		full_name = g_strconcat (name, " - ", _("Progress"), NULL);
+		gtk_window_set_title (GTK_WINDOW (dialog), full_name);
+	}
 
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
@@ -976,6 +985,7 @@ exec_shell_script (GtkWindow  *window,
 
 	gtk_widget_destroy (dialog);
 	g_object_unref (gui);
+	g_free (full_name);
 }
 
 

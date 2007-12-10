@@ -73,7 +73,10 @@ static GArray *script_array = NULL;
 void exec_script0 (GtkAction *action, GthWindow *window) {
 	GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-        	exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY0, NULL), list);
+        	exec_shell_script ( GTK_WINDOW (window), 
+				    eel_gconf_get_string (PREF_HOTKEY0, NULL), 
+				    eel_gconf_get_string (PREF_HOTKEY0_NAME, NULL),
+				    list);
                 path_list_free (list);
 	}
 }
@@ -81,7 +84,10 @@ void exec_script0 (GtkAction *action, GthWindow *window) {
 void exec_script1 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY1, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY1, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY1_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -89,7 +95,10 @@ void exec_script1 (GtkAction *action, GthWindow *window) {
 void exec_script2 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY2, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY2, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY2_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -97,7 +106,10 @@ void exec_script2 (GtkAction *action, GthWindow *window) {
 void exec_script3 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY3, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY3, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY3_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -105,7 +117,10 @@ void exec_script3 (GtkAction *action, GthWindow *window) {
 void exec_script4 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY4, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY4, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY4_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -113,7 +128,10 @@ void exec_script4 (GtkAction *action, GthWindow *window) {
 void exec_script5 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY5, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY5, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY5_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -121,7 +139,10 @@ void exec_script5 (GtkAction *action, GthWindow *window) {
 void exec_script6 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY6, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY6, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY6_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -129,7 +150,10 @@ void exec_script6 (GtkAction *action, GthWindow *window) {
 void exec_script7 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY7, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY7, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY7_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -137,7 +161,10 @@ void exec_script7 (GtkAction *action, GthWindow *window) {
 void exec_script8 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY8, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY8, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY8_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
@@ -145,7 +172,10 @@ void exec_script8 (GtkAction *action, GthWindow *window) {
 void exec_script9 (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
         if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), eel_gconf_get_string (PREF_HOTKEY9, NULL), list);
+                exec_shell_script ( GTK_WINDOW (window), 
+                                    eel_gconf_get_string (PREF_HOTKEY9, NULL), 
+                                    eel_gconf_get_string (PREF_HOTKEY9_NAME, NULL),
+                                    list);
                 path_list_free (list);
         }
 }
