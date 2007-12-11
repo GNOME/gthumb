@@ -1,5 +1,10 @@
 2007-12-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (read_xmp):
+	Program was crashing if exempi was not installed. Oops.
+
+2007-12-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS: describe scripting improvements.
 
 	* data/glade/gthumb_camera.glade:

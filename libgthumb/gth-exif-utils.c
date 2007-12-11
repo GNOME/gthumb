@@ -982,9 +982,9 @@ read_xmp (const char *uri, GList *metadata)
 
 	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);
+#endif
 
 	return metadata;
-#endif
 }
 
 
