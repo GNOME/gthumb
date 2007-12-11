@@ -1,6 +1,7 @@
 2007-12-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
-	* NEWS:
+	* NEWS: describe scripting improvements.
+
 	* data/glade/gthumb_camera.glade:
 	* src/dlg-photo-importer.c: (subfolder_mode_changed_cb),
 	(dlg_photo_importer):
