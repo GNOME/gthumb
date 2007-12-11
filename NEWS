@@ -24,6 +24,9 @@ trunk, since last 2.10.x
 	  upon import. Removed the concept of a "film" name. Bug #431187.
 	* Added %b (basename) and %m (basename without extension) parameters
 	  for hotkeys. Bug #501420.
+	* Moved the hotkey / script definitions out of the Preferences menu,
+	  and into a new "Scripts" menu. Added names for scripts. Added menu
+	  launching of scripts (in addition to hotkey launching). Bug 502309.
 
 	Bugfixes:
 

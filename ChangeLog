@@ -1,3 +1,12 @@
+2007-12-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_camera.glade:
+	* src/dlg-photo-importer.c: (subfolder_mode_changed_cb),
+	(dlg_photo_importer):
+	Another attempt to improve the UI of the custom subfolder
+	function in the import dialog.
+
 2007-12-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gtk-utils.c: (exec_shell_script):

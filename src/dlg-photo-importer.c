@@ -92,6 +92,7 @@ struct _DialogData {
 	GtkWidget           *destination_filechooserbutton;
 	GtkWidget           *subfolder_combobox;
 	GtkWidget           *format_code_entry;
+	GtkWidget           *format_code_label;
 	GtkWidget           *keep_names_checkbutton;
 	GtkWidget           *delete_checkbutton;
 	GtkWidget           *choose_categories_button;
@@ -1890,10 +1891,12 @@ subfolder_mode_changed_cb (GtkComboBox  *subfolder_combobox,
 
         if (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM) {
 		gtk_widget_set_sensitive (data->format_code_entry, TRUE);
+		gtk_widget_set_sensitive (data->format_code_label, TRUE);
 		gtk_editable_set_editable (GTK_EDITABLE (data->format_code_entry), TRUE);
 	}
 	else {
 		gtk_widget_set_sensitive (data->format_code_entry, FALSE);
+		gtk_widget_set_sensitive (data->format_code_label, FALSE);
 		gtk_editable_set_editable (GTK_EDITABLE (data->format_code_entry), FALSE);
 	}
 
@@ -1901,7 +1904,7 @@ subfolder_mode_changed_cb (GtkComboBox  *subfolder_combobox,
 		case GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM:
 			gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), 
 					    eel_gconf_get_string (PREF_PHOTO_IMPORT_CUSTOM_FORMAT,
-						    	          _("Put your format code here")));
+						    	          _("Put name or format code here")));
 			break;
 		case GTH_IMPORT_SUBFOLDER_GROUP_DAY:
                         gtk_entry_set_text (GTK_ENTRY (data->format_code_entry), "%Y-%m-%d");
@@ -2144,6 +2147,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->destination_filechooserbutton = glade_xml_get_widget (data->gui, "destination_filechooserbutton");
         data->subfolder_combobox = glade_xml_get_widget(data->gui, "group_into_subfolderscombobutton");
 	data->format_code_entry = glade_xml_get_widget (data->gui, "format_code_entry");
+	data->format_code_label = glade_xml_get_widget (data->gui, "format_code_label");
 	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
 	data->choose_categories_button = glade_xml_get_widget (data->gui, "choose_categories_button");
@@ -2215,7 +2219,7 @@ dlg_photo_importer (GthBrowser *browser)
         gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
                                    _("By current date and time"));
         gtk_combo_box_append_text (GTK_COMBO_BOX (data->subfolder_combobox),
-                                   _("Custom subfolder:"));
+                                   _("Custom subfolder"));
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_combobox), pref_get_import_subfolder());
 	subfolder_mode_changed_cb (GTK_COMBO_BOX (data->subfolder_combobox), data);
