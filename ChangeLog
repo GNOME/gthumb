@@ -1,3 +1,13 @@
+2007-12-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_tools.glade:
+	* libgthumb/gtk-utils.c:
+	* libgthumb/gtk-utils.h:
+	* src/dlg-scripts.c: (progress_cancel_cb), (exec_shell_script),
+	(destroy_cb):
+	Move exec_shell_script from gtk-utils.c to dlg-scripts.c, and
+	add a cancel button to the script progress dialog.
+
 2007-12-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (read_xmp):

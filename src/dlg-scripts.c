@@ -30,11 +30,13 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "file-utils.h"
 #include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
+#include "glib-utils.h"
 #include "main.h"
 #include "preferences.h"
 #include "gconf-utils.h"
@@ -53,6 +55,13 @@ typedef struct {
 
 
 typedef struct {
+        GladeXML     *gui;
+        GtkWidget    *dialog;
+	gboolean      cancel;
+} ProgressData;
+
+
+typedef struct {
         gint   number;
         gchar *short_name;
         gchar *script_text;
@@ -68,6 +77,209 @@ enum {
 
 
 static GArray *script_array = NULL;
+
+
+/* called when the main dialog is closed. */
+static void
+progress_cancel_cb (GtkWidget    *widget,
+                    ProgressData *data)
+{
+	data->cancel = TRUE;	
+}
+
+
+static void
+exec_shell_script (GtkWindow  *window,
+		   const char *script,
+		   const char *name,
+		   GList      *file_list)
+{
+	ProgressData *data;
+	GtkWidget    *label;
+	GtkWidget    *bar;
+	GtkWidget    *progress_cancel_button;
+	GList        *scan;
+	char	     *full_name;
+	int           i, n;
+
+	if ((script == NULL) || (file_list == NULL))
+		return;
+
+	data = g_new0 (ProgressData, 1);
+
+	/* Add a progress indicator */
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL,
+                                   NULL);
+
+        if (!data->gui) {
+                g_warning ("Could not find " SCRIPT_GLADE_FILE "\n");
+                return;
+        }
+
+	data->dialog = glade_xml_get_widget (data->gui, "hotkey_progress");
+	label = glade_xml_get_widget (data->gui, "progress_info");
+	bar = glade_xml_get_widget (data->gui, "progress_progressbar");
+	progress_cancel_button = glade_xml_get_widget (data->gui, "progress_cancel_button");
+
+	n = g_list_length (file_list);
+
+	if (name == NULL)
+		gtk_window_set_title (GTK_WINDOW (data->dialog), _("Script Progress"));
+	else {
+		full_name = g_strconcat (_("Script Progress"), " - ", name, NULL);
+		gtk_window_set_title (GTK_WINDOW (data->dialog), full_name);
+	}
+
+	data->cancel = FALSE;
+
+        g_signal_connect (G_OBJECT (data->dialog),
+                          "destroy",
+                          G_CALLBACK (progress_cancel_cb),
+                          data);
+
+        g_signal_connect (G_OBJECT (progress_cancel_button),
+                          "clicked",
+                          G_CALLBACK (progress_cancel_cb),
+                          data);
+
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+
+	gtk_widget_show (data->dialog);
+
+	while (gtk_events_pending())
+		gtk_main_iteration();
+
+	/* If the %F code is present, all selected files are processed by
+	   one script instance. Otherwise, each file is handled sequentially. */
+
+	if (strstr (script, "%F")) {
+		char *command = NULL;
+		char *file_list_string;
+
+		file_list_string = g_strdup (" ");
+
+		for (scan = file_list; scan; scan = scan->next) {
+			char *filename;
+			char *e_filename;
+			char *new_file_list;
+
+			if (is_local_file (scan->data))
+				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+			else
+				filename = gnome_vfs_unescape_string_for_display (scan->data);
+
+			e_filename = shell_escape (filename);
+
+			new_file_list = g_strconcat (file_list_string, e_filename, " ", NULL);
+
+			g_free (e_filename);
+			g_free (file_list_string);
+			file_list_string = g_strdup (new_file_list);
+
+			g_free (new_file_list);
+		}
+		command = _g_substitute_pattern (script, 'F', file_list_string);
+		g_free (file_list_string);
+
+		system (command);
+		g_free (command);
+
+		_gtk_label_set_filename_text (GTK_LABEL (label), script);
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+					       (gdouble) 1.0);
+		while (gtk_events_pending())
+			gtk_main_iteration();
+
+		if (data->cancel)
+			_gtk_error_dialog_run (GTK_WINDOW (window), 
+					       _("Scripts using the %%F code can not be cancelled. Sorry!"));
+
+	} else {
+		i = 0;
+		for (scan = file_list; scan && !data->cancel; scan = scan->next) {
+			char *filename;
+			char *e_filename;
+			char *name_wo_ext = NULL;
+			char *extension = NULL;
+			char *parent = NULL;
+			char *basename = NULL;
+			char *basename_wo_ext = NULL;
+			char *command0 = NULL;
+			char *command1 = NULL;
+			char *command2 = NULL;
+			char *command3 = NULL;
+			char *command4 = NULL;
+			char *command5 = NULL;
+
+			if (is_local_file (scan->data))
+				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+			else
+				filename = gnome_vfs_unescape_string_for_display (scan->data);
+
+			name_wo_ext = remove_extension_from_path (filename);
+			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
+			parent = remove_level_from_path (filename);
+			basename = g_strdup (file_name_from_path (filename));
+			basename_wo_ext = remove_extension_from_path (basename);
+
+			e_filename = shell_escape (filename);
+			command5 = _g_substitute_pattern (script, 'f', e_filename);
+			g_free (e_filename);
+
+                        e_filename = shell_escape (basename);
+                        command4 = _g_substitute_pattern (command5, 'b', e_filename);
+                        g_free (e_filename);
+                        g_free (command5);
+
+			e_filename = shell_escape (name_wo_ext);
+			command3 = _g_substitute_pattern (command4, 'n', e_filename);
+			g_free (e_filename);
+			g_free (command4);
+
+                        e_filename = shell_escape (basename_wo_ext);
+                        command2 = _g_substitute_pattern (command3, 'm', e_filename);
+                        g_free (e_filename);
+                        g_free (command3);
+
+			e_filename = shell_escape (extension);
+			command1 = _g_substitute_pattern (command2, 'e', e_filename);
+			g_free (e_filename);
+			g_free (command2);
+
+			e_filename = shell_escape (parent);
+			command0 = _g_substitute_pattern (command1, 'p', e_filename);
+			g_free (e_filename);
+			g_free (command1);
+
+			g_free (filename);
+			g_free (name_wo_ext);
+			g_free (extension);
+			g_free (parent);
+			g_free (basename);
+			g_free (basename_wo_ext);
+
+			_gtk_label_set_filename_text (GTK_LABEL (label), command0);
+			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+						       (gdouble) (i + 0.5) / n);
+
+			system (command0);
+			g_free (command0);
+
+			while (gtk_events_pending())
+				gtk_main_iteration();
+
+			i++;
+		}
+	}
+
+	if (data->dialog)
+		gtk_widget_destroy (data->dialog);
+
+	g_object_unref (data->gui);
+	g_free (data);
+	g_free (full_name);
+}
 
 
 void exec_script0 (GtkAction *action, GthWindow *window) {
@@ -411,6 +623,7 @@ static void
 destroy_cb (GtkWidget  *widget,
             DialogData *data)
 {
+	g_object_unref (data->gui);
         g_free (data);
 }
 
