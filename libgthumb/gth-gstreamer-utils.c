@@ -566,7 +566,7 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
         if (extractor->video_fps_n >= 0 && extractor->video_fps_d >= 0) {
                 metadata = add_metadata (metadata,
                                          g_strdup ("Structure:Video:FrameRate"),
-                                         g_strdup_printf ("%d", (guint) ((extractor->video_fps_n + extractor->video_fps_d / 2) / extractor->video_fps_d)));
+                                         g_strdup_printf ("%.7g", (gdouble) extractor->video_fps_n / (gdouble) extractor->video_fps_d));
         }
 
 	duration = get_media_duration (extractor);
