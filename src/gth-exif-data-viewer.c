@@ -33,6 +33,7 @@
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gth-exif-utils.h"
+#include "gth-gstreamer-utils.h"
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
 #include "gconf-utils.h"
@@ -58,6 +59,7 @@ char *metadata_category_name[GTH_METADATA_CATEGORIES] =
         N_("Exif Versions"),  
         N_("XMP Embedded"),  
 	N_("XMP Sidecar"),
+	N_("Audio / Video"),
         N_("Other")  
 };  
 
@@ -785,15 +787,20 @@ sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 
 
 static GList *
-update_metadata (GList *metadata, ExifData *existing_edata, char *uri)
+update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const char *mime_type)
 {
 	char  *local_file = NULL;
 
 	if (uri == NULL)
 		return metadata;
 
-	metadata = read_exif (uri, metadata, existing_edata);
+	if (mime_type_is (mime_type, "image/jpeg"))
+		metadata = read_exif (uri, metadata, existing_edata);
+
 	metadata = read_xmp (uri, metadata);
+
+	if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
+		metadata = read_gstreamer (uri, metadata);
 
 	/* sort alphabetically by tag name */
 	metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name);
@@ -907,7 +914,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 
         /* Now read metadata */
         GList *metadata = NULL;
-	metadata = update_metadata (metadata, exif_data, edv->priv->file->path);
+	metadata = update_metadata (metadata, exif_data, edv->priv->file->path, edv->priv->file->mime_type);
 
 	/* Display the data */
         g_list_foreach (metadata, (GFunc) add_to_display, edv);

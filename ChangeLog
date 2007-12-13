@@ -1,5 +1,17 @@
 2007-12-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* configure.in:
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-gstreamer-utils.c: 
+	* libgthumb/gth-gstreamer-utils.h:
+	* src/gth-exif-data-viewer.c: (update_metadata),
+	(gth_exif_data_viewer_update):
+	Initial support for gstreamer-supplied metadata for
+	audio and video files.
+
+2007-12-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_tools.glade:
 	* libgthumb/gtk-utils.c:
 	* libgthumb/gtk-utils.h:

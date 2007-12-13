@@ -16,6 +16,7 @@ INCLUDES =							\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(LIBOPENRAW_CFLAGS)                                    \
 	$(EXEMPI_CFLAGS)					\
+	$(GSTREAMER_CFLAGS)					\
 	$(DISABLE_DEPRECATED)
 
 libgthumbdir = $(libdir)
@@ -53,6 +54,7 @@ HEADER_FILES =				\
 	gth-file-view.h			\
 	gth-file-view-list.h		\
 	gth-file-view-thumbs.h		\
+	gth-gstreamer-utils.h		\
 	gth-nav-window.h		\
 	gth-pixbuf-op.h			\
 	gth-sort-utils.h		\
@@ -111,6 +113,7 @@ libgthumb_la_SOURCES =			\
 	gth-file-view.c			\
 	gth-file-view-list.c		\
 	gth-file-view-thumbs.c		\
+	gth-gstreamer-utils.c		\
 	gth-nav-window.c		\
 	gth-sort-utils.c		\
 	gth-utils.c			\
@@ -141,6 +144,7 @@ libgthumb_la_LIBADD =		\
 	$(IPTCDATA_LIBS)	\
 	$(LIBOPENRAW_LIBS)      \
 	$(EXEMPI_LIBS)		\
+	$(GSTREAMER_LIBS)	\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
