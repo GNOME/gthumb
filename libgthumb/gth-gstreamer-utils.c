@@ -356,26 +356,6 @@ add_metadata (GList *metadata,
 }
 
 
-static GList *
-add_int64_info (GList *metadata, gchar *key, gint64 info)
-{
-	gchar *str_info;
-
-	str_info = g_strdup_printf ("%" G_GINT64_FORMAT, info);
-	metadata = add_metadata (metadata, key, str_info);
-}	
-
-
-static GList *
-add_uint_info (GList *metadata, gchar *key, guint info)
-{
-	gchar *str_info;
-
-	str_info = g_strdup_printf ("%d", info);
-	metadata = add_metadata (metadata, key, str_info);
-}
-
-
 static gint64
 get_media_duration (MetadataExtractor *extractor)
 {
@@ -477,29 +457,39 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
         g_return_if_fail (extractor);
 
 	if (extractor->audio_channels >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Structure:Audio:Channels"), (guint) extractor->audio_channels);
+		metadata = add_metadata (metadata,
+					 g_strdup ("Structure:Audio:Channels"), 
+					 g_strdup_printf ("%d", (guint) extractor->audio_channels));
 	}
 
-	if (extractor->audio_samplerate >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Structure:Audio:Samplerate"), (guint) extractor->audio_samplerate);
-	}
+	
+        if (extractor->audio_samplerate >= 0) {
+                metadata = add_metadata (metadata,
+                                         g_strdup ("Structure:Audio:Samplerate"),
+                                         g_strdup_printf ("%d", (guint) extractor->audio_samplerate));
+        }
 
-	if (extractor->video_height >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:Height"), (guint) extractor->video_height);
-	}
+        if (extractor->video_height >= 0) {
+                metadata = add_metadata (metadata,
+                                         g_strdup ("Structure:Video:Height"),
+                                         g_strdup_printf ("%d", (guint) extractor->video_height));
+        }
 
-	if (extractor->video_width >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:Width"), (guint) extractor->video_width);
-	}
+        if (extractor->video_width >= 0) {
+                metadata = add_metadata (metadata,
+                                         g_strdup ("Structure:Video:Width"),
+                                         g_strdup_printf ("%d", (guint) extractor->video_width));
+        }
 
-	if (extractor->video_fps_n >= 0 && extractor->video_fps_d >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:FrameRate"),
-			       (guint) ((extractor->video_fps_n + extractor->video_fps_d / 2) / extractor->video_fps_d));
-	}
+        if (extractor->video_fps_n >= 0 && extractor->video_fps_d >= 0) {
+                metadata = add_metadata (metadata,
+                                         g_strdup ("Structure:Video:FrameRate"),
+                                         g_strdup_printf ("%d", (guint) ((extractor->video_fps_n + extractor->video_fps_d / 2) / extractor->video_fps_d)));
+        }
 
 	duration = get_media_duration (extractor);
 	if (duration >= 0) 
-		metadata = add_metadata (metadata, g_strdup ("Structure:Duration"), g_strdup_printf ("%d", duration));
+		metadata = add_metadata (metadata, g_strdup ("Structure:Duration"), g_strdup_printf ("%" G_GINT64_FORMAT, duration));
 
 	gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, &metadata);
 

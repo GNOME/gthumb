@@ -1,5 +1,10 @@
 2007-12-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-gstreamer-utils.c: (extract_metadata):
+	Eliminate unnecessary functions.
+
+2007-12-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-gstreamer-utils.c: (add_metadata), (tag_iterate),
 	(extract_metadata):
 	Extract additional metadata data types using gstreamer.
