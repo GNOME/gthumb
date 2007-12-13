@@ -343,94 +343,16 @@ add_metadata (GList *metadata,
 {
         GthMetadata *new_entry;
 
-        new_entry = g_new (GthMetadata, 1);
-        new_entry->category = GTH_METADATA_CATEGORY_GSTREAMER;
-        new_entry->name = key;
-        new_entry->value = value;
-        new_entry->position = 0;
-        metadata = g_list_prepend (metadata, new_entry);
+	if (value != NULL) {
+		new_entry = g_new (GthMetadata, 1);
+        	new_entry->category = GTH_METADATA_CATEGORY_GSTREAMER;
+		new_entry->name = key;
+        	new_entry->value = value;
+	       	new_entry->position = 0;
+        	metadata = g_list_prepend (metadata, new_entry);
+	}
 
         return metadata;
-}
-
-
-static GList *
-add_string_gst_tag (GList *metadata, const gchar *key, GstTagList *tag_list, const gchar *tag)
-{
-	gboolean ret;
-	gchar	 *s;
-
-	s = NULL;
-
-	ret = gst_tag_list_get_string (tag_list, tag, &s);
-
-	if (s) {
-		if (ret && s[0] != '\0') {
-			metadata = add_metadata (metadata, g_strdup (key), s);
-		} else {
-			g_free (s);
-		}
-	}
-
-	return metadata;
-}
-
-
-static GList *
-add_uint_gst_tag (GList *metadata, const gchar *key, GstTagList *tag_list, const gchar *tag)
-{
-	gboolean ret;
-	guint	 n;
-
-	ret = gst_tag_list_get_uint (tag_list, tag, &n);
-
-	if (ret) {
-		metadata = add_metadata (metadata, g_strdup (key), g_strdup_printf ("%d", n));
-	}
-
-	return metadata;
-}
-
-
-static GList *
-add_double_gst_tag (GList *metadata, const gchar *key, GstTagList *tag_list, const gchar *tag)
-{
-	gboolean ret;
-	gdouble	 n;
-
-	ret = gst_tag_list_get_double (tag_list, tag, &n);
-
-	if (ret) {
-		metadata = add_metadata (metadata, g_strdup (key), g_strdup_printf ("%f", n));
-	}
-
-	return metadata;
-}
-
-
-static GList *
-add_year_of_gdate_gst_tag (GList *metadata, const gchar *key, GstTagList *tag_list, const gchar *tag)
-{
-	gboolean ret;
-	GDate	 *date;
-
-	date = NULL;
-
-	ret = gst_tag_list_get_date (tag_list, tag, &date);
-
-	if (ret) {
-		gchar buf[10];
-
-		if (g_date_strftime (buf, 10, "%Y", date)) {
-			metadata = add_metadata (metadata, g_strdup (key), g_strdup (buf));
-		}
-	}
-
-	if (date) {
-		g_date_free (date);
-	}
-
-	return metadata;
 }
 
 
@@ -475,11 +397,77 @@ get_media_duration (MetadataExtractor *extractor)
 }
 
 
-void tag_iterate (const GstTagList *list, const gchar *tag, GList *metadata)
+void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
 {
-printf ("%s %d\n\r", gst_tag_get_nick (tag), gst_tag_get_type (tag), G_TYPE_STRING);
+	GType  tag_type;
+	char  *tag_name;
 
+	tag_type = gst_tag_get_type (tag);
+	tag_name = g_strdup (gst_tag_get_nick (tag));
+
+	/* types that we need to handle:
+	   gst_tag_list_get_char
+	   gst_tag_list_get_uchar
+	   gst_tag_list_get_boolean
+	   gst_tag_list_get_int
+	   gst_tag_list_get_uint (done)
+	   gst_tag_list_get_long
+	   gst_tag_list_get_ulong
+	   gst_tag_list_get_int64
+	   gst_tag_list_get_uint64
+	   gst_tag_list_get_float
+	   gst_tag_list_get_double (done)
+	   gst_tag_list_get_string (done)
+	   gst_tag_list_get_date (done)
+	*/
+
+	/* ----- G_TYPE_STRING ----- */
+	if (tag_type == G_TYPE_STRING) {
+		char *ret = NULL;
+		if (gst_tag_list_get_string (list, tag, &ret))
+			*metadata = add_metadata (*metadata, tag_name, ret);
+		else
+			g_free (tag_name);
+	}
+
+        /* ----- G_TYPE_UINT ----- */
+        if (tag_type == G_TYPE_UINT) {
+                guint ret = 0;
+                if (gst_tag_list_get_uint (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%d", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_DOUBLE ----- */
+        if (tag_type == G_TYPE_DOUBLE) {
+                gdouble ret = 0;
+                if (gst_tag_list_get_double (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%f", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_DATE ----- */
+        if (tag_type == G_TYPE_DATE) {
+                GDate *ret = NULL;
+                if (gst_tag_list_get_date (list, tag, &ret)) {
+			if (ret) {
+				gchar buf[11];
+				g_date_strftime (buf, 10, "%F", ret);
+				*metadata = add_metadata (*metadata, tag_name, g_strdup (buf));
+				}
+			g_free (ret);
+			}
+                else
+                        g_free (tag_name);
+        }
+	
 }
+
+
 
 static GList *
 extract_metadata (MetadataExtractor *extractor, GList *metadata)
@@ -489,43 +477,31 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
         g_return_if_fail (extractor);
 
 	if (extractor->audio_channels >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Audio:Channels"), (guint) extractor->audio_channels);
+		metadata = add_uint_info (metadata, g_strdup ("Structure:Audio:Channels"), (guint) extractor->audio_channels);
 	}
 
 	if (extractor->audio_samplerate >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Audio:Samplerate"), (guint) extractor->audio_samplerate);
+		metadata = add_uint_info (metadata, g_strdup ("Structure:Audio:Samplerate"), (guint) extractor->audio_samplerate);
 	}
 
 	if (extractor->video_height >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Video:Height"), (guint) extractor->video_height);
+		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:Height"), (guint) extractor->video_height);
 	}
 
 	if (extractor->video_width >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Video:Width"), (guint) extractor->video_width);
+		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:Width"), (guint) extractor->video_width);
 	}
 
 	if (extractor->video_fps_n >= 0 && extractor->video_fps_d >= 0) {
-		metadata = add_uint_info (metadata, g_strdup ("Video:FrameRate"),
+		metadata = add_uint_info (metadata, g_strdup ("Structure:Video:FrameRate"),
 			       (guint) ((extractor->video_fps_n + extractor->video_fps_d / 2) / extractor->video_fps_d));
 	}
 
 	duration = get_media_duration (extractor);
-	if ((duration >= 0) && (extractor->has_video))
-		metadata = add_int64_info (metadata, g_strdup ("Video:Duration"), duration);
-        if ((duration >= 0) && (extractor->has_audio)) 
-		metadata = add_int64_info (metadata, g_strdup ("Audio:Duration"), duration);
+	if (duration >= 0) 
+		metadata = add_metadata (metadata, g_strdup ("Structure:Duration"), g_strdup_printf ("%d", duration));
 
-	if (extractor->audiotags) {
-		metadata = add_uint_gst_tag (metadata, "Audio:Bitrate", extractor->tagcache, GST_TAG_BITRATE);
-	}
-
-	if (extractor->videotags) {
-		metadata = add_uint_gst_tag (metadata, "Video:Bitrate", extractor->tagcache, GST_TAG_BITRATE);
-	}
-
-
-//	working on this part	
-//	gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, metadata);
+	gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, &metadata);
 
 	return metadata;
 }
