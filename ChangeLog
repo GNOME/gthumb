@@ -1,5 +1,10 @@
 2007-12-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-gstreamer-utils.c: (extract_metadata):
+	Eliminate nuisance warning if no metadata tags are found.
+
+2007-12-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-gstreamer-utils.c: (tag_iterate):
 	Finished adding support for most gstreamer metadata GTypes.
 

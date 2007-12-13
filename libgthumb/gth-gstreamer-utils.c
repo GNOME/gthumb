@@ -573,7 +573,8 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
 	if (duration >= 0) 
 		metadata = add_metadata (metadata, g_strdup ("Structure:Duration"), g_strdup_printf ("%" G_GINT64_FORMAT, duration));
 
-	gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, &metadata);
+	if (extractor->tagcache)
+		gst_tag_list_foreach (extractor->tagcache, (GstTagForeachFunc) tag_iterate, &metadata);
 
 	return metadata;
 }
