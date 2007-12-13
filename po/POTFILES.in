@@ -48,6 +48,8 @@ libgthumb/gth-file-view-thumbs.c
 libgthumb/gth-file-view-thumbs.h
 libgthumb/gth-file-view.c
 libgthumb/gth-file-view.h
+libgthumb/gth-gstreamer-utils.c
+libgthumb/gth-gstreamer-utils.h
 libgthumb/gth-image-list.c
 libgthumb/gth-image-list.h
 libgthumb/gth-pixbuf-op.c
@@ -148,6 +150,8 @@ src/dlg-scale-series.c
 src/dlg-scale-series.h
 src/dlg-search.c
 src/dlg-search.h
+src/dlg-scripts.c
+src/dlg-scripts.h
 src/dlg-web-exporter.c
 src/dlg-web-exporter.h
 src/dlg-write-to-cd.c

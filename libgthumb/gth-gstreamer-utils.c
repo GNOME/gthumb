@@ -385,21 +385,22 @@ void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
 	tag_type = gst_tag_get_type (tag);
 	tag_name = g_strdup (gst_tag_get_nick (tag));
 
-	/* types that we need to handle:
-	   gst_tag_list_get_char
-	   gst_tag_list_get_uchar
-	   gst_tag_list_get_boolean
-	   gst_tag_list_get_int
-	   gst_tag_list_get_uint (done)
-	   gst_tag_list_get_long
-	   gst_tag_list_get_ulong
-	   gst_tag_list_get_int64
-	   gst_tag_list_get_uint64
-	   gst_tag_list_get_float
-	   gst_tag_list_get_double (done)
-	   gst_tag_list_get_string (done)
-	   gst_tag_list_get_date (done)
-	*/
+
+	/* ----- G_TYPE_BOOLEAN ----- */
+	if (tag_type == G_TYPE_BOOLEAN) {
+		gboolean ret;
+		if (gst_tag_list_get_boolean (list, tag, &ret)) {
+			if (ret) {
+				*metadata = add_metadata (*metadata, tag_name, g_strdup ("TRUE"));
+			} 
+			else {
+				*metadata = add_metadata (*metadata, tag_name, g_strdup ("FALSE"));
+			}			
+		}
+		else
+			g_free (tag_name);
+	}
+
 
 	/* ----- G_TYPE_STRING ----- */
 	if (tag_type == G_TYPE_STRING) {
@@ -410,11 +411,82 @@ void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
 			g_free (tag_name);
 	}
 
+
+	/* ----- G_TYPE_UCHAR ----- */
+        if (tag_type == G_TYPE_UCHAR) {
+                guchar ret = 0;
+                if (gst_tag_list_get_uchar (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%u", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_CHAR ----- */
+        if (tag_type == G_TYPE_CHAR) {
+                gchar ret = 0;
+                if (gst_tag_list_get_char (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%d", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
         /* ----- G_TYPE_UINT ----- */
         if (tag_type == G_TYPE_UINT) {
                 guint ret = 0;
                 if (gst_tag_list_get_uint (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%u", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_INT ----- */
+        if (tag_type == G_TYPE_INT) {
+                gint ret = 0;
+                if (gst_tag_list_get_int (list, tag, &ret))
                         *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%d", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_ULONG ----- */
+        if (tag_type == G_TYPE_ULONG) {
+                gulong ret = 0;
+                if (gst_tag_list_get_ulong (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%u", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_LONG ----- */
+        if (tag_type == G_TYPE_LONG) {
+                glong ret = 0;
+                if (gst_tag_list_get_long (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%d", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_INT64 ----- */
+        if (tag_type == G_TYPE_INT64) {
+                gint64 ret = 0;
+                if (gst_tag_list_get_int64 (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%" G_GINT64_FORMAT, ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_UINT64 ----- */
+        if (tag_type == G_TYPE_UINT64) {
+                guint64 ret = 0;
+                if (gst_tag_list_get_uint64 (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%" G_GUINT64_FORMAT, ret));
                 else
                         g_free (tag_name);
         }
@@ -424,6 +496,16 @@ void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
         if (tag_type == G_TYPE_DOUBLE) {
                 gdouble ret = 0;
                 if (gst_tag_list_get_double (list, tag, &ret))
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%f", ret));
+                else
+                        g_free (tag_name);
+        }
+
+
+        /* ----- G_TYPE_FLOAT ----- */
+        if (tag_type == G_TYPE_FLOAT) {
+                gfloat ret = 0;
+                if (gst_tag_list_get_float (list, tag, &ret))
                         *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%f", ret));
                 else
                         g_free (tag_name);
