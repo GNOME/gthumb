@@ -1,3 +1,12 @@
+2007-12-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-photo-importer.c: (valid_mime_type):
+	Added support for ASF files. Bug #471496.
+
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	Don't display dimensions for audio files (meaningless)
+	or video files (incorrect, reports thumbnail size).
+
 2007-12-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-gstreamer-utils.c: (extract_metadata):

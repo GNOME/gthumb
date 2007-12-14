@@ -520,7 +520,7 @@ valid_mime_type (const char *name,
 		const char *exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF", "PPM",	/* images */
 				       "CR2", "CRW", "RAF", "DCR", "MOS", "RAW", "DNG", 	/* RAW images */
 				       "XCF", "SRF", "ORF", "MRW", "NEF", "PEF", "ARW", 	/* RAW images */
-				       "AVI", "MPG", "MPEG",					/* video */
+				       "AVI", "MPG", "MPEG", "ASF",				/* video */
 				       "AU", "WAV", "OGG", "MP3", "FLAC" };			/* audio */
 		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
 			const char *ext = exts[i];

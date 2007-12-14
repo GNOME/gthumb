@@ -41,9 +41,11 @@ trunk, since last 2.10.x
 	* In fullscreen mode, detect motion based on movement rather than
 	  acceleration. Bug #472491.
 	* Fixed bug #327245: Full screen mode crippled if Xinerama is used
+	* Added support for importing ASF files (bug #471496)
 
 	Other features:
 	* Added basic XMP metadata support (read only)
+	* Extract video metadata with gstreamer
 
 
 version 2.10.8

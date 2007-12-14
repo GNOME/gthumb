@@ -850,7 +850,10 @@ update_file_info (GthExifDataViewer *edv)
 
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Path"), utf8_fullname, -6);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
+
+	if (mime_type_is_image (mime_type))
+		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
+
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Type"), mime_type, -2);
