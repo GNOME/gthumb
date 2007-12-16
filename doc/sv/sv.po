@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2007-03-31 03:23+0100\n"
-"PO-Revision-Date: 2007-08-03 00:52+0100\n"
+"POT-Creation-Date: 2007-12-07 21:26+0000\n"
+"PO-Revision-Date: 2007-12-16 15:46+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgid "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 msgstr "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 
 #: C/gthumb.xml:19(title)
-msgid "<application>gThumb</application> Manual V2.9.0"
-msgstr "Handbok för <application>gThumb</application> v2.9.0"
+msgid "<application>gThumb</application> Manual V2.10.8"
+msgstr "Handbok för <application>gThumb</application> v2.10.8"
 
 #: C/gthumb.xml:21(year)
 msgid "2001"
@@ -99,8 +99,8 @@ msgid "kirillov@math.sunysb.edu"
 msgstr "kirillov@math.sunysb.edu"
 
 #: C/gthumb.xml:68(revnumber)
-msgid "2.9.0"
-msgstr "2.9.0"
+msgid "2.10.8"
+msgstr "2.10.8"
 
 #: C/gthumb.xml:69(date)
 msgid "October 2006"
@@ -108,8 +108,8 @@ msgstr "Oktober 2006"
 
 #. this is version of manual, not application
 #: C/gthumb.xml:79(releaseinfo)
-msgid "This is manual describes version 2.9.0 of gThumb"
-msgstr "Den här handboken beskriver version 2.9.0 av gThumb"
+msgid "This is manual describes version 2.10.8 of gThumb"
+msgstr "Den här handboken beskriver version 2.10.8 av gThumb"
 
 #: C/gthumb.xml:82(para)
 msgid "<application>gThumb</application> is an image viewer and browser for the GNOME environment"
@@ -2607,6 +2607,8 @@ msgstr "Lämna helskärmsläget."
 msgid "translator-credits"
 msgstr "Daniel Nylander <po@danielnylander.se>, 2006, 2007"
 
+#~ msgid "2.9.0"
+#~ msgstr "2.9.0"
 #~ msgid "Q"
 #~ msgstr "Q"
 
