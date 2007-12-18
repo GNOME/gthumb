@@ -1,5 +1,6 @@
 2007-12-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_preferences.glade:
 	* src/dlg-preferences.c: (apply_cb), (dlg_preferences):
 	* src/gth-browser-actions-entries.h:
 	"Slide show" -> "Slideshow". It's not a real word, but everyone
