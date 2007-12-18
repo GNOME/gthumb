@@ -27,6 +27,7 @@ trunk, since last 2.10.x
 	* Moved the hotkey / script definitions out of the Preferences menu,
 	  and into a new "Scripts" menu. Added names for scripts. Added menu
 	  launching of scripts (in addition to hotkey launching). Bug 502309.
+	* Use "Slideshow" instead of "Slide Show". Bug #504326.
 
 	Bugfixes:
 

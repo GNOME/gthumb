@@ -351,8 +351,8 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_bookmarks_edit) },
 
 	{ "Tools_Slideshow", GTHUMB_STOCK_SLIDESHOW,
-	  N_("_Slide Show"), "F12",
-	  N_("View as a slide show"),
+	  N_("_Slideshow"), "F12",
+	  N_("View as a slideshow"),
 	  G_CALLBACK (gth_browser_activate_action_tools_slideshow) },
 
 	{ "Tools_FindImages", GTK_STOCK_FIND,

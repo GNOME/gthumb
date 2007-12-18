@@ -135,7 +135,7 @@ apply_cb (GtkWidget  *widget,
 		g_free (location);
 	}
 
-	/* Slide Show. */
+	/* Slideshow. */
 
 	eel_gconf_set_boolean (PREF_SLIDESHOW_WRAP_AROUND, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around)));
 	eel_gconf_set_boolean (PREF_SLIDESHOW_FADING, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fading)));
@@ -498,7 +498,7 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
-	/* * slide show */
+	/* * slideshow */
 
 	direction = pref_get_slideshow_direction ();
 	if (direction == GTH_DIRECTION_FORWARD)
