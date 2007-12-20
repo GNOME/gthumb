@@ -28,6 +28,8 @@ trunk, since last 2.10.x
 	  and into a new "Scripts" menu. Added names for scripts. Added menu
 	  launching of scripts (in addition to hotkey launching). Bug 502309.
 	* Use "Slideshow" instead of "Slide Show". Bug #504326.
+	* Default aspect-ratio constraint mode when cropping is now "none".
+	  Bug #504580.
 
 	Bugfixes:
 

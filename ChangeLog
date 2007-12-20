@@ -1,3 +1,10 @@
+2007-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/gthumb.schemas.in:
+        Default aspect-ratio constraint mode when cropping is now "none".
+        Bug #504580. Patch by Ted Percival.
+
 2007-12-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_preferences.glade:

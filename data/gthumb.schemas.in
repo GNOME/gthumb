@@ -2242,7 +2242,7 @@
 	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>image</default>
+	<default>none</default>
 	<locale name="C">
 	  <short></short>
 	  <long> Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.
