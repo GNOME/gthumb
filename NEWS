@@ -49,6 +49,7 @@ trunk, since last 2.10.x
 	Other features:
 	* Added basic XMP metadata support (read only)
 	* Extract video metadata with gstreamer
+	* Added a Flickr uploader (by launching Postr). Bug #489403.
 
 
 version 2.10.8

@@ -251,6 +251,9 @@ viewer_update_sensitivity (GthViewer *viewer)
 
 	set_action_sensitive (viewer, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (viewer, "View_StepAnimation", image_is_ani && ! playing);
+	
+	set_action_sensitive (viewer, "Upload_Flickr", !image_is_void);
+	
 
 	viewer_update_zoom_sensitivity (viewer);
 }

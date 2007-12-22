@@ -1,3 +1,24 @@
+2007-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* AUTHORS:
+	* NEWS:
+	* src/dlg-scripts.c: (exec_upload_flickr):
+	* src/gth-browser-actions-callbacks.c:
+	(gth_browser_activate_action_upload_flickr):
+	* src/gth-browser-actions-callbacks.h:
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_update_sensitivity):
+	* src/gth-viewer-actions-callbacks.c:
+	(gth_viewer_activate_action_upload_flickr):
+	* src/gth-viewer-actions-callbacks.h:
+	* src/gth-viewer-actions-entries.h:
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer.c: (viewer_update_sensitivity):
+	Added a Flickr uploader (by launching Postr). Bug #489403.
+	Patch by Michael Lester (element3260@gmail.com), via
+	google-highly-open-participation-gnome.
+
 2007-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

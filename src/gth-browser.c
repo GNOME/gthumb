@@ -264,7 +264,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *progress_info;
 	guint               progress_timeout;
 
-	GtkTooltips        *tooltips;
+	GtkTooltips         *tooltips;
 	guint               help_message_cid;
 	guint               list_info_cid;
 
@@ -334,7 +334,6 @@ static GtkTreePath  *dir_list_tree_path = NULL;
 static GtkTreePath  *catalog_list_tree_path = NULL;
 static GList        *gth_file_list_drag_data = NULL;
 static char         *dir_list_drag_data = NULL;
-
 
 static void
 set_action_sensitive (GthBrowser  *browser,
@@ -1004,7 +1003,11 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Wallpaper_Tiled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Scaled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Stretched", ! image_is_void);
-
+	
+	/* Upload menu. */
+	
+	set_action_sensitive (browser, "Upload_Flickr", sel_not_null);
+	
 	window_update_zoom_sensitivity (browser);
 }
 
@@ -5216,7 +5219,7 @@ menu_item_select_cb (GtkMenuItem *proxy,
 
 	action = g_object_get_data (G_OBJECT (proxy),  "gtk-action");
 	g_return_if_fail (action != NULL);
-
+	
 	g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
 	if (message != NULL) {
 		gtk_statusbar_push (GTK_STATUSBAR (browser->priv->statusbar),

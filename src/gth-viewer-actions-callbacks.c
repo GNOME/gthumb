@@ -133,3 +133,10 @@ gth_viewer_activate_action_single_window (GtkAction *action,
 {
 	gth_viewer_set_single_window (viewer, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
+
+void 
+gth_viewer_activate_action_upload_flickr (GtkAction  *action,
+						 GthBrowser *viewer)
+{
+	exec_upload_flickr (action, GTH_WINDOW (viewer)); 
+}

@@ -47,7 +47,8 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
-        { "ScriptMenu", NULL, N_("_Scripts") },
+	{ "ScriptMenu", NULL, N_("_Scripts") },
+	{ "UploadMenu", NULL, N_("_Upload") },
 	{ "HelpMenu", NULL, N_("_Help") },
 
 	{ "File_NewWindow", GTK_STOCK_NEW,
@@ -402,8 +403,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
         { "External_Scripts", GTK_STOCK_EDIT,
           N_("_Edit Scripts"), NULL,
           N_("Edit external scripts"),
-          G_CALLBACK (gth_browser_activate_action_scripts) }
-
+          G_CALLBACK (gth_browser_activate_action_scripts) },
+	
+	{ "Upload_Flickr", NULL,
+	  N_("To _Flickr"), NULL,
+	  N_("Upload selected images to Flickr"),
+	  G_CALLBACK (gth_browser_activate_action_upload_flickr) }
 
 };
 static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
