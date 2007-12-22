@@ -393,15 +393,17 @@ void exec_script9 (GtkAction *action, GthWindow *window) {
 
 void exec_upload_flickr (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
-        if (gnome_vfs_is_executable_command_string("postr")) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    "postr %F &", 
-                                    "Upload to Flickr",
-                                    list);
-                path_list_free (list);
-        }
-        else
-        	_gtk_error_dialog_run (GTK_WINDOW (window), _("The \"Postr\" software package must be installed to use this function."));
+	if (list != NULL) {
+        	if (gnome_vfs_is_executable_command_string("postr"))
+	                exec_shell_script ( GTK_WINDOW (window), 
+                        	            "postr %F &", 
+                                	    "Upload to Flickr",
+	                                    list);
+        	else
+        		_gtk_error_dialog_run (GTK_WINDOW (window), _("The \"Postr\" software package must be installed to use this function."));
+
+		path_list_free (list);
+	}
 }
 
 static void

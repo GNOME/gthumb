@@ -1,5 +1,10 @@
 2007-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-scripts.c: (exec_upload_flickr):
+	Correction to last commit: free GList if postr can not be executed.
+	
+2007-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* AUTHORS:
 	* NEWS:
 	* src/dlg-scripts.c: (exec_upload_flickr):
