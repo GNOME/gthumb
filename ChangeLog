@@ -1,5 +1,10 @@
 2007-12-23  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-browser.c (dir_list_done_cb): 
+	
+	If the directory doesn't exists go to the closest existing parent.
+	Fixes bug #495575 – infinite loop when browsing deleted dirs
+	
 	* libgthumb/thumb-loader.c: 
 	* libgthumb/gth-file-list.c: 
 	
