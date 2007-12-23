@@ -1,5 +1,9 @@
 2007-12-23  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* src/gth-batch-op.c: 
+	
+	Fixed bug #500719 – segfault when canceling batch operations
+	
 	* src/dlg-search.c: 
 	
 	create a new visited_dirs hash in search_images_async as suggested
