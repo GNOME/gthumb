@@ -1,3 +1,9 @@
+2007-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-browser.c: (window_update_sensitivity):
+	* src/gth-viewer.c: (viewer_update_sensitivity):
+	Make script menu items sensitive, depending on file selections.
+
 2007-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-scripts.c: (exec_upload_flickr):

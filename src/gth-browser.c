@@ -1003,7 +1003,19 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Wallpaper_Tiled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Scaled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Stretched", ! image_is_void);
-	
+
+	/* Scripts menu */
+	set_action_sensitive (browser, "Script_0", sel_not_null);
+	set_action_sensitive (browser, "Script_1", sel_not_null);
+	set_action_sensitive (browser, "Script_2", sel_not_null);
+	set_action_sensitive (browser, "Script_3", sel_not_null);
+	set_action_sensitive (browser, "Script_4", sel_not_null);
+	set_action_sensitive (browser, "Script_5", sel_not_null);
+	set_action_sensitive (browser, "Script_6", sel_not_null);
+	set_action_sensitive (browser, "Script_7", sel_not_null);
+	set_action_sensitive (browser, "Script_8", sel_not_null);
+	set_action_sensitive (browser, "Script_9", sel_not_null);
+
 	/* Upload menu. */
 	
 	set_action_sensitive (browser, "Upload_Flickr", sel_not_null);

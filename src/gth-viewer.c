@@ -251,7 +251,18 @@ viewer_update_sensitivity (GthViewer *viewer)
 
 	set_action_sensitive (viewer, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (viewer, "View_StepAnimation", image_is_ani && ! playing);
-	
+
+        set_action_sensitive (viewer, "Script_0", !image_is_void);
+        set_action_sensitive (viewer, "Script_1", !image_is_void);
+        set_action_sensitive (viewer, "Script_2", !image_is_void);
+        set_action_sensitive (viewer, "Script_3", !image_is_void);
+        set_action_sensitive (viewer, "Script_4", !image_is_void);
+        set_action_sensitive (viewer, "Script_5", !image_is_void);
+        set_action_sensitive (viewer, "Script_6", !image_is_void);
+        set_action_sensitive (viewer, "Script_7", !image_is_void);
+        set_action_sensitive (viewer, "Script_8", !image_is_void);
+        set_action_sensitive (viewer, "Script_9", !image_is_void);
+
 	set_action_sensitive (viewer, "Upload_Flickr", !image_is_void);
 	
 
