@@ -632,7 +632,7 @@ progress_dlg_delete_event_cb (GtkWidget  *caller,
 			      GdkEvent   *event,
 			      GthBatchOp *bop)
 {
-	notify_termination (bop);
+	PD(bop)->stop_operation = TRUE;
 	return TRUE;
 }
 

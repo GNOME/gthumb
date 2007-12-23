@@ -1,3 +1,33 @@
+2007-12-23  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/gth-browser.c (dir_list_done_cb): 
+	
+	If the directory doesn't exists go to the closest existing parent.
+	Fixes bug #495575 – infinite loop when browsing deleted dirs
+	
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/gth-file-list.c: 
+	
+	Fixed bug #Bug 498741 – gthumb always saves thumbnails despite the 
+	gconf option in apps -> gthumb -> browser -> save_thumbnails set 
+	to "false"
+	
+	* src/gth-batch-op.c: 
+	
+	Fixed bug #500719 – segfault when canceling batch operations
+	
+	* src/dlg-search.c: 
+	
+	create a new visited_dirs hash in search_images_async as suggested
+	by  Behdad Esfahbod
+	
+	Fixes bug #503525 – Recursive loop fix is wrong?
+	
+	* src/dlg-redeye-removal.c: 
+	* src/dlg-crop.c: 
+
+	include "gtk-utils.h" to avoid a warning.
+
 2007-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-browser.c: (window_update_sensitivity):

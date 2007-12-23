@@ -1192,6 +1192,9 @@ void
 gfl_set_list (GthFileList *file_list,
 	      GList       *new_list)
 {
+	thumb_loader_save_thumbnails (THUMB_LOADER (file_list->priv->thumb_loader), eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE));
+	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->priv->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
+
 	if (file_list->priv->filter != NULL)
 		gth_filter_reset (file_list->priv->filter);
 
