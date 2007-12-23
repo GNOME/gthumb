@@ -544,7 +544,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		}
 
 		/* Save the thumbnail if necessary. */
-		if (! priv->from_cache && priv->save_thumbnails)
+		if (priv->save_thumbnails && ! priv->from_cache)
 			thumb_loader_save_to_cache (tl);
 
 		/* Scale if the user wants a different size. */
