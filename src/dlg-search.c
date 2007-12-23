@@ -186,13 +186,18 @@ free_search_results_data (DialogData *data)
 		file_data_list_free (data->files);
 		data->files = NULL;
 	}
-
+	
 	if (data->dirs) {
 		path_list_free (data->dirs);
 		data->dirs = NULL;
 	}
-
+	
 	g_hash_table_foreach_remove (data->folders_comment, remove_folder_comment_cb, NULL);
+	
+	if (data->visited_dirs != NULL) {
+		g_hash_table_destroy (data->visited_dirs);
+		data->visited_dirs = NULL;
+	}
 }
 
 
@@ -217,8 +222,6 @@ destroy_cb (GtkWidget  *widget,
 		g_hash_table_destroy (data->folders_comment);
 	if (data->hidden_files != NULL)
 		g_hash_table_destroy (data->hidden_files);
-	if (data->visited_dirs != NULL)
-		g_hash_table_destroy (data->visited_dirs);
 	g_free (data);
 }
 
@@ -1109,14 +1112,7 @@ search_dir_async (DialogData *data,
 
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
-
-	if (data->visited_dirs != NULL)
-		g_hash_table_destroy (data->visited_dirs);
-	data->visited_dirs = g_hash_table_new_full (g_str_hash,
-					      	    g_str_equal,
-					            (GDestroyNotify) g_free,
-					            NULL);
-		
+	
 	uri = add_scheme_if_absent (dir);
 	if (! resolve_all_symlinks (uri, &real_uri) == GNOME_VFS_OK) {
 		g_free (uri);
@@ -1158,8 +1154,11 @@ search_images_async (DialogData *data)
 	SearchData *search_data = data->search_data;
 
 	free_search_results_data (data);
+	data->visited_dirs = g_hash_table_new_full (g_str_hash,
+					      	    g_str_equal,
+					            (GDestroyNotify) g_free,
+					            NULL);
 	gth_file_list_set_list (data->file_list, NULL, pref_get_arrange_type (), pref_get_sort_order ());
-
 	search_dir_async (data, search_data->start_from);
 }
 

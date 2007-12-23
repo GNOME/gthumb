@@ -29,6 +29,7 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "glib-utils.h"
+#include "gtk-utils.h"
 #include "gth-utils.h"
 #include "gth-window.h"
 #include "gconf-utils.h"

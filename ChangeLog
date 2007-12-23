@@ -1,3 +1,17 @@
+2007-12-23  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* src/dlg-search.c: 
+	
+	create a new visited_dirs hash in search_images_async as suggested
+	by  Behdad Esfahbod
+	
+	Fixes bug #503525 – Recursive loop fix is wrong?
+	
+	* src/dlg-redeye-removal.c: 
+	* src/dlg-crop.c: 
+
+	include "gtk-utils.h" to avoid a warning.
+
 2007-12-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gtk-utils.c: (get_screen_size):
