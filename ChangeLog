@@ -1,3 +1,12 @@
+2007-12-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_tools.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-scripts.c: (get_prompt), (delete_lowercase_keys),
+	(get_user_prompts), (exec_shell_script):
+	Added user prompts to the scripting feature.
+
 2007-12-23  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (dir_list_done_cb): 

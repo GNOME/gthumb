@@ -87,6 +87,135 @@ progress_cancel_cb (GtkWidget    *widget,
 	data->cancel = TRUE;	
 }
 
+
+static
+gchar* get_prompt (GtkWindow  *window,
+ 		   char       *prompt_name)
+{
+        GladeXML     *gui;
+        GtkWidget    *dialog;
+        GtkWidget    *entry;
+        GtkWidget    *label;
+	gchar	     *result = NULL;
+
+        gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL,
+                             NULL);
+
+        if (!gui) {
+                g_warning ("Could not find " SCRIPT_GLADE_FILE "\n");
+                return;
+        }
+
+        dialog = glade_xml_get_widget (gui, "prompt_dialog");
+        label = glade_xml_get_widget (gui, "prompt_label");
+        entry = glade_xml_get_widget (gui, "prompt_entry");
+
+	gtk_label_set_text (GTK_LABEL (label), prompt_name);
+
+        gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
+        gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+
+        gtk_widget_show (dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	result = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	gtk_widget_destroy (dialog);
+
+	return result;
+}
+
+
+static
+gboolean delete_lowercase_keys (gpointer key, gpointer value, gpointer user_data)
+{
+	return g_unichar_islower (g_utf8_get_char (key));
+}
+
+
+static
+char* get_user_prompts (GtkWindow  *window,
+			char       *text_in,
+			GHashTable *user_prompts)
+{
+	char    *text_out = NULL;
+	char	*pos;
+	GString *new_string;
+
+	/* Lower case keys are refreshed for each iteration. Delete existing values. */
+	g_hash_table_foreach_remove (user_prompts, delete_lowercase_keys, NULL);
+
+	new_string = g_string_new (NULL);
+
+	for (pos = text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
+		char     *end;
+		char     *check_char;
+		GString  *prompt_name;
+		gunichar  ch;
+		gboolean  closing_bracket_found = FALSE;
+		gboolean  valid_prompt_name = TRUE;
+		gboolean  lower_case_mode;
+
+		ch = g_utf8_get_char (pos);
+		closing_bracket_found = FALSE;
+		prompt_name = g_string_new (NULL);
+
+		if (ch == '[') {
+			end = g_utf8_next_char (pos);
+
+			while ((*end != 0) && !closing_bracket_found) {
+				gunichar ch2 = g_utf8_get_char (end);
+
+				if (ch2 == ']') {
+					closing_bracket_found = TRUE;
+				} else {
+					g_string_append_unichar (prompt_name, ch2);
+					end = g_utf8_next_char (end);
+				}
+			}
+		}
+
+		if (closing_bracket_found) {
+			lower_case_mode = g_unichar_islower (g_utf8_get_char (prompt_name->str));
+
+			/* must be all upper case or all lower case */
+	                for (check_char = prompt_name->str; (*check_char !=0) && valid_prompt_name; check_char = g_utf8_next_char (check_char)) {
+				if ((!g_unichar_isalpha (g_utf8_get_char (check_char))) ||
+				    (g_unichar_islower (g_utf8_get_char (check_char)) != lower_case_mode)) {
+					valid_prompt_name = FALSE;
+	                        }
+	                }
+		}
+
+		if (!closing_bracket_found || !valid_prompt_name) {
+			/* Not a prompt. Just append this character to the output, without
+			   any interpretation. */
+			g_string_append_unichar (new_string, ch);
+			g_string_free (prompt_name, TRUE);
+			continue;
+		}
+
+		pos = end;
+
+		if (g_hash_table_lookup (user_prompts, prompt_name->str) == NULL) {
+			g_hash_table_insert (user_prompts, 
+					     prompt_name->str, 
+					     get_prompt (window, prompt_name->str));
+		}
+
+		if (g_hash_table_lookup (user_prompts, prompt_name->str) != NULL)
+			g_string_append (new_string, g_hash_table_lookup (user_prompts, prompt_name->str));
+
+		g_string_free (prompt_name, FALSE);
+	}
+
+	text_out = new_string->str;
+	g_string_free (new_string, FALSE);
+
+	return text_out;
+}
+
+
 static void
 exec_shell_script (GtkWindow  *window,
 		   const char *script,
@@ -100,6 +229,8 @@ exec_shell_script (GtkWindow  *window,
 	GList        *scan;
 	char	     *full_name;
 	int           i, n;
+	GHashTable   *user_prompts;
+
 
 	if ((script == NULL) || (file_list == NULL))
 		return;
@@ -149,11 +280,14 @@ exec_shell_script (GtkWindow  *window,
 	while (gtk_events_pending())
 		gtk_main_iteration();
 
+	user_prompts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
 	/* If the %F code is present, all selected files are processed by
 	   one script instance. Otherwise, each file is handled sequentially. */
 
 	if (strstr (script, "%F")) {
-		char *command = NULL;
+		char *command1 = NULL;
+		char *command0 = NULL;
 		char *file_list_string;
 
 		file_list_string = g_strdup (" ");
@@ -178,11 +312,14 @@ exec_shell_script (GtkWindow  *window,
 
 			g_free (new_file_list);
 		}
-		command = _g_substitute_pattern (script, 'F', file_list_string);
+		command1 = _g_substitute_pattern (script, 'F', file_list_string);
+		command0 = get_user_prompts (window, command1, user_prompts);
+		g_free (command1);
 		g_free (file_list_string);
 
-		system (command);
-		g_free (command);
+		system (command0);
+		g_free (command0);
+
 
 		_gtk_label_set_filename_text (GTK_LABEL (label), script);
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
@@ -210,6 +347,7 @@ exec_shell_script (GtkWindow  *window,
 			char *command3 = NULL;
 			char *command4 = NULL;
 			char *command5 = NULL;
+			char *command6 = NULL;
 
 			if (is_local_file (scan->data))
 				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
@@ -223,32 +361,35 @@ exec_shell_script (GtkWindow  *window,
 			basename_wo_ext = remove_extension_from_path (basename);
 
 			e_filename = shell_escape (filename);
-			command5 = _g_substitute_pattern (script, 'f', e_filename);
+			command6 = _g_substitute_pattern (script, 'f', e_filename);
 			g_free (e_filename);
 
                         e_filename = shell_escape (basename);
-                        command4 = _g_substitute_pattern (command5, 'b', e_filename);
+                        command5 = _g_substitute_pattern (command6, 'b', e_filename);
                         g_free (e_filename);
-                        g_free (command5);
+                        g_free (command6);
 
 			e_filename = shell_escape (name_wo_ext);
-			command3 = _g_substitute_pattern (command4, 'n', e_filename);
+			command4 = _g_substitute_pattern (command5, 'n', e_filename);
 			g_free (e_filename);
-			g_free (command4);
+			g_free (command5);
 
                         e_filename = shell_escape (basename_wo_ext);
-                        command2 = _g_substitute_pattern (command3, 'm', e_filename);
+                        command3 = _g_substitute_pattern (command4, 'm', e_filename);
                         g_free (e_filename);
-                        g_free (command3);
+                        g_free (command4);
 
 			e_filename = shell_escape (extension);
-			command1 = _g_substitute_pattern (command2, 'e', e_filename);
+			command2 = _g_substitute_pattern (command3, 'e', e_filename);
+			g_free (e_filename);
+			g_free (command3);
+
+			e_filename = shell_escape (parent);
+			command1 = _g_substitute_pattern (command2, 'p', e_filename);
 			g_free (e_filename);
 			g_free (command2);
 
-			e_filename = shell_escape (parent);
-			command0 = _g_substitute_pattern (command1, 'p', e_filename);
-			g_free (e_filename);
+			command0 = get_user_prompts (window, command1, user_prompts);
 			g_free (command1);
 
 			g_free (filename);
@@ -275,6 +416,7 @@ exec_shell_script (GtkWindow  *window,
 	if (data->dialog)
 		gtk_widget_destroy (data->dialog);
 
+	g_hash_table_destroy (user_prompts);
 	g_object_unref (data->gui);
 	g_free (data);
 	g_free (full_name);

@@ -3091,32 +3091,47 @@
           <tbody>
             <row valign="top">
               <entry><para>%F</para></entry>
-	      <entry align="left"><para>all selected filenames on one line, space delimited</para></entry>
+	      <entry align="left"><para>All selected filenames on one line, space delimited</para></entry>
             </row>
             <row valign="top">
               <entry><para>%f</para></entry>
-              <entry align="left"><para>a single filename, including path</para></entry>
+              <entry align="left"><para>A single filename, including path</para></entry>
             </row>
             <row valign="top">
               <entry><para>%b</para></entry>
-              <entry align="left"><para>a single filename, excluding path</para></entry>
+              <entry align="left"><para>A single filename, excluding path</para></entry>
             </row>
             <row valign="top">
               <entry><para>%n</para></entry>
-              <entry align="left"><para>a single filename, including path, with no extension</para></entry>
+              <entry align="left"><para>A single filename, including path, with no extension</para></entry>
             </row>
             <row valign="top">
               <entry><para>%m</para></entry>
-              <entry align="left"><para>a single filename, excluding path, with no extension</para></entry>
+              <entry align="left"><para>A single filename, excluding path, with no extension</para></entry>
             </row>
             <row valign="top">
               <entry><para>%e</para></entry>
-              <entry align="left"><para>a single extension (starting with a period)</para></entry>
+              <entry align="left"><para>A single extension (starting with a period)</para></entry>
             </row>
             <row valign="top">
               <entry><para>%p</para></entry>
-              <entry align="left"><para>the parent folder of the single file</para></entry>
+              <entry align="left"><para>The parent folder of the single file</para></entry>
             </row>
+            <row valign="top">
+              <entry><para>[text]</para></entry>
+              <entry align="left"><para>A user prompt, refreshed for each iteration. If the %F code is not
+	        used, then a prompt dialog will appear for every file that is selected. This code
+	        consists of lower-case text (only) enclosed in square brackets. The text supplied
+	        by the user through the prompt dialog will replace this code.</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>[TEXT]</para></entry>
+              <entry align="left"><para>A user prompt, used for all iterations. That is, the
+	        prompt dialog will only appear once, no matter how many files are selected. This code
+                consists of upper-case text (only) enclosed in square brackets. The text supplied
+                by the user through the prompt dialog will replace this code.</para></entry>
+            </row>
+
           </tbody>
         </tgroup>
       </informaltable>
@@ -3187,6 +3202,17 @@
             </para>
           </listitem>
       </itemizedlist>
+      <para>
+        <note>
+          <title>Foreground / Background Issues</title>
+          <para>
+            If you use a script to launch a long-running program, you should probably 
+            add the background character '&amp;' to the end of the script, to ensure that it
+            does not block further script iterations and the operation of gthumb itself.
+          </para>
+        </note>
+      </para>
+
      </sect1>
  <!-- ============= Preferences ================================== -->
  <sect1 id="preferences">
