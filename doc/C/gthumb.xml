@@ -3122,14 +3122,18 @@
               <entry align="left"><para>A user prompt, refreshed for each iteration. If the %F code is not
 	        used, then a prompt dialog will appear for every file that is selected. This code
 	        consists of lower-case text (only) enclosed in square brackets. The text supplied
-	        by the user through the prompt dialog will replace this code.</para></entry>
+	        by the user through the prompt dialog will replace this code. (To treat a 
+		bracket-enclosed block of text literally, precede the opening bracket with
+		a backslash.)</para></entry>
             </row>
             <row valign="top">
               <entry><para>[TEXT]</para></entry>
               <entry align="left"><para>A user prompt, used for all iterations. That is, the
 	        prompt dialog will only appear once, no matter how many files are selected. This code
                 consists of upper-case text (only) enclosed in square brackets. The text supplied
-                by the user through the prompt dialog will replace this code.</para></entry>
+                by the user through the prompt dialog will replace this code. (To treat a
+                bracket-enclosed block of text literally, precede the opening bracket with 
+                a backslash.)</para></entry>
             </row>
 
           </tbody>

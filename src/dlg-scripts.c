@@ -158,6 +158,18 @@ char* get_user_prompts (GtkWindow  *window,
 
 		ch = g_utf8_get_char (pos);
 		closing_bracket_found = FALSE;
+
+		/* Treat square bracket literally if preceded by a backslash */
+		if (ch == '\\') {
+			if (g_utf8_get_char (g_utf8_next_char (pos)) == '[') {
+				/* do not include the backslash */
+				pos = g_utf8_next_char (pos);
+				g_string_append_unichar (new_string, '[');
+			} else
+				g_string_append_unichar (new_string, ch);
+			continue;
+		}
+
 		prompt_name = g_string_new (NULL);
 
 		if (ch == '[') {

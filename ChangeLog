@@ -1,3 +1,10 @@
+2007-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/C/gthumb.xml:
+	* src/dlg-scripts.c: (get_user_prompts):
+	Allow bracket-enclosed text to be treated literally by preceding
+	the opening bracket with a backslash.
+
 2007-12-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
