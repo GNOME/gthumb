@@ -97,6 +97,7 @@ gchar* get_prompt (GtkWindow  *window,
         GtkWidget    *entry;
         GtkWidget    *label;
 	gchar	     *result = NULL;
+	char	     *pref;
 
         gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL,
                              NULL);
@@ -112,6 +113,9 @@ gchar* get_prompt (GtkWindow  *window,
 
 	gtk_label_set_text (GTK_LABEL (label), prompt_name);
 
+	pref = g_strconcat (PREF_SCRIPT_BASE, prompt_name, NULL);
+	gtk_entry_set_text (GTK_ENTRY (entry), eel_gconf_get_string (pref, ""));
+
         gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
         gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
@@ -119,6 +123,13 @@ gchar* get_prompt (GtkWindow  *window,
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
 	result = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+	/* save response for future use, except passwords */
+	if ((strcmp (prompt_name, "password") != 0) &&
+	    (strcmp (prompt_name, "PASSWORD") != 0))
+		eel_gconf_set_string (pref, result);
+
+	g_free (pref);
 
 	gtk_widget_destroy (dialog);
 

@@ -3216,6 +3216,16 @@
           </para>
         </note>
       </para>
+      <para>
+        <note>
+          <title>Password Security</title>
+          <para>
+            &appname; saves the most recent user prompt responses in the gconf database,
+            unless the name of the prompt is "password" or "PASSWORD". 
+          </para>
+        </note>
+      </para>
+
 
      </sect1>
  <!-- ============= Preferences ================================== -->

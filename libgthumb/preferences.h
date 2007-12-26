@@ -251,6 +251,8 @@
 
 #define  PREF_ROTATE_RESET_EXIF_ORIENTATION     "/apps/gthumb/dialogs/rotate/reset_exif_orientation_on_rotate"
 
+#define  PREF_SCRIPT_BASE		  "/apps/gthumb/dialogs/scripts/"
+
 typedef struct {
 	Bookmarks   *bookmarks;
 

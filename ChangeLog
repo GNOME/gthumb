@@ -1,6 +1,14 @@
 2007-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml:
+	* libgthumb/preferences.h:
+	* src/dlg-scripts.c: (get_prompt):
+	Save prompt responses in gconf, to use as defaults, except for
+	passwords.
+
+2007-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/C/gthumb.xml:
 	* src/dlg-scripts.c: (get_user_prompts):
 	Allow bracket-enclosed text to be treated literally by preceding
 	the opening bracket with a backslash.
