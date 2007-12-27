@@ -1,3 +1,8 @@
+2007-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_tools.glade:
+	Make the OK button the default action in the script prompt dialog.
+
 2007-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml:
