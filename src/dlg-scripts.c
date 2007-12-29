@@ -40,9 +40,10 @@
 #include "main.h"
 #include "preferences.h"
 #include "gconf-utils.h"
+#include "thumb-loader.h"
 
 #define SCRIPT_GLADE_FILE "gthumb_tools.glade"
-
+#define DEF_THUMB_SIZE 128
 #define MAX_SCRIPTS 10
 
 typedef struct {
@@ -58,6 +59,10 @@ typedef struct {
         GladeXML     *gui;
         GtkWidget    *dialog;
 	gboolean      cancel;
+        GtkWidget    *progress_thumbnail;
+        ThumbLoader  *loader;
+        gboolean      loading_image;
+	int	      thumb_size;
 } ProgressData;
 
 
@@ -239,6 +244,64 @@ char* get_user_prompts (GtkWindow  *window,
 }
 
 
+
+static void
+image_loader_done (ImageLoader *il,
+                   gpointer     user_data)
+{
+	ProgressData *data = user_data;
+	GdkPixbuf    *pixbuf;
+	
+        gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_thumbnail), 
+				   thumb_loader_get_pixbuf (data->loader));
+
+        data->loading_image = FALSE;
+}
+
+
+static void
+image_loader_error (ImageLoader *il,
+                    gpointer     user_data)
+{
+        ProgressData *data = user_data;
+
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_thumbnail), NULL);
+	data->loading_image = FALSE;
+}
+
+
+static void
+load_thumbnail (ProgressData *data,
+		char         *filename)
+{
+	if (data->cancel)
+		return;
+
+	/* Just load what we can. Many scripts are so fast that most
+	   thumbnails will be skipped. */
+	if (data->loading_image)
+		return;
+
+	data->loading_image = TRUE;
+
+        if (data->loader == NULL) {
+                data->loader = THUMB_LOADER (thumb_loader_new (data->thumb_size, data->thumb_size));
+                thumb_loader_use_cache (data->loader, TRUE);
+                g_signal_connect (G_OBJECT (data->loader),
+                                  "thumb_done",
+                                  G_CALLBACK (image_loader_done),
+                                  data);
+                g_signal_connect (G_OBJECT (data->loader),
+                                  "thumb_error",
+                                  G_CALLBACK (image_loader_error),
+                                  data);
+        }
+
+        thumb_loader_set_path (data->loader, filename);
+        thumb_loader_start (data->loader);
+}
+
+
 static void
 exec_shell_script (GtkWindow  *window,
 		   const char *script,
@@ -273,6 +336,11 @@ exec_shell_script (GtkWindow  *window,
 	label = glade_xml_get_widget (data->gui, "progress_info");
 	bar = glade_xml_get_widget (data->gui, "progress_progressbar");
 	progress_cancel_button = glade_xml_get_widget (data->gui, "progress_cancel_button");
+
+	data->progress_thumbnail = glade_xml_get_widget (data->gui, "progress_thumbnail");
+	data->loader = NULL;
+	data->loading_image = FALSE;
+	data->thumb_size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
 
 	n = g_list_length (file_list);
 
@@ -314,6 +382,9 @@ exec_shell_script (GtkWindow  *window,
 		char *file_list_string;
 
 		file_list_string = g_strdup (" ");
+
+		/* Load thumbnail for first image only */
+		load_thumbnail (data, file_list->data);
 
 		for (scan = file_list; scan; scan = scan->next) {
 			char *filename;
@@ -372,6 +443,8 @@ exec_shell_script (GtkWindow  *window,
 			char *command5 = NULL;
 			char *command6 = NULL;
 
+			load_thumbnail (data, scan->data);
+
 			if (is_local_file (scan->data))
 				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
 			else
@@ -429,12 +502,16 @@ exec_shell_script (GtkWindow  *window,
 			system (command0);
 			g_free (command0);
 
-			while (gtk_events_pending())
-				gtk_main_iteration();
+			while (gtk_events_pending ())
+				gtk_main_iteration ();
 
 			i++;
 		}
 	}
+
+	/* Finish last thumbnail */
+	while (data->loading_image)
+		gtk_main_iteration ();
 
 	if (data->dialog)
 		gtk_widget_destroy (data->dialog);

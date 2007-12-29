@@ -1,3 +1,10 @@
+2007-12-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_tools.glade:
+	* src/dlg-scripts.c: (image_loader_done), (image_loader_error),
+	(load_thumbnail), (exec_shell_script):
+	Show thumbnails in script progress dialog.
+
 2007-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_tools.glade:
