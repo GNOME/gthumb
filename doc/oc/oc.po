@@ -1,9 +1,6 @@
-# translation of oc.po to Occitan
 # Occitan translation of gthumb documentation.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-cd documentation package.
-#
-# Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>.
 #
 # Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
@@ -11,7 +8,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-08 20:49+0100\n"
-"PO-Revision-Date: 2007-12-04 22:05+0100\n"
+"PO-Revision-Date: 2007-12-27 13:39+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -345,7 +342,7 @@ msgstr ""
 
 #: C/gthumb.xml:239(term)
 msgid "Statusbar"
-msgstr ""
+msgstr "Barra d'estat"
 
 #: C/gthumb.xml:244(para)
 msgid ""
@@ -834,7 +831,7 @@ msgstr ""
 
 #: C/gthumb.xml:726(guimenuitem)
 msgid "Mirror"
-msgstr ""
+msgstr "Miralh"
 
 #: C/gthumb.xml:731(para)
 msgid ""
@@ -2519,10 +2516,10 @@ msgid ""
 "defined. These labels will appear at the top and bottom of every page in the "
 "album. HTML markup may be used in headers and footers, as long every '&gt;', "
 "'&lt;', and '&amp;' character is preceeded by a backslash. For example, "
-"\"&lt;hr/&gt;\" must be written as \"\\&lt;hr/\\&gt;\". Also, the sequence "
+"\"&lt;hr/&gt;\" must be written as \" &lt;hr/ &gt;\". Also, the sequence "
 "\"%d\" will be replaced by the current date. To make a literal backslash "
-"('\\') or percent symbol ('%') appear in the output, it must be entered as "
-"\"\\\\\" or \"%%\" in the header or footer fields."
+"(' ') or percent symbol ('%') appear in the output, it must be entered as "
+"\"  \" or \"%%\" in the header or footer fields."
 msgstr ""
 
 #: C/gthumb.xml:2405(para)
@@ -2742,7 +2739,7 @@ msgstr ""
 
 #: C/gthumb.xml:2594(guilabel)
 msgid "Show comments"
-msgstr ""
+msgstr "Visualizar los comentaris"
 
 #: C/gthumb.xml:2596(para)
 msgid ""
@@ -3452,5 +3449,5 @@ msgstr ""
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
 #: C/gthumb.xml:0(None)
 msgid "translator-credits"
-msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org)"
+msgstr "Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>"
 
