@@ -1,3 +1,10 @@
+2007-12-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	Fixed bug #402942 - Add status message during photo import 
+	(orientation adjust step).
+
 2007-12-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_tools.glade:
