@@ -43,9 +43,11 @@
 #include "gth-exif-utils.h"
 
 #ifdef HAVE_GSTREAMER
-
 #include <gst/gst.h>
+#endif
 
+
+#ifdef HAVE_GSTREAMER
 typedef struct {
 	GstElement	*playbin;
 
