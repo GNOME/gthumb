@@ -40,10 +40,12 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gst/gst.h>
 #include "gth-exif-utils.h"
 
 #ifdef HAVE_GSTREAMER
+
+#include <gst/gst.h>
+
 typedef struct {
 	GstElement	*playbin;
 

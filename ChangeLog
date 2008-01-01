@@ -1,3 +1,8 @@
+2008-01-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-gstreamer-utils.c:
+	Don't include gstreamer libraries if they aren't installed.
+
 2007-12-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
