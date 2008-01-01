@@ -1,5 +1,9 @@
 2008-01-01  Paolo Bacchilega  <paobac@svn.gnome.org>
 
+	* configure.in: post release version bump.
+
+2008-01-01  Paolo Bacchilega  <paobac@svn.gnome.org>
+	
 	[ gthumb 2.10.8 released ]
 
 	* NEWS: updated.
