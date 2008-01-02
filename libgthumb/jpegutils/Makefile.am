@@ -5,10 +5,10 @@ DISABLE_DEPRECATED =
 endif
 
 INCLUDES = 				\
+	-I$(top_srcdir)/libgthumb	\
 	$(DISABLE_DEPRECATED)		\
 	$(EXIF_CFLAGS)			\
-	$(GTHUMB_CFLAGS)		\
-	-I$(top_srcdir)/libgthumb		
+	$(GTHUMB_CFLAGS)
 
 
 noinst_LTLIBRARIES = libgthumb-jpegutils.la

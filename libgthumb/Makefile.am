@@ -137,6 +137,7 @@ libgthumb_la_SOURCES =			\
 	thumb-loader.c
 
 libgthumb_la_LIBADD =		\
+	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la \
 	$(EXIF_LIBS)		\
 	$(JPEG_LIBS)		\
 	$(TIFF_LIBS)		\
@@ -144,8 +145,7 @@ libgthumb_la_LIBADD =		\
 	$(IPTCDATA_LIBS)	\
 	$(LIBOPENRAW_LIBS)      \
 	$(EXEMPI_LIBS)		\
-	$(GSTREAMER_LIBS)	\
-	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
+	$(GSTREAMER_LIBS)
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $(srcdir)/gthumb-marshal.list --header --prefix=gthumb_marshal > $@
