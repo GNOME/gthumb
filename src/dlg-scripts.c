@@ -1005,7 +1005,7 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
                           data);
 
 
-        get_screen_size (GTK_WINDOW (window), &width, &height);
+        gth_get_screen_size (GTK_WINDOW (window), &width, &height);
         gtk_window_set_default_size (GTK_WINDOW (data->dialog),
                                      width * 8 / 10,
                                      height * 7 / 10);

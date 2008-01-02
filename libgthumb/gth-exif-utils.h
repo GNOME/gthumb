@@ -95,7 +95,7 @@ int           gth_minimal_exif_tag_read   (const char   *filename,
 GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
-GList *       read_xmp			  (const char   *filename,
+GList *       gth_read_xmp		  (const char   *filename,
 					   GList        *metadata);
 void          free_metadata               (GList        *metadata);
 

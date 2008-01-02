@@ -1,5 +1,21 @@
 2008-01-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (gth_read_xmp):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-gstreamer-utils.c: (gth_read_gstreamer):
+	* libgthumb/gth-gstreamer-utils.h:
+	* libgthumb/gtk-utils.c: (gth_get_screen_size):
+	* libgthumb/gtk-utils.h:
+	* src/dlg-crop.c: (dlg_crop):
+	* src/dlg-redeye-removal.c: (dlg_redeye_removal):
+	* src/dlg-scripts.c: (dlg_scripts):
+	* src/gth-exif-data-viewer.c: (gth_read_exif), (update_metadata):
+	Added "gth_" prefix to gth_read_exif, gth_read_xmp, 
+	gth_read_gstreamer, and gth_get_screen_size, to avoid possible
+	namespace conflicts.
+
+2008-01-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/Makefile.am:
 	* libgthumb/jpegutils/Makefile.am:
 	* src/Makefile.am:

@@ -21,6 +21,6 @@
 #ifndef GST_UTILS_H
 #define GST_UTILS_H
 
-GList *read_gstreamer (gchar *uri, GList *metadata);
+GList *gth_read_gstreamer (gchar *uri, GList *metadata);
 
 #endif /* GST_UTILS_H */

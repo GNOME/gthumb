@@ -624,9 +624,9 @@ add_to_display (GthMetadata       *entry,
 
 
 static GList *
-read_exif (char     *uri,
-	   GList    *metadata,
-	   ExifData *edata)
+gth_read_exif (char     *uri,
+	       GList    *metadata,
+	       ExifData *edata)
 {
 	unsigned int  i, j, unique_id_for_unsorted_tags;
 	gboolean      list_is_empty = TRUE;
@@ -795,12 +795,12 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 		return metadata;
 
 	if (mime_type_is (mime_type, "image/jpeg"))
-		metadata = read_exif (uri, metadata, existing_edata);
+		metadata = gth_read_exif (uri, metadata, existing_edata);
 
-	metadata = read_xmp (uri, metadata);
+	metadata = gth_read_xmp (uri, metadata);
 
 	if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
-		metadata = read_gstreamer (uri, metadata);
+		metadata = gth_read_gstreamer (uri, metadata);
 
 	/* sort alphabetically by tag name */
 	metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name);

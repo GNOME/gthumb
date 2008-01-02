@@ -629,7 +629,7 @@ dlg_redeye_removal (GthWindow *window)
 
 	gtk_widget_realize (data->dialog);
 
-	get_screen_size (GTK_WINDOW (window), &width, &height);
+	gth_get_screen_size (GTK_WINDOW (window), &width, &height);
 
 	gtk_window_set_default_size (GTK_WINDOW (data->dialog),
 				     width * 7 / 10,

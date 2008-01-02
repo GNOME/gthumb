@@ -949,7 +949,7 @@ read_xmp_file (const char *uri, GList *metadata, GthMetadataCategory category)
 
 
 GList *
-read_xmp (const char *uri, GList *metadata)
+gth_read_xmp (const char *uri, GList *metadata)
 {
 #ifdef HAVE_EXEMPI
 	XmpFilePtr          fp;

@@ -556,7 +556,7 @@ dlg_crop (GthWindow *window)
 	g_free (label);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 2);
 
-	get_screen_size (GTK_WINDOW (window), &data->screen_width, &data->screen_height);
+	gth_get_screen_size (GTK_WINDOW (window), &data->screen_width, &data->screen_height);
 
 	label = g_strdup_printf (_("%d x %d (Screen)"), data->screen_width, data->screen_height);
 	item = gtk_menu_item_new_with_label (label);
