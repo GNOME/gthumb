@@ -10,6 +10,8 @@ DISABLE_DEPRECATED =
 endif
 
 INCLUDES =					\
+	-I$(top_srcdir)/libgthumb		\
+	-I../libgthumb				\
 	$(GTHUMB_CFLAGS)			\
 	$(EXIF_CFLAGS)				\
 	$(IPTCDATA_CFLAGS)			\
@@ -22,9 +24,7 @@ INCLUDES =					\
 	-DGTHUMB_LIBDIR=\"$(libdir)\"		\
 	-DPIXMAPSDIR=\""$(datadir)/pixmaps/"\"	\
 	-DBONOBO_UIDIR=\""$(uidir)/"\"		\
-	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
-	-I$(top_srcdir)/libgthumb		\
-	-I../libgthumb		
+	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"
 
 bin_PROGRAMS = gthumb
 

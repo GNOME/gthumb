@@ -1,3 +1,11 @@
+2008-01-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/Makefile.am:
+	* libgthumb/jpegutils/Makefile.am:
+	* src/Makefile.am:
+	Put local includes before global includes. Bug 506771. Patch by
+	Daniel Macks <dmacks@netspace.org>.
+
 2008-01-01  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* configure.in: post release version bump.
