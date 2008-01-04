@@ -150,6 +150,79 @@ gboolean delete_lowercase_keys (gpointer key, gpointer value, gpointer user_data
 
 
 static
+char* get_date_strings (char       *filename,
+			const char *text_in)
+{
+	gchar   *text_out = NULL;
+	gchar	*pos;
+	GString *new_string;
+
+	new_string = g_string_new (NULL);
+
+	for (pos = (char *) text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
+		gchar     *end;
+		GString  *date_str;
+		gunichar  ch = g_utf8_get_char (pos);
+		gboolean  closing_bracket_found = FALSE;
+
+		/* Treat curly bracket literally if preceded by a backslash */
+		if (ch == '\\') {
+			if (g_utf8_get_char (g_utf8_next_char (pos)) == '{') {
+				/* do not include the backslash */
+				pos = g_utf8_next_char (pos);
+				g_string_append_unichar (new_string, '}');
+			} else
+				g_string_append_unichar (new_string, ch);
+			continue;
+		}
+
+		date_str = g_string_new (NULL);
+
+		if (ch == '{') {
+			end = g_utf8_next_char (pos);
+
+			while ((*end != 0) && !closing_bracket_found) {
+				gunichar ch2 = g_utf8_get_char (end);
+
+				if (ch2 == '}') {
+					closing_bracket_found = TRUE;
+				} else {
+					g_string_append_unichar (date_str, ch2);
+					end = g_utf8_next_char (end);
+				}
+			}
+		}
+
+		if (!closing_bracket_found) {
+			/* Not a date string. Just append this character to the output, without
+			   any interpretation. */
+			g_string_append_unichar (new_string, ch);
+			g_string_free (date_str, TRUE);
+			continue;
+		}
+		pos = end;
+
+		const gint date_str_replacement_size = date_str->len + 128;
+		time_t exif_time = get_metadata_time (NULL, filename);
+
+		gchar date_str_replacement[date_str_replacement_size];
+		gchar *date_str_escaped = shell_escape (date_str->str);
+		if (strftime (date_str_replacement, date_str_replacement_size, date_str_escaped, localtime (&exif_time)) > 0) {
+			g_string_append (new_string, date_str_replacement);
+		}
+
+		g_free (date_str_escaped);
+		g_string_free (date_str, TRUE);
+	}
+
+	text_out = new_string->str;
+	g_string_free (new_string, FALSE);
+
+	return text_out;
+}
+
+
+static
 char* get_user_prompts (GtkWindow  *window,
 			char       *text_in,
 			GHashTable *user_prompts)
@@ -406,8 +479,10 @@ exec_shell_script (GtkWindow  *window,
 
 			g_free (new_file_list);
 		}
+
 		command1 = _g_substitute_pattern (script, 'F', file_list_string);
 		command0 = get_user_prompts (window, command1, user_prompts);
+
 		g_free (command1);
 		g_free (file_list_string);
 
@@ -442,6 +517,7 @@ exec_shell_script (GtkWindow  *window,
 			char *command4 = NULL;
 			char *command5 = NULL;
 			char *command6 = NULL;
+			char *command7 = NULL;
 
 			load_thumbnail (data, scan->data);
 
@@ -456,9 +532,12 @@ exec_shell_script (GtkWindow  *window,
 			basename = g_strdup (file_name_from_path (filename));
 			basename_wo_ext = remove_extension_from_path (basename);
 
+			command7 = get_date_strings (filename, script);
+
 			e_filename = shell_escape (filename);
-			command6 = _g_substitute_pattern (script, 'f', e_filename);
+			command6 = _g_substitute_pattern (command7, 'f', e_filename);
 			g_free (e_filename);
+			g_free (command7);
 
                         e_filename = shell_escape (basename);
                         command5 = _g_substitute_pattern (command6, 'b', e_filename);

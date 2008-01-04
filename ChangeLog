@@ -1,3 +1,13 @@
+2008-01-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_tools.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-scripts.c: (get_date_strings), (exec_shell_script):
+	Added strftime format codes to the scripting feature.
+	Tweaked version of patch by DorFire, via google-highly-open-participation-gnome.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=82
+
 2008-01-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (gth_read_xmp):
