@@ -54,6 +54,7 @@ trunk, since last 2.10.x
 	* Added a Flickr uploader (by launching Postr). Bug #489403.
 	* Added user prompts to the scripting feature.
 	* Added strftime format codes to the scripting feature.
+	* Initial support for the exiv2 metadata-reading library.
 
 
 version 2.10.8

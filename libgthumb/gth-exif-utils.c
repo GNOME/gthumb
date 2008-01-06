@@ -987,4 +987,30 @@ gth_read_xmp (const char *uri, GList *metadata)
 	return metadata;
 }
 
+GList * read_exiv2_file (const char *uri, GList *metadata);
+
+GList *
+gth_read_exiv2 (const char *uri, GList *metadata)
+{
+#ifdef HAVE_EXIV2
+	char *local_file;
+
+        local_file = get_cache_filename_from_uri (uri);
+        if (local_file == NULL)
+                return metadata;
+
+	/* Because prepending is faster than appending */
+	metadata = g_list_reverse (metadata);
+
+	metadata = read_exiv2_file (local_file, metadata);
+
+	/* Undo the initial reverse */
+	metadata = g_list_reverse (metadata);
+
+	g_free (local_file);
+#endif
+
+	return metadata;
+}
+
 

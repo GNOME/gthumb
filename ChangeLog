@@ -1,3 +1,18 @@
+2008-01-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* configure.in:
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-exif-utils.c: (gth_read_exiv2):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-exiv2-utils.hpp:
+	* src/gth-exif-data-viewer.c: (update_metadata):
+	Initial support for the exiv2 metadata-reading library.
+	Tweaked version of patch by SchmeisserMartin, via ghop.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=83
+	Needs some work to improve categorization and output formatting.
+
 2008-01-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

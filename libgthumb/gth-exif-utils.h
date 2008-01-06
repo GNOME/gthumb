@@ -56,6 +56,7 @@ typedef enum {
         GTH_METADATA_CATEGORY_VERSIONS, 
         GTH_METADATA_CATEGORY_XMP_EMBEDDED, 
 	GTH_METADATA_CATEGORY_XMP_SIDECAR,
+	GTH_METADATA_CATEGORY_EXIV2,
 	GTH_METADATA_CATEGORY_GSTREAMER,
         GTH_METADATA_CATEGORY_OTHER, 
         GTH_METADATA_CATEGORIES 
@@ -96,6 +97,8 @@ GthTransform  read_orientation_field      (const char   *path);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
 GList *       gth_read_xmp		  (const char   *filename,
+					   GList        *metadata);
+GList *       gth_read_exiv2		  (const char   *filename,
 					   GList        *metadata);
 void          free_metadata               (GList        *metadata);
 

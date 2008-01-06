@@ -59,6 +59,7 @@ char *metadata_category_name[GTH_METADATA_CATEGORIES] =
         N_("Exif Versions"),  
         N_("XMP Embedded"),  
 	N_("XMP Sidecar"),
+	N_("Exiv2 Experimental"),
 	N_("Audio / Video"),
         N_("Other")  
 };  
@@ -794,7 +795,13 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 	if (uri == NULL)
 		return metadata;
 
-	if (mime_type_is (mime_type, "image/jpeg"))
+/* for now, use both exiv2 and libexif, until we're more comfortable with exiv2 */
+#ifdef HAVE_EXIV2
+	if ( mime_type_is (mime_type, "image/jpeg") || mime_type_is (mime_type, "image/tiff") || mime_type_is (mime_type, "image/png"))
+		metadata = gth_read_exiv2 (uri, metadata);
+#endif
+
+	if ( mime_type_is (mime_type, "image/jpeg"))
 		metadata = gth_read_exif (uri, metadata, existing_edata);
 
 	metadata = gth_read_xmp (uri, metadata);
