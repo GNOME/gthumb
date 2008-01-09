@@ -1,3 +1,9 @@
+2008-01-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/C/gthumb.xml: Modified version of Adrien Bustany's crop tool
+	documentation patch, supplied through gnome-ghop.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=94.
+
 2008-01-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (update_metadata):

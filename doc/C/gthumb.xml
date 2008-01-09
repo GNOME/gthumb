@@ -928,6 +928,33 @@
       regions of interest. The mouse wheel can also be used to zoom in and out.
       </para>
     </sect3>
+    <sect3 id="gthumb-crop">
+    <title>Crop tool</title>
+      <para>
+      &app; provides a crop tool, which can be used to discard some parts of the image or to make it fit to
+      a particular aspect ratio. 
+      </para>
+      <para>To use the tool, open the picture to be cropped. Then, select <menuchoice><guimenu>Image</guimenu>
+      <guimenuitem>Crop</guimenuitem></menuchoice>. A new window will be launched. You can select the area
+      you want to keep by dragging the mouse, or by typing values in the fields to the right of the picture. 
+      Additionally, you can force your selection to keep a given aspect ratio using the <guimenu>Aspect ratio</guimenu> menu.
+      </para>
+      <para>
+      When you have selected the area to crop, press the <guibutton>Crop</guibutton> button to crop the image.
+      <guibutton>Undo</guibutton> button will cancel the last operation, while the <guibutton>Redo</guibutton> button
+      will revert it. Clicking on the <guibutton>Cancel</guibutton> button will abandon all your changes and close the
+      window. When you're happy with the result, click the <guibutton>Save</guibutton> to save your changes to the file
+      and close the window, or click the <guibutton>Done</guibutton> button to apply your changes to the image without
+      saving it (in which case the file can be saved later using 
+      <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice>).
+      </para>
+      <para>
+      <guibutton>Zoom In</guibutton>, <guibutton>Zoom Out</guibutton>, <guibutton>Actual Size</guibutton>,
+      and <guibutton>Zoom to Fit</guibutton> buttons are provided to allow you to zoom to and from
+      regions of interest. The mouse wheel can also be used to zoom in and out. There is also a button to
+      show or hide the boundaries of the selected region.
+      </para>
+    </sect3>
     </sect2>
     <sect2 id="gthumb-save-images">
     <title>To Save an Image</title>
