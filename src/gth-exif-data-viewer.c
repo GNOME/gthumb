@@ -57,6 +57,8 @@ char *metadata_category_name[GTH_METADATA_CATEGORIES] =
         N_("Exif Structure"),  
         N_("Exif Thumbnail"),  
         N_("Exif Versions"),  
+	N_("IPTC"),
+	N_("Exiv2 XMP"),
         N_("XMP Embedded"),  
 	N_("XMP Sidecar"),
 	N_("Exiv2 Experimental"),

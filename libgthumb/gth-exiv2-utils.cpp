@@ -26,6 +26,40 @@
 #include <exiv2/exif.hpp>
 #include <iostream>
 
+#include <string>
+#include <sstream>
+#include <vector>
+
+using namespace std;
+
+string improve(string value) {
+	if (value.find('/') != value.npos) {
+		vector<string> res;		
+
+		int cut;
+		while( (cut = value.find_first_of(" ")) != value.npos )	{
+			if(cut > 0) {
+			res.push_back(value.substr(0,cut));
+			}
+			value = value.substr(cut+1);
+		}
+		if ((value.length() > 0) and (value.find('/') != value.npos))  {
+			res.push_back(value);
+			value.clear();
+		}
+		stringstream stream;
+		for (int i(0); i < res.size(); ++i) {
+			int a, b;
+			sscanf ( res[i].c_str(), "%d/%d", &a, &b);
+			stream << (float)a/(float)b << " "; 
+		}
+		value = stream.str() + value;
+		
+		return value;
+	}
+	else return value;
+}
+
 inline static GList *
 add (GList *metadata,
 		const gchar *path, 
@@ -57,7 +91,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 	try {
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(uri);
 		if (image.get() == 0) {
-			metadata = add(metadata, "Failed to open file.", "could not open file to read metadata.", GTH_METADATA_CATEGORY_OTHER);
+			//die silently if image cannot be opened
 			return metadata;
 		}
 		image->readMetadata();
@@ -65,27 +99,66 @@ read_exiv2_file (const char *uri, GList *metadata)
 		Exiv2::ExifData &exifData = image->exifData();
 
 		//abort if no data found
-		if (exifData.empty()) {
-			metadata = add(metadata, "No metadata found.", "could not find any EXIF metadata in the file", GTH_METADATA_CATEGORY_OTHER);
-			return metadata;
+		if (!exifData.empty()) {
+
+			//add exif-metadata to glist
+			GthMetadata *new_entry;
+			Exiv2::ExifData::const_iterator end = exifData.end();
+			for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+				//determine metadata category
+				GthMetadataCategory cat;
+				switch (i->ifdId ()) {
+					//case Exiv2::ifd0Id : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
+					//case Exiv2::exifIfdId : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
+					//case Exiv2::iopIfdId : cat = GTH_METADATA_CATEGORY_VERSIONS; break;
+					//case Exiv2::gpsIfdId : cat = GTH_METADATA_CATEGORY_GPS; break;
+					//default : cat = GTH_METADATA_CATEGORY_OTHER; break;
+					default : cat = GTH_METADATA_CATEGORY_EXIV2; break;				
+				}
+				//fill entry
+				stringstream stream;
+				stream << *i;
+				string value = stream.str();
+				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
+				metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
+			}
 		}
 
-		//add metadata to glist
-		GthMetadata *new_entry;
-		for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end(); ++i) {
-			//determine metadata category
-			GthMetadataCategory cat;
-			switch (i->ifdId ()) {
-				//case Exiv2::ifd0Id : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
-				//case Exiv2::exifIfdId : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
-				//case Exiv2::iopIfdId : cat = GTH_METADATA_CATEGORY_VERSIONS; break;
-				//case Exiv2::gpsIfdId : cat = GTH_METADATA_CATEGORY_GPS; break;
-				//default : cat = GTH_METADATA_CATEGORY_OTHER; break;
-				default : cat = GTH_METADATA_CATEGORY_EXIV2; break;				
+		Exiv2::IptcData &iptcData = image->iptcData();
+		//abort if no data found
+		if (!exifData.empty()) {
+
+			//add iptc-metadata to glist
+			GthMetadata *new_entry;
+			Exiv2::IptcData::iterator end = iptcData.end();
+			for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
+				//determine metadata category
+				GthMetadataCategory cat = GTH_METADATA_CATEGORY_IPTC;
+				//fill entry
+				stringstream stream;
+				stream << *md;
+				string value = stream.str();
+				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
+				metadata = add (metadata, md->key().c_str(), value.c_str(), cat);
 			}
-			//fill entry
-			//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
-			metadata = add (metadata, i->key().c_str(), i->toString().c_str(), cat);
+		}
+
+		Exiv2::XmpData &xmpData = image->xmpData();
+		if (!xmpData.empty()) {
+
+			//add iptc-metadata to glist
+			GthMetadata *new_entry;
+			Exiv2::XmpData::iterator end = xmpData.end();
+			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
+				//determine metadata category
+				GthMetadataCategory cat = GTH_METADATA_CATEGORY_EXIV2_XMP;
+				//fill entry
+				stringstream stream;
+				stream << *md;
+				string value = stream.str();
+				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
+				metadata = add (metadata, md->key().c_str(), value.c_str(), cat);
+			}
 		}
 
 		return metadata;

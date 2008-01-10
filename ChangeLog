@@ -1,3 +1,15 @@
+2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* configure.in:
+	Bump exiv2 requirement to 0.16, to get XMP support.
+
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* src/gth-exif-data-viewer.c:
+	Correctly format exiv2 output. Add XMP and IPTC support. Tweaked version
+	of patch by SchmeisserMartin, via ghop.
+        http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=93.
+
 2008-01-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml: Modified version of Adrien Bustany's crop tool
