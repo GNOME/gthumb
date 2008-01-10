@@ -1,5 +1,14 @@
 2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (gth_read_xmp):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* src/gth-exif-data-viewer.c:
+	Don't use exempi to read embedded XMP metadata if exiv2 is installed.
+	Minor categorization changes.
+
+2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in:
 	Bump exiv2 requirement to 0.16, to get XMP support.
 

@@ -120,7 +120,9 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stream << *i;
 				string value = stream.str();
 				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
-				metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
+				//disable "improve" untils it works :-)
+				//metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
+				metadata = add (metadata, i->key().c_str(), value.c_str(), cat);
 			}
 		}
 
@@ -151,7 +153,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
 				//determine metadata category
-				GthMetadataCategory cat = GTH_METADATA_CATEGORY_EXIV2_XMP;
+				GthMetadataCategory cat = GTH_METADATA_CATEGORY_XMP_EMBEDDED;
 				//fill entry
 				stringstream stream;
 				stream << *md;

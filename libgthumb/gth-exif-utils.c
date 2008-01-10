@@ -964,10 +964,12 @@ gth_read_xmp (const char *uri, GList *metadata)
 
 	xmp_init ();
 
+#ifndef HAVE_EXIV2	
 	/* embedded xmp data */	
 	metadata = read_xmp_file (uri, 
 				  metadata, 
 				  GTH_METADATA_CATEGORY_XMP_EMBEDDED);
+#endif
 
 	/* Check for sidecar (foo.jpg <-> foo.xmp) */
 	uri_wo_ext = remove_extension_from_path (uri);
