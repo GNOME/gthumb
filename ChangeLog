@@ -1,5 +1,10 @@
 2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	Remove extraneous text from XMP and IPTC tag names.	
+
+2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_tools.glade:
 	Made the "Rename" button the default action.
 

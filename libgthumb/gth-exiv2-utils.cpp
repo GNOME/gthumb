@@ -119,9 +119,8 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream stream;
 				stream << *i;
 				string value = stream.str();
-				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
+
 				//disable "improve" untils it works :-)
-				//metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
 				metadata = add (metadata, i->key().c_str(), value.c_str(), cat);
 			}
 		}
@@ -134,14 +133,18 @@ read_exiv2_file (const char *uri, GList *metadata)
 			GthMetadata *new_entry;
 			Exiv2::IptcData::iterator end = iptcData.end();
 			for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
+
 				//determine metadata category
 				GthMetadataCategory cat = GTH_METADATA_CATEGORY_IPTC;
+
 				//fill entry
-				stringstream stream;
-				stream << *md;
-				string value = stream.str();
-				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
-				metadata = add (metadata, md->key().c_str(), value.c_str(), cat);
+				stringstream value;
+				value << *md;
+
+                                stringstream name;
+                                name << md->tagName();
+
+				metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
 
@@ -152,14 +155,18 @@ read_exiv2_file (const char *uri, GList *metadata)
 			GthMetadata *new_entry;
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
+
 				//determine metadata category
 				GthMetadataCategory cat = GTH_METADATA_CATEGORY_XMP_EMBEDDED;
+
 				//fill entry
-				stringstream stream;
-				stream << *md;
-				string value = stream.str();
-				//metadata = add(metadata, i->tagName().c_str(), i->toString().c_str(), cat);
-				metadata = add (metadata, md->key().c_str(), value.c_str(), cat);
+				stringstream value;
+				value << *md;
+
+				stringstream name;
+				name << md->groupName() << "." << md->tagName();
+
+				metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
 
