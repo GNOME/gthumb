@@ -56,8 +56,9 @@ string improve(string value) {
 		stringstream stream;
 		for (int i(0); i < res.size(); ++i) {
 			int a, b;
-			sscanf ( res[i].c_str(), "%d/%d", &a, &b);
+			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2)
 			stream << (float)a/(float)b << " "; 
+			else stream << res[i] << " ";
 		}
 		value = stream.str() + value;
 		
@@ -127,7 +128,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 				string value = stream.str();
 
 				//disable "improve" untils it works :-)
-				metadata = add (metadata, i->key().c_str(), value.c_str(), cat);
+				metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
 			}
 		}
 
