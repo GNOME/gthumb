@@ -4164,6 +4164,7 @@ Special characters:&lt;/b&gt;
 &lt;i&gt;[text] = a user prompt, refreshed for each iteration&lt;/i&gt;
 &lt;i&gt;[TEXT] = a user prompt, used for all iterations&lt;/i&gt;
 &lt;i&gt;{..code..} = a strftime date format code&lt;/i&gt;
+&lt;i&gt;{TEXT} = a user prompt used for all iterations matching previous date&lt;/i&gt;
 Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.
 The default scripts are explained in the Help file.&lt;/small&gt;</property>
 	  <property name="use_underline">False</property>

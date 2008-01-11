@@ -95,14 +95,14 @@ progress_cancel_cb (GtkWidget    *widget,
 
 static
 gchar* get_prompt (GtkWindow  *window,
- 		   char       *prompt_name)
+ 		   GString     *prompt_name)
 {
         GladeXML     *gui;
         GtkWidget    *dialog;
         GtkWidget    *entry;
         GtkWidget    *label;
 	gchar	     *result = NULL;
-	char	     *pref;
+	gchar	     *pref;
 
         gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL,
                              NULL);
@@ -116,9 +116,9 @@ gchar* get_prompt (GtkWindow  *window,
         label = glade_xml_get_widget (gui, "prompt_label");
         entry = glade_xml_get_widget (gui, "prompt_entry");
 
-	gtk_label_set_text (GTK_LABEL (label), prompt_name);
+	gtk_label_set_text (GTK_LABEL (label), prompt_name->str);
 
-	pref = g_strconcat (PREF_SCRIPT_BASE, prompt_name, NULL);
+	pref = g_strconcat (PREF_SCRIPT_BASE, gconf_escape_key (prompt_name->str, prompt_name->len), NULL);
 	gtk_entry_set_text (GTK_ENTRY (entry), eel_gconf_get_string (pref, ""));
 
         gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (window));
@@ -130,8 +130,8 @@ gchar* get_prompt (GtkWindow  *window,
 	result = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 
 	/* save response for future use, except passwords */
-	if ((strcmp (prompt_name, "password") != 0) &&
-	    (strcmp (prompt_name, "PASSWORD") != 0))
+	if ((strcmp (prompt_name->str, "password") != 0) &&
+	    (strcmp (prompt_name->str, "PASSWORD") != 0))
 		eel_gconf_set_string (pref, result);
 
 	g_free (pref);
@@ -150,20 +150,26 @@ gboolean delete_lowercase_keys (gpointer key, gpointer value, gpointer user_data
 
 
 static
-char* get_date_strings (char       *filename,
-			const char *text_in)
+char* get_date_strings (GtkWindow  *window,
+			char       *filename,
+			const char *text_in,
+			GHashTable *date_prompts)
 {
 	gchar   *text_out = NULL;
 	gchar	*pos;
-	GString *new_string;
+	GString *new_string, *last_match, *last_date;
+	GHashTable *prompts;
 
 	new_string = g_string_new (NULL);
+	last_match = last_date = NULL;
+	prompts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	for (pos = (char *) text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
 		gchar     *end;
-		GString  *date_str;
+		gchar     *check_char;
+		GString   *date_str;
 		gunichar  ch = g_utf8_get_char (pos);
-		gboolean  closing_bracket_found = FALSE;
+		gboolean  closing_bracket_found = FALSE, prompt_mode = TRUE, silent_mode = FALSE;
 
 		/* Treat curly bracket literally if preceded by a backslash */
 		if (ch == '\\') {
@@ -180,6 +186,10 @@ char* get_date_strings (char       *filename,
 
 		if (ch == '{') {
 			end = g_utf8_next_char (pos);
+			if (g_utf8_get_char (end) == '#') {
+				silent_mode = TRUE;
+				end = g_utf8_next_char (end);
+			}
 
 			while ((*end != 0) && !closing_bracket_found) {
 				gunichar ch2 = g_utf8_get_char (end);
@@ -200,23 +210,101 @@ char* get_date_strings (char       *filename,
 			g_string_free (date_str, TRUE);
 			continue;
 		}
+
 		pos = end;
 
-		const gint date_str_replacement_size = date_str->len + 128;
-		time_t exif_time = get_metadata_time (NULL, filename);
-
-		gchar date_str_replacement[date_str_replacement_size];
-		gchar *date_str_escaped = shell_escape (date_str->str);
-		if (strftime (date_str_replacement, date_str_replacement_size, date_str_escaped, localtime (&exif_time)) > 0) {
-			g_string_append (new_string, date_str_replacement);
+		/* if all upper case, then it's a prompt */
+		for (check_char = date_str->str; *check_char; check_char = g_utf8_next_char (check_char)) {
+			if ((!g_unichar_isupper (g_utf8_get_char (check_char)))) {
+						prompt_mode = FALSE;
+						break;
+			}
 		}
 
-		g_free (date_str_escaped);
-		g_string_free (date_str, TRUE);
+		if (!prompt_mode) {
+			const gint date_str_replacement_size = date_str->len + 128;
+
+			FileData* fd = file_data_new_from_local_path (filename);
+			file_data_load_exif_data (fd);
+
+			time_t exif_time = fd->exif_time;
+			if (!exif_time)
+				exif_time = fd->mtime;
+
+			file_data_unref(fd);
+
+			gchar date_str_replacement[date_str_replacement_size];
+			gchar *date_str_escaped = shell_escape (date_str->str);
+			if (strftime (date_str_replacement, date_str_replacement_size, date_str_escaped, localtime (&exif_time)) > 0 && !silent_mode)
+				g_string_append (new_string, date_str_replacement);
+
+			if (last_match)
+				g_string_free (last_match, TRUE);
+			if (last_date)
+				g_string_free (last_date, TRUE);
+			last_match = g_string_new ("");
+			g_string_append (last_match, date_str_replacement);
+			last_date = g_string_new (date_str->str);
+
+			g_free (date_str_escaped);
+		} else {
+			/* Need a match for date prompt */
+			if (!last_match || !last_date) {
+				g_string_append_unichar (new_string, ch);
+				g_string_free (date_str, TRUE);
+				continue;
+			}
+
+			if (g_hash_table_lookup (prompts, date_str->str) == NULL) {
+				GString *hash_key = g_string_new ("");
+	
+				/* Mash the values together to make a unique hash key */
+				g_string_append (hash_key, date_str->str);
+				g_string_append (hash_key, "}");
+				g_string_append (hash_key, last_date->str);
+				g_string_append (hash_key, "}");
+				g_string_append (hash_key, last_match->str);
+	
+				if (g_hash_table_lookup (date_prompts, hash_key->str) == NULL) {
+					GString *prompt_name;
+	
+					prompt_name = g_string_new ("");
+					g_string_append (prompt_name, date_str->str);
+					g_string_append (prompt_name, " for ");
+					g_string_append (prompt_name, last_match->str);
+	
+					g_hash_table_insert (date_prompts,
+							hash_key->str,
+							get_prompt (window, prompt_name));
+	
+					g_string_free (prompt_name, TRUE);
+				}
+	
+				if (g_hash_table_lookup (date_prompts, hash_key->str) != NULL) {
+					GString *copy = g_string_new ("");
+					g_string_append (copy, g_hash_table_lookup (date_prompts, hash_key->str));
+
+					g_hash_table_insert (prompts, date_str->str, copy->str);
+					g_string_free (copy, FALSE);
+				}
+
+				g_string_free (hash_key, FALSE);
+			}
+
+			if (g_hash_table_lookup (prompts, date_str->str) != NULL && !silent_mode)
+				g_string_append (new_string, g_hash_table_lookup (prompts, date_str->str));
+		}
+		g_string_free (date_str, FALSE);
 	}
 
 	text_out = new_string->str;
 	g_string_free (new_string, FALSE);
+	g_hash_table_destroy (prompts);
+
+	if (last_match)
+		g_string_free (last_match, TRUE);
+	if (last_date)
+		g_string_free (last_date, TRUE);
 
 	return text_out;
 }
@@ -280,12 +368,12 @@ char* get_user_prompts (GtkWindow  *window,
 			lower_case_mode = g_unichar_islower (g_utf8_get_char (prompt_name->str));
 
 			/* must be all upper case or all lower case */
-	                for (check_char = prompt_name->str; (*check_char !=0) && valid_prompt_name; check_char = g_utf8_next_char (check_char)) {
+			for (check_char = prompt_name->str; (*check_char !=0) && valid_prompt_name; check_char = g_utf8_next_char (check_char)) {
 				if ((!g_unichar_isalpha (g_utf8_get_char (check_char))) ||
-				    (g_unichar_islower (g_utf8_get_char (check_char)) != lower_case_mode)) {
+					(g_unichar_islower (g_utf8_get_char (check_char)) != lower_case_mode)) {
 					valid_prompt_name = FALSE;
-	                        }
-	                }
+				}
+			}
 		}
 
 		if (!closing_bracket_found || !valid_prompt_name) {
@@ -301,7 +389,7 @@ char* get_user_prompts (GtkWindow  *window,
 		if (g_hash_table_lookup (user_prompts, prompt_name->str) == NULL) {
 			g_hash_table_insert (user_prompts, 
 					     prompt_name->str, 
-					     get_prompt (window, prompt_name->str));
+					     get_prompt (window, prompt_name));
 		}
 
 		if (g_hash_table_lookup (user_prompts, prompt_name->str) != NULL)
@@ -315,7 +403,6 @@ char* get_user_prompts (GtkWindow  *window,
 
 	return text_out;
 }
-
 
 
 static void
@@ -389,6 +476,7 @@ exec_shell_script (GtkWindow  *window,
 	char	     *full_name;
 	int           i, n;
 	GHashTable   *user_prompts;
+	GHashTable   *date_prompts;
 
 
 	if ((script == NULL) || (file_list == NULL))
@@ -445,6 +533,7 @@ exec_shell_script (GtkWindow  *window,
 		gtk_main_iteration();
 
 	user_prompts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	date_prompts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	/* If the %F code is present, all selected files are processed by
 	   one script instance. Otherwise, each file is handled sequentially. */
@@ -532,7 +621,7 @@ exec_shell_script (GtkWindow  *window,
 			basename = g_strdup (file_name_from_path (filename));
 			basename_wo_ext = remove_extension_from_path (basename);
 
-			command7 = get_date_strings (filename, script);
+			command7 = get_date_strings (window, filename, script, date_prompts);
 
 			e_filename = shell_escape (filename);
 			command6 = _g_substitute_pattern (command7, 'f', e_filename);
@@ -596,6 +685,7 @@ exec_shell_script (GtkWindow  *window,
 		gtk_widget_destroy (data->dialog);
 
 	g_hash_table_destroy (user_prompts);
+	g_hash_table_destroy (date_prompts);
 	g_object_unref (data->gui);
 	g_free (data);
 	g_free (full_name);
@@ -715,7 +805,7 @@ void exec_script9 (GtkAction *action, GthWindow *window) {
 void exec_upload_flickr (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
 	if (list != NULL) {
-        	if (gnome_vfs_is_executable_command_string("postr"))
+        	if (gnome_vfs_is_executable_command_string ("postr"))
 	                exec_shell_script ( GTK_WINDOW (window), 
                         	            "postr %F &", 
                                 	    "Upload to Flickr",

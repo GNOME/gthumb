@@ -1,5 +1,16 @@
 2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* AUTHORS:
+	* data/glade/gthumb_tools.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-scripts.c: (get_prompt), (get_date_strings),
+	(get_user_prompts), (exec_shell_script), (exec_upload_flickr):
+	New script format code, to tie prompts to dates for date-based
+	comments. Patch by Sean Hunt <rideau3@gmail.com>, via ghop.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=92
+
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in:
 	* libgthumb/Makefile.am:
 	* libgthumb/gth-exif-utils.c: (gth_read_exiv2):
