@@ -56,6 +56,9 @@ trunk, since last 2.10.x
 	* Added strftime format codes to the scripting feature.
 	* Initial support for the exiv2 metadata-reading library.
 
+	Library changes:
+	* exiv2 0.15 or higher is now required.
+
 
 version 2.10.8
 --------------

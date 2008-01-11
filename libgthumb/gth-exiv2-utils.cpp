@@ -23,7 +23,6 @@
 #include "gth-exiv2-utils.hpp"
 
 #include <exiv2/basicio.hpp>
-#include <exiv2/xmp.hpp>
 #include <exiv2/error.hpp>
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
@@ -33,6 +32,9 @@
 #include <vector>
 #include <iomanip>
 
+#ifdef HAVE_XMP
+#include <exiv2/xmp.hpp>
+#endif
 
 using namespace std;
 
@@ -152,6 +154,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 			}
 		}
 
+#ifdef HAVE_XMP
 		Exiv2::XmpData &xmpData = image->xmpData();
 		if (!xmpData.empty()) {
 
@@ -173,6 +176,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 				metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
+#endif
 
 		return metadata;
 	}
@@ -188,6 +192,7 @@ GList *
 read_exiv2_sidecar (const char *uri, GList *metadata)
 {
 	try {
+#ifdef HAVE_XMP
 	        Exiv2::DataBuf buf = Exiv2::readFile(uri);
         	std::string xmpPacket;
 	        xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
@@ -217,6 +222,7 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 			}
 		}
 	        Exiv2::XmpParser::terminate();
+#endif
 	        return metadata;
 	} 
 	catch (Exiv2::AnyError& e) {

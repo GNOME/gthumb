@@ -94,6 +94,7 @@ Compiling
 	* libglade 		version >= 2.4.0
 	* intltool		version >= 0.35.0
 	* libexif               version >= 0.6.13
+	* exiv2			version >= 0.15
 	* libjpeg
 	* gtkunique		version >= 0.9.1 (optional)
 
@@ -111,6 +112,8 @@ Compiling
 
   If dcraw is present (and is in your executable search path), 
   gthumb can view full RAW photos.
+
+  If exiv2 version 0.16 or higher is present, you can read XMP metadata.
 
   If pfstools and pfstmo are installed, gthumb can view HDR images. 
   See http://www.mpi-inf.mpg.de/resources/pfstools.

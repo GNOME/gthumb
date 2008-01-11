@@ -1,5 +1,14 @@
 2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* README:
+	* configure.in:
+	* libgthumb/gth-exiv2-utils.cpp:
+	Make exiv2 mandatory, 0.15 or higher. Check for version 0.16,
+	which has XMP support.
+
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* AUTHORS:
 	* data/glade/gthumb_tools.glade:
 	* doc/C/gthumb.xml:
