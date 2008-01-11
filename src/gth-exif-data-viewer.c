@@ -797,10 +797,8 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 		return metadata;
 
 /* for now, use both exiv2 and libexif, until we're more comfortable with exiv2 */
-#ifdef HAVE_EXIV2
 	if ( mime_type_is_image (mime_type))
 		metadata = gth_read_exiv2 (uri, metadata);
-#endif
 
 	if ( mime_type_is (mime_type, "image/jpeg"))
 		metadata = gth_read_exif (uri, metadata, existing_edata);

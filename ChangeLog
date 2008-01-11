@@ -1,5 +1,11 @@
 2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (gth_read_exiv2):
+	* src/gth-exif-data-viewer.c: (update_metadata):
+	Remove no-longer-used HAVE_EXIV2 ifdefs.
+
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* README:
 	* configure.in:

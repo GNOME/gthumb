@@ -778,7 +778,6 @@ GList * read_exiv2_sidecar (const char *uri, GList *metadata);
 GList *
 gth_read_exiv2 (const char *uri, GList *metadata)
 {
-#ifdef HAVE_EXIV2
 	char *local_file;
 	char *uri_wo_ext;
         char *sidecar_uri;
@@ -809,7 +808,6 @@ gth_read_exiv2 (const char *uri, GList *metadata)
 
 	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);
-#endif
 
 	return metadata;
 }
