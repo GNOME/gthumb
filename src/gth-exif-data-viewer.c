@@ -619,7 +619,7 @@ add_to_display (GthMetadata       *entry,
 {
 	add_to_exif_display_list (edv,
 		       		  entry->category,
-			  	  entry->name,
+			  	  entry->display_name,
 				  entry->value,
 				  entry->position);
 }
@@ -709,7 +709,8 @@ gth_read_exif (char     *uri,
 
 				new_entry = g_new (GthMetadata, 1);
 				new_entry->category = category;
-				new_entry->name = g_strdup (utf8_name);
+				new_entry->full_name = g_strdup (utf8_name);
+				new_entry->display_name = g_strdup (utf8_name);
 				new_entry->value = g_strdup (utf8_value);
 				new_entry->position = position;
 				metadata = g_list_prepend (metadata, new_entry);
@@ -760,7 +761,8 @@ gth_read_exif (char     *uri,
 
 	                                new_entry = g_new (GthMetadata, 1);
                                 	new_entry->category = GTH_METADATA_CATEGORY_MAKERNOTE;
-                        	        new_entry->name = g_strdup (utf8_name);
+					new_entry->full_name = g_strdup (utf8_name);
+                        	        new_entry->display_name = g_strdup (utf8_name);
                 	                new_entry->value = g_strdup (utf8_value);
         	                        new_entry->position = unique_id_for_unsorted_tags;
 	                                metadata = g_list_prepend (metadata, new_entry);
@@ -784,7 +786,7 @@ gth_read_exif (char     *uri,
 static gint
 sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 {
-	return strcmp_null_tolerant (entry1->name, entry2->name);
+	return strcmp_null_tolerant (entry1->display_name, entry2->display_name);
 }
 
 
@@ -796,7 +798,7 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 	if (uri == NULL)
 		return metadata;
 
-/* for now, use both exiv2 and libexif, until we're more comfortable with exiv2 */
+	/* for now, use both exiv2 and libexif, until we're more comfortable with exiv2 */
 	if ( mime_type_is_image (mime_type))
 		metadata = gth_read_exiv2 (uri, metadata);
 

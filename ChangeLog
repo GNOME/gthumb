@@ -1,5 +1,17 @@
 2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (free_metadata_entry):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-gstreamer-utils.c: (add_metadata):
+	* src/gth-exif-data-viewer.c: (add_to_display), (gth_read_exif),
+	(sort_by_tag_name), (update_metadata):
+	Use HAVE_EVIX2_XMP_HPP instead of HAVE_XMP. Not sure why it matters.
+	Also, split the tag name into two pieces - a full path and a short
+	display name.
+
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Improved formatting of fraction numbers returned by exiv2.
 	Patch by Martin Schmeißer <Waschbaehr@gmx.de>.

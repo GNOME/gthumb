@@ -32,7 +32,7 @@
 #include <vector>
 #include <iomanip>
 
-#ifdef HAVE_XMP
+#ifdef HAVE_EXIV2_XMP_HPP
 #include <exiv2/xmp.hpp>
 #endif
 
@@ -68,16 +68,18 @@ string improve(string value) {
 }
 
 inline static GList *
-add (GList *metadata,
-		const gchar *path, 
-		const gchar *value, 
-		GthMetadataCategory category)
+add (GList              *metadata,
+     const gchar        *full_name, 
+     const gchar        *display_name,
+     const gchar	*value,
+     GthMetadataCategory category)
 {
 	GthMetadata *new_entry;
 
 	new_entry = g_new (GthMetadata, 1);
 	new_entry->category = category;
-	new_entry->name = g_strdup (path);
+	new_entry->full_name = g_strdup (full_name);
+	new_entry->display_name = g_strdup (display_name);
 	new_entry->value = g_strdup (value);
 	new_entry->position = 0;
 	metadata = g_list_prepend (metadata, new_entry);
@@ -128,7 +130,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 				string value = stream.str();
 
 				//disable "improve" untils it works :-)
-				metadata = add (metadata, i->key().c_str(), improve(value).c_str(), cat);
+				metadata = add (metadata, i->key().c_str(), i->key().c_str(), improve(value).c_str(), cat);
 			}
 		}
 
@@ -148,14 +150,14 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream value;
 				value << *md;
 
-                                stringstream name;
-                                name << md->tagName();
+                                stringstream short_name;
+                                short_name << md->tagName();
 
-				metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
 
-#ifdef HAVE_XMP
+#ifdef HAVE_EXIV2_XMP_HPP
 		Exiv2::XmpData &xmpData = image->xmpData();
 		if (!xmpData.empty()) {
 
@@ -171,10 +173,10 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream value;
 				value << *md;
 
-				stringstream name;
-				name << md->groupName() << "." << md->tagName();
+				stringstream short_name;
+				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
 #endif
@@ -193,7 +195,7 @@ GList *
 read_exiv2_sidecar (const char *uri, GList *metadata)
 {
 	try {
-#ifdef HAVE_XMP
+#ifdef HAVE_EXIV2_XMP_HPP
 	        Exiv2::DataBuf buf = Exiv2::readFile(uri);
         	std::string xmpPacket;
 	        xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
@@ -216,10 +218,10 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
                                 stringstream value;
                                 value << *md;
 
-                                stringstream name;
-                                name << md->groupName() << "." << md->tagName();
+                                stringstream short_name;
+                                short_name << md->groupName() << "." << md->tagName();
 
-                                metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
+                                metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat);
 			}
 		}
 	        Exiv2::XmpParser::terminate();

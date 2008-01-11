@@ -350,7 +350,8 @@ add_metadata (GList *metadata,
 	if (value != NULL) {
 		new_entry = g_new (GthMetadata, 1);
         	new_entry->category = GTH_METADATA_CATEGORY_GSTREAMER;
-		new_entry->name = key;
+		new_entry->full_name = g_strdup (key);
+		new_entry->display_name = key;
         	new_entry->value = value;
 	       	new_entry->position = 0;
         	metadata = g_list_prepend (metadata, new_entry);
