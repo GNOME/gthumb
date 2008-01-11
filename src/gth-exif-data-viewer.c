@@ -307,6 +307,7 @@ static ExifTag exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEG
 
 
 enum {
+	WRITEABLE_PATH_COLUMN,
 	NAME_COLUMN,
 	VALUE_COLUMN,
 	POS_COLUMN,
@@ -387,7 +388,8 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	edv->priv->image_exif_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
-	edv->priv->image_exif_model = gtk_tree_store_new (3,
+	edv->priv->image_exif_model = gtk_tree_store_new (4,
+							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_INT);
@@ -523,6 +525,7 @@ tag_is_present_in_category (GthExifDataViewer   *edv,
 static void
 add_to_exif_display_list (GthExifDataViewer   *edv,
 			  GthMetadataCategory  category,
+			  const char	      *writeable_path,
 			  const char 	      *utf8_name,
 			  const char	      *utf8_value,
 	 		  int		       position)
@@ -535,6 +538,7 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 		GtkTreePath *path;
 		gtk_tree_store_append (edv->priv->image_exif_model, &root_iter, NULL);
 		gtk_tree_store_set (edv->priv->image_exif_model, &root_iter,
+				    WRITEABLE_PATH_COLUMN, NULL,
 				    NAME_COLUMN, _(metadata_category_name[category]),
 				    VALUE_COLUMN, "",
 				    POS_COLUMN, category,
@@ -554,6 +558,7 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 
 	gtk_tree_store_append (edv->priv->image_exif_model, &iter, &root_iter);
 	gtk_tree_store_set (edv->priv->image_exif_model, &iter,
+			    WRITEABLE_PATH_COLUMN, writeable_path,
 			    NAME_COLUMN, utf8_name,
 			    VALUE_COLUMN, utf8_value,
 			    POS_COLUMN, position,
@@ -619,6 +624,7 @@ add_to_display (GthMetadata       *entry,
 {
 	add_to_exif_display_list (edv,
 		       		  entry->category,
+				  entry->writeable_path,
 			  	  entry->display_name,
 				  entry->value,
 				  entry->position);
@@ -709,7 +715,7 @@ gth_read_exif (char     *uri,
 
 				new_entry = g_new (GthMetadata, 1);
 				new_entry->category = category;
-				new_entry->full_name = g_strdup (utf8_name);
+				new_entry->writeable_path = NULL;
 				new_entry->display_name = g_strdup (utf8_name);
 				new_entry->value = g_strdup (utf8_value);
 				new_entry->position = position;
@@ -761,7 +767,7 @@ gth_read_exif (char     *uri,
 
 	                                new_entry = g_new (GthMetadata, 1);
                                 	new_entry->category = GTH_METADATA_CATEGORY_MAKERNOTE;
-					new_entry->full_name = g_strdup (utf8_name);
+					new_entry->writeable_path = NULL;
                         	        new_entry->display_name = g_strdup (utf8_name);
                 	                new_entry->value = g_strdup (utf8_value);
         	                        new_entry->position = unique_id_for_unsorted_tags;
@@ -854,15 +860,15 @@ update_file_info (GthExifDataViewer *edv)
 	
 	/**/
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Name"), utf8_name, -7);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Path"), utf8_fullname, -6);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"), utf8_name, -7);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"), utf8_fullname, -6);
 
 	if (mime_type_is_image (mime_type))
-		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Dimensions"), size_txt, -5);
+		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Dimensions"), size_txt, -5);
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Size"), file_size_txt, -4);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Modified"), utf8_time_txt, -3);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, _("Type"), mime_type, -2);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Size"), file_size_txt, -4);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Modified"), utf8_time_txt, -3);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Type"), mime_type, -2);
 
 	/**/
 

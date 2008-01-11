@@ -69,7 +69,7 @@ string improve(string value) {
 
 inline static GList *
 add (GList              *metadata,
-     const gchar        *full_name, 
+     const gchar        *writeable_path, 
      const gchar        *display_name,
      const gchar	*value,
      GthMetadataCategory category)
@@ -78,7 +78,7 @@ add (GList              *metadata,
 
 	new_entry = g_new (GthMetadata, 1);
 	new_entry->category = category;
-	new_entry->full_name = g_strdup (full_name);
+	new_entry->writeable_path = g_strdup (writeable_path);
 	new_entry->display_name = g_strdup (display_name);
 	new_entry->value = g_strdup (value);
 	new_entry->position = 0;

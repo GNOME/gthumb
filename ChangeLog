@@ -4,6 +4,18 @@
 	* libgthumb/gth-exif-utils.h:
 	* libgthumb/gth-exiv2-utils.cpp:
 	* libgthumb/gth-gstreamer-utils.c: (add_metadata):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct),
+	(add_to_exif_display_list), (add_to_display), (gth_read_exif),
+	(update_file_info):
+	Add a "writeable_path" field to the metadata struct and tree model,
+	to allow metadata editing in the future.
+
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (free_metadata_entry):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-gstreamer-utils.c: (add_metadata):
 	* src/gth-exif-data-viewer.c: (add_to_display), (gth_read_exif),
 	(sort_by_tag_name), (update_metadata):
 	Use HAVE_EVIX2_XMP_HPP instead of HAVE_XMP. Not sure why it matters.

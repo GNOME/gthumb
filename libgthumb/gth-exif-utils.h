@@ -66,7 +66,7 @@ typedef enum {
  
 typedef struct {
         GthMetadataCategory category;
-	char *full_name;
+	char *writeable_path;
         char *display_name;
         char *value;
         int   position;

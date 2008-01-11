@@ -758,7 +758,7 @@ write_orientation_field (const char   *local_file,
 void free_metadata_entry (GthMetadata *entry)
 {
 	if (entry != NULL) {
-		g_free (entry->full_name);
+		g_free (entry->writeable_path);
 		g_free (entry->display_name);
 		g_free (entry->value);
 		g_free (entry);
