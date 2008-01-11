@@ -15,8 +15,7 @@ INCLUDES =							\
 	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(LIBOPENRAW_CFLAGS)                                    \
-	$(EXEMPI_CFLAGS)					\
-	$(EXIV2_CFLAGS)					\
+	$(EXIV2_CFLAGS)						\
 	$(GSTREAMER_CFLAGS)					\
 	$(DISABLE_DEPRECATED)
 
@@ -147,7 +146,6 @@ libgthumb_la_LIBADD =		\
 	$(GTHUMB_LIBS)		\
 	$(IPTCDATA_LIBS)	\
 	$(LIBOPENRAW_LIBS)      \
-	$(EXEMPI_LIBS)		\
 	$(EXIV2_LIBS)		\
 	$(GSTREAMER_LIBS)
 

@@ -22,13 +22,17 @@
 
 #include "gth-exiv2-utils.hpp"
 
+#include <exiv2/basicio.hpp>
+#include <exiv2/xmp.hpp>
+#include <exiv2/error.hpp>
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
 #include <iostream>
-
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iomanip>
+
 
 using namespace std;
 
@@ -151,7 +155,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 		Exiv2::XmpData &xmpData = image->xmpData();
 		if (!xmpData.empty()) {
 
-			//add iptc-metadata to glist
+			//add xmp-metadata to glist
 			GthMetadata *new_entry;
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
@@ -178,3 +182,45 @@ read_exiv2_file (const char *uri, GList *metadata)
 	}
 }
 
+
+extern "C"
+GList *
+read_exiv2_sidecar (const char *uri, GList *metadata)
+{
+	try {
+	        Exiv2::DataBuf buf = Exiv2::readFile(uri);
+        	std::string xmpPacket;
+	        xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
+	        Exiv2::XmpData xmpData;
+
+	        if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket))
+			return metadata;
+
+	        if (!xmpData.empty()) {
+
+                        //add xmp-metadata to glist
+                        GthMetadata *new_entry;
+                        Exiv2::XmpData::iterator end = xmpData.end();
+                        for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
+
+                                //determine metadata category
+                                GthMetadataCategory cat = GTH_METADATA_CATEGORY_XMP_SIDECAR;
+
+                                //fill entry
+                                stringstream value;
+                                value << *md;
+
+                                stringstream name;
+                                name << md->groupName() << "." << md->tagName();
+
+                                metadata = add (metadata, name.str().c_str(), value.str().c_str(), cat);
+			}
+		}
+	        Exiv2::XmpParser::terminate();
+	        return metadata;
+	} 
+	catch (Exiv2::AnyError& e) {
+	        std::cout << "Caught Exiv2 exception '" << e << "'\n";
+	        return metadata;
+	}
+}

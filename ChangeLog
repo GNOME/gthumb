@@ -1,3 +1,15 @@
+2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* configure.in:
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-exif-utils.c: (gth_read_exiv2):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-exiv2-utils.hpp:
+	* src/gth-exif-data-viewer.c: (update_metadata):
+	Added XMP sidecar support to the exiv2 code. Removed exempi library,
+	as exiv2 provides everything we need now.
+
 2008-01-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:

@@ -32,11 +32,6 @@
 #include "gth-exif-utils.h"
 #include "glib-utils.h"
 
-#ifdef HAVE_EXEMPI
-#include <exempi/xmp.h>
-#include <exempi/xmpconsts.h>
-#endif
-
 
 ExifData *
 gth_exif_data_new_from_uri (const char *uri)
@@ -775,227 +770,18 @@ void free_metadata (GList *metadata)
 	g_list_free (metadata);
 }
 
-#ifdef HAVE_EXEMPI
-
-static GList *
-xmp_iter_simple (GList *metadata, const gchar *schema, const gchar *path, const gchar *value, GthMetadataCategory category);
-static GList *
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata, GthMetadataCategory category);
-
-
-/* We have an array, now recursively iterate over it's children. */
-static GList *
-xmp_iter_array (XmpPtr xmp, 
-		GList *metadata, 
-		const gchar *schema, 
-		const gchar *path, 
-		GthMetadataCategory category)
-{
-		XmpIteratorPtr iter = xmp_iterator_new (xmp, schema, path, XMP_ITER_JUSTCHILDREN);
-		metadata = xmp_iter (xmp, iter, metadata, category);
-		xmp_iterator_free (iter);
-
-		return metadata;
-}
-
-
-/* We have a simple element, but need to iterate over the qualifiers */
-static GList *
-xmp_iter_simple_qual (XmpPtr xmp, 
-		      GList *metadata,
-                      const gchar *schema, 
-		      const gchar *path, 
-		      const gchar *value, 
-		      GthMetadataCategory category)
-{
-	XmpIteratorPtr iter = xmp_iterator_new(xmp, schema, path, XMP_ITER_JUSTCHILDREN | XMP_ITER_JUSTLEAFNAME);
-
-	XmpStringPtr the_path = xmp_string_new ();
-	XmpStringPtr the_prop = xmp_string_new ();
-
-	gchar *locale = setlocale (LC_ALL, NULL);
-	gchar *sep = strchr (locale,'.');
-	if (sep) {
-		locale[sep - locale] = '\0';
-	}
-	sep = strchr (locale, '_');
-	if (sep) {
-		locale[sep - locale] = '-';
-	}
-
-	gboolean ignore_element = FALSE;
-
-	while (xmp_iterator_next (iter, NULL, the_path, the_prop, NULL)) {
-		const gchar *qual_path = xmp_string_cstr (the_path);
-		const gchar *qual_value = xmp_string_cstr (the_prop);
-
-		if (strcmp (qual_path, "xml:lang") == 0) {
-			/* is this a language we should ignore? */
-			if (strcmp (qual_value, "x-default") != 0 && strcmp (qual_value, "x-repair") != 0 && strcmp (qual_value, locale) != 0) {
-				ignore_element = TRUE;
-				break;
-			}
-		}
-	}
-
-	if (!ignore_element) {
-		metadata = xmp_iter_simple (metadata, schema, path, value, category);
-	}
-
-	xmp_string_free (the_prop);
-	xmp_string_free (the_path);
-
-	xmp_iterator_free (iter);
-
-	return metadata;
-}
-
-
-/* We have a simple element. Add any metadata we know about to the hash table  */
-static GList *
-xmp_iter_simple (GList *metadata,
-		 const gchar *schema, 
-		 const gchar *path, 
-		 const gchar *value, 
-		 GthMetadataCategory category)
-{
-	GthMetadata *new_entry;
-
-	new_entry = g_new (GthMetadata, 1);
-	new_entry->category = category;
-	new_entry->name = g_strdup (path);
-	new_entry->value = g_strdup (value);
-	new_entry->position = 0;
-	metadata = g_list_prepend (metadata, new_entry);
-
-	return metadata;
-}
-
-
-/* Iterate over the XMP, dispatching to the appropriate element type 
-   simple, simple w/qualifiers, or an array) handler */
-
-static GList *
-xmp_iter (XmpPtr xmp, XmpIteratorPtr iter, GList *metadata, GthMetadataCategory category)
-{
-	XmpStringPtr the_schema = xmp_string_new ();
-	XmpStringPtr the_path = xmp_string_new ();
-	XmpStringPtr the_prop = xmp_string_new ();
-
-	uint32_t opt;
-	while (xmp_iterator_next (iter, the_schema, the_path, the_prop, &opt)) {
-		const gchar *schema = xmp_string_cstr (the_schema);
-		const gchar *path = xmp_string_cstr (the_path);
-		const gchar *value = xmp_string_cstr (the_prop);
-
-		if (XMP_IS_PROP_SIMPLE (opt)) {
-			if (strcmp (path,"") != 0) {
-				if (XMP_HAS_PROP_QUALIFIERS (opt)) {
-					metadata = xmp_iter_simple_qual (xmp, metadata, schema, path, value, category);
-				} else {
-					metadata = xmp_iter_simple (metadata, schema, path, value, category);
-				}
-			}	
-		}
-		else if (XMP_IS_PROP_ARRAY (opt)) {
-			metadata = xmp_iter_array (xmp, metadata, schema, path, category);
-			xmp_iterator_skip (iter, XMP_ITER_SKIPSUBTREE);
-		}
-	}
-
-	xmp_string_free (the_prop);
-	xmp_string_free (the_path);
-	xmp_string_free (the_schema);
-
-	return metadata;
-}
-
-static GList *
-read_xmp_file (const char *uri, GList *metadata, GthMetadataCategory category)
-{
-	char       *local_file;
-	XmpFilePtr  fp;
-        XmpPtr      xmp;
-
-        local_file = get_cache_filename_from_uri (uri);
-        if (local_file == NULL)
-                return metadata;
-
-	/* sidecar may not exist */
-	if (!path_exists (local_file))
-		return metadata;
-
-        fp = xmp_files_open_new (local_file, XMP_OPEN_READ);
-        if (fp == NULL) {
-                g_free (local_file);
-                return metadata;
-        }
-
-        xmp = xmp_files_get_new_xmp (fp);
-        if (xmp != NULL) {
-                XmpIteratorPtr iter = xmp_iterator_new (xmp, NULL, NULL, XMP_ITER_PROPERTIES);
-                metadata = xmp_iter (xmp, iter, metadata, category);
-                xmp_iterator_free (iter);
-
-                xmp_free (xmp);
-        }
-
-        xmp_files_free (fp);
-        g_free (local_file);
-
-	return metadata;
-}
-#endif
-
-
-GList *
-gth_read_xmp (const char *uri, GList *metadata)
-{
-#ifdef HAVE_EXEMPI
-	XmpFilePtr          fp;
-	XmpPtr              xmp;
-	char               *local_file;
-	char		   *uri_wo_ext;
-	char               *sidecar_uri;
-	GthMetadataCategory category;
-
-	/* Because prepending is faster than appending */
-	metadata = g_list_reverse (metadata);
-
-	xmp_init ();
-
-#ifndef HAVE_EXIV2	
-	/* embedded xmp data */	
-	metadata = read_xmp_file (uri, 
-				  metadata, 
-				  GTH_METADATA_CATEGORY_XMP_EMBEDDED);
-#endif
-
-	/* Check for sidecar (foo.jpg <-> foo.xmp) */
-	uri_wo_ext = remove_extension_from_path (uri);
-	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
-	metadata = read_xmp_file (sidecar_uri, 
-				  metadata, 
-				  GTH_METADATA_CATEGORY_XMP_SIDECAR);
-	g_free (sidecar_uri);
-        g_free (uri_wo_ext);
-
-	xmp_terminate ();
-
-	/* Undo the initial reverse */
-	metadata = g_list_reverse (metadata);
-#endif
-
-	return metadata;
-}
 
 GList * read_exiv2_file (const char *uri, GList *metadata);
+GList * read_exiv2_sidecar (const char *uri, GList *metadata);
+
 
 GList *
 gth_read_exiv2 (const char *uri, GList *metadata)
 {
 #ifdef HAVE_EXIV2
 	char *local_file;
+	char *uri_wo_ext;
+        char *sidecar_uri;
 
         local_file = get_cache_filename_from_uri (uri);
         if (local_file == NULL)
@@ -1004,12 +790,25 @@ gth_read_exiv2 (const char *uri, GList *metadata)
 	/* Because prepending is faster than appending */
 	metadata = g_list_reverse (metadata);
 
+	/* Read image file */
 	metadata = read_exiv2_file (local_file, metadata);
+	g_free (local_file);
+
+	/* Read sidecar, if present */
+	/* FIXME: add remote cache support (use copy_remote_file_to_cache) */
+	uri_wo_ext = remove_extension_from_path (uri);
+	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
+	local_file = get_cache_filename_from_uri (sidecar_uri);
+
+	if ((local_file != NULL) && path_exists (local_file))
+	       	metadata = read_exiv2_sidecar (local_file, metadata);
+
+	g_free (local_file);
+       	g_free (uri_wo_ext);
+        g_free (sidecar_uri);
 
 	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);
-
-	g_free (local_file);
 #endif
 
 	return metadata;

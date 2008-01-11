@@ -28,5 +28,8 @@
 extern "C" GList *
 read_exiv2_file (const char *uri, GList *metadata);
 
+extern "C" GList *
+read_exiv2_sidecar (const char *uri, GList *metadata);
+
 #endif
 

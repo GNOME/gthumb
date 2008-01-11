@@ -805,8 +805,6 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 	if ( mime_type_is (mime_type, "image/jpeg"))
 		metadata = gth_read_exif (uri, metadata, existing_edata);
 
-	metadata = gth_read_xmp (uri, metadata);
-
 	if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
 		metadata = gth_read_gstreamer (uri, metadata);
 
