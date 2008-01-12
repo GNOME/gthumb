@@ -1,3 +1,9 @@
+2008-01-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
+	Removed "group names" from exif tag display names, to keep things
+	compact and readable.
+
 2008-01-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (free_metadata_entry):

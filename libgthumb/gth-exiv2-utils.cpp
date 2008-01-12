@@ -113,10 +113,12 @@ read_exiv2_file (const char *uri, GList *metadata)
 			//add exif-metadata to glist
 			GthMetadata *new_entry;
 			Exiv2::ExifData::const_iterator end = exifData.end();
-			for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+			for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != end; ++md) {
 				//determine metadata category
 				GthMetadataCategory cat;
-				switch (i->ifdId ()) {
+
+				// FIXME - add category map
+				switch (md->ifdId ()) {
 					//case Exiv2::ifd0Id : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
 					//case Exiv2::exifIfdId : cat = GTH_METADATA_CATEGORY_EXIF_IMAGE; break;
 					//case Exiv2::iopIfdId : cat = GTH_METADATA_CATEGORY_VERSIONS; break;
@@ -126,11 +128,19 @@ read_exiv2_file (const char *uri, GList *metadata)
 				}
 				//fill entry
 				stringstream stream;
-				stream << *i;
+				stream << *md;
 				string value = stream.str();
 
-				//disable "improve" untils it works :-)
-				metadata = add (metadata, i->key().c_str(), i->key().c_str(), improve(value).c_str(), cat);
+				stringstream short_name;
+				if (md->ifdId () > Exiv2::ifd1Id) {
+					// Must be a MakerNote - include group name
+					short_name << md->groupName() << "." << md->tagName();
+				} else {
+					// Normal exif tag - just use tag name
+					short_name << md->tagName();	
+				}
+
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value).c_str(), cat);
 			}
 		}
 
