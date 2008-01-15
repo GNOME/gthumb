@@ -33,10 +33,6 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 
-#include <libexif/exif-data.h>
-#include <libexif/exif-content.h>
-#include <libexif/exif-entry.h>
-#include <libexif/exif-utils.h>
 #include "jpegutils/jpeg-data.h"
 
 #include "file-utils.h"

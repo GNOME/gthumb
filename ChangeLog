@@ -1,5 +1,13 @@
 2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
+	Remove reference to get_exif_tag_short (used in systems with
+	gtk < 2.11.5).
+
+	* src/dlg-jpegtran.c: Remove libexif #includes.
+
+2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.h:
 	* libgthumb/gth-exiv2-utils.cpp:
 	* src/gth-exif-data-viewer.c:

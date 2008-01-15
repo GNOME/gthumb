@@ -3414,18 +3414,15 @@ gth_pixbuf_new_from_file (FileData               *file,
         rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);      	
         debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
 #else
-	/* The old way, using libexif - delete this once gtk 2.12 is widely used */
+	/* The old way - delete this once gtk 2.12 is widely used */
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
-		char         *uri;
-		ExifShort     orientation;
+		GthTransform  orientation;
 		GthTransform  transform = GTH_TRANSFORM_NONE;
 		
-		uri = get_uri_from_local_path (local_file);
-		orientation = get_exif_tag_short (uri, EXIF_TAG_ORIENTATION);
+		orientation = read_orientation_field (local_file);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
-		g_free (uri);
 		
-		debug (DEBUG_INFO, "libexif says orientation is %d, transform needed is %d.\n\r", orientation, transform);
+		debug (DEBUG_INFO, "read_orientation_field says orientation is %d, transform needed is %d.\n\r", orientation, transform);
 		rotated = _gdk_pixbuf_transform (pixbuf, transform);
 	}
 #endif	
