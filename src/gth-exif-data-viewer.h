@@ -61,8 +61,7 @@ void          gth_exif_data_viewer_view_file_info (GthExifDataViewer *edv,
 						   gboolean           view_file_info);
 void          gth_exif_data_viewer_update         (GthExifDataViewer *edv,
 						   ImageViewer       *viewer,
-						   FileData          *file_data,
-						   gpointer           exif_data);
+						   FileData          *file_data);
 GtkWidget *   gth_exif_data_viewer_get_view       (GthExifDataViewer *edv);
 
 #endif /* GTH_EXIF_DATA_VIEWER_H */

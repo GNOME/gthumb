@@ -1,5 +1,15 @@
 2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-image-prop.c: (update_notebook_page):
+	* src/gth-browser.c: (window_update_image_info):
+	* src/gth-exif-data-viewer.c: (update_metadata),
+	(gth_exif_data_viewer_update):
+	* src/gth-exif-data-viewer.h:
+	* src/gth-viewer.c: (viewer_update_image_info):
+	Removed all libexif references from gth-exif-data-viewer.c.
+
+2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.h:
 	* libgthumb/gth-exiv2-utils.cpp:
 	* src/gth-exif-data-viewer.c: (update_metadata):

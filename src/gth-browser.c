@@ -620,8 +620,7 @@ window_update_image_info (GthBrowser *browser)
 
         gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer),
                                      IMAGE_VIEWER (browser->priv->viewer),
-                                     browser->priv->image,
-                                     browser->priv->exif_data);
+                                     browser->priv->image);
 
         update_image_comment (browser);
 }
