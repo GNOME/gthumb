@@ -34,13 +34,16 @@
 
 #include "file-utils.h"
 #include "gth-utils.h"
-#include "gth-window.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
 #include "main.h"
 #include "preferences.h"
 #include "gconf-utils.h"
 #include "thumb-loader.h"
+
+
+#include "dlg-scripts.h"
+
 
 #define SCRIPT_GLADE_FILE "gthumb_tools.glade"
 #define DEF_THUMB_SIZE 128
@@ -71,6 +74,24 @@ typedef struct {
         gchar *short_name;
         gchar *script_text;
 } ScriptStruct;
+
+typedef struct {
+	/* Name of the script */
+	char *name;
+
+	/* Command to run */
+	char *command;
+} ScriptCommand;
+
+
+static ScriptCommand script_commands[] = { 
+	{N_("Edit with GIMP"), "gimp-remote %F"},
+	{N_("Add copyright"), "convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e"},
+	{N_("Copy to \"approved\" folder"), "mkdir -p %p/approved ; cp %f %p/approved/"},
+	{N_("Send by email"), "uuencode %f %f | mail -s Photos your@emailaddress.com"},
+	{N_("Make a zip file"), "rm ~/myarchive.zip; zip -j ~/myarchive %F"},
+	{N_("Make a zip file and email it"), "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com"}
+};
 
 
 enum {
@@ -692,115 +713,90 @@ exec_shell_script (GtkWindow  *window,
 }
 
 
-void exec_script0 (GtkAction *action, GthWindow *window) {
-	GList *list = gth_window_get_file_list_selection (window);
+char*
+gconf_script_path (unsigned int script_number)
+{
+	return g_strdup_printf (PREF_HOTKEY_PREFIX "%d", script_number);
+}
+
+
+char*
+gconf_script_name_path (unsigned int script_number)
+{
+	return g_strdup_printf (PREF_HOTKEY_PREFIX "%d_name", script_number);
+}
+
+
+void
+gconf_get_script (unsigned int number, char **name, char **command) {
+
+	char *user_name, *current_command, *default_name, *default_command;
+	char *script_name, *script_command;
+	char *dummy_name = g_strdup_printf (_("Script %d"), number);
+
+	if (number < sizeof (script_commands) / sizeof (ScriptCommand)) {
+		default_name = _(script_commands[number].name);
+		default_command = script_commands[number].command;
+	} else {
+		default_name = dummy_name;
+		default_command = "";
+	}
+
+	/* First check if the user has specified a name for the script (gthumb >= 2.11) */
+	user_name = eel_gconf_get_string (gconf_script_name_path (number), "");
+
+	/* Check if the script's command is the default one */
+	current_command = eel_gconf_get_string (gconf_script_path (number), "");
+
+	if (!strcmp (user_name, "") || !strcmp (user_name, dummy_name)) {
+		if (!strcmp (current_command, default_command) || !strcmp (current_command, "")) {
+			/* The user did not define a custom command */
+			script_name = g_strdup ((char*) default_name);
+			script_command = g_strdup ((char*) default_command);
+		} else {
+			/* The user did define a custom command but no name (gthumb < 2.11) */
+			script_name = g_strdup ((char*) dummy_name);
+			script_command = g_strdup (current_command);
+		}
+	} else  {
+		/* There was a non-default value stored in gconf, so return it */
+		script_name = g_strdup (user_name);
+		/* Not sure of that : can there be a name but no command ? Better check... */
+		if (!strcmp (current_command, ""))
+			script_command = g_strdup ((char*) default_command);
+		else
+			script_command = g_strdup ((char*) current_command);
+	}
+
+	g_free (user_name);
+	g_free (current_command);
+	g_free (dummy_name);
+
+	if (name) *name = script_name;
+	if (command) *command = script_command;
+
+}
+
+
+void exec_script (GtkAction *action, ScriptCallbackData *cb_data) {
+
+	GList *list = gth_window_get_file_list_selection (cb_data->window);
+
         if (list != NULL) {
-        	exec_shell_script ( GTK_WINDOW (window), 
-				    eel_gconf_get_string (PREF_HOTKEY0, NULL), 
-				    eel_gconf_get_string (PREF_HOTKEY0_NAME, NULL),
+		char *name, *command;
+		gconf_get_script (cb_data->number, &name, &command);
+        	exec_shell_script ( GTK_WINDOW (cb_data->window), 
+				    command,
+				    name,
 				    list);
                 path_list_free (list);
+		/* We don't need the callback data anymore */
+		g_free (cb_data);
+		g_free (name);
+		g_free (command);
 	}
 }
 
-void exec_script1 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY1, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY1_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script2 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY2, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY2_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script3 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY3, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY3_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script4 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY4, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY4_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script5 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY5, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY5_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script6 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY6, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY6_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script7 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY7, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY7_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script8 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY8, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY8_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
-
-void exec_script9 (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-        if (list != NULL) {
-                exec_shell_script ( GTK_WINDOW (window), 
-                                    eel_gconf_get_string (PREF_HOTKEY9, NULL), 
-                                    eel_gconf_get_string (PREF_HOTKEY9_NAME, NULL),
-                                    list);
-                path_list_free (list);
-        }
-}
 
 void exec_upload_flickr (GtkAction *action, GthWindow *window) {
         GList *list = gth_window_get_file_list_selection (window);
@@ -817,62 +813,33 @@ void exec_upload_flickr (GtkAction *action, GthWindow *window) {
 	}
 }
 
+
+void
+setup_script_struct (ScriptStruct *s,
+		     int	   number)
+{
+	char *name, *command;
+	gconf_get_script (number, &name, &command);
+
+	s->number = number;
+	s->short_name = name;
+	s->script_text = command;
+}
+
+
 static void
 add_scripts (void)
 {
         ScriptStruct new_entry;
+	int i;
 
         g_return_if_fail (script_array != NULL);
 
-        new_entry.number = 0;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY0_NAME, _("Script 0"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY0, "gimp-remote %F");
-        g_array_append_vals (script_array, &new_entry, 1);
+	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+		setup_script_struct (&new_entry, i);
+		g_array_append_vals (script_array, &new_entry, 1);
+	}
 
-        new_entry.number = 1;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY1_NAME, _("Script 1"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY1, "convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 2;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY2_NAME, _("Script 2"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY2, "mkdir -p %p/approved ; cp %f %p/approved/");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 3;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY3_NAME, _("Script 3"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY3, "uuencode %f %f | mail -s Photos your@emailaddress.com");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 4;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY4_NAME, _("Script 4"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY4, "rm ~/myarchive.zip; zip -j ~/myarchive %F");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 5;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY5_NAME, _("Script 5"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY5, "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 6;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY6_NAME, _("Script 6"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY6, "");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 7;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY7_NAME, _("Script 7"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY7, "");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 8;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY8_NAME, _("Script 8"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY8, "");
-        g_array_append_vals (script_array, &new_entry, 1);
-
-        new_entry.number = 9;
-        new_entry.short_name = eel_gconf_get_string (PREF_HOTKEY9_NAME, _("Script 9"));
-        new_entry.script_text = eel_gconf_get_string (PREF_HOTKEY9, "");
-        g_array_append_vals (script_array, &new_entry, 1);
 }
 
 
@@ -1066,27 +1033,16 @@ static void
 save_cb (GtkWidget  *widget,
          DialogData *data)
 {
-        eel_gconf_set_string (PREF_HOTKEY0, g_array_index (script_array, ScriptStruct, 0).script_text);
-        eel_gconf_set_string (PREF_HOTKEY1, g_array_index (script_array, ScriptStruct, 1).script_text);
-        eel_gconf_set_string (PREF_HOTKEY2, g_array_index (script_array, ScriptStruct, 2).script_text);
-        eel_gconf_set_string (PREF_HOTKEY3, g_array_index (script_array, ScriptStruct, 3).script_text);
-        eel_gconf_set_string (PREF_HOTKEY4, g_array_index (script_array, ScriptStruct, 4).script_text);
-        eel_gconf_set_string (PREF_HOTKEY5, g_array_index (script_array, ScriptStruct, 5).script_text);
-        eel_gconf_set_string (PREF_HOTKEY6, g_array_index (script_array, ScriptStruct, 6).script_text);
-        eel_gconf_set_string (PREF_HOTKEY7, g_array_index (script_array, ScriptStruct, 7).script_text);
-        eel_gconf_set_string (PREF_HOTKEY8, g_array_index (script_array, ScriptStruct, 8).script_text);
-        eel_gconf_set_string (PREF_HOTKEY9, g_array_index (script_array, ScriptStruct, 9).script_text);
-
-        eel_gconf_set_string (PREF_HOTKEY0_NAME, g_array_index (script_array, ScriptStruct, 0).short_name);
-        eel_gconf_set_string (PREF_HOTKEY1_NAME, g_array_index (script_array, ScriptStruct, 1).short_name);
-        eel_gconf_set_string (PREF_HOTKEY2_NAME, g_array_index (script_array, ScriptStruct, 2).short_name);
-        eel_gconf_set_string (PREF_HOTKEY3_NAME, g_array_index (script_array, ScriptStruct, 3).short_name);
-        eel_gconf_set_string (PREF_HOTKEY4_NAME, g_array_index (script_array, ScriptStruct, 4).short_name);
-        eel_gconf_set_string (PREF_HOTKEY5_NAME, g_array_index (script_array, ScriptStruct, 5).short_name);
-        eel_gconf_set_string (PREF_HOTKEY6_NAME, g_array_index (script_array, ScriptStruct, 6).short_name);
-        eel_gconf_set_string (PREF_HOTKEY7_NAME, g_array_index (script_array, ScriptStruct, 7).short_name);
-        eel_gconf_set_string (PREF_HOTKEY8_NAME, g_array_index (script_array, ScriptStruct, 8).short_name);
-        eel_gconf_set_string (PREF_HOTKEY9_NAME, g_array_index (script_array, ScriptStruct, 9).short_name);
+	unsigned int i;
+	char *pref_key_path = NULL, *pref_key_name = NULL;
+	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+		pref_key_path = gconf_script_path (i);
+		pref_key_name = gconf_script_name_path (i);
+        	eel_gconf_set_string (pref_key_path, g_array_index (script_array, ScriptStruct, i).script_text);
+		eel_gconf_set_string (pref_key_name, g_array_index (script_array, ScriptStruct, i).short_name);
+		g_free (pref_key_path);
+		g_free (pref_key_name);
+	}
 
 	data->done_func (data->done_data);
 	gtk_widget_destroy (data->dialog);
@@ -1190,30 +1146,32 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
    				      GtkActionGroup *action_group,
 				      GthWindow      *window,
 				      guint           merge_id,
-				      int	      hotkey,
-				      char           *pref_string, 
-				      GCallback       callback_func)
+				      int	      script_number)
 {
 	GtkAction *action;
 	char      *full_label;
-	char	  *label_from_pref;
-	char	  *default_label;
-	char      *name;
+	char	  *label;
+	char      *name, *command;
 
-	name = g_strdup_printf ("Script_%d",hotkey);
+	name = g_strdup_printf ("Script_%d",script_number);
 
-	default_label = g_strdup_printf (_("Script %d"), hotkey);
-	label_from_pref = eel_gconf_get_string (pref_string, default_label);
-	full_label = g_strdup_printf ("%d: %s", hotkey, label_from_pref);
+	gconf_get_script (script_number, &label, &command);
+
+	full_label = g_strdup_printf ("%d: %s", script_number, label);
 
 	action = g_object_new (GTK_TYPE_ACTION,
       			       "name", name,
 			       "label", full_label,
 			       "stock_id", GTK_STOCK_EXECUTE,
 			       NULL);
+	ScriptCallbackData *cb_data = g_new0 (ScriptCallbackData, 1);
+	cb_data->number = script_number;
+	cb_data->window = window;
+
         g_signal_connect (action, "activate",
-                          G_CALLBACK (callback_func),
-                          window);
+                          G_CALLBACK (exec_script),
+                          cb_data);
+
 	gtk_action_group_add_action (action_group, action);
 	g_object_unref (action);	
 	gtk_ui_manager_add_ui (ui, 
@@ -1225,9 +1183,9 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 			       FALSE);
 
 	g_free (full_label);
-	g_free (label_from_pref);
-	g_free (default_label);
+	g_free (label);
 	g_free (name);
+	g_free (command);
 }
 
 
@@ -1255,46 +1213,11 @@ generate_script_menu (GtkUIManager   *ui,
 	/* Identify this batch of menu additions (for later removal, if required) */
 	merge_id = gtk_ui_manager_new_merge_id (ui);                
 
-	add_menu_item_and_action (ui, action_group, window, merge_id, 
-				  0,
-                                  PREF_HOTKEY0_NAME,
-                                  G_CALLBACK (exec_script0));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-                                  1,
-                                  PREF_HOTKEY1_NAME,
-                                  G_CALLBACK (exec_script1));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  2,
-                                  PREF_HOTKEY2_NAME,
-                                  G_CALLBACK (exec_script2));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  3,
-                                  PREF_HOTKEY3_NAME,
-                                  G_CALLBACK (exec_script3));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  4,
-                                  PREF_HOTKEY4_NAME,
-                                  G_CALLBACK (exec_script4));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  5,
-                                  PREF_HOTKEY5_NAME,
-                                  G_CALLBACK (exec_script5));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  6,
-                                  PREF_HOTKEY6_NAME,
-                                  G_CALLBACK (exec_script6));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  7,
-                                  PREF_HOTKEY7_NAME,
-                                  G_CALLBACK (exec_script7));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  8,
-                                  PREF_HOTKEY8_NAME,
-                                  G_CALLBACK (exec_script8));
-	add_menu_item_and_action (ui, action_group, window, merge_id,
-				  9,
-                                  PREF_HOTKEY9_NAME,
-                                  G_CALLBACK (exec_script9));
+	unsigned int i;
+
+	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+		add_menu_item_and_action (ui, action_group, window, merge_id, i);
+	}
 
 	return merge_id;
 }

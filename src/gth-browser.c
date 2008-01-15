@@ -3105,6 +3105,9 @@ key_press_cb (GtkWidget   *widget,
 	sel_not_null = gth_file_view_get_n_selected (priv->file_list->view) > 0;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 
+	ScriptCallbackData *cb_data = g_new0(ScriptCallbackData, 1);
+	cb_data->window = window;
+
 	switch (gdk_keyval_to_lower (event->keyval)) {
 		/* Hide/Show sidebar. */
 	case GDK_Return:
@@ -3257,51 +3260,61 @@ key_press_cb (GtkWidget   *widget,
 		/* hot keys */
 	case GDK_KP_0:
 	case GDK_KP_Insert:
-		exec_script0 (NULL, window);
+		cb_data->number = 0;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_1:
 	case GDK_KP_End:
-		exec_script1 (NULL, window);
+		cb_data->number = 1;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_2:
 	case GDK_KP_Down:
-		exec_script2 (NULL, window);
+		cb_data->number = 1;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_3:
 	case GDK_KP_Page_Down:
-		exec_script3 (NULL, window);
+		cb_data->number = 3;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_4:
 	case GDK_KP_Left:
-		exec_script4 (NULL, window);
+		cb_data->number = 4;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_5:
-		exec_script5 (NULL, window);
+		cb_data->number = 5;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_6:
 	case GDK_KP_Right:
-		exec_script6 (NULL, window);
+		cb_data->number = 6;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_7:
 	case GDK_KP_Home:
-		exec_script7 (NULL, window);
+		cb_data->number = 7;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_8:
 	case GDK_KP_Up:
-		exec_script8 (NULL, window);
+		cb_data->number = 8;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_9:
 	case GDK_KP_Page_Up:
-		exec_script9 (NULL, window);
+		cb_data->number = 9;
+		exec_script (NULL, cb_data);
 		return TRUE;
 
 

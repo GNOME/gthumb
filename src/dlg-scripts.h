@@ -23,26 +23,18 @@
 #ifndef DLG_SCRIPTS_H
 #define DLG_SCRIPTS_H
 
-void	exec_script0		   	(GtkAction       *action, 
-				    	 GthWindow       *window);
-void	exec_script1                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script2                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script3                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script4                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script5                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script6                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script7                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script8                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
-void	exec_script9                  	(GtkAction       *action,
-                                    	 GthWindow       *window);
+#include "gth-window.h"
+
+typedef struct {
+	/* The number of the script */
+	unsigned int number;
+
+	/* Associated GThumb window */
+	GthWindow*   window;
+} ScriptCallbackData;
+
+void	exec_script		   	(GtkAction          *action, 
+				    	 ScriptCallbackData *cb_data);
 
 void	dlg_scripts 		   	(GthWindow       *window,
 					 DoneFunc 	  done_func,

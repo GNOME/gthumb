@@ -1,5 +1,20 @@
 2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/preferences.h:
+	* src/dlg-scripts.c: (gconf_script_path), (gconf_script_name_path),
+	(gconf_get_script), (exec_script), (setup_script_struct),
+	(add_scripts), (save_cb), (add_menu_item_and_action),
+	(generate_script_menu):
+	* src/dlg-scripts.h:
+	* src/gth-browser.c: (key_press_cb):
+	Tweaked version of Adrien Bustany's ghop patch.
+        http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=94.
+	Applies meaningful script names to the default scripts, even if they
+	imported from 2.10.x. Collapsed the script code into loops, allowing
+	future expansion of the number of scripts.
+
+2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (sort_by_tag_name),
 	(update_metadata):
 	* libgthumb/gth-exif-utils.h:
