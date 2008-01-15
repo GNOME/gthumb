@@ -60,7 +60,6 @@ char *metadata_category_name[GTH_METADATA_CATEGORIES] =
 	N_("IPTC"),
         N_("XMP Embedded"),  
 	N_("XMP Sidecar"),
-	N_("Exiv2 Experimental"),
 	N_("Audio / Video"),
         N_("Other")  
 };  
@@ -808,8 +807,8 @@ update_metadata (GList *metadata, ExifData *existing_edata, char *uri, const cha
 	if ( mime_type_is_image (mime_type))
 		metadata = gth_read_exiv2 (uri, metadata);
 
-	if ( mime_type_is (mime_type, "image/jpeg"))
-		metadata = gth_read_exif (uri, metadata, existing_edata);
+	/*if ( mime_type_is (mime_type, "image/jpeg"))
+		metadata = gth_read_exif (uri, metadata, existing_edata);*/
 
 	if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
 		metadata = gth_read_gstreamer (uri, metadata);

@@ -1,3 +1,11 @@
+2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* src/gth-exif-data-viewer.c: (update_metadata):
+	Apply customized tag sorting to exiv2 exif metadata. Tweaked version
+	of patch by Martin Schmeißer <Waschbaehr@gmx.de>, via ghop.
+
 2008-01-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:
