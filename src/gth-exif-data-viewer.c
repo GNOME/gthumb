@@ -33,7 +33,6 @@
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gth-exif-utils.h"
-#include "gth-gstreamer-utils.h"
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
 #include "gconf-utils.h"
@@ -330,34 +329,6 @@ add_to_display (GthMetadata       *entry,
 				  entry->position);
 }
 
-
-static gint
-sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
-{
-	return strcmp_null_tolerant (entry1->display_name, entry2->display_name);
-}
-
-
-static GList *
-update_metadata (GList *metadata, char *uri, const char *mime_type)
-{
-	char  *local_file = NULL;
-
-	if (uri == NULL)
-		return metadata;
-
-	if ( mime_type_is_image (mime_type))
-		metadata = gth_read_exiv2 (uri, metadata);
-
-	if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
-		metadata = gth_read_gstreamer (uri, metadata);
-
-	/* Sort alphabetically by tag name. The "position" value will
-	   override this sorting, if position is non-zero. */
-	metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name);
-
-	return metadata;
-}
 
 static void
 update_file_info (GthExifDataViewer *edv)
