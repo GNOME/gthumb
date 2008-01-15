@@ -49,10 +49,10 @@ typedef enum {
         GTH_METADATA_CATEGORY_FILE = 0, 
         GTH_METADATA_CATEGORY_EXIF_CAMERA, 
         GTH_METADATA_CATEGORY_EXIF_CONDITIONS, 
-        GTH_METADATA_CATEGORY_MAKERNOTE, 
-        GTH_METADATA_CATEGORY_GPS, 
         GTH_METADATA_CATEGORY_EXIF_IMAGE, 
         GTH_METADATA_CATEGORY_EXIF_THUMBNAIL, 
+        GTH_METADATA_CATEGORY_GPS, 
+        GTH_METADATA_CATEGORY_MAKERNOTE, 
         GTH_METADATA_CATEGORY_VERSIONS, 
 	GTH_METADATA_CATEGORY_IPTC,
         GTH_METADATA_CATEGORY_XMP_EMBEDDED, 
@@ -74,8 +74,6 @@ typedef struct {
 
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
 char *        get_exif_tag                (const char   *filename,
-				           ExifTag       etag);
-ExifShort     get_exif_tag_short          (const char   *filename,
 				           ExifTag       etag);
 time_t        get_metadata_time           (const char   *mime_type,
 					   const char   *filename);

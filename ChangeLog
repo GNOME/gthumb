@@ -1,5 +1,21 @@
 2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* src/gth-exif-data-viewer.c:
+	Re-order metadata categories slightly, to put MakerNotes further down
+	the list. 
+
+	* libgthumb/gth-exif-utils.c: Remove the get_exif_tag_short function.
+	It is libexif based, and no longer used.
+
+	* src/dlg-jpegtran.c: (apply_transformation__trim_response),
+	(apply_transformation__step2):
+	Stop using libexif to read orientation tags.
+	Use our own internal function, read_orientation_field.
+
+2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-image-prop.c: (update_notebook_page):
 	* src/gth-browser.c: (window_update_image_info):
 	* src/gth-exif-data-viewer.c: (update_metadata),

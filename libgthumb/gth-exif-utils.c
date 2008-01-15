@@ -98,52 +98,6 @@ get_exif_tag (const char *uri,
 }
 
 
-ExifShort
-get_exif_tag_short (const char *uri,
-		    ExifTag     etag)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-
-	if (uri == NULL)
-		return 0;
-
-	edata = gth_exif_data_new_from_uri (uri);
-	if (edata == NULL) 
-		return 0;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-
-			if (! content->entries[j]) 
-				continue;
-
-			if (e->tag == etag) {
-				ExifByteOrder o;
-				ExifShort retval = 0;
-
-				o = exif_data_get_byte_order (e->parent->parent);
-				if (e->data != NULL)
-					retval = exif_get_short (e->data, o);
-				exif_data_unref (edata);
-
-				return retval;
-			}
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return 0;
-}
-
-
 time_t
 exif_string_to_time_t (char *string) 
 {
