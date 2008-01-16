@@ -1,16 +1,16 @@
 # Hungarian translation of gthumb.
-# Copyright (C) 2003, 2004, 2005, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2005, 2007, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 #
 # Andras Timar <timar@gnome.hu>, 2003, 2004.
 # Laszlo Dvornik <dvornik@gnome.hu>, 2004.
-# Gabor Kelemen <kelemeng@gnome.hu>, 2005, 2007.
+# Gabor Kelemen <kelemeng@gnome.hu>, 2005, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-02-27 03:42+0000\n"
-"PO-Revision-Date: 2007-03-03 19:40+0100\n"
+"PO-Revision-Date: 2008-01-16 16:03+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1634,10 +1634,7 @@ msgid ""
 "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
-msgstr ""
-"<small><i><b>Megjegyzés:</b> A JPEG átalakítások általában veszteségmentesek.\n"
-"Képek megjelenítésekor a [ és ] gyorsbillentyűk segítségével veszteségmentesen\n"
-"forgathat és menthet, ezen párbeszédablak megkerülésével.</i></small>"
+msgstr "<small><i><b>Megjegyzés:</b> A JPEG átalakítások általában veszteségmentesek. Képek megjelenítésekor a [ és ] gyorsbillentyűk segítségével veszteségmentesen forgathat és menthet, ezen párbeszédablak megkerülésével.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
