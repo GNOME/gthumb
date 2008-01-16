@@ -1577,8 +1577,9 @@ scale_step (GthPixbufOp *pixop)
 	} else if (data->keep_ratio) {
 		new_w = w;
 		new_h = h;
-		scale_keepping_ratio (&new_w, &new_h,
-				      data->width, data->height);
+		scale_keeping_ratio (&new_w, &new_h,
+				     data->width, data->height,
+				     TRUE);
 	} else {
 		new_w = data->width;
 		new_h = data->height;

@@ -56,10 +56,11 @@ gboolean   _gdk_pixbuf_savev                  (GdkPixbuf       *pixbuf,
 					       char           **keys,
 					       char           **values,
 					       GError         **error);
-gboolean   scale_keepping_ratio               (int             *width,
+gboolean   scale_keeping_ratio                (int             *width,
 					       int             *height,
 					       int              max_width,
-					       int              max_height);
+					       int              max_height,
+					       gboolean         allow_upscaling);
 GdkPixbuf* create_void_pixbuf                 (int              width,
 					       int              height);
 GdkPixbuf* _gdk_pixbuf_scale_simple_safe      (const GdkPixbuf *src,

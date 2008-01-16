@@ -2317,7 +2317,7 @@ image_loader_done_cb (ImageLoader            *il,
 		thumb_w = image->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
 		thumb_h = image->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
 
-		if (scale_keepping_ratio (&thumb_w, &thumb_h, THUMB_SIZE, THUMB_SIZE))
+		if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMB_SIZE, THUMB_SIZE, FALSE))
 			image->thumbnail = gdk_pixbuf_scale_simple (pixbuf,
 								    thumb_w,
 								    thumb_h,

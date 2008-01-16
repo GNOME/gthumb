@@ -453,7 +453,7 @@ update_general_info (DialogData *data)
 		
 		width = gdk_pixbuf_get_width (pixbuf);
 		height = gdk_pixbuf_get_height (pixbuf);
-		scale_keepping_ratio (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
+		scale_keeping_ratio (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE, FALSE);
 		
 		scaled = gdk_pixbuf_scale_simple (pixbuf, 
 						  width, 

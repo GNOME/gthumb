@@ -951,7 +951,7 @@ get_fs_icon (IconName icon_name,
 
 		w = gdk_pixbuf_get_width (icon_pixbuf[icon_name]);
 		h = gdk_pixbuf_get_height (icon_pixbuf[icon_name]);
-		if (scale_keepping_ratio (&w, &h, icon_size, icon_size))
+		if (scale_keeping_ratio (&w, &h, icon_size, icon_size, FALSE))
 			pixbuf = gdk_pixbuf_scale_simple (icon_pixbuf[icon_name],
 							  w,
 							  h,

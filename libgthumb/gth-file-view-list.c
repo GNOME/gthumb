@@ -164,7 +164,7 @@ get_sized_pixbuf (GthFileViewList *gfv_list,
 
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
-	if (scale_keepping_ratio (&w, &h, max_image_size, max_image_size)) {
+	if (scale_keeping_ratio (&w, &h, max_image_size, max_image_size, FALSE)) {
 		GdkPixbuf *try_pixbuf;
 
 		/* look in the hash table. */

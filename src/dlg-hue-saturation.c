@@ -294,7 +294,7 @@ dlg_hue_saturation (GthWindow *window)
 
 	preview_width  = image_width;
 	preview_height = image_height;
-	scale_keepping_ratio (&preview_width, &preview_height, PREVIEW_SIZE, PREVIEW_SIZE);
+	scale_keeping_ratio (&preview_width, &preview_height, PREVIEW_SIZE, PREVIEW_SIZE, FALSE);
 
 	data->orig_pixbuf = gdk_pixbuf_scale_simple (image,
 						     preview_width, 
