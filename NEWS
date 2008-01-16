@@ -60,6 +60,11 @@ trunk, since last 2.10.x
 	* exiv2 0.15 or higher is now required.
 
 
+version 2.10.9
+--------------
+
+	* Fixed bug #508873 - gthumb cannot scale up images
+
 version 2.10.8
 --------------
 

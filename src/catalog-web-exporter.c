@@ -1455,10 +1455,11 @@ gth_parsed_doc_print (GList              *document,
 
 			max_size = gth_tag_get_var (ce, tag, "max_size");
 			if (max_size > 0)
-				scale_keepping_ratio (&image_width,
+				scale_keeping_ratio (&image_width,
 						      &image_height,
 						      max_size,
-						      max_size);
+						      max_size,
+						      FALSE);
 
 			image_src_relative = get_path_relative_to_uri (image_src, relative_to);
 			src_attr = _g_escape_text_for_html (image_src_relative, -1);
@@ -2609,7 +2610,7 @@ image_loader_done (ImageLoader *iloader,
 	if (ce->copy_images && ce->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
-		if (scale_keepping_ratio (&w, &h, ce->resize_max_width, ce->resize_max_height)) {
+		if (scale_keeping_ratio (&w, &h, ce->resize_max_width, ce->resize_max_height, FALSE)) {
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->image);
@@ -2629,9 +2630,10 @@ image_loader_done (ImageLoader *iloader,
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
-		if (scale_keepping_ratio (&w, &h,
+		if (scale_keeping_ratio (&w, &h,
 					  ce->preview_max_width,
-					  ce->preview_max_height)) {
+					  ce->preview_max_height,
+					  FALSE)) {
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
@@ -2660,9 +2662,10 @@ image_loader_done (ImageLoader *iloader,
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
-		if (scale_keepping_ratio (&w, &h,
+		if (scale_keeping_ratio (&w, &h,
 					  ce->thumb_width,
-					  ce->thumb_height)) {
+					  ce->thumb_height,
+					  FALSE)) {
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);

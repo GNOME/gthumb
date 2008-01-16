@@ -579,7 +579,7 @@ get_pixbuf_from_mime_type (GthFileList *file_list,
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
-	if (scale_keepping_ratio (&width, &height, icon_size, icon_size)) {
+	if (scale_keeping_ratio (&width, &height, icon_size, icon_size, FALSE)) {
 		GdkPixbuf *scaled;
 		scaled = gdk_pixbuf_scale_simple (pixbuf,
 						  width,

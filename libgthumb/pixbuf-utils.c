@@ -1304,10 +1304,11 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 
 
 gboolean
-scale_keepping_ratio (int *width,
-		      int *height,
-		      int  max_width,
-		      int  max_height)
+scale_keeping_ratio (int      *width,
+	             int      *height,
+		     int       max_width,
+		     int       max_height,
+		     gboolean  allow_upscaling)
 {
 	double   w = *width;
 	double   h = *height;
@@ -1317,7 +1318,7 @@ scale_keepping_ratio (int *width,
 	int      new_width, new_height;
 	gboolean modified;
 
-	if ((*width < max_width) && (*height < max_height))
+	if ((*width < max_width) && (*height < max_height) && !allow_upscaling)
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);

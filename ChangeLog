@@ -1,5 +1,31 @@
 2008-01-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* libgthumb/async-pixbuf-ops.c: (scale_step):
+	* libgthumb/gth-file-list.c: (get_pixbuf_from_mime_type):
+	* libgthumb/gth-file-view-list.c: (get_sized_pixbuf):
+	* libgthumb/pixbuf-utils.c: (scale_keeping_ratio):
+	* libgthumb/pixbuf-utils.h:
+	* libgthumb/print-callbacks.c: (image_loader_done_cb):
+	* libgthumb/thumb-loader.c: (thumb_loader_done_cb):
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print),
+	(image_loader_done):
+	* src/dlg-brightness-contrast.c: (dlg_brightness_contrast):
+	* src/dlg-color-balance.c: (dlg_color_balance):
+	* src/dlg-hue-saturation.c: (dlg_hue_saturation):
+	* src/dlg-image-prop.c: (update_general_info):
+	* src/dlg-jpegtran.c: (_gdk_pixbuf_scale_keep_aspect_ratio):
+	* src/dlg-posterize.c: (dlg_posterize):
+	* src/dlg-web-exporter.c: (theme_dialog__sel_changed_cb):
+	* src/main.c: (get_fs_icon):
+
+	Fixed bug #508873 - gthumb cannot scale up images, by adding
+	boolean parameter to permit upscaling in scale_keeping_ratio.
+	Spelling: scale_keepping_ratio -> scale_keeping_ratio.
+
+2008-01-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-scripts.c: (add_menu_item_and_action):
 	Do not show undefined scripts in the Scripts menu.
 

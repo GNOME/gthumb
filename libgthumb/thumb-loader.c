@@ -532,9 +532,10 @@ thumb_loader_done_cb (ImageLoader *il,
 		 * scaled if necessary. */
 
 		/* Check whether to scale. */
-		modified = scale_keepping_ratio (&width, &height,
+		modified = scale_keeping_ratio (&width, &height,
 						 priv->cache_max_w,
-						 priv->cache_max_h);
+						 priv->cache_max_h,
+						 FALSE);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf,
@@ -564,7 +565,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		}
 	} 
 	else {
-		modified = scale_keepping_ratio (&width, &height, priv->max_w, priv->max_h);
+		modified = scale_keeping_ratio (&width, &height, priv->max_w, priv->max_h, FALSE);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf,
