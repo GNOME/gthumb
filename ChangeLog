@@ -1,3 +1,8 @@
+2008-01-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-scripts.c: (add_menu_item_and_action):
+	Do not show undefined scripts in the Scripts menu.
+
 2008-01-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/preferences.h:

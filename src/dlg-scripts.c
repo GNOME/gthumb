@@ -1173,14 +1173,17 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
                           cb_data);
 
 	gtk_action_group_add_action (action_group, action);
-	g_object_unref (action);	
-	gtk_ui_manager_add_ui (ui, 
-			       merge_id,
-			       "/MenuBar/Scripts/User_Defined_Scripts",
-			       name,
-			       name, 
-			       GTK_UI_MANAGER_MENUITEM,
-			       FALSE);
+	g_object_unref (action);
+
+	/* Add non-empty scripts to the menu */
+	if (strcmp (command, ""))
+		gtk_ui_manager_add_ui (ui, 
+				       merge_id,
+				       "/MenuBar/Scripts/User_Defined_Scripts",
+				       name,
+				       name, 
+				       GTK_UI_MANAGER_MENUITEM,
+				       FALSE);
 
 	g_free (full_label);
 	g_free (label);
