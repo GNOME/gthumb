@@ -1,3 +1,12 @@
+2008-01-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/gthumb.desktop.in:
+	Fixed bug #510326 - x-content/* support. Patch by Matthias Clasen.
+
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_help_about): Update copyright dates.
+
 2008-01-17  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-photo-importer.c: (copy_images__step):
