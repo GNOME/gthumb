@@ -920,7 +920,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 
 	gtk_show_about_dialog (GTK_WINDOW (window),
                                "version", VERSION,
-                               "copyright", "Copyright \xc2\xa9 2001-2006 Free Software Foundation, Inc.",
+                               "copyright", "Copyright \xc2\xa9 2001-2008 Free Software Foundation, Inc.",
                                "comments", _("An image viewer and browser for GNOME."),
                                "authors", authors,
                                "documenters", documenters,

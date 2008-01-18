@@ -2,6 +2,7 @@ version 2.10.9
 --------------
 
 	* Fixed bug #508873 - gthumb cannot scale up images
+	* Fixed bug #510326 - x-content/* support
 
 version 2.10.8
 --------------
