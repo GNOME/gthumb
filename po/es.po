@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-25 11:27+0000\n"
-"PO-Revision-Date: 2007-12-31 11:59+0100\n"
+"POT-Creation-Date: 2008-01-10 20:10+0000\n"
+"PO-Revision-Date: 2008-01-11 09:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,11 +39,11 @@ msgstr "Índice"
 msgid "Image"
 msgstr "Imagen"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:855
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:377
 msgid "Dimensions"
 msgstr "Dimensiones"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:607
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -80,7 +80,7 @@ msgid "Camera model"
 msgstr "Modelo de cámara"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:104
+#: ../data/glade/gthumb_tools.glade.h:106
 msgid "pixels"
 msgstr "píxeles"
 
@@ -232,7 +232,9 @@ msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
 msgid "<small>Click \"Help\" for format code information.</small>"
-msgstr "<small>Pulse «Ayuda» para obtener información sobre el código de formato.</small>"
+msgstr ""
+"<small>Pulse «Ayuda» para obtener información sobre el código de formato.</"
+"small>"
 
 #: ../data/glade/gthumb_camera.glade.h:3
 msgid "C_hoose from the catalog"
@@ -285,8 +287,8 @@ msgid "Import Photos"
 msgstr "Importar fotos"
 
 #: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:933
-#: ../src/dlg-photo-importer.c:972 ../src/dlg-photo-importer.c:1707
-#: ../src/dlg-photo-importer.c:2505
+#: ../src/dlg-photo-importer.c:972 ../src/dlg-photo-importer.c:1718
+#: ../src/dlg-photo-importer.c:2516
 msgid "No camera detected"
 msgstr "Se ha seleccionado ninguna cámara"
 
@@ -445,7 +447,7 @@ msgid "Opti_mize"
 msgstr "Opti_mizar"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:63
 msgid "Overwrite mode:"
 msgstr "Modo de sobreescritura:"
 
@@ -454,17 +456,17 @@ msgid "PNG Options"
 msgstr "Opciones de PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_tools.glade.h:65
 msgid "R_emove original"
 msgstr "B_orrar el original"
 
 #: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:65
+#: ../data/glade/gthumb_tools.glade.h:67
 msgid "Rename"
 msgstr "Renombrar"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:73
+#: ../data/glade/gthumb_tools.glade.h:75
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -485,13 +487,13 @@ msgid "TIFF Options"
 msgstr "Opciones TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:78
+#: ../data/glade/gthumb_tools.glade.h:80
 msgid "T_GA"
 msgstr "T_GA"
 
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:85
+#: ../data/glade/gthumb_tools.glade.h:87
 #: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Destination:"
 msgstr "_Destino:"
@@ -502,7 +504,7 @@ msgid "_Horizontal:"
 msgstr "_Horizontal:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:88
+#: ../data/glade/gthumb_tools.glade.h:90
 msgid "_JPEG"
 msgstr "_JPEG"
 
@@ -515,7 +517,7 @@ msgid "_No compression"
 msgstr "_Sin compresión"
 
 #: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:91
+#: ../data/glade/gthumb_tools.glade.h:93
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -536,7 +538,7 @@ msgid "_Smoothing:"
 msgstr "_Suavizado:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:98
+#: ../data/glade/gthumb_tools.glade.h:100
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -648,13 +650,13 @@ msgid "_Done"
 msgstr "_Hecho"
 
 #: ../data/glade/gthumb_crop.glade.h:27 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:86
+#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:88
 msgid "_Height:"
 msgstr "A_ltura:"
 
 #: ../data/glade/gthumb_crop.glade.h:28 ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52
-#: ../data/glade/gthumb_tools.glade.h:101
+#: ../data/glade/gthumb_tools.glade.h:103
 msgid "_Width:"
 msgstr "A_ncho:"
 
@@ -748,7 +750,7 @@ msgstr "_Brillo:"
 msgid "_Hue:"
 msgstr "_Matiz:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:89
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:91
 msgid "_Keep aspect ratio"
 msgstr "_Mantener proporción"
 
@@ -768,7 +770,7 @@ msgstr "_Magenta-verde:"
 msgid "_Preview"
 msgstr "Vista _previa"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:93
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:95
 msgid "_Reset"
 msgstr "_Reiniciar"
 
@@ -776,7 +778,7 @@ msgstr "_Reiniciar"
 msgid "_Saturation:"
 msgstr "_Saturación:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:94
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:96
 msgid "_Scale"
 msgstr "E_scala"
 
@@ -1000,7 +1002,7 @@ msgstr "E_stilo:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:77
+#: ../data/glade/gthumb_tools.glade.h:79
 msgid "Start _at:"
 msgstr "Iniciar _en:"
 
@@ -1042,12 +1044,12 @@ msgid "_Solid color"
 msgstr "Color _sólido"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:99
+#: ../data/glade/gthumb_tools.glade.h:101
 msgid "_Template:"
 msgstr "Plan_tilla:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:102
+#: ../data/glade/gthumb_tools.glade.h:104
 #: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "by name"
 msgstr "por nombre"
@@ -1575,7 +1577,7 @@ msgid "New _Search..."
 msgstr "Bú_squeda nueva..."
 
 #: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:902
-#: ../src/dlg-photo-importer.c:1759
+#: ../src/dlg-photo-importer.c:1765
 msgid "No images found"
 msgstr "No se encontraron imágenes"
 
@@ -1589,7 +1591,7 @@ msgid "Search Progress"
 msgstr "Progreso de la búsqueda"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:72
+#: ../data/glade/gthumb_tools.glade.h:74
 msgid "Searching in:"
 msgstr "Buscar en:"
 
@@ -1598,7 +1600,7 @@ msgid "_Edit Search"
 msgstr "_Editar búsqueda"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:87
+#: ../data/glade/gthumb_tools.glade.h:89
 msgid "_Include sub-folders"
 msgstr "_Incluir sub-carpetas"
 
@@ -1607,12 +1609,12 @@ msgid "_Save"
 msgstr "_Guardar"
 
 #: ../data/glade/gthumb_search.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:95
+#: ../data/glade/gthumb_tools.glade.h:97
 msgid "_Search"
 msgstr "_Buscar"
 
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:100
+#: ../data/glade/gthumb_tools.glade.h:102
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -1706,7 +1708,7 @@ msgstr ""
 "imagenes seleccionadas a Arriba - Izquierda."
 
 #: ../data/glade/gthumb_tools.glade.h:33
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Click inside the name or script fields to edit them.\n"
 "<small><i><b>\n"
@@ -1720,6 +1722,9 @@ msgid ""
 "%p = the parent folder of the single file</i>\n"
 "<i>[text] = a user prompt, refreshed for each iteration</i>\n"
 "<i>[TEXT] = a user prompt, used for all iterations</i>\n"
+"<i>{..code..} = a strftime date format code</i>\n"
+"<i>{TEXT} = a user prompt used for all iterations matching previous date</"
+"i>\n"
 "Scripts with the %F code will be executed just once, regardless of the "
 "number of files selected. All other scripts will be executed once per "
 "selected file.\n"
@@ -1728,7 +1733,8 @@ msgstr ""
 "Pulse en el nombre o la carpeta del script para editarlo.\n"
 "<small><i><b>\n"
 "Caracteres especiales:</b>\n"
-"%F = todos los nombres de archivo seleccionados en una línea, delimitados por espacios\n"
+"%F = todos los nombres de archivo seleccionados en una línea, delimitados "
+"por espacios\n"
 "%f = un sólo nombre de archivo, incluyendo la ruta\n"
 "%b = un sólo nombre de archivo, excluyendo la ruta\n"
 "%n = un sólo nombre de archivo, incluyendo la ruta, sin extensión\n"
@@ -1742,19 +1748,19 @@ msgstr ""
 "una vez por archivo seleccionado.\n"
 "Los scripts predeterminados se explican en el archivo de ayuda.</small>"
 
-#: ../data/glade/gthumb_tools.glade.h:47
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Co_mment date"
 msgstr "Fecha del _comentario"
 
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_tools.glade.h:50
 msgid "Current _Folder"
 msgstr "_Carpeta actual"
 
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:51
 msgid "Define External Scripts"
 msgstr "Definir scripts externos"
 
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:52
 msgid ""
 "Do not change\n"
 "Convert to lower-case\n"
@@ -1764,31 +1770,31 @@ msgstr ""
 "Convertir a minúscula\n"
 "Convertir a mayúscula"
 
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "EXIF date"
 msgstr "Fecha EXIF"
 
-#: ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_tools.glade.h:56
 msgid "Equal images:"
 msgstr "Imágenes similares:"
 
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:57
 msgid "Found duplicates:"
 msgstr "Duplicados encontrados:"
 
-#: ../data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:58
 msgid "Image c_reation date"
 msgstr "Fecha de c_reación de la imagen"
 
-#: ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "Mirror image horizontally (left-right)"
 msgstr "Reflejar imagen horizontalmente (izquierda-derecha)"
 
-#: ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_tools.glade.h:60
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Reflejar imagen verticalmente (arriba-abajo)"
 
-#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_tools.glade.h:61
 #: ../src/gth-browser-actions-entries.h:85
 #: ../src/gth-browser-actions-entries.h:110
 #: ../src/gth-browser-actions-entries.h:230
@@ -1796,53 +1802,53 @@ msgstr "Reflejar imagen verticalmente (arriba-abajo)"
 msgid "Move to _Trash"
 msgstr "Mo_ver a la papelera"
 
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:62
 msgid "New names _preview:"
 msgstr "Vista _previa de nombre nuevos:"
 
-#: ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_tools.glade.h:64
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Fec_ha de digitalización de la foto (de los datos EXIF)"
 
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "Re_verse Order"
 msgstr "Orden in_verso"
 
-#: ../data/glade/gthumb_tools.glade.h:66
+#: ../data/glade/gthumb_tools.glade.h:68
 msgid "Reset Exif Orientation Tags"
 msgstr "Restablecer etiquetas de orientación EXIF"
 
-#: ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_tools.glade.h:69
 msgid "Rotate Images"
 msgstr "Rotar imágenes"
 
-#: ../data/glade/gthumb_tools.glade.h:68
+#: ../data/glade/gthumb_tools.glade.h:70
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Rotar la imagen 90 grados en sentido horario"
 
-#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:71
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Rotar la imagen 90 grados en sentido antihorario"
 
-#: ../data/glade/gthumb_tools.glade.h:70
+#: ../data/glade/gthumb_tools.glade.h:72
 msgid "Search for Duplicates"
 msgstr "Buscar duplicados"
 
-#: ../data/glade/gthumb_tools.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:73
 msgid "Search terminated, no duplicates found."
 msgstr "Búsqueda finalizada, no se encontraron duplicados."
 
-#: ../data/glade/gthumb_tools.glade.h:79
+#: ../data/glade/gthumb_tools.glade.h:81
 msgid "The _following date:"
 msgstr "La s_iguiente fecha:"
 
-#: ../data/glade/gthumb_tools.glade.h:80
+#: ../data/glade/gthumb_tools.glade.h:82
 msgid ""
 "The number keys on the numeric keypad can be associated with external "
 "scripts:"
 msgstr "Las teclas del teclado numérico pueden asociarse con scripts externos:"
 
-#: ../data/glade/gthumb_tools.glade.h:81
+#: ../data/glade/gthumb_tools.glade.h:83
 msgid ""
 "This checkbox governs the rotation method used for JPEG images that contain "
 "Exif orientation tags. If this checkbox is enabled, the rotation will be "
@@ -1859,46 +1865,46 @@ msgstr ""
 "orientación EXIF. Para mayor compatibilidad con otras aplicaciones esta "
 "casilla debería estar marcada."
 
-#: ../data/glade/gthumb_tools.glade.h:82
+#: ../data/glade/gthumb_tools.glade.h:84
 msgid "User-Defined Script Parameter"
 msgstr "Parámetros de script definidos por el usuario"
 
-#: ../data/glade/gthumb_tools.glade.h:83
+#: ../data/glade/gthumb_tools.glade.h:85
 msgid "Write To CD"
 msgstr "Escribir en un CD"
 
-#: ../data/glade/gthumb_tools.glade.h:84
+#: ../data/glade/gthumb_tools.glade.h:86
 msgid "Your script requires this user-defined parameter:"
 msgstr "Su script necesita este parámetro definido por el usuario:"
 
-#: ../data/glade/gthumb_tools.glade.h:90
+#: ../data/glade/gthumb_tools.glade.h:92
 msgid "_Last modified date"
 msgstr "_Última fecha de modificación"
 
-#: ../data/glade/gthumb_tools.glade.h:92
+#: ../data/glade/gthumb_tools.glade.h:94
 #: ../src/gth-browser-actions-callbacks.c:470
 #: ../src/gth-browser-actions-callbacks.c:980
 msgid "_Rename"
 msgstr "_Renombrar"
 
-#: ../data/glade/gthumb_tools.glade.h:96
+#: ../data/glade/gthumb_tools.glade.h:98
 msgid "_Selected Images"
 msgstr "Imágenes _seleccionadas"
 
-#: ../data/glade/gthumb_tools.glade.h:97
+#: ../data/glade/gthumb_tools.glade.h:99
 msgid "_Sort:"
 msgstr "Or_denar:"
 
-#: ../data/glade/gthumb_tools.glade.h:103
+#: ../data/glade/gthumb_tools.glade.h:105
 msgid "hours"
 msgstr "horas"
 
-#: ../data/glade/gthumb_tools.glade.h:105
+#: ../data/glade/gthumb_tools.glade.h:107
 msgid "prompt"
 msgstr "aviso"
 
 #. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
-#: ../data/glade/gthumb_tools.glade.h:107
+#: ../data/glade/gthumb_tools.glade.h:109
 msgid "title|Scale Images"
 msgstr "title|Escalar imágenes"
 
@@ -2272,7 +2278,7 @@ msgstr "%d %B %Y"
 #: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:57
 #: ../src/catalog-web-exporter.c:157 ../src/dlg-duplicates.c:548
 #: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
-#: ../src/gth-exif-data-viewer.c:842 ../src/gth-fullscreen.c:883
+#: ../src/gth-exif-data-viewer.c:364 ../src/gth-fullscreen.c:883
 #: ../src/gth-viewer.c:613
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
@@ -2324,8 +2330,8 @@ msgstr "No se pudo quitar la biblioteca «%s»: %s"
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "No se pudo quitar el catálogo «%s»: %s"
 
-#: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:775
-#: ../src/gth-browser.c:4483 ../src/gth-viewer.c:762
+#: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4495 ../src/gth-viewer.c:761
 msgid "No image"
 msgstr "Ninguna imagen"
 
@@ -2355,37 +2361,37 @@ msgstr "Borrando todas las miniaturas, por favor aguarde..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Borrando miniaturas viejas, aguarde por favor..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1367
-#: ../src/gth-browser.c:1371 ../src/gth-browser.c:1383
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1366
+#: ../src/gth-browser.c:1370 ../src/gth-browser.c:1382
 msgid "(Invalid Name)"
 msgstr "(Nombre inválido)"
 
 #: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:838
+#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:360
 #: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:616
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d píxeles"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2470
-#: ../src/catalog-web-exporter.c:2691
+#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2471
+#: ../src/catalog-web-exporter.c:2694
 msgid "Saving images"
 msgstr "Guardando las imágenes"
 
-#: ../src/catalog-png-exporter.c:1657
+#: ../src/catalog-png-exporter.c:1658
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Creando imagen: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2185
+#: ../src/catalog-web-exporter.c:2186
 msgid "Saving thumbnails"
 msgstr "Guardando las miniaturas"
 
-#: ../src/catalog-web-exporter.c:2258
+#: ../src/catalog-web-exporter.c:2259
 msgid "Saving HTML pages: Images"
 msgstr "Guardando las páginas HTML: Imágenes"
 
-#: ../src/catalog-web-exporter.c:2338
+#: ../src/catalog-web-exporter.c:2339
 msgid "Saving HTML pages: Indexes"
 msgstr "Guardando las páginas HTML: Índices"
 
@@ -2393,17 +2399,17 @@ msgstr "Guardando las páginas HTML: Índices"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2512
+#: ../src/catalog-web-exporter.c:2513
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../src/catalog-web-exporter.c:2900
+#: ../src/catalog-web-exporter.c:2903
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "No se ha podido crear una carpeta temporal"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2956
+#: ../src/catalog-web-exporter.c:2959
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -2454,7 +2460,7 @@ msgstr "No se ha podido crear una copia temporal del archivo remoto."
 msgid "Could not write Exif DataTime tag. Error %d."
 msgstr "No se pudo escribir la etiqueta EXIF DataTime. Error %d."
 
-#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:258
+#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:254
 #: ../src/dlg-reset-exif.c:128
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
@@ -2506,8 +2512,8 @@ msgid "Duplicates Size"
 msgstr "Tamaño de los duplicados"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
-#: ../src/gth-exif-data-viewer.c:851
+#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:592
+#: ../src/gth-exif-data-viewer.c:373
 msgid "Name"
 msgstr "Nombre"
 
@@ -2515,7 +2521,7 @@ msgstr "Nombre"
 msgid "Last modified"
 msgstr "Última modificación"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:612
 msgid "Location"
 msgstr "Lugar"
 
@@ -2532,7 +2538,7 @@ msgstr "La carpeta de destino no existe. ¿Desea crearla?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "No se ha podido crear la carpeta «%s»: %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1784
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1790
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2552,7 +2558,7 @@ msgstr ""
 "permanentemente?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1918 ../src/gth-viewer.c:1012
+#: ../src/gth-browser.c:1917 ../src/gth-viewer.c:1011
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "_No mostrar este mensaje otra vez"
@@ -2636,32 +2642,32 @@ msgstr "Moviendo archivo %ld de %ld"
 msgid "Could not move the folder \"%s\": %s"
 msgstr "No se pudo mover la carpeta «%s»: %s"
 
-#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:857
+#: ../src/dlg-image-prop.c:597 ../src/gth-exif-data-viewer.c:379
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Tamaño"
 
-#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:859
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:381
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
-#: ../src/gth-exif-data-viewer.c:858 ../src/gth-viewer.c:628
+#: ../src/dlg-image-prop.c:617 ../src/gth-browser.c:498
+#: ../src/gth-exif-data-viewer.c:380 ../src/gth-viewer.c:628
 msgid "Modified"
 msgstr "Modificado"
 
-#: ../src/dlg-image-prop.c:623
+#: ../src/dlg-image-prop.c:622
 msgid "Information on Channel"
 msgstr "Información sobre el canal"
 
-#: ../src/dlg-image-prop.c:732
+#: ../src/dlg-image-prop.c:731
 #, c-format
 msgid "%s Properties"
 msgstr "Propiedades de %s"
 
-#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1711
-#: ../src/dlg-photo-importer.c:1758 ../src/dlg-photo-importer.c:1770
-#: ../src/dlg-photo-importer.c:1786 ../src/dlg-photo-importer.c:1815
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1717
+#: ../src/dlg-photo-importer.c:1764 ../src/dlg-photo-importer.c:1776
+#: ../src/dlg-photo-importer.c:1792 ../src/dlg-photo-importer.c:1821
 msgid "Could not import photos"
 msgstr "No se han podido importar fotos"
 
@@ -2673,43 +2679,47 @@ msgstr "Se detectaron errores al importar"
 msgid "The files on the camera will not be deleted"
 msgstr "No se borrarán los archivos en la cámara"
 
-#: ../src/dlg-photo-importer.c:1577
+#: ../src/dlg-photo-importer.c:1513
+#, fuzzy, c-format
+msgid "Transferring '%s' to its destination folder."
+msgstr "_Ir a la carpeta de destino"
+
+#: ../src/dlg-photo-importer.c:1583
 #, c-format
 msgid "Adjusting orientation of '%s'."
-msgstr ""
+msgstr "Ajustando la orientación de «%s»."
 
-#: ../src/dlg-photo-importer.c:1767
+#: ../src/dlg-photo-importer.c:1773
 #: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "No se pudo crear la carpeta «%s»: %s"
 
-#: ../src/dlg-photo-importer.c:1816
+#: ../src/dlg-photo-importer.c:1822
 msgid "Not enough free space left on disk"
 msgstr "No hay suficiente espacio libre en disco"
 
-#: ../src/dlg-photo-importer.c:1912
+#: ../src/dlg-photo-importer.c:1918
 msgid "Put name or format code here"
 msgstr "Introduzca aquí el nombre o el código de formato"
 
-#: ../src/dlg-photo-importer.c:2219
+#: ../src/dlg-photo-importer.c:2225
 msgid "No grouping"
 msgstr "Sin agrupar"
 
-#: ../src/dlg-photo-importer.c:2221
+#: ../src/dlg-photo-importer.c:2227
 msgid "By day photo taken"
 msgstr "Fotos tomadas por día"
 
-#: ../src/dlg-photo-importer.c:2223
+#: ../src/dlg-photo-importer.c:2229
 msgid "By month photo taken"
 msgstr "Fotos tomadas por mes"
 
-#: ../src/dlg-photo-importer.c:2225
+#: ../src/dlg-photo-importer.c:2231
 msgid "By current date and time"
 msgstr "Por fecha y hora actuales"
 
 #: ../src/dlg-photo-importer.c:2227
-#, fuzzy
 msgid "Custom subfolder"
 msgstr "Subcarpeta personal"
 
@@ -2779,81 +2789,68 @@ msgstr "Nombre nuevo"
 msgid "Search Result"
 msgstr "Resultado de la búsqueda"
 
-#: ../src/dlg-scripts.c:348 ../src/dlg-scripts.c:350
+#: ../src/dlg-scripts.c:88
+msgid "Edit with GIMP"
+msgstr ""
+
+#: ../src/dlg-scripts.c:89
+msgid "Add copyright"
+msgstr ""
+
+#: ../src/dlg-scripts.c:90
+#, fuzzy
+msgid "Copy to \"approved\" folder"
+msgstr "Copiar la carpeta seleccionada"
+
+#: ../src/dlg-scripts.c:91
+msgid "Send by email"
+msgstr ""
+
+#: ../src/dlg-scripts.c:92
+msgid "Make a zip file"
+msgstr ""
+
+#: ../src/dlg-scripts.c:93
+msgid "Make a zip file and email it"
+msgstr ""
+
+#: ../src/dlg-scripts.c:530 ../src/dlg-scripts.c:532
 msgid "Script Progress"
 msgstr "Progreso del script"
 
-#: ../src/dlg-scripts.c:426
+#: ../src/dlg-scripts.c:611
 #, c-format
 msgid "Scripts using the %%F code can not be cancelled. Sorry!"
 msgstr "Los scripts que utilizan el código %%F no se pueden cancelar."
 
-#: ../src/dlg-scripts.c:645
-msgid "The \"Postr\" software package must be installed to use this function."
-msgstr "El paquete de software «Postr» debe estar instalado para poder utilizar esta función."
-
-#: ../src/dlg-scripts.c:659
-msgid "Script 0"
-msgstr "Script 0"
-
-#: ../src/dlg-scripts.c:664
-msgid "Script 1"
-msgstr "Script 1"
-
-#: ../src/dlg-scripts.c:669
-msgid "Script 2"
-msgstr "Script 2"
-
-#: ../src/dlg-scripts.c:674
-msgid "Script 3"
-msgstr "Script 3"
-
-#: ../src/dlg-scripts.c:679
-msgid "Script 4"
-msgstr "Script 4"
-
-#: ../src/dlg-scripts.c:684
-msgid "Script 5"
-msgstr "Script 5"
-
-#: ../src/dlg-scripts.c:689
-msgid "Script 6"
-msgstr "Script 6"
-
-#: ../src/dlg-scripts.c:694
-msgid "Script 7"
-msgstr "Script 7"
-
-#: ../src/dlg-scripts.c:699
-msgid "Script 8"
-msgstr "Script 8"
-
-#: ../src/dlg-scripts.c:704
-msgid "Script 9"
-msgstr "Script 9"
-
-#: ../src/dlg-scripts.c:838
-msgid "Hot key"
-msgstr "Teclas rápidas"
-
-#: ../src/dlg-scripts.c:850
-msgid "Short Name"
-msgstr "Ordenar por nombre"
-
-#: ../src/dlg-scripts.c:861
-msgid "Script"
-msgstr "Script"
-
-#: ../src/dlg-scripts.c:1036
+#: ../src/dlg-scripts.c:735
 #, c-format
 msgid "Script %d"
 msgstr "Script %d"
+
+#: ../src/dlg-scripts.c:810
+msgid "The \"Postr\" software package must be installed to use this function."
+msgstr ""
+"El paquete de software «Postr» debe estar instalado para poder utilizar esta "
+"función."
+
+#: ../src/dlg-scripts.c:974
+msgid "Hot key"
+msgstr "Teclas rápidas"
+
+#: ../src/dlg-scripts.c:986
+msgid "Short Name"
+msgstr "Ordenar por nombre"
+
+#: ../src/dlg-scripts.c:997
+msgid "Script"
+msgstr "Script"
 
 #: ../src/dlg-web-exporter.c:843
 msgid "Select Album Theme"
 msgstr "Seleccionar el tema del álbum"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3833
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3845
 msgid "Could not move the items:"
 msgstr "No se han podido mover los elementos:"
 
@@ -3634,135 +3631,139 @@ msgstr "Ver los catálogos"
 msgid "[Press 'c' to add a comment]"
 msgstr "[Presione «c» para añadir un comentario]"
 
-#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:759
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:758
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../src/gth-browser.c:697 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imagen (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imágenes (%s)"
 
-#: ../src/gth-browser.c:787
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 imagen seleccionada (%s)"
 
-#: ../src/gth-browser.c:790
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d imágenes seleccionadas (%s)"
 
-#: ../src/gth-browser.c:1915 ../src/gth-viewer.c:1009
+#: ../src/gth-browser.c:1914 ../src/gth-viewer.c:1008
 msgid "The current image has been modified, do you want to save it?"
 msgstr "La imagen actual ha sido modificada, ¿quiere guardarla?"
 
-#: ../src/gth-browser.c:1916 ../src/gth-viewer.c:1010
+#: ../src/gth-browser.c:1915 ../src/gth-viewer.c:1009
 msgid "Do Not Save"
 msgstr "No guardar"
 
-#: ../src/gth-browser.c:3592
+#: ../src/gth-browser.c:3604
 msgid "Dragged Images"
 msgstr "Imágenes arrastradas"
 
-#: ../src/gth-browser.c:5384 ../src/gth-browser.c:5385
+#: ../src/gth-browser.c:5396 ../src/gth-browser.c:5397
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotar imágenes sin pérdida de calidad"
 
-#: ../src/gth-browser.c:6274
+#: ../src/gth-browser.c:6286
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas..."
 
-#: ../src/gth-browser.c:6296
+#: ../src/gth-browser.c:6308
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "No se puede cargar la carpeta «%s»: %s\n"
 
-#: ../src/gth-browser.c:6827 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6839 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/gth-browser.c:6841 ../src/gth-viewer.c:1655
+#: ../src/gth-browser.c:6853 ../src/gth-viewer.c:1654
 msgid "Image comment"
 msgstr "Comentario de la imagen"
 
-#: ../src/gth-browser.c:6855
+#: ../src/gth-browser.c:6867
 msgid "Image data"
 msgstr "Datos de la imagen"
 
-#: ../src/gth-browser.c:6869
+#: ../src/gth-browser.c:6881
 msgid "Image preview"
 msgstr "Vista previa de la imagen"
 
-#: ../src/gth-browser.c:7921
+#: ../src/gth-browser.c:7933
 msgid "The specified catalog does not exist."
 msgstr "El catálogo especificado no existe."
 
-#: ../src/gth-browser.c:8553 ../src/gth-viewer.c:2100
+#: ../src/gth-browser.c:8565 ../src/gth-viewer.c:2099
 msgid "Wait please..."
 msgstr "Por favor aguarde..."
 
-#: ../src/gth-exif-data-viewer.c:52
+#: ../src/gth-exif-data-viewer.c:44
 msgid "Filesystem"
 msgstr "Sistema de archivos"
 
-#: ../src/gth-exif-data-viewer.c:53
+#: ../src/gth-exif-data-viewer.c:45
 msgid "Exif General"
 msgstr "Exif General"
 
-#: ../src/gth-exif-data-viewer.c:54
+#: ../src/gth-exif-data-viewer.c:46
 msgid "Exif Conditions"
 msgstr "Condiciones de captura de la imagen"
 
-#: ../src/gth-exif-data-viewer.c:55
-msgid "Exif Maker Notes"
-msgstr "Notas Exif del autor"
-
-#: ../src/gth-exif-data-viewer.c:56
-msgid "Exif GPS"
-msgstr "GPS Exif"
-
-#: ../src/gth-exif-data-viewer.c:57
+#: ../src/gth-exif-data-viewer.c:47
 msgid "Exif Structure"
 msgstr "Estructura Exif"
 
-#: ../src/gth-exif-data-viewer.c:58
+#: ../src/gth-exif-data-viewer.c:48
 msgid "Exif Thumbnail"
 msgstr "Miniaturas Exif"
 
-#: ../src/gth-exif-data-viewer.c:59
+#: ../src/gth-exif-data-viewer.c:49
+msgid "Exif GPS"
+msgstr "GPS Exif"
+
+#: ../src/gth-exif-data-viewer.c:50
+msgid "Exif Maker Notes"
+msgstr "Notas Exif del autor"
+
+#: ../src/gth-exif-data-viewer.c:51
 msgid "Exif Versions"
 msgstr "Versiones Exif"
 
-#: ../src/gth-exif-data-viewer.c:60
+#: ../src/gth-exif-data-viewer.c:52
+msgid "IPTC"
+msgstr "IPTC"
+
+#: ../src/gth-exif-data-viewer.c:53
 msgid "XMP Embedded"
 msgstr "XMP empotrado"
 
-#: ../src/gth-exif-data-viewer.c:61
+#: ../src/gth-exif-data-viewer.c:54
 msgid "XMP Sidecar"
 msgstr "XMP Sidecar"
 
-#: ../src/gth-exif-data-viewer.c:62
+#: ../src/gth-exif-data-viewer.c:55
 msgid "Audio / Video"
 msgstr "Audio / Vídeo"
 
-#: ../src/gth-exif-data-viewer.c:63
+#: ../src/gth-exif-data-viewer.c:56
 msgid "Other"
 msgstr "Otro"
 
-#: ../src/gth-exif-data-viewer.c:852
+#: ../src/gth-exif-data-viewer.c:374
 msgid "Path"
 msgstr "Ruta"
 
@@ -3886,15 +3887,15 @@ msgstr "_Una ventana única"
 msgid "Reuse this window to view other images"
 msgstr "Reutiliza esta ventana para ver otras imágenes"
 
-#: ../src/gth-viewer.c:834
+#: ../src/gth-viewer.c:833
 msgid "_None"
 msgstr "_Ninguna"
 
-#: ../src/gth-viewer.c:1450 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1449 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "Abrir _con"
 
-#: ../src/gth-viewer.c:1456 ../src/gth-viewer.c:1457
+#: ../src/gth-viewer.c:1455 ../src/gth-viewer.c:1456
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Abrir las imágenes seleccionadas con una aplicación"
@@ -4344,6 +4345,36 @@ msgid ""
 msgstr ""
 "No se pudo mover el archivo temporal al destino local. Compruebe los "
 "permisos de las carpetas."
+
+#~ msgid "Script 0"
+#~ msgstr "Script 0"
+
+#~ msgid "Script 1"
+#~ msgstr "Script 1"
+
+#~ msgid "Script 2"
+#~ msgstr "Script 2"
+
+#~ msgid "Script 3"
+#~ msgstr "Script 3"
+
+#~ msgid "Script 4"
+#~ msgstr "Script 4"
+
+#~ msgid "Script 5"
+#~ msgstr "Script 5"
+
+#~ msgid "Script 6"
+#~ msgstr "Script 6"
+
+#~ msgid "Script 7"
+#~ msgstr "Script 7"
+
+#~ msgid "Script 8"
+#~ msgstr "Script 8"
+
+#~ msgid "Script 9"
+#~ msgstr "Script 9"
 
 #~ msgid "0:"
 #~ msgstr "0:"
