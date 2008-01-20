@@ -32,6 +32,7 @@
 #include <libexif/exif-utils.h>
 #include "jpegutils/jpeg-data.h"
 #include "typedefs.h"
+#include "file-data.h"
 
 // Return values from gth_minimal_exif_tag_writes() 
 #define PATCH_EXIF_OK               0
@@ -75,6 +76,7 @@ typedef struct {
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
 char *        get_exif_tag                (const char   *filename,
 				           ExifTag       etag);
+time_t        get_metadata_time_from_fd   (FileData     *fd);
 time_t        get_metadata_time           (const char *mime_type,
 					   const char *uri,
 					   GList *md);

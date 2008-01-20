@@ -1,5 +1,20 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_insert_metadata):
+	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),
+	(get_metadata_time):
+	* libgthumb/gth-exif-utils.h:
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+	Added a function called get_metadata_time_from_fd to get the metadata
+	time from the FileData in a simpler fashion. The original 
+	get_metadata_time function will be purged soon.
+	
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c:
 	* src/catalog-web-exporter.c: (comp_func_exif_date),
 	(gth_parsed_doc_print), (image_loader_done):

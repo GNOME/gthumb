@@ -192,16 +192,22 @@ metadata_search (GthMetadata *a,
 
 
 time_t
+get_metadata_time_from_fd (FileData *fd)
+{
+	return get_metadata_time (fd->mime_type, fd->path, fd->metadata);
+}
+
+
+time_t
 get_metadata_time (const char *mime_type, 
 		   const char *uri,
 		   GList *md)
 {
 	gboolean loaded_metadata = FALSE;
 
-	if (mime_type == NULL)
-		mime_type = get_mime_type (uri);
-
 	if (md == NULL) {
+		if (mime_type == NULL)
+			mime_type = get_mime_type (uri);
 		md = update_metadata (NULL, uri, mime_type);
 		loaded_metadata = TRUE;
 	}

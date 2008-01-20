@@ -325,7 +325,7 @@ file_data_insert_metadata (FileData *fd)
 		return;
 
 	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);
-	fd->exif_time = get_metadata_time (fd->mime_type, fd->path, fd->metadata);
+	fd->exif_time = get_metadata_time_from_fd (fd);
 	fd->exif_data_loaded = TRUE;
 }
 

@@ -1803,7 +1803,7 @@ gth_parsed_doc_print (GList              *document,
 				struct tm *tp;
 				char s[100];
 
-				t = get_metadata_time (NULL, NULL, idata->src_file->metadata);
+				t = get_metadata_time_from_fd (idata->src_file);
 				if (t != 0) {
 					tp = localtime (&t);
 					strftime (s, 99, DATE_FORMAT, tp);
