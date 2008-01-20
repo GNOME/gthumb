@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <stdio.h>
 #include <locale.h>
 #include <string.h>
 #include <stdlib.h>
@@ -243,19 +244,64 @@ get_mplayer_time (const char *filename)
         return time;
 }
 
+const char *DATE_TAG_NAMES[] = {
+								"DateTimeOriginal",
+								"exif.DateTimeOriginal",
+								"DateTimeDigitized",
+								"exif.DateTimeDigitized"
+								"DateTime",
+								"exif.DateTime",
+								"photoshop.DateCreated"
+								};
+
+gint
+metadata_search (GthMetadata *a,
+			char *b)
+{
+	return strcmp (a->display_name, b);
+}
 
 time_t
 get_metadata_time (const char *mime_type, 
-		   const char *uri)
+		   const char *uri,
+		   GList *md)
 {
 	if (mime_type == NULL)
 		mime_type = get_mime_type (uri);
 
 	if (mime_type_is (mime_type, "image/jpeg"))
-		return get_exif_time (uri);
+	{
+		gboolean loaded_metadata = FALSE;
+		if (md == NULL)
+		{
+			md = update_metadata (NULL, uri, mime_type);
+			loaded_metadata = TRUE;
+		}
+		
+		int i;
+		int len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
+		char *date = NULL;
+		for (i = 0; i < len && date == NULL; i++)
+		{			
+			GList *search_result = g_list_find_custom (md, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
+			if (search_result != NULL)
+			{
+				GthMetadata *md_entry = search_result->data;
+				date = g_strdup(md_entry->value);
+			}
+		}
+		
+		if (loaded_metadata)
+			free_metadata(md);
+		
+		if (date != NULL)
+			return exif_string_to_time_t (date);
+		
+		else return (time_t) 0;
+	}
 
-        if (mime_type_is_video (mime_type))
-                return get_mplayer_time (uri);
+	if (mime_type_is_video (mime_type))
+    	return get_mplayer_time (uri);
 
 	return (time_t) 0;
 }
@@ -312,7 +358,7 @@ get_exif_aperture_value (const char *uri)
 gboolean 
 have_exif_time (const char *uri)
 {
-	return get_metadata_time (NULL, uri) != (time_t)0;
+	return get_metadata_time (NULL, uri, NULL) != (time_t)0;
 }
 
 
@@ -726,6 +772,31 @@ void free_metadata (GList *metadata)
 	g_list_free (metadata);
 }
 
+GList * dup_metadata (GList *source_list)
+{	
+	if (source_list == NULL)
+		return NULL;
+	
+	GList *new_list = NULL;
+	
+	while (source_list)
+	{
+		GthMetadata *source_entry = source_list->data;
+		GthMetadata *new_entry = g_new0 (GthMetadata, 1);
+		
+		new_entry->writeable_path = g_strdup (source_entry->writeable_path);
+		new_entry->display_name = g_strdup (source_entry->display_name);
+		new_entry->value = g_strdup (source_entry->value);
+		new_entry->category = source_entry->category;
+		new_entry->position = source_entry->position;
+		
+		new_list = g_list_prepend (new_list, new_entry);
+		
+		source_list = source_list->next;
+	}
+		
+	return g_list_reverse (new_list);
+}
 
 GList * read_exiv2_file (const char *uri, GList *metadata);
 GList * read_exiv2_sidecar (const char *uri, GList *metadata);
@@ -777,7 +848,7 @@ sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 
 
 GList * 
-update_metadata (GList *metadata, char *uri, const char *mime_type) 
+update_metadata (GList *metadata, const char *uri, const char *mime_type) 
 { 
         char  *local_file = NULL; 
 	
@@ -786,13 +857,12 @@ update_metadata (GList *metadata, char *uri, const char *mime_type)
 
         if (mime_type_is_image (mime_type)) 
                 metadata = gth_read_exiv2 (uri, metadata); 
- 	else if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type)) 
-                metadata = gth_read_gstreamer (uri, metadata); 
+	else if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
+ 		metadata = gth_read_gstreamer (uri, metadata);
  
         /* Sort alphabetically by tag name. The "position" value will 
            override this sorting, if position is non-zero. */ 
         metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name); 
  
         return metadata; 
-} 
-
+}

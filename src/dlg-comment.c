@@ -149,7 +149,7 @@ get_requested_time (DialogData *data,
 		t = time (NULL);
 		break;
 	case EXIF_DATE:
-		t = get_metadata_time (NULL, filename);
+		t = get_metadata_time (NULL, filename, NULL);
 		break;
 	case LAST_MODIFIED_DATE:
 		t = get_file_mtime (filename);
@@ -309,7 +309,7 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 		break;
 	case EXIF_DATE:
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
-					  get_metadata_time (NULL, first_image));
+					  get_metadata_time (NULL, first_image, NULL));
 		break;
 	}
 }

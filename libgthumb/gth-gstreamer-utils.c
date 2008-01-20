@@ -692,7 +692,7 @@ poll_for_state_change (MetadataExtractor *extractor, GstState state)
 
 
 GList *
-gth_read_gstreamer (gchar *uri, GList *metadata)
+gth_read_gstreamer (const gchar *uri, GList *metadata)
 {
 #ifdef HAVE_GSTREAMER	
 	MetadataExtractor *extractor;

@@ -75,8 +75,9 @@ typedef struct {
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
 char *        get_exif_tag                (const char   *filename,
 				           ExifTag       etag);
-time_t        get_metadata_time           (const char   *mime_type,
-					   const char   *filename);
+time_t        get_metadata_time           (const char *mime_type,
+					   const char *uri,
+					   GList *md);
 char *        get_exif_aperture_value     (const char   *filename);
 gboolean      have_exif_time              (const char   *filename);
 const char   *get_exif_entry_value        (ExifEntry    *entry);
@@ -99,6 +100,7 @@ GList *       gth_read_exiv2		  (const char   *filename,
 					   GList        *metadata);
 void          free_metadata               (GList        *metadata);
 GList *       update_metadata		  (GList 	*metadata, 
-					   char 	*uri,
+					   const char 	*uri,
 					   const char 	*mime_type);
+GList * dup_metadata (GList *source_list);
 #endif /* EXIF_UTILS_H */

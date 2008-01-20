@@ -268,7 +268,7 @@ get_image_date (const char *filename)
 	struct tm *ltime;
 	char      *stime;
 
-	mtime = get_metadata_time (NULL, filename);
+	mtime = get_metadata_time (NULL, filename, NULL);
 
 	if (mtime == 0)
 		mtime = get_file_mtime (filename);

@@ -82,6 +82,7 @@ file_data_new (const char       *path,
 
 	fd->exif_data_loaded = FALSE;
 	fd->exif_time = 0;
+	fd->metadata = NULL;
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
@@ -136,6 +137,7 @@ file_data_dup (FileData *source)
 	fd->mtime = source->mtime;
 	fd->exif_data_loaded = source->exif_data_loaded;
 	fd->exif_time = source->exif_time;
+	fd->metadata = dup_metadata (source->metadata);
 	fd->error = source->error;
 	fd->thumb_loaded = source->thumb_loaded;
 	fd->thumb_created = source->thumb_created;
@@ -144,7 +146,6 @@ file_data_dup (FileData *source)
 	
 	return fd;
 }
-
 
 void
 file_data_unref (FileData *fd)
@@ -160,6 +161,8 @@ file_data_unref (FileData *fd)
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
+		if (fd->metadata != NULL)
+			free_metadata (fd->metadata);
 		g_free (fd);
 	}
 }
@@ -283,7 +286,6 @@ file_data_set_path (FileData   *fd,
 	file_data_update (fd);
 }
 
-
 void
 file_data_load_comment_data (FileData *fd)
 {
@@ -294,7 +296,6 @@ file_data_load_comment_data (FileData *fd)
 	fd->comment_data = comments_load_comment (fd->path, FALSE);
 }
 
-
 void
 file_data_load_exif_data (FileData *fd)
 {
@@ -302,12 +303,13 @@ file_data_load_exif_data (FileData *fd)
 
 	if (fd->exif_data_loaded)
 		return;
-		
-	fd->exif_time = get_metadata_time (fd->mime_type, fd->path);
-
+	
+	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);
+	
+	fd->exif_time = get_metadata_time (fd->mime_type, fd->path, fd->metadata);
+	
 	fd->exif_data_loaded = TRUE;
 }
-
 
 void
 file_data_update_comment (FileData *fd)

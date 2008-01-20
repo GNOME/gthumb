@@ -51,6 +51,8 @@ typedef struct {
 
 	char               *comment;
 	CommentData        *comment_data;
+	
+	GList              *metadata;
 } FileData;
 
 #define GTH_TYPE_FILE_DATA (file_data_get_type ())

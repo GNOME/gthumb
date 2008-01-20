@@ -1,3 +1,30 @@
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-data.c: (file_data_new), (file_data_dup),
+	(file_data_unref), (file_data_load_exif_data):
+	* libgthumb/file-data.h:
+	* libgthumb/gth-exif-utils.c: (metadata_search),
+	(get_metadata_time), (have_exif_time), (dup_metadata),
+	(update_metadata):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-gstreamer-utils.c: (gth_read_gstreamer):
+	* libgthumb/gth-gstreamer-utils.h:
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print),
+	(image_loader_done):
+	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):
+	* src/dlg-comment.c: (get_requested_time),
+	(date_optionmenu_changed_cb):
+	* src/dlg-photo-importer.c: (save_image):
+	* src/dlg-rename-series.c: (get_image_date):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-fullscreen.c: (get_file_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+	First step towards adding metadata to the FileData structure.
+	Metadata is loaded on an as-needed basis. Tweaked version of Natan's
+	ghop patch.
+	 http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=99.
+
 2008-01-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
