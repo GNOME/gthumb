@@ -876,7 +876,7 @@ get_file_info (GthFullscreen *fullscreen)
 
 	zoom = (int) (image_viewer->zoom_level * 100.0);
 
-	timer = get_metadata_time (NULL, image_filename, NULL);
+	timer = get_metadata_time_from_fd (priv->current->data);
 	if (timer == 0)
 		timer = get_file_mtime (image_filename);
 	tm = localtime (&timer);

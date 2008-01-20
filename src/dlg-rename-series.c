@@ -262,16 +262,16 @@ get_sortfunc (DialogData *data)
 
 
 static char *
-get_image_date (const char *filename)
+get_image_date (FileData *fd)
 {
 	time_t     mtime = 0;
 	struct tm *ltime;
 	char      *stime;
 
-	mtime = get_metadata_time (NULL, filename, NULL);
+	mtime = get_metadata_time_from_fd (fd);
 
 	if (mtime == 0)
-		mtime = get_file_mtime (filename);
+		mtime = get_file_mtime (fd->path);
 
 	ltime = localtime (&mtime);
 
@@ -389,7 +389,7 @@ update_list (DialogData *data)
 		if (cached_date != NULL)
 			image_date = g_strdup (cached_date);
 		else {
-			image_date = get_image_date (fdata->path);
+			image_date = get_image_date (fdata);
 			if (image_date != NULL)
 				g_hash_table_insert (data->date_cache, g_strdup (fdata->path), g_strdup (image_date));
 		}

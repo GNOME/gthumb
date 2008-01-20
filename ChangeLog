@@ -1,5 +1,11 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-rename-series.c: (get_image_date), (update_list):
+	* src/gth-fullscreen.c: (get_file_info):
+	Update more functions to use get_metadata_time_from_fd.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_insert_metadata):
 	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),
 	(get_metadata_time):
