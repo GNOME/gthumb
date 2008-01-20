@@ -35,6 +35,16 @@
 #include "gth-gstreamer-utils.h"
 
 
+const char *DATE_TAG_NAMES[] = {
+	"DateTimeOriginal",
+	"exif.DateTimeOriginal",
+	"DateTimeDigitized",
+	"exif.DateTimeDigitized"
+	"DateTime",
+	"exif.DateTime",
+	"photoshop.DateCreated"	};
+
+
 ExifData *
 gth_exif_data_new_from_uri (const char *uri)
 {
@@ -173,87 +183,6 @@ get_exif_time (const char *uri)
 }
 
 
-static time_t
-get_mplayer_time (const char *filename)
-{
-        time_t  time = 0;
-	char   *unesc_local_file_to_modify = NULL;
-	char   *local_file_to_modify = NULL;
-	char   *tmp_dir;
-        char   *tmp_filename;
-	char   *command;
-        FILE   *in_file;
-        char    buf[256];
-
-	/* This is a quick hack using midentify. It would be nicer if we
-	   could use a more gnomish approach to extract video metadata.
-	   Can we use gstreamer? */
-
-        if (filename == NULL)
-                return (time_t) 0;
-
-        unesc_local_file_to_modify = obtain_local_file (filename);
-	if (unesc_local_file_to_modify == NULL)
-                return (time_t) 0;
-
-	local_file_to_modify = gnome_vfs_unescape_string (unesc_local_file_to_modify, NULL);
-	g_free (unesc_local_file_to_modify);
-
-        tmp_dir = get_temp_dir_name ();
-        if (tmp_dir == NULL) {
-		g_free (local_file_to_modify);
-                return;
-        }
-        tmp_filename = get_temp_file_name (tmp_dir, NULL);
-
-	/* midentify is a helper script supplied with mplayer. It can extract metadata
-   	   like dates. The sed script below strips out everything before the "=" sign,
-	   removes backslashes, removes forward slashes with trailing white space,
-	   and then hopes that the date command can understand the result. */	   
-	command = g_strconcat(	"midentify '",
-				local_file_to_modify,
-			        "' 2>/dev/null | grep ':' | sed -e 's/[^=]*=//' -e 's/\\\\//g' -e 's/\\/ / /g' | xargs -n 1 -i date --date '{}' +%s 2>/dev/null 1>",
-				tmp_filename,
-				NULL  );
-	system (command);
-
-	in_file = fopen (tmp_filename, "r");
-	while (fgets (buf, sizeof (buf), in_file)) {
-		/* Next line if this doesn't work */
-		if (sscanf (buf, "%d", &time) != 1)
-                        continue;
-		/* OK if date > Jan 1 1980 */
-		if (time > (time_t) 315550800)
-			break;
-	}
-	
-	debug (DEBUG_INFO, "mplayer timestamp read for %s: %d", filename, time);
-
-	fclose (in_file);
-
-	local_dir_remove_recursive (tmp_dir);
-
-        g_free (tmp_filename);
-        g_free (tmp_dir);	
-	g_free (local_file_to_modify);
-	g_free (command);
-
-	if (time < (time_t) 0)
-		return (time_t) 0;
-
-        return time;
-}
-
-const char *DATE_TAG_NAMES[] = {
-								"DateTimeOriginal",
-								"exif.DateTimeOriginal",
-								"DateTimeDigitized",
-								"exif.DateTimeDigitized"
-								"DateTime",
-								"exif.DateTime",
-								"photoshop.DateCreated"
-								};
-
 gint
 metadata_search (GthMetadata *a,
 			char *b)
@@ -266,44 +195,35 @@ get_metadata_time (const char *mime_type,
 		   const char *uri,
 		   GList *md)
 {
+	gboolean loaded_metadata = FALSE;
+
 	if (mime_type == NULL)
 		mime_type = get_mime_type (uri);
 
-	if (mime_type_is (mime_type, "image/jpeg"))
-	{
-		gboolean loaded_metadata = FALSE;
-		if (md == NULL)
-		{
-			md = update_metadata (NULL, uri, mime_type);
-			loaded_metadata = TRUE;
-		}
-		
-		int i;
-		int len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
-		char *date = NULL;
-		for (i = 0; i < len && date == NULL; i++)
-		{			
-			GList *search_result = g_list_find_custom (md, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
-			if (search_result != NULL)
-			{
-				GthMetadata *md_entry = search_result->data;
-				date = g_strdup(md_entry->value);
-			}
-		}
-		
-		if (loaded_metadata)
-			free_metadata(md);
-		
-		if (date != NULL)
-			return exif_string_to_time_t (date);
-		
-		else return (time_t) 0;
+	if (md == NULL) {
+		md = update_metadata (NULL, uri, mime_type);
+		loaded_metadata = TRUE;
 	}
+		
+	int i;
+	int len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
+	char *date = NULL;
 
-	if (mime_type_is_video (mime_type))
-    	return get_mplayer_time (uri);
-
-	return (time_t) 0;
+	for (i = 0; i < len && date == NULL; i++) {			
+		GList *search_result = g_list_find_custom (md, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
+		if (search_result != NULL) {
+			GthMetadata *md_entry = search_result->data;
+			date = g_strdup(md_entry->value);
+		}
+	}
+		
+	if (loaded_metadata)
+		free_metadata(md);
+		
+	if (date != NULL)
+		return exif_string_to_time_t (date);
+	else
+		return (time_t) 0;
 }
 
 

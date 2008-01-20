@@ -173,12 +173,15 @@ file_data_update (FileData *fd)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    result;
+	time_t		  old_mtime;
 
 	g_return_if_fail (fd != NULL);
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
+
+	old_mtime = fd->mtime;
 
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (fd->path,
@@ -206,7 +209,14 @@ file_data_update (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
-	fd->exif_data_loaded = FALSE;
+
+	/* update metadata only if required */
+	if ((old_mtime != fd->mtime) && fd->exif_data_loaded) {
+		fd->exif_data_loaded = FALSE;
+		if (fd->metadata != NULL)
+                        free_metadata (fd->metadata);
+		file_data_insert_metadata (fd);	
+		}
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -218,12 +228,15 @@ file_data_update_info (FileData *fd)
 {
 	GnomeVFSFileInfo *info;
 	GnomeVFSResult    result;
+	time_t            old_mtime;
 
 	g_return_if_fail (fd != NULL);
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
+
+	old_mtime = fd->mtime;
 
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (fd->path,
@@ -250,7 +263,14 @@ file_data_update_info (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
-	fd->exif_data_loaded = FALSE;
+
+        /* update metadata only if required */
+        if ((old_mtime != fd->mtime) && fd->exif_data_loaded) {
+		fd->exif_data_loaded = FALSE;
+                if (fd->metadata != NULL)
+                        free_metadata (fd->metadata);
+                file_data_insert_metadata (fd);
+                }
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -297,17 +317,15 @@ file_data_load_comment_data (FileData *fd)
 }
 
 void
-file_data_load_exif_data (FileData *fd)
+file_data_insert_metadata (FileData *fd)
 {
 	g_return_if_fail (fd != NULL);
 
 	if (fd->exif_data_loaded)
 		return;
-	
+
 	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);
-	
 	fd->exif_time = get_metadata_time (fd->mime_type, fd->path, fd->metadata);
-	
 	fd->exif_data_loaded = TRUE;
 }
 

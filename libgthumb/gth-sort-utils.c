@@ -101,8 +101,8 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 	/* Update the exif DateTime tags in memory if they haven't been
 	   read yet, or if the file has changed. */
 
-	file_data_load_exif_data (fd1);
-	file_data_load_exif_data (fd2);
+	file_data_insert_metadata (fd1);
+	file_data_insert_metadata (fd2);
 
 	time1 = fd1->exif_time;
 	time2 = fd2->exif_time;

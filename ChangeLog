@@ -1,5 +1,17 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (file_data_update),
+	(file_data_update_info), (file_data_insert_metadata):
+	* libgthumb/file-data.h:
+	* libgthumb/gth-exif-utils.c: (get_metadata_time):
+	* libgthumb/gth-filter.c: (gth_test_match):
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_exiftime_then_name):
+	* src/dlg-scripts.c: (get_date_strings):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	Various metadata tidy-ups. Was only working for jpegs, fixed that.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_new), (file_data_dup),
 	(file_data_unref), (file_data_load_exif_data):
 	* libgthumb/file-data.h:

@@ -436,14 +436,11 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
 
-        /* Now read metadata */
-        GList *metadata = NULL;
-	metadata = update_metadata (metadata, edv->priv->file->path, edv->priv->file->mime_type);
+        /* Now read metadata, if it isn't already loaded */
+	file_data_insert_metadata (file_data);
 
 	/* Display the data */
-        g_list_foreach (metadata, (GFunc) add_to_display, edv);
-
-        free_metadata (metadata);
+        g_list_foreach (file_data->metadata, (GFunc) add_to_display, edv);
 
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (edv->priv->image_exif_view));
 }
