@@ -476,7 +476,7 @@ window_update_statusbar_image_info (GthBrowser *browser)
 		height = 0;
 	}
 
-	timer = get_metadata_time (NULL, priv->image->path, NULL);
+	timer = get_metadata_time (NULL, NULL, priv->image->metadata);
 	if (timer == 0)
 		timer = priv->image->mtime;
 	tm = localtime (&timer);

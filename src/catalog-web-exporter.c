@@ -101,9 +101,6 @@ struct _ImageData {
 	char             *place;
 	char             *date_time;
 	char             *dest_filename;
-	/*GnomeVFSFileSize  file_size;
-	time_t            file_time;*/
-	time_t		  exif_time;
 	GdkPixbuf        *image;
 	int               image_width, image_height;
 	GdkPixbuf        *thumb;
@@ -729,7 +726,7 @@ comp_func_exif_date (gconstpointer a,
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filetime_then_name (data_a->exif_time, data_b->exif_time,
+	return gth_sort_by_filetime_then_name (data_a->src_file->exif_time, data_b->src_file->exif_time,
 					       data_a->src_file->path, data_b->src_file->path);
 }
 
@@ -1806,7 +1803,7 @@ gth_parsed_doc_print (GList              *document,
 				struct tm *tp;
 				char s[100];
 
-				t = get_metadata_time (NULL, idata->src_file->path, NULL);
+				t = get_metadata_time (NULL, NULL, idata->src_file->metadata);
 				if (t != 0) {
 					tp = localtime (&t);
 					strftime (s, 99, DATE_FORMAT, tp);
@@ -2675,10 +2672,6 @@ image_loader_done (ImageLoader *iloader,
 
 	idata->thumb_width = gdk_pixbuf_get_width (idata->thumb);
 	idata->thumb_height = gdk_pixbuf_get_height (idata->thumb);
-
-	/**/
-
-	idata->exif_time = get_metadata_time (idata->src_file->mime_type, idata->src_file->path, NULL);
 
 	/* save the image */
 

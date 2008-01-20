@@ -1,5 +1,16 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c:
+	* src/catalog-web-exporter.c: (comp_func_exif_date),
+	(gth_parsed_doc_print), (image_loader_done):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+	Modify some functions to fetch exif_time from existing
+	FileData->metadata list, rather than reading the file again.
+	More work to be done.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_update),
 	(file_data_update_info), (file_data_insert_metadata):
 	* libgthumb/file-data.h:

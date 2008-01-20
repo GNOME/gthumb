@@ -190,6 +190,7 @@ metadata_search (GthMetadata *a,
 	return strcmp (a->display_name, b);
 }
 
+
 time_t
 get_metadata_time (const char *mime_type, 
 		   const char *uri,
