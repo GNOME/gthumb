@@ -1,5 +1,11 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd):
+	Correct the counting of elements in DATE_TAG_NAMES. 
+	Delete the unused get_exif_time function.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_comments.glade:
 	Removed the non-existent word "digitalization".
 

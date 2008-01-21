@@ -39,7 +39,7 @@ const char *DATE_TAG_NAMES[] = {
 	"DateTimeOriginal",
 	"exif.DateTimeOriginal",
 	"DateTimeDigitized",
-	"exif.DateTimeDigitized"
+	"exif.DateTimeDigitized",
 	"DateTime",
 	"exif.DateTime",
 	"photoshop.DateCreated"	};
@@ -147,42 +147,6 @@ exif_string_to_time_t (char *string)
 }
 
 	
-static time_t
-get_exif_time (const char *uri)
-{
-	char   *local_file = NULL;
-        char    date_string[64] = {0};
-        time_t  time = 0;
-
-        if (uri == NULL)
-                return (time_t) 0;
-
-        local_file = get_cache_filename_from_uri (uri);
-	if (local_file == NULL)
-                return (time_t) 0;
-
-        gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME, date_string, 20);
-	time = exif_string_to_time_t (date_string);
-
-	if (time <= (time_t) 0) {
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
-		time = exif_string_to_time_t (date_string);
-	}
-
-	if (time <= (time_t) 0) {
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
-		time = exif_string_to_time_t (date_string);
-	}
-
-	g_free (local_file);
-
-	if (time < (time_t) 0)
-		return (time_t) 0;
-	else
-        	return time;
-}
-
-
 gint
 metadata_search (GthMetadata *a,
 			char *b)
@@ -194,13 +158,11 @@ metadata_search (GthMetadata *a,
 time_t
 get_metadata_time_from_fd (FileData *fd)
 {
-	int     i, len;
+	int     i;
 	char   *date = NULL;
 	time_t  result = 0;
 
-	len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
-
-	for (i = 0; i < len && date == NULL; i++) {			
+	for (i = 0; (i < G_N_ELEMENTS (DATE_TAG_NAMES)) && (date == NULL); i++) {			
 		GList *search_result = g_list_find_custom (fd->metadata, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
