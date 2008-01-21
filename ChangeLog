@@ -1,5 +1,10 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (update_metadata):
+	Don't try to read audio metadata. It hasn't been tested enough.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd):
 	Correct the counting of elements in DATE_TAG_NAMES. 
 	Delete the unused get_exif_time function.

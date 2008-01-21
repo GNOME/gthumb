@@ -721,7 +721,7 @@ update_metadata (GList *metadata, const char *uri, const char *mime_type)
 
         if (mime_type_is_image (mime_type)) 
                 metadata = gth_read_exiv2 (uri, metadata); 
-	else if ( mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
+	else if (mime_type_is_video (mime_type))
  		metadata = gth_read_gstreamer (uri, metadata);
  
         /* Sort alphabetically by tag name. The "position" value will 
