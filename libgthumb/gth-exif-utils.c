@@ -36,13 +36,13 @@
 
 
 const char *DATE_TAG_NAMES[] = {
-	"DateTimeOriginal",
-	"exif.DateTimeOriginal",
-	"DateTimeDigitized",
-	"exif.DateTimeDigitized",
-	"DateTime",
-	"exif.DateTime",
-	"photoshop.DateCreated"	};
+	"Exif.Photo.DateTimeOriginal",
+	"Xmp.exif.DateTimeOriginal",
+	"Exif.Photo.DateTimeDigitized",
+	"Xmp.exif.DateTimeDigitized",
+	"Exif.Image.DateTime",
+	"Xmp.exif.DateTime",
+	"Xmp.photoshop.DateCreated" };
 
 
 ExifData *
@@ -151,7 +151,7 @@ gint
 metadata_search (GthMetadata *a,
 			char *b)
 {
-	return strcmp (a->display_name, b);
+	return strcmp (a->full_name, b);
 }
 
 
@@ -163,7 +163,7 @@ get_metadata_time_from_fd (FileData *fd)
 	time_t  result = 0;
 
 	for (i = 0; (i < G_N_ELEMENTS (DATE_TAG_NAMES)) && (date == NULL); i++) {			
-		GList *search_result = g_list_find_custom (fd->metadata, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
+		GList *search_result = g_list_find_custom (fd->metadata, DATE_TAG_NAMES[i], (GCompareFunc) metadata_search);
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
 			date = g_strdup (md_entry->value);
@@ -623,7 +623,7 @@ write_orientation_field (const char   *local_file,
 void free_metadata_entry (GthMetadata *entry)
 {
 	if (entry != NULL) {
-		g_free (entry->writeable_path);
+		g_free (entry->full_name);
 		g_free (entry->display_name);
 		g_free (entry->value);
 		g_free (entry);
@@ -648,11 +648,12 @@ GList * dup_metadata (GList *source_list)
 		GthMetadata *source_entry = source_list->data;
 		GthMetadata *new_entry = g_new0 (GthMetadata, 1);
 		
-		new_entry->writeable_path = g_strdup (source_entry->writeable_path);
+		new_entry->full_name = g_strdup (source_entry->full_name);
 		new_entry->display_name = g_strdup (source_entry->display_name);
 		new_entry->value = g_strdup (source_entry->value);
 		new_entry->category = source_entry->category;
 		new_entry->position = source_entry->position;
+		new_entry->writeable = source_entry->writeable;
 		
 		new_list = g_list_prepend (new_list, new_entry);
 		

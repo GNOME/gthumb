@@ -1,3 +1,17 @@
+2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (metadata_search),
+	(get_metadata_time_from_fd), (free_metadata_entry), (dup_metadata):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-gstreamer-utils.c: (add_metadata):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct),
+	(tag_is_present_in_category), (add_to_exif_display_list),
+	(add_to_display), (update_file_info):
+	Split the "writeable_path" field of the metadata entry struct into
+	two bits: "full_name" for the full tag name, and "writeable" to
+	indicate if the tag can be edited.
+
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (update_metadata):
