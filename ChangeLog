@@ -1,5 +1,12 @@
 2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* AUTHORS:
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_help_about):
+	Updated list of contributors.
+
+2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (metadata_search),
 	(get_metadata_time_from_fd), (free_metadata_entry), (dup_metadata):
 	* libgthumb/gth-exif-utils.h:

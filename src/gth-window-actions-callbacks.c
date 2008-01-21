@@ -894,6 +894,11 @@ gth_window_activate_action_help_about (GtkAction *action,
 		"Ignacy Gawędzki <ibugs@qult.net>",
 		"Roalt Aalmoes <gnome@roalt.com>",
 		"Geoffrey Antos <dynamotwain@aim.com>",
+		"Michael Lester <element3260@gmail.com>",
+		"Martin Schmeißer <Waschbaehr@gmx.de>",
+		"Sean Hunt <rideau3@gmail.com>",
+		"Natan Yellin <aantny@gmail.com>",
+		"Adrien Bustany <madcat@mymadcat.com>",
 		NULL
 	};
 	const char *documenters [] = {
