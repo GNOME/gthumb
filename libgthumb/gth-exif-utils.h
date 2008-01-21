@@ -81,7 +81,6 @@ time_t        get_metadata_time           (const char *mime_type,
 					   const char *uri,
 					   GList *md);
 char *        get_exif_aperture_value     (const char   *filename);
-gboolean      have_exif_time              (const char   *filename);
 const char   *get_exif_entry_value        (ExifEntry    *entry);
 void          save_exif_data_to_uri       (const char   *filename,
 				           ExifData     *edata);

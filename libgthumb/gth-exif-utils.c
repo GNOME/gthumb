@@ -194,43 +194,25 @@ metadata_search (GthMetadata *a,
 time_t
 get_metadata_time_from_fd (FileData *fd)
 {
-	return get_metadata_time (fd->mime_type, fd->path, fd->metadata);
-}
+	int     i, len;
+	char   *date = NULL;
+	time_t  result = 0;
 
-
-time_t
-get_metadata_time (const char *mime_type, 
-		   const char *uri,
-		   GList *md)
-{
-	gboolean loaded_metadata = FALSE;
-
-	if (md == NULL) {
-		if (mime_type == NULL)
-			mime_type = get_mime_type (uri);
-		md = update_metadata (NULL, uri, mime_type);
-		loaded_metadata = TRUE;
-	}
-		
-	int i;
-	int len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
-	char *date = NULL;
+	len = (sizeof (DATE_TAG_NAMES) / sizeof (DATE_TAG_NAMES[0])) + 1;
 
 	for (i = 0; i < len && date == NULL; i++) {			
-		GList *search_result = g_list_find_custom (md, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
+		GList *search_result = g_list_find_custom (fd->metadata, DATE_TAG_NAMES[i], (GCompareFunc)metadata_search);
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
-			date = g_strdup(md_entry->value);
+			date = g_strdup (md_entry->value);
 		}
 	}
 		
-	if (loaded_metadata)
-		free_metadata(md);
-		
 	if (date != NULL)
-		return exif_string_to_time_t (date);
-	else
-		return (time_t) 0;
+		result = exif_string_to_time_t (date);
+
+	g_free (date);
+	return result;
 }
 
 
@@ -279,13 +261,6 @@ get_exif_aperture_value (const char *uri)
 	exif_data_unref (edata);
 
 	return g_strdup ("-");
-}
-
-
-gboolean 
-have_exif_time (const char *uri)
-{
-	return get_metadata_time (NULL, uri, NULL) != (time_t)0;
 }
 
 

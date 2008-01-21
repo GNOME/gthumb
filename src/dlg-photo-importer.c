@@ -1332,14 +1332,21 @@ save_image (DialogData *data,
 		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
 		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
 		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM)) {
-			char *dest_folder;
-			
+			char     *dest_folder;
+			FileData *file;
+
 			/* Name a subfolder based on the exif date */
-			exif_date = get_metadata_time (NULL, local_path, NULL);
+                        file = file_data_new (local_path, NULL);
+                        file_data_update_all (file, FALSE);
+			file_data_insert_metadata (file);
+			exif_date = file->exif_time;
 
 			/* Use the file mtime if no exif date if present */
 			if (exif_date == (time_t) 0)
-				exif_date = get_file_mtime (local_path);
+				exif_date = file->mtime;
+
+			file_data_unref (file);
+
 
 			if (exif_date != (time_t) 0) {
 				struct tm  *exif_tm = localtime(&exif_date);

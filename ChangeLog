@@ -1,5 +1,18 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_comments.glade:
+	Removed the non-existent word "digitalization".
+
+	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd):
+	* libgthumb/gth-exif-utils.h:
+	* src/dlg-comment.c: (get_requested_time),
+	(date_optionmenu_changed_cb), (dlg_comment_update):
+	* src/dlg-photo-importer.c: (save_image):
+	Now, all functions obtain the exif_time for a file using the
+	metadata in the FileData struct. Conversion complete.	
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/catalog-png-exporter.c: (image_loader_done):
 	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
 	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):

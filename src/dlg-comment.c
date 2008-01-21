@@ -138,6 +138,11 @@ get_requested_time (DialogData *data,
 {
 	int idx  = gtk_option_menu_get_history (GTK_OPTION_MENU (data->date_optionmenu));
 	time_t t = (time_t)0;
+	
+	FileData *file;
+
+	file = file_data_new (filename, NULL);
+        file_data_update_all (file, FALSE);
 
 	switch (idx) {
 	case NO_DATE:
@@ -149,15 +154,18 @@ get_requested_time (DialogData *data,
 		t = time (NULL);
 		break;
 	case EXIF_DATE:
-		t = get_metadata_time (NULL, filename, NULL);
+		file_data_insert_metadata (file);
+		t = file->exif_time;
 		break;
 	case LAST_MODIFIED_DATE:
-		t = get_file_mtime (filename);
+		t = file->mtime;
 		break;
 	case IMAGE_CREATION_DATE:
-		t = get_file_ctime (filename);
+		t = file->ctime;
 		break;
 	}
+
+	file_data_unref (file);
 
 	return t;
 }
@@ -287,7 +295,12 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 	char *first_image = data->file_list->data;
 	int   idx = gtk_option_menu_get_history (option_menu);
 
+	FileData *file;
+
 	gtk_widget_set_sensitive (data->date_dateedit, idx == FOLLOWING_DATE);
+
+	file = file_data_new (first_image, NULL);
+        file_data_update_all (file, FALSE);
 
 	switch (idx) {
 	case NO_DATE:
@@ -301,17 +314,20 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 		break;
 	case IMAGE_CREATION_DATE:
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
-					  get_file_ctime (first_image));
+					  file->ctime);
 		break;
 	case LAST_MODIFIED_DATE:
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
-					  get_file_mtime (first_image));
+					  file->mtime);
 		break;
 	case EXIF_DATE:
+		file_data_insert_metadata (file);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
-					  get_metadata_time (NULL, first_image, NULL));
+					  file->exif_time);
 		break;
 	}
+	
+	file_data_unref (file);
 }
 
 
@@ -463,11 +479,17 @@ dlg_comment_update (GtkWidget *dlg)
 
 	/* Does at least one image have exif data? */
 	data->have_exif_data = FALSE;
-	for (scan = data->file_list; scan; scan = scan->next)
-		if (have_exif_time (scan->data)) {
+	for (scan = data->file_list; scan; scan = scan->next) {
+		FileData *file;
+		file = file_data_new (scan->data, NULL);
+                file_data_update_all (file, FALSE);
+                file_data_insert_metadata (file);
+		if (file->exif_time) {
 			data->have_exif_data = TRUE;
 			break;
 		}
+		file_data_unref (file);
+	}
 	
 	first_image = data->file_list->data;
 	data->original_cdata = cdata = comments_load_comment (first_image, TRUE);

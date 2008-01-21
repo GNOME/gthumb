@@ -525,7 +525,7 @@
 		      <child>
 			<widget class="GtkMenuItem" id="photo_digitalization_date_(from_exif_data)1">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Photo digitalization date (From EXIF data)</property>
+			  <property name="label" translatable="yes">Date photo taken (from EXIF metadata)</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_photo_digitalization_date_(from_exif_data)1_activate" last_modification_time="Mon, 02 Jun 2003 19:35:05 GMT"/>
 			</widget>
