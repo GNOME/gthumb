@@ -606,7 +606,9 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 		height = 0;
 	}
 
-	timer = get_metadata_time_from_fd (priv->image);
+	file_data_insert_metadata (priv->image);
+	timer = priv->image->exif_time;
+
 	if (timer == 0)
 		timer = priv->image->mtime;
 	tm = localtime (&timer);

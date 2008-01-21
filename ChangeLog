@@ -1,5 +1,16 @@
 2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):
+	* src/dlg-rename-series.c: (get_image_date):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-fullscreen.c: (get_file_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+	Read exif_time from FileData, instead of from the file again.
+
+2008-01-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-rename-series.c: (get_image_date), (update_list):
 	* src/gth-fullscreen.c: (get_file_info):
 	Update more functions to use get_metadata_time_from_fd.
