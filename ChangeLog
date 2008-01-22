@@ -1,5 +1,11 @@
 2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-scripts.c: (gconf_get_script):
+	Do not assign the default script text to an empty slot if the
+	script name is not empty and not equal to the default name.
+
+2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* AUTHORS:
 	* src/gth-window-actions-callbacks.c:
 	(gth_window_activate_action_help_about):

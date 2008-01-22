@@ -761,11 +761,7 @@ gconf_get_script (unsigned int number, char **name, char **command) {
 	} else  {
 		/* There was a non-default value stored in gconf, so return it */
 		script_name = g_strdup (user_name);
-		/* Not sure of that : can there be a name but no command ? Better check... */
-		if (!strcmp (current_command, ""))
-			script_command = g_strdup ((char*) default_command);
-		else
-			script_command = g_strdup ((char*) current_command);
+		script_command = g_strdup ((char*) current_command);
 	}
 
 	g_free (user_name);
