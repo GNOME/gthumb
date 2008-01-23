@@ -1776,7 +1776,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! ensure_dir_exists (data->local_folder, 0755)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = gnome_vfs_unescape_string_for_display (data->local_folder);
+		utf8_path = get_utf8_display_name_from_uri (data->local_folder);
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
@@ -1793,7 +1793,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! check_permissions (data->local_folder, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = gnome_vfs_unescape_string_for_display (data->local_folder);
+		utf8_path = get_utf8_display_name_from_uri (data->local_folder);
 		msg = g_strdup_printf (_("You don't have the right permissions to create images in the folder \"%s\""), utf8_path);
 
 		display_error_dialog (data, _("Could not import photos"), msg);

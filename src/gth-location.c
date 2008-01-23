@@ -836,7 +836,7 @@ update_uri (GthLocation *loc,
 			if (same_uri (uri, home_uri))
 				uri_name = g_strdup (_("Home"));
 			else
-				uri_name = gnome_vfs_unescape_string_for_display (file_name_from_path (uri));
+				uri_name = get_utf8_display_name_from_uri (file_name_from_path (uri));
 		}
 
 		gtk_list_store_insert (loc->priv->model, &iter, pos++);

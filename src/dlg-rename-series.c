@@ -381,7 +381,7 @@ update_list (DialogData *data)
 		char	 *original_enum = NULL;
 
 		name1 = _g_get_name_from_template (template, start_at++);
-		utf8_txt = gnome_vfs_unescape_string_for_display (name_wo_ext);
+		utf8_txt = get_utf8_display_name_from_uri (name_wo_ext);
 		name2 = _g_substitute_pattern (name1, 'f', utf8_txt);
 		g_free (name_wo_ext);
 		g_free (utf8_txt);
@@ -452,8 +452,8 @@ update_list (DialogData *data)
 
 		gtk_list_store_append (data->rs_list_model, &iter);
 
-		utf8_on = gnome_vfs_unescape_string_for_display (fdata->name);
-		utf8_nn = gnome_vfs_unescape_string_for_display (new_name);
+		utf8_on = get_utf8_display_name_from_uri (fdata->name);
+		utf8_nn = get_utf8_display_name_from_uri (new_name);
 		gtk_list_store_set (data->rs_list_model, &iter,
 				    RS_OLDNAME_COLUMN, utf8_on,
 				    RS_NEWNAME_COLUMN, utf8_nn,
@@ -640,7 +640,7 @@ dlg_rename_series (GthBrowser *browser)
 		glong       last_dot_pos;
 		char       *template;
 
-		template = gnome_vfs_unescape_string_for_display (fd->name);
+		template = get_utf8_display_name_from_uri (fd->name);
 		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
 		last_dot = g_utf8_strrchr (template, -1, '.');
 		if (last_dot != NULL)

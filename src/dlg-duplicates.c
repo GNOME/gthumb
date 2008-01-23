@@ -538,11 +538,11 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 			continue;
 
 		location = remove_level_from_path (idata2->path);
-		location_utf8 = gnome_vfs_unescape_string_for_display (location);
+		location_utf8 = get_utf8_display_name_from_uri (location);
 		g_free (location);
 
 		name = file_name_from_path (idata2->path);
-		name_utf8 = gnome_vfs_unescape_string_for_display (name);
+		name_utf8 = get_utf8_display_name_from_uri (name);
 
 		tm = localtime (&idata2->last_modified);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);

@@ -59,7 +59,7 @@ file_data_new (const char       *path,
 	fd->ref = 1;
 	fd->path = add_scheme_if_absent (path);
 	fd->name = file_name_from_path (fd->path);
-	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
+	fd->display_name = get_utf8_display_name_from_uri (fd->name);
 	if (info != NULL) {
 		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_SIZE)
 			fd->size = info->size;
@@ -203,7 +203,7 @@ file_data_update (FileData *fd)
 	fd->name = file_name_from_path (fd->path);
 
 	g_free (fd->display_name);
-	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
+	fd->display_name = get_utf8_display_name_from_uri (fd->name);
 
 	fd->mime_type = get_static_string (info->mime_type);
 	fd->size = info->size;
@@ -258,7 +258,7 @@ file_data_update_info (FileData *fd)
 	fd->name = file_name_from_path (fd->path);
 
 	g_free (fd->display_name);
-	fd->display_name = gnome_vfs_unescape_string_for_display (fd->name);
+	fd->display_name = get_utf8_display_name_from_uri (fd->name);
 
 	fd->size = info->size;
 	fd->mtime = info->mtime;

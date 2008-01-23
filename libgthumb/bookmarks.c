@@ -106,7 +106,7 @@ get_menu_item_tip (const char *path)
 	char *tmp_path;
 	char *tip;
 
-	tmp_path = gnome_vfs_unescape_string_for_display (path);
+	tmp_path = get_utf8_display_name_from_uri (path);
 
 	if (uri_scheme_is_catalog (tmp_path) || uri_scheme_is_search (tmp_path)) {
 		char *rc_dir_prefix;

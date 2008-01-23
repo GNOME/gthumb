@@ -101,7 +101,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
-		utf8_path = gnome_vfs_unescape_string_for_display (dir);
+		utf8_path = get_utf8_display_name_from_uri (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
@@ -115,7 +115,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
-		utf8_path = gnome_vfs_unescape_string_for_display (dir);
+		utf8_path = get_utf8_display_name_from_uri (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
@@ -533,7 +533,7 @@ set_filename_labels (GladeXML    *gui,
 	_gtk_label_set_filename_text (GTK_LABEL (label), name);
 	g_free (name);
 
-	utf8_name = gnome_vfs_unescape_string_for_display (filename);
+	utf8_name = get_utf8_display_name_from_uri (filename);
 	gtk_tooltips_set_tip (tooltips, eventbox, utf8_name, NULL);
 	g_free (utf8_name);
 
@@ -790,7 +790,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			if (path_is_file (new_path)) {
 				char *utf8_name;
 
-				utf8_name = gnome_vfs_unescape_string_for_display (new_name);
+				utf8_name = get_utf8_display_name_from_uri (new_name);
 				_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 						       _("The name \"%s\" is already used in this folder. Please use a different name."),
 						       utf8_name);
@@ -891,7 +891,7 @@ dlg_overwrite_run (GthWindow     *window,
 		if (path_is_file (new_path)) {
 			char *utf8_name;
 
-			utf8_name = gnome_vfs_unescape_string_for_display (*new_name);
+			utf8_name = get_utf8_display_name_from_uri (*new_name);
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
 					       utf8_name);

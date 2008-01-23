@@ -563,7 +563,7 @@ catalog_list_refresh (CatalogList *cat_list)
 		else
 			pixbuf = dir_pixbuf;
 
-		display_name = gnome_vfs_unescape_string_for_display (name);
+		display_name = get_utf8_display_name_from_uri (name);
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,
 				    CAT_LIST_COLUMN_ICON, pixbuf,
@@ -594,7 +594,7 @@ catalog_list_refresh (CatalogList *cat_list)
 			}
 
 			name = remove_extension_from_path (file->name);
-			utf8_name = gnome_vfs_unescape_string_for_display (name);
+			utf8_name = get_utf8_display_name_from_uri (name);
 			
 			gtk_list_store_append (cat_list->list_store, &iter);
 			gtk_list_store_set (cat_list->list_store, &iter,

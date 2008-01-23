@@ -353,7 +353,7 @@ update_file_info (GthExifDataViewer *edv)
 		return;
 
 	utf8_name = basename_for_display (edv->priv->file->path);
-	utf8_fullname = gnome_vfs_unescape_string_for_display (edv->priv->file->path);
+	utf8_fullname = get_utf8_display_name_from_uri (edv->priv->file->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);

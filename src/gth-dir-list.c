@@ -412,7 +412,7 @@ gth_dir_list_update_view (GthDirList *dir_list)
 		else
 			pixbuf = dir_pixbuf;
 
-		utf8_name = gnome_vfs_unescape_string_for_display (name);
+		utf8_name = get_utf8_display_name_from_uri (name);
 		gtk_list_store_append (dir_list->list_store, &iter);
 		gtk_list_store_set (dir_list->list_store, &iter,
 				    DIR_LIST_COLUMN_ICON, pixbuf,
@@ -651,7 +651,7 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 
 	pixbuf = dir_pixbuf;
 
-	utf8_name = gnome_vfs_unescape_string_for_display (name_only);
+	utf8_name = get_utf8_display_name_from_uri (name_only);
 	gtk_list_store_insert (dir_list->list_store, &iter, pos);
 	gtk_list_store_set (dir_list->list_store, &iter,
 			    DIR_LIST_COLUMN_ICON, pixbuf,

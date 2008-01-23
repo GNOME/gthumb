@@ -1,3 +1,45 @@
+2008-01-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.h:
+	* libgthumb/file-utils.c: Added get_utf8_display_name_from_uri
+	as an enhanced wrapper for gnome_vfs_unescape_string_for_display,
+	to partly fix bug 489922, and to simplify the eventual migration
+	from gnome-vfs to gvfs/gio/Gfile.
+
+	* libgthumb/bookmarks.c: (get_menu_item_tip):
+	* libgthumb/file-data.c: (file_data_new), (file_data_update),
+	(file_data_update_info):
+	* libgthumb/file-utils.c: (get_utf8_display_name_from_uri),
+	(get_uri_display_name), (basename_for_display),
+	(delete_catalog_dir):
+	* libgthumb/file-utils.h:
+	* libgthumb/gtk-utils.c: (_gtk_entry_set_filename_text),
+	(_gtk_label_set_filename_text):
+	* src/catalog-list.c: (catalog_list_refresh):
+	* src/catalog-png-exporter.c: (set_item_caption), (begin_page):
+	* src/dlg-duplicates.c: (images_selection_changed_cb):
+	* src/dlg-file-utils.c: (dlg_check_folder), (set_filename_labels),
+	(dlg_overwrite__response_cb), (dlg_overwrite_run):
+	* src/dlg-photo-importer.c: (ok_clicked_cb):
+	* src/dlg-rename-series.c: (update_list), (dlg_rename_series):
+	* src/dlg-scripts.c: (exec_shell_script):
+	* src/dlg-web-exporter.c: (add_theme_dir):
+	* src/gth-browser-actions-callbacks.c: (duplicate_file),
+	(catalog_rename),
+	(gth_browser_activate_action_edit_current_catalog_new),
+	(create_new_folder_or_library), (folder_rename),
+	(folder_copy__response_cb):
+	* src/gth-browser.c: (window_update_infobar),
+	(window_update_title), (dir_list_done_cb):
+	* src/gth-dir-list.c: (gth_dir_list_update_view),
+	(gth_dir_list_add_directory):
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	* src/gth-fullscreen.c: (escape_filename):
+	* src/gth-location.c: (update_uri):
+
+	Replaced gnome_vfs_unescape_string_for_display with
+	get_utf8_display_name_from_uri.
+	
 2008-01-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-scripts.c: (gconf_get_script):

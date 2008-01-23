@@ -739,7 +739,7 @@ _gtk_entry_set_filename_text (GtkEntry   *entry,
 
 	if (text == NULL)
 		text = "";
-	utf8_text = gnome_vfs_unescape_string_for_display (text);
+	utf8_text = get_utf8_display_name_from_uri (text);
 	gtk_entry_set_text (entry, utf8_text);
 	g_free (utf8_text);
 }
@@ -769,7 +769,7 @@ _gtk_label_set_filename_text (GtkLabel   *label,
 
 	if (text == NULL)
 		text = "";
-	utf8_text = gnome_vfs_unescape_string_for_display (text);
+	utf8_text = get_utf8_display_name_from_uri (text);
 	gtk_label_set_text (label, utf8_text);
 	g_free (utf8_text);
 }

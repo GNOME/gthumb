@@ -575,9 +575,9 @@ exec_shell_script (GtkWindow  *window,
 			char *new_file_list;
 
 			if (is_local_file (scan->data))
-				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+				filename = get_utf8_display_name_from_uri (remove_host_from_uri (scan->data));
 			else
-				filename = gnome_vfs_unescape_string_for_display (scan->data);
+				filename = get_utf8_display_name_from_uri (scan->data);
 
 			e_filename = shell_escape (filename);
 
@@ -632,9 +632,9 @@ exec_shell_script (GtkWindow  *window,
 			load_thumbnail (data, scan->data);
 
 			if (is_local_file (scan->data))
-				filename = gnome_vfs_unescape_string_for_display (remove_host_from_uri (scan->data));
+				filename = get_utf8_display_name_from_uri (remove_host_from_uri (scan->data));
 			else
-				filename = gnome_vfs_unescape_string_for_display (scan->data);
+				filename = get_utf8_display_name_from_uri (scan->data);
 
 			name_wo_ext = remove_extension_from_path (filename);
 			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);

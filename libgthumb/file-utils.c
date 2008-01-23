@@ -1239,6 +1239,31 @@ checksum_simple (const char *path)
 /* URI/Path utils */
 
 
+char *
+get_utf8_display_name_from_uri (const char *escaped_uri)
+{
+	char        *unescaped_name = NULL;
+	char        *utf8_name = NULL;
+	GError      *err = NULL;
+
+	unescaped_name = gnome_vfs_unescape_string_for_display (escaped_uri);
+	utf8_name = g_filename_to_utf8 (unescaped_name, -1, NULL, NULL, &err);
+
+	if (err != NULL) {
+		g_warning ("%s:%u:%s(): %s\n", __FILE__, __LINE__, __FUNCTION__, err->message);
+		g_warning ("Hint: try to set G_FILENAME_ENCODING environment variable to the correct filename encoding or G_BROKEN_FILENAMES to 1\n");
+		utf8_name = unescaped_name;
+	} else {
+		g_free (unescaped_name);
+	}
+
+	if (g_utf8_validate (utf8_name, -1, NULL) == FALSE)
+		g_warning ("File display name is not valid UTF8. Please file a bug report.\n");
+		
+	return utf8_name;
+}
+
+
 const char *
 get_home_uri (void)
 {
@@ -1499,7 +1524,7 @@ get_uri_display_name (const char *uri)
 			base_uri_len = strlen (remove_host_from_uri (base_uri));
 			g_free (base_uri);
 
-			name = gnome_vfs_unescape_string_for_display (tmp_path + 1 + base_uri_len);
+			name = get_utf8_display_name_from_uri (tmp_path + 1 + base_uri_len);
 		} 
 		else {
 			const char *base_path;
@@ -1516,10 +1541,10 @@ get_uri_display_name (const char *uri)
 				if (uri_len == base_path_len)
 					name = g_strdup (_("Home"));
 				else if (uri_len > base_path_len)
-					name = gnome_vfs_unescape_string_for_display (uri + 1 + base_path_len);
+					name = get_utf8_display_name_from_uri (uri + 1 + base_path_len);
 			} 
 			else
-				name = gnome_vfs_unescape_string_for_display (tmp_path);
+				name = get_utf8_display_name_from_uri (tmp_path);
 		}
 	}
 
@@ -1619,7 +1644,7 @@ same_uri (const char *uri1,
 char *
 basename_for_display (const char *uri)
 {
-	return gnome_vfs_unescape_string_for_display (file_name_from_path (uri));
+	return get_utf8_display_name_from_uri (file_name_from_path (uri));
 }
 
 
@@ -2145,7 +2170,7 @@ delete_catalog_dir (const char  *full_path,
 		rel_path = full_path + strlen (base_path) + 1;
 		g_free (base_path);
 
-		utf8_path = gnome_vfs_unescape_string_for_display (rel_path);
+		utf8_path = get_utf8_display_name_from_uri (rel_path);
 
 		switch (gnome_vfs_result_from_errno ()) {
 		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:

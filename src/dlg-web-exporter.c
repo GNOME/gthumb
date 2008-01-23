@@ -688,7 +688,7 @@ add_theme_dir (ThemeDialogData *tdata,
 			    || (strcmp (info->name, "..") == 0))
 				continue;
 
-			utf8_name = gnome_vfs_unescape_string_for_display (info->name);
+			utf8_name = get_utf8_display_name_from_uri (info->name);
 
 			gtk_list_store_append (tdata->list_store, &iter);
 			gtk_list_store_set (tdata->list_store, &iter,

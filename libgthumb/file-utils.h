@@ -158,6 +158,7 @@ long                checksum_simple               (const char       *path);
 
 /* URI/Path utils */
 
+char *		    get_utf8_display_name_from_uri (const char      *uri);
 const char *        get_home_uri                  (void);
 const char *        get_file_path_from_uri        (const char       *uri);
 const char *        get_catalog_path_from_uri     (const char       *uri);

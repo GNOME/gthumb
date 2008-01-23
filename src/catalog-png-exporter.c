@@ -821,19 +821,19 @@ set_item_caption (CatalogPngExporter *ce,
 
 	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH)
 	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
-		char *utf8_name = gnome_vfs_unescape_string_for_display (idata->file->path);
+		char *utf8_name = get_utf8_display_name_from_uri (idata->file->path);
 		idata->caption_row[row++] = utf8_name;
 	} 
 	else {
 		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
 			char *path = remove_level_from_path (idata->file->path);
-			char *utf8_name = gnome_vfs_unescape_string_for_display (path);
+			char *utf8_name = get_utf8_display_name_from_uri (path);
 			idata->caption_row[row++] = utf8_name;
 			g_free (path);
 		} 
 		else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
 			const char *name = file_name_from_path (idata->file->path);
-			char *utf8_name = gnome_vfs_unescape_string_for_display (name);
+			char *utf8_name = get_utf8_display_name_from_uri (name);
 			idata->caption_row[row++] = utf8_name;
 		}
 	}
@@ -1655,7 +1655,7 @@ begin_page (CatalogPngExporter *ce,
 	g_free (ce->info);
 
 	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
-	utf8_name = gnome_vfs_unescape_string_for_display (filename);
+	utf8_name = get_utf8_display_name_from_uri (filename);
 	ce->info = g_strdup_printf (_("Creating image: %s.%s"),
 				    utf8_name,
 				    ce->file_type);
