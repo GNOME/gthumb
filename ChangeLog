@@ -1,5 +1,10 @@
 2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_tools.glade:
+	Removed the non-existent word "digitalization".
+
+2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_insert_metadata):
 	Don't load metadata for very new files, because they may still
 	be changing, which can cause nasty problems (that is, the
