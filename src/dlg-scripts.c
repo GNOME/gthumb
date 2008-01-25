@@ -503,6 +503,9 @@ exec_shell_script (GtkWindow  *window,
 	if ((script == NULL) || (file_list == NULL))
 		return;
 
+	if (!strcmp (script, ""))
+		return;
+
 	data = g_new0 (ProgressData, 1);
 
 	/* Add a progress indicator */
@@ -786,8 +789,6 @@ void exec_script (GtkAction *action, ScriptCallbackData *cb_data) {
 				    name,
 				    list);
                 path_list_free (list);
-		/* We don't need the callback data anymore */
-		g_free (cb_data);
 		g_free (name);
 		g_free (command);
 	}

@@ -3052,6 +3052,7 @@ key_press_cb (GtkWidget   *widget,
 	gboolean               sel_not_null;
 	gboolean               image_is_void;
 	GList		      *list = NULL;
+	ScriptCallbackData    *cb_data = NULL;
 
 	if (GTK_WIDGET_HAS_FOCUS (priv->preview_button_image)
 	    || GTK_WIDGET_HAS_FOCUS (priv->preview_button_data)
@@ -3106,9 +3107,6 @@ key_press_cb (GtkWidget   *widget,
 
 	sel_not_null = gth_file_view_get_n_selected (priv->file_list->view) > 0;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
-
-	ScriptCallbackData *cb_data = g_new0(ScriptCallbackData, 1);
-	cb_data->window = window;
 
 	switch (gdk_keyval_to_lower (event->keyval)) {
 		/* Hide/Show sidebar. */
@@ -3262,61 +3260,90 @@ key_press_cb (GtkWidget   *widget,
 		/* hot keys */
 	case GDK_KP_0:
 	case GDK_KP_Insert:
+	        cb_data = g_new0(ScriptCallbackData, 1);
+	        cb_data->window = window;
 		cb_data->number = 0;
 		exec_script (NULL, cb_data);
 		return TRUE;
 
 	case GDK_KP_1:
 	case GDK_KP_End:
+		cb_data = g_new0(ScriptCallbackData, 1);
+	        cb_data->window = window;
 		cb_data->number = 1;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_2:
 	case GDK_KP_Down:
-		cb_data->number = 1;
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
+		cb_data->number = 2;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_3:
 	case GDK_KP_Page_Down:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 3;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_4:
 	case GDK_KP_Left:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 4;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_5:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 5;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_6:
 	case GDK_KP_Right:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 6;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_7:
 	case GDK_KP_Home:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 7;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_8:
 	case GDK_KP_Up:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 8;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 	case GDK_KP_9:
 	case GDK_KP_Page_Up:
+		cb_data = g_new0(ScriptCallbackData, 1);
+                cb_data->window = window;
 		cb_data->number = 9;
 		exec_script (NULL, cb_data);
+		g_free (cb_data);
 		return TRUE;
 
 

@@ -1,5 +1,13 @@
 2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-scripts.c: (exec_shell_script), (exec_script):
+	* src/gth-browser.c: (key_press_cb):
+	Free script callback data after a hot-key press, but not after
+	execution from the Scripts menu. Still a small memory leak,
+	but I'm not sure how to fix it.
+
+2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Do not show fractional representation if denominator = 1.
 
