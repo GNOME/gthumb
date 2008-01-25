@@ -349,8 +349,15 @@ string improve (string value) {
 		stringstream stream;
 		for (int i(0); i < res.size(); ++i) {
 			int a, b;
-			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2)
-				stream << (float)a/(float)b << " (" << res[i] << ") "; 
+			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2) {
+				// Convert fractional data like 123/246 to a decimal
+				// value like 0.5.
+				stream << (float)a/(float)b << " ";
+				if (b != 1) 
+					// Include the original fraction, unless the
+					// denominator was "1".
+					stream << "(" << res[i] << ") "; 
+			}
 			else stream << res[i] << " ";
 		}
 		value = stream.str() + value;
