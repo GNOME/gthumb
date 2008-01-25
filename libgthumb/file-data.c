@@ -324,17 +324,6 @@ file_data_insert_metadata (FileData *fd)
 	if (fd->exif_data_loaded)
 		return;
 
-	/* Don't load metadata for very new files, because they may still
-	   be changing, which can cause nasty problems (that is, the
-	   FileData structs vanish during metadata reading, etc).
-	   We delay loading thumbnails for a similar time period, see
-	   libgthumb/thumb-loader.c:thumb_loader_start__step2.
-	   This should be improved somehow, perhaps to issue a file-changed
-	   signal to tell gthumb to try loading the metadata again in a 
-	   few seconds. */
-	if ((time (NULL) - fd->mtime) < (time_t) 5)
-		return;
-
 	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);
 	fd->exif_time = get_metadata_time_from_fd (fd);
 	fd->exif_data_loaded = TRUE;
