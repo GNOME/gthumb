@@ -1,3 +1,9 @@
+2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
+	Provide both decimal and fractional representations of numeric
+	exif values, if the raw value is fractional.
+
 2008-01-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.h:

@@ -331,14 +331,14 @@ tag_category_exiv2 (const Exiv2::Exifdatum &md,
 /* Exiv2 sometimes reports numeric values in a fractional
    form, like "28/5". This function converts such fractions
    to a more user-friendly decimal form (e.g., 5.6). */
-string improve(string value) {
+string improve (string value) {
 	if (value.find('/') != value.npos) {
 		vector<string> res;		
 
 		int cut;
 		while( (cut = value.find_first_of(" ")) != value.npos )	{
 			if(cut > 0) {
-			res.push_back(value.substr(0,cut));
+				res.push_back(value.substr(0,cut));
 			}
 			value = value.substr(cut+1);
 		}
@@ -350,7 +350,7 @@ string improve(string value) {
 		for (int i(0); i < res.size(); ++i) {
 			int a, b;
 			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2)
-			stream << (float)a/(float)b << " "; 
+				stream << (float)a/(float)b << " (" << res[i] << ") "; 
 			else stream << res[i] << " ";
 		}
 		value = stream.str() + value;
@@ -474,7 +474,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value.str()).c_str(), cat, 0);
 			}
 		}
 #endif
@@ -519,7 +519,7 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value.str()).c_str(), cat, 0);
 			}
 		}
 		Exiv2::XmpParser::terminate();
