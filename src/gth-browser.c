@@ -101,7 +101,6 @@ struct _GthBrowserPrivateData {
 	guint               toolbar_merge_id;
 	guint               bookmarks_merge_id;
 	guint               history_merge_id;
-	guint		    scripts_merge_id;
 
 	GtkToolItem        *rotate_tool_item;
 	GtkToolItem        *sep_rotate_tool_item;
@@ -873,6 +872,9 @@ window_update_sensitivity (GthBrowser *browser)
 	gboolean    file_list_contains_images;
 	gboolean    image_is_image;
 	int         image_pos;
+	int         i;
+	int         number_of_scripts;
+	char *      script_name;
 
 	n_selected = gth_file_view_get_n_selected (priv->file_list->view);
 	sel_not_null = n_selected > 0;
@@ -1006,16 +1008,12 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Wallpaper_Stretched", ! image_is_void);
 
 	/* Scripts menu */
-	set_action_sensitive (browser, "Script_0", sel_not_null);
-	set_action_sensitive (browser, "Script_1", sel_not_null);
-	set_action_sensitive (browser, "Script_2", sel_not_null);
-	set_action_sensitive (browser, "Script_3", sel_not_null);
-	set_action_sensitive (browser, "Script_4", sel_not_null);
-	set_action_sensitive (browser, "Script_5", sel_not_null);
-	set_action_sensitive (browser, "Script_6", sel_not_null);
-	set_action_sensitive (browser, "Script_7", sel_not_null);
-	set_action_sensitive (browser, "Script_8", sel_not_null);
-	set_action_sensitive (browser, "Script_9", sel_not_null);
+	number_of_scripts = eel_gconf_get_integer (PREF_HOTKEY_PREFIX "number_of_scripts", 10);
+	for (i = 0; i < number_of_scripts; i++) {
+		script_name = g_strdup_printf ("Script_%d", i);
+		set_action_sensitive (browser, script_name, sel_not_null);
+		g_free (script_name);
+	}
 
 	/* Upload menu. */
 	
@@ -6413,12 +6411,7 @@ filter_bar_close_button_clicked_cb (GthFilterBar *filter_bar,
 
 static void
 update_scripts_cb (GtkActionGroup *actions, GthBrowser *browser) {
-
-        browser->priv->scripts_merge_id = generate_script_menu (browser->priv->ui,
-                                                       		actions,
-                                                       		GTH_WINDOW (browser),
-                                                       		browser->priv->scripts_merge_id);
-
+        generate_script_menu (browser->priv->ui, actions, GTH_WINDOW (browser));
 }
 
 
@@ -6504,10 +6497,7 @@ gth_browser_construct (GthBrowser  *browser,
 		g_error_free (error);
 	}
 
-	priv->scripts_merge_id = generate_script_menu (ui, 
-						       priv->actions, 
-						       GTH_WINDOW (browser),
-						       priv->scripts_merge_id);
+	generate_script_menu (ui, priv->actions, GTH_WINDOW (browser));
 
 	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
 
@@ -8908,8 +8898,5 @@ gth_browser_get_current_browser (void)
 void
 gth_browser_update_script_menu (GthBrowser *browser)
 {
-	browser->priv->scripts_merge_id = generate_script_menu (browser->priv->ui, 
-								browser->priv->actions,
-								GTH_WINDOW (browser),
-								browser->priv->scripts_merge_id);
+	generate_script_menu (browser->priv->ui, browser->priv->actions, GTH_WINDOW (browser));
 }

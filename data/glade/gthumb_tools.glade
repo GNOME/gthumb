@@ -188,7 +188,7 @@
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">0</property>
 		      <property name="bottom_attach">1</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -216,7 +216,7 @@
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">2</property>
 		      <property name="bottom_attach">3</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -251,8 +251,8 @@
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">2</property>
 		      <property name="bottom_attach">3</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options">fill</property>
+		      <property name="x_options"></property>
+		      <property name="y_options"></property>
 		    </packing>
 		  </child>
 
@@ -271,7 +271,7 @@
 			  <property name="max_length">0</property>
 			  <property name="text" translatable="yes"></property>
 			  <property name="has_frame">True</property>
-			  <property name="invisible_char">*</property>
+			  <property name="invisible_char">•</property>
 			  <property name="activates_default">True</property>
 			</widget>
 			<packing>
@@ -286,7 +286,7 @@
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">0</property>
 		      <property name="bottom_attach">1</property>
-		      <property name="y_options">fill</property>
+		      <property name="y_options"></property>
 		    </packing>
 		  </child>
 
@@ -316,7 +316,7 @@
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">1</property>
 		      <property name="bottom_attach">2</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -344,7 +344,7 @@
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">3</property>
 		      <property name="bottom_attach">4</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -366,7 +366,7 @@
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">4</property>
 		      <property name="bottom_attach">5</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -396,8 +396,8 @@
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">3</property>
 		      <property name="bottom_attach">4</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options">fill</property>
+		      <property name="x_options"></property>
+		      <property name="y_options"></property>
 		    </packing>
 		  </child>
 
@@ -424,7 +424,7 @@
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">5</property>
 		      <property name="bottom_attach">6</property>
-		      <property name="x_options">fill</property>
+		      <property name="x_options"></property>
 		      <property name="y_options"></property>
 		    </packing>
 		  </child>
@@ -456,8 +456,8 @@ Convert to upper-case</property>
 		      <property name="right_attach">2</property>
 		      <property name="top_attach">5</property>
 		      <property name="bottom_attach">6</property>
-		      <property name="x_options">fill</property>
-		      <property name="y_options">fill</property>
+		      <property name="x_options"></property>
+		      <property name="y_options"></property>
 		    </packing>
 		  </child>
 		</widget>
@@ -901,6 +901,8 @@ Convert to upper-case</property>
 		      <property name="width_request">200</property>
 		      <property name="height_request">200</property>
 		      <property name="visible">True</property>
+		      <property name="stock">gtk-missing-image</property>
+		      <property name="icon_size">4</property>
 		      <property name="xalign">0.5</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
@@ -1123,7 +1125,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <property name="right_attach">1</property>
 	      <property name="top_attach">0</property>
 	      <property name="bottom_attach">1</property>
-	      <property name="x_options">fill</property>
+	      <property name="x_options"></property>
 	      <property name="y_options"></property>
 	    </packing>
 	  </child>
@@ -1145,7 +1147,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">1</property>
 	      <property name="bottom_attach">2</property>
-	      <property name="x_options">fill</property>
+	      <property name="x_options"></property>
 	      <property name="y_options"></property>
 	    </packing>
 	  </child>
@@ -1165,8 +1167,8 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">0</property>
 	      <property name="bottom_attach">1</property>
-	      <property name="x_options">fill</property>
-	      <property name="y_options">fill</property>
+	      <property name="x_options"></property>
+	      <property name="y_options"></property>
 	    </packing>
 	  </child>
 	</widget>
@@ -1294,7 +1296,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <property name="right_attach">1</property>
 		  <property name="top_attach">0</property>
 		  <property name="bottom_attach">1</property>
-		  <property name="x_options">fill</property>
+		  <property name="x_options"></property>
 		  <property name="y_options"></property>
 		</packing>
 	      </child>
@@ -1322,7 +1324,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <property name="right_attach">1</property>
 		  <property name="top_attach">1</property>
 		  <property name="bottom_attach">2</property>
-		  <property name="x_options">fill</property>
+		  <property name="x_options"></property>
 		  <property name="y_options"></property>
 		</packing>
 	      </child>
@@ -1336,7 +1338,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
+		  <property name="invisible_char">•</property>
 		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
@@ -1357,7 +1359,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <property name="max_length">0</property>
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
+		  <property name="invisible_char">•</property>
 		  <property name="activates_default">False</property>
 		</widget>
 		<packing>
@@ -2901,7 +2903,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		      <child>
 			<widget class="GtkLabel" id="label112">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Scale</property>
+			  <property name="label" translatable="yes" context="yes">_Scale</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2953,7 +2955,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <child>
 		<widget class="GtkLabel" id="label106">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;New dimensions&lt;/b&gt;</property>
+		  <property name="label" translatable="yes" context="yes">&lt;b&gt;New dimensions&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2984,7 +2986,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <child>
 		    <widget class="GtkLabel" id="label105">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">    </property>
+		      <property name="label" translatable="yes" context="yes">    </property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3024,7 +3026,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <child>
 			    <widget class="GtkLabel" id="label103">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Width:</property>
+			      <property name="label" translatable="yes" context="yes">_Width:</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3045,7 +3047,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			      <property name="right_attach">1</property>
 			      <property name="top_attach">0</property>
 			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
+			      <property name="x_options"></property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -3053,7 +3055,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <child>
 			    <widget class="GtkLabel" id="label104">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_Height:</property>
+			      <property name="label" translatable="yes" context="yes">_Height:</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3074,7 +3076,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			      <property name="right_attach">1</property>
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
+			      <property name="x_options"></property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -3083,37 +3085,14 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			    <widget class="GtkOptionMenu" id="ss_unit_optionmenu">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu2">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">pixels</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_pixels1_activate" last_modification_time="Tue, 22 Oct 2002 14:24:32 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem2">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">%</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_%1_activate" last_modification_time="Tue, 22 Oct 2002 14:24:32 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="history">-1</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">2</property>
 			      <property name="right_attach">3</property>
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
+			      <property name="x_options"></property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -3135,7 +3114,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			      <property name="right_attach">2</property>
 			      <property name="top_attach">0</property>
 			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
+			      <property name="x_options"></property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -3157,7 +3136,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			      <property name="right_attach">2</property>
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
+			      <property name="x_options"></property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -3173,7 +3152,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkCheckButton" id="ss_keep_ratio_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_Keep aspect ratio</property>
+			  <property name="label" translatable="yes" context="yes">_Keep aspect ratio</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3218,7 +3197,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <child>
 		<widget class="GtkLabel" id="label118">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Image type&lt;/b&gt;</property>
+		  <property name="label" translatable="yes" context="yes">&lt;b&gt;Image type&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3249,7 +3228,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <child>
 		    <widget class="GtkLabel" id="label117">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">    </property>
+		      <property name="label" translatable="yes" context="yes">    </property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3284,7 +3263,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkRadioButton" id="ss_jpeg_radiobutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_JPEG</property>
+			  <property name="label" translatable="yes" context="yes">_JPEG</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3305,7 +3284,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkRadioButton" id="ss_png_radiobutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_PNG</property>
+			  <property name="label" translatable="yes" context="yes">_PNG</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3327,7 +3306,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkRadioButton" id="ss_tga_radiobutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">T_GA</property>
+			  <property name="label" translatable="yes" context="yes">T_GA</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3349,7 +3328,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkRadioButton" id="ss_tiff_radiobutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">_TIFF</property>
+			  <property name="label" translatable="yes" context="yes">_TIFF</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3397,7 +3376,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 	      <child>
 		<widget class="GtkLabel" id="label115">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Saving&lt;/b&gt;</property>
+		  <property name="label" translatable="yes" context="yes">&lt;b&gt;Saving&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3428,7 +3407,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		  <child>
 		    <widget class="GtkLabel" id="label114">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">    </property>
+		      <property name="label" translatable="yes" context="yes">    </property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3462,7 +3441,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		      <child>
 			<widget class="GtkFileChooserButton" id="ss_dest_filechooserbutton">
 			  <property name="visible">True</property>
-			  <property name="title" translatable="yes">Choose destination folder</property>
+			  <property name="title" translatable="yes" context="yes">Choose destination folder</property>
 			  <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
 			  <property name="local_only">False</property>
 			  <property name="show_hidden">False</property>
@@ -3474,14 +3453,14 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <property name="right_attach">2</property>
 			  <property name="top_attach">0</property>
 			  <property name="bottom_attach">1</property>
-			  <property name="y_options">fill</property>
+			  <property name="y_options"></property>
 			</packing>
 		      </child>
 
 		      <child>
 			<widget class="GtkLabel" id="label113">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">_Destination:</property>
+			  <property name="label" translatable="yes" context="yes">_Destination:</property>
 			  <property name="use_underline">True</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3501,7 +3480,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <property name="right_attach">1</property>
 			  <property name="top_attach">0</property>
 			  <property name="bottom_attach">1</property>
-			  <property name="x_options">fill</property>
+			  <property name="x_options"></property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -3509,7 +3488,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 		      <child>
 			<widget class="GtkLabel" id="label116">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Overwrite mode:</property>
+			  <property name="label" translatable="yes" context="yes">Overwrite mode:</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3529,7 +3508,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <property name="right_attach">1</property>
 			  <property name="top_attach">1</property>
 			  <property name="bottom_attach">2</property>
-			  <property name="x_options">fill</property>
+			  <property name="x_options"></property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -3538,7 +3517,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			<widget class="GtkCheckButton" id="ss_remove_orig_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">R_emove original</property>
+			  <property name="label" translatable="yes" context="yes">R_emove original</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -3551,7 +3530,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <property name="right_attach">2</property>
 			  <property name="top_attach">2</property>
 			  <property name="bottom_attach">3</property>
-			  <property name="x_options">fill</property>
+			  <property name="x_options"></property>
 			  <property name="y_options"></property>
 			</packing>
 		      </child>
@@ -3565,7 +3544,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			  <child>
 			    <widget class="GtkComboBox" id="ss_om_combobox">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">Skip
+			      <property name="items" translatable="yes" context="yes">Skip
 Rename
 Ask
 Overwrite</property>
@@ -3584,8 +3563,8 @@ Overwrite</property>
 			  <property name="right_attach">2</property>
 			  <property name="top_attach">1</property>
 			  <property name="bottom_attach">2</property>
-			  <property name="x_options">fill</property>
-			  <property name="y_options">fill</property>
+			  <property name="x_options"></property>
+			  <property name="y_options"></property>
 			</packing>
 		      </child>
 		    </widget>
@@ -3757,7 +3736,7 @@ Overwrite</property>
 
 <widget class="GtkDialog" id="reset_exif_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Reset Exif Orientation Tags</property>
+  <property name="title" translatable="yes" context="yes">Reset Exif Orientation Tags</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -3865,7 +3844,7 @@ Overwrite</property>
 	      <child>
 		<widget class="GtkLabel" id="label120">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Click OK to reset the Exif orientation tag for the selected images to Top-Left.</property>
+		  <property name="label" translatable="yes" context="yes">Click OK to reset the Exif orientation tag for the selected images to Top-Left.</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3959,6 +3938,8 @@ Overwrite</property>
       <child>
 	<widget class="GtkImage" id="progress_thumbnail">
 	  <property name="visible">True</property>
+	  <property name="stock">gtk-missing-image</property>
+	  <property name="icon_size">4</property>
 	  <property name="xalign">0.5</property>
 	  <property name="yalign">0.5</property>
 	  <property name="xpad">0</property>
@@ -4028,9 +4009,145 @@ Overwrite</property>
   </child>
 </widget>
 
+<widget class="GtkDialog" id="prompt_dialog">
+  <property name="border_width">6</property>
+  <property name="title" translatable="yes" context="yes">User-Defined Script Parameter</property>
+  <property name="type">GTK_WINDOW_TOPLEVEL</property>
+  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="modal">False</property>
+  <property name="default_width">600</property>
+  <property name="resizable">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
+  <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
+  <property name="has_separator">False</property>
+
+  <child internal-child="vbox">
+    <widget class="GtkVBox" id="vbox73">
+      <property name="visible">True</property>
+      <property name="homogeneous">False</property>
+      <property name="spacing">12</property>
+
+      <child internal-child="action_area">
+	<widget class="GtkHButtonBox" id="hbuttonbox4">
+	  <property name="visible">True</property>
+	  <property name="layout_style">GTK_BUTTONBOX_END</property>
+
+	  <child>
+	    <widget class="GtkButton" id="prompt_ok_button">
+	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="label">gtk-ok</property>
+	      <property name="use_stock">True</property>
+	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
+	      <property name="response_id">-5</property>
+	    </widget>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">False</property>
+	  <property name="fill">True</property>
+	  <property name="pack_type">GTK_PACK_END</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="label128">
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes" context="yes">Your script requires this user-defined parameter:</property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkHBox" id="hbox84">
+	  <property name="visible">True</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">0</property>
+
+	  <child>
+	    <widget class="GtkLabel" id="prompt_label">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes" context="yes">prompt</property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">6</property>
+	      <property name="ypad">6</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">False</property>
+	      <property name="fill">False</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkEntry" id="prompt_entry">
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="editable">True</property>
+	      <property name="visibility">True</property>
+	      <property name="max_length">0</property>
+	      <property name="text" translatable="yes"></property>
+	      <property name="has_frame">True</property>
+	      <property name="invisible_char">•</property>
+	      <property name="activates_default">True</property>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
+	    </packing>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="padding">0</property>
+	  <property name="expand">True</property>
+	  <property name="fill">True</property>
+	</packing>
+      </child>
+    </widget>
+  </child>
+</widget>
+
 <widget class="GtkDialog" id="scripts_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Define External Scripts</property>
+  <property name="title" translatable="yes" context="yes">Define External Scripts</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -4108,7 +4225,8 @@ Overwrite</property>
       <child>
 	<widget class="GtkLabel" id="label126">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">The number keys on the numeric keypad can be associated with external scripts:</property>
+	  <property name="label" translatable="yes" context="yes">The number keys on the numeric keypad can be associated with scripts 0-9.
+All scripts can be launched from the Scripts menu.</property>
 	  <property name="use_underline">False</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -4131,14 +4249,153 @@ Overwrite</property>
       </child>
 
       <child>
-	<widget class="GtkVBox" id="vbox_tree">
-	  <property name="border_width">5</property>
+	<widget class="GtkHBox" id="scripts_hbox">
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">6</property>
+	  <property name="spacing">0</property>
 
 	  <child>
-	    <placeholder/>
+	    <widget class="GtkVBox" id="vbox_manage_scripts">
+	      <property name="border_width">5</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">6</property>
+
+	      <child>
+		<widget class="GtkButton" id="script_add_button">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes" context="yes">Add New Script</property>
+		  <property name="can_focus">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
+
+		  <child>
+		    <widget class="GtkAlignment" id="alignment15">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">0</property>
+		      <property name="yscale">0</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">0</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox85">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">2</property>
+
+			  <child>
+			    <widget class="GtkImage" id="image50">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-add</property>
+			      <property name="icon_size">4</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			</widget>
+		      </child>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkButton" id="script_remove_button">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes" context="yes">Remove Script</property>
+		  <property name="can_focus">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
+
+		  <child>
+		    <widget class="GtkAlignment" id="alignment16">
+		      <property name="visible">True</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xscale">0</property>
+		      <property name="yscale">0</property>
+		      <property name="top_padding">0</property>
+		      <property name="bottom_padding">0</property>
+		      <property name="left_padding">0</property>
+		      <property name="right_padding">0</property>
+
+		      <child>
+			<widget class="GtkHBox" id="hbox86">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">2</property>
+
+			  <child>
+			    <widget class="GtkImage" id="image51">
+			      <property name="visible">True</property>
+			      <property name="stock">gtk-remove</property>
+			      <property name="icon_size">4</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			</widget>
+		      </child>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">False</property>
+	      <property name="fill">False</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkVBox" id="vbox_tree">
+	      <property name="border_width">5</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">6</property>
+
+	      <child>
+		<placeholder/>
+	      </child>
+
+	      <child>
+		<placeholder/>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
+	    </packing>
 	  </child>
 	</widget>
 	<packing>
@@ -4151,7 +4408,7 @@ Overwrite</property>
       <child>
 	<widget class="GtkLabel" id="label129">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Click inside the name or script fields to edit them.
+	  <property name="label" translatable="yes" context="yes">Click inside the name or script fields to edit them.
 &lt;small&gt;&lt;i&gt;&lt;b&gt;
 Special characters:&lt;/b&gt;
 %F = all selected filenames on one line, space delimited
@@ -4185,142 +4442,6 @@ The default scripts are explained in the Help file.&lt;/small&gt;</property>
 	  <property name="padding">0</property>
 	  <property name="expand">False</property>
 	  <property name="fill">False</property>
-	</packing>
-      </child>
-    </widget>
-  </child>
-</widget>
-
-<widget class="GtkDialog" id="prompt_dialog">
-  <property name="border_width">6</property>
-  <property name="title" translatable="yes">User-Defined Script Parameter</property>
-  <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
-  <property name="modal">False</property>
-  <property name="default_width">600</property>
-  <property name="resizable">True</property>
-  <property name="destroy_with_parent">False</property>
-  <property name="decorated">True</property>
-  <property name="skip_taskbar_hint">False</property>
-  <property name="skip_pager_hint">False</property>
-  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
-  <property name="focus_on_map">True</property>
-  <property name="urgency_hint">False</property>
-  <property name="has_separator">False</property>
-
-  <child internal-child="vbox">
-    <widget class="GtkVBox" id="vbox73">
-      <property name="visible">True</property>
-      <property name="homogeneous">False</property>
-      <property name="spacing">12</property>
-
-      <child internal-child="action_area">
-	<widget class="GtkHButtonBox" id="hbuttonbox4">
-	  <property name="visible">True</property>
-	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-
-	  <child>
-	    <widget class="GtkButton" id="prompt_ok_button">
-	      <property name="visible">True</property>
-	      <property name="can_default">True</property>
-	      <property name="has_default">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="label">gtk-ok</property>
-	      <property name="use_stock">True</property>
-	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="focus_on_click">True</property>
-	      <property name="response_id">-5</property>
-	    </widget>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
-	  <property name="pack_type">GTK_PACK_END</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkLabel" id="label128">
-	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Your script requires this user-defined parameter:</property>
-	  <property name="use_underline">False</property>
-	  <property name="use_markup">False</property>
-	  <property name="justify">GTK_JUSTIFY_LEFT</property>
-	  <property name="wrap">False</property>
-	  <property name="selectable">False</property>
-	  <property name="xalign">0</property>
-	  <property name="yalign">0.5</property>
-	  <property name="xpad">0</property>
-	  <property name="ypad">0</property>
-	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-	  <property name="width_chars">-1</property>
-	  <property name="single_line_mode">False</property>
-	  <property name="angle">0</property>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkHBox" id="hbox84">
-	  <property name="visible">True</property>
-	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
-
-	  <child>
-	    <widget class="GtkLabel" id="prompt_label">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">prompt</property>
-	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
-	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-	      <property name="wrap">False</property>
-	      <property name="selectable">False</property>
-	      <property name="xalign">0.5</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xpad">6</property>
-	      <property name="ypad">6</property>
-	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-	      <property name="width_chars">-1</property>
-	      <property name="single_line_mode">False</property>
-	      <property name="angle">0</property>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">False</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkEntry" id="prompt_entry">
-	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="editable">True</property>
-	      <property name="visibility">True</property>
-	      <property name="max_length">0</property>
-	      <property name="text" translatable="yes"></property>
-	      <property name="has_frame">True</property>
-	      <property name="invisible_char">•</property>
-	      <property name="activates_default">True</property>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">True</property>
-	      <property name="fill">True</property>
-	    </packing>
-	  </child>
-	</widget>
-	<packing>
-	  <property name="padding">0</property>
-	  <property name="expand">True</property>
-	  <property name="fill">True</property>
 	</packing>
       </child>
     </widget>

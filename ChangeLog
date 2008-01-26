@@ -1,3 +1,18 @@
+2008-01-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/glade/gthumb_tools.glade:
+	* src/dlg-scripts.c: (gconf_get_script), (add_scripts),
+	(create_script_model), (add_columns), (destroy_cb), (save_cb),
+	(add_script_cb), (remove_script_cb), (dlg_scripts),
+	(generate_script_menu):
+	* src/dlg-scripts.h:
+	* src/gth-browser.c: (window_update_sensitivity),
+	(update_scripts_cb), (gth_browser_construct),
+	(gth_browser_update_script_menu):
+	Allow arbitrary number of user-defined scripts, instead of just 10.
+	Tweaked version of Natan Yellin's <aantny@gmail.com> ghop patch.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=104
+
 2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-data.c: (free_metadata_entry), (free_metadata),

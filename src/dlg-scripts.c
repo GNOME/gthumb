@@ -47,7 +47,6 @@
 
 #define SCRIPT_GLADE_FILE "gthumb_tools.glade"
 #define DEF_THUMB_SIZE 128
-#define MAX_SCRIPTS 10
 
 typedef struct {
         GthWindow    *window;
@@ -75,6 +74,7 @@ typedef struct {
         gchar *script_text;
 } ScriptStruct;
 
+
 typedef struct {
 	/* Name of the script */
 	char *name;
@@ -101,9 +101,7 @@ enum {
         NUMBER_OF_COLUMNS
 };
 
-
 static GArray *script_array = NULL;
-
 
 /* called when the main dialog is closed. */
 static void
@@ -732,7 +730,6 @@ gconf_script_name_path (unsigned int script_number)
 
 void
 gconf_get_script (unsigned int number, char **name, char **command) {
-
 	char *user_name, *current_command, *default_name, *default_command;
 	char *script_name, *script_command;
 	char *dummy_name = g_strdup_printf (_("Script %d"), number);
@@ -744,7 +741,6 @@ gconf_get_script (unsigned int number, char **name, char **command) {
 		default_name = dummy_name;
 		default_command = "";
 	}
-
 	/* First check if the user has specified a name for the script (gthumb >= 2.11) */
 	user_name = eel_gconf_get_string (gconf_script_name_path (number), "");
 
@@ -766,14 +762,12 @@ gconf_get_script (unsigned int number, char **name, char **command) {
 		script_name = g_strdup (user_name);
 		script_command = g_strdup ((char*) current_command);
 	}
-
 	g_free (user_name);
 	g_free (current_command);
 	g_free (dummy_name);
 
 	if (name) *name = script_name;
 	if (command) *command = script_command;
-
 }
 
 
@@ -829,14 +823,13 @@ add_scripts (void)
 {
         ScriptStruct new_entry;
 	int i;
-
+	int number_of_scripts;
         g_return_if_fail (script_array != NULL);
-
-	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+	number_of_scripts = eel_gconf_get_integer (PREF_HOTKEY_PREFIX "number_of_scripts", 10);
+	for (i = 0 ; i < number_of_scripts; i++) {
 		setup_script_struct (&new_entry, i);
 		g_array_append_vals (script_array, &new_entry, 1);
 	}
-
 }
 
 
@@ -868,7 +861,6 @@ create_script_model (void)
                                     g_array_index (script_array, ScriptStruct, i).script_text,
                                     -1);
         }
-
         return GTK_TREE_MODEL (model);
 }
 
@@ -968,7 +960,7 @@ add_columns (GtkTreeView  *treeview,
         g_object_set_data (G_OBJECT (renderer), "column", GINT_TO_POINTER (COLUMN_SCRIPT_NUMBER));
 
         gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview),
-                        -1, _("Hot key"), renderer,
+                        -1, _("Number"), renderer,
                         "text", COLUMN_SCRIPT_NUMBER,
                         NULL);
 
@@ -1011,8 +1003,17 @@ static void
 destroy_cb (GtkWidget  *widget,
             DialogData *data)
 {
+	int i;
 	g_object_unref (data->gui);
         g_free (data);
+
+	for (i = 0; i < script_array->len; i++) {
+	    	g_free (g_array_index (script_array, ScriptStruct, i).script_text);
+    		g_free (g_array_index (script_array, ScriptStruct, i).short_name);
+	}
+
+	g_array_free (script_array, TRUE);
+	script_array = NULL;
 }
 
 
@@ -1030,9 +1031,12 @@ static void
 save_cb (GtkWidget  *widget,
          DialogData *data)
 {
+	eel_gconf_set_integer (PREF_HOTKEY_PREFIX "number_of_scripts", script_array->len);
+	
 	unsigned int i;
 	char *pref_key_path = NULL, *pref_key_name = NULL;
-	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+	
+	for (i = 0; i < script_array->len; i++) {
 		pref_key_path = gconf_script_path (i);
 		pref_key_name = gconf_script_name_path (i);
         	eel_gconf_set_string (pref_key_path, g_array_index (script_array, ScriptStruct, i).script_text);
@@ -1046,6 +1050,75 @@ save_cb (GtkWidget  *widget,
 
 }
 
+/* called when a new script is added. */
+static void
+add_script_cb (GtkWidget  *widget,
+               GtkWidget *treeview)
+{
+	GtkListStore *model;
+	GtkTreeIter iter;
+	ScriptStruct new_entry;
+	int len;
+	
+	len = script_array->len;
+	new_entry.number = len;
+	new_entry.script_text = g_strdup ("");
+	new_entry.short_name = g_strdup ("New Script");
+	g_array_append_vals (script_array, &new_entry, 1);
+	
+	model = (GtkListStore*)gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+	gtk_list_store_append (model, &iter);
+	gtk_list_store_set (model, &iter,
+                                    COLUMN_SCRIPT_NUMBER,
+                                    g_array_index (script_array, ScriptStruct, len).number,
+                                    COLUMN_SHORT_NAME,
+                                    g_array_index (script_array, ScriptStruct, len).short_name,
+                                    COLUMN_SCRIPT_TEXT,
+                                    g_array_index (script_array, ScriptStruct, len).script_text,
+                                    -1);
+    
+}
+
+/* called when a script is removed. */
+static void
+remove_script_cb (GtkWidget *widget,
+                  GtkWidget *treeview)
+{
+	GtkListStore     *model;
+	GtkTreeSelection *selection;
+	GtkTreeIter       iter;
+	int               script_number;
+	gboolean          cont;
+	
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+	
+	/* If no rows are selected then return. */
+	if (!gtk_tree_selection_get_selected (selection,
+	                                      NULL,
+                                          &iter))
+                                          return;
+    
+	model = (GtkListStore*)gtk_tree_view_get_model (GTK_TREE_VIEW (treeview));
+    
+	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
+        		    COLUMN_SCRIPT_NUMBER,
+                            &script_number,
+                            -1);
+	g_free (g_array_index (script_array, ScriptStruct, script_number).script_text);
+	g_free (g_array_index (script_array, ScriptStruct, script_number).short_name);
+	g_array_remove_index (script_array, script_number);
+
+	cont = gtk_list_store_remove (model, &iter);
+	while (cont) {
+		gtk_list_store_set (model,
+    	                            &iter,
+    	                            COLUMN_SCRIPT_NUMBER,
+    	                            script_number,
+    	                            -1);
+		cont = gtk_tree_model_iter_next (GTK_TREE_MODEL(model), &iter);
+		script_number++;
+	}
+}
 
 void
 dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
@@ -1054,6 +1127,8 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
         GtkWidget    *script_help_button;
         GtkWidget    *script_cancel_button;
         GtkWidget    *script_save_button;
+        GtkWidget    *script_add_button;
+        GtkWidget    *script_remove_button;
  	GtkWidget    *vbox_tree;
         GtkWidget    *sw;
         GtkWidget    *treeview;
@@ -1080,6 +1155,8 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
         script_help_button = glade_xml_get_widget (data->gui, "script_help_button");
         script_cancel_button = glade_xml_get_widget (data->gui, "script_cancel_button");
         script_save_button = glade_xml_get_widget (data->gui, "script_save_button");
+        script_add_button = glade_xml_get_widget (data->gui, "script_add_button");
+        script_remove_button = glade_xml_get_widget (data->gui, "script_remove_button");
 	vbox_tree = glade_xml_get_widget (data->gui, "vbox_tree");
 
         sw = gtk_scrolled_window_new (NULL, NULL);
@@ -1101,8 +1178,8 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
 
         add_columns (GTK_TREE_VIEW (treeview), script_model);
 
-        g_object_unref (script_model);
-
+		g_object_unref (script_model);
+		
         gtk_container_add (GTK_CONTAINER (sw), treeview);
 
 
@@ -1125,6 +1202,16 @@ dlg_scripts (GthWindow *window, DoneFunc done_func, gpointer done_data)
                           "clicked",
                           G_CALLBACK (save_cb),
                           data);
+                          
+        g_signal_connect (G_OBJECT (script_add_button),
+                          "clicked",
+                          G_CALLBACK (add_script_cb),
+                          treeview);
+        
+        g_signal_connect (G_OBJECT (script_remove_button),
+                          "clicked",
+                          G_CALLBACK (remove_script_cb),
+                          treeview);
 
 
         gth_get_screen_size (GTK_WINDOW (window), &width, &height);
@@ -1192,32 +1279,33 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 guint
 generate_script_menu (GtkUIManager   *ui,
 		      GtkActionGroup *action_group,
-		      GthWindow      *window,
-		      guint	      merge_id)
+		      GthWindow      *window)
 {
-	/* Remove the previously-defined menu items and their associated actions */
-        if (merge_id != 0) {
-		int i;	
+	static int   number_of_scripts = 0;
+	static guint merge_id = 0;
+
+	/* Remove the previously-defined menu items and their associated actions.
+	 * Only one of the checks *should* be necessary. */
+	if (merge_id != 0 && number_of_scripts != 0) {
+		int i;
 		char *action_name;
 
-		for (i = 0; i < MAX_SCRIPTS; i++) {
+		for (i = 0 ; i < number_of_scripts; i++) {
 			action_name = g_strdup_printf ("Script_%d", i);
 			gtk_action_group_remove_action (action_group, 
-				gtk_action_group_get_action (action_group, action_name));
+			gtk_action_group_get_action (action_group, action_name));
 			g_free (action_name);
-		}
+			}
 
-	        gtk_ui_manager_remove_ui (ui, merge_id);
+		gtk_ui_manager_remove_ui (ui, merge_id);
 	}
 
 	/* Identify this batch of menu additions (for later removal, if required) */
 	merge_id = gtk_ui_manager_new_merge_id (ui);                
 
 	unsigned int i;
-
-	for (i = 0 ; i < MAX_SCRIPTS ; i++) {
+	number_of_scripts = eel_gconf_get_integer (PREF_HOTKEY_PREFIX "number_of_scripts", 10);
+	
+	for (i = 0 ; i < number_of_scripts; i++)
 		add_menu_item_and_action (ui, action_group, window, merge_id, i);
-	}
-
-	return merge_id;
 }

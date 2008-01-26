@@ -41,7 +41,6 @@ void	dlg_scripts 		   	(GthWindow       *window,
 					 gpointer	  done_data);
 guint	generate_script_menu	 	(GtkUIManager    *ui,
 				    	 GtkActionGroup  *actions,
-				     	 GthWindow       *window,
-				    	 guint	    	  merge_id);
+				     	 GthWindow       *window);
 
 #endif /* DLG_SCRIPTS_H */
