@@ -35,14 +35,83 @@
 #include "gth-gstreamer-utils.h"
 
 
-const char *DATE_TAG_NAMES[] = {
-	"Exif.Photo.DateTimeOriginal",
-	"Xmp.exif.DateTimeOriginal",
-	"Exif.Photo.DateTimeDigitized",
-	"Xmp.exif.DateTimeDigitized",
-	"Exif.Image.DateTime",
-	"Xmp.exif.DateTime",
-	"Xmp.photoshop.DateCreated" };
+/* Some bits of information may be contained in more than one metadata tag.
+   The arrays below define the valid tags for a particular piece of 
+   information, in decreasing order of preference (best one first) */
+
+const char *_DATE_TAG_NAMES[] = {
+        "Exif.Photo.DateTimeOriginal",
+        "Xmp.exif.DateTimeOriginal",
+        "Exif.Photo.DateTimeDigitized",
+        "Xmp.exif.DateTimeDigitized",
+        "Exif.Image.DateTime",
+        "Xmp.exif.DateTime",
+        "Xmp.photoshop.DateCreated",
+	NULL };
+
+const char *_EXPTIME_TAG_NAMES[] = {
+        "Exif.Photo.ExposureTime",
+	"Xmp.exif.ExposureTime",
+	"Exif.Photo.ShutterSpeedValue",
+	"Xmp.exif.ShutterSpeedValue",
+	NULL };
+
+const char *_EXPMODE_TAG_NAMES[] = {
+	"Exif.Photo.ExposureMode",
+	"Xmp.exif.ExposureMode",
+	NULL };
+
+const char *_ISOSPEED_TAG_NAMES[] = {
+        "Exif.Photo.ISOSpeedRatings",
+	"Xmp.exif.ISOSpeedRatings", 
+	NULL };
+
+const char *_APERTURE_TAG_NAMES[] = {
+        "Exif.Photo.ApertureValue",
+	"Xmp.exif.ApertureValue", 
+	"Exif.Photo.FNumber", 
+	"Xmp.exif.FNumber",
+	NULL };
+
+const char *_FOCAL_TAG_NAMES[] = {
+        "Exif.Photo.FocalLength",
+	"Xmp.exif.FocalLength",
+	NULL };
+
+const char *_SHUTTERSPEED_TAG_NAMES[] = {
+	"Exif.Photo.ShutterSpeedValue",
+	"Xmp.exif.ShutterSpeedValue",
+	NULL };
+
+const char *_MAKE_TAG_NAMES[] = {
+	"Exif.Image.Make",
+	"Xmp.exif.Make",
+	NULL };
+
+const char *_MODEL_TAG_NAMES[] = {
+	"Exif.Image.Model",
+	"Xmp.exif.Model", 
+	NULL };
+
+const char *_FLASH_TAG_NAMES[] = {
+	"Exif.Photo.Flash",
+	"Xmp.exif.Flash", 
+	NULL };
+
+
+/* if you add something here, also update the matching enum in gth-exif-utils.h */
+const char **TAG_NAME_SETS[] = {
+        _DATE_TAG_NAMES,
+        _EXPTIME_TAG_NAMES,
+	_EXPMODE_TAG_NAMES,
+        _ISOSPEED_TAG_NAMES,
+        _APERTURE_TAG_NAMES,
+        _FOCAL_TAG_NAMES,
+	_SHUTTERSPEED_TAG_NAMES,
+	_MAKE_TAG_NAMES,
+	_MODEL_TAG_NAMES,
+	_FLASH_TAG_NAMES
+};
 
 
 ExifData *
@@ -60,55 +129,6 @@ gth_exif_data_new_from_uri (const char *uri)
 
 	return new_exif_data;
 }
-
-
-char *
-get_exif_tag (const char *uri,
-	      ExifTag     etag)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-
-	if (uri == NULL)
-		return g_strdup ("-");
-
-	edata = gth_exif_data_new_from_uri (uri);
-	if (edata == NULL) 
-		return g_strdup ("-");
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-
-			if (! content->entries[j]) 
-				continue;
-
-			if (e->tag == etag) {
-				const char *value;
-				char *retval = NULL;
-
-				value = get_exif_entry_value (e);
-				if (value != NULL)
-					retval = g_locale_to_utf8 (value, -1, 0, 0, 0);
-				else
-					retval = g_strdup ("-");
-				exif_data_unref (edata);
-
-				return retval;
-			}
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return g_strdup ("-");
-}
-
 
 time_t
 exif_string_to_time_t (char *string) 
@@ -158,82 +178,36 @@ metadata_search (GthMetadata *a,
 time_t
 get_metadata_time_from_fd (FileData *fd)
 {
-	int     i;
 	char   *date = NULL;
 	time_t  result = 0;
 
-	for (i = 0; (i < G_N_ELEMENTS (DATE_TAG_NAMES)) && (date == NULL); i++) {			
-		GList *search_result = g_list_find_custom (fd->metadata, DATE_TAG_NAMES[i], (GCompareFunc) metadata_search);
-		if (search_result != NULL) {
-			GthMetadata *md_entry = search_result->data;
-			date = g_strdup (md_entry->value);
-		}
-	}
-		
+	date = get_metadata_string_from_fd (fd, TAG_NAME_SETS[DATE_TAG_NAMES]);
 	if (date != NULL)
 		result = exif_string_to_time_t (date);
-
+	
 	g_free (date);
 	return result;
 }
 
 
 char *
-get_exif_aperture_value (const char *uri)
+get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 {
-	ExifData     *edata;
-	unsigned int  i, j;
+	int     i;
+	char   *string = NULL;
 
-	if (uri == NULL)
-		return g_strdup ("-");
-
-	edata = gth_exif_data_new_from_uri (uri);
-	if (edata == NULL) 
-		return g_strdup ("-");
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			const char  *value = NULL;
-			char        *retval = NULL;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_APERTURE_VALUE) &&
-			    (e->tag != EXIF_TAG_FNUMBER))
-				continue;
-
-			value = get_exif_entry_value (e);
-			if (value)
-				retval = g_locale_to_utf8 (value, -1, 0, 0, 0);
-			else
-				retval = g_strdup ("-");
-			exif_data_unref (edata);
-
-			return retval;
+	for (i = 0; (tagnames[i] != NULL) && (string == NULL); i++) {
+		GList *search_result = g_list_find_custom (fd->metadata, tagnames[i], (GCompareFunc) metadata_search);
+		if (search_result != NULL) {
+			GthMetadata *md_entry = search_result->data;
+			g_free (string);
+			string = g_strdup (md_entry->value);
 		}
 	}
-
-	exif_data_unref (edata);
-
-	return g_strdup ("-");
-}
-
-
-#define VALUE_LEN 1024
-
-
-const char *
-get_exif_entry_value (ExifEntry *entry)
-{
-	char value[VALUE_LEN + 1];
-	return exif_entry_get_value (entry, value, VALUE_LEN);
+		
+	/* Assuming the string will be freed when the caller is
+	 * done with it */
+	return string;
 }
 
 

@@ -897,27 +897,28 @@ get_file_info (GthFullscreen *fullscreen)
                 );
 
         /* load exif data */
-        exif_exposure_time   = get_exif_tag (image_filename, EXIF_TAG_EXPOSURE_TIME);
-        exif_ISOSpeed_rating = get_exif_tag (image_filename, EXIF_TAG_ISO_SPEED_RATINGS);
-        exif_aperture_value  = get_exif_aperture_value (image_filename);
-        exif_focal_length    = get_exif_tag (image_filename, EXIF_TAG_FOCAL_LENGTH);
+	exif_exposure_time   = get_metadata_string_from_fd (current_file, TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
+	exif_ISOSpeed_rating = get_metadata_string_from_fd (current_file, TAG_NAME_SETS[ISOSPEED_TAG_NAMES]);
+	exif_aperture_value =  get_metadata_string_from_fd (current_file, TAG_NAME_SETS[APERTURE_TAG_NAMES]);
+	exif_focal_length =    get_metadata_string_from_fd (current_file, TAG_NAME_SETS[FOCAL_TAG_NAMES]);
+
         
         /* build exif info string */
         exif_file_info = g_strdup("\n<small>");
 
-        if (strcmp (exif_exposure_time, "-") != 0) {
+        if (exif_exposure_time != NULL) {
             exif_file_info = str_concat_with_free (exif_file_info, exif_exposure_time);
             has_exif_info = TRUE;
         }
 
-        if (strcmp (exif_aperture_value, "-") != 0) {
+        if (exif_aperture_value != NULL) {
             if (has_exif_info == TRUE)
                 exif_file_info = str_concat_with_free (exif_file_info, ", ");
             exif_file_info = str_concat_with_free (exif_file_info, exif_aperture_value);
             has_exif_info = TRUE;
         }
 
-        if (strcmp (exif_ISOSpeed_rating, "-") != 0) {
+        if (exif_ISOSpeed_rating != NULL) {
             if (has_exif_info == TRUE)
                 exif_file_info = str_concat_with_free (exif_file_info, ", ISO ");
             else
@@ -926,7 +927,7 @@ get_file_info (GthFullscreen *fullscreen)
             has_exif_info = TRUE;
         }
 
-        if (strcmp(exif_focal_length, "-") !=0) {
+        if (exif_focal_length != NULL) {
             if (has_exif_info == TRUE)
                 exif_file_info = str_concat_with_free (exif_file_info,", ");
             exif_file_info = str_concat_with_free (exif_file_info, exif_focal_length);

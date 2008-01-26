@@ -1,5 +1,18 @@
 2008-01-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* AUTHORS:
+	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),
+	(get_metadata_string_from_fd):
+	* libgthumb/gth-exif-utils.h:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/gth-fullscreen.c: (get_file_info):
+	Purged get_exif_tag, get_exif_entry_value, get_exif_aperture_value,
+	as part of the project to remove the libexif requirement.
+	Tweaked version of David Turner's <cillian64@googlemail.com> ghop patch.
+	http://code.google.com/p/google-highly-open-participation-gnome/issues/detail?id=110
+
+2008-01-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/glade/gthumb_tools.glade:
 	* src/dlg-scripts.c: (gconf_get_script), (add_scripts),
 	(create_script_model), (add_columns), (destroy_cb), (save_cb),

@@ -74,15 +74,29 @@ typedef struct {
 } GthMetadata;
 
 
+extern const char **TAG_NAME_SETS[];
+
+enum {
+	DATE_TAG_NAMES,
+	EXPTIME_TAG_NAMES,
+	EXPMODE_TAG_NAMES,
+	ISOSPEED_TAG_NAMES,
+	APERTURE_TAG_NAMES,
+	FOCAL_TAG_NAMES,
+	SHUTTERSPEED_TAG_NAMES,
+	MAKE_TAG_NAMES,
+	MODEL_TAG_NAMES,
+	FLASH_TAG_NAMES
+};
+
+
 ExifData     *gth_exif_data_new_from_uri  (const char   *path);
-char *        get_exif_tag                (const char   *filename,
-				           ExifTag       etag);
 time_t        get_metadata_time_from_fd   (FileData     *fd);
-time_t        get_metadata_time           (const char *mime_type,
-					   const char *uri,
-					   GList *md);
-char *        get_exif_aperture_value     (const char   *filename);
-const char   *get_exif_entry_value        (ExifEntry    *entry);
+time_t        get_metadata_time           (const char   *mime_type,
+					   const char   *uri,
+					   GList        *md);
+char *	      get_metadata_string_from_fd (FileData	*fd,
+					   const char   *tagnames[]);
 void          save_exif_data_to_uri       (const char   *filename,
 				           ExifData     *edata);
 void          copy_exif_data              (const char   *src,
