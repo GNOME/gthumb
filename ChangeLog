@@ -1,5 +1,16 @@
 2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (free_metadata_entry), (free_metadata),
+	(file_data_new), (file_data_dup), (file_data_unref),
+	(file_data_update), (file_data_update_info),
+	(file_data_insert_metadata):
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exif-utils.h:
+	Corrected free_metadata function to stop crashes. Moved from
+	gth-exif-utils.c to file-data.c.
+
+2008-01-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_insert_metadata):
 	Revert the second-last commit. The real problem is in dup_metadata.
 

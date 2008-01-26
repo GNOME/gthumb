@@ -36,6 +36,31 @@
 #define MAX_COMMENT_LEN 60
 
 
+static void
+free_metadata_entry (GthMetadata *entry)
+{
+        if (entry != NULL) {
+                g_free (entry->full_name);
+                g_free (entry->display_name);
+                g_free (entry->value);
+                g_free (entry);
+        }
+}
+
+static void
+free_metadata (FileData *fd)
+{
+        if (fd->metadata != NULL) {
+                g_list_foreach (fd->metadata, (GFunc) free_metadata_entry, NULL);
+                g_list_free (fd->metadata);
+                fd->metadata = NULL;
+        }
+
+        fd->exif_data_loaded = FALSE;
+        fd->exif_time = (time_t) 0;
+}
+
+
 GType
 file_data_get_type (void)
 {
@@ -80,9 +105,7 @@ file_data_new (const char       *path,
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */
 
-	fd->exif_data_loaded = FALSE;
-	fd->exif_time = 0;
-	fd->metadata = NULL;
+	free_metadata (fd);
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
@@ -135,9 +158,9 @@ file_data_dup (FileData *source)
 	fd->size = source->size;
 	fd->ctime = source->ctime;
 	fd->mtime = source->mtime;
-	fd->exif_data_loaded = source->exif_data_loaded;
-	fd->exif_time = source->exif_time;
-	fd->metadata = dup_metadata (source->metadata);
+	fd->exif_data_loaded = FALSE;
+	fd->exif_time = 0;
+	fd->metadata = NULL;
 	fd->error = source->error;
 	fd->thumb_loaded = source->thumb_loaded;
 	fd->thumb_created = source->thumb_created;
@@ -161,8 +184,7 @@ file_data_unref (FileData *fd)
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
-		if (fd->metadata != NULL)
-			free_metadata (fd->metadata);
+		free_metadata (fd);
 		g_free (fd);
 	}
 }
@@ -195,7 +217,6 @@ file_data_update (FileData *fd)
 		fd->size = 0L;
 		fd->mtime = 0;
 		fd->ctime = 0;
-		fd->exif_data_loaded = FALSE;
 		fd->mime_type = NULL;
 		return;
 	}
@@ -210,13 +231,7 @@ file_data_update (FileData *fd)
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 
-	/* update metadata only if required */
-	if ((old_mtime != fd->mtime) && fd->exif_data_loaded) {
-		fd->exif_data_loaded = FALSE;
-		if (fd->metadata != NULL)
-                        free_metadata (fd->metadata);
-		file_data_insert_metadata (fd);	
-		}
+	free_metadata (fd);
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -250,7 +265,6 @@ file_data_update_info (FileData *fd)
 		fd->size = 0L;
 		fd->mtime = 0;
 		fd->ctime = 0;
-		fd->exif_data_loaded = FALSE;
 		fd->mime_type = NULL;
 		return;
 	}
@@ -264,13 +278,7 @@ file_data_update_info (FileData *fd)
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 
-        /* update metadata only if required */
-        if ((old_mtime != fd->mtime) && fd->exif_data_loaded) {
-		fd->exif_data_loaded = FALSE;
-                if (fd->metadata != NULL)
-                        free_metadata (fd->metadata);
-                file_data_insert_metadata (fd);
-                }
+        free_metadata (fd);
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -321,7 +329,7 @@ file_data_insert_metadata (FileData *fd)
 {
 	g_return_if_fail (fd != NULL);
 
-	if (fd->exif_data_loaded)
+	if (fd->exif_data_loaded == TRUE)
 		return;
 
 	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);

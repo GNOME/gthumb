@@ -620,49 +620,6 @@ write_orientation_field (const char   *local_file,
 }
 
 
-void free_metadata_entry (GthMetadata *entry)
-{
-	if (entry != NULL) {
-		g_free (entry->full_name);
-		g_free (entry->display_name);
-		g_free (entry->value);
-		g_free (entry);
-	}
-}
-
-void free_metadata (GList *metadata)
-{
-	g_list_foreach (metadata, (GFunc) free_metadata_entry, NULL);
-	g_list_free (metadata);
-}
-
-GList * dup_metadata (GList *source_list)
-{	
-	if (source_list == NULL)
-		return NULL;
-	
-	GList *new_list = NULL;
-	
-	while (source_list)
-	{
-		GthMetadata *source_entry = source_list->data;
-		GthMetadata *new_entry = g_new0 (GthMetadata, 1);
-		
-		new_entry->full_name = g_strdup (source_entry->full_name);
-		new_entry->display_name = g_strdup (source_entry->display_name);
-		new_entry->value = g_strdup (source_entry->value);
-		new_entry->category = source_entry->category;
-		new_entry->position = source_entry->position;
-		new_entry->writeable = source_entry->writeable;
-		
-		new_list = g_list_prepend (new_list, new_entry);
-		
-		source_list = source_list->next;
-	}
-		
-	return g_list_reverse (new_list);
-}
-
 GList * read_exiv2_file (const char *uri, GList *metadata);
 GList * read_exiv2_sidecar (const char *uri, GList *metadata);
 
