@@ -1,3 +1,11 @@
+2008-01-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/gth-browser.c: (save_pixbuf__image_saved_cb):
+	* src/gth-viewer.c: (save_pixbuf__image_saved_cb):
+	Fixed bug #510521 - Canceling Save stops movement between pictures.
+	Patch by Manuel Braga <mul.braga@gmail.com>.
+
 2008-01-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
