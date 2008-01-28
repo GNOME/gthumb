@@ -1,3 +1,24 @@
+2008-01-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-web-exporter.c: (theme_dialog__install_theme_clicked):
+	* src/gth-browser-actions-callbacks.c:
+	(gth_browser_activate_action_go_location):
+	Remove duplicated function calls.
+
+	* src/gth-location.c: (gth_location_open_other):
+	Fixed bug #477285 - Hitting enter in Open Location Dialog while 
+        text entry is focused does nothing. 
+	Patch by Manuel Braga <mul.braga@gmail.com>.
+
+2008-01-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/gth-browser.c: (save_pixbuf__image_saved_cb):
+	* src/gth-viewer.c: (save_pixbuf__image_saved_cb):
+	Fixed bug #510521 - Canceling Save stops movement between pictures.
+	Patch by Manuel Braga <mul.braga@gmail.com>.
+
 2008-01-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* AUTHORS:

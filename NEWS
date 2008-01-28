@@ -65,6 +65,9 @@ version 2.10.9
 
 	* Fixed bug #508873 - gthumb cannot scale up images
 	* Fixed bug #510326 - x-content/* support
+	* Fixed bug #510521 - Canceling Save stops movement between pictures
+	* Fixed bug #477285 - Hitting enter in Open Location Dialog while 
+	  text entry is focused does nothing
 
 version 2.10.8
 --------------

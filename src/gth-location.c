@@ -222,11 +222,12 @@ gth_location_open_other (GthLocation *location)
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
-	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
-	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_location_get_folder_uri (location));
 
-	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_location_get_folder_uri (location));
+	gtk_dialog_set_default_response(GTK_DIALOG (chooser), GTK_RESPONSE_OK);
+
+	g_signal_connect (G_OBJECT (chooser),
 			  "response",
 			  G_CALLBACK (open_other_location_response_cb),
 			  location);

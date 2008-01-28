@@ -957,6 +957,8 @@ save_pixbuf__image_saved_cb (FileData *file,
 				file, 
 				save_pixbuf__jpeg_data_saved_cb,
 				viewer);
+	else
+		viewer->priv->saving_modified_image = FALSE;
 }
 
 

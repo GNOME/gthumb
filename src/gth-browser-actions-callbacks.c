@@ -1737,11 +1737,10 @@ gth_browser_activate_action_go_location (GtkAction  *action,
 					       NULL);
 	/* Permit VFS URIs */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
-
-	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
+	gtk_dialog_set_default_response(GTK_DIALOG (chooser), GTK_RESPONSE_OK);
 
-	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
+	g_signal_connect (G_OBJECT (chooser),
 			  "response",
 			  G_CALLBACK (open_location_response_cb),
 			  browser);

@@ -840,7 +840,8 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 {
 	GtkWidget *file_sel;
 
-	file_sel = gtk_file_chooser_dialog_new (_("Select Album Theme"), NULL,
+	file_sel = gtk_file_chooser_dialog_new (_("Select Album Theme"),
+						GTK_WINDOW (tdata->dialog),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
@@ -848,19 +849,16 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 
 	/* Permit VFS URIs */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), g_get_home_dir ());
+	gtk_dialog_set_default_response(GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
 
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), g_get_home_dir ());
-
-	g_signal_connect (GTK_DIALOG (file_sel),
+	g_signal_connect (G_OBJECT (file_sel),
 			  "response",
 			  G_CALLBACK (install_theme_response_cb),
 			  NULL);
 
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel),
-				      GTK_WINDOW (tdata->dialog));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
 }
