@@ -328,47 +328,6 @@ tag_category_exiv2 (const Exiv2::Exifdatum &md,
 	return GTH_METADATA_CATEGORY_OTHER;
 }
 
-/* Exiv2 sometimes reports numeric values in a fractional
-   form, like "28/5". This function converts such fractions
-   to a more user-friendly decimal form (e.g., 5.6). */
-string improve (string value) {
-	if (value.find('/') != value.npos) {
-		vector<string> res;		
-
-		int cut;
-		while( (cut = value.find_first_of(" ")) != value.npos )	{
-			if(cut > 0) {
-				res.push_back(value.substr(0,cut));
-			}
-			value = value.substr(cut+1);
-		}
-		if ((value.length() > 0) and (value.find('/') != value.npos))  {
-			res.push_back(value);
-			value.clear();
-		}
-		stringstream stream;
-		for (int i(0); i < res.size(); ++i) {
-			int a, b;
-			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2) {
-				// Format fractional data in a user-friendly way
-				if (b == 1)
-					// example: "255/1" -> "255"
-					stream << a << " ";
-				else if (a == 1)
-					// example: "1/60" -> "1/60"
-					stream << res[i] << " ";
-				else
-					// example: "17/40" -> "0.425 (17/40)"
-					stream << (float)a/(float)b << " (" << res[i] << ") ";
-			}
-			else stream << res[i] << " ";
-		}
-		value = stream.str() + value;
-		
-		return value;
-	}
-	else return value;
-}
 
 /* Add the tag the gThumb metadata store. */
 inline static GList *
@@ -425,9 +384,8 @@ read_exiv2_file (const char *uri, GList *metadata)
 				GthMetadataCategory cat = tag_category_exiv2 (*md, pos);
 				
 				//fill entry
-				stringstream stream;
-				stream << *md;
-				string value = stream.str();
+				stringstream value;
+				value << *md;
 
 				stringstream short_name;
 				if (md->ifdId () > Exiv2::ifd1Id) {
@@ -438,7 +396,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 					short_name << md->tagName();	
 				}
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value).c_str(), cat, pos);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, pos);
 			}
 		}
 
@@ -484,7 +442,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value.str()).c_str(), cat, 0);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
 			}
 		}
 #endif
@@ -529,7 +487,7 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), improve(value.str()).c_str(), cat, 0);
+				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
 			}
 		}
 		Exiv2::XmpParser::terminate();

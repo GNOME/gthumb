@@ -1,5 +1,11 @@
 2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	Delete the "improve" function, because exiv2 upstream is pretty
+	responsive to formatting improvements.
+
+2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
 	* libgthumb/gth-exif-utils.c: (get_orientation_from_fd),
 	(update_metadata):
