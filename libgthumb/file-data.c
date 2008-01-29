@@ -159,7 +159,7 @@ file_data_dup (FileData *source)
 	fd->ctime = source->ctime;
 	fd->mtime = source->mtime;
 	fd->exif_data_loaded = FALSE;
-	fd->exif_time = 0;
+	fd->exif_time = (time_t) 0;
 	fd->metadata = NULL;
 	fd->error = source->error;
 	fd->thumb_loaded = source->thumb_loaded;
@@ -322,19 +322,6 @@ file_data_load_comment_data (FileData *fd)
 	if (fd->comment_data != NULL)
 		return;
 	fd->comment_data = comments_load_comment (fd->path, FALSE);
-}
-
-void
-file_data_insert_metadata (FileData *fd)
-{
-	g_return_if_fail (fd != NULL);
-
-	if (fd->exif_data_loaded == TRUE)
-		return;
-
-	fd->metadata = update_metadata (fd->metadata, fd->path, fd->mime_type);
-	fd->exif_time = get_metadata_time_from_fd (fd);
-	fd->exif_data_loaded = TRUE;
 }
 
 void

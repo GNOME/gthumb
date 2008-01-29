@@ -877,11 +877,7 @@ get_file_info (GthFullscreen *fullscreen)
 	zoom = (int) (image_viewer->zoom_level * 100.0);
 
 	FileData *current_file = fullscreen->priv->current->data;
-	file_data_insert_metadata (current_file);
-	timer = current_file->exif_time;
-
-	if (timer == 0)
-		timer = get_file_mtime (image_filename);
+	timer = get_exif_time_or_mtime (current_file);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);

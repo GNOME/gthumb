@@ -475,11 +475,7 @@ window_update_statusbar_image_info (GthBrowser *browser)
 		height = 0;
 	}
 
-	file_data_insert_metadata (priv->image);
-	timer = priv->image->exif_time;
-
-	if (timer == 0)
-		timer = priv->image->mtime;
+	timer = get_exif_time_or_mtime (priv->image);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);

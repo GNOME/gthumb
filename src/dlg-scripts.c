@@ -244,12 +244,7 @@ char* get_date_strings (GtkWindow  *window,
 			const gint date_str_replacement_size = date_str->len + 128;
 
 			FileData* fd = file_data_new_from_local_path (filename);
-			file_data_insert_metadata (fd);
-
-			time_t exif_time = fd->exif_time;
-			if (!exif_time)
-				exif_time = fd->mtime;
-
+			time_t exif_time = get_exif_time_or_mtime (fd);
 			file_data_unref(fd);
 
 			gchar date_str_replacement[date_str_replacement_size];

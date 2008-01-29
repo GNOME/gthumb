@@ -1,3 +1,33 @@
+2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-data.c: (file_data_dup):
+	* libgthumb/file-data.h:
+	* libgthumb/gth-exif-utils.c: (get_exif_time),
+	(get_exif_time_or_mtime), (get_metadata_string_from_fd),
+	(update_metadata):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-filter.c: (gth_test_match):
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_exiftime_then_name):
+	* src/catalog-png-exporter.c: (image_loader_done):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/dlg-change-date.c: (exif_time_available), (ok_clicked):
+	* src/dlg-comment.c: (get_requested_time),
+	(date_optionmenu_changed_cb), (dlg_comment_update):
+	* src/dlg-photo-importer.c: (save_image):
+	* src/dlg-rename-series.c: (get_image_date):
+	* src/dlg-scripts.c: (get_date_strings):
+	* src/gth-browser.c: (window_update_statusbar_image_info):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_update):
+	* src/gth-fullscreen.c: (get_file_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+
+	Hid the metadata caching from most functions. Eliminated the 
+	file_data_insert_metadata function, which explicity loaded
+	metadata. This is now done automatically by 
+	get_metadata_string_from_fd. Added two convenience functions,
+	get_exif_time (fd) and get_exif_time_or_mtime (fd), which
+	also auto-load the metadata cache.
+
 2008-01-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

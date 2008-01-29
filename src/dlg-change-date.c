@@ -90,9 +90,7 @@ exif_time_available (DialogData *data)
 
 	fd = data->file_list->data;
 
-	file_data_insert_metadata (fd);
-
-	return (fd->exif_time != 0);
+	return (get_exif_time (fd) != 0);
 }
 
 
@@ -124,8 +122,7 @@ ok_clicked (GtkWidget  *button,
 			mtime = get_file_ctime (fdata->path);
 			comment_time = mtime;
 		} else if (is_active (data->cd_exif_radiobutton)) {
-			file_data_insert_metadata (fdata);
-			mtime = fdata->exif_time;
+			mtime = get_exif_time (fdata);
 			comment_time = mtime;
 		} else if (is_active (data->cd_adjust_timezone_radiobutton)) {
 			time_t tz;

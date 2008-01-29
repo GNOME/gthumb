@@ -443,7 +443,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		update_file_info (edv);
 
         /* Now read metadata, if it isn't already loaded */
-	file_data_insert_metadata (file_data);
+	update_metadata (file_data);
 
 	/* Display the data */
         g_list_foreach (file_data->metadata, (GFunc) add_to_display, edv);

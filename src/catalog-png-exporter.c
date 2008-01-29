@@ -1451,8 +1451,7 @@ image_loader_done (ImageLoader *iloader,
 
 	/* time in exif tag, if present */
 
-	file_data_insert_metadata (idata->file);
-	idata->exif_time = idata->file->exif_time;
+	idata->exif_time = get_exif_time (idata->file);
 
 	/* thumbnail. */
 	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);

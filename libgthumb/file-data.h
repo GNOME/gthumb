@@ -41,7 +41,9 @@ typedef struct {
 	time_t              ctime;
 	time_t              mtime;
 	guint               exif_data_loaded : 1;
-	time_t		    exif_time;
+	time_t		    exif_time;	       /* Do not access this directly. Use
+						  get_exif_time (fd) instead. This is
+						  a cache variable. */
 	guint               error : 1;         /* Whether an error occurred loading
 					        * this file. */
 	guint               thumb_loaded : 1;  /* Whether we have a thumb of this
@@ -73,7 +75,6 @@ void         file_data_update_mime_type    (FileData         *fd,
 void         file_data_update_all          (FileData         *fd,
 					    gboolean          fast_mime_type);				    
 void         file_data_load_comment_data   (FileData         *fd);
-void         file_data_insert_metadata     (FileData         *fd);
 void         file_data_update_comment      (FileData         *fd);
 
 GList*       file_data_list_from_uri_list  (GList            *list);

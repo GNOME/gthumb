@@ -114,7 +114,5 @@ void	      write_orientation_field     (const char   *filename,
 				  	   GthTransform  transform);
 GList *       gth_read_exiv2		  (const char   *filename,
 					   GList        *metadata);
-GList *       update_metadata		  (GList 	*metadata, 
-					   const char 	*uri,
-					   const char 	*mime_type);
+void          update_metadata		  (FileData	*fd);
 #endif /* EXIF_UTILS_H */

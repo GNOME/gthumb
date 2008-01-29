@@ -342,11 +342,7 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_DATE:
-		file_data_insert_metadata (fdata);
-		if (fdata->exif_time != 0)
-			result = test_date (test, fdata->exif_time);
-		else
-			result = test_date (test, fdata->mtime);
+		result = test_date (test, get_exif_time_or_mtime (fdata));
 		break;
 
 	case GTH_TEST_SCOPE_WIDTH:

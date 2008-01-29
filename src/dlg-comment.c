@@ -154,8 +154,7 @@ get_requested_time (DialogData *data,
 		t = time (NULL);
 		break;
 	case EXIF_DATE:
-		file_data_insert_metadata (file);
-		t = file->exif_time;
+		t = get_exif_time (file);
 		break;
 	case LAST_MODIFIED_DATE:
 		t = file->mtime;
@@ -321,9 +320,8 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 					  file->mtime);
 		break;
 	case EXIF_DATE:
-		file_data_insert_metadata (file);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
-					  file->exif_time);
+					  get_exif_time (file));
 		break;
 	}
 	
@@ -483,8 +481,7 @@ dlg_comment_update (GtkWidget *dlg)
 		FileData *file;
 		file = file_data_new (scan->data, NULL);
                 file_data_update_all (file, FALSE);
-                file_data_insert_metadata (file);
-		if (file->exif_time) {
+		if (get_exif_time (file)) {
 			data->have_exif_data = TRUE;
 			break;
 		}

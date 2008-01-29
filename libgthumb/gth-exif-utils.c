@@ -46,7 +46,10 @@ const char *_DATE_TAG_NAMES[] = {
         "Xmp.exif.DateTimeDigitized",
         "Exif.Image.DateTime",
         "Xmp.exif.DateTime",
+	"Xmp.xmp.CreateDate",
         "Xmp.photoshop.DateCreated",
+	"Xmp.xmp.ModifyDate",
+	"Xmp.xmp.MetadataDate",
 	NULL };
 
 const char *_EXPTIME_TAG_NAMES[] = {
@@ -130,6 +133,7 @@ gth_exif_data_new_from_uri (const char *uri)
 	return new_exif_data;
 }
 
+
 time_t
 exif_string_to_time_t (char *string) 
 {
@@ -176,6 +180,29 @@ metadata_search (GthMetadata *a,
 
 
 time_t
+get_exif_time (FileData *fd)
+{
+	/* we cache the exif_time in fd for quicker sorting */
+	update_metadata (fd);
+	return fd->exif_time;
+}
+
+
+time_t
+get_exif_time_or_mtime (FileData *fd) {
+	time_t result;
+
+	update_metadata (fd);
+	result = fd->exif_time;
+
+	if (result == (time_t) 0)
+		result = fd->mtime;
+
+	return result;
+}
+
+
+time_t
 get_metadata_time_from_fd (FileData *fd)
 {
 	char   *date = NULL;
@@ -196,6 +223,8 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 	int     i;
 	char   *string = NULL;
 
+	update_metadata (fd);
+
 	for (i = 0; (tagnames[i] != NULL) && (string == NULL); i++) {
 		GList *search_result = g_list_find_custom (fd->metadata, tagnames[i], (GCompareFunc) metadata_search);
 		if (search_result != NULL) {
@@ -205,8 +234,6 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 		}
 	}
 		
-	/* Assuming the string will be freed when the caller is
-	 * done with it */
 	return string;
 }
 
@@ -643,22 +670,25 @@ sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 }
 
 
-GList * 
-update_metadata (GList *metadata, const char *uri, const char *mime_type) 
+void
+update_metadata (FileData *fd) 
 { 
         char  *local_file = NULL; 
 	
-        if (uri == NULL) 
-                return metadata; 
+	/* Have we already read in the metadata? */
+	if (fd->exif_data_loaded == TRUE)
+		return;
 
-        if (mime_type_is_image (mime_type)) 
-                metadata = gth_read_exiv2 (uri, metadata); 
-	else if (mime_type_is_video (mime_type))
- 		metadata = gth_read_gstreamer (uri, metadata);
+        if (mime_type_is_image (fd->mime_type)) 
+                fd->metadata = gth_read_exiv2 (fd->path, fd->metadata); 
+	else if (mime_type_is_video (fd->mime_type))
+ 		fd->metadata = gth_read_gstreamer (fd->path, fd->metadata);
  
         /* Sort alphabetically by tag name. The "position" value will 
            override this sorting, if position is non-zero. */ 
-        metadata = g_list_sort (metadata, (GCompareFunc) sort_by_tag_name); 
- 
-        return metadata; 
+        fd->metadata = g_list_sort (fd->metadata, (GCompareFunc) sort_by_tag_name); 
+ 	fd->exif_data_loaded = TRUE;
+	fd->exif_time = get_metadata_time_from_fd (fd);
+
+        return; 
 }

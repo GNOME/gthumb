@@ -1338,13 +1338,7 @@ save_image (DialogData *data,
 			/* Name a subfolder based on the exif date */
                         file = file_data_new (local_path, NULL);
                         file_data_update_all (file, FALSE);
-			file_data_insert_metadata (file);
-			exif_date = file->exif_time;
-
-			/* Use the file mtime if no exif date if present */
-			if (exif_date == (time_t) 0)
-				exif_date = file->mtime;
-
+			exif_date = get_exif_time_or_mtime (file);
 			file_data_unref (file);
 
 

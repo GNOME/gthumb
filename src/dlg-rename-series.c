@@ -268,12 +268,7 @@ get_image_date (FileData *fd)
 	struct tm *ltime;
 	char      *stime;
 
-	file_data_insert_metadata (fd);
-	mtime = fd->exif_time;
-
-	if (mtime == 0)
-		mtime = get_file_mtime (fd->path);
-
+	mtime = get_exif_time_or_mtime (fd);
 	ltime = localtime (&mtime);
 
 	stime = g_new (char, 50 + 1);
