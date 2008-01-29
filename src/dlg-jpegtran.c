@@ -273,7 +273,7 @@ apply_transformation__trim_response (JpegMcuAction action,
 	GthTransform	    required_transform;
 
 	local_file = get_cache_filename_from_uri (file->path);
-	image_orientation = read_orientation_field (local_file);
+	image_orientation = get_orientation_from_fd (file);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
 	
 	apply_transformation_jpeg (file, required_transform, action, NULL);
@@ -297,7 +297,7 @@ apply_transformation__step2 (const char     *uri,
 	gboolean            go_on = TRUE;
 	
 	local_file = get_cache_filename_from_uri (file->path);
-	image_orientation = read_orientation_field (local_file);
+	image_orientation = get_orientation_from_fd (file);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
 		if (image_orientation && ! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) 

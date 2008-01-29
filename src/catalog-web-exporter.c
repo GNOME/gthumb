@@ -2530,20 +2530,19 @@ export__copy_image (CatalogWebExporter *ce)
 	if (result == GNOME_VFS_OK) {
 		if (image_is_jpeg (temp_destination)) {
 			GthTransform  transform;
-			
-			transform = read_orientation_field (get_file_path_from_uri (temp_destination));
+		
+			FileData *fd;
+			fd = file_data_new (temp_destination, NULL);
+			transform = get_orientation_from_fd (fd);
 			
 			if (transform > 1) {
-				FileData *fd;
-				
-				fd = file_data_new (temp_destination, NULL);
-				file_data_update (fd);
 				apply_transformation_jpeg (fd,
 							   transform,
 							   JPEG_MCU_ACTION_TRIM,
 							   NULL);
-				file_data_unref (fd);
 			}
+
+			file_data_unref (fd);
 		}
 	}
 	

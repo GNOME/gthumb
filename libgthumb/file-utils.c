@@ -3444,7 +3444,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 		GthTransform  orientation;
 		GthTransform  transform = GTH_TRANSFORM_NONE;
 		
-		orientation = read_orientation_field (local_file);
+		orientation = get_orientation_from_fd (file);
 		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
 		
 		debug (DEBUG_INFO, "read_orientation_field says orientation is %d, transform needed is %d.\n\r", orientation, transform);

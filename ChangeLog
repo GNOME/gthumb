@@ -1,5 +1,19 @@
 2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (gth_pixbuf_new_from_file):
+	* libgthumb/gth-exif-utils.c: (get_orientation_from_fd),
+	(update_metadata):
+	* libgthumb/gth-exif-utils.h:
+	* src/catalog-web-exporter.c: (export__copy_image):
+	* src/dlg-jpegtran.c: (apply_transformation__trim_response),
+	(apply_transformation__step2):
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	Replaced read_orientation_field with exiv2-based
+	get_orientation_from_fd. Delete gth_minimal_exif_tag_read.
+	All metadata reads are through exiv2, now. Next stop: writes.
+
+2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Further tweaks to the way fractions are displayed.
 

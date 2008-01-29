@@ -88,12 +88,12 @@ const char *_SHUTTERSPEED_TAG_NAMES[] = {
 
 const char *_MAKE_TAG_NAMES[] = {
 	"Exif.Image.Make",
-	"Xmp.exif.Make",
+	"Xmp.tiff.Make",
 	NULL };
 
 const char *_MODEL_TAG_NAMES[] = {
 	"Exif.Image.Model",
-	"Xmp.exif.Model", 
+	"Xmp.tiff.Model", 
 	NULL };
 
 const char *_FLASH_TAG_NAMES[] = {
@@ -101,6 +101,10 @@ const char *_FLASH_TAG_NAMES[] = {
 	"Xmp.exif.Flash", 
 	NULL };
 
+const char *_ORIENTATION_TAG_NAMES[] = {
+	"Exif.Image.Orientation",
+	"Xmp.tiff.Orientation",
+	NULL };
 
 /* if you add something here, also update the matching enum in gth-exif-utils.h */
 const char **TAG_NAME_SETS[] = {
@@ -113,7 +117,8 @@ const char **TAG_NAME_SETS[] = {
 	_SHUTTERSPEED_TAG_NAMES,
 	_MAKE_TAG_NAMES,
 	_MODEL_TAG_NAMES,
-	_FLASH_TAG_NAMES
+	_FLASH_TAG_NAMES,
+	_ORIENTATION_TAG_NAMES
 };
 
 
@@ -214,6 +219,39 @@ get_metadata_time_from_fd (FileData *fd)
 	
 	g_free (date);
 	return result;
+}
+
+
+GthTransform
+get_orientation_from_fd (FileData *fd)
+{
+        char         *orientation_string = NULL;
+	GthTransform  result = GTH_TRANSFORM_NONE;
+
+        orientation_string = get_metadata_string_from_fd (fd, TAG_NAME_SETS[ORIENTATION_TAG_NAMES]);
+	
+	if (orientation_string == NULL)
+		result = GTH_TRANSFORM_NONE;
+	else if (!strcmp (orientation_string, "top, left"))
+		result = GTH_TRANSFORM_NONE;
+	else if (!strcmp (orientation_string, "top, right"))
+                result = GTH_TRANSFORM_FLIP_H;
+	else if (!strcmp (orientation_string, "bottom, right"))
+                result = GTH_TRANSFORM_ROTATE_180;
+	else if (!strcmp (orientation_string, "bottom, left"))
+                result = GTH_TRANSFORM_FLIP_V;
+	else if (!strcmp (orientation_string, "left, top"))
+                result = GTH_TRANSFORM_TRANSPOSE;
+	else if (!strcmp (orientation_string, "right, top"))
+                result = GTH_TRANSFORM_ROTATE_90;
+	else if (!strcmp (orientation_string, "right, bottom"))
+                result = GTH_TRANSFORM_TRANSVERSE;
+	else if (!strcmp (orientation_string, "left, bottom"))
+                result = GTH_TRANSFORM_ROTATE_270;
+
+        g_free (orientation_string);
+
+        return result;
 }
 
 
@@ -570,17 +608,6 @@ gth_minimal_exif_tag_action (const char *local_file,
 
 
 int
-gth_minimal_exif_tag_read (const char *local_file,
- 	                   ExifTag     etag,
- 			   void       *data,
- 			   int         size)
-{
- 	debug (DEBUG_INFO, "gth_minimal_exif_tag_read(%s, %04x, %08x, %d)\n", local_file, etag, data, size); 
-	return gth_minimal_exif_tag_action (local_file, etag, data, size, 0);
-}
-
-
-int
 gth_minimal_exif_tag_write (const char *local_file,
  	                    ExifTag     etag,
  			    void       *data,
@@ -588,24 +615,6 @@ gth_minimal_exif_tag_write (const char *local_file,
 {
  	debug (DEBUG_INFO, "gth_minimal_exif_tag_write(%s, %04x, %08x, %d)\n", local_file, etag, data, size); 
 	return gth_minimal_exif_tag_action (local_file, etag, data, size, 1);
-}
-
-
-GthTransform
-read_orientation_field (const char *local_file)
-{
-	ExifShort orientation;
-	guint16   tf;
-
-	if (local_file == NULL)
-		return GTH_TRANSFORM_NONE;
-
-	gth_minimal_exif_tag_read (local_file, EXIF_TAG_ORIENTATION, &tf, 2);
-	orientation = (GthTransform) tf;
-	if ((orientation >= 1) && (orientation <= 8))
-		return orientation;
-	else
-		return GTH_TRANSFORM_NONE;
 }
 
 
@@ -673,22 +682,31 @@ sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 void
 update_metadata (FileData *fd) 
 { 
-        char  *local_file = NULL; 
-	
+	char *local_file;
+
 	/* Have we already read in the metadata? */
 	if (fd->exif_data_loaded == TRUE)
 		return;
 
+	local_file = get_cache_filename_from_uri (fd->path); 
+
+	if (fd->mime_type == NULL)
+		file_data_update_mime_type (fd, FALSE);
+
+	g_assert (fd->mime_type != NULL);
+
         if (mime_type_is_image (fd->mime_type)) 
-                fd->metadata = gth_read_exiv2 (fd->path, fd->metadata); 
+                fd->metadata = gth_read_exiv2 (local_file, fd->metadata); 
 	else if (mime_type_is_video (fd->mime_type))
- 		fd->metadata = gth_read_gstreamer (fd->path, fd->metadata);
+ 		fd->metadata = gth_read_gstreamer (local_file, fd->metadata);
  
         /* Sort alphabetically by tag name. The "position" value will 
            override this sorting, if position is non-zero. */ 
         fd->metadata = g_list_sort (fd->metadata, (GCompareFunc) sort_by_tag_name); 
  	fd->exif_data_loaded = TRUE;
 	fd->exif_time = get_metadata_time_from_fd (fd);
+
+	g_free (local_file);
 
         return; 
 }
