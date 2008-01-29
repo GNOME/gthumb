@@ -1,5 +1,10 @@
 2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	Further tweaks to the way fractions are displayed.
+
+2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (file_data_dup):
 	* libgthumb/file-data.h:
 	* libgthumb/gth-exif-utils.c: (get_exif_time),

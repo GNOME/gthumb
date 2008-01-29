@@ -350,13 +350,16 @@ string improve (string value) {
 		for (int i(0); i < res.size(); ++i) {
 			int a, b;
 			if (sscanf ( res[i].c_str(), "%d/%d", &a, &b) == 2) {
-				// Convert fractional data like 123/246 to a decimal
-				// value like 0.5.
-				stream << (float)a/(float)b << " ";
-				if (b != 1) 
-					// Include the original fraction, unless the
-					// denominator was "1".
-					stream << "(" << res[i] << ") "; 
+				// Format fractional data in a user-friendly way
+				if (b == 1)
+					// example: "255/1" -> "255"
+					stream << a << " ";
+				else if (a == 1)
+					// example: "1/60" -> "1/60"
+					stream << res[i] << " ";
+				else
+					// example: "17/40" -> "0.425 (17/40)"
+					stream << (float)a/(float)b << " (" << res[i] << ") ";
 			}
 			else stream << res[i] << " ";
 		}
