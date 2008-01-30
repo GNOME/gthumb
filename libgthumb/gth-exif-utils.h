@@ -68,7 +68,8 @@ typedef struct {
         GthMetadataCategory category;
 	char    *full_name;
         char    *display_name;
-        char    *value;
+        char    *formatted_value;
+	char    *raw_value;
         int      position;
 	gboolean writeable;
 } GthMetadata;

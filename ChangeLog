@@ -1,3 +1,15 @@
+2008-01-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-data.c: (free_metadata_entry):
+	* libgthumb/gth-exif-utils.c: (get_metadata_string_from_fd):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-gstreamer-utils.c: (add_metadata):
+	* src/gth-exif-data-viewer.c: (gth_exif_data_viewer_construct),
+	(add_to_exif_display_list), (add_to_display), (update_file_info):
+	Store "raw" metadata along with the formatted metadata, so that
+	we can (eventually) use the raw data to write metadata into a file.
+
 2008-01-29  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:

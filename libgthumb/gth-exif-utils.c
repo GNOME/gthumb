@@ -268,7 +268,7 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
 			g_free (string);
-			string = g_strdup (md_entry->value);
+			string = g_strdup (md_entry->formatted_value);
 		}
 	}
 		

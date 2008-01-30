@@ -61,6 +61,7 @@ enum {
 	FULL_NAME_COLUMN,
 	DISPLAY_NAME_COLUMN,
 	VALUE_COLUMN,
+	RAW_COLUMN,
 	POS_COLUMN,
 	WRITEABLE_COLUMN,
 	NUM_COLUMNS
@@ -140,7 +141,8 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	edv->priv->image_exif_view = gtk_tree_view_new ();
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
-	edv->priv->image_exif_model = gtk_tree_store_new (5,
+	edv->priv->image_exif_model = gtk_tree_store_new (6,
+							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_STRING,
@@ -280,7 +282,8 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 			  GthMetadataCategory  category,
 			  const char	      *full_name,
 			  const char 	      *display_name,
-			  const char	      *utf8_value,
+			  const char	      *formatted_value,
+			  const char	      *raw_value,
 	 		  int		       position,
 			  gboolean	       writeable)
 {
@@ -295,6 +298,7 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 				    FULL_NAME_COLUMN, NULL,
 				    DISPLAY_NAME_COLUMN, _(metadata_category_name[category]),
 				    VALUE_COLUMN, "",
+				    RAW_COLUMN, "",
 				    POS_COLUMN, category,
 				    WRITEABLE_COLUMN, writeable,
 				    -1);
@@ -315,7 +319,8 @@ add_to_exif_display_list (GthExifDataViewer   *edv,
 	gtk_tree_store_set (edv->priv->image_exif_model, &iter,
 			    FULL_NAME_COLUMN, full_name,
 			    DISPLAY_NAME_COLUMN, display_name,
-			    VALUE_COLUMN, utf8_value,
+			    VALUE_COLUMN, formatted_value,
+			    RAW_COLUMN, raw_value,
 			    POS_COLUMN, position,
 			    WRITEABLE_COLUMN, writeable,
 			    -1);
@@ -330,7 +335,8 @@ add_to_display (GthMetadata       *entry,
 		       		  entry->category,
 				  entry->full_name,
 			  	  entry->display_name,
-				  entry->value,
+				  entry->formatted_value,
+				  entry->raw_value,
 				  entry->position,
 				  entry->writeable);
 }
@@ -376,15 +382,15 @@ update_file_info (GthExifDataViewer *edv)
 	
 	/**/
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"), utf8_name, -7, FALSE);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"), utf8_fullname, -6, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"), utf8_name, NULL, -7, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"), utf8_fullname, NULL, -6, FALSE);
 
 	if (mime_type_is_image (mime_type))
-		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Dimensions"), size_txt, -5, FALSE);
+		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Dimensions"), size_txt, NULL, -5, FALSE);
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Size"), file_size_txt, -4, FALSE);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Modified"), utf8_time_txt, -3, FALSE);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Type"), mime_type, -2, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Size"), file_size_txt, NULL, -4, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Modified"), utf8_time_txt, NULL, -3, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Type"), mime_type, NULL, -2, FALSE);
 
 	/**/
 

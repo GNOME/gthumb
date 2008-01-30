@@ -265,8 +265,7 @@ static int exif_tag_category_map[GTH_METADATA_CATEGORIES][MAX_TAGS_PER_CATEGORY]
 };
 
 static GthMetadataCategory
-tag_category_exiv2 (const Exiv2::Exifdatum &md,
-	      int     &position)
+tag_category_exiv2 (const Exiv2::Exifdatum &md, int &position)
 {
 	GthMetadataCategory category;
 	int tempCategory;
@@ -334,9 +333,10 @@ inline static GList *
 add (GList              *metadata,
      const gchar        *full_name, 
      const gchar        *display_name,
-     const gchar	*value,
+     const gchar	*formatted_value,
+     const gchar	*raw_value,
      GthMetadataCategory category,
-     const int		position)
+     const int		 position)
 {
 	GthMetadata *new_entry;
 
@@ -344,7 +344,8 @@ add (GList              *metadata,
 	new_entry->category = category;
 	new_entry->full_name = g_strdup (full_name);
 	new_entry->display_name = g_strdup (display_name);
-	new_entry->value = g_strdup (value);	
+	new_entry->formatted_value = g_strdup (formatted_value);
+	new_entry->raw_value = g_strdup (raw_value);
 	new_entry->position = position;
 	new_entry->writeable = TRUE;
 	metadata = g_list_prepend (metadata, new_entry);
@@ -396,7 +397,13 @@ read_exiv2_file (const char *uri, GList *metadata)
 					short_name << md->tagName();	
 				}
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, pos);
+				metadata = add (metadata, 
+						md->key().c_str(), 
+						short_name.str().c_str(), 
+						value.str().c_str(),
+						md->toString().c_str(), 
+						cat, 
+						pos);
 			}
 		}
 
@@ -419,7 +426,13 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
+				metadata = add (metadata, 
+						md->key().c_str(), 
+						short_name.str().c_str(), 
+						value.str().c_str(), 
+						md->toString().c_str(),
+						cat, 
+						0);
 			}
 		}
 
@@ -442,7 +455,13 @@ read_exiv2_file (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
+				metadata = add (metadata, 
+						md->key().c_str(), 
+						short_name.str().c_str(), 
+						value.str().c_str(), 
+						md->toString().c_str(),
+						cat, 
+						0);
 			}
 		}
 #endif
@@ -487,7 +506,13 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 				stringstream short_name;
 				short_name << md->groupName() << "." << md->tagName();
 
-				metadata = add (metadata, md->key().c_str(), short_name.str().c_str(), value.str().c_str(), cat, 0);
+				metadata = add (metadata, 
+						md->key().c_str(), 
+						short_name.str().c_str(), 
+						value.str().c_str(), 
+						md->toString().c_str(),
+						cat, 
+						0);
 			}
 		}
 		Exiv2::XmpParser::terminate();

@@ -42,7 +42,8 @@ free_metadata_entry (GthMetadata *entry)
         if (entry != NULL) {
                 g_free (entry->full_name);
                 g_free (entry->display_name);
-                g_free (entry->value);
+                g_free (entry->formatted_value);
+		g_free (entry->raw_value);
                 g_free (entry);
         }
 }
