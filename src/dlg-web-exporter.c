@@ -133,7 +133,7 @@ export (GtkWidget  *widget,
 	CatalogWebExporter *exporter = data->exporter;
 	char               *location;
 	char               *path;
-	char               *theme, *index_file;
+	char               *theme;
 	const char         *header;
 	const char         *footer;
 

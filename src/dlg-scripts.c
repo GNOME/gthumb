@@ -25,6 +25,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -40,6 +41,7 @@
 #include "preferences.h"
 #include "gconf-utils.h"
 #include "thumb-loader.h"
+#include "gth-exif-utils.h"
 
 
 #include "dlg-scripts.h"
@@ -128,7 +130,7 @@ gchar* get_prompt (GtkWindow  *window,
 
         if (!gui) {
                 g_warning ("Could not find " SCRIPT_GLADE_FILE "\n");
-                return;
+                return NULL;
         }
 
         dialog = glade_xml_get_widget (gui, "prompt_dialog");
@@ -424,7 +426,6 @@ image_loader_done (ImageLoader *il,
                    gpointer     user_data)
 {
 	ProgressData *data = user_data;
-	GdkPixbuf    *pixbuf;
 	
         gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_thumbnail), 
 				   thumb_loader_get_pixbuf (data->loader));
@@ -860,34 +861,6 @@ create_script_model (void)
 }
 
 
-static gboolean
-separator_row (GtkTreeModel *model,
-               GtkTreeIter  *iter,
-               gpointer      data)
-{
-        GtkTreePath *path;
-        gint idx;
-
-        path = gtk_tree_model_get_path (model, iter);
-        idx = gtk_tree_path_get_indices (path)[0];
-
-        gtk_tree_path_free (path);
-
-        return idx == 5;
-}
-
-
-static void
-editing_started (GtkCellRenderer *cell,
-                 GtkCellEditable *editable,
-                 const gchar     *path,
-                 gpointer         data)
-{
-        gtk_combo_box_set_row_separator_func (GTK_COMBO_BOX (editable),
-                                              separator_row, NULL, NULL);
-}
-
-
 static void
 cell_edited (GtkCellRendererText *cell,
              const gchar         *path_string,
@@ -1271,7 +1244,7 @@ static void add_menu_item_and_action (GtkUIManager   *ui,
 }
 
 
-guint
+void
 generate_script_menu (GtkUIManager   *ui,
 		      GtkActionGroup *action_group,
 		      GthWindow      *window)

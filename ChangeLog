@@ -2,6 +2,27 @@
 
 	* libgthumb/gth-exif-utils.c:
 	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-filter.c:
+	* libgthumb/gth-gstreamer-utils.c: (extract_metadata),
+	(gth_read_gstreamer):
+	* src/dlg-change-date.c: (ok_clicked):
+	* src/dlg-photo-importer.c: (save_image):
+	* src/dlg-scripts.c: (get_prompt), (image_loader_done):
+	* src/dlg-scripts.h:
+	* src/dlg-web-exporter.c: (export):
+	* src/gth-browser-actions-callbacks.c:
+	* src/gth-browser.c: (window_sync_menu_with_preferences):
+	* src/gth-exif-data-viewer.c:
+	* src/gth-viewer-actions-callbacks.c:
+	* src/gth-viewer.c: (sync_menu_with_preferences):
+	Learned how to pass "CFLAGS=-Wall" to autogen, and fixed the many
+	small warnings that were reported. Mostly unused functions and
+	missing includes.
+
+2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exif-utils.h:
 	Removed all remaining libexif references in gth-exif-utils.*
 	Still present in other files, however.	
 

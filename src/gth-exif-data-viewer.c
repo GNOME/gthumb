@@ -228,55 +228,6 @@ gth_exif_data_viewer_new (gboolean view_file_info)
 }
 
 
-static gboolean
-tag_is_present_in_category (GthExifDataViewer   *edv,
-			    GthMetadataCategory  category,
-			    const char          *tag_name)
-{
-	GtkTreeModel *model = GTK_TREE_MODEL (edv->priv->image_exif_model);
-	GtkTreePath  *category_path;
-	GtkTreeIter   category_iter, iter;
-
-	if (tag_name == NULL)
-		return FALSE;
-
-	if (edv->priv->category_root[category] == NULL)
-		return FALSE;
-
-	category_path = gtk_tree_row_reference_get_path (edv->priv->category_root[category]);
-	if (category_path == NULL)
-		return FALSE;
-
-	if (! gtk_tree_model_get_iter (model,
-				       &category_iter,
-				       category_path))
-		return FALSE;
-
-	gtk_tree_path_free (category_path);
-
-	if (! gtk_tree_model_iter_children  (model, &iter, &category_iter))
-		return FALSE;
-
-	do {
-		char *tag_name2;
-
-		gtk_tree_model_get (model,
-				    &iter,
-				    DISPLAY_NAME_COLUMN, &tag_name2,
-				    -1);
-		if ((tag_name2 != NULL)
-		    && (strcmp (tag_name, tag_name2) == 0)) {
-			g_free (tag_name2);
-			return TRUE;
-		}
-
-		g_free (tag_name2);
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	return FALSE;
-}
-
-
 static void
 add_to_exif_display_list (GthExifDataViewer   *edv,
 			  GthMetadataCategory  category,

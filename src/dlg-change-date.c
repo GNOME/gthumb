@@ -28,6 +28,7 @@
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #include "comments.h"
 #include "file-data.h"
@@ -36,7 +37,7 @@
 #include "gth-utils.h"
 #include "gth-window.h"
 #include "main.h"
-
+#include "gtk-utils.h"
 
 #define GLADE_FILE "gthumb_tools.glade"
 
@@ -162,9 +163,8 @@ ok_clicked (GtkWidget  *button,
 		if (is_active (data->cd_exif_checkbutton) ||
 		    is_active (data->cd_exif_orig_checkbutton) ||
 		    is_active (data->cd_exif_dig_checkbutton)) {
-			char buf[32];
+			char   buf[32];
 			struct tm tm;
-			int    res;
 
 			char             *local_file_to_modify = NULL;
 			GnomeVFSFileInfo *info;

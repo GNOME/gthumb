@@ -1417,8 +1417,6 @@ set_action_important (GthViewer  *viewer,
 static void
 sync_menu_with_preferences (GthViewer *viewer)
 {
-	char *prop;
-
 	set_action_important (viewer, "Image_OpenWith", TRUE);
 	set_action_important (viewer, "File_Save", TRUE);
 	set_action_important (viewer, "View_Fullscreen", TRUE);

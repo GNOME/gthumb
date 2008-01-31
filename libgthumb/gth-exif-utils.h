@@ -75,6 +75,9 @@ enum {
 };
 
 
+GthTransform  get_orientation_from_fd     (FileData     *fd);
+time_t        get_exif_time               (FileData     *fd);
+time_t        get_exif_time_or_mtime      (FileData     *fd);
 time_t        get_metadata_time_from_fd   (FileData     *fd);
 time_t        get_metadata_time           (const char   *mime_type,
 					   const char   *uri,

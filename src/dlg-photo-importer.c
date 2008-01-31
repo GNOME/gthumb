@@ -1106,34 +1106,6 @@ ctx_message_func (GPContext  *context,
 }
 
 
-static gboolean
-is_valid_filename (const char *name)
-{
-	int l = strlen (name);
-	int i;
-
-	if (name == NULL)
-		return FALSE;
-	if (*name == 0)
-		return FALSE;
-
-	/**/
-
-	for (i = 0; i < l; i++)
-		if (name[i] != ' ')
-			break;
-	if (i >= l)
-		return FALSE;
-
-	/**/
-
-	if (strchr (name, '/') != NULL)
-		return FALSE;
-
-	return TRUE;
-}
-
-
 static char*
 get_folder_name (DialogData *data)
 {
@@ -1294,7 +1266,6 @@ save_image (DialogData *data,
 	char         *file_uri;
 	char	     *unescaped_local_folder;
 	time_t        exif_date;
-	int           result;
 	GthSubFolder  subfolder_value;
 	char	     *temp_dir = NULL;
 	gboolean      error_found = FALSE;

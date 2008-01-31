@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <glib.h>
 #include "gth-filter.h"
+#include "gth-exif-utils.h"
 
 
 /* GthTest */

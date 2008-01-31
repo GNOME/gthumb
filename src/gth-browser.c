@@ -4617,7 +4617,6 @@ static void
 window_sync_menu_with_preferences (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	char                  *prop = "TranspTypeNone";
 
 	set_action_active (browser, "View_PlayAnimation", TRUE);
 	set_action_active (browser, "View_ShowFolders", FALSE);
@@ -6404,12 +6403,6 @@ filter_bar_close_button_clicked_cb (GthFilterBar *filter_bar,
 {
 	eel_gconf_set_boolean (PREF_UI_FILTERBAR_VISIBLE, FALSE);
 	gth_browser_hide_filterbar (browser);
-}
-
-
-static void
-update_scripts_cb (GtkActionGroup *actions, GthBrowser *browser) {
-        generate_script_menu (browser->priv->ui, actions, GTH_WINDOW (browser));
 }
 
 

@@ -29,6 +29,7 @@
 #include "image-viewer.h"
 #include "comments.h"
 #include "dlg-catalog.h"
+#include "dlg-scripts.h"
 #include "main.h"
 #include "file-utils.h"
 

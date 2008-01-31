@@ -33,14 +33,16 @@ typedef struct {
 	GthWindow*   window;
 } ScriptCallbackData;
 
-void	exec_script		   	(GtkAction          *action, 
-				    	 ScriptCallbackData *cb_data);
+void	exec_script	   	(GtkAction          *action, 
+			    	 ScriptCallbackData *cb_data);
 
-void	dlg_scripts 		   	(GthWindow       *window,
-					 DoneFunc 	  done_func,
-					 gpointer	  done_data);
-guint	generate_script_menu	 	(GtkUIManager    *ui,
-				    	 GtkActionGroup  *actions,
-				     	 GthWindow       *window);
+void	dlg_scripts 	   	(GthWindow          *window,
+				 DoneFunc 	     done_func,
+				 gpointer	     done_data);
+void	generate_script_menu	(GtkUIManager       *ui,
+			    	 GtkActionGroup     *actions,
+			     	 GthWindow          *window);
+void    exec_upload_flickr      (GtkAction          *action,
+				 GthWindow          *window);
 
 #endif /* DLG_SCRIPTS_H */

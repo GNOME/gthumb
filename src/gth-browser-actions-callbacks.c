@@ -41,6 +41,7 @@
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
 #include "dlg-scale-series.h"
+#include "dlg-scripts.h"
 #include "dlg-write-to-cd.h"
 #include "file-utils.h"
 #include "gconf-utils.h"

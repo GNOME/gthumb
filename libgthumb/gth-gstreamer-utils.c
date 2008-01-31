@@ -543,7 +543,7 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
 {
 	gint64 duration;
 
-        g_return_if_fail (extractor);
+        g_return_val_if_fail (extractor, NULL);
 
 	if (extractor->audio_channels >= 0) {
 		metadata = add_metadata (metadata,
@@ -702,7 +702,7 @@ gth_read_gstreamer (const gchar *uri, GList *metadata)
 	GstElement	  *fakesink_audio, *fakesink_video;
 	GstBus		  *bus;
 
-	g_return_if_fail (uri);
+	g_return_val_if_fail (uri, NULL);
 
 	metadata = g_list_reverse (metadata);
 

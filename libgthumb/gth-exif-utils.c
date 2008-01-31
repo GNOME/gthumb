@@ -122,6 +122,11 @@ const char **TAG_NAME_SETS[] = {
 };
 
 
+GList * read_exiv2_file (const char *uri, GList *metadata);
+GList * read_exiv2_sidecar (const char *uri, GList *metadata);
+void    write_metadata (const char *from_file, const char *to_file, const char *key, const char *value);
+
+
 time_t
 exif_string_to_time_t (char *string) 
 {
@@ -296,10 +301,6 @@ write_orientation_field (const char   *local_file,
 
 	g_free (string_tf);
 }
-
-
-GList * read_exiv2_file (const char *uri, GList *metadata);
-GList * read_exiv2_sidecar (const char *uri, GList *metadata);
 
 
 GList *
