@@ -26,10 +26,17 @@
 #include "gth-exif-utils.h"
 
 extern "C" GList *
-read_exiv2_file (const char *uri, GList *metadata);
+read_exiv2_file 	(const char  *uri, 
+			 GList       *metadata);
 
 extern "C" GList *
-read_exiv2_sidecar (const char *uri, GList *metadata);
+read_exiv2_sidecar	(const char  *uri,
+			 GList       *metadata);
 
+extern "C" void
+write_metadata 		(const char  *from_file,
+                         const char  *to_file,
+	                 const char  *key,
+         	         const char  *value);
 #endif
 

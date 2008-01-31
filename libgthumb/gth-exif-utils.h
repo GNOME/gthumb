@@ -101,8 +101,10 @@ char *	      get_metadata_string_from_fd (FileData	*fd,
 					   const char   *tagnames[]);
 void          save_exif_data_to_uri       (const char   *filename,
 				           ExifData     *edata);
-void          copy_exif_data              (const char   *src,
-				           const char   *dest);
+void          update_and_save_metadata    (const char   *uri_src,
+                                           const char   *uri_dest,
+                                           const char   *tag_name,
+                                           const char   *tag_value);
 int           gth_minimal_exif_tag_write  (const char   *filename,
                                            ExifTag       etag,
                                            void         *data,

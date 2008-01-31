@@ -1,3 +1,15 @@
+2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (update_and_save_metadata):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-exiv2-utils.hpp:
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	Added a new exiv2-based function, update_and_save_metadata, which
+	lets you copy metadata from one file to another, while updating
+	zero or one tags.
+
 2008-01-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-data.c: (free_metadata_entry):

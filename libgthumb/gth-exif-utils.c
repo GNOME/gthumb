@@ -299,20 +299,23 @@ save_exif_data_to_uri (const char *uri,
 
 
 void 
-copy_exif_data (const char *uri_src,
-		const char *uri_dest)
+update_and_save_metadata (const char *uri_src,
+			  const char *uri_dest,
+			  const char *tag_name,
+			  const char *tag_value)
 {
-	ExifData *edata;
+	char *from_local_file;
+	char *to_local_file;
 
-	if (! image_is_jpeg (uri_src) || ! image_is_jpeg (uri_dest))
-		return;
+	from_local_file = get_cache_filename_from_uri (uri_src);
+	to_local_file = get_cache_filename_from_uri (uri_dest);
 
-	edata = gth_exif_data_new_from_uri (uri_src);
-	if (edata == NULL) 
-		return;
-	save_exif_data_to_uri (uri_dest, edata);
+	write_metadata (from_local_file, to_local_file, tag_name, tag_value);
 
-	exif_data_unref (edata);
+	/* to do: update non-local uri_dest */
+
+	g_free (from_local_file);
+	g_free (to_local_file);
 }
 
 

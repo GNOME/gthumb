@@ -2090,33 +2090,7 @@ static void
 copy_exif_from_orig_and_reset_orientation (FileData   *file,
 		     			   const char *dest_uri)
 {
-	char      *local_src_file = NULL;
-	char      *local_dest_file = NULL;
-	JPEGData  *jdata_src;
-	JPEGData  *jdata_dest;
-	ExifData  *edata_src;
-
-        local_src_file = get_cache_filename_from_uri (file->path);
-        local_dest_file = get_cache_filename_from_uri (dest_uri);
-
-	jdata_src = jpeg_data_new_from_file (local_src_file);
-	if (jdata_src != NULL) {
-		edata_src = jpeg_data_get_exif_data (jdata_src);
-		if (edata_src != NULL) {
-			jdata_dest = jpeg_data_new_from_file (local_dest_file);
-			if (jdata_dest != NULL) {
-				set_exif_orientation_to_top_left (edata_src);
-				jpeg_data_set_exif_data (jdata_dest, edata_src);
-				jpeg_data_save_file (jdata_dest, local_dest_file);
-				jpeg_data_unref (jdata_dest);
-			}
-			exif_data_unref (edata_src);
-		}
-		jpeg_data_unref (jdata_src);
-	}
-		
-	g_free (local_src_file);
-	g_free (local_dest_file);
+	update_and_save_metadata (file->path, dest_uri, "Exif.Image.Orientation", "1");
 }
 
 
