@@ -122,23 +122,6 @@ const char **TAG_NAME_SETS[] = {
 };
 
 
-ExifData *
-gth_exif_data_new_from_uri (const char *uri)
-{
-        char     *local_file = NULL;
-	ExifData *new_exif_data;
-
-	if (uri == NULL)
-		return NULL;
-
-	local_file = get_cache_filename_from_uri (uri);
-	new_exif_data = exif_data_new_from_file (local_file);
-	g_free (local_file);
-
-	return new_exif_data;
-}
-
-
 time_t
 exif_string_to_time_t (char *string) 
 {
@@ -273,28 +256,6 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 	}
 		
 	return string;
-}
-
-
-void 
-save_exif_data_to_uri (const char *uri,
-		       ExifData   *edata)
-{
-	char      *local_file = NULL;
-	JPEGData  *jdata;
-
-	local_file = get_cache_filename_from_uri (uri);
-	jdata = jpeg_data_new_from_file (local_file);
-	if (jdata == NULL) 
-		return;
-
-	if (edata != NULL)
-		jpeg_data_set_exif_data (jdata, edata);
-
-	jpeg_data_save_file (jdata, local_file);
-	jpeg_data_unref (jdata);
-
-        g_free (local_file);
 }
 
 
