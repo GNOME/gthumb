@@ -1,5 +1,11 @@
 2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c: (write_orientation_field):
+	Updated write_orientation_field to use the new exiv2-based
+	update_and_save_metadata function.
+
+2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (update_and_save_metadata):
 	* libgthumb/gth-exif-utils.h:
 	* libgthumb/gth-exiv2-utils.cpp:

@@ -625,11 +625,17 @@ void
 write_orientation_field (const char   *local_file,
 			 GthTransform  transform)
 {
-	guint16 tf = (guint16) transform;
+	char *string_tf;
+	int tf;
+       
+	tf = (int) transform;
+	if ((tf < 0) || (tf > 8))
+		tf = 1;
+	string_tf = g_strdup_printf ("%d", tf);
 
-	if (local_file == NULL)
-		return;
-	gth_minimal_exif_tag_write (local_file, EXIF_TAG_ORIENTATION, &tf, 2);
+	update_and_save_metadata (local_file, local_file, "Exif.Image.Orientation", string_tf);
+
+	g_free (string_tf);
 }
 
 
