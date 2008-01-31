@@ -1,5 +1,18 @@
 2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exif-utils.h:
+	Purged gth_minimal_exif_tag_write, gth_minimal_exif_tag_action.
+	Use exiv2-based routines now.
+
+	* data/glade/gthumb_tools.glade:
+	* src/dlg-change-date.c: (ok_clicked), (update_sensitivity),
+	(dlg_change_date):
+	Added the ability to change DateTimeOriginal and DateTimeDigitized,
+	in addition to the existing DateTime-changing function.
+
+2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (write_orientation_field):
 	Updated write_orientation_field to use the new exiv2-based
 	update_and_save_metadata function.

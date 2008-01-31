@@ -105,10 +105,6 @@ void          update_and_save_metadata    (const char   *uri_src,
                                            const char   *uri_dest,
                                            const char   *tag_name,
                                            const char   *tag_value);
-int           gth_minimal_exif_tag_write  (const char   *filename,
-                                           ExifTag       etag,
-                                           void         *data,
-                                           int           size);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
 GList *       gth_read_exiv2		  (const char   *filename,
