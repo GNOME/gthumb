@@ -1,3 +1,10 @@
+2008-02-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
+	Delete IFD1 (thumbnail data) after updating metadata. Allow the
+	addition of new tags (before, it only allowed updates of existing
+	tags). Patch by Andreas Huggel <ahuggel@gmx.net>.
+
 2008-01-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c:

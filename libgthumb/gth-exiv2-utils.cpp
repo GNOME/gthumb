@@ -355,7 +355,7 @@ add (GList              *metadata,
 }
 
 /*
- * read_exif2_file
+ * read_exiv2_file
  * reads metadata from image files
  * code relies heavily on example1 from the exiv2 website
  * http://www.exiv2.org/example1.html
@@ -534,49 +534,58 @@ write_metadata (const char *from_file,
                 const char *key,
                 const char *value)
 {
-	//Open first image
-	Exiv2::Image::AutoPtr image1 = Exiv2::ImageFactory::open (from_file);
-	g_assert (image1.get() != 0);
+	try {
+		//Open first image
+		Exiv2::Image::AutoPtr image1 = Exiv2::ImageFactory::open (from_file);
+		g_assert (image1.get() != 0);
+	
+		// Load existing metadata
+		image1->readMetadata();
 
-	// Load existing metadata
-	image1->readMetadata();
+		// TODO: accept a GthMetadata structure instead of a single
+		//       key/value pair.
 
-	// Update the requested tag
-	if (key != NULL) {
-		if (g_str_has_prefix (key, "Exif")) {
-			Exiv2::ExifKey ek (key);
-			Exiv2::ExifData &md = image1->exifData();
-			Exiv2::ExifData::iterator pos = md.findKey(ek);
-			if (pos != md.end())
-				pos->setValue(value);
+		// Update the requested tag
+		if (key != NULL) {
+			if (g_str_has_prefix (key, "Exif")) {
+				Exiv2::ExifData &md = image1->exifData();
+				md[key] = value;
+				
+				// TODO: update PixelX/YDimension tags
+		
+				// TODO: add any missing mandatory tags
+			}
+			else if (g_str_has_prefix (key, "Iptc")) {
+	        	        Exiv2::IptcData &md = image1->iptcData();
+				md[key] = value;
+		        }
+			else if (g_str_has_prefix (key, "Xmp")) {
+	        	        Exiv2::XmpData &md = image1->xmpData();
+				md[key] = value;
+	        	}
 		}
-		else if (g_str_has_prefix (key, "Iptc")) {
-	                Exiv2::IptcKey ek (key);
-	                Exiv2::IptcData &md = image1->iptcData();
-	                Exiv2::IptcData::iterator pos = md.findKey(ek);
-        	        if (pos != md.end())
-	                        pos->setValue(value);
-	        }
-		else if (g_str_has_prefix (key, "Xmp")) {
-	                Exiv2::XmpKey ek (key);
-	                Exiv2::XmpData &md = image1->xmpData();
-	                Exiv2::XmpData::iterator pos = md.findKey(ek);
-	                if (pos != md.end())
-	                        pos->setValue(value);
-        	}
+
+		// Delete thumbnail and IFD1 tags, because the main image may
+		// have changed, and gThumb doesn't use the embedded thumbnails
+		// anyways.
+		image1->exifData().eraseThumbnail();
+
+		// Open second image (in many applications, this will actually
+		// be the same as the the first image (i.e., updating a file
+		// in-place.
+		Exiv2::Image::AutoPtr image2 = Exiv2::ImageFactory::open (to_file);
+		g_assert (image2.get() != 0);
+
+		image2->setExifData (image1->exifData());
+		image2->setIptcData (image1->iptcData());
+		image2->setXmpData (image1->xmpData());
+
+		// overwrite existing metadata with new metadata
+		image2->writeMetadata();
 	}
 
-	// Open second image
-	Exiv2::Image::AutoPtr image2 = Exiv2::ImageFactory::open (to_file);
-	g_assert (image2.get() != 0);
-
-	// TODO: delete IFD1 here
-
-	image2->setExifData (image1->exifData());
-	image2->setIptcData (image1->iptcData());
-	image2->setXmpData (image1->xmpData());
-
-	// overwrite existing metadata with new metadata
-	image2->writeMetadata();
+	catch (const Exiv2::AnyError& e) {
+		// TODO: signal an error to the caller?
+		// (e.what() returns a const char* error message)
+	}
 }
-
