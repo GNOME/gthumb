@@ -584,8 +584,8 @@ write_metadata (const char *from_file,
 		image2->writeMetadata();
 	}
 
-	catch (const Exiv2::AnyError& e) {
+	catch (const Exiv2::AnyError& error) {
 		// TODO: signal an error to the caller?
-		// (e.what() returns a const char* error message)
+		std::cerr << error << "\n";
 	}
 }

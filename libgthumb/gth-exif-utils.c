@@ -270,18 +270,52 @@ update_and_save_metadata (const char *uri_src,
 			  const char *tag_name,
 			  const char *tag_value)
 {
-	char *from_local_file;
-	char *to_local_file;
+	char             *from_local_file;
+	char             *to_local_file;
+        GnomeVFSFileInfo *to_info;
+        gboolean          to_is_local;
+	gboolean	  remote_copy_ok;
 
-	from_local_file = get_cache_filename_from_uri (uri_src);
-	to_local_file = get_cache_filename_from_uri (uri_dest);
+	/* FIXME: use the fancy async cache code? */
+
+	to_is_local = is_local_file (uri_dest);
+	from_local_file = obtain_local_file (uri_src);
+	to_local_file = obtain_local_file (uri_dest);
+
+	if (from_local_file == NULL) {
+		g_warning ("Can't update the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", uri_src);
+		g_free (to_local_file); 
+		return;
+	}
+
+	if (to_local_file == NULL) {
+		g_warning ("Can't update the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", uri_dest);
+		g_free (from_local_file);
+		return;
+	}
+
+	to_info = gnome_vfs_file_info_new ();
+        gnome_vfs_get_file_info (uri_dest,
+		       		 to_info,
+				 GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
 	write_metadata (from_local_file, to_local_file, tag_name, tag_value);
 
-	/* to do: update non-local uri_dest */
+	if (!to_is_local) {
+		remote_copy_ok = copy_cache_file_to_remote_uri (to_local_file, uri_dest);
+
+		if (remote_copy_ok == TRUE) {
+			gnome_vfs_set_file_info (uri_dest,
+						 to_info,
+						 GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+		} else {
+			g_warning ("Metadata update of remote file %s failed.\n", uri_dest);
+		}
+	}
 
 	g_free (from_local_file);
 	g_free (to_local_file);
+	gnome_vfs_file_info_unref (to_info);
 }
 
 
@@ -358,6 +392,14 @@ update_metadata (FileData *fd)
 		return;
 
 	local_file = get_cache_filename_from_uri (fd->path); 
+
+	/* What if the remote file has not actually been copied to the cache?
+	   In that case, do not bother to load the metadata, because it's
+	   too slow. fd->exif_data_loaded will remain FALSE. */
+	if (!path_is_file (local_file)) {
+		g_warning ("Can't read the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", fd->path);
+		return;
+	}
 
 	if (fd->mime_type == NULL)
 		file_data_update_mime_type (fd, FALSE);

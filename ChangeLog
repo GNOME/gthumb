@@ -1,3 +1,11 @@
+2008-02-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (update_and_save_metadata),
+	(update_metadata):
+	* libgthumb/gth-exiv2-utils.cpp:
+	* src/dlg-change-date.c: (ok_clicked):
+	Improved remote vfs support for metadata reading / writing.
+
 2008-02-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:

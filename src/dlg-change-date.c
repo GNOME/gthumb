@@ -163,63 +163,28 @@ ok_clicked (GtkWidget  *button,
 		if (is_active (data->cd_exif_checkbutton) ||
 		    is_active (data->cd_exif_orig_checkbutton) ||
 		    is_active (data->cd_exif_dig_checkbutton)) {
-			char   buf[32];
-			struct tm tm;
+			char      *buf;
+			struct tm  tm;
 
-			char             *local_file_to_modify = NULL;
-			GnomeVFSFileInfo *info;
-			gboolean          is_local;
-			gboolean          remote_copy_ok;
-		
-		        is_local = is_local_file (fdata->path);
-
-		        /* If the original file is stored on a remote VFS location, copy it to a local
-		           temp file, modify it, then copy it back. This is easier than modifying the
-		           underlying jpeg code (and other code) to handle VFS URIs. */
-
-		        local_file_to_modify = obtain_local_file (fdata->path);
-
-		        if (local_file_to_modify == NULL) {
-		                _gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-		                        _("Could not create a local temporary copy of the remote file."));
-		                return;
-		        }
-		        info = gnome_vfs_file_info_new ();
-		        gnome_vfs_get_file_info (fdata->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-
-			localtime_r(&mtime, &tm);
-			snprintf (buf, 32, "%04d:%02d:%02d %02d:%02d:%02d ", 
-			       tm.tm_year + 1900,
-			       tm.tm_mon + 1,
-			       tm.tm_mday,
-			       tm.tm_hour,
-			       tm.tm_min,
-			       tm.tm_sec );
+			localtime_r (&mtime, &tm);
+			buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ", 
+					       tm.tm_year + 1900,
+			       		       tm.tm_mon + 1,
+			       		       tm.tm_mday,
+			       		       tm.tm_hour,
+			       		       tm.tm_min,
+			       		       tm.tm_sec );
 
 			if (is_active (data->cd_exif_checkbutton))
-				update_and_save_metadata (local_file_to_modify, local_file_to_modify, "Exif.Image.DateTime", buf);
+				update_and_save_metadata (fdata->path, fdata->path, "Exif.Image.DateTime", buf);
 
 			if (is_active (data->cd_exif_orig_checkbutton))
-				update_and_save_metadata (local_file_to_modify, local_file_to_modify, "Exif.Photo.DateTimeOriginal", buf);
+				update_and_save_metadata (fdata->path, fdata->path, "Exif.Photo.DateTimeOriginal", buf);
 
 			if (is_active (data->cd_exif_dig_checkbutton))
-                                update_and_save_metadata (local_file_to_modify, local_file_to_modify, "Exif.Photo.DateTimeDigitized", buf);
+                                update_and_save_metadata (fdata->path, fdata->path, "Exif.Photo.DateTimeDigitized", buf);
 
-			mtime++; // Step the time to enable sorting of pictures according to EXIF time
-
-		        if (!is_local)
-		                remote_copy_ok = copy_cache_file_to_remote_uri (local_file_to_modify, fdata->path);
-
-		        g_free (local_file_to_modify);
-
-		        if (!is_local && !remote_copy_ok) {
-                		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-                            		_("Could not move temporary file to remote location. Check remote permissions."));
-		        } else {
-                		gnome_vfs_set_file_info (fdata->path, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
-		        }
-
-		        gnome_vfs_file_info_unref (info);
+			g_free (buf);
 		}
 
 		file_list = g_list_prepend (file_list, fdata->path);
