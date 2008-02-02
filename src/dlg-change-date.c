@@ -165,6 +165,7 @@ ok_clicked (GtkWidget  *button,
 		    is_active (data->cd_exif_dig_checkbutton)) {
 			char      *buf;
 			struct tm  tm;
+			GList	  *add_metadata = NULL;
 
 			localtime_r (&mtime, &tm);
 			buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ", 
@@ -176,14 +177,17 @@ ok_clicked (GtkWidget  *button,
 			       		       tm.tm_sec );
 
 			if (is_active (data->cd_exif_checkbutton))
-				update_and_save_metadata (fdata->path, fdata->path, "Exif.Image.DateTime", buf);
+				add_metadata = simple_add_metadata (add_metadata, "Exif.Image.DateTime", buf);
 
 			if (is_active (data->cd_exif_orig_checkbutton))
-				update_and_save_metadata (fdata->path, fdata->path, "Exif.Photo.DateTimeOriginal", buf);
+				add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.DateTimeOriginal", buf);
 
 			if (is_active (data->cd_exif_dig_checkbutton))
-                                update_and_save_metadata (fdata->path, fdata->path, "Exif.Photo.DateTimeDigitized", buf);
+				add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.DateTimeDigitized", buf);
 
+                        update_and_save_metadata (fdata->path, fdata->path, add_metadata);
+
+			free_metadata (add_metadata);
 			g_free (buf);
 		}
 

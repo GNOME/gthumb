@@ -124,7 +124,30 @@ const char **TAG_NAME_SETS[] = {
 
 GList * read_exiv2_file (const char *uri, GList *metadata);
 GList * read_exiv2_sidecar (const char *uri, GList *metadata);
-void    write_metadata (const char *from_file, const char *to_file, const char *key, const char *value);
+void    write_metadata (const char *from_file, const char *to_file, GList *metadata);
+
+
+static void
+free_metadata_entry (GthMetadata *entry)
+{
+        if (entry != NULL) {
+                g_free (entry->full_name);
+                g_free (entry->display_name);
+                g_free (entry->formatted_value);
+                g_free (entry->raw_value);
+                g_free (entry);
+        }
+}
+
+
+void
+free_metadata (GList *metadata)
+{
+        if (metadata != NULL) {
+                g_list_foreach (metadata, (GFunc) free_metadata_entry, NULL);
+                g_list_free (metadata);
+        }
+}
 
 
 time_t
@@ -251,7 +274,7 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 
 	update_metadata (fd);
 
-	for (i = 0; (tagnames[i] != NULL) && (string == NULL); i++) {
+	for (i = 0; (tagnames[i] != NULL) && (string == NULL); i++) {		
 		GList *search_result = g_list_find_custom (fd->metadata, tagnames[i], (GCompareFunc) metadata_search);
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
@@ -264,11 +287,53 @@ get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
 }
 
 
+GList *
+simple_add_metadata (GList       *metadata,
+                     const gchar *key,
+                     const gchar *value)
+{
+	/* This function is only used when we want to pack several
+	   metadata items into a single structure, to supply to
+	   update_and_save_metadata. */
+
+        GthMetadata *new_entry;
+
+        if (value != NULL) {
+                new_entry = g_new (GthMetadata, 1);
+                new_entry->category = GTH_METADATA_CATEGORY_OTHER;
+                new_entry->full_name = g_strdup (key);
+                new_entry->display_name = g_strdup (key);
+                new_entry->formatted_value = g_strdup (value);
+                new_entry->raw_value = g_strdup (value);
+                new_entry->position = 0;
+                new_entry->writeable = TRUE;
+                metadata = g_list_prepend (metadata, new_entry);
+        }
+
+        return metadata;
+}
+
+
+void 
+update_and_save_metadatum (const char *uri_src,
+                           const char *uri_dest,
+                           char       *tag_name,
+                           char       *tag_value)
+{
+	/* This is a convenience function, to simplify the API */
+	GList *metadata = NULL;
+	
+	metadata = simple_add_metadata (metadata, tag_name, tag_value);
+	update_and_save_metadata (uri_src, uri_dest, metadata);
+
+	free_metadata (metadata);
+}
+
+
 void 
 update_and_save_metadata (const char *uri_src,
 			  const char *uri_dest,
-			  const char *tag_name,
-			  const char *tag_value)
+			  GList      *metadata)
 {
 	char             *from_local_file;
 	char             *to_local_file;
@@ -299,7 +364,7 @@ update_and_save_metadata (const char *uri_src,
 		       		 to_info,
 				 GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-	write_metadata (from_local_file, to_local_file, tag_name, tag_value);
+	write_metadata (from_local_file, to_local_file, metadata);
 
 	if (!to_is_local) {
 		remote_copy_ok = copy_cache_file_to_remote_uri (to_local_file, uri_dest);
@@ -331,7 +396,7 @@ write_orientation_field (const char   *local_file,
 		tf = 1;
 	string_tf = g_strdup_printf ("%d", tf);
 
-	update_and_save_metadata (local_file, local_file, "Exif.Image.Orientation", string_tf);
+	update_and_save_metadatum (local_file, local_file, "Exif.Image.Orientation", string_tf);
 
 	g_free (string_tf);
 }

@@ -463,7 +463,7 @@ void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
         if (tag_type == G_TYPE_ULONG) {
                 gulong ret = 0;
                 if (gst_tag_list_get_ulong (list, tag, &ret))
-                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%u", ret));
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%lu", ret));
                 else
                         g_free (tag_name);
         }
@@ -473,7 +473,7 @@ void tag_iterate (const GstTagList *list, const gchar *tag, GList **metadata)
         if (tag_type == G_TYPE_LONG) {
                 glong ret = 0;
                 if (gst_tag_list_get_long (list, tag, &ret))
-                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%d", ret));
+                        *metadata = add_metadata (*metadata, tag_name, g_strdup_printf ("%ld", ret));
                 else
                         g_free (tag_name);
         }

@@ -75,6 +75,7 @@ enum {
 };
 
 
+void	      free_metadata               (GList        *metadata);
 GthTransform  get_orientation_from_fd     (FileData     *fd);
 time_t        get_exif_time               (FileData     *fd);
 time_t        get_exif_time_or_mtime      (FileData     *fd);
@@ -84,10 +85,16 @@ time_t        get_metadata_time           (const char   *mime_type,
 					   GList        *md);
 char *	      get_metadata_string_from_fd (FileData	*fd,
 					   const char   *tagnames[]);
+GList *       simple_add_metadata         (GList        *metadata,
+			                   const gchar  *key,
+					   const gchar  *value);
+void          update_and_save_metadatum   (const char   *uri_src,
+                                           const char   *uri_dest,
+                                           char         *tag_name,
+                                           char         *tag_value);
 void          update_and_save_metadata    (const char   *uri_src,
                                            const char   *uri_dest,
-                                           const char   *tag_name,
-                                           const char   *tag_value);
+                                           GList        *metdata);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
 GList *       gth_read_exiv2		  (const char   *filename,

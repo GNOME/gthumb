@@ -2090,7 +2090,7 @@ static void
 copy_exif_from_orig_and_reset_orientation (FileData   *file,
 		     			   const char *dest_uri)
 {
-	update_and_save_metadata (file->path, dest_uri, "Exif.Image.Orientation", "1");
+	update_and_save_metadatum (file->path, dest_uri, "Exif.Image.Orientation", "1");
 }
 
 

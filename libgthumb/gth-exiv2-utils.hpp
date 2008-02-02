@@ -35,8 +35,7 @@ read_exiv2_sidecar	(const char  *uri,
 
 extern "C" void
 write_metadata 		(const char  *from_file,
-                         const char  *to_file,
-	                 const char  *key,
-         	         const char  *value);
+			 const char  *to_file,
+			 GList       *metadata);
 #endif
 

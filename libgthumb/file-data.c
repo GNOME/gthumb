@@ -37,28 +37,12 @@
 
 
 static void
-free_metadata_entry (GthMetadata *entry)
+fd_free_metadata (FileData *fd)
 {
-        if (entry != NULL) {
-                g_free (entry->full_name);
-                g_free (entry->display_name);
-                g_free (entry->formatted_value);
-		g_free (entry->raw_value);
-                g_free (entry);
-        }
-}
-
-static void
-free_metadata (FileData *fd)
-{
-        if (fd->metadata != NULL) {
-                g_list_foreach (fd->metadata, (GFunc) free_metadata_entry, NULL);
-                g_list_free (fd->metadata);
-                fd->metadata = NULL;
-        }
-
+	free_metadata (fd->metadata);
+	fd->metadata = NULL;
         fd->exif_data_loaded = FALSE;
-        fd->exif_time = (time_t) 0;
+	fd->exif_time = (time_t) 0;
 }
 
 
@@ -106,7 +90,7 @@ file_data_new (const char       *path,
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */
 
-	free_metadata (fd);
+	fd_free_metadata (fd);
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
@@ -185,7 +169,7 @@ file_data_unref (FileData *fd)
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
-		free_metadata (fd);
+		fd_free_metadata (fd);
 		g_free (fd);
 	}
 }
@@ -232,7 +216,7 @@ file_data_update (FileData *fd)
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 
-	free_metadata (fd);
+	fd_free_metadata (fd);
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -279,7 +263,7 @@ file_data_update_info (FileData *fd)
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
 
-        free_metadata (fd);
+        fd_free_metadata (fd);
 
 	gnome_vfs_file_info_unref (info);
 }

@@ -1,5 +1,25 @@
 2008-02-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (fd_free_metadata), (file_data_new),
+	(file_data_unref), (file_data_update), (file_data_update_info):
+	* libgthumb/gth-exif-utils.c: (free_metadata_entry),
+	(free_metadata), (simple_add_metadata),
+	(update_and_save_metadatum), (update_and_save_metadata),
+	(write_orientation_field):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/gth-exiv2-utils.hpp:
+	* src/catalog-web-exporter.c:
+	(copy_exif_from_orig_and_reset_orientation):
+	* src/dlg-change-date.c: (ok_clicked):
+	Changed code to permit the updating of more than one metadata tags
+	at a time (i.e., one file write operation).
+
+	* libgthumb/gth-gstreamer-utils.c: (tag_iterate):
+	Fixed compiler warning.
+
+2008-02-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (update_and_save_metadata),
 	(update_metadata):
 	* libgthumb/gth-exiv2-utils.cpp:

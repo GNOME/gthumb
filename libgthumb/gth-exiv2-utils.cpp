@@ -36,6 +36,9 @@
 #include <exiv2/xmp.hpp>
 #endif
 
+#include <glib.h>
+
+
 using namespace std;
 
 #define MAX_TAGS_PER_CATEGORY 50
@@ -530,11 +533,12 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 extern "C"
 void
 write_metadata (const char *from_file,
-                const char *to_file,
-                const char *key,
-                const char *value)
+		const char *to_file,
+		GList      *metadata_in)
 {
 	try {
+		GList *scan;
+
 		//Open first image
 		Exiv2::Image::AutoPtr image1 = Exiv2::ImageFactory::open (from_file);
 		g_assert (image1.get() != 0);
@@ -542,27 +546,27 @@ write_metadata (const char *from_file,
 		// Load existing metadata
 		image1->readMetadata();
 
-		// TODO: accept a GthMetadata structure instead of a single
-		//       key/value pair.
-
-		// Update the requested tag
-		if (key != NULL) {
-			if (g_str_has_prefix (key, "Exif")) {
-				Exiv2::ExifData &md = image1->exifData();
-				md[key] = value;
+		for (scan = metadata_in; scan; scan = scan->next) {
+			// Update the requested tag
+			GthMetadata *metadatum = (GthMetadata *) scan->data;
+			if (metadatum->full_name != NULL) {
+				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
+					Exiv2::ExifData &md = image1->exifData();
+					md[metadatum->full_name] = metadatum->raw_value;
 				
-				// TODO: update PixelX/YDimension tags
-		
-				// TODO: add any missing mandatory tags
+					// TODO: update PixelX/YDimension tags
+			
+					// TODO: add any missing mandatory tags
+				}
+				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
+		        	        Exiv2::IptcData &md = image1->iptcData();
+					md[metadatum->full_name] = metadatum->raw_value;
+		        	}
+					else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
+	        		        Exiv2::XmpData &md = image1->xmpData();
+					md[metadatum->full_name] = metadatum->raw_value;
+		        	}
 			}
-			else if (g_str_has_prefix (key, "Iptc")) {
-	        	        Exiv2::IptcData &md = image1->iptcData();
-				md[key] = value;
-		        }
-			else if (g_str_has_prefix (key, "Xmp")) {
-	        	        Exiv2::XmpData &md = image1->xmpData();
-				md[key] = value;
-	        	}
 		}
 
 		// Delete thumbnail and IFD1 tags, because the main image may
