@@ -1,3 +1,21 @@
+2008-02-03  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/dlg-save-image.c: (save_image):
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev),
+	(_gdk_pixbuf_save):
+	* libgthumb/pixbuf-utils.h:
+	* src/catalog-png-exporter.c: (end_page):
+	* src/catalog-web-exporter.c: (save_thumbnail_cb),
+	(save_image_preview_cb), (save_resized_image_cb):
+	* src/dlg-convert.c: (save_image_and_remove_original):
+	* src/gth-batch-op.c: (pixbuf_op_done_cb):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_file_print),
+	(set_wallpaper_from_window):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	Add support for metadata handling into the _gdk_pixbuf_save /
+	_gdk_pixbuf_savev functions. Not fully exploited yet.
+
 2008-02-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-data.c: (fd_free_metadata), (file_data_new),

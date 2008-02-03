@@ -76,6 +76,7 @@
 #include <stdlib.h>
 #include "pixbuf-utils.h"
 #include "file-utils.h"
+#include "gth-exif-utils.h"
 
 #ifdef HAVE_LIBTIFF
 #include <tiffio.h>
@@ -1195,6 +1196,7 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 gboolean
 _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		   const char   *local_file,
+		   GList	*metadata,
 		   const char   *type,
 		   char        **keys,
 		   char        **values,
@@ -1230,6 +1232,14 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		result = gdk_pixbuf_savev (pixbuf, local_file, type,
 					   keys, values,
 					   error);
+
+	if (result == TRUE) {
+		update_and_save_metadata (local_file, local_file, metadata);
+
+		/* Saving from pixbuf always implies top-left orientation */
+		update_and_save_metadatum (local_file, local_file, "Exif.Image.Orientation", "1");
+	}
+				
 
 	return result;
 }
@@ -1274,6 +1284,7 @@ collect_save_options (va_list    opts,
 gboolean
 _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 		  const char   *local_file,
+		  GList	       *metadata,
 		  const char   *type,
 		  GError      **error,
 		  ...)
@@ -1292,9 +1303,8 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	collect_save_options (args, &keys, &values);
 	va_end (args);
 
-	result = _gdk_pixbuf_savev (pixbuf, local_file, type,
-				    keys, values,
-				    error);
+	result = _gdk_pixbuf_savev (pixbuf, local_file, metadata, type,
+				    keys, values, error);
 
 	g_strfreev (keys);
 	g_strfreev (values);

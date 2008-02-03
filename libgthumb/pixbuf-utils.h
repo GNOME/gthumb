@@ -47,11 +47,13 @@ GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf       *src,
 					       GthTransform     transform);
 gboolean   _gdk_pixbuf_save                   (GdkPixbuf       *pixbuf,
 					       const char      *filename,
+					       GList	       *metadata,
 					       const char      *type,
 					       GError         **error,
 					       ...);
 gboolean   _gdk_pixbuf_savev                  (GdkPixbuf       *pixbuf,
 					       const char      *filename,
+					       GList           *metadata,
 					       const char      *type,
 					       char           **keys,
 					       char           **values,

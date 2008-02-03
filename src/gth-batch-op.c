@@ -473,6 +473,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 	local_file = get_cache_filename_from_uri (PD(bop)->new_path);
 	if (! _gdk_pixbuf_savev (pixop->dest,
 			         local_file,
+				 NULL, /* TODO: is this OK? No metadata? */
 			         PD(bop)->image_type,
 			         PD(bop)->keys,
 			         PD(bop)->values,

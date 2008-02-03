@@ -2086,14 +2086,6 @@ export__save_other_files (CatalogWebExporter *ce)
 }
 
 
-static void
-copy_exif_from_orig_and_reset_orientation (FileData   *file,
-		     			   const char *dest_uri)
-{
-	update_and_save_metadatum (file->path, dest_uri, "Exif.Image.Orientation", "1");
-}
-
-
 static gboolean
 save_thumbnail_cb (gpointer data)
 {
@@ -2126,12 +2118,11 @@ save_thumbnail_cb (gpointer data)
 		
 		debug (DEBUG_INFO, "save thumbnail: %s", local_file);
 
-		if (_gdk_pixbuf_save (idata->thumb,
-				      local_file,
-				      "jpeg",
-				      NULL, NULL)) {
-			copy_exif_from_orig_and_reset_orientation (idata->src_file, thumb_uri);
-		} 
+		_gdk_pixbuf_save (idata->thumb,
+				  local_file,
+				  idata->src_file->metadata,
+				  "jpeg",
+				  NULL, NULL); 
 
 		g_free (local_file);
 		g_free (thumb_uri);
@@ -2405,12 +2396,13 @@ save_image_preview_cb (gpointer data)
 			
 			debug (DEBUG_INFO, "saving preview: %s", local_file);
 
-			if (_gdk_pixbuf_save (idata->preview,
-					      local_file,
-					      "jpeg",
-					      NULL, NULL)) {
-				copy_exif_from_orig_and_reset_orientation (idata->src_file, preview_uri);
-			}
+			update_metadata (idata->src_file);
+
+			_gdk_pixbuf_save (idata->preview,
+					  local_file,
+					  idata->src_file->metadata,
+					  "jpeg",
+					  NULL, NULL);
 			 
 			g_free (local_file);
 			g_free (preview_uri);
@@ -2447,11 +2439,13 @@ save_resized_image_cb (gpointer data)
 			
 			debug (DEBUG_INFO, "saving image: %s", local_file);
 
+			update_metadata (idata->src_file);
+
 			if (_gdk_pixbuf_save (idata->image,
 					      local_file,
+					      idata->src_file->metadata,
 					      "jpeg",
 					      NULL, NULL)) {
-				copy_exif_from_orig_and_reset_orientation (idata->src_file, image_uri);
 				idata->src_file->size = get_file_size (image_uri);
 			} 
 			

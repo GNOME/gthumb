@@ -254,6 +254,7 @@ save_image_and_remove_original (DialogData *data)
 	local_file = get_cache_filename_from_uri (data->new_path);
 	if (! _gdk_pixbuf_savev (data->pixbuf,
 			         local_file,
+				 NULL, /* TODO: data->current_image->data->metadata ? */
 			         data->image_type,
 			         data->keys,
 			         data->values,

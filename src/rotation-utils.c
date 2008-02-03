@@ -266,6 +266,7 @@ apply_transformation_generic (FileData     *file,
 		
 		success = _gdk_pixbuf_save (transformed_pixbuf,
 					    local_file,
+					    file->metadata,
 					    image_type,
 					    error,
 					    NULL);

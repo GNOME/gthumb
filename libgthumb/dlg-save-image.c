@@ -116,6 +116,7 @@ save_image (GtkWindow     *parent,
 			local_file = get_cache_filename_from_uri (file->path);
 			if (_gdk_pixbuf_savev (pixbuf,
 					       local_file,
+					       NULL, /* FIXME - add metadata */
 					       image_type,
 					       keys, values,
 					       &error))

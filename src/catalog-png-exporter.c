@@ -1736,9 +1736,9 @@ end_page (CatalogPngExporter *ce,
 	local_file = get_cache_filename_from_uri (uri);
 	
 	if (strcmp (ce->file_type, "jpeg") == 0)
-		_gdk_pixbuf_save (pixbuf, local_file, "jpeg", NULL, "quality", "85", NULL);
+		_gdk_pixbuf_save (pixbuf, local_file, NULL, "jpeg", NULL, "quality", "85", NULL);
 	else
-		_gdk_pixbuf_save (pixbuf, local_file, ce->file_type, NULL, NULL);
+		_gdk_pixbuf_save (pixbuf, local_file, NULL, ce->file_type, NULL, NULL);
 
 	ce->created_files = g_list_prepend (ce->created_files, uri);
 

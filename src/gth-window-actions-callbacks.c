@@ -223,6 +223,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 		tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
 		if (! _gdk_pixbuf_save (pixbuf,
 					tmp_filename,
+					NULL,
 					"jpeg",
 					&error,
 					NULL)) 
@@ -792,6 +793,7 @@ set_wallpaper_from_window (GthWindow      *window,
 		local_file = get_local_path_from_uri (wallpaper_filename);
 		if (! _gdk_pixbuf_save (pixbuf,
 					local_file,
+					NULL,
 					"jpeg",
 					&error,
 					NULL)) 
