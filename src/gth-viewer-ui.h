@@ -121,7 +121,7 @@ static const gchar *viewer_window_ui_info =
 "      <menuitem action='Tools_ChangeDate'/>"
 "    </menu>"
 "    <menu name='Scripts' action='ScriptMenu'>"
-"      <placeholder name='User_Defined_Scripts'>"
+"      <placeholder name='User_Defined_Scripts'/>"
 "      <separator/>"
 "      <menuitem action='External_Scripts'/>"
 "    </menu>"

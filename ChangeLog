@@ -1,5 +1,11 @@
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-viewer-ui.h: 
+	Fixed crash upon File>Open due to malformed UI specification.
+	Bug 514288. Patch by Manuel Braga <mul.braga@gmail.com>.
+
+2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/dlg-save-image.c: (save_image), (dlg_save_image_as),
 	(dlg_save_image):
 	* libgthumb/dlg-save-image.h:
