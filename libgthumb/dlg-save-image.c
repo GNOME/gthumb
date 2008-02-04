@@ -53,6 +53,7 @@ typedef enum {
 typedef struct {
 	ImageSavedFunc  done_func;
 	gpointer        done_data;
+	GList	       *metadata;
 } SaveImageData;
 
 
@@ -116,7 +117,7 @@ save_image (GtkWindow     *parent,
 			local_file = get_cache_filename_from_uri (file->path);
 			if (_gdk_pixbuf_savev (pixbuf,
 					       local_file,
-					       NULL, /* FIXME - add metadata */
+					       data->metadata,
 					       image_type,
 					       keys, values,
 					       &error))
@@ -177,7 +178,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	else
 		mime_type = mime_types [idx - 2];
 	file->mime_type = get_static_string (mime_type);
-	
+
 	save_image (parent, file, pixbuf, data, file_sel);
 	g_free (file);
 }
@@ -226,6 +227,7 @@ build_file_type_menu (void)
 void
 dlg_save_image_as (GtkWindow       *parent,
 		   const char      *uri,
+		   GList           *metadata,
 		   GdkPixbuf       *pixbuf,
 		   ImageSavedFunc   done_func,
 		   gpointer         done_data)
@@ -282,6 +284,8 @@ dlg_save_image_as (GtkWindow       *parent,
 	data->done_func = done_func;
 	data->done_data = done_data;
 
+	data->metadata = metadata;
+
 	g_object_set_data (G_OBJECT (file_sel), "parent_window", parent);
 	g_object_set_data (G_OBJECT (file_sel), "pixbuf", pixbuf);
 	g_object_set_data (G_OBJECT (file_sel), "data", data);
@@ -309,6 +313,7 @@ dlg_save_image_as (GtkWindow       *parent,
 void
 dlg_save_image (GtkWindow       *parent,
 		FileData        *file,
+		GList		*metadata,
 		GdkPixbuf       *pixbuf,
 		ImageSavedFunc   done_func,
 		gpointer         done_data)
@@ -321,6 +326,7 @@ dlg_save_image (GtkWindow       *parent,
 	data = g_new0 (SaveImageData, 1);
 	data->done_func = done_func;
 	data->done_data = done_data;
+	data->metadata = metadata;
 
 	save_image (parent, file, pixbuf, data, NULL);
 }

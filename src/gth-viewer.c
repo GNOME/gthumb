@@ -30,7 +30,6 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 
-#include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
 
 #ifdef HAVE_LIBIPTCDATA
@@ -121,7 +120,6 @@ struct _GthViewerPrivateData {
 
 	gboolean         image_data_visible;
 	FileData        *image;
-	ExifData        *exif_data;
 	gboolean         image_error;
 
 #ifdef HAVE_LIBIPTCDATA
@@ -284,11 +282,6 @@ gth_viewer_finalize (GObject *object)
 		for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 			if (viewer->priv->cnxn_id[i] != -1)
 				eel_gconf_notification_remove (viewer->priv->cnxn_id[i]);
-
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
-		}
 
 #ifdef HAVE_LIBIPTCDATA
 		if (priv->iptc_data != NULL) {
@@ -709,34 +702,8 @@ update_image_comment (GthViewer *viewer)
 static void
 viewer_update_image_info (GthViewer *viewer)
 {
-	JPEGData *jdata = NULL;
-	
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
-
-	/* Load EXIF data */
-
-	if (viewer->priv->exif_data != NULL) {
-		exif_data_unref (viewer->priv->exif_data);
-		viewer->priv->exif_data = NULL;
-	}
-
-	if ((viewer->priv->image != NULL) && (image_is_jpeg (viewer->priv->image->path))) {
-		char *local_file;
-		
-		local_file = get_cache_filename_from_uri (viewer->priv->image->path);
-		if (local_file != NULL) {
-			jdata = jpeg_data_new_from_file (local_file);
-			g_free (local_file);
-		}
-	}
-
-	if (jdata != NULL) {
-		viewer->priv->exif_data = jpeg_data_get_exif_data (jdata);
-		jpeg_data_unref (jdata);
-	}
-
-	/**/
 
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (viewer->priv->exif_data_viewer),
 				     IMAGE_VIEWER (viewer->priv->viewer),
@@ -879,7 +846,6 @@ save_jpeg_data (GthViewer    *viewer,
 		CopyDoneFunc  done_func,
 		gpointer      done_data)
 {
-	GthViewerPrivateData  *priv = viewer->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
         char                  *local_file = NULL;
@@ -890,9 +856,6 @@ save_jpeg_data (GthViewer    *viewer,
 
 	if (! image_is_jpeg (local_file))
 		return update_file_from_cache (file, done_func, done_data);
-
-	if (priv->exif_data != NULL)
-		data_to_save = TRUE;
 
 #ifdef HAVE_LIBIPTCDATA
 	if (priv->iptc_data != NULL)
@@ -925,17 +888,9 @@ save_jpeg_data (GthViewer    *viewer,
 	}
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (priv->exif_data != NULL)
-		jpeg_data_set_exif_data (jdata, priv->exif_data);
-
 	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
-	/* The exif orientation tag, if present, must be reset to "top-left",
-   	   because the jpeg was saved from a gthumb-generated pixbuf, and
-   	   the pixbug image loader always rotates the pixbuf to account for
-   	   the orientation tag. */
-	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
         g_free (local_file);
         
         return update_file_from_cache (file, done_func, done_data);
@@ -978,6 +933,7 @@ ask_whether_to_save__response_cb (GtkWidget *dialog,
         if (response_id == GTK_RESPONSE_YES) {
 		dlg_save_image_as (GTK_WINDOW (viewer),
 				   priv->image->path,
+				   priv->image->metadata,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
 				   ask_whether_to_save__image_saved_cb,
 				   viewer);
@@ -2002,18 +1958,22 @@ gth_viewer_save_pixbuf (GthWindow *window,
 	GthViewerPrivateData *priv = viewer->priv;
 	char                 *current_folder = NULL;
 
-	if (priv->image != NULL)
+	if (priv->image != NULL) {
 		current_folder = g_strdup (priv->image->path);
+		update_metadata (priv->image);
+	}
 
 	if (file == NULL)
 		dlg_save_image_as (GTK_WINDOW (viewer),
 				   current_folder,
+				   priv->image->metadata,
 				   pixbuf,
 				   save_pixbuf__image_saved_cb,
 				   viewer);
 	else
 		dlg_save_image (GTK_WINDOW (viewer),
 				file,
+				priv->image->metadata,
 				pixbuf,
 				save_pixbuf__image_saved_cb,
 				viewer);

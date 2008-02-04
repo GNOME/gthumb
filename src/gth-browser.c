@@ -71,7 +71,6 @@
 #include "rotation-utils.h"
 #include "dlg-scripts.h"
 
-#include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
 
 #ifdef HAVE_LIBIPTCDATA
@@ -243,8 +242,6 @@ struct _GthBrowserPrivateData {
 	guint               view_image_timeout; /* timer for the
 						 * view_image_at_pos function.
 						 */
-	ExifData           *exif_data;
-
 #ifdef HAVE_LIBIPTCDATA
 	IptcData           *iptc_data;
 #endif /* HAVE_LIBIPTCDATA */
@@ -585,35 +582,8 @@ update_image_comment (GthBrowser *browser)
 static void
 window_update_image_info (GthBrowser *browser)
 {
-        GthBrowserPrivateData *priv = browser->priv;
-        JPEGData              *jdata = NULL;
-        char                  *cache_uri = NULL;
-
         window_update_statusbar_image_info (browser);
         window_update_statusbar_zoom_info (browser);
-
-        if (priv->exif_data != NULL) {
-                exif_data_unref (priv->exif_data);
-                priv->exif_data = NULL;
-        }
-
-        if (priv->image != NULL)
-                cache_uri = get_cache_filename_from_uri (priv->image->path);
-
-        if ((cache_uri != NULL) && (image_is_jpeg (cache_uri))) {
-                char *local_file = NULL;
-
-                local_file = get_cache_filename_from_uri (priv->image->path);
-                jdata = jpeg_data_new_from_file (local_file);
-                g_free (local_file);
-        }
-
-        g_free (cache_uri);
-
-        if (jdata != NULL) {
-                priv->exif_data = jpeg_data_get_exif_data (jdata);
-                jpeg_data_unref (jdata);
-        }
 
         gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer),
                                      IMAGE_VIEWER (browser->priv->viewer),
@@ -1759,7 +1729,6 @@ save_jpeg_data (GthBrowser   *browser,
 		CopyDoneFunc  done_func,
 		gpointer      done_data)
 {
-	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
 	char                  *local_file = NULL;
@@ -1770,9 +1739,6 @@ save_jpeg_data (GthBrowser   *browser,
 
 	if (! image_is_jpeg (file->path))
 		return update_file_from_cache (file, done_func, done_data);
-
-	if (priv->exif_data != NULL)
-		data_to_save = TRUE;
 
 #ifdef HAVE_LIBIPTCDATA
 	if (priv->iptc_data != NULL)
@@ -1805,17 +1771,9 @@ save_jpeg_data (GthBrowser   *browser,
 	}
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (priv->exif_data != NULL)
-		jpeg_data_set_exif_data (jdata, priv->exif_data);
-
 	jpeg_data_save_file (jdata, local_file);
 	jpeg_data_unref (jdata);
 
-	/* The exif orientation tag, if present, must be reset to "top-left",
-   	   because the jpeg was saved from a gthumb-generated pixbuf, and
-   	   the pixbuf image loader always rotates the pixbuf to account for
-   	   the orientation tag. */
-	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
 	g_free (local_file);
 	
 	return update_file_from_cache (file, done_func, done_data);
@@ -1847,8 +1805,10 @@ gth_browser_save_pixbuf (GthWindow *window,
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *current_folder = NULL;
 
-	if (priv->image != NULL)
+	if (priv->image != NULL) {
 		current_folder = g_strdup (priv->image->path);
+		update_metadata (priv->image);
+	}
 	else if (priv->dir_list->path != NULL)
 		current_folder = g_strconcat (priv->dir_list->path,
 					      "/",
@@ -1857,16 +1817,19 @@ gth_browser_save_pixbuf (GthWindow *window,
 	if (file == NULL)
 		dlg_save_image_as (GTK_WINDOW (browser),
 				   current_folder,
+				   priv->image->metadata,
 				   pixbuf,
 				   save_pixbuf__image_saved_cb,
 				   browser);
-	else
+	else {
+		update_metadata (file);
 		dlg_save_image (GTK_WINDOW (browser),
 				file,
+				priv->image->metadata,
 				pixbuf,
 				save_pixbuf__image_saved_cb,
 				browser);
-
+	}
 	g_free (current_folder);
 }
 
@@ -1881,8 +1844,10 @@ ask_whether_to_save__response_cb (GtkWidget  *dialog,
 	gtk_widget_destroy (dialog);
 
 	if (response_id == GTK_RESPONSE_YES) {
+		update_metadata (priv->image);
 		dlg_save_image_as (GTK_WINDOW (browser),
 				   priv->image->path,
+				   priv->image->metadata,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
 				   save_pixbuf__image_saved_cb,
 				   browser);
@@ -5569,11 +5534,6 @@ gth_browser_finalize (GObject *object)
 		if (priv->image_path_saved) {
 			g_free (priv->image_path_saved);
 			priv->image_path_saved = NULL;
-		}
-
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
 		}
 
 #ifdef HAVE_LIBIPTCDATA
