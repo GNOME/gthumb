@@ -846,6 +846,7 @@ save_jpeg_data (GthViewer    *viewer,
 		CopyDoneFunc  done_func,
 		gpointer      done_data)
 {
+	GthViewerPrivateData  *priv = viewer->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
         char                  *local_file = NULL;

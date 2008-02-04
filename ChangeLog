@@ -1,5 +1,13 @@
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-browser.c: (save_jpeg_data):
+	* src/gth-viewer.c: (save_jpeg_data):
+	Revert earlier change - compiler reported browser->priv and
+	viewer->priv as unused variables, but they are used under
+	some #ifdef conditions.
+
+2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Another missing ifdef.
 

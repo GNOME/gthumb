@@ -1729,6 +1729,7 @@ save_jpeg_data (GthBrowser   *browser,
 		CopyDoneFunc  done_func,
 		gpointer      done_data)
 {
+	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
 	char                  *local_file = NULL;
