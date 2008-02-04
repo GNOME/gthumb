@@ -1,5 +1,10 @@
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	XMP-related code must be inside an ifdef.
+
+2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-viewer-ui.h: 
 	Fixed crash upon File>Open due to malformed UI specification.
 	Bug 514288. Patch by Manuel Braga <mul.braga@gmail.com>.

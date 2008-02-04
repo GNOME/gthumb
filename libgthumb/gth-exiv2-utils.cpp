@@ -562,10 +562,12 @@ write_metadata (const char *from_file,
 		        	        Exiv2::IptcData &md = image1->iptcData();
 					md[metadatum->full_name] = metadatum->raw_value;
 		        	}
-					else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
+#ifdef HAVE_EXIV2_XMP_HPP
+				else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
 	        		        Exiv2::XmpData &md = image1->xmpData();
 					md[metadatum->full_name] = metadatum->raw_value;
 		        	}
+#endif
 			}
 		}
 
