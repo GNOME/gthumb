@@ -60,5 +60,7 @@ void           gth_viewer_set_single_window        (GthViewer      *viewer,
 						    gboolean        value);
 
 GtkWidget *    gth_viewer_get_current_viewer       (void);
+void           gth_viewer_update_script_menu       (GthViewer *viewer);
+
 
 #endif /* GTH_VIEWER_H */

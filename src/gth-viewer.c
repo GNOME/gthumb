@@ -215,6 +215,8 @@ viewer_update_sensitivity (GthViewer *viewer)
 	gboolean image_is_void;
 	gboolean image_is_ani;
 	gboolean playing;
+	int      i, number_of_scripts;
+        char    *script_name;
 
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (priv->viewer));
@@ -250,16 +252,13 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (viewer, "View_StepAnimation", image_is_ani && ! playing);
 
-        set_action_sensitive (viewer, "Script_0", !image_is_void);
-        set_action_sensitive (viewer, "Script_1", !image_is_void);
-        set_action_sensitive (viewer, "Script_2", !image_is_void);
-        set_action_sensitive (viewer, "Script_3", !image_is_void);
-        set_action_sensitive (viewer, "Script_4", !image_is_void);
-        set_action_sensitive (viewer, "Script_5", !image_is_void);
-        set_action_sensitive (viewer, "Script_6", !image_is_void);
-        set_action_sensitive (viewer, "Script_7", !image_is_void);
-        set_action_sensitive (viewer, "Script_8", !image_is_void);
-        set_action_sensitive (viewer, "Script_9", !image_is_void);
+        /* Scripts menu */
+        number_of_scripts = eel_gconf_get_integer (PREF_HOTKEY_PREFIX "number_of_scripts", 10);
+        for (i = 0; i < number_of_scripts; i++) {
+                script_name = g_strdup_printf ("Script_%d", i);
+                set_action_sensitive (viewer, script_name, !image_is_void);
+                g_free (script_name);
+        }
 
 	set_action_sensitive (viewer, "Upload_Flickr", !image_is_void);
 	
@@ -1481,6 +1480,9 @@ gth_viewer_construct (GthViewer   *viewer,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
+
+	generate_script_menu (ui, priv->actions, GTH_WINDOW (viewer));
+
 	menubar = gtk_ui_manager_get_widget (ui, "/MenuBar");
 
 	gtk_widget_show (menubar);
@@ -2303,3 +2305,10 @@ gth_viewer_get_current_viewer (void)
 
 	return (GtkWidget*) SingleViewer;
 }
+
+void
+gth_viewer_update_script_menu (GthViewer *viewer)
+{
+	generate_script_menu (viewer->priv->ui, viewer->priv->actions, GTH_WINDOW (viewer));
+}
+

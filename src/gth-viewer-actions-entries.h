@@ -38,8 +38,6 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	{ "ViewShowHideMenu", NULL, N_("Show/_Hide") },
 	{ "ViewZoomMenu", NULL, N_("_Zoom") },
 	{ "ImageMenu", NULL, N_("_Image") },
-	{ "ImageTransformMenu", NULL, N_("_Transform") },
-	{ "ImageAutoMenu", NULL, N_("Auto") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
 	{ "ScriptMenu", NULL, N_("_Scripts") },
@@ -65,6 +63,11 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	  N_("_Reload"), "<control>R",
 	  N_("Reload the current location"),
 	  G_CALLBACK (gth_viewer_activate_action_go_refresh) },
+
+        { "External_Scripts", GTK_STOCK_EDIT,
+          N_("_Edit Scripts"), NULL,
+          N_("Edit external scripts"),
+          G_CALLBACK (gth_viewer_activate_action_scripts) },
 	  
 	 { "Upload_Flickr", NULL,
 	  N_("To _Flickr"), NULL,

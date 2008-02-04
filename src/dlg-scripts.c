@@ -1250,7 +1250,7 @@ generate_script_menu (GtkUIManager   *ui,
 		      GthWindow      *window)
 {
 	static int   number_of_scripts = 0;
-	static guint merge_id = 0;
+	guint merge_id = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (ui), "script-merge-id"));
 
 	/* Remove the previously-defined menu items and their associated actions.
 	 * Only one of the checks *should* be necessary. */
@@ -1270,6 +1270,9 @@ generate_script_menu (GtkUIManager   *ui,
 
 	/* Identify this batch of menu additions (for later removal, if required) */
 	merge_id = gtk_ui_manager_new_merge_id (ui);                
+	g_object_set_data (G_OBJECT (ui),
+			   "script-merge-id",
+			   GUINT_TO_POINTER (merge_id));
 
 	unsigned int i;
 	number_of_scripts = eel_gconf_get_integer (PREF_HOTKEY_PREFIX "number_of_scripts", 10);

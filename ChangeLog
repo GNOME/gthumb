@@ -1,5 +1,20 @@
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/dlg-scripts.c: (generate_script_menu):
+	* src/gth-viewer-actions-callbacks.c:
+	(gth_viewer_activate_action_scripts):
+	* src/gth-viewer-actions-callbacks.h:
+	* src/gth-viewer-actions-entries.h:
+	* src/gth-viewer.c: (viewer_update_sensitivity),
+	(gth_viewer_construct), (gth_viewer_update_script_menu):
+	* src/gth-viewer.h:
+	Added Scripts menu to viewer mode. Fixed console warnings relating to
+	script initialization. Fixed warnings related to ImageTransformMenu
+	and ImageAutoMenu. Enhanced version of patch by Manuel Braga
+	<mul.braga@gmail.com>.
+
+2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-browser.c: (save_jpeg_data):
 	* src/gth-viewer.c: (save_jpeg_data):
 	Revert earlier change - compiler reported browser->priv and
