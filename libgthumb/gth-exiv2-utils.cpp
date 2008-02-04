@@ -584,7 +584,9 @@ write_metadata (const char *from_file,
 
 		image2->setExifData (image1->exifData());
 		image2->setIptcData (image1->iptcData());
+#ifdef HAVE_EXIV2_XMP_HPP
 		image2->setXmpData (image1->xmpData());
+#endif
 
 		// overwrite existing metadata with new metadata
 		image2->writeMetadata();

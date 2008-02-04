@@ -1,6 +1,11 @@
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:
+	Another missing ifdef.
+
+2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
 	XMP-related code must be inside an ifdef.
 
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
