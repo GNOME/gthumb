@@ -1,3 +1,7 @@
+2008-02-05  Jovan Naumovski  <jovan@lugola.net>
+
+	* mk.po: Fix for #514613.
+	
 2008-01-30  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation by Daniel Mustieles.
