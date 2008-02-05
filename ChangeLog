@@ -1,3 +1,17 @@
+2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/comments.h:
+	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),
+	(get_orientation_from_fd), (get_metadata_string),
+	(get_metadata_tagset_string):
+	* libgthumb/gth-exif-utils.h:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/gth-fullscreen.c: (get_file_info):
+	Renamed get_metadata_string_from_fd to get_metadata_tagset_string.
+	Added get_metadata_string function, which is a simplified version of
+	get_metadata_tagset_string accepting just one tag name, for
+	convenience.
+
 2008-02-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-scripts.c: (generate_script_menu):

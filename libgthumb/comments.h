@@ -23,11 +23,6 @@
 #include <glib.h>
 #include <time.h>
 
-#ifdef HAVE_LIBIPTCDATA
-#include <libiptcdata/iptc-data.h>
-#include <libiptcdata/iptc-jpeg.h>
-#endif /* HAVE_LIBIPTCDATA */
-
 #ifndef COMMENTS_H
 #define COMMENTS_H
 
@@ -43,11 +38,6 @@ typedef struct {
 				     * gthumb for GNOME 1.x saved text in
 				     * locale format, gthumb for
 				     * GNOME 2.x saves in utf8 format. */
-
-#ifdef HAVE_LIBIPTCDATA
-	IptcData  *iptc_data;
-#endif /* HAVE_LIBIPTCDATA */
-
 	gboolean   changed;
 } CommentData;
 

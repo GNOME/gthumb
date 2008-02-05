@@ -224,7 +224,7 @@ get_metadata_time_from_fd (FileData *fd)
 	char   *date = NULL;
 	time_t  result = 0;
 
-	date = get_metadata_string_from_fd (fd, TAG_NAME_SETS[DATE_TAG_NAMES]);
+	date = get_metadata_tagset_string (fd, TAG_NAME_SETS[DATE_TAG_NAMES]);
 	if (date != NULL)
 		result = exif_string_to_time_t (date);
 	
@@ -239,7 +239,7 @@ get_orientation_from_fd (FileData *fd)
         char         *orientation_string = NULL;
 	GthTransform  result = GTH_TRANSFORM_NONE;
 
-        orientation_string = get_metadata_string_from_fd (fd, TAG_NAME_SETS[ORIENTATION_TAG_NAMES]);
+        orientation_string = get_metadata_tagset_string (fd, TAG_NAME_SETS[ORIENTATION_TAG_NAMES]);
 	
 	if (orientation_string == NULL)
 		result = GTH_TRANSFORM_NONE;
@@ -267,10 +267,31 @@ get_orientation_from_fd (FileData *fd)
 
 
 char *
-get_metadata_string_from_fd (FileData *fd, const char *tagnames[])
+get_metadata_string (FileData *fd, const char *tagname)
+{
+        char   *string = NULL;
+
+	/* Searches for one (and only one) tag name */
+
+        update_metadata (fd);
+
+        GList *search_result = g_list_find_custom (fd->metadata, tagname, (GCompareFunc) metadata_search);
+        if (search_result != NULL) {
+		GthMetadata *md_entry = search_result->data;
+                string = g_strdup (md_entry->formatted_value);
+        }
+
+        return string;
+}
+
+
+char *
+get_metadata_tagset_string (FileData *fd, const char *tagnames[])
 {
 	int     i;
 	char   *string = NULL;
+
+	/* Searches for the best tag from a list of acceptable tag names */
 
 	update_metadata (fd);
 

@@ -1751,7 +1751,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_EXPOSURE_TIME:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file, 
+			line = get_metadata_tagset_string (idata->src_file, 
 							    TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;
@@ -1759,7 +1759,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_EXPOSURE_MODE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[EXPMODE_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;
@@ -1767,7 +1767,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_FLASH:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 					     		    TAG_NAME_SETS[FLASH_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;
@@ -1775,7 +1775,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_SHUTTER_SPEED:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[SHUTTERSPEED_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;
@@ -1783,7 +1783,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_APERTURE_VALUE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[APERTURE_TAG_NAMES]); 
 			write_markup_escape_line (line, fout);
 			break;
@@ -1791,7 +1791,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_FOCAL_LENGTH:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 					     		    TAG_NAME_SETS[FOCAL_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;
@@ -1820,14 +1820,14 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_CAMERA_MODEL:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[MAKE_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			g_free (line);
 
 			write_line (" &nbsp; ", fout);
 
-			line = get_metadata_string_from_fd (idata->src_file,
+			line = get_metadata_tagset_string (idata->src_file,
 					    		    TAG_NAME_SETS[MODEL_TAG_NAMES]);
 			write_markup_escape_line (line, fout);
 			break;

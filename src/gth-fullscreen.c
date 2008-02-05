@@ -893,10 +893,10 @@ get_file_info (GthFullscreen *fullscreen)
                 );
 
         /* load exif data */
-	exif_exposure_time   = get_metadata_string_from_fd (current_file, TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
-	exif_ISOSpeed_rating = get_metadata_string_from_fd (current_file, TAG_NAME_SETS[ISOSPEED_TAG_NAMES]);
-	exif_aperture_value =  get_metadata_string_from_fd (current_file, TAG_NAME_SETS[APERTURE_TAG_NAMES]);
-	exif_focal_length =    get_metadata_string_from_fd (current_file, TAG_NAME_SETS[FOCAL_TAG_NAMES]);
+	exif_exposure_time   = get_metadata_tagset_string (current_file, TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
+	exif_ISOSpeed_rating = get_metadata_tagset_string (current_file, TAG_NAME_SETS[ISOSPEED_TAG_NAMES]);
+	exif_aperture_value =  get_metadata_tagset_string (current_file, TAG_NAME_SETS[APERTURE_TAG_NAMES]);
+	exif_focal_length =    get_metadata_tagset_string (current_file, TAG_NAME_SETS[FOCAL_TAG_NAMES]);
 
         
         /* build exif info string */
