@@ -413,7 +413,7 @@ read_exiv2_file (const char *uri, GList *metadata)
 
 		Exiv2::IptcData &iptcData = image->iptcData();
 		//abort if no data found
-		if (!exifData.empty()) {
+		if (!iptcData.empty()) {
 
 			//add iptc-metadata to glist
 			GthMetadata *new_entry;

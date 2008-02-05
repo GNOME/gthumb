@@ -1,5 +1,10 @@
 2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	Fixed improper check for empty iptc dataset.
+
+2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/comments.h:
 	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),
 	(get_orientation_from_fd), (get_metadata_string),
