@@ -1,5 +1,18 @@
 2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exif-utils.h:
+	Updated some tagsets that will be needed for comments.
+
+	* src/gth-browser.c: (update_image_comment),
+	(save_pixbuf__image_saved_cb), (gth_browser_finalize):
+	* src/gth-viewer.c: (gth_viewer_finalize), (update_image_comment),
+	(save_pixbuf__image_saved_cb):
+	Removed the ifdef'd libiptcdata code, which has been obsoleted
+	by exiv2 support.
+
+2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Fixed improper check for empty iptc dataset.
 

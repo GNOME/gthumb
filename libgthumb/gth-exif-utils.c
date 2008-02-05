@@ -106,6 +106,25 @@ const char *_ORIENTATION_TAG_NAMES[] = {
 	"Xmp.tiff.Orientation",
 	NULL };
 
+const char *_COMMENT_TAG_NAMES[] = {
+        "Exif.Photo.UserComment",
+        "Exif.Image.ImageDescription",
+	"Xmp.tiff.ImageDescription",
+	"Xmp.dc.description",
+	"Iptc.Application2.Caption",
+        NULL };
+
+const char *_LOCATION_TAG_NAMES[] = {
+        "Xmp.iptc.Location",
+        "Iptc.Application2.LocationName",
+        NULL };
+
+const char *_KEYWORD_TAG_NAMES[] = {
+        "Xmp.dc.subject",
+        "Iptc.Application2.Keywords",
+        NULL };
+
+
 /* if you add something here, also update the matching enum in gth-exif-utils.h */
 const char **TAG_NAME_SETS[] = {
         _DATE_TAG_NAMES,
@@ -118,7 +137,10 @@ const char **TAG_NAME_SETS[] = {
 	_MAKE_TAG_NAMES,
 	_MODEL_TAG_NAMES,
 	_FLASH_TAG_NAMES,
-	_ORIENTATION_TAG_NAMES
+	_ORIENTATION_TAG_NAMES,
+	_COMMENT_TAG_NAMES,
+	_LOCATION_TAG_NAMES,
+	_KEYWORD_TAG_NAMES
 };
 
 

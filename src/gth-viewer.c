@@ -31,12 +31,6 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "jpegutils/jpeg-data.h"
-
-#ifdef HAVE_LIBIPTCDATA
-#include <libiptcdata/iptc-data.h>
-#include <libiptcdata/iptc-jpeg.h>
-#endif /* HAVE_LIBIPTCDATA */
-
 #include "comments.h"
 #include "dlg-save-image.h"
 #include "dlg-categories.h"
@@ -121,10 +115,6 @@ struct _GthViewerPrivateData {
 	gboolean         image_data_visible;
 	FileData        *image;
 	gboolean         image_error;
-
-#ifdef HAVE_LIBIPTCDATA
-	IptcData        *iptc_data;
-#endif /* HAVE_LIBIPTCDATA */
 
 	/* misc */
 
@@ -281,13 +271,6 @@ gth_viewer_finalize (GObject *object)
 		for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 			if (viewer->priv->cnxn_id[i] != -1)
 				eel_gconf_notification_remove (viewer->priv->cnxn_id[i]);
-
-#ifdef HAVE_LIBIPTCDATA
-		if (priv->iptc_data != NULL) {
-			iptc_data_unref (priv->iptc_data);
-			priv->iptc_data = NULL;
-		}
-#endif /* HAVE_LIBIPTCDATA */
 
 		file_data_unref (priv->image);
 		file_data_unref (priv->new_image);
@@ -637,18 +620,6 @@ update_image_comment (GthViewer *viewer)
 	char                 *comment;
 	GtkTextBuffer        *text_buffer;
 
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL) {
-		iptc_data_unref (priv->iptc_data);
-		priv->iptc_data = NULL;
-	}
-	if (priv->image != NULL) {
-		char *local_file = get_cache_filename_from_uri (priv->image->path);
-		priv->iptc_data = iptc_data_new_from_jpeg (local_file);
-		g_free (local_file);
-	}
-#endif /* HAVE_LIBIPTCDATA */
-
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
 
 	if (priv->image == NULL) {
@@ -810,104 +781,35 @@ viewer_update_open_with_menu (GthViewer *viewer)
 
 
 static void
-save_pixbuf__jpeg_data_saved_cb (const char     *uri,
-				 GnomeVFSResult  result,
-    				 gpointer        data)
-{
-	GthViewer *viewer = data;
-	gboolean   closing = viewer->priv->closing;
-	
-	viewer->priv->image_modified = FALSE;
-	viewer->priv->saving_modified_image = FALSE;
-	if (viewer->priv->image_saved_func != NULL)
-		(*viewer->priv->image_saved_func) (NULL, viewer);
-
-	if (closing)
-		return;
-
-	if ((viewer->priv->image != NULL) && ! same_uri (viewer->priv->image->path, uri)) {
-		/*FIXME: gtk_widget_show (gth_viewer_new (uri));*/
-		file_data_set_path (viewer->priv->image, uri);
-		gth_viewer_load (viewer, viewer->priv->image);
-	}
-	else {
-		viewer_update_statusbar_image_info (viewer);
-		viewer_update_image_info (viewer);
-		viewer_update_title (viewer);
-		viewer_update_sensitivity (viewer);
-	}	
-}
-
-
-static CopyData*
-save_jpeg_data (GthViewer    *viewer,
-		FileData     *file,
-		CopyDoneFunc  done_func,
-		gpointer      done_data)
-{
-	GthViewerPrivateData  *priv = viewer->priv;
-	gboolean               data_to_save = FALSE;
-	JPEGData              *jdata;
-        char                  *local_file = NULL;
-
-	local_file = get_cache_filename_from_uri (file->path);
-	if (local_file == NULL)
-		return update_file_from_cache (file, done_func, done_data);
-
-	if (! image_is_jpeg (local_file))
-		return update_file_from_cache (file, done_func, done_data);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL)
-		data_to_save = TRUE;
-#endif /* HAVE_LIBIPTCDATA */
-
-	if (! data_to_save)
-		return update_file_from_cache (file, done_func, done_data);
-
-	jdata = jpeg_data_new_from_file (local_file);
-	if (jdata == NULL)
-		return update_file_from_cache (file, done_func, done_data);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL) {
-		guchar *out_buf, *iptc_buf;
-		guint   iptc_len, ps3_len;
-
-		out_buf = g_malloc (256*256);
-		iptc_data_save (priv->iptc_data, &iptc_buf, &iptc_len);
-		ps3_len = iptc_jpeg_ps3_save_iptc (NULL, 0, iptc_buf,
-						   iptc_len, out_buf, 256*256);
-		iptc_data_free_buf (priv->iptc_data, iptc_buf);
-		if (ps3_len > 0)
-			jpeg_data_set_header_data (jdata,
-						   JPEG_MARKER_APP13,
-						   out_buf, 
-						   ps3_len);
-		g_free (out_buf);
-	}
-#endif /* HAVE_LIBIPTCDATA */
-
-	jpeg_data_save_file (jdata, local_file);
-	jpeg_data_unref (jdata);
-
-        g_free (local_file);
-        
-        return update_file_from_cache (file, done_func, done_data);
-}
-
-
-static void
 save_pixbuf__image_saved_cb (FileData *file,
 			     gpointer  data)
 {
 	GthViewer *viewer = data;
 	
 	if (file != NULL)
-		save_jpeg_data (viewer, 
-				file, 
-				save_pixbuf__jpeg_data_saved_cb,
-				viewer);
+		{
+		gboolean closing = viewer->priv->closing;
+
+		viewer->priv->image_modified = FALSE;
+		viewer->priv->saving_modified_image = FALSE;
+		if (viewer->priv->image_saved_func != NULL)
+			(*viewer->priv->image_saved_func) (NULL, viewer);
+
+		if (closing)
+			return;
+	
+		if ((viewer->priv->image != NULL) && ! same_uri (viewer->priv->image->path, file->path)) {
+			/*FIXME: gtk_widget_show (gth_viewer_new (uri));*/
+			file_data_set_path (viewer->priv->image, file->path);
+			gth_viewer_load (viewer, viewer->priv->image);
+		}
+		else {
+			viewer_update_statusbar_image_info (viewer);
+			viewer_update_image_info (viewer);
+			viewer_update_title (viewer);
+			viewer_update_sensitivity (viewer);
+		}	
+	}
 	else
 		viewer->priv->saving_modified_image = FALSE;
 }

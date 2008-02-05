@@ -72,12 +72,6 @@
 #include "dlg-scripts.h"
 
 #include "jpegutils/jpeg-data.h"
-
-#ifdef HAVE_LIBIPTCDATA
-#include <libiptcdata/iptc-data.h>
-#include <libiptcdata/iptc-jpeg.h>
-#endif /* HAVE_LIBIPTCDATA */
-
 #include "icons/pixbufs.h"
 
 #define GCONF_NOTIFICATIONS 20
@@ -242,10 +236,6 @@ struct _GthBrowserPrivateData {
 	guint               view_image_timeout; /* timer for the
 						 * view_image_at_pos function.
 						 */
-#ifdef HAVE_LIBIPTCDATA
-	IptcData           *iptc_data;
-#endif /* HAVE_LIBIPTCDATA */
-
 	/* misc */
 
 	char               *monitor_uri;
@@ -511,13 +501,6 @@ update_image_comment (GthBrowser *browser)
 	char                  *comment = NULL;
 	GtkTextBuffer         *text_buffer;
 
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL) {
-		iptc_data_unref (priv->iptc_data);
-		priv->iptc_data = NULL;
-	}
-#endif /* HAVE_LIBIPTCDATA */
-
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
 
 	if (priv->image == NULL) {
@@ -528,14 +511,6 @@ update_image_comment (GthBrowser *browser)
 	}
 
 	cdata = comments_load_comment (priv->image->path, TRUE);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (cdata != NULL) {
-		priv->iptc_data = cdata->iptc_data;
-		if (priv->iptc_data != NULL)
-			iptc_data_ref (priv->iptc_data);
-	}
-#endif /* HAVE_LIBIPTCDATA */
 
 	if (comment_text_is_void (cdata)) {
 		GtkTextIter  iter;
@@ -1693,105 +1668,35 @@ gth_browser_set_sidebar (GthBrowser *browser,
 
 
 static void
-save_pixbuf__jpeg_data_saved_cb (const char     *uri,
-				 GnomeVFSResult  result,
-    				 gpointer        data)
-{
-	GthBrowser *browser = data;
-	gboolean    closing = browser->priv->closing;
-			
-	g_free (browser->priv->image_path_saved);
-	browser->priv->image_path_saved = NULL;
-	if (uri != NULL)
-		browser->priv->image_path_saved = g_strdup (uri);
-
-	browser->priv->image_modified = FALSE;
-	browser->priv->saving_modified_image = FALSE;
-	if (browser->priv->image_saved_func != NULL)
-		(*browser->priv->image_saved_func) (NULL, browser);
-
-	if (! closing) {
-		GList *file_list;
-		
-		file_list = g_list_prepend (NULL, (char*) uri);
-		if (gth_file_list_pos_from_path (browser->priv->file_list, uri) != -1)
-			all_windows_notify_files_changed (file_list);
-		else
-			all_windows_notify_files_created (file_list);
-		g_list_free (file_list);
-	}
-}
-
-
-static CopyData*
-save_jpeg_data (GthBrowser   *browser,
-		FileData     *file,
-		CopyDoneFunc  done_func,
-		gpointer      done_data)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	gboolean               data_to_save = FALSE;
-	JPEGData              *jdata;
-	char                  *local_file = NULL;
-
-	local_file = get_cache_filename_from_uri (file->path);
-	if (local_file == NULL)
-		return update_file_from_cache (file, done_func, done_data);
-
-	if (! image_is_jpeg (file->path))
-		return update_file_from_cache (file, done_func, done_data);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL)
-		data_to_save = TRUE;
-#endif /* HAVE_LIBIPTCDATA */
-
-	if (! data_to_save)
-		return update_file_from_cache (file, done_func, done_data);
-
-	jdata = jpeg_data_new_from_file (local_file);
-	if (jdata == NULL)
-		return update_file_from_cache (file, done_func, done_data);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (priv->iptc_data != NULL) {
-		unsigned char *out_buf, *iptc_buf;
-		unsigned int   iptc_len, ps3_len;
-
-		out_buf = g_malloc (256*256);
-		iptc_data_save (priv->iptc_data, &iptc_buf, &iptc_len);
-		ps3_len = iptc_jpeg_ps3_save_iptc (NULL, 0, iptc_buf,
-						   iptc_len, out_buf, 256*256);
-		iptc_data_free_buf (priv->iptc_data, iptc_buf);
-		if (ps3_len > 0)
-			jpeg_data_set_header_data (jdata,
-						   JPEG_MARKER_APP13,
-						   out_buf, 
-						   ps3_len);
-		g_free (out_buf);
-	}
-#endif /* HAVE_LIBIPTCDATA */
-
-	jpeg_data_save_file (jdata, local_file);
-	jpeg_data_unref (jdata);
-
-	g_free (local_file);
-	
-	return update_file_from_cache (file, done_func, done_data);
-}
-
-
-static void
 save_pixbuf__image_saved_cb (FileData *file,
 			     gpointer  data)
 {
 	GthBrowser *browser = data;
 	
-	if (file != NULL)
-		save_jpeg_data (browser, 
-				file, 
-				save_pixbuf__jpeg_data_saved_cb,
-				browser);
+	if (file != NULL) {
+		gboolean closing = browser->priv->closing;
+			
+		g_free (browser->priv->image_path_saved);
+		browser->priv->image_path_saved = NULL;
+		if (file->path != NULL)
+			browser->priv->image_path_saved = g_strdup (file->path);
+
+		browser->priv->image_modified = FALSE;
+		browser->priv->saving_modified_image = FALSE;
+		if (browser->priv->image_saved_func != NULL)
+			(*browser->priv->image_saved_func) (NULL, browser);
+
+		if (! closing) {
+			GList *file_list;
+		
+			file_list = g_list_prepend (NULL, (char*) file->path);
+			if (gth_file_list_pos_from_path (browser->priv->file_list, file->path) != -1)
+				all_windows_notify_files_changed (file_list);
+			else
+				all_windows_notify_files_created (file_list);
+			g_list_free (file_list);
+		}
+	}
 	else
 		browser->priv->saving_modified_image = FALSE;
 }
@@ -5536,13 +5441,6 @@ gth_browser_finalize (GObject *object)
 			g_free (priv->image_path_saved);
 			priv->image_path_saved = NULL;
 		}
-
-#ifdef HAVE_LIBIPTCDATA
-		if (priv->iptc_data != NULL) {
-			iptc_data_unref (priv->iptc_data);
-			priv->iptc_data = NULL;
-		}
-#endif /* HAVE_LIBIPTCDATA */
 
 		if (priv->new_image) {
 			file_data_unref (priv->new_image);
