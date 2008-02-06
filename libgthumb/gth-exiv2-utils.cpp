@@ -570,6 +570,8 @@ write_metadata (const char *from_file,
 					//		ColorSpace (always 1)
 					//		PixelXDimension (update based on actual image)
 					//		PixelYDimension (update based on actual image)
+
+					// Also: update DateTime?
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
 		        	        Exiv2::IptcData &md = image1->iptcData();
