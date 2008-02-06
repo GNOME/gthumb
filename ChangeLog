@@ -1,5 +1,10 @@
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-exiv2-utils.cpp:
+	Added some comments.
+
+2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/comments.c: (load_comment_from_metadata),
 	(save_comment_to_metadata):
 	* libgthumb/gth-exif-utils.c: (get_metadata_time_from_fd),

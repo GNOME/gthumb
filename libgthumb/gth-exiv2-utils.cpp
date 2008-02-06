@@ -558,9 +558,18 @@ write_metadata (const char *from_file,
 					Exiv2::ExifData &md = image1->exifData();
 					md[metadatum->full_name] = metadatum->raw_value;
 				
-					// TODO: update PixelX/YDimension tags
-			
-					// TODO: add any missing mandatory tags
+					// TODO: add any missing mandatory tags. Required:
+					//		XResolution (default = 72)
+					//		YResolution (default = 72)
+					//		ResolutionUnit (default = 2)
+					//		YCbCrPositioning (default = 1)
+					//		Exif IFD Pointer (auto-generated?)
+					//		ExifVersion (always 2.21)
+					//		ComponentsConfiguration (defaut = "1 2 3 0")
+					//		FlashpixVersion (always 1.00)
+					//		ColorSpace (always 1)
+					//		PixelXDimension (update based on actual image)
+					//		PixelYDimension (update based on actual image)
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
 		        	        Exiv2::IptcData &md = image1->iptcData();
