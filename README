@@ -104,9 +104,6 @@ Compiling
   If the libgphoto2 library version >= 2.1.3 is present you can import
   photos from your camera.
 
-  If the libiptc library version >= 0.2.1 is present you can store
-  comments in the IPTC metadata of a JPEG image.
-
   If the libopenraw library version >= 0.0.2 is present you can view
   RAW photo thumbnails.
 

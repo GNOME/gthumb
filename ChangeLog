@@ -1,3 +1,17 @@
+2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* README:
+	* configure.in:
+	* libgthumb/comments.c: (comment_data_new), (comment_data_free),
+	(comment_data_dup), (comment_delete), (load_comment_from_metadata),
+	(save_comment_to_metadata), (save_comment),
+	(comments_load_comment):
+	* libgthumb/gth-exiv2-utils.cpp:
+	Removed libiptcdata from gthumb. We use exiv2 instead, now.
+	The comment <-> metadata code has been updated to reflect this.
+	The comment <-> metadata mapping is still unstable and may change.
+
 2008-02-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c:

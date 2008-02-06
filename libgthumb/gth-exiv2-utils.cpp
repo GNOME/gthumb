@@ -344,6 +344,10 @@ add (GList              *metadata,
 {
 	GthMetadata *new_entry;
 
+	/* skip blank values */
+	if ((formatted_value == NULL) || (formatted_value[0] == '\0'))
+		return metadata;
+
 	new_entry = g_new (GthMetadata, 1);
 	new_entry->category = category;
 	new_entry->full_name = g_strdup (full_name);

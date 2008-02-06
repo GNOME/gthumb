@@ -41,16 +41,12 @@
 #include <libxml/xmlmemory.h>
 #include <gtk/gtk.h>
 
-#ifdef HAVE_LIBIPTCDATA
-#include <libiptcdata/iptc-data.h>
-#include <libiptcdata/iptc-jpeg.h>
-#endif /* HAVE_LIBIPTCDATA */
-
 #include "typedefs.h"
 #include "comments.h"
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
+#include "gth-exif-utils.h"
 
 #define COMMENT_TAG  ((xmlChar *)"Comment")
 #define PLACE_TAG    ((xmlChar *)"Place")
@@ -78,11 +74,6 @@ comment_data_new (void)
 	data->keywords_n = 0;
 	data->keywords = NULL;
 	data->utf8_format = TRUE;
-
-#ifdef HAVE_LIBIPTCDATA
-	data->iptc_data = NULL;
-#endif /* HAVE_LIBIPTCDATA */
-
 	data->changed = FALSE;
 
 	return data;
@@ -131,12 +122,6 @@ comment_data_free (CommentData *data)
 
 	comment_data_free_comment (data);
 	comment_data_free_keywords (data);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (data->iptc_data != NULL)
-		iptc_data_unref (data->iptc_data);
-#endif /* HAVE_LIBIPTCDATA */
-
         g_free (data);
 }
 
@@ -168,12 +153,6 @@ comment_data_dup (CommentData *data)
 		new_data->keywords[i] = NULL;
 	}
 	new_data->utf8_format = data->utf8_format;
-
-#ifdef HAVE_LIBIPTCDATA
-	new_data->iptc_data = data->iptc_data;
-	if (new_data->iptc_data != NULL)
-		iptc_data_ref (new_data->iptc_data);
-#endif /* HAVE_LIBIPTCDATA */
 
 	return new_data;
 }
@@ -248,331 +227,6 @@ comments_get_comment_filename (const char *uri,
 }
 
 
-#ifdef HAVE_LIBIPTCDATA
-
-
-static CommentData *
-load_comment_from_iptc (const char *uri)
-{
-	CommentData *data;
-	IptcData    *d;
-	struct tm    t;
-	int          i;
-	int          got_date = 0, got_time = 0;
-        char        *local_file = NULL;
-
-	if (uri == NULL)
-		return NULL;
-
-        local_file = get_cache_filename_from_uri (uri);
-        if (local_file == NULL)
-                return NULL;
-
-	d = iptc_data_new_from_jpeg (local_file);
-	g_free (local_file);
-	
-	if (d == NULL) 
-		return NULL;
-
-	data = comment_data_new ();
-
-	bzero (&t, sizeof (t));
-	t.tm_isdst = -1;
-
-	for (i = 0; i < d->count; i++) {
-		IptcDataSet * ds = d->datasets[i];
-
-		if ((ds->record == IPTC_RECORD_APP_2)
-		    && (ds->tag == IPTC_TAG_CAPTION)) {
-			if (data->comment)
-				continue;
-			data->comment = g_new (char, ds->size + 1);
-			if (data->comment)
-				iptc_dataset_get_data (ds, (guchar*)data->comment, ds->size + 1);
-		}
-		else if ((ds->record == IPTC_RECORD_APP_2)
-			 && (ds->tag == IPTC_TAG_CONTENT_LOC_NAME)) {
-			if (data->place)
-				continue;
-			data->place = g_new (char, ds->size + 1);
-			if (data->place)
-				iptc_dataset_get_data (ds, (guchar*)data->place, ds->size + 1);
-		}
-		else if ((ds->record == IPTC_RECORD_APP_2)
-			 && (ds->tag == IPTC_TAG_KEYWORDS)) {
-			char keyword[64];
-			if (iptc_dataset_get_data (ds, (guchar*)keyword, sizeof(keyword)) < 0)
-				continue;
-			comment_data_add_keyword (data, keyword);
-		}
-		else if ((ds->record == IPTC_RECORD_APP_2)
-			 && (ds->tag == IPTC_TAG_DATE_CREATED)) {
-			int year, month;
-			iptc_dataset_get_date (ds, &year, &month, &t.tm_mday);
-			t.tm_year = year - 1900;
-			t.tm_mon = month - 1;
-			got_date = 1;
-		}
-		else if ((ds->record == IPTC_RECORD_APP_2)
-			 && (ds->tag == IPTC_TAG_TIME_CREATED)) {
-			iptc_dataset_get_time (ds, &t.tm_hour, &t.tm_min, &t.tm_sec, NULL);
-			got_time = 1;
-		}
-	}
-
-	if (got_date && got_time)
-		data->time = mktime (&t);
-
-	data->iptc_data = d;
-
-	return data;
-}
-
-
-static void
-clear_iptc_comment (IptcData *d)
-{
-	IptcTag deletetag[] = {
-		IPTC_TAG_DATE_CREATED, IPTC_TAG_TIME_CREATED, IPTC_TAG_KEYWORDS,
-		IPTC_TAG_CAPTION, IPTC_TAG_CONTENT_LOC_NAME, 0
-	};
-	int          i;
-
-	for (i = 0; deletetag[i] != 0; i++) {
-		IptcDataSet *ds;
-		while ((ds = iptc_data_get_dataset (d,
-						    IPTC_RECORD_APP_2,
-						    deletetag[i]))) {
-			iptc_data_remove_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-	}
-}
-
-
-static void
-save_iptc_data (const char *filename,
-		IptcData   *d)
-{
-	guint        buf_len = 256 * 256;
-	FILE        *infile, *outfile;
-	guchar      *ps3_buf;
-	guchar      *ps3_out_buf;
-	guchar      *iptc_buf;
-	guint        ps3_len, iptc_len;
-	gchar       *tmpfile;
-	struct stat  statinfo;
-
-	if (filename == NULL)
-		return;
-
-	ps3_buf = g_malloc (buf_len);
-	if (!ps3_buf)
-		return;
-
-	ps3_out_buf = g_malloc (buf_len);
-	if (!ps3_out_buf)
-		goto abort1;
-
-	infile = fopen (filename, "r");
-	if (!infile)
-		goto abort2;
-
-	ps3_len = iptc_jpeg_read_ps3 (infile, ps3_buf, buf_len);
-	if (ps3_len < 0)
-		goto abort3;
-
-	if (iptc_data_save (d, &iptc_buf, &iptc_len) < 0)
-		goto abort3;
-
-	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len,
-					   iptc_buf, iptc_len,
-					   ps3_out_buf, buf_len);
-	iptc_data_free_buf (d, iptc_buf);
-	if (ps3_len < 0)
-		goto abort3;
-
-	rewind (infile);
-
-	tmpfile = g_strdup_printf ("%s.%d", filename, getpid());
-	if (!tmpfile)
-		goto abort3;
-
-	outfile = fopen (tmpfile, "w");
-	if (!outfile)
-		goto abort4;
-
-	if (iptc_jpeg_save_with_ps3 (infile, outfile, (guchar*)ps3_out_buf, ps3_len) < 0)
-		goto abort5;
-
-	fclose (outfile);
-	fclose (infile);
-
-	stat (filename, &statinfo);
-
-	if (rename (tmpfile, filename) < 0)
-		file_unlink (tmpfile);
-	else {
-		chown (filename, -1, statinfo.st_gid);
-		chmod (filename, statinfo.st_mode);
-	}
-
-	g_free (tmpfile);
-	g_free (ps3_out_buf);
-	g_free (ps3_buf);
-
-	return;
-abort5:
-	fclose (outfile);
-	file_unlink (tmpfile);
-abort4:
-	g_free (tmpfile);
-abort3:
-	fclose (infile);
-abort2:
-	g_free (ps3_out_buf);
-abort1:
-	g_free (ps3_buf);
-}
-
-
-static void
-save_comment_iptc (const char  *uri,
-		   CommentData *data)
-{
-        char        *local_file;
-        char        *local_uri;
-	time_t       mtime;
-	IptcData    *d;
-	IptcDataSet *ds;
-	int          i;
-
-	local_file = get_cache_filename_from_uri (uri);
-        if (local_file == NULL)
-                return;
-	local_uri = get_uri_from_local_path (local_file);
-	mtime = get_file_mtime (local_uri);
-
-	d = iptc_data_new_from_jpeg (local_file);
-	if (d != NULL) 
-		clear_iptc_comment (d);
-	else {
-		d = iptc_data_new ();
-		if (d == NULL)
-			return;
-	}
-
-	if (data->time > 0) {
-		struct tm t;
-		localtime_r (&data->time, &t);
-
-		ds = iptc_dataset_new ();
-		if (ds != NULL) {
-			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					IPTC_TAG_DATE_CREATED);
-			iptc_dataset_set_date (ds, t.tm_year + 1900, t.tm_mon + 1,
-					t.tm_mday, IPTC_DONT_VALIDATE);
-			iptc_data_add_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-
-		ds = iptc_dataset_new ();
-		if (ds != NULL) {
-			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					IPTC_TAG_TIME_CREATED);
-			iptc_dataset_set_time (ds, t.tm_hour, t.tm_min, t.tm_sec,
-					0, IPTC_DONT_VALIDATE);
-			iptc_data_add_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-	}
-
-	for (i = 0; i < data->keywords_n; i++) {
-		ds = iptc_dataset_new ();
-		if (ds != NULL) {
-			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					      IPTC_TAG_KEYWORDS);
-			iptc_dataset_set_data (ds, (guchar*)data->keywords[i],
-					       strlen (data->keywords[i]), IPTC_DONT_VALIDATE);
-			iptc_data_add_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-	}
-
-	if (data->comment != NULL && data->comment[0]) {
-		ds = iptc_dataset_new ();
-		if (ds != NULL) {
-			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					IPTC_TAG_CAPTION);
-			iptc_dataset_set_data (ds, (guchar*)data->comment,
-					       strlen (data->comment), IPTC_DONT_VALIDATE);
-			iptc_data_add_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-	}
-
-	if (data->place != NULL && data->place[0]) {
-		ds = iptc_dataset_new ();
-		if (ds != NULL) {
-			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					      IPTC_TAG_CONTENT_LOC_NAME);
-			iptc_dataset_set_data (ds, (guchar*)data->place,
-					       strlen (data->place), IPTC_DONT_VALIDATE);
-			iptc_data_add_dataset (d, ds);
-			iptc_dataset_unref (ds);
-		}
-	}
-
-	/* The iptc_data_set_version and iptc_data_set_encoding_utf8
-	   functions cause Picasa to choke, as indicated in the libiptc
-	   API docs. So we'll disable them and see if that fixes more
-	   things than it breaks. Bug 438716. */
-
-	/* iptc_data_set_version (d, IPTC_IIM_VERSION); */
-	/* iptc_data_set_encoding_utf8 (d); */
-
-	iptc_data_sort (d);
-
-	save_iptc_data (local_file, d);
-	set_file_mtime (local_uri, mtime);
-	iptc_data_unref (d);
-
-        g_free (local_file);
-        g_free (local_uri);
-}
-
-
-static void
-delete_comment_iptc (const char *uri)
-{
-	IptcData *d;
-	time_t    mtime;
-	char     *local_file;
-
-	if ((uri == NULL) || ! is_local_file (uri))
-		return;
-
-	mtime = get_file_mtime (uri);
-
-	local_file = get_cache_filename_from_uri (uri);
-	d = iptc_data_new_from_jpeg (local_file);
-	if (d == NULL) {
-		g_free (local_file);
-		return;
-	}
-
-	clear_iptc_comment (d);
-	save_iptc_data (local_file, d);
-	iptc_data_unref (d);
-	g_free (local_file);
-	
-	set_file_mtime (uri, mtime);
-}
-
-
-#endif /* HAVE_LIBIPTCDATA */
-
-
 void
 comment_copy (const char *src,
 	      const char *dest)
@@ -638,11 +292,6 @@ comment_delete (const char *uri)
 	comment_uri = comments_get_comment_filename (uri, TRUE);
 	file_unlink (comment_uri);
 	g_free (comment_uri);
-
-#ifdef HAVE_LIBIPTCDATA
-	if (image_is_jpeg (uri))
-		delete_comment_iptc (uri);
-#endif /* HAVE_LIBIPTCDATA */
 }
 
 
@@ -710,6 +359,108 @@ get_keywords (CommentData *data,
 	} while (! done);
 
 	g_free (value);
+}
+
+
+static CommentData *
+load_comment_from_metadata (const char *uri)
+{
+	CommentData *data;
+	FileData    *file;
+	char        *metadata_string = NULL;
+	time_t	     metadata_time = 0;
+
+	file = file_data_new (uri, NULL);
+	file_data_update_all (file, FALSE);
+
+	data = comment_data_new ();
+
+	metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[COMMENT_TAG_NAMES]);
+	if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+		data->comment = g_strdup (metadata_string);
+		g_free (metadata_string);
+	}
+
+        metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[LOCATION_TAG_NAMES]);
+        if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+                data->place = g_strdup (metadata_string);
+                g_free (metadata_string);
+        }
+
+        metadata_time = get_exif_time (file);
+        if (metadata_time > (time_t) 0)
+                data->time = metadata_time;
+
+        metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
+        if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+		char **keywords_v;
+		int  i = 0;
+
+		comment_data_free_keywords (data);
+
+		keywords_v = g_strsplit (metadata_string, ",", 0);
+
+		while (keywords_v[i] != NULL) {
+			i++;
+		}
+
+		data->keywords_n = i;
+		data->keywords = g_new0 (char*, data->keywords_n + 1);
+
+		for (i = 0; i < data->keywords_n; i++) 
+			data->keywords[i] = g_strdup (keywords_v[i]);
+
+		data->keywords[i] = NULL;
+		g_strfreev (keywords_v);
+		g_free (metadata_string);
+	}
+
+        file_data_unref (file);
+
+	return data;
+}
+
+
+static void
+save_comment_to_metadata (const char  *uri,
+   	                  CommentData *data)
+{
+        char      *keywords_str = NULL;
+	GList     *add_metadata = NULL;
+        FileData  *file;
+        char      *buf;
+        struct tm  tm;
+
+        file = file_data_new (uri, NULL);
+        file_data_update_all (file, FALSE);
+
+	add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.UserComment", data->comment);
+	add_metadata = simple_add_metadata (add_metadata, "Xmp.iptc.Location", data->place);
+
+        localtime_r (&data->time, &tm);
+        buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
+                               tm.tm_year + 1900,
+                               tm.tm_mon + 1,
+                               tm.tm_mday,
+                               tm.tm_hour,
+                               tm.tm_min,
+                               tm.tm_sec );
+        add_metadata = simple_add_metadata (add_metadata, "Exif.Image.DateTime", buf);
+
+        if (data->keywords_n > 0) {
+                if (data->keywords_n == 1)
+                        keywords_str = g_strdup (data->keywords[0]);
+                else
+                        keywords_str = g_strjoinv (",", data->keywords);
+        } else
+                keywords_str = g_strdup ("");
+
+	add_metadata = simple_add_metadata (add_metadata, "Xmp.dc.subject", keywords_str);
+
+	update_and_save_metadata (file->path, file->path, add_metadata);
+	free_metadata (add_metadata);
+	file_data_unref (file);
+	g_free (keywords_str);
 }
 
 
@@ -793,12 +544,8 @@ save_comment (const char  *uri,
 	if ((uri == NULL) || ! is_local_file (uri))
 		return;
 
-	if (save_embedded) {
-#ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (uri))
-			save_comment_iptc (uri, data);
-#endif /* HAVE_LIBIPTCDATA */
-	}
+	if (save_embedded)
+		save_comment_to_metadata (uri, data);
 
 	if (comment_data_is_void (data)) {
 		comment_delete (uri);
@@ -877,25 +624,19 @@ comments_load_comment (const char *uri,
 	xml_comment = load_comment_from_xml (uri);
 
 	if (try_embedded) {
-#ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (uri))
-			img_comment = load_comment_from_iptc (uri);
+		img_comment = load_comment_from_metadata (uri);
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();
-			xml_comment->iptc_data = img_comment->iptc_data;
-			if (xml_comment->iptc_data != NULL)
-				iptc_data_ref (xml_comment->iptc_data);
-		}
-#endif /* HAVE_LIBIPTCDATA */
-		if ((img_comment != NULL)
-		    && (! comment_data_equal (xml_comment, img_comment))) {
-			/* Consider the image comment more up-to-date and
-			 * sync the xml comment with it. */
-			save_comment (uri, img_comment, FALSE);
-			comment_data_free (xml_comment);
-			xml_comment = img_comment;
-			xml_comment->changed = TRUE;
+
+			if (! comment_data_equal (xml_comment, img_comment)) {
+				/* Consider the image comment more up-to-date and
+				 * sync the xml comment with it. */
+				save_comment (uri, img_comment, FALSE);
+				comment_data_free (xml_comment);
+				xml_comment = img_comment;
+				xml_comment->changed = TRUE;
+			}
 		} 
 		else
 			comment_data_free (img_comment);
