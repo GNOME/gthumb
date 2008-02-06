@@ -61,7 +61,8 @@ typedef struct {
 extern const char **TAG_NAME_SETS[];
 
 enum {
-	DATE_TAG_NAMES,
+	COMMENT_DATE_TAG_NAMES,
+	SORTING_DATE_TAG_NAMES,
 	EXPTIME_TAG_NAMES,
 	EXPMODE_TAG_NAMES,
 	ISOSPEED_TAG_NAMES,
@@ -82,7 +83,8 @@ void	      free_metadata               (GList        *metadata);
 GthTransform  get_orientation_from_fd     (FileData     *fd);
 time_t        get_exif_time               (FileData     *fd);
 time_t        get_exif_time_or_mtime      (FileData     *fd);
-time_t        get_metadata_time_from_fd   (FileData     *fd);
+time_t        get_metadata_time_from_fd   (FileData     *fd,
+					   const char   *tagnames[]);
 time_t        get_metadata_time           (const char   *mime_type,
 					   const char   *uri,
 					   GList        *md);

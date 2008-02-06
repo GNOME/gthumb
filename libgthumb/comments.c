@@ -387,7 +387,7 @@ load_comment_from_metadata (const char *uri)
                 g_free (metadata_string);
         }
 
-        metadata_time = get_exif_time (file);
+        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
         if (metadata_time > (time_t) 0)
                 data->time = metadata_time;
 
@@ -434,8 +434,8 @@ save_comment_to_metadata (const char  *uri,
         file = file_data_new (uri, NULL);
         file_data_update_all (file, FALSE);
 
-	add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.UserComment", data->comment);
-	add_metadata = simple_add_metadata (add_metadata, "Xmp.iptc.Location", data->place);
+	add_metadata = simple_add_metadata (add_metadata,  TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);
+	add_metadata = simple_add_metadata (add_metadata,  TAG_NAME_SETS[LOCATION_TAG_NAMES][0], data->place);
 
         localtime_r (&data->time, &tm);
         buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
@@ -445,7 +445,7 @@ save_comment_to_metadata (const char  *uri,
                                tm.tm_hour,
                                tm.tm_min,
                                tm.tm_sec );
-        add_metadata = simple_add_metadata (add_metadata, "Exif.Image.DateTime", buf);
+        add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
 
         if (data->keywords_n > 0) {
                 if (data->keywords_n == 1)
@@ -455,7 +455,7 @@ save_comment_to_metadata (const char  *uri,
         } else
                 keywords_str = g_strdup ("");
 
-	add_metadata = simple_add_metadata (add_metadata, "Xmp.dc.subject", keywords_str);
+	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES][0], keywords_str);
 
 	update_and_save_metadata (file->path, file->path, add_metadata);
 	free_metadata (add_metadata);

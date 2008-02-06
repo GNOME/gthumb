@@ -39,18 +39,33 @@
    The arrays below define the valid tags for a particular piece of 
    information, in decreasing order of preference (best one first) */
 
-const char *_DATE_TAG_NAMES[] = {
+/* When reading / writing comment dates, we use a slightly different
+   set of tags than for date sorting. */
+const char *_COMMENT_DATE_TAG_NAMES[] = {
+        "Exif.Image.DateTime",
+        "Xmp.exif.DateTime",
+        "Exif.Photo.DateTimeOriginal",
+        "Xmp.exif.DateTimeOriginal",
+        "Exif.Photo.DateTimeDigitized",
+        "Xmp.exif.DateTimeDigitized",
+	"Xmp.xmp.CreateDate",
+        "Xmp.photoshop.DateCreated",
+	"Xmp.xmp.ModifyDate",
+	"Xmp.xmp.MetadataDate",
+	NULL };
+
+const char *_SORTING_DATE_TAG_NAMES[] = {
         "Exif.Photo.DateTimeOriginal",
         "Xmp.exif.DateTimeOriginal",
         "Exif.Photo.DateTimeDigitized",
         "Xmp.exif.DateTimeDigitized",
         "Exif.Image.DateTime",
         "Xmp.exif.DateTime",
-	"Xmp.xmp.CreateDate",
+        "Xmp.xmp.CreateDate",
         "Xmp.photoshop.DateCreated",
-	"Xmp.xmp.ModifyDate",
-	"Xmp.xmp.MetadataDate",
-	NULL };
+        "Xmp.xmp.ModifyDate",
+        "Xmp.xmp.MetadataDate",
+        NULL };
 
 const char *_EXPTIME_TAG_NAMES[] = {
         "Exif.Photo.ExposureTime",
@@ -127,7 +142,8 @@ const char *_KEYWORD_TAG_NAMES[] = {
 
 /* if you add something here, also update the matching enum in gth-exif-utils.h */
 const char **TAG_NAME_SETS[] = {
-        _DATE_TAG_NAMES,
+        _COMMENT_DATE_TAG_NAMES,
+	_SORTING_DATE_TAG_NAMES,
         _EXPTIME_TAG_NAMES,
 	_EXPMODE_TAG_NAMES,
         _ISOSPEED_TAG_NAMES,
@@ -241,12 +257,12 @@ get_exif_time_or_mtime (FileData *fd) {
 
 
 time_t
-get_metadata_time_from_fd (FileData *fd)
+get_metadata_time_from_fd (FileData *fd, const char *tagnames[])
 {
 	char   *date = NULL;
 	time_t  result = 0;
 
-	date = get_metadata_tagset_string (fd, TAG_NAME_SETS[DATE_TAG_NAMES]);
+	date = get_metadata_tagset_string (fd, tagnames);
 	if (date != NULL)
 		result = exif_string_to_time_t (date);
 	
@@ -523,7 +539,7 @@ update_metadata (FileData *fd)
            override this sorting, if position is non-zero. */ 
         fd->metadata = g_list_sort (fd->metadata, (GCompareFunc) sort_by_tag_name); 
  	fd->exif_data_loaded = TRUE;
-	fd->exif_time = get_metadata_time_from_fd (fd);
+	fd->exif_time = get_metadata_time_from_fd (fd, TAG_NAME_SETS[SORTING_DATE_TAG_NAMES]);
 
 	g_free (local_file);
 
