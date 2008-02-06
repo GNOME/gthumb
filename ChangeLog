@@ -1,6 +1,11 @@
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:
+	Added checks for mandatory exif tags when saving.
+
+2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
 	Added some comments.
 
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>

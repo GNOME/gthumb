@@ -345,7 +345,12 @@ add (GList              *metadata,
 	GthMetadata *new_entry;
 
 	/* skip blank values */
-	if ((formatted_value == NULL) || (formatted_value[0] == '\0'))
+	if ((formatted_value == NULL) || 
+	    (formatted_value[0] == '\0') ||
+            (formatted_value[0] == '\n') ||
+            (formatted_value[0] == '\r') ||
+            (formatted_value[0] == '\t') ||
+            (formatted_value[0] == ' '))
 		return metadata;
 
 	new_entry = g_new (GthMetadata, 1);
@@ -534,6 +539,27 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 }
 
 
+static void
+mandatory_int (Exiv2::ExifData &checkdata,
+	       const char      *tag,
+	       int              value)
+{
+	Exiv2::ExifKey key = Exiv2::ExifKey(tag);
+	if (checkdata.findKey(key) == checkdata.end())
+		checkdata[tag] = value;
+}
+
+
+static void
+mandatory_string (Exiv2::ExifData &checkdata,
+                  const char      *tag,
+                  const char      *value)
+{
+        Exiv2::ExifKey key = Exiv2::ExifKey(tag);
+        if (checkdata.findKey(key) == checkdata.end())
+                checkdata[tag] = value;
+}
+
 extern "C"
 void
 write_metadata (const char *from_file,
@@ -557,21 +583,6 @@ write_metadata (const char *from_file,
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					Exiv2::ExifData &md = image1->exifData();
 					md[metadatum->full_name] = metadatum->raw_value;
-				
-					// TODO: add any missing mandatory tags. Required:
-					//		XResolution (default = 72)
-					//		YResolution (default = 72)
-					//		ResolutionUnit (default = 2)
-					//		YCbCrPositioning (default = 1)
-					//		Exif IFD Pointer (auto-generated?)
-					//		ExifVersion (always 2.21)
-					//		ComponentsConfiguration (defaut = "1 2 3 0")
-					//		FlashpixVersion (always 1.00)
-					//		ColorSpace (always 1)
-					//		PixelXDimension (update based on actual image)
-					//		PixelYDimension (update based on actual image)
-
-					// Also: update DateTime?
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
 		        	        Exiv2::IptcData &md = image1->iptcData();
@@ -591,6 +602,18 @@ write_metadata (const char *from_file,
 		// anyways.
 		image1->exifData().eraseThumbnail();
 
+		// Mandatory tags
+		mandatory_int (image1->exifData(), "Exif.Image.XResolution", 72);
+		mandatory_int (image1->exifData(), "Exif.Image.YResolution", 72);
+		mandatory_int (image1->exifData(), "Exif.Image.ResolutionUnit", 2);
+		mandatory_int (image1->exifData(), "Exif.Image.YCbCrPositioning", 1);
+		mandatory_int (image1->exifData(), "Exif.Photo.ColorSpace", 1);
+		mandatory_string (image1->exifData(), "Exif.Photo.ExifVersion", "48 50 50 49");
+		mandatory_string (image1->exifData(), "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
+		mandatory_string (image1->exifData(), "Exif.Photo.FlashpixVersion", "48 49 48 48");
+
+		// TODO: update PixelX/YDimension, DateTime
+	
 		// Open second image (in many applications, this will actually
 		// be the same as the the first image (i.e., updating a file
 		// in-place.

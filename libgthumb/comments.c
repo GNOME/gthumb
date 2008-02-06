@@ -434,8 +434,8 @@ save_comment_to_metadata (const char  *uri,
         file = file_data_new (uri, NULL);
         file_data_update_all (file, FALSE);
 
-	add_metadata = simple_add_metadata (add_metadata,  TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);
-	add_metadata = simple_add_metadata (add_metadata,  TAG_NAME_SETS[LOCATION_TAG_NAMES][0], data->place);
+	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);
+	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[LOCATION_TAG_NAMES][0], data->place);
 
         localtime_r (&data->time, &tm);
         buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
