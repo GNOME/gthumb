@@ -398,6 +398,8 @@ load_comment_from_metadata (const char *uri)
 
 		comment_data_free_keywords (data);
 
+		/* TODO - FIXME - check for all-whitespace keywords */
+
 		keywords_v = g_strsplit (metadata_string, ",", 0);
 
 		while (keywords_v[i] != NULL) {
@@ -447,6 +449,7 @@ save_comment_to_metadata (const char  *uri,
                                tm.tm_sec );
         add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
 
+	/* TODO - FIXME - check for all-whitespace keywords */
         if (data->keywords_n > 0) {
                 if (data->keywords_n == 1)
                         keywords_str = g_strdup (data->keywords[0]);
