@@ -1,6 +1,12 @@
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exiv2-utils.cpp:
+	Filter tag values with has_non_whitespace_text. Next, do the same
+	some comments and keywords.
+
+2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
 	Added checks for mandatory exif tags when saving.
 
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>

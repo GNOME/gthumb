@@ -332,6 +332,24 @@ tag_category_exiv2 (const Exiv2::Exifdatum &md, int &position)
 }
 
 
+static gboolean
+has_non_whitespace_text (const char *text_in)
+{
+        gchar *pos;
+
+        if (text_in == NULL)
+                return FALSE;
+
+        for (pos = (char *) text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
+                gunichar ch = g_utf8_get_char (pos);
+                if (!g_unichar_isspace (ch))
+                        return TRUE;
+        }
+
+        return FALSE;
+}
+
+
 /* Add the tag the gThumb metadata store. */
 inline static GList *
 add (GList              *metadata,
@@ -345,12 +363,7 @@ add (GList              *metadata,
 	GthMetadata *new_entry;
 
 	/* skip blank values */
-	if ((formatted_value == NULL) || 
-	    (formatted_value[0] == '\0') ||
-            (formatted_value[0] == '\n') ||
-            (formatted_value[0] == '\r') ||
-            (formatted_value[0] == '\t') ||
-            (formatted_value[0] == ' '))
+	if (!has_non_whitespace_text (formatted_value))
 		return metadata;
 
 	new_entry = g_new (GthMetadata, 1);
