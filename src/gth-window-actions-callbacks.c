@@ -901,6 +901,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 		"Sean Hunt <rideau3@gmail.com>",
 		"Natan Yellin <aantny@gmail.com>",
 		"Adrien Bustany <madcat@mymadcat.com>",
+		"David Turner <cillian64@googlemail.com>",
 		NULL
 	};
 	const char *documenters [] = {
