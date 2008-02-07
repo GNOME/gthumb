@@ -282,6 +282,11 @@ static void
 add_to_display (GthMetadata       *entry,
 		GthExifDataViewer *edv)
 {
+	/* Skip entries that exiv2 does not know the purpose of.
+	   These entries have a numeric tag name assigned by exiv2. */
+	if (strstr (entry->full_name, ".0x") != NULL)
+		return;
+
 	add_to_exif_display_list (edv,
 		       		  entry->category,
 				  entry->full_name,

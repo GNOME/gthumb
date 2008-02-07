@@ -1,5 +1,11 @@
 2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-exif-data-viewer.c: (add_to_display):
+	Do not display Makernotes if exiv2 has not assigned
+	a meaningful name to them.
+
+2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Always overwrite the software tag upon file save.
 
