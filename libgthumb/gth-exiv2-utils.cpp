@@ -589,22 +589,25 @@ write_metadata (const char *from_file,
 		// Load existing metadata
 		image1->readMetadata();
 
+		Exiv2::ExifData &ed = image1->exifData();
+		Exiv2::IptcData &id = image1->iptcData();
+#ifdef HAVE_EXIV2_XMP_HPP
+		Exiv2::XmpData &xd = image1->xmpData();
+#endif
+
 		for (scan = metadata_in; scan; scan = scan->next) {
 			// Update the requested tag
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
 			if (metadatum->full_name != NULL) {
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
-					Exiv2::ExifData &md = image1->exifData();
-					md[metadatum->full_name] = metadatum->raw_value;
+					ed[metadatum->full_name] = metadatum->raw_value;
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
-		        	        Exiv2::IptcData &md = image1->iptcData();
-					md[metadatum->full_name] = metadatum->raw_value;
+					id[metadatum->full_name] = metadatum->raw_value;
 		        	}
 #ifdef HAVE_EXIV2_XMP_HPP
 				else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
-	        		        Exiv2::XmpData &md = image1->xmpData();
-					md[metadatum->full_name] = metadatum->raw_value;
+					xd[metadatum->full_name] = metadatum->raw_value;
 		        	}
 #endif
 			}

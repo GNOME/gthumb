@@ -362,6 +362,24 @@ get_keywords (CommentData *data,
 }
 
 
+static gboolean
+has_non_whitespace_comment (const char *text_in)
+{
+        gchar *pos;
+
+        if (text_in == NULL)
+                return FALSE;
+
+        for (pos = (char *) text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
+                gunichar ch = g_utf8_get_char (pos);
+                if (!g_unichar_isspace (ch))
+                        return TRUE;
+        }
+
+        return FALSE;
+}
+
+
 static CommentData *
 load_comment_from_metadata (const char *uri)
 {
@@ -376,47 +394,54 @@ load_comment_from_metadata (const char *uri)
 	data = comment_data_new ();
 
 	metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[COMMENT_TAG_NAMES]);
-	if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+	if (has_non_whitespace_comment (metadata_string))
 		data->comment = g_strdup (metadata_string);
-		g_free (metadata_string);
-	}
+	g_free (metadata_string);
 
         metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[LOCATION_TAG_NAMES]);
-        if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+	if (has_non_whitespace_comment (metadata_string))
                 data->place = g_strdup (metadata_string);
-                g_free (metadata_string);
-        }
+	g_free (metadata_string);
 
         metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
         if (metadata_time > (time_t) 0)
                 data->time = metadata_time;
 
         metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
-        if ((metadata_string != NULL) && (metadata_string[0] != 0)) {
+	if (has_non_whitespace_comment (metadata_string)) {
 		char **keywords_v;
 		int  i = 0;
+		int  j = 0;
 
 		comment_data_free_keywords (data);
 
-		/* TODO - FIXME - check for all-whitespace keywords */
-
 		keywords_v = g_strsplit (metadata_string, ",", 0);
 
-		while (keywords_v[i] != NULL) {
-			i++;
+		while (keywords_v[j] != NULL) {
+			if (has_non_whitespace_comment (keywords_v[j]))	{
+				i++;
+			}
+			j++;
 		}
 
 		data->keywords_n = i;
 		data->keywords = g_new0 (char*, data->keywords_n + 1);
 
-		for (i = 0; i < data->keywords_n; i++) 
-			data->keywords[i] = g_strdup (keywords_v[i]);
+		i = 0;
+		j = 0;
+                while (keywords_v[j] != NULL) {
+                        if (has_non_whitespace_comment (keywords_v[j])) {
+				data->keywords[i] = g_strdup (keywords_v[j]);
+                                i++;
+                        }
+			j++;
+                }
 
 		data->keywords[i] = NULL;
 		g_strfreev (keywords_v);
-		g_free (metadata_string);
 	}
 
+	g_free (metadata_string);
         file_data_unref (file);
 
 	return data;
@@ -449,7 +474,6 @@ save_comment_to_metadata (const char  *uri,
                                tm.tm_sec );
         add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
 
-	/* TODO - FIXME - check for all-whitespace keywords */
         if (data->keywords_n > 0) {
                 if (data->keywords_n == 1)
                         keywords_str = g_strdup (data->keywords[0]);

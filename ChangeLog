@@ -1,5 +1,13 @@
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/comments.c: (has_non_whitespace_comment),
+	(load_comment_from_metadata), (save_comment_to_metadata):
+	* libgthumb/gth-exif-utils.c:
+	* libgthumb/gth-exiv2-utils.cpp:
+	Made comment metadata reading/writing a bit more robust.
+
+2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	Filter tag values with has_non_whitespace_text. Next, do the same
 	some comments and keywords.
