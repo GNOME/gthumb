@@ -1,3 +1,9 @@
+2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/Makefile.am:
+	* src/Makefile.am:
+	Remove references to libiptcdata.
+
 2008-02-06  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/comments.c: (has_non_whitespace_comment),

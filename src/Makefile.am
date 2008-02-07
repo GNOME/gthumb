@@ -14,7 +14,6 @@ INCLUDES =					\
 	-I../libgthumb				\
 	$(GTHUMB_CFLAGS)			\
 	$(EXIF_CFLAGS)				\
-	$(IPTCDATA_CFLAGS)			\
 	$(DISABLE_DEPRECATED)			\
 	$(GPHOTO_CFLAGS)			\
 	$(GTKUNIQUE_CFLAGS)			\
@@ -157,7 +156,6 @@ gthumb_LDADD = 					\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la	\
 	$(top_builddir)/libgthumb/libgthumb.la	\
 	$(EXIF_LIBS)				\
-	$(IPTCDATA_LIBS)			\
 	$(GTHUMB_LIBS)				\
 	$(JPEG_LIBS)				\
 	$(TIFF_LIBS)				\
