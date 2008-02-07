@@ -37,6 +37,7 @@
 #endif
 
 #include <glib.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 
 using namespace std;
@@ -619,16 +620,26 @@ write_metadata (const char *from_file,
 		image1->exifData().eraseThumbnail();
 
 		// Mandatory tags
-		mandatory_int (image1->exifData(), "Exif.Image.XResolution", 72);
-		mandatory_int (image1->exifData(), "Exif.Image.YResolution", 72);
-		mandatory_int (image1->exifData(), "Exif.Image.ResolutionUnit", 2);
-		mandatory_int (image1->exifData(), "Exif.Image.YCbCrPositioning", 1);
-		mandatory_int (image1->exifData(), "Exif.Photo.ColorSpace", 1);
-		mandatory_string (image1->exifData(), "Exif.Photo.ExifVersion", "48 50 50 49");
-		mandatory_string (image1->exifData(), "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
-		mandatory_string (image1->exifData(), "Exif.Photo.FlashpixVersion", "48 49 48 48");
+		mandatory_int (ed, "Exif.Image.XResolution", 72);
+		mandatory_int (ed, "Exif.Image.YResolution", 72);
+		mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
+		mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
+		mandatory_int (ed, "Exif.Photo.ColorSpace", 1);
+		mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
+		mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
+		mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
+		
+		int width = 0;
+		int height = 0;
+		gdk_pixbuf_get_file_info (to_file, &width, &height);
+		
+		if (width > 0)
+			ed["Exif.Photo.PixelXDimension"] = width;
 
-		// TODO: update PixelX/YDimension, DateTime
+		if (height > 0)
+			ed["Exif.Photo.PixelYDimension"] = height;
+			
+		// TODO: update DateTime
 	
 		// Open second image (in many applications, this will actually
 		// be the same as the the first image (i.e., updating a file
