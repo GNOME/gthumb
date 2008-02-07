@@ -51,16 +51,7 @@
 #include "transupp.h"		/* Support routines for jpegtran */
 #include "jpeg-memory-mgr.h"
 #include "jpegtran.h"
-
-#include <libexif/exif-data.h>
-
-
-static int
-jpegtran_thumbnail (const void   *idata,
-		    size_t        isize,
-		    void        **odata,
-		    size_t       *osize,
-		    JXFORM_CODE   transformation);
+#include "gth-exif-utils.h"
 
 
 /* error handler data */
@@ -133,41 +124,10 @@ set_exif_orientation_to_top_left (ExifData *edata)
 
 
 static void
-swap_fields (ExifContent *content,
-	     ExifTag      tag1,
-	     ExifTag      tag2)
-{
-	ExifEntry     *entry1 = NULL;
-	ExifEntry     *entry2 = NULL;
-	unsigned char *data;
-	unsigned int   size;
-
-	entry1 = exif_content_get_entry (content, tag1);
-	if (entry1 == NULL)
-		return;
-
-	entry2 = exif_content_get_entry (content, tag2);
-	if (entry2 == NULL)
-		return;
-
-	data = entry1->data;
-	size = entry1->size;
-
-	entry1->data = entry2->data;
-	entry1->size = entry2->size;
-
-	entry2->data = data;
-	entry2->size = size;
-}
-
-
-static void
-update_exif_dimensions (ExifData    *edata,
+update_exif_dimensions (GList       *metadata,
 		        JXFORM_CODE  transform)
 {
-	unsigned int i;
-
-	if (edata == NULL)
+	if (metadata == NULL)
 		return;
 
 	switch (transform) {
@@ -180,111 +140,11 @@ update_exif_dimensions (ExifData    *edata,
 	    return;
 	}
 
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if ((content == NULL) || (content->count == 0))
-			continue;
-
-		swap_fields (content,
-			     EXIF_TAG_RELATED_IMAGE_WIDTH,
-			     EXIF_TAG_RELATED_IMAGE_LENGTH);
-		swap_fields (content,
-			     EXIF_TAG_IMAGE_WIDTH,
-			     EXIF_TAG_IMAGE_LENGTH);
-		swap_fields (content,
-			     EXIF_TAG_PIXEL_X_DIMENSION,
-			     EXIF_TAG_PIXEL_Y_DIMENSION);
-		swap_fields (content,
-			     EXIF_TAG_X_RESOLUTION,
-			     EXIF_TAG_Y_RESOLUTION);
-		swap_fields (content,
-			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
-			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
-	}
-}
-
-
-static void
-update_exif_thumbnail (ExifData    *edata,
-		       JXFORM_CODE  transform)
-{
-	size_t osize;
-	unsigned char *out;
-
-	if (edata == NULL || edata->data == NULL)
-		return;
-
-	if (transform == JXFORM_NONE)
-		return;
-
-	/* Allocate a new thumbnail buffer (twice the size of the original thumbnail).
-	 * WARNING: If this buffer is too small (very unlikely, but not impossible),
-	 * jpegtran will return an error and the thumbnail will be discarded.
-	 * To prevent this, the size of the buffer should be increased somehow.
-	 */
-	osize = edata->size * 2;
-	out = g_malloc (osize);
-
-	/* Transform thumbnail */
-	if (jpegtran_thumbnail (edata->data, edata->size,
-			        (void**)&out, &osize, transform) != 0) {
-		/* Failed: Discard thumbnail */
-		g_free (out);
-		g_free (edata->data);
-		edata->data = NULL;
-		edata->size = 0;
-	} 
-	else {
-		/* Success: Replace thumbnail */
-		g_free (edata->data);
-		edata->data = out;
-		edata->size = osize;
-	}
-}
-
-
-static void
-update_exif_data (struct jpeg_decompress_struct *src,
-                  JXFORM_CODE                    transform)
-{
-	jpeg_saved_marker_ptr  mark = NULL;
-	ExifData              *edata = NULL;
-	unsigned char         *data = NULL;
-	unsigned int           size;
-
-	if (src == NULL)
-		return;
-
-	/* Find exif data. */
-	for (mark = src->marker_list; mark != NULL; mark = mark->next) {
-		if (mark->marker != JPEG_APP0 +1)
-			continue;
-		edata = exif_data_new_from_data (mark->data, mark->data_length);
-		break;
-	}
-	if (edata == NULL)
-		return;
-
-	/* Adjust exif orientation (set to top-left) */
-	set_exif_orientation_to_top_left (edata);
-
-	/* Adjust exif dimensions (swap values if necessary) */
-	update_exif_dimensions (edata, transform);
-
-	/* Adjust thumbnail (transform) */
-	update_exif_thumbnail (edata, transform);
-
-	/* Build new exif data block */
-	exif_data_save_data (edata, &data, &size);
-	exif_data_unref (edata);
-
-	/* Update jpeg APP1 (EXIF) marker */
-	mark->data = src->mem->alloc_large((j_common_ptr)src, JPOOL_IMAGE, size);
-	mark->original_length = size;
-	mark->data_length = size;
-	memcpy (mark->data, data, size);
-	free (data);
+	swap_fields (metadata, "Exif.Photo.PixelXDimension", "Exif.Photo.PixelYDimension");
+	swap_fields (metadata, "Exif.Image.XResolution", "Exif.Image.YResolution");
+	swap_fields (metadata, "Exif.Photo.FocalPlaneXResolution", "Exif.Photo.FocalPlaneYResolution");
+	swap_fields (metadata, "Exif.Image.ImageWidth", "Exif.Image.ImageLength");
+	swap_fields (metadata, "Exif.Iop.RelatedImageWidth", "Exif.Iop.RelatedImageLength");
 }
 
 
@@ -365,9 +225,6 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 		return FALSE;
 	}
 
-	/* Update exif data */
-	update_exif_data (srcinfo, transformation);
-
 	/* Any space needed by a transform option must be requested before
 	 * jpeg_read_coefficients so that memory allocation will be done right.
 	 */
@@ -418,79 +275,6 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 	jpeg_finish_decompress (srcinfo);
 
 	return TRUE;
-}
-
-
-static int
-jpegtran_thumbnail (const void   *idata,
-		    size_t        isize,
-		    void        **odata,
-		    size_t       *osize,
-		    JXFORM_CODE   transformation)
-{
-	struct jpeg_decompress_struct  srcinfo;
-	struct jpeg_compress_struct    dstinfo;
-	struct error_handler_data      jsrcerr, jdsterr;
-
-	/* Initialize the JPEG decompression object with default error
-	 * handling. */
-	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
-	jsrcerr.pub.error_exit = fatal_error_handler;
-	jsrcerr.pub.output_message = output_message_handler;
-	jsrcerr.filename = NULL;
-	jsrcerr.error = NULL;
-
-	jpeg_create_decompress (&srcinfo);
-
-	/* Initialize the JPEG compression object with default error
-	 * handling. */
-	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
-	jdsterr.pub.error_exit = fatal_error_handler;
-	jdsterr.pub.output_message = output_message_handler;
-	jdsterr.filename = NULL;
-	jdsterr.error = NULL;
-
-	jpeg_create_compress (&dstinfo);
-
-	dstinfo.err->trace_level = 0;
-	dstinfo.arith_code = FALSE;
-	dstinfo.optimize_coding = FALSE;
-
-	jsrcerr.pub.trace_level = jdsterr.pub.trace_level;
-	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
-
-	/* Decompression error handler */
-	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
-		jpeg_destroy_compress (&dstinfo);
-		jpeg_destroy_decompress (&srcinfo);
-		return 1;
-	}
-
-	/* Compression error handler */
-	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
-		jpeg_destroy_compress (&dstinfo);
-		jpeg_destroy_decompress (&srcinfo);
-		return 1;
-	}
-
-	/* Specify data source for decompression */
-	jpeg_memory_src (&srcinfo, idata, isize);
-
-	/* Specify data destination for compression */
-	jpeg_memory_dest (&dstinfo, odata, osize);
-
-	/* Apply transformation */
-	if (! jpegtran_internal (&srcinfo, &dstinfo, transformation, JCOPYOPT_NONE, JPEG_MCU_ACTION_DONT_TRIM, NULL)) {
-		jpeg_destroy_compress (&dstinfo);
-		jpeg_destroy_decompress (&srcinfo);
-		return 1;
-	}
-
-	/* Release memory */
-	jpeg_destroy_compress (&dstinfo);
-	jpeg_destroy_decompress (&srcinfo);
-
-	return 0;
 }
 
 
@@ -587,37 +371,15 @@ jpegtran (const char     *input_filename,
 	fclose (input_file);
 	fclose (output_file);
 
+	/* Update Exif data */
+	FileData *file = file_data_new (output_filename, NULL);
+	file_data_update_all (file, FALSE);
+	update_metadata (file);
+	update_exif_dimensions (file->metadata, transformation);
+	file->metadata = simple_add_metadata (file->metadata, "Exif.Image.Orientation", "1");
+	update_and_save_metadata (output_filename, output_filename, file->metadata);
+	file_data_unref (file);
+
 	return TRUE;
 }
 
-
-#ifdef TEST
-
-
-int
-main (int    argc,
-      char **argv)
-{
-	char *input_filename;
-	char *output_filename;
-
-	if (argc != 3) {
-		fprintf (stderr, "%s input_image output_image", argv[0]);
-		return 1;
-	}
-
-	input_filename  = argv[1];
-	output_filename = argv[2];
-
-	/*
-	  JXFORM_ROT_90
-	  JXFORM_ROT_180
-	  JXFORM_ROT_270
-	  JXFORM_FLIP_H
-	  JXFORM_FLIP_V
-	*/
-
-	return jpegtran (input_filename, output_filename, JXFORM_FLIP_H);
-}
-
-#endif /* TEST */

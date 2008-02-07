@@ -13,7 +13,6 @@ INCLUDES =					\
 	-I$(top_srcdir)/libgthumb		\
 	-I../libgthumb				\
 	$(GTHUMB_CFLAGS)			\
-	$(EXIF_CFLAGS)				\
 	$(DISABLE_DEPRECATED)			\
 	$(GPHOTO_CFLAGS)			\
 	$(GTKUNIQUE_CFLAGS)			\
@@ -155,7 +154,6 @@ endif
 gthumb_LDADD = 					\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la	\
 	$(top_builddir)/libgthumb/libgthumb.la	\
-	$(EXIF_LIBS)				\
 	$(GTHUMB_LIBS)				\
 	$(JPEG_LIBS)				\
 	$(TIFF_LIBS)				\
@@ -181,7 +179,7 @@ libduplicates_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 libjpegtran_la_SOURCES = dlg-jpegtran.c dlg-jpegtran.h
 libjpegtran_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libjpegtran_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(EXIF_LIBS) $(JPEG_LIBS) $(GTHUMB_LIBS)
+libjpegtran_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(JPEG_LIBS) $(GTHUMB_LIBS)
 libjpegtran_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 libpngexporter_la_SOURCES = 	\
@@ -207,12 +205,12 @@ libwebexporter_la_SOURCES = 	\
 	dlg-web-exporter.c	\
 	dlg-web-exporter.h
 libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libwebexporter_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(EXIF_LIBS)
+libwebexporter_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS)
 libwebexporter_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 libphotoimporter_la_SOURCES = dlg-photo-importer.c dlg-photo-importer.h
 libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(EXIF_LIBS) $(JPEG_LIBS) $(GPHOTO_LIBS)
+libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(JPEG_LIBS) $(GPHOTO_LIBS)
 libphotoimporter_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 EXTRA_DIST = 			\

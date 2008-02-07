@@ -355,18 +355,28 @@ simple_add_metadata (GList       *metadata,
 	   metadata items into a single structure, to supply to
 	   update_and_save_metadata. */
 
-        GthMetadata *new_entry;
+        GthMetadata *entry;
 
-        if (value != NULL) {
-                new_entry = g_new (GthMetadata, 1);
-                new_entry->category = GTH_METADATA_CATEGORY_OTHER;
-                new_entry->full_name = g_strdup (key);
-                new_entry->display_name = g_strdup (key);
-                new_entry->formatted_value = g_strdup (value);
-                new_entry->raw_value = g_strdup (value);
-                new_entry->position = 0;
-                new_entry->writeable = TRUE;
-                metadata = g_list_prepend (metadata, new_entry);
+        GList *search_result = g_list_find_custom (metadata, key, (GCompareFunc) metadata_search);
+        if (search_result != NULL) {
+		/* Update value of existing tag */
+		entry = search_result->data;
+		g_free (entry->formatted_value);
+		g_free (entry->raw_value);
+		entry->formatted_value = g_strdup (value);
+		entry->raw_value = g_strdup (value);
+	}
+	else {
+		/* Add a new tag entry */
+                entry = g_new (GthMetadata, 1);
+                entry->category = GTH_METADATA_CATEGORY_OTHER;
+                entry->full_name = g_strdup (key);
+                entry->display_name = g_strdup (key);
+                entry->formatted_value = g_strdup (value);
+                entry->raw_value = g_strdup (value);
+                entry->position = 0;
+                entry->writeable = TRUE;
+                metadata = g_list_prepend (metadata, entry);
         }
 
         return metadata;
@@ -544,4 +554,33 @@ update_metadata (FileData *fd)
 	g_free (local_file);
 
         return; 
+}
+
+
+void
+swap_fields (GList *metadata, const char *tag1, const char *tag2)
+{
+	char        *tmp;
+	GthMetadata *entry1;
+	GthMetadata *entry2;
+
+        GList *search_result1 = g_list_find_custom (metadata, tag1, (GCompareFunc) metadata_search);
+        if (search_result1 == NULL)
+		return;
+	else
+                entry1 = search_result1->data;
+
+        GList *search_result2 = g_list_find_custom (metadata, tag2, (GCompareFunc) metadata_search);
+        if (search_result2 == NULL) 
+                return;
+        else 
+                entry2 = search_result2->data;
+	
+	tmp = entry1->formatted_value;	
+	entry1->formatted_value = entry2->formatted_value;
+	entry2->formatted_value = tmp;
+
+        tmp = entry1->raw_value;
+        entry1->raw_value = entry2->raw_value;
+        entry2->raw_value = tmp;
 }

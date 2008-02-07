@@ -1234,10 +1234,8 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 					   error);
 
 	if (result == TRUE) {
+		metadata = simple_add_metadata (metadata, "Exif.Image.Orientation", "1");
 		update_and_save_metadata (local_file, local_file, metadata);
-
-		/* Saving from pixbuf always implies top-left orientation */
-		update_and_save_metadatum (local_file, local_file, "Exif.Image.Orientation", "1");
 	}
 				
 

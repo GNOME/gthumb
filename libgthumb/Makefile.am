@@ -10,7 +10,6 @@ endif
 gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =							\
-	$(EXIF_CFLAGS)						\
 	$(GTHUMB_CFLAGS)					\
 	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
@@ -140,7 +139,6 @@ libgthumb_la_SOURCES =			\
 
 libgthumb_la_LIBADD =		\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la \
-	$(EXIF_LIBS)		\
 	$(JPEG_LIBS)		\
 	$(TIFF_LIBS)		\
 	$(GTHUMB_LIBS)		\

@@ -93,7 +93,6 @@ Compiling
 	* gnome-vfs 		version >= 2.6.0
 	* libglade 		version >= 2.4.0
 	* intltool		version >= 0.35.0
-	* libexif               version >= 0.6.13
 	* exiv2			version >= 0.15
 	* libjpeg
 	* gtkunique		version >= 0.9.1 (optional)

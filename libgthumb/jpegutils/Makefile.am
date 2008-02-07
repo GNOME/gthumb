@@ -7,7 +7,6 @@ endif
 INCLUDES = 				\
 	-I$(top_srcdir)/libgthumb	\
 	$(DISABLE_DEPRECATED)		\
-	$(EXIF_CFLAGS)			\
 	$(GTHUMB_CFLAGS)
 
 

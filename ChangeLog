@@ -1,5 +1,21 @@
 2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* README:
+	* configure.in:
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-exif-utils.c: (simple_add_metadata), (swap_fields):
+	* libgthumb/gth-exif-utils.h:
+	* libgthumb/jpegutils/Makefile.am:
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_dimensions),
+	(jpegtran_internal), (jpegtran):
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
+	* src/Makefile.am:
+	Purged libexif from gthumb!
+	Use exiv2 to write exif data to files after jpeg transformation.
+
+2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/Makefile.am:
 	* src/Makefile.am:
 	Remove references to libiptcdata.
