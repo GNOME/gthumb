@@ -628,7 +628,8 @@ write_metadata (const char *from_file,
 		mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
 		mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
 		mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
-		
+		mandatory_string (ed, "Exif.Image.Software", "gThumb " VERSION);
+
 		int width = 0;
 		int height = 0;
 		gdk_pixbuf_get_file_info (to_file, &width, &height);
@@ -638,8 +639,21 @@ write_metadata (const char *from_file,
 
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
-			
-		// TODO: update DateTime
+
+		time_t curtime = 0;
+		struct tm  tm;
+
+		time (&curtime);
+		localtime_r (&curtime, &tm);
+                char *buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
+                                             tm.tm_year + 1900,
+                                             tm.tm_mon + 1,
+                                             tm.tm_mday,
+                                             tm.tm_hour,
+                                             tm.tm_min,
+                                             tm.tm_sec );
+		ed["Exif.Image.DateTime"] = buf;
+		g_free (buf);
 	
 		// Open second image (in many applications, this will actually
 		// be the same as the the first image (i.e., updating a file
