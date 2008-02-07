@@ -619,7 +619,7 @@ write_metadata (const char *from_file,
 		// anyways.
 		image1->exifData().eraseThumbnail();
 
-		// Mandatory tags
+		// Mandatory tags - add if not already present
 		mandatory_int (ed, "Exif.Image.XResolution", 72);
 		mandatory_int (ed, "Exif.Image.YResolution", 72);
 		mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
@@ -628,8 +628,11 @@ write_metadata (const char *from_file,
 		mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
 		mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
 		mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
-		mandatory_string (ed, "Exif.Image.Software", "gThumb " VERSION);
 
+		// Overwrite the software string
+		ed["Exif.Image.Software"] = "gThumb " VERSION;
+
+		// Update the dimension tags with actual image values
 		int width = 0;
 		int height = 0;
 		gdk_pixbuf_get_file_info (to_file, &width, &height);
@@ -640,9 +643,9 @@ write_metadata (const char *from_file,
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
 
+		// Update the DateTime tag
 		time_t curtime = 0;
 		struct tm  tm;
-
 		time (&curtime);
 		localtime_r (&curtime, &tm);
                 char *buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
