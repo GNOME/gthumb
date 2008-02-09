@@ -195,16 +195,16 @@ get_exif_time (const char *uri)
 	if (local_file == NULL)
                 return (time_t) 0;
 
-        gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME, date_string, 20);
+        gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
 	time = exif_string_to_time_t (date_string);
 
 	if (time <= (time_t) 0) {
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_ORIGINAL, date_string, 20);
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
 		time = exif_string_to_time_t (date_string);
 	}
 
 	if (time <= (time_t) 0) {
-		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME_DIGITIZED, date_string, 20);
+		gth_minimal_exif_tag_read (local_file, EXIF_TAG_DATE_TIME, date_string, 20);
 		time = exif_string_to_time_t (date_string);
 	}
 

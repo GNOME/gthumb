@@ -1,3 +1,9 @@
+2008-02-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* libgthumb/gth-exif-utils.c: (get_exif_time):
+	Fixed bug #507790. Sort by DateTimeOriginal instead of DateTime.
+
 2008-01-28  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
