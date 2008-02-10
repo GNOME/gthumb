@@ -26,7 +26,6 @@
 #define JPEGTRAN_H
 
 #include <glib.h>
-#include <libexif/exif-data.h>
 #include "transupp.h"
 
 #define JPEGTRAN_ERROR_MCU 2
@@ -42,6 +41,5 @@ gboolean   jpegtran                   (const char     *input_filename,
 		     		       JXFORM_CODE     transformation,
 		     		       JpegMcuAction   mcu_action,
 		     		       GError        **error);
-void set_exif_orientation_to_top_left (ExifData *edata);
 
 #endif /* JPEGTRAN_H */
