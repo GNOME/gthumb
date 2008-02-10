@@ -98,30 +98,6 @@ output_message_handler (j_common_ptr cinfo)
 }
 
 
-void
-set_exif_orientation_to_top_left (ExifData *edata)
-{
-	unsigned int  i;
-	ExifByteOrder byte_order;
-
-	if (edata == NULL)
-		return;
-
-	byte_order = exif_data_get_byte_order (edata);
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-		ExifEntry   *entry;
-
-		if ((content == NULL) || (content->count == 0))
-			continue;
-
-		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
-		if (entry != NULL)
-			exif_set_short (entry->data, byte_order, 1);
-	}
-}
-
 
 static void
 update_exif_dimensions (GList       *metadata,

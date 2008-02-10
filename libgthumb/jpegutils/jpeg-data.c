@@ -102,9 +102,8 @@ jpeg_data_save_file (JPEGData *data, const char *path)
 void
 jpeg_data_save_data (JPEGData *data, unsigned char **d, unsigned int *ds)
 {
-	unsigned int i, eds = 0;
+	unsigned int i;
 	JPEGSection s;
-	unsigned char *ed = NULL;
 
 	if (!data)
 		return;
@@ -129,18 +128,7 @@ jpeg_data_save_data (JPEGData *data, unsigned char **d, unsigned int *ds)
 		switch (s.marker) {
 		case JPEG_MARKER_SOI:
 		case JPEG_MARKER_EOI:
-			break;
 		case JPEG_MARKER_APP1:
-			exif_data_save_data (s.content.app1, &ed, &eds);
-			if (!ed) break;
-			*d = realloc (*d, sizeof (char) * (*ds + 2));
-			(*d)[*ds + 0] = (eds + 2) >> 8;
-			(*d)[*ds + 1] = (eds + 2) >> 0;
-			*ds += 2;
-			*d = realloc (*d, sizeof (char) * (*ds + eds));
-			memcpy (*d + *ds, ed, eds);
-			*ds += eds;
-			free (ed);
 			break;
 		default:
 			*d = realloc (*d, sizeof (char) *
@@ -219,6 +207,7 @@ jpeg_data_load_data (JPEGData *data, const unsigned char *d,
 		switch (s->marker) {
 		case JPEG_MARKER_SOI:
 		case JPEG_MARKER_EOI:
+		case JPEG_MARKER_APP1:
 			break;
 		default:
 
@@ -228,27 +217,19 @@ jpeg_data_load_data (JPEGData *data, const unsigned char *d,
 			o += 2;
 			if (o + len > size) { o = size; break; }
 
-			switch (s->marker) {
-			case JPEG_MARKER_APP1:
-				s->content.app1 = exif_data_new_from_data (
-							d + o - 4, len + 4);
-				break;
-			default:
-				s->content.generic.size = len;
-				s->content.generic.data =
-						malloc (sizeof (char) * len);
-				memcpy (s->content.generic.data, &d[o], len);
+			s->content.generic.size = len;
+			s->content.generic.data =
+					malloc (sizeof (char) * len);
+			memcpy (s->content.generic.data, &d[o], len);
 
-				/* In case of SOS, image data will follow. */
-				if (s->marker == JPEG_MARKER_SOS) {
-					data->size = size - 2 - o - len;
-					data->data = malloc (
-						sizeof (char) * data->size);
-					memcpy (data->data, d + o + len,
-						data->size);
-					o += data->size;
-				}
-				break;
+			/* In case of SOS, image data will follow. */
+			if (s->marker == JPEG_MARKER_SOS) {
+				data->size = size - 2 - o - len;
+				data->data = malloc (
+					sizeof (char) * data->size);
+				memcpy (data->data, d + o + len,
+					data->size);
+				o += data->size;
 			}
 			o += len;
 			break;
@@ -336,9 +317,7 @@ jpeg_data_free (JPEGData *data)
 			switch (s.marker) {
 			case JPEG_MARKER_SOI:
 			case JPEG_MARKER_EOI:
-				break;
 			case JPEG_MARKER_APP1:
-				exif_data_unref (s.content.app1);
 				break;
 			default:
 				free (s.content.generic.data);
@@ -391,9 +370,7 @@ jpeg_data_dump (JPEGData *data)
 		switch (marker) {
                 case JPEG_MARKER_SOI:
                 case JPEG_MARKER_EOI:
-			break;
                 case JPEG_MARKER_APP1:
-			exif_data_dump (content.app1);
 			break;
                 default:
 			printf ("  Size: %i\n", content.generic.size);
@@ -401,43 +378,6 @@ jpeg_data_dump (JPEGData *data)
                         break;
                 }
         }
-}
-
-
-ExifData *
-jpeg_data_get_exif_data (JPEGData *data)
-{
-	JPEGSection *section;
-
-	if (!data)
-		return NULL;
-
-	section = jpeg_data_get_section (data, JPEG_MARKER_APP1);
-	if (section) {
-		exif_data_ref (section->content.app1);
-		return (section->content.app1);
-	}
-
-	return (NULL);
-}
-
-void
-jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data)
-{
-	JPEGSection *section;
-
-	section = jpeg_data_get_section (data, JPEG_MARKER_APP1);
-	if (!section) {
-		jpeg_data_append_section (data);
-		memmove (&data->sections[2], &data->sections[1],
-			 sizeof (JPEGSection) * (data->count - 2));
-		section = &data->sections[1];
-	} else {
-		exif_data_unref (section->content.app1);
-	}
-	section->marker = JPEG_MARKER_APP1;
-	section->content.app1 = exif_data;
-	exif_data_ref (exif_data);
 }
 
 

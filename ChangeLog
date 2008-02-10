@@ -1,3 +1,11 @@
+2008-02-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/jpegutils/jpeg-data.c: (jpeg_data_save_data),
+	(jpeg_data_load_data), (jpeg_data_free), (jpeg_data_dump):
+	* libgthumb/jpegutils/jpeg-data.h:
+	* libgthumb/jpegutils/jpegtran.c:
+	Deleted libexif bits that were previously overlooked.
+
 2008-02-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-exif-data-viewer.c: (add_to_display):

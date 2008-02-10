@@ -22,9 +22,7 @@
 #define __JPEG_DATA_H__
 
 #include "jpeg-marker.h"
-#include <libexif/exif-data.h>
 
-typedef ExifData * JPEGContentAPP1;
 
 typedef struct _JPEGContentGeneric JPEGContentGeneric;
 struct _JPEGContentGeneric
@@ -37,7 +35,6 @@ typedef union _JPEGContent JPEGContent;
 union _JPEGContent
 {
 	JPEGContentGeneric generic;
-	JPEGContentAPP1    app1;
 };
 
 typedef struct _JPEGSection JPEGSection;
@@ -77,10 +74,6 @@ void      jpeg_data_save_data     (JPEGData *data, unsigned char **d,
 
 void      jpeg_data_load_file     (JPEGData *data, const char *path);
 int       jpeg_data_save_file     (JPEGData *data, const char *path);
-
-void      jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data);
-
-ExifData *jpeg_data_get_exif_data (JPEGData *data);
 
 void      jpeg_data_set_header_data (JPEGData *data, JPEGMarker marker,
 				     unsigned char * buf, unsigned int size);
