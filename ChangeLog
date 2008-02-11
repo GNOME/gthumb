@@ -1,3 +1,11 @@
+2008-02-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_metadata):
+	* libgthumb/comments.h:
+	Removed unused function (comments_get_comment_as_xml_string).
+	Only load DateTime metadata into comments if other metadata
+	(comment, location, and/or keyword) has been loaded.
+
 2008-02-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/jpegutils/jpegtran.h:

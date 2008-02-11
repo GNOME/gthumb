@@ -403,10 +403,6 @@ load_comment_from_metadata (const char *uri)
                 data->place = g_strdup (metadata_string);
 	g_free (metadata_string);
 
-        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
-        if (metadata_time > (time_t) 0)
-                data->time = metadata_time;
-
         metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
 	if (has_non_whitespace_comment (metadata_string)) {
 		char **keywords_v;
@@ -439,6 +435,19 @@ load_comment_from_metadata (const char *uri)
 
 		data->keywords[i] = NULL;
 		g_strfreev (keywords_v);
+	}
+
+	/* Only load the metadata time if the metadata contained useful comments,
+	   location data, or keywords. Almost all photos contain date metadata, so
+	   we do not want to crowd the comment display with date metadata unless
+	   it seems to be intentionally linked with other metadata. This may
+	   be a matter for further consideration. */
+	if ((data->comment != NULL) ||
+            (data->place != NULL) ||
+	    (data->keywords_n > 0)) {
+	        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
+        	if (metadata_time > (time_t) 0)
+                	data->time = metadata_time;
 	}
 
 	g_free (metadata_string);
@@ -1057,11 +1066,3 @@ comments_get_comment_as_string (CommentData *data,
 	return _get_comment_as_string_common (data, sep1, sep2, FALSE);
 }
 
-
-char *
-comments_get_comment_as_xml_string (CommentData *data,
-				    char        *sep1,
-				    char        *sep2)
-{
-	return _get_comment_as_string_common (data, sep1, sep2, TRUE);
-}

@@ -74,9 +74,6 @@ void           comments_save_categories            (const char  *uri,
 char *         comments_get_comment_as_string      (CommentData *data,
 						    char        *sep1,
 						    char        *sep2);
-char *         comments_get_comment_as_xml_string  (CommentData *data,
-						    char        *sep1,
-						    char        *sep2);
 char*          _g_escape_text_for_html             (const gchar *text,
 						    gssize       length);
 
