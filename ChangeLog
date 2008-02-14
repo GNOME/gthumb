@@ -1,3 +1,15 @@
+2008-02-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_preferences.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/file-utils.c: (mime_type_is_video),
+	(mime_type_is_audio):
+	* libgthumb/preferences.h:
+	* src/dlg-preferences.c: (include_audio_video_toggled_cb),
+	(dlg_preferences):
+	Added preference to ignore audio and video files. Bug #467468.
+
 2008-02-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_metadata):

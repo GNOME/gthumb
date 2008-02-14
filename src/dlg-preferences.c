@@ -82,6 +82,7 @@ typedef struct {
 	GtkWidget  *toggle_show_comments;
 	GtkWidget  *toggle_show_thumbs;
 	GtkWidget  *toggle_file_type;
+	GtkWidget  *toggle_audio_video;
 	GtkWidget  *opt_thumbs_size;
 	GtkWidget  *toggle_confirm_del;
 	GtkWidget  *toggle_ask_to_save;
@@ -315,6 +316,15 @@ fast_file_type_toggled_cb (GtkToggleButton *button,
 
 
 static void
+include_audio_video_toggled_cb (GtkToggleButton *button,
+                                DialogData      *data)
+{
+        eel_gconf_set_boolean (PREF_INCLUDE_AUDIO_VIDEO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video)));
+	gth_browser_refresh (data->browser);
+}
+
+
+static void
 zoom_quality_high_cb (GtkToggleButton *button,
 		      DialogData      *data)
 {
@@ -407,6 +417,7 @@ dlg_preferences (GthBrowser *browser)
 
         data->toggle_show_thumbs = glade_xml_get_widget (data->gui, "toggle_show_thumbs");
         data->toggle_file_type = glade_xml_get_widget (data->gui, "toggle_file_type");
+	data->toggle_audio_video = glade_xml_get_widget (data->gui, "toggle_audio_video");
 
         data->opt_thumbs_size = glade_xml_get_widget (data->gui, "opt_thumbs_size");
         data->opt_click_policy = glade_xml_get_widget (data->gui, "opt_click_policy");
@@ -480,6 +491,7 @@ dlg_preferences (GthBrowser *browser)
 	/* * browser */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video), eel_gconf_get_boolean (PREF_INCLUDE_AUDIO_VIDEO, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
@@ -595,6 +607,10 @@ dlg_preferences (GthBrowser *browser)
 			  "toggled",
 			  G_CALLBACK (fast_file_type_toggled_cb),
 			  data);
+        g_signal_connect (G_OBJECT (data->toggle_audio_video),
+                          "toggled",
+                          G_CALLBACK (include_audio_video_toggled_cb),
+                          data);
 
 	g_signal_connect (G_OBJECT (data->opt_zoom_quality_high),
 			  "toggled",

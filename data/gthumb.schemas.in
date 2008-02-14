@@ -163,6 +163,19 @@
       </schema>
 
       <schema>
+        <key>/schemas/apps/gthumb/browser/include_audio_video</key>
+        <applyto>/apps/gthumb/browser/include_audio_video</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>true</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/browser/save_thumbnails</key>
 	<applyto>/apps/gthumb/browser/save_thumbnails</applyto>
 	<owner>gthumb</owner>

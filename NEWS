@@ -32,6 +32,7 @@ trunk, since last 2.10.x
 	  Bug #504580.
 	* Bug #402942 - Add status message during photo import (orientation
 	  adjust step)
+	* Added preference to ignore audio and video files. Bug #467468.
 
 	Bugfixes:
 

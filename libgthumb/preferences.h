@@ -49,6 +49,7 @@
 #define  PREF_SHOW_COMMENTS          "/apps/gthumb/browser/show_comments"
 #define  PREF_SHOW_THUMBNAILS        "/apps/gthumb/browser/show_thumbnails"
 #define  PREF_FAST_FILE_TYPE         "/apps/gthumb/browser/fast_file_type"
+#define  PREF_INCLUDE_AUDIO_VIDEO    "/apps/gthumb/browser/include_audio_view"
 #define  PREF_SAVE_THUMBNAILS        "/apps/gthumb/browser/save_thumbnails"
 #define  PREF_THUMBNAIL_SIZE         "/apps/gthumb/browser/thumbnail_size"
 #define  PREF_THUMBNAIL_LIMIT        "/apps/gthumb/browser/thumbnail_limit"

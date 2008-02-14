@@ -708,8 +708,9 @@ gboolean mime_type_is_video (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
 
-	return ( (strstr (mime_type, "video") != NULL) ||
-		 (strcmp (mime_type, "application/ogg") == 0));
+	return ( ((strstr (mime_type, "video") != NULL) ||
+		 (strcmp (mime_type, "application/ogg") == 0)) &&
+		 (eel_gconf_get_boolean (PREF_INCLUDE_AUDIO_VIDEO, TRUE) == TRUE));;
 }
 
 
@@ -730,7 +731,8 @@ gboolean mime_type_is_audio (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
 
-	return (strstr (mime_type, "audio") != NULL);
+	return ((strstr (mime_type, "audio") != NULL) && 
+		(eel_gconf_get_boolean (PREF_INCLUDE_AUDIO_VIDEO, TRUE) == TRUE));
 }
 
 
