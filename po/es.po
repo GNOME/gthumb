@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-15 20:26+0000\n"
-"PO-Revision-Date: 2008-02-18 13:27+0100\n"
+"PO-Revision-Date: 2008-02-18 13:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2978,7 +2978,7 @@ msgstr "ya existe una carpeta con ese mismo nombre."
 
 #: ../src/gth-browser-actions-callbacks.c:1602
 msgid "New Folder"
-msgstr "Nueva carpeta"
+msgstr "Carpeta nueva"
 
 #: ../src/gth-browser-actions-callbacks.c:1603
 msgid "Enter the folder name: "
@@ -3276,7 +3276,7 @@ msgstr "Abrir la carpeta seleccionada en una ventana nueva"
 #: ../src/gth-browser-actions-entries.h:220
 #: ../src/gth-browser-actions-entries.h:250
 msgid "Open with the _File Manager"
-msgstr "A_brir con el administrador de archivos"
+msgstr "A_brir con el gestor de archivos"
 
 #: ../src/gth-browser-actions-entries.h:221
 msgid "Open the selected folder with the Nautilus file manager"
