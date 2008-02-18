@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-20 14:36+0000\n"
-"PO-Revision-Date: 2008-01-26 19:42+0100\n"
+"POT-Creation-Date: 2008-02-12 20:46+0000\n"
+"PO-Revision-Date: 2008-02-15 18:51+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <<gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -245,20 +245,20 @@ msgid ""
 "PNG, this format is very common on Unix platforms and is considered a "
 "replacement of the GIF format."
 msgstr ""
-"La mayoría de los formatos de imagen son JPEG y GIF. El formato JPEG es bueno para "
-"imágenes de tamaño mediano y grande, porque tiene una tasa de compresión alta manteniendo "
-"una buena calidad de imagen. El formato GIF se utiliza en páginas Web para mostrar "
-"pequeñas animaciones o pequeñas imágenes estáticas. Otro formato de imagen importante es "
-"PNG, este formato es muy común en plataformas Unix y se le considera un "
-"sustituto al formato GIF."
+"La mayoría de los formatos de imagen son JPEG y GIF. El formato JPEG es "
+"bueno para imágenes de tamaño mediano y grande, porque tiene una tasa de "
+"compresión alta manteniendo una buena calidad de imagen. El formato GIF se "
+"utiliza en páginas Web para mostrar pequeñas animaciones o pequeñas imágenes "
+"estáticas. Otro formato de imagen importante es PNG, este formato es muy "
+"común en plataformas Unix y se le considera un sustituto al formato GIF."
 
 #: C/gthumb.xml:117(para)
 msgid ""
 "<application>gThumb</application> supports all this formats and many others, "
 "it also displays GIF animations."
 msgstr ""
-"<application>gThumb</application> soporta todos estos formatos y muchos otros, "
-"también muestra animaciones GIF."
+"<application>gThumb</application> soporta todos estos formatos y muchos "
+"otros, también muestra animaciones GIF."
 
 #: C/gthumb.xml:121(para)
 msgid ""
@@ -267,9 +267,10 @@ msgid ""
 "catalogs, print images, view slideshows, set your desktop background, and "
 "more."
 msgstr ""
-"<application>gThumb</application> no sólo le permite ver archivos de imágenes, sino que "
-"tiene otras muchas características como añadir comentarios a las imágenes, organizar las imágenes "
-"en catálogos, imprimir imágenes, ver diapositivas, establecer en fondo de escritorio, y mucho más."
+"<application>gThumb</application> no sólo le permite ver archivos de "
+"imágenes, sino que tiene otras muchas características como añadir "
+"comentarios a las imágenes, organizar las imágenes en catálogos, imprimir "
+"imágenes, ver diapositivas, establecer en fondo de escritorio, y mucho más."
 
 #: C/gthumb.xml:131(title)
 msgid "Getting Started"
@@ -280,6 +281,8 @@ msgid ""
 "This section provides information on how to start <application>gThumb</"
 "application>, and describes the main window interface."
 msgstr ""
+"Esta sección proporciona información sobre cómo iniciar <application>gThumb</"
+"application>, y describe la interfaz de la ventana principal."
 
 #: C/gthumb.xml:137(title)
 msgid "To Start <application>gThumb</application>"
@@ -287,7 +290,8 @@ msgstr "Iniciar <application>gThumb</application>"
 
 #: C/gthumb.xml:138(para)
 msgid "You can start <application>gThumb</application> in the following ways:"
-msgstr "Puede iniciar <application>gThumb</application> de las siguientes maneras:"
+msgstr ""
+"Puede iniciar <application>gThumb</application> de las siguientes maneras:"
 
 #: C/gthumb.xml:142(term)
 msgid "<guimenu>Applications</guimenu> menu"
@@ -298,6 +302,8 @@ msgid ""
 "Choose <menuchoice><guisubmenu>Graphics</guisubmenu><guimenuitem>gThumb</"
 "guimenuitem></menuchoice>."
 msgstr ""
+"Seleccione <menuchoice><guisubmenu>Gráficos</guisubmenu><guimenuitem>gThumb</"
+"guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:150(term)
 msgid "Command line"
@@ -312,6 +318,8 @@ msgid ""
 "If you start <application>gThumb</application> from the command line you can "
 "specify the following options:"
 msgstr ""
+"Si ejecuta <application>gThumb</application> desde la línea de comandos puede "
+"especificar las siguientes opciones:"
 
 #: C/gthumb.xml:167(para)
 msgid "Command"
@@ -368,6 +376,8 @@ msgid ""
 "The menus on the menubar contain all of the commands that you can use in "
 "<application>gThumb</application>"
 msgstr ""
+"Los menús de la barra de menús contienen todos los comandos que puede usar en "
+"<application>gThumb</application>"
 
 #: C/gthumb.xml:215(term)
 msgid "Toolbar"
@@ -387,7 +397,7 @@ msgstr "Barra de ubicación"
 
 #: C/gthumb.xml:223(para)
 msgid "The locationbar contains the current folder name."
-msgstr ""
+msgstr "La barra de lugar contiene el nombre de la carpeta actual."
 
 #: C/gthumb.xml:226(term)
 msgid "Folder list"
@@ -395,7 +405,9 @@ msgstr "Lista de carpetas"
 
 #: C/gthumb.xml:228(para)
 msgid "The folder list shows the subfolders contained in the current folder."
-msgstr "La lista de carpetas muestra las subcarpetas que hay dentro de la carpeta actual."
+msgstr ""
+"La lista de carpetas muestra las subcarpetas que hay dentro de la carpeta "
+"actual."
 
 #: C/gthumb.xml:233(term)
 msgid "Image list"
@@ -414,8 +426,7 @@ msgid ""
 "the total number of images contained in the current folder and their total "
 "size."
 msgstr ""
-"el número total de imágenes que contiene la carpeta actual y su "
-"tamaño total."
+"el número total de imágenes que contiene la carpeta actual y su tamaño total."
 
 #: C/gthumb.xml:248(para)
 msgid "the number of the selected images and their size."
@@ -437,8 +448,8 @@ msgid ""
 "<placeholder-2/>"
 msgstr ""
 "Al iniciar <application>gThumb</application> se muestra la siguiente "
-"ventana: <placeholder-1/> La <guilabel>ventana</"
-"guilabel> de <application>gThumb</application> contiene los siguientes elementos: "
+"ventana: <placeholder-1/> La <guilabel>ventana</guilabel> de "
+"<application>gThumb</application> contiene los siguientes elementos: "
 "<placeholder-2/>"
 
 #: C/gthumb.xml:264(title)
@@ -450,12 +461,16 @@ msgid ""
 "Browser options can be found in the <xref linkend=\"preferences-browser\"/> "
 "of the <guilabel>Preferences</guilabel> dialog."
 msgstr ""
+"Las opciones de navegación se encuentran en la <xref linkend=\"preferences-browser\"/> "
+"del diálogo <guilabel>Preferencias</guilabel>."
 
 #: C/gthumb.xml:270(para)
 msgid ""
 "Keyboard shortcuts to browse folders are described in <xref linkend=\"gthumb-"
 "TBL-keyword-shortcuts-browser\"/>."
 msgstr ""
+"Los atajos de teclado para explorar carpetas se describen en la <xref linkend=\"gthumb-"
+"TBL-keyword-shortcuts-browser\"/>."
 
 #: C/gthumb.xml:275(title)
 msgid "To Change Folder"
@@ -467,7 +482,7 @@ msgstr "pulse en el nombre de la carpeta en la lista de carpetas."
 
 #: C/gthumb.xml:283(para)
 msgid "type the folder name in the location entry."
-msgstr ""
+msgstr "escriba el nombre de la carpeta en la ubicación de la entrada."
 
 #: C/gthumb.xml:276(para)
 msgid "If you want to change folder you have two ways: <placeholder-1/>"
@@ -480,20 +495,26 @@ msgid ""
 "the typing of long names. You can quickly give focus to the location entry "
 "pressing <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>."
 msgstr ""
+"Cuando use la entrada de lugar puede pulsar <keycombo><keycap>Tab</keycap></"
+"keycombo> para intentar completar automáticamente el nombre de la carpeta, esto simplifica "
+"la escritura de nombres largos. Puede situar el foco rápidamente en la entrada de lugar "
+"pulsando <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>."
 
 #: C/gthumb.xml:295(para)
 msgid ""
 "To go to a previously visited folder you can use the toolbar <guilabel>Back</"
 "guilabel> button."
 msgstr ""
-"Para ir a la carpeta visitada previamente puede utilizar el botón <guilabel>Atrás</"
-"guilabel>."
+"Para ir a la carpeta visitada previamente puede utilizar el botón "
+"<guilabel>Atrás</guilabel>."
 
 #: C/gthumb.xml:299(para)
 msgid ""
 "Other navigation commands are located in the <menuchoice><guimenu>View</"
 "guimenu><guisubmenu>Go</guisubmenu></menuchoice> menu."
 msgstr ""
+"Otros comandos de navegación se encuentran en el menú <menuchoice><guimenu>Ver</"
+"guimenu><guisubmenu>Ir</guisubmenu></menuchoice>."
 
 #: C/gthumb.xml:306(title)
 msgid "To Sort Images"
@@ -507,11 +528,11 @@ msgid ""
 "current folder, type <keycombo><keycap>T</keycap></keycombo> to view or hide "
 "the thumbnails in the images list."
 msgstr ""
-"Para ordenar imágenes en otro orden utilice el submenú <guimenuitem>Ordenar imágenes</"
-"guimenuitem> en el menú <guimenu>Ver</guimenu>, use "
-"<keycombo><keycap>Ctrl</keycap><keycap>R</keycap></keycombo> para recargar la "
-"carpeta actual, teclee <keycombo><keycap>T</keycap></keycombo> para ver u ocultar "
-"las miniaturas en la lista de imágenes."
+"Para ordenar imágenes en otro orden utilice el submenú <guimenuitem>Ordenar "
+"imágenes</guimenuitem> en el menú <guimenu>Ver</guimenu>, use "
+"<keycombo><keycap>Ctrl</keycap><keycap>R</keycap></keycombo> para recargar "
+"la carpeta actual, teclee <keycombo><keycap>T</keycap></keycombo> para ver u "
+"ocultar las miniaturas en la lista de imágenes."
 
 #: C/gthumb.xml:317(title)
 msgid "To Add a Folder to the Bookmarks"
@@ -527,6 +548,13 @@ msgid ""
 "different order use the <menuchoice><guimenu>Bookmarks</"
 "guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command."
 msgstr ""
+"Las carpetas usadas frecuentemente se pueden añadir a la lista de marcadores para "
+"un rápido acceso. Simplemente vaya a la carpeta que quiere añadir a los marcadores y pulse "
+"<keycombo action=\"simul\"><keycap>Ctrl</keycap><keycap>D</keycap></keycombo> o use "
+"el comando <menuchoice><guimenu>Marcadores</guimenu><guimenuitem>Añadir "
+"marcador</guimenuitem></menuchoice>. Para eliminar o reordenar los marcadores en distinto orden "
+"use el comando <menuchoice><guimenu>Marcadores</"
+"guimenu><guimenuitem>Editar marcadores</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:332(title)
 msgid "Working with Folders"
@@ -547,17 +575,18 @@ msgid ""
 msgstr ""
 "Se recomienda encarecidamente mover y copiar carpetas de imágenes con "
 "<application>gThumb</application>. Esto es debido a que si mueve o copia "
-"carpetas con <application>gThumb</application> los comentarios de las imágenes "
-"permanecerán asociados a las imágenes tal como se espera, pero si mueve o copia carpetas con "
-"el administrador de archivos u otras aplicaciones perderá sus comentarios."
+"carpetas con <application>gThumb</application> los comentarios de las "
+"imágenes permanecerán asociados a las imágenes tal como se espera, pero si "
+"mueve o copia carpetas con el administrador de archivos u otras aplicaciones "
+"perderá sus comentarios."
 
 #: C/gthumb.xml:333(para)
 msgid ""
 "<application>gThumb</application> offers the functionalities to manage "
 "folders. <placeholder-1/>"
 msgstr ""
-"<application>gThumb</application> ofrece las funcionalidades para "
-"gestionar carpetas. <placeholder-1/>"
+"<application>gThumb</application> ofrece las funcionalidades para gestionar "
+"carpetas. <placeholder-1/>"
 
 #: C/gthumb.xml:347(title)
 msgid "To Create a Folder"
@@ -573,6 +602,8 @@ msgid ""
 "guimenuitem></menuchoice> to display the <guilabel>New Folder</guilabel> "
 "dialog."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Carpeta nueva</"
+"guimenuitem></menuchoice> para mostrar el diálogo <guilabel>Carpeta nueva</guilabel>."
 
 #: C/gthumb.xml:362(para) C/gthumb.xml:404(para)
 msgid "Enter the new folder name."
@@ -588,7 +619,8 @@ msgstr ""
 
 #: C/gthumb.xml:348(para)
 msgid "To create a new folder, perform the following steps: <placeholder-1/>"
-msgstr "Para crear una carpeta nueva, ejecute los siguientes pasos: <placeholder-1/>"
+msgstr ""
+"Para crear una carpeta nueva, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:374(title)
 msgid "To Open a Folder"
@@ -605,14 +637,18 @@ msgid ""
 "menuchoice>. <application>gThumb</application> opens the folder with the "
 "file manager."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guisubmenu>Carpeta</"
+"guisubmenu><guimenuitem>Abrir con el gestor de archivos</guimenuitem></"
+"menuchoice>. <application>gThumb</application> abre la carpeta con el "
+"gestor de archivos."
 
 #: C/gthumb.xml:375(para)
 msgid ""
 "To open a folder with the file manager, perform the following steps: "
 "<placeholder-1/>"
 msgstr ""
-"Para abrir una carpeta con el gestor de archivos, ejecute los siguientes pasos: "
-"<placeholder-1/>"
+"Para abrir una carpeta con el gestor de archivos, ejecute los siguientes "
+"pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:391(title)
 msgid "To Rename a Folder"
@@ -634,10 +670,13 @@ msgid ""
 "Click on <guibutton>Rename</guibutton>. <application>gThumb</application> "
 "renames the folder."
 msgstr ""
+"Pulse <guibutton>Renombrar</guibutton>. <application>gThumb</application> "
+"renombra la carpeta."
 
 #: C/gthumb.xml:392(para)
 msgid "To rename a folder, perform the following steps: <placeholder-1/>"
-msgstr "Para renombrar una carpeta, ejecute los siguientes pasos: <placeholder-1/>"
+msgstr ""
+"Para renombrar una carpeta, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:416(title)
 msgid "To Delete a Folder"
@@ -653,10 +692,14 @@ msgid ""
 "guisubmenu><guimenuitem>Move to Trash</guimenuitem></menuchoice>. "
 "<application>gThumb</application> moves the folder to the system trash."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guisubmenu>Carpeta</"
+"guisubmenu><guimenuitem>Mover a la papelera</guimenuitem></menuchoice>. "
+"<application>gThumb</application> mueve la carpeta a la papelera del sistema."
 
 #: C/gthumb.xml:417(para)
 msgid "To delete a folder, perform the following steps: <placeholder-1/>"
-msgstr "Para borrar una carpeta, ejecute los siguientes pasos: <placeholder-1/>"
+msgstr ""
+"Para borrar una carpeta, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:433(title)
 msgid "To Copy a Folder"
@@ -684,29 +727,30 @@ msgid ""
 "for. Click on a folder in these lists to insert the folder name in the "
 "<guilabel>Folder</guilabel> entry."
 msgstr ""
-"El diálogo <guilabel>Copiar carpeta</guilabel> se usa para elegir la "
-"carpeta de destino. Puede escribir el nombre de la carpeta en la entrada "
+"El diálogo <guilabel>Copiar carpeta</guilabel> se usa para elegir la carpeta "
+"de destino. Puede escribir el nombre de la carpeta en la entrada "
 "<guilabel>Carpeta</guilabel> o pulsar <guibutton>Examinar</guibutton> para "
-"seleccionar una carpeta del disco. La lista <guilabel>Recientes</guilabel> contiene la "
-"lista de las carpeta destino especificadas recientemente, mientras que la lista "
-"<guilabel>Marcadores</guilabel> contiene la carpetas que tienen un marcador. "
-"Pulse en una carpeta en esas listas para insertar el nombre de la carpeta en la entrada <guilabel>Carpeta</guilabel>."
+"seleccionar una carpeta del disco. La lista <guilabel>Recientes</guilabel> "
+"contiene la lista de las carpeta destino especificadas recientemente, "
+"mientras que la lista <guilabel>Marcadores</guilabel> contiene la carpetas "
+"que tienen un marcador. Pulse en una carpeta en esas listas para insertar el "
+"nombre de la carpeta en la entrada <guilabel>Carpeta</guilabel>."
 
 #: C/gthumb.xml:460(para)
 msgid ""
 "Click on <guibutton>Ok</guibutton>. <application>gThumb</application> copies "
 "the folder to the destination folder."
 msgstr ""
-"Pulse en <guibutton>Aceptar</guibutton>. <application>gThumb</application> copia "
-"la carpeta en la carpeta de destino."
+"Pulse en <guibutton>Aceptar</guibutton>. <application>gThumb</application> "
+"copia la carpeta en la carpeta de destino."
 
 #: C/gthumb.xml:434(para)
 msgid ""
 "To copy a folder to a different location, perform the following steps: "
 "<placeholder-1/>"
 msgstr ""
-"Para copiar una carpeta en una ubicación diferente, ejecute los siguientes pasos: "
-"<placeholder-1/>"
+"Para copiar una carpeta en una ubicación diferente, ejecute los siguientes "
+"pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:468(title)
 msgid "To Move a Folder"
@@ -734,6 +778,14 @@ msgid ""
 "for. Click on a folder in these lists to insert the folder name in the "
 "<guilabel>Folder</guilabel> entry."
 msgstr ""
+"El diálogo <guilabel>Mover carpeta</guilabel> se utiliza para elegir la carpeta "
+"de destino. Puede escribir el nombre de la carpeta en la entrada <guilabel>Carpeta</"
+"guilabel>, o pulsando en <guibutton>Examinar</guibutton> para seleccionar una "
+"carpeta de su disco duro. La lista <guilabel>Recientes</guilabel> contiene la "
+"lista de carpetas destino especificadas recientemente, mientras que la lista "
+"<guilabel>Marcadores</guilabel> contiene las carpetas para las que tiene un "
+"marcador. Pulse en una carpeta de estas lista para insertar el nombre de carpeta "
+"en la entrada<guilabel>Carpeta</guilabel>."
 
 #: C/gthumb.xml:495(para)
 msgid ""
@@ -746,8 +798,8 @@ msgid ""
 "To move a folder to a different location, perform the following steps: "
 "<placeholder-1/>"
 msgstr ""
-"Para mover la carpeta a una ubicación diferente, ejecute los siguientes pasos: "
-"<placeholder-1/>"
+"Para mover la carpeta a una ubicación diferente, ejecute los siguientes "
+"pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:506(title)
 msgid "Viewing Images"
@@ -774,6 +826,13 @@ msgid ""
 "type <keycombo><keycap>F</keycap></keycombo> to activate/disactivate the "
 "full screen mode."
 msgstr ""
+"Para ver una imagen, simplemente pulse en su miniatura y se mostrará la imagen "
+"en el panel del visor. Si la imagen no se ajusta al panel del visor puede darle más espacio "
+"ocultando el navegador, esto puede hacerlo pulsando dos veces en las miniaturas o pulsando "
+"la tecla <keycap>Intro</keycap>, pulsándola otra vez el navegador se mostrará de "
+"nuevo. Otra forma de ver una imagen grande es verla a pantalla completa, pulse "
+"<keycombo><keycap>F</keycap></keycombo> para activar/desactivar el modo "
+"a pantalla completa."
 
 #: C/gthumb.xml:524(para)
 msgid "Mouse operations :"
@@ -781,7 +840,7 @@ msgstr "Operaciones de ratón:"
 
 #: C/gthumb.xml:534(para)
 msgid "Holding down the left button and moving the mouse"
-msgstr ""
+msgstr "Soltando el botón izquierdo y moviendo el ratón"
 
 #: C/gthumb.xml:536(para)
 msgid "move the image."
@@ -819,10 +878,14 @@ msgid ""
 "preview of the image. Moving the mouse you will move the image to the "
 "desired position."
 msgstr ""
+"Otra forma de mover imágenes es con el botón de navegación: <placeholder-1/> "
+"ubicado en la esquina inferior derecha de la ventana del visor cuando la imagen no se "
+"ajusta a la ventana. Si pulsa y suelta este botón se mostrará una vista previa de "
+"la imagen. Al mover y soltar el ratón moverá la imagen a la posición deseada."
 
 #: C/gthumb.xml:576(title)
 msgid "To View the Image Properties"
-msgstr ""
+msgstr "Ver las propiedades de la imagen"
 
 #: C/gthumb.xml:581(para) C/gthumb.xml:600(para) C/gthumb.xml:1358(para)
 msgid "Select the image."
@@ -839,6 +902,7 @@ msgstr ""
 msgid ""
 "To view the image properties, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para ver las propiedades de la imagen, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:593(title)
 msgid "To View the Image EXIF Data"
@@ -848,6 +912,7 @@ msgstr "Ver los datos EXIF de la imagen"
 msgid ""
 "View the image pressing <keycap>Return</keycap> or double clicking on it."
 msgstr ""
+"Vea la imagen pulsando <keycap>Intro</keycap> o pulsando dos veces sobre ella."
 
 #: C/gthumb.xml:607(para)
 msgid ""
@@ -862,6 +927,9 @@ msgid ""
 "guilabel> dialog (<xref linkend=\"gthumb-view-prop\"/>) or perform the "
 "following steps: <placeholder-1/>"
 msgstr ""
+"Para ver los datos EXIF asociados a una imagen, use el diálogo <guilabel>Propiedades</"
+"guilabel> (<xref linkend=\"gthumb-view-prop\"/>) o ejecute los "
+"siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:620(title)
 msgid "Working with Images"
@@ -876,14 +944,16 @@ msgid ""
 "The current image can be modified in many ways. The commands used to modify "
 "an image are located in the <guimenu>Image</guimenu> menu."
 msgstr ""
+"La imagen actual se puede modificar de varias maneras. Los comandos usados "
+"para modificar una imagen se encuentran en el menú <guimenu>Imagen</guimenu>."
 
 #: C/gthumb.xml:637(guimenuitem)
 msgid "Enhance"
-msgstr ""
+msgstr "Realzar"
 
 #: C/gthumb.xml:642(para)
 msgid "Enhance the image adjusting the color levels."
-msgstr ""
+msgstr "Realza la imagen ajustando los niveles de color."
 
 #: C/gthumb.xml:651(guimenuitem)
 msgid "Resize"
@@ -920,7 +990,7 @@ msgstr "Rotar a la izquierda"
 
 #: C/gthumb.xml:700(para)
 msgid "Rotate the image 90 degrees counter-clockwise."
-msgstr ""
+msgstr "Rotar la imagen 90 grados en sentido antihorario."
 
 #: C/gthumb.xml:710(guimenuitem)
 msgid "Flip"
@@ -964,7 +1034,7 @@ msgstr "Balance de color"
 
 #: C/gthumb.xml:774(para)
 msgid "Change the color balancement."
-msgstr "Cambiar el balance de color."
+msgstr "Cambia el balance de color."
 
 #: C/gthumb.xml:783(guimenuitem)
 msgid "Hue-Saturation"
@@ -972,7 +1042,7 @@ msgstr "Tono-Saturación"
 
 #: C/gthumb.xml:788(para)
 msgid "Change the image hue, lightness and saturation level."
-msgstr ""
+msgstr "Cambia el nivel de tonalidad, brillo y saturación de la imagen."
 
 #: C/gthumb.xml:797(guimenuitem) C/gthumb.xml:902(title)
 msgid "Redeye Removal"
@@ -983,6 +1053,7 @@ msgid ""
 "Remove red eyes caused by poor flashes. See <xref linkend=\"gthumb-redeye\"/"
 "> for more information."
 msgstr ""
+"Elimina los ojos rojos provocados por flashes débiles. Para obtener más información consulte la <xref linkend=\"gthumb-redeye\"/>."
 
 #: C/gthumb.xml:812(guimenuitem)
 msgid "Brightness-Contrast"
@@ -990,7 +1061,7 @@ msgstr "Brillo-Contraste"
 
 #: C/gthumb.xml:817(para)
 msgid "Change the image brightness and contrast."
-msgstr ""
+msgstr "Cambia el brillo y el contraste de la imagen."
 
 #: C/gthumb.xml:826(guimenuitem)
 msgid "Posterize"
@@ -998,7 +1069,7 @@ msgstr "Posterizar"
 
 #: C/gthumb.xml:831(para)
 msgid "Reduce the number of colors."
-msgstr "Reducir el número de colores."
+msgstr "Reduce el número de colores."
 
 #: C/gthumb.xml:840(guisubmenu) C/gthumb.xml:855(guisubmenu)
 #: C/gthumb.xml:870(guisubmenu)
@@ -1007,11 +1078,11 @@ msgstr "Auto"
 
 #: C/gthumb.xml:841(guimenuitem)
 msgid "Equalize Histogram"
-msgstr ""
+msgstr "Ecualizar histograma"
 
 #: C/gthumb.xml:846(para)
 msgid "Enhance the image equalizing its histogram."
-msgstr ""
+msgstr "Realza la imagen ecualizando su histograma."
 
 #: C/gthumb.xml:856(guimenuitem)
 msgid "Normalize"
@@ -1019,15 +1090,15 @@ msgstr "Normalizar"
 
 #: C/gthumb.xml:861(para)
 msgid "Automatically normalize the contrast."
-msgstr ""
+msgstr "Normaliza automáticamente el costraste."
 
 #: C/gthumb.xml:871(guimenuitem)
 msgid "Stretch Contrast"
-msgstr ""
+msgstr "Aumentar contraste"
 
 #: C/gthumb.xml:876(para)
 msgid "Automatically stretch the contrast."
-msgstr ""
+msgstr "Aumenta automáticamente el contraste."
 
 #: C/gthumb.xml:887(title) C/gthumb.xml:1949(title) C/gthumb.xml:1956(title)
 #: C/gthumb.xml:2152(title) C/gthumb.xml:2180(title)
@@ -1041,18 +1112,25 @@ msgid ""
 "<menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem></"
 "menuchoice> command."
 msgstr ""
+"Tenga en cuenta que estas modificaciones no cambian el archivo de imagen. Si "
+"quiere ver la imagen original simplemente pulse en su miniatura original o use "
+"el comando <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Revertir</guimenuitem></"
+"menuchoice>."
 
 #: C/gthumb.xml:884(para)
 msgid ""
 "When an image is modified the label \"[modified]\" is displayed near the "
 "image filename. <placeholder-1/>"
 msgstr ""
+"Cuando se modifica una imagen se muestra la etiqueta «[modificada]» "
+"cerca del nombre del archivo de la imagen. <placeholder-1/>"
 
 #: C/gthumb.xml:897(para)
 msgid ""
 "You can save modified images, see <xref linkend=\"gthumb-save-images\"/> for "
 "more information."
 msgstr ""
+"Puede guardar imágenes modificadas, para obtener más información consulte la <xref linkend=\"gthumb-save-images\"/>."
 
 #: C/gthumb.xml:903(para)
 msgid ""
@@ -1076,6 +1154,17 @@ msgid ""
 "the result, you can click on more redeye regions, or click <guibutton>Save</"
 "guibutton> or <guibutton>Done</guibutton> to close the window."
 msgstr ""
+"<application>gThumb</application> proporciona una herramienta para eliminar los "
+"indeseados ojos rojos. Cuando vea una imagen con los ojos rojos, seleccione "
+"<menuchoice><guimenu>Imagen</guimenu><guimenuitem>Quitar ojos rojos</"
+"guimenuitem></menuchoice>. Se abrirá una nueva ventana. Mueva el puntero del ratón "
+"por encima de la zona de los ojos rojos, y pulse encima o cerca de ella. Esto debería eliminar "
+"la zona roja, reemplazándola con una más oscura. Si no está "
+"contento con el resultado, simplemente pulse <guibutton>Deshacer</guibutton> para revertir "
+"el cambio (o cambios) anterior. (Pulsando en <guibutton>Cancelar</guibutton> "
+"se perderán todos los cambios y se cerrará la ventana.) Una vez que esté satisfecho con el  "
+"resultado, puede pulsar en otras zonas de ojos rojos, o pulsar <guibutton>Guardar</"
+"guibutton> o <guibutton>Hecho</guibutton> para cerrar la ventana."
 
 #: C/gthumb.xml:920(para)
 msgid ""
@@ -1113,6 +1202,12 @@ msgid ""
 "right of the picture. Additionally, you can force your selection to keep a "
 "given aspect ratio using the <guimenu>Aspect ratio</guimenu> menu."
 msgstr ""
+"Para utilizar la herramienta, abra la imagen que vaya a recortar. Entonces, seleccione "
+"<menuchoice><guimenu>Imagen</guimenu><guimenuitem>Recortar</guimenuitem></"
+"menuchoice>. Se abrirá una nueva ventana. Puede seleccionar el área que quiere "
+"que se mantenga arrastrando el ratón o tecleando los valores en los campos de la "
+"derecha de la imagen. Adicionalmente, puede forzar su selección para mantener "
+"una proporción dada usando el menú <guimenu>Proporciones</guimenu>."
 
 #: C/gthumb.xml:942(para)
 msgid ""
@@ -1127,6 +1222,16 @@ msgid ""
 "saved later using <menuchoice><guimenu>File</guimenu><guimenuitem>Save</"
 "guimenuitem></menuchoice>)."
 msgstr ""
+"Cuando haya seleccionado el área a recortar, pulse el botón <guibutton>Recortar</"
+"guibutton> para recortar la imagen. El botón <guibutton>Deshacer</guibutton> cancelará "
+"la última operación, mientras que el botón <guibutton>Rehacer</guibutton> la revertirá. "
+"Al pulsar en el botón <guibutton>Cancelar</guibutton> se abandonan todos "
+"los cambios y se cierra la ventana. Cuando esté contento con el resultado, "
+"pulse el botón <guibutton>Guardar</guibutton> para guardar sus cambios en el archivo y "
+"cerrar la ventana, o pulse el botón <guibutton>Hecho</guibutton> para aplicar "
+"los cambios a la imagen sin guardarlos (en cuyo caso el archivo se puede "
+"guardar posteriormente usando <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Guardar</"
+"guimenuitem></menuchoice>)."
 
 #: C/gthumb.xml:951(para)
 msgid ""
@@ -1150,16 +1255,21 @@ msgid ""
 "Modify the image (described in <xref linkend=\"gthumb-alter-images\"/>). Of "
 "course this step is optional."
 msgstr ""
+"Modifique la imagen (descrito en la <xref linkend=\"gthumb-alter-images\"/>). Por "
+"supuesto, este paso es opcional."
 
 #: C/gthumb.xml:972(para)
 msgid ""
 "Choose <menuchoice><guimenu>File</guimenu><guimenuitem>Save As</"
 "guimenuitem></menuchoice>."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Guardar como</"
+"guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:977(para)
 msgid "Choose the filename and click on <guibutton>Ok</guibutton>."
-msgstr "Seleccione el nombre del archivo y pulse <guibutton>Aceptar</guibutton>."
+msgstr ""
+"Seleccione el nombre del archivo y pulse <guibutton>Aceptar</guibutton>."
 
 #: C/gthumb.xml:981(para)
 msgid ""
@@ -1171,16 +1281,17 @@ msgstr ""
 
 #: C/gthumb.xml:961(para)
 msgid "To save an image, perform the following steps: <placeholder-1/>"
-msgstr "Para guardar una imagen, ejecute los siguientes pasos: <placeholder-1/>"
+msgstr ""
+"Para guardar una imagen, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:991(title)
 msgid "To Open a Series of Images with Another Program"
-msgstr ""
+msgstr "Abrir una serie de imágenes con otro programa"
 
 #: C/gthumb.xml:997(para) C/gthumb.xml:1118(para) C/gthumb.xml:1136(para)
 #: C/gthumb.xml:1164(para) C/gthumb.xml:1193(para) C/gthumb.xml:1339(para)
 msgid "Go to the folder or catalog where the images are."
-msgstr ""
+msgstr "Vaya a la carpeta o al catálogo donde se encuentran las imágenes."
 
 #: C/gthumb.xml:1000(para)
 msgid ""
@@ -1207,10 +1318,12 @@ msgid ""
 "To open a series of images with another program, perform the following "
 "steps: <placeholder-1/>"
 msgstr ""
+"Para abrir una serie de imágenes con otro programa, ejecute los siguientes "
+"pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1019(title)
 msgid "To Rename One or More Images"
-msgstr ""
+msgstr "Renombrar una o varias imágenes"
 
 #: C/gthumb.xml:1020(para)
 msgid ""
@@ -1257,7 +1370,8 @@ msgstr "%f"
 msgid ""
 "This symbol will be replaced with the image original name, excluding the "
 "extension."
-msgstr ""
+msgstr "Este símbolo se reemplazará con el nombre original de la imagen, excluyendo "
+"la extensión."
 
 #: C/gthumb.xml:1064(keycap) C/gthumb.xml:2614(para) C/gthumb.xml:3141(para)
 msgid "%e"
@@ -1267,6 +1381,7 @@ msgstr "%e"
 msgid ""
 "This symbol will be replaced with the image original filename extension."
 msgstr ""
+"Este símbolo se reemplazará con la extensión original del nombre del archivo de la imagen."
 
 #: C/gthumb.xml:1071(keycap) C/gthumb.xml:2590(para)
 msgid "%d"
@@ -1275,6 +1390,7 @@ msgstr "%d"
 #: C/gthumb.xml:1073(para)
 msgid "This symbol will be replaced with the image modified date."
 msgstr ""
+"Este símbolo se reemplazará con la fecha modificada de la imagen."
 
 #: C/gthumb.xml:1078(keycap) C/gthumb.xml:2830(para)
 msgid "%s"
@@ -1282,7 +1398,7 @@ msgstr "%s"
 
 #: C/gthumb.xml:1080(para)
 msgid "This symbol will be replaced with the image dimensions."
-msgstr ""
+msgstr "Este símbolo se reemplazará con las dimensiones de la imagen."
 
 #: C/gthumb.xml:1085(keycap) C/gthumb.xml:3133(para)
 msgid "%n"
@@ -1296,16 +1412,23 @@ msgid ""
 "(for example, IMG_123_456.JPG) only the first number will be used (\"123\" "
 "in this example)."
 msgstr ""
+"Este símbolo se reemplazará con el enumerador de la imagen original. Por ejemplo, "
+"si el nombre original del archivo era IMG_9876.JPG, esto extrae la parte "
+"«9876». Si el nombre del archivo tiene más de un grupo de dígitos en su interior "
+"(por ejemplo, IMG_123_456.JPG) sólo se utiliza el primero de ellos («123» "
+"en este ejemplo)."
 
 #: C/gthumb.xml:1096(para)
 msgid ""
 "The list at the bottom of the dialog displays how the filenames will be "
 "renamed."
 msgstr ""
+"La lista en la parte inferior del diálogo muestra cómo se renombrarán "
+"los archivos."
 
 #: C/gthumb.xml:1100(para)
 msgid "To rename the images click on <guibutton>Rename</guibutton>."
-msgstr ""
+msgstr "Para renombrar las imágenes, pulse <guibutton>Renombrar</guibutton>."
 
 #: C/gthumb.xml:1103(para)
 msgid ""
@@ -1317,7 +1440,7 @@ msgstr ""
 
 #: C/gthumb.xml:1112(title)
 msgid "To Delete a Series of Images"
-msgstr ""
+msgstr "Borrar una serie de imágenes"
 
 #: C/gthumb.xml:1121(para)
 msgid ""
@@ -1331,10 +1454,11 @@ msgstr ""
 msgid ""
 "To delete a series of images, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para borrar una serie de imágenes, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1131(title)
 msgid "To Copy a Series of Images"
-msgstr ""
+msgstr "Copiar una serie de imágenes"
 
 #: C/gthumb.xml:1139(para)
 msgid ""
@@ -1360,10 +1484,11 @@ msgstr ""
 msgid ""
 "To copy a series of images, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para copiar una serie de imágenes, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1159(title)
 msgid "To Move a Series of Images"
-msgstr ""
+msgstr "Mover una serie de imágenes"
 
 #: C/gthumb.xml:1167(para)
 msgid ""
@@ -1377,15 +1502,18 @@ msgid ""
 "Click on <guibutton>Ok</guibutton>. <application>gThumb</application> moves "
 "the images."
 msgstr ""
+"Pulse <guibutton>Aceptar</guibutton>. <application>gThumb</application> moverá "
+"las imágenes."
 
 #: C/gthumb.xml:1160(para)
 msgid ""
 "To move a series of images, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para mover una serie de imágenes, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1188(title)
 msgid "To Print a Series of Images"
-msgstr ""
+msgstr "Imprimir una serie de imágenes"
 
 #: C/gthumb.xml:1196(para)
 msgid ""
@@ -1401,24 +1529,25 @@ msgstr ""
 
 #: C/gthumb.xml:1205(para)
 msgid "Choose the number of images per page."
-msgstr ""
+msgstr "Seleccione el número de imágenes por página."
 
 #: C/gthumb.xml:1208(para)
 msgid "Include the image comment."
-msgstr ""
+msgstr "Incluir el comentario de la imagen"
 
 #: C/gthumb.xml:1211(para)
 msgid "Rotate an image by clicking on it."
-msgstr ""
+msgstr "Rotar una imagen pulsando en ella."
 
 #: C/gthumb.xml:1214(para)
 msgid ""
 "Move an image by clicking on it with the left mouse button and dragging it."
 msgstr ""
+"Mueva una imagen pulsando sobre ella con el botón izquierdo del ratón y arrastrándola."
 
 #: C/gthumb.xml:1218(para)
 msgid "Resize the image."
-msgstr ""
+msgstr "Redimensionar la imagen."
 
 #: C/gthumb.xml:1221(para)
 msgid ""
@@ -1428,31 +1557,35 @@ msgstr ""
 
 #: C/gthumb.xml:1202(para)
 msgid "From the <guilabel>Layout</guilabel> tag you can <placeholder-1/>"
-msgstr ""
+msgstr "Desde la etiqueta <guilabel>Distribución</guilabel> puede <placeholder-1/>"
 
 #: C/gthumb.xml:1229(para)
 msgid "Choose the paper format."
-msgstr ""
+msgstr "Seleccione el formato del papel."
 
 #: C/gthumb.xml:1232(para)
 msgid "Choose the paper orientation."
-msgstr ""
+msgstr "Seleccione la orientación del papel."
 
 #: C/gthumb.xml:1226(para)
 msgid ""
 "From the <guilabel>Paper Details</guilabel> tag you can <placeholder-1/>"
 msgstr ""
+"Desde la etiqueta <guilabel>Detalles del papel</guilabel> puede <placeholder-1/>"
 
 #: C/gthumb.xml:1238(para)
 msgid ""
 "When you are ready to print click on <guibutton>Print</guibutton>. "
 "<application>gThumb</application> prints the images."
 msgstr ""
+"Cuando esté listo para imprimir pulse <guibutton>Imprimir</guibutton>. "
+"<application>gThumb</application> imprimirá las imágenes."
 
 #: C/gthumb.xml:1189(para)
 msgid ""
 "To print a series of images, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para imprimir una serie de imágenes, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1249(title)
 msgid "Comments"
@@ -1480,6 +1613,8 @@ msgid ""
 "Comments are pieces of information attached to images. <placeholder-1/"
 "><placeholder-2/>"
 msgstr ""
+"Los comentarios son información adjunta a las imágenes. <placeholder-1/"
+"><placeholder-2/>"
 
 #: C/gthumb.xml:1267(title)
 msgid "To Add a Comment"
@@ -1494,19 +1629,19 @@ msgstr ""
 
 #: C/gthumb.xml:1277(para)
 msgid "<guilabel>Comment</guilabel>: a free text describing the picture."
-msgstr ""
+msgstr "<guilabel>Comentario</guilabel>: texto libre para describir la imagen."
 
 #: C/gthumb.xml:1282(para)
 msgid "<guilabel>Place</guilabel>: the place the picture represents."
-msgstr ""
+msgstr "<guilabel>Lugar</guilabel>: el lugar que la imagen representa."
 
 #: C/gthumb.xml:1287(para)
 msgid "<guilabel>Date</guilabel>: the date the picture was taken."
-msgstr ""
+msgstr "<guilabel>Fecha</guilabel>: la fecha en que se tomó la imagen."
 
 #: C/gthumb.xml:1273(para)
 msgid "Comments are structured in various parts : <placeholder-1/>"
-msgstr ""
+msgstr "Los comentarios están estructurados en varias partes: <placeholder-1/>"
 
 #: C/gthumb.xml:1293(para)
 msgid ""
@@ -1525,7 +1660,7 @@ msgstr "El comentario de una imagen"
 
 #: C/gthumb.xml:1314(title)
 msgid "To Add a Comment to Many Images"
-msgstr ""
+msgstr "Añadir un comentario a varias imágenes"
 
 #: C/gthumb.xml:1315(para)
 msgid ""
@@ -1560,11 +1695,11 @@ msgstr ""
 
 #: C/gthumb.xml:1335(para)
 msgid "To remove comments, perform the following steps: <placeholder-1/>"
-msgstr ""
+msgstr "Para eliminar comentarios, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1351(title)
 msgid "To View an Image Comment"
-msgstr ""
+msgstr "Ver el comentario de una imagen"
 
 #: C/gthumb.xml:1365(para)
 msgid ""
@@ -1607,7 +1742,7 @@ msgstr ""
 
 #: C/gthumb.xml:1398(title)
 msgid "To Assign Categories to a Series of Images"
-msgstr ""
+msgstr "Asignar categorías a una serie de imágenes"
 
 #: C/gthumb.xml:1403(para)
 msgid ""
@@ -1636,10 +1771,12 @@ msgid ""
 "To add categories to a series of images, perform the following steps: "
 "<placeholder-1/>"
 msgstr ""
+"Para añadir categorías a una serie de imágenes, ejecute los siguientes pasos: "
+"<placeholder-1/>"
 
 #: C/gthumb.xml:1423(title)
 msgid "To Assign Categories to a Folder"
-msgstr ""
+msgstr "Asignar categorías a una carpeta"
 
 #: C/gthumb.xml:1424(para)
 msgid ""
@@ -1669,10 +1806,11 @@ msgstr ""
 msgid ""
 "To add categories to a folder, perform the following steps: <placeholder-1/>"
 msgstr ""
+"Para añadir categorías a una carpeta, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1456(title)
 msgid "To Remove Categories from an Image or a Folder"
-msgstr ""
+msgstr "Eliminar categorías de una imagen o una carpeta"
 
 #: C/gthumb.xml:1457(para)
 msgid ""
@@ -1710,10 +1848,12 @@ msgid ""
 "Catalogs are saved in the <filename>$(HOME)/.gnome2/gthumb/collections</"
 "filename> folder."
 msgstr ""
+"Los catalogos se guardan en la carpeta <filename>$(HOME)/.gnome2/gthumb/collections</"
+"filename>."
 
 #: C/gthumb.xml:1496(title)
 msgid "To View the List of Catalogs"
-msgstr ""
+msgstr "Ver la lista de catálogos"
 
 #: C/gthumb.xml:1501(para)
 msgid ""
@@ -1721,31 +1861,38 @@ msgid ""
 "<menuchoice><guimenu>View</guimenu><guimenuitem>Catalogs</guimenuitem></"
 "menuchoice>."
 msgstr ""
+"Pulse <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> o seleccione "
+"<menuchoice><guimenu>Ver</guimenu><guimenuitem>Catalogos</guimenuitem></"
+"menuchoice>."
 
 #: C/gthumb.xml:1497(para)
 msgid ""
 "To view the list of catalogs, perform the following step: <placeholder-1/>"
 msgstr ""
+"Para ver la lista de catálogos, ejecute los siguientes pasos: <placeholder-1/>"
 
 #: C/gthumb.xml:1510(title)
 msgid "To View a Catalog"
-msgstr ""
+msgstr "Ver un catálogo"
 
 #: C/gthumb.xml:1515(para) C/gthumb.xml:1560(para) C/gthumb.xml:1581(para)
 #: C/gthumb.xml:1602(para) C/gthumb.xml:1624(para)
 msgid ""
 "Set the catalogs view (described in <xref linkend=\"gthumb-catalog-view\"/>)."
 msgstr ""
+"Configura la vista de catálogos (descrita en la <xref linkend=\"gthumb-catalog-view\"/>)."
 
 #: C/gthumb.xml:1519(para)
 msgid "Select the catalog clicking on the catalog name."
-msgstr ""
+msgstr "Seleccione el catálogo pulsando sobre el nombre el nombre del catálogo."
 
 #: C/gthumb.xml:1511(para)
 msgid ""
 "To view the content of a catalog, perform the following steps: <placeholder-"
 "1/>"
 msgstr ""
+"Para ver el contenido de un catálogo, ejecute los siguientes pasos: <placeholder-"
+"1/>"
 
 #: C/gthumb.xml:1523(para)
 msgid ""
@@ -1777,6 +1924,8 @@ msgid ""
 "Choose <guibutton>Ok</guibutton>. <application>gThumb</application> adds the "
 "selected images to the catalog."
 msgstr ""
+"Seleccione <guibutton>Aceptar</guibutton>. <application>gThumb</application> añadirá las "
+"imágenes seleccionadas al catálogo."
 
 #: C/gthumb.xml:1536(para)
 msgid ""
@@ -1806,8 +1955,8 @@ msgid ""
 "To remove images from a catalog, perform the following steps: <placeholder-1/"
 ">"
 msgstr ""
-"Para eliminar imágenes de un catálogo, ejecute los siguientes pasos: <placeholder-1/"
-">"
+"Para eliminar imágenes de un catálogo, ejecute los siguientes pasos: "
+"<placeholder-1/>"
 
 #: C/gthumb.xml:1576(title)
 msgid "To Create a Catalog"
@@ -1818,6 +1967,8 @@ msgid ""
 "Choose <menuchoice><guimenu>File</guimenu><guimenuitem>New Catalog</"
 "guimenuitem></menuchoice>."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Catálogo nuevo</"
+"guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:1590(para)
 msgid ""
@@ -1858,18 +2009,24 @@ msgid ""
 "Choose <menuchoice><guimenu>File</guimenu><guimenuitem>New Library</"
 "guimenuitem></menuchoice>."
 msgstr ""
+"Seleccione <menuchoice><guimenu>Archivo</guimenu><guimenuitem>Biblioteca nueva</"
+"guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:1633(para)
 msgid ""
 "Enter the library name and click on <guibutton>Ok</guibutton>. "
 "<application>gThumb</application> creates the library."
 msgstr ""
+"Introduzca el nombre de la biblioteca y pulse <guibutton>Aceptar</guibutton>. "
+"<application>gThumb</application> creará la biblioteca."
 
 #: C/gthumb.xml:1620(para)
 msgid ""
 "To create a library of catalogs, perform the following steps: <placeholder-1/"
 ">"
-msgstr "Para crear una biblioteca de catálogos, ejecute los siguientes pasos: <placeholder-1/>"
+msgstr ""
+"Para crear una biblioteca de catálogos, ejecute los siguientes pasos: "
+"<placeholder-1/>"
 
 #: C/gthumb.xml:1644(title)
 msgid "Finding Images"
@@ -1888,7 +2045,7 @@ msgstr ""
 
 #: C/gthumb.xml:1651(title)
 msgid "To Do a Simple Search"
-msgstr ""
+msgstr "Hhacer una búsqueda simple"
 
 #: C/gthumb.xml:1652(para)
 msgid ""
@@ -1911,6 +2068,8 @@ msgid ""
 "<application>gThumb</application> searches for images named <filename>foo."
 "jpg</filename>"
 msgstr ""
+"<application>gThumb</application> busca imágenes llamadas <filename>foo."
+"jpg</filename>"
 
 #: C/gthumb.xml:1682(userinput)
 #, no-wrap
@@ -1922,6 +2081,8 @@ msgid ""
 "<application>gThumb</application> searches for images with the "
 "<filename>png</filename> extension."
 msgstr ""
+"<application>gThumb</application> busca imágenes con la extensión "
+"<filename>png</filename>."
 
 #: C/gthumb.xml:1691(userinput)
 #, no-wrap
@@ -1933,6 +2094,8 @@ msgid ""
 "<application>gThumb</application> searches for images with the "
 "<filename>gif</filename> or <filename>jpg</filename> extension."
 msgstr ""
+"<application>gThumb</application> busca imágenes con la extensión "
+"<filename>gif</filename> o <filename>jpg</filename>."
 
 #: C/gthumb.xml:1657(para)
 msgid ""
@@ -1941,6 +2104,10 @@ msgid ""
 "colname=\"COLSPEC1\" colwidth=\"50.00*\"/><placeholder-1/><placeholder-2/></"
 "tgroup></informaltable>"
 msgstr ""
+"Ejemplos: <informaltable frame=\"all\"><tgroup cols=\"2\" colsep=\"1\" "
+"rowsep=\"1\"><colspec colname=\"COLSPEC0\" colwidth=\"50.00*\"/><colspec "
+"colname=\"COLSPEC1\" colwidth=\"50.00*\"/><placeholder-1/><placeholder-2/></"
+"tgroup></informaltable>"
 
 #: C/gthumb.xml:1703(para)
 msgid ""
@@ -2012,6 +2179,8 @@ msgid ""
 "<application>gThumb</application> searches for images that have \"paolo\" in "
 "the comment."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «paolo» en "
+"el comentario."
 
 #: C/gthumb.xml:1783(userinput)
 #, no-wrap
@@ -2036,6 +2205,8 @@ msgid ""
 "<application>gThumb</application> searches for images that have \"holiday\" "
 "OR \"rome\" in the comment."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «vacaciones» "
+"O «roma» en el comentario."
 
 #: C/gthumb.xml:1800(userinput)
 #, no-wrap
@@ -2047,6 +2218,8 @@ msgid ""
 "<application>gThumb</application> searches for images that have \"holiday in "
 "rome\" OR \"my birthday\" in the comment."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan |vacaciones en "
+"roma« O «mi cumpleaños» en el comentario."
 
 #: C/gthumb.xml:1816(guilabel)
 msgid "Place"
@@ -2054,7 +2227,7 @@ msgstr "Lugar"
 
 #: C/gthumb.xml:1818(para)
 msgid "A list of phrases the place field of the comment must contain."
-msgstr ""
+msgstr "Una lista de frases que el campo lugar o el comentario deben contener."
 
 #: C/gthumb.xml:1842(userinput)
 #, no-wrap
@@ -2066,6 +2239,8 @@ msgid ""
 "<application>gThumb</application> searches for images that have \"rome\" in "
 "the place field."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «roma» en "
+"el campo lugar."
 
 #: C/gthumb.xml:1851(userinput)
 #, no-wrap
@@ -2077,6 +2252,8 @@ msgid ""
 "<application>gThumb</application> searches for images that have \"paris\" OR "
 "\"rome\" OR \"london\" in the place field. place field."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «parís» O "
+"«roma» O «londres» en el campo lugar."
 
 #: C/gthumb.xml:1868(guilabel)
 msgid "Date"
@@ -2096,6 +2273,7 @@ msgstr ""
 msgid ""
 "The criteria the date field of the comment must respect: <placeholder-1/>"
 msgstr ""
+"El criterio que el campo fecha o el comentario deben respetar: <placeholder-1/>"
 
 #: C/gthumb.xml:1895(para)
 msgid ""
@@ -2121,6 +2299,8 @@ msgid ""
 "<application>gThumb</application> searches for images with \"family\" as one "
 "of their keywords."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «familia» como una "
+"de sus palabras clave."
 
 #: C/gthumb.xml:1933(userinput)
 #, no-wrap
@@ -2132,18 +2312,20 @@ msgid ""
 "<application>gThumb</application> searches for images with \"family\" and/or "
 "\"me\" in the keywords list."
 msgstr ""
+"<application>gThumb</application> busca imágenes que contengan «familia» y/o "
+"«yo» en la lista de palabras clave."
 
 #: C/gthumb.xml:1950(para)
 msgid "If you use more than one criteria images must respect all of them."
-msgstr ""
+msgstr "Si usa más de un criterio las imágenes deben respetarlos todos."
 
 #: C/gthumb.xml:1957(para)
 msgid "The search is always case insensitive."
-msgstr ""
+msgstr "La búsqueda es siempre insensible a la capitalización."
 
 #: C/gthumb.xml:1966(title)
 msgid "To Find Duplicated Images"
-msgstr ""
+msgstr "Buscar imágenes duplicadas"
 
 #: C/gthumb.xml:1967(para)
 msgid ""
@@ -2153,7 +2335,7 @@ msgstr ""
 
 #: C/gthumb.xml:1978(title)
 msgid "Slide Shows"
-msgstr ""
+msgstr "Mostrar diapositivas"
 
 #: C/gthumb.xml:1979(para)
 msgid ""
@@ -2202,13 +2384,17 @@ msgstr "Para hacer una presentación automática, ejecute los siguientes pasos:"
 
 #: C/gthumb.xml:2014(para) C/gthumb.xml:2048(para)
 msgid "Go to the folder or catalog containing the images you want to present."
-msgstr "Vaya a la carpeta o al catálogo que contiene las imágenes que quiere presentar."
+msgstr ""
+"Vaya a la carpeta o al catálogo que contiene las imágenes que quiere "
+"presentar."
 
 #: C/gthumb.xml:2018(para)
 msgid ""
 "Select the images you want to view in the slideshow, or select none to view "
 "all the images in the current folder or catalog."
 msgstr ""
+"Seleccione las imágenes que quiere ver en la presentación de diapositivas, o no seleccione "
+"ninguna para ver todas las imágenes en la carpeta o catálogo actual."
 
 #: C/gthumb.xml:2023(para)
 msgid ""
@@ -2217,6 +2403,10 @@ msgid ""
 "menuchoice>. <application>gThumb</application> starts an automatic "
 "presentation of the images."
 msgstr ""
+"Pulse <keycombo action=\"simul\"><keycap>O</keycap></keycombo> o seleccione "
+"<menuchoice><guimenu>Ver</guimenu><guimenuitem>Mostrar diapositivas</guimenuitem></"
+"menuchoice>. <application>gThumb</application> iniciará automáticamente "
+"la presentación de las imágenes."
 
 #: C/gthumb.xml:2031(para)
 msgid ""
@@ -2241,7 +2431,7 @@ msgstr "Para hacer una presentación manual, ejecute los siguientes pasos:"
 
 #: C/gthumb.xml:2052(para)
 msgid "Select the image from which you want to start the presentation."
-msgstr ""
+msgstr "Seleccione la imagen desde la que quiere comenzar la presentación."
 
 #: C/gthumb.xml:2056(para)
 msgid ""
@@ -2281,20 +2471,23 @@ msgstr "Establecer el fondo del escritorio"
 #: C/gthumb.xml:2096(para)
 msgid ""
 "<guilabel>Centered</guilabel>: The image will be centered on the screen."
-msgstr ""
-"<guilabel>Centrado</guilabel>: Se centrará la imagen en la pantalla."
+msgstr "<guilabel>Centrado</guilabel>: Se centrará la imagen en la pantalla."
 
 #: C/gthumb.xml:2100(para)
 msgid ""
 "<guilabel>Tiled</guilabel>: The image will be duplicated on the screen as "
 "tiles on the floor."
 msgstr ""
+"<guilabel>Mosaico</guilabel>: La imagen se duplicará en la pantalla como los "
+"azulejos en el suelo."
 
 #: C/gthumb.xml:2104(para)
 msgid ""
 "<guilabel>Scaled</guilabel>: The image will be scaled to fill the screen "
 "mantaining the aspect ratio."
 msgstr ""
+"<guilabel>Escalado</guilabel>: Se escalará la imagen para rellenar la pantalla "
+"manteniendo la proporción."
 
 #: C/gthumb.xml:2108(para)
 msgid ""
@@ -2319,7 +2512,7 @@ msgstr ""
 
 #: C/gthumb.xml:2123(title)
 msgid "To Rotate Images Without Loss of Quality"
-msgstr ""
+msgstr "Rotar imágenes sin pérdida de calidad"
 
 #: C/gthumb.xml:2124(para)
 msgid ""
@@ -2345,6 +2538,8 @@ msgid ""
 "Click on <guibutton>Apply</guibutton> to apply the changes. The files are "
 "automatically saved after clicking <guibutton>Apply</guibutton>."
 msgstr ""
+"Pulse <guibutton>Aplicar</guibutton> para aplicar los cambios. Los archivos se "
+"guardan automáticamente después de pulsar <guibutton>Aplicar</guibutton>."
 
 #: C/gthumb.xml:2153(para)
 msgid ""
@@ -2409,6 +2604,17 @@ msgid ""
 "like the trim the image slightly (by up to 7 columns and/or rows of pixels) "
 "to remove the problem areas."
 msgstr ""
+"La transformación física de los datos de los píxeles dentro de un archivo de "
+"imagen JPEG no degradará la calidad de la imagen (es decir, no hay pérdidas) "
+"en la mayoría de los casos. Sin embargo, si las dimensiones de la imagen "
+"(altura y ancho) no son ambas múltiplos de 8, pueden ocurrir algunas corrupciones "
+"de datos a lo largo de uno o dos de los bordes la imagen. Si hay una etiqueta EXIF de "
+"orientación, puede evitar este problema desmarcando la casilla "
+"<guilabel>Aplicar transformación física</guilabel>. Si debe utilizar la transformación "
+"física de acercamiento con imágenes cuyas dimensiones no son múltiplos de 8, "
+"<application>gThumb</application> le permitirá proceder a pesar de la posible "
+"distorsión de la imagen, pero siempre le preguntará si le gustaría ajustar la imagen "
+"levemente (hasta 7 columnas y/o filas de píxeles) para eliminar las áreas problemáticas."
 
 #: C/gthumb.xml:2202(title)
 msgid "Resetting the Exif Orientation Tag"
@@ -2546,7 +2752,7 @@ msgstr "Para ejecutar el escalado pulse <guibutton>Escalar</guibutton>."
 
 #: C/gthumb.xml:2337(title)
 msgid "To Change Images Date"
-msgstr ""
+msgstr "Cambiar la fecha de las imágenes"
 
 #: C/gthumb.xml:2338(para)
 msgid ""
@@ -2677,7 +2883,7 @@ msgstr ""
 
 #: C/gthumb.xml:2444(title)
 msgid "To Import Photos from a Digital Camera"
-msgstr ""
+msgstr "Importar fotos de una cámara digital"
 
 #: C/gthumb.xml:2445(para)
 msgid ""
@@ -2690,6 +2896,8 @@ msgid ""
 "Several options are presented in the <menuchoice><guimenu>File</"
 "guimenu><guimenuitem>Import Photos </guimenuitem></menuchoice> dialog."
 msgstr ""
+"Se muestran varias opciones en el diálogo <menuchoice><guimenu>Archivo</"
+"guimenu><guimenuitem>Importar fotos</guimenuitem></menuchoice>."
 
 #: C/gthumb.xml:2455(para)
 msgid ""
@@ -2762,7 +2970,7 @@ msgstr "%a"
 
 #: C/gthumb.xml:2523(para)
 msgid "The abbreviated weekday name according to the current locale."
-msgstr ""
+msgstr "El día de la semana abreviado, de acuerdo con la configuración regional actual."
 
 #: C/gthumb.xml:2530(para)
 msgid "%A"
@@ -2770,7 +2978,7 @@ msgstr "%A"
 
 #: C/gthumb.xml:2535(para)
 msgid "The full weekday name according to the current locale."
-msgstr ""
+msgstr "El día de la semana completo de acuerdo con la configuración regional actual."
 
 #: C/gthumb.xml:2542(para) C/gthumb.xml:3129(para)
 msgid "%b"
@@ -2778,7 +2986,7 @@ msgstr "%b"
 
 #: C/gthumb.xml:2547(para)
 msgid "The abbreviated month name according to the current locale."
-msgstr ""
+msgstr "El nombre abreviado del mes, de acuerdo con la configuración regional actual."
 
 #: C/gthumb.xml:2554(para)
 msgid "%B"
@@ -2786,7 +2994,7 @@ msgstr "%B"
 
 #: C/gthumb.xml:2559(para)
 msgid "The full month name according to the current locale."
-msgstr ""
+msgstr "El nombre del mes completo de acuerdo con la configuración regional."
 
 #: C/gthumb.xml:2566(para)
 msgid "%c"
@@ -2794,7 +3002,7 @@ msgstr "%c"
 
 #: C/gthumb.xml:2571(para)
 msgid "The preferred date and time representation for the current locale."
-msgstr ""
+msgstr "La representación favorita de la fecha y la hora de acuerdo con la configuración regional."
 
 #: C/gthumb.xml:2578(para)
 msgid "%C"
@@ -2802,11 +3010,11 @@ msgstr "%C"
 
 #: C/gthumb.xml:2583(para)
 msgid "The century number (year/100) as a 2-digit integer."
-msgstr ""
+msgstr "El número de siglo (año/100) como un entero de 2 dígitos."
 
 #: C/gthumb.xml:2595(para)
 msgid "The day of the month as a decimal number (range 01 to 31)."
-msgstr ""
+msgstr "El día del mes como un número decimal (rango de 01 a 31)."
 
 #: C/gthumb.xml:2602(para)
 msgid "%D"
@@ -2831,7 +3039,7 @@ msgstr "%E"
 
 #: C/gthumb.xml:2631(para) C/gthumb.xml:2775(para)
 msgid "Modifier: use alternative format, see below."
-msgstr ""
+msgstr "Modificador: use el formato alternativo, vea debajo."
 
 #: C/gthumb.xml:2638(para) C/gthumb.xml:3120(para)
 msgid "%F"
@@ -2839,7 +3047,7 @@ msgstr "%F"
 
 #: C/gthumb.xml:2643(para)
 msgid "Equivalent to %Y-%m-%d (the ISO 8601 date format). (C99)"
-msgstr ""
+msgstr "Equivalente a %Y-%m-%d (el formato de fecha de ISO 8601). (C99)"
 
 #: C/gthumb.xml:2650(para)
 msgid "%G"
@@ -2859,7 +3067,7 @@ msgstr "%g"
 
 #: C/gthumb.xml:2667(para)
 msgid "Like %G, but without century, i.e., with a 2-digit year (00-99)."
-msgstr ""
+msgstr "Igual que %G, pero sin siglo, ej. con un año de dos dígitos (00-99)."
 
 #: C/gthumb.xml:2674(para)
 msgid "%h"
@@ -2875,7 +3083,7 @@ msgstr "%H"
 
 #: C/gthumb.xml:2691(para)
 msgid "The hour as a decimal number using a 24-hour clock (range 00 to 23)."
-msgstr ""
+msgstr "La hora como un número decimal, utilizando un reloj de 24 horas (rango de 00 a 23)."
 
 #: C/gthumb.xml:2698(para)
 msgid "%I"
@@ -2883,7 +3091,7 @@ msgstr "%I"
 
 #: C/gthumb.xml:2703(para)
 msgid "The hour as a decimal number using a 12-hour clock (range 01 to 12)."
-msgstr ""
+msgstr "La hora como un numero decimal, utilizando un reloj de 12 horas (rango de 01 a 12)."
 
 #: C/gthumb.xml:2710(para)
 msgid "%j"
@@ -2891,7 +3099,7 @@ msgstr "%j"
 
 #: C/gthumb.xml:2715(para)
 msgid "The day of the year as a decimal number (range 001 to 366)."
-msgstr ""
+msgstr "El día del año como un número decimal (rango de 001 a 366)."
 
 #: C/gthumb.xml:2722(para)
 msgid "%k"
@@ -2919,7 +3127,7 @@ msgstr "%m"
 
 #: C/gthumb.xml:2751(para)
 msgid "The month as a decimal number (range 01 to 12)."
-msgstr ""
+msgstr "El mes como un número decimal (rango de 01 a 12)."
 
 #: C/gthumb.xml:2758(para)
 msgid "%M"
@@ -3262,7 +3470,7 @@ msgstr "Una sola extensión (comenzando por un período)"
 
 #: C/gthumb.xml:3146(para)
 msgid "The parent folder of the single file"
-msgstr ""
+msgstr "La carpeta padre del archivo individual"
 
 #: C/gthumb.xml:3149(para)
 msgid "[text]"
@@ -3294,7 +3502,7 @@ msgstr ""
 
 #: C/gthumb.xml:3167(para)
 msgid "{..strftime format code..}"
-msgstr ""
+msgstr "{..strftime código de formato..}"
 
 #: C/gthumb.xml:3168(para)
 msgid ""
@@ -3377,7 +3585,7 @@ msgstr ""
 
 #: C/gthumb.xml:3232(command)
 msgid "gimp-remote %F"
-msgstr ""
+msgstr "gimp-remote %F"
 
 #: C/gthumb.xml:3234(para)
 msgid ""
@@ -3462,7 +3670,7 @@ msgstr ""
 
 #: C/gthumb.xml:3300(title)
 msgid "Password Security"
-msgstr ""
+msgstr "Seguridad de la contraseña"
 
 #: C/gthumb.xml:3301(para)
 msgid ""
@@ -3509,7 +3717,7 @@ msgstr "Solapa General"
 
 #: C/gthumb.xml:3342(para)
 msgid "This tab allows you to set the following options:"
-msgstr ""
+msgstr "Esta solapa le permite configurar las siguientes opciones:"
 
 #: C/gthumb.xml:3348(para)
 msgid ""
@@ -3633,7 +3841,7 @@ msgstr ""
 
 #: C/gthumb.xml:3472(guilabel)
 msgid "Scrollbar positions after using Next/Previous"
-msgstr ""
+msgstr "Posiciones de la barra de desplazamiento después de usar Siguiente/Anterior"
 
 #: C/gthumb.xml:3474(para)
 msgid ""
@@ -3667,7 +3875,7 @@ msgstr ""
 
 #: C/gthumb.xml:3504(title)
 msgid "Slide Show Tab"
-msgstr ""
+msgstr "Solapa Mostrar diapositivas"
 
 #: C/gthumb.xml:3505(para)
 msgid ""
@@ -3692,11 +3900,12 @@ msgid ""
 "fullscreen\"/> provide a quick reference for all of the <application>gThumb</"
 "application> keyword shortcuts. Look in the menus for other shortcuts."
 msgstr ""
-"La <xref linkend=\"gthumb-TBL-keyword-shortcuts-browser\"/>, la <xref linkend="
-"\"gthumb-TBL-keyword-shortcuts-viewer\"/>, la <xref linkend=\"gthumb-TBL-"
-"keyword-shortcuts-other\"/> y la <xref linkend=\"gthumb-TBL-keyword-shortcuts-"
-"fullscreen\"/> proporcionan una referencia rápida de todos los atajos de teclado de "
-"<application>gThumb</application>. Busque en los menús otros atajos."
+"La <xref linkend=\"gthumb-TBL-keyword-shortcuts-browser\"/>, la <xref "
+"linkend=\"gthumb-TBL-keyword-shortcuts-viewer\"/>, la <xref linkend=\"gthumb-"
+"TBL-keyword-shortcuts-other\"/> y la <xref linkend=\"gthumb-TBL-keyword-"
+"shortcuts-fullscreen\"/> proporcionan una referencia rápida de todos los "
+"atajos de teclado de <application>gThumb</application>. Busque en los menús "
+"otros atajos."
 
 #: C/gthumb.xml:3531(title)
 msgid "Keyboard shortcuts to navigate folders"
@@ -3922,13 +4131,15 @@ msgstr "Borrar las imágenes seleccionadas."
 
 #: C/gthumb.xml:3823(title)
 msgid "Keyboard shortcuts to view images"
-msgstr ""
+msgstr "Atajos de teclado para ver imágenes"
 
 #: C/gthumb.xml:3841(para)
 msgid ""
 "<keycombo><keycap>v</keycap></keycombo> or <keycombo><keycap>f</keycap></"
 "keycombo> or <keycombo><keycap>F11</keycap></keycombo>"
 msgstr ""
+"<keycombo><keycap>v</keycap></keycombo> o <keycombo><keycap>f</keycap></"
+"keycombo> o <keycombo><keycap>F11</keycap></keycombo>"
 
 #: C/gthumb.xml:3848(para)
 msgid "Set/Unset the full screen mode."
@@ -3996,7 +4207,7 @@ msgstr "l"
 
 #: C/gthumb.xml:3930(para)
 msgid "Flip the image."
-msgstr ""
+msgstr "Voltear la imagen."
 
 #: C/gthumb.xml:3939(keycap)
 msgid "m"
@@ -4004,7 +4215,7 @@ msgstr "m"
 
 #: C/gthumb.xml:3943(para)
 msgid "Mirror the image."
-msgstr ""
+msgstr "Reflejar la imagen."
 
 #: C/gthumb.xml:3952(keycap)
 msgid "r"
@@ -4012,7 +4223,7 @@ msgstr "r"
 
 #: C/gthumb.xml:3956(para)
 msgid "Rotate the image clockwise of 90 degrees without saving."
-msgstr ""
+msgstr "Rotar la imagen 90 grados en sentido horario, sin guardar."
 
 #: C/gthumb.xml:3965(keycap)
 msgid "e"
@@ -4020,7 +4231,7 @@ msgstr "e"
 
 #: C/gthumb.xml:3969(para)
 msgid "Rotate the image counter-clockwise of 90 degrees without saving."
-msgstr ""
+msgstr "Rotar la imagen 90 grados en sentido antihorario, sin guardar."
 
 #: C/gthumb.xml:3979(keycap)
 msgid "]"
@@ -4031,6 +4242,8 @@ msgid ""
 "Rotate and save the image clockwise of 90 degrees. The rotation is lossless "
 "for jpeg images."
 msgstr ""
+"Rotar la imagen 90 grados en sentido horario y guardarla. La rotación se realiza "
+"sin pérdida para imágenes jpeg."
 
 #: C/gthumb.xml:3992(keycap)
 msgid "["
@@ -4056,7 +4269,7 @@ msgstr "j"
 
 #: C/gthumb.xml:4023(para)
 msgid "View the next frame of a stopped animation."
-msgstr ""
+msgstr "Ver el siguiente cuadro de una animación detenida."
 
 #: C/gthumb.xml:4032(keycap) C/gthumb.xml:4045(keycap)
 msgid "Arrows"
@@ -4064,15 +4277,15 @@ msgstr "Flechas"
 
 #: C/gthumb.xml:4036(para)
 msgid "Scroll the image."
-msgstr ""
+msgstr "Desplazar la imagen."
 
 #: C/gthumb.xml:4050(para)
 msgid "Scroll the image faster."
-msgstr ""
+msgstr "Desplazar la imagen más rápidamente."
 
 #: C/gthumb.xml:4064(title)
 msgid "Other keyboard shortcuts."
-msgstr ""
+msgstr "Otros atajos de teclado."
 
 #: C/gthumb.xml:4083(keycap)
 msgid "s"
@@ -4108,7 +4321,7 @@ msgstr "Ocultar/Mostrar el comentario de la imagen y sus propiedades"
 
 #: C/gthumb.xml:4138(title)
 msgid "Keyboard shortcuts available exclusively in fullscreen mode"
-msgstr ""
+msgstr "Atajos de teclado disponibles exclusivamente en modo de pantalla completa"
 
 #: C/gthumb.xml:4152(keycap)
 msgid "p"
