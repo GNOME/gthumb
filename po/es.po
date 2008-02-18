@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-31 19:31+0000\n"
-"PO-Revision-Date: 2008-02-15 21:26+0100\n"
+"POT-Creation-Date: 2008-02-15 20:26+0000\n"
+"PO-Revision-Date: 2008-02-17 11:59+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -638,7 +638,8 @@ msgstr "Ampliar. La rueda del ratón también se puede usar para ampliar."
 
 #: ../data/glade/gthumb_crop.glade.h:24 ../data/glade/gthumb_redeye.glade.h:13
 msgid "Zoom out. The mousewheel can also be used to zoom out."
-msgstr "Reducir. La rueda del ratón también se puede usar para reducir la ampliación."
+msgstr ""
+"Reducir. La rueda del ratón también se puede usar para reducir la ampliación."
 
 #: ../data/glade/gthumb_crop.glade.h:25 ../data/glade/gthumb_redeye.glade.h:14
 msgid "Zoom to fit"
@@ -1162,6 +1163,9 @@ msgid ""
 "camera - photos, videos, and audio files. You can omit the audio and video "
 "files by deselecting this checkbox."
 msgstr ""
+"De forma predeterminada, gThumb lista todos los archivos que podrían encontrarse en una cámara "
+"digital; fotos, vídeos y archivos de sonido. Puede omitir los archivos de sonido y de vídeo "
+"deseleccionando esta casilla."
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
@@ -1229,7 +1233,7 @@ msgstr "Sólo iconos"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Include audio clips and movies in browser view"
-msgstr ""
+msgstr "Incluir archivos de audio y películas en la vista del navegador"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Keep previous zoom"
@@ -1253,7 +1257,8 @@ msgstr "Hacia _atrás"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Reset scrollbar positions after loading an image"
-msgstr "Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
+msgstr ""
+"Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Resta_rt when finished"
@@ -2230,7 +2235,8 @@ msgstr "Los valores posibles son: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Los valores posibles son: none, name, path, size, time, exifdate, comment."
+msgstr ""
+"Los valores posibles son: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid ""
@@ -2269,7 +2275,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Los valores posibles son: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:26
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Los valores posibles son: system, text_below, text_beside, text_only, "
 "icons_only."
@@ -2485,8 +2492,10 @@ msgstr "Convirtiendo imagen: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr ""
+"Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
 
 #: ../src/dlg-convert.c:357 ../src/gth-batch-op.c:592
 #, c-format
@@ -2548,8 +2557,10 @@ msgstr "No se ha podido crear la carpeta «%s»: %s."
 
 #: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1762
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+"Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
 
 #: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
@@ -2588,7 +2599,8 @@ msgstr "No ha introducido el nombre nuevo"
 
 #: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "El nombre «%s» ya está siendo usado en esta carpeta. Por favor utilice un "
 "nombre distinto."
@@ -2671,7 +2683,8 @@ msgid "%s Properties"
 msgstr "Propiedades de %s"
 
 #: ../src/dlg-jpegtran.c:254 ../src/dlg-reset-exif.c:128
-msgid "Could not move temporary file to remote location. Check remote permissions."
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino remoto. Compruebe los "
 "permisos de las carpetas."
@@ -2896,7 +2909,8 @@ msgstr "Ingrese el nombre nuevo: "
 #: ../src/gth-browser-actions-callbacks.c:1025
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
+msgstr ""
+"El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
 
 #: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
@@ -2952,7 +2966,8 @@ msgstr "No se pudo borrar la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1131
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "«%s» no se puede mover a la papelera. ¿Desea borrarla permanentemente?"
 
 #: ../src/gth-browser-actions-callbacks.c:1175
@@ -3277,7 +3292,8 @@ msgstr "A_brir con el administrador de archivos"
 
 #: ../src/gth-browser-actions-entries.h:221
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
+msgstr ""
+"Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:226
 msgid "Rename selected folder"
@@ -3901,7 +3917,7 @@ msgstr "Abrir las imágenes seleccionadas con una aplicación"
 
 #: ../src/gth-window-actions-callbacks.c:935
 msgid "An image viewer and browser for GNOME."
-msgstr "Un visor y navegador de imágenes para Gnome."
+msgstr "Un visor y navegador de imágenes para GNOME."
 
 #: ../src/gth-window-actions-callbacks.c:938
 msgid "translator_credits"
@@ -4351,8 +4367,8 @@ msgid "Could not create a local temporary copy of the remote file."
 msgstr "No se ha podido crear una copia temporal del archivo remoto."
 
 #: ../src/rotation-utils.c:215
-msgid "Could not move temporary file to local destination. Check folder permissions."
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino local. Compruebe los "
 "permisos de las carpetas."
-
