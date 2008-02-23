@@ -1980,11 +1980,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
-msgstr "Albom web"
+msgstr "Album web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album Theme"
-msgstr "Tèma d'albom web"
+msgstr "Tèma d'album web"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
