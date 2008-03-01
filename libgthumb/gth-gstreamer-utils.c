@@ -55,8 +55,6 @@ typedef struct {
 	GstTagList	*audiotags;
 	GstTagList	*videotags;
 
-	GstMessageType	ignore_messages_mask;
-
 	gboolean	has_audio;
 	gboolean	has_video;
 
@@ -68,6 +66,7 @@ typedef struct {
 	gint		audio_samplerate;
 } MetadataExtractor;
 
+static gboolean gstreamer_initialized = FALSE;
 
 static void
 caps_set (GObject *obj, MetadataExtractor *extractor, const gchar *type)
@@ -195,147 +194,6 @@ update_stream_info (MetadataExtractor *extractor)
 
 	g_list_foreach (streaminfo, (GFunc) g_object_unref, NULL);
 	g_list_free (streaminfo);
-}
-
-
-static void
-gst_bus_cb (GstBus *bus, GstMessage *message, MetadataExtractor *extractor)
-{
-	GstMessageType msg_type;
-
-	g_return_if_fail (bus);
-        g_return_if_fail (message);
-        g_return_if_fail (extractor);
-
-	msg_type = GST_MESSAGE_TYPE (message);
-
-	/* somebody else is handling the message, probably in poll_for_state_change */
-	if (extractor->ignore_messages_mask & msg_type) {
-		gchar *src_name;
-
-		src_name = gst_object_get_name (message->src);
-		GST_LOG ("Ignoring %s message from element %s as requested",
-			 gst_message_type_get_name (msg_type), src_name);
-		g_free (src_name);
-
-		return;
-	}
-
-	switch (msg_type) {
-	case GST_MESSAGE_ERROR: {
-		GstMessage *message  = NULL;
-		GError     *gsterror = NULL;
-		gchar      *debug    = NULL;
-
-		gst_message_parse_error (message, &gsterror, &debug);
-		g_warning ("Error: %s (%s)", gsterror->message, debug);
-
-		gst_message_unref (message);
-		g_error_free (gsterror);
-		g_free (debug);
-	}
-		break;
-
-	case GST_MESSAGE_STATE_CHANGED: {
-		GstState old_state, new_state;
-
-                old_state = new_state = GST_STATE_NULL;
-
-		gst_message_parse_state_changed (message, &old_state, &new_state, NULL);
-
-		if (old_state == new_state) {
-			break;
-		}
-
-		/* we only care about playbin (pipeline) state changes */
-		if (GST_MESSAGE_SRC (message) != GST_OBJECT (extractor->playbin)) {
-			break;
-		}
-
-		if (old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED) {
-			update_stream_info (extractor);
-
-		} else if (old_state == GST_STATE_PAUSED && new_state == GST_STATE_READY) {
-			/* clean metadata cache */
-
-			if (extractor->tagcache) {
-				gst_tag_list_free (extractor->tagcache);
-				extractor->tagcache = NULL;
-			}
-
-			if (extractor->audiotags) {
-				gst_tag_list_free (extractor->audiotags);
-				extractor->audiotags = NULL;
-			}
-
-			if (extractor->videotags) {
-				gst_tag_list_free (extractor->videotags);
-				extractor->videotags = NULL;
-			}
-
-			extractor->has_audio = extractor->has_video = FALSE;
-
-			extractor->video_fps_n = extractor->video_fps_d = -1;
-			extractor->video_height = extractor->video_width = -1;
-			extractor->audio_channels = -1;
-			extractor->audio_samplerate = -1;
-		}
-
-		break;
-	}
-
-	case GST_MESSAGE_TAG: {
-		GstTagList	  *tag_list, *result;
-		GstElementFactory *f;
-
-                tag_list = NULL;
-
-		gst_message_parse_tag (message, &tag_list);
-
-		GST_DEBUG ("Tags: %" GST_PTR_FORMAT, tag_list);
-
-		/* all tags */
-		result = gst_tag_list_merge (extractor->tagcache, tag_list, GST_TAG_MERGE_KEEP);
-
-		if (extractor->tagcache) {
-			gst_tag_list_free (extractor->tagcache);
-		}
-
-		extractor->tagcache = result;
-
-		/* media-type-specific tags */
-		if (GST_IS_ELEMENT (message->src) && (f = gst_element_get_factory (GST_ELEMENT (message->src)))) {
-			const gchar *klass;
-			GstTagList  **cache;
-
-			klass = gst_element_factory_get_klass (f);
-
-			cache = NULL;
-
-			if (g_strrstr (klass, "Audio")) {
-				cache = &extractor->audiotags;
-			} else if (g_strrstr (klass, "Video")) {
-				cache = &extractor->videotags;
-			}
-
-			if (cache) {
-				result = gst_tag_list_merge (*cache, tag_list, GST_TAG_MERGE_KEEP);
-				if (*cache) {
-					gst_tag_list_free (*cache);
-				}
-				*cache = result;
-			}
-		}
-
-		/* clean up */
-		gst_tag_list_free (tag_list);
-
-		break;
-	}
-
-	default:
-		break;
-	}
 }
 
 
@@ -588,57 +446,129 @@ extract_metadata (MetadataExtractor *extractor, GList *metadata)
 
 
 static gboolean
-poll_for_state_change (MetadataExtractor *extractor, GstState state)
+message_loop_to_state_change (MetadataExtractor *extractor, GstState state)
 {
 	GstBus *bus;
-	GstMessageType events, saved_events;
+	GstMessageType events;
 
 	g_return_val_if_fail (extractor, FALSE);
 	g_return_val_if_fail (extractor->playbin, FALSE);
 
 	bus = gst_element_get_bus (extractor->playbin);
 
-	events = (GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS);
-
-	saved_events = extractor->ignore_messages_mask;
-
-	if (extractor->playbin) {
-		/* we do want the main handler to process state changed messages for
-		 * playbin as well, otherwise it won't hook up the timeout etc. */
-		extractor->ignore_messages_mask |= (events ^ GST_MESSAGE_STATE_CHANGED);
-	} else {
-		extractor->ignore_messages_mask |= events;
-	}
-
+	events = (GST_MESSAGE_TAG | GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS);
 
 	for (;;) {
 		GstMessage *message;
-		GstElement *src;
 
-		message = gst_bus_poll (bus, events, GST_SECOND * 5);
+		message = gst_bus_timed_pop_filtered (bus, GST_SECOND * 5, events);
 
 		if (!message) {
 			goto timed_out;
 		}
 
-		src = (GstElement *) GST_MESSAGE_SRC (message);
-
 		switch (GST_MESSAGE_TYPE (message)) {
 		case GST_MESSAGE_STATE_CHANGED: {
-			GstState old, new, pending;
+			GstState old_state, new_state;
 
-                        old = new = pending = GST_STATE_NULL;
+			old_state = new_state = GST_STATE_NULL;
 
-			if (src == extractor->playbin) {
-				gst_message_parse_state_changed (message, &old, &new, &pending);
+			gst_message_parse_state_changed (message, &old_state, &new_state, NULL);
 
-				if (new == state) {
-					gst_message_unref (message);
-					goto success;
+			if (old_state == new_state) {
+				break;
+			}
+
+			/* we only care about playbin (pipeline) state changes */
+			if (GST_MESSAGE_SRC (message) != GST_OBJECT (extractor->playbin)) {
+				break;
+			}
+
+			if (old_state == GST_STATE_READY && new_state == GST_STATE_PAUSED) {
+				update_stream_info (extractor);
+
+			} else if (old_state == GST_STATE_PAUSED && new_state == GST_STATE_READY) {
+				/* clean metadata cache */
+
+				if (extractor->tagcache) {
+					gst_tag_list_free (extractor->tagcache);
+					extractor->tagcache = NULL;
+				}
+
+				if (extractor->audiotags) {
+					gst_tag_list_free (extractor->audiotags);
+					extractor->audiotags = NULL;
+				}
+
+				if (extractor->videotags) {
+					gst_tag_list_free (extractor->videotags);
+					extractor->videotags = NULL;
+				}
+
+				extractor->has_audio = extractor->has_video = FALSE;
+
+				extractor->video_fps_n = extractor->video_fps_d = -1;
+				extractor->video_height = extractor->video_width = -1;
+				extractor->audio_channels = -1;
+				extractor->audio_samplerate = -1;
+			}
+
+			if (new_state == state) {
+				gst_message_unref (message);
+				goto success;
+			}
+
+			break;
+		}
+
+		case GST_MESSAGE_TAG: {
+			GstTagList	  *tag_list, *result;
+			GstElementFactory *f;
+
+			tag_list = NULL;
+
+			gst_message_parse_tag (message, &tag_list);
+
+			GST_DEBUG ("Tags: %" GST_PTR_FORMAT, tag_list);
+
+			/* all tags */
+			result = gst_tag_list_merge (extractor->tagcache, tag_list, GST_TAG_MERGE_KEEP);
+
+			if (extractor->tagcache) {
+				gst_tag_list_free (extractor->tagcache);
+			}
+
+			extractor->tagcache = result;
+
+			/* media-type-specific tags */
+			if (GST_IS_ELEMENT (message->src) && (f = gst_element_get_factory (GST_ELEMENT (message->src)))) {
+				const gchar *klass;
+				GstTagList  **cache;
+
+				klass = gst_element_factory_get_klass (f);
+
+				cache = NULL;
+
+				if (g_strrstr (klass, "Audio")) {
+					cache = &extractor->audiotags;
+				} else if (g_strrstr (klass, "Video")) {
+					cache = &extractor->videotags;
+				}
+
+				if (cache) {
+					result = gst_tag_list_merge (*cache, tag_list, GST_TAG_MERGE_KEEP);
+					if (*cache) {
+						gst_tag_list_free (*cache);
+					}
+					*cache = result;
 				}
 			}
-		}
+
+			/* clean up */
+			gst_tag_list_free (tag_list);
+
 			break;
+		}
 
 		case GST_MESSAGE_ERROR: {
 			gchar  *debug    = NULL;
@@ -675,19 +605,16 @@ poll_for_state_change (MetadataExtractor *extractor, GstState state)
  success:
 	/* state change succeeded */
 	GST_DEBUG ("state change to %s succeeded", gst_element_state_get_name (state));
-	extractor->ignore_messages_mask = saved_events;
 	return TRUE;
 
  timed_out:
 	/* it's taking a long time to open  */
 	GST_DEBUG ("state change to %s timed out, returning success", gst_element_state_get_name (state));
-	extractor->ignore_messages_mask = saved_events;
 	return TRUE;
 
  error:
 	GST_DEBUG ("error while waiting for state change to %s", gst_element_state_get_name (state));
 	/* already set *error */
-	extractor->ignore_messages_mask = saved_events;
 	return FALSE;
 }
 #endif
@@ -700,15 +627,15 @@ gth_read_gstreamer (const gchar *uri, GList *metadata)
 	MetadataExtractor *extractor;
 	gchar		  *mrl;
 	GstElement	  *fakesink_audio, *fakesink_video;
-	GstBus		  *bus;
 
 	g_return_val_if_fail (uri, NULL);
 
 	metadata = g_list_reverse (metadata);
 
-	g_type_init ();
-
-	gst_init (NULL, NULL);
+	if(!gstreamer_initialized) {
+		gst_init (NULL, NULL);
+		gstreamer_initialized = TRUE;
+	}
 
 	/* set up */
 	extractor = g_slice_new0 (MetadataExtractor);
@@ -723,16 +650,7 @@ gth_read_gstreamer (const gchar *uri, GList *metadata)
 	extractor->audio_channels = -1;
 	extractor->audio_samplerate = -1;
 
-	extractor->ignore_messages_mask = 0;
-
 	extractor->playbin = gst_element_factory_make ("playbin", "playbin");
-
-
-	/* add bus callback */
-	bus = gst_element_get_bus (GST_ELEMENT (extractor->playbin));
-	gst_bus_add_signal_watch (bus);
-	g_signal_connect (bus, "message", G_CALLBACK (gst_bus_cb), extractor);
-	gst_object_unref (bus);
 
 
 	mrl = g_strconcat ("file://", uri, NULL);
@@ -751,7 +669,7 @@ gth_read_gstreamer (const gchar *uri, GList *metadata)
 	/* start to parse infos and extract them */
 	gst_element_set_state (extractor->playbin, GST_STATE_PAUSED);
 
-	poll_for_state_change (extractor, GST_STATE_PAUSED);
+	message_loop_to_state_change (extractor, GST_STATE_PAUSED);
 
 	metadata = extract_metadata (extractor, metadata);
 

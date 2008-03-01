@@ -1,3 +1,11 @@
+2008-03-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* configure.in:
+	* libgthumb/gth-gstreamer-utils.c: (message_loop_to_state_change),
+	(gth_read_gstreamer):
+	Fixed Bug 515421 – changing to sort-by-exif-date causes freeze.
+	Patch by Manuel Braga <mul.braga@gmail.com>. 
+
 2008-02-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
