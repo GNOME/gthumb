@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.help\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-08 21:09+0200\n"
-"PO-Revision-Date: 2007-10-08 20:32+0200\n"
+"POT-Creation-Date: 2008-03-06 20:22+0100\n"
+"PO-Revision-Date: 2008-03-06 20:25+0100\n"
 "Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,8 +27,8 @@ msgstr ""
 "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 
 #: ../C/gthumb.xml:19(title)
-msgid "<application>gThumb</application> Manual V2.9.0"
-msgstr "Manuel de <application>gThumb</application> v2.9.0"
+msgid "<application>gThumb</application> Manual V2.10.8"
+msgstr "Manuel de <application>gThumb</application> v2.10.8"
 
 #: ../C/gthumb.xml:21(year)
 msgid "2001"
@@ -190,8 +190,8 @@ msgid "kirillov@math.sunysb.edu"
 msgstr "kirillov@math.sunysb.edu"
 
 #: ../C/gthumb.xml:68(revnumber)
-msgid "2.9.0"
-msgstr "2.9.0"
+msgid "2.10.8"
+msgstr "2.10.8"
 
 #: ../C/gthumb.xml:69(date)
 msgid "October 2006"
@@ -199,8 +199,8 @@ msgstr "Octobre 2006"
 
 #. this is version of manual, not application
 #: ../C/gthumb.xml:79(releaseinfo)
-msgid "This is manual describes version 2.9.0 of gThumb"
-msgstr "Ce manuel documente la version 2.9.0 de gThumb"
+msgid "This is manual describes version 2.10.8 of gThumb"
+msgstr "Ce manuel documente la version 2.10.8 de gThumb"
 
 #: ../C/gthumb.xml:82(para)
 msgid ""
@@ -4461,5 +4461,5 @@ msgstr "Quitte le mode plein écran."
 #: ../C/gthumb.xml:0(None)
 msgid "translator-credits"
 msgstr ""
-"Bruno Brouard <annoa.b@gmail.com>, 2007.\n"
-"Claude Paroz <claude@2xlibre.net>, 2007."
+"Bruno Brouard <annoa.b@gmail.com>, 2007\n"
+"Claude Paroz <claude@2xlibre.net>, 2007-2008"
