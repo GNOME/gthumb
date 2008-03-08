@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-19 20:24+0100\n"
+"POT-Creation-Date: 2008-03-07 10:22+0100\n"
 "PO-Revision-Date: 2007-12-27 13:39+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -1624,8 +1624,8 @@ msgstr ""
 msgid "A_djust timezone:"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:18
 #
+#: ../data/glade/gthumb_tools.glade.h:18
 msgid "Add New Script"
 msgstr "Apondre un escript novèl"
 
@@ -1769,8 +1769,8 @@ msgstr ""
 msgid "Re_verse Order"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:68
 #
+#: ../data/glade/gthumb_tools.glade.h:68
 msgid "Remove Script"
 msgstr "Suprimir un escript"
 
@@ -1852,8 +1852,8 @@ msgstr ""
 msgid "hours"
 msgstr "oras"
 
-#: ../data/glade/gthumb_tools.glade.h:109
 #
+#: ../data/glade/gthumb_tools.glade.h:109
 msgid "prompt"
 msgstr ""
 
@@ -2709,8 +2709,8 @@ msgstr ""
 msgid "Add copyright"
 msgstr ""
 
-#: ../src/dlg-scripts.c:92
 #
+#: ../src/dlg-scripts.c:92
 msgid "Copy to \"approved\" folder"
 msgstr ""
 
@@ -2744,8 +2744,8 @@ msgstr ""
 msgid "The \"Postr\" software package must be installed to use this function."
 msgstr ""
 
-#: ../src/dlg-scripts.c:931
 #
+#: ../src/dlg-scripts.c:931
 msgid "Number"
 msgstr "Nombre"
 
@@ -2944,9 +2944,9 @@ msgstr ""
 msgid "_Scripts"
 msgstr "_Escriptes"
 
+#
 #: ../src/gth-browser-actions-entries.h:51
 #: ../src/gth-viewer-actions-entries.h:44
-#
 msgid "_Upload"
 msgstr "_Enviar"
 
