@@ -5,13 +5,13 @@
 #
 #
 # Ivan Noris <vix@vazka.sk>, 2005.
-# Peter Tuharsky <tuharsky@misbb.sk>, 2007.
+# Peter Tuharsky <tuharsky@misbb.sk>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: sk\n"
+"Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-15 17:33+0200\n"
-"PO-Revision-Date: 2007-09-10 16:14+0100\n"
+"POT-Creation-Date: 2008-03-10 13:49+0100\n"
+"PO-Revision-Date: 2008-03-10 13:37+0100\n"
 "Last-Translator: Peter Tuhársky <tuharsky@misbb.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +22,12 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "X-Poedit-Language: Slovak\n"
 
-#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:290
 #: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
 msgstr "Predchádzajúci"
 
-#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:285
 #: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Next"
 msgstr "Nasledujúci"
@@ -40,11 +40,11 @@ msgstr "Index"
 msgid "Image"
 msgstr "Obrázok"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:345
 msgid "Dimensions"
 msgstr "Rozmery"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:607
 msgid "Bytes"
 msgstr "Bajtov"
 
@@ -81,7 +81,6 @@ msgid "Camera model"
 msgstr "Model fotoaparátu"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:84
 msgid "pixels"
 msgstr "bodov"
 
@@ -204,7 +203,7 @@ msgstr "_Histogram"
 
 #: ../data/glade/gthumb.glade.h:29
 msgid "_Metadata"
-msgstr ""
+msgstr "_Metaúdaje"
 
 #: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
@@ -232,30 +231,39 @@ msgid "..."
 msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
+msgid "<small>Click \"Help\" for format code information.</small>"
+msgstr ""
+"<small>Ak chcete informácie o kóde formátu, kliknite na \"Pomoc\".</small>"
+
+#: ../data/glade/gthumb_camera.glade.h:3
 msgid "C_hoose from the catalog"
 msgstr "_Vyberte z katalógu"
 
-#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:4 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "Ka_tegórie:"
 
-#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:5
 msgid "Camera Model"
 msgstr "Model fotoaparátu"
 
-#: ../data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_camera.glade.h:6
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:29
 #: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Choose destination folder"
 msgstr "Vyberte cieľový priečinok"
 
-#: ../data/glade/gthumb_camera.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:7
+msgid "Custom subfolder:"
+msgstr "Vlastný podpriečinok:"
+
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Delete selected images from the camera"
 msgstr "Odstrániť vybrané obrázky z fotoaparátu"
 
-#: ../data/glade/gthumb_camera.glade.h:7
+#: ../data/glade/gthumb_camera.glade.h:9
 msgid ""
 "If this checkbox is enabled and the imported photo contains an Exif "
 "orientation tag, the image data will be physically transformed (losslessly) "
@@ -273,59 +281,55 @@ msgstr ""
 "zmeny. Gthumb zobrazí obrázok rovnako v oboch prípadoch, ale kvôli "
 "kompatibilite s inými aplikáciami odporúčame, aby ste túto možnosť zapli."
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "Import Photos"
 msgstr "Importovať fotografie"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
-#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1604
-#: ../src/dlg-photo-importer.c:2348
+#: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:933
+#: ../src/dlg-photo-importer.c:972 ../src/dlg-photo-importer.c:1690
+#: ../src/dlg-photo-importer.c:2488
 msgid "No camera detected"
 msgstr "Nebol zistený žiaden fotoaparát"
 
-#: ../data/glade/gthumb_camera.glade.h:10
-msgid "Rotate images physically"
-msgstr "Otočiť obrázok fyzicky"
-
-#: ../data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:12
 msgid "Select a camera model"
 msgstr "Vyberte model fotoaparátu"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "Update previews"
 msgstr "Aktualizovať ukážky"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:14
 msgid "_Delete imported images from the camera"
 msgstr "_Odstrániť importované obrázky z fotoaparátu"
 
-#: ../data/glade/gthumb_camera.glade.h:14
-#: ../data/glade/gthumb_convert.glade.h:23
-#: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:66
-#: ../data/glade/gthumb_web_exporter.glade.h:48
-msgid "_Destination:"
-msgstr "_Cieľ:"
-
 #: ../data/glade/gthumb_camera.glade.h:15
-msgid "_Film:"
-msgstr "_Film:"
+msgid "_Destination folder:"
+msgstr "_Cieľový priečinok:"
 
 #: ../data/glade/gthumb_camera.glade.h:16
+msgid "_Group into subfolders:"
+msgstr "_Zoskupiť do podpriečinkov:"
+
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Import"
 msgstr "_Import"
 
-#: ../data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Keep original filenames"
 msgstr "_Ponechať pôvodné mená súborov"
 
-#: ../data/glade/gthumb_camera.glade.h:18
+#: ../data/glade/gthumb_camera.glade.h:19
 msgid "_Model:"
 msgstr "_Model:"
 
-#: ../data/glade/gthumb_camera.glade.h:19
+#: ../data/glade/gthumb_camera.glade.h:20
 msgid "_Port:"
 msgstr "_Port:"
+
+#: ../data/glade/gthumb_camera.glade.h:21
+msgid "_Rotate images physically"
+msgstr "_Otočiť obrázok fyzicky"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -355,24 +359,24 @@ msgid "Current date"
 msgstr "Aktuálny dátum a čas"
 
 #: ../data/glade/gthumb_comments.glade.h:7
+msgid "Date photo taken (from EXIF metadata)"
+msgstr "Dátum fotenia (z metaúdajov EXIF)"
+
+#: ../data/glade/gthumb_comments.glade.h:8
 msgid "Do not modify"
 msgstr "Nemodifikujte"
 
-#: ../data/glade/gthumb_comments.glade.h:8
+#: ../data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "Dátum vytvorenia obrázku"
 
-#: ../data/glade/gthumb_comments.glade.h:9
+#: ../data/glade/gthumb_comments.glade.h:10
 msgid "Last modified date"
 msgstr "Dátum poslednej zmeny"
 
-#: ../data/glade/gthumb_comments.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:11
 msgid "No date"
 msgstr "Žiaden dátum"
-
-#: ../data/glade/gthumb_comments.glade.h:11
-msgid "Photo digitalization date (From EXIF data)"
-msgstr "Dátum digitalizácie fotografie (z údajov EXIF)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -405,7 +409,7 @@ msgstr "_Vybrané kategórie:"
 msgid "<b>Compression</b>"
 msgstr "<b>Kompresia</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Image type</b>"
 msgstr "<b>Typ obrázku</b>"
 
@@ -416,7 +420,7 @@ msgstr "<b>Rozlíšenie</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:7
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
 msgstr "<b>Ukladá sa</b>"
@@ -442,7 +446,7 @@ msgid "Opti_mize"
 msgstr "Opti_malizovať"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:65
 msgid "Overwrite mode:"
 msgstr "Režim prepisovania:"
 
@@ -451,17 +455,17 @@ msgid "PNG Options"
 msgstr "Možnosti PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:47
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "R_emove original"
 msgstr "Odst_rániť pôvodný"
 
 #: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:69
 msgid "Rename"
 msgstr "Premenovať"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_tools.glade.h:77
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -482,9 +486,16 @@ msgid "TIFF Options"
 msgstr "Možnosti TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_tools.glade.h:82
 msgid "T_GA"
 msgstr "T_GA"
+
+#: ../data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:90
+#: ../data/glade/gthumb_web_exporter.glade.h:48
+msgid "_Destination:"
+msgstr "_Cieľ:"
 
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
@@ -492,7 +503,7 @@ msgid "_Horizontal:"
 msgstr "_Vodorovne:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:93
 msgid "_JPEG"
 msgstr "_JPEG"
 
@@ -505,7 +516,7 @@ msgid "_No compression"
 msgstr "Žiad_na kompresia"
 
 #: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:72
+#: ../data/glade/gthumb_tools.glade.h:96
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -526,7 +537,7 @@ msgid "_Smoothing:"
 msgstr "_Vyhladenie:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:78
+#: ../data/glade/gthumb_tools.glade.h:103
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -557,53 +568,101 @@ msgid "8 x 10"
 msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
+msgid "<b>Actions</b>"
+msgstr "<b>Akcie</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Pomer strán</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "<b>Display</b>"
+msgstr "<b>Displej</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:8
 msgid "<b>Selection</b>"
 msgstr "<b>Výber</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid ""
+"<small>Click and drag the mouse to \n"
+"select the cropping area, or\n"
+"use the dialogs below. Press \n"
+"the \"Crop\" button to perform\n"
+"the crop, and \"Done\" to finish.</small>"
+msgstr ""
+"<small>Kliknite a posúvajte myš, tým\n"
+"vyznačíte oblasť pre orezanie,\n"
+"alebo použite nižšieuvedené dialógy.\n"
+"Potom stlačte tlačidlo \"Orezať\"\n"
+"a potom \"Hotovo\".</small>"
+
+#: ../data/glade/gthumb_crop.glade.h:14
+msgid "Cr_op"
+msgstr "_Orezať"
+
+#: ../data/glade/gthumb_crop.glade.h:15
 msgid "Crop"
 msgstr "Orezať"
 
-#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "Vlastné"
 
-#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:17
 msgid "I_nvert aspect ratio"
 msgstr "_Obrátiť pomer strán"
 
-#: ../data/glade/gthumb_crop.glade.h:10
-#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../data/glade/gthumb_crop.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "None"
 msgstr "Žiaden"
 
-#: ../data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:19
+msgid "Show / hide the cropping selection area"
+msgstr "Ukázať / skryť oblasť výberu orezania"
+
+#: ../data/glade/gthumb_crop.glade.h:20
 msgid "Square"
 msgstr "Štvorec"
 
-#: ../data/glade/gthumb_crop.glade.h:12
-msgid "_Crop"
-msgstr "_Orezať"
+#: ../data/glade/gthumb_crop.glade.h:22 ../data/glade/gthumb_redeye.glade.h:11
+#, no-c-format
+msgid "Zoom at 100% scale"
+msgstr "Priblížiť na 100% mierky"
 
-#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_crop.glade.h:23 ../data/glade/gthumb_redeye.glade.h:12
+msgid "Zoom in. The mousewheel can also be used to zoom in."
+msgstr "Priblížiť. Dá sa na to použiť aj koliesko myši."
+
+#: ../data/glade/gthumb_crop.glade.h:24 ../data/glade/gthumb_redeye.glade.h:13
+msgid "Zoom out. The mousewheel can also be used to zoom out."
+msgstr "Oddialiť. Dá sa na to použiť aj koliesko myši."
+
+#: ../data/glade/gthumb_crop.glade.h:25 ../data/glade/gthumb_redeye.glade.h:14
+msgid "Zoom to fit"
+msgstr "Prispôsobiť"
+
+#: ../data/glade/gthumb_crop.glade.h:26 ../data/glade/gthumb_redeye.glade.h:15
+msgid "_Done"
+msgstr "_Hotovo"
+
+#: ../data/glade/gthumb_crop.glade.h:27 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:91
 msgid "_Height:"
 msgstr "_Výška:"
 
-#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:81
+#: ../data/glade/gthumb_crop.glade.h:28 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:106
 msgid "_Width:"
 msgstr "Ší_rka:"
 
-#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:29 ../data/glade/gthumb_redeye.glade.h:16
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
+#: ../data/glade/gthumb_crop.glade.h:30 ../data/glade/gthumb_redeye.glade.h:17
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -616,7 +675,6 @@ msgid "     "
 msgstr "     "
 
 #: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
-#: ../data/glade/gthumb_tools.glade.h:4
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -625,7 +683,7 @@ msgstr "%"
 msgid "<b>Color levels</b>"
 msgstr "<b>Farebné úrovne</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:6
 msgid "<b>New dimensions</b>"
 msgstr "<b>Nové rozmery</b>"
 
@@ -666,7 +724,6 @@ msgid "Hue - Saturation"
 msgstr "Odtieň - Sýtosť"
 
 #: ../data/glade/gthumb_edit.glade.h:16
-#, fuzzy
 msgid "Posterize"
 msgstr "Posterizovať"
 
@@ -690,7 +747,7 @@ msgstr "_Jas:"
 msgid "_Hue:"
 msgstr "Farebný _odtieň:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:70
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:94
 msgid "_Keep aspect ratio"
 msgstr "_Zachovať pomer strán"
 
@@ -710,7 +767,7 @@ msgstr "_Purpurová-Zelená:"
 msgid "_Preview"
 msgstr "_Ukážka"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:74
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:98
 msgid "_Reset"
 msgstr "_Obnoviť"
 
@@ -718,7 +775,7 @@ msgstr "_Obnoviť"
 msgid "_Saturation:"
 msgstr "_Sýtosť:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:75
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:99
 msgid "_Scale"
 msgstr "Zmeniť veľko_sť"
 
@@ -942,7 +999,7 @@ msgstr "Š_týl"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:81
 msgid "Start _at:"
 msgstr "Začať _od:"
 
@@ -984,12 +1041,12 @@ msgid "_Solid color"
 msgstr "_Plná farba"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:79
+#: ../data/glade/gthumb_tools.glade.h:104
 msgid "_Template:"
 msgstr "Ša_blóna:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:82
+#: ../data/glade/gthumb_tools.glade.h:107
 #: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "by name"
 msgstr "podľa mena"
@@ -1003,338 +1060,274 @@ msgid "png"
 msgstr "png"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
-msgid "0:"
-msgstr "0:"
-
-#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: ../data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: ../data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: ../data/glade/gthumb_preferences.glade.h:7
-msgid "1:"
-msgstr "1:"
-
-#: ../data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: ../data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:7
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: ../data/glade/gthumb_preferences.glade.h:10
-msgid "2:"
-msgstr "2:"
-
-#: ../data/glade/gthumb_preferences.glade.h:11
-msgid "3:"
-msgstr "3:"
-
-#: ../data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: ../data/glade/gthumb_preferences.glade.h:13
-msgid "4:"
-msgstr "4:"
-
-#: ../data/glade/gthumb_preferences.glade.h:14
-msgid "5:"
-msgstr "5:"
-
-#: ../data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: ../data/glade/gthumb_preferences.glade.h:16
-msgid "6:"
-msgstr "6:"
-
-#: ../data/glade/gthumb_preferences.glade.h:17
-msgid "7:"
-msgstr "7:"
-
-#: ../data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:10
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: ../data/glade/gthumb_preferences.glade.h:19
-msgid "8:"
-msgstr "8:"
-
-#: ../data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:11
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
-msgid "9:"
-msgstr "9:"
-
-#: ../data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "<b>Direction</b>"
 msgstr "<b>Smer</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:13
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Skryť/Zobraziť</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:14
 msgid "<b>Interface</b>"
 msgstr "<b>Rozhranie</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "<b>On startup:</b>"
 msgstr "<b>Po spustení:</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:16
 msgid "<b>Other</b>"
 msgstr "<b>Iné</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
-msgid "<b>Slide show</b>"
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "<b>Slideshow</b>"
 msgstr "<b>Premietanie snímkov</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "<b>Viewer</b>"
 msgstr "<b>Prehliadač</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Zoom quality</b>"
 msgstr "<b>Kvalita zväčšenia</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
-#, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b>\n"
-"%F = all selected filenames on one line, space delimited\n"
-"%f = a single filename, including path\n"
-"%n = a single filename, including path, with no extension\n"
-"%e = a single extension (starting with a period)\n"
-"%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the "
-"number of files selected. All other scripts will be executed once per "
-"selected file.\n"
-"The default scripts are explained in the Help file.</small>"
-msgstr ""
-"<small><i><b>Special characters:</b>\n"
-"%F = all selected filenames on one line, space delimited\n"
-"%f = jednotlivý názov súboru, vrátane cesty\n"
-"%n = jednotlivý názov súboru, vrátane cesty, bez prípony\n"
-"%e = jedna prípony (začínajúca bodkou)\n"
-"%p = rodičovský priečinok jednotlivého súboru</i>\n"
-"Skripty s kódom %F sa spustia iba raz, bez ohľadu na počet vybraných "
-"súborov. Všetky ostatné skripty sa spustia raz pre každý vybraný súbor.\n"
-"Predvolené skripty sú opísané v súbore Pomocníka.</small>"
-
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "Activate items with a double click"
 msgstr "Aktivovať položky dvojitým kliknutím"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a single click"
 msgstr "Aktivovať položky jednoduchým kliknutím"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "After _loading an image:"
 msgstr "Po _načítaní obrázku:"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "Pý_tať si potvrdenie pred odstránením obrázkov alebo katalógov"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "Ask whether to save _modified images"
 msgstr "Pýtať sa, či uložiť z_menené obrázky"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Black"
 msgstr "Čierna"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "Browser"
 msgstr "Prehliadač"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
-#, fuzzy
+#: ../data/glade/gthumb_preferences.glade.h:27
+msgid ""
+"By default, gThumb lists all files that are likely to be found on a digital "
+"camera - photos, videos, and audio files. You can omit the audio and video "
+"files by deselecting this checkbox."
+msgstr ""
+"Zvyčajne gThumb vypisuje všetky súbory, ktoré sa podľa všetkého nachádzajú "
+"na digitálnom fotoaparáte - fotky, videá aj zvukové súbory. Ak odznačíte "
+"toto políčko, zvukové a video súbory sa vynechajú."
+
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
-msgstr "K_likanie:"
+msgstr "Politika k_likania:"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
-#, fuzzy
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "Checked"
-msgstr "Štvorcová sieť"
+msgstr "Začiarknuté"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:30
 msgid "Choose startup folder"
 msgstr "Vybrať počiatočný priečinok"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:31
 msgid "Co_mments"
 msgstr "_Poznámky"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
 msgstr "On_eskorenie pred zmenou obrázku:"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
 msgstr "U_rčiť typ obrázku z obsahu (pomalšie)"
 
-#: ../data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:34
 msgid "Do _not change folder"
 msgstr "_Nezmeniť priečinok"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Fit to width if larger"
 msgstr "Prispôsobiť oknu, ak je obrázok väčší"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Fit to window if larger"
 msgstr "Prispôsobiť oknu, ak je obrázok väčší"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
 msgstr "Podľa nastavenia Nautila"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "Dop_redu"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "General"
 msgstr "Hlavné"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
 msgstr "Prejsť do naposledy na_vštíveného priečinka alebo katalógu"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to this _folder:"
 msgstr "Prejsť do tohto _priečinka:"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "H_igh"
 msgstr "V_ysoká"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
-msgid "Hot Keys"
-msgstr "Klávesové skratky"
-
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Icons only"
 msgstr "Iba ikony"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:44
+msgid "Include audio clips and movies in browser view"
+msgstr "Zahrnúť v prehliadacom zobrazení aj zvukové a video klipy"
+
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Keep previous zoom"
 msgstr "Zachovať predchádzajúce zväčšenie"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
-msgid ""
-"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
-"the selected images with other applications."
-msgstr ""
-"Klávesy 0-9 na numerickej klávesnici sa dajú použiť v prehliadači na úpravu "
-"vybraných obrázkov pomocou iných aplikácií."
-
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Layout:"
 msgstr "Vzhľad:"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Lo_w"
 msgstr "Ní_zka"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Ran_dom"
 msgstr "Náho_dne"
 
-#: ../data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Re_verse"
 msgstr "O_pačne"
 
-#: ../data/glade/gthumb_preferences.glade.h:70
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Reset scrollbar positions after loading an image"
 msgstr ""
 "Nastaviť pozície skrolovania do východzej polohy vždy po načítaní obrázku"
 
-#: ../data/glade/gthumb_preferences.glade.h:71
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Resta_rt when finished"
 msgstr "Po ukončení _spustiť od začiatku"
 
-#: ../data/glade/gthumb_preferences.glade.h:72
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Set image to actual size"
 msgstr "Nastaviť obrázok na aktuálnu veľkosť"
 
-#: ../data/glade/gthumb_preferences.glade.h:73
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Set to C_urrent"
 msgstr "Nastaviť na akt_uálny"
 
-#: ../data/glade/gthumb_preferences.glade.h:74
-msgid "Slide Show"
+#: ../data/glade/gthumb_preferences.glade.h:55
+msgid "Slideshow"
 msgstr "Premietanie snímkov"
 
-#: ../data/glade/gthumb_preferences.glade.h:75
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
 msgstr "Systémové nastavenia"
 
-#: ../data/glade/gthumb_preferences.glade.h:76
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "Text below icons"
 msgstr "Text pod ikonami"
 
-#: ../data/glade/gthumb_preferences.glade.h:77
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Text beside icons"
 msgstr "Text vedľa ikon"
 
-#: ../data/glade/gthumb_preferences.glade.h:78
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text only"
 msgstr "Iba text"
 
-#: ../data/glade/gthumb_preferences.glade.h:79
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Th_umbnail size:"
 msgstr "Veľkosť _náhľadu:"
 
-#: ../data/glade/gthumb_preferences.glade.h:80
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Transparency _type:"
 msgstr "_Typ priesvitnosti:"
 
-#: ../data/glade/gthumb_preferences.glade.h:81
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Use a _fading effect when changing image"
 msgstr "Použiť _stmievací efekt pred zmenou obrázku"
 
-#: ../data/glade/gthumb_preferences.glade.h:82
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Viewer"
 msgstr "Prehliadač"
 
-#: ../data/glade/gthumb_preferences.glade.h:83
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "White"
 msgstr "Biela"
 
-#: ../data/glade/gthumb_preferences.glade.h:84
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "_Filenames"
 msgstr "_Mená súborov"
 
-#: ../data/glade/gthumb_preferences.glade.h:85
-#: ../src/gth-browser-actions-entries.h:422
+#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../src/gth-browser-actions-entries.h:435
 msgid "_Thumbnails"
 msgstr "_Náhľady"
 
-#: ../data/glade/gthumb_preferences.glade.h:86
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "_Toolbar style:"
 msgstr "Š_týl panelu nástrojov"
 
-#: ../data/glade/gthumb_preferences.glade.h:87
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "gThumb Preferences"
 msgstr "Predvoľby gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:88
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "seconds"
 msgstr "sekúnd"
 
@@ -1428,8 +1421,9 @@ msgid "Comment _font:"
 msgstr "_Písmo poznámky:"
 
 #: ../data/glade/gthumb_print.glade.h:29
+#, fuzzy
 msgid "Executive"
-msgstr ""
+msgstr "Executive"
 
 #: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
@@ -1456,8 +1450,9 @@ msgid "Layout"
 msgstr "Rozloženie"
 
 #: ../data/glade/gthumb_print.glade.h:36
+#, fuzzy
 msgid "Legal"
-msgstr ""
+msgstr "Legal"
 
 #: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
@@ -1480,7 +1475,7 @@ msgid "Postcard"
 msgstr "Pohľadnica"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2709
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Tlač"
@@ -1490,8 +1485,9 @@ msgid "Scale to this size"
 msgstr "Nastaviť obrázok na túto veľkosť"
 
 #: ../data/glade/gthumb_print.glade.h:44
+#, fuzzy
 msgid "Tabloid"
-msgstr ""
+msgstr "Tabloid"
 
 #: ../data/glade/gthumb_print.glade.h:45
 msgid "_Bottom:"
@@ -1518,37 +1514,34 @@ msgid "_Unit:"
 msgstr "_Jednotky:"
 
 #: ../data/glade/gthumb_redeye.glade.h:1
-#, fuzzy
-msgid "<b>Position</b>"
-msgstr "<b>Smer</b>"
+msgid "<b>Other Actions</b>"
+msgstr "<b>Iné akcie</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
-msgid "Actual Size"
-msgstr "Skutočná veľkosť"
+msgid "<b>Position</b>"
+msgstr "<b>Pozícia</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
-msgid "Red-Eye Removal"
-msgstr "Odstránenie červených očí"
+msgid "<b>Zoom</b>"
+msgstr "<b>Priblíženie</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
-msgid "Redo"
-msgstr "Opakovať"
+msgid ""
+"<small>Move the cursor over the\n"
+"red eye and click on it. You\n"
+"can use the mousewheel to\n"
+"zoom in and out, or use the\n"
+"zoom buttons below.</small>"
+msgstr ""
+"<small>Presuňte kurzor na červené oko\n"
+"a kliknite naň.\n"
+"Môžete použiť koliesko myši\n"
+"na priblíženie alebo oddialenie,\n"
+"alebo tlačidlá priblíženia, ktoré vidíte nižšie.</small>"
 
-#: ../data/glade/gthumb_redeye.glade.h:5
-msgid "Undo"
-msgstr "Vrátiť"
-
-#: ../data/glade/gthumb_redeye.glade.h:6
-msgid "Zoom In"
-msgstr "Zväčšiť"
-
-#: ../data/glade/gthumb_redeye.glade.h:7
-msgid "Zoom Out"
-msgstr "Zmenšiť"
-
-#: ../data/glade/gthumb_redeye.glade.h:8
-msgid "Zoom to Fit"
-msgstr "Prispôsobiť"
+#: ../data/glade/gthumb_redeye.glade.h:9
+msgid "Red-Eye Removal"
+msgstr "Odstránenie červených očí"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1598,13 +1591,13 @@ msgstr "Vyhovuje ľ_ubovoľná vybraná kategória"
 msgid "New _Search..."
 msgstr "Nové _hľadanie..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
-#: ../src/dlg-photo-importer.c:1651
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:902
+#: ../src/dlg-photo-importer.c:1737
 msgid "No images found"
 msgstr "Neboli nájdené žiadne obrázky"
 
 #: ../data/glade/gthumb_search.glade.h:19
-#: ../src/gth-browser-actions-entries.h:363
+#: ../src/gth-browser-actions-entries.h:365
 msgid "Search"
 msgstr "Hľadať"
 
@@ -1613,7 +1606,7 @@ msgid "Search Progress"
 msgstr "Priebeh hľadania"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:76
 msgid "Searching in:"
 msgstr "Hľadá sa v:"
 
@@ -1622,7 +1615,7 @@ msgid "_Edit Search"
 msgstr "_Upraviť hľadanie"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:68
+#: ../data/glade/gthumb_tools.glade.h:92
 msgid "_Include sub-folders"
 msgstr "_Vrátane podpriečinkov"
 
@@ -1631,29 +1624,30 @@ msgid "_Save"
 msgstr "_Uložiť"
 
 #: ../data/glade/gthumb_search.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:100
 msgid "_Search"
 msgstr "_Hľadať"
 
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:80
+#: ../data/glade/gthumb_tools.glade.h:105
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
 msgstr "_Zobraziť"
 
-#: ../data/glade/gthumb_tools.glade.h:5
+#: ../data/glade/gthumb_tools.glade.h:3
 msgid "<b>Change the following values:</b>"
 msgstr "<b>Zmeniť nasledujúce hodnoty:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:4
 msgid "<b>Change to:</b>"
 msgstr "<b>Zmeniť na:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>Write to CD</b>"
 msgstr "<b>Napáliť na CD</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:9
 msgid ""
 "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
 "When viewing images, you can use the [ and ] shortcut\n"
@@ -1664,62 +1658,67 @@ msgstr ""
 "na bezstratové otáčanie a ukladanie, a nepotrebujete na to toto okno.</i></"
 "small>"
 
-#: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy, no-c-format
+#: ../data/glade/gthumb_tools.glade.h:13
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (new enumerator digit),\n"
 "%f (original filename), %e (original extension),\n"
 "%d (image date), %s (image size), \n"
 "%n (original enumerator).</i></small>"
 msgstr ""
-"<small><i><b>Špeciálne znaky:</b> # (číslo), %f (pôvodné meno), %d (dátum "
-"obrázku), %s (veľkosť obrázku), %e (pôvodná prípona).</i></small>"
+"<small><i><b>Špeciálne znaky:</b> # (nové číslo postupnosti),\n"
+"%f (pôvodný názov súboru, %e (pôvodná prípona)\n"
+"%d (dátum obrázku), %s (veľkosť obrázku), \n"
+"%n (pôvodné číslo).</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "A_djust timezone:"
 msgstr "_Upraviť časové pásmo"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Add New Script"
+msgstr "Pridať nový skript"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Apply physical _transform"
 msgstr "Použiť fyzickú _transformáciu"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Apply to all _images"
 msgstr "Použiť na _všetky obrázky"
 
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "C_urrent date"
 msgstr "Akt_uálny dátum"
 
-#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:22
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "Ka_talóg"
 
 #. Translators: this is the text case (upper or lower case).
-#: ../data/glade/gthumb_tools.glade.h:25
-#, fuzzy
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Cas_e:"
-msgstr "Azúrová-Če_rvená:"
+msgstr "_Veľkosť písma:"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Change Date"
 msgstr "Zmeniť dátum"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Check _All"
 msgstr "Označiť _všetky"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Check _None"
 msgstr "_Zrušiť označenie všetkých"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Checking image:"
 msgstr "Kontroluje sa obrázok:"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
@@ -1728,94 +1727,162 @@ msgstr ""
 "Hore-Vľavo."
 
 #: ../data/glade/gthumb_tools.glade.h:32
+#, no-c-format
+msgid ""
+"Click inside the name or script fields to edit them.\n"
+"<small><i><b>\n"
+"Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%b = a single filename, excluding path\n"
+"%n = a single filename, including path, with no extension\n"
+"%m = a single filename, excluding path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"<i>[text] = a user prompt, refreshed for each iteration</i>\n"
+"<i>[TEXT] = a user prompt, used for all iterations</i>\n"
+"<i>{..code..} = a strftime date format code</i>\n"
+"<i>{TEXT} = a user prompt used for all iterations matching previous date</"
+"i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr ""
+"Ak chcete upraviť názov alebo pole skriptu, kliknite naň."
+"<small><i><b>Špeciálne znaky:</b>\n"
+"%F = všetky vybrané názvy súborov, oddelené medzerníkom\n"
+"%f = jednotlivý názov súboru, vrátane cesty\n"
+"%b = jednotlivý názov súboru, bez cesty\n"
+"%n = jednotlivý názov súboru, vrátane cesty, bez prípony\n"
+"%m = jednotlivý názov súboru, bez cesty, bez prípony\n"
+"%e = jednotlivá prípona (začínajúca bodkou)\n"
+"%p = rodičovský priečinok jednotlivého súboru</i>\n"
+"<i>[text] = používateľ opýtaný, obnovené pre každú iteráciu</i>\n"
+"<i>[TEXT] = používateľ opýtaný, použité pre všetky iterácie</i>\n"
+"<i>{..code..} = strftime kód formátu dátumu</i>\n"
+"<i>{TEXT} = opýtanie používateľa sa použije pre všetky iterácie súhlasiace s "
+"predchádzajúcim dátumom</i>\n"
+"Skripty s kódom %F sa spustia iba raz, bez ohľadu na počet vybraných "
+"súborov. Všetky ostatné skripty sa spustia raz pre každý vybraný súbor.\n"
+"Predvolené skripty sú opísané v súbore Pomocníka.</small>"
+
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "Co_mment date"
 msgstr "Dátum pozná_mky"
 
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Current _Folder"
 msgstr "Aktuálny _priečinok"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "Date p_hoto taken (from EXIF metadata)"
+msgstr "Dátum _odfotenia (z metaúdajov EXIF)"
+
+#: ../data/glade/gthumb_tools.glade.h:51
+msgid "Define External Scripts"
+msgstr "Definovať externé skripty"
+
+#: ../data/glade/gthumb_tools.glade.h:52
 msgid ""
 "Do not change\n"
 "Convert to lower-case\n"
 "Convert to upper-case"
 msgstr ""
+"Nezmeniť\n"
+"Previesť na malé znaky\n"
+"Previesť na veľké znaky"
 
-#: ../data/glade/gthumb_tools.glade.h:37
-#, fuzzy
-msgid "EXIF date"
-msgstr "Žiaden dátum"
-
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "Equal images:"
 msgstr "Rovnaké obrázky:"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:56
+msgid "Exif DateTime tag"
+msgstr "Exif značka DátumČas"
+
+#: ../data/glade/gthumb_tools.glade.h:57
+msgid "Exif DateTimeDigitized tag"
+msgstr "Exif značka DátumČasDigitalizácie"
+
+#: ../data/glade/gthumb_tools.glade.h:58
+msgid "Exif DateTimeOriginal tag"
+msgstr "Exif značka DátumČasOriginál"
+
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "Found duplicates:"
 msgstr "Nájdené duplikáty:"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:60
 msgid "Image c_reation date"
 msgstr "Dátum vytvo_renia obrázku"
 
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:61
 msgid "Mirror image horizontally (left-right)"
 msgstr "Preklopiť obrázok horizontálne (zľava doprava)"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:62
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Preklopiť obrázok vertikálne (zhora-nadol)"
 
-#: ../data/glade/gthumb_tools.glade.h:43
-#: ../src/gth-browser-actions-entries.h:83
-#: ../src/gth-browser-actions-entries.h:108
-#: ../src/gth-browser-actions-entries.h:228
-#: ../src/gth-browser-actions-entries.h:258
+#: ../data/glade/gthumb_tools.glade.h:63
+#: ../src/gth-browser-actions-entries.h:85
+#: ../src/gth-browser-actions-entries.h:110
+#: ../src/gth-browser-actions-entries.h:230
+#: ../src/gth-browser-actions-entries.h:260
 msgid "Move to _Trash"
 msgstr "Presunúť do _koša"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:64
 msgid "New names _preview:"
 msgstr "_Ukážka nových mien:"
 
-#: ../data/glade/gthumb_tools.glade.h:46
-msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "Dátum digitalizácie _fotografie (z údajov EXIF)"
-
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_tools.glade.h:67
 msgid "Re_verse Order"
 msgstr "O_pačné poradie"
 
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:68
+msgid "Remove Script"
+msgstr "Odstrániť skript"
+
+#: ../data/glade/gthumb_tools.glade.h:70
 msgid "Reset Exif Orientation Tags"
 msgstr "Nastaviť Exif značky orientácie na východzie"
 
-#: ../data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:71
 msgid "Rotate Images"
 msgstr "Otočiť obrázky"
 
-#: ../data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:72
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Otočiť obrázok o 90 stupňov doprava"
 
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:73
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Otočiť obrázok o 90 stupňov doľava"
 
-#: ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_tools.glade.h:74
 msgid "Search for Duplicates"
 msgstr "Hľadať duplikáty"
 
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:75
 msgid "Search terminated, no duplicates found."
 msgstr "Hľadanie ukončené, neboli nájdené žiadne duplikáty."
 
-#: ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_tools.glade.h:83
 msgid "The _following date:"
 msgstr "_Nasledujúci dátum:"
 
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:84
+msgid ""
+"The number keys on the numeric keypad can be associated with scripts 0-9.\n"
+"All scripts can be launched from the Scripts menu."
+msgstr ""
+"Číslicové klávesy na numerickej časti klávesnice sa dajú asociovať so "
+"skriptami 0-9.\n"
+"Všetky skripty sa dajú spustiť aj z ponuky skriptov."
+
+#: ../data/glade/gthumb_tools.glade.h:86
 msgid ""
 "This checkbox governs the rotation method used for JPEG images that contain "
 "Exif orientation tags. If this checkbox is enabled, the rotation will be "
@@ -1834,37 +1901,48 @@ msgstr ""
 "prípadoch, ale kvôli kompatibilite s inými aplikáciami odporúčame, aby ste "
 "túto možnosť zapli."
 
-#: ../data/glade/gthumb_tools.glade.h:65
+#: ../data/glade/gthumb_tools.glade.h:87
+msgid "User-Defined Script Parameter"
+msgstr "Používateľský parameter skriptu"
+
+#: ../data/glade/gthumb_tools.glade.h:88
 msgid "Write To CD"
 msgstr "Napáliť na CD"
 
-#: ../data/glade/gthumb_tools.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:89
+msgid "Your script requires this user-defined parameter:"
+msgstr "Váš skript vyžaduje tento používateľský parameter:"
+
+#: ../data/glade/gthumb_tools.glade.h:95
 msgid "_Last modified date"
 msgstr "Dátum pos_lednej zmeny"
 
-#: ../data/glade/gthumb_tools.glade.h:73
-#: ../src/gth-browser-actions-callbacks.c:470
-#: ../src/gth-browser-actions-callbacks.c:980
+#: ../data/glade/gthumb_tools.glade.h:97
+#: ../src/gth-browser-actions-callbacks.c:471
+#: ../src/gth-browser-actions-callbacks.c:981
 msgid "_Rename"
 msgstr "P_remenovať"
 
-#: ../data/glade/gthumb_tools.glade.h:76
+#: ../data/glade/gthumb_tools.glade.h:101
 msgid "_Selected Images"
 msgstr "_Vybrané obrázky"
 
-#: ../data/glade/gthumb_tools.glade.h:77
+#: ../data/glade/gthumb_tools.glade.h:102
 msgid "_Sort:"
 msgstr "_Triediť:"
 
-#: ../data/glade/gthumb_tools.glade.h:83
+#: ../data/glade/gthumb_tools.glade.h:108
 msgid "hours"
 msgstr "hodiny"
 
+#: ../data/glade/gthumb_tools.glade.h:109
+msgid "prompt"
+msgstr "opýtať"
+
 #. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
-#: ../data/glade/gthumb_tools.glade.h:86
-#, fuzzy
+#: ../data/glade/gthumb_tools.glade.h:111
 msgid "title|Scale Images"
-msgstr "Zmeniť veľkosť obrázkov"
+msgstr "titulok|Zmeniť veľkosť obrázkov"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 1024"
@@ -1951,7 +2029,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
-msgstr "Model fotoapa_rátu"
+msgstr "_Model fotoaparátu"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Caption"
@@ -1971,7 +2049,7 @@ msgstr "Ča_s expozície"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Focal _length"
-msgstr "Ohnisková vzdia_lenosť"
+msgstr "_Ohnisková vzdialenosť"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
@@ -1983,7 +2061,7 @@ msgstr "_Triedenie:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "Use subfolders to organize files"
-msgstr ""
+msgstr "Použiť podpriečinky na organizovanie súborov"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
@@ -2150,14 +2228,18 @@ msgid "Possible values are: nautilus, single, double."
 msgstr "Prípustné hodnoty sú: nautilus, single, double."
 
 #: ../data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, day, month, now, custom"
+msgstr "Prípustné hodnoty sú: nič, deň, mesiac, teraz, vlastné"
+
+#: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Prípustné hodnoty sú: none, deflate, jpeg."
 
-#: ../data/gthumb.schemas.in.h:17
+#: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
 msgstr "Prípustné hodnoty sú: none, name, path, size, time, exifdate, comment."
 
-#: ../data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:19
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
@@ -2165,7 +2247,7 @@ msgstr ""
 "Prípustné hodnoty sú: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 
-#: ../data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:20
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
@@ -2173,42 +2255,41 @@ msgstr ""
 "Prípustné hodnoty sú: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 
-#: ../data/gthumb.schemas.in.h:20
-#, fuzzy
-msgid "Possible values are: original, lower, upper."
-msgstr "Prípustné hodnoty sú: high, low."
-
 #: ../data/gthumb.schemas.in.h:21
+msgid "Possible values are: original, lower, upper."
+msgstr "Prípustné hodnoty sú: pôvodné, nižšie, vyššie."
+
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: pixels, percentage."
 msgstr "Prípustné hodnoty sú: pixels, percentage."
 
-#: ../data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: png, jpeg."
 msgstr "Prípustné hodnoty sú: png, jpeg."
 
-#: ../data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Prípustné hodnoty sú: skip, rename, ask, overwrite."
 
-#: ../data/gthumb.schemas.in.h:24
+#: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: small, medium, large."
 msgstr "Prípustné hodnoty sú: small, medium, large."
 
-#: ../data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:26
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Prípustné hodnoty sú: system, text_below, text_beside, text_only, icons_only."
 
-#: ../data/gthumb.schemas.in.h:26
+#: ../data/gthumb.schemas.in.h:27
 msgid "Possible values are: white, black, checked, none."
 msgstr "Prípustné hodnoty sú: white, black, checked, none."
 
-#: ../data/gthumb.schemas.in.h:27
+#: ../data/gthumb.schemas.in.h:28
 msgid "Whether to always use a black background."
 msgstr "Vyberte, či sa má vždy použiť čierne pozadie."
 
-#: ../data/gthumb.schemas.in.h:28
+#: ../data/gthumb.schemas.in.h:29
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr ""
 "Určuje, či sa má pozícia posúvača nastaviť na východziu hodnotu po zmene "
@@ -2224,67 +2305,67 @@ msgstr "Nepodarilo sa otvoriť katalóg \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Nepodarilo sa uložiť katalóg \"%s\": %s"
 
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:155
+#: ../libgthumb/comments.c:1014 ../src/catalog-web-exporter.c:152
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:57
-#: ../src/catalog-web-exporter.c:157 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:883
-#: ../src/gth-viewer.c:599
+#: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:57
+#: ../src/catalog-web-exporter.c:154 ../src/dlg-duplicates.c:548
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:467
+#: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:882
+#: ../src/gth-viewer.c:586
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
+#: ../libgthumb/comments.c:1026 ../libgthumb/comments.c:1028
 msgid "(No Comment)"
 msgstr "(Bez poznámok)"
 
-#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:277
+#: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:278
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Tento typ obrázku nie je podporovaný: %s"
 
-#: ../libgthumb/dlg-save-image.c:207
+#: ../libgthumb/dlg-save-image.c:209
 msgid "Determine by extension"
 msgstr "Určiť podľa prípony"
 
-#: ../libgthumb/dlg-save-image.c:241
+#: ../libgthumb/dlg-save-image.c:244
 msgid "Save Image"
 msgstr "Uložiť obrázok"
 
-#: ../libgthumb/dlg-save-image.c:261
+#: ../libgthumb/dlg-save-image.c:264
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
-#: ../libgthumb/file-utils.c:1485 ../src/gth-location.c:815
+#: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Katalógy"
 
-#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:823
+#: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Súborový systém"
 
-#: ../libgthumb/file-utils.c:1517 ../src/gth-location.c:831
+#: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Domov"
 
-#: ../libgthumb/file-utils.c:2152
+#: ../libgthumb/file-utils.c:2179
 msgid "Library not empty"
 msgstr "Knižnica nie je prázdna"
 
-#: ../libgthumb/file-utils.c:2161
+#: ../libgthumb/file-utils.c:2188
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nepodarilo sa odstrániť knižnicu \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2215
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nepodarilo sa odstrániť katalóg \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:774
-#: ../src/gth-browser.c:4498 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:716
+#: ../src/gth-browser.c:4391 ../src/gth-viewer.c:696
 msgid "No image"
 msgstr "Žiaden obrázok"
 
@@ -2292,7 +2373,7 @@ msgstr "Žiaden obrázok"
 msgid "Could not display help"
 msgstr "Nepodarilo sa zobraziť pomocníka"
 
-#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
+#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
 msgstr "O_točiť obrázky"
 
@@ -2301,7 +2382,7 @@ msgstr "O_točiť obrázky"
 msgid "Page %d of %d"
 msgstr "Stránka %d z %d"
 
-#: ../libgthumb/print-callbacks.c:2240 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1427
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítava sa obrázok: %s"
@@ -2314,37 +2395,37 @@ msgstr "Odstraňujú sa všetky náhľady, prosím čakajte..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňujú sa staré náhľady, prosím čakajte..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1343
-#: ../src/gth-browser.c:1347 ../src/gth-browser.c:1359
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1307
+#: ../src/gth-browser.c:1311 ../src/gth-browser.c:1323
 msgid "(Invalid Name)"
 msgstr "(Neplatné meno)"
 
 #: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:602
+#: ../src/gth-browser.c:470 ../src/gth-exif-data-viewer.c:328
+#: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:589
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d bodov"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2470
-#: ../src/catalog-web-exporter.c:2694
+#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2435
+#: ../src/catalog-web-exporter.c:2655
 msgid "Saving images"
 msgstr "Ukladajú sa obrázky"
 
-#: ../src/catalog-png-exporter.c:1657
+#: ../src/catalog-png-exporter.c:1658
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Vytvára sa obrázok: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2185
+#: ../src/catalog-web-exporter.c:2149
 msgid "Saving thumbnails"
 msgstr "Ukladajú sa náhľady"
 
-#: ../src/catalog-web-exporter.c:2258
+#: ../src/catalog-web-exporter.c:2222
 msgid "Saving HTML pages: Images"
 msgstr "Ukladajú sa HTML stránky: obrázky"
 
-#: ../src/catalog-web-exporter.c:2338
+#: ../src/catalog-web-exporter.c:2302
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukladajú sa HTML stránky: indexy"
 
@@ -2352,31 +2433,31 @@ msgstr "Ukladajú sa HTML stránky: indexy"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2512
+#: ../src/catalog-web-exporter.c:2479
 msgid "Copying original images"
 msgstr "Kopírujú sa pôvodné obrázky"
 
-#: ../src/catalog-web-exporter.c:2903
+#: ../src/catalog-web-exporter.c:2864
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Nepodarilo sa vytvoriť dočasný priečinok"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2959
+#: ../src/catalog-web-exporter.c:2920
 msgid "Loading images"
 msgstr "Načítavajú sa obrázky"
 
-#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:686
+#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:687
 msgid "Enter the catalog name: "
 msgstr "Zadajte meno katalógu: "
 
 #: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
 #: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:772
+#: ../src/gth-browser-actions-callbacks.c:773
 msgid "C_reate"
 msgstr "Vytvo_riť"
 
-#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:828
+#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:829
 msgid "Enter the library name: "
 msgstr "Zadajte meno knižnice: "
 
@@ -2402,23 +2483,6 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategória \"%s\" už existuje. Zadajte prosím iné meno."
 
-#: ../src/dlg-change-date.c:180 ../src/rotation-utils.c:169
-msgid "Could not create a local temporary copy of the remote file."
-msgstr "Nepodarilo sa vytvoriť dočasnú lokálnu kópiu vzdialeného súboru."
-
-#: ../src/dlg-change-date.c:196
-#, c-format
-msgid "Could not write Exif DataTime tag. Error %d."
-msgstr ""
-
-#: ../src/dlg-change-date.c:207 ../src/dlg-jpegtran.c:258
-#: ../src/dlg-reset-exif.c:128
-msgid ""
-"Could not move temporary file to remote location. Check remote permissions."
-msgstr ""
-"Nepodarilo sa presunúť dočasný súbor na vzdialené miesto. Skontrolujte "
-"prístupové oprávnenia cieľa."
-
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
 #, c-format
 msgid "Converting image: %s"
@@ -2430,25 +2494,25 @@ msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Obrázok s názvom \"%s\" už existuje. Zadajte prosím iné meno."
 
-#: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
+#: ../src/dlg-convert.c:357 ../src/gth-batch-op.c:592
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Obrázok s názvom \"%s\" už existuje. Chcete ho prepísať?"
 
-#: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
+#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
 msgid "Skip"
 msgstr "Preskočiť"
 
-#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
+#: ../src/dlg-convert.c:363 ../src/gth-batch-op.c:598
 msgid "_Overwrite"
 msgstr "_Prepísať"
 
-#: ../src/dlg-crop.c:527
+#: ../src/dlg-crop.c:553
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Obrázok)"
 
-#: ../src/dlg-crop.c:535
+#: ../src/dlg-crop.c:561
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Obrazovka)"
@@ -2462,8 +2526,8 @@ msgid "Duplicates Size"
 msgstr "Veľkosť duplikátov"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
-#: ../src/gth-exif-data-viewer.c:800
+#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:592
+#: ../src/gth-exif-data-viewer.c:341
 msgid "Name"
 msgstr "Meno"
 
@@ -2471,7 +2535,7 @@ msgstr "Meno"
 msgid "Last modified"
 msgstr "Posledná zmena"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:612
 msgid "Location"
 msgstr "Umiestnenie"
 
@@ -2488,7 +2552,7 @@ msgstr "Cieľový priečinok neexistuje. Chcete ho vytvoriť?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nepodarilo sa vytvoriť priečinok \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1676
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1762
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2505,18 +2569,18 @@ msgid ""
 "permanently?"
 msgstr "Obrázky nemožno presunúť do Koša. Chcete ich navždy odstrániť?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1894 ../src/gth-viewer.c:998
+#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1139
+#: ../src/gth-browser.c:1786 ../src/gth-viewer.c:869
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "Túto správu už _nezobrazovať"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
+#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1177
 msgid "_Move"
 msgstr "_Presunúť"
 
 #: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
-#: ../src/gth-browser-actions-callbacks.c:1403
+#: ../src/gth-browser-actions-callbacks.c:1404
 msgid "Choose the destination folder"
 msgstr "Vyberte cieľový priečinok"
 
@@ -2583,61 +2647,98 @@ msgid "Moving file %ld of %ld"
 msgstr "Presúva sa súbor %ld z %ld"
 
 #: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
-#: ../src/gth-browser-actions-callbacks.c:1285
+#: ../src/gth-browser-actions-callbacks.c:1286
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Nepodarilo sa presunúť priečinok \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
+#: ../src/dlg-image-prop.c:597 ../src/gth-exif-data-viewer.c:347
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Veľkosť"
 
-#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:805
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:349
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
-#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
+#: ../src/dlg-image-prop.c:617 ../src/gth-browser.c:482
+#: ../src/gth-exif-data-viewer.c:348 ../src/gth-viewer.c:601
 msgid "Modified"
 msgstr "Zmenený"
 
-#: ../src/dlg-image-prop.c:623
+#: ../src/dlg-image-prop.c:622
 msgid "Information on Channel"
 msgstr "Informácie o kanáli"
 
-#: ../src/dlg-image-prop.c:732
+#: ../src/dlg-image-prop.c:731
 #, c-format
 msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
-#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1603
-#: ../src/dlg-photo-importer.c:1650 ../src/dlg-photo-importer.c:1662
-#: ../src/dlg-photo-importer.c:1678 ../src/dlg-photo-importer.c:1707
+#: ../src/dlg-jpegtran.c:254 ../src/dlg-reset-exif.c:128
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
+msgstr ""
+"Nepodarilo sa presunúť dočasný súbor na vzdialené miesto. Skontrolujte "
+"prístupové oprávnenia cieľa."
+
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1689
+#: ../src/dlg-photo-importer.c:1736 ../src/dlg-photo-importer.c:1748
+#: ../src/dlg-photo-importer.c:1764 ../src/dlg-photo-importer.c:1793
 msgid "Could not import photos"
 msgstr "Nepodarilo sa naimportovať fotografie"
 
-#: ../src/dlg-photo-importer.c:1330 ../src/main.c:1011
-msgid "Film"
-msgstr "Film"
-
-#: ../src/dlg-photo-importer.c:1342
+#: ../src/dlg-photo-importer.c:1417
 msgid "Import errors detected"
 msgstr "Zistili sa chyby importu"
 
-#: ../src/dlg-photo-importer.c:1343
+#: ../src/dlg-photo-importer.c:1418
 msgid "The files on the camera will not be deleted"
 msgstr "Súbory z fotoaparátu nebudú odstránené"
 
-#: ../src/dlg-photo-importer.c:1659
-#: ../src/gth-browser-actions-callbacks.c:1603
+#: ../src/dlg-photo-importer.c:1485
+#, c-format
+msgid "Transferring '%s' to its destination folder."
+msgstr "Presúva sa '%s' do cieľového priečinku."
+
+#: ../src/dlg-photo-importer.c:1555
+#, c-format
+msgid "Adjusting orientation of '%s'."
+msgstr "Nastavujem orientáciu pre '%s'."
+
+#: ../src/dlg-photo-importer.c:1745
+#: ../src/gth-browser-actions-callbacks.c:1604
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nepodarilo sa vytvoriť priečinok \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1708
+#: ../src/dlg-photo-importer.c:1794
 msgid "Not enough free space left on disk"
 msgstr "Na disku už neostalo žiadne voľné miesto"
+
+#: ../src/dlg-photo-importer.c:1890
+msgid "Put name or format code here"
+msgstr "Zadajte názov alebo kód formátu"
+
+#: ../src/dlg-photo-importer.c:2197
+msgid "No grouping"
+msgstr "Bez skupín"
+
+#: ../src/dlg-photo-importer.c:2199
+msgid "By day photo taken"
+msgstr "Podľa dňa odfotenia"
+
+#: ../src/dlg-photo-importer.c:2201
+msgid "By month photo taken"
+msgstr "Podľa mesiaca odfotenia"
+
+#: ../src/dlg-photo-importer.c:2203
+msgid "By current date and time"
+msgstr "Podľa aktuálneho dátumu a času"
+
+#: ../src/dlg-photo-importer.c:2205
+msgid "Custom subfolder"
+msgstr "Vlastný podpriečinok"
 
 #: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
@@ -2651,40 +2752,40 @@ msgstr "Hlavička"
 msgid "Footer"
 msgstr "Päta"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:561
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:557
 #: ../src/dlg-web-exporter.c:481
 msgid "by path"
 msgstr "podľa cesty"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:563
+#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:559
 #: ../src/dlg-web-exporter.c:483
 msgid "by size"
 msgstr "podľa veľkosti"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:565
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:561
 #: ../src/dlg-web-exporter.c:485
 msgid "by file modified time"
 msgstr "podľa času zmeny súboru"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:567
+#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:563
 #: ../src/dlg-web-exporter.c:487
 msgid "by Exif DateTime tag"
 msgstr "podľa značky Exif DátumČas"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:569
+#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:565
 #: ../src/dlg-web-exporter.c:489
 msgid "by comment"
 msgstr "podľa poznámky"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:572
+#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:568
 #: ../src/dlg-web-exporter.c:492
 msgid "manual order"
 msgstr "ručné triedenie"
 
-#: ../src/dlg-rename-series.c:118 ../src/gth-browser-actions-callbacks.c:486
-#: ../src/gth-browser-actions-callbacks.c:702
-#: ../src/gth-browser-actions-callbacks.c:785
-#: ../src/gth-browser-actions-callbacks.c:994
+#: ../src/dlg-rename-series.c:118 ../src/gth-browser-actions-callbacks.c:487
+#: ../src/gth-browser-actions-callbacks.c:703
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:995
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2693,145 +2794,200 @@ msgstr ""
 "Meno \"%s\" je neplatné, pretože obsahuje znak \"/\". Použite prosím iné "
 "meno."
 
-#: ../src/dlg-rename-series.c:545
+#: ../src/dlg-rename-series.c:541
 msgid "Old Name"
 msgstr "Staré meno"
 
-#: ../src/dlg-rename-series.c:553
+#: ../src/dlg-rename-series.c:549
 msgid "New Name"
 msgstr "Nové meno"
 
-#: ../src/dlg-search.c:359
+#: ../src/dlg-search.c:366
 msgid "Search Result"
 msgstr "Výsledky hľadania"
+
+#: ../src/dlg-scripts.c:90
+msgid "Edit with GIMP"
+msgstr "Upraviť v programe GIMP"
+
+#: ../src/dlg-scripts.c:91
+msgid "Add copyright"
+msgstr "Pridať copyright"
+
+#: ../src/dlg-scripts.c:92
+msgid "Copy to \"approved\" folder"
+msgstr "Kopírovať do priečinku \"overené\""
+
+#: ../src/dlg-scripts.c:93
+msgid "Send by email"
+msgstr "Poslať e-mailom"
+
+#: ../src/dlg-scripts.c:94
+msgid "Make a zip file"
+msgstr "Vytvoriť súbor zip"
+
+#: ../src/dlg-scripts.c:95
+msgid "Make a zip file and email it"
+msgstr "Vytvoriť súbor zip a poslať e-mailom"
+
+#: ../src/dlg-scripts.c:527 ../src/dlg-scripts.c:529
+msgid "Script Progress"
+msgstr "Priebeh skriptu"
+
+#: ../src/dlg-scripts.c:608
+#, c-format
+msgid "Scripts using the %%F code can not be cancelled. Sorry!"
+msgstr "Skripty, ktoré využívajú kód %%F, sa nedajú zrušiť. Je mi ľúto!"
+
+#: ../src/dlg-scripts.c:731
+#, c-format
+msgid "Script %d"
+msgstr "Skript %d"
+
+#: ../src/dlg-scripts.c:797
+msgid "The \"Postr\" software package must be installed to use this function."
+msgstr ""
+"Na využitie tejto funkcie treba nainštalovať softvérový balík \"Postr\"."
+
+#: ../src/dlg-scripts.c:931
+msgid "Number"
+msgstr "Číslo"
+
+#: ../src/dlg-scripts.c:943
+msgid "Short Name"
+msgstr "Krátke meno"
+
+#: ../src/dlg-scripts.c:954
+msgid "Script"
+msgstr "Skript"
 
 #: ../src/dlg-web-exporter.c:843
 msgid "Select Album Theme"
 msgstr "Vyberte tému albumu"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3848
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3741
 msgid "Could not move the items:"
 msgstr "Nepodarilo sa presunúť položky:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1153
+#: ../src/gth-browser-actions-callbacks.c:169 ../src/gth-fullscreen.c:1153
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Obrázok bude presunutý do Koša, chcete pokračovať?"
 
-#: ../src/gth-browser-actions-callbacks.c:267
+#: ../src/gth-browser-actions-callbacks.c:268
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Nepodarilo sa duplikovať obrázok \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:275
+#: ../src/gth-browser-actions-callbacks.c:276
 msgid "Stop"
 msgstr "Zastaviť"
 
-#: ../src/gth-browser-actions-callbacks.c:276
+#: ../src/gth-browser-actions-callbacks.c:277
 msgid "Continue"
 msgstr "Pokračovať"
 
-#: ../src/gth-browser-actions-callbacks.c:331
+#: ../src/gth-browser-actions-callbacks.c:332
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Vybrané obrázky budú presunuté do Koša, chcete pokračovať?"
 
-#: ../src/gth-browser-actions-callbacks.c:466
-#: ../src/gth-browser-actions-callbacks.c:976
+#: ../src/gth-browser-actions-callbacks.c:467
+#: ../src/gth-browser-actions-callbacks.c:977
 msgid "Enter the new name: "
 msgstr "Zadajte nové meno:"
 
-#: ../src/gth-browser-actions-callbacks.c:508
-#: ../src/gth-browser-actions-callbacks.c:721
-#: ../src/gth-browser-actions-callbacks.c:801
-#: ../src/gth-browser-actions-callbacks.c:1024
+#: ../src/gth-browser-actions-callbacks.c:509
+#: ../src/gth-browser-actions-callbacks.c:722
+#: ../src/gth-browser-actions-callbacks.c:802
+#: ../src/gth-browser-actions-callbacks.c:1025
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Meno \"%s\" sa už používa. Použite prosím iné meno."
 
-#: ../src/gth-browser-actions-callbacks.c:520
+#: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Nepodarilo sa premenovať knižnicu \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:520
+#: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Nepodarilo sa premenovať katalóg \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:590
+#: ../src/gth-browser-actions-callbacks.c:591
 msgid "The selected library will be removed, are you sure?"
 msgstr "Vybraná knižnica bude odstránená, chcete pokračovať?"
 
-#: ../src/gth-browser-actions-callbacks.c:592
+#: ../src/gth-browser-actions-callbacks.c:593
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalóg bude odstránený, chcete pokračovať?"
 
-#: ../src/gth-browser-actions-callbacks.c:687
+#: ../src/gth-browser-actions-callbacks.c:688
 msgid "New Catalog"
 msgstr "Nový katalóg"
 
-#: ../src/gth-browser-actions-callbacks.c:733
+#: ../src/gth-browser-actions-callbacks.c:734
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Nepodarilo sa vytvoriť katalóg \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:827
+#: ../src/gth-browser-actions-callbacks.c:828
 msgid "New Library"
 msgstr "Nová knižnica"
 
-#: ../src/gth-browser-actions-callbacks.c:829
+#: ../src/gth-browser-actions-callbacks.c:830
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Nepodarilo sa vytvoriť knižnicu \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1014
-#: ../src/gth-browser-actions-callbacks.c:1049
+#: ../src/gth-browser-actions-callbacks.c:1015
+#: ../src/gth-browser-actions-callbacks.c:1050
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Nepodarilo sa premenovať priečinok \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1016
-#: ../src/gth-browser-actions-callbacks.c:1295
+#: ../src/gth-browser-actions-callbacks.c:1017
+#: ../src/gth-browser-actions-callbacks.c:1296
 msgid "source and destination are the same"
 msgstr "zdroj je rovnaký ako cieľ"
 
-#: ../src/gth-browser-actions-callbacks.c:1099
+#: ../src/gth-browser-actions-callbacks.c:1100
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Nepodarilo sa odstrániť priečinok \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1130
+#: ../src/gth-browser-actions-callbacks.c:1131
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" sa nepodarilo presunúť do Koša. Chcete ho navždy odstrániť?"
 
-#: ../src/gth-browser-actions-callbacks.c:1174
+#: ../src/gth-browser-actions-callbacks.c:1175
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Vybraný priečinok bude presunutý do Koša, chcete pokračovať?"
 
-#: ../src/gth-browser-actions-callbacks.c:1227
-#: ../src/gth-browser-actions-callbacks.c:1285
+#: ../src/gth-browser-actions-callbacks.c:1228
+#: ../src/gth-browser-actions-callbacks.c:1286
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Nepodarilo sa skopírovať priečinok: \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1306
+#: ../src/gth-browser-actions-callbacks.c:1307
 msgid "source contains destination"
 msgstr "zdroj obsahuje cieľ"
 
-#: ../src/gth-browser-actions-callbacks.c:1317
+#: ../src/gth-browser-actions-callbacks.c:1318
 msgid "a folder with that name is already present."
 msgstr "priečinok s týmto menom už existuje."
 
-#: ../src/gth-browser-actions-callbacks.c:1601
+#: ../src/gth-browser-actions-callbacks.c:1602
 msgid "New Folder"
 msgstr "Nový priečinok"
 
-#: ../src/gth-browser-actions-callbacks.c:1602
+#: ../src/gth-browser-actions-callbacks.c:1603
 msgid "Enter the folder name: "
 msgstr "Zadajte meno priečinka: "
 
-#: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
+#: ../src/gth-browser-actions-callbacks.c:1733 ../src/gth-location.c:219
 msgid "Open Location"
 msgstr "Otvoriť umiestnenie"
 
@@ -2868,7 +3024,7 @@ msgid "_Go"
 msgstr "_Prejsť"
 
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:499
+#: ../src/gth-browser-actions-entries.h:512
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Obrázok"
@@ -2878,429 +3034,438 @@ msgid "_Bookmarks"
 msgstr "_Záložky"
 
 #: ../src/gth-browser-actions-entries.h:48
-#: ../src/gth-viewer-actions-entries.h:43
+#: ../src/gth-viewer-actions-entries.h:41
 msgid "_Tools"
 msgstr "_Nástroje"
 
 #: ../src/gth-browser-actions-entries.h:49
-#: ../src/gth-viewer-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:42
 msgid "Set Image as _Wallpaper"
 msgstr "Nastaviť obrázok ako _pozadie plochy"
 
 #: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Scripts"
+msgstr "_Skripty"
+
+#: ../src/gth-browser-actions-entries.h:51
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "_Upload"
+msgstr "_Odoslať"
+
+#: ../src/gth-browser-actions-entries.h:52
 #: ../src/gth-viewer-actions-entries.h:45
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-browser-actions-entries.h:55
 #: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
 msgstr "Nové _okno"
 
-#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-browser-actions-entries.h:56
 #: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
 msgstr "Vytvoriť nové okno"
 
-#: ../src/gth-browser-actions-entries.h:59
+#: ../src/gth-browser-actions-entries.h:61
 msgid "Open the selected image in a new window"
 msgstr "Otvoriť vybraný obrázok v novom okne"
 
-#: ../src/gth-browser-actions-entries.h:64
-#: ../src/gth-browser-actions-entries.h:433
-#: ../src/gth-viewer-actions-entries.h:84
+#: ../src/gth-browser-actions-entries.h:66
+#: ../src/gth-browser-actions-entries.h:446
+#: ../src/gth-viewer-actions-entries.h:94
 msgid "View image properties"
 msgstr "Zobraziť vlastnosti obrázku"
 
-#: ../src/gth-browser-actions-entries.h:68
+#: ../src/gth-browser-actions-entries.h:70
 msgid "_Import Photos..."
 msgstr "_Importovať fotografie..."
 
-#: ../src/gth-browser-actions-entries.h:69
+#: ../src/gth-browser-actions-entries.h:71
 msgid "Import photos from a digital camera"
 msgstr "Importovať fotografie z digitálneho fotoaparátu"
 
-#: ../src/gth-browser-actions-entries.h:73
+#: ../src/gth-browser-actions-entries.h:75
 msgid "_Write To CD..."
 msgstr "_Napáliť na CD..."
 
-#: ../src/gth-browser-actions-entries.h:74
+#: ../src/gth-browser-actions-entries.h:76
 msgid "Write selection to CD"
 msgstr "Napáliť vybrané na CD"
 
-#: ../src/gth-browser-actions-entries.h:78
-#: ../src/gth-browser-actions-entries.h:98
-#: ../src/gth-browser-actions-entries.h:148
-#: ../src/gth-browser-actions-entries.h:183
-#: ../src/gth-browser-actions-entries.h:223
-#: ../src/gth-browser-actions-entries.h:253
+#: ../src/gth-browser-actions-entries.h:80
+#: ../src/gth-browser-actions-entries.h:100
+#: ../src/gth-browser-actions-entries.h:150
+#: ../src/gth-browser-actions-entries.h:185
+#: ../src/gth-browser-actions-entries.h:225
+#: ../src/gth-browser-actions-entries.h:255
 msgid "_Rename..."
 msgstr "P_remenovať..."
 
-#: ../src/gth-browser-actions-entries.h:79
+#: ../src/gth-browser-actions-entries.h:81
 msgid "Rename this image"
 msgstr "Premenovať tento obrázok"
 
-#: ../src/gth-browser-actions-entries.h:84
+#: ../src/gth-browser-actions-entries.h:86
 msgid "Move this image to the Trash"
 msgstr "Presunúť tento obrázok do Koša"
 
-#: ../src/gth-browser-actions-entries.h:88
-#: ../src/gth-browser-actions-entries.h:113
-#: ../src/gth-browser-actions-entries.h:233
-#: ../src/gth-browser-actions-entries.h:263
+#: ../src/gth-browser-actions-entries.h:90
+#: ../src/gth-browser-actions-entries.h:115
+#: ../src/gth-browser-actions-entries.h:235
+#: ../src/gth-browser-actions-entries.h:265
 msgid "_Copy..."
 msgstr "_Kopírovať..."
 
-#: ../src/gth-browser-actions-entries.h:89
+#: ../src/gth-browser-actions-entries.h:91
 msgid "Copy this image to another location"
 msgstr "Kopírovať tento obrázok na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:93
-#: ../src/gth-browser-actions-entries.h:118
-#: ../src/gth-browser-actions-entries.h:158
-#: ../src/gth-browser-actions-entries.h:193
-#: ../src/gth-browser-actions-entries.h:238
-#: ../src/gth-browser-actions-entries.h:268
+#: ../src/gth-browser-actions-entries.h:95
+#: ../src/gth-browser-actions-entries.h:120
+#: ../src/gth-browser-actions-entries.h:160
+#: ../src/gth-browser-actions-entries.h:195
+#: ../src/gth-browser-actions-entries.h:240
+#: ../src/gth-browser-actions-entries.h:270
 msgid "_Move..."
 msgstr "_Presunúť..."
 
-#: ../src/gth-browser-actions-entries.h:94
+#: ../src/gth-browser-actions-entries.h:96
 msgid "Move this image to another location"
 msgstr "Presunúť tento obrázok na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:99
+#: ../src/gth-browser-actions-entries.h:101
 msgid "Rename selected images"
 msgstr "Premenovať vybrané obrázky"
 
-#: ../src/gth-browser-actions-entries.h:103
+#: ../src/gth-browser-actions-entries.h:105
 msgid "D_uplicate"
 msgstr "D_uplikovať"
 
-#: ../src/gth-browser-actions-entries.h:104
+#: ../src/gth-browser-actions-entries.h:106
 msgid "Duplicate selected images"
 msgstr "Duplikovať vybrané obrázky"
 
-#: ../src/gth-browser-actions-entries.h:109
+#: ../src/gth-browser-actions-entries.h:111
 msgid "Move the selected images to the Trash"
 msgstr "Presunúť vybrané obrázky do Koša"
 
-#: ../src/gth-browser-actions-entries.h:114
+#: ../src/gth-browser-actions-entries.h:116
 msgid "Copy selected images to another location"
 msgstr "Kopírovať vybrané obrázky na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:119
+#: ../src/gth-browser-actions-entries.h:121
 msgid "Move selected images to another location"
 msgstr "Presunúť vybrané obrázky na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:123
+#: ../src/gth-browser-actions-entries.h:125
 msgid "_Select All"
 msgstr "_Vybrať všetky"
 
-#: ../src/gth-browser-actions-entries.h:124
+#: ../src/gth-browser-actions-entries.h:126
 msgid "Select all images"
 msgstr "Vybrať všetky obrázky"
 
-#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-browser-actions-entries.h:130
 #: ../src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
 msgstr "_Pridať do katalógu..."
 
-#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-browser-actions-entries.h:131
 #: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
 msgstr "Pridať vybrané obrázky do katalógu"
 
-#: ../src/gth-browser-actions-entries.h:133
+#: ../src/gth-browser-actions-entries.h:135
 msgid "Remo_ve from Catalog"
 msgstr "Odst_rániť z katalógu"
 
-#: ../src/gth-browser-actions-entries.h:134
+#: ../src/gth-browser-actions-entries.h:136
 msgid "Remove selected images from the catalog"
 msgstr "Odstrániť vybrané obrázky z katalógu"
 
-#: ../src/gth-browser-actions-entries.h:138
-#: ../src/gth-browser-actions-entries.h:208
+#: ../src/gth-browser-actions-entries.h:140
+#: ../src/gth-browser-actions-entries.h:210
 msgid "Open"
 msgstr "Otvoriť"
 
-#: ../src/gth-browser-actions-entries.h:139
+#: ../src/gth-browser-actions-entries.h:141
 msgid "Open the selected catalog"
 msgstr "Otvoriť vybraný katalóg"
 
-#: ../src/gth-browser-actions-entries.h:143
-#: ../src/gth-browser-actions-entries.h:213
+#: ../src/gth-browser-actions-entries.h:145
+#: ../src/gth-browser-actions-entries.h:215
 msgid "Open in New Window"
 msgstr "Otvoriť v novom okne"
 
-#: ../src/gth-browser-actions-entries.h:144
+#: ../src/gth-browser-actions-entries.h:146
 msgid "Open the selected catalog in a new window"
 msgstr "Otvoriť vybraný katalóg v novom okne"
 
-#: ../src/gth-browser-actions-entries.h:149
+#: ../src/gth-browser-actions-entries.h:151
 msgid "Rename selected catalog"
 msgstr "Premenovať vybraný katalóg"
 
-#: ../src/gth-browser-actions-entries.h:153
-#: ../src/gth-browser-actions-entries.h:188
+#: ../src/gth-browser-actions-entries.h:155
+#: ../src/gth-browser-actions-entries.h:190
 msgid "Rem_ove"
 msgstr "Odst_rániť"
 
-#: ../src/gth-browser-actions-entries.h:154
+#: ../src/gth-browser-actions-entries.h:156
 msgid "Remove selected catalog"
 msgstr "Odstrániť vybraný katalóg"
 
-#: ../src/gth-browser-actions-entries.h:159
+#: ../src/gth-browser-actions-entries.h:161
 msgid "Move selected catalog to another location"
 msgstr "Presunúť vybraný katalóg na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:163
-#: ../src/gth-browser-actions-entries.h:198
+#: ../src/gth-browser-actions-entries.h:165
+#: ../src/gth-browser-actions-entries.h:200
 msgid "_Edit Search..."
 msgstr "_Upraviť hľadanie..."
 
-#: ../src/gth-browser-actions-entries.h:164
-#: ../src/gth-browser-actions-entries.h:199
+#: ../src/gth-browser-actions-entries.h:166
+#: ../src/gth-browser-actions-entries.h:201
 msgid "Modify search criteria"
 msgstr "Upraviť kritériá hľadania"
 
-#: ../src/gth-browser-actions-entries.h:168
-#: ../src/gth-browser-actions-entries.h:203
+#: ../src/gth-browser-actions-entries.h:170
+#: ../src/gth-browser-actions-entries.h:205
 msgid "Redo _Search"
 msgstr "Zopakovať _hľadanie"
 
-#: ../src/gth-browser-actions-entries.h:169
-#: ../src/gth-browser-actions-entries.h:204
+#: ../src/gth-browser-actions-entries.h:171
+#: ../src/gth-browser-actions-entries.h:206
 msgid "Redo the search"
 msgstr "Zopakovať hľadanie"
 
-#: ../src/gth-browser-actions-entries.h:173
+#: ../src/gth-browser-actions-entries.h:175
 msgid "_New Catalog..."
 msgstr "_Nový katalóg..."
 
-#: ../src/gth-browser-actions-entries.h:174
+#: ../src/gth-browser-actions-entries.h:176
 msgid "Create a new catalog"
 msgstr "Vytvoriť nový katalóg"
 
-#: ../src/gth-browser-actions-entries.h:178
+#: ../src/gth-browser-actions-entries.h:180
 msgid "New _Library..."
 msgstr "Nová _knižnica..."
 
-#: ../src/gth-browser-actions-entries.h:179
+#: ../src/gth-browser-actions-entries.h:181
 msgid "Create a new catalog library"
 msgstr "Vytvoriť novú knižnicu katalógov"
 
-#: ../src/gth-browser-actions-entries.h:184
+#: ../src/gth-browser-actions-entries.h:186
 msgid "Rename current catalog"
 msgstr "Premenovať aktuálny katalóg"
 
-#: ../src/gth-browser-actions-entries.h:189
+#: ../src/gth-browser-actions-entries.h:191
 msgid "Remove current catalog"
 msgstr "Odstrániť aktuálny katalóg"
 
-#: ../src/gth-browser-actions-entries.h:194
+#: ../src/gth-browser-actions-entries.h:196
 msgid "Move current catalog to another location"
 msgstr "Presunúť aktuálny katalóg na iné miesto"
 
-#: ../src/gth-browser-actions-entries.h:209
+#: ../src/gth-browser-actions-entries.h:211
 msgid "Open the selected folder"
 msgstr "Otvoriť vybraný priečinok"
 
-#: ../src/gth-browser-actions-entries.h:214
+#: ../src/gth-browser-actions-entries.h:216
 msgid "Open the selected folder in a new window"
 msgstr "Otvoriť vybraný priečinok v novom okne"
 
-#: ../src/gth-browser-actions-entries.h:218
-#: ../src/gth-browser-actions-entries.h:248
+#: ../src/gth-browser-actions-entries.h:220
+#: ../src/gth-browser-actions-entries.h:250
 msgid "Open with the _File Manager"
 msgstr "Otvoriť v _Správcovi súborov"
 
-#: ../src/gth-browser-actions-entries.h:219
+#: ../src/gth-browser-actions-entries.h:221
 msgid "Open the selected folder with the Nautilus file manager"
 msgstr "Otvoriť vybraný priečinok v správcovi súborov Nautilus"
 
-#: ../src/gth-browser-actions-entries.h:224
+#: ../src/gth-browser-actions-entries.h:226
 msgid "Rename selected folder"
 msgstr "Premenovať vybraný priečinok"
 
-#: ../src/gth-browser-actions-entries.h:229
+#: ../src/gth-browser-actions-entries.h:231
 msgid "Move the selected folder to the Trash"
 msgstr "Presunúť vybraný priečinok do Koša"
 
-#: ../src/gth-browser-actions-entries.h:234
+#: ../src/gth-browser-actions-entries.h:236
 msgid "Copy selected folder"
 msgstr "Kopírovať vybraný priečinok"
 
-#: ../src/gth-browser-actions-entries.h:239
+#: ../src/gth-browser-actions-entries.h:241
 msgid "Move selected folder"
 msgstr "Presunúť vybraný priečinok"
 
-#: ../src/gth-browser-actions-entries.h:243
-#: ../src/gth-browser-actions-entries.h:273
+#: ../src/gth-browser-actions-entries.h:245
+#: ../src/gth-browser-actions-entries.h:275
 #: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories..."
 msgstr "Ka_tegórie..."
 
-#: ../src/gth-browser-actions-entries.h:244
+#: ../src/gth-browser-actions-entries.h:246
 msgid "Assign categories to the selected folder"
 msgstr "Priradiť kategórie vybranému priečinku"
 
-#: ../src/gth-browser-actions-entries.h:249
+#: ../src/gth-browser-actions-entries.h:251
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Otvoriť aktuálny priečinok v správcovi súborov Nautilus"
 
-#: ../src/gth-browser-actions-entries.h:254
+#: ../src/gth-browser-actions-entries.h:256
 msgid "Rename current folder"
 msgstr "Premenovať aktuálny priečinok"
 
-#: ../src/gth-browser-actions-entries.h:259
+#: ../src/gth-browser-actions-entries.h:261
 msgid "Move the current folder to the Trash"
 msgstr "Presunúť aktuálny priečinok do Koša"
 
-#: ../src/gth-browser-actions-entries.h:264
+#: ../src/gth-browser-actions-entries.h:266
 msgid "Copy current folder"
 msgstr "Kopírovať aktuálny priečinok"
 
-#: ../src/gth-browser-actions-entries.h:269
+#: ../src/gth-browser-actions-entries.h:271
 msgid "Move current folder"
 msgstr "Presunúť aktuálny priečinok"
 
-#: ../src/gth-browser-actions-entries.h:274
+#: ../src/gth-browser-actions-entries.h:276
 msgid "Assign categories to the current folder"
 msgstr "Priradiť·kategórie aktuálnemu priečinku"
 
-#: ../src/gth-browser-actions-entries.h:278
+#: ../src/gth-browser-actions-entries.h:280
 msgid "_New Folder..."
 msgstr "_Nový priečinok..."
 
-#: ../src/gth-browser-actions-entries.h:279
+#: ../src/gth-browser-actions-entries.h:281
 msgid "Create a new folder"
 msgstr "Vytvoriť nový priečinok"
 
-#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-browser-actions-entries.h:286
 #: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
 msgstr "Zobraziť ďalší obrázok"
 
-#: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-browser-actions-entries.h:291
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
 msgstr "Zobraziť predchádzajúci obrázok"
 
-#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-browser-actions-entries.h:301
 msgid "Go to the previous visited location"
 msgstr "Prejsť na naposledy navštívené miesto"
 
-#: ../src/gth-browser-actions-entries.h:304
+#: ../src/gth-browser-actions-entries.h:306
 msgid "Go to the next visited location"
 msgstr "Prejsť na nasledujúce navštívené miesto"
 
-#: ../src/gth-browser-actions-entries.h:309
+#: ../src/gth-browser-actions-entries.h:311
 msgid "Go up one level"
 msgstr "Prejsť o úroveň vyššie"
 
-#: ../src/gth-browser-actions-entries.h:313
+#: ../src/gth-browser-actions-entries.h:315
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "_Aktualizovať"
 
-#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-browser-actions-entries.h:316
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "Znovu načítať aktuálne umiestnenie"
 
-#: ../src/gth-browser-actions-entries.h:319
+#: ../src/gth-browser-actions-entries.h:321
 msgid "Stop loading current location"
 msgstr "Prerušiť načítavanie aktuálneho umiestnenia"
 
-#: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-browser-actions-entries.h:326
 msgid "Go to the home folder"
 msgstr "Prejsť do domovského adresára"
 
-#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-browser-actions-entries.h:330
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "_Prejsť do priečinka obrázkov"
 
-#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-browser-actions-entries.h:331
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "Prejsť do priečinka, ktorý obsahuje vybraný obrázok"
 
-#: ../src/gth-browser-actions-entries.h:333
+#: ../src/gth-browser-actions-entries.h:335
 msgid "_Delete History"
 msgstr "_Odstrániť históriu"
 
-#: ../src/gth-browser-actions-entries.h:334
+#: ../src/gth-browser-actions-entries.h:336
 msgid "Delete the list of visited locations"
 msgstr "Odstrániť zoznam navštívených umiestnení"
 
-#: ../src/gth-browser-actions-entries.h:338
+#: ../src/gth-browser-actions-entries.h:340
 msgid "_Location..."
 msgstr "_Umiestnenie..."
 
-#: ../src/gth-browser-actions-entries.h:339
+#: ../src/gth-browser-actions-entries.h:341
 msgid "Specify a location to visit"
 msgstr "Zadajte umiestnenie, ktoré chcete navštíviť"
 
-#: ../src/gth-browser-actions-entries.h:343
+#: ../src/gth-browser-actions-entries.h:345
 msgid "_Add Bookmark"
 msgstr "_Pridať záložku"
 
-#: ../src/gth-browser-actions-entries.h:344
+#: ../src/gth-browser-actions-entries.h:346
 msgid "Add current location to bookmarks"
 msgstr "Pridať aktuálne umiestnenie do záložiek"
 
-#: ../src/gth-browser-actions-entries.h:348
+#: ../src/gth-browser-actions-entries.h:350
 msgid "_Edit Bookmarks..."
 msgstr "_Upraviť záložky..."
 
-#: ../src/gth-browser-actions-entries.h:349
+#: ../src/gth-browser-actions-entries.h:351
 msgid "Edit bookmarks"
 msgstr "Upraviť záložky"
 
-#: ../src/gth-browser-actions-entries.h:353
-msgid "_Slide Show"
+#: ../src/gth-browser-actions-entries.h:355
+msgid "_Slideshow"
 msgstr "Premietanie _snímkov"
 
-#: ../src/gth-browser-actions-entries.h:354
-msgid "View as a slide show"
+#: ../src/gth-browser-actions-entries.h:356
+msgid "View as a slideshow"
 msgstr "Premietať ako snímky"
 
-#: ../src/gth-browser-actions-entries.h:358
+#: ../src/gth-browser-actions-entries.h:360
 msgid "_Search..."
 msgstr "_Hľadanie..."
 
-#: ../src/gth-browser-actions-entries.h:368
+#: ../src/gth-browser-actions-entries.h:370
 msgid "Create _Index Image..."
 msgstr "Vytvoriť _indexový obrázok..."
 
-#: ../src/gth-browser-actions-entries.h:373
+#: ../src/gth-browser-actions-entries.h:375
 msgid "Create _Web Album..."
 msgstr "Vytvoriť _www album..."
 
-#: ../src/gth-browser-actions-entries.h:378
+#: ../src/gth-browser-actions-entries.h:380
 msgid "Convert F_ormat..."
 msgstr "Konvertovať f_ormát..."
 
-#: ../src/gth-browser-actions-entries.h:379
-#, fuzzy
+#: ../src/gth-browser-actions-entries.h:381
 msgid "Convert image format"
-msgstr "Konvertovať formát"
+msgstr "Konvertovať formát obrázku"
 
-#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-browser-actions-entries.h:385
 msgid "Search for _Duplicates..."
 msgstr "Hľadať _duplikáty..."
 
-#: ../src/gth-browser-actions-entries.h:388
+#: ../src/gth-browser-actions-entries.h:390
 msgid "_Preferences..."
 msgstr "_Predvoľby..."
 
-#: ../src/gth-browser-actions-entries.h:389
+#: ../src/gth-browser-actions-entries.h:391
 msgid "Edit various preferences"
 msgstr "Upraviť rôzne predvoľby"
 
-#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:395
 msgid "Scale Images..."
 msgstr "Zmeniť veľkosť obrázkov..."
 
@@ -3308,278 +3473,312 @@ msgstr "Zmeniť veľkosť obrázkov..."
 #. may be required than for the identical string used as a
 #. dialog window title used elsewhere, depending on your
 #. language's grammar.
-#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-browser-actions-entries.h:400
 msgid "Scale Images"
 msgstr "Zmeniť veľkosť obrázkov"
 
-#: ../src/gth-browser-actions-entries.h:406
+#: ../src/gth-browser-actions-entries.h:404
+#: ../src/gth-viewer-actions-entries.h:68
+msgid "_Edit Scripts"
+msgstr "_Upraviť skripty"
+
+#: ../src/gth-browser-actions-entries.h:405
+#: ../src/gth-viewer-actions-entries.h:69
+msgid "Edit external scripts"
+msgstr "Upraviť externé skripty"
+
+#: ../src/gth-browser-actions-entries.h:409
 #: ../src/gth-viewer-actions-entries.h:73
+msgid "To _Flickr"
+msgstr "Pre _Flickr"
+
+#: ../src/gth-browser-actions-entries.h:410
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "Upload selected images to Flickr"
+msgstr "Odoslať vybrané obrázky do Flickr"
+
+#: ../src/gth-browser-actions-entries.h:419
+#: ../src/gth-viewer-actions-entries.h:83
 msgid "_Toolbar"
 msgstr "_Panel nástrojov"
 
-#: ../src/gth-browser-actions-entries.h:407
-#: ../src/gth-viewer-actions-entries.h:74
+#: ../src/gth-browser-actions-entries.h:420
+#: ../src/gth-viewer-actions-entries.h:84
 msgid "View or hide the toolbar of this window"
 msgstr "Zobraziť alebo skryť panel nástrojov v tomto okne"
 
-#: ../src/gth-browser-actions-entries.h:411
-#: ../src/gth-viewer-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-viewer-actions-entries.h:88
 msgid "_Statusbar"
 msgstr "_Stavový riadok"
 
-#: ../src/gth-browser-actions-entries.h:412
-#: ../src/gth-viewer-actions-entries.h:79
+#: ../src/gth-browser-actions-entries.h:425
+#: ../src/gth-viewer-actions-entries.h:89
 msgid "View or hide the statusbar of this window"
 msgstr "Zobraziť alebo skryť stavový riadok tohto okna"
 
-#: ../src/gth-browser-actions-entries.h:416
+#: ../src/gth-browser-actions-entries.h:429
 msgid "_Filter"
 msgstr "_Filter"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:430
 msgid "View or hide the filterbar of this window"
 msgstr "Zobraziť alebo skryť panel nástrojov v tomto okne"
 
-#: ../src/gth-browser-actions-entries.h:423
+#: ../src/gth-browser-actions-entries.h:436
 msgid "View thumbnails"
 msgstr "Zobraziť náhľady"
 
-#: ../src/gth-browser-actions-entries.h:427
+#: ../src/gth-browser-actions-entries.h:440
 msgid "_Image Preview"
 msgstr "_Ukážka obrázku"
 
-#: ../src/gth-browser-actions-entries.h:428
-#: ../src/gth-browser-actions-entries.h:500
+#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:513
 msgid "View the image"
 msgstr "Zobraziť obrázok"
 
-#: ../src/gth-browser-actions-entries.h:438
+#: ../src/gth-browser-actions-entries.h:451
 msgid "Show _Hidden Files"
 msgstr "Zobraziť _Skryté súbory"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:452
 msgid "Show hidden files and folders"
 msgstr "Zobraziť skryté súbory a priečinky"
 
-#: ../src/gth-browser-actions-entries.h:444
+#: ../src/gth-browser-actions-entries.h:457
 msgid "_Reversed Order"
 msgstr "O_pačné poradie"
 
-#: ../src/gth-browser-actions-entries.h:445
+#: ../src/gth-browser-actions-entries.h:458
 msgid "Reverse images order"
 msgstr "Opačné poradie obrázkov"
 
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:467
 msgid "by _Name"
 msgstr "podľa me_na"
 
-#: ../src/gth-browser-actions-entries.h:455
+#: ../src/gth-browser-actions-entries.h:468
 msgid "Sort images by name"
 msgstr "Triediť obrázky podľa mena"
 
-#: ../src/gth-browser-actions-entries.h:457
+#: ../src/gth-browser-actions-entries.h:470
 msgid "by _Path"
 msgstr "podľa _cesty"
 
-#: ../src/gth-browser-actions-entries.h:458
+#: ../src/gth-browser-actions-entries.h:471
 msgid "Sort images by path"
 msgstr "Triediť obrázky podľa cesty"
 
-#: ../src/gth-browser-actions-entries.h:460
+#: ../src/gth-browser-actions-entries.h:473
 msgid "by _Size"
 msgstr "podľa _veľkosti"
 
-#: ../src/gth-browser-actions-entries.h:461
+#: ../src/gth-browser-actions-entries.h:474
 msgid "Sort images by file size"
 msgstr "Triediť obrázky podľa veľkosti súboru"
 
-#: ../src/gth-browser-actions-entries.h:463
+#: ../src/gth-browser-actions-entries.h:476
 msgid "by Modification _Time"
 msgstr "podľa ča_su poslednej zmeny"
 
-#: ../src/gth-browser-actions-entries.h:464
+#: ../src/gth-browser-actions-entries.h:477
 msgid "Sort images by file modification time"
 msgstr "Triediť obrázky podľa času poslednej zmeny"
 
-#: ../src/gth-browser-actions-entries.h:466
+#: ../src/gth-browser-actions-entries.h:479
 msgid "by _Exif Time"
 msgstr "podľa _Exif času"
 
-#: ../src/gth-browser-actions-entries.h:467
+#: ../src/gth-browser-actions-entries.h:480
 msgid "Sort images by Exif DateTime tag"
 msgstr "Triediť obrázky podľa značky ExifDátumČas"
 
-#: ../src/gth-browser-actions-entries.h:469
+#: ../src/gth-browser-actions-entries.h:482
 msgid "by _Comment"
 msgstr "podľa _Poznámky"
 
-#: ../src/gth-browser-actions-entries.h:470
+#: ../src/gth-browser-actions-entries.h:483
 msgid "Sort images by comment"
 msgstr "Triediť obrázky podľa poznámky"
 
-#: ../src/gth-browser-actions-entries.h:472
+#: ../src/gth-browser-actions-entries.h:485
 msgid "_Manual Order"
 msgstr "_Ručné triedenie"
 
-#: ../src/gth-browser-actions-entries.h:473
+#: ../src/gth-browser-actions-entries.h:486
 msgid "Sort images manually"
 msgstr "Triediť obrázky ručne"
 
-#: ../src/gth-browser-actions-entries.h:480
-#, fuzzy
+#: ../src/gth-browser-actions-entries.h:493
 msgid "View As Sli_des"
-msgstr "Zobraziť ako snímky"
+msgstr "Zobraziť ako _snímky"
 
-#: ../src/gth-browser-actions-entries.h:481
+#: ../src/gth-browser-actions-entries.h:494
 msgid "View As Slides"
 msgstr "Zobraziť ako snímky"
 
-#: ../src/gth-browser-actions-entries.h:483
-#, fuzzy
+#: ../src/gth-browser-actions-entries.h:496
 msgid "View As _List"
-msgstr "Zobraziť ako zoznam"
+msgstr "Zobraziť ako _zoznam"
 
-#: ../src/gth-browser-actions-entries.h:484
+#: ../src/gth-browser-actions-entries.h:497
 msgid "View As List"
 msgstr "Zobraziť ako zoznam"
 
-#: ../src/gth-browser-actions-entries.h:493
+#: ../src/gth-browser-actions-entries.h:506
 msgid "_Folders"
 msgstr "_Priečinky"
 
-#: ../src/gth-browser-actions-entries.h:494
+#: ../src/gth-browser-actions-entries.h:507
 msgid "View the folders"
 msgstr "Zobraziť priečinky"
 
-#: ../src/gth-browser-actions-entries.h:496
+#: ../src/gth-browser-actions-entries.h:509
 msgid "_Catalogs"
 msgstr "_Katalógy"
 
-#: ../src/gth-browser-actions-entries.h:497
+#: ../src/gth-browser-actions-entries.h:510
 msgid "View the catalogs"
 msgstr "Zobraziť katalógy"
 
-#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:517 ../src/gth-viewer.c:636
 msgid "[Press 'c' to add a comment]"
 msgstr "[Stlačte 'c' na pridanie poznámky]"
 
-#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:595 ../src/gth-browser.c:612 ../src/gth-viewer.c:693
 msgid "[modified]"
 msgstr "[zmenený]"
 
-#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:638 ../src/main.c:438 ../src/main.c:724
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
+#: ../src/gth-browser.c:718
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 obrázok (%s)"
 
-#: ../src/gth-browser.c:779
+#: ../src/gth-browser.c:721
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d obrázkov (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:728
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 vybraný (%s)"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:731
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d vybraných (%s)"
 
-#: ../src/gth-browser.c:1891 ../src/gth-viewer.c:995
+#: ../src/gth-browser.c:1783 ../src/gth-viewer.c:866
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Aktuálny obrázok bol zmenený, chcete ho uložiť?"
 
-#: ../src/gth-browser.c:1892 ../src/gth-viewer.c:996
+#: ../src/gth-browser.c:1784 ../src/gth-viewer.c:867
 msgid "Do Not Save"
 msgstr "Neukladať"
 
-#: ../src/gth-browser.c:3607
+#: ../src/gth-browser.c:3500
 msgid "Dragged Images"
 msgstr "Ťahané obrázky"
 
-#: ../src/gth-browser.c:5399 ../src/gth-browser.c:5400
+#: ../src/gth-browser.c:5291 ../src/gth-browser.c:5292
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Otočiť obrázky bez straty kvality"
 
-#: ../src/gth-browser.c:6287
+#: ../src/gth-browser.c:6169
 msgid "Getting folder listing..."
 msgstr "Získavam zoznam súborov v priečinku..."
 
-#: ../src/gth-browser.c:6308
+#: ../src/gth-browser.c:6191
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nepodarilo sa načítať priečinok \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6811 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6708 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Zatvoriť"
 
-#: ../src/gth-browser.c:6825 ../src/gth-viewer.c:1640
+#: ../src/gth-browser.c:6722 ../src/gth-viewer.c:1513
 msgid "Image comment"
 msgstr "Poznámka k obrázku"
 
-#: ../src/gth-browser.c:6839
+#: ../src/gth-browser.c:6736
 msgid "Image data"
 msgstr "Údaje obrázku"
 
-#: ../src/gth-browser.c:6853
+#: ../src/gth-browser.c:6750
 msgid "Image preview"
 msgstr "Ukážka obrázku"
 
-#: ../src/gth-browser.c:7905
+#: ../src/gth-browser.c:7802
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalóg neexistuje."
 
-#: ../src/gth-browser.c:8537 ../src/gth-viewer.c:2085
+#: ../src/gth-browser.c:8434 ../src/gth-viewer.c:1962
 msgid "Wait please..."
 msgstr "Prosím čakajte..."
 
-#: ../src/gth-exif-data-viewer.c:65
-msgid "Filesystem Data"
-msgstr "Údaj súborového systému"
+#: ../src/gth-exif-data-viewer.c:44
+msgid "Filesystem"
+msgstr "Súborový systém"
 
-#: ../src/gth-exif-data-viewer.c:66
-msgid "General Information"
-msgstr "Hlavné Informácie"
+#: ../src/gth-exif-data-viewer.c:45
+msgid "Exif General"
+msgstr "Exif všeobecné"
 
-#: ../src/gth-exif-data-viewer.c:67
-msgid "Picture-Taking Conditions"
-msgstr "Okolnosti fotenia"
+#: ../src/gth-exif-data-viewer.c:46
+msgid "Exif Conditions"
+msgstr "Exif okolnosti fotenia"
 
-#: ../src/gth-exif-data-viewer.c:68
-msgid "Maker Notes"
-msgstr "Poznámky tvorcu"
+#: ../src/gth-exif-data-viewer.c:47
+msgid "Exif Structure"
+msgstr "Exif Štruktúra obrázku"
 
-#: ../src/gth-exif-data-viewer.c:69
-msgid "GPS Coordinates"
-msgstr "GPS Súradnice"
+#: ../src/gth-exif-data-viewer.c:48
+msgid "Exif Thumbnail"
+msgstr "Exif náhľad"
 
-#: ../src/gth-exif-data-viewer.c:70
-msgid "Image Structure"
-msgstr "Štruktúra obrázku"
+#: ../src/gth-exif-data-viewer.c:49
+msgid "Exif GPS"
+msgstr "Exif GPS"
 
-#: ../src/gth-exif-data-viewer.c:71
-msgid "Embedded Thumbnail"
-msgstr "Zabudovaný _Náhľad"
+#: ../src/gth-exif-data-viewer.c:50
+msgid "Exif Maker Notes"
+msgstr "Exif poznámky tvorcu"
 
-#: ../src/gth-exif-data-viewer.c:72
-msgid "Versions & Interoperability"
-msgstr "Verzie & Interoperabilita"
+#: ../src/gth-exif-data-viewer.c:51
+msgid "Exif Versions"
+msgstr "Exif verzie"
 
-#: ../src/gth-exif-data-viewer.c:73
+#: ../src/gth-exif-data-viewer.c:52
+msgid "IPTC"
+msgstr "IPTC"
+
+#: ../src/gth-exif-data-viewer.c:53
+msgid "XMP Embedded"
+msgstr "Zabudované XMP"
+
+#: ../src/gth-exif-data-viewer.c:54
+msgid "XMP Sidecar"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:55
+msgid "Audio / Video"
+msgstr "Zvuk / Video"
+
+#: ../src/gth-exif-data-viewer.c:56
 msgid "Other"
 msgstr "Iné"
 
-#: ../src/gth-exif-data-viewer.c:801
+#: ../src/gth-exif-data-viewer.c:342
 msgid "Path"
 msgstr "Cesta"
 
@@ -3657,7 +3856,6 @@ msgstr "Všetko"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
-#, fuzzy
 msgid "Sh_ow:"
 msgstr "_Zobraziť:"
 
@@ -3671,9 +3869,8 @@ msgstr "_Prehliadať..."
 
 #. Go to destination
 #: ../src/gth-folder-selection-dialog.c:304
-#, fuzzy
 msgid "_Go to the destination folder"
-msgstr "Vyberte cieľový priečinok"
+msgstr "_Prejsť do cieľového priečinku"
 
 #: ../src/gth-folder-selection-dialog.c:317
 msgid "<b>_Recent folders:</b>"
@@ -3683,50 +3880,48 @@ msgstr "<b>_Nedávne priečinky:</b>"
 msgid "Proper_ties"
 msgstr "Vlas_tnosti"
 
-#: ../src/gth-location.c:385
+#: ../src/gth-location.c:392
 msgid "Other..."
 msgstr "Iné..."
 
-#: ../src/gth-viewer-actions-entries.h:41
-#: ../src/gth-window-actions-entries.h:35
-msgid "_Transform"
-msgstr "_Transformovať"
-
-#: ../src/gth-viewer-actions-entries.h:42
-#: ../src/gth-window-actions-entries.h:36
-msgid "Auto"
-msgstr "Auto"
-
-#: ../src/gth-viewer-actions-entries.h:88
+#: ../src/gth-viewer-actions-entries.h:98
 msgid "_Single Window"
 msgstr "_Jedno okno"
 
-#: ../src/gth-viewer-actions-entries.h:89
+#: ../src/gth-viewer-actions-entries.h:99
 msgid "Reuse this window to view other images"
 msgstr "Použiť toto okno na prezeranie ostatných obrázkov"
 
-#: ../src/gth-viewer.c:820
+#: ../src/gth-viewer.c:768
 msgid "_None"
 msgstr "Žiade_n"
 
-#: ../src/gth-viewer.c:1436 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1305 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_Otvoriť s"
 
-#: ../src/gth-viewer.c:1442 ../src/gth-viewer.c:1443
+#: ../src/gth-viewer.c:1311 ../src/gth-viewer.c:1312
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Otvoriť vybrané obrázky pomocou aplikácie"
 
-#: ../src/gth-window-actions-callbacks.c:911
+#: ../src/gth-window-actions-callbacks.c:935
 msgid "An image viewer and browser for GNOME."
 msgstr "Prehliadač obrázkov pre GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:914
+#: ../src/gth-window-actions-callbacks.c:938
 msgid "translator_credits"
 msgstr ""
 "Preložil: Ivan Noris <vix@vazka.sk>\n"
 "Peter Tuhársky <tuharsky@misbb.sk>"
+
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "_Transformovať"
+
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "Auto"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3859,7 +4054,6 @@ msgid "Automatically equalize the image histogram"
 msgstr "Automaticky vyrovnať histogram obrázku"
 
 #: ../src/gth-window-actions-entries.h:155
-#, fuzzy
 msgid "_Posterize..."
 msgstr "_Posterizovať..."
 
@@ -4101,7 +4295,6 @@ msgid "Games"
 msgstr "Hry"
 
 #: ../src/main.c:155
-#, fuzzy
 msgid "Party"
 msgstr "Párty"
 
@@ -4154,30 +4347,13 @@ msgstr ""
 msgid "_Trim"
 msgstr "O_rezať"
 
+#: ../src/rotation-utils.c:169
+msgid "Could not create a local temporary copy of the remote file."
+msgstr "Nepodarilo sa vytvoriť dočasnú lokálnu kópiu vzdialeného súboru."
+
 #: ../src/rotation-utils.c:215
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 "Nepodarilo sa presunúť dočasný súbor na lokálne miesto. Skontrolujte si "
 "prístupové oprávnenia priečinka."
-
-#~ msgid "Photo _Data (EXIF)"
-#~ msgstr "Fotografické údaje (EXIF)"
-
-#~ msgid "Inde_x file:"
-#~ msgstr "Inde_xový súbor:"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "_High Quality"
-#~ msgstr "_Vysoká kvalita"
-
-#~ msgid "Use high quality zoom"
-#~ msgstr "Použiť vysoko kvalitné zväčšenie"
-
-#~ msgid "_Low Quality"
-#~ msgstr "_Nízka kvalita"
-
-#~ msgid "Use low quality zoom"
-#~ msgstr "Použiť málo kvalitné zväčšenie"
