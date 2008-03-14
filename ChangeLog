@@ -1,3 +1,11 @@
+2008-03-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (mime_type_is_raw):
+	Use gnome_vfs_mime_type_get_equivalence to spot all sub-classes of 
+	image/x-dcraw, so that we don't have to add RAW file types manually
+	to the mime-checking code. This relies on having a modern version
+	of freedesktop.org.xml.
+
 2008-03-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* configure.in:
