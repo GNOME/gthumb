@@ -1,4 +1,4 @@
-# translation of lt.po to Lithuanian
+# translation of lt to Lithuanian
 # Lithuanian translation of gthumb.
 # Copyright (C) 2004-2007, 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
@@ -8,10 +8,10 @@
 # Gintautas Miliauskas <gintas@akl.lt>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb HEAD\n"
+"Project-Id-Version: lt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-08 00:04+0200\n"
-"PO-Revision-Date: 2008-03-08 00:03+0200\n"
+"POT-Creation-Date: 2008-03-23 01:39+0200\n"
+"PO-Revision-Date: 2008-03-23 01:39+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -424,7 +424,7 @@ msgstr "<b>Raiška</b>"
 #: ../data/glade/gthumb_tools.glade.h:7
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
-msgstr "<b>Saugoma</b>"
+msgstr "<b>Įrašoma</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -592,6 +592,12 @@ msgid ""
 "the \"Crop\" button to perform\n"
 "the crop, and \"Done\" to finish.</small>"
 msgstr ""
+"<small>Spragtelėkite ir tempkite \n"
+"apkirpimo sričiai pažymėti arba\n"
+"naudokite dialogus žemiau. \n"
+"Spauskite mygtuką „Apkirpti“\n"
+"veiksmui atlikti ir „Baigta“, kai\n"
+"daugiau nebereikia apkirpti.</small>"
 
 #: ../data/glade/gthumb_crop.glade.h:14
 msgid "Cr_op"
@@ -1157,6 +1163,9 @@ msgid ""
 "camera - photos, videos, and audio files. You can omit the audio and video "
 "files by deselecting this checkbox."
 msgstr ""
+"Pagal nutylėjimą gThumb rodo visus failus, kuriuos galima tikėtis rasti "
+"skaitmeniniame fotoaparate – nuotraukas, video ir audio klipus. Galite "
+"paslėpti video ir audio įrašus nužymėdami šį pasirinkimą."
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
@@ -1224,7 +1233,7 @@ msgstr "Tik piktogramos"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Include audio clips and movies in browser view"
-msgstr ""
+msgstr "Rodyti audio klipus ir filmus naršyklės rodinyje"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Keep previous zoom"
@@ -1391,6 +1400,10 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
+"<small><i><b>Pastaba:</b> didelės skiriamosios\n"
+"gebos paveikslėliai bus sumažinti iki šios gebos.\n"
+"Padidinkite gebą, jei norite gauti geresnę kokybę.\n"
+"Sumažinkite, jei siekiate greitesnio spausdinimo.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1518,6 +1531,11 @@ msgid ""
 "zoom in and out, or use the\n"
 "zoom buttons below.</small>"
 msgstr ""
+"<small>Nuveskite pelės rodyklę\n"
+"virš raudonos akies ir spragtelėkite.\n"
+"Vaizdui padidinti ar sumažinti\n"
+"galite naudoti pelės ratuką\n"
+"arba mygtukus apačioje.</small>"
 
 #: ../data/glade/gthumb_redeye.glade.h:9
 msgid "Red-Eye Removal"
@@ -1545,7 +1563,7 @@ msgstr "Prieš"
 
 #: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
-msgstr "Pasirinkite kategorijas iš išsaugoto sąrašo"
+msgstr "Pasirinkite kategorijas iš įrašyto sąrašo"
 
 #: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
@@ -1859,7 +1877,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:87
 msgid "User-Defined Script Parameter"
-msgstr ""
+msgstr "Naudotojo nurodytas scenarijaus parametras"
 
 #: ../data/glade/gthumb_tools.glade.h:88
 msgid "Write To CD"
@@ -1867,7 +1885,7 @@ msgstr "Rašyti į CD"
 
 #: ../data/glade/gthumb_tools.glade.h:89
 msgid "Your script requires this user-defined parameter:"
-msgstr ""
+msgstr "Scenarijui reikia šio naudotojo nurodomo parametro:"
 
 #: ../data/glade/gthumb_tools.glade.h:95
 msgid "_Last modified date"
@@ -2258,11 +2276,11 @@ msgstr "Negalima atverti katalogo „%s“: %s"
 #: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "Negalima išsaugoti katalogo „%s“: %s"
+msgstr "Negalima įrašyti katalogo „%s“: %s"
 
 #: ../libgthumb/comments.c:1014 ../src/catalog-web-exporter.c:152
 msgid "%d %B %Y"
-msgstr "%Y %B %d"
+msgstr "%Y-%B-%d"
 
 #: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:57
 #: ../src/catalog-web-exporter.c:154 ../src/dlg-duplicates.c:548
@@ -2270,7 +2288,7 @@ msgstr "%Y %B %d"
 #: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:882
 #: ../src/gth-viewer.c:586
 msgid "%d %B %Y, %H:%M"
-msgstr "%Y %B %d, %H:%M"
+msgstr "%Y-%B-%d, %H:%M"
 
 #: ../libgthumb/comments.c:1026 ../libgthumb/comments.c:1028
 msgid "(No Comment)"
@@ -2287,34 +2305,34 @@ msgstr "Nustatyti pagal plėtinį"
 
 #: ../libgthumb/dlg-save-image.c:244
 msgid "Save Image"
-msgstr "Išsaugoti paveiklėlį"
+msgstr "Įrašyti paveiklėlį"
 
 #: ../libgthumb/dlg-save-image.c:264
 msgid "Image type:"
 msgstr "Paveikslėlio tipas:"
 
-#: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1508 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Katalogai"
 
-#: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1511 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Failų sistema"
 
-#: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1540 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Namai"
 
-#: ../libgthumb/file-utils.c:2179
+#: ../libgthumb/file-utils.c:2175
 msgid "Library not empty"
 msgstr "Biblioteka netuščia"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2184
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nepavyko pašalinti bibliotekos „%s“: %s"
 
-#: ../libgthumb/file-utils.c:2215
+#: ../libgthumb/file-utils.c:2211
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nepavyko pašalinti katalogo „%s“: %s"
@@ -2365,7 +2383,7 @@ msgstr "%d x %d pikselių"
 #: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2435
 #: ../src/catalog-web-exporter.c:2655
 msgid "Saving images"
-msgstr "Saugomi paveikslėliai"
+msgstr "Įrašomi paveikslėliai"
 
 #: ../src/catalog-png-exporter.c:1658
 #, c-format
@@ -2374,15 +2392,15 @@ msgstr "Kuriamas paveikslėlis: %s.%s"
 
 #: ../src/catalog-web-exporter.c:2149
 msgid "Saving thumbnails"
-msgstr "Saugomos miniatiūros"
+msgstr "Įrašomos miniatiūros"
 
 #: ../src/catalog-web-exporter.c:2222
 msgid "Saving HTML pages: Images"
-msgstr "Saugomi HTML puslapiai: paveikslėliai"
+msgstr "Įrašomi HTML puslapiai: paveikslėliai"
 
 #: ../src/catalog-web-exporter.c:2302
 msgid "Saving HTML pages: Indexes"
-msgstr "Saugomi HTML puslapiai: rodyklės"
+msgstr "Įrašomi HTML puslapiai: rodyklės"
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
@@ -2794,7 +2812,7 @@ msgstr "Scenarijaus progresas"
 #: ../src/dlg-scripts.c:608
 #, c-format
 msgid "Scripts using the %%F code can not be cancelled. Sorry!"
-msgstr ""
+msgstr "Scenarijai, naudojantys %%F kodą, negali būti nutraukti. Atsiprašome!"
 
 #: ../src/dlg-scripts.c:731
 #, c-format
@@ -3634,11 +3652,11 @@ msgstr "%d pasirinkta (%s)"
 
 #: ../src/gth-browser.c:1783 ../src/gth-viewer.c:866
 msgid "The current image has been modified, do you want to save it?"
-msgstr "Šis paveikslėlis buvo pakeistas. Ar norite jį išsaugoti?"
+msgstr "Šis paveikslėlis buvo pakeistas. Ar norite jį įrašyti?"
 
 #: ../src/gth-browser.c:1784 ../src/gth-viewer.c:867
 msgid "Do Not Save"
-msgstr "Nesaugoti"
+msgstr "Neįrašyti"
 
 #: ../src/gth-browser.c:3500
 msgid "Dragged Images"
@@ -3894,15 +3912,15 @@ msgstr "_Atverti su..."
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
-msgstr "Išsaugoti šį paveikslėlį"
+msgstr "Įrašyti šį paveikslėlį"
 
 #: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
-msgstr "Išsaugoti _kaip..."
+msgstr "Įrašyti _kaip..."
 
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
-msgstr "Atstatyti į išsaugotą paveikslėlį"
+msgstr "Atkurti įrašytą paveikslėlį"
 
 #: ../src/gth-window-actions-entries.h:65
 msgid "Print..."
@@ -4207,16 +4225,15 @@ msgstr "Paleisti pilno ekrano režime"
 
 #: ../src/main.c:94
 msgid "Automatically start a slideshow"
-msgstr "Automatiškai pradėti skaidrių šou"
+msgstr "Automatiškai pradėti rodyti pateiktis"
 
 #: ../src/main.c:98
 msgid "Automatically import digital camera photos"
 msgstr "Automatiškai importuoti skaitmeninio fotoaparato fotografijas"
 
 #: ../src/main.c:102
-#, fuzzy
 msgid "Use the viewer mode to view single images"
-msgstr "Naudoti šį langą ir kitiems paveikslėliams"
+msgstr "Naudoti rodymo veikseną pavieniams paveikslėliams"
 
 #: ../src/main.c:147
 msgid "Holidays"
@@ -4276,7 +4293,6 @@ msgid "Problem transforming the image: %s"
 msgstr "Klaida transformuojant paveikslėlį: %s"
 
 #: ../src/rotation-utils.c:118
-#, fuzzy
 msgid ""
 "This transformation may introduce small image distortions along one or more "
 "edges, because the image dimensions are not multiples of 8.\n"
@@ -4292,21 +4308,17 @@ msgstr ""
 "Dėl šios transformacijos gali atsirasti maži paveikslėlių iškraipymai "
 "viename ar daugiau kraštų, nes paveikslėlio matmenys nesidalija iš 8.\n"
 "\n"
-"Tačiau iškraipymai yra atstatomi. Jeigu gautasis paveikslėlis yra "
-"nepriimtinas, paprasčiausiai pritaikykite atvirkštinę transformaciją ir "
-"gausite pradinį paveikslėlį.\n"
+"Tačiau iškraipymai yra atstatomi. Jeigu gautasis paveikslėlis nepriimtinas, "
+"paprasčiausiai pritaikykite atvirkštinę transformaciją ir gausite pradinį "
+"paveikslėlį.\n"
 "\n"
-"gThumb taip pat gali panaikinti (ar padailinti) bet kokius "
-"netransformuojamus kraštinius taškelius. Praktiškai naudojant šią "
-"transformaciją gaunamas geriausiai atrodantis paveikslėlis, tačiau ši "
-"transformacija nebūtinai yra sugrąžinama.\n"
-"\n"
-"Norėdami išvengti šios problemos ateityje, išjunkite parinktį „Pritaikyti "
-"fizinę transformaciją“ pasukimo lange."
+"Galite taip pat panaikinti (ar padailinti) netransformuojamus kraštinius "
+"taškelius. Praktiškai naudojant šią transformaciją gaunamas geriausiai "
+"atrodantis paveikslėlis, tačiau ši transformacija nėra sugrąžinama."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
-msgstr "Apkarpyti"
+msgstr "_Apkarpyti"
 
 #: ../src/rotation-utils.c:169
 msgid "Could not create a local temporary copy of the remote file."
