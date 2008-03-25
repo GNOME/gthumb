@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 11:07+0100\n"
-"PO-Revision-Date: 2008-03-13 10:41+0100\n"
+"POT-Creation-Date: 2008-03-25 17:12+0100\n"
+"PO-Revision-Date: 2008-03-20 22:17+0100\n"
 "Last-Translator: Peter Tuhársky <tuharsky@misbb.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -1422,7 +1422,7 @@ msgstr "_Písmo poznámky:"
 
 #: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
-msgstr "USA Exekutíva"
+msgstr "USA exekutíva"
 
 #: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
@@ -1450,7 +1450,7 @@ msgstr "Rozloženie"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
-msgstr "USA Právnický"
+msgstr "USA právnický"
 
 #: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
@@ -2335,28 +2335,28 @@ msgstr "Uložiť obrázok"
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
-#: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1508 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Katalógy"
 
-#: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1511 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Súborový systém"
 
-#: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1540 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Domov"
 
-#: ../libgthumb/file-utils.c:2179
+#: ../libgthumb/file-utils.c:2175
 msgid "Library not empty"
 msgstr "Knižnica nie je prázdna"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2184
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nepodarilo sa odstrániť knižnicu \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2215
+#: ../libgthumb/file-utils.c:2211
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nepodarilo sa odstrániť katalóg \"%s\": %s"
@@ -3085,7 +3085,7 @@ msgstr "Importovať fotografie z digitálneho fotoaparátu"
 
 #: ../src/gth-browser-actions-entries.h:75
 msgid "_Write To CD..."
-msgstr "_Napáliť na CD..."
+msgstr "Napáliť na _CD..."
 
 #: ../src/gth-browser-actions-entries.h:76
 msgid "Write selection to CD"
@@ -3456,7 +3456,7 @@ msgstr "Hľadať _duplikáty..."
 
 #: ../src/gth-browser-actions-entries.h:390
 msgid "_Preferences..."
-msgstr "_Predvoľby..."
+msgstr "Pre_dvoľby..."
 
 #: ../src/gth-browser-actions-entries.h:391
 msgid "Edit various preferences"
@@ -3593,7 +3593,7 @@ msgstr "Triediť obrázky podľa značky ExifDátumČas"
 
 #: ../src/gth-browser-actions-entries.h:482
 msgid "by _Comment"
-msgstr "podľa _Poznámky"
+msgstr "podľa _poznámky"
 
 #: ../src/gth-browser-actions-entries.h:483
 msgid "Sort images by comment"
