@@ -1,4 +1,4 @@
-# translation of es.po to Español
+# translation of gthumb.HEAD.po to Español
 # Spanish translation of gthumb
 # Copyright © 2002-2003, 2006, 2007, 2008 the Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
@@ -10,10 +10,10 @@
 # Daniel Mustieles <daniel.mustieles@ie.edu>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-15 20:26+0000\n"
-"PO-Revision-Date: 2008-02-18 13:54+0100\n"
+"POT-Creation-Date: 2008-02-18 13:12+0000\n"
+"PO-Revision-Date: 2008-03-29 14:38+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1162,9 +1162,9 @@ msgid ""
 "camera - photos, videos, and audio files. You can omit the audio and video "
 "files by deselecting this checkbox."
 msgstr ""
-"De forma predeterminada, gThumb lista todos los archivos que podrían encontrarse en una cámara "
-"digital; fotos, vídeos y archivos de sonido. Puede omitir los archivos de sonido y de vídeo "
-"deseleccionando esta casilla."
+"De forma predeterminada, gThumb lista todos los archivos que podrían "
+"encontrarse en una cámara digital; fotos, vídeos y archivos de sonido. Puede "
+"omitir los archivos de sonido y de vídeo deseleccionando esta casilla."
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
@@ -2057,7 +2057,7 @@ msgstr "_Orden:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "Use subfolders to organize files"
-msgstr "Use las subcarpetas para organizar los archivos"
+msgstr "Usar las subcarpetas para organizar los archivos"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
