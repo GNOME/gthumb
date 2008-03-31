@@ -1,3 +1,15 @@
+2008-03-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-data.c: (file_data_new), (file_data_dup),
+	(file_data_update), (file_data_update_info):
+	* libgthumb/file-data.h:
+	Added a "can_read" permissions boolean to the FileData struct.
+
+	* libgthumb/thumb-loader.c: (thumb_loader_start__step2):
+	Do not attempt any thumbnailing on files that we can not read.
+	Do not save a failed thumbnail either. This is faster and saves
+	disk space. Discussed on xdg@lists.freedesktop.org.
+
 2008-03-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (mime_type_is_raw):

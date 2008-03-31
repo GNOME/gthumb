@@ -40,6 +40,7 @@ typedef struct {
 	GnomeVFSFileSize    size;
 	time_t              ctime;
 	time_t              mtime;
+	gboolean            can_read;
 	guint               exif_data_loaded : 1;
 	time_t		    exif_time;	       /* Do not access this directly. Use
 						  get_exif_time (fd) instead. This is

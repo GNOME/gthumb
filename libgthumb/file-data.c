@@ -79,11 +79,14 @@ file_data_new (const char       *path,
 			fd->mtime = info->mtime;
 		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE)
 			fd->mime_type = get_static_string (info->mime_type);
+		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_PERMISSIONS)
+			fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;	
 	}
 	else {
 		fd->size = (GnomeVFSFileSize) 0;
 		fd->ctime = (time_t) 0;
 		fd->mtime = (time_t) 0;
+		fd->can_read = TRUE;
 	}
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
@@ -143,6 +146,7 @@ file_data_dup (FileData *source)
 	fd->size = source->size;
 	fd->ctime = source->ctime;
 	fd->mtime = source->mtime;
+	fd->can_read = source->can_read;
 	fd->exif_data_loaded = FALSE;
 	fd->exif_time = (time_t) 0;
 	fd->metadata = NULL;
@@ -195,7 +199,8 @@ file_data_update (FileData *fd)
 					  info,
 					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
 					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
-					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE));
+					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE
+					   | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -203,6 +208,7 @@ file_data_update (FileData *fd)
 		fd->mtime = 0;
 		fd->ctime = 0;
 		fd->mime_type = NULL;
+		fd->can_read = TRUE;
 		return;
 	}
 
@@ -215,6 +221,7 @@ file_data_update (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
+	fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;
 
 	fd_free_metadata (fd);
 
@@ -243,7 +250,8 @@ file_data_update_info (FileData *fd)
 					  info,
 					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
 					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
-					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE));
+					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE
+					   | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
 
 	if (result != GNOME_VFS_OK) {
 		fd->error = TRUE;
@@ -251,6 +259,7 @@ file_data_update_info (FileData *fd)
 		fd->mtime = 0;
 		fd->ctime = 0;
 		fd->mime_type = NULL;
+		fd->can_read = TRUE;
 		return;
 	}
 
@@ -262,6 +271,7 @@ file_data_update_info (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
+	fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;
 
         fd_free_metadata (fd);
 

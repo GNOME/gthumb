@@ -374,7 +374,8 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 
 	g_return_if_fail (tl != NULL);
 	
-	if (tl->priv->file == NULL) {
+	if ((tl->priv->file == NULL) ||
+	    (tl->priv->file->can_read == FALSE)) {
 		g_signal_emit (G_OBJECT (tl),
 			       thumb_loader_signals[THUMB_ERROR],
 			       0);
