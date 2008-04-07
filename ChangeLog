@@ -1,3 +1,11 @@
+2008-04-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-convert.c: (save_image_and_remove_original):
+	* src/gth-batch-op.c: (pixbuf_op_done_cb):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	Copy metadata from old file to new file during file conversions,
+	batch operations, and generic rotations. Bug #323943.
+
 2008-03-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-data.c: (file_data_new), (file_data_dup),

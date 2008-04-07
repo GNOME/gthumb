@@ -463,6 +463,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 {
 	GError   *error = NULL;
 	FileData *fd;
+	FileData *fd_old;
 	char     *local_file;
 	
 	if (! completed) {
@@ -470,10 +471,13 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 		return;
 	}
 
+	fd_old = (FileData*) PD(bop)->current_image->data;
+	update_metadata (fd_old);
+
 	local_file = get_cache_filename_from_uri (PD(bop)->new_path);
 	if (! _gdk_pixbuf_savev (pixop->dest,
 			         local_file,
-				 NULL, /* TODO: is this OK? No metadata? */
+				 fd_old->metadata,
 			         PD(bop)->image_type,
 			         PD(bop)->keys,
 			         PD(bop)->values,
@@ -485,6 +489,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 		return;
 	}
 	g_free (local_file);
+	file_data_unref (fd_old);
 	
 	fd = file_data_new (PD(bop)->new_path, NULL);
 	update_file_from_cache (fd, save_image_and_remove_original_step2, bop);

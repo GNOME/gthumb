@@ -44,7 +44,7 @@
 #include "pixbuf-utils.h"
 #include "file-utils.h"
 #include "dlg-save-image.h"
-
+#include "gth-exif-utils.h"
 
 #define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
@@ -247,14 +247,18 @@ save_image_and_remove_original (DialogData *data)
 	GError   *error = NULL;
 	char     *local_file;
 	FileData *fd;
+	FileData *fd_old;
 			
 	if (path_is_file (data->new_path))
 		file_unlink (data->new_path);
 
+	fd_old = (FileData*) data->current_image->data;
+	update_metadata (fd_old);
+
 	local_file = get_cache_filename_from_uri (data->new_path);
 	if (! _gdk_pixbuf_savev (data->pixbuf,
 			         local_file,
-				 NULL, /* TODO: data->current_image->data->metadata ? */
+				 fd_old->metadata,
 			         data->image_type,
 			         data->keys,
 			         data->values,
@@ -266,6 +270,7 @@ save_image_and_remove_original (DialogData *data)
 		return;
 	}
 	g_free (local_file);
+	file_data_unref (fd_old);
 	
 	fd = file_data_new (data->new_path, NULL);
 	update_file_from_cache (fd, save_image_and_remove_original_step2, data);
