@@ -52,6 +52,7 @@
 static int thumb_size[] = { 48, 64, 85, 95, 112, 128, 164, 200, 256 };
 static int thumb_sizes = sizeof (thumb_size) / sizeof (int);
 static GthZoomChange zoom_change[] = { GTH_ZOOM_CHANGE_KEEP_PREV,
+                                       GTH_ZOOM_CHANGE_FIT_SIZE,
 				       GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER,
 	 		               GTH_ZOOM_CHANGE_ACTUAL_SIZE,
 	 		               GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER };
