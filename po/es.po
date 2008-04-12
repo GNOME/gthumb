@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-18 13:12+0000\n"
-"PO-Revision-Date: 2008-03-29 14:38+0100\n"
+"POT-Creation-Date: 2008-04-08 13:46+0100\n"
+"PO-Revision-Date: 2008-04-11 09:52+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -615,7 +615,7 @@ msgid "I_nvert aspect ratio"
 msgstr "I_nvertir la proporción de la imagen"
 
 #: ../data/glade/gthumb_crop.glade.h:18
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "None"
 msgstr "Ninguna"
 
@@ -638,7 +638,8 @@ msgstr "Ampliar. La rueda del ratón también se puede usar para ampliar."
 
 #: ../data/glade/gthumb_crop.glade.h:24 ../data/glade/gthumb_redeye.glade.h:13
 msgid "Zoom out. The mousewheel can also be used to zoom out."
-msgstr "Reducir. La rueda del ratón también se puede usar para reducir la ampliación."
+msgstr ""
+"Reducir. La rueda del ratón también se puede usar para reducir la ampliación."
 
 #: ../data/glade/gthumb_crop.glade.h:25 ../data/glade/gthumb_redeye.glade.h:14
 msgid "Zoom to fit"
@@ -1199,135 +1200,140 @@ msgid "Fit to width if larger"
 msgstr "Ajustar a la anchura si es mayor"
 
 #: ../data/glade/gthumb_preferences.glade.h:36
+msgid "Fit to window"
+msgstr "Ajustar a la ventana"
+
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Fit to window if larger"
 msgstr "Ajustar a la ventana si es mayor"
 
-#: ../data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
 msgstr "Seguir el comportamiento de Nautilus"
 
-#: ../data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "For_ward"
 msgstr "Hacia a_delante"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "General"
 msgstr "General"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to last _visited folder or catalog"
 msgstr "_Ir a la última carpeta o catálogo visitado"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
 msgstr "Ir a esta _carpeta:"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "H_igh"
 msgstr "A_lto"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Icons only"
 msgstr "Sólo iconos"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Include audio clips and movies in browser view"
 msgstr "Incluir archivos de audio y películas en la vista del navegador"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Keep previous zoom"
 msgstr "Mantener la ampliación anterior"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Layout:"
 msgstr "Distribución:"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Lo_w"
 msgstr "Ba_jo"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Ran_dom"
 msgstr "A_leatorio"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Re_verse"
 msgstr "Hacia _atrás"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
-msgid "Reset scrollbar positions after loading an image"
-msgstr "Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
-
 #: ../data/glade/gthumb_preferences.glade.h:52
+msgid "Reset scrollbar positions after loading an image"
+msgstr ""
+"Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
+
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Resta_rt when finished"
 msgstr "Reinicia_r al finalizar"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Set image to actual size"
 msgstr "Mostrar la imagen con su tamaño normal"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Set to C_urrent"
 msgstr "Establecer al act_ual"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Slideshow"
 msgstr "Mostrar diapositivas"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "System settings"
 msgstr "Configuración del sistema"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Text below icons"
 msgstr "Texto debajo de los iconos"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text beside icons"
 msgstr "Texto debajo de los iconos"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Text only"
 msgstr "Sólo texto"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Th_umbnail size:"
 msgstr "Tamaño de las miniat_uras:"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Transparency _type:"
 msgstr "Tipo de _transparencia:"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Use a _fading effect when changing image"
 msgstr "Usar un efecto de _desvanecimiento al cambiar de imagen"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "Viewer"
 msgstr "Visor"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "White"
 msgstr "Blanco"
 
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "_Filenames"
 msgstr "No_mbres de archivo"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:67
 #: ../src/gth-browser-actions-entries.h:435
 msgid "_Thumbnails"
 msgstr "Minia_turas"
 
-#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
 msgstr "Es_tilo de la barra de herramientas:"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
 msgstr "Preferencias de gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
 msgstr "segundos"
 
@@ -2233,7 +2239,8 @@ msgstr "Los valores posibles son: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Los valores posibles son: none, name, path, size, time, exifdate, comment."
+msgstr ""
+"Los valores posibles son: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid ""
@@ -2272,7 +2279,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Los valores posibles son: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:26
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Los valores posibles son: system, text_below, text_beside, text_only, "
 "icons_only."
@@ -2317,7 +2325,7 @@ msgstr "%d %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(Sin comentario)"
 
-#: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:278
+#: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:279
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Tipo de imagen no soportado: %s"
@@ -2334,28 +2342,28 @@ msgstr "Guardar imagen"
 msgid "Image type:"
 msgstr "Tipo de imagen:"
 
-#: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1508 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Catálogos"
 
-#: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1511 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Sistema de archivos"
 
-#: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1540 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Carpeta personal"
 
-#: ../libgthumb/file-utils.c:2179
+#: ../libgthumb/file-utils.c:2175
 msgid "Library not empty"
 msgstr "Biblioteca no vacía"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2184
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "No se pudo quitar la biblioteca «%s»: %s"
 
-#: ../libgthumb/file-utils.c:2215
+#: ../libgthumb/file-utils.c:2211
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "No se pudo quitar el catálogo «%s»: %s"
@@ -2488,19 +2496,21 @@ msgstr "Convirtiendo imagen: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr ""
+"Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
 
-#: ../src/dlg-convert.c:357 ../src/gth-batch-op.c:592
+#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Ya existe una imagen llamada «%s». ¿Desea sobreescribirla?"
 
-#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
+#: ../src/dlg-convert.c:367 ../src/gth-batch-op.c:602
 msgid "Skip"
 msgstr "Saltar"
 
-#: ../src/dlg-convert.c:363 ../src/gth-batch-op.c:598
+#: ../src/dlg-convert.c:368 ../src/gth-batch-op.c:603
 msgid "_Overwrite"
 msgstr "_Sobreescribir"
 
@@ -2551,8 +2561,10 @@ msgstr "No se ha podido crear la carpeta «%s»: %s."
 
 #: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1762
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+"Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
 
 #: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
@@ -2591,7 +2603,8 @@ msgstr "No ha introducido el nombre nuevo"
 
 #: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "El nombre «%s» ya está siendo usado en esta carpeta. Por favor utilice un "
 "nombre distinto."
@@ -2674,7 +2687,8 @@ msgid "%s Properties"
 msgstr "Propiedades de %s"
 
 #: ../src/dlg-jpegtran.c:254 ../src/dlg-reset-exif.c:128
-msgid "Could not move temporary file to remote location. Check remote permissions."
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino remoto. Compruebe los "
 "permisos de las carpetas."
@@ -2899,7 +2913,8 @@ msgstr "Ingrese el nombre nuevo: "
 #: ../src/gth-browser-actions-callbacks.c:1025
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
+msgstr ""
+"El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
 
 #: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
@@ -2955,7 +2970,8 @@ msgstr "No se pudo borrar la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1131
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "«%s» no se puede mover a la papelera. ¿Desea borrarla permanentemente?"
 
 #: ../src/gth-browser-actions-callbacks.c:1175
@@ -3280,7 +3296,8 @@ msgstr "A_brir con el gestor de archivos"
 
 #: ../src/gth-browser-actions-entries.h:221
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
+msgstr ""
+"Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:226
 msgid "Rename selected folder"
@@ -4354,7 +4371,8 @@ msgid "Could not create a local temporary copy of the remote file."
 msgstr "No se ha podido crear una copia temporal del archivo remoto."
 
 #: ../src/rotation-utils.c:215
-msgid "Could not move temporary file to local destination. Check folder permissions."
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino local. Compruebe los "
 "permisos de las carpetas."
