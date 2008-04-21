@@ -37,10 +37,4 @@ void     cache_copy                         (const char *src,
 void     cache_move                         (const char *src,
 					     const char *dest);
 
-void     cache_delete                       (const char *filename);
-
-void     cache_remove_old_previews_async    (const char *dir,
-					     gboolean    recursive,
-					     gboolean    clear_all);
-
 #endif /* THUMB_CACHE_H */

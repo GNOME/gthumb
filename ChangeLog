@@ -1,3 +1,10 @@
+2008-04-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/thumb-cache.c:
+	* libgthumb/thumb-cache.h: 
+	Removed some unused functions (cache_delete, 
+	cache_remove_old_previews_async).
+
 2008-04-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_preferences.glade:
