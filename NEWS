@@ -68,6 +68,7 @@ version 2.10.9
 	* Fixed bug #510521 - Canceling Save stops movement between pictures
 	* Fixed bug #477285 - Hitting enter in Open Location Dialog while 
 	  text entry is focused does nothing
+	* Fixed bug #512374 - array accessed past end.
 
 version 2.10.8
 --------------
