@@ -1,3 +1,16 @@
+2008-04-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/catalog-png-exporter.c: (comp_func_exif_date),
+	(image_loader_done):
+	* src/catalog-web-exporter.c: (comp_func_exif_date):
+	Make exif date sorting consistent with the other parts of gthumb.
+
+	* src/dlg-png-exporter.c:
+	* src/dlg-rename-series.c:
+	* src/dlg-web-exporter.c:
+	Fixed bug 512374 - array accessed past end. Patch by 
+	John Bryant (bryant@sover.net).
+
 2008-02-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

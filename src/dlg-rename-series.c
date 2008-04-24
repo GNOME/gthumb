@@ -46,7 +46,7 @@ enum {
 	RS_NUM_COLUMNS
 };
 
-static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5, 6 };
 static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
                                               GTH_SORT_METHOD_BY_PATH,
                                               GTH_SORT_METHOD_BY_SIZE,

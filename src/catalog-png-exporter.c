@@ -42,7 +42,6 @@
 #include "glib-utils.h"
 #include "main.h"
 #include "gth-sort-utils.h"
-#include "gth-exif-utils.h"
 
 
 static void begin_export       (CatalogPngExporter *ce);
@@ -135,7 +134,6 @@ img  { border: 0px; }\n\
 typedef struct {
 	FileData         *file;
 	char             *comment;
-	time_t		  exif_time;
 	GdkPixbuf        *thumb;
 	int               image_width;
 	int               image_height;
@@ -1328,8 +1326,7 @@ comp_func_exif_date (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filetime_then_name (data_a->exif_time, data_b->exif_time,
-						data_a->file->path, data_b->file->path);
+	return gth_sort_by_exiftime_then_name (data_a->file, data_b->file);
 }
 
 
@@ -1448,10 +1445,6 @@ image_loader_done (ImageLoader *iloader,
 	pixbuf = image_loader_get_pixbuf (iloader);
 	idata->image_width = gdk_pixbuf_get_width (pixbuf);
 	idata->image_height = gdk_pixbuf_get_height (pixbuf);
-
-	/* time in exif tag, if present */
-
-	idata->exif_time = get_metadata_time (NULL, idata->file->path);
 
 	/* thumbnail. */
 	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);

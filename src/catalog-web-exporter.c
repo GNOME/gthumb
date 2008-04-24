@@ -640,8 +640,7 @@ comp_func_exif_date (gconstpointer a,
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filetime_then_name (data_a->exif_time, data_b->exif_time,
-					       data_a->src_file->path, data_b->src_file->path);
+	return gth_sort_by_exiftime_then_name (data_a->src_file, data_b->src_file);
 }
 
 
