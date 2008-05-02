@@ -40,7 +40,7 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	{ "ImageMenu", NULL, N_("_Image") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
-	{ "ScriptMenu", NULL, N_("_Scripts") },
+	{ "ScriptMenu", NULL, N_("Scri_pts") },
 	{ "UploadMenu", NULL, N_("_Upload") },
 	{ "HelpMenu", NULL, N_("_Help") },
 

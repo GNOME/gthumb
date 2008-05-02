@@ -1,3 +1,10 @@
+2008-05-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-browser-actions-entries.h:
+	* src/gth-viewer-actions-entries.h:
+	_Scripts -> Scri_pts to avoid overlap with the scaling
+	shortcut (Alt+S).
+
 2008-04-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/catalog-png-exporter.c: (comp_func_exif_date),

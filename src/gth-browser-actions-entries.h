@@ -47,7 +47,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
-	{ "ScriptMenu", NULL, N_("_Scripts") },
+	{ "ScriptMenu", NULL, N_("Scri_pts") },
 	{ "UploadMenu", NULL, N_("_Upload") },
 	{ "HelpMenu", NULL, N_("_Help") },
 
