@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-08 13:46+0100\n"
-"PO-Revision-Date: 2008-04-11 09:52+0200\n"
+"POT-Creation-Date: 2008-05-02 18:56+0000\n"
+"PO-Revision-Date: 2008-05-06 11:43+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2386,50 +2386,42 @@ msgstr "Ro_tar imágenes"
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1424
 #, c-format
 msgid "Loading image: %s"
 msgstr "Cargando imagen: %s"
-
-#: ../libgthumb/thumb-cache.c:487
-msgid "Deleting all thumbnails, wait please..."
-msgstr "Borrando todas las miniaturas, por favor aguarde..."
-
-#: ../libgthumb/thumb-cache.c:489
-msgid "Deleting old thumbnails, wait please..."
-msgstr "Borrando miniaturas viejas, aguarde por favor..."
 
 #: ../src/bookmark-list.c:157 ../src/gth-browser.c:1307
 #: ../src/gth-browser.c:1311 ../src/gth-browser.c:1323
 msgid "(Invalid Name)"
 msgstr "(Nombre inválido)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
+#: ../src/catalog-png-exporter.c:844 ../src/dlg-image-prop.c:421
 #: ../src/gth-browser.c:470 ../src/gth-exif-data-viewer.c:328
 #: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:589
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d píxeles"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2435
-#: ../src/catalog-web-exporter.c:2655
+#: ../src/catalog-png-exporter.c:909 ../src/catalog-web-exporter.c:2434
+#: ../src/catalog-web-exporter.c:2654
 msgid "Saving images"
 msgstr "Guardando las imágenes"
 
-#: ../src/catalog-png-exporter.c:1658
+#: ../src/catalog-png-exporter.c:1651
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Creando imagen: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2149
+#: ../src/catalog-web-exporter.c:2148
 msgid "Saving thumbnails"
 msgstr "Guardando las miniaturas"
 
-#: ../src/catalog-web-exporter.c:2222
+#: ../src/catalog-web-exporter.c:2221
 msgid "Saving HTML pages: Images"
 msgstr "Guardando las páginas HTML: Imágenes"
 
-#: ../src/catalog-web-exporter.c:2302
+#: ../src/catalog-web-exporter.c:2301
 msgid "Saving HTML pages: Indexes"
 msgstr "Guardando las páginas HTML: Índices"
 
@@ -2437,17 +2429,17 @@ msgstr "Guardando las páginas HTML: Índices"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2479
+#: ../src/catalog-web-exporter.c:2478
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../src/catalog-web-exporter.c:2864
+#: ../src/catalog-web-exporter.c:2863
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "No se ha podido crear una carpeta temporal"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2920
+#: ../src/catalog-web-exporter.c:2919
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
@@ -2479,8 +2471,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «,». Por favor "
-"utilice un nombre diferente."
+"El nombre «%s» no es válido porque contiene el carácter «,». Por favor utilice "
+"un nombre diferente."
 
 #: ../src/dlg-categories.c:256
 #, c-format
@@ -2802,8 +2794,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «/». Por favor "
-"utilice un nombre diferente."
+"El nombre «%s» no es válido porque contiene el carácter «/». Por favor utilice "
+"un nombre diferente."
 
 #: ../src/dlg-rename-series.c:541
 msgid "Old Name"
@@ -3058,8 +3050,8 @@ msgstr "Utilizar esta imagen como _tapiz"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:43
-msgid "_Scripts"
-msgstr "_Scripts"
+msgid "Scri_pts"
+msgstr "Scrip_ts"
 
 #: ../src/gth-browser-actions-entries.h:51
 #: ../src/gth-viewer-actions-entries.h:44
@@ -4377,3 +4369,8 @@ msgstr ""
 "No se pudo mover el archivo temporal al destino local. Compruebe los "
 "permisos de las carpetas."
 
+#~ msgid "Deleting all thumbnails, wait please..."
+#~ msgstr "Borrando todas las miniaturas, por favor aguarde..."
+
+#~ msgid "Deleting old thumbnails, wait please..."
+#~ msgstr "Borrando miniaturas viejas, aguarde por favor..."
