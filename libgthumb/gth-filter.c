@@ -360,10 +360,10 @@ gth_test_match (GthTest  *test,
 
 struct _GthFilterPrivate
 {
-	gboolean          match_all_tests;
-	int               max_images, current_images;
-	GnomeVFSFileSize  max_size, current_size;
-	GList            *tests;
+	gboolean  match_all_tests;
+	int       max_images, current_images;
+	goffset   max_size, current_size;
+	GList    *tests;
 };
 
 
@@ -462,14 +462,14 @@ gth_filter_get_max_images (GthFilter *filter)
 
 
 void
-gth_filter_set_max_size (GthFilter        *filter,
-			 GnomeVFSFileSize  max_size)
+gth_filter_set_max_size (GthFilter  *filter,
+			 goffset     max_size)
 {
 	filter->priv->max_size = max_size;
 }
 
 
-GnomeVFSFileSize
+goffset
 gth_filter_get_max_size (GthFilter *filter)
 {
 	return filter->priv->max_size;

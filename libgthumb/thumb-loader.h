@@ -25,7 +25,6 @@
 
 #include <gdk/gdk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include "image-loader.h"
 #include "file-data.h"
@@ -70,7 +69,7 @@ void       thumb_loader_use_cache          (ThumbLoader       *tl,
 void       thumb_loader_save_thumbnails    (ThumbLoader       *tl,
 					    gboolean           save);
 void       thumb_loader_set_max_file_size  (ThumbLoader       *tl,
-					    GnomeVFSFileSize   size);
+					    goffset            size);
 void       thumb_loader_set_file           (ThumbLoader       *tl,
 					    FileData          *fd);
 void       thumb_loader_set_path           (ThumbLoader       *tl,

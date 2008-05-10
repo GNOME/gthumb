@@ -40,6 +40,7 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <gio/gio.h>
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs.h>
@@ -1115,28 +1116,31 @@ path_is_dir (const char *path)
 }
 
 
-GnomeVFSFileSize
+goffset
 get_file_size (const char *uri)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  size;
+        GFile     *file;
+        GFileInfo *info;
+        goffset    size;
+        GError    *err = NULL;
 
-	if (! uri || ! *uri)
-		return 0;
+        if ((uri == NULL) || (*uri == '\0'))
+                return 0;
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (uri,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	size = 0;
-	if (result == GNOME_VFS_OK)
-		size = info->size;
+        file = g_file_new_for_uri (uri);
+        info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, &err);
+        if (err == NULL) {
+                size = g_file_info_get_size (info);
+        }
+        else {
+                g_warning ("Failed to get file size for %s: %s", uri, err->message);
+                g_error_free (err);
+        }
 
-	gnome_vfs_file_info_unref (info);
+        g_object_unref (info);
+        g_object_unref (file);
 
-	return size;
+        return size;
 }
 
 

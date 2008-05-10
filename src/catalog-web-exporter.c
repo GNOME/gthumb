@@ -1581,7 +1581,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_FILESIZE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			line = gnome_vfs_format_file_size_for_display (idata->src_file->size);
+			line = g_format_size_for_display (idata->src_file->size);
 			write_markup_escape_line (line, fout);
 			break;
 

@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
@@ -538,7 +539,7 @@ set_filename_labels (GladeXML    *gui,
 	g_free (utf8_name);
 
 	label = glade_xml_get_widget (gui, size_widget);
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (filename));
+	file_size_txt = g_format_size_for_display (get_file_size (filename));
 	_gtk_label_set_locale_text (GTK_LABEL (label), file_size_txt);
 	g_free (file_size_txt);
 

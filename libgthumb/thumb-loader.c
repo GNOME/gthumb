@@ -69,7 +69,7 @@ struct _ThumbLoaderPrivateData
 	int                    cache_max_w;
 	int                    cache_max_h;
 	GnomeThumbnailSize     thumb_size;
-	GnomeVFSFileSize       max_file_size;    /* If the file size is greater
+	goffset                max_file_size;    /* If the file size is greater
 					    	  * than this the thumbnail 
 					    	  * will not be created, for
 					    	  * functionality reasons. */
@@ -309,8 +309,8 @@ thumb_loader_save_thumbnails (ThumbLoader *tl,
 
 
 void
-thumb_loader_set_max_file_size (ThumbLoader      *tl,
-				GnomeVFSFileSize  size)
+thumb_loader_set_max_file_size (ThumbLoader *tl,
+				goffset      size)
 {
 	g_return_if_fail (tl != NULL);
 	tl->priv->max_file_size = size;

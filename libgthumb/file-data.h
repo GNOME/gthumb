@@ -24,7 +24,6 @@
 #define FILE_DATA_H
 
 #include <glib.h>
-#include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <time.h>
 #include <sys/stat.h>
@@ -37,7 +36,7 @@ typedef struct {
 	const char         *name;          /* File name only. */
 	char               *display_name;
 	const char         *mime_type;
-	GnomeVFSFileSize    size;
+	goffset             size;
 	time_t              ctime;
 	time_t              mtime;
 	gboolean            can_read;

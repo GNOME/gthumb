@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -332,7 +333,7 @@ update_file_info (GthExifDataViewer *edv)
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
-	file_size_txt = gnome_vfs_format_file_size_for_display (edv->priv->file->size);
+	file_size_txt = g_format_size_for_display (edv->priv->file->size);
 
 	mime_type = edv->priv->file->mime_type;
 	

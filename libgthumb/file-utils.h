@@ -149,7 +149,7 @@ gboolean            image_is_gif                  (const char       *name);
 gboolean            path_exists                   (const char       *s);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
-GnomeVFSFileSize    get_file_size                 (const char       *s);
+goffset             get_file_size                 (const char       *s);
 time_t              get_file_mtime                (const char       *s);
 time_t              get_file_ctime                (const char       *s);
 void                set_file_mtime                (const char       *s,

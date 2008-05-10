@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkrgb.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs.h>
 
 #include "catalog-png-exporter.h"
@@ -837,7 +838,7 @@ set_item_caption (CatalogPngExporter *ce,
 	}
 
 	if (ce->caption_fields & GTH_CAPTION_FILE_SIZE)
-		idata->caption_row[row++] = gnome_vfs_format_file_size_for_display (idata->file->size);
+		idata->caption_row[row++] = g_format_size_for_display (idata->file->size);
 
 	if (ce->caption_fields & GTH_CAPTION_IMAGE_DIM)
 		idata->caption_row[row++] = g_strdup_printf (

@@ -26,6 +26,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <gio/gio.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
@@ -394,7 +395,7 @@ update_list (DialogData *data)
 		g_free (image_date);
 		g_free (utf8_txt);
 
-		image_size = gnome_vfs_format_file_size_for_display (fdata->size);
+		image_size = g_format_size_for_display (fdata->size);
 		name4 = _g_substitute_pattern (name3, 's', image_size);
 		g_free (image_size);
 

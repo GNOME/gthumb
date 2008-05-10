@@ -27,6 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 
@@ -587,7 +588,7 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (priv->image->size);
+	file_size_txt = g_format_size_for_display (priv->image->size);
 
 	/**/
 

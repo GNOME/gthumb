@@ -24,7 +24,6 @@
 #define GTH_FILTER_H
 
 #include <glib-object.h>
-#include <libgnomevfs/gnome-vfs-file-size.h>
 #include "file-data.h"
 
 #define GTH_TYPE_FILTER         (gth_filter_get_type ())
@@ -105,8 +104,8 @@ void                 gth_filter_set_max_images  (GthFilter        *filter,
 						 int               max_images);
 int                  gth_filter_get_max_images  (GthFilter        *filter);
 void                 gth_filter_set_max_size    (GthFilter        *filter,
-						 GnomeVFSFileSize  max_size);
-GnomeVFSFileSize     gth_filter_get_max_size    (GthFilter        *filter);
+						 goffset           max_size);
+goffset              gth_filter_get_max_size    (GthFilter        *filter);
 void                 gth_filter_set_match_all   (GthFilter        *filter,
 						 gboolean          match_all);
 gboolean             gth_filter_get_match_all   (GthFilter        *filter);

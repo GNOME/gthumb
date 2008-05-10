@@ -29,7 +29,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <gio/gio.h>
 
 #include "comments.h"
 #include "dlg-file-utils.h"
@@ -872,7 +872,7 @@ get_file_info (GthFullscreen *fullscreen)
 	height = image_viewer_get_image_height (image_viewer);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (image_filename));
+	file_size_txt = g_format_size_for_display (get_file_size (image_filename));
 
 	zoom = (int) (image_viewer->zoom_level * 100.0);
 

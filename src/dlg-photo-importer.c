@@ -34,9 +34,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-icon-lookup.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
@@ -1679,10 +1676,10 @@ static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
-	GList            *file_list = NULL, *scan;
-	GList            *sel_list;
-	gboolean          error;
-	GnomeVFSFileSize  total_size = 0;
+	GList    *file_list = NULL, *scan;
+	GList    *sel_list;
+	gboolean  error;
+	goffset   total_size = 0;
 
 	if (!data->camera_setted) {
 		display_error_dialog (data,
@@ -1784,7 +1781,7 @@ ok_clicked_cb (GtkButton  *button,
 					     camera_filename,
 					     &info,
 					     NULL) == GP_OK)
-			total_size += (GnomeVFSFileSize) info.file.size;
+			total_size += (goffset) info.file.size;
 		g_free (camera_folder);
 	}
 

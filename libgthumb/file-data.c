@@ -83,7 +83,7 @@ file_data_new (const char       *path,
 			fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;	
 	}
 	else {
-		fd->size = (GnomeVFSFileSize) 0;
+		fd->size = (goffset) 0;
 		fd->ctime = (time_t) 0;
 		fd->mtime = (time_t) 0;
 		fd->can_read = TRUE;

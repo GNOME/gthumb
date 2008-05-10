@@ -27,6 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
@@ -468,7 +469,7 @@ window_update_statusbar_image_info (GthBrowser *browser)
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (priv->image->size);
+	file_size_txt = g_format_size_for_display (priv->image->size);
 
 	/**/
 
@@ -682,7 +683,7 @@ window_update_statusbar_list_info (GthBrowser *browser)
 	char                  *info, *size_txt, *sel_size_txt;
 	char                  *total_info, *selected_info;
 	int                    tot_n, sel_n;
-	GnomeVFSFileSize       tot_size, sel_size;
+	goffset                tot_size, sel_size;
 	GList                 *file_list, *scan;
 	GList                 *selection;
 
@@ -709,8 +710,8 @@ window_update_statusbar_list_info (GthBrowser *browser)
 
 	file_data_list_free (selection);
 
-	size_txt = gnome_vfs_format_file_size_for_display (tot_size);
-	sel_size_txt = gnome_vfs_format_file_size_for_display (sel_size);
+	size_txt = g_format_size_for_display (tot_size);
+	sel_size_txt = g_format_size_for_display (sel_size);
 
 	if (tot_n == 0)
 		total_info = g_strdup (_("No image"));

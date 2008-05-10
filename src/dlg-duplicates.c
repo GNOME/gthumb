@@ -33,6 +33,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomeui/libgnomeui.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs.h>
 
 #include "catalog.h"
@@ -1079,7 +1080,7 @@ update_entry (DialogData *data,
 	if (! get_iter_from_image_data (data, idata, &iter))
 		return;
 
-	size_txt = gnome_vfs_format_file_size_for_display (idata->common->size * idata->common->duplicates);
+	size_txt = g_format_size_for_display (idata->common->size * idata->common->duplicates);
 	n_txt = g_strdup_printf ("%d", idata->common->duplicates);
 
 	gtk_list_store_set (GTK_LIST_STORE (data->images_model),
@@ -1100,7 +1101,7 @@ add_entry (DialogData *data,
         GtkTreeIter  iter;
 	char        *size_txt;
 
-	size_txt = gnome_vfs_format_file_size_for_display (idata->common->size);
+	size_txt = g_format_size_for_display (idata->common->size);
 
 	gtk_list_store_append (GTK_LIST_STORE (data->images_model), &iter);
 	gtk_list_store_set (GTK_LIST_STORE (data->images_model),
@@ -1141,7 +1142,7 @@ update_duplicates_label (DialogData *data)
 		}
 	}
 
-	size_txt = gnome_vfs_format_file_size_for_display (size);
+	size_txt = g_format_size_for_display (size);
 	label = g_strdup_printf ("%d (%s)", data->duplicates, size_txt);
 	g_free (size_txt);
 

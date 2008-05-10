@@ -1,3 +1,35 @@
+2008-05-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* configure.in:
+	* libgthumb/file-data.c: (file_data_new):
+	* libgthumb/file-data.h:
+	* libgthumb/file-utils.c: (get_file_size):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-filter.c: (gth_filter_set_max_size):
+	* libgthumb/gth-filter.h:
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_size_then_name):
+	* libgthumb/gth-sort-utils.h:
+	* libgthumb/thumb-loader.c: (thumb_loader_set_max_file_size):
+	* libgthumb/thumb-loader.h:
+	* src/catalog-png-exporter.c: (set_item_caption):
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/dlg-duplicates.c: (update_entry), (add_entry),
+	(update_duplicates_label):
+	* src/dlg-file-utils.c: (set_filename_labels):
+	* src/dlg-image-prop.c: (update_general_info):
+	* src/dlg-photo-importer.c: (ok_clicked_cb):
+	* src/dlg-rename-series.c: (update_list):
+	* src/gth-browser.c: (window_update_statusbar_image_info),
+	(window_update_statusbar_list_info):
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	* src/gth-fullscreen.c: (get_file_info):
+	* src/gth-viewer.c: (viewer_update_statusbar_image_info):
+
+	Start of gnomevfs -> gvfs porting. Specifically:
+	gnome_vfs_format_file_size_for_display -> g_format_size_for_display
+	GnomeVFSFileSize -> goffset
+	Based partly on Gabriel Falcão's patch from bug 525482.
+
 2008-05-02  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-browser-actions-entries.h:

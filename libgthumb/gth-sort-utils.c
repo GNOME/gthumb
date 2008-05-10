@@ -63,10 +63,10 @@ gth_sort_by_comment_then_name (const char *string1,
 }
 
 
-int gth_sort_by_size_then_name (GnomeVFSFileSize  size1,
-                                GnomeVFSFileSize  size2,
-				const char       *name1,
-				const char       *name2)
+int gth_sort_by_size_then_name (goffset     size1,
+                                goffset     size2,
+				const char *name1,
+				const char *name2)
 {
 	if (size1 < size2) return -1;
 	if (size1 > size2) return 1;
