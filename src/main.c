@@ -24,8 +24,8 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <gdk/gdkx.h>
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-init.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomeui/gnome-authentication-manager.h>
 
 #include "catalog.h"
@@ -380,7 +380,7 @@ get_command_line_catalog_path (void)
 	catalog_name_utf8 = g_strconcat (_("Command Line"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
+	catalog_name = g_uri_escape_string (catalog_name_utf8, "", TRUE);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
@@ -453,32 +453,30 @@ initialize_data (void)
 
 	current_dir = g_get_current_dir ();
 	while ((filename = remaining_args[i++]) != NULL) {
-		char     *tmp1 = NULL;
-		gboolean  is_dir;
+		GFile     *gfile;
+		GFileType  file_type;
+		GFileInfo *file_info;
 
-		if (uri_has_scheme (filename) || g_path_is_absolute (filename))
-			tmp1 = gnome_vfs_make_uri_from_shell_arg (filename);
-		else
-			tmp1 = g_strconcat (current_dir, "/", filename, NULL);
+		gfile = g_file_new_for_commandline_arg (filename);
+		path = g_file_get_uri (gfile);
+		file_info = g_file_query_info (gfile, G_FILE_ATTRIBUTE_STANDARD_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		file_type = g_file_info_get_file_type (file_info);
+		g_object_unref (file_info);
 
-		path = remove_special_dirs_from_path (tmp1);
-		g_free (tmp1);
-
-		if (path_is_dir (path))
-			is_dir = TRUE;
-		else if (path_is_file (path))
-			is_dir = FALSE;
-		else {
+		if ((file_type != G_FILE_TYPE_DIRECTORY) && (file_type != G_FILE_TYPE_REGULAR)) {
 			g_free (path);
+			g_object_unref (gfile);
 			continue;
 		}
 
-		if (is_dir) {
+		if (file_type == G_FILE_TYPE_DIRECTORY) {
 			dir_urls = g_list_prepend (dir_urls, add_scheme_if_absent (path));
 			g_free (path);
 		} 
 		else
 			file_urls = g_list_prepend (file_urls, path);
+
+		g_object_unref (gfile);
 	}
 
 	n_file_urls = g_list_length (file_urls);

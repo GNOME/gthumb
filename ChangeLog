@@ -1,5 +1,10 @@
 2008-05-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/main.c: (get_command_line_catalog_path), (initialize_data):
+	Handle command-line file arguments with gfile functions.
+
+2008-05-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in:
 	* libgthumb/file-data.c: (file_data_new):
 	* libgthumb/file-data.h:
