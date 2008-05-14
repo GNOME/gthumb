@@ -1,3 +1,7 @@
+2008-05-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/main.c: (initialize_data): Removed unused code.
+
 2008-05-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/main.c: (get_command_line_catalog_path), (initialize_data):
