@@ -473,7 +473,6 @@ initialize_data (void)
 			dir_urls = g_list_prepend (dir_urls, path);
 		else
 			file_urls = g_list_prepend (file_urls, path);
-printf ("path %s\n\r",path);
 
 		g_object_unref (gfile);
 	}

@@ -32,7 +32,6 @@
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 
 #include "bookmarks.h"
@@ -2850,11 +2849,12 @@ sidebar_list_key_press (GthBrowser  *browser,
 static gboolean
 launch_selected_videos_or_audio (GthBrowser *browser)
 {
-	gboolean                 result = FALSE;
-	GnomeVFSMimeApplication *image_app;
-	const char              *image_mime_type;
-	GList		        *video_list = NULL;
-	GList			*scan;
+	gboolean    result = FALSE;
+	GAppInfo   *app_info;
+	const char *image_mime_type;
+	GList	   *video_list = NULL;
+	GList	   *scan;
+	GList      *selection;
 
 	if (browser->priv->image == NULL)
 		return FALSE;
@@ -2866,43 +2866,39 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 		return FALSE;
 
 	image_mime_type = browser->priv->image->mime_type;
-	image_app = gnome_vfs_mime_get_default_application_for_uri (browser->priv->image->path, image_mime_type);
+	app_info = g_app_info_get_default_for_type (image_mime_type, TRUE);
 
-	if (image_app == NULL)
+	if (app_info == NULL)
 		return FALSE;
 
-	if (! image_app->can_open_multiple_files) {
-		/* just pass the current (single) item */
-		video_list = g_list_append (video_list, g_strdup (browser->priv->image->path));
+	if (! g_app_info_supports_uris (app_info)) {
+		g_warning ("%s does not support URIs as arguments.", g_app_info_get_name (app_info)); 
+		return FALSE;
 	} 
-	else {
-		GList *selection;
-		
-		/* Scan through the list of selected items, and identify those that have the
-		   same mime_type, or can be launched by the same application. */
-		
-		selection = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
-		for (scan = selection; scan; scan = scan->next) {
-			FileData *file = scan->data;
 
-			if (mime_type_is (file->mime_type, image_mime_type)) {
-				video_list = g_list_append (video_list, g_strdup (file->path));
-			}
-			else {
-				GnomeVFSMimeApplication *selected_app;
-				
-				selected_app = gnome_vfs_mime_get_default_application_for_uri (file->path, file->mime_type);
-				if (gnome_vfs_mime_application_equal (image_app, selected_app))
-					video_list = g_list_append (video_list, g_strdup (file->path));
-				gnome_vfs_mime_application_free (selected_app);
-			}
+	/* Scan through the list of selected items, and identify those that have the
+	   same mime_type, or can be launched by the same application. */
+		
+	selection = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
+	for (scan = selection; scan; scan = scan->next) {
+		FileData *file = scan->data;
+
+		if (mime_type_is (file->mime_type, image_mime_type)) {
+			video_list = g_list_append (video_list, g_strdup (file->path));
 		}
-		file_data_list_free (selection);
+		else {
+			GAppInfo  *selected_app;
+			selected_app = g_app_info_get_default_for_type (file->mime_type, TRUE);
+			if (g_app_info_equal (app_info, selected_app))
+				video_list = g_list_append (video_list, g_strdup (file->path));
+			g_object_unref (selected_app);
+		}
 	}
+	file_data_list_free (selection);
 
-	result = gnome_vfs_mime_application_launch (image_app, video_list) == GNOME_VFS_OK;
-	
-	gnome_vfs_mime_application_free (image_app);
+	result = g_app_info_launch_uris (app_info, video_list, NULL, NULL);
+
+	g_object_unref (app_info);
 	path_list_free (video_list);
 
 	return result;

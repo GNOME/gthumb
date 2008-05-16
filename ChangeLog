@@ -1,3 +1,14 @@
+2008-05-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/gth-browser.c: (launch_selected_videos_or_audio):
+	* src/gth-viewer.c: (open_with_menu_item_activate_cb),
+	(viewer_update_open_with_menu):
+	Migrate from gnome_vfs_mime to g_app_info. Modified version
+	of an emailed patch from Gabriel Falcão (gabriel@nacaolivre.org).
+
+	* src/main.c: (initialize_data):
+	Removed left-over debug printf.
+
 2008-05-14  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/main.c: (initialize_data): Removed unused code.
