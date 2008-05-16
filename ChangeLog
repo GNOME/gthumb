@@ -1,5 +1,11 @@
 2008-05-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-viewer.c: (open_with_menu_item_activate_cb),
+	(viewer_update_open_with_menu):
+	Revert crash-causing changes.
+
+2008-05-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/gth-browser.c: (launch_selected_videos_or_audio):
 	* src/gth-viewer.c: (open_with_menu_item_activate_cb),
 	(viewer_update_open_with_menu):
