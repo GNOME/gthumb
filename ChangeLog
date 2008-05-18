@@ -1,3 +1,12 @@
+2008-05-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-image-prop.c: (update_general_info):
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	gnome_vfs_mime_get_description -> g_content_type_get_description.
+	Show both the mime type and the more human-readable descriptive text.
+	Modified version of Gabriel Falcão's (gabriel@nacaolivre.org) patch
+	from bug #525482.
+		
 2008-05-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-viewer.c: (open_with_menu_item_activate_cb),

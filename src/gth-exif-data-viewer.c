@@ -27,9 +27,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "file-utils.h"
 #include "glib-utils.h"
@@ -310,7 +307,9 @@ update_file_info (GthExifDataViewer *edv)
 	struct tm         *tm;
 	char               time_txt[50], *utf8_time_txt;
 	char              *file_size_txt;
-	const char	  *mime_type;
+	const char        *mime_type;
+	char              *mime_description;
+	char              *mime_full;
 
 	if (edv->priv->viewer == NULL)
 		return;
@@ -336,6 +335,8 @@ update_file_info (GthExifDataViewer *edv)
 	file_size_txt = g_format_size_for_display (edv->priv->file->size);
 
 	mime_type = edv->priv->file->mime_type;
+	mime_description = g_content_type_get_description (mime_type);
+	mime_full = g_strdup_printf ("%s (%s)", mime_description, mime_type); 
 	
 	/**/
 
@@ -347,7 +348,7 @@ update_file_info (GthExifDataViewer *edv)
 
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Size"), file_size_txt, NULL, -4, FALSE);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Modified"), utf8_time_txt, NULL, -3, FALSE);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Type"), mime_type, NULL, -2, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Type"), mime_full, NULL, -2, FALSE);
 
 	/**/
 
@@ -356,6 +357,8 @@ update_file_info (GthExifDataViewer *edv)
 	g_free (utf8_fullname);
 	g_free (size_txt);
 	g_free (file_size_txt);
+	g_free (mime_description);
+	g_free (mime_full);
 }
 
 

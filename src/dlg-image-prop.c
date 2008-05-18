@@ -29,8 +29,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
 #include "comments.h"
@@ -377,6 +375,9 @@ update_general_info (DialogData *data)
 	GthWindow    *window;
 	ImageViewer  *viewer;
 	const char   *image_filename;
+	const char   *mime_type;
+	char         *mime_description;
+	char         *mime_full;
 	GdkPixbuf    *pixbuf;
 	int           width, height;
 	char         *file_size_txt;
@@ -405,9 +406,13 @@ update_general_info (DialogData *data)
 		g_free (utf8_name);
 		
 		/**/
-		
-		gtk_label_set_text (GTK_LABEL (data->i_type_label),
-				    gnome_vfs_mime_get_description (get_mime_type (image_filename)));
+	
+		mime_type = get_mime_type (image_filename);	
+		mime_description = g_content_type_get_description (mime_type);
+		mime_full = g_strdup_printf ("%s (%s)", mime_description, mime_type);
+		gtk_label_set_text (GTK_LABEL (data->i_type_label), mime_full);
+		g_free (mime_description);
+		g_free (mime_full);
 		
 		/**/
 
