@@ -903,6 +903,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 		"Adrien Bustany <madcat@mymadcat.com>",
 		"David Turner <cillian64@googlemail.com>",
 		"Dor Fire <dorfire@gmail.com>",
+		"Gabriel Falcão <gabriel@nacaolivre.org>",
 		NULL
 	};
 	const char *documenters [] = {

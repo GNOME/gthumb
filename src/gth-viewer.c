@@ -28,8 +28,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
 
 #include "jpegutils/jpeg-data.h"
 #include "comments.h"
@@ -711,7 +709,7 @@ open_with_menu_item_activate_cb (GtkMenuItem *menuitem,
 				 gpointer     user_data)
 {
 	GthViewer               *viewer = user_data;
-	GnomeVFSMimeApplication *app;
+	GAppInfo                *app;
 	GList                   *uris;
 
 	if (viewer->priv->image == NULL)
@@ -719,10 +717,9 @@ open_with_menu_item_activate_cb (GtkMenuItem *menuitem,
 
 	app = g_object_get_data (G_OBJECT (menuitem), "app");
 	uris = g_list_prepend (NULL, viewer->priv->image->path);
-	gnome_vfs_mime_application_launch (app, uris);
+	g_app_info_launch_uris (app, uris, NULL, NULL);
 	g_list_free (uris);
 }
-
 
 static void
 viewer_update_open_with_menu (GthViewer *viewer)
@@ -742,26 +739,35 @@ viewer_update_open_with_menu (GthViewer *viewer)
 		mime_type = priv->image->mime_type;
 
 	if (mime_type != NULL) {
-		GList        *apps = gnome_vfs_mime_get_all_applications (mime_type);
+		GList        *apps = g_app_info_get_all_for_type (mime_type);
 		GtkIconTheme *theme = gtk_icon_theme_get_default ();
 		int           icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (viewer));
 
 		for (scan = apps; scan; scan = scan->next) {
-			GnomeVFSMimeApplication *app = scan->data;
+			GAppInfo                *app = scan->data;
 			GtkWidget               *mitem;
+			GThemedIcon             *icon;
+			GStrv                   icon_names;
 
 			/* do not include gthumb itself */
-			if (strncmp (gnome_vfs_mime_application_get_exec (app), "gthumb", 6) == 0)
+			if (strncmp (g_app_info_get_executable (app), "gthumb", 6) == 0)
 				continue;
 
-			mitem = gtk_image_menu_item_new_with_label (gnome_vfs_mime_application_get_name (app));
-			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem), create_image (theme, gnome_vfs_mime_application_get_icon (app), icon_size));
-			g_object_set_data_full (G_OBJECT (mitem), "app", app, (GDestroyNotify)gnome_vfs_mime_application_free);
+			mitem = gtk_image_menu_item_new_with_label (g_app_info_get_name (app));
+			icon = G_THEMED_ICON(g_app_info_get_icon (app));
+			g_object_get(icon, "names", &icon_names, NULL);
+
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem), create_image (theme, icon_names[0], icon_size));
+			g_object_set_data (G_OBJECT (mitem), "app", app);
 			g_signal_connect (mitem, "activate",
 					  G_CALLBACK (open_with_menu_item_activate_cb),
 					  viewer);
 			gtk_widget_show_all (mitem);
 			gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
+
+			g_object_unref (icon);
+			if (icon_names)
+				g_free (icon_names);
 		}
 		g_list_free (apps);
 	} 

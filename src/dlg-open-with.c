@@ -25,8 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <gio/gio.h>
 
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -68,7 +67,7 @@ open_with__destroy_cb (GtkWidget  *widget,
 		path_list_free (data->uris);
 
 	if (data->apps != NULL)
-		gnome_vfs_mime_application_list_free (data->apps);
+		g_list_free (data->apps);
 
 	g_free (data);
 }
@@ -83,8 +82,9 @@ open_cb (GtkWidget *widget,
 	char        *application;
 	GList       *scan;
 	GSList      *sscan, *editors;
-	GnomeVFSMimeApplication *registered_app = NULL;
+	GAppInfo    *registered_app = NULL;
 	gboolean     present = FALSE;
+	GError      *error = NULL;
 	const char  *command = NULL;
 
 	application_utf8 = gtk_entry_get_text (GTK_ENTRY (data->app_entry));
@@ -93,9 +93,9 @@ open_cb (GtkWidget *widget,
 	/* add the command to the editors list if not already present. */
 
 	for (scan = data->apps; scan && ! present; scan = scan->next) {
-		GnomeVFSMimeApplication *app = scan->data;
-		if (strcmp (gnome_vfs_mime_application_get_exec (app), application) == 0) {
-			command = gnome_vfs_mime_application_get_exec (app);
+		GAppInfo *app = scan->data;
+		if (strcmp (g_app_info_get_executable (app), application) == 0) {
+			command = g_app_info_get_executable (app);
 			present = TRUE;
 			registered_app = app;
 		}
@@ -119,7 +119,8 @@ open_cb (GtkWidget *widget,
 	/* exec the application. */
 
 	if (registered_app != NULL) {
-		if (gnome_vfs_mime_application_launch (registered_app, data->uris) == GNOME_VFS_OK)
+		g_app_info_launch_uris (registered_app, data->uris, NULL, &error);
+		if (error == NULL)
 			gtk_widget_destroy (data->dialog);
 	} 
 	else if ((command != NULL) && exec_command (command, data->uris))
@@ -137,7 +138,7 @@ app_list_selection_changed_cb (GtkTreeSelection *selection,
 {
 	DialogData              *data = p;
 	GtkTreeIter              iter;
-        GnomeVFSMimeApplication *app;
+        GAppInfo                *app;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->app_list_tree_view));
 	if (selection == NULL)
@@ -149,7 +150,7 @@ app_list_selection_changed_cb (GtkTreeSelection *selection,
         gtk_tree_model_get (data->app_model, &iter,
                             DATA_COLUMN, &app,
                             -1);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), gnome_vfs_mime_application_get_exec (app));
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), g_app_info_get_executable (app));
 }
 
 
@@ -241,7 +242,7 @@ dlg_open_with (GtkWindow  *window,
 	DialogData              *data;
 	GList                   *scan;
 	GSList                  *sscan, *editors;
-	GnomeVFSMimeApplication *app;
+	GAppInfo                *app;
 	GList                   *app_names = NULL;
 	GtkWidget               *ok_btn, *cancel_btn;
 	GtkTreeIter              iter;
@@ -325,7 +326,7 @@ dlg_open_with (GtkWindow  *window,
 
 		result = get_mime_type (uri);
 		if (result != NULL)
-			data->apps = g_list_concat (data->apps, gnome_vfs_mime_get_all_applications (result));
+			data->apps = g_list_concat (data->apps, g_app_info_get_all_for_type (result));
 	}
 
 	data->app_model = GTK_TREE_MODEL (gtk_list_store_new (N_COLUMNS, 
@@ -341,9 +342,11 @@ dlg_open_with (GtkWindow  *window,
 	icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (window));
 
 	for (scan = data->apps; scan; scan = scan->next) {
-		gboolean   found;
-		char      *utf8_name;
-		GdkPixbuf *icon;
+		gboolean    found;
+		char        *utf8_name;
+		GThemedIcon *ticon;
+		GStrv       icon_names;
+		GdkPixbuf   *icon;
 
 		app = scan->data;
 
@@ -351,7 +354,7 @@ dlg_open_with (GtkWindow  *window,
 		if (app_names != NULL) {
 			GList *p;
 			for (p = app_names; p && !found; p = p->next)
-				if (strcmp ((char*)p->data, gnome_vfs_mime_application_get_exec (app)) == 0)
+				if (strcmp ((char*)p->data, g_app_info_get_executable (app)) == 0)
 					found = TRUE;
 		}
 
@@ -359,22 +362,26 @@ dlg_open_with (GtkWindow  *window,
 			continue;
 
 		/* do not include gthumb itself */
-		if (strncmp (gnome_vfs_mime_application_get_exec (app), "gthumb", 6) == 0)
+		if (strncmp (g_app_info_get_executable (app), "gthumb", 6) == 0)
 			continue;
 
-		app_names = g_list_prepend (app_names, (char*)gnome_vfs_mime_application_get_exec (app));
+		app_names = g_list_prepend (app_names, (char*)g_app_info_get_executable (app));
 		
 		gtk_list_store_append (GTK_LIST_STORE (data->app_model),
 				       &iter);
 
-		utf8_name = g_locale_to_utf8 (app->name, -1, NULL, NULL, NULL);
-		icon = create_pixbuf (theme, gnome_vfs_mime_application_get_icon (app), icon_size);
+		utf8_name = g_locale_to_utf8 (g_app_info_get_name (app), -1, NULL, NULL, NULL);
+		ticon = G_THEMED_ICON (g_app_info_get_icon (app));
+		g_object_get (ticon, "names", &icon_names, NULL);
+		icon = create_pixbuf (theme, icon_names[0], icon_size);		
 		gtk_list_store_set (GTK_LIST_STORE (data->app_model), &iter,
 				    ICON_COLUMN, icon,
 				    TEXT_COLUMN, utf8_name,
 				    DATA_COLUMN, app,
 				    -1);
 		g_free (utf8_name);
+		g_free (icon_names);
+		g_object_unref (ticon);
 	}
 
 	column = gtk_tree_view_column_new ();

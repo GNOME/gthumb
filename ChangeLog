@@ -1,3 +1,18 @@
+2008-05-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* AUTHORS:
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_help_about):
+	Added Gabriel Falcão.
+
+	* src/dlg-open-with.c: (open_with__destroy_cb), (open_cb),
+	(app_list_selection_changed_cb), (dlg_open_with):
+	* src/gth-viewer.c: (open_with_menu_item_activate_cb),
+	(viewer_update_open_with_menu):
+	gnome_vfs_mime_application -> g_app_info for "Open With..." 
+	functions. Modified version of Gabriel Falcão's
+	(gabriel@nacaolivre.org) patch from bug #525482.
+
 2008-05-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-image-prop.c: (update_general_info):
