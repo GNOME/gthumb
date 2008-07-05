@@ -4,14 +4,15 @@
 # Sergey Volozhanin <svo@asplinux.ru>, 2002.
 # Yuri N. Sedunov <aris@altlinux.ru>, 2003.
 # Leonid Kanter <leon@asplinux.ru>, 2006.
+# Anton Shestakov <engored@ya.ru>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-16 14:26+0300\n"
-"PO-Revision-Date: 2008-03-16 01:20+0800\n"
-"Last-Translator: Anton Shestakov <engored@ya.ru>\n"
+"POT-Creation-Date: 2008-07-05 12:04+0400\n"
+"PO-Revision-Date: 2008-07-05 01:20+0800\n"
+"Last-Translator: Nickolay V. Shmyrev <nshmyrev@yandex.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,15 +34,15 @@ msgstr "Следующее"
 msgid "Index"
 msgstr "Индекс"
 
-#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:262
 msgid "Image"
 msgstr "Изображение"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:345
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:347
 msgid "Dimensions"
 msgstr "Размеры"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:607
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:613
 msgid "Bytes"
 msgstr "Байт"
 
@@ -283,9 +284,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "Импорт фотографий"
 
-#: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:933
-#: ../src/dlg-photo-importer.c:972 ../src/dlg-photo-importer.c:1690
-#: ../src/dlg-photo-importer.c:2488
+#: ../data/glade/gthumb_camera.glade.h:11 ../src/dlg-photo-importer.c:930
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1687
+#: ../src/dlg-photo-importer.c:2485
 msgid "No camera detected"
 msgstr "Камера не обнаружена"
 
@@ -613,7 +614,7 @@ msgid "I_nvert aspect ratio"
 msgstr "И_нвертировать соотношение сторон"
 
 #: ../data/glade/gthumb_crop.glade.h:18
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "None"
 msgstr "не заполнять"
 
@@ -1197,135 +1198,139 @@ msgid "Fit to width if larger"
 msgstr "растягивать по ширине изображения превышающие размеры окна"
 
 #: ../data/glade/gthumb_preferences.glade.h:36
+msgid "Fit to window"
+msgstr "Подогнать по окну"
+
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Fit to window if larger"
 msgstr "уменьшать изображения превышающие размеры окна"
 
-#: ../data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
 msgstr "следовать поведению Nautilus"
 
-#: ../data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "For_ward"
 msgstr "Пря_мое"
 
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "General"
 msgstr "Общие"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to last _visited folder or catalog"
 msgstr "переходить в пос_ледний посещённый каталог или альбом"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
 msgstr "переходить в указанный _каталог:"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "H_igh"
 msgstr "_Высокое"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Icons only"
 msgstr "только пиктограммы"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Include audio clips and movies in browser view"
 msgstr "Показывать звуковые дорожки и видео в области просмотра"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Keep previous zoom"
 msgstr "сохранять предыдущий режим масштабирования"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Layout:"
 msgstr "Расположение элементов:"
 
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Lo_w"
 msgstr "_Низкое"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Ran_dom"
 msgstr "Произ_вольное"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Re_verse"
 msgstr "Об_ратное"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Reset scrollbar positions after loading an image"
 msgstr "Восстановливать позиции полос прокрутки после загрузки изображения"
 
-#: ../data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Resta_rt when finished"
 msgstr "Начинать _заново по окончании"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Set image to actual size"
 msgstr "не масштабировать изображение"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Set to C_urrent"
 msgstr "_Текущая"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Slideshow"
 msgstr "Слайд-шоу"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "System settings"
 msgstr "общесистемные настройки"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Text below icons"
 msgstr "текст под пиктограммами"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text beside icons"
 msgstr "текст рядом с пиктограммами"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Text only"
 msgstr "только текст"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Th_umbnail size:"
 msgstr "Размер миниатюр:"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Transparency _type:"
 msgstr "Заполнять про_зрачные области:"
 
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Use a _fading effect when changing image"
 msgstr "Использовать _эффект плавного перехода при смене изображений"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "Viewer"
 msgstr "Просмотр"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "White"
 msgstr "белым цветом"
 
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "_Filenames"
 msgstr "Имена файлов"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:67
 #: ../src/gth-browser-actions-entries.h:435
 msgid "_Thumbnails"
 msgstr "Миниат_юры"
 
-#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
 msgstr "Панель _инструментов:"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
 msgstr "Параметры gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
 msgstr "сек"
 
@@ -1586,8 +1591,8 @@ msgstr "_Любая из выбранных категорий"
 msgid "New _Search..."
 msgstr "_Новый поиск..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:902
-#: ../src/dlg-photo-importer.c:1737
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
+#: ../src/dlg-photo-importer.c:1734
 msgid "No images found"
 msgstr "Изображения не найдены"
 
@@ -2142,13 +2147,13 @@ msgstr "строк на страницу,"
 msgid "Image Viewer"
 msgstr "Просмотр изображений"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:711
 msgid "View and organize your images"
 msgstr "Просмотр изображений и ведение альбомов"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
-msgstr "Просмотр изображений"
+msgstr "Просмотр изображений gThumb"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
@@ -2304,10 +2309,10 @@ msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:57
-#: ../src/catalog-web-exporter.c:154 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:467
+#: ../src/catalog-web-exporter.c:154 ../src/dlg-duplicates.c:549
+#: ../src/dlg-image-prop.c:447 ../src/gth-browser.c:467
 #: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:882
-#: ../src/gth-viewer.c:586
+#: ../src/gth-viewer.c:585
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2315,7 +2320,7 @@ msgstr "%d %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(Без комментариев)"
 
-#: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:278
+#: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:279
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Тип изображения не поддерживается: %s"
@@ -2332,34 +2337,34 @@ msgstr "Сохранить изображение"
 msgid "Image type:"
 msgstr "Формат изображения:"
 
-#: ../libgthumb/file-utils.c:1508 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Альбомы"
 
-#: ../libgthumb/file-utils.c:1511 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Файловая система"
 
-#: ../libgthumb/file-utils.c:1540 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Домашний каталог"
 
-#: ../libgthumb/file-utils.c:2175
+#: ../libgthumb/file-utils.c:2179
 msgid "Library not empty"
 msgstr "Коллекция не пуста"
 
-#: ../libgthumb/file-utils.c:2184
+#: ../libgthumb/file-utils.c:2188
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Не удалось удалить коллекцию «%s»: %s"
 
-#: ../libgthumb/file-utils.c:2211
+#: ../libgthumb/file-utils.c:2215
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Не удалось удалить альбом «%s»: %s"
 
 #: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:716
-#: ../src/gth-browser.c:4391 ../src/gth-viewer.c:696
+#: ../src/gth-browser.c:4388 ../src/gth-viewer.c:695
 msgid "No image"
 msgstr "Изображений нет"
 
@@ -2376,50 +2381,42 @@ msgstr "По_вернуть изображения"
 msgid "Page %d of %d"
 msgstr "Страница %d из %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1425
 #, c-format
 msgid "Loading image: %s"
 msgstr "Загрузка изображения: %s"
-
-#: ../libgthumb/thumb-cache.c:487
-msgid "Deleting all thumbnails, wait please..."
-msgstr "Удаляются миниатюры, подождите..."
-
-#: ../libgthumb/thumb-cache.c:489
-msgid "Deleting old thumbnails, wait please..."
-msgstr "Удаляются старые миниатюры, подождите..."
 
 #: ../src/bookmark-list.c:157 ../src/gth-browser.c:1307
 #: ../src/gth-browser.c:1311 ../src/gth-browser.c:1323
 msgid "(Invalid Name)"
 msgstr "(Неверное имя)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
+#: ../src/catalog-png-exporter.c:845 ../src/dlg-image-prop.c:427
 #: ../src/gth-browser.c:470 ../src/gth-exif-data-viewer.c:328
-#: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:589
+#: ../src/gth-fullscreen.c:874 ../src/gth-viewer.c:588
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d пикселов"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2435
-#: ../src/catalog-web-exporter.c:2655
+#: ../src/catalog-png-exporter.c:910 ../src/catalog-web-exporter.c:2434
+#: ../src/catalog-web-exporter.c:2654
 msgid "Saving images"
 msgstr "Сохранение изображений"
 
-#: ../src/catalog-png-exporter.c:1658
+#: ../src/catalog-png-exporter.c:1652
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Создаётся изображение: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2149
+#: ../src/catalog-web-exporter.c:2148
 msgid "Saving thumbnails"
 msgstr "Сохранение миниатюр"
 
-#: ../src/catalog-web-exporter.c:2222
+#: ../src/catalog-web-exporter.c:2221
 msgid "Saving HTML pages: Images"
 msgstr "Сохранение HTML страниц: Изображения"
 
-#: ../src/catalog-web-exporter.c:2302
+#: ../src/catalog-web-exporter.c:2301
 msgid "Saving HTML pages: Indexes"
 msgstr "Сохранение HTML страниц: Индексы"
 
@@ -2427,17 +2424,17 @@ msgstr "Сохранение HTML страниц: Индексы"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2479
+#: ../src/catalog-web-exporter.c:2478
 msgid "Copying original images"
 msgstr "Копирование оригинальных изображений"
 
-#: ../src/catalog-web-exporter.c:2864
+#: ../src/catalog-web-exporter.c:2863
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Не удалось создать временный каталог"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2920
+#: ../src/catalog-web-exporter.c:2919
 msgid "Loading images"
 msgstr "Загрузка изображений"
 
@@ -2446,7 +2443,7 @@ msgid "Enter the catalog name: "
 msgstr "Введите имя альбома: "
 
 #: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
-#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
+#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:93
 #: ../src/gth-browser-actions-callbacks.c:773
 msgid "C_reate"
 msgstr "_Создать"
@@ -2488,16 +2485,16 @@ msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Имя «%s» уже используется. Укажите другое имя."
 
-#: ../src/dlg-convert.c:357 ../src/gth-batch-op.c:592
+#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "В данном каталоге уже есть файл с именем «%s». Заменить его новым?"
 
-#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
+#: ../src/dlg-convert.c:367 ../src/gth-batch-op.c:602
 msgid "Skip"
 msgstr "Пропустить"
 
-#: ../src/dlg-convert.c:363 ../src/gth-batch-op.c:598
+#: ../src/dlg-convert.c:368 ../src/gth-batch-op.c:603
 msgid "_Overwrite"
 msgstr "_Перезаписать"
 
@@ -2511,42 +2508,42 @@ msgstr "%d x %d (Изображение)"
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (Экран)"
 
-#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
+#: ../src/dlg-duplicates.c:276 ../src/dlg-duplicates.c:650
 msgid "Duplicates"
 msgstr "Число копий"
 
-#: ../src/dlg-duplicates.c:290
+#: ../src/dlg-duplicates.c:291
 msgid "Duplicates Size"
 msgstr "Общий размер копий"
 
 #.
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:592
-#: ../src/gth-exif-data-viewer.c:341
+#: ../src/dlg-duplicates.c:369 ../src/dlg-image-prop.c:598
+#: ../src/gth-exif-data-viewer.c:343
 msgid "Name"
 msgstr "Имя файла"
 
-#: ../src/dlg-duplicates.c:397
+#: ../src/dlg-duplicates.c:398
 msgid "Last modified"
 msgstr "Изменён"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:612
+#: ../src/dlg-duplicates.c:413 ../src/dlg-image-prop.c:618
 msgid "Location"
 msgstr "Адрес"
 
-#: ../src/dlg-duplicates.c:754
+#: ../src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Отмеченные файлы будут перемещены в корзину. Продолжить?"
 
-#: ../src/dlg-file-utils.c:90
+#: ../src/dlg-file-utils.c:91
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Каталог назначения не существует. Создать каталог?"
 
-#: ../src/dlg-file-utils.c:106
+#: ../src/dlg-file-utils.c:107
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Не удалось создать каталог «%s»: %s"
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1762
+#: ../src/dlg-file-utils.c:121 ../src/dlg-photo-importer.c:1759
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2554,119 +2551,119 @@ msgstr ""
 "Вы не обладаете достаточными правами для создания изображений в текущем "
 "каталоге «%s»"
 
-#: ../src/dlg-file-utils.c:203
+#: ../src/dlg-file-utils.c:204
 msgid "Could not delete the images:"
 msgstr "Не удалось удалить файлы:"
 
-#: ../src/dlg-file-utils.c:226
+#: ../src/dlg-file-utils.c:227
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
 "Не удалось переместить удаляемые файлы в корзину. Удалить их безвозвратно?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1139
-#: ../src/gth-browser.c:1786 ../src/gth-viewer.c:869
+#: ../src/dlg-file-utils.c:230 ../src/gth-browser-actions-callbacks.c:1139
+#: ../src/gth-browser.c:1786 ../src/gth-viewer.c:876
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "_Не показывать больше это сообщение"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1177
+#: ../src/dlg-file-utils.c:284 ../src/gth-browser-actions-callbacks.c:1177
 msgid "_Move"
 msgstr "_Переместить"
 
-#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
+#: ../src/dlg-file-utils.c:381 ../src/dlg-file-utils.c:481
 #: ../src/gth-browser-actions-callbacks.c:1404
 msgid "Choose the destination folder"
 msgstr "Выберите каталог назначения"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:549
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:784 ../src/dlg-file-utils.c:885
 msgid "You didn't enter the new name"
 msgstr "Новое имя не задано"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Имя «%s» уже используется в этом каталоге. Укажите другое имя."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1042
 msgid "Could not rename the image:"
 msgstr "Не удалось переименовать файл:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1044
 msgid "Could not rename the following images:"
 msgstr "Не удалось переименовать следующие файлы:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1177
 msgid "Could not move the image:"
 msgstr "Не удалось переместить файл:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1179
 msgid "Could not copy the image:"
 msgstr "Не удалось скопировать файл:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
 msgid "_Abort"
 msgstr "Пре_рвать"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2465
 msgid "_Continue"
 msgstr "Про_должить"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1382
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Копируется файл %d из %d"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1790 ../src/dlg-file-utils.c:2021
 msgid "Collecting images info"
 msgstr "Сбор данных об изображениях"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1793 ../src/dlg-file-utils.c:2034
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Удаляется файл %ld из %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2024
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Копируется файл %ld из %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2029
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Перемещается файл %ld из %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
 #: ../src/gth-browser-actions-callbacks.c:1286
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Не удалось переместить каталог «%s»: %s"
 
-#: ../src/dlg-image-prop.c:597 ../src/gth-exif-data-viewer.c:347
+#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:349
 #: ../src/gth-filter-bar.c:211
 msgid "Size"
 msgstr "Размер файла"
 
-#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:349
+#: ../src/dlg-image-prop.c:608 ../src/gth-exif-data-viewer.c:351
 msgid "Type"
 msgstr "Формат"
 
-#: ../src/dlg-image-prop.c:617 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:348 ../src/gth-viewer.c:601
+#: ../src/dlg-image-prop.c:623 ../src/gth-browser.c:482
+#: ../src/gth-exif-data-viewer.c:350 ../src/gth-viewer.c:600
 msgid "Modified"
 msgstr "Дата изменения"
 
-#: ../src/dlg-image-prop.c:622
+#: ../src/dlg-image-prop.c:628
 msgid "Information on Channel"
 msgstr "Канал"
 
-#: ../src/dlg-image-prop.c:731
+#: ../src/dlg-image-prop.c:737
 #, c-format
 msgid "%s Properties"
 msgstr "Свойства %s"
@@ -2678,61 +2675,61 @@ msgstr ""
 "Не удалось переместить временный файл в удалённое расположение. Проверьте "
 "права доступа."
 
-#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1689
-#: ../src/dlg-photo-importer.c:1736 ../src/dlg-photo-importer.c:1748
-#: ../src/dlg-photo-importer.c:1764 ../src/dlg-photo-importer.c:1793
+#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1686
+#: ../src/dlg-photo-importer.c:1733 ../src/dlg-photo-importer.c:1745
+#: ../src/dlg-photo-importer.c:1761 ../src/dlg-photo-importer.c:1790
 msgid "Could not import photos"
 msgstr "Не удается импортировать фотоснимки"
 
-#: ../src/dlg-photo-importer.c:1417
+#: ../src/dlg-photo-importer.c:1414
 msgid "Import errors detected"
 msgstr "В процессе импорта возникли ошибки"
 
-#: ../src/dlg-photo-importer.c:1418
+#: ../src/dlg-photo-importer.c:1415
 msgid "The files on the camera will not be deleted"
 msgstr "Файлы, находящиеся на камере, не будут удалены"
 
-#: ../src/dlg-photo-importer.c:1485
+#: ../src/dlg-photo-importer.c:1482
 #, c-format
 msgid "Transferring '%s' to its destination folder."
 msgstr "Отправление '%s' в каталог назначения."
 
-#: ../src/dlg-photo-importer.c:1555
+#: ../src/dlg-photo-importer.c:1552
 #, c-format
 msgid "Adjusting orientation of '%s'."
 msgstr "Настройка ориентации '%s'."
 
-#: ../src/dlg-photo-importer.c:1745
+#: ../src/dlg-photo-importer.c:1742
 #: ../src/gth-browser-actions-callbacks.c:1604
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Не удалось создать каталог «%s»: %s"
 
-#: ../src/dlg-photo-importer.c:1794
+#: ../src/dlg-photo-importer.c:1791
 msgid "Not enough free space left on disk"
 msgstr "На диске не достаточно свободного места"
 
-#: ../src/dlg-photo-importer.c:1890
+#: ../src/dlg-photo-importer.c:1887
 msgid "Put name or format code here"
 msgstr "Введите имя или код формата"
 
-#: ../src/dlg-photo-importer.c:2197
+#: ../src/dlg-photo-importer.c:2194
 msgid "No grouping"
 msgstr "Не группировать"
 
-#: ../src/dlg-photo-importer.c:2199
+#: ../src/dlg-photo-importer.c:2196
 msgid "By day photo taken"
 msgstr "По дню создания фотографии"
 
-#: ../src/dlg-photo-importer.c:2201
+#: ../src/dlg-photo-importer.c:2198
 msgid "By month photo taken"
 msgstr "По месяцу создания фотографии"
 
-#: ../src/dlg-photo-importer.c:2203
+#: ../src/dlg-photo-importer.c:2200
 msgid "By current date and time"
 msgstr "По текущей дате и времени"
 
-#: ../src/dlg-photo-importer.c:2205
+#: ../src/dlg-photo-importer.c:2202
 msgid "Custom subfolder"
 msgstr "Другой подкаталог"
 
@@ -2748,37 +2745,37 @@ msgstr "Верхний колонтитул"
 msgid "Footer"
 msgstr "Нижний колонтитул"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:557
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:558
 #: ../src/dlg-web-exporter.c:481
 msgid "by path"
 msgstr "по пути"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:559
+#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:560
 #: ../src/dlg-web-exporter.c:483
 msgid "by size"
 msgstr "по размеру"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:561
+#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:562
 #: ../src/dlg-web-exporter.c:485
 msgid "by file modified time"
 msgstr "по времени изменения файла"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:563
+#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:564
 #: ../src/dlg-web-exporter.c:487
 msgid "by Exif DateTime tag"
 msgstr "по тегу EXIF ДатаВремя"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:565
+#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:566
 #: ../src/dlg-web-exporter.c:489
 msgid "by comment"
 msgstr "по комментарию"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:568
+#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:569
 #: ../src/dlg-web-exporter.c:492
 msgid "manual order"
 msgstr "ручная сортировка"
 
-#: ../src/dlg-rename-series.c:118 ../src/gth-browser-actions-callbacks.c:487
+#: ../src/dlg-rename-series.c:119 ../src/gth-browser-actions-callbacks.c:487
 #: ../src/gth-browser-actions-callbacks.c:703
 #: ../src/gth-browser-actions-callbacks.c:786
 #: ../src/gth-browser-actions-callbacks.c:995
@@ -2790,11 +2787,11 @@ msgstr ""
 "Имя файла «%s» недопустимо, поскольку содержит символ «/». Укажите другое "
 "имя."
 
-#: ../src/dlg-rename-series.c:541
+#: ../src/dlg-rename-series.c:542
 msgid "Old Name"
 msgstr "Старое имя"
 
-#: ../src/dlg-rename-series.c:549
+#: ../src/dlg-rename-series.c:550
 msgid "New Name"
 msgstr "Новое имя"
 
@@ -2860,7 +2857,7 @@ msgstr "Сценарий"
 msgid "Select Album Theme"
 msgstr "Выбрать стиль оформления альбома"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3741
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3738
 msgid "Could not move the items:"
 msgstr "Не удалось переместить:"
 
@@ -3040,7 +3037,7 @@ msgstr "Сделать _фоном рабочего стола"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:43
-msgid "_Scripts"
+msgid "Scri_pts"
 msgstr "С_ценарии"
 
 #: ../src/gth-browser-actions-entries.h:51
@@ -3637,15 +3634,15 @@ msgstr "_Альбомы"
 msgid "View the catalogs"
 msgstr "Просмотр альбомов"
 
-#: ../src/gth-browser.c:517 ../src/gth-viewer.c:636
+#: ../src/gth-browser.c:517 ../src/gth-viewer.c:635
 msgid "[Press 'c' to add a comment]"
 msgstr "[Нажмите \"c\", чтобы добавить комментарий]"
 
-#: ../src/gth-browser.c:595 ../src/gth-browser.c:612 ../src/gth-viewer.c:693
+#: ../src/gth-browser.c:595 ../src/gth-browser.c:612 ../src/gth-viewer.c:692
 msgid "[modified]"
 msgstr "[изменён]"
 
-#: ../src/gth-browser.c:638 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:638 ../src/main.c:438 ../src/main.c:720
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -3669,111 +3666,111 @@ msgstr "1 выбрано (%s)"
 msgid "%d selected (%s)"
 msgstr "%d выбрано (%s)"
 
-#: ../src/gth-browser.c:1783 ../src/gth-viewer.c:866
+#: ../src/gth-browser.c:1783 ../src/gth-viewer.c:873
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Текущее изображение было изменено, сохранить его?"
 
-#: ../src/gth-browser.c:1784 ../src/gth-viewer.c:867
+#: ../src/gth-browser.c:1784 ../src/gth-viewer.c:874
 msgid "Do Not Save"
 msgstr "Не сохранять"
 
-#: ../src/gth-browser.c:3500
+#: ../src/gth-browser.c:3497
 msgid "Dragged Images"
 msgstr "Перетаскиваемые изображения"
 
-#: ../src/gth-browser.c:5291 ../src/gth-browser.c:5292
+#: ../src/gth-browser.c:5288 ../src/gth-browser.c:5289
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Повернуть изображения без потери качества"
 
-#: ../src/gth-browser.c:6169
+#: ../src/gth-browser.c:6166
 msgid "Getting folder listing..."
 msgstr "Чтение каталога..."
 
-#: ../src/gth-browser.c:6191
+#: ../src/gth-browser.c:6188
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Не удалось загрузить каталог «%s»: %s\n"
 
-#: ../src/gth-browser.c:6708 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6705 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Закрыть"
 
-#: ../src/gth-browser.c:6722 ../src/gth-viewer.c:1513
+#: ../src/gth-browser.c:6719 ../src/gth-viewer.c:1520
 msgid "Image comment"
 msgstr "Комментарий к изображению"
 
-#: ../src/gth-browser.c:6736
+#: ../src/gth-browser.c:6733
 msgid "Image data"
 msgstr "Данные об изображении"
 
-#: ../src/gth-browser.c:6750
+#: ../src/gth-browser.c:6747
 msgid "Image preview"
 msgstr "Предварительный просмотр изображения"
 
-#: ../src/gth-browser.c:7802
+#: ../src/gth-browser.c:7799
 msgid "The specified catalog does not exist."
 msgstr "Указанный альбом не существует."
 
-#: ../src/gth-browser.c:8434 ../src/gth-viewer.c:1962
+#: ../src/gth-browser.c:8431 ../src/gth-viewer.c:1969
 msgid "Wait please..."
 msgstr "Пожалуйста, подождите..."
 
-#: ../src/gth-exif-data-viewer.c:44
+#: ../src/gth-exif-data-viewer.c:42
 msgid "Filesystem"
 msgstr "Файловая система"
 
-#: ../src/gth-exif-data-viewer.c:45
+#: ../src/gth-exif-data-viewer.c:43
 msgid "Exif General"
 msgstr "Общие свойства EXIF"
 
-#: ../src/gth-exif-data-viewer.c:46
+#: ../src/gth-exif-data-viewer.c:44
 msgid "Exif Conditions"
 msgstr "Условия EXIF"
 
-#: ../src/gth-exif-data-viewer.c:47
+#: ../src/gth-exif-data-viewer.c:45
 msgid "Exif Structure"
 msgstr "Структура EXIF"
 
-#: ../src/gth-exif-data-viewer.c:48
+#: ../src/gth-exif-data-viewer.c:46
 msgid "Exif Thumbnail"
 msgstr "Миниатюры EXIF"
 
-#: ../src/gth-exif-data-viewer.c:49
+#: ../src/gth-exif-data-viewer.c:47
 msgid "Exif GPS"
 msgstr "Exif GPS"
 
-#: ../src/gth-exif-data-viewer.c:50
+#: ../src/gth-exif-data-viewer.c:48
 msgid "Exif Maker Notes"
 msgstr "Заметки автора EXIF"
 
-#: ../src/gth-exif-data-viewer.c:51
+#: ../src/gth-exif-data-viewer.c:49
 msgid "Exif Versions"
 msgstr "Версии EXIF"
 
-#: ../src/gth-exif-data-viewer.c:52
+#: ../src/gth-exif-data-viewer.c:50
 msgid "IPTC"
 msgstr "IPTC"
 
-#: ../src/gth-exif-data-viewer.c:53
+#: ../src/gth-exif-data-viewer.c:51
 msgid "XMP Embedded"
 msgstr "XMP Embedded"
 
-#: ../src/gth-exif-data-viewer.c:54
+#: ../src/gth-exif-data-viewer.c:52
 msgid "XMP Sidecar"
 msgstr "XMP Sidecar"
 
-#: ../src/gth-exif-data-viewer.c:55
+#: ../src/gth-exif-data-viewer.c:53
 msgid "Audio / Video"
 msgstr "Аудио / Видео"
 
-#: ../src/gth-exif-data-viewer.c:56
+#: ../src/gth-exif-data-viewer.c:54
 msgid "Other"
 msgstr "Другое"
 
-#: ../src/gth-exif-data-viewer.c:342
+#: ../src/gth-exif-data-viewer.c:344
 msgid "Path"
 msgstr "Путь к файлу"
 
@@ -3887,24 +3884,24 @@ msgstr "_Одно окно"
 msgid "Reuse this window to view other images"
 msgstr "Использовать это окно для просмотра других изображений"
 
-#: ../src/gth-viewer.c:768
+#: ../src/gth-viewer.c:775
 msgid "_None"
 msgstr "_цветом окна"
 
-#: ../src/gth-viewer.c:1305 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1312 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "Открыть с _помощью ..."
 
-#: ../src/gth-viewer.c:1311 ../src/gth-viewer.c:1312
+#: ../src/gth-viewer.c:1318 ../src/gth-viewer.c:1319
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Открыть выбранные изображения с помощью"
 
-#: ../src/gth-window-actions-callbacks.c:935
+#: ../src/gth-window-actions-callbacks.c:936
 msgid "An image viewer and browser for GNOME."
 msgstr "Просмотрщик изображений и фотоальбом для GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:938
+#: ../src/gth-window-actions-callbacks.c:939
 msgid "translator_credits"
 msgstr ""
 "Диконов Вячеслав <slava@altlinux.ru>\n"
