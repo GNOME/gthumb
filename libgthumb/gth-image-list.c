@@ -3343,7 +3343,7 @@ gth_image_list_class_init (GthImageListClass *image_list_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImageListClass, set_scroll_adjustments),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__POINTER_POINTER,
+			      gthumb_marshal_VOID__OBJECT_OBJECT,
 			      G_TYPE_NONE,
 			      2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 

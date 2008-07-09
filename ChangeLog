@@ -1,3 +1,11 @@
+2008-07-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-image-list.c: (gth_image_list_class_init)
+	* libgthumb/gthumb-marshal.list:
+	Fix assertions in gthumb_marshal_VOID__POINTER_POINTER by
+	actually using the correct marshaller for the given
+	parameter types. Patch by Geoffrey Antos <dynamotwain@aim.com>.
+
 2008-05-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* AUTHORS:
