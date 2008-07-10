@@ -1,5 +1,11 @@
 2008-07-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* data/glade/gthumb_camera.glade:
+	Add a tooltip to the delete-images checkbox, mentioning the
+	excellent PhotoRec image-recovery program.
+
+2008-07-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	Patch by Geoffrey Antos <dynamotwain@aim.com>:
 	
 	* src/gs-fade.c: removed

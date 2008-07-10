@@ -403,6 +403,7 @@
 		  <child>
 		    <widget class="GtkCheckButton" id="delete_checkbutton">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">If valuable photos have been deleted accidently, download the excellent PhotoRec tool from http://www.cgsecurity.org. PhotoRec can usually recover images that have been recently deleted from flash cards and other media.</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">_Delete imported images from the camera</property>
 		      <property name="use_underline">True</property>
