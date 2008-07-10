@@ -87,8 +87,6 @@ gthumb_SOURCES = 				\
 	dlg-scripts.h				\
 	dlg-write-to-cd.c			\
 	dlg-write-to-cd.h			\
-	gs-fade.c				\
-	gs-fade.h				\
 	gth-application.c			\
 	gth-application.h			\
 	gth-batch-op.c				\

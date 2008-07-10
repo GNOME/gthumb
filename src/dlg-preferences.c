@@ -101,7 +101,6 @@ typedef struct {
 	GtkWidget  *radio_ss_direction_random;
 	GtkWidget  *spin_ss_delay;
 	GtkWidget  *toggle_ss_wrap_around;
-	GtkWidget  *toggle_ss_fading;
 
 } DialogData;
 
@@ -140,7 +139,6 @@ apply_cb (GtkWidget  *widget,
 	/* Slideshow. */
 
 	eel_gconf_set_boolean (PREF_SLIDESHOW_WRAP_AROUND, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around)));
-	eel_gconf_set_boolean (PREF_SLIDESHOW_FADING, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fading)));
 
 	eel_gconf_set_float (PREF_SLIDESHOW_DELAY, gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->spin_ss_delay)));
 
@@ -435,7 +433,6 @@ dlg_preferences (GthBrowser *browser)
         data->radio_ss_direction_random = glade_xml_get_widget (data->gui, "radio_ss_direction_random");
         data->spin_ss_delay = glade_xml_get_widget (data->gui, "spin_ss_delay");
         data->toggle_ss_wrap_around = glade_xml_get_widget (data->gui, "toggle_ss_wrap_around");
-        data->toggle_ss_fading = glade_xml_get_widget (data->gui, "toggle_ss_fading");
 
 	btn_close  = glade_xml_get_widget (data->gui, "p_close_button");
 	btn_help   = glade_xml_get_widget (data->gui, "p_help_button");
@@ -524,7 +521,6 @@ dlg_preferences (GthBrowser *browser)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_ss_delay),
 				   eel_gconf_get_float (PREF_SLIDESHOW_DELAY, 4.0));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fading), eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE));
 
 	/* Set the signals handlers. */
 

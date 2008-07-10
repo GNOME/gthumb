@@ -1,3 +1,21 @@
+2008-07-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	Patch by Geoffrey Antos <dynamotwain@aim.com>:
+	
+	* src/gs-fade.c: removed
+	* src/gs-fade.h: removed
+
+	* src/Makefile.am:
+	* src/gth-fullscreen.c: (gth_fullscreen_finalize),
+	(slideshow_timeout_cb), (viewer_image_loaded_cb), (fade_faded_cb),
+	(gth_fullscreen_init):
+	Removed old slideshow fading code that doesn't support Xinerama.
+	
+	* src/gth-fullscreen.c: (load_current_image),
+	(real_load_current_image):
+	Removed gs-fade.c-specific load_current_image
+	Renamed real_load_current_image to load_current_image
+
 2008-07-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-image-list.c: (gth_image_list_class_init)

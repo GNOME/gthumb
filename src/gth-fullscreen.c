@@ -48,7 +48,6 @@
 #include "main.h"
 #include "preferences.h"
 #include "totem-scrsaver.h"
-#include "gs-fade.h"
 
 #include "icons/pixbufs.h"
 
@@ -88,8 +87,6 @@ struct _GthFullscreenPrivateData {
 	GtkWidget       *toolbar_window;
 
 	TotemScrsaver   *screensaver;
-	GSFade          *fade;
-	gboolean         use_fade;
 
 	/* comment */
 
@@ -135,10 +132,6 @@ gth_fullscreen_finalize (GObject *object)
 
 		g_object_unref (priv->screensaver);
 
-		if (priv->fading_activated)
-			gs_fade_reset (priv->fade);
-		g_object_unref (priv->fade);
-
 		file_data_unref (priv->file);
 		file_data_list_free (priv->file_list);
 		file_data_unref (priv->requested);
@@ -178,7 +171,6 @@ slideshow_timeout_cb (gpointer data)
 	}
 
 	if (!priv->slideshow_paused) {
-		priv->use_fade = TRUE;
 		load_next_image (fullscreen);
 	}
 
@@ -207,14 +199,6 @@ viewer_image_loaded_cb (ImageViewer   *iviewer,
 			GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
-
-	if (priv->fading_activated) {
-		if (priv->use_fade) {
-			gs_fade_in (priv->fade);
-			return;
-		}
-		gs_fade_reset (priv->fade);
-	}
 
 	if (priv->slideshow)
 		continue_slideshow (fullscreen);
@@ -250,29 +234,6 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
 
-
-static void real_load_current_image (GthFullscreen *fullscreen);
-
-
-static void
-fade_faded_cb (GSFade          *fade,
-	       GsFadeDirection  direction,
-	       GthFullscreen   *fullscreen)
-{
-	switch (direction) {
-	case GS_FADE_DIRECTION_OUT:
-		real_load_current_image (fullscreen);
-		break;
-
-	case GS_FADE_DIRECTION_IN:
-		if (fullscreen->priv->slideshow)
-			continue_slideshow (fullscreen);
-		fullscreen->priv->use_fade = FALSE;
-		break;
-	}
-}
-
-
 static void
 gth_fullscreen_init (GthFullscreen *fullscreen)
 {
@@ -294,12 +255,6 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 
 	priv->screensaver = totem_scrsaver_new ();
 
-	priv->fade = gs_fade_new ();
-	g_signal_connect (G_OBJECT (priv->fade),
-			  "faded",
-			  G_CALLBACK (fade_faded_cb),
-			  fullscreen);
-	priv->use_fade = FALSE;
 }
 
 
@@ -513,9 +468,8 @@ zoom_changed_cb (GtkWidget     *widget,
 	return TRUE;
 }
 
-
 static void
-real_load_current_image (GthFullscreen *fullscreen)
+load_current_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	gboolean from_pixbuf = TRUE;
@@ -547,23 +501,7 @@ real_load_current_image (GthFullscreen *fullscreen)
 
 	if (from_pixbuf)
 		image_loaded (fullscreen);
-}
 
-
-static void
-load_current_image (GthFullscreen *fullscreen)
-{
-	GthFullscreenPrivateData *priv = fullscreen->priv;
-
-	if (priv->fading_activated) {
-		if (priv->use_fade) {
-			gs_fade_out (fullscreen->priv->fade);
-			return;
-		}
-		gs_fade_reset (fullscreen->priv->fade);
-	}
-
-	real_load_current_image (fullscreen);
 }
 
 
