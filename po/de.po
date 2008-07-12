@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-08 20:28+0200\n"
+"POT-Creation-Date: 2008-07-12 15:29+0200\n"
 "PO-Revision-Date: 2008-07-08 06:46+0100\n"
 "Last-Translator: Jochen Skulj <jochen@jochenskulj.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -1524,7 +1524,7 @@ msgstr "<b>Position</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
 msgid "<b>Zoom</b>"
-msgstr "<b>Vergröern/Verkleinern</b>"
+msgstr "<b>Vergrößern/Verkleinern</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
 msgid ""
@@ -1898,7 +1898,7 @@ msgstr ""
 "Ankreuzfeld eingeschaltet ist, wird eine tatsächliche Drehung durchgeführt "
 "und die Exif-Ausrichtungsmarkierung auf den Vorgabewert »oben links« "
 "zurückgesetzt. Ist es nicht eingeschaltet, wird lediglich die Exif-"
-"Ausrichtungsmarkierrung geändert. Um maximale Kompatibilität mit anderen "
+"Ausrichtungsmarkierung geändert. Um maximale Kompatibilität mit anderen "
 "Applikationen zu gewährleisten, sollte dieses Ankreuzfeld eingeschaltet sein."
 
 #: ../data/glade/gthumb_tools.glade.h:87
@@ -2851,7 +2851,7 @@ msgstr "ZIP-Datei erstellen und als E-Mail verschicken"
 
 #: ../src/dlg-scripts.c:527 ../src/dlg-scripts.c:529
 msgid "Script Progress"
-msgstr "Fortschritt der Skriptes"
+msgstr "Fortschritt des Skriptes"
 
 #: ../src/dlg-scripts.c:608
 #, c-format
@@ -3634,7 +3634,7 @@ msgstr "_Manuelle Sortierung"
 
 #: ../src/gth-browser-actions-entries.h:486
 msgid "Sort images manually"
-msgstr "Bilder nach manuell sortieren"
+msgstr "Bilder manuell sortieren"
 
 #: ../src/gth-browser-actions-entries.h:493
 msgid "View As Sli_des"
@@ -3758,27 +3758,27 @@ msgstr "Dateisystem"
 
 #: ../src/gth-exif-data-viewer.c:43
 msgid "Exif General"
-msgstr "Exif Allgemein"
+msgstr "Exif-Allgemein"
 
 #: ../src/gth-exif-data-viewer.c:44
 msgid "Exif Conditions"
-msgstr "Exif Bedingungen"
+msgstr "Exif-Bedingungen"
 
 #: ../src/gth-exif-data-viewer.c:45
 msgid "Exif Structure"
-msgstr "Exif Struktur"
+msgstr "Exif-Struktur"
 
 #: ../src/gth-exif-data-viewer.c:46
 msgid "Exif Thumbnail"
-msgstr "Exif Vorschaubild"
+msgstr "Exif-Vorschaubild"
 
 #: ../src/gth-exif-data-viewer.c:47
 msgid "Exif GPS"
-msgstr "Exif GPS"
+msgstr "Exif-GPS"
 
 #: ../src/gth-exif-data-viewer.c:48
 msgid "Exif Maker Notes"
-msgstr "EXIF Anmerkungen des Erstellers"
+msgstr "Exif-Anmerkungen des Herstellers"
 
 #: ../src/gth-exif-data-viewer.c:49
 msgid "Exif Versions"
@@ -4368,7 +4368,7 @@ msgstr ""
 "akzeptabel ist, wenden Sie einfach die entgegengesetzte Umwandlung an, um "
 "zum ursprünglichen Bild zurückzugelangen.\n"
 "\n"
-"Sie können sich auch dafür eintscheiden, alle nicht umwandelbaren Pixel an "
+"Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
 "Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
 "führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
 "mehr strikt verlustfrei."
@@ -4380,7 +4380,7 @@ msgstr "_Trimmen"
 #: ../src/rotation-utils.c:169
 msgid "Could not create a local temporary copy of the remote file."
 msgstr ""
-"Es konnte keine lokale temporärer Kopie der entfernten Datei angelegt werden."
+"Es konnte keine lokale temporäre Kopie der entfernten Datei angelegt werden."
 
 #: ../src/rotation-utils.c:215
 msgid ""
