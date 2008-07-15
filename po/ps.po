@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Gnome - gthumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-04 03:18+0000\n"
-"PO-Revision-Date: 2008-07-08 07:16-0800\n"
+"PO-Revision-Date: 2008-07-15 07:49-0800\n"
 "Last-Translator: Zabeeh Khan <zabeehkhan@gmail.com>\n"
 "Language-Team: Pashto <pakhtosoft@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -323,7 +323,7 @@ msgstr ":درشل_"
 
 #: ../data/glade/gthumb_camera.glade.h:21
 msgid "_Rotate images physically"
-msgstr ""
+msgstr "انځورونه په فيزيکي توګه چورلول_"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -355,7 +355,7 @@ msgstr "اوسنۍ نېټه"
 
 #: ../data/glade/gthumb_comments.glade.h:7
 msgid "Date photo taken (from EXIF metadata)"
-msgstr ""
+msgstr "د انځور اخيستلو نېټه (له اېکسېو پېژن اومتوکه)"
 
 #: ../data/glade/gthumb_comments.glade.h:8
 msgid "Do not modify"
@@ -622,22 +622,22 @@ msgstr "څلورګوټی"
 #: ../data/glade/gthumb_redeye.glade.h:11
 #, no-c-format
 msgid "Zoom at 100% scale"
-msgstr ""
+msgstr "په ۱۰۰٪ مېچ لويول"
 
 #: ../data/glade/gthumb_crop.glade.h:23
 #: ../data/glade/gthumb_redeye.glade.h:12
 msgid "Zoom in. The mousewheel can also be used to zoom in."
-msgstr ""
+msgstr ".لوډېرول. د لوډېرولو لپاره د موږک ګېراړۍ هم کارولی شﺉ"
 
 #: ../data/glade/gthumb_crop.glade.h:24
 #: ../data/glade/gthumb_redeye.glade.h:13
 msgid "Zoom out. The mousewheel can also be used to zoom out."
-msgstr ""
+msgstr ".لوکمول. د لوکمولو لپاره د موږک ګېراړۍ هم کارولی شﺉ"
 
 #: ../data/glade/gthumb_crop.glade.h:25
 #: ../data/glade/gthumb_redeye.glade.h:14
 msgid "Zoom to fit"
-msgstr ""
+msgstr "لويول چې برابر شي"
 
 #: ../data/glade/gthumb_crop.glade.h:26
 #: ../data/glade/gthumb_redeye.glade.h:15
@@ -1164,7 +1164,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
-msgstr ""
+msgstr ":د ک_ېکاږل تګلار"
 
 #: ../data/glade/gthumb_preferences.glade.h:29
 msgid "Checked"
@@ -1180,7 +1180,7 @@ msgstr "څر_ګندون"
 
 #: ../data/glade/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
-msgstr ""
+msgstr ":د ا_نځور د بدلولو نه مخکې مهال"
 
 #: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
@@ -1192,7 +1192,7 @@ msgstr "پوښۍ _نه بدلول"
 
 #: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Fit to width if larger"
-msgstr ""
+msgstr "که چېرې لوی وي پلنوالي سره برابرول"
 
 #: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Fit to window"
@@ -1200,7 +1200,7 @@ msgstr "کړکۍ کې ځايول"
 
 #: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Fit to window if larger"
-msgstr ""
+msgstr "که چېرې لوی وي کړکۍ سره برابرول"
 
 #: ../data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
@@ -1208,7 +1208,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:39
 msgid "For_ward"
-msgstr ""
+msgstr "مخ_کې"
 
 #: ../data/glade/gthumb_preferences.glade.h:40
 msgid "General"
@@ -1216,7 +1216,7 @@ msgstr "ټولګړي"
 
 #: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgstr "وروستۍ _کتل شوې پوښۍ يا لړين ته ورتلل"
 
 #: ../data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
@@ -1232,11 +1232,11 @@ msgstr "يوازې انځورنونه"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Include audio clips and movies in browser view"
-msgstr ""
+msgstr "په لټوني ليد کې غږ ټوټې او فلمونه هم دننول"
 
 #: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Keep previous zoom"
-msgstr ""
+msgstr "مخکنی لويوالی ساتل"
 
 #: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Layout:"
@@ -1256,15 +1256,15 @@ msgstr "نس_کور"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Reset scrollbar positions after loading an image"
-msgstr ""
+msgstr "د انځور د لېښلو نه وروسته د رغښتپټې ځای بياټاکل"
 
 #: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Resta_rt when finished"
-msgstr ""
+msgstr "پر پاېدو بياپېلو_ل"
 
 #: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Set image to actual size"
-msgstr ""
+msgstr "انځور ار کچ ته ټاکل"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Set to C_urrent"
@@ -1284,7 +1284,7 @@ msgstr "د انځورنونو لاندې ليکنه"
 
 #: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text beside icons"
-msgstr ""
+msgstr "ليکنه د انځورنونو خوا کې"
 
 #: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Text only"
@@ -1296,7 +1296,7 @@ msgstr ":د بټ_ه نوکى کچ"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Transparency _type:"
-msgstr ""
+msgstr ":د روڼوالي _ډول"
 
 #: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Use a _fading effect when changing image"
@@ -1403,7 +1403,7 @@ msgstr "A۴"
 
 #: ../data/glade/gthumb_print.glade.h:25
 msgid "Automatic sizing"
-msgstr ""
+msgstr "خپلکارې کچونه"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
@@ -1419,7 +1419,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
-msgstr ""
+msgstr "څرګندون لرل"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
@@ -1431,7 +1431,7 @@ msgstr "اېنچه"
 
 #: ../data/glade/gthumb_print.glade.h:33
 msgid "Include filename"
-msgstr ""
+msgstr "دوتنه نوم لرل"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
@@ -1555,7 +1555,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
-msgstr ""
+msgstr "سره مساوی"
 
 #: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
@@ -1567,11 +1567,11 @@ msgstr ":موندل شوي انځورونه"
 
 #: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
-msgstr ""
+msgstr "ټ_ولۍ ټاکل شوې ټولۍ سارول"
 
 #: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
-msgstr ""
+msgstr "ه_ره ټاکل شوې ټولۍ سارول"
 
 #: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
@@ -1590,7 +1590,7 @@ msgstr "پلټون"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
-msgstr ""
+msgstr "پلټون پرمختګ"
 
 #: ../data/glade/gthumb_search.glade.h:21
 #: ../data/glade/gthumb_tools.glade.h:76
@@ -1604,7 +1604,7 @@ msgstr "پلټون سمول_"
 #: ../data/glade/gthumb_search.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:92
 msgid "_Include sub-folders"
-msgstr ""
+msgstr "څېرمه پوښۍ دننول_"
 
 #: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
@@ -1732,11 +1732,11 @@ msgstr "اوسنۍ _پوښۍ"
 
 #: ../data/glade/gthumb_tools.glade.h:50
 msgid "Date p_hoto taken (from EXIF metadata)"
-msgstr ""
+msgstr "د ا_نځور اخيستلو نېټه (له اېکسېو پېژن اومتوکه)"
 
 #: ../data/glade/gthumb_tools.glade.h:51
 msgid "Define External Scripts"
-msgstr ""
+msgstr "بهرني سکرېپټونه پېژندل"
 
 #: ../data/glade/gthumb_tools.glade.h:52
 msgid ""
@@ -1763,7 +1763,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:59
 msgid "Found duplicates:"
-msgstr ""
+msgstr ":موندل شوې لمېسې"
 
 #: ../data/glade/gthumb_tools.glade.h:60
 msgid "Image c_reation date"
@@ -1771,11 +1771,11 @@ msgstr "د انځور د ج_وړېدو نېټه"
 
 #: ../data/glade/gthumb_tools.glade.h:61
 msgid "Mirror image horizontally (left-right)"
-msgstr ""
+msgstr "انځور پروت هېندارول (کيڼ-ښي)"
 
 #: ../data/glade/gthumb_tools.glade.h:62
 msgid "Mirror image vertically (top-bottom)"
-msgstr ""
+msgstr "انځور نېغ هېندارول (پاس-لاندې)"
 
 #: ../data/glade/gthumb_tools.glade.h:63
 #: ../src/gth-browser-actions-entries.h:85
@@ -1787,7 +1787,7 @@ msgstr "خځلنۍ ته لېږل_"
 
 #: ../data/glade/gthumb_tools.glade.h:64
 msgid "New names _preview:"
-msgstr ""
+msgstr ":د نوي نومونو _مخليد"
 
 #: ../data/glade/gthumb_tools.glade.h:67
 msgid "Re_verse Order"
@@ -2008,7 +2008,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr ""
+msgstr "ار موخې ته لمېسل_"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
@@ -2040,7 +2040,7 @@ msgstr "ځای_"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:55
 msgid "_Resize if larger than:"
-msgstr ""
+msgstr ":بياکچول که لوي وي له_"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:56
 msgid "_Select"
@@ -2064,11 +2064,11 @@ msgstr "...د بټه نوکي نيونګه_"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:62
 msgid "columns, by"
-msgstr ""
+msgstr "ستنې، پر"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:63
 msgid "or _use a single index page"
-msgstr ""
+msgstr "يا _يوګړی لړيال مخ کارول"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "rows per page,"
@@ -2207,12 +2207,12 @@ msgstr ""
 #: ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr ""
+msgstr "%s :لړين نه شي پرانيستلی \"%s\""
 
 #: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr ""
+msgstr "%s :لړين نه شي ساتلی \"%s\""
 
 #: ../libgthumb/comments.c:1014
 #: ../src/catalog-web-exporter.c:152
@@ -2493,7 +2493,7 @@ msgstr ":انځورونه نه شي ړنګولی"
 
 #: ../src/dlg-file-utils.c:226
 msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
-msgstr ""
+msgstr "انځورونه خځلنۍ ته نه شي لېږل کېدی. د تل لپاره يې ړنګول غواړﺉ؟"
 
 #: ../src/dlg-file-utils.c:229
 #: ../src/gth-browser-actions-callbacks.c:1139
@@ -2835,7 +2835,7 @@ msgstr "پرمخبيول"
 
 #: ../src/gth-browser-actions-callbacks.c:332
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "ټاکل شوي انځورونه به خځلنۍ ته ولېږل شي، ډاډمن يﺉ؟"
 
 #: ../src/gth-browser-actions-callbacks.c:467
 #: ../src/gth-browser-actions-callbacks.c:977
@@ -2905,17 +2905,17 @@ msgstr "%s :پوښۍ نه شي ړنګولی \"%s\""
 #: ../src/gth-browser-actions-callbacks.c:1131
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
+msgstr "خځلنۍ ته نه شي لېږل کېدی. د تل لپاره يې ړنګول غواړﺉ؟ \"%s\""
 
 #: ../src/gth-browser-actions-callbacks.c:1175
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "ټاکل شوی انځور به خځلنۍ ته ولېږل شي، ډاډمن يﺉ؟"
 
 #: ../src/gth-browser-actions-callbacks.c:1228
 #: ../src/gth-browser-actions-callbacks.c:1286
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr ""
+msgstr "%s :پوښۍ نه شي لمېسلی \"%s\""
 
 #: ../src/gth-browser-actions-callbacks.c:1307
 msgid "source contains destination"
@@ -3256,7 +3256,7 @@ msgstr "...ټو_لۍ"
 
 #: ../src/gth-browser-actions-entries.h:246
 msgid "Assign categories to the selected folder"
-msgstr ""
+msgstr "ټاکل شوې پوښۍ ته ټولې ورکول"
 
 #: ../src/gth-browser-actions-entries.h:251
 msgid "Open current folder with the Nautilus file manager"
@@ -3280,7 +3280,7 @@ msgstr "اوسنۍ پوښۍ خوځول"
 
 #: ../src/gth-browser-actions-entries.h:276
 msgid "Assign categories to the current folder"
-msgstr ""
+msgstr "اوسنۍ پوښۍ ته ټولې ورکول"
 
 #: ../src/gth-browser-actions-entries.h:280
 msgid "_New Folder..."
@@ -3629,7 +3629,7 @@ msgstr ""
 #: ../src/gth-browser.c:1783
 #: ../src/gth-viewer.c:866
 msgid "The current image has been modified, do you want to save it?"
-msgstr ""
+msgstr "اوسني انځور کې بدلون راغلی دی، ساتل يې غواړﺉ؟"
 
 #: ../src/gth-browser.c:1784
 #: ../src/gth-viewer.c:867
@@ -3655,7 +3655,7 @@ msgstr ""
 #: ../src/gth-browser.c:6191
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr ""
+msgstr "%s :پوښۍ نه شي لېښلی \"%s\"\n"
 
 #: ../src/gth-browser.c:6708
 #: ../src/gth-filter-bar.c:537
@@ -3677,7 +3677,7 @@ msgstr "د انځور مخليد"
 
 #: ../src/gth-browser.c:7802
 msgid "The specified catalog does not exist."
-msgstr ""
+msgstr ".ورکړل شوی لړين شتون نه لري"
 
 #: ../src/gth-browser.c:8434
 #: ../src/gth-viewer.c:1962
@@ -3851,7 +3851,7 @@ msgstr "يوه کړکۍ_"
 
 #: ../src/gth-viewer-actions-entries.h:99
 msgid "Reuse this window to view other images"
-msgstr ""
+msgstr "د نورو انځورونو د ليدلو لپاره دا کړکۍ بيا کارول"
 
 #: ../src/gth-viewer.c:768
 msgid "_None"
@@ -3866,18 +3866,17 @@ msgstr "پرانيستل په_"
 #: ../src/gth-viewer.c:1312
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr ""
+msgstr "ټاکل شوي انځورونه په کوم کاريال پرانيستل"
 
 #: ../src/gth-window-actions-callbacks.c:935
 msgid "An image viewer and browser for GNOME."
-msgstr ""
+msgstr ".د جنومي لپاره يو انځور ليدانی او لټونی"
 
 #: ../src/gth-window-actions-callbacks.c:938
 msgid "translator_credits"
 msgstr ""
-"Zabeeh Khan\n"
-"<zabeehkhan@gmail.com>\n"
-"<pathanisation@googlegroups.com>"
+"Zabeeh Khan <zabeehkhan@gmail.com>\n"
+"The Pathanisation Project <pathanisation@googlegroups.com>"
 
 #: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
@@ -3889,7 +3888,7 @@ msgstr "پخپله"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
-msgstr ""
+msgstr "رنګونه کمول"
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
@@ -3945,7 +3944,7 @@ msgstr "د ټاکل شويو انځورونو نه څرګندونې ړنګول"
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
-msgstr ""
+msgstr "ټاکل شويو انځورونو ته ټولۍ ورکول"
 
 #: ../src/gth-window-actions-entries.h:100
 msgid "Ca_tegories"
@@ -3954,7 +3953,7 @@ msgstr "ټو_لۍ"
 #: ../src/gth-window-actions-entries.h:115
 #: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
-msgstr ""
+msgstr "ښي چورلول_"
 
 #: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
@@ -3963,7 +3962,7 @@ msgstr ""
 #: ../src/gth-window-actions-entries.h:120
 #: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
-msgstr ""
+msgstr "کيڼ چورلول_"
 
 #: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
@@ -3971,19 +3970,19 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
-msgstr ""
+msgstr "اړول_"
 
 #: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
-msgstr ""
+msgstr "انځور اړول شوی ليدل"
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr ""
+msgstr "هېنداره_"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
-msgstr ""
+msgstr "انځور هېنداره شوی ليدل"
 
 #: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
@@ -3991,7 +3990,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
-msgstr ""
+msgstr "انځور په تور او سپين کې ليدل"
 
 #: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
@@ -4003,11 +4002,11 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
-msgstr ""
+msgstr "پرمختلل_"
 
 #: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
-msgstr ""
+msgstr "د رنګ کچې په خپلکاره توګه برابرول"
 
 #: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
@@ -4053,11 +4052,11 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
-msgstr ""
+msgstr "...د رنګ برابروالی_"
 
 #: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
-msgstr ""
+msgstr "د رنګ برابروالی سمول"
 
 #: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
@@ -4081,7 +4080,7 @@ msgstr "تور او سپين"
 
 #: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
-msgstr ""
+msgstr "ګورت رنګدبلی"
 
 #: ../src/gth-window-actions-entries.h:200
 #: ../src/gth-window-actions-entries.h:307
@@ -4110,11 +4109,11 @@ msgstr "ار کچ"
 
 #: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
-msgstr ""
+msgstr "برابرول"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "لويول چې کړکۍ کې برابر شي"
 
 #: ../src/gth-window-actions-entries.h:220
 msgid "Width"
@@ -4122,7 +4121,7 @@ msgstr "پلنوالی"
 
 #: ../src/gth-window-actions-entries.h:221
 msgid "Zoom to fit width"
-msgstr ""
+msgstr "لويول چې پلنوالي کې برابر شي"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
@@ -4134,23 +4133,23 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
-msgstr ""
+msgstr "منځېدلی_"
 
 #: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr ""
+msgstr ")انځور لکه د سرپاڼې د دېوالپاڼې په توګه ټاکل (منځېدلی"
 
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
-msgstr ""
+msgstr "غوړېدلی_"
 
 #: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr ""
+msgstr ")انځور لکه د سرپاڼې د دېوالپاڼې په توګه ټاکل (غوړېدلی"
 
 #: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
-msgstr ""
+msgstr "مېچلی_"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
@@ -4158,11 +4157,11 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
-msgstr ""
+msgstr "غځ_ېدلی"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr ""
+msgstr ")انځور لکه د سرپاڼې د دېوالپاڼې په توګه ټاکل (غځېدلی"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
@@ -4170,7 +4169,7 @@ msgstr "بيازېرمل_"
 
 #: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
-msgstr ""
+msgstr "د سرپاڼې اره دېوالپاڼه بيازېرمل"
 
 #: ../src/gth-window-actions-entries.h:265
 msgid "Change _Date..."
@@ -4198,7 +4197,7 @@ msgstr "منځپانګې"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "کليدړې لنډلار_"
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
@@ -4214,19 +4213,19 @@ msgstr "په ټولې پردې اکر کې پېلول"
 
 #: ../src/main.c:94
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "په خپلکاري توګه سلالېښود پېلول"
 
 #: ../src/main.c:98
 msgid "Automatically import digital camera photos"
-msgstr ""
+msgstr "په خپلکاري توګه د ګڼيال کېمرې انځورونه دننول"
 
 #: ../src/main.c:102
 msgid "Use the viewer mode to view single images"
-msgstr ""
+msgstr "د يوګړو انځورونو د ليدلو لپاره ليدانی اکر کارول"
 
 #: ../src/main.c:147
 msgid "Holidays"
-msgstr ""
+msgstr "چهوټي"
 
 #: ../src/main.c:148
 msgid "Temporary"
@@ -4258,7 +4257,7 @@ msgstr "لوبې"
 
 #: ../src/main.c:155
 msgid "Party"
-msgstr ""
+msgstr "مېلمستيا"
 
 #: ../src/main.c:156
 msgid "Birthday"
@@ -4266,7 +4265,7 @@ msgstr "کليزه"
 
 #: ../src/main.c:157
 msgid "Astronomy"
-msgstr ""
+msgstr "ستورپوهنه"
 
 #: ../src/main.c:158
 msgid "Family"
