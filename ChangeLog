@@ -1,3 +1,10 @@
+2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/dlg-photo-importer.c:
+	Added an #include needed for libgphoto2 2.4.2.
+	Patch by Marcus Meissner <meissner@suse.de>. Bug #543584.
+
 2008-04-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/catalog-png-exporter.c: (comp_func_exif_date),
