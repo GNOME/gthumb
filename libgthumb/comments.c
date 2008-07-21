@@ -292,6 +292,8 @@ comment_delete (const char *uri)
 	comment_uri = comments_get_comment_filename (uri, TRUE);
 	file_unlink (comment_uri);
 	g_free (comment_uri);
+
+	/* TODO: delete comment metadata fields */
 }
 
 
@@ -580,13 +582,13 @@ save_comment (const char  *uri,
 	if ((uri == NULL) || ! is_local_file (uri))
 		return;
 
-	if (save_embedded)
-		save_comment_to_metadata (uri, data);
-
 	if (comment_data_is_void (data)) {
 		comment_delete (uri);
 		return;
 	}
+
+	if (save_embedded)
+		save_comment_to_metadata (uri, data);
 
 	/* Convert data to strings. */
 
