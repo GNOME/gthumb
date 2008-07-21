@@ -793,16 +793,16 @@ save_comment (const char  *uri,
 	if ((uri == NULL) || ! is_local_file (uri))
 		return;
 
+	if (comment_data_is_void (data)) {
+		comment_delete (uri);
+		return;
+	}
+
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (uri))
 			save_comment_iptc (uri, data);
 #endif /* HAVE_LIBIPTCDATA */
-	}
-
-	if (comment_data_is_void (data)) {
-		comment_delete (uri);
-		return;
 	}
 
 	/* Convert data to strings. */

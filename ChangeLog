@@ -1,6 +1,13 @@
 2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
+	* libgthumb/comments.c: (save_comment):
+	Fixed segfault when using edit->remove comment on image
+	with no comments. Bug #543771.
+
+2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
 	* src/dlg-photo-importer.c:
 	Added an #include needed for libgphoto2 2.4.2.
 	Patch by Marcus Meissner <meissner@suse.de>. Bug #543584.
