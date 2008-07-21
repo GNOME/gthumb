@@ -1,5 +1,14 @@
 2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* NEWS:
+	* src/catalog-web-exporter.c: (_write_line), (_write_locale_line),
+	(write_line), (write_markup_escape_line),
+	(write_markup_escape_locale_line):
+	Fixed bug #543993: web export of camera data prints warnings 
+	about _g_escape_text_for_html. Patch by Patch by Christophe Bisière. 
+
+2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/comments.c: (comment_delete), (save_comment):
 	Partial fix for segfault when using edit->remove comment on
 	image with no comment. The segfault is fixed, but the comment

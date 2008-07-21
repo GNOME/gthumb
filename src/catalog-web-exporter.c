@@ -1006,12 +1006,30 @@ line_is_void (const char *line)
 
 
 static void
+_write_line (const char *line, FILE *fout)
+{
+	fwrite (line, sizeof (char), strlen (line), fout);
+}
+
+
+static void
+_write_locale_line (const char *line, FILE *fout)
+{
+	char *utf8_line;
+
+	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, 0);
+	_write_line (utf8_line, fout);
+	g_free (utf8_line);
+}
+
+
+static void
 write_line (const char *line, FILE *fout)
 {
 	if (line_is_void (line))
 		return;
 
-	fwrite (line, sizeof (char), strlen (line), fout);
+	_write_line (line, fout);
 }
 
 
@@ -1020,25 +1038,12 @@ write_markup_escape_line (const char *line, FILE *fout)
 {
 	char *e_line;
 
+	if (line_is_void (line))
+		return;
+	
 	e_line = _g_escape_text_for_html (line, -1);
-	write_line (e_line, fout);
+	_write_line (e_line, fout);
 	g_free (e_line);
-}
-
-
-static void
-write_locale_line (const char *line, FILE *fout)
-{
-	char *utf8_line;
-
-	if (line == NULL)
-		return;
-	if (*line == 0)
-		return;
-
-	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, 0);
-	write_line (utf8_line, fout);
-	g_free (utf8_line);
 }
 
 
@@ -1047,8 +1052,13 @@ write_markup_escape_locale_line (const char *line, FILE *fout)
 {
 	char *e_line;
 
+	if (line == NULL)
+		return;
+	if (*line == 0)
+		return;
+	
 	e_line = _g_escape_text_for_html (line, -1);
-	write_locale_line (e_line, fout);
+	_write_locale_line (e_line, fout);
 	g_free (e_line);
 }
 

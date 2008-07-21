@@ -46,6 +46,8 @@ trunk, since last 2.10.x
 	  acceleration. Bug #472491.
 	* Fixed bug #327245: Full screen mode crippled if Xinerama is used
 	* Added support for importing ASF files (bug #471496)
+	* Fixed bug #543993: web export of camera data prints warnings 
+	  about _g_escape_text_for_html
 
 	Other features:
 	* Added basic XMP metadata support (read only)
