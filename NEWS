@@ -69,6 +69,7 @@ version 2.10.9
 	* Fixed bug #477285 - Hitting enter in Open Location Dialog while 
 	  text entry is focused does nothing
 	* Fixed bug #512374 - array accessed past end.
+	* Fixed bug #543584 - fix build with libgphoto2 2.4.2
 
 version 2.10.8
 --------------

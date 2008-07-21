@@ -25,6 +25,7 @@
 
 #ifdef HAVE_LIBGPHOTO
 
+#include <unistd.h>
 #include <string.h>
 #include <strings.h>
 #include <time.h>
