@@ -791,6 +791,36 @@ _gtk_label_get_filename_text (GtkLabel   *label)
 }
 
 
+void
+_gtk_button_set_filename_label (GtkButton   *button,
+			      const char *text)
+{
+	char *utf8_text;
+
+	if (text == NULL)
+		text = "";
+	utf8_text = get_utf8_display_name_from_uri (text);
+	gtk_button_set_label (button, utf8_text);
+	g_free (utf8_text);
+}
+
+
+char *
+_gtk_button_get_filename_label (GtkButton   *button)
+{
+	const char *utf8_text;
+	char       *text;
+
+	utf8_text = gtk_button_get_label (button);
+	if (utf8_text == NULL)
+		return NULL;
+
+	text = gnome_vfs_escape_string (utf8_text);
+
+	return text;
+}
+
+
 gboolean
 exec_command (const char *application,
 	      GList      *file_list)

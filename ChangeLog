@@ -1,3 +1,20 @@
+2008-07-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/gthumb.schemas.in: The default web album theme did not
+	exist any longer (Clean). Set it to an existing theme (Wiki).
+
+	* data/glade/gthumb_web_exporter.glade:
+	* libgthumb/gtk-utils.c: (_gtk_button_set_filename_label),
+	(_gtk_button_get_filename_label):
+	* libgthumb/gtk-utils.h:
+	* src/dlg-web-exporter.c: (export), (get_default_theme),
+	(dlg_web_exporter), (theme_dialog__ok_clicked), (load_themes):
+	Made the UI for selecting a web album theme more obvious.
+	Patch by Christophe Bisiere, bug #501570.
+
+	Also, fall back to the default theme when the theme stored in
+	gconf does not actually exist.
+
 2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

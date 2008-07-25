@@ -95,7 +95,6 @@ typedef struct {
 
 	GtkWidget          *wa_header_entry;
 	GtkWidget          *wa_footer_entry;
-	GtkWidget          *wa_theme_combo_entry;
 	GtkWidget          *wa_theme_combo;
 	GtkWidget          *wa_select_theme_button;
 
@@ -171,7 +170,7 @@ export (GtkWidget  *widget,
 	footer = gtk_entry_get_text (GTK_ENTRY (data->wa_footer_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_FOOTER, footer);
 
-	theme = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_theme_combo_entry));
+	theme = _gtk_button_get_filename_label (GTK_BUTTON (data->wa_select_theme_button));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
 
 	if (strcmp (theme, "") == 0) {
@@ -350,27 +349,39 @@ static char *
 get_default_theme (void)
 {
 	char     *current_theme;
-	char     *theme_dir;
+	char     *local_theme_dir;
+	char     *system_theme_dir;
 	gboolean  found = FALSE;
 
 	current_theme = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, DEFAULT_ALBUM_THEME);
 
-	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
-				  g_get_home_dir (),
-				  ".gnome2",
-				  "gthumb/albumthemes",
-				  NULL);
-	found = theme_present (current_theme, theme_dir);
+	local_theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+					g_get_home_dir (),
+					".gnome2",
+					"gthumb/albumthemes",
+					NULL);
+	found = theme_present (current_theme, local_theme_dir);
+
 	if (!found) {
-		g_free (theme_dir);
-		theme_dir = g_build_path (G_DIR_SEPARATOR_S,
-					  GTHUMB_DATADIR,
-					  "gthumb/albumthemes",
-					  NULL);
-		found = theme_present (current_theme, theme_dir);
+		system_theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+						 GTHUMB_DATADIR,
+						 "gthumb/albumthemes",
+						 NULL);
+		found = theme_present (current_theme, system_theme_dir);
 	}
 
-	g_free (theme_dir);
+        if (!found) {
+		g_free (current_theme);
+		current_theme = g_strdup (DEFAULT_ALBUM_THEME);
+                found = theme_present (current_theme, local_theme_dir);
+        }
+
+        if (!found) {
+                found = theme_present (current_theme, system_theme_dir);
+        }
+	
+	g_free (local_theme_dir);
+	g_free (system_theme_dir);
 
 	if (! found) {
 		g_free (current_theme);
@@ -439,7 +450,6 @@ dlg_web_exporter (GthBrowser *browser)
 
 	data->wa_header_entry = glade_xml_get_widget (data->gui, "wa_header_entry");
 	data->wa_footer_entry = glade_xml_get_widget (data->gui, "wa_footer_entry");
-	data->wa_theme_combo_entry = glade_xml_get_widget (data->gui, "wa_theme_combo_entry");
 	data->wa_select_theme_button = glade_xml_get_widget (data->gui, "wa_select_theme_button");
 
 	/**/
@@ -508,8 +518,8 @@ dlg_web_exporter (GthBrowser *browser)
 	gtk_entry_set_text (GTK_ENTRY (data->wa_footer_entry), svalue);
 	g_free (svalue);
 
-	svalue =get_default_theme();
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_theme_combo_entry), svalue);
+	svalue = get_default_theme();
+	_gtk_button_set_filename_label (GTK_BUTTON (data->wa_select_theme_button), svalue);
 	g_free (svalue);
 
 	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION, 0));
@@ -650,7 +660,7 @@ theme_dialog__ok_clicked (GtkWidget       *widget,
 				    &iter,
 				    THEME_NAME_COLUMN, &utf8_name,
 				    -1);
-		gtk_entry_set_text (GTK_ENTRY (tdata->data->wa_theme_combo_entry), utf8_name);
+		gtk_button_set_label (GTK_BUTTON (tdata->data->wa_select_theme_button), utf8_name);
 		g_free (utf8_name);
 	}
 
@@ -731,7 +741,7 @@ load_themes (ThemeDialogData *tdata)
 
 	model = GTK_TREE_MODEL (tdata->list_store);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview));
-	theme_name = gtk_entry_get_text (GTK_ENTRY (tdata->data->wa_theme_combo_entry));
+	theme_name = gtk_button_get_label (GTK_BUTTON (tdata->data->wa_select_theme_button));
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return;
 

@@ -100,6 +100,11 @@ void        _gtk_label_set_filename_text (GtkLabel   *label,
 
 char *      _gtk_label_get_filename_text (GtkLabel   *label);
 
+void        _gtk_button_set_filename_label (GtkButton   *button,
+					  const char *text);
+
+char *      _gtk_button_get_filename_label (GtkButton   *button);
+
 gboolean    exec_command                 (const char *application,
 					  GList      *file_list);
 

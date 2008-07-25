@@ -1786,7 +1786,7 @@
 	<applyto>/apps/gthumb/dialogs/web_album/theme</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>Clean</default>
+	<default>Wiki</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
