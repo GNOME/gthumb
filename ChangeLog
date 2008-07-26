@@ -1,3 +1,8 @@
+2008-07-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-web-exporter.c: (get_default_theme): Minor code tidy-up,
+	to avoid an uninitialized variable.
+
 2008-07-25  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/gthumb.schemas.in: The default web album theme did not

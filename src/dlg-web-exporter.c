@@ -360,13 +360,14 @@ get_default_theme (void)
 					".gnome2",
 					"gthumb/albumthemes",
 					NULL);
+	system_theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+					 GTHUMB_DATADIR,
+					 "gthumb/albumthemes",
+					 NULL);
+
 	found = theme_present (current_theme, local_theme_dir);
 
 	if (!found) {
-		system_theme_dir = g_build_path (G_DIR_SEPARATOR_S,
-						 GTHUMB_DATADIR,
-						 "gthumb/albumthemes",
-						 NULL);
 		found = theme_present (current_theme, system_theme_dir);
 	}
 
