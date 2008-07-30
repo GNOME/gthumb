@@ -300,7 +300,7 @@ apply_transformation__step2 (const char     *uri,
 	image_orientation = get_orientation_from_fd (file);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
-		if (image_orientation && ! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) 
+		if (! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) 
 			/* Adjust Exif orientation tag. */
 			write_orientation_field (local_file, required_transform);
 		else { 

@@ -1,3 +1,10 @@
+2008-07-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-jpegtran.c: (apply_transformation__step2):
+	If a no-physical-transformation rotation is requested, and the
+	original jpeg has no exif orientation tag, then add the tag instead
+	of doing a physical transform. Fixes bug #432756.
+
 2008-07-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/dlg-web-exporter.c: (get_default_theme): Minor code tidy-up,
