@@ -86,11 +86,6 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
-	{ "Edit_DeleteComment", NULL,
-	  N_("Rem_ove Comment"), NULL,
-	  N_("Remove comments of selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_delete_comment) },
-
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
 	  N_("Ca_tegories..."), "",
 	  N_("Assign categories to selected images"),

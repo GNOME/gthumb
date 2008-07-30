@@ -53,7 +53,6 @@ static const gchar *viewer_window_ui_info =
 "      <separator name='sep01'/>"
 "      <menuitem action='Edit_EditComment'/>"
 "      <menuitem action='Edit_EditCategories'/>"
-"      <menuitem action='Edit_DeleteComment'/>"
 "      <separator/>"
 "      <menuitem action='Edit_AddToCatalog'/>"
 "    </menu>"

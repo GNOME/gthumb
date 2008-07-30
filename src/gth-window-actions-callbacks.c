@@ -273,30 +273,6 @@ gth_window_activate_action_edit_edit_comment (GtkAction *action,
 
 
 void
-gth_window_activate_action_edit_delete_comment (GtkAction *action,
-						GthWindow *window)
-{
-	GList *list, *scan;
-
-	list = gth_window_get_file_list_selection (window);
-	for (scan = list; scan; scan = scan->next) {
-		char        *filename = scan->data;
-		CommentData *cdata;
-
-		cdata = comments_load_comment (filename, TRUE);
-		comment_data_free_comment (cdata);
-		comments_save_comment (filename, cdata);
-		comment_data_free (cdata);
-
-		all_windows_notify_update_metadata (filename);
-	}
-	path_list_free (list);
-
-	gth_window_update_current_image_metadata (window);
-}
-
-
-void
 gth_window_activate_action_edit_edit_categories (GtkAction *action,
 						 GthWindow *window)
 {

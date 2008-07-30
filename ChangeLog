@@ -1,5 +1,19 @@
 2008-07-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_update_sensitivity):
+	* src/gth-viewer-ui.h:
+	* src/gth-window-actions-callbacks.c:
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	Removed the "Delete Comment" function, because the comments are
+	now linked to the embedded image metadata. Deleting the comments
+	would mean deleting quite a few metadata fields, which is
+	probably too invasive. Use the "Edit Comment" function instead.
+	Might need to revisit this issue.
+
+2008-07-30  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-jpegtran.c: (apply_transformation__step2):
 	If a no-physical-transformation rotation is requested, and the
 	original jpeg has no exif orientation tag, then add the tag instead
