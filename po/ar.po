@@ -1,28 +1,24 @@
-# translation of gthumb.HEAD.ar.po to Arabic
-# Automatically generated, 2007.
-# Djihed Afifi <djihed@gmail.com>, 2007, 2008.
-# OsamaKhalid <OsamaK.WFM@gmail.com>, 2008.
 # Arabic translations for THIS package.
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as THIS package.
+# Automatically generated, 2007.
+# Djihed Afifi <djihed@gmail.com>, 2007
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.HEAD.ar\n"
+"Project-Id-Version: Arabic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-29 02:16+0100\n"
-"PO-Revision-Date: 2008-07-25 21:38+0300\n"
-"Last-Translator: OsamaKhalid <OsamaK.WFM@gmail.com>\n"
-"Language-Team: Arabic <en@li.org>\n"
+"POT-Creation-Date: 2008-07-31 11:07+0100\n"
+"PO-Revision-Date: 2007-04-14 18:49+0100\n"
+"Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
+"Language-Team: Arabeyes <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:290
 #: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
-msgstr "السابق"
+msgstr "سابقا"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:285
 #: ../src/gth-fullscreen-actions-entries.h:42
@@ -34,48 +30,58 @@ msgid "Index"
 msgstr "فهرس"
 
 #: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:262
+#, fuzzy
 msgid "Image"
-msgstr "صورة"
+msgstr "صور"
 
 #: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:347
+#, fuzzy
 msgid "Dimensions"
-msgstr "الأبعاد"
+msgstr "الأبعاد:"
 
 #: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:613
 msgid "Bytes"
 msgstr "بايتات"
 
 #: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#, fuzzy
 msgid "Date"
-msgstr "تاريخ"
+msgstr "التّاريخ:"
 
 #: ../data/albumthemes/text.h:34
+#, fuzzy
 msgid "Exposure time"
 msgstr "زمن التعرض"
 
 #: ../data/albumthemes/text.h:35
+#, fuzzy
 msgid "Exposure mode"
 msgstr "نمط التعرض"
 
 #: ../data/albumthemes/text.h:36
+#, fuzzy
 msgid "Flash"
-msgstr "بريق"
+msgstr "شارات:"
 
 #: ../data/albumthemes/text.h:37
+#, fuzzy
 msgid "Shutter speed"
-msgstr "سرعة التصوير"
+msgstr "سرعة المصراع"
 
 #: ../data/albumthemes/text.h:38
+#, fuzzy
 msgid "Aperture value"
 msgstr "قيمة الفتحة"
 
 #: ../data/albumthemes/text.h:39
+#, fuzzy
 msgid "Focal length"
 msgstr "الطول البؤري"
 
 #: ../data/albumthemes/text.h:40
+#, fuzzy
 msgid "Camera model"
-msgstr "طراز الكاميرا"
+msgstr "موديل الكاميرا"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
@@ -91,24 +97,28 @@ msgid "    "
 msgstr "    "
 
 #: ../data/glade/gthumb.glade.h:2
+#, fuzzy
 msgid "<b>Categories:</b>"
-msgstr "<b>تصنيفات:</b>"
+msgstr "<b>منشيء الملف:</b>"
 
 #: ../data/glade/gthumb.glade.h:3
+#, fuzzy
 msgid "<b>Information on Channel:</b>"
-msgstr "<b>المعلومات على القناة:</b>"
+msgstr "<b>معلومات</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>كتابة الصورة الجديدة على الصورة القديمة؟</b>"
+msgstr ""
 
 #: ../data/glade/gthumb.glade.h:5
+#, fuzzy
 msgid "A_vailable applications:"
-msgstr "تطبيقات _متوفر:"
+msgstr "التطبيق الم_توفر:"
 
 #: ../data/glade/gthumb.glade.h:6
+#, fuzzy
 msgid "Alpha"
-msgstr "ألفا"
+msgstr "ألفا:"
 
 #: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
@@ -119,52 +129,63 @@ msgid "Bookmarks"
 msgstr "علامات المواقع"
 
 #: ../data/glade/gthumb.glade.h:9
+#, fuzzy
 msgid "C_atalogs:"
-msgstr "كاتلوجات_:"
+msgstr "فهرس"
 
 #: ../data/glade/gthumb.glade.h:10
+#, fuzzy
 msgid "Choose a Catalog"
-msgstr "اختر كتلوج"
+msgstr "اختر إجراءً:"
 
 #: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
+#, fuzzy
 msgid "Comm_ent"
-msgstr "ال_تعليق"
+msgstr "ال_تعليق:"
 
 #: ../data/glade/gthumb.glade.h:12
+#, fuzzy
 msgid "Do not overwrite _the old image"
-msgstr "لا تكتب على ال_صورة القديمة"
+msgstr "هل تريد تنميق الملف \"%s\"؟"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "أخضر"
 
 #: ../data/glade/gthumb.glade.h:14
+#, fuzzy
 msgid "New Image:"
-msgstr "صورة جديدة:"
+msgstr "لا صورة"
 
 #: ../data/glade/gthumb.glade.h:15
+#, fuzzy
 msgid "New _Library"
-msgstr "م_كتبة جديدة"
+msgstr "مكتبة"
 
 #: ../data/glade/gthumb.glade.h:16
+#, fuzzy
 msgid "Old Image:"
-msgstr "صورة قديمة:"
+msgstr "الصورة:"
 
 #: ../data/glade/gthumb.glade.h:17
+#, fuzzy
 msgid "Open Images"
-msgstr "فتح صور"
+msgstr "فتح صورة"
 
 #: ../data/glade/gthumb.glade.h:18
+#, fuzzy
 msgid "Over_write the old image"
-msgstr "كتابة _على الصورة القديمة"
+msgstr "نسق التنميق"
 
 #: ../data/glade/gthumb.glade.h:19
+#, fuzzy
 msgid "Overwrite Image"
-msgstr "كتابة على الصورة"
+msgstr "نسق التنميق"
 
 #: ../data/glade/gthumb.glade.h:20
+#, fuzzy
 msgid "Overwrite _all images"
-msgstr "كتابة على كل الصور"
+msgstr "نسق التنميق"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "R_ecent applications:"
@@ -175,8 +196,9 @@ msgid "Red"
 msgstr "أحمر"
 
 #: ../data/glade/gthumb.glade.h:23
+#, fuzzy
 msgid "Value"
-msgstr "القيمة"
+msgstr "القيمة:"
 
 #: ../data/glade/gthumb.glade.h:24
 msgid "_Application:"
@@ -187,40 +209,47 @@ msgid "_Bookmarks:"
 msgstr "_علامات المواقع:"
 
 #: ../data/glade/gthumb.glade.h:26
+#, fuzzy
 msgid "_Do not overwrite any image"
-msgstr "_لا تكتب على أي صورة"
+msgstr "تأكيد الكتابة الفوقية"
 
 #: ../data/glade/gthumb.glade.h:27
 msgid "_General"
 msgstr "_عامّ"
 
 #: ../data/glade/gthumb.glade.h:28
+#, fuzzy
 msgid "_Histogram"
-msgstr "ال_رسم البياني"
+msgstr "الرسم البياني"
 
 #: ../data/glade/gthumb.glade.h:29
 msgid "_Metadata"
-msgstr "_بيانات عامة"
+msgstr ""
 
 #: ../data/glade/gthumb.glade.h:30
+#, fuzzy
 msgid "_New Catalog"
-msgstr "كتلوج _جديد"
+msgstr "فهرس"
 
 #: ../data/glade/gthumb.glade.h:31
+#, fuzzy
 msgid "_Next"
-msgstr "ال_تالي"
+msgstr "التالي"
 
 #: ../data/glade/gthumb.glade.h:32
+#, fuzzy
 msgid "_Previous"
-msgstr "ال_سابق"
+msgstr "سابقا"
 
 #: ../data/glade/gthumb.glade.h:33
+#, fuzzy
 msgid "_Save the new image as:"
-msgstr "ا_حفظ الصورة الجديدة ك:"
+msgstr "إنشاء صورة جديدة"
 
 #: ../data/glade/gthumb.glade.h:34
+#, fuzzy
 msgid "_View the destination"
-msgstr "أظهر  المقصد"
+msgstr "اختر مَقْصِد"
 
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
@@ -229,15 +258,17 @@ msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
 msgid "<small>Click \"Help\" for format code information.</small>"
-msgstr "<small>انقر \"مساعدة\" لمعلومات تشفير التنسيق.</small>"
+msgstr ""
 
 #: ../data/glade/gthumb_camera.glade.h:3
+#, fuzzy
 msgid "C_hoose from the catalog"
-msgstr "ا_ختر من الكتلوج"
+msgstr "أغلق الحوار"
 
 #: ../data/glade/gthumb_camera.glade.h:4 ../data/glade/gthumb_search.glade.h:8
+#, fuzzy
 msgid "Ca_tegories:"
-msgstr "ال_فئات:"
+msgstr "الفئات:"
 
 #: ../data/glade/gthumb_camera.glade.h:5
 msgid "Camera Model"
@@ -252,12 +283,14 @@ msgid "Choose destination folder"
 msgstr "انتقي المجلّد الهدف"
 
 #: ../data/glade/gthumb_camera.glade.h:7
+#, fuzzy
 msgid "Custom subfolder:"
-msgstr "مجلد فرعي مخصص:"
+msgstr "اذهب ل_مجلد الخط"
 
 #: ../data/glade/gthumb_camera.glade.h:8
+#, fuzzy
 msgid "Delete selected images from the camera"
-msgstr "احذف الصور المنتقاة من الكاميرا"
+msgstr "احذف العنصر المحدد من شريط الأدوات"
 
 #: ../data/glade/gthumb_camera.glade.h:9
 msgid ""
@@ -278,64 +311,76 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_camera.glade.h:11
+#, fuzzy
 msgid "Import Photos"
-msgstr "استيراد صور"
+msgstr "استورد ال_صور"
 
 #: ../data/glade/gthumb_camera.glade.h:12 ../src/dlg-photo-importer.c:931
 #: ../src/dlg-photo-importer.c:970 ../src/dlg-photo-importer.c:1688
 #: ../src/dlg-photo-importer.c:2486
+#, fuzzy
 msgid "No camera detected"
-msgstr "لا كاميرا مكتشفة"
+msgstr "لم يُعثر على أية أقراص"
 
 #: ../data/glade/gthumb_camera.glade.h:13
+#, fuzzy
 msgid "Select a camera model"
-msgstr "انتقاء طراز الكاميرا"
+msgstr "اختر منطقة زمنيّة"
 
 #: ../data/glade/gthumb_camera.glade.h:14
+#, fuzzy
 msgid "Update previews"
-msgstr "تحديث المعاينات"
+msgstr "معاينة عن اللعبة"
 
 #: ../data/glade/gthumb_camera.glade.h:15
+#, fuzzy
 msgid "_Delete imported images from the camera"
-msgstr "_حذف الصور المستوردة من الكاميرا"
+msgstr "لا تحمل صورأ من إنترنت أبداً"
 
 #: ../data/glade/gthumb_camera.glade.h:16
+#, fuzzy
 msgid "_Destination folder:"
-msgstr "المجلد الم_قصود:"
+msgstr "المقصد:"
 
 #: ../data/glade/gthumb_camera.glade.h:17
+#, fuzzy
 msgid "_Group into subfolders:"
-msgstr "_تجميع في مجلدات فرعية:"
+msgstr "اذهب ل_مجلد الخط"
 
 #: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Import"
 msgstr "استيراد"
 
 #: ../data/glade/gthumb_camera.glade.h:19
+#, fuzzy
 msgid "_Keep original filenames"
-msgstr "إ_بقاء أسماء الملفات الأصلية"
+msgstr "استقبال اسماء الملفات "
 
 #: ../data/glade/gthumb_camera.glade.h:20
+#, fuzzy
 msgid "_Model:"
-msgstr "ال_طراز:"
+msgstr "ال_طرُز:"
 
 #: ../data/glade/gthumb_camera.glade.h:21
+#, fuzzy
 msgid "_Port:"
-msgstr "ال_منفد:"
+msgstr "منفد:"
 
 #: ../data/glade/gthumb_camera.glade.h:22
+#, fuzzy
 msgid "_Rotate images physically"
-msgstr "ت_دوير الصور بشكل ملموس"
+msgstr "تدوير الصورة"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
+#, fuzzy
 msgid "A_vailable categories:"
-msgstr "التصنيفات المتو_فرة:"
+msgstr "الاستراتيجيات المتوفرة"
 
 #: ../data/glade/gthumb_comments.glade.h:2
 #: ../data/glade/gthumb_search.glade.h:9
 msgid "Categories"
-msgstr "التصنيفات"
+msgstr "الفئات"
 
 #: ../data/glade/gthumb_comments.glade.h:3
 #: ../data/glade/gthumb_search.glade.h:11
@@ -343,48 +388,58 @@ msgid "Co_mment:"
 msgstr "ال_تعليق:"
 
 #: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#, fuzzy
 msgid "Comment"
-msgstr "تعليق"
+msgstr "ال_تعليق:"
 
 #: ../data/glade/gthumb_comments.glade.h:5
+#, fuzzy
 msgid "Create a new category"
-msgstr "إنشاء فئة جديدة"
+msgstr "انشيء مفتاح جديد"
 
 #: ../data/glade/gthumb_comments.glade.h:6
+#, fuzzy
 msgid "Current date"
-msgstr "التاريخ الحالي"
+msgstr "الصفحة الحالية"
 
 #: ../data/glade/gthumb_comments.glade.h:7
 msgid "Date photo taken (from EXIF metadata)"
 msgstr ""
 
 #: ../data/glade/gthumb_comments.glade.h:8
+#, fuzzy
 msgid "Do not modify"
-msgstr "لا تعدل"
+msgstr "لا تضعه كخادم"
 
 #: ../data/glade/gthumb_comments.glade.h:9
+#, fuzzy
 msgid "Image creation date"
-msgstr "تاريخ إنشاء الصورة"
+msgstr "نمط الصور المتحركة"
 
 #: ../data/glade/gthumb_comments.glade.h:10
+#, fuzzy
 msgid "Last modified date"
-msgstr "تاريخ آخر تعديل"
+msgstr "تاريخ التعديل"
 
 #: ../data/glade/gthumb_comments.glade.h:11
+#, fuzzy
 msgid "No date"
-msgstr "لا تاريخ"
+msgstr "بلا بيانات"
 
 #: ../data/glade/gthumb_comments.glade.h:12
+#, fuzzy
 msgid "Remove selected category"
-msgstr "إزالة الفئة المنتقاة"
+msgstr "حذف الاختيار"
 
 #: ../data/glade/gthumb_comments.glade.h:13
+#, fuzzy
 msgid "Save only cha_nged fields"
-msgstr "حفظ الحقول الم_غيرة فقط"
+msgstr "احفظ التغييرات اليدوية"
 
 #: ../data/glade/gthumb_comments.glade.h:14
+#, fuzzy
 msgid "The following date"
-msgstr "التاريخ التالي"
+msgstr "الآتي:"
 
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
@@ -393,72 +448,85 @@ msgstr "ال_تّاريخ:"
 
 #: ../data/glade/gthumb_comments.glade.h:16
 #: ../data/glade/gthumb_search.glade.h:26
+#, fuzzy
 msgid "_Place:"
-msgstr "ال_مكان:"
+msgstr "أماكن"
 
 #: ../data/glade/gthumb_comments.glade.h:17
 #: ../data/glade/gthumb_search.glade.h:29
+#, fuzzy
 msgid "_Selected categories:"
-msgstr "التصنيفات ال_منتقاة:"
+msgstr "العناصر الم_نتقاة:"
 
 #: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
 msgstr "<b>الضغط</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:5
+#, fuzzy
 msgid "<b>Image type</b>"
-msgstr "<b>نوع الصورة</b>"
+msgstr "<b>صورة</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:4
 #: ../data/glade/gthumb_print.glade.h:16
+#, fuzzy
 msgid "<b>Resolution</b>"
-msgstr "<b>الاسبانة</b>"
+msgstr "<b>الانتقاء</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
 #: ../data/glade/gthumb_tools.glade.h:7
 #: ../data/glade/gthumb_web_exporter.glade.h:20
+#, fuzzy
 msgid "<b>Saving</b>"
-msgstr "<b>حفظ</b>"
+msgstr "<b>المشاركة</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
+#, fuzzy
 msgid "Compression _level:"
-msgstr "_مستوى الضغط:"
+msgstr "الضغط"
 
 #: ../data/glade/gthumb_convert.glade.h:8
+#, fuzzy
 msgid "Convert Format"
-msgstr "هيئة التحويل"
+msgstr "هيئة التصدير"
 
 #: ../data/glade/gthumb_convert.glade.h:9
+#, fuzzy
 msgid "JPEG Options"
-msgstr "خيارات جي بي إي جي"
+msgstr "خيارات PPP"
 
 #: ../data/glade/gthumb_convert.glade.h:10
+#, fuzzy
 msgid "No_rmal (Deflate)"
-msgstr "_عادي (منكمش)"
+msgstr "بدون (افتراضي)"
 
 #: ../data/glade/gthumb_convert.glade.h:11
+#, fuzzy
 msgid "Opti_mize"
-msgstr "أم_ثلة"
+msgstr "محسن:"
 
 #: ../data/glade/gthumb_convert.glade.h:12
 #: ../data/glade/gthumb_tools.glade.h:65
+#, fuzzy
 msgid "Overwrite mode:"
-msgstr "نمط الكتابة على:"
+msgstr "نسق التنميق"
 
 #: ../data/glade/gthumb_convert.glade.h:13
+#, fuzzy
 msgid "PNG Options"
-msgstr "خيارات بي إن جي"
+msgstr "خيارات PPP"
 
 #: ../data/glade/gthumb_convert.glade.h:14
 #: ../data/glade/gthumb_tools.glade.h:66
+#, fuzzy
 msgid "R_emove original"
-msgstr "إ_زالة الأصل"
+msgstr "ا_ستعِد الحالة الأصلية"
 
 #: ../data/glade/gthumb_convert.glade.h:15
 #: ../data/glade/gthumb_tools.glade.h:69
 msgid "Rename"
-msgstr "إعادة تسمية "
+msgstr "اعادة تسمية "
 
 #: ../data/glade/gthumb_convert.glade.h:16
 #: ../data/glade/gthumb_tools.glade.h:77
@@ -468,18 +536,16 @@ msgid ""
 "Ask\n"
 "Overwrite"
 msgstr ""
-"تخطي\n"
-"إعادة التسمية\n"
-"سؤال\n"
-"كتابة على"
 
 #: ../data/glade/gthumb_convert.glade.h:20
+#, fuzzy
 msgid "TGA Options"
-msgstr "خيارات تي جي إي"
+msgstr "خيارات GPRS"
 
 #: ../data/glade/gthumb_convert.glade.h:21
+#, fuzzy
 msgid "TIFF Options"
-msgstr "خيارات تي آي إف إف"
+msgstr "دالّات TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:82
@@ -491,18 +557,21 @@ msgstr "_خ"
 #: ../data/glade/gthumb_png_exporter.glade.h:61
 #: ../data/glade/gthumb_tools.glade.h:90
 #: ../data/glade/gthumb_web_exporter.glade.h:49
+#, fuzzy
 msgid "_Destination:"
-msgstr "ال_مقصد:"
+msgstr "المقصد:"
 
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
+#, fuzzy
 msgid "_Horizontal:"
-msgstr "أ_فقي:"
+msgstr "أفقي:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:93
+#, fuzzy
 msgid "_JPEG"
-msgstr "_جي بي إي جي"
+msgstr "MPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 #, fuzzy
@@ -510,21 +579,25 @@ msgid "_Loss compression (JPEG)"
 msgstr "استعمل ضغط LZO"
 
 #: ../data/glade/gthumb_convert.glade.h:27
+#, fuzzy
 msgid "_No compression"
-msgstr "_لا ضغط"
+msgstr "الضغط"
 
 #: ../data/glade/gthumb_convert.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:96
+#, fuzzy
 msgid "_PNG"
-msgstr "_بي إن جي"
+msgstr "_خ"
 
 #: ../data/glade/gthumb_convert.glade.h:29
+#, fuzzy
 msgid "_Progressive"
-msgstr "ت_قدمّي"
+msgstr "بروكراسف روك"
 
 #: ../data/glade/gthumb_convert.glade.h:30
+#, fuzzy
 msgid "_Quality:"
-msgstr "ال_جودة:"
+msgstr "الجودة:"
 
 #: ../data/glade/gthumb_convert.glade.h:31
 #, fuzzy
@@ -538,12 +611,13 @@ msgstr "تنعيم:"
 #: ../data/glade/gthumb_convert.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:103
 msgid "_TIFF"
-msgstr "_تي آي إف إف"
+msgstr ""
 
 #: ../data/glade/gthumb_convert.glade.h:34
 #: ../data/glade/gthumb_png_exporter.glade.h:70
+#, fuzzy
 msgid "_Vertical:"
-msgstr "_رأسي:"
+msgstr "رأسي:"
 
 #: ../data/glade/gthumb_convert.glade.h:35
 #: ../data/glade/gthumb_print.glade.h:53
@@ -552,31 +626,36 @@ msgstr "الدقة"
 
 #: ../data/glade/gthumb_crop.glade.h:1
 msgid "4 x 3 (Book, DVD)"
-msgstr "4 × 3 (كتاب، دي في دي)"
+msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
-msgstr "4 × 6 (بطاقة بريدية)"
+msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:3
+#, fuzzy
 msgid "5 x 7"
-msgstr "5 × 7"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_crop.glade.h:4
+#, fuzzy
 msgid "8 x 10"
-msgstr "8 × 10"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_crop.glade.h:5
+#, fuzzy
 msgid "<b>Actions</b>"
-msgstr "<b>الإجراءات</b>"
+msgstr "<b>الانتقاء</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:6
+#, fuzzy
 msgid "<b>Aspect ratio</b>"
-msgstr "<b>نسبة المظهر</b>"
+msgstr "<b>تنشيط</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:7
+#, fuzzy
 msgid "<b>Display</b>"
-msgstr "<b>عرض</b>"
+msgstr "<b>مرّات الرّبح</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:8
 msgid "<b>Selection</b>"
@@ -592,25 +671,29 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:14
+#, fuzzy
 msgid "Cr_op"
-msgstr "_قطّع"
+msgstr "اقتصاص"
 
 #: ../data/glade/gthumb_crop.glade.h:15
 msgid "Crop"
 msgstr "اقتصاص"
 
 #: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_print.glade.h:28
+#, fuzzy
 msgid "Custom"
-msgstr "مخصص"
+msgstr "مخصص:"
 
 #: ../data/glade/gthumb_crop.glade.h:17
+#, fuzzy
 msgid "I_nvert aspect ratio"
-msgstr "ع_كس نسبة المظهر"
+msgstr "نسبة مظهر ثابتة"
 
 #: ../data/glade/gthumb_crop.glade.h:18
 #: ../data/glade/gthumb_preferences.glade.h:49
+#, fuzzy
 msgid "None"
-msgstr "لا شيء"
+msgstr "_لا شيء"
 
 #: ../data/glade/gthumb_crop.glade.h:19
 msgid "Show / hide the cropping selection area"
@@ -623,28 +706,31 @@ msgstr "مربع"
 #: ../data/glade/gthumb_crop.glade.h:22 ../data/glade/gthumb_redeye.glade.h:11
 #, no-c-format
 msgid "Zoom at 100% scale"
-msgstr "تكبير حتى مقياس 100%"
+msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:23 ../data/glade/gthumb_redeye.glade.h:12
 msgid "Zoom in. The mousewheel can also be used to zoom in."
-msgstr "تكبير. عجلة الفأرة يمكن استخدامها أيضا للتكبير."
+msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:24 ../data/glade/gthumb_redeye.glade.h:13
 msgid "Zoom out. The mousewheel can also be used to zoom out."
-msgstr "تصغير. عجلة الفأرة يمكن استخدامها أيضا للتصغير."
+msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:25 ../data/glade/gthumb_redeye.glade.h:14
+#, fuzzy
 msgid "Zoom to fit"
-msgstr "تكبير حتى التناسب"
+msgstr "تكبير حتى الملاءمة"
 
 #: ../data/glade/gthumb_crop.glade.h:26 ../data/glade/gthumb_redeye.glade.h:15
+#, fuzzy
 msgid "_Done"
-msgstr "ا_نتهى"
+msgstr "_لا شيء"
 
 #: ../data/glade/gthumb_crop.glade.h:27 ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:91
+#, fuzzy
 msgid "_Height:"
-msgstr "الا_رتفاع:"
+msgstr "ثمانية"
 
 #: ../data/glade/gthumb_crop.glade.h:28 ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52
@@ -674,24 +760,29 @@ msgid "%"
 msgstr "%"
 
 #: ../data/glade/gthumb_edit.glade.h:5
+#, fuzzy
 msgid "<b>Color levels</b>"
-msgstr "<b>مستويات اللون</b>"
+msgstr "</b>الألوان<b>"
 
 #: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:6
+#, fuzzy
 msgid "<b>New dimensions</b>"
-msgstr "<b>أبعاد جديد</b>"
+msgstr "<b>الأذون</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:7
+#, fuzzy
 msgid "<b>Original dimensions</b>"
-msgstr "<b>أبعاد أصلية</b>"
+msgstr "<b>الإمتدادات المتوفِّرة</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:8
+#, fuzzy
 msgid "<b>Scale ratio</b>"
-msgstr "<b>نسبة المقياس</b>"
+msgstr "<b>الانتقاء</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:9
+#, fuzzy
 msgid "Brightness - Contrast"
-msgstr "السطوع - التباين"
+msgstr "السطوع-التباين"
 
 #: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
@@ -707,16 +798,19 @@ msgid "Cyan-_Red:"
 msgstr "_أحمر:"
 
 #: ../data/glade/gthumb_edit.glade.h:13
+#, fuzzy
 msgid "Height:"
-msgstr "ارتفاع:"
+msgstr "ثمانية"
 
 #: ../data/glade/gthumb_edit.glade.h:14
+#, fuzzy
 msgid "High _quality"
-msgstr "_جودة عالية"
+msgstr "جودة الصوت"
 
 #: ../data/glade/gthumb_edit.glade.h:15
+#, fuzzy
 msgid "Hue - Saturation"
-msgstr "التدرج - الإشباع"
+msgstr "التدرج-الإشباع"
 
 #: ../data/glade/gthumb_edit.glade.h:16
 #, fuzzy
@@ -737,38 +831,44 @@ msgid "Width:"
 msgstr "العرض:"
 
 #: ../data/glade/gthumb_edit.glade.h:20
+#, fuzzy
 msgid "_Brightness:"
-msgstr "ال_سطوع:"
+msgstr "سطوع"
 
 #: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
 msgstr "التدرج:"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:94
+#, fuzzy
 msgid "_Keep aspect ratio"
-msgstr "إ_بقاء نسبة العرض"
+msgstr "نسبة مظهر ثابتة"
 
 #: ../data/glade/gthumb_edit.glade.h:24
+#, fuzzy
 msgid "_Levels:"
-msgstr "ال_مستويات:"
+msgstr "المستوى:"
 
 #: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
 msgstr "الإضاءة:"
 
 #: ../data/glade/gthumb_edit.glade.h:26
+#, fuzzy
 msgid "_Magenta-Green:"
-msgstr "ماجنتا-أخضر:"
+msgstr "ماجنتا:"
 
 #: ../data/glade/gthumb_edit.glade.h:27
+#, fuzzy
 msgid "_Preview"
-msgstr "_معاينة"
+msgstr "_عايِن:"
 
 #: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:98
 msgid "_Reset"
 msgstr "إعادة ضب_ط"
 
 #: ../data/glade/gthumb_edit.glade.h:29
+#, fuzzy
 msgid "_Saturation:"
 msgstr "_تشبّع:"
 
@@ -777,80 +877,98 @@ msgid "_Scale"
 msgstr "_حجّم"
 
 #: ../data/glade/gthumb_edit.glade.h:32
+#, fuzzy
 msgid "_Yellow-Blue:"
-msgstr "أ_صفر-أزرق:"
+msgstr "اصفر:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:3
+#, fuzzy
 msgid "112"
-msgstr "112"
+msgstr "12"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:4
+#, fuzzy
 msgid "128"
-msgstr "128"
+msgstr "12"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:5
+#, fuzzy
 msgid "164"
-msgstr "164"
+msgstr "16"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:6
 msgid "200"
 msgstr "200"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:7
+#, fuzzy
 msgid "256"
-msgstr "256"
+msgstr "25%"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:8
+#, fuzzy
 msgid "48"
-msgstr "48"
+msgstr "4"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:9
+#, fuzzy
 msgid "64"
-msgstr "64"
+msgstr "4"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:10
+#, fuzzy
 msgid "75"
-msgstr "75"
+msgstr "75%"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:11
+#, fuzzy
 msgid "85"
-msgstr "85"
+msgstr "5"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:12
+#, fuzzy
 msgid "95"
-msgstr "95"
+msgstr "5"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:13
+#, fuzzy
 msgid "<b>Background style</b>"
-msgstr "<b>أسلوب الخلفية</b>"
+msgstr "<b>الخلفية</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:14
+#, fuzzy
 msgid "<b>Caption</b>"
-msgstr "<b>عنوان فرعي</b>"
+msgstr "<b>الخيارات</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:15
+#, fuzzy
 msgid "<b>Footer</b>"
-msgstr "<b>تذليلة</b>"
+msgstr "<b>التذييلات</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:16
+#, fuzzy
 msgid "<b>Header and footer</b>"
-msgstr "<b>الترويسة والتذليلة</b>"
+msgstr "الت_رويسات و التذييلات:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:17
+#, fuzzy
 msgid "<b>Header</b>"
-msgstr "<b>الترويسة</b>"
+msgstr "<b>الترويسات</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
+#, fuzzy
 msgid "<b>Index images</b>"
-msgstr "<b>فهرس الصور</b>"
+msgstr "<b>صورة</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:19
+#, fuzzy
 msgid "<b>Page size</b>"
-msgstr "<b>حجم الصفحة</b>"
+msgstr "<b>حجم الورق:</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
+#, fuzzy
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b>ملاحظة:</b> # (enumerator)</i>.</small>"
+msgstr "<small><i>لا شيء</i></small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
@@ -858,132 +976,158 @@ msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
 msgstr ""
-"<small><i><b>ملاحظة:</b> %p (رقم الصفحة), %n (مجموع الصفحات)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:31
+#, fuzzy
 msgid "Co_mment"
-msgstr "ال_تعليق"
+msgstr "ال_تعليق:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
+#, fuzzy
 msgid "Col_umns:"
-msgstr "أ_عمدة:"
+msgstr "أعمدة:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:27
+#, fuzzy
 msgid "Colo_r:"
 msgstr "الل_ون:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
+#, fuzzy
 msgid "Create Index Image"
-msgstr "إنشاء فهرس الصورة"
+msgstr "إنشاء صورة جديدة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
+#, fuzzy
 msgid "Create _HTML image map"
-msgstr "إنشاء خريطة صورة _إتش تي إن إل"
+msgstr "إنشاء صورة جديدة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:30
+#, fuzzy
 msgid "F_ooter:"
-msgstr "الت_ذييل:"
+msgstr "التذييل:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:31
 #: ../data/glade/gthumb_web_exporter.glade.h:35
+#, fuzzy
 msgid "File _name"
-msgstr "ا_سم الملف"
+msgstr "إ_سم الملف:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:32
+#, fuzzy
 msgid "File pa_th"
-msgstr "م_سار الملف"
+msgstr "مسار ال_مجلّد"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:33
 #: ../data/glade/gthumb_web_exporter.glade.h:36
+#, fuzzy
 msgid "File si_ze"
-msgstr "ح_جم الملف"
+msgstr "حجم الملف:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:34
+#, fuzzy
 msgid "Frame _style:"
-msgstr "أ_سلوب الإطار:"
+msgstr "أسلوب حر"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:35
+#, fuzzy
 msgid "Frame co_lor:"
-msgstr "_لون الإطار:"
+msgstr "لون الإطار"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:36
+#, fuzzy
 msgid "H_eader:"
-msgstr "ترويس:"
+msgstr "ترويسات"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
 msgstr "التّرويسة/التذييل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:38
+#, fuzzy
 msgid "Hei_ght:"
-msgstr ":ارت_فاع"
+msgstr "ثمانية"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:39
 #: ../data/glade/gthumb_web_exporter.glade.h:39
+#, fuzzy
 msgid "Image dim_ensions"
-msgstr "أبعاد الصورة"
+msgstr "أبعاد البيكسل:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
 msgstr "صور"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:41
+#, fuzzy
 msgid "Index Image Style"
-msgstr "أسلوب فهرس الصورة"
+msgstr "فهرسة الصورة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
 msgstr "الصفحة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:43
+#, fuzzy
 msgid "Pi_xels"
-msgstr "ب_كسلات"
+msgstr "بكسلات"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:44
 #: ../data/glade/gthumb_web_exporter.glade.h:40
+#, fuzzy
 msgid "Re_verse order"
-msgstr "ترتيب _معكوس"
+msgstr "اق_لب الترتيب"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:45
+#, fuzzy
 msgid "Rows a_nd columns"
-msgstr "الأعمدة _والصفوف"
+msgstr "عمود إمتداد السطر"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:46
+#, fuzzy
 msgid "Select a color"
-msgstr "انتقاء لون"
+msgstr "تحديد لون"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:47
+#, fuzzy
 msgid "Select a font"
-msgstr "انتقاء خط"
+msgstr "انتقي خط"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:48
+#, fuzzy
 msgid "Shadow in"
 msgstr "ظل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:49
+#, fuzzy
 msgid "Shadow only"
-msgstr "ظل فقط"
+msgstr "لون الظل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:50
+#, fuzzy
 msgid "Shadow out"
-msgstr "تخفيف الظل"
+msgstr "نوع الظل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:51
+#, fuzzy
 msgid "Simple"
-msgstr "بسيط"
+msgstr "عينة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:52
+#, fuzzy
 msgid "Simple with shadow"
-msgstr "بسيط مع ظل"
+msgstr "كرة بسيطة بظل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:53
+#, fuzzy
 msgid "Slide"
-msgstr "شريحة"
+msgstr "مزلق"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:54
+#, fuzzy
 msgid "Sor_t:"
-msgstr "ت_رتيب:"
+msgstr "_رتّب"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
@@ -996,25 +1140,30 @@ msgstr "أ_سلوب"
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:81
+#, fuzzy
 msgid "Start _at:"
-msgstr "بدء _في:"
+msgstr "تاريخ البدء:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:42
+#, fuzzy
 msgid "Style Preview"
-msgstr "أسلوب المعاينة"
+msgstr "معاينات أضغر"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:59
+#, fuzzy
 msgid "Wi_dth:"
-msgstr "_عرض"
+msgstr "العرض:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:60
+#, fuzzy
 msgid "_All pages with the same size"
-msgstr "_كل الصفحات بنفس الحجم"
+msgstr "خطأ في حجم الإطار."
 
 #: ../data/glade/gthumb_png_exporter.glade.h:62
+#, fuzzy
 msgid "_Draw frame"
-msgstr "_رسم إطار"
+msgstr "تعادل"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
@@ -1025,16 +1174,18 @@ msgid "_Gradient"
 msgstr "التدريج"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:66
+#, fuzzy
 msgid "_Image size:"
-msgstr "_حجم الصورة:"
+msgstr "حجم الصورة"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
 msgstr "ص_فوف:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:68
+#, fuzzy
 msgid "_Solid color"
-msgstr "لون _جامد"
+msgstr "لون جامد"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
 #: ../data/glade/gthumb_tools.glade.h:104
@@ -1049,99 +1200,112 @@ msgstr "حسب الاسم"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:72
 msgid "jpeg"
-msgstr "جي بي إي جي"
+msgstr ""
 
 #: ../data/glade/gthumb_png_exporter.glade.h:73
+#, fuzzy
 msgid "png"
-msgstr "بي إن جي"
+msgstr "ربيع"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
 msgid "112 x 112"
-msgstr "112 × 112"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:4
 msgid "128 x 128"
-msgstr "128 × 128"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:5
 msgid "164 x 164"
-msgstr "164 × 164"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:6
+#, fuzzy
 msgid "200 x 200"
-msgstr "200 × 200"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_preferences.glade.h:7
 msgid "256 x 256"
-msgstr "256 × 256"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:8
 msgid "48 x 48"
-msgstr "48 × 48"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:9
 msgid "64 x 64"
-msgstr "64 x× 64"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:10
 msgid "85 x 85"
-msgstr "85 × 85"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:11
 msgid "95 x 95"
-msgstr "95 × 95"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:12
+#, fuzzy
 msgid "<b>Direction</b>"
-msgstr "<b>الإتجاه</b>"
+msgstr "<b>الإتجاه:</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:13
+#, fuzzy
 msgid "<b>Hide/Show</b>"
-msgstr "<b>إخفاء/عرض</b>"
+msgstr "<b>فيديو</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:14
+#, fuzzy
 msgid "<b>Interface</b>"
-msgstr "<b>واجهة</b>"
+msgstr "<b>واجهة المستخدم</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:15
+#, fuzzy
 msgid "<b>On startup:</b>"
-msgstr "<b>مع بدء التشغيل:</b>"
+msgstr "<b>بدأ التشغيل</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:16
 msgid "<b>Other</b>"
 msgstr "<b>أخرى</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:17
+#, fuzzy
 msgid "<b>Slideshow</b>"
-msgstr "<b>عرض الشرائح</b>"
+msgstr "<b>فيديو</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:18
+#, fuzzy
 msgid "<b>Viewer</b>"
-msgstr "<b>عارض</b>"
+msgstr "<b>عارض الصّور</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:19
+#, fuzzy
 msgid "<b>Zoom quality</b>"
-msgstr "<b>جودة التكبير</b>"
+msgstr "<b>قائمة المكبّر</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:20
+#, fuzzy
 msgid "Activate items with a double click"
-msgstr "تنشيط العناصر بنقرة مزدوجة"
+msgstr "نشّط العناصر بنقرة م_زدوجة"
 
 #: ../data/glade/gthumb_preferences.glade.h:21
+#, fuzzy
 msgid "Activate items with a single click"
-msgstr "تنشيط العناصر بنقرة واحدة"
+msgstr "نشّط العناصر بنقرة _واحدة"
 
 #: ../data/glade/gthumb_preferences.glade.h:22
+#, fuzzy
 msgid "After _loading an image:"
-msgstr "بعد _تحميل صورة:"
+msgstr "حدث خطأ عند تحميل صورة: \"%s\"."
 
 #: ../data/glade/gthumb_preferences.glade.h:23
+#, fuzzy
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "أ_طلب التأكيد قبل حذف صور أو كاتلوجات"
+msgstr "أطلب التأكيد قبل إغلاق صورة بدون حفظ"
 
 #: ../data/glade/gthumb_preferences.glade.h:24
 msgid "Ask whether to save _modified images"
-msgstr "اسأل لحفظ الصور الم_عدلة"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Black"
@@ -1159,68 +1323,82 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:28
+#, fuzzy
 msgid "C_lick policy:"
-msgstr "سياسة ال_نقر:"
+msgstr "التقاط فقط"
 
 #: ../data/glade/gthumb_preferences.glade.h:29
+#, fuzzy
 msgid "Checked"
-msgstr "مفحوص"
+msgstr "ا_فحص"
 
 #: ../data/glade/gthumb_preferences.glade.h:30
+#, fuzzy
 msgid "Choose startup folder"
-msgstr "اختر مجلد بدء التشغيل"
+msgstr "اختر مجلد"
 
 #: ../data/glade/gthumb_preferences.glade.h:31
+#, fuzzy
 msgid "Co_mments"
-msgstr "ت_عليقات"
+msgstr "ال_تعليق:"
 
 #: ../data/glade/gthumb_preferences.glade.h:32
+#, fuzzy
 msgid "D_elay before changing image:"
-msgstr "ال_تأخير قبل تغيير صورة:"
+msgstr "التأخير قبل اخفاء قائمة محوية"
 
 #: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
 msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:34
+#, fuzzy
 msgid "Do _not change folder"
-msgstr "لا تغير المجلد"
+msgstr "تعذّر إنشاء المجلّد."
 
 #: ../data/glade/gthumb_preferences.glade.h:35
+#, fuzzy
 msgid "Fit to width if larger"
-msgstr "تناسب العرض، إذا كانت كبيرة"
+msgstr "_لائم العرض"
 
 #: ../data/glade/gthumb_preferences.glade.h:36
+#, fuzzy
 msgid "Fit to window"
-msgstr "تناسب مع النافذة"
+msgstr "ملاءمة إلى النافذة"
 
 #: ../data/glade/gthumb_preferences.glade.h:37
+#, fuzzy
 msgid "Fit to window if larger"
-msgstr "تناسب مع النافذة، إذا كانت كبيرة"
+msgstr "ملاءمة إلى النافذة"
 
 #: ../data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
 msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:39
+#, fuzzy
 msgid "For_ward"
-msgstr "م_رر"
+msgstr "مرر"
 
 #: ../data/glade/gthumb_preferences.glade.h:40
+#, fuzzy
 msgid "General"
-msgstr "عام"
+msgstr "_عامّ"
 
 #: ../data/glade/gthumb_preferences.glade.h:41
+#, fuzzy
 msgid "Go to last _visited folder or catalog"
-msgstr "إذهب إلى آخر مجلد أو كاتلوج _مزار"
+msgstr "اذهب إلى الموقع المزار سابقا"
 
 #: ../data/glade/gthumb_preferences.glade.h:42
+#, fuzzy
 msgid "Go to this _folder:"
-msgstr "إذهب إلى هذا ال_مجلد:"
+msgstr "اذهب ل_مجلد الخط"
 
 #: ../data/glade/gthumb_preferences.glade.h:43
+#, fuzzy
 msgid "H_igh"
-msgstr "_مرتفع"
+msgstr "عال"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Icons only"
@@ -1228,45 +1406,54 @@ msgstr "أيقونات فقط"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Include audio clips and movies in browser view"
-msgstr "َضمّن القصاصات الصوتية والمرئية في متصفح العرض"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:46
+#, fuzzy
 msgid "Keep previous zoom"
-msgstr "إبقاء التكبير السابق"
+msgstr "استخدم الخط السابق"
 
 #: ../data/glade/gthumb_preferences.glade.h:47
+#, fuzzy
 msgid "Layout:"
-msgstr "تخطيط:"
+msgstr "ت_خطيط"
 
 #: ../data/glade/gthumb_preferences.glade.h:48
+#, fuzzy
 msgid "Lo_w"
-msgstr "من_خفض"
+msgstr "منحفض"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
+#, fuzzy
 msgid "Ran_dom"
-msgstr "ع_شوائي"
+msgstr "عشوائي"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
+#, fuzzy
 msgid "Re_verse"
-msgstr "ع_كس"
+msgstr "عكس"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Reset scrollbar positions after loading an image"
-msgstr "أعِد ضبط وضعية شريط التمرير بعد تحميل صورة"
+msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:53
+#, fuzzy
 msgid "Resta_rt when finished"
-msgstr "إعادة التشغيل عند الانتهاء"
+msgstr "إعادة العزف إثر الإنتهاء"
 
 #: ../data/glade/gthumb_preferences.glade.h:54
+#, fuzzy
 msgid "Set image to actual size"
-msgstr "ضبط الصورة إلى حجمها الفعلي"
+msgstr "إعداد حجم رقعة الرسم"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
+#, fuzzy
 msgid "Set to C_urrent"
-msgstr "اضبط لل_حالي"
+msgstr "اضبط لل_صفحة الحالية"
 
 #: ../data/glade/gthumb_preferences.glade.h:56
+#, fuzzy
 msgid "Slideshow"
 msgstr "عرض شرائح"
 
@@ -1287,37 +1474,44 @@ msgid "Text only"
 msgstr "نص فقط"
 
 #: ../data/glade/gthumb_preferences.glade.h:61
+#, fuzzy
 msgid "Th_umbnail size:"
-msgstr "حجم الم_صغرات:"
+msgstr "مُسْتعْرضة"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
+#, fuzzy
 msgid "Transparency _type:"
-msgstr "_نوع الشفافية:"
+msgstr "شفافية"
 
 #: ../data/glade/gthumb_preferences.glade.h:63
+#, fuzzy
 msgid "Viewer"
-msgstr "عارض"
+msgstr "عرض"
 
 #: ../data/glade/gthumb_preferences.glade.h:64
 msgid "White"
 msgstr "أبيض"
 
 #: ../data/glade/gthumb_preferences.glade.h:65
+#, fuzzy
 msgid "_Filenames"
-msgstr "أسماء ال_ملفات"
+msgstr "أسماء الملفات:"
 
 #: ../data/glade/gthumb_preferences.glade.h:66
 #: ../src/gth-browser-actions-entries.h:435
+#, fuzzy
 msgid "_Thumbnails"
-msgstr "_مصغرات"
+msgstr "مُسْتعْرضة"
 
 #: ../data/glade/gthumb_preferences.glade.h:67
+#, fuzzy
 msgid "_Toolbar style:"
-msgstr "أسلوب شري_ط الأدوات:"
+msgstr "أسلوب شري_ط الأدوات"
 
 #: ../data/glade/gthumb_preferences.glade.h:68
+#, fuzzy
 msgid "gThumb Preferences"
-msgstr "تفضيلات جي ثمب"
+msgstr "تفضيلات السِمة"
 
 #: ../data/glade/gthumb_preferences.glade.h:69
 msgid "seconds"
@@ -1328,8 +1522,9 @@ msgid "1"
 msgstr "1"
 
 #: ../data/glade/gthumb_print.glade.h:5
+#, fuzzy
 msgid "150"
-msgstr "150"
+msgstr "150%"
 
 #: ../data/glade/gthumb_print.glade.h:6
 msgid "16"
@@ -1340,48 +1535,54 @@ msgid "2"
 msgstr "2"
 
 #: ../data/glade/gthumb_print.glade.h:8
+#, fuzzy
 msgid "300"
-msgstr "300"
+msgstr "300%"
 
 #: ../data/glade/gthumb_print.glade.h:9
 msgid "4"
 msgstr "4"
 
 #: ../data/glade/gthumb_print.glade.h:10
+#, fuzzy
 msgid "600"
-msgstr "600"
+msgstr "0.0"
 
 #: ../data/glade/gthumb_print.glade.h:11
+#, fuzzy
 msgid "72"
-msgstr "72"
+msgstr "2"
 
 #: ../data/glade/gthumb_print.glade.h:12
 msgid "8"
 msgstr "8"
 
 #: ../data/glade/gthumb_print.glade.h:13
+#, fuzzy
 msgid "<b>Image Sizing</b>"
-msgstr "<b>تحجيم الصورة</b>"
+msgstr "<b>صورة</b>"
 
 #: ../data/glade/gthumb_print.glade.h:14
+#, fuzzy
 msgid "<b>Margins</b>"
-msgstr "<b>هوامش</b>"
+msgstr "<b>مرّات الرّبح</b>"
 
 #: ../data/glade/gthumb_print.glade.h:15
+#, fuzzy
 msgid "<b>Orientation</b>"
-msgstr "<b>الإتجاه</b>"
+msgstr "<b>الإتجاه:</b>"
 
 #: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
 msgstr "<b>الحجم</b>"
 
 #: ../data/glade/gthumb_print.glade.h:18
+#, fuzzy
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
-"<small><i><b>ملاحظة:</b> اسحب الصورة لتحريكها في الصفحة.\n"
-"انقر على الصورة لتدويرها</i></small>"
+"<small><i><b>ملاحظة:</b> الألوان التالية متاحة لتطيبقات الطرفيّة. </i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:20
 msgid ""
@@ -1396,44 +1597,52 @@ msgid "A4"
 msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:25
+#, fuzzy
 msgid "Automatic sizing"
-msgstr "تحجيم تلقائي"
+msgstr "ولوج تلقائي"
 
 #: ../data/glade/gthumb_print.glade.h:26
+#, fuzzy
 msgid "Center _on Page"
-msgstr "وسط ال_صفحة"
+msgstr "وسط الأب"
 
 #: ../data/glade/gthumb_print.glade.h:27
+#, fuzzy
 msgid "Comment _font:"
-msgstr "_خط التعليق:"
+msgstr "تعليق:"
 
 #: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
 msgstr "إداري"
 
 #: ../data/glade/gthumb_print.glade.h:30
+#, fuzzy
 msgid "I_nclude comment"
-msgstr "ت_ضمين التعليقات"
+msgstr "تعليقات الشفرة"
 
 #: ../data/glade/gthumb_print.glade.h:31
+#, fuzzy
 msgid "Images per page:"
-msgstr "الصور لكل صفحة:"
+msgstr "منطقة خارطة الصورة"
 
 #: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
 msgstr "بوصات"
 
 #: ../data/glade/gthumb_print.glade.h:33
+#, fuzzy
 msgid "Include filename"
-msgstr "تضمين اسم الملف"
+msgstr "اسم ملف غير صالح"
 
 #: ../data/glade/gthumb_print.glade.h:34
+#, fuzzy
 msgid "Lan_dscape"
-msgstr "_عرضي"
+msgstr "%s، عرضيّ (%s)"
 
 #: ../data/glade/gthumb_print.glade.h:35
+#, fuzzy
 msgid "Layout"
-msgstr "تخطيط"
+msgstr "ت_خطيط"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
@@ -1444,20 +1653,24 @@ msgid "Letter"
 msgstr "خطاب"
 
 #: ../data/glade/gthumb_print.glade.h:38
+#, fuzzy
 msgid "Millimeters"
-msgstr "مليمترات"
+msgstr "مليمتر"
 
 #: ../data/glade/gthumb_print.glade.h:39
+#, fuzzy
 msgid "P_ortrait"
-msgstr "_طولي"
+msgstr "رسم صورة"
 
 #: ../data/glade/gthumb_print.glade.h:40
+#, fuzzy
 msgid "Paper Details"
-msgstr "تفاصيل الورقة"
+msgstr "احفظ التفاصيل"
 
 #: ../data/glade/gthumb_print.glade.h:41
+#, fuzzy
 msgid "Postcard"
-msgstr "بطاقة بريدية"
+msgstr "بطاقة"
 
 #.
 #: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
@@ -1466,48 +1679,57 @@ msgid "Print"
 msgstr "اطبع"
 
 #: ../data/glade/gthumb_print.glade.h:43
+#, fuzzy
 msgid "Scale to this size"
-msgstr "حجّم لهذا الحجم"
+msgstr "حجم نص أصغر"
 
 #: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
 msgstr "الصحيفة الشعبية"
 
 #: ../data/glade/gthumb_print.glade.h:45
+#, fuzzy
 msgid "_Bottom:"
-msgstr "أس_فل:"
+msgstr "الأسفل:"
 
 #: ../data/glade/gthumb_print.glade.h:47
+#, fuzzy
 msgid "_Left:"
-msgstr "_يسار:"
+msgstr "اليسار:"
 
 #: ../data/glade/gthumb_print.glade.h:48
+#, fuzzy
 msgid "_Right:"
-msgstr "ي_مين:"
+msgstr "اليمين:"
 
 #: ../data/glade/gthumb_print.glade.h:49
+#, fuzzy
 msgid "_Scale:"
-msgstr "مقياس:"
+msgstr "_حجّم"
 
 #: ../data/glade/gthumb_print.glade.h:50
+#, fuzzy
 msgid "_Top:"
-msgstr "أ_على:"
+msgstr "الأعلى:"
 
 #: ../data/glade/gthumb_print.glade.h:51
 msgid "_Unit:"
 msgstr "ال_وحدة:"
 
 #: ../data/glade/gthumb_redeye.glade.h:1
+#, fuzzy
 msgid "<b>Other Actions</b>"
-msgstr "<b>إجراءات أخرى</b>"
+msgstr "<b>أخرى</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
+#, fuzzy
 msgid "<b>Position</b>"
-msgstr "<b>موقع</b>"
+msgstr "<b>موقع المكبّر</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
+#, fuzzy
 msgid "<b>Zoom</b>"
-msgstr "<b>تكبير</b>"
+msgstr "<b>التذييلات</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
 msgid ""
@@ -1520,15 +1742,16 @@ msgstr ""
 
 #: ../data/glade/gthumb_redeye.glade.h:9
 msgid "Red-Eye Removal"
-msgstr "إزالة اﻷعين الحمراء"
+msgstr ""
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
 msgstr "<b>معايير البحث</b>"
 
 #: ../data/glade/gthumb_search.glade.h:3
+#, fuzzy
 msgid "<b>Search scope</b>"
-msgstr "<b>نطاق البحث</b>"
+msgstr "<b>بحث عن</b>"
 
 #: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
@@ -1539,41 +1762,49 @@ msgid "Any"
 msgstr "أيّ"
 
 #: ../data/glade/gthumb_search.glade.h:7
+#, fuzzy
 msgid "Before"
-msgstr "قبل"
+msgstr "ق_بل:"
 
 #: ../data/glade/gthumb_search.glade.h:10
+#, fuzzy
 msgid "Choose categories from the saved list"
-msgstr "اختر التصنيفات من القائمة المحفوظة"
+msgstr "انتق عناصر من القائمة"
 
 #: ../data/glade/gthumb_search.glade.h:12
+#, fuzzy
 msgid "Equal to"
-msgstr "تسوية ب:"
+msgstr "يساوي %d"
 
 #: ../data/glade/gthumb_search.glade.h:13
+#, fuzzy
 msgid "File _name:"
-msgstr "ا_سم الملف:"
+msgstr "إ_سم الملف:"
 
 #: ../data/glade/gthumb_search.glade.h:14
+#, fuzzy
 msgid "Found images:"
-msgstr "إيجاد صور:"
+msgstr "_صورة الخلفية:"
 
 #: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
-msgstr "طابق _كل التصنيفات المنتقاة"
+msgstr ""
 
 #: ../data/glade/gthumb_search.glade.h:16
+#, fuzzy
 msgid "Match a_ny selected category"
-msgstr "مواءمة أ_ي فئة منتقاة"
+msgstr "اللون المنتقى"
 
 #: ../data/glade/gthumb_search.glade.h:17
+#, fuzzy
 msgid "New _Search..."
-msgstr "ب_حث جديد..."
+msgstr "_بحث..."
 
 #: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:900
 #: ../src/dlg-photo-importer.c:1735
+#, fuzzy
 msgid "No images found"
-msgstr "لا صور موجودة"
+msgstr "لم يتم العثور على ملفات"
 
 #: ../data/glade/gthumb_search.glade.h:19
 #: ../src/gth-browser-actions-entries.h:365
@@ -1581,22 +1812,26 @@ msgid "Search"
 msgstr "ابحث"
 
 #: ../data/glade/gthumb_search.glade.h:20
+#, fuzzy
 msgid "Search Progress"
-msgstr "تقدم البحث"
+msgstr "نتائج البحث"
 
 #: ../data/glade/gthumb_search.glade.h:21
 #: ../data/glade/gthumb_tools.glade.h:76
+#, fuzzy
 msgid "Searching in:"
-msgstr "البحث في:"
+msgstr "يجري البحث"
 
 #: ../data/glade/gthumb_search.glade.h:24
+#, fuzzy
 msgid "_Edit Search"
-msgstr "ت_حرير البحث"
+msgstr "_9 البحث"
 
 #: ../data/glade/gthumb_search.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:92
+#, fuzzy
 msgid "_Include sub-folders"
-msgstr "ت_ضمين المجلدات الفرعية"
+msgstr "_تضمّن المجلّدات الفرعية"
 
 #: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
@@ -1611,20 +1846,24 @@ msgstr "ا_بحث"
 #: ../data/glade/gthumb_tools.glade.h:105
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
+#, fuzzy
 msgid "_View"
-msgstr "_عرض"
+msgstr "_عرض/"
 
 #: ../data/glade/gthumb_tools.glade.h:3
+#, fuzzy
 msgid "<b>Change the following values:</b>"
-msgstr "<b>تغيير القيم التالية:</b>"
+msgstr "<b>%s</b> قد نشر المهمة الآتية:"
 
 #: ../data/glade/gthumb_tools.glade.h:4
+#, fuzzy
 msgid "<b>Change to:</b>"
-msgstr "<b>تغيير إلى:</b>"
+msgstr "<b>القناة:</b>"
 
 #: ../data/glade/gthumb_tools.glade.h:8
+#, fuzzy
 msgid "<b>Write to CD</b>"
-msgstr "<b>كتابة إلى سيدي</b>"
+msgstr "<b>خيارات الكتابة</b>"
 
 #: ../data/glade/gthumb_tools.glade.h:9
 msgid ""
@@ -1643,51 +1882,61 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:17
+#, fuzzy
 msgid "A_djust timezone:"
-msgstr "إضبط المن_طقة الزمنية:"
+msgstr "إضبط البياض"
 
 #: ../data/glade/gthumb_tools.glade.h:18
 msgid "Add New Script"
-msgstr "أضف برنامجا نصيا جديدا"
+msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:19
+#, fuzzy
 msgid "Apply physical _transform"
-msgstr "طبّق ال_تحويل الفيزيائي"
+msgstr "اكتب محولات الملفات "
 
 #: ../data/glade/gthumb_tools.glade.h:20
+#, fuzzy
 msgid "Apply to all _images"
-msgstr "تطبيق على كل ال_صور"
+msgstr "_طبق على كل الحالات"
 
 #: ../data/glade/gthumb_tools.glade.h:21
+#, fuzzy
 msgid "C_urrent date"
-msgstr "التاريخ ال_حالي"
+msgstr "الصفحة الحالية"
 
 #: ../data/glade/gthumb_tools.glade.h:22
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
+#, fuzzy
 msgid "Ca_talog"
-msgstr "_كاتلوج"
+msgstr "فهرس"
 
 #. Translators: this is the text case (upper or lower case).
 #: ../data/glade/gthumb_tools.glade.h:24
+#, fuzzy
 msgid "Cas_e:"
-msgstr "_حالة:"
+msgstr "_أحمر:"
 
 #: ../data/glade/gthumb_tools.glade.h:25
+#, fuzzy
 msgid "Change Date"
-msgstr "غيّر التاريخ"
+msgstr "غيّر الحالة"
 
 #: ../data/glade/gthumb_tools.glade.h:26
+#, fuzzy
 msgid "Check _All"
-msgstr "افحص ال_كل"
+msgstr "افحص _HTML"
 
 #: ../data/glade/gthumb_tools.glade.h:27
+#, fuzzy
 msgid "Check _None"
-msgstr "افحص _لا شيء"
+msgstr "دقق الك_لمة"
 
 #: ../data/glade/gthumb_tools.glade.h:28
+#, fuzzy
 msgid "Checking image:"
-msgstr "فحص الصورة:"
+msgstr "يجري فحص الخدمة"
 
 #: ../data/glade/gthumb_tools.glade.h:30
 msgid ""
@@ -1720,12 +1969,14 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:48
+#, fuzzy
 msgid "Co_mment date"
-msgstr "تاريخ التعليق"
+msgstr "ا_جعل الشفرة تعليقا"
 
 #: ../data/glade/gthumb_tools.glade.h:49
+#, fuzzy
 msgid "Current _Folder"
-msgstr "الم_جلد الحالي"
+msgstr "المجلّد الحالي"
 
 #: ../data/glade/gthumb_tools.glade.h:50
 msgid "Date p_hoto taken (from EXIF metadata)"
@@ -1733,7 +1984,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:51
 msgid "Define External Scripts"
-msgstr "تعريف برامج نصيّة خارجيّة"
+msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:52
 msgid ""
@@ -1741,13 +1992,11 @@ msgid ""
 "Convert to lower-case\n"
 "Convert to upper-case"
 msgstr ""
-"لا تغيّر\n"
-"حوّل إلى حرف صغير \n"
-"حول إلى حرف كبير"
 
 #: ../data/glade/gthumb_tools.glade.h:55
+#, fuzzy
 msgid "Equal images:"
-msgstr "صور مساوية:"
+msgstr "صور"
 
 #: ../data/glade/gthumb_tools.glade.h:56
 #, fuzzy
@@ -1763,12 +2012,14 @@ msgid "Exif DateTimeOriginal tag"
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:59
+#, fuzzy
 msgid "Found duplicates:"
-msgstr "إيجاد مكرر:"
+msgstr "اح_ذف التكرار"
 
 #: ../data/glade/gthumb_tools.glade.h:60
+#, fuzzy
 msgid "Image c_reation date"
-msgstr "تاريخ إن_شاء الصورة"
+msgstr "نمط الصور المتحركة"
 
 #: ../data/glade/gthumb_tools.glade.h:61
 msgid "Mirror image horizontally (left-right)"
@@ -1787,44 +2038,52 @@ msgid "Move to _Trash"
 msgstr "انقل إلى  ال_مهملات"
 
 #: ../data/glade/gthumb_tools.glade.h:64
+#, fuzzy
 msgid "New names _preview:"
-msgstr "أسماء _معاينات جديدة:"
+msgstr "معاينة عن اللعبة"
 
 #: ../data/glade/gthumb_tools.glade.h:67
+#, fuzzy
 msgid "Re_verse Order"
 msgstr "ترتيب _معكوس"
 
 #: ../data/glade/gthumb_tools.glade.h:68
+#, fuzzy
 msgid "Remove Script"
-msgstr "إزالة البرنامج النصي"
+msgstr "ا_ستعِد الحالة الأصلية"
 
 #: ../data/glade/gthumb_tools.glade.h:70
 msgid "Reset Exif Orientation Tags"
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:71
+#, fuzzy
 msgid "Rotate Images"
-msgstr "تدوير الصور"
+msgstr "تدوير الصورة"
 
 #: ../data/glade/gthumb_tools.glade.h:72
+#, fuzzy
 msgid "Rotate image 90 degrees clockwise"
-msgstr "تدوير الصورة 90 درجة مع حركة عقارب الساعة"
+msgstr "مدوّر 90 درجة"
 
 #: ../data/glade/gthumb_tools.glade.h:73
+#, fuzzy
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "تدوير الصورة 90 درجة عكس حركة عقارب الساعة"
+msgstr "دوران بع_كس اتّجاه عقارب السّاعة"
 
 #: ../data/glade/gthumb_tools.glade.h:74
+#, fuzzy
 msgid "Search for Duplicates"
-msgstr "ابحث عن مكررات"
+msgstr "ابحث عن ملفات"
 
 #: ../data/glade/gthumb_tools.glade.h:75
 msgid "Search terminated, no duplicates found."
-msgstr "انتهى البحث، لا مكررات وُجدت."
+msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:83
+#, fuzzy
 msgid "The _following date:"
-msgstr "التاريخ ال_تالي:"
+msgstr "الآتي:"
 
 #: ../data/glade/gthumb_tools.glade.h:84
 msgid ""
@@ -1844,19 +2103,21 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:87
 msgid "User-Defined Script Parameter"
-msgstr "مُعامل تعريف المستخدم لبرنامج نصي"
+msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:88
+#, fuzzy
 msgid "Write To CD"
-msgstr "كتابة إلى سيدي"
+msgstr "اكتب لقرص مدمج"
 
 #: ../data/glade/gthumb_tools.glade.h:89
 msgid "Your script requires this user-defined parameter:"
-msgstr "برنامجك النصي يتطلب مُعامل تعريف مستخدم:"
+msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:95
+#, fuzzy
 msgid "_Last modified date"
-msgstr "تاريخ _آخر تعديل"
+msgstr "بحسب _تاريخ التعديل"
 
 #: ../data/glade/gthumb_tools.glade.h:97
 #: ../src/gth-browser-actions-callbacks.c:471
@@ -1865,98 +2126,117 @@ msgid "_Rename"
 msgstr "أ_عد التسمية"
 
 #: ../data/glade/gthumb_tools.glade.h:101
+#, fuzzy
 msgid "_Selected Images"
-msgstr "صور _منتقاة"
+msgstr "اختر صورة"
 
 #: ../data/glade/gthumb_tools.glade.h:102
+#, fuzzy
 msgid "_Sort:"
-msgstr "_ترتيب:"
+msgstr "_رتّب"
 
 #: ../data/glade/gthumb_tools.glade.h:108
 msgid "hours"
 msgstr "ساعات"
 
 #: ../data/glade/gthumb_tools.glade.h:109
+#, fuzzy
 msgid "prompt"
-msgstr "حث"
+msgstr "اقتصاص"
 
 #. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
 #: ../data/glade/gthumb_tools.glade.h:111
+#, fuzzy
 msgid "title|Scale Images"
-msgstr "عنوان|مقياس الصور"
+msgstr "وزن الصورة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
+#, fuzzy
 msgid "1024 x 1024"
-msgstr "1024 × 1024"
+msgstr "10x14"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
-msgstr "1024 × 768"
+msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:6
+#, fuzzy
 msgid "1280 x 1280"
-msgstr "1280 × 1280"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:7
+#, fuzzy
 msgid "1280 x 960"
-msgstr "1280 × 960"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:8
+#, fuzzy
 msgid "320 x 200"
-msgstr "320 × 200"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:9
+#, fuzzy
 msgid "320 x 320"
-msgstr "320 × 320"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:10
+#, fuzzy
 msgid "640 x 480"
-msgstr "640 × 480"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:11
+#, fuzzy
 msgid "640 x 640"
-msgstr "640 × 640"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:12
+#, fuzzy
 msgid "800 x 600"
-msgstr "800 × 600"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:13
+#, fuzzy
 msgid "800 x 800"
-msgstr "800 × 800"
+msgstr "0 x 0"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:14
+#, fuzzy
 msgid "<b>Album Style</b>"
-msgstr "<b>أسلوب الألبوم</b>"
+msgstr "<b>غلاف الألبوم:</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:15
+#, fuzzy
 msgid "<b>Basic Information</b>"
-msgstr "<b>معلومات أساسية</b>"
+msgstr "<b>معلومات</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:16
+#, fuzzy
 msgid "<b>Camera Data</b>"
-msgstr "<b>بيانات الكاميرا</b>"
+msgstr "<b>بيانات ثانويّة أخرى</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:17
+#, fuzzy
 msgid "<b>Comments</b>"
-msgstr "<b>تعليقات</b>"
+msgstr "<b>تعليق:</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:18
+#, fuzzy
 msgid "<b>Index Page Layout</b>"
-msgstr "<b>تخطيط فهرس الصفحة</b>"
+msgstr "<b>تخطيط لوحة المفاتيح</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:19
+#, fuzzy
 msgid "<b>Personalize theme</b>"
-msgstr "<b>سمية شخصية</b>"
+msgstr "<b>لوح ألوان</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
 msgstr "<b>التيمة</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:23
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b>ملاحظة:</b> %d (التاريخ الحالي).</i></small>"
+msgstr "<small><i>لا شيء</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
@@ -1968,143 +2248,168 @@ msgstr ""
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 #, fuzzy
 msgid "<small><i><b>Note:</b> click to customize.</i></small>"
-msgstr "<small><i><b>ملاحظة:</b> %d (التاريخ الحالي).</i></small>"
+msgstr "<small><i>لا شيء</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
+#, fuzzy
 msgid "Came_ra Model"
-msgstr "طراز ال_كاميرا"
+msgstr "موديل الكاميرا"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Caption"
-msgstr "عنوان فرعي"
+msgstr "تسمية"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:32
+#, fuzzy
 msgid "Da_te and Time"
-msgstr "ال_تاريخ و الوقت"
+msgstr "التاريخ و الوقت"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:33
+#, fuzzy
 msgid "E_xposure mode"
-msgstr "نمط ال_تعرض"
+msgstr "نمط التعرض"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:34
+#, fuzzy
 msgid "Exposure _time"
-msgstr "_زمن التعرض"
+msgstr "زمن التعرض"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
+#, fuzzy
 msgid "Focal _length"
-msgstr "ال_طول البؤري"
+msgstr "الطول البؤري"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:38
+#, fuzzy
 msgid "I_mage Caption..."
-msgstr "عنوان ال_صورة الفرعي..."
+msgstr "موقع الصورة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
+#, fuzzy
 msgid "S_ort:"
-msgstr "ت_رتيب:"
+msgstr "رتّب"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Use subfolders to organize files"
-msgstr "استخدم مجلدات فرعية لتنظيم الملفات."
+msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
+#, fuzzy
 msgid "Web Album"
-msgstr "ألبوم وب"
+msgstr "أ_لبوم"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
+#, fuzzy
 msgid "Web Album Theme"
-msgstr "سمة ألبوم وب"
+msgstr "_سمات صفحات الويب"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
+#, fuzzy
 msgid "_Aperture value"
-msgstr "بقيمة الفتحة"
+msgstr "قيمة الفتحة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
+#, fuzzy
 msgid "_Copy originals to destination"
-msgstr "ن_سخ الأصليات إلى المقصد"
+msgstr "لم يمكن فتح الوِجهة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:48
+#, fuzzy
 msgid "_Date and Time"
-msgstr "ال_تاريخ و الوقت"
+msgstr "التاريخ و الوقت"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:50
+#, fuzzy
 msgid "_Flash"
-msgstr "_بريق"
+msgstr "طفو"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:51
+#, fuzzy
 msgid "_Footer:"
-msgstr "ال_تذييل:"
+msgstr "التذييل:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:52
+#, fuzzy
 msgid "_Go to Theme Folder"
-msgstr "ا_ذهب إلى مجلد السمات"
+msgstr "مجلدات الثيمات"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:53
+#, fuzzy
 msgid "_Header:"
-msgstr "ت_رويسة:"
+msgstr "ترويسات"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:54
 msgid "_Install Theme..."
 msgstr "_ثبِّت سِمة..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:55
+#, fuzzy
 msgid "_Place"
-msgstr "م_كان"
+msgstr "أماكن"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:56
+#, fuzzy
 msgid "_Resize if larger than:"
-msgstr "إ_عادة التحجيم إذا كان أكبر من:"
+msgstr "تغيير حجم الصورة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Select"
-msgstr "انت_قاء"
+msgstr "تحديد"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:58
+#, fuzzy
 msgid "_Shutter speed"
-msgstr "_سرعة التصوير"
+msgstr "سرعة المصراع"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:59
+#, fuzzy
 msgid "_Size :"
-msgstr "ال_حجم :"
+msgstr "الحجم:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:60
+#, fuzzy
 msgid "_Theme:"
-msgstr "ال_سمة:"
+msgstr "_سِمة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:61
+#, fuzzy
 msgid "_Thumbnail Caption..."
-msgstr "عنوان الم_صغرات الفرعي..."
+msgstr "دليل مُسْتَصْغرات"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:63
+#, fuzzy
 msgid "columns, by"
-msgstr "أعمدة، حسب"
+msgstr "أعمدة"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
+#, fuzzy
 msgid "or _use a single index page"
-msgstr "أو ا_ستخدم فهرس صفحة فردي"
+msgstr "يجري فهرسة بياناتك"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
+#, fuzzy
 msgid "rows per page,"
-msgstr "صفوف حسب الصفحة،"
+msgstr "عدد ألغاز _سودوكو في كل صفحة:"
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
 msgstr "عارض الصّور"
 
 #: ../data/gthumb.desktop.in.h:2 ../src/main.c:711
+#, fuzzy
 msgid "View and organize your images"
-msgstr "اعرض ونظم صورك"
+msgstr "تصفّح و نَظّم علاماتك"
 
 #: ../data/gthumb.desktop.in.h:3
+#, fuzzy
 msgid "gThumb Image Viewer"
-msgstr "عارض الصور جي ثمب"
+msgstr "عارض الصّور"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"الصورة أعلى من هذا الحجم (بالبايتات) سوف تصغّر. استخدم 0 إذا كنت تريد تصغير "
-"كل الصور."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
@@ -2113,12 +2418,13 @@ msgid ""
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:3
+#, fuzzy
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr "القيم الممكنة هي: 1،2،3،4."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:4
 msgid "Possible values are: 72, 150, 300, 600."
-msgstr "القيم الممكنة هي: 72، 150، 300، 600."
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:5
 msgid ""
@@ -2127,24 +2433,28 @@ msgid ""
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:6
+#, fuzzy
 msgid "Possible values are: ascending, descending."
-msgstr "القيم الممكنة هي: تصاعدي وتنازلي."
+msgstr "رتبهم تصاعدياً او تنازلياً"
 
 #: ../data/gthumb.schemas.in.h:7
+#, fuzzy
 msgid "Possible values are: forward, backward, random."
-msgstr "القيم الممكنة هي: مرر، إلى الخلف، عشوائي."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: high, low."
-msgstr "القيم الممكنة: عالي، منخفض"
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:9
+#, fuzzy
 msgid "Possible values are: image, data, comment."
-msgstr "القيم الممكنة هي: صورة، بيانات، تعليق."
+msgstr "القيم الممكنة هي \"merged\"، \"separate\"، و \"disabled\"."
 
 #: ../data/gthumb.schemas.in.h:10
+#, fuzzy
 msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr "القيم الممكنة هي: jpeg, png, tga, tiff."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: light, midtone, dark."
@@ -2152,27 +2462,31 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: list, thumbnails."
-msgstr "القيم الممكنة هي: قائمة، مصغرات."
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:13
+#, fuzzy
 msgid "Possible values are: manual, auto."
-msgstr "القيم الممكنة هي:يدوي، تلقائي."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:14
+#, fuzzy
 msgid "Possible values are: mm, in."
-msgstr "القيم الممكنة هي: مل، إنش."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: nautilus, single, double."
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:16
+#, fuzzy
 msgid "Possible values are: none, day, month, now, custom"
-msgstr "القيم الممكنة هي: لا شيء، يوم، شهر، الآن، مخصص."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:17
+#, fuzzy
 msgid "Possible values are: none, deflate, jpeg."
-msgstr "القيم الممكنة هي none, deflate, jpeg "
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
@@ -2191,12 +2505,14 @@ msgid ""
 msgstr ""
 
 #: ../data/gthumb.schemas.in.h:21
+#, fuzzy
 msgid "Possible values are: original, lower, upper."
-msgstr "القيم الممكنة هي original, lower, upper."
+msgstr "القيم الممكنة هي \"on\"، \"off\"، و \"custom\"."
 
 #: ../data/gthumb.schemas.in.h:22
+#, fuzzy
 msgid "Possible values are: pixels, percentage."
-msgstr "القيم الممكنة: بكسلات، درجة مؤية"
+msgstr "القيم الممكنة هي \"merged\"، \"separate\"، و \"disabled\"."
 
 #: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: png, jpeg."
@@ -2204,11 +2520,11 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "القيم الممكنة: تخطى، أعد التسمية، اسأل، اكتب فوق."
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: small, medium, large."
-msgstr "القيم الممكنة: صغير، متوسط، كبير"
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:26
 msgid ""
@@ -2217,11 +2533,12 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:27
 msgid "Possible values are: white, black, checked, none."
-msgstr "القيم الممكنة: أبيض، أسود، مفحوص، لا شيء."
+msgstr ""
 
 #: ../data/gthumb.schemas.in.h:28
+#, fuzzy
 msgid "Whether to always use a black background."
-msgstr "فيما إذا ستستخدم دائما خلفية سوداء."
+msgstr "فيما إذا ستستخدم صورة الخلفيّة"
 
 #: ../data/gthumb.schemas.in.h:29
 #, fuzzy
@@ -2229,14 +2546,14 @@ msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "فيما إذا وجب لـ gedit استعاذة موضع المؤشّر السابق عند تحميل ملف."
 
 #: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "لا يمكن فتح الكاتلوج \"%s\": %s"
+msgstr "لا يمكن فتح صندوق البريد %s: %s\n"
 
 #: ../libgthumb/catalog.c:335
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "لا يمكن حفظ الكاتلوج \"%s\": %s"
+msgstr "لا يمكن ضبط المخطط لـ %s : %s"
 
 #: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:152
 msgid "%d %B %Y"
@@ -2247,68 +2564,77 @@ msgstr "%d %B %Y"
 #: ../src/dlg-image-prop.c:447 ../src/gth-browser.c:467
 #: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:820
 #: ../src/gth-viewer.c:585
+#, fuzzy
 msgid "%d %B %Y, %H:%M"
-msgstr "%d %B %Y, %H:%M"
+msgstr "%A, %B %e %H:%M"
 
 #: ../libgthumb/comments.c:1028 ../libgthumb/comments.c:1030
+#, fuzzy
 msgid "(No Comment)"
-msgstr "(لا تعليق)"
+msgstr "تعليق مقولب"
 
 #: ../libgthumb/dlg-save-image.c:137 ../src/rotation-utils.c:279
-#, c-format
+#, fuzzy, c-format
 msgid "Image type not supported: %s"
-msgstr "نوع الصورة غير مدعوم: %s"
+msgstr "نوع صورة TGA غير مدعوم"
 
 #: ../libgthumb/dlg-save-image.c:209
+#, fuzzy
 msgid "Determine by extension"
-msgstr "حسب الإمتداد"
+msgstr "الإمتدادات النشطة"
 
 #: ../libgthumb/dlg-save-image.c:244
 msgid "Save Image"
 msgstr "حفظ الصورة"
 
 #: ../libgthumb/dlg-save-image.c:264
+#, fuzzy
 msgid "Image type:"
-msgstr "نوع الصورة:"
+msgstr "نوع الصورة:\t"
 
 #: ../libgthumb/file-utils.c:1512 ../src/gth-location.c:822
+#, fuzzy
 msgid "Catalogs"
-msgstr "كاتلوجات"
+msgstr "فهرس"
 
 #: ../libgthumb/file-utils.c:1515 ../src/gth-location.c:830
+#, fuzzy
 msgid "File System"
-msgstr "نظام الملفات"
+msgstr "أنظمة الملفات"
 
 #: ../libgthumb/file-utils.c:1544 ../src/gth-location.c:838
 msgid "Home"
 msgstr "المنزل"
 
 #: ../libgthumb/file-utils.c:2179
+#, fuzzy
 msgid "Library not empty"
-msgstr "المكتبة غير فارغة"
+msgstr "الدليل غير فارغ"
 
 #: ../libgthumb/file-utils.c:2188
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "لا يمكن إزالة المكتبة \"%s\": %s"
+msgstr "لا يمكن حذف %s: %s\n"
 
 #: ../libgthumb/file-utils.c:2215
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "لا يمكن إزالة الكاتلوج \"%s\": %s"
+msgstr "لا يمكن حذف %s: %s\n"
 
 #: ../libgthumb/gth-image-list.c:3532 ../src/gth-browser.c:716
-#: ../src/gth-browser.c:4388 ../src/gth-viewer.c:695
+#: ../src/gth-browser.c:4387 ../src/gth-viewer.c:695
 msgid "No image"
 msgstr "لا صورة"
 
 #: ../libgthumb/gth-utils.c:46
+#, fuzzy
 msgid "Could not display help"
-msgstr "تعذر عرض التعليمات"
+msgstr "لم يمكن عرض المساعدة: %s"
 
-#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:275
+#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:270
+#, fuzzy
 msgid "Ro_tate Images"
-msgstr "ت_دوير الصور"
+msgstr "تدوير الصورة"
 
 #: ../libgthumb/print-callbacks.c:821
 #, c-format
@@ -2316,65 +2642,73 @@ msgid "Page %d of %d"
 msgstr "الصّفحة %d من %d"
 
 #: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1425
-#, c-format
+#, fuzzy, c-format
 msgid "Loading image: %s"
-msgstr "تحميل الصورة: %s"
+msgstr "يجري حفظ الصورة %s."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1307
-#: ../src/gth-browser.c:1311 ../src/gth-browser.c:1323
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1306
+#: ../src/gth-browser.c:1310 ../src/gth-browser.c:1322
+#, fuzzy
 msgid "(Invalid Name)"
-msgstr "(اسم غير صحيح)"
+msgstr "تاريخ غير صحيح"
 
 #: ../src/catalog-png-exporter.c:845 ../src/dlg-image-prop.c:427
 #: ../src/gth-browser.c:470 ../src/gth-exif-data-viewer.c:328
 #: ../src/gth-fullscreen.c:812 ../src/gth-viewer.c:588
-#, c-format
+#, fuzzy, c-format
 msgid "%d x %d pixels"
-msgstr "%d × %d بكسل"
+msgstr "%s x %s بكسل"
 
 #: ../src/catalog-png-exporter.c:910 ../src/catalog-web-exporter.c:2444
 #: ../src/catalog-web-exporter.c:2664
+#, fuzzy
 msgid "Saving images"
 msgstr "حفظ الصور"
 
 #: ../src/catalog-png-exporter.c:1652
-#, c-format
+#, fuzzy, c-format
 msgid "Creating image: %s.%s"
-msgstr "إنشاء الصورة: %s.%s"
+msgstr "يجري حفظ الصورة %s."
 
 #: ../src/catalog-web-exporter.c:2158
+#, fuzzy
 msgid "Saving thumbnails"
-msgstr "حفظ المصغرات"
+msgstr "لا أظافر إبهام"
 
 #: ../src/catalog-web-exporter.c:2231
+#, fuzzy
 msgid "Saving HTML pages: Images"
-msgstr "حفظ صفحات إتش تي إم إل: الصور"
+msgstr "حفظ الصور"
 
 #: ../src/catalog-web-exporter.c:2311
 msgid "Saving HTML pages: Indexes"
-msgstr "حفظ صفحات إتش تي إم إل: الفهارس"
+msgstr ""
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
 #: ../src/catalog-web-exporter.c:2488
+#, fuzzy
 msgid "Copying original images"
-msgstr "نسخ الصور الأصلية"
+msgstr "نسخ صورة القرص"
 
 #: ../src/catalog-web-exporter.c:2873
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
+#, fuzzy
 msgid "Could not create a temporary folder"
-msgstr "تعذر إنشاء مجلد مؤفت"
+msgstr "لم يمكن إنشاء ملف مؤقت لـ '%s': %s"
 
 #. Load thumbnails.
 #: ../src/catalog-web-exporter.c:2929
+#, fuzzy
 msgid "Loading images"
-msgstr "تحميل الصور"
+msgstr "تحميل التذكيرات"
 
 #: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:687
+#, fuzzy
 msgid "Enter the catalog name: "
-msgstr "أدخل اسم الكاتلوج:"
+msgstr "تغيير اسم العمل:"
 
 #: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
 #: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:93
@@ -2383,80 +2717,89 @@ msgid "C_reate"
 msgstr "أن_شئ"
 
 #: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:829
+#, fuzzy
 msgid "Enter the library name: "
-msgstr "أدخل اسم المكتة:"
+msgstr "ادخل اسمك الأخير"
 
 #: ../src/dlg-catalog.c:502
+#, fuzzy
 msgid "Move Catalog to..."
-msgstr "نقل الكاتلوج إلى..."
+msgstr "ن_قل المراسَل إلى..."
 
 #: ../src/dlg-categories.c:240
+#, fuzzy
 msgid "Enter the new category name"
-msgstr "أدخل اسم الفئة الجديدة"
+msgstr "أدخل المستخدم الذي تريد جسّه."
 
 #: ../src/dlg-categories.c:251
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr "الاسم \"%s\" غير صحيح لاحتوائه الحرف \",\". من فضلك، استخدم اسما آخر."
+msgstr "الإسم \"%s\" غير صالح لاحتوائه الرمز \"/\". الرجاء استخدام إسم آخر."
 
 #: ../src/dlg-categories.c:256
-#, c-format
+#, fuzzy, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "الفئة \"%s\" موجود حاليا. رجاءً استخدم اسما آخر."
+msgstr "الإسم \"%s\" مستخدم في هذا المجلد سابقا. فضلا استخدم اسما آخر."
 
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
-#, c-format
+#, fuzzy, c-format
 msgid "Converting image: %s"
-msgstr "تحويل الصورة: %s"
+msgstr "تحويل الصورة"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
-msgstr "يوجد حاليا صورة مسماة  \"%s\". رجاءً حدد اسما آخر."
+msgstr "الإسم \"%s\" مستخدم في هذا المجلد سابقا. فضلا استخدم اسما آخر."
 
 #: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
-#, c-format
+#, fuzzy, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "يوجد حاليا صورة مسماة  \"%s\". هل تريد الكتابة فوقها؟"
+msgstr "هناك ملف باسم '%s' موجود حاليا. هل تريد الكتابة فوقه؟"
 
 #: ../src/dlg-convert.c:367 ../src/gth-batch-op.c:602
+#, fuzzy
 msgid "Skip"
-msgstr "تخطي"
+msgstr "الغيت "
 
 #: ../src/dlg-convert.c:368 ../src/gth-batch-op.c:603
+#, fuzzy
 msgid "_Overwrite"
-msgstr "كتابة _فوق"
+msgstr "إحلاله؟"
 
 #: ../src/dlg-crop.c:553
-#, c-format
+#, fuzzy, c-format
 msgid "%d x %d (Image)"
-msgstr "%d × %d (صورة)"
+msgstr "%d x %d"
 
 #: ../src/dlg-crop.c:561
-#, c-format
+#, fuzzy, c-format
 msgid "%d x %d (Screen)"
-msgstr "%d × %d (شاشة)"
+msgstr "%d x %d"
 
 #: ../src/dlg-duplicates.c:276 ../src/dlg-duplicates.c:650
+#, fuzzy
 msgid "Duplicates"
 msgstr "مضاعفة"
 
 #: ../src/dlg-duplicates.c:291
+#, fuzzy
 msgid "Duplicates Size"
-msgstr "حجم مضاعفة"
+msgstr "مضاعفة"
 
 #.
 #: ../src/dlg-duplicates.c:369 ../src/dlg-image-prop.c:598
 #: ../src/gth-exif-data-viewer.c:343
+#, fuzzy
 msgid "Name"
-msgstr "الاسم"
+msgstr "الإ_سم"
 
 #: ../src/dlg-duplicates.c:398
+#, fuzzy
 msgid "Last modified"
-msgstr "التعديل الأخير"
+msgstr "تاريخ التعديل"
 
 #: ../src/dlg-duplicates.c:413 ../src/dlg-image-prop.c:618
 msgid "Location"
@@ -2464,36 +2807,45 @@ msgstr "الموقع"
 
 #: ../src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "الصور المُعلّمة سوف تنقل إلى المهملات، هل أنت متأكد؟"
+msgstr ""
 
 #: ../src/dlg-file-utils.c:91
+#, fuzzy
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "المجلد المقصود غير موجود. هل تريد إنشاءه؟"
+msgstr ""
+"المجلّد المرسل اليه \"%s\" غير موجود.\n"
+"\n"
+" هل تريد انشاءه؟"
 
 #: ../src/dlg-file-utils.c:107
-#, c-format
+#, fuzzy, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "لا يمكن إنشاء المجلد \"%s\": %s."
+msgstr "تعذّر إنشاء المجلّد `%s': %s"
 
 #: ../src/dlg-file-utils.c:121 ../src/dlg-photo-importer.c:1760
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "لا تملك الأذونات لإنشاء صور في المجلد \"%s\""
+msgstr "لا تملك الأذون الكافية لاستخراج المحفوظات في المجلّد\"%s\""
 
 #: ../src/dlg-file-utils.c:204
+#, fuzzy
 msgid "Could not delete the images:"
-msgstr "تعذر حذف الصور:"
+msgstr "لايمكن حذف المجلّد \"%s\""
 
 #: ../src/dlg-file-utils.c:227
+#, fuzzy
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "لا يمكن نقل الملف إلى المهملات. هل تريد حذفه للأبد؟"
+msgstr ""
+"لا يمكن نقل الملف إلى المهملات،\n"
+"أتريد حذفه للأبد؟"
 
 #: ../src/dlg-file-utils.c:230 ../src/gth-browser-actions-callbacks.c:1139
-#: ../src/gth-browser.c:1786 ../src/gth-viewer.c:876
+#: ../src/gth-browser.c:1785 ../src/gth-viewer.c:876
 #: ../src/rotation-utils.c:125
+#, fuzzy
 msgid "_Do not display this message again"
 msgstr "لا _تظهر هذه الرسالة مرة أخرى"
 
@@ -2503,16 +2855,19 @@ msgstr "تحريك"
 
 #: ../src/dlg-file-utils.c:381 ../src/dlg-file-utils.c:481
 #: ../src/gth-browser-actions-callbacks.c:1404
+#, fuzzy
 msgid "Choose the destination folder"
-msgstr "اختر المجلد المقصود"
+msgstr "انتقي المجلّد الهدف"
 
 #: ../src/dlg-file-utils.c:549
+#, fuzzy
 msgid "%d %b %Y, %H:%M"
-msgstr "%d %b %Y، %H:%M"
+msgstr "%a %b %d, %H:%M"
 
 #: ../src/dlg-file-utils.c:784 ../src/dlg-file-utils.c:885
+#, fuzzy
 msgid "You didn't enter the new name"
-msgstr "لم تدخل الاسم الجديد"
+msgstr "لم تدخِل اسم الحزمة"
 
 #: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
 #, c-format
@@ -2521,76 +2876,86 @@ msgid ""
 msgstr "الإسم \"%s\" مستخدم في هذا المجلد سابقا. فضلا استخدم اسما آخر."
 
 #: ../src/dlg-file-utils.c:1042
+#, fuzzy
 msgid "Could not rename the image:"
-msgstr "تعذر إعادة تسمية الصورة:"
+msgstr "لم يمكن اعادة تسمية الملف"
 
 #: ../src/dlg-file-utils.c:1044
+#, fuzzy
 msgid "Could not rename the following images:"
-msgstr "تعذر إعادة تسمية الصور التالية:"
+msgstr "لم يمكن اعادة تسمية المجلّد"
 
 #: ../src/dlg-file-utils.c:1177
+#, fuzzy
 msgid "Could not move the image:"
-msgstr "تعذر نقل الصورة:"
+msgstr "لا يمكن حذف عنصر"
 
 #: ../src/dlg-file-utils.c:1179
+#, fuzzy
 msgid "Could not copy the image:"
-msgstr "تعذر نسخ الصورة:"
+msgstr "لم يمكن تحميل النسق"
 
 #: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#, fuzzy
 msgid "_Abort"
-msgstr "أ_جهض"
+msgstr "اجهض"
 
 #: ../src/dlg-file-utils.c:1204 ../src/dlg-file-utils.c:2465
 msgid "_Continue"
 msgstr "_مواصلة"
 
 #: ../src/dlg-file-utils.c:1382
-#, c-format
+#, fuzzy, c-format
 msgid "Copying file %d of %d"
-msgstr "نسخ الملف %d من %d"
+msgstr "حذف العنصر  %dمن %d"
 
 #: ../src/dlg-file-utils.c:1790 ../src/dlg-file-utils.c:2021
+#, fuzzy
 msgid "Collecting images info"
-msgstr "تجميع معلومات الصور"
+msgstr "المكان الذي تُفتَح منه الصور"
 
 #: ../src/dlg-file-utils.c:1793 ../src/dlg-file-utils.c:2034
-#, c-format
+#, fuzzy, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "حذف الملف %ld من %ld"
+msgstr "حذف العنصر  %dمن %d"
 
 #: ../src/dlg-file-utils.c:2024
-#, c-format
+#, fuzzy, c-format
 msgid "Copying file %ld of %ld"
-msgstr "نسخ الملف %ld من %ld"
+msgstr "حذف العنصر  %dمن %d"
 
 #: ../src/dlg-file-utils.c:2029
-#, c-format
+#, fuzzy, c-format
 msgid "Moving file %ld of %ld"
-msgstr "نقل الملف %ld من %ld"
+msgstr "حذف العنصر  %dمن %d"
 
 #: ../src/dlg-file-utils.c:2441 ../src/dlg-file-utils.c:2443
 #: ../src/gth-browser-actions-callbacks.c:1286
-#, c-format
+#, fuzzy, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "تعذر نقل المجلد \"%s\": %s"
+msgstr "تعذّر فتح المجلّد: %s: %s "
 
 #: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:349
 #: ../src/gth-filter-bar.c:211
+#, fuzzy
 msgid "Size"
-msgstr "الحجم"
+msgstr "الحجم:"
 
 #: ../src/dlg-image-prop.c:608 ../src/gth-exif-data-viewer.c:351
+#, fuzzy
 msgid "Type"
-msgstr "النوع"
+msgstr "أنواع"
 
 #: ../src/dlg-image-prop.c:623 ../src/gth-browser.c:482
 #: ../src/gth-exif-data-viewer.c:350 ../src/gth-viewer.c:600
+#, fuzzy
 msgid "Modified"
-msgstr "عُدّل"
+msgstr "عُدّل:"
 
 #: ../src/dlg-image-prop.c:628
+#, fuzzy
 msgid "Information on Channel"
-msgstr "معلومات على القناة"
+msgstr "_حقول المعلومات"
 
 #: ../src/dlg-image-prop.c:737
 #, c-format
@@ -2600,73 +2965,80 @@ msgstr "خصائص %s"
 #: ../src/dlg-jpegtran.c:254 ../src/dlg-reset-exif.c:128
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
-msgstr "تعذر نقل ملف مؤقت إلى موقع بعيد. افحص الأذونات البعيدة. "
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:967 ../src/dlg-photo-importer.c:1687
 #: ../src/dlg-photo-importer.c:1734 ../src/dlg-photo-importer.c:1746
 #: ../src/dlg-photo-importer.c:1762 ../src/dlg-photo-importer.c:1791
+#, fuzzy
 msgid "Could not import photos"
-msgstr "تعذر استيراد الصور"
+msgstr "تعذّر استيراد المفاتيح"
 
 #: ../src/dlg-photo-importer.c:1415
+#, fuzzy
 msgid "Import errors detected"
-msgstr "تم اكتشاف أخطاء استيراد"
+msgstr "لم يُعثر على أية أقراص"
 
 #: ../src/dlg-photo-importer.c:1416
 msgid "The files on the camera will not be deleted"
-msgstr "لن تحذف الملفات الموجودة على الكاميرا"
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:1483
-#, c-format
+#, fuzzy, c-format
 msgid "Transferring '%s' to its destination folder."
-msgstr "نقل '%s' إلى مجلد المقصد."
+msgstr "انتقي المجلّد الهدف"
 
 #: ../src/dlg-photo-importer.c:1553
 #, c-format
 msgid "Adjusting orientation of '%s'."
-msgstr "تسوية اتجاه '%s'."
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:1743
 #: ../src/gth-browser-actions-callbacks.c:1604
-#, c-format
+#, fuzzy, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "تعذر إنشاء المجلد \"%s\": %s"
+msgstr "تعذّر إنشاء المجلّد `%s': %s"
 
 #: ../src/dlg-photo-importer.c:1792
+#, fuzzy
 msgid "Not enough free space left on disk"
-msgstr "مساحة غير كافية على القرص"
+msgstr "مساحة غير كافية على القرص."
 
 #: ../src/dlg-photo-importer.c:1888
 msgid "Put name or format code here"
-msgstr "أضف الاسم أو شيفرة الصيغة هنا"
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:2195
 msgid "No grouping"
-msgstr "لا تجميع"
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:2197
 msgid "By day photo taken"
-msgstr "حسب يوم أخذ الصورة"
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:2199
 msgid "By month photo taken"
-msgstr "حسب شهر أخذ الصورة"
+msgstr ""
 
 #: ../src/dlg-photo-importer.c:2201
+#, fuzzy
 msgid "By current date and time"
-msgstr "حسب التوقيت والتاريخ الحالي"
+msgstr "الصفحة الحالية"
 
 #: ../src/dlg-photo-importer.c:2203
+#, fuzzy
 msgid "Custom subfolder"
-msgstr "مجلد فرعي مخصص"
+msgstr "_تضمّن المجلّدات الفرعية"
 
 #: ../src/dlg-png-exporter.c:908
+#, fuzzy
 msgid "Image Caption"
-msgstr "عنوان الصورة الفرعي"
+msgstr "موقع الصورة"
 
 #: ../src/dlg-png-exporter.c:962
+#, fuzzy
 msgid "Header"
-msgstr "ترويسة"
+msgstr "ترويسات"
 
 #: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
 msgid "Footer"
@@ -2674,18 +3046,21 @@ msgstr "هامش سفلي"
 
 #: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:558
 #: ../src/dlg-web-exporter.c:492
+#, fuzzy
 msgid "by path"
-msgstr "حسب المسار"
+msgstr "حسب التاريخ"
 
 #: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:560
 #: ../src/dlg-web-exporter.c:494
+#, fuzzy
 msgid "by size"
-msgstr "حسب الحجم"
+msgstr "حجم"
 
 #: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:562
 #: ../src/dlg-web-exporter.c:496
+#, fuzzy
 msgid "by file modified time"
-msgstr "حسب وقت تعديل الملف"
+msgstr "بحسب _تاريخ التعديل"
 
 #: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:564
 #: ../src/dlg-web-exporter.c:498
@@ -2694,13 +3069,15 @@ msgstr ""
 
 #: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:566
 #: ../src/dlg-web-exporter.c:500
+#, fuzzy
 msgid "by comment"
-msgstr "حسب التعليق"
+msgstr "تعليقات الشفرة"
 
 #: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:569
 #: ../src/dlg-web-exporter.c:503
+#, fuzzy
 msgid "manual order"
-msgstr "طلب يدوي"
+msgstr "رمز اللغة"
 
 #: ../src/dlg-rename-series.c:119 ../src/gth-browser-actions-callbacks.c:487
 #: ../src/gth-browser-actions-callbacks.c:703
@@ -2713,238 +3090,272 @@ msgid ""
 msgstr "الإسم \"%s\" غير صالح لاحتوائه الرمز \"/\". الرجاء استخدام إسم آخر."
 
 #: ../src/dlg-rename-series.c:542
+#, fuzzy
 msgid "Old Name"
-msgstr "اسم قديم"
+msgstr "إسم الحقل"
 
 #: ../src/dlg-rename-series.c:550
+#, fuzzy
 msgid "New Name"
-msgstr "اسم جديد"
+msgstr "لعبة جديدة"
 
 #: ../src/dlg-search.c:366
+#, fuzzy
 msgid "Search Result"
 msgstr "نتائج البحث"
 
 #: ../src/dlg-scripts.c:90
 msgid "Edit with GIMP"
-msgstr "تحرير بواسطة جمب"
+msgstr ""
 
 #: ../src/dlg-scripts.c:91
 msgid "Add copyright"
-msgstr "إضافة حقوق نشر"
+msgstr ""
 
 #: ../src/dlg-scripts.c:92
+#, fuzzy
 msgid "Copy to \"approved\" folder"
-msgstr "نسخ إلى المجلد \"مصدق عليه\""
+msgstr "انسخ السّطور المنتقاة"
 
 #: ../src/dlg-scripts.c:93
 msgid "Send by email"
-msgstr "أرسل بالبريد الإلكتروني"
+msgstr ""
 
 #: ../src/dlg-scripts.c:94
 msgid "Make a zip file"
-msgstr "انشئ ملفا مضغوطا"
+msgstr ""
 
 #: ../src/dlg-scripts.c:95
 msgid "Make a zip file and email it"
-msgstr "انشئ ملفا مضغوطا وأرسله"
+msgstr ""
 
 #: ../src/dlg-scripts.c:527 ../src/dlg-scripts.c:529
+#, fuzzy
 msgid "Script Progress"
-msgstr "تقدم البرنامج النصي"
+msgstr "نتائج البحث"
 
 #: ../src/dlg-scripts.c:608
 #, c-format
 msgid "Scripts using the %%F code can not be cancelled. Sorry!"
-msgstr "البرامج النصي باستخدام الشيفرة %%F لا يمكن إلغاؤها. عذرا!"
+msgstr ""
 
 #: ../src/dlg-scripts.c:731
 #, c-format
 msgid "Script %d"
-msgstr "برنامج نصي %d"
+msgstr ""
 
 #: ../src/dlg-scripts.c:797
 msgid "The \"Postr\" software package must be installed to use this function."
-msgstr "يجب أن تكون الحزمة \"Postr\" مثبتة لاستخدام هذه الخاصيّة."
+msgstr ""
 
 #: ../src/dlg-scripts.c:931
+#, fuzzy
 msgid "Number"
-msgstr "الرقم"
+msgstr "الإ_سم"
 
 #: ../src/dlg-scripts.c:943
+#, fuzzy
 msgid "Short Name"
-msgstr "الاسم القصير"
+msgstr "الصّورة ال_أولى"
 
 #: ../src/dlg-scripts.c:954
+#, fuzzy
 msgid "Script"
-msgstr "برنامج نصي"
+msgstr "رتّب"
 
 #: ../src/dlg-web-exporter.c:854
+#, fuzzy
 msgid "Select Album Theme"
-msgstr "انتق سمة ألبوم"
+msgstr "تحديد ثيمة"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3738
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3737
+#, fuzzy
 msgid "Could not move the items:"
-msgstr "تعذر نقل العناصر:"
+msgstr "لا يمكن حذف عنصر"
 
 #: ../src/gth-browser-actions-callbacks.c:169 ../src/gth-fullscreen.c:1091
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "سوف تنقل الصورة إلى المهملات، هل أنت متأكد؟"
+msgstr ""
 
 #: ../src/gth-browser-actions-callbacks.c:268
-#, c-format
+#, fuzzy, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "تعذر مضاعفة الصورة \"%s\": %s"
+msgstr "تعذّر فتح العنوان \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:276
+#, fuzzy
 msgid "Stop"
-msgstr "توقف"
+msgstr "تو_قّف"
 
 #: ../src/gth-browser-actions-callbacks.c:277
+#, fuzzy
 msgid "Continue"
-msgstr "مواصلة"
+msgstr "_مواصلة"
 
 #: ../src/gth-browser-actions-callbacks.c:332
+#, fuzzy
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "سوف تنقل الصور المنتقاة إلى المهملات، هل أنت متأكد؟"
+msgstr "لا يمكن نقل الملف المنتقى إلى المهملات."
 
 #: ../src/gth-browser-actions-callbacks.c:467
 #: ../src/gth-browser-actions-callbacks.c:977
+#, fuzzy
 msgid "Enter the new name: "
-msgstr "أدخل اسما جديدا:"
+msgstr "أدخل عبارة السر الجديدة لـ: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:509
 #: ../src/gth-browser-actions-callbacks.c:722
 #: ../src/gth-browser-actions-callbacks.c:802
 #: ../src/gth-browser-actions-callbacks.c:1025
-#, c-format
+#, fuzzy, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "الاسم \"%s\" مستخدم حاليا. فضلا استخدم اسما آخر."
+msgstr "الإسم \"%s\" مستخدم في هذا المجلد سابقا. فضلا استخدم اسما آخر."
 
 #: ../src/gth-browser-actions-callbacks.c:521
-#, c-format
+#, fuzzy, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "تعذر إعادة تسمية المكتبة \"%s\": %s"
+msgstr "تعذّر فتح العنوان \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:521
-#, c-format
+#, fuzzy, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "تعذر إعادة تسمية الكاتلوج \"%s\": %s"
+msgstr "لا يمكن إعادة تسمية %s إلى %s: %s\n"
 
 #: ../src/gth-browser-actions-callbacks.c:591
+#, fuzzy
 msgid "The selected library will be removed, are you sure?"
-msgstr "سوف تزال المكتبة المنتقاة، هل أنت متأكد؟"
+msgstr "سيقطع اتصال المستخدم عن بعد من '%s'. أمتأكّد؟"
 
 #: ../src/gth-browser-actions-callbacks.c:593
+#, fuzzy
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "سوف يزال الكاتلوج المنتقى، هل أنت متأكد؟"
+msgstr "سينقل العنصر المنتقى إذا اخترت أمر اللصق"
 
 #: ../src/gth-browser-actions-callbacks.c:688
+#, fuzzy
 msgid "New Catalog"
-msgstr "كاتلوج جديد"
+msgstr "فهرس"
 
 #: ../src/gth-browser-actions-callbacks.c:734
-#, c-format
+#, fuzzy, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr "تعذر إنشاء الكاتلوج \"%s\": %s"
+msgstr "لم يمكن إنشاء صورة مصغرة لـ %s: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:828
+#, fuzzy
 msgid "New Library"
-msgstr "مكتبة جديدة"
+msgstr "مكتبة"
 
 #: ../src/gth-browser-actions-callbacks.c:830
-#, c-format
+#, fuzzy, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr "تعذر إنشاء المكتبة \"%s\": %s"
+msgstr "لم يمكن إنشاء صورة مصغرة لـ %s: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1015
 #: ../src/gth-browser-actions-callbacks.c:1050
-#, c-format
+#, fuzzy, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "تعذر إعادة تسمية المجلد \"%s\": %s"
+msgstr "لم يمكن اعادة تسمية المجلّد"
 
 #: ../src/gth-browser-actions-callbacks.c:1017
 #: ../src/gth-browser-actions-callbacks.c:1296
+#, fuzzy
 msgid "source and destination are the same"
-msgstr "المصدر والمقصد متطابقان."
+msgstr "المقصد و المصدر هما نفس الملف."
 
 #: ../src/gth-browser-actions-callbacks.c:1100
-#, c-format
+#, fuzzy, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "تعذر حذف المجلد \"%s\": %s"
+msgstr "لايمكن حذف المجلّد \"%s\""
 
 #: ../src/gth-browser-actions-callbacks.c:1131
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "لا يمكن نقل \"%s\" إلى المهملات. هل تريد حذفه إلى الأبد؟"
+msgstr ""
+"لا يمكن نقل الملف إلى المهملات،\n"
+"أتريد حذفه للأبد؟"
 
 #: ../src/gth-browser-actions-callbacks.c:1175
+#, fuzzy
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "سوف ينقل المجلد المنتقى إلى المهملات، هل أنت متأكد؟"
+msgstr "لا يمكن نقل الملف المنتقى إلى المهملات."
 
 #: ../src/gth-browser-actions-callbacks.c:1228
 #: ../src/gth-browser-actions-callbacks.c:1286
-#, c-format
+#, fuzzy, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "تعذر نسخ المجلد \"%s\": %s"
+msgstr "تعذّر فتح المجلّد: %s: %s "
 
 #: ../src/gth-browser-actions-callbacks.c:1307
+#, fuzzy
 msgid "source contains destination"
-msgstr "المصدر يحتوي المقصد"
+msgstr "وجهة النشر"
 
 #: ../src/gth-browser-actions-callbacks.c:1318
+#, fuzzy
 msgid "a folder with that name is already present."
-msgstr "يوجد مجلد بالاسم نفسه حاليا."
+msgstr "هناك مجلّد موجود بنفس الإسم"
 
 #: ../src/gth-browser-actions-callbacks.c:1602
+#, fuzzy
 msgid "New Folder"
-msgstr "مجلد جديد"
+msgstr "مجلّد جديد"
 
 #: ../src/gth-browser-actions-callbacks.c:1603
+#, fuzzy
 msgid "Enter the folder name: "
-msgstr "أدخل اسم المجلد:"
+msgstr "اسم مجلّد جديد"
 
 #: ../src/gth-browser-actions-callbacks.c:1733 ../src/gth-location.c:219
+#, fuzzy
 msgid "Open Location"
-msgstr "فتح الموقع"
+msgstr "افتح ال_موقع"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
+#, fuzzy
 msgid "_File"
-msgstr "_ملف"
+msgstr "/ملف"
 
 #: ../src/gth-browser-actions-entries.h:37
+#, fuzzy
 msgid "_Folder"
-msgstr "م_جلد"
+msgstr "_مجلّدات"
 
 #: ../src/gth-browser-actions-entries.h:40
 #: ../src/gth-viewer-actions-entries.h:36
+#, fuzzy
 msgid "_Edit"
-msgstr "ت_حرير"
+msgstr "_تحرير/"
 
 #: ../src/gth-browser-actions-entries.h:42
 #: ../src/gth-viewer-actions-entries.h:38
+#, fuzzy
 msgid "Show/_Hide"
-msgstr "عرض/إ_خفاء"
+msgstr "اظهر ال_مخفي"
 
 #: ../src/gth-browser-actions-entries.h:43
+#, fuzzy
 msgid "S_ort Images"
-msgstr "ترتيب الصور"
+msgstr "الصّورة ال_أولى"
 
 #: ../src/gth-browser-actions-entries.h:44
 #: ../src/gth-viewer-actions-entries.h:39
+#, fuzzy
 msgid "_Zoom"
-msgstr "_تكبير"
+msgstr "تكبير"
 
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
-msgstr "_ذهاب"
+msgstr "ا_ذهب"
 
 #: ../src/gth-browser-actions-entries.h:46
 #: ../src/gth-browser-actions-entries.h:512
 #: ../src/gth-viewer-actions-entries.h:40
+#, fuzzy
 msgid "_Image"
-msgstr "_صورة"
+msgstr "صور"
 
 #: ../src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
@@ -2957,23 +3368,26 @@ msgstr "أد_وات"
 
 #: ../src/gth-browser-actions-entries.h:49
 #: ../src/gth-viewer-actions-entries.h:42
+#, fuzzy
 msgid "Set Image as _Wallpaper"
-msgstr "ضبط الصورة ك_خلفية"
+msgstr "استخدم كخلفية"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:43
 msgid "Scri_pts"
-msgstr "ب_رامج نصية"
+msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:51
 #: ../src/gth-viewer-actions-entries.h:44
+#, fuzzy
 msgid "_Upload"
-msgstr "_رفع"
+msgstr "إ_عادة التحميل"
 
 #: ../src/gth-browser-actions-entries.h:52
 #: ../src/gth-viewer-actions-entries.h:45
+#, fuzzy
 msgid "_Help"
-msgstr "م_ساعدة"
+msgstr "مساعدة"
 
 #: ../src/gth-browser-actions-entries.h:55
 #: ../src/gth-viewer-actions-entries.h:48
@@ -2986,26 +3400,31 @@ msgid "Create a new window"
 msgstr "إنشاء نافذة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:61
+#, fuzzy
 msgid "Open the selected image in a new window"
-msgstr "فتح الصورة المنقاه في نافذة جديدة"
+msgstr "افتح الرسائل المنتقاه في نافذة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:66
 #: ../src/gth-browser-actions-entries.h:446
 #: ../src/gth-viewer-actions-entries.h:94
+#, fuzzy
 msgid "View image properties"
-msgstr "عرض خصائص الصورة"
+msgstr "خصائص الصفحة"
 
 #: ../src/gth-browser-actions-entries.h:70
+#, fuzzy
 msgid "_Import Photos..."
-msgstr "اس_تيراد صور..."
+msgstr "استورد ال_صور"
 
 #: ../src/gth-browser-actions-entries.h:71
+#, fuzzy
 msgid "Import photos from a digital camera"
-msgstr "استيراد صور من كاميرا رقمية"
+msgstr "تستورد علامات المواقع من ملف"
 
 #: ../src/gth-browser-actions-entries.h:75
+#, fuzzy
 msgid "_Write To CD..."
-msgstr "_كتابة إلى سيدي..."
+msgstr "ا_كتب إلى القرص..."
 
 #: ../src/gth-browser-actions-entries.h:76
 msgid "Write selection to CD"
@@ -3017,16 +3436,19 @@ msgstr "اكتب المنتقى إلى قرص مدمج"
 #: ../src/gth-browser-actions-entries.h:185
 #: ../src/gth-browser-actions-entries.h:225
 #: ../src/gth-browser-actions-entries.h:255
+#, fuzzy
 msgid "_Rename..."
-msgstr "إ_عادة التسمة..."
+msgstr "أ_عد التسمية"
 
 #: ../src/gth-browser-actions-entries.h:81
+#, fuzzy
 msgid "Rename this image"
-msgstr "إعادة تسمية هذه الصورة"
+msgstr "حذف هذه الصورة"
 
 #: ../src/gth-browser-actions-entries.h:86
+#, fuzzy
 msgid "Move this image to the Trash"
-msgstr "نقل هذه الصورة إلى المهملات"
+msgstr "انقل هذا المجلد للمهملات"
 
 #: ../src/gth-browser-actions-entries.h:90
 #: ../src/gth-browser-actions-entries.h:115
@@ -3036,8 +3458,9 @@ msgid "_Copy..."
 msgstr "ا_نسخ..."
 
 #: ../src/gth-browser-actions-entries.h:91
+#, fuzzy
 msgid "Copy this image to another location"
-msgstr "نسخ هذه الصورة إلى موقع آخر"
+msgstr "نسخ الرّسالة المنتقاة إلى مجلّد آخر"
 
 #: ../src/gth-browser-actions-entries.h:95
 #: ../src/gth-browser-actions-entries.h:120
@@ -3049,67 +3472,81 @@ msgid "_Move..."
 msgstr "ا_نقل..."
 
 #: ../src/gth-browser-actions-entries.h:96
+#, fuzzy
 msgid "Move this image to another location"
-msgstr "نقل هذه الصورة إلى موقع آخر"
+msgstr "انقل ورقة إلى الأساس"
 
 #: ../src/gth-browser-actions-entries.h:101
+#, fuzzy
 msgid "Rename selected images"
-msgstr "إعادة تسمية الصور المنتقاة"
+msgstr "أعد تسمية العنصر المنتقى"
 
 #: ../src/gth-browser-actions-entries.h:105
 msgid "D_uplicate"
 msgstr "_ضاعِف"
 
 #: ../src/gth-browser-actions-entries.h:106
+#, fuzzy
 msgid "Duplicate selected images"
-msgstr "مضاعفة الصور المنتقاة"
+msgstr "ضاعِف كل عنصر منتقى"
 
 #: ../src/gth-browser-actions-entries.h:111
+#, fuzzy
 msgid "Move the selected images to the Trash"
-msgstr "نقل الصور المنتقاة إلى المهملات"
+msgstr "انقل كل عنصر منتقى إلى المهملات"
 
 #: ../src/gth-browser-actions-entries.h:116
+#, fuzzy
 msgid "Copy selected images to another location"
-msgstr "نسخ الصور المنتقاة إلى المهملات"
+msgstr "نسخ الرّسالة المنتقاة إلى مجلّد آخر"
 
 #: ../src/gth-browser-actions-entries.h:121
+#, fuzzy
 msgid "Move selected images to another location"
-msgstr "نقل الصور المنقاه إلى موقع آخر"
+msgstr "انقل الرسائل المنتقاه إلى مجلد آخر"
 
 #: ../src/gth-browser-actions-entries.h:125
+#, fuzzy
 msgid "_Select All"
-msgstr "انت_قاء الكل"
+msgstr "اختر الكل"
 
 #: ../src/gth-browser-actions-entries.h:126
+#, fuzzy
 msgid "Select all images"
-msgstr "انتقاء كل الصور"
+msgstr "اختر كل الملفات"
 
 #: ../src/gth-browser-actions-entries.h:130
 #: ../src/gth-viewer-actions-entries.h:58
+#, fuzzy
 msgid "_Add to Catalog..."
-msgstr "إ_ضافة كاتلوج..."
+msgstr "أ_ضف للشّريط..."
 
 #: ../src/gth-browser-actions-entries.h:131
 #: ../src/gth-viewer-actions-entries.h:59
+#, fuzzy
 msgid "Add selected images to a catalog"
-msgstr "إضافة الصور المنتقاة إلى كاتلوج"
+msgstr "قص الرسائل المُنتقاه إلى الحافظة"
 
 #: ../src/gth-browser-actions-entries.h:135
+#, fuzzy
 msgid "Remo_ve from Catalog"
-msgstr "إ_زالة من الكاتلوج"
+msgstr "أزل من القائمة"
 
 #: ../src/gth-browser-actions-entries.h:136
+#, fuzzy
 msgid "Remove selected images from the catalog"
-msgstr "إزالة الصور المنتقاة من الكاتلوج"
+msgstr "احذف العنصر المحدد من شريط الأدوات"
 
 #: ../src/gth-browser-actions-entries.h:140
 #: ../src/gth-browser-actions-entries.h:210
+#, fuzzy
 msgid "Open"
-msgstr "فتح"
+msgstr "ا_فتح"
 
 #: ../src/gth-browser-actions-entries.h:141
+#, fuzzy
 msgid "Open the selected catalog"
-msgstr "فتح الكاتلوج المنتقى"
+msgstr "افتح الملاحظة المنتقاة"
 
 #: ../src/gth-browser-actions-entries.h:145
 #: ../src/gth-browser-actions-entries.h:215
@@ -3117,166 +3554,200 @@ msgid "Open in New Window"
 msgstr "افتح في نافذة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:146
+#, fuzzy
 msgid "Open the selected catalog in a new window"
-msgstr "فتح الكاتلوج المنتقى في نافذة جديدة"
+msgstr "افتح الرسائل المنتقاه في نافذة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:151
+#, fuzzy
 msgid "Rename selected catalog"
-msgstr "إعادة تسمية الكاتلوج المنتقى"
+msgstr "أعد تسمية العنصر المنتقى"
 
 #: ../src/gth-browser-actions-entries.h:155
 #: ../src/gth-browser-actions-entries.h:190
+#, fuzzy
 msgid "Rem_ove"
-msgstr "إ_زالة"
+msgstr "احذف"
 
 #: ../src/gth-browser-actions-entries.h:156
+#, fuzzy
 msgid "Remove selected catalog"
-msgstr "إزالة الكاتلوج المنتقى"
+msgstr "حذف الاختيار"
 
 #: ../src/gth-browser-actions-entries.h:161
+#, fuzzy
 msgid "Move selected catalog to another location"
-msgstr "نثل الكاتلوج المنتقى إلى موقع آخر"
+msgstr "انقل الرسائل المنتقاه إلى مجلد آخر"
 
 #: ../src/gth-browser-actions-entries.h:165
 #: ../src/gth-browser-actions-entries.h:200
+#, fuzzy
 msgid "_Edit Search..."
-msgstr "ت_حرير البحث..."
+msgstr "_بحث..."
 
 #: ../src/gth-browser-actions-entries.h:166
 #: ../src/gth-browser-actions-entries.h:201
+#, fuzzy
 msgid "Modify search criteria"
-msgstr "تعديل معيار البحث"
+msgstr "تعديل المادة المختارة"
 
 #: ../src/gth-browser-actions-entries.h:170
 #: ../src/gth-browser-actions-entries.h:205
+#, fuzzy
 msgid "Redo _Search"
-msgstr "إعادة ال_بحث"
+msgstr "ا_بحث"
 
 #: ../src/gth-browser-actions-entries.h:171
 #: ../src/gth-browser-actions-entries.h:206
+#, fuzzy
 msgid "Redo the search"
-msgstr "إعادة البحث"
+msgstr "تكرار التحرير"
 
 #: ../src/gth-browser-actions-entries.h:175
+#, fuzzy
 msgid "_New Catalog..."
-msgstr "كاتلوج _جديد..."
+msgstr "مسار جديد..."
 
 #: ../src/gth-browser-actions-entries.h:176
+#, fuzzy
 msgid "Create a new catalog"
-msgstr "إنشاء كاتلوج جديد"
+msgstr "أنشيء مهمّةً جديدة"
 
 #: ../src/gth-browser-actions-entries.h:180
+#, fuzzy
 msgid "New _Library..."
-msgstr "م_كتبة جديدة..."
+msgstr "طبقة جديدة..."
 
 #: ../src/gth-browser-actions-entries.h:181
+#, fuzzy
 msgid "Create a new catalog library"
-msgstr "إنشاء مكتبة كتلوجات جديدة"
+msgstr "أنشيء تقويماً جديداً"
 
 #: ../src/gth-browser-actions-entries.h:186
+#, fuzzy
 msgid "Rename current catalog"
-msgstr "إعادة تسمية الكاتلوج الحالي"
+msgstr "استبدل المنتقى الحالي"
 
 #: ../src/gth-browser-actions-entries.h:191
+#, fuzzy
 msgid "Remove current catalog"
-msgstr "إزالة الكاتلوج الحالي"
+msgstr "انقل اللسان الحالي إلى اليمين"
 
 #: ../src/gth-browser-actions-entries.h:196
+#, fuzzy
 msgid "Move current catalog to another location"
-msgstr "نقل الكاتلوج الحالي إلى موقع آخر"
+msgstr "انقل اللسان الحالي إلى اليسار"
 
 #: ../src/gth-browser-actions-entries.h:211
 msgid "Open the selected folder"
 msgstr "افتح المجلد المنتقى"
 
 #: ../src/gth-browser-actions-entries.h:216
+#, fuzzy
 msgid "Open the selected folder in a new window"
-msgstr "فتح المجلد المنتقى في نافذة جديدة"
+msgstr "افتح علامة الموقع المنتقاة في نافذة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:220
 #: ../src/gth-browser-actions-entries.h:250
+#, fuzzy
 msgid "Open with the _File Manager"
-msgstr "فتح بواسطة مدير المل_فات"
+msgstr "افتح في مدير الملفّات"
 
 #: ../src/gth-browser-actions-entries.h:221
+#, fuzzy
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "فتح المجلد المنتقنى بواسطة مدير ملفات وتيلاس"
+msgstr "نسخ المجلد المُنتقى إلى داخل مجلد آخر"
 
 #: ../src/gth-browser-actions-entries.h:226
+#, fuzzy
 msgid "Rename selected folder"
-msgstr "إعادة تسمية المجلد المنتقى"
+msgstr "أعِد تسمية المجلّد المنتقى"
 
 #: ../src/gth-browser-actions-entries.h:231
+#, fuzzy
 msgid "Move the selected folder to the Trash"
-msgstr "نقل المجلد المنتقى إلى المهملات"
+msgstr "انقل المجلد المفتوح للمهملات"
 
 #: ../src/gth-browser-actions-entries.h:236
+#, fuzzy
 msgid "Copy selected folder"
-msgstr "نسخ المجلد المنتقى"
+msgstr "انسخ السّطور المنتقاة"
 
 #: ../src/gth-browser-actions-entries.h:241
+#, fuzzy
 msgid "Move selected folder"
-msgstr "نقل المجلد المنتقى"
+msgstr "لقد انتقيت مجلداً"
 
 #: ../src/gth-browser-actions-entries.h:245
 #: ../src/gth-browser-actions-entries.h:275
-#: ../src/gth-window-actions-entries.h:95
+#: ../src/gth-window-actions-entries.h:90
 msgid "Ca_tegories..."
 msgstr "ال_فئات..."
 
 #: ../src/gth-browser-actions-entries.h:246
+#, fuzzy
 msgid "Assign categories to the selected folder"
-msgstr "تعيين التصنيفات للمجلد المنتقى"
+msgstr "غير خصائص المجلد المنتقى"
 
 #: ../src/gth-browser-actions-entries.h:251
+#, fuzzy
 msgid "Open current folder with the Nautilus file manager"
-msgstr "فتح المجلد المنتقى بواسطة مدير ملفات نوتيلاس"
+msgstr "لا يمكن إنشاء مجلّد بهذا الإسم"
 
 #: ../src/gth-browser-actions-entries.h:256
+#, fuzzy
 msgid "Rename current folder"
-msgstr "إعادة تسمية المجلد الحالي"
+msgstr "عرض المجلد الحالي"
 
 #: ../src/gth-browser-actions-entries.h:261
+#, fuzzy
 msgid "Move the current folder to the Trash"
-msgstr "نقل المجلد الحالي إلى المهملات"
+msgstr "انقل المجلد المفتوح للمهملات"
 
 #: ../src/gth-browser-actions-entries.h:266
+#, fuzzy
 msgid "Copy current folder"
-msgstr "نسخ المجلد الحالي"
+msgstr "المجلّد الحالي"
 
 #: ../src/gth-browser-actions-entries.h:271
+#, fuzzy
 msgid "Move current folder"
-msgstr "نقل المجلد الحالي"
+msgstr "عرض المجلد الحالي"
 
 #: ../src/gth-browser-actions-entries.h:276
+#, fuzzy
 msgid "Assign categories to the current folder"
-msgstr "تعيين التصنيفات للمجلد الحالي"
+msgstr "عرض المجلد الحالي"
 
 #: ../src/gth-browser-actions-entries.h:280
 msgid "_New Folder..."
 msgstr "مجلّد _جديد..."
 
 #: ../src/gth-browser-actions-entries.h:281
+#, fuzzy
 msgid "Create a new folder"
-msgstr "إنشاء مجلد جديد"
+msgstr "انشيء مجلد بريد جديد"
 
 #: ../src/gth-browser-actions-entries.h:286
 #: ../src/gth-fullscreen-actions-entries.h:43
+#, fuzzy
 msgid "View next image"
-msgstr "عرض الصورة التالية"
+msgstr "اعرض الصفحة التالية"
 
 #: ../src/gth-browser-actions-entries.h:291
 #: ../src/gth-fullscreen-actions-entries.h:48
+#, fuzzy
 msgid "View previous image"
-msgstr "عرض الصورة السابقة"
+msgstr "اعرض الصفحة السابقة"
 
 #: ../src/gth-browser-actions-entries.h:301
 msgid "Go to the previous visited location"
 msgstr "اذهب إلى الموقع المزار سابقا"
 
 #: ../src/gth-browser-actions-entries.h:306
+#, fuzzy
 msgid "Go to the next visited location"
-msgstr "إذهب إلى المجلد المُزار التالي"
+msgstr "اذهب إلى الموقع المزار سابقا"
 
 #: ../src/gth-browser-actions-entries.h:311
 msgid "Go up one level"
@@ -3289,48 +3760,57 @@ msgstr "إ_عادة التحميل"
 
 #: ../src/gth-browser-actions-entries.h:316
 #: ../src/gth-viewer-actions-entries.h:64
+#, fuzzy
 msgid "Reload the current location"
-msgstr "إعادة تحميل الموقع الحالي"
+msgstr "احذف الموقع الحالي"
 
 #: ../src/gth-browser-actions-entries.h:321
+#, fuzzy
 msgid "Stop loading current location"
-msgstr "أوقف تحميل الموقع الحالي "
+msgstr "أوقف العملية الحالية"
 
 #: ../src/gth-browser-actions-entries.h:326
+#, fuzzy
 msgid "Go to the home folder"
-msgstr "إذهب إلى المجلد الرئيسي"
+msgstr "إذهب للصفحة الرئيسية"
 
 #: ../src/gth-browser-actions-entries.h:330
 #: ../src/gth-viewer-actions-entries.h:53
+#, fuzzy
 msgid "_Go to the Image Folder"
-msgstr "إ_ذهب إلى مجلد الصور"
+msgstr "اذهب إلى قائمة الزوايا"
 
 #: ../src/gth-browser-actions-entries.h:331
 #: ../src/gth-viewer-actions-entries.h:54
+#, fuzzy
 msgid "Go to the folder that contains the selected image"
-msgstr "إذهب إلى مجلد الصور الذي يتحتوي الصورة المنتقاة"
+msgstr "عنوان آخر دليل استُخدم في حوار إنتقاء الأسماء"
 
 #: ../src/gth-browser-actions-entries.h:335
+#, fuzzy
 msgid "_Delete History"
-msgstr "ا_حذف التاريخ"
+msgstr "ام_سح التاريخ"
 
 #: ../src/gth-browser-actions-entries.h:336
+#, fuzzy
 msgid "Delete the list of visited locations"
-msgstr "احذف قا|مة المواقع المٌزارة"
+msgstr "اذهب إلى الموقع المزار سابقا"
 
 #: ../src/gth-browser-actions-entries.h:340
 msgid "_Location..."
 msgstr "ال_موقع..."
 
 #: ../src/gth-browser-actions-entries.h:341
+#, fuzzy
 msgid "Specify a location to visit"
-msgstr "حدد موقعا للزيارة"
+msgstr "حدد موقعا لفتحه"
 
 #: ../src/gth-browser-actions-entries.h:345
 msgid "_Add Bookmark"
 msgstr "أ_ضف علامة موقع"
 
 #: ../src/gth-browser-actions-entries.h:346
+#, fuzzy
 msgid "Add current location to bookmarks"
 msgstr "أضِف المجلّد الحالي إلى علامات المواقع"
 
@@ -3339,169 +3819,201 @@ msgid "_Edit Bookmarks..."
 msgstr "حرّر علامات المواقع..."
 
 #: ../src/gth-browser-actions-entries.h:351
+#, fuzzy
 msgid "Edit bookmarks"
 msgstr "حرّر علامات المواقع"
 
 #: ../src/gth-browser-actions-entries.h:355
+#, fuzzy
 msgid "_Slideshow"
 msgstr "عرض _شرائح"
 
 #: ../src/gth-browser-actions-entries.h:356
+#, fuzzy
 msgid "View as a slideshow"
-msgstr "اعرض كعرض شرائح"
+msgstr "اعرض ك_مجلّد"
 
 #: ../src/gth-browser-actions-entries.h:360
 msgid "_Search..."
 msgstr "_بحث..."
 
 #: ../src/gth-browser-actions-entries.h:370
+#, fuzzy
 msgid "Create _Index Image..."
-msgstr "إنشاء _فهرس صورة..."
+msgstr "إنشاء صورة جديدة"
 
 #: ../src/gth-browser-actions-entries.h:375
+#, fuzzy
 msgid "Create _Web Album..."
-msgstr "...إنشاء ألبوم _وب"
+msgstr "ان_شئ مفتاحاً جديداً..."
 
 #: ../src/gth-browser-actions-entries.h:380
+#, fuzzy
 msgid "Convert F_ormat..."
-msgstr "تحويل ال_نسق..."
+msgstr "يجري تحويل %s..."
 
 #: ../src/gth-browser-actions-entries.h:381
+#, fuzzy
 msgid "Convert image format"
-msgstr "تحويلة نسق الصورة"
+msgstr "هيئة التصدير"
 
 #: ../src/gth-browser-actions-entries.h:385
+#, fuzzy
 msgid "Search for _Duplicates..."
-msgstr "ابحث عن ت_كرار..."
+msgstr "ا_بحث عن الملفات..."
 
 #: ../src/gth-browser-actions-entries.h:390
+#, fuzzy
 msgid "_Preferences..."
-msgstr "_تفضيلات..."
+msgstr "تفضيلات..."
 
 #: ../src/gth-browser-actions-entries.h:391
 msgid "Edit various preferences"
 msgstr "تحرير تفضيلات متعدّدة"
 
 #: ../src/gth-browser-actions-entries.h:395
+#, fuzzy
 msgid "Scale Images..."
-msgstr "وزن الصور..."
+msgstr "وزن الصورة..."
 
 #. Translators: This is a tooltip. A different translation
 #. may be required than for the identical string used as a
 #. dialog window title used elsewhere, depending on your
 #. language's grammar.
 #: ../src/gth-browser-actions-entries.h:400
+#, fuzzy
 msgid "Scale Images"
-msgstr "وزن الصور"
+msgstr "وزن الصورة"
 
 #: ../src/gth-browser-actions-entries.h:404
 #: ../src/gth-viewer-actions-entries.h:68
+#, fuzzy
 msgid "_Edit Scripts"
-msgstr "_تحرير البرامج النصية"
+msgstr "_9 البحث"
 
 #: ../src/gth-browser-actions-entries.h:405
 #: ../src/gth-viewer-actions-entries.h:69
 msgid "Edit external scripts"
-msgstr "تحرير البرامج النصية الخارجية"
+msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:409
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "To _Flickr"
-msgstr "إلى _فلكر"
+msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:410
 #: ../src/gth-viewer-actions-entries.h:74
+#, fuzzy
 msgid "Upload selected images to Flickr"
-msgstr "رفع الصورة المنتقاة إلى فكلر"
+msgstr "قص الرسائل المُنتقاه إلى الحافظة"
 
 #: ../src/gth-browser-actions-entries.h:419
 #: ../src/gth-viewer-actions-entries.h:83
+#, fuzzy
 msgid "_Toolbar"
-msgstr "شريط الأ_دوات"
+msgstr "أ_شرطة الادوات"
 
 #: ../src/gth-browser-actions-entries.h:420
 #: ../src/gth-viewer-actions-entries.h:84
+#, fuzzy
 msgid "View or hide the toolbar of this window"
-msgstr "عرض أو إخفاء شريط الأدوات لهذه النافذة"
+msgstr "اظهر أو إخفي شريط الأدوات في النافذة الحالية "
 
 #: ../src/gth-browser-actions-entries.h:424
 #: ../src/gth-viewer-actions-entries.h:88
+#, fuzzy
 msgid "_Statusbar"
 msgstr "_شريط الحالة"
 
 #: ../src/gth-browser-actions-entries.h:425
 #: ../src/gth-viewer-actions-entries.h:89
+#, fuzzy
 msgid "View or hide the statusbar of this window"
-msgstr "عرض أو إخفاء شريطة الحالة لهذه النافذة"
+msgstr "اظهر أو إخفي شريط الحالة في النافذة الحالية"
 
 #: ../src/gth-browser-actions-entries.h:429
+#, fuzzy
 msgid "_Filter"
-msgstr "_مرشّح"
+msgstr "_مرشّح:"
 
 #: ../src/gth-browser-actions-entries.h:430
+#, fuzzy
 msgid "View or hide the filterbar of this window"
-msgstr "عرض أو إخفائ شريط المرشح لهذه النافذة"
+msgstr "اظهر أو اخفي شريط التبويب في النافذة الحالية"
 
 #: ../src/gth-browser-actions-entries.h:436
+#, fuzzy
 msgid "View thumbnails"
-msgstr "عرض المصغرات"
+msgstr "لا أظافر إبهام"
 
 #: ../src/gth-browser-actions-entries.h:440
+#, fuzzy
 msgid "_Image Preview"
-msgstr "معاينة ال_صورة"
+msgstr "لمحة صورة"
 
 #: ../src/gth-browser-actions-entries.h:441
 #: ../src/gth-browser-actions-entries.h:513
+#, fuzzy
 msgid "View the image"
-msgstr "عرص الصورة"
+msgstr "اعرض الصفحة الأولى"
 
 #: ../src/gth-browser-actions-entries.h:451
+#, fuzzy
 msgid "Show _Hidden Files"
-msgstr "اعرض الملفات الم_خفية"
+msgstr "اظهر الملفات المخفية"
 
 #: ../src/gth-browser-actions-entries.h:452
 msgid "Show hidden files and folders"
-msgstr "إظهار الملفّات والمجلّدات المخفية"
+msgstr "أظهر الملفّات والمجلّدات المخفية"
 
 #: ../src/gth-browser-actions-entries.h:457
 msgid "_Reversed Order"
 msgstr "ترتيب _مقلوب"
 
 #: ../src/gth-browser-actions-entries.h:458
+#, fuzzy
 msgid "Reverse images order"
-msgstr "عكس ترتيب الصور"
+msgstr "عكس ترتيب الطبقات"
 
 #: ../src/gth-browser-actions-entries.h:467
+#, fuzzy
 msgid "by _Name"
-msgstr "حسب الا_سم"
+msgstr "حسب الإ_سم"
 
 #: ../src/gth-browser-actions-entries.h:468
+#, fuzzy
 msgid "Sort images by name"
-msgstr "رتب الصور حسب الاسم"
+msgstr "رتّب المُطابقات حسب الإسم"
 
 #: ../src/gth-browser-actions-entries.h:470
+#, fuzzy
 msgid "by _Path"
-msgstr "حسب الم_سار"
+msgstr "إلى المسار"
 
 #: ../src/gth-browser-actions-entries.h:471
+#, fuzzy
 msgid "Sort images by path"
-msgstr "رتب الصور حسب المسار"
+msgstr "رتّب المُطابقات حسب الإسم"
 
 #: ../src/gth-browser-actions-entries.h:473
+#, fuzzy
 msgid "by _Size"
 msgstr "حسب ال_حجم"
 
 #: ../src/gth-browser-actions-entries.h:474
+#, fuzzy
 msgid "Sort images by file size"
-msgstr "رتب الصور حسب حجم الملف"
+msgstr "رتّب قائمة الملفات بحسب حجمها"
 
 #: ../src/gth-browser-actions-entries.h:476
+#, fuzzy
 msgid "by Modification _Time"
-msgstr "حسب وقت الت_عديل"
+msgstr "وقت آخر تعديل"
 
 #: ../src/gth-browser-actions-entries.h:477
+#, fuzzy
 msgid "Sort images by file modification time"
-msgstr "رتب الصور حسب وقت تعديل الملف"
+msgstr "رتّب قائمة الملفات بحسب تاريخ التعديل"
 
 #: ../src/gth-browser-actions-entries.h:479
 #, fuzzy
@@ -3514,140 +4026,163 @@ msgid "Sort images by Exif DateTime tag"
 msgstr "رتّب المُطابقات حسب الإسم"
 
 #: ../src/gth-browser-actions-entries.h:482
+#, fuzzy
 msgid "by _Comment"
-msgstr "حسب الت_عليق"
+msgstr "_تعليقات:"
 
 #: ../src/gth-browser-actions-entries.h:483
+#, fuzzy
 msgid "Sort images by comment"
-msgstr "رتب الصور حسب التعليق"
+msgstr "رتّب المُطابقات حسب الإسم"
 
 #: ../src/gth-browser-actions-entries.h:485
+#, fuzzy
 msgid "_Manual Order"
-msgstr "ترتيب ي_دوي"
+msgstr "ي_دوي"
 
 #: ../src/gth-browser-actions-entries.h:486
+#, fuzzy
 msgid "Sort images manually"
-msgstr "رتب الصور يدويا"
+msgstr "أدخل يدويا"
 
 #: ../src/gth-browser-actions-entries.h:493
+#, fuzzy
 msgid "View As Sli_des"
-msgstr "عرض ك_شرائح"
+msgstr "عرض كقائمة"
 
 #: ../src/gth-browser-actions-entries.h:494
+#, fuzzy
 msgid "View As Slides"
-msgstr "عرض كشرائح"
+msgstr "عرض كقائمة"
 
 #: ../src/gth-browser-actions-entries.h:496
+#, fuzzy
 msgid "View As _List"
-msgstr "عرض ك_قائمة"
+msgstr "اعرض كقائمة"
 
 #: ../src/gth-browser-actions-entries.h:497
+#, fuzzy
 msgid "View As List"
-msgstr "عرض كقائمة"
+msgstr "اعرض كقائمة"
 
 #: ../src/gth-browser-actions-entries.h:506
 msgid "_Folders"
 msgstr "_مجلّدات"
 
 #: ../src/gth-browser-actions-entries.h:507
+#, fuzzy
 msgid "View the folders"
-msgstr "عرض المجلدات"
+msgstr "عرض المجلد"
 
 #: ../src/gth-browser-actions-entries.h:509
+#, fuzzy
 msgid "_Catalogs"
-msgstr "_كاتلوجات"
+msgstr "فهرس"
 
 #: ../src/gth-browser-actions-entries.h:510
+#, fuzzy
 msgid "View the catalogs"
-msgstr "عرض الكاتلوجات"
+msgstr "اعرض الصفحة الأخيرة"
 
 #: ../src/gth-browser.c:517 ../src/gth-viewer.c:635
 msgid "[Press 'c' to add a comment]"
-msgstr "[انقر 'c' لإضافة تعليق]"
+msgstr ""
 
 #: ../src/gth-browser.c:595 ../src/gth-browser.c:612 ../src/gth-viewer.c:692
+#, fuzzy
 msgid "[modified]"
-msgstr "[مُعدل]"
+msgstr "(معدل)"
 
 #: ../src/gth-browser.c:638 ../src/main.c:438 ../src/main.c:720
+#, fuzzy
 msgid "gThumb"
-msgstr "جي ثمب"
+msgstr "تومبس"
 
 #: ../src/gth-browser.c:718
-#, c-format
+#, fuzzy, c-format
 msgid "1 image (%s)"
-msgstr "1 صورة (%s)"
+msgstr "صور"
 
 #: ../src/gth-browser.c:721
-#, c-format
+#, fuzzy, c-format
 msgid "%d images (%s)"
-msgstr "%d صور (%s)"
+msgstr "%d ملفّ (%s)"
 
 #: ../src/gth-browser.c:728
-#, c-format
+#, fuzzy, c-format
 msgid "1 selected (%s)"
-msgstr "1 منتقى (%s)"
+msgstr "\"%s\" selected (%s)"
 
 #: ../src/gth-browser.c:731
-#, c-format
+#, fuzzy, c-format
 msgid "%d selected (%s)"
-msgstr "%d منتقاة (%s)"
+msgstr "\"%s\" selected (%s)"
 
-#: ../src/gth-browser.c:1783 ../src/gth-viewer.c:873
+#: ../src/gth-browser.c:1782 ../src/gth-viewer.c:873
+#, fuzzy
 msgid "The current image has been modified, do you want to save it?"
-msgstr "الصورة الحالية عُدّلت، هل تريد حفظها؟"
+msgstr "المحفوظة موجودة. هل تريد الكتابة فوقها؟"
 
-#: ../src/gth-browser.c:1784 ../src/gth-viewer.c:874
+#: ../src/gth-browser.c:1783 ../src/gth-viewer.c:874
+#, fuzzy
 msgid "Do Not Save"
-msgstr "لا تحفظ"
+msgstr "_لا تحفظ"
 
-#: ../src/gth-browser.c:3497
+#: ../src/gth-browser.c:3496
+#, fuzzy
 msgid "Dragged Images"
-msgstr "صور مسحوبة"
+msgstr "_حمل الصور"
 
-#: ../src/gth-browser.c:5288 ../src/gth-browser.c:5289
+#: ../src/gth-browser.c:5287 ../src/gth-browser.c:5288
+#: ../src/gth-window-actions-entries.h:271
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
-#: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
-msgstr "تدوير الصور بدون فقد الجودة"
+msgstr ""
 
-#: ../src/gth-browser.c:6166
+#: ../src/gth-browser.c:6165
+#, fuzzy
 msgid "Getting folder listing..."
-msgstr "تحصيل قائمة المجلد..."
+msgstr "تحصيل لائحة المجلدات "
 
-#: ../src/gth-browser.c:6188
-#, c-format
+#: ../src/gth-browser.c:6187
+#, fuzzy, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "تعذر تحميل المجلد \"%s\": %s\n"
+msgstr "لا يمكن جلب الدّليل: %s: %s"
 
-#: ../src/gth-browser.c:6705 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6704 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "أغلق"
 
-#: ../src/gth-browser.c:6719 ../src/gth-viewer.c:1520
+#: ../src/gth-browser.c:6718 ../src/gth-viewer.c:1520
+#, fuzzy
 msgid "Image comment"
-msgstr "تعليق الصورة"
+msgstr "تعليقات الشفرة"
 
-#: ../src/gth-browser.c:6733
+#: ../src/gth-browser.c:6732
+#, fuzzy
 msgid "Image data"
-msgstr "بيانات الصورة"
+msgstr "بيانات الصّورة"
 
-#: ../src/gth-browser.c:6747
+#: ../src/gth-browser.c:6746
+#, fuzzy
 msgid "Image preview"
-msgstr "معاينة الصورة"
+msgstr "لمحة صورة"
 
-#: ../src/gth-browser.c:7799
+#: ../src/gth-browser.c:7798
+#, fuzzy
 msgid "The specified catalog does not exist."
-msgstr "الكاتلوج المحدد غير موجود."
+msgstr "الملف غير موجود."
 
-#: ../src/gth-browser.c:8431 ../src/gth-viewer.c:1969
+#: ../src/gth-browser.c:8430 ../src/gth-viewer.c:1969
+#, fuzzy
 msgid "Wait please..."
 msgstr "الرجاء الانتظار..."
 
 #: ../src/gth-exif-data-viewer.c:42
+#, fuzzy
 msgid "Filesystem"
-msgstr "نظام الملفات"
+msgstr "أنظمة الملفات"
 
 #: ../src/gth-exif-data-viewer.c:43
 #, fuzzy
@@ -3697,11 +4232,12 @@ msgstr ""
 
 #: ../src/gth-exif-data-viewer.c:53
 msgid "Audio / Video"
-msgstr "صوت / فيديو"
+msgstr ""
 
 #: ../src/gth-exif-data-viewer.c:54
+#, fuzzy
 msgid "Other"
-msgstr "أخرى"
+msgstr "أخ_رى"
 
 #: ../src/gth-exif-data-viewer.c:344
 msgid "Path"
@@ -3712,16 +4248,18 @@ msgid "contains"
 msgstr "يحتوي"
 
 #: ../src/gth-filter-bar.c:177
+#, fuzzy
 msgid "starts with"
-msgstr "بدء ب"
+msgstr "لا يبدء بـ"
 
 #: ../src/gth-filter-bar.c:178
 msgid "ends with"
 msgstr "ينتهي بـ"
 
 #: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#, fuzzy
 msgid "is"
-msgstr "يكون"
+msgstr "قائمة"
 
 #: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
 msgid "is not"
@@ -3732,10 +4270,12 @@ msgid "does not contain"
 msgstr "لا يحتوي"
 
 #: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#, fuzzy
 msgid "is equal to"
-msgstr "يساوي"
+msgstr "لا يساوي %d"
 
 #: ../src/gth-filter-bar.c:185
+#, fuzzy
 msgid "is lower than"
 msgstr "أصغر من"
 
@@ -3753,27 +4293,32 @@ msgstr "يقع بعد"
 
 #: ../src/gth-filter-bar.c:200
 msgid "KB"
-msgstr "ك.ب"
+msgstr "ك.بايت"
 
 #: ../src/gth-filter-bar.c:201
+#, fuzzy
 msgid "MB"
-msgstr "م.ب"
+msgstr "MBR"
 
 #: ../src/gth-filter-bar.c:207
+#, fuzzy
 msgid "Filename"
-msgstr "اسم الملف"
+msgstr "اسم الملف:"
 
 #: ../src/gth-filter-bar.c:209
+#, fuzzy
 msgid "Place"
-msgstr "مكان"
+msgstr "أماكن"
 
 #: ../src/gth-filter-bar.c:212
+#, fuzzy
 msgid "Category"
-msgstr "فئة"
+msgstr "ال_صنف:"
 
 #: ../src/gth-filter-bar.c:213
+#, fuzzy
 msgid "Text contains"
-msgstr "المحتوى النصي"
+msgstr "يحتوي"
 
 #: ../src/gth-filter-bar.c:494
 msgid "All"
@@ -3781,25 +4326,30 @@ msgstr "الكل"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
+#, fuzzy
 msgid "Sh_ow:"
-msgstr "إ_ظهار:"
+msgstr "أظهر:"
 
 #: ../src/gth-folder-selection-dialog.c:281
+#, fuzzy
 msgid "<b>_Folder</b>"
-msgstr "<b>_مجلد</b>"
+msgstr "<b>مجلّد الموسيقى</b>"
 
 #: ../src/gth-folder-selection-dialog.c:299
+#, fuzzy
 msgid "_Browse..."
-msgstr "_تصفّح..."
+msgstr "_تصفّح"
 
 #. Go to destination
 #: ../src/gth-folder-selection-dialog.c:304
+#, fuzzy
 msgid "_Go to the destination folder"
-msgstr "إ_ذهب إلى المجلد المقصود"
+msgstr "انتقي المجلّد الهدف"
 
 #: ../src/gth-folder-selection-dialog.c:317
+#, fuzzy
 msgid "<b>_Recent folders:</b>"
-msgstr "<b>_المجلدات الأخيرة:</b>"
+msgstr "<b>المجلّد الهدف</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
@@ -3810,405 +4360,469 @@ msgid "Other..."
 msgstr "أخرى..."
 
 #: ../src/gth-viewer-actions-entries.h:98
+#, fuzzy
 msgid "_Single Window"
-msgstr "نافذة _فريدة"
+msgstr "اغ_لق النافذة"
 
 #: ../src/gth-viewer-actions-entries.h:99
+#, fuzzy
 msgid "Reuse this window to view other images"
-msgstr "إعادة استخدام هذه النافذة لعرض الصورة الأخرى"
+msgstr "ارفع النافذة فوق النوافذ الأخرى"
 
 #: ../src/gth-viewer.c:775
 msgid "_None"
 msgstr "_لا شيء"
 
 #: ../src/gth-viewer.c:1312 ../src/gth-window-actions-entries.h:75
+#, fuzzy
 msgid "_Open With"
-msgstr "_فتح باستخدام"
+msgstr "افتح بـ"
 
 #: ../src/gth-viewer.c:1318 ../src/gth-viewer.c:1319
 #: ../src/gth-window-actions-entries.h:46
+#, fuzzy
 msgid "Open selected images with an application"
-msgstr "فتح الصور المنتقاة باستخدام تطبيق"
+msgstr "افتح الملفات المنتقات بتطبيق"
 
-#: ../src/gth-window-actions-callbacks.c:936
+#: ../src/gth-window-actions-callbacks.c:912
+#, fuzzy
 msgid "An image viewer and browser for GNOME."
-msgstr "عارض ومتصفح صور لجنوم."
+msgstr "متصفح مساعدة developer في جنوم 2"
 
-#: ../src/gth-window-actions-callbacks.c:939
+#: ../src/gth-window-actions-callbacks.c:915
+#, fuzzy
 msgid "translator_credits"
-msgstr "أسامة خالد <osamak.wfm@gmail.com>"
+msgstr "المترجمون:"
 
 #: ../src/gth-window-actions-entries.h:35
+#, fuzzy
 msgid "_Transform"
-msgstr "الانت_قال"
+msgstr "الانتقال"
 
 #: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
 msgstr "تلقائي"
 
 #: ../src/gth-window-actions-entries.h:37
+#, fuzzy
 msgid "Reduce Colors"
-msgstr "تقليل الألوان"
+msgstr "اداة اختيار من جديد"
 
 #: ../src/gth-window-actions-entries.h:41
+#, fuzzy
 msgid "Close this window"
-msgstr "إغلاق هذه النافذة"
+msgstr "إغلاق النافذة"
 
 #: ../src/gth-window-actions-entries.h:45
+#, fuzzy
 msgid "_Open With..."
-msgstr "_فتح باستخدام..."
+msgstr "افتح ب..."
 
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
+#, fuzzy
 msgid "Save current image"
-msgstr "حفظ الصورة الحالية"
+msgstr "احفظ الصفحة الحالية"
 
 #: ../src/gth-window-actions-entries.h:55
+#, fuzzy
 msgid "Save _As..."
-msgstr "احفظ _كـ..."
+msgstr "احفظ كـ..."
 
 #: ../src/gth-window-actions-entries.h:61
+#, fuzzy
 msgid "Revert to saved image"
-msgstr "استرجاع الصورة المحفوظة"
+msgstr "استرجع للمحفوظ"
 
 #: ../src/gth-window-actions-entries.h:65
+#, fuzzy
 msgid "Print..."
-msgstr "...طباعة"
+msgstr "ا_طبع..."
 
 #: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
+#, fuzzy
 msgid "Print the current image"
-msgstr "طباعة الصورة الحالية"
+msgstr "اطبع الصفحة الحالية"
 
 #: ../src/gth-window-actions-entries.h:76
+#, fuzzy
 msgid "Open this image with an application"
-msgstr "فتح هذه الصورة بتطبيق"
+msgstr "افتح الملفات المنتقات بتطبيق"
 
 #: ../src/gth-window-actions-entries.h:80
+#, fuzzy
 msgid "Comm_ent..."
-msgstr "ال_تعليق..."
+msgstr "ال_تعليق:"
 
 #: ../src/gth-window-actions-entries.h:81
 #: ../src/gth-window-actions-entries.h:86
+#, fuzzy
 msgid "Add a comment to selected images"
-msgstr "إضافة تعليق إلى الصورة المنتقاة"
-
-#: ../src/gth-window-actions-entries.h:90
-msgid "Rem_ove Comment"
-msgstr "إزالة التعليق"
+msgstr "أزل علامة التعليق من الشفرة المنتقاة"
 
 #: ../src/gth-window-actions-entries.h:91
-msgid "Remove comments of selected images"
-msgstr "إزالة التعليقات من الصور المنتقاة"
-
 #: ../src/gth-window-actions-entries.h:96
-#: ../src/gth-window-actions-entries.h:101
+#, fuzzy
 msgid "Assign categories to selected images"
-msgstr "تعيين التصنيفات إلى الصور المنتقاة"
+msgstr "أرسِل التغييرات في الملفات المنتقاة"
 
-#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:95
+#, fuzzy
 msgid "Ca_tegories"
-msgstr "ال_فئات"
+msgstr "الفئات"
 
-#: ../src/gth-window-actions-entries.h:115
-#: ../src/gth-window-actions-entries.h:285
+#: ../src/gth-window-actions-entries.h:110
+#: ../src/gth-window-actions-entries.h:280
+#, fuzzy
 msgid "Rotate Ri_ght"
 msgstr "استدر ي_ميناَ"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:111
+#, fuzzy
 msgid "View the image rotated clockwise"
-msgstr "عرض الصورة مدارة في اتجاه عقارب الساعة"
+msgstr "فيما إذا وجب التدوير عكس عقارب الساعة"
 
-#: ../src/gth-window-actions-entries.h:120
-#: ../src/gth-window-actions-entries.h:280
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:275
 msgid "Rotate _Left"
 msgstr "استدر ي_ساراً"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:116
+#, fuzzy
 msgid "View the image rotated counter-clockwise"
-msgstr "عرض الصورة مدارة في عكس اتجاه عقارب الساعة"
+msgstr "فيما إذا وجب التدوير عكس عقارب الساعة"
 
-#: ../src/gth-window-actions-entries.h:125
+#: ../src/gth-window-actions-entries.h:120
 msgid "_Flip"
 msgstr "قلب"
 
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:121
+#, fuzzy
 msgid "View the image flipped"
-msgstr "عرض الصورة مقلوبة"
+msgstr "إعرض لوح الاتصال"
+
+#: ../src/gth-window-actions-entries.h:125
+#, fuzzy
+msgid "_Mirror"
+msgstr "خطأ"
+
+#: ../src/gth-window-actions-entries.h:126
+#, fuzzy
+msgid "View the image mirrored"
+msgstr "إعرض تاريخ المكالمات"
 
 #: ../src/gth-window-actions-entries.h:130
-msgid "_Mirror"
-msgstr "_مرآة"
-
-#: ../src/gth-window-actions-entries.h:131
-msgid "View the image mirrored"
-msgstr "عرض الصورة معكوسة"
-
-#: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
 msgstr "عكس إشباع"
 
-#: ../src/gth-window-actions-entries.h:136
+#: ../src/gth-window-actions-entries.h:131
 msgid "View the image in black and white"
-msgstr "عرض الصورة أبيض وأسود"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:135
+#, fuzzy
+msgid "_Negative"
+msgstr "_غير نهائي"
+
+#: ../src/gth-window-actions-entries.h:136
+#, fuzzy
+msgid "View the image with negative colors"
+msgstr "استعمل ألوان السِمة الإفتراضية"
 
 #: ../src/gth-window-actions-entries.h:140
-msgid "_Negative"
-msgstr "_سلبي"
+#, fuzzy
+msgid "_Enhance"
+msgstr "إل_غاء"
 
 #: ../src/gth-window-actions-entries.h:141
-msgid "View the image with negative colors"
-msgstr "اعرض الصورة بألوان سلبية"
+#, fuzzy
+msgid "Automatically adjust the color levels"
+msgstr "عدّل حجم تخزين التأخير تلقائياً بين"
 
 #: ../src/gth-window-actions-entries.h:145
-msgid "_Enhance"
-msgstr "ت_حسين"
-
-#: ../src/gth-window-actions-entries.h:146
-msgid "Automatically adjust the color levels"
-msgstr "تسوية متسويات الألوان تلقائيا"
-
-#: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
 msgstr "مساواة"
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:146
+#, fuzzy
 msgid "Automatically equalize the image histogram"
-msgstr "تسوية رسم الصورة البياني النسيجي تلقائيا"
+msgstr "أدرج التعابير المرسومة آلياً"
 
-#: ../src/gth-window-actions-entries.h:155
+#: ../src/gth-window-actions-entries.h:150
 #, fuzzy
 msgid "_Posterize..."
 msgstr "_خصِّص..."
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:186
 #: ../src/gth-window-actions-entries.h:191
-#: ../src/gth-window-actions-entries.h:196
+#, fuzzy
 msgid "Reduce the number of colors"
-msgstr "تقليل عدد الألوان"
+msgstr "اقرأ أسماء الألوان"
+
+#: ../src/gth-window-actions-entries.h:155
+#, fuzzy
+msgid "_Brightness-Contrast..."
+msgstr "السطوع-التباين"
+
+#: ../src/gth-window-actions-entries.h:156
+#, fuzzy
+msgid "Adjust brightness and contrast"
+msgstr "تعديل السطوع والتباين"
 
 #: ../src/gth-window-actions-entries.h:160
-msgid "_Brightness-Contrast..."
-msgstr "ال_سطوع-التباين..."
+#, fuzzy
+msgid "_Hue-Saturation..."
+msgstr "التدرج-الإشباع..."
 
 #: ../src/gth-window-actions-entries.h:161
-msgid "Adjust brightness and contrast"
-msgstr "تسوية السطور والتباين"
+#, fuzzy
+msgid "Adjust hue and saturation"
+msgstr "تعديل السطوع والتباين"
 
 #: ../src/gth-window-actions-entries.h:165
-msgid "_Hue-Saturation..."
-msgstr "ال_تدرج-الإشباع..."
+#, fuzzy
+msgid "_Redeye Removal..."
+msgstr "أ_ضف أو احذف..."
 
 #: ../src/gth-window-actions-entries.h:166
-msgid "Adjust hue and saturation"
-msgstr "تسوية التدرج والإشباع"
+msgid "Redeye Removal Tool"
+msgstr ""
 
 #: ../src/gth-window-actions-entries.h:170
-msgid "_Redeye Removal..."
-msgstr "إ_زالة العين الحمراء..."
+#, fuzzy
+msgid "_Color Balance..."
+msgstr "توازن اللون"
 
 #: ../src/gth-window-actions-entries.h:171
-msgid "Redeye Removal Tool"
-msgstr "أداة إزالة العين الحمرا"
+#, fuzzy
+msgid "Adjust color balance"
+msgstr "تعديل توازن اللون"
 
 #: ../src/gth-window-actions-entries.h:175
-msgid "_Color Balance..."
-msgstr "توازن ال_لون..."
+#, fuzzy
+msgid "_Resize..."
+msgstr "تغيير الحج_م"
 
 #: ../src/gth-window-actions-entries.h:176
-msgid "Adjust color balance"
-msgstr "تسوية توزان اللون"
-
-#: ../src/gth-window-actions-entries.h:180
-msgid "_Resize..."
-msgstr "إ_عادة تحجيم..."
-
-#: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
 msgstr "تغيير حجم الصورة"
 
-#: ../src/gth-window-actions-entries.h:185
+#: ../src/gth-window-actions-entries.h:180
+#, fuzzy
 msgid "_Crop..."
-msgstr "_قطّع..."
+msgstr "ا_نسخ..."
 
-#: ../src/gth-window-actions-entries.h:186
+#: ../src/gth-window-actions-entries.h:181
 msgid "Crop image"
 msgstr "اقتصاص الصورة"
 
-#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:185
+#, fuzzy
 msgid "Black and White"
-msgstr "أسود وأبيض"
+msgstr "أسود على أبيض"
+
+#: ../src/gth-window-actions-entries.h:190
+#, fuzzy
+msgid "Web Palette"
+msgstr "لوح ألوان جديد"
 
 #: ../src/gth-window-actions-entries.h:195
-msgid "Web Palette"
-msgstr "لوح ألوان وب"
-
-#: ../src/gth-window-actions-entries.h:200
-#: ../src/gth-window-actions-entries.h:307
+#: ../src/gth-window-actions-entries.h:302
 msgid "In"
 msgstr "داخل"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:196
 msgid "Zoom in"
 msgstr "تكبير"
 
-#: ../src/gth-window-actions-entries.h:205
+#: ../src/gth-window-actions-entries.h:200
 msgid "Out"
 msgstr "خارج"
 
-#: ../src/gth-window-actions-entries.h:206
+#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom out"
 msgstr "تصغير"
 
-#: ../src/gth-window-actions-entries.h:210
+#: ../src/gth-window-actions-entries.h:205
+#, fuzzy
 msgid "1:1"
-msgstr "1:1"
+msgstr "F11"
 
-#: ../src/gth-window-actions-entries.h:211
+#: ../src/gth-window-actions-entries.h:206
+#, fuzzy
 msgid "Actual size"
-msgstr "الحجم الفعلي"
+msgstr "الحجم الكلي"
 
-#: ../src/gth-window-actions-entries.h:215
+#: ../src/gth-window-actions-entries.h:210
 msgid "Fit"
 msgstr "ملائمة"
 
-#: ../src/gth-window-actions-entries.h:216
+#: ../src/gth-window-actions-entries.h:211
+#, fuzzy
 msgid "Zoom to fit window"
-msgstr "تكبير حتى ملاءمة النافذة"
+msgstr "تكبير حتى الملاءمة"
 
-#: ../src/gth-window-actions-entries.h:220
+#: ../src/gth-window-actions-entries.h:215
 msgid "Width"
 msgstr "العرض"
 
-#: ../src/gth-window-actions-entries.h:221
+#: ../src/gth-window-actions-entries.h:216
+#, fuzzy
 msgid "Zoom to fit width"
-msgstr "تكبير حتى ملاءمة العرض"
+msgstr "تكبير حتى الملاءمة"
 
-#: ../src/gth-window-actions-entries.h:225
+#: ../src/gth-window-actions-entries.h:220
+#, fuzzy
 msgid "Step A_nimation"
-msgstr "_خطوة التحريكة"
+msgstr "أ_وقف التحريك"
 
-#: ../src/gth-window-actions-entries.h:226
+#: ../src/gth-window-actions-entries.h:221
+#, fuzzy
 msgid "View next animation frame"
-msgstr "عرض إطار التحريكة التالي"
+msgstr "نمط الصور المتحركة"
+
+#: ../src/gth-window-actions-entries.h:235
+#, fuzzy
+msgid "_Centered"
+msgstr "توسيط"
+
+#: ../src/gth-window-actions-entries.h:236
+#, fuzzy
+msgid "Set the image as desktop background (centered)"
+msgstr "اعرض هذه الصورة كخلفيّة في المُرحِّب."
 
 #: ../src/gth-window-actions-entries.h:240
-msgid "_Centered"
-msgstr "_توسيط"
+#, fuzzy
+msgid "_Tiled"
+msgstr "_مربع"
 
 #: ../src/gth-window-actions-entries.h:241
-msgid "Set the image as desktop background (centered)"
-msgstr "ضبط الصورة كخلفية سطح المكتبة (متوسطة)"
+#, fuzzy
+msgid "Set the image as desktop background (tiled)"
+msgstr "إن كانت هذه العلامة تؤثر في الرسم النقطي للواجهة الخلفية"
 
 #: ../src/gth-window-actions-entries.h:245
-msgid "_Tiled"
-msgstr "_مبلّط"
-
-#: ../src/gth-window-actions-entries.h:246
-msgid "Set the image as desktop background (tiled)"
-msgstr "اضبط الصورة كخلفية سطح المكتب "
-
-#: ../src/gth-window-actions-entries.h:250
+#, fuzzy
 msgid "_Scaled"
 msgstr "_حجّم"
 
-#: ../src/gth-window-actions-entries.h:251
+#: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "اضبط الصورة كخلفية سطح المكتب (حجّم لإبقاء نسبة المظهر)"
+msgstr ""
 
-#: ../src/gth-window-actions-entries.h:255
+#: ../src/gth-window-actions-entries.h:250
+#, fuzzy
 msgid "Str_etched"
 msgstr "_مدّد"
 
-#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:251
+#, fuzzy
 msgid "Set the image as desktop background (stretched)"
-msgstr "ضبط الصورة كخلفية سطح المكتب (متمددة)"
+msgstr "اعرض هذه الصورة كخلفيّة في المُرحِّب."
+
+#: ../src/gth-window-actions-entries.h:255
+#, fuzzy
+msgid "_Restore"
+msgstr "إعادة ضب_ط"
+
+#: ../src/gth-window-actions-entries.h:256
+msgid "Restore the original desktop wallpaper"
+msgstr ""
 
 #: ../src/gth-window-actions-entries.h:260
-msgid "_Restore"
-msgstr "ا_ستعاد"
+#, fuzzy
+msgid "Change _Date..."
+msgstr "غيّر الحالة"
 
 #: ../src/gth-window-actions-entries.h:261
-msgid "Restore the original desktop wallpaper"
-msgstr "استعادة خلفية سطح المكتب الأصلية"
+msgid "Change images last modified date"
+msgstr ""
 
 #: ../src/gth-window-actions-entries.h:265
-msgid "Change _Date..."
-msgstr "غيّر ال_تاريخ..."
-
-#: ../src/gth-window-actions-entries.h:266
-msgid "Change images last modified date"
-msgstr "تغيير تاريخ آخر تعديل للصور"
-
-#: ../src/gth-window-actions-entries.h:270
 #, fuzzy
 msgid "Reset _Exif Orientation"
 msgstr "الإ_تجاه:"
 
-#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-window-actions-entries.h:266
 #, fuzzy
 msgid "Reset Exif orientation to top-left"
 msgstr "إتجاه الطبق."
 
-#: ../src/gth-window-actions-entries.h:291
+#: ../src/gth-window-actions-entries.h:286
+#, fuzzy
 msgid "Show information about gThumb"
-msgstr "أظهر معلومات حول جي ثمب"
+msgstr "أظهر معلومات حول إيفُليوشن"
 
-#: ../src/gth-window-actions-entries.h:295
+#: ../src/gth-window-actions-entries.h:290
 msgid "Contents"
 msgstr "المحتويات"
 
-#: ../src/gth-window-actions-entries.h:300
+#: ../src/gth-window-actions-entries.h:295
+#, fuzzy
 msgid "_Keyboard Shortcuts"
-msgstr "اختصارات _لوحة المفاتيح"
+msgstr "اختصارات لوحة المفاتيح"
 
-#: ../src/gth-window-actions-entries.h:316
+#: ../src/gth-window-actions-entries.h:311
+#, fuzzy
 msgid "Play _Animation"
-msgstr "شغل التحريكات"
+msgstr "رسوم متحركة"
 
-#: ../src/gth-window-actions-entries.h:317
+#: ../src/gth-window-actions-entries.h:312
+#, fuzzy
 msgid "Start or stop current animation"
-msgstr "ابدأ أو أوقف التحريكات"
+msgstr "بدء او ايقاف المجموعة المرئية"
 
 #: ../src/main.c:90
+#, fuzzy
 msgid "Start in fullscreen mode"
-msgstr "ابدأ في وضع شاشة كاملة"
+msgstr "اقفل في نمط ملء الشاشة"
 
 #: ../src/main.c:94
+#, fuzzy
 msgid "Automatically start a slideshow"
-msgstr "بدء عرض الشرائح تلقائيا"
+msgstr "ابدأ البحث آليّا"
 
 #: ../src/main.c:98
+#, fuzzy
 msgid "Automatically import digital camera photos"
-msgstr "استيراد صور كاميرا رقمية تلقائيا"
+msgstr "ابدأ البحث آليّا"
 
 #: ../src/main.c:102
+#, fuzzy
 msgid "Use the viewer mode to view single images"
-msgstr "استخدم نمط العارض لعرض صور فريدة"
+msgstr "ضبط المتصفح لعرض هذا النوع فقط"
 
 #: ../src/main.c:147
+#, fuzzy
 msgid "Holidays"
-msgstr "عُطَل"
+msgstr "العطلة"
 
 #: ../src/main.c:148
+#, fuzzy
 msgid "Temporary"
-msgstr "مؤقت"
+msgstr "حجم مؤقت"
 
 #: ../src/main.c:149
+#, fuzzy
 msgid "Screenshots"
-msgstr "لقطات شاشة"
+msgstr "Screenshot.png"
 
 #: ../src/main.c:150
+#, fuzzy
 msgid "Science"
-msgstr "علم"
+msgstr "صمت"
 
 #: ../src/main.c:151
+#, fuzzy
 msgid "Favourite"
 msgstr "مفضّل"
 
 #: ../src/main.c:152
+#, fuzzy
 msgid "Important"
-msgstr "مهم"
+msgstr "م_هم"
 
 #: ../src/main.c:153
 msgid "GNOME"
@@ -4219,29 +4833,33 @@ msgid "Games"
 msgstr "ألعاب"
 
 #: ../src/main.c:155
+#, fuzzy
 msgid "Party"
-msgstr "حفلة"
+msgstr "أب"
 
 #: ../src/main.c:156
 msgid "Birthday"
 msgstr "عيد الميلاد"
 
 #: ../src/main.c:157
+#, fuzzy
 msgid "Astronomy"
-msgstr "فلك"
+msgstr "لفظة أوائلية"
 
 #: ../src/main.c:158
+#, fuzzy
 msgid "Family"
-msgstr "عائلة"
+msgstr "ال_عائلة:"
 
 #: ../src/main.c:380
+#, fuzzy
 msgid "Command Line"
 msgstr "سطر الأوامر"
 
 #: ../src/rotation-utils.c:113
 #, c-format
 msgid "Problem transforming the image: %s"
-msgstr "مشكلة تحويل الصورة: %s"
+msgstr ""
 
 #: ../src/rotation-utils.c:118
 msgid ""
@@ -4258,14 +4876,148 @@ msgid ""
 msgstr ""
 
 #: ../src/rotation-utils.c:126
+#, fuzzy
 msgid "_Trim"
-msgstr "_شذّب"
+msgstr "ال_وقت:"
 
 #: ../src/rotation-utils.c:169
+#, fuzzy
 msgid "Could not create a local temporary copy of the remote file."
-msgstr "تعذر إنشاء نسخة محلية مؤقتة من الملف البعيد."
+msgstr "لم يمكن إنشاء ملف احتياطي مؤقت عند حفظ %s"
 
 #: ../src/rotation-utils.c:215
+#, fuzzy
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
-msgstr "تعذر نقل الملف المؤقت إلى الموقع المقصود. افحص أذونات المجلد"
+msgstr "غير قادر على تحديث تصريحات المجلد."
+
+#, fuzzy
+#~ msgid "_Film:"
+#~ msgstr "_ملف:"
+
+#, fuzzy
+#~ msgid "_Crop"
+#~ msgstr "اقتصاص"
+
+#, fuzzy
+#~ msgid "0:"
+#~ msgstr "0"
+
+#, fuzzy
+#~ msgid "1:"
+#~ msgstr "1"
+
+#, fuzzy
+#~ msgid "2:"
+#~ msgstr "2"
+
+#, fuzzy
+#~ msgid "3:"
+#~ msgstr "3"
+
+#, fuzzy
+#~ msgid "4:"
+#~ msgstr "4"
+
+#, fuzzy
+#~ msgid "5:"
+#~ msgstr "5"
+
+#, fuzzy
+#~ msgid "6:"
+#~ msgstr "6"
+
+#, fuzzy
+#~ msgid "7:"
+#~ msgstr "7"
+
+#, fuzzy
+#~ msgid "8:"
+#~ msgstr "8"
+
+#, fuzzy
+#~ msgid "9:"
+#~ msgstr "9"
+
+#, fuzzy
+#~ msgid "Hot Keys"
+#~ msgstr "مفاتيح ساخنة"
+
+#, fuzzy
+#~ msgid "Actual Size"
+#~ msgstr "الحجم الكلي"
+
+#, fuzzy
+#~ msgid "Redo"
+#~ msgstr "عكس تراجع"
+
+#~ msgid "Undo"
+#~ msgstr "تراجع"
+
+#, fuzzy
+#~ msgid "Zoom In"
+#~ msgstr "ت_كبير"
+
+#, fuzzy
+#~ msgid "Zoom Out"
+#~ msgstr "ت_صغير"
+
+#, fuzzy
+#~ msgid "EXIF date"
+#~ msgstr "حسب التاريخ"
+
+#, fuzzy
+#~ msgid "Inde_x file:"
+#~ msgstr "داخل الملف:"
+
+#, fuzzy
+#~ msgid "index.html"
+#~ msgstr "فهرس"
+
+#, fuzzy
+#~ msgid "Could not write Exif DataTime tag. Error %d."
+#~ msgstr "لم يمكن كتابة البيانات: %s"
+
+#, fuzzy
+#~ msgid "Film"
+#~ msgstr "ملف"
+
+#, fuzzy
+#~ msgid "Filesystem Data"
+#~ msgstr "نظام الملفات"
+
+#, fuzzy
+#~ msgid "General Information"
+#~ msgstr "المعلومات الشخصية"
+
+#, fuzzy
+#~ msgid "GPS Coordinates"
+#~ msgstr "الأسس"
+
+#, fuzzy
+#~ msgid "Embedded Thumbnail"
+#~ msgstr "اغرس طرفية"
+
+#, fuzzy
+#~ msgid "Versions & Interoperability"
+#~ msgstr "تحكم النُسخ"
+
+#, fuzzy
+#~ msgid "Rem_ove Comment"
+#~ msgstr "أزل بُت"
+
+#, fuzzy
+#~ msgid "Remove comments of selected images"
+#~ msgstr "حذف الاختيار"
+
+#, fuzzy
+#~ msgid "_High Quality"
+#~ msgstr "ال_جودة"
+
+#, fuzzy
+#~ msgid "Use high quality zoom"
+#~ msgstr "إستخدم نمط الإبراز %s"
+
+#, fuzzy
+#~ msgid "_Low Quality"
+#~ msgstr "ال_جودة"
