@@ -1011,7 +1011,6 @@ image_viewer_image_paint (ImageViewerImage *image,
 			  cairo_t          *cr)
 {
 	ImageViewerImagePrivate *priv;
-	GdkPixbuf               *pixbuf;
 	GtkStyle                *style;
 
 	gint                     border, border2;
@@ -1027,7 +1026,6 @@ image_viewer_image_paint (ImageViewerImage *image,
 	g_return_if_fail (image != NULL);
 
 	priv   = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
-	pixbuf = image_viewer_image_get_pixbuf (image);
 	style  = GTK_WIDGET (priv->viewer)->style;
 
 	if (image_viewer_is_frame_visible (priv->viewer)) {
