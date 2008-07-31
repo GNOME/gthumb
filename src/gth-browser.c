@@ -384,7 +384,7 @@ window_update_zoom_sensitivity (GthBrowser *browser)
 
 	image_is_visible = (priv->image != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
-	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (IMAGE_VIEWER (priv->viewer)) * 100.0);
 
 	set_action_sensitive (browser,
 			      "View_Zoom100",
@@ -429,7 +429,7 @@ window_update_statusbar_zoom_info (GthBrowser *browser)
 	if (! GTK_WIDGET_VISIBLE (browser->priv->zoom_info_frame))
 		gtk_widget_show (browser->priv->zoom_info_frame);
 
-	zoom = (int) (IMAGE_VIEWER (browser->priv->viewer)->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (IMAGE_VIEWER (browser->priv->viewer)) * 100.0);
 	text = g_strdup_printf (" %d%% ", zoom);
 	gtk_label_set_markup (GTK_LABEL (browser->priv->zoom_info), text);
 	g_free (text);
@@ -1524,7 +1524,7 @@ view_image_at_pos (GthBrowser *browser,
 
 
 static void
-image_loader_progress_cb (ImageLoader *loader,
+image_viewer_progress_cb (ImageViewer *viewer,
 			  float        p,
 			  gpointer     data)
 {
@@ -1534,7 +1534,7 @@ image_loader_progress_cb (ImageLoader *loader,
 
 
 static void
-image_loader_done_cb (ImageLoader *loader,
+image_viewer_done_cb (ImageViewer *viewer,
 		      gpointer     data)
 {
 	GthBrowser *browser = data;
@@ -3449,7 +3449,7 @@ viewer_drag_data_get  (GtkWidget        *widget,
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *path;
 
-	if (IMAGE_VIEWER (priv->viewer)->is_void)
+	if (image_viewer_is_void (IMAGE_VIEWER (priv->viewer)))
 		return;
 
 	path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
@@ -6590,17 +6590,17 @@ gth_browser_construct (GthBrowser  *browser,
 			  G_CALLBACK (viewer_key_press_cb),
 			  browser);
 
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)->loader),
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)),
 			  "image_progress",
-			  G_CALLBACK (image_loader_progress_cb),
+			  G_CALLBACK (image_viewer_progress_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)->loader),
-			  "image_done",
-			  G_CALLBACK (image_loader_done_cb),
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)),
+			  "image_loaded",
+			  G_CALLBACK (image_viewer_done_cb),
 			  browser);
-	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)->loader),
+	g_signal_connect (G_OBJECT (IMAGE_VIEWER (priv->viewer)),
 			  "image_error",
-			  G_CALLBACK (image_loader_done_cb),
+			  G_CALLBACK (image_viewer_done_cb),
 			  browser);
 
 	/* Pack the widgets */
@@ -8504,7 +8504,7 @@ gth_browser_get_animation (GthWindow *window)
 {
 	GthBrowser  *browser = GTH_BROWSER (window);
 	ImageViewer *viewer = IMAGE_VIEWER (browser->priv->viewer);
-	return viewer->play_animation;
+	return image_viewer_get_play_animation (viewer);
 }
 
 

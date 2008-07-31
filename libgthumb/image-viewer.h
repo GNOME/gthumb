@@ -26,8 +26,9 @@
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
-#include "image-loader.h"
 #include "file-data.h"
+#include "image-loader.h"
+#include "image-viewer-enums.h"
 
 G_BEGIN_DECLS
 
@@ -41,131 +42,10 @@ G_BEGIN_DECLS
 typedef struct _ImageViewer       ImageViewer;
 typedef struct _ImageViewerClass  ImageViewerClass;
 
-#define FRAME_BORDER    1
-#define FRAME_BORDER2   2    /* FRAME_BORDER * 2 */
-
-typedef enum { /*< skip >*/
-	GTH_ZOOM_QUALITY_HIGH = 0,
-	GTH_ZOOM_QUALITY_LOW
-} GthZoomQuality;
-
-
-typedef enum { 
-	GTH_FIT_NONE = 0,
-	GTH_FIT_SIZE,
-	GTH_FIT_SIZE_IF_LARGER,
-	GTH_FIT_WIDTH,
-	GTH_FIT_WIDTH_IF_LARGER
-} GthFit;
-
-
-typedef enum { /*< skip >*/
-	GTH_ZOOM_CHANGE_ACTUAL_SIZE = 0,
-	GTH_ZOOM_CHANGE_KEEP_PREV,
-	GTH_ZOOM_CHANGE_FIT_SIZE,
-	GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER,
-	GTH_ZOOM_CHANGE_FIT_WIDTH,
-	GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER
-} GthZoomChange;
-
-
-/* transparenty type. */
-typedef enum { /*< skip >*/
-	GTH_TRANSP_TYPE_WHITE,
-	GTH_TRANSP_TYPE_NONE,
-	GTH_TRANSP_TYPE_BLACK,
-	GTH_TRANSP_TYPE_CHECKED
-} GthTranspType;
-
-
-typedef enum { /*< skip >*/
-	GTH_CHECK_TYPE_LIGHT,
-	GTH_CHECK_TYPE_MIDTONE,
-	GTH_CHECK_TYPE_DARK
-} GthCheckType;
-
-
-typedef enum { /*< skip >*/
-	GTH_CHECK_SIZE_SMALL  = 4,
-        GTH_CHECK_SIZE_MEDIUM = 8,
-	GTH_CHECK_SIZE_LARGE  = 16
-} GthCheckSize;
-
 
 struct _ImageViewer
 {
 	GtkWidget __parent;
-
-	/*< private >*/
-
-	gboolean         is_animation;
-	gboolean         play_animation;
-	gboolean         rendering;
-	gboolean         cursor_visible;
-
-	gboolean         frame_visible;
-	int              frame_border;
-	int              frame_border2;
-
-	GthTranspType    transp_type;
-	GthCheckType     check_type;
-	gint             check_size;
-	guint32          check_color1;
-	guint32          check_color2;
-
-	guint            anim_id;
-	GdkPixbuf       *frame_pixbuf;
-	int              frame_delay;
-
-	ImageLoader            *loader;
-	GdkPixbufAnimation     *anim;
-	GdkPixbufAnimationIter *iter;
-	GTimeVal                time;        /* Timer used to get the right
-					      * frame. */
-
-	GdkCursor       *cursor;
-	GdkCursor       *cursor_void;
-
-	double           zoom_level;
-	guint            zoom_quality : 1;   /* A ZoomQualityType value. */
-	guint            zoom_change : 3;    /* A ZoomChangeType value. */
-
-	GthFit           fit;
-	gboolean         doing_zoom_fit;     /* Whether we are performing
-					      * a zoom to fit the window. */
-	gboolean         is_void;            /* If TRUE do not show anything.
-					      *	Itis resetted to FALSE we an
-					      * image is loaded. */
-
-	gint             x_offset;           /* Scroll offsets. */
-	gint             y_offset;
-
-	gboolean         pressed;
-	gboolean         dragging;
-	gboolean         double_click;
-	gboolean         just_focused;
-	gint             drag_x;
-	gint             drag_y;
-	gint             drag_realx;
-	gint             drag_realy;
-
-	GdkPixbuf       *area_pixbuf;
-	gint             area_max_width;
-	gint             area_max_height;
-        int              area_bps;
-	GdkColorspace    area_color_space;
-
-	GtkAdjustment   *vadj, *hadj;
-
-	gboolean         black_bg;
-
-	gboolean         skip_zoom_change;
-	gboolean         skip_size_change;
-
-	gboolean         next_scroll_repaint; /* used in fullscreen mode to
-					       * delete the comment before
-					       * scrolling. */
-	gboolean         reset_scrollbars;
 };
 
 
@@ -177,6 +57,9 @@ struct _ImageViewerClass
 
 	void (* clicked)                (ImageViewer        *viewer);
 	void (* image_loaded)           (ImageViewer        *viewer);
+	void (* image_error)            (ImageViewer        *viewer);
+	void (* image_progress)         (ImageViewer        *viewer,
+					 float               progress);
 	void (* zoom_changed)           (ImageViewer        *viewer);
 	void (* set_scroll_adjustments) (GtkWidget          *widget,
                                          GtkAdjustment      *hadj,
@@ -232,6 +115,7 @@ GdkPixbuf *    image_viewer_get_current_pixbuf       (ImageViewer     *viewer);
 void           image_viewer_start_animation          (ImageViewer     *viewer);
 void           image_viewer_stop_animation           (ImageViewer     *viewer);
 void           image_viewer_step_animation           (ImageViewer     *viewer);
+gboolean       image_viewer_get_play_animation       (ImageViewer     *viewer);
 gboolean       image_viewer_is_animation             (ImageViewer     *viewer);
 gboolean       image_viewer_is_playing_animation     (ImageViewer     *viewer);
 

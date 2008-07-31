@@ -427,7 +427,7 @@ update_zoom_sensitivity (GthFullscreen *fullscreen)
 	int                       zoom;
 
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
-	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (IMAGE_VIEWER (priv->viewer)) * 100.0);
 
 	set_action_sensitive (fullscreen,
 			      "View_Zoom100",
@@ -812,7 +812,7 @@ get_file_info (GthFullscreen *fullscreen)
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
 	file_size_txt = g_format_size_for_display (get_file_size (image_filename));
 
-	zoom = (int) (image_viewer->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (image_viewer) * 100.0);
 
 	FileData *current_file = fullscreen->priv->current->data;
 	timer = get_exif_time_or_mtime (current_file);
@@ -1028,8 +1028,6 @@ show_comment_on_image (GthFullscreen *fullscreen)
 			   0, 0,
 			   priv->bounds.x, priv->bounds.y,
 			   priv->bounds.width, priv->bounds.height);
-
-	viewer->next_scroll_repaint = TRUE;
 }
 
 
@@ -1037,9 +1035,6 @@ static void
 hide_comment_on_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
-	ImageViewer *viewer = (ImageViewer*) priv->viewer;
-
-	viewer->next_scroll_repaint = FALSE;
 
 	if (priv->original_buffer == NULL)
 		return;
@@ -1882,7 +1877,7 @@ static gboolean
 gth_fullscreen_get_animation (GthWindow *window)
 {
 	GthFullscreen *fullscreen = GTH_FULLSCREEN (window);
-	return IMAGE_VIEWER (fullscreen->priv->viewer)->play_animation;
+	return image_viewer_get_play_animation (IMAGE_VIEWER (fullscreen->priv->viewer));
 }
 
 

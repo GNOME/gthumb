@@ -177,7 +177,7 @@ viewer_update_zoom_sensitivity (GthViewer *viewer)
 
 	image_is_visible = (priv->image != NULL) && ! priv->image_error;
 	image_is_void = image_viewer_is_void (image_viewer);
-	zoom = (int) (image_viewer->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (image_viewer) * 100.0);
 
 	set_action_sensitive (viewer,
 		       "View_Zoom100",
@@ -543,7 +543,7 @@ viewer_update_statusbar_zoom_info (GthViewer *viewer)
 	if (! GTK_WIDGET_VISIBLE (priv->zoom_info_frame))
 		gtk_widget_show (priv->zoom_info_frame);
 
-	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	zoom = (int) (image_viewer_get_zoom (IMAGE_VIEWER (priv->viewer)) * 100.0);
 	text = g_strdup_printf (" %d%% ", zoom);
 	gtk_label_set_text (GTK_LABEL (priv->zoom_info), text);
 	g_free (text);
@@ -972,7 +972,7 @@ viewer_drag_data_get  (GtkWidget        *widget,
 	GthViewerPrivateData *priv = viewer->priv;
 	char                 *path;
 
-	if (IMAGE_VIEWER (priv->viewer)->is_void)
+	if (image_viewer_is_void (IMAGE_VIEWER (priv->viewer)))
 		return;
 
 	path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
@@ -2065,8 +2065,9 @@ gth_viewer_set_animation (GthWindow *window,
 static gboolean
 gth_viewer_get_animation (GthWindow *window)
 {
-	GthViewer *viewer = GTH_VIEWER (window);
-	return IMAGE_VIEWER (viewer->priv->viewer)->play_animation;
+	GthViewer   *viewer = GTH_VIEWER (window);
+	ImageViewer *iv = IMAGE_VIEWER (viewer->priv->viewer);
+	return image_viewer_get_play_animation (iv);
 }
 
 

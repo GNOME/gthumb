@@ -1,5 +1,31 @@
 2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/image-viewer.c:
+	* libgthumb/image-viewer-image.c:
+	Refactor ImageViewer widget to split image state information
+	to a new ImageViewerImage object and hide all private variables.
+	ImageViewer now emits "image_loaded", "image_error", and
+	"image_progress" signals to compensate for lack of direct access
+	to the ImageLoaded contained within.
+
+	* src/gth-browser.c: (gth_browser_construct), (image_loader_done_cb),
+	(image_loader_progress_cb):
+	Renamed to image_viewer_{done,progress}_cb as signal handlers
+	that are now connected to the ImageViewer and not an ImageLoader.
+
+	* src/gth-browser.c: (gth_browser_get_animation), (viewer_drag_get),
+	(window_update_zoom_sensitivity):
+	* src/gth-fullscreen.c: (gth_fullscreen_get_animation),
+	(update_zoom_sensitivity), (get_file_info)
+	* src/gth-viewer.c: (viewer_update_zoom_sensitivity), 
+	(viewer_update_statusbar_zoom_info), (viewer_drag_data_get):
+	Use ImageViewer accessor functions instead of directly accessing
+	private variables.
+
+	Patch by Geoffrey Antos <dynamotwain@aim.com>. Bug #501512.
+
+2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* src/albumtheme-private.h:
 	* src/albumtheme.c: (yyparse):
