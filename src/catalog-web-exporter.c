@@ -1582,6 +1582,9 @@ gth_parsed_doc_print (GList              *document,
 			break;
 
 		case GTH_TAG_IF:
+			idx = MIN (ce->image, ce->n_images - 1);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
 			for (scan = tag->value.cond_list; scan; scan = scan->next) {
 				GthCondition *cond = scan->data;
 				if (expression_value (ce, cond->expr) != 0) {

@@ -1,3 +1,10 @@
+2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	Fix for Bug #544893: Crash in web album <gthumb:if/>.
+	Patch by Christophe Bisiere.
+
 2008-07-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
