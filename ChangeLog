@@ -1,5 +1,31 @@
 2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-nav-window.c: (size_changed_cb):
+	Remove assumptions about GtkAdjustment->lower being 0
+
+	* libgthumb/nav-window.c: (nav_window_events), (update_view):
+	* libgthumb/image-viewer-image.c, libgthumb/image-viewer-image.h:
+	Adjust [xy]-offset scales such that an offset of (0,0)
+	will draw the image in the center of the widget even if
+	widget is bigger or smaller than the image itself (important
+	when there are two images with different sizes  on the screen at 
+	once).
+
+	* libgthumb/image-viewer-image.c, libgthumb/image-viewer-image.h:
+	Have image paint itself to a cairo buffer to be used
+	by a transition or directly by the widget.
+
+	Removed the "repainted" signal as it is no longer needed
+	as scrolling triggers an "exposed" event that takes care
+	of it for gth-fullscreen.
+
+	* src/gth-fullscreeen.c:
+	No longer connect to the "repainted" event.
+
+	Patch by Geoffrey Antos <dynamotwain@aim.com>. Bug #501512.
+
+2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/image-viewer.c:
 	* libgthumb/image-viewer-image.c:
 	Refactor ImageViewer widget to split image state information

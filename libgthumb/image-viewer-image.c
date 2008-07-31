@@ -25,6 +25,8 @@
 #include "image-viewer.h"
 #include "image-viewer-image.h"
 
+#define FLOAT_EQUAL(a,b) (fabs ((a) - (b)) < 1e-6)
+
 #define MINIMUM_DELAY   10    /* When an animation frame has a 0 milli seconds
 			       * delay use this delay instead. */
 
@@ -57,12 +59,16 @@ struct _ImageViewerImagePrivate {
 
 	gdouble                x_offset;           /* Scroll offsets. */
 	gdouble                y_offset;
+
+	cairo_surface_t       *buffer;
 };
 
 enum {
 	ZOOM_CHANGED,
 	LAST_SIGNAL
 };
+
+cairo_surface_t*               pixbuf_to_surface (GdkPixbuf *pixbuf);
 
 static guint image_viewer_image_signals[LAST_SIGNAL] = { 0 };
 
@@ -99,7 +105,6 @@ static void
 image_viewer_image_init (ImageViewerImage *self)
 {
 	ImageViewerImagePrivate  *priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (self);
-	/* do stuff */
 
 	priv->viewer = NULL;
 	priv->is_animation = FALSE;
@@ -114,10 +119,12 @@ image_viewer_image_init (ImageViewerImage *self)
 	priv->static_pixbuf = NULL;
 
 	priv->zoom_level = 1.0;
-	priv->fit = GTH_FIT_SIZE_IF_LARGER;
+	priv->fit = GTH_FIT_NONE;
 
 	priv->x_offset = 0;
 	priv->y_offset = 0;
+
+	priv->buffer = NULL;
 }
 
 static void
@@ -159,6 +166,11 @@ image_viewer_image_finalize (GObject *object)
 		priv->file = NULL;
 	}
 
+	if (priv->buffer != NULL) {
+		cairo_surface_destroy (priv->buffer);
+		priv->buffer = NULL;
+	}
+
         /* Chain up */
 	G_OBJECT_CLASS (image_viewer_image_parent_class)->finalize (object);
 }
@@ -187,6 +199,14 @@ create_pixbuf_from_iter (ImageViewerImage *image)
 	GdkPixbufAnimationIter  *iter = priv->iter;
 	priv->anim_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (iter);
 	priv->frame_delay = gdk_pixbuf_animation_iter_get_delay_time (iter);
+
+	if (priv->buffer != NULL)
+	{
+		cairo_surface_destroy (priv->buffer);
+	}
+
+	priv->buffer = pixbuf_to_surface (priv->anim_pixbuf);
+
 	gtk_widget_queue_draw (GTK_WIDGET (priv->viewer));
 }
 
@@ -229,33 +249,37 @@ change_frame_cb (gpointer data)
 	return FALSE;
 }
 
-
 static void
 clamp_offsets (ImageViewerImage *image)
 {
 	ImageViewerImagePrivate *priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
+	gint                     border, border2;
 	gint                     gdk_width, gdk_height;
-	gint                     width, height, border;
+	gdouble                  width, height;
 
-	border = image_viewer_is_frame_visible (priv->viewer) ?
-		 FRAME_BORDER2 : 0;
+	if (image_viewer_is_frame_visible (priv->viewer)) {
+		border  = FRAME_BORDER;
+		border2 = FRAME_BORDER2;
+	} else {
+		border = border2 = 0;
+	}
 
-	gdk_width = GTK_WIDGET (priv->viewer)->allocation.width - border;
-	gdk_height = GTK_WIDGET (priv->viewer)->allocation.height - border;
+	gdk_width = GTK_WIDGET (priv->viewer)->allocation.width - border2;
+	gdk_height = GTK_WIDGET (priv->viewer)->allocation.height - border2;
 
 	image_viewer_image_get_zoomed_size (image, &width, &height);
 
 	if (width > gdk_width)
 		priv->x_offset = CLAMP (priv->x_offset,
-				0,
-				width - gdk_width);
+				floor (-width/2 - border),
+				floor ( width/2 + border));
 	else
 		priv->x_offset = 0;
 
 	if (height > gdk_height)
 		priv->y_offset = CLAMP (priv->y_offset,
-				0,
-				height - gdk_height);
+				floor (-height/2 - border),
+				floor ( height/2 + border));
 	else
 		priv->y_offset = 0;
 }
@@ -305,11 +329,10 @@ set_zoom_at_point (ImageViewerImage *image,
 {
 	ImageViewerImagePrivate *priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
 	GtkWidget               *widget = GTK_WIDGET (priv->viewer);
-	GdkPixbuf               *buf;
-	gint                     gdk_width, gdk_height, border;
+	gdouble                  gdk_width, gdk_height;
+	gint                     border;
 	gdouble                  zoom_ratio;
 
-	buf = image_viewer_image_get_pixbuf (image);
 	border = image_viewer_is_frame_visible (priv->viewer) ?
 		 FRAME_BORDER2 : 0;
 
@@ -319,8 +342,8 @@ set_zoom_at_point (ImageViewerImage *image,
 	/* try to keep the center of the view visible. */
 
 	zoom_ratio = zoom_level / priv->zoom_level;
-	priv->x_offset = ((priv->x_offset + center_x) * zoom_ratio - gdk_width / 2);
-	priv->y_offset = ((priv->y_offset + center_y) * zoom_ratio - gdk_height / 2);
+	priv->x_offset = ((priv->x_offset - gdk_width  / 2 + center_x) * zoom_ratio);
+	priv->y_offset = ((priv->y_offset - gdk_height / 2 + center_y) * zoom_ratio);
 
 	priv->zoom_level = zoom_level;
 
@@ -399,6 +422,10 @@ image_viewer_image_new (ImageViewer* viewer,
 	{
 		create_first_pixbuf (image);
 		add_change_frame_timeout(image);
+	}
+	else
+	{
+		priv->buffer = pixbuf_to_surface (priv->static_pixbuf);
 	}
 
 	return image;
@@ -595,8 +622,8 @@ image_viewer_image_get_zoom_level (ImageViewerImage* image)
 
 void
 image_viewer_image_get_zoomed_size (ImageViewerImage *image,
-				    gint             *width,
-				    gint             *height)
+				    gdouble          *width,
+				    gdouble          *height)
 {
 	ImageViewerImagePrivate *priv;
 	gint w, h;
@@ -608,8 +635,8 @@ image_viewer_image_get_zoomed_size (ImageViewerImage *image,
 	w = image_viewer_image_get_width (image);
 	h = image_viewer_image_get_height (image);
 
-	*width  = (int) floor ((double) w * priv->zoom_level);
-	*height = (int) floor ((double) h * priv->zoom_level);
+	*width  = floor ((double) w * priv->zoom_level);
+	*height = floor ((double) h * priv->zoom_level);
 }
 
 
@@ -862,3 +889,253 @@ image_viewer_image_zoom_out_centered (ImageViewerImage *image)
 	set_zoom_centered (image, get_prev_zoom (priv->zoom_level));
 }
 
+/* image_viewer_image_paint */
+
+cairo_surface_t*
+pixbuf_to_surface (GdkPixbuf *pixbuf)
+{
+	/* based on gdk_cairo_set_source_pixbuf */
+	gint    width = gdk_pixbuf_get_width (pixbuf);
+	gint    height = gdk_pixbuf_get_height (pixbuf);
+	guchar *gdk_pixels = gdk_pixbuf_get_pixels (pixbuf);
+	int     gdk_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	int     n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+	int     cairo_stride;
+	guchar *cairo_pixels;
+	cairo_format_t format;
+	cairo_surface_t *surface;
+	static const cairo_user_data_key_t key;
+	int j;
+
+	if (n_channels == 3)
+		format = CAIRO_FORMAT_RGB24;
+	else
+		format = CAIRO_FORMAT_ARGB32;
+
+	cairo_stride = cairo_format_stride_for_width (format, width);
+	/* XXX store this buffer in the struct; reuse for multiple frames of animation? */
+	cairo_pixels = g_malloc (cairo_stride * height);
+
+	surface = cairo_image_surface_create_for_data (
+			(unsigned char *)cairo_pixels,
+			format,
+			width, height, cairo_stride);
+	cairo_surface_set_user_data (surface, &key,
+			cairo_pixels, (cairo_destroy_func_t)g_free);
+
+	for (j = height; j; j--)
+	{
+		guchar *p = gdk_pixels;
+		guchar *q = cairo_pixels;
+
+		if (n_channels == 3)
+		{
+			guchar *end = p + 3 * width;
+
+			while (p < end)
+			{
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+				q[0] = p[2];
+				q[1] = p[1];
+				q[2] = p[0];
+#else	  
+				q[1] = p[0];
+				q[2] = p[1];
+				q[3] = p[2];
+#endif
+				p += 3;
+				q += 4;
+			}
+		}
+		else
+		{
+			guchar *end = p + 4 * width;
+			guint t1,t2,t3;
+
+#define MULT(d,c,a,t) G_STMT_START { t = c * a + 0x7f; d = ((t >> 8) + t) >> 8; } G_STMT_END
+
+			while (p < end)
+			{
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+				MULT(q[0], p[2], p[3], t1);
+				MULT(q[1], p[1], p[3], t2);
+				MULT(q[2], p[0], p[3], t3);
+				q[3] = p[3];
+#else	  
+				q[0] = p[3];
+				MULT(q[1], p[0], p[3], t1);
+				MULT(q[2], p[1], p[3], t2);
+				MULT(q[3], p[2], p[3], t3);
+#endif
+
+				p += 4;
+				q += 4;
+			}
+
+#undef MULT
+		}
+
+		gdk_pixels += gdk_rowstride;
+		cairo_pixels += 4 * width;
+	}
+
+	return surface;
+}
+
+
+static cairo_surface_t*
+checker_pattern (int width, int height, double color1, double color2)
+{
+	cairo_surface_t *surface;
+	cairo_t         *cr;
+
+	surface = cairo_image_surface_create (CAIRO_FORMAT_RGB24,
+					      width * 2, height *2);
+	cr = cairo_create (surface);
+
+	cairo_set_source_rgb (cr, color1, color1, color1);
+	cairo_paint (cr);
+
+	cairo_set_source_rgb (cr, color2, color2, color2);
+	cairo_rectangle (cr, 0,     0,      width, height);
+	cairo_rectangle (cr, width, height, width, height);
+	cairo_fill (cr);
+	cairo_destroy (cr);
+
+	return surface;
+}
+
+
+void
+image_viewer_image_paint (ImageViewerImage *image,
+			  cairo_t          *cr)
+{
+	ImageViewerImagePrivate *priv;
+	GdkPixbuf               *pixbuf;
+	GtkStyle                *style;
+
+	gint                     border, border2;
+	gdouble                  gdk_width, gdk_height;
+	gdouble                  src_x, src_y;
+	gdouble                  width, height;
+	GthTranspType            transp_type;
+	GthZoomQuality           zoom_quality;
+	cairo_filter_t           filter;
+	cairo_matrix_t           matrix;
+	cairo_pattern_t         *pattern;	
+
+	g_return_if_fail (image != NULL);
+
+	priv   = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
+	pixbuf = image_viewer_image_get_pixbuf (image);
+	style  = GTK_WIDGET (priv->viewer)->style;
+
+	if (image_viewer_is_frame_visible (priv->viewer)) {
+		border  = FRAME_BORDER;
+		border2 = FRAME_BORDER2;
+	} else {
+		border = border2 = 0;
+	}
+
+	gdk_width = GTK_WIDGET (priv->viewer)->allocation.width - border2;
+	gdk_height = GTK_WIDGET (priv->viewer)->allocation.height - border2;
+
+	image_viewer_image_get_zoomed_size (image, &width, &height);
+
+	transp_type = image_viewer_get_transp_type (priv->viewer);
+
+	zoom_quality = image_viewer_get_zoom_quality (priv->viewer);
+	if (zoom_quality == GTH_ZOOM_QUALITY_LOW)
+		filter = CAIRO_FILTER_FAST;
+	else
+		filter = CAIRO_FILTER_GOOD;
+/*		filter = CAIRO_FILTER_BEST;*/
+
+	if (FLOAT_EQUAL (priv->zoom_level, 1.0))
+		filter = CAIRO_FILTER_FAST;
+
+	src_x = floor ((gdk_width  - width)  / 2 - priv->x_offset + border);
+	src_y = floor ((gdk_height - height) / 2 - priv->y_offset + border);
+
+	cairo_save (cr);
+
+	if (image_viewer_image_get_has_alpha (image) &&
+			transp_type != GTH_TRANSP_TYPE_NONE) {
+		cairo_surface_t *checker;
+		int              check_size;
+		GthCheckType     check_type;
+		double           color1, color2;
+
+		switch (transp_type) {
+		case GTH_TRANSP_TYPE_NONE:
+			g_assert_not_reached ();
+			break;
+
+		case GTH_TRANSP_TYPE_BLACK:
+			color1 = color2 = 0;
+			break;
+
+		case GTH_TRANSP_TYPE_WHITE:
+			color1 = color2 = 1;
+			break;
+
+		case GTH_TRANSP_TYPE_CHECKED:
+			check_type = image_viewer_get_check_type (priv->viewer);
+			switch (check_type) {
+			case GTH_CHECK_TYPE_DARK:
+				color1 = 0;
+				color2 = 0.2;
+				break;
+
+			case GTH_CHECK_TYPE_MIDTONE:
+				color1 = 0.4;
+				color2 = 0.6;
+				break;
+
+			case GTH_CHECK_TYPE_LIGHT:
+				color1 = 0.8;
+				color2 = 1;
+				break;
+			}
+			break;
+		}
+
+		check_size = (int) image_viewer_get_check_size (priv->viewer);
+
+		checker = checker_pattern (check_size, check_size, color1, color2);
+		cairo_set_source_surface (cr, checker, -src_x, -src_y);
+		cairo_pattern_set_extend (cairo_get_source (cr), CAIRO_EXTEND_REPEAT);
+		cairo_pattern_set_filter (cairo_get_source (cr), CAIRO_FILTER_NEAREST);
+		cairo_rectangle (cr, src_x, src_y, width, height);
+		cairo_fill (cr);
+		cairo_surface_destroy (checker);
+	}
+
+	pattern = cairo_pattern_create_for_surface (priv->buffer);
+	cairo_matrix_init_scale (&matrix, 1/priv->zoom_level, 1/priv->zoom_level);
+	cairo_matrix_translate (&matrix, -src_x, -src_y);
+	cairo_pattern_set_matrix (pattern, &matrix);
+	cairo_pattern_set_filter (pattern, filter);
+
+	cairo_set_source (cr, pattern);
+	cairo_pattern_destroy(pattern);
+	cairo_paint (cr);
+
+	if(border != 0) {
+		cairo_set_antialias (cr, CAIRO_ANTIALIAS_NONE);
+		cairo_set_line_width (cr, 1);
+		gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+		cairo_move_to (cr, src_x - border, src_y + height + border);
+		cairo_line_to (cr, src_x - border, src_y - border);
+		cairo_line_to (cr, src_x + width + border, src_y - border);
+		cairo_stroke (cr);
+		gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+		cairo_move_to (cr, src_x + width, src_y);
+		cairo_line_to (cr, src_x + width, src_y + height);
+		cairo_line_to (cr, src_x, src_y + height);
+		cairo_stroke (cr);
+	}
+
+	cairo_restore (cr);
+
+}

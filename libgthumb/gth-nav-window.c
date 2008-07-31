@@ -113,8 +113,8 @@ size_changed_cb (GtkWidget    *widget,
 	g_return_val_if_fail (hadj != NULL, FALSE);
 	g_return_val_if_fail (vadj != NULL, FALSE);
 
-	hide_vscr = (vadj->upper <= vadj->page_size);
-	hide_hscr = (hadj->upper <= hadj->page_size);
+	hide_vscr = (vadj->upper - vadj->lower <= vadj->page_size + 1e-6);
+	hide_hscr = (hadj->upper - hadj->lower <= hadj->page_size + 1e-6);
 
 	if (hide_vscr && hide_hscr) {
 		gtk_widget_hide (priv->viewer_vscr); 

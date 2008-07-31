@@ -1281,15 +1281,6 @@ fs_expose_event_cb (GtkWidget        *widget,
 }
 
 
-static gboolean
-fs_repainted_cb (GtkWidget     *widget,
-		 GthFullscreen *fullscreen)
-{
-	fullscreen->priv->comment_visible = FALSE;
-	return TRUE;
-}
-
-
 static int
 image_button_release_cb (GtkWidget      *widget,
 			 GdkEventButton *event,
@@ -1629,10 +1620,6 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	g_signal_connect_after (G_OBJECT (priv->viewer),
 				"expose_event",
 				G_CALLBACK (fs_expose_event_cb),
-				fullscreen);
-	g_signal_connect_after (G_OBJECT (priv->viewer),
-				"repainted",
-				G_CALLBACK (fs_repainted_cb),
 				fullscreen);
 	g_signal_connect_swapped (G_OBJECT (priv->viewer),
 				  "clicked",

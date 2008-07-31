@@ -174,8 +174,8 @@ update_view (NavWindow *nav_win)
 	nav_win->sqr_height = MIN (nav_win->sqr_height, popup_height); 
 
 	gth_iviewer_get_scroll_offset (viewer, &x_offset, &y_offset);
-	nav_win->sqr_x = x_offset * factor;
-	nav_win->sqr_y = y_offset * factor;
+	nav_win->sqr_x = x_offset * factor + popup_width / 2;
+	nav_win->sqr_y = y_offset * factor + popup_width / 2;
 
 	/* Popup window position. */
 
@@ -267,8 +267,8 @@ nav_window_events (GtkWidget *widget,
 		my = (int) y;
 		nav_window_draw_sqr (nav_win, TRUE, mx, my);
 
-		mx = (int) (x / nav_win->factor);
-		my = (int) (y / nav_win->factor);
+		mx = (int) ((x - nav_win->popup_width  / 2) / nav_win->factor);
+		my = (int) ((y - nav_win->popup_height / 2) / nav_win->factor);
 		gth_iviewer_scroll_to (viewer, mx, my);
 
 		return TRUE;

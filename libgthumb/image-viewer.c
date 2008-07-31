@@ -52,7 +52,7 @@
 			       * smaller than this value. */
 #define STEP_INCREMENT  20.0  /* Scroll increment. */
 
-#define FLOAT_EQUAL(a,b) (fabs (a - b) < 1e-6)
+#define FLOAT_EQUAL(a,b) (fabs ((a) - (b)) < 1e-6)
 
 typedef struct _ImageViewerPrivate ImageViewerPrivate;
 
@@ -72,8 +72,6 @@ struct _ImageViewerPrivate {
 	GthTranspType    transp_type;
 	GthCheckType     check_type;
 	gint             check_size;
-	guint32          check_color1;
-	guint32          check_color2;
 
 	GdkCursor       *cursor;
 	GdkCursor       *cursor_void;
@@ -92,12 +90,6 @@ struct _ImageViewerPrivate {
 	gint             drag_realx;
 	gint             drag_realy;
 
-	GdkPixbuf       *area_pixbuf;
-	gint             area_max_width;
-	gint             area_max_height;
-        int              area_bps;
-	GdkColorspace    area_color_space;
-
 	GtkAdjustment   *vadj, *hadj;
 
 	gboolean         black_bg;
@@ -105,9 +97,6 @@ struct _ImageViewerPrivate {
 	gboolean         skip_zoom_change;
 	gboolean         skip_size_change;
 
-	gboolean         next_scroll_repaint; /* used in fullscreen mode to
-					       * delete the comment before
-					       * scrolling. */
 	gboolean         reset_scrollbars;	
 };
 
@@ -122,7 +111,6 @@ enum {
 	SET_ZOOM,
 	SET_FIT_MODE,
 	ZOOM_CHANGED,
-	REPAINTED,
 	MOUSE_WHEEL_SCROLL,
 	SCROLL,
 	LAST_SIGNAL
@@ -161,8 +149,6 @@ static gint     image_viewer_focus_out        (GtkWidget        *widget,
 					       GdkEventFocus    *event);
 static gint     image_viewer_scroll_event     (GtkWidget        *widget,
 					       GdkEventScroll   *event);
-static void     image_viewer_style_set        (GtkWidget        *widget,
-					       GtkStyle         *previous_style);
 static void     scroll_relative               (ImageViewer      *viewer,
 					       gdouble           delta_x,
 					       gdouble           delta_y);
@@ -295,15 +281,6 @@ image_viewer_class_init (ImageViewerClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	image_viewer_signals[REPAINTED] =
-		g_signal_new ("repainted",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ImageViewerClass, repainted),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE,
-			      0);
         image_viewer_signals[MOUSE_WHEEL_SCROLL] =
 		g_signal_new ("mouse_wheel_scroll",
 			      G_TYPE_FROM_CLASS (klass),
@@ -349,7 +326,6 @@ image_viewer_class_init (ImageViewerClass *klass)
 	widget_class->motion_notify_event = image_viewer_motion_notify;
 
 	widget_class->scroll_event = image_viewer_scroll_event;
-	widget_class->style_set    = image_viewer_style_set;
 
 	klass->clicked        = NULL;
 	klass->image_loaded   = NULL;
@@ -478,9 +454,9 @@ hadj_value_changed (GtkAdjustment *adj,
 	gdouble              x_ofs, y_ofs;
 
 	g_return_val_if_fail (priv->image != NULL, FALSE);
-	
-	x_ofs = GTK_ADJUSTMENT (adj)->value
-		- image_viewer_image_get_x_offset (priv->image);
+
+	x_ofs = floor (adj->value + adj->page_size / 2) -
+		image_viewer_image_get_x_offset (priv->image);
 	y_ofs = 0;
 	scroll_relative_no_scrollbar (viewer, x_ofs, y_ofs);
 
@@ -494,12 +470,12 @@ vadj_value_changed (GtkAdjustment *adj,
 {
 	ImageViewerPrivate  *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
 	gdouble              x_ofs, y_ofs;
-
-	g_return_val_if_fail (priv->image != NULL, FALSE);
 	
+	g_return_val_if_fail (priv->image != NULL, FALSE);
+
 	x_ofs = 0;
-	y_ofs = GTK_ADJUSTMENT (adj)->value
-		- image_viewer_image_get_y_offset (priv->image);
+	y_ofs = floor (adj->value + adj->page_size / 2) -
+		image_viewer_image_get_y_offset (priv->image);
 	scroll_relative_no_scrollbar (viewer, x_ofs, y_ofs);
 
 	return FALSE;
@@ -512,14 +488,12 @@ image_viewer_init (ImageViewer *viewer)
 	ImageViewerPrivate  *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
 
 	GTK_WIDGET_SET_FLAGS (viewer, GTK_CAN_FOCUS);
-	GTK_WIDGET_UNSET_FLAGS (viewer, GTK_DOUBLE_BUFFERED);
+	/*GTK_WIDGET_UNSET_FLAGS (viewer, GTK_DOUBLE_BUFFERED);*/
 
 	/* Initialize data. */
 
 	priv->check_type = GTH_CHECK_TYPE_MIDTONE;
 	priv->check_size = GTH_CHECK_SIZE_LARGE;
-	priv->check_color1 = COLOR_GRAY_66;
-	priv->check_color2 = COLOR_GRAY_99;
 
 	priv->rendering = FALSE;
 	priv->cursor_visible = TRUE;
@@ -546,19 +520,12 @@ image_viewer_init (ImageViewer *viewer)
 
 	priv->skip_zoom_change = FALSE;
 	priv->skip_size_change = FALSE;
-	priv->next_scroll_repaint = FALSE;
 
 	priv->dragging = FALSE;
 	priv->double_click = FALSE;
 	priv->just_focused = FALSE;
 
 	priv->black_bg = FALSE;
-
-	priv->area_pixbuf = NULL;
-	priv->area_max_width = 0;
-	priv->area_max_height = 0;
-	priv->area_bps = 0;
-	priv->area_color_space = GDK_COLORSPACE_RGB;
 
 	priv->cursor = NULL;
 	priv->cursor_void = NULL;
@@ -586,112 +553,14 @@ image_viewer_init (ImageViewer *viewer)
 }
 
 
-static void
-paint (ImageViewer *viewer,
-       gint         src_x,
-       gint         src_y,
-       gint         dest_x,
-       gint         dest_y,
-       gint         width,
-       gint         height,
-       gint         interp_type)
-{
-	ImageViewerPrivate *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
-	GdkPixbuf          *pixbuf;
-	double              zoom_level;
-	int                 bits_per_sample;
-	GdkColorspace       color_space;
-
-	pixbuf = image_viewer_get_current_pixbuf (viewer);
-	zoom_level = image_viewer_image_get_zoom_level (priv->image);
-
-	color_space = gdk_pixbuf_get_colorspace (pixbuf);
-	bits_per_sample = gdk_pixbuf_get_bits_per_sample (pixbuf);
-
-	if ((priv->area_pixbuf == NULL)
-	    || (priv->area_max_width < width)
-	    || (priv->area_max_height < height)
-	    || (priv->area_bps != bits_per_sample)
-	    || (priv->area_color_space != color_space)) {
-		if (priv->area_pixbuf != NULL)
-			g_object_unref (priv->area_pixbuf);
-		priv->area_pixbuf = gdk_pixbuf_new (color_space,
-						      FALSE,
-						      bits_per_sample,
-						      width,
-						      height);
-		g_return_if_fail (priv->area_pixbuf != NULL);
-
-		priv->area_max_width = width;
-		priv->area_max_height = height;
-		priv->area_color_space = color_space;
-		priv->area_bps = bits_per_sample;
-	}
-
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		gdk_pixbuf_composite_color (pixbuf,
-					    priv->area_pixbuf,
-					    0, 0,
-					    width, height,
-					    (double) -src_x,
-					    (double) -src_y,
-					    zoom_level,
-					    zoom_level,
-					    interp_type,
-					    255,
-					    src_x, src_y,
-					    priv->check_size,
-					    priv->check_color1,
-					    priv->check_color2);
-	else {
-		gdk_pixbuf_scale (pixbuf,
-				  priv->area_pixbuf,
-				  0, 0,
-				  width, height,
-				  (double) -src_x,
-				  (double) -src_y,
-				  zoom_level,
-				  zoom_level,
-				  interp_type);
-	}
-
-	gdk_draw_rgb_image_dithalign (GTK_WIDGET (viewer)->window,
-				      GTK_WIDGET (viewer)->style->black_gc,
-				      dest_x, dest_y,
-				      width, height,
-				      GDK_RGB_DITHER_MAX,
-				      gdk_pixbuf_get_pixels (priv->area_pixbuf),
-				      gdk_pixbuf_get_rowstride (priv->area_pixbuf),
-				      dest_x, dest_y);
-
-#if 0
-	gdk_draw_rectangle (GTK_WIDGET (viewer)->window,
-			    GTK_WIDGET (viewer)->style->black_gc,
-			    FALSE,
-			    dest_x, dest_y,
-			    width, height);
-#endif
-}
-
-
 static gint
 image_viewer_expose (GtkWidget      *widget,
 		     GdkEventExpose *event)
 {
 	ImageViewer        *viewer;
 	ImageViewerPrivate *priv;
-	gdouble              src_x, src_y;    /* Start to draw the image from this
-					* point. */
-	int           pixbuf_width;    /* Zoomed size of the image. */
-	int           pixbuf_height;
-	GdkRectangle  image_area;      /* Inside this rectangle there is the
-					* visible part of the image. */
-	GdkRectangle  paint_area;      /* The intersection between image_area
-					* and event->area. */
-	int           gdk_width;
-	int           gdk_height;
-	int           alloc_width;
-	int           alloc_height;
+	int                 gdk_width,   gdk_height;
+	int                 alloc_width, alloc_height;
 
 	viewer = IMAGE_VIEWER (widget);
 	priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
@@ -701,187 +570,26 @@ image_viewer_expose (GtkWidget      *widget,
 
 	priv->rendering = TRUE;
 
-	if (priv->image != NULL) {
-		image_viewer_image_get_zoomed_size (priv->image,
-						    &pixbuf_width,
-						    &pixbuf_height);
-		image_viewer_image_get_scroll_offsets (priv->image,
-						       &src_x,
-						       &src_y);
-	} else {
-		pixbuf_width = pixbuf_height = 0;
-		src_x = src_y = 0;
-	}
-	
 	alloc_width  = widget->allocation.width;
 	alloc_height = widget->allocation.height;
 	gdk_width    = alloc_width - priv->frame_border2;
 	gdk_height   = alloc_height - priv->frame_border2;
 
-	image_area.x      = MAX (priv->frame_border, (gdk_width - pixbuf_width) / 2);
-	image_area.y      = MAX (priv->frame_border, (gdk_height - pixbuf_height) / 2);
-	image_area.width  = MIN (pixbuf_width, gdk_width);
-	image_area.height = MIN (pixbuf_height, gdk_height);
+	if (priv->image != NULL)
+	{
+		cairo_t *cr;
+		cr = gdk_cairo_create (GTK_WIDGET (viewer)->window);
 
-	/* Draw the background. */
+		/* Only actually paint the regions that need redrawn */
+		gdk_cairo_region (cr, event->region);
+		cairo_clip (cr);
 
-	if ((image_area.x > priv->frame_border)
-	    || (image_area.y > priv->frame_border)
-	    || (image_area.width < gdk_width)
-	    || (image_area.height < gdk_height)) {
-		int    rx, ry, rw, rh;
-		GdkGC *gc;
+		/* Paint the image */
+		image_viewer_image_paint (priv->image, cr);
 
-		if (priv->black_bg)
-			gc = widget->style->black_gc;
-		else
-			gc = widget->style->bg_gc[GTK_STATE_NORMAL];
-
-		if (priv->image == NULL) {
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    0, 0,
-					    alloc_width, alloc_height);
-
-		} else {
-			/* If an image is present draw in four phases to avoid
-			 * flickering. */
-
-			/* Top rectangle. */
-			rx = 0;
-			ry = 0;
-			rw = alloc_width;
-			rh = image_area.y;
-			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
-
-			/* Bottom rectangle. */
-			rx = 0;
-			ry = image_area.y + image_area.height;
-			rw = alloc_width;
-			rh = alloc_height - image_area.y - image_area.height;
-			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
-
-			/* Left rectangle. */
-			rx = 0;
-			ry = image_area.y - 1;
-			rw = image_area.x;
-			rh = image_area.height + 2;
-			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
-
-			/* Right rectangle. */
-			rx = image_area.x + image_area.width;
-			ry = image_area.y - 1;
-			rw = alloc_width - image_area.x - image_area.width;
-			rh = image_area.height + 2;
-			if ((rw > 0) && (rh > 0))
-				gdk_draw_rectangle (widget->window,
-						    gc,
-						    TRUE,
-						    rx, ry,
-						    rw, rh);
-		}
+		cairo_destroy (cr);
 	}
 
-	/* Draw the frame. */
-
-	if ((priv->frame_border > 0) && (priv->image != NULL)) {
-		int    x1, y1, x2, y2;
-		GdkGC *gc;
-
-		if (priv->black_bg)
-			gc = widget->style->black_gc;
-		else
-			gc = widget->style->light_gc[GTK_STATE_NORMAL];
-			/*gc = widget->style->dark_gc[GTK_STATE_NORMAL];*/
-
-		x1 = image_area.x + image_area.width;
-		y1 = image_area.y - 1;
-		x2 = image_area.x + image_area.width;
-		y2 = image_area.y + image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
-
-		x1 = image_area.x - 1;
-		y1 = image_area.y + image_area.height;
-		x2 = image_area.x + image_area.width;
-		y2 = image_area.y + image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
-
-		if (priv->black_bg)
-			gc = widget->style->black_gc;
-		else
-			gc = widget->style->dark_gc[GTK_STATE_NORMAL];
-
-		x1 = image_area.x - 1;
-		y1 = image_area.y - 1;
-		x2 = image_area.x - 1;
-		y2 = image_area.y + image_area.height;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
-
-		x1 = image_area.x - 1;
-		y1 = image_area.y - 1;
-		x2 = image_area.x + image_area.width;
-		y2 = image_area.y - 1;
-		gdk_draw_line (widget->window,
-			       gc,
-			       x1, y1,
-			       x2, y2);
-	}
-
-	if ((priv->image != NULL)
-	    && gdk_rectangle_intersect (&event->area,
-					&image_area,
-					&paint_area)) {
-		int interp_type;
-
-		if (priv->zoom_quality == GTH_ZOOM_QUALITY_LOW)
-			interp_type = GDK_INTERP_NEAREST;
-		else
-			interp_type = GDK_INTERP_BILINEAR;
-/*			interp_type = GDK_INTERP_TILES;*/
-/*			interp_type = GDK_INTERP_HYPER;*/
-
-		if (FLOAT_EQUAL (
-			image_viewer_image_get_zoom_level (priv->image),
-			1.0))
-			interp_type = GDK_INTERP_NEAREST;
-
-		src_x += paint_area.x - image_area.x;
-		src_y += paint_area.y - image_area.y;
-
-		paint (viewer,
-		       src_x,
-		       src_y,
-		       paint_area.x,
-		       paint_area.y,
-		       paint_area.width,
-		       paint_area.height,
-		       interp_type);
-	}
 	priv->rendering = FALSE;
 
 	/* Draw the focus. */
@@ -965,12 +673,8 @@ scroll_relative_no_scrollbar (ImageViewer *viewer,
 			      gdouble      delta_y)
 {
 	ImageViewerPrivate *priv     = IMAGE_VIEWER_GET_PRIVATE (viewer);
-	gint                gdk_width, gdk_height;
 
 	image_viewer_image_scroll_relative (priv->image, delta_x, delta_y);
-
-	gdk_width  = GTK_WIDGET (viewer)->allocation.width - priv->frame_border2;
-	gdk_height = GTK_WIDGET (viewer)->allocation.height - priv->frame_border2;
 
 	gtk_widget_queue_draw (GTK_WIDGET (viewer));
 }
@@ -1143,21 +847,15 @@ image_viewer_finalize (GObject *object)
 		priv->vadj = NULL;
 	}
 
-	if (priv->area_pixbuf != NULL) {
+	/*if (priv->area_pixbuf != NULL) {
 		g_object_unref (priv->area_pixbuf);
 		priv->area_pixbuf = NULL;
-	}
+	}*/
 
         /* Chain up */
 	G_OBJECT_CLASS (image_viewer_parent_class)->finalize (object);
 }
 
-
-static int
-to_255 (int v)
-{
-	return v * 255 / 65535;
-}
 
 
 static void
@@ -1206,20 +904,6 @@ image_viewer_realize (GtkWidget *widget)
 	priv->cursor = cursor_get (widget->window, CURSOR_HAND_OPEN);
 	priv->cursor_void = cursor_get (widget->window, CURSOR_VOID);
 	gdk_window_set_cursor (widget->window, priv->cursor);
-
-	if (priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GdkColor color;
-		guint    base_color;
-
-		color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
-		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16)
-			      | (to_255 (color.green) << 8)
-			      | (to_255 (color.blue) << 0));
-
-		priv->check_color1 = base_color;
-		priv->check_color2 = base_color;
-	}
 }
 
 
@@ -1267,7 +951,7 @@ image_viewer_size_allocate (GtkWidget       *widget,
 {
 	ImageViewer        *viewer = IMAGE_VIEWER (widget);
 	ImageViewerPrivate *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
-	gint                gdk_width, gdk_height;
+	gdouble             gdk_width, gdk_height;
 
 	widget->allocation = *allocation;
 	gdk_width = allocation->width - priv->frame_border2;
@@ -1276,7 +960,7 @@ image_viewer_size_allocate (GtkWidget       *widget,
 	/* If a fit type is active update the zoom level. */
 
 	if (priv->image != NULL) {
-		gint       width, height;
+		gdouble    width, height;
 		gdouble	   off_x, off_y;
 
 		/* Re-fit the image to the new widget size if a fit-mode is active */
@@ -1287,23 +971,24 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 		image_viewer_image_get_zoomed_size (priv->image, &width, &height);
 
-		if ((width != priv->hadj->upper) || (height != priv->vadj->upper))
+		if (!FLOAT_EQUAL(width,  priv->hadj->upper - priv->hadj->lower) ||
+		    !FLOAT_EQUAL(height, priv->vadj->upper - priv->vadj->lower))
 			gth_iviewer_size_changed (GTH_IVIEWER (viewer));
 
 		/* Change adjustment values. */
 
-		priv->hadj->lower          = 0.0;
-		priv->hadj->upper          = width;
-		priv->hadj->value          = off_x;
+		priv->hadj->lower          = floor (-width / 2 - priv->frame_border);
+		priv->hadj->upper          = floor ( width / 2 + priv->frame_border);
+		priv->hadj->value          = floor (off_x - gdk_width / 2);
 		priv->hadj->step_increment = STEP_INCREMENT;
-		priv->hadj->page_increment = gdk_width / 2;
+		priv->hadj->page_increment = floor (gdk_width / 2);
 		priv->hadj->page_size      = gdk_width;
 
-		priv->vadj->lower          = 0.0;
-		priv->vadj->upper          = height;
-		priv->vadj->value          = off_y;
+		priv->vadj->lower          = floor (-height / 2 - priv->frame_border);
+		priv->vadj->upper          = floor ( height / 2 + priv->frame_border);
+		priv->vadj->value          = floor ( off_y - gdk_height / 2);
 		priv->vadj->step_increment = STEP_INCREMENT;
-		priv->vadj->page_increment = gdk_height / 2;
+		priv->vadj->page_increment = floor (gdk_height / 2);
 		priv->vadj->page_size      = gdk_height;
 	} else {
 		priv->hadj->lower     = 0.0;
@@ -2083,86 +1768,17 @@ image_viewer_set_fit_mode (ImageViewer     *viewer,
 }
 
 
-static void
-image_viewer_style_set (GtkWidget *widget,
-			GtkStyle  *previous_style)
-{
-	ImageViewer        *viewer = IMAGE_VIEWER (widget);
-	ImageViewerPrivate *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
-
-	GTK_WIDGET_CLASS (image_viewer_parent_class)->style_set (widget, previous_style);
-
-	if (priv->transp_type == GTH_TRANSP_TYPE_NONE) {
-		GdkColor color;
-		guint    base_color;
-
-		color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
-		base_color = (0xFF000000
-			      | (to_255 (color.red) << 16)
-			      | (to_255 (color.green) << 8)
-			      | (to_255 (color.blue) << 0));
-
-		priv->check_color1 = base_color;
-		priv->check_color2 = base_color;
-	}
-}
-
-
 void
 image_viewer_set_transp_type (ImageViewer   *viewer,
 			      GthTranspType  transp_type)
 {
 	ImageViewerPrivate *priv;
-	GdkColor color;
-	guint    base_color;
 
 	g_return_if_fail (viewer != NULL);
 
 	priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
 
 	priv->transp_type = transp_type;
-
-	color = GTK_WIDGET (viewer)->style->bg[GTK_STATE_NORMAL];
-	base_color = (0xFF000000
-		      | (to_255 (color.red) << 16)
-		      | (to_255 (color.green) << 8)
-		      | (to_255 (color.blue) << 0));
-
-	switch (transp_type) {
-	case GTH_TRANSP_TYPE_BLACK:
-		priv->check_color1 = COLOR_GRAY_00;
-		priv->check_color2 = COLOR_GRAY_00;
-		break;
-
-	case GTH_TRANSP_TYPE_NONE:
-		priv->check_color1 = base_color;
-		priv->check_color2 = base_color;
-		break;
-
-	case GTH_TRANSP_TYPE_WHITE:
-		priv->check_color1 = COLOR_GRAY_FF;
-		priv->check_color2 = COLOR_GRAY_FF;
-		break;
-
-	case GTH_TRANSP_TYPE_CHECKED:
-		switch (priv->check_type) {
-		case GTH_CHECK_TYPE_DARK:
-			priv->check_color1 = COLOR_GRAY_00;
-			priv->check_color2 = COLOR_GRAY_33;
-			break;
-
-		case GTH_CHECK_TYPE_MIDTONE:
-			priv->check_color1 = COLOR_GRAY_66;
-			priv->check_color2 = COLOR_GRAY_99;
-			break;
-
-		case GTH_CHECK_TYPE_LIGHT:
-			priv->check_color1 = COLOR_GRAY_CC;
-			priv->check_color2 = COLOR_GRAY_FF;
-			break;
-		}
-		break;
-	}
 }
 
 
@@ -2518,13 +2134,22 @@ image_viewer_set_black_background (ImageViewer *viewer,
 				   gboolean     set_black)
 {
 	ImageViewerPrivate *priv;
+	GtkWidget          *widget;
 
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
 
-	priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
+	priv   = IMAGE_VIEWER_GET_PRIVATE (viewer);
+	widget = GTK_WIDGET (viewer);
 
 	priv->black_bg = set_black;
-	gtk_widget_queue_draw (GTK_WIDGET (viewer));
+
+	if (set_black) {
+		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, &widget->style->black);
+	} else {
+		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, NULL);
+	}
+
+	gtk_widget_queue_draw (widget);
 }
 
 

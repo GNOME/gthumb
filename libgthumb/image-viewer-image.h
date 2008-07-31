@@ -74,8 +74,11 @@ gint              image_viewer_image_get_x_offset             (ImageViewerImage 
 gint              image_viewer_image_get_y_offset             (ImageViewerImage *image);
 gdouble           image_viewer_image_get_zoom_level           (ImageViewerImage *image);
 void              image_viewer_image_get_zoomed_size          (ImageViewerImage *image,
-							       gint             *width,
-							       gint             *height);
+							       gdouble          *width,
+							       gdouble          *height);
+
+void              image_viewer_image_paint                    (ImageViewerImage *image,
+							       cairo_t          *cr);
 
 void              image_viewer_image_scroll_relative          (ImageViewerImage *image,
 							       gdouble           delta_x,
