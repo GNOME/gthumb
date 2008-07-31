@@ -116,6 +116,16 @@ string           ([^'\n]|\\')*
 					yylval.ivalue = GTH_TAG_PAGE_IDX;
 					return PAGE_IDX;
 				}
+"<gthumb:page_rows"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_ROWS;
+					return PAGE_ROWS;
+				}
+"<gthumb:page_cols"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_COLS;
+					return PAGE_COLS;
+				}
 "<gthumb:pages"			{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_PAGES;

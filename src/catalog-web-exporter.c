@@ -792,6 +792,10 @@ get_var_value (const char *var_name,
 		return ce->n_images;
 	else if (strcmp (var_name, "page_idx") == 0)
 		return ce->page + 1;
+	else if (strcmp (var_name, "page_rows") == 0)
+		return ce->page_rows;
+	else if (strcmp (var_name, "page_cols") == 0)
+		return ce->page_cols;
 	else if (strcmp (var_name, "pages") == 0)
 		return ce->n_pages;
 	else if (strcmp (var_name, "index") == 0)
@@ -1691,6 +1695,16 @@ gth_parsed_doc_print (GList              *document,
 			write_line (line, fout);
 			break;
 
+		case GTH_TAG_PAGE_ROWS:
+			line = g_strdup_printf ("%d", ce->page_rows);
+			write_line (line, fout);
+			break;
+			
+		case GTH_TAG_PAGE_COLS:
+			line = g_strdup_printf ("%d", ce->page_cols);
+			write_line (line, fout);
+			break;
+			
 		case GTH_TAG_PAGES:
 			line = g_strdup_printf ("%d", ce->n_pages);
 			write_line (line, fout);

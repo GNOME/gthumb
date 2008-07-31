@@ -56,6 +56,7 @@ trunk, since last 2.10.x
 	* Added a Flickr uploader (by launching Postr). Bug #489403.
 	* Added user prompts to the scripting feature.
 	* Added strftime format codes to the scripting feature.
+	* Added page_rows and page_cols web album tags. Bug #543966.
 
 	Library changes:
 	* exiv2 0.15 or higher is now required.

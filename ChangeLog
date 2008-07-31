@@ -1,6 +1,19 @@
 2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
+	* src/albumtheme-private.h:
+	* src/albumtheme.c: (yyparse):
+	* src/albumtheme.l:
+	* src/albumtheme.y:
+	* src/catalog-web-exporter.c: (get_var_value),
+	(gth_parsed_doc_print):
+	* src/lex.albumtheme.c: 
+	Added page_rows and page_cols web album tags. Bug #543966.
+	Patch by Christophe Bisiere.
+
+2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
 	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
 	Fix for Bug #544893: Crash in web album <gthumb:if/>.
 	Patch by Christophe Bisiere.

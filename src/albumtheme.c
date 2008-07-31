@@ -92,26 +92,28 @@ enum yytokentype
   DATE_TIME = 280,
   PAGE_LINK = 281,
   PAGE_IDX = 282,
-  PAGES = 283,
-  TABLE = 284,
-  THUMBS = 285,
-  DATE = 286,
-  TEXT = 287,
-  TEXT_END = 288,
-  EXIF_EXPOSURE_TIME = 289,
-  EXIF_EXPOSURE_MODE = 290,
-  EXIF_FLASH = 291,
-  EXIF_SHUTTER_SPEED = 292,
-  EXIF_APERTURE_VALUE = 293,
-  EXIF_FOCAL_LENGTH = 294,
-  EXIF_DATE_TIME = 295,
-  EXIF_CAMERA_MODEL = 296,
-  SET_VAR = 297,
-  EVAL = 298,
-  HTML = 299,
-  BOOL_OP = 300,
-  COMPARE = 301,
-  UNARY_OP = 302
+  PAGE_ROWS = 283,
+  PAGE_COLS = 284,
+  PAGES = 285,
+  TABLE = 286,
+  THUMBS = 287,
+  DATE = 288,
+  TEXT = 289,
+  TEXT_END = 290,
+  EXIF_EXPOSURE_TIME = 291,
+  EXIF_EXPOSURE_MODE = 292,
+  EXIF_FLASH = 293,
+  EXIF_SHUTTER_SPEED = 294,
+  EXIF_APERTURE_VALUE = 295,
+  EXIF_FOCAL_LENGTH = 296,
+  EXIF_DATE_TIME = 297,
+  EXIF_CAMERA_MODEL = 298,
+  SET_VAR = 299,
+  EVAL = 300,
+  HTML = 301,
+  BOOL_OP = 302,
+  COMPARE = 303,
+  UNARY_OP = 304
 };
 #endif
 /* Tokens.  */
@@ -140,26 +142,28 @@ enum yytokentype
 #define DATE_TIME 280
 #define PAGE_LINK 281
 #define PAGE_IDX 282
-#define PAGES 283
-#define TABLE 284
-#define THUMBS 285
-#define DATE 286
-#define TEXT 287
-#define TEXT_END 288
-#define EXIF_EXPOSURE_TIME 289
-#define EXIF_EXPOSURE_MODE 290
-#define EXIF_FLASH 291
-#define EXIF_SHUTTER_SPEED 292
-#define EXIF_APERTURE_VALUE 293
-#define EXIF_FOCAL_LENGTH 294
-#define EXIF_DATE_TIME 295
-#define EXIF_CAMERA_MODEL 296
-#define SET_VAR 297
-#define EVAL 298
-#define HTML 299
-#define BOOL_OP 300
-#define COMPARE 301
-#define UNARY_OP 302
+#define PAGE_ROWS 283
+#define PAGE_COLS 284
+#define PAGES 285
+#define TABLE 286
+#define THUMBS 287
+#define DATE 288
+#define TEXT 289
+#define TEXT_END 290
+#define EXIF_EXPOSURE_TIME 291
+#define EXIF_EXPOSURE_MODE 292
+#define EXIF_FLASH 293
+#define EXIF_SHUTTER_SPEED 294
+#define EXIF_APERTURE_VALUE 295
+#define EXIF_FOCAL_LENGTH 296
+#define EXIF_DATE_TIME 297
+#define EXIF_CAMERA_MODEL 298
+#define SET_VAR 299
+#define EVAL 300
+#define HTML 301
+#define BOOL_OP 302
+#define COMPARE 303
+#define UNARY_OP 304
 
 
 
@@ -232,7 +236,7 @@ typedef union YYSTYPE
   GthCondition *cond;
 }
 /* Line 187 of yacc.c.  */
-#line 235 "albumtheme.c"
+#line 239 "albumtheme.c"
 YYSTYPE;
 # define yystype YYSTYPE	/* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -245,7 +249,7 @@ YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 248 "albumtheme.c"
+#line 252 "albumtheme.c"
 
 #ifdef short
 # undef short
@@ -458,22 +462,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  55
+#define YYFINAL  57
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   303
+#define YYLAST   318
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  58
+#define YYNTOKENS  60
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  19
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  77
+#define YYNRULES  79
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  124
+#define YYNSTATES  126
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   302
+#define YYMAXUTOK   304
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -483,10 +487,10 @@ static const yytype_uint8 yytranslate[] = {
   0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 2, 51, 53, 2, 2, 2, 2, 57,
-  54, 55, 49, 47, 2, 48, 2, 50, 2, 2,
+  2, 2, 2, 53, 55, 2, 2, 2, 2, 59,
+  56, 57, 51, 49, 2, 50, 2, 52, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 56, 2, 2, 2, 2, 2, 2, 2, 2,
+  2, 58, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -510,7 +514,7 @@ static const yytype_uint8 yytranslate[] = {
   15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
   25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
   35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
-  45, 46, 52
+  45, 46, 47, 48, 54
 };
 
 #if YYDEBUG
@@ -524,45 +528,45 @@ static const yytype_uint8 yyprhs[] = {
   125, 129, 131, 133, 135, 137, 139, 141, 143, 145,
   147, 149, 151, 153, 155, 157, 159, 161, 163, 165,
   167, 169, 171, 173, 175, 177, 179, 181, 183, 185,
-  187, 189, 191, 194, 195, 199, 205, 211
+  187, 189, 191, 193, 195, 198, 199, 203, 209, 215
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] = {
-  59, 0, -1, 60, -1, 44, 60, -1, 73, 60,
-  -1, 61, 60, 62, 64, 66, 60, -1, 72, 44,
-  33, 60, -1, -1, 1, 60, -1, 6, 67, 7,
-  -1, 6, 53, 68, 53, 7, -1, 63, 60, 62,
-  -1, -1, 4, 67, 7, -1, 4, 53, 68, 53,
-  7, -1, 65, 60, -1, -1, 5, 7, -1, 3,
-  7, -1, 54, 67, 55, -1, 67, 46, 67, -1,
-  67, 47, 67, -1, 67, 48, 67, -1, 67, 49,
-  67, -1, 67, 50, 67, -1, 67, 45, 67, -1,
-  47, 67, -1, 48, 67, -1, 51, 67, -1, 8,
-  -1, 10, -1, 67, -1, 9, -1, 69, 70, 71,
-  -1, 8, -1, 8, -1, 10, -1, 70, 71, -1,
-  -1, 32, 75, 7, -1, 74, 75, 7, -1, 11,
+  61, 0, -1, 62, -1, 46, 62, -1, 75, 62,
+  -1, 63, 62, 64, 66, 68, 62, -1, 74, 46,
+  35, 62, -1, -1, 1, 62, -1, 6, 69, 7,
+  -1, 6, 55, 70, 55, 7, -1, 65, 62, 64,
+  -1, -1, 4, 69, 7, -1, 4, 55, 70, 55,
+  7, -1, 67, 62, -1, -1, 5, 7, -1, 3,
+  7, -1, 56, 69, 57, -1, 69, 48, 69, -1,
+  69, 49, 69, -1, 69, 50, 69, -1, 69, 51,
+  69, -1, 69, 52, 69, -1, 69, 47, 69, -1,
+  49, 69, -1, 50, 69, -1, 53, 69, -1, 8,
+  -1, 10, -1, 69, -1, 9, -1, 71, 72, 73,
+  -1, 8, -1, 8, -1, 10, -1, 72, 73, -1,
+  -1, 34, 77, 7, -1, 76, 77, 7, -1, 11,
   -1, 12, -1, 13, -1, 14, -1, 15, -1, 16,
   -1, 17, -1, 18, -1, 19, -1, 20, -1, 21,
   -1, 22, -1, 23, -1, 24, -1, 25, -1, 26,
   -1, 27, -1, 28, -1, 29, -1, 30, -1, 31,
-  -1, 34, -1, 35, -1, 36, -1, 37, -1, 38,
+  -1, 32, -1, 33, -1, 36, -1, 37, -1, 38,
   -1, 39, -1, 40, -1, 41, -1, 42, -1, 43,
-  -1, 76, 75, -1, -1, 8, 56, 67, -1, 8,
-  56, 57, 68, 57, -1, 8, 56, 53, 68, 53,
-  -1, 8, -1
+  -1, 44, -1, 45, -1, 78, 77, -1, -1, 8,
+  58, 69, -1, 8, 58, 59, 70, 59, -1, 8,
+  58, 55, 70, 55, -1, 8, -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] = {
-  0, 108, 108, 118, 123, 127, 140, 148, 152, 159,
-  162, 167, 172, 177, 180, 185, 197, 202, 205, 208,
-  212, 225, 238, 251, 264, 277, 290, 294, 299, 304,
-  311, 317, 320, 326, 340, 346, 352, 358, 366, 370,
-  375, 380, 381, 382, 383, 384, 385, 386, 387, 388,
-  389, 390, 391, 392, 393, 394, 395, 396, 397, 398,
-  399, 400, 401, 402, 403, 404, 405, 406, 407, 408,
-  409, 410, 413, 417, 422, 427, 432, 437
+  0, 110, 110, 120, 125, 129, 142, 150, 154, 161,
+  164, 169, 174, 179, 182, 187, 199, 204, 207, 210,
+  214, 227, 240, 253, 266, 279, 292, 296, 301, 306,
+  313, 319, 322, 328, 342, 348, 354, 360, 368, 372,
+  377, 382, 383, 384, 385, 386, 387, 388, 389, 390,
+  391, 392, 393, 394, 395, 396, 397, 398, 399, 400,
+  401, 402, 403, 404, 405, 406, 407, 408, 409, 410,
+  411, 412, 413, 414, 417, 421, 426, 431, 436, 441
 };
 #endif
 
@@ -574,16 +578,16 @@ static const char *const yytname[] = {
   "END_TAG", "NAME", "STRING", "NUMBER", "HEADER", "FOOTER", "LANGUAGE",
   "THEME_LINK", "IMAGE", "IMAGE_LINK", "IMAGE_IDX", "IMAGE_DIM", "IMAGES",
   "FILENAME", "FILEPATH", "FILESIZE", "COMMENT", "PLACE", "DATE_TIME",
-  "PAGE_LINK", "PAGE_IDX", "PAGES", "TABLE", "THUMBS", "DATE", "TEXT",
-  "TEXT_END", "EXIF_EXPOSURE_TIME", "EXIF_EXPOSURE_MODE", "EXIF_FLASH",
-  "EXIF_SHUTTER_SPEED", "EXIF_APERTURE_VALUE", "EXIF_FOCAL_LENGTH",
-  "EXIF_DATE_TIME", "EXIF_CAMERA_MODEL", "SET_VAR", "EVAL", "HTML",
-  "BOOL_OP", "COMPARE", "'+'", "'-'", "'*'", "'/'", "'!'", "UNARY_OP",
-  "'\"'", "'('", "')'", "'='", "'''", "$accept", "all", "document",
-  "gthumb_if", "opt_if_list", "gthumb_else_if", "opt_else", "gthumb_else",
-  "gthumb_end", "expr", "quoted_expr", "constant1", "constant",
-  "constant_list", "gthumb_text_tag", "gthumb_tag", "tag_name", "arg_list",
-  "arg", 0
+  "PAGE_LINK", "PAGE_IDX", "PAGE_ROWS", "PAGE_COLS", "PAGES", "TABLE",
+  "THUMBS", "DATE", "TEXT", "TEXT_END", "EXIF_EXPOSURE_TIME",
+  "EXIF_EXPOSURE_MODE", "EXIF_FLASH", "EXIF_SHUTTER_SPEED",
+  "EXIF_APERTURE_VALUE", "EXIF_FOCAL_LENGTH", "EXIF_DATE_TIME",
+  "EXIF_CAMERA_MODEL", "SET_VAR", "EVAL", "HTML", "BOOL_OP", "COMPARE",
+  "'+'", "'-'", "'*'", "'/'", "'!'", "UNARY_OP", "'\"'", "'('", "')'",
+  "'='", "'''", "$accept", "all", "document", "gthumb_if", "opt_if_list",
+  "gthumb_else_if", "opt_else", "gthumb_else", "gthumb_end", "expr",
+  "quoted_expr", "constant1", "constant", "constant_list",
+  "gthumb_text_tag", "gthumb_tag", "tag_name", "arg_list", "arg", 0
 };
 #endif
 
@@ -595,21 +599,21 @@ static const yytype_uint16 yytoknum[] = {
   265, 266, 267, 268, 269, 270, 271, 272, 273, 274,
   275, 276, 277, 278, 279, 280, 281, 282, 283, 284,
   285, 286, 287, 288, 289, 290, 291, 292, 293, 294,
-  295, 296, 297, 298, 299, 300, 301, 43, 45, 42,
-  47, 33, 302, 34, 40, 41, 61, 39
+  295, 296, 297, 298, 299, 300, 301, 302, 303, 43,
+  45, 42, 47, 33, 304, 34, 40, 41, 61, 39
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] = {
-  0, 58, 59, 60, 60, 60, 60, 60, 60, 61,
-  61, 62, 62, 63, 63, 64, 64, 65, 66, 67,
-  67, 67, 67, 67, 67, 67, 67, 67, 67, 67,
-  67, 68, 68, 68, 69, 70, 70, 71, 71, 72,
-  73, 74, 74, 74, 74, 74, 74, 74, 74, 74,
-  74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
-  74, 74, 74, 74, 74, 74, 74, 74, 74, 74,
-  74, 74, 75, 75, 76, 76, 76, 76
+  0, 60, 61, 62, 62, 62, 62, 62, 62, 63,
+  63, 64, 64, 65, 65, 66, 66, 67, 68, 69,
+  69, 69, 69, 69, 69, 69, 69, 69, 69, 69,
+  69, 70, 70, 70, 71, 72, 72, 73, 73, 74,
+  75, 76, 76, 76, 76, 76, 76, 76, 76, 76,
+  76, 76, 76, 76, 76, 76, 76, 76, 76, 76,
+  76, 76, 76, 76, 76, 76, 76, 76, 76, 76,
+  76, 76, 76, 76, 77, 77, 78, 78, 78, 78
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -621,7 +625,7 @@ static const yytype_uint8 yyr2[] = {
   3, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 2, 0, 3, 5, 5, 1
+  1, 1, 1, 1, 2, 0, 3, 5, 5, 1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -630,48 +634,48 @@ static const yytype_uint8 yyr2[] = {
 static const yytype_uint8 yydefact[] = {
   0, 0, 0, 41, 42, 43, 44, 45, 46, 47,
   48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
-  58, 59, 60, 61, 73, 62, 63, 64, 65, 66,
-  67, 68, 69, 70, 71, 0, 0, 2, 0, 0,
-  0, 73, 8, 29, 30, 0, 0, 0, 0, 0,
-  0, 77, 0, 73, 3, 1, 12, 0, 4, 0,
-  26, 27, 28, 29, 32, 31, 0, 0, 0, 9,
-  0, 0, 0, 0, 0, 0, 0, 39, 72, 0,
-  16, 0, 0, 40, 0, 35, 36, 38, 19, 25,
-  20, 21, 22, 23, 24, 0, 0, 74, 0, 0,
-  0, 0, 0, 12, 6, 10, 38, 33, 0, 0,
-  0, 13, 17, 0, 0, 15, 11, 37, 76, 75,
-  0, 18, 5, 14
+  58, 59, 60, 61, 62, 63, 75, 64, 65, 66,
+  67, 68, 69, 70, 71, 72, 73, 0, 0, 2,
+  0, 0, 0, 75, 8, 29, 30, 0, 0, 0,
+  0, 0, 0, 79, 0, 75, 3, 1, 12, 0,
+  4, 0, 26, 27, 28, 29, 32, 31, 0, 0,
+  0, 9, 0, 0, 0, 0, 0, 0, 0, 39,
+  74, 0, 16, 0, 0, 40, 0, 35, 36, 38,
+  19, 25, 20, 21, 22, 23, 24, 0, 0, 76,
+  0, 0, 0, 0, 0, 12, 6, 10, 38, 33,
+  0, 0, 0, 13, 17, 0, 0, 15, 11, 37,
+  78, 77, 0, 18, 5, 14
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] = {
-  -1, 36, 37, 38, 80, 81, 101, 102, 114, 65,
-  66, 67, 106, 107, 39, 40, 41, 52, 53
+  -1, 38, 39, 40, 82, 83, 103, 104, 116, 67,
+  68, 69, 108, 109, 41, 42, 43, 54, 55
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -79
+#define YYPACT_NINF -81
 static const yytype_int16 yypact[] = {
-  171, 126, 11, -79, -79, -79, -79, -79, -79, -79,
-  -79, -79, -79, -79, -79, -79, -79, -79, -79, -79,
-  -79, -79, -79, -79, 8, -79, -79, -79, -79, -79,
-  -79, -79, -79, -79, -79, 126, 1, -79, 215, -8,
-  126, 8, -79, -79, -79, 74, 74, 74, 58, 74,
-  41, -12, 31, 8, -79, -79, 48, 28, -79, 56,
-  -79, -79, -79, 2, -79, -23, 16, 25, -41, -79,
-  74, 74, 74, 74, 74, 74, 3, -79, -79, 45,
-  73, 215, 126, -79, 76, -79, -79, 25, -79, -18,
-  -7, -79, -79, -79, -79, 58, 58, -23, 58, 70,
-  78, 91, 259, 48, -79, -79, 25, -79, 42, 40,
-  47, -79, -79, 95, 126, -79, -79, -79, -79, -79,
-  96, -79, -79, -79
+  180, 133, 11, -81, -81, -81, -81, -81, -81, -81,
+  -81, -81, -81, -81, -81, -81, -81, -81, -81, -81,
+  -81, -81, -81, -81, -81, -81, -7, -81, -81, -81,
+  -81, -81, -81, -81, -81, -81, -81, 133, 16, -81,
+  226, -12, 133, -7, -81, -81, -81, 79, 79, 79,
+  35, 79, 47, -21, 31, -7, -81, -81, 36, 7,
+  -81, 39, -81, -81, -81, 2, -81, -25, -5, 25,
+  -43, -81, 79, 79, 79, 79, 79, 79, 3, -81,
+  -81, 55, 50, 226, 133, -81, 73, -81, -81, 25,
+  -81, -20, 19, -81, -81, -81, -81, 35, 35, -25,
+  35, 72, 83, 54, 272, 36, -81, -81, 25, -81,
+  37, 27, 38, -81, -81, 93, 133, -81, -81, -81,
+  -81, -81, 94, -81, -81, -81
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] = {
-  -79, -79, -1, -79, 4, -79, -79, -79, -79, 0,
-  -78, -79, 37, 5, -79, -79, -79, -38, -79
+  -81, -81, -1, -81, -3, -81, -81, -81, -81, 0,
+  -80, -81, 40, -2, -81, -81, -81, -40, -81
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -680,71 +684,73 @@ static const yytype_int8 yypgoto[] = {
    If YYTABLE_NINF, syntax error.  */
 #define YYTABLE_NINF -35
 static const yytype_int8 yytable[] = {
-  42, 55, 50, 59, 70, 71, 72, 73, 74, 75,
-  -34, 43, -34, 44, 88, 78, 51, 108, 109, 43,
-  110, 44, 70, 71, 72, 73, 74, 75, 71, 72,
-  73, 74, 75, 85, 54, 86, 57, 56, 77, 58,
-  72, 73, 74, 75, 76, 60, 61, 62, 69, 68,
-  45, 46, 79, 43, 47, 44, 95, 49, 45, 46,
-  96, 82, 47, 83, 48, 49, 63, 64, 44, 84,
-  89, 90, 91, 92, 93, 94, 97, 111, 100, 99,
-  103, 104, 43, 105, 44, 112, 70, 71, 72, 73,
-  74, 75, 45, 46, 113, 118, 47, 119, 98, 49,
-  120, 115, 121, 123, 87, 45, 46, 116, 0, 47,
-  0, 117, 49, 122, 0, 70, 71, 72, 73, 74,
-  75, 45, 46, 0, 0, 47, -7, 1, 49, -7,
+  44, 53, 52, 61, 72, 73, 74, 75, 76, 77,
+  -34, 45, -34, 46, 90, 80, 57, 110, 111, 45,
+  112, 46, 72, 73, 74, 75, 76, 77, 73, 74,
+  75, 76, 77, 87, 59, 88, 56, 78, 79, 58,
+  81, 60, 84, 65, 66, 46, 85, 62, 63, 64,
+  86, 70, 47, 48, 71, 102, 49, 115, 97, 51,
+  47, 48, 98, 45, 49, 46, 50, 51, 74, 75,
+  76, 77, 91, 92, 93, 94, 95, 96, 99, 113,
+  107, 101, 105, 106, 47, 48, 121, 45, 49, 46,
+  114, 51, 120, 122, 72, 73, 74, 75, 76, 77,
+  123, 125, 118, 117, 47, 48, 119, 0, 49, 89,
+  100, 51, 0, 0, 0, 124, 0, 0, 0, 72,
+  73, 74, 75, 76, 77, 0, 0, 0, 47, 48,
+  0, 0, 49, -7, 1, 51, -7, -7, -7, 2,
+  0, 0, 0, 0, 3, 4, 5, 6, 7, 8,
+  9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  19, 20, 21, 22, 23, 24, 25, 26, 0, 27,
+  28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+  -7, 1, 0, 0, 0, 0, 2, 0, 0, 0,
+  0, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+  12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  22, 23, 24, 25, 26, 0, 27, 28, 29, 30,
+  31, 32, 33, 34, 35, 36, 37, 1, 0, -7,
   -7, -7, 2, 0, 0, 0, 0, 3, 4, 5,
   6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-  16, 17, 18, 19, 20, 21, 22, 23, 24, 0,
-  25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-  35, -7, 1, 0, 0, 0, 0, 2, 0, 0,
-  0, 0, 3, 4, 5, 6, 7, 8, 9, 10,
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  21, 22, 23, 24, 0, 25, 26, 27, 28, 29,
-  30, 31, 32, 33, 34, 35, 1, 0, -7, -7,
-  -7, 2, 0, 0, 0, 0, 3, 4, 5, 6,
-  7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-  17, 18, 19, 20, 21, 22, 23, 24, 0, 25,
-  26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-  1, 0, -7, 0, 0, 2, 0, 0, 0, 0,
-  3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-  13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 0, 25, 26, 27, 28, 29, 30, 31,
-  32, 33, 34, 35
+  16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+  26, 0, 27, 28, 29, 30, 31, 32, 33, 34,
+  35, 36, 37, 1, 0, -7, 0, 0, 2, 0,
+  0, 0, 0, 3, 4, 5, 6, 7, 8, 9,
+  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+  20, 21, 22, 23, 24, 25, 26, 0, 27, 28,
+  29, 30, 31, 32, 33, 34, 35, 36, 37
 };
 
 static const yytype_int8 yycheck[] = {
-  1, 0, 2, 41, 45, 46, 47, 48, 49, 50,
-  8, 8, 10, 10, 55, 53, 8, 95, 96, 8,
-  98, 10, 45, 46, 47, 48, 49, 50, 46, 47,
-  48, 49, 50, 8, 35, 10, 44, 38, 7, 40,
-  47, 48, 49, 50, 56, 45, 46, 47, 7, 49,
-  47, 48, 4, 8, 51, 10, 53, 54, 47, 48,
-  57, 33, 51, 7, 53, 54, 8, 9, 10, 53,
-  70, 71, 72, 73, 74, 75, 76, 7, 5, 79,
-  81, 82, 8, 7, 10, 7, 45, 46, 47, 48,
-  49, 50, 47, 48, 3, 53, 51, 57, 53, 54,
-  53, 102, 7, 7, 67, 47, 48, 103, -1, 51,
-  -1, 106, 54, 114, -1, 45, 46, 47, 48, 49,
-  50, 47, 48, -1, -1, 51, 0, 1, 54, 3,
+  1, 8, 2, 43, 47, 48, 49, 50, 51, 52,
+  8, 8, 10, 10, 57, 55, 0, 97, 98, 8,
+  100, 10, 47, 48, 49, 50, 51, 52, 48, 49,
+  50, 51, 52, 8, 46, 10, 37, 58, 7, 40,
+  4, 42, 35, 8, 9, 10, 7, 47, 48, 49,
+  55, 51, 49, 50, 7, 5, 53, 3, 55, 56,
+  49, 50, 59, 8, 53, 10, 55, 56, 49, 50,
+  51, 52, 72, 73, 74, 75, 76, 77, 78, 7,
+  7, 81, 83, 84, 49, 50, 59, 8, 53, 10,
+  7, 56, 55, 55, 47, 48, 49, 50, 51, 52,
+  7, 7, 105, 104, 49, 50, 108, -1, 53, 69,
+  55, 56, -1, -1, -1, 116, -1, -1, -1, 47,
+  48, 49, 50, 51, 52, -1, -1, -1, 49, 50,
+  -1, -1, 53, 0, 1, 56, 3, 4, 5, 6,
+  -1, -1, -1, -1, 11, 12, 13, 14, 15, 16,
+  17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+  27, 28, 29, 30, 31, 32, 33, 34, -1, 36,
+  37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
+  0, 1, -1, -1, -1, -1, 6, -1, -1, -1,
+  -1, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+  20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+  30, 31, 32, 33, 34, -1, 36, 37, 38, 39,
+  40, 41, 42, 43, 44, 45, 46, 1, -1, 3,
   4, 5, 6, -1, -1, -1, -1, 11, 12, 13,
   14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-  24, 25, 26, 27, 28, 29, 30, 31, 32, -1,
-  34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
-  44, 0, 1, -1, -1, -1, -1, 6, -1, -1,
-  -1, -1, 11, 12, 13, 14, 15, 16, 17, 18,
-  19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-  29, 30, 31, 32, -1, 34, 35, 36, 37, 38,
-  39, 40, 41, 42, 43, 44, 1, -1, 3, 4,
-  5, 6, -1, -1, -1, -1, 11, 12, 13, 14,
-  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-  25, 26, 27, 28, 29, 30, 31, 32, -1, 34,
-  35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
-  1, -1, 3, -1, -1, 6, -1, -1, -1, -1,
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-  31, 32, -1, 34, 35, 36, 37, 38, 39, 40,
-  41, 42, 43, 44
+  24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+  34, -1, 36, 37, 38, 39, 40, 41, 42, 43,
+  44, 45, 46, 1, -1, 3, -1, -1, 6, -1,
+  -1, -1, -1, 11, 12, 13, 14, 15, 16, 17,
+  18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+  28, 29, 30, 31, 32, 33, 34, -1, 36, 37,
+  38, 39, 40, 41, 42, 43, 44, 45, 46
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -752,17 +758,17 @@ static const yytype_int8 yycheck[] = {
 static const yytype_uint8 yystos[] = {
   0, 1, 6, 11, 12, 13, 14, 15, 16, 17,
   18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-  28, 29, 30, 31, 32, 34, 35, 36, 37, 38,
-  39, 40, 41, 42, 43, 44, 59, 60, 61, 72,
-  73, 74, 60, 8, 10, 47, 48, 51, 53, 54,
-  67, 8, 75, 76, 60, 0, 60, 44, 60, 75,
-  67, 67, 67, 8, 9, 67, 68, 69, 67, 7,
-  45, 46, 47, 48, 49, 50, 56, 7, 75, 4,
-  62, 63, 33, 7, 53, 8, 10, 70, 55, 67,
-  67, 67, 67, 67, 67, 53, 57, 67, 53, 67,
-  5, 64, 65, 60, 60, 7, 70, 71, 68, 68,
-  68, 7, 7, 3, 66, 60, 62, 71, 53, 57,
-  53, 7, 60, 7
+  28, 29, 30, 31, 32, 33, 34, 36, 37, 38,
+  39, 40, 41, 42, 43, 44, 45, 46, 61, 62,
+  63, 74, 75, 76, 62, 8, 10, 49, 50, 53,
+  55, 56, 69, 8, 77, 78, 62, 0, 62, 46,
+  62, 77, 69, 69, 69, 8, 9, 69, 70, 71,
+  69, 7, 47, 48, 49, 50, 51, 52, 58, 7,
+  77, 4, 64, 65, 35, 7, 55, 8, 10, 72,
+  57, 69, 69, 69, 69, 69, 69, 55, 59, 69,
+  55, 69, 5, 66, 67, 62, 62, 7, 72, 73,
+  70, 70, 70, 7, 7, 3, 68, 62, 64, 73,
+  55, 59, 55, 7, 62, 7
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1031,6 +1037,7 @@ int yydebug;
 #ifndef YYMAXDEPTH
 # define YYMAXDEPTH 10000
 #endif
+
 
 
 #if YYERROR_VERBOSE
@@ -1243,7 +1250,7 @@ yysyntax_error (char *yyresult, int yystate, int yychar)
     }
 }
 #endif /* YYERROR_VERBOSE */
-
+
 
 /*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -1275,7 +1282,7 @@ yydestruct (yymsg, yytype, yyvaluep)
       break;
     }
 }
-
+
 
 /* Prevent warnings from -Wmissing-prototypes.  */
 
@@ -1574,7 +1581,7 @@ yyreduce:
   switch (yyn)
     {
     case 2:
-#line 108 "albumtheme.y"
+#line 110 "albumtheme.y"
       {
 	yy_parsed_doc = (yyvsp[(1) - (1)].list);
 
@@ -1587,7 +1594,7 @@ yyreduce:
       break;
 
     case 3:
-#line 118 "albumtheme.y"
+#line 120 "albumtheme.y"
       {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list),
@@ -1598,7 +1605,7 @@ yyreduce:
       break;
 
     case 4:
-#line 123 "albumtheme.y"
+#line 125 "albumtheme.y"
       {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list), (yyvsp[(1) - (2)].tag));
@@ -1607,7 +1614,7 @@ yyreduce:
       break;
 
     case 5:
-#line 127 "albumtheme.y"
+#line 129 "albumtheme.y"
       {
 	GList *cond_list;
 	GthTag *tag;
@@ -1626,7 +1633,7 @@ yyreduce:
       break;
 
     case 6:
-#line 140 "albumtheme.y"
+#line 142 "albumtheme.y"
       {
 	GthTag *tag = gth_tag_new_html ((yyvsp[(2) - (4)].text));
 	GList *child_doc = g_list_append (NULL, tag);
@@ -1639,7 +1646,7 @@ yyreduce:
       break;
 
     case 7:
-#line 148 "albumtheme.y"
+#line 150 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
@@ -1647,7 +1654,7 @@ yyreduce:
       break;
 
     case 8:
-#line 152 "albumtheme.y"
+#line 154 "albumtheme.y"
       {
 	if ((yyvsp[(2) - (2)].list) != NULL)
 	  gth_parsed_doc_free ((yyvsp[(2) - (2)].list));
@@ -1657,7 +1664,7 @@ yyreduce:
       break;
 
     case 9:
-#line 159 "albumtheme.y"
+#line 161 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(2) - (3)].expr));
 	;
@@ -1665,7 +1672,7 @@ yyreduce:
       break;
 
     case 10:
-#line 162 "albumtheme.y"
+#line 164 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(3) - (5)].expr));
 	;
@@ -1673,7 +1680,7 @@ yyreduce:
       break;
 
     case 11:
-#line 167 "albumtheme.y"
+#line 169 "albumtheme.y"
       {
 	gth_condition_add_document ((yyvsp[(1) - (3)].cond),
 				    (yyvsp[(2) - (3)].list));
@@ -1684,7 +1691,7 @@ yyreduce:
       break;
 
     case 12:
-#line 172 "albumtheme.y"
+#line 174 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
@@ -1692,7 +1699,7 @@ yyreduce:
       break;
 
     case 13:
-#line 177 "albumtheme.y"
+#line 179 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(2) - (3)].expr));
 	;
@@ -1700,7 +1707,7 @@ yyreduce:
       break;
 
     case 14:
-#line 180 "albumtheme.y"
+#line 182 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(3) - (5)].expr));
 	;
@@ -1708,7 +1715,7 @@ yyreduce:
       break;
 
     case 15:
-#line 185 "albumtheme.y"
+#line 187 "albumtheme.y"
       {
 	GthExpr *else_expr;
 	GthCondition *cond;
@@ -1724,7 +1731,7 @@ yyreduce:
       break;
 
     case 16:
-#line 197 "albumtheme.y"
+#line 199 "albumtheme.y"
       {
 	(yyval.cond) = NULL;
 	;
@@ -1732,7 +1739,7 @@ yyreduce:
       break;
 
     case 19:
-#line 208 "albumtheme.y"
+#line 210 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(2) - (3)].expr);
 	;
@@ -1740,7 +1747,7 @@ yyreduce:
       break;
 
     case 20:
-#line 212 "albumtheme.y"
+#line 214 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1757,7 +1764,7 @@ yyreduce:
       break;
 
     case 21:
-#line 225 "albumtheme.y"
+#line 227 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1774,7 +1781,7 @@ yyreduce:
       break;
 
     case 22:
-#line 238 "albumtheme.y"
+#line 240 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1791,7 +1798,7 @@ yyreduce:
       break;
 
     case 23:
-#line 251 "albumtheme.y"
+#line 253 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1808,7 +1815,7 @@ yyreduce:
       break;
 
     case 24:
-#line 264 "albumtheme.y"
+#line 266 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1825,7 +1832,7 @@ yyreduce:
       break;
 
     case 25:
-#line 277 "albumtheme.y"
+#line 279 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1842,7 +1849,7 @@ yyreduce:
       break;
 
     case 26:
-#line 290 "albumtheme.y"
+#line 292 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
 	;
@@ -1850,7 +1857,7 @@ yyreduce:
       break;
 
     case 27:
-#line 294 "albumtheme.y"
+#line 296 "albumtheme.y"
       {
 	gth_expr_push_op ((yyvsp[(2) - (2)].expr), GTH_OP_NEG);
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
@@ -1859,7 +1866,7 @@ yyreduce:
       break;
 
     case 28:
-#line 299 "albumtheme.y"
+#line 301 "albumtheme.y"
       {
 	gth_expr_push_op ((yyvsp[(2) - (2)].expr), GTH_OP_NOT);
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
@@ -1868,7 +1875,7 @@ yyreduce:
       break;
 
     case 29:
-#line 304 "albumtheme.y"
+#line 306 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_var (e, (yyvsp[(1) - (1)].text));
@@ -1879,7 +1886,7 @@ yyreduce:
       break;
 
     case 30:
-#line 311 "albumtheme.y"
+#line 313 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, (yyvsp[(1) - (1)].ivalue));
@@ -1889,7 +1896,7 @@ yyreduce:
       break;
 
     case 31:
-#line 317 "albumtheme.y"
+#line 319 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(1) - (1)].expr);
 	;
@@ -1897,7 +1904,7 @@ yyreduce:
       break;
 
     case 32:
-#line 320 "albumtheme.y"
+#line 322 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_var (e, (yyvsp[(1) - (1)].text));
@@ -1908,7 +1915,7 @@ yyreduce:
       break;
 
     case 33:
-#line 326 "albumtheme.y"
+#line 328 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	g_string_append ((yyvsp[(1) - (3)].string),
@@ -1928,7 +1935,7 @@ yyreduce:
       break;
 
     case 34:
-#line 340 "albumtheme.y"
+#line 342 "albumtheme.y"
       {
 	GString *s = g_string_new ((yyvsp[(1) - (1)].text));
 	g_free ((yyvsp[(1) - (1)].text));
@@ -1938,7 +1945,7 @@ yyreduce:
       break;
 
     case 35:
-#line 346 "albumtheme.y"
+#line 348 "albumtheme.y"
       {
 	GString *s = g_string_new ((yyvsp[(1) - (1)].text));
 	g_string_prepend_c (s, ' ');
@@ -1949,7 +1956,7 @@ yyreduce:
       break;
 
     case 36:
-#line 352 "albumtheme.y"
+#line 354 "albumtheme.y"
       {
 	GString *s = g_string_new ("");
 	g_string_sprintf (s, " %i", (yyvsp[(1) - (1)].ivalue));
@@ -1959,7 +1966,7 @@ yyreduce:
       break;
 
     case 37:
-#line 358 "albumtheme.y"
+#line 360 "albumtheme.y"
       {
 	if ((yyvsp[(2) - (2)].string) != NULL)
 	  {
@@ -1973,7 +1980,7 @@ yyreduce:
       break;
 
     case 38:
-#line 366 "albumtheme.y"
+#line 368 "albumtheme.y"
       {
 	(yyval.string) = NULL;
 	;
@@ -1981,7 +1988,7 @@ yyreduce:
       break;
 
     case 39:
-#line 370 "albumtheme.y"
+#line 372 "albumtheme.y"
       {
 	(yyval.tag) =
 	  gth_tag_new ((yyvsp[(1) - (3)].ivalue), (yyvsp[(2) - (3)].list));
@@ -1990,7 +1997,7 @@ yyreduce:
       break;
 
     case 40:
-#line 375 "albumtheme.y"
+#line 377 "albumtheme.y"
       {
 	(yyval.tag) =
 	  gth_tag_new ((yyvsp[(1) - (3)].ivalue), (yyvsp[(2) - (3)].list));
@@ -1999,217 +2006,217 @@ yyreduce:
       break;
 
     case 41:
-#line 380 "albumtheme.y"
-      {
-	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
-      }
-      break;
-
-    case 42:
-#line 381 "albumtheme.y"
-      {
-	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
-      }
-      break;
-
-    case 43:
 #line 382 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 44:
+    case 42:
 #line 383 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 45:
+    case 43:
 #line 384 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 46:
+    case 44:
 #line 385 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 47:
+    case 45:
 #line 386 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 48:
+    case 46:
 #line 387 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 49:
+    case 47:
 #line 388 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 50:
+    case 48:
 #line 389 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 51:
+    case 49:
 #line 390 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 52:
+    case 50:
 #line 391 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 53:
+    case 51:
 #line 392 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 54:
+    case 52:
 #line 393 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 55:
+    case 53:
 #line 394 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 56:
+    case 54:
 #line 395 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 57:
+    case 55:
 #line 396 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 58:
+    case 56:
 #line 397 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 59:
+    case 57:
 #line 398 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 60:
+    case 58:
 #line 399 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 61:
+    case 59:
 #line 400 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 62:
+    case 60:
 #line 401 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 63:
+    case 61:
 #line 402 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 64:
+    case 62:
 #line 403 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 65:
+    case 63:
 #line 404 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 66:
+    case 64:
 #line 405 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 67:
+    case 65:
 #line 406 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 68:
+    case 66:
 #line 407 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 69:
+    case 67:
 #line 408 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 70:
+    case 68:
 #line 409 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 71:
+    case 69:
 #line 410 "albumtheme.y"
+      {
+	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
+      }
+      break;
+
+    case 70:
+#line 411 "albumtheme.y"
+      {
+	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
+      }
+      break;
+
+    case 71:
+#line 412 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
@@ -2218,22 +2225,36 @@ yyreduce:
     case 72:
 #line 413 "albumtheme.y"
       {
+	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
+      }
+      break;
+
+    case 73:
+#line 414 "albumtheme.y"
+      {
+	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
+      }
+      break;
+
+    case 74:
+#line 417 "albumtheme.y"
+      {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list), (yyvsp[(1) - (2)].var));
 	;
       }
       break;
 
-    case 73:
-#line 417 "albumtheme.y"
+    case 75:
+#line 421 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
       }
       break;
 
-    case 74:
-#line 422 "albumtheme.y"
+    case 76:
+#line 426 "albumtheme.y"
       {
 	(yyval.var) =
 	  gth_var_new_expression ((yyvsp[(1) - (3)].text),
@@ -2243,30 +2264,30 @@ yyreduce:
       }
       break;
 
-    case 75:
-#line 427 "albumtheme.y"
-      {
-	(yyval.var) =
-	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
-				  (yyvsp[(4) - (5)].expr));
-	g_free ((yyvsp[(1) - (5)].text));
-	;
-      }
-      break;
-
-    case 76:
-#line 432 "albumtheme.y"
-      {
-	(yyval.var) =
-	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
-				  (yyvsp[(4) - (5)].expr));
-	g_free ((yyvsp[(1) - (5)].text));
-	;
-      }
-      break;
-
     case 77:
-#line 437 "albumtheme.y"
+#line 431 "albumtheme.y"
+      {
+	(yyval.var) =
+	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
+				  (yyvsp[(4) - (5)].expr));
+	g_free ((yyvsp[(1) - (5)].text));
+	;
+      }
+      break;
+
+    case 78:
+#line 436 "albumtheme.y"
+      {
+	(yyval.var) =
+	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
+				  (yyvsp[(4) - (5)].expr));
+	g_free ((yyvsp[(1) - (5)].text));
+	;
+      }
+      break;
+
+    case 79:
+#line 441 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, 1);
@@ -2278,7 +2299,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2174 "albumtheme.c"
+#line 2190 "albumtheme.c"
     default:
       break;
     }
@@ -2489,7 +2510,7 @@ yyreturn:
 }
 
 
-#line 447 "albumtheme.y"
+#line 451 "albumtheme.y"
 
 
 int

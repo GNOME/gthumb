@@ -63,6 +63,8 @@ int   yylex   (void);
 %token <ivalue> DATE_TIME 
 %token <ivalue> PAGE_LINK 
 %token <ivalue> PAGE_IDX 
+%token <ivalue> PAGE_ROWS 
+%token <ivalue> PAGE_COLS 
 %token <ivalue> PAGES 
 %token <ivalue> TABLE 
 %token <ivalue> THUMBS
@@ -394,6 +396,8 @@ tag_name	: HEADER              { $$ = $1; }
 		| DATE_TIME           { $$ = $1; }
 		| PAGE_LINK           { $$ = $1; }
 		| PAGE_IDX            { $$ = $1; }
+		| PAGE_ROWS           { $$ = $1; }
+		| PAGE_COLS           { $$ = $1; }
 		| PAGES               { $$ = $1; }
 		| TABLE               { $$ = $1; }
 		| THUMBS              { $$ = $1; }
