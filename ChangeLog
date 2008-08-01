@@ -1,5 +1,12 @@
 2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/albumtheme.l:
+	* src/lex.albumtheme.c:
+	Fix yyunput-defined-but-not-used warning.
+	Patch by Christophe Bisiere. Bug #543966.
+
+2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in:
 	Remove checks for XF86Gamma headers and libs.
 

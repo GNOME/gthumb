@@ -23,6 +23,8 @@
 
 %}
 
+%option nounput
+
 number           [0-9]+
 name             [a-zA-Z_][0-9a-zA-Z_:@]*
 string           ([^'\n]|\\')*
