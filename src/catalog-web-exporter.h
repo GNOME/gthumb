@@ -89,6 +89,9 @@ struct _CatalogWebExporter {
 	int           resize_max_width;
 	int           resize_max_height;
 
+	int           preview_min_width;
+	int           preview_min_height;
+
 	int           preview_max_width;
 	int           preview_max_height;
 

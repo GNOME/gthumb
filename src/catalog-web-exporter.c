@@ -433,6 +433,9 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->resize_max_height = 0;
 
 	ce->single_index = FALSE;
+
+	ce->preview_min_width = 0;
+	ce->preview_min_height = 0;
 	ce->preview_max_width = 0;
 	ce->preview_max_height = 0;
 
@@ -634,6 +637,18 @@ catalog_web_exporter_set_preview_size (CatalogWebExporter *ce,
 
 
 void
+catalog_web_exporter_set_preview_min_size (CatalogWebExporter *ce,
+					   int                 width,
+					   int                 height)
+{
+	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
+
+	ce->preview_min_width = width;
+	ce->preview_min_height = height;
+}
+
+
+void
 catalog_web_exporter_set_image_caption (CatalogWebExporter *ce,
 					GthCaptionFields    caption)
 {
@@ -806,6 +821,10 @@ get_var_value (const char *var_name,
 		return ce->page_cols;
 	else if (strcmp (var_name, "pages") == 0)
 		return ce->n_pages;
+	else if (strcmp (var_name, "preview_min_width") == 0)
+		return ce->preview_min_width;
+	else if (strcmp (var_name, "preview_min_height") == 0)
+		return ce->preview_min_height;
 	else if (strcmp (var_name, "index") == 0)
 		return GTH_VISIBILITY_INDEX;
 	else if (strcmp (var_name, "image") == 0)
@@ -2648,10 +2667,12 @@ image_loader_done (ImageLoader *iloader,
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
-		if (scale_keeping_ratio (&w, &h,
-					 ce->preview_max_width,
-					 ce->preview_max_height,
-					 FALSE)) 
+		if (scale_keeping_ratio_min (&w, &h,
+					     ce->preview_min_width,
+					     ce->preview_min_height,
+					     ce->preview_max_width,
+					     ce->preview_max_height,
+					     FALSE))
 		{
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
@@ -2878,6 +2899,15 @@ parse_theme_files (CatalogWebExporter *ce)
 			if ((width != 0) && (height != 0)) {
 				debug (DEBUG_INFO, "preview --> %dx%d", width, height);
 				catalog_web_exporter_set_preview_size (ce, width, height);
+				break;
+			}
+
+			width = gth_tag_get_var (ce, tag, "preview_min_width");
+			height = gth_tag_get_var (ce, tag, "preview_min_height");
+
+			if ((width != 0) && (height != 0)) {
+				debug (DEBUG_INFO, "preview min --> %dx%d", width, height);
+				catalog_web_exporter_set_preview_min_size (ce, width, height);
 				break;
 			}
 

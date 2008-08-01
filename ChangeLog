@@ -1,6 +1,20 @@
 2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/theme-xml.txt:
+	* libgthumb/pixbuf-utils.c: (scale_keeping_ratio_min),
+	(scale_keeping_ratio):
+	* libgthumb/pixbuf-utils.h:
+	* src/catalog-web-exporter.c: (catalog_web_exporter_init),
+	(catalog_web_exporter_set_preview_min_size), (get_var_value),
+	(image_loader_done), (parse_theme_files):
+	* src/catalog-web-exporter.h:
+	Allow a minimum thumbnail size to be specified in the web album
+	exporter, to handle panoramic images better. Bug #488832.
+	Patch by Christophe Bisiere, based on Antoine Calando's patch.
+
+2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/theme-xml.txt:
 	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
 	Add thumbnail and preview attributes to file_name and file_path tags
 	in web album exporter. Patch by Christophe Bisiere. Bug #545750.

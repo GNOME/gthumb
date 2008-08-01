@@ -1237,7 +1237,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		metadata = simple_add_metadata (metadata, "Exif.Image.Orientation", "1");
 		update_and_save_metadata (local_file, local_file, metadata);
 	}
-				
+	
 
 	return result;
 }
@@ -1312,24 +1312,33 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 
 
 gboolean
-scale_keeping_ratio (int      *width,
-	             int      *height,
-		     int       max_width,
-		     int       max_height,
-		     gboolean  allow_upscaling)
+scale_keeping_ratio_min (int      *width,
+			 int      *height,
+			 int       min_width,
+			 int       min_height,
+			 int       max_width,
+			 int       max_height,
+			 gboolean  allow_upscaling)
 {
 	double   w = *width;
 	double   h = *height;
+	double   min_w = min_width;
+	double   min_h = min_height;
 	double   max_w = max_width;
 	double   max_h = max_height;
 	double   factor;
 	int      new_width, new_height;
 	gboolean modified;
 
-	if ((*width < max_width) && (*height < max_height) && !allow_upscaling)
+	if ((*width < max_width) && (*height < max_height) 
+	    && (!allow_upscaling))
+		return FALSE;
+	
+	if (((*width < min_width) || (*height < min_height))
+	    && (!allow_upscaling))
 		return FALSE;
 
-	factor = MIN (max_w / w, max_h / h);
+	factor = MAX ( MIN (max_w / w, max_h / h), MAX (min_w / w, min_h / h) );
 	new_width  = MAX ((int) floor (w * factor + 0.50), 1);
 	new_height = MAX ((int) floor (h * factor + 0.50), 1);
 
@@ -1339,6 +1348,23 @@ scale_keeping_ratio (int      *width,
 	*height = new_height;
 
 	return modified;
+}
+
+
+gboolean
+scale_keeping_ratio (int      *width,
+		     int      *height,
+		     int       max_width,
+		     int       max_height,
+		     gboolean  allow_upscaling)
+{
+	return scale_keeping_ratio_min (width, 
+					height, 
+					0, 
+					0, 
+					max_width, 
+					max_height, 
+					allow_upscaling);
 }
 
 

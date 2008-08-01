@@ -72,6 +72,8 @@ WVAR (Writable Variables):
   thumbnail_height (integer)        Output thumbnails of this height
   preview_width (integer)           Output preview images of this width
   preview_height (integer)          Output preview images of this height
+  preview_min_width (integer)       Output preview images of this minimum width
+  preview_min_height (integer)      Output preview images of this minimum height
 
 ---
 
