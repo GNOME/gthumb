@@ -225,7 +225,7 @@ gth_location_open_other (GthLocation *location)
 
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (chooser), FALSE);
 	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_location_get_folder_uri (location));
-	gtk_dialog_set_default_response(GTK_DIALOG (chooser), GTK_RESPONSE_OK);
+	gtk_dialog_set_default_response (GTK_DIALOG (chooser), GTK_RESPONSE_OK);
 
 	g_signal_connect (G_OBJECT (chooser),
 			  "response",

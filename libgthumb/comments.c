@@ -790,19 +790,19 @@ save_comment (const char  *uri,
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if ((data == NULL) || (uri == NULL) || ! is_local_file (uri))
 		return;
-
-	if (comment_data_is_void (data)) {
-		comment_delete (uri);
-		return;
-	}
 
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (uri))
 			save_comment_iptc (uri, data);
 #endif /* HAVE_LIBIPTCDATA */
+	}
+
+	if (comment_data_is_void (data)) {
+		comment_delete (uri);
+		return;
 	}
 
 	/* Convert data to strings. */

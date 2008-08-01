@@ -874,7 +874,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	n_selected = gth_file_view_get_n_selected (priv->file_list->view);
 	sel_not_null = n_selected > 0;
-	only_one_is_selected = n_selected == 0;
+	only_one_is_selected = n_selected == 1;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (priv->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
@@ -950,6 +950,9 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);
 
 	set_action_sensitive (browser, "Go_ToContainer", viewing_catalog && only_one_is_selected);
+
+g_print ("VIEWING CATALOG: %d\n", viewing_catalog);
+g_print ("ONLY ONE IS SEL: %d\n", only_one_is_selected);
 
 	/* Edit Catalog menu. */
 

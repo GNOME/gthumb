@@ -386,11 +386,12 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 							     tl->priv->file->path,
 							     tl->priv->file->mtime);
 
-		if ((cache_path == NULL) &&
-		    ((time (NULL) - tl->priv->file->mtime) > (time_t) 5) &&
-		    gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
-									tl->priv->file->path,
-									tl->priv->file->mtime)) {
+		if ((cache_path == NULL)  
+		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
+									   tl->priv->file->path,
+									   tl->priv->file->mtime)
+		    && ((time (NULL) - tl->priv->file->mtime) > (time_t) 5)) 
+		{
 			/* Use the existing "failed" thumbnail, if it is over
 			   5 seconds old. Otherwise, try to thumbnail it again. 
 			   The minimum age requirement addresses bug 432759, 

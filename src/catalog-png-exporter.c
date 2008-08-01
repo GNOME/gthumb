@@ -1455,9 +1455,10 @@ image_loader_done (ImageLoader *iloader,
 		int h = gdk_pixbuf_get_height (pixbuf);
 
 		if (scale_keeping_ratio (&w, &h,
-					  ce->thumb_width,
-					  ce->thumb_height,
-					  FALSE)) {
+					 ce->thumb_width,
+					 ce->thumb_height,
+					 FALSE)) 
+		{
 			GdkPixbuf *scaled;
 			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);

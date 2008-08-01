@@ -142,6 +142,8 @@ typedef struct {
 	GHashTable     *folders_comment;
 	GHashTable     *hidden_files;
 	GHashTable     *visited_dirs;
+	
+	gboolean        fast_file_type;
 } DialogData;
 
 
@@ -557,6 +559,7 @@ dlg_search_ui (GthBrowser *browser,
 	data->folders_comment = g_hash_table_new (g_str_hash, g_str_equal);
 	data->hidden_files = NULL;
 	data->visited_dirs = NULL;
+	data->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	/* Get the widgets. */
 
@@ -1023,8 +1026,13 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, "");
 
-			if (file_respects_search_criteria (data, unesc_uri))
-				files = g_list_prepend (files, file_data_new (str_uri, info));
+			if (file_respects_search_criteria (data, unesc_uri)) {
+				FileData *file;
+				
+				file = file_data_new (str_uri, info);
+				file_data_update_mime_type (file, data->fast_file_type);				
+				files = g_list_prepend (files, file);
+			}
 			else
 				g_free (str_uri);
 
