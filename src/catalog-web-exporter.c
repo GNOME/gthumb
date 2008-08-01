@@ -1550,15 +1550,23 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
 
-			if (gth_tag_get_var (ce, tag, "with_path") != 0) {
-				line = get_image_uri (ce, idata, ce->base_dir);
-			} else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
+			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
+				uri = get_thumbnail_uri (ce, idata, ce->base_dir);
+			} 
+			else if (gth_tag_get_var (ce, tag, "preview") != 0) {
+				uri = get_preview_uri (ce, idata, ce->base_dir);
+			} 
+			else {
 				uri = get_image_uri (ce, idata, ce->base_dir);
+			}
+			
+			if (gth_tag_get_var (ce, tag, "with_path") != 0) {
+				line = uri;
+			} else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
 				line = get_path_relative_to_uri (uri, relative_to);
 				g_free (uri);
 
 			} else {
-				uri = get_image_uri (ce, idata, ce->base_dir);
 				line = g_strdup (file_name_from_path (uri));
 				g_free (uri);
 			}
@@ -1579,7 +1587,16 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
 
-			uri = get_image_uri (ce, idata, ce->base_dir);
+			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
+				uri = get_thumbnail_uri (ce, idata, ce->base_dir);
+			} 
+			else if (gth_tag_get_var (ce, tag, "preview") != 0) {
+				uri = get_preview_uri (ce, idata, ce->base_dir);
+			} 
+			else {
+				uri = get_image_uri (ce, idata, ce->base_dir);
+			}
+
 			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
 				char *tmp;
 				tmp = get_path_relative_to_uri (uri, relative_to);

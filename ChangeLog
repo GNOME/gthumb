@@ -1,5 +1,12 @@
 2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* doc/theme-xml.txt:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	Add thumbnail and preview attributes to file_name and file_path tags
+	in web album exporter. Patch by Christophe Bisiere. Bug #545750.
+
+2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	Merge from gthumb-2-10:
 
 	* src/gth-browser.c (window_update_sensitivity): set only_one_is_selected

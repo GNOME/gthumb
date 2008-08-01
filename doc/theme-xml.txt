@@ -118,6 +118,10 @@ WVAR (Writable Variables):
 				    filename of the previous image will be 
 				    displayed.
 
+  thumbnail="0/1"                   Display the image thumbnail filename
+  
+  preview="0/1"                     Display the image preview filename
+  
   with_path="0/1"                   Display the full image path instead of the 
 				    filename only.
 				    For example '/home/joe/images/foo.jpg'
@@ -147,6 +151,8 @@ WVAR (Writable Variables):
 <gthumb:file_path/>
   idx="EXPR"
   idx_relative="EXPR"
+  thumbnail="0/1"                   Display the image thumbnail file path
+  preview="0/1"                     Display the image preview file path
   relative_path="0/1"
   visibility="index/image/always"
   utf8="0/1"
