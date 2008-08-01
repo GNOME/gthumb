@@ -861,7 +861,7 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 	/* Permit VFS URIs */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), g_get_home_dir ());
-	gtk_dialog_set_default_response(GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
+	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
 
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 

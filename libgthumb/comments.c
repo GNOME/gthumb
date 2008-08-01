@@ -579,16 +579,16 @@ save_comment (const char  *uri,
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if ((data == NULL) || (uri == NULL) || ! is_local_file (uri))
 		return;
+
+	if (save_embedded)
+		save_comment_to_metadata (uri, data);
 
 	if (comment_data_is_void (data)) {
 		comment_delete (uri);
 		return;
 	}
-
-	if (save_embedded)
-		save_comment_to_metadata (uri, data);
 
 	/* Convert data to strings. */
 

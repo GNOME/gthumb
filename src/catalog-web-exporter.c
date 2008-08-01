@@ -780,6 +780,14 @@ get_sortfunc (CatalogWebExporter *ce)
 }
 
 
+#define RETURN_IMAGE_FIELD(image, field) {	\
+	if (image == NULL)			\
+		return 0;			\
+	else					\
+		return image->field;		\
+}
+
+
 static int
 get_var_value (const char *var_name,
 	       gpointer    data)
@@ -806,17 +814,17 @@ get_var_value (const char *var_name,
 		return GTH_VISIBILITY_ALWAYS;
 
 	else if (strcmp (var_name, "image_width") == 0)
-		return ce->eval_image->image_width;
+		RETURN_IMAGE_FIELD (ce->eval_image, image_width)
 	else if (strcmp (var_name, "image_height") == 0)
-		return ce->eval_image->image_height;
+		RETURN_IMAGE_FIELD (ce->eval_image, image_height)
 	else if (strcmp (var_name, "preview_width") == 0)
-		return ce->eval_image->preview_width;
+		RETURN_IMAGE_FIELD (ce->eval_image, preview_width)
 	else if (strcmp (var_name, "preview_height") == 0)
-		return ce->eval_image->preview_height;
+		RETURN_IMAGE_FIELD (ce->eval_image, preview_height)
 	else if (strcmp (var_name, "thumb_width") == 0)
-		return ce->eval_image->thumb_width;
+		RETURN_IMAGE_FIELD (ce->eval_image, thumb_width)
 	else if (strcmp (var_name, "thumb_height") == 0)
-		return ce->eval_image->thumb_height;
+		RETURN_IMAGE_FIELD (ce->eval_image, thumb_height)
 
 	else if (strcmp (var_name, "image_dim_visibility_index") == 0)
 		return ce->index_caption_mask & GTH_CAPTION_IMAGE_DIM;
@@ -1466,10 +1474,10 @@ gth_parsed_doc_print (GList              *document,
 			max_size = gth_tag_get_var (ce, tag, "max_size");
 			if (max_size > 0)
 				scale_keeping_ratio (&image_width,
-						      &image_height,
-						      max_size,
-						      max_size,
-						      FALSE);
+						     &image_height,
+						     max_size,
+						     max_size,
+						     FALSE);
 
 			image_src_relative = get_path_relative_to_uri (image_src, relative_to);
 			src_attr = _g_escape_text_for_html (image_src_relative, -1);
@@ -1652,6 +1660,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
+			
 			if (idata->date_time == NULL)
 				break;
 
@@ -1741,7 +1750,6 @@ gth_parsed_doc_print (GList              *document,
 					}
 				}
 				write_line ("  </tr>\n", fout);
-
 			}
 			break;
 
@@ -1873,6 +1881,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = MIN (ce->image, ce->n_images - 1);
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
+			
 			for (scan = tag->value.cond_list; scan; scan = scan->next) {
 				GthCondition *cond = scan->data;
 				if (expression_value (ce, cond->expr) != 0) {
@@ -2328,6 +2337,7 @@ export__save_html_files (CatalogWebExporter *ce)
 	exporter_set_info (ce, _("Saving HTML pages: Indexes"));
 
 	ce->image = 0;
+	ce->eval_image = NULL;
 	ce->page = 0;
 	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
 					    save_html_index_cb,
@@ -2622,9 +2632,10 @@ image_loader_done (ImageLoader *iloader,
 		int h = gdk_pixbuf_get_height (pixbuf);
 
 		if (scale_keeping_ratio (&w, &h,
-					  ce->preview_max_width,
-					  ce->preview_max_height,
-					  FALSE)) {
+					 ce->preview_max_width,
+					 ce->preview_max_height,
+					 FALSE)) 
+		{
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
@@ -2654,9 +2665,10 @@ image_loader_done (ImageLoader *iloader,
 		int h = gdk_pixbuf_get_height (pixbuf);
 
 		if (scale_keeping_ratio (&w, &h,
-					  ce->thumb_width,
-					  ce->thumb_height,
-					  FALSE)) {
+					 ce->thumb_width,
+					 ce->thumb_height,
+					 FALSE)) 
+		{
 			GdkPixbuf *scaled;
 			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);

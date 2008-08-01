@@ -1,5 +1,28 @@
 2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	Merge from gthumb-2-10:
+
+	* src/gth-browser.c (window_update_sensitivity): set only_one_is_selected
+	when n_selected is 1 (was 0).
+	
+	Fixes bug: doesn't allow to go to the image destination folder from the 
+	catalog list.
+	
+	* libgthumb/thumb-loader.c (thumb_loader_start__step2): move the
+	5 seconds test after the valid failed thumbnail test.
+	
+	* src/dlg-search.c (directory_load_cb): update the files mime type or the 
+	thumbnail will not be created if necessary.
+	
+	* libgthumb/comments.c (save_comment): just check if data is NULL 
+	before saving (#543771).
+	
+	* src/catalog-web-exporter.c (get_var_value): check whether 
+	ce->eval_image is NULL before using it. 
+	(export__save_html_files): init ce->eval_image to NULL.
+
+2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/albumtheme.l:
 	* src/lex.albumtheme.c:
 	Fix yyunput-defined-but-not-used warning.
@@ -300,7 +323,7 @@
 	* src/dlg-png-exporter.c:
 	* src/dlg-rename-series.c:
 	* src/dlg-web-exporter.c:
-	Fixed bug 512374 - array accessed past end. Patch by 
+	Fixed bug #512374 - array accessed past end. Patch by 
 	John Bryant (bryant@sover.net).
 
 2008-04-21  Michael J. Chudobiak  <mjc@svn.gnome.org>

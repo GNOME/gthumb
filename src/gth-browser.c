@@ -819,7 +819,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	n_selected = gth_file_view_get_n_selected (priv->file_list->view);
 	sel_not_null = n_selected > 0;
-	only_one_is_selected = n_selected == 0;
+	only_one_is_selected = n_selected == 1;
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (priv->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
