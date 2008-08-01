@@ -1,3 +1,13 @@
+2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* configure.in:
+	Remove checks for XF86Gamma headers and libs.
+
+	* data/gthumb.schemas.in:
+	Remove old fading preference from schema.
+
+	Patch by Geoffrey Antos <dynamotwain@aim.com>. Bug #501512.
+
 2008-07-31  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_set_pixbuf):

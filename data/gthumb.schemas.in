@@ -468,19 +468,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/slideshow/fading</key>
-	<applyto>/apps/gthumb/slideshow/fading</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>true</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
 	<key>/schemas/apps/gthumb/hotkeys/hotkey0</key>
 	<applyto>/apps/gthumb/hotkeys/hotkey0</applyto>
 	<owner>gthumb</owner>
