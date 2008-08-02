@@ -951,9 +951,6 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "Go_ToContainer", viewing_catalog && only_one_is_selected);
 
-g_print ("VIEWING CATALOG: %d\n", viewing_catalog);
-g_print ("ONLY ONE IS SEL: %d\n", only_one_is_selected);
-
 	/* Edit Catalog menu. */
 
 	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
