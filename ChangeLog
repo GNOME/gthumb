@@ -1,3 +1,9 @@
+2008-08-04  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	[ gthumb 2.10.9 released ]
+
+	* NEWS: updated
+
 2008-08-02  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* src/gth-browser.c (window_update_sensitivity): removed debug code.
