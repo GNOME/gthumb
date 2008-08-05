@@ -145,6 +145,8 @@ libgthumb_la_LIBADD =		\
 	$(JPEG_LIBS)		\
 	$(TIFF_LIBS)		\
 	$(GTHUMB_LIBS)		\
+        $(RENDER_LIBS)          \
+        -lpng                   \
 	$(LIBOPENRAW_LIBS)      \
 	$(EXIV2_LIBS)		\
 	$(GSTREAMER_LIBS)
