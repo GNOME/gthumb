@@ -1,3 +1,10 @@
+2008-08-05  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/Makefile.am: added RENDER_LIBS and png to list of libraries.
+	
+	Fixes bug #546383 – gthumb 2.10.9 fails to link
+	Patch by Götz Waschk.
+
 2008-08-04  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	[ gthumb 2.10.9 released ]

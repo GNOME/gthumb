@@ -139,6 +139,8 @@ libgthumb_la_LIBADD =		\
 	$(TIFF_LIBS)		\
 	$(GTHUMB_LIBS)		\
 	$(IPTCDATA_LIBS)	\
+	$(RENDER_LIBS) 		\
+	-lpng			\
 	$(LIBOPENRAW_LIBS)
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
