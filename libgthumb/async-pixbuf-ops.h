@@ -70,6 +70,7 @@ GthPixbufOp* _gdk_pixbuf_scale                    (GdkPixbuf *src,
 						   GdkPixbuf *dest,
 						   gboolean   percentage,
 						   gboolean   keep_ratio,
+						   gboolean   allow_swap,
 						   int        width,
 						   int        height);
 

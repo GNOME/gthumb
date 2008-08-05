@@ -71,6 +71,7 @@ typedef struct {
 	GtkWidget        *ss_height_spinbutton;
 	GtkWidget        *ss_unit_optionmenu;
 	GtkWidget        *ss_keep_ratio_checkbutton;
+	GtkWidget        *ss_allow_swap_checkbutton;
 	GtkWidget        *ss_dest_filechooserbutton;
 	GtkWidget        *ss_om_combobox;
 	GtkWidget        *ss_remove_orig_checkbutton;
@@ -111,7 +112,7 @@ ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	GthPixbufOp *pixop;
-	gboolean     keep_ratio;
+	gboolean     keep_ratio, allow_swap;
 	int          width, height;
 
 #define is_active(x) gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x))
@@ -149,6 +150,9 @@ ok_cb (GtkWidget  *widget,
 	keep_ratio = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->ss_keep_ratio_checkbutton));
 	eel_gconf_set_boolean (PREF_SCALE_KEEP_RATIO, keep_ratio);
 
+	allow_swap = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->ss_allow_swap_checkbutton));
+	eel_gconf_set_boolean (PREF_SCALE_SERIES_ALLOW_SWAP, allow_swap);
+
 	width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->ss_width_spinbutton));
 	eel_gconf_set_integer (PREF_SCALE_SERIES_WIDTH, width);
 
@@ -160,6 +164,7 @@ ok_cb (GtkWidget  *widget,
 	pixop = _gdk_pixbuf_scale (NULL, NULL,
 				   data->percentage,
 				   keep_ratio,
+				   allow_swap,
 				   width,
 				   height);
 	data->bop = gth_batch_op_new (pixop, data);
@@ -242,6 +247,7 @@ dlg_scale_series (GthBrowser *browser)
 	data->ss_width_spinbutton = glade_xml_get_widget (data->gui, "ss_width_spinbutton");
 	data->ss_height_spinbutton = glade_xml_get_widget (data->gui, "ss_height_spinbutton");
 	data->ss_keep_ratio_checkbutton = glade_xml_get_widget (data->gui, "ss_keep_ratio_checkbutton");
+	data->ss_allow_swap_checkbutton = glade_xml_get_widget (data->gui, "ss_allow_swap_checkbutton");
 	data->ss_unit_optionmenu = glade_xml_get_widget (data->gui, "ss_unit_optionmenu");
 	data->ss_jpeg_radiobutton = glade_xml_get_widget (data->gui, "ss_jpeg_radiobutton");
 	data->ss_png_radiobutton = glade_xml_get_widget (data->gui, "ss_png_radiobutton");
@@ -278,6 +284,8 @@ dlg_scale_series (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->ss_keep_ratio_checkbutton),
 				      eel_gconf_get_boolean (PREF_SCALE_KEEP_RATIO, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->ss_allow_swap_checkbutton),
+				      eel_gconf_get_boolean (PREF_SCALE_SERIES_ALLOW_SWAP, TRUE));
 
 	/* image type */
 

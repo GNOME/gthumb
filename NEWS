@@ -34,6 +34,8 @@ trunk, since last 2.10.x
 	  adjust step)
 	* Added preference to ignore audio and video files. Bug #467468.
 	* Made UI for selecting a web album theme more obvious. Bug #501570.
+	* Allow swapping of height and width during scale-series for
+	  best fit. Bug #507216.
 
 	Bugfixes:
 

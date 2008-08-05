@@ -1,3 +1,16 @@
+2008-08-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/glade/gthumb_tools.glade:
+	* data/gthumb.schemas.in:
+	* libgthumb/async-pixbuf-ops.c: (scale_step), (_gdk_pixbuf_scale):
+	* libgthumb/async-pixbuf-ops.h:
+	* libgthumb/preferences.h:
+	* src/dlg-scale-series.c: (ok_cb), (dlg_scale_series):
+	Allow swapping of height and width during scale-series for
+	best fit. Bug #507216. Tweaked version of the patch by
+	Roman Ovseytsev <romovs@gmail.com>.
+
 2008-08-01  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/theme-xml.txt:

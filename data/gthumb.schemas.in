@@ -1597,6 +1597,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_series/allow_swap_width_height</key>
+	<applyto>/apps/gthumb/dialogs/scale_series/allow_swap_width_height</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Web Album -->
 
       <schema>

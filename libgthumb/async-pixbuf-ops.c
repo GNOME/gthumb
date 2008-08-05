@@ -1556,6 +1556,7 @@ _gdk_pixbuf_dither (GdkPixbuf *src,
 typedef struct {
 	gboolean percentage;
 	gboolean keep_ratio;
+	gboolean allow_swap;
 	int      width;
 	int      height;
 } ScaleData;
@@ -1567,22 +1568,32 @@ scale_step (GthPixbufOp *pixop)
 	ScaleData *data = pixop->data;
 	int        w, h;
 	int        new_w, new_h;
+	int        max_w, max_h;
 
 	w = gdk_pixbuf_get_width (pixop->src);
 	h = gdk_pixbuf_get_height (pixop->src);
 
+	if (data->allow_swap && ((h > w && data->width > data->height) ||
+				 (h < w && data->width < data->height))) {
+		max_w = data->height;
+		max_h = data->width;
+	} else {
+		max_w = data->width;
+		max_h = data->height;
+	}
+
 	if (data->percentage) {
-		new_w = w * ((double)data->width / 100.0);
-		new_h = h * ((double)data->height / 100.0);
+		new_w = w * ((double)max_w / 100.0);
+		new_h = h * ((double)max_h / 100.0);
 	} else if (data->keep_ratio) {
 		new_w = w;
 		new_h = h;
 		scale_keeping_ratio (&new_w, &new_h,
-				     data->width, data->height,
+				     max_w, max_h,
 				     TRUE);
 	} else {
-		new_w = data->width;
-		new_h = data->height;
+		new_w = max_w;
+		new_h = max_h;
 	}
 
 	if ((new_w > 1) && (new_h > 1))	{
@@ -1606,6 +1617,7 @@ _gdk_pixbuf_scale (GdkPixbuf *src,
 		   GdkPixbuf *dest,
 		   gboolean   percentage,
 		   gboolean   keep_ratio,
+		   gboolean   allow_swap,
 		   int        width,
 		   int        height)
 {
@@ -1615,6 +1627,7 @@ _gdk_pixbuf_scale (GdkPixbuf *src,
 	data = g_new0 (ScaleData, 1);
 	data->percentage = percentage;
 	data->keep_ratio = keep_ratio;
+	data->allow_swap = allow_swap;
 	data->width = width;
 	data->height = height;
 
