@@ -1,5 +1,12 @@
 2008-08-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-browser.c: (ask_whether_to_save):
+	* src/gth-viewer.c: (ask_whether_to_save):
+	"Do Not Save" -> "Do _Not Save". Pulls in downstream keybinding
+	patch from Debian, Ubuntu. Bug #546655.
+	
+2008-08-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/image-viewer.c: (set_pixbuf__step2), (image_loaded),
 	(create_image): 
 	Do not emit image_loaded signal when image_viewer_set_pixbuf is 

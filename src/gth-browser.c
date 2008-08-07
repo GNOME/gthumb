@@ -1780,7 +1780,7 @@ ask_whether_to_save (GthBrowser     *browser,
 			    GTK_WINDOW (browser),
 			    GTK_DIALOG_MODAL,
 			    _("The current image has been modified, do you want to save it?"),
-			    _("Do Not Save"),
+			    _("Do _Not Save"),
 			    GTK_STOCK_SAVE_AS,
 			    _("_Do not display this message again"),
 			    PREF_MSG_SAVE_MODIFIED_IMAGE);
