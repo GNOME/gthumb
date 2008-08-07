@@ -1,5 +1,17 @@
 2008-08-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/image-viewer.c: (set_pixbuf__step2), (image_loaded),
+	(create_image): 
+	Do not emit image_loaded signal when image_viewer_set_pixbuf is 
+	called, fixing prompts to save modified images. 
+
+	* libgthumb/image-viewer-image.c: (image_viewer_image_get_path):
+	Fix a NULL-dereference.
+
+	Patches by Geoffrey Antos <dynamotwain@aim.com>. Bug #501512.
+
+2008-08-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (_empty_file_progress_cb), (xfer_file),
 	(file_rename), (path_exists), (copy_data_new),
 	(copy_file_async_done), (copy_remote_file_to_cache_done):

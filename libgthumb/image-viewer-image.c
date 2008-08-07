@@ -527,7 +527,10 @@ image_viewer_image_get_path (ImageViewerImage* image)
 
 	priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
 
-	return g_strdup (priv->file->path);
+	if (priv->file)
+		return g_strdup (priv->file->path);
+	else
+		return NULL;
 }
 
 

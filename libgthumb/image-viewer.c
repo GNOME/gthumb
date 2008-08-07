@@ -441,6 +441,7 @@ image_viewer_class_init (ImageViewerClass *klass)
 }
 
 
+static void create_image   (ImageLoader *il, gpointer data);
 static void image_loaded   (ImageLoader *il, gpointer data);
 static void image_error    (ImageLoader *il, gpointer data);
 static void image_progress (ImageLoader *il, float progress, gpointer data);
@@ -1362,7 +1363,7 @@ set_pixbuf__step2 (ImageViewerLoadData *ivl_data)
 
 	image_loader_set_file   (priv->loader, NULL);
 	image_loader_set_pixbuf (priv->loader, pixbuf);
-	image_loaded (priv->loader, ivl_data->viewer);
+	create_image (priv->loader, ivl_data->viewer);
 
 	g_object_unref (G_OBJECT (pixbuf));
 	g_free (ivl_data);
@@ -1625,6 +1626,20 @@ image_loaded (ImageLoader *il,
 	      gpointer data)
 {
 	ImageViewer        *viewer = data;
+
+	create_image (il, data);
+
+	g_signal_emit (G_OBJECT (viewer),
+		       image_viewer_signals[IMAGE_LOADED],
+		       0);
+}
+
+
+static void
+create_image (ImageLoader *il,
+	      gpointer data)
+{
+	ImageViewer        *viewer = data;
 	ImageViewerPrivate *priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
 	ImageViewerImage   *next;
 
@@ -1675,10 +1690,6 @@ image_loaded (ImageLoader *il,
 			  G_CALLBACK (zoom_changed_cb), viewer);
 
 	gtk_widget_queue_resize (GTK_WIDGET (viewer));
-
-	g_signal_emit (G_OBJECT (viewer),
-		       image_viewer_signals[IMAGE_LOADED],
-		       0);
 }
 
 
