@@ -1507,7 +1507,7 @@ gth_parsed_doc_print (GList              *document,
 			else {
 				char *unescaped_path;
 				
-				unescaped_path = gnome_vfs_unescape_string (image_src_relative, NULL);
+				unescaped_path = g_uri_unescape_string (image_src_relative, "");
 				alt_attr = _g_escape_text_for_html (unescaped_path, -1);
 				g_free (unescaped_path);
 			}

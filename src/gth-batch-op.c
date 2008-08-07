@@ -434,13 +434,13 @@ show_rename_dialog (GthBatchOp *bop)
 
 static void
 save_image_and_remove_original_step2 (const char     *uri, 
-				      GnomeVFSResult  result,
+				      GError         *error,
 				      gpointer        callback_data)
 {
 	GthBatchOp *bop = callback_data;
 	FileData   *fd;
 	
-	if (result == GNOME_VFS_OK)
+	if (error == NULL)
 		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
 	 
 	fd = PD(bop)->current_image->data;

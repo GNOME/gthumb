@@ -39,7 +39,7 @@
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 
-typedef void (*CopyDoneFunc) (const char *, GnomeVFSResult, gpointer);
+typedef void (*CopyDoneFunc) (const char *, GError *, gpointer);
 
 /* Async directory list */
 
@@ -134,8 +134,9 @@ gboolean            file_move                     (const char       *from,
 						   const char       *to);
 gboolean            local_file_move               (const char       *from,
 						   const char       *to);
-GnomeVFSResult      file_rename                   (const char       *old_path,
-						   const char       *new_path);
+gboolean            file_rename                   (const char       *old_path,
+						   const char       *new_path,
+						   GError          **error);
 gboolean            file_unlink                   (const char       *path);
 void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,

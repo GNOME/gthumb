@@ -222,13 +222,13 @@ convert_next_image (DialogData *data)
 
 static void
 save_image_and_remove_original_step2 (const char     *uri, 
-				      GnomeVFSResult  result,
+				      GError         *error,
 				      gpointer        callback_data)
 {
 	DialogData *data = callback_data;
 	FileData   *fd;
 	
-	if (result == GNOME_VFS_OK)
+	if (error == NULL)
 		data->saved_list = g_list_prepend (data->saved_list, g_strdup (data->new_path));
 	 
 	fd = (FileData*) data->current_image->data;

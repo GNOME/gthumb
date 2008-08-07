@@ -1,3 +1,40 @@
+2008-08-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (_empty_file_progress_cb), (xfer_file),
+	(file_rename), (path_exists), (copy_data_new),
+	(copy_file_async_done), (copy_remote_file_to_cache_done):
+	* libgthumb/file-utils.h:
+	* libgthumb/image-loader.c: (image_loader_start__step3),
+	(image_loader_start__step2):
+	* src/catalog-png-exporter.c:
+	(copy_current_file_to_destination_done), (begin_page), (end_page),
+	(paint_frame):
+	* src/catalog-png-exporter.h:
+	* src/catalog-web-exporter.c: (gth_parsed_doc_print):
+	* src/dlg-convert.c: (save_image_and_remove_original_step2):
+	* src/dlg-file-utils.c: (dlg_file_rename_series):
+	* src/dlg-jpegtran.c: (apply_transformation_done),
+	(apply_transformation__step2), (apply_transformation),
+	(apply_transformation_to_all_continue),
+	(load_next_image_after_transformation):
+	* src/dlg-photo-importer.c: (async_step_done):
+	* src/dlg-png-exporter.c:
+	* src/dlg-reset-exif.c: (apply_transformation_done),
+	(apply_transformation__step2), (apply_transformation),
+	(apply_transformation_to_all_continue):
+	* src/gth-batch-op.c: (save_image_and_remove_original_step2):
+	* src/gth-browser-actions-callbacks.c: (catalog_rename),
+	(folder_rename), (folder_copy__response_cb):
+	* src/gth-browser.c: (dir_list_key_press_cb),
+	(dir_list_button_release_cb), (catalog_list_button_release_cb),
+	(key_press_cb), (viewer_drag_data_received):
+	* src/gth-window-actions-callbacks.c: (set_wallpaper_step_2):
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+
+	Continuation of the gio migration. File transfers now use the gio
+	code. Tweaked version of Gabriel Falcão's (gabriel@nacaolivre.org)
+	patches from bug #525482.
+
 2008-08-05  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/Makefile.am: added RENDER_LIBS and png to list of libraries.

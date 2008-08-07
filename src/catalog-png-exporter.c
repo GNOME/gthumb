@@ -29,7 +29,6 @@
 #include <gdk/gdkx.h>
 #include <gdk/gdkrgb.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include "catalog-png-exporter.h"
 #include "comments.h"
@@ -871,7 +870,7 @@ static void copy_current_file_to_destination (CatalogPngExporter *ce);
 
 static void
 copy_current_file_to_destination_done (const char     *uri, 
-				       GnomeVFSResult  result, 
+				       GError         *error, 
 				       gpointer        data)
 {
 	CatalogPngExporter *ce = data;
@@ -1624,15 +1623,13 @@ static void
 begin_page (CatalogPngExporter *ce,
 	    int                 page_n)
 {
-	GnomeVFSURI      *vfs_uri;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  temp;
-	int               width, height;
-	char             *local_file;
-	char             *filename;
-	char             *name;
-	char             *line;
-	char             *utf8_name;
+	GError            *error = NULL;
+	int                width, height;
+	char              *local_file;
+	char              *filename;
+	char              *name;
+	char              *line;
+	char              *utf8_name;
 
 	g_signal_emit (G_OBJECT (ce),
 		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
@@ -1671,34 +1668,31 @@ begin_page (CatalogPngExporter *ce,
 	
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
+	g_warning ("URI: %s", ce->imap_uri);
 
 	local_file = get_cache_uri_from_uri (ce->imap_uri);
-	vfs_uri = new_uri_from_path (local_file);
 	g_free (local_file);
-	
-	if (vfs_uri == NULL) {
-		g_warning ("URI not valid: %s", local_file);
+		
+	ce->ostream = g_file_create (ce->imap_gfile, G_FILE_CREATE_NONE, NULL, &error);
+
+	if (error) {
+		g_warning ("Cannot create file %s - %s", ce->imap_uri, error->message);
 		return;
 	}
 
-	result = gnome_vfs_create_uri (&ce->imap_handle, vfs_uri,
-				       GNOME_VFS_OPEN_WRITE, FALSE, 0664);
-	gnome_vfs_uri_unref (vfs_uri);
-	if (result != GNOME_VFS_OK) {
-		g_warning ("Cannot create file %s", ce->imap_uri);
-		return;
-	}
-
-	gnome_vfs_write (ce->imap_handle, HTML_PAGE_BEGIN, strlen (HTML_PAGE_BEGIN), &temp);
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), HTML_PAGE_BEGIN, strlen (HTML_PAGE_BEGIN), NULL, &error);
 
 	filename = g_strconcat (name, ".", ce->file_type, NULL);
 	line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n", filename, width, height, filename);
-	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, &error);
+	g_warning ("LINE +: %s", line);
 	g_free (line);
 	g_free (filename);
 
 	line = g_strdup_printf ("<map name=\"map\" id=\"map\">\n");
-	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
+
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, &error);
+	g_warning ("LINE +: %s", line);
 	g_free (line);
 }
 
@@ -1712,7 +1706,6 @@ end_page (CatalogPngExporter *ce,
 	char             *uri;
 	char             *local_file;
 	int               width, height;
-	GnomeVFSFileSize  temp;
 	char             *line;
 
 	width = ce->page_width;
@@ -1747,9 +1740,11 @@ end_page (CatalogPngExporter *ce,
 		return;
 
 	line = g_strdup_printf ("</map>\n");
-	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
-	gnome_vfs_write (ce->imap_handle, HTML_PAGE_END, strlen (HTML_PAGE_END), &temp);
-	gnome_vfs_close (ce->imap_handle);
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, NULL);	
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), HTML_PAGE_END, strlen (HTML_PAGE_END), NULL, NULL);	
+	
+	g_output_stream_close (G_OUTPUT_STREAM(ce->ostream), NULL, NULL);
+	g_object_unref (ce->imap_gfile);
 	
 	ce->created_files = g_list_prepend (ce->created_files, g_strdup (ce->imap_uri));
 	
@@ -1763,7 +1758,6 @@ paint_frame (CatalogPngExporter *ce,
 	     GdkRectangle       *image_rect,
 	     gchar              *filename)
 {
-	GnomeVFSFileSize  temp;
 	char		 *unescaped_path, *attr_path;
 	char             *line;
 	char             *rel_path;
@@ -1842,7 +1836,8 @@ paint_frame (CatalogPngExporter *ce,
 	rel_path = get_path_relative_to_uri (filename, dest_dir);
 	g_free (dest_dir);
 
-	unescaped_path = gnome_vfs_unescape_string (rel_path, NULL);
+	unescaped_path = g_uri_escape_string (rel_path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
+	g_warning ("PATH: %s", unescaped_path);
 	attr_path = _g_escape_text_for_html (unescaped_path, -1);
 	g_free (unescaped_path);
 
@@ -1855,7 +1850,7 @@ paint_frame (CatalogPngExporter *ce,
 				attr_path);
 	g_free (rel_path);
 	g_free (attr_path);
-	gnome_vfs_write (ce->imap_handle, line, strlen (line), &temp);
+	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, NULL);	
 	g_free (line);
 }
 

@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <gdk/gdk.h>
 #include <gtk/gtkenums.h> /* for GtkSortType */
+#include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include "image-loader.h"
@@ -129,6 +130,8 @@ struct _CatalogPngExporter {
 	GdkColor      dark_gray;
 
 	char           *imap_uri;
+	GFile          *imap_gfile;          /* GFile parent of OutputStream below */	
+	GFileOutputStream *ostream;          /* Output stream to handle partial file writing */
 	GnomeVFSHandle *imap_handle;         /* handle to write image map 
 					      * files. */
 

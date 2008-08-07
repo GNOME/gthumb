@@ -67,6 +67,12 @@
 #define CHUNK_SIZE 128
 #define MAX_SYMLINKS_FOLLOWED 32
 
+/* empty functions */
+static void _empty_file_progress_cb  (goffset current_num_bytes,
+				      goffset total_num_bytes,
+				      gpointer user_data)
+{
+}
 
 /* Async directory list */
 
@@ -781,9 +787,9 @@ xfer_file (const char *from,
 	   const char *to,
 	   gboolean    move)
 {
-	GnomeVFSURI         *from_uri, *to_uri;
-	GnomeVFSXferOptions  opt;
-	GnomeVFSResult       result;
+	GnomeVFSURI   *from_uri, *to_uri;
+	GError        *ioerror = NULL;
+	GFile         *sfile, *dfile;
 
 	if (same_uri (from, to)) {
 		g_warning ("cannot copy file %s: source and destination are the same\n", from);
@@ -792,19 +798,30 @@ xfer_file (const char *from,
 
 	from_uri = new_uri_from_path (from);
 	to_uri = new_uri_from_path (to);
-	opt = move ? GNOME_VFS_XFER_REMOVESOURCE : GNOME_VFS_XFER_DEFAULT;
-	result = gnome_vfs_xfer_uri (from_uri,
-				     to_uri,
-				     opt,
-				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				     NULL,
-				     NULL);
 
-	gnome_vfs_uri_unref (from_uri);
-	gnome_vfs_uri_unref (to_uri);
+	sfile = g_file_new_for_uri (gnome_vfs_uri_get_path (from_uri));
+	dfile = g_file_new_for_uri (gnome_vfs_uri_get_path (to_uri));
+	if (move)
+		g_file_move (sfile, dfile,
+			     G_FILE_COPY_OVERWRITE,
+			     NULL, _empty_file_progress_cb,
+			     NULL, &ioerror);
+	else
+		g_file_copy (sfile, dfile,
+			     G_FILE_COPY_OVERWRITE,
+			     NULL, _empty_file_progress_cb,
+			     NULL, &ioerror);
 
-	return (result == GNOME_VFS_OK);
+	g_object_unref (sfile);
+	g_object_unref (dfile);
+	g_free (from_uri);
+	g_free (to_uri);
+	
+	if (ioerror) {
+		g_error_free (ioerror);
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 
@@ -844,11 +861,28 @@ local_file_move (const char *from,
 }
 
 
-GnomeVFSResult
+gboolean 
 file_rename (const char *old_path,
-	     const char *new_path)
+	     const char *new_path,
+	     GError **error)
 {
-	return gnome_vfs_move (old_path, new_path, TRUE);
+	GFile *sfile, *dfile;
+	GError *err = NULL;
+	gboolean result;
+	sfile = g_file_new_for_uri (old_path);
+	dfile = g_file_new_for_uri (new_path);
+
+	result = g_file_move (sfile, dfile,
+                              G_FILE_COPY_OVERWRITE,
+                              NULL,
+			      _empty_file_progress_cb,
+			      NULL, &err);
+	if (err)
+		g_propagate_error (error, err);
+	
+	g_object_unref (sfile);
+	g_object_unref (dfile);
+	return result;
 }
 
 
@@ -1047,22 +1081,10 @@ image_is_gif (const char *name)
 gboolean
 path_exists (const char *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	gboolean          exists;
-
 	if (! path || ! *path)
 		return FALSE;
-
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	exists = (result == GNOME_VFS_OK);
-	gnome_vfs_file_info_unref (info);
-
-	return exists;
+	
+	return g_file_test (path, G_FILE_TEST_EXISTS);
 }
 
 
@@ -2531,6 +2553,7 @@ get_temp_file_name (const char *tmpdir,
 struct _CopyData {
         char                *source_uri;
         char                *target_uri;
+        GError              *error;
         GnomeVFSResult       result;
         GnomeVFSAsyncHandle *handle;
         CopyDoneFunc         done_func;
@@ -2554,6 +2577,7 @@ copy_data_new (const char   *source_uri,
 	copy_data->done_data = done_data;
 	copy_data->result = GNOME_VFS_OK;
 	copy_data->idle_id = 0;
+	copy_data->error = NULL;
 	
 	return copy_data;
 }
@@ -2593,7 +2617,7 @@ copy_file_async_done (gpointer data)
 	
 	if (copy_data->done_func != NULL) {
 		copy_data->handle = NULL;	
-		(copy_data->done_func) (copy_data->target_uri, copy_data->result, copy_data->done_data);
+		(copy_data->done_func) (copy_data->target_uri, copy_data->error, copy_data->done_data);
 	}
 	copy_data_free (copy_data);
 	
@@ -2981,12 +3005,12 @@ typedef struct {
 
 static void
 copy_remote_file_to_cache_done (const char     *uri, 
-				GnomeVFSResult  result, 
+				GError         *error, 
 				gpointer        callback_data)
 {
 	CopyToCacheData *data = callback_data;
 
-	if (result == GNOME_VFS_OK) {
+	if (error == NULL) {
 		FileData *cache_file;
 		
 		cache_file = file_data_new (uri, NULL);
@@ -2996,7 +3020,8 @@ copy_remote_file_to_cache_done (const char     *uri,
 	}
 	
 	if (data->done_func != NULL)
-		data->done_func (uri, result, data->done_data);
+                /*FIXME: change GnomeVFSResult to GError and use below instead of NULL*/
+		data->done_func (uri, NULL, data->done_data);
 	
 	g_free (data);
 }

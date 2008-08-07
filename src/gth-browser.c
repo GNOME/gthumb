@@ -2136,7 +2136,7 @@ dir_list_key_press_cb ( GtkWidget *widget,
 			return TRUE;
 
 		utf8_name = gth_dir_list_get_name_from_iter (browser->priv->dir_list, &iter);
-		name = gnome_vfs_escape_string (utf8_name);
+		name = g_uri_escape_string (utf8_name, "", TRUE);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2267,7 +2267,7 @@ dir_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = gth_dir_list_get_name_from_iter (priv->dir_list, &iter);
-		name = gnome_vfs_escape_string (utf8_name);
+		name = g_uri_escape_string (utf8_name, "", TRUE);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2542,7 +2542,7 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = catalog_list_get_name_from_iter (priv->catalog_list, &iter);
-		name = gnome_vfs_escape_string (utf8_name);
+		name = g_uri_escape_string (utf8_name, "", TRUE);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -3242,7 +3242,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = catalog_list_get_name_from_iter (priv->catalog_list, &iter);
-			name = gnome_vfs_escape_string (utf8_name);
+			name = g_uri_escape_string (utf8_name, "", TRUE);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0)
@@ -3278,7 +3278,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = gth_dir_list_get_name_from_iter (priv->dir_list, &iter);
-			name = gnome_vfs_escape_string (utf8_name);
+			name = g_uri_escape_string (utf8_name, "", TRUE);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0)
@@ -3496,7 +3496,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	catalog_name_utf8 = g_strconcat (_("Dragged Images"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
+	catalog_name = g_uri_escape_string (catalog_name_utf8, "", TRUE);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);

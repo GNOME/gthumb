@@ -1,5 +1,4 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  *  GThumb
  *
@@ -28,6 +27,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
@@ -89,7 +89,7 @@ destroy_cb (GtkWidget  *widget,
 typedef struct {
 	DialogData       *data;
 	GList            *current_image;
-	GnomeVFSFileInfo *info;
+	GFileInfo        *info;
 	gboolean          notify_soon;
 	CopyDoneFunc      done_func;
 	gpointer          done_data;
@@ -113,32 +113,34 @@ notify_file_changed (DialogData *data,
 
 static void
 apply_transformation_done (const char     *uri,
-			   GnomeVFSResult  result,
+			   GError         *error,
 		           gpointer        callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
+	GFile              *gfile = g_file_new_for_uri (file->path);
 		
-	if (result == GNOME_VFS_OK) {
+	if (error == NULL) {
 		if (at_data->info != NULL)
-			gnome_vfs_set_file_info (file->path, at_data->info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS | GNOME_VFS_SET_FILE_INFO_OWNER);
+			g_file_set_attributes_from_info (gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 		notify_file_changed (at_data->data, file->path, at_data->notify_soon);
 	}
 	else 
 		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->window), _("Could not move temporary file to remote location. Check remote permissions."));
 	
 	if (at_data->done_func)
-		(at_data->done_func) (uri, result, at_data->done_data);
+		(at_data->done_func) (uri, error, at_data->done_data);
 
 	if (at_data->info != NULL)
-		gnome_vfs_file_info_unref (at_data->info);
+		g_object_unref (at_data->info);
 	g_free (at_data);
+	g_object_unref (gfile);
 }
 
 
 static void
 apply_transformation__step2 (const char     *uri,
-			     GnomeVFSResult  result,
+			     GError         *error,
 		             gpointer        callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
@@ -160,6 +162,8 @@ apply_transformation (DialogData   *data,
 		      CopyDoneFunc  done_func,
 		      gpointer      done_data)
 {
+	GFile              *gfile;
+	GError             *error = NULL;
 	FileData           *file = current_image->data;
 	ApplyTransformData *at_data;
 
@@ -169,9 +173,11 @@ apply_transformation (DialogData   *data,
 	at_data->notify_soon = notify_soon;
 	at_data->done_func = done_func;
 	at_data->done_data = done_data;
-	at_data->info = gnome_vfs_file_info_new ();
-	if (gnome_vfs_get_file_info (file->path, at_data->info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS) != GNOME_VFS_OK) {
-		gnome_vfs_file_info_unref (at_data->info);
+	gfile = g_file_new_for_uri (file->path);
+	at_data->info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
+	g_object_unref (gfile);
+	if (error) {
+		g_object_unref (at_data->info);
 		at_data->info = NULL;
 	}
 
@@ -196,7 +202,7 @@ static void apply_transformation_to_all__apply_to_current (BatchTransformation *
 
 static void
 apply_transformation_to_all_continue (const char     *uri,
-				      GnomeVFSResult result,
+				      GError         *error,
 				      gpointer       data)
 {
 	BatchTransformation *bt_data = data;

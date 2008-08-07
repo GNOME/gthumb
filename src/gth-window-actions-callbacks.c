@@ -627,15 +627,15 @@ typedef struct {
 
 static void 
 set_wallpaper_step_2 (const char     *uri, 
-		      GnomeVFSResult  result, 
+		      GError         *error, 
 		      gpointer        callback_data)
 {
 	SetWallpaperData *data = callback_data;
 	GConfClient      *client;
 	char             *options = "none";
 
-	if (result != GNOME_VFS_OK) {
-		_gtk_error_dialog_run (GTK_WINDOW (data->window), "%s", gnome_vfs_result_to_string (result));
+	if (error) {
+		_gtk_error_dialog_run (GTK_WINDOW (data->window), "%s", error->message);
 		g_free (data);
 		return;
 	}

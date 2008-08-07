@@ -509,7 +509,7 @@ catalog_rename (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 	} 
-	else if (file_rename (catalog_path, new_catalog_path) == GNOME_VFS_OK) {
+	else if (file_rename (catalog_path, new_catalog_path, NULL)) {
 		all_windows_notify_catalog_rename (catalog_path,
 						   new_catalog_path);
 	} 
@@ -1027,18 +1027,18 @@ folder_rename (GtkWindow  *window,
 	} 
 	else {
 		char           *old_folder_comment;
-		GnomeVFSResult  result;
+		gboolean        result;
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_rename (old_path, new_path);
-		if (result == GNOME_VFS_OK) {
+		result = file_rename (old_path, new_path, NULL);
+		if (result) {
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_rename (old_folder_comment, new_folder_comment);
+			file_rename (old_folder_comment, new_folder_comment, NULL);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1335,21 +1335,21 @@ folder_copy__response_cb (GObject *object,
 	} 
 	else {
 		char           *old_folder_comment = NULL;
-		GnomeVFSResult  result;
+		gboolean        result;
 
 		/* Comment cache. */
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_rename (old_path, new_path);
-		if (result == GNOME_VFS_OK) {
+		result = file_rename (old_path, new_path, NULL);
+		if (result) {
 			char *new_folder_comment;
 
 			/* moving folders on the same file system can be
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_rename (old_folder_comment, new_folder_comment);
+			file_rename (old_folder_comment, new_folder_comment, NULL);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);

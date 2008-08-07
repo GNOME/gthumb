@@ -25,9 +25,7 @@
 #include <sys/types.h>
 
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <gio/gio.h>
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
@@ -148,7 +146,8 @@ apply_transformation_jpeg (FileData       *file,
 	char             *tmp_output_file = NULL;
 	JXFORM_CODE       transf;
 	char		 *local_file;
-	GnomeVFSFileInfo *info = NULL;
+	GFile            *gfile;
+	GFileInfo        *info;
 
 	if (file == NULL)
 		return FALSE;
@@ -170,9 +169,9 @@ apply_transformation_jpeg (FileData       *file,
 		result = FALSE;
 		goto apply_transformation_jpeg__free_and_close;
 	}
-
-	info = gnome_vfs_file_info_new ();
-	gnome_vfs_get_file_info (file->path, info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS | GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	gfile = g_file_new_for_uri (file->path);
+	info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	g_object_unref (gfile);
 
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
@@ -221,8 +220,10 @@ apply_transformation_jpeg (FileData       *file,
 		char *local_uri;
 		
 		local_uri = get_uri_from_local_path (local_file);
-		gnome_vfs_set_file_info (local_uri, info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS | GNOME_VFS_SET_FILE_INFO_OWNER);
-		gnome_vfs_file_info_unref (info);
+		gfile = g_file_new_for_uri (file->path);
+		g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		g_object_unref (info);
+		g_object_unref (gfile);
 		g_free (local_uri);
 	}
 

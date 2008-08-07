@@ -28,7 +28,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
 #include "catalog-png-exporter.h"
