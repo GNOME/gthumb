@@ -97,8 +97,6 @@ WVAR (Writable Variables):
 <gthumb:image_link/>                Display the image link
   idx="EXPR"
   idx_relative="EXPR"
-  thumbnail="0/1"                   Display the image thumbnail link
-  preview="0/1"                     Display the image preview link
 
 <gthumb:image_idx/>
   idx_relative="EXPR"
