@@ -983,14 +983,15 @@ image_viewer_size_allocate (GtkWidget       *widget,
 		priv->hadj->value          = floor (off_x - gdk_width / 2);
 		priv->hadj->step_increment = STEP_INCREMENT;
 		priv->hadj->page_increment = floor (gdk_width / 2);
-		priv->hadj->page_size      = gdk_width;
+		priv->hadj->page_size      = allocation->width;
 
 		priv->vadj->lower          = floor (-height / 2 - priv->frame_border);
 		priv->vadj->upper          = floor ( height / 2 + priv->frame_border);
 		priv->vadj->value          = floor ( off_y - gdk_height / 2);
 		priv->vadj->step_increment = STEP_INCREMENT;
 		priv->vadj->page_increment = floor (gdk_height / 2);
-		priv->vadj->page_size      = gdk_height;
+		priv->vadj->page_size      = allocation->height;
+
 	} else {
 		priv->hadj->lower     = 0.0;
 		priv->hadj->upper     = 1.0;

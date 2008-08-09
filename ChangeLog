@@ -1,3 +1,9 @@
+2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/image-viewer.c: (image_viewer_size_allocate):
+	Make scrollbars go away in zoom-to-fit modes, regression from
+	bug #501512. Patch by Geoffrey Antos <dynamotwain@aim.com>.
+
 2008-08-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/theme-xml.txt: Corrected theme documentation, as per
