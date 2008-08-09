@@ -36,6 +36,8 @@ libgthumb/file-utils.c
 libgthumb/file-utils.h
 libgthumb/gconf-utils.c
 libgthumb/gconf-utils.h
+libgthumb/gfile-utils.c
+libgthumb/gfile-utils.h
 libgthumb/glib-utils.c
 libgthumb/glib-utils.h
 libgthumb/gstringlist.c

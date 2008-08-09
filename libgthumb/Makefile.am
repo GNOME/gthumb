@@ -43,6 +43,7 @@ HEADER_FILES =				\
 	file-data.h			\
 	file-utils.h			\
 	gconf-utils.h			\
+	gfile-utils.h                   \
 	glib-utils.h			\
 	gstringlist.h			\
 	gth-exif-utils.h		\
@@ -104,6 +105,7 @@ libgthumb_la_SOURCES =			\
 	file-data.c			\
 	file-utils.c			\
 	gconf-utils.c			\
+	gfile-utils.c                   \
 	glib-utils.c			\
 	gstringlist.c			\
 	gth-exif-utils.c		\

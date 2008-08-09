@@ -1,5 +1,13 @@
 2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/Makefile.am:
+	* libgthumb/gfile-utils.c:
+	* libgthumb/gfile-utils.h:
+	* po/POTFILES.in:
+	Added gfile-utils.[ch] to contain gfile utility functions.
+
+2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/catalog-png-exporter.c:
 	* src/catalog-web-exporter.c:
 	* src/catalog-web-exporter.h:
