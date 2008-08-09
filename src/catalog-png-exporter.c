@@ -1670,10 +1670,26 @@ begin_page (CatalogPngExporter *ce,
 	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
 	g_warning ("URI: %s", ce->imap_uri);
 
+	/*
+	 * NOTE: gio port
+	 * 
+	 *   Set ce->imap_gfile from ce->imap_uri.
+	 *   
+	 *   This is a temporary workaround. Getting rid of ce->imap_uri
+	 *   requires converting to GFile: 
+	 *   1) get_cache_uri_from_uri 
+	 *   2) recipients of all_windows_notify_files_created  
+	 */
 	local_file = get_cache_uri_from_uri (ce->imap_uri);
+	ce->imap_gfile = g_file_new_for_uri (local_file);
 	g_free (local_file);
-		
-	ce->ostream = g_file_create (ce->imap_gfile, G_FILE_CREATE_NONE, NULL, &error);
+	
+	ce->ostream = g_file_replace (ce->imap_gfile, 
+				      NULL,
+				      FALSE,
+				      G_FILE_CREATE_NONE, 
+				      NULL, 
+				      &error);
 
 	if (error) {
 		g_warning ("Cannot create file %s - %s", ce->imap_uri, error->message);

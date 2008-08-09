@@ -24,6 +24,7 @@
 #define CATALOG_WEB_EXPORTER_H
 
 #include <glib.h>
+#include <gio/gio.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkenums.h> /* for GtkSortType */
 #include "gth-window.h"
@@ -71,6 +72,10 @@ struct _CatalogWebExporter {
 
 	char         *base_dir;               /* Save files in this location. */
 	char         *base_tmp_dir;
+	
+	GFile        *target_dir;               /* Save files in this location. */
+	GFile        *target_tmp_dir;
+
 	gboolean      use_subfolders;
 	AlbumDirs    *ad;	
 					     					       

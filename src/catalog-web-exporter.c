@@ -63,6 +63,12 @@ typedef enum {
 	GTH_VISIBILITY_IMAGE
 } GthTagVisibility;
 
+typedef enum {
+	GTH_IMAGE_TYPE_IMAGE = 0,
+	GTH_IMAGE_TYPE_THUMBNAIL,
+	GTH_IMAGE_TYPE_PREVIEW
+} GthAttrImageType;
+
 enum {
 	WEB_EXPORTER_DONE,
 	WEB_EXPORTER_PROGRESS,
@@ -81,6 +87,13 @@ extern FILE         *yyin;
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
 
+
+#define UNREF(obj) {				\
+	if (obj != NULL) {			\
+		g_object_unref (obj);		\
+		obj = NULL;			\
+	}					\
+}
 
 /* Default subdirectories.
  * - Used as fallback when gconf values are empty or not accessible
@@ -272,23 +285,6 @@ album_dirs_new ()
 }
 
 
-gboolean
-ensure_album_dir_exists (const char *base_dir, const char *subdir)
-{
-	gboolean ok;
-	char *path;
-	
-	path = build_uri (base_dir, 
-			  subdir,
-			  NULL);
-	ok = ensure_dir_exists (path, 0700);
-	
-	g_free (path);
-
-	return ok;
-}
-
-
 // TODO: locale?
 
 static void
@@ -329,8 +325,11 @@ catalog_web_exporter_finalize (GObject *object)
 	g_free (ce->style);
 	ce->style = NULL;
 
-	g_free (ce->base_dir);
+	g_free (ce->base_dir);     /* NOTE: gio port: get rid of these two */
 	g_free (ce->base_tmp_dir);
+	
+	UNREF (ce->target_dir)
+	UNREF (ce->target_tmp_dir)
 	album_dirs_free (ce->ad);
 
 	g_free (ce->index_file);
@@ -415,8 +414,12 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->footer = NULL;
 	ce->style = NULL;
 
-	ce->base_dir = NULL;
+	ce->base_dir = NULL;     /* NOTE: gio port: get rid of these two */
 	ce->base_tmp_dir = NULL;
+	
+	ce->target_dir = NULL;
+	ce->target_tmp_dir = NULL;
+
 	ce->use_subfolders = TRUE;
 	ce->ad = album_dirs_new ();
 
@@ -531,8 +534,8 @@ catalog_web_exporter_set_location (CatalogWebExporter *ce,
 				   const char         *location)
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
-	g_free (ce->base_dir);
-	ce->base_dir = g_strdup (location);
+	UNREF (ce->target_dir)
+	ce->target_dir = g_file_new_for_uri (location);
 }
 
 
@@ -1094,197 +1097,260 @@ write_markup_escape_locale_line (const char *line, FILE *fout)
 }
 
 
-static char *
-get_index_filename (CatalogWebExporter *ce,
-		    const char         *base_dir)
-{
-	char *filename;
-	filename = build_uri (base_dir, 
-			      ce->index_file,
-			      NULL);
+/* GFile to string */
 
-	return filename;
+static char *
+file_get_uri (GFile *file)
+{
+	return g_file_get_uri (file);
 }
 
 
 static char *
-get_theme_filename (CatalogWebExporter *ce,
-		    const char         *base_dir,
-		    const char         *filename)
+file_get_relative_uri (GFile *file, 
+		       GFile *relative_to)
 {
-	char *filename1;
+	char  *escaped;
+	char  *relative_uri;
+	char  *result;
 	
-	if (ce->use_subfolders)
-		filename1 = build_uri (base_dir,
-				       ce->ad->theme_files,
-				       filename,
-				       NULL);
-	else
-		filename1 = build_uri (base_dir, 
-				       filename,
-				       NULL);
-	return filename1;
+	escaped = file_get_uri (file);
+	relative_uri = file_get_uri (relative_to);
+	
+	result = get_path_relative_to_uri (escaped, relative_uri);
+	
+	g_free (relative_uri);
+	g_free (escaped);
+	
+	return result;
 }
 
 
 static char *
+file_get_path (GFile *file)
+{
+	char  *escaped, *unescaped;
+
+	escaped = g_file_get_path (file);
+	unescaped = g_uri_unescape_string (escaped, NULL);
+	
+	g_free (escaped);
+	
+	return unescaped;
+}
+
+
+static char *
+file_get_relative_path (GFile *file, 
+		        GFile *relative_to)
+{
+	char  *escaped, *unescaped;
+	
+	escaped = file_get_relative_uri (file, relative_to);
+	unescaped = g_uri_unescape_string (escaped, NULL);
+
+	g_free (escaped);
+	
+	return unescaped;
+}
+
+
+/* build a GFile (helpers) */
+
+GFile *
+file_resolve_relative_path (GFile	*file,
+			    const char  *relative_path)
+{
+	GFile *result;
+	
+	if (relative_path != NULL)
+		result = g_file_resolve_relative_path (file, relative_path);
+	else
+		result = g_file_dup (file);
+	
+	return result;
+}
+
+
+GFile *
+get_filename (GFile              *dir,
+	      const char         *subdir,
+	      const char         *filename)
+{
+	GFile *file, *result;
+	
+	file = file_resolve_relative_path (dir, subdir);
+	result = file_resolve_relative_path (file, filename);
+
+	g_object_unref (file);
+	
+	return result;
+}
+
+
+/* build a GFile for a CatalogWebExporter */
+
+
+GFile *
+get_album_file (CatalogWebExporter *ce,
+		GFile              *target_dir,
+		const char         *subdir,
+		const char         *filename)
+{
+	return get_filename (target_dir, 
+			     (ce->use_subfolders ? subdir : NULL),
+			     filename);
+}
+
+
+GFile *
 get_html_index_dir (CatalogWebExporter *ce,
-		    const char         *base_dir)
+		    const int           page,
+		    GFile              *target_dir)
 {
-	char *dir;
-	
-	if (ce->use_subfolders)
-                dir = build_uri (base_dir,
-				 ce->ad->html_indexes,
-				 NULL);
-	else
-		dir = g_strdup (base_dir);
-	return dir;
+	return (page == 0 ?
+		g_file_dup (target_dir) :
+		get_album_file (ce, target_dir, ce->ad->html_indexes, NULL));
 }
 
 
-static char *
-get_html_index_filename (CatalogWebExporter *ce,
-			 const int           page,
-			 const char         *base_dir)
-{
-	char *dir, *filename1, *filename2;
-
-	dir = get_html_index_dir (ce, base_dir);
-	
-	filename1 = g_strconcat ("page",
-				  zero_padded (page + 1),
-				  ".html",
-				  NULL);
-	filename2 = build_uri (dir,
-			       filename1,
-			       NULL);
-	g_free (dir);
-	g_free (filename1);
-
-	return filename2;
-}
-
-
-static char *
+GFile *
 get_html_image_dir (CatalogWebExporter *ce,
-		    const char         *base_dir)
+		    GFile              *target_dir)
 {
-	char *dir;
-	
-	if (ce->use_subfolders)
-                dir = build_uri (base_dir,
-				 ce->ad->html_images,
-				 NULL);
+	return get_album_file (ce, target_dir, ce->ad->html_images, NULL);
+}
+
+
+
+GFile *
+get_theme_file (CatalogWebExporter *ce,
+		GFile              *target_dir,
+		const char         *filename)
+{
+	return get_album_file (ce, target_dir, ce->ad->theme_files, filename);
+}
+
+
+GFile *
+get_html_index_file (CatalogWebExporter *ce,
+		     const int           page,
+		     GFile              *target_dir)
+{
+	GFile *dir, *result;
+	char  *filename;
+
+	if (page == 0)
+		filename = g_strdup (ce->index_file);
 	else
-		dir = g_strdup (base_dir);
-	return dir;
-}
-
-
-static char *
-get_html_image_filename (CatalogWebExporter *ce,
-			 ImageData          *idata,
-			 const char         *base_dir)
-{
-	char *dir, *filename1, *filename2;
-
-	dir = get_html_image_dir (ce, base_dir);
+		filename = g_strconcat ("page",
+					 zero_padded (page + 1),
+					 ".html",
+					 NULL);
+	dir = get_html_index_dir (ce, page, target_dir);
+	result = get_album_file (ce, dir, NULL, filename);
 	
-	filename1 = g_strconcat (file_name_from_path (idata->dest_filename),
-				 ".html",
-				 NULL);
-	filename2 = build_uri (dir,
-			       filename1,
-			       NULL);
-	g_free (dir);
-	g_free (filename1);
-
-	return filename2;
-}
-
-
-static char *
-get_thumbnail_uri (CatalogWebExporter *ce,
-		   ImageData          *idata,
-		   const char         *base_dir)
-{
-	char *filename1, *filename2;
-
-	filename1 = g_strconcat (file_name_from_path (idata->dest_filename),
-				 ".small",
-				 ".jpeg",
-				 NULL);
-	if (ce->use_subfolders)
-		filename2 = build_uri (base_dir, 
-				       ce->ad->thumbnails,
-				       filename1,
-				       NULL);
-	else
-		filename2 = build_uri (base_dir,
-				       filename1,
-				       NULL);
+	g_free (filename);
+	g_object_unref (dir);
 	
-	g_free (filename1);
-
-	return filename2;
+	return result;
 }
 
 
-static char *
-get_image_uri (CatalogWebExporter *ce,
-	       ImageData          *idata,
-	       const char         *base_dir)
+GFile *
+get_html_image_file (CatalogWebExporter *ce,
+		     ImageData          *idata,
+		     GFile              *target_dir)
 {
-	char *filename, *image_filename;
+	GFile	    *result;
+	const char  *escaped;
+	char        *unescaped;
+	char        *filename;
+
+	escaped = file_name_from_path (idata->dest_filename);
+	unescaped = g_uri_unescape_string (escaped, NULL);
+	filename = g_strconcat (unescaped, ".html", NULL);
+	g_free (unescaped);
+	
+	result = get_album_file (ce, target_dir, ce->ad->html_images, filename);
+	g_free (filename);
+	
+	return result;
+}
+
+
+GFile *
+get_thumbnail_file (CatalogWebExporter *ce,
+		    ImageData          *idata,
+		    GFile              *target_dir)
+{
+	GFile	    *result;
+	const char  *escaped;
+	char        *unescaped;
+	char        *filename;
+
+	escaped = file_name_from_path (idata->dest_filename);
+	unescaped = g_uri_unescape_string (escaped, NULL);
+	filename = g_strconcat (unescaped, ".small", ".jpeg", NULL);
+	g_free (unescaped);
+
+	result = get_album_file (ce, target_dir, ce->ad->thumbnails, filename);
+	g_free (filename);
+	
+	return result;
+}
+
+
+GFile *
+get_image_file (CatalogWebExporter *ce,
+		ImageData          *idata,
+		GFile              *target_dir)
+{
+	GFile  *result;
+	char   *escaped;
+	char   *filename;
 
 	if (ce->copy_images) {
-		filename = g_strconcat (file_name_from_path (idata->dest_filename),
-					NULL);
-		if (ce->use_subfolders)
-			image_filename = build_uri (base_dir,
-						    ce->ad->images,
-						    filename,
-						    NULL);
-		else
-			image_filename = build_uri (base_dir, 
-						    filename,
-						    NULL);
+		escaped = g_strdup (file_name_from_path (idata->dest_filename));
+		filename = g_uri_unescape_string (escaped, NULL);
+		
+		result = get_album_file (ce, target_dir, ce->ad->images, filename);
 		g_free (filename);
-	} else
-		image_filename = g_strdup (idata->src_file->path);
+		g_free (escaped);
 
-	return image_filename;
+	} else {
+		result = g_file_new_for_uri (idata->src_file->path);
+	}
+	
+	return result;
 }
 
 
-static char *
-get_preview_uri (CatalogWebExporter *ce,
-		 ImageData          *idata,
-		 const char         *base_dir)
+GFile *
+get_preview_file (CatalogWebExporter *ce,
+		  ImageData          *idata,
+		  GFile              *target_dir)
 {
-	char *filename, *preview_filename;
+	GFile	    *result;
+	const char  *escaped;
+	char        *unescaped;
+	char        *filename;
 	
 	if (idata->no_preview)
-		preview_filename = get_image_uri (ce, idata, base_dir);
+		result = get_image_file (ce, idata, target_dir);
 	else {
-		filename = g_strconcat (file_name_from_path (idata->dest_filename),
-					".medium",
-					".jpeg",
-					NULL);
-		if (ce->use_subfolders)
-			preview_filename = build_uri (base_dir, 
-						      ce->ad->previews,
-					   	      filename,
-					   	      NULL);
-		else
-			preview_filename = build_uri (base_dir, 
-						      filename,
-						      NULL);
-		g_free (filename);
+		escaped = file_name_from_path (idata->dest_filename);
+		unescaped = g_uri_unescape_string (escaped, NULL);
+		filename = g_strconcat (unescaped, ".medium", ".jpeg", NULL);
+		g_free (unescaped);
+		
+		result = get_album_file (ce, target_dir, ce->ad->previews, filename);
+		g_free (filename);	
 	}
-	return preview_filename;		
+	
+	return result;		
 }
+
 
 
 static char*
@@ -1399,10 +1465,23 @@ get_hf_text (const char *utf8_text)
 
 
 
+static GthAttrImageType
+get_attr_image_type_from_tag (CatalogWebExporter *ce,
+			      GthTag             *tag)
+{
+	if (gth_tag_get_var (ce, tag, "thumbnail") != 0)
+		return GTH_IMAGE_TYPE_THUMBNAIL;
+	
+	if (gth_tag_get_var (ce, tag, "preview") != 0)
+		return GTH_IMAGE_TYPE_PREVIEW;
+	
+	return GTH_IMAGE_TYPE_IMAGE;
+}
+
 
 static void
 gth_parsed_doc_print (GList              *document,
-		      char		 *relative_to,
+		      GFile		 *relative_to,
 		      CatalogWebExporter *ce,
 		      FILE               *fout,
 		      gboolean            allow_table)
@@ -1412,9 +1491,9 @@ gth_parsed_doc_print (GList              *document,
 	for (scan = document; scan; scan = scan->next) {
 		GthTag     *tag = scan->data;
 		ImageData  *idata;
+		GFile      *file;
 		char       *line = NULL;
 		char       *image_src = NULL;
-		char       *image_src_relative = NULL;
 		char       *unescaped_path = NULL;
 		int         idx;
 		int         image_width;
@@ -1424,14 +1503,13 @@ gth_parsed_doc_print (GList              *document,
 		int         value;
 		const char *src;
 		char       *src_attr;
-		char       *filename;
 		const char *class = NULL;
 		char       *class_attr = NULL;
-		char       *uri = NULL;
 		const char *alt = NULL;
 		char       *alt_attr = NULL;
 		const char *id = NULL;
 		char       *id_attr = NULL;
+		gboolean   relative;
 		GList      *scan;
 
 
@@ -1456,11 +1534,14 @@ gth_parsed_doc_print (GList              *document,
 			if (src == NULL)
 				break;
 			
-			filename = get_theme_filename (ce, ce->base_dir, src);
-			line = get_path_relative_to_uri (filename, relative_to);
-			g_free (filename);
-
+			file = get_theme_file (ce, 
+					       ce->target_dir,
+					       src);
+			line = file_get_relative_uri (file, relative_to);
+			
 			write_markup_escape_line (line, fout);
+			
+			g_object_unref (file);
 			break;
 		
 		case GTH_TAG_IMAGE:
@@ -1468,21 +1549,34 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
 
-			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
-				image_src = get_thumbnail_uri (ce, idata, ce->base_dir);
+			switch (get_attr_image_type_from_tag (ce, tag)) {
+			case GTH_IMAGE_TYPE_THUMBNAIL:
+				file = get_thumbnail_file (ce, 
+							   idata, 
+							   ce->target_dir);
 				image_width = idata->thumb_width;
 				image_height = idata->thumb_height;
-			} 
-			else if (gth_tag_get_var (ce, tag, "preview") != 0) {
-				image_src = get_preview_uri (ce, idata, ce->base_dir);
+				break;
+				
+			case GTH_IMAGE_TYPE_PREVIEW:
+				file = get_preview_file (ce, 
+							 idata, 
+							 ce->target_dir);
 				image_width = idata->preview_width;
 				image_height = idata->preview_height;
-			} 
-			else {
-				image_src = get_image_uri (ce, idata, ce->base_dir);
+				break;
+			
+			case GTH_IMAGE_TYPE_IMAGE:
+				file = get_image_file (ce, 
+						       idata, 
+						       ce->target_dir);
 				image_width = idata->image_width;
 				image_height = idata->image_height;
+				break;
 			}
+			
+			image_src = file_get_relative_uri (file, relative_to);
+			src_attr = _g_escape_text_for_html (image_src, -1);
 
 			class = gth_tag_get_str (ce, tag, "class");
 			if (class)
@@ -1498,16 +1592,13 @@ gth_parsed_doc_print (GList              *document,
 						     max_size,
 						     FALSE);
 
-			image_src_relative = get_path_relative_to_uri (image_src, relative_to);
-			src_attr = _g_escape_text_for_html (image_src_relative, -1);
-
 			alt = gth_tag_get_str (ce, tag, "alt");
 			if (alt != NULL)
 				alt_attr = g_strdup (alt);
 			else {
 				char *unescaped_path;
 				
-				unescaped_path = g_uri_unescape_string (image_src_relative, "");
+				unescaped_path = g_uri_unescape_string (image_src, NULL);
 				alt_attr = _g_escape_text_for_html (unescaped_path, -1);
 				g_free (unescaped_path);
 			}
@@ -1532,17 +1623,19 @@ gth_parsed_doc_print (GList              *document,
 			g_free (alt_attr);
 			g_free (class_attr);
 			g_free (image_src);
-			g_free (image_src_relative);
+			g_object_unref (file);
 			break;
 
 		case GTH_TAG_IMAGE_LINK:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-			filename = get_html_image_filename (ce, idata, ce->base_dir);
-			line = get_path_relative_to_uri (filename, relative_to);
+			file = get_html_image_file (ce, 
+						    idata, 
+						    ce->target_dir);
+			line = file_get_relative_uri (file, relative_to);
 			write_markup_escape_line (line, fout);
 
-			g_free (filename);
+			g_object_unref (file);
 			break;
 
 		case GTH_TAG_IMAGE_IDX:
@@ -1569,36 +1662,48 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
 
-			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
-				uri = get_thumbnail_uri (ce, idata, ce->base_dir);
-			} 
-			else if (gth_tag_get_var (ce, tag, "preview") != 0) {
-				uri = get_preview_uri (ce, idata, ce->base_dir);
-			} 
-			else {
-				uri = get_image_uri (ce, idata, ce->base_dir);
+			switch (get_attr_image_type_from_tag (ce, tag)) {
+			case GTH_IMAGE_TYPE_THUMBNAIL:
+				file = get_thumbnail_file (ce, 
+							   idata, 
+							   ce->target_dir);
+				break;
+				
+			case GTH_IMAGE_TYPE_PREVIEW:
+				file = get_preview_file (ce, 
+							 idata, 
+							 ce->target_dir);
+				break;
+			
+			case GTH_IMAGE_TYPE_IMAGE:
+				file = get_image_file (ce, 
+						       idata, 
+						       ce->target_dir);
+				break;
 			}
 			
-			if (gth_tag_get_var (ce, tag, "with_path") != 0) {
-				line = uri;
-			} else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
-				line = get_path_relative_to_uri (uri, relative_to);
-				g_free (uri);
-
+			relative = (gth_tag_get_var (ce, tag, "with_relative_path") != 0);
+			
+			if (relative)
+				unescaped_path = file_get_relative_path (file, 
+									 relative_to);
+			else
+				unescaped_path = file_get_path (file);
+				
+			
+			if (relative || (gth_tag_get_var (ce, tag, "with_path") != 0)) {
+				line = unescaped_path;
 			} else {
-				line = g_strdup (file_name_from_path (uri));
-				g_free (uri);
+				line = g_strdup (file_name_from_path (unescaped_path));
+				g_free (unescaped_path);
 			}
-
-			unescaped_path = gnome_vfs_unescape_string (line, NULL);
-			g_free (line);
-			line = unescaped_path;
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
 			else
 				write_markup_escape_line (line, fout);
 
+			g_object_unref (file);
 			break;
 
 		case GTH_TAG_FILEPATH:
@@ -1606,34 +1711,44 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			ce->eval_image = idata;
 
-			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
-				uri = get_thumbnail_uri (ce, idata, ce->base_dir);
-			} 
-			else if (gth_tag_get_var (ce, tag, "preview") != 0) {
-				uri = get_preview_uri (ce, idata, ce->base_dir);
-			} 
-			else {
-				uri = get_image_uri (ce, idata, ce->base_dir);
+			switch (get_attr_image_type_from_tag (ce, tag)) {
+			case GTH_IMAGE_TYPE_THUMBNAIL:
+				file = get_thumbnail_file (ce, 
+							   idata, 
+							   ce->target_dir);
+				break;
+				
+			case GTH_IMAGE_TYPE_PREVIEW:
+				file = get_preview_file (ce, 
+							 idata, 
+							 ce->target_dir);
+				break;
+			
+			case GTH_IMAGE_TYPE_IMAGE:
+				file = get_image_file (ce, 
+						       idata, 
+						       ce->target_dir);
+				break;
 			}
 
-			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
-				char *tmp;
-				tmp = get_path_relative_to_uri (uri, relative_to);
-				g_free (uri);
-				uri = tmp;
-			}
-			line = remove_level_from_path (uri);
-			g_free (uri);
+			//FIXME: broken
+			relative = (gth_tag_get_var (ce, tag, "relative_path") != 0);
 
-			unescaped_path = gnome_vfs_unescape_string (line, NULL);
-			g_free (line);
-			line = unescaped_path;
+			if (relative)
+				unescaped_path = file_get_relative_path (file, 
+									 relative_to);
+			else
+				unescaped_path = file_get_path (file);
+			
+			line = remove_level_from_path (unescaped_path);
+			g_free (unescaped_path);
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
 			else
 				write_markup_escape_line (line, fout);
 
+			g_object_unref (file);
 			break;
 
 		case GTH_TAG_FILESIZE:
@@ -1724,15 +1839,13 @@ gth_parsed_doc_print (GList              *document,
 			else
 				idx = get_page_idx (tag, ce);
 
-			if (idx == 0)
-				filename = get_index_filename (ce, ce->base_dir);
-			else
-				filename = get_html_index_filename (ce, idx, ce->base_dir);
-
-			line = get_path_relative_to_uri (filename, relative_to);
-			g_free (filename);
-			
+			file = get_html_index_file (ce, 
+						    idx, 
+						    ce->target_dir);
+			line = file_get_relative_uri (file, relative_to);
 			write_markup_escape_line (line, fout);
+
+			g_object_unref (file);
 			break;
 
 		case GTH_TAG_PAGE_IDX:
@@ -2019,14 +2132,14 @@ get_style_dir (CatalogWebExporter *ce)
 	char *uri;
 	char *style_dir;
 
-	style_dir = gnome_vfs_unescape_string (ce->style, NULL);
+	style_dir = g_uri_unescape_string (ce->style, NULL);
 	
 	path = g_build_filename (g_get_home_dir (),
-			     ".gnome2",
-			     "gthumb",
-			     "albumthemes",
-			     style_dir,
-			     NULL);
+			         ".gnome2",
+			         "gthumb",
+			         "albumthemes",
+			         style_dir,
+			         NULL);
 	uri = get_uri_from_local_path (path);
  	g_free (path);
 
@@ -2034,10 +2147,10 @@ get_style_dir (CatalogWebExporter *ce)
 		g_free (uri);
 
 		path = g_build_filename (GTHUMB_DATADIR,
-				     "gthumb",
-				     "albumthemes",
-				     style_dir,
-				     NULL);
+				         "gthumb",
+				         "albumthemes",
+				         style_dir,
+				         NULL);
 		uri = get_uri_from_local_path (path);
  		g_free (path);
 
@@ -2094,7 +2207,8 @@ export__save_other_files (CatalogWebExporter *ce)
 
 		for (scan = file_list; scan; scan = scan->next) {
 			GnomeVFSFileInfo *info = scan->data;
-			char		 *source_filename, *target_filename;
+			char		 *source_filename, *uri;
+			GFile            *file;
 			GnomeVFSURI	 *source_uri = NULL, *target_uri = NULL;
 
 			if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
@@ -2108,12 +2222,13 @@ export__save_other_files (CatalogWebExporter *ce)
 			source_filename = g_build_filename (source_dir,
 							    info->name,
 							    NULL);
-			target_filename = get_theme_filename (ce, 
-							      ce->base_tmp_dir,
-						  	      info->name);
-
 			source_uri = new_uri_from_path (source_filename);
-			target_uri = new_uri_from_path (target_filename);
+			
+			file = get_theme_file (ce, 
+					       ce->target_tmp_dir,
+					       info->name);
+			uri = file_get_uri (file);
+			target_uri = gnome_vfs_uri_new (uri);
 			
 			source_uri_list = g_list_prepend (source_uri_list, source_uri);
 			target_uri_list = g_list_prepend (target_uri_list, target_uri);
@@ -2121,7 +2236,8 @@ export__save_other_files (CatalogWebExporter *ce)
 			debug (DEBUG_INFO, "save file: %s", source_filename);
 
 			g_free (source_filename);
-			g_free (target_filename);
+			g_free (uri);
+			g_object_unref (file);
 		}
 		
 		if (source_uri_list != NULL) {
@@ -2176,16 +2292,18 @@ save_thumbnail_cb (gpointer data)
 	idata = ce->current_image->data;
 		
 	if (idata->thumb != NULL) {
-		char *thumb_uri;
-		char *local_file;
+		GFile *file;
+		char  *local_file;
 
 		g_signal_emit (G_OBJECT (ce),
 			       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
 			       0,
 			       (float) ce->image / ce->n_images);
 
-		thumb_uri = get_thumbnail_uri (ce, idata, ce->base_tmp_dir);
-		local_file = get_local_path_from_uri (thumb_uri);
+		file = get_thumbnail_file (ce, 
+					   idata, 
+					   ce->target_tmp_dir);
+		local_file = file_get_path (file);
 		
 		debug (DEBUG_INFO, "save thumbnail: %s", local_file);
 
@@ -2195,9 +2313,9 @@ save_thumbnail_cb (gpointer data)
 				  "jpeg",
 				  NULL, NULL); 
 
+		g_object_unref (file);
 		g_free (local_file);
-		g_free (thumb_uri);
-
+		
 		g_object_unref (idata->thumb);
 		idata->thumb = NULL;
 	}
@@ -2232,8 +2350,8 @@ save_html_image_cb (gpointer data)
 {
 	CatalogWebExporter *ce = data;
 	ImageData          *idata;
-	char               *page_uri;
-	char               *local_file;	
+	GFile              *file;
+	char               *local_file;
 	FILE               *fout;
 
 	if (ce->saving_timeout != 0) {
@@ -2253,27 +2371,31 @@ save_html_image_cb (gpointer data)
 		       0,
 		       (float) ce->image / ce->n_images);
 
-	page_uri = get_html_image_filename (ce, idata, ce->base_tmp_dir);
-	local_file = get_local_path_from_uri (page_uri);
+	file = get_html_image_file (ce, 
+				    idata, 
+				    ce->target_tmp_dir);
+	local_file = file_get_path (file);
 		
 	debug (DEBUG_INFO, "save html file: %s", local_file);
 
 	fout = fopen (local_file, "w");
 	if (fout != NULL) {
-		char *relative_to;
+		GFile *relative_to;
 
-		relative_to = get_html_image_dir (ce, ce->base_dir);			
+		relative_to = get_html_image_dir (ce, 
+						  ce->target_dir);
+		
 		gth_parsed_doc_print (ce->image_parsed,
 				      relative_to,
 				      ce, 
 				      fout, 
 				      TRUE);
-		g_free (relative_to);
+		g_object_unref (relative_to);
 		fclose (fout);
 	} 
 
+	g_object_unref (file);
 	g_free (local_file);
-	g_free (page_uri);
 
 	/**/
 
@@ -2304,9 +2426,9 @@ static gboolean
 save_html_index_cb (gpointer data)
 {
 	CatalogWebExporter *ce = data;
-	char               *index_uri;
+	GFile              *file;
+	GFile              *relative_to;
 	char               *local_file;
-	char               *relative_to;
 	FILE               *fout;
 
 	if (ce->saving_timeout != 0) {
@@ -2326,19 +2448,15 @@ save_html_index_cb (gpointer data)
 		       0,
 		       (float) ce->page / ce->n_pages);
 
-	if (ce->page == 0) {
-		index_uri = get_index_filename (ce, 
-						ce->base_tmp_dir);
-		relative_to = g_strdup (ce->base_dir);
-	}
-	else {
-		index_uri = get_html_index_filename(ce,
-						    ce->page, 
-						    ce->base_tmp_dir);
-		relative_to = get_html_index_dir (ce, ce->base_dir);			
-	}
+	relative_to = get_html_index_dir (ce, 
+					  ce->page, 
+					  ce->target_dir);
+	
+	file = get_html_index_file (ce,
+				    ce->page, 
+				    ce->target_tmp_dir);
 
-	local_file = get_local_path_from_uri (index_uri);
+	local_file = file_get_path (file);
 
 	debug (DEBUG_INFO, "save html index: %s", local_file);
 
@@ -2353,8 +2471,8 @@ save_html_index_cb (gpointer data)
 	} 
 
 	g_free (local_file);
-	g_free (index_uri);
-	g_free (relative_to);
+	g_object_unref (file);
+	g_object_unref (relative_to);
 
 	/**/
 
@@ -2460,12 +2578,14 @@ save_image_preview_cb (gpointer data)
 		ImageData *idata = ce->file_to_load->data;
 
 		if ((! idata->no_preview) && (idata->preview != NULL)) {
-			char *preview_uri;
-			char *local_file;
+			GFile *file;
+			char  *local_file;
 			
-			preview_uri = get_preview_uri (ce, idata, ce->base_tmp_dir);
-			local_file = get_local_path_from_uri (preview_uri);
-			
+			file = get_preview_file (ce, 
+						 idata, 
+						 ce->target_tmp_dir);
+			local_file = file_get_path (file);
+
 			debug (DEBUG_INFO, "saving preview: %s", local_file);
 
 			update_metadata (idata->src_file);
@@ -2477,7 +2597,7 @@ save_image_preview_cb (gpointer data)
 					  NULL, NULL);
 			 
 			g_free (local_file);
-			g_free (preview_uri);
+			g_object_unref (file);
 		}
 	}
 
@@ -2501,13 +2621,17 @@ save_resized_image_cb (gpointer data)
 		ImageData *idata = ce->file_to_load->data;
 
 		if (ce->copy_images && (idata->image != NULL)) {
-			char *image_uri;
-			char *local_file; 
+			GFile *file;
+			char  *image_uri;
+			char  *local_file; 
 
 			exporter_set_info (ce, _("Saving images"));
 			
-			image_uri = get_image_uri (ce, idata, ce->base_tmp_dir);
-			local_file = get_local_path_from_uri (image_uri);
+			file = get_image_file (ce, 
+					       idata, 
+					       ce->target_tmp_dir);
+			image_uri = file_get_uri (file);
+			local_file = file_get_path (file);
 			
 			debug (DEBUG_INFO, "saving image: %s", local_file);
 
@@ -2523,6 +2647,7 @@ save_resized_image_cb (gpointer data)
 			
 			g_free (local_file);
 			g_free (image_uri);
+			g_object_unref (file);
 		}
 	}
 
@@ -2538,7 +2663,8 @@ static void
 export__copy_image (CatalogWebExporter *ce)
 {
 	ImageData                 *idata;
-	char                      *temp_destination;
+	GFile                     *file;
+	char                      *uri;
 	GnomeVFSURI               *source_uri = NULL;
 	GnomeVFSURI               *target_uri = NULL;
 	GnomeVFSResult             result;
@@ -2553,9 +2679,13 @@ export__copy_image (CatalogWebExporter *ce)
 	idata = ce->file_to_load->data;
 
 	source_uri = gnome_vfs_uri_new (idata->src_file->path);
-	temp_destination = get_image_uri (ce, idata, ce->base_tmp_dir);
-	target_uri = gnome_vfs_uri_new (temp_destination);
 	
+	file = get_image_file (ce, 
+			       idata, 
+			       ce->target_tmp_dir);
+	uri = file_get_uri (file);
+	target_uri = gnome_vfs_uri_new (uri);
+		
 	result = gnome_vfs_xfer_uri (source_uri,
 				     target_uri,
 				     GNOME_VFS_XFER_DEFAULT,
@@ -2568,11 +2698,11 @@ export__copy_image (CatalogWebExporter *ce)
 	gnome_vfs_uri_unref (target_uri);
 
 	if (result == GNOME_VFS_OK) {
-		if (image_is_jpeg (temp_destination)) {
+		if (image_is_jpeg (uri)) {
 			GthTransform  transform;
 		
 			FileData *fd;
-			fd = file_data_new (temp_destination, NULL);
+			fd = file_data_new (uri, NULL);
 			transform = get_orientation_from_fd (fd);
 			
 			if (transform > 1) {
@@ -2586,7 +2716,8 @@ export__copy_image (CatalogWebExporter *ce)
 		}
 	}
 	
-	g_free (temp_destination);
+	g_object_unref (file);
+	g_free (uri);
 	
 	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
 					    save_image_preview_cb,
@@ -2920,6 +3051,56 @@ parse_theme_files (CatalogWebExporter *ce)
 }
 
 
+gboolean
+ensure_album_dir_exists_from_file (GFile *dir)
+{
+	char     *uri;
+	gboolean  ok;
+	
+	uri = file_get_uri (dir);
+	ok = ensure_dir_exists (uri, 0700);
+	
+	g_free (uri);
+
+	return ok;
+}
+
+
+gboolean
+ensure_album_dir_exists (GFile *target_dir, const char *subdir)
+{
+	gboolean  ok;
+	GFile    *dir;
+	
+	dir = file_resolve_relative_path (target_dir, subdir);
+	
+	ok = ensure_album_dir_exists_from_file (dir);
+	
+	g_object_unref (dir);
+
+	return ok;
+}
+
+
+void
+ensure_dir_structure (CatalogWebExporter *ce,
+		      GFile              *target_dir)
+{
+	ensure_album_dir_exists_from_file (target_dir);
+	
+	if (ce->use_subfolders) {
+		ensure_album_dir_exists (target_dir, ce->ad->previews);
+		ensure_album_dir_exists (target_dir, ce->ad->thumbnails);
+		if (ce->copy_images)
+			ensure_album_dir_exists (target_dir, ce->ad->images);
+		ensure_album_dir_exists (target_dir, ce->ad->html_images);
+		if (ce->n_pages > 1)
+			ensure_album_dir_exists (target_dir, ce->ad->html_indexes);
+		ensure_album_dir_exists (target_dir, ce->ad->theme_files);
+	}
+}
+
+
 void
 catalog_web_exporter_export (CatalogWebExporter *ce)
 {
@@ -2936,20 +3117,26 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	g_free (ce->index_file);
 	ce->index_file =  eel_gconf_get_string (PREF_EXP_WEB_INDEX_FILE, 
 						DEFAULT_INDEX_FILE);
+	
+	debug (DEBUG_INFO, "index file: %s", ce->index_file);
+	
 	album_dirs_set (ce->ad);
 
 	/* get tmp dir */
 
 	tmp_dir = get_temp_dir_name ();
-	g_free (ce->base_tmp_dir);
-	ce->base_tmp_dir = get_uri_from_local_path (tmp_dir);
-	g_free (tmp_dir);
-
-	if (ce->base_tmp_dir == NULL) {
+	
+	if (tmp_dir == NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (ce->window), _("Could not create a temporary folder"));
 		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 		return;
 	}
+	
+	debug (DEBUG_INFO, "temp dir: %s", tmp_dir);
+
+	UNREF (ce->target_tmp_dir)
+	ce->target_tmp_dir = g_file_new_for_path (tmp_dir);
+	g_free (tmp_dir);
 
 	/* compute n_images, n_pages */
 	
@@ -2967,26 +3154,26 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 		
 	parse_theme_files (ce);
 
+	debug (DEBUG_INFO, "thumb size: %dx%d", ce->thumb_width, ce->thumb_height);
+	
 	/* create tmp dir structure */
 	
-	ensure_dir_exists (ce->base_tmp_dir, 0700);
+	ensure_dir_structure (ce, ce->target_tmp_dir);
+
 	
-	if (ce->use_subfolders) {
-		ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->previews);
-		ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->thumbnails);
-		if (ce->copy_images)
-			ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->images);
-		ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->html_images);
-		if (ce->n_pages > 1)
-			ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->html_indexes);
-		ensure_album_dir_exists (ce->base_tmp_dir, ce->ad->theme_files);
-	}
-
-	debug (DEBUG_INFO, "temp dir: %s", ce->base_tmp_dir);
-	debug (DEBUG_INFO, "thumb size: %dx%d", ce->thumb_width, ce->thumb_height);
-
 	/**/
+	
+	/* 
+	 * NOTE: we cannot get rid of these two members 
+	 * since xfer functions have not yet been ported to gio
+	 */
+	g_free (ce->base_tmp_dir);
+	ce->base_tmp_dir = g_file_get_uri (ce->target_tmp_dir);
+	
+	g_free (ce->base_dir);
+	ce->base_dir = g_file_get_uri (ce->target_dir);
 
+	
 	if (ce->iloader != NULL)
 		g_object_unref (ce->iloader);
 

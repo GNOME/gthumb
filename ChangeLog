@@ -1,5 +1,13 @@
 2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/catalog-png-exporter.c:
+	* src/catalog-web-exporter.c:
+	* src/catalog-web-exporter.h:
+	Continuation of the gio migration. Christophe Bisière's updates
+	to the index-image and web-album exporters. Bug #525482.
+
+2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/image-viewer.c: (image_viewer_size_allocate):
 	Make scrollbars go away in zoom-to-fit modes, regression from
 	bug #501512. Patch by Geoffrey Antos <dynamotwain@aim.com>.
