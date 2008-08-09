@@ -1492,6 +1492,7 @@ gth_parsed_doc_print (GList              *document,
 		GthTag     *tag = scan->data;
 		ImageData  *idata;
 		GFile      *file;
+		GFile      *dir;
 		char       *line = NULL;
 		char       *image_src = NULL;
 		char       *unescaped_path = NULL;
@@ -1731,23 +1732,22 @@ gth_parsed_doc_print (GList              *document,
 				break;
 			}
 
-			//FIXME: broken
+			dir = g_file_get_parent (file);
+			
 			relative = (gth_tag_get_var (ce, tag, "relative_path") != 0);
 
 			if (relative)
-				unescaped_path = file_get_relative_path (file, 
-									 relative_to);
+				line = file_get_relative_path (dir, 
+							       relative_to);
 			else
-				unescaped_path = file_get_path (file);
-			
-			line = remove_level_from_path (unescaped_path);
-			g_free (unescaped_path);
+				line = file_get_path (dir);
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
 			else
 				write_markup_escape_line (line, fout);
 
+			g_object_unref (dir);
 			g_object_unref (file);
 			break;
 

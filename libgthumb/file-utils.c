@@ -1683,6 +1683,10 @@ basename_for_display (const char *uri)
  * example 3 : uri      = smb:///xxx/yyy/foo
  *             desturi  = file://hhh/xxx
  *             return   : smb:///xxx/yyy/foo
+ *
+ * example 4 : uri      = file://hhh/xxx
+ *             desturi  = file://hhh/xxx
+ *             return   : ./
  */
 char *
 get_path_relative_to_uri (const char *uri,
@@ -1695,6 +1699,9 @@ get_path_relative_to_uri (const char *uri,
 	char     *result;
 	GString  *relpath;
 
+	if (strcmp (uri, desturi) == 0)
+		return g_strdup ("./");
+	
 	if (strcmp (get_uri_host (uri), get_uri_host (desturi)) != 0)
 		return g_strdup (uri);
 
