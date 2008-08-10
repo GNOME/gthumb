@@ -53,6 +53,7 @@
 #include "gthumb-error.h"
 #include "glib-utils.h"
 #include "gconf-utils.h"
+#include "gfile-utils.h"
 #include "file-utils.h"
 #include "file-data.h"
 #include "pixbuf-utils.h"
@@ -417,99 +418,54 @@ dir_remove (const gchar *path)
 
 
 gboolean
-dir_remove_recursive (const char *uri)
+dir_remove_recursive (const char *path)
 {
-	GList    *files, *dirs;
-	GList    *scan;
-	gboolean  error = FALSE;
-
-	if (! path_is_dir (uri))
+	GFile    *file;
+	gboolean  result;
+	char     *uri;
+	
+	if (path == NULL)
 		return FALSE;
+	
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
+	
+	result = gfile_dir_remove_recursive (file);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-	path_list_new (uri, &files, &dirs);
-
-	for (scan = files; scan; scan = scan->next) {
-		FileData *file = scan->data;
-		if (! file_unlink (file->path)) {
-			g_warning ("Cannot delete %s\n", file->path);
-			error = TRUE;
-		}
-	}
-	file_data_list_free (files);
-
-	for (scan = dirs; scan; scan = scan->next) {
-		char *sub_dir = scan->data;
-		if (! dir_remove_recursive (sub_dir))
-			error = TRUE;
-	}
-	path_list_free (dirs);
-
-	if (! dir_remove (uri))
-		error = TRUE;
-
-	return ! error;
+	return result;
 }
 
 
 gboolean
 local_dir_remove_recursive (const char *path)
 {
-	char     *uri;
-	gboolean  result = FALSE;
-	
-	uri = get_uri_from_local_path (path);
-	result = dir_remove_recursive (uri);
-	g_free (uri);
-	
-	return result;
+	return  dir_remove_recursive (path);
 }
 
 
 gboolean
-ensure_dir_exists (const char *a_path,
+ensure_dir_exists (const char *path,
 		   mode_t      mode)
 {
-	char *path;
-	char *p;
-
-	if (! a_path)
+	GFile    *file;
+	gboolean  result;
+	char     *uri;
+	
+	if (path == NULL)
 		return FALSE;
+	
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
+	
+	result = gfile_ensure_dir_exists (file, mode, NULL);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-	if (path_is_dir (a_path))
-		return TRUE;
-
-	path = g_strdup (a_path);
-
-	p = strstr (path, "://");
-	if (p == NULL)   /* Not a URI */
-		p = path;
-	else  /* Is a URI */
-		p = p + 3;  /* Move p past the :// */
-
-	while (*p != '\0') {
-		p++;
-		if ((*p == '/') || (*p == '\0')) {
-			gboolean end = TRUE;
-
-			if (*p != '\0') {
-				*p = '\0';
-				end = FALSE;
-			}
-
-			if (! path_is_dir (path)) {
-				if (!dir_make (path, mode)) {
-					g_warning ("directory creation failed: %s.", path);
-					g_free (path);
-					return FALSE;
-				}
-			}
-			if (! end) *p = '/';
-		}
-	}
-
-	g_free (path);
-
-	return TRUE;
+	return result;
 }
 
 
@@ -1091,78 +1047,65 @@ path_exists (const char *path)
 gboolean
 path_is_file (const char *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	gboolean          is_file;
-
-	if (! path || ! *path)
+	GFile    *file;
+	gboolean  result;
+	char     *uri;
+	
+	if (path == NULL)
 		return FALSE;
+	
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
+	
+	result = gfile_path_is_file (file);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	is_file = FALSE;
-	if (result == GNOME_VFS_OK)
-		is_file = (info->type == GNOME_VFS_FILE_TYPE_REGULAR);
-
-	gnome_vfs_file_info_unref (info);
-
-	return is_file;
+	return result;
 }
-
 
 gboolean
 path_is_dir (const char *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	gboolean          is_dir;
-
-	if (! path || ! *path)
+	GFile    *file;
+	gboolean  result;
+	char     *uri;
+	
+	if (path == NULL)
 		return FALSE;
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	is_dir = FALSE;
-	if (result == GNOME_VFS_OK)
-		is_dir = (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY);
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
 
-	gnome_vfs_file_info_unref (info);
+	result = gfile_path_is_dir (file);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-	return is_dir;
+	return result;
 }
 
 
 goffset
-get_file_size (const char *uri)
+get_file_size (const char *path)
 {
-        GFile     *file;
-        GFileInfo *info;
-        goffset    size;
-        GError    *err = NULL;
+	GFile    *file;
+	goffset   result;
+	char     *uri;
+	
+	if (path == NULL)
+		return 0;
 
-        if ((uri == NULL) || (*uri == '\0'))
-                return 0;
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
 
-        file = g_file_new_for_uri (uri);
-        info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, &err);
-        if (err == NULL) {
-                size = g_file_info_get_size (info);
-        }
-        else {
-                g_warning ("Failed to get file size for %s: %s", uri, err->message);
-                g_error_free (err);
-        }
+	result = gfile_get_file_size (file);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-        g_object_unref (info);
-        g_object_unref (file);
-
-        return size;
+	return result;
 }
 
 
@@ -2458,68 +2401,24 @@ remove_extension_from_path (const char *path)
 
 /* temp */
 
-
-static const char *try_folder[] = { "~", "tmp", NULL };
-
-
-static const char *
-get_folder_from_try_folder_list (int n)
-{
-        const char *folder;
-
-        folder = try_folder[n];
-        if (strcmp (folder, "~") == 0)
-                folder = g_get_home_dir ();
-        else if (strcmp (folder, "tmp") == 0)
-                folder = g_get_tmp_dir ();
-
-        return folder;
-}
-
+/* Note: callers of get_temp_dir_name seem to expect a path */
 
 char *
 get_temp_dir_name (void)
 {
-        GnomeVFSFileSize  max_size = 0;
-        char             *best_folder = NULL;
-        int               i;
-        char             *template;
-        char             *result = NULL;
-
-        /* find the folder with the bigger free space. */
-
-        for (i = 0; try_folder[i] != NULL; i++) {
-                const char       *folder;
-                char             *uri;
-                GnomeVFSFileSize  size;
-
-                folder = get_folder_from_try_folder_list (i);
-                uri = get_uri_from_local_path (folder);
-
-                size = get_destination_free_space (uri);
-                if (size > max_size) {
-                        max_size = size;
-                        g_free (best_folder);
-                        best_folder = get_local_path_from_uri (uri);
-                }
-                else
-                        g_free (uri);
-        }
-
-	if (best_folder == NULL)
+	GFile *dir;
+	char  *path;
+	
+	dir = gfile_get_temp_dir_name ();
+	
+	if (dir == NULL)
 		return NULL;
-
-        template = g_strconcat (best_folder, "/.gth-XXXXXX", NULL);
-        g_free (best_folder);
-        
-        result = mkdtemp (template);
-
-        if ((result == NULL) || (*result == '\0')) {
-                g_free (template);
-                result = NULL;
-        }
-
-        return result;
+	
+	path = g_file_get_path (dir);
+	
+	g_object_unref (dir);
+	
+	return path;
 }
 
 
@@ -2766,21 +2665,25 @@ _gnome_vfs_write_line (GnomeVFSHandle   *handle,
 }
 
 
-GnomeVFSFileSize
-get_destination_free_space (const char *uri)
+guint64
+get_destination_free_space (const char *path)
 {
-        GnomeVFSURI      *vfs_uri;
-        GnomeVFSResult    result;
-        GnomeVFSFileSize  free_space;
+	GFile    *file;
+	gboolean  result;
+	char     *uri;
+	
+	if (path == NULL)
+		return FALSE;
+	
+	uri = add_scheme_if_absent (path);
+	file = g_file_new_for_uri (uri);
 
-        vfs_uri = gnome_vfs_uri_new (uri);
-        result = gnome_vfs_get_volume_free_space (vfs_uri, &free_space);
-        gnome_vfs_uri_unref (vfs_uri);
+	result = gfile_get_destination_free_space (file);
+	
+	g_free (uri);
+	g_object_unref (file);
 
-        if (result != GNOME_VFS_OK)
-                return (GnomeVFSFileSize) 0;
-        else
-                return free_space;
+	return result;
 }
 
 

@@ -95,10 +95,10 @@ gboolean            dir_is_empty                  (const char       *s);
 gboolean            dir_make                      (const char       *uri,
 						   mode_t            mode);
 gboolean            dir_remove                    (const char       *uri);
-gboolean            dir_remove_recursive          (const char       *uri);
+gboolean            dir_remove_recursive          (const char       *path);
 gboolean            local_dir_remove_recursive    (const char       *path);
 
-gboolean            ensure_dir_exists             (const char       *a_path,
+gboolean            ensure_dir_exists             (const char       *path,
 						   mode_t            mode);
 GList *             dir_list_filter_and_sort      (GList            *dir_list,
 						   gboolean          names_only,
@@ -150,7 +150,7 @@ gboolean            image_is_gif                  (const char       *name);
 gboolean            path_exists                   (const char       *s);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
-goffset             get_file_size                 (const char       *s);
+goffset             get_file_size                 (const char       *path);
 time_t              get_file_mtime                (const char       *s);
 time_t              get_file_ctime                (const char       *s);
 void                set_file_mtime                (const char       *s,
@@ -249,7 +249,7 @@ GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,
 						   ...);
-GnomeVFSFileSize    get_destination_free_space    (const char       *path);
+guint64             get_destination_free_space    (const char       *path);
 const char *        get_mime_type                 (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);

@@ -1,3 +1,33 @@
+2008-08-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (dir_remove_recursive),
+	(local_dir_remove_recursive), (ensure_dir_exists), (path_is_file),
+	(path_is_dir), (get_file_size), (get_temp_dir_name),
+	(get_destination_free_space):
+	* libgthumb/file-utils.h:
+	* libgthumb/gfile-utils.c: (gfile_get_uri), (gfile_get_path),
+	(gfile_warning), (gfile_is_filetype), (gfile_path_is_file),
+	(gfile_path_is_dir), (gfile_get_file_size), (make_directory_tree),
+	(gfile_ensure_dir_exists), (gfile_is_local),
+	(gfile_get_destination_free_space), (gfile_get_home_dir),
+	(gfile_get_tmp_dir), (ith_temp_folder_to_try),
+	(gfile_make_temp_in_dir), (gfile_get_temp_dir_name),
+	(delete_directory_recursive), (gfile_dir_remove_recursive):
+	* libgthumb/gfile-utils.h:
+	* src/catalog-web-exporter.c: (gfile_get_relative_uri),
+	(gfile_get_relative_path), (gth_parsed_doc_print),
+	(export__save_other_files), (save_thumbnail_cb),
+	(save_html_image_cb), (save_html_index_cb),
+	(save_image_preview_cb), (save_resized_image_cb),
+	(export__copy_image), (ensure_album_dir_exists),
+	(ensure_dir_structure), (catalog_web_exporter_export):
+
+	More gfile migration by Christophe Bisière. Bug #525482.
+	The new gfile-only utility functions are going into
+	gfile-utils.[ch]. The old path/uri functions are being reduced
+	to wrappers for the new gfile functions, until they can be
+	purged entirely.
+
 2008-08-09  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (get_path_relative_to_uri):

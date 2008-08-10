@@ -36,6 +36,7 @@
 
 #include "catalog-web-exporter.h"
 #include "comments.h"
+#include "gfile-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "jpegutils/jpeg-data.h"
@@ -87,13 +88,6 @@ extern FILE         *yyin;
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
 
-
-#define UNREF(obj) {				\
-	if (obj != NULL) {			\
-		g_object_unref (obj);		\
-		obj = NULL;			\
-	}					\
-}
 
 /* Default subdirectories.
  * - Used as fallback when gconf values are empty or not accessible
@@ -1100,22 +1094,15 @@ write_markup_escape_locale_line (const char *line, FILE *fout)
 /* GFile to string */
 
 static char *
-file_get_uri (GFile *file)
-{
-	return g_file_get_uri (file);
-}
-
-
-static char *
-file_get_relative_uri (GFile *file, 
-		       GFile *relative_to)
+gfile_get_relative_uri (GFile *file, 
+		        GFile *relative_to)
 {
 	char  *escaped;
 	char  *relative_uri;
 	char  *result;
 	
-	escaped = file_get_uri (file);
-	relative_uri = file_get_uri (relative_to);
+	escaped = gfile_get_uri (file);
+	relative_uri = gfile_get_uri (relative_to);
 	
 	result = get_path_relative_to_uri (escaped, relative_uri);
 	
@@ -1127,32 +1114,19 @@ file_get_relative_uri (GFile *file,
 
 
 static char *
-file_get_path (GFile *file)
-{
-	char  *escaped, *unescaped;
-
-	escaped = g_file_get_path (file);
-	unescaped = g_uri_unescape_string (escaped, NULL);
-	
-	g_free (escaped);
-	
-	return unescaped;
-}
-
-
-static char *
-file_get_relative_path (GFile *file, 
-		        GFile *relative_to)
+gfile_get_relative_path (GFile *file, 
+		         GFile *relative_to)
 {
 	char  *escaped, *unescaped;
 	
-	escaped = file_get_relative_uri (file, relative_to);
+	escaped = gfile_get_relative_uri (file, relative_to);
 	unescaped = g_uri_unescape_string (escaped, NULL);
 
 	g_free (escaped);
 	
 	return unescaped;
 }
+
 
 
 /* build a GFile (helpers) */
@@ -1538,7 +1512,7 @@ gth_parsed_doc_print (GList              *document,
 			file = get_theme_file (ce, 
 					       ce->target_dir,
 					       src);
-			line = file_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_uri (file, relative_to);
 			
 			write_markup_escape_line (line, fout);
 			
@@ -1576,7 +1550,7 @@ gth_parsed_doc_print (GList              *document,
 				break;
 			}
 			
-			image_src = file_get_relative_uri (file, relative_to);
+			image_src = gfile_get_relative_uri (file, relative_to);
 			src_attr = _g_escape_text_for_html (image_src, -1);
 
 			class = gth_tag_get_str (ce, tag, "class");
@@ -1633,7 +1607,7 @@ gth_parsed_doc_print (GList              *document,
 			file = get_html_image_file (ce, 
 						    idata, 
 						    ce->target_dir);
-			line = file_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_uri (file, relative_to);
 			write_markup_escape_line (line, fout);
 
 			g_object_unref (file);
@@ -1686,10 +1660,10 @@ gth_parsed_doc_print (GList              *document,
 			relative = (gth_tag_get_var (ce, tag, "with_relative_path") != 0);
 			
 			if (relative)
-				unescaped_path = file_get_relative_path (file, 
+				unescaped_path = gfile_get_relative_path (file, 
 									 relative_to);
 			else
-				unescaped_path = file_get_path (file);
+				unescaped_path = gfile_get_path (file);
 				
 			
 			if (relative || (gth_tag_get_var (ce, tag, "with_path") != 0)) {
@@ -1737,10 +1711,10 @@ gth_parsed_doc_print (GList              *document,
 			relative = (gth_tag_get_var (ce, tag, "relative_path") != 0);
 
 			if (relative)
-				line = file_get_relative_path (dir, 
+				line = gfile_get_relative_path (dir, 
 							       relative_to);
 			else
-				line = file_get_path (dir);
+				line = gfile_get_path (dir);
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
 				write_markup_escape_locale_line (line, fout);
@@ -1842,7 +1816,7 @@ gth_parsed_doc_print (GList              *document,
 			file = get_html_index_file (ce, 
 						    idx, 
 						    ce->target_dir);
-			line = file_get_relative_uri (file, relative_to);
+			line = gfile_get_relative_uri (file, relative_to);
 			write_markup_escape_line (line, fout);
 
 			g_object_unref (file);
@@ -2227,7 +2201,7 @@ export__save_other_files (CatalogWebExporter *ce)
 			file = get_theme_file (ce, 
 					       ce->target_tmp_dir,
 					       info->name);
-			uri = file_get_uri (file);
+			uri = gfile_get_uri (file);
 			target_uri = gnome_vfs_uri_new (uri);
 			
 			source_uri_list = g_list_prepend (source_uri_list, source_uri);
@@ -2303,7 +2277,7 @@ save_thumbnail_cb (gpointer data)
 		file = get_thumbnail_file (ce, 
 					   idata, 
 					   ce->target_tmp_dir);
-		local_file = file_get_path (file);
+		local_file = gfile_get_path (file);
 		
 		debug (DEBUG_INFO, "save thumbnail: %s", local_file);
 
@@ -2374,7 +2348,7 @@ save_html_image_cb (gpointer data)
 	file = get_html_image_file (ce, 
 				    idata, 
 				    ce->target_tmp_dir);
-	local_file = file_get_path (file);
+	local_file = gfile_get_path (file);
 		
 	debug (DEBUG_INFO, "save html file: %s", local_file);
 
@@ -2456,7 +2430,7 @@ save_html_index_cb (gpointer data)
 				    ce->page, 
 				    ce->target_tmp_dir);
 
-	local_file = file_get_path (file);
+	local_file = gfile_get_path (file);
 
 	debug (DEBUG_INFO, "save html index: %s", local_file);
 
@@ -2584,7 +2558,7 @@ save_image_preview_cb (gpointer data)
 			file = get_preview_file (ce, 
 						 idata, 
 						 ce->target_tmp_dir);
-			local_file = file_get_path (file);
+			local_file = gfile_get_path (file);
 
 			debug (DEBUG_INFO, "saving preview: %s", local_file);
 
@@ -2630,8 +2604,8 @@ save_resized_image_cb (gpointer data)
 			file = get_image_file (ce, 
 					       idata, 
 					       ce->target_tmp_dir);
-			image_uri = file_get_uri (file);
-			local_file = file_get_path (file);
+			image_uri = gfile_get_uri (file);
+			local_file = gfile_get_path (file);
 			
 			debug (DEBUG_INFO, "saving image: %s", local_file);
 
@@ -2683,7 +2657,7 @@ export__copy_image (CatalogWebExporter *ce)
 	file = get_image_file (ce, 
 			       idata, 
 			       ce->target_tmp_dir);
-	uri = file_get_uri (file);
+	uri = gfile_get_uri (file);
 	target_uri = gnome_vfs_uri_new (uri);
 		
 	result = gnome_vfs_xfer_uri (source_uri,
@@ -3051,30 +3025,16 @@ parse_theme_files (CatalogWebExporter *ce)
 }
 
 
-gboolean
-ensure_album_dir_exists_from_file (GFile *dir)
-{
-	char     *uri;
-	gboolean  ok;
-	
-	uri = file_get_uri (dir);
-	ok = ensure_dir_exists (uri, 0700);
-	
-	g_free (uri);
-
-	return ok;
-}
-
-
-gboolean
-ensure_album_dir_exists (GFile *target_dir, const char *subdir)
+static gboolean
+ensure_album_dir_exists (GFile *target_dir, 
+		         const char *subdir)
 {
 	gboolean  ok;
 	GFile    *dir;
 	
 	dir = file_resolve_relative_path (target_dir, subdir);
 	
-	ok = ensure_album_dir_exists_from_file (dir);
+	ok = gfile_ensure_dir_exists (dir, 0700, NULL);
 	
 	g_object_unref (dir);
 
@@ -3082,11 +3042,11 @@ ensure_album_dir_exists (GFile *target_dir, const char *subdir)
 }
 
 
-void
+static void
 ensure_dir_structure (CatalogWebExporter *ce,
 		      GFile              *target_dir)
 {
-	ensure_album_dir_exists_from_file (target_dir);
+	gfile_ensure_dir_exists (target_dir, 0700, NULL);
 	
 	if (ce->use_subfolders) {
 		ensure_album_dir_exists (target_dir, ce->ad->previews);
@@ -3104,8 +3064,6 @@ ensure_dir_structure (CatalogWebExporter *ce,
 void
 catalog_web_exporter_export (CatalogWebExporter *ce)
 {
-	char	*tmp_dir;
-	
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 
 	if ((ce->exporting) || (ce->file_list == NULL))
@@ -3124,19 +3082,21 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 
 	/* get tmp dir */
 
-	tmp_dir = get_temp_dir_name ();
+	UNREF (ce->target_tmp_dir)
+	ce->target_tmp_dir = gfile_get_temp_dir_name ();
 	
-	if (tmp_dir == NULL) {
+	if (ce->target_tmp_dir == NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (ce->window), _("Could not create a temporary folder"));
 		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 		return;
 	}
-	
-	debug (DEBUG_INFO, "temp dir: %s", tmp_dir);
-
-	UNREF (ce->target_tmp_dir)
-	ce->target_tmp_dir = g_file_new_for_path (tmp_dir);
-	g_free (tmp_dir);
+	else {
+		char	*tmp_dir;
+		
+		tmp_dir = gfile_get_path (ce->target_tmp_dir);
+		debug (DEBUG_INFO, "temp dir: %s", tmp_dir);
+		g_free (tmp_dir);
+	}
 
 	/* compute n_images, n_pages */
 	
