@@ -79,6 +79,16 @@ guint64       gfile_get_destination_free_space (GFile      *file);
 GFile *       gfile_get_home_dir               (void);
 GFile *       gfile_get_tmp_dir                (void);
 GFile *       gfile_get_temp_dir_name          (void);
-gboolean      gfile_dir_remove_recursive       (GFile *dir);
+gboolean      gfile_dir_remove_recursive       (GFile      *dir);
+
+/* Xfer */
+
+gboolean      gfile_xfer                       (GFile      *sfile,
+		                                GFile      *dfile,
+		                                gboolean    move);
+gboolean      gfile_copy                       (GFile      *sfile,
+		                                GFile      *dfile);
+gboolean      gfile_move                       (GFile      *sfile,
+		                                GFile      *dfile);
 
 #endif /* GFILE_UTILS_H */

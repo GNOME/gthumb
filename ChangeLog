@@ -1,5 +1,23 @@
 2008-08-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (xfer_file), (file_rename):
+	* libgthumb/file-utils.h:
+	* libgthumb/gfile-utils.c: (gfile_warning),
+	(_empty_file_progress_cb), (gfile_xfer), (gfile_copy),
+	(gfile_move):
+	* libgthumb/gfile-utils.h:
+	* src/dlg-file-utils.c: (dlg_file_rename_series):
+	* src/gth-browser-actions-callbacks.c: (catalog_rename),
+	(folder_rename), (folder_copy__response_cb):
+	More gfile migration by Christophe Bisière. Bug #525482.
+	Migrated simple (synchronous) file transfer bits of code.
+
+	* src/catalog-web-exporter.c: (export__save_other_files),
+	(export__copy_image):
+	Purged more gnome-vfs bits from the web exporter.
+
+2008-08-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (dir_remove_recursive),
 	(ensure_dir_exists), (xfer_file), (local_file_move), (file_rename),
 	(path_is_file), (path_is_dir), (get_file_size),

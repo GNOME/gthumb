@@ -92,7 +92,11 @@ gfile_warning (const char *msg,
 	char *warning;
 	
 	uri = gfile_get_uri (file);
-	warning = g_strdup_printf ("%s: file %s: %s\n", msg, uri, err->message);
+	
+	if (err == NULL)
+		warning = g_strdup_printf ("%s: file %s\n", msg, uri);
+	else
+		warning = g_strdup_printf ("%s: file %s: %s\n", msg, uri, err->message);
 	
 	g_warning (warning);
 	
@@ -517,4 +521,64 @@ gfile_dir_remove_recursive (GFile *dir)
 	}
 
 	return result;
+}
+
+
+/* Xfer */
+
+
+/* empty functions */
+static void _empty_file_progress_cb  (goffset current_num_bytes,
+				      goffset total_num_bytes,
+				      gpointer user_data)
+{
+}
+
+gboolean
+gfile_xfer (GFile    *sfile,
+	    GFile    *dfile,
+	    gboolean  move)
+{
+	GError *error = NULL;
+
+	if (g_file_equal (sfile, dfile)) {
+		gfile_warning ("cannot copy file: source and destination are the same", 
+			       sfile, 
+			       NULL);
+		return FALSE;
+	}
+
+	if (move)
+		g_file_move (sfile, dfile,
+			     G_FILE_COPY_OVERWRITE,
+			     NULL, _empty_file_progress_cb,
+			     NULL, &error);
+	else
+		g_file_copy (sfile, dfile,
+			     G_FILE_COPY_OVERWRITE,
+			     NULL, _empty_file_progress_cb,
+			     NULL, &error);
+	
+	if (error != NULL) {
+		gfile_warning ("error during file copy", sfile, error);
+		g_error_free (error);
+		return FALSE;
+	}
+	
+	return TRUE;
+}
+
+
+gboolean
+gfile_copy (GFile *sfile,
+	    GFile *dfile)
+{
+	return gfile_xfer (sfile, dfile, FALSE);
+}
+
+gboolean
+gfile_move (GFile *sfile,
+	    GFile *dfile)
+{
+	return gfile_xfer (sfile, dfile, TRUE);
 }

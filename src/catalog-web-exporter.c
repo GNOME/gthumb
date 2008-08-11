@@ -2135,56 +2135,94 @@ export__save_other_files__progress_update_cb (GnomeVFSXferProgressInfo *info,
 static void
 export__save_other_files (CatalogWebExporter *ce)
 {
-	GnomeVFSResult  result;
-	GList          *file_list = NULL;
-	char           *uri;
+	GFileEnumerator  *file_enum;
+	GError           *error = NULL;
 		
-	uri = gfile_get_uri (ce->style_dir);
-	result = gnome_vfs_directory_list_load (&file_list, uri, GNOME_VFS_FILE_INFO_DEFAULT);
+	file_enum = g_file_enumerate_children (ce->style_dir,
+					       G_FILE_ATTRIBUTE_STANDARD_NAME ","
+					       G_FILE_ATTRIBUTE_STANDARD_TYPE,
+					       0, NULL, &error);
+
+	if (error != NULL) {
+		gfile_warning ("Cannot enumerate style directory", 
+			       ce->style_dir, 
+			       error);
+		g_error_free (error);
+	}
+	else {
+		GList *source_uri_list = NULL;
+		GList *target_uri_list = NULL;
 		
-	g_free (uri);
-
-	if (result == GNOME_VFS_OK) {
-		GList *scan;
-		GList *source_uri_list = NULL, *target_uri_list =  NULL;
-
-		for (scan = file_list; scan; scan = scan->next) {
-			GnomeVFSFileInfo *info = scan->data;
-			char		 *target_filename, *source_filename;
-			GFile            *source_file, *target_file;
-			GnomeVFSURI	 *source_uri = NULL, *target_uri = NULL;
-
-			if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
-				continue;
-
-			if ((strcmp (info->name, "index.gthtml") == 0)
-			    || (strcmp (info->name, "thumbnail.gthtml") == 0)
-			    || (strcmp (info->name, "image.gthtml") == 0))
-				continue;
-
-			source_file = gfile_append_path (ce->style_dir,
-							 info->name,
-							 NULL);
-			target_file = get_theme_file (ce, 
-					              ce->target_tmp_dir,
-					              info->name);
-
-			source_filename = gfile_get_uri (source_file);
-			source_uri = gnome_vfs_uri_new (source_filename);
+		gboolean enumerate = TRUE;
+		
+		while (enumerate) {
+	
+			GFileInfo        *info;
+	
+			info = g_file_enumerator_next_file (file_enum, NULL, &error);
 			
-			target_filename = gfile_get_uri (target_file);
-			target_uri = gnome_vfs_uri_new (target_filename);
+			/* error during enumeration */
 			
-			source_uri_list = g_list_prepend (source_uri_list, source_uri);
-			target_uri_list = g_list_prepend (target_uri_list, target_uri);
-
-			gfile_debug (DEBUG_INFO, "save file", source_file);
-
-			g_free (source_filename);
-			g_free (target_filename);
-			g_object_unref (source_file);
-			g_object_unref (target_file);
+			if (error != NULL) {
+				gfile_warning ("Error during enumeration of style directory", 
+					       ce->style_dir, 
+					       error);
+				g_error_free (error);
+				enumerate = FALSE;
+			}
+			
+			/* no more files */
+			
+			else if (info == NULL) {
+				enumerate = FALSE;
+			}
+			
+			/* OK, got a file */
+			
+			else {
+				const char       *name;
+				char		 *target_filename, *source_filename;
+				GFile            *source_file, *target_file;
+				GnomeVFSURI	 *source_uri = NULL, *target_uri = NULL;
+				
+				if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
+					continue;
+		
+				name = g_file_info_get_name (info);
+				
+				if ((strcmp (name, "index.gthtml") == 0)
+				    || (strcmp (name, "thumbnail.gthtml") == 0)
+				    || (strcmp (name, "image.gthtml") == 0))
+					continue;
+		
+				source_file = gfile_append_path (ce->style_dir,
+								 name,
+								 NULL);
+				target_file = get_theme_file (ce, 
+							      ce->target_tmp_dir,
+							      name);
+		
+				source_filename = gfile_get_uri (source_file);
+				source_uri = gnome_vfs_uri_new (source_filename);
+				
+				target_filename = gfile_get_uri (target_file);
+				target_uri = gnome_vfs_uri_new (target_filename);
+				
+				source_uri_list = g_list_prepend (source_uri_list, source_uri);
+				target_uri_list = g_list_prepend (target_uri_list, target_uri);
+		
+				gfile_debug (DEBUG_INFO, "save file", source_file);
+		
+				g_free (source_filename);
+				g_free (target_filename);
+				g_object_unref (source_file);
+				g_object_unref (target_file);
+				
+				g_object_unref (info);
+			}
 		}
+		
+		g_object_unref (file_enum);
 		
 		if (source_uri_list != NULL) {
 			
@@ -2196,14 +2234,14 @@ export__save_other_files (CatalogWebExporter *ce)
 			xfer_options    = 0;
 			xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
 			overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
-
+	
 			result = gnome_vfs_xfer_uri_list (source_uri_list,
-				       			  target_uri_list,
+							  target_uri_list,
 							  xfer_options,
 							  xfer_error_mode,
 							  overwrite_mode,
 							  export__save_other_files__progress_update_cb,
-				 			  ce);
+							  ce);
 		}
 		
 		if (source_uri_list != NULL)
@@ -2211,9 +2249,6 @@ export__save_other_files (CatalogWebExporter *ce)
 		if (target_uri_list != NULL)
 			gnome_vfs_uri_list_free (target_uri_list);
 	}
-
-	if (file_list != NULL)
-		gnome_vfs_file_info_list_free (file_list);
 }
 
 
@@ -2606,12 +2641,10 @@ save_resized_image_cb (gpointer data)
 static void
 export__copy_image (CatalogWebExporter *ce)
 {
-	ImageData                 *idata;
-	GFile                     *file;
-	char                      *uri;
-	GnomeVFSURI               *source_uri = NULL;
-	GnomeVFSURI               *target_uri = NULL;
-	GnomeVFSResult             result;
+	ImageData  *idata;
+	GFile      *sfile;
+	GFile      *dfile;
+	gboolean    copy_done;
 
 	/* This function is used when "Copy originals to destination" is
 	   enabled, and resizing is NOT enabled. This allows us to use a
@@ -2622,26 +2655,18 @@ export__copy_image (CatalogWebExporter *ce)
 
 	idata = ce->file_to_load->data;
 
-	source_uri = gnome_vfs_uri_new (idata->src_file->path);
+	sfile = gfile_new (idata->src_file->path);
 	
-	file = get_image_file (ce, 
-			       idata, 
-			       ce->target_tmp_dir);
-	uri = gfile_get_uri (file);
-	target_uri = gnome_vfs_uri_new (uri);
+	dfile = get_image_file (ce, 
+			        idata, 
+			        ce->target_tmp_dir);
 		
-	result = gnome_vfs_xfer_uri (source_uri,
-				     target_uri,
-				     GNOME_VFS_XFER_DEFAULT,
-				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				     NULL,
-				     NULL);
+	copy_done = gfile_copy (sfile, dfile);
 
-	gnome_vfs_uri_unref (source_uri);
-	gnome_vfs_uri_unref (target_uri);
-
-	if (result == GNOME_VFS_OK) {
+	if (copy_done) {
+		char *uri;
+		uri = gfile_get_uri (dfile);
+		
 		if (image_is_jpeg (uri)) {
 			GthTransform  transform;
 		
@@ -2658,10 +2683,11 @@ export__copy_image (CatalogWebExporter *ce)
 
 			file_data_unref (fd);
 		}
+		g_free (uri);
 	}
 	
-	g_object_unref (file);
-	g_free (uri);
+	g_object_unref (sfile);
+	g_object_unref (dfile);
 	
 	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
 					    save_image_preview_cb,

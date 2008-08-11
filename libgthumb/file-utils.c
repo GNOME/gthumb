@@ -68,12 +68,6 @@
 #define CHUNK_SIZE 128
 #define MAX_SYMLINKS_FOLLOWED 32
 
-/* empty functions */
-static void _empty_file_progress_cb  (goffset current_num_bytes,
-				      goffset total_num_bytes,
-				      gpointer user_data)
-{
-}
 
 /* Async directory list */
 
@@ -737,35 +731,19 @@ xfer_file (const char *from,
 	   const char *to,
 	   gboolean    move)
 {
-	GError        *ioerror = NULL;
-	GFile         *sfile, *dfile;
-
-	if (same_uri (from, to)) {
-		g_warning ("cannot copy file %s: source and destination are the same\n", from);
-		return FALSE;
-	}
+	GFile      *sfile;
+	GFile      *dfile;
+	gboolean    result;
 
 	sfile = gfile_new (from);
 	dfile = gfile_new (to);
-	if (move)
-		g_file_move (sfile, dfile,
-			     G_FILE_COPY_OVERWRITE,
-			     NULL, _empty_file_progress_cb,
-			     NULL, &ioerror);
-	else
-		g_file_copy (sfile, dfile,
-			     G_FILE_COPY_OVERWRITE,
-			     NULL, _empty_file_progress_cb,
-			     NULL, &ioerror);
+	
+	result = gfile_xfer (sfile, dfile, move);
 
 	g_object_unref (sfile);
 	g_object_unref (dfile);
 	
-	if (ioerror) {
-		g_error_free (ioerror);
-		return FALSE;
-	} else
-		return TRUE;
+	return result;
 }
 
 
@@ -792,29 +770,11 @@ local_file_move (const char *from,
 	return xfer_file (from, to, TRUE);
 }
 
-
-gboolean 
-file_rename (const char  *old_path,
-	     const char  *new_path,
-	     GError     **error)
+gboolean
+file_rename (const char *from,
+	     const char *to)
 {
-	GFile *sfile, *dfile;
-	GError *err = NULL;
-	gboolean result;
-	sfile = gfile_new (old_path);
-	dfile = gfile_new (new_path);
-
-	result = g_file_move (sfile, dfile,
-                              G_FILE_COPY_OVERWRITE,
-                              NULL,
-			      _empty_file_progress_cb,
-			      NULL, &err);
-	if (err)
-		g_propagate_error (error, err);
-	
-	g_object_unref (sfile);
-	g_object_unref (dfile);
-	return result;
+	return xfer_file (from, to, TRUE);
 }
 
 

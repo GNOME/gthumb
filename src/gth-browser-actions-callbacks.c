@@ -509,7 +509,7 @@ catalog_rename (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 	} 
-	else if (file_rename (catalog_path, new_catalog_path, NULL)) {
+	else if (file_rename (catalog_path, new_catalog_path)) {
 		all_windows_notify_catalog_rename (catalog_path,
 						   new_catalog_path);
 	} 
@@ -1031,14 +1031,14 @@ folder_rename (GtkWindow  *window,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_rename (old_path, new_path, NULL);
+		result = file_rename (old_path, new_path);
 		if (result) {
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_rename (old_folder_comment, new_folder_comment, NULL);
+			file_rename (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1341,7 +1341,7 @@ folder_copy__response_cb (GObject *object,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_rename (old_path, new_path, NULL);
+		result = file_rename (old_path, new_path);
 		if (result) {
 			char *new_folder_comment;
 
@@ -1349,7 +1349,7 @@ folder_copy__response_cb (GObject *object,
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_rename (old_folder_comment, new_folder_comment, NULL);
+			file_rename (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
