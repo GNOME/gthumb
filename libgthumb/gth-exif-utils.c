@@ -436,7 +436,7 @@ update_and_save_metadata (const char *uri_src,
 	write_metadata (from_local_file, to_local_file, metadata);
 
 	if (!to_is_local) {
-		remote_copy_ok = copy_cache_file_to_remote_uri (to_local_file, uri_dest);
+		remote_copy_ok = file_copy (to_local_file, uri_dest);
 
 		if (remote_copy_ok == TRUE) {
 			gnome_vfs_set_file_info (uri_dest,

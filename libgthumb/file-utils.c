@@ -2940,25 +2940,12 @@ obtain_local_file (const char *remote_filename)
 		return NULL;
 
 	if (! path_exists (cache_file) || (get_file_mtime (cache_file) < get_file_mtime (remote_filename))) {
-		GnomeVFSURI    *source_uri = gnome_vfs_uri_new (remote_filename);
-		GnomeVFSURI    *target_uri = gnome_vfs_uri_new (cache_file);
-		GnomeVFSResult  result;
-	
-		/* delete some files if space is running out */
-		/*check_cache_space ();*/
+		
+		gboolean result;
+		
+		result = file_copy (remote_filename, cache_file);
 
-		/* Move a new file into the cache. */
-		result = gnome_vfs_xfer_uri (source_uri, target_uri,
-					     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-					     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-					     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-					     NULL,
-					     NULL);
-
-		gnome_vfs_uri_unref (source_uri);
-		gnome_vfs_uri_unref (target_uri);
-
-		if (result != GNOME_VFS_OK) {
+		if (! result) {
 			g_free (cache_file);
        			return NULL;
 		}
@@ -2975,33 +2962,6 @@ obtain_local_file (const char *remote_filename)
 	g_free (command);
 
 	return local_file;
-}
-
-
-gboolean
-copy_cache_file_to_remote_uri (const char *local_filename,
-			       const char *dest_uri)
-{
-	/* make a remote copy of a local cache file */
-
-	GnomeVFSURI    *source_uri;
-	GnomeVFSURI    *target_uri;
-	GnomeVFSResult  result;
-
-	source_uri = gnome_vfs_uri_new (local_filename);
-	target_uri = gnome_vfs_uri_new (dest_uri);
-
-	result = gnome_vfs_xfer_uri (source_uri, target_uri,
-				     GNOME_VFS_XFER_DEFAULT | GNOME_VFS_XFER_FOLLOW_LINKS,
-				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				     NULL,
-				     NULL);
-
-	gnome_vfs_uri_unref (target_uri);
-	gnome_vfs_uri_unref (source_uri);
-
-	return (result == GNOME_VFS_OK);
 }
 
 

@@ -268,8 +268,6 @@ CopyData *          update_file_from_cache        (FileData         *file,
 						   CopyDoneFunc      done_func,
 						   gpointer          done_data);
 char* 		    obtain_local_file             (const char       *remote_filename);
-gboolean	    copy_cache_file_to_remote_uri (const char       *local_filename,
-                                                   const char       *dest_uri);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */

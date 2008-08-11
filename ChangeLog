@@ -1,5 +1,13 @@
 2008-08-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (obtain_local_file):
+	* libgthumb/file-utils.h:
+	* libgthumb/gth-exif-utils.c: (update_and_save_metadata):
+	More gfile migration by Christophe Bisière. Bug #525482.
+	Replace gnome_vfs_xfer_uri with file_copy in the local cache code.
+
+2008-08-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (xfer_file), (file_rename):
 	* libgthumb/file-utils.h:
 	* libgthumb/gfile-utils.c: (gfile_warning),
