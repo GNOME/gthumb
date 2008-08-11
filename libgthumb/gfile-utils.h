@@ -24,6 +24,7 @@
 #define GFILE_UTILS_H
 
 #include <gio/gio.h>
+#include "glib-utils.h"
 
 
 #define UNREF(obj) {				\
@@ -42,13 +43,29 @@
 char *        gfile_get_uri                    (GFile *file);
 char *        gfile_get_path                   (GFile *file);
 
-/* Warning */
+/* Debug */
 
+void          gfile_debug                      (const char *cfile,
+					        int         line,
+						const char *function,
+						const char *msg,
+	                                        GFile      *file);
 void          gfile_warning                    (const char *msg,
 	                                        GFile      *file,
 	                                        GError     *err);
+/* Constructors */
+
+GFile *       gfile_new                        (const char *path);
+GFile *       gfile_new_va                     (const char *path,
+                                                ...);
+
 /* File utils */
 
+GFile *       gfile_append_path                (GFile      *dir,
+		                                const char *path,
+                                                ...);
+
+gboolean      gfile_is_local                   (GFile      *file);
 gboolean      gfile_path_is_file               (GFile      *file);
 gboolean      gfile_path_is_dir                (GFile      *file);
 goffset       gfile_get_file_size              (GFile      *file);
@@ -59,6 +76,8 @@ gboolean      gfile_ensure_dir_exists          (GFile      *dir,
 			                        mode_t      mode,
 			                        GError    **error);
 guint64       gfile_get_destination_free_space (GFile      *file);
+GFile *       gfile_get_home_dir               (void);
+GFile *       gfile_get_tmp_dir                (void);
 GFile *       gfile_get_temp_dir_name          (void);
 gboolean      gfile_dir_remove_recursive       (GFile *dir);
 

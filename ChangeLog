@@ -1,3 +1,25 @@
+2008-08-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (dir_remove_recursive),
+	(ensure_dir_exists), (xfer_file), (local_file_move), (file_rename),
+	(path_is_file), (path_is_dir), (get_file_size),
+	(get_destination_free_space):
+	* libgthumb/gfile-utils.c: (gfile_debug), (gfile_warning),
+	(gfile_new), (gfile_new_va), (gfile_append_path), (gfile_is_local),
+	(gfile_get_home_dir), (gfile_get_tmp_dir),
+	(gfile_make_temp_in_dir):
+	* libgthumb/gfile-utils.h:
+	* src/catalog-web-exporter.c: (gfile_get_style_dir),
+	(catalog_web_exporter_finalize), (catalog_web_exporter_init),
+	(catalog_web_exporter_set_style),
+	(catalog_web_exporter_set_location), (get_album_file),
+	(get_image_file), (export__save_other_files), (parse_theme_files),
+	(ensure_album_dir_exists), (catalog_web_exporter_export):
+	* src/catalog-web-exporter.h:
+	More gfile migration by Christophe Bisière. Bug #525482. Most
+	notably, added gfile_new and gfile_new_va to elegantly construct
+	gfiles from paths / uris.
+
 2008-08-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/file-utils.c: (dir_remove_recursive),

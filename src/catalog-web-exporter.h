@@ -63,7 +63,7 @@ struct _CatalogWebExporter {
 
 	char         *header;
 	char         *footer;
-	char         *style;
+	GFile        *style_dir;
 
 	int           page_rows;              /* Number of rows and columns
 	 				       * each page must have. */

@@ -301,6 +301,43 @@ album_dirs_set (AlbumDirs *ad)
 }
 
 
+static GFile *
+gfile_get_style_dir (CatalogWebExporter *ce,
+		     const char         *style)
+{
+	GFile *dir;
+	GFile *style_dir;
+
+	if (style == NULL)
+		return NULL;
+	
+	dir = gfile_get_home_dir ();
+	style_dir = gfile_append_path (dir,
+			               ".gnome2",
+			               "gthumb",
+			               "albumthemes",
+			               style,
+			               NULL);
+ 	g_object_unref (dir);
+ 	
+	if (! gfile_path_is_dir (style_dir)) {
+		g_object_unref (style_dir);
+
+		style_dir = gfile_new_va (GTHUMB_DATADIR,
+				          "gthumb",
+				          "albumthemes",
+				          style,
+				          NULL);
+		if (! gfile_path_is_dir (style_dir)) {
+			g_object_unref (style_dir);
+			style_dir = NULL;
+		}
+	}
+
+	return style_dir;
+}
+
+
 static void
 catalog_web_exporter_finalize (GObject *object)
 {
@@ -316,8 +353,7 @@ catalog_web_exporter_finalize (GObject *object)
 	g_free (ce->footer);
 	ce->footer = NULL;
 
-	g_free (ce->style);
-	ce->style = NULL;
+	UNREF (ce->style_dir)
 
 	g_free (ce->base_dir);     /* NOTE: gio port: get rid of these two */
 	g_free (ce->base_tmp_dir);
@@ -406,7 +442,7 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 {
 	ce->header = NULL;
 	ce->footer = NULL;
-	ce->style = NULL;
+	ce->style_dir = NULL;
 
 	ce->base_dir = NULL;     /* NOTE: gio port: get rid of these two */
 	ce->base_tmp_dir = NULL;
@@ -518,8 +554,8 @@ catalog_web_exporter_set_style (CatalogWebExporter *ce,
 				const char         *style)
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
-	g_free (ce->style);
-	ce->style = g_strdup (style);
+	UNREF (ce->style_dir)
+	ce->style_dir = gfile_get_style_dir (ce, style);
 }
 
 
@@ -529,7 +565,7 @@ catalog_web_exporter_set_location (CatalogWebExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 	UNREF (ce->target_dir)
-	ce->target_dir = g_file_new_for_uri (location);
+	ce->target_dir = gfile_new (location);
 }
 
 
@@ -1128,42 +1164,7 @@ gfile_get_relative_path (GFile *file,
 }
 
 
-
-/* build a GFile (helpers) */
-
-GFile *
-file_resolve_relative_path (GFile	*file,
-			    const char  *relative_path)
-{
-	GFile *result;
-	
-	if (relative_path != NULL)
-		result = g_file_resolve_relative_path (file, relative_path);
-	else
-		result = g_file_dup (file);
-	
-	return result;
-}
-
-
-GFile *
-get_filename (GFile              *dir,
-	      const char         *subdir,
-	      const char         *filename)
-{
-	GFile *file, *result;
-	
-	file = file_resolve_relative_path (dir, subdir);
-	result = file_resolve_relative_path (file, filename);
-
-	g_object_unref (file);
-	
-	return result;
-}
-
-
-/* build a GFile for a CatalogWebExporter */
-
+/* construct a GFile for a CatalogWebExporter */
 
 GFile *
 get_album_file (CatalogWebExporter *ce,
@@ -1171,9 +1172,19 @@ get_album_file (CatalogWebExporter *ce,
 		const char         *subdir,
 		const char         *filename)
 {
-	return get_filename (target_dir, 
-			     (ce->use_subfolders ? subdir : NULL),
-			     filename);
+
+	GFile *dir, *file;
+
+	dir = gfile_append_path (target_dir, 
+			         (ce->use_subfolders ? subdir : NULL),
+			         NULL);
+	file = gfile_append_path (dir, 
+				  filename,
+				  NULL);
+
+	g_object_unref (dir);
+
+	return file;
 }
 
 
@@ -1293,7 +1304,7 @@ get_image_file (CatalogWebExporter *ce,
 		g_free (escaped);
 
 	} else {
-		result = g_file_new_for_uri (idata->src_file->path);
+		result = gfile_new (idata->src_file->path);
 	}
 	
 	return result;
@@ -2099,46 +2110,6 @@ export__copy_to_destination (gpointer data)
 }
 
 
-static char *
-get_style_dir (CatalogWebExporter *ce)
-{
-	char *path;
-	char *uri;
-	char *style_dir;
-
-	style_dir = g_uri_unescape_string (ce->style, NULL);
-	
-	path = g_build_filename (g_get_home_dir (),
-			         ".gnome2",
-			         "gthumb",
-			         "albumthemes",
-			         style_dir,
-			         NULL);
-	uri = get_uri_from_local_path (path);
- 	g_free (path);
-
-	if (!path_is_dir (uri)) {
-		g_free (uri);
-
-		path = g_build_filename (GTHUMB_DATADIR,
-				         "gthumb",
-				         "albumthemes",
-				         style_dir,
-				         NULL);
-		uri = get_uri_from_local_path (path);
- 		g_free (path);
-
-		if (!path_is_dir (uri)) {
-			g_free (uri);
-			uri = NULL;
-		}
-	}
-
-	g_free (style_dir);
-	return uri;
-}
-
-
 static int
 export__save_other_files__progress_update_cb (GnomeVFSXferProgressInfo *info,
 					      gpointer                  data)
@@ -2166,14 +2137,12 @@ export__save_other_files (CatalogWebExporter *ce)
 {
 	GnomeVFSResult  result;
 	GList          *file_list = NULL;
-	char           *source_dir;
-
-	source_dir = get_style_dir (ce);
-
-	if (source_dir != NULL)
-		result = gnome_vfs_directory_list_load (&file_list, source_dir, GNOME_VFS_FILE_INFO_DEFAULT);
-	else
-		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
+	char           *uri;
+		
+	uri = gfile_get_uri (ce->style_dir);
+	result = gnome_vfs_directory_list_load (&file_list, uri, GNOME_VFS_FILE_INFO_DEFAULT);
+		
+	g_free (uri);
 
 	if (result == GNOME_VFS_OK) {
 		GList *scan;
@@ -2181,8 +2150,8 @@ export__save_other_files (CatalogWebExporter *ce)
 
 		for (scan = file_list; scan; scan = scan->next) {
 			GnomeVFSFileInfo *info = scan->data;
-			char		 *source_filename, *uri;
-			GFile            *file;
+			char		 *target_filename, *source_filename;
+			GFile            *source_file, *target_file;
 			GnomeVFSURI	 *source_uri = NULL, *target_uri = NULL;
 
 			if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY)
@@ -2193,25 +2162,28 @@ export__save_other_files (CatalogWebExporter *ce)
 			    || (strcmp (info->name, "image.gthtml") == 0))
 				continue;
 
-			source_filename = g_build_filename (source_dir,
-							    info->name,
-							    NULL);
-			source_uri = new_uri_from_path (source_filename);
+			source_file = gfile_append_path (ce->style_dir,
+							 info->name,
+							 NULL);
+			target_file = get_theme_file (ce, 
+					              ce->target_tmp_dir,
+					              info->name);
+
+			source_filename = gfile_get_uri (source_file);
+			source_uri = gnome_vfs_uri_new (source_filename);
 			
-			file = get_theme_file (ce, 
-					       ce->target_tmp_dir,
-					       info->name);
-			uri = gfile_get_uri (file);
-			target_uri = gnome_vfs_uri_new (uri);
+			target_filename = gfile_get_uri (target_file);
+			target_uri = gnome_vfs_uri_new (target_filename);
 			
 			source_uri_list = g_list_prepend (source_uri_list, source_uri);
 			target_uri_list = g_list_prepend (target_uri_list, target_uri);
 
-			debug (DEBUG_INFO, "save file: %s", source_filename);
+			gfile_debug (DEBUG_INFO, "save file", source_file);
 
 			g_free (source_filename);
-			g_free (uri);
-			g_object_unref (file);
+			g_free (target_filename);
+			g_object_unref (source_file);
+			g_object_unref (target_file);
 		}
 		
 		if (source_uri_list != NULL) {
@@ -2242,8 +2214,6 @@ export__save_other_files (CatalogWebExporter *ce)
 
 	if (file_list != NULL)
 		gnome_vfs_file_info_list_free (file_list);
-	g_free (source_dir);
-
 }
 
 
@@ -2853,30 +2823,25 @@ image_loader_error (ImageLoader *iloader,
 static void
 parse_theme_files (CatalogWebExporter *ce)
 {
-	char  *style_dir;
-	char  *template_uri;
+	GFile *template;
 	char  *local_file;
 	GList *scan;
 
 	free_parsed_docs (ce);
-
-	style_dir = get_style_dir (ce);
-
-	debug (DEBUG_INFO, "style dir: %s", style_dir);
 
 	ce->image = 0;
 
 	/* read and parse index.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = build_uri (style_dir, 
-				  "index.gthtml",
-				  NULL);
-	local_file = get_local_path_from_uri (template_uri);
-
-	debug (DEBUG_INFO, "load %s", local_file);
-
+	template = gfile_append_path (ce->style_dir, 
+				      "index.gthtml",
+				      NULL);
+	gfile_debug (DEBUG_INFO, "load", template);
+	
+	local_file = gfile_get_path (template);
 	yyin = fopen (local_file, "r");
+	
 	if ((yyin != NULL) && (yyparse () == 0))
 		ce->index_parsed = yy_parsed_doc;
 	else
@@ -2890,20 +2855,20 @@ parse_theme_files (CatalogWebExporter *ce)
 		ce->index_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_free (template_uri);
+	g_object_unref (template);
 	g_free (local_file);
 
 	/* read and parse thumbnail.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = build_uri (style_dir, 
-				  "thumbnail.gthtml",
-				  NULL);
-	local_file = get_local_path_from_uri (template_uri);
+	template = gfile_append_path (ce->style_dir, 
+				      "thumbnail.gthtml",
+				      NULL);
+	gfile_debug (DEBUG_INFO, "load", template);
 	
-	debug (DEBUG_INFO, "load %s", local_file);
- 
+	local_file = gfile_get_path (template);
 	yyin = fopen (local_file, "r");
+	
 	if ((yyin != NULL) && (yyparse () == 0))
 		ce->thumbnail_parsed = yy_parsed_doc;
 	else
@@ -2932,20 +2897,20 @@ parse_theme_files (CatalogWebExporter *ce)
 		ce->thumbnail_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_free (template_uri);
+	g_object_unref (template);
 	g_free (local_file);
 
 	/* Read and parse image.gthtml */
 
 	yy_parsed_doc = NULL;
-	template_uri = build_uri (style_dir, 
-				  "image.gthtml",
-				  NULL);
-	local_file = get_local_path_from_uri (template_uri);
+	template = gfile_append_path (ce->style_dir, 
+				      "image.gthtml",
+				      NULL);
+	gfile_debug (DEBUG_INFO, "load", template);
 	
-	debug (DEBUG_INFO, "load %s", local_file);
-	
+	local_file = gfile_get_path (template);	
 	yyin = fopen (local_file, "r");
+	
 	if ((yyin != NULL) && (yyparse () == 0))
 		ce->image_parsed = yy_parsed_doc;
 	else
@@ -2974,10 +2939,9 @@ parse_theme_files (CatalogWebExporter *ce)
 		ce->image_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_free (template_uri);
+	g_object_unref (template);
 	g_free (local_file);
-	g_free (style_dir);
-
+	
 	/* read index.html and set variables. */
 
 	for (scan = ce->index_parsed; scan; scan = scan->next) {
@@ -3032,7 +2996,7 @@ ensure_album_dir_exists (GFile *target_dir,
 	gboolean  ok;
 	GFile    *dir;
 	
-	dir = file_resolve_relative_path (target_dir, subdir);
+	dir = gfile_append_path (target_dir, subdir, NULL);
 	
 	ok = gfile_ensure_dir_exists (dir, 0700, NULL);
 	
@@ -3070,6 +3034,20 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 		return;
 	ce->exporting = TRUE;
 
+	/* 
+	 * check that the style directory is not NULL. A NULL indicates that
+	 * the folder of the selected style has been deleted or renamed 
+	 * before the user started the export. It is unlikely.
+	 */
+	
+	if (ce->style_dir == NULL) {
+		_gtk_error_dialog_run (GTK_WINDOW (ce->window), _("Could not find the style folder"));
+		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
+		return;
+	}
+	
+	gfile_debug (DEBUG_INFO, "style dir", ce->style_dir);
+	
 	/* get index file name and subdirs from gconf (hidden prefs) */
 
 	g_free (ce->index_file);
@@ -3090,14 +3068,9 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 		return;
 	}
-	else {
-		char	*tmp_dir;
-		
-		tmp_dir = gfile_get_path (ce->target_tmp_dir);
-		debug (DEBUG_INFO, "temp dir: %s", tmp_dir);
-		g_free (tmp_dir);
-	}
-
+	
+	gfile_debug (DEBUG_INFO, "temp dir", ce->target_tmp_dir);
+	
 	/* compute n_images, n_pages */
 	
 	ce->n_images = g_list_length (ce->file_list);
@@ -3111,7 +3084,7 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	}
 
 	/* parse .gthtml files */
-		
+
 	parse_theme_files (ce);
 
 	debug (DEBUG_INFO, "thumb size: %dx%d", ce->thumb_width, ce->thumb_height);

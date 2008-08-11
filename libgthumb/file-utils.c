@@ -422,17 +422,14 @@ dir_remove_recursive (const char *path)
 {
 	GFile    *file;
 	gboolean  result;
-	char     *uri;
 	
 	if (path == NULL)
 		return FALSE;
 	
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 	
 	result = gfile_dir_remove_recursive (file);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;
@@ -452,17 +449,14 @@ ensure_dir_exists (const char *path,
 {
 	GFile    *file;
 	gboolean  result;
-	char     *uri;
 	
 	if (path == NULL)
 		return FALSE;
 	
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 	
 	result = gfile_ensure_dir_exists (file, mode, NULL);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;
@@ -743,7 +737,6 @@ xfer_file (const char *from,
 	   const char *to,
 	   gboolean    move)
 {
-	GnomeVFSURI   *from_uri, *to_uri;
 	GError        *ioerror = NULL;
 	GFile         *sfile, *dfile;
 
@@ -752,11 +745,8 @@ xfer_file (const char *from,
 		return FALSE;
 	}
 
-	from_uri = new_uri_from_path (from);
-	to_uri = new_uri_from_path (to);
-
-	sfile = g_file_new_for_uri (gnome_vfs_uri_get_path (from_uri));
-	dfile = g_file_new_for_uri (gnome_vfs_uri_get_path (to_uri));
+	sfile = gfile_new (from);
+	dfile = gfile_new (to);
 	if (move)
 		g_file_move (sfile, dfile,
 			     G_FILE_COPY_OVERWRITE,
@@ -770,8 +760,6 @@ xfer_file (const char *from,
 
 	g_object_unref (sfile);
 	g_object_unref (dfile);
-	g_free (from_uri);
-	g_free (to_uri);
 	
 	if (ioerror) {
 		g_error_free (ioerror);
@@ -801,32 +789,20 @@ gboolean
 local_file_move (const char *from,
 	         const char *to)
 {
-	char     *from_uri;
-	char     *to_uri;
-	gboolean  result;
-	
-	from_uri = get_uri_from_local_path (from);
-	to_uri = get_uri_from_local_path (to);
-	
-	result = xfer_file (from_uri, to_uri, TRUE);
-	
-	g_free (from_uri);
-	g_free (to_uri);
-	
-	return result;
+	return xfer_file (from, to, TRUE);
 }
 
 
 gboolean 
-file_rename (const char *old_path,
-	     const char *new_path,
-	     GError **error)
+file_rename (const char  *old_path,
+	     const char  *new_path,
+	     GError     **error)
 {
 	GFile *sfile, *dfile;
 	GError *err = NULL;
 	gboolean result;
-	sfile = g_file_new_for_uri (old_path);
-	dfile = g_file_new_for_uri (new_path);
+	sfile = gfile_new (old_path);
+	dfile = gfile_new (new_path);
 
 	result = g_file_move (sfile, dfile,
                               G_FILE_COPY_OVERWRITE,
@@ -1049,17 +1025,14 @@ path_is_file (const char *path)
 {
 	GFile    *file;
 	gboolean  result;
-	char     *uri;
 	
 	if (path == NULL)
 		return FALSE;
 	
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 	
 	result = gfile_path_is_file (file);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;
@@ -1070,17 +1043,14 @@ path_is_dir (const char *path)
 {
 	GFile    *file;
 	gboolean  result;
-	char     *uri;
 	
 	if (path == NULL)
 		return FALSE;
 
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 
 	result = gfile_path_is_dir (file);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;
@@ -1092,17 +1062,14 @@ get_file_size (const char *path)
 {
 	GFile    *file;
 	goffset   result;
-	char     *uri;
 	
 	if (path == NULL)
 		return 0;
 
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 
 	result = gfile_get_file_size (file);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;
@@ -2670,17 +2637,14 @@ get_destination_free_space (const char *path)
 {
 	GFile    *file;
 	gboolean  result;
-	char     *uri;
 	
 	if (path == NULL)
-		return FALSE;
+		return 0;
 	
-	uri = add_scheme_if_absent (path);
-	file = g_file_new_for_uri (uri);
+	file = gfile_new (path);
 
 	result = gfile_get_destination_free_space (file);
 	
-	g_free (uri);
 	g_object_unref (file);
 
 	return result;

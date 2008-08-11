@@ -22,6 +22,7 @@
 
 
 #include <stdlib.h>
+#include <string.h>
 #include <glib.h>
 
 #include "gfile-utils.h"
@@ -56,7 +57,31 @@ gfile_get_path (GFile *file)
 }
 
 
-/* warning about a GFile */
+/* Debug */
+
+void 
+gfile_debug (const char *cfile,
+	     int         line,
+	     const char *function,
+	     const char *msg,
+	     GFile      *file)
+{
+	char *uri;
+	char *dbg;
+	
+	if (file == NULL)
+		uri = g_strdup ("(null)");
+	else
+		uri = gfile_get_uri (file);
+	
+	dbg = g_strdup_printf ("%s: %s\n", msg, uri);
+	
+	debug (cfile, line, function, dbg);
+	
+        g_free (uri);
+        g_free (dbg);
+}
+
 
 void 
 gfile_warning (const char *msg,
@@ -72,10 +97,103 @@ gfile_warning (const char *msg,
 	g_warning (warning);
 	
         g_free (uri);
+        g_free (warning);
+}
+
+
+/* Constructor enforcing the "uri only" GFile policy */
+
+GFile *
+gfile_new (const char *path)
+{
+	GFile *file;
+	char  *uri;
+	
+	g_assert (path != NULL);
+	
+	if (strstr (path, "://") == NULL)
+		uri = g_strconcat ("file://", path, NULL);
+	else
+		uri = g_strdup (path);
+
+	file = g_file_new_for_uri (uri);
+	
+	g_free (uri);
+	
+	return file;
+}
+
+
+GFile *
+gfile_new_va (const char *path,
+              ...)
+{
+	va_list  args;
+	GFile   *file;
+	char    *pathx;
+	
+	g_assert (path != NULL);
+	
+	file = gfile_new (path);
+	
+	va_start (args, path);
+	
+	while ((pathx = va_arg (args, char*)) != NULL) {
+		GFile *tmp;
+		
+		tmp = g_file_dup (file);
+		g_object_unref (file);
+		
+		file = g_file_resolve_relative_path (tmp, pathx);
+		g_object_unref (tmp);
+	}
+	
+	va_end (args);
+
+	return file;
 }
 
 
 /* File utils */
+
+GFile *
+gfile_append_path (GFile      *dir,
+		   const char *path,
+                   ...)
+{
+	va_list  args;
+	GFile   *file;
+	char    *pathx;
+	
+	if (path == NULL)
+		return g_file_dup (dir);
+	
+	file = g_file_resolve_relative_path (dir, path);
+	
+	va_start (args, path);
+	
+	while ((pathx = va_arg (args, char*)) != NULL) {
+		GFile *tmp;
+		
+		tmp = g_file_dup (file);
+		g_object_unref (file);
+
+		file = g_file_resolve_relative_path (tmp, pathx);
+		g_object_unref (tmp);
+	}
+	
+	va_end (args);
+
+	return file;
+}
+
+
+gboolean
+gfile_is_local (GFile *file)
+{
+	return g_file_has_uri_scheme (file, "file");
+}
+
 
 static gboolean
 gfile_is_filetype (GFile      *file,
@@ -210,13 +328,6 @@ gfile_ensure_dir_exists (GFile    *dir,
 }
 
 
-gboolean
-gfile_is_local (GFile *file)
-{
-	return g_file_has_uri_scheme (file, "file");
-}
-
-
 guint64
 gfile_get_destination_free_space (GFile *file)
 {
@@ -248,12 +359,8 @@ GFile *
 gfile_get_home_dir (void)
 {
 	GFile *dir;
-	char  *path;
 	
-	path = g_strconcat ("file://", g_get_home_dir (), NULL);
-	dir = g_file_new_for_uri (path);
-	
-	g_free (path);
+	dir = gfile_new (g_get_home_dir ());
 	
 	return dir;
 }
@@ -263,12 +370,8 @@ GFile *
 gfile_get_tmp_dir (void)
 {
 	GFile *dir;
-	char  *path;
 	
-	path = g_strconcat ("file://", g_get_tmp_dir (), NULL);
-	dir = g_file_new_for_uri (path);
-	
-	g_free (path);
+	dir = gfile_new (g_get_tmp_dir ());
 	
 	return dir;
 }
@@ -295,7 +398,6 @@ gfile_make_temp_in_dir (GFile *in_dir)
 {
 	char  *path0;
 	char  *path1;
-	char  *path2;
 	char  *template;
 	GFile *dir;
 	
@@ -308,11 +410,9 @@ gfile_make_temp_in_dir (GFile *in_dir)
 	if (path1 == NULL)
 		return NULL;
 	
-	path2 = g_strconcat ("file://", path1, NULL);
-	dir = g_file_new_for_uri (path2);
+	dir = gfile_new (path1);
 	
 	g_free (path1);
-	g_free (path2);
 	
 	return dir;
 }
