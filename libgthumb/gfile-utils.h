@@ -91,4 +91,10 @@ gboolean      gfile_copy                       (GFile      *sfile,
 gboolean      gfile_move                       (GFile      *sfile,
 		                                GFile      *dfile);
 
+/* line-based read/write */
+void          gfile_output_stream_write_line   (GFileOutputStream *ostream,
+                                		GError            *error,
+		                                const char        *format,
+                		                ...);
+
 #endif /* GFILE_UTILS_H */

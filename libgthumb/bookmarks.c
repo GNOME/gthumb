@@ -26,13 +26,12 @@
 #include <errno.h>
 
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "typedefs.h"
 #include "bookmarks.h"
 #include "catalog.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "preferences.h"
 
 #define MAX_LINE_LENGTH 4096
@@ -299,10 +298,13 @@ bookmarks_remove_all (Bookmarks *bookmarks)
 void
 bookmarks_load_from_disk (Bookmarks *bookmarks)
 {
-	GnomeVFSResult  result;
-	GnomeVFSHandle *handle;
-	char           *uri;
-	char            line [MAX_LINE_LENGTH];
+	GFileInputStream *istream;
+	GDataInputStream *dstream;
+	GError		 *error = NULL;
+	GFile		 *gfile;
+	GFile		 *home_dir;
+	char             *line;
+	gsize		  length;
 
 	g_return_if_fail (bookmarks != NULL);
 
@@ -310,20 +312,23 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 	if (bookmarks->rc_filename == NULL)
 		return;
 
-	uri = g_strconcat (get_home_uri (),
-			   "/",
-			   bookmarks->rc_filename,
-			   NULL);
-	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	g_free (uri);
+        home_dir = gfile_get_home_dir ();
+        gfile = gfile_append_path (home_dir, bookmarks->rc_filename, NULL);
+	g_object_unref (home_dir);
 
-	if (result != GNOME_VFS_OK)
+	istream = g_file_read (gfile, NULL, &error);
+
+        if (error != NULL) {
+                gfile_warning ("Cannot load bookmark file",
+                               gfile,
+                               error);
+                g_error_free (error);
 		return;
+        }
 
-	while (_gnome_vfs_read_line (handle,
-				     line,
-				     MAX_LINE_LENGTH,
-				     NULL) == GNOME_VFS_OK) {
+	dstream = g_data_input_stream_new (G_INPUT_STREAM(istream));
+
+	while ((line = g_data_input_stream_read_line (dstream, &length, NULL, &error))) {
 		char *path;
 
 		if (line[0] != '"')
@@ -341,7 +346,9 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 			   get_menu_item_tip (path));
 	}
 
-	gnome_vfs_close (handle);
+	g_object_unref (dstream);
+	g_object_unref (istream);
+	g_object_unref (gfile);
 
 	bookmarks->list = g_list_reverse (bookmarks->list);
 }
@@ -350,26 +357,31 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 void
 bookmarks_write_to_disk (Bookmarks *bookmarks)
 {
-	GnomeVFSResult  result;
-	GnomeVFSHandle *handle;
-	char           *uri;
-	int             lines;
-	GList          *scan;
+        GFileOutputStream *ostream;
+	GError            *error = NULL;
+        GFile             *gfile;
+        GFile             *home_dir;
+	int                lines;
+	GList             *scan;
 
 	g_return_if_fail (bookmarks != NULL);
 
 	if (bookmarks->rc_filename == NULL)
 		return;
 
-	uri = g_strconcat (get_home_uri (),
-			   "/",
-			   bookmarks->rc_filename,
-			   NULL);
-	result = gnome_vfs_create (&handle, uri, GNOME_VFS_OPEN_WRITE, FALSE, FILE_PERMISSIONS);
-	g_free (uri);
+        home_dir = gfile_get_home_dir ();
+        gfile = gfile_append_path (home_dir, bookmarks->rc_filename, NULL);
+        g_object_unref (home_dir);
 
-	if (result != GNOME_VFS_OK)
-		return;
+        ostream = g_file_replace (gfile, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error);
+
+        if (error) {
+                gfile_warning ("Cannot write to bookmark file",
+                               gfile,
+                               error);
+                g_error_free (error);
+                return;
+        }
 
 	/* write the file list. */
 
@@ -377,17 +389,22 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	scan = bookmarks->list;
 	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines))
 	       && (scan != NULL)) {
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   (char*) scan->data) != GNOME_VFS_OK) {
-			g_print ("ERROR saving to bookmark file\n");
+		gfile_output_stream_write_line (ostream, error, "\"%s\"", scan->data);
+
+	        if (error) {
+	                gfile_warning ("Cannot write line to bookmark file",
+        	                       gfile,
+                	               error);
+	                g_error_free (error);
 			break;
-		}
+	        }
 		lines++;
 		scan = scan->next;
 	}
 
-	gnome_vfs_close (handle);
+	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, NULL);
+	g_object_unref (ostream);
+	g_object_unref (gfile);	
 }
 
 

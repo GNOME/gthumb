@@ -582,3 +582,36 @@ gfile_move (GFile *sfile,
 {
 	return gfile_xfer (sfile, dfile, TRUE);
 }
+
+
+void
+gfile_output_stream_write_line (GFileOutputStream *ostream, 
+				GError            *error,
+				const char        *format,
+				...)
+{
+	va_list         args;
+	char           *str;
+
+	g_assert (format != NULL);
+
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	g_output_stream_write (G_OUTPUT_STREAM(ostream), 
+			       str,
+			       strlen (str),
+			       NULL,
+			       &error);
+	g_free (str);
+
+	if (error != NULL)
+		return;
+
+	g_output_stream_write (G_OUTPUT_STREAM(ostream), 
+                               "\n",
+                               1,
+                               NULL,
+                               &error);	
+}
