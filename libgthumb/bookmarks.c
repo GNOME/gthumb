@@ -318,7 +318,7 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 	istream = g_file_read (gfile, NULL, &error);
 
         if (error != NULL) {
-                gfile_warning ("Cannot load bookmark file",
+                gfile_warning ("Cannot open bookmark file for reading",
                                gfile,
                                error);
                 g_error_free (error);
@@ -344,6 +344,11 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 			   path,
 			   get_menu_item_tip (path));
 	}
+
+        if (error) {
+                gfile_warning ("Error reading line from bookmark file", gfile, error);
+                g_error_free (error);
+        }
 
 	g_object_unref (dstream);
 	g_object_unref (istream);
@@ -375,7 +380,7 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
         ostream = g_file_replace (gfile, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error);
 
         if (error) {
-                gfile_warning ("Cannot write to bookmark file",
+                gfile_warning ("Cannot open bookmark file for writing",
                                gfile,
                                error);
                 g_error_free (error);
@@ -394,14 +399,19 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	                gfile_warning ("Cannot write line to bookmark file",
         	                       gfile,
                 	               error);
-	                g_error_free (error);
+	                g_clear_error (&error);
 			break;
 	        }
 		lines++;
 		scan = scan->next;
 	}
 
-	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, NULL);
+	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, &error);
+	if (error) {
+		gfile_warning ("Cannot close bookmark file", gfile, error);
+		g_error_free (error);
+	}
+
 	g_object_unref (ostream);
 	g_object_unref (gfile);	
 }
