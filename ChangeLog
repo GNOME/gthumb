@@ -1,5 +1,10 @@
 2008-08-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/bookmarks.c:
+	Remove unused macro, MAX_LINE_LENGTH.
+
+2008-08-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/bookmarks.c: (bookmarks_load_from_disk),
 	(bookmarks_write_to_disk):
 	* libgthumb/gfile-utils.c: (gfile_output_stream_write_line):

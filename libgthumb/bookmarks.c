@@ -34,7 +34,6 @@
 #include "gfile-utils.h"
 #include "preferences.h"
 
-#define MAX_LINE_LENGTH 4096
 #define MAX_LINES 100
 #define FILE_PERMISSIONS 0600
 
