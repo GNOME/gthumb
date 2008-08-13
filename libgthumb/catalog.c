@@ -28,11 +28,11 @@
 #include <errno.h>
 
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "catalog.h"
 #include "typedefs.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gthumb-error.h"
 
@@ -128,22 +128,27 @@ catalog_load_from_disk__common (Catalog     *catalog,
 				GError     **gerror,
 				gboolean     load_file_list)
 {
-	GnomeVFSResult  result;
-	GnomeVFSHandle *handle;
-	char            line[MAX_LINE_LENGTH];
-	gboolean        file_list = FALSE;
+        GFileInputStream *istream;
+        GDataInputStream *dstream;
+        GError           *error = NULL;
+        GFile            *gfile;
+        char             *line;
+        gsize             length;
+	gboolean          file_list = FALSE;
 
-	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
-		if (gerror != NULL)
-			*gerror = g_error_new (GTHUMB_ERROR,
-					       result,
-					       _("Cannot open catalog \"%s\": %s"),
-					       uri,
-					       gnome_vfs_result_to_string (result));
-		return FALSE;
-	}
+	gfile = gfile_new (uri);
+        istream = g_file_read (gfile, NULL, &error);
 
+        if (error != NULL) {
+                gfile_warning ("Cannot open catalog file for reading",
+                               gfile,
+                               error);
+                g_propagate_error (gerror, error);
+                return FALSE;
+        }
+
+        dstream = g_data_input_stream_new (G_INPUT_STREAM(istream));
+	
 	if (catalog->path != NULL)
 		g_free (catalog->path);
 	if (catalog->list != NULL)
@@ -186,13 +191,10 @@ catalog_load_from_disk__common (Catalog     *catalog,
 	 *    "filename_n"
 	 *
 	 */
-	while ((result = _gnome_vfs_read_line (handle,
-					       line,
-					       MAX_LINE_LENGTH,
-					       NULL)) == GNOME_VFS_OK) {
+	while ((line = g_data_input_stream_read_line (dstream, &length, NULL, &error))) {
 		char *file_name;
 
-		if (*line == 0)
+		if ((*line == 0) || (error != NULL))
 			continue;
 
 		/* search data starts with SEARCH_HEADER */
@@ -209,41 +211,53 @@ catalog_load_from_disk__common (Catalog     *catalog,
 
 			/* * start from */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+			line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			copy_unquoted (unquoted, line);
 			search_data_set_start_from (catalog->search_data,
 						    unquoted);
 
 			/* * recursive */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			copy_unquoted (unquoted, line);
 			search_data_set_recursive (catalog->search_data, strcmp (unquoted, "TRUE") == 0);
 
 			/* * file pattern */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			copy_unquoted (unquoted, line);
 			search_data_set_file_pattern (catalog->search_data,
 						      unquoted);
 
 			/* * comment pattern */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			copy_unquoted (unquoted, line);
 			search_data_set_comment_pattern (catalog->search_data,
 							 unquoted);
 
 			/* * place pattern */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			copy_unquoted (unquoted, line);
 			search_data_set_place_pattern (catalog->search_data,
 						       unquoted);
 
 			/* * keywords pattern */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			if (*line != '"') {
 				line_ofs = 1;
 				/* * all keywords */
@@ -256,17 +270,22 @@ catalog_load_from_disk__common (Catalog     *catalog,
 
 			/* * date */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			sscanf (line, "%ld", &date);
 			search_data_set_date (catalog->search_data, date);
 
 			/* * date scope */
 
-			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			g_free (line);
+                        line = g_data_input_stream_read_line (dstream, &length, NULL, &error);
+			if (error != NULL) continue;
 			sscanf (line, "%d", &date_scope);
 			search_data_set_date_scope (catalog->search_data,
 						    date_scope);
 
+			g_free (line);
 			continue;
 		}
 
@@ -297,7 +316,10 @@ catalog_load_from_disk__common (Catalog     *catalog,
 		catalog->list = g_list_prepend (catalog->list, file_name);
 	}
 
-	gnome_vfs_close (handle);
+        g_object_unref (dstream);
+        g_object_unref (istream);
+        g_object_unref (gfile);
+	g_propagate_error (gerror, error);
 
 	catalog->list = g_list_reverse (catalog->list);
 
@@ -323,110 +345,101 @@ catalog_load_search_data_from_disk (Catalog     *catalog,
 }
 
 
-static gboolean
-error_on_saving (GnomeVFSHandle  *handle,
-		 char            *path,
-		 GError         **gerror)
-{
-	gnome_vfs_close (handle);
-	if (gerror != NULL)
-		*gerror = g_error_new (GTHUMB_ERROR,
-				       errno,
-				       _("Cannot save catalog \"%s\": %s"),
-				       path,
-				       errno_to_string ());
-	return FALSE;
-}
-
-
 gboolean
 catalog_write_to_disk (Catalog     *catalog,
 		       GError     **gerror)
 {
-	GnomeVFSResult  result;
-	GnomeVFSHandle *handle;
-	GList          *scan;
+        GFileOutputStream *ostream;
+        GError            *error = NULL;
+        GFile             *gfile;
+	GList             *scan;
 
 	g_return_val_if_fail (catalog != NULL, FALSE);
 	g_return_val_if_fail (catalog->path != NULL, FALSE);
 
-	result = gnome_vfs_create (&handle, catalog->path, GNOME_VFS_OPEN_WRITE, FALSE, FILE_PERMISSIONS);
-	if (result != GNOME_VFS_OK) {
-		if (gerror != NULL)
-			*gerror = g_error_new (GTHUMB_ERROR,
-					       result,
-					       _("Cannot open catalog \"%s\": %s"),
-					       catalog->path,
-					       gnome_vfs_result_to_string (result));
-		return FALSE;
-	}
+	gfile = gfile_new (catalog->path);
+        ostream = g_file_replace (gfile, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error);
+
+        if (error) {
+                gfile_warning ("Cannot open catalog file for writing",
+                               gfile,
+                               error);
+                g_propagate_error (gerror, error);
+                return FALSE;
+        }
 
 	if (catalog->search_data != NULL) {
 		SearchData *search_data = catalog->search_data;
 
 		/* write search data. */
-		if (_gnome_vfs_write_line (handle, SEARCH_HEADER) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   search_data->start_from) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   (search_data->recursive ? "TRUE" : "FALSE")) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   search_data->file_pattern) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   search_data->comment_pattern) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   search_data->place_pattern) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "%d\"%s\"",
-					   catalog->search_data->all_keywords,
-					   search_data->keywords_pattern) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "%ld",
-					   search_data->date) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
-
-		if (_gnome_vfs_write_line (handle,
-					   "%d",
-					   catalog->search_data->date_scope) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
+		if (!error) gfile_output_stream_write_line (ostream,
+							    error,
+							    SEARCH_HEADER);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+							    "\"%s\"",
+							    search_data->start_from);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+							    "\"%s\"",
+							   (search_data->recursive ? "TRUE" : "FALSE"));
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+                                                            "\"%s\"",
+                                                            search_data->file_pattern);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+                                                            "\"%s\"",
+                                                            search_data->comment_pattern);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+                                                            "\"%s\"",
+                                                            search_data->place_pattern);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+							    "%d\"%s\"",
+							    catalog->search_data->all_keywords,
+                                                            search_data->keywords_pattern);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+                                                            "%ld",
+                                                            search_data->date);
+		if (!error) gfile_output_stream_write_line (ostream,
+                                                            error,
+                                                            "%d",
+                                                            search_data->date_scope);
 	}
 
 	/* sort method */
 
-	if (_gnome_vfs_write_line (handle,
-				   "%s%s",
-				   SORT_FIELD,
-				   sort_names[catalog->sort_method]) != GNOME_VFS_OK)
-		return error_on_saving (handle, catalog->path, gerror);
+	if (!error) gfile_output_stream_write_line (ostream,
+						    error,
+						    "%s%s",
+						    SORT_FIELD,
+						    sort_names[catalog->sort_method]);
 
 	/* write the file list. */
 
 	for (scan = catalog->list; scan; scan = scan->next)
-		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"",
-					   (char*) scan->data) != GNOME_VFS_OK)
-			return error_on_saving (handle, catalog->path, gerror);
+		if (!error) gfile_output_stream_write_line (ostream,
+							    error,
+							    "\"%s\"",
+							    (char*) scan->data);
 
-	return gnome_vfs_close (handle) == GNOME_VFS_OK;
+	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, &error);
+	g_object_unref (ostream);
+
+	if (error) {
+                gfile_warning ("Cannot write data to catalog file",
+                               gfile,
+                               error);
+		g_object_unref (gfile);
+		g_propagate_error (gerror, error);
+		return FALSE;
+	} else {
+		g_object_unref (gfile);
+		return TRUE;
+	}
 }
 
 

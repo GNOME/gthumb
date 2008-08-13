@@ -178,7 +178,7 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	Catalog  *catalog;
 	gchar    *cat_path;
 	GList    *scan;
-	GError   *gerror;
+	GError   *gerror = NULL;
 
 	cat_path = catalog_list_get_selected_path (data->cat_list);
 	if (cat_path == NULL)

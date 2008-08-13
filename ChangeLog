@@ -1,3 +1,15 @@
+2008-08-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/catalog.c: (catalog_load_from_disk__common),
+	(catalog_write_to_disk):
+	gfile migration. Bug #525482. Purged gnome_vfs from catalog code.	
+
+	* src/dlg-catalog.c: (add_to_catalog__ok_cb):
+	* src/gth-browser.c: (catalog_activate),
+	(add_image_list_to_catalog):
+	* src/gth-window-utils.c: (remove_files_from_catalog):
+	Initialize gerror to NULL.
+
 2008-08-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/bookmarks.c: (bookmarks_load_from_disk),

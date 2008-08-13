@@ -2363,7 +2363,7 @@ catalog_activate (GthBrowser *browser,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	Catalog               *catalog;
-	GError                *gerror;
+	GError                *gerror = NULL;
 	GtkTreeIter            iter;
 
 	if (cat_path == NULL)
@@ -3745,7 +3745,7 @@ add_image_list_to_catalog (GthBrowser *browser,
 			   GList      *list)
 {
 	Catalog *catalog;
-	GError  *gerror;
+	GError  *gerror = NULL;
 
 	if ((catalog_path == NULL) || ! path_is_file (catalog_path))
 		return;

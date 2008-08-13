@@ -38,7 +38,7 @@ remove_files_from_catalog (GthWindow  *window,
 {
 	Catalog *catalog;
 	GList   *scan;
-	GError  *gerror;
+	GError  *gerror = NULL;
 
 	if ((catalog_path == NULL) || (list == NULL))
 		return;
