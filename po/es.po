@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-30 19:52+0000\n"
-"PO-Revision-Date: 2008-07-31 19:22+0200\n"
+"POT-Creation-Date: 2008-08-08 19:06+0000\n"
+"PO-Revision-Date: 2008-08-11 10:06+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1883,7 +1883,7 @@ msgstr "Búsqueda finalizada, no se encontraron duplicados."
 
 #: ../data/glade/gthumb_tools.glade.h:82
 msgid "Swap height and width for best _fit"
-msgstr ""
+msgstr "_Intercambiar la altura y el ancho para un mejor ajuste"
 
 #: ../data/glade/gthumb_tools.glade.h:84
 msgid "The _following date:"
@@ -2314,22 +2314,12 @@ msgstr ""
 "Indica si se deben restaurar las posiciones de la barra de desplazamiento "
 "tras cambiar la imagen"
 
-#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
-#, c-format
-msgid "Cannot open catalog \"%s\": %s"
-msgstr "No se puede abrir el catálogo «%s»: %s"
-
-#: ../libgthumb/catalog.c:335
-#, c-format
-msgid "Cannot save catalog \"%s\": %s"
-msgstr "No se puede guardar el catálogo «%s»: %s"
-
-#: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:152
+#: ../libgthumb/comments.c:1016 ../src/catalog-web-exporter.c:159
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1018 ../src/catalog-web-exporter.c:57
-#: ../src/catalog-web-exporter.c:154 ../src/dlg-duplicates.c:549
+#: ../libgthumb/comments.c:1018 ../src/catalog-web-exporter.c:58
+#: ../src/catalog-web-exporter.c:161 ../src/dlg-duplicates.c:549
 #: ../src/dlg-image-prop.c:447 ../src/gth-browser.c:467
 #: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:820
 #: ../src/gth-viewer.c:585
@@ -2357,28 +2347,28 @@ msgstr "Guardar imagen"
 msgid "Image type:"
 msgstr "Tipo de imagen:"
 
-#: ../libgthumb/file-utils.c:1534 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1404 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Catálogos"
 
-#: ../libgthumb/file-utils.c:1537 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1407 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Sistema de archivos"
 
-#: ../libgthumb/file-utils.c:1566 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1436 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Carpeta personal"
 
-#: ../libgthumb/file-utils.c:2201
+#: ../libgthumb/file-utils.c:2078
 msgid "Library not empty"
 msgstr "Biblioteca no vacía"
 
-#: ../libgthumb/file-utils.c:2210
+#: ../libgthumb/file-utils.c:2087
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "No se pudo quitar la biblioteca «%s»: %s"
 
-#: ../libgthumb/file-utils.c:2237
+#: ../libgthumb/file-utils.c:2114
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "No se pudo quitar el catálogo «%s»: %s"
@@ -2418,8 +2408,8 @@ msgstr "(Nombre inválido)"
 msgid "%d x %d pixels"
 msgstr "%d x %d píxeles"
 
-#: ../src/catalog-png-exporter.c:909 ../src/catalog-web-exporter.c:2507
-#: ../src/catalog-web-exporter.c:2731
+#: ../src/catalog-png-exporter.c:909 ../src/catalog-web-exporter.c:2607
+#: ../src/catalog-web-exporter.c:2832
 msgid "Saving images"
 msgstr "Guardando las imágenes"
 
@@ -2428,15 +2418,15 @@ msgstr "Guardando las imágenes"
 msgid "Creating image: %s.%s"
 msgstr "Creando imagen: %s.%s"
 
-#: ../src/catalog-web-exporter.c:2220
+#: ../src/catalog-web-exporter.c:2317
 msgid "Saving thumbnails"
 msgstr "Guardando las miniaturas"
 
-#: ../src/catalog-web-exporter.c:2293
+#: ../src/catalog-web-exporter.c:2394
 msgid "Saving HTML pages: Images"
 msgstr "Guardando las páginas HTML: Imágenes"
 
-#: ../src/catalog-web-exporter.c:2373
+#: ../src/catalog-web-exporter.c:2470
 msgid "Saving HTML pages: Indexes"
 msgstr "Guardando las páginas HTML: Índices"
 
@@ -2444,17 +2434,21 @@ msgstr "Guardando las páginas HTML: Índices"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2551
+#: ../src/catalog-web-exporter.c:2654
 msgid "Copying original images"
 msgstr "Copiando imágenes originales"
 
-#: ../src/catalog-web-exporter.c:2949
+#: ../src/catalog-web-exporter.c:3070
+msgid "Could not find the style folder"
+msgstr "No se pudo encontrar la carpeta de estilo"
+
+#: ../src/catalog-web-exporter.c:3093
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:161
 msgid "Could not create a temporary folder"
 msgstr "No se ha podido crear una carpeta temporal"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:3005
+#: ../src/catalog-web-exporter.c:3151
 msgid "Loading images"
 msgstr "Cargando las imágenes"
 
