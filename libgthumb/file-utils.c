@@ -2595,8 +2595,8 @@ _gnome_vfs_write_line (GnomeVFSHandle   *handle,
 guint64
 get_destination_free_space (const char *path)
 {
-	GFile    *file;
-	gboolean  result;
+	GFile   *file;
+	guint64  result;
 	
 	if (path == NULL)
 		return 0;

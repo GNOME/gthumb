@@ -1,3 +1,9 @@
+2008-08-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (get_destination_free_space):
+	Don't put the free space into a gboolean. That's only suitable for
+	1-bit storage systems. guint64 is more capacious.
+
 2008-08-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/catalog.c: (catalog_load_from_disk__common),
