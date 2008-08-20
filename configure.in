@@ -78,7 +78,7 @@ AC_SUBST(GTHUMB_CFLAGS)
 
 AC_C_BIGENDIAN
 AC_PROG_CPP
-
+AC_PROG_CXX
 
 #
 # Checks for libjpeg
