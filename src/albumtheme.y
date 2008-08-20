@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <gio/gio.h>
 #include "albumtheme-private.h"
 
 void  yyerror (char *fmt, ...);

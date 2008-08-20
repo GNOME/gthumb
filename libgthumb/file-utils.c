@@ -407,7 +407,16 @@ dir_make (const gchar *path,
 gboolean
 dir_remove (const gchar *path)
 {
-	return (gnome_vfs_remove_directory (path) == GNOME_VFS_OK);
+	GFile    *file;
+	gboolean  result;
+	
+	file = gfile_new (path);
+	
+	result = g_file_delete (file, NULL, NULL);
+	
+	g_object_unref (file);
+
+	return result;
 }
 
 
@@ -781,7 +790,18 @@ file_rename (const char *from,
 gboolean
 file_unlink (const char *path)
 {
-	return (gnome_vfs_unlink (path) == GNOME_VFS_OK);
+	GFile    *file;
+	gboolean  result;
+	
+	g_assert (path != NULL);
+	
+	file = gfile_new (path);
+	
+	result = g_file_delete (file, NULL, NULL);
+	
+	g_object_unref (file);
+
+	return result;
 }
 
 
@@ -807,97 +827,25 @@ delete_thumbnail (const char *path)
 }
 
 
-static char*
-get_sample_name (const char *filename)
-{
-	const char *ext;
-
-	ext = get_extension (filename);
-	if (ext == NULL)
-		return NULL;
-
-	return g_strconcat ("a", get_extension (filename), NULL);
-}
-
-
 const char*
-get_file_mime_type (const char *filename,
+get_file_mime_type (const char *path,
 		    gboolean    fast_file_type)
 {
-	const char *result = NULL;
-	const char *extension;
-
-	if (filename == NULL)
+	GFile      *file;
+	const char *result;
+	
+	if (path == NULL)
 		return NULL;
 
-	if (fast_file_type) {
-		char *sample_name;
-		char *n1;
+	file = gfile_new (path);
 
-		sample_name = get_sample_name (filename);
-		if (sample_name != NULL) {
-			n1 = g_filename_to_utf8 (sample_name, -1, 0, 0, 0);
-			if (n1 != NULL) {
-				char *n2 = g_utf8_strdown (n1, -1);
-				char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-				if (n3 != NULL)
-					result = gnome_vfs_mime_type_from_name_or_default (file_name_from_path (n3), NULL);
-				g_free (n3);
-				g_free (n2);
-				g_free (n1);
-			}
+	result = gfile_get_file_mime_type (file, fast_file_type);
 
-			g_free (sample_name);
-		}
-	} 
-	else {
-		if (uri_scheme_is_file (filename))
-			filename = get_file_path_from_uri (filename);
-		result = gnome_vfs_get_file_mime_type (filename, NULL, FALSE);
-	}
-
-	result = get_static_string (result);
-
-	/* Check files with special or problematic extensions */
-	extension = get_filename_extension (filename);
-	if (extension != NULL) {
-
-		/* Raw NEF files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp_null_tolerant (result, "image/tiff") && 
-		    !strcasecmp (extension, "nef"))
-			return "image/x-nikon-nef";
-
-		/* Raw CR2 files are sometimes mis-recognized as tiff files. Fix that. */
-		if (!strcmp_null_tolerant (result, "image/tiff") && 
-		    !strcasecmp (extension, "cr2"))
-			return "image/x-canon-cr2";
-
-		/* Check unrecognized binary types for special types that are not
-		   handled correctly in the normal mime databases. */
-
-		if ((result == NULL) || 
-		    (strcmp_null_tolerant (result, "application/octet-stream") == 0)) {
-
-			/* If the file extension is not recognized, or the content is
-			   determined to be binary data (octet-stream), check for HDR file
-			   types, which are not well represented in the freedesktop mime
-			   database currently. This section can be purged when they are.
-			   This is an unpleasant hack. Some file extensions
-			   may be missing here; please file a bug if they are. */
-			if (   !strcasecmp (extension, "exr")	/* OpenEXR format */
-			    || !strcasecmp (extension, "hdr")	/* Radiance rgbe */
-			    || !strcasecmp (extension, "pic"))	/* Radiance rgbe */
-				return "image/x-hdr";
-
-			/* Bug 329072: gnome-vfs doesn't recognize pcx files.
-			   This is the work-around until bug 329072 is fixed. */
-			if (strcasecmp (extension, "pcx") == 0)
-				return "image/x-pcx";
-		}
-	}
+	g_object_unref (file);
 
 	return result;
 }
+
 
 
 gboolean
@@ -909,27 +857,18 @@ mime_type_is (const char *mime_type,
 
 
 gboolean
-image_is_type (const char *uri,
-	       const char *type,
-	       gboolean    fast_file_type)
+image_is_jpeg (const char *path)
 {
-	const char *result = get_file_mime_type (uri, fast_file_type);
-	return (strcmp_null_tolerant (result, type) == 0);
-}
+	GFile    *file;
+	gboolean  result;
+	
+	file = gfile_new (path);
+	
+	result = gfile_image_is_jpeg (file);
+	
+	g_object_unref (file);
 
-
-static gboolean
-image_is_type__gconf_file_type (const char *uri,
-			        const char *type)
-{
-	return image_is_type (uri, type, ! is_local_file (uri) || eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
-}
-
-
-gboolean
-image_is_jpeg (const char *name)
-{
-	return image_is_type__gconf_file_type (name, "image/jpeg");
+	return result;
 }
 
 
@@ -964,9 +903,18 @@ mime_type_is_tiff (const char *mime_type)
 
 
 gboolean
-image_is_gif (const char *name)
+image_is_gif (const char *path)
 {
-	return image_is_type__gconf_file_type (name, "image/gif");
+	GFile    *file;
+	gboolean  result;
+	
+	file = gfile_new (path);
+	
+	result = gfile_image_is_gif (file);
+	
+	g_object_unref (file);
+
+	return result;
 }
 
 

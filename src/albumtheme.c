@@ -194,6 +194,7 @@ enum yytokentype
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <gio/gio.h>
 #include "albumtheme-private.h"
 
 void yyerror (char *fmt, ...);
@@ -224,7 +225,7 @@ int yylex (void);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 35 "albumtheme.y"
+#line 36 "albumtheme.y"
 {
   char *text;
   int ivalue;
@@ -236,7 +237,7 @@ typedef union YYSTYPE
   GthCondition *cond;
 }
 /* Line 187 of yacc.c.  */
-#line 239 "albumtheme.c"
+#line 240 "albumtheme.c"
 YYSTYPE;
 # define yystype YYSTYPE	/* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -249,7 +250,7 @@ YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 252 "albumtheme.c"
+#line 253 "albumtheme.c"
 
 #ifdef short
 # undef short
@@ -559,14 +560,14 @@ static const yytype_int8 yyrhs[] = {
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] = {
-  0, 110, 110, 120, 125, 129, 142, 150, 154, 161,
-  164, 169, 174, 179, 182, 187, 199, 204, 207, 210,
-  214, 227, 240, 253, 266, 279, 292, 296, 301, 306,
-  313, 319, 322, 328, 342, 348, 354, 360, 368, 372,
-  377, 382, 383, 384, 385, 386, 387, 388, 389, 390,
-  391, 392, 393, 394, 395, 396, 397, 398, 399, 400,
-  401, 402, 403, 404, 405, 406, 407, 408, 409, 410,
-  411, 412, 413, 414, 417, 421, 426, 431, 436, 441
+  0, 111, 111, 121, 126, 130, 143, 151, 155, 162,
+  165, 170, 175, 180, 183, 188, 200, 205, 208, 211,
+  215, 228, 241, 254, 267, 280, 293, 297, 302, 307,
+  314, 320, 323, 329, 343, 349, 355, 361, 369, 373,
+  378, 383, 384, 385, 386, 387, 388, 389, 390, 391,
+  392, 393, 394, 395, 396, 397, 398, 399, 400, 401,
+  402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
+  412, 413, 414, 415, 418, 422, 427, 432, 437, 442
 };
 #endif
 
@@ -1581,7 +1582,7 @@ yyreduce:
   switch (yyn)
     {
     case 2:
-#line 110 "albumtheme.y"
+#line 111 "albumtheme.y"
       {
 	yy_parsed_doc = (yyvsp[(1) - (1)].list);
 
@@ -1594,7 +1595,7 @@ yyreduce:
       break;
 
     case 3:
-#line 120 "albumtheme.y"
+#line 121 "albumtheme.y"
       {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list),
@@ -1605,7 +1606,7 @@ yyreduce:
       break;
 
     case 4:
-#line 125 "albumtheme.y"
+#line 126 "albumtheme.y"
       {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list), (yyvsp[(1) - (2)].tag));
@@ -1614,7 +1615,7 @@ yyreduce:
       break;
 
     case 5:
-#line 129 "albumtheme.y"
+#line 130 "albumtheme.y"
       {
 	GList *cond_list;
 	GthTag *tag;
@@ -1633,7 +1634,7 @@ yyreduce:
       break;
 
     case 6:
-#line 142 "albumtheme.y"
+#line 143 "albumtheme.y"
       {
 	GthTag *tag = gth_tag_new_html ((yyvsp[(2) - (4)].text));
 	GList *child_doc = g_list_append (NULL, tag);
@@ -1646,7 +1647,7 @@ yyreduce:
       break;
 
     case 7:
-#line 150 "albumtheme.y"
+#line 151 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
@@ -1654,7 +1655,7 @@ yyreduce:
       break;
 
     case 8:
-#line 154 "albumtheme.y"
+#line 155 "albumtheme.y"
       {
 	if ((yyvsp[(2) - (2)].list) != NULL)
 	  gth_parsed_doc_free ((yyvsp[(2) - (2)].list));
@@ -1664,7 +1665,7 @@ yyreduce:
       break;
 
     case 9:
-#line 161 "albumtheme.y"
+#line 162 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(2) - (3)].expr));
 	;
@@ -1672,7 +1673,7 @@ yyreduce:
       break;
 
     case 10:
-#line 164 "albumtheme.y"
+#line 165 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(3) - (5)].expr));
 	;
@@ -1680,7 +1681,7 @@ yyreduce:
       break;
 
     case 11:
-#line 169 "albumtheme.y"
+#line 170 "albumtheme.y"
       {
 	gth_condition_add_document ((yyvsp[(1) - (3)].cond),
 				    (yyvsp[(2) - (3)].list));
@@ -1691,7 +1692,7 @@ yyreduce:
       break;
 
     case 12:
-#line 174 "albumtheme.y"
+#line 175 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
@@ -1699,7 +1700,7 @@ yyreduce:
       break;
 
     case 13:
-#line 179 "albumtheme.y"
+#line 180 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(2) - (3)].expr));
 	;
@@ -1707,7 +1708,7 @@ yyreduce:
       break;
 
     case 14:
-#line 182 "albumtheme.y"
+#line 183 "albumtheme.y"
       {
 	(yyval.cond) = gth_condition_new ((yyvsp[(3) - (5)].expr));
 	;
@@ -1715,7 +1716,7 @@ yyreduce:
       break;
 
     case 15:
-#line 187 "albumtheme.y"
+#line 188 "albumtheme.y"
       {
 	GthExpr *else_expr;
 	GthCondition *cond;
@@ -1731,7 +1732,7 @@ yyreduce:
       break;
 
     case 16:
-#line 199 "albumtheme.y"
+#line 200 "albumtheme.y"
       {
 	(yyval.cond) = NULL;
 	;
@@ -1739,7 +1740,7 @@ yyreduce:
       break;
 
     case 19:
-#line 210 "albumtheme.y"
+#line 211 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(2) - (3)].expr);
 	;
@@ -1747,7 +1748,7 @@ yyreduce:
       break;
 
     case 20:
-#line 214 "albumtheme.y"
+#line 215 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1764,7 +1765,7 @@ yyreduce:
       break;
 
     case 21:
-#line 227 "albumtheme.y"
+#line 228 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1781,7 +1782,7 @@ yyreduce:
       break;
 
     case 22:
-#line 240 "albumtheme.y"
+#line 241 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1798,7 +1799,7 @@ yyreduce:
       break;
 
     case 23:
-#line 253 "albumtheme.y"
+#line 254 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1815,7 +1816,7 @@ yyreduce:
       break;
 
     case 24:
-#line 266 "albumtheme.y"
+#line 267 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1832,7 +1833,7 @@ yyreduce:
       break;
 
     case 25:
-#line 279 "albumtheme.y"
+#line 280 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1849,7 +1850,7 @@ yyreduce:
       break;
 
     case 26:
-#line 292 "albumtheme.y"
+#line 293 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
 	;
@@ -1857,7 +1858,7 @@ yyreduce:
       break;
 
     case 27:
-#line 296 "albumtheme.y"
+#line 297 "albumtheme.y"
       {
 	gth_expr_push_op ((yyvsp[(2) - (2)].expr), GTH_OP_NEG);
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
@@ -1866,7 +1867,7 @@ yyreduce:
       break;
 
     case 28:
-#line 301 "albumtheme.y"
+#line 302 "albumtheme.y"
       {
 	gth_expr_push_op ((yyvsp[(2) - (2)].expr), GTH_OP_NOT);
 	(yyval.expr) = (yyvsp[(2) - (2)].expr);
@@ -1875,7 +1876,7 @@ yyreduce:
       break;
 
     case 29:
-#line 306 "albumtheme.y"
+#line 307 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_var (e, (yyvsp[(1) - (1)].text));
@@ -1886,7 +1887,7 @@ yyreduce:
       break;
 
     case 30:
-#line 313 "albumtheme.y"
+#line 314 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, (yyvsp[(1) - (1)].ivalue));
@@ -1896,7 +1897,7 @@ yyreduce:
       break;
 
     case 31:
-#line 319 "albumtheme.y"
+#line 320 "albumtheme.y"
       {
 	(yyval.expr) = (yyvsp[(1) - (1)].expr);
 	;
@@ -1904,7 +1905,7 @@ yyreduce:
       break;
 
     case 32:
-#line 322 "albumtheme.y"
+#line 323 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_var (e, (yyvsp[(1) - (1)].text));
@@ -1915,7 +1916,7 @@ yyreduce:
       break;
 
     case 33:
-#line 328 "albumtheme.y"
+#line 329 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	g_string_append ((yyvsp[(1) - (3)].string),
@@ -1935,7 +1936,7 @@ yyreduce:
       break;
 
     case 34:
-#line 342 "albumtheme.y"
+#line 343 "albumtheme.y"
       {
 	GString *s = g_string_new ((yyvsp[(1) - (1)].text));
 	g_free ((yyvsp[(1) - (1)].text));
@@ -1945,7 +1946,7 @@ yyreduce:
       break;
 
     case 35:
-#line 348 "albumtheme.y"
+#line 349 "albumtheme.y"
       {
 	GString *s = g_string_new ((yyvsp[(1) - (1)].text));
 	g_string_prepend_c (s, ' ');
@@ -1956,7 +1957,7 @@ yyreduce:
       break;
 
     case 36:
-#line 354 "albumtheme.y"
+#line 355 "albumtheme.y"
       {
 	GString *s = g_string_new ("");
 	g_string_sprintf (s, " %i", (yyvsp[(1) - (1)].ivalue));
@@ -1966,7 +1967,7 @@ yyreduce:
       break;
 
     case 37:
-#line 360 "albumtheme.y"
+#line 361 "albumtheme.y"
       {
 	if ((yyvsp[(2) - (2)].string) != NULL)
 	  {
@@ -1980,7 +1981,7 @@ yyreduce:
       break;
 
     case 38:
-#line 368 "albumtheme.y"
+#line 369 "albumtheme.y"
       {
 	(yyval.string) = NULL;
 	;
@@ -1988,7 +1989,7 @@ yyreduce:
       break;
 
     case 39:
-#line 372 "albumtheme.y"
+#line 373 "albumtheme.y"
       {
 	(yyval.tag) =
 	  gth_tag_new ((yyvsp[(1) - (3)].ivalue), (yyvsp[(2) - (3)].list));
@@ -1997,7 +1998,7 @@ yyreduce:
       break;
 
     case 40:
-#line 377 "albumtheme.y"
+#line 378 "albumtheme.y"
       {
 	(yyval.tag) =
 	  gth_tag_new ((yyvsp[(1) - (3)].ivalue), (yyvsp[(2) - (3)].list));
@@ -2006,238 +2007,238 @@ yyreduce:
       break;
 
     case 41:
-#line 382 "albumtheme.y"
-      {
-	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
-      }
-      break;
-
-    case 42:
 #line 383 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 43:
+    case 42:
 #line 384 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 44:
+    case 43:
 #line 385 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 45:
+    case 44:
 #line 386 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 46:
+    case 45:
 #line 387 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 47:
+    case 46:
 #line 388 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 48:
+    case 47:
 #line 389 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 49:
+    case 48:
 #line 390 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 50:
+    case 49:
 #line 391 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 51:
+    case 50:
 #line 392 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 52:
+    case 51:
 #line 393 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 53:
+    case 52:
 #line 394 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 54:
+    case 53:
 #line 395 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 55:
+    case 54:
 #line 396 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 56:
+    case 55:
 #line 397 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 57:
+    case 56:
 #line 398 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 58:
+    case 57:
 #line 399 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 59:
+    case 58:
 #line 400 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 60:
+    case 59:
 #line 401 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 61:
+    case 60:
 #line 402 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 62:
+    case 61:
 #line 403 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 63:
+    case 62:
 #line 404 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 64:
+    case 63:
 #line 405 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 65:
+    case 64:
 #line 406 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 66:
+    case 65:
 #line 407 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 67:
+    case 66:
 #line 408 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 68:
+    case 67:
 #line 409 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 69:
+    case 68:
 #line 410 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 70:
+    case 69:
 #line 411 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 71:
+    case 70:
 #line 412 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 72:
+    case 71:
 #line 413 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
-    case 73:
+    case 72:
 #line 414 "albumtheme.y"
       {
 	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
       }
       break;
 
+    case 73:
+#line 415 "albumtheme.y"
+      {
+	(yyval.ivalue) = (yyvsp[(1) - (1)].ivalue);;
+      }
+      break;
+
     case 74:
-#line 417 "albumtheme.y"
+#line 418 "albumtheme.y"
       {
 	(yyval.list) =
 	  g_list_prepend ((yyvsp[(2) - (2)].list), (yyvsp[(1) - (2)].var));
@@ -2246,7 +2247,7 @@ yyreduce:
       break;
 
     case 75:
-#line 421 "albumtheme.y"
+#line 422 "albumtheme.y"
       {
 	(yyval.list) = NULL;
 	;
@@ -2254,7 +2255,7 @@ yyreduce:
       break;
 
     case 76:
-#line 426 "albumtheme.y"
+#line 427 "albumtheme.y"
       {
 	(yyval.var) =
 	  gth_var_new_expression ((yyvsp[(1) - (3)].text),
@@ -2265,7 +2266,7 @@ yyreduce:
       break;
 
     case 77:
-#line 431 "albumtheme.y"
+#line 432 "albumtheme.y"
       {
 	(yyval.var) =
 	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
@@ -2276,7 +2277,7 @@ yyreduce:
       break;
 
     case 78:
-#line 436 "albumtheme.y"
+#line 437 "albumtheme.y"
       {
 	(yyval.var) =
 	  gth_var_new_expression ((yyvsp[(1) - (5)].text),
@@ -2287,7 +2288,7 @@ yyreduce:
       break;
 
     case 79:
-#line 441 "albumtheme.y"
+#line 442 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, 1);
@@ -2299,7 +2300,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2190 "albumtheme.c"
+#line 2191 "albumtheme.c"
     default:
       break;
     }
@@ -2510,7 +2511,7 @@ yyreturn:
 }
 
 
-#line 451 "albumtheme.y"
+#line 452 "albumtheme.y"
 
 
 int

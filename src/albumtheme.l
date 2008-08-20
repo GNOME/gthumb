@@ -20,10 +20,20 @@
  */
 
 #include <glib.h>
+#include <gio/gio.h>
+
+GFileInputStream *yy_istream;
+
+#undef YY_INPUT
+#define YY_INPUT(buf,result,max_size)                                      	                  \
+{                                                                          	                  \
+	gssize n = g_input_stream_read (G_INPUT_STREAM(yy_istream), buf, max_size, NULL, NULL);   \
+	result = (n <= 0 ? YY_NULL : n);                                                          \
+}
 
 %}
 
-%option nounput
+%option noinput nounput
 
 number           [0-9]+
 name             [a-zA-Z_][0-9a-zA-Z_:@]*

@@ -21,10 +21,14 @@
  */
 
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
 
+#include "preferences.h"
+#include "glib-utils.h"
+#include "gconf-utils.h"
 #include "gfile-utils.h"
 
 
@@ -94,11 +98,11 @@ gfile_warning (const char *msg,
 	uri = gfile_get_uri (file);
 	
 	if (err == NULL)
-		warning = g_strdup_printf ("%s: file %s\n", msg, uri);
+		warning = g_strdup_printf ("%s: file %s", msg, uri);
 	else
-		warning = g_strdup_printf ("%s: file %s: %s\n", msg, uri, err->message);
+		warning = g_strdup_printf ("%s: file %s: %s", msg, uri, err->message);
 	
-	g_warning (warning);
+	g_warning ("%s\n", warning);
 	
         g_free (uri);
         g_free (warning);
@@ -199,6 +203,132 @@ gfile_is_local (GFile *file)
 }
 
 
+/* Be careful: result must be g_free'd  */
+char *
+gfile_get_filename_extension (GFile *file)
+{
+	char *basename;
+	char *last_dot;
+	char *extension;
+
+	basename = g_file_get_basename (file);
+	
+	g_assert (basename != NULL);
+	
+	last_dot = strrchr (basename, '.');
+	if (last_dot == NULL)
+		return NULL;
+
+	extension = g_strdup (last_dot + 1);
+	
+	g_free (basename);
+	
+	return extension;
+}
+
+
+const char*
+gfile_get_file_mime_type (GFile      *file,
+                          gboolean    fast_file_type)
+{
+	const char *value;
+	const char *result = NULL;
+	GFileInfo  *info;
+	GError     *error = NULL;
+ 
+	g_assert (file != NULL);
+	
+	info = g_file_query_info (file,
+				  fast_file_type ?
+				  G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE :
+				  G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				  G_FILE_QUERY_INFO_NONE, 
+				  NULL, 
+				  &error);
+        if (info != NULL) {
+        	if (fast_file_type)
+        		value = g_file_info_get_attribute_string (info, 
+        				                          G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE);
+        	else
+        		value = g_file_info_get_content_type (info);
+        	
+		/* 
+		 * If the file content is determined to be binary data (octet-stream), check for 
+		 * HDR file types, which are not well represented in the freedesktop mime database 
+		 * currently. This section can be purged when they are. This is an unpleasant hack. 
+		 * Some file extensions may be missing here; please file a bug if they are. 
+		 */
+		if (strcmp (value, "application/octet-stream") == 0) {
+	
+			char* extension;
+			
+			extension = gfile_get_filename_extension (file);
+			
+			if (extension != NULL) {
+				if (   !strcasecmp (extension, "exr")	/* OpenEXR format */
+				    || !strcasecmp (extension, "hdr")	/* Radiance rgbe */
+				    || !strcasecmp (extension, "pic"))	/* Radiance rgbe */
+					value = "image/x-hdr";
+				
+				g_free (extension);
+			}
+		}
+        	
+
+        	result = get_static_string  (value);
+        }
+        else {
+                gfile_warning ("Could not get content type", file, error);
+                g_clear_error (&error);
+        }
+
+        g_object_unref (info);
+	
+	return result;
+}
+
+
+static gboolean
+_gfile_image_is_type (GFile      *file,
+	              const char *mime_type,
+	              gboolean    fast_file_type)
+{
+	const char *result;
+	
+	result = gfile_get_file_mime_type (file, fast_file_type);
+	
+	if (result == NULL)
+		return FALSE;
+	
+	return (strcmp (result, mime_type) == 0);
+}
+
+
+static gboolean
+_gfile_image_is_type__gconf_file_type (GFile      *file,
+			               const char *mime_type)
+{
+	return _gfile_image_is_type (file, 
+				     mime_type, 
+				     ! gfile_is_local (file) 
+			             || eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+}
+
+
+gboolean
+gfile_image_is_jpeg (GFile *file)
+{
+	return _gfile_image_is_type__gconf_file_type (file, "image/jpeg");
+}
+
+
+gboolean
+gfile_image_is_gif (GFile *file)
+{
+	return _gfile_image_is_type__gconf_file_type (file, "image/gif");
+}
+
+
 static gboolean
 gfile_is_filetype (GFile      *file,
 		   GFileType   file_type)
@@ -212,7 +342,7 @@ gfile_is_filetype (GFile      *file,
 
 	info = g_file_query_info (file, 
 			          G_FILE_ATTRIBUTE_STANDARD_TYPE, 
-			          0, 
+			          G_FILE_QUERY_INFO_NONE, 
 			          NULL, 
 			          &error);
 	if (error == NULL) {
@@ -250,11 +380,15 @@ gfile_get_file_size (GFile *file)
 	goffset    size = 0;
 	GError    *err = NULL;
 
-	//FIXME: shouldn't we get rid of this test and fix the callers instead
+	//FIXME: shouldn't we get rid of this test and fix the callers instead?
 	if (file == NULL)
 		return 0;
 	
-        info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_SIZE, 0, NULL, &err);
+        info = g_file_query_info (file, 
+        		          G_FILE_ATTRIBUTE_STANDARD_SIZE, 
+        		          G_FILE_QUERY_INFO_NONE, 
+        		          NULL, 
+        		          &err);
         if (err == NULL) {
                 size = g_file_info_get_size (info);
         }
@@ -272,7 +406,7 @@ gfile_get_file_size (GFile *file)
 /* Directory utils */
 
 static gboolean
-make_directory_tree (GFile    *dir,
+_gfile_make_directory_tree (GFile    *dir,
 		     mode_t    mode,
 		     GError  **error)
 {
@@ -281,7 +415,7 @@ make_directory_tree (GFile    *dir,
 
 	parent = g_file_get_parent (dir);
 	if (parent != NULL) {
-		success = make_directory_tree (parent, mode, error);
+		success = _gfile_make_directory_tree (parent, mode, error);
 		g_object_unref (parent);
 		if (! success)
 			return FALSE;
@@ -312,14 +446,14 @@ gfile_ensure_dir_exists (GFile    *dir,
 {
 	GError *priv_error = NULL;
 
-	//FIXME: shouldn't we get rid of this test and fix the callers instead
+	//FIXME: shouldn't we get rid of this test and fix the callers instead?
 	if (dir == NULL)
 		return FALSE;
 
 	if (error == NULL)
 		error = &priv_error;
 
-	if (! make_directory_tree (dir, mode, error)) {
+	if (! _gfile_make_directory_tree (dir, mode, error)) {
 		
 		gfile_warning ("could not create directory", dir, *error);
 		if (priv_error != NULL)
@@ -384,7 +518,7 @@ gfile_get_tmp_dir (void)
 #define MAX_TEMP_FOLDER_TO_TRY  2
 
 static GFile *
-ith_temp_folder_to_try (int n)
+_gfile_ith_temp_folder_to_try (int n)
 {
 	GFile *dir = NULL;
 	
@@ -436,7 +570,7 @@ gfile_get_temp_dir_name (void)
 		GFile    *folder;
 		guint64   size;
 
-		folder = ith_temp_folder_to_try (i);
+		folder = _gfile_ith_temp_folder_to_try (i);
 		size = gfile_get_destination_free_space (folder);
 		if (max_size < size) {
 			max_size = size;
@@ -464,8 +598,8 @@ gfile_get_temp_dir_name (void)
 
 
 static gboolean
-delete_directory_recursive (GFile   *dir,
-			    GError **error)
+_gfile_delete_directory_recursive (GFile   *dir,
+			           GError **error)
 {
 	GFileEnumerator *file_enum;
 	GFileInfo       *info;
@@ -486,7 +620,7 @@ delete_directory_recursive (GFile   *dir,
 
 		switch (g_file_info_get_file_type (info)) {
 		case G_FILE_TYPE_DIRECTORY:
-			if (! delete_directory_recursive (child, error))
+			if (! _gfile_delete_directory_recursive (child, error))
 				error_occurred = TRUE;
 			break;
 		default:
@@ -514,7 +648,7 @@ gfile_dir_remove_recursive (GFile *dir)
 	gboolean   result;
 	GError    *error = NULL;
 
-	result = delete_directory_recursive (dir, &error);
+	result = _gfile_delete_directory_recursive (dir, &error);
 	if (! result) {
 		gfile_warning ("Cannot delete directory", dir, error);
 		g_clear_error (&error);
@@ -526,13 +660,12 @@ gfile_dir_remove_recursive (GFile *dir)
 
 /* Xfer */
 
-
-/* empty functions */
 static void _empty_file_progress_cb  (goffset current_num_bytes,
 				      goffset total_num_bytes,
 				      gpointer user_data)
 {
 }
+
 
 gboolean
 gfile_xfer (GFile    *sfile,
@@ -584,34 +717,59 @@ gfile_move (GFile *sfile,
 }
 
 
-void
-gfile_output_stream_write_line (GFileOutputStream *ostream, 
-				GError            *error,
-				const char        *format,
+gssize
+gfile_output_stream_write (GFileOutputStream  *ostream, 
+			   GError            **error,
+			   const char         *str)
+{
+	GError   *priv_error = NULL;
+	gssize    result;
+
+
+	g_assert (str != NULL);
+	
+	if (error == NULL)
+		error = &priv_error;
+
+	result = g_output_stream_write (G_OUTPUT_STREAM(ostream), 
+			                str,
+			                strlen (str),
+			                NULL,
+			                error);
+	
+	if (*error != NULL)
+		debug (DEBUG_INFO, "could not write string \"%s\": %s\n", str, (*error)->message);
+	
+	if (priv_error != NULL)
+		g_clear_error (&priv_error);
+	
+	return result;
+}
+
+
+gssize
+gfile_output_stream_write_line (GFileOutputStream  *ostream, 
+				GError            **error,
+				const char         *format,
 				...)
 {
 	va_list         args;
 	char           *str;
+	gssize          n1 = -1;
+	gssize          n2 = -1;
 
 	g_assert (format != NULL);
-
+	
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
 	va_end (args);
 
-	g_output_stream_write (G_OUTPUT_STREAM(ostream), 
-			       str,
-			       strlen (str),
-			       NULL,
-			       &error);
+	n1 = gfile_output_stream_write (ostream, error, str);
+	
+	if (n1 != -1)
+		n2 = gfile_output_stream_write (ostream, error, "\n");
+	
 	g_free (str);
-
-	if (error != NULL)
-		return;
-
-	g_output_stream_write (G_OUTPUT_STREAM(ostream), 
-                               "\n",
-                               1,
-                               NULL,
-                               &error);	
+	
+	return (n1 == -1 || n2 == -1 ? -1 : n1 + n2);
 }

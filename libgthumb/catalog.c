@@ -373,39 +373,39 @@ catalog_write_to_disk (Catalog     *catalog,
 
 		/* write search data. */
 		if (!error) gfile_output_stream_write_line (ostream,
-							    error,
+							    &error,
 							    SEARCH_HEADER);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
 							    "\"%s\"",
 							    search_data->start_from);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
 							    "\"%s\"",
 							   (search_data->recursive ? "TRUE" : "FALSE"));
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
                                                             "\"%s\"",
                                                             search_data->file_pattern);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
                                                             "\"%s\"",
                                                             search_data->comment_pattern);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
                                                             "\"%s\"",
                                                             search_data->place_pattern);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
 							    "%d\"%s\"",
 							    catalog->search_data->all_keywords,
                                                             search_data->keywords_pattern);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
                                                             "%ld",
                                                             search_data->date);
 		if (!error) gfile_output_stream_write_line (ostream,
-                                                            error,
+                                                            &error,
                                                             "%d",
                                                             search_data->date_scope);
 	}
@@ -413,7 +413,7 @@ catalog_write_to_disk (Catalog     *catalog,
 	/* sort method */
 
 	if (!error) gfile_output_stream_write_line (ostream,
-						    error,
+						    &error,
 						    "%s%s",
 						    SORT_FIELD,
 						    sort_names[catalog->sort_method]);
@@ -422,7 +422,7 @@ catalog_write_to_disk (Catalog     *catalog,
 
 	for (scan = catalog->list; scan; scan = scan->next)
 		if (!error) gfile_output_stream_write_line (ostream,
-							    error,
+							    &error,
 							    "\"%s\"",
 							    (char*) scan->data);
 

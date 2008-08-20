@@ -757,9 +757,20 @@ char *yytext;
  */
 
 #include <glib.h>
+#include <gio/gio.h>
 
+GFileInputStream *yy_istream;
 
-#line 772 "lex.yy.c"
+#undef YY_INPUT
+#define YY_INPUT(buf,result,max_size)                                      	                  \
+{                                                                          	                  \
+	gssize n = g_input_stream_read (G_INPUT_STREAM(yy_istream), buf, max_size, NULL, NULL);   \
+	result = (n <= 0 ? YY_NULL : n);                                                          \
+}
+
+#define YY_NO_INPUT 1
+
+#line 783 "lex.yy.c"
 
 #define INITIAL 0
 #define TAG 1
@@ -943,10 +954,10 @@ YY_DECL
   register char *yy_cp, *yy_bp;
   register int yy_act;
 
-#line 34 "albumtheme.l"
+#line 44 "albumtheme.l"
 
 
-#line 959 "lex.yy.c"
+#line 970 "lex.yy.c"
 
   if (!(yy_init))
     {
@@ -1032,7 +1043,7 @@ YY_DECL
 
 	case 1:
 	  YY_RULE_SETUP
-#line 36 "albumtheme.l"
+#line 46 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_HEADER;
@@ -1040,7 +1051,7 @@ YY_DECL
 	  }
 	YY_BREAK case 2:
 	  YY_RULE_SETUP
-#line 41 "albumtheme.l"
+#line 51 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_FOOTER;
@@ -1048,7 +1059,7 @@ YY_DECL
 	  }
 	YY_BREAK case 3:
 	  YY_RULE_SETUP
-#line 46 "albumtheme.l"
+#line 56 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_LANGUAGE;
@@ -1056,7 +1067,7 @@ YY_DECL
 	  }
 	YY_BREAK case 4:
 	  YY_RULE_SETUP
-#line 51 "albumtheme.l"
+#line 61 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_THEME_LINK;
@@ -1064,7 +1075,7 @@ YY_DECL
 	  }
 	YY_BREAK case 5:
 	  YY_RULE_SETUP
-#line 56 "albumtheme.l"
+#line 66 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_IMAGE;
@@ -1072,7 +1083,7 @@ YY_DECL
 	  }
 	YY_BREAK case 6:
 	  YY_RULE_SETUP
-#line 61 "albumtheme.l"
+#line 71 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_IMAGE_LINK;
@@ -1080,7 +1091,7 @@ YY_DECL
 	  }
 	YY_BREAK case 7:
 	  YY_RULE_SETUP
-#line 66 "albumtheme.l"
+#line 76 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_IMAGE_IDX;
@@ -1088,7 +1099,7 @@ YY_DECL
 	  }
 	YY_BREAK case 8:
 	  YY_RULE_SETUP
-#line 71 "albumtheme.l"
+#line 81 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_IMAGE_DIM;
@@ -1096,7 +1107,7 @@ YY_DECL
 	  }
 	YY_BREAK case 9:
 	  YY_RULE_SETUP
-#line 76 "albumtheme.l"
+#line 86 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_IMAGES;
@@ -1104,7 +1115,7 @@ YY_DECL
 	  }
 	YY_BREAK case 10:
 	  YY_RULE_SETUP
-#line 81 "albumtheme.l"
+#line 91 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_FILENAME;
@@ -1112,7 +1123,7 @@ YY_DECL
 	  }
 	YY_BREAK case 11:
 	  YY_RULE_SETUP
-#line 86 "albumtheme.l"
+#line 96 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_FILEPATH;
@@ -1120,7 +1131,7 @@ YY_DECL
 	  }
 	YY_BREAK case 12:
 	  YY_RULE_SETUP
-#line 91 "albumtheme.l"
+#line 101 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_FILESIZE;
@@ -1128,7 +1139,7 @@ YY_DECL
 	  }
 	YY_BREAK case 13:
 	  YY_RULE_SETUP
-#line 96 "albumtheme.l"
+#line 106 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_COMMENT;
@@ -1136,7 +1147,7 @@ YY_DECL
 	  }
 	YY_BREAK case 14:
 	  YY_RULE_SETUP
-#line 101 "albumtheme.l"
+#line 111 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PLACE;
@@ -1144,7 +1155,7 @@ YY_DECL
 	  }
 	YY_BREAK case 15:
 	  YY_RULE_SETUP
-#line 106 "albumtheme.l"
+#line 116 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_DATE_TIME;
@@ -1152,7 +1163,7 @@ YY_DECL
 	  }
 	YY_BREAK case 16:
 	  YY_RULE_SETUP
-#line 111 "albumtheme.l"
+#line 121 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PAGE_LINK;
@@ -1160,7 +1171,7 @@ YY_DECL
 	  }
 	YY_BREAK case 17:
 	  YY_RULE_SETUP
-#line 116 "albumtheme.l"
+#line 126 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PAGE_IDX;
@@ -1168,7 +1179,7 @@ YY_DECL
 	  }
 	YY_BREAK case 18:
 	  YY_RULE_SETUP
-#line 121 "albumtheme.l"
+#line 131 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PAGE_ROWS;
@@ -1176,7 +1187,7 @@ YY_DECL
 	  }
 	YY_BREAK case 19:
 	  YY_RULE_SETUP
-#line 126 "albumtheme.l"
+#line 136 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PAGE_COLS;
@@ -1184,7 +1195,7 @@ YY_DECL
 	  }
 	YY_BREAK case 20:
 	  YY_RULE_SETUP
-#line 131 "albumtheme.l"
+#line 141 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_PAGES;
@@ -1192,7 +1203,7 @@ YY_DECL
 	  }
 	YY_BREAK case 21:
 	  YY_RULE_SETUP
-#line 136 "albumtheme.l"
+#line 146 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_TABLE;
@@ -1200,7 +1211,7 @@ YY_DECL
 	  }
 	YY_BREAK case 22:
 	  YY_RULE_SETUP
-#line 141 "albumtheme.l"
+#line 151 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_THUMBS;
@@ -1208,7 +1219,7 @@ YY_DECL
 	  }
 	YY_BREAK case 23:
 	  YY_RULE_SETUP
-#line 146 "albumtheme.l"
+#line 156 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_DATE;
@@ -1216,7 +1227,7 @@ YY_DECL
 	  }
 	YY_BREAK case 24:
 	  YY_RULE_SETUP
-#line 151 "albumtheme.l"
+#line 161 "albumtheme.l"
 	  {
 	    BEGIN (STAG);
 	    yylval.ivalue = GTH_TAG_TEXT;
@@ -1224,14 +1235,14 @@ YY_DECL
 	  }
 	YY_BREAK case 25:
 	  YY_RULE_SETUP
-#line 156 "albumtheme.l"
+#line 166 "albumtheme.l"
 	  {
 	    BEGIN (INITIAL);
 	    return TEXT_END;
 	  }
 	YY_BREAK case 26:
 	  YY_RULE_SETUP
-#line 160 "albumtheme.l"
+#line 170 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_TIME;
@@ -1239,7 +1250,7 @@ YY_DECL
 	  }
 	YY_BREAK case 27:
 	  YY_RULE_SETUP
-#line 165 "albumtheme.l"
+#line 175 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_MODE;
@@ -1247,7 +1258,7 @@ YY_DECL
 	  }
 	YY_BREAK case 28:
 	  YY_RULE_SETUP
-#line 170 "albumtheme.l"
+#line 180 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_FLASH;
@@ -1255,7 +1266,7 @@ YY_DECL
 	  }
 	YY_BREAK case 29:
 	  YY_RULE_SETUP
-#line 175 "albumtheme.l"
+#line 185 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_SHUTTER_SPEED;
@@ -1263,7 +1274,7 @@ YY_DECL
 	  }
 	YY_BREAK case 30:
 	  YY_RULE_SETUP
-#line 180 "albumtheme.l"
+#line 190 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_APERTURE_VALUE;
@@ -1271,7 +1282,7 @@ YY_DECL
 	  }
 	YY_BREAK case 31:
 	  YY_RULE_SETUP
-#line 185 "albumtheme.l"
+#line 195 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_FOCAL_LENGTH;
@@ -1279,7 +1290,7 @@ YY_DECL
 	  }
 	YY_BREAK case 32:
 	  YY_RULE_SETUP
-#line 190 "albumtheme.l"
+#line 200 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_DATE_TIME;
@@ -1287,7 +1298,7 @@ YY_DECL
 	  }
 	YY_BREAK case 33:
 	  YY_RULE_SETUP
-#line 195 "albumtheme.l"
+#line 205 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EXIF_CAMERA_MODEL;
@@ -1295,7 +1306,7 @@ YY_DECL
 	  }
 	YY_BREAK case 34:
 	  YY_RULE_SETUP
-#line 200 "albumtheme.l"
+#line 210 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_SET_VAR;
@@ -1303,7 +1314,7 @@ YY_DECL
 	  }
 	YY_BREAK case 35:
 	  YY_RULE_SETUP
-#line 205 "albumtheme.l"
+#line 215 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    yylval.ivalue = GTH_TAG_EVAL;
@@ -1311,194 +1322,194 @@ YY_DECL
 	  }
 	YY_BREAK case 36:
 	  YY_RULE_SETUP
-#line 210 "albumtheme.l"
+#line 220 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    return IF;
 	  }
 	YY_BREAK case 37:
 	  YY_RULE_SETUP
-#line 214 "albumtheme.l"
+#line 224 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    return ELSE;
 	  }
 	YY_BREAK case 38:
 	  YY_RULE_SETUP
-#line 218 "albumtheme.l"
+#line 228 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    return ELSE_IF;
 	  }
 	YY_BREAK case 39:
 	  YY_RULE_SETUP
-#line 222 "albumtheme.l"
+#line 232 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    return END;
 	  }
 	YY_BREAK case 40:
 	  YY_RULE_SETUP
-#line 226 "albumtheme.l"
+#line 236 "albumtheme.l"
 	  {
 	    BEGIN (STR);
 	    return '\'';
 	  }
 	YY_BREAK case 41:
 	  YY_RULE_SETUP
-#line 230 "albumtheme.l"
+#line 240 "albumtheme.l"
 	  {
 	    BEGIN (SSTR);
 	    return '\'';
 	  }
 	YY_BREAK case 42:
 	  YY_RULE_SETUP
-#line 234 "albumtheme.l"
+#line 244 "albumtheme.l"
 	  {
 	    yylval.text = g_strdup (yytext);
 	    return STRING;
 	  }
 	YY_BREAK case 43:
 	  YY_RULE_SETUP
-#line 238 "albumtheme.l"
+#line 248 "albumtheme.l"
 	  {
 	    BEGIN (TAG);
 	    return '\'';
 	  }
 	YY_BREAK case 44:
 	  YY_RULE_SETUP
-#line 242 "albumtheme.l"
+#line 252 "albumtheme.l"
 	  {
 	    BEGIN (STAG);
 	    return '\'';
 	  }
 	YY_BREAK case 45:
 	  YY_RULE_SETUP
-#line 246 "albumtheme.l"
+#line 256 "albumtheme.l"
 	  {
 	    yylval.ivalue = atoi (yytext);
 	    return NUMBER;
 	  }
 	YY_BREAK case 46:
 	  YY_RULE_SETUP
-#line 250 "albumtheme.l"
+#line 260 "albumtheme.l"
 	  {
 	    yylval.text = g_strdup (yytext);
 	    return NAME;
 	  }
 	YY_BREAK case 47:
 	  YY_RULE_SETUP
-#line 254 "albumtheme.l"
+#line 264 "albumtheme.l"
 	  {
 	    return '=';
 	  }
 	YY_BREAK case 48:
 	  YY_RULE_SETUP
-#line 257 "albumtheme.l"
+#line 267 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_LT;
 	    return COMPARE;
 	  }
 	YY_BREAK case 49:
 	  YY_RULE_SETUP
-#line 261 "albumtheme.l"
+#line 271 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_GT;
 	    return COMPARE;
 	  }
 	YY_BREAK case 50:
 	  YY_RULE_SETUP
-#line 265 "albumtheme.l"
+#line 275 "albumtheme.l"
 	  {
 	    BEGIN (INITIAL);
 	    return END_TAG;
 	  }
 	YY_BREAK case 51:
 	  YY_RULE_SETUP
-#line 269 "albumtheme.l"
+#line 279 "albumtheme.l"
 	  {
 	    return '+';
 	  }
 	YY_BREAK case 52:
 	  YY_RULE_SETUP
-#line 272 "albumtheme.l"
+#line 282 "albumtheme.l"
 	  {
 	    return '-';
 	  }
 	YY_BREAK case 53:
 	  YY_RULE_SETUP
-#line 275 "albumtheme.l"
+#line 285 "albumtheme.l"
 	  {
 	    return '*';
 	  }
 	YY_BREAK case 54:
 	  YY_RULE_SETUP
-#line 278 "albumtheme.l"
+#line 288 "albumtheme.l"
 	  {
 	    return '/';
 	  }
 	YY_BREAK case 55:
 	  YY_RULE_SETUP
-#line 281 "albumtheme.l"
+#line 291 "albumtheme.l"
 	  {
 	    return '!';
 	  }
 	YY_BREAK case 56:
 	  YY_RULE_SETUP
-#line 284 "albumtheme.l"
+#line 294 "albumtheme.l"
 	  {
 	    return '(';
 	  }
 	YY_BREAK case 57:
 	  YY_RULE_SETUP
-#line 287 "albumtheme.l"
+#line 297 "albumtheme.l"
 	  {
 	    return ')';
 	  }
 	YY_BREAK case 58:
 	  YY_RULE_SETUP
-#line 290 "albumtheme.l"
+#line 300 "albumtheme.l"
 	  {
 	    return '"';
 	  }
 	YY_BREAK case 59:
 	  YY_RULE_SETUP
-#line 293 "albumtheme.l"
+#line 303 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_AND;
 	    return BOOL_OP;
 	  }
 	YY_BREAK case 60:
 	  YY_RULE_SETUP
-#line 297 "albumtheme.l"
+#line 307 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_OR;
 	    return BOOL_OP;
 	  }
 	YY_BREAK case 61:
 	  YY_RULE_SETUP
-#line 301 "albumtheme.l"
+#line 311 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_EQ;
 	    return COMPARE;
 	  }
 	YY_BREAK case 62:
 	  YY_RULE_SETUP
-#line 305 "albumtheme.l"
+#line 315 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_NE;
 	    return COMPARE;
 	  }
 	YY_BREAK case 63:
 	  YY_RULE_SETUP
-#line 309 "albumtheme.l"
+#line 319 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_LE;
 	    return COMPARE;
 	  }
 	YY_BREAK case 64:
 	  YY_RULE_SETUP
-#line 313 "albumtheme.l"
+#line 323 "albumtheme.l"
 	  {
 	    yylval.ivalue = GTH_OP_CMP_GE;
 	    return COMPARE;
@@ -1506,20 +1517,20 @@ YY_DECL
 	YY_BREAK case 65:
 /* rule 65 can match eol */
 	  YY_RULE_SETUP
-#line 317 "albumtheme.l"
+#line 327 "albumtheme.l"
 	  {
 	    /* Eat spaces inside tag. */
 	  }
 	YY_BREAK case 66:
 	  YY_RULE_SETUP
-#line 320 "albumtheme.l"
+#line 330 "albumtheme.l"
 	  {
 	    BEGIN (INITIAL);
 	    return END_TAG;
 	  }
 	YY_BREAK case 67:
 	  YY_RULE_SETUP
-#line 324 "albumtheme.l"
+#line 334 "albumtheme.l"
 	  {
 	    yylval.text = g_strdup (yytext);
 	    return HTML;
@@ -1527,7 +1538,7 @@ YY_DECL
 	YY_BREAK case 68:
 /* rule 68 can match eol */
 	  YY_RULE_SETUP
-#line 328 "albumtheme.l"
+#line 338 "albumtheme.l"
 	  {
 	    yylval.text = g_strdup (yytext);
 	    return HTML;
@@ -1537,16 +1548,16 @@ YY_DECL
 	case YY_STATE_EOF (STAG):
 	case YY_STATE_EOF (STR):
 	case YY_STATE_EOF (SSTR):
-#line 332 "albumtheme.l"
+#line 342 "albumtheme.l"
 	  {
 	    return 0;
 	  }
 	YY_BREAK case 69:
 	  YY_RULE_SETUP
-#line 336 "albumtheme.l"
+#line 346 "albumtheme.l"
 	    ECHO;
 	  YY_BREAK
-#line 1627 "lex.yy.c"
+#line 1638 "lex.yy.c"
 	case YY_END_OF_BUFFER:
 	  {
 	    /* Amount of text matched not including the EOB char. */
@@ -2544,4 +2555,4 @@ yyfree (void *ptr)
 
 #define YYTABLES_NAME "yytables"
 
-#line 336 "albumtheme.l"
+#line 346 "albumtheme.l"

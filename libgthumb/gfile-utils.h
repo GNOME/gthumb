@@ -66,6 +66,10 @@ GFile *       gfile_append_path                (GFile      *dir,
                                                 ...);
 
 gboolean      gfile_is_local                   (GFile      *file);
+const char*   gfile_get_file_mime_type         (GFile      *file,
+                                                gboolean    fast_file_type);
+gboolean      gfile_image_is_jpeg              (GFile      *file);
+gboolean      gfile_image_is_gif               (GFile      *file);
 gboolean      gfile_path_is_file               (GFile      *file);
 gboolean      gfile_path_is_dir                (GFile      *file);
 goffset       gfile_get_file_size              (GFile      *file);
@@ -92,9 +96,12 @@ gboolean      gfile_move                       (GFile      *sfile,
 		                                GFile      *dfile);
 
 /* line-based read/write */
-void          gfile_output_stream_write_line   (GFileOutputStream *ostream,
-                                		GError            *error,
+gssize        gfile_output_stream_write_line   (GFileOutputStream *ostream,
+                                		GError           **error,
 		                                const char        *format,
                 		                ...);
+gssize        gfile_output_stream_write        (GFileOutputStream  *ostream, 
+                                                GError            **error,
+                                                const char         *str);
 
 #endif /* GFILE_UTILS_H */

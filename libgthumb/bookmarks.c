@@ -393,7 +393,7 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	scan = bookmarks->list;
 	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines))
 	       && (scan != NULL)) {
-		gfile_output_stream_write_line (ostream, error, "\"%s\"", scan->data);
+		gfile_output_stream_write_line (ostream, &error, "\"%s\"", scan->data);
 
 	        if (error) {
 	                gfile_warning ("Cannot write line to bookmark file",

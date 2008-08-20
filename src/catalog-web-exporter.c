@@ -79,10 +79,10 @@ enum {
 };
 
 extern int yyparse (void);
+extern GFileInputStream *yy_istream;
 
 static GObjectClass *parent_class = NULL;
 static guint         catalog_web_exporter_signals[LAST_SIGNAL] = { 0 };
-extern FILE         *yyin;
 
 #define DEFAULT_THUMB_SIZE 100
 #define DEFAULT_INDEX_FILE "index.html"
@@ -1069,36 +1069,49 @@ line_is_void (const char *line)
 }
 
 
+/* write a line when no error is pending */
+
 static void
-_write_line (const char *line, FILE *fout)
+_write_line (GFileOutputStream   *ostream, 
+	     GError             **error,
+	     const char          *line)
 {
-	fwrite (line, sizeof (char), strlen (line), fout);
+	if (error != NULL && *error != NULL)
+		return;
+	
+	gfile_output_stream_write (ostream, error, line);
 }
 
 
 static void
-_write_locale_line (const char *line, FILE *fout)
+_write_locale_line (GFileOutputStream  *ostream, 
+		    GError            **error,
+		    const char         *line)
 {
 	char *utf8_line;
 
 	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, 0);
-	_write_line (utf8_line, fout);
+	_write_line (ostream, error, utf8_line);
 	g_free (utf8_line);
 }
 
 
 static void
-write_line (const char *line, FILE *fout)
+write_line (GFileOutputStream  *ostream, 
+	    GError            **error,
+	    const char         *line)
 {
 	if (line_is_void (line))
 		return;
 
-	_write_line (line, fout);
+	_write_line (ostream, error, line);
 }
 
 
 static void
-write_markup_escape_line (const char *line, FILE *fout)
+write_markup_escape_line (GFileOutputStream  *ostream, 
+                          GError            **error,
+                          const char         *line)
 {
 	char *e_line;
 
@@ -1106,13 +1119,15 @@ write_markup_escape_line (const char *line, FILE *fout)
 		return;
 	
 	e_line = _g_escape_text_for_html (line, -1);
-	_write_line (e_line, fout);
+	_write_line (ostream, error, e_line);
 	g_free (e_line);
 }
 
 
 static void
-write_markup_escape_locale_line (const char *line, FILE *fout)
+write_markup_escape_locale_line (GFileOutputStream  *ostream, 
+                                 GError            **error,
+                                 const char         *line)
 {
 	char *e_line;
 
@@ -1122,7 +1137,7 @@ write_markup_escape_locale_line (const char *line, FILE *fout)
 		return;
 	
 	e_line = _g_escape_text_for_html (line, -1);
-	_write_locale_line (e_line, fout);
+	_write_locale_line (ostream, error, e_line);
 	g_free (e_line);
 }
 
@@ -1465,11 +1480,12 @@ get_attr_image_type_from_tag (CatalogWebExporter *ce,
 
 
 static void
-gth_parsed_doc_print (GList              *document,
-		      GFile		 *relative_to,
-		      CatalogWebExporter *ce,
-		      FILE               *fout,
-		      gboolean            allow_table)
+gth_parsed_doc_print (GList               *document,
+		      GFile		  *relative_to,
+		      CatalogWebExporter  *ce,
+		      GFileOutputStream   *ostream, 
+		      GError             **error,
+		      gboolean             allow_table)
 {
 	GList *scan;
 
@@ -1499,20 +1515,23 @@ gth_parsed_doc_print (GList              *document,
 		GList      *scan;
 
 
+		if (error != NULL && *error != NULL)
+			return;
+		
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
 			line = get_hf_text (ce->header);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_FOOTER:
 			line = get_hf_text (ce->footer);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_LANGUAGE:
 			line = get_current_language ();
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_THEME_LINK:
@@ -1525,7 +1544,7 @@ gth_parsed_doc_print (GList              *document,
 					       src);
 			line = gfile_get_relative_uri (file, relative_to);
 			
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			
 			g_object_unref (file);
 			break;
@@ -1602,7 +1621,7 @@ gth_parsed_doc_print (GList              *document,
 						image_height,
 						id_attr,
 						class_attr);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 
 			g_free (src_attr);
 			g_free (id_attr);
@@ -1619,14 +1638,14 @@ gth_parsed_doc_print (GList              *document,
 						    idata, 
 						    ce->target_dir);
 			line = gfile_get_relative_uri (file, relative_to);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 
 			g_object_unref (file);
 			break;
 
 		case GTH_TAG_IMAGE_IDX:
 			line = g_strdup_printf ("%d", get_image_idx (tag, ce) + 1);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_IMAGE_DIM:
@@ -1635,12 +1654,12 @@ gth_parsed_doc_print (GList              *document,
 			line = g_strdup_printf ("%dx%d",
 						idata->image_width,
 						idata->image_height);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_IMAGES:
 			line = g_strdup_printf ("%d", ce->n_images);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_FILENAME:
@@ -1685,9 +1704,9 @@ gth_parsed_doc_print (GList              *document,
 			}
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
-				write_markup_escape_locale_line (line, fout);
+				write_markup_escape_locale_line (ostream, error, line);
 			else
-				write_markup_escape_line (line, fout);
+				write_markup_escape_line (ostream, error, line);
 
 			g_object_unref (file);
 			break;
@@ -1728,9 +1747,9 @@ gth_parsed_doc_print (GList              *document,
 				line = gfile_get_path (dir);
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0)
-				write_markup_escape_locale_line (line, fout);
+				write_markup_escape_locale_line (ostream, error, line);
 			else
-				write_markup_escape_line (line, fout);
+				write_markup_escape_line (ostream, error, line);
 
 			g_object_unref (dir);
 			g_object_unref (file);
@@ -1740,7 +1759,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = g_format_size_for_display (idata->src_file->size);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_COMMENT:
@@ -1765,7 +1784,7 @@ gth_parsed_doc_print (GList              *document,
 				g_free (comment);
 			}
 
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_PLACE:
@@ -1789,7 +1808,7 @@ gth_parsed_doc_print (GList              *document,
 				g_free (place);
 			}
 
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_DATE_TIME:
@@ -1812,7 +1831,7 @@ gth_parsed_doc_print (GList              *document,
 				g_free (date_time);
 			}
 
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_PAGE_LINK:
@@ -1828,29 +1847,29 @@ gth_parsed_doc_print (GList              *document,
 						    idx, 
 						    ce->target_dir);
 			line = gfile_get_relative_uri (file, relative_to);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 
 			g_object_unref (file);
 			break;
 
 		case GTH_TAG_PAGE_IDX:
 			line = g_strdup_printf ("%d", get_page_idx (tag, ce) + 1);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_PAGE_ROWS:
 			line = g_strdup_printf ("%d", ce->page_rows);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 			
 		case GTH_TAG_PAGE_COLS:
 			line = g_strdup_printf ("%d", ce->page_cols);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 			
 		case GTH_TAG_PAGES:
 			line = g_strdup_printf ("%d", ce->n_pages);
-			write_line (line, fout);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_TABLE:
@@ -1863,27 +1882,28 @@ gth_parsed_doc_print (GList              *document,
 			/* this may not work correctly if single_index is set */
 			for (r = 0; r < ce->page_rows; r++) {
 				if (ce->image < ce->n_images)
-					write_line ("  <tr class=\"tr_index\">\n", fout);
+					write_line (ostream, error, "  <tr class=\"tr_index\">\n");
 				else
-					write_line ("  <tr class=\"tr_empty_index\">\n", fout);
+					write_line (ostream, error, "  <tr class=\"tr_empty_index\">\n");
 				for (c = 0; c < ce->page_cols; c++) {
 					if (ce->image < ce->n_images) {
-						write_line ("    <td class=\"td_index\">\n", fout);
+						write_line (ostream, error, "    <td class=\"td_index\">\n");
 						gth_parsed_doc_print (ce->thumbnail_parsed,
 								      relative_to,
 								      ce,
-								      fout,
+								      ostream,
+								      error,
 								      FALSE);
-						write_line ("    </td>\n", fout);
+						write_line (ostream, error, "    </td>\n");
 						ce->image++;
 					} 
 					else {
-						write_line ("    <td class=\"td_empty_index\">\n", fout);
-						write_line ("    &nbsp;\n", fout);
-						write_line ("    </td>\n", fout);
+						write_line (ostream, error, "    <td class=\"td_empty_index\">\n");
+						write_line (ostream, error, "    &nbsp;\n");
+						write_line (ostream, error, "    </td>\n");
 					}
 				}
-				write_line ("  </tr>\n", fout);
+				write_line (ostream, error, "  </tr>\n");
 			}
 			break;
 
@@ -1897,8 +1917,9 @@ gth_parsed_doc_print (GList              *document,
 					break;
 				gth_parsed_doc_print (ce->thumbnail_parsed, 
 						      relative_to,
-						      ce, 
-						      fout, 
+						      ce,
+						      ostream,
+						      error,
 						      FALSE);
 				ce->image++;
 			}
@@ -1906,11 +1927,11 @@ gth_parsed_doc_print (GList              *document,
 
 		case GTH_TAG_DATE:
 			line = get_current_date ();
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_HTML:
-			write_line (tag->value.html, fout);
+			write_line (ostream, error, tag->value.html);
 			break;
 
 		case GTH_TAG_EXIF_EXPOSURE_TIME:
@@ -1918,7 +1939,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file, 
 							    TAG_NAME_SETS[EXPTIME_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_EXPOSURE_MODE:
@@ -1926,7 +1947,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[EXPMODE_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_FLASH:
@@ -1934,7 +1955,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 					     		    TAG_NAME_SETS[FLASH_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_SHUTTER_SPEED:
@@ -1942,7 +1963,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[SHUTTERSPEED_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_APERTURE_VALUE:
@@ -1950,7 +1971,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[APERTURE_TAG_NAMES]); 
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_FOCAL_LENGTH:
@@ -1958,7 +1979,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 					     		    TAG_NAME_SETS[FOCAL_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_EXIF_DATE_TIME:
@@ -1974,10 +1995,10 @@ gth_parsed_doc_print (GList              *document,
 					tp = localtime (&t);
 					strftime (s, 99, DATE_FORMAT, tp);
 					line = g_locale_to_utf8 (s, -1, 0, 0, 0);
-					write_markup_escape_line (line, fout);
+					write_markup_escape_line (ostream, error, line);
 				} 
 				else
-					write_line ("-", fout);
+					write_line (ostream, error, "-");
 
 			}
 			break;
@@ -1987,14 +2008,14 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = get_metadata_tagset_string (idata->src_file,
 							    TAG_NAME_SETS[MAKE_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			g_free (line);
 
-			write_line (" &nbsp; ", fout);
+			write_line (ostream, error, " &nbsp; ");
 
 			line = get_metadata_tagset_string (idata->src_file,
 					    		    TAG_NAME_SETS[MODEL_TAG_NAMES]);
-			write_markup_escape_line (line, fout);
+			write_markup_escape_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_SET_VAR:
@@ -2007,8 +2028,8 @@ gth_parsed_doc_print (GList              *document,
 
 			value = gth_tag_get_var (ce, tag, "expr");
 
-			line = g_strdup_printf ("%d",value);
-			write_line (line, fout);
+			line = g_strdup_printf ("%d", value);
+			write_line (ostream, error, line);
 			break;
 
 		case GTH_TAG_IF:
@@ -2022,7 +2043,8 @@ gth_parsed_doc_print (GList              *document,
 					gth_parsed_doc_print (cond->document,
 							      relative_to,
 							      ce,
-							      fout,
+							      ostream,
+							      error,
 							      FALSE);
 					break;
 				}
@@ -2036,7 +2058,7 @@ gth_parsed_doc_print (GList              *document,
 				if (child->type != GTH_TAG_HTML)
 					break;
 				line = g_strdup (_(child->value.html));
-				write_markup_escape_line (line, fout);
+				write_markup_escape_line (ostream, error, line);
 			}
 			break;
 
@@ -2046,6 +2068,45 @@ gth_parsed_doc_print (GList              *document,
 
 		g_free (line);
 	}
+}
+
+
+
+static gboolean
+gfile_parsed_doc_print (CatalogWebExporter *ce,
+                        GList              *document,
+                        GFile              *file,
+			GFile              *relative_to)
+{
+        GFileOutputStream  *ostream;
+        GError             *error = NULL;
+        gboolean            result;
+
+	gfile_debug (DEBUG_INFO, "save html file", file);
+
+        ostream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error);
+        
+        if (error) {
+                gfile_warning ("Cannot open html file for writing",
+                               file,
+                               error);
+        }
+        else {
+		gth_parsed_doc_print (document,
+				      relative_to,
+				      ce, 
+				      ostream,
+				      &error,
+				      TRUE);
+	} 
+
+	g_output_stream_close (G_OUTPUT_STREAM(ostream), NULL, &error);
+	g_object_unref (ostream);
+	
+	result = (error == NULL);
+	g_clear_error (&error);
+
+	return result;
 }
 
 
@@ -2324,14 +2385,14 @@ export__save_thumbnails (CatalogWebExporter *ce)
 }
 
 
+
 static gboolean
 save_html_image_cb (gpointer data)
 {
 	CatalogWebExporter *ce = data;
 	ImageData          *idata;
 	GFile              *file;
-	char               *local_file;
-	FILE               *fout;
+	GFile              *relative_to;
 
 	if (ce->saving_timeout != 0) {
 		g_source_remove (ce->saving_timeout);
@@ -2353,28 +2414,16 @@ save_html_image_cb (gpointer data)
 	file = get_html_image_file (ce, 
 				    idata, 
 				    ce->target_tmp_dir);
-	local_file = gfile_get_path (file);
-		
-	debug (DEBUG_INFO, "save html file: %s", local_file);
+	
+	
+	relative_to = get_html_image_dir (ce, 
+					  ce->target_dir);
+	
 
-	fout = fopen (local_file, "w");
-	if (fout != NULL) {
-		GFile *relative_to;
-
-		relative_to = get_html_image_dir (ce, 
-						  ce->target_dir);
-		
-		gth_parsed_doc_print (ce->image_parsed,
-				      relative_to,
-				      ce, 
-				      fout, 
-				      TRUE);
-		g_object_unref (relative_to);
-		fclose (fout);
-	} 
+	gfile_parsed_doc_print (ce, ce->image_parsed, file, relative_to);
 
 	g_object_unref (file);
-	g_free (local_file);
+	g_object_unref (relative_to);
 
 	/**/
 
@@ -2407,8 +2456,6 @@ save_html_index_cb (gpointer data)
 	CatalogWebExporter *ce = data;
 	GFile              *file;
 	GFile              *relative_to;
-	char               *local_file;
-	FILE               *fout;
 
 	if (ce->saving_timeout != 0) {
 		g_source_remove (ce->saving_timeout);
@@ -2435,21 +2482,8 @@ save_html_index_cb (gpointer data)
 				    ce->page, 
 				    ce->target_tmp_dir);
 
-	local_file = gfile_get_path (file);
+	gfile_parsed_doc_print (ce, ce->index_parsed, file, relative_to);
 
-	debug (DEBUG_INFO, "save html index: %s", local_file);
-
-	fout = fopen (local_file, "w");
-	if (fout != NULL) {
-		gth_parsed_doc_print (ce->index_parsed,
-				      relative_to, 
-				      ce, 
-				      fout,
-				      TRUE);
-		fclose (fout);
-	} 
-
-	g_free (local_file);
 	g_object_unref (file);
 	g_object_unref (relative_to);
 
@@ -2664,10 +2698,10 @@ export__copy_image (CatalogWebExporter *ce)
 	copy_done = gfile_copy (sfile, dfile);
 
 	if (copy_done) {
-		char *uri;
-		uri = gfile_get_uri (dfile);
+		if (gfile_image_is_jpeg (dfile)) {
+			char *uri;
+			uri = gfile_get_uri (dfile);
 		
-		if (image_is_jpeg (uri)) {
 			GthTransform  transform;
 		
 			FileData *fd;
@@ -2682,8 +2716,8 @@ export__copy_image (CatalogWebExporter *ce)
 			}
 
 			file_data_unref (fd);
+			g_free (uri);
 		}
-		g_free (uri);
 	}
 	
 	g_object_unref (sfile);
@@ -2846,12 +2880,41 @@ image_loader_error (ImageLoader *iloader,
 }
 
 
+static GList *
+get_parsed_file (GFile *file) 
+{
+	GList            *result = NULL;
+	GError           *error = NULL;
+	
+	yy_parsed_doc = NULL;
+	
+	gfile_debug (DEBUG_INFO, "load template", file);
+	
+	yy_istream = g_file_read (file, NULL, &error);
+	
+	if (error != NULL) {
+		gfile_warning ("Could not open template", file, error);
+		g_object_unref (&error);
+	}
+	else {
+		if (yyparse () == 0)
+			result = yy_parsed_doc;
+		else
+			debug (DEBUG_INFO, "<<syntax error>>");
+		
+		g_input_stream_close (G_INPUT_STREAM(yy_istream), NULL, &error);
+		g_object_unref (yy_istream);
+	}
+	
+	return result;
+}
+
+
 static void
 parse_theme_files (CatalogWebExporter *ce)
 {
-	GFile *template;
-	char  *local_file;
-	GList *scan;
+	GFile            *template;
+	GList            *scan;
 
 	free_parsed_docs (ce);
 
@@ -2859,50 +2922,29 @@ parse_theme_files (CatalogWebExporter *ce)
 
 	/* read and parse index.gthtml */
 
-	yy_parsed_doc = NULL;
 	template = gfile_append_path (ce->style_dir, 
 				      "index.gthtml",
 				      NULL);
-	gfile_debug (DEBUG_INFO, "load", template);
 	
-	local_file = gfile_get_path (template);
-	yyin = fopen (local_file, "r");
-	
-	if ((yyin != NULL) && (yyparse () == 0))
-		ce->index_parsed = yy_parsed_doc;
-	else
-		debug (DEBUG_INFO, "<<syntax error>>");
+	ce->index_parsed = get_parsed_file (template);
 
-	if (yyin != NULL)
-		fclose (yyin);
+	g_object_unref (template);
 
 	if (ce->index_parsed == NULL) {
 		GthTag *tag = gth_tag_new (GTH_TAG_TABLE, NULL);
 		ce->index_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_object_unref (template);
-	g_free (local_file);
-
 	/* read and parse thumbnail.gthtml */
 
-	yy_parsed_doc = NULL;
 	template = gfile_append_path (ce->style_dir, 
 				      "thumbnail.gthtml",
 				      NULL);
-	gfile_debug (DEBUG_INFO, "load", template);
 	
-	local_file = gfile_get_path (template);
-	yyin = fopen (local_file, "r");
+	ce->thumbnail_parsed = get_parsed_file (template);
+
+	g_object_unref (template);
 	
-	if ((yyin != NULL) && (yyparse () == 0))
-		ce->thumbnail_parsed = yy_parsed_doc;
-	else
-		debug (DEBUG_INFO, "<<syntax error>>");
-
-	if (yyin != NULL)
-		fclose (yyin);
-
 	if (ce->thumbnail_parsed == NULL) {
 		GthExpr *expr;
 		GthVar  *var;
@@ -2923,28 +2965,16 @@ parse_theme_files (CatalogWebExporter *ce)
 		ce->thumbnail_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_object_unref (template);
-	g_free (local_file);
-
 	/* Read and parse image.gthtml */
 
-	yy_parsed_doc = NULL;
 	template = gfile_append_path (ce->style_dir, 
 				      "image.gthtml",
 				      NULL);
-	gfile_debug (DEBUG_INFO, "load", template);
 	
-	local_file = gfile_get_path (template);	
-	yyin = fopen (local_file, "r");
+	ce->image_parsed = get_parsed_file (template);
+
+	g_object_unref (template);
 	
-	if ((yyin != NULL) && (yyparse () == 0))
-		ce->image_parsed = yy_parsed_doc;
-	else
-		debug (DEBUG_INFO, "<<syntax error>>");
-
-	if (yyin != NULL)
-		fclose (yyin);
-
 	if (ce->image_parsed == NULL) {
 		GthExpr *expr;
 		GthVar  *var;
@@ -2965,9 +2995,6 @@ parse_theme_files (CatalogWebExporter *ce)
 		ce->image_parsed = g_list_prepend (NULL, tag);
 	}
 
-	g_object_unref (template);
-	g_free (local_file);
-	
 	/* read index.html and set variables. */
 
 	for (scan = ce->index_parsed; scan; scan = scan->next) {

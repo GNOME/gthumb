@@ -1,5 +1,34 @@
 2008-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/bookmarks.c: (bookmarks_write_to_disk):
+	* libgthumb/catalog.c: (catalog_write_to_disk):
+	* libgthumb/file-utils.c: (dir_remove), (file_unlink),
+	(get_file_mime_type), (image_is_jpeg), (image_is_gif):
+	* libgthumb/gfile-utils.c: (gfile_warning),
+	(gfile_get_filename_extension), (gfile_get_file_mime_type),
+	(_gfile_image_is_type), (_gfile_image_is_type__gconf_file_type),
+	(gfile_image_is_jpeg), (gfile_image_is_gif), (gfile_is_filetype),
+	(gfile_get_file_size), (_gfile_make_directory_tree),
+	(gfile_ensure_dir_exists), (_gfile_ith_temp_folder_to_try),
+	(gfile_get_temp_dir_name), (_gfile_delete_directory_recursive),
+	(gfile_dir_remove_recursive), (gfile_output_stream_write),
+	(gfile_output_stream_write_line):
+	* libgthumb/gfile-utils.h:
+	* src/albumtheme.c: (yyparse):
+	* src/albumtheme.l:
+	* src/albumtheme.y:
+	* src/catalog-web-exporter.c: (_write_line), (_write_locale_line),
+	(write_line), (write_markup_escape_line),
+	(write_markup_escape_locale_line), (gth_parsed_doc_print),
+	(gfile_parsed_doc_print), (save_html_image_cb),
+	(save_html_index_cb), (export__copy_image), (get_parsed_file),
+	(parse_theme_files):
+	* src/lex.albumtheme.c:
+	Greater use of g_output_stream_write. Use gfile-based mime-type
+	detection. Patch by Christophe Bisière. Bug #525482.
+
+2008-08-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* configure.in: Added AC_PROG_CXX to fix bug #547803.
 	Patch by Christophe Bisière.
 
