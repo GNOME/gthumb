@@ -1,3 +1,8 @@
+2008-09-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/gthumb.desktop.in: Removed deprecated "Encoding" directive.
+	Bug #549993. Patch by Pacho Ramos <pacho@condmat1.ciencias.uniovi.es>.
+
 2008-08-21  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gfile-utils.c:
