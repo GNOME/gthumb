@@ -1,5 +1,12 @@
 2008-09-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/catalog.c: (catalog_load_from_disk__common):
+	Call g_propagate_error only when there is an error, to reduce
+	needless warnings. Patch by Geoffrey Antos <dynamotwain@aim.com>.
+	From bug #525482.
+
+2008-09-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* data/gthumb.desktop.in: Removed deprecated "Encoding" directive.
 	Bug #549993. Patch by Pacho Ramos <pacho@condmat1.ciencias.uniovi.es>.
 

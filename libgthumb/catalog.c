@@ -319,7 +319,9 @@ catalog_load_from_disk__common (Catalog     *catalog,
         g_object_unref (dstream);
         g_object_unref (istream);
         g_object_unref (gfile);
-	g_propagate_error (gerror, error);
+	if (error != NULL) {
+		g_propagate_error (gerror, error);
+	}
 
 	catalog->list = g_list_reverse (catalog->list);
 
