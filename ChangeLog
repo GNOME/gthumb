@@ -1,3 +1,9 @@
+2008-09-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/catalog-png-exporter.c:
+	* src/main.c:
+	Remove unnecessary gdkx.h includes. Bug #551225.
+
 2008-09-04  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/catalog.c: (catalog_load_from_disk__common):
