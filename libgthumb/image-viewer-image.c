@@ -200,12 +200,14 @@ create_pixbuf_from_iter (ImageViewerImage *image)
 	priv->anim_pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (iter);
 	priv->frame_delay = gdk_pixbuf_animation_iter_get_delay_time (iter);
 
-	if (priv->buffer != NULL)
-	{
+	if (priv->buffer != NULL) {
 		cairo_surface_destroy (priv->buffer);
+		priv->buffer = NULL;
 	}
 
-	priv->buffer = pixbuf_to_surface (priv->anim_pixbuf);
+	if (priv->anim_pixbuf != NULL) {
+		priv->buffer = pixbuf_to_surface (priv->anim_pixbuf);
+	}
 
 	gtk_widget_queue_draw (GTK_WIDGET (priv->viewer));
 }
@@ -418,13 +420,11 @@ image_viewer_image_new (ImageViewer* viewer,
 	priv->is_animation = (priv->anim != NULL) &&
 		! gdk_pixbuf_animation_is_static_image (priv->anim);
 
-	if (priv->is_animation)
-	{
+	if (priv->is_animation) {
 		create_first_pixbuf (image);
 		add_change_frame_timeout(image);
 	}
-	else
-	{
+	else if (priv->static_pixbuf != NULL) {
 		priv->buffer = pixbuf_to_surface (priv->static_pixbuf);
 	}
 
@@ -898,17 +898,25 @@ cairo_surface_t*
 pixbuf_to_surface (GdkPixbuf *pixbuf)
 {
 	/* based on gdk_cairo_set_source_pixbuf */
-	gint    width = gdk_pixbuf_get_width (pixbuf);
-	gint    height = gdk_pixbuf_get_height (pixbuf);
-	guchar *gdk_pixels = gdk_pixbuf_get_pixels (pixbuf);
-	int     gdk_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	int     n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+	gint    width;
+	gint    height;
+	guchar *gdk_pixels;
+	int     gdk_rowstride;
+	int     n_channels;
 	int     cairo_stride;
 	guchar *cairo_pixels;
 	cairo_format_t format;
 	cairo_surface_t *surface;
 	static const cairo_user_data_key_t key;
 	int j;
+
+	g_return_val_if_fail (pixbuf != NULL, NULL);
+
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	gdk_pixels = gdk_pixbuf_get_pixels (pixbuf);
+	gdk_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 
 	if (n_channels == 3)
 		format = CAIRO_FORMAT_RGB24;

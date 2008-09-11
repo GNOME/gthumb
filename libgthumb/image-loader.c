@@ -414,7 +414,6 @@ image_loader_set_pixbuf (ImageLoader *il,
 			 GdkPixbuf   *pixbuf)
 {
 	g_return_if_fail (il != NULL);
-	g_return_if_fail (pixbuf != NULL);
 
 	g_mutex_lock (il->priv->data_mutex);
 	if (il->priv->animation != NULL) {
@@ -425,10 +424,10 @@ image_loader_set_pixbuf (ImageLoader *il,
 		g_object_unref (il->priv->pixbuf);
 		il->priv->pixbuf = NULL;
 	}
+
+	il->priv->pixbuf = pixbuf;
 	if (pixbuf != NULL) {
 		g_object_ref (pixbuf);
-		il->priv->pixbuf = pixbuf;
-		/*il->priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
 	}
 	g_mutex_unlock (il->priv->data_mutex);
 }

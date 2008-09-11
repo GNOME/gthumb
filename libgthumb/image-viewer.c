@@ -1366,7 +1366,9 @@ set_pixbuf__step2 (ImageViewerLoadData *ivl_data)
 	image_loader_set_pixbuf (priv->loader, pixbuf);
 	create_image (priv->loader, ivl_data->viewer);
 
-	g_object_unref (G_OBJECT (pixbuf));
+	if (pixbuf != NULL)
+		g_object_unref (G_OBJECT (pixbuf));
+
 	g_free (ivl_data);
 
 }
@@ -1386,7 +1388,8 @@ image_viewer_set_pixbuf (ImageViewer *viewer,
 	ivl_data = g_new0 (ImageViewerLoadData, 1);
 	ivl_data->viewer = viewer;
 	ivl_data->data = pixbuf;
-	g_object_ref (G_OBJECT (pixbuf));
+	if (pixbuf != NULL)
+		g_object_ref (G_OBJECT (pixbuf));
 
 	image_loader_stop (priv->loader,
 			   (DoneFunc) set_pixbuf__step2,
@@ -1404,10 +1407,11 @@ image_viewer_set_void (ImageViewer *viewer)
 
 	priv = IMAGE_VIEWER_GET_PRIVATE (viewer);
 
-	g_object_unref (priv->image);
-	priv->image = NULL;
-
-	gtk_widget_queue_resize (GTK_WIDGET (viewer));
+	if (priv->image) {
+		g_object_unref (priv->image);
+		priv->image = NULL;
+		gtk_widget_queue_resize (GTK_WIDGET (viewer));
+	}
 }
 
 

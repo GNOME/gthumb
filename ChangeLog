@@ -1,3 +1,17 @@
+2008-09-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/image-loader.c: (image_loader_set_pixbuf)
+	Allow setting the pixbuf to NULL.
+
+	* libgthumb/image-viewer-image.c: (create_pixbuf_from_iter),
+	(image_viewer_image_new), (pixbuf_to_surface):
+	* libgthumb/image-viewer.c: (set_pixbuf__step2),
+	(image_viewer_set_pixbuf), (image_viewer_set_void):
+	Avoid dereferencing NULL pointers.
+
+	Fixes regression from bug #501512. Patch by 
+	Geoffrey Antos <dynamotwain@aim.com>.
+
 2008-09-10  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/catalog-png-exporter.c:
