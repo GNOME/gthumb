@@ -1,3 +1,8 @@
+2008-09-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* ro.po: Added Romanian Translation by Mihai Varzaru.
+	* LINGUAS: added ro.po
+
 2008-09-19  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	* th.po: Updated Thai translation by Manatsawin Hanmongkolchai
