@@ -104,7 +104,8 @@ GList *             dir_list_filter_and_sort      (GList            *dir_list,
 						   gboolean          names_only,
 						   gboolean          show_dot_files);
 gboolean            file_filter                   (FileData         *file,
-	     					   gboolean          show_hidden_files);
+	     					   gboolean          show_hidden_files,
+	     					   gboolean          show_only_images);
 
 typedef void (*VisitFunc) (char *real_file, char *rc_file, gpointer data);
 gboolean            visit_rc_directory_sync       (const char       *rc_dir,

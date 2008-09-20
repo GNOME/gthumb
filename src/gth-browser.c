@@ -80,7 +80,7 @@
 
 #include "icons/pixbufs.h"
 
-#define GCONF_NOTIFICATIONS 20
+#define GCONF_NOTIFICATIONS 21
 
 #define VIEW_AS_DELAY 500
 
@@ -218,6 +218,7 @@ struct _GthBrowserPrivateData {
 	gboolean            load_image_folder_after_image;
 	gboolean            focus_current_image;
 	gboolean            show_hidden_files;
+	gboolean            show_only_images;
 	gboolean            fast_file_type;
 	
 	guint               activity_timeout;   /* activity timeout handle. */
@@ -4873,6 +4874,25 @@ pref_show_hidden_files_changed (GConfClient *client,
 
 
 static void
+pref_show_only_images_changed (GConfClient *client,
+			       guint        cnxn_id,
+			       GConfEntry  *entry,
+			       gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	gboolean    show_only_images;
+	
+	show_only_images = eel_gconf_get_boolean (PREF_SHOW_ONLY_IMAGES, FALSE);
+	if (show_only_images == browser->priv->show_only_images) 
+		return;
+
+	browser->priv->show_only_images = show_only_images;
+	gth_dir_list_show_only_images (browser->priv->dir_list, browser->priv->show_only_images);
+	window_update_file_list (browser);
+}
+
+
+static void
 pref_fast_file_type_changed (GConfClient *client,
 			     guint        cnxn_id,
 			     GConfEntry  *entry,
@@ -5676,7 +5696,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			
 			file = file_data_new (path, NULL);
 			file_data_update_all (file, browser->priv->fast_file_type);
-			if (file_filter (file, browser->priv->show_hidden_files))
+			if (file_filter (file, browser->priv->show_hidden_files, browser->priv->show_only_images))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else
 				file_data_unref (file);
@@ -7080,6 +7100,7 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->sel_change_timeout = 0;
 	
 	priv->show_hidden_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	priv->show_only_images = eel_gconf_get_boolean (PREF_SHOW_ONLY_IMAGES, FALSE);
 	priv->fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 	
 	/* preloader */
@@ -7197,6 +7218,11 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_HIDDEN_FILES,
 					   pref_show_hidden_files_changed,
+					   browser);
+					   
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_SHOW_ONLY_IMAGES,
+					   pref_show_only_images_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (

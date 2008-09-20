@@ -65,7 +65,7 @@
 #define BUF_SIZE 4096
 #define CHUNK_SIZE 128
 #define MAX_SYMLINKS_FOLLOWED 32
-
+#define ITEMS_PER_NOTIFICATION 1024
 
 /* Async directory list */
 
@@ -236,7 +236,7 @@ path_list_async_new (const char         *uri,
 	gnome_vfs_async_load_directory_uri (&handle,
 					    pli->uri,
 					    GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-					    128 /* items_per_notification FIXME: find a good value */,
+					    ITEMS_PER_NOTIFICATION,
 					    GNOME_VFS_PRIORITY_DEFAULT,
 					    directory_load_cb,
 					    pli);
@@ -539,15 +539,21 @@ dir_list_filter_and_sort (GList    *dir_list,
 /* return TRUE to add the file to the file list. */
 gboolean
 file_filter (FileData *file,
-	     gboolean  show_hidden_files)
+	     gboolean  show_hidden_files,
+	     gboolean  show_only_images)
 {
 	if (file->mime_type == NULL)
 		return FALSE;
 
-	if ((! show_hidden_files && file_is_hidden (file->name))
-	    || ! (mime_type_is_image (file->mime_type) 
-	          || mime_type_is_video (file->mime_type)
-	          || mime_type_is_audio (file->mime_type)))
+	if (! show_hidden_files && file_is_hidden (file->name))
+		return FALSE;
+		
+	if (show_only_images && ! mime_type_is_image (file->mime_type))
+		return FALSE;
+		
+	if (! (mime_type_is_image (file->mime_type) 
+	       || mime_type_is_video (file->mime_type)
+	       || mime_type_is_audio (file->mime_type)))
 		return FALSE;
 			
 	return TRUE;
@@ -676,9 +682,6 @@ gboolean mime_type_is_image (const char *mime_type)
 {
 	/* Valid image mime types:
 	   	1. All image* types, 
-		1b.	except for image/x-xcf, image/x-compressed-xcf
-			because we can't read these gimp files, and fast,
-			reliable converters are not really available.
 		2. application/x-crw
 			This is a RAW photo file, which for some reason
 			uses an "application" prefix instead of "image".
@@ -686,8 +689,8 @@ gboolean mime_type_is_image (const char *mime_type)
 
 	g_return_val_if_fail (mime_type != NULL, FALSE);
 
-	return (   ((strstr (mime_type, "image") != NULL) && (strstr (mime_type, "xcf") == NULL))
-		|| (strcmp (mime_type, "application/x-crw") == 0) );
+	return ((strstr (mime_type, "image") != NULL) 
+		|| (strcmp (mime_type, "application/x-crw") == 0));
 }
 
 

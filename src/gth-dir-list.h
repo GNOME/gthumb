@@ -51,6 +51,7 @@ struct _GthDirList {
 	GtkCellRenderer *text_renderer;
 	gboolean         show_dot_files; /* Whether to show file names that begin
 				          * with a dot. */
+	gboolean         show_only_images;
 	gboolean         single_click;
 	GtkTreePath     *hover_path;
 	char            *old_dir;
@@ -70,6 +71,8 @@ struct _GthDirListClass {
 GType          gth_dir_list_get_type                (void);
 GthDirList *   gth_dir_list_new                     (void);
 void           gth_dir_list_show_hidden_files       (GthDirList  *dir_list,
+				     		     gboolean     show);
+void           gth_dir_list_show_only_images        (GthDirList  *dir_list,
 				     		     gboolean     show);
 void           gth_dir_list_change_to               (GthDirList  *dir_list,
 						     const char  *path);

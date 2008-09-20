@@ -45,6 +45,7 @@
 #define  PREF_MIGRATE_COMMENT_SYSTEM "/apps/gthumb/general/migrate_comment_system"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
+#define  PREF_SHOW_ONLY_IMAGES       "/apps/gthumb/browser/show_only_images"
 #define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"
 #define  PREF_SHOW_COMMENTS          "/apps/gthumb/browser/show_comments"
 #define  PREF_SHOW_THUMBNAILS        "/apps/gthumb/browser/show_thumbnails"

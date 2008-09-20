@@ -512,7 +512,7 @@ catalog_get_file_data_list (Catalog         *catalog,
 		
 		fd = file_data_new (path, NULL);
 		file_data_update (fd);  /* FIXME: when to update the mime-type */
-		if (file_filter (fd, TRUE))
+		if (file_filter (fd, TRUE, FALSE))
 			list = g_list_prepend (list, fd);
 	}
 	list = g_list_reverse (list);
