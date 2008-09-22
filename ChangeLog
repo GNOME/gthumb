@@ -1,8 +1,14 @@
+2008-09-22  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	[ gthumb 2.10.10 released ]
+
+	* NEWS: updated.
+
 2008-09-20  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/file-utils.c (mime_type_is_image): 
 	
-	Do not exclude xcf images.
+	Fixed bug: Do not exclude xcf images from the file list.
 
 	* src/gth-dir-list.h: 
 	* src/gth-dir-list.c: 
@@ -13,8 +19,8 @@
 	* libgthumb/catalog.c: 
 	* data/gthumb.schemas.in: 
 	
-	Added ability to hide video and audio files, using the gconf key 
-	/apps/gthumb/browser/show_only_images.
+	Feature: Added ability to hide video and audio files, using the 
+	gconf key /apps/gthumb/browser/show_only_images.
 	
 	* COPYING: new file.
 	
