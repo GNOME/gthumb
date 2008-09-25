@@ -10,12 +10,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-23 22:46+0200\n"
-"PO-Revision-Date: 2008-09-23 23:27+0200\n"
+"POT-Creation-Date: 2008-09-25 19:01+0200\n"
+"PO-Revision-Date: 2008-09-25 19:14+0200\n"
 "Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type:  text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:290
@@ -50,11 +50,11 @@ msgstr "Datum"
 
 #: ../data/albumthemes/text.h:34
 msgid "Exposure time"
-msgstr "Aufnahmezeit"
+msgstr "Belichtungszeit"
 
 #: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
-msgstr "Aufnahmemodus"
+msgstr "Belichtungsmodus"
 
 #: ../data/albumthemes/text.h:36
 msgid "Flash"
@@ -286,12 +286,12 @@ msgid ""
 msgstr ""
 "Falls aus Versehen wertvolle Fotos gelöscht worden sind, laden Sie das "
 "hervorragende Hilfsprogramm »PhotoRec« von http://www.cgsecurity.org "
-"herunter. PhotoRec kann normalerweile Bilder retten, die vor kurzem von "
+"herunter. PhotoRec kann normalerweise Bilder retten, die vor kurzem von "
 "Flash-Speicherkarten und anderen Medien gelöscht wurden."
 
 #: ../data/glade/gthumb_camera.glade.h:11
 msgid "Import Photos"
-msgstr "Photos importieren"
+msgstr "Fotos importieren"
 
 #: ../data/glade/gthumb_camera.glade.h:12 ../src/dlg-photo-importer.c:931
 #: ../src/dlg-photo-importer.c:970 ../src/dlg-photo-importer.c:1688
@@ -1171,10 +1171,10 @@ msgid ""
 "camera - photos, videos, and audio files. You can omit the audio and video "
 "files by deselecting this checkbox."
 msgstr ""
-"Als Vorgabe listet gThumb alle Dateien auf, die typischerweise auf einer "
+"Laut Vorgabe listet gThumb alle Dateien auf, die typischerweise auf einer "
 "Digitalkamera gefunden werden können - Fotos, Videos und Audio-Dateien. Sie "
-"können Audio- und Videodateien durch Abwählen dieses Ankreuzfeldxes "
-"ausschließen"
+"können Audio- und Videodateien durch Abwählen dieses Ankreuzfeldes "
+"ausschließen."
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
@@ -1763,8 +1763,8 @@ msgstr ""
 "%F = alle ausgewählten Dateien in einer Zeile, durch Leerzeichen getrennt\n"
 "%f = ein einzelner Dateiname, inklusive Pfad\n"
 "%b = ein einzelner Dateiname, exklusive Pfad\n"
-"%n = ein einzelner Dateiname inklusive Pflad, ohne Erweiterung\n"
-"%m = ein einzelner Dateiname exklusive Pflad ohne Erweiterung\n"
+"%n = ein einzelner Dateiname inklusive Pfad, ohne Erweiterung\n"
+"%m = ein einzelner Dateiname exklusive Pfad ohne Erweiterung\n"
 "%e = eine einzelne Erweiterung (beginnend mit einem Punkt)\n"
 "%p = der Elternordner einer einzelnen Datei</i>\n"
 "<i>[text] = eine Benutzerabfrage, die bei jedem Durchlauf erneuert wird</i>\n"
@@ -2439,7 +2439,7 @@ msgstr "HTML-Seiten werden gespeichert: Bilder"
 
 #: ../src/catalog-web-exporter.c:2504
 msgid "Saving HTML pages: Indexes"
-msgstr "HTML-Seiten werden gespeichert: Indizies"
+msgstr "HTML-Seiten werden gespeichert: Indizes"
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
