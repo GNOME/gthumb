@@ -1,3 +1,9 @@
+version 2.10.11
+---------------
+
+	* The "g" key now launches the "gimp" command, instead of the
+	  deprecated "gimp-remote" command.
+
 version 2.10.10
 ---------------
 

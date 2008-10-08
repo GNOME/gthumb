@@ -2,8 +2,8 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY appversion "2.10.8">
-  <!ENTITY manualversion "2.10.8">
+  <!ENTITY appversion "2.10.10">
+  <!ENTITY manualversion "2.10.10">
   <!ENTITY date "October 2006">
   <!ENTITY appname "gThumb">
   <!ENTITY app "<application>gThumb</application>">
@@ -2775,12 +2775,12 @@
       <itemizedlist>
 	  <listitem>
 	    <para>
-		<command>gimp-remote %F</command>
+		<command>gimp %F</command>
             </para>
 	    <para>
 		This script tells the GNU Image Manipulation Program (gimp) to open
 	        all of the select files. This is most efficient if we include all of
-	 	the filenames on one line, rather than calling <command>gimp-remote</command>
+	 	the filenames on one line, rather than calling <command>gimp</command>
 		once for each file, so we have used the %F code.
 	    </para>
           </listitem>

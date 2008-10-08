@@ -548,7 +548,7 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_entry_set_text (GTK_ENTRY (data->hotkey0), 
 			    eel_gconf_get_string (PREF_HOTKEY0, 
-			    "gimp-remote %F"));
+			    "gimp %F"));
 
 	gtk_entry_set_text (GTK_ENTRY (data->hotkey1), 
 			    eel_gconf_get_string (PREF_HOTKEY1, 
