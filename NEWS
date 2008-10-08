@@ -65,6 +65,19 @@ trunk, since last 2.10.x
 	* libiptcdata is no longer used.
 	* libexif is no longer used.
 
+version 2.10.10
+---------------
+
+        New features and user visible changes:
+
+        * Added ability to hide video and audio files, using the gconf key
+          /apps/gthumb/browser/show_only_images.
+
+        Bugs fixed:
+
+        * #552453: gthumb 2.10.9 contains COPYING for GPL v3
+        * #546383: gthumb 2.10.9 fails to link Patch by Götz Waschk.
+        * Do not exclude xcf images from the file list.
 
 version 2.10.9
 --------------
