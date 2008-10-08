@@ -65,6 +65,12 @@ trunk, since last 2.10.x
 	* libiptcdata is no longer used.
 	* libexif is no longer used.
 
+version 2.10.11
+---------------
+
+	* The "g" key now launches the "gimp" command, instead of the
+	  deprecated "gimp-remote" command.
+
 version 2.10.10
 ---------------
 

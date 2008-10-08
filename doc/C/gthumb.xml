@@ -3229,12 +3229,12 @@
       <itemizedlist>
 	  <listitem>
 	    <para>
-		<command>gimp-remote %F</command>
+		<command>gimp %F</command>
             </para>
 	    <para>
 		This script tells the GNU Image Manipulation Program (gimp) to open
 	        all of the select files. This is most efficient if we include all of
-	 	the filenames on one line, rather than calling <command>gimp-remote</command>
+	 	the filenames on one line, rather than calling <command>gimp</command>
 		once for each file, so we have used the %F code.
 	    </para>
           </listitem>

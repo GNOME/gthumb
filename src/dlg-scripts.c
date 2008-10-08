@@ -87,7 +87,7 @@ typedef struct {
 
 
 static ScriptCommand script_commands[] = { 
-	{N_("Edit with GIMP"), "gimp-remote %F"},
+	{N_("Edit with GIMP"), "gimp %F"},
 	{N_("Add copyright"), "convert %f -font Helvetica -pointsize 20 -fill white  -box '#00000080'  -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e"},
 	{N_("Copy to \"approved\" folder"), "mkdir -p %p/approved ; cp %f %p/approved/"},
 	{N_("Send by email"), "uuencode %f %f | mail -s Photos your@emailaddress.com"},
