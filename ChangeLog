@@ -1,3 +1,25 @@
+2008-09-20  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/file-utils.c (mime_type_is_image): 
+	
+	Do not exclude xcf images.
+
+	* src/gth-dir-list.h: 
+	* src/gth-dir-list.c: 
+	* src/gth-browser.c: 
+	* libgthumb/preferences.h: 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/catalog.c: 
+	* data/gthumb.schemas.in: 
+	
+	Added ability to hide video and audio files, using the gconf key 
+	/apps/gthumb/browser/show_only_images.
+	
+	* COPYING: new file.
+	
+	Fixes bug #552453 – gthumb 2.10.9 contains COPYING for GPL v3
+
 2008-09-11  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_set_pixbuf)

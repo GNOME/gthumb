@@ -318,7 +318,7 @@ static void
 include_audio_video_toggled_cb (GtkToggleButton *button,
                                 DialogData      *data)
 {
-        eel_gconf_set_boolean (PREF_INCLUDE_AUDIO_VIDEO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video)));
+        eel_gconf_set_boolean (PREF_SHOW_ONLY_IMAGES, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video)));
 	gth_browser_refresh (data->browser);
 }
 
@@ -489,7 +489,7 @@ dlg_preferences (GthBrowser *browser)
 	/* * browser */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video), eel_gconf_get_boolean (PREF_INCLUDE_AUDIO_VIDEO, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_audio_video), ! eel_gconf_get_boolean (PREF_SHOW_ONLY_IMAGES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));

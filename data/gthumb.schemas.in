@@ -111,6 +111,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/browser/show_only_images</key>
+	<applyto>/apps/gthumb/browser/show_only_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/browser/show_filenames</key>
 	<applyto>/apps/gthumb/browser/show_filenames</applyto>
 	<owner>gthumb</owner>
@@ -160,19 +173,6 @@
 	  <long>
 	  </long>
 	</locale>
-      </schema>
-
-      <schema>
-        <key>/schemas/apps/gthumb/browser/include_audio_video</key>
-        <applyto>/apps/gthumb/browser/include_audio_video</applyto>
-        <owner>gthumb</owner>
-        <type>bool</type>
-        <default>true</default>
-        <locale name="C">
-          <short></short>
-          <long>
-          </long>
-        </locale>
       </schema>
 
       <schema>

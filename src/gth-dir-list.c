@@ -41,6 +41,7 @@
 #include "comments.h"
 
 #define DEF_SHOW_HIDDEN FALSE
+#define DEF_SHOW_ONLY_IMAGES FALSE
 
 enum {
 	DIR_LIST_COLUMN_ICON,
@@ -282,6 +283,7 @@ gth_dir_list_init (GthDirList *dir_list)
 	dir_list->list = NULL;
 	dir_list->file_list = NULL;
 	dir_list->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN);
+	dir_list->show_only_images = eel_gconf_get_boolean (PREF_SHOW_ONLY_IMAGES, DEF_SHOW_ONLY_IMAGES);
 	dir_list->old_dir = NULL;
 	dir_list->dir_load_handle = NULL;
 
@@ -365,6 +367,14 @@ gth_dir_list_show_hidden_files (GthDirList  *dir_list,
 	     		        gboolean     show)
 {
 	dir_list->show_dot_files = show;
+}
+
+
+void
+gth_dir_list_show_only_images (GthDirList  *dir_list,
+			       gboolean     show)
+{
+	dir_list->show_only_images = show;
 }
 
 
@@ -508,7 +518,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 
 	filtered = dir_list_filter_and_sort (new_dir_list,
 			         	     TRUE,
-					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
+					     dir_list->show_dot_files);
 
 	/* * Add the ".." entry if the current path is not "/".
 	 * path_list_async_new does not include the "." and ".." elements. */
@@ -566,7 +576,7 @@ gth_dir_list_filter_func (PathListData  *pld,
 			  gpointer       data)
 {
 	GthDirList *dir_list = data;
-	return file_filter (file, dir_list->show_dot_files);
+	return file_filter (file, dir_list->show_dot_files, dir_list->show_only_images);
 }
 
 
@@ -631,8 +641,7 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 
 	/* insert dir in the list */
 
-	if (! (file_is_hidden (name_only)
-	       && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN))
+	if (! (file_is_hidden (name_only) && ! dir_list->show_dot_files)
 	    && ! same_uri (name_only, CACHE_DIR))
 		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
 	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);
