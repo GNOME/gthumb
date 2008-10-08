@@ -1,5 +1,11 @@
 2008-10-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/main.c: (convert_to_new_comment_system):
+	Terminate "Converting comment system...done" with newline.
+	Bug #554149. Patch by Tormod Volden <bugbudd.y.tormod@xoxy.net>.
+
+2008-10-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* doc/C/gthumb.xml:
 	* src/dlg-preferences.c: (dlg_preferences):

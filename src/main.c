@@ -209,7 +209,7 @@ convert_to_new_comment_system (void)
 				 TRUE,
 				 convert_old_comment,
 				 NULL);
-	g_print ("done.");
+	g_print ("done.\n");
 	eel_gconf_set_boolean (PREF_MIGRATE_COMMENT_SYSTEM, FALSE);
 }
 
