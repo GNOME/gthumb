@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb doc\n"
-"POT-Creation-Date: 2007-12-07 21:26+0000\n"
-"PO-Revision-Date: 2007-12-16 15:46+0100\n"
+"POT-Creation-Date: 2008-10-08 18:39+0000\n"
+"PO-Revision-Date: 2008-10-09 08:19+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgid "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 msgstr "@@image: 'figures/nav-button.png'; md5=8aeb00ad033680aae2f0e460158620a3"
 
 #: C/gthumb.xml:19(title)
-msgid "<application>gThumb</application> Manual V2.10.8"
-msgstr "Handbok för <application>gThumb</application> v2.10.8"
+msgid "<application>gThumb</application> Manual V2.10.10"
+msgstr "Handbok för <application>gThumb</application> v2.10.10"
 
 #: C/gthumb.xml:21(year)
 msgid "2001"
@@ -99,8 +99,8 @@ msgid "kirillov@math.sunysb.edu"
 msgstr "kirillov@math.sunysb.edu"
 
 #: C/gthumb.xml:68(revnumber)
-msgid "2.10.8"
-msgstr "2.10.8"
+msgid "2.10.10"
+msgstr "2.10.10"
 
 #: C/gthumb.xml:69(date)
 msgid "October 2006"
@@ -108,8 +108,8 @@ msgstr "Oktober 2006"
 
 #. this is version of manual, not application
 #: C/gthumb.xml:79(releaseinfo)
-msgid "This is manual describes version 2.10.8 of gThumb"
-msgstr "Den här handboken beskriver version 2.10.8 av gThumb"
+msgid "This is manual describes version 2.10.10 of gThumb"
+msgstr "Den här handboken beskriver version 2.10.10 av gThumb"
 
 #: C/gthumb.xml:82(para)
 msgid "<application>gThumb</application> is an image viewer and browser for the GNOME environment"
@@ -2142,12 +2142,12 @@ msgid "Several default scripts are provided. These can be replaced by the user, 
 msgstr "Flera standardskript tillhandahålls. Dessa kan ersättas av användaren om så önskas. Standardskripten förklaras här nedanför:"
 
 #: C/gthumb.xml:2778(command)
-msgid "gimp-remote %F"
-msgstr "gimp-remote %F"
+msgid "gimp %F"
+msgstr "gimp %F"
 
 #: C/gthumb.xml:2780(para)
-msgid "This script tells the GNU Image Manipulation Program (gimp) to open all of the select files. This is most efficient if we include all of the filenames on one line, rather than calling <command>gimp-remote</command> once for each file, so we have used the %F code."
-msgstr "Det här skriptet talar om för GNU Image Manipulation Program (gimp) att öppna alla markerade filer. Det är mest effektivt om vi inkluderar alla filnamnen på en rad istället för att anropa <command>gimp-remote</command> en gång för varje fil så vi måste använda koden %F."
+msgid "This script tells the GNU Image Manipulation Program (gimp) to open all of the select files. This is most efficient if we include all of the filenames on one line, rather than calling <command>gimp</command> once for each file, so we have used the %F code."
+msgstr "Det här skriptet talar om för GNU Image Manipulation Program (gimp) att öppna alla markerade filer. Det är mest effektivt om vi inkluderar alla filnamnen på en rad istället för att anropa <command>gimp</command> en gång för varje fil så vi måste använda koden %F."
 
 #: C/gthumb.xml:2789(command)
 msgid "convert %f -font Helvetica -pointsize 20 -fill white -box '#00000080' -gravity South -annotate +0+5 ' Copyright 2007, Your Name Here ' %n-copyright%e"
@@ -2605,7 +2605,7 @@ msgstr "Lämna helskärmsläget."
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
 #: C/gthumb.xml:0(None)
 msgid "translator-credits"
-msgstr "Daniel Nylander <po@danielnylander.se>, 2006, 2007"
+msgstr "Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008"
 
 #~ msgid "2.9.0"
 #~ msgstr "2.9.0"
