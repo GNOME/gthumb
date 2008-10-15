@@ -1,3 +1,10 @@
+2008-10-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* src/dlg-photo-importer.c: (destroy_cb), (save_image),
+	(ok_clicked_cb):
+	Go to the last-used subfolder (instead of the base folder) after 
+	importing photos, when the group-into-subfolders mode is used.
+
 2008-10-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

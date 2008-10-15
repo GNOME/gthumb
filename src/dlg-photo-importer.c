@@ -126,6 +126,7 @@ struct _DialogData {
 
 	int                  image_n;
 	char                *local_folder;
+	char                *last_folder;
 
 	GthImporterOp        current_op;
 	gboolean             async_operation;
@@ -399,12 +400,12 @@ destroy_cb (GtkWidget  *widget,
 		if (browser == NULL) {
 			browser = gth_browser_get_current_browser ();
 			if (browser != NULL)
-				gth_browser_go_to_directory (GTH_BROWSER (browser), data->local_folder);
+				gth_browser_go_to_directory (GTH_BROWSER (browser), data->last_folder);
 			else
-				browser = gth_browser_new (data->local_folder);
+				browser = gth_browser_new (data->last_folder);
 			gtk_window_present (GTK_WINDOW (browser));
 		} else
-			gth_browser_go_to_directory (data->browser, data->local_folder);
+			gth_browser_go_to_directory (data->browser, data->last_folder);
 	}
 
 	/**/
@@ -412,6 +413,7 @@ destroy_cb (GtkWidget  *widget,
 	g_free (data->progress_info);
 	g_free (data->msg_text);
 	g_free (data->local_folder);
+	g_free (data->last_folder);
 
 	if (data->no_camera_pixbuf != NULL)
 		g_object_unref (data->no_camera_pixbuf);
@@ -1368,6 +1370,9 @@ save_image (DialogData *data,
 				error_found = TRUE;
 			}
 
+			g_free (data->last_folder);
+			data->last_folder = g_strdup (dest_folder);
+
 			g_free (dest_folder);
 		}
 
@@ -1692,8 +1697,11 @@ ok_clicked_cb (GtkButton  *button,
 	/**/
 
 	g_free (data->local_folder);
+	g_free (data->last_folder);
 
 	data->local_folder = get_folder_name (data);
+	data->last_folder = g_strdup (data->local_folder);
+
 	if (data->local_folder == NULL)
 		return;
 
