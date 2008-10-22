@@ -1,5 +1,11 @@
 2008-10-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* doc/C/figures/main-win.png: 
+	Replaced obsolete screenshot with a more recent one provided
+	by Bryan Quigley <gQuigs@gMail.com>. Bug #557339.
+
+2008-10-15  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-photo-importer.c: (destroy_cb), (save_image),
 	(ok_clicked_cb):
 	Go to the last-used subfolder (instead of the base folder) after 
