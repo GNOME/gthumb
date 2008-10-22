@@ -1853,7 +1853,6 @@
               <entry align="left"><para>
                 &app; searches for images that have "paris" OR
                 "rome" OR "london" in the place field.
-                place field.
               </para></entry>
             </row>
           </tbody>
@@ -1879,7 +1878,7 @@
 
 	      <listitem>
 	        <para>
-	        <guilabel>before, equal to, after</guilabel>: the date must be  less recent, equal to or more recent than the date specified.
+	        <guilabel>before, equal to, after</guilabel>: the date must be less recent, equal to, or more recent than the date specified.
 	        </para>
               </listitem>
 
