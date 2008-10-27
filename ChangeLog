@@ -1,3 +1,9 @@
+2008-10-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/C/figures/main-win.png:
+	Improved screenshot by Bryan Quigley <gQuigs@gMail.com>.
+	Bug #557339.
+
 2008-10-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml: Fixed typos in the manual. Bug #557233. Patch
