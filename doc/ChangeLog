@@ -1,3 +1,8 @@
+2008-11-07  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+	* C/ghtumb.xml: Fixed some typos and wrong grammar. 
+	Bug #58600.
+
 2008-11-05  Christian Kirbach  <Christian.Kirbach@googlemail.com>
 
 	* Makefile.am: added 'de' to DOC_LINGUAS.

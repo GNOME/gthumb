@@ -2192,8 +2192,8 @@
         by disabling the <guilabel>Apply physical transform</guilabel> checkbox.
         If you must use the physical transform approach with
         images whose dimensions are not multiples of 8, &app; will allow you to
-        proceed despite with possible image distortion, but it will also ask if you
-        would like the trim the image slightly (by up to 7 columns and/or rows
+        proceed despite possible image distortion, but it will also ask if you
+        would like to trim the image slightly (by up to 7 columns and/or rows
         of pixels) to remove the problem areas.
       </para>
     </sect2>
@@ -2868,7 +2868,7 @@
             </entry>
             <entry>
               <para>
-                The day of the week as a decimal, range 1 to 7, Monday being 1. See also %w.  
+                The day of the week as a decimal number, range 1 to 7, Monday being 1. See also %w.  
               </para>
             </entry>
           </row>
@@ -3024,13 +3024,13 @@
          looks the same as before but the orientation tag is reset to "top left".
          If this checkbox is not enabled, the image data and the orientation tag
          are both left unchanged. The image will be displayed identically by
-         gthumb for both possibilities, but for maximum compatibility with other
+         <application>gThumb</application> for both possibilities, but for maximum compatibility with other
          applications this checkbox should be enabled.
        </para>
        <sect3 id="gthumb-select-camera">
 	<title>Selecting the Camera Model</title>
          <para>
-         &app; should auto-detect your camera (if it is turned on) when you
+         &app; should auto-detect your camera (if it is connected and turned on) when you
          launch the <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
          </guimenuitem></menuchoice> dialog. If it does, a camera icon will be
          displayed in the dialog box. If not, a camera with an "X" through it
@@ -3038,7 +3038,7 @@
          </para>
          <para>
          If the wrong camera has been detected, click the camera icon to select
-         a different one. A drop-down box listing all auto-detected cameras will
+         the correct one. A drop-down box listing all auto-detected cameras will
          be shown. If the <guilabel>Use manual selection instead</guilabel> checkbox
          is enabled, the user can manually set the camera model and port.
          </para>
@@ -3098,8 +3098,8 @@
       </para>
       <para>
 	When a user presses one of these keys, an external shell script 
-	will be launched. Certain codes can be including in the script.
-	These codes will be replaced by &app; when the script is actually
+	will be launched. Certain codes can be included in the script.
+	These codes will be replaced by &app; when a script is actually
 	launched, as follows:
       </para>
       <informaltable frame="all">
@@ -3122,27 +3122,27 @@
             </row>
             <row valign="top">
               <entry><para>%f</para></entry>
-              <entry align="left"><para>A single filename, including path</para></entry>
+              <entry align="left"><para>A single filename, including path.</para></entry>
             </row>
             <row valign="top">
               <entry><para>%b</para></entry>
-              <entry align="left"><para>A single filename, excluding path</para></entry>
+              <entry align="left"><para>A single filename, excluding path.</para></entry>
             </row>
             <row valign="top">
               <entry><para>%n</para></entry>
-              <entry align="left"><para>A single filename, including path, with no extension</para></entry>
+              <entry align="left"><para>A single filename, including path, with no extension.</para></entry>
             </row>
             <row valign="top">
               <entry><para>%m</para></entry>
-              <entry align="left"><para>A single filename, excluding path, with no extension</para></entry>
+              <entry align="left"><para>A single filename, excluding path, with no extension.</para></entry>
             </row>
             <row valign="top">
               <entry><para>%e</para></entry>
-              <entry align="left"><para>A single extension (starting with a period)</para></entry>
+              <entry align="left"><para>A single extension (starting with a period).</para></entry>
             </row>
             <row valign="top">
               <entry><para>%p</para></entry>
-              <entry align="left"><para>The parent folder of the single file</para></entry>
+              <entry align="left"><para>The parent folder of the single file.</para></entry>
             </row>
             <row valign="top">
               <entry><para>[text]</para></entry>
@@ -3207,7 +3207,7 @@
 				<para>
 					<command>mkdir -p %p/{#%B}{FOLDER}; cp %f %p/{FOLDER}/</command>
 					This script will create a series of subfolders based on the month the picture was taken,
-					but they will be named according to the user's comments on the date. So if the you enters
+					but they will be named according to the user's comments on the date. So if you enter
 					the word 'Ides' for March, all the photos taken in March will be copied to
 					"/home/user/photos/Ides/".
 				</para>
@@ -3279,7 +3279,7 @@
                 <command>rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com</command>
             </para>
             <para>
-                This combines the previous two scripts, so that the selected images are combined into
+                This combines the previous two scripts, so that the selected images are compressed into
                 a single zip file, which is then emailed.
             </para>
           </listitem>
@@ -3331,7 +3331,7 @@
   </itemizedlist>
   <para>
     Keep in mind that when you change an option it will automatically
-    applied,  this is why there is no <guibutton>Ok</guibutton> or
+    applied. This is why there is no <guibutton>Ok</guibutton> or
     <guibutton>Apply</guibutton> button.
   </para>
 
@@ -3450,7 +3450,7 @@
 	  <listitem>
 	    <para>Controls the background used for partly transparent
 	    images. By default the transparent part of the image is
-	    replaced the window background color,that is the
+	    replaced by the window background color,that is the
 	    <guilabel>none</guilabel> option.
 	    </para>
 	  </listitem>
