@@ -3450,7 +3450,7 @@
 	  <listitem>
 	    <para>Controls the background used for partly transparent
 	    images. By default the transparent part of the image is
-	    replaced by the window background color,that is the
+	    replaced by the window background color, that is the
 	    <guilabel>none</guilabel> option.
 	    </para>
 	  </listitem>

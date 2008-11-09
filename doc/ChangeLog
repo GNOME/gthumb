@@ -1,3 +1,7 @@
+2008-11-09  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+	* C/ghtumb.xml: Missing space granted. Bug #58600.
+
 2008-11-07  Christian Kirbach  <Christian.Kirbach@googlemail.com>
 
 	* C/ghtumb.xml: Fixed some typos and wrong grammar. 
