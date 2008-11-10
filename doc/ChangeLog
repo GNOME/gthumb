@@ -1,3 +1,8 @@
+2008-06-25  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+	* de/de.po: Added German translation.
+	* de/figures/*png: Added German screenshots.
+
 2008-10-15  Jorge González  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation by Daniel Mustieles.
