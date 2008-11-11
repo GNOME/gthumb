@@ -1,4 +1,8 @@
-2008-06-25  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+2008-11-11  Christian Kirbach  <Christian.Kirbach@googlemail.com>
+
+        * Makefile.am: Added 'de' to DOC_LINGUAS.
+
+2008-11-10  Christian Kirbach  <Christian.Kirbach@googlemail.com>
 
 	* de/de.po: Added German translation.
 	* de/figures/*png: Added German screenshots.
