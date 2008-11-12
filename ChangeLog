@@ -1,3 +1,14 @@
+2008-11-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* data/Makefile.am:
+	* data/gthumb-import.desktop.in:
+	* data/gthumb.desktop.in:
+	Added a new gthumb-import.desktop.in file to handle gvfs-mounted
+	cameras more elegantly. The camera is first unmounted, and the 
+	libgphoto import routines are then run. Merged from Ubuntu.
+	Bug #560352. Patch by Martin Pitt <martin.pitt@canonical.com>.
+
 2008-11-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/glade/gthumb_convert.glade:
