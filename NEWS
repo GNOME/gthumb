@@ -70,6 +70,9 @@ version 2.10.11
 
 	* The "g" key now launches the "gimp" command, instead of the
 	  deprecated "gimp-remote" command.
+	* Added a new gthumb-import.desktop.in file to handle gvfs-mounted
+          cameras more elegantly. The camera is first unmounted, and the
+          libgphoto import routines are then run. Bug #560352.
 
 version 2.10.10
 ---------------

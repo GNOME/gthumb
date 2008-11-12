@@ -3,7 +3,7 @@ SUBDIRS = albumthemes glade icons
 @INTLTOOL_DESKTOP_RULE@
 
 desktopdir = $(datadir)/applications
-desktop_in_files=gthumb.desktop.in
+desktop_in_files=gthumb.desktop.in gthumb-import.desktop.in
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop) 
 
 man_MANS = gthumb.1
