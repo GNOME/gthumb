@@ -74,7 +74,6 @@ struct _GthFullscreenPrivateData {
 	GthDirectionType slideshow_direction;
 	int              slideshow_delay;
 	gboolean         slideshow_wrap_around;
-	gboolean         fading_activated;
 	guint            slideshow_timeout;
 	guint            slideshow_paused;
 
@@ -87,9 +86,12 @@ struct _GthFullscreenPrivateData {
 	GtkWidget       *viewer;
 	GtkWidget       *toolbar_window;
 
+#ifdef HAVE_GDKX
 	TotemScrsaver   *screensaver;
 	GSFade          *fade;
 	gboolean         use_fade;
+	gboolean         fading_activated;
+#endif
 
 	/* comment */
 
@@ -133,11 +135,13 @@ gth_fullscreen_finalize (GObject *object)
 			priv->image = NULL;
 		}
 
+#ifdef HAVE_GDKX
 		g_object_unref (priv->screensaver);
 
 		if (priv->fading_activated)
 			gs_fade_reset (priv->fade);
 		g_object_unref (priv->fade);
+#endif
 
 		file_data_unref (priv->file);
 		file_data_list_free (priv->file_list);
@@ -178,7 +182,9 @@ slideshow_timeout_cb (gpointer data)
 	}
 
 	if (!priv->slideshow_paused) {
+#ifdef HAVE_GDKX
 		priv->use_fade = TRUE;
+#endif
 		load_next_image (fullscreen);
 	}
 
@@ -208,6 +214,7 @@ viewer_image_loaded_cb (ImageViewer   *iviewer,
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
+#ifdef HAVE_GDKX
 	if (priv->fading_activated) {
 		if (priv->use_fade) {
 			gs_fade_in (priv->fade);
@@ -215,6 +222,7 @@ viewer_image_loaded_cb (ImageViewer   *iviewer,
 		}
 		gs_fade_reset (priv->fade);
 	}
+#endif
 
 	if (priv->slideshow)
 		continue_slideshow (fullscreen);
@@ -267,7 +275,9 @@ fade_faded_cb (GSFade          *fade,
 	case GS_FADE_DIRECTION_IN:
 		if (fullscreen->priv->slideshow)
 			continue_slideshow (fullscreen);
+#ifdef HAVE_GDKX
 		fullscreen->priv->use_fade = FALSE;
+#endif
 		break;
 	}
 }
@@ -292,6 +302,7 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  G_CALLBACK (preloader_requested_error_cb),
 			  fullscreen);
 
+#ifdef HAVE_GDKX
 	priv->screensaver = totem_scrsaver_new ();
 
 	priv->fade = gs_fade_new ();
@@ -300,6 +311,7 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  G_CALLBACK (fade_faded_cb),
 			  fullscreen);
 	priv->use_fade = FALSE;
+#endif
 }
 
 
@@ -553,6 +565,7 @@ load_current_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
+#ifdef HAVE_GDKX
 	if (priv->fading_activated) {
 		if (priv->use_fade) {
 			gs_fade_out (fullscreen->priv->fade);
@@ -560,6 +573,7 @@ load_current_image (GthFullscreen *fullscreen)
 		}
 		gs_fade_reset (fullscreen->priv->fade);
 	}
+#endif
 
 	real_load_current_image (fullscreen);
 }
@@ -1712,15 +1726,18 @@ gth_fullscreen_show (GtkWidget *widget)
 	priv->slideshow_direction = pref_get_slideshow_direction ();
 	priv->slideshow_delay = eel_gconf_get_float (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY);
 	priv->slideshow_wrap_around = eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE);
+#ifdef HAVE_GDKX
 	priv->fading_activated = eel_gconf_get_boolean (PREF_SLIDESHOW_FADING, TRUE);
-
+#endif
 	image_viewer_hide_cursor (IMAGE_VIEWER (priv->viewer));
 	gtk_window_fullscreen (GTK_WINDOW (widget));
 
+#ifdef HAVE_GDKX
 	if (fullscreen->priv->slideshow)
 		totem_scrsaver_disable (fullscreen->priv->screensaver);
 	else
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
+#endif
 
 	load_first_or_last_image (fullscreen, TRUE, TRUE);
 }
@@ -1939,12 +1956,14 @@ gth_fullscreen_pause_slideshow (GthFullscreen *fullscreen,
 {
 	fullscreen->priv->slideshow_paused = value;
 
+#ifdef HAVE_GDKX
 	if (fullscreen->priv->slideshow_paused)
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
 	else {
 		totem_scrsaver_disable (fullscreen->priv->screensaver);
 		continue_slideshow (fullscreen);
 	}
+#endif
 }
 
 

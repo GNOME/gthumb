@@ -23,7 +23,6 @@
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
-#include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomeui/gnome-authentication-manager.h>

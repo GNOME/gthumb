@@ -42,6 +42,8 @@
  *
  */
 
+#ifdef HAVE_GDKX
+
 #include "config.h"
 
 #include <stdlib.h>
@@ -630,3 +632,5 @@ gs_fade_is_fading_out (GSFade *fade)
 {
 	return fade->priv->fading && (fade->priv->direction = GS_FADE_DIRECTION_OUT);
 }
+
+#endif /* HAVE_GDKX */
