@@ -86,7 +86,9 @@ struct _GthFullscreenPrivateData {
 	GtkWidget       *viewer;
 	GtkWidget       *toolbar_window;
 
+#ifdef HAVE_GDKX
 	TotemScrsaver   *screensaver;
+#endif
 
 	/* comment */
 
@@ -130,7 +132,9 @@ gth_fullscreen_finalize (GObject *object)
 			priv->image = NULL;
 		}
 
+#ifdef HAVE_GDKX
 		g_object_unref (priv->screensaver);
+#endif
 
 		file_data_unref (priv->file);
 		file_data_list_free (priv->file_list);
@@ -253,8 +257,9 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  G_CALLBACK (preloader_requested_error_cb),
 			  fullscreen);
 
+#ifdef HAVE_GDKX
 	priv->screensaver = totem_scrsaver_new ();
-
+#endif
 }
 
 
@@ -1774,10 +1779,12 @@ gth_fullscreen_show (GtkWidget *widget)
 
 	image_viewer_hide_cursor (IMAGE_VIEWER (priv->viewer));
 
+#ifdef HAVE_GDKX
 	if (fullscreen->priv->slideshow)
 		totem_scrsaver_disable (fullscreen->priv->screensaver);
 	else
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
+#endif
 
 	load_first_or_last_image (fullscreen, TRUE, TRUE);
 }
@@ -1996,12 +2003,15 @@ gth_fullscreen_pause_slideshow (GthFullscreen *fullscreen,
 {
 	fullscreen->priv->slideshow_paused = value;
 
+#ifdef HAVE_GDKX
 	if (fullscreen->priv->slideshow_paused)
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
-	else {
+	else
 		totem_scrsaver_disable (fullscreen->priv->screensaver);
-		continue_slideshow (fullscreen);
-	}
+#endif
+
+	if (!fullscreen->priv->slideshow_paused)
+                continue_slideshow (fullscreen);
 }
 
 

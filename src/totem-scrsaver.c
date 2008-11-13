@@ -19,6 +19,7 @@
    Author: Bastien Nocera <hadess@hadess.net>
  */
 
+#ifdef HAVE_GDKX
 
 #include "config.h"
 #include "totem-scrsaver.h"
@@ -203,3 +204,4 @@ totem_scrsaver_finalize (GObject *object)
 	}
 }
 
+#endif /* HAVE_GDKX */

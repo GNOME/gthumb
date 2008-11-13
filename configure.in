@@ -123,25 +123,6 @@ fi
 
 
 #
-# Checks for Xft/XRender
-#
-AC_ARG_ENABLE([render],
-	      [AC_HELP_STRING([--disable-render],[disable support for Xrender])],,
-	      [enable_render=yes])
-
-HAVE_RENDER=no
-if test x$enable_render = xyes ; then
-   AC_MSG_CHECKING(Xrender Support)
-   AC_MSG_RESULT()
-   AC_CHECK_LIB(Xrender, XRenderFindFormat,
-		AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
-		RENDER_LIBS='-lXrender -lXext'
-		HAVE_RENDER=yes
-		,,[-lXext $GTHUMB_LIBS])
-   AC_SUBST(RENDER_LIBS)
-fi
-
-#
 # Checks for Xtest
 #
 have_xtest=false
@@ -184,6 +165,13 @@ if test x$enable_libopenraw = xyes ; then
 		     [HAVE_LIBOPENRAW=no])
 fi
 
+#
+# Checks for GDK X11 support; may not be present on MAC OS / Quartz systems
+#
+HAVE_GDKX=no
+PKG_CHECK_MODULES(GDKX, gdk-x11-2.0,
+		  [HAVE_GDKX=yes],
+		  [AC_MSG_WARN(Disabling GDK/X11-dependent features and Xrender.)])
 
 #
 # check for exiv2 xmp functionality
@@ -205,6 +193,26 @@ if test "x$enable_gstreamer" = "xyes"; then
                      [AC_DEFINE(HAVE_GSTREAMER, 1, [Define to 1 to enable gstreamer support])
                       HAVE_GSTREAMER=yes],
                      [HAVE_GSTREAMER=no])
+fi
+
+
+#
+# Checks for Xft/XRender
+#
+AC_ARG_ENABLE([render],
+	      [AC_HELP_STRING([--disable-render],[disable support for Xrender])],,
+	      [enable_render=yes])
+
+HAVE_RENDER=no
+if (test x$enable_render = xyes) && (test $HAVE_GDKX = yes); then
+   AC_MSG_CHECKING(Xrender Support)
+   AC_MSG_RESULT()
+   AC_CHECK_LIB(Xrender, XRenderFindFormat,
+                AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
+                RENDER_LIBS='-lXrender -lXext'
+                HAVE_RENDER=yes
+                ,,[-lXext $GTHUMB_LIBS])
+   AC_SUBST(RENDER_LIBS)
 fi
 
 
@@ -324,6 +332,7 @@ Configuration:
 
 	Source code location:     ${srcdir}
 	Compiler:                 ${CC}
+	Have gdk-x11:		  ${HAVE_GDKX}
 	Have XRender:             ${HAVE_RENDER}
 	Have XTest:               ${have_xtest}
 	Have libtiff:             ${HAVE_TIFF}

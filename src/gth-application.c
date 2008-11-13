@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <gdk/gdkx.h>
 #include <bonobo/bonobo-generic-factory.h>
 
 #include "gth-application.h"
@@ -93,9 +92,11 @@ show_grabbing_focus (GtkWidget *new_window)
 		g_free (startup_id_str);
 	}
 
+#ifdef HAVE_GDKX
 	if (timestamp == 0)
 		timestamp = gdk_x11_get_server_time (new_window->window);
 	gdk_x11_window_set_user_time (new_window->window, timestamp);
+#endif
 
 	gtk_window_present (GTK_WINDOW (new_window));
 }

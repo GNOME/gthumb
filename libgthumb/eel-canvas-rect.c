@@ -29,11 +29,11 @@
 #include <glib/gstring.h>
 #include <libgnome/gnome-macros.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
-#include <gdk/gdkx.h>
 
 #include "eel-canvas-rect.h"
 
 #ifdef HAVE_RENDER
+#include <gdk/gdkx.h>
 #include <X11/extensions/Xrender.h>
 #endif
 

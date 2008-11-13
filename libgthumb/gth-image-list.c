@@ -29,9 +29,9 @@
 #include <gtk/gtkbindings.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkstock.h>
-#include <gdk/gdkx.h>
 
 #ifdef HAVE_RENDER
+#include <gdk/gdkx.h>
 #include <X11/extensions/Xrender.h>
 #endif
 

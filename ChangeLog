@@ -1,3 +1,18 @@
+2008-11-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* configure.in:
+	* libgthumb/eel-canvas-rect.c:
+	* libgthumb/gth-image-list.c:
+	* src/gth-application.c: (show_grabbing_focus):
+	* src/gth-fullscreen.c: (gth_fullscreen_finalize),
+	(gth_fullscreen_init), (gth_fullscreen_show),
+	(gth_fullscreen_pause_slideshow):
+	* src/totem-scrsaver.c:
+	* src/totem-scrsaver.h:
+	Modified the build files to better support gtk on MAC OS / Quartz.
+	Bug #551225. Based on a patch by W. Michael Petullo <mike@flyn.org>.
+
 2008-11-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:

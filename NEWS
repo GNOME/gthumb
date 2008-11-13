@@ -73,6 +73,8 @@ version 2.10.11
 	* Added a new gthumb-import.desktop.in file to handle gvfs-mounted
           cameras more elegantly. The camera is first unmounted, and the
           libgphoto import routines are then run. Bug #560352.
+	* Modified the build files to better support gtk on MAC OS / Quartz.
+	  Bug #551225.
 
 version 2.10.10
 ---------------

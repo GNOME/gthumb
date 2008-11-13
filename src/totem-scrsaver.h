@@ -19,6 +19,8 @@
    Author: Bastien Nocera <hadess@hadess.net>
  */
 
+#ifdef HAVE_GDKX
+
 #include <glib.h>
 #include <glib-object.h>
 
@@ -47,3 +49,4 @@ TotemScrsaver *totem_scrsaver_new	(void);
 void totem_scrsaver_enable		(TotemScrsaver *scr);
 void totem_scrsaver_disable		(TotemScrsaver *scr);
 
+#endif /* HAVE_GDKX */
