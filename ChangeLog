@@ -1,5 +1,11 @@
 2008-11-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-fullscreen.c: (gth_fullscreen_pause_slideshow):
+	Too much was enclosed in one #ifdef HAVE_GDKX introduced in the
+	previous commit. Fixed it.
+
+2008-11-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* configure.in:
 	* libgthumb/eel-canvas-rect.c:
