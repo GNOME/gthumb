@@ -1,3 +1,9 @@
+2008-11-17  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	* libgthumb/gth-filter.c (test_keywords): 
+
+	Fixed bug #560055 – filter problems
+	
 2008-11-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-fullscreen.c: (gth_fullscreen_pause_slideshow):

@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <glib.h>
 #include "gth-filter.h"
+#include "search.h"
 
 
 /* GthTest */
@@ -40,7 +41,8 @@ struct _GthTest {
 		int    i;
 		GDate *date;
 	} data;
-	GPatternSpec *pattern;
+	GPatternSpec  *pattern;
+	char         **patterns;
 };
 
 
@@ -143,6 +145,10 @@ gth_test_unref (GthTest *test)
 	}
 	if (test->pattern != NULL)
 		g_pattern_spec_free (test->pattern);
+	if (test->patterns != NULL) {
+		g_strfreev (test->patterns);
+		test->patterns = NULL;
+	}
 	g_free (test);
 }
 
@@ -226,24 +232,29 @@ test_keywords (GthTest  *test,
  	       int       keywords_n)
 {
 	gboolean result;
-	int      i;
+	int      p, i;
 
 	if ((test->data.s == NULL) || (keywords == NULL) || (keywords_n == 0))
 		return test->negative;
 
-	if ((test->op != GTH_TEST_OP_CONTAINS)
-	    && (test->op != GTH_TEST_OP_CONTAINS_ALL))
+	if ((test->op != GTH_TEST_OP_CONTAINS) && (test->op != GTH_TEST_OP_CONTAINS_ALL))
 		return test->negative;
 
+	if (test->patterns == NULL)
+		test->patterns = search_util_get_patterns (test->data.s, TRUE);
+
 	result = (test->op == GTH_TEST_OP_CONTAINS_ALL);
-	for (i = 0; i < keywords_n; i++) {
-		char     *value2 = g_utf8_casefold (keywords[i], -1);
-		gboolean  partial_result;
-
-		partial_result = g_utf8_collate (value2, test->data.s) == 0;
-		g_free (value2);
-
-		if (partial_result) {
+	for (p = 0; test->patterns[p] != NULL; p++) {
+		gboolean keyword_present = FALSE;
+		
+		for (i = 0; ! keyword_present && (i < keywords_n); i++) {
+			char *value2 = g_utf8_casefold (keywords[i], -1);
+				
+			keyword_present = g_utf8_collate (value2, test->patterns[p]) == 0;
+			g_free (value2);
+		}
+		
+		if (keyword_present) {
 			if (test->op == GTH_TEST_OP_CONTAINS) {
 				result = TRUE;
 				break;
@@ -254,7 +265,7 @@ test_keywords (GthTest  *test,
 			break;
 		}
 	}
-
+	
 	if (test->negative)
 		result = ! result;
 
@@ -335,6 +346,7 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_KEYWORDS:
+		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
 			result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
 		else
