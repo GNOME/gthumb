@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-09 00:04+0000\n"
-"PO-Revision-Date: 2008-11-09 21:23+0100\n"
+"POT-Creation-Date: 2008-11-14 23:24+0000\n"
+"PO-Revision-Date: 2008-11-21 10:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3756,12 +3756,11 @@ msgid "%u"
 msgstr "%u"
 
 #: C/gthumb.xml:2870(para)
-#, fuzzy
 msgid ""
 "The day of the week as a decimal number, range 1 to 7, Monday being 1. See "
 "also %w."
 msgstr ""
-"El día de la semana como un número decimal, rango de 1 a 7. Siendo 1 el "
+"El día de la semana como un número decimal, rango de 1 a 7, siendo 1 el "
 "lunes. Vea también %w."
 
 #: C/gthumb.xml:2877(para)
