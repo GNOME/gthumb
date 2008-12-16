@@ -6295,6 +6295,7 @@ gth_browser_construct (GthBrowser  *browser,
 	GtkWidget             *image_pane_paned1;
 	GtkWidget             *image_pane_paned2;
 	GtkWidget             *scrolled_win;
+	GtkWidget             *menubar;
 	GtkTreeSelection      *selection;
 	int                    i;
 	GtkActionGroup        *actions;
@@ -6365,7 +6366,32 @@ gth_browser_construct (GthBrowser  *browser,
 
 	generate_script_menu (ui, priv->actions, GTH_WINDOW (browser));
 
-	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
+	menubar = gtk_ui_manager_get_widget (ui, "/MenuBar");
+#ifdef USE_MACOSMENU
+	{
+		GtkWidget *widget;
+		ige_mac_menu_install_key_handler ();
+		ige_mac_menu_set_menu_bar (GTK_MENU_SHELL (menubar));
+		gtk_widget_hide (menubar);
+		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/File/Close");
+		if (widget != NULL) {
+			ige_mac_menu_set_quit_menu_item (GTK_MENU_ITEM (widget));
+		}
+		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/Help/About");
+		if (widget != NULL) {
+			ige_mac_menu_add_app_menu_item  (ige_mac_menu_add_app_menu_group (),
+			GTK_MENU_ITEM (widget),
+			NULL);
+		}
+		widget = gtk_ui_manager_get_widget(ui, "/MenuBar/Edit/Preferences");
+			if (widget != NULL) {
+			ige_mac_menu_add_app_menu_item  (ige_mac_menu_add_app_menu_group (),
+			GTK_MENU_ITEM (widget),
+			NULL);
+		}
+	}
+#endif
+	gth_window_attach (GTH_WINDOW (browser), menubar, GTH_WINDOW_MENUBAR);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);

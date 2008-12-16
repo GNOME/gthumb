@@ -15,6 +15,7 @@ INCLUDES =					\
 	$(GTHUMB_CFLAGS)			\
 	$(DISABLE_DEPRECATED)			\
 	$(GPHOTO_CFLAGS)			\
+	$(IGE_MAC_INTEGRATION_CFLAGS)		\
 	$(GTKUNIQUE_CFLAGS)			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
@@ -157,6 +158,7 @@ gthumb_LDADD = 					\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(GPHOTO_LIBS)				\
+	$(IGE_MAC_INTEGRATION_LIBS)		\
 	$(XF86GAMMA_LIBS)			\
 	$(XTEST_LIBS)				\
 	$(GTKUNIQUE_LIBS)
