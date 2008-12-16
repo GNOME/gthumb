@@ -8,6 +8,7 @@ version 2.10.11
           libgphoto import routines are then run. Bug #560352.
 	* Modified the build files to better support gtk on MAC OS / Quartz.
 	  Bug #551225.
+	* Provide support for the Mac OS X menubar. Bug #554240.
 
 version 2.10.10
 ---------------

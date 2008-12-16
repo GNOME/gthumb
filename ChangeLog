@@ -1,3 +1,17 @@
+2008-12-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* NEWS:
+	* configure.in:
+	* src/Makefile.am:
+	* src/gs-fade.c:
+	* src/gth-application.c:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (gth_browser_construct):
+	* src/totem-scrsaver.c:
+	Provide support for the Mac OS X menubar. Bug #554240. Modified
+	version of the patch by W. Michael Petullo <mike@flyn.org>.
+	Also, define the HAVE_GDKX macro properly so it really works.
+
 2008-11-17  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/gth-filter.c (test_keywords): 

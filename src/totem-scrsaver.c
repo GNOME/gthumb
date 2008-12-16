@@ -19,11 +19,11 @@
    Author: Bastien Nocera <hadess@hadess.net>
  */
 
+#include "config.h"
+
 #ifdef HAVE_GDKX
 
-#include "config.h"
 #include "totem-scrsaver.h"
-
 #include <gdk/gdkx.h>
 
 #ifdef HAVE_XTEST

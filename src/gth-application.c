@@ -34,6 +34,9 @@
 #include "gth-browser-actions-callbacks.h"
 #include "main.h"
 
+#ifdef HAVE_GDKX
+#include <gdk/gdkx.h>
+#endif
 
 static BonoboObject *
 gth_application_factory (BonoboGenericFactory *this_factory,

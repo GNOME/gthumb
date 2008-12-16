@@ -42,9 +42,9 @@
  *
  */
 
-#ifdef HAVE_GDKX
-
 #include "config.h"
+
+#ifdef HAVE_GDKX
 
 #include <stdlib.h>
 #include <stdio.h>
