@@ -23,7 +23,7 @@
 #ifndef GTH_VIEWER_ACTIONS_CALLBACKS_H
 #define GTH_VIEWER_ACTIONS_CALLBACKS_H
 
-#include <gtk/gtkaction.h>
+#include <gtk/gtk.h>
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 

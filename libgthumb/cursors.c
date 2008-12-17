@@ -20,8 +20,7 @@
  */
 
 #include <config.h>
-#include <gdk/gdkcolor.h>
-#include <gdk/gdkdrawable.h>
+#include <gdk/gdk.h>
 #include "cursors.h"
 
 

@@ -26,7 +26,6 @@
 #include <glib.h>
 #include <gio/gio.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkenums.h> /* for GtkSortType */
 #include "gth-window.h"
 #include "image-loader.h"
 #include "typedefs.h"

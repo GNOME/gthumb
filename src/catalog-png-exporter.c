@@ -26,7 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkrgb.h>
+#include <gdk/gdk.h>
 #include <gio/gio.h>
 
 #include "catalog-png-exporter.h"

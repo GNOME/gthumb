@@ -23,9 +23,7 @@
 #ifndef CATALOG_LIST_H
 #define CATALOG_LIST_H
 
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeview.h>
+#include <gtk/gtk.h>
 
 typedef struct {
 	char            *path;            /* The current dir to show. */

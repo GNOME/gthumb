@@ -23,7 +23,7 @@
 #ifndef _GTH_NAV_WINDOW_H
 #define _GTH_NAV_WINDOW_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include "gth-iviewer.h"
 
 #define GTH_TYPE_NAV_WINDOW            (gth_nav_window_get_type ())

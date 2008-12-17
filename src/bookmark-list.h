@@ -24,9 +24,7 @@
 #define BOOKMARKS_LIST_H
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 typedef struct {
 	GList        *list;

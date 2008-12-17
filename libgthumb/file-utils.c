@@ -41,7 +41,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
-#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>

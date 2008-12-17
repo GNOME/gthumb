@@ -23,7 +23,7 @@
 #ifndef GTH_CATEGORY_SELECTION_DIALOG_H
 #define GTH_CATEGORY_SELECTION_DIALOG_H
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #define GTH_TYPE_CATEGORY_SELECTION         (gth_category_selection_get_type ())
 #define GTH_CATEGORY_SELECTION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_CATEGORY_SELECTION, GthCategorySelection))

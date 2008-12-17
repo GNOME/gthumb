@@ -23,7 +23,7 @@
 #ifndef GTH_BATCH_OP_H
 #define GTH_BATCH_OP_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "gth-pixbuf-op.h"
 
 #define GTH_TYPE_BATCH_OP            (gth_batch_op_get_type ())

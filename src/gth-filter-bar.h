@@ -23,7 +23,7 @@
 #ifndef GTH_FILTER_BAR_H
 #define GTH_FILTER_BAR_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include "gth-filter.h"
 
 #define GTH_TYPE_FILTER_BAR         (gth_filter_bar_get_type ())

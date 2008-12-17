@@ -25,7 +25,7 @@
 
 
 #include <glib.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "bookmarks.h"
 #include "typedefs.h"
 #include "image-viewer.h"

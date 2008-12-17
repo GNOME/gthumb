@@ -25,7 +25,6 @@
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include "typedefs.h"
 #include "file-data.h"

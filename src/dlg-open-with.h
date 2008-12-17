@@ -24,7 +24,7 @@
 #define DLG_OPEN_WITH_H
 
 #include <glib.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 void  dlg_open_with (GtkWindow *window, 
 		     GList     *list);

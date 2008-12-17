@@ -26,9 +26,7 @@
 #include <math.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkbindings.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #ifdef HAVE_RENDER
 #include <gdk/gdkx.h>
@@ -57,8 +55,8 @@
 #define LAYOUT_TIMEOUT 20
 
 #define COMMENT_MAX_LINES 5        /* max number of lines to display. */
-#define ETC " [..]"                /* string to append when the comment
-				    * doesn't fit. */
+#define ETC " [..]"                /* string to append when the comment */
+				   /* doesn't fit. */
 
 #define COLOR_WHITE 0x00ffffff
 #define CHECK_SIZE 50

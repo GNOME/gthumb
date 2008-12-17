@@ -23,7 +23,7 @@
 #ifndef GTH_IMAGE_LIST_H
 #define GTH_IMAGE_LIST_H
 
-#include <gtk/gtkcontainer.h>
+#include <gtk/gtk.h>
 #include "typedefs.h"
 
 G_BEGIN_DECLS

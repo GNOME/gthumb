@@ -23,7 +23,7 @@
 #ifndef NAV_WINDOW_H
 #define NAV_WINDOW_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "gth-iviewer.h"
 
 void nav_button_clicked_cb (GtkWidget      *widget,  

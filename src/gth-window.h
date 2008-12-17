@@ -23,7 +23,7 @@
 #ifndef GTH_WINDOW_H
 #define GTH_WINDOW_H
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "gth-pixbuf-op.h"
 #include "image-viewer.h"
 #include "gthumb-preloader.h"

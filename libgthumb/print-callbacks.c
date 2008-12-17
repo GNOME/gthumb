@@ -31,7 +31,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glade/glade.h>
 #include <pango/pango-layout.h>
-#include <gtk/gtkprintoperation.h>
+#include <gtk/gtk.h>
 #include <pango/pangocairo.h>
 
 #include "glib-utils.h"

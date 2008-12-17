@@ -26,13 +26,12 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <sys/stat.h>
 #include "image-loader.h"
 #include "gthumb-marshal.h"

@@ -24,7 +24,7 @@
 #define GTH_FOLDER_SELECTION_DIALOG_H
 
 
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 
 #define GTH_TYPE_FOLDER_SELECTION         (gth_folder_selection_get_type ())

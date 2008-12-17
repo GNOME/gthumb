@@ -38,7 +38,6 @@
  */
 
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include "gtkcellrendererthreestates.h"
 #include "gthumb-marshal.h"
 

@@ -25,7 +25,6 @@
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include "file-data.h"
 #include "image-loader.h"
 #include "image-viewer-enums.h"

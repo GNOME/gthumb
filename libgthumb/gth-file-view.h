@@ -25,8 +25,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gtk/gtkadjustment.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include "typedefs.h"
 
 G_BEGIN_DECLS

@@ -40,7 +40,7 @@
 #ifndef __GTK_CELL_RENDERER_THREE_STATES_H__
 #define __GTK_CELL_RENDERER_THREE_STATES_H__
 
-#include <gtk/gtkcellrenderer.h>
+#include <gtk/gtk.h>
 
 #ifdef __cplusplus
 extern "C" {

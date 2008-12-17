@@ -24,7 +24,7 @@
 #define GTH_EXIF_DATA_VIEWER_H
 
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include "image-viewer.h"
 #include "file-data.h"
 

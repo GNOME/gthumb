@@ -23,7 +23,7 @@
 #ifndef GTH_LOCATION_H
 #define GTH_LOCATION_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 #define GTH_TYPE_LOCATION         (gth_location_get_type ())
 #define GTH_LOCATION(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_LOCATION, GthLocation))

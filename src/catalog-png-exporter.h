@@ -25,7 +25,7 @@
 
 #include <glib.h>
 #include <gdk/gdk.h>
-#include <gtk/gtkenums.h> /* for GtkSortType */
+#include <gtk/gtk.h> /* for GtkSortType */
 #include <gio/gio.h>
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-handle.h>

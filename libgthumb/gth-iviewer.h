@@ -25,7 +25,7 @@
 
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkadjustment.h>
+#include <gtk/gtk.h>
 
 #define GTH_TYPE_IVIEWER                (gth_iviewer_get_type ())
 #define GTH_IVIEWER(obj)                (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_IVIEWER, GthIViewer))

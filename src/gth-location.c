@@ -25,7 +25,6 @@
 
 #include <glib/gi18n.h>
 #include <glib.h>
-#include <glib/gprintf.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-drive.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>

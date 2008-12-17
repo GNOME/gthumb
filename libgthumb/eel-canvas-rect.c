@@ -26,7 +26,7 @@
 #include <math.h>
 #include <string.h>
 
-#include <glib/gstring.h>
+#include <glib.h>
 #include <libgnome/gnome-macros.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 

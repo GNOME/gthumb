@@ -24,7 +24,7 @@
 #define DLG_SAVE_IMAGE_H
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include "file-data.h"
 
 typedef void (*ImageSavedFunc) (FileData  *file,

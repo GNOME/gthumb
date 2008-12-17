@@ -24,7 +24,7 @@
 #define CATALOG_H
 
 #include <glib.h>
-#include <gtk/gtkenums.h>
+#include <gtk/gtk.h>
 #include "search.h"
 #include "typedefs.h"
 
