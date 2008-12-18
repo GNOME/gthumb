@@ -450,6 +450,10 @@ load_comment_from_metadata (const char *uri)
 	        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
         	if (metadata_time > (time_t) 0)
                 	data->time = metadata_time;
+	} else {
+		/* Nothing useful was found. Return NULL. */
+		comment_data_free (data);	
+		data = NULL;
 	}
 
 	g_free (metadata_string);
@@ -517,12 +521,13 @@ load_comment_from_xml (const char *uri)
 		return NULL;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-	if (! path_exists (comment_uri)) {
+	local_file = get_cache_filename_from_uri (comment_uri);
+	if (! path_exists (local_file)) {
 		g_free (comment_uri);
+		g_free (local_file);
 		return NULL;
 	}
-	
-	local_file = get_cache_filename_from_uri (comment_uri);
+
         doc = xmlParseFile (local_file);
 
 	g_free (comment_uri);
@@ -636,7 +641,7 @@ save_comment (const char  *uri,
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
         local_file = get_cache_filename_from_uri (comment_uri);
-	dest_dir = remove_level_from_path (comment_uri);
+	dest_dir = remove_level_from_path (local_file);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);
 		xmlSaveFile (local_file, doc);

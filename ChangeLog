@@ -1,3 +1,9 @@
+2008-12-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/comments.c: (load_comment_from_xml), (save_comment):
+	Fixed XML comment reading. Bug #563956. Modified version of
+	patch by Jef Driesen <jefdriesen@hotmail.com>.
+
 2008-12-17  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/catalog.h:
