@@ -34,7 +34,7 @@ LIBGLADE_REQUIRED=2.4.0
 LIBGPHOTO_REQUIRED=2.1.3
 BONOBO_REQUIRED=2.6.0
 LIBOPENRAW_REQUIRED=0.0.2
-EXIV2_REQUIRED=0.15
+EXIV2_REQUIRED=0.18
 GSTREAMER_REQUIRED=0.10.15
 
 AC_SUBST(GLIB_REQUIRED)
@@ -173,13 +173,6 @@ PKG_CHECK_MODULES(GDKX, gdk-x11-2.0,
 		  [AC_DEFINE(HAVE_GDKX, 1, [Define to 1 if X11 support is included])
 		   HAVE_GDKX=yes],
 		  [AC_MSG_WARN(Disabling GDK/X11-dependent features and Xrender.)])
-
-#
-# check for exiv2 xmp functionality
-#
-AC_LANG_PUSH([C++])
-AC_CHECK_HEADERS([exiv2/xmp.hpp],[HAVE_XMP=yes],[HAVE_XMP=no])
-AC_LANG_POP([C++])
 
 
 #
@@ -357,7 +350,6 @@ Configuration:
 	Have libtiff:             ${HAVE_TIFF}
 	Have libgphoto:           ${HAVE_GPHOTO2}
 	Have libopenraw:          ${HAVE_LIBOPENRAW}
-	Have exiv2 xmp support:   ${HAVE_XMP}
 	Have gstreamer:           ${HAVE_GSTREAMER}
 	Use Mac OS X menu:        ${HAVE_MACOSMENU}
 

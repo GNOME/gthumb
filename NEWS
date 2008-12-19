@@ -61,7 +61,7 @@ trunk, since last 2.10.x
 	* Added page_rows and page_cols web album tags. Bug #543966.
 
 	Library changes:
-	* exiv2 0.15 or higher is now required.
+	* exiv2 0.18 or higher is now required.
 	* libiptcdata is no longer used.
 	* libexif is no longer used.
 

@@ -32,9 +32,7 @@
 #include <sstream>
 #include <vector>
 
-#ifdef HAVE_EXIV2_XMP_HPP
 #include <exiv2/xmp.hpp>
-#endif
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -463,7 +461,6 @@ read_exiv2_file (const char *uri, GList *metadata)
 			}
 		}
 
-#ifdef HAVE_EXIV2_XMP_HPP
 		Exiv2::XmpData &xmpData = image->xmpData();
 		if (!xmpData.empty()) {
 
@@ -491,7 +488,6 @@ read_exiv2_file (const char *uri, GList *metadata)
 						0);
 			}
 		}
-#endif
 
 		return metadata;
 	}
@@ -507,7 +503,6 @@ GList *
 read_exiv2_sidecar (const char *uri, GList *metadata)
 {
 	try {
-#ifdef HAVE_EXIV2_XMP_HPP
 		Exiv2::DataBuf buf = Exiv2::readFile(uri);
 		std::string xmpPacket;
 		xmpPacket.assign(reinterpret_cast<char*>(buf.pData_), buf.size_);
@@ -543,7 +538,6 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 			}
 		}
 		Exiv2::XmpParser::terminate();
-#endif
 		return metadata;
 	} 
 	catch (Exiv2::AnyError& e) {
@@ -580,6 +574,8 @@ write_metadata (const char *from_file,
 		const char *to_file,
 		GList      *metadata_in)
 {
+printf ("\ndebugging: metadata writes are partly broken. Beware!\n");	
+printf ("Copy from %s to %s:\n",from_file,to_file);
 	try {
 		GList *scan;
 
@@ -592,33 +588,32 @@ write_metadata (const char *from_file,
 
 		Exiv2::ExifData &ed = image1->exifData();
 		Exiv2::IptcData &id = image1->iptcData();
-#ifdef HAVE_EXIV2_XMP_HPP
 		Exiv2::XmpData &xd = image1->xmpData();
-#endif
 
 		for (scan = metadata_in; scan; scan = scan->next) {
 			// Update the requested tag
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
 			if (metadatum->full_name != NULL) {
+printf ("Copy tag %s = %s\n",metadatum->full_name, metadatum->raw_value);
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					ed[metadatum->full_name] = metadatum->raw_value;
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
 					id[metadatum->full_name] = metadatum->raw_value;
 		        	}
-#ifdef HAVE_EXIV2_XMP_HPP
 				else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
 					xd[metadatum->full_name] = metadatum->raw_value;
 		        	}
-#endif
 			}
 		}
 
 		// Delete thumbnail and IFD1 tags, because the main image may
 		// have changed, and gThumb doesn't use the embedded thumbnails
 		// anyways.
-		image1->exifData().eraseThumbnail();
 
+		Exiv2::ExifThumb exifThumb(image1->exifData());
+		exifThumb.erase();
+		
 		// Mandatory tags - add if not already present
 		mandatory_int (ed, "Exif.Image.XResolution", 72);
 		mandatory_int (ed, "Exif.Image.YResolution", 72);
@@ -666,11 +661,10 @@ write_metadata (const char *from_file,
 
 		image2->setExifData (image1->exifData());
 		image2->setIptcData (image1->iptcData());
-#ifdef HAVE_EXIV2_XMP_HPP
 		image2->setXmpData (image1->xmpData());
-#endif
 
 		// overwrite existing metadata with new metadata
+printf ("Did this write work?\n");
 		image2->writeMetadata();
 	}
 
