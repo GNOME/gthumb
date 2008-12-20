@@ -574,8 +574,6 @@ write_metadata (const char *from_file,
 		const char *to_file,
 		GList      *metadata_in)
 {
-printf ("\ndebugging: metadata writes are partly broken. Beware!\n");	
-printf ("Copy from %s to %s:\n",from_file,to_file);
 	try {
 		GList *scan;
 
@@ -594,7 +592,6 @@ printf ("Copy from %s to %s:\n",from_file,to_file);
 			// Update the requested tag
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
 			if (metadatum->full_name != NULL) {
-printf ("Copy tag %s = %s\n",metadatum->full_name, metadatum->raw_value);
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					ed[metadatum->full_name] = metadatum->raw_value;
 				}
@@ -664,7 +661,6 @@ printf ("Copy tag %s = %s\n",metadatum->full_name, metadatum->raw_value);
 		image2->setXmpData (image1->xmpData());
 
 		// overwrite existing metadata with new metadata
-printf ("Did this write work?\n");
 		image2->writeMetadata();
 	}
 

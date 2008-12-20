@@ -1202,12 +1202,34 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		   char        **values,
 		   GError      **error)
 {
-	gboolean result;
+	char     *temp_backup;
+	char     *temp_dir;
+	char     *ext;
+
+	gboolean  is_overwrite;
+	gboolean  result;
 
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 	g_return_val_if_fail (local_file != NULL, FALSE);
 	g_return_val_if_fail (type != NULL, FALSE);
 	g_return_val_if_fail (! uri_has_scheme (local_file), FALSE);
+
+	is_overwrite = FALSE;
+
+        temp_dir = get_temp_dir_name ();
+        if (temp_dir != NULL) {
+		is_overwrite = path_exists (local_file);
+		if (is_overwrite) {
+			ext = g_strdup_printf (".%s",get_filename_extension (local_file));
+			temp_backup = get_temp_file_name (temp_dir, ext);
+			g_free (ext);
+			/* Make a backup copy first to preserve original metadata in its original
+			 * fully-typed form. Use the string copies in the metadata glist as a 
+			 * fallback - but exiv2 soemtimes gets the typing wrong,
+			 * causing no metadata to be saved. */
+			file_copy (local_file, temp_backup);
+		}
+	}
 
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0)
@@ -1235,9 +1257,19 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 
 	if (result == TRUE) {
 		metadata = simple_add_metadata (metadata, "Exif.Image.Orientation", "1");
-		update_and_save_metadata (local_file, local_file, metadata);
+		if (is_overwrite)
+			update_and_save_metadata (temp_backup, local_file, metadata);
+		else
+			update_and_save_metadata (local_file, local_file, metadata);
 	}
-	
+
+	if (is_overwrite) {
+		file_unlink (temp_backup);
+		local_dir_remove_recursive (temp_dir);
+	}
+
+	g_free (temp_backup);
+	g_free (temp_dir);
 
 	return result;
 }

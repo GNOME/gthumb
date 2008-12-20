@@ -1,3 +1,12 @@
+2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exiv2-utils.cpp:
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
+	Fixed metadata saving with exiv2 0.18. When saving an edited pixbuf,
+	first try copying the metadata from a backup copy of the original
+	file. If that fails, copy from the internal metadata glist, which is
+	less robust, because it does not contain variable-typing data.
+
 2008-12-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* NEWS:
