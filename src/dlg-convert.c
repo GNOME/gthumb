@@ -43,6 +43,7 @@
 #include "jpegutils/jpegtran.h"
 #include "pixbuf-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "dlg-save-image.h"
 #include "gth-exif-utils.h"
 
@@ -246,19 +247,23 @@ save_image_and_remove_original (DialogData *data)
 {
 	GError   *error = NULL;
 	char     *local_file;
+	char     *old_local_file;
 	FileData *fd;
 	FileData *fd_old;
-			
+	GFile    *old_local_gfile;
+
 	if (path_is_file (data->new_path))
 		file_unlink (data->new_path);
 
 	fd_old = (FileData*) data->current_image->data;
-	update_metadata (fd_old);
+	old_local_gfile = g_file_new_for_uri (fd_old->path);
+	old_local_file = gfile_get_path (old_local_gfile);
+	g_object_unref (old_local_gfile);
 
 	local_file = get_cache_filename_from_uri (data->new_path);
 	if (! _gdk_pixbuf_savev (data->pixbuf,
 			         local_file,
-				 fd_old->metadata,
+				 old_local_file,
 			         data->image_type,
 			         data->keys,
 			         data->values,
@@ -270,11 +275,13 @@ save_image_and_remove_original (DialogData *data)
 		return;
 	}
 	g_free (local_file);
+	g_free (old_local_file);
 	file_data_unref (fd_old);
 	
 	fd = file_data_new (data->new_path, NULL);
 	update_file_from_cache (fd, save_image_and_remove_original_step2, data);
 	file_data_unref (fd);
+
 }
 
 

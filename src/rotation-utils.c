@@ -265,10 +265,9 @@ apply_transformation_generic (FileData     *file,
 		image_type = file->mime_type + 6;
 		local_file = get_cache_filename_from_uri (file->path);
 	
-		update_metadata (file);	
 		success = _gdk_pixbuf_save (transformed_pixbuf,
 					    local_file,
-					    file->metadata,
+					    local_file,
 					    image_type,
 					    error,
 					    NULL);

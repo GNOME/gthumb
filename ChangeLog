@@ -1,5 +1,21 @@
 2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/dlg-save-image.c: (save_image):
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev),
+	(_gdk_pixbuf_save):
+	* libgthumb/pixbuf-utils.h:
+	* src/catalog-web-exporter.c: (save_thumbnail_cb),
+	(save_image_preview_cb), (save_resized_image_cb):
+	* src/dlg-convert.c: (save_image_and_remove_original):
+	* src/gth-batch-op.c: (pixbuf_op_done_cb):
+	* src/rotation-utils.c: (apply_transformation_generic):
+	When saving a file, specify the original file from which metadata
+	should be copied. The previous commit had a flaw where if you saved
+	a pixbuf to overwrite already-existing file, the metadata from the
+	existing file was copied into the new file. This commit fixes that.
+
+2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exiv2-utils.cpp:
 	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
 	Fixed metadata saving with exiv2 0.18. When saving an edited pixbuf,

@@ -2333,7 +2333,9 @@ save_thumbnail_cb (gpointer data)
 		
 	if (idata->thumb != NULL) {
 		GFile *file;
+		GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
 		char  *local_file;
+		char  *src_local_file;
 
 		g_signal_emit (G_OBJECT (ce),
 			       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
@@ -2344,17 +2346,20 @@ save_thumbnail_cb (gpointer data)
 					   idata, 
 					   ce->target_tmp_dir);
 		local_file = gfile_get_path (file);
+		src_local_file = gfile_get_path (src_local_gfile);
 		
 		debug (DEBUG_INFO, "save thumbnail: %s", local_file);
 
 		_gdk_pixbuf_save (idata->thumb,
 				  local_file,
-				  idata->src_file->metadata,
+				  src_local_file,
 				  "jpeg",
 				  NULL, NULL); 
 
 		g_object_unref (file);
+		g_object_unref (src_local_gfile);
 		g_free (local_file);
+		g_free (src_local_file);
 		
 		g_object_unref (idata->thumb);
 		idata->thumb = NULL;
@@ -2592,25 +2597,28 @@ save_image_preview_cb (gpointer data)
 
 		if ((! idata->no_preview) && (idata->preview != NULL)) {
 			GFile *file;
+			GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
 			char  *local_file;
-			
+			char  *src_local_file;
+
 			file = get_preview_file (ce, 
 						 idata, 
 						 ce->target_tmp_dir);
 			local_file = gfile_get_path (file);
+			src_local_file = gfile_get_path (src_local_gfile);
 
 			debug (DEBUG_INFO, "saving preview: %s", local_file);
 
-			update_metadata (idata->src_file);
-
 			_gdk_pixbuf_save (idata->preview,
 					  local_file,
-					  idata->src_file->metadata,
+					  src_local_file,
 					  "jpeg",
 					  NULL, NULL);
 			 
 			g_free (local_file);
+			g_free (src_local_file);
 			g_object_unref (file);
+			g_object_unref (src_local_file);
 		}
 	}
 
@@ -2635,8 +2643,10 @@ save_resized_image_cb (gpointer data)
 
 		if (ce->copy_images && (idata->image != NULL)) {
 			GFile *file;
+			GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
 			char  *image_uri;
 			char  *local_file; 
+			char  *src_local_file;
 
 			exporter_set_info (ce, _("Saving images"));
 			
@@ -2645,22 +2655,23 @@ save_resized_image_cb (gpointer data)
 					       ce->target_tmp_dir);
 			image_uri = gfile_get_uri (file);
 			local_file = gfile_get_path (file);
-			
-			debug (DEBUG_INFO, "saving image: %s", local_file);
+			src_local_file = gfile_get_path (src_local_gfile);
 
-			update_metadata (idata->src_file);
+			debug (DEBUG_INFO, "saving image: %s", local_file);
 
 			if (_gdk_pixbuf_save (idata->image,
 					      local_file,
-					      idata->src_file->metadata,
+					      src_local_file,
 					      "jpeg",
 					      NULL, NULL)) {
 				idata->src_file->size = get_file_size (image_uri);
 			} 
 			
 			g_free (local_file);
+			g_free (src_local_file);
 			g_free (image_uri);
 			g_object_unref (file);
+			g_object_unref (src_local_gfile);
 		}
 	}
 

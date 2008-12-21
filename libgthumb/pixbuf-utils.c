@@ -1196,14 +1196,14 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
 gboolean
 _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		   const char   *local_file,
-		   GList	*metadata,
+		   const char   *original_local_file,
 		   const char   *type,
 		   char        **keys,
 		   char        **values,
 		   GError      **error)
 {
-	char     *temp_backup;
-	char     *temp_dir;
+	char     *temp_backup = NULL;
+	char     *temp_dir = NULL;
 	char     *ext;
 
 	gboolean  is_overwrite;
@@ -1216,18 +1216,18 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 
 	is_overwrite = FALSE;
 
-        temp_dir = get_temp_dir_name ();
-        if (temp_dir != NULL) {
-		is_overwrite = path_exists (local_file);
-		if (is_overwrite) {
-			ext = g_strdup_printf (".%s",get_filename_extension (local_file));
-			temp_backup = get_temp_file_name (temp_dir, ext);
-			g_free (ext);
-			/* Make a backup copy first to preserve original metadata in its original
-			 * fully-typed form. Use the string copies in the metadata glist as a 
-			 * fallback - but exiv2 soemtimes gets the typing wrong,
-			 * causing no metadata to be saved. */
-			file_copy (local_file, temp_backup);
+	/* Make a backup copy of original file if the source and destination
+	 * are the same, so that we can copy the metadata. */
+	if (original_local_file != NULL) {
+		if (!strcmp (local_file, original_local_file)) {
+		        temp_dir = get_temp_dir_name ();
+        		if (temp_dir != NULL) {
+				is_overwrite = TRUE;
+				ext = g_strdup_printf (".%s",get_filename_extension (local_file));
+				temp_backup = get_temp_file_name (temp_dir, ext);
+				g_free (ext);
+				file_copy (local_file, temp_backup);
+			}
 		}
 	}
 
@@ -1256,16 +1256,13 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 					   error);
 
 	if (result == TRUE) {
-		metadata = simple_add_metadata (metadata, "Exif.Image.Orientation", "1");
-		if (is_overwrite)
-			update_and_save_metadata (temp_backup, local_file, metadata);
-		else
-			update_and_save_metadata (local_file, local_file, metadata);
-	}
-
-	if (is_overwrite) {
-		file_unlink (temp_backup);
-		local_dir_remove_recursive (temp_dir);
+		if (is_overwrite) {
+			update_and_save_metadatum (temp_backup, local_file, "Exif.Image.Orientation", "1");
+			file_unlink (temp_backup);
+			local_dir_remove_recursive (temp_dir);
+		} else {
+			update_and_save_metadatum (original_local_file, local_file, "Exif.Image.Orientation", "1");
+		}
 	}
 
 	g_free (temp_backup);
@@ -1314,7 +1311,7 @@ collect_save_options (va_list    opts,
 gboolean
 _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 		  const char   *local_file,
-		  GList	       *metadata,
+		  const char   *original_local_file,
 		  const char   *type,
 		  GError      **error,
 		  ...)
@@ -1333,7 +1330,7 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 	collect_save_options (args, &keys, &values);
 	va_end (args);
 
-	result = _gdk_pixbuf_savev (pixbuf, local_file, metadata, type,
+	result = _gdk_pixbuf_savev (pixbuf, local_file, original_local_file, type,
 				    keys, values, error);
 
 	g_strfreev (keys);
