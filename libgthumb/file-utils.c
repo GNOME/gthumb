@@ -2618,22 +2618,6 @@ check_permissions (const char *path,
 /* VFS caching */
 
 
-char *
-gfile_get_path_from_uri (const char *uri)
-{
-        GFile *gfile;
-        char  *path;
-
-        gfile = gfile_new (uri);
-        path = gfile_get_path (gfile);
-        g_object_unref (gfile);
-
-	g_assert (path != NULL);
-
-        return path;
-}
-
-
 gboolean
 is_local_file (const char *filename)
 {
@@ -2938,6 +2922,8 @@ get_pixbuf_using_external_converter (FileData   *file,
 				     int         requested_width,
 				     int         requested_height)
 {
+	char       *local_file;
+	char       *local_uri;
 	char	   *cache_file;
 	char       *md5_file;
 	char	   *cache_file_full;
@@ -2949,7 +2935,12 @@ get_pixbuf_using_external_converter (FileData   *file,
 	gboolean    is_hdr;
 	gboolean    is_thumbnail;
 
+	local_file = get_cache_filename_from_uri (file->path);
+	if (local_file == NULL)
+		return NULL;
+
 	is_thumbnail = requested_width > 0;
+	local_uri = get_uri_from_local_path (local_file);
 
 	is_raw = mime_type_is_raw (file->mime_type);
 	is_hdr = mime_type_is_hdr (file->mime_type);
@@ -2957,7 +2948,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
-	md5_file = gnome_thumbnail_md5 (file->local_path);
+	md5_file = gnome_thumbnail_md5 (local_uri);
 	
 	if (is_raw && !is_thumbnail)
 		/* Full-sized converted RAW file */
@@ -2979,12 +2970,14 @@ get_pixbuf_using_external_converter (FileData   *file,
 	g_free (md5_file);
 
 	if (cache_file == NULL) {
+		g_free (local_file);
+		g_free (local_uri);
 		g_free (cache_file);
 		g_free (cache_file_esc);
 		return NULL;
 	}
 
-	local_file_esc = g_shell_quote (file->local_path);
+	local_file_esc = g_shell_quote (local_file);
 
 	/* Do nothing if an up-to-date converted file is already in the cache */
 	if (! path_is_file (cache_file) || (file->mtime > get_file_mtime (cache_file))) {
@@ -3002,7 +2995,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 			        	g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
 				g_free (thumb_command);
 
-				first_part = remove_extension_from_path (file->local_path);
+				first_part = remove_extension_from_path (local_file);
 				jpg_thumbnail = g_strdup_printf ("%s.thumb.jpg", first_part);
 				tiff_thumbnail = g_strdup_printf ("%s.thumb.tiff", first_part);
 				ppm_thumbnail = g_strdup_printf ("%s.thumb.ppm", first_part);
@@ -3077,6 +3070,8 @@ get_pixbuf_using_external_converter (FileData   *file,
 	g_free (cache_file);
 	g_free (cache_file_esc);
 	g_free (local_file_esc);
+	g_free (local_file);
+	g_free (local_uri);
 
 	return pixbuf;
 }
@@ -3145,8 +3140,13 @@ gth_pixbuf_new_from_file (FileData               *file,
 {
 	GdkPixbuf     *pixbuf = NULL;
 	GdkPixbuf     *rotated = NULL;
+	char          *local_file = NULL;
 
 	if (file == NULL)
+		return NULL;
+
+	local_file = get_cache_filename_from_uri (file->path);
+	if (local_file == NULL)
 		return NULL;
 
 	if (mime_type_is_video (file->mime_type)) {
@@ -3161,7 +3161,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 	if ((pixbuf == NULL) 
 	    && mime_type_is_raw (file->mime_type) 
 	    && (requested_width > 0))
-		pixbuf = or_gdkpixbuf_extract_thumbnail (file->local_path, requested_width);
+		pixbuf = or_gdkpixbuf_extract_thumbnail (local_file, requested_width);
 #endif
 
 	/* Use dcraw for raw images, pfstools for HDR images */
@@ -3176,7 +3176,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 	if ((pixbuf == NULL) && (requested_width > 0)) {
 		int w, h;
 		
-		if (gdk_pixbuf_get_file_info (file->local_path, &w, &h) == NULL) {
+		if (gdk_pixbuf_get_file_info (local_file, &w, &h) == NULL) {
 			w = -1;
 			h = -1;
 		}
@@ -3184,17 +3184,17 @@ gth_pixbuf_new_from_file (FileData               *file,
 		/* scale the image only if the original size is larger than
 		 * the requested size. */
 		if ((w > requested_width) || (h > requested_height))
-			pixbuf = gdk_pixbuf_new_from_file_at_scale (file->local_path,
+			pixbuf = gdk_pixbuf_new_from_file_at_scale (local_file,
                         	                                    requested_width,
                                 	                            requested_height,
                                         	                    TRUE,
                                                 	            error);
 		else
-			pixbuf = gdk_pixbuf_new_from_file (file->local_path, error);
+			pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 	}
 	else if (pixbuf == NULL)
 		/* otherwise, no scaling required */
-		pixbuf = gdk_pixbuf_new_from_file (file->local_path, error);
+		pixbuf = gdk_pixbuf_new_from_file (local_file, error);
 
 	/* Did any of the loaders work? */
 	if (pixbuf == NULL)
@@ -3202,7 +3202,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
-	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", file->local_path, requested_width);
+	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", local_file, requested_width);
 
 #if GDK_PIXBUF_CHECK_VERSION(2,11,5)
         /* New in gtk 2.11.5 - see bug 439567 */
@@ -3228,6 +3228,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 	}
 
 	g_object_unref (pixbuf);
+	g_free (local_file);
 
 	return rotated;
 }
@@ -3247,7 +3248,12 @@ gth_pixbuf_animation_new_from_file (FileData               *file,
 		return NULL;
 
 	if (mime_type_is (file->mime_type, "image/gif")) {
-		animation = gdk_pixbuf_animation_new_from_file (file->local_path, error);
+		char *local_file;
+		
+		local_file = get_cache_filename_from_uri (file->path);
+		animation = gdk_pixbuf_animation_new_from_file (local_file, error);
+		g_free (local_file);
+
 		return animation;
 	}
  

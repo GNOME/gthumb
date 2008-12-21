@@ -1,38 +1,5 @@
 2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
-	* libgthumb/comments.c: (save_comment_to_metadata),
-	(load_comment_from_xml), (save_comment):
-	* libgthumb/dlg-save-image.c: (save_image):
-	* libgthumb/file-data.c: (file_data_new), (file_data_dup),
-	(file_data_unref), (file_data_set_path):
-	* libgthumb/file-data.h:
-	* libgthumb/file-utils.c: (gfile_get_path_from_uri),
-	(get_pixbuf_using_external_converter), (gth_pixbuf_new_from_file),
-	(gth_pixbuf_animation_new_from_file):
-	* libgthumb/file-utils.h:
-	* libgthumb/gth-exif-utils.c: (gth_read_exiv2), (update_metadata):
-	* libgthumb/gth-exif-utils.h:
-	* src/catalog-png-exporter.c: (begin_page), (end_page):
-	* src/catalog-web-exporter.c: (save_image_preview_cb):
-	* src/dlg-convert.c: (save_image_and_remove_original):
-	* src/dlg-jpegtran.c: (apply_transformation__trim_response),
-	(apply_transformation__step2):
-	* src/dlg-photo-importer.c: (save_image):
-	* src/dlg-reset-exif.c: (apply_transformation__step2):
-	* src/gth-batch-op.c: (pixbuf_op_done_cb):
-	* src/gth-browser.c: (get_image_to_preload):
-	* src/rotation-utils.c: (apply_transformation_jpeg),
-	(apply_transformation_generic):
-
-	Stop using the gthumb cache of remote files and use the gvfs mount
-	point instead. Still need to purge copy_remote_file_to_cache,
-	update_file_from_cache, obtain_local_file, and allied functions.
-
-	Added a local_path entry to the FileData structure to record the
-	local path or .gvfs mount point.
-
-2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
-
 	* libgthumb/dlg-save-image.c: (save_image):
 	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev),
 	(_gdk_pixbuf_save):

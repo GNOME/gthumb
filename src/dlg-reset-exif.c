@@ -145,8 +145,11 @@ apply_transformation__step2 (const char     *uri,
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
+	char		   *local_file = NULL;
 
-	write_orientation_field (file->local_path, GTH_TRANSFORM_NONE);
+	local_file = get_cache_filename_from_uri (file->path);
+	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
+	g_free (local_file);
 	
 	update_file_from_cache (file, apply_transformation_done, at_data);
 }

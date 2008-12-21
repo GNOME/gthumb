@@ -112,15 +112,20 @@ save_image (GtkWindow     *parent,
 		image_type = g_strdup (file->mime_type + strlen("image/"));
 
 		if (dlg_save_options (parent, image_type, &keys, &values)) {
+			char *local_file;
+			
+			local_file = get_cache_filename_from_uri (file->path);
 			if (_gdk_pixbuf_savev (pixbuf,
-					       file->local_path,
-					       file->local_path,
+					       local_file,
+					       local_file,
 					       image_type,
 					       keys, values,
 					       &error))
 				image_saved = TRUE;
 			else
 				_gtk_error_dialog_from_gerror_run (parent, &error);
+				
+			g_free (local_file);
 		}
 
 		g_free (image_type);

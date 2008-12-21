@@ -271,12 +271,17 @@ apply_transformation__trim_response (JpegMcuAction action,
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
+	char		   *local_file = NULL;
 	GthTransform        image_orientation;
 	GthTransform	    required_transform;
 
+	local_file = get_cache_filename_from_uri (file->path);
 	image_orientation = get_orientation_from_fd (file);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
+	
 	apply_transformation_jpeg (file, required_transform, action, NULL);
+	
+	g_free (local_file);
 	
 	update_file_from_cache (file, apply_transformation_done, at_data);
 }
@@ -289,16 +294,18 @@ apply_transformation__step2 (const char     *uri,
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
+	char		   *local_file = NULL;
 	GthTransform        image_orientation;
 	GthTransform	    required_transform;
 	gboolean            go_on = TRUE;
 	
+	local_file = get_cache_filename_from_uri (file->path);
 	image_orientation = get_orientation_from_fd (file);
 	required_transform = get_next_transformation (image_orientation, at_data->data->transform);
 	if (mime_type_is (file->mime_type, "image/jpeg")) {
 		if (! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) 
 			/* Adjust Exif orientation tag. */
-			write_orientation_field (file->local_path, required_transform);
+			write_orientation_field (local_file, required_transform);
 		else { 
 			GError *error = NULL;
  			
@@ -318,6 +325,7 @@ apply_transformation__step2 (const char     *uri,
 	else 
 		/* Generic image transform. */
 		apply_transformation_generic (file, required_transform, NULL);
+	g_free (local_file);
 	
 	if (go_on)
 		update_file_from_cache (file, apply_transformation_done, at_data);

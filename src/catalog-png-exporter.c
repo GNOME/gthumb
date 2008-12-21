@@ -32,7 +32,6 @@
 #include "catalog-png-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
-#include "gfile-utils.h"
 #include "gthumb-init.h"
 #include "gthumb-marshal.h"
 #include "pixbuf-utils.h"
@@ -1625,6 +1624,7 @@ begin_page (CatalogPngExporter *ce,
 {
 	GError            *error = NULL;
 	int                width, height;
+	char              *local_file;
 	char              *filename;
 	char              *name;
 	char              *line;
@@ -1669,7 +1669,20 @@ begin_page (CatalogPngExporter *ce,
 	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
 	g_warning ("URI: %s", ce->imap_uri);
 
-	ce->imap_gfile = gfile_new (ce->imap_uri);
+	/*
+	 * NOTE: gio port
+	 * 
+	 *   Set ce->imap_gfile from ce->imap_uri.
+	 *   
+	 *   This is a temporary workaround. Getting rid of ce->imap_uri
+	 *   requires converting to GFile: 
+	 *   1) get_cache_uri_from_uri 
+	 *   2) recipients of all_windows_notify_files_created  
+	 */
+	local_file = get_cache_uri_from_uri (ce->imap_uri);
+	ce->imap_gfile = g_file_new_for_uri (local_file);
+	g_free (local_file);
+	
 	ce->ostream = g_file_replace (ce->imap_gfile, 
 				      NULL,
 				      FALSE,
@@ -1723,7 +1736,7 @@ end_page (CatalogPngExporter *ce,
 
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	uri = g_strconcat (ce->location, "/", name, ".", ce->file_type, NULL);
-	local_file = gfile_get_path_from_uri (uri);
+	local_file = get_cache_filename_from_uri (uri);
 	
 	if (strcmp (ce->file_type, "jpeg") == 0)
 		_gdk_pixbuf_save (pixbuf, local_file, NULL, "jpeg", NULL, "quality", "85", NULL);
