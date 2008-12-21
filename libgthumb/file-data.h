@@ -32,7 +32,8 @@
 typedef struct {
 	guint               ref : 8;
 
-	char               *path;          /* Full path name. */
+	char               *path;          /* Full URI */
+	char               *local_path;    /* local path or .gvfs mount point */
 	const char         *name;          /* File name only. */
 	char               *display_name;
 	const char         *mime_type;

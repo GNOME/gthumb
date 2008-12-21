@@ -499,7 +499,7 @@ save_comment_to_metadata (const char  *uri,
 
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES][0], keywords_str);
 
-	update_and_save_metadata (file->path, file->path, add_metadata);
+	update_and_save_metadata (file->local_path, file->local_path, add_metadata);
 	free_metadata (add_metadata);
 	file_data_unref (file);
 	g_free (keywords_str);
@@ -521,7 +521,7 @@ load_comment_from_xml (const char *uri)
 		return NULL;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-	local_file = get_cache_filename_from_uri (comment_uri);
+	local_file = gfile_get_path_from_uri (comment_uri);
 	if (! path_exists (local_file)) {
 		g_free (comment_uri);
 		g_free (local_file);
@@ -640,7 +640,7 @@ save_comment (const char  *uri,
 	/* Write to disk. */
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-        local_file = get_cache_filename_from_uri (comment_uri);
+        local_file = gfile_get_path_from_uri (comment_uri);
 	dest_dir = remove_level_from_path (local_file);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);

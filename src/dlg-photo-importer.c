@@ -1295,7 +1295,7 @@ save_image (DialogData *data,
 	} else {
 		/* Otherwise, the images go straight into the destination folder */
 		file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
-		local_path = get_cache_filename_from_uri (file_uri);		
+		local_path = gfile_get_path_from_uri (file_uri);		
 	}
 
 	if ( (local_path != NULL) && gp_file_save (file, local_path) >= 0) {

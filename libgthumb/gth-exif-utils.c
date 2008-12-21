@@ -471,36 +471,26 @@ write_orientation_field (const char   *local_file,
 }
 
 
-GList *
-gth_read_exiv2 (const char *uri, GList *metadata)
+static GList *
+gth_read_exiv2 (const char *local_path, GList *metadata)
 {
-	char *local_file;
-	char *uri_wo_ext;
-        char *sidecar_uri;
-
-        local_file = get_cache_filename_from_uri (uri);
-        if (local_file == NULL)
-                return metadata;
+	char *path_wo_ext;
+        char *sidecar_local_path;
 
 	/* Because prepending is faster than appending */
 	metadata = g_list_reverse (metadata);
 
 	/* Read image file */
-	metadata = read_exiv2_file (local_file, metadata);
-	g_free (local_file);
+	metadata = read_exiv2_file (local_path, metadata);
 
 	/* Read sidecar, if present */
-	/* FIXME: add remote cache support (use copy_remote_file_to_cache) */
-	uri_wo_ext = remove_extension_from_path (uri);
-	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
-	local_file = get_cache_filename_from_uri (sidecar_uri);
+	path_wo_ext = remove_extension_from_path (local_path);
+	sidecar_local_path = g_strconcat (path_wo_ext, ".xmp", NULL);
+	if (path_exists (sidecar_local_path))
+	      	metadata = read_exiv2_sidecar (sidecar_local_path, metadata);
 
-	if ((local_file != NULL) && path_exists (local_file))
-	       	metadata = read_exiv2_sidecar (local_file, metadata);
-
-	g_free (local_file);
-       	g_free (uri_wo_ext);
-        g_free (sidecar_uri);
+	g_free (path_wo_ext);
+        g_free (sidecar_local_path);
 
 	/* Undo the initial reverse */
 	metadata = g_list_reverse (metadata);
@@ -519,21 +509,9 @@ sort_by_tag_name (GthMetadata *entry1, GthMetadata *entry2)
 void
 update_metadata (FileData *fd) 
 { 
-	char *local_file;
-
 	/* Have we already read in the metadata? */
 	if (fd->exif_data_loaded == TRUE)
 		return;
-
-	local_file = get_cache_filename_from_uri (fd->path); 
-
-	/* What if the remote file has not actually been copied to the cache?
-	   In that case, do not bother to load the metadata, because it's
-	   too slow. fd->exif_data_loaded will remain FALSE. */
-	if (!path_is_file (local_file)) {
-		g_warning ("Can't read the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", fd->path);
-		return;
-	}
 
 	if (fd->mime_type == NULL)
 		file_data_update_mime_type (fd, FALSE);
@@ -541,17 +519,15 @@ update_metadata (FileData *fd)
 	g_assert (fd->mime_type != NULL);
 
         if (mime_type_is_image (fd->mime_type)) 
-                fd->metadata = gth_read_exiv2 (local_file, fd->metadata); 
+                fd->metadata = gth_read_exiv2 (fd->local_path, fd->metadata); 
 	else if (mime_type_is_video (fd->mime_type))
- 		fd->metadata = gth_read_gstreamer (local_file, fd->metadata);
+ 		fd->metadata = gth_read_gstreamer (fd->local_path, fd->metadata);
  
         /* Sort alphabetically by tag name. The "position" value will 
            override this sorting, if position is non-zero. */ 
         fd->metadata = g_list_sort (fd->metadata, (GCompareFunc) sort_by_tag_name); 
  	fd->exif_data_loaded = TRUE;
 	fd->exif_time = get_metadata_time_from_fd (fd, TAG_NAME_SETS[SORTING_DATE_TAG_NAMES]);
-
-	g_free (local_file);
 
         return; 
 }

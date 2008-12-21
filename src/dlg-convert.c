@@ -260,7 +260,7 @@ save_image_and_remove_original (DialogData *data)
 	old_local_file = gfile_get_path (old_local_gfile);
 	g_object_unref (old_local_gfile);
 
-	local_file = get_cache_filename_from_uri (data->new_path);
+	local_file = gfile_get_path_from_uri (data->new_path);
 	if (! _gdk_pixbuf_savev (data->pixbuf,
 			         local_file,
 				 old_local_file,

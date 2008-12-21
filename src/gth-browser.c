@@ -8225,7 +8225,6 @@ get_image_to_preload (GthBrowser *browser,
 {
 	FileData  *fdata;
 	int        max_size;
-	char      *local_file;
 	int        width = 0, height = 0;
 
 	if (pos < 0)
@@ -8250,17 +8249,15 @@ get_image_to_preload (GthBrowser *browser,
 		return NULL;
 	}
 
-	local_file = get_cache_filename_from_uri (fdata->path);
-	gdk_pixbuf_get_file_info (local_file, &width, &height);
+	gdk_pixbuf_get_file_info (fdata->local_path, &width, &height);
 
-	debug (DEBUG_INFO, "%s dimensions: [%dx%d] <-> %d\n", local_file, width, height, max_size);
+	debug (DEBUG_INFO, "%s dimensions: [%dx%d] <-> %d\n", fdata->local_path, width, height, max_size);
 
 	if (width * height > max_size) {
-		debug (DEBUG_INFO, "image %s dimensions are too large for preloading\n", local_file);
+		debug (DEBUG_INFO, "image %s dimensions are too large for preloading\n", fdata->local_path);
 		file_data_unref (fdata);
 		fdata = NULL;
 	}
-	g_free (local_file);
 
 	return fdata;
 }

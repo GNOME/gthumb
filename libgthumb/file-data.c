@@ -68,6 +68,7 @@ file_data_new (const char       *path,
 
 	fd->ref = 1;
 	fd->path = add_scheme_if_absent (path);
+	fd->local_path = gfile_get_path_from_uri (fd->path);
 	fd->name = file_name_from_path (fd->path);
 	fd->display_name = get_utf8_display_name_from_uri (fd->name);
 	if (info != NULL) {
@@ -140,6 +141,7 @@ file_data_dup (FileData *source)
 
 	fd->ref = 1;
 	fd->path = g_strdup (source->path);
+	fd->local_path = g_strdup (source->local_path);
 	fd->name = file_name_from_path (fd->path);
 	fd->display_name = g_strdup (source->display_name);
 	fd->mime_type = get_static_string (source->mime_type);
@@ -169,6 +171,7 @@ file_data_unref (FileData *fd)
 
 	if (fd->ref == 0) {
 		g_free (fd->path);
+		g_free (fd->local_path);
 		g_free (fd->display_name);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
@@ -305,6 +308,8 @@ file_data_set_path (FileData   *fd,
 
 	g_free (fd->path);
 	fd->path = g_strdup (path);
+	g_free (fd->local_path);
+	fd->local_path = gfile_get_path_from_uri (fd->path);
 
 	file_data_update (fd);
 }

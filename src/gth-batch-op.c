@@ -479,7 +479,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
         old_local_file = gfile_get_path (old_local_gfile);
         g_object_unref (old_local_gfile);
 
-	local_file = get_cache_filename_from_uri (PD(bop)->new_path);
+	local_file = gfile_get_path_from_uri (PD(bop)->new_path);
 	if (! _gdk_pixbuf_savev (pixop->dest,
 			         local_file,
 				 old_local_file,
