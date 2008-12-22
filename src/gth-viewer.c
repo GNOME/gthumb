@@ -936,7 +936,7 @@ image_loaded_cb (GtkWidget  *widget,
 		return;
 	}
 
-	file_data_update_info (priv->image); /* FIXME: check if this is necessary */
+	file_data_update (priv->image); /* FIXME: check if this is necessary */
 	priv->image_modified = FALSE;
 
 	viewer_update_image_info (viewer);
@@ -1681,7 +1681,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	/**/
 
 	if (filename != NULL) {
-		priv->image = file_data_new (filename, NULL);
+		priv->image = file_data_new (filename);
 		file_data_update_all (priv->image, FALSE); /* FIXME: always slow mime type ? */
 	}
 }
@@ -1748,7 +1748,7 @@ gth_viewer_load_from_uri (GthViewer  *viewer,
 {
 	FileData *file;
 	
-	file = file_data_new (uri, NULL);
+	file = file_data_new (uri);
 	file_data_update_all (file, FALSE); /* FIXME: always slow mime type ? */
 	gth_viewer_load (viewer, file);
 	file_data_unref (file);

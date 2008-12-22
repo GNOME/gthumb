@@ -353,7 +353,7 @@ thumb_loader_set_path (ThumbLoader *tl,
 	g_return_if_fail (tl != NULL);
 	g_return_if_fail (path != NULL);
 
-	fd = file_data_new (path, NULL);
+	fd = file_data_new (path);
 	file_data_update (fd); 
 	thumb_loader_set_file (tl, fd);
 }

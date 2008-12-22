@@ -390,7 +390,7 @@ load_comment_from_metadata (const char *uri)
 	char        *metadata_string = NULL;
 	time_t	     metadata_time = 0;
 
-	file = file_data_new (uri, NULL);
+	file = file_data_new (uri);
 	file_data_update_all (file, FALSE);
 
 	data = comment_data_new ();
@@ -473,7 +473,7 @@ save_comment_to_metadata (const char  *uri,
         char      *buf;
         struct tm  tm;
 
-        file = file_data_new (uri, NULL);
+        file = file_data_new (uri);
         file_data_update_all (file, FALSE);
 
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);

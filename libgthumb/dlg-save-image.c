@@ -169,7 +169,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
 
-	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)), NULL);
+	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));

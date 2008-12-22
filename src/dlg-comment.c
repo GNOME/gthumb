@@ -141,7 +141,7 @@ get_requested_time (DialogData *data,
 	
 	FileData *file;
 
-	file = file_data_new (filename, NULL);
+	file = file_data_new (filename);
         file_data_update_all (file, FALSE);
 
 	switch (idx) {
@@ -298,7 +298,7 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 
 	gtk_widget_set_sensitive (data->date_dateedit, idx == FOLLOWING_DATE);
 
-	file = file_data_new (first_image, NULL);
+	file = file_data_new (first_image);
         file_data_update_all (file, FALSE);
 
 	switch (idx) {
@@ -479,7 +479,7 @@ dlg_comment_update (GtkWidget *dlg)
 	data->have_exif_data = FALSE;
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *file;
-		file = file_data_new (scan->data, NULL);
+		file = file_data_new (scan->data);
                 file_data_update_all (file, FALSE);
 		if (get_exif_time (file)) {
 			data->have_exif_data = TRUE;

@@ -24,7 +24,7 @@
 #define FILE_DATA_H
 
 #include <glib.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
+#include <glib-object.h>
 #include <time.h>
 #include <sys/stat.h>
 #include "comments.h"
@@ -60,16 +60,13 @@ typedef struct {
 #define GTH_TYPE_FILE_DATA (file_data_get_type ())
 
 GType        file_data_get_type            (void);
-FileData *   file_data_new                 (const char       *path,
-					    GnomeVFSFileInfo *info);
-FileData *   file_data_new_from_local_path (const char       *path);				   
+FileData *   file_data_new                 (const char       *path);
 FileData *   file_data_dup                 (FileData         *fd);
 FileData *   file_data_ref                 (FileData         *fd);
 void         file_data_unref               (FileData         *fd);
 void         file_data_set_path            (FileData         *fd,
 					    const char       *path);
 void         file_data_update              (FileData         *fd);
-void         file_data_update_info         (FileData         *fd);
 void         file_data_update_mime_type    (FileData         *fd,
 					    gboolean          fast_mime_type);
 void         file_data_update_all          (FileData         *fd,

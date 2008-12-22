@@ -894,7 +894,7 @@ copy_current_file_to_destination (CatalogPngExporter *ce)
 		       0,
 		       ((float) ++ce->n_files_done) / (ce->n_files + 1));	
 
-	file = file_data_new ((char*) ce->current_file->data, NULL);
+	file = file_data_new ((char*) ce->current_file->data);
 	update_file_from_cache (file, copy_current_file_to_destination_done, ce);
 	
 	file_data_unref (file);

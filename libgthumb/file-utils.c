@@ -163,7 +163,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
 			txt_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			
-			file = file_data_new (txt_uri, info);
+			file = file_data_new (txt_uri);
 			file_data_update_mime_type (file, pli->fast_file_type);
 			if ((pli->filter_func != NULL) && pli->filter_func (pli, file, pli->filter_data))
 				pli->files = g_list_prepend (pli->files, file);
@@ -300,7 +300,7 @@ path_list_new (const char  *uri,
 				d_list = g_list_prepend (d_list, s_uri);
 		} 
 		else if (info->type == GNOME_VFS_FILE_TYPE_REGULAR)
-			f_list = g_list_prepend (f_list, file_data_new (s_uri, info));
+			f_list = g_list_prepend (f_list, file_data_new (s_uri));
 		else
 			g_free (s_uri);
 	}
@@ -2796,7 +2796,7 @@ copy_remote_file_to_cache_done (const char     *uri,
 	if (error == NULL) {
 		FileData *cache_file;
 		
-		cache_file = file_data_new (uri, NULL);
+		cache_file = file_data_new (uri);
 		file_data_update (cache_file);
 		cache_used_space += cache_file->size;
 		cache_files = g_list_prepend (cache_files, cache_file);

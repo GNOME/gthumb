@@ -832,14 +832,14 @@ load_images_preview__step (AsyncOperationData *aodata,
 		GdkPixbuf *pixbuf;
 		FileData  *fdata;
 
-		tmp_file = file_data_new_from_local_path (tmp_filename);
+		tmp_file = file_data_new (tmp_filename);
 		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
 		
 		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
 		if (pixbuf == NULL)
 			pixbuf = get_mime_type_icon (data, tmp_file);
 
-		fdata = file_data_new (camera_path, NULL);
+		fdata = file_data_new (camera_path);
 		gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 						 pixbuf,
 						 camera_filename,
@@ -1307,7 +1307,7 @@ save_image (DialogData *data,
 			FileData *file;
 
 			/* Name a subfolder based on the exif date */
-                        file = file_data_new (local_path, NULL);
+                        file = file_data_new (local_path);
                         file_data_update_all (file, FALSE);
 			exif_date = get_exif_time_or_mtime (file);
 			file_data_unref (file);
@@ -1481,7 +1481,7 @@ copy_images__step (AsyncOperationData *aodata,
 	const char *uri = aodata->scan->data;
 	FileData   *file;
 	
-	file = file_data_new (uri, NULL);
+	file = file_data_new (uri);
 
         if (data->msg_text != NULL)
 		g_free (data->msg_text);
@@ -1550,7 +1550,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		FileData     *fd;
 		GthTransform  transform;
 
-		fd = file_data_new (uri, NULL);
+		fd = file_data_new (uri);
 		file_data_update (fd);
 
 		if (data->msg_text != NULL)

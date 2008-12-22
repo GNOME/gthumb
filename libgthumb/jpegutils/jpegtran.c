@@ -348,7 +348,7 @@ jpegtran (const char     *input_filename,
 	fclose (output_file);
 
 	/* Update Exif data */
-	FileData *file = file_data_new (output_filename, NULL);
+	FileData *file = file_data_new (output_filename);
 	file_data_update_all (file, FALSE);
 	update_metadata (file);
 	update_exif_dimensions (file->metadata, transformation);

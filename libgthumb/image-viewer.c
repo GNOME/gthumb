@@ -1252,7 +1252,7 @@ image_viewer_load_image_from_uri (ImageViewer *viewer,
 
 	lidata = g_new (LoadImageData, 1);
 	lidata->viewer = viewer;
-	lidata->file = file_data_new (path, NULL);
+	lidata->file = file_data_new (path);
 	image_loader_stop (priv->loader, (DoneFunc) load_image__step2, lidata);
 }
 

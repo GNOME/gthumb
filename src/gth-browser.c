@@ -5528,7 +5528,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		if (same_uri (parent_dir, current_dir)) {
 			FileData *file;
 			
-			file = file_data_new (path, NULL);
+			file = file_data_new (path);
 			file_data_update_all (file, browser->priv->fast_file_type);
 			if (file_filter (file, browser->priv->show_hidden_files, browser->priv->show_only_images))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
@@ -8282,7 +8282,7 @@ load_timeout_cb (gpointer data)
 		return FALSE;
 
 	/* update the mtime in order to reload the image if required. */
-	file_data_update_info (browser->priv->image);
+	file_data_update (browser->priv->image);
 
 	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
 	if (browser->priv->image_position >= 0) {
@@ -8359,7 +8359,7 @@ gth_browser_load_image (GthBrowser *browser,
 		return;
 	}
 
-	file_data_update_info (file);
+	file_data_update (file);
 
 	if (! priv->image_modified
 	    && (priv->image != NULL)
@@ -8399,7 +8399,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 {
 	FileData *file;
 	
-	file = file_data_new (filename, NULL);
+	file = file_data_new (filename);
 	file_data_update_all (file, FALSE);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);

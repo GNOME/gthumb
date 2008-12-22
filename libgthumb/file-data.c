@@ -22,13 +22,10 @@
 
 #include <string.h>
 #include <glib.h>
-#include <libgnomevfs/gnome-vfs-types.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-data.h"
 #include "glib-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
 
@@ -58,9 +55,54 @@ file_data_get_type (void)
 }
 
 
+static void
+load_info (FileData *fd)
+{
+	GFileInfo *info;
+	GFile     *gfile;
+	GError    *error = NULL;
+	GTimeVal   tv;
+
+	if (fd->display_name)
+		g_free (fd->display_name);
+
+	gfile = gfile_new (fd->path);
+	/* FIXME: do we want to read the mime type here? */
+	info = g_file_query_info (gfile, 
+				  G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME ","
+				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
+				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
+				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
+				  G_FILE_ATTRIBUTE_ACCESS_CAN_READ,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  &error);
+
+        if (error == NULL) {
+		fd->size = g_file_info_get_size (info);
+		fd->ctime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
+		g_file_info_get_modification_time (info, &tv);
+		fd->mtime = tv.tv_sec;
+		fd->display_name = g_strdup (g_file_info_get_display_name (info));
+		fd->can_read = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ);
+        } else {
+                gfile_warning ("Failed to get file information", gfile, error);
+                g_error_free (error);
+
+		fd->size = (goffset) 0;
+		fd->ctime = (time_t) 0;
+		fd->mtime = (time_t) 0;
+		fd->display_name = get_utf8_display_name_from_uri (fd->name);
+		fd->can_read = TRUE;
+	}
+
+	g_object_unref (info);
+	g_object_unref (gfile);
+}
+
+
 FileData *
-file_data_new (const char       *path,
-	       GnomeVFSFileInfo *info)
+file_data_new (const char *path)
 {
 	FileData *fd;
 
@@ -69,25 +111,8 @@ file_data_new (const char       *path,
 	fd->ref = 1;
 	fd->path = add_scheme_if_absent (path);
 	fd->name = file_name_from_path (fd->path);
-	fd->display_name = get_utf8_display_name_from_uri (fd->name);
-	if (info != NULL) {
-		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_SIZE)
-			fd->size = info->size;
-		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_CTIME)
-			fd->ctime = info->ctime;
-		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MTIME)
-			fd->mtime = info->mtime;
-		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_MIME_TYPE)
-			fd->mime_type = get_static_string (info->mime_type);
-		if (info->valid_fields | GNOME_VFS_FILE_INFO_FIELDS_PERMISSIONS)
-			fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;	
-	}
-	else {
-		fd->size = (goffset) 0;
-		fd->ctime = (time_t) 0;
-		fd->mtime = (time_t) 0;
-		fd->can_read = TRUE;
-	}
+
+	load_info (fd);
 
 	/* The Exif DateTime tag is only recorded on an as-needed basis during
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
@@ -100,21 +125,6 @@ file_data_new (const char       *path,
 	fd->thumb_created = FALSE;
 	fd->comment = g_strdup ("");
 
-	return fd;
-}
-
-
-FileData *
-file_data_new_from_local_path (const char *path)
-{
-	FileData *fd;
-	char     *uri;
-	
-	uri = get_uri_from_local_path (path);
-	fd = file_data_new (uri, NULL);
-	file_data_update (fd);
-	g_free (uri);
-	
 	return fd;
 }
 
@@ -182,100 +192,16 @@ file_data_unref (FileData *fd)
 void
 file_data_update (FileData *fd)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	time_t		  old_mtime;
-
 	g_return_if_fail (fd != NULL);
 
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
-
-	old_mtime = fd->mtime;
-
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (fd->path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
-					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
-					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE
-					   | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
-
-	if (result != GNOME_VFS_OK) {
-		fd->error = TRUE;
-		fd->size = 0L;
-		fd->mtime = 0;
-		fd->ctime = 0;
-		fd->mime_type = NULL;
-		fd->can_read = TRUE;
-		return;
-	}
-
 	fd->name = file_name_from_path (fd->path);
 
-	g_free (fd->display_name);
-	fd->display_name = get_utf8_display_name_from_uri (fd->name);
-
-	fd->mime_type = get_static_string (info->mime_type);
-	fd->size = info->size;
-	fd->mtime = info->mtime;
-	fd->ctime = info->ctime;
-	fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;
+	load_info (fd);
 
 	fd_free_metadata (fd);
-
-	gnome_vfs_file_info_unref (info);
-}
-
-
-/* doesn't update the mime-type */
-void
-file_data_update_info (FileData *fd)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	time_t            old_mtime;
-
-	g_return_if_fail (fd != NULL);
-
-	fd->error = FALSE;
-	fd->thumb_loaded = FALSE;
-	fd->thumb_created = FALSE;
-
-	old_mtime = fd->mtime;
-
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (fd->path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_FOLLOW_LINKS 
-					   | GNOME_VFS_FILE_INFO_GET_MIME_TYPE 
-					   | GNOME_VFS_FILE_INFO_FORCE_FAST_MIME_TYPE
-					   | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
-
-	if (result != GNOME_VFS_OK) {
-		fd->error = TRUE;
-		fd->size = 0L;
-		fd->mtime = 0;
-		fd->ctime = 0;
-		fd->mime_type = NULL;
-		fd->can_read = TRUE;
-		return;
-	}
-
-	fd->name = file_name_from_path (fd->path);
-
-	g_free (fd->display_name);
-	fd->display_name = get_utf8_display_name_from_uri (fd->name);
-
-	fd->size = info->size;
-	fd->mtime = info->mtime;
-	fd->ctime = info->ctime;
-	fd->can_read = info->permissions && GNOME_VFS_PERM_ACCESS_READABLE;
-
-        fd_free_metadata (fd);
-
-	gnome_vfs_file_info_unref (info);
 }
 
 
@@ -291,7 +217,7 @@ void
 file_data_update_all (FileData *fd,
 		      gboolean  fast_mime_type)
 {
-	file_data_update_info (fd);
+	file_data_update (fd);
 	file_data_update_mime_type (fd, fast_mime_type);
 }
 
@@ -350,7 +276,7 @@ file_data_list_from_uri_list (GList *list)
 	
 	for (scan = list; scan; scan = scan->next) {
 		char *path = scan->data;
-		result = g_list_prepend (result, file_data_new (path, NULL));
+		result = g_list_prepend (result, file_data_new (path));
 	}
 	
 	return g_list_reverse (result);

@@ -1,3 +1,8 @@
+2008-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* many files: Ported file-data.c from gnome_vfs to gfile.
+	Simplified file-data.c slightly and removed some redundant functions.
+
 2008-12-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/dlg-save-image.c: (save_image):

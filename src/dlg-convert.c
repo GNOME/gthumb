@@ -278,7 +278,7 @@ save_image_and_remove_original (DialogData *data)
 	g_free (old_local_file);
 	file_data_unref (fd_old);
 	
-	fd = file_data_new (data->new_path, NULL);
+	fd = file_data_new (data->new_path);
 	update_file_from_cache (fd, save_image_and_remove_original_step2, data);
 	file_data_unref (fd);
 

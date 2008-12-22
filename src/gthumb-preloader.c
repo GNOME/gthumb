@@ -487,15 +487,15 @@ gthumb_preloader_start (GThumbPreloader *gploader,
 	
 	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 	
-	f_requested = file_data_new (requested, NULL);
+	f_requested = file_data_new (requested);
 	file_data_update_all (f_requested, fast_mime_type);
 	if (next1 != NULL) {
-		f_next1 = file_data_new (next1, NULL);
+		f_next1 = file_data_new (next1);
 		file_data_update (f_next1);
 		file_data_update_mime_type (f_next1, fast_mime_type);
 	}
 	if (prev1 != NULL) {
-		f_prev1 = file_data_new (prev1, NULL);
+		f_prev1 = file_data_new (prev1);
 		file_data_update_all (f_prev1, fast_mime_type);
 	}
 	

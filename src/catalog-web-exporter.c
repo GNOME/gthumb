@@ -2716,7 +2716,7 @@ export__copy_image (CatalogWebExporter *ce)
 			GthTransform  transform;
 		
 			FileData *fd;
-			fd = file_data_new (uri, NULL);
+			fd = file_data_new (uri);
 			transform = get_orientation_from_fd (fd);
 			
 			if (transform > 1) {
