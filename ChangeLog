@@ -1,5 +1,11 @@
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/bookmarks.c:
+	* libgthumb/catalog.c:
+	Deleted some unused #defines.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/dlg-save-image.c:
 	* libgthumb/glib-utils.c:
 	* libgthumb/image-viewer.c:

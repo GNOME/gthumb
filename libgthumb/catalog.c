@@ -39,7 +39,6 @@
 
 #define SORT_FIELD "# sort: "
 #define MAX_LINE_LENGTH 4096
-#define FILE_PERMISSIONS 0600
 
 static char *sort_names[] = { "none", "name", "path", "size", "time", "exif-date", "comment", "manual" };
 

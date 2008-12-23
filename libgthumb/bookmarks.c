@@ -35,8 +35,6 @@
 #include "preferences.h"
 
 #define MAX_LINES 100
-#define FILE_PERMISSIONS 0600
-
 
 Bookmarks *
 bookmarks_new (char *rc_filename)
