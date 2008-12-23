@@ -24,7 +24,6 @@
 #include <stdio.h>
 #include <glib.h>
 #include <glib/gprintf.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include "glib-utils.h"
 
 

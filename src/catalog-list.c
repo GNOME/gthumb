@@ -26,7 +26,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include "typedefs.h"
 #include "file-utils.h"
 #include "catalog.h"

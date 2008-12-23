@@ -28,7 +28,6 @@
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include "comments.h"
 #include "file-data.h"

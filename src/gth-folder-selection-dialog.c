@@ -26,7 +26,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include "gth-folder-selection-dialog.h"
 
 #include "bookmark-list.h"

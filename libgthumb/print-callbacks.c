@@ -26,8 +26,6 @@
 
 #include <glib/gi18n.h>
 #include <libgnomecanvas/libgnomecanvas.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glade/glade.h>
 #include <pango/pango-layout.h>

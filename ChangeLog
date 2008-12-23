@@ -1,5 +1,27 @@
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/dlg-save-image.c:
+	* libgthumb/glib-utils.c:
+	* libgthumb/image-viewer.c:
+	* libgthumb/print-callbacks.c:
+	* src/catalog-list.c:
+	* src/dlg-brightness-contrast.c:
+	* src/dlg-change-date.c:
+	* src/dlg-color-balance.c:
+	* src/dlg-convert.c:
+	* src/dlg-hue-saturation.c:
+	* src/dlg-jpegtran.c:
+	* src/dlg-posterize.c:
+	* src/dlg-preferences.c:
+	* src/dlg-reset-exif.c:
+	* src/dlg-scale-image.c:
+	* src/dlg-scale-series.c:
+	* src/gth-category-selection-dialog.c:
+	* src/gth-folder-selection-dialog.c:
+	Removed some unused gnome-vfs includes.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-data.c: (load_info):
 	Load the fast mime_type initially.
 

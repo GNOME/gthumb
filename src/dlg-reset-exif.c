@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include <gio/gio.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
 
 #include "file-utils.h"
