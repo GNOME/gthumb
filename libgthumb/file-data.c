@@ -73,7 +73,8 @@ load_info (FileData *fd)
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
 				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
 				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
-				  G_FILE_ATTRIBUTE_ACCESS_CAN_READ,
+				  G_FILE_ATTRIBUTE_ACCESS_CAN_READ ","
+				  G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE,
                                   G_FILE_QUERY_INFO_NONE,
                                   NULL,
                                   &error);
@@ -85,6 +86,7 @@ load_info (FileData *fd)
 		fd->mtime = tv.tv_sec;
 		fd->display_name = g_strdup (g_file_info_get_display_name (info));
 		fd->can_read = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ);
+		fd->mime_type = get_static_string (g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE));
         } else {
                 gfile_warning ("Failed to get file information", gfile, error);
                 g_error_free (error);

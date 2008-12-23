@@ -269,54 +269,14 @@ path_list_new (const char  *uri,
 	       GList      **files,
 	       GList      **dirs)
 {
-	GnomeVFSResult  r;
-	GnomeVFSURI    *dir_uri;
-	GList          *info_list = NULL;
-	GList          *scan;
-	GList          *f_list = NULL;
-	GList          *d_list = NULL;
+        GFile    *gfile;
+	gboolean  result;
 
-	if (files) *files = NULL;
-	if (dirs) *dirs = NULL;
+        gfile = gfile_new (uri);
+	result = gfile_path_list_new (gfile, files, dirs);
+	g_object_unref (gfile);
 
-	r = gnome_vfs_directory_list_load (&info_list,
-					   uri,
-					   GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-
-	if (r != GNOME_VFS_OK)
-		return FALSE;
-
-	dir_uri = new_uri_from_path (uri);
-	for (scan = info_list; scan; scan = scan->next) {
-		GnomeVFSFileInfo *info = scan->data;
-		GnomeVFSURI      *full_uri = NULL;
-		char             *s_uri;
-
-		full_uri = gnome_vfs_uri_append_file_name (dir_uri, info->name);
-		s_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-
-		if (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY) {
-			if (! SPECIAL_DIR (info->name))
-				d_list = g_list_prepend (d_list, s_uri);
-		} 
-		else if (info->type == GNOME_VFS_FILE_TYPE_REGULAR)
-			f_list = g_list_prepend (f_list, file_data_new (s_uri));
-		else
-			g_free (s_uri);
-	}
-	gnome_vfs_file_info_list_free (info_list);
-
-	if (dirs)
-		*dirs = g_list_reverse (d_list);
-	else
-		path_list_free (d_list);
-
-	if (files)
-		*files = g_list_reverse (f_list);
-	else
-		file_data_list_free (f_list);
-
-	return TRUE;
+        return result;
 }
 
 
@@ -552,6 +512,7 @@ visit_rc_directory_sync (const char *rc_dir,
 	}
 
 	path_list_new (rc_dir_full_path, &files, &dirs);
+	g_free (rc_dir_full_path);
 
 	for (scan = files; scan; scan = scan->next) {
 		FileData *file = scan->data;
@@ -2683,14 +2644,14 @@ void
 free_cache (void)
 {
 	char  *cache_dir;
-	char  *cache_uri;
+	GFile *cache_gfile;
 	GList *files = NULL;
 	
 	cache_dir = get_cache_full_path (NULL, NULL);
-	cache_uri = get_uri_from_local_path (cache_dir);
+	cache_gfile = gfile_new (cache_dir);
 	g_free (cache_dir);
 	
-	if (path_list_new (cache_uri, &files, NULL)) {
+	if (gfile_path_list_new (cache_gfile, &files, NULL)) {
 		GList *scan;
 		for (scan = files; scan; scan = scan->next ) {
 			FileData *file = scan->data;
@@ -2698,10 +2659,10 @@ free_cache (void)
 		}
 	}
 
+	g_object_unref (cache_gfile);
 	file_data_list_free (files);
-	g_free (cache_uri);
-	
 	file_data_list_free (cache_files);
+
 	cache_files = NULL;
 	cache_used_space = 0;
 }
@@ -2724,19 +2685,19 @@ void
 check_cache_free_space (void)
 {
 	char  *cache_dir;
-	char  *cache_uri;
+	GFile *cache_gfile;
 	GList *scan;
 
 	cache_dir = get_cache_full_path (NULL, NULL);
-	cache_uri = get_uri_from_local_path (cache_dir);
+	cache_gfile = gfile_new (cache_dir);
 	g_free (cache_dir);
 	
 	if (! cache_loaded) {
-		if (! path_list_new (cache_uri, &cache_files, NULL)) {
+		if (! gfile_path_list_new (cache_gfile, &cache_files, NULL)) {
 			file_data_list_free (cache_files);
 			cache_files = NULL;
 			cache_loaded = FALSE;
-			g_free (cache_uri);
+			g_object_unref (cache_gfile);
 			return;
 		}
 		cache_files = g_list_sort (cache_files, comp_func_time);
@@ -2776,7 +2737,7 @@ check_cache_free_space (void)
 		debug (DEBUG_INFO, "deleted %d files, new cache size: %"GNOME_VFS_SIZE_FORMAT_STR".\n", n, cache_used_space);
 	}
 	
-	g_free (cache_uri);
+	g_object_unref (cache_gfile);
 }
 
 

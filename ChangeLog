@@ -1,3 +1,16 @@
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-data.c: (load_info):
+	Load the fast mime_type initially.
+
+	* libgthumb/file-utils.c: (path_list_new),
+	(visit_rc_directory_sync), (free_cache), (check_cache_free_space):
+	Use the new gfile_path_list_new, and fix a small memory leak.
+
+	* libgthumb/gfile-utils.c: (gfile_path_list_new):
+	* libgthumb/gfile-utils.h:
+	Add a gfile version of path_list_new, as part of the gio porting.
+
 2008-12-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* many files: Ported file-data.c from gnome_vfs to gfile.

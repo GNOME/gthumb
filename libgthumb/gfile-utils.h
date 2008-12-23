@@ -84,7 +84,9 @@ GFile *       gfile_get_home_dir               (void);
 GFile *       gfile_get_tmp_dir                (void);
 GFile *       gfile_get_temp_dir_name          (void);
 gboolean      gfile_dir_remove_recursive       (GFile      *dir);
-
+gboolean      gfile_path_list_new              (GFile      *gfile,
+                                                GList     **files,
+                                                GList     **dirs);
 /* Xfer */
 
 gboolean      gfile_xfer                       (GFile      *sfile,

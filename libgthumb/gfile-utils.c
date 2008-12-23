@@ -30,6 +30,8 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "gfile-utils.h"
+#include "file-data.h"
+#include "file-utils.h"
 
 
 /*
@@ -650,6 +652,72 @@ gfile_dir_remove_recursive (GFile *dir)
         }
 
         return result;
+}
+
+
+gboolean
+gfile_path_list_new (GFile  *gfile,
+                     GList **files,
+                     GList **dirs)
+{
+        GFileEnumerator *file_enum;
+        GFileInfo       *info;
+        GList           *f_list = NULL;
+        GList           *d_list = NULL;
+	GError		*error = NULL;
+
+        file_enum = g_file_enumerate_children (gfile,
+                                               G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                               G_FILE_ATTRIBUTE_STANDARD_TYPE,
+                                               0, NULL, &error);
+
+        if (error != NULL) {
+                gfile_warning ("Error while reading catalog folder", gfile, error);
+                g_error_free (error);
+                return FALSE;
+        }
+
+        while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
+                GFile *child;
+                char  *uri;
+
+                child = g_file_get_child (gfile, g_file_info_get_name (info));
+                uri = gfile_get_uri (child);
+
+                switch (g_file_info_get_file_type (info)) {
+                case G_FILE_TYPE_DIRECTORY:
+                        if (dirs) {
+                                d_list = g_list_prepend (d_list, g_strdup (uri));
+                        }
+                        break;
+                case G_FILE_TYPE_REGULAR:
+                        if (files) {
+                                f_list = g_list_prepend (f_list, file_data_new (uri));
+                        }
+                        break;
+                default:
+                        break;
+                }
+
+                g_object_unref (child);
+                g_object_unref (info);
+                g_free (uri);
+        }
+
+        if (dirs)
+                *dirs = g_list_reverse (d_list);
+        else
+                path_list_free (d_list);
+
+        if (files) {
+                *files = g_list_reverse (f_list);
+        }
+        else
+                file_data_list_free (f_list);
+
+        g_object_unref (file_enum);
+
+        return TRUE;
 }
 
 
