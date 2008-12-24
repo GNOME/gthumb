@@ -745,6 +745,7 @@ local_file_move (const char *from,
 	return xfer_file (from, to, TRUE);
 }
 
+
 gboolean
 file_rename (const char *from,
 	     const char *to)
@@ -912,6 +913,7 @@ path_is_file (const char *path)
 	return result;
 }
 
+
 gboolean
 path_is_dir (const char *path)
 {
@@ -953,24 +955,30 @@ get_file_size (const char *path)
 time_t
 get_file_mtime (const char *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	time_t            mtime;
+        GFileInfo *info;
+        GFile     *gfile;
+        GError    *error = NULL;
+        GTimeVal   tv;
+	time_t     mtime;
 
-	if (! path || ! *path) return 0;
+        gfile = gfile_new (path);
+        info = g_file_query_info (gfile,
+                                  G_FILE_ATTRIBUTE_TIME_MODIFIED,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  &error);
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	mtime = 0;
-	if ((result == GNOME_VFS_OK)
-	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_MTIME))
-		mtime = info->mtime;
+        if (error == NULL) {
+                g_file_info_get_modification_time (info, &tv);
+                mtime = tv.tv_sec;
+		g_object_unref (info);
+        } else {
+                // gfile_warning ("Failed to get file information", gfile, error);
+                g_error_free (error);
+                mtime = (time_t) 0;
+        }
 
-	gnome_vfs_file_info_unref (info);
-
+        g_object_unref (gfile);
 	return mtime;
 }
 
@@ -978,24 +986,28 @@ get_file_mtime (const char *path)
 time_t
 get_file_ctime (const gchar *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	time_t ctime;
+        GFileInfo *info;
+        GFile     *gfile;
+        GError    *error = NULL;
+        time_t     ctime;
 
-	if (! path || ! *path) return 0;
+        gfile = gfile_new (path);
+        info = g_file_query_info (gfile,
+                                  G_FILE_ATTRIBUTE_TIME_CHANGED,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  &error);
 
-	info = gnome_vfs_file_info_new ();
-	result = gnome_vfs_get_file_info (path,
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	ctime = 0;
-	if ((result == GNOME_VFS_OK)
-	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_CTIME))
-		ctime = info->ctime;
+        if (error == NULL) {
+                ctime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
+                g_object_unref (info);
+        } else {
+                // gfile_warning ("Failed to get file information", gfile, error);
+                g_error_free (error);
+                ctime = (time_t) 0;
+        }
 
-	gnome_vfs_file_info_unref (info);
-
+        g_object_unref (gfile);
 	return ctime;
 }
 
@@ -1004,15 +1016,26 @@ void
 set_file_mtime (const gchar *path,
 		time_t       mtime)
 {
-	GnomeVFSFileInfo *file_info;
+        GFileInfo *info;
+        GFile     *gfile;
+        GError    *error = NULL;
+        GTimeVal   tv;
 
-	file_info = gnome_vfs_file_info_new ();
-	file_info->mtime = mtime;
-	file_info->atime = mtime;
-	gnome_vfs_set_file_info (path,
-				 file_info,
-				 GNOME_VFS_SET_FILE_INFO_TIME);
-	gnome_vfs_file_info_unref (file_info);
+	tv.tv_sec = mtime;
+ 	tv.tv_usec = 0;
+
+        gfile = gfile_new (path);
+        info = g_file_info_new ();
+	g_file_info_set_modification_time (info, &tv);
+	g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, &error);
+	g_object_unref (info);
+
+        if (error != NULL) {
+                gfile_warning ("Failed to set file mtime", gfile, error);
+                g_error_free (error);
+        }
+
+        g_object_unref (gfile);
 }
 
 

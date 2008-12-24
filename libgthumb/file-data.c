@@ -67,7 +67,6 @@ load_info (FileData *fd)
 		g_free (fd->display_name);
 
 	gfile = gfile_new (fd->path);
-	/* FIXME: do we want to read the mime type here? */
 	info = g_file_query_info (gfile, 
 				  G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME ","
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","

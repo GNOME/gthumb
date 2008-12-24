@@ -1,5 +1,14 @@
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (load_info):
+	Removed obsolete comment.
+
+	* libgthumb/file-utils.c: (get_file_mtime), (get_file_ctime),
+	(set_file_mtime):
+	Migrated these functions to gfile.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (get_mime_type_from_ext):
 	* libgthumb/file-utils.h:
 	* src/dlg-image-prop.c: (update_general_info):
