@@ -590,22 +590,13 @@ get_extension (const char *path)
 
 
 const char *
-get_mime_type (const char *uri)
-{
-	if (uri_scheme_is_file (uri))
-		uri = get_file_path_from_uri (uri);
-	return gnome_vfs_get_file_mime_type (uri, NULL, FALSE);
-}
-
-
-const char *
 get_mime_type_from_ext (const char *ext)
 {
 	char       *filename;
 	const char *result;
 
 	filename = g_strconcat ("x.", ext, NULL);
-	result = get_mime_type (filename);
+	result = get_file_mime_type (filename, TRUE);
 	g_free (filename);
 
 	return result;

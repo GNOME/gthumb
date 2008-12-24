@@ -407,7 +407,7 @@ update_general_info (DialogData *data)
 		
 		/**/
 	
-		mime_type = get_mime_type (image_filename);	
+		mime_type = get_file_mime_type (image_filename, FALSE);
 		mime_description = g_content_type_get_description (mime_type);
 		mime_full = g_strdup_printf ("%s (%s)", mime_description, mime_type);
 		gtk_label_set_text (GTK_LABEL (data->i_type_label), mime_full);

@@ -1,5 +1,14 @@
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (get_mime_type_from_ext):
+	* libgthumb/file-utils.h:
+	* src/dlg-image-prop.c: (update_general_info):
+	* src/dlg-open-with.c: (dlg_open_with):
+	Remove the gnome-vfs mimetype detection routine, and replace
+	it with the existing gfile-based one.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.h:
 	* libgthumb/file-utils.c: (dir_make)
 	Ported to gfile. Also, use default umask rather than specifying one.

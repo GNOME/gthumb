@@ -249,7 +249,6 @@ GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,
 						   ...);
 guint64             get_destination_free_space    (const char       *path);
-const char *        get_mime_type                 (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
 const char *        get_mime_type_from_ext        (const char       *ext);

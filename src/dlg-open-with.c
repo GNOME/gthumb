@@ -324,7 +324,7 @@ dlg_open_with (GtkWindow  *window,
 		const char *uri = scan->data;
 		const char *result;
 
-		result = get_mime_type (uri);
+		result = get_file_mime_type (uri, FALSE);
 		if (result != NULL)
 			data->apps = g_list_concat (data->apps, g_app_info_get_all_for_type (result));
 	}
