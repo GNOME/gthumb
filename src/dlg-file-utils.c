@@ -114,7 +114,7 @@ dlg_check_folder (GthWindow  *window,
 
 	/* check permissions */
 
-	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
+	if (! can_read_write_execute (dir)) {
 		char *utf8_path;
 		utf8_path = get_utf8_display_name_from_uri (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),

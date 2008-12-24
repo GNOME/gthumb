@@ -1,5 +1,17 @@
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-data.c: (load_info):
+	Turn off verbose error reports.
+
+	* libgthumb/file-utils.c: (can_read_write_execute):
+	* libgthumb/file-utils.h:
+	* src/dlg-file-utils.c: (dlg_check_folder):
+	* src/dlg-photo-importer.c: (ok_clicked_cb):
+	Convert gnomevfs-based check_permissions to gfile-based
+	can_read_write_execute.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/bookmarks.c:
 	* libgthumb/catalog.c:
 	Deleted some unused #defines.

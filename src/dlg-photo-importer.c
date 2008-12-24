@@ -1761,7 +1761,7 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 	}
 
-	if (! check_permissions (data->local_folder, R_OK | W_OK | X_OK)) {
+	if (! can_read_write_execute (data->local_folder)) {
 		char *utf8_path;
 		char *msg;
 		utf8_path = get_utf8_display_name_from_uri (data->local_folder);

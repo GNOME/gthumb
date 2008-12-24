@@ -87,8 +87,9 @@ load_info (FileData *fd)
 		fd->display_name = g_strdup (g_file_info_get_display_name (info));
 		fd->can_read = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ);
 		fd->mime_type = get_static_string (g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE));
+		g_object_unref (info);
         } else {
-                gfile_warning ("Failed to get file information", gfile, error);
+                // gfile_warning ("Failed to get file information", gfile, error);
                 g_error_free (error);
 
 		fd->size = (goffset) 0;
@@ -98,7 +99,6 @@ load_info (FileData *fd)
 		fd->can_read = TRUE;
 	}
 
-	g_object_unref (info);
 	g_object_unref (gfile);
 }
 

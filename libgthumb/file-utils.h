@@ -255,8 +255,7 @@ const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
 const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
-gboolean            check_permissions             (const char       *path,
-						   int               mode);
+gboolean            can_read_write_execute        (const char       *path);
 gboolean	    is_local_file                 (const char       *filename);
 char *              get_cache_filename_from_uri   (const char       *uri);
 char *              get_cache_uri_from_uri        (const char       *uri);

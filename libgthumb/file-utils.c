@@ -2544,35 +2544,36 @@ is_mime_type_writable (const char *mime_type)
 
 
 gboolean
-check_permissions (const char *path,
-		   int         mode)
+can_read_write_execute (const char *path)
 {
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    vfs_result;
-	gboolean	  everything_OK = TRUE;
+	GFileInfo *info;
+	GFile     *gfile;
+	GError    *error = NULL;
+	gboolean   result, a, b, c;
 
-	info = gnome_vfs_file_info_new ();
-	vfs_result = gnome_vfs_get_file_info (path,
-					      info,
-					      (GNOME_VFS_FILE_INFO_DEFAULT
-					       | GNOME_VFS_FILE_INFO_FOLLOW_LINKS
-					       | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
+	gfile = gfile_new (path);
+        info = g_file_query_info (gfile,
+				  G_FILE_ATTRIBUTE_ACCESS_CAN_READ ","
+				  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE ","
+                                  G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
+				  G_FILE_QUERY_INFO_NONE,
+				  NULL,
+				  &error);
 
-	if (vfs_result != GNOME_VFS_OK)
-		everything_OK = FALSE;
+	if (error != NULL) {
+		gfile_warning ("Failed to get directory permission information", gfile, error);
+		g_error_free (error);
+		result = FALSE;
+	} else {
+		result = ((a=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ)) &&
+			  (b=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) &&
+			  (c=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE)));
+	}
 
-	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE))
-		everything_OK = FALSE;
+	g_object_unref (info);
+	g_object_unref (gfile);
 
-	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE))
-		everything_OK = FALSE;
-
-	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_EXECUTABLE))
-		everything_OK = FALSE;
-
-	gnome_vfs_file_info_unref (info);
-
-	return everything_OK;
+	return result;
 }
 
 
