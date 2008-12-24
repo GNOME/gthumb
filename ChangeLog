@@ -2,6 +2,14 @@
 
 	* libgthumb/file-utils.c:
 	* libgthumb/file-utils.h:
+	Deleted unused functions: get_file_path_from_uri,
+	get_catalog_path_from_uri, get_search_path_from_uri,
+	remove_scheme_from_uri, new_path_from_uri.
+
+2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c:
+	* libgthumb/file-utils.h:
 	Removed an unused function (checksum_simple).
 
 2008-12-23  Michael J. Chudobiak  <mjc@svn.gnome.org>

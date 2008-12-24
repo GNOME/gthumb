@@ -159,10 +159,6 @@ void                set_file_mtime                (const char       *s,
 
 char *		    get_utf8_display_name_from_uri (const char      *uri);
 const char *        get_home_uri                  (void);
-const char *        get_file_path_from_uri        (const char       *uri);
-const char *        get_catalog_path_from_uri     (const char       *uri);
-const char *        get_search_path_from_uri      (const char       *uri);
-const char *        remove_scheme_from_uri        (const char       *uri);
 char *              get_uri_scheme                (const char       *uri);
 const char *        remove_host_from_uri          (const char       *uri);
 char *              get_uri_host                  (const char       *uri);
@@ -194,7 +190,6 @@ char *              remove_ending_separator       (const char       *path);
 char *              remove_special_dirs_from_path (const char       *path);
 
 GnomeVFSURI *       new_uri_from_path             (const char       *path);
-char *              new_path_from_uri             (GnomeVFSURI      *uri);
 char *              build_uri                     (const char       *s1,
 						   const char       *s2,
 						   ...);

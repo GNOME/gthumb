@@ -1077,50 +1077,6 @@ get_home_uri (void)
 }
 
 
-const char *
-get_file_path_from_uri (const char *uri)
-{
-	if (uri == NULL)
-		return NULL;
-	if (uri_scheme_is_file (uri))
-		return uri + FILE_PREFIX_L;
-	else if (uri[0] == '/')
-		return uri;
-	else
-		return NULL;
-}
-
-
-const char *
-get_catalog_path_from_uri (const char *uri)
-{
-	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
-		return NULL;
-	return uri + CATALOG_PREFIX_L;
-}
-
-
-const char *
-get_search_path_from_uri (const char *uri)
-{
-	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
-		return NULL;
-	return uri + SEARCH_PREFIX_L;
-}
-
-
-const char *
-remove_scheme_from_uri (const char *uri)
-{
-	const char *idx;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return uri;
-	return idx + 3;
-}
-
-
 char *
 get_uri_scheme (const char *uri)
 {
@@ -1678,15 +1634,6 @@ new_uri_from_path (const char *path)
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	return uri;
-}
-
-
-char *
-new_path_from_uri (GnomeVFSURI *uri)
-{
-	if (uri == NULL)
-		return NULL;
-	return gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 }
 
 
