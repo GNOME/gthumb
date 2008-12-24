@@ -1,5 +1,13 @@
 2008-12-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gfile-utils.c: (gfile_get_display_name):
+	* libgthumb/gfile-utils.h:
+	* src/dlg-web-exporter.c: (add_theme_dir),
+	(theme_dialog__install_theme_clicked):
+	More gfile migration and gnomevfs purging.
+
+2008-12-24  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* src/dlg-web-exporter.c: (theme_present):
 	Simplify theme_present and use gfile-based functions.
 

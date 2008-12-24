@@ -402,6 +402,34 @@ gfile_get_file_size (GFile *file)
 }
 
 
+char *
+gfile_get_display_name (GFile *file)
+{
+        GFileInfo *info;
+        char      *name = NULL;
+        GError    *err = NULL;
+
+	g_assert (file != NULL);
+
+        info = g_file_query_info (file,
+                                  G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  &err);
+        if (err == NULL) {
+                name = g_strdup (g_file_info_get_display_name (info));
+        } else {
+                gfile_warning ("Failed to get file display name", file, err);
+                g_error_free (err);
+        }
+
+        g_object_unref (info);
+
+        return name;
+}
+
+
+
 /* Directory utils */
 
 static gboolean

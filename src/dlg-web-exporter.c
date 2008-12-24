@@ -38,6 +38,7 @@
 #include "catalog-web-exporter.h"
 #include "dlg-file-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"
 #include "main.h"
@@ -651,44 +652,31 @@ static void
 add_theme_dir (ThemeDialogData *tdata,
 	       char            *theme_dir)
 {
-	GnomeVFSResult  result;
-	GList          *file_list = NULL;
+	GList          *dir_list = NULL;
 	GList          *scan;
 
 	debug (DEBUG_INFO, "theme dir: %s", theme_dir);
 
-	if (theme_dir != NULL)
-		result = gnome_vfs_directory_list_load (&file_list,
-							theme_dir,
-							GNOME_VFS_FILE_INFO_DEFAULT);
-	else
-		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
+	if (path_is_dir (theme_dir))
+		path_list_new (theme_dir, NULL, &dir_list);
 
-	if (result == GNOME_VFS_OK)
-		for (scan = file_list; scan; scan = scan->next) {
-			GnomeVFSFileInfo *info = scan->data;
-			char             *utf8_name;
-			GtkTreeIter       iter;
+	for (scan = dir_list; scan; scan = scan->next) {
+		GtkTreeIter  iter;
+		char        *dir = scan->data;
+		char        *display_name;
+		GFile       *gfile;
+		
+		gfile = gfile_new (dir);
+		display_name = gfile_get_display_name (gfile);
 
-			if (info->type != GNOME_VFS_FILE_TYPE_DIRECTORY)
-				continue;
-
-			if ((strcmp (info->name, ".") == 0)
-			    || (strcmp (info->name, "..") == 0))
-				continue;
-
-			utf8_name = get_utf8_display_name_from_uri (info->name);
-
-			gtk_list_store_append (tdata->list_store, &iter);
-			gtk_list_store_set (tdata->list_store, &iter,
-					    THEME_NAME_COLUMN, utf8_name,
-					    -1);
-
-			g_free (utf8_name);
-		}
-
-	if (file_list != NULL)
-		gnome_vfs_file_info_list_free (file_list);
+		gtk_list_store_append (tdata->list_store, &iter);
+		gtk_list_store_set (tdata->list_store, &iter,
+				    THEME_NAME_COLUMN, display_name,
+				    -1);
+		g_object_unref (gfile);
+		g_free (display_name);
+	}
+	path_list_free (dir_list);
 }
 
 
@@ -836,7 +824,6 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
 
-	/* Permit VFS URIs */
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
 	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), g_get_home_dir ());
 	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
