@@ -309,39 +309,17 @@ static gboolean
 theme_present (const char *theme_name,
 	       const char *theme_dir)
 {
-	GnomeVFSResult  result;
-	GList          *file_list = NULL;
-	GList          *scan;
-	gboolean        found = FALSE;
+	char *filename;
 
 	if (theme_name == NULL)
 		return FALSE;
 
-	if (theme_dir != NULL)
-		result = gnome_vfs_directory_list_load (&file_list,
-							theme_dir,
-							GNOME_VFS_FILE_INFO_DEFAULT);
-	else
-		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
+	if (theme_dir == NULL)
+		return FALSE;
 
-	if (result == GNOME_VFS_OK)
-		for (scan = file_list; scan; scan = scan->next) {
-			GnomeVFSFileInfo *info = scan->data;
+	filename = g_build_filename (theme_dir, theme_name, NULL);
 
-			if (info->type != GNOME_VFS_FILE_TYPE_DIRECTORY)
-				continue;
-
-			if ((strcmp (info->name, ".") == 0)
-			    || (strcmp (info->name, "..") == 0))
-				continue;
-
-			if (strcmp (info->name, theme_name) == 0) {
-				found = TRUE;
-				break;
-			}
-		}
-
-	return found;
+	return path_is_dir (filename);
 }
 
 
