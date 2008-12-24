@@ -156,7 +156,7 @@ new_dir_cb (GtkWidget *widget,
 			    name,
 			    NULL);
 
-	dir_make (path, 0775);
+	dir_make (path);
 
 	g_free (path);
 	g_free (name);

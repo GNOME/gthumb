@@ -802,7 +802,7 @@ create_new_folder_or_library (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 	} 
-	else if (! dir_make (new_path, 0755)) {
+	else if (! dir_make (new_path)) {
 		char *utf8_path;
 
 		utf8_path = get_utf8_display_name_from_uri (new_path);

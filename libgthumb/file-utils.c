@@ -357,24 +357,41 @@ dir_is_empty (const gchar *path)
 
 
 gboolean
-dir_make (const gchar *path,
-	  mode_t       mode)
+dir_make (const gchar *path)
 {
-	return (gnome_vfs_make_directory (path, mode) == GNOME_VFS_OK);
+        GFile    *gfile;
+        gboolean  result;
+	GError   *error;
+
+        gfile = gfile_new (path);
+        result = g_file_make_directory (gfile, NULL, &error);
+
+	if (error != NULL) {
+                gfile_warning ("Could not create directory", gfile, error);
+                g_error_free (error);
+	}
+
+        g_object_unref (gfile);
+        return result;
 }
 
 
 gboolean
 dir_remove (const gchar *path)
 {
-	GFile    *file;
+	GFile    *gfile;
 	gboolean  result;
+	GError   *error;
 	
-	file = gfile_new (path);
+	gfile = gfile_new (path);
+	result = g_file_delete (gfile, NULL, NULL);
+
+	if (error != NULL) {
+                gfile_warning ("Could not remove directory", gfile, error);
+                g_error_free (error);
+        }
 	
-	result = g_file_delete (file, NULL, NULL);
-	
-	g_object_unref (file);
+	g_object_unref (gfile);
 
 	return result;
 }
@@ -383,18 +400,16 @@ dir_remove (const gchar *path)
 gboolean
 dir_remove_recursive (const char *path)
 {
-	GFile    *file;
+	GFile    *gfile;
 	gboolean  result;
 	
 	if (path == NULL)
 		return FALSE;
 	
-	file = gfile_new (path);
+	gfile = gfile_new (path);
+	result = gfile_dir_remove_recursive (gfile);
 	
-	result = gfile_dir_remove_recursive (file);
-	
-	g_object_unref (file);
-
+	g_object_unref (gfile);
 	return result;
 }
 
@@ -410,18 +425,16 @@ gboolean
 ensure_dir_exists (const char *path,
 		   mode_t      mode)
 {
-	GFile    *file;
+	GFile    *gfile;
 	gboolean  result;
 	
 	if (path == NULL)
 		return FALSE;
 	
-	file = gfile_new (path);
+	gfile = gfile_new (path);
+	result = gfile_ensure_dir_exists (gfile, mode, NULL);
 	
-	result = gfile_ensure_dir_exists (file, mode, NULL);
-	
-	g_object_unref (file);
-
+	g_object_unref (gfile);
 	return result;
 }
 

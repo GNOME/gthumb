@@ -777,7 +777,7 @@ ensure_local_theme_dir_exists (void)
 			       "gthumb/albumthemes",
 			       NULL);
 
-	dir_make (theme_dir, 0700);
+	dir_make (theme_dir);
 
 	g_free (theme_dir);
 }

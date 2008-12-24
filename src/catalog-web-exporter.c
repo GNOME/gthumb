@@ -2618,7 +2618,7 @@ save_image_preview_cb (gpointer data)
 			g_free (local_file);
 			g_free (src_local_file);
 			g_object_unref (file);
-			g_object_unref (src_local_file);
+			g_object_unref (src_local_gfile);
 		}
 	}
 
