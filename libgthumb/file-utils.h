@@ -154,7 +154,6 @@ time_t              get_file_mtime                (const char       *s);
 time_t              get_file_ctime                (const char       *s);
 void                set_file_mtime                (const char       *s,
 						   time_t            mtime);
-long                checksum_simple               (const char       *path);
 
 /* URI/Path utils */
 
