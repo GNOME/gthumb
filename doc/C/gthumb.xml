@@ -2775,7 +2775,7 @@
       <itemizedlist>
 	  <listitem>
 	    <para>
-		<command>gimp %F &</command>
+		<command>gimp %F &amp;</command>
             </para>
 	    <para>
 		This script tells the GNU Image Manipulation Program (gimp) to open
