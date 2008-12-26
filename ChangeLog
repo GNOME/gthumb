@@ -1,3 +1,10 @@
+2008-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* doc/C/gthumb.xml:
+	* src/dlg-preferences.c: (dlg_preferences):
+	Fixed default launch-with-gimp hotkey to launch gimp in the
+	background. Bug #565708.
+
 2008-12-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xml), (save_comment):
