@@ -236,7 +236,6 @@ gfile_get_file_mime_type (GFile      *file,
         const char *value;
         const char *result = NULL;
         GFileInfo  *info;
-        GError     *error = NULL;
 
         g_assert (file != NULL);
 
@@ -246,7 +245,7 @@ gfile_get_file_mime_type (GFile      *file,
                                   G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
                                   G_FILE_QUERY_INFO_NONE,
                                   NULL,
-                                  &error);
+                                  NULL);
         if (info != NULL) {
                 if (fast_file_type)
                         value = g_file_info_get_attribute_string (info,
@@ -276,14 +275,8 @@ gfile_get_file_mime_type (GFile      *file,
                         }
                 }
 
-
-                result = get_static_string  (value);
-        } else {
-                gfile_warning ("Could not get content type", file, error);
-                g_clear_error (&error);
-        }
-
-        g_object_unref (info);
+        	g_object_unref (info);
+	}
 
         return result;
 }

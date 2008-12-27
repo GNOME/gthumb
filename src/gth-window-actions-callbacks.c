@@ -220,7 +220,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 			return;
 		}
 			
-		tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
+		tmp_filename = get_temp_file_name (tmp_dir, "jpeg");
 		if (! _gdk_pixbuf_save (pixbuf,
 					tmp_filename,
 					NULL,

@@ -501,8 +501,8 @@ static gboolean
 valid_mime_type (const char *name,
 		 const char *type)
 {
-	int         i;
-	const char *name_ext;
+	int   i;
+	char *name_ext;
 
 	if ((type != NULL) && (strcmp (type, "") != 0)) {
 		const char *mime_types[] = { "image",
@@ -524,11 +524,14 @@ valid_mime_type (const char *name,
 				       "AU", "WAV", "OGG", "MP3", "FLAC" };			/* audio */
 		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
 			const char *ext = exts[i];
-			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0)
+			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
+				g_free (name_ext);
 				return TRUE;
+			}
 		}
 	}
 
+	g_free (name_ext);
 	return FALSE;
 }
 
@@ -808,6 +811,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 	const char *camera_filename;
 	char       *tmp_dir;
 	char       *tmp_filename;
+	char	   *ext;
 
 	gp_file_new (&file);
 
@@ -824,8 +828,10 @@ load_images_preview__step (AsyncOperationData *aodata,
 	if (tmp_dir == NULL) 
 		/* should we display an error message here? */
 		return;
-	
-	tmp_filename = get_temp_file_name (tmp_dir, get_filename_extension (camera_filename));
+
+	ext = get_filename_extension (camera_filename);	
+	tmp_filename = get_temp_file_name (tmp_dir, ext);
+	g_free (ext);
 
 	if (gp_file_save (file, tmp_filename) >= 0) {
 		FileData  *tmp_file;

@@ -1204,7 +1204,6 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 {
 	char     *temp_backup = NULL;
 	char     *temp_dir = NULL;
-	char     *ext;
 
 	gboolean  is_overwrite;
 	gboolean  result;
@@ -1222,11 +1221,13 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		if (!strcmp (local_file, original_local_file)) {
 		        temp_dir = get_temp_dir_name ();
         		if (temp_dir != NULL) {
+				char *ext;
+
 				is_overwrite = TRUE;
-				ext = g_strdup_printf (".%s",get_filename_extension (local_file));
+				ext = get_filename_extension (original_local_file);
 				temp_backup = get_temp_file_name (temp_dir, ext);
 				g_free (ext);
-				file_copy (local_file, temp_backup);
+				file_copy (original_local_file, temp_backup);
 			}
 		}
 	}

@@ -2132,7 +2132,7 @@ shell_escape (const gchar *filename)
 }
 
 
-/* extesion */
+/* extension */
 
 
 gboolean
@@ -2143,16 +2143,17 @@ file_extension_is (const char *filename,
 }
 
 
-const char *
+char *
 get_filename_extension (const char *filename)
 {
-	char *last_dot;
+        GFile  *gfile;
+	char   *result;
 
-	last_dot = strrchr (filename, '.');
-	if (last_dot == NULL)
-		return NULL;
+        gfile = gfile_new (filename);
+        result = gfile_get_filename_extension (gfile);
+        g_object_unref (gfile);
 
-	return last_dot + 1;
+        return result;
 }
 
 
@@ -2220,7 +2221,7 @@ get_temp_file_name (const char *tmpdir,
 
 	g_static_mutex_lock (&count_mutex);
 	if (ext != NULL)
-		name = g_strdup_printf ("%d%s", count++, ext);
+		name = g_strdup_printf ("%d.%s", count++, ext);
 	else
 		name = g_strdup_printf ("%d", count++);
 	g_static_mutex_unlock (&count_mutex);
@@ -2537,13 +2538,22 @@ char *
 get_cache_full_path (const char *filename, 
 		     const char *extension)
 {
-	return g_strconcat (g_get_home_dir (),
-			    "/",
-			    RC_REMOTE_CACHE_DIR,
-			    ((filename == NULL) ? "" : "/"),
-			    filename,
-			    extension,
-			    NULL);
+	if (extension == NULL)
+                return g_strconcat (g_get_home_dir (),
+                                    "/",
+                                    RC_REMOTE_CACHE_DIR,
+                                    ((filename == NULL) ? "" : "/"),
+                                    filename,
+                                    NULL);	
+	else
+		return g_strconcat (g_get_home_dir (),
+				    "/",
+				    RC_REMOTE_CACHE_DIR,
+				    ((filename == NULL) ? "" : "/"),
+				    filename,
+				    ".",
+				    extension,
+				    NULL);
 }
 
 
@@ -2552,6 +2562,7 @@ get_cache_filename_from_uri (const char *uri)
 {
 	char *name;
 	char *path;
+	char *ext;
 	
 	if (is_local_file (uri))
 		return get_local_path_from_uri (uri);
@@ -2560,8 +2571,10 @@ get_cache_filename_from_uri (const char *uri)
 	if (name == NULL)
 		return NULL;
 
-	path = get_cache_full_path (name, NULL);
+	ext = get_filename_extension (uri);
+	path = get_cache_full_path (name, ext);
 	g_free (name);
+	g_free (ext);
 	
 	return path;	
 }

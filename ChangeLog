@@ -1,5 +1,22 @@
 2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (get_filename_extension),
+	(get_temp_file_name), (get_cache_full_path),
+	(get_cache_filename_from_uri):
+	* libgthumb/file-utils.h:
+	* libgthumb/gfile-utils.c: (gfile_get_file_mime_type):
+	* libgthumb/gfile-utils.h:
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_savev):
+	* src/dlg-photo-importer.c: (valid_mime_type),
+	(load_images_preview__step):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_file_print):
+	Use the gfile functions to determine the file extension. Return the
+	extension as a char*, rather than const char*. Treat the dot before
+	the extension more consistently.
+
+2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gth-exif-utils.c: (update_and_save_metadata):
 	Migrated permissions-copying code from gnomevfs to gfile.
 

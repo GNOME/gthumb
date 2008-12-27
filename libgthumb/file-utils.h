@@ -217,7 +217,7 @@ char *              shell_escape                  (const char       *filename);
 
 gboolean            file_extension_is             (const char       *filename,
 						   const char       *ext);
-const char *        get_filename_extension        (const char       *filename);
+char *              get_filename_extension        (const char       *filename);
 char *              remove_extension_from_path    (const char       *path);
 
 /* temp */
