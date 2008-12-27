@@ -75,8 +75,6 @@ gchar *              image_loader_get_path                (ImageLoader       *il
 void                 image_loader_set_pixbuf              (ImageLoader       *il,
 						           GdkPixbuf         *pixbuf);
 GdkPixbuf *          image_loader_get_pixbuf              (ImageLoader       *il);
-void                 image_loader_set_priority            (ImageLoader       *il,
-						           int                priority);
 GdkPixbufAnimation * image_loader_get_animation           (ImageLoader       *il);
 gint                 image_loader_get_is_done             (ImageLoader       *il);
 void                 image_loader_start                   (ImageLoader       *il);

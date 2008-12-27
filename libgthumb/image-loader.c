@@ -28,9 +28,6 @@
 #include <fcntl.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-thumbnail.h>
-#include <libgnomevfs/gnome-vfs-async-ops.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <sys/stat.h>
 #include "image-loader.h"
@@ -65,8 +62,6 @@ struct _ImageLoaderPrivateData {
 	gboolean               loader_done;
 	gboolean               interrupted;
 	gboolean               loading;
-
-	int                    priority;
 
 	DoneFunc               done_func;
 	gpointer               done_func_data;
@@ -256,8 +251,6 @@ image_loader_init (ImageLoader *il)
 	priv->error = FALSE;
 	priv->loader_done = FALSE;
 	priv->interrupted = FALSE;
-
-	priv->priority = GNOME_VFS_PRIORITY_DEFAULT;
 
 	priv->done_func = NULL;
 	priv->done_func_data = NULL;
@@ -878,18 +871,6 @@ image_loader_get_pixbuf (ImageLoader *il)
 {
 	g_return_val_if_fail (il != NULL, NULL);
 	return il->priv->pixbuf;
-}
-
-
-void
-image_loader_set_priority (ImageLoader *il,
-			   int          priority)
-{
-	ImageLoaderPrivateData *priv;
-
-	g_return_if_fail (il != NULL);
-	priv = il->priv;
-	priv->priority = priority;
 }
 
 

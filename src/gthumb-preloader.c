@@ -431,22 +431,6 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 		debug (DEBUG_INFO, "[+] [%d] <- %s", k, file->path);
 	}
 
-	for (i = 0; i < N_LOADERS; i++)
-		if (loader_assigned[i]) {
-			PreLoader *ploader = gploader->loader[i];
-			int        priority;
-
-			if (ploader->file == NULL)
-				continue;
-
-			if (same_uri (ploader->file->path, requested->path))
-				priority = GNOME_VFS_PRIORITY_MAX;
-			else
-				priority = GNOME_VFS_PRIORITY_MIN;
-
-			image_loader_set_priority (ploader->loader, priority);
-		}
-
 	load_data_free (load_data);
 
 	gploader->stopped = FALSE;
