@@ -1,3 +1,8 @@
+2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: (update_and_save_metadata):
+	Migrated permissions-copying code from gnomevfs to gfile.
+
 2008-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* doc/C/gthumb.xml:

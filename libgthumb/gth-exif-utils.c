@@ -27,9 +27,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <glib.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gth-exif-utils.h"
 #include "glib-utils.h"
 #include "gth-gstreamer-utils.h"
@@ -406,7 +406,8 @@ update_and_save_metadata (const char *uri_src,
 {
 	char             *from_local_file;
 	char             *to_local_file;
-        GnomeVFSFileInfo *to_info;
+        GFile            *gfile;
+        GFileInfo        *info;
         gboolean          to_is_local;
 	gboolean	  remote_copy_ok;
 
@@ -428,10 +429,9 @@ update_and_save_metadata (const char *uri_src,
 		return;
 	}
 
-	to_info = gnome_vfs_file_info_new ();
-        gnome_vfs_get_file_info (uri_dest,
-		       		 to_info,
-				 GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+        gfile = gfile_new (uri_src);
+        info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
+        g_object_unref (gfile);
 
 	write_metadata (from_local_file, to_local_file, metadata);
 
@@ -439,9 +439,9 @@ update_and_save_metadata (const char *uri_src,
 		remote_copy_ok = file_copy (to_local_file, uri_dest);
 
 		if (remote_copy_ok == TRUE) {
-			gnome_vfs_set_file_info (uri_dest,
-						 to_info,
-						 GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+	                gfile = g_file_new_for_uri (uri_dest);
+        	        g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+	                g_object_unref (gfile);
 		} else {
 			g_warning ("Metadata update of remote file %s failed.\n", uri_dest);
 		}
@@ -449,7 +449,7 @@ update_and_save_metadata (const char *uri_src,
 
 	g_free (from_local_file);
 	g_free (to_local_file);
-	gnome_vfs_file_info_unref (to_info);
+      	g_object_unref (info);
 }
 
 
