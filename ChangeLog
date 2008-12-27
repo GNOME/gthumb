@@ -1,5 +1,13 @@
 2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/dlg-save-image.c: (save_image), (file_save_ok_cb),
+	(dlg_save_image_as), (dlg_save_image):
+	The metadata copying wasn't working quite right in the "Save As" case,
+	because the original uri wasn't forwarded to the metadata copying
+	routine. Fixed now.
+
+2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (get_file_mime_type):
 	GFileInfo doesn't work for non-existent files, so we have to use
 	g_content_type_guess to determine the mime type based on a proposed

@@ -89,6 +89,7 @@ file_save_cancel_cb (GtkDialog *file_sel,
 static gboolean
 save_image (GtkWindow     *parent,
      	    FileData      *file,
+	    const char    *original_file,
 	    GdkPixbuf     *pixbuf,
 	    SaveImageData *data,
 	    GtkDialog     *file_sel)
@@ -111,11 +112,14 @@ save_image (GtkWindow     *parent,
 
 		if (dlg_save_options (parent, image_type, &keys, &values)) {
 			char *local_file;
-			
+			char *original_local_file;
+	
 			local_file = get_cache_filename_from_uri (file->path);
+			original_local_file = get_cache_filename_from_uri (original_file);
+
 			if (_gdk_pixbuf_savev (pixbuf,
 					       local_file,
-					       local_file,
+					       original_local_file,
 					       image_type,
 					       keys, values,
 					       &error))
@@ -124,6 +128,7 @@ save_image (GtkWindow     *parent,
 				_gtk_error_dialog_from_gerror_run (parent, &error);
 				
 			g_free (local_file);
+			g_free (original_local_file);
 		}
 
 		g_free (image_type);
@@ -160,12 +165,14 @@ file_save_ok_cb (GtkDialog *file_sel,
 	GdkPixbuf     *pixbuf;
 	FileData      *file = NULL;
 	const char    *mime_type = NULL;
+	const char    *original_file;
 	int            idx;
 	SaveImageData *data;
 
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
+	original_file = g_object_get_data (G_OBJECT (file_sel), "uri");
 
 	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
 
@@ -177,7 +184,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 		mime_type = mime_types [idx - 2];
 	file->mime_type = get_static_string (mime_type);
 
-	save_image (parent, file, pixbuf, data, file_sel);
+	save_image (parent, file, original_file, pixbuf, data, file_sel);
 	g_free (file);
 }
 
@@ -288,6 +295,7 @@ dlg_save_image_as (GtkWindow       *parent,
 	g_object_set_data (G_OBJECT (file_sel), "pixbuf", pixbuf);
 	g_object_set_data (G_OBJECT (file_sel), "data", data);
 	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
+	g_object_set_data (G_OBJECT (file_sel), "uri", g_strdup (uri));
 
 	g_signal_connect (GTK_DIALOG (file_sel),
 			  "response",
@@ -326,7 +334,7 @@ dlg_save_image (GtkWindow       *parent,
 	data->done_data = done_data;
 	data->metadata = metadata;
 
-	save_image (parent, file, pixbuf, data, NULL);
+	save_image (parent, file, file->path, pixbuf, data, NULL);
 }
 
 
