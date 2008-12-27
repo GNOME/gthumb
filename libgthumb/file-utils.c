@@ -810,6 +810,16 @@ get_file_mime_type (const char *path,
 
 	g_object_unref (file);
 
+	if (result == NULL) {
+		char *value;
+                value = g_content_type_guess (path, NULL, 0, NULL);
+                result = get_static_string (value);
+		g_free (value);
+	}
+
+	if (result == NULL)
+		g_warning ("Could not get content type for %s.\n",path);
+
 	return result;
 }
 

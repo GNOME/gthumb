@@ -1,5 +1,12 @@
 2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/file-utils.c: (get_file_mime_type):
+	GFileInfo doesn't work for non-existent files, so we have to use
+	g_content_type_guess to determine the mime type based on a proposed
+	filename.
+
+2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (get_filename_extension),
 	(get_temp_file_name), (get_cache_full_path),
 	(get_cache_filename_from_uri):
