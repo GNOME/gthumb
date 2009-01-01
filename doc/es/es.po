@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.userguide.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-14 23:24+0000\n"
-"PO-Revision-Date: 2008-11-21 10:47+0100\n"
+"POT-Creation-Date: 2008-12-26 21:34+0000\n"
+"PO-Revision-Date: 2008-12-28 19:34+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4273,8 +4273,8 @@ msgstr ""
 "continuación:"
 
 #: C/gthumb.xml:3231(command)
-msgid "gimp %F"
-msgstr "gimp %F"
+msgid "gimp %F &amp;"
+msgstr "gimp %F &amp;"
 
 #: C/gthumb.xml:3233(para)
 msgid ""
