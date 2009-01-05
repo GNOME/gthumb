@@ -2123,7 +2123,7 @@ exporter_set_info (CatalogWebExporter *ce,
 
 
 static void
-export__final_step (GnomeVFSResult  result,
+export__final_step (GError 	   *error,
 		    gpointer        data)
 {
 	CatalogWebExporter *ce = data;
@@ -2134,16 +2134,17 @@ export__final_step (GnomeVFSResult  result,
 
 
 static void
-export__copy_to_destination__step2 (GnomeVFSResult  result,
+export__copy_to_destination__step2 (GError 	   *error,
 				    gpointer        data)
 {
 	CatalogWebExporter *ce = data;
 
-	debug (DEBUG_INFO, "result: %s", gnome_vfs_result_to_string (result));
+	debug (DEBUG_INFO, "result: %s", error->message);
 
-	if (result != GNOME_VFS_OK)
+	if (error != NULL)
 		_gtk_error_dialog_run (GTK_WINDOW (ce->window),
-				       gnome_vfs_result_to_string (result));
+				       "%s",
+				       error->message);
 
 	dlg_folder_delete (ce->window,
 			   ce->base_tmp_dir,

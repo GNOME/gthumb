@@ -28,7 +28,6 @@
 #include <glade/glade.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "gth-browser.h"
 #include "gtk-utils.h"
@@ -68,16 +67,16 @@ destroy_cb (GtkWidget  *widget,
 
 
 static void
-write_to_cd__continue (GnomeVFSResult  result,
+write_to_cd__continue (GError 	      *error,
 		       gpointer        user_data)
 {
 	DialogData   *data = user_data;
 	
-	if (result != GNOME_VFS_OK) {
+	if (error != NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (data->browser),
 				       "%s %s",
 				       _("Could not move the items:"), 
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 
 	} else {
 		exec_command ("nautilus --no-default-window --no-desktop --browser burn://", NULL);

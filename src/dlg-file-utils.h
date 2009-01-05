@@ -44,8 +44,8 @@ gboolean dlg_check_folder           (GthWindow   *window,
 
 /**/
 
-typedef void (*FileOpDoneFunc) (GnomeVFSResult result,
-				gpointer       data);
+typedef void (*FileOpDoneFunc)    (GError 	*result,
+				   gpointer       data);
 
 void     dlg_files_copy           (GthWindow      *window,
 				   GList          *file_list,

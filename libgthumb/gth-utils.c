@@ -45,6 +45,7 @@ gthumb_display_help (GtkWindow  *window,
 						 _("Could not display help"));
 
 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+		                                          "%s",
 							  err->message);
 
 		g_signal_connect (G_OBJECT (dialog), "response",

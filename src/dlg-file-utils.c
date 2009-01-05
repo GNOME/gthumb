@@ -71,6 +71,49 @@ typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
 				   gpointer         data);
 
 
+/* GIO Port: VFS -> GIO error code mapping */
+
+void 
+set_error_from_vfs_result (GnomeVFSResult     result,
+                           GError           **err)
+{
+	g_assert (*err == NULL);
+	
+	switch (result) {
+	case GNOME_VFS_OK:
+		break;
+		
+	case GNOME_VFS_ERROR_INTERRUPTED:
+		g_set_error (err, 
+		             G_FILE_ERROR,
+		             G_FILE_ERROR_INTR, 
+			     _("Operation interrupted"));
+		break;
+		
+	case GNOME_VFS_ERROR_NOT_FOUND:
+		g_set_error (err, 
+		             G_FILE_ERROR,
+		             G_FILE_ERROR_NOENT, 
+			     _("File not found"));
+		break;
+		
+	case GNOME_VFS_ERROR_BAD_PARAMETERS:
+		g_set_error (err, 
+			     G_IO_ERROR ,
+			     G_IO_ERROR_INVALID_ARGUMENT, 
+			     _("Invalid argument"));
+		break;
+		
+	default:
+		g_set_error (err, 
+		             G_FILE_ERROR,
+		             G_FILE_ERROR_FAILED, 
+			     _("Operation failed"));
+		break;		
+	}
+} 
+
+
 gboolean
 dlg_check_folder (GthWindow  *window,
 		  const char *path)
@@ -193,16 +236,16 @@ typedef struct {
 
 
 static void
-real_files_delete__continue2 (GnomeVFSResult result,
+real_files_delete__continue2 (GError	    *error,
 			      gpointer       data)
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if ((result != GNOME_VFS_OK) && (result != GNOME_VFS_ERROR_INTERRUPTED))
+	if ((error != NULL) && (!g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_INTR)))
 		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window),
 				       "%s %s",
 				       _("Could not delete the images:"),
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 
 	path_list_free (cfddata->file_list);
 	g_free (cfddata);
@@ -210,12 +253,12 @@ real_files_delete__continue2 (GnomeVFSResult result,
 
 
 static void
-real_files_delete__continue (GnomeVFSResult result,
+real_files_delete__continue (GError	   *error,
 			     gpointer       data)
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+	if ((error != NULL) && (g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))) {
 		int r = GTK_RESPONSE_YES;
 
 		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
@@ -241,7 +284,7 @@ real_files_delete__continue (GnomeVFSResult result,
 					  cfddata);
 	} 
 	else
-		real_files_delete__continue2 (result, data);
+		real_files_delete__continue2 (error, data);
 }
 
 
@@ -309,7 +352,7 @@ destroy_cb (GtkWidget *w,
 
 
 static void
-file_move_ask__continue (GnomeVFSResult result,
+file_move_ask__continue (GError	       *error,
 			 gpointer       data)
 {
 	GtkWidget *file_sel = data;
@@ -410,7 +453,7 @@ dlg_file_move__ask_dest (GthWindow  *window,
 
 
 static void
-file_copy_ask__continue (GnomeVFSResult result,
+file_copy_ask__continue (GError	       *error,
 			 gpointer       data)
 {
 	GtkWidget *file_sel = data;
@@ -1045,7 +1088,7 @@ dlg_file_rename_series (GthWindow *window,
 		dlg_show_error (window,
 				msg,
 				error_list,
-				gnome_vfs_result_to_string (result));
+				gnome_vfs_result_to_string (result));  /*FIXME: result is a gboolean */ 
 	}
 
 	path_list_free (error_list);
@@ -1080,7 +1123,7 @@ typedef struct {
 	guint                timeout_id;
 
 	GnomeVFSAsyncHandle *handle;
-	GnomeVFSResult       result;
+	GError              *error;
 	OverwriteResult      overwrite_result;
 	gboolean             cache_copied;
 	gboolean             copying_cache;
@@ -1111,6 +1154,10 @@ file_copy_data_free (FileCopyData *fcdata)
 	path_list_free (fcdata->created_list);
 
 	g_free (fcdata->destination);
+	
+	if (fcdata->error != NULL)
+		g_error_free (fcdata->error);
+	
 	g_free (fcdata);
 }
 
@@ -1148,8 +1195,15 @@ file_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 		copy_next_file (fcdata);
 
 	} else {
-		if (fcdata->done_func != NULL)
-			(*fcdata->done_func) (GNOME_VFS_ERROR_INTERRUPTED, fcdata->done_data);
+		if (fcdata->done_func != NULL) {
+			GError *error = NULL;
+			g_set_error (&error, 
+			             G_FILE_ERROR,
+			             G_FILE_ERROR_INTR, 
+				     _("Operation interrupted"));
+			(*fcdata->done_func) (error, fcdata->done_data);
+			g_error_free (error);
+		}
 		file_copy_data_free (fcdata);
 	}
 
@@ -1159,8 +1213,7 @@ file_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 
 
 static void
-continue_or_abort_dialog (FileCopyData   *fcdata,
-			  GnomeVFSResult  result)
+continue_or_abort_dialog (FileCopyData   *fcdata)
 {
 	GtkWidget  *d;
 	const char *error;
@@ -1169,7 +1222,6 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 	char       *utf8_name;
 	gboolean    last_file;
 
-	fcdata->result = result;
 	src_file = fcdata->current_file->data;
 
 	if (fcdata->remove_source)
@@ -1181,7 +1233,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 			       " ",
 			       utf8_name,
 			       "\n\n",
-			       gnome_vfs_result_to_string (result),
+			       fcdata->error->message,
 			       NULL);
 	g_free (utf8_name);
 
@@ -1225,7 +1277,7 @@ files_copy__done (FileCopyData *fcdata)
 	all_windows_add_monitor ();
 
 	if (fcdata->done_func != NULL)
-		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
+		(*fcdata->done_func) (fcdata->error, fcdata->done_data);
 
 	file_copy_data_free (fcdata);
 }
@@ -1239,11 +1291,11 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	FileCopyData *fcdata = data;
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		fcdata->result = info->vfs_status;
+		set_error_from_vfs_result (info->vfs_status, &(fcdata->error));
 		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		if (fcdata->result == GNOME_VFS_OK) {
+		if (fcdata->error == NULL) {
 			if (! fcdata->copying_cache) { /* do not notify cache data. */
 				char *src_file;
 				char *dest_file;
@@ -1257,8 +1309,10 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 				copy_next_file (fcdata);
 			} else
 				files_copy__done (fcdata);
-		} else
-			continue_or_abort_dialog (fcdata, info->vfs_status);
+		} else {
+			set_error_from_vfs_result (info->vfs_status, &(fcdata->error));
+			continue_or_abort_dialog (fcdata);
+		}
 	}
 
 	return TRUE;
@@ -1309,10 +1363,12 @@ xfer_file (FileCopyData *fcdata,
 	gnome_vfs_uri_unref (dest_uri);
 	g_list_free (dest_list);
 
+	set_error_from_vfs_result (result, &(fcdata->error));
+	
 	/**/
 
-	if (result != GNOME_VFS_OK)
-		continue_or_abort_dialog (fcdata, result);
+	if (fcdata->error != NULL)
+		continue_or_abort_dialog (fcdata);
 }
 
 
@@ -1390,7 +1446,7 @@ copy_current_file (FileCopyData *fcdata)
 
 	/**/
 
-	fcdata->result = GNOME_VFS_OK;
+	fcdata->error = NULL;
 
 	src_file = fcdata->current_file->data;
 	dest_file = build_uri (fcdata->destination,
@@ -1543,10 +1599,10 @@ copy_next_file (FileCopyData *fcdata)
 	g_list_foreach (dest_list, (GFunc) gnome_vfs_uri_unref, NULL);
 	g_list_free (dest_list);
 
-	if (result != GNOME_VFS_OK) {
-		fcdata->result = result;
+	set_error_from_vfs_result (result, &(fcdata->error));
+	
+	if (fcdata->error != NULL)		
 		files_copy__done (fcdata);
-	}
 }
 
 
@@ -1609,6 +1665,8 @@ dlg_files_copy (GthWindow      *window,
 	fcdata->done_func = done_func;
 	fcdata->done_data = done_data;
 
+	fcdata->error = NULL;
+	
 	if (overwrite_all)
 		fcdata->overwrite_result = OVERWRITE_RESULT_ALL;
 	else
@@ -1692,8 +1750,15 @@ dlg_files_move_to_trash (GthWindow      *window,
 		g_free (trash_path);
 		gnome_vfs_uri_unref (trash_uri);
 
-	} else if (done_func != NULL)
-		(*done_func) (GNOME_VFS_ERROR_NOT_FOUND, done_data);
+	} else if (done_func != NULL) {
+		GError *error = NULL;
+		g_set_error (&error, 
+		             G_FILE_ERROR,
+		             G_FILE_ERROR_NOENT, 
+		             _("Could not find the trash folder"));
+		(*done_func) (error, done_data);
+		g_error_free (error);
+	}
 
 	gnome_vfs_uri_unref (first_uri);
 }
@@ -1713,7 +1778,7 @@ typedef struct {
 	GList               *file_list;
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
-	GnomeVFSResult       result;
+	GError              *error;
 
 	guint                timeout_id;
 
@@ -1735,6 +1800,10 @@ file_delete_data_free (FileDeleteData *fddata)
 	gtk_widget_destroy (fddata->progress_dialog);
 	g_object_unref (fddata->gui);
 	path_list_free (fddata->file_list);
+	
+	if (fddata->error != NULL)
+		g_error_free (fddata->error);
+	
 	g_free (fddata);
 }
 
@@ -1758,7 +1827,7 @@ file_delete__display_progress_dialog (gpointer data)
 static void
 files_delete__done (FileDeleteData *fddata)
 {
-	if (fddata->result == GNOME_VFS_OK)
+	if (fddata->error == NULL)
 		all_windows_notify_files_deleted (fddata->file_list);
 	else
 		all_windows_notify_files_changed (fddata->file_list);
@@ -1766,7 +1835,7 @@ files_delete__done (FileDeleteData *fddata)
 	/*all_windows_add_monitor (); FIXME*/
 
 	if (fddata->done_func != NULL)
-		(*fddata->done_func) (fddata->result, fddata->done_data);
+		(*fddata->done_func) (fddata->error, fddata->done_data);
 
 	file_delete_data_free (fddata);
 }
@@ -1782,7 +1851,7 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	float           fraction;
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		fddata->result = info->vfs_status;
+		set_error_from_vfs_result (info->vfs_status, &(fddata->error));
 		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
@@ -1862,7 +1931,7 @@ dlg_files_delete (GthWindow      *window,
 	fddata->done_func = done_func;
 	fddata->done_data = done_data;
 
-	fddata->result = GNOME_VFS_OK;
+	fddata->error = NULL;
 
 	/**/
 
@@ -1935,10 +2004,10 @@ dlg_files_delete (GthWindow      *window,
 	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
 	g_list_free (src_list);
 
-	if (result != GNOME_VFS_OK) {
-		fddata->result = result;
+	set_error_from_vfs_result (result, &(fddata->error));
+	
+	if (fddata->error != NULL)		
 		files_delete__done (fddata);
-	}
 }
 
 
@@ -1964,7 +2033,7 @@ typedef struct {
 	GtkWidget           *progress_cancel;
 
 	GnomeVFSAsyncHandle *handle;
-	GnomeVFSResult       result;
+	GError              *error;
 } FolderCopyData;
 
 
@@ -1995,6 +2064,10 @@ folder_copy_data_free (FolderCopyData *fcdata)
 	g_object_unref (fcdata->gui);
 	g_free (fcdata->source);
 	g_free (fcdata->destination);
+	
+	if (fcdata->error != NULL)
+		g_error_free (fcdata->error);
+	
 	g_free (fcdata);
 }
 
@@ -2010,7 +2083,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	float           fraction;
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		fcdata->result = info->vfs_status;
+		set_error_from_vfs_result (info->vfs_status, &(fcdata->error));
 		return FALSE;
 	} 
 	else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
@@ -2036,7 +2109,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	} 
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 
-		if (fcdata->result == GNOME_VFS_OK) {
+		if (fcdata->error == NULL) {
 			if (fcdata->file_op == FILE_OP_COPY)
 				all_windows_notify_directory_new (fcdata->destination);
 
@@ -2050,7 +2123,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		destroy_progress_dialog (fcdata);
 
 		if (fcdata->done_func != NULL)
-			(*fcdata->done_func) (fcdata->result, fcdata->done_data);
+			(*fcdata->done_func) (fcdata->error, fcdata->done_data);
 		folder_copy_data_free (fcdata);
 
 		return result;
@@ -2171,7 +2244,7 @@ folder_copy (GthWindow      *window,
 	fcdata->done_func = done_func;
 	fcdata->done_data = done_data;
 
-	fcdata->result = GNOME_VFS_OK;
+	fcdata->error = NULL;
 
 	/**/
 
@@ -2266,8 +2339,16 @@ folder_copy (GthWindow      *window,
 	/**/
 
 	if (result != GNOME_VFS_OK) {
-		if (done_func != NULL)
-			(*done_func) (result, done_data);
+		g_assert (result == GNOME_VFS_ERROR_BAD_PARAMETERS);
+		if (done_func != NULL) {
+			GError *error = NULL;
+			g_set_error (&error, 
+				     G_IO_ERROR,
+				     G_IO_ERROR_INVALID_ARGUMENT, 
+				     _("Invalid argument"));
+			(*done_func) (error, done_data);
+			g_error_free (error);
+		}
 		folder_copy_data_free (fcdata);
 	}
 }
@@ -2333,8 +2414,15 @@ dlg_folder_move_to_trash (GthWindow      *window,
 		g_free (dest_folder);
 		gnome_vfs_uri_unref (trash_uri);
 
-	} else if (done_func != NULL)
-		(*done_func) (GNOME_VFS_ERROR_NOT_FOUND, done_data);
+	} else if (done_func != NULL) {
+		GError *error = NULL;
+		g_set_error (&error, 
+		             G_FILE_ERROR,
+		             G_FILE_ERROR_NOENT, 
+		             _("Could not find the trash folder"));
+		(*done_func) (error, done_data);
+		g_error_free (error);
+	}
 
 	g_free (parent_dir);
 	gnome_vfs_uri_unref (parent_uri);
@@ -2388,13 +2476,13 @@ copy_items_data_free (CopyItemsData *cidata)
 
 
 static void
-copy_item__continue2 (GnomeVFSResult result,
+copy_item__continue2 (GError	    *error,
 		      gpointer       data)
 {
 	CopyItemsData *cidata = data;
 
 	if (cidata->done_func != NULL)
-		(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+		(cidata->done_func) (NULL, cidata->done_data);
 	copy_items_data_free (cidata);
 }
 
@@ -2414,7 +2502,7 @@ item_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 		copy_current_item (cidata);
 	} else {
 		if (cidata->done_func != NULL)
-			(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+			(cidata->done_func) (NULL, cidata->done_data);
 		copy_items_data_free (cidata);
 	}
 
@@ -2423,28 +2511,28 @@ item_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 
 
 static void
-copy_item__continue1 (GnomeVFSResult result,
+copy_item__continue1 (GError 	    *error,
 		      gpointer       data)
 {
 	CopyItemsData *cidata = data;
 
-	if (result != GNOME_VFS_OK) {
+	if (error) {
 		gboolean    last_item = cidata->current_item->next == NULL;
-		const char *error;
+		const char *format;
 		char       *folder = cidata->current_item->data;
 		char       *message;
 		char       *utf8_name;
 		GtkWidget  *d;
 
 		if (cidata->remove_source)
-			error = _("Could not move the folder \"%s\": %s");
+			format = _("Could not move the folder \"%s\": %s");
 		else
-			error = _("Could not move the folder \"%s\": %s");
+			format = _("Could not move the folder \"%s\": %s");
 
 		utf8_name = basename_for_display (folder);
-		message = g_strdup_printf (error,
+		message = g_strdup_printf (format,
 					   utf8_name,
-					   gnome_vfs_result_to_string (result),
+					   error->message,
 					   NULL);
 		g_free (utf8_name);
 
@@ -2485,7 +2573,7 @@ copy_current_item (CopyItemsData *cidata)
 	if (cidata->current_item == NULL) {
 		if (cidata->file_list == NULL) {
 			if (cidata->done_func != NULL)
-				(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+				(cidata->done_func) (NULL, cidata->done_data);
 			copy_items_data_free (cidata);
 		} else
 			dlg_files_copy (cidata->window,
@@ -2560,7 +2648,7 @@ dlg_copy_items (GthWindow      *window,
 
 	if ((cidata->dir_list == NULL) && (cidata->file_list == NULL)) {
 		if (done_func != NULL)
-			(done_func) (GNOME_VFS_OK, done_data);
+			(done_func) (NULL, done_data);
 		copy_items_data_free (cidata);
 		return;
 	}

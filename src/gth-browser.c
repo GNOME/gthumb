@@ -3727,16 +3727,16 @@ gth_file_list_drag_leave (GtkWidget          *widget,
 
 
 static void
-move_items__continue (GnomeVFSResult result,
+move_items__continue (GError 	    *error,
 		      gpointer       data)
 {
 	GthBrowser *browser = data;
 
-	if (result != GNOME_VFS_OK)
+	if (error != NULL)
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       "%s %s",
 				       _("Could not move the items:"),
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 }
 
 

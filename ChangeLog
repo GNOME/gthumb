@@ -1,5 +1,33 @@
 2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/gth-utils.c: (gthumb_display_help):
+	* src/catalog-web-exporter.c: (export__final_step),
+	(export__copy_to_destination__step2):
+	* src/dlg-file-utils.c: (set_error_from_vfs_result),
+	(real_files_delete__continue2), (real_files_delete__continue),
+	(file_move_ask__continue), (file_copy_ask__continue),
+	(dlg_file_rename_series), (file_copy_data_free),
+	(file_copy__continue_or_abort__response_cb),
+	(continue_or_abort_dialog), (files_copy__done),
+	(file_progress_update_cb), (xfer_file), (copy_current_file),
+	(copy_next_file), (dlg_files_copy), (dlg_files_move_to_trash),
+	(file_delete_data_free), (files_delete__done),
+	(file_delete_progress_update_cb), (dlg_files_delete),
+	(folder_copy_data_free), (folder_progress_update_cb),
+	(folder_copy), (dlg_folder_move_to_trash), (copy_item__continue2),
+	(item_copy__continue_or_abort__response_cb),
+	(copy_item__continue1), (copy_current_item), (dlg_copy_items):
+	* src/dlg-file-utils.h:
+	* src/dlg-write-to-cd.c: (write_to_cd__continue):
+	* src/gth-browser-actions-callbacks.c: (show_folder),
+	(folder_delete__continue2), (folder_delete__continue),
+	(folder_copy__continue):
+	* src/gth-browser.c: (move_items__continue):
+	Isolate gnome_vfs code in dlg-file-utils by adding a gerror wrapper.
+	Patch by Christophe Bisière. Bug #525482.
+
+2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/image-viewer.c: (load_image__step2):
 	Simplify the previous commit, by not duplicating the already existing
 	FileData.

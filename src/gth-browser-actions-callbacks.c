@@ -936,7 +936,7 @@ show_folder (GtkWindow  *window,
 	uri = add_scheme_if_absent (path);
 	result = gnome_vfs_url_show (uri);
 	if (result != GNOME_VFS_OK)
-		_gtk_error_dialog_run (window, gnome_vfs_result_to_string (result));
+		_gtk_error_dialog_run (window, "%s", gnome_vfs_result_to_string (result));
 	g_free (uri);
 }
 
@@ -1088,12 +1088,12 @@ typedef struct {
 
 
 static void
-folder_delete__continue2 (GnomeVFSResult result,
+folder_delete__continue2 (GError 	*error,
 			  gpointer       data)
 {
 	FolderDeleteData *fddata = data;
 
-	if (result != GNOME_VFS_OK) {
+	if (error != NULL) {
 		const char *message;
 		char       *utf8_name;
 
@@ -1103,7 +1103,7 @@ folder_delete__continue2 (GnomeVFSResult result,
 		_gtk_error_dialog_run (fddata->window,
 				       message,
 				       utf8_name,
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 		g_free (utf8_name);
 
 	}
@@ -1114,12 +1114,12 @@ folder_delete__continue2 (GnomeVFSResult result,
 
 
 static void
-folder_delete__continue (GnomeVFSResult result,
-			 gpointer       data)
+folder_delete__continue (GError 	*error,
+			 gpointer        data)
 {
 	FolderDeleteData *fddata = data;
 
-	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+	if ((error != NULL) && (g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))) {
 		int r = GTK_RESPONSE_YES;
 
 		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
@@ -1153,7 +1153,7 @@ folder_delete__continue (GnomeVFSResult result,
 					   fddata);
 	} 
 	else
-		folder_delete__continue2 (result, data);
+		folder_delete__continue2 (error, data);
 }
 
 
@@ -1211,7 +1211,7 @@ gth_browser_activate_action_edit_dir_delete (GtkAction  *action,
 
 
 static void
-folder_copy__continue (GnomeVFSResult result,
+folder_copy__continue (GError        *error,
 		       gpointer       data)
 {
 	GtkWidget *file_sel = data;
@@ -1221,7 +1221,7 @@ folder_copy__continue (GnomeVFSResult result,
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	new_path = g_object_get_data (G_OBJECT (file_sel), "new_path");
 
-	if (result != GNOME_VFS_OK) {
+	if (error != NULL) {
 		const char *message;
 		char       *utf8_name;
 
@@ -1231,7 +1231,7 @@ folder_copy__continue (GnomeVFSResult result,
 		_gtk_error_dialog_run (NULL,
 				       message,
 				       utf8_name,
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 		g_free (utf8_name);
 	}
 	else if (gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel)))
