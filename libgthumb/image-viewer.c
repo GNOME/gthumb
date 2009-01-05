@@ -1225,15 +1225,9 @@ void
 load_image__step2 (LoadImageData *lidata)
 {
 	ImageViewerPrivate* priv = IMAGE_VIEWER_GET_PRIVATE (lidata->viewer);
-	FileData *file;
 	
-	file = file_data_new (lidata->file->path);
-	
-	file_data_update_mime_type (file, FALSE);  /* always slow mime type ? */
-	image_loader_set_file (priv->loader, file);
-	
-	file_data_unref (file);
-	
+	file_data_update_mime_type (lidata->file, FALSE);  /* always slow mime type ? */
+	image_loader_set_file (priv->loader, lidata->file);
 	image_loader_start (priv->loader);
 	load_image_data_free (lidata);
 }

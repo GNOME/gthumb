@@ -1,6 +1,12 @@
 2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-viewer.c: (load_image__step2):
+	Simplify the previous commit, by not duplicating the already existing
+	FileData.
+
+2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/image-viewer.c: (load_image__step2):
 	Fixed crash due to unitialized FileData introduced in the refactoring
 	of the image viewer (see bug #501512). Patch by Christophe Bisière.
 	Bug #566377.
