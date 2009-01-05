@@ -1,5 +1,12 @@
 2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/image-viewer.c: (load_image__step2):
+	Fixed crash due to unitialized FileData introduced in the refactoring
+	of the image viewer (see bug #501512). Patch by Christophe Bisière.
+	Bug #566377.
+
+2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/file-utils.c: (dir_make), (dir_remove):
 	* libgthumb/gconf-utils.c: (eel_gconf_set_string_list),
 	(eel_gconf_get_string_list):
