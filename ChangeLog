@@ -1,3 +1,15 @@
+2009-01-05  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/file-utils.c: (dir_make), (dir_remove):
+	* libgthumb/gconf-utils.c: (eel_gconf_set_string_list),
+	(eel_gconf_get_string_list):
+	* src/dlg-web-exporter.c: (theme_dialog__go_to_folder_clicked):
+	Add "=NULL" to "GError *error" declarations to initialize properly.
+	Expanded version of patch by Christophe Bisière. Bug #566421.
+
+	* libgthumb/gth-utils.c: (gthumb_display_help):
+	Reformat the GError initialization in the more usual form.
+
 2008-12-27  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_init):

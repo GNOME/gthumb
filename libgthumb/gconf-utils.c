@@ -370,7 +370,7 @@ eel_gconf_set_string_list (const char *key,
 			   const GSList *slist)
 {
 	GConfClient *client;
-	GError *error;
+	GError *error = NULL;
 
 	g_return_if_fail (key != NULL);
 
@@ -391,7 +391,7 @@ eel_gconf_get_string_list (const char *key)
 {
 	GSList *slist;
 	GConfClient *client;
-	GError *error;
+	GError *error = NULL;
 	
 	g_return_val_if_fail (key != NULL, NULL);
 	

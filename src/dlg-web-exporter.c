@@ -845,7 +845,7 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 				    ThemeDialogData *tdata)
 {
 	char         *path;
-	GError       *err;
+	GError       *err = NULL;
 
 	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes",
 			       g_get_home_dir ());

@@ -30,9 +30,8 @@ void
 gthumb_display_help (GtkWindow  *window,
 	             const char *section)
 {
-	GError *err;
+	GError *err = NULL;
 
-	err = NULL;  
 	gnome_help_display ("gthumb", section, &err);
 
 	if (err != NULL) {

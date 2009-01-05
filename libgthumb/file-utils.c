@@ -361,7 +361,7 @@ dir_make (const gchar *path)
 {
         GFile    *gfile;
         gboolean  result;
-	GError   *error;
+	GError   *error = NULL;
 
         gfile = gfile_new (path);
         result = g_file_make_directory (gfile, NULL, &error);
@@ -381,10 +381,10 @@ dir_remove (const gchar *path)
 {
 	GFile    *gfile;
 	gboolean  result;
-	GError   *error;
+	GError   *error = NULL;
 	
 	gfile = gfile_new (path);
-	result = g_file_delete (gfile, NULL, NULL);
+	result = g_file_delete (gfile, NULL, &error);
 
 	if (error != NULL) {
                 gfile_warning ("Could not remove directory", gfile, error);
