@@ -1,7 +1,7 @@
 [Desktop Entry]
 _Name=gThumb Photo Import Tool
 _GenericName=Photo Import Tool
-_Comment=View and organize your images
+_Comment=Import the photos on your camera card
 Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;
 Exec=sh -c 'gvfs-mount -u "%U"; exec gthumb --import-photos'
 Icon=gthumb

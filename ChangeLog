@@ -1,6 +1,11 @@
 2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/gthumb-import.desktop.in:
+	Change the comment field too, following up on the last change.
+
+2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* data/gthumb-import.desktop.in:
 	Give the photo-import desktop file different name parameters, so 
 	that users can distinguish it from the normal desktop file.
 	Ubuntu bug http://bugs.launchpad.net/bugs/318694.
