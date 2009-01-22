@@ -466,6 +466,9 @@ gth_minimal_exif_tag_action (const char *local_file,
         offset  = de_get32(&buf[i] + 4, endian);
  	i       = i + offset;
  
+	// Make sure the address is within bounds
+	if (i >= readsize) return PATCH_EXIF_NO_TIFF;
+
         // Start out with IFD0 (and add more IFDs while we go)
  	IFD_OFFSET_PUSH(i);
  	IFD_NAME_PUSH("IFD0");
