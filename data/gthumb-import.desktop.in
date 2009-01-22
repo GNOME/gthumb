@@ -1,6 +1,6 @@
 [Desktop Entry]
-_Name=gThumb Image Viewer
-_GenericName=Image Viewer
+_Name=gThumb Photo Import Tool
+_GenericName=Photo Import Tool
 _Comment=View and organize your images
 Categories=GNOME;GTK;Graphics;Viewer;RasterGraphics;2DGraphics;Photography;
 Exec=sh -c 'gvfs-mount -u "%U"; exec gthumb --import-photos'
