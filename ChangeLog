@@ -1,3 +1,11 @@
+2009-01-23  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gfile-utils.c: (gfile_xfer):
+	Use G_FILE_COPY_TARGET_DEFAULT_PERMS (if glib >= 2.19.0)
+	so that copied/moved files receive the default permissions
+	for the user (respecting the umask and any directory setgid bits)
+	rather than trying to copy the old permissions.
+
 2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/gthumb-import.desktop.in:
