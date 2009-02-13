@@ -1,5 +1,12 @@
 2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* src/gth-browser.c: (menu_item_select_cb):
+	* src/gth-viewer.c: (menu_item_select_cb):
+	Fixed bug #568894 - use gtk_widget_get_action (foo), instead of
+	g_object_get_data (foo,  "gtk-action").
+
+2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* libgthumb/gtk-utils.c: (panel_find_icon):
 	Fix a possible crash. Patch taken from Fedora 2.10.10 source rpm,
 	which I don't recall seeing upstream...
