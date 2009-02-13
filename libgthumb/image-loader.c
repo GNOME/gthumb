@@ -148,8 +148,6 @@ image_loader_finalize__step2 (GObject *object)
 	g_mutex_free (priv->start_loading_mutex);
 	g_mutex_free (priv->exit_thread_mutex);
 
-	g_free (priv);
-	il->priv = NULL;
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -193,6 +191,9 @@ image_loader_finalize (GObject *object)
 				  object,
 				  FALSE,
 				  FALSE);
+        g_free (priv);
+        il->priv = NULL;
+
 }
 
 
