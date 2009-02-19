@@ -474,7 +474,7 @@ gth_minimal_exif_tag_action (const char *local_file,
  	IFD_NAME_PUSH("IFD0");
  
         // As long as we find more IFDs check out the tags in each
- 	while ((oi >=0 && (i = IFD_OFFSET_PULL()) != 0 && i < readsize - 2)) {
+ 	while ((oi >=0 && (i = IFD_OFFSET_PULL()) > 0 && i < readsize - 2)) {
  	  
  		cifdi    = oi; // remember which ifd we are at
  
