@@ -1,3 +1,9 @@
+2009-02-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gth-exif-utils.c: Store keywords in XMP
+	metadata by default, instead of IPTC. Bug #572424.
+	Patch by Jef Driesen <jefdriesen@hotmail.com>.
+
 2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_finalize__step2),

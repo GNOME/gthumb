@@ -135,6 +135,7 @@ const char *_LOCATION_TAG_NAMES[] = {
         NULL };
 
 const char *_KEYWORD_TAG_NAMES[] = {
+        "Xmp.dc.subject",
         "Xmp.iptc.Keywords",
         "Iptc.Application2.Keywords",
         NULL };
