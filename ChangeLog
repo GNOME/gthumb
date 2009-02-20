@@ -1,3 +1,9 @@
+2009-02-20  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
+	* libgthumb/gfile-utils.c: (gfile_get_file_mime_type):
+	Fixed bug #572498 - don't forget to return the result!
+	Patch by Matthias Hawran <matthias@hawran.net>.
+
 2009-02-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: Store keywords in XMP

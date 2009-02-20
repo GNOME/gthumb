@@ -275,6 +275,7 @@ gfile_get_file_mime_type (GFile      *file,
                         }
                 }
 
+                result = get_static_string (value);
         	g_object_unref (info);
 	}
 
