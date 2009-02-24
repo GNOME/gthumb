@@ -1,33 +1,47 @@
+2009-02-24  Paolo Bacchilega  <paobac@svn.gnome.org>
+
+	[ gthumb 2.10.11 released ]
+
+	* NEWS: 
+	* configure.in: 
+	* ChangeLog: updated.
+
 2009-02-19  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_action):
-	Better IFD offset checking, to fix bug #572342.
+
+	Fixed bug #572342: Better IFD offset checking.
 
 2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/image-loader.c: (image_loader_finalize__step2),
 	(image_loader_finalize):
-	Fixed bug #570473, gthumb write to freed memory.
-	Patch by Jerry Tan <jerry.tan@sun.com>.
+	
+	Fixed bug #570473: gthumb write to freed memory.
+	Patch by Jerry Tan.
 
 2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/gth-browser.c: (menu_item_select_cb):
 	* src/gth-viewer.c: (menu_item_select_cb):
-	Fixed bug #568894 - use gtk_widget_get_action (foo), instead of
+	
+	Fixed bug #568894: use gtk_widget_get_action (foo), instead of
 	g_object_get_data (foo,  "gtk-action").
 
 2009-02-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gtk-utils.c: (panel_find_icon):
+	
 	Fix a possible crash. Patch taken from Fedora 2.10.10 source rpm,
 	which I don't recall seeing upstream...
 
 2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (gth_minimal_exif_tag_action):
-	Fix crasher bug in exif tag reading, caused by malformed tiff
-	headers. Ubuntu bug http://bugs.launchpad.net/bugs/316017.
+
+	Fixed bug: Fix crasher bug in exif tag reading, caused by malformed 
+	tiff headers. 
+	Ubuntu bug http://bugs.launchpad.net/bugs/316017.
 
 2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -37,8 +51,10 @@
 2009-01-22  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* data/gthumb-import.desktop.in:
-	Give the photo-import desktop file different name parameters, so 
-	that users can distinguish it from the normal desktop file.
+	
+	Fixed bug: Give the photo-import desktop file different name 
+	parameters, so that users can distinguish it from the normal
+	desktop file.
 	Ubuntu bug http://bugs.launchpad.net/bugs/318694.
 
 2008-12-26  Michael J. Chudobiak  <mjc@svn.gnome.org>
@@ -50,14 +66,16 @@
 
 	* doc/C/gthumb.xml:
 	* src/dlg-preferences.c: (dlg_preferences):
-	Fixed default launch-with-gimp hotkey to launch gimp in the
-	background. Bug #565708.
+	
+	Fixed bug #565708: Fixed default launch-with-gimp hotkey to launch 
+	gimp in the	background. 
 
 2008-12-18  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* libgthumb/comments.c: (load_comment_from_xml), (save_comment):
-	Fixed XML comment reading. Bug #563956. Modified version of
-	patch by Jef Driesen <jefdriesen@hotmail.com>.
+	
+	Fixed bug #563956: Fixed XML comment reading.  
+	Modified version of	patch by Jef Driesen.
 
 2008-12-16  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -69,15 +87,17 @@
 	* src/gth-browser-ui.h:
 	* src/gth-browser.c: (gth_browser_construct):
 	* src/totem-scrsaver.c:
-	Provide support for the Mac OS X menubar. Bug #554240. Modified
-	version of the patch by W. Michael Petullo <mike@flyn.org>.
+	
+	Fixed bug #554240: Provide support for the Mac OS X menubar. 
+	Modified version of the patch by W. Michael Petullo.
+	
 	Also, define the HAVE_GDKX macro properly so it really works.
 
 2008-11-17  Paolo Bacchilega  <paobac@svn.gnome.org>
 
 	* libgthumb/gth-filter.c (test_keywords): 
 
-	Fixed bug #560055 – filter problems
+	Fixed bug #560055: filter problems
 	
 2008-11-13  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -101,8 +121,10 @@
 	* src/main.c:
 	* src/totem-scrsaver.c:
 	* src/totem-scrsaver.h:
-	Modified the build files to better support gtk on MAC OS / Quartz.
-	Bug #551225. Based on a patch by W. Michael Petullo <mike@flyn.org>.
+	
+	Fixed bug #551225: Modified the build files to better support gtk 
+	on MAC OS / Quartz. 
+	Based on a patch by W. Michael Petullo.
 
 2008-11-12  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -110,10 +132,12 @@
 	* data/Makefile.am:
 	* data/gthumb-import.desktop.in:
 	* data/gthumb.desktop.in:
-	Added a new gthumb-import.desktop.in file to handle gvfs-mounted
-	cameras more elegantly. The camera is first unmounted, and the 
-	libgphoto import routines are then run. Merged from Ubuntu.
-	Bug #560352. Patch by Martin Pitt <martin.pitt@canonical.com>.
+	
+	Fixed bug #560352: Added a new gthumb-import.desktop.in file to 
+	handle gvfs-mounted	cameras more elegantly. The camera is first 
+	unmounted, and the libgphoto import routines are then run. 
+	Merged from Ubuntu.
+	Patch by Martin Pitt.
 
 2008-11-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -126,14 +150,18 @@
 	* data/glade/gthumb_redeye.glade:
 	* data/glade/gthumb_tools.glade:
 	* data/glade/gthumb_web_exporter.glade:
-	Set pagesize adjustment to zero for spinbuttons, to avoid annoying
-	warnings. Bug #557640. Patch by Matthias Clasen <mclasen@redhat.com>.
+	
+	Fixed bug #557640: Set pagesize adjustment to zero for spinbuttons, 
+	to avoid annoying warnings. 
+	Patch by Matthias Clasen.
 
 2008-10-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
 	* src/main.c: (convert_to_new_comment_system):
-	Terminate "Converting comment system...done" with newline.
-	Bug #554149. Patch by Tormod Volden <bugbudd.y.tormod@xoxy.net>.
+	
+	Fixed bug #554149: Terminate "Converting comment system...done" 
+	with newline.
+	Patch by Tormod Volden.
 
 2008-10-08  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
@@ -141,8 +169,9 @@
 	* doc/C/gthumb.xml:
 	* src/dlg-preferences.c: (dlg_preferences):
 	* src/gth-browser.c: (key_press_cb):
-	The "g" key now launches the "gimp" command, instead of the
-	deprecated "gimp-remote" command. Bug #555549.
+	
+	Fixed bug #555549: The "g" key now launches the "gimp" command, 
+	instead of the deprecated "gimp-remote" command. 
 
 2008-09-22  Paolo Bacchilega  <paobac@svn.gnome.org>
 

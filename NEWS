@@ -1,14 +1,50 @@
 version 2.10.11
 ---------------
 
-	* The "g" key now launches the "gimp" command, instead of the
-	  deprecated "gimp-remote" command.
-	* Added a new gthumb-import.desktop.in file to handle gvfs-mounted
-          cameras more elegantly. The camera is first unmounted, and the
-          libgphoto import routines are then run. Bug #560352.
-	* Modified the build files to better support gtk on MAC OS / Quartz.
-	  Bug #551225.
-	* Provide support for the Mac OS X menubar. Bug #554240.
+	Bugs fixed:
+
+	* #572342: Better IFD offset checking.
+	* #570473: gthumb write to freed memory. Patch by Jerry Tan.
+	* #568894: use gtk_widget_get_action (foo), instead of
+	  g_object_get_data (foo, "gtk-action").
+	* #565708: Fixed default launch-with-gimp hotkey to launch gimp in
+	  the background.
+	* #563956: Fixed XML comment reading. Modified version of patch by
+	  Jef Driesen.
+	* #554240: Provide support for the Mac OS X menubar. Modified
+	  version of the patch by W. Michael Petullo.
+	* #560055: filter problems
+	* #551225: Modified the build files to better support gtk on MAC OS
+	  / Quartz. Based on a patch by W. Michael Petullo.
+	* #560352: Added a new gthumb-import.desktop.in file to handle
+	  gvfs-mounted cameras more elegantly. The camera is first unmounted,
+	  and the libgphoto import routines are then run. Merged from
+	  Ubuntu. Patch by Martin Pitt.
+	* #557640: Set pagesize adjustment to zero for spinbuttons, to avoid
+	  annoying warnings. Patch by Matthias Clasen.
+	* #554149: Terminate "Converting comment system...done" with
+	  newline. Patch by Tormod Volden.
+	* #555549: The "g" key now launches the "gimp" command, instead of
+	  the deprecated "gimp-remote" command.
+	* Fix crasher bug in exif tag reading, caused by malformed tiff
+	  headers. Ubuntu bug http://bugs.launchpad.net/bugs/316017.
+	* Give the photo-import desktop file different name parameters, so
+	  that users can distinguish it from the normal desktop file. Ubuntu
+	  bug http://bugs.launchpad.net/bugs/318694.
+
+	New or updated application translations:
+
+	* Deutsch (Christian Kirbach)
+	* Gujarati (Sweta Kothari)
+	* Lithuanian (Žygimantas Beručka)
+	* Russian (Nickolay V. Shmyrev)
+	* Slovenian Translation (Matej Urbančič)
+
+	New or updated manual translations:
+
+	* Español (Jorge González)
+	* German (Christian Kirbach)
+	* Swedish (Daniel Nylander)
 
 version 2.10.10
 ---------------
