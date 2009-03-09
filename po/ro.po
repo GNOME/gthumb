@@ -1,30 +1,30 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Romanian GThumb translation
+# This file is distributed under the same license as the gthumb package.
 # Mihai Varzaru <mihaiv@gmail.com>, 2008.
-#
-#, fuzzy
+# Cristian KLEIN https://launchpad.net/~cristiklein 2008
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-11 12:25+0300\n"
-"PO-Revision-Date: 2008-09-19 16:05+0300\n"
-"Last-Translator: Mihai Varzaru <mihaiv@gmail.com>\n"
-"Language-Team: Romanian <LL@li.org>\n"
+"POT-Creation-Date: 2009-03-09 23:41+0200\n"
+"PO-Revision-Date: 2009-03-09 23:45+0200\n"
+"Last-Translator: Adi Roiban <adi@roiban.ro>\n"
+"Language-Team: Gnome Romanian Team <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
+"== 0) && (n != 0))) ? 2: 1));\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
-msgstr "Precedent"
+msgstr "Înapoi"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
 #: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Next"
-msgstr "Următor"
+msgstr "Înainte"
 
 #: ../data/albumthemes/text.h:29
 msgid "Index"
@@ -40,7 +40,7 @@ msgstr "Dimensiuni"
 
 #: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
 msgid "Bytes"
-msgstr "Octeţi"
+msgstr "Octeți"
 
 #: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
 msgid "Date"
@@ -48,31 +48,31 @@ msgstr "Data"
 
 #: ../data/albumthemes/text.h:34
 msgid "Exposure time"
-msgstr "Timp expunere"
+msgstr "Timpul de expunere"
 
 #: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
-msgstr "Mod expunere"
+msgstr "Mod de expunere"
 
 #: ../data/albumthemes/text.h:36
 msgid "Flash"
-msgstr "Flash"
+msgstr "Bliț"
 
 #: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
-msgstr "Viteză shutter"
+msgstr "Viteză obturator"
 
 #: ../data/albumthemes/text.h:38
 msgid "Aperture value"
-msgstr "Valoare apertură"
+msgstr "Valoarea diafragmei"
 
 #: ../data/albumthemes/text.h:39
 msgid "Focal length"
-msgstr "Lungime focală"
+msgstr "Distanța focală"
 
 #: ../data/albumthemes/text.h:40
 msgid "Camera model"
-msgstr "Model cameră"
+msgstr "Model cameră foto"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:76
@@ -94,15 +94,15 @@ msgstr "<b>Categorii:</b>"
 
 #: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
-msgstr "<b>Informaţie pe canal:</b"
+msgstr "<b>Informații despre canalul de coloare:</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>Suprascrie vechea imagine cu una nouă?</b>"
+msgstr "<b>Dorești să suprascrii imaginea nouă peste ceva veche?</b>"
 
 #: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
-msgstr "A_plicaţii disponibile:"
+msgstr "A_plicații disponibile:"
 
 #: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
@@ -118,11 +118,11 @@ msgstr "Semne de carte"
 
 #: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
-msgstr "C_ataloage"
+msgstr "C_ataloage:"
 
 #: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
-msgstr "Alege un catalog"
+msgstr "Alege un Catalog"
 
 #: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
@@ -130,7 +130,7 @@ msgstr "Com_entariu"
 
 #: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
-msgstr "Nu suprascrie vechea imagine"
+msgstr "_Nu suprascrie imaginea veche"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
@@ -142,11 +142,11 @@ msgstr "Imagine nouă:"
 
 #: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
-msgstr "Bibliotecă nouă"
+msgstr "_Bibliotecă nouă"
 
 #: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
-msgstr "Imagine veche:"
+msgstr "Imaginea veche:"
 
 #: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
@@ -154,27 +154,27 @@ msgstr "Deschide imagini"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
-msgstr "Supra_scrie vechea imagine"
+msgstr "Suprascrie imaginea _veche"
 
 #: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
-msgstr "Suprascrie imagine"
+msgstr "Suprascrie imaginea"
 
 #: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
-msgstr "Suprascrie _toate imaginile"
+msgstr "Suprascrie to_ate imaginile"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
-msgstr "_Date fotografie (EXIF)"
+msgstr "_Date Foto (EXIF)"
 
 #: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
-msgstr "Aplicaţii r_ecente"
+msgstr "Aplicații r_ecente:"
 
 #: ../data/glade/gthumb.glade.h:23
 msgid "Red"
-msgstr "Roşu"
+msgstr "Roșu"
 
 #: ../data/glade/gthumb.glade.h:24
 msgid "Value"
@@ -182,7 +182,7 @@ msgstr "Valoare"
 
 #: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
-msgstr "_Aplicaţie:"
+msgstr "_Aplicație:"
 
 #: ../data/glade/gthumb.glade.h:26
 msgid "_Bookmarks:"
@@ -206,19 +206,19 @@ msgstr "Catalog _Nou"
 
 #: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
-msgstr "_Următor"
+msgstr "Î_nainte"
 
 #: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
-msgstr "_Precedent"
+msgstr "Înapoi"
 
 #: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
-msgstr "_Salvează noua imagine ca:"
+msgstr "_Salvează imaginea nouă ca:"
 
 #: ../data/glade/gthumb.glade.h:34
 msgid "_View the destination"
-msgstr "_Vezi destinaţia"
+msgstr "_Vezi destinația"
 
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
@@ -231,11 +231,11 @@ msgstr "A_lege din catalog"
 
 #: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
-msgstr "Ca_tegorii"
+msgstr "Ca_tegorii:"
 
 #: ../data/glade/gthumb_camera.glade.h:4
 msgid "Camera Model"
-msgstr "Model camera"
+msgstr "Modelul camerei"
 
 #: ../data/glade/gthumb_camera.glade.h:5
 #: ../data/glade/gthumb_convert.glade.h:6
@@ -243,11 +243,11 @@ msgstr "Model camera"
 #: ../data/glade/gthumb_tools.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Choose destination folder"
-msgstr "Alege dosar destinaţie"
+msgstr "Alege dosarul destinație"
 
 #: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
-msgstr "Şterge imaginile selectate din cameră"
+msgstr "Șterge imaginile selectate de pe cameră"
 
 #: ../data/glade/gthumb_camera.glade.h:7
 msgid ""
@@ -258,40 +258,40 @@ msgid ""
 "the orientation tag are both left unchanged. The image will be displayed "
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
-msgstr "Dacă acestă bifă este activată şi fotografia importată conţine "
-"tagul de orientare Exif, imaginea va fi fizic transformată (fară pierdere de "
-"informaţie) în aşa fel încât arată exact ca înainte dar tagul de orientare este "
-"resetat la \"stânga sus\". Dacă acestă bifă nu este activată tagul de orientare "
-"şi imaginea sunt lăsate nemodificate. Imaginea va fi afişată la fel în ambele "
-"cazuri, dar pentru maximum de compatibilitate cu alte aplicaţii acestă bifă "
-"trebuie activată."
-
+msgstr ""
+"Dacă această căsuță este bifată și imaginea importată conține etichetă de "
+"orientare Exif, imaginea va fi transformată fizic (fără pierdere) în așa fel "
+"încât imaginea arată ca și înainte, dar eticheta orientării este resetată la "
+"valoarea „sus stânga”. Dacă această căsuță nu este bifată, imaginea și "
+"eticheta orientării vor rămâne neschimbate. Gthumb va afișa imaginea identic "
+"pentru ambele cazuri, dar pentru compatibilitate maximă cu alte aplicații "
+"este recomandată bifarea acestei căsuțe."
 
 #: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
 msgstr "Importă fotografii"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:929
-#: ../src/dlg-photo-importer.c:968 ../src/dlg-photo-importer.c:1596
-#: ../src/dlg-photo-importer.c:2340
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
+#: ../src/dlg-photo-importer.c:2341
 msgid "No camera detected"
-msgstr "Nici o cameră detectată"
+msgstr "Nicio cameră detectată"
 
 #: ../data/glade/gthumb_camera.glade.h:10
 msgid "Rotate images physically"
-msgstr "Roteşte imaginile fizic"
+msgstr "Rotește imaginile fizic"
 
 #: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
-msgstr "Selectează un model de cameră"
+msgstr "Alege un model de cameră"
 
 #: ../data/glade/gthumb_camera.glade.h:12
 msgid "Update previews"
-msgstr "Updatează preview-urile"
+msgstr "Actualizează previzualizările"
 
 #: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
-msgstr "_Şterge imaginile importate din cameră"
+msgstr "Șterge _de pe cameră imaginile importate"
 
 #: ../data/glade/gthumb_camera.glade.h:14
 #: ../data/glade/gthumb_convert.glade.h:23
@@ -299,7 +299,7 @@ msgstr "_Şterge imaginile importate din cameră"
 #: ../data/glade/gthumb_tools.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Destination:"
-msgstr "_Destinaţie:"
+msgstr "_Destinație:"
 
 #: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
@@ -311,7 +311,7 @@ msgstr "_Importă"
 
 #: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
-msgstr "_Pastrează numele de fişiere originale"
+msgstr "_Păstrează numele originale ale fișierelor"
 
 #: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Model:"
@@ -354,7 +354,7 @@ msgstr "Nu modifica"
 
 #: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
-msgstr "Dată creare imagine"
+msgstr "Data creării"
 
 #: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
@@ -362,23 +362,23 @@ msgstr "Data ultimei modificări"
 
 #: ../data/glade/gthumb_comments.glade.h:10
 msgid "No date"
-msgstr "Nici o dată"
+msgstr "Nicio dată"
 
 #: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
-msgstr "Data digitizării fotografiei (Din Exif)"
+msgstr "Date despre digitalizarea imaginii (din datele EXIF)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
-msgstr "Şterge categoria selectată"
+msgstr "Șterge categoria selectată"
 
 #: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
-msgstr "Salveză numai câmpurile schi_mbate"
+msgstr "Salvează doar câmpurile schi_mbate"
 
 #: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
-msgstr "Data următoare:"
+msgstr "Data următoare"
 
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
@@ -388,12 +388,12 @@ msgstr "_Dată:"
 #: ../data/glade/gthumb_comments.glade.h:16
 #: ../data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
-msgstr "_Loc:"
+msgstr "_Locație:"
 
 #: ../data/glade/gthumb_comments.glade.h:17
 #: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
-msgstr "Categoriile _selectate"
+msgstr "Categorii _selectate:"
 
 #: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
@@ -406,7 +406,7 @@ msgstr "<b>Tip imagine</b>"
 #: ../data/glade/gthumb_convert.glade.h:4
 #: ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
-msgstr "<b>Rezoluţie</b>"
+msgstr "<b>Rezoluție</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
@@ -417,42 +417,42 @@ msgstr "<b>Salvare</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
-msgstr "Nive_l compresie:"
+msgstr "Nive_l de compresie:"
 
 #: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
-msgstr "Format conversie"
+msgstr "Convertește formatul"
 
 #: ../data/glade/gthumb_convert.glade.h:9
 msgid "JPEG Options"
-msgstr "Optiuni JPEG"
+msgstr "Opțiuni JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
-msgstr "No_rmal (Deflate)"
+msgstr "No_rmal (Dezumflat)"
 
 #: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
-msgstr "Opti_mizare"
+msgstr "Opti_mizează"
 
 #: ../data/glade/gthumb_convert.glade.h:12
 #: ../data/glade/gthumb_tools.glade.h:36
 msgid "Overwrite mode:"
-msgstr "Mod suprascriere:"
+msgstr "Mod de suprascriere:"
 
 #: ../data/glade/gthumb_convert.glade.h:13
 msgid "PNG Options"
-msgstr "Opţiuni PNG"
+msgstr "Opțiuni PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
 #: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
-msgstr "Şt_erge original"
+msgstr "Șt_erge originalul"
 
 #: ../data/glade/gthumb_convert.glade.h:15
 #: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rename"
-msgstr "Redenumeşte"
+msgstr "Redenumește"
 
 #: ../data/glade/gthumb_convert.glade.h:16
 #: ../data/glade/gthumb_tools.glade.h:49
@@ -463,17 +463,17 @@ msgid ""
 "Overwrite"
 msgstr ""
 "Sari\n"
-"Redenumeşte\n"
-"Intreabă\n"
+"Redenumește\n"
+"Întreabă\n"
 "Suprascrie"
 
 #: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
-msgstr "Opţiuni TGA"
+msgstr "Opțiuni TGA"
 
 #: ../data/glade/gthumb_convert.glade.h:21
 msgid "TIFF Options"
-msgstr "Opţiuni TIFF"
+msgstr "Opțiuni TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:54
@@ -492,11 +492,11 @@ msgstr "_JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
-msgstr "_Compresie cu pierdere de date (JPEG)"
+msgstr "_Pierde compresie (JPEG)"
 
 #: ../data/glade/gthumb_convert.glade.h:27
 msgid "_No compression"
-msgstr "_Fară compresie"
+msgstr "Fără comp-resie"
 
 #: ../data/glade/gthumb_convert.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:64
@@ -509,11 +509,11 @@ msgstr "_Progresiv"
 
 #: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
-msgstr "_Calitate"
+msgstr "_Calitate:"
 
 #: ../data/glade/gthumb_convert.glade.h:31
 msgid "_RLE compression"
-msgstr "Compresie _RLE"
+msgstr "Compresie _RLE:"
 
 #: ../data/glade/gthumb_convert.glade.h:32
 msgid "_Smoothing:"
@@ -540,7 +540,7 @@ msgstr "4 x 3 (Carte, DVD)"
 
 #: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
-msgstr "4 x 6 (Felicitare)"
+msgstr "4 x 6 (Carte poștală)"
 
 #: ../data/glade/gthumb_crop.glade.h:3
 msgid "5 x 7"
@@ -552,28 +552,28 @@ msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
-msgstr "<b>Proporţii</b>"
+msgstr "<b>Rată aspect</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
-msgstr "<b>Selecţie</b>"
+msgstr "<b>Selecție</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:7
 msgid "Crop"
-msgstr "Taie"
+msgstr "Decupare"
 
 #: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
-msgstr "Customizat"
+msgstr "Personalizare"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
-msgstr "I_nversează proporţiile"
+msgstr "I_nversează proporțiile"
 
 #: ../data/glade/gthumb_crop.glade.h:10
 #: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
-msgstr "Deloc"
+msgstr "Nici unul"
 
 #: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
@@ -581,17 +581,17 @@ msgstr "Pătrat"
 
 #: ../data/glade/gthumb_crop.glade.h:12
 msgid "_Crop"
-msgstr "_Taie"
+msgstr "_Decupează"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
-msgstr "_Înalţime:"
+msgstr "Înă_lțime:"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
-msgstr "_Lungime:"
+msgstr "Lăți_me:"
 
 #: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
@@ -617,27 +617,27 @@ msgstr "%"
 
 #: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr "<b>Niveluri culoare</b>"
+msgstr "<b>Nivele de culoare</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
-msgstr "<b>Noi dimensiuni</b>"
+msgstr "<b>Dimensiuni noi</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
-msgstr "<b>Dimensiuni originale</b>"
+msgstr "<b>Dimensiunile originale</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
-msgstr "<b>Raport scală</b>"
+msgstr "<b>Rata scalării</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
-msgstr "Luminozitate - Constrast"
+msgstr "Luminozitate - Contrast"
 
 #: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
-msgstr "Balanţa de culori"
+msgstr "Balanța de culori"
 
 #: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
@@ -645,11 +645,11 @@ msgstr "Con_trast:"
 
 #: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr "Azuriu-_Rosu:"
+msgstr "Cyan-_Roșu:"
 
 #: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
-msgstr "Înalţime:"
+msgstr "Înălțime:"
 
 #: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
@@ -657,7 +657,7 @@ msgstr "_Calitate înaltă"
 
 #: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
-msgstr "Nuanţă - Saturaţie"
+msgstr "Nuanță - Saturație"
 
 #: ../data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -665,15 +665,15 @@ msgstr "Posterizează"
 
 #: ../data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
-msgstr "Menţine l_uminozitatea"
+msgstr "Păstrează l_uminozitatea"
 
 #: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr "Redimensionează imagine"
+msgstr "Scalează imaginea"
 
 #: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
-msgstr "Lungime:"
+msgstr "Lățime:"
 
 #: ../data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
@@ -681,15 +681,15 @@ msgstr "_Luminozitate:"
 
 #: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr "_Nuanţă:"
+msgstr "_Nuanță:"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Keep aspect ratio"
-msgstr "_Pastrează proporţiile"
+msgstr "_Păstrează proporția aspectului"
 
 #: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
-msgstr "_Nivele:"
+msgstr "Nive_le:"
 
 #: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
@@ -697,27 +697,27 @@ msgstr "_Luminozitate:"
 
 #: ../data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
-msgstr "_Purpuriu-Verde:"
+msgstr "_Magenta-Verde:"
 
 #: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
-msgstr "_Preview"
+msgstr "_Previzualizare"
 
 #: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
-msgstr "_Reset"
+msgstr "_Resetează"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
-msgstr "_Saturaţie:"
+msgstr "_Saturație"
 
 #: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
-msgstr "_Scală"
+msgstr "_Scalează"
 
 #: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
-msgstr "_Galben-Albastru:"
+msgstr "_Galben - Albastru"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:3
 msgid "112"
@@ -773,7 +773,7 @@ msgstr "<b>Subsol</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
-msgstr "<b>Antet şi subsol</b>"
+msgstr "<b>Antet și subsol</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
@@ -781,11 +781,11 @@ msgstr "<b>Antet</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
-msgstr "<b>Indexează imagini</b>"
+msgstr "<b>Indexează imaginile</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
-msgstr "<b>Dimensiune pagină</b>"
+msgstr "<b>Dimensiunea paginii</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
@@ -797,8 +797,8 @@ msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
 msgstr ""
-"<small><i><b>Notă:</b> %p (număr pagină), %n (număr total de pagini)</i>.</"
-"small>"
+"<small><i><b>Notă:</b> %p (numărul paginii), %n (numărul total de pagini)</"
+"i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
@@ -811,33 +811,33 @@ msgstr "Col_oane"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
-msgstr "Culoa_re"
+msgstr "Culoa_re:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr "Crează pagină index"
+msgstr "Creează index al imaginilor"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
-msgstr "Crează harta de imagini _HTML"
+msgstr "Creează hartă imagine _HTML"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
-msgstr "S_ubsol"
+msgstr "Subs_ol:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:31
 #: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "File _name"
-msgstr "_Nume fişier"
+msgstr "_Nume fișier"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
-msgstr "_Cale fişier"
+msgstr "Cal_e fișier"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:33
 #: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "File si_ze"
-msgstr "_Dimensiune fişier"
+msgstr "_Mărime fișier"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:34
 msgid "Frame _style:"
@@ -845,11 +845,11 @@ msgstr "_Stil cadru:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
-msgstr "Cu_loare cadru"
+msgstr "Cu_loare cadru:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:36
 msgid "H_eader:"
-msgstr "_Antet"
+msgstr "Ant_et:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
@@ -857,12 +857,12 @@ msgstr "Antet/Subsol"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
-msgstr "Înalţime"
+msgstr "Î_nălțime"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:39
 #: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "Image dim_ensions"
-msgstr "Dim_ensiuni imagine"
+msgstr "Dim_ensiunile imaginii"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
@@ -870,24 +870,24 @@ msgstr "Imagini"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
-msgstr "Stil imagine index"
+msgstr "Stilul indexării imaginii"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
-msgstr "Pagină"
+msgstr "Pagina"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
-msgstr "Pixeli"
+msgstr "Pi_xeli"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:44
 #: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "Re_verse order"
-msgstr "Inversează ordine"
+msgstr "In_versează ordinea"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
-msgstr "Rânduri şi coloane"
+msgstr "Li_nii și coloane"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
@@ -895,19 +895,19 @@ msgstr "Selectează o culoare"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:47
 msgid "Select a font"
-msgstr "Selectează un font"
+msgstr "Selectați un font"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
-msgstr "Umbre în"
+msgstr "Cu umbră"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
-msgstr "Numai umbre"
+msgstr "Doar umbră"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:50
 msgid "Shadow out"
-msgstr "Umbre afară"
+msgstr "Fără umbră"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
@@ -915,19 +915,19 @@ msgstr "Simplu"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
-msgstr "Simplu cu umbre"
+msgstr "Simplu cu umbră"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:53
 msgid "Slide"
-msgstr "Aluneca"
+msgstr "Diapozitiv"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:54
 msgid "Sor_t:"
-msgstr "Sor_tează"
+msgstr "Sor_tează:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
-msgstr "Sortează"
+msgstr "Sortare"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
@@ -937,28 +937,28 @@ msgstr "St_il"
 #: ../data/glade/gthumb_search.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:53
 msgid "Start _at:"
-msgstr "Începe în:"
+msgstr "Incepe l_a:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "Style Preview"
-msgstr "Preview stil"
+msgstr "Previzualizare stil"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
-msgstr "_Lungime:"
+msgstr "_Lățime"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr "_Toate paginile cu aceiaşi dimensiune"
+msgstr "To_ate paginile cu aceleași dimensiuni"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
-msgstr "_Desenează cadru"
+msgstr "_Deseneaza cadru"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
-msgstr "_Font"
+msgstr "_Fonturi"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
@@ -966,7 +966,7 @@ msgstr "_Gradient"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:66
 msgid "_Image size:"
-msgstr "Dimensiune _imagine:"
+msgstr "Mărimea _imaginii:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
@@ -979,7 +979,7 @@ msgstr "Culoare _solidă"
 #: ../data/glade/gthumb_png_exporter.glade.h:69
 #: ../data/glade/gthumb_tools.glade.h:71
 msgid "_Template:"
-msgstr "_Şablon:"
+msgstr "Șa_blon:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
 #: ../data/glade/gthumb_tools.glade.h:74
@@ -1073,7 +1073,7 @@ msgstr "9:"
 
 #: ../data/glade/gthumb_preferences.glade.h:22
 msgid "<b>Direction</b>"
-msgstr "<b>Direcţie</b>"
+msgstr "<b>Direcție</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:23
 msgid "<b>Hide/Show</b>"
@@ -1081,7 +1081,7 @@ msgstr "<b>Ascunde/Arată</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
-msgstr "<b>Interfaţă</b>"
+msgstr "<b>Interfață</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
@@ -1089,11 +1089,11 @@ msgstr "<b>La pornire:</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:26
 msgid "<b>Other</b>"
-msgstr "<b>Altele</b>"
+msgstr "<b>Alta</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:27
 msgid "<b>Slide show</b>"
-msgstr "<b>Slide show</b>"
+msgstr "<b>Prezentare diapozitive</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "<b>Viewer</b>"
@@ -1118,36 +1118,36 @@ msgid ""
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
 "<small><i><b>Caractere speciale:</b>\n"
-"%F = toate fişierele selectate pe o singura linie, delimitate prin spaţiu\n"
-"%f = un singur fişier, incluzând calea\n"
-"%n = un singur fişier, incluzând calea, fară extensie\n"
-"%e = o singură extensie (începand cu un punct)\n"
-"%p = directorul parinte al fişierului</i>\n"
-"Scripturile cu codul %F vor fi executate doar o dată, indiferent de numarul "
-"de fişiere selectate. Toate celelalte scripturi vor fi executate o dată "
-"pe fişier selectat.\n"
-"Scripturile implicite sunt explicate in fişierul de ajutor.</small>"
-
+"%F = toate denumirile de fișiere selectate într-o singură linie, delimitate "
+"de spațiu\n"
+"%f = un singur nume de fișier, incluzând și calea\n"
+"%n = un singur nume de fișier, incluzând și calea, fără extensie\n"
+"%e = o singură extensie (începând cu punct)\n"
+"%p = dosarul părinte al unicului fișier</i>\n"
+"Scripturile cu codul %F vor fi executate o singură data, indiferent de "
+"numărul de fișiere selectate. Toate celelalte scripturi vor fi executate o "
+"dată pentru fiecare fișier selectat.\n"
+"Scripturile implicite sunt explicate în Ajutor.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
-msgstr "Activează obiectele cu un dublu click"
+msgstr "Activează elementele cu dublu clic"
 
 #: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Activate items with a single click"
-msgstr "Activează obiectele cu un singur click"
+msgstr "Activează elementele cu clic"
 
 #: ../data/glade/gthumb_preferences.glade.h:41
 msgid "After _loading an image:"
-msgstr "Dupa _încarcarea unei imagini:"
+msgstr "_După încărcarea unei imagini:"
 
 #: ../data/glade/gthumb_preferences.glade.h:42
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Confirmă inainte de a şterge imagini sau cataloguri"
+msgstr "_Solicită confirmare înaintea ștergerii imaginilor sau cataloagelor"
 
 #: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Ask whether to save _modified images"
-msgstr "Întreaba dacă să se salveze imaginile modificate"
+msgstr "Solicită confirmare înaintea salvării imaginilor _modificate"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Black"
@@ -1155,19 +1155,19 @@ msgstr "Negru"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Browser"
-msgstr "Browser"
+msgstr "Navigator:"
 
 #: ../data/glade/gthumb_preferences.glade.h:46
 msgid "C_lick policy:"
-msgstr "Politica de c_lick:"
+msgstr "Po_litica clicurilor:"
 
 #: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Checked"
-msgstr "Bifat"
+msgstr "Selectat"
 
 #: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Choose startup folder"
-msgstr "Alege dosar început"
+msgstr "Alege directorul de pornire"
 
 #: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Co_mments"
@@ -1175,47 +1175,47 @@ msgstr "Co_mentarii"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
-msgstr "Întârzi_ere înainte de a schimba imaginea:"
+msgstr "Perioada de așt_eptare înaintea modificării imaginii:"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
-msgstr "D_etermină tipul imaginii din conţinut (mai încet)"
+msgstr "D_etermină tipul imaginii după conținut (mai încet)"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
-msgstr "_Nu schimba dosarul"
+msgstr "_Nu modifica directorul"
 
 #: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Fit to width if larger"
-msgstr "Potriveşte în lungime dacă e mai mare"
+msgstr "Potrivește cu lățimea dacă este mai mare"
 
 #: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Fit to window if larger"
-msgstr "Potriveşte în fereastră dacă e mai mare"
+msgstr "Potrivește cu dimensiunea ferestrei dacă este mai mare"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Follow Nautilus behaviour"
-msgstr "Foloseşte comportamentul din Nautilus"
+msgstr "Comportare asemănătoare cu Nautilus"
 
 #: ../data/glade/gthumb_preferences.glade.h:56
 msgid "For_ward"
-msgstr "Î_nainte"
+msgstr "_nainte"
 
 #: ../data/glade/gthumb_preferences.glade.h:57
 msgid "General"
-msgstr "General"
+msgstr "Generale"
 
 #: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Go to last _visited folder or catalog"
-msgstr "Mergi la ultimul dosar _vizitat al catalogului"
+msgstr "Mergi la ultimul dosar sau catalog _vizitat"
 
 #: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Go to this _folder:"
-msgstr "Mergi la acest _dosar:"
+msgstr "Mergi la acest _dosar"
 
 #: ../data/glade/gthumb_preferences.glade.h:60
 msgid "H_igh"
-msgstr "Înaltă"
+msgstr "Înălț_ime"
 
 #: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Hot Keys"
@@ -1223,19 +1223,19 @@ msgstr "Taste rapide"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
-msgstr "Doar inconiţe"
+msgstr "Doar iconițe"
 
 #: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Keep previous zoom"
-msgstr "Pastrează magnificarea precedentă"
+msgstr "Păstrează zoom-ul anterior"
 
 #: ../data/glade/gthumb_preferences.glade.h:64
 msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
 msgstr ""
-"Tastele 0-9 pe tastatura numerică pot fi folosite in navigator pentru a deschide "
-"sau modifica imaginile selectate cu alte aplicatii"
+"Tastele 0-9 din zona numerică a tastaturii pot fi folosite în navigator "
+"pentru a deschide sau modifica imaginile selectate cu alte aplicații."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1243,7 +1243,7 @@ msgstr "Aranjament:"
 
 #: ../data/glade/gthumb_preferences.glade.h:66
 msgid "Lo_w"
-msgstr "_Scăzută"
+msgstr "_Slab"
 
 #: ../data/glade/gthumb_preferences.glade.h:68
 msgid "Ran_dom"
@@ -1251,15 +1251,15 @@ msgstr "Alea_tor"
 
 #: ../data/glade/gthumb_preferences.glade.h:69
 msgid "Re_verse"
-msgstr "Inversează"
+msgstr "In_versat"
 
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr "Resetează poziţiile scrollbar-ului dupa ce ai incărcat o imagine"
+msgstr "Resetează pozițiile scrollbar-ului dupa ce ai incărcat o imagine"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
-msgstr "Restartează la sfârşit"
+msgstr "Repo_rnește la sfârșit"
 
 #: ../data/glade/gthumb_preferences.glade.h:72
 msgid "Set image to actual size"
@@ -1271,35 +1271,35 @@ msgstr "Setează la cu_rent"
 
 #: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
-msgstr "Slide show"
+msgstr "Prezentare cadre"
 
 #: ../data/glade/gthumb_preferences.glade.h:75
 msgid "System settings"
-msgstr "Setări sistem"
+msgstr "Setări de sistem"
 
 #: ../data/glade/gthumb_preferences.glade.h:76
 msgid "Text below icons"
-msgstr "Text sub iconiţe"
+msgstr "Text sub pictograme"
 
 #: ../data/glade/gthumb_preferences.glade.h:77
 msgid "Text beside icons"
-msgstr "Text alături de iconiţe"
+msgstr "Text lângă pictograme"
 
 #: ../data/glade/gthumb_preferences.glade.h:78
 msgid "Text only"
-msgstr "Numai text"
+msgstr "Doar text"
 
 #: ../data/glade/gthumb_preferences.glade.h:79
 msgid "Th_umbnail size:"
-msgstr "Dimensiune th_umbnail:"
+msgstr "Dimensi_unea miniaturii:"
 
 #: ../data/glade/gthumb_preferences.glade.h:80
 msgid "Transparency _type:"
-msgstr "_Tip transparenţă:"
+msgstr "Tipul _transparenței:"
 
 #: ../data/glade/gthumb_preferences.glade.h:81
 msgid "Use a _fading effect when changing image"
-msgstr "Foloseşte un efect de estomapare la schimbarea imaginii"
+msgstr "_Folosește un efect de estomapare la schimbarea imaginii"
 
 #: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
@@ -1311,20 +1311,20 @@ msgstr "Alb"
 
 #: ../data/glade/gthumb_preferences.glade.h:84
 msgid "_Filenames"
-msgstr "_Fişiere"
+msgstr "Nume de _fișiere"
 
 #: ../data/glade/gthumb_preferences.glade.h:85
 #: ../src/gth-browser-actions-entries.h:418
 msgid "_Thumbnails"
-msgstr "_Pictograme"
+msgstr "Minia_turi"
 
 #: ../data/glade/gthumb_preferences.glade.h:86
 msgid "_Toolbar style:"
-msgstr "Stil bară de unelte"
+msgstr "S_tilul barei de unelte:"
 
 #: ../data/glade/gthumb_preferences.glade.h:87
 msgid "gThumb Preferences"
-msgstr "Preferinţe gThumb"
+msgstr "Preferințe gThumb"
 
 #: ../data/glade/gthumb_preferences.glade.h:88
 msgid "seconds"
@@ -1380,7 +1380,7 @@ msgstr "<b>Orientare</b>"
 
 #: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
-msgstr "<b>Dimensiune</b>"
+msgstr "<b>Mărime</b>"
 
 #: ../data/glade/gthumb_print.glade.h:18
 msgid ""
@@ -1397,10 +1397,10 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
-"<small><i><b>Notă:</b> Imaginile de înaltă rezoluţie vor fi \n"
-"reduse la aceasta rezoluţie. Creşte rezoluţia pentru\n"
+"<small><i><b>Notă:</b> Imaginile de înaltă rezoluție vor fi \n"
+"reduse la aceasta rezoluție. Crește rezoluția pentru\n"
 "o calitate mai buna a imaginii.\n"
-"Scade rezoluţia pentru timpuri de printare mai scurte.</i></small>"
+"Scade rezoluția pentru timpuri de printare mai scurte.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1412,7 +1412,7 @@ msgstr "Dimensionare automată"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
-msgstr "Centrează în pagină"
+msgstr "Centrează în _pagină"
 
 #: ../data/glade/gthumb_print.glade.h:27
 msgid "Comment _font:"
@@ -1420,7 +1420,7 @@ msgstr "_Font comentarii"
 
 #: ../data/glade/gthumb_print.glade.h:29
 msgid "Executive"
-msgstr "Executive"
+msgstr "Executiv"
 
 #: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
@@ -1428,23 +1428,23 @@ msgstr "I_nclude comentariu"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
-msgstr "Imagini per pagină:"
+msgstr "Imagini pe pagină:"
 
 #: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
-msgstr "Inci"
+msgstr "Inchi"
 
 #: ../data/glade/gthumb_print.glade.h:33
 msgid "Include filename"
-msgstr "Include nume fişier"
+msgstr "Include numele fișierului"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
-msgstr "Lan_dscape"
+msgstr "Ve_dere"
 
 #: ../data/glade/gthumb_print.glade.h:35
 msgid "Layout"
-msgstr "Aranjament"
+msgstr "Înfățișare"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
@@ -1452,7 +1452,7 @@ msgstr "Legal"
 
 #: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
-msgstr "Letter"
+msgstr "Scrisoare"
 
 #: ../data/glade/gthumb_print.glade.h:38
 msgid "Millimeters"
@@ -1460,7 +1460,7 @@ msgstr "Milimetri"
 
 #: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
-msgstr "Portrait"
+msgstr "_Portret"
 
 #: ../data/glade/gthumb_print.glade.h:40
 msgid "Paper Details"
@@ -1468,17 +1468,17 @@ msgstr "Detalii hârtie"
 
 #: ../data/glade/gthumb_print.glade.h:41
 msgid "Postcard"
-msgstr "Postcard"
+msgstr "Carte poștală"
 
 #.
 #: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
-msgstr "Printează"
+msgstr "Tipărire"
 
 #: ../data/glade/gthumb_print.glade.h:43
 msgid "Scale to this size"
-msgstr "Scalează la această dimensiune"
+msgstr "Scalează la această mărime"
 
 #: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
@@ -1490,19 +1490,19 @@ msgstr "_Jos:"
 
 #: ../data/glade/gthumb_print.glade.h:47
 msgid "_Left:"
-msgstr "_Stânga:"
+msgstr "S_tânga:"
 
 #: ../data/glade/gthumb_print.glade.h:48
 msgid "_Right:"
-msgstr "_Dreapta:"
+msgstr "D_reapta:"
 
 #: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
-msgstr "Sca_lă:"
+msgstr "_Scalează:"
 
 #: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
-msgstr "_Sus:"
+msgstr "S_us:"
 
 #: ../data/glade/gthumb_print.glade.h:51
 msgid "_Unit:"
@@ -1510,27 +1510,27 @@ msgstr "_Unitate:"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
 msgid "Actual Size"
-msgstr "Dimensiune reală"
+msgstr "Mărime actuală"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
 msgid "Red-Eye Removal"
-msgstr "Reparare efect ochi roşii"
+msgstr "Eliminare ochi roșii"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
 msgid "Redo"
-msgstr "Redo"
+msgstr "Repetă"
 
 #: ../data/glade/gthumb_redeye.glade.h:5
 msgid "Undo"
-msgstr "Undo"
+msgstr "Anulează"
 
 #: ../data/glade/gthumb_redeye.glade.h:6
 msgid "Zoom In"
-msgstr "Mareşte"
+msgstr "Mărește"
 
 #: ../data/glade/gthumb_redeye.glade.h:7
 msgid "Zoom Out"
-msgstr "Micşorează"
+msgstr "Micșorează"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
 msgid "Zoom to Fit"
@@ -1566,7 +1566,7 @@ msgstr "Egal cu"
 
 #: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
-msgstr "_Nume fişier:"
+msgstr "_Nume fișier:"
 
 #: ../data/glade/gthumb_search.glade.h:14
 msgid "Found images:"
@@ -1574,18 +1574,18 @@ msgstr "Imagini găsite:"
 
 #: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
-msgstr "Potriveşte toate categoriile selectate"
+msgstr "Potrivește toate categorii_le selectate"
 
 #: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
-msgstr "Potriveşte orice categorie selectată"
+msgstr "P_otrivește orice categorie selectată"
 
 #: ../data/glade/gthumb_search.glade.h:17
 msgid "New _Search..."
-msgstr "Căutare nouă..."
+msgstr "_Căutare nouă..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:898
-#: ../src/dlg-photo-importer.c:1643
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
+#: ../src/dlg-photo-importer.c:1644
 msgid "No images found"
 msgstr "Nici o imagine găsită"
 
@@ -1605,7 +1605,7 @@ msgstr "Căutare în:"
 
 #: ../data/glade/gthumb_search.glade.h:24
 msgid "_Edit Search"
-msgstr "Editare căutare"
+msgstr "_Editare căutare"
 
 #: ../data/glade/gthumb_search.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:60
@@ -1625,7 +1625,7 @@ msgstr "_Căutare"
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
-msgstr "_Vezi"
+msgstr "_Vizualizare"
 
 #: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Change the following values:</b>"
@@ -1645,9 +1645,10 @@ msgid ""
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
-"<small><i><b>Notă</b>: Transformările JPEG sunt în mod normal fară pierdere de informaţie.\n"
-"La vizualizare imaginilor poţi folosi tastele rapide [ şi ] \n"
-"pentru a roti şi salva fară pierdere de informaţie.</i></small>"
+"<small><i><b>Notă</b>: Transformările JPEG sunt în mod normal fară pierdere "
+"de informație.\n"
+"La vizualizare imaginilor poți folosi tastele rapide [ și ] \n"
+"pentru a roti și salva fară pierdere de informație.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
@@ -1655,20 +1656,21 @@ msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
-"<small><i><b>Caractere speciale:</b> # (enumerator), %f (nume fisier original), "
-"%d (dată imagine), %s (dimensiune imagine), %e (extensie originală).</i></small>"
+"<small><i><b>Caractere speciale:</b> # (enumerator), %f (nume fisier "
+"original), %d (dată imagine), %s (dimensiune imagine), %e (extensie "
+"originală).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
-msgstr "Ajustează fus orar:"
+msgstr "A_justează fus orar:"
 
 #: ../data/glade/gthumb_tools.glade.h:17
 msgid "Apply physical _transform"
-msgstr "Aplică transformare fizică"
+msgstr "Aplică _transformare fizică"
 
 #: ../data/glade/gthumb_tools.glade.h:18
 msgid "Apply to all _images"
-msgstr "Aplică la toate imaginile"
+msgstr "Aplică la toate _imaginile"
 
 #: ../data/glade/gthumb_tools.glade.h:19
 msgid "C_urrent date"
@@ -1678,7 +1680,7 @@ msgstr "Data curentă"
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
-msgstr "Catalog"
+msgstr "Ca_talog"
 
 #: ../data/glade/gthumb_tools.glade.h:21
 msgid "Change Date"
@@ -1690,7 +1692,7 @@ msgstr "Bifează _toate"
 
 #: ../data/glade/gthumb_tools.glade.h:23
 msgid "Check _None"
-msgstr "Bifează nici una"
+msgstr "_Nu Bifa nici una"
 
 #: ../data/glade/gthumb_tools.glade.h:24
 msgid "Checking image:"
@@ -1700,7 +1702,9 @@ msgstr "Bifând imagine:"
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
-msgstr "Click OK pentru a reseta tagul de orientare EXIF pentru imaginile selectate la stânga-sus"
+msgstr ""
+"Click OK pentru a reseta tagul de orientare EXIF pentru imaginile selectate "
+"la stânga-sus"
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1720,15 +1724,15 @@ msgstr "Găsit duplicate:"
 
 #: ../data/glade/gthumb_tools.glade.h:31
 msgid "Image c_reation date"
-msgstr "Dată creare imagine"
+msgstr "Dată c_reare imagine"
 
 #: ../data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image horizontally (left-right)"
-msgstr "Oglindeşte imaginea orizontal (stânga-dreapta)"
+msgstr "Oglindește imaginea orizontal (stânga-dreapta)"
 
 #: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image vertically (top-bottom)"
-msgstr "Oglindeşte imaginea vertical (sus-jos)"
+msgstr "Oglindește imaginea vertical (sus-jos)"
 
 #: ../data/glade/gthumb_tools.glade.h:34
 #: ../src/gth-browser-actions-entries.h:83
@@ -1736,7 +1740,7 @@ msgstr "Oglindeşte imaginea vertical (sus-jos)"
 #: ../src/gth-browser-actions-entries.h:228
 #: ../src/gth-browser-actions-entries.h:258
 msgid "Move to _Trash"
-msgstr "Mută in coş"
+msgstr "Mută în _coșul de gunoi"
 
 #: ../data/glade/gthumb_tools.glade.h:35
 msgid "New names _preview:"
@@ -1756,15 +1760,15 @@ msgstr "Resetează tagurile de orientare Exif"
 
 #: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
-msgstr "Roteşte imagini"
+msgstr "Rotește imagini"
 
 #: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
-msgstr "Roteşte imaginea 90 de grade în sensul acelor de ceasornic"
+msgstr "Rotește imaginea 90 de grade în sensul acelor de ceasornic"
 
 #: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Roteşte imaginea 90 de grade in sens contrar acelor de ceasornic."
+msgstr "Rotește imaginea 90 de grade in sens contrar acelor de ceasornic."
 
 #: ../data/glade/gthumb_tools.glade.h:45
 #: ../src/gth-browser-actions-entries.h:394
@@ -1781,7 +1785,7 @@ msgstr "Căutare terminată, nici un duplicat găsit"
 
 #: ../data/glade/gthumb_tools.glade.h:55
 msgid "The _following date:"
-msgstr "Următoarea dată:"
+msgstr "_Următoarea dată:"
 
 #: ../data/glade/gthumb_tools.glade.h:56
 msgid ""
@@ -1792,12 +1796,13 @@ msgid ""
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
 msgstr ""
-"Această bifă guverneaza metoda de rotaţie utilizată pentru imaginile jpeg care conţin "
-"tagul de orientare Exif. Dacă această bifă este activată, rotaţia va fi facută utilizând "
-"o transformare fizică, iar tagul de orientare Exif va fi setat la valoarea implicită "
-"\"stanga sus\". Dacă nu este activată, rotaţia va fi efectuată doar prin schimbarea "
-"tagului de orientare Exif. Pentru maximum de compatibilitate cu alte aplicaţii "
-"această bifă trebuie sa fie activată."
+"Această bifă guverneaza metoda de rotație utilizată pentru imaginile jpeg "
+"care conțin tagul de orientare Exif. Dacă această bifă este activată, "
+"rotația va fi facută utilizând o transformare fizică, iar tagul de orientare "
+"Exif va fi setat la valoarea implicită \"stanga sus\". Dacă nu este "
+"activată, rotația va fi efectuată doar prin schimbarea tagului de orientare "
+"Exif. Pentru maximum de compatibilitate cu alte aplicații această bifă "
+"trebuie sa fie activată."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -1811,7 +1816,7 @@ msgstr "Data ultimei _modificări"
 #: ../src/gth-browser-actions-callbacks.c:470
 #: ../src/gth-browser-actions-callbacks.c:980
 msgid "_Rename"
-msgstr "_Redenumeşte"
+msgstr "_Redenumește"
 
 #: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Selected Images"
@@ -1871,7 +1876,7 @@ msgstr "<b>Stil album</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:15
 msgid "<b>Basic Information</b>"
-msgstr "<b>Informaţii de bază</b>"
+msgstr "<b>Informații de bază</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:16
 msgid "<b>Camera Data</b>"
@@ -1905,7 +1910,7 @@ msgid ""
 "number of images per page constant.</i></small>"
 msgstr ""
 "<small><i><b>Notă:</b> Unele teme ar putea potrivi automat \n"
-"numărul de linii şi coloane, dar menţine numărul total \n"
+"numărul de linii și coloane, dar menține numărul total \n"
 "de imagini per pagină constant.</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
@@ -1938,7 +1943,7 @@ msgstr "Titlu i_magine..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "Inde_x file:"
-msgstr "Fişier index:"
+msgstr "Fișier inde_x:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "S_ort:"
@@ -1958,7 +1963,7 @@ msgstr "Valoare _apertură"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr "_Copiază originalele la destinaţie"
+msgstr "_Copiază originalele la destinație"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
@@ -2022,7 +2027,7 @@ msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
-msgstr "sau foloseşte o singură pagină index"
+msgstr "sau folosește o sing_ură pagină index"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
 msgid "rows per page,"
@@ -2032,9 +2037,9 @@ msgstr "randuri per pagină,"
 msgid "Image Viewer"
 msgstr "Vizualizator imagini"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
 msgid "View and organize your images"
-msgstr "Vizualizează şi organizează imagini"
+msgstr "Vizualizează și organizează imagini"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
@@ -2045,8 +2050,9 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Imaginile cu dimensiune mai mare decât aceasta (in octeţi) nu vor avea pictograme. "
-"Foloseşte 0 daca vrei sa generezi pictograme pentru toate imaginile."
+"Imaginile cu dimensiune mai mare decât aceasta (in octeți) nu vor avea "
+"pictograme. Folosește 0 daca vrei sa generezi pictograme pentru toate "
+"imaginile."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
@@ -2118,7 +2124,8 @@ msgstr "Posibile valori sunt: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "PPosibile valori sunt: none, name, path, size, time, exifdate, comment."
+msgstr ""
+"PPosibile valori sunt: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid ""
@@ -2155,7 +2162,8 @@ msgstr "Posibile valori sunt: small, medium, large."
 #: ../data/gthumb.schemas.in.h:24
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Posibile valori sunt: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Posibile valori sunt: system, text_below, text_beside, text_only, icons_only."
 
 #: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: white, black, checked, none."
@@ -2167,7 +2175,8 @@ msgstr "Dacă să folosească întotdeauna un fundal negru."
 
 #: ../data/gthumb.schemas.in.h:27
 msgid "Whether to reset the scrollbar positions after changing image"
-msgstr "Dacă să reajusteze poziţiile scrollbar-ului după ce a schimbat imaginea"
+msgstr ""
+"Dacă să reajusteze pozițiile scrollbar-ului după ce a schimbat imaginea"
 
 #: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
@@ -2179,19 +2188,19 @@ msgstr "Nu pot deschide catalog \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Nu pot salva catalog \"%s\": %s"
 
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:142
+#: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:56
+#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
+#: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
 msgid "(No Comment)"
 msgstr "(Fara comentarii)"
 
@@ -2212,112 +2221,112 @@ msgstr "Salvează imagine"
 msgid "Image type:"
 msgstr "Tip imagine:"
 
-#: ../libgthumb/file-utils.c:1485 ../src/gth-location.c:821
+#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Cataloage"
 
-#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:829
+#: ../libgthumb/file-utils.c:1491 ../src/gth-location.c:830
 msgid "File System"
-msgstr "Sistem de fişiere"
+msgstr "Sistem de fișiere"
 
-#: ../libgthumb/file-utils.c:1517 ../src/gth-location.c:837
+#: ../libgthumb/file-utils.c:1520 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Acasă"
 
-#: ../libgthumb/file-utils.c:2152
+#: ../libgthumb/file-utils.c:2155
 msgid "Library not empty"
 msgstr "Biblioteca nu e goală"
 
-#: ../libgthumb/file-utils.c:2161
+#: ../libgthumb/file-utils.c:2164
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "Nu pot şterge biblioteca \"%s\": %s"
+msgstr "Nu pot șterge biblioteca \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2191
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Nu pot şterge catalogul \"%s\": %s"
+msgstr "Nu pot șterge catalogul \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
-#: ../src/gth-browser.c:4506 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:775
+#: ../src/gth-browser.c:4509 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "Nici o imagine"
 
 #: ../libgthumb/gth-utils.c:46
 msgid "Could not display help"
-msgstr "Nu pot afişa ajutorul"
+msgstr "Nu pot afișa ajutorul"
 
 #: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
 msgid "Ro_tate Images"
-msgstr "Ro_teşte imagini"
+msgstr "Ro_tește imagini"
 
 #: ../libgthumb/print-callbacks.c:821
 #, c-format
 msgid "Page %d of %d"
 msgstr "Pagina %d din %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "Încărcând imaginea: %s"
 
 #: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Ştergând toate pictogramele, aşteptaţi vă rog..."
+msgstr "Ștergând toate pictogramele, așteptați vă rog..."
 
 #: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Ştergând pictogramele vechi, aşteptaţi vă rog..."
+msgstr "Ștergând pictogramele vechi, așteptați vă rog..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
-#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
+#: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
 msgid "(Invalid Name)"
 msgstr "(Nume invalid)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
+#: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixeli"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2144
-#: ../src/catalog-web-exporter.c:2367
+#: ../src/catalog-png-exporter.c:908 ../src/catalog-web-exporter.c:2158
+#: ../src/catalog-web-exporter.c:2385
 msgid "Saving images"
 msgstr "Salvând imaginile"
 
-#: ../src/catalog-png-exporter.c:1657
+#: ../src/catalog-png-exporter.c:1651
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Creând imaginea: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1853
+#: ../src/catalog-web-exporter.c:1866
 msgid "Saving thumbnails"
 msgstr "Salvând pictogramele"
 
-#: ../src/catalog-web-exporter.c:1923
+#: ../src/catalog-web-exporter.c:1936
 msgid "Saving HTML pages: Images"
 msgstr "Salvând paginile HTML: Imagini"
 
-#: ../src/catalog-web-exporter.c:2003
+#: ../src/catalog-web-exporter.c:2016
 msgid "Saving HTML pages: Indexes"
-msgstr "Salvând paginile HTML: Indecşi"
+msgstr "Salvând paginile HTML: Indecși"
 
 #. This function is used when "Copy originals to destination" is
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2187
+#: ../src/catalog-web-exporter.c:2201
 msgid "Copying original images"
 msgstr "Copiind imaginile originile"
 
-#: ../src/catalog-web-exporter.c:2562
+#: ../src/catalog-web-exporter.c:2580
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Nu pot crea un dosar temporar"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2595
+#: ../src/catalog-web-exporter.c:2613
 msgid "Loading images"
 msgstr "Incărcând imagini"
 
@@ -2349,13 +2358,13 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"Numele \"%s\" nu este valid pentru că conţine caracterul \",\". "
-" Va rog să folosiţi un alt nume."
+"Numele \"%s\" nu este valid pentru că conține caracterul \",\".  Va rog să "
+"folosiți un alt nume."
 
 #: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "Categoria \"%s\" este deja prezentă. Vă rog să folosiţi un alt nume."
+msgstr "Categoria \"%s\" este deja prezentă. Vă rog să folosiți un alt nume."
 
 #: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
 #, c-format
@@ -2367,12 +2376,12 @@ msgstr "Convertind imaginea: %s"
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
-"O imagine numită \"%s\" este deja prezentă. Va rog să folosiţi un alt nume."
+"O imagine numită \"%s\" este deja prezentă. Va rog să folosiți un alt nume."
 
 #: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "O imagine numită \"%s\" este deja prezentă. Vreţi să o suprascrieţi?"
+msgstr "O imagine numită \"%s\" este deja prezentă. Vreți să o suprascrieți?"
 
 #: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
 msgid "Skip"
@@ -2412,44 +2421,42 @@ msgstr "Ultima dată modificată"
 
 #: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
 msgid "Location"
-msgstr "Locaţie"
+msgstr "Locație"
 
 #: ../src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "Imaginile bifate vor fi mutate la Gunoi, sunteţi sigur?"
+msgstr "Imaginile bifate vor fi mutate la Gunoi, sunteți sigur?"
 
 #: ../src/dlg-file-utils.c:90
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "Dosarul destinaţie nu există. Vreţi să-l creaţi?"
+msgstr "Dosarul destinație nu există. Vreți să-l creați?"
 
 #: ../src/dlg-file-utils.c:106
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nu pot crea dosarul \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1668
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1669
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Nu aveţi permisiunile necesare pentru a crea imagini în dosarul \"%s\""
+msgstr "Nu aveți permisiunile necesare pentru a crea imagini în dosarul \"%s\""
 
 #: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
-msgstr "Nu pot şterge imaginile:"
+msgstr "Nu pot șterge imaginile:"
 
 #: ../src/dlg-file-utils.c:226
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr ""
-"Imaginile nu pot fi mutate la Gunoi. Vreţi sa le ştergeţi permanent?"
+msgstr "Imaginile nu pot fi mutate la Gunoi. Vreți sa le ștergeți permanent?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
+#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
-msgstr "_Nu mai afişa acest mesaj"
+msgstr "_Nu mai afișa acest mesaj"
 
 #: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
 msgid "_Move"
@@ -2458,7 +2465,7 @@ msgstr "_Mută"
 #: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
 #: ../src/gth-browser-actions-callbacks.c:1403
 msgid "Choose the destination folder"
-msgstr "Alege dosarul destinaţie"
+msgstr "Alege dosarul destinație"
 
 #: ../src/dlg-file-utils.c:548
 msgid "%d %b %Y, %H:%M"
@@ -2466,14 +2473,15 @@ msgstr "%d %b %Y, %H:%M"
 
 #: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
 msgid "You didn't enter the new name"
-msgstr "Nu aţi introdus un nume nou"
+msgstr "Nu ați introdus un nume nou"
 
 #: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
-"Numele \"%s\" este deja prezent in acest dosar. Vă rog sa folosiţi un alt nume."
+"Numele \"%s\" este deja prezent in acest dosar. Vă rog sa folosiți un alt "
+"nume."
 
 #: ../src/dlg-file-utils.c:1041
 msgid "Could not rename the image:"
@@ -2502,26 +2510,26 @@ msgstr "_Continuă"
 #: ../src/dlg-file-utils.c:1381
 #, c-format
 msgid "Copying file %d of %d"
-msgstr "Copiind fişier %d din %d"
+msgstr "Copiind fișier %d din %d"
 
 #: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
 msgid "Collecting images info"
-msgstr "Colectând informaţii imagini"
+msgstr "Colectând informații imagini"
 
 #: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
 #, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "Stergând fişier %ld din %ld"
+msgstr "Stergând fișier %ld din %ld"
 
 #: ../src/dlg-file-utils.c:2023
 #, c-format
 msgid "Copying file %ld of %ld"
-msgstr "Copiind fişier %ld din %ld"
+msgstr "Copiind fișier %ld din %ld"
 
 #: ../src/dlg-file-utils.c:2028
 #, c-format
 msgid "Moving file %ld of %ld"
-msgstr "Mutând fişier %ld din %ld"
+msgstr "Mutând fișier %ld din %ld"
 
 #: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
 #: ../src/gth-browser-actions-callbacks.c:1285
@@ -2538,53 +2546,52 @@ msgstr "Dimensiune"
 msgid "Type"
 msgstr "Tip"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "Modificată"
 
 #: ../src/dlg-image-prop.c:623
 msgid "Information on Channel"
-msgstr "Informaţie pe canal"
+msgstr "Informație pe canal"
 
 #: ../src/dlg-image-prop.c:732
 #, c-format
 msgid "%s Properties"
-msgstr "Proprietăţi %s"
+msgstr "Proprietăți %s"
 
 #: ../src/dlg-jpegtran.c:258 ../src/dlg-reset-exif.c:128
 msgid ""
 "Could not move temporary file to remote location. Check remote permissions."
-msgstr ""
-"Nu pot muta fişierul la locaţia destinaţie. Verificaţi permisiunile."
+msgstr "Nu pot muta fișierul la locația destinație. Verificați permisiunile."
 
-#: ../src/dlg-photo-importer.c:965 ../src/dlg-photo-importer.c:1595
-#: ../src/dlg-photo-importer.c:1642 ../src/dlg-photo-importer.c:1654
-#: ../src/dlg-photo-importer.c:1670 ../src/dlg-photo-importer.c:1699
+#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1596
+#: ../src/dlg-photo-importer.c:1643 ../src/dlg-photo-importer.c:1655
+#: ../src/dlg-photo-importer.c:1671 ../src/dlg-photo-importer.c:1700
 msgid "Could not import photos"
 msgstr "Nu pot importa fotografiile"
 
-#: ../src/dlg-photo-importer.c:1328 ../src/main.c:1013
+#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1340
+#: ../src/dlg-photo-importer.c:1341
 msgid "Import errors detected"
 msgstr "Erori importare detectate"
 
-#: ../src/dlg-photo-importer.c:1341
+#: ../src/dlg-photo-importer.c:1342
 msgid "The files on the camera will not be deleted"
-msgstr "Fişierele din camera foto nu vor fi şterse"
+msgstr "Fișierele din camera foto nu vor fi șterse"
 
-#: ../src/dlg-photo-importer.c:1651
+#: ../src/dlg-photo-importer.c:1652
 #: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nu pot crea dosarul \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1700
+#: ../src/dlg-photo-importer.c:1701
 msgid "Not enough free space left on disk"
-msgstr "Nu mai este suficient spaţiu liber pe disc"
+msgstr "Nu mai este suficient spațiu liber pe disc"
 
 #: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
@@ -2611,7 +2618,7 @@ msgstr "după dimensiune"
 #: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
-msgstr "după data modificării fişierului"
+msgstr "după data modificării fișierului"
 
 #: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
@@ -2637,8 +2644,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"Numele \"%s\" nu este valid pentru că conţine caracterul \"/\". Vă rog să "
-" folosiţi un nume diferit."
+"Numele \"%s\" nu este valid pentru că conține caracterul \"/\". Vă rog să  "
+"folosiți un nume diferit."
 
 #: ../src/dlg-rename-series.c:468
 msgid "Old Name"
@@ -2648,7 +2655,7 @@ msgstr "Nume vechi"
 msgid "New Name"
 msgstr "Nume nou"
 
-#: ../src/dlg-search.c:366
+#: ../src/dlg-search.c:368
 msgid "Search Result"
 msgstr "Rezultat căutare"
 
@@ -2656,13 +2663,13 @@ msgstr "Rezultat căutare"
 msgid "Select Album Theme"
 msgstr "Selectează tema album"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3856
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3859
 msgid "Could not move the items:"
 msgstr "Nu pot muta elementele:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1098
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Imaginea va fi mutată la Gunoi. Sunteţi sigur?"
+msgstr "Imaginea va fi mutată la Gunoi. Sunteți sigur?"
 
 #: ../src/gth-browser-actions-callbacks.c:267
 #, c-format
@@ -2679,12 +2686,12 @@ msgstr "Continuă"
 
 #: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Imaginile selectate vor fi mutate la Gunoi. Sunteţi sigur?"
+msgstr "Imaginile selectate vor fi mutate la Gunoi. Sunteți sigur?"
 
 #: ../src/gth-browser-actions-callbacks.c:466
 #: ../src/gth-browser-actions-callbacks.c:976
 msgid "Enter the new name: "
-msgstr "Introduceţi noul nume: "
+msgstr "Introduceți noul nume: "
 
 #: ../src/gth-browser-actions-callbacks.c:508
 #: ../src/gth-browser-actions-callbacks.c:721
@@ -2692,7 +2699,7 @@ msgstr "Introduceţi noul nume: "
 #: ../src/gth-browser-actions-callbacks.c:1024
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Numele \"%s\" este deja folosit. Vă rog folosiţi un nume diferit."
+msgstr "Numele \"%s\" este deja folosit. Vă rog folosiți un nume diferit."
 
 #: ../src/gth-browser-actions-callbacks.c:520
 #, c-format
@@ -2706,11 +2713,11 @@ msgstr "Nu pot redenumi catalogul \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:590
 msgid "The selected library will be removed, are you sure?"
-msgstr "Biblioteca selectată va fi ştearsă. Suteţi sigur?"
+msgstr "Biblioteca selectată va fi ștearsă. Suteți sigur?"
 
 #: ../src/gth-browser-actions-callbacks.c:592
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "Catalogul selectat va fi şters. Suteţi sigur?"
+msgstr "Catalogul selectat va fi șters. Suteți sigur?"
 
 #: ../src/gth-browser-actions-callbacks.c:687
 msgid "New Catalog"
@@ -2739,23 +2746,22 @@ msgstr "Nu pot redenumi dosarul \"%s\": %s"
 #: ../src/gth-browser-actions-callbacks.c:1016
 #: ../src/gth-browser-actions-callbacks.c:1295
 msgid "source and destination are the same"
-msgstr "sursa şi destinaţia sunt aceleaşi"
+msgstr "sursa și destinația sunt aceleași"
 
 #: ../src/gth-browser-actions-callbacks.c:1099
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "Nu pot şterge dosarul \"%s\": %s"
+msgstr "Nu pot șterge dosarul \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1130
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
-"\"%s\" nu poate fi mutat la Gunoi. Vreţi să-l ştergeţi permanent?"
+msgstr "\"%s\" nu poate fi mutat la Gunoi. Vreți să-l ștergeți permanent?"
 
 #: ../src/gth-browser-actions-callbacks.c:1174
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Dosarul selectat va fi mutat la Gunoi. Suteţi sigur?"
+msgstr "Dosarul selectat va fi mutat la Gunoi. Suteți sigur?"
 
 #: ../src/gth-browser-actions-callbacks.c:1227
 #: ../src/gth-browser-actions-callbacks.c:1285
@@ -2765,11 +2771,11 @@ msgstr "Nu pot copia dosarul \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1306
 msgid "source contains destination"
-msgstr "sursa conţine destinaţia"
+msgstr "sursa conține destinația"
 
 #: ../src/gth-browser-actions-callbacks.c:1317
 msgid "a folder with that name is already present."
-msgstr "un dosar cu acelaşi nume există deja"
+msgstr "un dosar cu același nume există deja"
 
 #: ../src/gth-browser-actions-callbacks.c:1601
 msgid "New Folder"
@@ -2781,12 +2787,12 @@ msgstr "Introduce numele dosarului: "
 
 #: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
 msgid "Open Location"
-msgstr "Deschide locaţie"
+msgstr "Deschide locație"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
 msgid "_File"
-msgstr "_Fişier"
+msgstr "_Fișier"
 
 #: ../src/gth-browser-actions-entries.h:37
 msgid "_Folder"
@@ -2800,7 +2806,7 @@ msgstr "_Editare"
 #: ../src/gth-browser-actions-entries.h:42
 #: ../src/gth-viewer-actions-entries.h:38
 msgid "Show/_Hide"
-msgstr "Arata/Ascunde"
+msgstr "A_rata/Ascunde"
 
 #: ../src/gth-browser-actions-entries.h:43
 msgid "S_ort Images"
@@ -2809,7 +2815,7 @@ msgstr "S_ortează imagini"
 #: ../src/gth-browser-actions-entries.h:44
 #: ../src/gth-viewer-actions-entries.h:39
 msgid "_Zoom"
-msgstr "_Mareşte"
+msgstr "_Marește"
 
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
@@ -2858,7 +2864,7 @@ msgstr "Deschide imaginea selectată în fereastra nouă"
 #: ../src/gth-browser-actions-entries.h:429
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image properties"
-msgstr "Vezi proprietăţi imagine"
+msgstr "Vezi proprietăți imagine"
 
 #: ../src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
@@ -2874,7 +2880,7 @@ msgstr "_Scrie pe CD..."
 
 #: ../src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
-msgstr "Scrie selecţia pe CD"
+msgstr "Scrie selecția pe CD"
 
 #: ../src/gth-browser-actions-entries.h:78
 #: ../src/gth-browser-actions-entries.h:98
@@ -2883,11 +2889,11 @@ msgstr "Scrie selecţia pe CD"
 #: ../src/gth-browser-actions-entries.h:223
 #: ../src/gth-browser-actions-entries.h:253
 msgid "_Rename..."
-msgstr "_Redenumeşte..."
+msgstr "_Redenumește..."
 
 #: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
-msgstr "Redenumeşte aceasta imagine"
+msgstr "Redenumește aceasta imagine"
 
 #: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
@@ -2902,7 +2908,7 @@ msgstr "_Copiază..."
 
 #: ../src/gth-browser-actions-entries.h:89
 msgid "Copy this image to another location"
-msgstr "Copiază această imagine în altă locaţie"
+msgstr "Copiază această imagine în altă locație"
 
 #: ../src/gth-browser-actions-entries.h:93
 #: ../src/gth-browser-actions-entries.h:118
@@ -2915,15 +2921,15 @@ msgstr "_Mută..."
 
 #: ../src/gth-browser-actions-entries.h:94
 msgid "Move this image to another location"
-msgstr "Mută această imagine în altă locaţie"
+msgstr "Mută această imagine în altă locație"
 
 #: ../src/gth-browser-actions-entries.h:99
 msgid "Rename selected images"
-msgstr "Redenumeşte imaginea selectată"
+msgstr "Redenumește imaginea selectată"
 
 #: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
-msgstr "Crează duplicat"
+msgstr "Crează d_uplicat"
 
 #: ../src/gth-browser-actions-entries.h:104
 msgid "Duplicate selected images"
@@ -2935,11 +2941,11 @@ msgstr "Mută imaginile selectate la Gunoi"
 
 #: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
-msgstr "Copiază imaginile selectate în altă locaţie"
+msgstr "Copiază imaginile selectate în altă locație"
 
 #: ../src/gth-browser-actions-entries.h:119
 msgid "Move selected images to another location"
-msgstr "Mută imaginile selectate în altă locaţie"
+msgstr "Mută imaginile selectate în altă locație"
 
 #: ../src/gth-browser-actions-entries.h:123
 msgid "_Select All"
@@ -2961,11 +2967,11 @@ msgstr "Adaugă imaginile selectate la catalog"
 
 #: ../src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
-msgstr "Şterge din catalog"
+msgstr "Ș_terge din catalog"
 
 #: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
-msgstr "Şterge imaginile selectate din catalog"
+msgstr "Șterge imaginile selectate din catalog"
 
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
@@ -2987,20 +2993,20 @@ msgstr "Deschide catalogul selectat in fereastra noua"
 
 #: ../src/gth-browser-actions-entries.h:149
 msgid "Rename selected catalog"
-msgstr "Redenumeşte catalogul selectat"
+msgstr "Redenumește catalogul selectat"
 
 #: ../src/gth-browser-actions-entries.h:153
 #: ../src/gth-browser-actions-entries.h:188
 msgid "Rem_ove"
-msgstr "Şterge"
+msgstr "Șter_ge"
 
 #: ../src/gth-browser-actions-entries.h:154
 msgid "Remove selected catalog"
-msgstr "Şterge catalogul selectat"
+msgstr "Șterge catalogul selectat"
 
 #: ../src/gth-browser-actions-entries.h:159
 msgid "Move selected catalog to another location"
-msgstr "Mută catalogul selectat în altă locaţie"
+msgstr "Mută catalogul selectat în altă locație"
 
 #: ../src/gth-browser-actions-entries.h:163
 #: ../src/gth-browser-actions-entries.h:198
@@ -3015,7 +3021,7 @@ msgstr "Modifică criterii căutare"
 #: ../src/gth-browser-actions-entries.h:168
 #: ../src/gth-browser-actions-entries.h:203
 msgid "Redo _Search"
-msgstr "Repetă căutare"
+msgstr "Re_petă căutare"
 
 #: ../src/gth-browser-actions-entries.h:169
 #: ../src/gth-browser-actions-entries.h:204
@@ -3024,7 +3030,7 @@ msgstr "Repetă căutarea"
 
 #: ../src/gth-browser-actions-entries.h:173
 msgid "_New Catalog..."
-msgstr "Catalog nou..."
+msgstr "Catalog _nou..."
 
 #: ../src/gth-browser-actions-entries.h:174
 msgid "Create a new catalog"
@@ -3040,15 +3046,15 @@ msgstr "Crează o nouă biblioteca de cataloage"
 
 #: ../src/gth-browser-actions-entries.h:184
 msgid "Rename current catalog"
-msgstr "Redenumeşte catalogul curent"
+msgstr "Redenumește catalogul curent"
 
 #: ../src/gth-browser-actions-entries.h:189
 msgid "Remove current catalog"
-msgstr "Şterge catalogul curent"
+msgstr "Șterge catalogul curent"
 
 #: ../src/gth-browser-actions-entries.h:194
 msgid "Move current catalog to another location"
-msgstr "Mută catalogul curent in altă locaţie"
+msgstr "Mută catalogul curent in altă locație"
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
@@ -3061,15 +3067,15 @@ msgstr "Deschide dosarul selectat intr-o nouă fereastră"
 #: ../src/gth-browser-actions-entries.h:218
 #: ../src/gth-browser-actions-entries.h:248
 msgid "Open with the _File Manager"
-msgstr "Deschide cu Managerul de _Fişiere"
+msgstr "Deschide cu Managerul de _Fișiere"
 
 #: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Deschide dosarul selectat cu managerul de fişiere Nautilus"
+msgstr "Deschide dosarul selectat cu managerul de fișiere Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
-msgstr "Redenumeşte dosarul selectat"
+msgstr "Redenumește dosarul selectat"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
@@ -3095,11 +3101,11 @@ msgstr "Asociază categorii dosarului selectat"
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Deschide dosarul selectat cu managerul de fişiere Nautilus"
+msgstr "Deschide dosarul selectat cu managerul de fișiere Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
-msgstr "Redenumeşte dosarul selectat"
+msgstr "Redenumește dosarul selectat"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
@@ -3137,7 +3143,7 @@ msgstr "Vezi imaginea precedentă"
 
 #: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
-msgstr "Mergi la locaţia precedent vizitată"
+msgstr "Mergi la locația precedent vizitată"
 
 #: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
@@ -3155,11 +3161,11 @@ msgstr "_Reîncarcă"
 #: ../src/gth-browser-actions-entries.h:314
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
-msgstr "Reîncarcă locaţia curentă"
+msgstr "Reîncarcă locația curentă"
 
 #: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
-msgstr "Opreşte încărcarea curentei locaţii"
+msgstr "Oprește încărcarea curentei locații"
 
 #: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
@@ -3168,28 +3174,28 @@ msgstr "Mergi la dosarul acasă"
 #: ../src/gth-browser-actions-entries.h:328
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
-msgstr "Mergi la dosarul imaginii"
+msgstr "_Mergi la dosarul imaginii"
 
 #: ../src/gth-browser-actions-entries.h:329
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
-msgstr "Mergi la dosarul care conţine imaginea selectată"
+msgstr "Mergi la dosarul care conține imaginea selectată"
 
 #: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
-msgstr "Ş_terge istoria"
+msgstr "Ș_terge istoria"
 
 #: ../src/gth-browser-actions-entries.h:334
 msgid "Delete the list of visited locations"
-msgstr "Şterge lista locaţiilor vizitate"
+msgstr "Șterge lista locațiilor vizitate"
 
 #: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
-msgstr "_Locaţie..."
+msgstr "_Locație..."
 
 #: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
-msgstr "Specifică o locaţie de vizitat"
+msgstr "Specifică o locație de vizitat"
 
 #: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
@@ -3197,7 +3203,7 @@ msgstr "_Adaugă semn de carte"
 
 #: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
-msgstr "Adaugă locaţia curentă la semne de carte"
+msgstr "Adaugă locația curentă la semne de carte"
 
 #: ../src/gth-browser-actions-entries.h:348
 msgid "_Edit Bookmarks..."
@@ -3229,19 +3235,19 @@ msgstr "Crează album _web"
 
 #: ../src/gth-browser-actions-entries.h:378
 msgid "Convert F_ormat..."
-msgstr "Converteşte f_ormat..."
+msgstr "Convertește f_ormat..."
 
 #: ../src/gth-browser-actions-entries.h:383
 msgid "Search for _Duplicates..."
-msgstr "Caută duplicate..."
+msgstr "Caută _duplicate..."
 
 #: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
-msgstr "_Preferinţe..."
+msgstr "_Preferințe..."
 
 #: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
-msgstr "Editează preferinţe"
+msgstr "Editează preferințe"
 
 #: ../src/gth-browser-actions-entries.h:393
 msgid "Scale Images..."
@@ -3290,15 +3296,15 @@ msgstr "Vezi imaginea"
 
 #: ../src/gth-browser-actions-entries.h:434
 msgid "Show _Hidden Files"
-msgstr "Arată fişierele ascunse"
+msgstr "Arată fișierele _ascunse"
 
 #: ../src/gth-browser-actions-entries.h:435
 msgid "Show hidden files and folders"
-msgstr "Arată fişierele şi dosarele ascunse"
+msgstr "Arată fișierele și dosarele ascunse"
 
 #: ../src/gth-browser-actions-entries.h:440
 msgid "_Reversed Order"
-msgstr "Ordine inversă"
+msgstr "O_rdine inversă"
 
 #: ../src/gth-browser-actions-entries.h:441
 msgid "Reverse images order"
@@ -3326,7 +3332,7 @@ msgstr "după _dimensiune"
 
 #: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by file size"
-msgstr "Sortează imaginile dupa dimensiunile fişierelor"
+msgstr "Sortează imaginile dupa dimensiunile fișierelor"
 
 #: ../src/gth-browser-actions-entries.h:459
 msgid "by Modification _Time"
@@ -3334,7 +3340,7 @@ msgstr "după _timp modificare"
 
 #: ../src/gth-browser-actions-entries.h:460
 msgid "Sort images by file modification time"
-msgstr "Sortează imaginile după timp modificare fişier"
+msgstr "Sortează imaginile după timp modificare fișier"
 
 #: ../src/gth-browser-actions-entries.h:462
 msgid "by _Exif Time"
@@ -3342,7 +3348,7 @@ msgstr "după timpul _exif"
 
 #: ../src/gth-browser-actions-entries.h:463
 msgid "Sort images by Exif DateTime tag"
-msgstr "Sortează imagini după tagul de dată şi timp exif"
+msgstr "Sortează imagini după tagul de dată și timp exif"
 
 #: ../src/gth-browser-actions-entries.h:465
 msgid "by _Comment"
@@ -3354,7 +3360,7 @@ msgstr "Sortează imagini după comentariu"
 
 #: ../src/gth-browser-actions-entries.h:468
 msgid "_Manual Order"
-msgstr "Ordine manuală"
+msgstr "Ordine _manuală"
 
 #: ../src/gth-browser-actions-entries.h:469
 msgid "Sort images manually"
@@ -3386,101 +3392,101 @@ msgstr "_Cataloage"
 msgid "View the catalogs"
 msgstr "Vezi cataloagele"
 
-#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:548 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[Apasă 'c' pentru a adăuga un comentariu]"
 
-#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[modificat]"
 
-#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:697 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
+#: ../src/gth-browser.c:777
 #, c-format
 msgid "1 image (%s)"
-msgstr "1 imagine (%s)"
+msgstr "O imagine (%s)"
 
-#: ../src/gth-browser.c:779
+#: ../src/gth-browser.c:780
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imagini (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:787
 #, c-format
 msgid "1 selected (%s)"
-msgstr "1 selectată (%s)"
+msgstr "Una selectată (%s)"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:790
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d selectate (%s)"
 
-#: ../src/gth-browser.c:1898 ../src/gth-viewer.c:995
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
-msgstr "Imaginiea curentă a fost modificată. Vreţi să o salvaţi?"
+msgstr "Imaginea curentă a fost modificată. Vreți să o salvați?"
 
-#: ../src/gth-browser.c:1899 ../src/gth-viewer.c:996
+#: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
 msgid "Do Not Save"
 msgstr "Nu salva"
 
-#: ../src/gth-browser.c:3615
+#: ../src/gth-browser.c:3618
 msgid "Dragged Images"
 msgstr "Imagini trase"
 
-#: ../src/gth-browser.c:5439 ../src/gth-browser.c:5440
+#: ../src/gth-browser.c:5461 ../src/gth-browser.c:5462
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
-msgstr "Roteşte imaginile fără pierdere de calitate"
-
-#: ../src/gth-browser.c:6329
-msgid "Getting folder listing..."
-msgstr "Obţinând listare dosar..."
+msgstr "Rotește imaginile fără pierdere de calitate"
 
 #: ../src/gth-browser.c:6351
+msgid "Getting folder listing..."
+msgstr "Obținând listare dosar..."
+
+#: ../src/gth-browser.c:6373
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nu pot încarca dosar \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6872 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6921 ../src/gth-filter-bar.c:537
 msgid "Close"
 msgstr "Închide"
 
-#: ../src/gth-browser.c:6886 ../src/gth-viewer.c:1676
+#: ../src/gth-browser.c:6935 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "Comentariu imagine"
 
-#: ../src/gth-browser.c:6900
+#: ../src/gth-browser.c:6949
 msgid "Image data"
 msgstr "Date imagine"
 
-#: ../src/gth-browser.c:6914
+#: ../src/gth-browser.c:6963
 msgid "Image preview"
 msgstr "Previzualizare imagine"
 
-#: ../src/gth-browser.c:7966
+#: ../src/gth-browser.c:8021
 msgid "The specified catalog does not exist."
 msgstr "Catalogul specificat nu există"
 
-#: ../src/gth-browser.c:8598 ../src/gth-viewer.c:2121
+#: ../src/gth-browser.c:8653 ../src/gth-viewer.c:2123
 msgid "Wait please..."
-msgstr "Aşteptaţi vă rog..."
+msgstr "Așteptați vă rog..."
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
-msgstr "Date sistem de fişiere"
+msgstr "Date sistem de fișiere"
 
 #: ../src/gth-exif-data-viewer.c:66
 msgid "General Information"
-msgstr "Informaţii generale"
+msgstr "Informații generale"
 
 #: ../src/gth-exif-data-viewer.c:67
 msgid "Picture-Taking Conditions"
-msgstr "Condiţii fotografiere"
+msgstr "Condiții fotografiere"
 
 #: ../src/gth-exif-data-viewer.c:68
 msgid "Maker Notes"
@@ -3496,7 +3502,7 @@ msgstr "Structură imagine"
 
 #: ../src/gth-exif-data-viewer.c:71
 msgid "Embedded Thumbnail"
-msgstr "Pictograma conţinută"
+msgstr "Pictograma conținută"
 
 #: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
@@ -3512,7 +3518,7 @@ msgstr "Cale"
 
 #: ../src/gth-filter-bar.c:176
 msgid "contains"
-msgstr "conţine"
+msgstr "conține"
 
 #: ../src/gth-filter-bar.c:177
 msgid "starts with"
@@ -3520,7 +3526,7 @@ msgstr "începe cu"
 
 #: ../src/gth-filter-bar.c:178
 msgid "ends with"
-msgstr "se sfârşeşte cu"
+msgstr "se sfârșește cu"
 
 #: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
 msgid "is"
@@ -3532,7 +3538,7 @@ msgstr "nu este"
 
 #: ../src/gth-filter-bar.c:181
 msgid "does not contain"
-msgstr "nu conţine"
+msgstr "nu conține"
 
 #: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
 msgid "is equal to"
@@ -3564,7 +3570,7 @@ msgstr "MO"
 
 #: ../src/gth-filter-bar.c:207
 msgid "Filename"
-msgstr "Nume fişier"
+msgstr "Nume fișier"
 
 #: ../src/gth-filter-bar.c:209
 msgid "Place"
@@ -3576,7 +3582,7 @@ msgstr "Categorie"
 
 #: ../src/gth-filter-bar.c:213
 msgid "Text contains"
-msgstr "Textul conţine"
+msgstr "Textul conține"
 
 #: ../src/gth-filter-bar.c:494
 msgid "All"
@@ -3585,7 +3591,7 @@ msgstr "Toate"
 #. view label
 #: ../src/gth-filter-bar.c:546
 msgid "S_how:"
-msgstr "Arată"
+msgstr "_Arată"
 
 #: ../src/gth-folder-selection-dialog.c:281
 msgid "<b>_Folder</b>"
@@ -3601,9 +3607,9 @@ msgstr "<b>Dosare _recente:</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
-msgstr "Proprietăţi"
+msgstr "Proprie_tăți"
 
-#: ../src/gth-location.c:391
+#: ../src/gth-location.c:392
 msgid "Other..."
 msgstr "Altele..."
 
@@ -3619,32 +3625,41 @@ msgstr "Auto"
 
 #: ../src/gth-viewer-actions-entries.h:88
 msgid "_Single Window"
-msgstr "Fereastră unică"
+msgstr "Ferea_stră unică"
 
 #: ../src/gth-viewer-actions-entries.h:89
 msgid "Reuse this window to view other images"
-msgstr "Refoloseşte această fereastră pentru a vedea alte imagini"
+msgstr "Refolosește această fereastră pentru a vedea alte imagini"
 
 #: ../src/gth-viewer.c:820
 msgid "_None"
 msgstr "_Nici una"
 
-#: ../src/gth-viewer.c:1465 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1467 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "D_eschide cu"
 
-#: ../src/gth-viewer.c:1471 ../src/gth-viewer.c:1472
+#: ../src/gth-viewer.c:1473 ../src/gth-viewer.c:1474
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "Deschide imaginile selectate cu o aplicaţie"
+msgstr "Deschide imaginile selectate cu o aplicație"
 
 #: ../src/gth-window-actions-callbacks.c:924
 msgid "An image viewer and browser for GNOME."
-msgstr "Un vizualizator şi navigator de imagini pentru GNOME"
+msgstr "Un vizualizator și navigator de imagini pentru GNOME"
 
 #: ../src/gth-window-actions-callbacks.c:927
 msgid "translator_credits"
-msgstr "translator_credits"
+msgstr ""
+"Mihai Varzaru <mihaiv@gmail.com>, 2008\n"
+"\n"
+"Contribuții în Launchpad:\n"
+"  Adrian Stratulat https://launchpad.net/~adrian-stratulat\n"
+"  Cristian KLEIN https://launchpad.net/~cristiklein\n"
+"  Ionuț Jula https://launchpad.net/~ionutjula\n"
+"  Mihai Felseghi https://launchpad.net/~mihaifelseghi\n"
+"  Mihai Varzaru https://launchpad.net/~mihaiv\n"
+"  Rus-Rebreanu Alin-Florin https://launchpad.net/~netblock"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3665,7 +3680,7 @@ msgstr "Salvează imaginea curentă"
 
 #: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
-msgstr "Salvează _ca..."
+msgstr "Salvează C_a..."
 
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
@@ -3673,16 +3688,16 @@ msgstr "Revino la imaginea salvată"
 
 #: ../src/gth-window-actions-entries.h:65
 msgid "Print..."
-msgstr "Tipăreşte..."
+msgstr "Tipărește..."
 
 #: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
-msgstr "Tipăreşte imaginea curentă"
+msgstr "Printează imaginea actuală"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
-msgstr "Deschide această imagine cu o aplicaţie"
+msgstr "Deschide această imagine cu o aplicație"
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
@@ -3695,11 +3710,11 @@ msgstr "Adauga un comentariu la imaginile selectate"
 
 #: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
-msgstr "Şterge comentariu"
+msgstr "Șterge c_omentariu"
 
 #: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
-msgstr "Şterge comentariile imaginilor selectate"
+msgstr "Șterge comentariile imaginilor selectate"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
@@ -3713,7 +3728,7 @@ msgstr "Ca_tegorii"
 #: ../src/gth-window-actions-entries.h:115
 #: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
-msgstr "Roteşte _dreapta"
+msgstr "Rotește _dreapta"
 
 #: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
@@ -3722,7 +3737,7 @@ msgstr "Vezi imaginea rotită in sensul acelor de ceasornic"
 #: ../src/gth-window-actions-entries.h:120
 #: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
-msgstr "Roteşte _stânga"
+msgstr "Rotește _stânga"
 
 #: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
@@ -3738,7 +3753,7 @@ msgstr "Vezi imaginea inversată"
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr "_Oglindeşte"
+msgstr "_Oglindește"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
@@ -3762,7 +3777,7 @@ msgstr "Vezi imaginea cu culori negative"
 
 #: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
-msgstr "În_bunătăţeşte"
+msgstr "În_bunătățește"
 
 #: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
@@ -3792,31 +3807,31 @@ msgstr "_Luminozitate-Contrast..."
 
 #: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
-msgstr "Ajustează luminozitatea şi contrastul"
+msgstr "Ajustează luminozitatea și contrastul"
 
 #: ../src/gth-window-actions-entries.h:165
 msgid "_Hue-Saturation..."
-msgstr "_Nuanţă-Saturaţie"
+msgstr "_Nuanță-Saturație"
 
 #: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
-msgstr "Ajustează nuanţa şi saturaţia"
+msgstr "Ajustează nuanța și saturația"
 
 #: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
-msgstr "Înlătură efect ochi roşii..."
+msgstr "Înlătură efect ochi _roșii..."
 
 #: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
-msgstr "Unealtă de înlăturat efect ochi roşii"
+msgstr "Unealtă de înlăturat efect ochi roșii"
 
 #: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
-msgstr "Balanţă culori..."
+msgstr "Balanță _culori..."
 
 #: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
-msgstr "Ajustează balanţa de culori"
+msgstr "Ajustează balanța de culori"
 
 #: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
@@ -3836,7 +3851,7 @@ msgstr "Taie imagine"
 
 #: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
-msgstr "Alb şi negru"
+msgstr "Alb și negru"
 
 #: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
@@ -3845,19 +3860,19 @@ msgstr "Paletă web"
 #: ../src/gth-window-actions-entries.h:200
 #: ../src/gth-window-actions-entries.h:307
 msgid "In"
-msgstr "Măreşte"
+msgstr "Mărește"
 
 #: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
-msgstr "Măreşte"
+msgstr "Mărește"
 
 #: ../src/gth-window-actions-entries.h:205
 msgid "Out"
-msgstr "Micşorează"
+msgstr "Micșorează"
 
 #: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
-msgstr "Micşorează"
+msgstr "Micșorează"
 
 #: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
@@ -3869,7 +3884,7 @@ msgstr "Dimensiune reală"
 
 #: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
-msgstr "Potriveşte"
+msgstr "Potrivește"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
@@ -3885,11 +3900,11 @@ msgstr "Dimensionează pentru a potrivi în lungime"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
-msgstr "Iterează a_nimaţie"
+msgstr "Iterează a_nimație"
 
 #: ../src/gth-window-actions-entries.h:226
 msgid "View next animation frame"
-msgstr "Vezi următorul cadru al animaţiei"
+msgstr "Vezi următorul cadru al animației"
 
 #: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
@@ -3913,7 +3928,8 @@ msgstr "_Scalată"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Setează imaginea ca fundal desktop (scalată pentru a menţine proporţiile)"
+msgstr ""
+"Setează imaginea ca fundal desktop (scalată pentru a menține proporțiile)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
@@ -3949,105 +3965,105 @@ msgstr "Resetează orientarea exif la stânga-sus"
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
-msgstr "Arată informaţii despre gThumb"
+msgstr "Arată informații despre gThumb"
 
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
-msgstr "Conţinut"
+msgstr "Conținut"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
-msgstr "Combinaţii de _taste"
+msgstr "Combinații de _taste"
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
-msgstr "Rulează _animaţie"
+msgstr "Rulează _animație"
 
 #: ../src/gth-window-actions-entries.h:317
 msgid "Start or stop current animation"
-msgstr "Porneşte sau opreşte animaţia curentă"
+msgstr "Pornește sau oprește animația curentă"
 
 #: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
-msgstr "Calitate înaltă"
+msgstr "_Calitate înaltă"
 
 #: ../src/gth-window-actions-entries.h:328
 msgid "Use high quality zoom"
-msgstr "Foloseşte dimensionare de înaltă calitate"
+msgstr "Folosește dimensionare de înaltă calitate"
 
 #: ../src/gth-window-actions-entries.h:330
 msgid "_Low Quality"
-msgstr "Calitate redusă"
+msgstr "Ca_litate redusă"
 
 #: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
-msgstr "Foloseşte dimensionare de calitate redusă"
+msgstr "Folosește dimensionare de calitate redusă"
 
-#: ../src/main.c:90
+#: ../src/main.c:89
 msgid "Start in fullscreen mode"
 msgstr "Începe pe tot ecranul"
 
-#: ../src/main.c:94
+#: ../src/main.c:93
 msgid "Automatically start a slideshow"
-msgstr "Porneşte automat un slideshow"
+msgstr "Pornește automat un slideshow"
 
-#: ../src/main.c:98
+#: ../src/main.c:97
 msgid "Automatically import digital camera photos"
 msgstr "Importă automat fotografii din camere foto digitale"
 
-#: ../src/main.c:102
+#: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
 msgstr "Utilizează modul vizualizare pentru a vedea imaginile"
 
-#: ../src/main.c:147
+#: ../src/main.c:146
 msgid "Holidays"
 msgstr "Sărbatori"
 
-#: ../src/main.c:148
+#: ../src/main.c:147
 msgid "Temporary"
 msgstr "Temporar"
 
-#: ../src/main.c:149
+#: ../src/main.c:148
 msgid "Screenshots"
 msgstr "Capturi de ecran"
 
-#: ../src/main.c:150
+#: ../src/main.c:149
 msgid "Science"
-msgstr "Stiinţă"
+msgstr "Stiință"
 
-#: ../src/main.c:151
+#: ../src/main.c:150
 msgid "Favourite"
 msgstr "Preferat"
 
-#: ../src/main.c:152
+#: ../src/main.c:151
 msgid "Important"
 msgstr "Important"
 
-#: ../src/main.c:153
+#: ../src/main.c:152
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:154
+#: ../src/main.c:153
 msgid "Games"
 msgstr "Jocuri"
 
-#: ../src/main.c:155
+#: ../src/main.c:154
 msgid "Party"
 msgstr "Petrecere"
 
-#: ../src/main.c:156
+#: ../src/main.c:155
 msgid "Birthday"
-msgstr "Zi de naştere"
+msgstr "Zi de naștere"
 
-#: ../src/main.c:157
+#: ../src/main.c:156
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: ../src/main.c:158
+#: ../src/main.c:157
 msgid "Family"
 msgstr "Familie"
 
-#: ../src/main.c:380
+#: ../src/main.c:379
 msgid "Command Line"
 msgstr "Linie de comandă"
 
@@ -4069,15 +4085,16 @@ msgid ""
 "For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
-"Această transformare ar putea introduce mici distorsiuni de-a lungul marginilor, "
-"pentru că dimensiunile imaginii nu sunt multiplu de 8.\n"
+"Această transformare ar putea introduce mici distorsiuni de-a lungul "
+"marginilor, pentru că dimensiunile imaginii nu sunt multiplu de 8.\n"
 "\n"
-"Totuşi, distorsiunea este reversibilă. Dacă imaginea rezultată este inacceptabilă, "
-"pur şi simplu aplică transformarea inversă pentru a te întoarce la imaginea originală.\n"
+"Totuși, distorsiunea este reversibilă. Dacă imaginea rezultată este "
+"inacceptabilă, pur și simplu aplică transformarea inversă pentru a te "
+"întoarce la imaginea originală.\n"
 "\n"
-"Poţi deasemenea alege sa renunţi la pixelii marginii netransformabile. "
+"Poți deasemenea alege sa renunți la pixelii marginii netransformabile. "
 "Pentru uz practic, acest mod dă rezultatele care arată cel mai bine, dar "
-"transformarea nu mai este strict fară pierdere de informaţie."
+"transformarea nu mai este strict fară pierdere de informație."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
@@ -4085,10 +4102,11 @@ msgstr "_Taie"
 
 #: ../src/rotation-utils.c:169
 msgid "Could not create a local temporary copy of the remote file."
-msgstr "Nu am putut crea o copie locală temporară a fişierului"
+msgstr "Nu am putut crea o copie locală temporară a fișierului"
 
 #: ../src/rotation-utils.c:215
 msgid ""
 "Could not move temporary file to local destination. Check folder permissions."
-msgstr "Nu am putut muta fişierul temporar la destinaţia locală. Verifică permisiunile dosarului"
-
+msgstr ""
+"Nu am putut muta fișierul temporar la destinația locală. Verifică "
+"permisiunile dosarului"
