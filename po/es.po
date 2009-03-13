@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
 "POT-Creation-Date: 2009-01-05 20:50+0000\n"
-"PO-Revision-Date: 2009-01-06 20:06+0100\n"
+"PO-Revision-Date: 2009-03-13 18:49+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2317,7 +2317,7 @@ msgstr ""
 
 #: ../libgthumb/comments.c:1021 ../src/catalog-web-exporter.c:159
 msgid "%d %B %Y"
-msgstr "%d %B %Y"
+msgstr "%d de %B de %Y"
 
 #: ../libgthumb/comments.c:1023 ../src/catalog-web-exporter.c:58
 #: ../src/catalog-web-exporter.c:161 ../src/dlg-duplicates.c:549
@@ -2325,7 +2325,7 @@ msgstr "%d %B %Y"
 #: ../src/gth-exif-data-viewer.c:332 ../src/gth-fullscreen.c:825
 #: ../src/gth-viewer.c:585
 msgid "%d %B %Y, %H:%M"
-msgstr "%d %B %Y, %H:%M"
+msgstr "%d de %B de %Y, %H:%M"
 
 #: ../libgthumb/comments.c:1033 ../libgthumb/comments.c:1035
 msgid "(No Comment)"
