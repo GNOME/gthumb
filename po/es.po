@@ -5,13 +5,13 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007.
+# Jorge González <jorgegonz@svn.gnome.org>, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.gthumb-2-10.es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-20 03:17+0100\n"
-"PO-Revision-Date: 2007-07-21 18:58+0200\n"
+"PO-Revision-Date: 2009-03-13 18:49+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1258,7 +1258,8 @@ msgstr "Hacia _atrás"
 
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr "Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
+msgstr ""
+"Restaurar posiciones de las barras de desplazamiento tras cargar una imagen"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
@@ -2126,7 +2127,8 @@ msgstr "Los valores posibles son: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr "Los valores posibles son: none, name, path, size, time, exifdate, comment."
+msgstr ""
+"Los valores posibles son: none, name, path, size, time, exifdate, comment."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid ""
@@ -2161,7 +2163,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Los valores posibles son: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:24
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Los valores posibles son: system, text_below, text_beside, text_only, "
 "icons_only."
@@ -2192,7 +2195,7 @@ msgstr "No se puede guardar el catálogo «%s»: %s"
 
 #: ../libgthumb/comments.c:1257 ../src/catalog-web-exporter.c:141
 msgid "%d %B %Y"
-msgstr "%d %B %Y"
+msgstr "%d de %B de %Y"
 
 #: ../libgthumb/comments.c:1259 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:143 ../src/dlg-duplicates.c:548
@@ -2200,7 +2203,7 @@ msgstr "%d %B %Y"
 #: ../src/gth-exif-data-viewer.c:792 ../src/gth-fullscreen.c:854
 #: ../src/gth-viewer.c:607
 msgid "%d %B %Y, %H:%M"
-msgstr "%d %B %Y, %H:%M"
+msgstr "%d de %B de %Y, %H:%M"
 
 #: ../libgthumb/comments.c:1269 ../libgthumb/comments.c:1271
 msgid "(No Comment)"
@@ -2359,8 +2362,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «,». Por favor "
-"utilice un nombre diferente."
+"El nombre «%s» no es válido porque contiene el carácter «,». Por favor utilice "
+"un nombre diferente."
 
 #: ../src/dlg-categories.c:256
 #, c-format
@@ -2376,8 +2379,10 @@ msgstr "Convirtiendo imagen: %s"
 
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:422
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr ""
+"Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
 
 #: ../src/dlg-convert.c:321 ../src/gth-batch-op.c:570
 #, c-format
@@ -2439,8 +2444,10 @@ msgstr "No se ha podido crear la carpeta «%s»: %s."
 
 #: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1603
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+"Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
 
 #: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
@@ -2479,7 +2486,8 @@ msgstr "No ha introducido el nombre nuevo"
 
 #: ../src/dlg-file-utils.c:796 ../src/dlg-file-utils.c:897
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "El nombre «%s» ya está siendo usado en esta carpeta. Por favor utilice un "
 "nombre distinto."
@@ -2568,7 +2576,8 @@ msgstr "No se ha podido crear una copia temporal del archivo remoto."
 
 #: ../src/dlg-jpegtran.c:287 ../src/dlg-reset-exif.c:139
 #: ../src/rotation-utils.c:214
-msgid "Could not move temporary file to remote location. Check remote permissions."
+msgid ""
+"Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino remoto. Compruebe los "
 "permisos de las carpetas."
@@ -2652,8 +2661,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «/». Por favor "
-"utilice un nombre diferente."
+"El nombre «%s» no es válido porque contiene el carácter «/». Por favor utilice "
+"un nombre diferente."
 
 #: ../src/dlg-rename-series.c:456
 msgid "Old Name"
@@ -2707,7 +2716,8 @@ msgstr "Ingrese el nombre nuevo: "
 #: ../src/gth-browser-actions-callbacks.c:1021
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
+msgstr ""
+"El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
 
 #: ../src/gth-browser-actions-callbacks.c:518
 #, c-format
@@ -2763,7 +2773,8 @@ msgstr "No se pudo borrar la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1127
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "«%s» no se puede mover a la papelera. ¿Desea borrarla permanentemente?"
 
 #: ../src/gth-browser-actions-callbacks.c:1171
@@ -3078,7 +3089,8 @@ msgstr "A_brir con el administrador de archivos"
 
 #: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
+msgstr ""
+"Abrir la carpeta seleccionada con el administrador de archivos Nautilus"
 
 #: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
@@ -4105,8 +4117,8 @@ msgid "_Trim"
 msgstr "Recor_tar"
 
 #: ../src/rotation-utils.c:199
-msgid "Could not move temporary file to local destination. Check folder permissions."
+msgid ""
+"Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 "No se pudo mover el archivo temporal al destino local. Compruebe los "
 "permisos de las carpetas."
-
