@@ -6,17 +6,17 @@
 # Daniel Baeyens <danibens@terra.es>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2002-2003.
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Daniel Mustieles <daniel.mustieles@ie.edu>, 2008, 2009.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2009-01-05 20:50+0000\n"
-"PO-Revision-Date: 2009-03-13 18:49+0100\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2009-03-13 18:16+0000\n"
+"PO-Revision-Date: 2009-03-19 21:56+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: Español <Gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -302,7 +302,7 @@ msgstr "Importar fotos"
 #: ../src/dlg-photo-importer.c:978 ../src/dlg-photo-importer.c:1699
 #: ../src/dlg-photo-importer.c:2500
 msgid "No camera detected"
-msgstr "Se ha seleccionado ninguna cámara"
+msgstr "No se ha seleccionado ninguna cámara"
 
 #: ../data/glade/gthumb_camera.glade.h:13
 msgid "Select a camera model"
@@ -711,7 +711,7 @@ msgstr "<b>Porcentaje de la escala</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
-msgstr "Brillo - contraste"
+msgstr "Brillo - Contraste"
 
 #: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
@@ -881,7 +881,7 @@ msgstr ""
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Co_mment"
-msgstr "Co_mentario:"
+msgstr "Co_mentario"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
@@ -1009,7 +1009,7 @@ msgstr "Ordenar"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
-msgstr "E_stilo:"
+msgstr "E_stilo"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
@@ -1241,7 +1241,7 @@ msgstr "Ir a esta _carpeta:"
 
 #: ../data/glade/gthumb_preferences.glade.h:43
 msgid "H_igh"
-msgstr "A_lto"
+msgstr "A_lta"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Icons only"
@@ -1261,7 +1261,7 @@ msgstr "Distribución:"
 
 #: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Lo_w"
-msgstr "Ba_jo"
+msgstr "Ba_ja"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Ran_dom"
@@ -1302,7 +1302,7 @@ msgstr "Texto debajo de los iconos"
 
 #: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text beside icons"
-msgstr "Texto debajo de los iconos"
+msgstr "Texto junto a los iconos"
 
 #: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Text only"
@@ -1439,7 +1439,7 @@ msgstr "E_jecutivo"
 
 #: ../data/glade/gthumb_print.glade.h:30
 msgid "I_nclude comment"
-msgstr "I_ncluir comentario "
+msgstr "I_ncluir comentario"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
@@ -1768,7 +1768,7 @@ msgstr ""
 "%b = un sólo nombre de archivo, excluyendo la ruta\n"
 "%n = un sólo nombre de archivo, incluyendo la ruta, sin extensión\n"
 "%m = un sólo nombre de archivo, excluyendo la ruta, sin extensión\n"
-"%e = una sola extensión (comenzando por un período)\n"
+"%e = una sola extensión (comenzando por un punto)\n"
 "%p = la carpeta padre del archivo</i>\n"
 "<i>[texto] = una shell de usuario, renovada en cada iteración</i>\n"
 "<i>[TEXTO] = una shell de usuario, usada por todas las iteraciones</i>\n"
@@ -1848,7 +1848,7 @@ msgstr "Mo_ver a la papelera"
 
 #: ../data/glade/gthumb_tools.glade.h:64
 msgid "New names _preview:"
-msgstr "Vista _previa de nombre nuevos:"
+msgstr "Vista _previa de nombres nuevos:"
 
 #: ../data/glade/gthumb_tools.glade.h:67
 msgid "Re_verse Order"
@@ -2037,7 +2037,7 @@ msgid ""
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
 msgstr ""
-"<small><i><b>Nota:</b> Algunos temas podría autoajustar el número\n"
+"<small><i><b>Nota:</b> Algunos temas podrían autoajustar el número\n"
 "de filas y columnas, pero conservar el número total de imágenes por\n"
 "página constante.</i></small>"
 
@@ -2329,7 +2329,7 @@ msgstr "%d de %B de %Y, %H:%M"
 
 #: ../libgthumb/comments.c:1033 ../libgthumb/comments.c:1035
 msgid "(No Comment)"
-msgstr "(Sin comentario)"
+msgstr "(Sin comentarios)"
 
 #: ../libgthumb/dlg-save-image.c:140 ../src/rotation-utils.c:279
 #, c-format
@@ -2381,7 +2381,7 @@ msgstr "Ninguna imagen"
 
 #: ../libgthumb/gth-utils.c:45
 msgid "Could not display help"
-msgstr "No se ha podido mostrar la ayuda"
+msgstr "No se pudo mostrar la ayuda"
 
 #: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:270
 msgid "Ro_tate Images"
@@ -2446,7 +2446,7 @@ msgstr "No se pudo encontrar la carpeta de estilo"
 #: ../src/catalog-web-exporter.c:3132
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:161
 msgid "Could not create a temporary folder"
-msgstr "No se ha podido crear una carpeta temporal"
+msgstr "No se pudo crear una carpeta temporal"
 
 #. Load thumbnails.
 #: ../src/catalog-web-exporter.c:3190
@@ -2481,14 +2481,14 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «,». Por favor utilice "
+"El nombre «%s» no es válido porque contiene el carácter «,». Use "
 "un nombre diferente."
 
 #: ../src/dlg-categories.c:256
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr ""
-"La categoría «%s» ya se encuentra presente. Por favor utilice un nombre "
+"La categoría «%s» ya se encuentra presente. Use un nombre "
 "diferente."
 
 #: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:398
@@ -2501,7 +2501,7 @@ msgstr "Convirtiendo imagen: %s"
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
-"Ya existe una imagen llamada «%s». Por favor utilice un nombre distinto."
+"Ya existe una imagen llamada «%s». Use un nombre diferente."
 
 #: ../src/dlg-convert.c:367 ../src/gth-batch-op.c:603
 #, c-format
@@ -2579,14 +2579,13 @@ msgstr "La carpeta de destino no existe. ¿Desea crearla?"
 #: ../src/dlg-file-utils.c:150
 #, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "No se ha podido crear la carpeta «%s»: %s."
+msgstr "No se pudo crear la carpeta «%s»: %s."
 
 #: ../src/dlg-file-utils.c:164 ../src/dlg-photo-importer.c:1774
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Usted no posee los permisos necesarios para crear imágenes en la carpeta «%s»"
+msgstr "No tiene permisos necesarios para crear imágenes en la carpeta «%s»"
 
 #: ../src/dlg-file-utils.c:247
 msgid "Could not delete the images:"
@@ -2628,12 +2627,12 @@ msgstr "No ha introducido el nombre nuevo"
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
-"El nombre «%s» ya está siendo usado en esta carpeta. Por favor utilice un "
+"El nombre «%s» ya está siendo usado en esta carpeta. Use un "
 "nombre distinto."
 
 #: ../src/dlg-file-utils.c:1084
 msgid "Could not rename the image:"
-msgstr "No se ha podido renombrar la imagen:"
+msgstr "No se pudo renombrar la imagen:"
 
 #: ../src/dlg-file-utils.c:1086
 msgid "Could not rename the following images:"
@@ -2641,11 +2640,11 @@ msgstr "No se han podido renombrar las siguientes imágenes:"
 
 #: ../src/dlg-file-utils.c:1228
 msgid "Could not move the image:"
-msgstr "No se ha podido mover la imagen:"
+msgstr "No se pudo mover la imagen:"
 
 #: ../src/dlg-file-utils.c:1230
 msgid "Could not copy the image:"
-msgstr "No se ha podido copiar la imagen:"
+msgstr "No se pudo copiar la imagen:"
 
 #: ../src/dlg-file-utils.c:1254 ../src/dlg-file-utils.c:2551
 msgid "_Abort"
@@ -2829,7 +2828,7 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"El nombre «%s» no es válido porque contiene el carácter «/». Por favor utilice "
+"El nombre «%s» no es válido porque contiene el carácter «/». Use "
 "un nombre diferente."
 
 #: ../src/dlg-rename-series.c:542
@@ -2885,7 +2884,7 @@ msgstr "Script %d"
 #: ../src/dlg-scripts.c:797
 msgid "The \"Postr\" software package must be installed to use this function."
 msgstr ""
-"El paquete de software «Postr» debe estar instalado para poder utilizar esta "
+"El paquete de software «Postr» debe estar instalado para poder usar esta "
 "función."
 
 #: ../src/dlg-scripts.c:931
@@ -2941,7 +2940,7 @@ msgstr "Ingrese el nombre nuevo: "
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr ""
-"El nombre «%s» ya está siendo usado. Por favor utilice un nombre distinto."
+"El nombre «%s» ya está siendo usado. Use un nombre distinto."
 
 #: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
@@ -3173,7 +3172,7 @@ msgstr "_Mover..."
 
 #: ../src/gth-browser-actions-entries.h:96
 msgid "Move this image to another location"
-msgstr "Mueve esta imagen a otro lugar"
+msgstr "Mover esta imagen a otro lugar"
 
 #: ../src/gth-browser-actions-entries.h:101
 msgid "Rename selected images"
@@ -3193,11 +3192,11 @@ msgstr "Mover las imágenes seleccionadas a la papelera"
 
 #: ../src/gth-browser-actions-entries.h:116
 msgid "Copy selected images to another location"
-msgstr "Copia los archivos seleccionados a otro lugar"
+msgstr "Copiar las imágenes seleccionadas a otro lugar"
 
 #: ../src/gth-browser-actions-entries.h:121
 msgid "Move selected images to another location"
-msgstr "Mueve las imágenes seleccionadas a otro lugar"
+msgstr "Mover las imágenes seleccionadas a otro lugar"
 
 #: ../src/gth-browser-actions-entries.h:125
 msgid "_Select All"
@@ -3232,7 +3231,7 @@ msgstr "Abrir"
 
 #: ../src/gth-browser-actions-entries.h:141
 msgid "Open the selected catalog"
-msgstr "Abre el catálogo seleccionado"
+msgstr "Abrir el catálogo seleccionado"
 
 #: ../src/gth-browser-actions-entries.h:145
 #: ../src/gth-browser-actions-entries.h:215
@@ -3241,7 +3240,7 @@ msgstr "Abrir en ventana nueva"
 
 #: ../src/gth-browser-actions-entries.h:146
 msgid "Open the selected catalog in a new window"
-msgstr "Abre el catálogo seleccionado en una ventana nueva"
+msgstr "Abrir el catálogo seleccionado en una ventana nueva"
 
 #: ../src/gth-browser-actions-entries.h:151
 msgid "Rename selected catalog"
@@ -3258,7 +3257,7 @@ msgstr "Eliminar el catálogo seleccionado"
 
 #: ../src/gth-browser-actions-entries.h:161
 msgid "Move selected catalog to another location"
-msgstr "Mueve el catálogo seleccionado a otro lugar"
+msgstr "Mover el catálogo seleccionado a otro lugar"
 
 #: ../src/gth-browser-actions-entries.h:165
 #: ../src/gth-browser-actions-entries.h:200
@@ -3306,7 +3305,7 @@ msgstr "Eliminar el catálogo actual"
 
 #: ../src/gth-browser-actions-entries.h:196
 msgid "Move current catalog to another location"
-msgstr "Mueve el catálogo actual a otro lugar"
+msgstr "Mover el catálogo actual a otro lugar"
 
 #: ../src/gth-browser-actions-entries.h:211
 msgid "Open the selected folder"
@@ -3328,7 +3327,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:226
 msgid "Rename selected folder"
-msgstr "Renombra la carpeta seleccionada"
+msgstr "Renombrar la carpeta seleccionada"
 
 #: ../src/gth-browser-actions-entries.h:231
 msgid "Move the selected folder to the Trash"
@@ -3350,7 +3349,7 @@ msgstr "Ca_tegorías..."
 
 #: ../src/gth-browser-actions-entries.h:246
 msgid "Assign categories to the selected folder"
-msgstr "Asignar categorías a las carpeta seleccionada"
+msgstr "Asignar categorías a la carpeta seleccionada"
 
 #: ../src/gth-browser-actions-entries.h:251
 msgid "Open current folder with the Nautilus file manager"
@@ -3953,12 +3952,12 @@ msgstr "Un visor y navegador de imágenes para GNOME."
 #: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@ie.edu>, 2008.\n"
-"Jorge González <jorgegonz@svn.gnome.org>, 2007.\n"
-"Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003-2006.\n"
-"Pablo G. del Campo <pablodc@bigfoot.com>, 2003.\n"
-"Daniel Baeyens <danibens@terra.es>, 2002.\n"
-"QA: Jorge González <jorgegonz@svn.gnome.org>, 2008."
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2008, 2009\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007\n"
+"Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003-2006\n"
+"Pablo G. del Campo <pablodc@bigfoot.com>, 2003\n"
+"Daniel Baeyens <danibens@terra.es>, 2002\n"
+"QA: Jorge González <jorgegonz@svn.gnome.org>, 2008, 2009"
 
 #: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
@@ -4387,7 +4386,7 @@ msgstr "Recor_tar"
 
 #: ../src/rotation-utils.c:168
 msgid "Could not create a local temporary copy of the remote file."
-msgstr "No se ha podido crear una copia temporal del archivo remoto."
+msgstr "No se pudo crear una copia temporal del archivo remoto."
 
 #: ../src/rotation-utils.c:214
 msgid ""

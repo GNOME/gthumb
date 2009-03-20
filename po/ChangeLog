@@ -1,3 +1,10 @@
+2009-03-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation by Daniel Mustieles, fixes
+	  bugs: #575501, #575503, #575505, #575506, #575507, #575509,
+	  #575510, #575511, #575512, #575513, #575514, #575516, #575517,
+	  ##575519, #575520, #575522, #575527, #575493
+
 2009-03-13  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation, fixes bug #575030
