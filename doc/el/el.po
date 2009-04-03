@@ -4354,5 +4354,6 @@ msgstr "Έξοδος από την λειτουργία πλήρους οθόν�
 #. Put one translator per line, in the form of NAME <EMAIL>, YEAR1, YEAR2.
 #: C/gthumb.xml:0(None)
 msgid "translator-credits"
-msgstr "Στέργιος Προσινικλής <steriosprosiniklis@gmail.com>, 2009"
+msgstr "Στέργιος Προσινικλής <steriosprosiniklis@gmail.com>, 2009\n"
+"Σίμος Ξενιτέλλης <simos@gnome.org>, 2009"
 

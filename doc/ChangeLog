@@ -1,5 +1,6 @@
 2009-04-03  Simos Xenitellis  <simos@gnome.org>
 
+	* el/figures/*.png: Added figures (Sterios Prosiniklis)
 	* el/el.po: Added Greek translation (Sterios Prosiniklis)
 	* Makefile.am: Added el to DOC_LINGUAS.
 
