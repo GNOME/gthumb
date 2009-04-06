@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gthumb 2.10\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2009-03-03 22:53+0000\n"
-"PO-Revision-Date: 2009-03-08 00:34+0100\n"
+"POT-Creation-Date: 2009-04-03 22:08+0000\n"
+"PO-Revision-Date: 2009-04-06 21:20+0200\n"
 "Last-Translator: Francesco Marletta <francesco.marletta@tiscali.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -151,7 +151,7 @@ msgstr "Vecchia immagine:"
 
 #: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
-msgstr "Apre le immagini"
+msgstr "Apertura immagini"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
@@ -167,7 +167,7 @@ msgstr "Sovrascrivi _tutte le immagini"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
-msgstr ""
+msgstr "_Dati foto (EXIF)"
 
 #: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
@@ -280,10 +280,8 @@ msgid "No camera detected"
 msgstr "Nessuna fotocamera trovata"
 
 #: ../data/glade/gthumb_camera.glade.h:10
-#, fuzzy
-#| msgid "_Rotate images physically"
 msgid "Rotate images physically"
-msgstr "_Ruota fisicamente le immagini"
+msgstr "Ruota fisicamente le immagini"
 
 #: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
@@ -306,10 +304,8 @@ msgid "_Destination:"
 msgstr "_Destinazione:"
 
 #: ../data/glade/gthumb_camera.glade.h:15
-#, fuzzy
-#| msgid "_File"
 msgid "_Film:"
-msgstr "_File"
+msgstr "_Pellicola:"
 
 #: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
@@ -370,12 +366,9 @@ msgstr "Data dell'ultima modifica"
 msgid "No date"
 msgstr "Nessuna data"
 
-# NdT: credo sia meglio che dire "La data in cui la foto è stata presa"
 #: ../data/glade/gthumb_comments.glade.h:11
-#, fuzzy
-#| msgid "Date photo taken (from EXIF metadata)"
 msgid "Photo digitalization date (From EXIF data)"
-msgstr "Data di scatto della foto (dai metadati EXIF)"
+msgstr "Data digitalizzazione della foto (dai metadati EXIF)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -589,10 +582,8 @@ msgid "Square"
 msgstr "Quadrato"
 
 #: ../data/glade/gthumb_crop.glade.h:12
-#, fuzzy
-#| msgid "Crop"
 msgid "_Crop"
-msgstr "Ritaglia"
+msgstr "_Ritaglia"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
@@ -1008,7 +999,7 @@ msgstr "png"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
 msgid "0:"
-msgstr ""
+msgstr "0:"
 
 #: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
@@ -1023,10 +1014,8 @@ msgid "164 x 164"
 msgstr "164 × 164"
 
 #: ../data/glade/gthumb_preferences.glade.h:7
-#, fuzzy
-#| msgid "1:1"
 msgid "1:"
-msgstr "1:1"
+msgstr "1:"
 
 #: ../data/glade/gthumb_preferences.glade.h:8
 msgid "200 x 200"
@@ -1037,28 +1026,24 @@ msgid "256 x 256"
 msgstr "256 × 256"
 
 #: ../data/glade/gthumb_preferences.glade.h:10
-#, fuzzy
-#| msgid "2"
 msgid "2:"
-msgstr "2"
+msgstr "2:"
 
 #: ../data/glade/gthumb_preferences.glade.h:11
 msgid "3:"
-msgstr ""
+msgstr "3:"
 
 #: ../data/glade/gthumb_preferences.glade.h:12
 msgid "48 x 48"
 msgstr "48 × 48"
 
 #: ../data/glade/gthumb_preferences.glade.h:13
-#, fuzzy
-#| msgid "4"
 msgid "4:"
-msgstr "4"
+msgstr "4:"
 
 #: ../data/glade/gthumb_preferences.glade.h:14
 msgid "5:"
-msgstr ""
+msgstr "5:"
 
 #: ../data/glade/gthumb_preferences.glade.h:15
 msgid "64 x 64"
@@ -1066,21 +1051,19 @@ msgstr "64 × 64"
 
 #: ../data/glade/gthumb_preferences.glade.h:16
 msgid "6:"
-msgstr ""
+msgstr "6:"
 
 #: ../data/glade/gthumb_preferences.glade.h:17
 msgid "7:"
-msgstr ""
+msgstr "7:"
 
 #: ../data/glade/gthumb_preferences.glade.h:18
 msgid "85 x 85"
 msgstr "85 × 85"
 
 #: ../data/glade/gthumb_preferences.glade.h:19
-#, fuzzy
-#| msgid "8"
 msgid "8:"
-msgstr "8"
+msgstr "8:"
 
 #: ../data/glade/gthumb_preferences.glade.h:20
 msgid "95 x 95"
@@ -1088,7 +1071,7 @@ msgstr "95 × 95"
 
 #: ../data/glade/gthumb_preferences.glade.h:21
 msgid "9:"
-msgstr ""
+msgstr "9:"
 
 #: ../data/glade/gthumb_preferences.glade.h:22
 msgid "<b>Direction</b>"
@@ -1111,8 +1094,6 @@ msgid "<b>Other</b>"
 msgstr "<b>Altro</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:27
-#, fuzzy
-#| msgid "<b>Slideshow</b>"
 msgid "<b>Slide show</b>"
 msgstr "<b>Proiezione</b>"
 
@@ -1125,27 +1106,7 @@ msgid "<b>Zoom quality</b>"
 msgstr "<b>Qualità dell'ingrandimento</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:31
-#, fuzzy, no-c-format
-#| msgid ""
-#| "Click inside the name or script fields to edit them.\n"
-#| "<small><i><b>\n"
-#| "Special characters:</b>\n"
-#| "%F = all selected filenames on one line, space delimited\n"
-#| "%f = a single filename, including path\n"
-#| "%b = a single filename, excluding path\n"
-#| "%n = a single filename, including path, with no extension\n"
-#| "%m = a single filename, excluding path, with no extension\n"
-#| "%e = a single extension (starting with a period)\n"
-#| "%p = the parent folder of the single file</i>\n"
-#| "<i>[text] = a user prompt, refreshed for each iteration</i>\n"
-#| "<i>[TEXT] = a user prompt, used for all iterations</i>\n"
-#| "<i>{..code..} = a strftime date format code</i>\n"
-#| "<i>{TEXT} = a user prompt used for all iterations matching previous date</"
-#| "i>\n"
-#| "Scripts with the %F code will be executed just once, regardless of the "
-#| "number of files selected. All other scripts will be executed once per "
-#| "selected file.\n"
-#| "The default scripts are explained in the Help file.</small>"
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b>\n"
 "%F = all selected filenames on one line, space delimited\n"
@@ -1158,21 +1119,12 @@ msgid ""
 "selected file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
-"Fare clic dentro i campi nome o script per modificarli.\n"
-"<small><i><b>\n"
-"Caratteri speciali:</b>\n"
+"<small><i><b>Caratteri speciali:</b>\n"
 "%F = tutti i nomi dei file selezionati su una linea, delimitati da spazio\n"
 "%f = un nome di file singolo, compreso il percorso\n"
-"%b = un nome di file singolo, escluso il percorso\n"
 "%n = un nome di file singolo, compreso il percorso, senza estensione\n"
-"%m = un nome di file singolo, escluso il percorso, senza estensione\n"
 "%e = una singola estensione (iniziante con il punto)\n"
 "%p = la cartella padre del file singolo</i>\n"
-"<i>[testo] = prompt utente, aggiornato a ogni iterazione</i>\n"
-"<i>[TESTO] = prompt utente, usato per tutte le iterazioni</i>\n"
-"<i>{..codice..} = un codice per formattare la data con strftime</i>\n"
-"<i>{TESTO} = prompt utente usato per tutte le iterazione che corrispondono "
-"alla data precedente</i>\n"
 "Gli script con il codice %F saranno eseguiti solo una volta, "
 "indipendentemente dal numero di file selezionati. Tutti gli altri script "
 "verranno eseguiti una volta per ogni file selezionato.\n"
@@ -1268,7 +1220,7 @@ msgstr "A_lta"
 
 #: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Hot Keys"
-msgstr ""
+msgstr "Tasti rapidi"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Icons only"
@@ -1283,6 +1235,8 @@ msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
 msgstr ""
+"I tasti da 0 a 9 sul tastierino numerico possono essere usati nel browser "
+"per aprire o modificare le immagini selezionate con altre applicazioni."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1303,7 +1257,7 @@ msgstr "_Indietro"
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
 msgstr ""
-"Reimposta la posizione delle barre di scorrimento dopo il caricamento di "
+"Reimpostare la posizione delle barre di scorrimento dopo il caricamento di "
 "un'immagine"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
@@ -1319,8 +1273,6 @@ msgid "Set to C_urrent"
 msgstr "Imposta a quella att_uale"
 
 #: ../data/glade/gthumb_preferences.glade.h:74
-#, fuzzy
-#| msgid "Slideshow"
 msgid "Slide Show"
 msgstr "Proiezione"
 
@@ -1349,10 +1301,8 @@ msgid "Transparency _type:"
 msgstr "Tipo di tra_sparenza:"
 
 #: ../data/glade/gthumb_preferences.glade.h:81
-#, fuzzy
-#| msgid "D_elay before changing image:"
 msgid "Use a _fading effect when changing image"
-msgstr "Pa_usa prima del cambio immagine:"
+msgstr "Usare una effetto di s_fumatura al cambio di immagine"
 
 #: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
@@ -1562,8 +1512,6 @@ msgid "_Unit:"
 msgstr "_Unità:"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
-#, fuzzy
-#| msgid "Actual size"
 msgid "Actual Size"
 msgstr "Dimensione reale"
 
@@ -1572,30 +1520,22 @@ msgid "Red-Eye Removal"
 msgstr "Rimozione occhi rossi"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
-#, fuzzy
-#| msgid "Red"
 msgid "Redo"
-msgstr "Rosso"
+msgstr "Ripeti"
 
 #: ../data/glade/gthumb_redeye.glade.h:5
 msgid "Undo"
-msgstr ""
+msgstr "Annulla"
 
 #: ../data/glade/gthumb_redeye.glade.h:6
-#, fuzzy
-#| msgid "Zoom in"
 msgid "Zoom In"
-msgstr "Aumenta l'ingrandimento"
+msgstr "Aumenta ingrandimento"
 
 #: ../data/glade/gthumb_redeye.glade.h:7
-#, fuzzy
-#| msgid "Zoom out"
 msgid "Zoom Out"
-msgstr "Riduce l'ingrandimento"
+msgstr "Riduci ingrandimento"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
-#, fuzzy
-#| msgid "Zoom to fit"
 msgid "Zoom to Fit"
 msgstr "Adatta ingrandimento"
 
@@ -1714,20 +1654,14 @@ msgstr ""
 "perdita, scavalcando questa finestra di dialogo.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy, no-c-format
-#| msgid ""
-#| "<small><i><b>Special characters:</b> # (new enumerator digit),\n"
-#| "%f (original filename), %e (original extension),\n"
-#| "%d (image date), %s (image size), \n"
-#| "%n (original enumerator).</i></small>"
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
-"<small><i><b>Caratteri speciali:</b> # (cifra del nuovo contatore), \n"
-"%f (nome del file originale), %e (estensione originale),\n"
-"%d (data dell'immagine), %s (dimensione dell'immagine), \n"
-"%n (contatore originale).</i></small>"
+"<small><i><b>Caratteri speciali:</b> # (contatore), %f (nome del file "
+"originale), %d (data dell'immagine), %s (dimensione dell'immagine), %e "
+"(estensione originale).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
@@ -1816,8 +1750,6 @@ msgid "New names _preview:"
 msgstr "Ante_prima dei nuovi nomi:"
 
 #: ../data/glade/gthumb_tools.glade.h:37
-#, fuzzy
-#| msgid "Date p_hoto taken (from EXIF metadata)"
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Data di scatto della _foto (dai dati EXIF)"
 
@@ -2016,10 +1948,8 @@ msgid "I_mage Caption..."
 msgstr "Didascalia _immagine..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:39
-#, fuzzy
-#| msgid "Include filename"
 msgid "Inde_x file:"
-msgstr "Includere nome file"
+msgstr "File indi_ce:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "S_ort:"
@@ -2099,7 +2029,7 @@ msgstr "colonne, da"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:63
 msgid "index.html"
-msgstr ""
+msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
@@ -2256,16 +2186,14 @@ msgstr ""
 "cambiamento dell'immagine"
 
 #: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
-#, fuzzy, c-format
-#| msgid "Cannot remove catalog \"%s\": %s"
+#, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "Impossibile rimuovere il catalogo \"%s\": %s"
+msgstr "Impossibile aprire il catalogo \"%s\": %s"
 
 #: ../libgthumb/catalog.c:335
-#, fuzzy, c-format
-#| msgid "Cannot remove catalog \"%s\": %s"
+#, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "Impossibile rimuovere il catalogo \"%s\": %s"
+msgstr "Impossibile salvare il catalogo \"%s\": %s"
 
 #: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
@@ -2351,11 +2279,11 @@ msgstr "Caricamento immagine: %s"
 
 #: ../libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr ""
+msgstr "Cancellazione di tutte le miniature, attendere..."
 
 #: ../libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr ""
+msgstr "Cancellazione delle vecchie miniature, attendere..."
 
 #: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
 #: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
@@ -2655,10 +2583,8 @@ msgid "Could not import photos"
 msgstr "Impossibile importare le foto"
 
 #: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
-#, fuzzy
-#| msgid "_File"
 msgid "Film"
-msgstr "_File"
+msgstr "Pellicola"
 
 #: ../src/dlg-photo-importer.c:1341
 msgid "Import errors detected"
@@ -3304,16 +3230,12 @@ msgid "Edit bookmarks"
 msgstr "Modifica i segnalibri"
 
 #: ../src/gth-browser-actions-entries.h:353
-#, fuzzy
-#| msgid "_Slideshow"
 msgid "_Slide Show"
 msgstr "_Proiezione"
 
 #: ../src/gth-browser-actions-entries.h:354
-#, fuzzy
-#| msgid "View as a slideshow"
 msgid "View as a slide show"
-msgstr "Mostra come una proiezione"
+msgstr "Mostra come proiezione"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "_Search..."
@@ -3524,10 +3446,8 @@ msgid "The current image has been modified, do you want to save it?"
 msgstr "L'immagine corrente è stata modificata, si vuole salvarla?"
 
 #: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
-#, fuzzy
-#| msgid "Do _Not Save"
 msgid "Do Not Save"
-msgstr "_Non salvare"
+msgstr "Non salvare"
 
 #: ../src/gth-browser.c:3618
 msgid "Dragged Images"
@@ -3574,48 +3494,38 @@ msgid "Wait please..."
 msgstr "Attendere prego..."
 
 #: ../src/gth-exif-data-viewer.c:65
-#, fuzzy
-#| msgid "Filesystem"
 msgid "Filesystem Data"
-msgstr "File system"
+msgstr "Dati file system"
 
 #: ../src/gth-exif-data-viewer.c:66
-#, fuzzy
-#| msgid "<b>Basic Information</b>"
 msgid "General Information"
-msgstr "<b>Informazioni di base</b>"
+msgstr "Informazioni generali"
 
 #: ../src/gth-exif-data-viewer.c:67
-#, fuzzy
-#| msgid "Exif Conditions"
 msgid "Picture-Taking Conditions"
-msgstr "Condizioni Exif"
+msgstr "Condizioni di ripresa"
 
 #: ../src/gth-exif-data-viewer.c:68
-#, fuzzy
-#| msgid "Exif Maker Notes"
 msgid "Maker Notes"
-msgstr "Note Exif del fotografo"
+msgstr "Note dell'autore"
 
 #: ../src/gth-exif-data-viewer.c:69
 msgid "GPS Coordinates"
-msgstr ""
+msgstr "Coordinate GPS"
 
 #: ../src/gth-exif-data-viewer.c:70
-#, fuzzy
-#| msgid "Exif Structure"
 msgid "Image Structure"
-msgstr "Struttura Exif"
+msgstr "Struttura immagine"
 
 #: ../src/gth-exif-data-viewer.c:71
-#, fuzzy
-#| msgid "Exif Thumbnail"
 msgid "Embedded Thumbnail"
-msgstr "Miniatura Exif"
+msgstr "Miniatura incorporata"
 
+# [NdT] L'uso della maiuscola nella seconda parola e la & 
+#       sono delle scelte volute.
 #: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
-msgstr ""
+msgstr "Versioni & Interoperabilità"
 
 #: ../src/gth-exif-data-viewer.c:73
 msgid "Other"
@@ -3699,8 +3609,6 @@ msgstr "Tutto"
 
 #. view label
 #: ../src/gth-filter-bar.c:546
-#, fuzzy
-#| msgid "Sh_ow:"
 msgid "S_how:"
 msgstr "M_ostra:"
 
@@ -3813,16 +3721,12 @@ msgid "Add a comment to selected images"
 msgstr "Aggiunge un commento alle immagini selezionate"
 
 #: ../src/gth-window-actions-entries.h:90
-#, fuzzy
-#| msgid "(No Comment)"
 msgid "Rem_ove Comment"
-msgstr "(Nessun commento)"
+msgstr "Rimu_ovi commento"
 
 #: ../src/gth-window-actions-entries.h:91
-#, fuzzy
-#| msgid "Add a comment to selected images"
 msgid "Remove comments of selected images"
-msgstr "Aggiunge un commento alle immagini selezionate"
+msgstr "Rimuove i commenti dalle immagine selezionate"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
@@ -4057,7 +3961,7 @@ msgstr "_Ripristina"
 
 #: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
-msgstr "Rispristina lo sfondo originario"
+msgstr "Ripristina lo sfondo originario"
 
 #: ../src/gth-window-actions-entries.h:265
 msgid "Change _Date..."
@@ -4096,26 +4000,20 @@ msgid "Start or stop current animation"
 msgstr "Avvia o ferma l'animazione corrente"
 
 #: ../src/gth-window-actions-entries.h:327
-#, fuzzy
-#| msgid "High _quality"
 msgid "_High Quality"
-msgstr "Alta _qualità"
+msgstr "_Alta qualità"
 
 #: ../src/gth-window-actions-entries.h:328
-#, fuzzy
-#| msgid "High _quality"
 msgid "Use high quality zoom"
-msgstr "Alta _qualità"
+msgstr "Usa un ingrandimento di alta qualità"
 
 #: ../src/gth-window-actions-entries.h:330
-#, fuzzy
-#| msgid "_Quality:"
 msgid "_Low Quality"
-msgstr "_Qualità:"
+msgstr "_Bassa qualità"
 
 #: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
-msgstr ""
+msgstr "Usa un ingrandimento di bassa qualità"
 
 #: ../src/main.c:89
 msgid "Start in fullscreen mode"
@@ -4229,313 +4127,3 @@ msgid ""
 msgstr ""
 "Impossibile spostare il file temporaneo alla destinazione locale. "
 "Controllare i permessi della cartella."
-
-#~ msgid "_Metadata"
-#~ msgstr "_Metadati"
-
-#~ msgid "<small>Click \"Help\" for format code information.</small>"
-#~ msgstr ""
-#~ "<small>Fare clic su \"Aiuto\" per le informazioni sui codici di formato.</"
-#~ "small>"
-
-#~ msgid "Custom subfolder:"
-#~ msgstr "Sottocartella personalizzata:"
-
-#~ msgid ""
-#~ "If valuable photos have been deleted accidently, download the excellent "
-#~ "PhotoRec tool from http://www.cgsecurity.org. PhotoRec can usually "
-#~ "recover images that have been recently deleted from flash cards and other "
-#~ "media."
-#~ msgstr ""
-#~ "Se delle foto importanti sono state eliminate per sbaglio, potete "
-#~ "scaricare l'eccellente strumento PhotoRec da http://www.cgsecurity.org. "
-#~ "PhotoRec è generalmente in grado di recuperare le immagini che sono state "
-#~ "recentemente eliminate dalle schede flash e da altri supporti di "
-#~ "memorizzazione."
-
-#~ msgid "_Destination folder:"
-#~ msgstr "Cartella _destinazione:"
-
-#~ msgid "_Group into subfolders:"
-#~ msgstr "Ra_ggruppare nelle sottocartelle:"
-
-#~ msgid "<b>Actions</b>"
-#~ msgstr "<b>Azioni</b>"
-
-#~ msgid "<b>Display</b>"
-#~ msgstr "<b>Schermo</b>"
-
-#~ msgid ""
-#~ "<small>Click and drag the mouse to \n"
-#~ "select the cropping area, or\n"
-#~ "use the dialogs below. Press \n"
-#~ "the \"Crop\" button to perform\n"
-#~ "the crop, and \"Done\" to finish.</small>"
-#~ msgstr ""
-#~ "<small>Fare clic e trascinare il mouse per \n"
-#~ "selezionare l'area di ritaglio, oppure\n"
-#~ "usare la finestra di dialogo sottostante.\n"
-#~ "Premere il pulsante «Ritaglia» per eseguire\n"
-#~ "il taglio, e «Fatto» per finire.</small>"
-
-#~ msgid "Cr_op"
-#~ msgstr "Ri_taglia"
-
-# NdT: ho messo io Nasconde maiuscolo apposta, in quanto inizia la frase
-#~ msgid "Show / hide the cropping selection area"
-#~ msgstr "Mostra/Nasconde l'area di selezione del ritaglio"
-
-#~ msgid "Zoom at 100% scale"
-#~ msgstr "Ingrandimento al 100%"
-
-#~ msgid "Zoom in. The mousewheel can also be used to zoom in."
-#~ msgstr ""
-#~ "Aumenta l'ingrandimento. Anche la rotellina del mouse può essere "
-#~ "utilizzata per aumentare l'ingrandimento."
-
-#~ msgid "Zoom out. The mousewheel can also be used to zoom out."
-#~ msgstr ""
-#~ "Riduce l'ingrandimento. Anche la rotellina del mouse può essere "
-#~ "utilizzata per ridurre l'ingrandimento."
-
-#~ msgid "_Done"
-#~ msgstr "_Fatto"
-
-#~ msgid ""
-#~ "By default, gThumb lists all files that are likely to be found on a "
-#~ "digital camera - photos, videos, and audio files. You can omit the audio "
-#~ "and video files by deselecting this checkbox."
-#~ msgstr ""
-#~ "In modo predefinito gThumb elenca tutti i file che è probabile trovare su "
-#~ "una camera digitale - foto, video e file audio. È possibile omettere i "
-#~ "file audio e video deselezionando la casella di controllo."
-
-#~ msgid "Fit to window"
-#~ msgstr "Adattare alla finestra"
-
-#~ msgid "Include audio clips and movies in browser view"
-#~ msgstr "Includere i brani audio e i filmati nella vista di navigazione"
-
-#~ msgid "<b>Other Actions</b>"
-#~ msgstr "<b>Altre azioni</b>"
-
-#~ msgid "<b>Position</b>"
-#~ msgstr "<b>Posizione</b>"
-
-#~ msgid "<b>Zoom</b>"
-#~ msgstr "<b>Ingrandimento</b>"
-
-#~ msgid ""
-#~ "<small>Move the cursor over the\n"
-#~ "red eye and click on it. You\n"
-#~ "can use the mousewheel to\n"
-#~ "zoom in and out, or use the\n"
-#~ "zoom buttons below.</small>"
-#~ msgstr ""
-#~ "<small>Spostare il cursore sull'occhio\n"
-#~ "rosso e fare clic su di esso. Si può\n"
-#~ "anche usare la rotella del mouse per\n"
-#~ "aumentare e ridurre l'ingrandimento,\n"
-#~ "oppure usare i pulsanti sottostanti.</small>"
-
-#~ msgid "Add New Script"
-#~ msgstr "Aggiungi nuovo script"
-
-#~ msgid "Cas_e:"
-#~ msgstr "Maiuscol_e/Minuscole:"
-
-#~ msgid "Define External Scripts"
-#~ msgstr "Definisci script esterni"
-
-#~ msgid ""
-#~ "Do not change\n"
-#~ "Convert to lower-case\n"
-#~ "Convert to upper-case"
-#~ msgstr ""
-#~ "Non cambiare\n"
-#~ "Converti in minuscolo\n"
-#~ "Converti in maiuscolo"
-
-#~ msgid "Exif DateTime tag"
-#~ msgstr "Etichetta DateTime Exif"
-
-#~ msgid "Exif DateTimeDigitized tag"
-#~ msgstr "Etichetta DateTimeDigitized Exif"
-
-#~ msgid "Exif DateTimeOriginal tag"
-#~ msgstr "Etichetta DateTimeOriginal Exif"
-
-#~ msgid "Remove Script"
-#~ msgstr "Rimuovi script"
-
-#~ msgid "Swap height and width for best _fit"
-#~ msgstr "Scambia altezza e larghezza per il miglior _riempimento"
-
-#~ msgid ""
-#~ "The number keys on the numeric keypad can be associated with scripts 0-"
-#~ "9.\n"
-#~ "All scripts can be launched from the Scripts menu."
-#~ msgstr ""
-#~ "I tasti numero del tastierino numerico possono essere associati agli "
-#~ "script da 0 a 9.\n"
-#~ "Tutti gli script possono essere lanciati dal menù Script."
-
-#~ msgid "User-Defined Script Parameter"
-#~ msgstr "Paramentro di script definito dall'utente"
-
-#~ msgid "Your script requires this user-defined parameter:"
-#~ msgstr "Lo script richiede questo parametro definito dall'utente:"
-
-#~ msgid "prompt"
-#~ msgstr "prompt"
-
-#~ msgid "title|Scale Images"
-#~ msgstr "Scala immagini"
-
-#~ msgid "<small><i><b>Note:</b> click to customize.</i></small>"
-#~ msgstr "<small><i><b>Nota:</b> fare clic per personalizzare.</i></small>"
-
-#~ msgid "Use subfolders to organize files"
-#~ msgstr "Usa le sottocartelle per organizzare i file"
-
-#~ msgid "Possible values are: none, day, month, now, custom"
-#~ msgstr "I valori possibili sono: none, day, month, now, custom"
-
-#~ msgid "Possible values are: original, lower, upper."
-#~ msgstr "I valori possibili sono: original, lower, upper."
-
-#~ msgid "Could not find the style folder"
-#~ msgstr "Impossibile trovare la cartella dello stile"
-
-#~ msgid "Operation interrupted"
-#~ msgstr "Operazione interrotta"
-
-#~ msgid "File not found"
-#~ msgstr "File non trovato"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Argomento non valido"
-
-#~ msgid "Operation failed"
-#~ msgstr "Operazione fallita"
-
-#~ msgid "Could not find the trash folder"
-#~ msgstr "Impossibile trovare la cartella cestino"
-
-#~ msgid "Transferring '%s' to its destination folder."
-#~ msgstr "Trasferimento di \"%s\" alla cartella destinazione."
-
-#~ msgid "Adjusting orientation of '%s'."
-#~ msgstr "Regolazione dell'orientamento di \"%s\"."
-
-#~ msgid "Put name or format code here"
-#~ msgstr "Inserire qui il nome o il codice di formato"
-
-#~ msgid "No grouping"
-#~ msgstr "Nessun raggruppamento"
-
-#~ msgid "By day photo taken"
-#~ msgstr "Per data di scatto della foto"
-
-#~ msgid "By month photo taken"
-#~ msgstr "Per mese di scatto della foto"
-
-#~ msgid "By current date and time"
-#~ msgstr "Per ora e data attuali"
-
-#~ msgid "Custom subfolder"
-#~ msgstr "Sottocartella personalizzata"
-
-#~ msgid "Edit with GIMP"
-#~ msgstr "Modifica con GIMP"
-
-#~ msgid "Add copyright"
-#~ msgstr "Aggiungi copyright"
-
-#~ msgid "Copy to \"approved\" folder"
-#~ msgstr "Copia nella cartella \"approvato\""
-
-#~ msgid "Send by email"
-#~ msgstr "Invia tramite email"
-
-#~ msgid "Make a zip file"
-#~ msgstr "Crea un file zip"
-
-#~ msgid "Make a zip file and email it"
-#~ msgstr "Crea un file zip e lo invia tramite email"
-
-#~ msgid "Script Progress"
-#~ msgstr "Avanzamento dello script"
-
-#~ msgid "Scripts using the %%F code can not be cancelled. Sorry!"
-#~ msgstr "Gli script che usano il codice %%F non possono essere annullati."
-
-#~ msgid "Script %d"
-#~ msgstr "Script %d"
-
-#~ msgid ""
-#~ "The \"Postr\" software package must be installed to use this function."
-#~ msgstr ""
-#~ "Affinché questa funzione possa essere usata deve essere installato il "
-#~ "pacchetto \"Postr\"."
-
-#~ msgid "Number"
-#~ msgstr "Numero"
-
-#~ msgid "Short Name"
-#~ msgstr "Nome breve"
-
-#~ msgid "Script"
-#~ msgstr "Script"
-
-#~ msgid "Scri_pts"
-#~ msgstr "Scri_pt"
-
-#~ msgid "_Upload"
-#~ msgstr "_Carica"
-
-#~ msgid "Convert image format"
-#~ msgstr "Converte il formato immagine"
-
-#~ msgid "_Edit Scripts"
-#~ msgstr "Mo_difica script"
-
-#~ msgid "Edit external scripts"
-#~ msgstr "Modifica gli script esterni"
-
-#~ msgid "To _Flickr"
-#~ msgstr "Su _Flickr"
-
-#~ msgid "Upload selected images to Flickr"
-#~ msgstr "Carica le immagini selezionate su Flickr"
-
-#~ msgid "View As Sli_des"
-#~ msgstr "Mostra come _diapositive"
-
-#~ msgid "View As _List"
-#~ msgstr "Mostra come e_lenco"
-
-#~ msgid "Exif General"
-#~ msgstr "Generale Exif"
-
-#~ msgid "Exif GPS"
-#~ msgstr "GPS Exif"
-
-#~ msgid "Exif Versions"
-#~ msgstr "Versioni Exif"
-
-#~ msgid "IPTC"
-#~ msgstr "IPTC"
-
-#~ msgid "XMP Embedded"
-#~ msgstr "XMP Incorporato"
-
-# NdT: sidecar come lo traduco?
-#~ msgid "XMP Sidecar"
-#~ msgstr "XMP Sidecar"
-
-#~ msgid "Audio / Video"
-#~ msgstr "Audio / Video"
-
-#~ msgid "_Go to the destination folder"
-#~ msgstr "_Vai alla cartella destinazione"
