@@ -4,6 +4,8 @@ version 2.10.12
 	Bugs fixed:
 
 	* Made the OK button the default widget in the rename dialog.
+	* The existing import scripts did not properly unmount gvfs-mounted
+        cameras. Gnome bug #560352, Ubuntu bug #351122.
 
 
 version 2.10.11
