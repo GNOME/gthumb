@@ -272,14 +272,15 @@ dlg_edit_bookmarks (GthBrowser *browser)
 
 	data = g_new0 (DialogData, 1);
 
-	data->browser = browser;
-	data->do_not_update = FALSE;
-
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
         if (! data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
                 return;
         }
+
+	data->browser = browser;
+	data->do_not_update = FALSE;
 
 	/* Get the widgets. */
 

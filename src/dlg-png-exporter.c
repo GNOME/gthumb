@@ -1330,6 +1330,7 @@ dlg_png_exporter_pref (DialogData *ddata)
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		g_free (data);
                 return;
         }
 

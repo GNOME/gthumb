@@ -661,6 +661,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 			     GDK_PIXBUF_ERROR,
 			     GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
 			     "Couldn't allocate memory for loading JPEG file");
+		fclose (file);
 		return FALSE;
 	}
 
@@ -673,6 +674,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	if (sigsetjmp (jerr.setjmp_buffer, 1)) {
 		jpeg_destroy_compress (&cinfo);
 		g_free (buf);
+		fclose (file);
 		return FALSE;
 	}
 

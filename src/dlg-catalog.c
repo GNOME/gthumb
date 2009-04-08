@@ -279,6 +279,13 @@ dlg_add_to_catalog (GthWindow *window,
 
 	data = g_new (DialogData, 1);
 
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	if (! data->gui) {
+		g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
+		return;
+        }
+
 	data->window = window;
 	data->cat_list = catalog_list_new (FALSE);
 	data->data.list = list;
@@ -289,12 +296,6 @@ dlg_add_to_catalog (GthWindow *window,
 		data->current_dir = remove_level_from_path (last_catalog);
 	} else
 		data->current_dir = get_catalog_full_path (NULL);
-
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
-	if (! data->gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-        }
 
 	/* Get the widgets. */
 
@@ -447,17 +448,18 @@ dlg_move_to_catalog_directory (GthWindow *window,
 
 	data = g_new (DialogData, 1);
 
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	if (! data->gui) {
+		g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
+		return;
+        }
+
 	data->window = window;
 	data->current_dir = get_catalog_full_path (NULL);
 	data->cat_list = catalog_list_new (FALSE);
 	catalog_list_show_dirs_only (data->cat_list, TRUE);
 	data->data.catalog_path = catalog_path;
-
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
-	if (! data->gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-        }
 
 	/* Get the widgets. */
 
