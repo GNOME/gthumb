@@ -365,13 +365,14 @@ dlg_comment_new (GthWindow *window)
 
 	data = g_new0 (DialogData, 1);
 
-	data->window = window;
-
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
                 return NULL;
         }
+
+	data->window = window;
 
 	/* Get the widgets. */
 

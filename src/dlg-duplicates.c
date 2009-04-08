@@ -769,14 +769,14 @@ dlg_duplicates (GthBrowser *browser)
 
 	data = g_new0 (DialogData, 1);
 
-	data->browser = browser;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
-				   NULL);
-
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! data->gui) {
 		g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
 		return;
 	}
+
+	data->browser = browser;
 
 	/* Get the widgets. */
 

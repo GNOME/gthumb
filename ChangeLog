@@ -1,5 +1,17 @@
 2009-04-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
 
+	* libgthumb/pixbuf-utils.c: (_gdk_pixbuf_save_as_jpeg):
+	* src/dlg-bookmarks.c: (dlg_edit_bookmarks):
+	* src/dlg-catalog.c: (dlg_add_to_catalog),
+	(dlg_move_to_catalog_directory):
+	* src/dlg-comment.c: (dlg_comment_new):
+	* src/dlg-duplicates.c: (dlg_duplicates):
+	* src/dlg-png-exporter.c: (dlg_png_exporter_pref):
+	Plugged a variety of small memory leaks, detected using
+	"cppcheck -q -a -f .". Bug #578282.
+
+2009-04-07  Michael J. Chudobiak  <mjc@svn.gnome.org>
+
 	* NEWS:
 	* data/gthumb-import.desktop.in:
 	The existing import scripts did not properly unmount gvfs-mounted

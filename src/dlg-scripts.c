@@ -503,11 +503,10 @@ exec_shell_script (GtkWindow  *window,
 	data = g_new0 (ProgressData, 1);
 
 	/* Add a progress indicator */
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL,
-                                   NULL);
-
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SCRIPT_GLADE_FILE, NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " SCRIPT_GLADE_FILE "\n");
+		g_free (data);
                 return;
         }
 
