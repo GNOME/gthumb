@@ -2381,44 +2381,6 @@ copy_file_async (const char   *source_uri,
 
 /* -- */
 
-GnomeVFSResult
-_gnome_vfs_read_line (GnomeVFSHandle   *handle,
-		      gpointer          buffer,
-		      GnomeVFSFileSize  buffer_size,
-		      GnomeVFSFileSize *bytes_read)
-{
-	GnomeVFSResult    result = GNOME_VFS_OK;
-	GnomeVFSFileSize  offset = 0;
-	GnomeVFSFileSize  file_offset;
-	GnomeVFSFileSize  priv_bytes_read = 0;
-	char             *eol = NULL;
-
-	result = gnome_vfs_tell (handle, &file_offset);
-
-	((char*)buffer)[0] = '\0';
-
-	while ((result == GNOME_VFS_OK) && (eol == NULL)) {
-		if (offset + CHUNK_SIZE >= buffer_size)
-			return GNOME_VFS_ERROR_INTERNAL;
-
-		result = gnome_vfs_read (handle, buffer + offset, CHUNK_SIZE, &priv_bytes_read);
-		if (result != GNOME_VFS_OK)
-			break;
-		eol = strchr ((char*)buffer + offset, '\n');
-		if (eol != NULL) {
-			GnomeVFSFileSize line_size = eol - (char*)buffer;
-			*eol = '\0';
-			gnome_vfs_seek (handle, GNOME_VFS_SEEK_START, file_offset + line_size + 1);
-			if (bytes_read != NULL)
-				*bytes_read = line_size;
-		}
-		else
-			offset += priv_bytes_read;
-	}
-
-	return result;
-}
-
 
 guint64
 get_destination_free_space (const char *path)

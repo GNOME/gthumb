@@ -234,10 +234,6 @@ CopyData *          copy_file_async               (const char       *source_uri,
 		 				   const char       *target_uri,
 		 				   CopyDoneFunc      done_func,
 		 				   gpointer          done_data);
-GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
-						   gpointer          buffer,
-						   GnomeVFSFileSize  buffer_size,
-						   GnomeVFSFileSize *bytes_read);
 guint64             get_destination_free_space    (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
