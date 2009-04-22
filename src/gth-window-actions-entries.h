@@ -293,7 +293,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 
 	{ "Help_Help", GTK_STOCK_HELP,
 	  N_("Contents"), "F1",
-	  "Display the gThumb Manual",
+	  N_("Display the gThumb Manual"),
 	  G_CALLBACK (gth_window_activate_action_help_help) },
 
 	{ "Help_Shortcuts", NULL,
