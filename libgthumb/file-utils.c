@@ -3169,11 +3169,14 @@ gth_pixbuf_animation_new_from_file (FileData               *file,
 GHashTable *
 read_dot_hidden_file (const char *uri)
 {
-	GHashTable     *hidden_files;
-	char           *dot_hidden_uri;
-	GnomeVFSHandle *handle;
-	GnomeVFSResult  result;
-	char            line [BUF_SIZE];
+	GHashTable       *hidden_files;
+	char             *dot_hidden_uri;
+        GFileInputStream *istream;
+        GDataInputStream *dstream;
+        GError           *error = NULL;
+        GFile            *gfile;
+	char             *line;
+	gsize             length;
 
 	hidden_files = g_hash_table_new_full (g_str_hash,
 					      g_str_equal,
@@ -3185,16 +3188,17 @@ read_dot_hidden_file (const char *uri)
 
 	dot_hidden_uri = g_build_filename (uri, ".hidden", NULL);
 
-	result = gnome_vfs_open (&handle, dot_hidden_uri, GNOME_VFS_OPEN_READ);
-	if (result != GNOME_VFS_OK) {
-		g_free (dot_hidden_uri);
+	gfile = gfile_new (dot_hidden_uri);
+	g_free (dot_hidden_uri);
+
+        istream = g_file_read (gfile, NULL, &error);
+        if (error != NULL) {
+                g_error_free (error);
 		return hidden_files;
 	}
+	dstream = g_data_input_stream_new (G_INPUT_STREAM(istream));
 
-	while (_gnome_vfs_read_line (handle,
-				     line,
-				     BUF_SIZE,
-				     NULL) == GNOME_VFS_OK) {
+        while ((line = g_data_input_stream_read_line (dstream, &length, NULL, &error))) {
 		char *path;
 
 		line[strlen (line)] = 0;
@@ -3206,9 +3210,14 @@ read_dot_hidden_file (const char *uri)
 			g_free (path);
 	}
 
-	gnome_vfs_close (handle);
+        if (error) {
+                gfile_warning ("Error reading line from .hidden file", gfile, error);
+                g_error_free (error);
+        }
 
-	g_free (dot_hidden_uri);
+        g_object_unref (dstream);
+        g_object_unref (istream);
+        g_object_unref (gfile);
 
 	return hidden_files;
 }
