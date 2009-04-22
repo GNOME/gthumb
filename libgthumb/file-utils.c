@@ -831,8 +831,7 @@ mime_type_is_raw (const char *mime_type)
 	return 	   mime_type_is (mime_type, "application/x-crw")	/* ? */
 		|| mime_type_is (mime_type, "image/x-raw")              /* mimelnk */
 		|| mime_type_is (mime_type, "image/x-dcraw")		/* freedesktop.org.xml */
-		|| (gnome_vfs_mime_type_get_equivalence (mime_type, "image/x-dcraw") 
-		    != GNOME_VFS_MIME_UNRELATED);			/* freedesktop.org.xml - this should
+		|| g_content_type_is_a (mime_type, "image/x-dcraw");	/* freedesktop.org.xml - this should
 									   catch most RAW formats, which are
 									   registered as sub-classes of
 									   image/x-dcraw */
