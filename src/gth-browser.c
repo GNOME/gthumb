@@ -28,10 +28,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
 
 #include "bookmarks.h"

@@ -29,10 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-thumbnail.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-result.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "gthumb-init.h"

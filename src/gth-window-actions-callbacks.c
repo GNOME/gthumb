@@ -31,7 +31,7 @@
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
 #include <libgnome/gnome-url.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-result.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "async-pixbuf-ops.h"
