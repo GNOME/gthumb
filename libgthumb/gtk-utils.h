@@ -88,8 +88,6 @@ char *      _gtk_entry_get_locale_text   (GtkEntry   *entry);
 void        _gtk_label_set_locale_text   (GtkLabel   *label,
 					  const char *text);
 
-char *      _gtk_label_get_locale_text   (GtkLabel   *label);
-
 void        _gtk_entry_set_filename_text (GtkEntry   *entry,
 					  const char *text);
 
@@ -97,8 +95,6 @@ char *      _gtk_entry_get_filename_text (GtkEntry   *entry);
 
 void        _gtk_label_set_filename_text (GtkLabel   *label,
 					  const char *text);
-
-char *      _gtk_label_get_filename_text (GtkLabel   *label);
 
 void        _gtk_button_set_filename_label (GtkButton   *button,
 					  const char *text);

@@ -715,22 +715,6 @@ _gtk_label_set_locale_text (GtkLabel   *label,
 }
 
 
-char *
-_gtk_label_get_locale_text (GtkLabel *label)
-{
-	const char *utf8_text;
-	char       *text;
-
-	utf8_text = gtk_label_get_text (label);
-	if (utf8_text == NULL)
-		return NULL;
-
-	text = g_locale_from_utf8 (utf8_text, -1, NULL, NULL, NULL);
-
-	return text;
-}
-
-
 void
 _gtk_entry_set_filename_text (GtkEntry   *entry,
 			      const char *text)
@@ -772,22 +756,6 @@ _gtk_label_set_filename_text (GtkLabel   *label,
 	utf8_text = get_utf8_display_name_from_uri (text);
 	gtk_label_set_text (label, utf8_text);
 	g_free (utf8_text);
-}
-
-
-char *
-_gtk_label_get_filename_text (GtkLabel   *label)
-{
-	const char *utf8_text;
-	char       *text;
-
-	utf8_text = gtk_label_get_text (label);
-	if (utf8_text == NULL)
-		return NULL;
-
-	text = gnome_vfs_escape_string (utf8_text);
-
-	return text;
 }
 
 
