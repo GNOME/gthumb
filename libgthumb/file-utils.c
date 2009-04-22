@@ -1935,16 +1935,10 @@ delete_catalog_dir (const char  *full_path,
 		return TRUE;
 
 	if (gerror != NULL) {
-		const char *rel_path;
-		char       *base_path;
 		char       *utf8_path;
 		const char *details;
 
-		base_path = get_catalog_full_path (NULL);
-		rel_path = full_path + strlen (base_path) + 1;
-		g_free (base_path);
-
-		utf8_path = get_utf8_display_name_from_uri (rel_path);
+		utf8_path = basename_for_display (full_path);
 
 		switch (gnome_vfs_result_from_errno ()) {
 		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
