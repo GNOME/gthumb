@@ -91,7 +91,6 @@ GList *             path_list_find_path           (GList              *list,
 
 /* Directory utils */
 
-gboolean            dir_is_empty                  (const char       *s);
 gboolean            dir_make                      (const char       *uri);
 gboolean            dir_remove                    (const char       *uri);
 gboolean            dir_remove_recursive          (const char       *path);
@@ -239,9 +238,6 @@ GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 						   gpointer          buffer,
 						   GnomeVFSFileSize  buffer_size,
 						   GnomeVFSFileSize *bytes_read);
-GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
-						   const char       *format,
-						   ...);
 guint64             get_destination_free_space    (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
