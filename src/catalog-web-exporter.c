@@ -2139,12 +2139,12 @@ export__copy_to_destination__step2 (GError 	   *error,
 {
 	CatalogWebExporter *ce = data;
 
-	debug (DEBUG_INFO, "result: %s", error->message);
-
-	if (error != NULL)
+	if (error != NULL) {
+		debug (DEBUG_INFO, "result: %s", error->message);
 		_gtk_error_dialog_run (GTK_WINDOW (ce->window),
 				       "%s",
 				       error->message);
+	}
 
 	dlg_folder_delete (ce->window,
 			   ce->base_tmp_dir,

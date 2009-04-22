@@ -1055,23 +1055,34 @@ set_file_mtime (const gchar *path,
 char *
 get_utf8_display_name_from_uri (const char *escaped_uri)
 {
-	char        *unescaped_name = NULL;
 	char        *utf8_name = NULL;
-	GError      *err = NULL;
+	GFile       *gfile;
 
-	unescaped_name = gnome_vfs_unescape_string_for_display (escaped_uri);
-	utf8_name = g_filename_to_utf8 (unescaped_name, -1, NULL, NULL, &err);
+	/* g_file_get_parse_name can handle escaped and unescaped uris */
 
-	if (err != NULL) {
-		g_warning ("%s:%u:%s(): %s\n", __FILE__, __LINE__, __FUNCTION__, err->message);
-		g_warning ("Hint: try to set G_FILENAME_ENCODING environment variable to the correct filename encoding or G_BROKEN_FILENAMES to 1\n");
-		utf8_name = unescaped_name;
+	if (strcmp (escaped_uri,"/") == 0) {
+		utf8_name = g_strdup ("/");
+	} else if (strcmp (escaped_uri,"..") == 0) {
+		utf8_name = g_strdup ("..");
+	} else if (uri_has_scheme (escaped_uri) || escaped_uri[0]=='/') {
+        	gfile = gfile_new (escaped_uri);
+		utf8_name = g_file_get_parse_name (gfile);
+        	g_object_unref (gfile);
 	} else {
-		g_free (unescaped_name);
-	}
+		char *result;
+		char *fake_uri;
 
-	if (g_utf8_validate (utf8_name, -1, NULL) == FALSE)
-		g_warning ("File display name is not valid UTF8. Please file a bug report.\n");
+		/* This is a bit hackish. */
+		fake_uri = g_strconcat ("file:///", escaped_uri, NULL);
+                gfile = gfile_new (fake_uri);
+                result = g_file_get_parse_name (gfile);
+                g_object_unref (gfile);
+
+		/* g_file_get_parse_name strips off the "file://" bit,
+		   we need to skip the one remaining leading slash */
+		utf8_name = g_strdup_printf ("%s",result+1);
+		g_free (result);
+	}
 		
 	return utf8_name;
 }
