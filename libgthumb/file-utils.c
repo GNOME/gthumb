@@ -1413,7 +1413,14 @@ same_uri (const char *uri1,
 char *
 basename_for_display (const char *uri)
 {
-	return get_utf8_display_name_from_uri (file_name_from_path (uri));
+        GFile *gfile;
+        char  *result;
+
+        gfile = gfile_new (uri);
+        result = gfile_get_display_name (gfile);
+        g_object_unref (gfile);
+
+	return result;
 }
 
 

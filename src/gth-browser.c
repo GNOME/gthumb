@@ -586,7 +586,7 @@ window_update_infobar (GthBrowser *browser)
 	images = gth_file_view_get_images (priv->file_list->view);
 	current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
-	display_name = get_utf8_display_name_from_uri (file_name_from_path (priv->image->path));
+	display_name = basename_for_display (priv->image->path);
 	escaped_name = g_markup_escape_text (display_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s",
@@ -642,12 +642,12 @@ window_update_title (GthBrowser *browser)
 		char *image_name;
 		int   images, current;
 
-		image_name = get_utf8_display_name_from_uri (file_name_from_path (priv->image->path));
+		image_name = basename_for_display (priv->image->path);
 		images = gth_file_view_get_images (priv->file_list->view);
 		current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
 		if (priv->image_catalog != NULL) {
-			char *cat_name = get_utf8_display_name_from_uri (file_name_from_path (priv->image_catalog));
+			char *cat_name = basename_for_display (priv->image_catalog);
 
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
