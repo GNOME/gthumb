@@ -31,7 +31,6 @@
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
 #include <libgnome/gnome-url.h>
-#include <libgnomevfs/gnome-vfs-result.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "async-pixbuf-ops.h"
@@ -729,7 +728,7 @@ set_wallpaper (GthWindow      *window,
 	data->align = align;
 	
 	if (is_local_file (image_path))
-		set_wallpaper_step_2 (image_path, GNOME_VFS_OK, data);
+		set_wallpaper_step_2 (image_path, NULL, data);
 	else {
 		char *wallpaper_filename;
 		

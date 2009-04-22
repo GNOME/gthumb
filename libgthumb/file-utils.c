@@ -2342,6 +2342,8 @@ copy_file_async (const char   *source_uri,
 		 CopyDoneFunc  done_func,
 		 gpointer      done_data)
 {
+	/* TODO: copy_data->error is not set properly? */
+
 	CopyData       *copy_data;
 	GList          *source_uri_list, *target_uri_list;
 	GnomeVFSResult  result;
