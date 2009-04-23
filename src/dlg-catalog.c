@@ -29,8 +29,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "typedefs.h"
 #include "catalog.h"
@@ -77,12 +75,12 @@ static void
 new_catalog_cb (GtkWidget *widget,
 		gpointer   p)
 {
-	DialogData     *data = p;
-	char           *name_utf8, *name;
-	char           *path;
-	GnomeVFSResult  result;
-	GnomeVFSHandle *handle;
-	GtkTreeIter     iter;
+	DialogData        *data = p;
+	char              *name_utf8;
+	char              *path;
+	GFile		  *gfile;
+	GFileOutputStream *stream;
+	GtkTreeIter        iter;
 
 	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window),
 					     GTK_DIALOG_MODAL,
@@ -91,27 +89,21 @@ new_catalog_cb (GtkWidget *widget,
 					     1024,
 					     GTK_STOCK_CANCEL,
 					     _("C_reate"));
-
 	if (name_utf8 == NULL)
 		return;
 
-	name = gnome_vfs_escape_string (name_utf8);
-	g_free (name_utf8);
-
 	path = g_strconcat (data->current_dir,
 			    "/",
-			    name,
+			    name_utf8,
 			    CATALOG_EXT,
 			    NULL);
-	g_free (name);
+	g_free (name_utf8);
 
-	result = gnome_vfs_create (&handle,
-				   path,
-				   GNOME_VFS_OPEN_WRITE,
-				   TRUE,
-				   0644);
-	if (result == GNOME_VFS_OK)
-		gnome_vfs_close (handle);
+	gfile = gfile_new (path);
+	stream = g_file_create (gfile, G_FILE_CREATE_NONE, NULL, NULL);
+	if (stream)
+		g_object_unref (stream);
+	g_object_unref (gfile);
 
 	/* update the catalog list. */
 
