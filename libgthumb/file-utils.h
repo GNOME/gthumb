@@ -68,9 +68,7 @@ typedef struct {
 	PathListData *pli_data;
 } PathListHandle;
 
-PathListData *      path_list_data_new            (void);
 void                path_list_data_free           (PathListData       *dli);
-void                path_list_handle_free         (PathListHandle     *handle);
 PathListHandle *    path_list_async_new           (const char         *uri,
 						   PathListFilterFunc  filter_func,
 		     				   gpointer            filter_data,

@@ -72,7 +72,7 @@
 /* Async directory list */
 
 
-PathListData *
+static PathListData *
 path_list_data_new (void)
 {
 	PathListData *pli;
@@ -116,15 +116,6 @@ path_list_data_free (PathListData *pli)
 		g_hash_table_unref (pli->hidden_files);
 
 	g_free (pli);
-}
-
-
-void
-path_list_handle_free (PathListHandle *handle)
-{
-	if (handle->pli_data != NULL)
-		path_list_data_free (handle->pli_data);
-	g_free (handle);
 }
 
 
