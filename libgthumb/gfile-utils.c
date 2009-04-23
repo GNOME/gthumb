@@ -694,7 +694,7 @@ gfile_path_list_new (GFile  *gfile,
                                                0, NULL, &error);
 
         if (error != NULL) {
-                gfile_warning ("Error while reading catalog folder", gfile, error);
+                gfile_warning ("Error while reading contents of directory", gfile, error);
                 g_error_free (error);
                 return FALSE;
         }
