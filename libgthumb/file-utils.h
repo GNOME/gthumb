@@ -75,9 +75,7 @@ PathListHandle *    path_list_async_new           (const char         *uri,
 		     				   gboolean            fast_file_type,
 						   PathListDoneFunc    done_func,
 						   gpointer            done_data);
-void                path_list_async_interrupt     (PathListHandle     *handle,
-						   DoneFunc            f,
-						   gpointer            data);
+void                path_list_async_interrupt     (PathListHandle     *handle);
 gboolean            path_list_new                 (const char         *path,
 						   GList             **files,
 						   GList             **dirs);

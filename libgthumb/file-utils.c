@@ -85,8 +85,6 @@ path_list_data_new (void)
 	pli->dirs = NULL;
 	pli->done_func = NULL;
 	pli->done_data = NULL;
-	pli->interrupt_func = NULL;
-	pli->interrupt_data = NULL;
 	pli->interrupted = FALSE;
 	pli->hidden_files = NULL;
 
@@ -135,8 +133,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	if (pli->interrupted) {
 		gnome_vfs_async_cancel (handle);
 		pli->interrupted = FALSE;
-		if (pli->interrupt_func)
-			pli->interrupt_func (pli->interrupt_data);
 		path_list_data_free (pli);
 		return;
 	}
@@ -243,14 +239,9 @@ path_list_async_new (const char         *uri,
 
 
 void
-path_list_async_interrupt (PathListHandle   *handle,
-			   DoneFunc          f,
-			   gpointer          data)
+path_list_async_interrupt (PathListHandle *handle)
 {
 	handle->pli_data->interrupted = TRUE;
-	handle->pli_data->interrupt_func = f;
-	handle->pli_data->interrupt_data = data;
-
 	g_free (handle);
 }
 

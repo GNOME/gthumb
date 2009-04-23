@@ -591,7 +591,7 @@ gth_dir_list_change_to (GthDirList *dir_list,
 	dir_list->try_path = remove_ending_separator (path);
 
 	if (dir_list->dir_load_handle != NULL)
-		path_list_async_interrupt (dir_list->dir_load_handle, NULL, NULL);
+		path_list_async_interrupt (dir_list->dir_load_handle);
 
 	dir_list->dir_load_handle = path_list_async_new (
 		dir_list->try_path, 
@@ -609,7 +609,7 @@ gth_dir_list_stop (GthDirList *dir_list)
 	g_return_if_fail (dir_list != NULL);
 
 	if (dir_list->dir_load_handle != NULL) {
-		path_list_async_interrupt (dir_list->dir_load_handle, NULL, NULL);
+		path_list_async_interrupt (dir_list->dir_load_handle);
 		dir_list->dir_load_handle = NULL;
 	}
 }
