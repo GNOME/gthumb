@@ -1039,6 +1039,10 @@ get_utf8_display_name_from_uri (const char *escaped_uri)
 		utf8_name = g_strdup ("/");
 	} else if (strcmp (escaped_uri,"..") == 0) {
 		utf8_name = g_strdup ("..");
+	} else if (uri_scheme_is_catalog (escaped_uri)) {
+		gfile = gfile_new (escaped_uri+10);
+		utf8_name = g_file_get_parse_name (gfile);
+                g_object_unref (gfile);
 	} else if (uri_has_scheme (escaped_uri) || escaped_uri[0]=='/') {
         	gfile = gfile_new (escaped_uri);
 		utf8_name = g_file_get_parse_name (gfile);
@@ -1058,7 +1062,7 @@ get_utf8_display_name_from_uri (const char *escaped_uri)
 		utf8_name = g_strdup_printf ("%s",result+1);
 		g_free (result);
 	}
-		
+
 	return utf8_name;
 }
 
@@ -1399,12 +1403,12 @@ same_uri (const char *uri1,
 char *
 basename_for_display (const char *uri)
 {
-        GFile *gfile;
-        char  *result;
+        char *result;
+	char *utf8_name;
 
-        gfile = gfile_new (uri);
-        result = gfile_get_display_name (gfile);
-        g_object_unref (gfile);
+	utf8_name = get_utf8_display_name_from_uri (uri);
+	result = g_strdup (file_name_from_path (utf8_name));
+	g_free (utf8_name);
 
 	return result;
 }

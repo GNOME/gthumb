@@ -125,9 +125,9 @@ static void
 new_dir_cb (GtkWidget *widget,
 	    DialogData *data)
 {
-	char *utf8_name;
-	char *name;
-	char *path;
+	char  *utf8_name;
+	char  *path;
+	GFile *gfile;
 
 	utf8_name = _gtk_request_dialog_run (GTK_WINDOW (data->window),
 					     GTK_DIALOG_MODAL,
@@ -136,22 +136,18 @@ new_dir_cb (GtkWidget *widget,
 					     1024,
 					     GTK_STOCK_CANCEL,
 					     _("C_reate"));
-
 	if (utf8_name == NULL)
 		return;
 
-	name = gnome_vfs_escape_string (utf8_name);
-	if (name == NULL)
-		return;
 	path = g_strconcat (data->current_dir,
 			    "/",
-			    name,
+			    utf8_name,
 			    NULL);
-
-	dir_make (path);
-
+	gfile = gfile_new (path);
 	g_free (path);
-	g_free (name);
+	g_file_make_directory (gfile, NULL, NULL);
+	g_object_unref (gfile);
+	g_free (utf8_name);
 
 	/* update the catalog list. */
 	catalog_list_change_to (data->cat_list, data->current_dir);
