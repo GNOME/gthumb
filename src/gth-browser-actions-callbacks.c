@@ -927,16 +927,22 @@ static void
 show_folder (GtkWindow  *window,
 	     const char *path)
 {
-	char           *uri;
-	GnomeVFSResult  result;
+	char   *uri;
+	GError *error = NULL;
 
 	if (path == NULL)
 		return;
 
 	uri = add_scheme_if_absent (path);
-	result = gnome_vfs_url_show (uri);
-	if (result != GNOME_VFS_OK)
-		_gtk_error_dialog_run (window, "%s", gnome_vfs_result_to_string (result));
+
+	gtk_show_uri (gtk_window_get_screen (window),
+		      uri,
+		      gtk_get_current_event_time (),
+		      &error);
+
+        if (error)
+                _gtk_error_dialog_from_gerror_run (window, &error);
+
 	g_free (uri);
 }
 
