@@ -4,15 +4,16 @@
 # Hendrik Richter <hendrikr@gnome.org>, 2005, 2006.
 # Maren Reinecke <ma-reinecke@web.de>, 2008.
 # Jochen Skulj <jochen@jochenskulj.de>, 2008.
-#
+# Mario Blättermann <mariobl@gnome.org>, 2009.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2008, 2009.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-25 00:16+0100\n"
-"PO-Revision-Date: 2009-01-25 00:34+0100\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2009-04-26 11:21+0200\n"
+"PO-Revision-Date: 2009-04-26 11:23+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -239,8 +240,7 @@ msgstr "Ka_tegorien:"
 msgid "Camera Model"
 msgstr "Kameramodell"
 
-#: ../data/glade/gthumb_camera.glade.h:5
-#: ../data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:5 ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
 #: ../data/glade/gthumb_tools.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:29
@@ -407,8 +407,7 @@ msgstr "<b>Kompression</b>"
 msgid "<b>Image type</b>"
 msgstr "<b>Bildtyp</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:4
-#: ../data/glade/gthumb_print.glade.h:16
+#: ../data/glade/gthumb_convert.glade.h:4 ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
 msgstr "<b>Auflösung</b>"
 
@@ -801,8 +800,8 @@ msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
 msgstr ""
-"<small><i><b>Hinweis:</b> %p (Seitenzahl), %n (Gesamtanzahl der Seiten)</i>."
-"</small>"
+"<small><i><b>Hinweis:</b> %p (Seitenzahl), %n (Gesamtanzahl der Seiten)</i>.</"
+"small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:30
@@ -939,8 +938,7 @@ msgid "St_yle"
 msgstr "St_il"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
-#: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_search.glade.h:22 ../data/glade/gthumb_tools.glade.h:53
 msgid "Start _at:"
 msgstr "_Beginnen in:"
 
@@ -1117,9 +1115,9 @@ msgid ""
 "%n = a single filename, including path, with no extension\n"
 "%e = a single extension (starting with a period)\n"
 "%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the "
-"number of files selected. All other scripts will be executed once per "
-"selected file.\n"
+"Scripts with the %F code will be executed just once, regardless of the number "
+"of files selected. All other scripts will be executed once per selected "
+"file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
 "<small><i><b>Besondere Angaben:</b>\n"
@@ -1128,9 +1126,9 @@ msgstr ""
 "%n = ein einzelner Dateiname inklusive Pfad, ohne Erweiterung\n"
 "%e = eine einzelne Erweiterung (beginnend mit einem Punkt)\n"
 "%p = der Elternordner einer einzelnen Datei</i>\n"
-"Skripte mit einer %F-Angabe werden unabhängig von der Anzahl der "
-"ausgewählten Dateien nur einmal ausgeführt. Alle anderen Skripte werden "
-"einmal pro ausgewählter Datei ausgeführt.\n"
+"Skripte mit einer %F-Angabe werden unabhängig von der Anzahl der ausgewählten "
+"Dateien nur einmal ausgeführt. Alle anderen Skripte werden einmal pro "
+"ausgewählter Datei ausgeführt.\n"
 "Die vorgegebenen Skripte werden in der Hilfedatei erläutert.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
@@ -1605,8 +1603,7 @@ msgstr "Suchen"
 msgid "Search Progress"
 msgstr "Fortschritt der Suche"
 
-#: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_search.glade.h:21 ../data/glade/gthumb_tools.glade.h:48
 msgid "Searching in:"
 msgstr "Suche in:"
 
@@ -1614,8 +1611,7 @@ msgstr "Suche in:"
 msgid "_Edit Search"
 msgstr "Suche _bearbeiten"
 
-#: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_search.glade.h:25 ../data/glade/gthumb_tools.glade.h:60
 msgid "_Include sub-folders"
 msgstr "_Unterordner einbeziehen"
 
@@ -1627,8 +1623,7 @@ msgstr "_Speichern"
 msgid "_Search"
 msgstr "_Suchen"
 
-#: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:72
+#: ../data/glade/gthumb_search.glade.h:30 ../data/glade/gthumb_tools.glade.h:72
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -1654,14 +1649,14 @@ msgid ""
 msgstr ""
 "<small><i><b>Note</b>: JPEG-Umwandlungen sind normalerweise verlustfrei.\n"
 "Beim Betrachten von Bildern können Sie die Tastenkombinationen »[« und »]«\n"
-"verwenden, um unter Umgehung dieses Dialogs Bilder zu drehen und zu "
-"speichern.</i></small>"
+"verwenden, um unter Umgehung dieses Dialogs Bilder zu drehen und zu speichern."
+"</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
 msgid ""
-"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
-"%d (image date), %s (image size), %e (original extension).</i></small>"
+"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %"
+"d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
 "<small><i><b>Sonderzeichen:</b> # (Aufzählung), %f (ursprünglicher "
 "Dateiname), %d (Bilddatum), %s (Bildgröße), %e (ursprüngliche "
@@ -1952,9 +1947,8 @@ msgstr "_Bildüberschrift …"
 
 # CHECK
 #: ../data/glade/gthumb_web_exporter.glade.h:39
-#, fuzzy
 msgid "Inde_x file:"
-msgstr "_Inhaltsdatei:"
+msgstr "Inde_xdatei:"
 
 # CHECK Im Zusammenhang richtig
 #: ../data/glade/gthumb_web_exporter.glade.h:41
@@ -2062,9 +2056,9 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-"
-"Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder "
-"Miniatur-Vorschaubilder erzeugt."
+"Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild "
+"erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-"
+"Vorschaubilder erzeugt."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
@@ -2087,8 +2081,8 @@ msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
-"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), "
-"keep_prev (vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
+"Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev "
+"(vorherige beibehalten), fit_if_larger (einpassen, wenn größer), "
 "fit_width_if_larger (an Breite anpassen, wenn größer)"
 
 #: ../data/gthumb.schemas.in.h:6
@@ -2340,8 +2334,8 @@ msgstr "HTML-Seiten werden gespeichert: Indizes"
 msgid "Copying original images"
 msgstr "Ursprüngliche Bilder kopieren"
 
-#: ../src/catalog-web-exporter.c:2580
-#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
+#: ../src/catalog-web-exporter.c:2580 ../src/gth-window-actions-callbacks.c:215
+#: ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Es konnte kein temporärer Ordner angelegt werden"
 
@@ -2354,9 +2348,8 @@ msgstr "Bilder werden geladen"
 msgid "Enter the catalog name: "
 msgstr "Geben Sie einen Namen für den Katalog ein: "
 
-#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
-#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:772
+#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146 ../src/dlg-categories.c:244
+#: ../src/dlg-file-utils.c:92 ../src/gth-browser-actions-callbacks.c:772
 msgid "C_reate"
 msgstr "_Erstellen"
 
@@ -2364,7 +2357,7 @@ msgstr "_Erstellen"
 msgid "Enter the library name: "
 msgstr "Geben Sie einen Namen für die Bibliothek ein: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "Katalog verschieben nach …"
 
@@ -2378,7 +2371,7 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"Der Name »%s« ist ungültig, da er das »/«-Zeichen enthält. Bitte verwenden Sie "
+"Der Name »%s« ist ungültig, da er das »,«-Zeichen enthält. Bitte verwenden Sie "
 "einen anderen Namen."
 
 #: ../src/dlg-categories.c:256
@@ -2405,8 +2398,7 @@ msgstr ""
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr ""
-"Es existiert bereits ein Bild mit Namen »%s«. Soll dieses überschrieben "
-"werden?"
+"Es existiert bereits ein Bild mit Namen »%s«. Soll dieses überschrieben werden?"
 
 #: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
 msgid "Skip"
@@ -2615,8 +2607,7 @@ msgstr "Importfehler erkannt"
 msgid "The files on the camera will not be deleted"
 msgstr "Die Dateien auf der Kamera werden nicht gelöscht"
 
-#: ../src/dlg-photo-importer.c:1652
-#: ../src/gth-browser-actions-callbacks.c:1603
+#: ../src/dlg-photo-importer.c:1652 ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht angelegt werden: %s"
@@ -2637,32 +2628,32 @@ msgstr "Kopfzeile"
 msgid "Footer"
 msgstr "Fußzeile"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "nach Pfad"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "nach Größe"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "nach Änderungszeitpunkt"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "nach Exif Zeitpunkt-Eintrag"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "Nach Kommentar"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "Manuelle Reihenfolge"
@@ -4002,6 +3993,10 @@ msgstr "Informationen zu gThumb anzeigen"
 msgid "Contents"
 msgstr "Inhalte"
 
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "Das gThumb-Handbuch anzeigen"
+
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkürzel"
@@ -4112,21 +4107,21 @@ msgid ""
 "unacceptable, simply apply the reverse transformation to return to the "
 "original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
+"You can also choose to discard (or trim) any untransformable edge pixels. For "
+"practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
 "Diese Umwandlung kann zu ein oder mehreren Verzerrungen entlang von Kanten "
 "führen, weil die Bildausmaße kein Faktor von 8 sind.\n"
 "\n"
 "Diese Verzerrungen sind aber umkehrbar. Wenn das Ergebnisbild nicht "
-"akzeptabel ist, wenden Sie einfach die entgegengesetzte Umwandlung an, um "
-"zum ursprünglichen Bild zurückzugelangen.\n"
+"akzeptabel ist, wenden Sie einfach die entgegengesetzte Umwandlung an, um zum "
+"ursprünglichen Bild zurückzugelangen.\n"
 "\n"
 "Sie können sich auch dafür entscheiden, alle nicht umwandelbaren Pixel an "
-"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung "
-"führt dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht "
-"mehr strikt verlustfrei."
+"Ecken zu entfernen (oder auszuschneiden). Bei der praktischen Anwendung führt "
+"dies zu den besten Ergebnissen, allerdings ist die Umwandlung nicht mehr "
+"strikt verlustfrei."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
@@ -4144,179 +4139,181 @@ msgstr ""
 "Temporäre Dateien können nicht zum lokalen Ziel verschoben werden. Bitte "
 "überprüfen Sie die Zugriffsrechte."
 
-msgid "_Metadata"
-msgstr "_Metadaten"
+#~ msgid "_Metadata"
+#~ msgstr "_Metadaten"
 
-msgid "<small>Click \"Help\" for format code information.</small>"
-msgstr ""
-"<small>Für Informationen über den Formatcode auf »Hilfe« klicken.</small>"
+#~ msgid "<small>Click \"Help\" for format code information.</small>"
+#~ msgstr ""
+#~ "<small>Für Informationen über den Formatcode auf »Hilfe« klicken.</small>"
 
-msgid ""
-"If valuable photos have been deleted accidently, download the excellent "
-"PhotoRec tool from http://www.cgsecurity.org. PhotoRec can usually recover "
-"images that have been recently deleted from flash cards and other media."
-msgstr ""
-"Falls aus Versehen wertvolle Fotos gelöscht worden sind, laden Sie das "
-"hervorragende Hilfsprogramm »PhotoRec« von http://www.cgsecurity.org "
-"herunter. PhotoRec kann normalerweise Bilder retten, die vor kurzem von "
-"Flash-Speicherkarten und anderen Medien gelöscht wurden."
+#~ msgid ""
+#~ "If valuable photos have been deleted accidently, download the excellent "
+#~ "PhotoRec tool from http://www.cgsecurity.org. PhotoRec can usually recover "
+#~ "images that have been recently deleted from flash cards and other media."
+#~ msgstr ""
+#~ "Falls aus Versehen wertvolle Fotos gelöscht worden sind, laden Sie das "
+#~ "hervorragende Hilfsprogramm »PhotoRec« von http://www.cgsecurity.org "
+#~ "herunter. PhotoRec kann normalerweise Bilder retten, die vor kurzem von "
+#~ "Flash-Speicherkarten und anderen Medien gelöscht wurden."
 
-msgid ""
-"<small>Click and drag the mouse to \n"
-"select the cropping area, or\n"
-"use the dialogs below. Press \n"
-"the \"Crop\" button to perform\n"
-"the crop, and \"Done\" to finish.</small>"
-msgstr ""
-"<small>Wählen Sie durch Klicken und Ziehen\n"
-"mit der Maus den Zuschneidebereich aus oder\n"
-"benutzen Sie die Dialoge unten. Betätigen\n"
-"Sie den Knopf »Zuschneiden«, um das Zuschneiden\n"
-"durchzuführen und »Beenden« zum Beenden.</small>"
+#~ msgid ""
+#~ "<small>Click and drag the mouse to \n"
+#~ "select the cropping area, or\n"
+#~ "use the dialogs below. Press \n"
+#~ "the \"Crop\" button to perform\n"
+#~ "the crop, and \"Done\" to finish.</small>"
+#~ msgstr ""
+#~ "<small>Wählen Sie durch Klicken und Ziehen\n"
+#~ "mit der Maus den Zuschneidebereich aus oder\n"
+#~ "benutzen Sie die Dialoge unten. Betätigen\n"
+#~ "Sie den Knopf »Zuschneiden«, um das Zuschneiden\n"
+#~ "durchzuführen und »Beenden« zum Beenden.</small>"
 
-msgid "Show / hide the cropping selection area"
-msgstr "Zuschneideauswahlbereich anzeigen / verbergen"
+#~ msgid "Show / hide the cropping selection area"
+#~ msgstr "Zuschneideauswahlbereich anzeigen / verbergen"
 
-msgid "Zoom at 100% scale"
-msgstr "Auf 100%-Skalierung anpassen"
+#~ msgid "Zoom at 100% scale"
+#~ msgstr "Auf 100%-Skalierung anpassen"
 
-msgid "Zoom in. The mousewheel can also be used to zoom in."
-msgstr "Vergrößern. Das Mausrad kann auch zum Vergrößern verwendet werden."
+#~ msgid "Zoom in. The mousewheel can also be used to zoom in."
+#~ msgstr "Vergrößern. Das Mausrad kann auch zum Vergrößern verwendet werden."
 
-msgid "Zoom out. The mousewheel can also be used to zoom out."
-msgstr "Verkleinern. Das Mausrad kann auch zum Verkleinern verwendet werden."
+#~ msgid "Zoom out. The mousewheel can also be used to zoom out."
+#~ msgstr "Verkleinern. Das Mausrad kann auch zum Verkleinern verwendet werden."
 
-msgid ""
-"By default, gThumb lists all files that are likely to be found on a digital "
-"camera - photos, videos, and audio files. You can omit the audio and video "
-"files by deselecting this checkbox."
-msgstr ""
-"Laut Vorgabe listet gThumb alle Dateien auf, die typischerweise auf einer "
-"Digitalkamera gefunden werden können - Fotos, Videos und Audio-Dateien. Sie "
-"können Audio- und Videodateien durch Abwählen dieses Ankreuzfeldes "
-"ausschließen."
+#~ msgid ""
+#~ "By default, gThumb lists all files that are likely to be found on a "
+#~ "digital camera - photos, videos, and audio files. You can omit the audio "
+#~ "and video files by deselecting this checkbox."
+#~ msgstr ""
+#~ "Laut Vorgabe listet gThumb alle Dateien auf, die typischerweise auf einer "
+#~ "Digitalkamera gefunden werden können - Fotos, Videos und Audio-Dateien. "
+#~ "Sie können Audio- und Videodateien durch Abwählen dieses Ankreuzfeldes "
+#~ "ausschließen."
 
-msgid "Include audio clips and movies in browser view"
-msgstr "Audio-Mitschnitte und Filme im Browser einbeziehen"
+#~ msgid "Include audio clips and movies in browser view"
+#~ msgstr "Audio-Mitschnitte und Filme im Browser einbeziehen"
 
-msgid ""
-"<small>Move the cursor over the\n"
-"red eye and click on it. You\n"
-"can use the mousewheel to\n"
-"zoom in and out, or use the\n"
-"zoom buttons below.</small>"
-msgstr ""
-"<small>Bewegen Sie den Cursor über das rote\n"
-"Auge und klicken Sie darauf. Sie können das\n"
-"Mausrad zum Vergrößern und Verkleinern oder\n"
-"die Vergrößern/Verkleinern-Knöpfe unten\n"
-"verwenden.</small>"
+#~ msgid ""
+#~ "<small>Move the cursor over the\n"
+#~ "red eye and click on it. You\n"
+#~ "can use the mousewheel to\n"
+#~ "zoom in and out, or use the\n"
+#~ "zoom buttons below.</small>"
+#~ msgstr ""
+#~ "<small>Bewegen Sie den Cursor über das rote\n"
+#~ "Auge und klicken Sie darauf. Sie können das\n"
+#~ "Mausrad zum Vergrößern und Verkleinern oder\n"
+#~ "die Vergrößern/Verkleinern-Knöpfe unten\n"
+#~ "verwenden.</small>"
 
-msgid "Add New Script"
-msgstr "Neues Skript hinzufügen"
+#~ msgid "Add New Script"
+#~ msgstr "Neues Skript hinzufügen"
 
-msgid "Define External Scripts"
-msgstr "Externes Skript definieren"
+#~ msgid "Define External Scripts"
+#~ msgstr "Externes Skript definieren"
 
-msgid ""
-"Do not change\n"
-"Convert to lower-case\n"
-"Convert to upper-case"
-msgstr ""
-"Nicht ändern\n"
-"In Kleinbuchstaben umwandeln\n"
-"In Großbuchstaben umwandeln"
+#~ msgid ""
+#~ "Do not change\n"
+#~ "Convert to lower-case\n"
+#~ "Convert to upper-case"
+#~ msgstr ""
+#~ "Nicht ändern\n"
+#~ "In Kleinbuchstaben umwandeln\n"
+#~ "In Großbuchstaben umwandeln"
 
-msgid "Exif DateTimeDigitized tag"
-msgstr "Exif-Digitalisierungszeitpunkteintrag"
+#~ msgid "Exif DateTimeDigitized tag"
+#~ msgstr "Exif-Digitalisierungszeitpunkteintrag"
 
-msgid "Exif DateTimeOriginal tag"
-msgstr "Exif-Originalzeitpunkteintrag"
+#~ msgid "Exif DateTimeOriginal tag"
+#~ msgstr "Exif-Originalzeitpunkteintrag"
 
-msgid "Swap height and width for best _fit"
-msgstr "Höhe und Breite zum Einpassen _vertauschen"
+#~ msgid "Swap height and width for best _fit"
+#~ msgstr "Höhe und Breite zum Einpassen _vertauschen"
 
-msgid ""
-"The number keys on the numeric keypad can be associated with scripts 0-9.\n"
-"All scripts can be launched from the Scripts menu."
-msgstr ""
-"Die Zahlen des Nummernblocks können mit den Skripten 0-9 verbunden werden.\n"
-"Alle Skripte können über das Skript-Menü gestartet werden."
+#~ msgid ""
+#~ "The number keys on the numeric keypad can be associated with scripts 0-9.\n"
+#~ "All scripts can be launched from the Scripts menu."
+#~ msgstr ""
+#~ "Die Zahlen des Nummernblocks können mit den Skripten 0-9 verbunden "
+#~ "werden.\n"
+#~ "Alle Skripte können über das Skript-Menü gestartet werden."
 
-msgid "User-Defined Script Parameter"
-msgstr "Benutzerdefinierter Skript-Parameter"
+#~ msgid "User-Defined Script Parameter"
+#~ msgstr "Benutzerdefinierter Skript-Parameter"
 
-msgid "Your script requires this user-defined parameter:"
-msgstr "Ihr Skript erfordert diesen benutzerdefinierten Parameter"
+#~ msgid "Your script requires this user-defined parameter:"
+#~ msgstr "Ihr Skript erfordert diesen benutzerdefinierten Parameter"
 
-msgid "Use subfolders to organize files"
-msgstr "Unterordner zum Organisieren der Dateien verwenden"
+#~ msgid "Use subfolders to organize files"
+#~ msgstr "Unterordner zum Organisieren der Dateien verwenden"
 
-msgid "Put name or format code here"
-msgstr "Name oder Formatcode hier eintragen"
+#~ msgid "Put name or format code here"
+#~ msgstr "Name oder Formatcode hier eintragen"
 
-msgid "No grouping"
-msgstr "Nicht gruppieren"
+#~ msgid "No grouping"
+#~ msgstr "Nicht gruppieren"
 
-msgid "By day photo taken"
-msgstr "Nach Tag der Aufnahme"
+#~ msgid "By day photo taken"
+#~ msgstr "Nach Tag der Aufnahme"
 
-msgid "By month photo taken"
-msgstr "Nach Monat der Aufnahme"
+#~ msgid "By month photo taken"
+#~ msgstr "Nach Monat der Aufnahme"
 
-msgid "Edit with GIMP"
-msgstr "Mit GIMP bearbeiten"
+#~ msgid "Edit with GIMP"
+#~ msgstr "Mit GIMP bearbeiten"
 
-msgid "Add copyright"
-msgstr "Copyright hinzufügen"
+#~ msgid "Add copyright"
+#~ msgstr "Copyright hinzufügen"
 
-msgid "Send by email"
-msgstr "Als E-Mail versenden"
+#~ msgid "Send by email"
+#~ msgstr "Als E-Mail versenden"
 
-msgid "Make a zip file"
-msgstr "ZIP-Datei erstellen"
+#~ msgid "Make a zip file"
+#~ msgstr "ZIP-Datei erstellen"
 
-msgid "Make a zip file and email it"
-msgstr "ZIP-Datei erstellen und als E-Mail verschicken"
+#~ msgid "Make a zip file and email it"
+#~ msgstr "ZIP-Datei erstellen und als E-Mail verschicken"
 
-msgid "Scripts using the %%F code can not be cancelled. Sorry!"
-msgstr ""
-"Skript, das %%F-Code verwendet, kann nicht abgebrochen werden.  "
-"Entschuldigung!"
+#~ msgid "Scripts using the %%F code can not be cancelled. Sorry!"
+#~ msgstr ""
+#~ "Skript, das %%F-Code verwendet, kann nicht abgebrochen werden.  "
+#~ "Entschuldigung!"
 
-msgid "Script %d"
-msgstr "Skript %d"
+#~ msgid "Script %d"
+#~ msgstr "Skript %d"
 
-msgid "The \"Postr\" software package must be installed to use this function."
-msgstr ""
-"Das Software-Paket »Postr« muss installiert sein, um diese Funktion nutzen zu "
-"können."
+#~ msgid ""
+#~ "The \"Postr\" software package must be installed to use this function."
+#~ msgstr ""
+#~ "Das Software-Paket »Postr« muss installiert sein, um diese Funktion nutzen "
+#~ "zu können."
 
-msgid "Scri_pts"
-msgstr "Skri_pte"
+#~ msgid "Scri_pts"
+#~ msgstr "Skri_pte"
 
-msgid "Edit external scripts"
-msgstr "Externes Skript bearbeiten"
+#~ msgid "Edit external scripts"
+#~ msgstr "Externes Skript bearbeiten"
 
-msgid "To _Flickr"
-msgstr "Zu _Flickr"
+#~ msgid "To _Flickr"
+#~ msgstr "Zu _Flickr"
 
-msgid "Exif GPS"
-msgstr "Exif-GPS"
+#~ msgid "Exif GPS"
+#~ msgstr "Exif-GPS"
 
-msgid "IPTC"
-msgstr "IPTC"
+#~ msgid "IPTC"
+#~ msgstr "IPTC"
 
 # CHECK embedded?
-msgid "XMP Embedded"
-msgstr "Eingebettetes XMP"
+#~ msgid "XMP Embedded"
+#~ msgstr "Eingebettetes XMP"
 
 # CHECK sidecar?
-msgid "XMP Sidecar"
-msgstr "Beigefügtes XMP"
+#~ msgid "XMP Sidecar"
+#~ msgstr "Beigefügtes XMP"
 
-msgid "Audio / Video"
-msgstr "Audio / Video"
+#~ msgid "Audio / Video"
+#~ msgstr "Audio / Video"
 
 #~ msgid "Catalog"
 #~ msgstr "Katalog"
@@ -4439,8 +4436,7 @@ msgstr "Audio / Video"
 #~ msgid "Find"
 #~ msgstr "Suchen"
 
-#~ msgid ""
-#~ "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+#~ msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 #~ msgstr ""
 #~ "<small><i><b>Hinweis</b>: JPEG-Umwandlungen sind verlustfrei.</i></small>"
 
@@ -4470,8 +4466,7 @@ msgstr "Audio / Video"
 #~ msgstr "Zeilen"
 
 #~ msgid "Possible values are: name, path, size, time."
-#~ msgstr ""
-#~ "Zulässige Werte: name, path (Pfad), size (Größe) sowie time (Datum)."
+#~ msgstr "Zulässige Werte: name, path (Pfad), size (Größe) sowie time (Datum)."
 
 #~ msgid "Possible values are: name, size, time."
 #~ msgstr "Zulässige Werte: name, size (Größe) sowie time (Datum)."
@@ -4863,46 +4858,3 @@ msgstr "Audio / Video"
 
 #~ msgid "Custom subfolder"
 #~ msgstr "Benutzerdefinierter Unterordner"
-
-# CHECK
-#~ msgid "Copy to \"approved\" folder"
-#~ msgstr "In den »bestätigten« Ordner kopieren"
-
-#~ msgid "Script Progress"
-#~ msgstr "Fortschritt des Skriptes"
-
-#~ msgid "Number"
-#~ msgstr "Anzahl"
-
-#~ msgid "Short Name"
-#~ msgstr "Kurzbezeichnung"
-
-#~ msgid "Script"
-#~ msgstr "Skript"
-
-#~ msgid "_Upload"
-#~ msgstr "Hoch_laden"
-
-#~ msgid "_Edit Scripts"
-#~ msgstr "Skripte _bearbeiten"
-
-#~ msgid "Upload selected images to Flickr"
-#~ msgstr "Die gewählten Bilder zu Flickr hochladen"
-
-#~ msgid "View As Sli_des"
-#~ msgstr "Als _Dias betrachten"
-
-#~ msgid "View As _List"
-#~ msgstr "Als _Liste betrachten"
-
-#~ msgid "Exif General"
-#~ msgstr "Exif-Allgemein"
-
-#~ msgid "Exif Versions"
-#~ msgstr "Exif Versionen"
-
-#~ msgid "_Go to the destination folder"
-#~ msgstr "In den Zielordner _wechseln"
-
-#~ msgid "Delete Old Thumbnails"
-#~ msgstr "Alte Miniatur-Vorschaubilder löschen"
