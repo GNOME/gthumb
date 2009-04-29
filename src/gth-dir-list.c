@@ -33,6 +33,7 @@
 #include "gconf-utils.h"
 #include "gthumb-marshal.h"
 #include "gthumb-stock.h"
+#include "gth-sort-utils.h"
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
@@ -642,7 +643,7 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 	if (! (file_is_hidden (name_only) && ! dir_list->show_dot_files)
 	    && ! same_uri (name_only, CACHE_DIR))
 		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
-	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);
+	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) gth_sort_by_full_path);
 
 	/* get the dir position */
 

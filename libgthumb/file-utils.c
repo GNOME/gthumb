@@ -59,6 +59,7 @@
 #include "pixbuf-utils.h"
 #include "typedefs.h"
 #include "gth-exif-utils.h"
+#include "gth-sort-utils.h"
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -421,7 +422,7 @@ dir_list_filter_and_sort (GList    *dir_list,
 		}
 		scan = scan->next;
 	}
-	filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
+	filtered = g_list_sort (filtered, (GCompareFunc) gth_sort_by_full_path);
 
 	return filtered;
 }
