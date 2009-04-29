@@ -2712,7 +2712,7 @@ msgstr "Naprzód"
 #. zoom in
 #: src/fullscreen.c:910 src/ui.h:418
 msgid "In"
-msgstr "W"
+msgstr "Powiększenie"
 
 #. zoom out
 #: src/fullscreen.c:919 src/ui.h:423
