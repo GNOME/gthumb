@@ -67,7 +67,6 @@ struct _GthFilterBarPrivate
 	GtkWidget    *scope_combo_box;
 	GtkWidget    *choose_categories_button;
 	GtkWidget    *date_edit;
-	GtkTooltips  *tooltips;
 	GtkListStore *model;
 };
 
@@ -84,7 +83,6 @@ gth_filter_bar_finalize (GObject *object)
 	filter_bar = GTH_FILTER_BAR (object);
 
 	if (filter_bar->priv != NULL) {
-		gtk_object_destroy (GTK_OBJECT (filter_bar->priv->tooltips));
 		g_free (filter_bar->priv);
 		filter_bar->priv = NULL;
 	}
@@ -367,8 +365,6 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	GTK_BOX (filter_bar)->spacing = 6;
 	gtk_container_set_border_width (GTK_CONTAINER (filter_bar), 2);
 
-	filter_bar->priv->tooltips = gtk_tooltips_new ();
-
 	/* choose category button */
 
 	filter_bar->priv->choose_categories_button = gtk_button_new_with_label ("...");
@@ -532,10 +528,8 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	gtk_container_add (GTK_CONTAINER (button), image);
 	gtk_widget_show_all (button);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_tooltips_set_tip (filter_bar->priv->tooltips,
-			      button,
-			      _("Close"),
-			      NULL);
+        gtk_widget_set_tooltip_text (button,
+                                     _("Close"));
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
 			  G_CALLBACK (close_button_clicked_cb),
