@@ -263,7 +263,6 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *progress_info;
 	guint               progress_timeout;
 
-	GtkTooltips        *tooltips;
 	guint               help_message_cid;
 	guint               list_info_cid;
 
@@ -5458,8 +5457,8 @@ add_rotate_toolbar_item (GthBrowser *browser)
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item),
 				       gtk_ui_manager_get_widget (priv->ui, "/RotateImageMenu"));
 	gtk_tool_item_set_homogeneous (priv->rotate_tool_item, FALSE);
-	gtk_tool_item_set_tooltip (priv->rotate_tool_item, priv->tooltips, _("Rotate images without loss of quality"), NULL);
-	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), priv->tooltips,	_("Rotate images without loss of quality"), NULL);
+	gtk_tool_item_set_tooltip_text (priv->rotate_tool_item, _("Rotate images without loss of quality"));
+	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), _("Rotate images without loss of quality"));
 	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
 				  GTK_WIDGET (priv->rotate_tool_item));
 	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
@@ -6473,8 +6472,6 @@ gth_browser_construct (GthBrowser  *browser,
 				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH),
 				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT));
 
-	priv->tooltips = gtk_tooltips_new ();
-
 	/* Build the menu and the toolbar. */
 
 	priv->actions = actions = gtk_action_group_new ("Actions");
@@ -6916,10 +6913,8 @@ gth_browser_construct (GthBrowser  *browser,
 				  "clicked",
 				  G_CALLBACK (close_preview_image_button_cb),
 				  browser);
-		gtk_tooltips_set_tip (priv->tooltips,
-				      button,
-				      _("Close"),
-				      NULL);
+                gtk_widget_set_tooltip_text (button,
+                                             _("Close"));
 
 		image = _gtk_image_new_from_inline (preview_comment_16_rgba);
 		priv->preview_button_comment = button = gtk_toggle_button_new ();
@@ -6930,10 +6925,8 @@ gth_browser_construct (GthBrowser  *browser,
 				  "toggled",
 				  G_CALLBACK (preview_comment_button_cb),
 				  browser);
-		gtk_tooltips_set_tip (priv->tooltips,
-				      button,
-				      _("Image comment"),
-				      NULL);
+                gtk_widget_set_tooltip_text (button,
+                                             _("Image comment"));
 
 		image = _gtk_image_new_from_inline (preview_data_16_rgba);
 		priv->preview_button_data = button = gtk_toggle_button_new ();
@@ -6944,10 +6937,8 @@ gth_browser_construct (GthBrowser  *browser,
 				  "toggled",
 				  G_CALLBACK (preview_data_button_cb),
 				  browser);
-		gtk_tooltips_set_tip (priv->tooltips,
-				      button,
-				      _("Image data"),
-				      NULL);
+                gtk_widget_set_tooltip_text (button,
+                                             _("Image data"));
 
 		image = _gtk_image_new_from_inline (preview_image_16_rgba);
 		priv->preview_button_image = button = gtk_toggle_button_new ();
@@ -6958,10 +6949,8 @@ gth_browser_construct (GthBrowser  *browser,
 				  "toggled",
 				  G_CALLBACK (preview_image_button_cb),
 				  browser);
-		gtk_tooltips_set_tip (priv->tooltips,
-				      button,
-				      _("Image preview"),
-				      NULL);
+                gtk_widget_set_tooltip_text (button,
+                                             _("Image preview"));
 	}
 
 	gtk_widget_show_all (info_box);
@@ -7533,8 +7522,6 @@ close__step6 (FileData *file,
 	}
 
 	g_free (priv->initial_location);
-
-	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 
 	if (last_window) { /* FIXME */
 		if (dir_list_tree_path != NULL) {

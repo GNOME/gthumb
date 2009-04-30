@@ -510,7 +510,6 @@ dlg_file_copy__ask_dest (GthWindow  *window,
 
 static void
 set_filename_labels (GladeXML    *gui,
-		     GtkTooltips *tooltips,
 		     const char  *filename_widget,
 		     const char  *filename_eventbox,
 		     const char  *size_widget,
@@ -534,7 +533,7 @@ set_filename_labels (GladeXML    *gui,
 	g_free (name);
 
 	utf8_name = gnome_vfs_unescape_string_for_display (filename);
-	gtk_tooltips_set_tip (tooltips, eventbox, utf8_name, NULL);
+	gtk_widget_set_tooltip_text (eventbox, utf8_name);
 	g_free (utf8_name);
 
 	label = glade_xml_get_widget (gui, size_widget);
@@ -566,7 +565,6 @@ typedef struct {
 	GtkWidget         *overwrite_rename_radiobutton;
 	GtkWidget         *overwrite_rename_entry;
 
-	GtkTooltips       *tooltips;
 	int                overwrite_mode;
 	OverwriteDoneFunc  done_func;
 	gpointer           done_data;
@@ -577,7 +575,6 @@ static void
 dlg_overwrite_data_free (DlgOverwriteData *owdata)
 {
 	gtk_widget_destroy (owdata->dialog);
-	gtk_object_destroy (GTK_OBJECT (owdata->tooltips));
 	g_object_unref (owdata->gui);
 	g_free (owdata->destination);
 	g_free (owdata);
@@ -623,7 +620,6 @@ create_overwrite_dialog (GthWindow         *window,
 		return NULL;
 	}
 
-	owdata->tooltips = gtk_tooltips_new ();
 	owdata->done_func = done_func;
 	owdata->done_data = done_data;
 	owdata->destination = remove_level_from_path (old_filename);
@@ -650,14 +646,12 @@ create_overwrite_dialog (GthWindow         *window,
 	/* * set filename labels. */
 
 	set_filename_labels (owdata->gui,
-			     owdata->tooltips,
 			     "old_image_filename_label",
 			     "old_image_filename_eventbox",
 			     "old_image_size_label",
 			     "old_image_time_label",
 			     old_filename);
 	set_filename_labels (owdata->gui,
-			     owdata->tooltips,
 			     "new_image_filename_label",
 			     "new_image_filename_eventbox",
 			     "new_image_size_label",
@@ -744,8 +738,6 @@ create_overwrite_dialog (GthWindow         *window,
 			  owdata);
 
 	/**/
-
-	g_object_set_data (G_OBJECT (owdata->dialog), "tooltips", owdata->tooltips);
 
 	gtk_window_set_transient_for (GTK_WINDOW (owdata->dialog),
 				      GTK_WINDOW (window));

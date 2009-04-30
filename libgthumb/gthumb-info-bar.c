@@ -33,7 +33,6 @@ struct _GThumbInfoBarPrivate {
 
 	GtkWidget   *hbox;
 	GtkWidget   *label;
-	GtkTooltips *tooltips;
 };
 
 
@@ -47,8 +46,6 @@ gthumb_info_bar_destroy (GtkObject *object)
 			g_free (info_bar->priv->tooltip);
 			info_bar->priv->tooltip = NULL;
 		}
-
-		gtk_object_destroy (GTK_OBJECT (info_bar->priv->tooltips));
 
 		g_free (info_bar->priv);
 		info_bar->priv = NULL;
@@ -130,7 +127,6 @@ gthumb_info_bar_init (GThumbInfoBar *info_bar)
 	gtk_misc_set_padding   (GTK_MISC (priv->label), X_PADDING, Y_PADDING);
 	gtk_label_set_line_wrap (GTK_LABEL (priv->label), FALSE);
 
-	info_bar->priv->tooltips = gtk_tooltips_new ();
 	info_bar->priv->tooltip = NULL;
 }
 
@@ -209,13 +205,11 @@ set_tooltip (GThumbInfoBar *info_bar,
 
 	if (tooltip != NULL) {
 		info_bar->priv->tooltip = g_strdup (tooltip);
-		gtk_tooltips_set_tip (info_bar->priv->tooltips,
-				      GTK_WIDGET (info_bar),
-				      info_bar->priv->tooltip,
-				      NULL);
-		gtk_tooltips_enable (info_bar->priv->tooltips);
+                gtk_widget_set_tooltip_text (GTK_WIDGET (info_bar),
+                                             info_bar->priv->tooltip);
+                gtk_widget_set_has_tooltip (GTK_WIDGET (info_bar), TRUE);
 	} else 
-		gtk_tooltips_disable (info_bar->priv->tooltips);
+                gtk_widget_set_has_tooltip (GTK_WIDGET (info_bar), FALSE);
 }
 
 
