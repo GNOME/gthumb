@@ -1168,7 +1168,7 @@ load_new_list (GthFileList *file_list)
 			/* remove the file from new_list */
 			
 			file_list->priv->new_list = g_list_remove_link (file_list->priv->new_list, scan);
-			file_data_list_free (scan);
+			file_data_unref (scan->data);
 		}
 		
 		scan = next;

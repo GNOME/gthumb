@@ -111,6 +111,11 @@ gth_sort_by_filename (const char *name1,
 	int       compare;
 	char     *utf8_name1, *utf8_name2;
 
+        if (name2 == NULL)
+                return 1;
+        if (name1 == NULL)
+                return -1;
+
 	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1
 			|| file_name_from_path (name1)[0] == SORT_LAST_CHAR2;
 	sort_last_2 = file_name_from_path (name2)[0] == SORT_LAST_CHAR1
