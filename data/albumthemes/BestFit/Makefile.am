@@ -17,3 +17,5 @@ theme_DATA =			\
 	$(gthtml_files)
 
 EXTRA_DIST = $(theme_DATA) 
+
+-include $(top_srcdir)/git.mk

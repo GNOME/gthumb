@@ -223,3 +223,5 @@ EXTRA_DIST = 			\
 CLEANFILES =				\
 	$(gnome_gthumb_idl_sources)	\
 	gnome_gthumb_idl_stamp
+
+-include $(top_srcdir)/git.mk

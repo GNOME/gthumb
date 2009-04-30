@@ -183,3 +183,5 @@ gthumb-enum-types.c: $(HEADER_FILES) gthumb-enum-types.h
 
 CLEANFILES = $(MARSHALLERS) $(ENUMS)
 EXTRA_DIST = gthumb-marshal.list
+
+-include $(top_srcdir)/git.mk
