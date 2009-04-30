@@ -6,3 +6,5 @@ XPM_IMAGES =			\
 	nav_button.xpm
 
 EXTRA_DIST = $(XPM_IMAGES)
+
+-include $(top_srcdir)/git.mk

@@ -21,3 +21,5 @@ glade_DATA = 				\
 gladedir = $(datadir)/gthumb/glade
 
 EXTRA_DIST = $(glade_DATA)
+
+-include $(top_srcdir)/git.mk

@@ -12,3 +12,5 @@ DOC_FIGURES = 	figures/comment.png \
 DOC_LINGUAS = de el es fr sv
 
 EXTRA_DIST = theme-xml.txt
+
+-include $(top_srcdir)/git.mk

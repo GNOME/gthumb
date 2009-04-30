@@ -142,3 +142,5 @@ EXTRA_DIST = \
 	$(IMAGES)		\
 	$(XPM_IMAGES)		\
 	pixbufs.h
+
+-include $(top_srcdir)/git.mk
