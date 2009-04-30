@@ -137,6 +137,11 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 	int       compare;
 	char     *unesc_name1, *unesc_name2;
 
+        if (name2 == NULL)
+                return 1;
+        if (name1 == NULL)
+                return -1;
+
 	sort_last_1 = file_name_from_path (name1)[0] == SORT_LAST_CHAR1
 			|| file_name_from_path (name1)[0] == SORT_LAST_CHAR2;
 	sort_last_2 = file_name_from_path (name2)[0] == SORT_LAST_CHAR1
