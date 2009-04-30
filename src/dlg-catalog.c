@@ -34,6 +34,7 @@
 #include "catalog.h"
 #include "catalog-list.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "main.h"
 #include "gth-browser.h"
 #include "gth-window.h"
