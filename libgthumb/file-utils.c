@@ -1945,6 +1945,9 @@ resolve_symlinks (const char  *text_uri,
 
 	info = gnome_vfs_file_info_new ();
 
+	if (info == NULL)
+		return GNOME_VFS_ERROR_INVALID_URI;
+
 	resolved_uri = get_uri_host (text_uri);
 
 	tmp = build_uri (text_uri, relative_link, NULL);
