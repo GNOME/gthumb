@@ -655,12 +655,16 @@ construct_comment (PrintCatalogInfo *pci,
 
 	if (pci->print_filenames) {
 		const gchar* end = NULL;
-		g_utf8_validate (image->file->path, -1, &end);
-		if (end > image->file->path) {
+		char *unescaped;
+
+		unescaped = gnome_vfs_unescape_string (image->file->path, NULL);
+		g_utf8_validate (unescaped, -1, &end);
+		if (end > unescaped) {
 			if (s->len > 0)
 				g_string_append (s, "\n");
-			g_string_append_len (s, image->file->path, end - image->file->path);
+			g_string_append_len (s, unescaped, end - unescaped);
 		}
+		g_free (unescaped);
 	}
 
 	if (s->len > 0) {
