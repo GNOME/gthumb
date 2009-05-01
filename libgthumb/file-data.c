@@ -173,7 +173,8 @@ file_data_dup (FileData *source)
 void
 file_data_unref (FileData *fd)
 {
-	g_return_if_fail (fd != NULL);	
+	if (fd == NULL)
+		return;
 
 	fd->ref--;
 
