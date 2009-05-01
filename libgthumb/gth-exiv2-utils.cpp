@@ -495,6 +495,10 @@ read_exiv2_file (const char *uri, GList *metadata)
 		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
 		return metadata;
 	}
+	catch (...) {
+		std::cerr << "Caught unknown exception\n";
+		return metadata;
+	}
 }
 
 
@@ -544,6 +548,10 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 		std::cout << "Caught Exiv2 exception '" << e << "'\n";
 		return metadata;
 	}
+	catch (...) {
+		std::cerr << "Caught unknown exception\n";
+		return metadata;
+	}
 }
 
 
@@ -591,7 +599,8 @@ write_metadata (const char *from_file,
 		for (scan = metadata_in; scan; scan = scan->next) {
 			// Update the requested tag
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
-			if (metadatum->full_name != NULL) {
+			if (metadatum->full_name != NULL
+                            && metadatum->raw_value != NULL) {
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					ed[metadatum->full_name] = metadatum->raw_value;
 				}
@@ -667,5 +676,8 @@ write_metadata (const char *from_file,
 	catch (const Exiv2::AnyError& error) {
 		// TODO: signal an error to the caller?
 		std::cerr << error << "\n";
+	}
+	catch (...) {
+		std::cerr << "Caught unknown exception when writing metadata\n";
 	}
 }
