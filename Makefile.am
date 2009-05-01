@@ -1,4 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
+AMCFLAGS = -fPIC -DPIC
+
 SUBDIRS =		\
 	po		\
 	libgthumb	\
