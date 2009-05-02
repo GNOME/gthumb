@@ -217,6 +217,12 @@ libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(EXIF_LIBS) $(JPEG_LIBS) $(GPHOTO_LIBS)
 libphotoimporter_la_DEPENDENCIES = gthumb$(EXEEXT)
 
+AUTHORS.tab : $(top_srcdir)/AUTHORS
+	sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp
+	mv $@.tmp $@
+
+BUILT_SOURCES = AUTHORS.tab
+
 EXTRA_DIST = 			\
 	GNOME_GThumb.idl	\
 	albumtheme.c		\
@@ -225,6 +231,7 @@ EXTRA_DIST = 			\
 	lex.albumtheme.c
 
 CLEANFILES =				\
+	$(BUILT_SOURCES)                \
 	$(gnome_gthumb_idl_sources)	\
 	gnome_gthumb_idl_stamp
 
