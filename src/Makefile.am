@@ -9,6 +9,10 @@ else
 DISABLE_DEPRECATED =
 endif
 
+WARNINGS = -Wall -Wimplicit -Wunused-label \
+	   -Wpointer-arith -Wcast-align -Wtype-limits \
+	   -Wclobbered -Wempty-body -Wignored-qualifiers
+
 INCLUDES =					\
 	-I$(top_srcdir)/libgthumb		\
 	-I../libgthumb				\
@@ -17,6 +21,7 @@ INCLUDES =					\
 	$(GPHOTO_CFLAGS)			\
 	$(IGE_MAC_INTEGRATION_CFLAGS)		\
 	$(GTKUNIQUE_CFLAGS)			\
+	$(WARNINGS)       			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
 	-DGTHUMB_DATADIR=\"$(datadir)\"		\

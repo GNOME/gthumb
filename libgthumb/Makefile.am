@@ -7,6 +7,10 @@ else
 DISABLE_DEPRECATED =
 endif
 
+WARNINGS = -Wall -Wimplicit -Wunused-label \
+	   -Wpointer-arith -Wcast-align -Wtype-limits \
+	   -Wclobbered -Wempty-body -Wignored-qualifiers
+
 gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =							\
@@ -16,7 +20,8 @@ INCLUDES =							\
 	$(LIBOPENRAW_CFLAGS)                                    \
 	$(EXIV2_CFLAGS)						\
 	$(GSTREAMER_CFLAGS)					\
-	$(DISABLE_DEPRECATED)
+	$(DISABLE_DEPRECATED)					\
+	$(WARNINGS)
 
 libgthumbdir = $(libdir)
 libgthumb_LTLIBRARIES = libgthumb.la

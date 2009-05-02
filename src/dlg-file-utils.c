@@ -977,7 +977,7 @@ dlg_file_rename_series (GthWindow *window,
 	GList          *o_scan, *n_scan;
 	GList          *error_list = NULL;
 	int             overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
-	gboolean        file_exists, show_ow_all_none, result;
+	gboolean        file_exists, show_ow_all_none, result = 0;
 	gboolean        error = FALSE;
 	GList          *files_deleted = NULL;
 	GList          *files_created = NULL;

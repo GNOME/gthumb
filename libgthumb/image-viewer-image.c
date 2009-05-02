@@ -669,7 +669,7 @@ image_viewer_image_set_fit_mode (ImageViewerImage *image,
 {
 	ImageViewerImagePrivate *priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
 	GtkWidget               *widget = GTK_WIDGET (priv->viewer);
-	gdouble                  x_level, y_level, new_level;
+	gdouble                  x_level, y_level, new_level = 1.0;
 	gint                     gdk_width, gdk_height;
 	gint                     img_width, img_height;
 	gint                     border;
@@ -1073,7 +1073,7 @@ image_viewer_image_paint (ImageViewerImage *image,
 		cairo_surface_t *checker;
 		int              check_size;
 		GthCheckType     check_type;
-		double           color1, color2;
+		double           color1 = 0, color2 = 0;
 
 		switch (transp_type) {
 		case GTH_TRANSP_TYPE_NONE:

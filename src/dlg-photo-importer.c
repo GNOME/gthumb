@@ -1269,7 +1269,7 @@ save_image (DialogData *data,
 	char         *camera_folder;
 	const char   *camera_filename;
 	char         *local_path;
-	char         *file_uri;
+	char         *file_uri = NULL;
 	char	     *unescaped_local_folder;
 	time_t        exif_date;
 	GthSubFolder  subfolder_value;

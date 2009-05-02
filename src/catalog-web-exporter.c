@@ -1492,7 +1492,7 @@ gth_parsed_doc_print (GList               *document,
 	for (scan = document; scan; scan = scan->next) {
 		GthTag     *tag = scan->data;
 		ImageData  *idata;
-		GFile      *file;
+		GFile      *file = NULL;
 		GFile      *dir;
 		char       *line = NULL;
 		char       *image_src = NULL;

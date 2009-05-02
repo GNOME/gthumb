@@ -527,6 +527,7 @@ exec_shell_script (GtkWindow  *window,
 	else {
 		full_name = g_strconcat (_("Script Progress"), " - ", name, NULL);
 		gtk_window_set_title (GTK_WINDOW (data->dialog), full_name);
+                g_free (full_name);
 	}
 
 	data->cancel = FALSE;
@@ -705,7 +706,6 @@ exec_shell_script (GtkWindow  *window,
 	g_hash_table_destroy (date_prompts);
 	g_object_unref (data->gui);
 	g_free (data);
-	g_free (full_name);
 }
 
 

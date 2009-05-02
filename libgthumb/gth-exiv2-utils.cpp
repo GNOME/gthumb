@@ -402,11 +402,10 @@ read_exiv2_file (const char *uri, GList *metadata)
 		if (!exifData.empty()) {
 
 			//add exif-metadata to glist
-			GthMetadata *new_entry;
 			Exiv2::ExifData::const_iterator end = exifData.end();
 			for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != end; ++md) {
 				//determine metadata category
-				int pos;
+				int pos = 0;
 				GthMetadataCategory cat = tag_category_exiv2 (*md, pos);
 				
 				//fill entry
@@ -437,7 +436,6 @@ read_exiv2_file (const char *uri, GList *metadata)
 		if (!iptcData.empty()) {
 
 			//add iptc-metadata to glist
-			GthMetadata *new_entry;
 			Exiv2::IptcData::iterator end = iptcData.end();
 			for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
 
@@ -465,7 +463,6 @@ read_exiv2_file (const char *uri, GList *metadata)
 		if (!xmpData.empty()) {
 
 			//add xmp-metadata to glist
-			GthMetadata *new_entry;
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
 
@@ -518,7 +515,6 @@ read_exiv2_sidecar (const char *uri, GList *metadata)
 		if (!xmpData.empty()) {
 
 			//add xmp-metadata to glist
-			GthMetadata *new_entry;
 			Exiv2::XmpData::iterator end = xmpData.end();
 			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
 
