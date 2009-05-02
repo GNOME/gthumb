@@ -69,7 +69,6 @@ comment_data_new (void)
 	data->place = NULL;
 	data->time = 0;
 	data->comment = NULL;
-	data->keywords_n = 0;
 	data->keywords = NULL;
 	data->utf8_format = TRUE;
 	data->changed = FALSE;
@@ -81,14 +80,9 @@ comment_data_new (void)
 void
 comment_data_free_keywords (CommentData *data)
 {
-	if (data->keywords != NULL) {
-		int i;
-		for (i = 0; i < data->keywords_n; i++)
-			g_free (data->keywords[i]);
-		g_free (data->keywords);
-		data->keywords = NULL;
-		data->keywords_n = 0;
-	}
+        g_slist_foreach (data->keywords, (GFunc) g_free, NULL);
+        g_slist_free (data->keywords);
+        data->keywords = NULL;
 }
 
 
@@ -128,6 +122,7 @@ CommentData *
 comment_data_dup (CommentData *data)
 {
 	CommentData *new_data;
+        GSList *tmp;
 
 	if (data == NULL)
 		return NULL;
@@ -140,15 +135,8 @@ comment_data_dup (CommentData *data)
 	if (data->comment != NULL)
 		new_data->comment = g_strdup (data->comment);
 
-	if (data->keywords != NULL) {
-		int i;
-
-		new_data->keywords = g_new0 (char*, data->keywords_n + 1);
-		new_data->keywords_n = data->keywords_n;
-
-		for (i = 0; i < data->keywords_n; i++)
-			new_data->keywords[i] = g_strdup (data->keywords[i]);
-		new_data->keywords[i] = NULL;
+        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
+                new_data->keywords = g_slist_append (new_data->keywords, g_strdup (tmp->data));
 	}
 	new_data->utf8_format = data->utf8_format;
 
@@ -160,7 +148,7 @@ gboolean
 comment_data_equal (CommentData *data1,
 		    CommentData *data2)
 {
-	int i;
+        GSList *tmp1, *tmp2;
 
 	if ((data1 == NULL) && (data2 == NULL))
 		return TRUE;
@@ -173,12 +161,15 @@ comment_data_equal (CommentData *data1,
 		return FALSE;
 	if (strcmp_null_tolerant (data1->comment, data2->comment) != 0)
 		return FALSE;
-	if (data1->keywords_n != data2->keywords_n)
+	if (g_slist_length (data1->keywords) != g_slist_length (data2->keywords))
 		return FALSE;
-	for (i = 0; i < data1->keywords_n; i++)
-		if (strcmp_null_tolerant (data1->keywords[i],
-					   data2->keywords[i]) != 0)
+        for (tmp1 = data1->keywords, tmp2 = data2->keywords;
+             tmp1 && tmp2;
+             tmp1 = g_slist_next (tmp1), tmp2 = g_slist_next (tmp2)) {
+		if (strcmp_null_tolerant (tmp1->data,
+					  tmp2->data) != 0)
 			return FALSE;
+        }
 
 	return TRUE;
 }
@@ -315,48 +306,26 @@ get_keywords (CommentData *data,
 
 {
 	char     *value;
-        int       n;
-        char     *p, *keyword;
-        gboolean  done;
+        char    **keywords_v;
+        int       i;
+
+        comment_data_free_keywords (data);
 
 	if ((utf8_value == NULL) || (*utf8_value == 0)) {
-		data->keywords_n = 0;
-		data->keywords = NULL;
 		return;
 	}
 
 	value = get_utf8_text (data, utf8_value);
-
 	if (value == NULL) {
-		data->keywords_n = 0;
-		data->keywords = NULL;
 		return;
 	}
 
-	n = 1;
-	for (p = value; *p != 0; p = g_utf8_next_char (p)) {
-		gunichar ch = g_utf8_get_char (p);
-		if (ch == ',')
-			n++;
-	}
+        keywords_v = g_strsplit (value, ",", 0);
 
-	data->keywords_n = n;
-	data->keywords = g_new0 (char*, n + 1);
-	data->keywords[n] = NULL;
-
-        n = 0;
-	keyword = p = value;
-	do {
-		gunichar ch = g_utf8_get_char (p);
-
-		done = (*p == 0);
-
-		if ((ch == ',') || (*p == 0)) {
-			data->keywords[n++] = g_strndup (keyword, p - keyword);
-			keyword = p = g_utf8_next_char (p);
-		} else
-			p = g_utf8_next_char (p);
-	} while (! done);
+        for (i = 0; keywords_v[i]; ++i) {
+                data->keywords = g_slist_append (data->keywords, g_strdup (keywords_v[i]));
+        }
+        g_strfreev (keywords_v);
 
 	g_free (value);
 }
@@ -387,6 +356,8 @@ load_comment_from_metadata (const char *uri)
 	FileData    *file;
 	char        *metadata_string = NULL;
 	time_t	     metadata_time = 0;
+        GSList      *metadata_list, *tmp;
+        char        **keywords_v;
 
 	file = file_data_new (uri);
 	file_data_update_all (file, FALSE);
@@ -403,39 +374,23 @@ load_comment_from_metadata (const char *uri)
                 data->place = g_strdup (metadata_string);
 	g_free (metadata_string);
 
-        metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
-	if (has_non_whitespace_comment (metadata_string)) {
-		char **keywords_v;
-		int  i = 0;
-		int  j = 0;
-
+        metadata_list = get_metadata_tagset_list (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
 		comment_data_free_keywords (data);
+        for (tmp = metadata_list; tmp; tmp = g_slist_next (tmp)) {
+                if (has_non_whitespace_comment (tmp->data)) {
+                        int i;
+                        keywords_v = g_strsplit (tmp->data, ",", 0);
 
-		keywords_v = g_strsplit (metadata_string, ",", 0);
-
-		while (keywords_v[j] != NULL) {
-			if (has_non_whitespace_comment (keywords_v[j]))	{
-				i++;
-			}
-			j++;
-		}
-
-		data->keywords_n = i;
-		data->keywords = g_new0 (char*, data->keywords_n + 1);
-
-		i = 0;
-		j = 0;
-                while (keywords_v[j] != NULL) {
-                        if (has_non_whitespace_comment (keywords_v[j])) {
-				data->keywords[i] = g_strdup (keywords_v[j]);
-                                i++;
+                        for (i = 0; keywords_v[i]; ++i) {
+                                if (has_non_whitespace_comment (keywords_v[i])) {
+                                        data->keywords = g_slist_append (data->keywords, g_strdup (keywords_v[i]));
                         }
-			j++;
                 }
-
-		data->keywords[i] = NULL;
 		g_strfreev (keywords_v);
 	}
+        }
+        g_slist_foreach (metadata_list, (GFunc) g_free, NULL);
+        g_slist_free (metadata_list);
 
 	/* Only load the metadata time if the metadata contained useful comments,
 	   location data, or keywords. Almost all photos contain date metadata, so
@@ -444,7 +399,7 @@ load_comment_from_metadata (const char *uri)
 	   be a matter for further consideration. */
 	if ((data->comment != NULL) ||
             (data->place != NULL) ||
-	    (data->keywords_n > 0)) {
+	    (data->keywords)) {
 	        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
         	if (metadata_time > (time_t) 0)
                 	data->time = metadata_time;
@@ -460,12 +415,26 @@ load_comment_from_metadata (const char *uri)
 	return data;
 }
 
+static char*
+get_keywords_str (CommentData *data)
+{
+        GString   *keywords_str;
+        GSList    *tmp;
+
+        keywords_str = g_string_new (NULL);
+        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
+                keywords_str = g_string_append (keywords_str, g_strdup (tmp->data));
+                if (g_slist_next (tmp))
+                        keywords_str = g_string_append_c (keywords_str, ',');
+        }
+        return g_string_free (keywords_str, FALSE);
+}
 
 static void
 save_comment_to_metadata (const char  *uri,
    	                  CommentData *data)
 {
-        char      *keywords_str = NULL;
+        char      *keywords_str;
 	GList     *add_metadata = NULL;
         FileData  *file;
         char      *buf;
@@ -487,20 +456,14 @@ save_comment_to_metadata (const char  *uri,
                                tm.tm_sec );
         add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
 
-        if (data->keywords_n > 0) {
-                if (data->keywords_n == 1)
-                        keywords_str = g_strdup (data->keywords[0]);
-                else
-                        keywords_str = g_strjoinv (",", data->keywords);
-        } else
-                keywords_str = g_strdup ("");
-
+        add_metadata = clear_metadata_tagset (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
+        keywords_str = get_keywords_str (data);
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES][0], keywords_str);
+        g_free (keywords_str);
 
 	update_and_save_metadata (file->path, file->path, add_metadata);
 	free_metadata (add_metadata);
 	file_data_unref (file);
-	g_free (keywords_str);
 }
 
 
@@ -596,14 +559,7 @@ save_comment (const char  *uri,
 	/* Convert data to strings. */
 
 	time_str = g_strdup_printf ("%ld", data->time);
-	if (data->keywords_n > 0) {
-		if (data->keywords_n == 1)
-			keywords_str = g_strdup (data->keywords[0]);
-		else
-			keywords_str = g_strjoinv (",", data->keywords);
-	} 
-	else
-		keywords_str = g_strdup ("");
+        keywords_str = get_keywords_str (data);
 
 	/* Escape text */
 
@@ -767,6 +723,7 @@ comments_save_categories (const char  *uri,
 			  CommentData *data)
 {
 	CommentData *new_data;
+        GSList *tmp;
 
 	if ((uri == NULL) || ! is_local_file (uri))
 		return;
@@ -785,17 +742,9 @@ comments_save_categories (const char  *uri,
 	}
 
 	comment_data_free_keywords (new_data);
-	if (data->keywords != NULL) {
-		int i;
 
-		new_data->keywords = g_new0 (char*, data->keywords_n + 1);
-		new_data->keywords_n = data->keywords_n;
-
-		for (i = 0; i < data->keywords_n; i++) {
-			char *k = g_strdup (data->keywords[i]);
-			new_data->keywords[i] = k;
-		}
-		new_data->keywords[i] = NULL;
+        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
+                new_data->keywords = g_slist_append (new_data->keywords, g_strdup (tmp->data));
 	}
 
 	save_comment (uri, new_data, TRUE);
@@ -807,36 +756,19 @@ void
 comment_data_remove_keyword (CommentData *data,
 			     const char  *keyword)
 {
-	gboolean  found = FALSE;
-	int       i;
+        GSList *found;
 
 	if ((data->keywords == NULL)
-	    || (data->keywords_n == 0)
 	    || (keyword == NULL))
 		return;
 
-	for (i = 0; i < data->keywords_n; i++)
-		if (g_utf8_collate (data->keywords[i], keyword) == 0) {
-			found = TRUE;
-			break;
-		}
-
+        found = g_slist_find_custom (data->keywords, keyword, (GCompareFunc) g_utf8_collate);
 	if (!found)
 		return;
 
-	g_free (data->keywords[i]);
-	for (; i < data->keywords_n - 1; i++)
-		data->keywords[i] = data->keywords[i + 1];
-	data->keywords[i] = NULL;
-
-	data->keywords_n--;
-	data->keywords = g_realloc (data->keywords,
-				    sizeof (char*) * (data->keywords_n + 1));
-
-	if (data->keywords_n == 0) {
-		g_free (data->keywords);
-		data->keywords = NULL;
-	}
+        data->keywords = g_slist_remove_link (data->keywords, found);
+        g_free (found->data);
+        g_slist_free (found);
 }
 
 
@@ -844,20 +776,16 @@ void
 comment_data_add_keyword (CommentData *data,
 			  const char  *keyword)
 {
-	int i;
+        GSList *found;
 
 	if (keyword == NULL)
 		return;
 
- 	for (i = 0; i < data->keywords_n; i++)
-		if (g_utf8_collate (data->keywords[i], keyword) == 0)
+        found = g_slist_find_custom (data->keywords, keyword, (GCompareFunc) g_utf8_collate);
+	if (found)
 			return;
 
-	data->keywords_n++;
-	data->keywords = g_realloc (data->keywords,
-				    sizeof (char*) * (data->keywords_n + 1));
-	data->keywords[data->keywords_n - 1] = g_strdup (keyword);
-	data->keywords[data->keywords_n] = NULL;
+        data->keywords = g_slist_append (data->keywords, g_strdup (keyword));
 }
 
 
@@ -873,7 +801,7 @@ comment_data_is_void (CommentData *data)
 		return FALSE;
 	if ((data->comment != NULL) && (*data->comment != 0))
 		return FALSE;
-	if (data->keywords_n > 0)
+	if (data->keywords)
 		return FALSE;
 
 	return TRUE;
@@ -1025,7 +953,7 @@ _get_comment_as_string_common (CommentData *data,
 	if ((data->comment == NULL)
 	    && (data->place == NULL)
 	    && (data->time == 0)) {
-		if (data->keywords_n > 0)
+		if (data->keywords)
 			as_string = NULL;
 		else if (markup_escape)
 			as_string = g_markup_escape_text (_("(No Comment)"), -1);

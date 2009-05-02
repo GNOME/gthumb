@@ -281,6 +281,7 @@ update_comment (DialogData *data)
 {
 	CommentData *cdata;
 	char        *comment;
+        GSList      *tmp;
 
 	g_return_if_fail (GTK_IS_WIDGET (data->i_categories_label));
 	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
@@ -324,16 +325,17 @@ update_comment (DialogData *data)
 					    &end_iter);
 	}
 
-	if (cdata->keywords_n > 0) {
+	if (cdata->keywords) {
 		GString   *keywords;
-		int        i;
 
-		keywords = g_string_new (cdata->keywords[0]);
-		for (i = 1; i < cdata->keywords_n; i++) {
+		keywords = g_string_new (NULL);
+                for (tmp = cdata->keywords; tmp; tmp = g_slist_next (tmp)) {
+			g_string_append (keywords, tmp->data);
+                        if (g_slist_next (tmp))
 			g_string_append (keywords, ", ");
-			g_string_append (keywords, cdata->keywords[i]);
+                        else
+                                g_string_append_c (keywords, '.');
 		}
-		g_string_append (keywords, ".");
 
 		gtk_label_set_text (GTK_LABEL (data->i_categories_label), keywords->str);
 

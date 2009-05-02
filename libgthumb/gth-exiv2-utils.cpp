@@ -598,12 +598,27 @@ write_metadata (const char *from_file,
 			if (metadatum->full_name != NULL
                             && metadatum->raw_value != NULL) {
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
+                                        // Remove existing tags of the same type
+                                        Exiv2::ExifData::iterator iter = ed.findKey (Exiv2::ExifKey (metadatum->full_name));
+                                        if (iter != ed.end ())
+                                                ed.erase (iter);
+                                        // Add tag
 					ed[metadatum->full_name] = metadatum->raw_value;
 				}
 				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
+                                        // Remove existing tags of the same type
+                                        Exiv2::IptcData::iterator iter = id.findKey (Exiv2::IptcKey (metadatum->full_name));
+                                        if (iter != id.end ())
+                                                id.erase (iter);
+                                        // Add tag
 					id[metadatum->full_name] = metadatum->raw_value;
 		        	}
 				else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
+                                        // Remove existing tags of the same type
+                                        Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
+                                        if (iter != xd.end ())
+                                                xd.erase (iter);
+                                        // Add tag
 					xd[metadatum->full_name] = metadatum->raw_value;
 		        	}
 			}

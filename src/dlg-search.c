@@ -727,17 +727,17 @@ dlg_search_ui (GthBrowser *browser,
 
 static gboolean
 pattern_matched_by_keywords (char  *pattern,
-			     char **keywords)
+			     GSList *keywords)
 {
 	GPatternSpec *spec;
 	gboolean      retval = FALSE;
-	int           i;
 	char	     *norm_pattern;
+        GSList       *tmp;
 
 	if (pattern == NULL)
 		return TRUE;
 
-	if ((keywords == NULL) || (keywords[0] == NULL))
+	if (keywords == NULL)
 		return FALSE;
 
 	norm_pattern = g_utf8_normalize (pattern,
@@ -746,12 +746,12 @@ pattern_matched_by_keywords (char  *pattern,
 	spec = g_pattern_spec_new (norm_pattern);
 	g_free (norm_pattern);
 
-	for (i = 0; keywords[i] != NULL; i++) {
+	for (tmp = keywords; tmp; tmp = g_slist_next (tmp)) {
 		char     *case_string;
 		char     *norm_string;
 		gboolean  match;
 
-		case_string = g_utf8_casefold (keywords[i], -1);
+		case_string = g_utf8_casefold (tmp->data, -1);
 		norm_string = g_utf8_normalize (case_string,
 		                                -1,
 		                                G_NORMALIZE_NFC);
@@ -867,9 +867,9 @@ add_parents_comments (CommentData *comment_data,
 		parent_data = g_hash_table_lookup (data->folders_comment, parent);
 
 		if (parent_data != NULL) {
-			int i;
-			for (i = 0; i < parent_data->keywords_n; i++)
-				comment_data_add_keyword (comment_data, parent_data->keywords[i]);
+                        GSList *tmp;
+			for (tmp = parent_data->keywords; tmp; tmp = g_slist_next (tmp))
+				comment_data_add_keyword (comment_data, tmp->data);
 		}
 
 	} while (! uri_is_root (parent));
@@ -889,7 +889,6 @@ file_respects_search_criteria (DialogData *data,
 	int          i;
 	char        *comment;
 	char        *place;
-	int          keywords_n;
 	time_t       time = 0;
 	const char  *name_only;
 
@@ -906,12 +905,10 @@ file_respects_search_criteria (DialogData *data,
 	if (comment_data == NULL) {
 		comment = NULL;
 		place = NULL;
-		keywords_n = 0;
 		time = 0;
 	} else {
 		comment = comment_data->comment;
 		place = comment_data->place;
-		keywords_n = comment_data->keywords_n;
 		time = comment_data->time;
 	}
 

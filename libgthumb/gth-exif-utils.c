@@ -338,12 +338,35 @@ get_metadata_tagset_string (FileData *fd, const char *tagnames[])
 		GList *search_result = g_list_find_custom (fd->metadata, tagnames[i], (GCompareFunc) metadata_search);
 		if (search_result != NULL) {
 			GthMetadata *md_entry = search_result->data;
-			g_free (string);
 			string = g_strdup (md_entry->formatted_value);
 		}
 	}
 		
 	return string;
+}
+
+
+GSList *
+get_metadata_tagset_list (FileData *fd, const char *tagnames[])
+{
+	int     i;
+        GSList *list = NULL;
+        GList  *tmp;
+
+	/* Searches for the best tag from a list of acceptable tag names */
+
+	update_metadata (fd);
+
+	for (i = 0; tagnames[i] != NULL; i++) {
+                for (tmp = fd->metadata; tmp; tmp = g_list_next (tmp)) {
+                        GthMetadata *md_entry = tmp->data;
+                        if (!strcmp (md_entry->full_name, tagnames[i])) {
+                                list = g_slist_append (list, g_strdup (md_entry->formatted_value));
+                        }
+                }
+        }
+
+	return list;
 }
 
 
@@ -585,3 +608,18 @@ swap_fields (GList *metadata, const char *tag1, const char *tag2)
         entry1->raw_value = entry2->raw_value;
         entry2->raw_value = tmp;
 }
+
+GList *
+clear_metadata_tagset (GList        *metadata,
+                       const char   *tagnames[])
+{
+        int i;
+        GList *tmp_metadata = metadata;
+
+        for (i = 0; tagnames[i]; ++i) {
+                tmp_metadata = simple_add_metadata (tmp_metadata, tagnames[i], "");
+        }
+
+        return tmp_metadata;
+}
+

@@ -746,6 +746,7 @@ dlg_categories_update (GtkWidget *dlg)
 	CommentData   *cdata = NULL;
 	GList         *scan;
 	GList         *other_keys = NULL;
+        GSList        *tmp1, *tmp2;
 
 
 	g_return_if_fail (dlg != NULL);
@@ -776,7 +777,6 @@ dlg_categories_update (GtkWidget *dlg)
 		/* remove a category if it is not in all comments. */
 		for (scan = data->file_list->next; scan; scan = scan->next) {
 			CommentData *scan_cdata;
-			int          i;
 
 			scan_cdata = comments_load_comment (scan->data, TRUE);
 
@@ -785,13 +785,12 @@ dlg_categories_update (GtkWidget *dlg)
 				break;
 			}
 
-			for (i = 0; i < cdata->keywords_n; i++) {
-				char     *k1 = cdata->keywords[i];
+			for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
+				char     *k1 = tmp1->data;
 				gboolean  found = FALSE;
-				int       j;
 
-				for (j = 0; j < scan_cdata->keywords_n; j++) {
-					char *k2 = scan_cdata->keywords[j];
+				for (tmp2 =  scan_cdata->keywords; tmp2; tmp2 = g_slist_next (tmp2)) {
+					char *k2 = tmp2->data;
 					if (strcmp (k1, k2) == 0) {
 						found = TRUE;
 						break;
@@ -808,21 +807,19 @@ dlg_categories_update (GtkWidget *dlg)
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		CommentData *scan_cdata;
-		int          j;
 
 		scan_cdata = comments_load_comment (scan->data, TRUE);
 
 		if (scan_cdata == NULL)
 			continue;
 
-		for (j = 0; j < scan_cdata->keywords_n; j++) {
-			char     *k2 = scan_cdata->keywords[j];
+                for (tmp2 =  scan_cdata->keywords; tmp2; tmp2 = g_slist_next (tmp2)) {
+                        char *k2 = tmp2->data;
 			gboolean  found = FALSE;
-			int       i;
 
 			if (cdata != NULL)
-				for (i = 0; i < cdata->keywords_n; i++) {
-					char *k1 = cdata->keywords[i];
+                                for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
+                                        char     *k1 = tmp1->data;
 					if (strcmp (k1, k2) == 0) {
 						found = TRUE;
 						break;
@@ -837,9 +834,7 @@ dlg_categories_update (GtkWidget *dlg)
 	}
 
 	if (cdata != NULL) {
-		int i;
-
-		for (i = 0; i < cdata->keywords_n; i++) {
+                for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
 			GtkTreeIter  iter;
 
 			gtk_list_store_append (data->keywords_list_model,
@@ -849,7 +844,7 @@ dlg_categories_update (GtkWidget *dlg)
 					    IS_EDITABLE_COLUMN, FALSE,
 					    HAS_THIRD_STATE_COLUMN, FALSE,
 					    USE_CATEGORY_COLUMN, 1,
-					    CATEGORY_COLUMN, cdata->keywords[i],
+					    CATEGORY_COLUMN, tmp1->data,
 					    -1);
 		}
 	}

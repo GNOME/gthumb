@@ -229,13 +229,13 @@ test_integer (GthTest *test,
 
 static gboolean
 test_keywords (GthTest  *test,
- 	       char    **keywords,
- 	       int       keywords_n)
+               GSList   *keywords)
 {
 	gboolean result;
-	int      p, i;
+	int      p;
+        GSList  *tmp;
 
-	if ((test->data.s == NULL) || (keywords == NULL) || (keywords_n == 0))
+	if ((test->data.s == NULL) || (keywords == NULL))
 		return test->negative;
 
 	if ((test->op != GTH_TEST_OP_CONTAINS) && (test->op != GTH_TEST_OP_CONTAINS_ALL))
@@ -248,8 +248,8 @@ test_keywords (GthTest  *test,
 	for (p = 0; test->patterns[p] != NULL; p++) {
 		gboolean keyword_present = FALSE;
 		
-		for (i = 0; ! keyword_present && (i < keywords_n); i++) {
-			char *value2 = g_utf8_casefold (keywords[i], -1);
+		for (tmp = keywords; ! keyword_present && tmp; tmp = g_slist_next (tmp)) {
+			char *value2 = g_utf8_casefold (tmp->data, -1);
 				
 			keyword_present = g_utf8_collate (value2, test->patterns[p]) == 0;
 			g_free (value2);
@@ -337,7 +337,7 @@ gth_test_match (GthTest  *test,
 		        	  || test_string (test, fdata->comment_data->comment)
 		          	  || test_string (test, fdata->comment_data->place));
 		        if (! result && (fdata->comment_data != NULL))
-		        	result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
+				result = test_keywords (test, fdata->comment_data->keywords);
 		} else
 			result = test->negative;
 		break;
@@ -349,7 +349,7 @@ gth_test_match (GthTest  *test,
 	case GTH_TEST_SCOPE_KEYWORDS:
 		file_data_load_comment_data (fdata);
 		if (fdata->comment_data != NULL)
-			result = test_keywords (test, fdata->comment_data->keywords, fdata->comment_data->keywords_n);
+			result = test_keywords (test, fdata->comment_data->keywords);
 		else
 			result = test->negative;
 		break;

@@ -92,6 +92,8 @@ char *        get_metadata_string         (FileData     *fd,
 					   const char *tagname);
 char *	      get_metadata_tagset_string  (FileData     *fd,
 					   const char   *tagnames[]);
+GSList *      get_metadata_tagset_list    (FileData     *fd,
+					   const char   *tagnames[]);
 GList *       simple_add_metadata         (GList        *metadata,
 			                   const gchar  *key,
 					   const gchar  *value);
@@ -110,4 +112,7 @@ void          update_metadata		  (FileData	*fd);
 void          swap_fields                 (GList        *metadata,
 					   const char   *tag1,
 				           const char   *tag2);
+GList *       clear_metadata_tagset       (GList        *metadata,
+                                           const char   *tagnames[]);
+
 #endif /* EXIF_UTILS_H */
