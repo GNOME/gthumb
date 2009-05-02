@@ -24,7 +24,8 @@ EXTRA_DIST = 			\
         intltool-extract.in	\
 	omf.make		\
 	xmldocs.make		\
-	gnome-doc-utils.make
+	gnome-doc-utils.make	\
+	ChangeLog.pre-git
 
 DISTCLEANFILES =                	\
 	po/.intltool-merge-cache	\
@@ -33,6 +34,19 @@ DISTCLEANFILES =                	\
 	intltool-update			\
 	gnome-doc-utils.make
 
+CLEANFILES = \
+	ChangeLog
+
 DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
 
 -include $(top_srcdir)/git.mk
+
+# Build ChangeLog from GIT history
+ChangeLog:
+	@if test -d $(top_srcdir)/.git; then \
+		GIT_DIR="$(top_srcdir)/.git" git log --stat > $@; \
+	fi
+
+dist: ChangeLog
+
+.PHONY: ChangeLog
