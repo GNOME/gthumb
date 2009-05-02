@@ -854,33 +854,11 @@ gth_window_activate_action_help_about (GtkAction *action,
 				       gpointer   data)
 {
 	GthWindow  *window = GTH_WINDOW (data);
-	const char *authors[] = {
-		"Paolo Bacchilega <paobac@svn.gnome.org>",
-		"Michael J. Chudobiak <mjc@svn.gnome.org>",
-		"",
-		"Josua Groeger <fractalus@gmx.net>",
-		"Chauk-Mean Proum <chaukmean@free.fr>",
-		"Jason Tackaberry <tack@auc.ca>",
-		"Martin Ebourne <martin@zepler.org>",
-		"Manuel Braga <mnulbga@gmail.com>",
-		"Jef Driesen <jefdriesen@hotmail.com>",
-		"Rennie deGraaf <degraaf@cpsc.ucalgary.ca>",
-		"Joakim Larsson <joakim@bildrulle.nu>",
-		"Christophe Bisière <bisiere@univ-tlse1.fr>",
-		"Ulisse Perusin <uli.peru@gmail.com>",
-		"Ignacy Gawędzki <ibugs@qult.net>",
-		"Roalt Aalmoes <gnome@roalt.com>",
-		"Geoffrey Antos <dynamotwain@aim.com>",
-		"Michael Lester <element3260@gmail.com>",
-		"Martin Schmeißer <Waschbaehr@gmx.de>",
-		"Sean Hunt <rideau3@gmail.com>",
-		"Natan Yellin <aantny@gmail.com>",
-		"Adrien Bustany <madcat@mymadcat.com>",
-		"David Turner <cillian64@googlemail.com>",
-		"Dor Fire <dorfire@gmail.com>",
-		"Gabriel Falcão <gabriel@nacaolivre.org>",
-		NULL
-	};
+        const char *authors[] = {
+#include "AUTHORS.tab"
+                "",
+                NULL
+        };
 	const char *documenters [] = {
 		"Paolo Bacchilega",
 		"Alexander Kirillov",
