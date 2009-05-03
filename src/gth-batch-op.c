@@ -495,7 +495,6 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 	}
 	g_free (local_file);
 	g_free (old_local_file);
-	file_data_unref (fd_old);
 	
 	fd = file_data_new (PD(bop)->new_path);
 	update_file_from_cache (fd, save_image_and_remove_original_step2, bop);
