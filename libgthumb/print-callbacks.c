@@ -653,16 +653,13 @@ construct_comment (PrintCatalogInfo *pci,
 
 	if (pci->print_filenames) {
 		const gchar* end = NULL;
-		char *unescaped;
 
-		unescaped = get_utf8_display_name_from_uri (image->file->path);
-		g_utf8_validate (unescaped, -1, &end);
-		if (end > unescaped) {
+		g_utf8_validate (image->file->utf8_path, -1, &end);
+		if (end > image->file->utf8_path) {
 			if (s->len > 0)
 				g_string_append (s, "\n");
-			g_string_append_len (s, unescaped, end - unescaped);
+			g_string_append_len (s, image->file->utf8_path, end - image->file->utf8_path);
 		}
-		g_free (unescaped);
 	}
 
 	if (s->len > 0) {

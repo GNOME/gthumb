@@ -34,7 +34,8 @@ typedef struct {
 
 	char               *path;          /* Full path name. */
 	const char         *name;          /* File name only. */
-	char               *display_name;
+	char               *utf8_path;
+	const char	   *utf8_name;
 	const char         *mime_type;
 	goffset             size;
 	time_t              ctime;

@@ -299,8 +299,6 @@ add_to_display (GthMetadata       *entry,
 static void
 update_file_info (GthExifDataViewer *edv)
 {
-	char              *utf8_name;
-	char		  *utf8_fullname;
 	int                width, height;
 	char              *size_txt;
 	time_t             mtime;
@@ -313,9 +311,6 @@ update_file_info (GthExifDataViewer *edv)
 
 	if (edv->priv->viewer == NULL)
 		return;
-
-	utf8_name = basename_for_display (edv->priv->file->path);
-	utf8_fullname = get_utf8_display_name_from_uri (edv->priv->file->path);
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
@@ -340,8 +335,10 @@ update_file_info (GthExifDataViewer *edv)
 	
 	/**/
 
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"), utf8_name, NULL, -7, FALSE);
-	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"), utf8_fullname, NULL, -6, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"),
+			          edv->priv->file->utf8_name, NULL, -7, FALSE);
+	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"),
+				  edv->priv->file->utf8_path, NULL, -6, FALSE);
 
 	if (mime_type_is_image (mime_type))
 		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Dimensions"), size_txt, NULL, -5, FALSE);
@@ -353,8 +350,6 @@ update_file_info (GthExifDataViewer *edv)
 	/**/
 
 	g_free (utf8_time_txt);
-	g_free (utf8_name);
-	g_free (utf8_fullname);
 	g_free (size_txt);
 	g_free (file_size_txt);
 	g_free (mime_description);

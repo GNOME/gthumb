@@ -443,18 +443,15 @@ update_list (DialogData *data)
 		FileData    *fdata = on_scan->data;
 		char        *new_name = nn_scan->data;
 		GtkTreeIter  iter;
-		char        *utf8_on;
 		char        *utf8_nn;
 
 		gtk_list_store_append (data->rs_list_model, &iter);
 
-		utf8_on = get_utf8_display_name_from_uri (fdata->name);
 		utf8_nn = get_utf8_display_name_from_uri (new_name);
 		gtk_list_store_set (data->rs_list_model, &iter,
-				    RS_OLDNAME_COLUMN, utf8_on,
+				    RS_OLDNAME_COLUMN, fdata->utf8_name,
 				    RS_NEWNAME_COLUMN, utf8_nn,
 				    -1);
-		g_free (utf8_on);
 		g_free (utf8_nn);
 
 		nn_scan = nn_scan->next;
@@ -634,17 +631,14 @@ dlg_rename_series (GthBrowser *browser)
 		FileData   *fd = data->original_file_list->data;
 		const char *last_dot;
 		glong       last_dot_pos;
-		char       *template;
 
-		template = get_utf8_display_name_from_uri (fd->name);
-		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), template);
-		last_dot = g_utf8_strrchr (template, -1, '.');
+		gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), fd->utf8_name);
+		last_dot = g_utf8_strrchr (fd->utf8_name, -1, '.');
 		if (last_dot != NULL)
 			last_dot_pos = g_utf8_strlen (last_dot, -1);
 		else
 			last_dot_pos = 0;
-		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, g_utf8_strlen (template, -1) - last_dot_pos);
-		g_free (template);
+		gtk_editable_select_region (GTK_EDITABLE (data->rs_template_entry), 0, g_utf8_strlen (fd->utf8_name, -1) - last_dot_pos);
 	}
 	else {
 		char *template;

@@ -1112,7 +1112,7 @@ add_list_in_chunks (gpointer callback_data)
 		if (pixbuf != NULL) {
 			gth_file_view_append_with_data (file_list->view,
 					      		pixbuf,
-							fd->display_name,
+							fd->utf8_name,
 							fd->comment,
 							fd);
 			g_object_unref (pixbuf);
@@ -1683,7 +1683,7 @@ gfl_rename (GthFileList *file_list,
 
 	pos = gth_file_list_pos_from_path (file_list, from_uri);
 	if (pos != -1) {
-		gth_file_view_set_image_text (file_list->view, pos, fd->display_name);
+		gth_file_view_set_image_text (file_list->view, pos, fd->utf8_name);
 		gth_file_view_sorted (file_list->view,
 				      file_list->priv->sort_method,
 				      file_list->priv->sort_type);

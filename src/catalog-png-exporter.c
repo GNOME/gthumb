@@ -818,8 +818,7 @@ set_item_caption (CatalogPngExporter *ce,
 
 	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH)
 	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
-		char *utf8_name = get_utf8_display_name_from_uri (idata->file->path);
-		idata->caption_row[row++] = utf8_name;
+		idata->caption_row[row++] = g_strdup (idata->file->utf8_path);
 	} 
 	else {
 		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
@@ -829,9 +828,7 @@ set_item_caption (CatalogPngExporter *ce,
 			g_free (path);
 		} 
 		else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
-			const char *name = file_name_from_path (idata->file->path);
-			char *utf8_name = get_utf8_display_name_from_uri (name);
-			idata->caption_row[row++] = utf8_name;
+			idata->caption_row[row++] = g_strdup (idata->file->utf8_name);;
 		}
 	}
 
@@ -1420,7 +1417,7 @@ load_next_file (CatalogPngExporter *ce)
 	idata = IMAGE_DATA (ce->file_to_load->data);
 
 	g_free (ce->info);
-	ce->info = g_strdup_printf (_("Loading image: %s"), idata->file->display_name);
+	ce->info = g_strdup_printf (_("Loading image: %s"), idata->file->utf8_name);
 	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
 		       0,
 		       ce->info);

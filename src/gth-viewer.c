@@ -694,9 +694,7 @@ viewer_update_title (GthViewer *viewer)
 	if (viewer->priv->image == NULL)
 		title = g_strdup (_("No image"));
 	else {
-		char *image_name = basename_for_display (viewer->priv->image->path);
-		title = g_strdup_printf ("%s %s", image_name, modified);
-		g_free (image_name);
+		title = g_strdup_printf ("%s %s", viewer->priv->image->utf8_name, modified);
 	}
 
 	gtk_window_set_title (GTK_WINDOW (viewer), title);

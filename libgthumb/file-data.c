@@ -63,12 +63,8 @@ load_info (FileData *fd)
 	GError    *error = NULL;
 	GTimeVal   tv;
 
-	if (fd->display_name)
-		g_free (fd->display_name);
-
 	gfile = gfile_new (fd->path);
 	info = g_file_query_info (gfile, 
-				  G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME ","
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
 				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
 				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
@@ -83,7 +79,6 @@ load_info (FileData *fd)
 		fd->ctime = g_file_info_get_attribute_uint64 (info, G_FILE_ATTRIBUTE_TIME_CHANGED);
 		g_file_info_get_modification_time (info, &tv);
 		fd->mtime = tv.tv_sec;
-		fd->display_name = g_strdup (g_file_info_get_display_name (info));
 		fd->can_read = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ);
 		fd->mime_type = get_static_string (g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE));
 		g_object_unref (info);
@@ -94,7 +89,6 @@ load_info (FileData *fd)
 		fd->size = (goffset) 0;
 		fd->ctime = (time_t) 0;
 		fd->mtime = (time_t) 0;
-		fd->display_name = get_utf8_display_name_from_uri (fd->name);
 		fd->can_read = TRUE;
 	}
 
@@ -112,6 +106,8 @@ file_data_new (const char *path)
 	fd->ref = 1;
 	fd->path = add_scheme_if_absent (path);
 	fd->name = file_name_from_path (fd->path);
+	fd->utf8_path = get_utf8_display_name_from_uri (fd->path);
+	fd->utf8_name = file_name_from_path (fd->utf8_path);
 
 	load_info (fd);
 
@@ -152,7 +148,9 @@ file_data_dup (FileData *source)
 	fd->ref = 1;
 	fd->path = g_strdup (source->path);
 	fd->name = file_name_from_path (fd->path);
-	fd->display_name = g_strdup (source->display_name);
+        fd->utf8_path = g_strdup (source->utf8_path);
+        fd->utf8_name = file_name_from_path (fd->utf8_path);
+
 	fd->mime_type = get_static_string (source->mime_type);
 	fd->size = source->size;
 	fd->ctime = source->ctime;
@@ -180,7 +178,7 @@ file_data_unref (FileData *fd)
 
 	if (fd->ref == 0) {
 		g_free (fd->path);
-		g_free (fd->display_name);
+		g_free (fd->utf8_path);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
@@ -199,6 +197,7 @@ file_data_update (FileData *fd)
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
 	fd->name = file_name_from_path (fd->path);
+        fd->utf8_name = file_name_from_path (fd->utf8_path);
 
 	load_info (fd);
 
@@ -232,6 +231,8 @@ file_data_set_path (FileData   *fd,
 
 	g_free (fd->path);
 	fd->path = g_strdup (path);
+	g_free (fd->utf8_path);
+        fd->utf8_path = get_utf8_display_name_from_uri (fd->path);
 
 	file_data_update (fd);
 }

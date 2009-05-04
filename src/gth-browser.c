@@ -571,7 +571,6 @@ window_update_infobar (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;
 	char       *text;
 	char       *escaped_name;
-	char       *display_name;
 	int         images, current;
 
 	if (priv->image == NULL) {
@@ -582,8 +581,7 @@ window_update_infobar (GthBrowser *browser)
 	images = gth_file_view_get_images (priv->file_list->view);
 	current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
-	display_name = basename_for_display (priv->image->path);
-	escaped_name = g_markup_escape_text (display_name, -1);
+	escaped_name = g_markup_escape_text (priv->image->utf8_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s",
 				current,
@@ -593,7 +591,6 @@ window_update_infobar (GthBrowser *browser)
 
 	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (priv->info_bar), text, NULL);
 
-	g_free (display_name);
 	g_free (escaped_name);
 	g_free (text);
 }
@@ -635,10 +632,8 @@ window_update_title (GthBrowser *browser)
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
 	} 
 	else {
-		char *image_name;
 		int   images, current;
 
-		image_name = basename_for_display (priv->image->path);
 		images = gth_file_view_get_images (priv->file_list->view);
 		current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
 
@@ -649,7 +644,7 @@ window_update_title (GthBrowser *browser)
 			cat_name[strlen (cat_name) - 4] = 0;
 
 			info_txt = g_strdup_printf ("%s %s (%d/%d) - %s",
-						    image_name,
+						    priv->image->utf8_name,
 						    modified,
 						    current,
 						    images,
@@ -658,12 +653,10 @@ window_update_title (GthBrowser *browser)
 		}
 		else
 			info_txt = g_strdup_printf ("%s %s (%d/%d)",
-						    image_name,
+						    priv->image->utf8_name,
 						    modified,
 						    current,
 						    images);
-
-		g_free (image_name);
 	}
 
 	gtk_window_set_title (GTK_WINDOW (browser), info_txt);

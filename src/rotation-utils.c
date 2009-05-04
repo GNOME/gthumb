@@ -79,7 +79,6 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 		     gpointer          done_data)
 {
 	AskTrimData *data;
-	char        *display_name;
 	char        *msg;
 	
 	/* If the user disabled the warning dialog trim the image */
@@ -107,8 +106,7 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 			gtk_window_set_modal (data->parent_window, FALSE);
 	}
 
-	display_name = basename_for_display (file->path);
-	msg = g_strdup_printf (_("Problem transforming the image: %s"), display_name);
+	msg = g_strdup_printf (_("Problem transforming the image: %s"), file->utf8_name);
 	data->dialog = _gtk_message_dialog_with_checkbutton_new (parent_window,
 								 GTK_DIALOG_MODAL,
 								 GTK_STOCK_DIALOG_WARNING,
@@ -125,7 +123,6 @@ ask_whether_to_trim (GtkWindow        *parent_window,
 								 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 								 GTK_STOCK_OK, GTK_RESPONSE_OK,
 								 NULL);
-	g_free (display_name);
 	g_free (msg);
 
 	g_signal_connect (G_OBJECT (data->dialog), "response",
