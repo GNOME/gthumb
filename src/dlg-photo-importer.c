@@ -1268,14 +1268,14 @@ save_image (DialogData *data,
 	CameraFile   *file;
 	char         *camera_folder;
 	const char   *camera_filename;
-	char         *local_path;
-	char         *file_uri = NULL;
-	char	     *unescaped_local_folder;
+	char         *initial_dest_path;
+	char         *final_dest_path;
 	time_t        exif_date;
 	GthSubFolder  subfolder_value;
 	char	     *temp_dir = NULL;
 	gboolean      error_found = FALSE;
-	
+	FileData     *folder_fd;
+
 	gp_file_new (&file);
 
 	camera_folder = remove_level_from_path (camera_path);
@@ -1288,23 +1288,35 @@ save_image (DialogData *data,
 			    data->context);
 
 	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
-	unescaped_local_folder = gnome_vfs_unescape_string (local_folder, "");
 
-	/* When grouping by exif date, we need a temporary directory to upload the
-	   photo to. The exif date tags are then read, and the file is then moved
-	   to its final destination. */
-	if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
-	     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
-	     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM)) {
-		temp_dir = get_temp_dir_name ();
-		local_path = get_temp_file_name (temp_dir, NULL);
+	folder_fd = file_data_new (local_folder);
+
+	if (folder_fd->local_path == NULL) {
+		error_found = TRUE;
 	} else {
-		/* Otherwise, the images go straight into the destination folder */
-		file_uri = get_file_name (data, camera_path, unescaped_local_folder, n);
-		local_path = get_cache_filename_from_uri (file_uri);		
+		/* When grouping by exif date, we need a temporary directory to upload the
+		   photo to. The exif date tags are then read, and the file is then moved
+		   to its final destination. */
+		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
+		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
+		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM)) {
+			temp_dir = get_temp_dir_name ();
+			if (temp_dir == NULL) {
+				error_found = TRUE;
+			} else {
+				initial_dest_path = get_temp_file_name (temp_dir, NULL);
+			}
+		} else {
+			/* Otherwise, the images go straight into the destination folder */
+			initial_dest_path = get_file_name (data, camera_path, folder_fd->local_path, n);
+		}
 	}
 
-	if ( (local_path != NULL) && gp_file_save (file, local_path) >= 0) {
+	if (initial_dest_path == NULL) {
+		error_found = TRUE;
+	}
+
+	if ((error_found == FALSE) && gp_file_save (file, initial_dest_path) >= 0) {
 
 		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
 		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
@@ -1313,11 +1325,10 @@ save_image (DialogData *data,
 			FileData *file;
 
 			/* Name a subfolder based on the exif date */
-                        file = file_data_new (local_path);
+                        file = file_data_new (initial_dest_path);
                         file_data_update_all (file, FALSE);
 			exif_date = get_exif_time_or_mtime (file);
 			file_data_unref (file);
-
 
 			if (exif_date != (time_t) 0) {
 				struct tm  *exif_tm = localtime(&exif_date);
@@ -1358,18 +1369,18 @@ save_image (DialogData *data,
 					tmp++;
 				}
 
-				dest_folder = g_build_filename (unescaped_local_folder, dest_subfolder, NULL);
+				dest_folder = g_build_filename (folder_fd->local_path, dest_subfolder, NULL);
 			} else {
 				/* If no exif data was found, use the base folder */
-				dest_folder = g_strdup (unescaped_local_folder);
+				dest_folder = g_strdup (folder_fd->local_path);
 			}
 
-			file_uri = get_file_name (data, camera_path, dest_folder, n);
+			final_dest_path = get_file_name (data, camera_path, dest_folder, n);
 
 			/* Create the subfolder if necessary, and move the 
 			   temporary file to it */
 			if (ensure_dir_exists (dest_folder, 0755) ) {
-				if (!file_move (local_path, file_uri)) {
+				if (!file_move (initial_dest_path, final_dest_path)) {
 					error_found = TRUE;
 				}
 			} else {
@@ -1380,17 +1391,19 @@ save_image (DialogData *data,
 			data->last_folder = g_strdup (dest_folder);
 
 			g_free (dest_folder);
+		} else {
+			final_dest_path = g_strdup (initial_dest_path);
 		}
 
 		/* Adjust the photo orientation based on the exif 
 		   orientation tag, if requested */
 		if (!error_found) {
 			if (data->adjust_orientation) 
-				data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (file_uri));
+				data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (final_dest_path));
 			if (data->delete_from_camera)
 				data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
-			data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (file_uri));
-			add_categories_to_image (data, local_path);
+			data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (final_dest_path));
+			add_categories_to_image (data, final_dest_path);
 		}
 	} 
 	else {
@@ -1410,11 +1423,11 @@ save_image (DialogData *data,
 		g_free (temp_dir);
 	}
 		
-	g_free (unescaped_local_folder);
 	g_free (camera_folder);
-	g_free (file_uri);
-	g_free (local_path);
+	g_free (final_dest_path);
+	g_free (initial_dest_path);
 	gp_file_unref (file);
+	file_data_unref (folder_fd);
 }
 
 static void
@@ -1692,6 +1705,7 @@ ok_clicked_cb (GtkButton  *button,
 	GList    *sel_list;
 	gboolean  error;
 	goffset   total_size = 0;
+	FileData *folder_fd;
 
 	if (!data->camera_setted) {
 		display_error_dialog (data,
@@ -1750,22 +1764,22 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 	}
 
-	if (! ensure_dir_exists (data->local_folder, 0755)) {
-		char *utf8_path;
+	folder_fd = file_data_new (data->local_folder);
+	if ((folder_fd->local_path==NULL) || !ensure_dir_exists (folder_fd->local_path, 0755)) {
 		char *msg;
-		utf8_path = get_utf8_display_name_from_uri (data->local_folder);
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
-				       utf8_path,
+				       folder_fd->utf8_name,
 				       errno_to_string ());
 		display_error_dialog (data, _("Could not import photos"), msg);
 
-		g_free (utf8_path);
 		g_free (msg);
 		g_free (data->local_folder);
 		data->local_folder = NULL;
 		path_list_free (file_list);
+		file_data_unref (folder_fd);
 		return;
 	}
+	file_data_unref (folder_fd);
 
 	if (! can_read_write_execute (data->local_folder)) {
 		char *utf8_path;

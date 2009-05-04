@@ -474,6 +474,9 @@ gfile_ensure_dir_exists (GFile    *dir,
         if (error == NULL)
                 error = &priv_error;
 
+	if (gfile_path_is_dir (dir))
+		return TRUE;
+	
         if (! _gfile_make_directory_tree (dir, mode, error)) {
 
                 gfile_warning ("could not create directory", dir, *error);
@@ -490,7 +493,7 @@ gfile_ensure_dir_exists (GFile    *dir,
 guint64
 gfile_get_destination_free_space (GFile *file)
 {
-        guint64    freespace = 0;
+        guint64    freespace = 100000000000; /* bogus value for unsupported systems */
         GFileInfo *info;
         GError    *err = NULL;
 
