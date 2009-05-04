@@ -34,8 +34,9 @@ typedef struct {
 
 	char               *path;          /* Full path name. */
 	const char         *name;          /* File name only. */
-	char               *utf8_path;
-	const char	   *utf8_name;
+	char               *utf8_path;	   /* Always unescaped UTF8 */
+	const char	   *utf8_name;     /* Always unescaped UTF8 */
+	char		   *local_path;    /* May be a gvfs mount point */
 	const char         *mime_type;
 	goffset             size;
 	time_t              ctime;

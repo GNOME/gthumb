@@ -64,6 +64,10 @@ load_info (FileData *fd)
 	GTimeVal   tv;
 
 	gfile = gfile_new (fd->path);
+
+	g_free (fd->local_path);
+	fd->local_path = g_file_get_path (gfile);
+
 	info = g_file_query_info (gfile, 
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
 				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
@@ -150,6 +154,7 @@ file_data_dup (FileData *source)
 	fd->name = file_name_from_path (fd->path);
         fd->utf8_path = g_strdup (source->utf8_path);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
+	fd->local_path = g_strdup (source->local_path);
 
 	fd->mime_type = get_static_string (source->mime_type);
 	fd->size = source->size;
@@ -179,6 +184,7 @@ file_data_unref (FileData *fd)
 	if (fd->ref == 0) {
 		g_free (fd->path);
 		g_free (fd->utf8_path);
+		g_free (fd->local_path);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
