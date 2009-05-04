@@ -125,6 +125,7 @@ file_data_new (const char *path)
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
 	fd->comment = g_strdup ("");
+	fd->categories = g_strdup ("");
 
 	return fd;
 }
@@ -168,6 +169,7 @@ file_data_dup (FileData *source)
 	fd->thumb_loaded = source->thumb_loaded;
 	fd->thumb_created = source->thumb_created;
 	fd->comment = (source->comment != NULL) ? g_strdup (source->comment) : NULL;
+	fd->categories = (source->categories != NULL) ? g_strdup (source->categories) : NULL;
 	fd->comment_data = comment_data_dup (source->comment_data);
 	
 	return fd;
@@ -188,6 +190,7 @@ file_data_unref (FileData *fd)
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);
+		g_free (fd->categories);
 		fd_free_metadata (fd);
 		g_free (fd);
 	}
@@ -273,6 +276,10 @@ file_data_update_comment (FileData *fd)
 	fd->comment = comments_get_comment_as_string (fd->comment_data, "\n", "\n");
 	if (fd->comment == NULL)
 		fd->comment = g_strdup ("");
+
+	fd->categories = comments_get_categories_as_string (fd->comment_data, ", ");
+	if (fd->categories == NULL)
+		fd->categories = g_strdup ("");
 }
 
 

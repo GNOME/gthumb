@@ -71,7 +71,7 @@
 #include "jpegutils/jpeg-data.h"
 #include "icons/pixbufs.h"
 
-#define GCONF_NOTIFICATIONS 21
+#define GCONF_NOTIFICATIONS 22
 
 #define VIEW_AS_DELAY 500
 
@@ -4691,18 +4691,7 @@ pref_show_thumbnails_changed (GConfClient *client,
 
 
 static void
-pref_show_filenames_changed (GConfClient *client,
-			     guint        cnxn_id,
-			     GConfEntry  *entry,
-			     gpointer     user_data)
-{
-	GthBrowser  *browser = user_data;
-	gth_file_view_set_view_mode (browser->priv->file_list->view, pref_get_view_mode ());
-}
-
-
-static void
-pref_show_comments_changed (GConfClient *client,
+pref_view_mode_changed (GConfClient *client,
 			    guint        cnxn_id,
 			    GConfEntry  *entry,
 			    gpointer     user_data)
@@ -7042,12 +7031,17 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_FILENAMES,
-					   pref_show_filenames_changed,
+					   pref_view_mode_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_COMMENTS,
-					   pref_show_comments_changed,
+					   pref_view_mode_changed,
+					   browser);
+
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_SHOW_CATEGORIES,
+					   pref_view_mode_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (

@@ -850,6 +850,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 pixbuf,
 						 camera_filename,
 						 NULL,
+						 NULL,
 						 fdata);
 						 
 		g_object_unref (pixbuf);

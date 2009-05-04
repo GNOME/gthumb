@@ -1114,6 +1114,7 @@ add_list_in_chunks (gpointer callback_data)
 					      		pixbuf,
 							fd->utf8_name,
 							fd->comment,
+							fd->categories,
 							fd);
 			g_object_unref (pixbuf);
 		}
@@ -1723,6 +1724,7 @@ gfl_update_comment (GthFileList *file_list,
 		/* Set the new name. */
 
 		gth_file_view_set_image_comment (file_list->view, pos, fd->comment);
+		gth_file_view_set_image_categories (file_list->view, pos, fd->categories);
 		file_data_unref (fd);
 	}
 }

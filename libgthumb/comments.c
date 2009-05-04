@@ -334,12 +334,12 @@ get_keywords (CommentData *data,
 static gboolean
 has_non_whitespace_comment (const char *text_in)
 {
-        gchar *pos;
+        const char *pos;
 
         if (text_in == NULL)
                 return FALSE;
 
-        for (pos = (char *) text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
+        for (pos = text_in; *pos != 0; pos = g_utf8_next_char (pos)) {
                 gunichar ch = g_utf8_get_char (pos);
                 if (!g_unichar_isspace (ch))
                         return TRUE;
@@ -382,12 +382,10 @@ load_comment_from_metadata (const char *uri)
                         keywords_v = g_strsplit (tmp->data, ",", 0);
 
                         for (i = 0; keywords_v[i]; ++i) {
-                                if (has_non_whitespace_comment (keywords_v[i])) {
-                                        data->keywords = g_slist_append (data->keywords, g_strdup (keywords_v[i]));
+                                comment_data_add_keyword (data, keywords_v[i]);
                         }
+                        g_strfreev (keywords_v);
                 }
-		g_strfreev (keywords_v);
-	}
         }
         g_slist_foreach (metadata_list, (GFunc) g_free, NULL);
         g_slist_free (metadata_list);
@@ -777,15 +775,22 @@ comment_data_add_keyword (CommentData *data,
 			  const char  *keyword)
 {
         GSList *found;
+        gchar *formated_keyword;
 
 	if (keyword == NULL)
 		return;
 
-        found = g_slist_find_custom (data->keywords, keyword, (GCompareFunc) g_utf8_collate);
-	if (found)
-			return;
+        if (!has_non_whitespace_comment (keyword))
+                return;
 
-        data->keywords = g_slist_append (data->keywords, g_strdup (keyword));
+        /* Removes leading and trailing whitespaces */
+        formated_keyword = g_strstrip (g_strdup (keyword));
+
+        found = g_slist_find_custom (data->keywords, formated_keyword, (GCompareFunc) g_utf8_collate);
+        if (!found)
+                data->keywords = g_slist_append (data->keywords, g_strdup (formated_keyword));
+
+        g_free (formated_keyword);
 }
 
 
@@ -991,11 +996,44 @@ _get_comment_as_string_common (CommentData *data,
 }
 
 
+/* Note: separators are not escaped */
+static char *
+_get_categories_as_string_common (CommentData *data,
+                                  char        *sep)
+{
+        GString *categories;
+        GSList  *tmp;
+
+	if (data == NULL)
+		return NULL;
+
+        if (data->keywords == NULL)
+                return NULL;
+
+        categories = g_string_new ("");
+
+        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
+                g_string_append (categories, tmp->data);
+                if (g_slist_next (tmp))
+                        g_string_append (categories, sep);
+        }
+
+        return g_string_free (categories, FALSE);
+}
+
+
 char *
 comments_get_comment_as_string (CommentData *data,
 				char        *sep1,
 				char        *sep2)
 {
 	return _get_comment_as_string_common (data, sep1, sep2, FALSE);
+}
+
+char *
+comments_get_categories_as_string (CommentData *data,
+                                   char        *sep)
+{
+	return _get_categories_as_string_common (data, sep);
 }
 

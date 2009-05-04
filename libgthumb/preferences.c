@@ -515,25 +515,26 @@ GET_SET_FUNC(image_resolution,       PREF_PRINT_IMAGE_RESOLUTION,     GthImageRe
 GET_SET_FUNC(crop_ratio,             PREF_CROP_ASPECT_RATIO,          GthCropRatio)
 GET_SET_FUNC(import_subfolder,       PREF_PHOTO_IMPORT_SUBFOLDER,     GthSubFolder)
 
-GthViewMode
+int
 pref_get_view_mode (void)
 {
+        int view_mode = 0;
 	gboolean view_filenames;
 	gboolean view_comments;
+	gboolean view_categories;
 
 	view_filenames = eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE);
 	view_comments = eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE);
+	view_categories = eel_gconf_get_boolean (PREF_SHOW_CATEGORIES, TRUE);
 
-	if (view_filenames && view_comments)
-		return GTH_VIEW_MODE_ALL;
-	else if (view_filenames && ! view_comments)
-		return GTH_VIEW_MODE_LABEL;
-	else if (! view_filenames && view_comments)
-		return GTH_VIEW_MODE_COMMENTS;
-	else if (! view_filenames && ! view_comments)
-		return GTH_VIEW_MODE_VOID;
+        if (view_filenames)
+                view_mode |= GTH_VIEW_MODE_LABEL;
+        if (view_comments)
+                view_mode |= GTH_VIEW_MODE_COMMENTS;
+        if (view_categories)
+                view_mode |= GTH_VIEW_MODE_CATEGORIES;
 
-	return GTH_VIEW_MODE_VOID;
+	return view_mode;
 }
 
 

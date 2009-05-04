@@ -65,6 +65,7 @@ typedef struct {
 
 	char             *label;
 	char             *comment;
+	char             *categories;
 
 	gpointer          data;
 
@@ -83,6 +84,7 @@ typedef struct {
 	GdkRectangle      image_area;
 	GdkRectangle      label_area;
 	GdkRectangle      comment_area;
+	GdkRectangle      categories_area;
 
 	guint             tmp_selected : 1;
 } GthImageListItem;
@@ -147,15 +149,18 @@ void           gth_image_list_insert               (GthImageList  *image_list,
 						    int            pos,
 						    GdkPixbuf     *pixbuf,
 						    const char    *text,
-						    const char    *comment);
+						    const char    *comment,
+                                                    const char    *categories);
 int            gth_image_list_append               (GthImageList  *image_list,
 						    GdkPixbuf     *pixbuf,
 						    const char    *text,
-						    const char    *comment);
+						    const char    *comment,
+                                                    const char    *categories);
 int            gth_image_list_append_with_data     (GthImageList  *image_list,
 						    GdkPixbuf     *pixbuf,
 						    const char    *text,
 						    const char    *comment,
+                                                    const char    *categories,
 						    gpointer       data);
 void           gth_image_list_remove               (GthImageList  *image_list,
 						    gpointer       data);
@@ -171,6 +176,9 @@ const char*    gth_image_list_get_image_text       (GthImageList  *image_list,
 void           gth_image_list_set_image_comment    (GthImageList  *image_list,
 						    int            pos,
 						    const char    *comment);
+void           gth_image_list_set_image_categories (GthImageList  *image_list,
+						    int            pos,
+						    const char    *categories);
 const char*    gth_image_list_get_image_comment    (GthImageList  *image_list,
 						    int            pos);
 int            gth_image_list_get_images           (GthImageList  *image_list);
@@ -213,8 +221,8 @@ gpointer       gth_image_list_get_image_data       (GthImageList    *image_list,
 void           gth_image_list_enable_thumbs        (GthImageList *image_list,
 						    gboolean      enable_thumbs);
 void           gth_image_list_set_view_mode        (GthImageList *image_list,
-						    GthViewMode   mode);
-GthViewMode    gth_image_list_get_view_mode        (GthImageList *image_list);
+						    int           mode);
+int            gth_image_list_get_view_mode        (GthImageList *image_list);
 void           gth_image_list_moveto               (GthImageList *image_list,
 						    int           pos,
 						    double        yalign);

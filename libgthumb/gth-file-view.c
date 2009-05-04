@@ -111,7 +111,8 @@ gfv_insert (GthFileView  *file_view,
 	    int           pos,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
-	    const char   *comment)
+	    const char   *comment,
+            const char   *categories)
 {
 }
 
@@ -120,7 +121,8 @@ static int
 gfv_append (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
-	    const char   *comment)
+	    const char   *comment,
+            const char   *categories)
 {
 	return -1;
 }
@@ -131,6 +133,7 @@ gfv_append_with_data (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
+                      const char   *categories,
 		      gpointer      data)
 {
 	return -1;
@@ -178,6 +181,14 @@ static void
 gfv_set_image_comment (GthFileView  *file_view,
 		       int           pos,
 		       const char   *comment)
+{
+}
+
+
+static void
+gfv_set_image_categories (GthFileView  *file_view,
+                          int           pos,
+                          const char   *categories)
 {
 }
 
@@ -325,12 +336,12 @@ gfv_enable_thumbs (GthFileView *file_view,
 
 static void
 gfv_set_view_mode (GthFileView *file_view,
-		   GthViewMode  mode)
+		   int          mode)
 {
 }
 
 
-static GthViewMode
+static int
 gfv_get_view_mode (GthFileView *file_view)
 {
 	return GTH_VIEW_MODE_COMMENTS;
@@ -510,6 +521,7 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->set_image_text       = gfv_set_image_text;
 	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
+	file_view_class->set_image_categories = gfv_set_image_categories;
 	file_view_class->get_image_comment    = gfv_get_image_comment;
 	file_view_class->get_images           = gfv_get_images;
 	file_view_class->get_list             = gfv_get_list;
@@ -693,9 +705,10 @@ gth_file_view_insert (GthFileView  *file_view,
 		      int           pos,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
-		      const char   *comment)
+		      const char   *comment,
+                      const char   *categories)
 {
-	GTH_FILE_VIEW_GET_CLASS (file_view)->insert (file_view, pos, pixbuf, text, comment);
+	GTH_FILE_VIEW_GET_CLASS (file_view)->insert (file_view, pos, pixbuf, text, comment, categories);
 }
 
 
@@ -703,9 +716,10 @@ int
 gth_file_view_append (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
-		      const char   *comment)
+		      const char   *comment,
+                      const char   *categories)
 {
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->append (file_view, pixbuf, text, comment);
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->append (file_view, pixbuf, text, comment, categories);
 }
 
 
@@ -714,9 +728,10 @@ gth_file_view_append_with_data (GthFileView  *file_view,
 				GdkPixbuf    *pixbuf,
 				const char   *text,
 				const char   *comment,
+                                const char   *categories,
 				gpointer      data)
 {
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->append_with_data (file_view, pixbuf, text, comment, data);
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->append_with_data (file_view, pixbuf, text, comment, categories, data);
 }
 
 
@@ -767,6 +782,15 @@ gth_file_view_set_image_comment (GthFileView  *file_view,
 				 const char   *comment)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_comment (file_view, pos, comment);
+}
+
+
+void
+gth_file_view_set_image_categories (GthFileView  *file_view,
+                                    int           pos,
+                                    const char   *categories)
+{
+	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_categories (file_view, pos, categories);
 }
 
 
@@ -920,13 +944,13 @@ gth_file_view_enable_thumbs (GthFileView *file_view,
 
 void
 gth_file_view_set_view_mode (GthFileView *file_view,
-			     GthViewMode  mode)
+			     int          mode)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_view_mode (file_view, mode);
 }
 
 
-GthViewMode
+int
 gth_file_view_get_view_mode (GthFileView *file_view)
 {
 	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_view_mode (file_view);

@@ -77,15 +77,18 @@ typedef struct {
 						 int           pos,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
-						 const char   *comment);
+						 const char   *comment,
+                                                 const char   *categories);
 	int            (* append)               (GthFileView  *file_view,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
-						 const char   *comment);
+						 const char   *comment,
+                                                 const char   *categories);
 	int            (* append_with_data)     (GthFileView  *file_view,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
 						 const char   *comment,
+                                                 const char   *categories,
 						 gpointer      data);
 	void           (* remove)               (GthFileView  *file_view,
 						 gpointer      data);
@@ -103,6 +106,9 @@ typedef struct {
 	void           (* set_image_comment)    (GthFileView  *file_view,
 						 int           pos,
 						 const char   *comment);
+	void           (* set_image_categories) (GthFileView  *file_view,
+						 int           pos,
+						 const char   *categories);
 	const char*    (* get_image_comment)    (GthFileView  *file_view,
 						 int           pos);
 	int            (* get_images)           (GthFileView  *file_view);
@@ -144,8 +150,8 @@ typedef struct {
 	void           (* enable_thumbs)        (GthFileView    *file_view,
 						 gboolean        enable_thumbs);
 	void           (* set_view_mode)        (GthFileView    *file_view,
-						 GthViewMode     mode);
-	GthViewMode    (* get_view_mode)        (GthFileView    *file_view);
+						 int             mode);
+	int            (* get_view_mode)        (GthFileView    *file_view);
 	void           (* moveto)               (GthFileView    *file_view,
 						 int             pos,
 						 double          yalign);
@@ -218,15 +224,18 @@ void           gth_file_view_insert              (GthFileView  *file_view,
 						  int           pos,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
-						  const char   *comment);
+						  const char   *comment,
+                                                  const char   *categories);
 int            gth_file_view_append              (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
-						  const char   *comment);
+						  const char   *comment,
+                                                  const char   *categories);
 int            gth_file_view_append_with_data    (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
 						  const char   *comment,
+                                                  const char   *categories,
 						  gpointer      data);
 void           gth_file_view_remove              (GthFileView  *file_view,
 						  gpointer      data);
@@ -246,6 +255,9 @@ void           gth_file_view_set_image_comment   (GthFileView  *file_view,
 						  const char   *comment);
 const char*    gth_file_view_get_image_comment   (GthFileView  *file_view,
 						  int           pos);
+void           gth_file_view_set_image_categories(GthFileView  *file_view,
+						  int           pos,
+						  const char   *categories);
 int            gth_file_view_get_images          (GthFileView  *file_view);
 GList *        gth_file_view_get_list            (GthFileView  *file_view);
 GList *        gth_file_view_get_selection       (GthFileView  *file_view);
@@ -286,8 +298,8 @@ gpointer       gth_file_view_get_image_data       (GthFileView     *file_view,
 void           gth_file_view_enable_thumbs        (GthFileView *file_view,
 						   gboolean     enable_thumbs);
 void           gth_file_view_set_view_mode        (GthFileView *file_view,
-						   GthViewMode  mode);
-GthViewMode    gth_file_view_get_view_mode        (GthFileView *file_view);
+						   int          mode);
+int            gth_file_view_get_view_mode        (GthFileView *file_view);
 void           gth_file_view_moveto               (GthFileView *file_view,
 						   int          pos,
 						   double       yalign);

@@ -90,15 +90,11 @@ typedef enum { /*< skip >*/
 } GthSidebarContent;
 
 
-typedef enum { /*< skip >*/
-	GTH_VIEW_MODE_VOID,               /* No text at all. */
-	GTH_VIEW_MODE_LABEL,              /* Display label. */
-	GTH_VIEW_MODE_COMMENTS,           /* Display comment. */
- 	GTH_VIEW_MODE_COMMENTS_OR_TEXT,   /* When a comment is present do
-					   * not display text. */
-	GTH_VIEW_MODE_ALL                 /* Display comment and text. */
-} GthViewMode;
-
+enum { /*< skip >*/
+	GTH_VIEW_MODE_LABEL = 0x1,              /* Display label. */
+	GTH_VIEW_MODE_COMMENTS = 0x2,           /* Display comment. */
+	GTH_VIEW_MODE_CATEGORIES = 0x4,         /* Display categories. */
+};
 
 typedef enum { /*< skip >*/
 	GTH_VIEW_AS_LIST = 0,
