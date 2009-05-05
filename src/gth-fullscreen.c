@@ -900,7 +900,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	ImageViewer    *viewer = (ImageViewer*) priv->viewer;
 	CommentData    *cdata = NULL;
-	char           *comment, *e_comment, *file_info;
+	char           *comment, *e_comment, *keywords, *e_keywords, *file_info;
 	char           *marked_text, *parsed_text;
 	PangoLayout    *layout;
 	PangoAttrList  *attr_list = NULL;
@@ -928,21 +928,37 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	priv->comment_visible = TRUE;
 
 	comment = NULL;
+	keywords = NULL;
 	if (cdata != NULL) {
 		comment = comments_get_comment_as_string (cdata, "\n", " - ");
+		keywords = comments_get_categories_as_string (cdata, ", ");
 		comment_data_free (cdata);
 	}
 
 	file_info = get_file_info (fullscreen);
 
-	if (comment == NULL)
+	if (comment == NULL && keywords == NULL) {
 		marked_text = g_strdup (file_info);
-	else {
+	} else if (comment == NULL) {
+		e_keywords = g_markup_escape_text (keywords, -1);
+		marked_text = g_strdup_printf ("%s\n\n%s",
+					       e_keywords,
+					       file_info);
+		g_free (e_keywords);
+	} else if (keywords == NULL) {
 		e_comment = g_markup_escape_text (comment, -1);
 		marked_text = g_strdup_printf ("<b>%s</b>\n\n%s",
 					       e_comment,
 					       file_info);
 		g_free (e_comment);
+	} else {
+		e_comment = g_markup_escape_text (comment, -1);
+		e_keywords = g_markup_escape_text (keywords, -1);
+		marked_text = g_strdup_printf ("<b>%s</b>\n\n%s\n\n%s",
+					       e_comment, e_keywords,
+					       file_info);
+		g_free (e_comment);
+		g_free (e_keywords);
 	}
 
 	g_free (file_info);
