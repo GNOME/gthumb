@@ -375,7 +375,7 @@ load_comment_from_metadata (const char *uri)
 	g_free (metadata_string);
 
         metadata_list = get_metadata_tagset_list (file, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
-		comment_data_free_keywords (data);
+	comment_data_free_keywords (data);
         for (tmp = metadata_list; tmp; tmp = g_slist_next (tmp)) {
                 if (has_non_whitespace_comment (tmp->data)) {
                         int i;
@@ -407,7 +407,6 @@ load_comment_from_metadata (const char *uri)
 		data = NULL;
 	}
 
-	g_free (metadata_string);
         file_data_unref (file);
 
 	return data;
