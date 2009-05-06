@@ -520,31 +520,6 @@ visit_rc_directory_sync (const char *rc_dir,
 }
 
 
-static const char *
-get_extension (const char *path)
-{
-	int         len;
-	int         p;
-	const char *ptr = path;
-
-	if (! path)
-		return NULL;
-
-	len = strlen (path);
-	if (len <= 1)
-		return NULL;
-
-	p = len - 1;
-	while ((p >= 0) && (ptr[p] != '.'))
-		p--;
-
-	if (p < 0)
-		return NULL;
-
-	return path + p;
-}
-
-
 /* File utils */
 
 
@@ -2708,59 +2683,6 @@ update_file_from_cache (FileData     *file,
 	
 	return copy_data;
 }
-
-
-char*
-obtain_local_file (const char *remote_filename)
-{
-	char *md5_file;
-	char *cache_file;
-	char *local_file;
-	char *command;
-
-	/* If the file is local, simply return a copy of the filename, without
-	   any "file:///" prefix. */
- 
-	if (is_local_file (remote_filename))
-		return get_local_path_from_uri (remote_filename);
-
-	/* If the file is remote, copy it to a local cache. */
-	md5_file = gnome_thumbnail_md5 (remote_filename);
-	if (md5_file == NULL)
-		return NULL;
-
-	cache_file = get_cache_full_path (md5_file, get_extension (remote_filename));
-	g_free (md5_file);
-	if (cache_file == NULL)
-		return NULL;
-
-	if (! path_exists (cache_file) || (get_file_mtime (cache_file) < get_file_mtime (remote_filename))) {
-		
-		gboolean result;
-		
-		result = file_copy (remote_filename, cache_file);
-
-		if (! result) {
-			g_free (cache_file);
-       			return NULL;
-		}
-
-		debug (DEBUG_INFO, "Copied %s into cache.\n", remote_filename);
-	}
-
-	local_file = get_local_path_from_uri (cache_file);
-	g_free (cache_file);
-
-	/* update mtimes so cache pruning works properly (delete oldest first) */
-	command = g_strdup_printf ("touch %s", local_file);
-	system (command);
-	g_free (command);
-
-	return local_file;
-}
-
-
-/* Pixbuf + VFS */
 
 
 static GdkPixbuf*

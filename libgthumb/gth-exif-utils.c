@@ -428,52 +428,23 @@ update_and_save_metadata (const char *uri_src,
 			  const char *uri_dest,
 			  GList      *metadata)
 {
-	char             *from_local_file;
-	char             *to_local_file;
-        GFile            *gfile;
-        GFileInfo        *info;
-        gboolean          to_is_local;
-	gboolean	  remote_copy_ok;
+	FileData	 *from_fd;
+	FileData	 *to_fd;
 
-	/* FIXME: use the fancy async cache code? */
+	from_fd = file_data_new (uri_src);
+	to_fd = file_data_new (uri_dest);
 
-	to_is_local = is_local_file (uri_dest);
-	from_local_file = obtain_local_file (uri_src);
-	to_local_file = obtain_local_file (uri_dest);
-
-	if (from_local_file == NULL) {
-		g_warning ("Can't update the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", uri_src);
-		g_free (to_local_file); 
+	if ((from_fd->local_path == NULL) || (to_fd->local_path == NULL)) {
+		file_data_unref (from_fd);
+		file_data_unref (to_fd);
+		g_warning ("Can't write metadata if the remote files are not mounted locally.");
 		return;
 	}
 
-	if (to_local_file == NULL) {
-		g_warning ("Can't update the metadata because the remote file %s has not yet been copied to the local cache. Skipping.\n", uri_dest);
-		g_free (from_local_file);
-		return;
-	}
+	write_metadata (from_fd->local_path, to_fd->local_path, metadata);
 
-        gfile = gfile_new (uri_src);
-        info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
-        g_object_unref (gfile);
-
-	write_metadata (from_local_file, to_local_file, metadata);
-
-	if (!to_is_local) {
-		remote_copy_ok = file_copy (to_local_file, uri_dest);
-
-		if (remote_copy_ok == TRUE) {
-	                gfile = g_file_new_for_uri (uri_dest);
-        	        g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	                g_object_unref (gfile);
-		} else {
-			g_warning ("Metadata update of remote file %s failed.\n", uri_dest);
-		}
-	}
-
-	g_free (from_local_file);
-	g_free (to_local_file);
-      	g_object_unref (info);
+	file_data_unref (from_fd);
+	file_data_unref (to_fd);
 }
 
 
