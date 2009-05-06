@@ -1751,7 +1751,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
 			FileData *fdata = scan->data;
-			file_list = g_list_prepend (file_list, file_data_local_path (fdata));
+			file_list = g_list_prepend (file_list, g_strdup (fdata->local_path));
 		}
 		if (file_list != NULL)
 			file_list = g_list_reverse (file_list);
@@ -1982,8 +1982,7 @@ import_delete_cb (GtkButton  *button,
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
 			FileData   *fdata = scan->data;
-			const char *filename = file_data_local_path (fdata);
-			delete_list = g_list_prepend (delete_list, g_strdup (filename));
+			delete_list = g_list_prepend (delete_list, g_strdup (fdata->local_path));
 		}
 		if (delete_list != NULL)
 			delete_list = g_list_reverse (delete_list);

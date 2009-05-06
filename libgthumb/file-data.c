@@ -357,9 +357,3 @@ file_data_list_find_path (GList      *list,
 	return NULL;
 }
 
-
-char *
-file_data_local_path (FileData *fd)
-{
-	return get_local_path_from_uri (fd->path);
-}
