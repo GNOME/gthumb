@@ -336,9 +336,14 @@ update_file_info (GthExifDataViewer *edv)
 	/**/
 
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Name"),
-			          edv->priv->file->utf8_name, NULL, -7, FALSE);
+			          edv->priv->file->utf8_name, NULL, -8, FALSE);
 	add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Path"),
-				  edv->priv->file->utf8_path, NULL, -6, FALSE);
+				  edv->priv->file->utf8_path, NULL, -7, FALSE);
+
+	if (!is_local_file (edv->priv->file->utf8_path)) {
+	        add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Mounted at"),
+        	                          edv->priv->file->local_path, NULL, -6, FALSE);
+	}
 
 	if (mime_type_is_image (mime_type))
 		add_to_exif_display_list (edv, GTH_METADATA_CATEGORY_FILE, NULL, _("Dimensions"), size_txt, NULL, -5, FALSE);
