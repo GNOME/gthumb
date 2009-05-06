@@ -174,7 +174,7 @@ image_data_new (FileData *file)
 	idata->src_file = file_data_ref (file);
 	idata->dest_filename = g_strconcat (zero_padded (img_counter++),
 					    "-",
-					    file_name_from_path (file->path),
+					    file->name,
 					    NULL);
 
 	idata->image = NULL;
