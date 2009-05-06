@@ -384,10 +384,10 @@ load_current_image (GthBatchOp *bop)
 		folder = remove_level_from_path (PD(bop)->new_path);
 	else
 		folder = g_strdup (PD(bop)->destination);
-	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
+	name_no_ext = remove_extension_from_path (fd->name);
 
 	if (mime_type_is (fd->mime_type, get_mime_type_from_ext (PD(bop)->image_type)))
-		PD(bop)->new_path = g_strconcat (folder, "/", file_name_from_path (fd->path), NULL);
+		PD(bop)->new_path = g_strconcat (folder, "/", fd->name, NULL);
 	else
 		PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", PD(bop)->image_type, NULL);
 

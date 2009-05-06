@@ -1575,7 +1575,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 
 		if (data->msg_text != NULL)
 	                g_free (data->msg_text);
-		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), file_name_from_path (fd->path));
+		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
 
 		transform = get_orientation_from_fd (fd);
 		if (image_is_jpeg (uri))

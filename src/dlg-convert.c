@@ -163,7 +163,7 @@ load_current_image (DialogData *data)
 	data->new_path = NULL;
 
 	fd = (FileData*) data->current_image->data;
-	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
+	name_no_ext = remove_extension_from_path (fd->name);
 
 	data->new_path = g_strconcat (data->destination, "/", name_no_ext, ".", data->ext, NULL);
 
