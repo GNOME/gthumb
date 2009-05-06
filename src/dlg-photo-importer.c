@@ -1505,8 +1505,7 @@ copy_images__step (AsyncOperationData *aodata,
 
         if (data->msg_text != NULL)
 		g_free (data->msg_text);
-	data->msg_text = g_strdup_printf (_("Transferring '%s' to its destination folder."), 
-					  file_name_from_path (file->path));
+	data->msg_text = g_strdup_printf (_("Transferring '%s' to its destination folder."), file->utf8_name);
 
 	update_file_from_cache (file, done_func, aodata);
 	file_data_unref (file);
