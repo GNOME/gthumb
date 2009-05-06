@@ -239,7 +239,7 @@ file_data_set_path (FileData   *fd,
 	g_return_if_fail (path != NULL);
 
 	g_free (fd->path);
-	fd->path = g_strdup (path);
+	fd->path = add_scheme_if_absent (path);
 	g_free (fd->utf8_path);
         fd->utf8_path = get_utf8_display_name_from_uri (fd->path);
 

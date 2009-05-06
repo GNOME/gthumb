@@ -327,8 +327,8 @@ thumb_loader_set_file (ThumbLoader *tl,
 		tl->priv->file = file_data_dup (fd);
 		if (is_local_file (tl->priv->file->path)) {
 			char *resolved_path = NULL;
-			if (resolve_all_symlinks (tl->priv->file->path, &resolved_path) == GNOME_VFS_OK) 
-				tl->priv->file->path = g_strdup (resolved_path);
+			if (resolve_all_symlinks (tl->priv->file->path, &resolved_path) == GNOME_VFS_OK)
+				file_data_set_path (tl->priv->file, resolved_path);
 			else {
 				file_data_unref (tl->priv->file);
 				tl->priv->file = NULL;
