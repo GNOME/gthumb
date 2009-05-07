@@ -68,6 +68,14 @@ load_info (FileData *fd)
 	g_free (fd->local_path);
 	fd->local_path = g_file_get_path (gfile);
 
+	if ( !is_local_file (fd->utf8_path) && ! strstr (fd->local_path, ".gvfs")) {
+		/* This can happen when running gThumb over ssh with X-forwarding.
+		   I don't know why, exactly. Possibly a gio bug. */
+		g_warning ("Unexpected error: %s is not a valid mount point for %s",fd->local_path,fd->utf8_path);
+		g_free (fd->local_path);
+		fd->local_path = NULL;
+	}
+
 	info = g_file_query_info (gfile, 
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
 				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
