@@ -442,7 +442,7 @@ _gfile_make_directory_tree (GFile    *dir,
                         return FALSE;
         }
 
-        success = g_file_make_directory (dir, NULL, error);
+        success = gfile_path_is_dir (dir) || g_file_make_directory (dir, NULL, error);
         if ((error != NULL) && (*error != NULL) && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
                 g_clear_error (error);
                 success = TRUE;
@@ -474,9 +474,6 @@ gfile_ensure_dir_exists (GFile    *dir,
         if (error == NULL)
                 error = &priv_error;
 
-	if (gfile_path_is_dir (dir))
-		return TRUE;
-	
         if (! _gfile_make_directory_tree (dir, mode, error)) {
 
                 gfile_warning ("could not create directory", dir, *error);

@@ -389,7 +389,7 @@ ensure_dir_exists (const char *path,
 	
 	if (path == NULL)
 		return FALSE;
-	
+
 	gfile = gfile_new (path);
 	result = gfile_ensure_dir_exists (gfile, mode, NULL);
 	

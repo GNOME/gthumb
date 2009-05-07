@@ -223,9 +223,6 @@ comment_copy (const char *src,
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
 
-	if (! is_local_file (src) || ! is_local_file (dest))
-		return;
-
 	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
@@ -250,9 +247,6 @@ comment_move (const char *src,
 	char *comment_src = NULL;
 	char *comment_dest = NULL;
 
-	if (! is_local_file (src) || ! is_local_file (dest))
-		return;
-
 	comment_src = comments_get_comment_filename (src, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
@@ -274,9 +268,6 @@ void
 comment_delete (const char *uri)
 {
 	char *comment_uri;
-
-	if ((uri == NULL) || ! is_local_file (uri))
-		return;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
 	file_unlink (comment_uri);
@@ -469,27 +460,26 @@ load_comment_from_xml (const char *uri)
 {
 	CommentData *data;
 	char        *comment_uri;
-	char	    *local_file = NULL;
 	xmlDocPtr    doc;
         xmlNodePtr   root, node;
         xmlChar     *value;
 	xmlChar     *format;
+	FileData    *fd;
 
 	if (uri == NULL)
 		return NULL;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-	local_file = get_cache_filename_from_uri (comment_uri);
-	if (! path_exists (local_file)) {
-		g_free (comment_uri);
-		g_free (local_file);
+	fd = file_data_new (comment_uri);
+	g_free (comment_uri);
+
+	if (! path_is_file (fd->utf8_path) || ! file_data_has_local_path (fd, NULL)) {
+		file_data_unref (fd);
 		return NULL;
 	}
 
-        doc = xmlParseFile (local_file);
-
-	g_free (comment_uri);
-        g_free (local_file);
+        doc = xmlParseFile (fd->local_path);
+	file_data_unref (fd);
         
 	if (doc == NULL) 
 		return NULL;
@@ -536,13 +526,13 @@ save_comment (const char  *uri,
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
 	char        *comment_uri = NULL;
-        char        *local_file = NULL;
 	char        *time_str = NULL;
 	char        *keywords_str = NULL;
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
+	FileData    *fd;
 
-	if ((data == NULL) || (uri == NULL) || ! is_local_file (uri))
+	if ((data == NULL) || (uri == NULL))
 		return;
 
 	if (save_embedded)
@@ -591,16 +581,19 @@ save_comment (const char  *uri,
 	/* Write to disk. */
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-        local_file = get_cache_filename_from_uri (comment_uri);
-	dest_dir = remove_level_from_path (local_file);
-	if (ensure_dir_exists (dest_dir, 0700)) {
-		xmlSetDocCompressMode (doc, 3);
-		xmlSaveFile (local_file, doc);
+	fd = file_data_new (comment_uri);
+
+	if (file_data_has_local_path (fd, NULL)) {
+		dest_dir = remove_level_from_path (fd->local_path);
+		if (ensure_dir_exists (dest_dir, 0700)) {
+			xmlSetDocCompressMode (doc, 3);
+			xmlSaveFile (fd->local_path, doc);
+		}
 	}
 	
+	file_data_unref (fd);	
 	g_free (dest_dir);
 	g_free (comment_uri);
-	g_free (local_file);
         xmlFreeDoc (doc);
 }
 
@@ -612,7 +605,7 @@ comments_load_comment (const char *uri,
 	CommentData *xml_comment = NULL;
 	CommentData *img_comment = NULL;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if (uri == NULL)
 		return NULL;
 
 	xml_comment = load_comment_from_xml (uri);
@@ -646,7 +639,7 @@ comments_save_comment (const char  *uri,
 {
 	CommentData *new_data;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if (uri == NULL)
 		return;
 
 	new_data = comments_load_comment (uri, FALSE);
@@ -684,7 +677,7 @@ comments_save_comment_non_null (const char  *uri,
 {
 	CommentData *new_data;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if (uri == NULL)
 		return;
 
 	new_data = comments_load_comment (uri, TRUE);
@@ -722,7 +715,7 @@ comments_save_categories (const char  *uri,
 	CommentData *new_data;
         GSList *tmp;
 
-	if ((uri == NULL) || ! is_local_file (uri))
+	if (uri == NULL)
 		return;
 
 	new_data = comments_load_comment (uri, TRUE);
