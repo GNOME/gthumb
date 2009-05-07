@@ -562,34 +562,30 @@ set_filename_labels (GladeXML    *gui,
 {
 	GtkWidget  *label;
 	GtkWidget  *eventbox;
-	time_t      timer;
 	struct tm  *tm;
 	char        time_txt[50];
 	char       *file_size_txt;
-	char       *utf8_name;
-	char       *name;
+	FileData   *fd;
+
+	fd = file_data_new (filename);	
 
 	label = glade_xml_get_widget (gui, filename_widget);
 	eventbox = glade_xml_get_widget (gui, filename_eventbox);
 
-	name = _g_strdup_with_max_size (file_name_from_path (filename), FILE_NAME_MAX_LENGTH);
-	_gtk_label_set_filename_text (GTK_LABEL (label), name);
-	g_free (name);
-
-	utf8_name = get_utf8_display_name_from_uri (filename);
-	gtk_widget_set_tooltip_text (eventbox, utf8_name);
-	g_free (utf8_name);
+	gtk_label_set_text (GTK_LABEL (label), fd->utf8_name);
+	gtk_widget_set_tooltip_text (eventbox, fd->utf8_path);
 
 	label = glade_xml_get_widget (gui, size_widget);
-	file_size_txt = g_format_size_for_display (get_file_size (filename));
+	file_size_txt = g_format_size_for_display (fd->size);
 	_gtk_label_set_locale_text (GTK_LABEL (label), file_size_txt);
 	g_free (file_size_txt);
 
 	label = glade_xml_get_widget (gui, time_widget);
-	timer = get_file_mtime (filename);
-	tm = localtime (&timer);
+	tm = localtime (&(fd->mtime));
 	strftime (time_txt, 50, _("%d %b %Y, %H:%M"), tm);
 	_gtk_label_set_locale_text (GTK_LABEL (label), time_txt);
+
+	file_data_unref (fd);
 }
 
 

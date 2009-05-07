@@ -430,14 +430,14 @@ update_general_info (DialogData *data)
 		
 		/**/
 		
-		file_size_txt = g_format_size_for_display (get_file_size (fd->utf8_path));
+		file_size_txt = g_format_size_for_display (fd->size);
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), file_size_txt);
 		g_free (file_size_txt);
 		
 		/**/
 		
 		location = remove_level_from_path (fd->utf8_path);
-		_gtk_label_set_filename_text (GTK_LABEL (data->i_location_label), location);
+		gtk_label_set_text (GTK_LABEL (data->i_location_label), location);
 		g_free (location);
 		
 		/**/

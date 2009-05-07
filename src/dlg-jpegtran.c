@@ -407,7 +407,7 @@ apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 	FileData *file = bt_data->scan->data;
 	
 	if (bt_data->cancel == FALSE) {
-		_gtk_label_set_filename_text (GTK_LABEL (bt_data->label), file->utf8_name);
+		gtk_label_set_text (GTK_LABEL (bt_data->label), file->utf8_name);
 
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
 					       (gdouble) (bt_data->i + 0.5) / bt_data->n);
