@@ -377,7 +377,6 @@ update_general_info (DialogData *data)
 	GthWindow    *window;
 	ImageViewer  *viewer;
 	const char   *image_filename;
-	const char   *mime_type;
 	char         *mime_description;
 	char         *mime_full;
 	GdkPixbuf    *pixbuf;
@@ -386,9 +385,7 @@ update_general_info (DialogData *data)
 	char         *size_txt;
 	char         *location;
 	char          time_txt[50];
-	time_t        timer;
 	struct tm    *tm;
-	char         *utf8_name;
 
 	window = (GthWindow*) data->browser;
 	viewer = data->browser_viewer;
@@ -403,15 +400,16 @@ update_general_info (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
 	} else {
-		utf8_name = basename_for_display (image_filename);
-		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
-		g_free (utf8_name);
+		FileData *fd;
+
+		fd = file_data_new (image_filename);
+
+		gtk_label_set_text (GTK_LABEL (data->i_name_label), fd->utf8_name);
 		
 		/**/
 	
-		mime_type = get_file_mime_type (image_filename, FALSE);
-		mime_description = g_content_type_get_description (mime_type);
-		mime_full = g_strdup_printf ("%s (%s)", mime_description, mime_type);
+		mime_description = g_content_type_get_description (fd->mime_type);
+		mime_full = g_strdup_printf ("%s (%s)", mime_description, fd->mime_type);
 		gtk_label_set_text (GTK_LABEL (data->i_type_label), mime_full);
 		g_free (mime_description);
 		g_free (mime_full);
@@ -432,22 +430,23 @@ update_general_info (DialogData *data)
 		
 		/**/
 		
-		file_size_txt = g_format_size_for_display (get_file_size (image_filename));
+		file_size_txt = g_format_size_for_display (get_file_size (fd->utf8_path));
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), file_size_txt);
 		g_free (file_size_txt);
 		
 		/**/
 		
-		location = remove_level_from_path (image_filename);
+		location = remove_level_from_path (fd->utf8_path);
 		_gtk_label_set_filename_text (GTK_LABEL (data->i_location_label), location);
 		g_free (location);
 		
 		/**/
 		
-		timer = get_file_mtime (image_filename);
-		tm = localtime (&timer);
+		tm = localtime (&(fd->mtime));
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
+
+		file_data_unref (fd);
 }
 
 	pixbuf = image_viewer_get_current_pixbuf (viewer);
