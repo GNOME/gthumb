@@ -746,20 +746,6 @@ _gtk_entry_get_filename_text (GtkEntry   *entry)
 
 
 void
-_gtk_label_set_filename_text (GtkLabel   *label,
-			      const char *text)
-{
-	char *utf8_text;
-
-	if (text == NULL)
-		text = "";
-	utf8_text = get_utf8_display_name_from_uri (text);
-	gtk_label_set_text (label, utf8_text);
-	g_free (utf8_text);
-}
-
-
-void
 _gtk_button_set_filename_label (GtkButton   *button,
 			      const char *text)
 {

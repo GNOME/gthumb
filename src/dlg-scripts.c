@@ -567,24 +567,25 @@ exec_shell_script (GtkWindow  *window,
 		load_thumbnail (data, file_list->data);
 
 		for (scan = file_list; scan; scan = scan->next) {
-			char *filename;
-			char *e_filename;
-			char *new_file_list;
+			char     *e_filename;
+			char     *new_file_list;
+			FileData *fd;
+			
+			fd = file_data_new (scan->data);
 
-			if (is_local_file (scan->data))
-				filename = get_utf8_display_name_from_uri (remove_host_from_uri (scan->data));
+			if (fd->local_path != NULL)
+				e_filename = shell_escape (fd->local_path);
 			else
-				filename = get_utf8_display_name_from_uri (scan->data);
-
-			e_filename = shell_escape (filename);
+				e_filename = shell_escape (fd->utf8_path);
 
 			new_file_list = g_strconcat (file_list_string, e_filename, " ", NULL);
 
 			g_free (e_filename);
 			g_free (file_list_string);
 			file_list_string = g_strdup (new_file_list);
-
 			g_free (new_file_list);
+			
+			file_data_unref (fd);
 		}
 
 		command1 = _g_substitute_pattern (script, 'F', file_list_string);
@@ -597,7 +598,7 @@ exec_shell_script (GtkWindow  *window,
 		g_free (command0);
 
 
-		_gtk_label_set_filename_text (GTK_LABEL (label), script);
+		gtk_label_set_text (GTK_LABEL (label), script);
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
 					       (gdouble) 1.0);
 		while (gtk_events_pending())
@@ -625,13 +626,15 @@ exec_shell_script (GtkWindow  *window,
 			char *command5 = NULL;
 			char *command6 = NULL;
 			char *command7 = NULL;
+                        FileData *fd;
 
 			load_thumbnail (data, scan->data);
 
-			if (is_local_file (scan->data))
-				filename = get_utf8_display_name_from_uri (remove_host_from_uri (scan->data));
-			else
-				filename = get_utf8_display_name_from_uri (scan->data);
+                        fd = file_data_new (scan->data);
+                        if (fd->local_path != NULL)
+                                filename = g_strdup (fd->local_path);
+                        else
+                                filename = g_strdup (fd->utf8_path);
 
 			name_wo_ext = remove_extension_from_path (filename);
 			extension = g_filename_to_utf8 (strrchr (filename, '.'), -1, 0, 0, 0);
@@ -680,8 +683,9 @@ exec_shell_script (GtkWindow  *window,
 			g_free (parent);
 			g_free (basename);
 			g_free (basename_wo_ext);
+			file_data_unref (fd);
 
-			_gtk_label_set_filename_text (GTK_LABEL (label), command0);
+			gtk_label_set_text (GTK_LABEL (label), command0);
 			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
 						       (gdouble) (i + 0.5) / n);
 

@@ -93,9 +93,6 @@ void        _gtk_entry_set_filename_text (GtkEntry   *entry,
 
 char *      _gtk_entry_get_filename_text (GtkEntry   *entry);
 
-void        _gtk_label_set_filename_text (GtkLabel   *label,
-					  const char *text);
-
 void        _gtk_button_set_filename_label (GtkButton   *button,
 					  const char *text);
 
