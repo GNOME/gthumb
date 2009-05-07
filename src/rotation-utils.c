@@ -142,7 +142,6 @@ apply_transformation_jpeg (FileData       *file,
 	char             *tmp_dir = NULL;
 	char             *tmp_output_file = NULL;
 	JXFORM_CODE       transf;
-	char		 *local_file;
 	GFile            *gfile;
 	GFileInfo        *info;
 
@@ -159,13 +158,11 @@ apply_transformation_jpeg (FileData       *file,
 		return FALSE;
 	}
 
-	local_file = get_cache_filename_from_uri (file->path);
-	if (local_file == NULL) {
-		if (error != NULL)
-			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not create a local temporary copy of the remote file."));
+	if (! file_data_has_local_path (file, NULL)) {
 		result = FALSE;
 		goto apply_transformation_jpeg__free_and_close;
 	}
+
 	gfile = g_file_new_for_uri (file->path);
 	info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 	g_object_unref (gfile);
@@ -201,12 +198,12 @@ apply_transformation_jpeg (FileData       *file,
 	}
 
 	tmp_output_file = get_temp_file_name (tmp_dir, NULL);
-	if (! jpegtran (local_file, tmp_output_file, transf, mcu_action, error)) {
+	if (! jpegtran (file->local_path, tmp_output_file, transf, mcu_action, error)) {
 		result = FALSE;
 		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	if (! local_file_move (tmp_output_file, local_file)) {
+	if (! local_file_move (tmp_output_file, file->local_path)) {
 		if (error != NULL)
 			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not move temporary file to local destination. Check folder permissions."));
 		result = FALSE;
@@ -216,7 +213,7 @@ apply_transformation_jpeg (FileData       *file,
 	if (info != NULL) {
 		char *local_uri;
 		
-		local_uri = get_uri_from_local_path (local_file);
+		local_uri = get_uri_from_local_path (file->local_path);
 		gfile = g_file_new_for_uri (file->path);
 		g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 		g_object_unref (info);
@@ -257,19 +254,18 @@ apply_transformation_generic (FileData     *file,
 		
 	if (is_mime_type_writable (file->mime_type)) {
 		const char *image_type = file->mime_type + 6;
-		char	   *local_file;
 		
 		image_type = file->mime_type + 6;
-		local_file = get_cache_filename_from_uri (file->path);
-	
-		success = _gdk_pixbuf_save (transformed_pixbuf,
-					    local_file,
-					    local_file,
-					    image_type,
-					    error,
-					    NULL);
-					    
-		g_free (local_file);
+
+		if (! file_data_has_local_path (file, NULL))
+			success = FALSE;
+		else	
+			success = _gdk_pixbuf_save (transformed_pixbuf,
+						    file->local_path,
+						    file->local_path,
+						    image_type,
+						    error,
+						    NULL);
 	} 
 	else {
 		if (error != NULL)
