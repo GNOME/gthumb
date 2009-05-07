@@ -434,8 +434,8 @@ update_and_save_metadata (const char *uri_src,
 	from_fd = file_data_new (uri_src);
 	to_fd = file_data_new (uri_dest);
 
-	if (!file_data_has_local_path (from_fd) || 
-	    !file_data_has_local_path (to_fd)) {
+	if (!file_data_has_local_path (from_fd, NULL) || 
+	    !file_data_has_local_path (to_fd, NULL)) {
 		file_data_unref (from_fd);
 		file_data_unref (to_fd);
 		return;
@@ -514,7 +514,7 @@ update_metadata (FileData *fd)
 	if (fd->exif_data_loaded == TRUE)
 		return;
 
-	if (!file_data_has_local_path (fd))
+	if (!file_data_has_local_path (fd, NULL))
                 return;	
 	
 	if (fd->mime_type == NULL)

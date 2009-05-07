@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
+#include <gtk/gtk.h>
 #include <time.h>
 #include <sys/stat.h>
 #include "comments.h"
@@ -83,6 +84,7 @@ GList*       file_data_list_dup            (GList            *list);
 void         file_data_list_free           (GList            *list);
 GList*       file_data_list_find_path      (GList            *list,
 					    const char       *path);
-gboolean     file_data_has_local_path      (FileData         *fd);
+gboolean     file_data_has_local_path      (FileData         *fd,
+					    GtkWindow	     *window);
 
 #endif /* FILE_DATA_H */

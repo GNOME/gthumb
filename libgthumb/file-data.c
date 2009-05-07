@@ -28,7 +28,7 @@
 #include "gfile-utils.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
-
+#include "gtk-utils.h"
 
 #define MAX_COMMENT_LEN 60
 
@@ -359,11 +359,18 @@ file_data_list_find_path (GList      *list,
 
 
 gboolean
-file_data_has_local_path (FileData *fd)
+file_data_has_local_path (FileData  *fd,
+			  GtkWindow *window)
 {
 	/* TODO: this is where we could trying mounting unmounted remote URIs */
         if (fd->local_path == NULL) {
-                g_warning ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+		char *message;
+		message = g_strdup_printf ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+		if (window == NULL)
+			g_warning ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+		else
+			_gtk_error_dialog_run (window, message);
+		g_free (message);
                 return FALSE;
         } else {
 		return TRUE;

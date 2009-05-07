@@ -1292,7 +1292,7 @@ save_image (DialogData *data,
 
 	folder_fd = file_data_new (local_folder);
 
-	if (!file_data_has_local_path (folder_fd)) {
+	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog))) {
 		error_found = TRUE;
 	} else {
 		/* When grouping by exif date, we need a temporary directory to upload the
@@ -1765,7 +1765,8 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	folder_fd = file_data_new (data->local_folder);
-	if (!file_data_has_local_path (folder_fd) || !ensure_dir_exists (folder_fd->local_path, 0755)) {
+	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog)) || 
+	    !ensure_dir_exists (folder_fd->local_path, 0755)) {
 		char *msg;
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       folder_fd->utf8_name,
