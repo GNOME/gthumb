@@ -455,10 +455,18 @@ initialize_data (void)
 		GFile     *gfile;
 		GFileType  file_type;
 		GFileInfo *file_info;
+		GError    *error = NULL;
 
 		gfile = g_file_new_for_commandline_arg (filename);
 		path = g_file_get_uri (gfile);
-		file_info = g_file_query_info (gfile, G_FILE_ATTRIBUTE_STANDARD_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		file_info = g_file_query_info (gfile, G_FILE_ATTRIBUTE_STANDARD_TYPE, G_FILE_QUERY_INFO_NONE, NULL, &error);
+		if (error != NULL) {
+			g_object_unref (gfile);
+			g_warning ("Error loading %s from command line argument: %s", filename, error->message);
+			g_error_free (error);
+			continue;
+		}
+
 		file_type = g_file_info_get_file_type (file_info);
 		g_object_unref (file_info);
 

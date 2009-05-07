@@ -357,3 +357,15 @@ file_data_list_find_path (GList      *list,
 	return NULL;
 }
 
+
+gboolean
+file_data_has_local_path (FileData *fd)
+{
+	/* TODO: this is where we could trying mounting unmounted remote URIs */
+        if (fd->local_path == NULL) {
+                g_warning ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+                return FALSE;
+        } else {
+		return TRUE;
+	}
+}

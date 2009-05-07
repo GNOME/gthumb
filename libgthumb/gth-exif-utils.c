@@ -434,10 +434,10 @@ update_and_save_metadata (const char *uri_src,
 	from_fd = file_data_new (uri_src);
 	to_fd = file_data_new (uri_dest);
 
-	if ((from_fd->local_path == NULL) || (to_fd->local_path == NULL)) {
+	if (!file_data_has_local_path (from_fd) || 
+	    !file_data_has_local_path (to_fd)) {
 		file_data_unref (from_fd);
 		file_data_unref (to_fd);
-		g_warning ("Can't write metadata if the remote files are not mounted locally.");
 		return;
 	}
 
@@ -514,10 +514,8 @@ update_metadata (FileData *fd)
 	if (fd->exif_data_loaded == TRUE)
 		return;
 
-	if (fd->local_path == NULL) {
-                g_warning ("Can't read metadata if the remote files are not mounted locally.");
+	if (!file_data_has_local_path (fd))
                 return;	
-	}
 	
 	if (fd->mime_type == NULL)
 		file_data_update_mime_type (fd, FALSE);
