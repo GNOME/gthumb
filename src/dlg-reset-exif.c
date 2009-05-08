@@ -94,36 +94,12 @@ typedef struct {
 } BatchTransformation;
 
 
-static void apply_transformation_to_all__apply_to_current (BatchTransformation *);
-
-
 static void
-apply_transformation_to_all_continue (gpointer data)
+apply_transformation (BatchTransformation *bt_data)
 {
-	BatchTransformation *bt_data = data;
-
-	if ((bt_data->cancel == TRUE) || (bt_data->scan == NULL)) {
-		if (GTK_IS_WIDGET (bt_data->dialog))
-			gtk_widget_destroy (bt_data->dialog);
-		g_object_unref (bt_data->gui);
-
-		if (bt_data->data->dialog == NULL)
-			dialog_data_free (bt_data->data);
-		else
-			gtk_widget_destroy (bt_data->data->dialog);
-		g_free (bt_data);
-	}
-	else
-		apply_transformation_to_all__apply_to_current (bt_data);
-}
-
-
-static void
-apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
-{
-	FileData *file = bt_data->scan->data;
+	while (bt_data->scan && (bt_data->cancel == FALSE)) {
+		FileData *file = bt_data->scan->data;
 	
-	if (bt_data->cancel == FALSE) {
 		gtk_label_set_text (GTK_LABEL (bt_data->label), file->utf8_name);
 
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
@@ -137,9 +113,19 @@ apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 
 		bt_data->i++;	
 		bt_data->scan = bt_data->scan->next;
-
-		apply_transformation_to_all_continue (bt_data);
 	}
+
+	if (GTK_IS_WIDGET (bt_data->dialog))
+		gtk_widget_destroy (bt_data->dialog);
+
+	g_object_unref (bt_data->gui);
+
+	if (bt_data->data->dialog == NULL)
+		dialog_data_free (bt_data->data);
+	else
+		gtk_widget_destroy (bt_data->data->dialog);
+
+	g_free (bt_data);
 }
 
 
@@ -193,7 +179,7 @@ apply_transformation_to_all (DialogData *data)
 	bt_data->n = g_list_length (data->current_image);
 	bt_data->i = 0;
 	bt_data->scan = data->current_image;
-	apply_transformation_to_all__apply_to_current (bt_data);
+	apply_transformation (bt_data);
 }
 
 
