@@ -6,23 +6,27 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-08-29 14:58+0000\n"
-"PO-Revision-Date: 2007-09-22 09:40+0000\n"
-"Last-Translator: Revan <mark125@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
+"POT-Creation-Date: 2009-05-08 19:58+0000\n"
+"PO-Revision-Date: 2009-05-08 23:31+0200\n"
+"Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2007-10-11 05:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Language: Hebrew\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../data/albumthemes/text.h:27
+#: ../src/gth-browser-actions-entries.h:290
 #: ../src/gth-fullscreen-actions-entries.h:47
 msgid "Previous"
 msgstr "הקודם"
 
-#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../data/albumthemes/text.h:28
+#: ../src/gth-browser-actions-entries.h:285
 #: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Next"
 msgstr "הבא"
@@ -31,19 +35,23 @@ msgstr "הבא"
 msgid "Index"
 msgstr "אינדקס"
 
-#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
+#: ../data/albumthemes/text.h:30
+#: ../src/dlg-duplicates.c:262
 msgid "Image"
 msgstr "תמונה"
 
-#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
+#: ../data/albumthemes/text.h:31
+#: ../src/gth-exif-data-viewer.c:349
 msgid "Dimensions"
 msgstr "מימדים"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
+#: ../data/albumthemes/text.h:32
+#: ../src/dlg-image-prop.c:614
 msgid "Bytes"
 msgstr "בתים"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33
+#: ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "תאריך"
 
@@ -75,16 +83,18 @@ msgstr "מרחק מיקוד"
 msgid "Camera model"
 msgstr "מודל מצלמה"
 
-#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:76
+#: ../data/albumthemes/text.h:41
+#: ../data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "פיקסלים"
 
-#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb.glade.h:1
+#: ../data/glade/gthumb_convert.glade.h:1
 #: ../data/glade/gthumb_edit.glade.h:1
 #: ../data/glade/gthumb_png_exporter.glade.h:1
 #: ../data/glade/gthumb_preferences.glade.h:1
-#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1
+#: ../data/glade/gthumb_tools.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
@@ -125,7 +135,8 @@ msgstr "ק_טלוגים"
 msgid "Choose a Catalog"
 msgstr "בחרו קטלוג"
 
-#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
+#: ../data/glade/gthumb.glade.h:11
+#: ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
 msgstr "הערה"
 
@@ -166,40 +177,40 @@ msgid "Overwrite _all images"
 msgstr "כתיבה מעל כל התמונות"
 
 #: ../data/glade/gthumb.glade.h:21
-msgid "Photo _Data (EXIF)"
-msgstr ""
-
-#: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
 msgstr "יישומים א_חרונים:"
 
-#: ../data/glade/gthumb.glade.h:23
+#: ../data/glade/gthumb.glade.h:22
 msgid "Red"
 msgstr "אדום"
 
-#: ../data/glade/gthumb.glade.h:24
+#: ../data/glade/gthumb.glade.h:23
 msgid "Value"
 msgstr "ערך"
 
-#: ../data/glade/gthumb.glade.h:25
+#: ../data/glade/gthumb.glade.h:24
 msgid "_Application:"
 msgstr "_יישום:"
 
-#: ../data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Bookmarks:"
 msgstr "_סימניות:"
 
-#: ../data/glade/gthumb.glade.h:27
+#: ../data/glade/gthumb.glade.h:26
 msgid "_Do not overwrite any image"
 msgstr "_לא לכתוב מעל אף תמונה"
 
-#: ../data/glade/gthumb.glade.h:28
+#: ../data/glade/gthumb.glade.h:27
 msgid "_General"
 msgstr "_כללי"
 
-#: ../data/glade/gthumb.glade.h:29
+#: ../data/glade/gthumb.glade.h:28
 msgid "_Histogram"
 msgstr "_היסטוגרמה"
+
+#: ../data/glade/gthumb.glade.h:29
+msgid "_Metadata"
+msgstr "_מטא-נתונים"
 
 #: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
@@ -221,99 +232,104 @@ msgstr "_שמירת התמונה החדשה בשם:"
 msgid "_View the destination"
 msgstr "ל_הציג את היעד"
 
-#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_camera.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
+msgid "<small>Click \"Help\" for format code information.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_camera.glade.h:3
 msgid "C_hoose from the catalog"
 msgstr "ב_חירה מהקטלוג"
 
-#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "קט_גוריות:"
 
-#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:5
 msgid "Camera Model"
 msgstr "מודל מצלמה"
 
-#: ../data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_camera.glade.h:6
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:25
-#: ../data/glade/gthumb_web_exporter.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Choose destination folder"
 msgstr "בחירת תיקיית היעד"
 
-#: ../data/glade/gthumb_camera.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:7
+msgid "Custom subfolder:"
+msgstr "תת תיקייה מותאמת:"
+
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Delete selected images from the camera"
 msgstr "מחיקת תמונות נחברות מהמצלמה"
 
-#: ../data/glade/gthumb_camera.glade.h:7
-msgid ""
-"If this checkbox is enabled and the imported photo contains an Exif "
-"orientation tag, the image data will be physically transformed (losslessly) "
-"so that the viewed image looks the same as before but the orientation tag is "
-"reset to \"top left\". If this checkbox is not enabled, the image data and "
-"the orientation tag are both left unchanged. The image will be displayed "
-"identically by gthumb for both possibilities, but for maximum compatibility "
-"with other applications this checkbox should be enabled."
+#: ../data/glade/gthumb_camera.glade.h:9
+msgid "If this checkbox is enabled and the imported photo contains an Exif orientation tag, the image data will be physically transformed (losslessly) so that the viewed image looks the same as before but the orientation tag is reset to \"top left\". If this checkbox is not enabled, the image data and the orientation tag are both left unchanged. The image will be displayed identically by gthumb for both possibilities, but for maximum compatibility with other applications this checkbox should be enabled."
 msgstr ""
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:10
+msgid "If valuable photos have been deleted accidently, download the excellent PhotoRec tool from http://www.cgsecurity.org. PhotoRec can usually recover images that have been recently deleted from flash cards and other media."
+msgstr ""
+
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "Import Photos"
 msgstr "ייבוא תמונות"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:929
-#: ../src/dlg-photo-importer.c:968 ../src/dlg-photo-importer.c:1596
-#: ../src/dlg-photo-importer.c:2340
+#: ../data/glade/gthumb_camera.glade.h:12
+#: ../src/dlg-photo-importer.c:940
+#: ../src/dlg-photo-importer.c:979
+#: ../src/dlg-photo-importer.c:1713
+#: ../src/dlg-photo-importer.c:2517
 msgid "No camera detected"
 msgstr "לא זוהתה מצלמה"
 
-#: ../data/glade/gthumb_camera.glade.h:10
-msgid "Rotate images physically"
-msgstr "סיבוב תמונות פיסי"
-
-#: ../data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "Select a camera model"
 msgstr "בחרו מודל מצלמה"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:14
 msgid "Update previews"
 msgstr "עדכון תצוגות מקדימות"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Delete imported images from the camera"
 msgstr "__מחיקת תמונות שיובאו מהמצלמה"
 
-#: ../data/glade/gthumb_camera.glade.h:14
-#: ../data/glade/gthumb_convert.glade.h:23
-#: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:58
-#: ../data/glade/gthumb_web_exporter.glade.h:48
-msgid "_Destination:"
-msgstr "_יעד:"
-
-#: ../data/glade/gthumb_camera.glade.h:15
-msgid "_Film:"
-msgstr "_סרט:"
-
 #: ../data/glade/gthumb_camera.glade.h:16
+msgid "_Destination folder:"
+msgstr "תיקיית י_עד:"
+
+#: ../data/glade/gthumb_camera.glade.h:17
+msgid "_Group into subfolders:"
+msgstr "קבץ לתתי תיקיות:"
+
+#: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Import"
 msgstr "_ייבא"
 
-#: ../data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:19
 msgid "_Keep original filenames"
 msgstr "_לשמור על שמות הקבצים המקוריים"
 
-#: ../data/glade/gthumb_camera.glade.h:18
+#: ../data/glade/gthumb_camera.glade.h:20
 msgid "_Model:"
 msgstr "_מודל:"
 
-#: ../data/glade/gthumb_camera.glade.h:19
+#: ../data/glade/gthumb_camera.glade.h:21
 msgid "_Port:"
 msgstr "_יציאה:"
+
+#: ../data/glade/gthumb_camera.glade.h:22
+msgid "_Rotate images physically"
+msgstr "_סובב תמונות פיזית"
 
 #: ../data/glade/gthumb_comments.glade.h:1
 #: ../data/glade/gthumb_search.glade.h:4
@@ -330,7 +346,8 @@ msgstr "קטגוריות"
 msgid "Co_mment:"
 msgstr "ה_ערה:"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4
+#: ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "הערה"
 
@@ -343,24 +360,24 @@ msgid "Current date"
 msgstr "תאריך נוכחי"
 
 #: ../data/glade/gthumb_comments.glade.h:7
+msgid "Date photo taken (from EXIF metadata)"
+msgstr ""
+
+#: ../data/glade/gthumb_comments.glade.h:8
 msgid "Do not modify"
 msgstr "לא לשנות"
 
-#: ../data/glade/gthumb_comments.glade.h:8
+#: ../data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "תאריך יצירת התמונה"
 
-#: ../data/glade/gthumb_comments.glade.h:9
+#: ../data/glade/gthumb_comments.glade.h:10
 msgid "Last modified date"
 msgstr "לערך לאחרונה בתאריך"
 
-#: ../data/glade/gthumb_comments.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:11
 msgid "No date"
 msgstr "אין תאריך"
-
-#: ../data/glade/gthumb_comments.glade.h:11
-msgid "Photo digitalization date (From EXIF data)"
-msgstr ""
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -372,7 +389,7 @@ msgstr "לשמור רק שדות ששונו"
 
 #: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
-msgstr ""
+msgstr "התאריך הבא"
 
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
@@ -393,7 +410,8 @@ msgstr "קטגוריות _נבחרות:"
 msgid "<b>Compression</b>"
 msgstr "<b>דחיסה</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Image type</b>"
 msgstr "<b>סוג תמונה</b>"
 
@@ -404,7 +422,7 @@ msgstr "<b>רזולוציה</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:7
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
 msgstr "<b>שמירה</b>"
@@ -430,7 +448,7 @@ msgid "Opti_mize"
 msgstr ""
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:65
 msgid "Overwrite mode:"
 msgstr ""
 
@@ -439,23 +457,27 @@ msgid "PNG Options"
 msgstr "אפשרויות ‏‪PNG‏"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "R_emove original"
 msgstr ""
 
 #: ../data/glade/gthumb_convert.glade.h:15
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:69
 msgid "Rename"
 msgstr "שינוי שם"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:77
 msgid ""
 "Skip\n"
 "Rename\n"
 "Ask\n"
 "Overwrite"
 msgstr ""
+"דלג\n"
+"שינוי שם\n"
+"שאל\n"
+"כתוב מעל"
 
 #: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
@@ -466,9 +488,16 @@ msgid "TIFF Options"
 msgstr "אפשרויות TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_tools.glade.h:83
 msgid "T_GA"
 msgstr "T_GA"
+
+#: ../data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:91
+#: ../data/glade/gthumb_web_exporter.glade.h:49
+msgid "_Destination:"
+msgstr "_יעד:"
 
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
@@ -476,20 +505,20 @@ msgid "_Horizontal:"
 msgstr "_אופקי:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:94
 msgid "_JPEG"
 msgstr "_JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
-msgstr ""
+msgstr "דחיסה _גבוהה (JPEG)"
 
 #: ../data/glade/gthumb_convert.glade.h:27
 msgid "_No compression"
 msgstr "_אין דחיסה"
 
 #: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:97
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -503,14 +532,14 @@ msgstr "_איכות:"
 
 #: ../data/glade/gthumb_convert.glade.h:31
 msgid "_RLE compression"
-msgstr ""
+msgstr "קידוד אורך _הרצה"
 
 #: ../data/glade/gthumb_convert.glade.h:32
 msgid "_Smoothing:"
-msgstr ""
+msgstr "_החלקה:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:70
+#: ../data/glade/gthumb_tools.glade.h:104
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -541,53 +570,107 @@ msgid "8 x 10"
 msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
+msgid "<b>Actions</b>"
+msgstr "<b>פעולות</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>יחס רוחב-גובה</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "<b>Display</b>"
+msgstr "<b>תצוגה</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:8
 msgid "<b>Selection</b>"
 msgstr "<b>בחירה</b>"
 
-#: ../data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid ""
+"<small>Click and drag the mouse to \n"
+"select the cropping area, or\n"
+"use the dialogs below. Press \n"
+"the \"Crop\" button to perform\n"
+"the crop, and \"Done\" to finish.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_crop.glade.h:14
+msgid "Cr_op"
+msgstr "חי_תוך"
+
+#: ../data/glade/gthumb_crop.glade.h:15
 msgid "Crop"
 msgstr "גזיזה"
 
-#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
 msgstr "מותאמים אישית"
 
-#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:17
 msgid "I_nvert aspect ratio"
 msgstr "הפוך יחס רוחב-גובה"
 
-#: ../data/glade/gthumb_crop.glade.h:10
-#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../data/glade/gthumb_crop.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "None"
 msgstr "ללא"
 
-#: ../data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:19
+msgid "Show / hide the cropping selection area"
+msgstr ""
+
+#: ../data/glade/gthumb_crop.glade.h:20
 msgid "Square"
 msgstr "מרובע"
 
-#: ../data/glade/gthumb_crop.glade.h:12
-msgid "_Crop"
-msgstr "_גזיזה"
+#: ../data/glade/gthumb_crop.glade.h:22
+#: ../data/glade/gthumb_redeye.glade.h:11
+#, no-c-format
+msgid "Zoom at 100% scale"
+msgstr ""
 
-#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_crop.glade.h:23
+#: ../data/glade/gthumb_redeye.glade.h:12
+msgid "Zoom in. The mousewheel can also be used to zoom in."
+msgstr ""
+
+#: ../data/glade/gthumb_crop.glade.h:24
+#: ../data/glade/gthumb_redeye.glade.h:13
+msgid "Zoom out. The mousewheel can also be used to zoom out."
+msgstr ""
+
+#: ../data/glade/gthumb_crop.glade.h:25
+#: ../data/glade/gthumb_redeye.glade.h:14
+msgid "Zoom to fit"
+msgstr "התאם גודל"
+
+#: ../data/glade/gthumb_crop.glade.h:26
+#: ../data/glade/gthumb_redeye.glade.h:15
+msgid "_Done"
+msgstr "_בוצע"
+
+#: ../data/glade/gthumb_crop.glade.h:27
+#: ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:92
 msgid "_Height:"
 msgstr "_גובה:"
 
-#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
+#: ../data/glade/gthumb_crop.glade.h:28
+#: ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:107
 msgid "_Width:"
 msgstr "_רוחב:"
 
-#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:29
+#: ../data/glade/gthumb_redeye.glade.h:16
 msgid "_X:"
 msgstr "_X:"
 
-#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
+#: ../data/glade/gthumb_crop.glade.h:30
+#: ../data/glade/gthumb_redeye.glade.h:17
 msgid "_Y:"
 msgstr "_Y:"
 
@@ -599,8 +682,8 @@ msgstr "_Y:"
 msgid "     "
 msgstr "     "
 
-#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
-#: ../data/glade/gthumb_tools.glade.h:4
+#: ../data/glade/gthumb_edit.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -609,7 +692,8 @@ msgstr "%"
 msgid "<b>Color levels</b>"
 msgstr "<b>רמות צבע</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_edit.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:6
 msgid "<b>New dimensions</b>"
 msgstr "<b>ממדים חדשים</b>"
 
@@ -659,7 +743,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr "שינוי קנה מידה של תמונה"
+msgstr "קנה מידה של תמונה"
 
 #: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
@@ -673,7 +757,8 @@ msgstr "_בהירות:"
 msgid "_Hue:"
 msgstr "_גוון:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_edit.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:95
 msgid "_Keep aspect ratio"
 msgstr "לשמור יחס רוחב-גובה"
 
@@ -693,7 +778,8 @@ msgstr "_מגנטה-ירוק:"
 msgid "_Preview"
 msgstr "_תצוגה מקדימה"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
+#: ../data/glade/gthumb_edit.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:99
 msgid "_Reset"
 msgstr "_איפוס"
 
@@ -701,9 +787,10 @@ msgstr "_איפוס"
 msgid "_Saturation:"
 msgstr "_רוויה:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_edit.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:100
 msgid "_Scale"
-msgstr "קנה מידה"
+msgstr "_קנה מידה"
 
 #: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
@@ -755,7 +842,7 @@ msgstr "<b>סגנון רקע</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
-msgstr ""
+msgstr "<b>כיתוב</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
@@ -783,13 +870,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
-msgid ""
-"<small><i><b>Note:</b> %p (page number), %n (total number of "
-"pages)</i>.</small>"
-msgstr ""
+msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
+msgstr "<small><i><b>הערה:</b> %p (מספר העמוד), %n (סך הכל עמודים)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
-#: ../data/glade/gthumb_web_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Co_mment"
 msgstr "הערה"
 
@@ -814,7 +899,7 @@ msgid "F_ooter:"
 msgstr "כותרת תחתונה:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:31
-#: ../data/glade/gthumb_web_exporter.glade.h:34
+#: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "File _name"
 msgstr "_שם הקובץ"
 
@@ -823,7 +908,7 @@ msgid "File pa_th"
 msgstr "נת_יב הקובץ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:33
-#: ../data/glade/gthumb_web_exporter.glade.h:35
+#: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "File si_ze"
 msgstr "גו_דל הקובץ"
 
@@ -848,7 +933,7 @@ msgid "Hei_ght:"
 msgstr "גו_בה:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:39
-#: ../data/glade/gthumb_web_exporter.glade.h:38
+#: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "Image dim_ensions"
 msgstr "ממדי התמונה"
 
@@ -923,7 +1008,7 @@ msgstr "עי_צוב"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:81
 msgid "Start _at:"
 msgstr "להתחיל ב:"
 
@@ -962,16 +1047,16 @@ msgstr "_שורות:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr ""
+msgstr "צבע _אחיד"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:105
 msgid "_Template:"
 msgstr "_תבניות:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:74
-#: ../data/glade/gthumb_web_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:108
+#: ../data/glade/gthumb_web_exporter.glade.h:62
 msgid "by name"
 msgstr "לפי שם"
 
@@ -984,324 +1069,271 @@ msgid "png"
 msgstr "png"
 
 #: ../data/glade/gthumb_preferences.glade.h:3
-msgid "0:"
-msgstr "0:"
-
-#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: ../data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: ../data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: ../data/glade/gthumb_preferences.glade.h:7
-msgid "1:"
-msgstr "1:"
-
-#: ../data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: ../data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:7
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: ../data/glade/gthumb_preferences.glade.h:10
-msgid "2:"
-msgstr "2:"
-
-#: ../data/glade/gthumb_preferences.glade.h:11
-msgid "3:"
-msgstr "3:"
-
-#: ../data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: ../data/glade/gthumb_preferences.glade.h:13
-msgid "4:"
-msgstr "4:"
-
-#: ../data/glade/gthumb_preferences.glade.h:14
-msgid "5:"
-msgstr "5:"
-
-#: ../data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: ../data/glade/gthumb_preferences.glade.h:16
-msgid "6:"
-msgstr "6:"
-
-#: ../data/glade/gthumb_preferences.glade.h:17
-msgid "7:"
-msgstr "7:"
-
-#: ../data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:10
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: ../data/glade/gthumb_preferences.glade.h:19
-msgid "8:"
-msgstr "8:"
-
-#: ../data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:11
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: ../data/glade/gthumb_preferences.glade.h:21
-msgid "9:"
-msgstr "9:"
-
-#: ../data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "<b>Direction</b>"
 msgstr "<b>כיוון</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:23
-msgid "<b>Hide/Show</b>"
-msgstr "<b>הצג/הסתר</b>"
-
-#: ../data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:13
 msgid "<b>Interface</b>"
 msgstr "<b>ממשק</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:14
 msgid "<b>On startup:</b>"
-msgstr ""
+msgstr "<b>בעליית התוכנה</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "<b>Other</b>"
 msgstr "<b>אחר</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:27
-msgid "<b>Slide show</b>"
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "<b>Show / Hide</b>"
+msgstr "<b>הצג / הסתר</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "<b>Slideshow</b>"
 msgstr "<b>מצגת שקפים</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "<b>Viewer</b>"
 msgstr "<b>מציג</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Zoom quality</b>"
 msgstr "<b>איכות הגדלה</b>"
 
-#: ../data/glade/gthumb_preferences.glade.h:31
-#, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b>\n"
-"%F = all selected filenames on one line, space delimited\n"
-"%f = a single filename, including path\n"
-"%n = a single filename, including path, with no extension\n"
-"%e = a single extension (starting with a period)\n"
-"%p = the parent folder of the single file</i>\n"
-"Scripts with the %F code will be executed just once, regardless of the "
-"number of files selected. All other scripts will be executed once per "
-"selected file.\n"
-"The default scripts are explained in the Help file.</small>"
-msgstr ""
-
-#: ../data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "Activate items with a double click"
 msgstr "להפעיל פריטים בלחיצה כפולה"
 
-#: ../data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a single click"
 msgstr "להפעיל פריטים בלחיצה אחת"
 
-#: ../data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "After _loading an image:"
 msgstr "אחרי _טעינת תמונה:"
 
-#: ../data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "שא_ל בכל פעם לפני מחיקת תמונות או קטלוגים"
 
-#: ../data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "Ask whether to save _modified images"
 msgstr "שאל אם לשמור תמונות ש_עברו שינויים"
 
-#: ../data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Black"
 msgstr "שחור"
 
-#: ../data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "Browser"
 msgstr "דפדפן"
 
-#: ../data/glade/gthumb_preferences.glade.h:46
-msgid "C_lick policy:"
-msgstr ""
+#: ../data/glade/gthumb_preferences.glade.h:27
+msgid "By default, gThumb lists all files that are likely to be found on a digital camera - photos, videos, and audio files. You can omit the audio and video files by deselecting this checkbox."
+msgstr "כברירת מחדל, gThumb מציגה רשימה של כל הקבצים הצפויים להימצא על מצלמה דיגיטלית - תמונות, קטעי וידאו, וקובצי שמע. ניתן להשמיט את קבצי השמע והווידאו על ידי ביטול הבחירה של תיבה סימון זו."
 
-#: ../data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:28
+msgid "C_ategories"
+msgstr "ק_טגוריות"
+
+#: ../data/glade/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr "מדיניות לחי_צות:"
+
+#: ../data/glade/gthumb_preferences.glade.h:30
 msgid "Checked"
 msgstr "מסומן"
 
-#: ../data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_preferences.glade.h:31
 msgid "Choose startup folder"
-msgstr ""
+msgstr "בחר תיקיית התחלה"
 
-#: ../data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:32
 msgid "Co_mments"
 msgstr "ה_ערות"
 
-#: ../data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_elay before changing image:"
 msgstr "עי_כוב לפני שינוי תמונה:"
 
-#: ../data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:34
 msgid "D_etermine image type from content (slower)"
 msgstr ""
 
-#: ../data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Do _not change folder"
 msgstr "_לא לשנות תיקייה"
 
-#: ../data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Fit to width if larger"
-msgstr ""
+msgstr "אם גדול יותר התאם לרוחב"
 
-#: ../data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:37
+msgid "Fit to window"
+msgstr "התאם לחלון"
+
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "Fit to window if larger"
-msgstr ""
+msgstr "אם גדול יותר התאם לגודל החלון"
 
-#: ../data/glade/gthumb_preferences.glade.h:55
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Follow Nautilus behaviour"
-msgstr ""
+msgstr "השתמש בהתנהגות של Nautilus"
 
-#: ../data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "For_ward"
 msgstr "הל_אה"
 
-#: ../data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "General"
 msgstr "כללי"
 
-#: ../data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgstr "עבורה לתיקייה האחרונה ש_נפתחה"
 
-#: ../data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Go to this _folder:"
 msgstr "מעבר לתיקייה:"
 
-#: ../data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "H_igh"
 msgstr "ג_בוה"
 
-#: ../data/glade/gthumb_preferences.glade.h:61
-msgid "Hot Keys"
-msgstr "מקשים חמים"
-
-#: ../data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Icons only"
 msgstr "סמלים בלבד"
 
-#: ../data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:46
+msgid "Include audio clips and movies in browser view"
+msgstr ""
+
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "Keep previous zoom"
-msgstr ""
+msgstr "שמור הגדלה קודמת"
 
-#: ../data/glade/gthumb_preferences.glade.h:64
-msgid ""
-"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
-"the selected images with other applications."
-msgstr ""
-
-#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Layout:"
 msgstr "סידור:"
 
-#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Lo_w"
 msgstr "נמו_ך"
 
-#: ../data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Ran_dom"
 msgstr "אקראי"
 
-#: ../data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Re_verse"
 msgstr "היפוך"
 
-#: ../data/glade/gthumb_preferences.glade.h:70
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Reset scrollbar positions after loading an image"
 msgstr ""
 
-#: ../data/glade/gthumb_preferences.glade.h:71
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Resta_rt when finished"
 msgstr "להתחיל מחדש בסיום"
 
-#: ../data/glade/gthumb_preferences.glade.h:72
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Set image to actual size"
 msgstr "קביעת גודל תמונה לגודל ממשי"
 
-#: ../data/glade/gthumb_preferences.glade.h:73
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Set to C_urrent"
 msgstr "קביעה _לנוכחי"
 
-#: ../data/glade/gthumb_preferences.glade.h:74
-msgid "Slide Show"
+#: ../data/glade/gthumb_preferences.glade.h:57
+msgid "Slideshow"
 msgstr "מצגת שקפים"
 
-#: ../data/glade/gthumb_preferences.glade.h:75
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "System settings"
 msgstr "הגדרות מערכת"
 
-#: ../data/glade/gthumb_preferences.glade.h:76
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Text below icons"
 msgstr "טקסט מתחת לסמלים"
 
-#: ../data/glade/gthumb_preferences.glade.h:77
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Text beside icons"
 msgstr "כיתוב לצד סמלים"
 
-#: ../data/glade/gthumb_preferences.glade.h:78
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Text only"
 msgstr "כיתוב בלבד"
 
-#: ../data/glade/gthumb_preferences.glade.h:79
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "Th_umbnail size:"
 msgstr "גודל תמונה ממוזערת:"
 
-#: ../data/glade/gthumb_preferences.glade.h:80
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Transparency _type:"
 msgstr "סוג שקיפות:"
 
-#: ../data/glade/gthumb_preferences.glade.h:81
-msgid "Use a _fading effect when changing image"
-msgstr ""
-
-#: ../data/glade/gthumb_preferences.glade.h:82
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "Viewer"
 msgstr "מציג"
 
-#: ../data/glade/gthumb_preferences.glade.h:83
+#: ../data/glade/gthumb_preferences.glade.h:65
 msgid "White"
 msgstr "לבן"
 
-#: ../data/glade/gthumb_preferences.glade.h:84
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "_Filenames"
 msgstr "_שמות הקבצים"
 
-#: ../data/glade/gthumb_preferences.glade.h:85
-#: ../src/gth-browser-actions-entries.h:418
+#: ../data/glade/gthumb_preferences.glade.h:67
+#: ../src/gth-browser-actions-entries.h:435
 msgid "_Thumbnails"
 msgstr "תמונות ממוזערת"
 
-#: ../data/glade/gthumb_preferences.glade.h:86
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
 msgstr "סגנון סרגל הכלים:"
 
-#: ../data/glade/gthumb_preferences.glade.h:87
+#: ../data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
 msgstr "העדפות gThumb"
 
-#: ../data/glade/gthumb_preferences.glade.h:88
+#: ../data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
 msgstr "שניות"
 
@@ -1370,6 +1402,10 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
+"<small><i><b>הערה:</b> תמונות ברזולוציה גבוהה\n"
+"יוקטנו לרזולוציה הזאת. הגדל\n"
+"את הרזולוציה כדי לקבל איכות תמונה טובה יותר.\n"
+"הקטן כדי לקבל זמני הדפסה טובים יותר.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1439,8 +1475,9 @@ msgstr "פרטי הדף"
 msgid "Postcard"
 msgstr "גלויה"
 
-#. 
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2709
+#.
+#: ../data/glade/gthumb_print.glade.h:42
+#: ../libgthumb/print-callbacks.c:2717
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "הדפסה"
@@ -1467,7 +1504,7 @@ msgstr "_ימין:"
 
 #: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
-msgstr ""
+msgstr "_קנה מידה:"
 
 #: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
@@ -1477,33 +1514,35 @@ msgstr "_מעלה:"
 msgid "_Unit:"
 msgstr "_יחידה:"
 
+#: ../data/glade/gthumb_redeye.glade.h:1
+msgid "<b>Other Actions</b>"
+msgstr "<b>פעולות אחרות</b>"
+
 #: ../data/glade/gthumb_redeye.glade.h:2
-msgid "Actual Size"
-msgstr "גודל ממשי"
+msgid "<b>Position</b>"
+msgstr "<b>מיקום</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
-msgid "Red-Eye Removal"
-msgstr "מסיר עיין-אדומה"
+msgid "<b>Zoom</b>"
+msgstr "<b>הגדלה</b>"
 
 #: ../data/glade/gthumb_redeye.glade.h:4
-msgid "Redo"
-msgstr "שחזור פעולה אחרונה"
+msgid ""
+"<small>Move the cursor over the\n"
+"red eye and click on it. You\n"
+"can use the mousewheel to\n"
+"zoom in and out, or use the\n"
+"zoom buttons below.</small>"
+msgstr ""
+"<small>הזז את סמן העכבר מעל\n"
+"העין האדומה ולחץ עלייה. ניתן\n"
+"להשתמש בגלגל העכבר כדי\n"
+"להתקרב או להתרחק, או להשתמש\n"
+"בכפתורי ההגדלה למטה.</small>"
 
-#: ../data/glade/gthumb_redeye.glade.h:5
-msgid "Undo"
-msgstr "בטל פעולה אחרונה"
-
-#: ../data/glade/gthumb_redeye.glade.h:6
-msgid "Zoom In"
-msgstr "הגדל"
-
-#: ../data/glade/gthumb_redeye.glade.h:7
-msgid "Zoom Out"
-msgstr "הקטנה"
-
-#: ../data/glade/gthumb_redeye.glade.h:8
-msgid "Zoom to Fit"
-msgstr "התאם גודל"
+#: ../data/glade/gthumb_redeye.glade.h:9
+msgid "Red-Eye Removal"
+msgstr "מסיר עין־אדומה"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1527,7 +1566,7 @@ msgstr "לפני"
 
 #: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
-msgstr ""
+msgstr "בחר קטגוריות מתוך רשימה שמורה"
 
 #: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
@@ -1543,7 +1582,7 @@ msgstr "נימצאו תמונות:"
 
 #: ../data/glade/gthumb_search.glade.h:15
 msgid "Match a_ll selected categories"
-msgstr ""
+msgstr "התאם את כ_ל הקטגוריות שנבחרו"
 
 #: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ny selected category"
@@ -1553,13 +1592,14 @@ msgstr ""
 msgid "New _Search..."
 msgstr "_חיפוש חדש..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:898
-#: ../src/dlg-photo-importer.c:1643
+#: ../data/glade/gthumb_search.glade.h:18
+#: ../src/dlg-photo-importer.c:909
+#: ../src/dlg-photo-importer.c:1763
 msgid "No images found"
 msgstr "לא נמצאו תמונות"
 
 #: ../data/glade/gthumb_search.glade.h:19
-#: ../src/gth-browser-actions-entries.h:363
+#: ../src/gth-browser-actions-entries.h:365
 msgid "Search"
 msgstr "חיפוש"
 
@@ -1568,16 +1608,16 @@ msgid "Search Progress"
 msgstr "התקדמות החיפוש"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_tools.glade.h:76
 msgid "Searching in:"
 msgstr "מחפש ב:"
 
 #: ../data/glade/gthumb_search.glade.h:24
 msgid "_Edit Search"
-msgstr "_עירכת החיפוש"
+msgstr "_עריכת החיפוש"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:93
 msgid "_Include sub-folders"
 msgstr "_לכלול תתי תיקיות"
 
@@ -1586,202 +1626,283 @@ msgid "_Save"
 msgstr "_שמירה"
 
 #: ../data/glade/gthumb_search.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:101
 msgid "_Search"
 msgstr "_חיפוש"
 
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:72
+#: ../data/glade/gthumb_tools.glade.h:106
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
-msgstr "_הצגה"
+msgstr "_תצוגה"
 
-#: ../data/glade/gthumb_tools.glade.h:5
+#: ../data/glade/gthumb_tools.glade.h:3
 msgid "<b>Change the following values:</b>"
 msgstr "<b>שינוי הערכים הבאים:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:4
 msgid "<b>Change to:</b>"
 msgstr "<b>שינוי ל:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>Write to CD</b>"
 msgstr "<b>כתיבה לתקליטור</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:9
 msgid ""
 "<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:13
 #, no-c-format
 msgid ""
-"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
-"%d (image date), %s (image size), %e (original extension).</i></small>"
+"<small><i><b>Special characters:</b> # (new enumerator digit),\n"
+"%f (original filename), %e (original extension),\n"
+"%d (image date), %s (image size), \n"
+"%n (original enumerator).</i></small>"
 msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:16
-msgid "A_djust timezone:"
-msgstr ""
+"<small><i><b>תווים מיוחדים:</b> # (מונה ספרות חדש),\n"
+"%f (שם קובץ מקורי), %e (סיומת מקורית),\n"
+"%d (תאריך יצירת תמונה), %s (גודל תמונה), \n"
+"%n (ספרה מקורית).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:17
+msgid "A_djust timezone:"
+msgstr "כ_וון איזור זמן:"
+
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Add New Script"
+msgstr "הוסף תסריט חדש"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Apply physical _transform"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Apply to all _images"
 msgstr "החל לכל התמונות"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "C_urrent date"
 msgstr "תאריך נ_וכחי"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:22
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "קט_אלוג"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#. Translators: this is the text case (upper or lower case).
+#: ../data/glade/gthumb_tools.glade.h:24
+#, fuzzy
+msgid "Cas_e:"
+msgstr "ציאן-_אדום"
+
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Change Date"
 msgstr "תאריך נוכחי"
 
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Check _All"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Check _None"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Checking image:"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:26
-msgid ""
-"Click OK to reset the Exif orientation tag for the selected images to Top-"
-"Left."
+#: ../data/glade/gthumb_tools.glade.h:30
+msgid "Click OK to reset the Exif orientation tag for the selected images to Top-Left."
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:32
+#, no-c-format
+msgid ""
+"Click inside the name or script fields to edit them.\n"
+"<small><i><b>\n"
+"Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%b = a single filename, excluding path\n"
+"%n = a single filename, including path, with no extension\n"
+"%m = a single filename, excluding path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"<i>[text] = a user prompt, refreshed for each iteration</i>\n"
+"<i>[TEXT] = a user prompt, used for all iterations</i>\n"
+"<i>{..code..} = a strftime date format code</i>\n"
+"<i>{TEXT} = a user prompt used for all iterations matching previous date</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the number of files selected. All other scripts will be executed once per selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "Co_mment date"
 msgstr "תאריך הערה"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Current _Folder"
 msgstr "_תיקייה נוכחית"
 
-#: ../data/glade/gthumb_tools.glade.h:29
-msgid "Equal images:"
-msgstr "תמונות זהות:"
-
-#: ../data/glade/gthumb_tools.glade.h:30
-msgid "Found duplicates:"
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "Date p_hoto taken (from EXIF metadata)"
 msgstr ""
 
-#: ../data/glade/gthumb_tools.glade.h:31
-msgid "Image c_reation date"
-msgstr "תאריך י_צירת התמונה"
+#: ../data/glade/gthumb_tools.glade.h:51
+msgid "Define External Scripts"
+msgstr "הגדר תסריטים חיצוניים"
 
-#: ../data/glade/gthumb_tools.glade.h:32
-msgid "Mirror image horizontally (left-right)"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:33
-msgid "Mirror image vertically (top-bottom)"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:34
-#: ../src/gth-browser-actions-entries.h:83
-#: ../src/gth-browser-actions-entries.h:108
-#: ../src/gth-browser-actions-entries.h:228
-#: ../src/gth-browser-actions-entries.h:258
-msgid "Move to _Trash"
-msgstr "העברה לאשפה"
-
-#: ../data/glade/gthumb_tools.glade.h:35
-msgid "New names _preview:"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:37
-msgid "P_hoto digitalization date (From EXIF data)"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:39
-msgid "Re_verse Order"
-msgstr "לה_פוך סדר"
-
-#: ../data/glade/gthumb_tools.glade.h:41
-msgid "Reset Exif Orientation Tags"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:42
-msgid "Rotate Images"
-msgstr "סיבוב תמונות"
-
-#: ../data/glade/gthumb_tools.glade.h:43
-msgid "Rotate image 90 degrees clockwise"
-msgstr "סיבוב התמונה 90 מעלות בכיוון השעון"
-
-#: ../data/glade/gthumb_tools.glade.h:44
-msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "סיבוב התמונה 90 מעלות נגד כיוון השעון"
-
-#: ../data/glade/gthumb_tools.glade.h:45
-#: ../src/gth-browser-actions-entries.h:394
-msgid "Scale Images"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:46
-msgid "Search for Duplicates"
-msgstr ""
-
-#: ../data/glade/gthumb_tools.glade.h:47
-msgid "Search terminated, no duplicates found."
+#: ../data/glade/gthumb_tools.glade.h:52
+msgid ""
+"Do not change\n"
+"Convert to lower-case\n"
+"Convert to upper-case"
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:55
-msgid "The _following date:"
-msgstr "התאריך _הבא:"
+msgid "Equal images:"
+msgstr "תמונות זהות:"
 
 #: ../data/glade/gthumb_tools.glade.h:56
-msgid ""
-"This checkbox governs the rotation method used for JPEG images that contain "
-"Exif orientation tags. If this checkbox is enabled, the rotation will be "
-"performed using a physical transform, and the Exif orientation tag will be "
-"reset to the default \"top left\" value. If it is not enabled, the rotation "
-"will be performed by changing the Exif orientation tag only. For maximum "
-"compatibility with other applications, this checkbox should be enabled."
+msgid "Exif DateTime tag"
 msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:57
+msgid "Exif DateTimeDigitized tag"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:58
+msgid "Exif DateTimeOriginal tag"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:59
+msgid "Found duplicates:"
+msgstr "נמצאו כפילויות:"
+
+#: ../data/glade/gthumb_tools.glade.h:60
+msgid "Image c_reation date"
+msgstr "תאריך י_צירת התמונה"
+
+#: ../data/glade/gthumb_tools.glade.h:61
+msgid "Mirror image horizontally (left-right)"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:62
+msgid "Mirror image vertically (top-bottom)"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:63
+#: ../src/gth-browser-actions-entries.h:85
+#: ../src/gth-browser-actions-entries.h:110
+#: ../src/gth-browser-actions-entries.h:230
+#: ../src/gth-browser-actions-entries.h:260
+msgid "Move to _Trash"
+msgstr "העברה לאשפה"
+
+#: ../data/glade/gthumb_tools.glade.h:64
+msgid "New names _preview:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:67
+msgid "Re_verse Order"
+msgstr "לה_פוך סדר"
+
+#: ../data/glade/gthumb_tools.glade.h:68
+msgid "Remove Script"
+msgstr "הסר תסריט"
+
+#: ../data/glade/gthumb_tools.glade.h:70
+msgid "Reset Exif Orientation Tags"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:71
+msgid "Rotate Images"
+msgstr "סיבוב תמונות"
+
+#: ../data/glade/gthumb_tools.glade.h:72
+msgid "Rotate image 90 degrees clockwise"
+msgstr "סיבוב התמונה 90 מעלות בכיוון השעון"
+
+#: ../data/glade/gthumb_tools.glade.h:73
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "סיבוב התמונה 90 מעלות נגד כיוון השעון"
+
+#: ../data/glade/gthumb_tools.glade.h:74
+msgid "Search for Duplicates"
+msgstr "חפש כפילויות"
+
+#: ../data/glade/gthumb_tools.glade.h:75
+msgid "Search terminated, no duplicates found."
+msgstr "החיפוש הסתיים, לא נמצאו כפילויות."
+
+#: ../data/glade/gthumb_tools.glade.h:82
+msgid "Swap height and width for best _fit"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:84
+msgid "The _following date:"
+msgstr "התאריך _הבא:"
+
+#: ../data/glade/gthumb_tools.glade.h:85
+msgid ""
+"The number keys on the numeric keypad can be associated with scripts 0-9.\n"
+"All scripts can be launched from the Scripts menu."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:87
+msgid "This checkbox governs the rotation method used for JPEG images that contain Exif orientation tags. If this checkbox is enabled, the rotation will be performed using a physical transform, and the Exif orientation tag will be reset to the default \"top left\" value. If it is not enabled, the rotation will be performed by changing the Exif orientation tag only. For maximum compatibility with other applications, this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:88
+msgid "User-Defined Script Parameter"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:89
 msgid "Write To CD"
 msgstr "כתיבה לתקליטור"
 
-#: ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_tools.glade.h:90
+msgid "Your script requires this user-defined parameter:"
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:96
 msgid "_Last modified date"
 msgstr "_תאריך שינוי אחרון"
 
-#: ../data/glade/gthumb_tools.glade.h:65
-#: ../src/gth-browser-actions-callbacks.c:470
-#: ../src/gth-browser-actions-callbacks.c:980
+#: ../data/glade/gthumb_tools.glade.h:98
+#: ../src/gth-browser-actions-callbacks.c:471
+#: ../src/gth-browser-actions-callbacks.c:987
 msgid "_Rename"
 msgstr "_שינוי שם"
 
-#: ../data/glade/gthumb_tools.glade.h:68
+#: ../data/glade/gthumb_tools.glade.h:102
 msgid "_Selected Images"
 msgstr "_תמונות נבחרות"
 
-#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:103
 msgid "_Sort:"
 msgstr "_מיון:"
 
-#: ../data/glade/gthumb_tools.glade.h:75
+#: ../data/glade/gthumb_tools.glade.h:109
 msgid "hours"
 msgstr "שעות"
+
+#: ../data/glade/gthumb_tools.glade.h:110
+#, fuzzy
+msgid "prompt"
+msgstr "גזיזה"
+
+#. Translators: This is a dialog window title. A different  translation may be required than for the identical  tooltip string used elsewhere, depending on your  language's grammar. Do not translate the prefix.
+#: ../data/glade/gthumb_tools.glade.h:112
+#, fuzzy
+msgid "title|Scale Images"
+msgstr "שינוי קנה מידה של תמונה"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 1024"
@@ -1854,7 +1975,7 @@ msgstr "<b>ערכת נושא</b>"
 #: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr ""
+msgstr "<small><i><b>הערה:</b> %d (תאריך נוכחי).</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid ""
@@ -1864,35 +1985,35 @@ msgid ""
 msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
+msgid "<small><i><b>Note:</b> click to customize.</i></small>"
+msgstr "<small><i><b>הערה:</b> לחץ כדי לבצע התאמה אישית.</i></small>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "Came_ra Model"
 msgstr "מודל המצל_מה"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:28
+#: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Caption"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "Da_te and Time"
 msgstr "תא_ריך ושעה"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:32
+#: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "E_xposure mode"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "Exposure _time"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "Focal _length"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:37
+#: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "I_mage Caption..."
-msgstr ""
-
-#: ../data/glade/gthumb_web_exporter.glade.h:39
-msgid "Inde_x file:"
 msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
@@ -1900,80 +2021,80 @@ msgid "S_ort:"
 msgstr "מ_יון:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
+msgid "Use subfolders to organize files"
+msgstr ""
+
+#: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "Web Album"
 msgstr "אלבום רשת"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "Web Album Theme"
 msgstr "ערכת נושא של אלבום רשת"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:45
+#: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Aperture value"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:46
+#: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Copy originals to destination"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:47
+#: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Date and Time"
 msgstr "_תאריך ושעה"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:49
+#: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "_Flash"
 msgstr "_הבזק"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:50
+#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Footer:"
 msgstr "_כותרת תחתונה:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:51
+#: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "_Go to Theme Folder"
 msgstr "_מעבר לתיקיית ערכת הנושא"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:52
+#: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Header:"
 msgstr "_כותרת עליונה:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:53
+#: ../data/glade/gthumb_web_exporter.glade.h:54
 msgid "_Install Theme..."
 msgstr "_התקן ערכת נושא..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:55
 msgid "_Place"
 msgstr "_מקום"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:55
-msgid "_Resize if larger than:"
-msgstr ""
-
 #: ../data/glade/gthumb_web_exporter.glade.h:56
+msgid "_Resize if larger than:"
+msgstr "_הקטן במידה והגודל גדול מ:"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Select"
 msgstr "_בחר"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:57
+#: ../data/glade/gthumb_web_exporter.glade.h:58
 msgid "_Shutter speed"
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:59
 msgid "_Size :"
 msgstr "_גודל :"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:59
+#: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Theme:"
 msgstr "_ערכת נושא:"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:60
+#: ../data/glade/gthumb_web_exporter.glade.h:61
 msgid "_Thumbnail Caption..."
 msgstr ""
 
-#: ../data/glade/gthumb_web_exporter.glade.h:62
+#: ../data/glade/gthumb_web_exporter.glade.h:63
 msgid "columns, by"
 msgstr ""
-
-#: ../data/glade/gthumb_web_exporter.glade.h:63
-msgid "index.html"
-msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
@@ -1987,7 +2108,8 @@ msgstr "שורות לכל עמוד,"
 msgid "Image Viewer"
 msgstr "מציג תמונות"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
+#: ../data/gthumb.desktop.in.h:2
+#: ../src/main.c:718
 msgid "View and organize your images"
 msgstr "צפייה וארגון התמונות שלכם"
 
@@ -1996,20 +2118,12 @@ msgid "gThumb Image Viewer"
 msgstr "מציג התמונות GThumb"
 
 #: ../data/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
 
 #: ../data/gthumb.schemas.in.h:2
-msgid ""
-"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-"(reverse landscape)"
-msgstr ""
-"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
-"(reverse landscape)"
+msgid "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)"
+msgstr "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 (reverse landscape)"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2020,12 +2134,8 @@ msgid "Possible values are: 72, 150, 300, 600."
 msgstr "Possible values are: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
-msgid ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
-msgstr ""
-"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
-"fit_width_if_larger."
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
+msgstr "Possible values are: actual_size, fit, keep_prev, fit_if_larger, fit_width_if_larger."
 
 #: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
@@ -2068,194 +2178,196 @@ msgid "Possible values are: nautilus, single, double."
 msgstr "Possible values are: nautilus, single, double."
 
 #: ../data/gthumb.schemas.in.h:16
-msgid "Possible values are: none, deflate, jpeg."
+#, fuzzy
+msgid "Possible values are: none, day, month, now, custom"
 msgstr "Possible values are: none, deflate, jpeg."
 
 #: ../data/gthumb.schemas.in.h:17
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Possible values are: none, deflate, jpeg."
+
+#: ../data/gthumb.schemas.in.h:18
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
 msgstr "Possible values are: none, name, path, size, time, exifdate, comment."
 
-#: ../data/gthumb.schemas.in.h:18
-msgid ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-msgstr ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-
 #: ../data/gthumb.schemas.in.h:19
-msgid ""
-"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom."
-msgstr ""
-"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom."
+msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
 
 #: ../data/gthumb.schemas.in.h:20
+msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgstr "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+
+#: ../data/gthumb.schemas.in.h:21
+#, fuzzy
+msgid "Possible values are: original, lower, upper."
+msgstr "Possible values are: high, low."
+
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: pixels, percentage."
 msgstr "Possible values are: pixels, percentage."
 
-#: ../data/gthumb.schemas.in.h:21
+#: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: png, jpeg."
 msgstr "Possible values are: png, jpeg."
 
-#: ../data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Possible values are: skip, rename, ask, overwrite."
 
-#: ../data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: small, medium, large."
 msgstr "Possible values are: small, medium, large."
 
-#: ../data/gthumb.schemas.in.h:24
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
+#: ../data/gthumb.schemas.in.h:26
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Possible values are: system, text_below, text_beside, text_only, icons_only."
 
-#: ../data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:27
 msgid "Possible values are: white, black, checked, none."
 msgstr "Possible values are: white, black, checked, none."
 
-#: ../data/gthumb.schemas.in.h:26
+#: ../data/gthumb.schemas.in.h:28
 msgid "Whether to always use a black background."
 msgstr "Whether to always use a black background."
 
-#: ../data/gthumb.schemas.in.h:27
+#: ../data/gthumb.schemas.in.h:29
 msgid "Whether to reset the scrollbar positions after changing image"
 msgstr "Whether to reset the scrollbar positions after changing image"
 
-#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
-#, c-format
-msgid "Cannot open catalog \"%s\": %s"
-msgstr "לא ניתן לפתוח את הקטלוג \"%s\": %s"
-
-#: ../libgthumb/catalog.c:335
-#, c-format
-msgid "Cannot save catalog \"%s\": %s"
-msgstr "לא ניתן לשמור את הקטלוג \"%s\": %s"
-
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:142
+#: ../libgthumb/comments.c:944
+#: ../src/catalog-web-exporter.c:159
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:56
-#: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
-#: ../src/gth-viewer.c:600
+#: ../libgthumb/comments.c:946
+#: ../src/catalog-web-exporter.c:58
+#: ../src/catalog-web-exporter.c:161
+#: ../src/dlg-duplicates.c:549
+#: ../src/dlg-image-prop.c:446
+#: ../src/gth-browser.c:464
+#: ../src/gth-exif-data-viewer.c:327
+#: ../src/gth-fullscreen.c:825
+#: ../src/gth-viewer.c:585
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
+#: ../libgthumb/comments.c:956
+#: ../libgthumb/comments.c:958
 msgid "(No Comment)"
 msgstr "(אין הערה)"
 
-#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:277
+#: ../libgthumb/dlg-save-image.c:140
+#: ../src/rotation-utils.c:272
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "סוג התמונה לא ניתמך: %s"
 
-#: ../libgthumb/dlg-save-image.c:207
+#: ../libgthumb/dlg-save-image.c:214
 msgid "Determine by extension"
 msgstr ""
 
-#: ../libgthumb/dlg-save-image.c:241
+#: ../libgthumb/dlg-save-image.c:249
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: ../libgthumb/dlg-save-image.c:261
+#: ../libgthumb/dlg-save-image.c:269
 msgid "Image type:"
 msgstr "סוג תמונה:"
 
-#: ../libgthumb/file-utils.c:1484 ../src/gth-location.c:815
+#: ../libgthumb/file-utils.c:1230
+#: ../src/gth-location.c:821
 msgid "Catalogs"
 msgstr "קטלוגים"
 
-#: ../libgthumb/file-utils.c:1487 ../src/gth-location.c:823
+#: ../libgthumb/file-utils.c:1233
+#: ../src/gth-location.c:829
 msgid "File System"
 msgstr "מערכת קבצים"
 
-#: ../libgthumb/file-utils.c:1516 ../src/gth-location.c:831
+#: ../libgthumb/file-utils.c:1262
+#: ../src/gth-location.c:837
 msgid "Home"
 msgstr "עמוד הבית"
 
-#: ../libgthumb/file-utils.c:2151
+#: ../libgthumb/file-utils.c:1899
 msgid "Library not empty"
 msgstr "הספרייה לא ריקה"
 
-#: ../libgthumb/file-utils.c:2160
+#: ../libgthumb/file-utils.c:1908
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "לא ניתן להסיר את הספרייה \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2187
+#: ../libgthumb/file-utils.c:1935
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "לא ניתן להסיר את הקטלוג \"%s\": %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
-#: ../src/gth-browser.c:4498 ../src/gth-viewer.c:749
+#: ../libgthumb/gth-image-list.c:3635
+#: ../src/gth-browser.c:706
+#: ../src/gth-browser.c:4377
+#: ../src/gth-viewer.c:695
 msgid "No image"
 msgstr "ללא תמונה"
 
-#: ../libgthumb/gth-utils.c:46
+#: ../libgthumb/gth-utils.c:45
 msgid "Could not display help"
 msgstr "לא ניתן להציג עזרה"
 
-#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
+#: ../libgthumb/gthumb-stock.c:78
+#: ../src/gth-window-actions-entries.h:270
 msgid "Ro_tate Images"
 msgstr "סי_בוב תמונות"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:820
 #, c-format
 msgid "Page %d of %d"
 msgstr "עמוד %d מתוך %d"
 
-#: ../libgthumb/print-callbacks.c:2240 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2248
+#: ../src/catalog-png-exporter.c:1420
 #, c-format
 msgid "Loading image: %s"
 msgstr "טוען תמונה: %s"
 
-#: ../libgthumb/thumb-cache.c:487
-msgid "Deleting all thumbnails, wait please..."
-msgstr "מוחק את כל התמונות הממוזערות, אנא המתינו..."
-
-#: ../libgthumb/thumb-cache.c:489
-msgid "Deleting old thumbnails, wait please..."
-msgstr "מוחק תמונות ממוזערות ישנות, אנא המתינו..."
-
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1343
-#: ../src/gth-browser.c:1347 ../src/gth-browser.c:1359
+#: ../src/bookmark-list.c:157
+#: ../src/gth-browser.c:1296
+#: ../src/gth-browser.c:1300
+#: ../src/gth-browser.c:1312
 msgid "(Invalid Name)"
 msgstr "(שם לא תקין)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:603
+#: ../src/catalog-png-exporter.c:840
+#: ../src/dlg-image-prop.c:427
+#: ../src/gth-browser.c:467
+#: ../src/gth-exif-data-viewer.c:323
+#: ../src/gth-fullscreen.c:817
+#: ../src/gth-viewer.c:588
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d פיקסלים"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2144
-#: ../src/catalog-web-exporter.c:2370
+#: ../src/catalog-png-exporter.c:905
+#: ../src/catalog-web-exporter.c:2652
+#: ../src/catalog-web-exporter.c:2878
 msgid "Saving images"
 msgstr "שומר תמונות"
 
-#: ../src/catalog-png-exporter.c:1657
+#: ../src/catalog-png-exporter.c:1645
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "יוצר תמונה %s.%s"
 
-#: ../src/catalog-web-exporter.c:1853
+#: ../src/catalog-web-exporter.c:2384
 msgid "Saving thumbnails"
 msgstr "שומר תמונות ממוזערות"
 
-#: ../src/catalog-web-exporter.c:1923
+#: ../src/catalog-web-exporter.c:2449
 msgid "Saving HTML pages: Images"
 msgstr ""
 
-#: ../src/catalog-web-exporter.c:2003
+#: ../src/catalog-web-exporter.c:2510
 msgid "Saving HTML pages: Indexes"
 msgstr ""
 
@@ -2263,35 +2375,45 @@ msgstr ""
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2187
+#: ../src/catalog-web-exporter.c:2700
 msgid "Copying original images"
 msgstr "מעתיק תמונות מקוריות"
 
-#: ../src/catalog-web-exporter.c:2565
-#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
+#: ../src/catalog-web-exporter.c:3109
+#, fuzzy
+msgid "Could not find the style folder"
+msgstr "לא ניתן למחוק את הספרייה \"%s\": %s"
+
+#: ../src/catalog-web-exporter.c:3132
+#: ../src/gth-window-actions-callbacks.c:214
+#: ../src/rotation-utils.c:157
 msgid "Could not create a temporary folder"
 msgstr "יצירת תיקייה זמנית נכשלה"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2598
+#: ../src/catalog-web-exporter.c:3190
 msgid "Loading images"
 msgstr "טוען תמונות"
 
-#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:686
+#: ../src/dlg-catalog.c:88
+#: ../src/gth-browser-actions-callbacks.c:687
 msgid "Enter the catalog name: "
 msgstr "הכניסו את שם הקטלוג: "
 
-#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
-#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
-#: ../src/gth-browser-actions-callbacks.c:772
+#: ../src/dlg-catalog.c:92
+#: ../src/dlg-catalog.c:139
+#: ../src/dlg-categories.c:244
+#: ../src/dlg-file-utils.c:136
+#: ../src/gth-browser-actions-callbacks.c:773
 msgid "C_reate"
 msgstr "י_צירה"
 
-#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:828
+#: ../src/dlg-catalog.c:135
+#: ../src/gth-browser-actions-callbacks.c:829
 msgid "Enter the library name: "
 msgstr "הכניסו את שם הספרייה: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:493
 msgid "Move Catalog to..."
 msgstr "העברת הקטלוג אל..."
 
@@ -2301,9 +2423,7 @@ msgstr "הכניסו את שם הקטגוריה החדש"
 
 #: ../src/dlg-categories.c:251
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \",\". Please "
-"use a different name."
+msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
 msgstr "השם \"%s\" לא תקין בגלל שהוא כולל את התו \",\". נא להשתמש בשם אחר."
 
 #: ../src/dlg-categories.c:256
@@ -2311,423 +2431,564 @@ msgstr "השם \"%s\" לא תקין בגלל שהוא כולל את התו \",\"
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "הקטגוריה \"%s\" כבר קיימת. נא לבחור בשם אחר."
 
-#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
+#: ../src/dlg-convert.c:173
+#: ../src/gth-batch-op.c:398
 #, c-format
 msgid "Converting image: %s"
 msgstr "ממיר תמונה: %s"
 
-#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
+#: ../src/dlg-convert.c:196
+#: ../src/gth-batch-op.c:421
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "התמונה בשם \"%s\" כבר קיימת. נא לציין שם אחר."
 
-#: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
+#: ../src/dlg-convert.c:345
+#: ../src/gth-batch-op.c:580
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Do you want to overwrite it?"
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "תמונה בשם \"%s\" כבר קיימת.  אתם רוצים לכתוב מעליה?"
 
-#: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
+#: ../src/dlg-convert.c:350
+#: ../src/gth-batch-op.c:585
 msgid "Skip"
 msgstr "דילוג"
 
-#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
+#: ../src/dlg-convert.c:351
+#: ../src/gth-batch-op.c:586
 msgid "_Overwrite"
 msgstr "_כתיבה מעל"
 
-#: ../src/dlg-crop.c:527
+#: ../src/dlg-crop.c:553
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (תמונה)"
 
-#: ../src/dlg-crop.c:535
+#: ../src/dlg-crop.c:561
 #, c-format
 msgid "%d x %d (Screen)"
 msgstr "%d x %d (מסך)"
 
-#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
+#: ../src/dlg-duplicates.c:276
+#: ../src/dlg-duplicates.c:650
 msgid "Duplicates"
 msgstr "כפילויות"
 
-#: ../src/dlg-duplicates.c:290
+#: ../src/dlg-duplicates.c:291
 msgid "Duplicates Size"
 msgstr ""
 
-#. 
-#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
-#: ../src/gth-exif-data-viewer.c:800
+#.
+#: ../src/dlg-duplicates.c:369
+#: ../src/dlg-image-prop.c:599
+#: ../src/gth-exif-data-viewer.c:338
 msgid "Name"
 msgstr "שם"
 
-#: ../src/dlg-duplicates.c:397
+#: ../src/dlg-duplicates.c:398
 msgid "Last modified"
 msgstr "שונה לאחרונה"
 
-#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
+#: ../src/dlg-duplicates.c:413
+#: ../src/dlg-image-prop.c:619
 msgid "Location"
 msgstr "מיקום"
 
-#: ../src/dlg-duplicates.c:754
+#: ../src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "תמונות מסומנות יועברו לאשפה, לבצע פעולה זו?"
 
 #: ../src/dlg-file-utils.c:90
-msgid "The destination folder does not exist. Do you want to create it?"
+#: ../src/dlg-file-utils.c:1191
+#, c-format
+msgid "Operation interrupted"
 msgstr ""
 
-#: ../src/dlg-file-utils.c:106
+#: ../src/dlg-file-utils.c:97
+#, c-format
+msgid "File not found"
+msgstr "קובץ לא נמצא"
+
+#: ../src/dlg-file-utils.c:104
+#: ../src/dlg-file-utils.c:2336
+#, fuzzy, c-format
+msgid "Invalid argument"
+msgstr "(שם לא תקין)"
+
+#: ../src/dlg-file-utils.c:111
+#, c-format
+msgid "Operation failed"
+msgstr "פעולה נכשלה"
+
+#: ../src/dlg-file-utils.c:134
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "תיקיית היעד לא קיימת. האם ברצונך ליצור אותה?"
+
+#: ../src/dlg-file-utils.c:150
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "לא ניתן ליצור את התיקייה \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1668
+#: ../src/dlg-file-utils.c:164
+#: ../src/dlg-photo-importer.c:1789
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "אין לכם את ההרשאות המתאימות כדי ליצור את התמונות בתיקייה \"%s\""
 
-#: ../src/dlg-file-utils.c:203
+#: ../src/dlg-file-utils.c:247
 msgid "Could not delete the images:"
 msgstr "לא ניתן ליצור את התמונות:"
 
-#: ../src/dlg-file-utils.c:226
-msgid ""
-"The images cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
-msgstr ""
+#: ../src/dlg-file-utils.c:270
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "לא ניתן להעביר את התמונות לאשפה. האם ברצונך למחוק את התמונות האלו לצמיתות?"
 
-#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1894 ../src/gth-viewer.c:999
-#: ../src/rotation-utils.c:125
+#: ../src/dlg-file-utils.c:273
+#: ../src/gth-browser-actions-callbacks.c:1145
+#: ../src/gth-browser.c:1775
+#: ../src/gth-viewer.c:874
+#: ../src/rotation-utils.c:121
 msgid "_Do not display this message again"
 msgstr "_לא להציג את ההודעה הזאת שוב"
 
-#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
+#: ../src/dlg-file-utils.c:327
+#: ../src/gth-browser-actions-callbacks.c:1183
 msgid "_Move"
 msgstr "_העברה"
 
-#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
-#: ../src/gth-browser-actions-callbacks.c:1403
+#: ../src/dlg-file-utils.c:424
+#: ../src/dlg-file-utils.c:524
+#: ../src/gth-browser-actions-callbacks.c:1410
 msgid "Choose the destination folder"
 msgstr "בחירת תיקיית היעד"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:585
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:815
+#: ../src/dlg-file-utils.c:916
 msgid "You didn't enter the new name"
 msgstr "לא הכנסתם את השם החדש"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:827
+#: ../src/dlg-file-utils.c:928
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "השם \"%s\" כבר בשימוש בתיקייה הזו. אנא בחר שם אחר."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1072
 msgid "Could not rename the image:"
 msgstr "לא ניתן לשנות את שם התמונה:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1074
 msgid "Could not rename the following images:"
 msgstr "לא ניתן לשנות את השם של התמונות הבאות:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1216
 msgid "Could not move the image:"
 msgstr "לא ניתן להעביר את התמונה:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1218
 msgid "Could not copy the image:"
 msgstr "לא ניתן להעתיק את התמונה:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1242
+#: ../src/dlg-file-utils.c:2539
 msgid "_Abort"
 msgstr "_ביטול"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1243
+#: ../src/dlg-file-utils.c:2540
 msgid "_Continue"
 msgstr "_המשך"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1425
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "מעתיק קובץ %d מתוך %d"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
-msgid "Collecting images info"
-msgstr ""
+#: ../src/dlg-file-utils.c:1746
+#: ../src/dlg-file-utils.c:2410
+#, fuzzy, c-format
+msgid "Could not find the trash folder"
+msgstr "יצירת תיקייה זמנית נכשלה"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1846
+#: ../src/dlg-file-utils.c:2081
+msgid "Collecting images info"
+msgstr "אוסף נתוני תמונה"
+
+#: ../src/dlg-file-utils.c:1849
+#: ../src/dlg-file-utils.c:2094
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "מוחק קובץ %ld מתוך %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2084
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "מעתיק קובץ %ld מתוך %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2089
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "מעביר קובץ %ld מתוך %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
-#: ../src/gth-browser-actions-callbacks.c:1285
+#: ../src/dlg-file-utils.c:2516
+#: ../src/dlg-file-utils.c:2518
+#: ../src/gth-browser-actions-callbacks.c:1292
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "לא ניתן להעביר את התיקייה \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/dlg-image-prop.c:604
+#: ../src/gth-exif-data-viewer.c:351
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "גודל"
 
-#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:805
+#: ../src/dlg-image-prop.c:609
+#: ../src/gth-exif-data-viewer.c:353
 msgid "Type"
 msgstr "סוג"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
-#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:615
+#: ../src/dlg-image-prop.c:624
+#: ../src/gth-browser.c:479
+#: ../src/gth-exif-data-viewer.c:352
+#: ../src/gth-viewer.c:600
 msgid "Modified"
 msgstr "השתנה"
 
-#: ../src/dlg-image-prop.c:623
+#: ../src/dlg-image-prop.c:629
 msgid "Information on Channel"
 msgstr ""
 
-#: ../src/dlg-image-prop.c:732
+#: ../src/dlg-image-prop.c:738
 #, c-format
 msgid "%s Properties"
 msgstr "מאפיינים של %s"
 
-#: ../src/dlg-jpegtran.c:258 ../src/dlg-reset-exif.c:128
-msgid ""
-"Could not move temporary file to remote location. Check remote permissions."
+#: ../src/dlg-jpegtran.c:254
+msgid "Could not move temporary file to remote location. Check remote permissions."
 msgstr ""
 
-#: ../src/dlg-photo-importer.c:965 ../src/dlg-photo-importer.c:1595
-#: ../src/dlg-photo-importer.c:1642 ../src/dlg-photo-importer.c:1654
-#: ../src/dlg-photo-importer.c:1670 ../src/dlg-photo-importer.c:1699
+#: ../src/dlg-photo-importer.c:976
+#: ../src/dlg-photo-importer.c:1712
+#: ../src/dlg-photo-importer.c:1762
+#: ../src/dlg-photo-importer.c:1774
+#: ../src/dlg-photo-importer.c:1791
+#: ../src/dlg-photo-importer.c:1820
 msgid "Could not import photos"
 msgstr "לא ניתן לייבא תמונות"
 
-#: ../src/dlg-photo-importer.c:1328 ../src/main.c:1011
-msgid "Film"
-msgstr "סרט"
-
-#: ../src/dlg-photo-importer.c:1340
+#: ../src/dlg-photo-importer.c:1440
 msgid "Import errors detected"
 msgstr "זוהו שגיאות בייבוא"
 
-#: ../src/dlg-photo-importer.c:1341
+#: ../src/dlg-photo-importer.c:1441
 msgid "The files on the camera will not be deleted"
 msgstr "הקבצים על המצלמה לא ימחקו"
 
-#: ../src/dlg-photo-importer.c:1651
-#: ../src/gth-browser-actions-callbacks.c:1603
+#: ../src/dlg-photo-importer.c:1508
+#, fuzzy, c-format
+msgid "Transferring '%s' to its destination folder."
+msgstr "בחירת תיקיית היעד"
+
+#: ../src/dlg-photo-importer.c:1577
+#, c-format
+msgid "Adjusting orientation of '%s'."
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:1771
+#: ../src/gth-browser-actions-callbacks.c:1610
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "לא ניתן ליצור את התיקייה \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1700
+#: ../src/dlg-photo-importer.c:1821
 msgid "Not enough free space left on disk"
 msgstr "אין מספיק מקום פנוי על הכונן הקשיח"
 
-#: ../src/dlg-png-exporter.c:908
+#: ../src/dlg-photo-importer.c:1917
+msgid "Put name or format code here"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:2226
+msgid "No grouping"
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:2228
+msgid "By day photo taken"
+msgstr "לפי היום בו צולמה התמונה"
+
+#: ../src/dlg-photo-importer.c:2230
+msgid "By month photo taken"
+msgstr "לפי החודש בו צולמה התמונה"
+
+#: ../src/dlg-photo-importer.c:2232
+msgid "By current date and time"
+msgstr "לפי התאריך והזמן הנוכחיים"
+
+#: ../src/dlg-photo-importer.c:2234
+msgid "Custom subfolder"
+msgstr "תת תיקייה מותאמת"
+
+#: ../src/dlg-png-exporter.c:907
 msgid "Image Caption"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:962
+#: ../src/dlg-png-exporter.c:961
 msgid "Header"
 msgstr "כותרת עליונה"
 
-#: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
+#: ../src/dlg-png-exporter.c:974
+#: ../src/dlg-png-exporter.c:980
 msgid "Footer"
 msgstr "כותרת תחתונה"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
-#: ../src/dlg-web-exporter.c:484
+#: ../src/dlg-png-exporter.c:1569
+#: ../src/dlg-rename-series.c:555
+#: ../src/dlg-web-exporter.c:471
 msgid "by path"
 msgstr "לפי נתיב"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
-#: ../src/dlg-web-exporter.c:486
+#: ../src/dlg-png-exporter.c:1571
+#: ../src/dlg-rename-series.c:557
+#: ../src/dlg-web-exporter.c:473
 msgid "by size"
 msgstr "לפי גודל"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
-#: ../src/dlg-web-exporter.c:488
+#: ../src/dlg-png-exporter.c:1573
+#: ../src/dlg-rename-series.c:559
+#: ../src/dlg-web-exporter.c:475
 msgid "by file modified time"
-msgstr ""
+msgstr "לפי תאריך שינוי הקובץ"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
-#: ../src/dlg-web-exporter.c:490
+#: ../src/dlg-png-exporter.c:1575
+#: ../src/dlg-rename-series.c:561
+#: ../src/dlg-web-exporter.c:477
 msgid "by Exif DateTime tag"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
-#: ../src/dlg-web-exporter.c:492
+#: ../src/dlg-png-exporter.c:1577
+#: ../src/dlg-rename-series.c:563
+#: ../src/dlg-web-exporter.c:479
 msgid "by comment"
 msgstr "לפי הערה"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
-#: ../src/dlg-web-exporter.c:495
+#: ../src/dlg-png-exporter.c:1582
+#: ../src/dlg-rename-series.c:566
+#: ../src/dlg-web-exporter.c:482
 msgid "manual order"
 msgstr "סדר ידני"
 
-#: ../src/dlg-rename-series.c:116 ../src/gth-browser-actions-callbacks.c:486
-#: ../src/gth-browser-actions-callbacks.c:702
-#: ../src/gth-browser-actions-callbacks.c:785
-#: ../src/gth-browser-actions-callbacks.c:994
+#: ../src/dlg-rename-series.c:119
+#: ../src/gth-browser-actions-callbacks.c:487
+#: ../src/gth-browser-actions-callbacks.c:703
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:1001
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"השם \"%s\" אינו תיקני כיוון שהוא מכיל את התו \"/\". אנא השתמש בשם אחר."
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
+msgstr "השם \"%s\" אינו תיקני כיוון שהוא מכיל את התו \"/\". אנא השתמש בשם אחר."
 
-#: ../src/dlg-rename-series.c:468
+#: ../src/dlg-rename-series.c:539
 msgid "Old Name"
 msgstr "שם ישן"
 
-#: ../src/dlg-rename-series.c:476
+#: ../src/dlg-rename-series.c:547
 msgid "New Name"
 msgstr "שם חדש"
 
-#: ../src/dlg-search.c:359
+#: ../src/dlg-search.c:368
 msgid "Search Result"
 msgstr "תוצאות חיפוש"
 
-#: ../src/dlg-web-exporter.c:847
+#: ../src/dlg-scripts.c:90
+msgid "Edit with GIMP"
+msgstr "ערוך בעזרת GIMP"
+
+#: ../src/dlg-scripts.c:91
+msgid "Add copyright"
+msgstr "הוסף זכויות יוצרים"
+
+#: ../src/dlg-scripts.c:92
+#, fuzzy
+msgid "Copy to \"approved\" folder"
+msgstr "העתקת התיקייה הנבחרת"
+
+#: ../src/dlg-scripts.c:93
+msgid "Send by email"
+msgstr "של בדואר אלקטרוני"
+
+#: ../src/dlg-scripts.c:94
+msgid "Make a zip file"
+msgstr "יצירת קובץ zip"
+
+#: ../src/dlg-scripts.c:95
+msgid "Make a zip file and email it"
+msgstr ""
+
+#: ../src/dlg-scripts.c:526
+#: ../src/dlg-scripts.c:528
+msgid "Script Progress"
+msgstr "התקדמות התסריט"
+
+#: ../src/dlg-scripts.c:609
+#, c-format
+msgid "Scripts using the %%F code can not be cancelled. Sorry!"
+msgstr ""
+
+#: ../src/dlg-scripts.c:734
+#, c-format
+msgid "Script %d"
+msgstr ""
+
+#: ../src/dlg-scripts.c:800
+msgid "The \"Postr\" software package must be installed to use this function."
+msgstr ""
+
+#: ../src/dlg-scripts.c:934
+msgid "Number"
+msgstr "מספר"
+
+#: ../src/dlg-scripts.c:946
+msgid "Short Name"
+msgstr "שם קצר"
+
+#: ../src/dlg-scripts.c:957
+msgid "Script"
+msgstr "תסריט"
+
+#: ../src/dlg-web-exporter.c:820
 msgid "Select Album Theme"
 msgstr ""
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3848
+#: ../src/dlg-write-to-cd.c:78
+#: ../src/gth-browser.c:3727
 msgid "Could not move the items:"
 msgstr "לא ניתן להעביר את הפריטים:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
+#: ../src/gth-browser-actions-callbacks.c:169
+#: ../src/gth-fullscreen.c:1107
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "התמונות יועברו לאשפה, אתם בטוחים?"
 
-#: ../src/gth-browser-actions-callbacks.c:267
+#: ../src/gth-browser-actions-callbacks.c:268
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr ""
+msgstr "לא ניתן לשכפל את התמונה ‏\"%s\": ‏%s"
 
-#: ../src/gth-browser-actions-callbacks.c:275
+#: ../src/gth-browser-actions-callbacks.c:276
 msgid "Stop"
 msgstr "הפסקה"
 
-#: ../src/gth-browser-actions-callbacks.c:276
+#: ../src/gth-browser-actions-callbacks.c:277
 msgid "Continue"
 msgstr "המשך"
 
-#: ../src/gth-browser-actions-callbacks.c:331
+#: ../src/gth-browser-actions-callbacks.c:332
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "התמונות הנבחרות יועברו לאשפה, להמשיך?"
 
-#: ../src/gth-browser-actions-callbacks.c:466
-#: ../src/gth-browser-actions-callbacks.c:976
+#: ../src/gth-browser-actions-callbacks.c:467
+#: ../src/gth-browser-actions-callbacks.c:983
 msgid "Enter the new name: "
 msgstr "הכניסו שם חדש: "
 
-#: ../src/gth-browser-actions-callbacks.c:508
-#: ../src/gth-browser-actions-callbacks.c:721
-#: ../src/gth-browser-actions-callbacks.c:801
-#: ../src/gth-browser-actions-callbacks.c:1024
+#: ../src/gth-browser-actions-callbacks.c:509
+#: ../src/gth-browser-actions-callbacks.c:722
+#: ../src/gth-browser-actions-callbacks.c:802
+#: ../src/gth-browser-actions-callbacks.c:1031
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "השם \"%s\" כבר בשימוש. נא לבחור שם אחר."
 
-#: ../src/gth-browser-actions-callbacks.c:520
+#: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "לא ניתן לשנות את שם הספרייה \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:520
+#: ../src/gth-browser-actions-callbacks.c:521
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "לא ניתן לשנות את שם הקטלוג \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:590
+#: ../src/gth-browser-actions-callbacks.c:591
 msgid "The selected library will be removed, are you sure?"
 msgstr "הספרייה הנבחרת תועבר לאשפה, להמשיך?"
 
-#: ../src/gth-browser-actions-callbacks.c:592
+#: ../src/gth-browser-actions-callbacks.c:593
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "הקטלוג הנבחר ימחק, אתם בטוחים?"
 
-#: ../src/gth-browser-actions-callbacks.c:687
+#: ../src/gth-browser-actions-callbacks.c:688
 msgid "New Catalog"
 msgstr "קטלוג חדש"
 
-#: ../src/gth-browser-actions-callbacks.c:733
+#: ../src/gth-browser-actions-callbacks.c:734
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "לא ניתן ליצור את הקטלוג \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:827
+#: ../src/gth-browser-actions-callbacks.c:828
 msgid "New Library"
 msgstr "ספריה חדשה"
 
-#: ../src/gth-browser-actions-callbacks.c:829
+#: ../src/gth-browser-actions-callbacks.c:830
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "לא ניתן ליצור את הספרייה \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1014
-#: ../src/gth-browser-actions-callbacks.c:1049
+#: ../src/gth-browser-actions-callbacks.c:1021
+#: ../src/gth-browser-actions-callbacks.c:1056
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "לא ניתן לשנות את שם הספרייה \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1016
-#: ../src/gth-browser-actions-callbacks.c:1295
+#: ../src/gth-browser-actions-callbacks.c:1023
+#: ../src/gth-browser-actions-callbacks.c:1302
 msgid "source and destination are the same"
-msgstr ""
+msgstr "המקור ותיקיית היעד זהים"
 
-#: ../src/gth-browser-actions-callbacks.c:1099
+#: ../src/gth-browser-actions-callbacks.c:1106
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "לא ניתן למחוק את הספרייה \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1130
+#: ../src/gth-browser-actions-callbacks.c:1137
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "אי אפשר להעביר את \"%s\" לאשפה. אתם רוצים למחוק לצמיתות?"
 
-#: ../src/gth-browser-actions-callbacks.c:1174
+#: ../src/gth-browser-actions-callbacks.c:1181
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "התיקייה הנבחרת תועבר לאשפה, להמשיך?"
 
-#: ../src/gth-browser-actions-callbacks.c:1227
-#: ../src/gth-browser-actions-callbacks.c:1285
+#: ../src/gth-browser-actions-callbacks.c:1234
+#: ../src/gth-browser-actions-callbacks.c:1292
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "לא ניתן להעתיק את התיקייה \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1306
+#: ../src/gth-browser-actions-callbacks.c:1313
 msgid "source contains destination"
 msgstr ""
 
-#: ../src/gth-browser-actions-callbacks.c:1317
+#: ../src/gth-browser-actions-callbacks.c:1324
 msgid "a folder with that name is already present."
 msgstr "תיקייה עם השם הזה כבר קיימת."
 
-#: ../src/gth-browser-actions-callbacks.c:1601
+#: ../src/gth-browser-actions-callbacks.c:1608
 msgid "New Folder"
 msgstr "תיקייה חדשה"
 
-#: ../src/gth-browser-actions-callbacks.c:1602
+#: ../src/gth-browser-actions-callbacks.c:1609
 msgid "Enter the folder name: "
 msgstr "הכניסו את שם התיקייה: "
 
-#: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
+#: ../src/gth-browser-actions-callbacks.c:1739
+#: ../src/gth-location.c:218
 msgid "Open Location"
 msgstr "פתיחת מיקום"
 
@@ -2764,7 +3025,7 @@ msgid "_Go"
 msgstr "_עבור"
 
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:495
+#: ../src/gth-browser-actions-entries.h:512
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_תמונה"
@@ -2774,776 +3035,868 @@ msgid "_Bookmarks"
 msgstr "_סימניות"
 
 #: ../src/gth-browser-actions-entries.h:48
-#: ../src/gth-viewer-actions-entries.h:43
+#: ../src/gth-viewer-actions-entries.h:41
 msgid "_Tools"
 msgstr "_כלים"
 
 #: ../src/gth-browser-actions-entries.h:49
-#: ../src/gth-viewer-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:42
 msgid "Set Image as _Wallpaper"
-msgstr ""
+msgstr "קבע כרגע ל_שולחן עבודה"
 
 #: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "Scri_pts"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:51
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "_Upload"
+msgstr "העלאה"
+
+#: ../src/gth-browser-actions-entries.h:52
 #: ../src/gth-viewer-actions-entries.h:45
 msgid "_Help"
 msgstr "_עזרה"
 
-#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-browser-actions-entries.h:55
 #: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
 msgstr "_חלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-browser-actions-entries.h:56
 #: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
 msgstr "יצירת חלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:59
+#: ../src/gth-browser-actions-entries.h:61
 msgid "Open the selected image in a new window"
 msgstr "פתיחת התמונה הנבחרת בחלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:64
-#: ../src/gth-browser-actions-entries.h:429
-#: ../src/gth-viewer-actions-entries.h:84
+#: ../src/gth-browser-actions-entries.h:66
+#: ../src/gth-browser-actions-entries.h:446
+#: ../src/gth-viewer-actions-entries.h:94
 msgid "View image properties"
-msgstr ""
+msgstr "הצג מאפייני תמונה"
 
-#: ../src/gth-browser-actions-entries.h:68
+#: ../src/gth-browser-actions-entries.h:70
 msgid "_Import Photos..."
 msgstr "_לייבא תמונות..."
 
-#: ../src/gth-browser-actions-entries.h:69
+#: ../src/gth-browser-actions-entries.h:71
 msgid "Import photos from a digital camera"
 msgstr "ייבוא תמונות ממצלמה דיגיטלית"
 
-#: ../src/gth-browser-actions-entries.h:73
+#: ../src/gth-browser-actions-entries.h:75
 msgid "_Write To CD..."
 msgstr "_כתיבה לתקליטור..."
 
-#: ../src/gth-browser-actions-entries.h:74
+#: ../src/gth-browser-actions-entries.h:76
 msgid "Write selection to CD"
 msgstr "כיבת הבחירות לתקליטור"
 
-#: ../src/gth-browser-actions-entries.h:78
-#: ../src/gth-browser-actions-entries.h:98
-#: ../src/gth-browser-actions-entries.h:148
-#: ../src/gth-browser-actions-entries.h:183
-#: ../src/gth-browser-actions-entries.h:223
-#: ../src/gth-browser-actions-entries.h:253
+#: ../src/gth-browser-actions-entries.h:80
+#: ../src/gth-browser-actions-entries.h:100
+#: ../src/gth-browser-actions-entries.h:150
+#: ../src/gth-browser-actions-entries.h:185
+#: ../src/gth-browser-actions-entries.h:225
+#: ../src/gth-browser-actions-entries.h:255
 msgid "_Rename..."
 msgstr "_שינוי שם..."
 
-#: ../src/gth-browser-actions-entries.h:79
+#: ../src/gth-browser-actions-entries.h:81
 msgid "Rename this image"
 msgstr "שינוי השם לתמונה"
 
-#: ../src/gth-browser-actions-entries.h:84
+#: ../src/gth-browser-actions-entries.h:86
 msgid "Move this image to the Trash"
 msgstr "העברת התמונה לאשפה"
 
-#: ../src/gth-browser-actions-entries.h:88
-#: ../src/gth-browser-actions-entries.h:113
-#: ../src/gth-browser-actions-entries.h:233
-#: ../src/gth-browser-actions-entries.h:263
+#: ../src/gth-browser-actions-entries.h:90
+#: ../src/gth-browser-actions-entries.h:115
+#: ../src/gth-browser-actions-entries.h:235
+#: ../src/gth-browser-actions-entries.h:265
 msgid "_Copy..."
 msgstr "_העתקה..."
 
-#: ../src/gth-browser-actions-entries.h:89
+#: ../src/gth-browser-actions-entries.h:91
 msgid "Copy this image to another location"
 msgstr "העתקת התמונה למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:93
-#: ../src/gth-browser-actions-entries.h:118
-#: ../src/gth-browser-actions-entries.h:158
-#: ../src/gth-browser-actions-entries.h:193
-#: ../src/gth-browser-actions-entries.h:238
-#: ../src/gth-browser-actions-entries.h:268
+#: ../src/gth-browser-actions-entries.h:95
+#: ../src/gth-browser-actions-entries.h:120
+#: ../src/gth-browser-actions-entries.h:160
+#: ../src/gth-browser-actions-entries.h:195
+#: ../src/gth-browser-actions-entries.h:240
+#: ../src/gth-browser-actions-entries.h:270
 msgid "_Move..."
 msgstr "_העברה..."
 
-#: ../src/gth-browser-actions-entries.h:94
+#: ../src/gth-browser-actions-entries.h:96
 msgid "Move this image to another location"
 msgstr "העברת התמונה למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:99
+#: ../src/gth-browser-actions-entries.h:101
 msgid "Rename selected images"
 msgstr "שינוי השם לתמונות הנבחרות"
 
-#: ../src/gth-browser-actions-entries.h:103
+#: ../src/gth-browser-actions-entries.h:105
 msgid "D_uplicate"
 msgstr "ש_כפל"
 
-#: ../src/gth-browser-actions-entries.h:104
+#: ../src/gth-browser-actions-entries.h:106
 msgid "Duplicate selected images"
 msgstr "שיכפול תמונות נבחרות"
 
-#: ../src/gth-browser-actions-entries.h:109
+#: ../src/gth-browser-actions-entries.h:111
 msgid "Move the selected images to the Trash"
 msgstr "העברת תמונות נבחרות לאשפה"
 
-#: ../src/gth-browser-actions-entries.h:114
+#: ../src/gth-browser-actions-entries.h:116
 msgid "Copy selected images to another location"
 msgstr "העתקת תמונות נבחרות למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:119
+#: ../src/gth-browser-actions-entries.h:121
 msgid "Move selected images to another location"
 msgstr "העברת תמונות נבחרות למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:123
+#: ../src/gth-browser-actions-entries.h:125
 msgid "_Select All"
 msgstr "_בחר הכל"
 
-#: ../src/gth-browser-actions-entries.h:124
+#: ../src/gth-browser-actions-entries.h:126
 msgid "Select all images"
 msgstr "בחירת כל התמונות"
 
-#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-browser-actions-entries.h:130
 #: ../src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
 msgstr "הו_ספה לקטלוג"
 
-#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-browser-actions-entries.h:131
 #: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
 msgstr "הוספת תמונות נבחרות לקטלוג"
 
-#: ../src/gth-browser-actions-entries.h:133
+#: ../src/gth-browser-actions-entries.h:135
 msgid "Remo_ve from Catalog"
 msgstr "הסרה מקטלוג"
 
-#: ../src/gth-browser-actions-entries.h:134
+#: ../src/gth-browser-actions-entries.h:136
 msgid "Remove selected images from the catalog"
 msgstr "הסרת תמונות נבחרות מהקטלוג"
 
-#: ../src/gth-browser-actions-entries.h:138
-#: ../src/gth-browser-actions-entries.h:208
+#: ../src/gth-browser-actions-entries.h:140
+#: ../src/gth-browser-actions-entries.h:210
 msgid "Open"
 msgstr "פתיחה"
 
-#: ../src/gth-browser-actions-entries.h:139
+#: ../src/gth-browser-actions-entries.h:141
 msgid "Open the selected catalog"
 msgstr "פתיחת הקטלוג הנבחר"
 
-#: ../src/gth-browser-actions-entries.h:143
-#: ../src/gth-browser-actions-entries.h:213
+#: ../src/gth-browser-actions-entries.h:145
+#: ../src/gth-browser-actions-entries.h:215
 msgid "Open in New Window"
 msgstr "פתיחה בחלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:144
+#: ../src/gth-browser-actions-entries.h:146
 msgid "Open the selected catalog in a new window"
 msgstr "פתיחת הקטלוג הנבחר בחלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:149
+#: ../src/gth-browser-actions-entries.h:151
 msgid "Rename selected catalog"
 msgstr "שינוי השם של הקטלוג הנבחר"
 
-#: ../src/gth-browser-actions-entries.h:153
-#: ../src/gth-browser-actions-entries.h:188
+#: ../src/gth-browser-actions-entries.h:155
+#: ../src/gth-browser-actions-entries.h:190
 msgid "Rem_ove"
 msgstr "הס_רה"
 
-#: ../src/gth-browser-actions-entries.h:154
+#: ../src/gth-browser-actions-entries.h:156
 msgid "Remove selected catalog"
 msgstr "הסרת הקטלוג הנבר"
 
-#: ../src/gth-browser-actions-entries.h:159
+#: ../src/gth-browser-actions-entries.h:161
 msgid "Move selected catalog to another location"
 msgstr "העברת הקטלוג הנבחר למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:163
-#: ../src/gth-browser-actions-entries.h:198
+#: ../src/gth-browser-actions-entries.h:165
+#: ../src/gth-browser-actions-entries.h:200
 msgid "_Edit Search..."
 msgstr "_עריכת החיפוש..."
 
-#: ../src/gth-browser-actions-entries.h:164
-#: ../src/gth-browser-actions-entries.h:199
+#: ../src/gth-browser-actions-entries.h:166
+#: ../src/gth-browser-actions-entries.h:201
 msgid "Modify search criteria"
 msgstr "שינוי קריטריון חיפוש"
 
-#: ../src/gth-browser-actions-entries.h:168
-#: ../src/gth-browser-actions-entries.h:203
+#: ../src/gth-browser-actions-entries.h:170
+#: ../src/gth-browser-actions-entries.h:205
 msgid "Redo _Search"
 msgstr "ביצוע _חיפוש שוב"
 
-#: ../src/gth-browser-actions-entries.h:169
-#: ../src/gth-browser-actions-entries.h:204
+#: ../src/gth-browser-actions-entries.h:171
+#: ../src/gth-browser-actions-entries.h:206
 msgid "Redo the search"
 msgstr "ביצוע חיפוש מחדש"
 
-#: ../src/gth-browser-actions-entries.h:173
+#: ../src/gth-browser-actions-entries.h:175
 msgid "_New Catalog..."
 msgstr "קטלוג _חדש..."
 
-#: ../src/gth-browser-actions-entries.h:174
+#: ../src/gth-browser-actions-entries.h:176
 msgid "Create a new catalog"
 msgstr "יצירת קטלוג חדש"
 
-#: ../src/gth-browser-actions-entries.h:178
+#: ../src/gth-browser-actions-entries.h:180
 msgid "New _Library..."
 msgstr "_ספרייה חדשה..."
 
-#: ../src/gth-browser-actions-entries.h:179
+#: ../src/gth-browser-actions-entries.h:181
 msgid "Create a new catalog library"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:184
+#: ../src/gth-browser-actions-entries.h:186
 msgid "Rename current catalog"
 msgstr "שינוי שם קטלוג נוכחי"
 
-#: ../src/gth-browser-actions-entries.h:189
+#: ../src/gth-browser-actions-entries.h:191
 msgid "Remove current catalog"
 msgstr "הסרת קטלוג נוכחי"
 
-#: ../src/gth-browser-actions-entries.h:194
+#: ../src/gth-browser-actions-entries.h:196
 msgid "Move current catalog to another location"
 msgstr "העברת הקטלוג הנוכחי למיקום אחר"
 
-#: ../src/gth-browser-actions-entries.h:209
+#: ../src/gth-browser-actions-entries.h:211
 msgid "Open the selected folder"
 msgstr "פתיחת התיקייה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:214
+#: ../src/gth-browser-actions-entries.h:216
 msgid "Open the selected folder in a new window"
 msgstr "פתיחת התיקייה הנבחרת בחלון חדש"
 
-#: ../src/gth-browser-actions-entries.h:218
-#: ../src/gth-browser-actions-entries.h:248
+#: ../src/gth-browser-actions-entries.h:220
+#: ../src/gth-browser-actions-entries.h:250
 msgid "Open with the _File Manager"
 msgstr "פתיחה בעזרת _מנהל קבצים"
 
-#: ../src/gth-browser-actions-entries.h:219
+#: ../src/gth-browser-actions-entries.h:221
 msgid "Open the selected folder with the Nautilus file manager"
 msgstr "פתיחת התיקייה הנבחרת בעזרת מנהל הקבצים Nautilus"
 
-#: ../src/gth-browser-actions-entries.h:224
+#: ../src/gth-browser-actions-entries.h:226
 msgid "Rename selected folder"
 msgstr "שינוי השם התיקייה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:229
+#: ../src/gth-browser-actions-entries.h:231
 msgid "Move the selected folder to the Trash"
 msgstr "העברת התיקיות הנבחרות לאשפה"
 
-#: ../src/gth-browser-actions-entries.h:234
+#: ../src/gth-browser-actions-entries.h:236
 msgid "Copy selected folder"
 msgstr "העתקת התיקייה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:239
+#: ../src/gth-browser-actions-entries.h:241
 msgid "Move selected folder"
 msgstr "העברת התיקייה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:243
-#: ../src/gth-browser-actions-entries.h:273
-#: ../src/gth-window-actions-entries.h:95
+#: ../src/gth-browser-actions-entries.h:245
+#: ../src/gth-browser-actions-entries.h:275
+#: ../src/gth-window-actions-entries.h:90
 msgid "Ca_tegories..."
 msgstr "_קטגוריות..."
 
-#: ../src/gth-browser-actions-entries.h:244
+#: ../src/gth-browser-actions-entries.h:246
 msgid "Assign categories to the selected folder"
 msgstr "הקצאת קטגוריות לתיקייה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:249
+#: ../src/gth-browser-actions-entries.h:251
 msgid "Open current folder with the Nautilus file manager"
 msgstr "פתיחת התיקייה הנוכחית בעזרת מנהל הקבצים Nautilus"
 
-#: ../src/gth-browser-actions-entries.h:254
+#: ../src/gth-browser-actions-entries.h:256
 msgid "Rename current folder"
 msgstr "שינוי שם התיקייה הנוכחית"
 
-#: ../src/gth-browser-actions-entries.h:259
+#: ../src/gth-browser-actions-entries.h:261
 msgid "Move the current folder to the Trash"
 msgstr "העברת התיקייה הנוכחית לאשפה"
 
-#: ../src/gth-browser-actions-entries.h:264
+#: ../src/gth-browser-actions-entries.h:266
 msgid "Copy current folder"
 msgstr "העתקת תיקייה ניבחרת"
 
-#: ../src/gth-browser-actions-entries.h:269
+#: ../src/gth-browser-actions-entries.h:271
 msgid "Move current folder"
 msgstr "העברת תיקייה נבחרת"
 
-#: ../src/gth-browser-actions-entries.h:274
+#: ../src/gth-browser-actions-entries.h:276
 msgid "Assign categories to the current folder"
 msgstr "הקצאת קטגוריות לתיקייה נוכחית"
 
-#: ../src/gth-browser-actions-entries.h:278
+#: ../src/gth-browser-actions-entries.h:280
 msgid "_New Folder..."
 msgstr "תיקייה _חדשה..."
 
-#: ../src/gth-browser-actions-entries.h:279
+#: ../src/gth-browser-actions-entries.h:281
 msgid "Create a new folder"
 msgstr "יצירת תיקייה חדשה"
 
-#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-browser-actions-entries.h:286
 #: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
 msgstr "צפייה בתמונה הבאה"
 
-#: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-browser-actions-entries.h:291
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
 msgstr "צפייה בתמונה הקודמת"
 
-#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-browser-actions-entries.h:301
 msgid "Go to the previous visited location"
 msgstr "מעבר למקום האחרון בו ביקרת"
 
-#: ../src/gth-browser-actions-entries.h:304
+#: ../src/gth-browser-actions-entries.h:306
 msgid "Go to the next visited location"
 msgstr "מעבר למקום הבא שביקרת בו"
 
-#: ../src/gth-browser-actions-entries.h:309
+#: ../src/gth-browser-actions-entries.h:311
 msgid "Go up one level"
 msgstr "עלה רמה אחת"
 
-#: ../src/gth-browser-actions-entries.h:313
+#: ../src/gth-browser-actions-entries.h:315
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "_טעינה מחדש"
 
-#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-browser-actions-entries.h:316
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "טעינה מחדש של המיקום הנוכחי"
 
-#: ../src/gth-browser-actions-entries.h:319
+#: ../src/gth-browser-actions-entries.h:321
 msgid "Stop loading current location"
 msgstr "לעצור את טעינת המיקום הנוכחי"
 
-#: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-browser-actions-entries.h:326
 msgid "Go to the home folder"
 msgstr "מעבר לתיקיית הבית"
 
-#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-browser-actions-entries.h:330
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "_מעבר לתיקיית התמונה"
 
-#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-browser-actions-entries.h:331
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "_מעבר לתיקייה המכילה את התמונה הנבחרת"
 
-#: ../src/gth-browser-actions-entries.h:333
+#: ../src/gth-browser-actions-entries.h:335
 msgid "_Delete History"
 msgstr "_מחיקת היסטוריה"
 
-#: ../src/gth-browser-actions-entries.h:334
+#: ../src/gth-browser-actions-entries.h:336
 msgid "Delete the list of visited locations"
 msgstr "מחיקת הרשימה של המקומות בהם ביקרת"
 
-#: ../src/gth-browser-actions-entries.h:338
+#: ../src/gth-browser-actions-entries.h:340
 msgid "_Location..."
 msgstr "_מיקום..."
 
-#: ../src/gth-browser-actions-entries.h:339
+#: ../src/gth-browser-actions-entries.h:341
 msgid "Specify a location to visit"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:343
+#: ../src/gth-browser-actions-entries.h:345
 msgid "_Add Bookmark"
 msgstr "_הוספה לסימניות"
 
-#: ../src/gth-browser-actions-entries.h:344
+#: ../src/gth-browser-actions-entries.h:346
 msgid "Add current location to bookmarks"
-msgstr ""
+msgstr "הוספת המיקום הנוכחי לסימניות"
 
-#: ../src/gth-browser-actions-entries.h:348
+#: ../src/gth-browser-actions-entries.h:350
 msgid "_Edit Bookmarks..."
 msgstr "_עריכת סימניות..."
 
-#: ../src/gth-browser-actions-entries.h:349
+#: ../src/gth-browser-actions-entries.h:351
 msgid "Edit bookmarks"
 msgstr "עריכת סימניות"
 
-#: ../src/gth-browser-actions-entries.h:353
-msgid "_Slide Show"
-msgstr "_מצגת שקפים"
+#: ../src/gth-browser-actions-entries.h:355
+msgid "_Slideshow"
+msgstr "מצגת _שקפים"
 
-#: ../src/gth-browser-actions-entries.h:354
-msgid "View as a slide show"
-msgstr "צפייה כמצגת שקפים"
+#: ../src/gth-browser-actions-entries.h:356
+msgid "View as a slideshow"
+msgstr "הצג כמצגת שקפים"
 
-#: ../src/gth-browser-actions-entries.h:358
+#: ../src/gth-browser-actions-entries.h:360
 msgid "_Search..."
 msgstr "_חיפוש..."
 
-#: ../src/gth-browser-actions-entries.h:368
+#: ../src/gth-browser-actions-entries.h:370
 msgid "Create _Index Image..."
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:373
+#: ../src/gth-browser-actions-entries.h:375
 msgid "Create _Web Album..."
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:378
+#: ../src/gth-browser-actions-entries.h:380
 msgid "Convert F_ormat..."
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:383
-msgid "Search for _Duplicates..."
-msgstr ""
+#: ../src/gth-browser-actions-entries.h:381
+#, fuzzy
+msgid "Convert image format"
+msgstr "ממיר תמונה: %s"
 
-#: ../src/gth-browser-actions-entries.h:388
+#: ../src/gth-browser-actions-entries.h:385
+msgid "Search for _Duplicates..."
+msgstr "חיפוש _כפילויות..."
+
+#: ../src/gth-browser-actions-entries.h:390
 msgid "_Preferences..."
 msgstr "_העדפות..."
 
-#: ../src/gth-browser-actions-entries.h:389
+#: ../src/gth-browser-actions-entries.h:391
 msgid "Edit various preferences"
-msgstr ""
+msgstr "עריכת העדפות שונות"
 
-#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:395
 msgid "Scale Images..."
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:402
+#. Translators: This is a tooltip. A different translation
+#. may be required than for the identical string used as a
+#. dialog window title used elsewhere, depending on your
+#. language's grammar.
+#: ../src/gth-browser-actions-entries.h:400
+msgid "Scale Images"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:404
+#: ../src/gth-viewer-actions-entries.h:68
+msgid "_Edit Scripts"
+msgstr "_עריכת תסריטים"
+
+#: ../src/gth-browser-actions-entries.h:405
+#: ../src/gth-viewer-actions-entries.h:69
+msgid "Edit external scripts"
+msgstr ""
+
+#: ../src/gth-browser-actions-entries.h:409
 #: ../src/gth-viewer-actions-entries.h:73
+msgid "To _Flickr"
+msgstr "ל־_Flickr"
+
+#: ../src/gth-browser-actions-entries.h:410
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "Upload selected images to Flickr"
+msgstr "העלאת תמונות מסומנות ל־Flickr"
+
+#: ../src/gth-browser-actions-entries.h:419
+#: ../src/gth-viewer-actions-entries.h:83
 msgid "_Toolbar"
 msgstr "_סרגל כלים"
 
-#: ../src/gth-browser-actions-entries.h:403
-#: ../src/gth-viewer-actions-entries.h:74
+#: ../src/gth-browser-actions-entries.h:420
+#: ../src/gth-viewer-actions-entries.h:84
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:407
-#: ../src/gth-viewer-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-viewer-actions-entries.h:88
 msgid "_Statusbar"
 msgstr "_שורת מצב"
 
-#: ../src/gth-browser-actions-entries.h:408
-#: ../src/gth-viewer-actions-entries.h:79
+#: ../src/gth-browser-actions-entries.h:425
+#: ../src/gth-viewer-actions-entries.h:89
 msgid "View or hide the statusbar of this window"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:412
+#: ../src/gth-browser-actions-entries.h:429
 msgid "_Filter"
 msgstr "_מסנן"
 
-#: ../src/gth-browser-actions-entries.h:413
+#: ../src/gth-browser-actions-entries.h:430
 msgid "View or hide the filterbar of this window"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:419
+#: ../src/gth-browser-actions-entries.h:436
 msgid "View thumbnails"
 msgstr "צפייה בתמונות ממוזערות"
 
-#: ../src/gth-browser-actions-entries.h:423
+#: ../src/gth-browser-actions-entries.h:440
 msgid "_Image Preview"
 msgstr "תצוגה מקדימה _לתמונה"
 
-#: ../src/gth-browser-actions-entries.h:424
-#: ../src/gth-browser-actions-entries.h:496
+#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:513
 msgid "View the image"
 msgstr "צפייה בתמונה"
 
-#: ../src/gth-browser-actions-entries.h:434
+#: ../src/gth-browser-actions-entries.h:451
 msgid "Show _Hidden Files"
 msgstr "הצגת קבצים _נסתרים"
 
-#: ../src/gth-browser-actions-entries.h:435
+#: ../src/gth-browser-actions-entries.h:452
 msgid "Show hidden files and folders"
 msgstr "הצגת קבצים ותיקיות ניסתרים"
 
-#: ../src/gth-browser-actions-entries.h:440
+#: ../src/gth-browser-actions-entries.h:457
 msgid "_Reversed Order"
 msgstr "_הפוך סדר"
 
-#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:458
 msgid "Reverse images order"
 msgstr "הפיכת סדר תמונות"
 
-#: ../src/gth-browser-actions-entries.h:450
+#: ../src/gth-browser-actions-entries.h:467
 msgid "by _Name"
 msgstr "לפי _שם"
 
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:468
 msgid "Sort images by name"
 msgstr "מיות תמונות לפי שם"
 
-#: ../src/gth-browser-actions-entries.h:453
+#: ../src/gth-browser-actions-entries.h:470
 msgid "by _Path"
 msgstr "לפי _נתיב"
 
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:471
 msgid "Sort images by path"
 msgstr "מיות תמונות לפי נתיב"
 
-#: ../src/gth-browser-actions-entries.h:456
+#: ../src/gth-browser-actions-entries.h:473
 msgid "by _Size"
 msgstr "לפי _גודל"
 
-#: ../src/gth-browser-actions-entries.h:457
+#: ../src/gth-browser-actions-entries.h:474
 msgid "Sort images by file size"
-msgstr ""
+msgstr "מיון תמונות לפי גודל הקובץ"
 
-#: ../src/gth-browser-actions-entries.h:459
+#: ../src/gth-browser-actions-entries.h:476
 msgid "by Modification _Time"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:460
+#: ../src/gth-browser-actions-entries.h:477
 msgid "Sort images by file modification time"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:462
+#: ../src/gth-browser-actions-entries.h:479
 msgid "by _Exif Time"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:463
+#: ../src/gth-browser-actions-entries.h:480
 msgid "Sort images by Exif DateTime tag"
 msgstr ""
 
-#: ../src/gth-browser-actions-entries.h:465
+#: ../src/gth-browser-actions-entries.h:482
 msgid "by _Comment"
 msgstr "לפי ה_ערה"
 
-#: ../src/gth-browser-actions-entries.h:466
+#: ../src/gth-browser-actions-entries.h:483
 msgid "Sort images by comment"
-msgstr ""
+msgstr "מיין תמונות לפי ההערה"
 
-#: ../src/gth-browser-actions-entries.h:468
+#: ../src/gth-browser-actions-entries.h:485
 msgid "_Manual Order"
 msgstr "_סדר ידני"
 
-#: ../src/gth-browser-actions-entries.h:469
+#: ../src/gth-browser-actions-entries.h:486
 msgid "Sort images manually"
 msgstr "מיון תמונות ידנית"
 
-#: ../src/gth-browser-actions-entries.h:476
-#: ../src/gth-browser-actions-entries.h:477
+#: ../src/gth-browser-actions-entries.h:493
+msgid "View As Sli_des"
+msgstr "הצג כש_קופית"
+
+#: ../src/gth-browser-actions-entries.h:494
 msgid "View As Slides"
-msgstr "צפייה כשקופית"
+msgstr "הצג כשקופית"
 
-#: ../src/gth-browser-actions-entries.h:479
-#: ../src/gth-browser-actions-entries.h:480
+#: ../src/gth-browser-actions-entries.h:496
+msgid "View As _List"
+msgstr "הצג כ_רשימה"
+
+#: ../src/gth-browser-actions-entries.h:497
 msgid "View As List"
-msgstr "צפייה כרשימה"
+msgstr "הצג כרשימה"
 
-#: ../src/gth-browser-actions-entries.h:489
+#: ../src/gth-browser-actions-entries.h:506
 msgid "_Folders"
 msgstr "_תיקיות"
 
-#: ../src/gth-browser-actions-entries.h:490
+#: ../src/gth-browser-actions-entries.h:507
 msgid "View the folders"
 msgstr "צפייה בתיקיות"
 
-#: ../src/gth-browser-actions-entries.h:492
+#: ../src/gth-browser-actions-entries.h:509
 msgid "_Catalogs"
 msgstr "_קטלוגים"
 
-#: ../src/gth-browser-actions-entries.h:493
+#: ../src/gth-browser-actions-entries.h:510
 msgid "View the catalogs"
-msgstr "צפייה בתקטלוגים"
+msgstr "צפייה בקטלוגים"
 
-#: ../src/gth-browser.c:547 ../src/gth-viewer.c:662
+#: ../src/gth-browser.c:514
+#: ../src/gth-viewer.c:635
 msgid "[Press 'c' to add a comment]"
-msgstr "[ליחצו על 'c' כדי להוסיף הערה]"
+msgstr "[לחצו על 'c' כדי להוסיף הערה]"
 
-#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:746
+#: ../src/gth-browser.c:590
+#: ../src/gth-browser.c:606
+#: ../src/gth-viewer.c:692
 msgid "[modified]"
 msgstr "[שונה]"
 
-#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:632
+#: ../src/main.c:437
+#: ../src/main.c:727
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
+#: ../src/gth-browser.c:708
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 תמונה (%s)"
 
-#: ../src/gth-browser.c:779
+#: ../src/gth-browser.c:711
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d תמונות (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:718
 #, c-format
 msgid "1 selected (%s)"
-msgstr "1 ניבחרה (%s)"
+msgstr "1 נבחרה (%s)"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:721
 #, c-format
 msgid "%d selected (%s)"
-msgstr "%d ניבחרו (%s)"
+msgstr "%d נבחרו (%s)"
 
-#: ../src/gth-browser.c:1891 ../src/gth-viewer.c:996
+#: ../src/gth-browser.c:1772
+#: ../src/gth-viewer.c:871
 msgid "The current image has been modified, do you want to save it?"
 msgstr "התמונה הנוכחית שונתה, אתם רוצים לשמור אותה?"
 
-#: ../src/gth-browser.c:1892 ../src/gth-viewer.c:997
-msgid "Do Not Save"
-msgstr "לא לשמור"
+#: ../src/gth-browser.c:1773
+#: ../src/gth-viewer.c:872
+msgid "Do _Not Save"
+msgstr "_לא לשמור"
 
-#: ../src/gth-browser.c:3607
+#: ../src/gth-browser.c:3486
 msgid "Dragged Images"
 msgstr ""
 
-#: ../src/gth-browser.c:5431 ../src/gth-browser.c:5432
+#: ../src/gth-browser.c:5285
+#: ../src/gth-browser.c:5286
+#: ../src/gth-window-actions-entries.h:271
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
-#: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr ""
 
-#: ../src/gth-browser.c:6319
+#: ../src/gth-browser.c:6163
 msgid "Getting folder listing..."
 msgstr ""
 
-#: ../src/gth-browser.c:6340
+#: ../src/gth-browser.c:6185
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "לא ניתן לטעון את התיקייה \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6851 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6725
+#: ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "סגירה"
 
-#: ../src/gth-browser.c:6865 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6737
+#: ../src/gth-viewer.c:1518
 msgid "Image comment"
-msgstr ""
+msgstr "הערת תמונה"
 
-#: ../src/gth-browser.c:6879
+#: ../src/gth-browser.c:6749
 msgid "Image data"
 msgstr "נתוני התמונה"
 
-#: ../src/gth-browser.c:6893
+#: ../src/gth-browser.c:6761
 msgid "Image preview"
 msgstr "תצוגה מקדימה לתמונה"
 
-#: ../src/gth-browser.c:7945
+#: ../src/gth-browser.c:7821
 msgid "The specified catalog does not exist."
-msgstr ""
+msgstr "קטלוג שצוין אינו קיים."
 
-#: ../src/gth-browser.c:8577 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8454
+#: ../src/gth-viewer.c:1967
 msgid "Wait please..."
 msgstr "המתינו בבקשה..."
 
-#: ../src/gth-exif-data-viewer.c:65
-msgid "Filesystem Data"
-msgstr "נתוני מערכת הקבצים"
+#: ../src/gth-exif-data-viewer.c:42
+msgid "Filesystem"
+msgstr "מערכת קבצים"
 
-#: ../src/gth-exif-data-viewer.c:66
-msgid "General Information"
-msgstr "מידע כללי"
+#: ../src/gth-exif-data-viewer.c:43
+#, fuzzy
+msgid "Exif General"
+msgstr "כללי"
 
-#: ../src/gth-exif-data-viewer.c:67
-msgid "Picture-Taking Conditions"
+#: ../src/gth-exif-data-viewer.c:44
+msgid "Exif Conditions"
 msgstr ""
 
-#: ../src/gth-exif-data-viewer.c:68
-msgid "Maker Notes"
-msgstr ""
-
-#: ../src/gth-exif-data-viewer.c:69
-msgid "GPS Coordinates"
-msgstr ""
-
-#: ../src/gth-exif-data-viewer.c:70
-msgid "Image Structure"
+#: ../src/gth-exif-data-viewer.c:45
+#, fuzzy
+msgid "Exif Structure"
 msgstr "מבנה תמונה"
 
-#: ../src/gth-exif-data-viewer.c:71
-msgid "Embedded Thumbnail"
+#: ../src/gth-exif-data-viewer.c:46
+#, fuzzy
+msgid "Exif Thumbnail"
+msgstr "תמונות ממוזערת"
+
+#: ../src/gth-exif-data-viewer.c:47
+msgid "Exif GPS"
 msgstr ""
 
-#: ../src/gth-exif-data-viewer.c:72
-msgid "Versions & Interoperability"
+#: ../src/gth-exif-data-viewer.c:48
+msgid "Exif Maker Notes"
 msgstr ""
 
-#: ../src/gth-exif-data-viewer.c:73
+#: ../src/gth-exif-data-viewer.c:49
+#, fuzzy
+msgid "Exif Versions"
+msgstr "מימדים"
+
+#: ../src/gth-exif-data-viewer.c:50
+msgid "IPTC"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:51
+msgid "XMP Embedded"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:52
+msgid "XMP Sidecar"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:53
+msgid "Audio / Video"
+msgstr ""
+
+#: ../src/gth-exif-data-viewer.c:54
 msgid "Other"
 msgstr "אחר"
 
-#: ../src/gth-exif-data-viewer.c:801
+#: ../src/gth-exif-data-viewer.c:340
 msgid "Path"
 msgstr "נתיב"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-exif-data-viewer.c:344
+msgid "Mounted at"
+msgstr ""
+
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "מכיל"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "מתחיל ב"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "מסתיים ב"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "היינו"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "אינו"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "אינו מכיל"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182
+#: ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "שווה ערך ל"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "נמוך מ"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "גדול מ"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "לפני"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "אחרי"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "KB"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "MB"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "שם הקובץ"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "מיקום"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "קטגוריה"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr ""
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "כולם"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
-msgid "S_how:"
-msgstr "ה_צגה:"
+#: ../src/gth-filter-bar.c:540
+msgid "Sh_ow:"
+msgstr "ה_צג:"
 
-#: ../src/gth-folder-selection-dialog.c:281
+#: ../src/gth-folder-selection-dialog.c:280
 msgid "<b>_Folder</b>"
 msgstr "<b>_תיקייה</b>"
 
-#: ../src/gth-folder-selection-dialog.c:299
+#: ../src/gth-folder-selection-dialog.c:298
 msgid "_Browse..."
-msgstr "_עיין..."
+msgstr "_עיון..."
 
-#: ../src/gth-folder-selection-dialog.c:317
+#. Go to destination
+#: ../src/gth-folder-selection-dialog.c:303
+msgid "_Go to the destination folder"
+msgstr "_עבור לתיקיית היעד"
+
+#: ../src/gth-folder-selection-dialog.c:316
 msgid "<b>_Recent folders:</b>"
 msgstr "תיקיות _אחרונות:"
 
@@ -3551,50 +3904,50 @@ msgstr "תיקיות _אחרונות:"
 msgid "Proper_ties"
 msgstr "מאפיי_נים"
 
-#: ../src/gth-location.c:385
+#: ../src/gth-location.c:391
 msgid "Other..."
 msgstr "אחר...‏"
 
-#: ../src/gth-viewer-actions-entries.h:41
-#: ../src/gth-window-actions-entries.h:35
-msgid "_Transform"
-msgstr ""
-
-#: ../src/gth-viewer-actions-entries.h:42
-#: ../src/gth-window-actions-entries.h:36
-msgid "Auto"
-msgstr ""
-
-#: ../src/gth-viewer-actions-entries.h:88
+#: ../src/gth-viewer-actions-entries.h:98
 msgid "_Single Window"
 msgstr "_חלון בודד"
 
-#: ../src/gth-viewer-actions-entries.h:89
+#: ../src/gth-viewer-actions-entries.h:99
 msgid "Reuse this window to view other images"
 msgstr ""
 
-#: ../src/gth-viewer.c:821
+#: ../src/gth-viewer.c:773
 msgid "_None"
 msgstr "_ללא"
 
-#: ../src/gth-viewer.c:1466 ../src/gth-window-actions-entries.h:75
+#: ../src/gth-viewer.c:1310
+#: ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_פתיחה באמצעות"
 
-#: ../src/gth-viewer.c:1472 ../src/gth-viewer.c:1473
+#: ../src/gth-viewer.c:1316
+#: ../src/gth-viewer.c:1317
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "פתיחת תמונות נבחרות בעזרת יישום"
 
-#: ../src/gth-window-actions-callbacks.c:911
+#: ../src/gth-window-actions-callbacks.c:888
 msgid "An image viewer and browser for GNOME."
 msgstr "מציג ודפדפן תמונות עבור GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:914
+#: ../src/gth-window-actions-callbacks.c:891
 msgid "translator_credits"
 msgstr ""
 "‏Revan https://launchpad.net/~mark125\n"
 "יניב  https://launchpad.net/~yanivabir"
+
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "_שינוי"
+
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "אוטומטי"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3632,7 +3985,7 @@ msgstr "הדפסת התמונה נוכחית"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
-msgstr ""
+msgstr "פתח תמונה זו בעזרת יישום"
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
@@ -3643,393 +3996,428 @@ msgstr "הע_רה..."
 msgid "Add a comment to selected images"
 msgstr "הוספת הערה לתמונות נבחרות"
 
-#: ../src/gth-window-actions-entries.h:90
-msgid "Rem_ove Comment"
-msgstr "הס_רת הערה"
-
 #: ../src/gth-window-actions-entries.h:91
-msgid "Remove comments of selected images"
-msgstr "הסרת הערה לתמונות נבחרות"
-
 #: ../src/gth-window-actions-entries.h:96
-#: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories"
 msgstr "קט_גוריות"
 
-#: ../src/gth-window-actions-entries.h:115
-#: ../src/gth-window-actions-entries.h:285
+#: ../src/gth-window-actions-entries.h:110
+#: ../src/gth-window-actions-entries.h:280
 msgid "Rotate Ri_ght"
 msgstr "סיבוב ימ_ינה"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:111
 msgid "View the image rotated clockwise"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:120
-#: ../src/gth-window-actions-entries.h:280
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:275
 msgid "Rotate _Left"
 msgstr "סובב _שמאלה"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated counter-clockwise"
 msgstr "צפייה בתמונות מסובבות נגד כיוון השעון"
 
-#: ../src/gth-window-actions-entries.h:125
+#: ../src/gth-window-actions-entries.h:120
 msgid "_Flip"
 msgstr "_היפוך"
 
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image flipped"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:130
+#: ../src/gth-window-actions-entries.h:125
 msgid "_Mirror"
-msgstr "_מראה"
+msgstr "_שקף"
 
-#: ../src/gth-window-actions-entries.h:131
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image mirrored"
-msgstr ""
+msgstr "הצג את התמונה אחרי שעברה שיקוף"
 
-#: ../src/gth-window-actions-entries.h:135
+#: ../src/gth-window-actions-entries.h:130
 msgid "_Desaturate"
 msgstr "_רוויה"
 
-#: ../src/gth-window-actions-entries.h:136
+#: ../src/gth-window-actions-entries.h:131
 msgid "View the image in black and white"
 msgstr "צפייה בתמונות בשחור ולבן"
 
-#: ../src/gth-window-actions-entries.h:140
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Negative"
 msgstr "_שלילי"
 
-#: ../src/gth-window-actions-entries.h:141
+#: ../src/gth-window-actions-entries.h:136
 msgid "View the image with negative colors"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:145
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Enhance"
 msgstr "_להגביר"
 
-#: ../src/gth-window-actions-entries.h:146
+#: ../src/gth-window-actions-entries.h:141
 msgid "Automatically adjust the color levels"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:150
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Equalize"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:146
 msgid "Automatically equalize the image histogram"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:155
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Posterize..."
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:186
 #: ../src/gth-window-actions-entries.h:191
-#: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
 msgstr "הפחתת מספר הצבעים"
 
-#: ../src/gth-window-actions-entries.h:160
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Brightness-Contrast..."
 msgstr "_בהירות-חדות..."
 
-#: ../src/gth-window-actions-entries.h:161
+#: ../src/gth-window-actions-entries.h:156
 msgid "Adjust brightness and contrast"
 msgstr "התאמת בהירות וניגוד"
 
-#: ../src/gth-window-actions-entries.h:165
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Hue-Saturation..."
 msgstr "_גוון-רוויה"
 
-#: ../src/gth-window-actions-entries.h:166
+#: ../src/gth-window-actions-entries.h:161
 msgid "Adjust hue and saturation"
 msgstr "התאמת גוון ורוויה"
 
-#: ../src/gth-window-actions-entries.h:170
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Redeye Removal..."
-msgstr ""
+msgstr "הסרת עין _אדומה..."
 
-#: ../src/gth-window-actions-entries.h:171
+#: ../src/gth-window-actions-entries.h:166
 msgid "Redeye Removal Tool"
-msgstr ""
+msgstr "כלי להסרת עין אדומה"
 
-#: ../src/gth-window-actions-entries.h:175
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Color Balance..."
 msgstr "_איזון צבעים..."
 
-#: ../src/gth-window-actions-entries.h:176
+#: ../src/gth-window-actions-entries.h:171
 msgid "Adjust color balance"
 msgstr "התאמת שיווי משקל צבעים"
 
-#: ../src/gth-window-actions-entries.h:180
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Resize..."
 msgstr "_שינוי גודל..."
 
-#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:176
 msgid "Resize image"
 msgstr "שינוי גודל תמונה"
 
-#: ../src/gth-window-actions-entries.h:185
+#: ../src/gth-window-actions-entries.h:180
 msgid "_Crop..."
 msgstr "_גזיזה..."
 
-#: ../src/gth-window-actions-entries.h:186
+#: ../src/gth-window-actions-entries.h:181
 msgid "Crop image"
 msgstr "גזיזת תמונה"
 
-#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:185
 msgid "Black and White"
 msgstr "שחור ולבן"
 
-#: ../src/gth-window-actions-entries.h:195
+#: ../src/gth-window-actions-entries.h:190
 msgid "Web Palette"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:200
-#: ../src/gth-window-actions-entries.h:307
+#: ../src/gth-window-actions-entries.h:195
+#: ../src/gth-window-actions-entries.h:302
 msgid "In"
-msgstr "פנימה"
+msgstr "התקרבות"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:196
 msgid "Zoom in"
 msgstr "להתקרב"
 
-#: ../src/gth-window-actions-entries.h:205
+#: ../src/gth-window-actions-entries.h:200
 msgid "Out"
-msgstr "החוצה"
+msgstr "התרחקות"
 
-#: ../src/gth-window-actions-entries.h:206
+#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom out"
 msgstr "להתרחק"
 
-#: ../src/gth-window-actions-entries.h:210
+#: ../src/gth-window-actions-entries.h:205
 msgid "1:1"
 msgstr "1:1"
 
-#: ../src/gth-window-actions-entries.h:211
+#: ../src/gth-window-actions-entries.h:206
 msgid "Actual size"
 msgstr "גודל ממשי"
 
-#: ../src/gth-window-actions-entries.h:215
+#: ../src/gth-window-actions-entries.h:210
 msgid "Fit"
 msgstr "התאמה"
 
-#: ../src/gth-window-actions-entries.h:216
+#: ../src/gth-window-actions-entries.h:211
 msgid "Zoom to fit window"
 msgstr "צפייה בגודל מסך"
 
-#: ../src/gth-window-actions-entries.h:220
+#: ../src/gth-window-actions-entries.h:215
 msgid "Width"
 msgstr "רוחב"
 
-#: ../src/gth-window-actions-entries.h:221
+#: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit width"
 msgstr "צפייה בהתאמה לרוחב"
 
-#: ../src/gth-window-actions-entries.h:225
+#: ../src/gth-window-actions-entries.h:220
 msgid "Step A_nimation"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:226
+#: ../src/gth-window-actions-entries.h:221
 msgid "View next animation frame"
 msgstr "הצג את הפריים הבא באנימציה"
 
-#: ../src/gth-window-actions-entries.h:240
+#: ../src/gth-window-actions-entries.h:235
 msgid "_Centered"
 msgstr "_ממורכז"
 
-#: ../src/gth-window-actions-entries.h:241
+#: ../src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (centered)"
 msgstr "קביעת התמונה ערקע לשולחן העבודה (ממורכז)"
 
-#: ../src/gth-window-actions-entries.h:245
+#: ../src/gth-window-actions-entries.h:240
 msgid "_Tiled"
 msgstr "_פרוש"
 
-#: ../src/gth-window-actions-entries.h:246
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (tiled)"
 msgstr "קביעת התמונה קרע בשולחן העבודה (פרוש)"
 
-#: ../src/gth-window-actions-entries.h:250
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Scaled"
-msgstr ""
+msgstr "_שינוי קנה מידה"
 
-#: ../src/gth-window-actions-entries.h:251
+#: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:255
+#: ../src/gth-window-actions-entries.h:250
 msgid "Str_etched"
 msgstr "מת_וח"
 
-#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (stretched)"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:260
+#: ../src/gth-window-actions-entries.h:255
 msgid "_Restore"
 msgstr "_שחזר"
 
-#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:256
 msgid "Restore the original desktop wallpaper"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:265
+#: ../src/gth-window-actions-entries.h:260
 msgid "Change _Date..."
 msgstr "שינוי _תאריך..."
 
-#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-window-actions-entries.h:261
 msgid "Change images last modified date"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:270
+#: ../src/gth-window-actions-entries.h:265
 msgid "Reset _Exif Orientation"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-window-actions-entries.h:266
 msgid "Reset Exif orientation to top-left"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:291
+#: ../src/gth-window-actions-entries.h:286
 msgid "Show information about gThumb"
 msgstr "הצגת מידע אודות gThumb"
 
-#: ../src/gth-window-actions-entries.h:295
+#: ../src/gth-window-actions-entries.h:290
 msgid "Contents"
 msgstr "תוכן עניינים"
 
-#: ../src/gth-window-actions-entries.h:300
+#: ../src/gth-window-actions-entries.h:291
+msgid "Display the gThumb Manual"
+msgstr ""
+
+#: ../src/gth-window-actions-entries.h:295
 msgid "_Keyboard Shortcuts"
 msgstr "קיצורי _מקלדת"
 
-#: ../src/gth-window-actions-entries.h:316
+#: ../src/gth-window-actions-entries.h:311
 msgid "Play _Animation"
 msgstr "הרצת _אנימציה"
 
-#: ../src/gth-window-actions-entries.h:317
+#: ../src/gth-window-actions-entries.h:312
 msgid "Start or stop current animation"
 msgstr "הרצה או עצירה של האנימציה הנוכחית"
 
-#: ../src/gth-window-actions-entries.h:327
-msgid "_High Quality"
-msgstr "איכות _גבוה"
-
-#: ../src/gth-window-actions-entries.h:328
-msgid "Use high quality zoom"
-msgstr "שימוש בהגדלה באיכות גבוה"
-
-#: ../src/gth-window-actions-entries.h:330
-msgid "_Low Quality"
-msgstr "_איכות נמוכה"
-
-#: ../src/gth-window-actions-entries.h:331
-msgid "Use low quality zoom"
-msgstr ""
-
-#: ../src/main.c:90
+#: ../src/main.c:89
 msgid "Start in fullscreen mode"
 msgstr "Start in fullscreen mode"
 
-#: ../src/main.c:94
+#: ../src/main.c:93
 msgid "Automatically start a slideshow"
 msgstr "Automatically start a slideshow"
 
-#: ../src/main.c:98
+#: ../src/main.c:97
 msgid "Automatically import digital camera photos"
 msgstr "Automatically import digital camera photos"
 
-#: ../src/main.c:102
+#: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
 msgstr "Use the viewer mode to view single images"
 
-#: ../src/main.c:147
+#: ../src/main.c:146
 msgid "Holidays"
 msgstr "חגים"
 
-#: ../src/main.c:148
+#: ../src/main.c:147
 msgid "Temporary"
 msgstr "זמני"
 
-#: ../src/main.c:149
+#: ../src/main.c:148
 msgid "Screenshots"
 msgstr "תמונות מסך"
 
-#: ../src/main.c:150
+#: ../src/main.c:149
 msgid "Science"
 msgstr "מדע"
 
-#: ../src/main.c:151
+#: ../src/main.c:150
 msgid "Favourite"
 msgstr "מועדפים"
 
-#: ../src/main.c:152
+#: ../src/main.c:151
 msgid "Important"
 msgstr "חשוב"
 
-#: ../src/main.c:153
+#: ../src/main.c:152
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:154
+#: ../src/main.c:153
 msgid "Games"
 msgstr "משחקים"
 
-#: ../src/main.c:155
+#: ../src/main.c:154
 msgid "Party"
 msgstr "מסיבה"
 
-#: ../src/main.c:156
+#: ../src/main.c:155
 msgid "Birthday"
 msgstr "תאריך לידה"
 
-#: ../src/main.c:157
+#: ../src/main.c:156
 msgid "Astronomy"
 msgstr "אסטרונומיה"
 
-#: ../src/main.c:158
+#: ../src/main.c:157
 msgid "Family"
 msgstr "משפחה"
 
-#: ../src/main.c:380
+#: ../src/main.c:379
 msgid "Command Line"
 msgstr "שורת פקודה"
 
-#: ../src/rotation-utils.c:113
+#: ../src/rotation-utils.c:109
 #, c-format
 msgid "Problem transforming the image: %s"
 msgstr ""
 
-#: ../src/rotation-utils.c:118
+#: ../src/rotation-utils.c:114
 msgid ""
-"This transformation may introduce small image distortions along one or more "
-"edges, because the image dimensions are not multiples of 8.\n"
+"This transformation may introduce small image distortions along one or more edges, because the image dimensions are not multiples of 8.\n"
 "\n"
-"The distortion is reversible, however. If the resulting image is "
-"unacceptable, simply apply the reverse transformation to return to the "
-"original image.\n"
+"The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image.\n"
 "\n"
-"You can also choose to discard (or trim) any untransformable edge pixels. "
-"For practical use, this mode gives the best looking results, but the "
-"transformation is not strictly lossless anymore."
+"You can also choose to discard (or trim) any untransformable edge pixels. For practical use, this mode gives the best looking results, but the transformation is not strictly lossless anymore."
 msgstr ""
 
-#: ../src/rotation-utils.c:126
+#: ../src/rotation-utils.c:122
 msgid "_Trim"
 msgstr ""
 
-#: ../src/rotation-utils.c:169
-msgid "Could not create a local temporary copy of the remote file."
+#: ../src/rotation-utils.c:208
+msgid "Could not move temporary file to local destination. Check folder permissions."
 msgstr ""
 
-#: ../src/rotation-utils.c:215
-msgid ""
-"Could not move temporary file to local destination. Check folder permissions."
-msgstr ""
+#~ msgid "<b>Hide/Show</b>"
+#~ msgstr "<b>הצג/הסתר</b>"
+#~ msgid "_Film:"
+#~ msgstr "_סרט:"
+#~ msgid "_Crop"
+#~ msgstr "_גזיזה"
+#~ msgid "0:"
+#~ msgstr "0:"
+#~ msgid "1:"
+#~ msgstr "1:"
+#~ msgid "2:"
+#~ msgstr "2:"
+#~ msgid "3:"
+#~ msgstr "3:"
+#~ msgid "4:"
+#~ msgstr "4:"
+#~ msgid "5:"
+#~ msgstr "5:"
+#~ msgid "6:"
+#~ msgstr "6:"
+#~ msgid "7:"
+#~ msgstr "7:"
+#~ msgid "8:"
+#~ msgstr "8:"
+#~ msgid "9:"
+#~ msgstr "9:"
+#~ msgid "Hot Keys"
+#~ msgstr "מקשים חמים"
+#~ msgid "Actual Size"
+#~ msgstr "גודל ממשי"
+#~ msgid "Redo"
+#~ msgstr "שחזור פעולה אחרונה"
+#~ msgid "Undo"
+#~ msgstr "בטל פעולה אחרונה"
+#~ msgid "Zoom In"
+#~ msgstr "הגדל"
+#~ msgid "Zoom Out"
+#~ msgstr "הקטנה"
+#~ msgid "index.html"
+#~ msgstr "index.html"
+#~ msgid "Cannot open catalog \"%s\": %s"
+#~ msgstr "לא ניתן לפתוח את הקטלוג \"%s\": %s"
+#~ msgid "Cannot save catalog \"%s\": %s"
+#~ msgstr "לא ניתן לשמור את הקטלוג \"%s\": %s"
+#~ msgid "Deleting all thumbnails, wait please..."
+#~ msgstr "מוחק את כל התמונות הממוזערות, אנא המתינו..."
+#~ msgid "Deleting old thumbnails, wait please..."
+#~ msgstr "מוחק תמונות ממוזערות ישנות, אנא המתינו..."
+#~ msgid "Film"
+#~ msgstr "סרט"
+#~ msgid "Filesystem Data"
+#~ msgstr "נתוני מערכת הקבצים"
+#~ msgid "General Information"
+#~ msgstr "מידע כללי"
+#~ msgid "Rem_ove Comment"
+#~ msgstr "הס_רת הערה"
+#~ msgid "Remove comments of selected images"
+#~ msgstr "הסרת הערה לתמונות נבחרות"
+#~ msgid "_High Quality"
+#~ msgstr "איכות _גבוה"
+#~ msgid "Use high quality zoom"
+#~ msgstr "שימוש בהגדלה באיכות גבוה"
+#~ msgid "_Low Quality"
+#~ msgstr "_איכות נמוכה"
 
