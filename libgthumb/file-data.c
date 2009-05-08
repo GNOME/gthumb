@@ -114,6 +114,9 @@ file_data_new (const char *path)
 {
 	FileData *fd;
 
+	if (path == NULL)
+		return NULL;
+
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
@@ -371,6 +374,9 @@ gboolean
 file_data_has_local_path (FileData  *fd,
 			  GtkWindow *window)
 {
+	if (fd == NULL)
+		return FALSE;
+
 	/* TODO: this is where we could trying mounting unmounted remote URIs */
         if (fd->local_path == NULL) {
 		char *message;

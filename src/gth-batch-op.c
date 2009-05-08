@@ -434,40 +434,13 @@ show_rename_dialog (GthBatchOp *bop)
 
 
 static void
-save_image_and_remove_original_step2 (const char     *uri, 
-				      GError         *error,
-				      gpointer        callback_data)
-{
-	GthBatchOp *bop = callback_data;
-	FileData   *fd;
-	
-	if (error == NULL)
-		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
-	 
-	fd = PD(bop)->current_image->data;
-	if (! same_uri (fd->path, PD(bop)->new_path)) {
-		comment_copy (fd->path, PD(bop)->new_path);
-		if (PD(bop)->remove_original) {
-			file_unlink (fd->path);
-			PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
-		}
-	}
-	
-	load_next_image (bop);
-}
-
-
-static void
 pixbuf_op_done_cb (GthPixbufOp *pixop,
 		   gboolean     completed,
 		   GthBatchOp  *bop)
 {
 	GError   *error = NULL;
-	FileData *fd;
+	FileData *fd_new;
 	FileData *fd_old;
-	char     *local_file;
-	char     *old_local_file;
-	GFile    *old_local_gfile;
 	
 	if (! completed) {
 		notify_termination (bop);
@@ -475,30 +448,35 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 	}
 
 	fd_old = (FileData*) PD(bop)->current_image->data;
-	old_local_gfile = g_file_new_for_uri (fd_old->path);
-        old_local_file = gfile_get_path (old_local_gfile);
-        g_object_unref (old_local_gfile);
+	fd_new = file_data_new (PD(bop)->new_path);
 
-	local_file = get_cache_filename_from_uri (PD(bop)->new_path);
-	if (! _gdk_pixbuf_savev (pixop->dest,
-			         local_file,
-				 old_local_file,
-			         PD(bop)->image_type,
-			         PD(bop)->keys,
-			         PD(bop)->values,
-			         &error)) 
-	{
-		_gtk_error_dialog_from_gerror_run (PD(bop)->parent, &error);
-		g_free (local_file);
-		load_next_image (bop);
-		return;
-	}
-	g_free (local_file);
-	g_free (old_local_file);
+	if (file_data_has_local_path (fd_new, PD(bop)->parent) &&
+	    file_data_has_local_path (fd_old, PD(bop)->parent)) {
+		if (! _gdk_pixbuf_savev (pixop->dest,
+				         fd_new->local_path,
+					 fd_old->local_path,
+				         PD(bop)->image_type,
+			        	 PD(bop)->keys,
+				         PD(bop)->values,
+				         &error)) {
+			_gtk_error_dialog_from_gerror_run (PD(bop)->parent, &error);
+		}
 	
-	fd = file_data_new (PD(bop)->new_path);
-	update_file_from_cache (fd, save_image_and_remove_original_step2, bop);
-	file_data_unref (fd);
+		if (error == NULL) {
+			PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
+	 
+			if (! same_uri (fd_old->path, fd_new->path)) {
+				comment_copy (fd_old->path, fd_new->path);
+				if (PD(bop)->remove_original) {
+					file_unlink (fd_old->path);
+					PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd_old->path));
+				}
+			}
+		}
+	}
+
+	file_data_unref (fd_new);
+	load_next_image (bop);
 }
 
 

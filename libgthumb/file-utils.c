@@ -992,6 +992,9 @@ get_utf8_display_name_from_uri (const char *escaped_uri)
 	GFile       *gfile;
 
 	/* g_file_get_parse_name can handle escaped and unescaped uris */
+	
+	if (escaped_uri == NULL)
+		return NULL;
 
 	if (strcmp (escaped_uri,"/") == 0) {
 		utf8_name = g_strdup ("/");
