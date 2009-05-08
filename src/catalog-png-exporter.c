@@ -1621,7 +1621,6 @@ begin_page (CatalogPngExporter *ce,
 {
 	GError            *error = NULL;
 	int                width, height;
-	char              *local_file;
 	char              *filename;
 	char              *name;
 	char              *line;
@@ -1673,12 +1672,9 @@ begin_page (CatalogPngExporter *ce,
 	 *   
 	 *   This is a temporary workaround. Getting rid of ce->imap_uri
 	 *   requires converting to GFile: 
-	 *   1) get_cache_uri_from_uri 
-	 *   2) recipients of all_windows_notify_files_created  
+	 *   1) recipients of all_windows_notify_files_created  
 	 */
-	local_file = get_cache_uri_from_uri (ce->imap_uri);
-	ce->imap_gfile = g_file_new_for_uri (local_file);
-	g_free (local_file);
+	ce->imap_gfile = g_file_new_for_uri (ce->imap_uri);
 	
 	ce->ostream = g_file_replace (ce->imap_gfile, 
 				      NULL,
