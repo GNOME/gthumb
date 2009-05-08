@@ -220,66 +220,44 @@ convert_next_image (DialogData *data)
 
 
 static void
-save_image_and_remove_original_step2 (const char     *uri, 
-				      GError         *error,
-				      gpointer        callback_data)
-{
-	DialogData *data = callback_data;
-	FileData   *fd;
-	
-	if (error == NULL)
-		data->saved_list = g_list_prepend (data->saved_list, g_strdup (data->new_path));
-	 
-	fd = (FileData*) data->current_image->data;
-	if (data->remove_original && ! same_uri (fd->path, data->new_path)) {
-		file_unlink (fd->path);
-		data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd->path));
-	}
-	
-	convert_next_image (data);
-}
-
-
-static void
 save_image_and_remove_original (DialogData *data)
 {
 	GError   *error = NULL;
-	char     *local_file;
-	char     *old_local_file;
-	FileData *fd;
+	FileData *fd_new;
 	FileData *fd_old;
-	GFile    *old_local_gfile;
 
 	if (path_is_file (data->new_path))
 		file_unlink (data->new_path);
 
 	fd_old = (FileData*) data->current_image->data;
-	old_local_gfile = g_file_new_for_uri (fd_old->path);
-	old_local_file = gfile_get_path (old_local_gfile);
-	g_object_unref (old_local_gfile);
-
-	local_file = get_cache_filename_from_uri (data->new_path);
-	if (! _gdk_pixbuf_savev (data->pixbuf,
-			         local_file,
-				 old_local_file,
-			         data->image_type,
-			         data->keys,
-			         data->values,
-			         &error)) 
-	{
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
-		g_free (local_file);
-		convert_next_image (data);
-		return;
-	}
-	g_free (local_file);
-	g_free (old_local_file);
-	file_data_unref (fd_old);
+	fd_new = file_data_new (data->new_path);
 	
-	fd = file_data_new (data->new_path);
-	update_file_from_cache (fd, save_image_and_remove_original_step2, data);
-	file_data_unref (fd);
+	if (file_data_has_local_path (fd_old, GTK_WINDOW (data->dialog)) &&
+	    file_data_has_local_path (fd_new, GTK_WINDOW (data->dialog))) {
 
+		if (! _gdk_pixbuf_savev (data->pixbuf,
+				         fd_new->local_path,
+					 fd_old->local_path,
+			        	 data->image_type,
+				         data->keys,
+				         data->values,
+				         &error)) {
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
+		}
+	
+		if (error == NULL) {
+			data->saved_list = g_list_prepend (data->saved_list, g_strdup (fd_new->path));
+	 
+			if (data->remove_original && ! same_uri (fd_old->path, fd_new->path)) {
+				file_unlink (fd_old->path);
+				data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd_old->path));
+			}
+		}
+	}
+
+	file_data_unref (fd_new);
+
+	convert_next_image (data);
 }
 
 
