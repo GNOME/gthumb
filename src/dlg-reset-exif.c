@@ -82,108 +82,6 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
-/* -- apply_transformation -- */
-
-
-typedef struct {
-	DialogData       *data;
-	GList            *current_image;
-	GFileInfo        *info;
-	gboolean          notify_soon;
-	CopyDoneFunc      done_func;
-	gpointer          done_data;
-} ApplyTransformData;
-
-
-static void
-notify_file_changed (DialogData *data,
-		     const char *filename,
-		     gboolean    notify_soon)
-{
-	if (notify_soon) {
-		GList *list = g_list_prepend (NULL, (char*) filename);
-		all_windows_notify_files_changed (list);
-		g_list_free (list);
-	} 
-	else
-		data->files_changed_list = g_list_prepend (data->files_changed_list, g_strdup (filename));
-}
-
-
-static void
-apply_transformation_done (const char     *uri,
-			   GError         *error,
-		           gpointer        callback_data)
-{
-	ApplyTransformData *at_data = callback_data;
-	FileData           *file = at_data->current_image->data;
-	GFile              *gfile = g_file_new_for_uri (file->path);
-		
-	if (error == NULL) {
-		if (at_data->info != NULL)
-			g_file_set_attributes_from_info (gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-		notify_file_changed (at_data->data, file->path, at_data->notify_soon);
-	}
-	else 
-		_gtk_error_dialog_run (GTK_WINDOW (at_data->data->window), _("Could not move temporary file to remote location. Check remote permissions."));
-	
-	if (at_data->done_func)
-		(at_data->done_func) (uri, error, at_data->done_data);
-
-	if (at_data->info != NULL)
-		g_object_unref (at_data->info);
-	g_free (at_data);
-	g_object_unref (gfile);
-}
-
-
-static void
-apply_transformation__step2 (const char     *uri,
-			     GError         *error,
-		             gpointer        callback_data)
-{
-	ApplyTransformData *at_data = callback_data;
-	FileData           *file = at_data->current_image->data;
-	char		   *local_file = NULL;
-
-	local_file = get_cache_filename_from_uri (file->path);
-	write_orientation_field (local_file, GTH_TRANSFORM_NONE);
-	g_free (local_file);
-	
-	update_file_from_cache (file, apply_transformation_done, at_data);
-}
-
-
-static void
-apply_transformation (DialogData   *data,
-		      GList        *current_image,
-		      gboolean      notify_soon,
-		      CopyDoneFunc  done_func,
-		      gpointer      done_data)
-{
-	GFile              *gfile;
-	GError             *error = NULL;
-	FileData           *file = current_image->data;
-	ApplyTransformData *at_data;
-
-	at_data = g_new0 (ApplyTransformData, 1);
-	at_data->data = data;
-	at_data->current_image = current_image;
-	at_data->notify_soon = notify_soon;
-	at_data->done_func = done_func;
-	at_data->done_data = done_data;
-	gfile = g_file_new_for_uri (file->path);
-	at_data->info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
-	g_object_unref (gfile);
-	if (error) {
-		g_object_unref (at_data->info);
-		at_data->info = NULL;
-	}
-
-	copy_remote_file_to_cache (file, apply_transformation__step2, at_data);
-}
-
-
 typedef struct {
 	DialogData *data;
 	GladeXML   *gui;
@@ -200,9 +98,7 @@ static void apply_transformation_to_all__apply_to_current (BatchTransformation *
 
 
 static void
-apply_transformation_to_all_continue (const char     *uri,
-				      GError         *error,
-				      gpointer       data)
+apply_transformation_to_all_continue (gpointer data)
 {
 	BatchTransformation *bt_data = data;
 
@@ -233,10 +129,16 @@ apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
 					       (gdouble) (bt_data->i + 0.5) / bt_data->n);
 	
-		apply_transformation (bt_data->data, bt_data->scan, FALSE, apply_transformation_to_all_continue, bt_data);
-	
+		if (file_data_has_local_path (file, GTK_WINDOW (bt_data->data->window))) {
+			write_orientation_field (file->local_path, GTH_TRANSFORM_NONE);
+			bt_data->data->files_changed_list = g_list_prepend (bt_data->data->files_changed_list, 
+									    g_strdup (file->path));
+		}
+
 		bt_data->i++;	
 		bt_data->scan = bt_data->scan->next;
+
+		apply_transformation_to_all_continue (bt_data);
 	}
 }
 
