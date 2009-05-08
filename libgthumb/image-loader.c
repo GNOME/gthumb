@@ -716,32 +716,25 @@ check_thread (gpointer data)
 
 
 static void
-image_loader_start__step3 (const char     *uri,
-			   GError         *error,
-			   gpointer        data)
+image_loader_start__step2 (ImageLoader *il)
 {
-	ImageLoader *il = data;
-	
-	g_return_if_fail (il != NULL);
-
-	if (error) {
-		image_loader_error (il);
-		return;
-	}
-
 	g_mutex_lock (il->priv->data_mutex);
+
 	il->priv->done = FALSE;
 	il->priv->error = FALSE;
 	il->priv->loader_done = FALSE;
 	il->priv->loading = TRUE;
+
 	if (il->priv->pixbuf != NULL) {
 		g_object_unref (il->priv->pixbuf);
 		il->priv->pixbuf = NULL;
 	}
+
 	if (il->priv->animation != NULL) {
 		g_object_unref (il->priv->animation);
 		il->priv->animation = NULL;
 	}
+
 	g_mutex_unlock (il->priv->data_mutex);
 
 	g_mutex_lock (il->priv->start_loading_mutex);
@@ -750,23 +743,6 @@ image_loader_start__step3 (const char     *uri,
 	g_mutex_unlock (il->priv->start_loading_mutex);
 
 	il->priv->check_id = g_timeout_add (REFRESH_RATE, check_thread, il);
-}
-
-
-static void
-image_loader_start__step2 (ImageLoader *il)
-{
-	FileData *file;
-	
-	g_mutex_lock (il->priv->data_mutex);
-	file = file_data_dup (il->priv->file);
-	g_mutex_unlock (il->priv->data_mutex);
-	
-	if (is_local_file (file->path)) 
-		image_loader_start__step3 (file->path, NULL, il);
-	else
-		copy_remote_file_to_cache (file, image_loader_start__step3, il);
-	file_data_unref (file);
 }
 
 
