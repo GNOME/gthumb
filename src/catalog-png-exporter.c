@@ -1712,9 +1712,9 @@ end_page (CatalogPngExporter *ce,
 	GdkPixbuf        *pixbuf;
 	char             *name;
 	char             *uri;
-	char             *local_file;
 	int               width, height;
 	char             *line;
+	FileData	 *fd;
 
 	width = ce->page_width;
 	height = get_page_height (ce, page_n);
@@ -1729,16 +1729,16 @@ end_page (CatalogPngExporter *ce,
 
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	uri = g_strconcat (ce->location, "/", name, ".", ce->file_type, NULL);
-	local_file = get_cache_filename_from_uri (uri);
-	
-	if (strcmp (ce->file_type, "jpeg") == 0)
-		_gdk_pixbuf_save (pixbuf, local_file, NULL, "jpeg", NULL, "quality", "85", NULL);
-	else
-		_gdk_pixbuf_save (pixbuf, local_file, NULL, ce->file_type, NULL, NULL);
 
-	ce->created_files = g_list_prepend (ce->created_files, uri);
-
-	g_free (local_file);
+	fd = file_data_new (uri);
+	if (file_data_has_local_path (fd, NULL)) {
+		if (strcmp (ce->file_type, "jpeg") == 0)
+			_gdk_pixbuf_save (pixbuf, fd->local_path, NULL, "jpeg", NULL, "quality", "85", NULL);
+		else
+			_gdk_pixbuf_save (pixbuf, fd->local_path, NULL, ce->file_type, NULL, NULL);
+		ce->created_files = g_list_prepend (ce->created_files, uri);
+	}
+	file_data_unref (fd);
 	g_free (name);
 	g_object_unref (pixbuf);
 	
