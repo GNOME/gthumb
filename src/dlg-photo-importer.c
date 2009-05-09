@@ -213,35 +213,6 @@ async_operation_new (const char  *operation_info,
 }
 
 
-static AsyncOperationData *
-async_operation_new_with_async_step (const char       *operation_info,
-		     		     GList            *list,
-		     		     AsyncOpFunc       init_func,
-		     		     AsyncAsyncOpFunc  step_func,
-		     		     AsyncOpFunc       done_func,
-		     		     DialogData       *data)
-{
-	AsyncOperationData *aodata;
-
-	aodata = g_new0 (AsyncOperationData, 1);
-
-	if (operation_info != NULL)
-		aodata->operation_info = g_strdup (operation_info);
-	else
-		aodata->operation_info = NULL;
-	aodata->list = list;
-	aodata->init_func = init_func;
-	aodata->step_func.async = step_func;
-	aodata->done_func = done_func;
-	aodata->data = data;
-	aodata->total = g_list_length (aodata->list);
-	aodata->current = 1;
-	aodata->step_is_async = TRUE;
-
-	return aodata;
-}
-
-
 static void
 async_operation_free (AsyncOperationData *aodata)
 {
@@ -1493,51 +1464,6 @@ delete_images__done (AsyncOperationData *aodata,
 }
 
 
-static void
-copy_images__step (AsyncOperationData *aodata,
-		   DialogData         *data,
-		   CopyDoneFunc        done_func)
-{
-	const char *uri = aodata->scan->data;
-	FileData   *file;
-	
-	file = file_data_new (uri);
-
-        if (data->msg_text != NULL)
-		g_free (data->msg_text);
-	data->msg_text = g_strdup_printf (_("Transferring '%s' to its destination folder."), file->utf8_name);
-
-	update_file_from_cache (file, done_func, aodata);
-	file_data_unref (file);
-}
-
-
-static void
-copy_images__done (AsyncOperationData *aodata,
-		   DialogData         *data)
-{
-	gboolean interrupted;
-	gboolean error;
-
-	g_mutex_lock (data->data_mutex);
-	interrupted = data->interrupted;
-	error = data->error;
-	g_mutex_unlock (data->data_mutex);
-
-	data->aodata = NULL;
-	if (interrupted || error)
-		return;
-
-	data->aodata = async_operation_new (NULL,
-				  	    data->delete_list,
-					    delete_images__init,
-					    delete_images__step,
-					    delete_images__done,
-					    data);
-	async_operation_start (data->aodata);
-}
-
-
 static gboolean
 notify_file_creation_cb (gpointer cb_data)
 {
@@ -1606,12 +1532,12 @@ adjust_orientation__done (AsyncOperationData *aodata,
 	if (interrupted)
 		return;
 
-	data->aodata = async_operation_new_with_async_step (NULL,
-					    		    data->adjust_orientation_list,
-					    		    NULL,
-					    		    copy_images__step,
-					    		    copy_images__done,
-					    		    data);
+	data->aodata = async_operation_new (NULL,
+				  	    data->delete_list,
+					    delete_images__init,
+					    delete_images__step,
+					    delete_images__done,
+					    data);
 	async_operation_start (data->aodata);	
 }
 
