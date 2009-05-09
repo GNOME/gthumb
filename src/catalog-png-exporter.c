@@ -861,60 +861,6 @@ get_page_height (CatalogPngExporter *ce,
 }
 
 
-static void copy_current_file_to_destination (CatalogPngExporter *ce);
-
-
-static void
-copy_current_file_to_destination_done (const char     *uri, 
-				       GError         *error, 
-				       gpointer        data)
-{
-	CatalogPngExporter *ce = data;
-	
-	ce->current_file = ce->current_file->next;
-	copy_current_file_to_destination (ce);
-}
-
-
-static void
-copy_current_file_to_destination (CatalogPngExporter *ce)
-{
-	FileData *file;
-	
-	if (ce->current_file == NULL) {
-		end_export (ce);
-		return;
-	}
-	
-	g_signal_emit (G_OBJECT (ce),
-		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
-		       0,
-		       ((float) ++ce->n_files_done) / (ce->n_files + 1));	
-
-	file = file_data_new ((char*) ce->current_file->data);
-	update_file_from_cache (file, copy_current_file_to_destination_done, ce);
-	
-	file_data_unref (file);
-}
-
-
-static void
-copy_created_files_to_destination (CatalogPngExporter *ce)
-{
-	g_free (ce->info);
-	ce->info = g_strdup (_("Saving images"));
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO],
-		       0,
-		       ce->info);
-		       	
-	ce->n_files_done = 0;
-	ce->n_files = g_list_length (ce->created_files);
-	ce->current_file = ce->created_files;
-	
-	copy_current_file_to_destination (ce);
-}
-
-
 static void
 export (CatalogPngExporter *ce)
 {
@@ -1092,7 +1038,7 @@ export (CatalogPngExporter *ce)
 	} while (TRUE);
 
  label_end:
-	copy_created_files_to_destination (ce);
+	end_export (ce);
 }
 
 
@@ -1663,7 +1609,6 @@ begin_page (CatalogPngExporter *ce,
 	
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
-	g_warning ("URI: %s", ce->imap_uri);
 
 	/*
 	 * NOTE: gio port
@@ -1693,14 +1638,12 @@ begin_page (CatalogPngExporter *ce,
 	filename = g_strconcat (name, ".", ce->file_type, NULL);
 	line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" usemap=\"#map\" alt=\"%s\" />\n", filename, width, height, filename);
 	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, &error);
-	g_warning ("LINE +: %s", line);
 	g_free (line);
 	g_free (filename);
 
 	line = g_strdup_printf ("<map name=\"map\" id=\"map\">\n");
 
 	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), line, strlen (line), NULL, &error);
-	g_warning ("LINE +: %s", line);
 	g_free (line);
 }
 
