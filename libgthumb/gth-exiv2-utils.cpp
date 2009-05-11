@@ -597,14 +597,20 @@ write_metadata (const char *from_file,
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
 			if (metadatum->full_name != NULL
                             && metadatum->raw_value != NULL) {
-				if (g_str_has_prefix (metadatum->full_name, "Exif"))
+				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					ed[metadatum->full_name] = metadatum->raw_value;
-
-				else if (g_str_has_prefix (metadatum->full_name, "Iptc"))
+				} else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
 					id[metadatum->full_name] = metadatum->raw_value;
-
-				else if (g_str_has_prefix (metadatum->full_name, "Xmp"))
+				} else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
+					// Remove existing tags of the same type.
+					// Seems to be needed for storing category keywords.
+					// Not exactly sure why!
+					Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
+					if (iter != xd.end ())
+						xd.erase (iter);
+					// Add tag
 					xd[metadatum->full_name] = metadatum->raw_value;
+				}
 	        	}
 		}
 
