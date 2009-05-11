@@ -2500,7 +2500,6 @@ get_cache_uri_from_uri (const char *uri)
 #define MAX_CACHE_SIZE (256 * 1024 * 1024)
 static GnomeVFSFileSize  cache_used_space = 0;
 static GList            *cache_files = NULL;
-static gboolean          cache_loaded = FALSE;
 
 
 void
@@ -2528,79 +2527,6 @@ free_cache (void)
 
 	cache_files = NULL;
 	cache_used_space = 0;
-}
-
-
-static gint
-comp_func_time (gconstpointer a, 
-		gconstpointer b)
-{
-	FileData *data_a, *data_b;
-
-	data_a = (FileData*) a;
-	data_b = (FileData*) b;
-
-	return data_a->mtime > data_b->mtime;
-}
-
-
-void
-check_cache_free_space (void)
-{
-	char  *cache_dir;
-	GFile *cache_gfile;
-	GList *scan;
-
-	cache_dir = get_cache_full_path (NULL, NULL);
-	cache_gfile = gfile_new (cache_dir);
-	g_free (cache_dir);
-	
-	if (! cache_loaded) {
-		if (! gfile_path_list_new (cache_gfile, &cache_files, NULL)) {
-			file_data_list_free (cache_files);
-			cache_files = NULL;
-			cache_loaded = FALSE;
-			g_object_unref (cache_gfile);
-			return;
-		}
-		cache_files = g_list_sort (cache_files, comp_func_time);
-		
-		cache_used_space = 0;
-		for (scan = cache_files; scan; scan = scan->next) {
-			FileData *file = scan->data;
-			cache_used_space += file->size; 
-		}		
-		
-		cache_loaded = TRUE;
-	}
-	
-	debug (DEBUG_INFO, "cache size: %"GNOME_VFS_SIZE_FORMAT_STR".\n", cache_used_space);
-	
-	if (cache_used_space > MAX_CACHE_SIZE) {
-		int n = 0;
-		
-		/* the first file is the last copied, so reverse the list to
-		 * delete the older files first. */
-		 
-		cache_files = g_list_reverse (cache_files);
-		for (scan = cache_files; scan && (cache_used_space > MAX_CACHE_SIZE / 2); ) {
-			FileData *file = scan->data;
-		
-			file_unlink (file->path);
-			cache_used_space -= file->size;
-			
-			cache_files = g_list_remove_link (cache_files, scan);
-			file_data_list_free (scan);
-			scan = cache_files;
-			
-			n++;
-		}
-		cache_files = g_list_reverse (cache_files);
-		
-		debug (DEBUG_INFO, "deleted %d files, new cache size: %"GNOME_VFS_SIZE_FORMAT_STR".\n", n, cache_used_space);
-	}
-	
-	g_object_unref (cache_gfile);
 }
 
 
