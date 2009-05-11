@@ -241,12 +241,6 @@ char *              get_cache_filename_from_uri   (const char       *uri);
 char *              get_cache_uri_from_uri        (const char       *uri);
 void                free_cache                    (void);
 void                check_cache_free_space        (void);
-CopyData *          copy_remote_file_to_cache     (FileData         *file,
-						   CopyDoneFunc      done_func,
-						   gpointer          done_data);
-CopyData *          update_file_from_cache        (FileData         *file,
-						   CopyDoneFunc      done_func,
-						   gpointer          done_data);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */
