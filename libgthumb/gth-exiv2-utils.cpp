@@ -597,29 +597,15 @@ write_metadata (const char *from_file,
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
 			if (metadatum->full_name != NULL
                             && metadatum->raw_value != NULL) {
-				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
-                                        Exiv2::ExifData::iterator iter = ed.findKey (Exiv2::ExifKey (metadatum->full_name));
-                                        if (iter != ed.end ())
-                                                (*iter).setValue (metadatum->raw_value);
-					else
-						ed[metadatum->full_name] = metadatum->raw_value;
-				}
+				if (g_str_has_prefix (metadatum->full_name, "Exif"))
+					ed[metadatum->full_name] = metadatum->raw_value;
 
-				else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
-                                        Exiv2::IptcData::iterator iter = id.findKey (Exiv2::IptcKey (metadatum->full_name));
-                                        if (iter != id.end ())
-						(*iter).setValue (metadatum->raw_value);
-					else
-						id[metadatum->full_name] = metadatum->raw_value;
-		        	}
-				else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
-                                        Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
-                                        if (iter != xd.end ())
-                                                (*iter).setValue (metadatum->raw_value);
-					else
-						xd[metadatum->full_name] = metadatum->raw_value;
-		        	}
-			}
+				else if (g_str_has_prefix (metadatum->full_name, "Iptc"))
+					id[metadatum->full_name] = metadatum->raw_value;
+
+				else if (g_str_has_prefix (metadatum->full_name, "Xmp"))
+					xd[metadatum->full_name] = metadatum->raw_value;
+	        	}
 		}
 
 		// Delete thumbnail and IFD1 tags, because the main image may
