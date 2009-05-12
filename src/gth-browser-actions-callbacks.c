@@ -555,7 +555,7 @@ real_catalog_delete (GthBrowser *browser)
 	if (catalog_path == NULL)
 		return;
 
-	delete_catalog (catalog_path, &error);
+	file_unlink_with_gerror (catalog_path, &error);
 
 	if (error)
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &error);

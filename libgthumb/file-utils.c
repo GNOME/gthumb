@@ -325,27 +325,6 @@ dir_make (const gchar *path)
 
 
 gboolean
-dir_remove (const gchar *path)
-{
-	GFile    *gfile;
-	gboolean  result;
-	GError   *error = NULL;
-	
-	gfile = gfile_new (path);
-	result = g_file_delete (gfile, NULL, &error);
-
-	if (error != NULL) {
-                gfile_warning ("Could not remove directory", gfile, error);
-                g_error_free (error);
-        }
-	
-	g_object_unref (gfile);
-
-	return result;
-}
-
-
-gboolean
 dir_remove_recursive (const char *path)
 {
 	GFile    *gfile;
@@ -627,19 +606,38 @@ file_move (const char *from,
 }
 
 
+void
+file_unlink_with_gerror (const char  *path,
+		         GError     **gerror)
+{
+	/* Also works with empty directories */
+	GFile *gfile;
+
+	g_assert (path != NULL);
+
+	gfile = gfile_new (path);
+	if (g_file_query_exists (gfile, NULL))
+		g_file_delete (gfile, NULL, gerror);
+	g_object_unref (gfile);
+}
+
+
 gboolean
 file_unlink (const char *path)
 {
-	GFile    *file;
-	gboolean  result;
-	
+	gboolean  result = TRUE;
+	GError   *error = NULL;
+
 	g_assert (path != NULL);
-	
-	file = gfile_new (path);
-	
-	result = g_file_delete (file, NULL, NULL);
-	
-	g_object_unref (file);
+
+	/* Also works with empty directories */
+	file_unlink_with_gerror (path, &error);
+
+	if (error != NULL) {
+                g_warning ("File/path delete failed: %s", error->message);
+                g_error_free (error);
+		result = FALSE;
+        }
 
 	return result;
 }
@@ -1793,17 +1791,6 @@ get_catalog_full_path (const char *relative_path)
 			    NULL);
 
 	return path;
-}
-
-
-void
-delete_catalog (const char  *full_path,
-		GError     **gerror)
-{
-	GFile *gfile;
-	gfile = gfile_new (full_path);
-	g_file_delete (gfile, NULL, gerror);
-	g_object_unref (gfile);
 }
 
 

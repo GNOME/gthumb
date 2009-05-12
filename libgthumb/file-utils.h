@@ -87,7 +87,6 @@ GList *             path_list_find_path           (GList              *list,
 /* Directory utils */
 
 gboolean            dir_make                      (const char       *uri);
-gboolean            dir_remove                    (const char       *uri);
 gboolean            dir_remove_recursive          (const char       *path);
 
 gboolean            ensure_dir_exists             (const char       *path);
@@ -120,6 +119,8 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from,
 						   const char       *to);
+void                file_unlink_with_gerror       (const char  *full_path,
+                                                   GError     **gerror);
 gboolean            file_unlink                   (const char       *path);
 void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
@@ -178,8 +179,6 @@ gboolean            uri_is_root                   (const char       *uri);
 /* Catalogs */
 
 char *              get_catalog_full_path         (const char       *relative_path);
-void                delete_catalog                (const char       *full_path,
-						   GError          **error);
 gboolean            file_is_search_result         (const char       *full_path);
 
 /* escape */
