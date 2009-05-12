@@ -672,22 +672,6 @@ file_move (const char *from,
 
 
 gboolean
-local_file_move (const char *from,
-	         const char *to)
-{
-	return xfer_file (from, to, TRUE);
-}
-
-
-gboolean
-file_rename (const char *from,
-	     const char *to)
-{
-	return xfer_file (from, to, TRUE);
-}
-
-
-gboolean
 file_unlink (const char *path)
 {
 	GFile    *file;

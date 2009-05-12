@@ -126,10 +126,6 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from,
 						   const char       *to);
-gboolean            local_file_move               (const char       *from,
-						   const char       *to);
-gboolean            file_rename                   (const char       *old_path,
-						   const char       *new_path);
 gboolean            file_unlink                   (const char       *path);
 void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
