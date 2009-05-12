@@ -1796,67 +1796,14 @@ get_catalog_full_path (const char *relative_path)
 }
 
 
-gboolean
-delete_catalog_dir (const char  *full_path,
-		    gboolean     recursive,
-		    GError     **gerror)
-{
-	if (dir_remove (full_path))
-		return TRUE;
-
-	if (gerror != NULL) {
-		char       *utf8_path;
-		const char *details;
-
-		utf8_path = basename_for_display (full_path);
-
-		switch (gnome_vfs_result_from_errno ()) {
-		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
-			details = _("Library not empty");
-			break;
-		default:
-			details = errno_to_string ();
-			break;
-		}
-
-		*gerror = g_error_new (GTHUMB_ERROR,
-				       errno,
-				       _("Cannot remove library \"%s\": %s"),
-				       utf8_path,
-				       details);
-		g_free (utf8_path);
-	}
-
-	return FALSE;
-}
-
-
-gboolean
+void
 delete_catalog (const char  *full_path,
 		GError     **gerror)
 {
-	if (! file_unlink (full_path)) {
-		if (gerror != NULL) {
-			const char *rel_path;
-			char       *base_path;
-			char       *catalog;
-
-			base_path = get_catalog_full_path (NULL);
-			rel_path = full_path + strlen (base_path) + 1;
-			g_free (base_path);
-			catalog = remove_extension_from_path (rel_path);
-
-			*gerror = g_error_new (GTHUMB_ERROR,
-					       errno,
-					       _("Cannot remove catalog \"%s\": %s"),
-					       catalog,
-					       errno_to_string ());
-			g_free (catalog);
-		}
-		return FALSE;
-	}
-
-	return TRUE;
+	GFile *gfile;
+	gfile = gfile_new (full_path);
+	g_file_delete (gfile, NULL, gerror);
+	g_object_unref (gfile);
 }
 
 

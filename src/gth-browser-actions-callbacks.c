@@ -549,20 +549,16 @@ static void
 real_catalog_delete (GthBrowser *browser)
 {
 	char     *catalog_path;
-	GError   *gerror;
-	gboolean  error;
+	GError   *error = NULL;
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
 
-	if (path_is_dir (catalog_path))
-		error = ! delete_catalog_dir (catalog_path, TRUE, &gerror);
-	else
-		error = ! delete_catalog (catalog_path, &gerror);
+	delete_catalog (catalog_path, &error);
 
 	if (error)
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &error);
 
 	all_windows_notify_catalog_delete (catalog_path);
 	g_free (catalog_path);
