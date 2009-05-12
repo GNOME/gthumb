@@ -2459,43 +2459,6 @@ get_cache_full_path (const char *filename,
 }
 
 
-char *
-get_cache_filename_from_uri (const char *uri)
-{
-	char *name;
-	char *path;
-	char *ext;
-	
-	if (is_local_file (uri))
-		return get_local_path_from_uri (uri);
-	
-	name = gnome_thumbnail_md5 (uri);
-	if (name == NULL)
-		return NULL;
-
-	ext = get_filename_extension (uri);
-	path = get_cache_full_path (name, ext);
-	g_free (name);
-	g_free (ext);
-	
-	return path;	
-}
-
-
-char *
-get_cache_uri_from_uri (const char *uri)
-{
-	char *filename;
-	char *cache_uri;
-	
-	filename = get_cache_filename_from_uri (uri);
-	cache_uri = get_uri_from_local_path (filename);
-	g_free (filename);
-	
-	return cache_uri;
-}
-
-
 #define MAX_CACHE_SIZE (256 * 1024 * 1024)
 static GnomeVFSFileSize  cache_used_space = 0;
 static GList            *cache_files = NULL;

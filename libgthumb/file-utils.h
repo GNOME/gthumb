@@ -236,8 +236,6 @@ const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            can_read_write_execute        (const char       *path);
 gboolean	    is_local_file                 (const char       *filename);
-char *              get_cache_filename_from_uri   (const char       *uri);
-char *              get_cache_uri_from_uri        (const char       *uri);
 void                free_cache                    (void);
 void                check_cache_free_space        (void);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
