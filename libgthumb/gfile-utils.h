@@ -79,7 +79,6 @@ char *        gfile_get_display_name           (GFile      *file);
 /* Directory utils */
 
 gboolean      gfile_ensure_dir_exists          (GFile      *dir,
-			                        mode_t      mode,
 			                        GError    **error);
 guint64       gfile_get_destination_free_space (GFile      *file);
 GFile *       gfile_get_home_dir               (void);

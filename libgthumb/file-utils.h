@@ -92,8 +92,7 @@ gboolean            dir_remove                    (const char       *uri);
 gboolean            dir_remove_recursive          (const char       *path);
 gboolean            local_dir_remove_recursive    (const char       *path);
 
-gboolean            ensure_dir_exists             (const char       *path,
-						   mode_t            mode);
+gboolean            ensure_dir_exists             (const char       *path);
 GList *             dir_list_filter_and_sort      (GList            *dir_list,
 						   gboolean          names_only,
 						   gboolean          show_dot_files);

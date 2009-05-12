@@ -428,33 +428,27 @@ gfile_get_display_name (GFile *file)
 
 static gboolean
 _gfile_make_directory_tree (GFile    *dir,
-                            mode_t    mode,
                             GError  **error)
 {
         gboolean  success = TRUE;
         GFile    *parent;
 
+	if (gfile_path_is_dir (dir))
+		return TRUE;
+
         parent = g_file_get_parent (dir);
         if (parent != NULL) {
-                success = _gfile_make_directory_tree (parent, mode, error);
+                success = _gfile_make_directory_tree (parent, error);
                 g_object_unref (parent);
                 if (! success)
                         return FALSE;
         }
 
-        success = gfile_path_is_dir (dir) || g_file_make_directory (dir, NULL, error);
+        success = g_file_make_directory (dir, NULL, error);
         if ((error != NULL) && (*error != NULL) && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
                 g_clear_error (error);
                 success = TRUE;
         }
-
-        if (success)
-                g_file_set_attribute_uint32 (dir,
-                                             G_FILE_ATTRIBUTE_UNIX_MODE,
-                                             mode,
-                                             0,
-                                             NULL,
-                                             NULL);
 
         return success;
 }
@@ -462,28 +456,48 @@ _gfile_make_directory_tree (GFile    *dir,
 
 gboolean
 gfile_ensure_dir_exists (GFile    *dir,
-                         mode_t    mode,
                          GError  **error)
 {
-        GError *priv_error = NULL;
+        GError    *priv_error = NULL;
+	GFileInfo *info;
+	gboolean   result;
 
-        //FIXME: shouldn't we get rid of this test and fix the callers instead?
         if (dir == NULL)
                 return FALSE;
 
         if (error == NULL)
                 error = &priv_error;
 
-        if (! _gfile_make_directory_tree (dir, mode, error)) {
-
+	/* Try making dir and any needed parent dirs */
+        if (! _gfile_make_directory_tree (dir, error)) {
                 gfile_warning ("could not create directory", dir, *error);
                 if (priv_error != NULL)
                         g_clear_error (&priv_error);
-
                 return FALSE;
         }
 
-        return TRUE;
+	/* Can we read, write, and execute the new dir? */
+        info = g_file_query_info (dir,
+                                  G_FILE_ATTRIBUTE_ACCESS_CAN_READ ","
+                                  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE ","
+                                  G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  error);
+
+        if (info == NULL) {
+                gfile_warning ("Failed to get directory permission information", dir, *error);
+		if (priv_error != NULL)
+                        g_clear_error (&priv_error);
+                result = FALSE;
+        } else {
+                result = g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ) &&
+                         g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE) &&
+                         g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE);
+        }
+
+        g_object_unref (info);
+        return result;
 }
 
 

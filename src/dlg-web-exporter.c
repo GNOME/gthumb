@@ -850,7 +850,7 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes",
 			       g_get_home_dir ());
 
-	ensure_dir_exists (path, 0775);
+	ensure_dir_exists (path);
 
 	if (! gnome_url_show (path, &err))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (tdata->dialog),

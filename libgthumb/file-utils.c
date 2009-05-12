@@ -381,8 +381,7 @@ local_dir_remove_recursive (const char *path)
 
 
 gboolean
-ensure_dir_exists (const char *path,
-		   mode_t      mode)
+ensure_dir_exists (const char *path)
 {
 	GFile    *gfile;
 	gboolean  result;
@@ -391,7 +390,7 @@ ensure_dir_exists (const char *path,
 		return FALSE;
 
 	gfile = gfile_new (path);
-	result = gfile_ensure_dir_exists (gfile, mode, NULL);
+	result = gfile_ensure_dir_exists (gfile, NULL);
 	
 	g_object_unref (gfile);
 	return result;
@@ -3032,7 +3031,7 @@ xdg_user_dir_lookup (const char *type)
 	fclose (file);
 
 	if (user_dir) {
-		ensure_dir_exists (user_dir, 0775);
+		ensure_dir_exists (user_dir);
 		return user_dir;
 	}
 

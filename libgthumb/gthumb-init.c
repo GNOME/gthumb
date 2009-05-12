@@ -55,15 +55,15 @@ ensure_directories_exist (void)
 	g_free (path);
 
 	path = get_home_relative_dir (RC_CATALOG_DIR);
-	ensure_dir_exists (path, 0700);
+	ensure_dir_exists (path);
 	g_free (path);
 
 	path = get_home_relative_dir (RC_COMMENTS_DIR);
-	ensure_dir_exists (path, 0700);
+	ensure_dir_exists (path);
 	g_free (path);
 
 	path = get_home_relative_dir (RC_REMOTE_CACHE_DIR);
-        ensure_dir_exists (path, 0700);
+        ensure_dir_exists (path);
         g_free (path);
 }
 
@@ -147,7 +147,7 @@ gthumb_init ()
 	char *path;
 
 	path = get_home_relative_dir (RC_DIR);
-	ensure_dir_exists (path, 0700);
+	ensure_dir_exists (path);
 	g_free (path);
 
 	if (eel_gconf_get_boolean (PREF_MIGRATE_DIRECTORIES, TRUE))

@@ -187,7 +187,7 @@ convert_old_comment (char     *real_file,
 
 	comment_file = comments_get_comment_filename (real_file, TRUE);
 	comment_dir = remove_level_from_path (comment_file);
-	ensure_dir_exists (comment_dir, 0755);
+	ensure_dir_exists (comment_dir);
 
 	file_copy (rc_file, comment_file);
 

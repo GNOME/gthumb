@@ -3063,7 +3063,7 @@ ensure_album_dir_exists (GFile *target_dir,
 	
 	dir = gfile_append_path (target_dir, subdir, NULL);
 	
-	ok = gfile_ensure_dir_exists (dir, 0700, NULL);
+	ok = gfile_ensure_dir_exists (dir, NULL);
 	
 	g_object_unref (dir);
 
@@ -3075,7 +3075,7 @@ static void
 ensure_dir_structure (CatalogWebExporter *ce,
 		      GFile              *target_dir)
 {
-	gfile_ensure_dir_exists (target_dir, 0700, NULL);
+	gfile_ensure_dir_exists (target_dir, NULL);
 	
 	if (ce->use_subfolders) {
 		ensure_album_dir_exists (target_dir, ce->ad->previews);

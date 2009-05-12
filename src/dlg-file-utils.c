@@ -143,7 +143,7 @@ dlg_check_folder (GthWindow  *window,
 		return FALSE;
 	}
 
-	if (! ensure_dir_exists (dir, 0755)) {
+	if (! ensure_dir_exists (dir)) {
 		char *utf8_path;
 		utf8_path = get_utf8_display_name_from_uri (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
@@ -1531,7 +1531,7 @@ copy_next_file (FileCopyData *fcdata)
 			char *parent_dir;
 
 			parent_dir = remove_level_from_path (dest_cache_file);
-			ensure_dir_exists (parent_dir, 0755);
+			ensure_dir_exists (parent_dir);
 			g_free (parent_dir);
 
 			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
@@ -1548,7 +1548,7 @@ copy_next_file (FileCopyData *fcdata)
 
 		if (path_is_file (src_cache_file)) {
 			char *parent_dir = remove_level_from_path (dest_cache_file);
-			ensure_dir_exists (parent_dir, 0755);
+			ensure_dir_exists (parent_dir);
 			g_free (parent_dir);
 
 			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));

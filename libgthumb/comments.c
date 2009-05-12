@@ -585,7 +585,7 @@ save_comment (const char  *uri,
 
 	if (file_data_has_local_path (fd, NULL)) {
 		dest_dir = remove_level_from_path (fd->local_path);
-		if (ensure_dir_exists (dest_dir, 0700)) {
+		if (ensure_dir_exists (dest_dir)) {
 			xmlSetDocCompressMode (doc, 3);
 			xmlSaveFile (fd->local_path, doc);
 		}

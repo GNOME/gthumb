@@ -47,8 +47,6 @@
 #define THUMBNAIL_LARGE_SIZE	256
 #define THUMBNAIL_NORMAL_SIZE	128
 
-#define THUMBNAIL_DIR_PERMISSIONS 0700
-
 struct _ThumbLoaderPrivateData
 {
 	FileData              *file;
@@ -484,7 +482,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	cache_dir = remove_level_from_path (cache_file);
 	g_free (cache_file);
 
-	if (ensure_dir_exists (cache_dir, THUMBNAIL_DIR_PERMISSIONS))	
+	if (ensure_dir_exists (cache_dir))	
 		gnome_thumbnail_factory_save_thumbnail (tl->priv->thumb_factory,
 							tl->priv->pixbuf,
 							tl->priv->file->path,

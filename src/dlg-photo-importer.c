@@ -1351,7 +1351,7 @@ save_image (DialogData *data,
 
 			/* Create the subfolder if necessary, and move the 
 			   temporary file to it */
-			if (ensure_dir_exists (dest_folder, 0755) ) {
+			if (ensure_dir_exists (dest_folder) ) {
 				if (!file_move (initial_dest_path, final_dest_path)) {
 					error_found = TRUE;
 				}
@@ -1692,7 +1692,7 @@ ok_clicked_cb (GtkButton  *button,
 
 	folder_fd = file_data_new (data->local_folder);
 	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog)) || 
-	    !ensure_dir_exists (folder_fd->local_path, 0755)) {
+	    !ensure_dir_exists (folder_fd->local_path)) {
 		char *msg;
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       folder_fd->utf8_name,
