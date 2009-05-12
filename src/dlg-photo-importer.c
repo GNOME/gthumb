@@ -35,7 +35,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-icon-lookup.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-abilities-list.h>

@@ -28,7 +28,6 @@
 #include <glade/glade.h>
 #include <gio/gio.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "gth-browser.h"
 #include "gth-utils.h"
@@ -372,7 +371,6 @@ update_list (DialogData *data)
 		char     *name6;
 		char     *name7;
 		char     *extension = NULL;
-		char     *new_name;
 		char     *cached_date;
 		char	 *original_enum = NULL;
 
@@ -420,8 +418,7 @@ update_list (DialogData *data)
 				break;
 		}
 
-		new_name = gnome_vfs_escape_string (name7);
-		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
+		data->new_names_list = g_list_prepend (data->new_names_list, name7);
 
 		g_free (extension);
 		g_free (name1);
@@ -430,7 +427,6 @@ update_list (DialogData *data)
 		g_free (name4);
 		g_free (name5);
 		g_free (name6);
-		g_free (name7);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);
