@@ -729,7 +729,7 @@ image_is_jpeg (const char *path)
 }
 
 
-gboolean
+static gboolean
 mime_type_is_raw (const char *mime_type)
 {
 	return 	   mime_type_is (mime_type, "application/x-crw")	/* ? */

@@ -126,7 +126,6 @@ void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
 	      				 	   const char       *value);
 gboolean            image_is_jpeg                 (const char       *name);
-gboolean            mime_type_is_raw              (const char       *name);
 gboolean            path_exists                   (const char       *s);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
