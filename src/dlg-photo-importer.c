@@ -1708,22 +1708,6 @@ ok_clicked_cb (GtkButton  *button,
 	}
 	file_data_unref (folder_fd);
 
-	if (! can_read_write_execute (data->local_folder)) {
-		char *utf8_path;
-		char *msg;
-		utf8_path = get_utf8_display_name_from_uri (data->local_folder);
-		msg = g_strdup_printf (_("You don't have the right permissions to create images in the folder \"%s\""), utf8_path);
-
-		display_error_dialog (data, _("Could not import photos"), msg);
-
-		g_free (utf8_path);
-		g_free (msg);
-		g_free (data->local_folder);
-		data->local_folder = NULL;
-		path_list_free (file_list);
-		return;
-	}
-
 	for (scan = file_list; scan; scan = scan->next) {
 		const char     *camera_path = scan->data;
 		CameraFileInfo  info;

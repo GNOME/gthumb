@@ -317,13 +317,6 @@ gfile_image_is_jpeg (GFile *file)
 }
 
 
-gboolean
-gfile_image_is_gif (GFile *file)
-{
-        return _gfile_image_is_type__gconf_file_type (file, "image/gif");
-}
-
-
 static gboolean
 gfile_is_filetype (GFile      *file,
                    GFileType   file_type)

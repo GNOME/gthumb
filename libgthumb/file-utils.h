@@ -135,7 +135,6 @@ gboolean            image_is_type                 (const char       *name,
 	       					   gboolean          fast_file_type);
 gboolean            image_is_jpeg                 (const char       *name);
 gboolean            mime_type_is_raw              (const char       *name);
-gboolean            image_is_gif                  (const char       *name);
 gboolean            path_exists                   (const char       *s);
 gboolean            path_is_file                  (const char       *s);
 gboolean            path_is_dir                   (const char       *s);
@@ -151,7 +150,6 @@ char *		    get_utf8_display_name_from_uri (const char      *uri);
 const char *        get_home_uri                  (void);
 char *              get_uri_scheme                (const char       *uri);
 const char *        remove_host_from_uri          (const char       *uri);
-char *              get_uri_host                  (const char       *uri);
 char *              get_base_uri                  (const char       *uri);
 gboolean            uri_has_scheme                (const char       *uri);
 gboolean            uri_scheme_is_file            (const char       *uri);
@@ -230,10 +228,8 @@ const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
 const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
-gboolean            can_read_write_execute        (const char       *path);
 gboolean	    is_local_file                 (const char       *filename);
 void                free_cache                    (void);
-void                check_cache_free_space        (void);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
 /* Pixbuf + VFS */

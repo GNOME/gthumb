@@ -789,29 +789,6 @@ mime_type_is_hdr (const char *mime_type)
 
 
 gboolean
-mime_type_is_tiff (const char *mime_type)
-{
-	return mime_type_is (mime_type, "image/tiff");
-}
-
-
-gboolean
-image_is_gif (const char *path)
-{
-	GFile    *file;
-	gboolean  result;
-	
-	file = gfile_new (path);
-	
-	result = gfile_image_is_gif (file);
-	
-	g_object_unref (file);
-
-	return result;
-}
-
-
-gboolean
 path_exists (const char *path)
 {
 	if (! path || ! *path)
@@ -1054,7 +1031,7 @@ remove_host_from_uri (const char *uri)
 }
 
 
-char *
+static char *
 get_uri_host (const char *uri)
 {
 	const char *idx;
@@ -2373,40 +2350,6 @@ is_mime_type_writable (const char *mime_type)
 	g_slist_free (list);
 
 	return FALSE;
-}
-
-
-gboolean
-can_read_write_execute (const char *path)
-{
-	GFileInfo *info;
-	GFile     *gfile;
-	GError    *error = NULL;
-	gboolean   result, a, b, c;
-
-	gfile = gfile_new (path);
-        info = g_file_query_info (gfile,
-				  G_FILE_ATTRIBUTE_ACCESS_CAN_READ ","
-				  G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE ","
-                                  G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE,
-				  G_FILE_QUERY_INFO_NONE,
-				  NULL,
-				  &error);
-
-	if (error != NULL) {
-		gfile_warning ("Failed to get directory permission information", gfile, error);
-		g_error_free (error);
-		result = FALSE;
-	} else {
-		result = ((a=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_READ)) &&
-			  (b=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) &&
-			  (c=g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_ACCESS_CAN_EXECUTE)));
-	}
-
-	g_object_unref (info);
-	g_object_unref (gfile);
-
-	return result;
 }
 
 

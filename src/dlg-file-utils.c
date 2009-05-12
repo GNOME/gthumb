@@ -155,21 +155,7 @@ dlg_check_folder (GthWindow  *window,
 		return FALSE;
 	}
 
-	/* check permissions */
-
-	if (! can_read_write_execute (dir)) {
-		char *utf8_path;
-		utf8_path = get_utf8_display_name_from_uri (dir);
-		_gtk_error_dialog_run (GTK_WINDOW (window),
-				       _("You don't have the right permissions to create images in the folder \"%s\""),
-				       utf8_path);
-		g_free (utf8_path);
-		g_free (dir);
-		return FALSE;
-	}
-
 	g_free (dir);
-
 	return TRUE;
 }
 
