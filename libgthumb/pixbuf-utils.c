@@ -1262,7 +1262,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		if (is_overwrite) {
 			update_and_save_metadatum (temp_backup, local_file, "Exif.Image.Orientation", "1");
 			file_unlink (temp_backup);
-			local_dir_remove_recursive (temp_dir);
+			dir_remove_recursive (temp_dir);
 		} else {
 			update_and_save_metadatum (original_local_file, local_file, "Exif.Image.Orientation", "1");
 		}

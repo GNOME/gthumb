@@ -363,13 +363,6 @@ dir_remove_recursive (const char *path)
 
 
 gboolean
-local_dir_remove_recursive (const char *path)
-{
-	return  dir_remove_recursive (path);
-}
-
-
-gboolean
 ensure_dir_exists (const char *path)
 {
 	GFile    *gfile;

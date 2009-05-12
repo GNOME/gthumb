@@ -172,12 +172,12 @@ print_done_cb (gpointer data)
 
 	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE);
 	tmp_dir = remove_level_from_path (tmp_comment);
-	local_dir_remove_recursive (tmp_dir);
+	dir_remove_recursive (tmp_dir);
 	g_free (tmp_comment);
 	g_free (tmp_dir);
 
 	tmp_dir = remove_level_from_path (tmp_filename);
-	local_dir_remove_recursive (tmp_dir);	
+	dir_remove_recursive (tmp_dir);	
 	g_free (tmp_dir);
 
 	g_free (tmp_filename);
@@ -228,7 +228,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 					NULL)) 
 		{
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
-			local_dir_remove_recursive (tmp_dir);
+			dir_remove_recursive (tmp_dir);
 
 			g_object_unref (pixbuf);				
 			g_free (tmp_filename);

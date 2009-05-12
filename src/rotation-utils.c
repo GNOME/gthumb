@@ -223,7 +223,7 @@ apply_transformation_jpeg (FileData       *file,
 
 apply_transformation_jpeg__free_and_close:
 
-	local_dir_remove_recursive (tmp_dir);
+	dir_remove_recursive (tmp_dir);
 	g_free (tmp_output_file);
 	g_free (tmp_dir);
 

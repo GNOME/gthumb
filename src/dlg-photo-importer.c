@@ -830,7 +830,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 		file_unlink (tmp_filename);
 	}
 
-	local_dir_remove_recursive (tmp_dir);
+	dir_remove_recursive (tmp_dir);
 
 	g_free (tmp_filename);
 	g_free (tmp_dir);
@@ -1391,7 +1391,7 @@ save_image (DialogData *data,
 
 	/* Clean up temp file and dir */
 	if (temp_dir != NULL) {
-		local_dir_remove_recursive (temp_dir);
+		dir_remove_recursive (temp_dir);
 		g_free (temp_dir);
 	}
 		
