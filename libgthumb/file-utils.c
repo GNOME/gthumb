@@ -289,17 +289,6 @@ path_list_free (GList *list)
 }
 
 
-void
-path_list_print (GList *list)
-{
-	GList *scan;
-	for (scan = list; scan; scan = scan->next) {
-		char *path = scan->data;
-		g_print ("--> %s\n", path);
-	}
-}
-
-
 GList *
 path_list_find_path (GList *list, const char *path)
 {
@@ -574,37 +563,11 @@ gboolean mime_type_is_video (const char *mime_type)
 }
 
 
-gboolean file_is_video (const gchar *name,
-			gboolean     fast_file_type)
-{
-	const char *mime_type = NULL;
-
-	mime_type = get_file_mime_type (name, fast_file_type);
-	if (mime_type == NULL)
-		return FALSE;
-
-	return mime_type_is_video (mime_type);
-}
-
-
 gboolean mime_type_is_audio (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
 
 	return ((strstr (mime_type, "audio") != NULL));
-}
-
-
-gboolean file_is_audio (const gchar *name,
-			gboolean     fast_file_type)
-{
-	const char *mime_type = NULL;
-
-	mime_type = get_file_mime_type (name, fast_file_type);
-	if (mime_type == NULL)
-		return FALSE;
-
-	return mime_type_is_audio (mime_type);
 }
 
 

@@ -81,7 +81,6 @@ gboolean            path_list_new                 (const char         *path,
 						   GList             **dirs);
 GList *             path_list_dup                 (GList              *path_list);
 void                path_list_free                (GList              *list);
-void                path_list_print               (GList              *list);
 GList *             path_list_find_path           (GList              *list,
 						   const char         *path);
 
@@ -115,10 +114,6 @@ gboolean            mime_type_is_video            (const char       *mime_type);
 gboolean            mime_type_is_audio            (const char       *mime_type);
 gboolean	    file_is_image 		  (const gchar      *name,
 						   gboolean          fast_file_type);
-gboolean            file_is_video                 (const gchar      *name,
-                                                   gboolean          fast_file_type);
-gboolean            file_is_audio                 (const gchar      *name,
-                                                   gboolean          fast_file_type);
 gboolean            file_is_image_video_or_audio  (const gchar      *name,
                                                    gboolean          fast_file_type);
 gboolean            file_is_hidden                (const char       *name);
@@ -130,9 +125,6 @@ gboolean            file_unlink                   (const char       *path);
 void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
 	      				 	   const char       *value);
-gboolean            image_is_type                 (const char       *name,
-	       					   const char       *type,
-	       					   gboolean          fast_file_type);
 gboolean            image_is_jpeg                 (const char       *name);
 gboolean            mime_type_is_raw              (const char       *name);
 gboolean            path_exists                   (const char       *s);
