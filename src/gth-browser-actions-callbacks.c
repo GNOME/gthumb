@@ -21,7 +21,6 @@
  */
 
 #include <config.h>
-#include <string.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
@@ -45,6 +44,7 @@
 #include "dlg-write-to-cd.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "gfile-utils.h"
 #include "gth-browser.h"
 #include "gth-folder-selection-dialog.h"
 #include "gth-viewer.h"
@@ -444,89 +444,73 @@ catalog_rename (GthBrowser *browser,
 		const char *catalog_path)
 {
 	char         *name_only;
-	char         *name_only_utf8;
 	char         *new_name;
-	char         *new_name_utf8;
 	char         *new_catalog_path;
 	char         *path_only;
 	gboolean      is_dir;
-
+	FileData     *old_fd;
+	FileData     *new_fd;
 
 	if (catalog_path == NULL)
 		return;
 
 	is_dir = path_is_dir (catalog_path);
+	old_fd = file_data_new (catalog_path);
 
 	if (! is_dir)
-		name_only = remove_extension_from_path (file_name_from_path (catalog_path));
+		name_only = remove_extension_from_path (old_fd->utf8_name);
 	else
-		name_only = g_strdup (file_name_from_path (catalog_path));
-	name_only_utf8 = get_utf8_display_name_from_uri (name_only);
-	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (browser),
-						 GTK_DIALOG_MODAL,
-						 _("Enter the new name: "),
-						 name_only_utf8,
-						 MAX_NAME_LEN,
-						 GTK_STOCK_CANCEL,
-						 _("_Rename"));
-	g_free (name_only_utf8);
+		name_only = g_strdup (old_fd->utf8_name);
 
-	if (new_name_utf8 == NULL) {
-		g_free (name_only);
+	new_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+					    GTK_DIALOG_MODAL,
+					    _("Enter the new name: "),
+					    name_only,
+					    MAX_NAME_LEN,
+					    GTK_STOCK_CANCEL,
+					    _("_Rename"));
+	g_free (name_only);
+
+	if (new_name == NULL) {
+		file_data_unref (old_fd);
 		return;
 	}
-
-	new_name = gnome_vfs_escape_string (new_name_utf8);
-	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), new_name);
 
-		g_free (utf8_name);
-		g_free (new_name);
-		g_free (name_only);
-
+		file_data_unref (old_fd);
 		return;
 	}
 
-	path_only = remove_level_from_path (catalog_path);
+	path_only = remove_level_from_path (old_fd->utf8_path);
 	new_catalog_path = g_strconcat (path_only,
 					"/",
 					new_name,
 					! is_dir ? CATALOG_EXT : NULL,
 					NULL);
 	g_free (path_only);
+	g_free (new_name);
 
-	if (path_is_file (new_catalog_path)) {
-		char *utf8_name;
+	new_fd = file_data_new (new_catalog_path);
+	g_free (new_catalog_path);
 
-		utf8_name = get_utf8_display_name_from_uri (new_name);
+	if (path_is_file (new_fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
-	else if (file_move (catalog_path, new_catalog_path)) {
-		all_windows_notify_catalog_rename (catalog_path,
-						   new_catalog_path);
+	else if (file_move (old_fd->path,new_fd->path)) {
+		all_windows_notify_catalog_rename (old_fd->path,new_fd->path);
 	} 
 	else {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (name_only);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
-				       utf8_name,
-				       errno_to_string ());
-		g_free (utf8_name);
+				       is_dir ? _("Could not rename the library \"%s\"") : _("Could not rename the catalog \"%s\""),
+				       new_fd->utf8_name);
 	}
 
-	g_free (new_name);
-	g_free (new_catalog_path);
-	g_free (name_only);
+	file_data_unref (old_fd);
+	file_data_unref (new_fd);
 }
 
 
@@ -668,39 +652,32 @@ void
 gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 						      GthBrowser *browser)
 {
-	CatalogList    *catalog_list;
-	char           *new_name;
-	char           *new_name_utf8;
-	char           *new_catalog_path;
-	GnomeVFSHandle *vfs_handle;
+	CatalogList       *catalog_list;
+	char              *new_name;
+	char              *new_catalog_path;
+	FileData          *fd;
+	GFileOutputStream *handle;
+	GError		  *error;
+	GFile		  *gfile;
 
 	catalog_list = gth_browser_get_catalog_list (browser);
 	if (catalog_list->path == NULL)
 		return;
 
-	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (browser),
-						 GTK_DIALOG_MODAL,
-						 _("Enter the catalog name: "),
-						 _("New Catalog"),
-						 MAX_NAME_LEN,
-						 GTK_STOCK_CANCEL,
-						 GTK_STOCK_OK);
-	if (new_name_utf8 == NULL)
+	new_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+					    GTK_DIALOG_MODAL,
+					    _("Enter the catalog name: "),
+					    _("New Catalog"),
+					    MAX_NAME_LEN,
+					    GTK_STOCK_CANCEL,
+					    GTK_STOCK_OK);
+	if (new_name == NULL)
 		return;
 
-	new_name = gnome_vfs_escape_string (new_name_utf8);
-	g_free (new_name_utf8);
-
 	if (strchr (new_name, '/') != NULL) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
-
-		g_free (utf8_name);
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), new_name);
 		g_free (new_name);
-
 		return;
 	}
 
@@ -709,32 +686,28 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 					new_name,
 					CATALOG_EXT,
 					NULL);
-
-	if (path_is_file (new_catalog_path)) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
-		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
-
-	} else if (gnome_vfs_create (&vfs_handle, new_catalog_path, GNOME_VFS_OPEN_WRITE, FALSE, CATALOG_PERMISSIONS) == GNOME_VFS_OK) {
-		gnome_vfs_close (vfs_handle);
-		all_windows_notify_catalog_new (new_catalog_path);
-
-	} else {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
-		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("Could not create the catalog \"%s\": %s"),
-				       utf8_name,
-				       errno_to_string ());
-		g_free (utf8_name);
-	}
-
+	fd = file_data_new (new_catalog_path);
+	gfile = gfile_new (fd->utf8_path);
 	g_free (new_name);
 	g_free (new_catalog_path);
+	
+	if (path_is_file (fd->utf8_path)) {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
+	} else if ((handle = g_file_create (gfile, G_FILE_CREATE_PRIVATE, NULL, &error)) != NULL) {
+		all_windows_notify_catalog_new (fd->utf8_path);
+		all_windows_update_catalog_list ();
+		g_object_unref (handle);
+	} else {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       _("Could not create the catalog \"%s\": %s"),
+				       fd->utf8_name,
+				       error->message);
+	        g_error_free (error);
+	}
+
+	g_object_unref (gfile);
+	file_data_unref (fd);
 }
 
 
@@ -745,8 +718,9 @@ create_new_folder_or_library (GthBrowser *browser,
 			      char       *str_error)
 {
 	const char *current_path;
-	char       *new_name, *new_name_utf8;
+	char       *new_name;
 	char       *new_path;
+	FileData   *fd;
 
 	switch (gth_browser_get_sidebar_content (browser)) {
 	case GTH_SIDEBAR_DIR_LIST:
@@ -760,59 +734,43 @@ create_new_folder_or_library (GthBrowser *browser,
 		break;
 	}
 
-	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (browser),
-						 GTK_DIALOG_MODAL,
-						 str_prompt,
-						 str_old_name,
-						 MAX_NAME_LEN,
-						 GTK_STOCK_CANCEL,
-						 _("C_reate"));
+	new_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+					    GTK_DIALOG_MODAL,
+					    str_prompt,
+					    str_old_name,
+					    MAX_NAME_LEN,
+					    GTK_STOCK_CANCEL,
+					    _("C_reate"));
 
-	if (new_name_utf8 == NULL)
+	if (new_name == NULL)
 		return;
 
-	new_name =gnome_vfs_escape_string (new_name_utf8);
-	g_free (new_name_utf8);
-
 	if (strchr (new_name, '/') != NULL) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), new_name);
 		g_free (new_name);
-
 		return;
 	}
 
 	/* Create folder */
 
 	new_path = build_uri (current_path, new_name, NULL);
+	fd = file_data_new (new_path);
+	g_free (new_path);	
 
-	if (path_is_dir (new_path)) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
+	if (path_is_dir (fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
 	} 
-	else if (! dir_make (new_path)) {
-		char *utf8_path;
-
-		utf8_path = get_utf8_display_name_from_uri (new_path);
+	else if (! dir_make (fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       str_error,
-				       utf8_path,
-				       errno_to_string ());
-		g_free (utf8_path);
+				       fd->utf8_name);
 	} 
 	else
-		all_windows_notify_directory_new (new_path);
+		all_windows_notify_directory_new (fd->utf8_path);
 
-	g_free (new_path);
-	g_free (new_name);
+	file_data_unref (fd);
 }
 
 
@@ -823,7 +781,7 @@ gth_browser_activate_action_edit_current_catalog_new_library (GtkAction  *action
 	create_new_folder_or_library (browser,
 				      _("New Library"),
 				      _("Enter the library name: "),
-				      _("Could not create the library \"%s\": %s"));
+				      _("Could not create the library \"%s\""));
 }
 
 
@@ -961,71 +919,58 @@ static void
 folder_rename (GtkWindow  *window,
 	       const char *old_path)
 {
-	const char   *old_name;
-	char         *old_name_utf8;
 	char         *new_name;
-	char         *new_name_utf8;
 	char         *new_path;
 	char         *parent_path;
-
+	FileData     *old_fd;
+	FileData     *new_fd;
+	
 	if (old_path == NULL)
 		return;
 
-	old_name = file_name_from_path (old_path);
-	old_name_utf8 = get_utf8_display_name_from_uri (old_name);
+	old_fd = file_data_new (old_path);
 
-	new_name_utf8 = _gtk_request_dialog_run (window,
-						 GTK_DIALOG_MODAL,
-						 _("Enter the new name: "),
-						 old_name_utf8,
-						 MAX_NAME_LEN,
-						 GTK_STOCK_CANCEL,
-						 _("_Rename"));
-	g_free (old_name_utf8);
-
-	if (new_name_utf8 == NULL)
+	new_name = _gtk_request_dialog_run (window,
+					    GTK_DIALOG_MODAL,
+					    _("Enter the new name: "),
+					    old_fd->utf8_name,
+					    MAX_NAME_LEN,
+					    GTK_STOCK_CANCEL,
+					    _("_Rename"));
+	if (new_name == NULL) {
+		file_data_unref (old_fd);
 		return;
-
-	new_name = gnome_vfs_escape_string (new_name_utf8);
-	g_free (new_name_utf8);
+	}
 
 	if (strchr (new_name, '/') != NULL) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
 		_gtk_error_dialog_run (window,
-				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), old_fd->utf8_name);
 		g_free (new_name);
-
+		file_data_unref (old_fd);
 		return;
 	}
 
 	/* Rename */
 
-	parent_path = remove_level_from_path (old_path);
+	parent_path = remove_level_from_path (old_fd->utf8_path);
 	new_path = build_uri (parent_path, new_name, NULL);
+	g_free (new_name);
 	g_free (parent_path);
+	new_fd = file_data_new (new_path);
+	g_free (new_path);
 
 	all_windows_remove_monitor ();
 
-	if (same_uri (old_path, new_path)) {
-		char *utf8_path;
-
-		utf8_path = get_utf8_display_name_from_uri (old_path);
+	if (same_uri (old_fd->utf8_path, new_fd->utf8_path)) {
 		_gtk_error_dialog_run (window,
 				       _("Could not rename the folder \"%s\": %s"),
-				       utf8_path,
+				       old_fd->utf8_name,
 				       _("source and destination are the same"));
-		g_free (utf8_path);
 	} 
-	else if (path_is_dir (new_path)) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (new_name);
+	else if (path_is_dir (new_fd->utf8_path)) {
 		_gtk_error_dialog_run (window,
-				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
-		g_free (utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."),
+				       new_fd->utf8_name);
 	} 
 	else {
 		char           *old_folder_comment;
@@ -1033,26 +978,22 @@ folder_rename (GtkWindow  *window,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_move (old_path, new_path);
+		result = file_move (old_fd->path, new_fd->utf8_path);
 		if (result) {
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
-			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
+			new_folder_comment = comments_get_comment_filename (new_fd->utf8_path, TRUE);
 			file_move (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
 
-			all_windows_notify_directory_rename (old_path, new_path);
+			all_windows_notify_directory_rename (old_fd->path, new_fd->path);
 		} 
 		else {
-			char *utf8_path;
-			utf8_path = get_utf8_display_name_from_uri (old_path);
 			_gtk_error_dialog_run (window,
-					       _("Could not rename the folder \"%s\": %s"),
-					       utf8_path,
-					       gnome_vfs_result_to_string (result));
-			g_free (utf8_path);
+					       _("Could not rename the folder \"%s\""),
+					       old_fd->utf8_name);
 		}
 
 		g_free (old_folder_comment);
@@ -1060,8 +1001,8 @@ folder_rename (GtkWindow  *window,
 
 	all_windows_add_monitor ();
 
-	g_free (new_path);
-	g_free (new_name);
+	file_data_unref (old_fd);
+	file_data_unref (new_fd);
 }
 
 
@@ -1603,7 +1544,7 @@ gth_browser_activate_action_edit_current_dir_new (GtkAction  *action,
 	create_new_folder_or_library (browser,
 				      _("New Folder"),
 				      _("Enter the folder name: "),
-				      _("Could not create the folder \"%s\": %s"));
+				      _("Could not create the folder \"%s\""));
 }
 
 
