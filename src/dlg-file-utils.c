@@ -959,18 +959,22 @@ dlg_file_rename_series (GthWindow *window,
 	GList          *o_scan, *n_scan;
 	GList          *error_list = NULL;
 	int             overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
-	gboolean        file_exists, show_ow_all_none, result = 0;
+	gboolean        file_exists, show_ow_all_none;
 	gboolean        error = FALSE;
 	GList          *files_deleted = NULL;
 	GList          *files_created = NULL;
+	char	       *last_error_message;
 
 	all_windows_remove_monitor ();
 
+	last_error_message = g_strdup (_("Unknown error"));
+
 	show_ow_all_none = g_list_length (old_names) > 1;
 	for (n_scan = new_names, o_scan = old_names; o_scan && n_scan;) {
-		char *old_full_path = o_scan->data;
-		char *new_full_path = n_scan->data;
-		char *new_name = NULL;
+		char   *old_full_path = o_scan->data;
+		char   *new_full_path = n_scan->data;
+		char   *new_name = NULL;
+		GError *gerror = NULL;
 
 		if (! path_is_file (old_full_path))
 			continue;
@@ -1022,8 +1026,8 @@ dlg_file_rename_series (GthWindow *window,
 			continue;
 		}
 
-		result = file_move (old_full_path, new_full_path, NULL);
-		if (result) {
+		file_move (old_full_path, new_full_path, &gerror);
+		if (gerror == NULL) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);
 
@@ -1041,6 +1045,9 @@ dlg_file_rename_series (GthWindow *window,
 			g_list_free (o_scan);
 			o_scan = old_names;
 			error = TRUE;
+			g_free (last_error_message);
+			last_error_message = g_strdup (gerror->message);
+			g_error_free (gerror);
 		}
 
 		g_free (new_full_path);
@@ -1062,7 +1069,7 @@ dlg_file_rename_series (GthWindow *window,
 		dlg_show_error (window,
 				msg,
 				error_list,
-				gnome_vfs_result_to_string (result));  /*FIXME: result is a gboolean */ 
+				last_error_message);
 	}
 
 	path_list_free (error_list);
@@ -1070,6 +1077,7 @@ dlg_file_rename_series (GthWindow *window,
 	path_list_free (new_names);
 	path_list_free (files_deleted);
 	path_list_free (files_created);
+	g_free (last_error_message);
 }
 
 
