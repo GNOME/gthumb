@@ -31,7 +31,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "file-utils.h"
 #include "gth-utils.h"
