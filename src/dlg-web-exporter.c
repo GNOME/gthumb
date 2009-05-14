@@ -30,9 +30,6 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomevfs/gnome-vfs-directory.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
 #include "catalog-web-exporter.h"
@@ -867,8 +864,8 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 	ThemeDialogData  *tdata = p;
 	gboolean          theme_selected;
 	GtkTreeIter       iter;
-	char             *utf8_name;
 	char             *theme, *path;
+	FileData	 *fd;
 
 	theme_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
@@ -877,10 +874,9 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 
 	gtk_tree_model_get (GTK_TREE_MODEL (tdata->list_store),
 			    &iter,
-			    THEME_NAME_COLUMN, &utf8_name,
+			    THEME_NAME_COLUMN, &theme,
 			    -1);
 
-	theme = gnome_vfs_escape_string (utf8_name);
 	path = g_build_path (G_DIR_SEPARATOR_S,
 			     g_get_home_dir (),
 			     ".gnome2",
@@ -902,8 +898,13 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 		GdkPixbuf *image = NULL;
 					       
 		filename = build_uri (path, "preview.png", NULL);
-		if (path_is_file (filename)
-		    && ((image = gdk_pixbuf_new_from_file (filename, NULL)) != NULL)) {
+		fd = file_data_new (filename);
+		g_free (filename);
+
+		if (file_data_has_local_path (fd, NULL)
+		    && path_is_file (fd->local_path)
+		    && ((image = gdk_pixbuf_new_from_file (fd->local_path, NULL)) != NULL)) {
+printf ("theme %s: %s\n",theme,fd->local_path);
 			int        w = gdk_pixbuf_get_width (image);
 			int        h = gdk_pixbuf_get_height (image);
 			if (scale_keeping_ratio (&w, &h, MAX_PREVIEW_SIZE, MAX_PREVIEW_SIZE, FALSE)) {
@@ -916,12 +917,11 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 		else
 			gtk_image_set_from_stock (GTK_IMAGE (tdata->wat_preview_image), GTK_STOCK_MISSING_IMAGE, GTK_ICON_SIZE_BUTTON);
 
-		g_free (filename);
+		file_data_unref (fd);
 		if (image != NULL)
 			g_object_unref (image);
 	}
 
-	g_free (utf8_name);
 	g_free (path);
 	g_free (theme);
 }
