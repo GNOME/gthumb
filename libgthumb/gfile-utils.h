@@ -91,12 +91,14 @@ gboolean      gfile_path_list_new              (GFile      *gfile,
 
 gboolean      gfile_xfer                       (GFile      *sfile,
 		                                GFile      *dfile,
-		                                gboolean    move);
+		                                gboolean    move,
+						GError    **error);
 gboolean      gfile_copy                       (GFile      *sfile,
-		                                GFile      *dfile);
+		                                GFile      *dfile,
+						GError    **error);
 gboolean      gfile_move                       (GFile      *sfile,
-		                                GFile      *dfile);
-
+		                                GFile      *dfile,
+						GError    **error);
 /* line-based read/write */
 gssize        gfile_output_stream_write_line   (GFileOutputStream *ostream,
                                 		GError           **error,

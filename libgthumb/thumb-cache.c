@@ -104,7 +104,7 @@ cache_copy (const char *src,
 
 		if (path_is_file (cache_dest))
 			file_unlink (cache_dest);
-		if (file_copy (cache_src, cache_dest))
+		if (file_copy (cache_src, cache_dest, NULL))
 			set_file_mtime (cache_dest, dest_mtime);
 
 		g_free (cache_dest);
@@ -127,7 +127,7 @@ cache_move (const char *src,
 
 		if (path_is_file (cache_dest))
 			file_unlink (cache_dest);
-		if (file_move (cache_src, cache_dest))
+		if (file_move (cache_src, cache_dest, NULL))
 			set_file_mtime (cache_dest, dest_mtime);
 
 		g_free (cache_dest);

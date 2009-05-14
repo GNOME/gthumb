@@ -189,7 +189,7 @@ convert_old_comment (char     *real_file,
 	comment_dir = remove_level_from_path (comment_file);
 	ensure_dir_exists (comment_dir);
 
-	file_copy (rc_file, comment_file);
+	file_copy (rc_file, comment_file, NULL);
 
 	g_free (comment_dir);
 	g_free (comment_file);

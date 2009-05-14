@@ -572,7 +572,8 @@ file_is_hidden (const gchar *name)
 static gboolean
 xfer_file (const char *from,
 	   const char *to,
-	   gboolean    move)
+	   gboolean    move,
+	   GError    **error)
 {
 	GFile      *sfile;
 	GFile      *dfile;
@@ -581,7 +582,7 @@ xfer_file (const char *from,
 	sfile = gfile_new (from);
 	dfile = gfile_new (to);
 	
-	result = gfile_xfer (sfile, dfile, move);
+	result = gfile_xfer (sfile, dfile, move, error);
 
 	g_object_unref (sfile);
 	g_object_unref (dfile);
@@ -592,17 +593,19 @@ xfer_file (const char *from,
 
 gboolean
 file_copy (const char *from,
-	   const char *to)
+	   const char *to,
+	   GError    **error)
 {
-	return xfer_file (from, to, FALSE);
+	return xfer_file (from, to, FALSE, error);
 }
 
 
 gboolean
 file_move (const char *from,
-	   const char *to)
+	   const char *to,
+	   GError    **error)
 {
-	return xfer_file (from, to, TRUE);
+	return xfer_file (from, to, TRUE, error);
 }
 
 

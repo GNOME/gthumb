@@ -417,7 +417,7 @@ move_to_catalog_dir__ok_cb (GtkWidget  *widget,
 				file_name_from_path (data->data.catalog_path),
 				NULL);
 
-	file_move (data->data.catalog_path, new_path);
+	file_move (data->data.catalog_path, new_path, NULL);
 
 	g_free (new_path);
 	g_free (new_dir);

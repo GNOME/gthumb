@@ -24,8 +24,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "catalog.h"
 #include "comments.h"
@@ -254,7 +252,7 @@ duplicate_file (GtkWindow  *window,
 	g_free (dir);
 	g_free (old_name_no_ext);
 
-	if (file_copy (old_path, new_path)) {
+	if (file_copy (old_path, new_path, NULL)) {
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
 	} 
@@ -500,7 +498,7 @@ catalog_rename (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
-	else if (file_move (old_fd->path,new_fd->path)) {
+	else if (file_move (old_fd->path,new_fd->path, NULL)) {
 		all_windows_notify_catalog_rename (old_fd->path,new_fd->path);
 	} 
 	else {
@@ -973,21 +971,11 @@ folder_rename (GtkWindow  *window,
 				       new_fd->utf8_name);
 	} 
 	else {
-		char           *old_folder_comment;
 		gboolean        result;
 
-		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
-
-		result = file_move (old_fd->path, new_fd->utf8_path);
+		result = file_move (old_fd->path, new_fd->utf8_path, NULL);
 		if (result) {
-			char *new_folder_comment;
-
-			/* Comment cache. */
-
-			new_folder_comment = comments_get_comment_filename (new_fd->utf8_path, TRUE);
-			file_move (old_folder_comment, new_folder_comment);
-			g_free (new_folder_comment);
-
+			comment_move (old_path, new_path);
 			all_windows_notify_directory_rename (old_fd->path, new_fd->path);
 		} 
 		else {
@@ -995,8 +983,6 @@ folder_rename (GtkWindow  *window,
 					       _("Could not rename the folder \"%s\""),
 					       old_fd->utf8_name);
 		}
-
-		g_free (old_folder_comment);
 	}
 
 	all_windows_add_monitor ();
@@ -1196,9 +1182,10 @@ folder_copy__response_cb (GObject *object,
 	char         *dest_dir;
 	char         *new_path;
 	const char   *dir_name;
-	gboolean      same_fs;
 	gboolean      move;
 	const char   *message;
+	FileData     *old_fd;
+	FileData     *new_fd;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -1223,45 +1210,30 @@ folder_copy__response_cb (GObject *object,
 	dir_name = file_name_from_path (old_path);
 	new_path = build_uri (dest_dir, dir_name, NULL);
 
-	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
-		same_fs = FALSE;
+	old_fd = file_data_new (old_path);
+	new_fd = file_data_new (new_path);
 
 	message = move ? _("Could not move the folder \"%s\": %s") : _("Could not copy the folder \"%s\": %s");
 
-	if (same_uri (old_path, new_path)) {
-		char *utf8_path;
-
-		utf8_path = get_utf8_display_name_from_uri (old_path);
-
+	if (same_uri (old_fd->utf8_path, new_fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       message,
-				       utf8_path,
+				       old_fd->utf8_name,
 				       _("source and destination are the same"));
-		g_free (utf8_path);
 	} 
-	else if (path_in_path (old_path, new_path)) {
-		char *utf8_path;
-
-		utf8_path = get_utf8_display_name_from_uri (old_path);
-
+	else if (path_in_path (old_fd->utf8_path, new_fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       message,
-				       utf8_path,
+				       old_fd->utf8_name,
 				       _("source contains destination"));
-		g_free (utf8_path);
 	} 
 	else if (path_is_dir (new_path)) {
-		char *utf8_name;
-
-		utf8_name = get_utf8_display_name_from_uri (dir_name);
-
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       message,
-				       utf8_name,
+				       new_fd->utf8_name,
 				       _("a folder with that name is already present."));
-		g_free (utf8_name);
 	} 
-	else if (! (move && same_fs)) {
+	else if (!move) {
 		g_object_set_data_full (G_OBJECT (file_sel),
 					"new_path",
 					g_strdup (new_path),
@@ -1277,22 +1249,22 @@ folder_copy__response_cb (GObject *object,
 		file_sel = NULL;
 	} 
 	else {
-		char           *old_folder_comment = NULL;
-		gboolean        result;
+		char   *old_folder_comment = NULL;
+		GError *error = NULL;
 
 		/* Comment cache. */
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		result = file_move (old_path, new_path);
-		if (result) {
+		file_move (old_fd->utf8_path, new_fd->utf8_path, &error);
+		if (!error) {
 			char *new_folder_comment;
 
 			/* moving folders on the same file system can be
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_move (old_folder_comment, new_folder_comment);
+			file_move (old_folder_comment, new_folder_comment, NULL);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1301,14 +1273,11 @@ folder_copy__response_cb (GObject *object,
 				gth_browser_go_to_directory (GTH_BROWSER (window), new_path);
 		} 
 		else {
-			char *utf8_path;
-
-			utf8_path = get_utf8_display_name_from_uri (old_path);
 			_gtk_error_dialog_run (GTK_WINDOW (window),
 					       message,
-					       utf8_path,
-					       gnome_vfs_result_to_string (result));
-			g_free (utf8_path);
+					       old_fd->utf8_name,
+					       error->message);
+			g_error_free (error);
 		}
 
 		g_free (old_folder_comment);
@@ -1316,6 +1285,9 @@ folder_copy__response_cb (GObject *object,
 
 	g_free (dest_dir);
 	g_free (new_path);
+	file_data_unref (old_fd);
+	file_data_unref (new_fd);
+
 	if (file_sel != NULL)
 		gtk_widget_destroy (file_sel);
 }

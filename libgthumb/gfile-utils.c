@@ -762,37 +762,34 @@ static void _empty_file_progress_cb  (goffset current_num_bytes,
 gboolean
 gfile_xfer (GFile    *sfile,
             GFile    *dfile,
-            gboolean  move)
+            gboolean  move,
+	    GError  **error)
 {
-        GError *error = NULL;
+	GError *priv_error = NULL;
 
-        if (g_file_equal (sfile, dfile)) {
-                gfile_warning ("cannot copy file: source and destination are the same",
-                               sfile,
-                               NULL);
-                return FALSE;
-        }
+        if (error == NULL)
+                error = &priv_error;
 
         if (move)
                 g_file_move (sfile, dfile,
 #if GLIB_CHECK_VERSION(2,19,0)
 			     G_FILE_COPY_TARGET_DEFAULT_PERMS |
 #endif 
-                             G_FILE_COPY_OVERWRITE,
+                             G_FILE_COPY_NONE,
                              NULL, _empty_file_progress_cb,
-                             NULL, &error);
+                             NULL, error);
         else
                 g_file_copy (sfile, dfile,
 #if GLIB_CHECK_VERSION(2,19,0)
                              G_FILE_COPY_TARGET_DEFAULT_PERMS |
 #endif 
-                             G_FILE_COPY_OVERWRITE,
+                             G_FILE_COPY_NONE,
                              NULL, _empty_file_progress_cb,
-                             NULL, &error);
+                             NULL, error);
 
-        if (error != NULL) {
-                gfile_warning ("error during file copy", sfile, error);
-                g_error_free (error);
+        if (priv_error != NULL) {
+                gfile_warning ("File move or copy failed", sfile, *error);
+                g_clear_error (&priv_error);
                 return FALSE;
         }
 
@@ -801,17 +798,19 @@ gfile_xfer (GFile    *sfile,
 
 
 gboolean
-gfile_copy (GFile *sfile,
-            GFile *dfile)
+gfile_copy (GFile   *sfile,
+            GFile   *dfile,
+	    GError **error)
 {
-        return gfile_xfer (sfile, dfile, FALSE);
+        return gfile_xfer (sfile, dfile, FALSE, error);
 }
 
 gboolean
-gfile_move (GFile *sfile,
-            GFile *dfile)
+gfile_move (GFile   *sfile,
+            GFile   *dfile,
+	    GError **error)
 {
-        return gfile_xfer (sfile, dfile, TRUE);
+        return gfile_xfer (sfile, dfile, TRUE, error);
 }
 
 
