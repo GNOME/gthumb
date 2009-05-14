@@ -42,7 +42,5 @@ void	dlg_scripts 	   	(GthWindow          *window,
 void	generate_script_menu	(GtkUIManager       *ui,
 			    	 GtkActionGroup     *actions,
 			     	 GthWindow          *window);
-void    exec_upload_flickr      (GtkAction          *action,
-				 GthWindow          *window);
 
 #endif /* DLG_SCRIPTS_H */

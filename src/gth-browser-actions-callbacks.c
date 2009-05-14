@@ -1889,9 +1889,3 @@ gth_browser_activate_action_scripts (GtkAction  *action,
 	dlg_scripts (GTH_WINDOW (browser), (DoneFunc) gth_browser_update_script_menu, browser);
 }
 
-void 
-gth_browser_activate_action_upload_flickr (GtkAction  *action,
-						 GthBrowser *browser)
-{
-	exec_upload_flickr (action, GTH_WINDOW (browser)); 
-}

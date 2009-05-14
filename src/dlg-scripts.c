@@ -92,7 +92,8 @@ static ScriptCommand script_commands[] = {
 	{N_("Copy to \"approved\" folder"), "mkdir -p %p/approved ; cp %f %p/approved/"},
 	{N_("Send by email"), "uuencode %f %f | mail -s Photos your@emailaddress.com"},
 	{N_("Make a zip file"), "rm ~/myarchive.zip; zip -j ~/myarchive %F"},
-	{N_("Make a zip file and email it"), "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com"}
+	{N_("Make a zip file and email it"), "rm ~/myarchive.zip; zip -j ~/myarchive %F; uuencode ~/myarchive.zip ~/myarchive.zip | mail -s Photos your@emailaddress.com"},
+        {N_("Upload files to Flickr"), "postr %F &"},
 };
 
 
@@ -784,22 +785,6 @@ void exec_script (GtkAction *action, ScriptCallbackData *cb_data) {
                 path_list_free (list);
 		g_free (name);
 		g_free (command);
-	}
-}
-
-
-void exec_upload_flickr (GtkAction *action, GthWindow *window) {
-        GList *list = gth_window_get_file_list_selection (window);
-	if (list != NULL) {
-        	if (gnome_vfs_is_executable_command_string ("postr"))
-	                exec_shell_script ( GTK_WINDOW (window), 
-                        	            "postr %F &", 
-                                	    "Upload to Flickr",
-	                                    list);
-        	else
-        		_gtk_error_dialog_run (GTK_WINDOW (window), _("The \"Postr\" software package must be installed to use this function."));
-
-		path_list_free (list);
 	}
 }
 

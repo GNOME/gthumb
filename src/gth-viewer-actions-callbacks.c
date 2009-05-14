@@ -141,10 +141,3 @@ gth_viewer_activate_action_scripts (GtkAction *action,
 	dlg_scripts (GTH_WINDOW (viewer), (DoneFunc) gth_viewer_update_script_menu, viewer);
 }
 
-
-void 
-gth_viewer_activate_action_upload_flickr (GtkAction  *action,
-						 GthBrowser *viewer)
-{
-	exec_upload_flickr (action, GTH_WINDOW (viewer)); 
-}

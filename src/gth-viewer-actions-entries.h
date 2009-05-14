@@ -41,7 +41,6 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
 	{ "ScriptMenu", NULL, N_("Scri_pts") },
-	{ "UploadMenu", NULL, N_("_Upload") },
 	{ "HelpMenu", NULL, N_("_Help") },
 
 	{ "File_NewWindow", GTK_STOCK_NEW,
@@ -69,11 +68,6 @@ static GtkActionEntry gth_viewer_action_entries[] = {
           N_("Edit external scripts"),
           G_CALLBACK (gth_viewer_activate_action_scripts) },
 	  
-	 { "Upload_Flickr", NULL,
-	  N_("To _Flickr"), NULL,
-	  N_("Upload selected images to Flickr"),
-	  G_CALLBACK (gth_viewer_activate_action_upload_flickr) }
-
 };
 static guint gth_viewer_action_entries_size = G_N_ELEMENTS (gth_viewer_action_entries);
 

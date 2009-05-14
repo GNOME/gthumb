@@ -945,10 +945,6 @@ window_update_sensitivity (GthBrowser *browser)
 		g_free (script_name);
 	}
 
-	/* Upload menu. */
-	
-	set_action_sensitive (browser, "Upload_Flickr", sel_not_null);
-	
 	window_update_zoom_sensitivity (browser);
 }
 

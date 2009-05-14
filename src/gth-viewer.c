@@ -249,9 +249,6 @@ viewer_update_sensitivity (GthViewer *viewer)
                 g_free (script_name);
         }
 
-	set_action_sensitive (viewer, "Upload_Flickr", !image_is_void);
-	
-
 	viewer_update_zoom_sensitivity (viewer);
 }
 
