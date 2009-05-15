@@ -21,15 +21,11 @@
  */
 
 #include <config.h>
-
+#include <gio/gio.h>
 #include <string.h>
 
-#include <libgnomevfs/gnome-vfs-monitor.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-result.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gstringlist.h"
 #include "gthumb-marshal.h"
@@ -63,15 +59,15 @@ enum {
 };
 
 typedef struct {
-	GnomeVFSMonitorHandle *handle;
+	GFileMonitor *handle;
 	char *uri;
 	int ref;
 } MonitorHandle;
 
 
 MonitorHandle *
-monitor_handle_new (GnomeVFSMonitorHandle *monitor_handle,
-		    const char            *uri)
+monitor_handle_new (GFileMonitor *monitor_handle,
+		    const char   *uri)
 {
 	MonitorHandle *mh;
 
@@ -80,7 +76,7 @@ monitor_handle_new (GnomeVFSMonitorHandle *monitor_handle,
 
 	mh = g_new0 (MonitorHandle, 1);
 	mh->handle = monitor_handle;
-	mh->uri = g_strdup (uri);
+	mh->uri = get_utf8_display_name_from_uri (uri);
 	mh->ref = 1;
 
 	return mh;
@@ -102,7 +98,7 @@ monitor_handle_destroy (MonitorHandle *mh)
 	if (mh == NULL)
 		return;
 	if (mh->handle != NULL)
-		gnome_vfs_monitor_cancel (mh->handle);
+		g_file_monitor_cancel (mh->handle);
 	g_free (mh->uri);
 	g_free (mh);
 }
@@ -120,14 +116,17 @@ monitor_handle_unref (MonitorHandle *mh)
 
 
 static GList *
-find_monitor_from_uri (GList      *vfs_monitors,
+find_monitor_from_uri (GList      *gfile_monitors,
 		       const char *uri)
 {
 	GList *scan;
+	char  *utf8_uri;
 
-	for (scan = vfs_monitors; scan; scan = scan->next) {
+	utf8_uri = get_utf8_display_name_from_uri (uri);
+
+	for (scan = gfile_monitors; scan; scan = scan->next) {
 		MonitorHandle *mh = scan->data;
-		if (strcmp (mh->uri, uri) == 0)
+		if (strcmp (mh->uri, utf8_uri) == 0)
 			return scan;
 	}
 
@@ -136,7 +135,7 @@ find_monitor_from_uri (GList      *vfs_monitors,
 
 
 struct _GthMonitorPrivateData {
-	GList    *vfs_monitors; /* MonitorHandle list */
+	GList    *gfile_monitors; /* MonitorHandle list */
 	guint     monitor_enabled : 1;
 	guint     update_changes_timeout;
 	GList    *monitor_events[MONITOR_EVENT_NUM]; /* char * lists */
@@ -155,12 +154,12 @@ gth_monitor_finalize (GObject *object)
 		GthMonitorPrivateData *priv = monitor->priv;
 		int i;
 
-		if (priv->vfs_monitors != NULL) {
-			g_list_foreach (priv->vfs_monitors,
+		if (priv->gfile_monitors != NULL) {
+			g_list_foreach (priv->gfile_monitors,
 					(GFunc) monitor_handle_destroy,
 					NULL);
-			g_list_free (priv->vfs_monitors);
-			priv->vfs_monitors = NULL;
+			g_list_free (priv->gfile_monitors);
+			priv->gfile_monitors = NULL;
 		}
 
 		for (i = 0; i < MONITOR_EVENT_NUM; i++)
@@ -184,7 +183,7 @@ gth_monitor_init (GthMonitor *monitor)
 
 	priv = monitor->priv = g_new0 (GthMonitorPrivateData, 1);
 
-	priv->vfs_monitors = NULL;
+	priv->gfile_monitors = NULL;
 	priv->monitor_enabled = TRUE;
 	priv->update_changes_timeout = 0;
 
@@ -290,10 +289,10 @@ remove_if_present (GList            **monitor_events,
 
 
 static void
-add_monitor_event (GthMonitor                *monitor,
-		   GnomeVFSMonitorEventType   event_type,
-		   const char                *path,
-		   GList                    **monitor_events)
+add_monitor_event (GthMonitor        *monitor,
+		   GFileMonitorEvent  event_type,
+		   const char        *path,
+		   GList            **monitor_events)
 {
 	MonitorEventType  type;
 	char             *op;
@@ -301,16 +300,16 @@ add_monitor_event (GthMonitor                *monitor,
 	if (!monitor->priv->monitor_enabled)
 		return;
 
-	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
+	if (event_type == G_FILE_MONITOR_EVENT_CREATED)
 		op = "CREATED";
-	else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
+	else if (event_type == G_FILE_MONITOR_EVENT_DELETED)
 		op = "DELETED";
 	else
 		op = "CHANGED";
 
 	debug (DEBUG_INFO, "[%s] %s", op, path);
 
-	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
+	if (event_type == G_FILE_MONITOR_EVENT_CREATED) {
 		if (path_is_file (path))
 			type = MONITOR_EVENT_FILE_CREATED;
 		else if (path_is_dir (path))
@@ -318,7 +317,7 @@ add_monitor_event (GthMonitor                *monitor,
 		else
 			return;
 
-	} else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
+	} else if (event_type == G_FILE_MONITOR_EVENT_DELETED) {
 		if (file_is_image_video_or_audio (path, TRUE))
 			type = MONITOR_EVENT_FILE_DELETED;
 		else
@@ -365,16 +364,18 @@ add_monitor_event (GthMonitor                *monitor,
 
 
 static void
-directory_changed (GnomeVFSMonitorHandle    *handle,
-		   const char               *monitor_uri,
-		   const char               *info_uri,
-		   GnomeVFSMonitorEventType  event_type,
-		   gpointer                  user_data)
+directory_changed (GFileMonitor      *handle,
+		   GFile             *gfile,
+		   GFile             *other_file,
+		   GFileMonitorEvent  event_type,
+		   gpointer           user_data)
 {
 	GthMonitor            *monitor = user_data;
 	GthMonitorPrivateData *priv = monitor->priv;
 
-	add_monitor_event (monitor, event_type, info_uri, priv->monitor_events);
+	char *uri = g_file_get_parse_name (gfile);
+	add_monitor_event (monitor, event_type, uri, priv->monitor_events);
+	g_free (uri);
 
 	if (priv->update_changes_timeout != 0)
 		g_source_remove (priv->update_changes_timeout);
@@ -389,14 +390,14 @@ gth_monitor_add_uri (GthMonitor *monitor,
 		     const char *uri)
 {
 	GthMonitorPrivateData *priv = monitor->priv;
-	GnomeVFSMonitorHandle *monitor_handle;
-	GnomeVFSResult         result;
+	GFileMonitor          *monitor_handle;
 	GList                 *item;
+	GFile		      *gfile;
 
 	if (uri == NULL)
 		return;
 
-	item = find_monitor_from_uri (priv->vfs_monitors, uri);
+	item = find_monitor_from_uri (priv->gfile_monitors, uri);
 	if (item != NULL) {
 		MonitorHandle *mh = item->data;
 		monitor_handle_ref (mh);
@@ -405,15 +406,18 @@ gth_monitor_add_uri (GthMonitor *monitor,
 
 	debug (DEBUG_INFO, "MONITOR URI: %s", uri);
 
-	result = gnome_vfs_monitor_add (&monitor_handle,
-					uri,
-					GNOME_VFS_MONITOR_DIRECTORY,
-					directory_changed,
-					monitor);
+	gfile = gfile_new (uri);
+	monitor_handle = g_file_monitor_directory (gfile, G_FILE_MONITOR_NONE, NULL, NULL);
+	g_object_unref (gfile);
 
-	if (result == GNOME_VFS_OK) {
+	if (monitor_handle != NULL) {
 		MonitorHandle *mh = monitor_handle_new (monitor_handle, uri);
-		priv->vfs_monitors = g_list_prepend (priv->vfs_monitors, mh);
+		priv->gfile_monitors = g_list_prepend (priv->gfile_monitors, mh);
+
+	        g_signal_connect (G_OBJECT (monitor_handle),
+                          "changed",
+                          G_CALLBACK (directory_changed),
+                          monitor);
 	}
 
 	priv->monitor_enabled = TRUE;
@@ -431,7 +435,7 @@ gth_monitor_remove_uri (GthMonitor *monitor,
 	if (uri == NULL)
 		return;
 
-	item = find_monitor_from_uri (priv->vfs_monitors, uri);
+	item = find_monitor_from_uri (priv->gfile_monitors, uri);
 	if (item == NULL)
 		return;
 
@@ -439,7 +443,7 @@ gth_monitor_remove_uri (GthMonitor *monitor,
 
 	mh = item->data;
 	if (mh->ref == 1)
-		priv->vfs_monitors = g_list_remove_link (priv->vfs_monitors, item);
+		priv->gfile_monitors = g_list_remove_link (priv->gfile_monitors, item);
 	monitor_handle_unref (mh);
 }
 
