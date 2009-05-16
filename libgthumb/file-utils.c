@@ -1426,78 +1426,20 @@ remove_ending_separator (const gchar *path)
  *
  * Note : PATH must be absolute.
  */
+
+/* Is this still needed - gfile seems to figure it out on its own */
 char *
 remove_special_dirs_from_path (const char *uri)
 {
-	const char  *path;
-	char       **pathv;
-	GList       *list = NULL;
-	int          i;
-	GString     *result_s;
-	char        *scheme;
-	char        *result;
-	int	     start_at;
+	GFile      *file;
+	char       *result;
 
-	scheme = get_uri_host (uri);
+	if (uri == NULL)
+		return NULL;
 
-	if ((scheme == NULL) && ! g_path_is_absolute (uri))
-		return g_strdup (uri);
-
-	path = remove_host_from_uri (uri);
-
-	if ((path == NULL) || (strstr (path, ".") == NULL))
-		return g_strdup (uri);
-
-	pathv = g_strsplit (path, "/", 0);
-
-	/* Trimmed uris might not start with a slash */
-	if (*path != '/')
-		start_at = 0;
-	else
-		start_at = 1;
-
-	/* Ignore first slash, if present. It will be re-added later. */
-	for (i = start_at; pathv[i] != NULL; i++) {
-		if (strcmp (pathv[i], ".") == 0) {
-			/* nothing to do. */
-		} else if (strcmp (pathv[i], "..") == 0) {
-			if (list == NULL) {
-				/* path error. */
-				g_strfreev (pathv);
-				return NULL;
-			}
-			list = g_list_delete_link (list, list);
-		} else
-			list = g_list_prepend (list, pathv[i]);
-	}
-
-	result_s = g_string_new (NULL);
-
-	/* re-insert URI scheme */
-	if (scheme != NULL) {
-		g_string_append (result_s, scheme);
-
-		if (start_at == 0)
-			/* delete trailing slash, because an extra one is added below */
-			g_string_truncate (result_s, result_s->len - 1);
-
-		g_free (scheme);
-	}
-
-	if (list == NULL)
-		g_string_append_c (result_s, '/');
-	else {
-		GList *scan;
-
-		list = g_list_reverse (list);
-		for (scan = list; scan; scan = scan->next) {
-			g_string_append_c (result_s, '/');
-			g_string_append (result_s, scan->data);
-		}
-	}
-	result = result_s->str;
-	g_string_free (result_s, FALSE);
-	g_strfreev (pathv);
+	file = gfile_new (uri);
+	result = g_file_get_uri (file);
+	g_object_unref (file);
 
 	return result;
 }
