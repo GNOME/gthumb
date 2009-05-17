@@ -1043,13 +1043,12 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				break;
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			if (resolve_all_symlinks (str_uri, &real_uri) == GNOME_VFS_OK) {
-				if (g_hash_table_lookup (data->visited_dirs, real_uri) == NULL) { 
-					data->dirs = g_list_prepend (data->dirs, g_strdup (real_uri));
-					g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
-				}
-				g_free (real_uri);
+			real_uri = resolve_all_symlinks (str_uri);
+			if (g_hash_table_lookup (data->visited_dirs, real_uri) == NULL) { 
+				data->dirs = g_list_prepend (data->dirs, g_strdup (real_uri));
+				g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
 			}
+			g_free (real_uri);
 			g_free (str_uri);
 			break;
 
@@ -1119,10 +1118,7 @@ search_dir_async (DialogData *data,
 		gnome_vfs_uri_unref (data->uri);
 	
 	uri = add_scheme_if_absent (dir);
-	if (! resolve_all_symlinks (uri, &real_uri) == GNOME_VFS_OK) {
-		g_free (uri);
-		return;
-	}
+	real_uri = resolve_all_symlinks (uri);
 	g_free (uri);
 		 
 	g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));

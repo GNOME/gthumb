@@ -174,8 +174,7 @@ GnomeVFSURI *       new_uri_from_path             (const char       *path);
 char *              build_uri                     (const char       *s1,
 						   const char       *s2,
 						   ...);
-GnomeVFSResult      resolve_all_symlinks          (const char       *text_uri,
-						   char            **resolved_text_uri);
+char *              resolve_all_symlinks          (const char       *uri);
 gboolean            uri_is_root                   (const char       *uri);
 
 /* Catalogs */

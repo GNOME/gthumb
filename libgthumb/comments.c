@@ -33,7 +33,6 @@
 #include <time.h>
 
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-result.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -190,17 +189,9 @@ comments_get_comment_filename (const char *uri,
 	source_real = g_strdup (uri);
 
 	if (resolve_symlinks) {
-		char           *resolved = NULL;
-		GnomeVFSResult  result;
-
-		result = resolve_all_symlinks (source_real, &resolved);
-
-		if (result == GNOME_VFS_OK) {
-			g_free (source_real);
-			source_real = resolved;
-		} 
-		else
-			g_free (resolved);
+		char *resolved = resolve_all_symlinks (source_real);
+		g_free (source_real);
+		source_real = resolved;
 	}
 
 	directory = remove_level_from_path (source_real);

@@ -1527,161 +1527,74 @@ build_uri (const char *s1,
 }
 
 
-static GnomeVFSResult
-resolve_symlinks (const char  *text_uri,
-		  const char  *relative_link,
-		  char       **resolved_text_uri,
-		  int          n_followed_symlinks)
+char *resolve_all_symlinks (const char *uri)
 {
-	GnomeVFSResult     result = GNOME_VFS_OK;
-	char              *resolved_uri;
-	char 		  *uri;
-	char              *tmp;
-	GnomeVFSFileInfo  *info;
-	const char        *path;
-	char             **names;
-	int                i;
+	GFile *gfile_full;
+	GFile *gfile_curr;
+	GFile *parent;
+	char  *child = NULL;
+	int    i=0;
+	char  *result;
 
-	*resolved_text_uri = NULL;
+	if ((uri == NULL) || (*uri == '\0'))
+		return NULL;
 
-	if (text_uri == NULL)
-		return GNOME_VFS_OK;
-	if (*text_uri == '\0')
-		return GNOME_VFS_ERROR_INVALID_URI;
+	if (!is_local_file (uri))
+		return g_strdup (uri);
 
-	info = gnome_vfs_file_info_new ();
+	gfile_full = gfile_new (uri);
+	gfile_curr = gfile_new (uri);
 
-	if (info == NULL)
-		return GNOME_VFS_ERROR_INVALID_URI;
+	while ((parent = g_file_get_parent (gfile_curr)) != NULL) {
+		GFileInfo  *info;
+		GError     *error = NULL;
+		const char *symlink;
 
-	resolved_uri = get_uri_host (text_uri);
+		info = g_file_query_info (gfile_curr,
+					  G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET,
+					  G_FILE_QUERY_INFO_NONE,
+					  NULL, 
+					  &error);
+		if (error != NULL) {
+			g_warning ("Couldn't obtain symlink info: %s",error->message);
+			g_object_unref (parent);
+			g_object_unref (gfile_curr);
+                        g_object_unref (gfile_full);
+			g_free (child);
+			g_error_free (error);
+			return g_strdup (uri);
+		}
 
-	tmp = build_uri (text_uri, relative_link, NULL);
-	uri = remove_special_dirs_from_path (tmp);
-	g_free (tmp);
+		if (((symlink = g_file_info_get_symlink_target (info)) != NULL) && (i<MAX_SYMLINKS_FOLLOWED)) {
+			i++;
 
-	/* split the uri and resolve one name at a time. */
+			g_object_unref (gfile_curr);
+			gfile_curr = g_file_resolve_relative_path (parent, symlink);
 
-	path = remove_host_from_uri (uri);
-	if (path == NULL) {
-		*resolved_text_uri = resolved_uri;
-		return GNOME_VFS_OK;
+			g_object_unref (gfile_full);
+			if (child != NULL)
+				gfile_full = g_file_resolve_relative_path (gfile_curr, child);
+			else
+				gfile_full = g_file_dup (gfile_curr);
+
+		} else {
+			g_object_unref (gfile_curr);
+			gfile_curr = g_file_dup (parent);
+
+			g_free (child);
+			child = g_file_get_relative_path (parent, gfile_full);
+		}
+
+		g_object_unref (info);
+		g_object_unref (parent);
 	}
 
-	names = g_strsplit (path, GNOME_VFS_URI_PATH_STR, -1);
-	g_free (uri);
-
-	for (i = 0; (result == GNOME_VFS_OK) && (names[i] != NULL); i++) {
-		char  *try_uri;
-		char  *symlink;
-	    	char **symlink_names;
-	    	int    j;
-	    	char  *base_uri;
-
-		if (strcmp (names[i], "") == 0)
-			continue;
-
-		gnome_vfs_file_info_clear (info);
-
-		try_uri = g_strconcat (resolved_uri, GNOME_VFS_URI_PATH_STR, names[i], NULL);
-
-		result = gnome_vfs_get_file_info (try_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
-		if (result != GNOME_VFS_OK) {
-			g_free (try_uri);
-			break;
-		}
-
-		/* if names[i] isn't a symbolic link add it to the resolved uri and continue */
-
-		if (!((info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK) &&
-		      (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME))) {
-
-			g_free (resolved_uri);
-			resolved_uri = try_uri;
-
-			continue;
-		}
-
-		g_free (try_uri);
-
-		/* names[i] is a symbolic link */
-
-		n_followed_symlinks++;
-		if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
-			result = GNOME_VFS_ERROR_TOO_MANY_LINKS;
-			break;
-		}
-
-		/* get the symlink escaping the value info->symlink_name */
-
-		symlink = g_strdup ("");
-		symlink_names = g_strsplit (info->symlink_name, GNOME_VFS_URI_PATH_STR, -1);
-		for (j = 0; symlink_names[j] != NULL; j++) {
-			char *symlink_name = symlink_names[j];
-	    		char *e_symlink_name;
-
-		    	if ((strcmp (symlink_name, "..") == 0) || (strcmp (symlink_name, ".") == 0))
-		    		e_symlink_name = g_strdup (symlink_name);
-		    	if (strcmp (symlink_name, "") == 0)
-		    		e_symlink_name = g_strdup (GNOME_VFS_URI_PATH_STR);
-		    	else
-		    		e_symlink_name = gnome_vfs_escape_string (symlink_name);
-
-		    	if (strcmp (symlink, "") == 0) {
-		    		g_free (symlink);
-		    		symlink = e_symlink_name;
-		    	}
-		    	else {
-		    		char *tmp;
-
-		   		tmp = build_uri (symlink, e_symlink_name, NULL);
-
-	    			g_free (symlink);
-	    			g_free (e_symlink_name);
-
-	    			symlink = tmp;
-	    		}
-	    	}
-	    	g_strfreev (symlink_names);
-
-		/* if the symlink is absolute reset the base uri, else use
-		 * the currently resolved uri as base. */
-
-	    	if (symlink[0] == GNOME_VFS_URI_PATH_CHR) {
-	    		g_free (resolved_uri);
-	    		base_uri = get_uri_host (text_uri);
-	    	} 
-	    	else
-	    		base_uri = resolved_uri;
-
-		/* resolve the new uri recursively */
-
-	    	result = resolve_symlinks (base_uri, symlink, &resolved_uri, n_followed_symlinks);
-
-	    	g_free (base_uri);
-		g_free (symlink);
-	}
-
-	g_strfreev (names);
-	gnome_vfs_file_info_unref (info);
-
-	if (result == GNOME_VFS_OK)
-		*resolved_text_uri = resolved_uri;
+	result = g_file_get_uri (gfile_full);
+	g_object_unref (gfile_curr);
+	g_object_unref (gfile_full);
+	g_free (child);
 
 	return result;
-}
-
-
-GnomeVFSResult
-resolve_all_symlinks (const char  *text_uri,
-		      char       **resolved_text_uri)
-{
-	if (! is_local_file (text_uri)) {
-		*resolved_text_uri = g_strdup (text_uri);
-		return GNOME_VFS_OK;
-	}
-	else
-		return resolve_symlinks (text_uri, "", resolved_text_uri, 0);
 }
 
 
@@ -2416,13 +2329,7 @@ gth_pixbuf_new_from_video (FileData               *file,
       	char      *file_uri = NULL;
 	char      *thumbnail_uri;
 
-	if (! (resolve_symlinks 
-	       && is_local_file (file->path) 
-	       && (resolve_all_symlinks (file->path, &file_uri) == GNOME_VFS_OK)))
-	{
-		file_uri = g_strdup (file->path);
-	}
-		
+	file_uri = resolve_all_symlinks (file->path);
 	thumbnail_uri = gnome_thumbnail_factory_lookup (factory,
 							file_uri,
 							file->mtime);

@@ -56,23 +56,18 @@ cache_get_nautilus_cache_name (const char *path)
 	char           *parent;
 	char           *resolved_parent;
 	char           *resolved_path = NULL;
-	GnomeVFSResult  result;
 	GnomeVFSURI    *uri;
 	char           *uri_txt;
 	char           *retval;
 
 	parent = remove_level_from_path (path);
-	result = resolve_all_symlinks (parent, &resolved_parent);
+	resolved_parent = resolve_all_symlinks (parent);
 	g_free (parent);
 
-	if (result == GNOME_VFS_OK)
-		resolved_path = g_strconcat (resolved_parent,
-					     "/",
-					     file_name_from_path (path),
-					     NULL);
-	else
-		resolved_path = g_strdup (path);
-
+	resolved_path = g_strconcat (resolved_parent,
+				     "/",
+				     file_name_from_path (path),
+				     NULL);
 	uri = new_uri_from_path (resolved_path);
 
 	g_free (resolved_path);
