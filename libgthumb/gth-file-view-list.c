@@ -47,7 +47,7 @@ enum {
 	COLUMN_TIME,
 	COLUMN_COMMENT,
 	COLUMN_EXIF_DATE,
-	COLUMN_CATEGORIES,
+	COLUMN_TAGS,
 	NUMBER_OF_COLUMNS
 };
 
@@ -216,7 +216,7 @@ gfv_insert (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkListStore    *list_store = gfv_list->priv->list_store;
@@ -232,7 +232,7 @@ gfv_insert (GthFileView  *file_view,
 			    COLUMN_ICON, real_pixbuf,
 			    COLUMN_NAME, text,
 			    COLUMN_COMMENT, comment,
-			    COLUMN_CATEGORIES, categories,
+			    COLUMN_TAGS, tags,
 			    -1);
 
 	if (real_pixbuf != NULL)
@@ -245,7 +245,7 @@ gfv_append (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkListStore    *list_store = gfv_list->priv->list_store;
@@ -263,7 +263,7 @@ gfv_append (GthFileView  *file_view,
 			    COLUMN_ICON, real_pixbuf,
 			    COLUMN_NAME, text,
 			    COLUMN_COMMENT, comment,
-			    COLUMN_CATEGORIES, categories,
+			    COLUMN_TAGS, tags,
 			    -1);
 
 	if (real_pixbuf != NULL)
@@ -282,7 +282,7 @@ gfv_append_with_data (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
-                      const char   *categories,
+                      const char   *tags,
 		      gpointer      data)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
@@ -301,7 +301,7 @@ gfv_append_with_data (GthFileView  *file_view,
 			    COLUMN_ICON, real_pixbuf,
 			    COLUMN_NAME, text,
 			    COLUMN_COMMENT, comment,
-			    COLUMN_CATEGORIES, categories,
+			    COLUMN_TAGS, tags,
 			    COLUMN_FILE_DATA, data,
 			    -1);
 
@@ -456,9 +456,9 @@ gfv_set_image_comment (GthFileView  *file_view,
 
 
 static void
-gfv_set_image_categories (GthFileView  *file_view,
+gfv_set_image_tags (GthFileView  *file_view,
                           int           pos,
-                          const char   *categories)
+                          const char   *tags)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	GtkTreeIter      iter;
@@ -467,7 +467,7 @@ gfv_set_image_categories (GthFileView  *file_view,
 		return;
 
 	gtk_list_store_set (gfv_list->priv->list_store, &iter,
-			    COLUMN_CATEGORIES, categories,
+			    COLUMN_TAGS, tags,
 			    -1);
 }
 
@@ -883,7 +883,7 @@ gfv_set_view_mode (GthFileView *file_view,
 	gtk_tree_view_column_set_visible (column, mode & GTH_VIEW_MODE_COMMENTS);
 
 	column = gtk_tree_view_get_column (gfv_list->priv->tree_view, 3);
-	gtk_tree_view_column_set_visible (column, mode & GTH_VIEW_MODE_CATEGORIES);
+	gtk_tree_view_column_set_visible (column, mode & GTH_VIEW_MODE_TAGS);
 }
 
 
@@ -1334,7 +1334,7 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->set_image_text       = gfv_set_image_text;
 	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
-	file_view_class->set_image_categories    = gfv_set_image_categories;
+	file_view_class->set_image_tags       = gfv_set_image_tags;
 	file_view_class->get_image_comment    = gfv_get_image_comment;
 	file_view_class->get_images           = gfv_get_images;
 	file_view_class->get_list             = gfv_get_list;
@@ -1521,14 +1521,14 @@ add_columns (GtkTreeView *treeview)
 
 	gtk_tree_view_append_column (treeview, column);
 
-	/* Categories column */
+	/* Tags column */
 
 	column = gtk_tree_view_column_new ();
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_attributes (column, renderer,
-					     "text", COLUMN_CATEGORIES,
+					     "text", COLUMN_TAGS,
 					     NULL);
 
 	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
@@ -1536,7 +1536,7 @@ add_columns (GtkTreeView *treeview)
 	g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
 	g_value_unset (&value);
 
-	gtk_tree_view_column_set_sort_column_id (column, COLUMN_CATEGORIES);
+	gtk_tree_view_column_set_sort_column_id (column, COLUMN_TAGS);
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_column_set_resizable (column, FALSE);
 	gtk_tree_view_column_set_expand (column, TRUE);

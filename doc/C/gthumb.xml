@@ -1373,42 +1373,42 @@
   </sect2>
   </sect1>
 
-  <!-- ============= Categories ================================== -->
-  <sect1 id="gthumb-categories">
-  <title>Categories</title>
+  <!-- ============= Tags ================================== -->
+  <sect1 id="gthumb-tags">
+  <title>Tags</title>
   <para>
-    Categories are keywords assigned to images and can be used to perform fine
+    Tags are keywords assigned to images and can be used to perform fine
     grained searches as described in <xref linkend="gthumb-finding"/>.
     <note>
       <title>WARNING</title>
-      <para>Categories are not embedded in image files, they are instead saved
+      <para>Tags are not embedded in image files, they are instead saved
       separately.  This means that if you move images or
       folders with other programs you will lose your comments.
       </para>
     </note>
     <note>
       <title>FOR EXPERTS</title>
-      <para>Categories are saved in the subfolder
+      <para>Tags are saved in the subfolder
       <filename>.comments</filename> of the image folder and in the same file
       where the image comment is saved.
       </para>
     </note>
   </para>
-  <sect2 id="gthumb-categories-add">
-  <title>To Assign Categories to a Series of Images</title>
+  <sect2 id="gthumb-tags-add">
+  <title>To Assign Tags to a Series of Images</title>
   <para>
-    To add categories to a series of images, perform the following steps:
+    To add tags to a series of images, perform the following steps:
     <orderedlist>
       <listitem>
         <para>Select the images and choose
-        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Tags
         </guimenuitem></menuchoice>. &app; shows the
-        <guilabel>Categories</guilabel> dialog.</para>
+        <guilabel>Tags</guilabel> dialog.</para>
       </listitem>
       <listitem>
-	<para>Check the categories in the <guilabel>Available Categories
-        </guilabel> List.  You can create new categories clicking on the
-        <guilabel>New</guilabel> button, and delete categories from the
+	<para>Check the tags in the <guilabel>Available Tags
+        </guilabel> List.  You can create new tags clicking on the
+        <guilabel>New</guilabel> button, and delete tags from the
 	list clicking on the <guilabel>Remove</guilabel> button. </para>
       </listitem>
       <listitem>
@@ -1419,29 +1419,29 @@
     </orderedlist>
   </para>
   </sect2>
-  <sect2 id="gthumb-categories-add-to-folder">
-  <title>To Assign Categories to a Folder</title>
+  <sect2 id="gthumb-tags-add-to-folder">
+  <title>To Assign Tags to a Folder</title>
   <para>
-    Instead of assigning categories to single images you can assign them
-    to a folder, this is equivalent to assign the categories to all the images
+    Instead of assigning tags to single images you can assign them
+    to a folder, this is equivalent to assign the tags to all the images
     contained in the folder and in all of its subfolders.
   </para>
   <para>
-    To add categories to a folder, perform the following steps:
+    To add tags to a folder, perform the following steps:
     <orderedlist>
       <listitem>
         <para>Go to the parent folder in order to visualize the folder name
 	in the folder list pane, right-click on the folder name and
-	select the <menuchoice><guimenuitem>Categories</guimenuitem>
+	select the <menuchoice><guimenuitem>Tags</guimenuitem>
         </menuchoice> command; alternatively go to the folder and select
 	the <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu>
-        <guimenuitem>Categories</guimenuitem></menuchoice> commands.  In both
-        cases &app; shows the <guilabel>Categories</guilabel> dialog.</para>
+        <guimenuitem>Tags</guimenuitem></menuchoice> commands.  In both
+        cases &app; shows the <guilabel>Tags</guilabel> dialog.</para>
       </listitem>
       <listitem>
-	<para>Check the categories in the <guilabel>Available Categories
-        </guilabel> List.  You can create new categories clicking on the
-        <guilabel>New</guilabel> button, and delete categories from the
+	<para>Check the tags in the <guilabel>Available Tags
+        </guilabel> List.  You can create new tags clicking on the
+        <guilabel>New</guilabel> button, and delete tags from the
 	list clicking on the <guilabel>Remove</guilabel> button. </para>
       </listitem>
       <listitem>
@@ -1452,11 +1452,11 @@
     </orderedlist>
   </para>
   </sect2>
-  <sect2 id="gthumb-categories-remove">
-  <title>To Remove Categories from an Image or a Folder</title>
+  <sect2 id="gthumb-tags-remove">
+  <title>To Remove Tags from an Image or a Folder</title>
   <para>
-    To remove categories from a series of images or a folder perform the
-    same steps as described above and uncheck the categories you want
+    To remove tags from a series of images or a folder perform the
+    same steps as described above and uncheck the tags you want
     to remove. Finally click on <guibutton>Ok</guibutton> to confirm the
     operation.
   </para>
@@ -1889,18 +1889,18 @@
 	  </varlistentry>
 	  <varlistentry>
 	    <!-- -->
-            <term><guilabel>Categories</guilabel></term>
+            <term><guilabel>Tags</guilabel></term>
 	    <listitem>
 	    <para>
-	    The list of categories an images must belong to.
-	    Categories can be added to images using the
-	    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories</guimenuitem></menuchoice>
+	    The list of tags an images must belong to.
+	    Tags can be added to images using the
+	    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Tags</guimenuitem></menuchoice>
 	    command or pressing
 	    <keycombo><keycap>K</keycap></keycombo>.
             </para>
 	    <para>
 	      You can choose to search for images that belongs to all
-	      the specified categories or at least to one of them,
+	      the specified tags or at least to one of them,
 	      checking the corresponding option.
 	    </para>
             <para>
@@ -3004,8 +3004,8 @@
 	of the E modifier is to use a locale-dependent alternative representation.
        </para>
        <para>
-         <guilabel>Categories</guilabel> can be specified for the imported
-         photos using the <guilabel>Categories</guilabel> box.
+         <guilabel>Tags</guilabel> can be specified for the imported
+         photos using the <guilabel>Tags</guilabel> box.
        </para>
        <para>
          If the <guilabel>Delete imported images from the camera</guilabel>
@@ -4109,7 +4109,7 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Assign categories to the selected images.</para>
+	      <para>Assign tags to the selected images.</para>
 	    </entry>
             <entry>
 	      <para>yes</para>

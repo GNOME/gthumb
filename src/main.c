@@ -140,28 +140,28 @@ theme_changed_cb (GtkIconTheme *theme,
 
 
 static void
-create_default_categories_if_needed (void)
+create_default_tags_if_needed (void)
 {
-	Bookmarks *categories;
-	char      *default_categories[] = { N_("Holidays"),
-					    N_("Temporary"),
-					    N_("Screenshots"),
-					    N_("Science"),
-					    N_("Favourite"),
-					    N_("Important"),
-					    N_("GNOME"),
-					    N_("Games"),
-					    N_("Party"),
-					    N_("Birthday"),
-					    N_("Astronomy"),
-					    N_("Family"),
-					    NULL };
+	Bookmarks *tags;
+	char      *default_tags[] = { N_("Holidays"),
+				      N_("Temporary"),
+				      N_("Screenshots"),
+				      N_("Science"),
+				      N_("Favourite"),
+				      N_("Important"),
+				      N_("GNOME"),
+				      N_("Games"),
+				      N_("Party"),
+				      N_("Birthday"),
+				      N_("Astronomy"),
+				      N_("Family"),
+				      NULL };
 	int        i;
 	char      *path;
 
 	path = g_strconcat (g_get_home_dir (),
 			    "/",
-			    RC_CATEGORIES_FILE,
+			    RC_TAGS_FILE,
 			    NULL);
 	if (path_is_file (path)) {
 		g_free (path);
@@ -169,11 +169,11 @@ create_default_categories_if_needed (void)
 	}
 	g_free (path);
 
-	categories = bookmarks_new (RC_CATEGORIES_FILE);
-	for (i = 0; default_categories[i] != NULL; i++)
-		bookmarks_add (categories, _(default_categories[i]), TRUE, TRUE);
-	bookmarks_write_to_disk (categories);
-	bookmarks_free (categories);
+	tags = bookmarks_new (RC_TAGS_FILE);
+	for (i = 0; default_tags[i] != NULL; i++)
+		bookmarks_add (tags, _(default_tags[i]), TRUE, TRUE);
+	bookmarks_write_to_disk (tags);
+	bookmarks_free (tags);
 }
 
 
@@ -417,7 +417,7 @@ initialize_data (void)
 	int   i = 0;
 
 	convert_to_new_comment_system ();
-	create_default_categories_if_needed ();
+	create_default_tags_if_needed ();
 
 	eel_gconf_monitor_add ("/apps/gthumb");
 

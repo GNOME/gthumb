@@ -68,12 +68,12 @@ void           comments_save_comment               (const char  *uri,
 						    CommentData *data);
 void           comments_save_comment_non_null      (const char  *uri,
 						    CommentData *data);
-void           comments_save_categories            (const char  *uri,
+void           comments_save_tags                  (const char  *uri,
 						    CommentData *data);
 char *         comments_get_comment_as_string      (CommentData *data,
 						    char        *sep1,
 						    char        *sep2);
-char *         comments_get_categories_as_string   (CommentData *data,
+char *         comments_get_tags_as_string         (CommentData *data,
 						    char        *sep);
 char*          _g_escape_text_for_html             (const gchar *text,
 						    gssize       length);

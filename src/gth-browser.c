@@ -36,7 +36,7 @@
 #include "catalog-list.h"
 #include "comments.h"
 #include "dlg-bookmarks.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "dlg-comment.h"
 #include "dlg-file-utils.h"
 #include "dlg-image-prop.h"
@@ -877,8 +877,8 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "Edit_EditComment", sel_not_null);
 	set_action_sensitive (browser, "ToolBar_EditComment", sel_not_null);
-	set_action_sensitive (browser, "Edit_EditCategories", sel_not_null);
-	set_action_sensitive (browser, "ToolBar_EditCategories", sel_not_null);
+	set_action_sensitive (browser, "Edit_EditTags", sel_not_null);
+	set_action_sensitive (browser, "ToolBar_EditTags", sel_not_null);
 
 	set_action_sensitive (browser, "Edit_AddToCatalog", sel_not_null);
 	set_action_sensitive (browser, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);
@@ -1954,7 +1954,7 @@ file_selection_changed_cb (GtkWidget *widget,
 						  sel_change_update_cb,
 						  browser);
 
-	gth_window_update_comment_categories_dlg (GTH_WINDOW (browser));
+	gth_window_update_comment_tags_dlg (GTH_WINDOW (browser));
 
 	return TRUE;
 }
@@ -3089,11 +3089,11 @@ key_press_cb (GtkWidget   *widget,
 		gth_window_edit_comment (GTH_WINDOW (browser));
 		return TRUE;
 
-		/* Edit keywords */
+		/* Edit tags */
 	case GDK_k:
 		if (! sel_not_null)
 			break;
-		gth_window_edit_categories (GTH_WINDOW (browser));
+		gth_window_edit_tags (GTH_WINDOW (browser));
 		return TRUE;
 
 		/* gimp hotkey */
@@ -7036,7 +7036,7 @@ gth_browser_construct (GthBrowser  *browser,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_SHOW_CATEGORIES,
+					   PREF_SHOW_TAGS,
 					   pref_view_mode_changed,
 					   browser);
 

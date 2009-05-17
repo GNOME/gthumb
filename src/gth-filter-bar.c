@@ -29,7 +29,7 @@
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include "gth-filter-bar.h"
-#include "gth-category-selection-dialog.h"
+#include "gth-tag-selection-dialog.h"
 
 enum {
 	FILTER_TYPE_NONE,
@@ -60,12 +60,12 @@ struct _GthFilterBarPrivate
 	gboolean      has_focus;
 	GtkWidget    *text_entry;
 	GtkWidget    *text_op_combo_box;
-	GtkWidget    *category_op_combo_box;
+	GtkWidget    *tag_op_combo_box;
 	GtkWidget    *date_op_combo_box;
 	GtkWidget    *int_op_combo_box;
 	GtkWidget    *size_combo_box;
 	GtkWidget    *scope_combo_box;
-	GtkWidget    *choose_categories_button;
+	GtkWidget    *choose_tags_button;
 	GtkWidget    *date_edit;
 	GtkListStore *model;
 };
@@ -189,7 +189,7 @@ GthOpData date_op_data[] = { { N_("is equal to"), GTH_TEST_OP_EQUAL, FALSE },
 		     { N_("is after"), GTH_TEST_OP_AFTER, FALSE } };
 
 
-GthOpData category_op_data[] = { { N_("is"), GTH_TEST_OP_CONTAINS, FALSE },
+GthOpData tag_op_data[] = { { N_("is"), GTH_TEST_OP_CONTAINS, FALSE },
 		         { N_("is not"), GTH_TEST_OP_CONTAINS, TRUE } };
 
 static struct {
@@ -207,7 +207,7 @@ static struct {
 		   { N_("Place"), GTH_TEST_SCOPE_PLACE },
 		   { N_("Date"), GTH_TEST_SCOPE_DATE },
 		   { N_("Size"), GTH_TEST_SCOPE_SIZE },
-		   { N_("Category"), GTH_TEST_SCOPE_KEYWORDS },
+		   { N_("Tag"), GTH_TEST_SCOPE_KEYWORDS },
 		   { N_("Text contains"), GTH_TEST_SCOPE_ALL } };
 
 
@@ -229,9 +229,9 @@ scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 			    -1);
 
 	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_KEYWORDS))
-		gtk_widget_show (filter_bar->priv->choose_categories_button);
+		gtk_widget_show (filter_bar->priv->choose_tags_button);
 	else
-		gtk_widget_hide (filter_bar->priv->choose_categories_button);
+		gtk_widget_hide (filter_bar->priv->choose_tags_button);
 
 	if ((filter_type == FILTER_TYPE_ALL)
 	    || ((filter_type == FILTER_TYPE_SCOPE)
@@ -262,9 +262,9 @@ scope_combo_box_changed_cb (GtkComboBox  *scope_combo_box,
 	}
 
 	if ((filter_type == FILTER_TYPE_SCOPE) && (scope_type == GTH_TEST_SCOPE_KEYWORDS))
-		gtk_widget_show (filter_bar->priv->category_op_combo_box);
+		gtk_widget_show (filter_bar->priv->tag_op_combo_box);
 	else
-		gtk_widget_hide (filter_bar->priv->category_op_combo_box);
+		gtk_widget_hide (filter_bar->priv->tag_op_combo_box);
 
 	if ((filter_type == FILTER_TYPE_ALL)
 	    || ((filter_type == FILTER_TYPE_SCOPE)
@@ -301,14 +301,14 @@ scope_combo_boxrow_separator_func (GtkTreeModel *model,
 
 
 static void
-category_selection_response_cb (GthCategorySelection *csel,
-				GtkResponseType       response,
-				GthFilterBar         *filter_bar)
+tag_selection_response_cb (GthTagSelection *csel,
+                           GtkResponseType       response,
+                           GthFilterBar         *filter_bar)
 {
 	if (response == GTK_RESPONSE_OK) {
 		gtk_entry_set_text (GTK_ENTRY (filter_bar->priv->text_entry),
-				    gth_category_selection_get_categories (csel));
-		filter_bar->priv->match_all = gth_category_selection_get_match_all (csel);
+				    gth_tag_selection_get_tags (csel));
+		filter_bar->priv->match_all = gth_tag_selection_get_match_all (csel);
 		gth_filter_bar_changed (filter_bar);
 	}
 
@@ -318,20 +318,20 @@ category_selection_response_cb (GthCategorySelection *csel,
 
 
 static void
-choose_categories_button_clicked_cb (GtkButton    *button,
+choose_tags_button_clicked_cb (GtkButton    *button,
 				     GthFilterBar *filter_bar)
 {
-	GthCategorySelection *csel;
+	GthTagSelection *csel;
 	GtkWidget *toplevel;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (filter_bar));
  	if (! GTK_WIDGET_TOPLEVEL (toplevel))
  		toplevel = NULL;
 
-	csel = gth_category_selection_new (GTK_WINDOW (toplevel), gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry)), filter_bar->priv->match_all);
+	csel = gth_tag_selection_new (GTK_WINDOW (toplevel), gtk_entry_get_text (GTK_ENTRY (filter_bar->priv->text_entry)), filter_bar->priv->match_all);
 	g_signal_connect (G_OBJECT (csel),
 			  "response",
-			  G_CALLBACK (category_selection_response_cb),
+			  G_CALLBACK (tag_selection_response_cb),
 			  filter_bar);
 }
 
@@ -365,12 +365,12 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	GTK_BOX (filter_bar)->spacing = 6;
 	gtk_container_set_border_width (GTK_CONTAINER (filter_bar), 2);
 
-	/* choose category button */
+	/* choose tag button */
 
-	filter_bar->priv->choose_categories_button = gtk_button_new_with_label ("...");
-	g_signal_connect (G_OBJECT (filter_bar->priv->choose_categories_button),
+	filter_bar->priv->choose_tags_button = gtk_button_new_with_label ("...");
+	g_signal_connect (G_OBJECT (filter_bar->priv->choose_tags_button),
 			  "clicked",
-			  G_CALLBACK (choose_categories_button_clicked_cb),
+			  G_CALLBACK (choose_tags_button_clicked_cb),
 			  filter_bar);
 
 	/* date edit */
@@ -430,13 +430,13 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 			  G_CALLBACK (date_op_combo_box_changed_cb),
 			  filter_bar);
 
-	/* category operation combo box */
+	/* tag operation combo box */
 
-	filter_bar->priv->category_op_combo_box = gtk_combo_box_new_text ();
-	for (i = 0; i < G_N_ELEMENTS (category_op_data); i++)
-		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->category_op_combo_box),
-					   _(category_op_data[i].name));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->category_op_combo_box), 0);
+	filter_bar->priv->tag_op_combo_box = gtk_combo_box_new_text ();
+	for (i = 0; i < G_N_ELEMENTS (tag_op_data); i++)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (filter_bar->priv->tag_op_combo_box),
+					   _(tag_op_data[i].name));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (filter_bar->priv->tag_op_combo_box), 0);
 
 	/* scope combo box */
 
@@ -548,9 +548,9 @@ gth_filter_bar_construct (GthFilterBar *filter_bar)
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->text_op_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->int_op_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->date_op_combo_box, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->category_op_combo_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->tag_op_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->text_entry, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->choose_categories_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->choose_tags_button, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->size_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (filter_bar), filter_bar->priv->date_edit, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (filter_bar), button, FALSE, FALSE, 0);
@@ -660,7 +660,7 @@ gth_filter_bar_get_filter (GthFilterBar *filter_bar)
 			test = gth_test_new_with_int (scope_type, op_data.op, op_data.negative, size);
 			break;
 		case GTH_TEST_SCOPE_KEYWORDS:
-			op_data = category_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->category_op_combo_box))];
+			op_data = tag_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (filter_bar->priv->tag_op_combo_box))];
 			if (filter_bar->priv->match_all)
 				op_data.op = GTH_TEST_OP_CONTAINS_ALL;
 			else

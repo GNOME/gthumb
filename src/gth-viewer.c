@@ -32,7 +32,7 @@
 #include "jpegutils/jpeg-data.h"
 #include "comments.h"
 #include "dlg-save-image.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "dlg-comment.h"
 #include "file-data.h"
 #include "file-utils.h"
@@ -1087,9 +1087,9 @@ viewer_key_press_cb (GtkWidget   *widget,
 		gth_window_edit_comment (GTH_WINDOW (viewer));
 		return TRUE;
 
-		/* Edit keywords */
+		/* Edit tags */
 	case GDK_k:
-		gth_window_edit_categories (GTH_WINDOW (viewer));
+		gth_window_edit_tags (GTH_WINDOW (viewer));
 		return TRUE;
 
 	default:

@@ -150,8 +150,8 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/browser/show_categories</key>
-	<applyto>/apps/gthumb/browser/show_categories</applyto>
+	<key>/schemas/apps/gthumb/browser/show_tags</key>
+	<applyto>/apps/gthumb/browser/show_tags</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>true</default>

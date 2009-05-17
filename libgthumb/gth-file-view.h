@@ -78,17 +78,17 @@ typedef struct {
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
 						 const char   *comment,
-                                                 const char   *categories);
+                                                 const char   *tags);
 	int            (* append)               (GthFileView  *file_view,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
 						 const char   *comment,
-                                                 const char   *categories);
+                                                 const char   *tags);
 	int            (* append_with_data)     (GthFileView  *file_view,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
 						 const char   *comment,
-                                                 const char   *categories,
+                                                 const char   *tags,
 						 gpointer      data);
 	void           (* remove)               (GthFileView  *file_view,
 						 gpointer      data);
@@ -106,9 +106,9 @@ typedef struct {
 	void           (* set_image_comment)    (GthFileView  *file_view,
 						 int           pos,
 						 const char   *comment);
-	void           (* set_image_categories) (GthFileView  *file_view,
+	void           (* set_image_tags)       (GthFileView  *file_view,
 						 int           pos,
-						 const char   *categories);
+						 const char   *tags);
 	const char*    (* get_image_comment)    (GthFileView  *file_view,
 						 int           pos);
 	int            (* get_images)           (GthFileView  *file_view);
@@ -225,17 +225,17 @@ void           gth_file_view_insert              (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
 						  const char   *comment,
-                                                  const char   *categories);
+                                                  const char   *tags);
 int            gth_file_view_append              (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
 						  const char   *comment,
-                                                  const char   *categories);
+                                                  const char   *tags);
 int            gth_file_view_append_with_data    (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
 						  const char   *comment,
-                                                  const char   *categories,
+                                                  const char   *tags,
 						  gpointer      data);
 void           gth_file_view_remove              (GthFileView  *file_view,
 						  gpointer      data);
@@ -255,9 +255,9 @@ void           gth_file_view_set_image_comment   (GthFileView  *file_view,
 						  const char   *comment);
 const char*    gth_file_view_get_image_comment   (GthFileView  *file_view,
 						  int           pos);
-void           gth_file_view_set_image_categories(GthFileView  *file_view,
+void           gth_file_view_set_image_tags      (GthFileView  *file_view,
 						  int           pos,
-						  const char   *categories);
+						  const char   *tags);
 int            gth_file_view_get_images          (GthFileView  *file_view);
 GList *        gth_file_view_get_list            (GthFileView  *file_view);
 GList *        gth_file_view_get_selection       (GthFileView  *file_view);

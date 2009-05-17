@@ -944,10 +944,10 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkCheckButton" id="toggle_show_categories">
+			    <widget class="GtkCheckButton" id="toggle_show_tags">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">C_ategories</property>
+			      <property name="label" translatable="yes">T_ags</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>

@@ -112,7 +112,7 @@ gfv_insert (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 }
 
@@ -122,7 +122,7 @@ gfv_append (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 	return -1;
 }
@@ -133,7 +133,7 @@ gfv_append_with_data (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
-                      const char   *categories,
+                      const char   *tags,
 		      gpointer      data)
 {
 	return -1;
@@ -186,9 +186,9 @@ gfv_set_image_comment (GthFileView  *file_view,
 
 
 static void
-gfv_set_image_categories (GthFileView  *file_view,
-                          int           pos,
-                          const char   *categories)
+gfv_set_image_tags (GthFileView  *file_view,
+                    int           pos,
+                    const char   *tags)
 {
 }
 
@@ -521,7 +521,7 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->set_image_text       = gfv_set_image_text;
 	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
-	file_view_class->set_image_categories = gfv_set_image_categories;
+	file_view_class->set_image_tags       = gfv_set_image_tags;
 	file_view_class->get_image_comment    = gfv_get_image_comment;
 	file_view_class->get_images           = gfv_get_images;
 	file_view_class->get_list             = gfv_get_list;
@@ -706,9 +706,9 @@ gth_file_view_insert (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
-                      const char   *categories)
+                      const char   *tags)
 {
-	GTH_FILE_VIEW_GET_CLASS (file_view)->insert (file_view, pos, pixbuf, text, comment, categories);
+	GTH_FILE_VIEW_GET_CLASS (file_view)->insert (file_view, pos, pixbuf, text, comment, tags);
 }
 
 
@@ -717,9 +717,9 @@ gth_file_view_append (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
-                      const char   *categories)
+                      const char   *tags)
 {
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->append (file_view, pixbuf, text, comment, categories);
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->append (file_view, pixbuf, text, comment, tags);
 }
 
 
@@ -728,10 +728,10 @@ gth_file_view_append_with_data (GthFileView  *file_view,
 				GdkPixbuf    *pixbuf,
 				const char   *text,
 				const char   *comment,
-                                const char   *categories,
+                                const char   *tags,
 				gpointer      data)
 {
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->append_with_data (file_view, pixbuf, text, comment, categories, data);
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->append_with_data (file_view, pixbuf, text, comment, tags, data);
 }
 
 
@@ -786,11 +786,11 @@ gth_file_view_set_image_comment (GthFileView  *file_view,
 
 
 void
-gth_file_view_set_image_categories (GthFileView  *file_view,
-                                    int           pos,
-                                    const char   *categories)
+gth_file_view_set_image_tags (GthFileView  *file_view,
+                              int           pos,
+                              const char   *tags)
 {
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_categories (file_view, pos, categories);
+	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_tags (file_view, pos, tags);
 }
 
 

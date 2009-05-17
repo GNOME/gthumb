@@ -86,15 +86,15 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
-	{ "Edit_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories..."), "",
-	  N_("Assign categories to selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
+	{ "Edit_EditTags", GTK_STOCK_INDEX,
+	  N_("T_ags..."), "",
+	  N_("Assign tags to selected images"),
+	  G_CALLBACK (gth_window_activate_action_edit_edit_tags) },
 
-	{ "ToolBar_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories"), NULL,
-	  N_("Assign categories to selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
+	{ "ToolBar_EditTags", GTK_STOCK_INDEX,
+	  N_("T_ags"), NULL,
+	  N_("Assign tags to selected images"),
+	  G_CALLBACK (gth_window_activate_action_edit_edit_tags) },
 
 	{ "Edit_Undo", GTK_STOCK_UNDO,
 	  NULL, "<control>Z",

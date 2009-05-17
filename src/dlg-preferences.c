@@ -81,7 +81,7 @@ typedef struct {
 	GtkWidget  *toggle_show_filenames;
 	GtkWidget  *toggle_show_comments;
 	GtkWidget  *toggle_show_thumbs;
-	GtkWidget  *toggle_show_categories;
+	GtkWidget  *toggle_show_tags;
 	GtkWidget  *toggle_file_type;
 	GtkWidget  *toggle_audio_video;
 	GtkWidget  *opt_thumbs_size;
@@ -256,10 +256,10 @@ show_thumbs_toggled_cb (GtkToggleButton *button,
 
 
 static void
-show_categories_toggled_cb (GtkToggleButton *button,
-                            DialogData      *data)
+show_tags_toggled_cb (GtkToggleButton *button,
+                      DialogData      *data)
 {
-	eel_gconf_set_boolean (PREF_SHOW_CATEGORIES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_categories)));
+	eel_gconf_set_boolean (PREF_SHOW_TAGS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_tags)));
 }
 
 
@@ -423,7 +423,7 @@ dlg_preferences (GthBrowser *browser)
         data->toggle_show_comments = glade_xml_get_widget (data->gui, "toggle_show_comments");
 
         data->toggle_show_thumbs = glade_xml_get_widget (data->gui, "toggle_show_thumbs");
-        data->toggle_show_categories = glade_xml_get_widget (data->gui, "toggle_show_categories");
+        data->toggle_show_tags = glade_xml_get_widget (data->gui, "toggle_show_tags");
         data->toggle_file_type = glade_xml_get_widget (data->gui, "toggle_file_type");
 	data->toggle_audio_video = glade_xml_get_widget (data->gui, "toggle_audio_video");
 
@@ -502,7 +502,7 @@ dlg_preferences (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_categories), eel_gconf_get_boolean (PREF_SHOW_CATEGORIES, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_tags), eel_gconf_get_boolean (PREF_SHOW_TAGS, TRUE));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95)));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_click_policy), pref_get_click_policy ());
 
@@ -584,9 +584,9 @@ dlg_preferences (GthBrowser *browser)
 			  "toggled",
 			  G_CALLBACK (show_thumbs_toggled_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->toggle_show_categories),
+	g_signal_connect (G_OBJECT (data->toggle_show_tags),
 			  "toggled",
-			  G_CALLBACK (show_categories_toggled_cb),
+			  G_CALLBACK (show_tags_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->toggle_show_filenames),
 			  "toggled",

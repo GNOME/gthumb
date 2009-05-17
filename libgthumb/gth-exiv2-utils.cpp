@@ -603,7 +603,7 @@ write_metadata (const char *from_file,
 					id[metadatum->full_name] = metadatum->raw_value;
 				} else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
 					// Remove existing tags of the same type.
-					// Seems to be needed for storing category keywords.
+					// Seems to be needed for storing tags keywords.
 					// Not exactly sure why!
 					Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
 					if (iter != xd.end ())

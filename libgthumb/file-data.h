@@ -55,7 +55,7 @@ typedef struct {
 						* created for this image. */
 
 	char               *comment;
-	char               *categories;
+	char               *tags;
 	CommentData        *comment_data;
 	
 	GList              *metadata;

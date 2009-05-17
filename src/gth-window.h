@@ -115,13 +115,13 @@ typedef enum {
 void           gth_window_attach                         (GthWindow     *window,
 							  GtkWidget     *child,
 							  GthWindowArea  area);
-void           gth_window_set_categories_dlg             (GthWindow   *window,
+void           gth_window_set_tags_dlg                   (GthWindow   *window,
 							  GtkWidget   *dialog);
-GtkWidget *    gth_window_get_categories_dlg             (GthWindow   *window);
+GtkWidget *    gth_window_get_tags_dlg                   (GthWindow   *window);
 void           gth_window_set_comment_dlg                (GthWindow   *window,
 							  GtkWidget   *dialog);
 GtkWidget *    gth_window_get_comment_dlg                (GthWindow   *window);
-void           gth_window_update_comment_categories_dlg  (GthWindow   *window);
+void           gth_window_update_comment_tags_dlg        (GthWindow   *window);
 void           gth_window_reload_current_image           (GthWindow   *window);
 void           gth_window_update_current_image_metadata  (GthWindow   *window);
 GList *        gth_window_get_file_list_selection        (GthWindow   *window);
@@ -131,7 +131,7 @@ void           gth_window_set_animation                  (GthWindow   *window,
 gboolean       gth_window_get_animation                  (GthWindow   *window);
 void           gth_window_step_animation                 (GthWindow   *window);
 void           gth_window_edit_comment                   (GthWindow   *window);
-void           gth_window_edit_categories                (GthWindow   *window);
+void           gth_window_edit_tags                      (GthWindow   *window);
 void           gth_window_set_fullscreen                 (GthWindow   *window,
 							  gboolean     value);
 gboolean       gth_window_get_fullscreen                 (GthWindow   *window);

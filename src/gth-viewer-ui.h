@@ -52,7 +52,7 @@ static const gchar *viewer_window_ui_info =
 "      <menuitem action='Edit_Redo'/>"
 "      <separator name='sep01'/>"
 "      <menuitem action='Edit_EditComment'/>"
-"      <menuitem action='Edit_EditCategories'/>"
+"      <menuitem action='Edit_EditTags'/>"
 "      <separator/>"
 "      <menuitem action='Edit_AddToCatalog'/>"
 "    </menu>"

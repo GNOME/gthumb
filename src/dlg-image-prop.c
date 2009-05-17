@@ -88,7 +88,7 @@ typedef struct {
 
 	GtkWidget     *i_comment_textview;
 	GtkTextBuffer *i_comment_textbuffer;
-	GtkWidget     *i_categories_label;
+	GtkWidget     *i_tags_label;
 
 	GtkWidget     *i_exif_data_view;	
 	GtkWidget     *i_exif_data_container;
@@ -283,7 +283,7 @@ update_comment (DialogData *data)
 	char        *comment;
         GSList      *tmp;
 
-	g_return_if_fail (GTK_IS_WIDGET (data->i_categories_label));
+	g_return_if_fail (GTK_IS_WIDGET (data->i_tags_label));
 	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
 
 	cdata = comments_load_comment (gth_window_get_image_filename (GTH_WINDOW (data->browser)), TRUE);
@@ -296,7 +296,7 @@ update_comment (DialogData *data)
 		gtk_text_buffer_delete     (data->i_comment_textbuffer,
 					    &start_iter, 
 					    &end_iter);
-		gtk_label_set_text (GTK_LABEL (data->i_categories_label), "");
+		gtk_label_set_text (GTK_LABEL (data->i_tags_label), "");
                 return;
 	}
 
@@ -337,11 +337,11 @@ update_comment (DialogData *data)
                                 g_string_append_c (keywords, '.');
 		}
 
-		gtk_label_set_text (GTK_LABEL (data->i_categories_label), keywords->str);
+		gtk_label_set_text (GTK_LABEL (data->i_tags_label), keywords->str);
 
 		g_string_free (keywords, TRUE);
 	} else
-		gtk_label_set_text (GTK_LABEL (data->i_categories_label), "");
+		gtk_label_set_text (GTK_LABEL (data->i_tags_label), "");
 
 	g_free (comment);
 	comment_data_free (cdata);
@@ -582,7 +582,7 @@ dlg_image_prop_new (GthBrowser *browser)
 	data->i_notebook = glade_xml_get_widget (data->gui, "i_notebook");
 
 	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
-	data->i_categories_label = glade_xml_get_widget (data->gui, "i_categories_label");
+	data->i_tags_label = glade_xml_get_widget (data->gui, "i_tags_label");
 
 	data->i_exif_data_container = glade_xml_get_widget (data->gui, "i_exif_data_container");
 

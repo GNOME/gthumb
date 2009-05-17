@@ -133,14 +133,14 @@ gfv_insert (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
 	g_return_if_fail (pixbuf != NULL);
 
-	gth_image_list_insert (ilist, pos, pixbuf, text, comment, categories);
+	gth_image_list_insert (ilist, pos, pixbuf, text, comment, tags);
 }
 
 
@@ -149,14 +149,14 @@ gfv_append (GthFileView  *file_view,
 	    GdkPixbuf    *pixbuf,
 	    const char   *text,
 	    const char   *comment,
-            const char   *categories)
+            const char   *tags)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
-	return 	gth_image_list_append (ilist, pixbuf, text, comment, categories);
+	return 	gth_image_list_append (ilist, pixbuf, text, comment, tags);
 }
 
 
@@ -165,7 +165,7 @@ gfv_append_with_data (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
 		      const char   *text,
 		      const char   *comment,
-		      const char   *categories,
+		      const char   *tags,
 		      gpointer      data)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
@@ -173,7 +173,7 @@ gfv_append_with_data (GthFileView  *file_view,
 
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
-	return 	gth_image_list_append_with_data (ilist, pixbuf, text, comment, categories, data);
+	return 	gth_image_list_append_with_data (ilist, pixbuf, text, comment, tags, data);
 }
 
 
@@ -246,14 +246,14 @@ gfv_set_image_comment (GthFileView  *file_view,
 
 
 static void
-gfv_set_image_categories (GthFileView  *file_view,
-                          int           pos,
-                          const char   *categories)
+gfv_set_image_tags (GthFileView  *file_view,
+                    int           pos,
+                    const char   *tags)
 {
 	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
 	GthImageList      *ilist = gfv_thumbs->priv->ilist;
 
-	gth_image_list_set_image_categories (ilist, pos, categories);
+	gth_image_list_set_image_tags (ilist, pos, tags);
 }
 
 
@@ -898,7 +898,7 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->set_image_text       = gfv_set_image_text;
 	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
-	file_view_class->set_image_categories = gfv_set_image_categories;
+	file_view_class->set_image_tags       = gfv_set_image_tags;
 	file_view_class->get_image_comment    = gfv_get_image_comment;
 	file_view_class->get_images           = gfv_get_images;
 	file_view_class->get_list             = gfv_get_list;

@@ -42,14 +42,14 @@
 #define RC_COMMENTS_DIR           ".gnome2/gthumb/comments"
 #define RC_BOOKMARKS_FILE         ".gnome2/gthumb/bookmarks"
 #define RC_HISTORY_FILE           ".gnome2/gthumb/history"
-#define RC_CATEGORIES_FILE        ".gnome2/gthumb/categories"
+#define RC_TAGS_FILE              ".gnome2/gthumb/categories"
 #define RC_REMOTE_CACHE_DIR	  ".gnome2/gthumb/remote_cache"
 
 #define OLD_RC_CATALOG_DIR        ".gqview/collections"
 #define OLD_RC_COMMENTS_DIR       ".gqview/comments"
 #define OLD_RC_BOOKMARKS_FILE     ".gqview/bookmarks"
 #define OLD_RC_HISTORY_FILE       ".gqview/history"
-#define OLD_RC_CATEGORIES_FILE    ".gqview/categories"
+#define OLD_RC_TAGS_FILE          ".gqview/categories"
 
 #define CACHE_DIR                 ".thumbnails"
 
@@ -93,7 +93,7 @@ typedef enum { /*< skip >*/
 enum { /*< skip >*/
 	GTH_VIEW_MODE_LABEL = 0x1,              /* Display label. */
 	GTH_VIEW_MODE_COMMENTS = 0x2,           /* Display comment. */
-	GTH_VIEW_MODE_CATEGORIES = 0x4,         /* Display categories. */
+	GTH_VIEW_MODE_TAGS = 0x4,               /* Display tags. */
 };
 
 typedef enum { /*< skip >*/

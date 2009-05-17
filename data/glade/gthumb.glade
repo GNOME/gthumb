@@ -2026,7 +2026,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label184">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Categories:&lt;/b&gt;</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Tags:&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2080,7 +2080,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="i_categories_label">
+			<widget class="GtkLabel" id="i_tags_label">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes"></property>

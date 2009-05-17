@@ -931,7 +931,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	keywords = NULL;
 	if (cdata != NULL) {
 		comment = comments_get_comment_as_string (cdata, "\n", " - ");
-		keywords = comments_get_categories_as_string (cdata, ", ");
+		keywords = comments_get_tags_as_string (cdata, ", ");
 		comment_data_free (cdata);
 	}
 
@@ -1223,10 +1223,10 @@ viewer_key_press_cb (GtkWidget   *widget,
 		gth_window_edit_comment (GTH_WINDOW (fullscreen));
 		break;
 
-		/* Edit categories. */
+		/* Edit tags. */
 	case GDK_k:
 		_show_cursor__hide_comment (fullscreen);
-		gth_window_edit_categories (window);
+		gth_window_edit_tags (window);
 		break;
 
 		/* View/Hide comment */
@@ -1925,8 +1925,8 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	window_class->save_pixbuf = gth_fullscreen_save_pixbuf;
 	window_class->exec_pixbuf_op = gth_fullscreen_exec_pixbuf_op;
 
-	window_class->set_categories_dlg = gth_fullscreen_set_categories_dlg;
-	window_class->get_categories_dlg = gth_fullscreen_get_categories_dlg;
+	window_class->set_tags_dlg = gth_fullscreen_set_tags_dlg;
+	window_class->get_tags_dlg = gth_fullscreen_get_tags_dlg;
 	window_class->set_comment_dlg = gth_fullscreen_set_comment_dlg;
 	window_class->get_comment_dlg = gth_fullscreen_get_comment_dlg;
 	window_class->reload_current_image = gth_fullscreen_reload_current_image;
@@ -1940,7 +1940,7 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	window_class->step_animation = gth_fullscreen_step_animation;
 	/*
 	window_class->edit_comment = gth_fullscreen_edit_comment;
-	window_class->edit_categories = gth_fullscreen_edit_categories;
+	window_class->edit_tags = gth_fullscreen_edit_tags;
 	window_class->set_fullscreen = gth_fullscreen_set_fullscreen;
 	window_class->get_fullscreen = gth_fullscreen_get_fullscreen;
 	window_class->set_slideshow = gth_fullscreen_set_slideshow;

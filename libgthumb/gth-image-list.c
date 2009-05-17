@@ -48,7 +48,7 @@
 #define DEFAULT_TEXT_SPACING 6
 #define DEFAULT_IMAGE_BORDER 3
 #define TEXT_COMMENT_SPACE 6       /* space between text and comment. */
-#define TEXT_CATEGORIES_SPACE 6       /* space between text and categories. */
+#define TEXT_TAGS_SPACE 6       /* space between text and tags. */
 #define KEYBOARD_SELECTION_BORDER 10
 #define FRAME_SELECTION_BORDER 3
 
@@ -70,9 +70,9 @@
   + ((((il)->comment_height > 0) || ((il)->text_height > 0)) ? (gil)->priv->text_spacing : 0) \
   + (il)->comment_height \
   + ((((il)->comment_height > 0) && ((il)->text_height > 0)) ? TEXT_COMMENT_SPACE : 0) \
-  + ((((il)->categories_height > 0) || ((il)->text_height > 0)) ? (gil)->priv->text_spacing : 0) \
-  + (il)->categories_height \
-  + ((((il)->categories_height > 0) && ((il)->text_height > 0)) ? TEXT_CATEGORIES_SPACE : 0) \
+  + ((((il)->tags_height > 0) || ((il)->text_height > 0)) ? (gil)->priv->text_spacing : 0) \
+  + (il)->tags_height \
+  + ((((il)->tags_height > 0) && ((il)->text_height > 0)) ? TEXT_TAGS_SPACE : 0) \
   + (il)->text_height \
   + (gil)->priv->row_spacing)
 
@@ -240,7 +240,7 @@ gth_image_list_item_new (GthImageList  *image_list,
 			 GdkPixbuf     *image,
 			 const char    *label,
 			 const char    *comment,
-			 const char    *categories,
+			 const char    *tags,
 			 GType          data_type)
 {
 	GthImageListItem *item;
@@ -254,7 +254,7 @@ gth_image_list_item_new (GthImageList  *image_list,
 	item->image_area.width = -1;
 	item->label_area.width = -1;
 	item->comment_area.width = -1;
-	item->categories_area.width = -1;
+	item->tags_area.width = -1;
 
 	if (image != NULL)
 		gth_image_list_item_set_pixbuf (image_list, item, image);
@@ -265,8 +265,8 @@ gth_image_list_item_new (GthImageList  *image_list,
 	if (comment != NULL)
 		item->comment = g_strdup (comment);
 
-	if (categories != NULL)
-		item->categories = g_strdup (categories);
+	if (tags != NULL)
+		item->tags = g_strdup (tags);
 
 	return item;
 }
@@ -294,7 +294,7 @@ gth_image_list_item_unref (GthImageListItem *item)
 		gth_image_list_item_free_pixmap_and_mask (item);
 		g_free (item->label);
 		g_free (item->comment);
-		g_free (item->categories);
+		g_free (item->tags);
 		if (item->data != NULL) 
 			g_boxed_free (item->data_type, item->data);
 		g_free (item);
@@ -307,7 +307,7 @@ typedef struct {
 	int    image_height;
 	int    text_height;
 	int    comment_height;
-        int    categories_height;
+        int    tags_height;
 	GList *image_list;
 } GthImageListLine;
 
@@ -401,7 +401,7 @@ struct _GthImageListPrivate {
 
 	PangoLayout      *layout;
 	PangoLayout      *comment_layout;
-	PangoLayout      *categories_layout;
+	PangoLayout      *tags_layout;
 	PangoLayout      *no_image_msg_layout;
 	guint             layout_timeout;
 
@@ -561,9 +561,9 @@ gth_image_list_finalize (GObject *object)
 		priv->comment_layout = NULL;
 	}
 
-	if (priv->categories_layout != NULL) {
-		g_object_unref (priv->categories_layout);
-		priv->categories_layout = NULL;
+	if (priv->tags_layout != NULL) {
+		g_object_unref (priv->tags_layout);
+		priv->tags_layout = NULL;
 	}
 
 	if (priv->no_image_msg_layout != NULL) {
@@ -675,24 +675,24 @@ get_comment_size (GthImageList     *image_list,
 }
 
 static void
-get_categories_size (GthImageList     *image_list,
-		  GthImageListItem *item,
-		  int              *width,
-		  int              *height)
+get_tags_size (GthImageList     *image_list,
+               GthImageListItem *item,
+               int              *width,
+               int              *height)
 {
-	if ((item->categories != NULL) && (*item->categories != 0)) {
-		if ((item->categories_area.width == -1) || (item->categories_area.height == -1))
+	if ((item->tags != NULL) && (*item->tags != 0)) {
+		if ((item->tags_area.width == -1) || (item->tags_area.height == -1))
 			get_text_size (image_list,
-				       item->categories,
-				       & (item->categories_area.width),
-				       & (item->categories_area.height),
+				       item->tags,
+				       & (item->tags_area.width),
+				       & (item->tags_area.height),
 				       TRUE);
 
 		if (width != NULL)
-			*width = item->categories_area.width;
+			*width = item->tags_area.width;
 
 		if (height != NULL)
-			*height = item->categories_area.height;
+			*height = item->tags_area.height;
 
 	} else {
 		if (width != NULL)
@@ -709,20 +709,20 @@ item_get_view_mode (GthImageList     *image_list,
 		    GthImageListItem *item,
 		    gboolean         *view_label,
 		    gboolean         *view_comment,
-		    gboolean         *view_categories)
+		    gboolean         *view_tags)
 {
 	GthImageListPrivate *priv = image_list->priv;
 
 	*view_label   = priv->view_mode & GTH_VIEW_MODE_LABEL;
 	*view_comment = priv->view_mode & GTH_VIEW_MODE_COMMENTS;
-	*view_categories = priv->view_mode & GTH_VIEW_MODE_CATEGORIES;
+	*view_tags = priv->view_mode & GTH_VIEW_MODE_TAGS;
 
 	if (STRING_IS_VOID (item->label))
 		*view_label = FALSE;
 	if (STRING_IS_VOID (item->comment))
 		*view_comment = FALSE;
-	if (STRING_IS_VOID (item->categories))
-		*view_categories = FALSE;
+	if (STRING_IS_VOID (item->tags))
+		*view_tags = FALSE;
 }
 
 
@@ -732,12 +732,12 @@ get_item_height (GthImageList     *image_list,
 		 int              *image_height,
 		 int              *text_height,
 		 int              *comment_height,
-                 int              *categories_height)
+                 int              *tags_height)
 {
 	*image_height = image_list->priv->max_item_width;
 	get_label_size (image_list, item, NULL, text_height);
 	get_comment_size (image_list, item, NULL, comment_height);
-	get_categories_size (image_list, item, NULL, categories_height);
+	get_tags_size (image_list, item, NULL, tags_height);
 }
 
 
@@ -763,7 +763,7 @@ place_item (GthImageList     *image_list,
 	    int               image_height,
 	    gboolean          view_label,
 	    gboolean          view_comment,
-            gboolean          view_categories)
+            gboolean          view_tags)
 {
 	GthImageListPrivate *priv = image_list->priv;
 	int                  x_offset, y_offset;
@@ -792,14 +792,14 @@ place_item (GthImageList     *image_list,
 		y += comment_height + TEXT_COMMENT_SPACE;
 	}
 
-	x_offset = (priv->max_item_width - item->categories_area.width) / 2;
-	if (view_categories) {
-		int categories_height;
+	x_offset = (priv->max_item_width - item->tags_area.width) / 2;
+	if (view_tags) {
+		int tags_height;
 
-		item->categories_area.x = x + x_offset + 1;
-		item->categories_area.y = y;
-		get_categories_size (image_list, item, NULL, &categories_height);
-		y += categories_height + TEXT_CATEGORIES_SPACE;
+		item->tags_area.x = x + x_offset + 1;
+		item->tags_area.y = y;
+		get_tags_size (image_list, item, NULL, &tags_height);
+		y += tags_height + TEXT_TAGS_SPACE;
 	}
 
 	x_offset = (priv->max_item_width - item->label_area.width) / 2;
@@ -816,13 +816,13 @@ layout_line (GthImageList     *image_list,
 {
 	GthImageListPrivate *priv = image_list->priv;
 	GList               *scan;
-	gboolean             view_label, view_comment, view_categories;
+	gboolean             view_label, view_comment, view_tags;
 	int                  x = 0;
 
 	for (scan = line->image_list; scan; scan = scan->next) {
 		GthImageListItem *item = scan->data;
 
-		item_get_view_mode (image_list, item, &view_label, &view_comment, &view_categories);
+		item_get_view_mode (image_list, item, &view_label, &view_comment, &view_tags);
 
 		x += priv->col_spacing;
 		place_item (image_list,
@@ -832,7 +832,7 @@ layout_line (GthImageList     *image_list,
 			    line->image_height,
 			    view_label,
 			    view_comment,
-                            view_categories);
+                            view_tags);
 		x += priv->max_item_width;
 	}
 }
@@ -845,7 +845,7 @@ add_and_layout_line (GthImageList *image_list,
 		     int           image_height,
 		     int           text_height,
 		     int           comment_height,
-                     int           categories_height)
+                     int           tags_height)
 {
 	GthImageListPrivate *priv = image_list->priv;
 	GthImageListLine    *line;
@@ -856,7 +856,7 @@ add_and_layout_line (GthImageList *image_list,
 	line->image_height = image_height;
 	line->text_height = text_height;
 	line->comment_height = comment_height;
-	line->categories_height = categories_height;
+	line->tags_height = tags_height;
 
 	layout_line (image_list, line);
 	priv->lines = g_list_append (priv->lines, line);
@@ -902,7 +902,7 @@ relayout_images_at (GthImageList *image_list,
 		    int           y)
 {
 	GthImageListPrivate *priv = image_list->priv;
-	int    text_height = 0, image_height = 0, comment_height = 0, categories_height = 0;
+	int    text_height = 0, image_height = 0, comment_height = 0, tags_height = 0;
 	int    images_per_line, n;
 	GList *line_images = NULL, *scan;
 	int    max_height = 0;
@@ -914,7 +914,7 @@ relayout_images_at (GthImageList *image_list,
 	for (; scan; scan = scan->next, n++) {
 		GthImageListItem *item = scan->data;
 		int               ih, th, ch, cath;
-		gboolean          view_label, view_comment, view_categories;
+		gboolean          view_label, view_comment, view_tags;
 
 		if (! (n % images_per_line)) {
 			if (line_images != NULL) {
@@ -924,7 +924,7 @@ relayout_images_at (GthImageList *image_list,
 						     image_height,
 						     text_height,
 						     comment_height,
-                                                     categories_height);
+                                                     tags_height);
 				line_images = NULL;
 				y += max_height + priv->row_spacing;
 			}
@@ -933,11 +933,11 @@ relayout_images_at (GthImageList *image_list,
 			image_height   = 0;
 			text_height    = 0;
 			comment_height = 0;
-                        categories_height = 0;
+                        tags_height = 0;
 		}
 
 		get_item_height (image_list, item, &ih, &th, &ch, &cath);
-		item_get_view_mode (image_list, item, &view_label, &view_comment, &view_categories);
+		item_get_view_mode (image_list, item, &view_label, &view_comment, &view_tags);
 
 		if (! view_label)
 			th = 0;
@@ -945,21 +945,21 @@ relayout_images_at (GthImageList *image_list,
 		if (! view_comment)
 			ch = 0;
 
-		if (! view_categories)
+		if (! view_tags)
 			cath = 0;
 
 		image_height   = MAX (ih, image_height);
 		text_height    = MAX (th, text_height);
 		comment_height = MAX (ch, comment_height);
-		categories_height = MAX (cath, categories_height);
+		tags_height = MAX (cath, tags_height);
 
 		max_height = (image_height
 			      + ((comment_height || text_height) ? priv->text_spacing : 0)
 			      + comment_height
 			      + ((comment_height && text_height) ? TEXT_COMMENT_SPACE : 0)
-			      + ((categories_height || text_height) ? priv->text_spacing : 0)
-			      + categories_height
-			      + ((categories_height && text_height) ? TEXT_COMMENT_SPACE : 0)
+			      + ((tags_height || text_height) ? priv->text_spacing : 0)
+			      + tags_height
+			      + ((tags_height && text_height) ? TEXT_COMMENT_SPACE : 0)
 			      + text_height);
 
 		line_images = g_list_append (line_images, item);
@@ -972,7 +972,7 @@ relayout_images_at (GthImageList *image_list,
 				     image_height,
 				     text_height,
 				     comment_height,
-                                     categories_height);
+                                     tags_height);
 
 	update_scrollbar_adjust (image_list);
 }
@@ -1038,13 +1038,13 @@ reset_text_width (GthImageList *image_list)
 
 	pango_layout_set_width (priv->layout, priv->max_item_width * PANGO_SCALE);
 	pango_layout_set_width (priv->comment_layout, priv->max_item_width * PANGO_SCALE);
-	pango_layout_set_width (priv->categories_layout, priv->max_item_width * PANGO_SCALE);
+	pango_layout_set_width (priv->tags_layout, priv->max_item_width * PANGO_SCALE);
 
 	for (scan = priv->image_list; scan; scan = scan->next) {
 		GthImageListItem *item = scan->data;
 		item->label_area.width = -1;
 		item->comment_area.width = -1;
-		item->categories_area.width = -1;
+		item->tags_area.width = -1;
 	}
 	priv->update_width = FALSE;
 }
@@ -1205,19 +1205,19 @@ gth_image_list_realize (GtkWidget *widget)
 	if (priv->comment_layout != NULL)
 		g_object_unref (priv->comment_layout);
 
-	if (priv->categories_layout != NULL)
-		g_object_unref (priv->categories_layout);
+	if (priv->tags_layout != NULL)
+		g_object_unref (priv->tags_layout);
 
 	priv->comment_layout = pango_layout_copy (priv->layout);
-	priv->categories_layout = pango_layout_copy (priv->layout);
+	priv->tags_layout = pango_layout_copy (priv->layout);
 
 	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_layout_get_context (priv->comment_layout)));
 	pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
 	pango_layout_set_font_description (priv->comment_layout, font_desc);
 
-	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_layout_get_context (priv->categories_layout)));
+	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_layout_get_context (priv->tags_layout)));
 	pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
-	pango_layout_set_font_description (priv->categories_layout, font_desc);
+	pango_layout_set_font_description (priv->tags_layout, font_desc);
 
 	/* 'No Image' message Layout */
 
@@ -1268,9 +1268,9 @@ gth_image_list_unrealize (GtkWidget *widget)
 		image_list->priv->comment_layout = NULL;
 	}
 
-	if (image_list->priv->categories_layout) {
-		g_object_unref (image_list->priv->categories_layout);
-		image_list->priv->categories_layout = NULL;
+	if (image_list->priv->tags_layout) {
+		g_object_unref (image_list->priv->tags_layout);
+		image_list->priv->tags_layout = NULL;
 	}
 
 	(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
@@ -1449,9 +1449,9 @@ get_item_bounding_box (GthImageList     *image_list,
 		       GthImageListItem *item,
 		       GdkRectangle     *item_rectangle)
 {
-	gboolean view_text, view_comment, view_categories;
+	gboolean view_text, view_comment, view_tags;
 
-	item_get_view_mode (image_list, item, &view_text, &view_comment, &view_categories);
+	item_get_view_mode (image_list, item, &view_text, &view_comment, &view_tags);
 
 	*item_rectangle = item->slide_area;
 	item_rectangle->width = image_list->priv->max_item_width;
@@ -1473,11 +1473,11 @@ get_item_bounding_box (GthImageList     *image_list,
 				     item_rectangle);
 	}
 
-	if (view_categories) {
+	if (view_tags) {
 		GdkRectangle tmp_rectangle;
 		tmp_rectangle = *item_rectangle;
 		gdk_rectangle_union (&tmp_rectangle,
-				     &item->categories_area,
+				     &item->tags_area,
 				     item_rectangle);
 	}
 
@@ -1505,7 +1505,7 @@ paint_item (GthImageList     *image_list,
 	GtkWidget    *widget = (GtkWidget*) image_list;
 	GtkStateType  state, text_state, focus_state;
 	GdkRectangle  item_rectangle, rect;
-	gboolean      view_label, view_comment, view_categories;
+	gboolean      view_label, view_comment, view_tags;
 	gboolean      focused;
 
 	if ((item->image_area.x == -1) || (item->slide_area.x == -1))
@@ -1589,7 +1589,7 @@ paint_item (GthImageList     *image_list,
 		g_object_unref (image_gc);
 	}
 
-	item_get_view_mode (image_list, item, &view_label, &view_comment, &view_categories);
+	item_get_view_mode (image_list, item, &view_label, &view_comment, &view_tags);
 
 	/* Label */
 
@@ -1629,23 +1629,23 @@ paint_item (GthImageList     *image_list,
 				 image_list->priv->comment_layout);
 	}
 
-	/* Categories */
+	/* Tags */
 
-	if (view_categories) {
+	if (view_tags) {
 		gdk_draw_rectangle (image_list->priv->bin_window,
 				    widget->style->base_gc[text_state],
 				    TRUE,
-				    item->categories_area.x - 1,
-				    item->categories_area.y - 1,
-				    item->categories_area.width + 2,
-				    item->categories_area.height + 2);
+				    item->tags_area.x - 1,
+				    item->tags_area.y - 1,
+				    item->tags_area.width + 2,
+				    item->tags_area.height + 2);
 
-		pango_layout_set_text (image_list->priv->categories_layout, item->categories, strlen (item->categories));
+		pango_layout_set_text (image_list->priv->tags_layout, item->tags, strlen (item->tags));
 		gdk_draw_layout (image_list->priv->bin_window,
 				 widget->style->text_gc[text_state],
-				 item->categories_area.x - (image_list->priv->max_item_width - item->categories_area.width) / 2,
-				 item->categories_area.y,
-				 image_list->priv->categories_layout);
+				 item->tags_area.x - (image_list->priv->max_item_width - item->tags_area.width) / 2,
+				 item->tags_area.y,
+				 image_list->priv->tags_layout);
 	}
 
 	/* Focus */
@@ -3851,7 +3851,7 @@ gth_image_list_insert (GthImageList *image_list,
 		       GdkPixbuf    *pixbuf,
 		       const char   *text,
 		       const char   *comment,
-                       const char   *categories)
+                       const char   *tags)
 {
 	GthImageListItem *item;
 	char             *comment2;
@@ -3861,7 +3861,7 @@ gth_image_list_insert (GthImageList *image_list,
 	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->n_images));
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, categories, image_list->priv->data_type);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, tags, image_list->priv->data_type);
 	g_free (comment2);
 
 	image_list_insert_item (image_list, item, pos);
@@ -3873,7 +3873,7 @@ gth_image_list_append_with_data (GthImageList *image_list,
 				 GdkPixbuf    *pixbuf,
 				 const char   *text,
 				 const char   *comment,
-                                 const char   *categories,
+                                 const char   *tags,
 				 gpointer      data)
 {
 	GthImageListItem *item;
@@ -3883,7 +3883,7 @@ gth_image_list_append_with_data (GthImageList *image_list,
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, categories, image_list->priv->data_type);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, tags, image_list->priv->data_type);
 	g_free (comment2);
 
 	/**/
@@ -3910,9 +3910,9 @@ gth_image_list_append (GthImageList  *image_list,
 		       GdkPixbuf     *pixbuf,
 		       const char    *text,
 		       const char    *comment,
-                       const char    *categories)
+                       const char    *tags)
 {
-	return gth_image_list_append_with_data (image_list, pixbuf, text, comment, categories, NULL);
+	return gth_image_list_append_with_data (image_list, pixbuf, text, comment, tags, NULL);
 }
 
 
@@ -4134,25 +4134,25 @@ gth_image_list_set_image_comment (GthImageList  *image_list,
 
 
 void
-gth_image_list_set_image_categories (GthImageList  *image_list,
-                                     int            pos,
-                                     const char    *categories)
+gth_image_list_set_image_tags (GthImageList  *image_list,
+                               int            pos,
+                               const char    *tags)
 {
 	GthImageListItem *item;
 
 	g_return_if_fail (image_list != NULL);
 	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
-	g_return_if_fail (categories!= NULL);
+	g_return_if_fail (tags!= NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
-	g_free (item->categories);
-	item->categories= NULL;
-	if (categories != NULL)
-		item->categories = g_strdup (categories);
-	item->categories_area.width = -1;
-	item->categories_area.height = -1;
+	g_free (item->tags);
+	item->tags= NULL;
+	if (tags != NULL)
+		item->tags = g_strdup (tags);
+	item->tags_area.width = -1;
+	item->tags_area.height = -1;
 
 	if (image_list->priv->frozen) {
 		image_list->priv->dirty = TRUE;
@@ -4488,7 +4488,7 @@ gth_image_list_get_image_at (GthImageList *image_list,
 
 	for (n = 0, scan = priv->image_list; scan; scan = scan->next, n++) {
 		GthImageListItem *item = scan->data;
-		gboolean          view_text, view_comment, view_categories;
+		gboolean          view_text, view_comment, view_tags;
 
 		if ((x >= item->slide_area.x)
 		    && (y >= item->slide_area.y)
@@ -4497,7 +4497,7 @@ gth_image_list_get_image_at (GthImageList *image_list,
 			return n;
 		}
 
-		item_get_view_mode (image_list, item, &view_text, &view_comment, &view_categories);
+		item_get_view_mode (image_list, item, &view_text, &view_comment, &view_tags);
 
 		if (view_text && _gdk_rectangle_point_in (&item->label_area, x, y)) {
 			return n;
@@ -4507,7 +4507,7 @@ gth_image_list_get_image_at (GthImageList *image_list,
 			return n;
 		}
 
-		if (view_categories && _gdk_rectangle_point_in (&item->categories_area, x, y)) {
+		if (view_tags && _gdk_rectangle_point_in (&item->tags_area, x, y)) {
 			return n;
                 }
 	}

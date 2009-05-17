@@ -26,7 +26,7 @@
 #include "gth-image-history.h"
 #include "gth-window.h"
 #include "dlg-comment.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "main.h"
 
 enum {
@@ -42,7 +42,7 @@ struct _GthWindowPrivateData {
 	GtkWidget       *table;
 	GtkWidget       *contents;
 	GtkWidget       *comment_dlg;
-	GtkWidget       *categories_dlg;
+	GtkWidget       *tags_dlg;
 	gboolean         slideshow;
 	gboolean         fullscreen;
 	GthImageHistory *history;
@@ -242,7 +242,7 @@ gth_window_init (GthWindow *window)
 
 	priv->contents = NULL;
 	priv->comment_dlg = NULL;
-	priv->categories_dlg = NULL;
+	priv->tags_dlg = NULL;
 	priv->history = gth_image_history_new ();
 
 	window_list = g_list_prepend (window_list, window);
@@ -288,9 +288,9 @@ gth_window_close (GthWindow *window)
 		priv->comment_dlg = NULL;
 	}
 
-	if (priv->categories_dlg != NULL) {
-		dlg_categories_close (priv->categories_dlg);
-		priv->categories_dlg = NULL;
+	if (priv->tags_dlg != NULL) {
+		dlg_tags_close (priv->tags_dlg);
+		priv->tags_dlg = NULL;
 	}
 
 	class->close (window);
@@ -510,17 +510,17 @@ gth_window_attach (GthWindow     *window,
 
 
 void
-gth_window_set_categories_dlg (GthWindow *window,
-			       GtkWidget *dialog)
+gth_window_set_tags_dlg (GthWindow *window,
+                         GtkWidget *dialog)
 {
-	window->priv->categories_dlg = dialog;
+	window->priv->tags_dlg = dialog;
 }
 
 
 GtkWidget *
-gth_window_get_categories_dlg (GthWindow *window)
+gth_window_get_tags_dlg (GthWindow *window)
 {
-	return window->priv->categories_dlg;
+	return window->priv->tags_dlg;
 }
 
 
@@ -540,15 +540,15 @@ gth_window_get_comment_dlg (GthWindow *window)
 
 
 void
-gth_window_update_comment_categories_dlg (GthWindow *window)
+gth_window_update_comment_tags_dlg (GthWindow *window)
 {
 	GthWindowPrivateData *priv = window->priv;
 
 	if (priv->comment_dlg != NULL)
 		dlg_comment_update (priv->comment_dlg);
 
-	if (priv->categories_dlg != NULL)
-		dlg_categories_update (priv->categories_dlg);
+	if (priv->tags_dlg != NULL)
+		dlg_tags_update (priv->tags_dlg);
 }
 
 
@@ -622,14 +622,14 @@ gth_window_edit_comment (GthWindow *window)
 
 
 void
-gth_window_edit_categories (GthWindow *window)
+gth_window_edit_tags (GthWindow *window)
 {
 	GthWindowPrivateData *priv = window->priv;
 
-	if (priv->categories_dlg == NULL)
-		priv->categories_dlg = dlg_categories_new (window);
+	if (priv->tags_dlg == NULL)
+		priv->tags_dlg = dlg_tags_new (window);
 	else
-		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
+		gtk_window_present (GTK_WINDOW (priv->tags_dlg));
 }
 
 

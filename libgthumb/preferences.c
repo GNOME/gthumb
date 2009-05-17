@@ -521,18 +521,18 @@ pref_get_view_mode (void)
         int view_mode = 0;
 	gboolean view_filenames;
 	gboolean view_comments;
-	gboolean view_categories;
+	gboolean view_tags;
 
 	view_filenames = eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE);
 	view_comments = eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE);
-	view_categories = eel_gconf_get_boolean (PREF_SHOW_CATEGORIES, TRUE);
+	view_tags = eel_gconf_get_boolean (PREF_SHOW_TAGS, TRUE);
 
         if (view_filenames)
                 view_mode |= GTH_VIEW_MODE_LABEL;
         if (view_comments)
                 view_mode |= GTH_VIEW_MODE_COMMENTS;
-        if (view_categories)
-                view_mode |= GTH_VIEW_MODE_CATEGORIES;
+        if (view_tags)
+                view_mode |= GTH_VIEW_MODE_TAGS;
 
 	return view_mode;
 }

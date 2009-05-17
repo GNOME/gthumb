@@ -55,8 +55,8 @@ gthumb_SOURCES = 				\
 	dlg-brightness-contrast.h		\
 	dlg-catalog.c				\
 	dlg-catalog.h				\
-	dlg-categories.c			\
-	dlg-categories.h			\
+	dlg-tags.c				\
+	dlg-tags.h				\
 	dlg-change-date.c			\
 	dlg-change-date.h			\
 	dlg-color-balance.c			\
@@ -103,8 +103,8 @@ gthumb_SOURCES = 				\
 	gth-browser-actions-callbacks.h		\
 	gth-browser-actions-callbacks.c		\
 	gth-browser-ui.h			\
-	gth-category-selection-dialog.c		\
-	gth-category-selection-dialog.h		\
+	gth-tag-selection-dialog.c		\
+	gth-tag-selection-dialog.h		\
 	gth-dir-list.c				\
 	gth-dir-list.h				\
 	gth-exif-data-viewer.c			\

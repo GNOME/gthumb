@@ -636,12 +636,12 @@ comments_save_comment (const char  *uri,
 	new_data = comments_load_comment (uri, FALSE);
 	
 	if ((new_data == NULL) && (data != NULL)) {
-		CommentData *data_without_categories;
+		CommentData *data_without_tags;
 
-		data_without_categories = comment_data_dup (data);
-		comment_data_free_keywords (data_without_categories);
-		save_comment (uri, data_without_categories, TRUE);
-		comment_data_free (data_without_categories);
+		data_without_tags = comment_data_dup (data);
+		comment_data_free_keywords (data_without_tags);
+		save_comment (uri, data_without_tags, TRUE);
+		comment_data_free (data_without_tags);
 
 		return;
 	}
@@ -700,7 +700,7 @@ comments_save_comment_non_null (const char  *uri,
 
 
 void
-comments_save_categories (const char  *uri,
+comments_save_tags (const char  *uri,
 			  CommentData *data)
 {
 	CommentData *new_data;
@@ -981,10 +981,10 @@ _get_comment_as_string_common (CommentData *data,
 
 /* Note: separators are not escaped */
 static char *
-_get_categories_as_string_common (CommentData *data,
+_get_tags_as_string_common (CommentData *data,
                                   char        *sep)
 {
-        GString *categories;
+        GString *tags;
         GSList  *tmp;
 
 	if (data == NULL)
@@ -993,15 +993,15 @@ _get_categories_as_string_common (CommentData *data,
         if (data->keywords == NULL)
                 return NULL;
 
-        categories = g_string_new ("");
+        tags = g_string_new ("");
 
         for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
-                g_string_append (categories, tmp->data);
+                g_string_append (tags, tmp->data);
                 if (g_slist_next (tmp))
-                        g_string_append (categories, sep);
+                        g_string_append (tags, sep);
         }
 
-        return g_string_free (categories, FALSE);
+        return g_string_free (tags, FALSE);
 }
 
 
@@ -1014,9 +1014,9 @@ comments_get_comment_as_string (CommentData *data,
 }
 
 char *
-comments_get_categories_as_string (CommentData *data,
+comments_get_tags_as_string (CommentData *data,
                                    char        *sep)
 {
-	return _get_categories_as_string_common (data, sep);
+	return _get_tags_as_string_common (data, sep);
 }
 

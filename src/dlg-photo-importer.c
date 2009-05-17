@@ -46,7 +46,7 @@
 #include "gth-browser.h"
 #include "file-data.h"
 #include "file-utils.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "comments.h"
 #include "gth-image-list.h"
 #include "dlg-file-utils.h"
@@ -57,10 +57,10 @@
 #include "main.h"
 
 #define GLADE_FILE "gthumb_camera.glade"
-#define CATEGORIES_GLADE_FILE "gthumb_comment.glade"
+#define TAGS_GLADE_FILE "gthumb_comment.glade"
 #define CAMERA_FILE "gphoto-48.png"
 #define MUTE_FILE "volume-mute.png"
-#define CATEGORY_SEPARATOR ";"
+#define TAG_SEPARATOR ";"
 #define MAX_TRIES 50
 #define THUMB_SIZE 100
 #define THUMB_BORDER 14
@@ -92,8 +92,8 @@ struct _DialogData {
 	GtkWidget           *format_code_label;
 	GtkWidget           *keep_names_checkbutton;
 	GtkWidget           *delete_checkbutton;
-	GtkWidget           *choose_categories_button;
-	GtkWidget           *categories_entry;
+	GtkWidget           *choose_tags_button;
+	GtkWidget           *tags_entry;
 	GtkWidget           *import_progressbar;
 	GtkWidget           *progress_camera_image;
 	GtkWidget           *import_preview_box;
@@ -139,7 +139,7 @@ struct _DialogData {
 	const char          *msg_icon;
 	char                *msg_text;
 
-	GList               *categories_list;
+	GList               *tags_list;
 	GList               *delete_list;
 	GList               *adjust_orientation_list;
 	GList               *saved_images_list;
@@ -389,7 +389,7 @@ destroy_cb (GtkWidget  *widget,
 		g_object_unref (data->no_camera_pixbuf);
 	if (data->camera_present_pixbuf != NULL)
 		g_object_unref (data->camera_present_pixbuf);
-	path_list_free (data->categories_list);
+	path_list_free (data->tags_list);
 	path_list_free (data->delete_list);
 	path_list_free (data->adjust_orientation_list);
 	path_list_free (data->saved_images_list);
@@ -1203,14 +1203,14 @@ get_file_name (DialogData *data,
 
 
 static void
-add_categories_to_image (DialogData *data,
-			 const char *local_file)
+add_tags_to_image (DialogData *data,
+                   const char *local_file)
 {
 	CommentData *cdata;
 	GList       *scan;
 	char        *uri;
 	
-	if (data->categories_list == NULL)
+	if (data->tags_list == NULL)
 		return;
 
 	uri = get_uri_from_local_path (local_file);
@@ -1218,12 +1218,12 @@ add_categories_to_image (DialogData *data,
 	if (cdata == NULL)
 		cdata = comment_data_new ();
 
-	for (scan = data->categories_list; scan; scan = scan->next) {
+	for (scan = data->tags_list; scan; scan = scan->next) {
 		const char *k = scan->data;
 		comment_data_add_keyword (cdata, k);
 	}
 
-	comments_save_categories (uri, cdata);
+	comments_save_tags (uri, cdata);
 	comment_data_free (cdata);
 	
 	g_free (uri);
@@ -1374,7 +1374,7 @@ save_image (DialogData *data,
 			if (data->delete_from_camera)
 				data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
 			data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (final_dest_path));
-			add_categories_to_image (data, final_dest_path);
+			add_tags_to_image (data, final_dest_path);
 		}
 	} 
 	else {
@@ -1746,37 +1746,37 @@ ok_clicked_cb (GtkButton  *button,
 
 
 static void
-choose_categories__done (gpointer callback_data)
+choose_tags__done (gpointer callback_data)
 {
 	DialogData *data = callback_data;
-	GString    *categories;
+	GString    *tags;
 	GList      *scan;
 
-	categories = g_string_new ("");
+	tags = g_string_new ("");
 
-	for (scan = data->categories_list; scan; scan = scan->next) {
+	for (scan = data->tags_list; scan; scan = scan->next) {
 		char *name = scan->data;
-		if (categories->len > 0)
-			categories = g_string_append (categories, CATEGORY_SEPARATOR " ");
-		categories = g_string_append (categories, name);
+		if (tags->len > 0)
+			tags = g_string_append (tags, TAG_SEPARATOR " ");
+		tags = g_string_append (tags, name);
 	}
 
-	gtk_entry_set_text (GTK_ENTRY (data->categories_entry), categories->str);
-	g_string_free (categories, TRUE);
+	gtk_entry_set_text (GTK_ENTRY (data->tags_entry), tags->str);
+	g_string_free (tags, TRUE);
 }
 
 
 static void
-choose_categories_cb (GtkButton  *button,
-		      DialogData *data)
+choose_tags_cb (GtkButton  *button,
+                DialogData *data)
 {
-	dlg_choose_categories (GTK_WINDOW (data->dialog),
-			       NULL,
-			       data->categories_list,
-			       &(data->categories_list),
-			       NULL,
-			       choose_categories__done,
-			       data);
+	dlg_choose_tags (GTK_WINDOW (data->dialog),
+                         NULL,
+                         data->tags_list,
+                         &(data->tags_list),
+                         NULL,
+                         choose_tags__done,
+                         data);
 }
 
 
@@ -2046,7 +2046,7 @@ dlg_photo_importer (GthBrowser *browser)
 	gp_abilities_list_new (&data->abilities_list);
 	gp_port_info_list_new (&data->port_list);
 
-	data->categories_list = NULL;
+	data->tags_list = NULL;
 	data->delete_list = NULL;
 	data->interrupted = FALSE;
 	data->camera_setted = FALSE;
@@ -2069,8 +2069,8 @@ dlg_photo_importer (GthBrowser *browser)
 	data->format_code_label = glade_xml_get_widget (data->gui, "format_code_label");
 	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
-	data->choose_categories_button = glade_xml_get_widget (data->gui, "choose_categories_button");
-	data->categories_entry = glade_xml_get_widget (data->gui, "categories_entry");
+	data->choose_tags_button = glade_xml_get_widget (data->gui, "choose_tags_button");
+	data->tags_entry = glade_xml_get_widget (data->gui, "tags_entry");
 	data->import_progressbar = glade_xml_get_widget (data->gui, "import_progressbar");
 	data->progress_info_image = glade_xml_get_widget (data->gui, "progress_info_image");
 	data->progress_info_label = glade_xml_get_widget (data->gui, "progress_info_label");
@@ -2167,9 +2167,9 @@ dlg_photo_importer (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (dlg_select_camera_model_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->choose_categories_button),
+	g_signal_connect (G_OBJECT (data->choose_tags_button),
 			  "clicked",
-			  G_CALLBACK (choose_categories_cb),
+			  G_CALLBACK (choose_tags_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->import_reload_button),

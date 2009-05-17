@@ -426,7 +426,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label3">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Ca_tegories:</property>
+		      <property name="label" translatable="yes">_Tags:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -458,7 +458,7 @@
 		      <property name="spacing">6</property>
 
 		      <child>
-			<widget class="GtkEntry" id="categories_entry">
+			<widget class="GtkEntry" id="tags_entry">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="editable">False</property>
@@ -477,7 +477,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkButton" id="choose_categories_button">
+			<widget class="GtkButton" id="choose_tags_button">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
 			  <property name="label" translatable="yes">...</property>

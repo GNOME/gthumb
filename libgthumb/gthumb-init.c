@@ -135,7 +135,7 @@ migrate_to_new_directories (void)
 	migrate_dir_from_to (OLD_RC_COMMENTS_DIR, RC_COMMENTS_DIR);
 	migrate_file_from_to (OLD_RC_BOOKMARKS_FILE, RC_BOOKMARKS_FILE);
 	migrate_file_from_to (OLD_RC_HISTORY_FILE, RC_HISTORY_FILE);
-	migrate_file_from_to (OLD_RC_CATEGORIES_FILE, RC_CATEGORIES_FILE);
+	migrate_file_from_to (OLD_RC_TAGS_FILE, RC_TAGS_FILE);
 
 	eel_gconf_set_boolean (PREF_MIGRATE_DIRECTORIES, FALSE);
 }

@@ -40,7 +40,7 @@
 #include "dlg-brightness-contrast.h"
 #include "dlg-hue-saturation.h"
 #include "dlg-catalog.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "dlg-change-date.h"
 #include "dlg-reset-exif.h"
 #include "dlg-comment.h"
@@ -271,10 +271,10 @@ gth_window_activate_action_edit_edit_comment (GtkAction *action,
 
 
 void
-gth_window_activate_action_edit_edit_categories (GtkAction *action,
-						 GthWindow *window)
+gth_window_activate_action_edit_edit_tags (GtkAction *action,
+                                           GthWindow *window)
 {
-	gth_window_edit_categories (window);
+	gth_window_edit_tags (window);
 }
 
 

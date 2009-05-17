@@ -240,10 +240,10 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Move selected folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_dir_move) },
 
-	{ "EditDir_Categories", NULL,
-	  N_("Ca_tegories..."), NULL,
-	  N_("Assign categories to the selected folder"),
-	  G_CALLBACK (gth_browser_activate_action_edit_dir_categories) },
+	{ "EditDir_Tags", NULL,
+	  N_("T_ags..."), NULL,
+	  N_("Assign tags to the selected folder"),
+	  G_CALLBACK (gth_browser_activate_action_edit_dir_tags) },
 
 	{ "EditCurrentDir_Open", NULL,
 	  N_("Open with the _File Manager"), NULL,
@@ -270,10 +270,10 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Move current folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_move) },
 
-	{ "EditCurrentDir_Categories", NULL,
-	  N_("Ca_tegories..."), NULL,
-	  N_("Assign categories to the current folder"),
-	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_categories) },
+	{ "EditCurrentDir_Tags", NULL,
+	  N_("T_ags..."), NULL,
+	  N_("Assign tags to the current folder"),
+	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_tags) },
 
 	{ "EditCurrentDir_New", NULL,
 	  N_("_New Folder..."), "<shift><ctrl>N",

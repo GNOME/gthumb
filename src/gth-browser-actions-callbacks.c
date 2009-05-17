@@ -29,7 +29,7 @@
 #include "comments.h"
 #include "dlg-bookmarks.h"
 #include "dlg-catalog.h"
-#include "dlg-categories.h"
+#include "dlg-tags.h"
 #include "dlg-convert.h"
 #include "dlg-duplicates.h"
 #include "dlg-file-utils.h"
@@ -1376,13 +1376,13 @@ typedef struct {
 	GthBrowser *browser;
 	GList      *file_list;
 	GList      *add_list, *remove_list;
-} FolderCategoriesData;
+} FolderTagsData;
 
 
 static void
-edit_current_folder_categories__done (gpointer data)
+edit_current_folder_tags__done (gpointer data)
 {
-	FolderCategoriesData *fcdata = data;
+	FolderTagsData *fcdata = data;
 	GList                *scan;
 
 	for (scan = fcdata->file_list; scan; scan = scan->next) {
@@ -1405,7 +1405,7 @@ edit_current_folder_categories__done (gpointer data)
 			comment_data_add_keyword (cdata, k);
 		}
 
-		comments_save_categories (filename, cdata);
+		comments_save_tags (filename, cdata);
 		comment_data_free (cdata);
 
 		dir_list = gth_browser_get_dir_list (fcdata->browser);
@@ -1423,40 +1423,40 @@ edit_current_folder_categories__done (gpointer data)
 
 
 static void
-edit_current_folder_categories (GthBrowser *browser,
-				const char *path)
+edit_current_folder_tags (GthBrowser *browser,
+                          const char *path)
 {
-	FolderCategoriesData *fcdata;
+	FolderTagsData *fcdata;
 
 	if (path == NULL)
 		return;
 
-	fcdata = g_new0 (FolderCategoriesData, 1);
+	fcdata = g_new0 (FolderTagsData, 1);
 	fcdata->browser = browser;
 	fcdata->add_list = NULL;
 	fcdata->remove_list = NULL;
 	fcdata->file_list = g_list_prepend (NULL, g_strdup (path));
 
-	dlg_choose_categories (GTK_WINDOW (browser),
-			       fcdata->file_list,
-			       NULL,
-			       &(fcdata->add_list),
-			       &(fcdata->remove_list),
-			       edit_current_folder_categories__done,
-			       fcdata);
+	dlg_choose_tags (GTK_WINDOW (browser),
+                         fcdata->file_list,
+                         NULL,
+                         &(fcdata->add_list),
+                         &(fcdata->remove_list),
+                         edit_current_folder_tags__done,
+                         fcdata);
 }
 
 
 void
-gth_browser_activate_action_edit_dir_categories (GtkAction  *action,
-						 GthBrowser *browser)
+gth_browser_activate_action_edit_dir_tags (GtkAction  *action,
+                                           GthBrowser *browser)
 {
 	char *path;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL)
 		return;
-	edit_current_folder_categories (browser, path);
+	edit_current_folder_tags (browser, path);
 	g_free (path);
 }
 
@@ -1502,10 +1502,10 @@ gth_browser_activate_action_edit_current_dir_move (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_edit_current_dir_categories (GtkAction  *action,
-							 GthBrowser *browser)
+gth_browser_activate_action_edit_current_dir_tags (GtkAction  *action,
+                                                   GthBrowser *browser)
 {
-	edit_current_folder_categories (browser, gth_browser_get_dir_list (browser)->path);
+	edit_current_folder_tags (browser, gth_browser_get_dir_list (browser)->path);
 }
 
 

@@ -49,7 +49,7 @@
 #define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"
 #define  PREF_SHOW_COMMENTS          "/apps/gthumb/browser/show_comments"
 #define  PREF_SHOW_THUMBNAILS        "/apps/gthumb/browser/show_thumbnails"
-#define  PREF_SHOW_CATEGORIES        "/apps/gthumb/browser/show_categories"
+#define  PREF_SHOW_TAGS              "/apps/gthumb/browser/show_tags"
 #define  PREF_FAST_FILE_TYPE         "/apps/gthumb/browser/fast_file_type"
 #define  PREF_SAVE_THUMBNAILS        "/apps/gthumb/browser/save_thumbnails"
 #define  PREF_THUMBNAIL_SIZE         "/apps/gthumb/browser/thumbnail_size"

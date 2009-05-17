@@ -420,7 +420,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label58">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Ca_tegories:</property>
+		  <property name="label" translatable="yes">_Tags:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -430,7 +430,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">s_categories_entry</property>
+		  <property name="mnemonic_widget">s_tags_entry</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -553,7 +553,7 @@
 		  <property name="spacing">5</property>
 
 		  <child>
-		    <widget class="GtkEntry" id="s_categories_entry">
+		    <widget class="GtkEntry" id="s_tags_entry">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>
@@ -572,9 +572,9 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkButton" id="s_choose_categories_button">
+		    <widget class="GtkButton" id="s_choose_tags_button">
 		      <property name="visible">True</property>
-		      <property name="tooltip" translatable="yes">Choose categories from the saved list</property>
+		      <property name="tooltip" translatable="yes">Choose tags from the saved list</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">...</property>
 		      <property name="use_underline">True</property>
@@ -1786,9 +1786,9 @@
   </child>
 </widget>
 
-<widget class="GtkDialog" id="categories_dialog">
+<widget class="GtkDialog" id="tags_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Categories</property>
+  <property name="title" translatable="yes">Tags</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
@@ -1866,7 +1866,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label46">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">A_vailable categories:</property>
+		  <property name="label" translatable="yes">A_vailable tags:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1876,7 +1876,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">c_categories_treeview</property>
+		  <property name="mnemonic_widget">c_tags_treeview</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -1901,7 +1901,7 @@
 		  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 		  <child>
-		    <widget class="GtkTreeView" id="c_categories_treeview">
+		    <widget class="GtkTreeView" id="c_tags_treeview">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="headers_visible">False</property>
@@ -1937,7 +1937,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label59">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Selected categories:</property>
+		  <property name="label" translatable="yes">_Selected tags:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1947,7 +1947,7 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">c_categories_entry</property>
+		  <property name="mnemonic_widget">c_tags_entry</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -1961,7 +1961,7 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkEntry" id="c_categories_entry">
+		<widget class="GtkEntry" id="c_tags_entry">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="editable">False</property>
@@ -1996,7 +1996,7 @@
 		<widget class="GtkRadioButton" id="s_at_least_one_cat_radiobutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Match a_ny selected category</property>
+		  <property name="label" translatable="yes">Match a_ny selected tag</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -2015,7 +2015,7 @@
 		<widget class="GtkRadioButton" id="s_all_cat_radiobutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Match a_ll selected categories</property>
+		  <property name="label" translatable="yes">Match a_ll selected tags</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
