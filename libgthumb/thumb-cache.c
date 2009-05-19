@@ -39,6 +39,7 @@
 #include "typedefs.h"
 #include "thumb-cache.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "file-data.h"
 #include "gtk-utils.h"
 
@@ -49,34 +50,12 @@
 char *
 cache_get_nautilus_cache_name (const char *path)
 {
-	char           *parent;
-	char           *resolved_parent;
-	char           *resolved_path = NULL;
-	GnomeVFSURI    *uri;
-	char           *uri_txt;
 	char           *retval;
+	FileData       *fd;
 
-	parent = remove_level_from_path (path);
-	resolved_parent = resolve_all_symlinks (parent);
-	g_free (parent);
-
-	resolved_path = g_strconcat (resolved_parent,
-				     "/",
-				     file_name_from_path (path),
-				     NULL);
-	uri = new_uri_from_path (resolved_path);
-
-	g_free (resolved_path);
-	g_free (resolved_parent);
-
-	uri_txt = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
-	gnome_vfs_uri_unref (uri);
-
-	if (uri_txt == NULL)
-		return NULL;
-
-	retval = gnome_thumbnail_path_for_uri (uri_txt, GNOME_THUMBNAIL_SIZE_NORMAL);
-	g_free (uri_txt);
+	fd = file_data_new (path);
+	retval = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+	file_data_unref (fd);
 
 	return retval;
 }

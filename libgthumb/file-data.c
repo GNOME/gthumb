@@ -60,8 +60,10 @@ load_info (FileData *fd)
 {
 	GFileInfo *info;
 	GFile     *gfile;
+	GFile     *gfile_resolved;
 	GError    *error = NULL;
 	GTimeVal   tv;
+	char      *resolved_path;
 
 	g_free (fd->local_path);
 	gfile = gfile_new (fd->path);
@@ -76,6 +78,14 @@ load_info (FileData *fd)
 		g_free (fd->local_path);
 		fd->local_path = NULL;
 	}
+
+	g_free (fd->uri);
+
+	resolved_path = resolve_all_symlinks (fd->path);
+	gfile_resolved = gfile_new (resolved_path);
+	fd->uri = g_file_get_uri (gfile_resolved);
+	g_object_unref (gfile_resolved);
+	g_free (resolved_path);
 
 	info = g_file_query_info (gfile, 
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
@@ -168,6 +178,7 @@ file_data_dup (FileData *source)
         fd->utf8_path = g_strdup (source->utf8_path);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
 	fd->local_path = g_strdup (source->local_path);
+	fd->uri = g_strdup (source->uri);
 
 	fd->mime_type = get_static_string (source->mime_type);
 	fd->size = source->size;
@@ -199,6 +210,7 @@ file_data_unref (FileData *fd)
 		g_free (fd->path);
 		g_free (fd->utf8_path);
 		g_free (fd->local_path);
+		g_free (fd->uri);
 		if (fd->comment_data != NULL)
 			comment_data_free (fd->comment_data);
 		g_free (fd->comment);

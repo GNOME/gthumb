@@ -651,22 +651,22 @@ file_unlink (const char *path)
 void
 delete_thumbnail (const char *path)
 {
-	char *uri;
-	char *large_thumbnail;
-	char *normal_thumbnail;
+	char     *large_thumbnail;
+	char     *normal_thumbnail;
+	FileData *fd;
 
-	uri = add_scheme_if_absent (path);
+	fd = file_data_new (path);
 
 	/* delete associated thumbnails, if present */
-	large_thumbnail = gnome_thumbnail_path_for_uri (uri, GNOME_THUMBNAIL_SIZE_LARGE);
-	normal_thumbnail = gnome_thumbnail_path_for_uri (uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+	large_thumbnail = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_LARGE);
+	normal_thumbnail = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
 
 	file_unlink (large_thumbnail);
 	file_unlink (normal_thumbnail);
 
 	g_free (large_thumbnail);
 	g_free (normal_thumbnail);
-	g_free (uri);
+	file_data_unref (fd);
 }
 
 
@@ -1547,6 +1547,9 @@ char *resolve_all_symlinks (const char *uri)
 	gfile_full = gfile_new (uri);
 	gfile_curr = gfile_new (uri);
 
+	if (!g_file_query_exists (gfile_curr, NULL))
+		return g_strdup (uri);
+
 	while ((parent = g_file_get_parent (gfile_curr)) != NULL) {
 		GFileInfo  *info;
 		GError     *error = NULL;
@@ -2328,12 +2331,10 @@ gth_pixbuf_new_from_video (FileData               *file,
 			   gboolean                resolve_symlinks)
 {
       	GdkPixbuf *pixbuf = NULL;
-      	char      *file_uri = NULL;
 	char      *thumbnail_uri;
 
-	file_uri = resolve_all_symlinks (file->path);
 	thumbnail_uri = gnome_thumbnail_factory_lookup (factory,
-							file_uri,
+							file->uri,
 							file->mtime);
 	if (thumbnail_uri != NULL) {
 		char *thumbnail_path;
@@ -2343,18 +2344,17 @@ gth_pixbuf_new_from_video (FileData               *file,
 		g_free (thumbnail_path);
 	}
 	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, 
-								     file_uri, 
+								     file->uri, 
 								     file->mtime)) 
 	{ 
 		pixbuf = NULL;
 	}
 	else 
 		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
-								     file_uri, 
+								     file->uri, 
 								     file->mime_type);
 
 	g_free (thumbnail_uri);
-	g_free (file_uri);
 
 	return pixbuf;
 }

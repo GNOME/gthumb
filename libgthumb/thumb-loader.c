@@ -374,12 +374,12 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	
 	if (tl->priv->use_cache) {
 		cache_path = gnome_thumbnail_factory_lookup (tl->priv->thumb_factory,
-							     tl->priv->file->path,
+							     tl->priv->file->uri,
 							     tl->priv->file->mtime);
 
 		if ((cache_path == NULL)  
 		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
-									   tl->priv->file->path,
+									   tl->priv->file->uri,
 									   tl->priv->file->mtime)
 		    && ((time (NULL) - tl->priv->file->mtime) > (time_t) 5)) 
 		{
@@ -470,7 +470,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 		g_free (cache_base_uri);
 	}
 
-	cache_file = gnome_thumbnail_path_for_uri (tl->priv->file->path, tl->priv->thumb_size);
+	cache_file = gnome_thumbnail_path_for_uri (tl->priv->file->uri, tl->priv->thumb_size);
 	if (cache_file == NULL)
 		return FALSE;
 		
@@ -480,7 +480,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if (ensure_dir_exists (cache_dir))	
 		gnome_thumbnail_factory_save_thumbnail (tl->priv->thumb_factory,
 							tl->priv->pixbuf,
-							tl->priv->file->path,
+							tl->priv->file->uri,
 							tl->priv->file->mtime);
 	g_free (cache_dir);
 
@@ -507,7 +507,7 @@ thumb_loader_done_cb (ImageLoader *il,
 
 	if (pixbuf == NULL) {
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
-								 priv->file->path,
+								 priv->file->uri,
 								 priv->file->mtime);
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 		return;
@@ -585,7 +585,7 @@ thumb_loader_error_cb (ImageLoader *il,
 		}
 
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
-								 priv->file->path,
+								 priv->file->uri,
 								 priv->file->mtime);
 
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);

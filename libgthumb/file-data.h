@@ -33,11 +33,12 @@
 typedef struct {
 	guint               ref : 8;
 
-	char               *path;          /* Full path name. */
-	const char         *name;          /* File name only. */
-	char               *utf8_path;	   /* Always unescaped UTF8 */
-	const char	   *utf8_name;     /* Always unescaped UTF8 */
+	char               *path;          /* Full path name, may be escaped or unescaped. */
+	const char         *name;          /* File name only, may be escaped on unescaped. */
+	char               *utf8_path;	   /* Full path name, always unescaped UTF8 */
+	const char	   *utf8_name;     /* File name only, always unescaped UTF8 */
 	char		   *local_path;    /* May be a gvfs mount point */
+	char		   *uri;	   /* Always escaped URI. Symlinks are resolved. */
 	const char         *mime_type;
 	goffset             size;
 	time_t              ctime;
