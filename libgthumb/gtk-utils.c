@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 #include "gtk-utils.h"
 #include "gconf-utils.h"
@@ -756,22 +755,6 @@ _gtk_button_set_filename_label (GtkButton   *button,
 	utf8_text = get_utf8_display_name_from_uri (text);
 	gtk_button_set_label (button, utf8_text);
 	g_free (utf8_text);
-}
-
-
-char *
-_gtk_button_get_filename_label (GtkButton   *button)
-{
-	const char *utf8_text;
-	char       *text;
-
-	utf8_text = gtk_button_get_label (button);
-	if (utf8_text == NULL)
-		return NULL;
-
-	text = gnome_vfs_escape_string (utf8_text);
-
-	return text;
 }
 
 

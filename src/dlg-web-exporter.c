@@ -130,7 +130,7 @@ export (GtkWidget  *widget,
 	CatalogWebExporter *exporter = data->exporter;
 	char               *location;
 	char               *path;
-	char               *theme;
+	const char         *theme;
 	const char         *header;
 	const char         *footer;
 
@@ -168,7 +168,7 @@ export (GtkWidget  *widget,
 	footer = gtk_entry_get_text (GTK_ENTRY (data->wa_footer_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_FOOTER, footer);
 
-	theme = _gtk_button_get_filename_label (GTK_BUTTON (data->wa_select_theme_button));
+	theme = gtk_button_get_label (GTK_BUTTON (data->wa_select_theme_button));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
 
 	if (strcmp (theme, "") == 0) {
@@ -207,7 +207,6 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_style (exporter, theme);
 
 	g_free (location);
-	g_free (theme);
 
 	/* Export. */
 

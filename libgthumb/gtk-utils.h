@@ -96,8 +96,6 @@ char *      _gtk_entry_get_filename_text (GtkEntry   *entry);
 void        _gtk_button_set_filename_label (GtkButton   *button,
 					  const char *text);
 
-char *      _gtk_button_get_filename_label (GtkButton   *button);
-
 gboolean    exec_command                 (const char *application,
 					  GList      *file_list);
 
