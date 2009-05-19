@@ -763,9 +763,16 @@ gboolean
 gfile_xfer (GFile    *sfile,
             GFile    *dfile,
             gboolean  move,
+            gboolean  overwrite,
 	    GError  **error)
 {
+	int     attr;
 	GError *priv_error = NULL;
+
+	if (overwrite)
+		attr = G_FILE_COPY_OVERWRITE;
+	else
+		attr = G_FILE_COPY_NONE;
 
         if (error == NULL)
                 error = &priv_error;
@@ -775,7 +782,7 @@ gfile_xfer (GFile    *sfile,
 #if GLIB_CHECK_VERSION(2,19,0)
 			     G_FILE_COPY_TARGET_DEFAULT_PERMS |
 #endif 
-                             G_FILE_COPY_NONE,
+                             attr,
                              NULL, _empty_file_progress_cb,
                              NULL, error);
         else
@@ -783,7 +790,7 @@ gfile_xfer (GFile    *sfile,
 #if GLIB_CHECK_VERSION(2,19,0)
                              G_FILE_COPY_TARGET_DEFAULT_PERMS |
 #endif 
-                             G_FILE_COPY_NONE,
+                             attr,
                              NULL, _empty_file_progress_cb,
                              NULL, error);
 
@@ -800,17 +807,19 @@ gfile_xfer (GFile    *sfile,
 gboolean
 gfile_copy (GFile   *sfile,
             GFile   *dfile,
+            gboolean overwrite,
 	    GError **error)
 {
-        return gfile_xfer (sfile, dfile, FALSE, error);
+        return gfile_xfer (sfile, dfile, FALSE, overwrite, error);
 }
 
 gboolean
 gfile_move (GFile   *sfile,
             GFile   *dfile,
+            gboolean overwrite,
 	    GError **error)
 {
-        return gfile_xfer (sfile, dfile, TRUE, error);
+        return gfile_xfer (sfile, dfile, TRUE, overwrite, error);
 }
 
 

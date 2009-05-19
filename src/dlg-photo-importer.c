@@ -1351,7 +1351,7 @@ save_image (DialogData *data,
 			/* Create the subfolder if necessary, and move the 
 			   temporary file to it */
 			if (ensure_dir_exists (dest_folder) ) {
-				if (!file_move (initial_dest_path, final_dest_path, NULL)) {
+				if (!file_move (initial_dest_path, final_dest_path, TRUE, NULL)) {
 					error_found = TRUE;
 				}
 			} else {

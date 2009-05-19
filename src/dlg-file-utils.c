@@ -1026,7 +1026,7 @@ dlg_file_rename_series (GthWindow *window,
 			continue;
 		}
 
-		file_move (old_full_path, new_full_path, &gerror);
+		file_move (old_full_path, new_full_path, TRUE, &gerror);
 		if (gerror == NULL) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);

@@ -203,7 +203,7 @@ apply_transformation_jpeg (FileData       *file,
 		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	if (! file_move (tmp_output_file, file->local_path, NULL)) {
+	if (! file_move (tmp_output_file, file->local_path, TRUE, NULL)) {
 		if (error != NULL)
 			*error = g_error_new (GTHUMB_ERROR, 0, "%s", _("Could not move temporary file to local destination. Check folder permissions."));
 		result = FALSE;

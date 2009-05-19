@@ -252,7 +252,7 @@ duplicate_file (GtkWindow  *window,
 	g_free (dir);
 	g_free (old_name_no_ext);
 
-	if (file_copy (old_path, new_path, NULL)) {
+	if (file_copy (old_path, new_path, FALSE, NULL)) {
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
 	} 
@@ -498,7 +498,7 @@ catalog_rename (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
-	else if (file_move (old_fd->path,new_fd->path, NULL)) {
+	else if (file_move (old_fd->path,new_fd->path, FALSE, NULL)) {
 		all_windows_notify_catalog_rename (old_fd->path,new_fd->path);
 	} 
 	else {
@@ -973,7 +973,7 @@ folder_rename (GtkWindow  *window,
 	else {
 		gboolean        result;
 
-		result = file_move (old_fd->path, new_fd->utf8_path, NULL);
+		result = file_move (old_fd->path, new_fd->utf8_path, FALSE, NULL);
 		if (result) {
 			comment_move (old_path, new_path);
 			all_windows_notify_directory_rename (old_fd->path, new_fd->path);
@@ -1256,7 +1256,7 @@ folder_copy__response_cb (GObject *object,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		file_move (old_fd->utf8_path, new_fd->utf8_path, &error);
+		file_move (old_fd->utf8_path, new_fd->utf8_path, FALSE, &error);
 		if (!error) {
 			char *new_folder_comment;
 
@@ -1264,7 +1264,7 @@ folder_copy__response_cb (GObject *object,
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE);
-			file_move (old_folder_comment, new_folder_comment, NULL);
+			file_move (old_folder_comment, new_folder_comment, TRUE, NULL);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);

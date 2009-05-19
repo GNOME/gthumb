@@ -117,9 +117,11 @@ gboolean            file_is_image_video_or_audio  (const gchar      *name,
 gboolean            file_is_hidden                (const char       *name);
 gboolean            file_copy                     (const char       *from,
 						   const char       *to,
+                                                   gboolean          overwrite,
 						   GError	   **error);
 gboolean            file_move                     (const char       *from,
 						   const char       *to,
+					           gboolean          overwrite,
 						   GError	   **error);
 void                file_unlink_with_gerror       (const char  *full_path,
                                                    GError     **gerror);

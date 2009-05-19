@@ -224,7 +224,7 @@ comment_copy (const char *src,
 	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
-	file_copy (comment_src, comment_dest, NULL);
+	file_copy (comment_src, comment_dest, TRUE, NULL);
 
 	g_free (comment_src);
 	g_free (comment_dest);
@@ -248,7 +248,7 @@ comment_move (const char *src,
 	if (path_is_file (comment_dest))
 		file_unlink (comment_dest);
 
-	file_move (comment_src, comment_dest, NULL);
+	file_move (comment_src, comment_dest, TRUE, NULL);
 
 	g_free (comment_src);
 	g_free (comment_dest);

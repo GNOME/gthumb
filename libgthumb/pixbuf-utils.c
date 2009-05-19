@@ -1229,7 +1229,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 				ext = get_filename_extension (original_local_file);
 				temp_backup = get_temp_file_name (temp_dir, ext);
 				g_free (ext);
-				file_copy (original_local_file, temp_backup, NULL);
+				file_copy (original_local_file, temp_backup, TRUE, NULL);
 			}
 		}
 	}

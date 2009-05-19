@@ -2707,7 +2707,7 @@ export__copy_image (CatalogWebExporter *ce)
 			        idata, 
 			        ce->target_tmp_dir);
 		
-	copy_done = gfile_copy (sfile, dfile, NULL);
+	copy_done = gfile_copy (sfile, dfile, TRUE, NULL);
 
 	if (copy_done) {
 		if (gfile_image_is_jpeg (dfile)) {
