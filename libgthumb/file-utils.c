@@ -2139,11 +2139,6 @@ get_cache_full_path (const char *filename,
 }
 
 
-#define MAX_CACHE_SIZE (256 * 1024 * 1024)
-static GnomeVFSFileSize  cache_used_space = 0;
-static GList            *cache_files = NULL;
-
-
 void
 free_cache (void)
 {
@@ -2165,10 +2160,6 @@ free_cache (void)
 
 	g_object_unref (cache_gfile);
 	file_data_list_free (files);
-	file_data_list_free (cache_files);
-
-	cache_files = NULL;
-	cache_used_space = 0;
 }
 
 
