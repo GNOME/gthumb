@@ -33,7 +33,6 @@
 
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-thumbnail.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include <gtk/gtk.h>
 
 #include "typedefs.h"
