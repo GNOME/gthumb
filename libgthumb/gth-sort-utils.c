@@ -36,6 +36,33 @@
 
 
 int
+case_insens_utf8_cmp (const char *string1,
+                      const char *string2)
+{
+	gchar    *case_insens1;
+	gchar    *case_insens2;
+	gboolean  result;
+
+	if ((string1 == NULL) && (string2 == NULL))
+                return 0;
+        if (string2 == NULL)
+                return 1;
+        if (string1 == NULL)
+                return -1;
+
+	case_insens1 = g_utf8_casefold (string1,-1);
+	case_insens2 = g_utf8_casefold (string2,-1);
+
+	result = g_utf8_collate (case_insens1, case_insens2);
+
+	g_free (case_insens1);
+	g_free (case_insens2);
+
+	return result;
+}
+
+
+int
 gth_sort_by_comment_then_name (const char *string1,
 			       const char *string2,
 			       const char *name1,
@@ -48,13 +75,8 @@ gth_sort_by_comment_then_name (const char *string1,
 
 	if ((string1 == NULL) && (string2 == NULL))
                 return name_result;
-        if (string2 == NULL)
-                return 1;
-        if (string1 == NULL)
-                return -1;
 
-	collate_result = g_utf8_collate ( g_utf8_casefold (string1,-1), g_utf8_casefold (string2,-1) );
-
+	collate_result = case_insens_utf8_cmp (string1, string2);
 	if (collate_result)
 		return collate_result;
 	else

@@ -25,6 +25,8 @@
 
 #include "file-data.h"
 
+int case_insens_utf8_cmp                 (const char       *string1,
+                                          const char       *string2);
 int gth_sort_by_comment_then_name        (const char       *string1, 
 					  const char       *string2,
 			                  const char       *name1, 

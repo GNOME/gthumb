@@ -40,7 +40,7 @@
 #include "gth-file-view.h"
 #include "comments.h"
 #include "dlg-tags.h"
-
+#include "gth-sort-utils.h"
 
 typedef void (*SaveFunc) (GList *file_list, gpointer data);
 
@@ -462,7 +462,7 @@ keyword_equal_func (GtkTreeModel *model,
 {
 	char *cell;
 	gtk_tree_model_get (model, iter, column, &cell, -1);
-	return g_strcasecmp (key, cell) > 0;
+	return case_insens_utf8_cmp (key, cell) > 0;
 }
 
 

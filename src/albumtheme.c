@@ -1960,7 +1960,7 @@ yyreduce:
 #line 355 "albumtheme.y"
       {
 	GString *s = g_string_new ("");
-	g_string_sprintf (s, " %i", (yyvsp[(1) - (1)].ivalue));
+	g_string_printf (s, " %i", (yyvsp[(1) - (1)].ivalue));
 	(yyval.string) = s;
 	;
       }
