@@ -2231,8 +2231,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 
 				/* Check for an embedded thumbnail first */
 				thumb_command = g_strdup_printf ("dcraw -e %s", local_file_esc);
-                		if (gnome_vfs_is_executable_command_string (thumb_command))
-			        	g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
+		        	g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
 				g_free (thumb_command);
 
 				first_part = remove_extension_from_path (file->local_path);
@@ -2295,8 +2294,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 		}
 
 		if (command != NULL) {
-			if (gnome_vfs_is_executable_command_string (command))
-			       	system (command);
+		       	system (command);
 			g_free (command);
 		}
 	}
