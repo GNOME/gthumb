@@ -1653,19 +1653,31 @@ get_catalog_full_path (const char *relative_path)
 gboolean
 file_is_search_result (const char *path)
 {
-	GnomeVFSResult  r;
-	GnomeVFSHandle *handle;
-	char            line[50] = "";
+        GFileInputStream *istream;
+        GDataInputStream *dstream;
+        GError           *error = NULL;
+        GFile            *gfile;
+        char             *line;
+	gsize		  length;
 
-	r = gnome_vfs_open (&handle, path, GNOME_VFS_OPEN_READ);
-	if (r != GNOME_VFS_OK)
-		return FALSE;
+	gfile = gfile_new (path);
+	istream = g_file_read (gfile, NULL, &error);
+        if (error != NULL) {
+                g_error_free (error);
+		g_object_unref (istream);
+		g_object_unref (gfile);
+                return FALSE;
+        }
 
-	r = gnome_vfs_read (handle, line, strlen (SEARCH_HEADER), NULL);
-	gnome_vfs_close (handle);
+	dstream = g_data_input_stream_new (G_INPUT_STREAM(istream));
+	line = g_data_input_stream_read_line (dstream, &length, NULL, NULL);
 
-	if ((r != GNOME_VFS_OK) || (line[0] == 0))
-		return FALSE;
+	g_object_unref (istream);
+	g_object_unref (dstream);
+        g_object_unref (gfile);
+
+        if (line == NULL)
+                return FALSE;
 
 	return strncmp (line, SEARCH_HEADER, strlen (SEARCH_HEADER)) == 0;
 }
