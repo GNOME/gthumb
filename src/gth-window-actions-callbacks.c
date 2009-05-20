@@ -641,14 +641,14 @@ set_wallpaper_step_2 (const char     *uri,
 	client = gconf_client_get_default ();
 
 	if (path_is_file (uri)) {
-		char *image_path;
-		
-		image_path = get_local_path_from_uri (uri);
-		gconf_client_set_string (client,
-					 "/desktop/gnome/background/picture_filename",
-					 image_path,
-					 NULL);
-		g_free (image_path);
+		FileData *fd;
+		fd = file_data_new (uri);
+		if (file_data_has_local_path (fd, GTK_WINDOW (data->window)))
+			gconf_client_set_string (client,
+						 "/desktop/gnome/background/picture_filename",
+						 fd->local_path,
+						 NULL);
+		file_data_unref (fd);
 		
 		switch (data->align) {
 		case WALLPAPER_ALIGN_TILED:
@@ -755,6 +755,7 @@ set_wallpaper_from_window (GthWindow      *window,
 		char        *wallpaper_filename = NULL;
 		char        *local_file;
 		GError      *error = NULL;
+		FileData    *fd;
 
 		image_viewer = gth_window_get_image_viewer (window);
 		pixbuf = image_viewer_get_current_pixbuf (image_viewer);
@@ -764,23 +765,26 @@ set_wallpaper_from_window (GthWindow      *window,
 		g_object_ref (pixbuf);
 
 		wallpaper_filename = get_new_wallpaper_filename ();
-		local_file = get_local_path_from_uri (wallpaper_filename);
-		if (! _gdk_pixbuf_save (pixbuf,
-					local_file,
-					NULL,
-					"jpeg",
-					&error,
-					NULL)) 
-		{
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
-			g_object_unref (pixbuf);
-			g_free (local_file);			
-			g_free (wallpaper_filename);
-			return;
-		}
 
+		fd = file_data_new (wallpaper_filename);
+		if (file_data_has_local_path (fd, GTK_WINDOW (window))) {
+			if (! _gdk_pixbuf_save (pixbuf,
+						fd->local_path,
+						NULL,
+						"jpeg",
+						&error,
+						NULL)) 
+			{
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
+				g_object_unref (pixbuf);
+				file_data_unref (fd);		
+				g_free (wallpaper_filename);
+				return;
+			}
+		}
 		image_path = wallpaper_filename;
-		
+
+		file_data_unref (fd);
 		g_object_unref (pixbuf);
 		g_free (local_file);
 	}

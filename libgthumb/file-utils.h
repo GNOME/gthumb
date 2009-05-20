@@ -156,7 +156,6 @@ char *              add_filename_to_uri           (const char       *uri,
 char *              get_uri_from_local_path       (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
-char *              get_local_path_from_uri       (const char       *uri);
 gboolean            path_in_path                  (const char       *path_src,
 						   const char       *path_dest);
 int                 uricmp                        (const char       *uri1,

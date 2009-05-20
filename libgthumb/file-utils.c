@@ -1220,13 +1220,6 @@ file_name_from_path (const char *file_name)
 }
 
 
-char *
-get_local_path_from_uri (const char *uri)
-{
-       	return gnome_vfs_unescape_string (remove_host_from_uri (uri), NULL);
-}
-
-
 /* Check whether the path_src is contained in path_dest */
 gboolean
 path_in_path (const char  *path_src,
@@ -2326,11 +2319,10 @@ gth_pixbuf_new_from_video (FileData               *file,
 							file->uri,
 							file->mtime);
 	if (thumbnail_uri != NULL) {
-		char *thumbnail_path;
-
-		thumbnail_path = get_local_path_from_uri (thumbnail_uri);
-		pixbuf = gdk_pixbuf_new_from_file (thumbnail_path, error);
-		g_free (thumbnail_path);
+		FileData *fd_thumb;
+		fd_thumb = file_data_new (thumbnail_uri);
+		pixbuf = gdk_pixbuf_new_from_file (fd_thumb->local_path, error);
+		file_data_unref (fd_thumb);
 	}
 	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, 
 								     file->uri, 
