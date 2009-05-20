@@ -26,10 +26,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-icon-lookup.h>
-#include <libgnomevfs/gnome-vfs-types.h>
-#include <libgnomevfs/gnome-vfs-ops.h>
-#include <libgnomevfs/gnome-vfs-file-info.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-async-ops.h>
 
 #include "gconf-utils.h"
 #include "gthumb-init.h"
