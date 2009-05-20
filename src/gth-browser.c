@@ -133,8 +133,6 @@ struct _GthBrowserPrivateData {
 
 	GtkWidget          *info_frame;
 	GtkWidget          *info_bar;
-	GtkWidget          *info_combo;
-	GtkWidget          *info_icon;
 
 	char                sidebar_content;       /* SidebarContent values. */
 	int                 sidebar_width;
@@ -192,7 +190,6 @@ struct _GthBrowserPrivateData {
 
 	int                 image_position;
 
-	gfloat              dir_load_progress;
 	int                 activity_ref;       /* when > 0 some activity
 						 * is present. */
 

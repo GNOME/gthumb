@@ -101,7 +101,6 @@ struct _GthViewerPrivateData {
 
 	GtkToolItem     *open_with_tool_item;
 	GtkWidget       *open_with_popup_menu;
-	GtkToolItem     *rotate_tool_item;
 
 	GtkTooltips     *tooltips;
         guint            help_message_cid;

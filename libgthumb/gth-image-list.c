@@ -314,7 +314,6 @@ typedef struct {
 
 struct _GthImageListPrivate {
 	GList            *all_images;
-	int               n_all_images;
 	GList            *image_list;
 	int               n_images;
 	GList            *selection;
