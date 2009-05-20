@@ -31,8 +31,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-utils.h>
-#include <libgnomevfs/gnome-vfs-directory.h>
 
 #include "catalog-web-exporter.h"
 #include "comments.h"
@@ -2153,47 +2151,6 @@ export__copy_to_destination__step2 (GError 	   *error,
 }
 
 
-static gboolean
-export__copy_to_destination (gpointer data)
-{
-	CatalogWebExporter *ce = data;
-
-	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_START_COPYING], 0);
-
-	dlg_folder_copy (ce->window,
-			 ce->base_tmp_dir,
-			 ce->base_dir,
-			 FALSE,
-			 FALSE,
-			 TRUE,
-			 export__copy_to_destination__step2,
-			 ce);
-	return FALSE;
-}
-
-
-static int
-export__save_other_files__progress_update_cb (GnomeVFSXferProgressInfo *info,
-					      gpointer                  data)
-{
-	CatalogWebExporter *ce = data;
-
-	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
-						    export__copy_to_destination,
-						    ce);
-		return FALSE;
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
-						    export__copy_to_destination,
-						    ce);
-	}
-
-	return TRUE;
-}
-
-
 static void
 export__save_other_files (CatalogWebExporter *ce)
 {
@@ -2212,9 +2169,6 @@ export__save_other_files (CatalogWebExporter *ce)
 		g_error_free (error);
 	}
 	else {
-		GList *source_uri_list = NULL;
-		GList *target_uri_list = NULL;
-		
 		gboolean enumerate = TRUE;
 		
 		while (enumerate) {
@@ -2243,9 +2197,7 @@ export__save_other_files (CatalogWebExporter *ce)
 			
 			else {
 				const char       *name;
-				char		 *target_filename, *source_filename;
 				GFile            *source_file, *target_file;
-				GnomeVFSURI	 *source_uri = NULL, *target_uri = NULL;
 				
 				if (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)
 					continue;
@@ -2263,53 +2215,28 @@ export__save_other_files (CatalogWebExporter *ce)
 				target_file = get_theme_file (ce, 
 							      ce->target_tmp_dir,
 							      name);
-		
-				source_filename = gfile_get_uri (source_file);
-				source_uri = gnome_vfs_uri_new (source_filename);
-				
-				target_filename = gfile_get_uri (target_file);
-				target_uri = gnome_vfs_uri_new (target_filename);
-				
-				source_uri_list = g_list_prepend (source_uri_list, source_uri);
-				target_uri_list = g_list_prepend (target_uri_list, target_uri);
-		
+
+				gfile_copy (source_file, target_file, TRUE, NULL);
 				gfile_debug (DEBUG_INFO, "save file", source_file);
 		
-				g_free (source_filename);
-				g_free (target_filename);
 				g_object_unref (source_file);
 				g_object_unref (target_file);
-				
 				g_object_unref (info);
 			}
 		}
 		
 		g_object_unref (file_enum);
-		
-		if (source_uri_list != NULL) {
-			
-			GnomeVFSXferOptions        xfer_options;
-			GnomeVFSXferErrorMode      xfer_error_mode;
-			GnomeVFSXferOverwriteMode  overwrite_mode;
-			GnomeVFSResult             result;
-			
-			xfer_options    = 0;
-			xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
-			overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
-	
-			result = gnome_vfs_xfer_uri_list (source_uri_list,
-							  target_uri_list,
-							  xfer_options,
-							  xfer_error_mode,
-							  overwrite_mode,
-							  export__save_other_files__progress_update_cb,
-							  ce);
-		}
-		
-		if (source_uri_list != NULL)
-			gnome_vfs_uri_list_free (source_uri_list);
-		if (target_uri_list != NULL)
-			gnome_vfs_uri_list_free (target_uri_list);
+
+		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_START_COPYING], 0);
+
+		dlg_folder_copy (ce->window,
+				 ce->base_tmp_dir,
+				 ce->base_dir,
+				 FALSE,
+				 FALSE,
+				 TRUE,
+				 export__copy_to_destination__step2,
+				 ce);
 	}
 }
 
