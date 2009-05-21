@@ -961,15 +961,48 @@ autodetect_camera (DialogData *data)
 	gboolean    detected = FALSE;
 	const char *model = NULL, *port = NULL;
 
+	GList	   *gvfs_dirs = NULL;
+	GList      *scan;
+	char       *gvfs_base;
+
 	data->current_op = GTH_IMPORTER_OP_AUTO_DETECT;
 
 	gp_list_new (&list);
+
+	/* Detect gvfs-gphoto2 mounts */
+	gvfs_base = g_strconcat (g_get_home_dir(), "/.gvfs", NULL);
+	path_list_new (gvfs_base, NULL, &gvfs_dirs);
+	for (scan = gvfs_dirs; scan; scan=scan->next) {
+		char *dir = (gchar*) scan->data;
+		FileData *fd = file_data_new (dir);
+		if (strstr (dir, "gphoto2") && file_data_has_local_path (fd, NULL)) {
+			if (strlen (fd->local_path) > 63) {
+				g_warning ("Can't fit %s into a 64 byte string!",fd->local_path);
+			} else {
+				GPPortInfo pi;
+				pi.type = GP_PORT_DISK;
+				g_strlcpy (pi.path, fd->local_path, sizeof (pi.path));
+				gp_port_info_list_append (data->port_list, pi);
+				printf ("port found %s\n",g_strconcat ("disk:",pi.path,NULL));
+			}
+		}
+		file_data_unref (fd);
+	}			
 
 	gp_abilities_list_detect (data->abilities_list,
 				  data->port_list,
 				  list,
 				  data->context);
+
 	count = gp_list_count (list);
+
+int i;
+for (i=0; i<count; i++) {
+gp_list_get_name (list, 0, &model);
+gp_list_get_value (list, 0, &port);
+printf ("%s %s\n",model,port);
+}
+
 	if (count >= 1) {
 		gp_list_get_name (list, 0, &model);
 		gp_list_get_value (list, 0, &port);

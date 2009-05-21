@@ -1,16 +1,6 @@
 SUBDIRS = icons cursors jpegutils
 DIST_SUBDIRS = icons cursors jpegutils
 
-if ENABLE_DEPRECATIONS
-DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED
-else
-DISABLE_DEPRECATED =
-endif
-
-WARNINGS = -Wall -Wimplicit -Wunused-label \
-	   -Wpointer-arith -Wcast-align -Wtype-limits \
-	   -Wclobbered -Wempty-body -Wignored-qualifiers
-
 gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =							\
@@ -26,10 +16,6 @@ INCLUDES =							\
 libgthumbdir = $(libdir)
 libgthumb_LTLIBRARIES = libgthumb.la
 libgthumb_la_LDFLAGS = -avoid-version -no-undefined
-
-EEL_CANVAS_RECT =		\
-	eel-canvas-rect.c	\
-	eel-canvas-rect.h
 
 ENUMS =				\
 	gthumb-enum-types.h	\
@@ -96,7 +82,6 @@ MD5 = 				\
 	md5.h
 
 libgthumb_la_SOURCES =			\
-	$(EEL_CANVAS_RECT)		\
 	$(ENUMS)			\
 	$(EOG_CURSORS)			\
 	$(HEADER_FILES)			\
