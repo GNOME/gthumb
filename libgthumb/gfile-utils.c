@@ -497,7 +497,7 @@ gfile_ensure_dir_exists (GFile    *dir,
 guint64
 gfile_get_destination_free_space (GFile *file)
 {
-        guint64    freespace = 100000000000; /* bogus value for unsupported systems */
+        guint64    freespace = G_MAXUINT64; /* bogus value for unsupported systems */
         GFileInfo *info;
         GError    *err = NULL;
 

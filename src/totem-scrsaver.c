@@ -99,7 +99,9 @@ fake_event (TotemScrsaver *scr)
 static void
 totem_scrsaver_init (TotemScrsaver *scr)
 {
+#ifdef HAVE_XTEST
 	int a, b, c, d;
+#endif /* HAVE_XTEST */
 
 	scr->priv = g_new0 (TotemScrsaverPrivate, 1);
 

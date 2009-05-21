@@ -392,12 +392,11 @@ file_data_has_local_path (FileData  *fd,
 	/* TODO: this is where we could trying mounting unmounted remote URIs */
         if (fd->local_path == NULL) {
 		char *message;
-		message = g_strdup_printf ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+		message = "%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.";
 		if (window == NULL)
-			g_warning ("%s has not been mounted, or the gvfs daemon has not provided a local mount point in ~/.gvfs/. gThumb can not access this remote file directly.", fd->utf8_path);
+			g_warning (message, fd->utf8_path);
 		else
-			_gtk_error_dialog_run (window, message);
-		g_free (message);
+			_gtk_error_dialog_run (window, message, fd->utf8_path);
                 return FALSE;
         } else {
 		return TRUE;
