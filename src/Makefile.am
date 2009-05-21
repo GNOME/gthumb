@@ -3,24 +3,13 @@ DIST_SUBDIRS = icons
 
 gladedir = $(datadir)/gthumb/glade
 
-if ENABLE_DEPRECATIONS
-DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED
-else
-DISABLE_DEPRECATED =
-endif
-
-WARNINGS = -Wall -Wimplicit -Wunused-label \
-	   -Wpointer-arith -Wcast-align -Wtype-limits \
-	   -Wclobbered -Wempty-body -Wignored-qualifiers
-
 INCLUDES =					\
 	-I$(top_srcdir)/libgthumb		\
-	-I../libgthumb				\
 	$(GTHUMB_CFLAGS)			\
-	$(DISABLE_DEPRECATED)			\
 	$(GPHOTO_CFLAGS)			\
 	$(IGE_MAC_INTEGRATION_CFLAGS)		\
 	$(GTKUNIQUE_CFLAGS)			\
+	$(DISABLE_DEPRECATED)			\
 	$(WARNINGS)       			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
@@ -149,7 +138,26 @@ gthumb_SOURCES = 				\
 	totem-scrsaver.c			\
 	totem-scrsaver.h			\
 	rotation-utils.c			\
-	rotation-utils.h
+	rotation-utils.h 			\
+	dlg-duplicates.c 			\
+	dlg-duplicates.h 			\
+	dlg-jpegtran.c 				\
+	dlg-jpegtran.h 				\
+	catalog-png-exporter.c			\
+	catalog-png-exporter.h			\
+	dlg-png-exporter.c			\
+	dlg-png-exporter.h 			\
+	dlg-search.c 				\
+	dlg-search.h 				\
+	albumtheme.c				\
+	albumtheme-private.c			\
+	albumtheme-private.h			\
+	catalog-web-exporter.c			\
+	catalog-web-exporter.h			\
+	dlg-web-exporter.c			\
+	dlg-web-exporter.h      		\
+	dlg-photo-importer.c    		\
+	dlg-photo-importer.h
 
 if PLATFORM_WIN32
 gthumb_LDFLAGS = -Wl,--export-all-symbols,--out-implib,.libs/gthumb.exe.a
@@ -164,59 +172,8 @@ gthumb_LDADD = 					\
 	$(RENDER_LIBS)				\
 	$(GPHOTO_LIBS)				\
 	$(IGE_MAC_INTEGRATION_LIBS)		\
-	$(XF86GAMMA_LIBS)			\
-	$(XTEST_LIBS)				\
-	$(GTKUNIQUE_LIBS)
+	$(XTEST_LIBS)
 
-moduledir = $(libdir)/gthumb/modules
-module_LTLIBRARIES = 		\
-	libduplicates.la	\
-	libjpegtran.la		\
-	libpngexporter.la	\
-	libsearch.la		\
-	libwebexporter.la	\
-	libphotoimporter.la
-
-libduplicates_la_SOURCES = dlg-duplicates.c dlg-duplicates.h
-libduplicates_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libduplicates_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(JPEG_LIBS) $(PNG_LIBS) $(TIFF_LIBS) $(GTHUMB_LIBS)
-libduplicates_la_DEPENDENCIES = gthumb$(EXEEXT)
-
-libjpegtran_la_SOURCES = dlg-jpegtran.c dlg-jpegtran.h
-libjpegtran_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libjpegtran_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(JPEG_LIBS) $(GTHUMB_LIBS)
-libjpegtran_la_DEPENDENCIES = gthumb$(EXEEXT)
-
-libpngexporter_la_SOURCES = 	\
-	catalog-png-exporter.c	\
-	catalog-png-exporter.h	\
-	dlg-png-exporter.c	\
-	dlg-png-exporter.h
-libpngexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libpngexporter_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(PNG_LIBS)
-libpngexporter_la_DEPENDENCIES = gthumb$(EXEEXT)
-
-libsearch_la_SOURCES = dlg-search.c dlg-search.h
-libsearch_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libsearch_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(JPEG_LIBS) $(TIFF_LIBS) $(PNG_LIBS) $(GTHUMB_LIBS)
-libsearch_la_DEPENDENCIES = gthumb$(EXEEXT)
-
-libwebexporter_la_SOURCES = 	\
-	albumtheme.c		\
-	albumtheme-private.c	\
-	albumtheme-private.h	\
-	catalog-web-exporter.c	\
-	catalog-web-exporter.h	\
-	dlg-web-exporter.c	\
-	dlg-web-exporter.h
-libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libwebexporter_la_LIBADD = $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS)
-libwebexporter_la_DEPENDENCIES = gthumb$(EXEEXT)
-
-libphotoimporter_la_SOURCES = dlg-photo-importer.c dlg-photo-importer.h
-libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la $(top_builddir)/libgthumb/libgthumb.la $(GTHUMB_LIBS) $(JPEG_LIBS) $(GPHOTO_LIBS)
-libphotoimporter_la_DEPENDENCIES = gthumb$(EXEEXT)
 
 AUTHORS.tab : $(top_srcdir)/AUTHORS
 	sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp

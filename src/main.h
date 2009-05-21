@@ -23,18 +23,10 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-#ifdef HAVE_GTKUNIQUE
-#include <gtkunique/gtkunique.h>
-#endif /* HAVE_GTKUNIQUE */
-
 #include "image-viewer.h"
 #include "gth-monitor.h"
 #include "gth-window.h"
 #include "preferences.h"
-
-#ifdef HAVE_GTKUNIQUE
-extern GtkUniqueApp     *gth_application;
-#endif /* HAVE_GTKUNIQUE */
 
 extern GthWindow        *current_window;
 extern GthMonitor       *gth_monitor;
