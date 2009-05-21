@@ -3013,11 +3013,6 @@
          after they have been imported.
        </para>
        <para>
-         &app; will rename the images (in numerical re-order) when they
- 	 are imported, unless the
-         <guilabel>Keep original filenames</guilabel> checkbox is selected.
-       </para>
-       <para>
          If the <guilabel>Rotate images physically</guilabel> checkbox is selected,
          and the imported photo contains an Exif orientation tag, the image data
          will be physically transformed (losslessly) so that the viewed image

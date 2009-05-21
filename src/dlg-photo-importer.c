@@ -90,7 +90,6 @@ struct _DialogData {
 	GtkWidget           *subfolder_combobox;
 	GtkWidget           *format_code_entry;
 	GtkWidget           *format_code_label;
-	GtkWidget           *keep_names_checkbutton;
 	GtkWidget           *delete_checkbutton;
 	GtkWidget           *choose_tags_button;
 	GtkWidget           *tags_entry;
@@ -119,7 +118,6 @@ struct _DialogData {
 	CameraAbilitiesList *abilities_list;
 	GPPortInfoList      *port_list;
 
-	gboolean             keep_original_filename;
 	gboolean             delete_from_camera;
 	gboolean             adjust_orientation;
 
@@ -1132,33 +1130,6 @@ get_folder_name (DialogData *data)
 }
 
 
-static void
-set_lowercase (char *name)
-{
-	char *s;
-	for (s = name; *s != 0; s++)
-		*s = g_ascii_tolower (*s);
-}
-
-
-static char *
-get_extension_lowercase (const char *path)
-{
-	const char *filename = file_name_from_path (path);
-	const char *ext;
-	char       *new_ext;
-
-	ext = strrchr (filename, '.');
-	if (ext == NULL)
-		return NULL;
-
-	new_ext = g_strdup (ext);
-	set_lowercase (new_ext);
-
-	return new_ext;
-}
-
-
 static char*
 get_file_name (DialogData *data,
 	       const char *camera_path,
@@ -1169,22 +1140,7 @@ get_file_name (DialogData *data,
 	char *file_path;
 	int   m = 1;
 
-	if (data->keep_original_filename) {
-		file_name = g_strdup (file_name_from_path (camera_path));
-		/* set_lowercase (file_name); see #339291 */
-	} 
-	else {
-		char *s, *new_ext;
-
-		new_ext = get_extension_lowercase (camera_path);
-		file_name = g_strdup_printf ("%5d%s", n, new_ext);
-		g_free (new_ext);
-
-		for (s = file_name; *s != 0; s++)
-			if (*s == ' ')
-				*s = '0';
-	}
-
+	file_name = g_strdup (file_name_from_path (camera_path));
 	file_path = g_build_filename (local_folder, file_name, NULL);
 
 	while (path_is_file (file_path)) {
@@ -1650,11 +1606,9 @@ ok_clicked_cb (GtkButton  *button,
 	if (data->local_folder == NULL)
 		return;
 
-	data->keep_original_filename = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton));
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
 	data->adjust_orientation = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE);
 
-	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, data->keep_original_filename);
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
 
 	/**/
@@ -2067,7 +2021,6 @@ dlg_photo_importer (GthBrowser *browser)
         data->subfolder_combobox = glade_xml_get_widget(data->gui, "group_into_subfolderscombobutton");
 	data->format_code_entry = glade_xml_get_widget (data->gui, "format_code_entry");
 	data->format_code_label = glade_xml_get_widget (data->gui, "format_code_label");
-	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
 	data->choose_tags_button = glade_xml_get_widget (data->gui, "choose_tags_button");
 	data->tags_entry = glade_xml_get_widget (data->gui, "tags_entry");
@@ -2115,9 +2068,11 @@ dlg_photo_importer (GthBrowser *browser)
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, FALSE));
+printf ("delete_checkbutton\n");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+printf ("reset_exif_tag_on_import_checkbutton\n");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE));
+printf ("done\n");
 
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))

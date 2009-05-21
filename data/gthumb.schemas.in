@@ -2221,19 +2221,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/photo_importer/keep_original_filenames</key>
-	<applyto>/apps/gthumb/dialogs/photo_importer/keep_original_filenames</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>FALSE</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
-      <schema>
 	<key>/schemas/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import</key>
 	<applyto>/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import</applyto>
 	<owner>gthumb</owner>
