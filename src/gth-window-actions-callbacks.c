@@ -56,12 +56,12 @@
 #include "dlg-crop.h"
 #include "dlg-write-to-cd.h"
 #include "dlg-image-prop.h"
+#include "dlg-jpegtran.h"
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"
 #include "gth-viewer.h"
 #include "gth-utils.h"
 #include "gthumb-error.h"
-#include "gthumb-module.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"
 #include "image-viewer.h"
@@ -955,10 +955,7 @@ void
 gth_window_activate_action_tools_jpeg_rotate (GtkAction *action,
 					      GthWindow *window)
 {
-	void (*module) (GthWindow *window);
-
-	if (gthumb_module_get ("dlg_jpegtran", (gpointer*) &module))
-		(*module) (window);
+        dlg_jpegtran (window);
 }
 
 
@@ -966,10 +963,7 @@ void
 gth_window_activate_action_tools_jpeg_rotate_right (GtkAction *action,
 						    GthWindow *window)
 {
-	void (*module) (GthWindow *, GthTransform);
-
-	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
-		(*module) (window, GTH_TRANSFORM_ROTATE_90);
+        dlg_apply_jpegtran (window, GTH_TRANSFORM_ROTATE_90);
 }
 
 
@@ -977,9 +971,6 @@ void
 gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
 						   GthWindow *window)
 {
-	void (*module) (GthWindow *, GthTransform);
-
-	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
-		(*module) (window, GTH_TRANSFORM_ROTATE_270);
+        dlg_apply_jpegtran (window, GTH_TRANSFORM_ROTATE_270);
 }
 

@@ -39,6 +39,7 @@
 #include "dlg-rename-series.h"
 #include "dlg-scale-series.h"
 #include "dlg-scripts.h"
+#include "dlg-search.h"
 #include "dlg-write-to-cd.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -47,10 +48,11 @@
 #include "gth-folder-selection-dialog.h"
 #include "gth-viewer.h"
 #include "gth-window-utils.h"
-#include "gthumb-module.h"
 #include "gtk-utils.h"
 #include "main.h"
 #include "thumb-cache.h"
+#include "dlg-png-exporter.h"
+#include "dlg-web-exporter.h"
 
 #define MAX_NAME_LEN 1024
 #define DEF_CONFIRM_DEL TRUE
@@ -125,11 +127,7 @@ gth_browser_activate_action_file_camera_import (GtkAction  *action,
 						GthBrowser *browser)
 {
 #ifdef HAVE_LIBGPHOTO
-	void (*module) (GthBrowser *browser);
-
-	if (gthumb_module_get ("dlg_photo_importer", (gpointer*) &module))
-		(*module) (browser);
-
+        dlg_photo_importer (browser);
 #endif /*HAVE_LIBGPHOTO */
 }
 
@@ -619,13 +617,11 @@ gth_browser_activate_action_edit_catalog_edit_search (GtkAction  *action,
 						      GthBrowser *browser)
 {
 	char *catalog_path;
-	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
-	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
-		(*module) (browser, catalog_path);
+        dlg_catalog_edit_search (browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -635,13 +631,11 @@ gth_browser_activate_action_edit_catalog_redo_search (GtkAction  *action,
 						      GthBrowser *browser)
 {
 	char *catalog_path;
-	void (*module) (GthBrowser *window, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
-	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
-		(*module) (browser, catalog_path);
+        dlg_catalog_search (browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -819,12 +813,10 @@ gth_browser_activate_action_edit_current_catalog_edit_search (GtkAction  *action
 							      GthBrowser *browser)
 {
 	const char *catalog_path = gth_browser_get_current_catalog (browser);
-	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	if (catalog_path == NULL)
 		return;
-	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
-		(*module) (browser, catalog_path);
+        dlg_catalog_edit_search (browser, catalog_path);
 }
 
 
@@ -833,12 +825,10 @@ gth_browser_activate_action_edit_current_catalog_redo_search (GtkAction  *action
 							      GthBrowser *browser)
 {
 	const char *catalog_path = gth_browser_get_current_catalog (browser);
-	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	if (catalog_path == NULL)
 		return;
-	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
-		(*module) (browser, catalog_path);
+        dlg_catalog_search (browser, catalog_path);
 }
 
 
@@ -1729,10 +1719,7 @@ void
 gth_browser_activate_action_tools_find_images (GtkAction  *action,
 					       GthBrowser *browser)
 {
-	void (*module) (GtkWidget *widget, GthBrowser *browser);
-
-	if (gthumb_module_get ("dlg_search", (gpointer*) &module))
-		(*module) (NULL, browser);
+        dlg_search (NULL, browser);
 }
 
 
@@ -1740,10 +1727,7 @@ void
 gth_browser_activate_action_tools_index_image (GtkAction  *action,
 					       GthBrowser *browser)
 {
-	void (*module) (GthBrowser *browser);
-
-	if (gthumb_module_get ("dlg_exporter", (gpointer*) &module))
-		(*module) (browser);
+        dlg_exporter (browser);
 }
 
 
@@ -1751,10 +1735,7 @@ void
 gth_browser_activate_action_tools_web_exporter (GtkAction  *action,
 						GthBrowser *browser)
 {
-	void (*module) (GthBrowser *browser);
-
-	if (gthumb_module_get ("dlg_web_exporter", (gpointer*) &module))
-		(*module) (browser);
+        dlg_web_exporter (browser);
 }
 
 
@@ -1770,10 +1751,7 @@ void
 gth_browser_activate_action_tools_find_duplicates (GtkAction  *action,
 						   GthBrowser *browser)
 {
-	void (*module) (GthBrowser *browser);
-
-	if (gthumb_module_get ("dlg_duplicates", (gpointer*) &module))
-		(*module) (browser);
+        dlg_duplicates (browser);
 }
 
 

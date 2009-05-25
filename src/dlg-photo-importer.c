@@ -2068,11 +2068,8 @@ dlg_photo_importer (GthBrowser *browser)
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 
-printf ("delete_checkbutton\n");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
-printf ("reset_exif_tag_on_import_checkbutton\n");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE));
-printf ("done\n");
 
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))

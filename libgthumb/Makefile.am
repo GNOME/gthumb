@@ -1,21 +1,10 @@
 SUBDIRS = icons cursors jpegutils
 DIST_SUBDIRS = icons cursors jpegutils
 
-if ENABLE_DEPRECATIONS
-DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED
-else
-DISABLE_DEPRECATED =
-endif
-
-WARNINGS = -Wall -Wimplicit -Wunused-label \
-	   -Wpointer-arith -Wcast-align -Wtype-limits \
-	   -Wclobbered -Wempty-body -Wignored-qualifiers
-
 gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =							\
 	$(GTHUMB_CFLAGS)					\
-	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(LIBOPENRAW_CFLAGS)                                    \
 	$(EXIV2_CFLAGS)						\
@@ -65,7 +54,6 @@ HEADER_FILES =				\
 	gthumb-histogram.h		\
 	gthumb-init.h			\
 	gthumb-info-bar.h		\
-	gthumb-module.h			\
 	gthumb-slide.h			\
 	gthumb-stock.h			\
 	gtk-utils.h			\
@@ -126,7 +114,6 @@ libgthumb_la_SOURCES =			\
 	gthumb-histogram.c		\
 	gthumb-init.c			\
 	gthumb-info-bar.c		\
-	gthumb-module.c			\
 	gthumb-slide.c			\
 	gthumb-stock.c			\
 	gtk-utils.c			\
