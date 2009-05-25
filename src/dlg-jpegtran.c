@@ -394,12 +394,13 @@ static void
 apply_transformation_to_all__apply_to_current (BatchTransformation *bt_data)
 {
 	FileData *file = bt_data->scan->data;
-	
+
 	if (bt_data->cancel == FALSE) {
 		gtk_label_set_text (GTK_LABEL (bt_data->label), file->utf8_name);
-
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bt_data->bar),
 					       (gdouble) (bt_data->i + 0.5) / bt_data->n);
+                while (gtk_events_pending())
+                        gtk_main_iteration();
 	
 		apply_transformation (bt_data->dialog, bt_data->data, bt_data->scan, TRUE, apply_transformation_to_all_continue, bt_data);
 	}
