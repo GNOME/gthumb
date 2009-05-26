@@ -5570,8 +5570,8 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	for (scan = list; scan; scan = scan->next) {
 		char     *filename = scan->data;
 		FileData *fd;
-		
-		fd = gth_file_list_filedata_from_path (priv->file_list, filename); 
+	
+		fd = gth_file_list_filedata_from_path (priv->file_list, filename, NULL); 
 		if (fd != NULL) {
 			file_data_unref (fd);
 			continue;

@@ -1354,16 +1354,19 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 
 FileData *
 gth_file_list_filedata_from_path (GthFileList *file_list,
-				  const char  *path)
+				  const char  *path,
+				  int         *pos)
 {
 	FileData *result = NULL;
 	GList    *list, *scan;
+	int       i=-1;
 
 	g_return_val_if_fail (file_list != NULL, NULL);
 
 	if (path == NULL)
 		return NULL;
 
+	i = 0;
 	list = gth_file_view_get_list (file_list->view);
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
@@ -1371,8 +1374,12 @@ gth_file_list_filedata_from_path (GthFileList *file_list,
 			result = file_data_ref (fd);
 			break;
 		}
+		i++;
 	}
 	file_data_list_free (list);
+
+	if (pos != NULL)
+		*pos = i;
 
 	return result;
 }
@@ -1620,7 +1627,7 @@ gfl_delete (GthFileList *file_list,
 {
 	FileData *fd;
 
-	fd = gth_file_list_filedata_from_path (file_list, uri);
+	fd = gth_file_list_filedata_from_path (file_list, uri, NULL);
 	if (fd != NULL) {
 		gth_file_view_remove (file_list->view, fd);
 		file_data_unref (fd);
@@ -1669,7 +1676,7 @@ gfl_rename (GthFileList *file_list,
 	FileData *fd;
 	int       pos;
 
-	fd = gth_file_list_filedata_from_path (file_list, from_uri);
+	fd = gth_file_list_filedata_from_path (file_list, from_uri, &pos);
 	if (fd == NULL)
 		return;
 
@@ -1679,7 +1686,6 @@ gfl_rename (GthFileList *file_list,
 
 	/* Set the new name. */
 
-	pos = gth_file_list_pos_from_path (file_list, from_uri);
 	if (pos != -1) {
 		gth_file_view_set_image_text (file_list->view, pos, fd->utf8_name);
 		gth_file_view_sorted (file_list->view,
@@ -1744,11 +1750,7 @@ gfl_update_thumb (GthFileList *file_list,
 	FileData *fd;
 	int       pos;
 
-	pos = gth_file_list_pos_from_path (file_list, uri);
-	if (pos == -1)
-		return;
-
-	fd = gth_file_list_filedata_from_path (file_list, uri);
+	fd = gth_file_list_filedata_from_path (file_list, uri, &pos);
 	if (fd == NULL)
 		return;
 

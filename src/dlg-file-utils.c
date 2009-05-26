@@ -930,27 +930,6 @@ dlg_overwrite_run (GthWindow     *window,
 }
 
 
-static GList *
-my_list_remove (GList      *list,
-		const char *path)
-{
-	GList *link;
-
-	if (list == NULL)
-		return NULL;
-
-	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
-	if (link == NULL)
-		return list;
-
-	list = g_list_remove_link (list, link);
-	g_free (link->data);
-	g_list_free (link);
-
-	return list;
-}
-
-
 void
 dlg_file_rename_series (GthWindow *window,
 			GList     *old_names,
@@ -961,8 +940,6 @@ dlg_file_rename_series (GthWindow *window,
 	int             overwrite_result = OVERWRITE_RESULT_UNSPECIFIED;
 	gboolean        file_exists, show_ow_all_none;
 	gboolean        error = FALSE;
-	GList          *files_deleted = NULL;
-	GList          *files_created = NULL;
 	char	       *last_error_message;
 
 	gth_monitor_pause ();
@@ -1030,13 +1007,7 @@ dlg_file_rename_series (GthWindow *window,
 		if (gerror == NULL) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);
-
-			files_deleted = g_list_prepend (files_deleted, g_strdup (old_full_path));
-			files_created = g_list_prepend (files_created, g_strdup (new_full_path));
-
-			files_deleted = my_list_remove (files_deleted, new_full_path);
-			files_created = my_list_remove (files_created, old_full_path);
-
+			gth_monitor_notify_file_renamed (old_full_path, new_full_path);
 			o_scan = o_scan->next;
 		}
 		else {
@@ -1054,8 +1025,6 @@ dlg_file_rename_series (GthWindow *window,
 		n_scan = n_scan->next;
 	}
 
-	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, files_deleted);
-	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, files_created);
 	gth_monitor_resume ();
 
 	if (error) {
@@ -1075,8 +1044,6 @@ dlg_file_rename_series (GthWindow *window,
 	path_list_free (error_list);
 	path_list_free (old_names);
 	path_list_free (new_names);
-	path_list_free (files_deleted);
-	path_list_free (files_created);
 	g_free (last_error_message);
 }
 

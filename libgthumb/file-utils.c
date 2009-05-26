@@ -1269,7 +1269,20 @@ gboolean
 same_uri (const char *uri1,
 	  const char *uri2)
 {
-	return uricmp (uri1, uri2) == 0;
+	FileData *fd1;
+	FileData *fd2;
+	gboolean  result = FALSE;
+
+	fd1 = file_data_new (uri1);
+	fd2 = file_data_new (uri2);
+
+	if (strcmp (fd1->utf8_path, fd2->utf8_path) == 0)
+		result = TRUE;
+
+	file_data_unref (fd1);
+	file_data_unref (fd2);
+
+	return result;
 }
 
 

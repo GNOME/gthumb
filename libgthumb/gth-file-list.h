@@ -83,7 +83,8 @@ void         gth_file_list_set_sort_type        (GthFileList   *file_list,
 						 GtkSortType    sort_type,
 						 gboolean       update);
 FileData *   gth_file_list_filedata_from_path   (GthFileList   *file_list,
-			          		 const char    *path);
+			          		 const char    *path,
+						 int           *pos);
 int          gth_file_list_pos_from_path        (GthFileList   *file_list,
 						 const char    *path);
 GList*       gth_file_list_get_all              (GthFileList   *file_list);
