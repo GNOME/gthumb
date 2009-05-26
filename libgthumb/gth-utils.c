@@ -32,8 +32,14 @@ gthumb_display_help (GtkWindow  *window,
 	             const char *section)
 {
 	GError *err = NULL;
+	gchar   *uri;
 
-	gnome_help_display ("gthumb", section, &err);
+	if (section)
+		uri = g_strdup_printf ("ghelp:gthumb?%s", section);
+	else
+		uri = "ghelp:gthumb";
+
+	gtk_show_uri (NULL, uri, gtk_get_current_event_time (), &err);
 
 	if (err != NULL) {
 		GtkWidget *dialog;

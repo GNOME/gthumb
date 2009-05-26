@@ -23,7 +23,7 @@ dnl
 dnl ==========================================================================
 
 GLIB_REQUIRED=2.6.0
-GTK_REQUIRED=2.12.0
+GTK_REQUIRED=2.14.0
 LIBXML_REQUIRED=2.4.0
 LIBGNOME_REQUIRED=2.6.0
 LIBGNOMEUI_REQUIRED=2.6.0
