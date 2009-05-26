@@ -624,8 +624,8 @@ update_image_comment (GthViewer *viewer)
                 return;
 	}
 
-	cdata = comments_load_comment (priv->image->path, TRUE);
-
+	cdata = file_data_get_comment (priv->image, TRUE);
+        
 	if (cdata == NULL) {
 		GtkTextIter  iter;
 		const char  *click_here = _("[Press 'c' to add a comment]");
@@ -660,7 +660,6 @@ update_image_comment (GthViewer *viewer)
 	}
 
 	g_free (comment);
-	comment_data_free (cdata);
 }
 
 

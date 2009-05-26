@@ -146,7 +146,7 @@ image_data_new (FileData *file)
 
 	idata = g_new0 (ImageData, 1);
 
-	cdata = comments_load_comment (file->path, TRUE);
+	cdata = file_data_get_comment (file, TRUE);
 	if (cdata != NULL) {
 		idata->comment = g_strdup (cdata->comment);
 		idata->place = g_strdup (cdata->place);
@@ -162,7 +162,6 @@ image_data_new (FileData *file)
 		}
 		else
 			idata->date_time = NULL;
-		comment_data_free (cdata);
 	} 
 	else {
 		idata->comment = NULL;

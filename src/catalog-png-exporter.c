@@ -154,10 +154,9 @@ image_data_new (FileData *file)
 	idata = g_new0 (ImageData, 1);
 
 	idata->file = file_data_ref (file);
-	cdata = comments_load_comment (file->path, TRUE);
+	cdata = file_data_get_comment (file, TRUE);
 	if (cdata != NULL) {
 		idata->comment = comments_get_comment_as_string (cdata, "\n", "\n");
-		comment_data_free (cdata);
 	}
 	idata->thumb = NULL;
 	idata->image_width = 0;

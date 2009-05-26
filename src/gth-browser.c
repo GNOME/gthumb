@@ -504,7 +504,7 @@ update_image_comment (GthBrowser *browser)
 		return;
 	}
 
-	cdata = comments_load_comment (priv->image->path, TRUE);
+	cdata = file_data_get_comment (priv->image, TRUE);
 
 	if (comment_text_is_void (cdata)) {
 		GtkTextIter  iter;
@@ -544,7 +544,6 @@ update_image_comment (GthBrowser *browser)
 		gth_file_list_update_comment (priv->file_list, priv->image->path);
 
 	g_free (comment);
-	comment_data_free (cdata);
 }
 
 

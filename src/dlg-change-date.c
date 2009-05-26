@@ -133,10 +133,9 @@ ok_clicked (GtkWidget  *button,
 			tz = (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->cd_timezone_spinbutton)) * (60 * 60);
 			if (is_active (data->cd_comment_checkbutton)) {
 				CommentData *cdata;
-				cdata = comments_load_comment (fdata->path, TRUE);
+				cdata = file_data_get_comment (fdata, TRUE);
 				if (cdata != NULL) {
 					comment_time = cdata->time + tz;
-					comment_data_free (cdata);
 				}
 			}
 			if (is_active (data->cd_last_modified_checkbutton)) 

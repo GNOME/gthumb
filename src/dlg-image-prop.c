@@ -286,7 +286,7 @@ update_comment (DialogData *data)
 	g_return_if_fail (GTK_IS_WIDGET (data->i_tags_label));
 	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
 
-	cdata = comments_load_comment (gth_window_get_image_filename (GTH_WINDOW (data->browser)), TRUE);
+	cdata = file_data_get_comment (gth_window_get_image_data (GTH_WINDOW (data->browser)), TRUE);
 
 	if (cdata == NULL) {
 		GtkTextIter  start_iter, end_iter;
@@ -344,7 +344,6 @@ update_comment (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_tags_label), "");
 
 	g_free (comment);
-	comment_data_free (cdata);
 }
 
 

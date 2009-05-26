@@ -2332,10 +2332,9 @@ image_loader_done_cb (ImageLoader            *il,
 		}
 	}
 
-	cdata = comments_load_comment (image->file->path, TRUE);
+	cdata = file_data_get_comment (image->file, TRUE);
 	if (cdata != NULL) {
 		image->comment = comments_get_comment_as_string (cdata, "\n", " - ");
-		comment_data_free (cdata);
 	}
 
 	data->current_image++;

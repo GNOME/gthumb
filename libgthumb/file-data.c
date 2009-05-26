@@ -395,12 +395,13 @@ file_data_has_local_path (FileData  *fd,
 }
 
 CommentData *
-file_data_get_comment (FileData *fd)
+file_data_get_comment (FileData *fd,
+                       gboolean  try_embedded)
 {
 	g_return_val_if_fail (fd != NULL, NULL);
 
 	if (!fd->comment_data)
-                fd->comment_data = comments_load_comment (fd->path, FALSE);
+                fd->comment_data = comments_load_comment (fd->path, try_embedded);
 
         return fd->comment_data;
 }

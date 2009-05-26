@@ -318,7 +318,7 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_COMMENT:
-                cdata = file_data_get_comment (fdata);
+                cdata = file_data_get_comment (fdata, FALSE);
 		if (cdata)
 			result = test_string (test, cdata->comment);
 		else
@@ -326,13 +326,13 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_PLACE:
-                cdata = file_data_get_comment (fdata);
+                cdata = file_data_get_comment (fdata, FALSE);
 		if (cdata != NULL)
 			result = test_string (test, cdata->place);
 		break;
 
 	case GTH_TEST_SCOPE_ALL:
-                cdata = file_data_get_comment (fdata);
+                cdata = file_data_get_comment (fdata, FALSE);
 		if (cdata != NULL) {
 			result = (test_string (test, fdata->utf8_name)
 		        	  || test_string (test, cdata->comment)
@@ -348,7 +348,7 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_KEYWORDS:
-                cdata = file_data_get_comment (fdata);
+                cdata = file_data_get_comment (fdata, FALSE);
 		if (cdata != NULL)
 			result = test_keywords (test, cdata->keywords);
 		else

@@ -921,7 +921,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	}
 
 	if (gth_window_get_image_filename (window) != NULL)
-		cdata = comments_load_comment (gth_window_get_image_filename (window), TRUE);
+		cdata = file_data_get_comment (gth_window_get_image_data (window), TRUE);
 	else
 		return;
 
@@ -932,7 +932,6 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	if (cdata != NULL) {
 		comment = comments_get_comment_as_string (cdata, "\n", " - ");
 		keywords = comments_get_tags_as_string (cdata, ", ");
-		comment_data_free (cdata);
 	}
 
 	file_info = get_file_info (fullscreen);
