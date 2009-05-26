@@ -284,6 +284,7 @@ file_data_update_comment (FileData *fd)
 	fd->comment_data = comments_load_comment (fd->path, FALSE);
 
 	if (fd->comment_data == NULL) {
+                fd->comment_data = comment_data_new ();
 		fd->comment = g_strdup ("");
 		return;
 	}
@@ -402,6 +403,9 @@ file_data_get_comment (FileData *fd,
 
 	if (!fd->comment_data)
                 fd->comment_data = comments_load_comment (fd->path, try_embedded);
+
+	if (!fd->comment_data)
+                fd->comment_data = comment_data_new ();
 
         return fd->comment_data;
 }
