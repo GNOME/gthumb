@@ -25,7 +25,6 @@
 #include <ctype.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
 
 void
 gthumb_display_help (GtkWindow  *window,
