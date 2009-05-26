@@ -78,39 +78,29 @@ struct _GthMonitorClass
 };
 
 GType        gth_monitor_get_type                    (void);
-GthMonitor*  gth_monitor_new                         (void);
-void         gth_monitor_add_uri                     (GthMonitor *monitor,
-						      const char *uri);
-void         gth_monitor_remove_uri                  (GthMonitor *monitor,
-						      const char *uri);
-void         gth_monitor_pause                       (GthMonitor      *monitor);
-void         gth_monitor_resume                      (GthMonitor      *monitor);
-void         gth_monitor_notify_update_icon_theme    (GthMonitor      *monitor);
-void         gth_monitor_notify_update_bookmarks     (GthMonitor      *monitor);
-void         gth_monitor_notify_update_cat_files     (GthMonitor      *monitor,
-						      const char      *catalog_path,
+GthMonitor*  gth_monitor_get_instance                (void);
+void         gth_monitor_add_uri                     (const char *uri);
+void         gth_monitor_remove_uri                  (const char *uri);
+void         gth_monitor_pause                       (void);
+void         gth_monitor_resume                      (void);
+void         gth_monitor_notify_update_icon_theme    (void);
+void         gth_monitor_notify_update_bookmarks     (void);
+void         gth_monitor_notify_update_cat_files     (const char      *catalog_path,
 						      GthMonitorEvent  event,
 						      GList           *list);
-void         gth_monitor_notify_update_files         (GthMonitor      *monitor,
-						      GthMonitorEvent  event,
+void         gth_monitor_notify_update_files         (GthMonitorEvent  event,
 						      GList           *list);
-void         gth_monitor_notify_update_directory     (GthMonitor      *monitor,
-						      const char      *dir_path,
+void         gth_monitor_notify_update_directory     (const char      *dir_path,
 						      GthMonitorEvent  event);
-void         gth_monitor_notify_update_catalog       (GthMonitor      *monitor,
-						      const char      *catalog_path,
+void         gth_monitor_notify_update_catalog       (const char      *catalog_path,
 						      GthMonitorEvent  event);
-void         gth_monitor_notify_update_metadata      (GthMonitor      *monitor,
-						      const char      *path);
-void         gth_monitor_notify_file_renamed         (GthMonitor      *monitor,
-						      const char      *old_name,
+void         gth_monitor_notify_update_metadata      (const char      *path);
+void         gth_monitor_notify_file_renamed         (const char      *old_name,
 						      const char      *new_name);
-void         gth_monitor_notify_directory_renamed    (GthMonitor      *monitor,
-						      const char      *old_name,
+void         gth_monitor_notify_directory_renamed    (const char      *old_name,
 						      const char      *new_name);
-void         gth_monitor_notify_catalog_renamed      (GthMonitor      *monitor,
-						      const char      *old_name,
+void         gth_monitor_notify_catalog_renamed      (const char      *old_name,
 						      const char      *new_name);
-void         gth_monitor_notify_reload_catalogs      (GthMonitor      *monitor);
+void         gth_monitor_notify_reload_catalogs      (void);
 
 #endif /* GTH_MONITOR_H */

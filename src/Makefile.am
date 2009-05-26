@@ -114,8 +114,6 @@ gthumb_SOURCES = 				\
 	gth-image-selector.h			\
 	gth-location.c				\
 	gth-location.h				\
-	gth-monitor.c				\
-	gth-monitor.h				\
 	gth-viewer.c				\
 	gth-viewer.h				\
 	gth-viewer-actions-entries.h		\

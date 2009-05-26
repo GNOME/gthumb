@@ -1337,6 +1337,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	GtkUIManager         *ui;
 	GError               *error = NULL;
 	int                   i;
+        GthMonitor           *gth_monitor = gth_monitor_get_instance ();
 
 	/* Create the widgets. */
 
@@ -1800,7 +1801,7 @@ gth_viewer_close (GthWindow *window)
 
 	priv->closing = TRUE;
 
-	g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor), viewer);
+	g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor_get_instance ()), viewer);
 
 	if (priv->fullscreen != NULL)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),

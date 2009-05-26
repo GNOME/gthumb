@@ -89,7 +89,7 @@ remove_cb (GtkWidget *widget,
 	bookmark_list_set (data->book_list, data->bookmarks->list);
 
 	data->do_not_update = TRUE;
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 
@@ -133,7 +133,7 @@ move_up_cb (GtkWidget *widget,
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
 
 	data->do_not_update = TRUE;
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 
@@ -179,7 +179,7 @@ move_down_cb (GtkWidget *widget,
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
 
 	data->do_not_update = TRUE;
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 
@@ -217,7 +217,7 @@ move_top_cb (GtkWidget *widget,
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
 
 	data->do_not_update = TRUE;
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 
@@ -255,7 +255,7 @@ move_bottom_cb (GtkWidget *widget,
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
 
 	data->do_not_update = TRUE;
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 

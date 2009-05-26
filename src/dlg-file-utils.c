@@ -965,7 +965,7 @@ dlg_file_rename_series (GthWindow *window,
 	GList          *files_created = NULL;
 	char	       *last_error_message;
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	last_error_message = g_strdup (_("Unknown error"));
 
@@ -1054,9 +1054,9 @@ dlg_file_rename_series (GthWindow *window,
 		n_scan = n_scan->next;
 	}
 
-	all_windows_notify_files_deleted (files_deleted);
-	all_windows_notify_files_created (files_created);
-	all_windows_add_monitor ();
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, files_deleted);
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, files_created);
+	gth_monitor_resume ();
 
 	if (error) {
 		const char *msg;
@@ -1254,9 +1254,9 @@ static void
 files_copy__done (FileCopyData *fcdata)
 {
 	if (fcdata->remove_source)
-		all_windows_notify_files_deleted (fcdata->copied_list);
-	all_windows_notify_files_created (fcdata->created_list);
-	all_windows_add_monitor ();
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, fcdata->copied_list);
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, fcdata->created_list);
+	gth_monitor_resume ();
 
 	if (fcdata->done_func != NULL)
 		(*fcdata->done_func) (fcdata->error, fcdata->done_data);
@@ -1692,7 +1692,7 @@ dlg_files_copy (GthWindow      *window,
 					    file_copy__display_progress_dialog,
 					    fcdata);
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	copy_current_file (fcdata);
 }
@@ -1810,11 +1810,11 @@ static void
 files_delete__done (FileDeleteData *fddata)
 {
 	if (fddata->error == NULL)
-		all_windows_notify_files_deleted (fddata->file_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, fddata->file_list);
 	else
-		all_windows_notify_files_changed (fddata->file_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, fddata->file_list);
 
-	/*all_windows_add_monitor (); FIXME*/
+	/*gth_monitor_resume (); FIXME*/
 
 	if (fddata->done_func != NULL)
 		(*fddata->done_func) (fddata->error, fddata->done_data);
@@ -1948,7 +1948,7 @@ dlg_files_delete (GthWindow      *window,
 
 	/**/
 
-	/*all_windows_remove_monitor (); FIXME*/
+	/*gth_monitor_pause (); FIXME*/
 
 	for (scan = fddata->file_list; scan; scan = scan->next) {
 		const char  *path = scan->data;
@@ -2037,7 +2037,7 @@ destroy_progress_dialog (FolderCopyData *fcdata)
 static void
 folder_copy_data_free (FolderCopyData *fcdata)
 {
-	all_windows_add_monitor ();
+	gth_monitor_resume ();
 
 	if (fcdata == NULL)
 		return;
@@ -2093,13 +2093,13 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 		if (fcdata->error == NULL) {
 			if (fcdata->file_op == FILE_OP_COPY)
-				all_windows_notify_directory_new (fcdata->destination);
+                                gth_monitor_notify_update_directory (fcdata->destination, GTH_MONITOR_EVENT_CREATED);
 
 			else if (fcdata->file_op == FILE_OP_MOVE)
-				all_windows_notify_directory_rename (fcdata->source,
+				gth_monitor_notify_directory_renamed (fcdata->source,
 								     fcdata->destination);
 			else if (fcdata->file_op == FILE_OP_DELETE)
-				all_windows_notify_directory_delete (fcdata->source);
+				gth_monitor_notify_update_directory (fcdata->source, GTH_MONITOR_EVENT_DELETED);
 		}
 
 		destroy_progress_dialog (fcdata);
@@ -2261,7 +2261,7 @@ folder_copy (GthWindow      *window,
 
 	/**/
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	src_list = g_list_append (src_list, new_uri_from_path (src_path));
 

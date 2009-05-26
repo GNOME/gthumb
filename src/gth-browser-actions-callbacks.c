@@ -497,7 +497,7 @@ catalog_rename (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
 	else if (file_move (old_fd->path,new_fd->path, FALSE, NULL)) {
-		all_windows_notify_catalog_rename (old_fd->path,new_fd->path);
+		gth_monitor_notify_catalog_renamed (old_fd->path,new_fd->path);
 	} 
 	else {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
@@ -540,7 +540,7 @@ real_catalog_delete (GthBrowser *browser)
 	if (error)
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &error);
 
-	all_windows_notify_catalog_delete (catalog_path);
+        gth_monitor_notify_update_catalog (catalog_path, GTH_MONITOR_EVENT_DELETED);
 	g_free (catalog_path);
 }
 
@@ -687,8 +687,8 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
 	} else if ((handle = g_file_create (gfile, G_FILE_CREATE_PRIVATE, NULL, &error)) != NULL) {
-		all_windows_notify_catalog_new (fd->utf8_path);
-		all_windows_update_catalog_list ();
+		gth_monitor_notify_update_catalog (fd->utf8_path, GTH_MONITOR_EVENT_CREATED);
+		gth_monitor_notify_reload_catalogs ();
 		g_object_unref (handle);
 	} else {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
@@ -760,7 +760,7 @@ create_new_folder_or_library (GthBrowser *browser,
 				       fd->utf8_name);
 	} 
 	else
-		all_windows_notify_directory_new (fd->utf8_path);
+                gth_monitor_notify_update_directory (fd->utf8_path, GTH_MONITOR_EVENT_CREATED);
 
 	file_data_unref (fd);
 }
@@ -947,7 +947,7 @@ folder_rename (GtkWindow  *window,
 	new_fd = file_data_new (new_path);
 	g_free (new_path);
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	if (same_uri (old_fd->utf8_path, new_fd->utf8_path)) {
 		_gtk_error_dialog_run (window,
@@ -966,7 +966,7 @@ folder_rename (GtkWindow  *window,
 		result = file_move (old_fd->path, new_fd->utf8_path, FALSE, NULL);
 		if (result) {
 			comment_move (old_path, new_path);
-			all_windows_notify_directory_rename (old_fd->path, new_fd->path);
+			gth_monitor_notify_directory_renamed (old_fd->path, new_fd->path);
 		} 
 		else {
 			_gtk_error_dialog_run (window,
@@ -975,7 +975,7 @@ folder_rename (GtkWindow  *window,
 		}
 	}
 
-	all_windows_add_monitor ();
+	gth_monitor_resume ();
 
 	file_data_unref (old_fd);
 	file_data_unref (new_fd);
@@ -1257,7 +1257,7 @@ folder_copy__response_cb (GObject *object,
 			file_move (old_folder_comment, new_folder_comment, TRUE, NULL);
 			g_free (new_folder_comment);
 
-			all_windows_notify_directory_rename (old_path, new_path);
+			gth_monitor_notify_directory_renamed (old_path, new_path);
 
 			if (gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel)))
 				gth_browser_go_to_directory (GTH_BROWSER (window), new_path);
@@ -1695,7 +1695,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 	bookmarks_write_to_disk (preferences.bookmarks);
 	g_free (path);
 
-	all_windows_notify_update_bookmarks ();
+	gth_monitor_notify_update_bookmarks ();
 }
 
 

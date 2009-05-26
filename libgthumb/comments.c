@@ -29,7 +29,6 @@
 #include <dirent.h>
 #include <string.h>
 #include <strings.h>
-#include <ctype.h>
 #include <time.h>
 
 #include <glib/gi18n.h>
@@ -44,6 +43,7 @@
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gth-exif-utils.h"
+#include "gth-monitor.h"
 
 #define COMMENT_TAG  ((xmlChar *)"Comment")
 #define PLACE_TAG    ((xmlChar *)"Place")
@@ -394,20 +394,6 @@ load_comment_from_metadata (const char *uri)
 	return data;
 }
 
-static char*
-get_keywords_str (CommentData *data)
-{
-        GString   *keywords_str;
-        GSList    *tmp;
-
-        keywords_str = g_string_new (NULL);
-        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
-                keywords_str = g_string_append (keywords_str, g_strdup (tmp->data));
-                if (g_slist_next (tmp))
-                        keywords_str = g_string_append_c (keywords_str, ',');
-        }
-        return g_string_free (keywords_str, FALSE);
-}
 
 static void
 save_comment_to_metadata (const char  *uri,
@@ -436,7 +422,7 @@ save_comment_to_metadata (const char  *uri,
         add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
 
         add_metadata = clear_metadata_tagset (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
-        keywords_str = get_keywords_str (data);
+        keywords_str = comments_get_tags_as_string (data, ",");
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES][0], keywords_str);
         g_free (keywords_str);
 
@@ -537,7 +523,7 @@ save_comment (const char  *uri,
 	/* Convert data to strings. */
 
 	time_str = g_strdup_printf ("%ld", data->time);
-        keywords_str = get_keywords_str (data);
+        keywords_str = comments_get_tags_as_string (data, ",");
 
 	/* Escape text */
 
@@ -659,6 +645,7 @@ comments_save_comment (const char  *uri,
 
 	save_comment (uri, new_data, TRUE);
 	comment_data_free (new_data);
+        gth_monitor_notify_update_metadata (uri);
 }
 
 
@@ -730,6 +717,7 @@ comments_save_tags (const char  *uri,
 
 	save_comment (uri, new_data, TRUE);
 	comment_data_free (new_data);
+        gth_monitor_notify_update_metadata (uri);
 }
 
 
@@ -813,113 +801,10 @@ comment_text_is_void (CommentData *data)
 }
 
 
-/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)
- * This version does not escape ' and ''. Needed  because IE does not recognize
- * &apos; and &quot; */
-static void
-_append_escaped_text_for_html (GString     *str,
-			       const gchar *text,
-			       gssize       length)
-{
-	const gchar *p;
-	const gchar *end;
-	gunichar     ch;
-	int          state = 0;
-
-	p = text;
-	end = text + length;
-
-	while (p != end) {
-		const gchar *next;
-		next = g_utf8_next_char (p);
-		ch = g_utf8_get_char (p);
-
-		switch (state) {
-		    case 1: /* escaped */
-			if ((ch > 127) ||  !isprint((char)ch))
-				g_string_append_printf (str, "\\&#%d;", ch);
-			else
-				g_string_append_unichar (str, ch);
-			state = 0;
-			break;
-
-		    default: /* not escaped */
-			switch (*p) {
-			    case '\\':
-				state = 1; /* next character is escaped */
-				break;
-
-			    case '&':
-				g_string_append (str, "&amp;");
-				break;
-
-			    case '<':
-				g_string_append (str, "&lt;");
-				break;
-
-			    case '>':
-				g_string_append (str, "&gt;");
-				break;
-
-			    case '\n':
-				g_string_append (str, "<br />");
-				break;
-
-			    default:
-				if ((ch > 127) ||  !isprint((char)ch))
-					g_string_append_printf (str, "&#%d;", ch);
-				else
-					g_string_append_unichar (str, ch);
-				state = 0;
-				break;
-			}
-		}
-
-		p = next;
-	}
-}
-
-
-char*
-_g_escape_text_for_html (const gchar *text,
-			 gssize       length)
-{
-	GString *str;
-
-	g_return_val_if_fail (text != NULL, NULL);
-
-	if (length < 0)
-		length = strlen (text);
-
-	/* prealloc at least as long as original text */
-	str = g_string_sized_new (length);
-	_append_escaped_text_for_html (str, text, length);
-
-	return g_string_free (str, FALSE);
-}
-
-
-static void
-_string_append (GString    *str,
-		const char *a,
-		gboolean    markup_escape)
-{
-	if (a == NULL)
-		return;
-
- 	if (markup_escape)
-		_append_escaped_text_for_html (str, a, strlen (a));
-	else
-		g_string_append (str, a);
-}
-
-
-/* Note: separators are not escaped */
-static char *
-_get_comment_as_string_common (CommentData *data,
-			       char        *sep1,
-			       char        *sep2,
-			       gboolean     markup_escape)
+char *
+comments_get_comment_as_string (CommentData *data,
+				char        *sep1,
+				char        *sep2)
 {
 	char      *as_string = NULL;
 	char       time_txt[50] = "";
@@ -943,8 +828,6 @@ _get_comment_as_string_common (CommentData *data,
 	    && (data->time == 0)) {
 		if (data->keywords)
 			as_string = NULL;
-		else if (markup_escape)
-			as_string = g_markup_escape_text (_("(No Comment)"), -1);
 		else
 			as_string = g_strdup (_("(No Comment)"));
 
@@ -954,20 +837,20 @@ _get_comment_as_string_common (CommentData *data,
 		comment = g_string_new ("");
 
 		if (data->comment != NULL)
-			_string_append (comment, data->comment, markup_escape);
+			g_string_append (comment, data->comment);
 
 		if ((data->comment != NULL)
 		    && ((data->place != NULL) || (*time_txt != 0)))
 			g_string_append (comment, sep1);
 
 		if (data->place != NULL)
-			_string_append (comment, data->place, markup_escape);
+			g_string_append (comment, data->place);
 
 		if ((data->place != NULL) && (*time_txt != 0))
 			g_string_append (comment, sep2);
 
 		if (utf8_time_txt != NULL)
-			_string_append (comment, utf8_time_txt, markup_escape);
+			g_string_append (comment, utf8_time_txt);
 
 		as_string = comment->str;
 		g_string_free (comment, FALSE);
@@ -976,13 +859,13 @@ _get_comment_as_string_common (CommentData *data,
 	g_free (utf8_time_txt);
 
 	return as_string;
+
 }
 
 
-/* Note: separators are not escaped */
-static char *
-_get_tags_as_string_common (CommentData *data,
-                                  char        *sep)
+char *
+comments_get_tags_as_string (CommentData *data,
+                             char        *sep)
 {
         GString *tags;
         GSList  *tmp;
@@ -1003,20 +886,3 @@ _get_tags_as_string_common (CommentData *data,
 
         return g_string_free (tags, FALSE);
 }
-
-
-char *
-comments_get_comment_as_string (CommentData *data,
-				char        *sep1,
-				char        *sep2)
-{
-	return _get_comment_as_string_common (data, sep1, sep2, FALSE);
-}
-
-char *
-comments_get_tags_as_string (CommentData *data,
-                                   char        *sep)
-{
-	return _get_tags_as_string_common (data, sep);
-}
-

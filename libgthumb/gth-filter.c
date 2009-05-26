@@ -310,6 +310,7 @@ gth_test_match (GthTest  *test,
 		FileData *fdata)
 {
 	gboolean result = FALSE;
+        CommentData *cdata;
 
 	switch (test->scope) {
 	case GTH_TEST_SCOPE_FILENAME:
@@ -317,27 +318,27 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_COMMENT:
-		file_data_load_comment_data (fdata);
-		if (fdata->comment_data != NULL)
-			result = test_string (test, fdata->comment_data->comment);
+                cdata = file_data_get_comment (fdata);
+		if (cdata)
+			result = test_string (test, cdata->comment);
 		else
 			result = test->negative;
 		break;
 
 	case GTH_TEST_SCOPE_PLACE:
-		file_data_load_comment_data (fdata);
-		if (fdata->comment_data != NULL)
-			result = test_string (test, fdata->comment_data->place);
+                cdata = file_data_get_comment (fdata);
+		if (cdata != NULL)
+			result = test_string (test, cdata->place);
 		break;
 
 	case GTH_TEST_SCOPE_ALL:
-		file_data_load_comment_data (fdata);
-		if (fdata->comment_data != NULL) {
+                cdata = file_data_get_comment (fdata);
+		if (cdata != NULL) {
 			result = (test_string (test, fdata->utf8_name)
-		        	  || test_string (test, fdata->comment_data->comment)
-		          	  || test_string (test, fdata->comment_data->place));
-		        if (! result && (fdata->comment_data != NULL))
-				result = test_keywords (test, fdata->comment_data->keywords);
+		        	  || test_string (test, cdata->comment)
+		          	  || test_string (test, cdata->place));
+		        if (! result && (cdata != NULL))
+				result = test_keywords (test, cdata->keywords);
 		} else
 			result = test->negative;
 		break;
@@ -347,9 +348,9 @@ gth_test_match (GthTest  *test,
 		break;
 
 	case GTH_TEST_SCOPE_KEYWORDS:
-		file_data_load_comment_data (fdata);
-		if (fdata->comment_data != NULL)
-			result = test_keywords (test, fdata->comment_data->keywords);
+                cdata = file_data_get_comment (fdata);
+		if (cdata != NULL)
+			result = test_keywords (test, cdata->keywords);
 		else
 			result = test->negative;
 		break;

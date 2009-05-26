@@ -61,7 +61,9 @@ remove_files_from_catalog (GthWindow  *window,
 		return;
 	}
 
-	all_windows_notify_cat_files_deleted (catalog_path, list);
+        gth_monitor_notify_update_cat_files (catalog_path,
+                                             GTH_MONITOR_EVENT_DELETED,
+                                             list);
 
 	path_list_free (list);
 	catalog_free (catalog);

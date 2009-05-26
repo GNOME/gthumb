@@ -112,7 +112,7 @@ gth_fullscreen_finalize (GObject *object)
 	if (fullscreen->priv != NULL) {
 		GthFullscreenPrivateData *priv = fullscreen->priv;
 
-		g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor), fullscreen);
+		g_signal_handlers_disconnect_by_data (G_OBJECT (gth_monitor_get_instance ()), fullscreen);
 
 		if (priv->slideshow_timeout != 0) {
 			g_source_remove (priv->slideshow_timeout);
@@ -1572,6 +1572,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	GdkScreen                *screen;
 	GthZoomChange             zoom_change;
 	GdkRectangle              screen_geom;
+        GthMonitor               *gth_monitor = gth_monitor_get_instance ();
 
 	zoom_change = pref_get_zoom_change ();
 	

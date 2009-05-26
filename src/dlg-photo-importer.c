@@ -1428,12 +1428,12 @@ notify_file_creation_cb (gpointer cb_data)
 	data->idle_id = 0;
 
 	if (data->saved_images_list != NULL) {
-		all_windows_notify_files_created (data->saved_images_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_images_list);
 		path_list_free (data->saved_images_list);
 		data->saved_images_list = NULL;
 	}
 
-	all_windows_add_monitor ();
+	gth_monitor_resume ();
 
 	return FALSE;
 }
@@ -1501,7 +1501,7 @@ static void
 save_images__init (AsyncOperationData *aodata,
 		   DialogData         *data)
 {
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	data->image_n = 1;
 	data->renamed_files = FALSE;

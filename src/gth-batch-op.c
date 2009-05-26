@@ -345,10 +345,10 @@ static void
 notify_termination (GthBatchOp *bop)
 {
 	if (PD(bop)->deleted_list != NULL)
-		all_windows_notify_files_deleted (PD(bop)->deleted_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, PD(bop)->deleted_list);
 	if (PD(bop)->saved_list != NULL)
-		all_windows_notify_files_created (PD(bop)->saved_list);
-	all_windows_add_monitor ();
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, PD(bop)->saved_list);
+	gth_monitor_resume ();
 
 	g_signal_emit (G_OBJECT (bop),
 		       gth_batch_op_signals[BOP_DONE],
@@ -650,7 +650,7 @@ gth_batch_op_start (GthBatchOp       *bop,
 
 	PD(bop)->parent = window;
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 	PD(bop)->loader = IMAGE_LOADER (image_loader_new (FALSE));
 	g_signal_connect (G_OBJECT (PD(bop)->loader),
 			  "image_done",

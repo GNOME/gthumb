@@ -270,15 +270,6 @@ file_data_set_path (FileData   *fd,
 	file_data_update (fd);
 }
 
-void
-file_data_load_comment_data (FileData *fd)
-{
-	g_return_if_fail (fd != NULL);
-
-	if (fd->comment_data != NULL)
-		return;
-	fd->comment_data = comments_load_comment (fd->path, FALSE);
-}
 
 void
 file_data_update_comment (FileData *fd)
@@ -402,3 +393,15 @@ file_data_has_local_path (FileData  *fd,
 		return TRUE;
 	}
 }
+
+CommentData *
+file_data_get_comment (FileData *fd)
+{
+	g_return_val_if_fail (fd != NULL, NULL);
+
+	if (!fd->comment_data)
+                fd->comment_data = comments_load_comment (fd->path, FALSE);
+
+        return fd->comment_data;
+}
+

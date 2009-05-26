@@ -1673,9 +1673,9 @@ save_pixbuf__image_saved_cb (FileData *file,
 		
 			file_list = g_list_prepend (NULL, (char*) file->path);
 			if (gth_file_list_pos_from_path (browser->priv->file_list, file->path) != -1)
-				all_windows_notify_files_changed (file_list);
+				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);
 			else
-				all_windows_notify_files_created (file_list);
+				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_list);
 			g_list_free (file_list);
 		}
 	}
@@ -3753,7 +3753,9 @@ add_image_list_to_catalog (GthBrowser *browser,
 		if (! catalog_write_to_disk (catalog, &gerror))
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
 		else
-			all_windows_notify_cat_files_created (catalog_path, files_added);
+                        gth_monitor_notify_update_cat_files (catalog_path,   
+                                                             GTH_MONITOR_EVENT_CREATED,
+                                                             files_added);
 
 		g_list_free (files_added);
 	}
@@ -3799,7 +3801,7 @@ reorder_current_catalog (GthBrowser *browser,
 		catalog->sort_method = GTH_SORT_METHOD_MANUAL;
 		catalog_set_path (catalog, priv->catalog_path);
 		if (catalog_write_to_disk (catalog, NULL))
-			all_windows_notify_catalog_reordered (priv->catalog_path);
+			gth_monitor_notify_update_catalog (priv->catalog_path, GTH_MONITOR_EVENT_CHANGED);
 		else {
 			/* FIXME: error dialog? */
 		}
@@ -4299,7 +4301,7 @@ gth_browser_remove_monitor (GthBrowser *browser)
 	if (priv->monitor_uri == NULL)
 		return;
 
-	gth_monitor_remove_uri (gth_monitor, priv->monitor_uri);
+	gth_monitor_remove_uri (priv->monitor_uri);
 	g_free (priv->monitor_uri);
 	priv->monitor_uri = NULL;
 }
@@ -4322,7 +4324,7 @@ gth_browser_add_monitor (GthBrowser *browser)
 		priv->monitor_uri = add_scheme_if_absent (priv->dir_list->path);
 	else
 		priv->monitor_uri = g_strdup (priv->dir_list->path);
-	gth_monitor_add_uri (gth_monitor, priv->monitor_uri);
+	gth_monitor_add_uri (priv->monitor_uri);
 }
 
 
@@ -6273,6 +6275,7 @@ gth_browser_construct (GthBrowser  *browser,
 	GtkUIManager          *ui;
 	GError                *error = NULL;
 	GtkWidget             *toolbar;
+        GthMonitor            *gth_monitor = gth_monitor_get_instance ();
 
 	gtk_window_set_default_size (GTK_WINDOW (browser),
 				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH),
@@ -7171,12 +7174,12 @@ gth_browser_new (const char *uri)
 {
 	GthBrowser *browser;
 
-	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, NULL);
+	browser = GTH_BROWSER (g_object_new (GTH_TYPE_BROWSER, NULL));
 	gth_browser_construct (browser, uri);
 
 	browser_list = g_list_prepend (browser_list, browser);
 
-	return (GtkWidget*) browser;
+	return GTK_WIDGET (browser);
 }
 
 
@@ -7204,6 +7207,7 @@ close__step6 (FileData *file,
 	gboolean               last_window;
 	GdkWindowState         state;
 	gboolean               maximized;
+        GthMonitor            *gth_monitor = gth_monitor_get_instance ();
 
 	browser_list = g_list_remove (browser_list, browser);
 	last_window = gth_window_get_n_windows () == 1;

@@ -115,7 +115,7 @@ ok_clicked (GtkWidget  *button,
 		comment_time = mtime;
 	}
 	
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
@@ -193,10 +193,10 @@ ok_clicked (GtkWidget  *button,
 		file_list = g_list_prepend (file_list, fdata->path);
 	}
 
-	all_windows_notify_files_changed (file_list);
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);
 	g_list_free (file_list);
 
-	all_windows_add_monitor ();
+	gth_monitor_resume ();
 	
 	gtk_widget_destroy (data->dialog);
 }

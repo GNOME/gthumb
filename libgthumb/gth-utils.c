@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <ctype.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
@@ -60,3 +61,88 @@ gthumb_display_help (GtkWindow  *window,
 	}
 }
 
+
+/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)
+ * This version does not escape ' and ''. Needed  because IE does not recognize
+ * &apos; and &quot; */
+static void
+_append_escaped_text_for_html (GString     *str,
+			       const gchar *text,
+			       gssize       length)
+{
+	const gchar *p;
+	const gchar *end;
+	gunichar     ch;
+	int          state = 0;
+
+	p = text;
+	end = text + length;
+
+	while (p != end) {
+		const gchar *next;
+		next = g_utf8_next_char (p);
+		ch = g_utf8_get_char (p);
+
+		switch (state) {
+		    case 1: /* escaped */
+			if ((ch > 127) ||  !isprint((char)ch))
+				g_string_append_printf (str, "\\&#%d;", ch);
+			else
+				g_string_append_unichar (str, ch);
+			state = 0;
+			break;
+
+		    default: /* not escaped */
+			switch (*p) {
+			    case '\\':
+				state = 1; /* next character is escaped */
+				break;
+
+			    case '&':
+				g_string_append (str, "&amp;");
+				break;
+
+			    case '<':
+				g_string_append (str, "&lt;");
+				break;
+
+			    case '>':
+				g_string_append (str, "&gt;");
+				break;
+
+			    case '\n':
+				g_string_append (str, "<br />");
+				break;
+
+			    default:
+				if ((ch > 127) ||  !isprint((char)ch))
+					g_string_append_printf (str, "&#%d;", ch);
+				else
+					g_string_append_unichar (str, ch);
+				state = 0;
+				break;
+			}
+		}
+
+		p = next;
+	}
+}
+
+
+char*
+_g_escape_text_for_html (const gchar *text,
+			 gssize       length)
+{
+	GString *str;
+
+	g_return_val_if_fail (text != NULL, NULL);
+
+	if (length < 0)
+		length = strlen (text);
+
+	/* prealloc at least as long as original text */
+	str = g_string_sized_new (length);
+	_append_escaped_text_for_html (str, text, length);
+
+	return g_string_free (str, FALSE);
+}

@@ -50,6 +50,7 @@ HEADER_FILES =				\
 	gth-pixbuf-op.h			\
 	gth-sort-utils.h		\
 	gth-utils.h			\
+	gth-monitor.h			\
 	gthumb-error.h			\
 	gthumb-histogram.h		\
 	gthumb-init.h			\
@@ -110,6 +111,7 @@ libgthumb_la_SOURCES =			\
 	gth-nav-window.c		\
 	gth-sort-utils.c		\
 	gth-utils.c			\
+	gth-monitor.c			\
 	gthumb-error.c			\
 	gthumb-histogram.c		\
 	gthumb-init.c			\

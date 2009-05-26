@@ -25,7 +25,10 @@
 
 #include <gtk/gtk.h>
 
-void        gthumb_display_help (GtkWindow  *window, const char *section);
+void        gthumb_display_help         (GtkWindow  *window, const char *section);
+
+char*       _g_escape_text_for_html     (const gchar *text,
+                                         gssize       length);
 
 #endif /* _GTH_UTILS_H */
 

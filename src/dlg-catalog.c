@@ -183,7 +183,9 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 	else
-		all_windows_notify_cat_files_created (cat_path, data->data.list);
+                gth_monitor_notify_update_cat_files (cat_path,   
+                                                     GTH_MONITOR_EVENT_CREATED,
+                                                     data->data.list);
 
 	eel_gconf_set_path (PREF_ADD_TO_CATALOG_LAST_CATALOG, cat_path);
 	if (data->can_view_catalog) {
@@ -422,7 +424,7 @@ move_to_catalog_dir__ok_cb (GtkWidget  *widget,
 	g_free (new_path);
 	g_free (new_dir);
 
-	all_windows_update_catalog_list ();
+	gth_monitor_notify_reload_catalogs ();
 	gtk_widget_destroy (data->dialog);
 }
 

@@ -59,12 +59,12 @@ static void
 dialog_data_free (DialogData *data)
 {
 	if (data->files_changed_list != NULL) {
-		all_windows_notify_files_changed (data->files_changed_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, data->files_changed_list);
 		path_list_free (data->files_changed_list);
 		data->files_changed_list = NULL;
 	}
 
-	all_windows_add_monitor ();
+	gth_monitor_resume ();
 
 	file_data_list_free (data->file_list);
 	if (data->gui != NULL)
@@ -262,7 +262,7 @@ dlg_reset_exif (GthWindow *window)
 
 	/* Run dialog. */
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
@@ -282,7 +282,7 @@ dlg_apply_reset_exif (GthWindow *window)
 		return;
 	}
 
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;

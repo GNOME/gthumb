@@ -57,7 +57,8 @@ typedef struct {
 
 	char               *comment;
 	char               *tags;
-	CommentData        *comment_data;
+	CommentData        *comment_data;      /* Do not access this directly. Use
+                                                  file_data_get_comment (fd) instead. */
 	
 	GList              *metadata;
 } FileData;
@@ -76,8 +77,8 @@ void         file_data_update_mime_type    (FileData         *fd,
 					    gboolean          fast_mime_type);
 void         file_data_update_all          (FileData         *fd,
 					    gboolean          fast_mime_type);				    
-void         file_data_load_comment_data   (FileData         *fd);
 void         file_data_update_comment      (FileData         *fd);
+CommentData* file_data_get_comment         (FileData         *fd);
 
 GList*       file_data_list_from_uri_list  (GList            *list);
 GList*       uri_list_from_file_data_list  (GList            *list);

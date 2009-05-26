@@ -138,9 +138,9 @@ load_next_image (DialogData *data)
 static void
 stop_operation (DialogData *data)
 {
-	all_windows_notify_files_created (data->saved_list);
-	all_windows_notify_files_deleted (data->deleted_list);
-	all_windows_add_monitor ();
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_list);
+	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, data->deleted_list);
+	gth_monitor_resume ();
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -385,7 +385,7 @@ static void
 ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
-	all_windows_remove_monitor ();
+	gth_monitor_pause ();
 
 	data->loader = IMAGE_LOADER (image_loader_new (FALSE));
 

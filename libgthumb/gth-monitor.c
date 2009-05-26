@@ -30,7 +30,6 @@
 #include "gstringlist.h"
 #include "gthumb-marshal.h"
 #include "gth-monitor.h"
-#include "main.h"
 
 #define UPDATE_DIR_DELAY 500
 
@@ -64,6 +63,7 @@ typedef struct {
 	int ref;
 } MonitorHandle;
 
+static GthMonitor *instance = NULL;
 
 MonitorHandle *
 monitor_handle_new (GFileMonitor *monitor_handle,
@@ -236,7 +236,7 @@ proc_monitor_events (gpointer data)
 		if (name[0] == '.')
 			continue;
 
-		all_windows_notify_directory_new (path);
+                gth_monitor_notify_update_directory (path, GTH_MONITOR_EVENT_CREATED);
 	}
 	path_list_free (dir_created_list);
 
@@ -244,24 +244,24 @@ proc_monitor_events (gpointer data)
 
 	for (scan = dir_deleted_list; scan; scan = scan->next) {
 		char *path = scan->data;
-		all_windows_notify_directory_delete (path);
+		gth_monitor_notify_update_directory (path, GTH_MONITOR_EVENT_DELETED);
 	}
 	path_list_free (dir_deleted_list);
 
 	/**/
 
 	if (file_created_list != NULL) {
-		all_windows_notify_files_created (file_created_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_created_list);
 		path_list_free (file_created_list);
 	}
 
 	if (file_deleted_list != NULL) {
-		all_windows_notify_files_deleted (file_deleted_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, file_deleted_list);
 		path_list_free (file_deleted_list);
 	}
 
 	if (file_changed_list != NULL) {
-		all_windows_notify_files_changed (file_changed_list);
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_changed_list);
 		path_list_free (file_changed_list);
 	}
 
@@ -386,10 +386,9 @@ directory_changed (GFileMonitor      *handle,
 
 
 void
-gth_monitor_add_uri (GthMonitor *monitor,
-		     const char *uri)
+gth_monitor_add_uri (const char *uri)
 {
-	GthMonitorPrivateData *priv = monitor->priv;
+	GthMonitorPrivateData *priv = instance->priv;
 	GFileMonitor          *monitor_handle;
 	GList                 *item;
 	GFile		      *gfile;
@@ -417,7 +416,7 @@ gth_monitor_add_uri (GthMonitor *monitor,
 	        g_signal_connect (G_OBJECT (monitor_handle),
                           "changed",
                           G_CALLBACK (directory_changed),
-                          monitor);
+                          instance);
 	}
 
 	priv->monitor_enabled = TRUE;
@@ -425,10 +424,9 @@ gth_monitor_add_uri (GthMonitor *monitor,
 
 
 void
-gth_monitor_remove_uri (GthMonitor *monitor,
-			const char *uri)
+gth_monitor_remove_uri (const char *uri)
 {
-	GthMonitorPrivateData *priv = monitor->priv;
+	GthMonitorPrivateData *priv = instance->priv;
 	GList                 *item;
 	MonitorHandle         *mh;
 
@@ -447,60 +445,61 @@ gth_monitor_remove_uri (GthMonitor *monitor,
 	monitor_handle_unref (mh);
 }
 
-
 GthMonitor *
-gth_monitor_new (void)
+gth_monitor_get_instance (void)
 {
-	return (GthMonitor*) g_object_new (GTH_TYPE_MONITOR, NULL);
+        if (!instance) {
+                instance = GTH_MONITOR (g_object_new (GTH_TYPE_MONITOR, NULL));
+        }
+	return instance;
 }
 
 
 void
-gth_monitor_pause (GthMonitor *monitor)
+gth_monitor_pause (void)
 {
-	monitor->priv->monitor_enabled = FALSE;
+	instance->priv->monitor_enabled = FALSE;
 }
 
 
 void
-gth_monitor_resume (GthMonitor *monitor)
+gth_monitor_resume (void)
 {
-	monitor->priv->monitor_enabled = TRUE;
+	instance->priv->monitor_enabled = TRUE;
 }
 
 
 void
-gth_monitor_notify_update_icon_theme (GthMonitor *monitor)
+gth_monitor_notify_update_icon_theme (void)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_ICON_THEME],
 		       0);
 }
 
 
 void
-gth_monitor_notify_update_bookmarks (GthMonitor *monitor)
+gth_monitor_notify_update_bookmarks (void)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_BOOKMARKS],
 		       0);
 }
 
 
 void
-gth_monitor_notify_update_cat_files (GthMonitor      *monitor,
-				     const char      *catalog_path,
+gth_monitor_notify_update_cat_files (const char      *catalog_path,
 				     GthMonitorEvent  event,
 				     GList           *list)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (instance));
 
 	if (list == NULL)
 		return;
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_CAT_FILES],
 		       0,
 		       catalog_path,
@@ -510,16 +509,15 @@ gth_monitor_notify_update_cat_files (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_update_files (GthMonitor      *monitor,
-				 GthMonitorEvent  event,
+gth_monitor_notify_update_files (GthMonitorEvent  event,
 				 GList           *list)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
+	g_return_if_fail (GTH_IS_MONITOR (instance));
 
 	if (list == NULL)
 		return;
 
-	g_signal_emit (G_OBJECT (monitor),
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_FILES],
 		       0,
 		       event,
@@ -528,12 +526,11 @@ gth_monitor_notify_update_files (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_update_directory (GthMonitor      *monitor,
-				     const char      *dir_path,
+gth_monitor_notify_update_directory (const char      *dir_path,
 				     GthMonitorEvent  event)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_DIRECTORY],
 		       0,
 		       dir_path,
@@ -542,12 +539,11 @@ gth_monitor_notify_update_directory (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_update_catalog (GthMonitor      *monitor,
-				   const char      *catalog_path,
+gth_monitor_notify_update_catalog (const char      *catalog_path,
 				   GthMonitorEvent  event)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_CATALOG],
 		       0,
 		       catalog_path,
@@ -556,11 +552,10 @@ gth_monitor_notify_update_catalog (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_update_metadata (GthMonitor      *monitor,
-				    const char      *path)
+gth_monitor_notify_update_metadata (const char      *path)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_METADATA],
 		       0,
 		       path);
@@ -568,12 +563,11 @@ gth_monitor_notify_update_metadata (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_file_renamed (GthMonitor      *monitor,
-				 const char      *old_name,
+gth_monitor_notify_file_renamed (const char      *old_name,
 				 const char      *new_name)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[FILE_RENAMED],
 		       0,
 		       old_name,
@@ -582,12 +576,11 @@ gth_monitor_notify_file_renamed (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_directory_renamed (GthMonitor      *monitor,
-				      const char      *old_name,
+gth_monitor_notify_directory_renamed (const char      *old_name,
 				      const char      *new_name)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[DIRECTORY_RENAMED],
 		       0,
 		       old_name,
@@ -596,12 +589,11 @@ gth_monitor_notify_directory_renamed (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_catalog_renamed (GthMonitor      *monitor,
-				    const char      *old_name,
+gth_monitor_notify_catalog_renamed (const char      *old_name,
 				    const char      *new_name)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[CATALOG_RENAMED],
 		       0,
 		       old_name,
@@ -610,10 +602,10 @@ gth_monitor_notify_catalog_renamed (GthMonitor      *monitor,
 
 
 void
-gth_monitor_notify_reload_catalogs (GthMonitor *monitor)
+gth_monitor_notify_reload_catalogs (void)
 {
-	g_return_if_fail (GTH_IS_MONITOR (monitor));
-	g_signal_emit (G_OBJECT (monitor),
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[RELOAD_CATALOGS],
 		       0);
 }

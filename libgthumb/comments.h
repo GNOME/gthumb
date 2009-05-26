@@ -75,8 +75,6 @@ char *         comments_get_comment_as_string      (CommentData *data,
 						    char        *sep2);
 char *         comments_get_tags_as_string         (CommentData *data,
 						    char        *sep);
-char*          _g_escape_text_for_html             (const gchar *text,
-						    gssize       length);
 
 
 #endif /* COMMENTS_H */

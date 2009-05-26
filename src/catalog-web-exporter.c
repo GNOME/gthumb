@@ -34,6 +34,7 @@
 
 #include "catalog-web-exporter.h"
 #include "comments.h"
+#include "gth-utils.h"
 #include "gfile-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"

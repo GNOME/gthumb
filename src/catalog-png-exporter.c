@@ -32,6 +32,7 @@
 #include "catalog-png-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "gth-utils.h"
 #include "gthumb-init.h"
 #include "gthumb-marshal.h"
 #include "pixbuf-utils.h"
@@ -1501,9 +1502,9 @@ static void
 end_export (CatalogPngExporter *ce)
 {	
 	if (ce->created_files != NULL) {
-		all_windows_remove_monitor ();
-		all_windows_notify_files_created (ce->created_files);
-		all_windows_add_monitor ();
+		gth_monitor_pause ();
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, ce->created_files);
+		gth_monitor_resume ();
 		path_list_free (ce->created_files);
 		ce->created_files = NULL;
 	}

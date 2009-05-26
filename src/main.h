@@ -29,7 +29,6 @@
 #include "preferences.h"
 
 extern GthWindow        *current_window;
-extern GthMonitor       *gth_monitor;
 extern Preferences       preferences;
 
 extern gboolean          StartInFullscreen;
@@ -44,34 +43,6 @@ extern gboolean          UseViewer;
 
 #define MENU_ICON_SIZE 20.0
 #define LIST_ICON_SIZE 20.0
-
-void       all_windows_notify_update_icon_theme  (void);
-void       all_windows_notify_update_bookmarks   (void);
-void       all_windows_notify_cat_files_created  (const char *catalog_path,
-						  GList      *list);
-void       all_windows_notify_cat_files_deleted  (const char *catalog_path,
-						  GList      *list);
-void       all_windows_notify_files_created      (GList      *list);
-void       all_windows_notify_files_deleted      (GList      *list);
-void       all_windows_notify_files_changed      (GList      *list);
-void       all_windows_notify_file_rename        (const char *oldname,
-						  const char *newname);
-void       all_windows_notify_files_rename       (GList      *old_names,
-						  GList      *new_names);
-void       all_windows_notify_directory_rename   (const char *oldname,
-						  const char *newname);
-void       all_windows_notify_directory_delete   (const char *path);
-void       all_windows_notify_directory_new      (const char *path);
-void       all_windows_notify_catalog_rename     (const char *oldname,
-						  const char *newname);
-void       all_windows_notify_catalog_new        (const char *path);
-void       all_windows_notify_catalog_delete     (const char *path);
-void       all_windows_notify_catalog_reordered  (const char *path);
-void       all_windows_notify_update_metadata    (const char *filename);
-void       all_windows_update_catalog_list       (void);
-
-gboolean   all_windows_remove_monitor            (void);
-gboolean   all_windows_add_monitor               (void);
 
 int        get_folder_pixbuf_size_for_list       (GtkWidget  *widget);
 int        get_folder_pixbuf_size_for_menu       (GtkWidget  *widget);
