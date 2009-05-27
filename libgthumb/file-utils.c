@@ -2403,7 +2403,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 	if ((pixbuf == NULL) 
 	    && mime_type_is_raw (file->mime_type) 
 	    && (requested_width > 0))
-		pixbuf = or_gdkpixbuf_extract_thumbnail (file->local_path, requested_width);
+		pixbuf = or_gdkpixbuf_extract_rotated_thumbnail (file->local_path, requested_width);
 #endif
 
 	/* Use dcraw for raw images, pfstools for HDR images */
