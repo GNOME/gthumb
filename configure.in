@@ -271,7 +271,7 @@ fi
 
 dnl ******************************
 
-WARNINGS="-Wall -Wimplicit -Wunused-label \
+WARNINGS="-Wall \ 
 -Wpointer-arith -Wcast-align -Wtype-limits \
 -Wclobbered -Wempty-body -Wignored-qualifiers"
 AC_SUBST(WARNINGS)
