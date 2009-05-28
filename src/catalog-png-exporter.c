@@ -1492,8 +1492,6 @@ begin_export (CatalogPngExporter *ce)
 	gdk_color_parse ("#AAAAAA", &ce->dark_gray);
 	gdk_color_parse ("#CCCCCC", &ce->gray);
 	gdk_color_parse ("#FFFFFF", &ce->white);
-
-	gdk_pango_context_set_colormap (ce->context, ce->gc->colormap);
 }
 
 
