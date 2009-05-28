@@ -47,6 +47,20 @@ typedef enum {
 	IMAGE_TYPE_TIFF
 } ImageType;
 
+typedef struct {
+        const char     *name;
+        ImageType       type;
+        const char     *mime_type;
+} FileOption;
+
+static FileOption file_options[] = {
+        { N_("Determine by extension"), IMAGE_TYPE_AUTOMATIC, NULL },
+        { "JPEG"                      , IMAGE_TYPE_JPEG     , "image/jpeg" },
+        { "PNG"                       , IMAGE_TYPE_PNG      , "image/png" },
+        { "TGA"                       , IMAGE_TYPE_TGA      , "image/tga" },
+        { "TIFF"                      , IMAGE_TYPE_TIFF     , "image/tiff" },
+        { NULL }
+};
 
 typedef struct {
 	ImageSavedFunc  done_func;
@@ -159,9 +173,8 @@ file_save_ok_cb (GtkDialog *file_sel,
 		 gpointer  *userdata)
 
 {
-	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
 	GtkWindow     *parent;
-	GtkWidget     *opt_menu;
+	GtkWidget     *combo_box;
 	GdkPixbuf     *pixbuf;
 	FileData      *file = NULL;
 	const char    *mime_type = NULL;
@@ -176,12 +189,13 @@ file_save_ok_cb (GtkDialog *file_sel,
 
 	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
 
-	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
-	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
-	if (idx == IMAGE_TYPE_AUTOMATIC)
+	combo_box = g_object_get_data (G_OBJECT (file_sel), "combo_box");
+	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box));
+	if (idx < 0
+            || file_options[idx].type == IMAGE_TYPE_AUTOMATIC)
 		mime_type = get_file_mime_type (file->path, FALSE);
 	else
-		mime_type = mime_types [idx - 2];
+		mime_type = file_options[idx].mime_type;
 	file->mime_type = get_static_string (mime_type);
 
 	save_image (parent, file, original_file, pixbuf, data, file_sel);
@@ -202,30 +216,35 @@ file_save_response_cb (GtkDialog *file_sel,
 
 
 static GtkWidget *
-build_file_type_menu (void)
+build_file_type_combo_box (void)
 {
-	static char *type_name[] = { "JPEG", "PNG", "TGA", "TIFF", NULL };
-        GtkWidget   *menu;
-        GtkWidget   *item;
+        GtkWidget   *combo_box;
 	int          i;
+        GtkListStore *list_store;
+        GtkCellRenderer *renderer;
+        GtkTreeIter iter;
 
-        menu = gtk_menu_new ();
+        combo_box = gtk_combo_box_new ();
+        list_store = gtk_list_store_new (1, G_TYPE_STRING);
 
-	item = gtk_menu_item_new_with_label (_("Determine by extension"));
-	gtk_widget_show (item);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-	item = gtk_menu_item_new ();
-	gtk_widget_show (item);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-        for (i = 0; type_name[i] != NULL; i++) {
-                item = gtk_menu_item_new_with_label (type_name[i]);
-		gtk_widget_show (item);
-                gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+        for (i = 0; file_options[i].name != NULL; ++i) {
+                gtk_list_store_append (list_store, &iter);
+                gtk_list_store_set (list_store, &iter,
+                                    0, file_options[i].name,
+                                    -1);
         }
+        gtk_combo_box_set_model (GTK_COMBO_BOX (combo_box),
+                                 GTK_TREE_MODEL (list_store));
+        g_object_unref (list_store);
 
-	return menu;
+        renderer = gtk_cell_renderer_text_new ();
+        gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo_box));
+        gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+        gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+                                        "text", 0, NULL);
+
+        gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+        return combo_box;
 }
 
 
@@ -241,8 +260,7 @@ dlg_save_image_as (GtkWindow       *parent,
 	GtkWidget     *file_sel;
 	GtkWidget     *vbox;
 	GtkWidget     *hbox;
-	GtkWidget     *opt_menu;
-	GtkWidget     *menu;
+	GtkWidget     *combo_box;
 
 	g_return_if_fail (pixbuf != NULL);
 
@@ -269,10 +287,8 @@ dlg_save_image_as (GtkWindow       *parent,
 			    gtk_label_new (_("Image type:")),
 			    FALSE, FALSE, 0);
 
-	opt_menu = gtk_option_menu_new ();
-	menu = build_file_type_menu ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (opt_menu), menu);
-	gtk_box_pack_start (GTK_BOX (hbox), opt_menu, FALSE, FALSE, 12);
+	combo_box = build_file_type_combo_box ();
+	gtk_box_pack_start (GTK_BOX (hbox), combo_box, FALSE, FALSE, 12);
 
 	gtk_widget_show_all (vbox);
 
@@ -294,7 +310,7 @@ dlg_save_image_as (GtkWindow       *parent,
 	g_object_set_data (G_OBJECT (file_sel), "parent_window", parent);
 	g_object_set_data (G_OBJECT (file_sel), "pixbuf", pixbuf);
 	g_object_set_data (G_OBJECT (file_sel), "data", data);
-	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
+	g_object_set_data (G_OBJECT (file_sel), "combo_box", combo_box);
 	g_object_set_data (G_OBJECT (file_sel), "uri", g_strdup (uri));
 
 	g_signal_connect (GTK_DIALOG (file_sel),
