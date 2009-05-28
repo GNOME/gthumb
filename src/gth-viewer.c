@@ -756,7 +756,7 @@ viewer_update_open_with_menu (GthViewer *viewer)
 					  G_CALLBACK (open_with_menu_item_activate_cb),
 					  viewer);
 			gtk_widget_show_all (mitem);
-			gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
+			gtk_menu_shell_insert (GTK_MENU_SHELL (priv->open_with_popup_menu), mitem, pos++);
 
 			g_object_unref (icon);
 			if (icon_names)
@@ -768,12 +768,12 @@ viewer_update_open_with_menu (GthViewer *viewer)
 		mitem = gtk_menu_item_new_with_label (_("_None"));
 		gtk_widget_set_sensitive (mitem, FALSE);
 		gtk_widget_show (mitem);
-		gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
+		gtk_menu_shell_insert (GTK_MENU_SHELL (priv->open_with_popup_menu), mitem, pos++);
 	}
 
 	mitem = gtk_separator_menu_item_new ();
 	gtk_widget_show (mitem);
-	gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (priv->open_with_popup_menu), mitem, pos++);
 }
 
 
