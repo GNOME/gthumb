@@ -93,10 +93,10 @@ enum {
 static guint three_states_cell_signals[LAST_SIGNAL] = { 0 };
 
 
-GtkType
+GType
 gtk_cell_renderer_three_states_get_type (void)
 {
-  static GtkType type = 0;
+  static GType type = 0;
 
   if (!type)
     {

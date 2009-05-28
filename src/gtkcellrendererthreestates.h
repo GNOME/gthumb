@@ -48,11 +48,11 @@ extern "C" {
 
 
 #define GTK_TYPE_CELL_RENDERER_THREE_STATES			(gtk_cell_renderer_three_states_get_type ())
-#define GTK_CELL_RENDERER_THREE_STATES(obj)			(GTK_CHECK_CAST ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererThreeStates))
-#define GTK_CELL_RENDERER_THREE_STATES_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererthree_statesClass))
-#define GTK_IS_CELL_RENDERER_THREE_STATES(obj)		(GTK_CHECK_TYPE ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES))
-#define GTK_IS_CELL_RENDERER_THREE_STATES_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CELL_RENDERER_THREE_STATES))
-#define GTK_CELL_RENDERER_THREE_STATES_GET_CLASS(obj)         (GTK_CHECK_GET_CLASS ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererthree_statesClass))
+#define GTK_CELL_RENDERER_THREE_STATES(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererThreeStates))
+#define GTK_CELL_RENDERER_THREE_STATES_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererthree_statesClass))
+#define GTK_IS_CELL_RENDERER_THREE_STATES(obj)		        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES))
+#define GTK_IS_CELL_RENDERER_THREE_STATES_CLASS(klass)	        (G_TYPE_CHECK_CLASS_TYPE ((klass), GTK_TYPE_CELL_RENDERER_THREE_STATES))
+#define GTK_CELL_RENDERER_THREE_STATES_GET_CLASS(obj)           (G_TYPE_CHECK_CLASS_CAST ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererthree_statesClass))
 
 typedef struct _GtkCellRendererThreeStates GtkCellRendererThreeStates;
 typedef struct _GtkCellRendererThreeStatesClass GtkCellRendererThreeStatesClass;
@@ -82,7 +82,7 @@ struct _GtkCellRendererThreeStatesClass
   void (*_gtk_reserved4) (void);
 };
 
-GtkType          gtk_cell_renderer_three_states_get_type        (void);
+GType            gtk_cell_renderer_three_states_get_type        (void);
 GtkCellRenderer *gtk_cell_renderer_three_states_new             (void);
 
 gboolean         gtk_cell_renderer_three_states_get_radio       (GtkCellRendererThreeStates *three_states);

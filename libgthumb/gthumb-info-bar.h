@@ -49,7 +49,7 @@ struct _GThumbInfoBarClass
 	GtkEventBoxClass __parent;
 };
 
-GtkType        gthumb_info_bar_get_type           (void);
+GType        gthumb_info_bar_get_type             (void);
 
 GtkWidget*     gthumb_info_bar_new                ();
 
