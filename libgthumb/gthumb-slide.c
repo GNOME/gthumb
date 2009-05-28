@@ -575,14 +575,15 @@ draw_shadow (GdkPixmap *pixmap, int x, int y, int width, int height)
 		alpha = MIN (alpha, 255);
 	}
 
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     pixmap,
-					     0, 0,
-					     x, y,
-					     width, height,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (pixmap,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 x, y,
+			 width,
+			 height,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	g_object_unref (shadow);
 }
@@ -705,26 +706,27 @@ gthumb_draw_image_shadow_in (int          image_x,
 	shadow = gdk_pixbuf_new (GDK_COLORSPACE_RGB, 1, 8, image_w, image_h);
 
 	gdk_pixbuf_fill (shadow,  0x00000080);
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x - INOUT_SHADOW_OFFSET,
-					     image_y - INOUT_SHADOW_OFFSET,
-					     image_w, image_h,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x - INOUT_SHADOW_OFFSET,
+			 image_y - INOUT_SHADOW_OFFSET,
+			 image_w, image_h,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
+				
 
 	gdk_pixbuf_fill (shadow,  0xFFFFFF80);
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x + INOUT_SHADOW_OFFSET,
-					     image_y + INOUT_SHADOW_OFFSET,
-					     image_w, image_h,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x - INOUT_SHADOW_OFFSET,
+			 image_y - INOUT_SHADOW_OFFSET,
+			 image_w, image_h,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	g_object_unref (shadow);
 	
@@ -735,29 +737,27 @@ gthumb_draw_image_shadow_in (int          image_x,
 				 INOUT_SHADOW_OFFSET * 2);
 
 	_gdk_pixbuf_fill_triangle (shadow, 0x00000080, 0xFFFFFF80);
-	
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x + image_w - INOUT_SHADOW_OFFSET,
-					     image_y - INOUT_SHADOW_OFFSET,
-					     INOUT_SHADOW_OFFSET * 2, 
-					     INOUT_SHADOW_OFFSET * 2,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x + image_w - INOUT_SHADOW_OFFSET,
+			 image_y - INOUT_SHADOW_OFFSET,
+			 INOUT_SHADOW_OFFSET * 2, 
+			 INOUT_SHADOW_OFFSET * 2,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x - INOUT_SHADOW_OFFSET,
-					     image_y + image_h - INOUT_SHADOW_OFFSET,
-					     INOUT_SHADOW_OFFSET * 2, 
-					     INOUT_SHADOW_OFFSET * 2,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
-
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x - INOUT_SHADOW_OFFSET,
+			 image_y + image_h - INOUT_SHADOW_OFFSET,
+			 INOUT_SHADOW_OFFSET * 2, 
+			 INOUT_SHADOW_OFFSET * 2,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	g_object_unref (shadow);
 }
@@ -775,26 +775,28 @@ gthumb_draw_image_shadow_out (int          image_x,
 	shadow = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, image_w, image_h);
 
 	gdk_pixbuf_fill (shadow,  0xFFFFFF80);
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x - INOUT_SHADOW_OFFSET,
-					     image_y - INOUT_SHADOW_OFFSET,
-					     image_w, image_h,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x - INOUT_SHADOW_OFFSET,
+			 image_y - INOUT_SHADOW_OFFSET,
+			 image_w,
+			 image_h,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	gdk_pixbuf_fill (shadow,  0x00000080);
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x + INOUT_SHADOW_OFFSET,
-					     image_y + INOUT_SHADOW_OFFSET,
-					     image_w, image_h,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x + INOUT_SHADOW_OFFSET,
+			 image_y + INOUT_SHADOW_OFFSET,
+			 image_w,
+			 image_h,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	g_object_unref (shadow);
 
@@ -805,29 +807,28 @@ gthumb_draw_image_shadow_out (int          image_x,
 				 INOUT_SHADOW_OFFSET * 2);
 
 	_gdk_pixbuf_fill_triangle (shadow, 0xFFFFFF80, 0x00000080);
+
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x + image_w - INOUT_SHADOW_OFFSET,
+			 image_y - INOUT_SHADOW_OFFSET,
+			 INOUT_SHADOW_OFFSET * 2, 
+			 INOUT_SHADOW_OFFSET * 2,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 	
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x + image_w - INOUT_SHADOW_OFFSET,
-					     image_y - INOUT_SHADOW_OFFSET,
-					     INOUT_SHADOW_OFFSET * 2, 
-					     INOUT_SHADOW_OFFSET * 2,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
-
-	gdk_pixbuf_render_to_drawable_alpha (shadow,
-					     drawable,
-					     0, 0,
-					     image_x - INOUT_SHADOW_OFFSET,
-					     image_y + image_h - INOUT_SHADOW_OFFSET,
-					     INOUT_SHADOW_OFFSET * 2, 
-					     INOUT_SHADOW_OFFSET * 2,
-					     GDK_PIXBUF_ALPHA_FULL, 
-					     255,
-					     GDK_RGB_DITHER_MAX, 0, 0);
-
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 shadow,
+			 0, 0,
+			 image_x - INOUT_SHADOW_OFFSET,
+			 image_y + image_h - INOUT_SHADOW_OFFSET,
+			 INOUT_SHADOW_OFFSET * 2, 
+			 INOUT_SHADOW_OFFSET * 2,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	g_object_unref (shadow);
 }

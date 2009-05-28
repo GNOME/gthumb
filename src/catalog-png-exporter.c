@@ -1816,32 +1816,15 @@ paint_image (CatalogPngExporter *ce,
 	width = image_rect->width;
 	height = image_rect->height;
 
-	if (gdk_pixbuf_get_has_alpha (image)) {
-		gdk_gc_set_rgb_fg_color (ce->gc, &ce->white);
-		gdk_draw_rectangle (ce->pixmap,
-				    ce->gc,
-				    TRUE,
-				    x, y,
-				    width,
-				    height);
-
-		gdk_pixbuf_render_to_drawable_alpha (image,
-						     ce->pixmap,
-						     0, 0,
-						     x, y,
-						     width, height,
-						     GDK_PIXBUF_ALPHA_BILEVEL,
-						     112,
-						     GDK_RGB_DITHER_MAX, 0, 0);
-
-	} else
-		gdk_pixbuf_render_to_drawable (image,
-					       ce->pixmap,
-					       ce->gc,
-					       0, 0,
-					       x, y,
-					       width, height,
-					       GDK_RGB_DITHER_MAX, 0, 0);
+	gdk_draw_pixbuf (ce->pixmap,
+			 ce->gc,
+			 image,
+			 0, 0,
+			 x, y,
+			 width,
+			 height,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 }
 
 
