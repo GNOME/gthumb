@@ -1309,7 +1309,7 @@ add_open_with_toolbar_item (GthViewer *viewer)
 				       priv->open_with_popup_menu);
 	gtk_tool_item_set_homogeneous (priv->open_with_tool_item, FALSE);
 	gtk_tool_item_set_tooltip (priv->open_with_tool_item, priv->tooltips, _("Open selected images with an application"), NULL);
-	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item), priv->tooltips, _("Open selected images with an application"), NULL);
+	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item), _("Open selected images with an application"));
 	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/File/Image_OpenWith"),
 				  GTK_WIDGET (priv->open_with_tool_item));
 
