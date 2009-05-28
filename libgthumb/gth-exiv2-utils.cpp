@@ -595,8 +595,10 @@ write_metadata (const char *from_file,
 		for (scan = metadata_in; scan; scan = scan->next) {
 			// Update the requested tag
 			GthMetadata *metadatum = (GthMetadata *) scan->data;
-			if (metadatum->full_name != NULL
-                            && metadatum->raw_value != NULL) {
+			if (metadatum->full_name != NULL) {
+                                if (!metadatum->raw_value)
+                                        metadatum->raw_value = g_strdup ("");
+
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
 					ed[metadatum->full_name] = metadatum->raw_value;
 				} else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
