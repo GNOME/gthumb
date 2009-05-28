@@ -240,10 +240,10 @@ layout_toggled_cb (GtkWidget *widget,
 }
 
 static void
-toolbar_style_changed_cb (GtkOptionMenu *option_menu,
+toolbar_style_changed_cb (GtkComboBox   *option_menu,
 			  DialogData    *data)
 {
-	pref_set_toolbar_style (gtk_option_menu_get_history (GTK_OPTION_MENU (data->toolbar_style_optionmenu)));
+	pref_set_toolbar_style (gtk_combo_box_get_active (GTK_COMBO_BOX (data->toolbar_style_optionmenu)));
 }
 
 
@@ -280,21 +280,21 @@ show_comments_toggled_cb (GtkToggleButton *button,
 
 
 static void
-thumbs_size_changed_cb (GtkOptionMenu *option_menu,
+thumbs_size_changed_cb (GtkComboBox   *option_menu,
 			DialogData    *data)
 {
 	int i;
 
-	i = gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_thumbs_size));
+	i = gtk_combo_box_get_active (GTK_COMBO_BOX (data->opt_thumbs_size));
 	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[i]);
 }
 
 
 static void
-click_policy_changed_cb (GtkOptionMenu *option_menu,
+click_policy_changed_cb (GtkComboBox   *option_menu,
 			 DialogData    *data)
 {
-	pref_set_click_policy (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_click_policy)));
+	pref_set_click_policy (gtk_combo_box_get_active (GTK_COMBO_BOX (data->opt_click_policy)));
 }
 
 
@@ -352,10 +352,10 @@ zoom_quality_low_cb (GtkToggleButton *button,
 
 
 static void
-zoom_change_changed_cb (GtkOptionMenu *option_menu,
+zoom_change_changed_cb (GtkComboBox   *option_menu,
 			DialogData    *data)
 {
-	int idx = gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_zoom_change));
+	int idx = gtk_combo_box_get_active (GTK_COMBO_BOX (data->opt_zoom_change));
 	pref_set_zoom_change (zoom_change[idx]);
 }
 
@@ -369,10 +369,10 @@ reset_scrollbars_toggled_cb (GtkToggleButton *button,
 
 
 static void
-transp_type_changed_cb (GtkOptionMenu *option_menu,
+transp_type_changed_cb (GtkComboBox   *option_menu,
 			DialogData    *data)
 {
-	pref_set_transp_type(gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_transparency)));
+	pref_set_transp_type(gtk_combo_box_get_active (GTK_COMBO_BOX (data->opt_transparency)));
 }
 
 
@@ -480,7 +480,7 @@ dlg_preferences (GthBrowser *browser)
 			   _gtk_image_new_from_xpm_data (layout3_xpm));
 	gtk_container_add (GTK_CONTAINER (data->radio_layout4),
 			   _gtk_image_new_from_xpm_data (layout4_xpm));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->toolbar_style_optionmenu), pref_get_toolbar_style ());
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->toolbar_style_optionmenu), pref_get_toolbar_style ());
 
 	/* ** layout */
 
@@ -503,8 +503,8 @@ dlg_preferences (GthBrowser *browser)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_tags), eel_gconf_get_boolean (PREF_SHOW_TAGS, TRUE));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95)));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_click_policy), pref_get_click_policy ());
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95)));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->opt_click_policy), pref_get_click_policy ());
 
 	/* * viewer */
 
@@ -513,8 +513,8 @@ dlg_preferences (GthBrowser *browser)
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_zoom_quality_low), TRUE);
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), get_idx_from_zoom_change (pref_get_zoom_change ()));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (gth_window_get_image_viewer (GTH_WINDOW (browser))));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->opt_zoom_change), get_idx_from_zoom_change (pref_get_zoom_change ()));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->opt_transparency), image_viewer_get_transp_type (gth_window_get_image_viewer (GTH_WINDOW (browser))));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 

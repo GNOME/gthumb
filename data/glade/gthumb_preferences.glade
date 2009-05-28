@@ -337,61 +337,14 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkOptionMenu" id="toolbar_style_optionmenu">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="history">0</property>
-
-				  <child>
-				    <widget class="GtkMenu" id="menu1">
-
-				      <child>
-					<widget class="GtkMenuItem" id="system_settings1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">System settings</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="on_system_settings1_activate" last_modification_time="Tue, 18 Jun 2002 16:27:25 GMT"/>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="text_below_icons1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Text below icons</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="on_text_below_icons1_activate" last_modification_time="Tue, 18 Jun 2002 16:28:56 GMT"/>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="priority_text_beside_icons1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Text beside icons</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="on_priority_text_beside_icons1_activate" last_modification_time="Tue, 18 Jun 2002 16:28:56 GMT"/>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="icons_only1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Icons only</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="on_icons_only1_activate" last_modification_time="Tue, 18 Jun 2002 16:28:56 GMT"/>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="text_only1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Text only</property>
-					  <property name="use_underline">True</property>
-					  <signal name="activate" handler="on_text_only1_activate" last_modification_time="Tue, 18 Jun 2002 16:28:56 GMT"/>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
-				</widget>
+                                <widget class="GtkComboBox" id="toolbar_style_optionmenu">
+                                    <property name="visible">True</property>
+                                    <property name="items" translatable="yes">System settings
+Text below icons
+Text beside icons
+Icons only
+Text only</property>
+                                </widget>
 				<packing>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
@@ -1179,43 +1132,12 @@
 				  <property name="spacing">0</property>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="opt_click_policy">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu2">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="follow_nautilus_behaviour1">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Follow Nautilus behaviour</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_follow_nautilus_behaviour1_activate" last_modification_time="Fri, 30 Aug 2002 09:14:04 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="activate_items_with_a_single_click1">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Activate items with a single click</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_activate_items_with_a_single_click1_activate" last_modification_time="Fri, 30 Aug 2002 09:14:04 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="activate_items_with_a_double_click1">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Activate items with a double click</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_activate_items_with_a_double_click1_activate" last_modification_time="Fri, 30 Aug 2002 09:14:05 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
+                                    <widget class="GtkComboBox" id="opt_click_policy">
+                                      <property name="visible">True</property>
+                                      <property name="items" translatable="yes">Follow Nautilus behaviour
+Activate items with a single click
+Activate items with a double click</property>
+                                    </widget>
 				    <packing>
 				      <property name="padding">0</property>
 				      <property name="expand">False</property>
@@ -1240,89 +1162,18 @@
 				  <property name="spacing">0</property>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="opt_thumbs_size">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child internal-child="menu">
-					<widget class="GtkMenu" id="convertwidget4">
-					  <property name="visible">True</property>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget5">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">48 x 48</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget6">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">64 x 64</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget7">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">85 x 85</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget8">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">95 x 95</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget9">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">112 x 112</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget10">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">128 x 128</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget11">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">164 x 164</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget12">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">200 x 200</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget13">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">256 x 256</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
+                                    <widget class="GtkComboBox" id="opt_thumbs_size">
+                                      <property name="visible">True</property>
+                                      <property name="items" translatable="yes">48 x 48
+64 x 64
+85 x 85
+95 x 95
+112 x 112
+128 x 128
+164 x 164
+200 x 200
+256 x 256</property>
+                                    </widget>
 				    <packing>
 				      <property name="padding">0</property>
 				      <property name="expand">False</property>
@@ -1576,56 +1427,13 @@
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkOptionMenu" id="opt_zoom_change">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="history">0</property>
-
-				  <child internal-child="menu">
-				    <widget class="GtkMenu" id="convertwidget17">
-				      <property name="visible">True</property>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget20">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Keep previous zoom</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="fit_to_window1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Fit to window</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget21">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Fit to window if larger</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget18">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Set image to actual size</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="fit_to_width_if_larger1">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Fit to width if larger</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
+                                <widget class="GtkComboBox" id="opt_zoom_change">
+                                  <property name="visible">True</property>
+                                  <property name="items" translatable="yes">Keep previous zoom
+Fit to window
+Fit to window if larger
+Set image to actual size
+Fit to width if larger</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1651,48 +1459,12 @@
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkOptionMenu" id="opt_transparency">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="history">0</property>
-
-				  <child internal-child="menu">
-				    <widget class="GtkMenu" id="convertwidget22">
-				      <property name="visible">True</property>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget23">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">White</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget24">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">None</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget25">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Black</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-
-				      <child>
-					<widget class="GtkMenuItem" id="convertwidget26">
-					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Checked</property>
-					  <property name="use_underline">True</property>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
+                                <widget class="GtkComboBox" id="opt_transparency">
+                                  <property name="visible">True</property>
+                                  <property name="items" translatable="yes">White
+None
+Black
+Checked</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
