@@ -678,14 +678,16 @@ render_background (GdkDrawable    *drawable,
 
 	/**/
 
-	gdk_pixbuf_render_to_drawable_alpha (pixbuf,
-					     drawable,
-					     0, 0,
-					     0, 0,
-					     bounds->width, bounds->height,
-					     GDK_PIXBUF_ALPHA_FULL,
-					     255,
-					     GDK_RGB_DITHER_NONE, 0, 0);
+	gdk_draw_pixbuf (drawable,
+			 NULL,
+			 pixbuf,
+			 0, 0,
+			 0, 0,
+			 bounds->width,
+			 bounds->height,
+			 GDK_RGB_DITHER_NONE,
+			 0, 0);
+
 	g_object_unref (pixbuf);
 }
 
@@ -1031,14 +1033,18 @@ show_comment_on_image (GthFullscreen *fullscreen)
 			 text_x,
 			 text_y,
 			 layout);
-	gdk_pixbuf_render_to_drawable (icon,
-				       priv->buffer,
-				       GTK_WIDGET (viewer)->style->black_gc,
-				       0, 0,
-				       icon_x, icon_y,
-				       icon_w, icon_h,
-				       GDK_RGB_DITHER_NONE,
-				       0, 0);
+
+	gdk_draw_pixbuf (priv->buffer,
+			 GTK_WIDGET (viewer)->style->black_gc,
+			 icon,
+			 0, 0,
+			 icon_x,
+			 icon_y,
+			 icon_w,
+			 icon_h,
+			 GDK_RGB_DITHER_NONE,
+			 0, 0);
+
 	g_object_unref (icon);
 	g_object_unref (layout);
 

@@ -1739,15 +1739,18 @@ paint_rubberband (GthImageList *image_list,
 
 		pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, rect.width, rect.height);
 		gdk_pixbuf_fill (pixbuf, rgba);
-		gdk_pixbuf_render_to_drawable_alpha (pixbuf,
-						     priv->bin_window,
-						     0, 0,
-						     rect.x, rect.y,
-						     rect.width, rect.height,
-						     GDK_PIXBUF_ALPHA_FULL,
-						     0,
-						     GDK_RGB_DITHER_NONE,
-						     0, 0);
+
+		gdk_draw_pixbuf (priv->bin_window,
+				 NULL,
+				 pixbuf,
+				 0, 0,
+				 rect.x,
+				 rect.y,
+				 rect.width,
+				 rect.height,
+				 GDK_RGB_DITHER_NONE,
+				 0, 0);
+
 		g_object_unref (pixbuf);
 
 #ifdef HAVE_RENDER
