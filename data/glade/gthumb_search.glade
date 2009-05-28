@@ -473,49 +473,13 @@
 		  <property name="spacing">5</property>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="s_date_optionmenu">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="history">0</property>
-
-		      <child internal-child="menu">
-			<widget class="GtkMenu" id="convertwidget1">
-			  <property name="visible">True</property>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget2">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Any</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget3">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Before</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget4">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">Equal to</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-
-			  <child>
-			    <widget class="GtkMenuItem" id="convertwidget5">
-			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">After</property>
-			      <property name="use_underline">True</property>
-			    </widget>
-			  </child>
-			</widget>
-		      </child>
-		    </widget>
+                    <widget class="GtkComboBox" id="s_date_optionmenu">
+                      <property name="visible">True</property>
+                      <property name="items" translatable="yes">Any
+Before
+Equal to
+After</property>
+                    </widget>
 		    <packing>
 		      <property name="padding">0</property>
 		      <property name="expand">False</property>

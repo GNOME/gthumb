@@ -308,7 +308,7 @@ search_clicked_cb (GtkWidget  *widget,
 
 	/* * date scope pattern */
 
-	search_data_set_date_scope (data->search_data, gtk_option_menu_get_history (GTK_OPTION_MENU (data->s_date_optionmenu)));
+	search_data_set_date_scope (data->search_data, gtk_combo_box_get_active (GTK_COMBO_BOX (data->s_date_optionmenu)));
 
 	/* * date */
 
@@ -489,10 +489,10 @@ choose_tags_cb (GtkWidget  *widget,
 
 
 static void
-date_option_changed_cb (GtkOptionMenu *option_menu,
+date_option_changed_cb (GtkComboBox   *option_menu,
 			DialogData    *data)
 {
-	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_option_menu_get_history (option_menu) != 0);
+	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_combo_box_get_active (option_menu) != 0);
 }
 
 
@@ -574,6 +574,11 @@ dlg_search_ui (GthBrowser *browser,
 
 	data->s_choose_tags_button = glade_xml_get_widget (data->gui, "s_choose_tags_button");
 	data->s_date_optionmenu = glade_xml_get_widget (data->gui, "s_date_optionmenu");
+
+	/* Forcing date scope start with its first option (Any) selected */
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->s_date_optionmenu),
+				  0);
+
 	data->s_date_dateedit = glade_xml_get_widget (data->gui, "s_date_dateedit");
 
 	if (catalog_path == NULL) {
@@ -653,8 +658,8 @@ dlg_search_ui (GthBrowser *browser,
 		gtk_entry_set_text (GTK_ENTRY (data->s_tags_entry),
 				    search_data->keywords_pattern);
 
-		gtk_option_menu_set_history (GTK_OPTION_MENU (data->s_date_optionmenu),
-					     search_data->date_scope);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (data->s_date_optionmenu),
+					  search_data->date_scope);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->s_date_dateedit),
 					  search_data->date);
 
@@ -663,7 +668,7 @@ dlg_search_ui (GthBrowser *browser,
 
 	/**/
 
-	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_option_menu_get_history (GTK_OPTION_MENU (data->s_date_optionmenu)) != 0);
+	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_combo_box_get_active (GTK_COMBO_BOX (data->s_date_optionmenu)) != 0);
 
 	/* Set the signals handlers. */
 
