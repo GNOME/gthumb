@@ -3123,7 +3123,25 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			    <widget class="GtkOptionMenu" id="ss_unit_optionmenu">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="history">-1</property>
+			      <property name="history">0</property>
+			      <child>
+				<widget class="GtkMenu" id="menu2">
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem1">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">pixels</property>
+				      <property name="use_underline">True</property>
+				    </widget>
+				  </child>
+				  <child>
+				    <widget class="GtkMenuItem" id="menuitem2">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">%</property>
+				      <property name="use_underline">True</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">2</property>
