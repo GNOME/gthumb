@@ -441,7 +441,11 @@ update_and_save_metadata (const char *uri_src,
 		return;
 	}
 
-	write_metadata (from_fd->local_path, to_fd->local_path, metadata);
+	/* TIFF metadata writing is a bit flaky, it seems.
+	   Best avoided for now. */
+	if (mime_type_is (to_fd->mime_type, "image/jpeg") ||
+	    mime_type_is (to_fd->mime_type, "image/png"))
+		write_metadata (from_fd->local_path, to_fd->local_path, metadata);
 
 	file_data_unref (from_fd);
 	file_data_unref (to_fd);
