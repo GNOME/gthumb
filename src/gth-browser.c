@@ -7698,6 +7698,7 @@ gth_browser_go_to_directory (GthBrowser *browser,
 		gth_browser_show_sidebar (browser);
 
 	gth_browser_start_activity_mode (browser);
+	window_update_sensitivity (browser);
 	gth_dir_list_change_to (browser->priv->dir_list, dir_path);
 }
 
