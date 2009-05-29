@@ -462,10 +462,13 @@ gth_monitor_pause (void)
 }
 
 
-void
+gboolean
 gth_monitor_resume (void)
 {
 	instance->priv->monitor_enabled = TRUE;
+
+	/* to cancel idle calls, if used */
+	return FALSE;
 }
 
 

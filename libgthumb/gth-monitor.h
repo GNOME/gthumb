@@ -82,7 +82,7 @@ GthMonitor*  gth_monitor_get_instance                (void);
 void         gth_monitor_add_uri                     (const char *uri);
 void         gth_monitor_remove_uri                  (const char *uri);
 void         gth_monitor_pause                       (void);
-void         gth_monitor_resume                      (void);
+gboolean     gth_monitor_resume                      (void);
 void         gth_monitor_notify_update_icon_theme    (void);
 void         gth_monitor_notify_update_bookmarks     (void);
 void         gth_monitor_notify_update_cat_files     (const char      *catalog_path,
