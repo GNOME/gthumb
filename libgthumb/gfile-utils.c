@@ -420,34 +420,6 @@ gfile_get_display_name (GFile *file)
 
 /* Directory utils */
 
-static gboolean
-_gfile_make_directory_tree (GFile    *dir,
-                            GError  **error)
-{
-        gboolean  success = TRUE;
-        GFile    *parent;
-
-	if (gfile_path_is_dir (dir))
-		return TRUE;
-
-        parent = g_file_get_parent (dir);
-        if (parent != NULL) {
-                success = _gfile_make_directory_tree (parent, error);
-                g_object_unref (parent);
-                if (! success)
-                        return FALSE;
-        }
-
-        success = g_file_make_directory (dir, NULL, error);
-        if ((error != NULL) && (*error != NULL) && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
-                g_clear_error (error);
-                success = TRUE;
-        }
-
-        return success;
-}
-
-
 gboolean
 gfile_ensure_dir_exists (GFile    *dir,
                          GError  **error)
@@ -455,6 +427,7 @@ gfile_ensure_dir_exists (GFile    *dir,
         GError    *priv_error = NULL;
 	GFileInfo *info;
 	gboolean   result;
+	gboolean   success;
 
         if (dir == NULL)
                 return FALSE;
@@ -463,8 +436,14 @@ gfile_ensure_dir_exists (GFile    *dir,
                 error = &priv_error;
 
 	/* Try making dir and any needed parent dirs */
-        if (! _gfile_make_directory_tree (dir, error)) {
-                gfile_warning ("could not create directory", dir, *error);
+	success = g_file_make_directory_with_parents (dir, NULL, error);
+	if ((error != NULL) && (*error != NULL) && g_error_matches (*error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		g_clear_error (error);
+		success = TRUE;
+	}
+
+        if (!success) {
+                gfile_warning ("could not create directory or its parents", dir, *error);
                 if (priv_error != NULL)
                         g_clear_error (&priv_error);
                 return FALSE;
