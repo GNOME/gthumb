@@ -378,7 +378,7 @@ view_result_cb (GtkWidget  *widget,
 
 	for (scan = data->files; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		catalog_add_item (catalog, fd->path);
+		catalog_add_item (catalog, fd->utf8_path);
 	}
 
 	if (! catalog_write_to_disk (catalog, &gerror))
@@ -412,7 +412,7 @@ save_result_cb (GtkWidget  *widget,
 	catalog_set_search_data (catalog, data->search_data);
 	for (scan = data->files; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		catalog_add_item (catalog, fd->path);
+		catalog_add_item (catalog, fd->utf8_path);
 	}
 
 	if (! catalog_write_to_disk (catalog, &gerror))

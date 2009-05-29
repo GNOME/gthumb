@@ -111,7 +111,7 @@ apply_transformation (BatchTransformation *bt_data)
 		if (file_data_has_local_path (file, GTK_WINDOW (bt_data->data->window))) {
 			write_orientation_field (file->local_path, GTH_TRANSFORM_NONE);
 			bt_data->data->files_changed_list = g_list_prepend (bt_data->data->files_changed_list, 
-									    g_strdup (file->path));
+									    g_strdup (file->utf8_path));
 		}
 
 		bt_data->i++;	

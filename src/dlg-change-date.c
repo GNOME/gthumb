@@ -121,7 +121,7 @@ ok_clicked (GtkWidget  *button,
 		FileData *fdata = scan->data;
 
 		if (is_active (data->cd_created_radiobutton)) {
-			mtime = get_file_ctime (fdata->path);
+			mtime = fdata->ctime;
 			comment_time = mtime;
 		} else if (is_active (data->cd_exif_radiobutton)) {
 			mtime = get_exif_time (fdata);
@@ -139,22 +139,22 @@ ok_clicked (GtkWidget  *button,
 				}
 			}
 			if (is_active (data->cd_last_modified_checkbutton)) 
-				mtime = get_file_mtime (fdata->path) + tz;
+				mtime = fdata->mtime + tz;
 		}
 			
 		if ((mtime <= 0) && (comment_time <= 0))
 			continue;
 
 		if (is_active (data->cd_last_modified_checkbutton))
-			set_file_mtime (fdata->path, mtime);
+			set_file_mtime (fdata->utf8_path, mtime);
 
 		if (is_active (data->cd_comment_checkbutton)) {
 			CommentData *cdata;
-			cdata = comments_load_comment (fdata->path, TRUE);
+			cdata = comments_load_comment (fdata->utf8_path, TRUE);
 			if (cdata == NULL)
 				cdata = comment_data_new ();
 			cdata->time = comment_time;
-			comments_save_comment (fdata->path, cdata);
+			comments_save_comment (fdata->utf8_path, cdata);
 			comment_data_free (cdata);
 		}
 
@@ -183,13 +183,13 @@ ok_clicked (GtkWidget  *button,
 			if (is_active (data->cd_exif_dig_checkbutton))
 				add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.DateTimeDigitized", buf);
 
-                        update_and_save_metadata (fdata->path, fdata->path, add_metadata);
+                        update_and_save_metadata (fdata->utf8_path, fdata->utf8_path, add_metadata);
 
 			free_metadata (add_metadata);
 			g_free (buf);
 		}
 
-		file_list = g_list_prepend (file_list, fdata->path);
+		file_list = g_list_prepend (file_list, fdata->utf8_path);
 	}
 
 	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);

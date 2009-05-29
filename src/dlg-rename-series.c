@@ -130,7 +130,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	for (o_scan = data->file_list, n_scan = data->new_names_list; o_scan && n_scan; o_scan = o_scan->next, n_scan = n_scan->next) {
 		FileData *fdata         = o_scan->data;
-		char     *old_full_path = fdata->path;
+		char     *old_full_path = fdata->utf8_path;
 		char     *new_name      = n_scan->data;
 		char     *old_path      = remove_level_from_path (old_full_path);
 		char     *new_full_path;
@@ -138,7 +138,7 @@ ok_clicked_cb (GtkWidget  *widget,
 		new_full_path = g_strconcat (old_path, "/", new_name, NULL);
 		g_free (old_path);
 
-		old_names = g_list_prepend (old_names, g_strdup (fdata->path));
+		old_names = g_list_prepend (old_names, g_strdup (fdata->utf8_path));
 		new_names = g_list_prepend (new_names, new_full_path);
 	}
 	old_names = g_list_reverse (old_names);
@@ -171,7 +171,7 @@ comp_func_size (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->path, fd2->path);
+	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -185,7 +185,7 @@ comp_func_time (gconstpointer  ptr1,
 		return 0;
 
 	return gth_sort_by_filetime_then_name (fd1->mtime, fd2->mtime,
-						 fd1->path, fd2->path);
+						 fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -211,7 +211,7 @@ comp_func_path (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_full_path (fd1->path, fd2->path);
+	return gth_sort_by_full_path (fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -221,7 +221,7 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
 	return gth_sort_by_comment_then_name (fd1->comment, fd2->comment,
-					      fd1->path, fd2->path);
+					      fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -380,13 +380,13 @@ update_list (DialogData *data)
 		g_free (name_wo_ext);
 		g_free (utf8_txt);
 
-		cached_date = g_hash_table_lookup (data->date_cache, fdata->path);
+		cached_date = g_hash_table_lookup (data->date_cache, fdata->utf8_path);
 		if (cached_date != NULL)
 			image_date = g_strdup (cached_date);
 		else {
 			image_date = get_image_date (fdata);
 			if (image_date != NULL)
-				g_hash_table_insert (data->date_cache, g_strdup (fdata->path), g_strdup (image_date));
+				g_hash_table_insert (data->date_cache, g_strdup (fdata->utf8_path), g_strdup (image_date));
 		}
 		utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
 		name3 = _g_substitute_pattern (name2, 'd', utf8_txt);

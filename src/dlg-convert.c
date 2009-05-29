@@ -246,11 +246,11 @@ save_image_and_remove_original (DialogData *data)
 		}
 	
 		if (error == NULL) {
-			data->saved_list = g_list_prepend (data->saved_list, g_strdup (fd_new->path));
+			data->saved_list = g_list_prepend (data->saved_list, g_strdup (fd_new->utf8_path));
 	 
 			if (data->remove_original && ! file_data_same (fd_old, fd_new)) {
-				file_unlink (fd_old->path);
-				data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd_old->path));
+				file_unlink (fd_old->utf8_path);
+				data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd_old->utf8_path));
 			}
 		}
 	}

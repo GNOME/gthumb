@@ -233,7 +233,7 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	ImageLoader              *loader;
 
-	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested->path);
+	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested->utf8_path);
 	if (loader != NULL)
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
@@ -522,7 +522,7 @@ int
 filedatacmp (FileData *fd1,
 	     FileData *fd2)
 {
-	return uricmp (fd1->path, fd2->path);
+	return uricmp (fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -1436,7 +1436,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	case GTH_MONITOR_EVENT_CHANGED:
 		if ((fullscreen->priv->file != NULL)
 		    && (g_list_find_custom (list,
-					    fullscreen->priv->file->path,
+					    fullscreen->priv->file->utf8_path,
 					    (GCompareFunc) uricmp) != NULL)) 
 		{
 			file_data_unref (fullscreen->priv->file);
@@ -1447,7 +1447,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 		if (fullscreen->priv->current != NULL) {
 			FileData *current_file = fullscreen->priv->current->data;
 			if (g_list_find_custom (list,
-						current_file->path,
+						current_file->utf8_path,
 					        (GCompareFunc) uricmp) != NULL)
 			{
 				load_current_image (fullscreen);
@@ -1857,7 +1857,7 @@ gth_fullscreen_get_file_list_selection (GthWindow *window)
 		return NULL;
 	
 	current_file = fullscreen->priv->current->data;
-	return g_list_prepend (NULL, g_strdup (current_file->path));
+	return g_list_prepend (NULL, g_strdup (current_file->utf8_path));
 }
 
 

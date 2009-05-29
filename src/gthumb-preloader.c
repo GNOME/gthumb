@@ -395,7 +395,7 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 					g_signal_emit (G_OBJECT (gploader), gthumb_preloader_signals[REQUESTED_DONE], 0);
 					debug (DEBUG_INFO, "[requested] preloaded");
 				}
-				debug (DEBUG_INFO, "[=] [%d] <- %s", i, file->path);
+				debug (DEBUG_INFO, "[=] [%d] <- %s", i, file->utf8_path);
 			}
 		}
 	}
@@ -425,10 +425,10 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 
 		if (file_data_same (file, requested)) {
 			gploader->requested = k;
-			debug (DEBUG_INFO, "[requested] %s", file->path);
+			debug (DEBUG_INFO, "[requested] %s", file->utf8_path);
 		}
 
-		debug (DEBUG_INFO, "[+] [%d] <- %s", k, file->path);
+		debug (DEBUG_INFO, "[+] [%d] <- %s", k, file->utf8_path);
 	}
 
 	load_data_free (load_data);
@@ -577,7 +577,7 @@ start_next_loader (GThumbPreloader *gploader)
 	ploader = current_preloader (gploader);
 
 	image_loader_start (ploader->loader);
-	debug (DEBUG_INFO, "load %s", ploader->file->path);
+	debug (DEBUG_INFO, "load %s", ploader->file->utf8_path);
 }
 
 

@@ -246,7 +246,7 @@ apply_transformation_done (gpointer callback_data)
 		
 	if (at_data->info != NULL)
 		g_file_set_attributes_from_info (gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	notify_file_changed (at_data->data, file->path, at_data->notify_soon);
+	notify_file_changed (at_data->data, file->utf8_path, at_data->notify_soon);
 	
 	if (at_data->done_func)
 		(at_data->done_func) (at_data->done_data);

@@ -496,8 +496,8 @@ catalog_rename (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
-	else if (file_move (old_fd->path,new_fd->path, FALSE, NULL)) {
-		gth_monitor_notify_catalog_renamed (old_fd->path,new_fd->path);
+	else if (file_move (old_fd->utf8_path,new_fd->utf8_path, FALSE, NULL)) {
+		gth_monitor_notify_catalog_renamed (old_fd->utf8_path,new_fd->utf8_path);
 	} 
 	else {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
@@ -963,10 +963,10 @@ folder_rename (GtkWindow  *window,
 	else {
 		gboolean        result;
 
-		result = file_move (old_fd->path, new_fd->utf8_path, FALSE, NULL);
+		result = file_move (old_fd->utf8_path, new_fd->utf8_path, FALSE, NULL);
 		if (result) {
 			comment_move (old_path, new_path);
-			gth_monitor_notify_directory_renamed (old_fd->path, new_fd->path);
+			gth_monitor_notify_directory_renamed (old_fd->utf8_path, new_fd->utf8_path);
 		} 
 		else {
 			_gtk_error_dialog_run (window,
