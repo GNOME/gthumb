@@ -574,7 +574,7 @@ comp_func_name (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_filename_but_ignore_path (fd1->name, fd2->name);
+	return gth_sort_by_filename_but_ignore_path (fd1->utf8_path, fd2->utf8_path);
 }
 
 

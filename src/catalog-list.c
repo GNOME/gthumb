@@ -577,7 +577,6 @@ catalog_list_refresh (CatalogList *cat_list)
 	if (! cat_list->dirs_only) {
 		for (scan = file_list; scan; scan = scan->next) {
 			FileData    *file = scan->data;
-			char        *name;
 			char        *utf8_name;
 			GtkTreeIter  iter;
 			GdkPixbuf   *pixbuf;
@@ -592,8 +591,7 @@ catalog_list_refresh (CatalogList *cat_list)
 				pixbuf = catalog_pixbuf;
 			}
 
-			name = remove_extension_from_path (file->name);
-			utf8_name = get_utf8_display_name_from_uri (name);
+			utf8_name = remove_extension_from_path (file->utf8_name);
 			
 			gtk_list_store_append (cat_list->list_store, &iter);
 			gtk_list_store_set (cat_list->list_store, &iter,
@@ -604,7 +602,6 @@ catalog_list_refresh (CatalogList *cat_list)
 					    -1);
 					    
 			g_free (utf8_name);
-			g_free (name);
 		}
 	}
 

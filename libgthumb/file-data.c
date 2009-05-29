@@ -66,7 +66,7 @@ load_info (FileData *fd)
 	char      *resolved_path;
 
 	g_free (fd->local_path);
-	gfile = gfile_new (fd->path);
+	gfile = gfile_new (fd->utf8_path);
 	fd->local_path = g_file_get_path (gfile);
 
 	if ( (fd->local_path != NULL) &&
@@ -81,7 +81,7 @@ load_info (FileData *fd)
 
 	g_free (fd->uri);
 
-	resolved_path = resolve_all_symlinks (fd->path);
+	resolved_path = resolve_all_symlinks (fd->utf8_path);
 	gfile_resolved = gfile_new (resolved_path);
 	fd->uri = g_file_get_uri (gfile_resolved);
 	g_object_unref (gfile_resolved);
@@ -130,9 +130,7 @@ file_data_new (const char *path)
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->path = add_scheme_if_absent (path);
-	fd->name = file_name_from_path (fd->path);
-	fd->utf8_path = get_utf8_display_name_from_uri (fd->path);
+	fd->utf8_path = get_utf8_display_name_from_uri (path);
 	fd->utf8_name = file_name_from_path (fd->utf8_path);
 
 	load_info (fd);
@@ -173,8 +171,6 @@ file_data_dup (FileData *source)
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->path = g_strdup (source->path);
-	fd->name = file_name_from_path (fd->path);
         fd->utf8_path = g_strdup (source->utf8_path);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
 	fd->local_path = g_strdup (source->local_path);
@@ -207,7 +203,6 @@ file_data_unref (FileData *fd)
 	fd->ref--;
 
 	if (fd->ref == 0) {
-		g_free (fd->path);
 		g_free (fd->utf8_path);
 		g_free (fd->local_path);
 		g_free (fd->uri);
@@ -229,7 +224,6 @@ file_data_update (FileData *fd)
 	fd->error = FALSE;
 	fd->thumb_loaded = FALSE;
 	fd->thumb_created = FALSE;
-	fd->name = file_name_from_path (fd->path);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
 
 	load_info (fd);
@@ -242,7 +236,7 @@ void
 file_data_update_mime_type (FileData *fd,
 			    gboolean  fast_mime_type)
 {
-	fd->mime_type = get_file_mime_type (fd->path, fast_mime_type || ! is_local_file (fd->path));
+	fd->mime_type = get_file_mime_type (fd->utf8_path, fast_mime_type || ! is_local_file (fd->utf8_path));
 }
 
 
@@ -262,10 +256,8 @@ file_data_set_path (FileData   *fd,
 	g_return_if_fail (fd != NULL);
 	g_return_if_fail (path != NULL);
 
-	g_free (fd->path);
-	fd->path = add_scheme_if_absent (path);
 	g_free (fd->utf8_path);
-        fd->utf8_path = get_utf8_display_name_from_uri (fd->path);
+        fd->utf8_path = get_utf8_display_name_from_uri (path);
 
 	file_data_update (fd);
 }
@@ -281,7 +273,7 @@ file_data_update_comment (FileData *fd)
 	if (fd->comment_data != NULL)
 		comment_data_free (fd->comment_data);
 
-	fd->comment_data = comments_load_comment (fd->path, FALSE);
+	fd->comment_data = comments_load_comment (fd->utf8_path, FALSE);
 
 	if (fd->comment_data == NULL) {
                 fd->comment_data = comment_data_new ();
@@ -322,7 +314,7 @@ uri_list_from_file_data_list (GList *list)
 	
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		result = g_list_prepend (result, g_strdup (fd->path));
+		result = g_list_prepend (result, g_strdup (fd->utf8_path));
 	}
 	
 	return g_list_reverse (result);	
@@ -435,7 +427,7 @@ file_data_get_comment (FileData *fd,
 	g_return_val_if_fail (fd != NULL, NULL);
 
 	if (!fd->comment_data)
-                fd->comment_data = comments_load_comment (fd->path, try_embedded);
+                fd->comment_data = comments_load_comment (fd->utf8_path, try_embedded);
 
 	if (!fd->comment_data)
                 fd->comment_data = comment_data_new ();

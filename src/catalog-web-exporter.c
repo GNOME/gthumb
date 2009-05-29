@@ -172,7 +172,7 @@ image_data_new (FileData *file)
 	idata->src_file = file_data_ref (file);
 	idata->dest_filename = g_strconcat (zero_padded (img_counter++),
 					    "-",
-					    file->name,
+					    file->utf8_name,
 					    NULL);
 
 	idata->image = NULL;
@@ -719,7 +719,8 @@ comp_func_name (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filename_but_ignore_path (data_a->src_file->name, data_b->src_file->name);}
+	return gth_sort_by_filename_but_ignore_path (data_a->src_file->utf8_path, data_b->src_file->utf8_path);
+}
 
 
 static int

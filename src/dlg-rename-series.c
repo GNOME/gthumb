@@ -158,7 +158,7 @@ comp_func_name (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_filename_but_ignore_path (fd1->name, fd2->name);
+	return gth_sort_by_filename_but_ignore_path (fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -361,7 +361,7 @@ update_list (DialogData *data)
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
-		char     *name_wo_ext = remove_extension_from_path (fdata->name);
+		char     *name_wo_ext = remove_extension_from_path (fdata->utf8_name);
 		char     *utf8_txt, *image_date, *image_size;
 		char     *name1 = NULL;
 		char     *name2;
@@ -397,11 +397,11 @@ update_list (DialogData *data)
 		name4 = _g_substitute_pattern (name3, 's', image_size);
 		g_free (image_size);
 
-		if (strrchr (fdata->name, '.') != NULL)
-			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
+		if (strrchr (fdata->utf8_name, '.') != NULL)
+			extension = g_filename_to_utf8 (strrchr (fdata->utf8_name, '.'), -1, 0, 0, 0);
 		name5 = _g_substitute_pattern (name4, 'e', extension);
 
-		original_enum = extract_utf8_digits (fdata->name);
+		original_enum = extract_utf8_digits (fdata->utf8_name);
 		name6 = _g_substitute_pattern (name5, 'n', original_enum);
 		g_free (original_enum);
 

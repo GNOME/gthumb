@@ -396,7 +396,7 @@ file_filter (FileData *file,
 	if (file->mime_type == NULL)
 		return FALSE;
 
-	if (! show_hidden_files && file_is_hidden (file->name))
+	if (! show_hidden_files && file_is_hidden (file->utf8_name))
 		return FALSE;
 		
 	if (show_only_images && ! mime_type_is_image (file->mime_type))

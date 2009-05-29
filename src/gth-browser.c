@@ -541,7 +541,7 @@ update_image_comment (GthBrowser *browser)
 	/**/
 
 	if (cdata->changed)
-		gth_file_list_update_comment (priv->file_list, priv->image->path);
+		gth_file_list_update_comment (priv->file_list, priv->image->utf8_path);
 
 	g_free (comment);
 }
@@ -575,7 +575,7 @@ window_update_infobar (GthBrowser *browser)
 	}
 
 	images = gth_file_view_get_images (priv->file_list->view);
-	current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
+	current = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path) + 1;
 
 	escaped_name = g_markup_escape_text (priv->image->utf8_name, -1);
 
@@ -631,7 +631,7 @@ window_update_title (GthBrowser *browser)
 		int   images, current;
 
 		images = gth_file_view_get_images (priv->file_list->view);
-		current = gth_file_list_pos_from_path (priv->file_list, priv->image->path) + 1;
+		current = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path) + 1;
 
 		if (priv->image_catalog != NULL) {
 			char *cat_name = basename_for_display (priv->image_catalog);
@@ -816,7 +816,7 @@ window_update_sensitivity (GthBrowser *browser)
 	image_is_image = (browser->priv->image != NULL) && mime_type_is_image (browser->priv->image->mime_type);
 	
 	if (priv->image != NULL)
-		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
+		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path);
 	else
 		image_pos = -1;
 
@@ -1659,8 +1659,8 @@ save_pixbuf__image_saved_cb (FileData *file,
 			
 		g_free (browser->priv->image_path_saved);
 		browser->priv->image_path_saved = NULL;
-		if (file->path != NULL)
-			browser->priv->image_path_saved = g_strdup (file->path);
+		if (file->utf8_path != NULL)
+			browser->priv->image_path_saved = g_strdup (file->utf8_path);
 
 		browser->priv->image_modified = FALSE;
 		browser->priv->saving_modified_image = FALSE;
@@ -1670,8 +1670,8 @@ save_pixbuf__image_saved_cb (FileData *file,
 		if (! closing) {
 			GList *file_list;
 		
-			file_list = g_list_prepend (NULL, (char*) file->path);
-			if (gth_file_list_pos_from_path (browser->priv->file_list, file->path) != -1)
+			file_list = g_list_prepend (NULL, (char*) file->utf8_path);
+			if (gth_file_list_pos_from_path (browser->priv->file_list, file->utf8_path) != -1)
 				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);
 			else
 				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_list);
@@ -1693,7 +1693,7 @@ gth_browser_save_pixbuf (GthWindow *window,
 	char                  *current_folder = NULL;
 
 	if (priv->image != NULL) {
-		current_folder = g_strdup (priv->image->path);
+		current_folder = g_strdup (priv->image->utf8_path);
 		update_metadata (priv->image);
 	}
 	else if (priv->dir_list->path != NULL)
@@ -1733,7 +1733,7 @@ ask_whether_to_save__response_cb (GtkWidget  *dialog,
 	if (response_id == GTK_RESPONSE_YES) {
 		update_metadata (priv->image);
 		dlg_save_image_as (GTK_WINDOW (browser),
-				   priv->image->path,
+				   priv->image->utf8_path,
 				   priv->image->metadata,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
 				   save_pixbuf__image_saved_cb,
@@ -2587,7 +2587,7 @@ static void
 go_to_folder_after_image_loaded (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	char *folder_uri = remove_level_from_path (priv->image->path);
+	char *folder_uri = remove_level_from_path (priv->image->utf8_path);
 
 	priv->focus_current_image = TRUE;
 	gth_browser_hide_sidebar (browser);
@@ -2651,7 +2651,7 @@ image_requested_done_cb (GThumbPreloader *gploader,
 
 	priv->loading_image = TRUE;
 
-	loader = gthumb_preloader_get_loader (priv->preloader, priv->image->path);
+	loader = gthumb_preloader_get_loader (priv->preloader, priv->image->utf8_path);
 	if (loader != NULL)
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
 }
@@ -2865,13 +2865,13 @@ launch_selected_videos_or_audio (GthBrowser *browser)
 		FileData *file = scan->data;
 
 		if (mime_type_is (file->mime_type, image_mime_type)) {
-			video_list = g_list_append (video_list, g_strdup (file->path));
+			video_list = g_list_append (video_list, g_strdup (file->utf8_path));
 		}
 		else {
 			GAppInfo  *selected_app;
 			selected_app = g_app_info_get_default_for_type (file->mime_type, TRUE);
 			if (g_app_info_equal (app_info, selected_app))
-				video_list = g_list_append (video_list, g_strdup (file->path));
+				video_list = g_list_append (video_list, g_strdup (file->utf8_path));
 			g_object_unref (selected_app);
 		}
 	}
@@ -5557,10 +5557,10 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 
 	if ((priv->image != NULL)
 	    && ! priv->image_modified
-	    && (path_list_find_path (list, priv->image->path) != NULL)) {
+	    && (path_list_find_path (list, priv->image->utf8_path) != NULL)) {
 		int pos;
 		
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path);
 		if (pos != -1)
 			view_image_at_pos (browser, pos);
 	}
@@ -5760,13 +5760,13 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 
 	if ((priv->image != NULL)
 	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-	    && path_in_path (old_name, priv->image->path)) 
+	    && path_in_path (old_name, priv->image->utf8_path)) 
 	{
-		char *new_image_path = g_strdup (priv->image->path);
+		char *new_image_path = g_strdup (priv->image->utf8_path);
 		char *new_image_name;
 
 		new_image_name = g_strconcat (new_name,
-					      priv->image->path + strlen (old_name),
+					      priv->image->utf8_path + strlen (old_name),
 					      NULL);
 		gth_browser_notify_file_rename (browser,
 						new_image_path,
@@ -5805,10 +5805,10 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 	}
 
 	if ((priv->image != NULL)
-	    && (path_in_path (priv->image->path, path))) {
+	    && (path_in_path (priv->image->utf8_path, path))) {
 		GList *list;
 
-		list = g_list_append (NULL, priv->image->path);
+		list = g_list_append (NULL, priv->image->utf8_path);
 		gth_browser_notify_files_deleted (browser, list);
 		g_list_free (list);
 	}
@@ -6225,7 +6225,7 @@ dir_list_done_cb (GthDirList     *dir_list,
 	if ((file_list == NULL) && (browser->priv->image != NULL)) {
 		char *image_dir;
 		
-		image_dir = remove_level_from_path (browser->priv->image->path);
+		image_dir = remove_level_from_path (browser->priv->image->utf8_path);
 		if (uricmp (image_dir, browser->priv->dir_list->path) == 0)
 			file_list = g_list_append (NULL, file_data_dup (browser->priv->image));
 		g_free (image_dir);
@@ -7435,8 +7435,8 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 		if (priv->dir_list->path == NULL) {
 			char *folder_uri = NULL;
 			if (priv->image != NULL) {
-				ImageToDisplay = g_strdup (priv->image->path);
-				folder_uri = remove_level_from_path (priv->image->path);
+				ImageToDisplay = g_strdup (priv->image->utf8_path);
+				folder_uri = remove_level_from_path (priv->image->utf8_path);
 			} else
 				folder_uri = g_strdup (get_home_uri ());
 
@@ -8019,7 +8019,7 @@ gth_browser_show_next_image (GthBrowser *browser,
 			pos = gth_file_list_next_image (priv->file_list, pos, skip_broken, only_selected);
 	} 
 	else {
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path);
 		pos = gth_file_list_next_image (priv->file_list, pos, skip_broken, only_selected);
 	}
 
@@ -8057,7 +8057,7 @@ gth_browser_show_prev_image (GthBrowser *browser,
 		}
 	} 
 	else {
-		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->path);
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image->utf8_path);
 		pos = gth_file_list_prev_image (priv->file_list, pos, skip_broken, only_selected);
 	}
 
@@ -8215,7 +8215,7 @@ get_image_to_preload (GthBrowser *browser,
 		max_size = PRELOADED_IMAGE_MAX_DIM2;
 
 	if (fdata->size > max_size) {
-		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", fdata->path);
+		debug (DEBUG_INFO, "image %s filesize too large for preloading\n", fdata->utf8_path);
 		file_data_unref (fdata);
 		return NULL;
 	}
@@ -8253,7 +8253,7 @@ load_timeout_cb (gpointer data)
 	/* update the mtime in order to reload the image if required. */
 	file_data_update (browser->priv->image);
 
-	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->path);
+	browser->priv->image_position = gth_file_list_pos_from_path (browser->priv->file_list, browser->priv->image->utf8_path);
 	if (browser->priv->image_position >= 0) {
 		prev1 = get_image_to_preload (browser, browser->priv->image_position - 1, 1);
 		next1 = get_image_to_preload (browser, browser->priv->image_position + 1, 1);
@@ -8481,7 +8481,7 @@ gth_browser_update_current_image_metadata (GthWindow *window)
 
 	if (browser->priv->image == NULL)
 		return;
-	gth_browser_notify_update_comment (browser, browser->priv->image->path);
+	gth_browser_notify_update_comment (browser, browser->priv->image->utf8_path);
 
 	if (browser->priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (browser->priv->image_prop_dlg);
