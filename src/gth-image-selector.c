@@ -1336,6 +1336,11 @@ finalize (GObject *object)
 
 		g_free (selector->priv);
 		selector->priv = NULL;
+
+                if (priv->hadj)
+                        g_object_unref (priv->hadj);
+                if (priv->vadj)
+                        g_object_unref (priv->vadj);
 	}
 
         /* Chain up */
@@ -1716,70 +1721,6 @@ vadj_value_changed (GtkObject        *adj,
 }
 
 
-static void
-set_scroll_adjustments (GtkWidget     *widget,
-			GtkAdjustment *hadj,
-			GtkAdjustment *vadj)
-{
-	GthImageSelector     *selector;
-	GthImageSelectorPriv *priv;
-
-        g_return_if_fail (widget != NULL);
-        g_return_if_fail (GTH_IS_IMAGE_SELECTOR (widget));
-
-        selector = GTH_IMAGE_SELECTOR (widget);
-	priv = selector->priv;
-
-        if (hadj)
-                g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
-        else
-                hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
-							   0.0, 0.0, 0.0));
-
-        if (vadj)
-                g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
-        else
-                vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0,
-							   0.0, 0.0, 0.0));
-
-        if (priv->hadj && priv->hadj != hadj) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->hadj),
-						      selector);
-		g_object_unref (priv->hadj);
-		priv->hadj = NULL;
-        }
-
-        if (priv->vadj && priv->vadj != vadj) {
-		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->vadj),
-						      selector);
-		g_object_unref (priv->vadj);
-		priv->vadj = NULL;
-        }
-
-        if (priv->hadj != hadj) {
-                priv->hadj = hadj;
-                g_object_ref (priv->hadj);
-                gtk_object_sink (GTK_OBJECT (priv->hadj));
-
-		g_signal_connect (G_OBJECT (priv->hadj),
-				  "value_changed",
-				  G_CALLBACK (hadj_value_changed),
-				  selector);
-        }
-
-        if (priv->vadj != vadj) {
-		priv->vadj = vadj;
-		g_object_ref (priv->vadj);
-		gtk_object_sink (GTK_OBJECT (priv->vadj));
-
-		g_signal_connect (G_OBJECT (priv->vadj),
-				  "value_changed",
-				  G_CALLBACK (vadj_value_changed),
-				  selector);
-        }
-}
-
-
 static gboolean scroll_event (GtkWidget *widget, GdkEventScroll *event);
 
 
@@ -1846,7 +1787,6 @@ class_init (GthImageSelectorClass *class)
 	widget_class->motion_notify_event  = motion_notify;
 	widget_class->scroll_event         = scroll_event;
 
-	class->set_scroll_adjustments = set_scroll_adjustments;
         widget_class->set_scroll_adjustments_signal =
 		g_signal_new ("set_scroll_adjustments",
 			      G_TYPE_FROM_CLASS (class),
@@ -1886,10 +1826,8 @@ init (GthImageSelector *selector)
 	selector->priv->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0,
 								   1.0, 1.0, 1.0));
 
-	g_object_ref (selector->priv->hadj);
-	gtk_object_sink (GTK_OBJECT (selector->priv->hadj));
-	g_object_ref (selector->priv->vadj);
-	gtk_object_sink (GTK_OBJECT (selector->priv->vadj));
+	g_object_ref_sink (selector->priv->hadj);
+	g_object_ref_sink (selector->priv->vadj);
 
 	g_signal_connect (G_OBJECT (selector->priv->hadj),
 			  "value_changed",

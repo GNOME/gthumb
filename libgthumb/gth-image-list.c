@@ -1954,8 +1954,7 @@ set_scroll_adjustments (GthImageList  *image_list,
 
 	if (image_list->priv->hadjustment != hadj) {
 		image_list->priv->hadjustment = hadj;
-		g_object_ref (image_list->priv->hadjustment);
-		gtk_object_sink (GTK_OBJECT (image_list->priv->hadjustment));
+		g_object_ref_sink (GTK_OBJECT (image_list->priv->hadjustment));
 
 		g_signal_connect (G_OBJECT (image_list->priv->hadjustment),
 				  "value_changed",
@@ -1969,8 +1968,7 @@ set_scroll_adjustments (GthImageList  *image_list,
 
 	if (image_list->priv->vadjustment != vadj) {
 		image_list->priv->vadjustment = vadj;
-		g_object_ref (image_list->priv->vadjustment);
-		gtk_object_sink (GTK_OBJECT (image_list->priv->vadjustment));
+		g_object_ref_sink (GTK_OBJECT (image_list->priv->vadjustment));
 
 		g_signal_connect (G_OBJECT (image_list->priv->vadjustment),
 				  "value_changed",
