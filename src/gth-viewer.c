@@ -798,7 +798,7 @@ save_pixbuf__image_saved_cb (FileData *file,
 		if (closing)
 			return;
 	
-		if ((viewer->priv->image != NULL) && ! same_uri (viewer->priv->image->path, file->path)) {
+		if ((viewer->priv->image != NULL) && ! file_data_same (viewer->priv->image, file)) {
 			/*FIXME: gtk_widget_show (gth_viewer_new (uri));*/
 			file_data_set_path (viewer->priv->image, file->path);
 			gth_viewer_load (viewer, viewer->priv->image);
@@ -1235,17 +1235,13 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 			 const char *new_name,
 			 GthViewer  *viewer)
 {
-	char *uri;
-	
 	if (viewer->priv->image == NULL)
 		return;
 
-	if (! same_uri (old_name, viewer->priv->image->path))
+	if (! file_data_same_path (viewer->priv->image, old_name))
 		return;
 
-	uri = add_scheme_if_absent (new_name);
-	file_data_set_path (viewer->priv->image, uri);
-	g_free (uri);
+	file_data_set_path (viewer->priv->image, new_name);
 	 
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }

@@ -484,7 +484,7 @@ load_current_image (GthFullscreen *fullscreen)
 
 		if ((priv->image != NULL)
 		    && (priv->file != NULL)
-		    && same_uri (priv->file->path, current->path))
+		    && file_data_same (priv->file, current))
 			image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
 		else {
@@ -767,7 +767,7 @@ pos_from_path (GList      *list,
 
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		if (same_uri (fd->path, path))
+		if (file_data_same_path (fd, path))
 			return i;
 		i++;
 	}
@@ -1407,7 +1407,7 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 {
 	if (fullscreen->priv->catalog_path == NULL)
 		return;
-	if (! same_uri (fullscreen->priv->catalog_path, catalog_name))
+	if (! same_uri (fullscreen->priv->catalog_path, catalog_name))  /* FIXME */
 		return;
 
 	switch (event) {
@@ -1491,7 +1491,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 	if (fullscreen->priv->file == NULL)
 		return;
 
-	if (! same_uri (old_name, fullscreen->priv->file->path))
+	if (! file_data_same_path (fullscreen->priv->file, old_name))
 		return;
 
 	file_data_unref (fullscreen->priv->file);

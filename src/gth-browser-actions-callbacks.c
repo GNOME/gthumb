@@ -949,7 +949,7 @@ folder_rename (GtkWindow  *window,
 
 	gth_monitor_pause ();
 
-	if (same_uri (old_fd->utf8_path, new_fd->utf8_path)) {
+	if (file_data_same (old_fd, new_fd)) {
 		_gtk_error_dialog_run (window,
 				       _("Could not rename the folder \"%s\": %s"),
 				       old_fd->utf8_name,
@@ -1205,7 +1205,7 @@ folder_copy__response_cb (GObject *object,
 
 	message = move ? _("Could not move the folder \"%s\": %s") : _("Could not copy the folder \"%s\": %s");
 
-	if (same_uri (old_fd->utf8_path, new_fd->utf8_path)) {
+	if (file_data_same (old_fd, new_fd)) {
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       message,
 				       old_fd->utf8_name,

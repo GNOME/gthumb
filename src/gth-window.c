@@ -330,7 +330,7 @@ gth_window_get_image_filename (GthWindow *window)
 	if (file == NULL)
 		return NULL;
 	else
-		return file->path;
+		return file->utf8_path;
 }
 
 

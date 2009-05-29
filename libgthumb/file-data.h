@@ -88,5 +88,8 @@ GList*       file_data_list_find_path      (GList            *list,
 					    const char       *path);
 gboolean     file_data_has_local_path      (FileData         *fd,
 					    GtkWindow	     *window);
-
+gboolean     file_data_same_path	   (FileData         *fd1,
+					    const char       *path2);
+gboolean     file_data_same                (FileData         *fd1,
+					    FileData         *fd2);
 #endif /* FILE_DATA_H */

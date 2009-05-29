@@ -601,7 +601,7 @@ set_unknown_pixbuf (GthFileList *file_list,
 	GdkPixbuf *pixbuf;
 
 	fd = gth_file_view_get_image_data (file_list->view, pos);
-	if ((fd == NULL) || (fd->path == NULL))
+	if ((fd == NULL) || (fd->utf8_path == NULL))
 		return;
 
 	pixbuf = get_pixbuf_from_mime_type (file_list, fd->mime_type);
@@ -1155,7 +1155,7 @@ load_new_list (GthFileList *file_list)
 		GList    *same_path_in_list;
 		GList    *next = scan->next;
 		
-		same_path_in_list = file_data_list_find_path (file_list->list, new_fd->path); 
+		same_path_in_list = file_data_list_find_path (file_list->list, new_fd->utf8_path); 
 		if (same_path_in_list != NULL) {
 			FileData *old_fd = same_path_in_list->data;
 			
@@ -1339,7 +1339,7 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
 
-		if (same_uri (fd->path, path)) {
+		if (file_data_same_path (fd, path)) {
 			retval = i;
 			break;
 		}
@@ -1370,7 +1370,7 @@ gth_file_list_filedata_from_path (GthFileList *file_list,
 	list = gth_file_view_get_list (file_list->view);
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		if (same_uri (fd->path, path)) {
+		if (file_data_same_path (fd, path)) {
 			result = file_data_ref (fd);
 			break;
 		}
@@ -1396,7 +1396,7 @@ gth_file_list_get_all (GthFileList *file_list)
 	list = NULL;
 	for (scan = file_list->list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		list = g_list_prepend (list, g_strdup (fd->path));
+		list = g_list_prepend (list, g_strdup (fd->utf8_path));
 	}
 
 	return g_list_reverse (list);
@@ -1413,7 +1413,7 @@ gth_file_list_get_all_from_view (GthFileList *file_list)
 	list = gth_file_view_get_list (file_list->view);
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		path_list = g_list_prepend (path_list, g_strdup (fd->path));
+		path_list = g_list_prepend (path_list, g_strdup (fd->utf8_path));
 	}
 	file_data_list_free (list);
 
@@ -1472,8 +1472,8 @@ gth_file_list_path_from_pos (GthFileList *file_list,
 		return NULL;
 
 	fd = gth_file_view_get_image_data (file_list->view, pos);
-	if ((fd != NULL) && (fd->path != NULL))
-		retval = g_strdup (fd->path);
+	if ((fd != NULL) && (fd->utf8_path != NULL))
+		retval = g_strdup (fd->utf8_path);
 	file_data_unref (fd);
 
 	return retval;

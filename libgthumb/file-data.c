@@ -366,11 +366,44 @@ file_data_list_find_path (GList      *list,
 	for (scan = list; scan; scan = scan->next) {
 		FileData *data = scan->data;
 		
-		if (strcmp (data->path, path) == 0)
+		if (strcmp (data->utf8_path, path) == 0)
 			return scan;
 	}
 	
 	return NULL;
+}
+
+
+gboolean
+file_data_same_path (FileData   *fd1,
+		     const char *path2)
+{
+	FileData *fd2;
+	gboolean result;
+
+	if ((fd1 == NULL) && (path2 == NULL))
+		return TRUE;
+	if ((fd1 == NULL) || (path2 == NULL))
+		return FALSE;
+
+	fd2 = file_data_new (path2);
+	result = !strcmp (fd1->utf8_path,fd2->utf8_path);
+
+	file_data_unref (fd2);
+	return result;
+}
+
+
+gboolean
+file_data_same (FileData *fd1,
+                FileData *fd2)
+{
+        if ((fd1 == NULL) && (fd2 == NULL))
+                return TRUE;
+        if ((fd1 == NULL) || (fd2 == NULL))
+                return FALSE;
+
+        return !strcmp (fd1->utf8_path,fd2->utf8_path);
 }
 
 

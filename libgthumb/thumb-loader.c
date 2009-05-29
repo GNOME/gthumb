@@ -372,7 +372,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 		return;
 	}
 	
-	if (tl->priv->use_cache) {
+	if ((tl->priv->use_cache && ((time (NULL) - tl->priv->file->mtime) > (time_t) 5))) {
 		cache_path = gnome_thumbnail_factory_lookup (tl->priv->thumb_factory,
 							     tl->priv->file->uri,
 							     tl->priv->file->mtime);
@@ -380,8 +380,7 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 		if ((cache_path == NULL)  
 		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
 									   tl->priv->file->uri,
-									   tl->priv->file->mtime)
-		    && ((time (NULL) - tl->priv->file->mtime) > (time_t) 5)) 
+									   tl->priv->file->mtime))
 		{
 			/* Use the existing "failed" thumbnail, if it is over
 			   5 seconds old. Otherwise, try to thumbnail it again. 

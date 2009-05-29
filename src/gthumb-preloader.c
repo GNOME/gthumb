@@ -384,13 +384,13 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 			PreLoader *ploader = gploader->loader[i];
 
 			if ((ploader->file != NULL)
-			    && same_uri (ploader->file->path, file->path)
+			    && file_data_same (ploader->file, file)
 			    && (file->mtime == ploader->file->mtime)
 			    && ploader->loaded) 
 			{
 				loader_assigned[i] = TRUE;
 				file_assigned[j] = TRUE;
-				if (same_uri (file->path, requested->path)) {
+				if (file_data_same (file, requested)) {
 					gploader->requested = i;
 					g_signal_emit (G_OBJECT (gploader), gthumb_preloader_signals[REQUESTED_DONE], 0);
 					debug (DEBUG_INFO, "[requested] preloaded");
@@ -423,7 +423,7 @@ gthumb_preloader_load__step2 (LoadData *load_data)
 		loader_assigned[k] = TRUE;
 		preloader_set_file (ploader, file);
 
-		if (same_uri (file->path, requested->path)) {
+		if (file_data_same (file, requested)) {
 			gploader->requested = k;
 			debug (DEBUG_INFO, "[requested] %s", file->path);
 		}
@@ -507,7 +507,7 @@ gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 		PreLoader *ploader = gploader->loader[i];
 
 		if ((ploader->file != NULL)
-		    && same_uri (ploader->file->path, path)
+		    && file_data_same_path (ploader->file, path)
 		    && (path_mtime == ploader->file->mtime)
 		    && ploader->loaded)
 			return ploader->loader;

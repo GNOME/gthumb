@@ -1970,7 +1970,7 @@ gth_file_list_cursor_changed_cb (GtkWidget *widget,
 	if (focused_image == NULL)
 		return;
 
-	if ((priv->image == NULL) || ! same_uri (focused_image, priv->image->path))
+	if ((priv->image == NULL) || ! file_data_same_path (priv->image, focused_image))
 		view_image_at_pos (browser, pos);
 
 	g_free (focused_image);
@@ -5720,7 +5720,7 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 	gth_file_list_delete (priv->file_list, new_name);
 	gth_file_list_rename (priv->file_list, old_name, new_name);
 
-	if (priv->image != NULL && same_uri (old_name, priv->image->path))
+	if (priv->image != NULL && file_data_same_path (priv->image, old_name))
 		gth_browser_load_image_from_uri (browser, new_name);
 }
 
@@ -7991,7 +7991,7 @@ view_focused_image (GthBrowser *browser)
 	if (focused == NULL)
 		return FALSE;
 
-	not_focused = (priv->image == NULL) || ! same_uri (priv->image->path, focused);
+	not_focused = (priv->image == NULL) || ! file_data_same_path (priv->image, focused);
 	g_free (focused);
 
 	return not_focused;
@@ -8323,7 +8323,7 @@ gth_browser_load_image (GthBrowser *browser,
 		return;
 	}
 
-	if ((priv->image != NULL) && same_uri (file->path, priv->image->path)) {
+	if ((priv->image != NULL) && file_data_same (file, priv->image)) {
 		gth_browser_reload_image (browser);
 		return;
 	}
@@ -8333,7 +8333,7 @@ gth_browser_load_image (GthBrowser *browser,
 	if (! priv->image_modified
 	    && (priv->image != NULL)
 	    && (file != NULL)
-	    && same_uri (file->path, priv->image->path)
+	    && file_data_same (file, priv->image)
 	    && (priv->image->mtime == file->mtime))
 		return;
 
@@ -8553,7 +8553,7 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 	if ((current_image == NULL || browser->priv->image == NULL))
 		return FALSE;
 
-	if (same_uri (browser->priv->image->path, current_image))
+	if (same_uri (browser->priv->image->utf8_path, current_image))
 		return FALSE;
 
 	pos = gth_file_list_pos_from_path (browser->priv->file_list, current_image);
