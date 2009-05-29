@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "pixbuf-utils.h"
@@ -163,7 +164,7 @@ apply_transformation_jpeg (FileData       *file,
 		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	gfile = g_file_new_for_uri (file->path);
+	gfile = gfile_new (file->utf8_path);
 	info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 	g_object_unref (gfile);
 
@@ -214,7 +215,7 @@ apply_transformation_jpeg (FileData       *file,
 		char *local_uri;
 		
 		local_uri = get_uri_from_local_path (file->local_path);
-		gfile = g_file_new_for_uri (file->path);
+		gfile = gfile_new (file->utf8_path);
 		g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 		g_object_unref (info);
 		g_object_unref (gfile);

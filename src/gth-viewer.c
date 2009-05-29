@@ -709,7 +709,7 @@ open_with_menu_item_activate_cb (GtkMenuItem *menuitem,
 		return;
 
 	app = g_object_get_data (G_OBJECT (menuitem), "app");
-	uris = g_list_prepend (NULL, viewer->priv->image->path);
+	uris = g_list_prepend (NULL, viewer->priv->image->utf8_path);
 	g_app_info_launch_uris (app, uris, NULL, NULL);
 	g_list_free (uris);
 }
@@ -800,7 +800,7 @@ save_pixbuf__image_saved_cb (FileData *file,
 	
 		if ((viewer->priv->image != NULL) && ! file_data_same (viewer->priv->image, file)) {
 			/*FIXME: gtk_widget_show (gth_viewer_new (uri));*/
-			file_data_set_path (viewer->priv->image, file->path);
+			file_data_set_path (viewer->priv->image, file->utf8_path);
 			gth_viewer_load (viewer, viewer->priv->image);
 		}
 		else {
@@ -834,7 +834,7 @@ ask_whether_to_save__response_cb (GtkWidget *dialog,
 
         if (response_id == GTK_RESPONSE_YES) {
 		dlg_save_image_as (GTK_WINDOW (viewer),
-				   priv->image->path,
+				   priv->image->utf8_path,
 				   priv->image->metadata,
 				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
 				   ask_whether_to_save__image_saved_cb,
@@ -1208,7 +1208,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 		return;
 
 	if (g_list_find_custom (list,
-				viewer->priv->image->path,
+				viewer->priv->image->utf8_path,
 				(GCompareFunc) uricmp) == NULL)
 		return;
 
@@ -1861,7 +1861,7 @@ gth_viewer_save_pixbuf (GthWindow *window,
 	char                 *current_folder = NULL;
 
 	if (priv->image != NULL) {
-		current_folder = g_strdup (priv->image->path);
+		current_folder = g_strdup (priv->image->utf8_path);
 		update_metadata (priv->image);
 	}
 
@@ -1981,7 +1981,7 @@ reload_current_image__step2 (FileData *file,
 	GthViewer *viewer = data;
 	
 	if (viewer->priv->image != NULL)
-		gth_viewer_load_from_uri (viewer, viewer->priv->image->path);
+		gth_viewer_load_from_uri (viewer, viewer->priv->image->utf8_path);
 	else
 		gth_viewer_load (viewer, NULL);
 }
@@ -2021,7 +2021,7 @@ gth_viewer_get_file_list_selection (GthWindow *window)
 
 	if (viewer->priv->image == NULL)
 		return NULL;
-	return g_list_prepend (NULL, g_strdup (viewer->priv->image->path));
+	return g_list_prepend (NULL, g_strdup (viewer->priv->image->utf8_path));
 }
 
 

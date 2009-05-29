@@ -35,6 +35,7 @@
 #include "jpegutils/jpeg-data.h"
 
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gconf-utils.h"
 #include "gth-utils.h"
 #include "gth-window.h"
@@ -241,7 +242,7 @@ apply_transformation_done (gpointer callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
-	GFile              *gfile = g_file_new_for_uri (file->path);
+	GFile              *gfile = gfile_new (file->utf8_path);
 		
 	if (at_data->info != NULL)
 		g_file_set_attributes_from_info (gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
@@ -339,7 +340,7 @@ apply_transformation (GtkWidget    *parent_window,
 	at_data->done_func = done_func;
 	at_data->done_data = done_data;
 
-	gfile = g_file_new_for_uri (file->path);
+	gfile = gfile_new (file->utf8_path);
 	at_data->info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
 	g_object_unref (gfile);
 	if (error) {

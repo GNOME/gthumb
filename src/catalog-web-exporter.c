@@ -2261,7 +2261,7 @@ save_thumbnail_cb (gpointer data)
 		
 	if (idata->thumb != NULL) {
 		GFile *file;
-		GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
+		GFile *src_local_gfile = gfile_new (idata->src_file->path);
 		char  *local_file;
 		char  *src_local_file;
 
@@ -2525,7 +2525,7 @@ save_image_preview_cb (gpointer data)
 
 		if ((! idata->no_preview) && (idata->preview != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
+			GFile *src_local_gfile = gfile_new (idata->src_file->path);
 			char  *local_file;
 			char  *src_local_file;
 
@@ -2571,7 +2571,7 @@ save_resized_image_cb (gpointer data)
 
 		if (ce->copy_images && (idata->image != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = g_file_new_for_uri (idata->src_file->path);
+			GFile *src_local_gfile = gfile_new (idata->src_file->path);
 			char  *image_uri;
 			char  *local_file; 
 			char  *src_local_file;

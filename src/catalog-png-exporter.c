@@ -32,6 +32,7 @@
 #include "catalog-png-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gth-utils.h"
 #include "gthumb-init.h"
 #include "gthumb-marshal.h"
@@ -1617,7 +1618,7 @@ begin_page (CatalogPngExporter *ce,
 	 *   requires converting to GFile: 
 	 *   1) recipients of all_windows_notify_files_created  
 	 */
-	ce->imap_gfile = g_file_new_for_uri (ce->imap_uri);
+	ce->imap_gfile = gfile_new (ce->imap_uri);
 	
 	ce->ostream = g_file_replace (ce->imap_gfile, 
 				      NULL,
