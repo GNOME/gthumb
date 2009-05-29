@@ -441,6 +441,7 @@ update_and_save_metadata (const char *uri_src,
 		return;
 	}
 
+	file_data_update_mime_type (to_fd, FALSE);
 	/* TIFF metadata writing is a bit flaky, it seems.
 	   Best avoided for now. */
 	if (mime_type_is (to_fd->mime_type, "image/jpeg") ||
