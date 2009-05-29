@@ -449,7 +449,7 @@ visit_rc_directory_sync (const char *rc_dir,
 		FileData *file = scan->data;
 		char     *rc_file, *real_file;
 
-		rc_file = file->path;
+		rc_file = file->utf8_path;
 		real_file = g_strndup (rc_file + prefix_len,
 				       strlen (rc_file) - prefix_len - ext_len);
 		if (do_something)
@@ -1225,6 +1225,7 @@ gboolean
 path_in_path (const char  *path_src,
 	      const char  *path_dest)
 {
+	/* FIXME - need gfile version */
 	int path_src_l, path_dest_l;
 
 	if ((path_src == NULL) || (path_dest == NULL))
@@ -2172,7 +2173,7 @@ free_cache (void)
 		GList *scan;
 		for (scan = files; scan; scan = scan->next ) {
 			FileData *file = scan->data;
-			file_unlink (file->path);
+			file_unlink (file->utf8_path);
 		}
 	}
 

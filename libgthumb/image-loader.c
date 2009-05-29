@@ -899,7 +899,7 @@ image_loader_get_path (ImageLoader *il)
 		g_mutex_unlock (il->priv->data_mutex);
                 return NULL;
 	}
-        path = g_strdup (il->priv->file->path);
+        path = g_strdup (il->priv->file->utf8_path);
 	g_mutex_unlock (il->priv->data_mutex);
 
         return path;

@@ -193,7 +193,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box));
 	if (idx < 0
             || file_options[idx].type == IMAGE_TYPE_AUTOMATIC)
-		mime_type = get_file_mime_type (file->path, FALSE);
+		mime_type = get_file_mime_type (file->utf8_path, FALSE);
 	else
 		mime_type = file_options[idx].mime_type;
 	file->mime_type = get_static_string (mime_type);
@@ -350,7 +350,7 @@ dlg_save_image (GtkWindow       *parent,
 	data->done_data = done_data;
 	data->metadata = metadata;
 
-	save_image (parent, file, file->path, pixbuf, data, NULL);
+	save_image (parent, file, file->utf8_path, pixbuf, data, NULL);
 }
 
 

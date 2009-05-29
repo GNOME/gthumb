@@ -322,9 +322,9 @@ thumb_loader_set_file (ThumbLoader *tl,
 	
 	if (fd != NULL) {
 		tl->priv->file = file_data_dup (fd);
-		if (is_local_file (tl->priv->file->path)) {
+		if (is_local_file (tl->priv->file->utf8_path)) {
 			char *resolved_path = NULL;
-			resolved_path = resolve_all_symlinks (tl->priv->file->path);
+			resolved_path = resolve_all_symlinks (tl->priv->file->utf8_path);
 			file_data_set_path (tl->priv->file, resolved_path);
 			g_free (resolved_path);
 		}
@@ -455,14 +455,14 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if ((tl == NULL) || (tl->priv->pixbuf == NULL))
 		return FALSE;
 
-	if (is_local_file (tl->priv->file->path)) {
+	if (is_local_file (tl->priv->file->utf8_path)) {
 		char *cache_base_uri;
 
 		/* Do not save thumbnails from the user's thumbnail directory,
 		   or an endless loop of thumbnailing may be triggered. */
 		   
 		cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
-		if (path_in_path (cache_base_uri, tl->priv->file->path)) {
+		if (path_in_path (cache_base_uri, tl->priv->file->utf8_path)) { /* FIXME */
 			g_free (cache_base_uri);	
 			return FALSE;
 		}

@@ -2245,7 +2245,7 @@ load_current_image (PrintCatalogDialogData *data)
 
 	file = data->pci->image_info[data->current_image]->file;
 
-	msg = g_strdup_printf (_("Loading image: %s"), basename_for_display (file->path));
+	msg = g_strdup_printf (_("Loading image: %s"), file->utf8_name);
 	progress_dialog_set_info (data->pd, msg);
 	g_free (msg);
 

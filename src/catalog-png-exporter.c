@@ -823,7 +823,7 @@ set_item_caption (CatalogPngExporter *ce,
 	} 
 	else {
 		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
-			char *path = remove_level_from_path (idata->file->path);
+			char *path = remove_level_from_path (idata->file->utf8_path);
 			char *utf8_name = get_utf8_display_name_from_uri (path);
 			idata->caption_row[row++] = utf8_name;
 			g_free (path);
@@ -1007,7 +1007,7 @@ export (CatalogPngExporter *ce)
 				image_rect.height = theight;
 
 				paint_frame (ce, &frame_rect, &image_rect,
-					     row_idata->file->path);
+					     row_idata->file->utf8_path);
 				paint_image (ce, &image_rect, pixbuf);
 			}
 
@@ -1219,7 +1219,7 @@ comp_func_name (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_filename_but_ignore_path (data_a->file->path, data_b->file->path);
+	return gth_sort_by_filename_but_ignore_path (data_a->file->utf8_path, data_b->file->utf8_path);
 }
 
 
@@ -1231,7 +1231,7 @@ comp_func_path (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_full_path (data_a->file->path, data_b->file->path);
+	return gth_sort_by_full_path (data_a->file->utf8_path, data_b->file->utf8_path);
 }
 
 
@@ -1244,7 +1244,7 @@ comp_func_comment (gconstpointer a, gconstpointer b)
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_comment_then_name (data_a->comment, data_b->comment,
-					data_a->file->path, data_b->file->path);
+					data_a->file->utf8_path, data_b->file->utf8_path);
 }
 
 
@@ -1257,7 +1257,7 @@ comp_func_time (gconstpointer a, gconstpointer b)
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_filetime_then_name (data_a->file->mtime, data_b->file->mtime,
-						data_a->file->path, data_b->file->path);
+						data_a->file->utf8_path, data_b->file->utf8_path);
 }
 
 
@@ -1281,7 +1281,7 @@ comp_func_size (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_size_then_name (data_a->file->size, data_b->file->size, data_a->file->path, data_b->file->path);
+	return gth_sort_by_size_then_name (data_a->file->size, data_b->file->size, data_a->file->utf8_path, data_b->file->utf8_path);
 }
 
 

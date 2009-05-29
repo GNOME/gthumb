@@ -120,7 +120,7 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 	if (time1 < time2) return -1;
 	if (time1 > time2) return 1;
 
-	return gth_sort_by_filename_but_ignore_path (fd1->path, fd2->path);
+	return gth_sort_by_filename_but_ignore_path (fd1->utf8_path, fd2->utf8_path);
 }
 
 int

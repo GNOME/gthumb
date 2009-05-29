@@ -646,8 +646,8 @@ gfv_get_file_list_selection (GthFileView *file_view)
 
 		pos = gtk_tree_path_get_indices (path)[0];
 		fd = gth_file_view_get_image_data (file_view, pos);
-		if ((fd != NULL) && (fd->path != NULL))
-			list = g_list_prepend (list, g_strdup (fd->path));
+		if ((fd != NULL) && (fd->utf8_path != NULL))
+			list = g_list_prepend (list, g_strdup (fd->utf8_path));
 		file_data_unref (fd);
 	}
 
@@ -1572,7 +1572,7 @@ comp_func_size (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->path, fd2->path);
+	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -1586,7 +1586,7 @@ comp_func_time (gconstpointer  ptr1,
 		return 0;
 
 	return gth_sort_by_filetime_then_name (fd1->mtime, fd2->mtime,
-						 fd1->path, fd2->path);
+						 fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -1612,7 +1612,7 @@ comp_func_path (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_full_path (fd1->path, fd2->path);
+	return gth_sort_by_full_path (fd1->utf8_path, fd2->utf8_path);
 }
 
 
@@ -1622,7 +1622,7 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
 	return gth_sort_by_comment_then_name (fd1->comment, fd2->comment,
-					      fd1->path, fd2->path);
+					      fd1->utf8_path, fd2->utf8_path);
 }
 
 

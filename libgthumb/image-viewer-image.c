@@ -528,7 +528,7 @@ image_viewer_image_get_path (ImageViewerImage* image)
 	priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
 
 	if (priv->file)
-		return g_strdup (priv->file->path);
+		return g_strdup (priv->file->utf8_path);
 	else
 		return NULL;
 }

@@ -487,7 +487,7 @@ comp_by_path (gconstpointer a,
 	data_a = (FileData*) a;
 	data_b = (FileData*) b;
 
-	return uricmp (data_a->path, data_b->path);
+	return uricmp (data_a->utf8_path, data_b->utf8_path);
 }
 
 
@@ -583,7 +583,7 @@ catalog_list_refresh (CatalogList *cat_list)
 			GdkPixbuf   *pixbuf;
 			int          type;
 
-			if (file_is_search_result (file->path)) {
+			if (file_is_search_result (file->utf8_path)) {
 				type = CAT_LIST_TYPE_SEARCH;
 				pixbuf = search_pixbuf;
 			} 
@@ -599,7 +599,7 @@ catalog_list_refresh (CatalogList *cat_list)
 			gtk_list_store_set (cat_list->list_store, &iter,
 					    CAT_LIST_COLUMN_ICON, pixbuf,
 					    CAT_LIST_COLUMN_NAME, utf8_name,
-					    CAT_LIST_COLUMN_PATH, file->path,
+					    CAT_LIST_COLUMN_PATH, file->utf8_path,
 					    CAT_LIST_COLUMN_TYPE, type,
 					    -1);
 					    

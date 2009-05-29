@@ -731,7 +731,7 @@ comp_func_path (gconstpointer a,
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return gth_sort_by_full_path (data_a->src_file->path, data_b->src_file->path);
+	return gth_sort_by_full_path (data_a->src_file->utf8_path, data_b->src_file->utf8_path);
 }
 
 
@@ -745,7 +745,7 @@ comp_func_comment (gconstpointer a,
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_comment_then_name (data_a->comment, data_b->comment,
-					      data_a->src_file->path, data_b->src_file->path);
+					      data_a->src_file->utf8_path, data_b->src_file->utf8_path);
 }
 
 
@@ -759,7 +759,7 @@ comp_func_time (gconstpointer a,
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_filetime_then_name (data_a->src_file->mtime, data_b->src_file->mtime,
-					       data_a->src_file->path, data_b->src_file->path);
+					       data_a->src_file->utf8_path, data_b->src_file->utf8_path);
 }
 
 
@@ -786,7 +786,7 @@ comp_func_size (gconstpointer a,
 	data_b = IMAGE_DATA (b);
 
 	return gth_sort_by_size_then_name (data_a->src_file->size, data_b->src_file->size,
-				           data_a->src_file->path, data_b->src_file->path);
+				           data_a->src_file->utf8_path, data_b->src_file->utf8_path);
 }
 
 
@@ -1317,7 +1317,7 @@ get_image_file (CatalogWebExporter *ce,
 		g_free (escaped);
 
 	} else {
-		result = gfile_new (idata->src_file->path);
+		result = gfile_new (idata->src_file->utf8_path);
 	}
 	
 	return result;
@@ -2261,7 +2261,7 @@ save_thumbnail_cb (gpointer data)
 		
 	if (idata->thumb != NULL) {
 		GFile *file;
-		GFile *src_local_gfile = gfile_new (idata->src_file->path);
+		GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 		char  *local_file;
 		char  *src_local_file;
 
@@ -2525,7 +2525,7 @@ save_image_preview_cb (gpointer data)
 
 		if ((! idata->no_preview) && (idata->preview != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = gfile_new (idata->src_file->path);
+			GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 			char  *local_file;
 			char  *src_local_file;
 
@@ -2571,7 +2571,7 @@ save_resized_image_cb (gpointer data)
 
 		if (ce->copy_images && (idata->image != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = gfile_new (idata->src_file->path);
+			GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 			char  *image_uri;
 			char  *local_file; 
 			char  *src_local_file;
@@ -2628,7 +2628,7 @@ export__copy_image (CatalogWebExporter *ce)
 
 	idata = ce->file_to_load->data;
 
-	sfile = gfile_new (idata->src_file->path);
+	sfile = gfile_new (idata->src_file->utf8_path);
 	
 	dfile = get_image_file (ce, 
 			        idata, 
