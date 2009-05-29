@@ -453,19 +453,6 @@ name_column_sort_func (GtkTreeModel *model,
 }
 
 
-static gboolean
-keyword_equal_func (GtkTreeModel *model,
-		    gint          column,
-		    const gchar  *key,
-		    GtkTreeIter  *iter,
-		    gpointer      search_data)
-{
-	char *cell;
-	gtk_tree_model_get (model, iter, column, &cell, -1);
-	return case_insens_utf8_cmp (key, cell) > 0;
-}
-
-
 static GtkWidget*
 dlg_tags_common (GtkWindow     *parent,
                  GthWindow     *window,
@@ -540,10 +527,6 @@ dlg_tags_common (GtkWindow     *parent,
 
 	gtk_tree_view_set_search_column (GTK_TREE_VIEW (data->keywords_list_view),
 					 TAG_COLUMN);
-	gtk_tree_view_set_search_equal_func (GTK_TREE_VIEW (data->keywords_list_view),
-					     keyword_equal_func,
-					     NULL,
-					     NULL);
 
 	column = gtk_tree_view_column_new ();
 
