@@ -34,7 +34,6 @@
 #include "rotation-utils.h"
 #include "gthumb-error.h"
 #include "preferences.h"
-#include "jpegutils/jpeg-data.h"
 #include "jpegutils/transupp.h"
 #include "jpegutils/jpegtran.h"
 

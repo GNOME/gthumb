@@ -67,8 +67,6 @@
 #include "thumb-cache.h"
 #include "rotation-utils.h"
 #include "dlg-scripts.h"
-
-#include "jpegutils/jpeg-data.h"
 #include "icons/pixbufs.h"
 
 #define GCONF_NOTIFICATIONS 22

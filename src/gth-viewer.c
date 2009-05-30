@@ -29,7 +29,6 @@
 #include <glade/glade.h>
 #include <gio/gio.h>
 
-#include "jpegutils/jpeg-data.h"
 #include "comments.h"
 #include "dlg-save-image.h"
 #include "dlg-tags.h"

@@ -32,8 +32,6 @@
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
-#include "jpegutils/jpeg-data.h"
-
 #include "file-utils.h"
 #include "gfile-utils.h"
 #include "gconf-utils.h"

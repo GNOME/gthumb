@@ -38,7 +38,6 @@
 #include "gfile-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
-#include "jpegutils/jpeg-data.h"
 #include "gth-exif-utils.h"
 #include "dlg-file-utils.h"
 #include "gthumb-init.h"
