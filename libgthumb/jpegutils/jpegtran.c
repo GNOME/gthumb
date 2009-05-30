@@ -49,7 +49,6 @@
 #include "gthumb-error.h"
 #include "file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
-#include "jpeg-memory-mgr.h"
 #include "jpegtran.h"
 #include "gth-exif-utils.h"
 
