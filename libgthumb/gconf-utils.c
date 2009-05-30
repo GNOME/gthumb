@@ -332,40 +332,6 @@ eel_gconf_get_string (const char *key,
 
 
 void
-eel_gconf_set_locale_string (const char *key,
-			     const char *string_value)
-{
-	char *utf8;
-
-	utf8 = g_locale_to_utf8 (string_value, -1, 0, 0, 0);
-
-	if (utf8 != NULL) {
-		eel_gconf_set_string (key, utf8);
-		g_free (utf8);
-	}
-}
-
-
-char *
-eel_gconf_get_locale_string (const char *key,
-			     const char *def)
-{
-	char *utf8;
-	char *result;
-
-	utf8 = eel_gconf_get_string (key, def);
-
-	if (utf8 == NULL)
-		return NULL;
-
-	result = g_locale_from_utf8 (utf8, -1, 0, 0, 0);
-	g_free (utf8);
-
-	return result;
-}
-
-
-void
 eel_gconf_set_string_list (const char *key,
 			   const GSList *slist)
 {
@@ -405,27 +371,6 @@ eel_gconf_get_string_list (const char *key)
 	}
 
 	return slist;
-}
-
-
-GSList *
-eel_gconf_get_path_list (const char *key)
-{
-	GSList *str_slist, *slist, *scan;
-
-	str_slist = eel_gconf_get_string_list (key);
-
-	slist = NULL;
-	for (scan = str_slist; scan; scan = scan->next) {
-		char *str = scan->data;
-		char *path = _g_substitute (str, '~', g_get_home_dir ());
-		slist = g_slist_prepend (slist, path);
-	}
-
-	g_slist_foreach (str_slist, (GFunc) g_free, NULL);
-	g_slist_free (str_slist);
-
-	return g_slist_reverse (slist);
 }
 
 
@@ -473,28 +418,6 @@ tilde_compress (const char *path)
 	*scan2 = 0;
 
 	return result;
-}
-
-
-void
-eel_gconf_set_path_list (const char    *key,
-			 const GSList  *string_list_value)
-{
-	GSList       *path_slist;
-	const GSList *scan;
-
-	path_slist = NULL;
-	for (scan = string_list_value; scan; scan = scan->next) {
-		char *value = scan->data;
-		char *path = tilde_compress (value);
-		path_slist = g_slist_prepend (path_slist, path);
-	}
-	path_slist = g_slist_reverse (path_slist);
-
-	eel_gconf_set_string_list (key, path_slist);
-
-	g_slist_foreach (path_slist, (GFunc) g_free, NULL);
-	g_slist_free (path_slist);
 }
 
 
@@ -570,30 +493,6 @@ eel_gconf_set_path (const char *key,
 
 
 gboolean
-eel_gconf_is_default (const char *key)
-{
-	gboolean result;
-	GConfValue *value;
-	GError *error = NULL;
-	
-	g_return_val_if_fail (key != NULL, FALSE);
-	
-	value = gconf_client_get_without_default  (eel_gconf_client_get_global (), key, &error);
-
-	if (eel_gconf_handle_error (&error)) {
-		if (value != NULL) {
-			gconf_value_free (value);
-		}
-		return FALSE;
-	}
-
-	result = (value == NULL);
-	eel_gconf_value_free (value);
-	return result;
-}
-
-
-gboolean
 eel_gconf_monitor_add (const char *directory)
 {
 	GError *error = NULL;
@@ -665,209 +564,6 @@ eel_gconf_preload_cache (const char             *directory,
 }
 
 
-void
-eel_gconf_suggest_sync (void)
-{
-	GConfClient *client;
-	GError *error = NULL;
-
-	client = eel_gconf_client_get_global ();
-	g_return_if_fail (client != NULL);
-	
-	gconf_client_suggest_sync (client, &error);
-	eel_gconf_handle_error (&error);
-}
-
-
-GConfValue*
-eel_gconf_get_value (const char *key)
-{
-	GConfValue *value = NULL;
-	GConfClient *client;
-	GError *error = NULL;
-
-	g_return_val_if_fail (key != NULL, NULL);
-
-	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, NULL);
-
-	value = gconf_client_get (client, key, &error);
-	
-	if (eel_gconf_handle_error (&error)) {
-		if (value != NULL) {
-			gconf_value_free (value);
-			value = NULL;
-		}
-	}
-
-	return value;
-}
-
-
-GConfValue*
-eel_gconf_get_default_value (const char *key)
-{
-	GConfValue *value = NULL;
-	GConfClient *client;
-	GError *error = NULL;
-	
-	g_return_val_if_fail (key != NULL, NULL);
-
-	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, NULL);
-
-	value = gconf_client_get_default_from_schema (client, key, &error);
-	
-	if (eel_gconf_handle_error (&error)) {
-		if (value != NULL) {
-			gconf_value_free (value);
-			value = NULL;
-		}
-	}
-
-	return value;
-}
-
-
-static int
-eel_strcmp (const char *string_a, const char *string_b)
-{
-        /* FIXME bugzilla.eazel.com 5450: Maybe we need to make this
-         * treat 'NULL < ""', or have a flavor that does that. If we
-         * didn't have code that already relies on 'NULL == ""', I
-         * would change it right now.
-         */
-        return strcmp (string_a == NULL ? "" : string_a,
-                       string_b == NULL ? "" : string_b);
-}
-
-
-static gboolean
-eel_str_is_equal (const char *string_a, const char *string_b)
-{
-        /* FIXME bugzilla.eazel.com 5450: Maybe we need to make this
-         * treat 'NULL != ""', or have a flavor that does that. If we
-         * didn't have code that already relies on 'NULL == ""', I
-         * would change it right now.
-         */
-        return eel_strcmp (string_a, string_b) == 0;
-}
- 
-
-static gboolean
-simple_value_is_equal (const GConfValue *a,
-		       const GConfValue *b)
-{
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
-	switch (a->type) {
-	case GCONF_VALUE_STRING:
-		return eel_str_is_equal (gconf_value_get_string (a),
-					 gconf_value_get_string (b));
-		break;
-
-	case GCONF_VALUE_INT:
-		return gconf_value_get_int (a) ==
-			gconf_value_get_int (b);
-		break;
-
-	case GCONF_VALUE_FLOAT:
-		return gconf_value_get_float (a) ==
-			gconf_value_get_float (b);
-		break;
-
-	case GCONF_VALUE_BOOL:
-		return gconf_value_get_bool (a) ==
-			gconf_value_get_bool (b);
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
-	
-	return FALSE;
-}
-
-
-gboolean
-eel_gconf_value_is_equal (const GConfValue *a,
-			  const GConfValue *b)
-{
-	GSList *node_a;
-	GSList *node_b;
-
-	if (a == NULL && b == NULL) {
-		return TRUE;
-	}
-
-	if (a == NULL || b == NULL) {
-		return FALSE;
-	}
-
-	if (a->type != b->type) {
-		return FALSE;
-	}
-
-	switch (a->type) {
-	case GCONF_VALUE_STRING:
-	case GCONF_VALUE_INT:
-	case GCONF_VALUE_FLOAT:
-	case GCONF_VALUE_BOOL:
-		return simple_value_is_equal (a, b);
-		break;
-		
-	case GCONF_VALUE_LIST:
-		if (gconf_value_get_list_type (a) !=
-		    gconf_value_get_list_type (b)) {
-			return FALSE;
-		}
-
-		node_a = gconf_value_get_list (a);
-		node_b = gconf_value_get_list (b);
-		
-		if (node_a == NULL && node_b == NULL) {
-			return TRUE;
-		}
-
-		if (g_slist_length (node_a) !=
-		    g_slist_length (node_b)) {
-			return FALSE;
-		}
-		
-		for (;
-		     node_a != NULL && node_b != NULL;
-		     node_a = node_a->next, node_b = node_b->next) {
-			g_assert (node_a->data != NULL);
-			g_assert (node_b->data != NULL);
-			if (!simple_value_is_equal (node_a->data, node_b->data)) {
-				return FALSE;
-			}
-		}
-		
-		return TRUE;
-	default:
-		/* FIXME: pair ? */
-		g_assert (0);
-		break;
-	}
-	
-	g_assert_not_reached ();
-	return FALSE;
-}
-
-
-void
-eel_gconf_value_free (GConfValue *value)
-{
-	if (value == NULL) {
-		return;
-	}
-	
-	gconf_value_free (value);
-}
-
-
 guint
 eel_gconf_notification_add (const char *key,
 			    GConfClientNotifyFunc notification_callback,
@@ -914,60 +610,4 @@ eel_gconf_notification_remove (guint notification_id)
 	g_return_if_fail (client != NULL);
 
 	gconf_client_notify_remove (client, notification_id);
-}
-
-
-GSList *
-eel_gconf_value_get_string_list (const GConfValue *value)
-{
- 	GSList *result;
- 	const GSList *slist;
- 	const GSList *node;
-	const char *string;
-	const GConfValue *next_value;
-
-	if (value == NULL) {
-		return NULL;
-	}
-
-	g_return_val_if_fail (value->type == GCONF_VALUE_LIST, NULL);
-	g_return_val_if_fail (gconf_value_get_list_type (value) == GCONF_VALUE_STRING, NULL);
-
-	slist = gconf_value_get_list (value);
-	result = NULL;
-	for (node = slist; node != NULL; node = node->next) {
-		next_value = node->data;
-		g_return_val_if_fail (next_value != NULL, NULL);
-		g_return_val_if_fail (next_value->type == GCONF_VALUE_STRING, NULL);
-		string = gconf_value_get_string (next_value);
-		result = g_slist_append (result, g_strdup (string));
-	}
-	return result;
-}
-
-
-void
-eel_gconf_value_set_string_list (GConfValue *value,
-				 const GSList *string_list)
-{
- 	const GSList *node;
-	GConfValue *next_value;
- 	GSList *value_list;
-
-	g_return_if_fail (value->type == GCONF_VALUE_LIST);
-	g_return_if_fail (gconf_value_get_list_type (value) == GCONF_VALUE_STRING);
-
-	value_list = NULL;
-	for (node = string_list; node != NULL; node = node->next) {
-		next_value = gconf_value_new (GCONF_VALUE_STRING);
-		gconf_value_set_string (next_value, node->data);
-		value_list = g_slist_append (value_list, next_value);
-	}
-
-	gconf_value_set_list (value, value_list);
-
-	for (node = value_list; node != NULL; node = node->next) {
-		gconf_value_free (node->data);
-	}
-	g_slist_free (value_list);
 }

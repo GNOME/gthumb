@@ -91,28 +91,12 @@ char *       eel_gconf_get_path              (const char             *key,
 void         eel_gconf_set_path              (const char             *key,
 					      const char             *value);
 
-char *       eel_gconf_get_locale_string     (const char             *key,
-					      const char             *def_val);
-
-void         eel_gconf_set_locale_string     (const char             *key,
-					      const char             *value);
-
 GSList *     eel_gconf_get_string_list       (const char             *key);
-
-void         eel_gconf_set_string_list       (const char             *key,
-					      const GSList           *string_list_value);
-
-GSList *     eel_gconf_get_path_list         (const char             *key);
-
-void         eel_gconf_set_path_list         (const char             *key,
-					      const GSList           *string_list_value);
 
 GSList *     eel_gconf_get_locale_string_list(const char             *key);
 
 void         eel_gconf_set_locale_string_list(const char             *key,
 					      const GSList           *string_list_value);
-
-gboolean     eel_gconf_is_default            (const char             *key);
 
 gboolean     eel_gconf_monitor_add           (const char             *directory);
 
@@ -121,24 +105,11 @@ gboolean     eel_gconf_monitor_remove        (const char             *directory)
 void         eel_gconf_preload_cache         (const char             *directory,
 					      GConfClientPreloadType  preload_type);
 
-void         eel_gconf_suggest_sync          (void);
-
-GConfValue*  eel_gconf_get_value             (const char             *key);
-
-GConfValue*  eel_gconf_get_default_value     (const char             *key);
-
-gboolean     eel_gconf_value_is_equal        (const GConfValue       *a,
-					      const GConfValue       *b);
-
-void         eel_gconf_value_free            (GConfValue             *value);
-
 guint        eel_gconf_notification_add      (const char             *key,
 					      GConfClientNotifyFunc   notification_callback,
 					      gpointer                callback_data);
 
 void         eel_gconf_notification_remove   (guint                   notification_id);
-
-GSList *     eel_gconf_value_get_string_list (const GConfValue       *value);
 
 void         eel_gconf_value_set_string_list (GConfValue             *value,
 					      const GSList           *string_list);
