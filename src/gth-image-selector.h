@@ -82,16 +82,12 @@ void       gth_image_selector_set_selection_width  (GthImageSelector *selector,
 						    int               width);
 void       gth_image_selector_set_selection_height (GthImageSelector *selector,
 						    int               height);
-void       gth_image_selector_set_selection        (GthImageSelector *selector,
-						    GdkRectangle      selection);
 void       gth_image_selector_get_selection        (GthImageSelector *selector,
 						    GdkRectangle     *selection);
 void       gth_image_selector_set_ratio            (GthImageSelector *selector,
 						    gboolean          use_ratio,
 						    double            ratio,
 						    gboolean	      swap_x_and_y_to_start);
-double     gth_image_selector_get_ratio            (GthImageSelector *selector);
-gboolean   gth_image_selector_get_use_ratio        (GthImageSelector *selector);
 void       gth_image_selector_set_mask_visible     (GthImageSelector *selector,
 						    gboolean          visible);
 gboolean   gth_image_selector_get_mask_visible     (GthImageSelector *selector);

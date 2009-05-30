@@ -131,15 +131,6 @@ gthumb_info_bar_init (GThumbInfoBar *info_bar)
 }
 
 
-void
-gthumb_info_bar_add_button (GThumbInfoBar *info_bar,
-			    GtkWidget     *button,
-			    int            padding)
-{
-	gtk_box_pack_end (GTK_BOX (info_bar->priv->hbox), button, FALSE, FALSE, padding);
-}
-
-
 GType
 gthumb_info_bar_get_type (void)
 {

@@ -66,6 +66,5 @@ void          gth_batch_op_start      (GthBatchOp       *batch_op,
 				       GthOverwriteMode  overwrite_mode,
 				       gboolean          remove_original,
 				       GtkWindow        *window);
-void          gth_batch_op_stop       (GthBatchOp       *batch_op);
 
 #endif /* GTH_BATCH_OP_H */

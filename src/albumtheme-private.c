@@ -103,13 +103,6 @@ gth_mem_get (GthMem *mem)
 }
 
 
-int
-gth_mem_get_top (GthMem *mem)
-{
-	return mem->top;
-}
-
-
 /* GthCell */
 
 
@@ -200,20 +193,6 @@ gth_expr_unref (GthExpr *e)
 }
 
 
-void      
-gth_expr_set_empty (GthExpr *e)
-{
-	e->top = 0;
-}
-
-
-gboolean
-gth_expr_is_empty (GthExpr *e)
-{
-	return (e->top == 0);
-}
-
-
 void
 gth_expr_push_expr (GthExpr *e, GthExpr *e2)
 {
@@ -275,14 +254,6 @@ gth_expr_push_constant (GthExpr *e, int value)
 }
 
 
-void
-gth_expr_pop (GthExpr *e)
-{
-	if (! gth_expr_is_empty (e))
-		e->top--;
-}
-
-
 GthCell*
 gth_expr_get_pos (GthExpr *e, int pos)
 {
@@ -313,52 +284,6 @@ gth_expr_set_get_var_value_func (GthExpr            *e,
 {
 	e->get_var_value_func = f;
 	e->get_var_value_data = data;
-}
-
-
-static char *op_name[] = {
-	"ADD",
-	"SUB",
-	"MUL",
-	"DIV",
-	"NEG",
-	"NOT",
-	"AND",
-	"OR",
-	"CMP_EQ",
-	"CMP_NE",
-	"CMP_LT",
-	"CMP_GT",
-	"CMP_LE",
-	"CMP_GE"
-};
-
-
-void
-gth_expr_print (GthExpr *e)
-{
-	int i;
-	
-	for (i = 0; i < gth_expr_get_top (e); i++) {
-		GthCell *cell = gth_expr_get_pos (e, i + 1);
-
-		switch (cell->type) {
-		case GTH_CELL_TYPE_VAR:
-			printf ("VAR: %s (%d)\n", 
-				cell->value.var,
-				e->get_var_value_func (cell->value.var,
-						       e->get_var_value_data));
-			break;
-
-		case GTH_CELL_TYPE_CONSTANT:
-			printf ("NUM: %d\n", cell->value.constant);
-			break;
-
-		case GTH_CELL_TYPE_OP:
-			printf ("OP: %s\n", op_name[cell->value.op]);
-			break;
-		}
-	}
 }
 
 
@@ -498,21 +423,6 @@ gth_expr_eval (GthExpr *e)
 
 
 GthVar *
-gth_var_new_constant (int value)
-{
-	GthVar *var;
-
-	var = g_new0 (GthVar, 1);
-	var->name = NULL;
-	var->type = GTH_VAR_EXPR;
-	var->value.expr = gth_expr_new ();
-	gth_expr_push_constant (var->value.expr, value);
-
-	return var;
-}
-
-
-GthVar *
 gth_var_new_expression (const char *name, 
 			GthExpr    *e)
 {
@@ -524,24 +434,6 @@ gth_var_new_expression (const char *name,
 	var->type = GTH_VAR_EXPR;
 	var->name = g_strdup (name);
 	var->value.expr = gth_expr_ref (e);
-
-	return var;
-}
-
-
-GthVar*
-gth_var_new_string (const char *name,
-		    const char *string)
-{
-	GthVar *var;
-
-	g_return_val_if_fail (name != NULL, NULL);
-
-	var = g_new0 (GthVar, 1);
-	var->type = GTH_VAR_STRING;
-	var->name = g_strdup (name);
-	if (string != NULL)
-		var->value.string = g_strdup (string);
 
 	return var;
 }

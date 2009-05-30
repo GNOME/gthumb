@@ -29,9 +29,6 @@
 
 #include "typedefs.h"
 
-void        pixmap_from_xpm                   (const char     **data, 
-					       GdkPixmap      **pixmap, 
-					       GdkBitmap      **mask);
 void       _gdk_pixbuf_vertical_gradient      (GdkPixbuf       *pixbuf, 
 					       guint32          color1,
 					       guint32          color2);

@@ -688,26 +688,12 @@ catalog_web_exporter_set_image_caption (CatalogWebExporter *ce,
 }
 
 
-guint16
-catalog_web_exporter_get_image_caption (CatalogWebExporter *ce)
-{
-	return ce->image_caption_mask;
-}
-
-
 void
 catalog_web_exporter_set_index_caption (CatalogWebExporter *ce,
 					GthCaptionFields    caption)
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 	ce->index_caption_mask = caption;
-}
-
-
-guint16
-catalog_web_exporter_get_index_caption (CatalogWebExporter *ce)
-{
-	return ce->index_caption_mask;
 }
 
 

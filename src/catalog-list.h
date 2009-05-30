@@ -51,8 +51,6 @@ char *         catalog_list_get_path_from_row        (CatalogList *cat_list,
 gboolean       catalog_list_get_selected_iter        (CatalogList *cat_list,
 						      GtkTreeIter *iter);
 char *         catalog_list_get_selected_path        (CatalogList *cat_list);
-gboolean       catalog_list_is_catalog               (CatalogList *cat_list,
-						      GtkTreeIter *iter);
 gboolean       catalog_list_is_dir                   (CatalogList *cat_list,
 						      GtkTreeIter *iter);
 gboolean       catalog_list_is_search                (CatalogList *cat_list,

@@ -53,7 +53,6 @@ char *   _g_utf8_strndup            (const char  *str,
 char **  _g_utf8_strsplit           (const char  *str,
 				     gunichar     delimiter);
 char *   _g_utf8_strstrip           (const char  *str);
-gboolean _g_utf8_all_spaces         (const char  *utf8_string);
 int      strcmp_null_tolerant       (const char  *s1, const char *s2);
 GList *  _g_list_insert_list_before (GList       *list1,
 				     GList       *sibling,

@@ -47,7 +47,6 @@ void      catalog_set_path                   (Catalog          *catalog,
 					      char             *full_path);
 void      catalog_set_search_data            (Catalog          *catalog,
 					      SearchData       *search_data);
-gboolean  catalog_is_search_result           (Catalog          *catalog);
 gboolean  catalog_load_from_disk             (Catalog          *catalog,
 					      const char       *full_path,
 					      GError          **error);
@@ -63,7 +62,6 @@ void      catalog_insert_items               (Catalog          *catalog,
 				              int               pos);
 int       catalog_remove_item                (Catalog          *catalog,
 					      const char       *file_path);
-void      catalog_remove_all_items           (Catalog          *catalog);
 void      catalog_get_file_data_list         (Catalog          *catalog,
 					      CatalogDoneFunc   done_func,
 					      gpointer          done_data);

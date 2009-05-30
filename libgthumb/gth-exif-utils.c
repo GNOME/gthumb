@@ -297,25 +297,6 @@ get_orientation_from_fd (FileData *fd)
 
 
 char *
-get_metadata_string (FileData *fd, const char *tagname)
-{
-        char   *string = NULL;
-
-	/* Searches for one (and only one) tag name */
-
-        update_metadata (fd);
-
-        GList *search_result = g_list_find_custom (fd->metadata, tagname, (GCompareFunc) metadata_search);
-        if (search_result != NULL) {
-		GthMetadata *md_entry = search_result->data;
-                string = g_strdup (md_entry->formatted_value);
-        }
-
-        return string;
-}
-
-
-char *
 get_metadata_tagset_string (FileData *fd, const char *tagnames[])
 {
 	int     i;

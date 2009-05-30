@@ -767,34 +767,6 @@ gth_dir_list_get_path_from_iter (GthDirList  *dir_list,
 }
 
 
-int
-gth_dir_list_get_row_from_path (GthDirList *dir_list,
-			        const char *path)
-{
-	GList      *scan;
-	const char *name;
-	char       *parent;
-	int         pos;
-
-	parent = remove_level_from_path (path);
-	if (! same_uri (dir_list->path, parent)) {
-		g_free (parent);
-		return -1;
-	}
-	g_free (parent);
-
-	name = file_name_from_path (path);
-
-	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		if (same_uri (name, (char*) scan->data))
-			return pos;
-		pos++;
-	}
-
-	return -1;
-}
-
-
 char *
 gth_dir_list_get_path_from_tree_path (GthDirList  *dir_list,
 				      GtkTreePath *path)

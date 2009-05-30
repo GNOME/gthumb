@@ -81,7 +81,7 @@ gthumb_histogram_calculate (GthumbHistogram *histogram,
 {
 	int    **values = histogram->values;
 	int     *values_max = histogram->values_max;  
-	int      width, height, has_alpha, n_channels;
+	int      width, height, n_channels;
 	int      rowstride;
 	guchar  *line, *pixel;
 	int      i, j, max;
@@ -94,7 +94,6 @@ gthumb_histogram_calculate (GthumbHistogram *histogram,
 		return;
 	}
 
-	has_alpha  = gdk_pixbuf_get_has_alpha (pixbuf);
 	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 	rowstride  = gdk_pixbuf_get_rowstride (pixbuf);
 	line       = gdk_pixbuf_get_pixels (pixbuf);
@@ -164,20 +163,6 @@ gthumb_histogram_get_value   (GthumbHistogram *histogram,
 		return (double) histogram->values[channel][bin];
 
 	return 0.0;
-}
-
-
-double
-gthumb_histogram_get_channel (GthumbHistogram *histogram,
-			      int              channel,
-			      int              bin)
-{
-	g_return_val_if_fail (histogram != NULL, 0.0);
-
-	if (histogram->n_channels > 3)
-		return gthumb_histogram_get_value (histogram, channel + 1, bin);
-	else
-		return gthumb_histogram_get_value (histogram, channel    , bin);
 }
 
 

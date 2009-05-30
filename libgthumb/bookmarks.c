@@ -438,9 +438,3 @@ bookmarks_set_max_lines (Bookmarks   *bookmarks,
 	bookmarks->max_lines = max_lines;
 }
 
-
-int
-bookmarks_get_max_lines (Bookmarks   *bookmarks)
-{
-	return bookmarks->max_lines;
-}

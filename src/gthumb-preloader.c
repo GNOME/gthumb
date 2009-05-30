@@ -74,7 +74,6 @@ loader_error_cb (ImageLoader  *il,
 		 PreLoader    *ploader)
 {
 	GThumbPreloader *gploader = ploader->gploader;
-	int              timeout = NEXT_LOAD_SMALL_TIMEOUT;
 
 	ploader->loaded = FALSE;
 	ploader->error  = TRUE;
@@ -83,7 +82,6 @@ loader_error_cb (ImageLoader  *il,
 		g_signal_emit (G_OBJECT (gploader),
 			       gthumb_preloader_signals[REQUESTED_ERROR], 0);
 		debug (DEBUG_INFO, "[requested] error");
-		timeout = NEXT_LOAD_BIG_TIMEOUT;
 	}
 
 	gploader->load_id = g_idle_add (load_next, gploader);
@@ -450,46 +448,6 @@ gthumb_preloader_load (GThumbPreloader  *gploader,
 	gthumb_preloader_stop (gploader, (DoneFunc) gthumb_preloader_load__step2, load_data);	
 }
 
-
-void
-gthumb_preloader_start (GThumbPreloader *gploader,
-			const char      *requested,
-			const char      *next1,
-			const char      *prev1)
-{
-	FileData *f_requested = NULL;
-	FileData *f_next1 = NULL;
-	FileData *f_prev1 = NULL;
-	gboolean  fast_mime_type;
-	
-	g_return_if_fail (requested != NULL);
-	
-	if (! is_local_file (next1))
-		next1 = NULL;
-	if (! is_local_file (prev1))
-		prev1 = NULL;
-	
-	fast_mime_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
-	
-	f_requested = file_data_new (requested);
-	file_data_update_all (f_requested, fast_mime_type);
-	if (next1 != NULL) {
-		f_next1 = file_data_new (next1);
-		file_data_update (f_next1);
-		file_data_update_mime_type (f_next1, fast_mime_type);
-	}
-	if (prev1 != NULL) {
-		f_prev1 = file_data_new (prev1);
-		file_data_update_all (f_prev1, fast_mime_type);
-	}
-	
-	gthumb_preloader_load (gploader, f_requested, f_next1, f_prev1);
-	
-	file_data_unref (f_requested);
-	file_data_unref (f_next1);
-	file_data_unref (f_prev1);
-}
-						 
 
 ImageLoader *
 gthumb_preloader_get_loader (GThumbPreloader  *gploader,

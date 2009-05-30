@@ -117,13 +117,6 @@ gth_test_new_with_date (GthTestScope  scope,
 
 
 void
-gth_test_ref (GthTest *test)
-{
-	test->ref_count++;
-}
-
-
-void
 gth_test_unref (GthTest *test)
 {
 	test->ref_count--;
@@ -456,51 +449,6 @@ GthFilter*
 gth_filter_new (void)
 {
 	return GTH_FILTER (g_object_new (GTH_TYPE_FILTER, NULL));
-}
-
-
-void
-gth_filter_set_max_images (GthFilter *filter,
-			   int        max_images)
-{
-	filter->priv->max_images = max_images;
-}
-
-
-int
-gth_filter_get_max_images (GthFilter *filter)
-{
-	return filter->priv->max_images;
-}
-
-
-void
-gth_filter_set_max_size (GthFilter  *filter,
-			 goffset     max_size)
-{
-	filter->priv->max_size = max_size;
-}
-
-
-goffset
-gth_filter_get_max_size (GthFilter *filter)
-{
-	return filter->priv->max_size;
-}
-
-
-void
-gth_filter_set_match_all (GthFilter *filter,
-			  gboolean   match_all)
-{
-	filter->priv->match_all_tests = match_all;
-}
-
-
-gboolean
-gth_filter_get_match_all (GthFilter *filter)
-{
-	return filter->priv->match_all_tests;
 }
 
 

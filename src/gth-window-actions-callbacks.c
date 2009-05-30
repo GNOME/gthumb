@@ -753,7 +753,6 @@ set_wallpaper_from_window (GthWindow      *window,
 		ImageViewer *image_viewer;
 		GdkPixbuf   *pixbuf;
 		char        *wallpaper_filename = NULL;
-		char        *local_file;
 		GError      *error = NULL;
 		FileData    *fd;
 
@@ -786,7 +785,6 @@ set_wallpaper_from_window (GthWindow      *window,
 
 		file_data_unref (fd);
 		g_object_unref (pixbuf);
-		g_free (local_file);
 	}
 
 	set_wallpaper (window, image_path, align);

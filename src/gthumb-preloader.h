@@ -96,10 +96,6 @@ GThumbPreloader    *gthumb_preloader_new        (void);
 /* images get loaded in the following order : requested, next1, prev1. 
  */
 
-void                gthumb_preloader_start      (GThumbPreloader  *gploader,
-						 const char       *requested,
-						 const char       *next1,
-						 const char       *prev1);
 void                gthumb_preloader_load       (GThumbPreloader  *gploader,
 						 FileData         *requested,
 						 FileData         *next1,

@@ -50,10 +50,6 @@ double            gthumb_histogram_get_value           (GthumbHistogram *histogr
 							int              channel,
 							int              bin);
 
-double            gthumb_histogram_get_channel         (GthumbHistogram *histogram,
-							int              channel,
-							int              bin);
-
 double            gthumb_histogram_get_max             (GthumbHistogram *histogram,
 							int              channel);
 

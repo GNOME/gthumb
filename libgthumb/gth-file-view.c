@@ -39,27 +39,6 @@ static guint file_view_signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_class;
 
 
-static void
-gfv_set_hadjustment (GthFileView   *file_view,
-		     GtkAdjustment *hadj)
-{
-}
-
-
-static GtkAdjustment *
-gfv_get_hadjustment (GthFileView   *file_view)
-{
-	return NULL;
-}
-
-
-static void
-gfv_set_vadjustment (GthFileView   *file_view,
-		     GtkAdjustment *vadj)
-{
-}
-
-
 static GtkAdjustment *
 gfv_get_vadjustment (GthFileView   *file_view)
 {
@@ -106,28 +85,6 @@ gfv_is_frozen (GthFileView  *file_view)
 /**/
 
 
-static void
-gfv_insert (GthFileView  *file_view,
-	    int           pos,
-	    GdkPixbuf    *pixbuf,
-	    const char   *text,
-	    const char   *comment,
-            const char   *tags)
-{
-}
-
-
-static int
-gfv_append (GthFileView  *file_view,
-	    GdkPixbuf    *pixbuf,
-	    const char   *text,
-	    const char   *comment,
-            const char   *tags)
-{
-	return -1;
-}
-
-
 static int
 gfv_append_with_data (GthFileView  *file_view,
 		      GdkPixbuf    *pixbuf,
@@ -169,14 +126,6 @@ gfv_set_image_text (GthFileView  *file_view,
 }
 
 
-static const char*
-gfv_get_image_text (GthFileView  *file_view,
-		    int           pos)
-{
-	return NULL;
-}
-
-
 static void
 gfv_set_image_comment (GthFileView  *file_view,
 		       int           pos,
@@ -190,14 +139,6 @@ gfv_set_image_tags (GthFileView  *file_view,
                     int           pos,
                     const char   *tags)
 {
-}
-
-
-static const char*
-gfv_get_image_comment (GthFileView  *file_view,
-		       int           pos)
-{
-	return NULL;
 }
 
 
@@ -233,13 +174,6 @@ gfv_select_image (GthFileView     *file_view,
 
 
 static void
-gfv_unselect_image (GthFileView     *file_view,
-		    int              pos)
-{
-}
-
-
-static void
 gfv_select_all (GthFileView     *file_view)
 {
 }
@@ -267,20 +201,6 @@ gfv_pos_is_selected (GthFileView     *file_view,
 
 
 static int
-gfv_get_first_selected (GthFileView *file_view)
-{
-	return -1;
-}
-
-
-static int
-gfv_get_last_selected (GthFileView *file_view)
-{
-	return -1;
-}
-
-
-static int
 gfv_get_n_selected (GthFileView *file_view)
 {
 	return -1;
@@ -298,14 +218,6 @@ gfv_set_image_width (GthFileView     *file_view,
 
 
 /* Attaching information to the items */
-
-
-static void
-gfv_set_image_data (GthFileView     *file_view,
-		    int              pos,
-		    gpointer         data)
-{
-}
 
 
 static int
@@ -338,13 +250,6 @@ static void
 gfv_set_view_mode (GthFileView *file_view,
 		   int          mode)
 {
-}
-
-
-static int
-gfv_get_view_mode (GthFileView *file_view)
-{
-	return GTH_VIEW_MODE_COMMENTS;
 }
 
 
@@ -416,13 +321,6 @@ gfv_unsorted (GthFileView *file_view)
 
 
 static void
-gfv_image_activated (GthFileView *file_view,
-		     int          pos)
-{
-}
-
-
-static void
 gfv_set_cursor (GthFileView *file_view,
 		int          pos)
 {
@@ -473,23 +371,6 @@ gfv_get_reorderable (GthFileView  *file_view)
 }
 
 
-/* Interactive search */
-
-
-static void
-gfv_set_enable_search (GthFileView *file_view,
-		       gboolean     enable_search)
-{
-}
-
-
-static gboolean
-gfv_get_enable_search (GthFileView *file_view)
-{
-	return FALSE;
-}
-
-
 /**/
 
 
@@ -503,45 +384,33 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 
 	/* Methods */
 
-	file_view_class->set_hadjustment      = gfv_set_hadjustment;
-	file_view_class->get_hadjustment      = gfv_get_hadjustment;
-	file_view_class->set_vadjustment      = gfv_set_vadjustment;
 	file_view_class->get_vadjustment      = gfv_get_vadjustment;
 	file_view_class->get_widget           = gfv_get_widget;
 	file_view_class->get_drag_source      = gfv_get_drag_source;
 	file_view_class->freeze               = gfv_freeze;
 	file_view_class->thaw                 = gfv_thaw;
 	file_view_class->is_frozen            = gfv_is_frozen;
-	file_view_class->insert               = gfv_insert;
-	file_view_class->append               = gfv_append;
 	file_view_class->append_with_data     = gfv_append_with_data;
 	file_view_class->remove               = gfv_remove;
 	file_view_class->clear                = gfv_clear;
 	file_view_class->set_image_pixbuf     = gfv_set_image_pixbuf;
 	file_view_class->set_image_text       = gfv_set_image_text;
-	file_view_class->get_image_text       = gfv_get_image_text;
 	file_view_class->set_image_comment    = gfv_set_image_comment;
 	file_view_class->set_image_tags       = gfv_set_image_tags;
-	file_view_class->get_image_comment    = gfv_get_image_comment;
 	file_view_class->get_images           = gfv_get_images;
 	file_view_class->get_list             = gfv_get_list;
 	file_view_class->get_selection        = gfv_get_selection;
 	file_view_class->select_image         = gfv_select_image;
-	file_view_class->unselect_image       = gfv_unselect_image;
 	file_view_class->select_all           = gfv_select_all;
 	file_view_class->unselect_all         = gfv_unselect_all;
 	file_view_class->get_file_list_selection = gfv_get_file_list_selection;
 	file_view_class->pos_is_selected      = gfv_pos_is_selected;
-	file_view_class->get_first_selected   = gfv_get_first_selected;
-	file_view_class->get_last_selected    = gfv_get_last_selected;
 	file_view_class->get_n_selected       = gfv_get_n_selected;	
 	file_view_class->set_image_width      = gfv_set_image_width;
-	file_view_class->set_image_data       = gfv_set_image_data;
 	file_view_class->find_image_from_data = gfv_find_image_from_data;
 	file_view_class->get_image_data       = gfv_get_image_data;
 	file_view_class->enable_thumbs        = gfv_enable_thumbs;
 	file_view_class->set_view_mode        = gfv_set_view_mode;
-	file_view_class->get_view_mode        = gfv_get_view_mode;
 	file_view_class->moveto               = gfv_moveto;
 	file_view_class->image_is_visible     = gfv_image_is_visible;
 	file_view_class->get_image_at         = gfv_get_image_at;
@@ -550,7 +419,6 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->set_visible_func     = gfv_set_visible_func;
 	file_view_class->sorted               = gfv_sorted;
 	file_view_class->unsorted             = gfv_unsorted;
-	file_view_class->image_activated      = gfv_image_activated;
 	file_view_class->set_cursor           = gfv_set_cursor;
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->set_no_image_text    = gfv_set_no_image_text;
@@ -558,8 +426,6 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->get_drag_dest_pos    = gfv_get_drag_dest_pos;
 	file_view_class->set_reorderable      = gfv_set_reorderable;
 	file_view_class->get_reorderable      = gfv_get_reorderable;
-	file_view_class->set_enable_search    = gfv_set_enable_search;
-	file_view_class->get_enable_search    = gfv_get_enable_search;
 
 	/* Signals */
 
@@ -629,29 +495,6 @@ gth_file_view_get_type (void)
 /**/
 
 
-void
-gth_file_view_set_hadjustment (GthFileView   *file_view,
-			       GtkAdjustment *hadj)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_hadjustment (file_view, hadj);
-}
-
-
-GtkAdjustment *
-gth_file_view_get_hadjustment (GthFileView *file_view)
-{
-	return 	GTH_FILE_VIEW_GET_CLASS (file_view)->get_hadjustment (file_view);
-}
-
-
-void
-gth_file_view_set_vadjustment (GthFileView   *file_view,
-			       GtkAdjustment *vadj)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_vadjustment (file_view, vadj);
-}
-
-
 GtkAdjustment *
 gth_file_view_get_vadjustment (GthFileView *file_view)
 {
@@ -700,29 +543,6 @@ gth_file_view_is_frozen (GthFileView  *file_view)
 /**/
 
 
-void
-gth_file_view_insert (GthFileView  *file_view,
-		      int           pos,
-		      GdkPixbuf    *pixbuf,
-		      const char   *text,
-		      const char   *comment,
-                      const char   *tags)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->insert (file_view, pos, pixbuf, text, comment, tags);
-}
-
-
-int
-gth_file_view_append (GthFileView  *file_view,
-		      GdkPixbuf    *pixbuf,
-		      const char   *text,
-		      const char   *comment,
-                      const char   *tags)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->append (file_view, pixbuf, text, comment, tags);
-}
-
-
 int
 gth_file_view_append_with_data (GthFileView  *file_view,
 				GdkPixbuf    *pixbuf,
@@ -768,14 +588,6 @@ gth_file_view_set_image_text (GthFileView  *file_view,
 }
 
 
-const char*
-gth_file_view_get_image_text (GthFileView  *file_view,
-			      int           pos)
-{
-	return 	GTH_FILE_VIEW_GET_CLASS (file_view)->get_image_text (file_view, pos);
-}
-
-
 void
 gth_file_view_set_image_comment (GthFileView  *file_view,
 				 int           pos,
@@ -791,14 +603,6 @@ gth_file_view_set_image_tags (GthFileView  *file_view,
                               const char   *tags)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_tags (file_view, pos, tags);
-}
-
-
-const char*
-gth_file_view_get_image_comment (GthFileView  *file_view,
-				 int           pos)
-{
-	return 	GTH_FILE_VIEW_GET_CLASS (file_view)->get_image_comment (file_view, pos);
 }
 
 
@@ -835,14 +639,6 @@ gth_file_view_select_image (GthFileView *file_view,
 
 
 void
-gth_file_view_unselect_image (GthFileView *file_view,
-			      int          pos)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->unselect_image (file_view, pos);
-}
-
-
-void
 gth_file_view_select_all (GthFileView *file_view)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->select_all (file_view);
@@ -872,20 +668,6 @@ gth_file_view_pos_is_selected (GthFileView     *file_view,
 
 
 int
-gth_file_view_get_first_selected (GthFileView *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_first_selected (file_view);
-}
-
-
-int
-gth_file_view_get_last_selected (GthFileView *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_last_selected (file_view);
-}
-
-
-int
 gth_file_view_get_n_selected (GthFileView *file_view)
 {
 	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_n_selected (file_view);
@@ -904,15 +686,6 @@ gth_file_view_set_image_width (GthFileView *file_view,
 
 
 /* Attaching information to the items */
-
-
-void
-gth_file_view_set_image_data (GthFileView *file_view,
-			      int          pos,
-			      gpointer     data)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_image_data (file_view, pos, data);
-}
 
 
 int
@@ -947,13 +720,6 @@ gth_file_view_set_view_mode (GthFileView *file_view,
 			     int          mode)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_view_mode (file_view, mode);
-}
-
-
-int
-gth_file_view_get_view_mode (GthFileView *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_view_mode (file_view);
 }
 
 
@@ -1029,14 +795,6 @@ gth_file_view_unsorted (GthFileView *file_view)
 
 
 void
-gth_file_view_image_activated (GthFileView *file_view,
-			       int          pos)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->image_activated (file_view, pos);
-}
-
-
-void
 gth_file_view_set_cursor (GthFileView *file_view,
 			  int          pos)
 {
@@ -1091,24 +849,6 @@ gboolean
 gth_file_view_get_reorderable (GthFileView  *file_view)
 {
 	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_reorderable (file_view);
-}
-
-
-/* Interactive search */
-
-
-void
-gth_file_view_set_enable_search (GthFileView *file_view,
-				 gboolean     enable_search)
-{
-	GTH_FILE_VIEW_GET_CLASS (file_view)->set_enable_search (file_view, enable_search);
-}
-
-
-gboolean
-gth_file_view_get_enable_search (GthFileView *file_view)
-{
-	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_enable_search (file_view);
 }
 
 

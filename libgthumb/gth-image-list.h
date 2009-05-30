@@ -131,7 +131,6 @@ GtkWidget     *gth_image_list_new                  (guint          image_width,
 						    GType          data_type);
 void           gth_image_list_set_hadjustment      (GthImageList  *image_list,
 						    GtkAdjustment *hadj);
-GtkAdjustment *gth_image_list_get_hadjustment      (GthImageList  *image_list);
 void           gth_image_list_set_vadjustment      (GthImageList  *image_list,
 						    GtkAdjustment *vadj);
 GtkAdjustment *gth_image_list_get_vadjustment      (GthImageList  *image_list);
@@ -145,17 +144,6 @@ gboolean       gth_image_list_is_frozen            (GthImageList  *image_list);
 
 /**/
 
-void           gth_image_list_insert               (GthImageList  *image_list,
-						    int            pos,
-						    GdkPixbuf     *pixbuf,
-						    const char    *text,
-						    const char    *comment,
-                                                    const char    *tags);
-int            gth_image_list_append               (GthImageList  *image_list,
-						    GdkPixbuf     *pixbuf,
-						    const char    *text,
-						    const char    *comment,
-                                                    const char    *tags);
 int            gth_image_list_append_with_data     (GthImageList  *image_list,
 						    GdkPixbuf     *pixbuf,
 						    const char    *text,
@@ -171,24 +159,18 @@ void           gth_image_list_set_image_pixbuf     (GthImageList  *image_list,
 void           gth_image_list_set_image_text       (GthImageList  *image_list,
 						    int            pos,
 						    const char    *text);
-const char*    gth_image_list_get_image_text       (GthImageList  *image_list,
-						    int            pos);
 void           gth_image_list_set_image_comment    (GthImageList  *image_list,
 						    int            pos,
 						    const char    *comment);
 void           gth_image_list_set_image_tags       (GthImageList  *image_list,
 						    int            pos,
 						    const char    *tags);
-const char*    gth_image_list_get_image_comment    (GthImageList  *image_list,
-						    int            pos);
 int            gth_image_list_get_images           (GthImageList  *image_list);
 GList *        gth_image_list_get_list             (GthImageList  *image_list);
 GList *        gth_image_list_get_selection        (GthImageList  *image_list);
 
 /* Managing the selection */
 
-void           gth_image_list_set_selection_mode   (GthImageList     *image_list,
-						    GtkSelectionMode  mode);
 void           gth_image_list_select_image         (GthImageList     *image_list,
 						    int               pos);
 void           gth_image_list_unselect_image       (GthImageList     *image_list,
@@ -197,8 +179,6 @@ void           gth_image_list_select_all           (GthImageList     *gimage_lis
 void           gth_image_list_unselect_all         (GthImageList     *image_list);
 gboolean       gth_image_list_pos_is_selected      (GthImageList     *image_list,
 						    int               pos);
-int            gth_image_list_get_first_selected   (GthImageList     *image_list);
-int            gth_image_list_get_last_selected    (GthImageList     *image_list);
 int            gth_image_list_get_n_selected       (GthImageList     *image_list);
 
 /* Setting spacing values */
@@ -208,9 +188,6 @@ void           gth_image_list_set_image_width      (GthImageList     *image_list
 
 /* Attaching information to the items */
 
-void           gth_image_list_set_image_data       (GthImageList    *image_list,
-						    int              pos,
-						    gpointer         data);
 int            gth_image_list_find_image_from_data (GthImageList    *image_list,
 						    gpointer         data);
 gpointer       gth_image_list_get_image_data       (GthImageList    *image_list,
@@ -222,7 +199,6 @@ void           gth_image_list_enable_thumbs        (GthImageList *image_list,
 						    gboolean      enable_thumbs);
 void           gth_image_list_set_view_mode        (GthImageList *image_list,
 						    int           mode);
-int            gth_image_list_get_view_mode        (GthImageList *image_list);
 void           gth_image_list_moveto               (GthImageList *image_list,
 						    int           pos,
 						    double        yalign);
@@ -244,8 +220,6 @@ void           gth_image_list_unsorted             (GthImageList *image_list);
 
 /* Misc */
 
-void           gth_image_list_image_activated      (GthImageList *image_list,
-						    int           pos);
 void           gth_image_list_set_cursor           (GthImageList *image_list,
 						    int           pos);
 int            gth_image_list_get_cursor           (GthImageList *image_list);
@@ -270,7 +244,6 @@ gboolean       gth_image_list_get_reorderable      (GthImageList *image_list);
 
 void           gth_image_list_set_enable_search    (GthImageList *image_list,
 						    gboolean      enable_search);
-gboolean       gth_image_list_get_enable_search    (GthImageList *image_list);
 
 G_END_DECLS
 

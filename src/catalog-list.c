@@ -375,22 +375,6 @@ catalog_list_get_selected_path (CatalogList *cat_list)
 
 
 gboolean
-catalog_list_is_catalog (CatalogList *cat_list,
-			 GtkTreeIter *iter)
-{
-	int type;
-
-	g_return_val_if_fail (cat_list != NULL, FALSE);
-
-	gtk_tree_model_get (GTK_TREE_MODEL (cat_list->list_store),
-			    iter,
-			    CAT_LIST_COLUMN_TYPE, &type,
-			    -1);
-	return (type == CAT_LIST_TYPE_CATALOG);
-}
-
-
-gboolean
 catalog_list_is_dir (CatalogList *cat_list,
 		     GtkTreeIter *iter)
 {

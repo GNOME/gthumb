@@ -471,57 +471,6 @@ image_loader_sync_pixbuf (ImageLoader *il)
 
 
 static void
-image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
-				      GdkPixbufLoader *pb_loader)
-{
-	GdkPixbuf              *pixbuf;
-	ImageLoaderPrivateData *priv;
-
-	g_return_if_fail (il != NULL);
-
-	priv = il->priv;
-
-	g_mutex_lock (priv->data_mutex);
-
-	if (priv->as_animation) {
-		if (priv->animation != NULL)
-			g_object_unref (priv->animation);
-		priv->animation = gdk_pixbuf_loader_get_animation (pb_loader);
-
-		if ((priv->animation != NULL)
-		    && ! gdk_pixbuf_animation_is_static_image (priv->animation)) {
-			g_object_ref (G_OBJECT (priv->animation));
-			g_mutex_unlock (priv->data_mutex);
-			return;
-		} else
-			priv->animation = NULL;
-	}
-
-	pixbuf = gdk_pixbuf_loader_get_pixbuf (pb_loader);
-	g_object_ref (pixbuf);
-
-	if (priv->pixbuf == pixbuf) {
-		g_object_unref (priv->pixbuf);
-		g_mutex_unlock (priv->data_mutex);
-		return;
-	}
-
-	if (priv->pixbuf != NULL) {
-		g_object_unref (priv->pixbuf);
-		priv->pixbuf = NULL;
-	}
-	if (pixbuf != NULL) {
-		g_object_ref (pixbuf);
-		priv->pixbuf = pixbuf;
-		/*priv->pixbuf = gdk_pixbuf_copy (pixbuf);*/
-	}
-	g_object_unref (pixbuf);
-
-	g_mutex_unlock (priv->data_mutex);
-}
-
-
-static void
 image_loader_interrupted (ImageLoader *il)
 {
 	ImageLoaderPrivateData *priv = il->priv;
@@ -824,25 +773,6 @@ image_loader_stop (ImageLoader *il,
 }
 
 
-void
-image_loader_stop_with_error (ImageLoader *il,
-			      DoneFunc     done_func,
-			      gpointer     done_func_data)
-{
-	ImageLoaderPrivateData *priv;
-
-	g_return_if_fail (il != NULL);
-
-	priv = il->priv;
-
-	g_mutex_lock (priv->data_mutex);
-	priv->error = TRUE;
-	g_mutex_unlock (priv->data_mutex);
-
-	image_loader_stop_common (il, done_func, done_func_data, TRUE, TRUE);
-}
-
-
 GdkPixbuf *
 image_loader_get_pixbuf (ImageLoader *il)
 {
@@ -867,63 +797,6 @@ image_loader_get_animation (ImageLoader *il)
 	g_mutex_unlock (priv->data_mutex);
 
 	return animation;
-}
-
-
-gint
-image_loader_get_is_done (ImageLoader *il)
-{
-	ImageLoaderPrivateData *priv;
-	gboolean                is_done;
-
-	g_return_val_if_fail (il != NULL, 0);
-	priv = il->priv;
-
-	g_mutex_lock (priv->data_mutex);
-	is_done = priv->done && priv->loader_done;
-	g_mutex_unlock (priv->data_mutex);
-
-	return is_done;
-}
-
-
-char *
-image_loader_get_path (ImageLoader *il)
-{
-	char *path;
-
-	g_return_val_if_fail (il != NULL, NULL);
-
-	g_mutex_lock (il->priv->data_mutex);
-	if (il->priv->file == NULL) {
-		g_mutex_unlock (il->priv->data_mutex);
-                return NULL;
-	}
-        path = g_strdup (il->priv->file->utf8_path);
-	g_mutex_unlock (il->priv->data_mutex);
-
-        return path;
-}
-
-
-void
-image_loader_load_from_pixbuf_loader (ImageLoader *il,
-				      GdkPixbufLoader *pixbuf_loader)
-{
-	gboolean error;
-
-	g_return_if_fail (il != NULL);
-
-	image_loader_sync_pixbuf_from_loader (il, pixbuf_loader);
-
-	g_mutex_lock (il->priv->data_mutex);
-	error = (il->priv->pixbuf == NULL) && (il->priv->animation == NULL);
-	g_mutex_unlock (il->priv->data_mutex);
-
-	if (error)
-		g_signal_emit (G_OBJECT (il), image_loader_signals[IMAGE_ERROR], 0);
-	else
-		g_signal_emit (G_OBJECT (il), image_loader_signals[IMAGE_DONE], 0);
 }
 
 

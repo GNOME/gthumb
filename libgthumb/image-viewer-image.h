@@ -58,7 +58,6 @@ GType             image_viewer_image_get_type                 (void);
 ImageViewerImage* image_viewer_image_new                      (ImageViewer* viewer,
 							       ImageLoader* loader);
 
-gint              image_viewer_image_get_bps                  (ImageViewerImage *image);
 GthFit            image_viewer_image_get_fit_mode             (ImageViewerImage *image);
 gboolean          image_viewer_image_get_has_alpha            (ImageViewerImage *image);
 gboolean          image_viewer_image_get_is_animation         (ImageViewerImage *image);

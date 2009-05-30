@@ -177,10 +177,8 @@ void       catalog_web_exporter_set_single_index      (CatalogWebExporter *ce,
 						       gboolean            copy);
 void       catalog_web_exporter_set_image_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);
-guint16    catalog_web_exporter_get_image_caption     (CatalogWebExporter *ce);
 void       catalog_web_exporter_set_index_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);
-guint16    catalog_web_exporter_get_index_caption     (CatalogWebExporter *ce);
 void       catalog_web_exporter_export                (CatalogWebExporter *ce);
 void       catalog_web_exporter_interrupt             (CatalogWebExporter *ce);
 

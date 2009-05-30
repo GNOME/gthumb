@@ -178,46 +178,6 @@ bookmark_list_set (BookmarkList *book_list,
 
 
 gchar *
-bookmark_list_get_path_from_tree_path (BookmarkList *book_list,
-				       GtkTreePath *path)
-{
-	GtkTreeIter iter;
-	gchar *name;
-
-	g_return_val_if_fail (book_list != NULL, NULL);
-
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (book_list->list_store),
-                                       &iter,
-                                       path))
-                return NULL;
-
-	gtk_tree_model_get (GTK_TREE_MODEL (book_list->list_store),
-			    &iter,
-			    BOOK_LIST_COLUMN_PATH, &name,
-			    -1);
-	return name;
-}
-
-
-gchar *
-bookmark_list_get_path_from_row (BookmarkList *book_list,
-				 gint row)
-{
-	GtkTreePath *path;
-	char        *result;
-
-	g_return_val_if_fail (book_list != NULL, NULL);
-
-	path = gtk_tree_path_new ();
-	gtk_tree_path_append_index (path, row);
-	result = bookmark_list_get_path_from_tree_path (book_list, path);
-	gtk_tree_path_free (path);
-
-	return result;
-}
-
-
-gchar *
 bookmark_list_get_selected_path (BookmarkList *book_list)
 {
 	GtkTreeSelection *selection;

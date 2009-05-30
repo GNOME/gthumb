@@ -79,7 +79,6 @@ void         file_data_update_comment      (FileData         *fd);
 CommentData* file_data_get_comment         (FileData         *fd,
                                             gboolean          try_embedded);
 GList*       file_data_list_from_uri_list  (GList            *list);
-GList*       uri_list_from_file_data_list  (GList            *list);
 GList*       file_data_list_dup            (GList            *list);
 void         file_data_list_free           (GList            *list);
 GList*       file_data_list_find_path      (GList            *list,

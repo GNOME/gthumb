@@ -1140,7 +1140,6 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	double            lmargin, rmargin, tmargin, bmargin;
 	double            max_w, max_h;
 	GnomeCanvasGroup *root;
-	int               layout_width;
 	double            image_space_x = IMAGE_SPACE;
 	double            image_space_y = IMAGE_SPACE;
 	int               i, rows, cols, row, col, page = 0, idx;
@@ -1152,8 +1151,6 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	rmargin = pci->paper_rmargin;
 	bmargin = pci->paper_bmargin;
 	tmargin = pci->paper_tmargin;
-
-	layout_width = (int) ((pci->paper_width - lmargin - rmargin) * CANVAS_ZOOM);
 
 	max_w = w - lmargin - rmargin;
 	max_h = h - bmargin - tmargin;

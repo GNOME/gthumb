@@ -91,7 +91,6 @@ GthTest *            gth_test_new_with_date     (GthTestScope      scope,
 	                			 GthTestOp         op,
 	                			 gboolean          negavite,
 	                			 GDate            *date);
-void                 gth_test_ref               (GthTest          *test);
 void                 gth_test_unref             (GthTest          *test);
 gboolean             gth_test_match             (GthTest          *test,
 						 FileData         *fdata);
@@ -100,15 +99,6 @@ gboolean             gth_test_match             (GthTest          *test,
 
 GType                gth_filter_get_type        (void) G_GNUC_CONST;
 GthFilter *          gth_filter_new             (void);
-void                 gth_filter_set_max_images  (GthFilter        *filter,
-						 int               max_images);
-int                  gth_filter_get_max_images  (GthFilter        *filter);
-void                 gth_filter_set_max_size    (GthFilter        *filter,
-						 goffset           max_size);
-goffset              gth_filter_get_max_size    (GthFilter        *filter);
-void                 gth_filter_set_match_all   (GthFilter        *filter,
-						 gboolean          match_all);
-gboolean             gth_filter_get_match_all   (GthFilter        *filter);
 void                 gth_filter_add_test        (GthFilter        *filter,
 						 GthTest          *test);
 void                 gth_filter_reset           (GthFilter        *filter);

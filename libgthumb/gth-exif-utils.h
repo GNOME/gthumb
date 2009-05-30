@@ -88,8 +88,6 @@ time_t        get_metadata_time_from_fd   (FileData     *fd,
 time_t        get_metadata_time           (const char   *mime_type,
 					   const char   *uri,
 					   GList        *md);
-char *        get_metadata_string         (FileData     *fd,
-					   const char *tagname);
 char *	      get_metadata_tagset_string  (FileData     *fd,
 					   const char   *tagnames[]);
 GSList *      get_metadata_tagset_list    (FileData     *fd,

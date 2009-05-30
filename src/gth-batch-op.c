@@ -740,11 +740,3 @@ gth_batch_op_start (GthBatchOp       *bop,
 	load_current_image (bop);
 }
 
-
-void
-gth_batch_op_stop (GthBatchOp *bop)
-{
-	g_return_if_fail (GTH_IS_BATCH_OP (bop));
-	PD(bop)->stop_operation = TRUE;
-}
-

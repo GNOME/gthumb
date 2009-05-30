@@ -89,8 +89,6 @@ char *         gth_dir_list_get_path_from_iter      (GthDirList  *dir_list,
 						     GtkTreeIter *iter);
 char *         gth_dir_list_get_path_from_row       (GthDirList  *dir_list,
 						     int          row);
-int            gth_dir_list_get_row_from_path       (GthDirList  *dir_list,
-						     const char  *path);
 gboolean       gth_dir_list_get_selected_iter       (GthDirList  *dir_list,
 						     GtkTreeIter *iter);
 char *         gth_dir_list_get_selected_path       (GthDirList  *dir_list);

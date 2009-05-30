@@ -269,25 +269,3 @@ dlg_reset_exif (GthWindow *window)
 	gtk_widget_show_all (data->dialog);
 }
 
-
-void
-dlg_apply_reset_exif (GthWindow *window)
-{
-	DialogData  *data;
-	GList       *list;
-
-	list = gth_window_get_file_list_selection_as_fd (window);
-	if (list == NULL) {
-		g_warning ("No file selected.");
-		return;
-	}
-
-	gth_monitor_pause ();
-
-	data = g_new0 (DialogData, 1);
-	data->window = window;
-	data->file_list = list;
-	data->current_image = list;
-
-	apply_transformation_to_all (data);
-}

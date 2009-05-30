@@ -493,14 +493,6 @@ gth_file_list_update_icon_theme (GthFileList *file_list)
 }
 
 
-void         
-gth_file_list_show_hidden_files (GthFileList *file_list,
-				 gboolean     show)
-{
-	file_list->priv->show_dot_files = show;
-}
-
-
 void
 gth_file_list_ignore_hidden_thumbs (GthFileList *file_list,
 				    gboolean     ignore)
@@ -969,13 +961,6 @@ gth_file_list_new (void)
 }
 
 
-GtkWidget *
-gth_file_list_get_widget (GthFileList *file_list)
-{
-	return file_list->root_widget;
-}
-
-
 GthFileView*
 gth_file_list_get_view (GthFileList *file_list)
 {
@@ -1421,14 +1406,6 @@ gth_file_list_get_all_from_view (GthFileList *file_list)
 }
 
 
-int
-gth_file_list_get_length (GthFileList *file_list)
-{
-	g_return_val_if_fail (file_list != NULL, 0);
-	return g_list_length (file_list->list);
-}
-
-
 GList *
 gth_file_list_get_selection (GthFileList *file_list)
 {
@@ -1440,22 +1417,6 @@ GList *
 gth_file_list_get_selection_as_fd (GthFileList *file_list)
 {
 	return gth_file_view_get_selection (file_list->view);
-}
-
-
-int
-gth_file_list_get_selection_length (GthFileList *file_list)
-{
-	GList *sel_list;
-	int    len;
-
-	g_return_val_if_fail (file_list != NULL, 0);
-
-	sel_list = gth_file_view_get_selection (file_list->view);
-	len = g_list_length (sel_list);
-	file_data_list_free (sel_list);
-
-	return len;
 }
 
 
@@ -1519,14 +1480,6 @@ gth_file_list_select_image_by_pos (GthFileList *file_list,
 		}
 		gth_file_view_moveto (file_list->view, pos, offset);
 	}
-}
-
-
-void
-gth_file_list_select_all (GthFileList *file_list)
-{
-	g_return_if_fail (file_list != NULL);
-	gth_file_view_select_all (file_list->view);
 }
 
 
@@ -1762,16 +1715,6 @@ gfl_update_thumb (GthFileList *file_list,
 	file_list->priv->thumb_fd = file_data_ref (fd);
 	
 	file_data_unref (fd);
-}
-
-
-void
-gth_file_list_update_thumb (GthFileList *file_list,
-			    const char  *uri)
-{
-	gth_file_list_queue_op_with_uri (file_list,
-					 GTH_FILE_LIST_OP_TYPE_UPDATE_THUMB,
-					 uri);
 }
 
 

@@ -432,27 +432,6 @@ image_viewer_image_new (ImageViewer* viewer,
 }
 
 
-gint
-image_viewer_image_get_bps (ImageViewerImage* image)
-{
-	ImageViewerImagePrivate *priv;
-	GdkPixbuf               *pixbuf;
-
-	g_return_val_if_fail (image != NULL, 0);
-
-	priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
-
-	if (priv->iter != NULL)
-		pixbuf = gdk_pixbuf_animation_iter_get_pixbuf (priv->iter);
-	else
-		pixbuf = priv->static_pixbuf;
-
-	g_return_val_if_fail (pixbuf != NULL, 0);
-
-	return gdk_pixbuf_get_bits_per_sample (pixbuf);
-}
-
-
 GthFit
 image_viewer_image_get_fit_mode (ImageViewerImage *image)
 {
@@ -730,23 +709,6 @@ image_viewer_image_set_scroll_offsets (ImageViewerImage* image,
 	clamp_offsets (image);
 
 	gtk_widget_queue_draw (GTK_WIDGET (priv->viewer));
-}
-
-
-void
-image_viewer_image_set_zoom_level (ImageViewerImage* image,
-				   gdouble           zoom_level)
-{
-	ImageViewerImagePrivate* priv;
-
-	g_return_if_fail (image != NULL);
-
-	priv = IMAGE_VIEWER_IMAGE_GET_PRIVATE (image);
-
-	/* set_zoom doesn't reset fit, should be used by internal zoom-fit options. */
-	priv->fit = GTH_FIT_NONE;
-
-	set_zoom_centered (image, zoom_level);
 }
 
 

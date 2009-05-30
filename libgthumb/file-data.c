@@ -307,21 +307,6 @@ file_data_list_from_uri_list (GList *list)
 
 
 GList*
-uri_list_from_file_data_list (GList *list)
-{
-	GList *result = NULL;
-	GList *scan;
-	
-	for (scan = list; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		result = g_list_prepend (result, g_strdup (fd->utf8_path));
-	}
-	
-	return g_list_reverse (result);	
-}
-
-
-GList*
 file_data_list_dup (GList *list)
 {
 	GList *new_list = NULL, *scan;

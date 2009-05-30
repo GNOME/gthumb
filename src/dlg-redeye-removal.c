@@ -142,7 +142,7 @@ image_selector_motion_notify_cb (GthImageSelector *selector,
 }
 
 
-static int
+static void
 find_region (int   row,
  	     int   col,
  	     int  *rtop,
@@ -292,8 +292,6 @@ find_region (int   row,
 
 	g_free (rows);
 	g_free (cols);
-
-	return total;
 }
 
 
@@ -311,9 +309,8 @@ fix_redeye (GdkPixbuf *pixbuf,
 	int       channels;
 	guchar   *pixels;
 	int       search, i, j, ii, jj;
-	int       ad_red, ad_blue, ad_green;
+	int       ad_blue, ad_green;
 	int       rtop, rbot, rleft, rright; /* edges of region */
-	int       num_pix;
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
@@ -334,7 +331,7 @@ fix_redeye (GdkPixbuf *pixbuf,
 
 				isred[j + i * width] = 2;
 
-				num_pix = find_region (i, j, &rtop, &rbot, &rleft, &rright, isred, width, height);
+				find_region (i, j, &rtop, &rbot, &rleft, &rright, isred, width, height);
 
 				/* Fix the region. */
 				for (ii = rtop; ii <= rbot; ii++)
@@ -343,7 +340,6 @@ fix_redeye (GdkPixbuf *pixbuf,
 							int ofs;
 
 							ofs = channels*jj + ii*rowstride;
-							ad_red = pixels[ofs] * RED_FACTOR;
 							ad_green = pixels[ofs + 1] * GREEN_FACTOR;
 							ad_blue = pixels[ofs + 2] * BLUE_FACTOR;
 

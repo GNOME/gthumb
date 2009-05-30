@@ -645,7 +645,6 @@ render_background (GdkDrawable    *drawable,
 {
 	GdkPixbuf *pixbuf;
 	guchar    *data;
-	int        rowstride;
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 				 bounds->width, bounds->height);
@@ -654,7 +653,6 @@ render_background (GdkDrawable    *drawable,
 	/**/
 
 	data = gdk_pixbuf_get_pixels (pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
 
 	/* first corner */
 	make_transparent (data, 0, 0x00);

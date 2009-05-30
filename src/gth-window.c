@@ -661,13 +661,6 @@ gth_window_set_slideshow (GthWindow *window,
 }
 
 
-gboolean
-gth_window_get_slideshow (GthWindow *window)
-{
-	return window->priv->slideshow;
-}
-
-
 int
 gth_window_get_n_windows (void)
 {

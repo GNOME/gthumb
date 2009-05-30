@@ -56,11 +56,6 @@ typedef struct {
 
 	/* -- Virtual Functions -- */
 
-	void           (* set_hadjustment)     (GthFileView   *file_view,
-						GtkAdjustment *hadj);
-	GtkAdjustment* (* get_hadjustment)     (GthFileView   *file_view);
-	void           (* set_vadjustment)     (GthFileView   *file_view,
-						GtkAdjustment *vadj);
 	GtkAdjustment* (* get_vadjustment)     (GthFileView   *file_view);
 	GtkWidget*     (* get_widget)          (GthFileView   *file_view);
 	GtkWidget*     (* get_drag_source)     (GthFileView   *file_view);
@@ -73,17 +68,6 @@ typedef struct {
 
 	/**/
 
-	void           (* insert)               (GthFileView  *file_view,
-						 int           pos,
-						 GdkPixbuf    *pixbuf,
-						 const char   *text,
-						 const char   *comment,
-                                                 const char   *tags);
-	int            (* append)               (GthFileView  *file_view,
-						 GdkPixbuf    *pixbuf,
-						 const char   *text,
-						 const char   *comment,
-                                                 const char   *tags);
 	int            (* append_with_data)     (GthFileView  *file_view,
 						 GdkPixbuf    *pixbuf,
 						 const char   *text,
@@ -101,16 +85,12 @@ typedef struct {
 	void           (* set_image_text)       (GthFileView  *file_view,
 						 int           pos,
 						 const char   *text);
-	const char*    (* get_image_text)       (GthFileView  *file_view,
-						 int           pos);
 	void           (* set_image_comment)    (GthFileView  *file_view,
 						 int           pos,
 						 const char   *comment);
 	void           (* set_image_tags)       (GthFileView  *file_view,
 						 int           pos,
 						 const char   *tags);
-	const char*    (* get_image_comment)    (GthFileView  *file_view,
-						 int           pos);
 	int            (* get_images)           (GthFileView  *file_view);
 	GList *        (* get_list)             (GthFileView  *file_view);
 	GList *        (* get_selection)        (GthFileView  *file_view);
@@ -119,15 +99,11 @@ typedef struct {
 
 	void           (* select_image)         (GthFileView     *file_view,
 						 int              pos);
-	void           (* unselect_image)       (GthFileView     *file_view,
-						 int              pos);
 	void           (* select_all)           (GthFileView     *file_view);
 	void           (* unselect_all)         (GthFileView     *file_view);
 	GList *        (* get_file_list_selection) (GthFileView  *file_view);
 	gboolean       (* pos_is_selected)      (GthFileView     *file_view,
 						 int              pos);
-	int            (* get_first_selected)   (GthFileView     *file_view);
-	int            (* get_last_selected)    (GthFileView     *file_view);
 	int            (* get_n_selected)       (GthFileView     *file_view);
 
 	/* Setting spacing values */
@@ -137,9 +113,6 @@ typedef struct {
 
 	/* Attaching information to the items */
 
-	void           (* set_image_data)       (GthFileView     *file_view,
-						 int              pos,
-						 gpointer         data);
 	int            (* find_image_from_data) (GthFileView     *file_view,
 						 gpointer         data);
 	gpointer       (* get_image_data)       (GthFileView     *file_view,
@@ -151,7 +124,6 @@ typedef struct {
 						 gboolean        enable_thumbs);
 	void           (* set_view_mode)        (GthFileView    *file_view,
 						 int             mode);
-	int            (* get_view_mode)        (GthFileView    *file_view);
 	void           (* moveto)               (GthFileView    *file_view,
 						 int             pos,
 						 double          yalign);
@@ -175,8 +147,6 @@ typedef struct {
 
 	/* Misc */
 
-	void           (* image_activated)      (GthFileView *file_view,
-						 int          pos);
 	void           (* set_cursor)           (GthFileView *file_view,
 						 int          pos);
 	int            (* get_cursor)           (GthFileView *file_view);
@@ -194,20 +164,10 @@ typedef struct {
 						 gboolean      value);
 	gboolean       (* get_reorderable)      (GthFileView  *file_view);
 
-	/* Interactive search */
-
-	void           (* set_enable_search)    (GthFileView *file_view,
-						 gboolean     enable_search);
-	gboolean       (* get_enable_search)    (GthFileView *file_view);
 } GthFileViewClass;
 
 
 GType          gth_file_view_get_type            (void);
-void           gth_file_view_set_hadjustment     (GthFileView   *file_view,
-						  GtkAdjustment *hadj);
-GtkAdjustment *gth_file_view_get_hadjustment     (GthFileView   *file_view);
-void           gth_file_view_set_vadjustment     (GthFileView   *file_view,
-						  GtkAdjustment *vadj);
 GtkAdjustment *gth_file_view_get_vadjustment     (GthFileView   *file_view);
 GtkWidget     *gth_file_view_get_widget          (GthFileView   *file_view);
 GtkWidget     *gth_file_view_get_drag_source     (GthFileView   *file_view);
@@ -220,17 +180,6 @@ gboolean       gth_file_view_is_frozen           (GthFileView  *file_view);
 
 /**/
 
-void           gth_file_view_insert              (GthFileView  *file_view,
-						  int           pos,
-						  GdkPixbuf    *pixbuf,
-						  const char   *text,
-						  const char   *comment,
-                                                  const char   *tags);
-int            gth_file_view_append              (GthFileView  *file_view,
-						  GdkPixbuf    *pixbuf,
-						  const char   *text,
-						  const char   *comment,
-                                                  const char   *tags);
 int            gth_file_view_append_with_data    (GthFileView  *file_view,
 						  GdkPixbuf    *pixbuf,
 						  const char   *text,
@@ -248,13 +197,9 @@ void           gth_file_view_set_unknown_pixbuf  (GthFileView  *file_view,
 void           gth_file_view_set_image_text      (GthFileView  *file_view,
 						  int           pos,
 						  const char   *text);
-const char*    gth_file_view_get_image_text      (GthFileView  *file_view,
-						  int           pos);
 void           gth_file_view_set_image_comment   (GthFileView  *file_view,
 						  int           pos,
 						  const char   *comment);
-const char*    gth_file_view_get_image_comment   (GthFileView  *file_view,
-						  int           pos);
 void           gth_file_view_set_image_tags      (GthFileView  *file_view,
 						  int           pos,
 						  const char   *tags);
@@ -266,16 +211,12 @@ GList *        gth_file_view_get_selection       (GthFileView  *file_view);
 
 void           gth_file_view_select_image         (GthFileView     *file_view,
 						   int              pos);
-void           gth_file_view_unselect_image       (GthFileView     *file_view,
-						   int              pos);
 void           gth_file_view_select_all           (GthFileView     *file_view);
 
 void           gth_file_view_unselect_all         (GthFileView     *file_view);
 GList *        gth_file_view_get_file_list_selection (GthFileView *file_view);
 gboolean       gth_file_view_pos_is_selected      (GthFileView     *file_view,
 						   int              pos);
-int            gth_file_view_get_first_selected   (GthFileView    *file_view);
-int            gth_file_view_get_last_selected    (GthFileView    *file_view);
 int            gth_file_view_get_n_selected       (GthFileView    *file_view);
 
 /* Setting spacing values */
@@ -285,9 +226,6 @@ void           gth_file_view_set_image_width     (GthFileView     *file_view,
 
 /* Attaching information to the items */
 
-void           gth_file_view_set_image_data       (GthFileView     *file_view,
-						   int              pos,
-						   gpointer         data);
 int            gth_file_view_find_image_from_data (GthFileView     *file_view,
 						   gpointer         data);
 gpointer       gth_file_view_get_image_data       (GthFileView     *file_view,
@@ -299,7 +237,6 @@ void           gth_file_view_enable_thumbs        (GthFileView *file_view,
 						   gboolean     enable_thumbs);
 void           gth_file_view_set_view_mode        (GthFileView *file_view,
 						   int          mode);
-int            gth_file_view_get_view_mode        (GthFileView *file_view);
 void           gth_file_view_moveto               (GthFileView *file_view,
 						   int          pos,
 						   double       yalign);
@@ -326,8 +263,6 @@ void           gth_file_view_unsorted             (GthFileView *file_view);
 
 /* Misc */
 
-void           gth_file_view_image_activated      (GthFileView *file_view,
-						   int          pos);
 void           gth_file_view_set_cursor           (GthFileView *file_view,
 						   int          pos);
 int            gth_file_view_get_cursor           (GthFileView *file_view);
@@ -344,12 +279,6 @@ void           gth_file_view_get_drag_dest_pos    (GthFileView  *file_view,
 void           gth_file_view_set_reorderable      (GthFileView  *file_view,
 						   gboolean      value);
 gboolean       gth_file_view_get_reorderable      (GthFileView  *file_view);
-
-/* Interactive search */
-
-void           gth_file_view_set_enable_search    (GthFileView *file_view,
-						   gboolean     enable_search);
-gboolean       gth_file_view_get_enable_search    (GthFileView *file_view);
 
 /* Protected methods */
 

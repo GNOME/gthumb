@@ -2143,14 +2143,6 @@ gth_image_selector_set_selection_height (GthImageSelector *selector,
 
 
 void
-gth_image_selector_set_selection (GthImageSelector *selector,
-				  GdkRectangle      selection)
-{
-	set_selection (selector, selection, FALSE);
-}
-
-
-void
 gth_image_selector_get_selection (GthImageSelector *selector,
 				  GdkRectangle     *selection)
 {
@@ -2197,20 +2189,6 @@ gth_image_selector_set_ratio (GthImageSelector *selector,
 			gth_image_selector_set_selection_height (selector, priv->selection.height);
 		}
 	}
-}
-
-
-double
-gth_image_selector_get_ratio (GthImageSelector *selector)
-{
-	return selector->priv->ratio;
-}
-
-
-gboolean
-gth_image_selector_get_use_ratio (GthImageSelector *selector)
-{
-	return selector->priv->use_ratio;
 }
 
 

@@ -64,7 +64,6 @@ struct _GthFileListClass {
 
 GType        gth_file_list_get_type             (void);
 GthFileList* gth_file_list_new                  (void);
-GtkWidget*   gth_file_list_get_widget           (GthFileList   *file_list);
 GthFileView* gth_file_list_get_view             (GthFileList   *file_list);
 void         gth_file_list_set_list             (GthFileList   *file_list,
 						 GList         *new_list,
@@ -89,17 +88,14 @@ int          gth_file_list_pos_from_path        (GthFileList   *file_list,
 						 const char    *path);
 GList*       gth_file_list_get_all              (GthFileList   *file_list);
 GList*       gth_file_list_get_all_from_view    (GthFileList   *file_list);
-int          gth_file_list_get_length           (GthFileList   *file_list);
 GList*       gth_file_list_get_selection        (GthFileList   *file_list);
 GList*       gth_file_list_get_selection_as_fd  (GthFileList   *file_list);
-int          gth_file_list_get_selection_length (GthFileList   *file_list);
 char*        gth_file_list_path_from_pos        (GthFileList   *file_list,
 						 int            pos);
 gboolean     gth_file_list_is_selected          (GthFileList   *file_list,
 						 int            pos);
 void         gth_file_list_select_image_by_pos  (GthFileList   *file_list,
 						 int            pos);
-void         gth_file_list_select_all           (GthFileList   *file_list);
 void         gth_file_list_unselect_all         (GthFileList   *file_list);
 void         gth_file_list_enable_thumbs        (GthFileList   *file_list,
 						 gboolean       enable,
@@ -122,8 +118,6 @@ void         gth_file_list_rename               (GthFileList   *file_list,
 		      				 const char    *to_uri);
 void         gth_file_list_update_comment       (GthFileList   *file_list,
 						 const char    *uri);
-void         gth_file_list_update_thumb         (GthFileList   *file_list,
-						 const char    *uri);
 void         gth_file_list_update_thumb_list    (GthFileList   *file_list,
 						 GList         *list /*path list*/);
 void         gth_file_list_restart_thumbs       (GthFileList   *file_list,
@@ -133,8 +127,6 @@ void         gth_file_list_set_thumbs_size      (GthFileList   *file_list,
 void         gth_file_list_set_filter           (GthFileList   *file_list,
 						 GthFilter     *filter);
 void         gth_file_list_update_icon_theme    (GthFileList   *file_list);
-void         gth_file_list_show_hidden_files    (GthFileList   *file_list,
-						 gboolean       show);
 void         gth_file_list_ignore_hidden_thumbs (GthFileList   *file_list,
 						 gboolean       ignore);
 

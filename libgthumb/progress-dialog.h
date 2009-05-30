@@ -38,9 +38,6 @@ void              progress_dialog_show          (ProgressDialog *pd);
 
 void              progress_dialog_hide          (ProgressDialog *pd);
 
-void              progress_dialog_set_parent    (ProgressDialog *pd,
-						 GtkWindow      *parent);
-
 void              progress_dialog_set_progress  (ProgressDialog *pd,
 						 double          fraction);
 

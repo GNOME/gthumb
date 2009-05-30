@@ -139,19 +139,6 @@ _gdk_pixbuf_transform (GdkPixbuf* src,
 
 
 void
-pixmap_from_xpm (const char **data,
-		 GdkPixmap **pixmap,
-		 GdkBitmap **mask)
-{
-	GdkPixbuf *pixbuf;
-
-	pixbuf = gdk_pixbuf_new_from_xpm_data (data);
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, mask, 127);
-	g_object_unref (pixbuf);
-}
-
-
-void
 _gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf,
 			       guint32    color1,
 			       guint32    color2)

@@ -103,14 +103,6 @@ catalog_set_search_data (Catalog *catalog,
 }
 
 
-gboolean
-catalog_is_search_result (Catalog *catalog)
-{
-	g_return_val_if_fail (catalog != NULL, FALSE);
-	return (catalog->search_data != NULL);
-}
-
-
 static void
 copy_unquoted (char *unquoted, char *line)
 {
@@ -494,16 +486,6 @@ catalog_remove_item (Catalog *catalog,
 	g_list_free (scan);
 
 	return i;
-}
-
-
-void
-catalog_remove_all_items (Catalog *catalog)
-{
-	g_return_if_fail (catalog != NULL);
-
-	path_list_free (catalog->list);
-	catalog->list = NULL;
 }
 
 

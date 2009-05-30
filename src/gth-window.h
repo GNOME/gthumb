@@ -137,7 +137,6 @@ void           gth_window_set_fullscreen                 (GthWindow   *window,
 gboolean       gth_window_get_fullscreen                 (GthWindow   *window);
 void           gth_window_set_slideshow                  (GthWindow   *window,
 							  gboolean     value);
-gboolean       gth_window_get_slideshow                  (GthWindow   *window);
 
 /**/
 

@@ -1996,18 +1996,6 @@ gth_image_list_set_hadjustment (GthImageList  *image_list,
 }
 
 
-GtkAdjustment *
-gth_image_list_get_hadjustment (GthImageList *image_list)
-{
-	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), NULL);
-
-	if (image_list->priv->hadjustment == NULL)
-		gth_image_list_set_hadjustment (image_list, NULL);
-
-	return image_list->priv->hadjustment;
-}
-
-
 void
 gth_image_list_set_vadjustment (GthImageList  *image_list,
 				GtkAdjustment *adjustment)
@@ -2427,40 +2415,6 @@ gth_image_list_pos_is_selected (GthImageList     *image_list,
 			return TRUE;
 
 	return FALSE;
-}
-
-
-int
-gth_image_list_get_first_selected (GthImageList *image_list)
-{
-	GList *scan = image_list->priv->selection;
-	int    pos;
-
-	if (scan == NULL)
-		return -1;
-
-	pos = GPOINTER_TO_INT (scan->data);
-	for (scan = scan->next; scan; scan = scan->next)
-		pos = MIN (pos, GPOINTER_TO_INT (scan->data));
-
-	return pos;
-}
-
-
-int
-gth_image_list_get_last_selected (GthImageList *image_list)
-{
-	GList *scan = image_list->priv->selection;
-	int    pos;
-
-	if (scan == NULL)
-		return -1;
-
-	pos = GPOINTER_TO_INT (scan->data);
-	for (scan = scan->next; scan; scan = scan->next)
-		pos = MAX (pos, GPOINTER_TO_INT (scan->data));
-
-	return pos;
 }
 
 
@@ -3845,29 +3799,6 @@ truncate_comment_if_needed (GthImageList  *image_list,
 }
 
 
-void
-gth_image_list_insert (GthImageList *image_list,
-		       int           pos,
-		       GdkPixbuf    *pixbuf,
-		       const char   *text,
-		       const char   *comment,
-                       const char   *tags)
-{
-	GthImageListItem *item;
-	char             *comment2;
-
-	g_return_if_fail (image_list != NULL);
-	g_return_if_fail (pixbuf != NULL);
-	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->n_images));
-
-	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (image_list, pixbuf, text, comment2, tags, image_list->priv->data_type);
-	g_free (comment2);
-
-	image_list_insert_item (image_list, item, pos);
-}
-
-
 int
 gth_image_list_append_with_data (GthImageList *image_list,
 				 GdkPixbuf    *pixbuf,
@@ -3902,17 +3833,6 @@ gth_image_list_append_with_data (GthImageList *image_list,
 		return image_list_insert_item (image_list, item, -1);
 	else
 		return image_list_append_item (image_list, item);
-}
-
-
-int
-gth_image_list_append (GthImageList  *image_list,
-		       GdkPixbuf     *pixbuf,
-		       const char    *text,
-		       const char    *comment,
-                       const char    *tags)
-{
-	return gth_image_list_append_with_data (image_list, pixbuf, text, comment, tags, NULL);
 }
 
 
@@ -4163,38 +4083,6 @@ gth_image_list_set_image_tags (GthImageList  *image_list,
 }
 
 
-const char *
-gth_image_list_get_image_text (GthImageList *image_list,
-			       int           pos)
-{
-	GthImageListItem *item;
-
-	g_return_val_if_fail (image_list != NULL, NULL);
-	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
-
-	item = g_list_nth (image_list->priv->image_list, pos)->data;
-	g_return_val_if_fail (item != NULL, NULL);
-
-	return item->label;
-}
-
-
-const char *
-gth_image_list_get_image_comment (GthImageList *image_list,
-				  int           pos)
-{
-	GthImageListItem *item;
-
-	g_return_val_if_fail (image_list != NULL, NULL);
-	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->n_images), NULL);
-
-	item = g_list_nth (image_list->priv->image_list, pos)->data;
-	g_return_val_if_fail (item != NULL, NULL);
-
-	return item->comment;
-}
-
-
 int
 gth_image_list_get_images (GthImageList  *image_list)
 {
@@ -4242,18 +4130,6 @@ gth_image_list_get_selection (GthImageList  *image_list)
 
 
 void
-gth_image_list_set_selection_mode (GthImageList     *image_list,
-				   GtkSelectionMode  mode)
-{
-	g_return_if_fail (image_list != NULL);
-
-	image_list->priv->selection_mode = mode;
-	image_list->priv->last_selected_pos = -1;
-	image_list->priv->last_selected_item = NULL;
-}
-
-
-void
 gth_image_list_set_image_width (GthImageList *image_list,
 				int           width)
 {
@@ -4270,29 +4146,6 @@ gth_image_list_set_image_width (GthImageList *image_list,
 	}
 
 	layout_all_images (image_list);
-}
-
-
-void
-gth_image_list_set_image_data (GthImageList    *image_list,
-			       int              pos,
-			       gpointer         data)
-{
-	GthImageListItem *item;
-	
-	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
-
-	item = g_list_nth (image_list->priv->image_list, pos)->data;
-	g_return_if_fail (item != NULL);
-
-	if (item->data != NULL) {
-		g_boxed_free (item->data_type, item->data);
-		item->data = NULL;		
-	}
-
-	if (data != NULL) 
-		item->data = g_boxed_copy (item->data_type, data);
 }
 
 
@@ -4350,14 +4203,6 @@ gth_image_list_set_view_mode (GthImageList *image_list,
 	image_list->priv->view_mode = mode;
 	image_list->priv->update_width = TRUE;
 	layout_all_images (image_list);
-}
-
-
-int
-gth_image_list_get_view_mode (GthImageList *image_list)
-{
-	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), 0);
-	return image_list->priv->view_mode;
 }
 
 
@@ -4555,17 +4400,6 @@ gth_image_list_unsorted (GthImageList *image_list)
 {
 	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
 	image_list->priv->sorted = FALSE;
-}
-
-
-void
-gth_image_list_image_activated (GthImageList *image_list,
-				int           pos)
-{
-	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
-	g_return_if_fail ((pos >= 0) && (pos < image_list->priv->n_images));
-
-	g_signal_emit (image_list, image_list_signals[ITEM_ACTIVATED], 0, pos);
 }
 
 
@@ -4774,11 +4608,4 @@ gth_image_list_set_enable_search (GthImageList *image_list,
 	}
 }
 
-
-gboolean
-gth_image_list_get_enable_search (GthImageList *image_list)
-{
-	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), FALSE);
-	return image_list->priv->enable_search;
-}
 

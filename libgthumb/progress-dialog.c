@@ -141,14 +141,6 @@ progress_dialog_hide (ProgressDialog *pd)
 
 
 void
-progress_dialog_set_parent (ProgressDialog *pd,
-			    GtkWindow      *parent)
-{
-	gtk_window_set_transient_for (GTK_WINDOW (pd->dialog), parent);
-}
-
-
-void
 progress_dialog_set_progress (ProgressDialog *pd,
 			      double          fraction)
 {

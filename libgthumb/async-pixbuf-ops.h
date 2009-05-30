@@ -59,10 +59,6 @@ GthPixbufOp* _gdk_pixbuf_eq_histogram             (GdkPixbuf *src,
 						   GdkPixbuf *dest);
 GthPixbufOp* _gdk_pixbuf_adjust_levels            (GdkPixbuf *src,
 						   GdkPixbuf *dest);
-GthPixbufOp* _gdk_pixbuf_stretch_contrast         (GdkPixbuf *src,
-						   GdkPixbuf *dest);
-GthPixbufOp* _gdk_pixbuf_normalize_contrast       (GdkPixbuf *src,
-						   GdkPixbuf *dest);
 GthPixbufOp* _gdk_pixbuf_dither                   (GdkPixbuf *src,
 						   GdkPixbuf *dest,
 						   GthDither  dither_type);

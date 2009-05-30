@@ -52,8 +52,6 @@ int       gth_mem_get_pos    (GthMem *mem,
 
 int       gth_mem_get        (GthMem *mem);
 
-int       gth_mem_get_top    (GthMem *mem);
-
 /* GthCell */
 
 typedef enum {
@@ -113,10 +111,6 @@ GthExpr*  gth_expr_ref               (GthExpr *e);
 
 void      gth_expr_unref             (GthExpr *e);
 
-void      gth_expr_set_empty         (GthExpr *e);
-
-gboolean  gth_expr_is_empty          (GthExpr *e);
-
 void      gth_expr_push_expr         (GthExpr *e, GthExpr *e2);
 
 void      gth_expr_push_op           (GthExpr *e, GthOp op);
@@ -125,13 +119,9 @@ void      gth_expr_push_var          (GthExpr *e, const char *name);
 
 void      gth_expr_push_constant     (GthExpr *e, int value);
 
-void      gth_expr_pop               (GthExpr *e);
-
 GthCell*  gth_expr_get_pos           (GthExpr *e, int pos);
 
 GthCell*  gth_expr_get               (GthExpr *e);
-
-int       gth_expr_get_top           (GthExpr *e);
 
 void      gth_expr_set_get_var_value_func (GthExpr *e,
 					   GthGetVarValueFunc f,
@@ -155,11 +145,7 @@ typedef struct {
 	} value;
 } GthVar;
 
-GthVar*  gth_var_new_constant   (int value);
-
 GthVar*  gth_var_new_expression (const char *name, GthExpr *e);
-
-GthVar*  gth_var_new_string     (const char *name, const char *string);
 
 void     gth_var_free           (GthVar *var);
 
