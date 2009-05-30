@@ -101,7 +101,6 @@ struct _GthViewerPrivateData {
 	GtkToolItem     *open_with_tool_item;
 	GtkWidget       *open_with_popup_menu;
 
-	GtkTooltips     *tooltips;
         guint            help_message_cid;
         guint            image_info_cid;
         guint            progress_cid;
@@ -1303,7 +1302,7 @@ add_open_with_toolbar_item (GthViewer *viewer)
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item),
 				       priv->open_with_popup_menu);
 	gtk_tool_item_set_homogeneous (priv->open_with_tool_item, FALSE);
-	gtk_tool_item_set_tooltip (priv->open_with_tool_item, priv->tooltips, _("Open selected images with an application"), NULL);
+	gtk_tool_item_set_tooltip_text (priv->open_with_tool_item, _("Open selected images with an application"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item), _("Open selected images with an application"));
 	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/File/Image_OpenWith"),
 				  GTK_WIDGET (priv->open_with_tool_item));
@@ -1334,8 +1333,6 @@ gth_viewer_construct (GthViewer   *viewer,
         GthMonitor           *gth_monitor = gth_monitor_get_instance ();
 
 	/* Create the widgets. */
-
-	priv->tooltips = gtk_tooltips_new ();
 
 	/* Build the menu and the toolbar. */
 
@@ -1504,10 +1501,8 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_container_add (GTK_CONTAINER (button), image);
 
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_tooltips_set_tip (priv->tooltips,
-			      button,
-			      _("Image comment"),
-			      NULL);
+	gtk_widget_set_tooltip_text (button, _("Image comment"));
+
 	g_signal_connect (G_OBJECT (button),
 			  "toggled",
 			  G_CALLBACK (comment_button_toggled_cb),
@@ -1758,8 +1753,6 @@ close__step2 (FileData *file,
 
 	if (viewer->priv->progress_gui != NULL)
 		g_object_unref (viewer->priv->progress_gui);
-
-	gtk_object_destroy (GTK_OBJECT (viewer->priv->tooltips));
 
 	if (viewer->priv->image_popup_menu != NULL) {
 		gtk_widget_destroy (viewer->priv->image_popup_menu);
