@@ -372,18 +372,14 @@ load_comment_from_metadata (const char *uri)
         g_slist_foreach (metadata_list, (GFunc) g_free, NULL);
         g_slist_free (metadata_list);
 
-	/* Only load the metadata time if the metadata contained useful comments,
-	   location data, or keywords. Almost all photos contain date metadata, so
-	   we do not want to crowd the comment display with date metadata unless
-	   it seems to be intentionally linked with other metadata. This may
-	   be a matter for further consideration. */
-	if ((data->comment != NULL) ||
-            (data->place != NULL) ||
-	    (data->keywords)) {
-	        metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
-        	if (metadata_time > (time_t) 0)
-                	data->time = metadata_time;
-	} else {
+	metadata_time = get_metadata_time_from_fd (file, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES]);
+	if (metadata_time > (time_t) 0)
+		data->time = metadata_time;
+
+	if ((data->comment == NULL) &&
+            (data->place == NULL) &&
+	    (data->keywords == NULL) &&
+	    (data->time <= 0)) {
 		/* Nothing useful was found. Return NULL. */
 		comment_data_free (data);	
 		data = NULL;

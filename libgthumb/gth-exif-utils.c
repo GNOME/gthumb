@@ -42,16 +42,7 @@
 /* When reading / writing comment dates, we use a slightly different
    set of tags than for date sorting. */
 const char *_COMMENT_DATE_TAG_NAMES[] = {
-        "Exif.Image.DateTime",
-        "Xmp.exif.DateTime",
-        "Exif.Photo.DateTimeOriginal",
-        "Xmp.exif.DateTimeOriginal",
-        "Exif.Photo.DateTimeDigitized",
-        "Xmp.exif.DateTimeDigitized",
 	"Xmp.xmp.CreateDate",
-        "Xmp.photoshop.DateCreated",
-	"Xmp.xmp.ModifyDate",
-	"Xmp.xmp.MetadataDate",
 	NULL };
 
 const char *_SORTING_DATE_TAG_NAMES[] = {
