@@ -628,23 +628,20 @@ comments_save_comment (const char  *uri,
 		comment_data_free_keywords (data_without_tags);
 		save_comment (uri, data_without_tags, TRUE);
 		comment_data_free (data_without_tags);
-
-		return;
+	} else {
+		comment_data_free_comment (new_data);
+		if (data != NULL) {
+			if (data->place != NULL)
+				new_data->place = g_strdup (data->place);
+			if (data->time >= 0)
+				new_data->time = data->time;
+			if (data->comment != NULL)
+				new_data->comment = g_strdup (data->comment);
+		}
+		save_comment (uri, new_data, TRUE);
+		comment_data_free (new_data);
 	}
-	
-	comment_data_free_comment (new_data);
 
-	if (data != NULL) {
-		if (data->place != NULL)
-			new_data->place = g_strdup (data->place);
-		if (data->time >= 0)
-			new_data->time = data->time;
-		if (data->comment != NULL)
-			new_data->comment = g_strdup (data->comment);
-	}
-
-	save_comment (uri, new_data, TRUE);
-	comment_data_free (new_data);
         gth_monitor_notify_update_metadata (uri);
 }
 
@@ -705,18 +702,15 @@ comments_save_tags (const char  *uri,
 		comment_data_free_comment (data_without_comment);
 		save_comment (uri, data_without_comment, TRUE);
 		comment_data_free (data_without_comment);
-
-		return;
+	} else {
+		comment_data_free_keywords (new_data);
+	        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
+        	        new_data->keywords = g_slist_append (new_data->keywords, g_strdup (tmp->data));
+		}
+		save_comment (uri, new_data, TRUE);
+		comment_data_free (new_data);
 	}
 
-	comment_data_free_keywords (new_data);
-
-        for (tmp = data->keywords; tmp; tmp = g_slist_next (tmp)) {
-                new_data->keywords = g_slist_append (new_data->keywords, g_strdup (tmp->data));
-	}
-
-	save_comment (uri, new_data, TRUE);
-	comment_data_free (new_data);
         gth_monitor_notify_update_metadata (uri);
 }
 
