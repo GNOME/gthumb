@@ -1304,8 +1304,13 @@ add_open_with_toolbar_item (GthViewer *viewer)
 	gtk_tool_item_set_homogeneous (priv->open_with_tool_item, FALSE);
 	gtk_tool_item_set_tooltip_text (priv->open_with_tool_item, _("Open selected images with an application"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item), _("Open selected images with an application"));
+#if GTK_CHECK_VERSION(2,16,0)
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (priv->open_with_tool_item),
+					    gtk_ui_manager_get_action (priv->ui, "/MenuBar/File/Image_OpenWith"));
+#else
 	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/File/Image_OpenWith"),
 				  GTK_WIDGET (priv->open_with_tool_item));
+#endif
 
 	gtk_widget_show (GTK_WIDGET (priv->open_with_tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
