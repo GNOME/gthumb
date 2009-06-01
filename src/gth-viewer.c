@@ -283,7 +283,11 @@ menu_item_select_cb (GtkMenuItem *proxy,
         GtkAction *action;
         char      *message;
 
+#if GTK_CHECK_VERSION(2,16,0)
+	action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (proxy));
+#else
         action = gtk_widget_get_action (GTK_WIDGET (proxy));
+#endif
         g_return_if_fail (action != NULL);
 
         g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
