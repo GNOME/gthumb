@@ -361,6 +361,7 @@ simple_add_metadata (GList       *metadata,
 		g_free (entry->raw_value);
 		entry->formatted_value = g_strdup (value);
 		entry->raw_value = g_strdup (value);
+                entry->erase = TRUE;
 	}
 	else {
 		/* Add a new tag entry */
@@ -372,6 +373,7 @@ simple_add_metadata (GList       *metadata,
                 entry->raw_value = g_strdup (value);
                 entry->position = 0;
                 entry->writeable = TRUE;
+                entry->erase = TRUE;
                 metadata = g_list_prepend (metadata, entry);
         }
 

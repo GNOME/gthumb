@@ -373,6 +373,7 @@ add (GList              *metadata,
 	new_entry->raw_value = g_strdup (raw_value);
 	new_entry->position = position;
 	new_entry->writeable = TRUE;
+	new_entry->erase = FALSE;
 	metadata = g_list_prepend (metadata, new_entry);
 
 	return metadata;
@@ -600,16 +601,28 @@ write_metadata (const char *from_file,
                                         metadatum->raw_value = g_strdup ("");
 
 				if (g_str_has_prefix (metadatum->full_name, "Exif")) {
+					// Remove existing tags of the same type
+					if (metadatum->erase) {
+						Exiv2::ExifData::iterator iter = ed.findKey (Exiv2::ExifKey (metadatum->full_name));
+						if (iter != ed.end ())
+							ed.erase (iter);
+					}
+					// Add tag
 					ed[metadatum->full_name] = metadatum->raw_value;
 				} else if (g_str_has_prefix (metadatum->full_name, "Iptc")) {
+					if (metadatum->erase) {
+						Exiv2::IptcData::iterator iter = id.findKey (Exiv2::IptcKey (metadatum->full_name));
+						if (iter != id.end ())
+							id.erase (iter);
+					}
+					// Add tag
 					id[metadatum->full_name] = metadatum->raw_value;
 				} else if (g_str_has_prefix (metadatum->full_name, "Xmp")) {
-					// Remove existing tags of the same type.
-					// Seems to be needed for storing tags keywords.
-					// Not exactly sure why!
-					Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
-					if (iter != xd.end ())
-						xd.erase (iter);
+					if (metadatum->erase) {
+						Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (metadatum->full_name));
+						if (iter != xd.end ())
+							xd.erase (iter);
+					}
 					// Add tag
 					xd[metadatum->full_name] = metadatum->raw_value;
 				}

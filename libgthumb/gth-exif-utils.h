@@ -55,6 +55,7 @@ typedef struct {
 	char    *raw_value;
         int      position;
 	gboolean writeable;
+	gboolean erase;
 } GthMetadata;
 
 
