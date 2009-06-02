@@ -1270,18 +1270,23 @@ gboolean
 same_uri (const char *uri1,
 	  const char *uri2)
 {
-	FileData *fd1;
-	FileData *fd2;
-	gboolean  result = FALSE;
+	char     *utf8_path1;
+	char     *utf8_path2;
+	gboolean  result = FALSE;	
 
-	fd1 = file_data_new (uri1);
-	fd2 = file_data_new (uri2);
+	/* quick test */
+	if (strcmp_null_tolerant (uri1, uri2) == 0)
+		return TRUE;
 
-	if (strcmp (fd1->utf8_path, fd2->utf8_path) == 0)
+	/* slow test */
+	utf8_path1 = get_utf8_display_name_from_uri (uri1);
+	utf8_path2 = get_utf8_display_name_from_uri (uri2);
+
+	if (strcmp_null_tolerant (utf8_path1, utf8_path2) == 0)
 		result = TRUE;
 
-	file_data_unref (fd1);
-	file_data_unref (fd2);
+	g_free (utf8_path1);
+	g_free (utf8_path2);
 
 	return result;
 }

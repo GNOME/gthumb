@@ -355,18 +355,23 @@ gboolean
 file_data_same_path (FileData   *fd1,
 		     const char *path2)
 {
-	FileData *fd2;
+	char *utf8_path2;
 	gboolean result;
 
 	if ((fd1 == NULL) && (path2 == NULL))
 		return TRUE;
 	if ((fd1 == NULL) || (path2 == NULL))
 		return FALSE;
+	if ((fd1->utf8_path == NULL))
+		return FALSE;
 
-	fd2 = file_data_new (path2);
-	result = !strcmp (fd1->utf8_path,fd2->utf8_path);
+	utf8_path2 = get_utf8_display_name_from_uri (path2);
+	if (utf8_path2 == NULL)
+		return FALSE;
 
-	file_data_unref (fd2);
+	result = !strcmp (fd1->utf8_path,utf8_path2);
+	g_free (utf8_path2);    
+
 	return result;
 }
 
