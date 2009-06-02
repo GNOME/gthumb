@@ -48,23 +48,20 @@ typedef gboolean (*PathListFilterFunc) (PathListData *pld, FileData *, gpointer 
 typedef void (*PathListDoneFunc) (PathListData *pld, gpointer data);
 
 struct _PathListData {
-	GnomeVFSURI        *uri;
-	GnomeVFSResult      result;
+	GFile		   *gfile;
+	GFileEnumerator    *gfile_enum;
 	GList              *files;               /* char* items. */
 	GList              *dirs;                /* char* items. */
 	PathListFilterFunc  filter_func;
 	gpointer            filter_data;
 	PathListDoneFunc    done_func;
 	gpointer            done_data;
-	DoneFunc            interrupt_func;
-	gpointer            interrupt_data;
-	gboolean            interrupted;
+	GCancellable       *cancelled;
 	GHashTable         *hidden_files;
 	gboolean            fast_file_type;
 };
 
 typedef struct {
-	GnomeVFSAsyncHandle *vfs_handle;
 	PathListData *pli_data;
 } PathListHandle;
 
@@ -76,6 +73,7 @@ PathListHandle *    path_list_async_new           (const char         *uri,
 						   PathListDoneFunc    done_func,
 						   gpointer            done_data);
 void                path_list_async_interrupt     (PathListHandle     *handle);
+gboolean	    path_list_classify_files_cb	  (gpointer            data);
 gboolean            path_list_new                 (const char         *path,
 						   GList             **files,
 						   GList             **dirs);

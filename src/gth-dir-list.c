@@ -462,12 +462,6 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 		dir_list->dir_load_handle = NULL;
 	}
 
-	if (pld->result != GNOME_VFS_ERROR_EOF) {
-		path_list_data_free (pld);
-		g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, pld->result);
-		return;
-	}
-
 	/* Update path data. */
 
 	if (dir_list->old_dir != NULL) {

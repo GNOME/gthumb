@@ -79,13 +79,13 @@ path_list_data_new (void)
 
 	pli = g_new0 (PathListData, 1);
 
-	pli->uri = NULL;
-	pli->result = GNOME_VFS_OK;
+	pli->gfile = NULL;
+	pli->gfile_enum = NULL;
+	pli->cancelled = NULL;
 	pli->files = NULL;
 	pli->dirs = NULL;
 	pli->done_func = NULL;
 	pli->done_data = NULL;
-	pli->interrupted = FALSE;
 	pli->hidden_files = NULL;
 
 	return pli;
@@ -97,8 +97,15 @@ path_list_data_free (PathListData *pli)
 {
 	g_return_if_fail (pli != NULL);
 
-	if (pli->uri != NULL)
-		gnome_vfs_uri_unref (pli->uri);
+
+	if (pli->gfile != NULL)
+		g_object_unref (pli->gfile);
+
+	if (pli->gfile_enum != NULL)
+		g_object_unref (pli->gfile_enum);
+		
+	if (pli->cancelled != NULL)
+		g_object_unref (pli->cancelled);
 
 	if (pli->files != NULL) {
 		g_list_foreach (pli->files, (GFunc) file_data_unref, NULL);
@@ -116,74 +123,80 @@ path_list_data_free (PathListData *pli)
 	g_free (pli);
 }
 
-
-static void
-directory_load_cb (GnomeVFSAsyncHandle *handle,
-		   GnomeVFSResult       result,
-		   GList               *list,
-		   guint                entries_read,
-		   gpointer             data)
+/* This function should be called by g_idle_add().
+ * It will add ITEMS_PER_NOTIFICATION per call to pli->files
+ * and return TRUE until all files are add or 
+ * pli->cancelled is cancelled.
+ * On completion pli->done_func (gth_dir_list_change_to__step2) 
+ * is called and FALSE is returned.
+ */
+gboolean
+path_list_classify_files_cb (gpointer data)
 {
-	PathListData *pli;
-	GList *node;
+	GFile     *child=NULL;
+	GFileInfo *info;
+	GError    *error=NULL;
+	char      *uri_txt;
+	FileData  *file;
 
-	pli = (PathListData *) data;
-	pli->result = result;
-
-	if (pli->interrupted) {
-		gnome_vfs_async_cancel (handle);
-		pli->interrupted = FALSE;
-		path_list_data_free (pli);
-		return;
-	}
-
-	for (node = list; node != NULL; node = node->next) {
-		GnomeVFSFileInfo *info     = node->data;
-		GnomeVFSURI      *full_uri = NULL;
-		char             *txt_uri;
-		FileData         *file;
-		
-		switch (info->type) {
-		case GNOME_VFS_FILE_TYPE_REGULAR:
-			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
-				break;
-			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
-			txt_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			
-			file = file_data_new (txt_uri);
-			file_data_update_mime_type (file, pli->fast_file_type);
+	int count=0;
+	PathListData *pli = (PathListData *) data;
+	info = g_file_enumerator_next_file (pli->gfile_enum, NULL, &error);
+	while ((!(info == NULL)) && !g_cancellable_is_cancelled(pli->cancelled)) {
+		count++;
+		switch (g_file_info_get_file_type (info)) {
+		case G_FILE_TYPE_REGULAR:
+			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
+			uri_txt = g_file_get_uri (child);
+			file = file_data_new (uri_txt);
 			if ((pli->filter_func != NULL) && pli->filter_func (pli, file, pli->filter_data))
 				pli->files = g_list_prepend (pli->files, file);
 			else
-				file_data_unref  (file);
-			g_free (txt_uri);
+				file_data_unref (file);
+			g_free (uri_txt);
+			g_object_unref (child);
 			break;
-
-		case GNOME_VFS_FILE_TYPE_DIRECTORY:
-			if (SPECIAL_DIR (info->name))
-				break;
-			if (g_hash_table_lookup (pli->hidden_files, info->name) != NULL)
-				break;
-			full_uri = gnome_vfs_uri_append_path (pli->uri, info->name);
-			pli->dirs = g_list_prepend (pli->dirs, gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE));
+		case G_FILE_TYPE_DIRECTORY:
+			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
+			uri_txt = g_file_get_uri (child);
+			pli->dirs = g_list_prepend (pli->dirs, uri_txt);
+			g_object_unref (child);
 			break;
-
 		default:
 			break;
 		}
 
-		if (full_uri)
-			gnome_vfs_uri_unref (full_uri);
+		if (count == ITEMS_PER_NOTIFICATION)
+			return TRUE;
+		else
+			info = g_file_enumerator_next_file (pli->gfile_enum, NULL, &error);
 	}
+		
+	if (pli->done_func) {
+		
+		/* pli is deallocated in pli->done_func */
+		pli->done_func (pli, pli->done_data);
+		return FALSE;
+	}
+	path_list_data_free (pli);
+	return FALSE;
+}
 
-	if ((result == GNOME_VFS_ERROR_EOF) || (result != GNOME_VFS_OK)) {
-		if (pli->done_func) {
-			/* pli is deallocated in pli->done_func */
-			pli->done_func (pli, pli->done_data);
-			return;
-		}
-		path_list_data_free (pli);
-	}
+
+static void
+directory_load_cb (GObject      *source_object,
+		   GAsyncResult *res,
+		   gpointer      data)
+{
+	PathListData *pli;
+	pli = (PathListData *) data;
+	GError *error = NULL;
+		
+	pli->gfile_enum = g_file_enumerate_children_finish (pli->gfile, res, &error);
+
+	g_cancellable_reset (pli->cancelled);
+	g_idle_add (path_list_classify_files_cb, pli);
+
 }
 
 
@@ -195,7 +208,6 @@ path_list_async_new (const char         *uri,
 		     PathListDoneFunc    done_func,
 		     gpointer            done_data)
 {
-	GnomeVFSAsyncHandle *handle;
 	PathListData        *pli;
 	PathListHandle      *pl_handle;
 
@@ -206,9 +218,9 @@ path_list_async_new (const char         *uri,
 	}
 
 	pli = path_list_data_new ();
+	pli->gfile = gfile_new (uri);
 
-	pli->uri = new_uri_from_path (uri);
-	if (pli->uri == NULL) {
+	if (pli->gfile == NULL) {
 		path_list_data_free (pli);
 		if (done_func != NULL)
 			(done_func) (NULL, done_data);
@@ -221,17 +233,15 @@ path_list_async_new (const char         *uri,
 	pli->done_func = done_func;
 	pli->done_data = done_data;
 	pli->fast_file_type = fast_file_type;
-	
-	gnome_vfs_async_load_directory_uri (&handle,
-					    pli->uri,
-					    GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-					    ITEMS_PER_NOTIFICATION,
-					    GNOME_VFS_PRIORITY_DEFAULT,
-					    directory_load_cb,
-					    pli);
-
+	pli->cancelled = g_cancellable_new();
+	g_file_enumerate_children_async (pli->gfile,
+                                         "*",
+                                         G_FILE_QUERY_INFO_NONE,
+                                         G_PRIORITY_DEFAULT,
+                                         pli->cancelled,
+                                         directory_load_cb,
+                                         pli);
 	pl_handle = g_new (PathListHandle, 1);
-	pl_handle->vfs_handle = handle;
 	pl_handle->pli_data = pli;
 
 	return pl_handle;
@@ -241,7 +251,7 @@ path_list_async_new (const char         *uri,
 void
 path_list_async_interrupt (PathListHandle *handle)
 {
-	handle->pli_data->interrupted = TRUE;
+	g_cancellable_cancel (handle->pli_data->cancelled);
 	g_free (handle);
 }
 
@@ -1476,8 +1486,7 @@ new_uri_from_path (const char *path)
 
 	return uri;
 }
-
-
+		
 static char *
 build_uri_2 (const char *s1,
 	     const char *s2)
