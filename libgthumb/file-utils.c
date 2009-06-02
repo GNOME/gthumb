@@ -1427,7 +1427,8 @@ remove_ending_separator (const gchar *path)
 
 	if (path == NULL)
 		return NULL;
-
+	if (strcmp(path, "file:///") == 0)
+		return g_strdup(path);
 	copy_len = len = strlen (path);
 	if ((len > 1)
 	    && (path[len - 1] == '/')

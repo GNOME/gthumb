@@ -865,7 +865,7 @@ get_icon_for_uri (GtkWidget  *widget,
 	else if (strcmp (uri, get_home_uri ()) == 0)
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
 
-	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0))
+	if ((strcmp (uri, "file:///") == 0) || (strcmp (uri, "/") == 0))
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
 
 	if (uri_scheme_is_catalog (uri)) {

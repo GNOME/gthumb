@@ -647,7 +647,7 @@ update_drives (GthLocation *loc)
 	/* Home, File System */
 
 	insert_drive_from_uri (loc, get_home_uri (), pos++);
-	insert_drive_from_uri (loc, "file://", pos++);
+	insert_drive_from_uri (loc, "file:///", pos++);
 	if (!loc->priv->folders_only)
 		insert_drive_from_uri (loc, "catalog:///", pos++);
 
@@ -816,7 +816,7 @@ update_uri (GthLocation *loc,
 				pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 		}
 
-		if (same_uri (uri, base_uri)) {
+		if (same_uri (uri, base_uri) || same_uri (uri, "file:///")) {
 			if (loc->priv->catalog_uri) {
 				uri_name = g_strdup (_("Catalogs"));
 			}
@@ -851,10 +851,18 @@ update_uri (GthLocation *loc,
 
 		/**/
 
-		if (same_uri (uri, base_uri) || same_uri (uri, home_uri))
+		if (same_uri (uri, base_uri) || same_uri (uri, home_uri) || same_uri (uri, "file:///"))
 			parent = NULL;
 		else
+		{
 			parent = remove_level_from_path (uri);
+			// remove_level_from_path returns file:// for root
+			// not file:/// like we need.
+			if( same_uri (parent, "file://" )){
+				g_free( parent );
+				parent = g_strdup("file:///");
+			}
+		}
 		g_free (uri);
 		uri = parent;
 	}
