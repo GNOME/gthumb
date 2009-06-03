@@ -485,9 +485,6 @@ save_image_and_remove_original (GthBatchOp *bop)
 {
 	GdkPixbuf *src, *dest;
 
-	if (path_is_file (PD(bop)->new_path))
-		file_unlink (PD(bop)->new_path);
-
 	src = PD(bop)->pixbuf;
 	if (PD(bop)->pixbuf_op->step_func == NULL)
 		dest = NULL;
