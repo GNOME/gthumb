@@ -3163,7 +3163,7 @@ keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&g
 			      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 			      <property name="snap_to_ticks">False</property>
 			      <property name="wrap">False</property>
-			      <property name="adjustment">2 2 10000 1 10 10</property>
+			      <property name="adjustment">2 2 10000 1 10 0</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
