@@ -408,22 +408,29 @@ update_and_save_metadata (const char *uri_src,
 	from_fd = file_data_new (uri_src);
 	to_fd = file_data_new (uri_dest);
 
-	if (!file_data_has_local_path (from_fd, NULL) || 
-	    !file_data_has_local_path (to_fd, NULL)) {
-		file_data_unref (from_fd);
-		file_data_unref (to_fd);
-		return;
-	}
-
-	file_data_update_mime_type (to_fd, FALSE);
-	/* TIFF metadata writing is a bit flaky, it seems.
-	   Best avoided for now. */
-	if (mime_type_is (to_fd->mime_type, "image/jpeg") ||
-	    mime_type_is (to_fd->mime_type, "image/png"))
-		write_metadata (from_fd->local_path, to_fd->local_path, metadata);
+        update_and_save_metadata_fd (from_fd, to_fd, metadata);
 
 	file_data_unref (from_fd);
 	file_data_unref (to_fd);
+}
+
+
+void
+update_and_save_metadata_fd (FileData   *fd_src,
+                             FileData   *fd_dest,
+                             GList      *metadata)
+{
+	if (!file_data_has_local_path (fd_src, NULL) ||
+	    !file_data_has_local_path (fd_dest, NULL)) {
+		return;
+	}
+
+	file_data_update_mime_type (fd_dest, FALSE);
+	/* TIFF metadata writing is a bit flaky, it seems.
+	   Best avoided for now. */
+	if (mime_type_is (fd_dest->mime_type, "image/jpeg") ||
+	    mime_type_is (fd_dest->mime_type, "image/png"))
+		write_metadata (fd_src->local_path, fd_dest->local_path, metadata);
 }
 
 

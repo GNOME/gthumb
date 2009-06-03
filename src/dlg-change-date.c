@@ -183,7 +183,7 @@ ok_clicked (GtkWidget  *button,
 			if (is_active (data->cd_exif_dig_checkbutton))
 				add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.DateTimeDigitized", buf);
 
-                        update_and_save_metadata (fdata->utf8_path, fdata->utf8_path, add_metadata);
+                        update_and_save_metadata_fd (fdata, fdata, add_metadata);
 
 			free_metadata (add_metadata);
 			g_free (buf);

@@ -103,6 +103,9 @@ void          update_and_save_metadatum   (const char   *uri_src,
 void          update_and_save_metadata    (const char   *uri_src,
                                            const char   *uri_dest,
                                            GList        *metdata);
+void          update_and_save_metadata_fd (FileData     *fd_src,
+                                           FileData     *fd_dest,
+                                           GList        *metdata);
 void	      write_orientation_field     (const char   *filename, 
 				  	   GthTransform  transform);
 GList *       gth_read_exiv2		  (const char   *filename,

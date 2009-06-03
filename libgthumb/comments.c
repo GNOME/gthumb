@@ -422,7 +422,7 @@ save_comment_to_metadata (const char  *uri,
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES][0], keywords_str);
         g_free (keywords_str);
 
-	update_and_save_metadata (file->utf8_path, file->utf8_path, add_metadata);
+	update_and_save_metadata_fd (file, file, add_metadata);
 	free_metadata (add_metadata);
 	file_data_unref (file);
 }
