@@ -462,7 +462,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 		   or an endless loop of thumbnailing may be triggered. */
 		   
 		cache_base_uri = g_strconcat (get_home_uri (), "/.thumbnails", NULL);
-		if (path_in_path (cache_base_uri, tl->priv->file->utf8_path)) { /* FIXME */
+		if (path_in_path (cache_base_uri, tl->priv->file->utf8_path)) {
 			g_free (cache_base_uri);	
 			return FALSE;
 		}

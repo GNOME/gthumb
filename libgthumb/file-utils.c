@@ -1235,18 +1235,28 @@ gboolean
 path_in_path (const char  *path_src,
 	      const char  *path_dest)
 {
-	/* FIXME - need gfile version */
-	int path_src_l, path_dest_l;
+	gboolean  result;
+	char     *utf8_src;
+	char     *utf8_dest;
+	int       utf8_src_l, utf8_dest_l;
 
 	if ((path_src == NULL) || (path_dest == NULL))
 		return FALSE;
 
-	path_src_l = strlen (path_src);
-	path_dest_l = strlen (path_dest);
+	utf8_src = get_utf8_display_name_from_uri (path_src);
+	utf8_dest = get_utf8_display_name_from_uri (path_dest);
 
-	return ((path_dest_l > path_src_l)
-		&& (strncmp (path_src, path_dest, path_src_l) == 0)
-		&& (path_dest[path_src_l] == '/'));
+	utf8_src_l = strlen (utf8_src);
+	utf8_dest_l = strlen (utf8_dest);
+
+	result = ((utf8_dest_l > utf8_src_l)
+		&& (strncmp (utf8_src, utf8_dest, utf8_src_l) == 0)
+		&& (path_dest[utf8_src_l] == '/'));
+
+	g_free (utf8_src);
+	g_free (utf8_dest);
+
+	return result;
 }
 
 
