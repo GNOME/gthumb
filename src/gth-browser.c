@@ -44,6 +44,7 @@
 #include "file-utils.h"
 #include "file-data.h"
 #include "gconf-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-browser-ui.h"
@@ -5670,22 +5671,22 @@ first_level_sub_directory (GthBrowser *browser,
 			   const char *current,
 			   const char *old_path)
 {
-	const char *old_name;
-	int         current_l;
-	int         old_path_l;
+        GFile      *current_gfile;
+        GFile      *old_gfile;
+        GFile      *parent_gfile;
+        gboolean    result;
 
-	current_l = strlen (current);
-	old_path_l = strlen (old_path);
+        current_gfile = gfile_new (current);
+        old_gfile = gfile_new (old_path);
+        parent_gfile = g_file_get_parent (old_gfile);
 
-	if (old_path_l <= current_l + 1)
-		return FALSE;
+        result = g_file_equal (current_gfile, parent_gfile);
 
-	if (strncmp (current, old_path, current_l) != 0)
-		return FALSE;
+        g_object_unref (current_gfile);
+        g_object_unref (old_gfile);
+        g_object_unref (parent_gfile);
 
-	old_name = old_path + current_l + 1;
-
-	return (strchr (old_name, '/') == NULL);
+	return result;
 }
 
 
