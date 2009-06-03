@@ -607,7 +607,7 @@ file_copy (const char *from,
 	   gboolean    overwrite,
 	   GError    **error)
 {
-	return xfer_file (from, to, overwrite, FALSE, error);
+	return xfer_file (from, to, FALSE, overwrite, error);
 }
 
 
@@ -617,7 +617,7 @@ file_move (const char *from,
            gboolean    overwrite,
 	   GError    **error)
 {
-	return xfer_file (from, to, overwrite, TRUE, error);
+	return xfer_file (from, to, TRUE, overwrite, error);
 }
 
 
