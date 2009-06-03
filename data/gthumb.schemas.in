@@ -1994,6 +1994,19 @@
       </schema>
 
       <schema>
+        <key>/schemas/apps/gthumb/dialogs/print/include_foldername</key>
+        <applyto>/apps/gthumb/dialogs/print/include_foldername</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/print/comment_font</key>
 	<applyto>/apps/gthumb/dialogs/print/comment_font</applyto>
 	<owner>gthumb</owner>

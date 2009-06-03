@@ -276,6 +276,7 @@ typedef struct {
 
 	gboolean              print_comments;
 	gboolean              print_filenames;
+	gboolean              print_foldernames;
 	gboolean              portrait;
 
 	gboolean              use_colors;
@@ -384,6 +385,8 @@ typedef struct {
 	GtkWidget     *comment_fontpicker;
 	GtkWidget     *print_comment_checkbutton;
 	GtkWidget     *print_filename_checkbutton;
+        GtkWidget     *print_foldername_checkbutton;
+
 	GtkWidget     *comment_font_hbox;
 	GtkWidget     *scale_image_box;
 	GtkWidget     *resolution_optionmenu;
@@ -651,15 +654,26 @@ construct_comment (PrintCatalogInfo *pci,
 			g_string_append_len (s, image->comment, end - image->comment);
 	}
 
-	if (pci->print_filenames) {
+	if (pci->print_filenames || pci->print_foldernames) {
 		const gchar* end = NULL;
+		char *use_name;
 
-		g_utf8_validate (image->file->utf8_path, -1, &end);
-		if (end > image->file->utf8_path) {
+		if (pci->print_filenames)
+			if (pci->print_foldernames)
+				use_name = g_strdup (image->file->utf8_path);
+			else
+				use_name = g_strdup (image->file->utf8_name);
+		else
+			use_name = remove_level_from_path (image->file->utf8_path);
+		
+		g_utf8_validate (use_name, -1, &end);
+		if (end > use_name) {
 			if (s->len > 0)
 				g_string_append (s, "\n");
-			g_string_append_len (s, image->file->utf8_path, end - image->file->utf8_path);
+			g_string_append_len (s, use_name, end - use_name);
 		}
+
+		g_free (use_name);
 	}
 
 	if (s->len > 0) {
@@ -1775,7 +1789,7 @@ draw_page (GtkPrintOperation *operation,
 		GdkPixbuf *image_pixbuf, *pixbuf = NULL;
 		double     scale_factor;
 
-		if (pci->print_comments || pci->print_filenames) {
+		if (pci->print_comments || pci->print_filenames || pci->print_foldernames) {
 			cairo_save (cr);
 			pci_print_comment (pci, cr, image);
 			cairo_restore (cr);
@@ -2088,6 +2102,11 @@ print_catalog_cb (GtkWidget              *widget,
 			       !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) &&
 			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)));
 
+        eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FOLDERNAME,
+                               !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_foldername_checkbutton)) &&
+                               gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_foldername_checkbutton)));
+
+
 	length = catalog_get_page_width (data);
 	eel_gconf_set_float (PREF_PRINT_PAPER_WIDTH, length);
 
@@ -2370,7 +2389,10 @@ pci_print_comments_cb (GtkWidget              *widget,
 		       PrintCatalogDialogData *data)
 {
 	data->pci->print_comments = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	gtk_widget_set_sensitive (data->comment_font_hbox, data->pci->print_comments || data->pci->print_filenames);
+	gtk_widget_set_sensitive (data->comment_font_hbox, 
+				  data->pci->print_comments || 
+				  data->pci->print_filenames ||
+				  data->pci->print_foldernames);
 	catalog_update_page (data);
 }
 
@@ -2380,8 +2402,24 @@ pci_print_filenames_cb (GtkWidget              *widget,
 		        PrintCatalogDialogData *data)
 {
 	data->pci->print_filenames = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	gtk_widget_set_sensitive (data->comment_font_hbox, data->pci->print_comments || data->pci->print_filenames);
+	gtk_widget_set_sensitive (data->comment_font_hbox,
+				  data->pci->print_comments ||
+				  data->pci->print_filenames ||
+				  data->pci->print_foldernames);
 	catalog_update_page (data);
+}
+
+
+static void
+pci_print_foldernames_cb (GtkWidget              *widget,
+                          PrintCatalogDialogData *data)
+{
+        data->pci->print_foldernames = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+        gtk_widget_set_sensitive (data->comment_font_hbox,
+				  data->pci->print_comments ||
+				  data->pci->print_filenames || 
+				  data->pci->print_foldernames);
+        catalog_update_page (data);
 }
 
 
@@ -2472,6 +2510,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	comment_fontpicker_hbox = glade_xml_get_widget (data->gui, "comment_fontpicker_hbox");
 	data->print_comment_checkbutton = glade_xml_get_widget (data->gui, "print_comment_checkbutton");
 	data->print_filename_checkbutton = glade_xml_get_widget (data->gui, "print_filename_checkbutton");
+        data->print_foldername_checkbutton = glade_xml_get_widget (data->gui, "print_foldername_checkbutton");
 	data->comment_font_hbox = glade_xml_get_widget (data->gui, "comment_font_hbox");
 	data->scale_image_box = glade_xml_get_widget (data->gui, "scale_image_box");
 	data->btn_close = glade_xml_get_widget (data->gui, "btn_close");
@@ -2576,7 +2615,13 @@ print_catalog_dlg_full (GtkWindow *parent,
 	pci->print_filenames = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_FILENAME, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton), pci->print_filenames);
 
-	gtk_widget_set_sensitive (data->comment_font_hbox, pci->print_comments || pci->print_filenames);
+        pci->print_foldernames = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_FOLDERNAME, FALSE);
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_foldername_checkbutton), pci->print_foldernames);
+
+	gtk_widget_set_sensitive (data->comment_font_hbox,
+				  pci->print_comments ||
+				  pci->print_filenames ||
+				  pci->print_foldernames);
 
 	pci_update_comment_font (data);
 
@@ -2694,6 +2739,10 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "toggled",
 			  G_CALLBACK (pci_print_filenames_cb),
 			  data);
+        g_signal_connect (G_OBJECT (data->print_foldername_checkbutton),
+                          "toggled",
+                          G_CALLBACK (pci_print_foldernames_cb),
+                          data);
 
 	g_signal_connect (G_OBJECT (center_button),
 			  "clicked",
