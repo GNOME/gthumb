@@ -1583,6 +1583,7 @@ gfl_delete (GthFileList *file_list,
 	fd = gth_file_list_filedata_from_path (file_list, uri, NULL);
 	if (fd != NULL) {
 		gth_file_view_remove (file_list->view, fd);
+                file_list->list = g_list_remove (file_list->list, fd);
 		file_data_unref (fd);
 	}
 }
