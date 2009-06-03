@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gthumb.gthumb-2-10.es\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gthumb&component=general\n"
-"POT-Creation-Date: 2009-03-18 12:24+0000\n"
-"PO-Revision-Date: 2009-03-22 23:25+0100\n"
+"POT-Creation-Date: 2009-05-04 11:55+0000\n"
+"PO-Revision-Date: 2009-06-03 10:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <Gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "Dimensiones"
 msgid "Bytes"
 msgstr "Bytes"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "Fecha"
 
@@ -279,7 +279,7 @@ msgstr "Importar fotos"
 
 #: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
 #: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
-#: ../src/dlg-photo-importer.c:2341
+#: ../src/dlg-photo-importer.c:2344
 msgid "No camera detected"
 msgstr "No se detectó ninguna cámara"
 
@@ -342,7 +342,7 @@ msgstr "Categorías"
 msgid "Co_mment:"
 msgstr "Co_mentario:"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "Comentario"
 
@@ -1477,7 +1477,7 @@ msgid "Postcard"
 msgstr "Postal"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Imprimir"
@@ -2201,7 +2201,7 @@ msgstr "%d de %B de %Y"
 
 #: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
 #: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
@@ -2240,22 +2240,22 @@ msgstr "Sistema de archivos"
 msgid "Home"
 msgstr "Carpeta personal"
 
-#: ../libgthumb/file-utils.c:2155
+#: ../libgthumb/file-utils.c:2158
 msgid "Library not empty"
 msgstr "Biblioteca no vacía"
 
-#: ../libgthumb/file-utils.c:2164
+#: ../libgthumb/file-utils.c:2167
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "No se pudo quitar la biblioteca «%s»: %s"
 
-#: ../libgthumb/file-utils.c:2191
+#: ../libgthumb/file-utils.c:2194
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "No se pudo quitar el catálogo «%s»: %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:775
-#: ../src/gth-browser.c:4509 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4508 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "Ninguna imagen"
 
@@ -2267,12 +2267,12 @@ msgstr "No se pudo mostrar la ayuda"
 msgid "Ro_tate Images"
 msgstr "Ro_tar imágenes"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:825
 #, c-format
 msgid "Page %d of %d"
 msgstr "Página %d de %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1423
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "Cargando imagen: %s"
@@ -2285,13 +2285,13 @@ msgstr "Borrando todas las miniaturas, por favor aguarde..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Borrando miniaturas viejas, aguarde por favor..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
-#: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
 msgid "(Invalid Name)"
 msgstr "(Nombre inválido)"
 
 #: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
 #: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
@@ -2351,7 +2351,7 @@ msgstr "C_rear"
 msgid "Enter the library name: "
 msgstr "Introduzca el nombre de la biblioteca: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "Mover el catálogo a..."
 
@@ -2465,7 +2465,7 @@ msgstr ""
 "permanentemente?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
+#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "_No mostrar este mensaje otra vez"
@@ -2479,15 +2479,15 @@ msgstr "_Mover"
 msgid "Choose the destination folder"
 msgstr "Seleccionar la carpeta de destino"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:547
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
 msgid "You didn't enter the new name"
 msgstr "No ha introducido el nombre nuevo"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
@@ -2495,62 +2495,62 @@ msgstr ""
 "El nombre «%s» ya está siendo usado en esta carpeta. Por favor utilice un "
 "nombre distinto."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1033
 msgid "Could not rename the image:"
 msgstr "No se pudo renombrar la imagen:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1035
 msgid "Could not rename the following images:"
 msgstr "No se pudieron renombrar las siguientes imágenes:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1168
 msgid "Could not move the image:"
 msgstr "No se pudo mover la imagen:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1170
 msgid "Could not copy the image:"
 msgstr "No se pudo copiar la imagen:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
 msgstr "_Abortar"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
 msgstr "_Continuar"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1373
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Copiando archivo %d de %d"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
 msgid "Collecting images info"
 msgstr "Reuniendo información de las imágenes"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Borrando archivo %ld de %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2015
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Copiando archivo %ld de %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2020
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Moviendo archivo %ld de %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
 #: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "No se pudo mover la carpeta «%s»: %s"
 
 #: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "Tamaño"
 
@@ -2558,7 +2558,7 @@ msgstr "Tamaño"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "Modificado"
@@ -2619,32 +2619,32 @@ msgstr "Cabecera"
 msgid "Footer"
 msgstr "Pie"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "por ruta"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "por tamaño"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "por hora de modificación del archivo"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "Por etiqueta EXIF de tiempo"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "por comentario"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "orden manual"
@@ -2677,7 +2677,7 @@ msgstr "Resultado de la búsqueda"
 msgid "Select Album Theme"
 msgstr "Seleccionar el tema del álbum"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3859
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3858
 msgid "Could not move the items:"
 msgstr "No se han podido mover los elementos:"
 
@@ -3408,87 +3408,87 @@ msgstr "Catá_logos"
 msgid "View the catalogs"
 msgstr "Ver los catálogos"
 
-#: ../src/gth-browser.c:548 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[Presione «c» para añadir un comentario]"
 
-#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../src/gth-browser.c:697 ../src/main.c:437 ../src/main.c:723
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imagen (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imágenes (%s)"
 
-#: ../src/gth-browser.c:787
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 imagen seleccionada (%s)"
 
-#: ../src/gth-browser.c:790
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d imágenes seleccionadas (%s)"
 
-#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:997
+#: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
 msgstr "La imagen actual ha sido modificada, ¿quiere guardarla?"
 
-#: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
 msgid "Do Not Save"
 msgstr "No guardar"
 
-#: ../src/gth-browser.c:3618
+#: ../src/gth-browser.c:3617
 msgid "Dragged Images"
 msgstr "Imágenes arrastradas"
 
-#: ../src/gth-browser.c:5461 ../src/gth-browser.c:5462
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Rotar imágenes sin pérdida de calidad"
 
-#: ../src/gth-browser.c:6351
+#: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
 msgstr "Obteniendo la lista de carpetas..."
 
-#: ../src/gth-browser.c:6373
+#: ../src/gth-browser.c:6372
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "No se puede cargar la carpeta «%s»: %s\n"
 
-#: ../src/gth-browser.c:6921 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/gth-browser.c:6935 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "Comentario de la imagen"
 
-#: ../src/gth-browser.c:6949
+#: ../src/gth-browser.c:6941
 msgid "Image data"
 msgstr "Datos de la imagen"
 
-#: ../src/gth-browser.c:6963
+#: ../src/gth-browser.c:6953
 msgid "Image preview"
 msgstr "Vista previa de la imagen"
 
-#: ../src/gth-browser.c:8021
+#: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
 msgstr "El catálogo especificado no existe."
 
-#: ../src/gth-browser.c:8653 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "Por favor aguarde..."
 
@@ -3532,80 +3532,80 @@ msgstr "Otro"
 msgid "Path"
 msgstr "Ruta"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "contiene"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "empieza con"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "termina con"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "es"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "no es"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "no contiene"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "es igual a"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "es menor que"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "es mayor que"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "está antes"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "está después"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "KiB"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "MiB"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "Nombre del archivo"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "Lugar"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "Categoría"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr "El texto contiene"
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "Todas"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
+#: ../src/gth-filter-bar.c:540
 msgid "S_how:"
 msgstr "M_ostrar:"
 
@@ -3660,11 +3660,11 @@ msgstr "Abrir _con"
 msgid "Open selected images with an application"
 msgstr "Abrir las imágenes seleccionadas con una aplicación"
 
-#: ../src/gth-window-actions-callbacks.c:924
+#: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
 msgstr "Un visor y navegador de imágenes para Gnome."
 
-#: ../src/gth-window-actions-callbacks.c:927
+#: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007\n"
@@ -3982,6 +3982,10 @@ msgstr "Muestra información referente a gThumb"
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
 msgstr "Contenido"
+
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "Mostrar el manual de gThumb"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
