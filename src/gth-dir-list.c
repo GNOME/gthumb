@@ -742,8 +742,13 @@ gth_dir_list_get_path_from_iter (GthDirList  *dir_list,
 
 	if (strcmp (name, ".") == 0)
 		new_path = g_strdup (dir_list->path);
-	else if (strcmp (name, "..") == 0)
+	else if (strcmp (name, "..") == 0) {
 		new_path = remove_level_from_path (dir_list->path);
+		if (same_uri (new_path, "file://")) {
+			g_free (new_path);
+			new_path = g_strdup ("file:///");
+		}
+	}
 	else {
 		if (same_uri (dir_list->path, "/"))
 			new_path = g_strconcat (dir_list->path,

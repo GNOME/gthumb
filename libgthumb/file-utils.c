@@ -1647,6 +1647,8 @@ uri_is_root (const char *uri)
 		return TRUE;
 
 	len = strlen (uri);
+	if (strncmp (uri + len - 4, ":///", 4) == 0)
+		return TRUE;
 	if (strncmp (uri + len - 3, "://", 3) == 0)
 		return TRUE;
 	if (strncmp (uri + len - 2, ":/", 2) == 0)
