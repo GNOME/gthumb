@@ -79,8 +79,6 @@ typedef struct {
 	GtkWidget     *remove_key_button;
 	GtkWidget     *keywords_list_view;
 	GtkListStore  *keywords_list_model;
-
-	CommentData   *original_cdata;
 } DialogData;
 
 
@@ -89,14 +87,9 @@ static void
 free_dialog_data (DialogData *data)
 {
 	if (data->file_list != NULL) {
-		g_list_foreach (data->file_list, (GFunc) g_free, NULL);
+		g_list_foreach (data->file_list, (GFunc) file_data_unref, NULL);
 		g_list_free (data->file_list);
 		data->file_list = NULL;
-	}
-
-	if (data->original_cdata != NULL) {
-		comment_data_free (data->original_cdata);
-		data->original_cdata = NULL;
 	}
 }
 
@@ -419,19 +412,6 @@ add_saved_tags (DialogData *data)
 }
 
 
-static gboolean
-key_in_list (GList      *list,
-	     const char *key)
-{
-	GList *scan;
-
-	for (scan = list; scan; scan = scan->next)
-		if (strcmp (scan->data, key) == 0)
-			return TRUE;
-	return FALSE;
-}
-
-
 static int
 name_column_sort_func (GtkTreeModel *model,
                        GtkTreeIter  *a,
@@ -484,7 +464,6 @@ dlg_tags_common (GtkWindow     *parent,
 	data->save_data = save_data;
 	data->done_func = done_func;
 	data->done_data = done_data;
-	data->original_cdata = NULL;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
@@ -493,9 +472,10 @@ dlg_tags_common (GtkWindow     *parent,
                 return NULL;
         }
 
-	if (file_list != NULL)
-		data->file_list = path_list_dup (file_list);
-	else
+	if (file_list != NULL) {
+		data->file_list = file_list;
+		g_list_foreach (data->file_list, (GFunc) file_data_ref, NULL);
+        } else
 		data->file_list = NULL;
 
 	/* Get the widgets. */
@@ -614,9 +594,14 @@ dlg_choose_tags (GtkWindow     *parent,
                  DoneFunc       done_func,
                  gpointer       done_data)
 {
+        GList *fd_list = NULL, *tmp;
+
+        for (tmp = file_list; tmp; tmp = tmp->next)
+                fd_list = g_list_prepend (fd_list, file_data_new (tmp->data));
+
 	dlg_tags_common (parent,
                          NULL,
-                         file_list,
+                         fd_list,
                          default_tags_list,
                          add_tags_list,
                          remove_tags_list,
@@ -661,13 +646,14 @@ dlg_tags__save (GList    *file_list,
 	GList             *scan;
 
 	for (scan = file_list; scan; scan = scan->next) {
-		const char  *filename = scan->data;
-		CommentData *cdata;
+		FileData    *fd = scan->data;
+		CommentData *cdata, *data_to_free = NULL;
 		GList       *scan2;
 
-		cdata = comments_load_comment (filename, TRUE);
+                cdata = file_data_get_comment (fd, TRUE);
+
 		if (cdata == NULL)
-			cdata = comment_data_new ();
+			cdata = data_to_free = comment_data_new ();
 		else
 			for (scan2 = dcdata->remove_list; scan2; scan2 = scan2->next) {
 				const char *k = scan2->data;
@@ -679,8 +665,9 @@ dlg_tags__save (GList    *file_list,
 			comment_data_add_keyword (cdata, k);
 		}
 
-		comments_save_tags (filename, cdata);
-		comment_data_free (cdata);
+		comments_save_tags (fd->utf8_path, cdata);
+                if (data_to_free)
+                        comment_data_free (data_to_free);
 	}
 
 	path_list_free (dcdata->add_list);
@@ -726,10 +713,12 @@ void
 dlg_tags_update (GtkWidget *dlg)
 {
 	DialogData    *data;
-	CommentData   *cdata = NULL;
 	GList         *scan;
-	GList         *other_keys = NULL;
-        GSList        *tmp1, *tmp2;
+        /* List of tags present in all files */
+	GSList        *all_tags = NULL;
+        /* List of tags present in only some files */
+	GSList        *partial_tags = NULL;
+        GSList        *tmp;
 
 
 	g_return_if_fail (dlg != NULL);
@@ -743,94 +732,62 @@ dlg_tags_update (GtkWidget *dlg)
 
 	if (data->window != NULL) {
 		free_dialog_data (data);
-		data->file_list = gth_window_get_file_list_selection (data->window);
-	} else if (data->original_cdata != NULL) {
-		comment_data_free (data->original_cdata);
-		data->original_cdata = NULL;
+		data->file_list = gth_window_get_file_list_selection_as_fd (data->window);
+		g_list_foreach (data->file_list, (GFunc) file_data_ref, NULL);
 	}
 
+        /* Start with keywords of first file */
 	if (data->file_list != NULL) {
-		char *first_image = data->file_list->data;
-		data->original_cdata = cdata = comments_load_comment (first_image, TRUE);
+		CommentData *first_data = file_data_get_comment (data->file_list->data, TRUE);
+                all_tags = g_slist_copy (first_data->keywords);
+                partial_tags = g_slist_copy (first_data->keywords);
 	}
 
-	if (cdata != NULL) {
-		comment_data_free_comment (cdata);
+        /* Loop on all other files */
+        for (scan = data->file_list->next; scan; scan = scan->next) {
+                CommentData *scan_cdata;
 
-		/* remove a tag if it is not in all comments. */
-		for (scan = data->file_list->next; scan; scan = scan->next) {
-			CommentData *scan_cdata;
+                scan_cdata = file_data_get_comment (scan->data, TRUE);
 
-			scan_cdata = comments_load_comment (scan->data, TRUE);
+                if (!scan_cdata) {
+                        /* No comment in this file: empty all_tags */
+                        g_slist_free (all_tags);
+                        all_tags = NULL;
+                        continue;
+                }
 
-			if (scan_cdata == NULL) {
-				comment_data_free_keywords (cdata);
-				break;
-			}
+                /* Remove a tag from all_tags if it is not present in current file */
+                for (tmp = all_tags; tmp; tmp = g_slist_next (tmp)) {
+                        if (!g_slist_find_custom (scan_cdata->keywords, tmp->data, (GCompareFunc) strcmp))
+                                all_tags = g_slist_remove (all_tags, tmp->data);
+                }
 
-			for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
-				char     *k1 = tmp1->data;
-				gboolean  found = FALSE;
+                /* Add all tags to partial_tags */
+                for (tmp =  scan_cdata->keywords; tmp; tmp = g_slist_next (tmp)) {
+                        char *keyword = tmp->data;
 
-				for (tmp2 =  scan_cdata->keywords; tmp2; tmp2 = g_slist_next (tmp2)) {
-					char *k2 = tmp2->data;
-					if (strcmp (k1, k2) == 0) {
-						found = TRUE;
-						break;
-					}
-				}
-
-				if (!found)
-					comment_data_remove_keyword (cdata, k1);
-			}
-
-			comment_data_free (scan_cdata);
+                        if (!g_slist_find_custom (partial_tags, keyword, (GCompareFunc) strcmp))
+                                partial_tags = g_slist_prepend (partial_tags, keyword);
 		}
 	}
 
-	for (scan = data->file_list; scan; scan = scan->next) {
-		CommentData *scan_cdata;
+        /* Remove tags from partial_tags if they are already in all_tags */
+        for (tmp = all_tags; tmp; tmp = g_slist_next (tmp))
+                partial_tags = g_slist_remove (partial_tags, tmp->data);
 
-		scan_cdata = comments_load_comment (scan->data, TRUE);
+        for (tmp = all_tags; tmp; tmp = g_slist_next (tmp)) {
+                GtkTreeIter  iter;
 
-		if (scan_cdata == NULL)
-			continue;
+                gtk_list_store_append (data->keywords_list_model,
+                                       &iter);
 
-                for (tmp2 =  scan_cdata->keywords; tmp2; tmp2 = g_slist_next (tmp2)) {
-                        char *k2 = tmp2->data;
-			gboolean  found = FALSE;
-
-			if (cdata != NULL)
-                                for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
-                                        char     *k1 = tmp1->data;
-					if (strcmp (k1, k2) == 0) {
-						found = TRUE;
-						break;
-					}
-				}
-
-			if (! found && ! key_in_list (other_keys, k2))
-				other_keys = g_list_prepend (other_keys,
-							     g_strdup (k2));
-		}
-		comment_data_free (scan_cdata);
-	}
-
-	if (cdata != NULL) {
-                for (tmp1 = cdata->keywords; tmp1; tmp1 = g_slist_next (tmp1)) {
-			GtkTreeIter  iter;
-
-			gtk_list_store_append (data->keywords_list_model,
-					       &iter);
-
-			gtk_list_store_set (data->keywords_list_model, &iter,
-					    IS_EDITABLE_COLUMN, FALSE,
-					    HAS_THIRD_STATE_COLUMN, FALSE,
-					    USE_TAG_COLUMN, 1,
-					    TAG_COLUMN, tmp1->data,
-					    -1);
-		}
-	}
+                gtk_list_store_set (data->keywords_list_model, &iter,
+                                    IS_EDITABLE_COLUMN, FALSE,
+                                    HAS_THIRD_STATE_COLUMN, FALSE,
+                                    USE_TAG_COLUMN, 1,
+                                    TAG_COLUMN, tmp->data,
+                                    -1);
+        }
 
 	for (scan = data->default_tags_list; scan; scan = scan->next) {
 		char        *keyword = scan->data;
@@ -847,8 +804,8 @@ dlg_tags_update (GtkWidget *dlg)
 				    -1);
 	}
 
-	for (scan = other_keys; scan; scan = scan->next) {
-		char        *keyword = scan->data;
+	for (tmp = partial_tags; tmp; tmp = tmp->next) {
+		char        *keyword = tmp->data;
 		GtkTreeIter  iter;
 
 		gtk_list_store_append (data->keywords_list_model,
@@ -861,9 +818,6 @@ dlg_tags_update (GtkWidget *dlg)
 				    TAG_COLUMN, keyword,
 				    -1);
 	}
-
-	if (other_keys != NULL)
-		path_list_free (other_keys);
 
 	add_saved_tags (data);
 	update_tag_entry (data);
