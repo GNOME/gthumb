@@ -226,9 +226,6 @@ save_image_and_remove_original (DialogData *data)
 	FileData *fd_new;
 	FileData *fd_old;
 
-	if (path_is_file (data->new_path))
-		file_unlink (data->new_path);
-
 	fd_old = (FileData*) data->current_image->data;
 	fd_new = file_data_new (data->new_path);
 	
