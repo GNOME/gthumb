@@ -6233,7 +6233,7 @@ dir_list_done_cb (GthDirList     *dir_list,
 		char *image_dir;
 		
 		image_dir = remove_level_from_path (browser->priv->image->utf8_path);
-		if (uricmp (image_dir, browser->priv->dir_list->path) == 0)
+		if (same_uri (image_dir, browser->priv->dir_list->path))
 			file_list = g_list_append (NULL, file_data_dup (browser->priv->image));
 		g_free (image_dir);
 	}

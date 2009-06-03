@@ -1265,24 +1265,24 @@ uricmp (const char *path1,
 	const char *path2)
 {
 	char *uri1, *uri2;
+	char *key1, *key2;
+
 	int   result;
 
-	if (path1 == NULL) {
-		if (path2 == NULL) 
-			return 0;
-		else
-			return -1;
-	}
-	
-	uri1 = add_scheme_if_absent (path1);
-	uri2 = add_scheme_if_absent (path2);
+	uri1 = get_utf8_display_name_from_uri (path1);
+	uri2 = get_utf8_display_name_from_uri (path2);
+	key1 = g_utf8_collate_key_for_filename (uri1, -1);
+	key2 = g_utf8_collate_key_for_filename (uri2, -1);
 
-	result = strcmp_null_tolerant (uri1, uri2);
+	result = strcmp_null_tolerant (key1, key2);
 
 	g_free (uri1);
 	g_free (uri2);
+	g_free (key1);
+	g_free (key2);
 
 	return result;
+
 }
 
 
