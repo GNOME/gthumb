@@ -403,16 +403,17 @@ ok_cb (GtkWidget  *widget,
 
 #define is_active(x) gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x))
 
-	if (is_active (data->conv_jpeg_radiobutton))
-		data->image_type = data->ext = "jpeg";
-	else if (is_active (data->conv_png_radiobutton))
+	if (is_active (data->conv_png_radiobutton)) {
 		data->image_type = data->ext = "png";
-	else if (is_active (data->conv_tga_radiobutton))
+	} else if (is_active (data->conv_tga_radiobutton)) {
 		data->image_type = data->ext = "tga";
-	else if (is_active (data->conv_tiff_radiobutton))
-		data->image_type = data->ext = "tiff";
-	else
-		data->image_type = data->ext = "jpeg";
+	} else if (is_active (data->conv_tiff_radiobutton)) {
+		data->image_type = "tiff";
+		data->ext = "tif";
+	} else {
+		data->image_type = "jpeg";
+		data->ext = "jpg";
+	}
 
 	data->overwrite_mode = gtk_combo_box_get_active (GTK_COMBO_BOX (data->conv_om_combobox));
 	data->remove_original = is_active (data->conv_remove_orig_checkbutton);
