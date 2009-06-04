@@ -618,11 +618,6 @@ update_drives (GthLocation *loc)
 
                 gfile = g_mount_get_root (mount);
 
-                if (! gfile_is_local (gfile)) {
-                        g_object_unref (gfile);
-                        continue;
-                }
-
                 pixbuf = get_mount_icon (loc, mount);
                 uri_name = g_mount_get_name (mount);
 

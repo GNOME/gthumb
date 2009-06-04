@@ -127,7 +127,7 @@ path_list_data_free (PathListData *pli)
 
 /* This function should be called by g_idle_add().
  * It will add ITEMS_PER_NOTIFICATION per call to pli->files
- * and return TRUE until all files are add or 
+ * and return TRUE until all files are added or 
  * pli->cancelled is cancelled.
  * On completion pli->done_func (gth_dir_list_change_to__step2) 
  * is called and FALSE is returned.
@@ -137,15 +137,14 @@ path_list_classify_files_cb (gpointer data)
 {
 	GFile     *child=NULL;
 	GFileInfo *info;
-	GError    *error=NULL;
 	char      *uri_txt;
 	FileData  *file;
 
 	int count=0;
 	PathListData *pli = (PathListData *) data;
-	info = g_file_enumerator_next_file (pli->gfile_enum, NULL, &error);
-	while ((!(info == NULL)) && !g_cancellable_is_cancelled(pli->cancelled)) {
+	while ((!(pli->current_file == NULL)) && !g_cancellable_is_cancelled(pli->cancelled)) {
 		count++;
+		info = pli->current_file->data;
 		switch (g_file_info_get_file_type (info)) {
 		case G_FILE_TYPE_REGULAR:
 			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
@@ -168,15 +167,15 @@ path_list_classify_files_cb (gpointer data)
 			break;
 		}
 
-		if (count == ITEMS_PER_NOTIFICATION)
+		g_object_unref(info);
+		pli->current_file=pli->current_file->next;
+		
+		if (count == ITEMS_PER_NOTIFICATION) 
 			return TRUE;
-		else
-			info = g_file_enumerator_next_file (pli->gfile_enum, NULL, &error);
 	}
-		
 	if (pli->done_func) {
-		
-		/* pli is deallocated in pli->done_func */
+		// pli is deallocated in pli->done_func 
+		g_list_free(pli->file_list);
 		pli->done_func (pli, pli->done_data);
 		return FALSE;
 	}
@@ -184,6 +183,28 @@ path_list_classify_files_cb (gpointer data)
 	return FALSE;
 }
 
+/* Callback for g_file_enumerate_children_finish 
+ * Calls path_list_classify through an idle callback
+ * */
+static void
+path_list_next_files_cb (GObject      *source_object,
+		   GAsyncResult *res,
+		   gpointer      data)
+{
+	GError    *error=NULL;
+	PathListData *pli = (PathListData *) data;
+	
+	pli->file_list = g_file_enumerator_next_files_finish (pli->gfile_enum, res ,&error);
+	if (pli->error != NULL) {
+		if (pli->done_func) {
+			/* pli is deallocated in pli->done_func */
+			pli->done_func (pli, pli->done_data);
+		}
+		return;
+	}
+	pli->current_file =  pli->file_list;
+	g_idle_add(path_list_classify_files_cb, pli);
+}
 
 static void
 directory_load_cb (GObject      *source_object,
@@ -202,7 +223,12 @@ directory_load_cb (GObject      *source_object,
 	}
 	else {
 		g_cancellable_reset (pli->cancelled);
-		g_idle_add (path_list_classify_files_cb, pli);
+		g_file_enumerator_next_files_async  (pli->gfile_enum,
+					G_MAXINT,
+					G_PRIORITY_DEFAULT,
+					pli->cancelled,
+					path_list_next_files_cb,
+					pli);
 	}
 
 }

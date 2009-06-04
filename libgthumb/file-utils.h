@@ -60,6 +60,8 @@ struct _PathListData {
 	GHashTable         *hidden_files;
 	gboolean            fast_file_type;
 	GError             *error;
+	GList		   *file_list;
+	GList		   *current_file;
 };
 
 typedef struct {
@@ -74,7 +76,6 @@ PathListHandle *    path_list_async_new           (const char         *uri,
 						   PathListDoneFunc    done_func,
 						   gpointer            done_data);
 void                path_list_async_interrupt     (PathListHandle     *handle);
-gboolean	    path_list_classify_files_cb	  (gpointer            data);
 gboolean            path_list_new                 (const char         *path,
 						   GList             **files,
 						   GList             **dirs);
