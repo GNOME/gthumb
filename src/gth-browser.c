@@ -4336,7 +4336,7 @@ activate_catalog_done (GthBrowser *browser)
 	if ((priv->go_op == GTH_BROWSER_GO_TO)
 	    && ((priv->history_current == NULL)
 		|| ((priv->catalog_path != NULL)
-		    && (strcmp (priv->catalog_path, remove_host_from_uri (priv->history_current->data)) != 0)))) {
+		    && (!same_uri (priv->catalog_path, remove_host_from_uri (priv->history_current->data)))))) {
 		GtkTreeIter iter;
 		gboolean    is_search;
 
@@ -7735,7 +7735,7 @@ gth_browser_show_catalog_directory (GthBrowser *browser,
 
 	if ((catalog_dir == NULL) 
 	    || (strlen (catalog_dir) == 0) 
-	    || (strcmp (catalog_dir, "file:///") == 0))
+	    || (same_uri (catalog_dir, "file:///")))
 	{
 		catalog_dir2 = g_strconcat (get_home_uri (),
 					    "/",

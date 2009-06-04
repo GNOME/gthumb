@@ -1207,7 +1207,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 	/* Make a backup copy of original file if the source and destination
 	 * are the same, so that we can copy the metadata. */
 	if (original_local_file != NULL) {
-		if (!strcmp (local_file, original_local_file)) {
+		if (same_uri (local_file, original_local_file)) {
 		        temp_dir = get_temp_dir_name ();
         		if (temp_dir != NULL) {
 				char *ext;

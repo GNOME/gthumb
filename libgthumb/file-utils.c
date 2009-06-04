@@ -1264,25 +1264,31 @@ int
 uricmp (const char *path1,
 	const char *path2)
 {
-	char *uri1, *uri2;
-	char *key1, *key2;
 
 	int   result;
 
-	uri1 = get_utf8_display_name_from_uri (path1);
-	uri2 = get_utf8_display_name_from_uri (path2);
-	key1 = g_utf8_collate_key_for_filename (uri1, -1);
-	key2 = g_utf8_collate_key_for_filename (uri2, -1);
+	/* handle catalog:// uris specially */
+	if ((path1 == NULL) || (path2 == NULL) ||
+            uri_scheme_is_catalog (path1) || uri_scheme_is_catalog (path2)) {
+		result = strcmp_null_tolerant (path1, path2);
+	} else {
+		char *uri1, *uri2;
+		char *key1, *key2;
 
-	result = strcmp_null_tolerant (key1, key2);
+		uri1 = get_utf8_display_name_from_uri (path1);
+		uri2 = get_utf8_display_name_from_uri (path2);
+		key1 = g_utf8_collate_key_for_filename (uri1, -1);
+		key2 = g_utf8_collate_key_for_filename (uri2, -1);
 
-	g_free (uri1);
-	g_free (uri2);
-	g_free (key1);
-	g_free (key2);
+		result = strcmp_null_tolerant (key1, key2);
+
+		g_free (uri1);
+		g_free (uri2);
+		g_free (key1);
+		g_free (key2);
+	}
 
 	return result;
-
 }
 
 
@@ -1290,24 +1296,32 @@ gboolean
 same_uri (const char *uri1,
 	  const char *uri2)
 {
-	GFile    *gfile1;
-	GFile	 *gfile2;
 	gboolean  result = FALSE;	
 
-	/* quick test */
-	if (strcmp_null_tolerant (uri1, uri2) == 0)
-		return TRUE;
-	if ((uri1 == NULL) || (uri2 == NULL))
-		return FALSE;
+	/* catalog:// isn't handled by gfile, of course */
+	if ((uri1 == NULL) || (uri2 == NULL) || 
+	     uri_scheme_is_catalog (uri1) || uri_scheme_is_catalog (uri2)) {
+		result = !strcmp_null_tolerant (uri1, uri2);
+	} else {
+		/* quick test */
+		if (strcmp_null_tolerant (uri1, uri2) == 0) {
+			result = TRUE;
+		} else if ((uri1 == NULL) || (uri2 == NULL)) {
+			result = FALSE;
+		} else {
+			/* slow test */
+			GFile    *gfile1;
+			GFile	 *gfile2;
 
-	/* slow test */
-	gfile1 = gfile_new (uri1);
-	gfile2 = gfile_new (uri2);
+			gfile1 = gfile_new (uri1);
+			gfile2 = gfile_new (uri2);
 
-	result = g_file_equal (gfile1, gfile2);
+			result = g_file_equal (gfile1, gfile2);
 
-	g_object_unref (gfile1);
-	g_object_unref (gfile2);
+			g_object_unref (gfile1);
+			g_object_unref (gfile2);
+		}
+	}
 
 	return result;
 }

@@ -399,7 +399,7 @@ reset_command_line_catalog (void)
 	catalog_path = get_command_line_catalog_path ();
 	catalog_uri = g_strconcat ("catalog://", remove_host_from_uri (catalog_path), NULL);
 
-	if (strcmp (catalog_uri, preferences_get_startup_location ()) == 0)
+	if (same_uri (catalog_uri, preferences_get_startup_location ()))
 		preferences_set_startup_location (get_home_uri ());
 
 	g_free (catalog_uri);
@@ -836,9 +836,9 @@ get_stock_id_for_uri (const char *uri)
 {
 	const char *stock_id;
 
-	if (strcmp (uri, g_get_home_dir ()) == 0)
+	if (same_uri (uri, g_get_home_dir ()))
 		stock_id = GTK_STOCK_HOME;
-	else if (strcmp (uri, get_home_uri ()) == 0)
+	else if (same_uri (uri, get_home_uri ()))
 		stock_id = GTK_STOCK_HOME;
 	else if (uri_scheme_is_catalog (uri))
 		stock_id = GTHUMB_STOCK_CATALOG;
@@ -860,12 +860,12 @@ get_icon_for_uri (GtkWidget  *widget,
 
 	menu_size = get_folder_pixbuf_size_for_list (widget);
 
-	if (strcmp (uri, g_get_home_dir ()) == 0)
+	if (same_uri (uri, g_get_home_dir ()))
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
-	else if (strcmp (uri, get_home_uri ()) == 0)
+	else if (same_uri (uri, get_home_uri ()))
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
 
-	if ((strcmp (uri, "file:///") == 0) || (strcmp (uri, "/") == 0))
+	if (same_uri (uri, "file:///"))
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
 
 	if (uri_scheme_is_catalog (uri)) {

@@ -126,7 +126,7 @@ find_monitor_from_uri (GList      *gfile_monitors,
 
 	for (scan = gfile_monitors; scan; scan = scan->next) {
 		MonitorHandle *mh = scan->data;
-		if (strcmp (mh->uri, utf8_uri) == 0)
+		if (same_uri (mh->uri, utf8_uri))
 			return scan;
 	}
 

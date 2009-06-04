@@ -339,14 +339,20 @@ file_data_list_find_path (GList      *list,
 			  const char *path)
 {
 	GList *scan;
+	char  *utf8_path;
+
+	utf8_path = get_utf8_display_name_from_uri (path);
 	
 	for (scan = list; scan; scan = scan->next) {
 		FileData *data = scan->data;
 		
-		if (strcmp (data->utf8_path, path) == 0)
+		if (strcmp (data->utf8_path, utf8_path) == 0) {
+			g_free (utf8_path);
 			return scan;
+		}
 	}
 	
+	g_free (utf8_path);
 	return NULL;
 }
 
