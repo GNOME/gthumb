@@ -6192,22 +6192,27 @@ dir_list_done_cb (GthDirList *dir_list,
 		set_cursor_not_busy (browser, TRUE);
 		priv->refreshing = FALSE;
 
-		/* Go up a level one by one until a directory exists. */
-
 		parent_dir = g_strdup (dir_list->try_path);
-		do {
-			char *tmp = parent_dir;
-			parent_dir = remove_level_from_path (tmp);
-			g_free (tmp);
-		} while ((parent_dir != NULL) && ! path_is_dir (parent_dir));
-				
-		if (parent_dir != NULL) { 
-			gth_browser_go_to_directory (browser, parent_dir);
-			g_free (parent_dir);
-		}
-		else
+		
+		/* Go up a level one by one until a directory exists 
+		 * (but only for local dirs). */
+		if(!is_local_file(parent_dir)) {
 			gth_browser_go_to_directory (browser, "file:///");
-				
+		}
+		else {
+			do {
+				char *tmp = parent_dir;
+				parent_dir = remove_level_from_path (tmp);
+				g_free (tmp);
+			} while ((parent_dir != NULL) && ! path_is_dir (parent_dir));
+					
+			if (parent_dir != NULL) { 
+				gth_browser_go_to_directory (browser, parent_dir);
+				g_free (parent_dir);
+			}
+			else
+				gth_browser_go_to_directory (browser, "file:///");
+		}
 		return;
 	}
 
