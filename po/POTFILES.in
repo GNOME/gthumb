@@ -15,6 +15,7 @@ data/glade/gthumb_search.glade
 data/glade/gthumb_tools.glade
 data/glade/gthumb_web_exporter.glade
 data/gthumb.desktop.in
+data/gthumb-import.desktop.in
 data/gthumb.schemas.in
 libgthumb/async-pixbuf-ops.c
 libgthumb/async-pixbuf-ops.h
@@ -28,8 +29,6 @@ libgthumb/cursors.c
 libgthumb/cursors.h
 libgthumb/dlg-save-image.c
 libgthumb/dlg-save-image.h
-libgthumb/eel-canvas-rect.c
-libgthumb/eel-canvas-rect.h
 libgthumb/file-data.c
 libgthumb/file-data.h
 libgthumb/file-utils.c
@@ -54,6 +53,8 @@ libgthumb/gth-gstreamer-utils.c
 libgthumb/gth-gstreamer-utils.h
 libgthumb/gth-image-list.c
 libgthumb/gth-image-list.h
+libgthumb/gth-monitor.c
+libgthumb/gth-monitor.h
 libgthumb/gth-pixbuf-op.c
 libgthumb/gth-pixbuf-op.h
 libgthumb/gth-utils.c
@@ -66,8 +67,6 @@ libgthumb/gthumb-info-bar.c
 libgthumb/gthumb-info-bar.h
 libgthumb/gthumb-init.c
 libgthumb/gthumb-init.h
-libgthumb/gthumb-module.c
-libgthumb/gthumb-module.h
 libgthumb/gthumb-slide.c
 libgthumb/gthumb-slide.h
 libgthumb/gthumb-stock.c
@@ -110,8 +109,6 @@ src/dlg-brightness-contrast.c
 src/dlg-brightness-contrast.h
 src/dlg-catalog.c
 src/dlg-catalog.h
-src/dlg-categories.c
-src/dlg-categories.h
 src/dlg-change-date.c
 src/dlg-change-date.h
 src/dlg-color-balance.c
@@ -154,6 +151,8 @@ src/dlg-search.c
 src/dlg-search.h
 src/dlg-scripts.c
 src/dlg-scripts.h
+src/dlg-tags.c
+src/dlg-tags.h
 src/dlg-web-exporter.c
 src/dlg-web-exporter.h
 src/dlg-write-to-cd.c
@@ -183,8 +182,6 @@ src/gth-image-selector.c
 src/gth-image-selector.h
 src/gth-location.c
 src/gth-location.h
-src/gth-monitor.c
-src/gth-monitor.h
 src/gthumb-preloader.c
 src/gthumb-preloader.h
 src/gth-viewer-actions-callbacks.c
