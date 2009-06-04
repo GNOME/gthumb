@@ -32,9 +32,11 @@
 #include "catalog.h"
 #include "typedefs.h"
 #include "file-utils.h"
+#include "gconf-utils.h"
 #include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gthumb-error.h"
+#include "preferences.h"
 
 
 #define SORT_FIELD "# sort: "
@@ -499,7 +501,8 @@ catalog_get_file_data_list (Catalog         *catalog,
 {
 	GList    *list = NULL;
 	GList    *scan;
-	
+	gboolean  fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);	
+
 	/* FIXME: make this function async */
 	
 	for (scan = catalog->list; scan; scan = scan->next) {
@@ -507,8 +510,7 @@ catalog_get_file_data_list (Catalog         *catalog,
 		FileData *fd;
 		
 		fd = file_data_new (path);
-		file_data_update (fd);  /* FIXME: when to update the mime-type */
-		if (file_filter (fd, TRUE, FALSE))
+		if (file_filter (fd, TRUE, FALSE, fast_file_type))
 			list = g_list_prepend (list, fd);
 	}
 	list = g_list_reverse (list);

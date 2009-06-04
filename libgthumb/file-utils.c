@@ -435,8 +435,12 @@ dir_list_filter_and_sort (GList    *dir_list,
 gboolean
 file_filter (FileData *file,
 	     gboolean  show_hidden_files,
-	     gboolean  show_only_images)
+	     gboolean  show_only_images,
+	     gboolean  fast_file_type)
 {
+	if (!fast_file_type)
+		file_data_update_mime_type (file, fast_file_type);	
+
 	if (file->mime_type == NULL)
 		return FALSE;
 

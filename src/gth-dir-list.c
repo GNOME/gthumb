@@ -577,7 +577,7 @@ gth_dir_list_filter_func (PathListData  *pld,
 			  gpointer       data)
 {
 	GthDirList *dir_list = data;
-	return file_filter (file, dir_list->show_dot_files, dir_list->show_only_images);
+	return file_filter (file, dir_list->show_dot_files, dir_list->show_only_images, pld->fast_file_type);
 }
 
 

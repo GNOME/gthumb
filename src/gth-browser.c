@@ -5508,8 +5508,10 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			FileData *file;
 			
 			file = file_data_new (path);
-			file_data_update_all (file, browser->priv->fast_file_type);
-			if (file_filter (file, browser->priv->show_hidden_files, browser->priv->show_only_images))
+			if (file_filter (file,
+					 browser->priv->show_hidden_files,
+					 browser->priv->show_only_images,
+					 browser->priv->fast_file_type))
 				created_in_current_dir = g_list_prepend (created_in_current_dir, file);
 			else
 				file_data_unref (file);
