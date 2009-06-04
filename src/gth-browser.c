@@ -28,7 +28,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs-result.h>
 #include <glade/glade.h>
 
 #include "bookmarks.h"
@@ -6168,9 +6167,9 @@ dir_list_started_cb (GthDirList  *dir_list,
 
 
 static void
-dir_list_done_cb (GthDirList     *dir_list,
-		  GnomeVFSResult  result,
-		  gpointer        data)
+dir_list_done_cb (GthDirList *dir_list,
+		  GError     *error,
+		  gpointer    data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -6178,7 +6177,7 @@ dir_list_done_cb (GthDirList     *dir_list,
 	
 	gth_browser_stop_activity_mode (browser);
 
-	if (result != GNOME_VFS_ERROR_EOF) {
+	if (error != NULL) {
 		char *utf8_path;
 		char *parent_dir = NULL;
 		
@@ -6186,8 +6185,9 @@ dir_list_done_cb (GthDirList     *dir_list,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("Cannot load folder \"%s\": %s\n"),
 				       utf8_path,
-				       gnome_vfs_result_to_string (result));
+				       error->message);
 		g_free (utf8_path);
+		g_error_free (error);
 
 		set_cursor_not_busy (browser, TRUE);
 		priv->refreshing = FALSE;

@@ -24,7 +24,6 @@
 #include <string.h>
 #include <strings.h>
 #include <glib/gi18n.h>
-#include <libgnomevfs/gnome-vfs-result.h>
 #include "typedefs.h"
 #include "gth-dir-list.h"
 #include "gth-file-list.h"
@@ -99,9 +98,9 @@ gth_dir_list_class_init (GthDirListClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthDirListClass, done),
 			      NULL, NULL,
-			      gthumb_marshal_VOID__INT,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_INT);
+			      G_TYPE_POINTER);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_dir_list_finalize;
@@ -452,6 +451,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 	GList      *new_dir_list = NULL;
 	GList      *new_file_list = NULL;
 	GList      *filtered;
+	GError     *error=NULL;
 
 	g_return_if_fail (pld != NULL);
 
@@ -460,6 +460,14 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 	if (dir_list->dir_load_handle != NULL) {
 		g_free (dir_list->dir_load_handle);
 		dir_list->dir_load_handle = NULL;
+	}
+	
+
+	if (pld->error != NULL) {
+		error = g_error_copy (pld->error);
+		path_list_data_free (pld);
+		g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, error);
+		return;
 	}
 
 	/* Update path data. */
@@ -559,7 +567,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 		dir_list->old_dir = NULL;
 	}
 
-	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, GNOME_VFS_ERROR_EOF);
+	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0, error);
 }
 
 

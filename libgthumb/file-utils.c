@@ -87,7 +87,7 @@ path_list_data_new (void)
 	pli->done_func = NULL;
 	pli->done_data = NULL;
 	pli->hidden_files = NULL;
-
+	pli->error = NULL;
 	return pli;
 }
 
@@ -120,6 +120,8 @@ path_list_data_free (PathListData *pli)
 	if (pli->hidden_files != NULL)
 		g_hash_table_unref (pli->hidden_files);
 
+	if (pli->error != NULL)
+		g_error_free (pli->error);
 	g_free (pli);
 }
 
@@ -190,12 +192,18 @@ directory_load_cb (GObject      *source_object,
 {
 	PathListData *pli;
 	pli = (PathListData *) data;
-	GError *error = NULL;
-		
-	pli->gfile_enum = g_file_enumerate_children_finish (pli->gfile, res, &error);
-
-	g_cancellable_reset (pli->cancelled);
-	g_idle_add (path_list_classify_files_cb, pli);
+	pli->gfile_enum = g_file_enumerate_children_finish (pli->gfile, res, &pli->error);
+	if (pli->error != NULL) {
+		if (pli->done_func) {
+			/* pli is deallocated in pli->done_func */
+			pli->done_func (pli, pli->done_data);
+		}
+		return;
+	}
+	else {
+		g_cancellable_reset (pli->cancelled);
+		g_idle_add (path_list_classify_files_cb, pli);
+	}
 
 }
 

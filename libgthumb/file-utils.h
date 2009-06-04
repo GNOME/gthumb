@@ -59,6 +59,7 @@ struct _PathListData {
 	GCancellable       *cancelled;
 	GHashTable         *hidden_files;
 	gboolean            fast_file_type;
+	GError             *error;
 };
 
 typedef struct {
@@ -121,8 +122,8 @@ gboolean            file_move                     (const char       *from,
 						   const char       *to,
 					           gboolean          overwrite,
 						   GError	   **error);
-void                file_unlink_with_gerror       (const char  *full_path,
-                                                   GError     **gerror);
+void                file_unlink_with_gerror       (const char       *full_path,
+                                                   GError          **gerror);
 gboolean            file_unlink                   (const char       *path);
 void		    delete_thumbnail	          (const char       *path);
 gboolean            mime_type_is                  (const char       *mime_type,
