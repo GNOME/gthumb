@@ -152,6 +152,14 @@ const char **TAG_NAME_SETS[] = {
 };
 
 
+/* Some evil camera fill in the ImageDescription or UserComment fields
+   with useless fluff. Try to filter these out, so they do not show up
+   as comments */
+const char *stupid_comment_filter[] = {
+	"OLYMPUS DIGITAL CAMERA",
+	NULL };
+
+
 GList * read_exiv2_file (const char *uri, GList *metadata);
 GList * read_exiv2_sidecar (const char *uri, GList *metadata);
 void    write_metadata (const char *from_file, const char *to_file, GList *metadata);
@@ -313,7 +321,18 @@ get_metadata_tagset_string (FileData *fd, const char *tagnames[])
 			string = g_strdup (md_entry->formatted_value);
 		}
 	}
-		
+
+	if ((string != NULL) &&
+	    (!strcmp (tagnames[i-1], "Exif.Photo.UserComment") ||
+	     !strcmp (tagnames[i-1], "Exif.Image.ImageDescription"))) {
+		for (i = 0; (string != NULL) && (stupid_comment_filter[i] != NULL); i++) {
+			if (strstr (string, stupid_comment_filter[i]) != NULL) {
+				g_free (string);
+				string = NULL;
+			}
+		}
+	}
+
 	return string;
 }
 
