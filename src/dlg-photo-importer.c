@@ -101,7 +101,6 @@ struct _DialogData {
 	GtkWidget           *import_ok_button;
 	GtkWidget           *i_commands_table;
 	GtkWidget           *reset_exif_tag_on_import_checkbutton;
-        GtkWidget           *reset_comment_tags_on_import_checkbutton;
 
 	GtkWidget           *progress_info_image;
 	GtkWidget           *progress_info_label;
@@ -121,7 +120,6 @@ struct _DialogData {
 
 	gboolean             delete_from_camera;
 	gboolean             adjust_orientation;
-        gboolean             reset_comment_tags;
 
 	int                  image_n;
 	char                *local_folder;
@@ -697,7 +695,6 @@ main_dialog_set_sensitive (DialogData *data,
 	gtk_widget_set_sensitive (data->import_delete_button, value);
 	gtk_widget_set_sensitive (data->i_commands_table, value);
 	gtk_widget_set_sensitive (data->reset_exif_tag_on_import_checkbutton, value);
-        gtk_widget_set_sensitive (data->reset_comment_tags_on_import_checkbutton, value);
 }
 
 
@@ -1328,7 +1325,7 @@ save_image (DialogData *data,
 		/* Adjust the photo orientation based on the exif 
 		   orientation tag, if requested */
 		if (!error_found) {
-			if (data->adjust_orientation || data->reset_comment_tags) 
+			if (data->adjust_orientation) 
 				data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (final_dest_path));
 			if (data->delete_from_camera)
 				data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
@@ -1455,31 +1452,16 @@ adjust_orientation__step (AsyncOperationData *aodata,
 
 		fd = file_data_new (uri);
 		file_data_update (fd);
-		
-		if (data->adjust_orientation) {
-			if (data->msg_text != NULL)
-	        	        g_free (data->msg_text);
-			data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
 
-			transform = get_orientation_from_fd (fd);
-			if (image_is_jpeg (uri))
-				success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
-			else
-				success = apply_transformation_generic (fd, transform, NULL);
-		}
+		if (data->msg_text != NULL)
+	                g_free (data->msg_text);
+		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
 
-                if (data->reset_comment_tags) {
-                        if (data->msg_text != NULL)
-                                g_free (data->msg_text);
-                        data->msg_text = g_strdup_printf (_("Erasing comment tags in \'%s\'."), fd->utf8_name);
-
-			GList *add_metadata = NULL;
-                        add_metadata = simple_add_metadata (add_metadata, "Exif.Photo.UserComment", "");
-			add_metadata = simple_add_metadata (add_metadata, "Exif.Image.ImageDescription", "");
-                        update_and_save_metadata_fd (fd, fd, add_metadata);
-                        free_metadata (add_metadata);
-                }
-
+		transform = get_orientation_from_fd (fd);
+		if (image_is_jpeg (uri))
+			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
+		else
+			success = apply_transformation_generic (fd, transform, NULL);
 		file_data_unref (fd);
 	}
 
@@ -1626,7 +1608,6 @@ ok_clicked_cb (GtkButton  *button,
 
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
 	data->adjust_orientation = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE);
-        data->reset_comment_tags = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_COMMENT_TAGS, TRUE);
 
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
 
@@ -1755,19 +1736,10 @@ choose_tags_cb (GtkButton  *button,
 
 static void
 reset_exif_tag_on_import_cb (GtkButton  *button,
-			     DialogData *data)
+					    DialogData *data)
 {
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION,
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton)));
-}
-
-
-static void
-reset_comment_tags_on_import_cb (GtkButton  *button,
-				 DialogData *data)
-{
-        eel_gconf_set_boolean (PREF_PHOTO_IMPORT_RESET_COMMENT_TAGS,
-                gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->reset_comment_tags_on_import_checkbutton)));
 }
 
 
@@ -2063,8 +2035,6 @@ dlg_photo_importer (GthBrowser *browser)
 	data->i_commands_table = glade_xml_get_widget (data->gui, "i_commands_table");
 	data->import_ok_button = glade_xml_get_widget (data->gui, "import_okbutton");
 	data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
-        data->reset_comment_tags_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_comment_tags_on_import_checkbutton");
-
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 	btn_help = glade_xml_get_widget (data->gui, "import_helpbutton");
 
@@ -2100,7 +2070,6 @@ dlg_photo_importer (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE));
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_comment_tags_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_COMMENT_TAGS, TRUE));
 
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))
@@ -2168,11 +2137,6 @@ dlg_photo_importer (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (reset_exif_tag_on_import_cb),
 			  data);
-
-        g_signal_connect (G_OBJECT (data->reset_comment_tags_on_import_checkbutton),
-                          "clicked",
-                          G_CALLBACK (reset_comment_tags_on_import_cb),
-                          data);
 
 	g_signal_connect (G_OBJECT (data->subfolder_combobox),
 			  "changed", 

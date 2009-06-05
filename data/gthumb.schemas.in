@@ -2246,19 +2246,6 @@
 	</locale>
       </schema>
 
-      <schema>
-        <key>/schemas/apps/gthumb/dialogs/photo_importer/reset_comment_tags_on_import</key>
-        <applyto>/apps/gthumb/dialogs/photo_importer/reset_comment_tags_on_import</applyto>
-        <owner>gthumb</owner>
-        <type>bool</type>
-        <default>TRUE</default>
-        <locale name="C">
-          <short></short>
-          <long>
-          </long>
-        </locale>
-      </schema>
-
       <!-- Rotate Dialog -->
 
       <schema>

@@ -540,7 +540,7 @@
 		  <child>
 		    <widget class="GtkCheckButton" id="reset_comment_tags_on_import_checkbutton">
 		      <property name="visible">True</property>
-		      <property name="tooltip" translatable="yes">Some cameras automatically insert Exif ImageDescription or UserComment tags in the image metadata. gThumb will recognize these as comments. If you do not want to use the camera-generated comments, enable this checkbox. This only applies to JPEG files.</property>
+		      <property name="tooltip" translatable="yes">Some cameras automatically insert Exif ImageDescription or UserComment tags in the image metadata. gThumb will recognize these as comments. If you do not want to use the camera-generated comments, enable this checkbox.</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">_Erase image description and user comment</property>
 		      <property name="use_underline">True</property>
