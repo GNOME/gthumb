@@ -330,6 +330,8 @@ has_non_whitespace_comment (const char *text_in)
         return FALSE;
 }
 
+#define DEFAULT_LANG_TAG "lang=\"x-default\" "
+#define ANY_LANG_TAG "lang=\""
 
 static CommentData *
 load_comment_from_metadata (const char *uri)
@@ -347,8 +349,30 @@ load_comment_from_metadata (const char *uri)
 	data = comment_data_new ();
 
 	metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[COMMENT_TAG_NAMES]);
-	if (has_non_whitespace_comment (metadata_string))
-		data->comment = g_strdup (metadata_string);
+	if (has_non_whitespace_comment (metadata_string)) {
+		char *pointer;
+		char *start;
+		char *end;
+
+		for (start = metadata_string;
+		     (pointer = strstr (start, DEFAULT_LANG_TAG)) != NULL;
+		     start = pointer + strlen(DEFAULT_LANG_TAG)) {
+			;
+		}
+
+		for (end = NULL;
+		     (pointer = g_strrstr (start, ANY_LANG_TAG)) != NULL;
+		     end = pointer) {
+			;
+		}
+		
+
+		if (end) {
+			end[0]=0;
+		}
+
+		data->comment = g_strdup (start);
+	}
 	g_free (metadata_string);
 
         metadata_string = get_metadata_tagset_string (file, TAG_NAME_SETS[LOCATION_TAG_NAMES]);
@@ -407,15 +431,17 @@ save_comment_to_metadata (const char  *uri,
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[LOCATION_TAG_NAMES][0], data->place);
 
-        localtime_r (&data->time, &tm);
-        buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
-                               tm.tm_year + 1900,
-                               tm.tm_mon + 1,
-                               tm.tm_mday,
-                               tm.tm_hour,
-                               tm.tm_min,
-                               tm.tm_sec );
-        add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
+	if (data->time > (time_t) 0) {
+	        localtime_r (&data->time, &tm);
+        	buf = g_strdup_printf ("%04d:%02d:%02d %02d:%02d:%02d ",
+                	               tm.tm_year + 1900,
+                        	       tm.tm_mon + 1,
+	                               tm.tm_mday,
+        	                       tm.tm_hour,
+                	               tm.tm_min,
+                        	       tm.tm_sec );
+	        add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_DATE_TAG_NAMES][0], buf);
+	}
 
         add_metadata = clear_metadata_tagset (add_metadata, TAG_NAME_SETS[KEYWORD_TAG_NAMES]);
         keywords_str = comments_get_tags_as_string (data, ",");

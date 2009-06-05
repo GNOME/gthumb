@@ -113,10 +113,10 @@ const char *_ORIENTATION_TAG_NAMES[] = {
 	NULL };
 
 const char *_COMMENT_TAG_NAMES[] = {
+	"Xmp.dc.description",
         "Exif.Photo.UserComment",
         "Exif.Image.ImageDescription",
 	"Xmp.tiff.ImageDescription",
-	"Xmp.dc.description",
 	"Iptc.Application2.Caption",
         NULL };
 
