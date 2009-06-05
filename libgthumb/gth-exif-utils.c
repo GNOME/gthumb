@@ -157,6 +157,8 @@ const char **TAG_NAME_SETS[] = {
    as comments */
 const char *stupid_comment_filter[] = {
 	"OLYMPUS DIGITAL CAMERA",
+	"SONY DSC",
+	"KONICA MINOLTA DIGITAL CAMERA",
 	NULL };
 
 
