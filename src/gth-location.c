@@ -524,18 +524,15 @@ get_first_separator_pos (GthLocation *loc,
 }
 
 
-
-/* Get a scaled icon as a GdkPixBuf for the given GMount */
 static GdkPixbuf*
-get_mount_icon (GthLocation *loc,
-                GMount *mount)
+get_mount_icon (GtkWidget  *widget,
+                GMount     *mount)
 {
-        GtkWidget    *widget = GTK_WIDGET (loc);
-        GdkPixbuf    *p;
-        GIcon *gicon;
-        int size;
-        char *icon_path;
+        GdkPixbuf    *pixbuf;
+        GIcon        *gicon;
+        int           size;
         GtkIconTheme *theme;
+	GtkIconInfo  *icon_info;
 
         theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget));
         size = get_folder_pixbuf_size_for_list (widget);
@@ -547,19 +544,18 @@ get_mount_icon (GthLocation *loc,
         if (gicon == NULL)
                 return NULL;
 
-        icon_path = g_icon_to_string (gicon);
-        if (icon_path == NULL || strcmp (icon_path, "") == 0) {
-                g_free(icon_path);
-                g_object_unref(gicon);
-                return NULL;
-        }
+	icon_info = gtk_icon_theme_lookup_by_gicon (theme,
+                                                    gicon,
+                                                    size,
+                                                    0);
+	pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
 
-        p = create_pixbuf (theme, icon_path, size);
+	gtk_icon_info_free (icon_info);
+        g_object_unref (gicon);
 
-        g_free(icon_path);
-        g_object_unref(gicon);
-        return p;
+        return pixbuf;
 }
+ 
 
 static void
 insert_drive_from_uri (GthLocation *loc,
@@ -618,7 +614,7 @@ update_drives (GthLocation *loc)
 
                 gfile = g_mount_get_root (mount);
 
-                pixbuf = get_mount_icon (loc, mount);
+                pixbuf = get_mount_icon ((GtkWidget *) loc, mount);
                 uri_name = g_mount_get_name (mount);
 
                 uri = g_file_get_uri(gfile);
@@ -696,7 +692,7 @@ update_uri (GthLocation *loc,
                         pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
                 else {
                         if (g_file_equal (gfile, base_gfile) && mount != NULL)
-                                pixbuf = get_mount_icon (loc, mount);
+                                pixbuf = get_mount_icon ((GtkWidget *) loc, mount);
                         else
                                 pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
                 }

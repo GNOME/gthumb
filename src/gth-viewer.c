@@ -739,20 +739,31 @@ viewer_update_open_with_menu (GthViewer *viewer)
 		int           icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (viewer));
 
 		for (scan = apps; scan; scan = scan->next) {
-			GAppInfo                *app = scan->data;
-			GtkWidget               *mitem;
-			GThemedIcon             *icon;
-			GStrv                   icon_names;
+			GAppInfo     *app = scan->data;
+			GtkWidget    *mitem;
+			GIcon        *icon;
+			GtkIconInfo  *icon_info;
+			GtkImage     *image;
+			GdkPixbuf    *pixbuf;
 
 			/* do not include gthumb itself */
 			if (strncmp (g_app_info_get_executable (app), "gthumb", 6) == 0)
 				continue;
 
 			mitem = gtk_image_menu_item_new_with_label (g_app_info_get_name (app));
-			icon = G_THEMED_ICON(g_app_info_get_icon (app));
-			g_object_get(icon, "names", &icon_names, NULL);
-
-			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem), create_image (theme, icon_names[0], icon_size));
+			icon = g_app_info_get_icon (app);
+			icon_info = gtk_icon_theme_lookup_by_gicon (theme,
+                                                                    icon,
+                                                                    icon_size,
+                                                                    0);
+			pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+			image = (GtkImage *) gtk_image_new ();
+			gtk_image_set_from_pixbuf (image, pixbuf);
+			g_object_unref (pixbuf);			
+                        gtk_icon_info_free (icon_info);
+			
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem),
+						       (GtkWidget *) image);
 			g_object_set_data (G_OBJECT (mitem), "app", app);
 			g_signal_connect (mitem, "activate",
 					  G_CALLBACK (open_with_menu_item_activate_cb),
@@ -761,8 +772,6 @@ viewer_update_open_with_menu (GthViewer *viewer)
 			gtk_menu_shell_insert (GTK_MENU_SHELL (priv->open_with_popup_menu), mitem, pos++);
 
 			g_object_unref (icon);
-			if (icon_names)
-				g_free (icon_names);
 		}
 		g_list_free (apps);
 	} 

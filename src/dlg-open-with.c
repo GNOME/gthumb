@@ -344,10 +344,10 @@ dlg_open_with (GtkWindow  *window,
 	for (scan = data->apps; scan; scan = scan->next) {
 		gboolean    found;
 		char        *utf8_name;
-		GThemedIcon *ticon;
-		GStrv       icon_names;
+		GIcon       *ticon;
+		GtkIconInfo *icon_info;
 		GdkPixbuf   *icon;
-
+		
 		app = scan->data;
 
 		found = FALSE;
@@ -371,16 +371,21 @@ dlg_open_with (GtkWindow  *window,
 				       &iter);
 
 		utf8_name = g_locale_to_utf8 (g_app_info_get_name (app), -1, NULL, NULL, NULL);
-		ticon = G_THEMED_ICON (g_app_info_get_icon (app));
-		g_object_get (ticon, "names", &icon_names, NULL);
-		icon = create_pixbuf (theme, icon_names[0], icon_size);		
+
+		ticon = g_app_info_get_icon (app);
+		icon_info = gtk_icon_theme_lookup_by_gicon (theme,
+                                                            ticon,
+                                                            icon_size,
+                                                            0);
+		icon = gtk_icon_info_load_icon (icon_info, NULL);
+		gtk_icon_info_free (icon_info);
+
 		gtk_list_store_set (GTK_LIST_STORE (data->app_model), &iter,
 				    ICON_COLUMN, icon,
 				    TEXT_COLUMN, utf8_name,
 				    DATA_COLUMN, app,
 				    -1);
 		g_free (utf8_name);
-		g_free (icon_names);
 		g_object_unref (ticon);
 	}
 
