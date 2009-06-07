@@ -40,6 +40,7 @@
 #include "typedefs.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gth-exif-utils.h"
@@ -472,7 +473,7 @@ load_comment_from_xml (const char *uri)
 	fd = file_data_new_from_path (comment_uri);
 	g_free (comment_uri);
 
-	if (! path_is_file (fd->utf8_path) || ! file_data_has_local_path (fd, NULL)) {
+	if (! gfile_path_is_file (fd->gfile) || ! file_data_has_local_path (fd, NULL)) {
 		file_data_unref (fd);
 		return NULL;
 	}
