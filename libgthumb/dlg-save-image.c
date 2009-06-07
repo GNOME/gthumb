@@ -32,6 +32,7 @@
 #include "dlg-save-image.h"
 #include "glib-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "pixbuf-utils.h"
@@ -193,7 +194,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box));
 	if (idx < 0
             || file_options[idx].type == IMAGE_TYPE_AUTOMATIC)
-		mime_type = get_file_mime_type (file->utf8_path, FALSE);
+		mime_type = gfile_get_mime_type (file->gfile, FALSE);
 	else
 		mime_type = file_options[idx].mime_type;
 	file->mime_type = get_static_string (mime_type);

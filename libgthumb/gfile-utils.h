@@ -67,7 +67,7 @@ GFile *       gfile_append_path                (GFile      *dir,
 
 gboolean      gfile_is_local                   (GFile      *file);
 char *        gfile_get_filename_extension     (GFile      *file);
-const char*   gfile_get_file_mime_type         (GFile      *file,
+const char*   gfile_get_mime_type              (GFile      *file,
                                                 gboolean    fast_file_type);
 gboolean      gfile_image_is_jpeg              (GFile      *file);
 gboolean      gfile_is_file                    (GFile      *file);

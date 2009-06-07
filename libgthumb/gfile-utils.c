@@ -232,7 +232,7 @@ gfile_get_filename_extension (GFile *file)
 
 
 const char*
-gfile_get_file_mime_type (GFile      *file,
+gfile_get_mime_type (GFile      *file,
                           gboolean    fast_file_type)
 {
         const char *value;
@@ -292,7 +292,7 @@ _gfile_image_is_type (GFile      *file,
 {
         const char *result;
 
-        result = gfile_get_file_mime_type (file, fast_file_type);
+        result = gfile_get_mime_type (file, fast_file_type);
 
         if (result == NULL)
                 return FALSE;

@@ -256,7 +256,7 @@ void
 file_data_update_mime_type (FileData *fd,
 			    gboolean  fast_mime_type)
 {
-	fd->mime_type = get_file_mime_type (fd->utf8_path, fast_mime_type || ! is_local_file (fd->utf8_path));
+	fd->mime_type = gfile_get_mime_type (fd->gfile, fast_mime_type || ! is_local_file (fd->utf8_path));
 }
 
 

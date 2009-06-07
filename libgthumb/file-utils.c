@@ -730,7 +730,7 @@ get_file_mime_type (const char *path,
 
 	file = gfile_new (path);
 
-	result = gfile_get_file_mime_type (file, fast_file_type);
+	result = gfile_get_mime_type (file, fast_file_type);
 
 	g_object_unref (file);
 

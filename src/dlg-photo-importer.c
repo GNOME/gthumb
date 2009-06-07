@@ -512,7 +512,7 @@ gfile_import_file_list_recursive (GFile  *gfile,
                         files = gfile_import_file_list_recursive (child, files);
                         break;
                 case G_FILE_TYPE_REGULAR:
-			mime_type = gfile_get_file_mime_type (child, TRUE);
+			mime_type = gfile_get_mime_type (child, TRUE);
 		        if ((mime_type_is_image (mime_type) ||
 		             mime_type_is_video (mime_type) ||
 		             mime_type_is_audio (mime_type)))
