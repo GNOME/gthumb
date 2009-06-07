@@ -69,7 +69,7 @@ load_info (FileData *fd)
 	fd->local_path = g_file_get_path (fd->gfile);
 
 	if ( (fd->local_path != NULL) &&
-	     ! is_local_file (fd->utf8_path) &&
+	     ! gfile_is_local (fd->gfile) &&
 	     ! strstr (fd->local_path, ".gvfs")) {
 		/* This can happen when running gThumb over ssh with X-forwarding.
 		   I don't know why, exactly. Possibly a gio bug. */
@@ -256,7 +256,7 @@ void
 file_data_update_mime_type (FileData *fd,
 			    gboolean  fast_mime_type)
 {
-	fd->mime_type = gfile_get_mime_type (fd->gfile, fast_mime_type || ! is_local_file (fd->utf8_path));
+	fd->mime_type = gfile_get_mime_type (fd->gfile, fast_mime_type || ! gfile_is_local (fd->gfile));
 }
 
 

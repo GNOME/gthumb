@@ -38,6 +38,7 @@
 #include "image-loader.h"
 #include "pixbuf-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gthumb-marshal.h"
 
@@ -322,7 +323,7 @@ thumb_loader_set_file (ThumbLoader *tl,
 	
 	if (fd != NULL) {
 		tl->priv->file = file_data_dup (fd);
-		if (is_local_file (tl->priv->file->utf8_path)) {
+		if (gfile_is_local (tl->priv->file->gfile)) {
 			char *resolved_path = NULL;
 			resolved_path = resolve_all_symlinks (tl->priv->file->utf8_path);
 			file_data_set_path (tl->priv->file, resolved_path);
@@ -455,7 +456,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	if ((tl == NULL) || (tl->priv->pixbuf == NULL))
 		return FALSE;
 
-	if (is_local_file (tl->priv->file->utf8_path)) {
+	if (gfile_is_local (tl->priv->file->gfile)) {
 		char *cache_base_uri;
 
 		/* Do not save thumbnails from the user's thumbnail directory,

@@ -8211,7 +8211,7 @@ get_image_to_preload (GthBrowser *browser,
 
 	fdata = gth_file_view_get_image_data (browser->priv->file_list->view, pos);
 	if ((fdata == NULL) || 
-	    ! is_local_file (fdata->utf8_path) ||
+	    ! gfile_is_local (fdata->gfile) ||
 	    (fdata->local_path == NULL) ||
 	    ! mime_type_is_image (fdata->mime_type)) {
 		file_data_unref (fdata); 
