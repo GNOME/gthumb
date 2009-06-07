@@ -246,7 +246,7 @@ save_image_and_remove_original (DialogData *data)
 			data->saved_list = g_list_prepend (data->saved_list, g_strdup (fd_new->utf8_path));
 	 
 			if (data->remove_original && ! file_data_same (fd_old, fd_new)) {
-				file_unlink (fd_old->utf8_path);
+				g_file_delete (fd_old->gfile, NULL, NULL);
 				data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd_old->utf8_path));
 			}
 		}

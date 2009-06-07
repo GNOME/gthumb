@@ -468,7 +468,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 			if (! file_data_same (fd_old, fd_new)) {
 				comment_copy (fd_old->utf8_path, fd_new->utf8_path);
 				if (PD(bop)->remove_original) {
-					file_unlink (fd_old->utf8_path);
+					g_file_delete (fd_old->gfile, NULL, NULL);
 					PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd_old->utf8_path));
 				}
 			}

@@ -2253,7 +2253,7 @@ free_cache (void)
 		GList *scan;
 		for (scan = files; scan; scan = scan->next ) {
 			FileData *file = scan->data;
-			file_unlink (file->utf8_path);
+			g_file_delete (file->gfile, NULL, NULL);
 		}
 	}
 
