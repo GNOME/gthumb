@@ -871,3 +871,26 @@ gfile_list_free (GList *list)
         g_list_free (list);
 }
 
+
+void
+gfile_set_mtime (GFile  *gfile,
+                 time_t  mtime)
+{
+        GFileInfo *info;
+        GError    *error = NULL;
+        GTimeVal   tv;
+
+        tv.tv_sec = mtime;
+        tv.tv_usec = 0;
+
+        info = g_file_info_new ();
+        g_file_info_set_modification_time (info, &tv);
+        g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, &error);
+        g_object_unref (info);
+
+        if (error != NULL) {
+                gfile_warning ("Failed to set file mtime", gfile, error);
+                g_error_free (error);
+        }
+}
+

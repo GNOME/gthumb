@@ -926,25 +926,10 @@ void
 set_file_mtime (const gchar *path,
 		time_t       mtime)
 {
-        GFileInfo *info;
         GFile     *gfile;
-        GError    *error = NULL;
-        GTimeVal   tv;
-
-	tv.tv_sec = mtime;
- 	tv.tv_usec = 0;
 
         gfile = gfile_new (path);
-        info = g_file_info_new ();
-	g_file_info_set_modification_time (info, &tv);
-	g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, &error);
-	g_object_unref (info);
-
-        if (error != NULL) {
-                gfile_warning ("Failed to set file mtime", gfile, error);
-                g_error_free (error);
-        }
-
+	gfile_set_mtime (gfile, mtime);
         g_object_unref (gfile);
 }
 

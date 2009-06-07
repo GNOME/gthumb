@@ -33,6 +33,7 @@
 #include "file-data.h"
 #include "gth-exif-utils.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gth-utils.h"
 #include "gth-window.h"
 #include "main.h"
@@ -146,7 +147,7 @@ ok_clicked (GtkWidget  *button,
 			continue;
 
 		if (is_active (data->cd_last_modified_checkbutton))
-			set_file_mtime (fdata->utf8_path, mtime);
+			gfile_set_mtime (fdata->gfile, mtime);
 
 		if (is_active (data->cd_comment_checkbutton)) {
 			CommentData *cdata;
