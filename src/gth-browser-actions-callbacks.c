@@ -490,7 +490,7 @@ catalog_rename (GthBrowser *browser,
 	new_fd = file_data_new_from_path (new_catalog_path);
 	g_free (new_catalog_path);
 
-	if (gfile_path_is_file (new_fd->gfile)) {
+	if (gfile_is_file (new_fd->gfile)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
@@ -679,7 +679,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 	g_free (new_name);
 	g_free (new_catalog_path);
 	
-	if (gfile_path_is_file (fd->gfile)) {
+	if (gfile_is_file (fd->gfile)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
 	} else if ((handle = g_file_create (fd->gfile, G_FILE_CREATE_PRIVATE, NULL, &error)) != NULL) {
@@ -745,7 +745,7 @@ create_new_folder_or_library (GthBrowser *browser,
 	fd = file_data_new_from_path (new_path);
 	g_free (new_path);	
 
-	if (path_is_dir (fd->utf8_path)) {
+	if (gfile_is_dir (fd->gfile)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
 	} 
@@ -950,7 +950,7 @@ folder_rename (GtkWindow  *window,
 				       old_fd->utf8_name,
 				       _("source and destination are the same"));
 	} 
-	else if (path_is_dir (new_fd->utf8_path)) {
+	else if (gfile_is_dir (new_fd->gfile)) {
 		_gtk_error_dialog_run (window,
 				       _("The name \"%s\" is already used. " "Please use a different name."),
 				       new_fd->utf8_name);

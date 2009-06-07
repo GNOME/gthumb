@@ -901,7 +901,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 		g_free (filename);
 
 		if (file_data_has_local_path (fd, NULL)
-		    && gfile_path_is_file (fd->gfile)
+		    && gfile_is_file (fd->gfile)
 		    && ((image = gdk_pixbuf_new_from_file (fd->local_path, NULL)) != NULL)) {
 			int        w = gdk_pixbuf_get_width (image);
 			int        h = gdk_pixbuf_get_height (image);

@@ -70,8 +70,8 @@ char *        gfile_get_filename_extension     (GFile      *file);
 const char*   gfile_get_file_mime_type         (GFile      *file,
                                                 gboolean    fast_file_type);
 gboolean      gfile_image_is_jpeg              (GFile      *file);
-gboolean      gfile_path_is_file               (GFile      *file);
-gboolean      gfile_path_is_dir                (GFile      *file);
+gboolean      gfile_is_file                    (GFile      *file);
+gboolean      gfile_is_dir                     (GFile      *file);
 goffset       gfile_get_file_size              (GFile      *file);
 char *        gfile_get_display_name           (GFile      *file);
 

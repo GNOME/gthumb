@@ -317,7 +317,7 @@ gfile_get_style_dir (CatalogWebExporter *ce,
 			               NULL);
  	g_object_unref (dir);
  	
-	if (! gfile_path_is_dir (style_dir)) {
+	if (! gfile_is_dir (style_dir)) {
 		g_object_unref (style_dir);
 
 		style_dir = gfile_new_va (GTHUMB_DATADIR,
@@ -325,7 +325,7 @@ gfile_get_style_dir (CatalogWebExporter *ce,
 				          "albumthemes",
 				          style,
 				          NULL);
-		if (! gfile_path_is_dir (style_dir)) {
+		if (! gfile_is_dir (style_dir)) {
 			g_object_unref (style_dir);
 			style_dir = NULL;
 		}

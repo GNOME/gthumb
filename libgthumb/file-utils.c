@@ -816,7 +816,7 @@ path_is_file (const char *path)
 	
 	file = gfile_new (path);
 	
-	result = gfile_path_is_file (file);
+	result = gfile_is_file (file);
 	
 	g_object_unref (file);
 
@@ -835,7 +835,7 @@ path_is_dir (const char *path)
 
 	file = gfile_new (path);
 
-	result = gfile_path_is_dir (file);
+	result = gfile_is_dir (file);
 	
 	g_object_unref (file);
 

@@ -349,14 +349,14 @@ gfile_is_filetype (GFile      *file,
 
 
 gboolean
-gfile_path_is_file (GFile *file)
+gfile_is_file (GFile *file)
 {
         return gfile_is_filetype (file, G_FILE_TYPE_REGULAR);
 }
 
 
 gboolean
-gfile_path_is_dir (GFile *file)
+gfile_is_dir (GFile *file)
 {
         return gfile_is_filetype (file, G_FILE_TYPE_DIRECTORY);
 }

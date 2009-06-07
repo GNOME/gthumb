@@ -473,7 +473,7 @@ load_comment_from_xml (const char *uri)
 	fd = file_data_new_from_path (comment_uri);
 	g_free (comment_uri);
 
-	if (! gfile_path_is_file (fd->gfile) || ! file_data_has_local_path (fd, NULL)) {
+	if (! gfile_is_file (fd->gfile) || ! file_data_has_local_path (fd, NULL)) {
 		file_data_unref (fd);
 		return NULL;
 	}
