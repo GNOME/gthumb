@@ -240,10 +240,9 @@ apply_transformation_done (gpointer callback_data)
 {
 	ApplyTransformData *at_data = callback_data;
 	FileData           *file = at_data->current_image->data;
-	GFile              *gfile = gfile_new (file->utf8_path);
 		
 	if (at_data->info != NULL)
-		g_file_set_attributes_from_info (gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		g_file_set_attributes_from_info (file->gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 	notify_file_changed (at_data->data, file->utf8_path, at_data->notify_soon);
 	
 	if (at_data->done_func)
@@ -252,7 +251,6 @@ apply_transformation_done (gpointer callback_data)
 	if (at_data->info != NULL)
 		g_object_unref (at_data->info);
 	g_free (at_data);
-	g_object_unref (gfile);
 }
 
 
@@ -325,7 +323,6 @@ apply_transformation (GtkWidget    *parent_window,
 		      DoneFunc      done_func,
 		      gpointer      done_data)
 {
-        GFile              *gfile;
 	FileData           *file = current_image->data;
 	ApplyTransformData *at_data;
         GError             *error = NULL;
@@ -338,9 +335,7 @@ apply_transformation (GtkWidget    *parent_window,
 	at_data->done_func = done_func;
 	at_data->done_data = done_data;
 
-	gfile = gfile_new (file->utf8_path);
-	at_data->info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
-	g_object_unref (gfile);
+	at_data->info = g_file_query_info (file->gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
 	if (error) {
 		g_object_unref (at_data->info);
 		at_data->info = NULL;

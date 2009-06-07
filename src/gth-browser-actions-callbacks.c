@@ -648,7 +648,6 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 	FileData          *fd;
 	GFileOutputStream *handle;
 	GError		  *error;
-	GFile		  *gfile;
 
 	catalog_list = gth_browser_get_catalog_list (browser);
 	if (catalog_list->path == NULL)
@@ -677,14 +676,13 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 					CATALOG_EXT,
 					NULL);
 	fd = file_data_new_from_path (new_catalog_path);
-	gfile = gfile_new (fd->utf8_path);
 	g_free (new_name);
 	g_free (new_catalog_path);
 	
 	if (path_is_file (fd->utf8_path)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
-	} else if ((handle = g_file_create (gfile, G_FILE_CREATE_PRIVATE, NULL, &error)) != NULL) {
+	} else if ((handle = g_file_create (fd->gfile, G_FILE_CREATE_PRIVATE, NULL, &error)) != NULL) {
 		gth_monitor_notify_update_catalog (fd->utf8_path, GTH_MONITOR_EVENT_CREATED);
 		gth_monitor_notify_reload_catalogs ();
 		g_object_unref (handle);
@@ -696,7 +694,6 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 	        g_error_free (error);
 	}
 
-	g_object_unref (gfile);
 	file_data_unref (fd);
 }
 

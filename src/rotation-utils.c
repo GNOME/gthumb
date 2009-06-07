@@ -142,7 +142,6 @@ apply_transformation_jpeg (FileData       *file,
 	char             *tmp_dir = NULL;
 	char             *tmp_output_file = NULL;
 	JXFORM_CODE       transf;
-	GFile            *gfile;
 	GFileInfo        *info;
 
 	if (file == NULL)
@@ -163,9 +162,7 @@ apply_transformation_jpeg (FileData       *file,
 		goto apply_transformation_jpeg__free_and_close;
 	}
 
-	gfile = gfile_new (file->utf8_path);
-	info = g_file_query_info (gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	g_object_unref (gfile);
+	info = g_file_query_info (file->gfile, "owner::*,access::*", G_FILE_QUERY_INFO_NONE, NULL, NULL);
 
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
@@ -211,14 +208,8 @@ apply_transformation_jpeg (FileData       *file,
 	}
 
 	if (info != NULL) {
-		char *local_uri;
-		
-		local_uri = get_uri_from_local_path (file->local_path);
-		gfile = gfile_new (file->utf8_path);
-		g_file_set_attributes_from_info (gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+		g_file_set_attributes_from_info (file->gfile, info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 		g_object_unref (info);
-		g_object_unref (gfile);
-		g_free (local_uri);
 	}
 
 apply_transformation_jpeg__free_and_close:

@@ -1303,7 +1303,8 @@ get_image_file (CatalogWebExporter *ce,
 		g_free (escaped);
 
 	} else {
-		result = gfile_new (idata->src_file->utf8_path);
+		g_object_ref (idata->src_file->gfile);
+		result = idata->src_file->gfile;
 	}
 	
 	return result;
@@ -2247,9 +2248,7 @@ save_thumbnail_cb (gpointer data)
 		
 	if (idata->thumb != NULL) {
 		GFile *file;
-		GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 		char  *local_file;
-		char  *src_local_file;
 
 		g_signal_emit (G_OBJECT (ce),
 			       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
@@ -2260,20 +2259,17 @@ save_thumbnail_cb (gpointer data)
 					   idata, 
 					   ce->target_tmp_dir);
 		local_file = gfile_get_path (file);
-		src_local_file = gfile_get_path (src_local_gfile);
 		
 		debug (DEBUG_INFO, "save thumbnail: %s", local_file);
 
 		_gdk_pixbuf_save (idata->thumb,
 				  local_file,
-				  src_local_file,
+				  idata->src_file->local_path,
 				  "jpeg",
 				  NULL, NULL); 
 
 		g_object_unref (file);
-		g_object_unref (src_local_gfile);
 		g_free (local_file);
-		g_free (src_local_file);
 		
 		g_object_unref (idata->thumb);
 		idata->thumb = NULL;
@@ -2511,28 +2507,23 @@ save_image_preview_cb (gpointer data)
 
 		if ((! idata->no_preview) && (idata->preview != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 			char  *local_file;
-			char  *src_local_file;
 
 			file = get_preview_file (ce, 
 						 idata, 
 						 ce->target_tmp_dir);
 			local_file = gfile_get_path (file);
-			src_local_file = gfile_get_path (src_local_gfile);
 
 			debug (DEBUG_INFO, "saving preview: %s", local_file);
 
 			_gdk_pixbuf_save (idata->preview,
 					  local_file,
-					  src_local_file,
+					  idata->src_file->local_path,
 					  "jpeg",
 					  NULL, NULL);
 			 
 			g_free (local_file);
-			g_free (src_local_file);
 			g_object_unref (file);
-			g_object_unref (src_local_gfile);
 		}
 	}
 
@@ -2557,10 +2548,8 @@ save_resized_image_cb (gpointer data)
 
 		if (ce->copy_images && (idata->image != NULL)) {
 			GFile *file;
-			GFile *src_local_gfile = gfile_new (idata->src_file->utf8_path);
 			char  *image_uri;
 			char  *local_file; 
-			char  *src_local_file;
 
 			exporter_set_info (ce, _("Saving images"));
 			
@@ -2569,23 +2558,20 @@ save_resized_image_cb (gpointer data)
 					       ce->target_tmp_dir);
 			image_uri = gfile_get_uri (file);
 			local_file = gfile_get_path (file);
-			src_local_file = gfile_get_path (src_local_gfile);
 
 			debug (DEBUG_INFO, "saving image: %s", local_file);
 
 			if (_gdk_pixbuf_save (idata->image,
 					      local_file,
-					      src_local_file,
+					      idata->src_file->local_path,
 					      "jpeg",
 					      NULL, NULL)) {
 				idata->src_file->size = get_file_size (image_uri);
 			} 
 			
 			g_free (local_file);
-			g_free (src_local_file);
 			g_free (image_uri);
 			g_object_unref (file);
-			g_object_unref (src_local_gfile);
 		}
 	}
 
@@ -2601,7 +2587,6 @@ static void
 export__copy_image (CatalogWebExporter *ce)
 {
 	ImageData  *idata;
-	GFile      *sfile;
 	GFile      *dfile;
 	gboolean    copy_done;
 
@@ -2614,13 +2599,11 @@ export__copy_image (CatalogWebExporter *ce)
 
 	idata = ce->file_to_load->data;
 
-	sfile = gfile_new (idata->src_file->utf8_path);
-	
 	dfile = get_image_file (ce, 
 			        idata, 
 			        ce->target_tmp_dir);
 		
-	copy_done = gfile_copy (sfile, dfile, TRUE, NULL);
+	copy_done = gfile_copy (idata->src_file->gfile, dfile, TRUE, NULL);
 
 	if (copy_done) {
 		if (gfile_image_is_jpeg (dfile)) {
@@ -2645,7 +2628,6 @@ export__copy_image (CatalogWebExporter *ce)
 		}
 	}
 	
-	g_object_unref (sfile);
 	g_object_unref (dfile);
 	
 	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
