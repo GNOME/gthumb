@@ -642,7 +642,7 @@ set_wallpaper_step_2 (const char     *uri,
 
 	if (path_is_file (uri)) {
 		FileData *fd;
-		fd = file_data_new (uri);
+		fd = file_data_new_from_path (uri);
 		if (file_data_has_local_path (fd, GTK_WINDOW (data->window)))
 			gconf_client_set_string (client,
 						 "/desktop/gnome/background/picture_filename",
@@ -765,7 +765,7 @@ set_wallpaper_from_window (GthWindow      *window,
 
 		wallpaper_filename = get_new_wallpaper_filename ();
 
-		fd = file_data_new (wallpaper_filename);
+		fd = file_data_new_from_path (wallpaper_filename);
 		if (file_data_has_local_path (fd, GTK_WINDOW (window))) {
 			if (! _gdk_pixbuf_save (pixbuf,
 						fd->local_path,

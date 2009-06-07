@@ -1683,7 +1683,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	/**/
 
 	if (filename != NULL) {
-		priv->image = file_data_new (filename);
+		priv->image = file_data_new_from_path (filename);
 		file_data_update_all (priv->image, FALSE); /* FIXME: always slow mime type ? */
 	}
 }
@@ -1750,7 +1750,7 @@ gth_viewer_load_from_uri (GthViewer  *viewer,
 {
 	FileData *file;
 	
-	file = file_data_new (uri);
+	file = file_data_new_from_path (uri);
 	file_data_update_all (file, FALSE); /* FIXME: always slow mime type ? */
 	gth_viewer_load (viewer, file);
 	file_data_unref (file);

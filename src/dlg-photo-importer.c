@@ -958,7 +958,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		FileData     *fd;
 		GthTransform  transform;
 
-		fd = file_data_new (uri);
+		fd = file_data_new_from_path (uri);
 		if (data->msg_text != NULL)
 	                g_free (data->msg_text);
 		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
@@ -1045,7 +1045,7 @@ save_images__step (AsyncOperationData *aodata,
 	char *path = g_file_get_parse_name (gfile);
 
 	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
-	folder_fd = file_data_new (data->main_dest_folder);
+	folder_fd = file_data_new_from_path (data->main_dest_folder);
 
 	/* When grouping by exif date, we need a temporary directory to upload the
 	   photo to. The exif date tags are then read, and the file is then moved
@@ -1087,7 +1087,7 @@ save_images__step (AsyncOperationData *aodata,
 			FileData *file;
 
 			/* Name a subfolder based on the exif date */
-                        file = file_data_new (initial_dest_path);
+                        file = file_data_new_from_path (initial_dest_path);
                         file_data_update_all (file, FALSE);
 			exif_date = get_exif_time_or_mtime (file);
 			file_data_unref (file);
@@ -1311,7 +1311,7 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 	}
 
-	folder_fd = file_data_new (data->main_dest_folder);
+	folder_fd = file_data_new_from_path (data->main_dest_folder);
 	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog)) || 
 	    !ensure_dir_exists (folder_fd->local_path)) {
 		char *msg;
@@ -1333,7 +1333,7 @@ ok_clicked_cb (GtkButton  *button,
 		const char *utf8_path = scan->data;
 		FileData   *fd;
 
-		fd = file_data_new (utf8_path);
+		fd = file_data_new_from_path (utf8_path);
 		total_size += fd->size;
 		file_data_unref (fd);
 	}

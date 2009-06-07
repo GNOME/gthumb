@@ -448,7 +448,7 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 	}
 
 	fd_old = (FileData*) PD(bop)->current_image->data;
-	fd_new = file_data_new (PD(bop)->new_path);
+	fd_new = file_data_new_from_path (PD(bop)->new_path);
 
 	if (file_data_has_local_path (fd_new, PD(bop)->parent) &&
 	    file_data_has_local_path (fd_old, PD(bop)->parent)) {

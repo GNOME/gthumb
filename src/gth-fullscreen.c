@@ -1369,7 +1369,7 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 		FileData *file;
 		GList    *deleted;
 
-		file = file_data_new (scan->data);
+		file = file_data_new_from_path (scan->data);
 		deleted = g_list_find_custom (fullscreen->priv->file_list,
 					      file,
 					      (GCompareFunc) filedatacmp);
@@ -1472,7 +1472,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 	FileData *file;
 	GList    *renamed_image;
 	
-	file = file_data_new (old_name);
+	file = file_data_new_from_path (old_name);
 	renamed_image = g_list_find_custom (fullscreen->priv->file_list,
 					    file,
 					    (GCompareFunc) filedatacmp);
@@ -1493,7 +1493,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 		return;
 
 	file_data_unref (fullscreen->priv->file);
-	fullscreen->priv->file = file_data_new (new_name);
+	fullscreen->priv->file = file_data_new_from_path (new_name);
 	file_data_update (fullscreen->priv->file);
 
 	load_current_image (fullscreen);

@@ -702,7 +702,7 @@ gfile_path_list_new (GFile  *gfile,
                         break;
                 case G_FILE_TYPE_REGULAR:
                         if (files) {
-                                f_list = g_list_prepend (f_list, file_data_new (uri));
+                                f_list = g_list_prepend (f_list, file_data_new_from_path (uri));
                         }
                         break;
                 default:

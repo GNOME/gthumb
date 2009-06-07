@@ -401,7 +401,7 @@ update_general_info (DialogData *data)
 	} else {
 		FileData *fd;
 
-		fd = file_data_new (image_filename);
+		fd = file_data_new_from_path (image_filename);
 
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), fd->utf8_name);
 		

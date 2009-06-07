@@ -426,8 +426,8 @@ update_and_save_metadata (const char *uri_src,
 	FileData	 *from_fd;
 	FileData	 *to_fd;
 
-	from_fd = file_data_new (uri_src);
-	to_fd = file_data_new (uri_dest);
+	from_fd = file_data_new_from_path (uri_src);
+	to_fd = file_data_new_from_path (uri_dest);
 
         update_and_save_metadata_fd (from_fd, to_fd, metadata);
 

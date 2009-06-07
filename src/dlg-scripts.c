@@ -245,7 +245,7 @@ char* get_date_strings (GtkWindow  *window,
 		if (!prompt_mode) {
 			const gint date_str_replacement_size = date_str->len + 128;
 
-			FileData* fd = file_data_new (filename);
+			FileData* fd = file_data_new_from_path (filename);
 			time_t exif_time = get_exif_time_or_mtime (fd);
 			file_data_unref(fd);
 
@@ -571,7 +571,7 @@ exec_shell_script (GtkWindow  *window,
 			char     *new_file_list;
 			FileData *fd;
 			
-			fd = file_data_new (scan->data);
+			fd = file_data_new_from_path (scan->data);
 
 			if (fd->local_path != NULL)
 				e_filename = shell_escape (fd->local_path);
@@ -630,7 +630,7 @@ exec_shell_script (GtkWindow  *window,
 
 			load_thumbnail (data, scan->data);
 
-                        fd = file_data_new (scan->data);
+                        fd = file_data_new_from_path (scan->data);
                         if (fd->local_path != NULL)
                                 filename = g_strdup (fd->local_path);
                         else

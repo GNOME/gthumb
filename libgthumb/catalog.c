@@ -509,7 +509,7 @@ catalog_get_file_data_list (Catalog         *catalog,
 		char     *path = scan->data;
 		FileData *fd;
 		
-		fd = file_data_new (path);
+		fd = file_data_new_from_path (path);
 		if (file_filter (fd, TRUE, FALSE, fast_file_type))
 			list = g_list_prepend (list, fd);
 	}

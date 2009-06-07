@@ -449,7 +449,7 @@ catalog_rename (GthBrowser *browser,
 		return;
 
 	is_dir = path_is_dir (catalog_path);
-	old_fd = file_data_new (catalog_path);
+	old_fd = file_data_new_from_path (catalog_path);
 
 	if (! is_dir)
 		name_only = remove_extension_from_path (old_fd->utf8_name);
@@ -487,7 +487,7 @@ catalog_rename (GthBrowser *browser,
 	g_free (path_only);
 	g_free (new_name);
 
-	new_fd = file_data_new (new_catalog_path);
+	new_fd = file_data_new_from_path (new_catalog_path);
 	g_free (new_catalog_path);
 
 	if (path_is_file (new_fd->utf8_path)) {
@@ -676,7 +676,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 					new_name,
 					CATALOG_EXT,
 					NULL);
-	fd = file_data_new (new_catalog_path);
+	fd = file_data_new_from_path (new_catalog_path);
 	gfile = gfile_new (fd->utf8_path);
 	g_free (new_name);
 	g_free (new_catalog_path);
@@ -745,7 +745,7 @@ create_new_folder_or_library (GthBrowser *browser,
 	/* Create folder */
 
 	new_path = build_uri (current_path, new_name, NULL);
-	fd = file_data_new (new_path);
+	fd = file_data_new_from_path (new_path);
 	g_free (new_path);	
 
 	if (path_is_dir (fd->utf8_path)) {
@@ -914,7 +914,7 @@ folder_rename (GtkWindow  *window,
 	if (old_path == NULL)
 		return;
 
-	old_fd = file_data_new (old_path);
+	old_fd = file_data_new_from_path (old_path);
 
 	new_name = _gtk_request_dialog_run (window,
 					    GTK_DIALOG_MODAL,
@@ -942,7 +942,7 @@ folder_rename (GtkWindow  *window,
 	new_path = build_uri (parent_path, new_name, NULL);
 	g_free (new_name);
 	g_free (parent_path);
-	new_fd = file_data_new (new_path);
+	new_fd = file_data_new_from_path (new_path);
 	g_free (new_path);
 
 	gth_monitor_pause ();
@@ -1198,8 +1198,8 @@ folder_copy__response_cb (GObject *object,
 	dir_name = file_name_from_path (old_path);
 	new_path = build_uri (dest_dir, dir_name, NULL);
 
-	old_fd = file_data_new (old_path);
-	new_fd = file_data_new (new_path);
+	old_fd = file_data_new_from_path (old_path);
+	new_fd = file_data_new_from_path (new_path);
 
 	message = move ? _("Could not move the folder \"%s\": %s") : _("Could not copy the folder \"%s\": %s");
 

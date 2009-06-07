@@ -1672,7 +1672,7 @@ end_page (CatalogPngExporter *ce,
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	uri = g_strconcat (ce->location, "/", name, ".", ce->file_type, NULL);
 
-	fd = file_data_new (uri);
+	fd = file_data_new_from_path (uri);
 	if (file_data_has_local_path (fd, NULL)) {
 		if (strcmp (ce->file_type, "jpeg") == 0)
 			_gdk_pixbuf_save (pixbuf, fd->local_path, NULL, "jpeg", NULL, "quality", "85", NULL);

@@ -1031,7 +1031,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			if (file_respects_search_criteria (data, unesc_uri)) {
 				FileData *file;
 				
-				file = file_data_new (str_uri);
+				file = file_data_new_from_path (str_uri);
 				file_data_update_mime_type (file, data->fast_file_type);				
 				files = g_list_prepend (files, file);
 			}

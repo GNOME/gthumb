@@ -2630,7 +2630,7 @@ export__copy_image (CatalogWebExporter *ce)
 			GthTransform  transform;
 		
 			FileData *fd;
-			fd = file_data_new (uri);
+			fd = file_data_new_from_path (uri);
 			transform = get_orientation_from_fd (fd);
 			
 			if (transform > 1) {

@@ -897,7 +897,7 @@ theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
 		GdkPixbuf *image = NULL;
 					       
 		filename = build_uri (path, "preview.png", NULL);
-		fd = file_data_new (filename);
+		fd = file_data_new_from_path (filename);
 		g_free (filename);
 
 		if (file_data_has_local_path (fd, NULL)

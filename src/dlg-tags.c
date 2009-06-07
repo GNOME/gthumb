@@ -597,7 +597,7 @@ dlg_choose_tags (GtkWindow     *parent,
         GList *fd_list = NULL, *tmp;
 
         for (tmp = file_list; tmp; tmp = tmp->next)
-                fd_list = g_list_prepend (fd_list, file_data_new (tmp->data));
+                fd_list = g_list_prepend (fd_list, file_data_new_from_path (tmp->data));
 
 	dlg_tags_common (parent,
                          NULL,

@@ -116,19 +116,24 @@ load_info (FileData *fd)
 }
 
 
-FileData *
-file_data_new_from_gfile (GFile *gfile)
+static FileData *
+file_data_new (GFile *gfile, const char *path)
 {
-        FileData *fd;
+	if (!gfile && !path)
+		return NULL;
 
-        if (gfile == NULL)
-                return NULL;
+        FileData *fd;
 
         fd = g_new0 (FileData, 1);
         fd->ref = 1;
 
-        fd->gfile = gfile;
-	g_object_ref (gfile);
+	if (gfile) {
+	        fd->gfile = gfile;
+		g_object_ref (gfile);
+	} else {
+	        fd->gfile = gfile_new (path);
+	}
+
         fd->utf8_path = g_file_get_parse_name (fd->gfile);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
 
@@ -151,36 +156,16 @@ file_data_new_from_gfile (GFile *gfile)
 
 
 FileData *
-file_data_new (const char *path)
+file_data_new_from_path (const char *path)
 {
-	FileData *fd;
+	return file_data_new (NULL, path);
+}
 
-	if (path == NULL)
-		return NULL;
 
-	fd = g_new0 (FileData, 1);
-
-	fd->ref = 1;
-
-	fd->gfile = gfile_new (path);
-	fd->utf8_path = g_file_get_parse_name (fd->gfile);
-	fd->utf8_name = file_name_from_path (fd->utf8_path);
-
-	load_info (fd);
-
-	/* The Exif DateTime tag is only recorded on an as-needed basis during
-	   DateTime sorts. The tag in memory is refreshed if the file mtime has
-	   changed, so it is recorded as well. */
-
-	fd_free_metadata (fd);
-
-	fd->error = FALSE;
-	fd->thumb_loaded = FALSE;
-	fd->thumb_created = FALSE;
-	fd->comment = g_strdup ("");
-	fd->tags = g_strdup ("");
-
-	return fd;
+FileData *
+file_data_new_from_gfile (GFile *gfile)
+{
+        return file_data_new (gfile, NULL);
 }
 
 
@@ -337,7 +322,7 @@ file_data_list_from_uri_list (GList *list)
 	
 	for (scan = list; scan; scan = scan->next) {
 		char *path = scan->data;
-		result = g_list_prepend (result, file_data_new (path));
+		result = g_list_prepend (result, file_data_new_from_path (path));
 	}
 	
 	return g_list_reverse (result);

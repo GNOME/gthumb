@@ -52,7 +52,7 @@ cache_get_nautilus_cache_name (const char *path)
 	char           *retval;
 	FileData       *fd;
 
-	fd = file_data_new (path);
+	fd = file_data_new_from_path (path);
 	retval = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
 	file_data_unref (fd);
 

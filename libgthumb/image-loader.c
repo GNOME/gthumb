@@ -392,7 +392,7 @@ image_loader_set_path (ImageLoader *il,
 {
 	FileData *file;
 	
-	file = file_data_new (path);
+	file = file_data_new_from_path (path);
 	if (mime_type != NULL)
 		file->mime_type = get_static_string (mime_type);
 	else

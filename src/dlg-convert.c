@@ -227,7 +227,7 @@ save_image_and_remove_original (DialogData *data)
 	FileData *fd_old;
 
 	fd_old = (FileData*) data->current_image->data;
-	fd_new = file_data_new (data->new_path);
+	fd_new = file_data_new_from_path (data->new_path);
 	
 	if (file_data_has_local_path (fd_old, GTK_WINDOW (data->dialog)) &&
 	    file_data_has_local_path (fd_new, GTK_WINDOW (data->dialog))) {

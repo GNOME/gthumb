@@ -126,7 +126,7 @@ save_image (GtkWindow     *parent,
 
 		if (dlg_save_options (parent, image_type, &keys, &values)) {
 			FileData *fd_orig;
-			fd_orig = file_data_new (original_file);
+			fd_orig = file_data_new_from_path (original_file);
 
 			if (file_data_has_local_path (file, parent) &&
 			    file_data_has_local_path (fd_orig, parent)) {
@@ -187,7 +187,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
 	original_file = g_object_get_data (G_OBJECT (file_sel), "uri");
 
-	file = file_data_new (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
+	file = file_data_new_from_path (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
 
 	combo_box = g_object_get_data (G_OBJECT (file_sel), "combo_box");
 	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box));

@@ -5507,7 +5507,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		if (same_uri (parent_dir, current_dir)) {
 			FileData *file;
 			
-			file = file_data_new (path);
+			file = file_data_new_from_path (path);
 			if (file_filter (file,
 					 browser->priv->show_hidden_files,
 					 browser->priv->show_only_images,
@@ -8377,7 +8377,7 @@ gth_browser_load_image_from_uri (GthBrowser *browser,
 {
 	FileData *file;
 	
-	file = file_data_new (filename);
+	file = file_data_new_from_path (filename);
 	file_data_update_all (file, FALSE);
 	gth_browser_load_image (browser, file);
 	file_data_unref (file);

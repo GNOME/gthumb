@@ -553,7 +553,7 @@ set_filename_labels (GladeXML    *gui,
 	char       *file_size_txt;
 	FileData   *fd;
 
-	fd = file_data_new (filename);	
+	fd = file_data_new_from_path (filename);	
 
 	label = glade_xml_get_widget (gui, filename_widget);
 	eventbox = glade_xml_get_widget (gui, filename_eventbox);

@@ -343,7 +343,7 @@ load_comment_from_metadata (const char *uri)
         GSList      *metadata_list, *tmp;
         char        **keywords_v;
 
-	file = file_data_new (uri);
+	file = file_data_new_from_path (uri);
 	file_data_update_all (file, FALSE);
 
 	data = comment_data_new ();
@@ -425,7 +425,7 @@ save_comment_to_metadata (const char  *uri,
         char      *buf;
         struct tm  tm;
 
-        file = file_data_new (uri);
+        file = file_data_new_from_path (uri);
         file_data_update_all (file, FALSE);
 
 	add_metadata = simple_add_metadata (add_metadata, TAG_NAME_SETS[COMMENT_TAG_NAMES][0], data->comment);
@@ -469,7 +469,7 @@ load_comment_from_xml (const char *uri)
 		return NULL;
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-	fd = file_data_new (comment_uri);
+	fd = file_data_new_from_path (comment_uri);
 	g_free (comment_uri);
 
 	if (! path_is_file (fd->utf8_path) || ! file_data_has_local_path (fd, NULL)) {
@@ -580,7 +580,7 @@ save_comment (const char  *uri,
 	/* Write to disk. */
 
 	comment_uri = comments_get_comment_filename (uri, TRUE);
-	fd = file_data_new (comment_uri);
+	fd = file_data_new_from_path (comment_uri);
 
 	if (file_data_has_local_path (fd, NULL)) {
 		dest_dir = remove_level_from_path (fd->local_path);

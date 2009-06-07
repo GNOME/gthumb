@@ -67,7 +67,7 @@ typedef struct {
 
 GType        file_data_get_type            (void);
 FileData *   file_data_new_from_gfile      (GFile            *gfile);
-FileData *   file_data_new                 (const char       *path);
+FileData *   file_data_new_from_path       (const char       *path);
 FileData *   file_data_dup                 (FileData         *fd);
 FileData *   file_data_ref                 (FileData         *fd);
 void         file_data_unref               (FileData         *fd);

@@ -149,7 +149,7 @@ path_list_classify_files_cb (gpointer data)
 		case G_FILE_TYPE_REGULAR:
 			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
 			uri_txt = g_file_get_uri (child);
-			file = file_data_new (uri_txt);
+			file = file_data_new_from_path (uri_txt);
 			if ((pli->filter_func != NULL) && pli->filter_func (pli, file, pli->filter_data))
 				pli->files = g_list_prepend (pli->files, file);
 			else
@@ -703,7 +703,7 @@ delete_thumbnail (const char *path)
 	char     *normal_thumbnail;
 	FileData *fd;
 
-	fd = file_data_new (path);
+	fd = file_data_new_from_path (path);
 
 	/* delete associated thumbnails, if present */
 	large_thumbnail = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_LARGE);
@@ -2426,7 +2426,7 @@ gth_pixbuf_new_from_video (FileData               *file,
 							file->mtime);
 	if (thumbnail_uri != NULL) {
 		FileData *fd_thumb;
-		fd_thumb = file_data_new (thumbnail_uri);
+		fd_thumb = file_data_new_from_path (thumbnail_uri);
 		pixbuf = gdk_pixbuf_new_from_file (fd_thumb->local_path, error);
 		file_data_unref (fd_thumb);
 	}
