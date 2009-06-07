@@ -8,7 +8,7 @@ module GNOME {
       oneway void open_browser (in string uri);
       oneway void open_viewer (in string uri);
       oneway void load_image (in string uri);
-      oneway void import_photos ();
+      oneway void import_photos (in string uri);
     };
     
   };

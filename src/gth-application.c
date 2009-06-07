@@ -33,6 +33,7 @@
 #include "gth-viewer.h"
 #include "gth-browser-actions-callbacks.h"
 #include "main.h"
+#include "dlg-photo-importer.h"
 
 #ifdef HAVE_GDKX
 #include <gdk/gdkx.h>
@@ -160,9 +161,11 @@ impl_gth_application_load_image (PortableServer_Servant  _servant,
 
 static void
 impl_gth_application_import_photos (PortableServer_Servant  _servant,
+				    const CORBA_char       *uri,
 				    CORBA_Environment      *ev)
 {
 	gth_browser_activate_action_file_camera_import (NULL, NULL);
+	dlg_photo_importer (NULL, uri);
 }
 
 

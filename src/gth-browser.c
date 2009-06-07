@@ -6962,12 +6962,6 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/**/
 
-#ifndef HAVE_LIBGPHOTO
-	set_action_sensitive (browser, "File_CameraImport", FALSE);
-#endif /* HAVE_LIBGPHOTO */
-
-	/**/
-
 	priv->sidebar_width = eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE);
 	gtk_paned_set_position (GTK_PANED (paned1), eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE));
 	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, DEF_SIDEBAR_CONT_SIZE));

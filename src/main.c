@@ -30,6 +30,7 @@
 #include "catalog.h"
 #include "comments.h"
 #include "main.h"
+#include "dlg-photo-importer.h"
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gconf-utils.h"
@@ -635,10 +636,15 @@ prepare_app (void)
 	}
 
 	if (ImportPhotos) {
+		const char *import_dir = NULL;
+
+		if (dir_urls)
+			import_dir = (char *) dir_urls->data;
+		
 		if (use_factory)
-		 	GNOME_GThumb_Application_import_photos (app, &env);
+		 	GNOME_GThumb_Application_import_photos (app, import_dir, &env);
 		else
-			gth_browser_activate_action_file_camera_import (NULL, NULL);
+			dlg_photo_importer (NULL, import_dir);
 	} 
 	else if (! view_comline_catalog
 		 && (n_dir_urls == 0)

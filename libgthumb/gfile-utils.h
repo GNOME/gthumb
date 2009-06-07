@@ -84,6 +84,7 @@ GFile *       gfile_get_home_dir               (void);
 GFile *       gfile_get_tmp_dir                (void);
 GFile *       gfile_get_temp_dir_name          (void);
 gboolean      gfile_dir_remove_recursive       (GFile      *dir);
+
 gboolean      gfile_path_list_new              (GFile      *gfile,
                                                 GList     **files,
                                                 GList     **dirs);
@@ -110,5 +111,8 @@ gssize        gfile_output_stream_write_line   (GFileOutputStream *ostream,
 gssize        gfile_output_stream_write        (GFileOutputStream  *ostream, 
                                                 GError            **error,
                                                 const char         *str);
+
+/* lists */
+void          gfile_list_free                  (GList      *list);
 
 #endif /* GFILE_UTILS_H */

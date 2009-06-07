@@ -22,9 +22,6 @@
 
 
 #include <config.h>
-
-#ifdef HAVE_LIBGPHOTO
-
 #include <unistd.h>
 #include <string.h>
 #include <strings.h>
@@ -33,11 +30,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-help.h>
-#include <libgnomeui/gnome-icon-lookup.h>
-#include <gphoto2/gphoto2-context.h>
-#include <gphoto2/gphoto2-camera.h>
-#include <gphoto2/gphoto2-abilities-list.h>
 #include <glade/glade.h>
 
 #include "gth-utils.h"
@@ -46,6 +38,7 @@
 #include "gth-browser.h"
 #include "file-data.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "dlg-tags.h"
 #include "comments.h"
 #include "gth-image-list.h"
@@ -58,8 +51,6 @@
 
 #define GLADE_FILE "gthumb_camera.glade"
 #define TAGS_GLADE_FILE "gthumb_comment.glade"
-#define CAMERA_FILE "gphoto-48.png"
-#define MUTE_FILE "volume-mute.png"
 #define TAG_SEPARATOR ";"
 #define MAX_TRIES 50
 #define THUMB_SIZE 100
@@ -71,12 +62,6 @@ typedef struct _DialogData DialogData;
 typedef struct _AsyncOperationData AsyncOperationData;
 
 
-typedef enum {
-	GTH_IMPORTER_OP_LIST_ABILITIES,
-	GTH_IMPORTER_OP_AUTO_DETECT
-} GthImporterOp;
-
-
 struct _DialogData {
 	GthBrowser          *browser;
 	GladeXML            *gui;
@@ -84,8 +69,6 @@ struct _DialogData {
 	GtkWidget           *dialog;
 	GtkWidget           *import_dialog_vbox;
 	GtkWidget           *import_preview_scrolledwindow;
-	GtkWidget           *camera_model_label;
-	GtkWidget           *select_model_button;
 	GtkWidget           *destination_filechooserbutton;
 	GtkWidget           *subfolder_combobox;
 	GtkWidget           *format_code_entry;
@@ -94,10 +77,9 @@ struct _DialogData {
 	GtkWidget           *choose_tags_button;
 	GtkWidget           *tags_entry;
 	GtkWidget           *import_progressbar;
-	GtkWidget           *progress_camera_image;
 	GtkWidget           *import_preview_box;
 	GtkWidget           *import_reload_button;
-	GtkWidget           *import_delete_button;
+        GtkWidget           *import_delete_button;
 	GtkWidget           *import_ok_button;
 	GtkWidget           *i_commands_table;
 	GtkWidget           *reset_exif_tag_on_import_checkbutton;
@@ -108,29 +90,20 @@ struct _DialogData {
 
 	GtkWidget           *image_list;
 
-	GdkPixbuf           *no_camera_pixbuf, *camera_present_pixbuf;
-
 	/**/
 
-	Camera              *camera;
-	gboolean             camera_setted, view_folder;
-	GPContext           *context;
-	CameraAbilitiesList *abilities_list;
-	GPPortInfoList      *port_list;
+	gboolean             view_folder;
 
 	gboolean             delete_from_camera;
 	gboolean             adjust_orientation;
 
-	int                  image_n;
-	char                *local_folder;
+	char                *main_dest_folder;
 	char                *last_folder;
 
-	GthImporterOp        current_op;
 	gboolean             async_operation;
 	gboolean             interrupted;
 	gboolean             error;
 	gboolean	     renamed_files;
-	float                target;
 	float                fraction;
 	char                *progress_info;
 	gboolean             update_ui;
@@ -152,6 +125,9 @@ struct _DialogData {
 	guint                idle_id;
 
 	AsyncOperationData  *aodata;
+
+	GList               *dcim_dirs;
+	char		    *uri;
 };
 
 
@@ -380,21 +356,15 @@ destroy_cb (GtkWidget  *widget,
 
 	g_free (data->progress_info);
 	g_free (data->msg_text);
-	g_free (data->local_folder);
+	g_free (data->main_dest_folder);
 	g_free (data->last_folder);
+	g_free (data->uri);
 
-	if (data->no_camera_pixbuf != NULL)
-		g_object_unref (data->no_camera_pixbuf);
-	if (data->camera_present_pixbuf != NULL)
-		g_object_unref (data->camera_present_pixbuf);
+	gfile_list_free (data->dcim_dirs);
 	path_list_free (data->tags_list);
-	path_list_free (data->delete_list);
-	path_list_free (data->adjust_orientation_list);
-	path_list_free (data->saved_images_list);
-	gp_camera_unref (data->camera);
-	gp_context_unref (data->context);
-	gp_abilities_list_free (data->abilities_list);
-	gp_port_info_list_free (data->port_list);
+	gfile_list_free (data->delete_list);
+	gfile_list_free (data->adjust_orientation_list);
+	gfile_list_free (data->saved_images_list);
 	g_object_unref (data->gui);
 	g_free (data);
 
@@ -424,175 +394,6 @@ task_terminated (DialogData *data)
 }
 
 
-static unsigned int
-ctx_progress_start_func (GPContext  *context,
-			 float       target,
-			 const char *format,
-			 va_list     args,
-			 gpointer    callback_data)
-{
-	DialogData *data = callback_data;
-	char *locale_string;
-
-	g_mutex_lock (data->data_mutex);
-	data->update_ui = TRUE;
-	data->interrupted = FALSE;
-	data->target = target;
-	/*data->fraction = 0.0;*/
-	if (data->progress_info != NULL)
-		g_free (data->progress_info);
-	locale_string = g_strdup_vprintf (format, args);
-	data->progress_info = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
-	g_free (locale_string);
-	g_mutex_unlock (data->data_mutex);
-
-	return data->current_op;
-}
-
-
-static void
-ctx_progress_update_func (GPContext    *context,
-			  unsigned int  id,
-			  float         current,
-			  gpointer      callback_data)
-{
-	DialogData *data = callback_data;
-
-	g_mutex_lock (data->data_mutex);
-	data->update_ui = TRUE;
-	/*data->fraction = current / data->target;*/
-	g_mutex_unlock (data->data_mutex);
-}
-
-
-static gboolean
-valid_mime_type (const char *name,
-		 const char *type)
-{
-	int   i;
-	char *name_ext;
-
-	if ((type != NULL) && (strcmp (type, "") != 0)) {
-		const char *mime_types[] = { "image",
-					     "video",
-					     "audio" };
-		for (i = 0; i < G_N_ELEMENTS (mime_types); i++) {
-			const char *mime_type = mime_types[i];
-			if (strncasecmp (type, mime_type, strlen (mime_type)) == 0)
-				return TRUE;
-		}
-	}
-
-	name_ext = get_filename_extension (name);
-	if ((name_ext != NULL) && (strcmp (name_ext, "") != 0)) {
-		const char *exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF", "PPM",	/* images */
-				       "CR2", "CRW", "RAF", "DCR", "MOS", "RAW", "DNG", 	/* RAW images */
-				       "XCF", "SRF", "ORF", "MRW", "NEF", "PEF", "ARW", 	/* RAW images */
-				       "AVI", "MPG", "MPEG", "ASF",				/* video */
-				       "AU", "WAV", "OGG", "MP3", "FLAC" };			/* audio */
-		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
-			const char *ext = exts[i];
-			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
-				g_free (name_ext);
-				return TRUE;
-			}
-		}
-	}
-
-	g_free (name_ext);
-	return FALSE;
-}
-
-
-static GList *
-get_file_list (DialogData *data,
-	       const char *folder)
-{
-	GList      *file_list = NULL;
-	CameraList *list;
-	int         n;
-
-	gp_list_new (&list);
-	gp_camera_folder_list_files (data->camera,
-				     folder,
-				     list,
-				     data->context);
-	n = gp_list_count (list);
-	if (n > 0) {
-		int i;
-		for (i = 0; i < n; i++) {
-			const char     *name;
-			CameraFileInfo  info;
-
-			gp_list_get_name (list, i, &name);
-			if (gp_camera_file_get_info (data->camera,
-						     folder,
-						     name,
-						     &info,
-						     NULL) != GP_OK)
-				continue;
-
-			if (valid_mime_type (info.file.name, info.file.type)) {
-				char *filename = g_build_filename (folder, name, NULL);
-				file_list = g_list_prepend (file_list, filename);
-			}
-		}
-	}
-	gp_list_free (list);
-
-	return g_list_reverse (file_list);
-}
-
-
-static GList *
-get_folder_list (DialogData *data,
-		 const char *folder)
-{
-	GList      *file_list = NULL;
-	CameraList *list;
-	int         n;
-
-	gp_list_new (&list);
-	gp_camera_folder_list_folders (data->camera,
-				       folder,
-				       list,
-				       data->context);
-	n = gp_list_count (list);
-	if (n > 0) {
-		int i;
-		for (i = 0; i < n; i++) {
-			const char *name;
-			gp_list_get_name (list, i, &name);
-			file_list = g_list_prepend (file_list,
-						    g_build_filename (folder, name, NULL));
-		}
-	}
-	gp_list_free (list);
-
-	return g_list_reverse (file_list);
-}
-
-
-static GList *
-get_all_files (DialogData *data,
-	       const char *folder)
-{
-	GList *file_list, *folder_list, *scan;
-
-	file_list = get_file_list (data, folder);
-	folder_list = get_folder_list (data, folder);
-
-	for (scan = folder_list; scan; scan = scan->next) {
-		const char *folder = scan->data;
-		file_list = g_list_concat (file_list, get_all_files (data, folder));
-	}
-
-	path_list_free (folder_list);
-
-	return file_list;
-}
-
-
 static void
 display_error_dialog (DialogData *data,
 		      const char *msg1,
@@ -615,6 +416,161 @@ display_error_dialog (DialogData *data,
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show (dialog);
+}
+
+
+static GList *
+gfile_import_dir_list_recursive (GFile      *gfile,
+				 GList      *dcim_dirs,
+				 const char *filter)
+{
+        GFileEnumerator *file_enum;
+        GFileInfo       *info;
+	GError		*error = NULL;
+
+        file_enum = g_file_enumerate_children (gfile,
+                                               G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                               G_FILE_ATTRIBUTE_STANDARD_TYPE,
+                                               0, NULL, &error);
+
+        if (error != NULL) {
+                gfile_warning ("Error while reading contents of directory", gfile, error);
+                g_error_free (error);
+        }
+
+	if (file_enum == NULL)
+		return dcim_dirs;
+
+        while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
+                GFile *child;
+		char  *utf8_path;
+
+                child = g_file_get_child (gfile, g_file_info_get_name (info));
+		utf8_path = g_file_get_parse_name (child);
+
+                switch (g_file_info_get_file_type (info)) {
+                case G_FILE_TYPE_DIRECTORY:
+			if (!filter ||
+			    (filter && strstr (utf8_path, filter))) {
+				if (strstr (utf8_path, "dcim") || strstr (utf8_path, "DCIM")) {
+					debug (DEBUG_INFO, "found DCIM dir at %s", utf8_path);
+	        	        	dcim_dirs = g_list_prepend (dcim_dirs, g_file_dup (child));
+				} else {
+					debug (DEBUG_INFO, "no DCIM dir at %s", utf8_path);
+					if (utf8_path[0] != '.') {
+						dcim_dirs = gfile_import_dir_list_recursive (child, dcim_dirs, filter);
+					}
+				}
+			} else {
+				debug (DEBUG_INFO, "not checking %s", utf8_path);
+			}
+                        break;
+                default:
+                        break;
+                }
+
+		g_free (utf8_path);
+                g_object_unref (child);
+                g_object_unref (info);
+        }
+
+        g_object_unref (file_enum);
+
+        return dcim_dirs;
+}
+
+
+static GList *
+gfile_import_file_list_recursive (GFile  *gfile,
+                                  GList  *files)
+{
+        GFileEnumerator *file_enum;
+        GFileInfo       *info;
+	GError		*error = NULL;
+
+        file_enum = g_file_enumerate_children (gfile,
+                                               G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                               G_FILE_ATTRIBUTE_STANDARD_TYPE,
+                                               0, NULL, &error);
+
+        if (error != NULL) {
+                gfile_warning ("Error while reading contents of directory", gfile, error);
+                g_error_free (error);
+                return files;
+        }
+
+	files = g_list_reverse (files);
+
+        while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
+                GFile      *child;
+		const char *mime_type;
+
+                child = g_file_get_child (gfile, g_file_info_get_name (info));
+
+                switch (g_file_info_get_file_type (info)) {
+                case G_FILE_TYPE_DIRECTORY:
+                        files = gfile_import_file_list_recursive (child, files);
+                        break;
+                case G_FILE_TYPE_REGULAR:
+			mime_type = gfile_get_file_mime_type (child, TRUE);
+		        if ((mime_type_is_image (mime_type) ||
+		             mime_type_is_video (mime_type) ||
+		             mime_type_is_audio (mime_type)))
+	                        files = g_list_prepend (files, g_file_dup (child));
+                        break;
+                default:
+                        break;
+                }
+
+                g_object_unref (child);
+                g_object_unref (info);
+        }
+
+	files = g_list_reverse (files);
+        g_object_unref (file_enum);
+
+        return files;
+}
+
+
+static GList *
+get_all_files (DialogData *data)
+{
+	GFile *gfile;
+	GList *file_list = NULL;
+	GList *scan;
+
+	if (data->dcim_dirs != NULL) {
+		gfile_list_free (data->dcim_dirs);	
+		data->dcim_dirs = NULL;
+	}
+
+	if (data->uri && !path_exists (data->uri)) {
+		display_error_dialog (data, _("Import path not found"), _("Scanning for attached devices"));
+		g_free (data->uri);
+		data->uri = NULL;
+	}
+
+	if (data->uri == NULL) {
+		char *gvfs_dir = g_strconcat (g_get_home_dir (), "/", ".gvfs", NULL);
+		GFile *gfile = gfile_new (gvfs_dir);
+		data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, "gphoto");
+		g_object_unref (gfile);
+		g_free (gvfs_dir);
+
+                gfile = gfile_new ("/media");
+                data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL);
+                g_object_unref (gfile);
+	} else {
+		data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
+	}
+
+	for (scan = data->dcim_dirs; scan; scan = scan->next) {
+		gfile = (GFile *) scan->data;
+		file_list = gfile_import_file_list_recursive (gfile, file_list);
+	}
+
+	return file_list;
 }
 
 
@@ -689,7 +645,6 @@ static void
 main_dialog_set_sensitive (DialogData *data,
 			   gboolean    value)
 {
-	gtk_widget_set_sensitive (data->select_model_button, value);
 	gtk_widget_set_sensitive (data->import_ok_button, value);
 	gtk_widget_set_sensitive (data->import_reload_button, value);
 	gtk_widget_set_sensitive (data->import_delete_button, value);
@@ -709,63 +664,79 @@ load_images_preview__init (AsyncOperationData *aodata,
 }
 
 
-static int
-get_default_icon_size (GtkWidget *widget)
-{
-	int icon_width, icon_height;
-
-	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
-					   GTK_ICON_SIZE_DIALOG,
-					   &icon_width, &icon_height);
-	return MAX (icon_width, icon_height);
-}
-
-
 static GdkPixbuf*
-get_icon_from_mime_type (DialogData *data,
-			 const char *mime_type)
+gfile_get_preview (GFile *gfile, int size)
 {
-	GdkPixbuf      *pixbuf = NULL;
-	int             icon_size;
-	GtkIconTheme   *icon_theme = gtk_icon_theme_get_default ();
-	GtkIconInfo    *icon_info = NULL;
-	char           *icon_name;
+        GdkPixbuf    *pixbuf = NULL;
+	GdkPixbuf    *rotated = NULL;
+        GIcon        *gicon;
+        GtkIconTheme *theme;
+	GFileInfo    *info;
 
-	icon_size = get_default_icon_size (data->dialog);
-	icon_name = gnome_icon_lookup (icon_theme,
-				       NULL,
-				       NULL,
-				       NULL,
-				       NULL,
-				       mime_type,
-				       GNOME_ICON_LOOKUP_FLAGS_NONE,
-				       NULL);
-	icon_info = gtk_icon_theme_lookup_icon (icon_theme,
-					    icon_name,
-					    icon_size,
-					    0);
-	g_free (icon_name);
+        theme = gtk_icon_theme_get_default ();
 
-	if (icon_info != NULL) {
+        if (gfile == NULL)
+                return NULL;
+
+	char *local_path = g_file_get_path (gfile);
+	debug (DEBUG_INFO, "need preview for %s", local_path);
+
+        info = g_file_query_info (gfile,
+                                  G_FILE_ATTRIBUTE_PREVIEW_ICON ","
+				  G_FILE_ATTRIBUTE_STANDARD_ICON,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  NULL);
+
+	if (info == NULL) {
+		debug (DEBUG_INFO, "no info found for %s", local_path);
+		g_free (local_path);
+		return NULL;
+	}
+
+        gicon = (GIcon *) g_file_info_get_attribute_object (info, G_FILE_ATTRIBUTE_PREVIEW_ICON);
+
+	if (gicon == NULL)
+		debug (DEBUG_INFO, "no preview icon found for %s", local_path);
+
+	if (gicon == NULL && local_path) {
+		/* TODO: is there a fast way to extract an embedded thumbnail,
+                   instead of reading the entire file and scaling it down ? */
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
+	}
+
+	if ((gicon == NULL) && (pixbuf == NULL)) {
+		debug (DEBUG_INFO, "no scaled pixbuf found for %s", local_path);	
+		gicon = g_file_info_get_icon (info);
+	}
+
+        if ((gicon == NULL) && (pixbuf == NULL)) {
+		debug (DEBUG_INFO, "no generic icon found for %s", local_path);
+	}
+
+	if (gicon != NULL) {
+		GtkIconInfo *icon_info;
+		icon_info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default (),
+							    gicon,
+							    size,
+							    0);
 		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+		if (pixbuf == NULL)
+			debug (DEBUG_INFO, "valid gicon, but couldn't get pixbuf for %s", local_path); 
 		gtk_icon_info_free (icon_info);
 	}
 
-	return pixbuf;
-}
+	if (pixbuf == NULL) {
+		debug (DEBUG_INFO, "no preview pixbuf created for %s", local_path);
+	} else {
+		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
+		g_object_unref (pixbuf);
+	}
 
+	g_object_unref (info);
+	g_free (local_path);
 
-static GdkPixbuf*
-get_mime_type_icon (DialogData *data,
-		    FileData   *file)
-{
-	GdkPixbuf  *pixbuf = NULL;
-
-	pixbuf = get_icon_from_mime_type (data, file->mime_type);
-	if (pixbuf == NULL)
-		pixbuf = get_icon_from_mime_type (data, "image/*");
-
-	return pixbuf;
+        return rotated;
 }
 
 
@@ -773,66 +744,20 @@ static void
 load_images_preview__step (AsyncOperationData *aodata,
 			   DialogData         *data)
 {
-	const char *camera_path = aodata->scan->data;
-	CameraFile *file;
-	char       *camera_folder;
-	const char *camera_filename;
-	char       *tmp_dir;
-	char       *tmp_filename;
-	char	   *ext;
+	GdkPixbuf *pixbuf;
+	FileData  *fd;
 
-	gp_file_new (&file);
-
-	camera_folder = remove_level_from_path (camera_path);
-	camera_filename = file_name_from_path (camera_path);
-	gp_camera_file_get (data->camera,
-			    camera_folder,
-			    camera_filename,
-			    GP_FILE_TYPE_PREVIEW,
-			    file,
-			    data->context);
-
-	tmp_dir = get_temp_dir_name ();
-	if (tmp_dir == NULL) 
-		/* should we display an error message here? */
-		return;
-
-	ext = get_filename_extension (camera_filename);	
-	tmp_filename = get_temp_file_name (tmp_dir, ext);
-	g_free (ext);
-
-	if (gp_file_save (file, tmp_filename) >= 0) {
-		FileData  *tmp_file;
-		GdkPixbuf *pixbuf;
-		FileData  *fdata;
-
-		tmp_file = file_data_new (tmp_filename);
-		file_data_update_mime_type (tmp_file, FALSE); /* FIXME: always slow mime type ? */
-		
-		pixbuf = gth_pixbuf_new_from_file (tmp_file, NULL, THUMB_SIZE, THUMB_SIZE, NULL);
-		if (pixbuf == NULL)
-			pixbuf = get_mime_type_icon (data, tmp_file);
-
-		fdata = file_data_new (camera_path);
-		gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
-						 pixbuf,
-						 camera_filename,
-						 NULL,
-						 NULL,
-						 fdata);
-						 
-		g_object_unref (pixbuf);
-		file_data_unref (tmp_file);
-		file_data_unref (fdata);
-		file_unlink (tmp_filename);
-	}
-
-	dir_remove_recursive (tmp_dir);
-
-	g_free (tmp_filename);
-	g_free (tmp_dir);
-	g_free (camera_folder);
-	gp_file_unref (file);
+	pixbuf = gfile_get_preview ((GFile *) aodata->scan->data, THUMB_SIZE);
+	fd = file_data_new_from_gfile ((GFile *) aodata->scan->data);
+	
+	gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
+					 pixbuf,
+					 fd->utf8_name,
+					 NULL,
+					 NULL,
+					 fd);
+	g_object_unref (pixbuf);
+	file_data_unref (fd);
 }
 
 
@@ -840,7 +765,7 @@ static void
 load_images_preview__done (AsyncOperationData *aodata,
 			   DialogData         *data)
 {
-	path_list_free (aodata->list);
+	gfile_list_free (aodata->list);
 	task_terminated (data);
 	data->aodata = NULL;
 }
@@ -858,7 +783,7 @@ load_images_preview (DialogData *data)
 	data->error = FALSE;
 	g_mutex_unlock (data->data_mutex);
 
-	file_list = get_all_files (data, "/");
+	file_list = get_all_files (data);
 
 	g_mutex_lock (data->data_mutex);
 	error = data->error;
@@ -892,192 +817,6 @@ load_images_preview (DialogData *data)
 					    load_images_preview__done,
 					    data);
 	async_operation_start (data->aodata);
-}
-
-
-static void
-set_camera_model (DialogData *data,
-		  const char *model,
-		  const char *port)
-{
-	int r;
-
-	if ((model == NULL) || (port == NULL)) {
-		data->camera_setted = FALSE;
-		gtk_widget_hide (data->import_preview_box);
-		gtk_label_set_text (GTK_LABEL (data->camera_model_label), _("No camera detected"));
-		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
-		gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
-		return;
-	}
-
-	data->camera_setted = TRUE;
-
-	r = gp_abilities_list_lookup_model (data->abilities_list, model);
-	if (r >= 0) {
-		CameraAbilities a;
-		r = gp_abilities_list_get_abilities (data->abilities_list, r, &a);
-
-		if (r >= 0) {
-			gp_camera_set_abilities (data->camera, a);
-			r = gp_port_info_list_lookup_path (data->port_list, port);
-
-			if (r >= 0) {
-				GPPortInfo port_info;
-				gp_port_info_list_get_info (data->port_list, r, &port_info);
-				gp_camera_set_port_info (data->camera, port_info);
-			}
-		}
-	}
-
-	if (r >= 0) {
-		eel_gconf_set_string (PREF_PHOTO_IMPORT_MODEL, model);
-		eel_gconf_set_string (PREF_PHOTO_IMPORT_PORT, port);
-
-		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), model);
-		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->camera_present_pixbuf);
-		load_images_preview (data);
-	} 
-	else {
-		data->camera_setted = FALSE;
-		display_error_dialog (data,
-				      _("Could not import photos"),
-				      gp_result_as_string (r));
-		gtk_label_set_text (GTK_LABEL (data->camera_model_label),
-				    _("No camera detected"));
-		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image),
-					   data->no_camera_pixbuf);
-	}
-}
-
-
-static gboolean
-autodetect_camera (DialogData *data)
-{
-	CameraList *list = NULL;
-	int         count;
-	gboolean    detected = FALSE;
-	const char *model = NULL, *port = NULL;
-
-	data->current_op = GTH_IMPORTER_OP_AUTO_DETECT;
-
-	gp_list_new (&list);
-
-	gp_abilities_list_detect (data->abilities_list,
-				  data->port_list,
-				  list,
-				  data->context);
-	count = gp_list_count (list);
-	if (count >= 1) {
-		gp_list_get_name (list, 0, &model);
-		gp_list_get_value (list, 0, &port);
-		detected = TRUE;
-
-	} else {
-		model = NULL;
-		port = NULL;
-	}
-
-	set_camera_model (data, model, port);
-
-	gp_list_free (list);
-
-	return detected;
-}
-
-
-static void
-ctx_progress_stop_func (GPContext    *context,
-			unsigned int  id,
-			gpointer      callback_data)
-{
-	DialogData *data = callback_data;
-
-	g_mutex_lock (data->data_mutex);
-	data->interrupted = FALSE;
-	g_mutex_unlock (data->data_mutex);
-}
-
-
-static GPContextFeedback
-ctx_cancel_func (GPContext *context,
-		 gpointer   callback_data)
-{
-	DialogData *data = callback_data;
-	gboolean    interrupted;
-
-	g_mutex_lock (data->data_mutex);
-	interrupted = data->interrupted;
-	g_mutex_unlock (data->data_mutex);
-
-	if (interrupted)
-		return GP_CONTEXT_FEEDBACK_CANCEL;
-	else
-		return GP_CONTEXT_FEEDBACK_OK;
-}
-
-
-static void
-ctx_error_func (GPContext  *context,
-		const char *format,
-		va_list     args,
-		gpointer    callback_data)
-{
-	DialogData *data = callback_data;
-	char *locale_string;
-
-	g_mutex_lock (data->data_mutex);
-	data->update_ui = TRUE;
-	data->error = TRUE;
-	if (data->msg_text != NULL)
-		g_free (data->msg_text);
-	locale_string = g_strdup_vprintf (format, args);
-	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
-	g_free (locale_string);
-	data->msg_icon = GTK_STOCK_DIALOG_ERROR;
-	g_mutex_unlock (data->data_mutex);
-}
-
-
-static void
-ctx_status_func (GPContext  *context,
-		 const char *format,
-		 va_list     args,
-		 gpointer    callback_data)
-{
-	DialogData *data = callback_data;
-	char *locale_string;
-
-	g_mutex_lock (data->data_mutex);
-	data->update_ui = TRUE;
-	if (data->msg_text != NULL)
-		g_free (data->msg_text);
-	locale_string = g_strdup_vprintf (format, args);
-	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
-	g_free (locale_string);
-	data->msg_icon = GTK_STOCK_DIALOG_INFO;
-	g_mutex_unlock (data->data_mutex);
-}
-
-
-static void
-ctx_message_func (GPContext  *context,
-		  const char *format,
-		  va_list     args,
-		  gpointer    callback_data)
-{
-	DialogData *data = callback_data;
-	char *locale_string;
-
-	g_mutex_lock (data->data_mutex);
-	data->update_ui = TRUE;
-	if (data->msg_text != NULL)
-		g_free (data->msg_text);
-	locale_string = g_strdup_vprintf (format, args);
-	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
-	g_free (locale_string);
-	data->msg_icon = GTK_STOCK_DIALOG_WARNING;
-	g_mutex_unlock (data->data_mutex);
 }
 
 
@@ -1132,22 +871,21 @@ get_folder_name (DialogData *data)
 
 static char*
 get_file_name (DialogData *data,
-	       const char *camera_path,
-	       const char *local_folder,
-	       int         n)
+	       const char *path,
+	       const char *main_dest_folder)
 {
 	char *file_name;
 	char *file_path;
 	int   m = 1;
 
-	file_name = g_strdup (file_name_from_path (camera_path));
-	file_path = g_build_filename (local_folder, file_name, NULL);
+	file_name = g_strdup (file_name_from_path (path));
+	file_path = g_build_filename (main_dest_folder, file_name, NULL);
 
 	while (path_is_file (file_path)) {
 		char *test_name;
 		test_name = g_strdup_printf ("%d.%s", m++, file_name);
 		g_free (file_path);
-		file_path = g_build_filename (local_folder, test_name, NULL);
+		file_path = g_build_filename (main_dest_folder, test_name, NULL);
 		g_free (test_name);
 		data->renamed_files = TRUE;
 	}
@@ -1186,64 +924,161 @@ add_tags_to_image (DialogData *data,
 }
 
 
-static void
-save_image (DialogData *data,
-	    const char *camera_path,
-	    const char *local_folder,
-	    int         n)
+static gboolean
+notify_file_creation_cb (gpointer cb_data)
 {
-	CameraFile   *file;
-	char         *camera_folder;
-	const char   *camera_filename;
+	DialogData *data = cb_data;
+
+	g_source_remove (data->idle_id);
+	data->idle_id = 0;
+
+	if (data->saved_images_list != NULL) {
+		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_images_list);
+		gfile_list_free (data->saved_images_list);
+		data->saved_images_list = NULL;
+	}
+
+	gth_monitor_resume ();
+
+	return FALSE;
+}
+
+
+static void
+adjust_orientation__step (AsyncOperationData *aodata,
+			  DialogData         *data)
+{
+	char     *uri;	
+	gboolean  success = TRUE;
+	GFile    *gfile = aodata->scan->data;
+
+	uri = g_file_get_parse_name (gfile);
+	
+	if (file_is_image (uri, TRUE)) {
+		FileData     *fd;
+		GthTransform  transform;
+
+		fd = file_data_new (uri);
+		if (data->msg_text != NULL)
+	                g_free (data->msg_text);
+		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
+
+		transform = get_orientation_from_fd (fd);
+		if (image_is_jpeg (uri))
+			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
+		else
+			success = apply_transformation_generic (fd, transform, NULL);
+		file_data_unref (fd);
+	}
+
+	if (! success)
+		data->error = TRUE;
+
+	g_free (uri);
+}
+
+
+static void
+adjust_orientation__done (AsyncOperationData *aodata,
+			  DialogData         *data)
+{
+	gboolean interrupted;
+
+	data->aodata = NULL;
+
+	g_mutex_lock (data->data_mutex);
+	interrupted = data->interrupted;
+	g_mutex_unlock (data->data_mutex);
+
+	data->idle_id = g_idle_add (notify_file_creation_cb, data);
+
+	if (interrupted)
+		return;
+
+	data->view_folder = TRUE;
+
+	if (ImportPhotos) {
+		ImportPhotos = FALSE;
+		if (data->browser != NULL)
+			gtk_widget_show (GTK_WIDGET (data->browser));
+	}
+
+	gtk_widget_destroy (data->dialog);
+}
+
+
+static void
+save_images__init (AsyncOperationData *aodata,
+		   DialogData         *data)
+{
+	gth_monitor_pause ();
+
+	data->renamed_files = FALSE;
+
+	if (data->adjust_orientation_list != NULL) {
+		gfile_list_free (data->adjust_orientation_list);
+		data->adjust_orientation_list = NULL;
+	}
+	if (data->saved_images_list != NULL) {
+		gfile_list_free (data->saved_images_list);
+		data->saved_images_list = NULL;
+	}
+}
+
+
+static void
+save_images__step (AsyncOperationData *aodata,
+		   DialogData         *data)
+{
 	char         *initial_dest_path;
+	GFile        *initial_dest_gfile;
 	char         *final_dest_path;
+	GFile        *final_dest_gfile;
 	time_t        exif_date;
 	GthSubFolder  subfolder_value;
 	char	     *temp_dir = NULL;
 	gboolean      error_found = FALSE;
 	FileData     *folder_fd;
+	GError       *error = NULL;
 
-	gp_file_new (&file);
-
-	camera_folder = remove_level_from_path (camera_path);
-	camera_filename = file_name_from_path (camera_path);
-	gp_camera_file_get (data->camera,
-			    camera_folder,
-			    camera_filename,
-			    GP_FILE_TYPE_NORMAL,
-			    file,
-			    data->context);
+	GFile *gfile = aodata->scan->data;
+	char *path = g_file_get_parse_name (gfile);
 
 	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
+	folder_fd = file_data_new (data->main_dest_folder);
 
-	folder_fd = file_data_new (local_folder);
-
-	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog))) {
-		error_found = TRUE;
-	} else {
-		/* When grouping by exif date, we need a temporary directory to upload the
-		   photo to. The exif date tags are then read, and the file is then moved
-		   to its final destination. */
-		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
-		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
-		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM)) {
-			temp_dir = get_temp_dir_name ();
-			if (temp_dir == NULL) {
-				error_found = TRUE;
-			} else {
-				initial_dest_path = get_temp_file_name (temp_dir, NULL);
-			}
+	/* When grouping by exif date, we need a temporary directory to upload the
+	   photo to. The exif date tags are then read, and the file is then moved
+	   to its final destination. */
+	if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
+	     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
+	     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_CUSTOM)) {
+		temp_dir = get_temp_dir_name ();
+		if (temp_dir == NULL) {
+			error_found = TRUE;
 		} else {
-			/* Otherwise, the images go straight into the destination folder */
-			initial_dest_path = get_file_name (data, camera_path, folder_fd->local_path, n);
+			initial_dest_path = get_temp_file_name (temp_dir, NULL);
 		}
+	} else {
+		/* Otherwise, the images go straight into the destination folder */
+		initial_dest_path = get_file_name (data, path, folder_fd->local_path);
 	}
 
-	if (initial_dest_path == NULL) {
+	if (initial_dest_path == NULL)
+		error_found = TRUE;
+
+	initial_dest_gfile = gfile_new (initial_dest_path);
+
+	debug (DEBUG_INFO, "import file copy: %s to %s", path, initial_dest_path);
+	if (!gfile_copy (gfile, initial_dest_gfile, FALSE, &error)) {
+		if (error) {
+			display_error_dialog (data, _("Import failed"), error->message);
+			g_clear_error (&error);
+		}
 		error_found = TRUE;
 	}
 
-	if ((error_found == FALSE) && gp_file_save (file, initial_dest_path) >= 0) {
+	if (error_found == FALSE) {
 
 		if ( (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_DAY) || 
 		     (subfolder_value == GTH_IMPORT_SUBFOLDER_GROUP_MONTH) || 
@@ -1302,12 +1137,16 @@ save_image (DialogData *data,
 				dest_folder = g_strdup (folder_fd->local_path);
 			}
 
-			final_dest_path = get_file_name (data, camera_path, dest_folder, n);
+			final_dest_path = get_file_name (data, path, dest_folder);
+			final_dest_gfile = gfile_new (final_dest_path);
 
 			/* Create the subfolder if necessary, and move the 
 			   temporary file to it */
 			if (ensure_dir_exists (dest_folder) ) {
-				if (!file_move (initial_dest_path, final_dest_path, TRUE, NULL)) {
+				debug (DEBUG_INFO, "import file move %s to %s", initial_dest_path, final_dest_path);
+				if (!gfile_move (initial_dest_gfile, final_dest_gfile, FALSE, &error)) {
+					display_error_dialog (data, _("Import failed"), error->message); 
+					g_clear_error (&error);
 					error_found = TRUE;
 				}
 			} else {
@@ -1320,24 +1159,31 @@ save_image (DialogData *data,
 			g_free (dest_folder);
 		} else {
 			final_dest_path = g_strdup (initial_dest_path);
+			final_dest_gfile = gfile_new (final_dest_path);
 		}
-
-		/* Adjust the photo orientation based on the exif 
-		   orientation tag, if requested */
-		if (!error_found) {
-			if (data->adjust_orientation) 
-				data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (final_dest_path));
-			if (data->delete_from_camera)
-				data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
-			data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (final_dest_path));
-			add_tags_to_image (data, final_dest_path);
-		}
-	} 
-	else {
-		error_found = TRUE;
 	}
 
-	if (error_found) { 
+	/* Adjust the photo orientation based on the exif 
+	   orientation tag, if requested */
+	if (!error_found) {
+		if (data->delete_from_camera) {
+			debug (DEBUG_INFO, "import delete: %s", path);
+			g_file_delete (gfile, NULL, &error);
+	                if (error) {
+	                        display_error_dialog (data, _("Could not delete photos on the camera - further deletes are disabled"), error->message);
+				data->delete_from_camera = FALSE;
+        	                g_clear_error (&error);
+			}
+                }
+
+		if (data->adjust_orientation) 
+			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list,
+									g_file_dup (final_dest_gfile));
+
+		data->saved_images_list = g_list_prepend (data->saved_images_list, g_file_dup (final_dest_gfile));
+		add_tags_to_image (data, final_dest_path);
+
+	} else {
 		g_mutex_lock (data->data_mutex);
 		data->error = TRUE;
 		data->interrupted = TRUE;
@@ -1349,184 +1195,13 @@ save_image (DialogData *data,
 		dir_remove_recursive (temp_dir);
 		g_free (temp_dir);
 	}
-		
-	g_free (camera_folder);
+
+	g_free (path);
 	g_free (final_dest_path);
 	g_free (initial_dest_path);
-	gp_file_unref (file);
 	file_data_unref (folder_fd);
-}
-
-static void
-delete_images__init (AsyncOperationData *aodata,
-                     DialogData         *data)
-{
-	if (data->error)
-		display_error_dialog (data,
-                                      _("Import errors detected"),
-                                      _("The files on the camera will not be deleted"));
-}
-
-
-static void
-delete_images__step (AsyncOperationData *aodata,
-		     DialogData         *data)
-{
-	const char *camera_path = aodata->scan->data;
-	char       *camera_folder;
-	const char *camera_filename;
-
-	if (data->error)
-		return;
-
-	camera_folder = remove_level_from_path (camera_path);
-	camera_filename = file_name_from_path (camera_path);
-
-	gp_camera_file_delete (data->camera,
-			       camera_folder,
-			       camera_filename,
-			       data->context);
-
-	g_free (camera_folder);
-}
-
-
-static void
-delete_images__done (AsyncOperationData *aodata,
-		     DialogData         *data)
-{
-	gboolean interrupted;
-
-	task_terminated (data);
-	data->aodata = NULL;
-
-	g_mutex_lock (data->data_mutex);
-	interrupted = data->interrupted;
-	g_mutex_unlock (data->data_mutex);
-
-	if (interrupted)
-		return;
-
-	data->view_folder = TRUE;
-
-	if (ImportPhotos) {
-		ImportPhotos = FALSE;
-		if (data->browser != NULL)
-			gtk_widget_show (GTK_WIDGET (data->browser));
-	}
-
-	gtk_widget_destroy (data->dialog);
-}
-
-
-static gboolean
-notify_file_creation_cb (gpointer cb_data)
-{
-	DialogData *data = cb_data;
-
-	g_source_remove (data->idle_id);
-	data->idle_id = 0;
-
-	if (data->saved_images_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_images_list);
-		path_list_free (data->saved_images_list);
-		data->saved_images_list = NULL;
-	}
-
-	gth_monitor_resume ();
-
-	return FALSE;
-}
-
-
-static void
-adjust_orientation__step (AsyncOperationData *aodata,
-			  DialogData         *data)
-{
-	const char *uri = aodata->scan->data;
-	gboolean    success = TRUE;
-
-	if (file_is_image (uri, TRUE)) {
-		FileData     *fd;
-		GthTransform  transform;
-
-		fd = file_data_new (uri);
-		file_data_update (fd);
-
-		if (data->msg_text != NULL)
-	                g_free (data->msg_text);
-		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
-
-		transform = get_orientation_from_fd (fd);
-		if (image_is_jpeg (uri))
-			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
-		else
-			success = apply_transformation_generic (fd, transform, NULL);
-		file_data_unref (fd);
-	}
-
-	if (! success)
-		data->error = TRUE;
-}
-
-
-static void
-adjust_orientation__done (AsyncOperationData *aodata,
-			  DialogData         *data)
-{
-	gboolean interrupted;
-
-	data->aodata = NULL;
-
-	g_mutex_lock (data->data_mutex);
-	interrupted = data->interrupted;
-	g_mutex_unlock (data->data_mutex);
-
-	data->idle_id = g_idle_add (notify_file_creation_cb, data);
-
-	if (interrupted)
-		return;
-
-	data->aodata = async_operation_new (NULL,
-				  	    data->delete_list,
-					    delete_images__init,
-					    delete_images__step,
-					    delete_images__done,
-					    data);
-	async_operation_start (data->aodata);	
-}
-
-
-static void
-save_images__init (AsyncOperationData *aodata,
-		   DialogData         *data)
-{
-	gth_monitor_pause ();
-
-	data->image_n = 1;
-	data->renamed_files = FALSE;
-
-	if (data->delete_list != NULL) {
-		path_list_free (data->delete_list);
-		data->delete_list = NULL;
-	}
-	if (data->adjust_orientation_list != NULL) {
-		path_list_free (data->adjust_orientation_list);
-		data->adjust_orientation_list = NULL;
-	}
-	if (data->saved_images_list != NULL) {
-		path_list_free (data->saved_images_list);
-		data->saved_images_list = NULL;
-	}
-}
-
-
-static void
-save_images__step (AsyncOperationData *aodata,
-		   DialogData         *data)
-{
-	const char *camera_path = aodata->scan->data;
-	save_image (data, camera_path, data->local_folder, data->image_n++);
+	g_object_unref (initial_dest_gfile);
+	g_object_unref (final_dest_gfile);
 }
 
 
@@ -1588,22 +1263,15 @@ ok_clicked_cb (GtkButton  *button,
 	goffset   total_size = 0;
 	FileData *folder_fd;
 
-	if (!data->camera_setted) {
-		display_error_dialog (data,
-				      _("Could not import photos"),
-				      _("No camera detected"));
-		return;
-	}
-
 	/**/
 
-	g_free (data->local_folder);
+	g_free (data->main_dest_folder);
 	g_free (data->last_folder);
 
-	data->local_folder = get_folder_name (data);
-	data->last_folder = g_strdup (data->local_folder);
+	data->main_dest_folder = get_folder_name (data);
+	data->last_folder = g_strdup (data->main_dest_folder);
 
-	if (data->local_folder == NULL)
+	if (data->main_dest_folder == NULL)
 		return;
 
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
@@ -1628,8 +1296,8 @@ ok_clicked_cb (GtkButton  *button,
 
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
-			FileData *fdata = scan->data;
-			file_list = g_list_prepend (file_list, g_strdup (fdata->local_path));
+			FileData *fd = scan->data;
+			file_list = g_list_prepend (file_list, g_file_dup (fd->gfile));
 		}
 		if (file_list != NULL)
 			file_list = g_list_reverse (file_list);
@@ -1643,7 +1311,7 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 	}
 
-	folder_fd = file_data_new (data->local_folder);
+	folder_fd = file_data_new (data->main_dest_folder);
 	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog)) || 
 	    !ensure_dir_exists (folder_fd->local_path)) {
 		char *msg;
@@ -1653,39 +1321,31 @@ ok_clicked_cb (GtkButton  *button,
 		display_error_dialog (data, _("Could not import photos"), msg);
 
 		g_free (msg);
-		g_free (data->local_folder);
-		data->local_folder = NULL;
-		path_list_free (file_list);
+		g_free (data->main_dest_folder);
+		data->main_dest_folder = NULL;
+		gfile_list_free (file_list);
 		file_data_unref (folder_fd);
 		return;
 	}
 	file_data_unref (folder_fd);
 
 	for (scan = file_list; scan; scan = scan->next) {
-		const char     *camera_path = scan->data;
-		CameraFileInfo  info;
-		char           *camera_folder;
-		const char     *camera_filename;
+		const char *utf8_path = scan->data;
+		FileData   *fd;
 
-		camera_folder = remove_level_from_path (camera_path);
-		camera_filename = file_name_from_path (camera_path);
-		if (gp_camera_file_get_info (data->camera,
-					     camera_folder,
-					     camera_filename,
-					     &info,
-					     NULL) == GP_OK)
-			total_size += (goffset) info.file.size;
-		g_free (camera_folder);
+		fd = file_data_new (utf8_path);
+		total_size += fd->size;
+		file_data_unref (fd);
 	}
 
-	if (get_destination_free_space (data->local_folder) < total_size) {
+	if (get_destination_free_space (data->main_dest_folder) < total_size) {
 		display_error_dialog (data,
 				      _("Could not import photos"),
 				      _("Not enough free space left on disk"));
 
-		g_free (data->local_folder);
-		data->local_folder = NULL;
-		path_list_free (file_list);
+		g_free (data->main_dest_folder);
+		data->main_dest_folder = NULL;
+		gfile_list_free (file_list);
 		return;
 	}
 
@@ -1745,12 +1405,9 @@ reset_exif_tag_on_import_cb (GtkButton  *button,
 
 static void
 import_reload_cb (GtkButton  *button,
-		  DialogData *data)
+                  DialogData *data)
 {
-	if (! data->camera_setted)
-		autodetect_camera (data);
-	else
-		load_images_preview (data);
+	load_images_preview (data);
 }
 
 
@@ -1795,165 +1452,67 @@ subfolder_mode_changed_cb (GtkComboBox  *subfolder_combobox,
 
 }
 
+
 /* delete_imported_images */
 
 
 static void
 delete_imported_images__init (AsyncOperationData *aodata,
-			      DialogData         *data)
+                              DialogData         *data)
 {
 }
 
 
 static void
 delete_imported_images__step (AsyncOperationData *aodata,
-			      DialogData         *data)
+                              DialogData         *data)
 {
-	const char *camera_path = aodata->scan->data;
-	char       *camera_folder;
-	const char *camera_filename;
-
-	camera_folder = remove_level_from_path (camera_path);
-	camera_filename = file_name_from_path (camera_path);
-
-	gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
-
-	g_free (camera_folder);
+	GError *error = NULL;
+	g_file_delete ((GFile *) aodata->scan->data, NULL, &error);
+	if (error) {
+		display_error_dialog (data, _("File delete failed"), error->message);
+		g_error_free (error);
+	}
 }
 
 
 static void
 delete_imported_images__done (AsyncOperationData *aodata,
-			      DialogData         *data)
+                              DialogData         *data)
 {
-	path_list_free (aodata->list);
-	task_terminated (data);
-	data->aodata = NULL;
-	load_images_preview (data);
+        gfile_list_free (aodata->list);
+        task_terminated (data);
+        data->aodata = NULL;
+        load_images_preview (data);
 }
 
 
 static void
 import_delete_cb (GtkButton  *button,
-		  DialogData *data)
+                  DialogData *data)
 {
-	GList *sel_list;
-	GList *scan;
-	GList *delete_list = NULL;
+        GList *sel_list;
+        GList *scan;
+        GList *delete_list = NULL;
 
-	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-	if (sel_list != NULL) {
-		for (scan = sel_list; scan; scan = scan->next) {
-			FileData   *fdata = scan->data;
-			delete_list = g_list_prepend (delete_list, g_strdup (fdata->local_path));
-		}
-		if (delete_list != NULL)
-			delete_list = g_list_reverse (delete_list);
-		file_data_list_free (sel_list);
-	}
+        sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
+        if (sel_list != NULL) {
+                for (scan = sel_list; scan; scan = scan->next) {
+                        FileData *fd = scan->data;
+                        delete_list = g_list_prepend (delete_list, fd->gfile);
+                }
+                if (delete_list != NULL)
+                        delete_list = g_list_reverse (delete_list);
+                file_data_list_free (sel_list);
+        }
 
-	data->aodata = async_operation_new (NULL,
-					    delete_list,
-					    delete_imported_images__init,
-					    delete_imported_images__step,
-					    delete_imported_images__done,
-					    data);
-	async_operation_start (data->aodata);
-}
-
-
-static void dlg_select_camera_model_cb (GtkButton  *button, DialogData *data);
-
-
-static void *
-load_abilities_thread (void *thread_data)
-{
-	DialogData     *data = thread_data;
-	GthImporterOp   current_op;
-
-	g_mutex_lock (data->data_mutex);
-	current_op = data->current_op;
-	g_mutex_unlock (data->data_mutex);
-
-	switch (current_op) {
-	case GTH_IMPORTER_OP_LIST_ABILITIES:
-		gp_abilities_list_load (data->abilities_list, data->context);
-		gp_port_info_list_load (data->port_list);
-		break;
-	default:
-		break;
-	}
-
-	g_mutex_lock (data->data_mutex);
-	data->thread_done = TRUE;
-	g_mutex_unlock (data->data_mutex);
-
-	g_thread_exit (NULL);
-
-	return NULL;
-}
-
-
-static int
-check_thread (gpointer cb_data)
-{
-	DialogData *data = cb_data;
-	gboolean    thread_done;
-
-	g_source_remove (data->check_id);
-	data->check_id = 0;
-
-	update_info (data);
-
-	g_mutex_lock (data->data_mutex);
-	thread_done = data->thread_done;
-	g_mutex_unlock (data->data_mutex);
-
-	if (thread_done) {
-		data->thread = NULL;
-		task_terminated (data);
-
-		switch (data->current_op) {
-		case GTH_IMPORTER_OP_LIST_ABILITIES:
-			if (! autodetect_camera (data)) {
-				char *camera_model;
-				char *camera_port;
-
-				camera_model = eel_gconf_get_string (PREF_PHOTO_IMPORT_MODEL, NULL);
-				camera_port = eel_gconf_get_string (PREF_PHOTO_IMPORT_PORT, NULL);
-
-				if ((camera_model != NULL) && (camera_port != NULL))
-					set_camera_model (data, camera_model, camera_port);
-
-				g_free (camera_model);
-				g_free (camera_port);
-			}
-			break;
-		default:
-			break;
-		}
-	} 
-	else	/* Add check again. */
-		data->check_id = g_timeout_add (REFRESH_RATE, check_thread, data);
-
-	return FALSE;
-}
-
-
-static void
-start_operation (DialogData    *data,
-		 GthImporterOp  operation)
-{
-	if (data->check_id != 0)
-		g_source_remove (data->check_id);
-
-	g_mutex_lock (data->data_mutex);
-	data->thread_done = FALSE;
-	g_mutex_unlock (data->data_mutex);
-
-	data->current_op = operation;
-	data->thread = g_thread_create (load_abilities_thread, data, TRUE, NULL);
-	data->check_id = g_timeout_add (REFRESH_RATE, check_thread, data);
+        data->aodata = async_operation_new (NULL,
+                                            delete_list,
+                                            delete_imported_images__init,
+                                            delete_imported_images__step,
+                                            delete_imported_images__done,
+                                            data);
+        async_operation_start (data->aodata);
 }
 
 
@@ -1967,18 +1526,18 @@ help_cb (GtkWidget  *widget,
 
 
 void
-dlg_photo_importer (GthBrowser *browser)
+dlg_photo_importer (GthBrowser *browser, const char *uri)
 {
 	DialogData *data;
 	GtkWidget  *btn_cancel;
 	GtkWidget  *btn_help;
-	GdkPixbuf  *mute_pixbuf;
 	char       *default_path;
 	char       *default_uri;
 
+
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
-
+	
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
 	if (! data->gui) {
 		g_free (data);
@@ -1986,37 +1545,23 @@ dlg_photo_importer (GthBrowser *browser)
 		return;
 	}
 
-	gp_camera_new (&data->camera);
-	data->context = gp_context_new ();
-	gp_context_set_cancel_func (data->context, ctx_cancel_func, data);
-	gp_context_set_error_func (data->context, ctx_error_func, data);
-	gp_context_set_status_func (data->context, ctx_status_func, data);
-	gp_context_set_message_func (data->context, ctx_message_func, data);
-	gp_context_set_progress_funcs (data->context,
-				       ctx_progress_start_func,
-				       ctx_progress_update_func,
-				       ctx_progress_stop_func,
-				       data);
-	gp_abilities_list_new (&data->abilities_list);
-	gp_port_info_list_new (&data->port_list);
-
 	data->tags_list = NULL;
 	data->delete_list = NULL;
 	data->interrupted = FALSE;
-	data->camera_setted = FALSE;
 
 	data->data_mutex = g_mutex_new ();
 	data->check_id = 0;
 	data->idle_id = 0;
 	data->msg_text  = NULL;
 
+	data->dcim_dirs = NULL;
+	data->uri = g_strdup (uri);
+
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "import_photos_dialog");
 	data->import_dialog_vbox = glade_xml_get_widget (data->gui, "import_dialog_vbox");
 	data->import_preview_scrolledwindow = glade_xml_get_widget (data->gui, "import_preview_scrolledwindow");
-	data->camera_model_label = glade_xml_get_widget (data->gui, "camera_model_label");
-	data->select_model_button = glade_xml_get_widget (data->gui, "select_model_button");
 	data->destination_filechooserbutton = glade_xml_get_widget (data->gui, "destination_filechooserbutton");
         data->subfolder_combobox = glade_xml_get_widget(data->gui, "group_into_subfolderscombobutton");
 	data->format_code_entry = glade_xml_get_widget (data->gui, "format_code_entry");
@@ -2028,7 +1573,6 @@ dlg_photo_importer (GthBrowser *browser)
 	data->progress_info_image = glade_xml_get_widget (data->gui, "progress_info_image");
 	data->progress_info_label = glade_xml_get_widget (data->gui, "progress_info_label");
 	data->progress_info_box = glade_xml_get_widget (data->gui, "progress_info_box");
-	data->progress_camera_image = glade_xml_get_widget (data->gui, "progress_camera_image");
 	data->import_preview_box = glade_xml_get_widget (data->gui, "import_preview_box");
 	data->import_reload_button = glade_xml_get_widget (data->gui, "import_reload_button");
 	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
@@ -2047,26 +1591,6 @@ dlg_photo_importer (GthBrowser *browser)
 	gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 
 	/* Set widgets data. */
-
-	data->camera_present_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL);
-	mute_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL);
-
-	data->no_camera_pixbuf = gdk_pixbuf_copy (data->camera_present_pixbuf);
-	gdk_pixbuf_composite (mute_pixbuf,
-			      data->no_camera_pixbuf,
-			      0,
-			      0,
-			      gdk_pixbuf_get_width (mute_pixbuf),
-			      gdk_pixbuf_get_height (mute_pixbuf),
-			      0,
-			      0,
-			      1.0,
-			      1.0,
-			      GDK_INTERP_BILINEAR,
-			      200);
-	g_object_unref (mute_pixbuf);
-
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE));
@@ -2115,10 +1639,6 @@ dlg_photo_importer (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (cancel_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->select_model_button),
-			  "clicked",
-			  G_CALLBACK (dlg_select_camera_model_cb),
-			  data);
 	g_signal_connect (G_OBJECT (data->choose_tags_button),
 			  "clicked",
 			  G_CALLBACK (choose_tags_cb),
@@ -2149,355 +1669,6 @@ dlg_photo_importer (GthBrowser *browser)
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 
-	start_operation (data, GTH_IMPORTER_OP_LIST_ABILITIES);
+	load_images_preview (data);
 }
-
-
-typedef struct {
-	DialogData     *data;
-	GladeXML       *gui;
-
-	GtkWidget      *dialog;
-	GtkWidget      *cm_model_treeview;
-	GtkWidget      *cm_port_combo_box;
-	GtkWidget      *cm_refresh_button;
-	GtkWidget      *cm_manual_selection_checkbutton;
-
-	GHashTable     *autodetected_models;
-} ModelDialogData;
-
-
-static void
-model__destroy_cb (GtkWidget       *widget,
-		   ModelDialogData *data)
-{
-	g_object_unref (data->gui);
-
-	if (data->autodetected_models) {
-		g_hash_table_destroy (data->autodetected_models);
-		data->autodetected_models = NULL;
-	}
-
-	g_free (data);
-}
-
-
-static void
-model__ok_clicked_cb (GtkButton       *button,
-		      ModelDialogData *mdata)
-{
-	gchar        *model = NULL;
-	gchar        *port = NULL;
-	GtkTreeModel *treemodel;
-	GtkTreeIter  iter;
-
-	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mdata->cm_model_treeview));
-	if (gtk_tree_selection_get_selected (selection, &treemodel, &iter))
-		gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
-
-	if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (mdata->cm_port_combo_box), &iter)) {
-		treemodel = gtk_combo_box_get_model (GTK_COMBO_BOX (mdata->cm_port_combo_box));
-		gtk_tree_model_get (treemodel, &iter, 0, &port, -1);
-	}
-
-	gtk_widget_hide (mdata->dialog);
-	if ((model != NULL) && (*model != 0))
-		set_camera_model (mdata->data, model, port);
-
-	gtk_widget_destroy (mdata->dialog);
-	g_free(model);
-	g_free(port);
-}
-
-
-static GList *
-get_camera_port_list (ModelDialogData *mdata, GPPortType types)
-{
-	GList *list = NULL;
-	int n, i;
-
-	n = gp_port_info_list_count (mdata->data->port_list);
-	if (n <= 0)
-		return g_list_append (NULL, g_strdup (""));
-
-	for (i = 0; i < n; i++) {
-		GPPortInfo info;
-		gp_port_info_list_get_info (mdata->data->port_list, i, &info);
-		if (info.type & types)
-			list = g_list_prepend (list, g_strdup_printf ("%s", info.path));
-	}
-
-	return g_list_reverse (list);
-}
-
-
-static GList *
-get_camera_model_list (ModelDialogData *mdata)
-{
-	GList *list = NULL;
-	int    n, i;
-
-	n = gp_abilities_list_count (mdata->data->abilities_list);
-	if (n <= 0)
-		return list;
-
-	for (i = 0; i < n; i++) {
-		CameraAbilities a;
-		int r =	gp_abilities_list_get_abilities (mdata->data->abilities_list, i, &a);
-		if (r >= 0)
-			list = g_list_prepend (list, g_strdup (a.model));
-	}
-
-	return g_list_reverse (list);
-}
-
-
-static GList*
-get_autodetect_model_list (ModelDialogData *mdata)
-{
-	DialogData   *data = mdata->data;
-	CameraList   *camera_list = NULL;
-	GList	     *model_list = NULL;
-	GHashTable   *model_hash = NULL;
-	int	     n, i;
-
-	gp_list_new (&camera_list);
-
-	/*
-	 * Hack to force update of usb ports (which are added dynamically when a device is plugged in)
-	 * (libgphoto2 should have a gp_port_info_list_update method)
-	 */
-
-	gp_port_info_list_free (data->port_list);
-	gp_port_info_list_new (&data->port_list);
-	gp_port_info_list_load (data->port_list);
-
-	/* */
-
-	gp_abilities_list_detect (data->abilities_list,
-				  data->port_list,
-				  camera_list,
-				  data->context);
-
-	n = gp_list_count (camera_list);
-
-	model_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify)path_list_free);
-
-	for (i = 0; i < n; i++) {
-		const char *model = NULL;
-		const char *port = NULL;
-		GList* port_list;
-
-		gp_list_get_name (camera_list, i, &model);
-		gp_list_get_value (camera_list, i, &port);
-
-		port_list = g_hash_table_lookup (model_hash, model);
-		if (port_list == NULL) {
-			model_list = g_list_append (model_list, g_strdup_printf ("%s", model));
-			port_list = g_list_append (port_list, g_strdup_printf("%s", port));
-			g_hash_table_insert(model_hash, g_strdup_printf("%s", model), port_list);
-		} else {
-			port_list = g_list_append (port_list, g_strdup_printf("%s", port));
-		}
-	}
-
-	if (mdata->autodetected_models != NULL) {
-		g_hash_table_destroy (mdata->autodetected_models);
-	}
-
-	gp_list_free (camera_list);
-	mdata->autodetected_models = model_hash;
-	return model_list;
-}
-
-
-static void
-model__selection_changed_cb (GtkTreeSelection *selection,
-			     ModelDialogData  *mdata)
-{
-	GtkTreeIter     iter;
-	GtkTreeModel    *treemodel;
-	gchar           *model;
-	GtkListStore    *store;
-	int             m;
-	CameraAbilities a;
-	GList           *list, *l;
-	gboolean        is_manual_selection;
-
-	if (gtk_tree_selection_get_selected (selection, &treemodel, &iter)) {
-		gtk_tree_model_get (treemodel, &iter, 0, &model, -1);
-
-		store =  gtk_list_store_new (1, G_TYPE_STRING);
-		is_manual_selection = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mdata->cm_manual_selection_checkbutton));
-		if (is_manual_selection) {
-			m = gp_abilities_list_lookup_model (mdata->data->abilities_list, model);
-			if (m >= 0) {
-				gp_abilities_list_get_abilities (mdata->data->abilities_list, m, &a);
-				list = get_camera_port_list (mdata, a.port);
-			} else
-				list = NULL;
-		} else
-			list = g_hash_table_lookup (mdata->autodetected_models, model);
-
-		for(l = g_list_first (list); l; l = l->next) {
-			gchar *text = (gchar *)l->data;
-			gtk_list_store_append (store, &iter);
-			gtk_list_store_set (store, &iter, 0, text, -1);
-		}
-
-		if (is_manual_selection)
-			path_list_free (list);
-
-		gtk_combo_box_set_model (GTK_COMBO_BOX (mdata->cm_port_combo_box), GTK_TREE_MODEL (store));
- 		gtk_combo_box_set_active (GTK_COMBO_BOX (mdata->cm_port_combo_box), 0);
-
-		g_object_unref (store);
-		g_free (model);
-	}
-}
-
-
-static void
-populate_model_treeview (ModelDialogData *mdata,
-			 gboolean         autodetect)
-{
-	GList             *list, *l;
-	GtkTreeIter        iter;
-	GtkListStore      *store =  gtk_list_store_new (1, G_TYPE_STRING);
-	GtkTreeViewColumn *column;
-	GList             *renderers;
-	GtkCellRenderer   *text_renderer;
-
-	if (autodetect)
-		list = get_autodetect_model_list (mdata);
-	else
-		list = get_camera_model_list (mdata);
-
-	if (list == NULL) {
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, _("No camera detected"), -1);
-	}
-
-	for (l = g_list_first (list); l; l = l->next) {
-		char *text = (char *)l->data;
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, text, -1);
-	}
-
-	column = gtk_tree_view_get_column (GTK_TREE_VIEW (mdata->cm_model_treeview), 0);
-	renderers = gtk_tree_view_column_get_cell_renderers (column);
-	text_renderer = renderers->data;
-	g_object_set (text_renderer,
-		      "style", (list != NULL) ? PANGO_STYLE_NORMAL : PANGO_STYLE_ITALIC,
-		      "style-set", TRUE,
-		      NULL);
-
-	gtk_tree_view_set_model (GTK_TREE_VIEW (mdata->cm_model_treeview), GTK_TREE_MODEL (store));
-
-	path_list_free (list);
-	g_object_unref (store);
-}
-
-
-static void
-model__refresh_cb (GtkButton       *button,
-		   ModelDialogData *mdata)
-{
-	populate_model_treeview (mdata, TRUE);
-}
-
-
-static void
-model__manual_select_cb (GtkButton       *button,
-			 ModelDialogData *mdata)
-{
-	gboolean manual_selection;
-
-	manual_selection = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button));
-	gtk_widget_set_sensitive (mdata->cm_refresh_button, ! manual_selection);
-	populate_model_treeview (mdata, ! manual_selection);
-}
-
-
-static void
-dlg_select_camera_model_cb (GtkButton  *button,
-			    DialogData *data)
-{
-	ModelDialogData  *mdata;
-	GtkWidget        *btn_ok, *btn_help, *btn_cancel;
-	GtkCellRenderer  *renderer;
-	GtkTreeSelection *treeview_selection;
-
-	mdata = g_new (ModelDialogData, 1);
-	mdata->data = data;
-
-	mdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
-	if (!mdata->gui) {
-		g_free (mdata);
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return;
-	}
-
-	/* Get the widgets. */
-
-	mdata->dialog = glade_xml_get_widget (mdata->gui, "camera_model_dialog");
-	mdata->cm_model_treeview = glade_xml_get_widget (mdata->gui, "cm_model_treeview");
-	mdata->cm_port_combo_box = glade_xml_get_widget (mdata->gui, "cm_port_combobox");
-
-	mdata->cm_refresh_button = glade_xml_get_widget (mdata->gui, "cm_refresh_button");
-	mdata->cm_manual_selection_checkbutton = glade_xml_get_widget (mdata->gui, "cm_manual_selection_checkbutton");
-
-	btn_ok = glade_xml_get_widget (mdata->gui, "cm_okbutton");
-	btn_help = glade_xml_get_widget (mdata->gui, "cm_helpbutton");
-	btn_cancel = glade_xml_get_widget (mdata->gui, "cm_cancelbutton");
-
-	mdata->autodetected_models = NULL;
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (mdata->cm_model_treeview),
-						     0, NULL, renderer,
-						     "text", 0,
-						     NULL);
-	populate_model_treeview (mdata, TRUE);
-	treeview_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mdata->cm_model_treeview));
-
-	/* Set the signals handlers. */
-
-	g_signal_connect (G_OBJECT (mdata->dialog),
-			  "destroy",
-			  G_CALLBACK (model__destroy_cb),
-			  mdata);
-	g_signal_connect (G_OBJECT (btn_ok),
-			  "clicked",
-			  G_CALLBACK (model__ok_clicked_cb),
-			  mdata);
-	g_signal_connect (G_OBJECT (btn_help),
-			  "clicked",
-			  G_CALLBACK (help_cb),
-			  mdata);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (mdata->dialog));
-	g_signal_connect (G_OBJECT (mdata->cm_refresh_button),
-			  "clicked",
-			  G_CALLBACK (model__refresh_cb),
-			  mdata);
-	g_signal_connect (G_OBJECT (mdata->cm_manual_selection_checkbutton),
-			  "toggled",
-			  G_CALLBACK (model__manual_select_cb),
-			  mdata);
-	g_signal_connect (G_OBJECT (treeview_selection),
-			  "changed",
-			  G_CALLBACK (model__selection_changed_cb),
-			  mdata);
-
-	/* run dialog. */
-
-	gtk_window_set_transient_for (GTK_WINDOW (mdata->dialog), GTK_WINDOW (data->dialog));
-	gtk_widget_show (mdata->dialog);
-}
-
-
-#endif /*HAVE_LIBGPHOTO */
 

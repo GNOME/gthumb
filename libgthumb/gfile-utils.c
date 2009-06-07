@@ -33,6 +33,7 @@
 #include "gfile-utils.h"
 #include "file-data.h"
 #include "file-utils.h"
+#include "gtk-utils.h"
 
 
 /*
@@ -859,3 +860,14 @@ gfile_output_stream_write_line (GFileOutputStream  *ostream,
 
         return (n1 == -1 || n2 == -1 ? -1 : n1 + n2);
 }
+
+
+void
+gfile_list_free (GList *list)
+{
+        if (list == NULL)
+                return;
+        g_list_foreach (list, (GFunc) g_object_unref, NULL);
+        g_list_free (list);
+}
+
