@@ -59,11 +59,14 @@ typedef struct {
                                                   file_data_get_comment (fd) instead. */
 	
 	GList              *metadata;
+
+	GFile		   *gfile;
 } FileData;
 
 #define GTH_TYPE_FILE_DATA (file_data_get_type ())
 
 GType        file_data_get_type            (void);
+FileData *   file_data_new_from_gfile      (GFile            *gfile);
 FileData *   file_data_new                 (const char       *path);
 FileData *   file_data_dup                 (FileData         *fd);
 FileData *   file_data_ref                 (FileData         *fd);

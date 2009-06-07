@@ -59,15 +59,14 @@ static void
 load_info (FileData *fd)
 {
 	GFileInfo *info;
-	GFile     *gfile;
 	GFile     *gfile_resolved;
 	GError    *error = NULL;
 	GTimeVal   tv;
 	char      *resolved_path;
 
 	g_free (fd->local_path);
-	gfile = gfile_new (fd->utf8_path);
-	fd->local_path = g_file_get_path (gfile);
+
+	fd->local_path = g_file_get_path (fd->gfile);
 
 	if ( (fd->local_path != NULL) &&
 	     ! is_local_file (fd->utf8_path) &&
@@ -87,7 +86,7 @@ load_info (FileData *fd)
 	g_object_unref (gfile_resolved);
 	g_free (resolved_path);
 
-	info = g_file_query_info (gfile, 
+	info = g_file_query_info (fd->gfile, 
 				  G_FILE_ATTRIBUTE_STANDARD_SIZE ","
 				  G_FILE_ATTRIBUTE_TIME_CHANGED ","
 				  G_FILE_ATTRIBUTE_TIME_MODIFIED ","
@@ -114,8 +113,40 @@ load_info (FileData *fd)
 		fd->mtime = (time_t) 0;
 		fd->can_read = TRUE;
 	}
+}
 
-	g_object_unref (gfile);
+
+FileData *
+file_data_new_from_gfile (GFile *gfile)
+{
+        FileData *fd;
+
+        if (gfile == NULL)
+                return NULL;
+
+        fd = g_new0 (FileData, 1);
+        fd->ref = 1;
+
+        fd->gfile = gfile;
+	g_object_ref (gfile);
+        fd->utf8_path = g_file_get_parse_name (fd->gfile);
+        fd->utf8_name = file_name_from_path (fd->utf8_path);
+
+        load_info (fd);
+
+        /* The Exif DateTime tag is only recorded on an as-needed basis during
+           DateTime sorts. The tag in memory is refreshed if the file mtime has
+           changed, so it is recorded as well. */
+
+        fd_free_metadata (fd);
+
+        fd->error = FALSE;
+        fd->thumb_loaded = FALSE;
+        fd->thumb_created = FALSE;
+        fd->comment = g_strdup ("");
+        fd->tags = g_strdup ("");
+
+        return fd;
 }
 
 
@@ -130,7 +161,9 @@ file_data_new (const char *path)
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->utf8_path = get_utf8_display_name_from_uri (path);
+
+	fd->gfile = gfile_new (path);
+	fd->utf8_path = g_file_get_parse_name (fd->gfile);
 	fd->utf8_name = file_name_from_path (fd->utf8_path);
 
 	load_info (fd);
@@ -171,6 +204,7 @@ file_data_dup (FileData *source)
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
+	fd->gfile = g_file_dup (source->gfile);
         fd->utf8_path = g_strdup (source->utf8_path);
         fd->utf8_name = file_name_from_path (fd->utf8_path);
 	fd->local_path = g_strdup (source->local_path);
@@ -211,6 +245,7 @@ file_data_unref (FileData *fd)
 		g_free (fd->comment);
 		g_free (fd->tags);
 		fd_free_metadata (fd);
+		g_object_unref (fd->gfile);
 		g_free (fd);
 	}
 }
@@ -258,6 +293,9 @@ file_data_set_path (FileData   *fd,
 
 	g_free (fd->utf8_path);
         fd->utf8_path = get_utf8_display_name_from_uri (path);
+
+	g_object_unref (fd->gfile);
+	fd->gfile = gfile_new (path);
 
 	file_data_update (fd);
 }
