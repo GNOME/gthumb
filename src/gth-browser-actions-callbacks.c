@@ -494,7 +494,7 @@ catalog_rename (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), new_fd->utf8_name);
 	} 
-	else if (file_move (old_fd->utf8_path,new_fd->utf8_path, FALSE, NULL)) {
+	else if (gfile_move (old_fd->gfile,new_fd->gfile, FALSE, NULL)) {
 		gth_monitor_notify_catalog_renamed (old_fd->utf8_path,new_fd->utf8_path);
 	} 
 	else {
@@ -958,7 +958,7 @@ folder_rename (GtkWindow  *window,
 	else {
 		gboolean        result;
 
-		result = file_move (old_fd->utf8_path, new_fd->utf8_path, FALSE, NULL);
+		result = gfile_move (old_fd->gfile, new_fd->gfile, FALSE, NULL);
 		if (result) {
 			comment_move (old_path, new_path);
 			gth_monitor_notify_directory_renamed (old_fd->utf8_path, new_fd->utf8_path);
@@ -1241,7 +1241,7 @@ folder_copy__response_cb (GObject *object,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE);
 
-		file_move (old_fd->utf8_path, new_fd->utf8_path, FALSE, &error);
+		gfile_move (old_fd->gfile, new_fd->gfile, FALSE, &error);
 		if (!error) {
 			char *new_folder_comment;
 
