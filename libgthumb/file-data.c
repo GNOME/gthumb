@@ -332,18 +332,12 @@ file_data_list_from_uri_list (GList *list)
 GList*
 file_data_list_dup (GList *list)
 {
-	GList *new_list = NULL, *scan;
-
 	if (list == NULL)
 		return NULL;
 
-	for (scan = list; scan; scan = scan->next) {
-		FileData *data = scan->data;
-		file_data_ref (data);
-		new_list = g_list_prepend (new_list, data);
-	}
+        g_list_foreach (list, (GFunc) file_data_ref, NULL);
 
-	return g_list_reverse (new_list);
+        return g_list_copy (list);
 }
 
 

@@ -248,6 +248,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 			fd = file_data_dup (current->data);
 			file_data_set_path (fd, tmp_filename);
 			comment_copy (image_filename, fd->utf8_path);
+                        file_data_unref (fd);
 		}
 
 		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, get_uri_from_local_path (tmp_filename));
