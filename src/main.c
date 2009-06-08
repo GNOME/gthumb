@@ -32,6 +32,7 @@
 #include "main.h"
 #include "dlg-photo-importer.h"
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
@@ -64,7 +65,8 @@ static char*icon_mime_name[ICON_NAMES] = { "gnome-fs-directory",
 					   "gnome-fs-desktop" };
 
 GList         *file_urls = NULL, *dir_urls = NULL;
-int            n_file_urls, n_dir_urls;
+GList         *file_gfiles = NULL, *dir_gfiles = NULL;
+int            n_files, n_dirs;
 int            StartInFullscreen = FALSE;
 int            StartSlideshow = FALSE;
 int            ViewFirstImage = FALSE;
@@ -476,21 +478,22 @@ initialize_data (void)
 			continue;
 		}
 
-		if (file_type == G_FILE_TYPE_DIRECTORY)
+		if (file_type == G_FILE_TYPE_DIRECTORY) {
 			dir_urls = g_list_prepend (dir_urls, path);
-		else
+			dir_gfiles = g_list_prepend (dir_gfiles, gfile);
+		} else {
 			file_urls = g_list_prepend (file_urls, path);
-
-		g_object_unref (gfile);
+			file_gfiles = g_list_prepend (file_gfiles, gfile);
+			}
 	}
 
-	n_file_urls = g_list_length (file_urls);
-	n_dir_urls = g_list_length (dir_urls);
+	n_files = g_list_length (file_gfiles);
+	n_dirs = g_list_length (dir_gfiles);
 
-	if (n_file_urls == 1)
+	if (n_files == 1)
 		view_single_image = TRUE;
 
-	if (n_file_urls > 1) {
+	if (n_files > 1) {
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
 		char    *catalog_path;
@@ -636,19 +639,21 @@ prepare_app (void)
 	}
 
 	if (ImportPhotos) {
-		const char *import_dir = NULL;
+		GFile *import_dir = NULL;
 
-		if (dir_urls)
-			import_dir = (char *) dir_urls->data;
-		
-		if (use_factory)
-		 	GNOME_GThumb_Application_import_photos (app, import_dir, &env);
-		else
+		if (dir_gfiles)
+			import_dir = (GFile *) dir_gfiles->data;
+
+// This is broken, because I don't know how to use bonobo to pass a gfile argument.
+// FIXME		
+//		if (use_factory)
+//		 	GNOME_GThumb_Application_import_photos (app, import_dir, &env);
+//		else
 			dlg_photo_importer (NULL, import_dir, TRUE);
 	} 
 	else if (! view_comline_catalog
-		 && (n_dir_urls == 0)
-		 && (n_file_urls == 0)) 
+		 && (n_dirs == 0)
+		 && (n_files == 0)) 
 	{
 		open_browser_window (NULL, TRUE, use_factory, app, &env);
 	} 
@@ -687,6 +692,8 @@ prepare_app (void)
 
 	path_list_free (file_urls);
 	path_list_free (dir_urls);
+	gfile_list_free (file_gfiles);
+	gfile_list_free (dir_gfiles);
 
 	/**/
 

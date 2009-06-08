@@ -26,7 +26,7 @@
 #include "gth-browser.h"
 
 void   dlg_photo_importer (GthBrowser *browser,
-			   const char *uri,
+			   GFile      *gfile_import_from,
 			   gboolean    dcim_dirs_only);
 
 #endif /* DLG_PHOTO_IMPORTER_H */

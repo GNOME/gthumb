@@ -128,7 +128,7 @@ struct _DialogData {
 
 	GList               *dcim_dirs;
 	gboolean	     dcim_dirs_only;
-	char		    *uri;
+	GFile		    *gfile_import_from;
 };
 
 
@@ -359,7 +359,9 @@ destroy_cb (GtkWidget  *widget,
 	g_free (data->msg_text);
 	g_free (data->main_dest_folder);
 	g_free (data->last_folder);
-	g_free (data->uri);
+
+	if (data->gfile_import_from)
+		g_object_unref (data->gfile_import_from);
 
 	gfile_list_free (data->dcim_dirs);
 	path_list_free (data->tags_list);
@@ -547,28 +549,29 @@ get_all_files (DialogData *data)
 	GFile *gfile;
 	GList *file_list = NULL;
 	GList *scan;
+	char  *utf8_path = NULL;
 
 	if (data->dcim_dirs != NULL) {
 		gfile_list_free (data->dcim_dirs);	
 		data->dcim_dirs = NULL;
 	}
 
-	if (data->uri && !path_is_dir (data->uri)) {
-		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("%s is not a valid directory, scanning for attached devices instead"), data->uri);
-		g_free (data->uri);
-		data->uri = NULL;
-	}
+	if (data->gfile_import_from)
+		utf8_path = g_file_get_parse_name (data->gfile_import_from);
 
-	if (data->uri) {
+	if (data->gfile_import_from && !gfile_is_dir (data->gfile_import_from)) {
+		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("%s is not a valid directory, scanning for attached devices instead"), utf8_path);
+	} else if (data->gfile_import_from) {
 		if (data->dcim_dirs_only) {
-			gfile = gfile_new (data->uri);
-			data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
-	                g_object_unref (gfile);
+			data->dcim_dirs = gfile_import_dir_list_recursive (data->gfile_import_from,
+									   data->dcim_dirs, NULL, 0);
 		} else {
-			data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
+			data->dcim_dirs = g_list_prepend (data->dcim_dirs,
+							  data->gfile_import_from);
 			}
+
 		if (!file_list) {
-			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No files found in %s, scanning for attached devices instead"), data->uri);
+			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No files found in %s, scanning for attached devices instead"), utf8_path);
 		}
 	}
 
@@ -589,6 +592,7 @@ get_all_files (DialogData *data)
 		file_list = gfile_import_file_list_recursive (gfile, file_list);
 	}
 
+	g_free (utf8_path);
 	return file_list;
 }
 
@@ -1546,7 +1550,7 @@ help_cb (GtkWidget  *widget,
 
 void
 dlg_photo_importer (GthBrowser *browser,
-		    const char *uri,
+		    GFile      *gfile_import_from,
 		    gboolean    dcim_dirs_only)
 {
 	DialogData *data;
@@ -1577,7 +1581,9 @@ dlg_photo_importer (GthBrowser *browser,
 
 	data->dcim_dirs = NULL;
 	data->dcim_dirs_only = dcim_dirs_only;
-	data->uri = g_strdup (uri);
+	data->gfile_import_from = gfile_import_from;
+	if (gfile_import_from)
+		g_object_ref (gfile_import_from);
 
 	/* Get the widgets. */
 
