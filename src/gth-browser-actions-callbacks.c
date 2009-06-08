@@ -126,7 +126,7 @@ void
 gth_browser_activate_action_file_camera_import (GtkAction  *action,
 						GthBrowser *browser)
 {
-        dlg_photo_importer (browser, NULL);
+        dlg_photo_importer (browser, NULL, TRUE);
 }
 
 

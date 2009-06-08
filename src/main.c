@@ -644,7 +644,7 @@ prepare_app (void)
 		if (use_factory)
 		 	GNOME_GThumb_Application_import_photos (app, import_dir, &env);
 		else
-			dlg_photo_importer (NULL, import_dir);
+			dlg_photo_importer (NULL, import_dir, TRUE);
 	} 
 	else if (! view_comline_catalog
 		 && (n_dir_urls == 0)

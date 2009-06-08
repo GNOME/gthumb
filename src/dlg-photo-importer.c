@@ -127,6 +127,7 @@ struct _DialogData {
 	AsyncOperationData  *aodata;
 
 	GList               *dcim_dirs;
+	gboolean	     dcim_dirs_only;
 	char		    *uri;
 };
 
@@ -419,14 +420,19 @@ display_error_dialog (DialogData *data,
 }
 
 
+#define RECURSION_LIMIT 3
+
 static GList *
 gfile_import_dir_list_recursive (GFile      *gfile,
 				 GList      *dcim_dirs,
-				 const char *filter)
+				 const char *filter,
+				 int         n)
 {
         GFileEnumerator *file_enum;
         GFileInfo       *info;
 	GError		*error = NULL;
+
+	n++; 
 
         file_enum = g_file_enumerate_children (gfile,
                                                G_FILE_ATTRIBUTE_STANDARD_NAME ","
@@ -448,17 +454,19 @@ gfile_import_dir_list_recursive (GFile      *gfile,
                 child = g_file_get_child (gfile, g_file_info_get_name (info));
 		utf8_path = g_file_get_parse_name (child);
 
+		debug (DEBUG_INFO, "Scanning directory %s, recursion level %d", utf8_path, n);
+
                 switch (g_file_info_get_file_type (info)) {
                 case G_FILE_TYPE_DIRECTORY:
-			if (!filter ||
-			    (filter && strstr (utf8_path, filter))) {
+			if (!(n > RECURSION_LIMIT) &&
+			   (!filter || (filter && strstr (utf8_path, filter)))) {
 				if (strstr (utf8_path, "dcim") || strstr (utf8_path, "DCIM")) {
 					debug (DEBUG_INFO, "found DCIM dir at %s", utf8_path);
 	        	        	dcim_dirs = g_list_prepend (dcim_dirs, g_file_dup (child));
 				} else {
 					debug (DEBUG_INFO, "no DCIM dir at %s", utf8_path);
 					if (utf8_path[0] != '.') {
-						dcim_dirs = gfile_import_dir_list_recursive (child, dcim_dirs, filter);
+						dcim_dirs = gfile_import_dir_list_recursive (child, dcim_dirs, filter, n);
 					}
 				}
 			} else {
@@ -545,8 +553,8 @@ get_all_files (DialogData *data)
 		data->dcim_dirs = NULL;
 	}
 
-	if (data->uri && !path_exists (data->uri)) {
-		display_error_dialog (data, _("Import path not found"), _("Scanning for attached devices"));
+	if (data->uri && !path_is_dir (data->uri)) {
+		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("%s is not a valid directory, scanning for attached devices instead"), data->uri);
 		g_free (data->uri);
 		data->uri = NULL;
 	}
@@ -554,15 +562,22 @@ get_all_files (DialogData *data)
 	if (data->uri == NULL) {
 		char *gvfs_dir = g_strconcat (g_get_home_dir (), "/", ".gvfs", NULL);
 		GFile *gfile = gfile_new (gvfs_dir);
-		data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, "gphoto");
+		data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, "gphoto", 0);
 		g_object_unref (gfile);
 		g_free (gvfs_dir);
 
                 gfile = gfile_new ("/media");
-                data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL);
+                data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
                 g_object_unref (gfile);
 	} else {
-		data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
+		if (data->dcim_dirs_only) {
+			gfile = gfile_new (data->uri);
+			data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
+	                g_object_unref (gfile);
+		} else {
+			data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
+			}
+		
 	}
 
 	for (scan = data->dcim_dirs; scan; scan = scan->next) {
@@ -1526,7 +1541,9 @@ help_cb (GtkWidget  *widget,
 
 
 void
-dlg_photo_importer (GthBrowser *browser, const char *uri)
+dlg_photo_importer (GthBrowser *browser,
+		    const char *uri,
+		    gboolean    dcim_dirs_only)
 {
 	DialogData *data;
 	GtkWidget  *btn_cancel;
@@ -1555,6 +1572,7 @@ dlg_photo_importer (GthBrowser *browser, const char *uri)
 	data->msg_text  = NULL;
 
 	data->dcim_dirs = NULL;
+	data->dcim_dirs_only = dcim_dirs_only;
 	data->uri = g_strdup (uri);
 
 	/* Get the widgets. */

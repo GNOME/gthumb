@@ -165,7 +165,7 @@ impl_gth_application_import_photos (PortableServer_Servant  _servant,
 				    CORBA_Environment      *ev)
 {
 	gth_browser_activate_action_file_camera_import (NULL, NULL);
-	dlg_photo_importer (NULL, uri);
+	dlg_photo_importer (NULL, uri, TRUE);
 }
 
 
