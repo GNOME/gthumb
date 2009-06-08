@@ -255,8 +255,11 @@ gfile_get_mime_type (GFile      *file,
                 else
                         value = g_file_info_get_content_type (info);
 
-		if (!value)
+		if (!value) {
+			char *utf8_path = g_file_get_parse_name (file);
+			debug (DEBUG_INFO, "%s returned a NULL mime type", utf8_path);
 			return NULL;
+		}
 		
                 /*
                  * If the file content is determined to be binary data (octet-stream), check for

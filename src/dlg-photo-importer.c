@@ -522,7 +522,7 @@ gfile_import_file_list_recursive (GFile  *gfile,
                         files = gfile_import_file_list_recursive (child, files);
                         break;
                 case G_FILE_TYPE_REGULAR:
-			mime_type = gfile_get_mime_type (child, TRUE);
+			mime_type = gfile_get_mime_type (child, FALSE);
 		        if ((mime_type_is_image (mime_type) ||
 		             mime_type_is_video (mime_type) ||
 		             mime_type_is_audio (mime_type)))
@@ -562,6 +562,7 @@ get_all_files (DialogData *data)
 	if (data->gfile_import_from && !gfile_is_dir (data->gfile_import_from)) {
 		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("%s is not a valid directory, scanning for attached devices instead"), utf8_path);
 	} else if (data->gfile_import_from) {
+		debug (DEBUG_INFO, "Scanning %s for folders", utf8_path);
 		if (data->dcim_dirs_only) {
 			data->dcim_dirs = gfile_import_dir_list_recursive (data->gfile_import_from,
 									   data->dcim_dirs, NULL, 0);
@@ -569,13 +570,12 @@ get_all_files (DialogData *data)
 			data->dcim_dirs = g_list_prepend (data->dcim_dirs,
 							  data->gfile_import_from);
 			}
-
-		if (!file_list) {
-			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No files found in %s, scanning for attached devices instead"), utf8_path);
-		}
 	}
 
-	if (!file_list) {
+	if (data->gfile_import_from && !data->dcim_dirs)
+		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No folders found in %s, scanning for attached devices instead"), utf8_path);
+
+	if (!data->dcim_dirs) {
 		char *gvfs_dir = g_strconcat (g_get_home_dir (), "/", ".gvfs", NULL);
 		GFile *gfile = gfile_new (gvfs_dir);
 		data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, "gphoto", 0);
