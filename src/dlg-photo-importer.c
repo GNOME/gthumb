@@ -95,6 +95,7 @@ struct _DialogData {
 	gboolean             view_folder;
 
 	gboolean             delete_from_camera;
+	gboolean	     suppress_delete_warnings;
 	gboolean             adjust_orientation;
 
 	char                *main_dest_folder;
@@ -1192,9 +1193,9 @@ save_images__step (AsyncOperationData *aodata,
 		if (data->delete_from_camera) {
 			debug (DEBUG_INFO, "import delete: %s", path);
 			g_file_delete (gfile, NULL, &error);
-	                if (error) {
-	                        display_error_dialog (data, _("Could not delete photos on the camera - further deletes are disabled"), error->message);
-				data->delete_from_camera = FALSE;
+	                if (error && !(data->suppress_delete_warnings)) {
+	                        display_error_dialog (data, _("Could not delete one or more of the photos"), error->message);
+				data->suppress_delete_warnings = TRUE;
         	                g_clear_error (&error);
 			}
                 }
@@ -1298,6 +1299,7 @@ ok_clicked_cb (GtkButton  *button,
 		return;
 
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
+	data->suppress_delete_warnings = FALSE;
 	data->adjust_orientation = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE);
 
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
