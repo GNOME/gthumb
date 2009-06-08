@@ -559,7 +559,20 @@ get_all_files (DialogData *data)
 		data->uri = NULL;
 	}
 
-	if (data->uri == NULL) {
+	if (data->uri) {
+		if (data->dcim_dirs_only) {
+			gfile = gfile_new (data->uri);
+			data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
+	                g_object_unref (gfile);
+		} else {
+			data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
+			}
+		if (!file_list) {
+			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No files found in %s, scanning for attached devices instead"), data->uri);
+		}
+	}
+
+	if (!file_list) {
 		char *gvfs_dir = g_strconcat (g_get_home_dir (), "/", ".gvfs", NULL);
 		GFile *gfile = gfile_new (gvfs_dir);
 		data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, "gphoto", 0);
@@ -569,15 +582,6 @@ get_all_files (DialogData *data)
                 gfile = gfile_new ("/media");
                 data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
                 g_object_unref (gfile);
-	} else {
-		if (data->dcim_dirs_only) {
-			gfile = gfile_new (data->uri);
-			data->dcim_dirs = gfile_import_dir_list_recursive (gfile, data->dcim_dirs, NULL, 0);
-	                g_object_unref (gfile);
-		} else {
-			data->dcim_dirs = g_list_prepend (data->dcim_dirs, gfile_new (data->uri));
-			}
-		
 	}
 
 	for (scan = data->dcim_dirs; scan; scan = scan->next) {
