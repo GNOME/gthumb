@@ -233,7 +233,7 @@ gfile_get_filename_extension (GFile *file)
 
 const char*
 gfile_get_mime_type (GFile      *file,
-                          gboolean    fast_file_type)
+                     gboolean    fast_file_type)
 {
         const char *value;
         const char *result = NULL;
@@ -255,6 +255,9 @@ gfile_get_mime_type (GFile      *file,
                 else
                         value = g_file_info_get_content_type (info);
 
+		if (!value)
+			return NULL;
+		
                 /*
                  * If the file content is determined to be binary data (octet-stream), check for
                  * HDR file types, which are not well represented in the freedesktop mime database
