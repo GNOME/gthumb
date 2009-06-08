@@ -741,35 +741,35 @@ dlg_tags_update (GtkWidget *dlg)
 		CommentData *first_data = file_data_get_comment (data->file_list->data, TRUE);
                 all_tags = g_slist_copy (first_data->keywords);
                 partial_tags = g_slist_copy (first_data->keywords);
-	}
 
-        /* Loop on all other files */
-        for (scan = data->file_list->next; scan; scan = scan->next) {
-                CommentData *scan_cdata;
+                /* Loop on all other files */
+                for (scan = data->file_list->next; scan; scan = scan->next) {
+                        CommentData *scan_cdata;
 
-                scan_cdata = file_data_get_comment (scan->data, TRUE);
+                        scan_cdata = file_data_get_comment (scan->data, TRUE);
 
-                if (!scan_cdata) {
-                        /* No comment in this file: empty all_tags */
-                        g_slist_free (all_tags);
-                        all_tags = NULL;
-                        continue;
+                        if (!scan_cdata) {
+                                /* No comment in this file: empty all_tags */
+                                g_slist_free (all_tags);
+                                all_tags = NULL;
+                                continue;
+                        }
+
+                        /* Remove a tag from all_tags if it is not present in current file */
+                        for (tmp = all_tags; tmp; tmp = g_slist_next (tmp)) {
+                                if (!g_slist_find_custom (scan_cdata->keywords, tmp->data, (GCompareFunc) strcmp))
+                                        all_tags = g_slist_remove (all_tags, tmp->data);
+                        }
+
+                        /* Add all tags to partial_tags */
+                        for (tmp =  scan_cdata->keywords; tmp; tmp = g_slist_next (tmp)) {
+                                char *keyword = tmp->data;
+
+                                if (!g_slist_find_custom (partial_tags, keyword, (GCompareFunc) strcmp))
+                                        partial_tags = g_slist_prepend (partial_tags, keyword);
+                        }
                 }
-
-                /* Remove a tag from all_tags if it is not present in current file */
-                for (tmp = all_tags; tmp; tmp = g_slist_next (tmp)) {
-                        if (!g_slist_find_custom (scan_cdata->keywords, tmp->data, (GCompareFunc) strcmp))
-                                all_tags = g_slist_remove (all_tags, tmp->data);
-                }
-
-                /* Add all tags to partial_tags */
-                for (tmp =  scan_cdata->keywords; tmp; tmp = g_slist_next (tmp)) {
-                        char *keyword = tmp->data;
-
-                        if (!g_slist_find_custom (partial_tags, keyword, (GCompareFunc) strcmp))
-                                partial_tags = g_slist_prepend (partial_tags, keyword);
-		}
-	}
+        }
 
         /* Remove tags from partial_tags if they are already in all_tags */
         for (tmp = all_tags; tmp; tmp = g_slist_next (tmp))
