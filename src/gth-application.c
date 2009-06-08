@@ -165,7 +165,9 @@ impl_gth_application_import_photos (PortableServer_Servant  _servant,
 				    CORBA_Environment      *ev)
 {
 	gth_browser_activate_action_file_camera_import (NULL, NULL);
-	dlg_photo_importer (NULL, uri, TRUE);
+
+	/* This is broken, because I'm not sure how to pass a gfile */
+	dlg_photo_importer (NULL, NULL, TRUE);
 }
 
 
