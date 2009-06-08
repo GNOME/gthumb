@@ -32,6 +32,9 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
+/* FIXME */
+#include <libgnomeui/gnome-thumbnail.h>
+
 #include "gth-utils.h"
 #include "gtk-utils.h"
 #include "gth-window.h"
@@ -130,6 +133,9 @@ struct _DialogData {
 	GList               *dcim_dirs;
 	gboolean	     dcim_dirs_only;
 	GFile		    *gfile_import_from;
+
+/* FIXME */
+	GnomeThumbnailFactory *factory;
 };
 
 
@@ -369,6 +375,7 @@ destroy_cb (GtkWidget  *widget,
 	gfile_list_free (data->delete_list);
 	gfile_list_free (data->adjust_orientation_list);
 	gfile_list_free (data->saved_images_list);
+	g_object_unref (data->factory);
 	g_object_unref (data->gui);
 	g_free (data);
 
@@ -689,78 +696,91 @@ load_images_preview__init (AsyncOperationData *aodata,
 
 
 static GdkPixbuf*
-gfile_get_preview (GFile *gfile, int size)
+gfile_get_preview (GFile      *gfile,
+		   int         size,
+		   const char *mime_type,
+		   GnomeThumbnailFactory  *factory) /* FIXME */
 {
         GdkPixbuf    *pixbuf = NULL;
-	GdkPixbuf    *rotated = NULL;
         GIcon        *gicon;
         GtkIconTheme *theme;
 	GFileInfo    *info;
+	char         *uri;
 
         theme = gtk_icon_theme_get_default ();
+
+	char *utf8_path = g_file_get_parse_name (gfile);
+	debug (DEBUG_INFO, "need preview for %s", utf8_path);
 
         if (gfile == NULL)
                 return NULL;
 
-	char *local_path = g_file_get_path (gfile);
-	debug (DEBUG_INFO, "need preview for %s", local_path);
+	uri = g_file_get_uri (gfile);
+	pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory, uri, mime_type); /* FIXME */
+	g_free (uri);
 
-        info = g_file_query_info (gfile,
-                                  G_FILE_ATTRIBUTE_PREVIEW_ICON ","
-				  G_FILE_ATTRIBUTE_STANDARD_ICON,
-                                  G_FILE_QUERY_INFO_NONE,
-                                  NULL,
-                                  NULL);
-
-	if (info == NULL) {
-		debug (DEBUG_INFO, "no info found for %s", local_path);
-		g_free (local_path);
-		return NULL;
+	if (pixbuf) {
+		int w = gdk_pixbuf_get_width (pixbuf);
+		int h = gdk_pixbuf_get_height (pixbuf);
+		if (scale_keeping_ratio (&w, &h, size, size, FALSE)) {
+			GdkPixbuf *tmp = pixbuf;
+			pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
+			g_object_unref (tmp);
+		}
 	}
 
-        gicon = (GIcon *) g_file_info_get_attribute_object (info, G_FILE_ATTRIBUTE_PREVIEW_ICON);
-
-	if (gicon == NULL)
-		debug (DEBUG_INFO, "no preview icon found for %s", local_path);
-
-	if (gicon == NULL && local_path) {
-		/* TODO: is there a fast way to extract an embedded thumbnail,
-                   instead of reading the entire file and scaling it down ? */
-		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
-	}
-
-	if ((gicon == NULL) && (pixbuf == NULL)) {
-		debug (DEBUG_INFO, "no scaled pixbuf found for %s", local_path);	
-		gicon = g_file_info_get_icon (info);
-	}
-
-        if ((gicon == NULL) && (pixbuf == NULL)) {
-		debug (DEBUG_INFO, "no generic icon found for %s", local_path);
-	}
-
-	if (gicon != NULL) {
-		GtkIconInfo *icon_info;
-		icon_info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default (),
-							    gicon,
-							    size,
-							    0);
-		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
-		if (pixbuf == NULL)
-			debug (DEBUG_INFO, "valid gicon, but couldn't get pixbuf for %s", local_path); 
-		gtk_icon_info_free (icon_info);
-	}
-
-	if (pixbuf == NULL) {
-		debug (DEBUG_INFO, "no preview pixbuf created for %s", local_path);
+	if (pixbuf) {
+		debug (DEBUG_INFO, "using thumbnail for for %s", utf8_path);
 	} else {
-		rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);
-		g_object_unref (pixbuf);
+		char *local_path = g_file_get_path (gfile);
+		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
+		g_free (local_path);
+		if (pixbuf) {
+			debug (DEBUG_INFO, "using simple gdk pixbuf for for %s", utf8_path);
+			GdkPixbuf *tmp = pixbuf;
+			pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
+			g_object_unref (tmp);
+		}
 	}
 
-	g_object_unref (info);
-	g_free (local_path);
+	if (!pixbuf) {
+	        info = g_file_query_info (gfile,
+					  G_FILE_ATTRIBUTE_STANDARD_ICON,
+                	                  G_FILE_QUERY_INFO_NONE,
+                        	          NULL,
+                                	  NULL);
 
-        return rotated;
+		if (info == NULL) {
+			debug (DEBUG_INFO, "no info found for %s", utf8_path);
+			g_free (utf8_path);
+			return NULL;
+		}
+
+		gicon = g_file_info_get_icon (info);
+
+	        if (!gicon) {
+			debug (DEBUG_INFO, "no generic icon found for %s", utf8_path);
+		} else {
+			GtkIconInfo *icon_info;
+			icon_info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default (),
+								    gicon,
+								    size,
+								    0);
+			pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+			if (pixbuf == NULL)
+				debug (DEBUG_INFO, "valid generic icon, but couldn't get pixbuf for %s", utf8_path); 
+			gtk_icon_info_free (icon_info);
+			g_object_unref (gicon);
+		}
+		g_object_unref (info);
+	}
+
+	if (pixbuf == NULL)
+		debug (DEBUG_INFO, "no preview pixbuf created for %s", utf8_path);
+
+	g_free (utf8_path);
+
+        return pixbuf;
 }
 
 
@@ -771,9 +791,10 @@ load_images_preview__step (AsyncOperationData *aodata,
 	GdkPixbuf *pixbuf;
 	FileData  *fd;
 
-	pixbuf = gfile_get_preview ((GFile *) aodata->scan->data, THUMB_SIZE);
 	fd = file_data_new_from_gfile ((GFile *) aodata->scan->data);
-	
+
+	pixbuf = gfile_get_preview ((GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type, data->factory);
+
 	gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 					 pixbuf,
 					 fd->utf8_name,
@@ -1571,6 +1592,8 @@ dlg_photo_importer (GthBrowser *browser,
 		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
+
+	data->factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);  /* FIXME */
 
 	data->tags_list = NULL;
 	data->delete_list = NULL;
