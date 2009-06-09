@@ -1301,7 +1301,10 @@ folder_copy (GthWindow   *window,
 	if (path == NULL)
 		return;
 
-	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
+	if (move)
+		file_sel = gth_folder_selection_new (GTK_WINDOW (window), _("Folder move - choose the destination folder"));
+	else
+		file_sel = gth_folder_selection_new (GTK_WINDOW (window), _("Folder copy - choose the destination folder"));
 
 	parent = remove_level_from_path (path);
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), parent);

@@ -39,8 +39,6 @@
 
 
 #define RC_RECENT_FILE        ".gnome2/gthumb/recents"
-#define DEFAULT_DIALOG_WIDTH  390
-#define DEFAULT_DIALOG_HEIGHT 350
 #define MAX_RECENT_LIST       20
 
 
@@ -242,7 +240,8 @@ browse_button_clicked_cb (GtkButton          *button,
 
 
 static void
-gth_folder_selection_construct (GthFolderSelection *folder_sel,
+gth_folder_selection_construct (GtkWindow          *window,
+				GthFolderSelection *folder_sel,
 				const char         *title)
 {
 	GtkDialog *dialog;
@@ -251,6 +250,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	GtkWidget *label1, *label2;
 	GtkWidget *alignment;
 	GtkWidget *browse_button;
+	int        width, height;
 
 	folder_sel->priv->title = g_strdup (title);
 	gtk_window_set_title (GTK_WINDOW (folder_sel), title);
@@ -264,8 +264,11 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
-	gtk_window_set_default_size (GTK_WINDOW (dialog), DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT);
 
+        gth_get_screen_size (window, &width, &height);
+        gtk_window_set_default_size (GTK_WINDOW (dialog),
+                                     width * 4 / 10,
+                                     height * 6 / 10);
 
 	main_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), main_box, TRUE, TRUE, 0);
@@ -395,12 +398,12 @@ gth_folder_selection_get_type ()
 
 
 GtkWidget*
-gth_folder_selection_new (const char *title)
+gth_folder_selection_new (GtkWindow *window, const char *title)
 {
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (g_object_new (GTH_TYPE_FOLDER_SELECTION, NULL));
-	gth_folder_selection_construct (GTH_FOLDER_SELECTION (widget), title);
+	gth_folder_selection_construct (window, GTH_FOLDER_SELECTION (widget), title);
 
 	return widget;
 }

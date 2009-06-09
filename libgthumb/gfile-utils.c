@@ -402,7 +402,7 @@ gboolean gfile_path_contains (GFile      *file,
 	g_assert (find_this != NULL);
 
 	utf8_path = g_file_get_parse_name (file);
-	result = strstr (utf8_path, find_this);
+	result = (strstr (utf8_path, find_this) != NULL);
 	g_free (utf8_path);
 
 	return result;

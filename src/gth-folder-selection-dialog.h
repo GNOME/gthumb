@@ -54,7 +54,8 @@ struct _GthFolderSelectionClass
 
 
 GType         gth_folder_selection_get_type             (void) G_GNUC_CONST;
-GtkWidget *   gth_folder_selection_new                  (const char         *title);
+GtkWidget *   gth_folder_selection_new                  (GtkWindow          *window,
+							 const char         *title);
 void          gth_folder_selection_set_folder           (GthFolderSelection *fsel,
 							 const char         *folder);
 const char *  gth_folder_selection_get_folder           (GthFolderSelection *fsel);

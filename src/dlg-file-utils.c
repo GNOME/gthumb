@@ -407,7 +407,7 @@ dlg_file_move__ask_dest (GthWindow  *window,
 	GtkWidget   *file_sel;
 	const char  *path;
 
-	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
+	file_sel = gth_folder_selection_new (GTK_WINDOW (window), _("File move - choose destination folder"));
 
 	if (default_dir != NULL)
 		path = default_dir;
@@ -507,7 +507,7 @@ dlg_file_copy__ask_dest (GthWindow  *window,
 	GtkWidget  *file_sel;
 	const char *path;
 
-	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
+	file_sel = gth_folder_selection_new (GTK_WINDOW (window), _("File copy - choose the destination folder"));
 
 	if (default_dir != NULL)
 		path = default_dir;
