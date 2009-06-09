@@ -163,6 +163,43 @@ AC_SUBST(EXTENSION_LIBTOOL_FLAGS)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE(deprecations,AC_HELP_STRING([--enable-deprecations],[warn about de
+precated usages]))
+if test "x$enable_deprecations" = "xyes"; then
+	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED \
+	-DGDK_DISABLE_DEPRECATED \
+	-DGDK_PIXBUF_DISABLE_DEPRECATED \
+	-DGTK_DISABLE_DEPRECATED \
+	-DGNOME_VFS_DISABLE_DEPRECATED \
+	-DGNOME_DISABLE_DEPRECATED"
+fi
+AC_SUBST(DISABLE_DEPRECATED)
+
+dnl ===========================================================================
+
+WARN_CFLAGS="-Wall -Wcast-align -Wtype-limits -Wclobbered -Wempty-body -Wignored-qualifiers"
+
+for option in $WARN_CFLAGS; do
+	SAVE_CFLAGS="$CFLAGS"
+	CFLAGS="$CFLAGS $option"
+	AC_MSG_CHECKING([whether gcc understands $option])
+	AC_TRY_COMPILE([], [],
+			has_option=yes,
+			has_option=no,)
+	if test x$has_option = xyes; then
+		WARNINGS="$WARNINGS $option"
+	fi
+	AC_MSG_RESULT($has_option)
+	CFLAGS="$SAVE_CFLAGS"
+	unset has_option
+	unset SAVE_CFLAGS
+done
+unset option
+AC_SUBST(WARNINGS)
+
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile

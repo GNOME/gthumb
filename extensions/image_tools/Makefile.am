@@ -16,7 +16,7 @@ libimage_tools_la_SOURCES = 		\
 	gth-image-tool-undo.h		\
 	main.c
 
-libimage_tools_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libimage_tools_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimage_tools_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libimage_tools_la_LIBADD = $(GTHUMB_LIBS)
 libimage_tools_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
