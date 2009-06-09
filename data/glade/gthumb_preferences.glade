@@ -337,14 +337,16 @@
 			      </child>
 
 			      <child>
-                                <widget class="GtkComboBox" id="toolbar_style_optionmenu">
-                                    <property name="visible">True</property>
-                                    <property name="items" translatable="yes">System settings
+				<widget class="GtkComboBox" id="toolbar_style_optionmenu">
+				  <property name="visible">True</property>
+				  <property name="items" translatable="yes">System settings
 Text below icons
 Text beside icons
 Icons only
 Text only</property>
-                                </widget>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
+				</widget>
 				<packing>
 				  <property name="padding">0</property>
 				  <property name="expand">False</property>
@@ -1132,12 +1134,14 @@ Text only</property>
 				  <property name="spacing">0</property>
 
 				  <child>
-                                    <widget class="GtkComboBox" id="opt_click_policy">
-                                      <property name="visible">True</property>
-                                      <property name="items" translatable="yes">Follow Nautilus behaviour
+				    <widget class="GtkComboBox" id="opt_click_policy">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes">Follow Nautilus behaviour
 Activate items with a single click
 Activate items with a double click</property>
-                                    </widget>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
 				      <property name="expand">False</property>
@@ -1162,9 +1166,9 @@ Activate items with a double click</property>
 				  <property name="spacing">0</property>
 
 				  <child>
-                                    <widget class="GtkComboBox" id="opt_thumbs_size">
-                                      <property name="visible">True</property>
-                                      <property name="items" translatable="yes">48 x 48
+				    <widget class="GtkComboBox" id="opt_thumbs_size">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes">48 x 48
 64 x 64
 85 x 85
 95 x 95
@@ -1173,7 +1177,9 @@ Activate items with a double click</property>
 164 x 164
 200 x 200
 256 x 256</property>
-                                    </widget>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
 				      <property name="expand">False</property>
@@ -1427,13 +1433,15 @@ Activate items with a double click</property>
 			      <property name="spacing">0</property>
 
 			      <child>
-                                <widget class="GtkComboBox" id="opt_zoom_change">
-                                  <property name="visible">True</property>
-                                  <property name="items" translatable="yes">Keep previous zoom
+				<widget class="GtkComboBox" id="opt_zoom_change">
+				  <property name="visible">True</property>
+				  <property name="items" translatable="yes">Keep previous zoom
 Fit to window
 Fit to window if larger
 Set image to actual size
 Fit to width if larger</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1459,12 +1467,14 @@ Fit to width if larger</property>
 			      <property name="spacing">0</property>
 
 			      <child>
-                                <widget class="GtkComboBox" id="opt_transparency">
-                                  <property name="visible">True</property>
-                                  <property name="items" translatable="yes">White
+				<widget class="GtkComboBox" id="opt_transparency">
+				  <property name="visible">True</property>
+				  <property name="items" translatable="yes">White
 None
 Black
 Checked</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1898,7 +1908,6 @@ Checked</property>
 			      <property name="fill">False</property>
 			    </packing>
 			  </child>
-
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -2095,6 +2104,164 @@ Checked</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_CENTER</property>
+	      <property name="wrap">False</property>
+	      <property name="selectable">False</property>
+	      <property name="xalign">0.5</property>
+	      <property name="yalign">0.5</property>
+	      <property name="xpad">0</property>
+	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
+	    </widget>
+	    <packing>
+	      <property name="type">tab</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkVBox" id="vbox62">
+	      <property name="border_width">12</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">12</property>
+
+	      <child>
+		<widget class="GtkVBox" id="vbox63">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+
+		  <child>
+		    <widget class="GtkHBox" id="hbox122">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">5</property>
+
+		      <child>
+			<widget class="GtkLabel" id="label190">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Preview Images From Cameras&lt;/b&gt;</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">True</property>
+			  <property name="justify">GTK_JUSTIFY_CENTER</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkHBox" id="hbox123">
+		      <property name="visible">True</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">0</property>
+
+		      <child>
+			<widget class="GtkLabel" id="label191">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">    </property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkVBox" id="vbox64">
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">6</property>
+
+			  <child>
+			    <widget class="GtkCheckButton" id="toggle_import_previews">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">This makes it easier to select the correct photos to import, but the preview generation process may be slow.</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">_Extract preview images before importing</property>
+			      <property name="use_underline">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			      <property name="active">False</property>
+			      <property name="inconsistent">False</property>
+			      <property name="draw_indicator">True</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">True</property>
+			  <property name="fill">True</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="tab_expand">False</property>
+	      <property name="tab_fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkLabel" id="label189">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Importer</property>
+	      <property name="use_underline">False</property>
+	      <property name="use_markup">False</property>
+	      <property name="justify">GTK_JUSTIFY_LEFT</property>
 	      <property name="wrap">False</property>
 	      <property name="selectable">False</property>
 	      <property name="xalign">0.5</property>

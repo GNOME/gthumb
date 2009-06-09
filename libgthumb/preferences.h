@@ -223,8 +223,7 @@
 #define  PREF_PHOTO_IMPORT_CUSTOM_FORMAT  "/apps/gthumb/dialogs/photo_importer/custom_format_code"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION	"/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import"
-#define  PREF_PHOTO_IMPORT_MODEL          "/apps/gthumb/dialogs/photo_importer/model"
-#define  PREF_PHOTO_IMPORT_PORT           "/apps/gthumb/dialogs/photo_importer/port"
+#define  PREF_PHOTO_IMPORT_PREVIEWS       "/apps/gthumb/dialogs/photo_importer/previews"
 
 #define  PREF_CROP_ASPECT_RATIO           "/apps/gthumb/dialogs/crop/aspect_ratio"
 #define  PREF_CROP_ASPECT_RATIO_WIDTH     "/apps/gthumb/dialogs/crop/aspect_ratio_width"

@@ -98,6 +98,7 @@ struct _DialogData {
 	gboolean             view_folder;
 
 	gboolean             delete_from_camera;
+	gboolean	     generate_previews;
 	gboolean	     suppress_delete_warnings;
 	gboolean             adjust_orientation;
 
@@ -693,7 +694,8 @@ load_images_preview__init (AsyncOperationData *aodata,
 
 
 static GdkPixbuf*
-gfile_get_preview (GFile      *gfile,
+gfile_get_preview (DialogData *data,
+                   GFile      *gfile,
 		   int         size,
 		   const char *mime_type,
 		   GnomeThumbnailFactory  *factory) /* FIXME */
@@ -711,31 +713,33 @@ gfile_get_preview (GFile      *gfile,
         if (gfile == NULL)
                 return NULL;
 
-	uri = g_file_get_uri (gfile);
-	pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory, uri, mime_type); /* FIXME */
-	g_free (uri);
+	if (data->generate_previews) {
+		uri = g_file_get_uri (gfile);
+		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory, uri, mime_type); /* FIXME */
+		g_free (uri);
 
-	if (pixbuf) {
-		int w = gdk_pixbuf_get_width (pixbuf);
-		int h = gdk_pixbuf_get_height (pixbuf);
-		if (scale_keeping_ratio (&w, &h, size, size, FALSE)) {
-			GdkPixbuf *tmp = pixbuf;
-			pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
-			g_object_unref (tmp);
-		}
-	}
-
-	if (pixbuf) {
-		gfile_debug (DEBUG_INFO, "using thumbnail for", gfile);
-	} else {
-		char *local_path = g_file_get_path (gfile);
-		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
-		g_free (local_path);
 		if (pixbuf) {
-			gfile_debug (DEBUG_INFO, "using gdk pixbuf loader for", gfile);
-			GdkPixbuf *tmp = pixbuf;
-			pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
-			g_object_unref (tmp);
+			int w = gdk_pixbuf_get_width (pixbuf);
+			int h = gdk_pixbuf_get_height (pixbuf);
+			if (scale_keeping_ratio (&w, &h, size, size, FALSE)) {
+				GdkPixbuf *tmp = pixbuf;
+				pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
+				g_object_unref (tmp);
+			}
+		}
+
+		if (pixbuf) {
+			gfile_debug (DEBUG_INFO, "using thumbnail for", gfile);
+		} else {
+			char *local_path = g_file_get_path (gfile);
+			pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
+			g_free (local_path);
+			if (pixbuf) {
+				gfile_debug (DEBUG_INFO, "using gdk pixbuf loader for", gfile);
+				GdkPixbuf *tmp = pixbuf;
+				pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
+				g_object_unref (tmp);
+			}
 		}
 	}
 
@@ -761,12 +765,14 @@ gfile_get_preview (GFile      *gfile,
 								    gicon,
 								    size,
 								    0);
-			pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
-			if (pixbuf == NULL)
-				gfile_debug (DEBUG_INFO, "valid generic icon, but couldn't get pixbuf for", gfile); 
-			gtk_icon_info_free (icon_info);
-			g_object_unref (gicon);
+			if (icon_info) {
+				pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+				if (pixbuf == NULL)
+					gfile_debug (DEBUG_INFO, "valid generic icon, but couldn't get pixbuf for", gfile); 
+				gtk_icon_info_free (icon_info);
+			}
 		}
+
 		g_object_unref (info);
 	}
 
@@ -786,7 +792,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 
 	fd = file_data_new_from_gfile ((GFile *) aodata->scan->data);
 
-	pixbuf = gfile_get_preview ((GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type, data->factory);
+	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type, data->factory);
 
 	gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 					 pixbuf,
@@ -1602,6 +1608,8 @@ dlg_photo_importer (GthBrowser *browser,
 	data->gfile_import_from = gfile_import_from;
 	if (gfile_import_from)
 		g_object_ref (gfile_import_from);
+
+	data->generate_previews = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_PREVIEWS, TRUE);
 
 	/* Get the widgets. */
 

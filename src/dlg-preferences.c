@@ -102,6 +102,8 @@ typedef struct {
 	GtkWidget  *spin_ss_delay;
 	GtkWidget  *toggle_ss_wrap_around;
 
+	GtkWidget  *toggle_import_previews;
+
 } DialogData;
 
 
@@ -376,6 +378,14 @@ transp_type_changed_cb (GtkComboBox   *option_menu,
 }
 
 
+static void
+import_previews_toggled_cb (GtkToggleButton *button,
+                            DialogData      *data)
+{
+        eel_gconf_set_boolean (PREF_PHOTO_IMPORT_PREVIEWS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_import_previews)));
+}
+
+
 /* create the main dialog. */
 void
 dlg_preferences (GthBrowser *browser)
@@ -442,6 +452,8 @@ dlg_preferences (GthBrowser *browser)
         data->radio_ss_direction_random = glade_xml_get_widget (data->gui, "radio_ss_direction_random");
         data->spin_ss_delay = glade_xml_get_widget (data->gui, "spin_ss_delay");
         data->toggle_ss_wrap_around = glade_xml_get_widget (data->gui, "toggle_ss_wrap_around");
+
+	data->toggle_import_previews = glade_xml_get_widget (data->gui, "toggle_import_previews");
 
 	btn_close  = glade_xml_get_widget (data->gui, "p_close_button");
 	btn_help   = glade_xml_get_widget (data->gui, "p_help_button");
@@ -531,6 +543,10 @@ dlg_preferences (GthBrowser *browser)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_ss_delay),
 				   eel_gconf_get_float (PREF_SLIDESHOW_DELAY, 4.0));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+
+	/* Importer */
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_import_previews), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_PREVIEWS, TRUE));
 
 	/* Set the signals handlers. */
 
@@ -643,6 +659,11 @@ dlg_preferences (GthBrowser *browser)
                           "toggled",
                           G_CALLBACK (reset_scrollbars_toggled_cb),
                           data);
+
+	g_signal_connect (G_OBJECT (data->toggle_import_previews),
+			  "toggled",
+			  G_CALLBACK (import_previews_toggled_cb),
+			  data);
 
 	/* run dialog. */
 
