@@ -1,0 +1,143 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2008-2009 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#ifndef GTH_FILE_SOURCE_H
+#define GTH_FILE_SOURCE_H
+
+#include <glib.h>
+#include <glib-object.h>
+#include <gtk/gtk.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gth-file-data.h"
+#include "typedefs.h"
+
+G_BEGIN_DECLS
+
+#define GTH_TYPE_FILE_SOURCE         (gth_file_source_get_type ())
+#define GTH_FILE_SOURCE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GTH_TYPE_FILE_SOURCE, GthFileSource))
+#define GTH_FILE_SOURCE_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GTH_TYPE_FILE_SOURCE, GthFileSourceClass))
+#define GTH_IS_FILE_SOURCE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GTH_TYPE_FILE_SOURCE))
+#define GTH_IS_FILE_SOURCE_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GTH_TYPE_FILE_SOURCE))
+#define GTH_FILE_SOURCE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), GTH_TYPE_FILE_SOURCE, GthFileSourceClass))
+
+typedef struct _GthFileSource         GthFileSource;
+typedef struct _GthFileSourcePrivate  GthFileSourcePrivate;
+typedef struct _GthFileSourceClass    GthFileSourceClass;
+
+typedef void (*ListReady) (GthFileSource *file_source,
+			   GList         *files,
+			   GError        *error,
+			   gpointer       data);
+
+struct _GthFileSource
+{
+	GObject __parent;
+	GthFileSourcePrivate *priv;
+
+	/*< protected >*/
+
+	GList *folders; /* list of GthFileData */
+	GList *files;   /* list of GthFileData */
+};
+
+struct _GthFileSourceClass
+{
+	GObjectClass __parent_class;
+
+	/*< virtual functions >*/
+
+	GList *      (*get_entry_points)      (GthFileSource  *file_source);
+	GList *      (*get_current_list)      (GthFileSource  *file_source,
+					       GFile          *file);
+	GFile *      (*to_gio_file)           (GthFileSource  *file_source,
+					       GFile          *file);
+	GFileInfo *  (*get_file_info)         (GthFileSource  *file_source,
+					       GFile          *file);
+	void         (*list)                  (GthFileSource  *file_source,
+					       GFile          *folder,
+					       const char     *attributes,
+					       ListReady       func,
+					       gpointer        data);
+	void         (*read_attributes)       (GthFileSource  *file_source,
+					       GList          *files,
+					       const char     *attributes,
+					       ListReady       func,
+					       gpointer        data);
+	void         (*cancel)                (GthFileSource  *file_source);
+	void         (*rename)                (GthFileSource  *file_source,
+					       GFile          *file,
+					       GFile          *new_file,
+					       ReadyCallback   callback,
+					       gpointer        data);
+	void         (*monitor_entry_points)  (GthFileSource  *file_source);
+	void         (*monitor_directory)     (GthFileSource  *file_source,
+					       GFile          *file,
+					       gboolean        activate);
+};
+
+GType        gth_file_source_get_type              (void) G_GNUC_CONST;
+
+/*< protected >*/
+
+void         gth_file_source_add_scheme            (GthFileSource  *file_source,
+						    const char     *scheme);
+gboolean     gth_file_source_supports_scheme       (GthFileSource  *file_source,
+						    const char     *uri);
+void         gth_file_source_set_active            (GthFileSource  *file_source,
+						    gboolean        pending);
+
+/*< public >*/
+
+GList *      gth_file_source_get_entry_points      (GthFileSource  *file_source); /* GthFileData list */
+GList *      gth_file_source_get_current_list      (GthFileSource  *file_source,  /* GFile list */
+						    GFile          *file);
+GFile *      gth_file_source_to_gio_file           (GthFileSource  *file_source,
+						    GFile          *file);
+GList *      gth_file_source_to_gio_file_list      (GthFileSource  *file_source,
+						    GList          *files);
+GFileInfo *  gth_file_source_get_file_info         (GthFileSource  *file_source,
+						    GFile          *file);
+gboolean     gth_file_source_is_active             (GthFileSource  *file_source);
+void         gth_file_source_cancel                (GthFileSource  *file_source);
+void         gth_file_source_list                  (GthFileSource  *file_source,
+						    GFile          *folder,
+						    const char     *attributes,
+						    ListReady       func,
+						    gpointer        data);
+void         gth_file_source_read_attributes       (GthFileSource  *file_source,
+						    GList          *files,
+						    const char     *attributes,
+						    ListReady       func,
+						    gpointer        data);
+void         gth_file_source_rename                (GthFileSource  *file_source,
+						    GFile          *file,
+						    GFile          *new_file,
+						    ReadyCallback   callback,
+						    gpointer        data);
+void         gth_file_source_monitor_entry_points  (GthFileSource  *file_source);
+void         gth_file_source_monitor_directory     (GthFileSource  *file_source,
+						    GFile          *file,
+						    gboolean        activate);
+
+G_END_DECLS
+
+#endif /* GTH_FILE_SOURCE_H */

@@ -1,0 +1,10 @@
+[Extension]
+_Name=Comments and tags
+_Description=Allow to add comments and tags to images.
+Authors=Paolo Bacchilega <paobac@src.gnome.org>
+Copyright=Copyright © 2009 Paolo Bacchilega
+Version=1
+
+[Loader]
+Type=module
+File=%LIBRARY%

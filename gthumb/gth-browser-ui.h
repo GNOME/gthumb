@@ -1,0 +1,204 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2004-2009 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#ifndef GTH_BROWSER_UI_H
+#define GTH_BROWSER_UI_H
+
+#include <config.h>
+
+static const char *fixed_ui_info =
+"<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu name='File' action='FileMenu'>"
+"      <menuitem action='File_NewWindow'/>"
+"      <separator/>"
+"      <menuitem action='File_Save'/>"
+"      <menuitem action='File_SaveAs'/>"
+"      <menuitem action='File_Revert'/>"
+"      <placeholder name='File_Actions'/>"
+"      <placeholder name='File_Actions_2'/>"
+"      <separator/>"
+"      <placeholder name='Folder_Actions'/>"
+"      <separator/>"
+"      <placeholder name='Misc_Actions'/>"
+"      <separator/>"
+"      <menuitem action='File_CloseWindow'/>"
+"    </menu>"
+"    <menu name='Edit' action='EditMenu'>"
+"      <placeholder name='File_Actions_1'/>"
+"      <separator/>"
+"      <placeholder name='File_Actions'/>"
+"      <separator/>"
+"      <placeholder name='List_Actions'/>"
+"      <separator/>"
+"      <placeholder name='Folder_Actions'/>"
+"      <separator/>"
+"      <placeholder name='Edit_Actions'/>"
+"      <separator/>"
+"      <menuitem action='Edit_Preferences'/>"
+"    </menu>"
+"    <menu name='View' action='ViewMenu'>"
+"      <menuitem action='View_Stop'/>"
+"      <menuitem action='View_Reload'/>"
+"      <separator/>"
+"      <menuitem action='View_Toolbar'/>"
+"      <menuitem action='View_Statusbar'/>"
+"      <placeholder name='View_Bars'/>"
+"      <separator/>"
+"      <placeholder name='File_Actions'/>"
+"      <separator/>"
+"      <placeholder name='Folder_Actions'/>"
+"    </menu>"
+"    <menu name='Go' action='GoMenu'>"
+"      <menuitem action='Go_Back'/>"
+"      <menuitem action='Go_Forward'/>"
+"      <menuitem action='Go_Up'/>"
+"      <separator name='BeforeEntryPointList'/>"
+"      <placeholder name='EntryPointList'/>"
+"      <separator name='EntryPointListSeparator'/>"
+"      <menuitem action='Go_Clear_History'/>"
+"      <separator name='BeforeHistoryList'/>"
+"      <placeholder name='HistoryList'/>"
+"    </menu>"
+"    <menu name='Bookmarks' action='BookmarksMenu'>"
+"      <menuitem action='Bookmarks_Add'/>"
+"      <menuitem action='Bookmarks_Edit'/>"
+"      <separator name='BookmarkListSeparator'/>"
+"      <placeholder name='BookmarkList'/>"
+"    </menu>"
+"    <menu name='Help' action='HelpMenu'>"
+"      <menuitem action='Help_Help'/>"
+"      <menuitem action='Help_Shortcuts'/>"
+"      <separator/>"
+"      <menuitem name='About' action='Help_About'/>"
+"    </menu>"
+"  </menubar>"
+
+"  <toolbar name='ToolBar'>"
+"    <toolitem action='View_Stop'/>"
+"    <separator/>"
+"    <placeholder name='SourceCommands'/>"
+"    <separator/>"
+"    <placeholder name='BrowserCommands'/>"
+"    <separator/>"
+"    <toolitem action='File_CloseWindow'/>"
+"  </toolbar>"
+
+"  <toolbar name='ViewerToolBar'>"
+"    <toolitem action='View_BrowserMode'/>"
+"    <separator/>"
+"    <toolitem action='View_Prev'/>"
+"    <toolitem action='View_Next'/>"
+"    <separator/>"
+"    <toolitem action='Edit_Metadata'/>"
+"    <separator/>"
+"    <placeholder name='ViewerCommands'/>"
+"    <separator expand='true'/>"
+"    <placeholder name='ViewerCommandsSecondary'/>"
+"    <toolitem action='Viewer_Properties'/>"
+"  </toolbar>"
+
+"  <popup name='GoBackHistoryPopup'>"
+"  </popup>"
+
+"  <popup name='GoForwardHistoryPopup'>"
+"  </popup>"
+
+"  <popup name='GoParentPopup'>"
+"  </popup>"
+
+"  <popup name='FileListPopup'>"
+"    <menuitem action='File_OpenWith'/>"
+"    <separator/>"
+"    <placeholder name='File_Actions'/>"
+"    <separator/>"
+"    <placeholder name='Folder_Actions'/>"
+"    <separator/>"
+"    <placeholder name='Folder_Actions2'/>"
+"    <separator/>"
+"    <menuitem action='Edit_Metadata'/>"
+"  </popup>"
+
+"  <popup name='FolderListPopup'>"
+"    <menuitem action='Folder_Open'/>"
+"    <menuitem action='Folder_OpenInNewWindow'/>"
+"    <separator/>"
+"    <placeholder name='SourceCommands'/>"
+"  </popup>"
+
+"  <accelerator action=\"Go_Home\" />"
+
+"</ui>";
+
+
+static const char *browser_ui_info =
+"<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu name='Edit' action='EditMenu'>"
+"      <placeholder name='List_Actions'>"
+"        <menuitem action='Edit_SelectAll'/>"
+"      </placeholder>"
+"      <placeholder name='Edit_Actions'>"
+"        <menuitem action='Edit_Metadata'/>"
+"      </placeholder>"
+"    </menu>"
+"    <menu name='View' action='ViewMenu'>"
+"      <placeholder name='View_Bars'>"
+"        <menuitem action='View_Filterbar'/>"
+"      </placeholder>"
+"      <placeholder name='Folder_Actions'>"
+"        <menuitem action='View_ShowHiddenFiles'/>"
+"        <menuitem action='View_Sort_By'/>"
+"        <menuitem action='View_Filters'/>"
+"        <separator/>"
+"        <menuitem action='View_Thumbnails'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"  <toolbar name='ToolBar'>"
+"    <placeholder name='BrowserCommands'>"
+"      <toolitem action='Edit_Metadata'/>"
+"    </placeholder>"
+"  </toolbar>"
+"</ui>";
+
+
+static const char *viewer_ui_info =
+"<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu name='File' action='FileMenu'>"
+"    </menu>"
+"    <menu name='Edit' action='EditMenu'>"
+"      <placeholder name='Edit_Actions'>"
+"        <menuitem action='Edit_Metadata'/>"
+"      </placeholder>"
+"    </menu>"
+"    <menu name='View' action='ViewMenu'>"
+"      <placeholder name='File_Actions'>"
+"        <menuitem action='View_BrowserMode'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+
+#endif /* GTH_BROWSER_UI_H */

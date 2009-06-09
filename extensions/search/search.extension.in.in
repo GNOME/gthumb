@@ -1,0 +1,11 @@
+[Extension]
+_Name=Search
+_Description=Allows to search for files.
+Authors=Paolo Bacchilega <paobac@src.gnome.org>
+Copyright=Copyright © 2008 Paolo Bacchilega
+Version=1
+Requires=catalogs
+
+[Loader]
+Type=module
+File=%LIBRARY%

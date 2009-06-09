@@ -1,0 +1,329 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2008 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <config.h>
+#include "dom.h"
+#include "glib-utils.h"
+#include "gth-duplicable.h"
+#include "gth-enum-types.h"
+#include "gth-main.h"
+#include "gth-test-chain.h"
+
+
+struct _GthTestChainPrivate
+{
+	GthMatchType  match_type;
+	GList        *tests;
+};
+
+
+static GthTestClass *parent_class = NULL;
+static DomDomizableIface *dom_domizable_parent_iface = NULL;
+static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
+
+
+static void
+gth_test_chain_finalize (GObject *object)
+{
+	GthTestChain *test;
+
+	test = GTH_TEST_CHAIN (object);
+
+	if (test->priv != NULL) {
+		_g_object_list_unref (test->priv->tests);
+		test->priv = NULL;
+	}
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static GthMatch
+gth_test_chain_real_match (GthTest     *test,
+			   GthFileData *file)
+{
+	GthTestChain *chain;
+	GthMatch      match = GTH_MATCH_NO;
+	GList        *scan;
+	
+        chain = GTH_TEST_CHAIN (test);
+	
+	if (chain->priv->match_type == GTH_MATCH_TYPE_NONE)
+		return GTH_MATCH_YES;
+	
+	match = (chain->priv->match_type == GTH_MATCH_TYPE_ALL) ? GTH_MATCH_YES : GTH_MATCH_NO;
+	for (scan = chain->priv->tests; scan; scan = scan->next) {
+		GthTest *test = scan->data;
+		
+		if (gth_test_match (test, file)) {				
+			if (chain->priv->match_type == GTH_MATCH_TYPE_ANY) {
+				match = GTH_MATCH_YES;
+				break;
+			}
+		}
+		else if (chain->priv->match_type == GTH_MATCH_TYPE_ALL) {
+			match = GTH_MATCH_NO;
+			break;
+		}
+	}
+		
+	return match;
+}
+
+
+static DomElement*
+gth_test_chain_real_create_element (DomDomizable *base,
+				    DomDocument  *doc)
+{
+	GthTestChain *self;
+	DomElement   *element;
+	GList        *scan;
+	
+	self = GTH_TEST_CHAIN (base);
+	
+	element = dom_document_create_element (doc, "tests", 
+					       "match", _g_enum_type_get_value (GTH_TYPE_MATCH_TYPE, self->priv->match_type)->value_nick,
+					       NULL);	
+	for (scan = self->priv->tests; scan; scan = scan->next) 
+		dom_element_append_child (element, dom_domizable_create_element (DOM_DOMIZABLE (scan->data), doc));
+				       
+	return element;
+}
+
+
+static void
+gth_test_chain_real_load_from_element (DomDomizable *base,
+				       DomElement   *element)
+{
+	GthTestChain *chain;
+	GEnumValue   *enum_value;
+	DomElement   *node;
+	
+	chain = GTH_TEST_CHAIN (base);
+		      
+	enum_value = _g_enum_type_get_value_by_nick (GTH_TYPE_MATCH_TYPE, dom_element_get_attribute (element, "match"));
+	if (enum_value != NULL)
+		chain->priv->match_type = enum_value->value;
+	
+	gth_test_chain_clear_tests (chain);
+	for (node = element->first_child; node; node = node->next_sibling) {
+		if (g_strcmp0 (node->tag_name, "test") == 0) {
+			GthTest *test;
+
+			test = gth_main_get_test (dom_element_get_attribute (node, "id"));
+			if (test == NULL)
+				continue;
+			
+			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
+			gth_test_chain_add_test (chain, test);
+			g_object_unref (test);
+		}
+		else if (g_strcmp0 (node->tag_name, "tests") == 0) {
+			GthTest *sub_chain;
+			
+			sub_chain = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
+			dom_domizable_load_from_element (DOM_DOMIZABLE (sub_chain), node);
+			gth_test_chain_add_test (chain, sub_chain);
+			g_object_unref (sub_chain);
+		}
+	}
+}
+
+
+GObject *
+gth_test_chain_real_duplicate (GthDuplicable *duplicable)
+{
+	GthTestChain *chain;
+	GthTest      *new_chain;
+	GList        *tests, *scan;
+	
+	chain = GTH_TEST_CHAIN (duplicable);
+	
+	new_chain = gth_test_chain_new (chain->priv->match_type, NULL);
+	tests = gth_test_chain_get_tests (chain);
+	for (scan = tests; scan; scan = scan->next)
+		gth_test_chain_add_test (GTH_TEST_CHAIN (new_chain), scan->data);
+	_g_object_list_unref (tests);
+	
+	return G_OBJECT (new_chain);
+}
+
+
+static void
+gth_test_chain_class_init (GthTestChainClass *class)
+{
+	GObjectClass *object_class;
+	GthTestClass *test_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	object_class = (GObjectClass*) class;
+	test_class = (GthTestClass *) class;
+
+	object_class->finalize = gth_test_chain_finalize;
+	test_class->match = gth_test_chain_real_match;
+}
+
+
+static void
+gth_test_chain_dom_domizable_interface_init (DomDomizableIface * iface)
+{
+	dom_domizable_parent_iface = g_type_interface_peek_parent (iface);
+	iface->create_element = gth_test_chain_real_create_element;
+	iface->load_from_element = gth_test_chain_real_load_from_element;
+}
+
+
+static void
+gth_test_chain_gth_duplicable_interface_init (GthDuplicableIface *iface)
+{
+	gth_duplicable_parent_iface = g_type_interface_peek_parent (iface);
+	iface->duplicate = gth_test_chain_real_duplicate;
+}
+
+
+static void
+gth_test_chain_init (GthTestChain *test)
+{
+	test->priv = g_new0 (GthTestChainPrivate, 1);
+}
+
+
+GType
+gth_test_chain_get_type (void)
+{
+        static GType type = 0;
+
+        if (! type) {
+                GTypeInfo type_info = {
+			sizeof (GthTestChainClass),
+			NULL,
+			NULL,
+			(GClassInitFunc) gth_test_chain_class_init,
+			NULL,
+			NULL,
+			sizeof (GthTestChain),
+			0,
+			(GInstanceInitFunc) gth_test_chain_init
+		};
+		static const GInterfaceInfo dom_domizable_info = {
+			(GInterfaceInitFunc) gth_test_chain_dom_domizable_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
+		static const GInterfaceInfo gth_duplicable_info = {
+			(GInterfaceInitFunc) gth_test_chain_gth_duplicable_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
+		
+		type = g_type_register_static (GTH_TYPE_TEST,
+					       "GthTestChain",
+					       &type_info,
+					       0);
+		g_type_add_interface_static (type, DOM_TYPE_DOMIZABLE, &dom_domizable_info);
+		g_type_add_interface_static (type, GTH_TYPE_DUPLICABLE, &gth_duplicable_info);
+	}
+
+        return type;
+}
+
+
+GthTest *
+gth_test_chain_new (GthMatchType  match_type,
+		    GthTest      *test,
+		    ...)
+{
+	GthTestChain *chain;
+	va_list       args;
+	
+	chain = g_object_new (GTH_TYPE_TEST_CHAIN, NULL);
+	chain->priv->match_type = match_type;
+	
+	va_start (args, test);
+	while (test != NULL) {
+		gth_test_chain_add_test (chain, g_object_ref (test));
+		test = va_arg (args, GthTest *);
+	}
+	va_end (args);
+	
+	return (GthTest *) chain;
+}
+
+
+void
+gth_test_chain_set_match_type (GthTestChain *chain,
+			       GthMatchType  match_type)
+{
+	chain->priv->match_type = match_type;
+}
+					      
+
+GthMatchType
+gth_test_chain_get_match_type (GthTestChain *chain)
+{
+	return chain->priv->match_type;
+}
+
+
+void
+gth_test_chain_clear_tests (GthTestChain *chain)
+{
+	if (chain->priv->tests == NULL)
+		return;
+	_g_object_list_unref (chain->priv->tests);
+	chain->priv->tests = NULL;
+}
+
+
+void
+gth_test_chain_add_test (GthTestChain *chain,
+			 GthTest      *test)
+{
+	g_object_set (test, "visible", TRUE, NULL);
+	chain->priv->tests = g_list_append (chain->priv->tests, g_object_ref (test));
+}
+
+
+GList *
+gth_test_chain_get_tests (GthTestChain *chain)
+{
+	return _g_object_list_ref (chain->priv->tests);
+}
+
+
+gboolean
+gth_test_chain_has_type_test (GthTestChain *chain)
+{
+	gboolean  result = FALSE;
+	GList    *scan;
+	
+	for (scan = chain->priv->tests; scan; scan = scan->next) {
+		GthTest *single_test = scan->data;
+
+		if (strncmp (gth_test_get_id (single_test), "file::type::", 12) == 0) {
+			result = TRUE;
+			break;
+		}
+	}
+	
+	return result;
+}

@@ -1,20 +1,5 @@
 trunk, since last 2.10.x
 
-	Major Distro-Related Changes:
-
-	* gThumb now imports photos using the libgphoto2 backend for gvfs.
-	  It is no longer necessary to unmount any gvfs/libgphoto2 mounts
-	  under ~/.gvfs beforing importing. The import process may be
-	  invoked using:
-
-	  gthumb --import-photos
-	  or
-	  gthumb --import-photos /path/to/device/mount
-
-	  If no path is given as an argument, gThumb will scan all folders
-	  under /media and ~/.gvfs/gphoto2*, looking for "dcim" or "DCIM"
-	  sub-folders.
-
 	UI Changes:
 
 	* Make the cropping dialog more intuitive. Bug #408342.
