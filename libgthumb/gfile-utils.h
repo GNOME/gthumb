@@ -66,12 +66,15 @@ GFile *       gfile_append_path                (GFile      *dir,
                                                 ...);
 
 gboolean      gfile_is_local                   (GFile      *file);
+gboolean      gfile_is_hidden                  (GFile      *file);
 char *        gfile_get_filename_extension     (GFile      *file);
 const char*   gfile_get_mime_type              (GFile      *file,
                                                 gboolean    fast_file_type);
 gboolean      gfile_image_is_jpeg              (GFile      *file);
 gboolean      gfile_is_file                    (GFile      *file);
 gboolean      gfile_is_dir                     (GFile      *file);
+gboolean      gfile_path_contains              (GFile      *file,
+						const char *find_this);
 goffset       gfile_get_file_size              (GFile      *file);
 char *        gfile_get_display_name           (GFile      *file);
 void          gfile_set_mtime                  (GFile      *gfile,

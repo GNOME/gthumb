@@ -207,6 +207,30 @@ gfile_is_local (GFile *file)
 }
 
 
+gboolean
+gfile_is_hidden (GFile *file)
+{
+	GFileInfo *info;
+	gboolean   result;
+
+        g_assert (file != NULL);
+
+        info = g_file_query_info (file,
+                                  G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  NULL);
+        if (info == NULL)
+		return FALSE;
+
+	result = g_file_info_get_is_hidden (info);
+
+	g_object_unref (info);
+
+        return result;
+}
+
+
 /* Be careful: result must be g_free'd  */
 char *
 gfile_get_filename_extension (GFile *file)
@@ -365,6 +389,23 @@ gboolean
 gfile_is_dir (GFile *file)
 {
         return gfile_is_filetype (file, G_FILE_TYPE_DIRECTORY);
+}
+
+
+gboolean gfile_path_contains (GFile      *file,
+                              const char *find_this)
+{
+	char     *utf8_path;
+	gboolean  result;
+
+	g_assert (file != NULL);
+	g_assert (find_this != NULL);
+
+	utf8_path = g_file_get_parse_name (file);
+	result = strstr (utf8_path, find_this);
+	g_free (utf8_path);
+
+	return result;
 }
 
 

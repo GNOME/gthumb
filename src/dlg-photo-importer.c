@@ -459,35 +459,31 @@ gfile_import_dir_list_recursive (GFile      *gfile,
 
         while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
                 GFile *child;
-		char  *utf8_path;
 
                 child = g_file_get_child (gfile, g_file_info_get_name (info));
-		utf8_path = g_file_get_parse_name (child);
-
-		debug (DEBUG_INFO, "Scanning directory %s, recursion level %d", utf8_path, n);
+		gfile_debug (DEBUG_INFO, "Scanning directory", child);
 
                 switch (g_file_info_get_file_type (info)) {
                 case G_FILE_TYPE_DIRECTORY:
 			if (!(n > RECURSION_LIMIT) &&
-			   (!filter || (filter && strstr (utf8_path, filter)))) {
-				if (strstr (utf8_path, "dcim") || strstr (utf8_path, "DCIM")) {
-					debug (DEBUG_INFO, "found DCIM dir at %s", utf8_path);
+			   (!filter || (filter && gfile_path_contains (child, filter)))) {
+				if (gfile_path_contains (child, "dcim") || gfile_path_contains (child, "DCIM")) {
+					gfile_debug (DEBUG_INFO, "found DCIM dir at", child);
 	        	        	dcim_dirs = g_list_prepend (dcim_dirs, g_file_dup (child));
 				} else {
-					debug (DEBUG_INFO, "no DCIM dir at %s", utf8_path);
-					if (utf8_path[0] != '.') {
+					gfile_debug (DEBUG_INFO, "no DCIM dir at", child);
+					if (!gfile_is_hidden (child)) {
 						dcim_dirs = gfile_import_dir_list_recursive (child, dcim_dirs, filter, n);
 					}
 				}
 			} else {
-				debug (DEBUG_INFO, "not checking %s", utf8_path);
+				gfile_debug (DEBUG_INFO, "not checking", child);
 			}
                         break;
                 default:
                         break;
                 }
 
-		g_free (utf8_path);
                 g_object_unref (child);
                 g_object_unref (info);
         }
@@ -557,20 +553,17 @@ get_all_files (DialogData *data)
 	GFile *gfile;
 	GList *file_list = NULL;
 	GList *scan;
-	char  *utf8_path = NULL;
 
 	if (data->dcim_dirs != NULL) {
 		gfile_list_free (data->dcim_dirs);	
 		data->dcim_dirs = NULL;
 	}
 
-	if (data->gfile_import_from)
-		utf8_path = g_file_get_parse_name (data->gfile_import_from);
-
 	if (data->gfile_import_from && !gfile_is_dir (data->gfile_import_from)) {
-		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("%s is not a valid directory, scanning for attached devices instead"), utf8_path);
+		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("Could not find the requested directory, scanning for attached devices instead"));
+		gfile_debug (DEBUG_INFO, "Could not find", data->gfile_import_from);
 	} else if (data->gfile_import_from) {
-		debug (DEBUG_INFO, "Scanning %s for folders", utf8_path);
+		gfile_debug (DEBUG_INFO, "Scanning for folders", data->gfile_import_from);
 		if (data->dcim_dirs_only) {
 			data->dcim_dirs = gfile_import_dir_list_recursive (data->gfile_import_from,
 									   data->dcim_dirs, NULL, 0);
@@ -580,8 +573,13 @@ get_all_files (DialogData *data)
 			}
 	}
 
-	if (data->gfile_import_from && !data->dcim_dirs)
-		_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No folders found in %s, scanning for attached devices instead"), utf8_path);
+	if (data->gfile_import_from && !data->dcim_dirs) {
+		if (data->dcim_dirs_only) {
+			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No DCIM camera folders found, scanning for attached devices instead"));
+		} else {
+			_gtk_info_dialog_run (GTK_WINDOW (data->dialog), _("No folders found, scanning for attached devices instead"));
+		}
+	}
 
 	if (!data->dcim_dirs) {
 		char *gvfs_dir = g_strconcat (g_get_home_dir (), "/", ".gvfs", NULL);
@@ -600,7 +598,6 @@ get_all_files (DialogData *data)
 		file_list = gfile_import_file_list_recursive (gfile, file_list);
 	}
 
-	g_free (utf8_path);
 	return file_list;
 }
 
@@ -709,8 +706,7 @@ gfile_get_preview (GFile      *gfile,
 
         theme = gtk_icon_theme_get_default ();
 
-	char *utf8_path = g_file_get_parse_name (gfile);
-	debug (DEBUG_INFO, "need preview for %s", utf8_path);
+	gfile_debug (DEBUG_INFO, "need preview for", gfile);
 
         if (gfile == NULL)
                 return NULL;
@@ -730,13 +726,13 @@ gfile_get_preview (GFile      *gfile,
 	}
 
 	if (pixbuf) {
-		debug (DEBUG_INFO, "using thumbnail for for %s", utf8_path);
+		gfile_debug (DEBUG_INFO, "using thumbnail for", gfile);
 	} else {
 		char *local_path = g_file_get_path (gfile);
 		pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
 		g_free (local_path);
 		if (pixbuf) {
-			debug (DEBUG_INFO, "using simple gdk pixbuf for for %s", utf8_path);
+			gfile_debug (DEBUG_INFO, "using gdk pixbuf loader for", gfile);
 			GdkPixbuf *tmp = pixbuf;
 			pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
 			g_object_unref (tmp);
@@ -751,15 +747,14 @@ gfile_get_preview (GFile      *gfile,
                                 	  NULL);
 
 		if (info == NULL) {
-			debug (DEBUG_INFO, "no info found for %s", utf8_path);
-			g_free (utf8_path);
+			gfile_debug (DEBUG_INFO, "no gfile info found for", gfile);
 			return NULL;
 		}
 
 		gicon = g_file_info_get_icon (info);
 
 	        if (!gicon) {
-			debug (DEBUG_INFO, "no generic icon found for %s", utf8_path);
+			gfile_debug (DEBUG_INFO, "no generic icon found for", gfile);
 		} else {
 			GtkIconInfo *icon_info;
 			icon_info = gtk_icon_theme_lookup_by_gicon (gtk_icon_theme_get_default (),
@@ -768,7 +763,7 @@ gfile_get_preview (GFile      *gfile,
 								    0);
 			pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
 			if (pixbuf == NULL)
-				debug (DEBUG_INFO, "valid generic icon, but couldn't get pixbuf for %s", utf8_path); 
+				gfile_debug (DEBUG_INFO, "valid generic icon, but couldn't get pixbuf for", gfile); 
 			gtk_icon_info_free (icon_info);
 			g_object_unref (gicon);
 		}
@@ -776,9 +771,7 @@ gfile_get_preview (GFile      *gfile,
 	}
 
 	if (pixbuf == NULL)
-		debug (DEBUG_INFO, "no preview pixbuf created for %s", utf8_path);
-
-	g_free (utf8_path);
+		gfile_debug (DEBUG_INFO, "no preview pixbuf created for", gfile);
 
         return pixbuf;
 }
@@ -1106,7 +1099,7 @@ save_images__step (AsyncOperationData *aodata,
 		}
 	} else {
 		/* Otherwise, the images go straight into the destination folder */
-		initial_dest_path = get_file_name (data, path, folder_fd->local_path);
+		initial_dest_path = get_file_name (data, path, folder_fd->utf8_path);
 	}
 
 	if (initial_dest_path == NULL)
@@ -1114,7 +1107,9 @@ save_images__step (AsyncOperationData *aodata,
 
 	initial_dest_gfile = gfile_new (initial_dest_path);
 
-	debug (DEBUG_INFO, "import file copy: %s to %s", path, initial_dest_path);
+	gfile_debug (DEBUG_INFO, "import file copy from:", gfile);
+	gfile_debug (DEBUG_INFO, "                   to:", initial_dest_gfile);
+
 	if (!gfile_copy (gfile, initial_dest_gfile, FALSE, &error)) {
 		if (error) {
 			display_error_dialog (data, _("Import failed"), error->message);
@@ -1188,7 +1183,9 @@ save_images__step (AsyncOperationData *aodata,
 			/* Create the subfolder if necessary, and move the 
 			   temporary file to it */
 			if (ensure_dir_exists (dest_folder) ) {
-				debug (DEBUG_INFO, "import file move %s to %s", initial_dest_path, final_dest_path);
+				gfile_debug (DEBUG_INFO, "import file move from", initial_dest_gfile);
+				gfile_debug (DEBUG_INFO, "                   to", final_dest_gfile);
+
 				if (!gfile_move (initial_dest_gfile, final_dest_gfile, FALSE, &error)) {
 					display_error_dialog (data, _("Import failed"), error->message); 
 					g_clear_error (&error);
@@ -1212,7 +1209,7 @@ save_images__step (AsyncOperationData *aodata,
 	   orientation tag, if requested */
 	if (!error_found) {
 		if (data->delete_from_camera) {
-			debug (DEBUG_INFO, "import delete: %s", path);
+			gfile_debug (DEBUG_INFO, "import delete", gfile);
 			g_file_delete (gfile, NULL, &error);
 	                if (error && !(data->suppress_delete_warnings)) {
 	                        display_error_dialog (data, _("Could not delete one or more of the photos"), error->message);
@@ -1358,8 +1355,7 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	folder_fd = file_data_new_from_path (data->main_dest_folder);
-	if (!file_data_has_local_path (folder_fd, GTK_WINDOW (data->dialog)) || 
-	    !ensure_dir_exists (folder_fd->local_path)) {
+	if (!gfile_ensure_dir_exists (folder_fd->gfile, NULL)) {
 		char *msg;
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       folder_fd->utf8_name,
@@ -1376,13 +1372,10 @@ ok_clicked_cb (GtkButton  *button,
 	file_data_unref (folder_fd);
 
 	for (scan = file_list; scan; scan = scan->next) {
-		const char *utf8_path = scan->data;
-		FileData   *fd;
-
-		fd = file_data_new_from_path (utf8_path);
-		total_size += fd->size;
-		file_data_unref (fd);
+		total_size += gfile_get_file_size ((GFile *) scan->data);
 	}
+
+	debug (DEBUG_INFO, "Prepare to import %ld bytes", total_size);
 
 	if (get_destination_free_space (data->main_dest_folder) < total_size) {
 		display_error_dialog (data,
