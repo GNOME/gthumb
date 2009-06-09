@@ -697,8 +697,7 @@ static GdkPixbuf*
 gfile_get_preview (DialogData *data,
                    GFile      *gfile,
 		   int         size,
-		   const char *mime_type,
-		   GnomeThumbnailFactory  *factory) /* FIXME */
+		   const char *mime_type)
 {
         GdkPixbuf    *pixbuf = NULL;
         GIcon        *gicon;
@@ -715,7 +714,7 @@ gfile_get_preview (DialogData *data,
 
 	if (data->generate_previews) {
 		uri = g_file_get_uri (gfile);
-		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory, uri, mime_type); /* FIXME */
+		pixbuf = gnome_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type); /* FIXME */
 		g_free (uri);
 
 		if (pixbuf) {
@@ -792,7 +791,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 
 	fd = file_data_new_from_gfile ((GFile *) aodata->scan->data);
 
-	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type, data->factory);
+	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type);
 
 	gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 					 pixbuf,
