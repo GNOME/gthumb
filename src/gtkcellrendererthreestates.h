@@ -42,11 +42,6 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-
 #define GTK_TYPE_CELL_RENDERER_THREE_STATES			(gtk_cell_renderer_three_states_get_type ())
 #define GTK_CELL_RENDERER_THREE_STATES(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererThreeStates))
 #define GTK_CELL_RENDERER_THREE_STATES_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GTK_TYPE_CELL_RENDERER_THREE_STATES, GtkCellRendererthree_statesClass))
@@ -74,33 +69,9 @@ struct _GtkCellRendererThreeStatesClass
 
   void (* toggled) (GtkCellRendererThreeStates *cell_renderer_three_states,
 		    const gchar                *path);
-
-  /* Padding for future expansion */
-  void (*_gtk_reserved1) (void);
-  void (*_gtk_reserved2) (void);
-  void (*_gtk_reserved3) (void);
-  void (*_gtk_reserved4) (void);
 };
 
-GType            gtk_cell_renderer_three_states_get_type        (void);
 GtkCellRenderer *gtk_cell_renderer_three_states_new             (void);
-
-gboolean         gtk_cell_renderer_three_states_get_radio       (GtkCellRendererThreeStates *three_states);
-void             gtk_cell_renderer_three_states_set_radio       (GtkCellRendererThreeStates *three_states,
-								 gboolean                    radio);
-
-guint            gtk_cell_renderer_three_states_get_state       (GtkCellRendererThreeStates *three_states);
-void             gtk_cell_renderer_three_states_set_state       (GtkCellRendererThreeStates *three_states,
-								 guint                       state);
 guint            gtk_cell_renderer_three_states_get_next_state  (GtkCellRendererThreeStates *three_states);
-
-gboolean         gtk_cell_renderer_three_states_has_third_state (GtkCellRendererThreeStates *three_states);
-void             gtk_cell_renderer_three_states_set_has_third_state (GtkCellRendererThreeStates *three_states,
-								     gboolean                    setting);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
 
 #endif /* __GTK_CELL_RENDERER_THREE_STATES_H__ */

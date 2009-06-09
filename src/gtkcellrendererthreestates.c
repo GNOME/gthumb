@@ -400,77 +400,6 @@ gtk_cell_renderer_three_states_activate (GtkCellRenderer *cell,
   return FALSE;
 }
 
-/**
- * gtk_cell_renderer_toggle_set_radio:
- * @toggle: a #GtkCellRendererToggle
- * @radio: %TRUE to make the toggle look like a radio button
- * 
- * If @radio is %TRUE, the cell renderer renders a radio toggle
- * (i.e. a toggle in a group of mutually-exclusive toggles).
- * If %FALSE, it renders a check toggle (a standalone boolean option).
- * This can be set globally for the cell renderer, or changed just
- * before rendering each cell in the model (for #GtkTreeView, you set
- * up a per-row setting using #GtkTreeViewColumn to associate model
- * columns with cell renderer properties).
- **/
-void
-gtk_cell_renderer_three_states_set_radio (GtkCellRendererThreeStates *three_states,
-					  gboolean                    radio)
-{
-  g_return_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states));
-
-  three_states->radio = radio;
-}
-
-/**
- * gtk_cell_renderer_toggle_get_radio:
- * @toggle: a #GtkCellRendererToggle
- *
- * Returns wether we're rendering radio toggles rather than checkboxes. 
- * 
- * Return value: %TRUE if we're rendering radio toggles rather than checkboxes
- **/
-gboolean
-gtk_cell_renderer_three_states_get_radio (GtkCellRendererThreeStates *three_states)
-{
-  g_return_val_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states), FALSE);
-
-  return three_states->radio;
-}
-
-/**
- * gtk_cell_renderer_toggle_get_active:
- * @toggle: a #GtkCellRendererToggle
- *
- * Returns whether the cell renderer is active. See
- * gtk_cell_renderer_toggle_set_active().
- *
- * Return value: %TRUE if the cell renderer is active.
- **/
-guint
-gtk_cell_renderer_three_states_get_state (GtkCellRendererThreeStates *three_states)
-{
-  g_return_val_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states), FALSE);
-
-  return three_states->state;
-}
-
-/**
- * gtk_cell_renderer_toggle_set_active:
- * @toggle: a #GtkCellRendererToggle.
- * @setting: the value to set.
- *
- * Activates or deactivates a cell renderer.
- **/
-void
-gtk_cell_renderer_three_states_set_state (GtkCellRendererThreeStates *three_states,
-					  guint                       state) 
-{
-  g_return_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states));
-
-  g_object_set (G_OBJECT (three_states), "state", state, NULL);
-}
-
 guint
 gtk_cell_renderer_three_states_get_next_state  (GtkCellRendererThreeStates *three_states)
 {
@@ -482,19 +411,3 @@ gtk_cell_renderer_three_states_get_next_state  (GtkCellRendererThreeStates *thre
     return (three_states->state + 1) % 2;
 }
 
-gboolean
-gtk_cell_renderer_three_states_has_third_state (GtkCellRendererThreeStates *three_states)
-{
-  g_return_val_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states), FALSE);
-
-  return three_states->has_third_state;
-}
-
-void
-gtk_cell_renderer_three_states_set_has_third_state (GtkCellRendererThreeStates *three_states,
-						    gboolean                    setting)
-{
-  g_return_if_fail (GTK_IS_CELL_RENDERER_THREE_STATES (three_states));
-
-  three_states->has_third_state = setting;
-}
