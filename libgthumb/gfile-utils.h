@@ -93,6 +93,10 @@ gboolean      gfile_dir_remove_recursive       (GFile      *dir);
 gboolean      gfile_path_list_new              (GFile      *gfile,
                                                 GList     **files,
                                                 GList     **dirs);
+gboolean      gfile_list_new                   (GFile      *gfile,
+                                                GList     **files,
+                                                GList     **dirs);
+
 /* Xfer */
 
 gboolean      gfile_xfer                       (GFile      *sfile,

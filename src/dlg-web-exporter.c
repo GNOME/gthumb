@@ -648,31 +648,31 @@ static void
 add_theme_dir (ThemeDialogData *tdata,
 	       char            *theme_dir)
 {
-	GList          *dir_list = NULL;
-	GList          *scan;
+	GList *dir_list = NULL;
+	GList *scan;
+	GFile *theme_dir_gfile;
 
 	debug (DEBUG_INFO, "theme dir: %s", theme_dir);
 
-	if (path_is_dir (theme_dir))
-		path_list_new (theme_dir, NULL, &dir_list);
+	theme_dir_gfile = gfile_new (theme_dir);
+	if (gfile_is_dir (theme_dir_gfile))
+		gfile_list_new (theme_dir_gfile, NULL, &dir_list);
 
 	for (scan = dir_list; scan; scan = scan->next) {
 		GtkTreeIter  iter;
-		char        *dir = scan->data;
+		GFile       *gfile = scan->data;
 		char        *display_name;
-		GFile       *gfile;
 		
-		gfile = gfile_new (dir);
 		display_name = gfile_get_display_name (gfile);
 
 		gtk_list_store_append (tdata->list_store, &iter);
 		gtk_list_store_set (tdata->list_store, &iter,
 				    THEME_NAME_COLUMN, display_name,
 				    -1);
-		g_object_unref (gfile);
+
 		g_free (display_name);
 	}
-	path_list_free (dir_list);
+	gfile_list_free (dir_list);
 }
 
 

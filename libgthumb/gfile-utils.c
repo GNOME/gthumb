@@ -778,6 +778,69 @@ gfile_path_list_new (GFile  *gfile,
 }
 
 
+gboolean
+gfile_list_new (GFile  *gfile,
+                GList **files,
+                GList **dirs)
+{
+        GFileEnumerator *file_enum;
+        GFileInfo       *info;
+        GList           *f_list = NULL;
+        GList           *d_list = NULL;
+	GError		*error = NULL;
+
+        file_enum = g_file_enumerate_children (gfile,
+                                               G_FILE_ATTRIBUTE_STANDARD_NAME ","
+                                               G_FILE_ATTRIBUTE_STANDARD_TYPE,
+                                               0, NULL, &error);
+
+        if (error != NULL) {
+                gfile_warning ("Error while reading contents of directory", gfile, error);
+                g_error_free (error);
+                return FALSE;
+        }
+
+        while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
+                GFile *child;
+                child = g_file_get_child (gfile, g_file_info_get_name (info));
+
+                switch (g_file_info_get_file_type (info)) {
+                case G_FILE_TYPE_DIRECTORY:
+                        if (dirs) {
+                                d_list = g_list_prepend (d_list, gfile);
+                        }
+                        break;
+                case G_FILE_TYPE_REGULAR:
+                        if (files) {
+                                f_list = g_list_prepend (f_list, gfile);
+                        }
+                        break;
+                default:
+			g_object_unref (child);
+                        break;
+                }
+
+                g_object_unref (info);
+        }
+
+        if (dirs)
+                *dirs = g_list_reverse (d_list);
+        else
+                gfile_list_free (d_list);
+
+        if (files) {
+                *files = g_list_reverse (f_list);
+        }
+        else
+                gfile_list_free (f_list);
+
+        g_object_unref (file_enum);
+
+        return TRUE;
+}
+
+
+
 /* Xfer */
 
 static void _empty_file_progress_cb  (goffset current_num_bytes,
