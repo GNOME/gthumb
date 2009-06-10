@@ -79,8 +79,8 @@ struct _GthMonitorClass
 
 GType        gth_monitor_get_type                    (void);
 GthMonitor*  gth_monitor_get_instance                (void);
-void         gth_monitor_add_uri                     (const char *uri);
-void         gth_monitor_remove_uri                  (const char *uri);
+void         gth_monitor_add_gfile                   (GFile *gfile);
+void         gth_monitor_remove_gfile                (GFile *gfile);
 void         gth_monitor_pause                       (void);
 gboolean     gth_monitor_resume                      (void);
 void         gth_monitor_notify_update_icon_theme    (void);

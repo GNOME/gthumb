@@ -59,24 +59,25 @@ enum {
 
 typedef struct {
 	GFileMonitor *handle;
-	char *uri;
-	int ref;
+	GFile        *gfile;
+	int           ref;
 } MonitorHandle;
 
 static GthMonitor *instance = NULL;
 
 MonitorHandle *
 monitor_handle_new (GFileMonitor *monitor_handle,
-		    const char   *uri)
+		    GFile        *gfile)
 {
 	MonitorHandle *mh;
 
 	g_return_val_if_fail (monitor_handle != NULL, NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
+	g_return_val_if_fail (gfile != NULL, NULL);
 
 	mh = g_new0 (MonitorHandle, 1);
 	mh->handle = monitor_handle;
-	mh->uri = get_utf8_display_name_from_uri (uri);
+	mh->gfile = gfile;
+	g_object_ref (gfile);
 	mh->ref = 1;
 
 	return mh;
@@ -99,7 +100,7 @@ monitor_handle_destroy (MonitorHandle *mh)
 		return;
 	if (mh->handle != NULL)
 		g_file_monitor_cancel (mh->handle);
-	g_free (mh->uri);
+	g_object_unref (mh->gfile);
 	g_free (mh);
 }
 
@@ -116,23 +117,17 @@ monitor_handle_unref (MonitorHandle *mh)
 
 
 static GList *
-find_monitor_from_uri (GList      *gfile_monitors,
-		       const char *uri)
+find_monitor_from_gfile (GList *gfile_monitors,
+		         GFile *gfile)
 {
 	GList *scan;
-	char  *utf8_uri;
-
-	utf8_uri = get_utf8_display_name_from_uri (uri);
 
 	for (scan = gfile_monitors; scan; scan = scan->next) {
 		MonitorHandle *mh = scan->data;
-		if (same_uri (mh->uri, utf8_uri)) {
-                        g_free (utf8_uri);
+		if (g_file_equal (mh->gfile, gfile)) {
 			return scan;
                 }
 	}
-
-        g_free (utf8_uri);
 
 	return NULL;
 }
@@ -167,7 +162,7 @@ gth_monitor_finalize (GObject *object)
 		}
 
 		for (i = 0; i < MONITOR_EVENT_NUM; i++)
-			path_list_free (priv->monitor_events[i]);
+			gfile_list_free (priv->monitor_events[i]);
 
 		/**/
 
@@ -233,7 +228,8 @@ proc_monitor_events (gpointer data)
 	/**/
 
 	for (scan = dir_created_list; scan; scan = scan->next) {
-		char       *path = scan->data;
+		GFile      *gfile = scan->data;
+		char       *path = g_file_get_parse_name (gfile);
 		const char *name = file_name_from_path (path);
 
 		/* ignore hidden directories. */
@@ -241,32 +237,35 @@ proc_monitor_events (gpointer data)
 			continue;
 
                 gth_monitor_notify_update_directory (path, GTH_MONITOR_EVENT_CREATED);
+		g_free (path);
 	}
-	path_list_free (dir_created_list);
+	gfile_list_free (dir_created_list);
 
 	/**/
 
 	for (scan = dir_deleted_list; scan; scan = scan->next) {
-		char *path = scan->data;
+		GFile *gfile = scan->data;
+		char  *path = g_file_get_parse_name (gfile);
 		gth_monitor_notify_update_directory (path, GTH_MONITOR_EVENT_DELETED);
+		g_free (path);
 	}
-	path_list_free (dir_deleted_list);
+	gfile_list_free (dir_deleted_list);
 
 	/**/
 
 	if (file_created_list != NULL) {
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_created_list);
-		path_list_free (file_created_list);
+		gfile_list_free (file_created_list);
 	}
 
 	if (file_deleted_list != NULL) {
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, file_deleted_list);
-		path_list_free (file_deleted_list);
+		gfile_list_free (file_deleted_list);
 	}
 
 	if (file_changed_list != NULL) {
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_changed_list);
-		path_list_free (file_changed_list);
+		gfile_list_free (file_changed_list);
 	}
 
 	return FALSE;
@@ -276,15 +275,15 @@ proc_monitor_events (gpointer data)
 static gboolean
 remove_if_present (GList            **monitor_events,
 		   MonitorEventType   type,
-		   const char        *path)
+		   GFile             *gfile)
 {
 	GList *list, *link;
 
 	list = monitor_events[type];
-	link = path_list_find_path (list, path);
+	link = gfile_list_find_gfile (list, gfile);
 	if (link != NULL) {
 		monitor_events[type] = g_list_remove_link (list, link);
-		path_list_free (link);
+		g_object_unref (link);
 		return TRUE;
 	}
 
@@ -295,7 +294,7 @@ remove_if_present (GList            **monitor_events,
 static void
 add_monitor_event (GthMonitor        *monitor,
 		   GFileMonitorEvent  event_type,
-		   const char        *path,
+		   GFile             *gfile,
 		   GList            **monitor_events)
 {
 	MonitorEventType  type;
@@ -311,24 +310,22 @@ add_monitor_event (GthMonitor        *monitor,
 	else
 		op = "CHANGED";
 
-	debug (DEBUG_INFO, "[%s] %s", op, path);
-
 	if (event_type == G_FILE_MONITOR_EVENT_CREATED) {
-		if (path_is_file (path))
+		if (gfile_is_file (gfile))
 			type = MONITOR_EVENT_FILE_CREATED;
-		else if (path_is_dir (path))
+		else if (gfile_is_dir (gfile))
 			type = MONITOR_EVENT_DIR_CREATED;
 		else
 			return;
 
 	} else if (event_type == G_FILE_MONITOR_EVENT_DELETED) {
-		if (file_is_image_video_or_audio (path, TRUE))
+		if (gfile_is_file (gfile))
 			type = MONITOR_EVENT_FILE_DELETED;
 		else
 			type = MONITOR_EVENT_DIR_DELETED;
 
 	} else {
-		if (path_is_file (path))
+		if (gfile_is_file (gfile))
 			type = MONITOR_EVENT_FILE_CHANGED;
 		else
 			return;
@@ -337,33 +334,34 @@ add_monitor_event (GthMonitor        *monitor,
 	if (type == MONITOR_EVENT_FILE_CREATED) {
 		if (remove_if_present (monitor_events,
 				       MONITOR_EVENT_FILE_DELETED,
-				       path))
+				       gfile))
 			type = MONITOR_EVENT_FILE_CHANGED;
 
 	} else if (type == MONITOR_EVENT_FILE_DELETED) {
 		remove_if_present (monitor_events,
 				   MONITOR_EVENT_FILE_CREATED,
-				   path);
+				   gfile);
 		remove_if_present (monitor_events,
 				   MONITOR_EVENT_FILE_CHANGED,
-				   path);
+				   gfile);
 
 	} else if (type == MONITOR_EVENT_FILE_CHANGED) {
 		remove_if_present (monitor_events,
 				   MONITOR_EVENT_FILE_CHANGED,
-				   path);
+				   gfile);
 
 	} else if (type == MONITOR_EVENT_DIR_CREATED) {
 		remove_if_present (monitor_events,
 				   MONITOR_EVENT_DIR_DELETED,
-				   path);
+				   gfile);
 
 	} else if (type == MONITOR_EVENT_DIR_DELETED)
 		remove_if_present (monitor_events,
 				   MONITOR_EVENT_DIR_CREATED,
-				   path);
+				   gfile);
 
-	monitor_events[type] = g_list_append (monitor_events[type], g_strdup (path));
+	monitor_events[type] = g_list_append (monitor_events[type], gfile);
+	g_object_ref (gfile);
 }
 
 
@@ -377,9 +375,7 @@ directory_changed (GFileMonitor      *handle,
 	GthMonitor            *monitor = user_data;
 	GthMonitorPrivateData *priv = monitor->priv;
 
-	char *uri = g_file_get_parse_name (gfile);
-	add_monitor_event (monitor, event_type, uri, priv->monitor_events);
-	g_free (uri);
+	add_monitor_event (monitor, event_type, gfile, priv->monitor_events);
 
 	if (priv->update_changes_timeout != 0)
 		g_source_remove (priv->update_changes_timeout);
@@ -390,31 +386,23 @@ directory_changed (GFileMonitor      *handle,
 
 
 void
-gth_monitor_add_uri (const char *uri)
+gth_monitor_add_gfile (GFile *gfile)
 {
 	GthMonitorPrivateData *priv = instance->priv;
 	GFileMonitor          *monitor_handle;
 	GList                 *item;
-	GFile		      *gfile;
 
-	if (uri == NULL)
-		return;
-
-	item = find_monitor_from_uri (priv->gfile_monitors, uri);
+	item = find_monitor_from_gfile (priv->gfile_monitors, gfile);
 	if (item != NULL) {
 		MonitorHandle *mh = item->data;
 		monitor_handle_ref (mh);
 		return;
 	}
 
-	debug (DEBUG_INFO, "MONITOR URI: %s", uri);
-
-	gfile = gfile_new (uri);
 	monitor_handle = g_file_monitor_directory (gfile, G_FILE_MONITOR_NONE, NULL, NULL);
-	g_object_unref (gfile);
 
 	if (monitor_handle != NULL) {
-		MonitorHandle *mh = monitor_handle_new (monitor_handle, uri);
+		MonitorHandle *mh = monitor_handle_new (monitor_handle, gfile);
 		priv->gfile_monitors = g_list_prepend (priv->gfile_monitors, mh);
 
 	        g_signal_connect (G_OBJECT (monitor_handle),
@@ -428,20 +416,18 @@ gth_monitor_add_uri (const char *uri)
 
 
 void
-gth_monitor_remove_uri (const char *uri)
+gth_monitor_remove_gfile (GFile *gfile)
 {
 	GthMonitorPrivateData *priv = instance->priv;
 	GList                 *item;
 	MonitorHandle         *mh;
 
-	if (uri == NULL)
+	if (gfile == NULL)
 		return;
 
-	item = find_monitor_from_uri (priv->gfile_monitors, uri);
+	item = find_monitor_from_gfile (priv->gfile_monitors, gfile);
 	if (item == NULL)
 		return;
-
-	debug (DEBUG_INFO, "REMOVE MONITOR URI: %s", uri);
 
 	mh = item->data;
 	if (mh->ref == 1)
@@ -559,7 +545,7 @@ gth_monitor_notify_update_catalog (const char      *catalog_path,
 
 
 void
-gth_monitor_notify_update_metadata (const char      *path)
+gth_monitor_notify_update_metadata (const char *path)
 {
 	g_return_if_fail (GTH_IS_MONITOR (instance));
 	g_signal_emit (G_OBJECT (instance),

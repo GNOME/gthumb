@@ -919,6 +919,18 @@ gfile_list_free (GList *list)
 }
 
 
+GList *
+gfile_list_find_gfile (GList *list, GFile *gfile)
+{
+        GList *scan;
+
+        for (scan = list; scan; scan = scan->next)
+                if (g_file_equal ((GFile *) scan->data, gfile))
+                        return scan;
+        return NULL;
+}
+
+
 void
 gfile_set_mtime (GFile  *gfile,
                  time_t  mtime)

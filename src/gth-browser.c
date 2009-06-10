@@ -231,7 +231,7 @@ struct _GthBrowserPrivateData {
 						 */
 	/* misc */
 
-	char               *monitor_uri;
+	GFile              *monitor_gfile;
 
 	guint               cnxn_id[GCONF_NOTIFICATIONS];
 	GthPixbufOp        *pixop;
@@ -4295,12 +4295,12 @@ gth_browser_remove_monitor (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	if (priv->monitor_uri == NULL)
+	if (priv->monitor_gfile == NULL)
 		return;
 
-	gth_monitor_remove_uri (priv->monitor_uri);
-	g_free (priv->monitor_uri);
-	priv->monitor_uri = NULL;
+	gth_monitor_remove_gfile (priv->monitor_gfile);
+	g_object_unref (priv->monitor_gfile);
+	priv->monitor_gfile = NULL;
 }
 
 
@@ -4317,11 +4317,8 @@ gth_browser_add_monitor (GthBrowser *browser)
 	if (priv->dir_list->path == NULL)
 		return;
 
-	if (priv->dir_list->path[0] == '/')
-		priv->monitor_uri = add_scheme_if_absent (priv->dir_list->path);
-	else
-		priv->monitor_uri = g_strdup (priv->dir_list->path);
-	gth_monitor_add_uri (priv->monitor_uri);
+	priv->monitor_gfile = gfile_new (priv->dir_list->path);
+	gth_monitor_add_gfile (priv->monitor_gfile);
 }
 
 

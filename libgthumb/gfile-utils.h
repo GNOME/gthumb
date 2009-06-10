@@ -119,5 +119,7 @@ gssize        gfile_output_stream_write        (GFileOutputStream  *ostream,
 
 /* lists */
 void          gfile_list_free                  (GList      *list);
+GList *       gfile_list_find_gfile            (GList      *list,
+					        GFile      *gfile);
 
 #endif /* GFILE_UTILS_H */
