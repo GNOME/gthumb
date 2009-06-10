@@ -25,9 +25,11 @@
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include "typedefs.h"
 #include "file-data.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #define IMAGE_LOADER_TYPE            (image_loader_get_type ())
 #define IMAGE_LOADER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), IMAGE_LOADER_TYPE, ImageLoader))
@@ -58,7 +60,7 @@ struct _ImageLoaderClass
 				 float        percent);
 };
 
-typedef GdkPixbufAnimation * (*LoaderFunc) (FileData *file, GError **error, GnomeThumbnailFactory *, gpointer data);
+typedef GdkPixbufAnimation * (*LoaderFunc) (FileData *file, GError **error, GnomeDesktopThumbnailFactory *, gpointer data);
 
 GType                image_loader_get_type                (void);
 GObject *            image_loader_new                     (gboolean           as_animation);

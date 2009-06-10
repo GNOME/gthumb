@@ -31,10 +31,12 @@
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"
 #include "file-data.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
@@ -227,12 +229,12 @@ GdkPixbuf*	    gth_pixbuf_new_from_file	       (FileData               *file,
 			  				GError                **error,
 			  				int                     requested_width,
 			  				int                     requested_height,
-			  				GnomeThumbnailFactory  *factory);
+			  				GnomeDesktopThumbnailFactory  *factory);
 GdkPixbufAnimation* gth_pixbuf_animation_new_from_file (FileData              *file,
 						        GError               **error,
 						        int                    requested_width,
 						        int	               requested_height,
-						        GnomeThumbnailFactory *factory);
+						        GnomeDesktopThumbnailFactory *factory);
 
 char *              xdg_user_dir_lookup               (const char            *type);
 					       

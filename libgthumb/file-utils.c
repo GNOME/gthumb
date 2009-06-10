@@ -42,7 +42,6 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-result.h>
@@ -59,6 +58,9 @@
 #include "typedefs.h"
 #include "gth-exif-utils.h"
 #include "gth-sort-utils.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #ifdef HAVE_LIBOPENRAW
 #include <libopenraw-gnome/gdkpixbuf.h>
@@ -706,8 +708,8 @@ delete_thumbnail (const char *path)
 	fd = file_data_new_from_path (path);
 
 	/* delete associated thumbnails, if present */
-	large_thumbnail = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_LARGE);
-	normal_thumbnail = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+	large_thumbnail = gnome_desktop_thumbnail_path_for_uri (fd->uri, GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
+	normal_thumbnail = gnome_desktop_thumbnail_path_for_uri (fd->uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
 
 	file_unlink (large_thumbnail);
 	file_unlink (normal_thumbnail);
@@ -2274,7 +2276,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 	/* The output filename, and its persistence, depend on the input file
 	   type, and whether or not a thumbnail has been requested. */
 
-	md5_file = gnome_thumbnail_md5 (file->local_path);
+	md5_file = gnome_desktop_thumbnail_md5 (file->local_path);
 	
 	if (is_raw && !is_thumbnail)
 		/* Full-sized converted RAW file */
@@ -2399,14 +2401,14 @@ get_pixbuf_using_external_converter (FileData   *file,
 
 static GdkPixbuf*
 gth_pixbuf_new_from_video (FileData               *file,
-			   GnomeThumbnailFactory  *factory,
+			   GnomeDesktopThumbnailFactory  *factory,
 			   GError                **error,
 			   gboolean                resolve_symlinks)
 {
       	GdkPixbuf *pixbuf = NULL;
 	char      *thumbnail_uri;
 
-	thumbnail_uri = gnome_thumbnail_factory_lookup (factory,
+	thumbnail_uri = gnome_desktop_thumbnail_factory_lookup (factory,
 							file->uri,
 							file->mtime);
 	if (thumbnail_uri != NULL) {
@@ -2415,14 +2417,14 @@ gth_pixbuf_new_from_video (FileData               *file,
 		pixbuf = gdk_pixbuf_new_from_file (fd_thumb->local_path, error);
 		file_data_unref (fd_thumb);
 	}
-	else if (gnome_thumbnail_factory_has_valid_failed_thumbnail (factory, 
+	else if (gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (factory, 
 								     file->uri, 
 								     file->mtime)) 
 	{ 
 		pixbuf = NULL;
 	}
 	else 
-		pixbuf = gnome_thumbnail_factory_generate_thumbnail (factory,
+		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (factory,
 								     file->uri, 
 								     file->mime_type);
 
@@ -2446,7 +2448,7 @@ gth_pixbuf_new_from_file (FileData               *file,
 			  GError                **error,
 			  int                     requested_width,
 			  int                     requested_height,
-			  GnomeThumbnailFactory  *factory)
+			  GnomeDesktopThumbnailFactory  *factory)
 {
 	GdkPixbuf     *pixbuf = NULL;
 	GdkPixbuf     *rotated = NULL;
@@ -2546,7 +2548,7 @@ gth_pixbuf_animation_new_from_file (FileData               *file,
 				    GError                **error,
 				    int                     requested_width,
 				    int                     requested_height,
-				    GnomeThumbnailFactory  *factory)
+				    GnomeDesktopThumbnailFactory  *factory)
 {
 	GdkPixbufAnimation *animation = NULL;
 	GdkPixbuf          *pixbuf = NULL;

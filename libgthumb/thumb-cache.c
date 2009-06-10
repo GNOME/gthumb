@@ -32,7 +32,6 @@
 #include <png.h>
 
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include <gtk/gtk.h>
 
 #include "typedefs.h"
@@ -41,6 +40,9 @@
 #include "gfile-utils.h"
 #include "file-data.h"
 #include "gtk-utils.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #define PROCESS_DELAY 25
 #define PROCESS_MAX_FILES 33
@@ -53,7 +55,7 @@ cache_get_nautilus_cache_name (const char *path)
 	FileData       *fd;
 
 	fd = file_data_new_from_path (path);
-	retval = gnome_thumbnail_path_for_uri (fd->uri, GNOME_THUMBNAIL_SIZE_NORMAL);
+	retval = gnome_desktop_thumbnail_path_for_uri (fd->uri, GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
 	file_data_unref (fd);
 
 	return retval;

@@ -15,6 +15,8 @@ Notes:
 
  * versions 2.9.1 and higher are for GNOME 2.16.
 
+ * versions 2.11.0 and higher are for GNOME 2.26.
+
  * more information about gthumb can be found at:
    http://gthumb.sourceforge.net
 
@@ -91,11 +93,11 @@ Compiling
 	* libgnomeui 		version >= 2.6.0
 	* libgnomecanvas 	version >= 2.6.0
 	* gnome-vfs 		version >= 2.6.0
+	* gnome-desktop		version >= 2.25.1
 	* libglade 		version >= 2.4.0
 	* intltool		version >= 0.35.0
 	* exiv2			version >= 0.18
 	* libjpeg
-	* gtkunique		version >= 0.9.1 (optional)
 
   If the libtiff library is present you can save images in TIFF
   format.

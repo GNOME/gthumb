@@ -27,7 +27,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <sys/stat.h>
 #include "image-loader.h"
@@ -39,6 +38,8 @@
 #include "pixbuf-utils.h"
 #include "preferences.h"
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #define DEF_THUMB_SIZE        128
 #define THUMBNAIL_NORMAL_SIZE 128
@@ -52,7 +53,7 @@ struct _ImageLoaderPrivateData {
 	GdkPixbuf             *pixbuf;
 	GdkPixbufAnimation    *animation;
 
-	GnomeThumbnailFactory *thumb_factory;
+	GnomeDesktopThumbnailFactory *thumb_factory;
 
 	gboolean               as_animation; /* Whether to load the image in a
 					      * GdkPixbufAnimation structure. */
@@ -335,9 +336,9 @@ image_loader_new (gboolean as_animation)
 
 	size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
 	if (size <= THUMBNAIL_NORMAL_SIZE)
-		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+		priv->thumb_factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
 	else
-		priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+		priv->thumb_factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE);
 
 	return G_OBJECT (il);
 }

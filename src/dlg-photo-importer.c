@@ -32,9 +32,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
-/* FIXME */
-#include <libgnomeui/gnome-thumbnail.h>
-
 #include "gth-utils.h"
 #include "gtk-utils.h"
 #include "gth-window.h"
@@ -51,6 +48,9 @@
 #include "pixbuf-utils.h"
 #include "rotation-utils.h"
 #include "main.h"
+
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
 
 #define GLADE_FILE "gthumb_camera.glade"
 #define TAGS_GLADE_FILE "gthumb_comment.glade"
@@ -135,8 +135,7 @@ struct _DialogData {
 	gboolean	     dcim_dirs_only;
 	GFile		    *gfile_import_from;
 
-/* FIXME */
-	GnomeThumbnailFactory *factory;
+	GnomeDesktopThumbnailFactory *factory;
 };
 
 
@@ -714,7 +713,7 @@ gfile_get_preview (DialogData *data,
 
 	if (data->generate_previews) {
 		uri = g_file_get_uri (gfile);
-		pixbuf = gnome_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type); /* FIXME */
+		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type);
 		g_free (uri);
 
 		if (pixbuf) {
@@ -1591,7 +1590,7 @@ dlg_photo_importer (GthBrowser *browser,
 		return;
 	}
 
-	data->factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);  /* FIXME */
+	data->factory = gnome_desktop_thumbnail_factory_new (GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL);
 
 	data->tags_list = NULL;
 	data->delete_list = NULL;

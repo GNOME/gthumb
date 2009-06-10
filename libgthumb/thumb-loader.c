@@ -28,7 +28,6 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-thumbnail.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "gthumb-init.h"
@@ -42,6 +41,9 @@
 #include "glib-utils.h"
 #include "gthumb-marshal.h"
 
+#define GNOME_DESKTOP_USE_UNSTABLE_API
+#include <libgnomeui/gnome-desktop-thumbnail.h>
+
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
 
 #define THUMBNAIL_LARGE_SIZE	256
@@ -51,7 +53,7 @@ struct _ThumbLoaderPrivateData
 {
 	FileData              *file;
 	ImageLoader           *il;
-	GnomeThumbnailFactory *thumb_factory;
+	GnomeDesktopThumbnailFactory *thumb_factory;
 	GdkPixbuf             *pixbuf;	   	 /* Contains the final (scaled
 						  * if necessary) image when 
 						  * done. */
@@ -63,7 +65,7 @@ struct _ThumbLoaderPrivateData
 	int                    max_h;
 	int                    cache_max_w;
 	int                    cache_max_h;
-	GnomeThumbnailSize     thumb_size;
+	GnomeDesktopThumbnailSize     thumb_size;
 	goffset                max_file_size;    /* If the file size is greater
 					    	  * than this the thumbnail 
 					    	  * will not be created, for
@@ -219,7 +221,7 @@ thumb_loader_get_type (void)
 static GdkPixbufAnimation*
 thumb_loader (FileData               *file,
 	      GError                **error,
-	      GnomeThumbnailFactory  *thumb_factory,
+	      GnomeDesktopThumbnailFactory  *thumb_factory,
 	      gpointer                data)
 {
 	ThumbLoader *tl = data;
@@ -271,14 +273,14 @@ thumb_loader_set_thumb_size (ThumbLoader *tl,
 
 	if ((width <= THUMBNAIL_NORMAL_SIZE) && (height <= THUMBNAIL_NORMAL_SIZE)) {
 		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
-		tl->priv->thumb_size = GNOME_THUMBNAIL_SIZE_NORMAL;
+		tl->priv->thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_NORMAL;
 	}
 	else {
 		tl->priv->cache_max_w = tl->priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
-		tl->priv->thumb_size = GNOME_THUMBNAIL_SIZE_LARGE;
+		tl->priv->thumb_size = GNOME_DESKTOP_THUMBNAIL_SIZE_LARGE;
 	}
 
-	tl->priv->thumb_factory = gnome_thumbnail_factory_new (tl->priv->thumb_size);
+	tl->priv->thumb_factory = gnome_desktop_thumbnail_factory_new (tl->priv->thumb_size);
 	
 	tl->priv->max_w = width;
 	tl->priv->max_h = height;
@@ -374,12 +376,12 @@ thumb_loader_start__step2 (ThumbLoader *tl)
 	}
 	
 	if ((tl->priv->use_cache && ((time (NULL) - tl->priv->file->mtime) > (time_t) 5))) {
-		cache_path = gnome_thumbnail_factory_lookup (tl->priv->thumb_factory,
+		cache_path = gnome_desktop_thumbnail_factory_lookup (tl->priv->thumb_factory,
 							     tl->priv->file->uri,
 							     tl->priv->file->mtime);
 
 		if ((cache_path == NULL)  
-		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
+		    && gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (tl->priv->thumb_factory,
 									   tl->priv->file->uri,
 									   tl->priv->file->mtime))
 		{
@@ -470,7 +472,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 		g_free (cache_base_uri);
 	}
 
-	cache_file = gnome_thumbnail_path_for_uri (tl->priv->file->uri, tl->priv->thumb_size);
+	cache_file = gnome_desktop_thumbnail_path_for_uri (tl->priv->file->uri, tl->priv->thumb_size);
 	if (cache_file == NULL)
 		return FALSE;
 		
@@ -478,7 +480,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	g_free (cache_file);
 
 	if (ensure_dir_exists (cache_dir))	
-		gnome_thumbnail_factory_save_thumbnail (tl->priv->thumb_factory,
+		gnome_desktop_thumbnail_factory_save_thumbnail (tl->priv->thumb_factory,
 							tl->priv->pixbuf,
 							tl->priv->file->uri,
 							tl->priv->file->mtime);
@@ -506,7 +508,7 @@ thumb_loader_done_cb (ImageLoader *il,
 	pixbuf = image_loader_get_pixbuf (priv->il);
 
 	if (pixbuf == NULL) {
-		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
+		gnome_desktop_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
 								 priv->file->uri,
 								 priv->file->mtime);
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
@@ -584,7 +586,7 @@ thumb_loader_error_cb (ImageLoader *il,
 			priv->pixbuf = NULL;
 		}
 
-		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
+		gnome_desktop_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
 								 priv->file->uri,
 								 priv->file->mtime);
 
