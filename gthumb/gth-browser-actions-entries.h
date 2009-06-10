@@ -46,7 +46,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_file_open_with) },
 
 	{ "File_Save", GTK_STOCK_SAVE,
-	  NULL, "<control>s",
+	  NULL, "<control>S",
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_file_save) },
 
@@ -81,7 +81,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_select_all) },
 
 	{ "Edit_Metadata", GTK_STOCK_EDIT,
-	  N_("Metadata"), "C",
+	  N_("Metadata"), "<control>M",
 	  N_("Edit file metadata"),
 	  G_CALLBACK (gth_browser_activate_action_edit_metadata) },
 
@@ -101,7 +101,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_view_stop) },
 
 	{ "View_Reload", GTK_STOCK_REFRESH,
-	  NULL, "<ctrl>R",
+	  NULL, "<control>R",
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_view_reload) },
 
@@ -131,7 +131,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_go_up) },
 
 	{ "Go_Home", NULL,
-	  NULL, "h",
+	  NULL, "<alt>Home",
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_go_home) },
 
