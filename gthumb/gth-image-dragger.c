@@ -68,22 +68,22 @@ gth_image_dragger_instance_init (GthImageDragger *dragger)
 
 
 static void
-gth_image_dragger_realize (GthImageTool *base)
+gth_image_dragger_realize (GthImageViewerTool *base)
 {
 	/* void */
 }
 
 
 static void
-gth_image_dragger_unrealize (GthImageTool *base)
+gth_image_dragger_unrealize (GthImageViewerTool *base)
 {
 	/* void */
 }
 
 
 static void
-gth_image_dragger_size_allocate (GthImageTool  *self,
-				 GtkAllocation *allocation)
+gth_image_dragger_size_allocate (GthImageViewerTool  *self,
+				 GtkAllocation       *allocation)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -104,8 +104,8 @@ gth_image_dragger_size_allocate (GthImageTool  *self,
 
 
 static void
-gth_image_dragger_expose (GthImageTool *self,
-			  GdkRectangle *event_area)
+gth_image_dragger_expose (GthImageViewerTool *self,
+			  GdkRectangle       *event_area)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -140,8 +140,8 @@ gth_image_dragger_expose (GthImageTool *self,
 
 
 static gboolean
-gth_image_dragger_button_press (GthImageTool   *self,
-				GdkEventButton *event)
+gth_image_dragger_button_press (GthImageViewerTool *self,
+				GdkEventButton     *event)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -183,8 +183,8 @@ gth_image_dragger_button_press (GthImageTool   *self,
 
 
 static gboolean
-gth_image_dragger_button_release (GthImageTool   *self,
-				  GdkEventButton *event)
+gth_image_dragger_button_release (GthImageViewerTool *self,
+				  GdkEventButton     *event)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -203,8 +203,8 @@ gth_image_dragger_button_release (GthImageTool   *self,
 
 
 static gboolean
-gth_image_dragger_motion_notify (GthImageTool   *self,
-				 GdkEventMotion *event)
+gth_image_dragger_motion_notify (GthImageViewerTool *self,
+				 GdkEventMotion     *event)
 {
 	GthImageDragger *dragger;
 	GthImageViewer  *viewer;
@@ -229,21 +229,21 @@ gth_image_dragger_motion_notify (GthImageTool   *self,
 
 
 static void
-gth_image_dragger_image_changed (GthImageTool *self)
+gth_image_dragger_image_changed (GthImageViewerTool *self)
 {
 	/* void */
 }
 
 
 static void
-gth_image_dragger_zoom_changed (GthImageTool *self)
+gth_image_dragger_zoom_changed (GthImageViewerTool *self)
 {
 	/* void */
 }
 
 
 static void
-gth_image_dragger_gth_image_tool_interface_init (GthImageToolIface *iface)
+gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 {
 	iface->realize = gth_image_dragger_realize;
 	iface->unrealize = gth_image_dragger_unrealize;
@@ -284,14 +284,14 @@ gth_image_dragger_get_type (void)
 					       "GthImageDragger",
 					       &type_info,
 					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_TOOL, &gth_image_tool_info);
+		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
 	}
 
 	return type;
 }
 
 
-GthImageTool *
+GthImageViewerTool *
 gth_image_dragger_new (GthImageViewer *viewer)
 {
 	GthImageDragger *dragger;
@@ -299,5 +299,5 @@ gth_image_dragger_new (GthImageViewer *viewer)
 	dragger = g_object_new (GTH_TYPE_IMAGE_DRAGGER, NULL);
 	dragger->priv->viewer = viewer;
 
-	return GTH_IMAGE_TOOL (dragger);
+	return GTH_IMAGE_VIEWER_TOOL (dragger);
 }

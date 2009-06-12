@@ -32,15 +32,18 @@
 #define GTH_SIDEBAR_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_SIDEBAR, GthSidebarPrivate))
 
 
+enum {
+	GTH_SIDEBAR_PAGE_PROPERTIES,
+	GTH_SIDEBAR_PAGE_TOOLS
+};
+
+
 static gpointer parent_class = NULL;
 
 
 struct _GthSidebarPrivate {
 	GtkWidget *properties;
-	GtkWidget *tools;
-	GtkWidget *options;
-	GtkWidget *options_icon;
-	GtkWidget *options_title;
+	GtkWidget *toolbox;
 };
 
 
@@ -55,51 +58,10 @@ gth_sidebar_class_init (GthSidebarClass *klass)
 static void
 gth_sidebar_init (GthSidebar *sidebar)
 {
-	GtkWidget *options_box;
-	GtkWidget *options_header;
-	GtkWidget *header_align;
-
 	sidebar->priv = GTH_SIDEBAR_GET_PRIVATE (sidebar);
 
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (sidebar), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (sidebar), FALSE);
-
-	sidebar->priv->properties = gth_multipage_new ();
-	gtk_widget_show (sidebar->priv->properties);
-	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->properties, NULL);
-
-	sidebar->priv->tools = gth_toolbox_new ("file-tools");
-	gtk_widget_show (sidebar->priv->tools);
-	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->tools, NULL);
-
-	options_box = gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (options_box);
-	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), options_box, NULL);
-
-	header_align = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (header_align), 5, 5, 0, 0);
-
-	options_header = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (options_header);
-	gtk_container_add (GTK_CONTAINER (header_align), options_header);
-
-	sidebar->priv->options_icon = gtk_image_new ();
-	gtk_widget_show (sidebar->priv->options_icon);
-	gtk_box_pack_start (GTK_BOX (options_header), sidebar->priv->options_icon, FALSE, FALSE, 0);
-
-	sidebar->priv->options_title = gtk_label_new ("");
-	gtk_label_set_use_markup (GTK_LABEL (sidebar->priv->options_title), TRUE);
-	gtk_widget_show (sidebar->priv->options_title);
-	gtk_box_pack_start (GTK_BOX (options_header), sidebar->priv->options_title, FALSE, FALSE, 0);
-
-	gtk_widget_show (header_align);
-	gtk_box_pack_start (GTK_BOX (options_box), header_align, FALSE, FALSE, 0);
-
-	sidebar->priv->options = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sidebar->priv->options), GTK_SHADOW_NONE);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sidebar->priv->options), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_widget_show (sidebar->priv->options);
-	gtk_box_pack_start (GTK_BOX (options_box), sidebar->priv->options, TRUE, TRUE, 0);
 }
 
 
@@ -150,12 +112,27 @@ _gth_sidebar_add_property_views (GthSidebar *sidebar)
 }
 
 
+static void
+_gth_sidebar_construct (GthSidebar *sidebar,
+		        const char *name)
+{
+	sidebar->priv->properties = gth_multipage_new ();
+	gtk_widget_show (sidebar->priv->properties);
+	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->properties, NULL);
+
+	sidebar->priv->toolbox = gth_toolbox_new (name);
+	gtk_widget_show (sidebar->priv->toolbox);
+	gtk_notebook_append_page (GTK_NOTEBOOK (sidebar), sidebar->priv->toolbox, NULL);
+}
+
+
 GtkWidget *
-gth_sidebar_new (void)
+gth_sidebar_new (const char *name)
 {
 	GthSidebar *sidebar;
 
 	sidebar = g_object_new (GTH_TYPE_SIDEBAR, NULL);
+	_gth_sidebar_construct (sidebar, name);
 	_gth_sidebar_add_property_views (sidebar);
 
 	return (GtkWidget *) sidebar;
@@ -168,6 +145,8 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 {
 	GList *children;
 	GList *scan;
+
+	gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 
 	children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
 	for (scan = children; scan; scan = scan->next) {
@@ -184,29 +163,25 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 
 
 void
-gth_sidebar_set_options (GthSidebar *sidebar,
-			 const char *icon,
-			 const char *title,
-			 GtkWidget  *options)
+gth_sidebar_show_properties (GthSidebar *sidebar)
 {
-	_gtk_container_remove_children (GTK_CONTAINER (sidebar->priv->options), NULL, NULL);
-	if (options != NULL) {
-		char *markup;
+	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_TOOLS)
+		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
+}
 
-		markup = g_markup_printf_escaped ("<span size='large' weight='bold'>%s</span>", title);
-		gtk_label_set_markup (GTK_LABEL (sidebar->priv->options_title), markup);
-		gtk_image_set_from_stock (GTK_IMAGE (sidebar->priv->options_icon), icon, GTK_ICON_SIZE_LARGE_TOOLBAR);
-		gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sidebar->priv->options), options);
 
-		g_free (markup);
-	}
+void
+gth_sidebar_show_tools (GthSidebar *sidebar)
+{
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
 }
 
 
 void
 gth_sidebar_update_sensitivity (GthSidebar *sidebar)
 {
-	gth_toolbox_update_sensitivity (GTH_TOOLBOX (sidebar->priv->tools));
+	gth_toolbox_update_sensitivity (GTH_TOOLBOX (sidebar->priv->toolbox));
 }
 
 

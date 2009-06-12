@@ -25,8 +25,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "gth-image-tool.h"
 #include "gth-image-viewer.h"
+#include "gth-image-viewer-tool.h"
 
 G_BEGIN_DECLS
 
@@ -52,8 +52,8 @@ struct _GthImageDraggerClass
 	GObjectClass __parent_class;
 };
 
-GType           gth_image_dragger_get_type (void);
-GthImageTool *  gth_image_dragger_new      (GthImageViewer *viewer);
+GType                 gth_image_dragger_get_type (void);
+GthImageViewerTool *  gth_image_dragger_new      (GthImageViewer *viewer);
 
 G_END_DECLS
 

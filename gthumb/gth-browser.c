@@ -2576,7 +2576,7 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_widget_show (browser->priv->viewer_container);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->viewer_pane), browser->priv->viewer_container, TRUE, TRUE);
 
-	browser->priv->viewer_sidebar = gth_sidebar_new ();
+	browser->priv->viewer_sidebar = gth_sidebar_new ("file-tools");
 	gtk_paned_pack2 (GTK_PANED (browser->priv->viewer_pane), browser->priv->viewer_sidebar, FALSE, TRUE);
 
 	/* -- browser page -- */
@@ -2701,7 +2701,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the file property box */
 
-	browser->priv->file_properties = gth_sidebar_new ();
+	browser->priv->file_properties = gth_sidebar_new ("file-list-tools");
 	gtk_widget_hide (browser->priv->file_properties);
 	gtk_paned_pack2 (GTK_PANED (browser->priv->browser_sidebar), browser->priv->file_properties, FALSE, TRUE);
 
@@ -3555,7 +3555,7 @@ gth_browser_show_viewer_properties (GthBrowser *browser,
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (browser->priv->viewer_sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
+		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	}
 	else
 		gtk_widget_hide (browser->priv->viewer_sidebar);
@@ -3569,7 +3569,7 @@ gth_browser_show_viewer_tools (GthBrowser *browser,
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (browser->priv->viewer_sidebar), GTH_SIDEBAR_PAGE_TOOLS);
+		gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	}
 	else
 		gtk_widget_hide (browser->priv->viewer_sidebar);

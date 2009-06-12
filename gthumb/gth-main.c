@@ -954,7 +954,7 @@ gth_main_get_default_extension_manager (void)
 void
 gth_main_activate_extensions (void)
 {
-	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_viewer", "image_tools", "image_viewer", "search", NULL };
+	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "file_viewer", "image_viewer", "search", NULL };
 	int         i;
 
 	if (Main->priv->extension_manager == NULL)

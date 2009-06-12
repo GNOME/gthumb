@@ -24,24 +24,21 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
-#include "gth-image-tool-crop.h"
-#include "gth-image-tool-desaturate.h"
-#include "gth-image-tool-redo.h"
-#include "gth-image-tool-save.h"
-#include "gth-image-tool-undo.h"
+#include "gth-file-tool-crop.h"
+#include "gth-file-tool-desaturate.h"
+#include "gth-file-tool-redo.h"
+#include "gth-file-tool-save.h"
+#include "gth-file-tool-undo.h"
 
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_SAVE);
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_UNDO);
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_REDO);
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_CROP);
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_DESATURATE);
-
-	/*gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_SAVE);
-	gth_main_register_type ("file-tools", GTH_TYPE_IMAGE_TOOL_SAVE_AS);*/
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_UNDO);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_REDO);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_DESATURATE);
 }
 
 

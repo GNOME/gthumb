@@ -47,6 +47,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-file-source.h				\
 	gth-file-source-vfs.h				\
 	gth-file-store.h				\
+	gth-file-tool.h					\
 	gth-file-view.h					\
 	gth-filter.h					\
 	gth-filterbar.h					\
@@ -61,8 +62,8 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-loader.h				\
 	gth-image-preloader.h				\
 	gth-image-selector.h				\
-	gth-image-tool.h				\
 	gth-image-viewer.h				\
+	gth-image-viewer-tool.h				\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-marshal.h					\
@@ -145,6 +146,7 @@ gthumb_SOURCES = 					\
 	gth-file-source.c				\
 	gth-file-source-vfs.c				\
 	gth-file-store.c				\
+	gth-file-tool.c					\
 	gth-file-view.c					\
 	gth-filter.c					\
 	gth-filterbar.c					\
@@ -159,8 +161,8 @@ gthumb_SOURCES = 					\
 	gth-image-loader.c				\
 	gth-image-preloader.c				\
 	gth-image-selector.c				\
-	gth-image-tool.c				\
 	gth-image-viewer.c				\
+	gth-image-viewer-tool.c				\
 	gth-location-chooser.c				\
 	gth-main.c					\
 	gth-main-default-hooks.c			\

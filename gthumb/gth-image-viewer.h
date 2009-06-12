@@ -27,7 +27,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include "gth-image-loader.h"
-#include "gth-image-tool.h"
+#include "gth-image-viewer-tool.h"
 #include "gth-file-data.h"
 
 G_BEGIN_DECLS
@@ -230,7 +230,7 @@ void           gth_image_viewer_get_adjustments          (GthImageViewer     *se
 							  GtkAdjustment     **hadj,
 							  GtkAdjustment     **vadj);
 void           gth_image_viewer_set_tool                 (GthImageViewer     *viewer,
-							  GthImageTool       *tool);
+							  GthImageViewerTool *tool);
 
 /* Scrolling. */
 

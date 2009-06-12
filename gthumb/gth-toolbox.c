@@ -23,10 +23,18 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "gth-main.h"
+#include "gth-file-tool.h"
 #include "gth-toolbox.h"
+#include "gtk-utils.h"
 
 
 #define GTH_TOOLBOX_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_TOOLBOX, GthToolboxPrivate))
+
+
+enum {
+	GTH_TOOLBOX_LIST_PAGE = 0,
+	GTH_TOOLBOX_OPTIONS_PAGE
+};
 
 
 enum  {
@@ -41,6 +49,10 @@ static gpointer parent_class = NULL;
 struct _GthToolboxPrivate {
 	char      *name;
 	GtkWidget *box;
+	GtkWidget *options;
+	GtkWidget *options_icon;
+	GtkWidget *options_title;
+	GtkWidget *active_tool;
 };
 
 
@@ -116,9 +128,15 @@ static void
 gth_toolbox_init (GthToolbox *toolbox)
 {
 	GtkWidget *scrolled;
+	GtkWidget *options_box;
+	GtkWidget *options_header;
+	GtkWidget *header_align;
 
 	toolbox->priv = GTH_TOOLBOX_GET_PRIVATE (toolbox);
-	gtk_box_set_spacing (GTK_BOX (toolbox), 0);
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (toolbox), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (toolbox), FALSE);
+
+	/* tools vbox page */
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled), GTK_SHADOW_NONE);
@@ -126,12 +144,43 @@ gth_toolbox_init (GthToolbox *toolbox)
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (scrolled);
-	gtk_box_pack_start (GTK_BOX (toolbox), scrolled, TRUE, TRUE, 0);
+	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), scrolled, NULL);
 
 	toolbox->priv->box = gtk_vbox_new (FALSE, 0);
 	gtk_box_set_spacing (GTK_BOX (toolbox->priv->box), 0);
 	gtk_widget_show (toolbox->priv->box);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled), toolbox->priv->box);
+
+	/* tool options page */
+
+	options_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (options_box);
+	gtk_notebook_append_page (GTK_NOTEBOOK (toolbox), options_box, NULL);
+
+	header_align = gtk_alignment_new (0.0, 0.0, 1.0, 1.0);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (header_align), 5, 5, 0, 0);
+
+	options_header = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (options_header);
+	gtk_container_add (GTK_CONTAINER (header_align), options_header);
+
+	toolbox->priv->options_icon = gtk_image_new ();
+	gtk_widget_show (toolbox->priv->options_icon);
+	gtk_box_pack_start (GTK_BOX (options_header), toolbox->priv->options_icon, FALSE, FALSE, 0);
+
+	toolbox->priv->options_title = gtk_label_new ("");
+	gtk_label_set_use_markup (GTK_LABEL (toolbox->priv->options_title), TRUE);
+	gtk_widget_show (toolbox->priv->options_title);
+	gtk_box_pack_start (GTK_BOX (options_header), toolbox->priv->options_title, FALSE, FALSE, 0);
+
+	gtk_widget_show (header_align);
+	gtk_box_pack_start (GTK_BOX (options_box), header_align, FALSE, FALSE, 0);
+
+	toolbox->priv->options = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_SHADOW_NONE);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (toolbox->priv->options), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_widget_show (toolbox->priv->options);
+	gtk_box_pack_start (GTK_BOX (options_box), toolbox->priv->options, TRUE, TRUE, 0);
 }
 
 
@@ -153,13 +202,60 @@ gth_toolbox_get_type (void)
 			(GInstanceInitFunc) gth_toolbox_init
 		};
 
-		type = g_type_register_static (GTK_TYPE_VBOX,
+		type = g_type_register_static (GTK_TYPE_NOTEBOOK,
 					       "GthToolbox",
 					       &type_info,
 					       0);
 	}
 
 	return type;
+}
+
+
+static void
+child_clicked_cb (GtkWidget *tool,
+		  gpointer   data)
+{
+	gth_file_tool_activate (GTH_FILE_TOOL (tool));
+}
+
+
+static void
+child_show_options_cb (GtkWidget *tool,
+		       gpointer   data)
+{
+	GthToolbox *toolbox = data;
+	GtkWidget  *options;
+	char       *markup;
+
+	options = gth_file_tool_get_options (GTH_FILE_TOOL (tool));
+	if (options == NULL)
+		return;
+
+	toolbox->priv->active_tool = tool;
+
+	_gtk_container_remove_children (GTK_CONTAINER (toolbox->priv->options), NULL, NULL);
+
+	markup = g_markup_printf_escaped ("<span size='large' weight='bold'>%s</span>", gth_file_tool_get_options_title (GTH_FILE_TOOL (tool)));
+	gtk_label_set_markup (GTK_LABEL (toolbox->priv->options_title), markup);
+	gtk_image_set_from_stock (GTK_IMAGE (toolbox->priv->options_icon), gth_file_tool_get_icon_name (GTH_FILE_TOOL (tool)), GTK_ICON_SIZE_LARGE_TOOLBAR);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (toolbox->priv->options), options);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_OPTIONS_PAGE);
+
+	g_free (markup);
+}
+
+
+static void
+child_hide_options_cb (GtkWidget *tool,
+		       gpointer   data)
+{
+	GthToolbox *toolbox = data;
+
+	gth_file_tool_destroy_options (GTH_FILE_TOOL (tool));
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (toolbox), GTH_TOOLBOX_LIST_PAGE);
+
+	toolbox->priv->active_tool = NULL;
 }
 
 
@@ -179,6 +275,9 @@ _gth_toolbox_add_childs (GthToolbox *toolbox)
 
 		child_type = g_array_index (children, GType, i);
 		child = g_object_new (child_type, NULL);
+		g_signal_connect (child, "clicked", G_CALLBACK (child_clicked_cb), toolbox);
+		g_signal_connect (child, "show-options", G_CALLBACK (child_show_options_cb), toolbox);
+		g_signal_connect (child, "hide-options", G_CALLBACK (child_hide_options_cb), toolbox);
 		gtk_widget_show (child);
 		gtk_box_pack_start (GTK_BOX (toolbox->priv->box), child, FALSE, FALSE, 0);
 	}
@@ -200,11 +299,9 @@ gth_toolbox_new (const char *name)
 void
 gth_toolbox_update_sensitivity (GthToolbox *toolbox)
 {
-	GtkWidget *window;
-	GList     *children;
-	GList     *scan;
+	GList *children;
+	GList *scan;
 
-	window = gtk_widget_get_toplevel (GTK_WIDGET (toolbox));
 	children = gtk_container_get_children (GTK_CONTAINER (toolbox->priv->box));
 	for (scan = children; scan; scan = scan->next) {
 		GtkWidget *child = scan->data;
@@ -212,41 +309,16 @@ gth_toolbox_update_sensitivity (GthToolbox *toolbox)
 		if (! GTH_IS_FILE_TOOL (child))
 			continue;
 
-		gth_file_tool_update_sensitivity (GTH_FILE_TOOL (child), window);
+		gth_file_tool_update_sensitivity (GTH_FILE_TOOL (child));
 	}
 
 	g_list_free (children);
 }
 
 
-/* -- gth_file_tool -- */
-
-
-GType
-gth_file_tool_get_type (void) {
-	static GType gth_file_tool_type_id = 0;
-	if (gth_file_tool_type_id == 0) {
-		static const GTypeInfo g_define_type_info = {
-			sizeof (GthFileToolIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
-			(GClassFinalizeFunc) NULL,
-			NULL,
-			0,
-			0,
-			(GInstanceInitFunc) NULL,
-			NULL
-		};
-		gth_file_tool_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthFileTool", &g_define_type_info, 0);
-	}
-	return gth_file_tool_type_id;
-}
-
-
 void
-gth_file_tool_update_sensitivity (GthFileTool *self,
-				  GtkWidget   *window)
+gth_toolbox_deactivate_tool (GthToolbox *toolbox)
 {
-	GTH_FILE_TOOL_GET_INTERFACE (self)->update_sensitivity (self, window);
+	if (toolbox->priv->active_tool != NULL)
+		gth_file_tool_hide_options (GTH_FILE_TOOL (toolbox->priv->active_tool));
 }

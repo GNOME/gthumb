@@ -44,12 +44,6 @@ typedef struct _GthSidebar        GthSidebar;
 typedef struct _GthSidebarClass   GthSidebarClass;
 typedef struct _GthSidebarPrivate GthSidebarPrivate;
 
-typedef enum {
-	GTH_SIDEBAR_PAGE_PROPERTIES,
-	GTH_SIDEBAR_PAGE_TOOLS,
-	GTH_SIDEBAR_PAGE_OPTIONS
-} GthSidebarPage;
-
 struct _GthSidebar
 {
 	GtkNotebook __parent;
@@ -71,14 +65,13 @@ struct _GthPropertyViewIface {
 };
 
 GType          gth_sidebar_get_type            (void);
-GtkWidget *    gth_sidebar_new                 (void);
+GtkWidget *    gth_sidebar_new                 (const char      *name);
 void           gth_sidebar_set_file            (GthSidebar      *sidebar,
 						GthFileData     *file_data);
-void           gth_sidebar_set_options         (GthSidebar      *sidebar,
-						const char      *icon,
-						const char      *title,
-						GtkWidget       *options);
+void           gth_sidebar_show_properties     (GthSidebar      *sidebar);
+void           gth_sidebar_show_tools          (GthSidebar      *sidebar);
 void           gth_sidebar_update_sensitivity  (GthSidebar      *sidebar);
+
 GType          gth_property_view_get_type      (void);
 void           gth_property_view_set_file      (GthPropertyView *self,
 						GthFileData     *file_data);

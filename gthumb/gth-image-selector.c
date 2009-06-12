@@ -502,7 +502,7 @@ init_selection (GthImageSelector *self)
 
 
 static void
-gth_image_selector_realize (GthImageTool *base)
+gth_image_selector_realize (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 	GtkWidget        *widget;
@@ -540,7 +540,7 @@ gth_image_selector_realize (GthImageTool *base)
 
 
 static void
-gth_image_selector_unrealize (GthImageTool *base)
+gth_image_selector_unrealize (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -559,8 +559,8 @@ gth_image_selector_unrealize (GthImageTool *base)
 
 
 static void
-gth_image_selector_size_allocate (GthImageTool  *base,
-				  GtkAllocation *allocation)
+gth_image_selector_size_allocate (GthImageViewerTool *base,
+				  GtkAllocation      *allocation)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -646,8 +646,8 @@ paint_image (GthImageSelector *self,
 
 
 static void
-gth_image_selector_expose (GthImageTool *base,
-			   GdkRectangle *event_area)
+gth_image_selector_expose (GthImageViewerTool *base,
+			   GdkRectangle       *event_area)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -731,8 +731,8 @@ update_cursor (GthImageSelector *self,
 
 
 static gboolean
-gth_image_selector_button_release (GthImageTool   *base,
-				   GdkEventButton *event)
+gth_image_selector_button_release (GthImageViewerTool *base,
+				   GdkEventButton     *event)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -850,8 +850,8 @@ check_and_set_new_selection (GthImageSelector *self,
 
 
 static gboolean
-gth_image_selector_button_press (GthImageTool   *base,
-				 GdkEventButton *event)
+gth_image_selector_button_press (GthImageViewerTool *base,
+				 GdkEventButton     *event)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 	gboolean          retval = FALSE;
@@ -1116,8 +1116,8 @@ autoscroll_cb (gpointer data)
 
 
 static gboolean
-gth_image_selector_motion_notify (GthImageTool   *base,
-				  GdkEventMotion *event)
+gth_image_selector_motion_notify (GthImageViewerTool *base,
+				  GdkEventMotion     *event)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 	GtkWidget        *widget;
@@ -1215,7 +1215,7 @@ gth_image_selector_motion_notify (GthImageTool   *base,
 
 
 static void
-gth_image_selector_image_changed (GthImageTool *base)
+gth_image_selector_image_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 
@@ -1249,7 +1249,7 @@ gth_image_selector_image_changed (GthImageTool *base)
 
 
 static void
-gth_image_selector_zoom_changed (GthImageTool *base)
+gth_image_selector_zoom_changed (GthImageViewerTool *base)
 {
 	GthImageSelector *self = GTH_IMAGE_SELECTOR (base);
 	GdkRectangle      selection;
@@ -1339,7 +1339,7 @@ gth_image_selector_class_init (GthImageSelectorClass *class)
 
 
 static void
-gth_image_selector_gth_image_tool_interface_init (GthImageToolIface *iface)
+gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 {
 	iface->realize = gth_image_selector_realize;
 	iface->unrealize = gth_image_selector_unrealize;
@@ -1380,14 +1380,14 @@ gth_image_selector_get_type (void)
 					       "GthImageSelector",
 					       &type_info,
 					       0);
-		g_type_add_interface_static (type, GTH_TYPE_IMAGE_TOOL, &gth_image_tool_info);
+		g_type_add_interface_static (type, GTH_TYPE_IMAGE_VIEWER_TOOL, &gth_image_tool_info);
 	}
 
 	return type;
 }
 
 
-GthImageTool *
+GthImageViewerTool *
 gth_image_selector_new (GthImageViewer  *viewer,
 			GthSelectorType  type)
 {
@@ -1396,7 +1396,7 @@ gth_image_selector_new (GthImageViewer  *viewer,
 	selector = g_object_new (GTH_TYPE_IMAGE_SELECTOR, NULL);
 	selector->priv->viewer = viewer;
 
-	return GTH_IMAGE_TOOL (selector);
+	return GTH_IMAGE_VIEWER_TOOL (selector);
 }
 
 

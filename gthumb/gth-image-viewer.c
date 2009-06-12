@@ -65,65 +65,65 @@ enum {
 
 
 struct _GthImageViewerPrivate {
-	gboolean         is_animation;
-	gboolean         play_animation;
-	gboolean         rendering;
-	gboolean         cursor_visible;
+	gboolean                is_animation;
+	gboolean                play_animation;
+	gboolean                rendering;
+	gboolean                cursor_visible;
 
-	gboolean         frame_visible;
-	int              frame_border;
-	int              frame_border2;
+	gboolean                frame_visible;
+	int                     frame_border;
+	int                     frame_border2;
 
-	GthTranspType    transp_type;
-	GthCheckType     check_type;
-	int              check_size;
-	guint32          check_color1;
-	guint32          check_color2;
+	GthTranspType           transp_type;
+	GthCheckType            check_type;
+	int                     check_size;
+	guint32                 check_color1;
+	guint32                 check_color2;
 
-	guint            anim_id;
-	GdkPixbuf       *frame_pixbuf;
-	int              frame_delay;
+	guint                   anim_id;
+	GdkPixbuf              *frame_pixbuf;
+	int                     frame_delay;
 
 	GthImageLoader         *loader;
 	GdkPixbufAnimation     *anim;
 	GdkPixbufAnimationIter *iter;
-	GTimeVal                time;        /* Timer used to get the right
-					      * frame. */
+	GTimeVal                time;               /* Timer used to get the right
+					             * frame. */
 
-	GthImageTool    *tool;
+	GthImageViewerTool     *tool;
 
-	GdkCursor       *cursor;
-	GdkCursor       *cursor_void;
+	GdkCursor              *cursor;
+	GdkCursor              *cursor_void;
 
-	double           zoom_level;
-	guint            zoom_quality : 1;   /* A ZoomQualityType value. */
-	guint            zoom_change : 3;    /* A ZoomChangeType value. */
+	double                  zoom_level;
+	guint                   zoom_quality : 1;   /* A ZoomQualityType value. */
+	guint                   zoom_change : 3;    /* A ZoomChangeType value. */
 
-	GthFit           fit;
-	gboolean         doing_zoom_fit;     /* Whether we are performing
-					      * a zoom to fit the window. */
-	gboolean         is_void;            /* If TRUE do not show anything.
-					      *	Itis resetted to FALSE we an
-					      * image is loaded. */
+	GthFit                  fit;
+	gboolean                doing_zoom_fit;     /* Whether we are performing
+					             * a zoom to fit the window. */
+	gboolean                is_void;            /* If TRUE do not show anything.
+					             * It is reset to FALSE we an
+					             * image is loaded. */
 
-	gboolean         double_click;
-	gboolean         just_focused;
+	gboolean                double_click;
+	gboolean                just_focused;
 
-	GdkPixbuf       *paint_pixbuf;
-	int              paint_max_width;
-	int              paint_max_height;
-	int              paint_bps;
-	GdkColorspace    paint_color_space;
+	GdkPixbuf              *paint_pixbuf;
+	int                     paint_max_width;
+	int                     paint_max_height;
+	int                     paint_bps;
+	GdkColorspace           paint_color_space;
 
-	gboolean         black_bg;
+	gboolean                black_bg;
 
-	gboolean         skip_zoom_change;
-	gboolean         skip_size_change;
+	gboolean                skip_zoom_change;
+	gboolean                skip_size_change;
 
-	gboolean         next_scroll_repaint; /* used in fullscreen mode to
-					       * delete the comment before
-					       * scrolling. */
-	gboolean         reset_scrollbars;
+	gboolean                next_scroll_repaint; /* used in fullscreen mode to
+					              * delete the comment before
+					              * scrolling. */
+	gboolean                reset_scrollbars;
 };
 
 
@@ -301,7 +301,7 @@ set_zoom (GthImageViewer *viewer,
 	viewer->priv->zoom_level = zoom_level;
 
 	_gth_image_viewer_update_image_area (viewer);
-	gth_image_tool_zoom_changed (viewer->priv->tool);
+	gth_image_viewer_tool_zoom_changed (viewer->priv->tool);
 
 	if (! viewer->priv->doing_zoom_fit) {
 		gtk_widget_queue_resize (GTK_WIDGET (viewer));
@@ -382,7 +382,7 @@ gth_image_viewer_realize (GtkWidget *widget)
 		viewer->priv->check_color2 = base_color;
 	}
 
-	gth_image_tool_realize (viewer->priv->tool);
+	gth_image_viewer_tool_realize (viewer->priv->tool);
 }
 
 
@@ -404,7 +404,7 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 		viewer->priv->cursor_void = NULL;
 	}
 
-	gth_image_tool_unrealize (viewer->priv->tool);
+	gth_image_viewer_tool_unrealize (viewer->priv->tool);
 
 	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
@@ -577,7 +577,7 @@ gth_image_viewer_size_allocate (GtkWidget       *widget,
 					allocation->x, allocation->y,
 					allocation->width, allocation->height);
 
-	gth_image_tool_size_allocate (viewer->priv->tool, allocation);
+	gth_image_viewer_tool_size_allocate (viewer->priv->tool, allocation);
 
 	if (! viewer->priv->skip_size_change)
 		g_signal_emit (G_OBJECT (viewer),
@@ -831,7 +831,7 @@ gth_image_viewer_expose (GtkWidget      *widget,
 			       x2, y2);
 	}
 
-	gth_image_tool_expose (viewer->priv->tool, &event->area);
+	gth_image_viewer_tool_expose (viewer->priv->tool, &event->area);
 
 	viewer->priv->rendering = FALSE;
 
@@ -885,7 +885,7 @@ gth_image_viewer_button_press (GtkWidget      *widget,
 	else
 		viewer->priv->double_click = FALSE;
 
-	retval = gth_image_tool_button_press (viewer->priv->tool, event);
+	retval = gth_image_viewer_tool_button_press (viewer->priv->tool, event);
 
 	if (viewer->pressed) {
 		viewer->event_x_start = viewer->event_x_prev = event->x;
@@ -914,7 +914,7 @@ gth_image_viewer_button_release (GtkWidget      *widget,
 			       0);
 	}
 
-	gth_image_tool_button_release (viewer->priv->tool, event);
+	gth_image_viewer_tool_button_release (viewer->priv->tool, event);
 
 	viewer->priv->just_focused = FALSE;
 	viewer->pressed = FALSE;
@@ -1098,7 +1098,7 @@ gth_image_viewer_motion_notify (GtkWidget      *widget,
 		viewer->drag_y = event->y + viewer->y_offset;
 	}
 
-	gth_image_tool_motion_notify (viewer->priv->tool, event);
+	gth_image_viewer_tool_motion_notify (viewer->priv->tool, event);
 
 	if (viewer->pressed) {
 		viewer->event_x_prev = event->x;
@@ -1683,7 +1683,7 @@ image_loader_ready_cb (GthImageLoader *il,
 	if (viewer->priv->is_animation)
 		init_animation (viewer);
 
-	gth_image_tool_image_changed (viewer->priv->tool);
+	gth_image_viewer_tool_image_changed (viewer->priv->tool);
 
 	switch (viewer->priv->zoom_change) {
 	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
@@ -2018,7 +2018,7 @@ gth_image_viewer_set_void (GthImageViewer *viewer)
 		viewer->y_offset = 0;
 	}
 
-	gth_image_tool_image_changed (viewer->priv->tool);
+	gth_image_viewer_tool_image_changed (viewer->priv->tool);
 
 	gtk_widget_queue_resize (GTK_WIDGET (viewer));
 	gtk_widget_queue_draw (GTK_WIDGET (viewer));
@@ -2417,8 +2417,8 @@ gth_image_viewer_get_adjustments (GthImageViewer  *self,
 
 
 void
-gth_image_viewer_set_tool (GthImageViewer *viewer,
-			   GthImageTool   *tool)
+gth_image_viewer_set_tool (GthImageViewer     *viewer,
+			   GthImageViewerTool *tool)
 {
 	_g_object_unref (viewer->priv->tool);
 	if (tool == NULL)
@@ -2426,8 +2426,8 @@ gth_image_viewer_set_tool (GthImageViewer *viewer,
 	else
 		viewer->priv->tool = g_object_ref (tool);
 	if (GTK_WIDGET_REALIZED (viewer))
-		gth_image_tool_realize (viewer->priv->tool);
-	gth_image_tool_image_changed (viewer->priv->tool);
+		gth_image_viewer_tool_realize (viewer->priv->tool);
+	gth_image_viewer_tool_image_changed (viewer->priv->tool);
 	gtk_widget_queue_resize (GTK_WIDGET (viewer));
 	gtk_widget_queue_draw (GTK_WIDGET (viewer));
 }

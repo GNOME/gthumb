@@ -23,23 +23,21 @@
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
-#include "gth-image-tool-desaturate.h"
+#include "gth-file-tool-desaturate.h"
 
 
 static void
-gth_image_tool_desaturate_real_update_sensitivity (GthFileTool *base,
-						   GtkWidget   *window)
+gth_file_tool_desaturate_update_sensitivity (GthFileTool *base)
 {
-	GthImageToolDesaturate *self;
+	GtkWidget *window;
+	GtkWidget *viewer_page;
 
-	self = (GthImageToolDesaturate*) base;
-}
-
-
-static void
-gth_file_tool_interface_init (GthFileToolIface *iface)
-{
-	iface->update_sensitivity = gth_image_tool_desaturate_real_update_sensitivity;
+	window = gth_file_tool_get_window (base);
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
 }
 
 
@@ -73,8 +71,7 @@ desaturate_release (GthPixbufTask *pixop)
 
 
 static void
-button_clicked_cb (GtkButton *button,
-		   gpointer   data)
+gth_file_tool_desaturate_activate (GthFileTool *base)
 {
 	GtkWidget *window;
 	GtkWidget *viewer_page;
@@ -83,7 +80,7 @@ button_clicked_cb (GtkButton *button,
 	GdkPixbuf *dest_pixbuf;
 	GthTask   *task;
 
-	window = gtk_widget_get_toplevel (GTK_WIDGET (button));
+	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
 		return;
@@ -108,54 +105,37 @@ button_clicked_cb (GtkButton *button,
 
 
 static void
-gth_image_tool_desaturate_instance_init (GthImageToolDesaturate *self)
+gth_file_tool_desaturate_instance_init (GthFileToolDesaturate *self)
 {
-	GtkWidget *hbox;
-	GtkWidget *icon;
-	GtkWidget *label;
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Desaturate"), _("Desaturate"));
+}
 
-	gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-
-	icon = gtk_image_new_from_stock (GTK_STOCK_EDIT, GTK_ICON_SIZE_MENU);
-	gtk_widget_show (icon);
-	gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
-
-	label = gtk_label_new (_("Desaturate"));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	gtk_widget_show (hbox);
-	gtk_container_add (GTK_CONTAINER (self), hbox);
-
-	g_signal_connect (self, "clicked", G_CALLBACK (button_clicked_cb), self);
+static void
+gth_file_tool_desaturate_class_init (GthFileToolClass *klass)
+{
+	klass->update_sensitivity = gth_file_tool_desaturate_update_sensitivity;
+	klass->activate = gth_file_tool_desaturate_activate;
 }
 
 
 GType
-gth_image_tool_desaturate_get_type (void) {
+gth_file_tool_desaturate_get_type (void) {
 	static GType type_id = 0;
 	if (type_id == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImageToolDesaturateClass),
+			sizeof (GthFileToolDesaturateClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) NULL,
+			(GClassInitFunc) gth_file_tool_desaturate_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (GthImageToolDesaturate),
+			sizeof (GthFileToolDesaturate),
 			0,
-			(GInstanceInitFunc) gth_image_tool_desaturate_instance_init,
+			(GInstanceInitFunc) gth_file_tool_desaturate_instance_init,
 			NULL
 		};
-		static const GInterfaceInfo gth_file_tool_info = {
-			(GInterfaceInitFunc) gth_file_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type_id = g_type_register_static (GTK_TYPE_BUTTON, "GthImageToolDesaturate", &g_define_type_info, 0);
-		g_type_add_interface_static (type_id, GTH_TYPE_FILE_TOOL, &gth_file_tool_info);
+		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolDesaturate", &g_define_type_info, 0);
 	}
 	return type_id;
 }

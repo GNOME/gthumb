@@ -226,10 +226,10 @@ extensions/comments/data/Makefile
 extensions/comments/data/ui/Makefile
 extensions/exiv2/Makefile
 extensions/file_manager/Makefile
+extensions/file_tools/Makefile
+extensions/file_tools/data/Makefile
+extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
-extensions/image_tools/Makefile
-extensions/image_tools/data/Makefile
-extensions/image_tools/data/ui/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
 extensions/image_viewer/data/ui/Makefile

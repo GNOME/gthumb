@@ -25,8 +25,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "gth-image-tool.h"
 #include "gth-image-viewer.h"
+#include "gth-image-viewer-tool.h"
 
 G_BEGIN_DECLS
 
@@ -68,30 +68,30 @@ struct _GthImageSelectorClass
 	void (* mask_visibility_changed) (GthImageSelector *selector);
 };
 
-GType           gth_image_selector_get_type             (void);
-GthImageTool *  gth_image_selector_new                  (GthImageViewer   *viewer,
-							 GthSelectorType   type);
-void            gth_image_selector_set_selection_x      (GthImageSelector *selector,
-							 int               x);
-void            gth_image_selector_set_selection_y      (GthImageSelector *selector,
-							 int               y);
-void            gth_image_selector_set_selection_width  (GthImageSelector *selector,
-							 int               width);
-void            gth_image_selector_set_selection_height (GthImageSelector *selector,
-							 int               height);
-void            gth_image_selector_set_selection        (GthImageSelector *selector,
-							 GdkRectangle      selection);
-void            gth_image_selector_get_selection        (GthImageSelector *selector,
-							 GdkRectangle     *selection);
-void            gth_image_selector_set_ratio            (GthImageSelector *selector,
-							 gboolean          use_ratio,
-							 double            ratio,
-							 gboolean          swap_x_and_y_to_start);
-double          gth_image_selector_get_ratio            (GthImageSelector *selector);
-gboolean        gth_image_selector_get_use_ratio        (GthImageSelector *selector);
-void            gth_image_selector_set_mask_visible     (GthImageSelector *selector,
-							 gboolean          visible);
-gboolean        gth_image_selector_get_mask_visible     (GthImageSelector *selector);
+GType                 gth_image_selector_get_type             (void);
+GthImageViewerTool *  gth_image_selector_new                  (GthImageViewer   *viewer,
+							       GthSelectorType   type);
+void                  gth_image_selector_set_selection_x      (GthImageSelector *selector,
+							       int               x);
+void                  gth_image_selector_set_selection_y      (GthImageSelector *selector,
+							       int               y);
+void                  gth_image_selector_set_selection_width  (GthImageSelector *selector,
+							       int               width);
+void                  gth_image_selector_set_selection_height (GthImageSelector *selector,
+							       int               height);
+void                  gth_image_selector_set_selection        (GthImageSelector *selector,
+							       GdkRectangle      selection);
+void                  gth_image_selector_get_selection        (GthImageSelector *selector,
+							       GdkRectangle     *selection);
+void                  gth_image_selector_set_ratio            (GthImageSelector *selector,
+							       gboolean          use_ratio,
+							       double            ratio,
+							       gboolean          swap_x_and_y_to_start);
+double                gth_image_selector_get_ratio            (GthImageSelector *selector);
+gboolean              gth_image_selector_get_use_ratio        (GthImageSelector *selector);
+void                  gth_image_selector_set_mask_visible     (GthImageSelector *selector,
+							       gboolean          visible);
+gboolean              gth_image_selector_get_mask_visible     (GthImageSelector *selector);
 
 G_END_DECLS
 

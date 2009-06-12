@@ -23,7 +23,7 @@
 #include <config.h>
 #include <gthumb.h>
 #include <extensions/image_viewer/gth-image-viewer-page.h>
-#include "gth-image-tool-crop.h"
+#include "gth-file-tool-crop.h"
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
@@ -45,7 +45,7 @@ typedef enum {
 static gpointer parent_class = NULL;
 
 
-struct _GthImageToolCropPrivate {
+struct _GthFileToolCropPrivate {
 	GdkPixbuf        *src_pixbuf;
 	GtkBuilder       *builder;
 	int               pixbuf_width;
@@ -62,50 +62,31 @@ struct _GthImageToolCropPrivate {
 
 
 static void
-gth_image_tool_crop_real_update_sensitivity (GthFileTool *base,
-					     GtkWidget   *window)
-{
-	GthImageToolCrop *self;
-
-	self = (GthImageToolCrop*) base;
-}
-
-
-static void
-gth_file_tool_interface_init (GthFileToolIface *iface)
-{
-	iface->update_sensitivity = gth_image_tool_crop_real_update_sensitivity;
-}
-
-
-static void
-cancel_button_clicked_cb (GtkButton        *button,
-			  GthImageToolCrop *self)
+gth_file_tool_crop_update_sensitivity (GthFileTool *base)
 {
 	GtkWidget *window;
-	GtkWidget *sidebar;
 	GtkWidget *viewer_page;
-	GtkWidget *viewer;
 
-	window = gtk_widget_get_toplevel (GTK_WIDGET (self));
-	sidebar = gth_browser_get_viewer_sidebar (GTH_BROWSER (window));
-	gth_sidebar_set_options (GTH_SIDEBAR (sidebar), NULL, NULL, NULL);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
-
+	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
-
-	_g_object_unref (self->priv->src_pixbuf);
-	_g_object_unref (self->priv->builder);
-	self->priv->src_pixbuf = NULL;
-	self->priv->builder = NULL;
+	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
+		gtk_widget_set_sensitive (GTK_WIDGET (base), FALSE);
+	else
+		gtk_widget_set_sensitive (GTK_WIDGET (base), TRUE);
 }
 
 
 static void
-crop_button_clicked_cb (GtkButton        *button,
-			GthImageToolCrop *self)
+cancel_button_clicked_cb (GtkButton       *button,
+			  GthFileToolCrop *self)
+{
+	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
+}
+
+
+static void
+crop_button_clicked_cb (GtkButton       *button,
+			GthFileToolCrop *self)
 {
 	GdkRectangle  selection;
 	GdkPixbuf    *new_pixbuf;
@@ -123,10 +104,10 @@ crop_button_clicked_cb (GtkButton        *button,
 		GtkWidget *window;
 		GtkWidget *viewer_page;
 
-		window = gtk_widget_get_toplevel (GTK_WIDGET (self));
+		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf);
-		cancel_button_clicked_cb (NULL, self);
+		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 
 		g_object_unref (new_pixbuf);
 	}
@@ -135,7 +116,7 @@ crop_button_clicked_cb (GtkButton        *button,
 
 static void
 selection_x_value_changed_cb (GtkSpinButton    *spin,
-			      GthImageToolCrop *self)
+			      GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_x (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
 }
@@ -143,7 +124,7 @@ selection_x_value_changed_cb (GtkSpinButton    *spin,
 
 static void
 selection_y_value_changed_cb (GtkSpinButton    *spin,
-			      GthImageToolCrop *self)
+			      GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_y (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
 }
@@ -151,7 +132,7 @@ selection_y_value_changed_cb (GtkSpinButton    *spin,
 
 static void
 selection_width_value_changed_cb (GtkSpinButton    *spin,
-				  GthImageToolCrop *self)
+				  GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_width (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
 }
@@ -159,14 +140,14 @@ selection_width_value_changed_cb (GtkSpinButton    *spin,
 
 static void
 selection_height_value_changed_cb (GtkSpinButton    *spin,
-				   GthImageToolCrop *self)
+				   GthFileToolCrop *self)
 {
 	gth_image_selector_set_selection_height (self->priv->selector, gtk_spin_button_get_value_as_int (spin));
 }
 
 
 static void
-set_spin_range_value (GthImageToolCrop *self,
+set_spin_range_value (GthFileToolCrop *self,
 		      GtkWidget        *spin,
 		      int               min,
 		      int               max,
@@ -181,7 +162,7 @@ set_spin_range_value (GthImageToolCrop *self,
 
 static void
 selector_selection_changed_cb (GthImageSelector *selector,
-			       GthImageToolCrop *self)
+			       GthFileToolCrop *self)
 {
 	GdkRectangle selection;
 	int          min, max;
@@ -209,7 +190,7 @@ selector_selection_changed_cb (GthImageSelector *selector,
 
 
 static void
-set_spin_value (GthImageToolCrop *self,
+set_spin_value (GthFileToolCrop *self,
 		GtkWidget        *spin,
 		int               x)
 {
@@ -221,7 +202,7 @@ set_spin_value (GthImageToolCrop *self,
 
 static void
 ratio_combobox_changed_cb (GtkComboBox      *combobox,
-			   GthImageToolCrop *self)
+			   GthFileToolCrop *self)
 {
 	GtkWidget *ratio_w_spinbutton;
 	GtkWidget *ratio_h_spinbutton;
@@ -286,7 +267,7 @@ ratio_combobox_changed_cb (GtkComboBox      *combobox,
 
 static void
 update_ratio (GtkSpinButton    *spin,
-	      GthImageToolCrop *self,
+	      GthFileToolCrop *self,
 	      gboolean          swap_x_and_y_to_start)
 {
 	gboolean use_ratio;
@@ -310,7 +291,7 @@ update_ratio (GtkSpinButton    *spin,
 
 static void
 ratio_value_changed_cb (GtkSpinButton    *spin,
-			GthImageToolCrop *self)
+			GthFileToolCrop *self)
 {
 	update_ratio (spin, self, FALSE);
 }
@@ -318,35 +299,35 @@ ratio_value_changed_cb (GtkSpinButton    *spin,
 
 static void
 invert_ratio_changed_cb (GtkSpinButton    *spin,
-			 GthImageToolCrop *self)
+			 GthFileToolCrop *self)
 {
 	update_ratio (spin, self, TRUE);
 }
 
 
-static void
-button_clicked_cb (GtkButton *button,
-		   gpointer   data)
+static GtkWidget *
+gth_file_tool_crop_get_options (GthFileTool *base)
 {
-	GthImageToolCrop *self;
-	GtkWidget        *window;
-	GtkWidget        *viewer_page;
-	GtkWidget        *viewer;
-	GtkWidget        *options;
-	GtkWidget        *sidebar;
-	char             *text;
+	GthFileToolCrop *self;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
+	GtkWidget       *options;
+	char            *text;
 
-	self = (GthImageToolCrop *) button;
+	self = (GthFileToolCrop *) base;
 
-	window = gtk_widget_get_toplevel (GTK_WIDGET (button));
+	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 	if (! GTH_IS_IMAGE_VIEWER_PAGE (viewer_page))
-		return;
+		return NULL;
+
+	_g_object_unref (self->priv->src_pixbuf);
 
 	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 	self->priv->src_pixbuf = gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (viewer));
 	if (self->priv->src_pixbuf == NULL)
-		return;
+		return NULL;
 
 	g_object_ref (self->priv->src_pixbuf);
 
@@ -354,8 +335,10 @@ button_clicked_cb (GtkButton *button,
 	self->priv->pixbuf_height = gdk_pixbuf_get_height (self->priv->src_pixbuf);
 	_gtk_widget_get_screen_size (window, &self->priv->screen_width, &self->priv->screen_height);
 
-	self->priv->builder = _gtk_builder_new_from_file ("crop-options.ui", "image_tools");
+	self->priv->builder = _gtk_builder_new_from_file ("crop-options.ui", "file_tools");
+
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
+	gtk_widget_show (options);
 	self->priv->crop_x_spinbutton = _gtk_builder_get_widget (self->priv->builder, "crop_x_spinbutton");
 	self->priv->crop_y_spinbutton = _gtk_builder_get_widget (self->priv->builder, "crop_y_spinbutton");
 	self->priv->crop_width_spinbutton = _gtk_builder_get_widget (self->priv->builder, "crop_width_spinbutton");
@@ -377,10 +360,6 @@ button_clicked_cb (GtkButton *button,
 				     NULL);
 	gtk_widget_show (self->priv->ratio_combobox);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("ratio_combobox_box")), self->priv->ratio_combobox, FALSE, FALSE, 0);
-
-	gtk_widget_show (options);
-	sidebar = gth_browser_get_viewer_sidebar (GTH_BROWSER (window));
-	gth_sidebar_set_options (GTH_SIDEBAR (sidebar), "gtk-edit", _("Crop"), options);
 
 	g_signal_connect (GET_WIDGET ("crop_button"),
 			  "clicked",
@@ -434,49 +413,61 @@ button_clicked_cb (GtkButton *button,
 			  self);*/
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->ratio_combobox), 0);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_OPTIONS);
-	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageTool *) self->priv->selector);
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), (GthImageViewerTool *) self->priv->selector);
+
+	return options;
 }
 
 
 static void
-gth_image_tool_crop_instance_init (GthImageToolCrop *self)
+gth_file_tool_crop_destroy_options (GthFileTool *base)
 {
-	GtkWidget *hbox;
-	GtkWidget *icon;
-	GtkWidget *label;
+	GthFileToolCrop *self;
+	GtkWidget       *window;
+	GtkWidget       *viewer_page;
+	GtkWidget       *viewer;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_TOOL_CROP, GthImageToolCropPrivate);
+	self = (GthFileToolCrop *) base;
+
+	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	viewer = gth_image_viewer_page_get_image_viewer (GTH_IMAGE_VIEWER_PAGE (viewer_page));
+	gth_image_viewer_set_tool (GTH_IMAGE_VIEWER (viewer), NULL);
+
+	_g_object_unref (self->priv->src_pixbuf);
+	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->selector);
+
+	self->priv->src_pixbuf = NULL;
 	self->priv->builder = NULL;
-
-	gtk_button_set_relief (GTK_BUTTON (self), GTK_RELIEF_NONE);
-
-	hbox = gtk_hbox_new (FALSE, 6);
-
-	icon = gtk_image_new_from_stock (GTK_STOCK_EDIT, GTK_ICON_SIZE_MENU);
-	gtk_widget_show (icon);
-	gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
-
-	label = gtk_label_new (_("Crop"));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	gtk_widget_show (hbox);
-	gtk_container_add (GTK_CONTAINER (self), hbox);
-
-	g_signal_connect (self, "clicked", G_CALLBACK (button_clicked_cb), self);
+	self->priv->selector = NULL;
 }
 
 
 static void
-gth_image_tool_crop_finalize (GObject *object)
+gth_file_tool_crop_activate (GthFileTool *base)
 {
-	GthImageToolCrop *self;
+	gth_file_tool_show_options (base);
+}
+
+
+static void
+gth_file_tool_crop_instance_init (GthFileToolCrop *self)
+{
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Crop"), _("Crop"));
+}
+
+
+static void
+gth_file_tool_crop_finalize (GObject *object)
+{
+	GthFileToolCrop *self;
 
 	g_return_if_fail (object != NULL);
-	g_return_if_fail (GTH_IS_IMAGE_TOOL_CROP (object));
+	g_return_if_fail (GTH_IS_FILE_TOOL_CROP (object));
 
-	self = (GthImageToolCrop *) object;
+	self = (GthFileToolCrop *) object;
 
 	_g_object_unref (self->priv->src_pixbuf);
 	_g_object_unref (self->priv->selector);
@@ -488,41 +479,42 @@ gth_image_tool_crop_finalize (GObject *object)
 
 
 static void
-gth_image_tool_crop_class_init (GthImageToolCropClass *class)
+gth_file_tool_crop_class_init (GthFileToolCropClass *class)
 {
-	GObjectClass *gobject_class;
+	GObjectClass     *gobject_class;
+	GthFileToolClass *file_tool_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (GthImageToolCropPrivate));
+	g_type_class_add_private (class, sizeof (GthFileToolCropPrivate));
 
 	gobject_class = (GObjectClass*) class;
-	gobject_class->finalize = gth_image_tool_crop_finalize;
+	gobject_class->finalize = gth_file_tool_crop_finalize;
+
+	file_tool_class = (GthFileToolClass *) class;
+	file_tool_class->update_sensitivity = gth_file_tool_crop_update_sensitivity;
+	file_tool_class->activate = gth_file_tool_crop_activate;
+	file_tool_class->get_options = gth_file_tool_crop_get_options;
+	file_tool_class->destroy_options = gth_file_tool_crop_destroy_options;
 }
 
 
 GType
-gth_image_tool_crop_get_type (void) {
+gth_file_tool_crop_get_type (void) {
 	static GType type_id = 0;
 	if (type_id == 0) {
 		static const GTypeInfo g_define_type_info = {
-			sizeof (GthImageToolCropClass),
+			sizeof (GthFileToolCropClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gth_image_tool_crop_class_init,
+			(GClassInitFunc) gth_file_tool_crop_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,
-			sizeof (GthImageToolCrop),
+			sizeof (GthFileToolCrop),
 			0,
-			(GInstanceInitFunc) gth_image_tool_crop_instance_init,
+			(GInstanceInitFunc) gth_file_tool_crop_instance_init,
 			NULL
 		};
-		static const GInterfaceInfo gth_file_tool_info = {
-			(GInterfaceInitFunc) gth_file_tool_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL
-		};
-		type_id = g_type_register_static (GTK_TYPE_BUTTON, "GthImageToolCrop", &g_define_type_info, 0);
-		g_type_add_interface_static (type_id, GTH_TYPE_FILE_TOOL, &gth_file_tool_info);
+		type_id = g_type_register_static (GTH_TYPE_FILE_TOOL, "GthFileToolCrop", &g_define_type_info, 0);
 	}
 	return type_id;
 }
