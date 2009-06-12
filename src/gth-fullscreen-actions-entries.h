@@ -38,6 +38,11 @@ static GtkActionEntry gth_fullscreen_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_fullscreen_activate_action_close) },
 
+	{ "StopSlideShow", GTK_STOCK_LEAVE_FULLSCREEN,
+	  N_("Stop"), NULL,
+	  N_("Stop slideshow"),
+	  G_CALLBACK (gth_fullscreen_activate_action_close) },
+
 	{ "View_NextImage", GTK_STOCK_GO_FORWARD,
 	  N_("Next"), NULL,
 	  N_("View next image"),
@@ -60,7 +65,7 @@ static GtkToggleActionEntry gth_fullscreen_action_toggle_entries[] = {
 	  FALSE },
 	{ "View_PauseSlideshow", GTK_STOCK_MEDIA_PAUSE,
 	  NULL, NULL,
-	  NULL,
+	  N_("Pause slideshow"),
 	  G_CALLBACK (gth_fullscreen_activate_action_toggle_slideshow), 
 	  FALSE }
 };

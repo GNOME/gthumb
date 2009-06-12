@@ -54,7 +54,7 @@ static const gchar *fullscreen_ui_info =
 static const gchar *slideshow_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
-"    <toolitem action='ExitFullscreen'/>"
+"    <toolitem action='StopSlideShow'/>"
 "    <toolitem action='View_PauseSlideshow'/>"
 "    <separator/>"
 "    <toolitem action='View_PrevImage'/>"
