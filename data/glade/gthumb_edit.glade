@@ -1709,7 +1709,7 @@
 
 <widget class="GtkDialog" id="scale_dialog">
   <property name="border_width">6</property>
-  <property name="title" translatable="yes">Scale Image</property>
+  <property name="title" translatable="yes">Resize Image</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
