@@ -62,6 +62,7 @@
 #define DEF_SIDEBAR_WIDTH 250
 #define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
+#define LOAD_FILE_DELAY 150
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -135,6 +136,7 @@ struct _GthBrowserPrivateData {
 	GthTask           *task;
 	gulong             task_completed;
 	GList             *load_data_queue;
+	guint              load_file_timeout;
 
 	/* history */
 
@@ -1172,6 +1174,11 @@ _gth_browser_print_history (GthBrowser *browser)
 static void
 _gth_browser_cancel (GthBrowser *browser)
 {
+	if (browser->priv->load_file_timeout != 0) {
+		g_source_remove (browser->priv->load_file_timeout);
+		browser->priv->load_file_timeout = 0;
+	}
+
 	g_list_foreach (browser->priv->load_data_queue, (GFunc) load_data_cancel, NULL);
 }
 
@@ -2236,15 +2243,10 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
-	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	if (n_selected == 1)
-		gtk_widget_show (browser->priv->file_properties);
-	else
-		gth_browser_load_file (browser, NULL, FALSE);
-
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return;
 
+	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	if (n_selected == 1) {
 		GList *items;
 		GList *file_list = NULL;
@@ -2256,6 +2258,8 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 		_g_object_list_unref (file_list);
 		_gtk_tree_path_list_free (items);
 	}
+	else
+		gth_browser_load_file (browser, NULL, FALSE);
 }
 
 
@@ -3458,6 +3462,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 		return;
 	}
+	else
+		gtk_widget_show (browser->priv->file_properties);
 
 	g_object_ref (file_data);
 	_g_object_unref (browser->priv->current_file);
@@ -3504,24 +3510,85 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 
 typedef struct {
+	int          ref;
 	GthBrowser  *browser;
 	GthFileData *file_data;
 	gboolean     view;
 } LoadFileData;
 
 
+static LoadFileData *
+load_file_data_new (GthBrowser  *browser,
+		    GthFileData *file_data,
+		    gboolean     view)
+{
+	LoadFileData *data;
+
+	data = g_new0 (LoadFileData, 1);
+	data->ref = 1;
+	data->browser = browser;
+	if (file_data != NULL)
+		data->file_data = g_object_ref (file_data);
+	data->view = view;
+
+	return data;
+}
+
+
 static void
-load_file__file_saved_cb (GthBrowser *browser,
-			  gboolean    cancelled,
-			  gpointer    user_data)
+load_file_data_ref (LoadFileData *data)
+{
+	data->ref++;
+}
+
+
+static void
+load_file_data_unref (LoadFileData *data)
+{
+	if (--data->ref > 0)
+		return;
+	_g_object_unref (data->file_data);
+	g_free (data);
+}
+
+
+static void
+load_file__previuos_file_saved_cb (GthBrowser *browser,
+				   gboolean    cancelled,
+				   gpointer    user_data)
 {
 	LoadFileData *data = user_data;
 
 	if (! cancelled)
 		_gth_browser_load_file (data->browser, data->file_data, data->view);
 
-	_g_object_unref (data->file_data);
-	g_free (data);
+	load_file_data_unref (data);
+}
+
+
+static gboolean
+load_file_delayed_cb (gpointer user_data)
+{
+	LoadFileData *data = user_data;
+	GthBrowser   *browser = data->browser;
+
+	load_file_data_ref (data);
+
+	g_source_remove (browser->priv->load_file_timeout);
+	browser->priv->load_file_timeout = 0;
+
+	if (gth_browser_get_file_modified (browser)) {
+		load_file_data_ref (data);
+		_gth_browser_ask_whether_to_save (browser,
+						  load_file__previuos_file_saved_cb,
+						  data);
+	}
+	else
+		_gth_browser_load_file (data->browser, data->file_data, data->view);
+
+	load_file_data_unref (data);
+
+	return FALSE;
 }
 
 
@@ -3530,21 +3597,18 @@ gth_browser_load_file (GthBrowser  *browser,
 		       GthFileData *file_data,
 		       gboolean     view)
 {
-	if (gth_browser_get_file_modified (browser)) {
-		LoadFileData *data;
+	LoadFileData *data;
 
-		data = g_new0 (LoadFileData, 1);
-		data->browser = browser;
-		if (file_data != NULL)
-			data->file_data = g_object_ref (file_data);
-		data->view = view;
+	data = load_file_data_new (browser, file_data, view);
 
-		_gth_browser_ask_whether_to_save (browser,
-						  load_file__file_saved_cb,
-						  data);
-	}
-	else
-		_gth_browser_load_file (browser, file_data, view);
+	if (browser->priv->load_file_timeout != 0)
+		g_source_remove (browser->priv->load_file_timeout);
+	browser->priv->load_file_timeout =
+			g_timeout_add_full (G_PRIORITY_DEFAULT,
+					    LOAD_FILE_DELAY,
+					    load_file_delayed_cb,
+					    data,
+					    (GDestroyNotify) load_file_data_unref);
 }
 
 
