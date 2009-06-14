@@ -5,6 +5,7 @@ gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =					\
 	-I$(top_srcdir)/libgthumb		\
+	-I$(top_builddir)/libgthumb		\
 	$(GTHUMB_CFLAGS)			\
 	$(GPHOTO_CFLAGS)			\
 	$(IGE_MAC_INTEGRATION_CFLAGS)		\
