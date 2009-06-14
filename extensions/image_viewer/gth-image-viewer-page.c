@@ -58,7 +58,7 @@ static const char *image_viewer_ui_info =
 "  <toolbar name='ViewerToolBar'>"
 "    <placeholder name='ViewerCommands'>"
 "      <separator/>"
-"      <toolitem action='ImageViewer_View_Fullscreen'/>"
+"      <toolitem action='View_Fullscreen'/>"
 "      <separator/>"
 "      <toolitem action='ImageViewer_View_ZoomIn'/>"
 "      <toolitem action='ImageViewer_View_ZoomOut'/>"
@@ -71,13 +71,6 @@ static const char *image_viewer_ui_info =
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
-
-
-static void
-image_viewer_activate_action_view_fullscreen (GtkAction          *action,
-					      GthImageViewerPage *self)
-{
-}
 
 
 static void
@@ -146,11 +139,6 @@ static GtkActionEntry image_viewer_action_entries[] = {
 	  NULL, "<shift><control>z",
 	  NULL,
 	  G_CALLBACK (image_viewer_activate_action_edit_redo) },
-
-	{ "ImageViewer_View_Fullscreen", GTK_STOCK_FULLSCREEN,
-	  NULL, "F11",
-	  NULL,
-	  G_CALLBACK (image_viewer_activate_action_view_fullscreen) },
 
 	{ "ImageViewer_View_ZoomIn", GTK_STOCK_ZOOM_IN,
 	  N_("In"), "<control>plus",
@@ -589,6 +577,23 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 				  prev_file_data);
 }
 
+
+static void
+gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
+				       gboolean       active)
+{
+	GthImageViewerPage *self;
+
+	self = (GthImageViewerPage *) base;
+	if (active) {
+		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
+	}
+	else {
+		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
+	}
+}
+
+
 static void
 _set_action_sensitive (GthImageViewerPage *self,
 		       const char         *action_name,
@@ -978,6 +983,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->hide = gth_image_viewer_page_real_hide;
 	iface->can_view = gth_image_viewer_page_real_can_view;
 	iface->view = gth_image_viewer_page_real_view;
+	iface->fullscreen = gth_image_viewer_page_real_fullscreen;
 	iface->update_sensitivity = gth_image_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_image_viewer_page_real_can_save;
 	iface->save = gth_image_viewer_page_real_save;

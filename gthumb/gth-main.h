@@ -86,7 +86,7 @@ void                   gth_main_register_sort_type            (GthFileDataSort  
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);
 void                   gth_main_register_test                 (const char           *id,
-						               GType                 type,			
+						               GType                 type,
 						               const char           *first_property,
 						              ...);
 GthTest *              gth_main_get_test                      (const char           *id);
@@ -97,8 +97,9 @@ void                   gth_main_register_file_loader          (FileLoader       
 FileLoader             gth_main_get_file_loader               (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);
-void                   gth_main_register_viewer_page          (GType                 viewer_page_type);
-GList *                gth_main_get_all_viewer_pages          (void);
+void                   gth_main_register_object               (const char           *set_name,
+							       GType                 object_type);
+GPtrArray *            gth_main_get_object_set                (const char           *set_name);
 void                   gth_main_register_type                 (const char           *set_name,
 							       GType                 object_type);
 GArray *               gth_main_get_type_set                  (const char           *set_name);

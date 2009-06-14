@@ -115,6 +115,11 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("View next image"),
 	  G_CALLBACK (gth_browser_activate_action_view_next) },
 
+	{ "View_Fullscreen", GTK_STOCK_FULLSCREEN,
+	  NULL, "F11",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_view_fullscreen) },
+
 	{ "Go_Back", GTK_STOCK_GO_BACK,
 	  NULL, "<alt>Left",
 	  N_("Go to the previous visited location"),

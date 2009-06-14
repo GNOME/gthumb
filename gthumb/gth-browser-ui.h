@@ -64,6 +64,8 @@ static const char *fixed_ui_info =
 "      <menuitem action='View_Statusbar'/>"
 "      <placeholder name='View_Bars'/>"
 "      <separator/>"
+"      <menuitem action='View_Fullscreen'/>"
+"      <separator/>"
 "      <placeholder name='File_Actions'/>"
 "      <separator/>"
 "      <placeholder name='Folder_Actions'/>"
@@ -177,6 +179,8 @@ static const char *browser_ui_info =
 "  <toolbar name='ToolBar'>"
 "    <placeholder name='BrowserCommands'>"
 "      <toolitem action='Edit_Metadata'/>"
+"        <separator/>"
+"      <toolitem action='View_Fullscreen'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";

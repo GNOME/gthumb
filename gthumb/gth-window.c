@@ -43,8 +43,11 @@ struct _GthWindowPrivate {
 	int         current_page;
 	GtkWidget  *table;
 	GtkWidget  *notebook;
-	GtkWidget **toolbar;
-	GtkWidget **content;
+	GtkWidget  *menubar;
+	GtkWidget  *toolbar;
+	GtkWidget  *statusbar;
+	GtkWidget **toolbars;
+	GtkWidget **contents;
 };
 
 
@@ -72,8 +75,8 @@ gth_window_set_n_pages (GthWindow *self,
 			  GTK_EXPAND | GTK_FILL,
 			  0, 0);
 
-	self->priv->toolbar = g_new0 (GtkWidget *, n_pages);
-	self->priv->content = g_new0 (GtkWidget *, n_pages);
+	self->priv->toolbars = g_new0 (GtkWidget *, n_pages);
+	self->priv->contents = g_new0 (GtkWidget *, n_pages);
 
 	for (i = 0; i < n_pages; i++) {
 		GtkWidget *page;
@@ -84,13 +87,13 @@ gth_window_set_n_pages (GthWindow *self,
 					  page,
 					  NULL);
 
-		self->priv->toolbar[i] = gtk_hbox_new (FALSE, 0);
-		gtk_widget_show (self->priv->toolbar[i]);
-		gtk_box_pack_start (GTK_BOX (page), self->priv->toolbar[i], FALSE, FALSE, 0);
+		self->priv->toolbars[i] = gtk_hbox_new (FALSE, 0);
+		gtk_widget_show (self->priv->toolbars[i]);
+		gtk_box_pack_start (GTK_BOX (page), self->priv->toolbars[i], FALSE, FALSE, 0);
 
-		self->priv->content[i] = gtk_hbox_new (FALSE, 0);
-		gtk_widget_show (self->priv->content[i]);
-		gtk_box_pack_start (GTK_BOX (page), self->priv->content[i], TRUE, TRUE, 0);
+		self->priv->contents[i] = gtk_hbox_new (FALSE, 0);
+		gtk_widget_show (self->priv->contents[i]);
+		gtk_box_pack_start (GTK_BOX (page), self->priv->contents[i], TRUE, TRUE, 0);
 	}
 }
 
@@ -121,8 +124,8 @@ gth_window_finalize (GObject *object)
 {
 	GthWindow *window = GTH_WINDOW (object);
 
-	g_free (window->priv->toolbar);
-	g_free (window->priv->content);
+	g_free (window->priv->toolbars);
+	g_free (window->priv->contents);
 
 	window_list = g_list_remove (window_list, window);
 
@@ -196,9 +199,12 @@ gth_window_init (GthWindow *window)
 {
 	window->priv = GTH_WINDOW_GET_PRIVATE (window);
 	window->priv->table = NULL;
-	window->priv->content = NULL;
+	window->priv->contents = NULL;
 	window->priv->n_pages = 0;
 	window->priv->current_page = -1;
+	window->priv->menubar = NULL;
+	window->priv->toolbar = NULL;
+	window->priv->statusbar = NULL;
 
 	window_list = g_list_prepend (window_list, window);
 }
@@ -253,12 +259,15 @@ gth_window_attach (GthWindow     *window,
 
 	switch (area) {
 	case GTH_WINDOW_MENUBAR:
+		window->priv->menubar = child;
 		position = 0;
 		break;
 	case GTH_WINDOW_TOOLBAR:
+		window->priv->toolbar = child;
 		position = 1;
 		break;
 	case GTH_WINDOW_STATUSBAR:
+		window->priv->statusbar = child;
 		position = 3;
 		break;
 	default:
@@ -286,8 +295,8 @@ gth_window_attach_toolbar (GthWindow *window,
 	g_return_if_fail (child != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
-	_gtk_container_remove_children (GTK_CONTAINER (window->priv->toolbar[page]), NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (window->priv->toolbar[page]), child);
+	_gtk_container_remove_children (GTK_CONTAINER (window->priv->toolbars[page]), NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (window->priv->toolbars[page]), child);
 }
 
 
@@ -302,8 +311,8 @@ gth_window_attach_content (GthWindow *window,
 	g_return_if_fail (child != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (child));
 
-	_gtk_container_remove_children (GTK_CONTAINER (window->priv->content[page]), NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (window->priv->content[page]), child);
+	_gtk_container_remove_children (GTK_CONTAINER (window->priv->contents[page]), NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (window->priv->contents[page]), child);
 }
 
 
@@ -319,6 +328,45 @@ int
 gth_window_get_current_page (GthWindow *window)
 {
 	return window->priv->current_page;
+}
+
+
+static void
+hide_widget (GtkWidget *widget)
+{
+	if (widget != NULL)
+		gtk_widget_hide (widget);
+}
+
+
+static void
+show_widget (GtkWidget *widget)
+{
+	if (widget != NULL)
+		gtk_widget_show (widget);
+}
+
+
+void
+gth_window_show_only_content (GthWindow *window,
+			      gboolean   only_content)
+{
+	int i;
+
+	if (only_content) {
+		for (i = 0; i < window->priv->n_pages; i++)
+			hide_widget (window->priv->toolbars[i]);
+		hide_widget (window->priv->menubar);
+		hide_widget (window->priv->toolbar);
+		hide_widget (window->priv->statusbar);
+	}
+	else {
+		for (i = 0; i < window->priv->n_pages; i++)
+			show_widget (window->priv->toolbars[i]);
+		show_widget (window->priv->menubar);
+		show_widget (window->priv->toolbar);
+		show_widget (window->priv->statusbar);
+	}
 }
 
 

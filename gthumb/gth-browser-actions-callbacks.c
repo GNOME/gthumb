@@ -187,6 +187,14 @@ gth_browser_activate_action_view_filterbar (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_view_fullscreen (GtkAction  *action,
+					     GthBrowser *browser)
+{
+	gth_browser_fullscreen (browser);
+}
+
+
+void
 gth_browser_activate_action_view_sort_by (GtkAction  *action,
 					  GthBrowser *browser)
 {

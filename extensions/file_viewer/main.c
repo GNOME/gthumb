@@ -30,7 +30,7 @@
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_viewer_page (GTH_TYPE_FILE_VIEWER_PAGE);
+	gth_main_register_object ("viewer-page", GTH_TYPE_FILE_VIEWER_PAGE);
 }
 
 

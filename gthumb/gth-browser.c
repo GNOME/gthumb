@@ -137,6 +137,7 @@ struct _GthBrowserPrivateData {
 	gulong             task_completed;
 	GList             *load_data_queue;
 	guint              load_file_timeout;
+	gboolean           fullscreen;
 
 	/* history */
 
@@ -463,7 +464,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "File_Revert", viewer_can_save && modified);
 	_gth_browser_set_action_sensitive (browser, "Go_Up", parent_available);
 	_gth_browser_set_action_sensitive (browser, "Toolbar_Go_Up", parent_available);
-	_gth_browser_set_action_sensitive (browser, "View_Stop", (browser->priv->activity_ref > 0));
+	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
 	_gth_browser_set_action_sensitive (browser, "Edit_Metadata", n_selected > 0);
@@ -2152,7 +2153,7 @@ _gth_browser_update_statusbar_file_info (GthBrowser *browser)
 	file_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "file::display-size");
 
 	if (gth_browser_get_file_modified (browser))
-		text = g_strdup_printf ("%s - %s", _("Modified"), image_size);
+		text = g_strdup_printf ("%s - %s", image_size, _("Modified"));
 	else if (image_size != NULL)
 		text = g_strdup_printf ("%s - %s - %s",	image_size, file_size, file_date);
 	else
@@ -3096,6 +3097,9 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 void
 gth_browser_stop (GthBrowser *browser)
 {
+	if (browser->priv->fullscreen)
+		gth_browser_fullscreen (browser);
+
 	_gth_browser_cancel (browser);
 
 	gth_browser_update_sensitivity (browser);
@@ -3445,9 +3449,9 @@ _gth_browser_load_file (GthBrowser  *browser,
 			GthFileData *file_data,
 			gboolean     view)
 {
-	GList *list;
-	GList *scan;
-	GList *files;
+	GPtrArray *viewer_pages;
+	int       i;
+	GList    *files;
 
 	if (file_data == NULL) {
 		_gth_browser_deactivate_viewer_page (browser);
@@ -3472,10 +3476,11 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 	_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
-	list = gth_main_get_all_viewer_pages ();
-	for (scan = list; scan; scan = scan->next) {
-		GthViewerPage *registered_viewer_page = scan->data;
+	viewer_pages = gth_main_get_object_set ("viewer-page");
+	for (i = viewer_pages->len - 1; i >= 0; i--) {
+		GthViewerPage *registered_viewer_page;
 
+		registered_viewer_page = g_ptr_array_index (viewer_pages, i);
 		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
 			if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page))) {
 				gth_viewer_page_deactivate (browser->priv->viewer_page);
@@ -3768,4 +3773,31 @@ gpointer
 gth_browser_get_image_preloader (GthBrowser *browser)
 {
 	return g_object_ref (browser->priv->image_preloader);
+}
+
+
+void
+gth_browser_fullscreen (GthBrowser *browser)
+{
+	if (browser->priv->viewer_page == NULL)
+		return;
+
+	browser->priv->fullscreen = ! browser->priv->fullscreen;
+
+	if (browser->priv->fullscreen) {
+		gtk_window_fullscreen (GTK_WINDOW (browser));
+
+		gth_viewer_page_show (browser->priv->viewer_page);
+		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
+		gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
+		gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
+	}
+	else {
+		gtk_window_unfullscreen (GTK_WINDOW (browser));
+
+		gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
+		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
+	}
+
+	gth_browser_update_sensitivity (browser);
 }

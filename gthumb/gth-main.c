@@ -96,6 +96,7 @@ struct _GthMainPrivate
 	GHashTable          *loaders;
 	GList               *viewer_pages;
 	GHashTable          *types;
+	GHashTable          *objects;
 	GBookmarkFile       *bookmarks;
 	GthFilterFile       *filters;
 	GthMonitor          *monitor;
@@ -819,6 +820,43 @@ GArray *
 gth_main_get_type_set (const char *set_name)
 {
 	return g_hash_table_lookup (Main->priv->types, set_name);
+}
+
+
+static void
+_g_destroy_object_array (GPtrArray *array)
+{
+	g_ptr_array_foreach (array, (GFunc) g_object_unref, NULL);
+	g_ptr_array_free (array, TRUE);
+}
+
+
+void
+gth_main_register_object (const char *set_name,
+			  GType       object_type)
+{
+	GPtrArray *set;
+
+	if (Main->priv->objects == NULL)
+		Main->priv->objects = g_hash_table_new_full (g_str_hash,
+							     g_str_equal,
+							     (GDestroyNotify) g_free,
+							     (GDestroyNotify) _g_destroy_object_array);
+
+	set = g_hash_table_lookup (Main->priv->objects, set_name);
+	if (set == NULL) {
+		set = g_ptr_array_new ();
+		g_hash_table_insert (Main->priv->objects, g_strdup (set_name), set);
+	}
+
+	g_ptr_array_add (set, g_object_new (object_type, NULL));
+}
+
+
+GPtrArray *
+gth_main_get_object_set (const char *set_name)
+{
+	return g_hash_table_lookup (Main->priv->objects, set_name);
 }
 
 
