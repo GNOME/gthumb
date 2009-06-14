@@ -698,15 +698,16 @@ load_images_preview__init (AsyncOperationData *aodata,
 static GdkPixbuf*
 gfile_get_preview (DialogData *data,
                    GFile      *gfile,
-		   int         size,
-		   const char *mime_type)
+		   int         size)
 {
         GdkPixbuf    *pixbuf = NULL;
         GIcon        *gicon;
         GtkIconTheme *theme;
 	GFileInfo    *info;
 	char         *uri;
+	const char   *mime_type;
 
+	mime_type = gfile_get_mime_type (gfile, FALSE);
         theme = gtk_icon_theme_get_default ();
 
 	gfile_debug (DEBUG_INFO, "need preview for", gfile);
@@ -797,7 +798,7 @@ load_images_preview__step (AsyncOperationData *aodata,
                 g_free (data->msg_text);
         data->msg_text = g_strdup_printf (_("Getting preview of '%s\' from camera."), fd->utf8_name);
 
-	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type);
+	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE);
 
 	gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 					 pixbuf,
