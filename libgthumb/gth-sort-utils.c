@@ -179,6 +179,23 @@ gth_sort_by_filename_but_ignore_path (const char *name1,
 }
 
 
+int gth_sort_by_gfile (GFile *file1,
+		       GFile *file2)
+{
+	char *path1, *path2;
+	int result;
+
+	path1 = g_file_get_parse_name (file1);
+	path2 = g_file_get_parse_name (file2);
+	result = gth_sort_by_filename (path1, path2, FALSE);
+
+	g_free(path1);
+	g_free(path2);
+
+	return result;
+}
+
+
 int gth_sort_by_full_path (const char *path1,
 			   const char *path2)
 {

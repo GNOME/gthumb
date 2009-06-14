@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
+#include "gth-sort-utils.h"
 #include "gth-utils.h"
 #include "gtk-utils.h"
 #include "gth-window.h"
@@ -598,6 +599,8 @@ get_all_files (DialogData *data)
 		file_list = gfile_import_file_list_recursive (gfile, file_list);
 	}
 
+	file_list = g_list_sort (file_list, (GCompareFunc) gth_sort_by_gfile);
+
 	return file_list;
 }
 
@@ -711,7 +714,7 @@ gfile_get_preview (DialogData *data,
         if (gfile == NULL)
                 return NULL;
 
-	if (data->generate_previews) {
+	if (data->generate_previews && mime_type_is_image (mime_type)) {
 		uri = g_file_get_uri (gfile);
 		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type);
 		g_free (uri);
@@ -789,6 +792,10 @@ load_images_preview__step (AsyncOperationData *aodata,
 	FileData  *fd;
 
 	fd = file_data_new_from_gfile ((GFile *) aodata->scan->data);
+
+        if (data->msg_text != NULL)
+                g_free (data->msg_text);
+        data->msg_text = g_strdup_printf (_("Getting preview of '%s\' from camera."), fd->utf8_name);
 
 	pixbuf = gfile_get_preview (data, (GFile *) aodata->scan->data, THUMB_SIZE, fd->mime_type);
 
@@ -1085,6 +1092,15 @@ save_images__step (AsyncOperationData *aodata,
 
 	GFile *gfile = aodata->scan->data;
 	char *path = g_file_get_parse_name (gfile);
+	char *name = g_file_get_basename (gfile);
+
+	if (data->msg_text != NULL)
+		g_free (data->msg_text);
+	if (data->delete_from_camera)
+		data->msg_text = g_strdup_printf (_("Moving '%s\' from camera."), name);
+	else
+		data->msg_text = g_strdup_printf (_("Copying '%s\' from camera."), name);
+	g_free (name);
 
 	subfolder_value = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_combobox));
 	folder_fd = file_data_new_from_path (data->main_dest_folder);

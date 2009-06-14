@@ -41,6 +41,8 @@ int gth_sort_by_filetime_then_name       (time_t            time1,
 				          const char       *name2);
 int gth_sort_by_filename_but_ignore_path (const char       *name1, 
 					  const char       *name2);
+int gth_sort_by_gfile			 (GFile            *file1,
+		       			  GFile            *file2);
 int gth_sort_by_full_path                (const char       *path1, 
 					  const char       *path2);
 int gth_sort_by_exiftime_then_name       (FileData         *fd1, 
