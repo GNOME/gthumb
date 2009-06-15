@@ -33,6 +33,7 @@
 
 struct _GthImageViewerPagePrivate {
 	GthBrowser        *browser;
+	GtkWidget         *nav_window;
 	GtkWidget         *viewer;
 	GthImagePreloader *preloader;
 	GtkActionGroup    *actions;
@@ -41,6 +42,9 @@ struct _GthImageViewerPagePrivate {
 	GthFileData       *file_data;
 	gulong             preloader_sig_id;
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
+	guint              hide_mouse_timeout;
+	guint              motion_signal;
+
 };
 
 static gpointer gth_image_viewer_page_parent_class = NULL;
@@ -376,7 +380,6 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthImageViewerPage *self;
-	GtkWidget          *nav_window;
 	int                 i;
 
 	self = (GthImageViewerPage*) base;
@@ -429,10 +432,10 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 			  G_CALLBACK (viewer_key_press_cb),
 			  self);
 
-	nav_window = gth_nav_window_new (GTH_IMAGE_VIEWER (self->priv->viewer));
-	gtk_widget_show (nav_window);
+	self->priv->nav_window = gth_nav_window_new (GTH_IMAGE_VIEWER (self->priv->viewer));
+	gtk_widget_show (self->priv->nav_window);
 
-	gth_browser_set_viewer_widget (browser, nav_window);
+	gth_browser_set_viewer_widget (browser, self->priv->nav_window);
 
 	/* gconf notifications */
 
@@ -586,11 +589,28 @@ gth_image_viewer_page_real_fullscreen (GthViewerPage *base,
 
 	self = (GthImageViewerPage *) base;
 	if (active) {
+		gth_nav_window_set_scrollbars_visible (GTH_NAV_WINDOW (self->priv->nav_window), FALSE);
 		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), TRUE);
 	}
 	else {
+		gth_nav_window_set_scrollbars_visible (GTH_NAV_WINDOW (self->priv->nav_window), TRUE);
 		gth_image_viewer_set_black_background (GTH_IMAGE_VIEWER (self->priv->viewer), eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 	}
+}
+
+
+static void
+gth_image_viewer_page_real_show_pointer (GthViewerPage *base,
+				         gboolean       show)
+{
+	GthImageViewerPage *self;
+
+	self = (GthImageViewerPage *) base;
+
+	if (show)
+		gth_image_viewer_show_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
+	else
+		gth_image_viewer_hide_cursor (GTH_IMAGE_VIEWER (self->priv->viewer));
 }
 
 
@@ -984,6 +1004,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->can_view = gth_image_viewer_page_real_can_view;
 	iface->view = gth_image_viewer_page_real_view;
 	iface->fullscreen = gth_image_viewer_page_real_fullscreen;
+	iface->show_pointer = gth_image_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_image_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_image_viewer_page_real_can_save;
 	iface->save = gth_image_viewer_page_real_save;

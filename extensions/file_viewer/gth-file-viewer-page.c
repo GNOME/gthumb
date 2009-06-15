@@ -131,6 +131,14 @@ gth_file_viewer_page_real_fullscreen (GthViewerPage *base,
 
 
 static void
+gth_file_viewer_page_real_show_pointer (GthViewerPage *base,
+				        gboolean       show)
+{
+	/* void */
+}
+
+
+static void
 gth_file_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 }
@@ -170,6 +178,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->can_view = gth_file_viewer_page_real_can_view;
 	iface->view = gth_file_viewer_page_real_view;
 	iface->fullscreen = gth_file_viewer_page_real_fullscreen;
+	iface->show_pointer = gth_file_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
 	iface->can_save = gth_file_viewer_page_real_can_save;
 }

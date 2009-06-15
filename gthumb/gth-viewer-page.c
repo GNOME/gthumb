@@ -99,6 +99,15 @@ gth_viewer_page_fullscreen (GthViewerPage *self,
 	GTH_VIEWER_PAGE_GET_INTERFACE (self)->fullscreen (self, active);
 }
 
+
+void
+gth_viewer_page_show_pointer (GthViewerPage *self,
+			     gboolean        show)
+{
+	GTH_VIEWER_PAGE_GET_INTERFACE (self)->show_pointer (self, show);
+}
+
+
 void
 gth_viewer_page_update_sensitivity (GthViewerPage *self)
 {

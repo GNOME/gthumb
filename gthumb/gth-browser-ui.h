@@ -119,6 +119,10 @@ static const char *fixed_ui_info =
 "    <toolitem action='Viewer_Properties'/>"
 "  </toolbar>"
 
+"  <toolbar name='Fullscreen_ToolBar'>"
+"    <toolitem action='View_Leave_Fullscreen'/>"
+"  </toolbar>"
+
 "  <popup name='GoBackHistoryPopup'>"
 "  </popup>"
 
@@ -203,6 +207,5 @@ static const char *viewer_ui_info =
 "    </menu>"
 "  </menubar>"
 "</ui>";
-
 
 #endif /* GTH_BROWSER_UI_H */

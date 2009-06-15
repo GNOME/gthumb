@@ -48,8 +48,10 @@ struct _GthNavWindowClass {
 	GtkHBoxClass __parent;
 };
 
-GType        gth_nav_window_get_type (void);
-GtkWidget *  gth_nav_window_new      (GthImageViewer *viewer);
+GType        gth_nav_window_get_type               (void);
+GtkWidget *  gth_nav_window_new                    (GthImageViewer *viewer);
+void         gth_nav_window_set_scrollbars_visible (GthNavWindow   *window,
+						    gboolean        visible);
 
 G_END_DECLS
 

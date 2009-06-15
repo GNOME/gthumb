@@ -143,6 +143,7 @@ void             gth_browser_show_filterbar         (GthBrowser       *browser,
 						     gboolean          show);
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
 void             gth_browser_fullscreen             (GthBrowser       *browser);
+void             gth_browser_unfullscreen           (GthBrowser       *browser);
 
 G_END_DECLS
 

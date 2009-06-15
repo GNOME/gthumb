@@ -30,7 +30,7 @@
 
 #define GTH_NAV_WINDOW_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_NAV_WINDOW, GthNavWindowPrivate))
 
-#define PEN_WIDTH           3       /* Square border width. */ 
+#define PEN_WIDTH           3       /* Square border width. */
 #define B                   4       /* Window border width. */
 #define B2                  8       /* Window border width * 2. */
 #define NAV_WIN_MAX_WIDTH   112     /* Max window size. */
@@ -42,6 +42,7 @@ struct _GthNavWindowPrivate {
 	GtkWidget      *viewer_vscr;
 	GtkWidget      *viewer_hscr;
 	GtkWidget      *viewer_nav_event_box;
+	gboolean        scrollbars_visible;
 };
 
 
@@ -55,7 +56,7 @@ gth_nav_window_class_init (GthNavWindowClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (GthNavWindowPrivate));
-	
+
 	object_class = G_OBJECT_CLASS (class);
 }
 
@@ -64,6 +65,7 @@ static void
 gth_nav_window_init (GthNavWindow *nav_window)
 {
 	nav_window->priv = GTH_NAV_WINDOW_GET_PRIVATE (nav_window);
+	nav_window->priv->scrollbars_visible = TRUE;
 }
 
 
@@ -96,7 +98,7 @@ gth_nav_window_get_type ()
 
 
 static gboolean
-size_changed_cb (GtkWidget    *widget, 
+size_changed_cb (GtkWidget    *widget,
 		 GthNavWindow *nav_window)
 {
 	GtkAdjustment *vadj, *hadj;
@@ -110,18 +112,18 @@ size_changed_cb (GtkWidget    *widget,
 	hide_vscr = (vadj->upper <= vadj->page_size);
 	hide_hscr = (hadj->upper <= hadj->page_size);
 
-	if (hide_vscr && hide_hscr) {
-		gtk_widget_hide (nav_window->priv->viewer_vscr); 
-		gtk_widget_hide (nav_window->priv->viewer_hscr); 
+	if (! nav_window->priv->scrollbars_visible || (hide_vscr && hide_hscr)) {
+		gtk_widget_hide (nav_window->priv->viewer_vscr);
+		gtk_widget_hide (nav_window->priv->viewer_hscr);
 		gtk_widget_hide (nav_window->priv->viewer_nav_event_box);
-	} 
+	}
 	else {
 		gtk_widget_show (nav_window->priv->viewer_vscr);
 		gtk_widget_show (nav_window->priv->viewer_hscr);
 		gtk_widget_show (nav_window->priv->viewer_nav_event_box);
 	}
 
-	return TRUE;	
+	return TRUE;
 }
 
 
@@ -141,7 +143,7 @@ typedef struct {
 	int             sqr_x, sqr_y, sqr_width, sqr_height;
 	double          factor;
 	double          sqr_x_d, sqr_y_d;
-} NavWindow; 
+} NavWindow;
 
 
 static void
@@ -153,27 +155,27 @@ nav_window_draw_sqr (NavWindow *nav_win,
 	if ((nav_win->sqr_x == x) && (nav_win->sqr_y == y) && undraw)
 		return;
 
-	if ((nav_win->sqr_x == 0) 
+	if ((nav_win->sqr_x == 0)
 	    && (nav_win->sqr_y == 0)
-	    && (nav_win->sqr_width == nav_win->popup_width) 
-	    && (nav_win->sqr_height == nav_win->popup_height)) 
+	    && (nav_win->sqr_width == nav_win->popup_width)
+	    && (nav_win->sqr_height == nav_win->popup_height))
 	{
 		return;
 	}
-	
+
 	if (undraw) {
-		gdk_draw_rectangle (nav_win->preview->window, 
-				    nav_win->gc, FALSE, 
-				    nav_win->sqr_x + 1, 
+		gdk_draw_rectangle (nav_win->preview->window,
+				    nav_win->gc, FALSE,
+				    nav_win->sqr_x + 1,
 				    nav_win->sqr_y + 1,
 				    nav_win->sqr_width - PEN_WIDTH,
 				    nav_win->sqr_height - PEN_WIDTH);
 	}
-	
-	gdk_draw_rectangle (nav_win->preview->window, 
-			    nav_win->gc, FALSE, 
-			    x + 1, 
-			    y + 1, 
+
+	gdk_draw_rectangle (nav_win->preview->window,
+			    nav_win->gc, FALSE,
+			    x + 1,
+			    y + 1,
 			    nav_win->sqr_width - PEN_WIDTH,
 			    nav_win->sqr_height - PEN_WIDTH);
 
@@ -192,12 +194,12 @@ get_sqr_origin_as_double (NavWindow *nav_win,
 	*x = MIN (mx - B, nav_win->window_max_width);
 	*y = MIN (my - B, nav_win->window_max_height);
 
-	if (*x - nav_win->sqr_width / 2.0 < 0.0) 
+	if (*x - nav_win->sqr_width / 2.0 < 0.0)
 		*x = nav_win->sqr_width / 2.0;
-	
+
 	if (*y - nav_win->sqr_height / 2.0 < 0.0)
 		*y = nav_win->sqr_height / 2.0;
-	
+
 	if (*x + nav_win->sqr_width / 2.0 > nav_win->popup_width - 0)
 		*x = nav_win->popup_width - 0 - nav_win->sqr_width / 2.0;
 
@@ -226,7 +228,7 @@ update_view (NavWindow *nav_win)
 	nav_win->window_max_width = MIN (w, NAV_WIN_MAX_WIDTH);
 	nav_win->window_max_height = MIN (w, NAV_WIN_MAX_HEIGHT);
 
-	factor = MIN ((double) (nav_win->window_max_width) / w, 
+	factor = MIN ((double) (nav_win->window_max_width) / w,
 		      (double) (nav_win->window_max_height) / h);
 	nav_win->factor = factor;
 
@@ -241,7 +243,7 @@ update_view (NavWindow *nav_win)
 	image_pixbuf = gth_image_viewer_get_current_pixbuf (nav_win->viewer);
 	g_return_if_fail (image_pixbuf != NULL);
 
-	if (nav_win->pixbuf != NULL) 
+	if (nav_win->pixbuf != NULL)
 		g_object_unref (nav_win->pixbuf);
 	nav_win->pixbuf = gdk_pixbuf_scale_simple (image_pixbuf,
 						   popup_width,
@@ -255,8 +257,8 @@ update_view (NavWindow *nav_win)
 	nav_win->sqr_width = MIN (nav_win->sqr_width, popup_width);
 
 	nav_win->sqr_height = gdk_height * factor;
-	nav_win->sqr_height = MAX (nav_win->sqr_height, B); 
-	nav_win->sqr_height = MIN (nav_win->sqr_height, popup_height); 
+	nav_win->sqr_height = MAX (nav_win->sqr_height, B);
+	nav_win->sqr_height = MIN (nav_win->sqr_height, popup_height);
 
 	gth_image_viewer_get_scroll_offset (nav_win->viewer, &x_offset, &y_offset);
 	nav_win->sqr_x = x_offset * factor;
@@ -264,11 +266,11 @@ update_view (NavWindow *nav_win)
 
 	/* Popup window position. */
 
-	popup_x = MIN ((int) nav_win->x_root - nav_win->sqr_x 
-		       - B 
+	popup_x = MIN ((int) nav_win->x_root - nav_win->sqr_x
+		       - B
 		       - nav_win->sqr_width / 2,
 		       gdk_screen_width () - popup_width - B2);
-	popup_y = MIN ((int) nav_win->y_root - nav_win->sqr_y 
+	popup_y = MIN ((int) nav_win->y_root - nav_win->sqr_y
 		       - B
 		       - nav_win->sqr_height / 2,
 		       gdk_screen_height () - popup_height - B2);
@@ -311,18 +313,18 @@ nav_window_expose (GtkWidget      *widget,
 			112, /* FIXME */
 			GDK_RGB_DITHER_MAX,
 			0, 0);
-	
-	nav_window_draw_sqr (nav_win, FALSE, 
-			     nav_win->sqr_x, 
+
+	nav_window_draw_sqr (nav_win, FALSE,
+			     nav_win->sqr_x,
 			     nav_win->sqr_y);
 
 	return TRUE;
 }
 
-		   
+
 static int
-nav_window_events (GtkWidget *widget, 
-		   GdkEvent  *event, 
+nav_window_events (GtkWidget *widget,
+		   GdkEvent  *event,
 		   gpointer   data)
 {
 	NavWindow       *nav_win = data;
@@ -333,10 +335,10 @@ nav_window_events (GtkWidget *widget,
 
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE:
-		/* Release keyboard focus. */ 
+		/* Release keyboard focus. */
 		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
 		gtk_grab_remove (nav_win->popup_win);
-	
+
 		g_object_unref (nav_win->gc);
 		gtk_widget_destroy (nav_win->popup_win);
 		g_object_unref (nav_win->pixbuf);
@@ -344,7 +346,7 @@ nav_window_events (GtkWidget *widget,
 
 		return TRUE;
 
-	case GDK_MOTION_NOTIFY: 
+	case GDK_MOTION_NOTIFY:
 		gdk_window_get_pointer (widget->window, &mx, &my, &mask);
 		get_sqr_origin_as_double (nav_win, mx, my, &x, &y);
 
@@ -363,15 +365,15 @@ nav_window_events (GtkWidget *widget,
 		case GDK_plus:
 		case GDK_minus:
 		case GDK_1:
-			nav_window_draw_sqr (nav_win, FALSE, 
-					     nav_win->sqr_x, 
+			nav_window_draw_sqr (nav_win, FALSE,
+					     nav_win->sqr_x,
 					     nav_win->sqr_y);
 			switch (event->key.keyval) {
-			case GDK_plus: 
-				gth_image_viewer_zoom_in (viewer); 
+			case GDK_plus:
+				gth_image_viewer_zoom_in (viewer);
 				break;
 			case GDK_minus:
-				gth_image_viewer_zoom_out (viewer); 
+				gth_image_viewer_zoom_out (viewer);
 				break;
 			case GDK_1:
 				gth_image_viewer_set_zoom (viewer, 1.0);
@@ -385,8 +387,8 @@ nav_window_events (GtkWidget *widget,
 			nav_win->sqr_y = MAX (nav_win->sqr_y, 0);
 			nav_win->sqr_y = MIN (nav_win->sqr_y, nav_win->popup_height - nav_win->sqr_height);
 
-			nav_window_draw_sqr (nav_win, FALSE, 
-					     nav_win->sqr_x, 
+			nav_window_draw_sqr (nav_win, FALSE,
+					     nav_win->sqr_x,
 					     nav_win->sqr_y);
 			break;
 
@@ -410,17 +412,17 @@ nav_window_grab_pointer (NavWindow *nav_win)
 
 	gtk_grab_add (nav_win->popup_win);
 
-	cursor = gdk_cursor_new (GDK_FLEUR); 
-	gdk_pointer_grab (nav_win->popup_win->window, 
+	cursor = gdk_cursor_new (GDK_FLEUR);
+	gdk_pointer_grab (nav_win->popup_win->window,
 			  TRUE,
-			  (GDK_BUTTON_RELEASE_MASK 
-			   | GDK_POINTER_MOTION_HINT_MASK 
-			   | GDK_BUTTON_MOTION_MASK 
+			  (GDK_BUTTON_RELEASE_MASK
+			   | GDK_POINTER_MOTION_HINT_MASK
+			   | GDK_BUTTON_MOTION_MASK
 			   | GDK_EXTENSION_EVENTS_ALL),
-			  nav_win->preview->window, 
-			  cursor, 
+			  nav_win->preview->window,
+			  cursor,
 			  0);
-	gdk_cursor_unref (cursor); 
+	gdk_cursor_unref (cursor);
 
 	/* Capture keyboard events. */
 
@@ -452,19 +454,19 @@ nav_window_new (GthImageViewer *viewer)
 
 	nav_window->preview = gtk_drawing_area_new ();
 	gtk_container_add (GTK_CONTAINER (in_frame), nav_window->preview);
-	g_signal_connect (G_OBJECT (nav_window->preview), 
-			  "expose_event",  
-			  G_CALLBACK (nav_window_expose), 
+	g_signal_connect (G_OBJECT (nav_window->preview),
+			  "expose_event",
+			  G_CALLBACK (nav_window_expose),
 			  nav_window);
 
 	/* gc needed to draw the preview square */
 
 	nav_window->gc = gdk_gc_new (GTK_WIDGET (viewer)->window);
 	gdk_gc_set_function (nav_window->gc, GDK_INVERT);
-	gdk_gc_set_line_attributes (nav_window->gc, 
-				    PEN_WIDTH, 
-				    GDK_LINE_SOLID, 
-				    GDK_CAP_BUTT, 
+	gdk_gc_set_line_attributes (nav_window->gc,
+				    PEN_WIDTH,
+				    GDK_LINE_SOLID,
+				    GDK_CAP_BUTT,
 				    GDK_JOIN_MITER);
 
 	return nav_window;
@@ -472,7 +474,7 @@ nav_window_new (GthImageViewer *viewer)
 
 
 void
-nav_button_clicked_cb (GtkWidget      *widget, 
+nav_button_clicked_cb (GtkWidget      *widget,
 		       GdkEventButton *event,
 		       GthImageViewer *viewer)
 {
@@ -493,15 +495,15 @@ nav_button_clicked_cb (GtkWidget      *widget,
 
 	g_signal_connect (G_OBJECT (nav_win->popup_win),
 			  "event",
-			  G_CALLBACK (nav_window_events), 
+			  G_CALLBACK (nav_window_events),
 			  nav_win);
 
 	gtk_window_move (GTK_WINDOW (nav_win->popup_win),
 			 nav_win->popup_x,
 			 nav_win->popup_y);
 
-  	gtk_window_set_default_size (GTK_WINDOW (nav_win->popup_win), 
-				     nav_win->popup_width + B2, 
+  	gtk_window_set_default_size (GTK_WINDOW (nav_win->popup_win),
+				     nav_win->popup_width + B2,
 				     nav_win->popup_height + B2);
 
 	gtk_widget_show_all (nav_win->popup_win);
@@ -511,7 +513,7 @@ nav_button_clicked_cb (GtkWidget      *widget,
 
 
 static void
-gth_nav_window_construct (GthNavWindow   *nav_window, 
+gth_nav_window_construct (GthNavWindow   *nav_window,
 			  GthImageViewer *viewer)
 {
 	GtkAdjustment *vadj = NULL, *hadj = NULL;
@@ -519,7 +521,7 @@ gth_nav_window_construct (GthNavWindow   *nav_window,
 	GtkWidget     *table;
 
 	nav_window->priv->viewer = viewer;
-	g_signal_connect (G_OBJECT (nav_window->priv->viewer), 
+	g_signal_connect (G_OBJECT (nav_window->priv->viewer),
 			  "size_changed",
 			  G_CALLBACK (size_changed_cb),
 			  nav_window);
@@ -531,9 +533,9 @@ gth_nav_window_construct (GthNavWindow   *nav_window,
 	nav_window->priv->viewer_nav_event_box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (nav_window->priv->viewer_nav_event_box), _gtk_image_new_from_xpm_data (nav_button_xpm));
 
-	g_signal_connect (G_OBJECT (nav_window->priv->viewer_nav_event_box), 
+	g_signal_connect (G_OBJECT (nav_window->priv->viewer_nav_event_box),
 			  "button_press_event",
-			  G_CALLBACK (nav_button_clicked_cb), 
+			  G_CALLBACK (nav_button_clicked_cb),
 			  nav_window->priv->viewer);
 
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -571,4 +573,13 @@ gth_nav_window_new (GthImageViewer *viewer)
 	gth_nav_window_construct (nav_window, viewer);
 
 	return (GtkWidget*) nav_window;
+}
+
+
+void
+gth_nav_window_set_scrollbars_visible (GthNavWindow *window,
+				       gboolean      visible)
+{
+	window->priv->scrollbars_visible = visible;
+	size_changed_cb (NULL, window);
 }
