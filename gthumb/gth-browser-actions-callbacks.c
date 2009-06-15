@@ -31,6 +31,7 @@
 #include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-selection.h"
+#include "gth-folder-tree.h"
 #include "gth-main.h"
 #include "gth-preferences.h"
 #include "gth-viewer-page.h"
@@ -270,6 +271,17 @@ void
 gth_browser_activate_action_folder_open (GtkAction  *action,
 					 GthBrowser *browser)
 {
+	GtkWidget *folder_tree;
+	GFile     *file;
+
+	folder_tree = gth_browser_get_folder_tree (browser);
+	file = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	if (file == NULL)
+		return;
+
+	gth_browser_load_location (browser, file);
+
+	g_object_unref (file);
 }
 
 
@@ -277,6 +289,20 @@ void
 gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 						       GthBrowser *browser)
 {
+	GtkWidget *folder_tree;
+	GFile     *file;
+	GtkWidget *new_browser;
+
+	folder_tree = gth_browser_get_folder_tree (browser);
+	file = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	if (file == NULL)
+		return;
+
+	new_browser = gth_browser_new (NULL);
+	gtk_window_present (GTK_WINDOW (new_browser));
+	gth_browser_load_location (GTH_BROWSER (new_browser), file);
+
+	g_object_unref (file);
 }
 
 

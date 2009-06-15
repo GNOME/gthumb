@@ -28,8 +28,15 @@
 
 
 void
-gth_browser_activate_action_file_new_folder (GtkAction  *action,
-					     GthBrowser *browser)
+gth_browser_action_new_folder (GtkAction  *action,
+			       GthBrowser *browser)
+{
+}
+
+
+void
+gth_browser_action_rename_folder (GtkAction  *action,
+				  GthBrowser *browser)
 {
 }
 

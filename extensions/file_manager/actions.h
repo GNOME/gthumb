@@ -27,7 +27,8 @@
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-DEFINE_ACTION(gth_browser_activate_action_file_new_folder)
+DEFINE_ACTION(gth_browser_action_new_folder)
+DEFINE_ACTION(gth_browser_action_rename_folder)
 DEFINE_ACTION(gth_browser_activate_action_edit_cut_files)
 DEFINE_ACTION(gth_browser_activate_action_edit_copy_files)
 DEFINE_ACTION(gth_browser_activate_action_edit_paste_in_folder)

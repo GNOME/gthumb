@@ -25,11 +25,15 @@
 
 #include <gthumb.h>
 
-void fm__gth_browser_construct_cb            (GthBrowser *browser);
-void fm__gth_browser_update_sensitivity_cb   (GthBrowser *browser);
-void fm__gth_browser_set_current_page_cb     (GthBrowser *browser);
-void fm__gth_browser_load_location_after_cb  (GthBrowser *browser,
-					      GFile      *location,
-					      GError     *error);
+void fm__gth_browser_construct_cb                (GthBrowser    *browser);
+void fm__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
+void fm__gth_browser_set_current_page_cb         (GthBrowser    *browser);
+void fm__gth_browser_load_location_after_cb      (GthBrowser    *browser,
+					          GFile         *location,
+					          GError        *error);
+void fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
+						  GthFileSource *file_source,
+					          GFile         *folder);
+void fm__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
 
 #endif /* CALLBACKS_H */
