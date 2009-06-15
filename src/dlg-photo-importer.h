@@ -27,6 +27,7 @@
 
 void   dlg_photo_importer (GthBrowser *browser,
 			   GFile      *gfile_import_from,
+			   const char *uri,
 			   gboolean    dcim_dirs_only);
 
 #endif /* DLG_PHOTO_IMPORTER_H */

@@ -453,15 +453,20 @@ gfile_import_dir_list_recursive (GFile      *gfile,
         if (error != NULL) {
                 gfile_warning ("Error while reading contents of directory", gfile, error);
                 g_error_free (error);
-        }
+        } else {
+		gfile_debug (DEBUG_INFO, "Looking for folders at", gfile);
+	}
+
 
 	if (file_enum == NULL)
 		return dcim_dirs;
 
         while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
                 GFile *child;
+		const char *name = g_file_info_get_name (info);
+		debug (DEBUG_INFO, "child name is %s", name);
 
-                child = g_file_get_child (gfile, g_file_info_get_name (info));
+                child = g_file_get_child (gfile, name);
 		gfile_debug (DEBUG_INFO, "Scanning directory", child);
 
                 switch (g_file_info_get_file_type (info)) {
@@ -495,6 +500,76 @@ gfile_import_dir_list_recursive (GFile      *gfile,
 }
 
 
+static gboolean
+is_relevant_mime_type (GFile    *gfile,
+		       gboolean  just_images)
+{
+	const char *mime_type;
+	char       *basename;
+	char       *name_ext;
+	int         i;
+
+	/* For some reason, this does not always succeed. I think the gphoto2
+	   backend has a mime type detection bug. */
+	mime_type = gfile_get_mime_type (gfile, FALSE);
+	if (mime_type != NULL) {
+		if (mime_type_is_image (mime_type))
+			return TRUE;
+		if (just_images)
+			return FALSE;
+		if (mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
+			return TRUE;
+	}
+
+	basename = g_file_get_basename (gfile);
+	name_ext = get_filename_extension (basename);
+	g_free (basename);
+
+	if ((name_ext == NULL) || (strcmp (name_ext, "") == 0))
+		return FALSE;
+
+	const char *image_exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF", "PPM",	/* images */
+			             "CR2", "CRW", "RAF", "DCR", "MOS", "RAW", "DNG", 	/* RAW images */
+			             "XCF", "SRF", "ORF", "MRW", "NEF", "PEF", "ARW" };	/* RAW images */
+	for (i = 0; i < G_N_ELEMENTS (image_exts); i++) {
+		const char *ext = image_exts[i];
+		if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
+			g_free (name_ext);
+			return TRUE;
+		}
+	}
+
+	if (!just_images) {
+		const char *exts[] = { "AVI", "MPG", "MPEG", "ASF",				/* video */
+				       "AU", "WAV", "OGG", "MP3", "FLAC" };			/* audio */
+		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
+			const char *ext = exts[i];
+			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
+				g_free (name_ext);
+				return TRUE;
+			}
+		}
+	}
+		
+	g_free (name_ext);
+	return FALSE;
+}
+
+
+static gboolean
+is_image_audio_video (GFile *gfile)
+{
+	return is_relevant_mime_type (gfile, FALSE);
+}
+
+
+static gboolean
+is_image (GFile *gfile)
+{
+	return is_relevant_mime_type (gfile, TRUE);
+}
+
+
 static GList *
 gfile_import_file_list_recursive (GFile  *gfile,
                                   GList  *files)
@@ -512,26 +587,28 @@ gfile_import_file_list_recursive (GFile  *gfile,
                 gfile_warning ("Error while reading contents of directory", gfile, error);
                 g_error_free (error);
                 return files;
-        }
-
-	files = g_list_reverse (files);
+        } else {
+		gfile_debug (DEBUG_INFO, "Reading folder", gfile);
+	}
 
         while ((info = g_file_enumerator_next_file (file_enum, NULL, NULL)) != NULL) {
                 GFile      *child;
-		const char *mime_type;
 
-                child = g_file_get_child (gfile, g_file_info_get_name (info));
+                const char *name = g_file_info_get_name (info);
+                debug (DEBUG_INFO, "child name is %s", name);
+                child = g_file_get_child (gfile, name);
 
                 switch (g_file_info_get_file_type (info)) {
                 case G_FILE_TYPE_DIRECTORY:
+			gfile_debug (DEBUG_INFO, "Found new sub-folder", child);
                         files = gfile_import_file_list_recursive (child, files);
                         break;
                 case G_FILE_TYPE_REGULAR:
-			mime_type = gfile_get_mime_type (child, FALSE);
-		        if ((mime_type_is_image (mime_type) ||
-		             mime_type_is_video (mime_type) ||
-		             mime_type_is_audio (mime_type)))
+			gfile_debug (DEBUG_INFO, "Found new file", child);
+			if (is_image_audio_video (child)) {
+				gfile_debug (DEBUG_INFO, "It is importable", child);
 	                        files = g_list_prepend (files, g_file_dup (child));
+				}
                         break;
                 default:
                         break;
@@ -541,7 +618,6 @@ gfile_import_file_list_recursive (GFile  *gfile,
                 g_object_unref (info);
         }
 
-	files = g_list_reverse (files);
         g_object_unref (file_enum);
 
         return files;
@@ -711,11 +787,15 @@ gfile_get_preview (DialogData *data,
         theme = gtk_icon_theme_get_default ();
 
 	gfile_debug (DEBUG_INFO, "need preview for", gfile);
+	if (mime_type != NULL)
+		debug (DEBUG_INFO, "which has mime type %s", mime_type);
+	else
+		debug (DEBUG_INFO, "which has a NULL mime type - FIXME");
 
         if (gfile == NULL)
                 return NULL;
 
-	if (data->generate_previews && mime_type_is_image (mime_type)) {
+	if (data->generate_previews && is_image (gfile)) {
 		uri = g_file_get_uri (gfile);
 		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type);
 		g_free (uri);
@@ -1588,6 +1668,7 @@ help_cb (GtkWidget  *widget,
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *gfile_import_from,
+		    const char *uri,
 		    gboolean    dcim_dirs_only)
 {
 	DialogData *data;
@@ -1596,6 +1677,8 @@ dlg_photo_importer (GthBrowser *browser,
 	char       *default_path;
 	char       *default_uri;
 
+	/* Use one or the other, not both */
+	g_assert (!(uri && gfile_import_from));
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
@@ -1620,9 +1703,15 @@ dlg_photo_importer (GthBrowser *browser,
 
 	data->dcim_dirs = NULL;
 	data->dcim_dirs_only = dcim_dirs_only;
-	data->gfile_import_from = gfile_import_from;
-	if (gfile_import_from)
-		g_object_ref (gfile_import_from);
+
+	if (gfile_import_from) {
+		data->gfile_import_from = gfile_import_from;
+		if (gfile_import_from) {
+			g_object_ref (gfile_import_from);
+		}
+	} else if (uri) {
+		data->gfile_import_from = gfile_new (uri);
+	}
 
 	data->generate_previews = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_PREVIEWS, TRUE);
 

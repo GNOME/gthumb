@@ -644,12 +644,11 @@ prepare_app (void)
 		if (dir_gfiles)
 			import_dir = (GFile *) dir_gfiles->data;
 
-// This is broken, because I don't know how to use bonobo to pass a gfile argument.
-// FIXME		
-//		if (use_factory)
-//		 	GNOME_GThumb_Application_import_photos (app, import_dir, &env);
-//		else
-			dlg_photo_importer (NULL, import_dir, TRUE);
+		if (use_factory)
+			/* can this be gfiled? */
+		 	GNOME_GThumb_Application_import_photos (app, (char *) dir_urls->data, &env);
+		else
+			dlg_photo_importer (NULL, import_dir, NULL, TRUE);
 	} 
 	else if (! view_comline_catalog
 		 && (n_dirs == 0)

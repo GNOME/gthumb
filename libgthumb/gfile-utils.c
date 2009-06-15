@@ -80,7 +80,7 @@ gfile_debug (const char *cfile,
         if (file == NULL)
                 uri = g_strdup ("(null)");
         else
-                uri = gfile_get_uri (file);
+                uri = g_file_get_parse_name (file);
 
         dbg = g_strdup_printf ("%s: %s\n", msg, uri);
 
@@ -262,6 +262,7 @@ gfile_get_mime_type (GFile      *file,
         const char *value;
         const char *result = NULL;
         GFileInfo  *info;
+	GError     *error = NULL;
 
         g_assert (file != NULL);
 
@@ -271,7 +272,15 @@ gfile_get_mime_type (GFile      *file,
                                   G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
                                   G_FILE_QUERY_INFO_NONE,
                                   NULL,
-                                  NULL);
+                                  &error);
+	if (error) {
+		char *utf8_path = g_file_get_parse_name (file);
+		g_warning ("Error getting mime_type for %s: %s", utf8_path, error->message);
+		g_error_free (error);
+		g_free (utf8_path);
+		return NULL;
+	}
+
         if (info != NULL) {
                 if (fast_file_type)
                         value = g_file_info_get_attribute_string (info,
@@ -282,6 +291,7 @@ gfile_get_mime_type (GFile      *file,
 		if (!value) {
 			char *utf8_path = g_file_get_parse_name (file);
 			debug (DEBUG_INFO, "%s returned a NULL mime type", utf8_path);
+			g_free (utf8_path);
 			return NULL;
 		}
 		

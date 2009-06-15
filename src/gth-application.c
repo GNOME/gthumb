@@ -166,8 +166,7 @@ impl_gth_application_import_photos (PortableServer_Servant  _servant,
 {
 	gth_browser_activate_action_file_camera_import (NULL, NULL);
 
-	/* This is broken, because I'm not sure how to pass a gfile */
-	dlg_photo_importer (NULL, NULL, TRUE);
+	dlg_photo_importer (NULL, NULL, uri, TRUE);
 }
 
 
