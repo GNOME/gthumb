@@ -83,7 +83,7 @@ struct _GthViewerPrivateData {
 	GtkWidget       *statusbar;
 	GtkWidget       *image_popup_menu;
 	GtkWidget       *viewer;
-	GtkWidget       *image_data_hpaned;
+	GtkWidget       *image_data_vpaned;
 	GtkWidget       *image_comment;
 	GtkWidget       *exif_data_viewer;
 	GtkWidget       *image_info;            /* statusbar widgets. */
@@ -473,7 +473,7 @@ gth_viewer_unrealize (GtkWidget *widget)
 	/* save ui preferences. */
 
 	save_window_size (viewer);
-	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, _gtk_widget_get_height (widget) - gtk_paned_get_position (GTK_PANED (viewer->priv->image_main_pane)));
+	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, gtk_paned_get_position (GTK_PANED (viewer->priv->image_main_pane)));
 
 	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
@@ -1153,9 +1153,9 @@ comment_button_toggled_cb (GtkToggleButton *button,
 	set_action_active (viewer, "View_ShowMetadata", visible);
 	viewer->priv->image_data_visible = visible;
 	if (visible)
-		gtk_widget_show (viewer->priv->image_data_hpaned);
+		gtk_widget_show (viewer->priv->image_data_vpaned);
 	else
-		gtk_widget_hide (viewer->priv->image_data_hpaned);
+		gtk_widget_hide (viewer->priv->image_data_vpaned);
 
 	return TRUE;
 }
@@ -1341,7 +1341,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	GtkWidget            *image_vbox;
 	GtkWidget            *button;
 	GtkWidget            *image;
-	GtkWidget            *image_vpaned;
+	GtkWidget            *image_hpaned;
 	GtkWidget            *nav_window;
 	GtkWidget            *scrolled_window;
 	GtkActionGroup       *actions;
@@ -1530,13 +1530,13 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	   image_vbox
              |
-             +- image_vpaned
+             +- image_hpaned
                   |
                   +- nav_window
                   |    |
                   |    +- priv->viewer
                   |
-                  +- priv->image_data_hpaned
+                  +- priv->image_data_vpaned
                        |
                        +- scrolled_window
                        |    |
@@ -1548,32 +1548,32 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	image_vbox = gtk_vbox_new (FALSE, 0);
 
-	/* * image_vpaned */
+	/* * image_hpaned */
 
-	priv->image_main_pane = image_vpaned = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (viewer->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_VIEWER_HEIGHT, DEFAULT_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
+	priv->image_main_pane = image_hpaned = gtk_hpaned_new ();
+	gtk_paned_set_position (GTK_PANED (viewer->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
 
-	/* ** priv->image_data_hpaned */
+	/* ** priv->image_data_vpaned */
 
-	priv->image_data_hpaned = gtk_hpaned_new ();
-	gtk_paned_set_position (GTK_PANED (priv->image_data_hpaned), eel_gconf_get_integer (PREF_UI_VIEWER_WIDTH, DEFAULT_WIN_WIDTH) / 2);
+	priv->image_data_vpaned = gtk_vpaned_new ();
+	gtk_paned_set_position (GTK_PANED (priv->image_data_vpaned), eel_gconf_get_integer (PREF_UI_VIEWER_WIDTH, DEFAULT_WIN_WIDTH) / 2);
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_ETCHED_IN);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), priv->image_comment);
 
-	gtk_paned_pack2 (GTK_PANED (priv->image_data_hpaned), scrolled_window, TRUE, FALSE);
-	gtk_paned_pack1 (GTK_PANED (priv->image_data_hpaned), priv->exif_data_viewer, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (priv->image_data_vpaned), scrolled_window, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (priv->image_data_vpaned), priv->exif_data_viewer, FALSE, FALSE);
 
 	/**/
 
-	gtk_paned_pack1 (GTK_PANED (image_vpaned), nav_window, FALSE, FALSE);
-	gtk_paned_pack2 (GTK_PANED (image_vpaned), priv->image_data_hpaned, TRUE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (image_hpaned), nav_window, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (image_hpaned), priv->image_data_vpaned, FALSE, FALSE);
 
-	gtk_box_pack_start (GTK_BOX (image_vbox), image_vpaned, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (image_vbox), image_hpaned, TRUE, TRUE, 0);
         gtk_widget_show_all (image_vbox);
-	gtk_widget_hide (priv->image_data_hpaned); /* FIXME */
+	gtk_widget_hide (priv->image_data_vpaned); /* FIXME */
 
 	gth_window_attach (GTH_WINDOW (viewer), image_vbox, GTH_WINDOW_CONTENTS);
 

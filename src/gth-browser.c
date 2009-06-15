@@ -6772,7 +6772,7 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* image preview, comment, exif data. */
 
-	priv->image_main_pane = image_pane_paned1 = gtk_vpaned_new ();
+	priv->image_main_pane = image_pane_paned1 = gtk_hpaned_new ();
 	gtk_widget_show (priv->image_main_pane);
 
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
@@ -6780,13 +6780,13 @@ gth_browser_construct (GthBrowser  *browser,
 	/**/
 
 	priv->preview_widget_image = gth_nav_window_new (GTH_IVIEWER (priv->viewer));
-	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), priv->preview_widget_image, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), priv->preview_widget_image, TRUE, FALSE);
 
 	/**/
 
-	priv->preview_widget_data_comment = image_pane_paned2 = gtk_hpaned_new ();
+	priv->preview_widget_data_comment = image_pane_paned2 = gtk_vpaned_new ();
 	gtk_widget_show (priv->preview_widget_data_comment);
-	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), image_pane_paned2, FALSE, FALSE);
 
 	priv->preview_widget_comment = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
@@ -6994,7 +6994,8 @@ gth_browser_construct (GthBrowser  *browser,
 
 	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
 
-	gtk_paned_set_position (GTK_PANED (browser->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
+	gtk_paned_set_position (GTK_PANED (browser->priv->image_main_pane),
+                                eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
 	gtk_paned_set_position (GTK_PANED (image_pane_paned2), eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH) / 2);
 
 	/* Add notification callbacks. */
@@ -7236,7 +7237,8 @@ close__step6 (FileData *file,
 	else
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, priv->sidebar_width);
 
-	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, _gtk_widget_get_height (GTK_WIDGET (browser)) - gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
+	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE,
+                               gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
 
 	if (last_window)
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, priv->file_list->enable_thumbs);

@@ -789,15 +789,6 @@ exec_command (const char *application,
 }
 
 
-int
-_gtk_widget_get_height (GtkWidget *widget)
-{
-	int w, h;
-	gdk_drawable_get_size (widget->window, &w, &h);
-	return h;
-}
-
-
 void
 gth_get_screen_size (GtkWindow *window, int *width, int *height)
 {
