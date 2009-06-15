@@ -617,7 +617,7 @@ update_drives (GthLocation *loc)
                 pixbuf = get_mount_icon ((GtkWidget *) loc, mount);
                 uri_name = g_mount_get_name (mount);
 
-                uri = g_file_get_uri(gfile);
+                uri = g_file_get_parse_name (gfile);
 
                 gtk_list_store_insert (loc->priv->model, &iter, pos++);
                 gtk_list_store_set (loc->priv->model, &iter,
@@ -686,7 +686,7 @@ update_uri (GthLocation *loc,
         while (gfile != NULL) {
                 GFile *parent_gfile;
                 char *uri;
-                uri = g_file_get_uri(gfile);
+                uri = g_file_get_parse_name (gfile);
 
                 if (loc->priv->catalog_uri)
                         pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
@@ -707,7 +707,7 @@ update_uri (GthLocation *loc,
                                         if (g_file_has_uri_scheme (gfile, "file"))
                                                 uri_name = g_strdup (_("File System"));
                                         else
-                                                uri_name = g_file_get_uri (gfile);
+                                                uri_name = g_file_get_parse_name (gfile);
                                 }
                         }
                 } else {

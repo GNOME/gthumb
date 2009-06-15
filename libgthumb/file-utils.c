@@ -115,7 +115,7 @@ path_list_data_free (PathListData *pli)
 	}
 
 	if (pli->dirs != NULL) {
-		g_list_foreach (pli->dirs, (GFunc) g_free, NULL);
+		g_list_foreach (pli->dirs, (GFunc) g_object_unref, NULL);
 		g_list_free (pli->dirs);
 	}
 
@@ -139,48 +139,45 @@ path_list_classify_files_cb (gpointer data)
 {
 	GFile     *child=NULL;
 	GFileInfo *info;
-	char      *uri_txt;
 	FileData  *file;
 
 	int count=0;
 	PathListData *pli = (PathListData *) data;
-	while ((!(pli->current_file == NULL)) && !g_cancellable_is_cancelled(pli->cancelled)) {
+	while ((!(pli->current_file == NULL)) && !g_cancellable_is_cancelled (pli->cancelled)) {
 		count++;
 		info = pli->current_file->data;
 		switch (g_file_info_get_file_type (info)) {
 		case G_FILE_TYPE_REGULAR:
 			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
-			uri_txt = g_file_get_uri (child);
-			file = file_data_new_from_path (uri_txt);
+			file = file_data_new_from_gfile (child);
 			if ((pli->filter_func != NULL) && pli->filter_func (pli, file, pli->filter_data))
 				pli->files = g_list_prepend (pli->files, file);
 			else
 				file_data_unref (file);
-			g_free (uri_txt);
 			g_object_unref (child);
 			break;
 		case G_FILE_TYPE_DIRECTORY:
 			child = g_file_get_child (pli->gfile, g_file_info_get_name (info));
-			uri_txt = g_file_get_uri (child);
-			pli->dirs = g_list_prepend (pli->dirs, uri_txt);
-			g_object_unref (child);
+			pli->dirs = g_list_prepend (pli->dirs, child);
 			break;
 		default:
 			break;
 		}
 
-		g_object_unref(info);
+		g_object_unref (info);
 		pli->current_file=pli->current_file->next;
 		
 		if (count == ITEMS_PER_NOTIFICATION) 
 			return TRUE;
 	}
+
 	if (pli->done_func) {
 		// pli is deallocated in pli->done_func 
-		g_list_free(pli->file_list);
+		g_list_free (pli->file_list);
 		pli->done_func (pli, pli->done_data);
 		return FALSE;
 	}
+
 	path_list_data_free (pli);
 	return FALSE;
 }
@@ -405,7 +402,6 @@ ensure_dir_exists (const char *path)
 
 GList *
 dir_list_filter_and_sort (GList    *dir_list,
-			  gboolean  names_only,
 			  gboolean  show_dot_files)
 {
 	GList *filtered;
@@ -415,19 +411,18 @@ dir_list_filter_and_sort (GList    *dir_list,
 	filtered = NULL;
 	scan = dir_list;
 	while (scan) {
-		const char *name_only = file_name_from_path (scan->data);
-
-		if (! (file_is_hidden (name_only) && ! show_dot_files)
+		char *name_only;
+		name_only = g_file_get_basename (scan->data);
+		GFile *gfile;
+		gfile = (GFile*)scan->data;
+		if (! (gfile_is_hidden(gfile) && ! show_dot_files)
 		    && (strcmp (name_only, CACHE_DIR) != 0)) {
-			char *s;
-			char *path = (char*) scan->data;
-
-			s = g_strdup (names_only ? name_only : path);
-			filtered = g_list_prepend (filtered, s);
+			filtered = g_list_prepend (filtered, g_file_dup(gfile));
 		}
+		g_free(name_only);
 		scan = scan->next;
 	}
-	filtered = g_list_sort (filtered, (GCompareFunc) gth_sort_by_full_path);
+	filtered = g_list_sort (filtered, (GCompareFunc) gth_sort_by_gfile);
 
 	return filtered;
 }
@@ -856,7 +851,7 @@ get_file_size (const char *path)
 
 	file = gfile_new (path);
 
-	result = gfile_get_file_size (file);
+	result = gfile_get_size (file);
 	
 	g_object_unref (file);
 
@@ -1366,6 +1361,20 @@ basename_for_display (const char *uri)
 }
 
 
+char *
+gfile_get_basename_for_uri (const char *uri)
+{
+        char  *basename;
+        GFile *gfile;
+
+        gfile = gfile_new(uri);
+        basename = g_file_get_basename (gfile);
+        g_object_unref (gfile);
+
+        return basename;
+}
+
+
 /* example 1 : uri      = file:///xxx/yyy/zzz/foo
  *             desturi  = file:///xxx/www
  *             return   : ../yyy/zzz/foo
@@ -1513,7 +1522,7 @@ remove_special_dirs_from_path (const char *uri)
 		return NULL;
 
 	file = gfile_new (uri);
-	result = g_file_get_uri (file);
+	result = g_file_get_parse_name (file);
 	g_object_unref (file);
 
 	return result;
@@ -1666,7 +1675,7 @@ char *resolve_all_symlinks (const char *uri)
 		g_object_unref (parent);
 	}
 
-	result = g_file_get_uri (gfile_full);
+	result = g_file_get_parse_name (gfile_full);
 	g_object_unref (gfile_curr);
 	g_object_unref (gfile_full);
 	g_free (child);

@@ -40,7 +40,6 @@
 
 /* GFile to string */
 
-char *        gfile_get_uri                    (GFile *file);
 char *        gfile_get_path                   (GFile *file);
 
 /* Debug */
@@ -75,7 +74,7 @@ gboolean      gfile_is_file                    (GFile      *file);
 gboolean      gfile_is_dir                     (GFile      *file);
 gboolean      gfile_path_contains              (GFile      *file,
 						const char *find_this);
-goffset       gfile_get_file_size              (GFile      *file);
+goffset       gfile_get_size                   (GFile      *file);
 char *        gfile_get_display_name           (GFile      *file);
 void          gfile_set_mtime                  (GFile      *gfile,
                                                 time_t      mtime);

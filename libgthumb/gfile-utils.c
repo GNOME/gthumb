@@ -42,15 +42,6 @@
 
 
 
-/* GFile to string */
-
-char *
-gfile_get_uri (GFile *file)
-{
-        return g_file_get_uri (file);
-}
-
-
 char *
 gfile_get_path (GFile *file)
 {
@@ -63,7 +54,6 @@ gfile_get_path (GFile *file)
 
         return unescaped;
 }
-
 
 /* Debug */
 
@@ -99,7 +89,7 @@ gfile_warning (const char *msg,
         char *uri;
         char *warning;
 
-        uri = gfile_get_uri (file);
+        uri = g_file_get_parse_name (file);
 
         if (err == NULL)
                 warning = g_strdup_printf ("%s: file %s", msg, uri);
@@ -420,13 +410,12 @@ gboolean gfile_path_contains (GFile      *file,
 
 
 goffset
-gfile_get_file_size (GFile *file)
+gfile_get_size (GFile *file)
 {
         GFileInfo *info;
         goffset    size = 0;
         GError    *err = NULL;
 
-        //FIXME: shouldn't we get rid of this test and fix the callers instead?
         if (file == NULL)
                 return 0;
 
@@ -749,7 +738,7 @@ gfile_path_list_new (GFile  *gfile,
                 char  *uri;
 
                 child = g_file_get_child (gfile, g_file_info_get_name (info));
-                uri = gfile_get_uri (child);
+                uri = g_file_get_parse_name (child);
 
                 switch (g_file_info_get_file_type (info)) {
                 case G_FILE_TYPE_DIRECTORY:
@@ -759,7 +748,7 @@ gfile_path_list_new (GFile  *gfile,
                         break;
                 case G_FILE_TYPE_REGULAR:
                         if (files) {
-                                f_list = g_list_prepend (f_list, file_data_new_from_path (uri));
+                                f_list = g_list_prepend (f_list, file_data_new_from_gfile (child));
                         }
                         break;
                 default:
@@ -1025,4 +1014,3 @@ gfile_set_mtime (GFile  *gfile,
                 g_error_free (error);
         }
 }
-

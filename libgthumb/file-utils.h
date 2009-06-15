@@ -53,7 +53,7 @@ struct _PathListData {
 	GFile		   *gfile;
 	GFileEnumerator    *gfile_enum;
 	GList              *files;               /* char* items. */
-	GList              *dirs;                /* char* items. */
+	GList              *dirs;                /* GFile* items. */
 	PathListFilterFunc  filter_func;
 	gpointer            filter_data;
 	PathListDoneFunc    done_func;
@@ -93,7 +93,6 @@ gboolean            dir_remove_recursive          (const char       *path);
 
 gboolean            ensure_dir_exists             (const char       *path);
 GList *             dir_list_filter_and_sort      (GList            *dir_list,
-						   gboolean          names_only,
 						   gboolean          show_dot_files);
 gboolean            file_filter                   (FileData         *file,
 	     					   gboolean          show_hidden_files,
@@ -166,6 +165,7 @@ int                 uricmp                        (const char       *uri1,
 gboolean            same_uri                      (const char       *uri1,
 						   const char       *uri2);
 char               *basename_for_display          (const char       *uri);
+char               *gfile_get_basename_for_uri    (const char       *uri);
 
 char *              get_path_relative_to_uri      (const char       *uri,
 						   const char       *desturi);

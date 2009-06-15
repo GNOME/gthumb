@@ -42,7 +42,7 @@ struct _GthDirList {
 
 	char            *path;           /* The directory we are showing. */
 	char            *try_path;       /* The directory we are loading. */
-	GList           *list;           /* The directory name list (gchar*
+	GList           *list;           /* The directory name list (GFile*
 				          * elements). */
 	GList           *file_list;      /* The file name list (gchar* elements). */
 	GtkListStore    *list_store;
@@ -54,7 +54,7 @@ struct _GthDirList {
 	gboolean         show_only_images;
 	gboolean         single_click;
 	GtkTreePath     *hover_path;
-	char            *old_dir;
+	GFile           *old_dir;
 	PathListHandle  *dir_load_handle;
 };
 
@@ -78,9 +78,9 @@ void           gth_dir_list_change_to               (GthDirList  *dir_list,
 						     const char  *path);
 void           gth_dir_list_stop                    (GthDirList  *dir_list);
 void           gth_dir_list_add_directory           (GthDirList  *dir_list,
-						     const char  *path);
+						     GFile	 *gfile);
 void           gth_dir_list_remove_directory        (GthDirList  *dir_list,
-						     const char  *path);
+						     GFile	 *path);
 char *         gth_dir_list_get_name_from_iter      (GthDirList  *dir_list,
 						     GtkTreeIter *iter);
 char *         gth_dir_list_get_path_from_tree_path (GthDirList  *dir_list,

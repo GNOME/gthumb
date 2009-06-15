@@ -940,7 +940,6 @@ folder_rename (GtkWindow  *window,
 	g_free (new_name);
 	g_free (parent_path);
 	new_fd = file_data_new_from_path (new_path);
-	g_free (new_path);
 
 	gth_monitor_pause ();
 
@@ -969,7 +968,7 @@ folder_rename (GtkWindow  *window,
 					       old_fd->utf8_name);
 		}
 	}
-
+	g_free (new_path);
 	gth_monitor_resume ();
 
 	file_data_unref (old_fd);
@@ -1362,7 +1361,7 @@ gth_browser_activate_action_edit_dir_move (GtkAction  *action,
 
 typedef struct {
 	GthBrowser *browser;
-	GList      *file_list;
+	GList      *gfile_list /* GFiles */;
 	GList      *add_list, *remove_list;
 } FolderTagsData;
 
@@ -1373,11 +1372,14 @@ edit_current_folder_tags__done (gpointer data)
 	FolderTagsData *fcdata = data;
 	GList                *scan;
 
-	for (scan = fcdata->file_list; scan; scan = scan->next) {
-		const char  *filename = scan->data;
+	for (scan = fcdata->gfile_list; scan; scan = scan->next) {
+		GFile  *gfile = scan->data;
+		char *filename;
 		CommentData *cdata;
 		GList       *scan2;
 		GthDirList  *dir_list;
+		
+		filename = g_file_get_parse_name (gfile);
 
 		cdata = comments_load_comment (filename, FALSE);
 		if (cdata == NULL)
@@ -1398,12 +1400,12 @@ edit_current_folder_tags__done (gpointer data)
 
 		dir_list = gth_browser_get_dir_list (fcdata->browser);
 		if (path_in_path (dir_list->path, filename)) {
-			gth_dir_list_remove_directory (dir_list, filename);
-			gth_dir_list_add_directory (dir_list, filename);
+			gth_dir_list_remove_directory (dir_list, gfile);
+			gth_dir_list_add_directory (dir_list, gfile);
 		}
 	}
 
-	path_list_free (fcdata->file_list);
+	gfile_list_free (fcdata->gfile_list);
 	path_list_free (fcdata->add_list);
 	path_list_free (fcdata->remove_list);
 	g_free (fcdata);
@@ -1412,21 +1414,23 @@ edit_current_folder_tags__done (gpointer data)
 
 static void
 edit_current_folder_tags (GthBrowser *browser,
-                          const char *path)
+                          GFile *gfile)
 {
 	FolderTagsData *fcdata;
 
-	if (path == NULL)
+	if (gfile == NULL)
 		return;
 
 	fcdata = g_new0 (FolderTagsData, 1);
 	fcdata->browser = browser;
 	fcdata->add_list = NULL;
 	fcdata->remove_list = NULL;
-	fcdata->file_list = g_list_prepend (NULL, g_strdup (path));
+	fcdata->gfile_list = g_list_prepend (NULL, g_file_dup (gfile));
+
+	GList *file_list = g_list_prepend (NULL, g_file_get_parse_name (gfile));
 
 	dlg_choose_tags (GTK_WINDOW (browser),
-                         fcdata->file_list,
+                         file_list,
                          NULL,
                          &(fcdata->add_list),
                          &(fcdata->remove_list),
@@ -1440,12 +1444,17 @@ gth_browser_activate_action_edit_dir_tags (GtkAction  *action,
                                            GthBrowser *browser)
 {
 	char *path;
+	GFile *gfile;
 
 	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	
 	if (path == NULL)
 		return;
-	edit_current_folder_tags (browser, path);
+
+	gfile = gfile_new (path);
+	edit_current_folder_tags (browser, gfile);
 	g_free (path);
+	g_object_unref (gfile);
 }
 
 
@@ -1493,7 +1502,11 @@ void
 gth_browser_activate_action_edit_current_dir_tags (GtkAction  *action,
                                                    GthBrowser *browser)
 {
-	edit_current_folder_tags (browser, gth_browser_get_dir_list (browser)->path);
+	char *path = gth_browser_get_dir_list (browser)->path;
+	GFile *gfile;
+	gfile = gfile_new(path);
+	edit_current_folder_tags (browser, gfile);
+	g_object_unref(gfile);
 }
 
 

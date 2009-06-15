@@ -37,6 +37,7 @@
 #include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
 #include "comments.h"
+#include "gfile-utils.h"
 
 #define DEF_SHOW_HIDDEN FALSE
 #define DEF_SHOW_ONLY_IMAGES FALSE
@@ -67,10 +68,11 @@ gth_dir_list_finalize (GObject *object)
 	dir_list = GTH_DIR_LIST (object);
 
 	file_data_list_free (dir_list->file_list);
-	path_list_free (dir_list->list);
+	gfile_list_free (dir_list->list);
 	g_free (dir_list->path);
 	g_free (dir_list->try_path);
-	g_free (dir_list->old_dir);
+	if (dir_list->old_dir != NULL)
+		g_object_unref (dir_list->old_dir);
 	g_free (dir_list->dir_load_handle);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -400,6 +402,8 @@ gth_dir_list_update_view (GthDirList *dir_list)
 	GdkPixbuf *dir_pixbuf;
 	GdkPixbuf *up_pixbuf;
 	GList     *scan;
+	GtkTreeIter  iter;
+	GdkPixbuf   *pixbuf;
 
 	dir_pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (dir_list->list_view));
 	up_pixbuf = gtk_widget_render_icon (dir_list->list_view,
@@ -409,25 +413,34 @@ gth_dir_list_update_view (GthDirList *dir_list)
 
 	gtk_list_store_clear (dir_list->list_store);
 
+	/* if this isn't a root dir add a '..' item */
+	if (! uri_is_root (dir_list->path)) {
+		gtk_list_store_append (dir_list->list_store, &iter);
+		gtk_list_store_set (dir_list->list_store, &iter,
+				    DIR_LIST_COLUMN_ICON, dir_pixbuf /*up_pixbuf*/,
+				    DIR_LIST_COLUMN_DISPLAY_NAME, "..",
+				    DIR_LIST_COLUMN_NAME, "..",
+				    -1);
+	}
+	
+	pixbuf = dir_pixbuf;
+	
 	for (scan = dir_list->list; scan; scan = scan->next) {
-		char        *name = scan->data;
+		GFile       *gfile = (GFile*)scan->data;
+		char        *name;
 		char        *utf8_name;
-		GtkTreeIter  iter;
-		GdkPixbuf   *pixbuf;
-
-		if (strcmp (name, "..") == 0)
-			pixbuf = dir_pixbuf /*up_pixbuf*/;
-		else
-			pixbuf = dir_pixbuf;
-
+		
+		
+		name = g_file_get_basename (gfile);
 		utf8_name = get_utf8_display_name_from_uri (name);
+
 		gtk_list_store_append (dir_list->list_store, &iter);
 		gtk_list_store_set (dir_list->list_store, &iter,
 				    DIR_LIST_COLUMN_ICON, pixbuf,
 				    DIR_LIST_COLUMN_DISPLAY_NAME, utf8_name,
 				    DIR_LIST_COLUMN_NAME, name,
 				    -1);
-
+		g_free (name);
 		g_free (utf8_name);
 	}
 
@@ -473,7 +486,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 	/* Update path data. */
 
 	if (dir_list->old_dir != NULL) {
-		g_free (dir_list->old_dir);
+		g_object_unref (dir_list->old_dir);
 		dir_list->old_dir = NULL;
 	}
 
@@ -483,7 +496,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 		char *previous_dir = remove_level_from_path (dir_list->path);
 
 		if (same_uri (previous_dir, dir_list->try_path))
-			dir_list->old_dir = g_strdup (file_name_from_path (dir_list->path));
+			dir_list->old_dir = gfile_new (dir_list->path);
 		else
 			dir_list->old_dir = NULL;
 		g_free (previous_dir);
@@ -506,7 +519,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 	/* Delete the old dir list. */
 
 	if (dir_list->list != NULL) {
-		path_list_free (dir_list->list);
+		gfile_list_free (dir_list->list);
 		dir_list->list = NULL;
 	}
 
@@ -518,17 +531,10 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 	/* Set the new dir list */
 
 	filtered = dir_list_filter_and_sort (new_dir_list,
-			         	     TRUE,
-					     dir_list->show_dot_files);
-
-	/* * Add the ".." entry if the current path is not "/".
-	 * path_list_async_new does not include the "." and ".." elements. */
-
-	if (! uri_is_root (dir_list->path))
-		filtered = g_list_prepend (filtered, g_strdup (".."));
+			         	     dir_list->show_dot_files);
 
 	dir_list->list = filtered;
-	path_list_free (new_dir_list);
+	gfile_list_free (new_dir_list);
 
 	/* Update the view. */
 
@@ -540,11 +546,10 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 		GList *scan;
 		int    row;
 		int    found = FALSE;
-
 		row = -1;
 		scan = dir_list->list;
 		while (scan && !found) {
-			if (same_uri (dir_list->old_dir, scan->data))
+			if (g_file_equal (dir_list->old_dir, (GFile*)scan->data))
 				found = TRUE;
 			scan = scan->next;
 			row++;
@@ -553,6 +558,11 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 		if (found) {
 			GtkTreePath *path;
 			path = gtk_tree_path_new ();
+			
+			/* if this isn't a root dir there will be a '..' item */
+			if (! uri_is_root (dir_list->path))
+				row++;
+
 			gtk_tree_path_prepend_index (path, row);
 			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (dir_list->list_view),
 						      path,
@@ -563,7 +573,7 @@ gth_dir_list_change_to__step2 (PathListData *pld,
 			gtk_tree_selection_select_path (gtk_tree_view_get_selection (GTK_TREE_VIEW (dir_list->list_view)), path);
 			gtk_tree_path_free (path);
 		}
-		g_free (dir_list->old_dir);
+		g_object_unref (dir_list->old_dir);
 		dir_list->old_dir = NULL;
 	}
 
@@ -620,9 +630,9 @@ gth_dir_list_stop (GthDirList *dir_list)
 
 void
 gth_dir_list_add_directory (GthDirList *dir_list,
-			    const char *path)
+			    GFile      *gfile)
 {
-	const char  *name_only;
+	char 	    *name_only;
 	GList       *scan;
 	GdkPixbuf   *dir_pixbuf;
 	GdkPixbuf   *pixbuf;
@@ -630,33 +640,37 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 	GtkTreeIter  iter;
 	int          pos;
 
-	if (path == NULL)
+	if (gfile == NULL)
 		return;
-	name_only = file_name_from_path (path);
+	name_only = g_file_get_basename (gfile);
 
 	/* check whether dir is already present */
 
 	for (scan = dir_list->list; scan; scan = scan->next)
-		if (same_uri (name_only, (char*)scan->data))
+		if (g_file_equal (gfile, (GFile*)scan->data))
 			return;
 
-	/* insert dir in the list */
-
-	if (! (file_is_hidden (name_only) && ! dir_list->show_dot_files)
-	    && ! same_uri (name_only, CACHE_DIR))
-		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
-	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) gth_sort_by_full_path);
-
+	/* Insert dir in the list */    
+	
+	if (! (gfile_is_hidden(gfile) && ! dir_list->show_dot_files)
+	    && ! same_uri (name_only, CACHE_DIR)) 
+		dir_list->list = g_list_prepend (dir_list->list, g_file_dup(gfile));
+	
+	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) gth_sort_by_gfile);
+        
 	/* get the dir position */
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		if (same_uri (name_only, (char*) scan->data))
+		if (g_file_equal (gfile, (GFile*) scan->data))
 			break;
 		pos++;
 	}
-
+	
+	/* if this isn't a root dir there will be a '..' item */
+	if (! uri_is_root (dir_list->path))
+		pos++;
+		
 	/* insert dir in the list view */
-
 	dir_pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (dir_list->list_view));
 
 	pixbuf = dir_pixbuf;
@@ -669,42 +683,39 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 			    DIR_LIST_COLUMN_NAME, name_only,
 			    -1);
 	g_free (utf8_name);
+	g_free (name_only);
 	g_object_unref (dir_pixbuf);
 }
 
 
 void
 gth_dir_list_remove_directory (GthDirList *dir_list,
-			       const char *path)
+			       GFile *gfile)
 {
 	GList        *scan, *link = NULL;
-	const char   *name_only;
 	int           pos;
 	GtkTreeIter   iter;
 
-	if (path == NULL)
+	if (gfile == NULL)
 		return;
 
-	name_only = file_name_from_path (path);
-
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		if (same_uri (name_only, (char*)scan->data)) {
+		if (g_file_equal (gfile, (GFile*)scan->data)) {
 			link = scan;
 			break;
 		}
 		pos++;
 	}
-
+	
+	if (! uri_is_root (dir_list->path))
+		pos++;
+	
 	if (link == NULL)
 		return;
 
-	/**/
-
 	dir_list->list = g_list_remove_link (dir_list->list, link);
-	g_free (link->data);
+	g_object_unref (link->data);
 	g_list_free (link);
-
-	/**/
 
 	if (! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (dir_list->list_store),
 					     &iter,

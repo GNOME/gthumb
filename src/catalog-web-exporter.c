@@ -1136,8 +1136,8 @@ gfile_get_relative_uri (GFile *file,
 	char  *relative_uri;
 	char  *result;
 	
-	escaped = gfile_get_uri (file);
-	relative_uri = gfile_get_uri (relative_to);
+	escaped = g_file_get_parse_name (file);
+	relative_uri = g_file_get_parse_name (relative_to);
 	
 	result = get_path_relative_to_uri (escaped, relative_uri);
 	
@@ -2548,7 +2548,6 @@ save_resized_image_cb (gpointer data)
 
 		if (ce->copy_images && (idata->image != NULL)) {
 			GFile *file;
-			char  *image_uri;
 			char  *local_file; 
 
 			exporter_set_info (ce, _("Saving images"));
@@ -2556,7 +2555,6 @@ save_resized_image_cb (gpointer data)
 			file = get_image_file (ce, 
 					       idata, 
 					       ce->target_tmp_dir);
-			image_uri = gfile_get_uri (file);
 			local_file = gfile_get_path (file);
 
 			debug (DEBUG_INFO, "saving image: %s", local_file);
@@ -2566,11 +2564,10 @@ save_resized_image_cb (gpointer data)
 					      idata->src_file->local_path,
 					      "jpeg",
 					      NULL, NULL)) {
-				idata->src_file->size = get_file_size (image_uri);
+				idata->src_file->size = gfile_get_size (file);
 			} 
 			
 			g_free (local_file);
-			g_free (image_uri);
 			g_object_unref (file);
 		}
 	}
@@ -2607,13 +2604,10 @@ export__copy_image (CatalogWebExporter *ce)
 
 	if (copy_done) {
 		if (gfile_image_is_jpeg (dfile)) {
-			char *uri;
-			uri = gfile_get_uri (dfile);
-		
 			GthTransform  transform;
-		
 			FileData *fd;
-			fd = file_data_new_from_path (uri);
+
+			fd = file_data_new_from_gfile (dfile);
 			transform = get_orientation_from_fd (fd);
 			
 			if (transform > 1) {
@@ -2624,7 +2618,6 @@ export__copy_image (CatalogWebExporter *ce)
 			}
 
 			file_data_unref (fd);
-			g_free (uri);
 		}
 	}
 	
@@ -3061,10 +3054,10 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	 * since xfer functions have not yet been ported to gio
 	 */
 	g_free (ce->base_tmp_dir);
-	ce->base_tmp_dir = g_file_get_uri (ce->target_tmp_dir);
+	ce->base_tmp_dir = g_file_get_parse_name (ce->target_tmp_dir);
 	
 	g_free (ce->base_dir);
-	ce->base_dir = g_file_get_uri (ce->target_dir);
+	ce->base_dir = g_file_get_parse_name (ce->target_dir);
 
 	
 	if (ce->iloader != NULL)

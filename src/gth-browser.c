@@ -5733,46 +5733,50 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 
 static void
 gth_browser_notify_directory_rename (GthBrowser *browser,
-				     const char *old_name,
-				     const char *new_name)
+				     const char *old_parse_name,
+				     const char *new_parse_name)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (same_uri (priv->dir_list->path, old_name))
-			gth_browser_go_to_directory (browser, new_name);
+		if (same_uri (priv->dir_list->path, old_parse_name))
+			gth_browser_go_to_directory (browser, new_parse_name);
 		else {
 			const char *current = priv->dir_list->path;
-
+			GFile *old_gfile, *new_gfile;
+			old_gfile = g_file_parse_name(old_parse_name);
+			new_gfile = g_file_parse_name(new_parse_name);
 			/* a sub directory was renamed, refresh. */
-			if (first_level_sub_directory (browser, current, old_name))
-				gth_dir_list_remove_directory (priv->dir_list,
-							       file_name_from_path (old_name));
-
-			if (first_level_sub_directory (browser, current, new_name))
+			if (first_level_sub_directory (browser, current, new_parse_name))
 				gth_dir_list_add_directory (priv->dir_list,
-							    file_name_from_path (new_name));
+							    new_gfile);
+                                
+            		if (first_level_sub_directory (browser, current, old_parse_name))
+                		gth_dir_list_remove_directory (priv->dir_list,
+                                   			    old_gfile);
+			g_object_unref(old_gfile);
+			g_object_unref(new_gfile);
 		}
 	} 
 	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (same_uri (priv->catalog_list->path, old_name))
-			gth_browser_go_to_catalog_directory (browser, new_name);
+		if (same_uri (priv->catalog_list->path, old_parse_name))
+			gth_browser_go_to_catalog_directory (browser, new_parse_name);
 		else {
 			const char *current = priv->catalog_list->path;
-			if (first_level_sub_directory (browser, current, old_name))
+			if (first_level_sub_directory (browser, current, old_parse_name))
 				window_update_catalog_list (browser);
 		}
 	}
 
 	if ((priv->image != NULL)
 	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-	    && path_in_path (old_name, priv->image->utf8_path)) 
+	    && path_in_path (old_parse_name, priv->image->utf8_path)) 
 	{
 		char *new_image_path = g_strdup (priv->image->utf8_path);
 		char *new_image_name;
 
-		new_image_name = g_strconcat (new_name,
-					      priv->image->utf8_path + strlen (old_name),
+		new_image_name = g_strconcat (new_parse_name,
+					      priv->image->utf8_path + strlen (old_parse_name),
 					      NULL);
 		gth_browser_notify_file_rename (browser,
 						new_image_path,
@@ -5785,33 +5789,36 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 
 static void
 gth_browser_notify_directory_delete (GthBrowser *browser,
-				     const char *path)
+				     const char *parse_name)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (same_uri (priv->dir_list->path, path))
+		if (same_uri (priv->dir_list->path, parse_name))
 			gth_browser_go_up (browser);
 		else {
+			GFile *gfile;
+			gfile = g_file_parse_name(parse_name);
 			const char *current = priv->dir_list->path;
-			if (first_level_sub_directory (browser, current, path))
+			if (first_level_sub_directory (browser, current, parse_name))
 				gth_dir_list_remove_directory (priv->dir_list,
-							       file_name_from_path (path));
+							       gfile);
+			g_object_unref(gfile);
 		}
 	} 
 	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (same_uri (priv->catalog_list->path, path))
+		if (same_uri (priv->catalog_list->path, parse_name))
 			gth_browser_go_up (browser);
 		else {
 			const char *current = priv->catalog_list->path;
-			if (path_in_path (current, path))
+			if (path_in_path (current, parse_name))
 				/* a sub directory got deleted, refresh. */
 				window_update_catalog_list (browser);
 		}
 	}
 
 	if ((priv->image != NULL)
-	    && (path_in_path (priv->image->utf8_path, path))) {
+	    && (path_in_path (priv->image->utf8_path, parse_name))) {
 		GList *list;
 
 		list = g_list_append (NULL, priv->image->utf8_path);
@@ -5823,19 +5830,22 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 
 static void
 gth_browser_notify_directory_new (GthBrowser *browser,
-				  const char *path)
+				  const char *parse_name)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
 		const char *current = priv->dir_list->path;
-		if (first_level_sub_directory (browser, current, path))
+		GFile *gfile;
+		gfile = g_file_parse_name(parse_name);
+		if (first_level_sub_directory (browser, current, parse_name))
 			gth_dir_list_add_directory (priv->dir_list,
-						    file_name_from_path (path));
+						    gfile);
+		g_object_unref(gfile);
 	} 
 	else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		const char *current = priv->catalog_list->path;
-		if (path_in_path (current, path))
+		if (path_in_path (current, parse_name))
 			/* a sub directory was created, refresh. */
 			window_update_catalog_list (browser);
 	}

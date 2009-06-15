@@ -1473,7 +1473,7 @@ ok_clicked_cb (GtkButton  *button,
 	file_data_unref (folder_fd);
 
 	for (scan = file_list; scan; scan = scan->next) {
-		total_size += gfile_get_file_size ((GFile *) scan->data);
+		total_size += gfile_get_size ((GFile *) scan->data);
 	}
 
 	debug (DEBUG_INFO, "Prepare to import %ld bytes", total_size);
