@@ -3635,6 +3635,8 @@ void
 gth_browser_show_viewer_properties (GthBrowser *browser,
 				    gboolean    show)
 {
+	_gth_browser_set_action_active (browser, "Viewer_Properties", show);
+
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
@@ -3649,6 +3651,8 @@ void
 gth_browser_show_viewer_tools (GthBrowser *browser,
 			       gboolean    show)
 {
+	_gth_browser_set_action_active (browser, "Viewer_Tools", show);
+
 	if (show) {
 		_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
@@ -3878,6 +3882,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 
 	_gth_browser_create_fullscreen_toolbar (browser);
 
+	gth_browser_show_viewer_properties (browser, FALSE);
 	gtk_window_fullscreen (GTK_WINDOW (browser));
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
