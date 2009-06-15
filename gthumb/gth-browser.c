@@ -2076,9 +2076,9 @@ folder_changed_cb (GthMonitor      *monitor,
 					current_file_deleted = TRUE;
 					file_store = gth_browser_get_file_store (browser);
 					pos = gth_file_store_find_visible (file_store, browser->priv->current_file->file);
-					new_file = gth_file_store_get_file_at_pos (file_store, pos - 1);
+					new_file = gth_file_store_get_file_at_pos (file_store, pos + 1);
 					if (new_file == NULL)
-						new_file = gth_file_store_get_file_at_pos (file_store, pos + 1);
+						new_file = gth_file_store_get_file_at_pos (file_store, pos - 1);
 					if (new_file != NULL)
 						new_file = g_object_ref (new_file);
 				}
