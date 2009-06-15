@@ -1,14 +1,14 @@
-# translation of gthumb.gthumb-2-10.po to marathi
+# translation of mr.po to marathi
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Sandeep Shedmake <sandeep.shedmake@gmail.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.gthumb-2-10\n"
+"Project-Id-Version: mr\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2009-02-24 10:17+0000\n"
-"PO-Revision-Date: 2009-03-18 17:34+0530\n"
+"POT-Creation-Date: 2009-06-03 18:10+0000\n"
+"PO-Revision-Date: 2009-06-15 14:30+0530\n"
 "Last-Translator: Sandeep Shedmake <sandeep.shedmake@gmail.com>\n"
 "Language-Team: marathi\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "परिमाण"
 msgid "Bytes"
 msgstr "बाईटस्"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "दिनांक"
 
@@ -139,7 +139,7 @@ msgstr "हिरवा"
 
 #: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
-msgstr "नवीन प्रतिमाः"
+msgstr "नवीन प्रतिमा:"
 
 #: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
@@ -259,7 +259,13 @@ msgid ""
 "the orientation tag are both left unchanged. The image will be displayed "
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
-msgstr "जर हा चेकबॉक्स सक्षम केलेला असेल व आयात केलेले फोटो मध्ये Exif मार्गनिर्देशन टॅग समाविष्ट असेल, तर प्रतिमा डेटा भौतिक रित्या रूपांतरित (नुकसानाशिवाय) केला जाईल ज्यामुळे दिसणारी प्रतिमा पहिल्यासारखीच दिसेल परंतु मार्गनिर्देशन टॅग \"top left\" वर पुनःस्थापित केला जाईल. जर हा चेकबॉक्स सक्षम केलेला नसेल, तर प्रतिमा डेटा व मार्गनिर्देशन दोन्ही तसेच राहतील. दोन्ही शक्यतांसाठी gthumb द्वारे तशीच प्रतिमा दाखविली जाईल, परंतु इतर ऍप्लिकेशनशी अधिकत्तम सुसंगतता साधण्यासाठी हा चेकबॉक्स सक्षम केलेला असला पाहिजे."
+msgstr ""
+"जर हा चेकबॉक्स सक्षम केलेला असेल व आयात केलेले फोटो मध्ये Exif मार्गनिर्देशन टॅग समाविष्ट "
+"असेल, तर प्रतिमा डेटा भौतिक रित्या रूपांतरित (नुकसानाशिवाय) केला जाईल ज्यामुळे दिसणारी "
+"प्रतिमा पहिल्यासारखीच दिसेल परंतु मार्गनिर्देशन टॅग \"top left\" वर पुनःस्थापित केला "
+"जाईल. जर हा चेकबॉक्स सक्षम केलेला नसेल, तर प्रतिमा डेटा व मार्गनिर्देशन दोन्ही तसेच "
+"राहतील. दोन्ही शक्यतांसाठी gthumb द्वारे तशीच प्रतिमा दाखविली जाईल, परंतु इतर "
+"ऍप्लिकेशनशी अधिकत्तम सुसंगतता साधण्यासाठी हा चेकबॉक्स सक्षम केलेला असला पाहिजे."
 
 #: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
@@ -267,7 +273,7 @@ msgstr "फोटो आयात करा"
 
 #: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
 #: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
-#: ../src/dlg-photo-importer.c:2341
+#: ../src/dlg-photo-importer.c:2344
 msgid "No camera detected"
 msgstr "कॅमेरा आढळला नाही"
 
@@ -330,7 +336,7 @@ msgstr "प्रवर्ग"
 msgid "Co_mment:"
 msgstr "टिपण्णी (_m):"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "टिपण्णी"
 
@@ -1115,7 +1121,8 @@ msgstr ""
 "%n = एकल फाइलनाव. मार्ग समाविष्ट, कोणतेही वाढ नाही\n"
 "%e = एकल वाढ (कालावधि पासून सुरू होणारे)\n"
 "%p = एकल फाइलचे पेरेंट फोल्डर</i>\n"
-" %F कोड़ असणारी लिपि फक्त एकदाच कार्यान्वित केली जाईल, कितीही फाइल निवडलेल्या असल्या तरीही. इतर सर्व लिप्या एकदाच प्रति निवडलेली फाइल कार्यान्वित केल्या जातील. \n"
+" %F कोड़ असणारी लिपि फक्त एकदाच कार्यान्वित केली जाईल, कितीही फाइल निवडलेल्या असल्या "
+"तरीही. इतर सर्व लिप्या एकदाच प्रति निवडलेली फाइल कार्यान्वित केल्या जातील. \n"
 "मुलभूत लिप्या मदत धारिकेत समजावल्या आहेत.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
@@ -1222,7 +1229,9 @@ msgstr "मागील दृष्य बदल तसेच ठेवा"
 msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
-msgstr "अंकीय कीपॅड वरील 0-9 की यांचा उपयोग निवडलेल्या प्रतिमांना अन्य ऍप्लिकेशनसह उघडण्यास किंवा सुधारणा करण्याकरीता ब्राउजर अंतर्गत वापरले जाऊ शकते."
+msgstr ""
+"अंकीय कीपॅड वरील 0-9 की यांचा उपयोग निवडलेल्या प्रतिमांना अन्य ऍप्लिकेशनसह उघडण्यास "
+"किंवा सुधारणा करण्याकरीता ब्राउजर अंतर्गत वापरले जाऊ शकते."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1458,7 +1467,7 @@ msgid "Postcard"
 msgstr "पोस्टकार्ड"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "छपाई"
@@ -1642,7 +1651,9 @@ msgstr ""
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
-msgstr "<small><i><b>विशेष अक्षरं:</b> # (enumerator), %f (मूळ फाइलनाव), %d (प्रतिमा दिनांक), %s (प्रतिमा आकार), %e (मूळ वाढ).</i></small>"
+msgstr ""
+"<small><i><b>विशेष अक्षरं:</b> # (enumerator), %f (मूळ फाइलनाव), %d (प्रतिमा "
+"दिनांक), %s (प्रतिमा आकार), %e (मूळ वाढ).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
@@ -1686,7 +1697,9 @@ msgstr "प्रतिमा तपासत आहे:"
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
-msgstr "वर-डाव्या बाजूला निवडलेल्या प्रतिमांसाठी Exif मार्गनिर्देशन टॅग पुनःस्थापित करण्यासाठी ठीक वर क्लिक करा."
+msgstr ""
+"वर-डाव्या बाजूला निवडलेल्या प्रतिमांसाठी Exif मार्गनिर्देशन टॅग पुनःस्थापित करण्यासाठी "
+"ठीक वर क्लिक करा."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1777,7 +1790,12 @@ msgid ""
 "reset to the default \"top left\" value. If it is not enabled, the rotation "
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
-msgstr "हा चेकबॉक्स Exif मार्गनिर्देशन टॅग्ज समाविष्ट असलेल्या JPEG प्रतिमांसाठी उपयोगात आणलेली परिभ्रमण पद्धत चालवतो. जर हा चेकबॉक्स सक्षम केलेला असेल, तर परिभ्रमण भौतिक रूपांतरणाचा उपयोग करून केले जाईल, व Exif मार्गनिर्देशन टॅग मुलभूत \"top left\" मूल्यावर पुनःस्थापित केले जाईल. जर तो सक्षम नसेल, तर परिभ्रमण फक्त Exif चा मार्गनिर्देशन टॅग बदलून केले जाईल. अन्य ऍप्लिकेशनांशी अधिकतम सुसंगतता साधण्यासाठी, हा चेकबॉक्स सक्षम केलेला असला पाहिजे."
+msgstr ""
+"हा चेकबॉक्स Exif मार्गनिर्देशन टॅग्ज समाविष्ट असलेल्या JPEG प्रतिमांसाठी उपयोगात आणलेली "
+"परिभ्रमण पद्धत चालवतो. जर हा चेकबॉक्स सक्षम केलेला असेल, तर परिभ्रमण भौतिक रूपांतरणाचा "
+"उपयोग करून केले जाईल, व Exif मार्गनिर्देशन टॅग मुलभूत \"top left\" मूल्यावर पुनःस्थापित "
+"केले जाईल. जर तो सक्षम नसेल, तर परिभ्रमण फक्त Exif चा मार्गनिर्देशन टॅग बदलून केले जाईल. "
+"अन्य ऍप्लिकेशनांशी अधिकतम सुसंगतता साधण्यासाठी, हा चेकबॉक्स सक्षम केलेला असला पाहिजे."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -2024,7 +2042,9 @@ msgstr "gThumb प्रतिमा दर्शक"
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr "या आकारा (बाईट्स मध्ये) पेक्षा जास्त प्रतिमांना थंबनेल करणे अशक्य. आपणांस जर सर्व प्रतिमांना थंबनेल द्यायचे असल्यास 0 चा वापर करा."
+msgstr ""
+"या आकारा (बाईट्स मध्ये) पेक्षा जास्त प्रतिमांना थंबनेल करणे अशक्य. आपणांस जर सर्व प्रतिमांना "
+"थंबनेल द्यायचे असल्यास 0 चा वापर करा."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
@@ -2100,7 +2120,9 @@ msgstr "संभाव्य मूल्ये आहेत: एकही न�
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr "संभाव्य मूल्ये आहेत: एकही नाही, साधे, साधे_बरोबर_छाया, छाया, स्लाईड, छाया_मोठे करा, छाया_लहान करा."
+msgstr ""
+"संभाव्य मूल्ये आहेत: एकही नाही, साधे, साधे_बरोबर_छाया, छाया, स्लाईड, छाया_मोठे करा, "
+"छाया_लहान करा."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid ""
@@ -2156,7 +2178,7 @@ msgstr "%d %B %Y"
 
 #: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
 #: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
@@ -2195,22 +2217,22 @@ msgstr "फाइल प्रणाली"
 msgid "Home"
 msgstr "घर"
 
-#: ../libgthumb/file-utils.c:2155
+#: ../libgthumb/file-utils.c:2158
 msgid "Library not empty"
 msgstr "लायब्ररी रिकामे नाही"
 
-#: ../libgthumb/file-utils.c:2164
+#: ../libgthumb/file-utils.c:2167
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "\"%s\" लायब्ररी काढून टाकणे अशक्य: %s"
 
-#: ../libgthumb/file-utils.c:2191
+#: ../libgthumb/file-utils.c:2194
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "\"%s\" सूची काढून टाकणे अशक्य: %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:775
-#: ../src/gth-browser.c:4509 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4508 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "कोणतीही प्रतिमा नाही"
 
@@ -2222,12 +2244,12 @@ msgstr "मदत दाखवता आली नाही"
 msgid "Ro_tate Images"
 msgstr "प्रतिमा फिरवा (_t)"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:825
 #, c-format
 msgid "Page %d of %d"
 msgstr "%d पान %d पैकी"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1423
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "प्रतिमा लोड करत आहे: %s"
@@ -2240,13 +2262,13 @@ msgstr "सर्व थंबनेल्स नष्ट केले जा�
 msgid "Deleting old thumbnails, wait please..."
 msgstr "जूने थंबनेल्स नष्ट केले जात आहे, कृपया थांबा..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
-#: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
 msgid "(Invalid Name)"
 msgstr "(अवैध नाव)"
 
 #: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
 #: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
@@ -2306,7 +2328,7 @@ msgstr "बनवा (_r)"
 msgid "Enter the library name: "
 msgstr "लायब्ररीचे नाव प्रविष्ट करा: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "सूचीला येथे हलवा..."
 
@@ -2410,7 +2432,7 @@ msgid ""
 msgstr "प्रतिमा कचरापेटीत हलविणे अशक्य. आपणांस ती नेहमीसाठी नष्ट करायची आहे का?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
+#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "हे संदेश पुन्हा दाखवू नका (_D)"
@@ -2424,75 +2446,75 @@ msgstr "हलवा (_M)"
 msgid "Choose the destination folder"
 msgstr "लक्ष्य फोल्डर निवडा"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:547
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
 msgid "You didn't enter the new name"
 msgstr "आपण नवीन नाव प्रविष्ट केले नाही"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "\"%s\" हे नाव आधीच या फोल्डर मध्ये वापरले गेलेले आहे. कृपया इतर नाव वापरा."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1033
 msgid "Could not rename the image:"
 msgstr "प्रतिमा पुनःनामांकित करणे अशक्य:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1035
 msgid "Could not rename the following images:"
 msgstr "खालिल प्रतिमा पुनःनामांकित करणे अशक्यत:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1168
 msgid "Could not move the image:"
 msgstr "प्रतिमा हलविणे अशक्य:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1170
 msgid "Could not copy the image:"
 msgstr "प्रतिमा प्रतिकृत करणे अशक्य:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
 msgstr "रद्द करा (_A)"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
 msgstr "पुढे चला (_C)"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1373
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "%d पैकी %d फाइल प्रतिकृत करत आहे"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
 msgid "Collecting images info"
 msgstr "प्रतिमांची माहिती एकत्र करत आहे"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "%ld पैकी %ld फाइल काढून टाकत आहे"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2015
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "%ld पैकी %ld फाइल प्रतिकृत करत आहे"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2020
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "%ld पैकी %ld फाइल हलवित आहे"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
 #: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "\"%s\" फोल्डर हलविणे अशक्य: %s"
 
 #: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "आकार"
 
@@ -2500,7 +2522,7 @@ msgstr "आकार"
 msgid "Type"
 msgstr "प्रकार"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "संपादीत"
@@ -2558,32 +2580,32 @@ msgstr "शीर्षकओळ"
 msgid "Footer"
 msgstr "चरणओळ"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "मार्ग नुरूप"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "आकार नुरूप"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "फाइल सुधारणी वेळ नुरूप"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "Exif दिनांक वेळ टॅग नुरूप"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "टिप्पणी नुरूप"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "व्यक्तिचलित क्रम"
@@ -2614,7 +2636,7 @@ msgstr "शोध परिणाम"
 msgid "Select Album Theme"
 msgstr "अल्बम योजना निवडा"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3859
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3858
 msgid "Could not move the items:"
 msgstr "घटकं हलविणे अशक्य:"
 
@@ -3342,87 +3364,87 @@ msgstr "सूची (_C)"
 msgid "View the catalogs"
 msgstr "सूची पहा"
 
-#: ../src/gth-browser.c:548 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[टिप्पणी समाविष्ट करण्यासाठी 'c' दाबा]"
 
-#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[सुधारलेले]"
 
-#: ../src/gth-browser.c:697 ../src/main.c:437 ../src/main.c:723
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 प्रतिमा (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d प्रतिमा (%s)"
 
-#: ../src/gth-browser.c:787
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 निवडलेले (%s)"
 
-#: ../src/gth-browser.c:790
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d निवडलेले (%s)"
 
-#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:997
+#: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
 msgstr "वर्तमान प्रतिमा सुधारलेली आहे, आपणांस ती साठवायची आहे का?"
 
-#: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
 msgid "Do Not Save"
 msgstr "साठवू नका"
 
-#: ../src/gth-browser.c:3618
+#: ../src/gth-browser.c:3617
 msgid "Dragged Images"
 msgstr "ओढलेल्या प्रतिमा"
 
-#: ../src/gth-browser.c:5461 ../src/gth-browser.c:5462
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "दर्जातील नुकसानविना प्रतिमा फिरवा"
 
-#: ../src/gth-browser.c:6351
+#: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
 msgstr "फोल्डर यादी प्राप्त करत आहे..."
 
-#: ../src/gth-browser.c:6373
+#: ../src/gth-browser.c:6372
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "\"%s\" फोल्डर दाखल करणे अशक्य: %s\n"
 
-#: ../src/gth-browser.c:6921 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "बंद करा"
 
-#: ../src/gth-browser.c:6935 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "प्रतिमा टिप्पणी"
 
-#: ../src/gth-browser.c:6949
+#: ../src/gth-browser.c:6941
 msgid "Image data"
 msgstr "प्रतिमा डेटा"
 
-#: ../src/gth-browser.c:6963
+#: ../src/gth-browser.c:6953
 msgid "Image preview"
 msgstr "प्रतिमा पूर्वदृष्य"
 
-#: ../src/gth-browser.c:8021
+#: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
 msgstr "निर्देशित सूची अस्तित्वात नाही."
 
-#: ../src/gth-browser.c:8653 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "कृपया थांबा..."
 
@@ -3466,80 +3488,80 @@ msgstr "इतर"
 msgid "Path"
 msgstr "मार्ग"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "समाविष्ट"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "यानुरूप सुरू होते"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "यानुरूप समाप्त होते"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "आहे"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "नाही आहे"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "समावेष नाही"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "सारखे आहे"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "यापेक्षा कमी आहे"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "यापेक्षा जास्त आहे"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "याआधी आहे"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "यानंतर आहे"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "KB"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "MB"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "फाइलनाव"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "ठिकाण"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "प्रवर्ग"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr "पाठ्यांत समावेष आहे"
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "सर्व"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
+#: ../src/gth-filter-bar.c:540
 msgid "S_how:"
 msgstr "दाखवा (_h):"
 
@@ -3594,15 +3616,16 @@ msgstr "यानुरूप उघडा (_O)"
 msgid "Open selected images with an application"
 msgstr "निवडलेल्या प्रतिमा ऍप्लिकेशन सह उघडा"
 
-#: ../src/gth-window-actions-callbacks.c:924
+#: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
 msgstr "GNOME साठी प्रतिमा प्रदर्शक व ब्राउजर."
 
-#: ../src/gth-window-actions-callbacks.c:927
+#: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
 msgstr ""
-"संदिप शेडमाके <sandeep.shedmake@gmail.com>, 2009; "
-"http://downloads.bosslinux.in/Translated_Po_files/GNOME-Translations/po%20files/Marathi%20mr/graphics-mr/gthumb.po, 2008."
+"संदिप शेडमाके <sandeep.shedmake@gmail.com>, 2009; http://downloads.bosslinux.in/"
+"Translated_Po_files/GNOME-Translations/po%20files/Marathi%20mr/graphics-mr/"
+"gthumb.po, 2008."
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3913,6 +3936,10 @@ msgstr "gThumb विषयी माहिती दाखवा"
 msgid "Contents"
 msgstr "अंतर्भूत माहिती"
 
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "gThumb पुस्तिका प्रदर्शित करा"
+
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
 msgstr "कळफलक शॉर्टकट्स (_K)"
@@ -4027,11 +4054,15 @@ msgid ""
 "For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
-"या रूपांतराने एक किंवा जास्त पातीं वर लहान प्रतिमा विकृति उद्भवु शकतात, कारण की ही प्रतिमा परिमाणे ८ ची गुणक नाहीत.\n"
+"या रूपांतराने एक किंवा जास्त पातीं वर लहान प्रतिमा विकृति उद्भवु शकतात, कारण की ही "
+"प्रतिमा परिमाणे ८ ची गुणक नाहीत.\n"
 "\n"
-"परंतु, विकृति उलटू शकते. जर परिणामी प्रतिमा अस्वीकृत असेल तर, मुळ प्रतिमेवर परत येण्यासाठी फक्त उलट रूपांतरण लागू करा.\n"
+"परंतु, विकृति उलटू शकते. जर परिणामी प्रतिमा अस्वीकृत असेल तर, मुळ प्रतिमेवर परत येण्यासाठी "
+"फक्त उलट रूपांतरण लागू करा.\n"
 "\n"
-"आपण कोणतेही रूपांतरित न होणारे पात पिक्सेलांना काढून टाकण्यास (किंवा ट्रीम करण्यास) पसंत करु शकता. वास्तविक वापरकरीता, या पद्धतीमुळे सर्वोत्तम परिणामे प्राप्त होतात, परंतु आता रूपांतरण नुकसानकारक नाही."
+"आपण कोणतेही रूपांतरित न होणारे पात पिक्सेलांना काढून टाकण्यास (किंवा ट्रीम करण्यास) पसंत "
+"करु शकता. वास्तविक वापरकरीता, या पद्धतीमुळे सर्वोत्तम परिणामे प्राप्त होतात, परंतु आता "
+"रूपांतरण नुकसानकारक नाही."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
