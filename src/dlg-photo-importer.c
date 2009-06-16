@@ -502,7 +502,8 @@ gfile_import_dir_list_recursive (GFile      *gfile,
 
 static gboolean
 is_relevant_mime_type (GFile    *gfile,
-		       gboolean  just_images)
+		       gboolean  include_video,
+		       gboolean  include_audio)
 {
 	const char *mime_type;
 	char       *basename;
@@ -515,18 +516,22 @@ is_relevant_mime_type (GFile    *gfile,
 	if (mime_type != NULL) {
 		if (mime_type_is_image (mime_type))
 			return TRUE;
-		if (just_images)
-			return FALSE;
-		if (mime_type_is_audio (mime_type) || mime_type_is_video (mime_type))
+		else if (mime_type_is_video (mime_type) && include_video)
 			return TRUE;
+		else if (mime_type_is_audio (mime_type) && include_audio)
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	basename = g_file_get_basename (gfile);
 	name_ext = get_filename_extension (basename);
 	g_free (basename);
 
-	if ((name_ext == NULL) || (strcmp (name_ext, "") == 0))
+	if ((name_ext == NULL) || (strcmp (name_ext, "") == 0)) {
+		g_free (name_ext);
 		return FALSE;
+	}
 
 	const char *image_exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF", "PPM",	/* images */
 			             "CR2", "CRW", "RAF", "DCR", "MOS", "RAW", "DNG", 	/* RAW images */
@@ -539,9 +544,19 @@ is_relevant_mime_type (GFile    *gfile,
 		}
 	}
 
-	if (!just_images) {
-		const char *exts[] = { "AVI", "MPG", "MPEG", "ASF",				/* video */
-				       "AU", "WAV", "OGG", "MP3", "FLAC" };			/* audio */
+        if (include_video) {
+                const char *exts[] = { "AVI", "MPG", "MPEG", "ASF" };			/*  video */
+                for (i = 0; i < G_N_ELEMENTS (exts); i++) {
+                        const char *ext = exts[i];
+                        if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
+                                g_free (name_ext);
+                                return TRUE;
+                        }
+                }
+        }
+
+	if (include_audio) {
+		const char *exts[] = { "AU", "WAV", "OGG", "MP3", "FLAC" };		/* audio */
 		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
 			const char *ext = exts[i];
 			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0) {
@@ -550,23 +565,9 @@ is_relevant_mime_type (GFile    *gfile,
 			}
 		}
 	}
-		
+
 	g_free (name_ext);
 	return FALSE;
-}
-
-
-static gboolean
-is_image_audio_video (GFile *gfile)
-{
-	return is_relevant_mime_type (gfile, FALSE);
-}
-
-
-static gboolean
-is_image (GFile *gfile)
-{
-	return is_relevant_mime_type (gfile, TRUE);
 }
 
 
@@ -605,7 +606,7 @@ gfile_import_file_list_recursive (GFile  *gfile,
                         break;
                 case G_FILE_TYPE_REGULAR:
 			gfile_debug (DEBUG_INFO, "Found new file", child);
-			if (is_image_audio_video (child)) {
+			if (is_relevant_mime_type (child, TRUE, TRUE)) {
 				gfile_debug (DEBUG_INFO, "It is importable", child);
 	                        files = g_list_prepend (files, g_file_dup (child));
 				}
@@ -795,7 +796,7 @@ gfile_get_preview (DialogData *data,
         if (gfile == NULL)
                 return NULL;
 
-	if (data->generate_previews && is_image (gfile)) {
+	if (data->generate_previews && is_relevant_mime_type (gfile, TRUE, FALSE)) {
 		uri = g_file_get_uri (gfile);
 		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type);
 		g_free (uri);
@@ -1078,23 +1079,20 @@ static void
 adjust_orientation__step (AsyncOperationData *aodata,
 			  DialogData         *data)
 {
-	char     *uri;	
 	gboolean  success = TRUE;
 	GFile    *gfile = aodata->scan->data;
 
-	uri = g_file_get_parse_name (gfile);
-	
-	if (file_is_image (uri, TRUE)) {
+	if (is_relevant_mime_type (gfile, FALSE, FALSE)) {
 		FileData     *fd;
 		GthTransform  transform;
 
-		fd = file_data_new_from_path (uri);
+		fd = file_data_new_from_gfile (gfile);
 		if (data->msg_text != NULL)
 	                g_free (data->msg_text);
 		data->msg_text = g_strdup_printf (_("Adjusting orientation of \'%s\'."), fd->utf8_name);
 
 		transform = get_orientation_from_fd (fd);
-		if (image_is_jpeg (uri))
+		if (gfile_image_is_jpeg (gfile))
 			success = apply_transformation_jpeg (fd, transform, JPEG_MCU_ACTION_DONT_TRIM, NULL);
 		else
 			success = apply_transformation_generic (fd, transform, NULL);
@@ -1103,8 +1101,6 @@ adjust_orientation__step (AsyncOperationData *aodata,
 
 	if (! success)
 		data->error = TRUE;
-
-	g_free (uri);
 }
 
 

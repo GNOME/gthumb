@@ -754,22 +754,6 @@ mime_type_is (const char *mime_type,
 }
 
 
-gboolean
-image_is_jpeg (const char *path)
-{
-	GFile    *file;
-	gboolean  result;
-	
-	file = gfile_new (path);
-	
-	result = gfile_image_is_jpeg (file);
-	
-	g_object_unref (file);
-
-	return result;
-}
-
-
 static gboolean
 mime_type_is_raw (const char *mime_type)
 {
