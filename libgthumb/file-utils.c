@@ -347,26 +347,6 @@ path_list_find_path (GList *list, const char *path)
 
 
 gboolean
-dir_make (const gchar *path)
-{
-        GFile    *gfile;
-        gboolean  result;
-	GError   *error = NULL;
-
-        gfile = gfile_new (path);
-        result = g_file_make_directory (gfile, NULL, &error);
-
-	if (error != NULL) {
-                gfile_warning ("Could not create directory", gfile, error);
-                g_error_free (error);
-	}
-
-        g_object_unref (gfile);
-        return result;
-}
-
-
-gboolean
 dir_remove_recursive (const char *path)
 {
 	GFile    *gfile;

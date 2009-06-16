@@ -749,7 +749,7 @@ create_new_folder_or_library (GthBrowser *browser,
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The name \"%s\" is already used. " "Please use a different name."), fd->utf8_name);
 	} 
-	else if (! dir_make (fd->utf8_path)) {
+	else if (! g_file_make_directory (fd->gfile, NULL, NULL)) {
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       str_error,
 				       fd->utf8_name);

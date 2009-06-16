@@ -732,16 +732,15 @@ theme_dialog__row_activated_cb (GtkTreeView       *tree_view,
 static void
 ensure_local_theme_dir_exists (void)
 {
-	char *theme_dir;
-
-	theme_dir = build_uri (get_home_uri (),
-			       ".gnome2",
-			       "gthumb/albumthemes",
-			       NULL);
-
-	dir_make (theme_dir);
-
-	g_free (theme_dir);
+	GFile *home = gfile_get_home_dir ();
+        GFile *theme_dir = gfile_append_path (home,
+					      ".gnome2",
+					      "gthumb",
+					      "albumthemes",
+					       NULL);
+	g_file_make_directory (theme_dir, NULL, NULL);
+	g_object_unref (home);
+	g_object_unref (theme_dir);
 }
 
 

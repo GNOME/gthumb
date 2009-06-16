@@ -88,7 +88,6 @@ GList *             path_list_find_path           (GList              *list,
 
 /* Directory utils */
 
-gboolean            dir_make                      (const char       *uri);
 gboolean            dir_remove_recursive          (const char       *path);
 
 gboolean            ensure_dir_exists             (const char       *path);
