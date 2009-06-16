@@ -31,8 +31,6 @@ extensionini_DATA = $(extensionini_in_files:.extension.in.in=.extension)
 
 EXTRA_DIST = $(extensionini_in_files) 
 
-CLEANFILES = $(extensionini_DATA)
-
 DISTCLEANFILES = $(extensionini_DATA)
 
 -include $(top_srcdir)/git.mk

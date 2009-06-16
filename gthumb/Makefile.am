@@ -38,7 +38,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-edit-metadata-dialog.h			\
 	gth-embedded-dialog.h				\
 	gth-empty-list.h				\
-	gth-enum-types.h				\
+	gth-enum-types.h                                \
 	gth-extensions.h				\
 	gth-file-data.h					\
 	gth-file-list.h					\
@@ -66,7 +66,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-image-viewer-tool.h				\
 	gth-location-chooser.h				\
 	gth-main.h					\
-	gth-marshal.h					\
 	gth-metadata.h					\
 	gth-metadata-provider.h				\
 	gth-monitor.h					\
@@ -115,10 +114,10 @@ PRIVATE_HEADER_FILES = 					\
 
 gthumb_SOURCES = 					\
 	$(ENUM_TYPES)					\
+	$(MARSHALLERS)					\
 	$(EXTERNAL)					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
-	$(MARSHALLERS)					\
 	dlg-bookmarks.c					\
 	dlg-edit-metadata.c				\
 	dlg-personalize-filters.c			\
@@ -268,10 +267,14 @@ gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
 	echo "#include \"gth-marshal.h\"" > $@ \
 	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@
 
-gthumb.h: make-header.sh gthumb.h.template 
-	$^ $(PUBLIC_HEADER_FILES) > xgen-$(@F) \
+gthumb.h: make-header.sh gthumb.h.template Makefile.am
+	$(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) > xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gthumb.h || cp xgen-$(@F) gthumb.h ) \
 	&& rm -f xgen-$(@F)
+
+AUTHORS.tab : $(top_srcdir)/AUTHORS
+	sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp
+	mv $@.tmp $@
 
 gthumbincludedir = $(includedir)/gthumb-2.0
 gthumbinclude_HEADERS = gthumb.h
@@ -279,22 +282,15 @@ gthumbinclude_HEADERS = gthumb.h
 gthumbsubincludedir = $(includedir)/gthumb-2.0/gthumb
 gthumbsubinclude_HEADERS = $(PUBLIC_HEADER_FILES)
 
-AUTHORS.tab : $(top_srcdir)/AUTHORS
-	sed -e 's/^/"/' -e 's/$$/",/' < $(top_srcdir)/AUTHORS > $@.tmp
-	mv $@.tmp $@
-
-BUILT_SOURCES = AUTHORS.tab gthumb.h
-
-CLEANFILES = 			\
-	$(BUILT_SOURCES)	\
-	$(MARSHALLERS)		\
-	$(ENUM_TYPES)
+BUILT_SOURCES = AUTHORS.tab gthumb.h $(MARSHALLERS) $(ENUM_TYPES)
+CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = 			\
 	gth-marshal.list	\
 	gthumb.h.template	\
 	make-header.sh
 
-BUILT_EXTRA_DIST = AUTHORS.tab gthumb.h
+dist-hook:
+	cd $(distdir); rm -f $(CLEANFILES)
 
 -include $(top_srcdir)/git.mk

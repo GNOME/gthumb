@@ -47,10 +47,12 @@ DISTCHECK_CONFIGURE_FLAGS = --disable-scrollkeeper
 CLEANFILES = ChangeLog
 
 # Build ChangeLog from GIT history
+
+CHANGELOG_START = GTHUMB_2_10_11
 ChangeLog:
 	@echo Creating $@
 	@if test -d $(top_srcdir)/.git; then \
-		(GIT_DIR=$(top_srcdir)/.git $(top_srcdir)/missing --run git log --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
+		(GIT_DIR=$(top_srcdir)/.git $(top_srcdir)/missing --run git log $(CHANGELOG_START).. --stat -M -C --name-status  --date=short --no-color) | fmt --split-only > $@.tmp \
 		 && mv -f $@.tmp $@ \
 		 || ($(RM) $@.tmp; \
 		     echo Failed to generate ChangeLog, your ChangeLog may be outdated >&2; \

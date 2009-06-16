@@ -3168,47 +3168,36 @@
 	 	file modification date will be used. Ordinary text can be mixed with the date codes.
 		If the format code starts with a "#" sign, then the text will not be replaced, but
 		the value will be remembered for date prompts (see below).
-	      </para>
-	      <para>
 	        Example:
-		<para>
 	        <command>mkdir -p %p/{%A photos}; cp %f %p/{%A photos}/</command>
 	        This script will create a subfolder prefixed with the weekday name
 	        (like "/home/user/Sunday photos") and copy photos to it.
-		</para>
-	      </para>
-	      <para>
 	        Refer to your system's documentation for a list of strftime format codes that you can use.
 	      </para></entry>
             </row>
-			<row valign="top">
-				<entry><para>{TEXT}</para></entry>
-				<entry align="left"><para>A user prompt dependent on the previous date format string.
-						The prompt will be used once for each different result of the date. All future
-						prompts with the same name will use the same value.The text supplied by the user
-						through the prompt dialog will replace this code. You can put a "#" sign at the
-						beginning of the prompt name to prevent the replacement. This can be used to store
-						a prompted value to insert later on. (To treat a bracket-enclosed block of text
-						literally, precede the opening bracket with a backslash.)
-			</para>
-			<para>
-				Examples:
-				<para>
-					<command>mkdir -p %p/{%Y-%m-%d_}{COMMENT}; cp %f %p/{%Y-%m-%d_}{COMMENT}/</command>
-					This script will create a subfolder prefixed with the date of the picture and a user comment
-					(like "/home/user/2007-05-04_MyBirthday" or "/home/user/2007-03-17_St. Patrick's Day") and
-					copy photos to it.
-				</para>
-				<para>
-					<command>mkdir -p %p/{#%B}{FOLDER}; cp %f %p/{FOLDER}/</command>
-					This script will create a series of subfolders based on the month the picture was taken,
-					but they will be named according to the user's comments on the date. So if you enter
-					the word 'Ides' for March, all the photos taken in March will be copied to
-					"/home/user/photos/Ides/".
-				</para>
-			</para>
-		</entry>
-	</row>
+	      <row valign="top">
+	 	<entry><para>{TEXT}</para></entry>
+	  	  <entry align="left">
+ 		    <para>A user prompt dependent on the previous date format string.
+		      The prompt will be used once for each different result of the date. All future
+		      prompts with the same name will use the same value.The text supplied by the user
+		      through the prompt dialog will replace this code. You can put a "#" sign at the
+		      beginning of the prompt name to prevent the replacement. This can be used to store
+		      a prompted value to insert later on. (To treat a bracket-enclosed block of text
+		      literally, precede the opening bracket with a backslash.)
+                      Examples:
+		      <command>mkdir -p %p/{%Y-%m-%d_}{COMMENT}; cp %f %p/{%Y-%m-%d_}{COMMENT}/</command>
+		      This script will create a subfolder prefixed with the date of the picture and a user comment
+		      (like "/home/user/2007-05-04_MyBirthday" or "/home/user/2007-03-17_St. Patrick's Day") and
+		      copy photos to it.
+		      <command>mkdir -p %p/{#%B}{FOLDER}; cp %f %p/{FOLDER}/</command>
+		      This script will create a series of subfolders based on the month the picture was taken,
+		      but they will be named according to the user's comments on the date. So if you enter
+		      the word 'Ides' for March, all the photos taken in March will be copied to
+		      "/home/user/photos/Ides/".
+		    </para>
+		  </entry>
+                </row>
           </tbody>
         </tgroup>
       </informaltable>

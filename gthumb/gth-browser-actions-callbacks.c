@@ -353,7 +353,6 @@ gth_browser_activate_action_help_about (GtkAction *action,
 	GthWindow  *window = GTH_WINDOW (data);
 	const char *authors[] = {
 #include "AUTHORS.tab"
-		"",
 		NULL
 	};
 	const char *documenters [] = {
