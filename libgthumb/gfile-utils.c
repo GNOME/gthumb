@@ -869,17 +869,13 @@ gfile_xfer (GFile    *sfile,
 
         if (move)
                 g_file_move (sfile, dfile,
-#if GLIB_CHECK_VERSION(2,19,0)
 			     G_FILE_COPY_TARGET_DEFAULT_PERMS |
-#endif 
                              attr,
                              NULL, _empty_file_progress_cb,
                              NULL, error);
         else
                 g_file_copy (sfile, dfile,
-#if GLIB_CHECK_VERSION(2,19,0)
                              G_FILE_COPY_TARGET_DEFAULT_PERMS |
-#endif 
                              attr,
                              NULL, _empty_file_progress_cb,
                              NULL, error);

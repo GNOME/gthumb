@@ -5119,11 +5119,7 @@ menu_item_select_cb (GtkMenuItem *proxy,
 	GtkAction *action;
 	char      *message;
 
-#if GTK_CHECK_VERSION(2,16,0)
 	action = gtk_activatable_get_related_action (GTK_ACTIVATABLE (proxy));
-#else
-	action = gtk_widget_get_action (GTK_WIDGET (proxy));
-#endif
 	g_return_if_fail (action != NULL);
 	
 	g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
@@ -5277,13 +5273,8 @@ add_rotate_toolbar_item (GthBrowser *browser)
 	gtk_tool_item_set_homogeneous (priv->rotate_tool_item, FALSE);
 	gtk_tool_item_set_tooltip_text (priv->rotate_tool_item, _("Rotate images without loss of quality"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), _("Rotate images without loss of quality"));
-#if GTK_CHECK_VERSION(2,16,0)
 	gtk_activatable_set_related_action (GTK_ACTIVATABLE (priv->rotate_tool_item),
 					    gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"));
-#else
-	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
-				  GTK_WIDGET (priv->rotate_tool_item));
-#endif
 	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar),
 			    priv->rotate_tool_item,

@@ -86,8 +86,8 @@ Compiling
   version 2 or greater, with the development tools installed properly.
   The following is the detailed list of libraries you need:
 
-	* glib	 		version >= 2.6.0
-	* gtk 			version >= 2.10.0
+	* glib	 		version >= 2.19.0
+	* gtk 			version >= 2.16.0
 	* libxml 		version >= 2.4.0
 	* libgnome 		version >= 2.6.0
 	* libgnomeui 		version >= 2.6.0

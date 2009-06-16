@@ -2443,15 +2443,6 @@ gth_pixbuf_new_from_video (FileData               *file,
 }
 
 
-#ifndef GDK_PIXBUF_CHECK_VERSION
-#define GDK_PIXBUF_CHECK_VERSION(major,minor,micro) \
-    (GDK_PIXBUF_MAJOR > (major) || \
-     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR > (minor)) || \
-     (GDK_PIXBUF_MAJOR == (major) && GDK_PIXBUF_MINOR == (minor) && \
-      GDK_PIXBUF_MICRO >= (micro)))
-#endif
-
-
 GdkPixbuf*
 gth_pixbuf_new_from_file (FileData               *file,
 			  GError                **error,
@@ -2522,24 +2513,8 @@ gth_pixbuf_new_from_file (FileData               *file,
 	/* rotate pixbuf if required, based on exif orientation tag (jpeg only) */
 
 	debug (DEBUG_INFO, "Check orientation tag of %s. Width %d\n\r", file->local_path, requested_width);
-
-#if GDK_PIXBUF_CHECK_VERSION(2,11,5)
-        /* New in gtk 2.11.5 - see bug 439567 */
         rotated = gdk_pixbuf_apply_embedded_orientation (pixbuf);      	
         debug (DEBUG_INFO, "Applying orientation using gtk function.\n\r");
-#else
-	/* The old way - delete this once gtk 2.12 is widely used */
-	if (mime_type_is (file->mime_type, "image/jpeg")) {
-		GthTransform  orientation;
-		GthTransform  transform = GTH_TRANSFORM_NONE;
-		
-		orientation = get_orientation_from_fd (file);
-		transform = (orientation >= 1 && orientation <= 8 ? orientation : GTH_TRANSFORM_NONE);
-		
-		debug (DEBUG_INFO, "read_orientation_field says orientation is %d, transform needed is %d.\n\r", orientation, transform);
-		rotated = _gdk_pixbuf_transform (pixbuf, transform);
-	}
-#endif	
 
 	if (rotated == NULL) {
 		rotated = pixbuf;
