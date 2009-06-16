@@ -112,8 +112,6 @@ gboolean            visit_rc_directory_sync       (const char       *rc_dir,
 gboolean	    mime_type_is_image	          (const char       *mime_type);
 gboolean            mime_type_is_video            (const char       *mime_type);
 gboolean            mime_type_is_audio            (const char       *mime_type);
-gboolean	    file_is_image 		  (const gchar      *name,
-						   gboolean          fast_file_type);
 gboolean            file_is_image_video_or_audio  (const gchar      *name,
                                                    gboolean          fast_file_type);
 gboolean            file_is_hidden                (const char       *name);

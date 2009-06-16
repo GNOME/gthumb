@@ -1150,6 +1150,7 @@ _gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
                              GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
 			     "Couldn't allocate memory for writing TGA file '%s'",
 			     filename);
+		fclose (fp);
 		return FALSE;
 	}
 

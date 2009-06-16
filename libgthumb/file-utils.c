@@ -557,19 +557,6 @@ gboolean mime_type_is_image (const char *mime_type)
 }
 
 
-gboolean file_is_image (const gchar *name,
-			gboolean     fast_file_type)
-{
-	const char *mime_type = NULL;
-
-	mime_type = get_file_mime_type (name, fast_file_type);
-	if (mime_type == NULL)
-		return FALSE;
-
-	return mime_type_is_image (mime_type);
-}
-
-
 gboolean mime_type_is_video (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);
