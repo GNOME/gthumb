@@ -1466,7 +1466,6 @@ ok_clicked_cb (GtkButton  *button,
 		file_data_unref (folder_fd);
 		return;
 	}
-	file_data_unref (folder_fd);
 
 	for (scan = file_list; scan; scan = scan->next) {
 		total_size += gfile_get_size ((GFile *) scan->data);
@@ -1474,7 +1473,7 @@ ok_clicked_cb (GtkButton  *button,
 
 	debug (DEBUG_INFO, "Prepare to import %ld bytes", total_size);
 
-	if (get_destination_free_space (data->main_dest_folder) < total_size) {
+	if (gfile_get_destination_free_space (folder_fd->gfile) < total_size) {
 		display_error_dialog (data,
 				      _("Could not import photos"),
 				      _("Not enough free space left on disk"));
@@ -1484,6 +1483,8 @@ ok_clicked_cb (GtkButton  *button,
 		gfile_list_free (file_list);
 		return;
 	}
+
+	file_data_unref (folder_fd);
 
 	data->aodata = async_operation_new (NULL,
 					    file_list,

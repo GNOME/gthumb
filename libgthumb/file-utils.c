@@ -2111,25 +2111,6 @@ copy_file_async (const char   *source_uri,
 /* -- */
 
 
-guint64
-get_destination_free_space (const char *path)
-{
-	GFile   *file;
-	guint64  result;
-	
-	if (path == NULL)
-		return 0;
-	
-	file = gfile_new (path);
-
-	result = gfile_get_destination_free_space (file);
-	
-	g_object_unref (file);
-
-	return result;
-}
-
-
 gboolean
 is_mime_type_writable (const char *mime_type)
 {

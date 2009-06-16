@@ -210,7 +210,6 @@ CopyData *          copy_file_async               (const char       *source_uri,
 		 				   const char       *target_uri,
 		 				   CopyDoneFunc      done_func,
 		 				   gpointer          done_data);
-guint64             get_destination_free_space    (const char       *path);
 const char*         get_file_mime_type            (const char       *path,
 						   gboolean          fast_file_type);
 const char *        get_mime_type_from_ext        (const char       *ext);
