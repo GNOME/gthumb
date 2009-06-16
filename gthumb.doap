@@ -15,7 +15,7 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Paolo Bacchilega</foaf:name>
-      <foaf:mbox rdf:resource="paobac@src.gnome.org" />
+      <foaf:mbox rdf:resource="mailto:paobac@src.gnome.org" />
       <gnome:userid>paobac</gnome:userid>
     </foaf:Person>
   </maintainer>
