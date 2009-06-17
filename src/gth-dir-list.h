@@ -24,7 +24,6 @@
 #define DIR_LIST_H
 
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-types.h>
 #include "file-utils.h" /* for PathListHandle */
 
 #define GTH_TYPE_DIR_LIST            (gth_dir_list_get_type ())
@@ -65,7 +64,7 @@ struct _GthDirListClass {
 
 	void (*started) (GthDirList     *dir_list);
 	void (*done)    (GthDirList     *dir_list,
-	                 GnomeVFSResult  result);
+	                 GError         *error);
 };
 
 GType          gth_dir_list_get_type                (void);

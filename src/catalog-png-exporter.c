@@ -408,7 +408,6 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 	ce->pages_height = NULL;
 
 	ce->write_image_map = FALSE;
-	ce->imap_handle = NULL;
 	ce->imap_uri = NULL;
 
 	ce->info = NULL;
@@ -1604,7 +1603,6 @@ begin_page (CatalogPngExporter *ce,
 
 	g_free (ce->imap_uri);
 	ce->imap_uri = NULL;
-	ce->imap_handle = NULL;
 	
 	name = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	ce->imap_uri = g_strconcat (ce->location, "/", name, ".html", NULL);
@@ -1686,7 +1684,7 @@ end_page (CatalogPngExporter *ce,
 	
 	/* image map file. */
 
-	if (! ce->write_image_map || (ce->imap_handle == NULL))
+	if (! ce->write_image_map)
 		return;
 
 	line = g_strdup_printf ("</map>\n");
@@ -1779,7 +1777,7 @@ paint_frame (CatalogPngExporter *ce,
 
 	/* image map file. */
 
-	if (! ce->write_image_map || (ce->imap_handle == NULL))
+	if (! ce->write_image_map)
 		return;
 
 	dest_dir = remove_special_dirs_from_path (ce->location);

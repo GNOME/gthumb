@@ -25,7 +25,6 @@
 
 #include <gdk/gdk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomevfs/gnome-vfs-uri.h>
 #include "image-loader.h"
 #include "file-data.h"
 
