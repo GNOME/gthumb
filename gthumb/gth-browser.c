@@ -2524,7 +2524,7 @@ pref_thumbnail_size_changed (GConfClient *client,
 
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
-                      gpointer  *data)
+		      gpointer  *data)
 {
 	gth_hook_invoke ("gth-browser-realize", browser);
 
@@ -2534,7 +2534,7 @@ _gth_browser_realize (GtkWidget *browser,
 
 static gboolean
 _gth_browser_unrealize (GtkWidget *browser,
-                        gpointer  *data)
+			gpointer  *data)
 {
 	gth_hook_invoke ("gth-browser-unrealize", browser);
 
@@ -2841,8 +2841,8 @@ _gth_browser_construct (GthBrowser *browser)
 
 	gth_hook_invoke ("gth-browser-construct", browser);
 
-        g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
-        g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
+	g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
+	g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
 
 	performance (DEBUG_INFO, "window initialized");
 
@@ -3411,7 +3411,7 @@ file_metadata_ready_cb (GList    *files,
 		GFile *parent;
 
 		parent = g_file_get_parent (browser->priv->current_file->file);
-		gth_browser_go_to (browser, parent);
+		_gth_browser_load (browser, parent, GTH_ACTION_GO_TO);
 		g_object_unref (parent);
 	}
 }
@@ -3853,7 +3853,7 @@ hide_mouse_pointer_cb (gpointer data)
 
 	browser->priv->hide_mouse_timeout = 0;
 
-        return FALSE;
+	return FALSE;
 }
 
 
@@ -3879,8 +3879,8 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 	if (browser->priv->hide_mouse_timeout != 0)
 		g_source_remove (browser->priv->hide_mouse_timeout);
 	browser->priv->hide_mouse_timeout = g_timeout_add (HIDE_MOUSE_DELAY,
-						           hide_mouse_pointer_cb,
-						           browser);
+							   hide_mouse_pointer_cb,
+							   browser);
 
 	browser->priv->last_mouse_x = event->x;
 	browser->priv->last_mouse_y = event->y;
@@ -3919,9 +3919,9 @@ gth_browser_fullscreen (GthBrowser *browser)
 	browser->priv->last_mouse_x = 0.0;
 	browser->priv->last_mouse_y = 0.0;
 	browser->priv->motion_signal = g_signal_connect (browser,
-						         "motion_notify_event",
-						         G_CALLBACK (fullscreen_motion_notify_event_cb),
-						         browser);
+							 "motion_notify_event",
+							 G_CALLBACK (fullscreen_motion_notify_event_cb),
+							 browser);
 }
 
 
@@ -3949,7 +3949,7 @@ gth_browser_unfullscreen (GthBrowser *browser)
 typedef struct {
 	char     **uris;
 	int        n_uris;
-        gboolean   cut;
+	gboolean   cut;
 } ClipboardData;
 
 
@@ -3995,9 +3995,9 @@ clipboard_data_convert_to_text (ClipboardData *clipboard_data,
 
 static void
 clipboard_get_cb (GtkClipboard     *clipboard,
-                  GtkSelectionData *selection_data,
-                  guint             info,
-                  gpointer          user_data_or_owner)
+		  GtkSelectionData *selection_data,
+		  guint             info,
+		  gpointer          user_data_or_owner)
 {
 	ClipboardData *clipboard_data = user_data_or_owner;
 
@@ -4025,12 +4025,12 @@ clipboard_get_cb (GtkClipboard     *clipboard,
 
 static void
 clipboard_clear_cb (GtkClipboard *clipboard,
-                    gpointer      user_data_or_owner)
+		    gpointer      user_data_or_owner)
 {
 	ClipboardData *data = user_data_or_owner;
 
 	g_strfreev (data->uris);
-        g_free (data);
+	g_free (data);
 }
 
 
@@ -4071,9 +4071,9 @@ _gth_browser_clipboard_copy_or_cut (GthBrowser *browser,
 	gtk_clipboard_set_with_data (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser)), GDK_SELECTION_CLIPBOARD),
 				     targets,
 				     n_targets,
-	                             clipboard_get_cb,
-	                             clipboard_clear_cb,
-	                             data);
+				     clipboard_get_cb,
+				     clipboard_clear_cb,
+				     data);
 
 	gtk_target_table_free (targets, n_targets);
 	_g_object_list_unref (file_list);
