@@ -23,9 +23,7 @@ EXTRA_DIST =                    \
 	$(schema_in_files)
 
 DISTCLEANFILES =                \
-	$(desktop_in_in_files)  \
-	$(desktop_in_files)     \
-	$(schema_in_files)
+	$(desktop_in_files)     
 
 CLEANFILES =			\
 	$(desktop_DATA)         \
