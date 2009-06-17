@@ -41,6 +41,20 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-construct", 1);
 
 	/**
+	 * Called when the window is realized.
+	 *
+	 * @browser (GthBrowser*): the window.
+	 **/
+	gth_hook_register ("gth-browser-realize", 1);
+
+	/**
+	 * Called when the window is unrealized.
+	 *
+	 * @browser (GthBrowser*): the window.
+	 **/
+	gth_hook_register ("gth-browser-unrealize", 1);
+
+	/**
 	 * Called before closing a window.
 	 *
 	 * @browser (GthBrowser*): the window to be closed.

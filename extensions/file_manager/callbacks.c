@@ -146,6 +146,18 @@ browser_data_free (BrowserData *data)
 }
 
 
+static void
+set_action_sensitive (BrowserData *data,
+		      const char  *action_name,
+		      gboolean     sensitive)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (data->action_group, action_name);
+	g_object_set (action, "sensitive", sensitive, NULL);
+}
+
+
 void
 fm__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -162,6 +174,7 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 				      G_N_ELEMENTS (action_entries),
 				      browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->action_group, 0);
+	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
@@ -285,11 +298,53 @@ fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 }
 
 
+static void
+clipboard_targets_received_cb (GtkClipboard *clipboard,
+			       GdkAtom      *atoms,
+                               int           n_atoms,
+                               gpointer      user_data)
+{
+	GthBrowser  *browser = user_data;
+	BrowserData *data;
+	gboolean     can_paste;
+	int          i;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	can_paste = FALSE;
+	for (i = 0; ! can_paste && (i < n_atoms); i++)
+		if (atoms[i] == GNOME_COPIED_FILES)
+			can_paste = TRUE;
+
+	set_action_sensitive (data, "Edit_PasteInFolder", can_paste);
+
+	g_object_unref (browser);
+}
+
+
+static void
+_gth_browser_update_paste_command_sensitivity (GthBrowser   *browser,
+                                               GtkClipboard *clipboard)
+{
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+        set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
+
+	if (clipboard == NULL)
+		clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	gtk_clipboard_request_targets (clipboard,
+				       clipboard_targets_received_cb,
+				       g_object_ref (browser));
+}
+
+
 void
 fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GtkAction   *action;
 	int          n_selected;
 	gboolean     sensitive;
 
@@ -299,16 +354,47 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
 	sensitive = n_selected > 0;
-	action = gtk_action_group_get_action (data->action_group, "Edit_CutFiles");
-	g_object_set (action, "sensitive", sensitive, NULL);
-	action = gtk_action_group_get_action (data->action_group, "Edit_CopyFiles");
-	g_object_set (action, "sensitive", sensitive, NULL);
-	action = gtk_action_group_get_action (data->action_group, "Edit_Trash");
-	g_object_set (action, "sensitive", sensitive, NULL);
-	action = gtk_action_group_get_action (data->action_group, "Edit_Delete");
-	g_object_set (action, "sensitive", sensitive, NULL);
-	action = gtk_action_group_get_action (data->action_group, "Edit_Duplicate");
-	g_object_set (action, "sensitive", sensitive, NULL);
-	action = gtk_action_group_get_action (data->action_group, "Edit_Rename");
-	g_object_set (action, "sensitive", sensitive, NULL);
+	set_action_sensitive (data, "Edit_CutFiles", sensitive);
+	set_action_sensitive (data, "Edit_CopyFiles", sensitive);
+	set_action_sensitive (data, "Edit_Trash", sensitive);
+	set_action_sensitive (data, "Edit_Delete", sensitive);
+	set_action_sensitive (data, "Edit_Duplicate", sensitive);
+	set_action_sensitive (data, "Edit_Rename", sensitive);
+
+	_gth_browser_update_paste_command_sensitivity (browser, NULL);
 }
+
+
+static void
+clipboard_owner_change_cb (GtkClipboard *clipboard,
+                           GdkEvent     *event,
+                           gpointer      user_data)
+{
+	_gth_browser_update_paste_command_sensitivity ((GthBrowser *) user_data, clipboard);
+}
+
+
+void
+fm__gth_browser_realize_cb (GthBrowser *browser)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	g_signal_connect (clipboard,
+	                  "owner_change",
+	                  G_CALLBACK (clipboard_owner_change_cb),
+	                  browser);
+}
+
+
+void
+fm__gth_browser_unrealize_cb (GthBrowser *browser)
+{
+	GtkClipboard *clipboard;
+
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD);
+	g_signal_handlers_disconnect_by_func (clipboard,
+	                                      G_CALLBACK (clipboard_owner_change_cb),
+	                                      browser);
+}
+

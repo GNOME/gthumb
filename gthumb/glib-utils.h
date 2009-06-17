@@ -30,6 +30,7 @@
 
 G_BEGIN_DECLS
 
+#define GNOME_COPIED_FILES (gdk_atom_intern_static_string ("x-special/gnome-copied-files"))
 #define IROUND(x) ((int)floor(((double)x) + 0.5))
 #define FLOAT_EQUAL(a,b) (fabs (a - b) < 1e-6)
 #define ID_LENGTH 8

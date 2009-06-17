@@ -45,6 +45,7 @@ void
 gth_browser_activate_action_edit_cut_files (GtkAction  *action,
 					    GthBrowser *browser)
 {
+	gth_browser_clipboard_cut (browser);
 }
 
 
@@ -52,6 +53,7 @@ void
 gth_browser_activate_action_edit_copy_files (GtkAction  *action,
 					     GthBrowser *browser)
 {
+	gth_browser_clipboard_copy (browser);
 }
 
 
@@ -59,6 +61,7 @@ void
 gth_browser_activate_action_edit_paste_in_folder (GtkAction  *action,
 						  GthBrowser *browser)
 {
+	gth_browser_clipboard_paste (browser);
 }
 
 
@@ -67,7 +70,7 @@ gth_browser_activate_action_edit_duplicate (GtkAction  *action,
 					    GthBrowser *browser)
 {
 	GList   *items;
-	GList   *file_list = NULL;
+	GList   *file_list;
 	GthTask *task;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));

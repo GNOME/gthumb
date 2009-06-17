@@ -144,6 +144,9 @@ void             gth_browser_show_filterbar         (GthBrowser       *browser,
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
 void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
+void             gth_browser_clipboard_copy         (GthBrowser       *browser);
+void             gth_browser_clipboard_cut          (GthBrowser       *browser);
+void             gth_browser_clipboard_paste        (GthBrowser       *browser);
 
 G_END_DECLS
 

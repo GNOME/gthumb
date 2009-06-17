@@ -2522,6 +2522,26 @@ pref_thumbnail_size_changed (GConfClient *client,
 }
 
 
+static gboolean
+_gth_browser_realize (GtkWidget *browser,
+                      gpointer  *data)
+{
+	gth_hook_invoke ("gth-browser-realize", browser);
+
+	return FALSE;
+}
+
+
+static gboolean
+_gth_browser_unrealize (GtkWidget *browser,
+                        gpointer  *data)
+{
+	gth_hook_invoke ("gth-browser-unrealize", browser);
+
+	return FALSE;
+}
+
+
 static void
 _gth_browser_construct (GthBrowser *browser)
 {
@@ -2821,6 +2841,9 @@ _gth_browser_construct (GthBrowser *browser)
 
 	gth_hook_invoke ("gth-browser-construct", browser);
 
+        g_signal_connect (browser, "realize", G_CALLBACK (_gth_browser_realize), NULL);
+        g_signal_connect (browser, "unrealize", G_CALLBACK (_gth_browser_unrealize), NULL);
+
 	performance (DEBUG_INFO, "window initialized");
 
 	/* gconf notifications */
@@ -3108,10 +3131,9 @@ void
 gth_browser_stop (GthBrowser *browser)
 {
 	if (browser->priv->fullscreen)
-		gth_browser_fullscreen (browser);
+		gth_browser_unfullscreen (browser);
 
 	_gth_browser_cancel (browser);
-
 	gth_browser_update_sensitivity (browser);
 
 	if ((browser->priv->task != NULL) && gth_task_is_running (browser->priv->task))
@@ -3906,6 +3928,8 @@ gth_browser_fullscreen (GthBrowser *browser)
 void
 gth_browser_unfullscreen (GthBrowser *browser)
 {
+	browser->priv->fullscreen = FALSE;
+
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
 	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
@@ -3916,4 +3940,162 @@ gth_browser_unfullscreen (GthBrowser *browser)
 
 	if (browser->priv->motion_signal != 0)
 		g_signal_handler_disconnect (browser, browser->priv->motion_signal);
+}
+
+
+/* -- clipboard -- */
+
+
+typedef struct {
+	char     **uris;
+	int        n_uris;
+        gboolean   cut;
+} ClipboardData;
+
+
+static char *
+clipboard_data_convert_to_text (ClipboardData *clipboard_data,
+				gboolean       formatted,
+				gsize         *len)
+{
+	GString *uris;
+	int      i;
+
+	if (formatted)
+		uris = g_string_new (clipboard_data->cut ? "cut" : "copy");
+	else
+		uris = g_string_new (NULL);
+
+	for (i = 0; i < clipboard_data->n_uris; i++) {
+		if (formatted) {
+			g_string_append_c (uris, '\n');
+			g_string_append (uris, clipboard_data->uris[i]);
+		}
+		else {
+			GFile *file;
+			char  *name;
+
+			if (i > 0)
+				g_string_append_c (uris, '\n');
+			file = g_file_new_for_uri (clipboard_data->uris[i]);
+			name = g_file_get_parse_name (file);
+			g_string_append (uris, name);
+
+			g_free (name);
+			g_object_unref (file);
+		}
+	}
+
+	if (len != NULL)
+		*len = uris->len;
+
+	return g_string_free (uris, FALSE);
+}
+
+
+static void
+clipboard_get_cb (GtkClipboard     *clipboard,
+                  GtkSelectionData *selection_data,
+                  guint             info,
+                  gpointer          user_data_or_owner)
+{
+	ClipboardData *clipboard_data = user_data_or_owner;
+
+	if (gtk_targets_include_uri (&selection_data->target, 1)) {
+		gtk_selection_data_set_uris (selection_data, clipboard_data->uris);
+	}
+	else if (gtk_targets_include_text (&selection_data->target, 1)) {
+		char  *str;
+		gsize  len;
+
+		str = clipboard_data_convert_to_text (clipboard_data, FALSE, &len);
+		gtk_selection_data_set_text (selection_data, str, len);
+		g_free (str);
+	}
+	else if (selection_data->target == GNOME_COPIED_FILES) {
+		char  *str;
+		gsize  len;
+
+		str = clipboard_data_convert_to_text (clipboard_data, TRUE, &len);
+		gtk_selection_data_set (selection_data, GNOME_COPIED_FILES, 8, (guchar *) str, len);
+		g_free (str);
+	}
+}
+
+
+static void
+clipboard_clear_cb (GtkClipboard *clipboard,
+                    gpointer      user_data_or_owner)
+{
+	ClipboardData *data = user_data_or_owner;
+
+	g_strfreev (data->uris);
+        g_free (data);
+}
+
+
+static void
+_gth_browser_clipboard_copy_or_cut (GthBrowser *browser,
+				    gboolean    cut)
+{
+	ClipboardData  *data;
+	GList          *items;
+	GList          *file_list;
+	GtkTargetList  *target_list;
+	GtkTargetEntry *targets;
+	int             n_targets;
+	GList          *scan;
+	int             i;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	data = g_new0 (ClipboardData, 1);
+	data->cut = cut;
+	data->n_uris = g_list_length (file_list);
+	data->uris = g_new (char *, data->n_uris + 1);
+	for (scan = file_list, i = 0; scan; scan = scan->next, i++) {
+		GthFileData *file_data = scan->data;
+		data->uris[i] = g_file_get_uri (file_data->file);
+	}
+	data->uris[data->n_uris] = NULL;
+
+	target_list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add (target_list, GNOME_COPIED_FILES, 0, 0);
+	gtk_target_list_add_uri_targets (target_list, 0);
+	gtk_target_list_add_text_targets (target_list, 0);
+
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+	gtk_target_list_unref (target_list);
+
+	gtk_clipboard_set_with_data (gtk_clipboard_get_for_display (gtk_widget_get_display (GTK_WIDGET (browser)), GDK_SELECTION_CLIPBOARD),
+				     targets,
+				     n_targets,
+	                             clipboard_get_cb,
+	                             clipboard_clear_cb,
+	                             data);
+
+	gtk_target_table_free (targets, n_targets);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_clipboard_copy (GthBrowser *browser)
+{
+	_gth_browser_clipboard_copy_or_cut (browser, FALSE);
+}
+
+
+void
+gth_browser_clipboard_cut (GthBrowser *browser)
+{
+	_gth_browser_clipboard_copy_or_cut (browser, TRUE);
+}
+
+
+void
+gth_browser_clipboard_paste (GthBrowser *browser)
+{
 }
