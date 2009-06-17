@@ -159,6 +159,7 @@ const char *stupid_comment_filter[] = {
 	"OLYMPUS DIGITAL CAMERA",
 	"SONY DSC",
 	"KONICA MINOLTA DIGITAL CAMERA",
+	"MINOLTA DIGITAL CAMERA",
 	NULL };
 
 
@@ -328,7 +329,7 @@ get_metadata_tagset_string (FileData *fd, const char *tagnames[])
 	    (!strcmp (tagnames[i-1], "Exif.Photo.UserComment") ||
 	     !strcmp (tagnames[i-1], "Exif.Image.ImageDescription"))) {
 		for (i = 0; (string != NULL) && (stupid_comment_filter[i] != NULL); i++) {
-			if (strstr (string, stupid_comment_filter[i]) != NULL) {
+			if (strstr (string, stupid_comment_filter[i]) == string) {
 				g_free (string);
 				string = NULL;
 			}
