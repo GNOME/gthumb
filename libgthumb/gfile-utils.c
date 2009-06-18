@@ -245,6 +245,22 @@ gfile_get_filename_extension (GFile *file)
 }
 
 
+gboolean
+gfile_is_image_video_or_audio (GFile    *gfile,
+			       gboolean  fast_file_type)
+{
+	const char *mime_type = NULL;
+
+	mime_type = gfile_get_mime_type (gfile, fast_file_type);
+	if (mime_type == NULL)
+		return FALSE;
+
+	return mime_type_is_image (mime_type) ||
+	       mime_type_is_video (mime_type) ||
+	       mime_type_is_audio (mime_type);
+}
+
+
 const char*
 gfile_get_mime_type (GFile      *file,
                      gboolean    fast_file_type)
@@ -284,7 +300,7 @@ gfile_get_mime_type (GFile      *file,
 			g_free (utf8_path);
 			return NULL;
 		}
-		
+
                 /*
                  * If the file content is determined to be binary data (octet-stream), check for
                  * HDR file types, which are not well represented in the freedesktop mime database
@@ -986,6 +1002,34 @@ gfile_list_find_gfile (GList *list, GFile *gfile)
                 if (g_file_equal ((GFile *) scan->data, gfile))
                         return scan;
         return NULL;
+}
+
+
+time_t
+gfile_get_mtime (GFile *gfile)
+{
+        GFileInfo *info;
+        GError    *error = NULL;
+        GTimeVal   tv;
+	time_t     mtime;
+
+        info = g_file_query_info (gfile,
+                                  G_FILE_ATTRIBUTE_TIME_MODIFIED,
+                                  G_FILE_QUERY_INFO_NONE,
+                                  NULL,
+                                  &error);
+
+        if (error == NULL) {
+                g_file_info_get_modification_time (info, &tv);
+                mtime = tv.tv_sec;
+		g_object_unref (info);
+        } else {
+                gfile_warning ("Failed to get file mtime", gfile, error);
+                g_error_free (error);
+                mtime = (time_t) 0;
+        }
+
+	return mtime;
 }
 
 

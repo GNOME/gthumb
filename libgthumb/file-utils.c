@@ -813,29 +813,11 @@ get_file_size (const char *path)
 time_t
 get_file_mtime (const char *path)
 {
-        GFileInfo *info;
-        GFile     *gfile;
-        GError    *error = NULL;
-        GTimeVal   tv;
-	time_t     mtime;
+        GFile  *gfile;
+	time_t  mtime;
 
         gfile = gfile_new (path);
-        info = g_file_query_info (gfile,
-                                  G_FILE_ATTRIBUTE_TIME_MODIFIED,
-                                  G_FILE_QUERY_INFO_NONE,
-                                  NULL,
-                                  &error);
-
-        if (error == NULL) {
-                g_file_info_get_modification_time (info, &tv);
-                mtime = tv.tv_sec;
-		g_object_unref (info);
-        } else {
-                // gfile_warning ("Failed to get file information", gfile, error);
-                g_error_free (error);
-                mtime = (time_t) 0;
-        }
-
+	mtime = gfile_get_mtime (gfile);
         g_object_unref (gfile);
 	return mtime;
 }
@@ -874,7 +856,7 @@ void
 set_file_mtime (const gchar *path,
 		time_t       mtime)
 {
-        GFile     *gfile;
+        GFile *gfile;
 
         gfile = gfile_new (path);
 	gfile_set_mtime (gfile, mtime);

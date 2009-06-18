@@ -69,6 +69,8 @@ gboolean      gfile_is_hidden                  (GFile      *file);
 char *        gfile_get_filename_extension     (GFile      *file);
 const char*   gfile_get_mime_type              (GFile      *file,
                                                 gboolean    fast_file_type);
+gboolean      gfile_is_image_video_or_audio    (GFile      *gfile,
+				                gboolean    fast_file_type);
 gboolean      gfile_image_is_jpeg              (GFile      *file);
 gboolean      gfile_is_file                    (GFile      *file);
 gboolean      gfile_is_dir                     (GFile      *file);
@@ -78,6 +80,7 @@ goffset       gfile_get_size                   (GFile      *file);
 char *        gfile_get_display_name           (GFile      *file);
 void          gfile_set_mtime                  (GFile      *gfile,
                                                 time_t      mtime);
+time_t	      gfile_get_mtime                  (GFile      *gfile);
 
 /* Directory utils */
 
@@ -116,7 +119,7 @@ gssize        gfile_output_stream_write_line   (GFileOutputStream *ostream,
                                 		GError           **error,
 		                                const char        *format,
                 		                ...);
-gssize        gfile_output_stream_write        (GFileOutputStream  *ostream, 
+gssize        gfile_output_stream_write        (GFileOutputStream  *ostream,
                                                 GError            **error,
                                                 const char         *str);
 

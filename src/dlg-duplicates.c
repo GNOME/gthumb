@@ -34,7 +34,6 @@
 #include <glade/glade.h>
 #include <libgnomeui/libgnomeui.h>
 #include <gio/gio.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include "catalog.h"
 #include "dlg-file-utils.h"
@@ -46,6 +45,7 @@
 #include "file-utils.h"
 #include "md5.h"
 #include "thumb-loader.h"
+#include "gfile-utils.h"
 
 #ifdef WORDS_BIGENDIAN
 # define SWAP(n)                                                        \
@@ -109,16 +109,17 @@ typedef struct {
 	GtkTreeModel        *images_model;
 	GtkTreeModel        *duplicates_model;
 
-	char                *start_from_path;
+	GFile		    *start_from_gfile;
 	gboolean             recursive;
-	GnomeVFSAsyncHandle *handle;
-	GnomeVFSURI         *uri;
+	GFile		    *gfile;
+	GCancellable	    *cancelled;
+	GFileEnumerator     *gfile_enum;
 	GList               *files;
-	GList               *dirs;
+	GList               *dirs;		/* GFile* items. */
 	int                  duplicates;
 	gboolean             scanning_dir;
 
-	GList               *queue;
+	GList               *queue;		/* GFile* items. */
 	gboolean             checking_file;
 	gboolean             stopped;
 
@@ -126,7 +127,8 @@ typedef struct {
 	gboolean             loading_image;
 	GList               *loader_queue;
 
-	char                *current_path;
+	GFile		    *current_gfile;
+	GFileInputStream    *stream;
 
 	char                 md5_buffer[BLOCKSIZE + 72];
 	struct md5_ctx       md5_context;
@@ -149,6 +151,7 @@ typedef struct {
 
 typedef struct {
 	char            *path;
+	GFile		*gfile;
 	char            *sum;
 	ImageDataCommon *common;
 	time_t           last_modified;
@@ -156,17 +159,18 @@ typedef struct {
 
 
 static ImageData*
-image_data_new (const char *filename,
+image_data_new (GFile      *gfile,
 		const char *sum)
 {
 	ImageData *idata;
 
 	idata = g_new (ImageData, 1);
-	idata->path = g_strdup (filename);
+	idata->gfile = g_file_dup (gfile);
+	idata->path = g_file_get_parse_name (gfile);
 	idata->sum = g_strdup (sum);
 	idata->common = NULL;
 
-	idata->last_modified = get_file_mtime (idata->path);
+	idata->last_modified = gfile_get_mtime (idata->gfile);
 
 	return idata;
 }
@@ -178,6 +182,7 @@ image_data_free (ImageData *idata)
 	if (idata != NULL) {
 		g_free (idata->path);
 		g_free (idata->sum);
+		g_object_unref (idata->gfile);
 		if (--idata->common->ref == 0)
 			g_free (idata->common);
 		g_free (idata);
@@ -190,20 +195,23 @@ destroy_search_dialog_cb (GtkWidget  *widget,
 			  DialogData *data)
 {
 	g_object_unref (G_OBJECT (data->gui));
-	if (data->uri != NULL)
-		gnome_vfs_uri_unref (data->uri);
+
+	if (data->gfile != NULL)
+		g_object_unref (data->gfile);
 
 	g_list_foreach (data->files, (GFunc) image_data_free, NULL);
 	g_list_free (data->files);
 
-	path_list_free (data->dirs);
-	path_list_free (data->queue);
+	gfile_list_free (data->dirs);
+	gfile_list_free (data->queue);
 
-	g_free (data->start_from_path);
+	if (data->start_from_gfile != NULL)
+		g_object_unref (data->start_from_gfile);
 
 	if (data->loader != NULL)
 		g_object_unref (data->loader);
 
+	g_object_unref(data->cancelled);
 	g_free (data);
 }
 
@@ -216,12 +224,7 @@ static void
 cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
-	if (data->handle == NULL)
-		return;
-
-	gnome_vfs_async_cancel (data->handle);
-	data->handle = NULL;
-
+	g_cancellable_cancel (data->cancelled);
 	data->stopped = TRUE;
 }
 
@@ -242,7 +245,11 @@ static void
 find_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
-	data->start_from_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
+	char *start_from_path;
+	start_from_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
+	data->start_from_gfile = gfile_new (start_from_path);
+	g_free(start_from_path);
+
 	data->recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->fd_include_subfolders_checkbutton));
 
 	gtk_widget_hide (data->dialog);
@@ -778,6 +785,10 @@ dlg_duplicates (GthBrowser *browser)
 
 	data->browser = browser;
 
+	data->gfile = NULL;
+	data->start_from_gfile = NULL;
+	data->cancelled = g_cancellable_new ();
+
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "duplicates_dialog");
@@ -1180,12 +1191,11 @@ check_image (DialogData *data,
 
 	idata->common = g_new0 (ImageDataCommon, 1);
 	idata->common->ref++;
-	idata->common->size = get_file_size (idata->path);
+	idata->common->size = gfile_get_size (idata->gfile);
 }
 
 
-static void search_dir_async (DialogData *data, const char *dir);
-
+static void search_dir_async (DialogData *data, GFile *gfile);
 
 static void
 scan_next_dir (DialogData *data)
@@ -1200,7 +1210,7 @@ scan_next_dir (DialogData *data)
 
 	do {
 		GList *first_dir;
-		char  *dir;
+		GFile *dir;
 
 		if (data->dirs == NULL) {
 			data->scanning_dir = FALSE;
@@ -1210,13 +1220,14 @@ scan_next_dir (DialogData *data)
 
 		first_dir = data->dirs;
 		data->dirs = g_list_remove_link (data->dirs, first_dir);
-		dir = (char*) first_dir->data;
+		dir = (GFile*) first_dir->data;
 		g_list_free (first_dir);
 
-		good_dir_to_search_into = ! file_is_hidden (file_name_from_path (dir));
+		good_dir_to_search_into = !gfile_is_hidden (dir);
 		if (good_dir_to_search_into)
 			search_dir_async (data, dir);
-		g_free (dir);
+
+		g_object_unref (dir);
 	} while (! good_dir_to_search_into);
 }
 
@@ -1226,17 +1237,14 @@ scan_next_dir (DialogData *data)
 
 static void start_next_checksum (DialogData *data);
 
-
 static void
-close_callback (GnomeVFSAsyncHandle *handle,
-                GnomeVFSResult       result,
-                gpointer             callback_data)
+close_callback (GObject      *source_object,
+		GAsyncResult *res,
+		gpointer      callback_data)
 {
 	DialogData *data = callback_data;
 
-	g_free (data->current_path);
-	data->current_path = NULL;
-
+	g_input_stream_close_finish (G_INPUT_STREAM(data->stream), res, NULL);
 	start_next_checksum (data);
 }
 
@@ -1289,18 +1297,29 @@ process_block (DialogData *data)
 	md5_process_block (buffer, sum + pad + 8, &data->md5_context);
 }
 
-
 static void
-read_callback (GnomeVFSAsyncHandle *handle,
-               GnomeVFSResult       result,
-               gpointer             buffer,
-               GnomeVFSFileSize     bytes_requested,
-               GnomeVFSFileSize     bytes_read,
-               gpointer             callback_data)
+read_callback (GObject      *source_object,
+	       GAsyncResult *res,
+	       gpointer      callback_data)
 {
 	DialogData *data = callback_data;
+	GError *error = NULL;
 
-	if (result == GNOME_VFS_ERROR_EOF) {
+	int bytes_read = g_input_stream_read_finish (G_INPUT_STREAM(data->stream), res, &error);
+	if (error != NULL)
+	{
+		/* Show a warning if the error isn't just a cancellation */
+		if(!g_cancellable_is_cancelled(data->cancelled))
+			gfile_warning ("Cannot load file", data->current_gfile, error);
+
+		g_input_stream_close_async (G_INPUT_STREAM(data->stream), G_PRIORITY_DEFAULT, NULL, close_callback, data);
+		data->scanning_dir = FALSE;
+		data->checking_file = FALSE;
+		search_finished (data);
+		return;
+	}
+	if (bytes_read == 0)
+	{
 		unsigned char  md5_sum[16];
 		char           sum[16*2+1] = "";
 		size_t         cnt;
@@ -1314,62 +1333,31 @@ read_callback (GnomeVFSAsyncHandle *handle,
 			snprintf (s, 3, "%02x", md5_sum[cnt]);
 			strncat (sum, s, 2);
 		}
-
-#if 0
-		{
-			FILE *fp;
-
-			fp = fopen (data->current_path, "rb");
-			if (fp != NULL) {
-				unsigned char md5_sum[16];
-				char          sum2[16*2+1] = "";
-				int           error;
-				size_t        cnt;
-
-				error = md5_stream (fp, md5_sum);
-				fclose (fp);
-
-				for (cnt = 0; cnt < 16; ++cnt) {
-					char s[3];
-					snprintf (s, 3, "%02x", md5_sum[cnt]);
-					strncat (sum2, s, 2);
-				}
-
-				printf ("%s <-> %s", sum, sum2);
-				if (strcmp (sum, sum2) != 0)
-					printf ("[ERROR]\n");
-				else
-					printf ("\n");
-			}
-		}
-#endif
-
-		idata = image_data_new (data->current_path, sum);
+		idata = image_data_new (data->current_gfile, sum);
 		data->files = g_list_prepend (data->files, idata);
 		check_image (data, idata);
 
-		gnome_vfs_async_close (handle, close_callback, data);
-
+		g_input_stream_close_async (G_INPUT_STREAM(data->stream),
+                                            G_PRIORITY_DEFAULT,
+                                            NULL,
+                                            close_callback,
+                                            data);
 		return;
 	}
-
-        if (result != GNOME_VFS_OK) {
-		gnome_vfs_async_close (handle, close_callback, data);
-		return;
-        }
 
 	/* Take care for partial reads. */
-
 	data->md5_bytes_read += bytes_read;
 	if (data->md5_bytes_read < BLOCKSIZE) {
-		gnome_vfs_async_read (handle,
-				      data->md5_buffer + data->md5_bytes_read,
-				      BLOCKSIZE - data->md5_bytes_read,
-				      read_callback,
-				      data);
+
+		g_input_stream_read_async (G_INPUT_STREAM (data->stream),
+			           data->md5_buffer + data->md5_bytes_read,
+                                   BLOCKSIZE - data->md5_bytes_read,
+                                   G_PRIORITY_DEFAULT,
+                                   data->cancelled,
+                                   read_callback,
+                                   data);
 		return;
 	}
-
 	/* Process block. */
 
 	process_block (data);
@@ -1377,43 +1365,47 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	/* Read next block. */
 
 	data->md5_bytes_read = 0;
-	gnome_vfs_async_read (handle,
-			      data->md5_buffer + data->md5_bytes_read,
-			      BLOCKSIZE - data->md5_bytes_read,
-			      read_callback,
-			      data);
+	g_input_stream_read_async (G_INPUT_STREAM (data->stream),
+		data->md5_buffer + data->md5_bytes_read,
+		BLOCKSIZE - data->md5_bytes_read,
+		G_PRIORITY_DEFAULT,
+		data->cancelled,
+		read_callback,
+		data);
 }
 
 
 static void
-open_callback  (GnomeVFSAsyncHandle *handle,
-                GnomeVFSResult result,
-                gpointer callback_data)
+open_callback (GObject      *source_object,
+	       GAsyncResult *res,
+	       gpointer      callback_data)
 {
 	DialogData *data = callback_data;
+	GError *error = NULL;
+	data->stream = g_file_read_finish (data->current_gfile, res, &error);
+	if (data->stream == NULL) { 
+		gfile_warning ("Cannot load file", data->current_gfile, error);
 
-        if (result != GNOME_VFS_OK) {
-		g_free (data->current_path);
-		data->current_path = NULL;
-
+		/* No need to stop the search for an error opening a file.
+		 * Some MTP devices seem to have files that can't be read */
 		start_next_checksum (data);
-
 		return;
-        }
-
-	gnome_vfs_async_read (handle,
-			      data->md5_buffer + data->md5_bytes_read,
-			      BLOCKSIZE - data->md5_bytes_read,
-			      read_callback,
-			      data);
+	}
+	g_input_stream_read_async (G_INPUT_STREAM (data->stream),
+			           data->md5_buffer + data->md5_bytes_read,
+                                   BLOCKSIZE - data->md5_bytes_read,
+                                   G_PRIORITY_DEFAULT,
+                                   data->cancelled,
+                                   read_callback,
+                                   data);
 }
 
 
 static void
 start_next_checksum (DialogData *data)
 {
-	GnomeVFSAsyncHandle *handle;
-	GList               *node;
+	GList *node;
+	char  *path;
 
 	if ((data->queue == NULL) || data->stopped) {
 		data->checking_file = FALSE;
@@ -1424,28 +1416,27 @@ start_next_checksum (DialogData *data)
 	data->checking_file = TRUE;
 
 	node = data->queue;
-	data->current_path = node->data;
+	if(data->current_gfile != NULL)
+		g_object_unref (data->current_gfile);
+	data->current_gfile = (GFile*) node->data;
+	path = g_file_get_parse_name (data->current_gfile);
+
 	data->queue = g_list_remove_link (data->queue, node);
 	g_list_free (node);
 
-	/**/
-
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->fdr_current_image_entry),
-				      file_name_from_path (data->current_path));
-
-	/**/
+				      g_file_get_basename (data->current_gfile));
 
 	md5_init_ctx (&data->md5_context);
 	data->md5_len[0] = 0;
 	data->md5_len[1] = 0;
 	data->md5_bytes_read = 0;
 
-	gnome_vfs_async_open (&handle,
-			      data->current_path,
-			      GNOME_VFS_OPEN_READ,
-                              GNOME_VFS_PRIORITY_MIN,
-                              open_callback,
-			      data);
+	g_file_read_async (data->current_gfile,
+                           G_PRIORITY_DEFAULT,
+                           data->cancelled,
+                           open_callback,
+                           data);
 }
 
 
@@ -1472,93 +1463,105 @@ search_finished (DialogData *data)
 
 
 static void
-directory_load_cb (GnomeVFSAsyncHandle *handle,
-		   GnomeVFSResult       result,
-		   GList               *list,
-		   guint                entries_read,
-		   gpointer             callback_data)
+search_dir_next_files_cb (GObject      *source_object,
+			  GAsyncResult *res,
+			  gpointer      callback_data)
 {
-	DialogData       *data = callback_data;
-	GnomeVFSFileInfo *info;
-	GList            *node, *files = NULL;
+	DialogData *data = callback_data;
+	GFileInfo  *info;
+	GError 	   *error = NULL;
+	GList 	   *list, *node;
 
+	list = g_file_enumerator_next_files_finish (data->gfile_enum, res ,&error);
 	for (node = list; node != NULL; node = node->next) {
-		GnomeVFSURI *full_uri = NULL;
-		char        *str_uri;
-
+		GFile *child;
 		info = node->data;
-
-		switch (info->type) {
-		case GNOME_VFS_FILE_TYPE_REGULAR:
-			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			if (file_is_image_video_or_audio (str_uri, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
-				files = g_list_prepend (files, str_uri);
+		switch (g_file_info_get_file_type (info)) {
+		case G_FILE_TYPE_REGULAR:
+			child = g_file_get_child (data->gfile, g_file_info_get_name (info));
+			if (gfile_is_image_video_or_audio (child, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, FALSE)))
+				data->queue = g_list_prepend (data->queue, child);
 			else
-				g_free (str_uri);
+				g_object_unref (child);
 			break;
-
-		case GNOME_VFS_FILE_TYPE_DIRECTORY:
-			if (SPECIAL_DIR (info->name))
-				break;
-			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			data->dirs = g_list_prepend (data->dirs,  str_uri);
+		case G_FILE_TYPE_DIRECTORY:
+			child = g_file_get_child (data->gfile, g_file_info_get_name (info));
+			data->dirs = g_list_prepend (data->dirs, child);
 			break;
-
 		default:
 			break;
 		}
+		g_object_unref (info);
 
-		if (full_uri)
-			gnome_vfs_uri_unref (full_uri);
+		if (g_cancellable_is_cancelled (data->cancelled) ) {
+			data->scanning_dir = FALSE;
+			search_finished (data);
+		}
 	}
+	g_list_free(list);
 
-	if (files != NULL)
-		data->queue = g_list_concat (data->queue, files);
-
-	if (result == GNOME_VFS_ERROR_EOF) {
-		if (data->queue != NULL) {
-			if (! data->checking_file)
-				start_next_checksum (data);
-		} else
-			scan_next_dir (data);
-
-	} else if (result != GNOME_VFS_OK) {
-		char *path;
-
-		path = gnome_vfs_uri_to_string (data->uri,
-						GNOME_VFS_URI_HIDE_NONE);
-		g_warning ("Cannot load directory \"%s\": %s\n", path,
-			   gnome_vfs_result_to_string (result));
-		g_free (path);
-
-		data->scanning_dir = FALSE;
-		search_finished (data);
-	}
+	if (data->queue != NULL) {
+		if (! data->checking_file)
+			start_next_checksum (data);
+	} else
+		scan_next_dir (data);
 }
 
 
 static void
-search_dir_async (DialogData *data, const char *path)
+directory_load_cb (GObject       *source_object,
+		   GAsyncResult  *res,
+		   gpointer       callback_data)
 {
+	DialogData       *data = callback_data;
+	GError 		 *error = NULL;
+
+	if(data->gfile_enum != NULL)
+		g_object_unref (data->gfile_enum);
+
+	data->gfile_enum = g_file_enumerate_children_finish (data->gfile, res, &error);
+
+	if(data->gfile_enum == NULL) {
+		gfile_warning ("Cannot load directory", data->current_gfile, error);
+
+		/* Lots off errors here will likley only be permission related,
+		 * no need to stop our search, ignore this dir and keep going */
+		scan_next_dir (data);
+		return;
+	}
+
+	g_cancellable_reset (data->cancelled);
+	g_file_enumerator_next_files_async (data->gfile_enum,
+					    G_MAXINT,
+					    G_PRIORITY_DEFAULT,
+					    data->cancelled,
+					    search_dir_next_files_cb,
+					    data);
+}
+
+static void
+search_dir_async (DialogData *data, GFile *gfile)
+{
+	char *path;
+	path = g_file_get_parse_name (gfile);
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->fdr_current_dir_entry), path);
 	gtk_entry_set_text (GTK_ENTRY (data->fdr_current_image_entry), "");
+	g_free(path);
 
-	if (data->uri != NULL)
-		gnome_vfs_uri_unref (data->uri);
-	data->uri = new_uri_from_path (path);
+	if (data->gfile != NULL)
+		g_object_unref (data->gfile);
 
+	data->gfile = g_file_dup (gfile);
 	data->scanning_dir = TRUE;
 
-	gnome_vfs_async_load_directory_uri (
-		& (data->handle),
-		data->uri,
-		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		128 /* items_per_notification FIXME: find a good value */,
-		GNOME_VFS_PRIORITY_MIN,
-		directory_load_cb,
-		data);
+	g_cancellable_reset (data->cancelled);
+	g_file_enumerate_children_async (data->gfile,
+					 "standard::*",
+				         G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+				         G_PRIORITY_DEFAULT,
+				         data->cancelled,
+				         directory_load_cb,
+				         data);
 }
 
 
@@ -1573,5 +1576,5 @@ search_duplicates (DialogData *data)
 
 	update_duplicates_label (data);
 
-	search_dir_async (data, data->start_from_path);
+	search_dir_async (data, data->start_from_gfile);
 }
