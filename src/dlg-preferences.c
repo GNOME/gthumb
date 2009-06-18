@@ -103,6 +103,7 @@ typedef struct {
 	GtkWidget  *toggle_ss_wrap_around;
 
 	GtkWidget  *toggle_import_previews;
+	GtkWidget  *reset_exif_tag_on_import_checkbutton;
 
 } DialogData;
 
@@ -386,6 +387,14 @@ import_previews_toggled_cb (GtkToggleButton *button,
 }
 
 
+static void
+reset_exif_tag_on_import_cb (GtkButton  *button,
+                                            DialogData *data)
+{
+        eel_gconf_set_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton)));
+}
+
+
 /* create the main dialog. */
 void
 dlg_preferences (GthBrowser *browser)
@@ -454,6 +463,7 @@ dlg_preferences (GthBrowser *browser)
         data->toggle_ss_wrap_around = glade_xml_get_widget (data->gui, "toggle_ss_wrap_around");
 
 	data->toggle_import_previews = glade_xml_get_widget (data->gui, "toggle_import_previews");
+	data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
 
 	btn_close  = glade_xml_get_widget (data->gui, "p_close_button");
 	btn_help   = glade_xml_get_widget (data->gui, "p_help_button");
@@ -547,7 +557,7 @@ dlg_preferences (GthBrowser *browser)
 	/* Importer */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_import_previews), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_PREVIEWS, TRUE));
-
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION, TRUE));
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -664,6 +674,10 @@ dlg_preferences (GthBrowser *browser)
 			  "toggled",
 			  G_CALLBACK (import_previews_toggled_cb),
 			  data);
+        g_signal_connect (G_OBJECT (data->reset_exif_tag_on_import_checkbutton),
+                          "clicked",
+                          G_CALLBACK (reset_exif_tag_on_import_cb),
+                          data);
 
 	/* run dialog. */
 
