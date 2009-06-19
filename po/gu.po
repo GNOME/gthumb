@@ -3,13 +3,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Ankit Patel <ankit@redhat.com>, 2004.
-# Sweta Kothari <swkothar@redhat.com>, 2008.
+# Sweta Kothari <swkothar@redhat.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.gthumb-2-10.gu\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-07 14:09+0100\n"
-"PO-Revision-Date: 2008-12-26 15:25+0530\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
+"POT-Creation-Date: 2009-06-15 09:02+0000\n"
+"PO-Revision-Date: 2009-06-19 15:17+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "પરિમાણો"
 msgid "Bytes"
 msgstr "બાઈટો"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "તારીખ"
 
@@ -262,6 +262,13 @@ msgid ""
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
 msgstr ""
+"જો આ ચેકબોક્સ એ સક્રિય થયેલ હોય અને આયાત થયેલ ફોટો એ Exif દિશા "
+"ટેગને સમાવે છે, ઇમેજ માહિતી ભૌતિક રીતે રૂપાંતરિત થયેલ હશે (નુકશાન વગર) "
+"તેથી કે જે દેખાયેલ ઇમેજ એ પહેલા જેવી જ લાગે છે પરંતુ દિશા ટેગ એ \"top left\" માં "
+"પુન:સુયોજિત છે. જો આ ચેકબોક્સ સક્રિય થયેલ ન હોય તો, ઇમેજ માહિતી અને "
+"દિશા ટેગ એ બંનેને બદલ્યા વગરનું છોડી દેશે. ઇમેજ એ બંને શક્યતાઓ માટે gthumb "
+"દ્દારા એજ રીતે દર્શાવેલ હશે, પરંતુ બીજા કાર્યક્રમો સાથે મહત્તમ સુસંગતા માટે આ "
+"ચેકબોક્સ ને સક્રિય કરવુ જ જોઇએ."
 
 #: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
@@ -269,7 +276,7 @@ msgstr "ફોટાઓ આયાત કરો"
 
 #: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
 #: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
-#: ../src/dlg-photo-importer.c:2341
+#: ../src/dlg-photo-importer.c:2344
 msgid "No camera detected"
 msgstr "કોઈ કેમેરા શોધાયેલ નથી"
 
@@ -332,7 +339,7 @@ msgstr "વર્ગો"
 msgid "Co_mment:"
 msgstr "ટિપ્પળી (_m):"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "ટિપ્પળી"
 
@@ -474,7 +481,7 @@ msgstr "TIFF વિકલ્પો"
 #: ../data/glade/gthumb_convert.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:54
 msgid "T_GA"
-msgstr "T_GA"
+msgstr "TGA (_G)"
 
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
@@ -484,7 +491,7 @@ msgstr "આડુ (_H):"
 #: ../data/glade/gthumb_convert.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:61
 msgid "_JPEG"
-msgstr "_JPEG"
+msgstr "JPEG (_J)"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
@@ -497,7 +504,7 @@ msgstr "કોઈ સંકોચન નથી (_N)"
 #: ../data/glade/gthumb_convert.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:64
 msgid "_PNG"
-msgstr "_PNG"
+msgstr "PNG (_P)"
 
 #: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Progressive"
@@ -518,7 +525,7 @@ msgstr "લીસું બનાવી રહ્યા છીએ (_S):"
 #: ../data/glade/gthumb_convert.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:70
 msgid "_TIFF"
-msgstr "_TIFF"
+msgstr "TIFF (_T)"
 
 #: ../data/glade/gthumb_convert.glade.h:34
 #: ../data/glade/gthumb_png_exporter.glade.h:70
@@ -591,11 +598,11 @@ msgstr "પહોળાઈ (_W):"
 
 #: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
-msgstr "_X:"
+msgstr "X (_X):"
 
 #: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
-msgstr "_Y:"
+msgstr "Y (_Y):"
 
 #: ../data/glade/gthumb_edit.glade.h:2
 #: ../data/glade/gthumb_png_exporter.glade.h:2
@@ -1111,6 +1118,15 @@ msgid ""
 "selected file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
+"<small><i><b>ચોક્કસ અક્ષરો:</b>\n"
+"%F = એક લાઇન પર બધી પસંદ થયેલ ફાઇલનામો, જગ્યા સીમાંકન થયેલ છે\n"
+"%f = એક ફાઇલનામ, પાથને સમાવી રહ્યા છે\n"
+"%n = એક ફાઇલનામa, પાથને સમાવી રહ્યા છે, એક્સટેન્શન સાથે નહિં\n"
+"%e = એક એક્સટેન્શન (પૂર્ણવિરીમ સાથે શરૂ કરી રહ્યા છે)\n"
+"%p = એક ફાઇલનું પિતૃ ફોલ્ડર</i>\n"
+"%F code સાથે સ્ક્રિપ્ટો એ ફક્ત એકવાર ચલાવેલ હશે, ફાઇલોની સંખ્યાને ધ્યાન આપ્યા "
+"વગર પસંદ થયેલ છે. બીજી બધી સ્ક્રિપ્ટો એકવાર પસંદ થયેલ પ્રતિ ચલાવાયેલ હશે.\n"
+"મૂળભૂત સ્ક્રિપ્ટો એ મદદ ફાઇલમાં રજૂ કરેલ છે.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
@@ -1217,6 +1233,8 @@ msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
 msgstr ""
+"પૂર્ણસંખ્યા કિપેડ પર કિઓ 0-9 એ બીજા કાર્યક્રમો સાથે પસંદ થયેલ ઇમેજોને ખોલવા અથવા બદલવા માટે "
+"બ્રાઉઝરમાં વાપરી શકાય છે."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
@@ -1236,7 +1254,7 @@ msgstr "ઉલટું (_v)"
 
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr ""
+msgstr "ઇમેજને લોડ કર્યા પછી સ્ક્રોલબાર સ્થાનોને પુન:સુયોજિત કરો"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
@@ -1279,9 +1297,8 @@ msgid "Transparency _type:"
 msgstr "પારદર્શકતાનો પ્રકાર (_t):"
 
 #: ../data/glade/gthumb_preferences.glade.h:81
-#, fuzzy
 msgid "Use a _fading effect when changing image"
-msgstr "ઈમેજ બદલ્યા પહેલા વિલંબ (_e):"
+msgstr "ફેડીંગ અસરને વાપરો જ્યારે ઇમેજને બદલી રહ્યા હોય ત્યારે (_f)"
 
 #: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
@@ -1379,6 +1396,9 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
+"<small><i><b>નોંધ:</b> ઉચ્ચ-રિઝોલ્યુશન ઇમેજો એ આ રિઝોલ્યુશન માટે\n"
+"નીચે નમૂના કરેલ છે. ઇમેજ ગુણવત્તાને સારી મેળવવા માટે રિઝોલ્યુશનને વધારો.\n"
+"છાપવાનો સમય ટૂંકો કરવા માટે તેને ઘટાડો.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1386,7 +1406,7 @@ msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:25
 msgid "Automatic sizing"
-msgstr ""
+msgstr "આપમેળે આકાર કરે છે"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Center _on Page"
@@ -1449,7 +1469,7 @@ msgid "Postcard"
 msgstr "પોસ્ટકાર્ડ"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "છાપો"
@@ -1503,12 +1523,10 @@ msgid "Undo"
 msgstr "પહેલાની સ્થિતિ પાછી લાવો"
 
 #: ../data/glade/gthumb_redeye.glade.h:6
-#, fuzzy
 msgid "Zoom In"
 msgstr "મોટું કરો"
 
 #: ../data/glade/gthumb_redeye.glade.h:7
-#, fuzzy
 msgid "Zoom Out"
 msgstr "નાનું કરો"
 
@@ -1625,19 +1643,22 @@ msgid ""
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
+"<small><i><b>નોંધ</b>: JPEG રૂપાંતરણ એ સામાન્ય રીતે નુકશાન કારક છે.\n"
+"જ્યારે ઇમેજોને દેખી રહ્યા હોય ત્યારે, તમારે નુકશાની થી બચાવવા અને ફેરવવા માટે [ and ] ટૂંકી કીઓને "
+"વાપરી શકો છો, આ સંવાદ માટે રસ્તો કરી રહ્યા છે.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
 "<small><i><b>વિશિષ્ટ અક્ષરો:</b> # (ઈન્યુમેરેટર), %f (મૂળ ફાઈલ નામ), %d (ઈમેજ "
-"તારીખ), %s (ઈમેજ માપ).</i></small>"
+"તારીખ), %s (ઈમેજ માપ), %e (મૂળ એક્સટેન્શન).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
-msgstr ""
+msgstr "ટાઇમઝોનને ગોઠવો (_d):"
 
 #: ../data/glade/gthumb_tools.glade.h:17
 msgid "Apply physical _transform"
@@ -1678,6 +1699,8 @@ msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
 msgstr ""
+"ઉપર-ડાબેમાં પસંદ થયેલ ઇમેજો માટે Exif દિશા ટેગને પુન:સુયોજિત કરવા માટે બરાબર પર "
+"ક્લિક કરો."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1729,7 +1752,7 @@ msgstr "ઉલટો ક્રમ (_v)"
 
 #: ../data/glade/gthumb_tools.glade.h:41
 msgid "Reset Exif Orientation Tags"
-msgstr ""
+msgstr "Exif દિશા ટેગોને પુન:સુયોજિત કરો"
 
 #: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
@@ -1769,6 +1792,10 @@ msgid ""
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
 msgstr ""
+"આ ચેકબોક્સ JPEG ઇમેજો માટે વપરાયેલ ફેરવવાની પદ્દતિને નિયંત્રણ કરે છે કેયજે ાત થયેલ ફોટો એ Exif દિશા "
+"ટજો આ ચેકબોક્સ સક્રિય થયેલ હોય તો, ફેરવવાનું એ ભૌતિક રૂપાંતરણને ચલાવશે, ેઅને Exif દિશા ટેગ એ મૂળભૂત \"top left\" કિંમતને પુન:સુયોજિત કરશે. જો તે સક્રિય થયેલ ન હોય "
+"તો, ફેરવવાનું એ ફક્ત Exif દિશા ટેગને બદલવા દ્દારા ચલાવશે. બીજા કાર્યક્રમો સાથે મહત્તમ સુસંગતા માટે, "
+"આ ચેકબોક્સ એ સક્રિય થયેલ થવુ જ જોઇએ.િય કરવુ જ જોઇએ."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -1875,6 +1902,8 @@ msgid ""
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
 msgstr ""
+"<small><i><b>નોંધ:</b> અમુક થીમો એ હારમાળાઓ અને સ્તંભો ની સંખ્યાને સ્વયં\n"
+"ગોઠવી શકે છે, પરંતુ અચલ પાનાં પ્રતિ ઇમેજોની કુલ સંખ્યાને રાખો.</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
@@ -2000,7 +2029,7 @@ msgstr "પાના પ્રતિ હારમાળાઓ,"
 msgid "Image Viewer"
 msgstr "ઈમેજ દર્શક"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
 msgid "View and organize your images"
 msgstr "તમારી ઈમેજો જુઓ અને આયોજિત કરો"
 
@@ -2021,6 +2050,8 @@ msgid ""
 "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
 "(reverse landscape)"
 msgstr ""
+"શક્ય કિંમતો 0 (પૉર્ટ્રેટ), 1 (લૅન્ડસ્કેપ), 2 (વિપરીત પૉર્ટ્રેટ), 3 "
+"(વિપરીત લૅન્ડસ્કેપ) છે"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2031,11 +2062,12 @@ msgid "Possible values are: 72, 150, 300, 600."
 msgstr "શક્ય કિંમતો છે: ૭૨, ૧૫૦, ૩૦૦, ૬૦૦."
 
 #: ../data/gthumb.schemas.in.h:5
-#, fuzzy
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
-msgstr "શક્ય કિંમતો છે: વાસ્તવિક માપ, બંધબેસતું, પહેલાનું રાખો, જો મોટું હોય તો બંધબેસાડો."
+msgstr ""
+"શક્ય કિંમતો છે: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
 
 #: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
@@ -2139,19 +2171,19 @@ msgstr "મદદગ્રંથ \"%s\" ખોલી શકતા નથી: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "મદદગ્રંથ \"%s\" સંગ્રહી શકતા નથી: %s"
 
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:142
+#: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:56
+#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
-#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:483
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
+#: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
 msgid "(No Comment)"
 msgstr "(કોઈ ટિપ્પળી નહિં)"
 
@@ -2184,22 +2216,22 @@ msgstr "ફાઈલ સિસ્ટમ"
 msgid "Home"
 msgstr "ઘર"
 
-#: ../libgthumb/file-utils.c:2155
+#: ../libgthumb/file-utils.c:2158
 msgid "Library not empty"
 msgstr "લાઈબ્રેરી ખાલી નથી"
 
-#: ../libgthumb/file-utils.c:2164
+#: ../libgthumb/file-utils.c:2167
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "લાઈબ્રેરી \"%s\" દૂર કરી શકતા નથી: %s"
 
-#: ../libgthumb/file-utils.c:2191
+#: ../libgthumb/file-utils.c:2194
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "મદદગ્રંથ \"%s\" દૂર કરી શકતા નથી: %s"
 
-#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:775
-#: ../src/gth-browser.c:4509 ../src/gth-viewer.c:748
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4508 ../src/gth-viewer.c:748
 msgid "No image"
 msgstr "કોઈ ઈમેજ નથી"
 
@@ -2211,12 +2243,12 @@ msgstr "મદદ દર્શાવી શક્યા નહિં"
 msgid "Ro_tate Images"
 msgstr "ઈમેજો ફેરવો (_t)"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:825
 #, c-format
 msgid "Page %d of %d"
 msgstr "પાનું %d એ %d નું"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1424
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "ઈમેજ લાવી રહ્યા છીએ: %s"
@@ -2229,24 +2261,24 @@ msgstr "બધા થમ્બનેઈલ કાઢી રહ્યા છી�
 msgid "Deleting old thumbnails, wait please..."
 msgstr "જૂના થમ્બનેઈલો કાઢી રહ્યા છીએ, મહેરબાની કરીને રાહ જુઓ..."
 
-#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1351
-#: ../src/gth-browser.c:1355 ../src/gth-browser.c:1367
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
 msgid "(Invalid Name)"
 msgstr "(અયોગ્ય નામ)"
 
-#: ../src/catalog-png-exporter.c:844 ../src/dlg-image-prop.c:421
-#: ../src/gth-browser.c:486 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
+#: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
 
-#: ../src/catalog-png-exporter.c:909 ../src/catalog-web-exporter.c:2158
+#: ../src/catalog-png-exporter.c:908 ../src/catalog-web-exporter.c:2158
 #: ../src/catalog-web-exporter.c:2385
 msgid "Saving images"
 msgstr "ઈમેજો સંગ્રહી રહ્યા છીએ"
 
-#: ../src/catalog-png-exporter.c:1652
+#: ../src/catalog-png-exporter.c:1651
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "ઈમેજ બનાવી રહ્યા છીએ: %s.%s"
@@ -2295,7 +2327,7 @@ msgstr "બનાવો (_r)"
 msgid "Enter the library name: "
 msgstr "લાઈબ્રેરી નામ દાખલ કરો: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "મદદગ્રંથને આમાં ખસેડો..."
 
@@ -2399,7 +2431,7 @@ msgid ""
 msgstr "ઈમેજો કચરાપેટીમાં ખસેડી શકાતી નથી. શું તમે એમને કાયમીપણે કાઢી નાંખવા માંગો છો?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
+#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
 #: ../src/rotation-utils.c:125
 msgid "_Do not display this message again"
 msgstr "આ સંદેશો ફરીવાર બતાવો નહિં (_D)"
@@ -2413,75 +2445,75 @@ msgstr "ખસેડો (_M)"
 msgid "Choose the destination folder"
 msgstr "લક્ષ્ય ફોલ્ડર પસંદ કરો"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:547
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
 msgid "You didn't enter the new name"
 msgstr "તમે નવું નામ દાખલ કરેલ નથી"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "નામ \"%s\" આ ફોલ્ડરમાં પહેલાથી જ વપરાઈ ગયેલ છે. મહેરબાની કરીને અલગ નામ વાપરો."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1033
 msgid "Could not rename the image:"
 msgstr "ઈમેજનું નામ બદલી શક્યા નહિં:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1035
 msgid "Could not rename the following images:"
 msgstr "નીચેની ઈમેજોનું નામ બદલી શક્યા નહિં:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1168
 msgid "Could not move the image:"
 msgstr "ઈમેજોને ખસેડી શક્યા નહિં:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1170
 msgid "Could not copy the image:"
 msgstr "ઈમેજની નકલ કરી શક્યા નહિં:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
 msgstr "અડધેથી બંધ કરો (_A)"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
 msgstr "ચાલુ રાખો (_C)"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1373
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "ફાઈલ %d એ %d ની છે જેની નકલ કરી રહ્યા છીએ"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
 msgid "Collecting images info"
 msgstr "ઈમેજોની જાણકારી ભેગી કરી રહ્યા છીએ"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "ફાઈલ %ld એ %ld ની છે કે જેને કાઢી રહ્યા છીએ"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2015
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "ફાઈલ %ld એ %ld ની છે કે જેની નકલ કરી રહ્યા છીએ"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2020
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "ફાઈલ %ld એ %ld ની છે કે જેને ખસેડી રહ્યા છીએ"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
 #: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "ફોલ્ડર \"%s\" ને ખસેડી શક્યા નહિં: %s"
 
 #: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "માપ"
 
@@ -2489,7 +2521,7 @@ msgstr "માપ"
 msgid "Type"
 msgstr "પ્રકાર"
 
-#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
 msgstr "સુધારેલ છે"
@@ -2513,7 +2545,7 @@ msgstr "રિમોટ સ્થાન માં કામચલાઉ ફા�
 msgid "Could not import photos"
 msgstr "ફોટાઓ આયાત કરી શક્યા નહિં"
 
-#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1013
+#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
 msgid "Film"
 msgstr "ફિલ્મ"
 
@@ -2547,32 +2579,32 @@ msgstr "હેડર"
 msgid "Footer"
 msgstr "ફુટર"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "પથ દ્વારા"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "માપ દ્વારા"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "ફાઇલ સુધારા સમય દ્વારા"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "Exif DateTime ટેગ દ્દારા"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "ટિપ્પણી દ્દારા"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "પુસ્તિકા ને ક્રમબદ્દ કરો"
@@ -2603,11 +2635,11 @@ msgstr "શોધનું પરિણામ"
 msgid "Select Album Theme"
 msgstr "આલ્બમ થીમ પસંદ કરો"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3859
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3858
 msgid "Could not move the items:"
 msgstr "વસ્તુઓ ખસેડી શક્યા નહિં:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1098
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "ઈમેજ કચરાપેટીમાં ખસેડાશે, શું તમે ચોક્કસ છો?"
 
@@ -3331,87 +3363,87 @@ msgstr "મદદગ્રંથો (_C)"
 msgid "View the catalogs"
 msgstr "મદદગ્રંથો જુઓ"
 
-#: ../src/gth-browser.c:548 ../src/gth-viewer.c:661
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
 msgstr "[ટિપ્પળી ઉમેરવા માટે 'c' દબાવો]"
 
-#: ../src/gth-browser.c:654 ../src/gth-browser.c:671 ../src/gth-viewer.c:745
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
 msgstr "[સુધારેલ]"
 
-#: ../src/gth-browser.c:697 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "જીથમ્બ"
 
-#: ../src/gth-browser.c:777
+#: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
 msgstr "૧ ઈમેજ (%s)"
 
-#: ../src/gth-browser.c:780
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d ઈમેજો (%s)"
 
-#: ../src/gth-browser.c:787
+#: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
 msgstr "૧ પસંદ થયેલ છે (%s)"
 
-#: ../src/gth-browser.c:790
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d પસંદ કરેલ છે (%s)"
 
-#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:997
+#: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
 msgstr "વર્તમાન ઈમેજ સુધારાઈ ગયેલ છે, શું તમે એને સંગ્રહવા માંગો છો?"
 
-#: ../src/gth-browser.c:1902 ../src/gth-viewer.c:998
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
 msgid "Do Not Save"
 msgstr "સંગ્રહો નહિં"
 
-#: ../src/gth-browser.c:3618
+#: ../src/gth-browser.c:3617
 msgid "Dragged Images"
 msgstr "ખેંચાયેલ ઈમેજો"
 
-#: ../src/gth-browser.c:5461 ../src/gth-browser.c:5462
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "ગુણવત્તાના ખોવાયા વગર ઈમેજોને ફેરવો"
 
-#: ../src/gth-browser.c:6351
+#: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
 msgstr "ફોલ્ડરની યાદી મેળવી રહ્યા છે..."
 
-#: ../src/gth-browser.c:6373
+#: ../src/gth-browser.c:6372
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "ફોલ્ડર \"%s\" લાવી શકતા નથી: %s\n"
 
-#: ../src/gth-browser.c:6894 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "બંધ કરો"
 
-#: ../src/gth-browser.c:6908 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "ઈમેજ ટિપ્પળી"
 
-#: ../src/gth-browser.c:6922
+#: ../src/gth-browser.c:6941
 msgid "Image data"
 msgstr "ઈમેજ માહિતી"
 
-#: ../src/gth-browser.c:6936
+#: ../src/gth-browser.c:6953
 msgid "Image preview"
 msgstr "ઈમેજ પૂર્વદર્શન"
 
-#: ../src/gth-browser.c:7994
+#: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
 msgstr "સ્પષ્ટ કરેલ મદદગ્રંથ અસ્તિત્વમાં નથી."
 
-#: ../src/gth-browser.c:8626 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "મહેરબાની કરીને રાહ જુઓ..."
 
@@ -3445,7 +3477,7 @@ msgstr "એમ્બેડેડ થયેલ થમ્બનેઈલ"
 
 #: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
-msgstr ""
+msgstr "આવૃત્તિઓ અને આંતરિકકાર્યપદ્દતિ"
 
 #: ../src/gth-exif-data-viewer.c:73
 msgid "Other"
@@ -3455,80 +3487,80 @@ msgstr "બીજા"
 msgid "Path"
 msgstr "પાથ"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "રહેલુ છે"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "ની સાથે શરૂ કરો"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "ની સાથે અંત"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "છે"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "નથી"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "રહેલુ નથી"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "ને બરાબર છે"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "નાં કરતા ઓછુ છે"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "નાં કરતા વધારે છે"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "પહેલા છે"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "પછી છે"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "KB"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "MB"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "ફાઈલનું નામ"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "જગ્યા"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "વર્ગ"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr "લખાણ રહેલુ છે"
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "બધા"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
+#: ../src/gth-filter-bar.c:540
 msgid "S_how:"
 msgstr "બતાવો (_h):"
 
@@ -3583,13 +3615,13 @@ msgstr "ની સાથે ખોલો (_O)"
 msgid "Open selected images with an application"
 msgstr "પસંદ કરેલ ઈમેજોને કાર્યક્રમ સાથે ખોલો"
 
-#: ../src/gth-window-actions-callbacks.c:924
+#: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
 msgstr "જીનોમ માટે ઈમેજ દર્શક અને બ્રાઉઝર."
 
-#: ../src/gth-window-actions-callbacks.c:927
+#: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
-msgstr "અંકિત પટેલ <ankit@redhat.com>"
+msgstr "અંકિત પટેલ <ankit@redhat.com>, શ્ર્વેતા કોઠારી <swkothar@redhat.com>"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3890,7 +3922,7 @@ msgstr "Exif દિશામાન ને ફરી સુયોજિત કર
 
 #: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
-msgstr ""
+msgstr "ઉપર-ડાબે માં Exif દિશાને પુન:સુયોજિત કરો"
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
@@ -3899,6 +3931,10 @@ msgstr "જીથમ્બ વિશે જાણકારી બતાવો"
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
 msgstr "સમાવિષ્ટો"
+
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "gThumb પુસ્તિકાને દર્શાવો"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
@@ -3928,71 +3964,71 @@ msgstr "નીચી ગુણવત્તા (_L)"
 msgid "Use low quality zoom"
 msgstr "નીચી ગુણવત્તાવાળું ઝુમ વાપરો"
 
-#: ../src/main.c:90
+#: ../src/main.c:89
 msgid "Start in fullscreen mode"
 msgstr "પૂર્ણ સ્ક્રીનવાળી સ્થિતિમાં શરુ કરો"
 
-#: ../src/main.c:94
+#: ../src/main.c:93
 msgid "Automatically start a slideshow"
 msgstr "આપોઆપ સ્લાઈડ શો શરુ કરો"
 
-#: ../src/main.c:98
+#: ../src/main.c:97
 msgid "Automatically import digital camera photos"
 msgstr "આપોઆપ ડીજીટલ કેમેરા ફોટો આયાત કરો"
 
-#: ../src/main.c:102
+#: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
 msgstr "એકલી ઇમેજો ને દર્શાવવા માટે દર્શક સ્થિતિ ને વાપરો"
 
-#: ../src/main.c:147
+#: ../src/main.c:146
 msgid "Holidays"
 msgstr "રજાના દિવસો"
 
-#: ../src/main.c:148
+#: ../src/main.c:147
 msgid "Temporary"
 msgstr "કામચલાઉ"
 
-#: ../src/main.c:149
+#: ../src/main.c:148
 msgid "Screenshots"
 msgstr "સ્ક્રીનશોટ"
 
-#: ../src/main.c:150
+#: ../src/main.c:149
 msgid "Science"
 msgstr "વિજ્ઞાન"
 
-#: ../src/main.c:151
+#: ../src/main.c:150
 msgid "Favourite"
 msgstr "મનગમતું"
 
-#: ../src/main.c:152
+#: ../src/main.c:151
 msgid "Important"
 msgstr "મહત્વનું"
 
-#: ../src/main.c:153
+#: ../src/main.c:152
 msgid "GNOME"
 msgstr "જીનોમ"
 
-#: ../src/main.c:154
+#: ../src/main.c:153
 msgid "Games"
 msgstr "રમતો"
 
-#: ../src/main.c:155
+#: ../src/main.c:154
 msgid "Party"
 msgstr "પાર્ટી"
 
-#: ../src/main.c:156
+#: ../src/main.c:155
 msgid "Birthday"
 msgstr "જન્મદિવસ"
 
-#: ../src/main.c:157
+#: ../src/main.c:156
 msgid "Astronomy"
 msgstr "ખગોળશાસ્ત્ર"
 
-#: ../src/main.c:158
+#: ../src/main.c:157
 msgid "Family"
 msgstr "પરિવાર"
 
-#: ../src/main.c:380
+#: ../src/main.c:379
 msgid "Command Line"
 msgstr "આદેશ વાક્ય"
 
@@ -4014,6 +4050,15 @@ msgid ""
 "For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
+"આ રૂપાંતરણ એ એક અથવા વધારે બાજુઓ સાથે નાની ઇમેજ વિકૃત્તિની રજૂઆત કરી શકે છે, "
+"કારણ કે ઇમેજ પરિમાણો 8 થી ઘણાબધા નથી.\n"
+"\n"
+"વિકૃત્તિ એ ફેરવી શકાય તેવી છે, છતાંપણ. જો પરિણામી ઇમેજ એ સ્વીકારવા લાયક નથી "
+"સરળ રીતે મૂળ ઇમેજને પાછુ લાવવા માટે વિપરીત રૂપાંતરણને લાગુ કરો.\n"
+"\n"
+"તમે કોઇપણ રૂપાંતરિત ન કરી શકાય તેવી બાજુ પિક્સેલો ને કાઢી નાંખવા (અથવા બરાબર) કરવા માટે પણ પસંદ કરી "
+"શકે છો. વાસ્તવિક રીતે વાપરવા માટે, આ સ્થિતિ એ સારામાં સારા પરિણામો આપે છે, પરંતુ "
+"રૂપાંતરણ એ સખત રીતે આનાથી વધારે નુકસાન કારક નથી."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
