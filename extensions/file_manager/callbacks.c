@@ -112,7 +112,7 @@ static GtkActionEntry action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_edit_paste_in_folder) },
 	{ "Edit_Duplicate", NULL,
-	  N_("D_uplicate"), NULL,
+	  N_("D_uplicate"), "<control><shift>D",
 	  N_("Duplicate the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate) },
 	{ "Edit_Rename", NULL,
