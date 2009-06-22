@@ -58,57 +58,79 @@ struct _GthFileViewIface {
 
 	/*< virtual functions >*/
 
-	void           (*set_model)         (GthFileView  *self,
-					     GtkTreeModel *model);
-	GtkTreeModel * (*get_model)         (GthFileView  *self);
-	void           (*set_view_mode)     (GthFileView  *self,
-					     GthViewMode   mode);
-	GthViewMode    (*get_view_mode)     (GthFileView  *self);
-	void           (*scroll_to)         (GthFileView  *self,
-					     int           pos,
-					     double        yalign);
-	GthVisibility  (*get_visibility)    (GthFileView  *self,
-					     int           pos);
-	int            (*get_at_position)   (GthFileView  *self,
-					     int           x,
-					     int           y);
-	int            (*get_first_visible) (GthFileView  *self);
-	int            (*get_last_visible)  (GthFileView  *self);
-	void           (*activated)         (GthFileView  *self,
-					     int           pos);
-	void           (*set_cursor)        (GthFileView  *self,
-					     int           pos);
-	int            (*get_cursor)        (GthFileView  *self);
-	void           (*set_reorderable)   (GthFileView  *self,
-					     gboolean      value);
-	gboolean       (*get_reorderable)   (GthFileView  *self);
+	void           (*set_model)          (GthFileView          *self,
+					      GtkTreeModel         *model);
+	GtkTreeModel * (*get_model)          (GthFileView          *self);
+	void           (*set_view_mode)      (GthFileView          *self,
+					      GthViewMode           mode);
+	GthViewMode    (*get_view_mode)      (GthFileView          *self);
+	void           (*scroll_to)          (GthFileView          *self,
+					      int                   pos,
+					      double                yalign);
+	GthVisibility  (*get_visibility)     (GthFileView          *self,
+					      int                   pos);
+	int            (*get_at_position)    (GthFileView          *self,
+					      int                   x,
+					      int                   y);
+	int            (*get_first_visible)  (GthFileView          *self);
+	int            (*get_last_visible)   (GthFileView          *self);
+	void           (*activated)          (GthFileView          *self,
+					      int                   pos);
+	void           (*set_cursor)         (GthFileView          *self,
+					      int                   pos);
+	int            (*get_cursor)         (GthFileView          *self);
+	void           (*set_reorderable)    (GthFileView          *self,
+					      gboolean              value);
+	gboolean       (*get_reorderable)    (GthFileView          *self);
+	void           (*enable_drag_source) (GthFileView          *self,
+					      GdkModifierType       start_button_mask,
+					      const GtkTargetEntry *targets,
+					      gint                  n_targets,
+					      GdkDragAction         actions);
+	void           (*unset_drag_source)  (GthFileView          *self);
+	void           (*enable_drag_dest)   (GthFileView          *self,
+					      const GtkTargetEntry *targets,
+					      gint                  n_targets,
+					      GdkDragAction         actions);
+	void           (*unset_drag_dest)    (GthFileView          *self);
 };
 
-GType          gth_file_view_get_type          (void);
-void           gth_file_view_set_model         (GthFileView  *self,
-						GtkTreeModel *model);
-GtkTreeModel * gth_file_view_get_model         (GthFileView  *self);
-void           gth_file_view_set_view_mode     (GthFileView *self,
-						GthViewMode  mode);
-GthViewMode    gth_file_view_get_view_mode     (GthFileView *self);
-void           gth_file_view_scroll_to         (GthFileView *self,
-						int          pos,
-						double       yalign);
-GthVisibility  gth_file_view_get_visibility    (GthFileView *self,
-						int          pos);
-int            gth_file_view_get_at_position   (GthFileView *self,
-						int          x,
-						int          y);
-int            gth_file_view_get_first_visible (GthFileView *self);
-int            gth_file_view_get_last_visible  (GthFileView *self);
-void           gth_file_view_activated         (GthFileView *self,
-						int          pos);
-void           gth_file_view_set_cursor        (GthFileView *self,
-						int          pos);
-int            gth_file_view_get_cursor        (GthFileView *self);
-void           gth_file_view_set_reorderable   (GthFileView *self,
-						gboolean     value);
-gboolean       gth_file_view_get_reorderable   (GthFileView *self);
+GType          gth_file_view_get_type           (void);
+void           gth_file_view_set_model          (GthFileView          *self,
+					 	 GtkTreeModel         *model);
+GtkTreeModel * gth_file_view_get_model          (GthFileView          *self);
+void           gth_file_view_set_view_mode      (GthFileView          *self,
+						 GthViewMode           mode);
+GthViewMode    gth_file_view_get_view_mode      (GthFileView          *self);
+void           gth_file_view_scroll_to          (GthFileView          *self,
+						 int                   pos,
+						 double                yalign);
+GthVisibility  gth_file_view_get_visibility     (GthFileView          *self,
+						 int                   pos);
+int            gth_file_view_get_at_position    (GthFileView          *self,
+						 int                   x,
+						 int                   y);
+int            gth_file_view_get_first_visible  (GthFileView          *self);
+int            gth_file_view_get_last_visible   (GthFileView          *self);
+void           gth_file_view_activated          (GthFileView          *self,
+						 int                   pos);
+void           gth_file_view_set_cursor         (GthFileView          *self,
+						 int                   pos);
+int            gth_file_view_get_cursor         (GthFileView          *self);
+void           gth_file_view_set_reorderable    (GthFileView          *self,
+						 gboolean              value);
+gboolean       gth_file_view_get_reorderable    (GthFileView          *self);
+void           gth_file_view_enable_drag_source (GthFileView          *self,
+				      		 GdkModifierType       start_button_mask,
+				      		 const GtkTargetEntry *targets,
+				      		 int                   n_targets,
+				      		 GdkDragAction         actions);
+void           gth_file_view_unset_drag_source  (GthFileView          *self);
+void           gth_file_view_enable_drag_dest   (GthFileView          *self,
+				      		 const GtkTargetEntry *targets,
+				      		 int                   n_targets,
+				      		 GdkDragAction         actions);
+void           gth_file_view_unset_drag_dest    (GthFileView          *self);
 
 G_END_DECLS
 

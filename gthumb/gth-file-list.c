@@ -328,6 +328,40 @@ vadj_changed_cb (GtkAdjustment *adjustment,
 
 
 static void
+file_view_drag_data_get_cb (GtkWidget        *widget,
+			    GdkDragContext   *drag_context,
+			    GtkSelectionData *data,
+			    guint             info,
+			    guint             time,
+			    gpointer          user_data)
+{
+	GthFileList  *file_list = user_data;
+	GList        *items;
+	GList        *files;
+	GList        *scan;
+	int           n_uris;
+	char        **uris;
+	int           i;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_list->priv->view));
+	files = gth_file_list_get_files (file_list, items);
+	n_uris = g_list_length (files);
+	uris = g_new (char *, n_uris + 1);
+	for (scan = files, i = 0; scan; scan = scan->next, i++) {
+		GthFileData *file_data = scan->data;
+		uris[i] = g_file_get_uri (file_data->file);
+	}
+	uris[i] = NULL;
+
+	gtk_selection_data_set_uris (data, uris);
+
+	g_strfreev (uris);
+	_g_object_list_unref (files);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static void
 gth_file_list_construct (GthFileList *file_list)
 {
 	GtkWidget       *scrolled;
@@ -335,6 +369,9 @@ gth_file_list_construct (GthFileList *file_list)
 	GtkWidget       *viewport;
 	GtkCellRenderer *renderer;
 	GthFileStore    *model;
+	GtkTargetList   *target_list;
+	GtkTargetEntry  *targets;
+	int              n_targets;
 
 	/* thumbnail loader */
 
@@ -382,6 +419,24 @@ gth_file_list_construct (GthFileList *file_list)
 	model = gth_file_store_new ();
 	file_list->priv->view = gth_icon_view_new_with_model (GTK_TREE_MODEL (model));
 	g_object_unref (model);
+
+	target_list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (target_list, 0);
+	gtk_target_list_add_text_targets (target_list, 0);
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+	gth_file_view_enable_drag_source (GTH_FILE_VIEW (file_list->priv->view),
+					  GDK_BUTTON1_MASK,
+					  targets,
+					  n_targets,
+					  GDK_ACTION_MOVE | GDK_ACTION_COPY);
+
+	gtk_target_list_unref (target_list);
+	gtk_target_table_free (targets, n_targets);
+
+	g_signal_connect (G_OBJECT (file_list->priv->view),
+			  "drag-data-get",
+			  G_CALLBACK (file_view_drag_data_get_cb),
+			  file_list);
 
 	/* thumbnail */
 

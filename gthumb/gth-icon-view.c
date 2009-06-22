@@ -206,6 +206,48 @@ gth_icon_view_real_get_reorderable (GthFileView *base)
 }
 
 
+static void
+gth_icon_view_enable_drag_source (GthFileView          *self,
+				  GdkModifierType       start_button_mask,
+				  const GtkTargetEntry *targets,
+				  int                   n_targets,
+				  GdkDragAction         actions)
+{
+	gtk_icon_view_enable_model_drag_source (GTK_ICON_VIEW (self),
+						start_button_mask,
+						targets,
+						n_targets,
+						actions);
+}
+
+
+static void
+gth_icon_view_unset_drag_source (GthFileView *self)
+{
+	gtk_icon_view_unset_model_drag_source (GTK_ICON_VIEW (self));
+}
+
+
+static void
+gth_icon_view_enable_drag_dest (GthFileView          *self,
+				const GtkTargetEntry *targets,
+				int                   n_targets,
+				GdkDragAction         actions)
+{
+	gtk_icon_view_enable_model_drag_dest (GTK_ICON_VIEW (self),
+					      targets,
+					      n_targets,
+					      actions);
+}
+
+
+static void
+gth_icon_view_unset_drag_dest (GthFileView *self)
+{
+	gtk_icon_view_unset_model_drag_dest (GTK_ICON_VIEW (self));
+}
+
+
 static GList *
 gth_icon_view_real_get_selected (GthFileSelection *base)
 {
@@ -322,28 +364,26 @@ gtk_icon_view_add_move_binding (GtkBindingSet  *binding_set,
 				GtkMovementStep step,
 				gint            count)
 {
-  gtk_binding_entry_add_signal (binding_set, keyval, modmask,
-				"move_cursor", 2,
-				G_TYPE_ENUM, step,
-				G_TYPE_INT, count);
+	gtk_binding_entry_add_signal (binding_set, keyval, modmask,
+				      "move_cursor", 2,
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count);
+	gtk_binding_entry_add_signal (binding_set, keyval, GDK_SHIFT_MASK,
+				      "move_cursor", 2,
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count);
 
-  gtk_binding_entry_add_signal (binding_set, keyval, GDK_SHIFT_MASK,
-				"move_cursor", 2,
-				G_TYPE_ENUM, step,
-				G_TYPE_INT, count);
+	if ((modmask & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
+		return;
 
-  if ((modmask & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
-   return;
-
-  gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
-				"move_cursor", 2,
-				G_TYPE_ENUM, step,
-				G_TYPE_INT, count);
-
-  gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK,
-				"move_cursor", 2,
-				G_TYPE_ENUM, step,
-				G_TYPE_INT, count);
+	gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
+				      "move_cursor", 2,
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count);
+	gtk_binding_entry_add_signal (binding_set, keyval, GDK_CONTROL_MASK,
+				      "move_cursor", 2,
+				      G_TYPE_ENUM, step,
+				      G_TYPE_INT, count);
 }
 
 
@@ -392,6 +432,10 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	iface->get_cursor = gth_icon_view_real_get_cursor;
 	iface->set_reorderable = gth_icon_view_real_set_reorderable;
 	iface->get_reorderable = gth_icon_view_real_get_reorderable;
+	iface->enable_drag_source = gth_icon_view_enable_drag_source;
+	iface->unset_drag_source = gth_icon_view_unset_drag_source;
+	iface->enable_drag_dest = gth_icon_view_enable_drag_dest;
+	iface->unset_drag_dest = gth_icon_view_unset_drag_dest;
 }
 
 
