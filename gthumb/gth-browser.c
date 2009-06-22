@@ -2295,42 +2295,6 @@ gth_file_view_item_activated_cb (GtkIconView *iconview,
 
 
 static void
-gth_file_list_drag_data_get  (GtkWidget        *widget,
-			      GdkDragContext   *context,
-			      GtkSelectionData *selection_data,
-			      guint             info,
-			      guint             time,
-			      gpointer          extra_data)
-{
-	GthBrowser  *browser = extra_data;
-	GList       *items;
-	GList       *file_list;
-	int          n_uris;
-	char       **uris;
-	int          i;
-	GList       *scan;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-	n_uris = g_list_length (file_list);
-	uris = g_new (char *, n_uris + 1);
-	for (i = 0, scan = file_list; scan; scan = scan->next, i++) {
-		GthFileData *file_data = scan->data;
-		uris[i] = g_file_get_uri (file_data->file);
-
-g_print ("==> %s\n", uris[i]);
-
-	}
-	uris[i] = NULL;
-	gtk_selection_data_set_uris (selection_data, uris);
-
-	g_strfreev (uris);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static void
 add_browser_toolbar_menu_buttons (GthBrowser *browser)
 {
 	int          tool_pos;
@@ -2810,11 +2774,6 @@ _gth_browser_construct (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
 			  "item_activated",
 			  G_CALLBACK (gth_file_view_item_activated_cb),
-			  browser);
-
-	g_signal_connect (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list)),
-			  "drag_data_get",
-			  G_CALLBACK (gth_file_list_drag_data_get),
 			  browser);
 
 	browser->priv->file_list_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup");

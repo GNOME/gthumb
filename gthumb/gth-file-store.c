@@ -467,8 +467,90 @@ gth_file_store_iter_parent (GtkTreeModel *tree_model,
 }
 
 
+static gboolean
+gth_file_store_row_draggable (GtkTreeDragSource *drag_source,
+                              GtkTreePath       *path)
+{
+	return TRUE;
+}
+
+
+static gboolean
+gth_file_store_drag_data_get (GtkTreeDragSource *drag_source,
+                              GtkTreePath       *path,
+                              GtkSelectionData  *selection_data)
+{
+	gboolean      retval = FALSE;
+	GthFileStore *file_store;
+	int          *indices, n;
+	GthFileRow   *row;
+
+	g_return_val_if_fail (path != NULL, FALSE);
+
+	file_store = GTH_FILE_STORE (drag_source);
+
+	indices = gtk_tree_path_get_indices (path);
+	n = indices[0];
+	if ((n < 0) || (n >= file_store->priv->num_rows))
+		return FALSE;
+
+	row = file_store->priv->rows[n];
+	g_return_val_if_fail (row != NULL, FALSE);
+	g_return_val_if_fail (row->pos == n, FALSE);
+
+	if (gtk_selection_data_targets_include_uri (selection_data)) {
+		char **uris;
+
+		uris = g_new (char *, 2);
+		uris[0] = g_file_get_uri (row->file->file);
+		uris[1] = NULL;
+		gtk_selection_data_set_uris (selection_data, uris);
+		retval = TRUE;
+
+		g_strfreev (uris);
+	}
+	else if (gtk_selection_data_targets_include_text (selection_data)) {
+		char *parse_name;
+
+		parse_name = g_file_get_parse_name (row->file->file);
+		gtk_selection_data_set_text (selection_data, parse_name, -1);
+		retval = TRUE;
+
+		g_free (parse_name);
+	}
+
+	return retval;
+}
+
+static gboolean
+gth_file_store_drag_data_delete (GtkTreeDragSource *drag_source,
+                                 GtkTreePath       *path)
+{
+	GthFileStore *file_store;
+	int          *indices, n;
+	GthFileRow   *row;
+
+	g_return_val_if_fail (path != NULL, FALSE);
+
+	file_store = GTH_FILE_STORE (drag_source);
+
+	indices = gtk_tree_path_get_indices (path);
+	n = indices[0];
+	if ((n < 0) || (n >= file_store->priv->num_rows))
+		return FALSE;
+
+	row = file_store->priv->rows[n];
+	g_return_val_if_fail (row != NULL, FALSE);
+	g_return_val_if_fail (row->pos == n, FALSE);
+
+	gth_file_store_remove (file_store, row->abs_pos);
+
+	return TRUE;
+}
+
+
 static void
-tree_model_iface_init (GtkTreeModelIface *iface)
+gtk_tree_model_iface_init (GtkTreeModelIface *iface)
 {
 	iface->get_flags       = gth_file_store_get_flags;
 	iface->get_n_columns   = gth_file_store_get_n_columns;
@@ -482,6 +564,15 @@ tree_model_iface_init (GtkTreeModelIface *iface)
 	iface->iter_n_children = gth_file_store_iter_n_children;
 	iface->iter_nth_child  = gth_file_store_iter_nth_child;
 	iface->iter_parent     = gth_file_store_iter_parent;
+}
+
+
+static void
+gtk_tree_drag_source_iface_init (GtkTreeDragSourceIface *iface)
+{
+	iface->row_draggable = gth_file_store_row_draggable;
+	iface->drag_data_get = gth_file_store_drag_data_get;
+	iface->drag_data_delete = gth_file_store_drag_data_delete;
 }
 
 
@@ -502,18 +593,20 @@ gth_file_store_get_type (void)
 			0,
 			(GInstanceInitFunc) gth_file_store_init
 		};
-		static const GInterfaceInfo tree_model_info = {
-			(GInterfaceInitFunc) tree_model_iface_init,
+		static const GInterfaceInfo gtk_tree_model_info = {
+			(GInterfaceInitFunc) gtk_tree_model_iface_init,
+			NULL,
+			NULL
+		};
+		static const GInterfaceInfo gtk_tree_drag_source_info = {
+			(GInterfaceInitFunc) gtk_tree_drag_source_iface_init,
 			NULL,
 			NULL
 		};
 
-		type = g_type_register_static (G_TYPE_OBJECT,
-					       "GthFileStore",
-					       &type_info,
-					       0);
-
-		g_type_add_interface_static (type, GTK_TYPE_TREE_MODEL, &tree_model_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "GthFileStore", &type_info, 0);
+		g_type_add_interface_static (type, GTK_TYPE_TREE_MODEL, &gtk_tree_model_info);
+		g_type_add_interface_static (type, GTK_TYPE_TREE_DRAG_SOURCE, &gtk_tree_drag_source_info);
 	}
 
 	return type;
