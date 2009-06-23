@@ -58,6 +58,7 @@
 #include "typedefs.h"
 #include "gth-exif-utils.h"
 #include "gth-sort-utils.h"
+#include "gth-monitor.h"
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnomeui/gnome-desktop-thumbnail.h>
@@ -2187,6 +2188,7 @@ get_pixbuf_using_external_converter (FileData   *file,
 	gboolean    is_raw;
 	gboolean    is_hdr;
 	gboolean    is_thumbnail;
+	gboolean    pause_monitor = FALSE;
 
 	if (! file_data_has_local_path (file, NULL))
 		return NULL;
@@ -2239,6 +2241,9 @@ get_pixbuf_using_external_converter (FileData   *file,
 				char *thumb_command;
 
 				/* Check for an embedded thumbnail first */
+				gth_monitor_pause ();
+				pause_monitor = TRUE;
+
 				thumb_command = g_strdup_printf ("dcraw -e %s", local_file_esc);
 		        	g_spawn_command_line_sync (thumb_command, NULL, NULL, NULL, NULL);
 				g_free (thumb_command);
@@ -2261,6 +2266,9 @@ get_pixbuf_using_external_converter (FileData   *file,
                                         cache_file = g_strdup (ppm_thumbnail);
 				} 
 				else {
+					gth_monitor_resume ();
+					pause_monitor = FALSE;
+
 					/* No embedded thumbnail. Read the whole file. */
 					/* Add -h option to speed up thumbnail generation. */
 					command = g_strdup_printf ("dcraw -w -c -h %s > %s",
@@ -2313,6 +2321,9 @@ get_pixbuf_using_external_converter (FileData   *file,
 	/* Thumbnail files are already cached, so delete the conversion cache copies */
 	if (is_thumbnail)
 		file_unlink (cache_file);
+
+	if (pause_monitor)
+		gth_monitor_resume ();
 
 	g_free (cache_file);
 	g_free (cache_file_esc);
