@@ -90,7 +90,7 @@ GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);
-GthFileSource *  gth_browser_get_file_source        (GthBrowser       *browser);
+GthFileSource *  gth_browser_get_location_source    (GthBrowser       *browser);
 GthFileStore *   gth_browser_get_file_store         (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_folder_tree        (GthBrowser       *browser);
 void             gth_browser_get_sort_order         (GthBrowser       *browser,
@@ -144,9 +144,6 @@ void             gth_browser_show_filterbar         (GthBrowser       *browser,
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
 void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
-void             gth_browser_clipboard_copy         (GthBrowser       *browser);
-void             gth_browser_clipboard_cut          (GthBrowser       *browser);
-void             gth_browser_clipboard_paste        (GthBrowser       *browser);
 
 G_END_DECLS
 

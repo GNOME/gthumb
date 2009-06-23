@@ -781,129 +781,6 @@ g_directory_list_async (GFile             *directory,
 }
 
 
-/* -- g_list_items_async -- */
-
-
-static void get_items_for_current_dir (GetFileListData *gfl);
-
-
-static gboolean
-get_items_for_next_dir_idle_cb (gpointer data)
-{
-	GetFileListData *gfl = data;
-
-	g_source_remove (gfl->visit_timeout);
-	gfl->visit_timeout = 0;
-
-	gfl->current_dir = g_list_next (gfl->current_dir);
-	get_items_for_current_dir (gfl);
-
-	return FALSE;
-}
-
-
-static void
-get_items_for_current_dir_done (GList    *files,
-				GList    *dirs,
-				GError   *error,
-				gpointer  data)
-{
-	GetFileListData *gfl = data;
-
-	if (error != NULL) {
-		if (gfl->done_func)
-			gfl->done_func (NULL, NULL, error, gfl->done_data);
-		_g_string_list_free (files);
-		_g_string_list_free (dirs);
-		get_file_list_data_free (gfl);
-		return;
-	}
-
-	gfl->files = g_list_concat (gfl->files, files);
-	gfl->dirs = g_list_concat (gfl->dirs, dirs);
-
-	gfl->visit_timeout = g_idle_add (get_items_for_next_dir_idle_cb, gfl);
-}
-
-
-static void
-get_items_for_current_dir (GetFileListData *gfl)
-{
-	const char *directory_name;
-	char       *directory_uri;
-	GFile      *directory;
-
-	if (gfl->current_dir == NULL) {
-		if (gfl->done_func) {
-			/* gfl->files/gfl->dirs must be deallocated in gfl->done_func */
-			gfl->done_func (gfl->files, gfl->dirs, NULL, gfl->done_data);
-			gfl->files = NULL;
-			gfl->dirs = NULL;
-		}
-		get_file_list_data_free (gfl);
-		return;
-	}
-
-	directory_name = _g_uri_get_basename ((char*) gfl->current_dir->data);
-	if (strcmp (gfl->base_dir, "/") == 0)
-		directory_uri = g_strconcat (gfl->base_dir, directory_name, NULL);
-	else
-		directory_uri = g_strconcat (gfl->base_dir, "/", directory_name, NULL);
-
-	directory = g_file_new_for_uri (directory_uri);
-	g_directory_list_all_async (directory,
-			   	    gfl->base_dir,
-				    TRUE,
-				    gfl->cancellable,
-			   	    get_items_for_current_dir_done,
-			   	    gfl);
-
-	g_object_unref (directory);
-	g_free (directory_uri);
-}
-
-
-void
-g_list_items_async (GList             *items,
-		    const char        *base_dir,
-		    GCancellable      *cancellable,
-		    ListReadyCallback  done_func,
-		    gpointer           done_data)
-{
-	GetFileListData *gfl;
-	int              base_len;
-	GList           *scan;
-
-	g_return_if_fail (base_dir != NULL);
-
-	gfl = g_new0 (GetFileListData, 1);
-	gfl->base_dir = g_strdup (base_dir);
-	gfl->cancellable = cancellable;
-	gfl->done_func = done_func;
-	gfl->done_data = done_data;
-
-	base_len = 0;
-	if (strcmp (base_dir, "/") != 0)
-		base_len = strlen (base_dir);
-
-	for (scan = items; scan; scan = scan->next) {
-		char *path = scan->data;
-
-		/* FIXME: this is not async */
-		if (_g_uri_is_dir (path)) {
-			gfl->to_visit = g_list_prepend (gfl->to_visit, g_strdup (path));
-		}
-		else {
-			char *rel_path = g_strdup (path + base_len + 1);
-			gfl->files = g_list_prepend (gfl->files, rel_path);
-		}
-	}
-
-	gfl->current_dir = gfl->to_visit;
-	get_items_for_current_dir (gfl);
-}
-
-
 /* -- g_query_info_async -- */
 
 
@@ -1204,8 +1081,8 @@ g_copy_files_async (GList                 *sources,
 	/* add the metadata sidecars if requested */
 
 	if (flags && G_FILE_COPY_ALL_METADATA) {
-		GList      *source_sidecars = NULL;
-		GList      *destination_sidecars = NULL;
+		GList *source_sidecars = NULL;
+		GList *destination_sidecars = NULL;
 
 
 		gth_hook_invoke ("add-sidecars", sources, &source_sidecars);

@@ -160,7 +160,7 @@ catalogs__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	g_object_set (action, "sensitive", sensitive, NULL);
 
 	action = gtk_action_group_get_action (data->actions, "Edit_RemoveFromCatalog");
-	sensitive = (n_selected > 0) && GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_file_source (browser));
+	sensitive = (n_selected > 0) && GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser));
 	g_object_set (action, "sensitive", sensitive, NULL);
 }
 
@@ -232,7 +232,7 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
-	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_file_source (browser))) {
+	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))) {
 		if (data->vfs_merge_id == 0) {
 			GError *error = NULL;
 

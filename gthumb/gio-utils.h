@@ -90,12 +90,7 @@ void   g_directory_list_async        (GFile                 *directory,
 				      GCancellable          *cancellable,
 				      ListReadyCallback      done_func,
 				      gpointer               done_data);
-void   g_list_items_async            (GList                 *items,
-				      const char            *base_dir,
-				      GCancellable          *cancellable,
-				      ListReadyCallback      done_func,
-				      gpointer               done_data);
-void   g_query_info_async            (GList                 *files,
+void   g_query_info_async            (GList                 *files,        /* GFile * list */
 				      const char            *attributes,
 				      GCancellable          *cancellable,
 				      InfoReadyCallback      ready_func,

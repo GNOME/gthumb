@@ -48,7 +48,8 @@ static GObjectClass *parent_class = NULL;
 typedef enum {
 	FILE_SOURCE_OP_LIST,
 	FILE_SOURCE_OP_READ_ATTRIBUTES,
-	FILE_SOURCE_OP_RENAME
+	FILE_SOURCE_OP_RENAME,
+	FILE_SOURCE_OP_COPY
 } FileSourceOp;
 
 
@@ -77,12 +78,21 @@ typedef struct {
 
 
 typedef struct {
+	GFile         *destination;
+	GList         *file_list;
+	ReadyCallback  callback;
+	gpointer       data;
+} CopyData;
+
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
 		ListData           list;
 		ReadAttributesData read_attributes;
 		RenameData         rename;
+		CopyData           copy;
 	} data;
 } FileSourceAsyncOp;
 
@@ -100,6 +110,10 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 	case FILE_SOURCE_OP_RENAME:
 		g_object_unref (async_op->data.rename.file);
 		g_object_unref (async_op->data.rename.new_file);
+		break;
+	case FILE_SOURCE_OP_COPY:
+		g_object_unref (async_op->data.copy.destination);
+		_g_object_list_unref (async_op->data.copy.file_list);
 		break;
 	}
 
@@ -171,6 +185,27 @@ gth_file_source_queue_rename (GthFileSource *file_source,
 
 
 static void
+gth_file_source_queue_copy (GthFileSource *file_source,
+			    GFile          *destination,
+			    GList          *file_list,
+			    ReadyCallback   callback,
+			    gpointer        data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_COPY;
+	async_op->data.copy.destination = g_file_dup (destination);
+	async_op->data.copy.file_list = _g_file_list_dup (file_list);
+	async_op->data.copy.callback = callback;
+	async_op->data.copy.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
 gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 {
 	GList             *head;
@@ -204,6 +239,13 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 					async_op->data.rename.new_file,
 					async_op->data.rename.callback,
 					async_op->data.rename.data);
+		break;
+	case FILE_SOURCE_OP_COPY:
+		gth_file_source_copy (file_source,
+				      async_op->data.copy.destination,
+				      async_op->data.copy.file_list,
+				      async_op->data.copy.callback,
+				      async_op->data.copy.data);
 		break;
 	}
 
@@ -327,6 +369,13 @@ base_rename (GthFileSource *file_source,
 }
 
 
+static gboolean
+base_can_cut (GthFileSource *file_source)
+{
+	return FALSE;
+}
+
+
 static void
 base_monitor_entry_points (GthFileSource *file_source)
 {
@@ -377,6 +426,7 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->read_attributes = base_read_attributes;
 	class->cancel = base_cancel;
 	class->rename = base_rename;
+	class->can_cut = base_can_cut;
 	class->monitor_entry_points = base_monitor_entry_points;
 	class->monitor_directory = base_monitor_directory;
 }
@@ -557,6 +607,28 @@ gth_file_source_rename (GthFileSource  *file_source,
 		return;
 	}
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->rename (file_source, file, new_file, callback, data);
+}
+
+
+void
+gth_file_source_copy (GthFileSource  *file_source,
+		      GFile          *destination,
+		      GList          *file_list, /* GFile * list */
+		      ReadyCallback   callback,
+		      gpointer        data)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_copy (file_source, destination, file_list, callback, data);
+		return;
+	}
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, callback, data);
+}
+
+
+gboolean
+gth_file_source_can_cut (GthFileSource *file_source)
+{
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->can_cut (file_source);
 }
 
 

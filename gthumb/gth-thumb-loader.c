@@ -522,15 +522,21 @@ gth_thumb_loader_set_file (GthThumbLoader *tloader,
 	tloader->priv->file = NULL;
 
 	if (fd != NULL) {
-		GFile *real_file = NULL;
+		GFile  *real_file = NULL;
+		GError *error = NULL;
 
 		tloader->priv->file = gth_file_data_dup (fd);
 
-		real_file = _g_file_resolve_all_symlinks (tloader->priv->file->file, NULL);
+		real_file = _g_file_resolve_all_symlinks (tloader->priv->file->file, &error);
+		if (real_file == NULL) {
+			g_warning ("%s", error->message);
+			g_clear_error (&error);
+			return;
+		}
+
 		gth_file_data_set_file (tloader->priv->file, real_file);
 
-		if (real_file != NULL)
-			g_object_unref (real_file);
+		g_object_unref (real_file);
 	}
 
 	gth_image_loader_set_file_data (tloader->priv->iloader, tloader->priv->file);

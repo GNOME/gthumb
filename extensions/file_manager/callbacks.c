@@ -110,7 +110,7 @@ static GtkActionEntry action_entries[] = {
 	{ "Edit_PasteInFolder", GTK_STOCK_PASTE,
 	  NULL, NULL,
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_edit_paste_in_folder) },
+	  G_CALLBACK (gth_browser_activate_action_edit_paste) },
 	{ "Edit_Duplicate", NULL,
 	  N_("D_uplicate"), "<control><shift>D",
 	  N_("Duplicate the selected files"),
@@ -184,7 +184,7 @@ static void
 file_manager_update_ui (BrowserData *data,
 			GthBrowser  *browser)
 {
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_file_source (browser))) {
+	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))) {
 		if (data->vfs_merge_id == 0) {
 			GError *local_error = NULL;
 
@@ -216,7 +216,7 @@ file_manager_update_ui (BrowserData *data,
 		data->browser_merge_id = 0;
 	}
 
-	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_file_source (browser))
+	if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser))
 	    && (gth_window_get_current_page (GTH_WINDOW (browser)) == GTH_BROWSER_PAGE_BROWSER))
 	{
 		if (data->browser_vfs_merge_id == 0) {
@@ -344,17 +344,21 @@ _gth_browser_update_paste_command_sensitivity (GthBrowser   *browser,
 void
 fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	BrowserData *data;
-	int          n_selected;
-	gboolean     sensitive;
+	BrowserData   *data;
+	GthFileSource *file_source;
+	int            n_selected;
+	gboolean       sensitive;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);
 
+	file_source = gth_browser_get_location_source (browser);
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
-	sensitive = n_selected > 0;
+	sensitive = (n_selected > 0) && (file_source != NULL) && gth_file_source_can_cut (file_source);
 	set_action_sensitive (data, "Edit_CutFiles", sensitive);
+
+	sensitive = (n_selected > 0) && (file_source != NULL);
 	set_action_sensitive (data, "Edit_CopyFiles", sensitive);
 	set_action_sensitive (data, "Edit_Trash", sensitive);
 	set_action_sensitive (data, "Edit_Delete", sensitive);

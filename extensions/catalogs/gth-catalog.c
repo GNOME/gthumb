@@ -411,10 +411,10 @@ catalog_file_info_ready_cb (GObject      *source_object,
 
 
 static void
-catalog_buffer_ready_cb (void     *buffer,
-			 gsize     count,
-			 GError   *error,
-			 gpointer  user_data)
+list__catalog_buffer_ready_cb (void     *buffer,
+			       gsize     count,
+			       GError   *error,
+			       gpointer  user_data)
 {
 	ListData   *list_data = user_data;
 	GthCatalog *catalog = list_data->catalog;
@@ -473,7 +473,7 @@ gth_catalog_list_async (GthCatalog           *catalog,
 	g_load_file_async (catalog->priv->file,
 			   G_PRIORITY_DEFAULT,
 			   catalog->priv->cancellable,
-			   catalog_buffer_ready_cb,
+			   list__catalog_buffer_ready_cb,
 			   list_data);
 }
 
@@ -671,43 +671,54 @@ gth_catalog_get_display_name (GFile *file)
 }
 
 
-#if 0
-GthCatalogType
-gth_catalog_data_get_type (const void *buffer,
-			   gsize       count)
+/* -- gth_catalog_load_from_file --*/
+
+
+typedef struct {
+	ReadyCallback ready_func;
+	gpointer      user_data;
+} LoadData;
+
+
+static void
+load__catalog_buffer_ready_cb (void     *buffer,
+			       gsize     count,
+			       GError   *error,
+			       gpointer  user_data)
 {
-	GthCatalogType  type = GTH_CATALOG_TYPE_INVALID;
-	char           *text_buffer;
+	LoadData   *load_data = user_data;
+	GthCatalog *catalog = NULL;
 
-	text_buffer = (char*) buffer;
-	if (strncmp (text_buffer, "<?xml ", 6) == 0) {
-		DomDocument *doc;
-		GError      *error = NULL;
-		DomElement  *root;
-
-		doc = dom_document_new ();
-		if (! dom_document_load (doc, text_buffer, count, &error)) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-		}
-
-		root = DOM_ELEMENT (doc)->first_child;
-		if (g_strcmp0 (root->tag_name, "catalog") == 0)
-			type = GTH_CATALOG_TYPE_CATALOG;
-		else if (g_strcmp0 (root->tag_name, "search") == 0)
-			type = GTH_CATALOG_TYPE_SEARCH;
-
-		g_object_unref (doc);
-	}
-	else {
-		/* Old catalog format */
-
-		if (strncmp (text_buffer, "# Search", 8) == 0)
-			type = GTH_CATALOG_TYPE_SEARCH;
-		else
-			type = GTH_CATALOG_TYPE_CATALOG;
+	if (error == NULL) {
+		catalog = gth_hook_invoke_get ("gth-catalog-load-from-data", buffer);
+		if (catalog != NULL)
+			gth_catalog_load_from_data (catalog, buffer, count, &error);
 	}
 
-	return type;
+	load_data->ready_func (G_OBJECT (catalog), error, load_data->user_data);
+
+	g_free (load_data);
 }
-#endif
+
+
+void
+gth_catalog_load_from_file (GFile         *file,
+			    ReadyCallback  ready_func,
+			    gpointer       user_data)
+{
+	LoadData *load_data;
+	GFile    *gio_file;
+
+	load_data = g_new0 (LoadData, 1);
+	load_data->ready_func = ready_func;
+	load_data->user_data = user_data;
+
+	gio_file = gth_catalog_file_to_gio_file (file);
+	g_load_file_async (gio_file,
+			   G_PRIORITY_DEFAULT,
+			   NULL,
+			   load__catalog_buffer_ready_cb,
+			   load_data);
+
+	g_object_unref (gio_file);
+}

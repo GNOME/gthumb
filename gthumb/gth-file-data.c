@@ -168,13 +168,16 @@ void
 gth_file_data_set_file (GthFileData *self,
 			GFile       *file)
 {
+	if (file != NULL)
+		g_object_ref (file);
+
 	if (self->file != NULL) {
 		g_object_unref (self->file);
 		self->file = NULL;
 	}
 
 	if (file != NULL)
-		self->file = g_object_ref (file);
+		self->file = file;
 }
 
 
@@ -182,13 +185,14 @@ void
 gth_file_data_set_info (GthFileData *self,
 			GFileInfo   *info)
 {
-	if (self->info != NULL) {
+	if (info != NULL)
+		g_object_ref (info);
+
+	if (self->info != NULL)
 		g_object_unref (self->info);
-		self->info = NULL;
-	}
 
 	if (info != NULL)
-		self->info = g_object_ref (info);
+		self->info = info;
 	else
 		self->info = g_file_info_new ();
 }

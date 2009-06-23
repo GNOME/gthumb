@@ -379,6 +379,137 @@ gth_file_source_catalogs_read_attributes (GthFileSource *file_source,
 }
 
 
+/* -- gth_file_source_vfs_copy -- */
+
+
+typedef struct {
+	GthFileSourceVfs *file_source;
+	GFile            *destination;
+	GList            *file_list;
+	ReadyCallback     callback;
+	gpointer          user_data;
+	GList            *files;
+	GthCatalog       *catalog;
+	char             *buffer;
+	gsize             length;
+} CopyOpData;
+
+
+static void
+copy_op_data_free (CopyOpData *cod)
+{
+	g_free (cod->buffer);
+	_g_object_unref (cod->catalog);
+	_g_object_list_unref (cod->files);
+	_g_object_list_unref (cod->file_list);
+	g_object_unref (cod->destination);
+	g_object_unref (cod->file_source);
+	g_free (cod);
+}
+
+
+static void
+catalog_save_done_cb (void     *buffer,
+		      gsize     count,
+		      GError   *error,
+		      gpointer  user_data)
+{
+	CopyOpData *cod = user_data;
+
+	if (error == NULL)
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				            cod->destination,
+				            cod->files,
+					    GTH_MONITOR_EVENT_CREATED);
+
+	cod->callback (G_OBJECT (cod->file_source), error, cod->user_data);
+	copy_op_data_free (cod);
+}
+
+
+static void
+catalog_ready_cb (GObject  *catalog,
+		  GError   *error,
+		  gpointer  user_data)
+{
+	CopyOpData *cod = user_data;
+	GList      *scan;
+	GFile      *gio_file;
+
+	if (error != NULL) {
+		cod->callback (G_OBJECT (cod->file_source), error, cod->user_data);
+		copy_op_data_free (cod);
+		return;
+	}
+
+	cod->catalog = (GthCatalog *) catalog;
+
+	for (scan = cod->files; scan; scan = scan->next)
+		gth_catalog_insert_file (cod->catalog, -1, (GFile *) scan->data);
+
+	cod->buffer = gth_catalog_to_data (cod->catalog, &cod->length);
+	gio_file = gth_catalog_file_to_gio_file (cod->destination);
+	g_write_file_async (gio_file,
+			    cod->buffer,
+			    cod->length,
+			    G_PRIORITY_DEFAULT,
+			    NULL,
+			    catalog_save_done_cb,
+			    cod);
+
+	g_object_unref (gio_file);
+}
+
+
+static void
+copy__file_list_info_ready_cb (GList    *files,
+			       GError   *error,
+			       gpointer  user_data)
+{
+	CopyOpData *cod = user_data;
+	GList      *scan;
+
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		switch (g_file_info_get_file_type (file_data->info)) {
+		case G_FILE_TYPE_REGULAR:
+		case G_FILE_TYPE_SYMBOLIC_LINK:
+			cod->files = g_list_prepend (cod->files, g_object_ref (file_data->file));
+			break;
+		default:
+			break;
+		}
+	}
+	cod->files = g_list_reverse (cod->files);
+
+	gth_catalog_load_from_file (cod->destination, catalog_ready_cb, cod);
+}
+
+
+static void
+gth_file_source_catalogs_copy (GthFileSource *file_source,
+			       GFile         *destination,
+			       GList         *file_list, /* GFile * list */
+			       ReadyCallback  callback,
+			       gpointer       data)
+{
+	CopyOpData *cod;
+
+	cod = g_new0 (CopyOpData, 1);
+	cod->file_source = g_object_ref (file_source);
+	cod->destination = g_object_ref (destination);
+	cod->file_list = _g_object_list_ref (file_list);
+	cod->callback = callback;
+	cod->user_data = data;
+
+	g_query_info_async (cod->file_list,
+			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
+			    GTH_FILE_SOURCE_CATALOGS (file_source)->priv->cancellable,
+			    copy__file_list_info_ready_cb,
+			    cod);
+}
+
 static void
 gth_file_source_catalogs_cancel (GthFileSource *file_source)
 {
@@ -423,6 +554,7 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->get_file_info = gth_file_source_catalogs_get_file_info;
 	file_source_class->list = gth_file_source_catalogs_list;
 	file_source_class->read_attributes = gth_file_source_catalogs_read_attributes;
+	file_source_class->copy = gth_file_source_catalogs_copy;
 	file_source_class->cancel = gth_file_source_catalogs_cancel;
 }
 
