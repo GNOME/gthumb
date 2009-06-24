@@ -35,6 +35,7 @@ typedef enum { /*< skip >*/
 
 typedef struct {
 	char      *start_from;
+	GFile	  *start_from_gfile;
 	gboolean   recursive;
 	char      *file_pattern;
 	char      *comment_pattern;

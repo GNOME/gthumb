@@ -22,8 +22,10 @@
 
 #include <string.h>
 #include <glib.h>
+#include <gio/gio.h>
 #include "search.h"
 #include "glib-utils.h"
+#include "gfile-utils.h"
 
 
 SearchData*
@@ -34,6 +36,7 @@ search_data_new ()
 	data = g_new (SearchData, 1);
 
 	data->start_from         = NULL;
+	data->start_from_gfile   = NULL;
 	data->recursive          = FALSE;
 	data->file_pattern       = NULL;
 	data->comment_pattern    = NULL;
@@ -77,6 +80,10 @@ search_data_free (SearchData *data)
 		g_free (data->start_from);
 		data->start_from = NULL;
 	}
+	if (data->start_from_gfile) {
+		g_object_unref (data->start_from_gfile);
+		data->start_from_gfile = NULL;
+	}
 
 	g_free (data);
 }
@@ -98,6 +105,9 @@ search_data_set_start_from (SearchData *data,
 {
 	g_return_if_fail (data != NULL);
 	set_string (& (data->start_from), start_from);
+	if (data->start_from_gfile != NULL)
+		g_object_unref (data->start_from_gfile);
+	data->start_from_gfile = gfile_new (start_from);
 }
 
 

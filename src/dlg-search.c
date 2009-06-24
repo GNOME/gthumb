@@ -30,7 +30,6 @@
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
-#include <libgnomevfs/gnome-vfs.h>
 
 #include "file-utils.h"
 #include "file-data.h"
@@ -44,6 +43,7 @@
 #include "gth-utils.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
+#include "gfile-utils.h"
 
 
 enum {
@@ -132,12 +132,12 @@ typedef struct {
 	char          **keywords_patterns;
 	gboolean        all_keywords;
 
-	GnomeVFSAsyncHandle *handle;
-	GnomeVFSURI    *uri;
-	GList          *files;
-	GList          *dirs;
-
-	char           *catalog_path;
+	GFileEnumerator *gfile_enum;
+	GCancellable	*cancelled;
+	GFile	        *gfile;
+	GList           *files;
+	GList           *dirs;		/* GFile* items. */
+	char            *catalog_path;
 
 	GHashTable     *folders_comment;
 	GHashTable     *hidden_files;
@@ -190,7 +190,7 @@ free_search_results_data (DialogData *data)
 	}
 	
 	if (data->dirs) {
-		path_list_free (data->dirs);
+		gfile_list_free (data->dirs);
 		data->dirs = NULL;
 	}
 	
@@ -216,14 +216,17 @@ destroy_cb (GtkWidget  *widget,
 	free_search_criteria_data (data);
 	free_search_results_data (data);
 	search_data_free (data->search_data);
-	if (data->uri != NULL)
-		gnome_vfs_uri_unref (data->uri);
+	if (data->gfile_enum != NULL)
+		g_object_unref (data->gfile_enum);
+	if (data->gfile != NULL)
+		g_object_unref (data->gfile);
 	if (data->catalog_path != NULL)
 		g_free (data->catalog_path);
 	if (data->folders_comment != NULL)
 		g_hash_table_destroy (data->folders_comment);
 	if (data->hidden_files != NULL)
 		g_hash_table_destroy (data->hidden_files);
+	g_object_unref(data->cancelled);
 	g_free (data);
 }
 
@@ -358,6 +361,7 @@ view_result_cb (GtkWidget  *widget,
 	char    *catalog_name, *catalog_path, *catalog_name_utf8;
 	GList   *scan;
 	GError  *gerror;
+	GFile   *catalog_gfile = NULL;
 
 	if (data->files == NULL)
 		return;
@@ -368,10 +372,12 @@ view_result_cb (GtkWidget  *widget,
 	catalog_name_utf8 = g_strconcat (_("Search Result"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = gnome_vfs_escape_string (catalog_name_utf8);
+	catalog_gfile = g_file_parse_name (catalog_name_utf8);
+	catalog_name = g_file_get_basename (catalog_gfile);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
+	g_object_unref (catalog_gfile);
 
 	catalog_set_path (catalog, catalog_path);
 	catalog_set_search_data (catalog, data->search_data);
@@ -457,11 +463,7 @@ static void
 cancel_progress_dlg_cb (GtkWidget  *widget,
 			DialogData *data)
 {
-	if (data->handle == NULL)
-		return;
-	gnome_vfs_async_cancel (data->handle);
-	data->handle = NULL;
-	search_finished (data);
+	g_cancellable_cancel (data->cancelled);
 }
 
 
@@ -552,9 +554,10 @@ dlg_search_ui (GthBrowser *browser,
 	data->dirs = NULL;
 	data->files = NULL;
 	data->browser = browser;
-	data->handle = NULL;
 	data->search_data = NULL;
-	data->uri = NULL;
+	data->gfile_enum = NULL;
+	data->gfile = NULL;
+	data->cancelled = g_cancellable_new ();
 	data->catalog_path = catalog_path;
 	data->folders_comment = g_hash_table_new (g_str_hash, g_str_equal);
 	data->hidden_files = NULL;
@@ -885,7 +888,8 @@ add_parents_comments (CommentData *comment_data,
 
 static gboolean
 file_respects_search_criteria (DialogData *data,
-			       char       *filename)
+			       char       *filename,
+			       char	  *name_only)
 {
 	CommentData *comment_data;
 	gboolean     result;
@@ -895,7 +899,6 @@ file_respects_search_criteria (DialogData *data,
 	char        *comment;
 	char        *place;
 	time_t       time = 0;
-	const char  *name_only;
 
 	if (! file_is_image_video_or_audio (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
@@ -950,7 +953,6 @@ file_respects_search_criteria (DialogData *data,
 		 && (time > data->search_data->date + ONE_DAY))
 		match_date = TRUE;
 
-	name_only = filename + strlen (data->search_data->start_from);
 	result = (match_patterns (data->file_patterns, name_only)
 		  && match_patterns (data->comment_patterns, comment)
 		  && match_patterns (data->place_patterns, place)
@@ -978,9 +980,7 @@ add_file_list (DialogData *data,
 	gth_file_list_add_list (data->file_list, file_list);
 }
 
-
-static void search_dir_async (DialogData *data, gchar *dir);
-
+static void search_dir_async (DialogData *data, GFile *gfile);
 
 static gboolean
 cache_dir (const char *folder)
@@ -1000,148 +1000,192 @@ cache_dir (const char *folder)
 	return FALSE;
 }
 
-
 static void
-directory_load_cb (GnomeVFSAsyncHandle *handle,
-		   GnomeVFSResult       result,
-		   GList               *list,
-		   guint                entries_read,
-		   gpointer             callback_data)
+scan_next_dir (DialogData *data)
 {
-	DialogData       *data = callback_data;
-	GnomeVFSFileInfo *info;
-	GList            *node, *files = NULL;
+	gboolean good_dir_to_search_into = TRUE;
+	do {
+		GList *first_dir;
+		GFile  *dir;
 
-	for (node = list; node != NULL; node = node->next) {
-		GnomeVFSURI *full_uri = NULL;
-		char        *str_uri;
-		char        *real_uri;
-		char	    *unesc_uri;  
-
-		info = node->data;
-
-		switch (info->type) {
-		case GNOME_VFS_FILE_TYPE_REGULAR:
-			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
-				break;
-			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			unesc_uri = gnome_vfs_unescape_string (str_uri, "");
-
-			if (file_respects_search_criteria (data, unesc_uri)) {
-				FileData *file;
-				
-				file = file_data_new_from_path (str_uri);
-				file_data_update_mime_type (file, data->fast_file_type);				
-				files = g_list_prepend (files, file);
-			}
-			else
-				g_free (str_uri);
-
-			g_free (unesc_uri);
-			break;
-
-		case GNOME_VFS_FILE_TYPE_DIRECTORY:
-			if (SPECIAL_DIR (info->name))
-				break;
-			if (g_hash_table_lookup (data->hidden_files, info->name) != NULL)
-				break;
-			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
-			real_uri = resolve_all_symlinks (str_uri);
-			if (g_hash_table_lookup (data->visited_dirs, real_uri) == NULL) { 
-				data->dirs = g_list_prepend (data->dirs, g_strdup (real_uri));
-				g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
-			}
-			g_free (real_uri);
-			g_free (str_uri);
-			break;
-
-		default:
-			break;
-		}
-
-		if (full_uri)
-			gnome_vfs_uri_unref (full_uri);
-	}
-
-	if (files != NULL)
-		add_file_list (data, files);
-
-	if (result != GNOME_VFS_OK) {
-		gboolean good_dir_to_search_into = TRUE;
-
-		if (result != GNOME_VFS_ERROR_EOF) {
-			char *path;
-
-			path = gnome_vfs_uri_to_string (data->uri,
-							GNOME_VFS_URI_HIDE_NONE);
-			/*g_warning ("Cannot load directory \"%s\": %s\n", path,
-				   gnome_vfs_result_to_string (result));*/
-			g_free (path);
-		}
-
-		if (! data->search_data->recursive) {
+		if (data->dirs == NULL) {
 			search_finished (data);
 			return;
 		}
 
-		do {
-			GList *first_dir;
-			char  *dir;
+		first_dir = data->dirs;
+		data->dirs = g_list_remove_link (data->dirs, first_dir);
+		dir = (GFile*) first_dir->data;
+		g_list_free (first_dir);
 
-			if (data->dirs == NULL) {
-				search_finished (data);
-				return;
+		good_dir_to_search_into = ! cache_dir (g_file_get_basename (dir));
+		if (good_dir_to_search_into)
+			search_dir_async (data, dir);
+		g_object_unref (dir);
+	} while (! good_dir_to_search_into);
+}
+
+
+static void
+search_dir_next_files_cb (GObject      *source_object,
+			  GAsyncResult *res,
+			  gpointer      callback_data)
+{
+	DialogData *data = callback_data;
+	GFileInfo  *info;
+	GError 	   *error = NULL;
+	GList 	   *files = NULL, *node, *list;
+
+	list = g_file_enumerator_next_files_finish (data->gfile_enum, res ,&error);
+	for (node = list; node != NULL; node = node->next) {
+		GFile *child;
+		GFile *path;
+		path = g_file_dup (data->gfile); 
+		info = node->data;
+		
+		/* Resolve symlinks */
+		if (g_file_info_get_file_type (info) == G_FILE_TYPE_SYMBOLIC_LINK) {
+			GFile     *sym_target = NULL;
+			GFileInfo *info2;
+			GError    *error = NULL;
+
+			child = g_file_get_child (data->gfile, g_file_info_get_name (info));
+			sym_target = g_file_resolve_relative_path (child, g_file_info_get_symlink_target (info));
+			path = g_file_get_parent (sym_target);
+			info2 = g_file_query_info (sym_target, "standard::*", G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL, &error);
+			g_object_unref (info);
+			info = info2;
+
+			if (info == NULL) {
+				gfile_warning ("Cannot resolve symlink", sym_target, error);
+				g_error_free(error);
 			}
 
-			first_dir = data->dirs;
-			data->dirs = g_list_remove_link (data->dirs, first_dir);
-			dir = (char*) first_dir->data;
-			g_list_free (first_dir);
+			g_object_unref (sym_target);
+			g_object_unref (child);
+		}
+		if (info != NULL) {
+			switch (g_file_info_get_file_type (info)) {
+			case G_FILE_TYPE_REGULAR:
+				child = g_file_get_child (path, g_file_info_get_name (info));
+				if (g_hash_table_lookup (data->hidden_files, g_file_info_get_name (info)) != NULL)
+					break;
+				
+				char *name_only;
+				char *uri; 
+				uri = g_file_get_parse_name (child);
+				name_only = g_file_get_basename (child);
+				
+				if (file_respects_search_criteria (data, uri, name_only)) {
+					FileData *file;
+					file = file_data_new_from_gfile (child);
+					file_data_update_mime_type (file, data->fast_file_type);				
+					files = g_list_prepend (files, file);
+				}
+				g_free (name_only);
+				g_free (uri);
+				g_object_unref (child);
+				break;
 
-			good_dir_to_search_into = ! cache_dir (file_name_from_path (dir));
-			if (good_dir_to_search_into)
-				search_dir_async (data, dir);
-			g_free (dir);
-		} while (! good_dir_to_search_into);
-	} 
+			case G_FILE_TYPE_DIRECTORY:
+				child = g_file_get_child (path, g_file_info_get_name (info));
+				if (SPECIAL_DIR (g_file_info_get_name (info)))
+					break;
+				if (g_hash_table_lookup (data->hidden_files, g_file_info_get_name (info)) != NULL)
+					break;
+				if (g_hash_table_lookup (data->visited_dirs, child) == NULL) { 
+					data->dirs = g_list_prepend (data->dirs, g_file_dup (child));
+					g_hash_table_insert (data->visited_dirs, g_file_dup (child), GINT_TO_POINTER (1));
+				}
+				g_object_unref (child);
+				break;
+		
+			default:
+				break;
+			}
+			g_object_unref (info);
+		}
+
+		g_object_unref (path);
+	}
+	g_list_free(list);
+	
+	
+	if (files != NULL)
+		add_file_list (data, files);
+		
+	if (! data->search_data->recursive) {
+		search_finished (data);
+		return;
+	}
+	
+	scan_next_dir (data);
+}
+
+
+static void
+directory_load_cb (GObject       *source_object,
+		   GAsyncResult  *res,
+		   gpointer       callback_data)
+{
+	DialogData       *data = callback_data;
+	GError 		 *error = NULL;
+	
+	if (data->gfile_enum != NULL)
+		g_object_unref (data->gfile_enum);
+
+	data->gfile_enum = g_file_enumerate_children_finish (data->gfile, res, &error);
+
+	if (data->gfile_enum == NULL) {
+		if (!g_cancellable_is_cancelled (data->cancelled) ) 
+		{
+			scan_next_dir (data);
+			gfile_warning ("Cannot load directory", data->gfile, error);
+		}
+		else 
+			search_finished (data);
+		g_error_free (error);
+		return;
+	}
+
+	g_file_enumerator_next_files_async (data->gfile_enum,
+					    G_MAXINT,
+					    G_PRIORITY_DEFAULT,
+					    data->cancelled,
+					    search_dir_next_files_cb,
+					    data);
+	
 }
 
 
 static void
 search_dir_async (DialogData *data,
-		  char       *dir)
+		  GFile      *gfile)
 {
-	char *uri, *real_uri;
+	char *path;
 	
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
-
-	/**/
-
-	if (data->uri != NULL)
-		gnome_vfs_uri_unref (data->uri);
+	if (data->gfile != NULL)
+		g_object_unref (data->gfile);
+		
+	data->gfile = g_file_dup (gfile);
 	
-	uri = add_scheme_if_absent (dir);
-	real_uri = resolve_all_symlinks (uri);
-	g_free (uri);
-		 
-	g_hash_table_insert (data->visited_dirs, g_strdup (real_uri), GINT_TO_POINTER (1));
-	data->uri = new_uri_from_path (real_uri);
-	g_free (real_uri);
-
+	path = g_file_get_parse_name (gfile);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), path);
+	
+	g_hash_table_insert (data->visited_dirs, g_file_dup (gfile), GINT_TO_POINTER (1));
+	
 	if (data->hidden_files != NULL)
 		g_hash_table_destroy (data->hidden_files);
-	data->hidden_files = read_dot_hidden_file (dir);
-				      
-	gnome_vfs_async_load_directory_uri (
-		& (data->handle),
-		data->uri,
-		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		128 /* items_per_notification FIXME */,
-		GNOME_VFS_PRIORITY_DEFAULT,
-		directory_load_cb,
-		data);
+	data->hidden_files = read_dot_hidden_file (path);
+	g_free (path);
+	
+	g_file_enumerate_children_async (data->gfile,
+					 "standard::*",
+				         G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS,
+				         G_PRIORITY_DEFAULT,
+				         data->cancelled,
+				         directory_load_cb,
+				         data);
 }
 
 
@@ -1160,12 +1204,13 @@ search_images_async (DialogData *data)
 	SearchData *search_data = data->search_data;
 
 	free_search_results_data (data);
-	data->visited_dirs = g_hash_table_new_full (g_str_hash,
-					      	    g_str_equal,
-					            (GDestroyNotify) g_free,
+	data->visited_dirs = g_hash_table_new_full (g_file_hash,
+					      	    (GEqualFunc)g_file_equal,
+					            g_object_unref,
 					            NULL);
 	gth_file_list_set_list (data->file_list, NULL, pref_get_arrange_type (), pref_get_sort_order ());
-	search_dir_async (data, search_data->start_from);
+	g_cancellable_reset (data->cancelled);
+	search_dir_async (data, search_data->start_from_gfile);
 }
 
 
