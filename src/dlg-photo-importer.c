@@ -509,8 +509,6 @@ is_relevant_mime_type (GFile    *gfile,
 	char       *name_ext;
 	int         i;
 
-	/* For some reason, this does not always succeed. I think the gphoto2
-	   backend has a mime type detection bug. */
 	mime_type = gfile_get_mime_type (gfile, FALSE);
 	if (mime_type != NULL) {
 		if (mime_type_is_image (mime_type))
@@ -522,6 +520,8 @@ is_relevant_mime_type (GFile    *gfile,
 		else
 			return FALSE;
 	}
+
+	/* FIXME - I don't think the following code is needed anymore */
 
 	basename = g_file_get_basename (gfile);
 	name_ext = get_filename_extension (basename);

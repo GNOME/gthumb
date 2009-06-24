@@ -278,13 +278,11 @@ gfile_get_mime_type (GFile      *file,
                                   G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
                                   G_FILE_QUERY_INFO_NONE,
                                   NULL,
-                                  &error);
+                                  NULL);
+
 	if (error) {
-		char *utf8_path = g_file_get_parse_name (file);
-		g_warning ("Error getting mime_type for %s: %s", utf8_path, error->message);
+		gfile_warning ("Error getting file info for mime type check", file, error);
 		g_error_free (error);
-		g_free (utf8_path);
-		return NULL;
 	}
 
         if (info != NULL) {
@@ -325,6 +323,16 @@ gfile_get_mime_type (GFile      *file,
 
                 result = get_static_string (value);
         	g_object_unref (info);
+	} else {
+                char *value;
+		char *path = g_file_get_parse_name (file);
+                value = g_content_type_guess (path, NULL, 0, NULL);
+                result = get_static_string (value);
+                g_free (value);
+		g_free (path);
+
+	        if (result == NULL)
+        	        gfile_warning ("Could not determime content type", file, error);
 	}
 
         return result;

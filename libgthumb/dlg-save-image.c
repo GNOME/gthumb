@@ -31,6 +31,7 @@
 
 #include "dlg-save-image.h"
 #include "glib-utils.h"
+#include "file-data.h"
 #include "file-utils.h"
 #include "gfile-utils.h"
 #include "gtk-utils.h"
@@ -178,7 +179,6 @@ file_save_ok_cb (GtkDialog *file_sel,
 	GtkWidget     *combo_box;
 	GdkPixbuf     *pixbuf;
 	FileData      *file = NULL;
-	const char    *mime_type = NULL;
 	const char    *original_file;
 	int            idx;
 	SaveImageData *data;
@@ -194,13 +194,12 @@ file_save_ok_cb (GtkDialog *file_sel,
 	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (combo_box));
 	if (idx < 0
             || file_options[idx].type == IMAGE_TYPE_AUTOMATIC)
-		mime_type = gfile_get_mime_type (file->gfile, FALSE);
+		file_data_update_mime_type (file, FALSE);
 	else
-		mime_type = file_options[idx].mime_type;
-	file->mime_type = get_static_string (mime_type);
+		file->mime_type = get_static_string (file_options[idx].mime_type);
 
 	save_image (parent, file, original_file, pixbuf, data, file_sel);
-	g_free (file);
+	file_data_unref (file);
 }
 
 
@@ -294,11 +293,13 @@ dlg_save_image_as (GtkWindow       *parent,
 	gtk_widget_show_all (vbox);
 
 	/**/
-
-	if (uri != NULL)
-		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
-	else
+	if (uri != NULL) {
+		FileData *fd = file_data_new_from_path (uri);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), fd->uri);
+		file_data_unref (fd);
+	} else {
 		gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (file_sel), get_home_uri ());
+	}
 
 	g_object_ref (pixbuf);
 
@@ -351,6 +352,7 @@ dlg_save_image (GtkWindow       *parent,
 	data->done_data = done_data;
 	data->metadata = metadata;
 
+	file_data_update_mime_type (file, TRUE);
 	save_image (parent, file, file->utf8_path, pixbuf, data, NULL);
 }
 
