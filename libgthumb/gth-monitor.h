@@ -88,6 +88,8 @@ void         gth_monitor_notify_update_bookmarks     (void);
 void         gth_monitor_notify_update_cat_files     (const char      *catalog_path,
 						      GthMonitorEvent  event,
 						      GList           *list);
+void         gth_monitor_notify_update_gfiles        (GthMonitorEvent  event,
+                                                      GList           *list);
 void         gth_monitor_notify_update_files         (GthMonitorEvent  event,
 						      GList           *list);
 void         gth_monitor_notify_update_directory     (const char      *dir_path,

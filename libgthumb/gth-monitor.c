@@ -254,17 +254,17 @@ proc_monitor_events (gpointer data)
 	/**/
 
 	if (file_created_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_created_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, file_created_list);
 		gfile_list_free (file_created_list);
 	}
 
 	if (file_deleted_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, file_deleted_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_DELETED, file_deleted_list);
 		gfile_list_free (file_deleted_list);
 	}
 
 	if (file_changed_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_changed_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, file_changed_list);
 		gfile_list_free (file_changed_list);
 	}
 
@@ -502,8 +502,8 @@ gth_monitor_notify_update_cat_files (const char      *catalog_path,
 
 
 void
-gth_monitor_notify_update_files (GthMonitorEvent  event,
-				 GList           *list)
+gth_monitor_notify_update_gfiles (GthMonitorEvent  event,
+				  GList           *list)
 {
 	GList *path_list = NULL;
 	GList *scan;
@@ -526,6 +526,24 @@ gth_monitor_notify_update_files (GthMonitorEvent  event,
 		       path_list);
 
 	path_list_free (path_list);
+}
+
+
+void
+gth_monitor_notify_update_files (GthMonitorEvent  event,
+				 GList           *list)
+{
+	g_return_if_fail (GTH_IS_MONITOR (instance));
+
+	if (list == NULL)
+		return;
+
+	/* FIXME: start using the above gfile equivalent */
+	g_signal_emit (G_OBJECT (instance),
+		       monitor_signals[UPDATE_FILES],
+		       0,
+		       event,
+		       list);
 }
 
 
