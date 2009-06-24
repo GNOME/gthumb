@@ -101,7 +101,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_rename_file) },
 
 	{ "Edit_DuplicateFile", NULL,
-	  N_("D_uplicate"), NULL,
+	  N_("D_uplicate"), "<control><shift>D",
 	  N_("Duplicate selected images"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate_file) },
 
