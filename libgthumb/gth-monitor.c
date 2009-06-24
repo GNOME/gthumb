@@ -505,16 +505,27 @@ void
 gth_monitor_notify_update_files (GthMonitorEvent  event,
 				 GList           *list)
 {
+	GList *path_list = NULL;
+	GList *scan;
+
 	g_return_if_fail (GTH_IS_MONITOR (instance));
 
 	if (list == NULL)
 		return;
 
+	/* FIXME: use gfile list in signals */
+        for (scan = list; scan; scan = scan->next) {
+                GFile *gfile = scan->data;
+		path_list = g_list_prepend (path_list, g_file_get_parse_name (gfile));
+        }
+
 	g_signal_emit (G_OBJECT (instance),
 		       monitor_signals[UPDATE_FILES],
 		       0,
 		       event,
-		       list);
+		       path_list);
+
+	path_list_free (path_list);
 }
 
 
