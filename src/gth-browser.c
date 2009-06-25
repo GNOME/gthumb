@@ -1668,12 +1668,13 @@ save_pixbuf__image_saved_cb (FileData *file,
 		if (! closing) {
 			GList *file_list;
 		
-			file_list = g_list_prepend (NULL, (char*) file->utf8_path);
+			file_list = g_list_prepend (NULL, file->gfile);
+			g_object_ref (file->gfile);
 			if (gth_file_list_pos_from_path (browser->priv->file_list, file->utf8_path) != -1)
-				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);
+				gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, file_list);
 			else
-				gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, file_list);
-			g_list_free (file_list);
+				gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, file_list);
+			gfile_list_free (file_list);
 		}
 	}
 	else
