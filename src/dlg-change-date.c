@@ -190,11 +190,12 @@ ok_clicked (GtkWidget  *button,
 			g_free (buf);
 		}
 
-		file_list = g_list_prepend (file_list, fdata->utf8_path);
+		file_list = g_list_prepend (file_list, fdata->gfile);
+		g_object_ref (fdata->gfile);
 	}
 
-	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, file_list);
-	g_list_free (file_list);
+	gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, file_list);
+	gfile_list_free (file_list);
 
 	gth_monitor_resume ();
 	
