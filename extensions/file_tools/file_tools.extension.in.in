@@ -4,8 +4,8 @@ _Description=Basic tools to modify images.
 Authors=Paolo Bacchilega <paobac@src.gnome.org>
 Copyright=Copyright © 2009 Paolo Bacchilega
 Version=1
-Requires=image_viewer
 
 [Loader]
 Type=module
 File=%LIBRARY%
+Requires=image_viewer

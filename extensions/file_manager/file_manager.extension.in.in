@@ -1,6 +1,6 @@
 [Extension]
 _Name=File Manager
-_Description=File manager actions.
+_Description=File manager operations.
 Authors=Paolo Bacchilega <paobac@src.gnome.org>
 Copyright=Copyright © 2009 Paolo Bacchilega
 Version=1

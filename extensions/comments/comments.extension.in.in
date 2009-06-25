@@ -1,6 +1,6 @@
 [Extension]
 _Name=Comments and tags
-_Description=Allow to add comments and tags to images.
+_Description=Allow to add comments and tags to files.
 Authors=Paolo Bacchilega <paobac@src.gnome.org>
 Copyright=Copyright © 2009 Paolo Bacchilega
 Version=1

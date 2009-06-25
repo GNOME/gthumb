@@ -1,6 +1,6 @@
 [Extension]
-_Name=Image Viewer
-_Description=Allows to view images.
+_Name=Image metadata
+_Description=Read and write exif/iptc and xmp metadata.
 Authors=Paolo Bacchilega <paobac@src.gnome.org>
 Copyright=Copyright © 2009 Paolo Bacchilega
 Version=1
