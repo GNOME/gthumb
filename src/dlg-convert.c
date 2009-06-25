@@ -107,8 +107,8 @@ destroy_cb (GtkWidget  *widget,
 		g_object_unref (data->loader);
 
 	file_data_list_free (data->file_list);
-	path_list_free (data->saved_list);
-	path_list_free (data->deleted_list);
+	gfile_list_free (data->saved_list);
+	gfile_list_free (data->deleted_list);
 
 	g_strfreev (data->keys);
 	g_strfreev (data->values);
@@ -138,8 +138,8 @@ load_next_image (DialogData *data)
 static void
 stop_operation (DialogData *data)
 {
-	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_list);
-	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, data->deleted_list);
+	gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, data->saved_list);
+	gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_DELETED, data->deleted_list);
 	gth_monitor_resume ();
 	gtk_widget_destroy (data->dialog);
 }
@@ -243,11 +243,13 @@ save_image_and_remove_original (DialogData *data)
 		}
 	
 		if (error == NULL) {
-			data->saved_list = g_list_prepend (data->saved_list, g_strdup (fd_new->utf8_path));
+			data->saved_list = g_list_prepend (data->saved_list, fd_new->gfile);
+			g_object_ref (fd_new->gfile);
 	 
 			if (data->remove_original && ! file_data_same (fd_old, fd_new)) {
 				g_file_delete (fd_old->gfile, NULL, NULL);
-				data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd_old->utf8_path));
+				data->deleted_list = g_list_prepend (data->deleted_list, fd_old->gfile);
+				g_object_ref (fd_old->gfile);
 			}
 		}
 	}
