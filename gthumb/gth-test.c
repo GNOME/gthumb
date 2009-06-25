@@ -52,7 +52,7 @@ struct _GthTestPrivate
 };
 
 
-static GObjectClass *parent_class = NULL;
+static gpointer parent_class = NULL;
 static GthDuplicableIface *gth_duplicable_parent_iface = NULL;
 static guint gth_test_signals[LAST_SIGNAL] = { 0 };
 
@@ -71,13 +71,9 @@ gth_test_finalize (GObject *object)
 
 	test = GTH_TEST (object);
 
-	if (test->priv != NULL) {
-		g_free (test->priv->id);
-		g_free (test->priv->display_name);
-		g_free (test->files);
-		g_free (test->priv);
-		test->priv = NULL;
-	}
+	g_free (test->priv->id);
+	g_free (test->priv->display_name);
+	g_free (test->files);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -118,16 +114,16 @@ base_set_file_list (GthTest *test,
 {
 	GList *scan;
 	int    i;
-		
+
 	test->n_files = g_list_length (files);
-	
+
 	g_free (test->files);
 	test->files = g_malloc (sizeof (GthFileData*) * (test->n_files + 1));
-	
-	for (scan = files, i = 0; scan; scan = scan->next) 
+
+	for (scan = files, i = 0; scan; scan = scan->next)
 		test->files[i++] = scan->data;
 	test->files[i++] = NULL;
-	
+
 	test->iterator = 0;
 }
 
@@ -137,20 +133,20 @@ base_get_next (GthTest *test)
 {
 	GthFileData *file = NULL;
 	GthMatch     match = GTH_MATCH_NO;
-	
+
 	if (test->files == NULL)
 		return NULL;
-	
+
 	while (match == GTH_MATCH_NO) {
 		file = test->files[test->iterator];
 		if (file != NULL) {
 			match = gth_test_match (test, file);
 			test->iterator++;
 		}
-		else 
+		else
 			match = GTH_MATCH_LIMIT_REACHED;
 	}
-	
+
 	if (match != GTH_MATCH_YES)
 		file = NULL;
 
@@ -158,7 +154,7 @@ base_get_next (GthTest *test)
 		g_free (test->files);
 		test->files = NULL;
 	}
-	
+
 	return file;
 }
 
@@ -239,23 +235,24 @@ gth_test_get_property (GObject    *object,
 
 
 static void
-gth_test_class_init (GthTestClass *class)
+gth_test_class_init (GthTestClass *klass)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthTestPrivate));
 
+	object_class = (GObjectClass*) klass;
 	object_class->set_property = gth_test_set_property;
 	object_class->get_property = gth_test_get_property;
 	object_class->finalize = gth_test_finalize;
 
-	class->create_control = base_create_control;
-	class->update_from_control = base_update_from_control;
-	class->reset = base_reset;
-	class->match = base_match;
-	class->set_file_list = base_set_file_list;
-	class->get_next = base_get_next;
+	klass->create_control = base_create_control;
+	klass->update_from_control = base_update_from_control;
+	klass->reset = base_reset;
+	klass->match = base_match;
+	klass->set_file_list = base_set_file_list;
+	klass->get_next = base_get_next;
 
 	/* properties */
 
@@ -285,7 +282,7 @@ gth_test_class_init (GthTestClass *class)
 
 	gth_test_signals[CHANGED] =
                 g_signal_new ("changed",
-                              G_TYPE_FROM_CLASS (class),
+                              G_TYPE_FROM_CLASS (klass),
                               G_SIGNAL_RUN_LAST,
                               G_STRUCT_OFFSET (GthTestClass, changed),
                               NULL, NULL,
@@ -306,7 +303,7 @@ gth_test_gth_duplicable_interface_init (GthDuplicableIface *iface)
 static void
 gth_test_init (GthTest *test)
 {
-	test->priv = g_new0 (GthTestPrivate, 1);
+	test->priv = G_TYPE_INSTANCE_GET_PRIVATE (test, GTH_TYPE_TEST, GthTestPrivate);
 	test->priv->id = g_strdup ("");
 	test->priv->display_name = g_strdup ("");
 	test->priv->visible = FALSE;
@@ -335,7 +332,7 @@ gth_test_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-		
+
 		type = g_type_register_static (G_TYPE_OBJECT,
 					       "GthTest",
 					       &type_info,

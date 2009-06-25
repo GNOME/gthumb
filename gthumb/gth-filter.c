@@ -54,7 +54,7 @@ struct _GthFilterPrivate {
 	const char   *sort_name;
 	GtkSortType   sort_direction;
 	int           current_images;
-	goffset       current_size;	
+	goffset       current_size;
 	GtkWidget    *limit_entry;
 	GtkWidget    *size_combo_box;
 };
@@ -81,7 +81,7 @@ gth_filter_real_create_element (DomDomizable *base,
 	if (! gth_test_is_visible (GTH_TEST (self)))
 		dom_element_set_attribute (element, "display", "none");
 
-	if ((self->priv->test != NULL) && (gth_test_chain_get_match_type (self->priv->test) != GTH_MATCH_TYPE_NONE)) 
+	if ((self->priv->test != NULL) && (gth_test_chain_get_match_type (self->priv->test) != GTH_MATCH_TYPE_NONE))
 		dom_element_append_child (element, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
 
 	if (self->priv->limit_type != GTH_LIMIT_TYPE_NONE) {
@@ -124,7 +124,7 @@ gth_filter_real_load_from_element (DomDomizable *base,
 	for (node = element->first_child; node; node = node->next_sibling) {
 		if (g_strcmp0 (node->tag_name, "tests") == 0) {
 			GthTest *test;
-			
+
 			test = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
 			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
 			gth_filter_set_test (self, GTH_TEST_CHAIN (test));
@@ -148,7 +148,7 @@ qsort_campare_func (gconstpointer a,
 	GthFileDataSort *sort_type = user_data;
 	GthFileData     *file_a = *((GthFileData **) a);
 	GthFileData     *file_b = *((GthFileData **) b);
-	
+
 	return sort_type->cmp_func (file_a, file_b);
 }
 
@@ -158,32 +158,32 @@ gth_filter_set_file_list (GthTest *test,
 			  GList   *files)
 {
 	GthFilter *filter = GTH_FILTER (test);
-	
+
 	GTH_TEST_CLASS (parent_class)->set_file_list (test, files);
-	
+
 	if ((filter->priv->limit_type != GTH_LIMIT_TYPE_NONE)
 	    && (filter->priv->sort_name != NULL)
-	    && (strcmp (filter->priv->sort_name, "") != 0)) 
+	    && (strcmp (filter->priv->sort_name, "") != 0))
 	{
 		GthFileDataSort *sort_type;
-		
+
 		sort_type = gth_main_get_sort_type (filter->priv->sort_name);
-		if (sort_type != NULL) { 
+		if (sort_type != NULL) {
 			g_qsort_with_data (test->files, test->n_files, (gsize) sizeof (GthFileData *), qsort_campare_func, sort_type);
 			if (filter->priv->sort_direction == GTK_SORT_DESCENDING) {
 				int i;
-								
+
 				for (i = 0; i < test->n_files / 2; i++) {
 					GthFileData *tmp;
-					
+
 					tmp = test->files[i];
 					test->files[i] = test->files[test->n_files - 1 - i];
-					test->files[test->n_files - 1 - i] = tmp;					
+					test->files[test->n_files - 1 - i] = tmp;
 				}
 			}
 		}
 	}
-	
+
 	filter->priv->current_images = 0;
 	filter->priv->current_size = 0;
 }
@@ -195,7 +195,7 @@ gth_filter_match (GthTest     *test,
 {
 	GthFilter *filter = GTH_FILTER (test);
 	GthMatch   match = GTH_MATCH_NO;
-	
+
 	if (filter->priv->test != NULL)
 		match = gth_test_match (GTH_TEST (filter->priv->test), file);
 	else
@@ -218,8 +218,8 @@ gth_filter_match (GthTest     *test,
 			match = GTH_MATCH_LIMIT_REACHED;
 		break;
 	}
-	
-	return match; 
+
+	return match;
 }
 
 
@@ -239,11 +239,11 @@ create_control_for_files (GthFilter *filter)
 	GtkWidget *limit_label;
 	GtkWidget *label;
 	char      *value;
-	
+
 	control = gtk_hbox_new (FALSE, 6);
 
 	/* limit label */
-	
+
 	limit_label = gtk_label_new_with_mnemonic (_("_Limit to"));
 	gtk_widget_show (limit_label);
 
@@ -315,7 +315,7 @@ create_control_for_size (GthFilter *filter)
 	control = gtk_hbox_new (FALSE, 6);
 
 	/* limit label */
-	
+
 	limit_label = gtk_label_new_with_mnemonic (_("_Limit to"));
 	gtk_widget_show (limit_label);
 
@@ -418,28 +418,25 @@ gth_filter_finalize (GObject *object)
 
 	filter = GTH_FILTER (object);
 
-	if (filter->priv != NULL) {
-		if (filter->priv->test != NULL)
-			g_object_unref (filter->priv->test);
-		g_free (filter->priv);
-		filter->priv = NULL;
-	}
+	_g_object_unref (filter->priv->test);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static void
-gth_filter_class_init (GthFilterClass *class)
+gth_filter_class_init (GthFilterClass *klass)
 {
 	GObjectClass *object_class;
 	GthTestClass *test_class;
 
-	parent_class = g_type_class_peek_parent (class);
-	object_class = G_OBJECT_CLASS (class);
-	test_class = GTH_TEST_CLASS (class);
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthFilterPrivate));
 
+	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = gth_filter_finalize;
+
+	test_class = GTH_TEST_CLASS (klass);
 	test_class->set_file_list = gth_filter_set_file_list;
 	test_class->match = gth_filter_match;
 	test_class->create_control = gth_filter_real_create_control;
@@ -464,7 +461,7 @@ gth_filter_gth_duplicable_interface_init (GthDuplicableIface *iface)
 static void
 gth_filter_init (GthFilter *filter)
 {
-	filter->priv = g_new0 (GthFilterPrivate, 1);
+	filter->priv = G_TYPE_INSTANCE_GET_PRIVATE (filter, GTH_TYPE_FILTER, GthFilterPrivate);
 	filter->priv->test = NULL;
 	filter->priv->limit_type = GTH_LIMIT_TYPE_NONE;
 	filter->priv->limit = 0;
@@ -567,7 +564,7 @@ gth_filter_set_test (GthFilter    *filter,
 		g_object_unref (filter->priv->test);
 		filter->priv->test = NULL;
 	}
-	if (test != NULL) 
+	if (test != NULL)
 		filter->priv->test = g_object_ref (test);
 }
 
