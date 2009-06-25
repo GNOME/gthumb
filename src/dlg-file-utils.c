@@ -1221,7 +1221,9 @@ static void
 files_copy__done (FileCopyData *fcdata)
 {
 	if (fcdata->remove_source)
+		/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, fcdata->copied_list);
+	/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
 	gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, fcdata->created_list);
 	gth_monitor_resume ();
 
@@ -1777,8 +1779,10 @@ static void
 files_delete__done (FileDeleteData *fddata)
 {
 	if (fddata->error == NULL)
+		/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, fddata->file_list);
 	else
+		/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, fddata->file_list);
 
 	/*gth_monitor_resume (); FIXME*/
