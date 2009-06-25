@@ -19,7 +19,7 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
- 
+
 #ifndef GTH_EXTENSIONS_H
 #define GTH_EXTENSIONS_H
 
@@ -77,7 +77,7 @@ typedef struct _GthExtensionManagerPrivate GthExtensionManagerPrivate;
 
 struct _GthExtension {
 	GObject parent_instance;
-	GthExtensionPrivate *priv;	
+	GthExtensionPrivate *priv;
 	gboolean initialized;
 	gboolean active;
 };
@@ -89,7 +89,7 @@ struct _GthExtensionClass {
 	void     (*activate)        (GthExtension *self);
 	void     (*deactivate)      (GthExtension *self);
 	gboolean (*is_configurable) (GthExtension *self);
-	void     (*configure)       (GthExtension *self, 
+	void     (*configure)       (GthExtension *self,
 				     GtkWindow    *parent);
 };
 
@@ -104,7 +104,6 @@ struct _GthExtensionModuleClass {
 
 struct _GthExtensionDescription {
 	GObject parent_instance;
-	GthExtensionDescriptionPrivate *priv;
 	char  *name;
 	char  *description;
 	char **authors;
@@ -113,6 +112,8 @@ struct _GthExtensionDescription {
 	char  *url;
 	char  *loader_type;
 	char  *loader_file;
+	char **loader_requires;
+	GthExtensionDescriptionPrivate *priv;
 };
 
 struct _GthExtensionDescriptionClass {
@@ -135,7 +136,7 @@ gboolean                   gth_extension_is_active                 (GthExtension
 void                       gth_extension_activate                  (GthExtension *self);
 void                       gth_extension_deactivate                (GthExtension *self);
 gboolean                   gth_extension_is_configurable           (GthExtension *self);
-void                       gth_extension_configure                 (GthExtension *self, 
+void                       gth_extension_configure                 (GthExtension *self,
 					        	   	    GtkWindow    *parent);
 
 GType                      gth_extension_module_get_type           (void);
@@ -146,9 +147,13 @@ GthExtensionDescription *  gth_extension_description_new           (GFile       
 
 GType                      gth_extension_manager_get_type          (void);
 GthExtensionManager *      gth_extension_manager_new               (void);
-void                       gth_extension_manager_load_extensions   (GthExtensionManager     *self);
-GthExtension *             gth_extension_manager_get_extension     (GthExtensionManager     *self,
-          							    GthExtensionDescription *desc);
+gboolean                   gth_extension_manager_open              (GthExtensionManager *manager,
+								    const char          *extension_name);
+gboolean                   gth_extension_manager_activate          (GthExtensionManager *manager,
+								    const char          *extension_name);
+GList *                    gth_extension_manager_get_extensions    (GthExtensionManager *manager);
+GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager *manager,
+								    const char          *extension_name);
 
 G_END_DECLS
 

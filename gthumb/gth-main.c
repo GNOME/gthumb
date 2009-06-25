@@ -1000,11 +1000,6 @@ gth_main_activate_extensions (void)
 
 	/* FIXME: read the extensions list from a gconf key */
 
-	for (i = 0; default_extensions[i] != NULL; i++) {
-		GthExtension *extension;
-
-		extension = gth_extension_module_new (default_extensions[i]);
-		if ((extension != NULL) && gth_extension_open (extension))
-			gth_extension_activate (extension);
-	}
+	for (i = 0; default_extensions[i] != NULL; i++)
+		gth_extension_manager_activate (Main->priv->extension_manager, default_extensions[i]);
 }
