@@ -1062,7 +1062,7 @@ notify_file_creation_cb (gpointer cb_data)
 	data->idle_id = 0;
 
 	if (data->saved_images_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, data->saved_images_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, data->saved_images_list);
 		gfile_list_free (data->saved_images_list);
 		data->saved_images_list = NULL;
 	}
@@ -1317,7 +1317,8 @@ save_images__step (AsyncOperationData *aodata,
 			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list,
 									g_file_dup (final_dest_gfile));
 
-		data->saved_images_list = g_list_prepend (data->saved_images_list, g_file_dup (final_dest_gfile));
+		data->saved_images_list = g_list_prepend (data->saved_images_list, final_dest_gfile);
+		g_object_ref (final_dest_gfile);
 		add_tags_to_image (data, final_dest_path);
 
 	} else {
