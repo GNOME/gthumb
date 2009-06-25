@@ -283,7 +283,8 @@ remove_if_present (GList            **monitor_events,
 	link = gfile_list_find_gfile (list, gfile);
 	if (link != NULL) {
 		monitor_events[type] = g_list_remove_link (list, link);
-		g_object_unref (link);
+		g_object_unref (link->data);
+		g_list_free_1 (link);
 		return TRUE;
 	}
 
