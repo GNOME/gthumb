@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 
 #include "file-utils.h"
+#include "gfile-utils.h"
 #include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
@@ -59,8 +60,8 @@ static void
 dialog_data_free (DialogData *data)
 {
 	if (data->files_changed_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, data->files_changed_list);
-		path_list_free (data->files_changed_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, data->files_changed_list);
+		gfile_list_free (data->files_changed_list);
 		data->files_changed_list = NULL;
 	}
 
@@ -110,8 +111,8 @@ apply_transformation (BatchTransformation *bt_data)
 			
 		if (file_data_has_local_path (file, GTK_WINDOW (bt_data->data->window))) {
 			write_orientation_field (file->local_path, GTH_TRANSFORM_NONE);
-			bt_data->data->files_changed_list = g_list_prepend (bt_data->data->files_changed_list, 
-									    g_strdup (file->utf8_path));
+			bt_data->data->files_changed_list = g_list_prepend (bt_data->data->files_changed_list, file->gfile);
+			g_object_ref (file->gfile);
 		}
 
 		bt_data->i++;	
