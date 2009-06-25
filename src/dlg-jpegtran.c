@@ -78,8 +78,8 @@ static void
 dialog_data_free (DialogData *data)
 {
 	if (data->files_changed_list != NULL) {
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, data->files_changed_list);
-		path_list_free (data->files_changed_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, data->files_changed_list);
+		gfile_list_free (data->files_changed_list);
 		data->files_changed_list = NULL;
 	}
 
@@ -222,16 +222,19 @@ typedef struct {
 
 static void
 notify_file_changed (DialogData *data,
-		     const char *filename,
+		     GFile      *gfile,
 		     gboolean    notify_soon)
 {
 	if (notify_soon) {
-		GList *list = g_list_prepend (NULL, (char*) filename);
+		GList *list = g_list_prepend (NULL, gfile);
+		g_object_ref (gfile);
 		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, list);
-		g_list_free (list);
+		gfile_list_free (list);
 	} 
-	else
-		data->files_changed_list = g_list_prepend (data->files_changed_list, g_strdup (filename));
+	else {
+		data->files_changed_list = g_list_prepend (data->files_changed_list, gfile);
+		g_object_ref (gfile);
+	}
 }
 
 
@@ -243,7 +246,7 @@ apply_transformation_done (gpointer callback_data)
 		
 	if (at_data->info != NULL)
 		g_file_set_attributes_from_info (file->gfile, at_data->info, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	notify_file_changed (at_data->data, file->utf8_path, at_data->notify_soon);
+	notify_file_changed (at_data->data, file->gfile, at_data->notify_soon);
 	
 	if (at_data->done_func)
 		(at_data->done_func) (at_data->done_data);
