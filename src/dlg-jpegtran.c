@@ -228,7 +228,7 @@ notify_file_changed (DialogData *data,
 	if (notify_soon) {
 		GList *list = g_list_prepend (NULL, gfile);
 		g_object_ref (gfile);
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CHANGED, list);
 		gfile_list_free (list);
 	} 
 	else {
