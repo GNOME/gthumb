@@ -134,10 +134,10 @@ free_progress_data (GthBatchOp *bop)
 		PD(bop)->progress_gui = NULL;
 	}
 
-	path_list_free (PD(bop)->saved_list);
+	gfile_list_free (PD(bop)->saved_list);
 	PD(bop)->saved_list = NULL;
 
-	path_list_free (PD(bop)->deleted_list);
+	gfile_list_free (PD(bop)->deleted_list);
 	PD(bop)->deleted_list = NULL;
 
 	file_data_list_free (PD(bop)->file_list);
@@ -345,9 +345,9 @@ static void
 notify_termination (GthBatchOp *bop)
 {
 	if (PD(bop)->deleted_list != NULL)
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, PD(bop)->deleted_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_DELETED, PD(bop)->deleted_list);
 	if (PD(bop)->saved_list != NULL)
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, PD(bop)->saved_list);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, PD(bop)->saved_list);
 	gth_monitor_resume ();
 
 	g_signal_emit (G_OBJECT (bop),
@@ -463,13 +463,15 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 		}
 	
 		if (error == NULL) {
-			PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
+			PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, fd_new->gfile);
+			g_object_ref (fd_new->gfile);
 	 
 			if (! file_data_same (fd_old, fd_new)) {
 				comment_copy (fd_old->utf8_path, fd_new->utf8_path);
 				if (PD(bop)->remove_original) {
 					g_file_delete (fd_old->gfile, NULL, NULL);
-					PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd_old->utf8_path));
+					PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, fd_old->gfile);
+					g_object_ref (fd_old->gfile);
 				}
 			}
 		}
