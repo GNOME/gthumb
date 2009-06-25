@@ -191,11 +191,11 @@ path_list_next_files_cb (GObject      *source_object,
 		   GAsyncResult *res,
 		   gpointer      data)
 {
-	GError    *error=NULL;
 	PathListData *pli = (PathListData *) data;
 	
-	pli->file_list = g_file_enumerator_next_files_finish (pli->gfile_enum, res ,&error);
+	pli->file_list = g_file_enumerator_next_files_finish (pli->gfile_enum, res ,&pli->error);
 	if (pli->error != NULL) {
+		g_error_free (pli->error);
 		if (pli->done_func) {
 			/* pli is deallocated in pli->done_func */
 			pli->done_func (pli, pli->done_data);
@@ -215,6 +215,7 @@ directory_load_cb (GObject      *source_object,
 	pli = (PathListData *) data;
 	pli->gfile_enum = g_file_enumerate_children_finish (pli->gfile, res, &pli->error);
 	if (pli->error != NULL) {
+		g_error_free (pli->error);
 		if (pli->done_func) {
 			/* pli is deallocated in pli->done_func */
 			pli->done_func (pli, pli->done_data);
@@ -269,7 +270,7 @@ path_list_async_new (const char         *uri,
 	pli->fast_file_type = fast_file_type;
 	pli->cancelled = g_cancellable_new();
 	g_file_enumerate_children_async (pli->gfile,
-                                         "*",
+                                         "standard::*",
                                          G_FILE_QUERY_INFO_NONE,
                                          G_PRIORITY_DEFAULT,
                                          pli->cancelled,

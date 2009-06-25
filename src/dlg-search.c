@@ -1048,20 +1048,21 @@ search_dir_next_files_cb (GObject      *source_object,
 			GFile     *sym_target = NULL;
 			GFileInfo *info2;
 			GError    *error = NULL;
-
 			child = g_file_get_child (data->gfile, g_file_info_get_name (info));
-			sym_target = g_file_resolve_relative_path (child, g_file_info_get_symlink_target (info));
-			path = g_file_get_parent (sym_target);
-			info2 = g_file_query_info (sym_target, "standard::*", G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL, &error);
-			g_object_unref (info);
-			info = info2;
-
-			if (info == NULL) {
-				gfile_warning ("Cannot resolve symlink", sym_target, error);
-				g_error_free(error);
+			if (g_file_info_get_symlink_target (info) != NULL) {
+				sym_target = g_file_resolve_relative_path (child, g_file_info_get_symlink_target (info));
+				path = g_file_get_parent (sym_target);
+				if (path == NULL)
+					path = gfile_new ("file:///");
+				info2 = g_file_query_info (sym_target, "standard::*", G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS, NULL, &error);
+				g_object_unref (info);
+				info = info2;
+				if (info == NULL) {
+					gfile_warning ("Cannot resolve symlink", sym_target, error);
+					g_error_free(error);
+				}
+				g_object_unref (sym_target);
 			}
-
-			g_object_unref (sym_target);
 			g_object_unref (child);
 		}
 		if (info != NULL) {

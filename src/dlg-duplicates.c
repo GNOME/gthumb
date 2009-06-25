@@ -1315,6 +1315,7 @@ read_callback (GObject      *source_object,
 		g_input_stream_close_async (G_INPUT_STREAM(data->stream), G_PRIORITY_DEFAULT, NULL, close_callback, data);
 		data->scanning_dir = FALSE;
 		data->checking_file = FALSE;
+		g_error_free (error);
 		search_finished (data);
 		return;
 	}
@@ -1383,11 +1384,12 @@ open_callback (GObject      *source_object,
 	DialogData *data = callback_data;
 	GError *error = NULL;
 	data->stream = g_file_read_finish (data->current_gfile, res, &error);
-	if (data->stream == NULL) { 
+	if (data->stream == NULL) {
 		gfile_warning ("Cannot load file", data->current_gfile, error);
 
 		/* No need to stop the search for an error opening a file.
 		 * Some MTP devices seem to have files that can't be read */
+		g_error_free (error);
 		start_next_checksum (data);
 		return;
 	}
@@ -1522,10 +1524,11 @@ directory_load_cb (GObject       *source_object,
 	data->gfile_enum = g_file_enumerate_children_finish (data->gfile, res, &error);
 
 	if(data->gfile_enum == NULL) {
-		gfile_warning ("Cannot load directory", data->current_gfile, error);
+		gfile_warning ("Cannot load directory", data->gfile, error);
 
 		/* Lots off errors here will likley only be permission related,
 		 * no need to stop our search, ignore this dir and keep going */
+		g_error_free (error);
 		scan_next_dir (data);
 		return;
 	}
