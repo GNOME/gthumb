@@ -242,7 +242,7 @@ catalog_png_exporter_finalize (GObject *object)
 	}
 
 	if (ce->created_files != NULL) {
-		path_list_free (ce->created_files);
+		gfile_list_free (ce->created_files);
 		ce->created_files = NULL;
 	}
 
@@ -1442,7 +1442,7 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 		g_object_unref (ce->iloader);
 
 	if (ce->created_files != NULL) {
-		path_list_free (ce->created_files);
+		gfile_list_free (ce->created_files);
 		ce->created_files = NULL;
 	}
 
@@ -1500,9 +1500,9 @@ end_export (CatalogPngExporter *ce)
 {	
 	if (ce->created_files != NULL) {
 		gth_monitor_pause ();
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CREATED, ce->created_files);
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_CREATED, ce->created_files);
 		gth_monitor_resume ();
-		path_list_free (ce->created_files);
+		gfile_list_free (ce->created_files);
 		ce->created_files = NULL;
 	}
 
@@ -1676,7 +1676,8 @@ end_page (CatalogPngExporter *ce,
 			_gdk_pixbuf_save (pixbuf, fd->local_path, NULL, "jpeg", NULL, "quality", "85", NULL);
 		else
 			_gdk_pixbuf_save (pixbuf, fd->local_path, NULL, ce->file_type, NULL, NULL);
-		ce->created_files = g_list_prepend (ce->created_files, uri);
+		ce->created_files = g_list_prepend (ce->created_files, fd->gfile);
+		g_object_ref (fd->gfile);
 	}
 	file_data_unref (fd);
 	g_free (name);
@@ -1692,10 +1693,11 @@ end_page (CatalogPngExporter *ce,
 	g_output_stream_write (G_OUTPUT_STREAM(ce->ostream), HTML_PAGE_END, strlen (HTML_PAGE_END), NULL, NULL);	
 	
 	g_output_stream_close (G_OUTPUT_STREAM(ce->ostream), NULL, NULL);
+	
+	ce->created_files = g_list_prepend (ce->created_files, ce->imap_gfile);
+	g_object_ref (ce->imap_gfile);
+
 	g_object_unref (ce->imap_gfile);
-	
-	ce->created_files = g_list_prepend (ce->created_files, g_strdup (ce->imap_uri));
-	
 	g_free (line);
 }
 
