@@ -50,6 +50,7 @@
 #include "rotation-utils.h"
 #include "main.h"
 
+
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include <libgnomeui/gnome-desktop-thumbnail.h>
 
@@ -779,7 +780,6 @@ gfile_get_preview (DialogData *data,
         GIcon        *gicon;
         GtkIconTheme *theme;
 	GFileInfo    *info;
-	char         *uri;
 	const char   *mime_type;
 
 	mime_type = gfile_get_mime_type (gfile, FALSE);
@@ -795,11 +795,18 @@ gfile_get_preview (DialogData *data,
                 return NULL;
 
 	if (data->generate_previews && is_relevant_mime_type (gfile, TRUE, FALSE)) {
-		uri = g_file_get_uri (gfile);
+
+		pixbuf = gth_extract_embedded_thumbnail (gfile, size);
+		if (pixbuf) {
+			gfile_debug (DEBUG_INFO, "using embedded thumbnail for", gfile);
+			return pixbuf;
+		} 
+
+		char *uri = g_file_get_uri (gfile);
 		pixbuf = gnome_desktop_thumbnail_factory_generate_thumbnail (data->factory, uri, mime_type);
 		g_free (uri);
-
 		if (pixbuf) {
+			gfile_debug (DEBUG_INFO, "using generated thumbnail for", gfile);
 			int w = gdk_pixbuf_get_width (pixbuf);
 			int h = gdk_pixbuf_get_height (pixbuf);
 			if (scale_keeping_ratio (&w, &h, size, size, FALSE)) {
@@ -807,20 +814,20 @@ gfile_get_preview (DialogData *data,
 				pixbuf = gdk_pixbuf_scale_simple (tmp, w, h, GDK_INTERP_BILINEAR);
 				g_object_unref (tmp);
 			}
+			return pixbuf;
 		}
 
-		if (pixbuf) {
-			gfile_debug (DEBUG_INFO, "using thumbnail for", gfile);
-		} else {
-			char *local_path = g_file_get_path (gfile);
+		char *local_path = g_file_get_path (gfile);
+		if (local_path)
 			pixbuf = gdk_pixbuf_new_from_file_at_scale (local_path, size, size, TRUE, NULL);
-			g_free (local_path);
-			if (pixbuf) {
-				gfile_debug (DEBUG_INFO, "using gdk pixbuf loader for", gfile);
-				GdkPixbuf *tmp = pixbuf;
-				pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
-				g_object_unref (tmp);
-			}
+		g_free (local_path);
+
+		if (pixbuf) {
+			gfile_debug (DEBUG_INFO, "using gdk pixbuf loader for", gfile);
+			GdkPixbuf *tmp = pixbuf;
+			pixbuf = gdk_pixbuf_apply_embedded_orientation (tmp);
+			g_object_unref (tmp);
+			return pixbuf;
 		}
 	}
 

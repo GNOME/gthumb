@@ -33,6 +33,10 @@ extern "C" GList *
 read_exiv2_sidecar	(const char  *uri,
 			 GList       *metadata);
 
+extern "C" const char *
+get_embedded_thumb      (const char  *local_file,
+			 const char  *tmp_thumb);
+
 extern "C" void
 write_metadata 		(const char  *from_file,
 			 const char  *to_file,

@@ -218,8 +218,10 @@ gboolean	    is_local_file                 (const char       *filename);
 void                free_cache                    (void);
 GHashTable *        read_dot_hidden_file          (const char       *uri);
 
-/* Pixbuf + VFS */
+/* Pixbuf */
 
+GdkPixbuf*          gth_extract_embedded_thumbnail     (GFile                  *gfile,
+							int                     size);
 GdkPixbuf*	    gth_pixbuf_new_from_file	       (FileData               *file,
 			  				GError                **error,
 			  				int                     requested_width,

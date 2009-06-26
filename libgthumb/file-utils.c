@@ -2174,6 +2174,59 @@ free_cache (void)
 }
 
 
+const char * get_embedded_thumb (const char  *local_path, const char  *tmp_thumb);
+
+GdkPixbuf*
+gth_extract_embedded_thumbnail (GFile *gfile, int size)
+{
+	GdkPixbuf *pixbuf = NULL;
+	char *local_path = g_file_get_path (gfile);
+
+	if (local_path) {
+		char *tmp_dir = get_temp_dir_name ();
+		char *filename = g_strconcat (tmp_dir, "/thumb", NULL);
+
+		const char *ext = get_embedded_thumb (local_path, filename);
+
+		if (ext && ext[0] != 0) {
+			char *full_filename = g_strconcat (filename, ext, NULL);
+			if (path_is_file (full_filename)) {
+				if (size > 0)
+					pixbuf = gdk_pixbuf_new_from_file_at_scale (full_filename, size, size, TRUE, NULL);
+				else
+					pixbuf = gdk_pixbuf_new_from_file (full_filename, NULL);
+			}
+		dir_remove_recursive (tmp_dir);
+		}
+
+		/* size sanity check */
+		if (pixbuf) {
+			int real_w = 0;
+			int real_h = 0;
+			int w, h;
+
+			w = gdk_pixbuf_get_width (pixbuf);
+			h = gdk_pixbuf_get_height (pixbuf);
+
+			gdk_pixbuf_get_file_info (local_path, &real_w, &real_h);
+
+			if ((w>0) && (h>0) && (real_w>0) && (real_h>0)) {
+				if (((real_w > real_h) && (h > w)) ||
+				    ((real_w < real_h) && (w > h))) {
+					/* reject thumbnails where the orientation is 
+					   obviously wrong */
+					g_object_unref (pixbuf);
+					pixbuf = NULL;
+				}
+			}
+		}
+	}
+
+	g_free (local_path);
+	return pixbuf;
+}
+
+
 static GdkPixbuf*
 get_pixbuf_using_external_converter (FileData   *file,
 				     int         requested_width,
@@ -2390,6 +2443,11 @@ gth_pixbuf_new_from_file (FileData               *file,
 			return gth_pixbuf_new_from_video (file, factory, error, (requested_width == 0));
 		return NULL;
 	}
+
+	/* use exiv2 to extract embedded thumbnails, if possible */
+	if ((pixbuf == NULL)
+	    && (requested_width > 0))
+		pixbuf = gth_extract_embedded_thumbnail (file->gfile, requested_width);
 
 #ifdef HAVE_LIBOPENRAW
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for

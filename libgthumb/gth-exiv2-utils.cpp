@@ -573,6 +573,30 @@ mandatory_string (Exiv2::ExifData &checkdata,
                 checkdata[tag] = value;
 }
 
+
+extern "C"
+const char *
+get_embedded_thumb (const char *local_file, const char *tmp_thumb)
+{
+	try {
+                Exiv2::Image::AutoPtr image1 = Exiv2::ImageFactory::open (local_file);
+                g_assert (image1.get() != 0);
+
+		image1->readMetadata();
+		Exiv2::ExifData &ed = image1->exifData();
+		Exiv2::ExifThumbC et(ed);
+
+		et.writeFile(tmp_thumb);
+		return et.extension();
+	}
+        catch (const Exiv2::AnyError& error) {
+                std::cerr << error << "\n";
+		return NULL;
+        }
+
+}
+
+
 extern "C"
 void
 write_metadata (const char *from_file,
