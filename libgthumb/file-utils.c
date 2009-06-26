@@ -2198,28 +2198,6 @@ gth_extract_embedded_thumbnail (GFile *gfile, int size)
 			}
 		dir_remove_recursive (tmp_dir);
 		}
-
-		/* size sanity check */
-		if (pixbuf) {
-			int real_w = 0;
-			int real_h = 0;
-			int w, h;
-
-			w = gdk_pixbuf_get_width (pixbuf);
-			h = gdk_pixbuf_get_height (pixbuf);
-
-			gdk_pixbuf_get_file_info (local_path, &real_w, &real_h);
-
-			if ((w>0) && (h>0) && (real_w>0) && (real_h>0)) {
-				if (((real_w > real_h) && (h > w)) ||
-				    ((real_w < real_h) && (w > h))) {
-					/* reject thumbnails where the orientation is 
-					   obviously wrong */
-					g_object_unref (pixbuf);
-					pixbuf = NULL;
-				}
-			}
-		}
 	}
 
 	g_free (local_path);
@@ -2444,11 +2422,6 @@ gth_pixbuf_new_from_file (FileData               *file,
 		return NULL;
 	}
 
-	/* use exiv2 to extract embedded thumbnails, if possible */
-	if ((pixbuf == NULL)
-	    && (requested_width > 0))
-		pixbuf = gth_extract_embedded_thumbnail (file->gfile, requested_width);
-
 #ifdef HAVE_LIBOPENRAW
 	/* Raw thumbnails - using libopenraw is much faster than using dcraw for
 	   thumbnails. Use libopenraw for full raw images too, once it matures. */
@@ -2457,6 +2430,12 @@ gth_pixbuf_new_from_file (FileData               *file,
 	    && (requested_width > 0))
 		pixbuf = or_gdkpixbuf_extract_rotated_thumbnail (file->local_path, requested_width);
 #endif
+
+	/* use exiv2 to extract raw embedded thumbnails, if possible */
+	if ((pixbuf == NULL)
+	    && mime_type_is_raw (file->mime_type)
+	    && (requested_width > 0))
+		pixbuf = gth_extract_embedded_thumbnail (file->gfile, requested_width);
 
 	/* Use dcraw for raw images, pfstools for HDR images */
 	if ((pixbuf == NULL) &&
