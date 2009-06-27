@@ -3927,6 +3927,11 @@ gth_browser_fullscreen (GthBrowser *browser)
 void
 gth_browser_unfullscreen (GthBrowser *browser)
 {
+	if (browser->priv->motion_signal != 0)
+		g_signal_handler_disconnect (browser, browser->priv->motion_signal);
+	if (browser->priv->hide_mouse_timeout != 0)
+		g_source_remove (browser->priv->hide_mouse_timeout);
+
 	browser->priv->fullscreen = FALSE;
 
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
@@ -3937,7 +3942,4 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, TRUE);
 	}
 	gth_browser_update_sensitivity (browser);
-
-	if (browser->priv->motion_signal != 0)
-		g_signal_handler_disconnect (browser, browser->priv->motion_signal);
 }
