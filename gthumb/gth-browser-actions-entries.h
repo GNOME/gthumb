@@ -77,7 +77,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "Edit_Extensions", NULL,
 	  N_("Extensions"), NULL,
-	  N_("Activate and configure the application extensions"),
+	  N_("Activate, deactivate and configure the gthumb extensions"),
 	  G_CALLBACK (gth_browser_activate_action_edit_extensions) },
 
 	{ "Edit_SelectAll", GTK_STOCK_SELECT_ALL,

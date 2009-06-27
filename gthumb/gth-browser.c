@@ -3905,15 +3905,14 @@ gth_browser_fullscreen (GthBrowser *browser)
 	_gth_browser_create_fullscreen_toolbar (browser);
 
 	gth_browser_show_viewer_properties (browser, FALSE);
-	gtk_window_fullscreen (GTK_WINDOW (browser));
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	gth_window_show_only_content (GTH_WINDOW (browser), TRUE);
+	gtk_window_fullscreen (GTK_WINDOW (browser));
 	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_show (browser->priv->viewer_page);
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
 	}
-
 	gth_browser_update_sensitivity (browser);
 
 	browser->priv->last_mouse_x = 0.0;
@@ -3931,11 +3930,12 @@ gth_browser_unfullscreen (GthBrowser *browser)
 	browser->priv->fullscreen = FALSE;
 
 	gtk_widget_hide (browser->priv->fullscreen_toolbar);
-	gtk_window_unfullscreen (GTK_WINDOW (browser));
 	gth_window_show_only_content (GTH_WINDOW (browser), FALSE);
-	if (browser->priv->viewer_page != NULL)
+	gtk_window_unfullscreen (GTK_WINDOW (browser));
+	if (browser->priv->viewer_page != NULL) {
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
-
+		gth_viewer_page_show_pointer (browser->priv->viewer_page, TRUE);
+	}
 	gth_browser_update_sensitivity (browser);
 
 	if (browser->priv->motion_signal != 0)

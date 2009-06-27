@@ -2525,6 +2525,9 @@ gth_image_viewer_get_reset_scrollbars (GthImageViewer *viewer)
 void
 gth_image_viewer_show_cursor (GthImageViewer *viewer)
 {
+	if (viewer->priv->cursor_visible)
+		return;
+
 	viewer->priv->cursor_visible = TRUE;
 	gdk_window_set_cursor (GTK_WIDGET (viewer)->window, viewer->priv->cursor);
 }
@@ -2533,6 +2536,9 @@ gth_image_viewer_show_cursor (GthImageViewer *viewer)
 void
 gth_image_viewer_hide_cursor (GthImageViewer *viewer)
 {
+	if (! viewer->priv->cursor_visible)
+		return;
+
 	viewer->priv->cursor_visible = FALSE;
 	gdk_window_set_cursor (GTK_WIDGET (viewer)->window, viewer->priv->cursor_void);
 }
@@ -2542,20 +2548,23 @@ void
 gth_image_viewer_set_cursor (GthImageViewer *viewer,
 			     GdkCursor      *cursor)
 {
+	if (cursor != NULL)
+		gdk_cursor_ref (cursor);
+
 	if (viewer->priv->cursor != NULL) {
 		gdk_cursor_unref (viewer->priv->cursor);
 		viewer->priv->cursor = NULL;
 	}
-	if (cursor != NULL) {
-		viewer->priv->cursor = gdk_cursor_ref (cursor);
-	}
+	if (cursor != NULL)
+		viewer->priv->cursor = cursor;
 	else
 		viewer->priv->cursor = gdk_cursor_ref (viewer->priv->cursor_void);
 
 	if (! GTK_WIDGET_REALIZED (viewer))
 		return;
 
-	gdk_window_set_cursor (GTK_WIDGET (viewer)->window, viewer->priv->cursor);
+	if (viewer->priv->cursor_visible)
+		gdk_window_set_cursor (GTK_WIDGET (viewer)->window, viewer->priv->cursor);
 }
 
 
