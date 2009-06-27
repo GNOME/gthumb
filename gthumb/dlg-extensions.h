@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,21 +20,11 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GTHUMB_ERROR_H__
-#define __GTHUMB_ERROR_H__
+#ifndef DLG_EXTENSIONS_H
+#define DLG_EXTENSIONS_H
 
-#include <glib.h>
+#include "gth-browser.h"
 
-G_BEGIN_DECLS
+void dlg_extensions (GthBrowser *browser);
 
-typedef enum {
-	GTH_ERROR_GENERIC,
-	GTH_ERROR_EXTENSION_DEPENDENCY
-} GthErrorCode;
-
-#define GTHUMB_ERROR gthumb_error_quark ()
-GQuark gthumb_error_quark (void);
-
-G_END_DECLS
-
-#endif /* __GTHUMB_ERROR_H__ */
+#endif /* DLG_EXTENSIONS_H */

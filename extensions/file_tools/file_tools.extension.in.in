@@ -1,9 +1,9 @@
 [Extension]
-_Name=Image Tools
+_Name=Image tools
 _Description=Basic tools to modify images.
-Authors=Paolo Bacchilega <paobac@src.gnome.org>
-Copyright=Copyright © 2009 Paolo Bacchilega
-Version=1
+_Authors=gthumb development team
+Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Version=1.0
 
 [Loader]
 Type=module

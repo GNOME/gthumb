@@ -21,8 +21,11 @@
  */
 
 #include <config.h>
+#include <glib/gi18n.h>
 #include "glib-utils.h"
 #include "gth-extensions.h"
+#include "gthumb-error.h"
+
 
 #define EXTENSION_SUFFIX ".extension"
 
@@ -48,19 +51,21 @@ gth_extension_base_close (GthExtension *self)
 }
 
 
-static void
-gth_extension_base_activate (GthExtension *self)
+static gboolean
+gth_extension_base_activate (GthExtension  *self,
+			     GError       **error)
 {
-	g_return_if_fail (GTH_IS_EXTENSION (self));
 	self->active = TRUE;
+	return TRUE;
 }
 
 
-static void
-gth_extension_base_deactivate (GthExtension *self)
+static gboolean
+gth_extension_base_deactivate (GthExtension  *self,
+			       GError       **error)
 {
-	g_return_if_fail (GTH_IS_EXTENSION (self));
 	self->active = FALSE;
+	return TRUE;
 }
 
 
@@ -148,17 +153,19 @@ gth_extension_is_active (GthExtension *self)
 }
 
 
-void
-gth_extension_activate (GthExtension *self)
+gboolean
+gth_extension_activate (GthExtension  *self,
+	                GError       **error)
 {
-	GTH_EXTENSION_GET_CLASS (self)->activate (self);
+	return GTH_EXTENSION_GET_CLASS (self)->activate (self, error);
 }
 
 
-void
-gth_extension_deactivate (GthExtension *self)
+gboolean
+gth_extension_deactivate (GthExtension  *self,
+	                  GError       **error)
 {
-	GTH_EXTENSION_GET_CLASS (self)->deactivate (self);
+	return GTH_EXTENSION_GET_CLASS (self)->deactivate (self, error);
 }
 
 
@@ -193,7 +200,7 @@ static gboolean
 gth_extension_module_real_open (GthExtension *base)
 {
 	GthExtensionModule *self;
-	char *file_name;
+	char               *file_name;
 
 	self = GTH_EXTENSION_MODULE (base);
 
@@ -244,49 +251,63 @@ get_module_function_name (GthExtensionModule *self,
 }
 
 
-static void
-gth_extension_module_exec_generic_func (GthExtensionModule *self,
-					const char         *name)
+static gboolean
+gth_extension_module_exec_generic_func (GthExtensionModule   *self,
+					const char           *name,
+					GError              **error)
 {
 	char *function_name;
 	void (*func) (void);
-
-	g_return_if_fail (GTH_IS_EXTENSION_MODULE (self));
-	g_return_if_fail (name != NULL);
 
 	function_name = get_module_function_name (self, name);
 	if (g_module_symbol (self->priv->module, function_name, (gpointer *)&func))
 		func();
 	else
-		g_warning ("could not exec module function: %s\n", g_module_error ());
+		*error = g_error_new_literal (GTHUMB_ERROR, GTH_ERROR_GENERIC, g_module_error ());
 
 	g_free (function_name);
+
+	return (*error == NULL);
 }
 
 
-static void
-gth_extension_module_real_activate (GthExtension *base)
+static gboolean
+gth_extension_module_real_activate (GthExtension  *base,
+				    GError       **error)
 {
 	GthExtensionModule *self;
+	gboolean            success;
 
 	self = GTH_EXTENSION_MODULE (base);
 
 	if (base->active)
-		return;
+		return TRUE;
 
-	gth_extension_module_exec_generic_func (self, "activate");
-	base->active = TRUE;
+	success = gth_extension_module_exec_generic_func (self, "activate", error);
+	if (success)
+		base->active = TRUE;
+
+	return success;
 }
 
 
-static void
-gth_extension_module_real_deactivate (GthExtension *base)
+static gboolean
+gth_extension_module_real_deactivate (GthExtension  *base,
+				      GError       **error)
 {
 	GthExtensionModule *self;
+	gboolean            success;
 
 	self = GTH_EXTENSION_MODULE (base);
 
-	gth_extension_module_exec_generic_func (self, "deactivate");
+	if (! base->active)
+		return TRUE;
+
+	success = gth_extension_module_exec_generic_func (self, "deactivate", error);
+	if (success)
+		base->active = FALSE;
+
+	return success;
 }
 
 
@@ -413,7 +434,6 @@ gth_extension_module_new (const char *module_name)
 
 struct _GthExtensionDescriptionPrivate {
 	gboolean      opened;
-	gboolean      activated;
 	GthExtension *extension;
 };
 
@@ -428,11 +448,13 @@ gth_extension_description_finalize (GObject *obj)
 
 	self = GTH_EXTENSION_DESCRIPTION (obj);
 
+	g_free (self->id);
 	g_free (self->name);
 	g_free (self->description);
 	g_strfreev (self->authors);
 	g_free (self->copyright);
 	g_free (self->version);
+	g_free (self->icon_name);
 	g_free (self->url);
 	g_free (self->loader_type);
 	g_free (self->loader_file);
@@ -458,7 +480,6 @@ gth_extension_description_instance_init (GthExtensionDescription *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_EXTENSION_DESCRIPTION, GthExtensionDescriptionPrivate);
 	self->priv->opened = FALSE;
-	self->priv->activated = FALSE;
 	self->priv->extension = NULL;
 }
 
@@ -492,22 +513,28 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 {
 	GKeyFile *key_file;
 	char     *file_path;
+	char     *basename;
 
 	key_file = g_key_file_new ();
 	file_path = g_file_get_path (file);
 	if (! g_key_file_load_from_file (key_file, file_path, G_KEY_FILE_NONE, NULL))
 		return FALSE;
 
+	basename = g_file_get_basename (file);
+	desc->id = _g_uri_remove_extension (basename);
 	desc->name = g_key_file_get_string (key_file, "Extension", "Name", NULL);
 	desc->description = g_key_file_get_string (key_file, "Extension", "Description", NULL);
 	desc->version = g_key_file_get_string (key_file, "Extension", "Version", NULL);
 	desc->authors = g_key_file_get_string_list (key_file, "Extension", "Authors", NULL, NULL);
 	desc->copyright = g_key_file_get_string (key_file, "Extension", "Copyright", NULL);
+	desc->icon_name = g_key_file_get_string (key_file, "Extension", "Icon", NULL);
 	desc->url = g_key_file_get_string (key_file, "Extension", "URL", NULL);
+	desc->mandatory = g_key_file_get_boolean (key_file, "Extension", "Mandatory", NULL);
 	desc->loader_type = g_key_file_get_string (key_file, "Loader", "Type", NULL);
 	desc->loader_file = g_key_file_get_string (key_file, "Loader", "File", NULL);
 	desc->loader_requires = g_key_file_get_string_list (key_file, "Loader", "Requires", NULL, NULL);
 
+	g_free (basename);
 	g_free (file_path);
 	g_key_file_free (key_file);
 
@@ -527,6 +554,20 @@ gth_extension_description_new (GFile *file)
 	}
 
 	return desc;
+}
+
+
+gboolean
+gth_extension_description_is_active (GthExtensionDescription *desc)
+{
+	return (desc->priv->extension != NULL) && desc->priv->extension->active;
+}
+
+
+GthExtension *
+gth_extension_description_get_extension (GthExtensionDescription *desc)
+{
+	return desc->priv->extension;
 }
 
 
@@ -679,8 +720,9 @@ gth_extension_manager_open (GthExtensionManager *manager,
 
 
 gboolean
-gth_extension_manager_activate (GthExtensionManager *manager,
-				const char          *extension_name)
+gth_extension_manager_activate (GthExtensionManager  *manager,
+				const char           *extension_name,
+				GError              **error)
 {
 	GthExtensionDescription *description;
 
@@ -692,12 +734,75 @@ gth_extension_manager_activate (GthExtensionManager *manager,
 		int i;
 
 		for (i = 0; description->loader_requires[i] != NULL; i++)
-			if (! gth_extension_manager_activate (manager, description->loader_requires[i]))
+			if (! gth_extension_manager_activate (manager, description->loader_requires[i], error))
 				return FALSE;
 	}
-	gth_extension_activate (description->priv->extension);
 
-	return TRUE;
+	return gth_extension_activate (description->priv->extension, error);
+}
+
+
+static GList *
+get_extension_dependencies (GthExtensionManager     *manager,
+			    GthExtensionDescription *description)
+{
+	GList *dependencies = NULL;
+	GList *names;
+	GList *scan;
+
+	names = g_hash_table_get_keys (manager->priv->extensions);
+	for (scan = names; scan; scan = scan->next) {
+		const char              *extension_name = scan->data;
+		GthExtensionDescription *other_description;
+
+		other_description = g_hash_table_lookup (manager->priv->extensions, extension_name);
+		if (other_description->loader_requires != NULL) {
+			int i;
+
+			for (i = 0; other_description->loader_requires[i] != NULL; i++)
+				if (strcmp (description->id, other_description->loader_requires[i]) == 0)
+					dependencies = g_list_prepend (dependencies, other_description);
+		}
+	}
+
+	g_list_free (names);
+
+	return g_list_reverse (dependencies);
+}
+
+
+gboolean
+gth_extension_manager_deactivate (GthExtensionManager  *manager,
+				  const char           *extension_name,
+				  GError              **error)
+{
+	GthExtensionDescription *description;
+	GList                   *required_by;
+	GList                   *scan;
+
+	if (! gth_extension_manager_open (manager, extension_name))
+		return TRUE;
+
+	description = g_hash_table_lookup (manager->priv->extensions, extension_name);
+	if (! gth_extension_description_is_active (description))
+		return TRUE;
+
+	required_by = get_extension_dependencies (manager, description);
+	for (scan = required_by; scan; scan = scan->next) {
+		GthExtensionDescription *child_description = scan->data;
+
+		if (gth_extension_description_is_active (child_description)) {
+			*error = g_error_new (GTHUMB_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%s' is required by the extension '%s'"), description->name, child_description->name);
+			break;
+		}
+	}
+
+	g_list_free (required_by);
+
+	if (*error == NULL)
+		return gth_extension_deactivate (description->priv->extension, error);
+	else
+		return FALSE;
 }
 
 

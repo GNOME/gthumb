@@ -75,6 +75,11 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Edit various preferences"),
 	  G_CALLBACK (gth_browser_activate_action_edit_preferences) },
 
+	{ "Edit_Extensions", NULL,
+	  N_("Extensions"), NULL,
+	  N_("Activate and configure the application extensions"),
+	  G_CALLBACK (gth_browser_activate_action_edit_extensions) },
+
 	{ "Edit_SelectAll", GTK_STOCK_SELECT_ALL,
 	  NULL, NULL,
 	  NULL,

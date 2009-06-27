@@ -95,6 +95,20 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/general/active_extensions</key>
+	<applyto>/apps/gthumb/general/active_extensions</applyto>
+	<owner>gthumb</owner>
+	<type>list</type>
+	<list_type>string</list_type>
+	<default>[]</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Browser -->
 
       <schema>

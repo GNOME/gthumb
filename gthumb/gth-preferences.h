@@ -38,6 +38,7 @@ G_BEGIN_DECLS
 #define PREF_EDITORS                "/apps/gthumb/general/editors"
 #define PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
 #define PREF_MIGRATE_COMMENT_SYSTEM "/apps/gthumb/general/migrate_comment_system"
+#define PREF_ACTIVE_EXTENSIONS      "/apps/gthumb/general/active_extensions"
 
 #define PREF_GENERAL_FILTER         "/apps/gthumb/browser/general_filter"
 #define PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"

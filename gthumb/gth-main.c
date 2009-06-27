@@ -34,6 +34,7 @@
 #include "gth-metadata-provider.h"
 #include "gth-user-dir.h"
 #include "gth-preferences.h"
+#include "gtk-utils.h"
 #include "pixbuf-io.h"
 #include "typedefs.h"
 
@@ -200,12 +201,58 @@ gth_main_get_type (void)
 }
 
 
+static void
+about_dialog_activate_link_cb (GtkAboutDialog *about,
+			       const char     *link_,
+			       gpointer        data)
+{
+	GError *error = NULL;
+
+	if (! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (about)), link_, GDK_CURRENT_TIME, &error)) {
+		char *title;
+
+		title = g_strdup_printf (_("Unable to show '%s'"), link_);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (about), title, &error);
+
+		g_free (title);
+	}
+}
+
+
+static void
+about_dialog_activate_email_cb (GtkAboutDialog *about,
+			        const char     *link_,
+			        gpointer        data)
+{
+	GError *error = NULL;
+	char   *url;
+
+	url = g_strconcat ("mailto:", link_, NULL);
+	if (! gtk_show_uri (gtk_widget_get_screen (GTK_WIDGET (about)), url, GDK_CURRENT_TIME, &error)) {
+		char *title;
+
+		title = g_strdup_printf (_("Unable to open '%s'"), link_);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (about), title, &error);
+
+		g_free (title);
+	}
+
+	g_free (url);
+}
+
+
 void
 gth_main_initialize (void)
 {
 	if (Main != NULL)
 		return;
 	Main = (GthMain*) g_object_new (GTH_TYPE_MAIN, NULL);
+
+	g_set_application_name (_("gthumb"));
+	gtk_window_set_default_icon_name ("gthumb");
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_PKGDATADIR G_DIR_SEPARATOR_S "icons");
+	gtk_about_dialog_set_url_hook (about_dialog_activate_link_cb, NULL, NULL);
+	gtk_about_dialog_set_email_hook (about_dialog_activate_email_cb, NULL, NULL);
 }
 
 
@@ -992,14 +1039,40 @@ gth_main_get_default_extension_manager (void)
 void
 gth_main_activate_extensions (void)
 {
-	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "file_viewer", "image_viewer", "search", NULL };
+	const char *mandatory_extensions[] = { "file_viewer", NULL };
+	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "image_viewer", "search", NULL };
 	int         i;
+	GSList     *active_extensions;
+	GSList     *scan;
 
 	if (Main->priv->extension_manager == NULL)
 		Main->priv->extension_manager = gth_extension_manager_new ();
 
-	/* FIXME: read the extensions list from a gconf key */
+	for (i = 0; mandatory_extensions[i] != NULL; i++) {
+		GError *error = NULL;
 
-	for (i = 0; default_extensions[i] != NULL; i++)
-		gth_extension_manager_activate (Main->priv->extension_manager, default_extensions[i]);
+		if (! gth_extension_manager_activate (Main->priv->extension_manager, mandatory_extensions[i], &error)) {
+			g_warning ("Could not load the '%s' extension: %s", mandatory_extensions[i], error->message);
+			g_clear_error (&error);
+		}
+	}
+
+	active_extensions = eel_gconf_get_string_list (PREF_ACTIVE_EXTENSIONS);
+	if (active_extensions == NULL)
+		for (i = 0; default_extensions[i] != NULL; i++)
+			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
+	active_extensions = g_slist_reverse (active_extensions);
+
+	for (scan = active_extensions; scan; scan = scan->next) {
+		char   *name = scan->data;
+		GError *error = NULL;
+
+		if (! gth_extension_manager_activate (Main->priv->extension_manager, name, &error)) {
+			g_warning ("Could not load the '%s' extension: %s", name, error->message);
+			g_clear_error (&error);
+		}
+	}
+
+	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
+	g_slist_free (active_extensions);
 }

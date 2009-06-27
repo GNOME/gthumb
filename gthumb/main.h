@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,21 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GTHUMB_ERROR_H__
-#define __GTHUMB_ERROR_H__
-
-#include <glib.h>
+#ifndef MAIN_H
+#define MAIN_H
 
 G_BEGIN_DECLS
 
-typedef enum {
-	GTH_ERROR_GENERIC,
-	GTH_ERROR_EXTENSION_DEPENDENCY
-} GthErrorCode;
-
-#define GTHUMB_ERROR gthumb_error_quark ()
-GQuark gthumb_error_quark (void);
+void gth_restart (void);
 
 G_END_DECLS
 
-#endif /* __GTHUMB_ERROR_H__ */
+#endif /* MAIN_H */

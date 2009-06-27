@@ -1,10 +1,11 @@
 [Extension]
-_Name=Image Viewer
+_Name=Image viewer
 _Description=Allows to view images.
-Authors=Paolo Bacchilega <paobac@src.gnome.org>
-Copyright=Copyright © 2009 Paolo Bacchilega
-Version=1
+_Authors=gthumb development team
+Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Version=1.0
 
 [Loader]
+Requires=file_viewer
 Type=module
 File=%LIBRARY%

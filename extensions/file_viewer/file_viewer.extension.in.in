@@ -1,9 +1,5 @@
 [Extension]
-_Name=Image Viewer
-_Description=Allows to view images.
-Authors=Paolo Bacchilega <paobac@src.gnome.org>
-Copyright=Copyright © 2009 Paolo Bacchilega
-Version=1
+Mandatory=true
 
 [Loader]
 Type=module

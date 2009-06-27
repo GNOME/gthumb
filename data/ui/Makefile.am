@@ -1,6 +1,7 @@
 uidir = $(datadir)/gthumb/ui
 ui_DATA = 			\
 	bookmarks.ui		\
+	extensions.ui		\
 	filter-editor.ui	\
 	personalize-filters.ui	\
 	preferences.ui		\

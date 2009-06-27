@@ -92,6 +92,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-window.h					\
 	gthumb-error.h					\
 	gtk-utils.h					\
+	main.h						\
 	pixbuf-io.h					\
 	pixbuf-utils.h					\
 	typedefs.h					\
@@ -101,6 +102,7 @@ PUBLIC_HEADER_FILES = 					\
 PRIVATE_HEADER_FILES = 					\
 	dlg-bookmarks.h					\
 	dlg-edit-metadata.h				\
+	dlg-extensions.h				\
 	gth-browser-actions-callbacks.h			\
 	gth-browser-actions-entries.h			\
 	gth-browser-ui.h				\
@@ -120,6 +122,7 @@ gthumb_SOURCES = 					\
 	$(PRIVATE_HEADER_FILES)				\
 	dlg-bookmarks.c					\
 	dlg-edit-metadata.c				\
+	dlg-extensions.c				\
 	dlg-personalize-filters.c			\
 	dlg-preferences.c				\
 	dlg-sort-order.c				\

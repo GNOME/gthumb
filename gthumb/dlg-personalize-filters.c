@@ -457,7 +457,7 @@ update_sensitivity (DialogData *data)
 			g_object_unref (test);
 		}
 	}
-	
+
 	gtk_widget_set_sensitive (GET_WIDGET ("edit_button"), is_filter);
 	gtk_widget_set_sensitive (GET_WIDGET ("delete_button"), is_filter);
 }
@@ -477,7 +477,7 @@ general_filter_changed_cb (GtkComboBox *widget,
 {
 	DialogData *data = user_data;
 	int         idx;
-	
+
 	idx = gtk_combo_box_get_active (widget);
 	eel_gconf_set_string (PREF_GENERAL_FILTER, g_list_nth (data->general_tests, idx)->data);
 }
@@ -491,7 +491,7 @@ dlg_personalize_filters (GthBrowser *browser)
 	char       *general_filter;
 	int         i, active_filter;
 	int         i_general;
-	
+
 	if (gth_browser_get_dialog (browser, "personalize_filters") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "personalize_filters")));
 		return;
@@ -517,22 +517,22 @@ dlg_personalize_filters (GthBrowser *browser)
 	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
 		const char *registered_test_id = scan->data;
 		GthTest    *test;
-		
-		if (strncmp (registered_test_id, "file::type::", 12) != 0) 
+
+		if (strncmp (registered_test_id, "file::type::", 12) != 0)
 			continue;
-		
+
 		i_general += 1;
-		
+
 		if (strcmp (registered_test_id, general_filter) == 0)
 			active_filter = i_general;
 
 		test = gth_main_get_test (registered_test_id);
-		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));		
+		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));
 		gtk_combo_box_append_text (GTK_COMBO_BOX (data->general_filter_combobox), gth_test_get_display_name (test));
 		g_object_unref (test);
 	}
 	data->general_tests = g_list_reverse (data->general_tests);
-	
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->general_filter_combobox), active_filter);
 	gtk_widget_show (data->general_filter_combobox);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("general_filter_box")), data->general_filter_combobox);
@@ -542,9 +542,9 @@ dlg_personalize_filters (GthBrowser *browser)
 
 	g_free (general_filter);
 	_g_string_list_free (tests);
-	
+
 	/**/
-	
+
 	data->list_store = gtk_list_store_new (NUM_COLUMNS,
 					       G_TYPE_OBJECT,
 					       G_TYPE_STRING,
@@ -565,7 +565,7 @@ dlg_personalize_filters (GthBrowser *browser)
 
 	update_filter_list (data);
 	update_sensitivity (data);
-	
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -604,7 +604,7 @@ dlg_personalize_filters (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (general_filter_changed_cb),
 			  data);
-			  
+
 	data->filters_changed_id = g_signal_connect (gth_main_get_default_monitor (),
 				                     "filters-changed",
 				                     G_CALLBACK (filters_changed_cb),

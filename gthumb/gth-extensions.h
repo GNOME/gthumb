@@ -84,13 +84,15 @@ struct _GthExtension {
 
 struct _GthExtensionClass {
 	GObjectClass parent_class;
-	gboolean (*open)            (GthExtension *self);
-	void     (*close)           (GthExtension *self);
-	void     (*activate)        (GthExtension *self);
-	void     (*deactivate)      (GthExtension *self);
-	gboolean (*is_configurable) (GthExtension *self);
-	void     (*configure)       (GthExtension *self,
-				     GtkWindow    *parent);
+	gboolean   (*open)            (GthExtension  *self);
+	void       (*close)           (GthExtension  *self);
+	gboolean   (*activate)        (GthExtension  *self,
+				       GError       **error);
+	gboolean   (*deactivate)      (GthExtension  *self,
+				       GError       **error);
+	gboolean   (*is_configurable) (GthExtension  *self);
+	void       (*configure)       (GthExtension  *self,
+				       GtkWindow     *parent);
 };
 
 struct _GthExtensionModule {
@@ -104,15 +106,18 @@ struct _GthExtensionModuleClass {
 
 struct _GthExtensionDescription {
 	GObject parent_instance;
-	char  *name;
-	char  *description;
-	char **authors;
-	char  *copyright;
-	char  *version;
-	char  *url;
-	char  *loader_type;
-	char  *loader_file;
-	char **loader_requires;
+	char      *id;
+	char      *name;
+	char      *description;
+	char     **authors;
+	char      *copyright;
+	char      *version;
+	char      *icon_name;
+	char      *url;
+	char      *loader_type;
+	char      *loader_file;
+	char     **loader_requires;
+	gboolean   mandatory;
 	GthExtensionDescriptionPrivate *priv;
 };
 
@@ -130,30 +135,38 @@ struct _GthExtensionManagerClass {
 };
 
 GType                      gth_extension_get_type                  (void);
-gboolean                   gth_extension_open                      (GthExtension *self);
-void                       gth_extension_close                     (GthExtension *self);
-gboolean                   gth_extension_is_active                 (GthExtension *self);
-void                       gth_extension_activate                  (GthExtension *self);
-void                       gth_extension_deactivate                (GthExtension *self);
-gboolean                   gth_extension_is_configurable           (GthExtension *self);
-void                       gth_extension_configure                 (GthExtension *self,
-					        	   	    GtkWindow    *parent);
+gboolean                   gth_extension_open                      (GthExtension  *self);
+void                       gth_extension_close                     (GthExtension  *self);
+gboolean                   gth_extension_is_active                 (GthExtension  *self);
+gboolean                   gth_extension_activate                  (GthExtension  *self,
+							            GError       **error);
+gboolean                   gth_extension_deactivate                (GthExtension  *self,
+							            GError       **error);
+gboolean                   gth_extension_is_configurable           (GthExtension  *self);
+void                       gth_extension_configure                 (GthExtension  *self,
+					        	   	    GtkWindow     *parent);
 
 GType                      gth_extension_module_get_type           (void);
 GthExtension *             gth_extension_module_new                (const char   *module_name);
 
 GType                      gth_extension_description_get_type      (void);
 GthExtensionDescription *  gth_extension_description_new           (GFile        *file);
+gboolean                   gth_extension_description_is_active     (GthExtensionDescription *desc);
+GthExtension *             gth_extension_description_get_extension (GthExtensionDescription *desc);
 
 GType                      gth_extension_manager_get_type          (void);
 GthExtensionManager *      gth_extension_manager_new               (void);
-gboolean                   gth_extension_manager_open              (GthExtensionManager *manager,
-								    const char          *extension_name);
-gboolean                   gth_extension_manager_activate          (GthExtensionManager *manager,
-								    const char          *extension_name);
-GList *                    gth_extension_manager_get_extensions    (GthExtensionManager *manager);
-GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager *manager,
-								    const char          *extension_name);
+gboolean                   gth_extension_manager_open              (GthExtensionManager  *manager,
+								    const char           *extension_name);
+gboolean                   gth_extension_manager_activate          (GthExtensionManager  *manager,
+								    const char           *extension_name,
+								    GError              **error);
+gboolean                   gth_extension_manager_deactivate        (GthExtensionManager  *manager,
+								    const char           *extension_name,
+								    GError              **error);
+GList *                    gth_extension_manager_get_extensions    (GthExtensionManager  *manager);
+GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager  *manager,
+								    const char           *extension_name);
 
 G_END_DECLS
 

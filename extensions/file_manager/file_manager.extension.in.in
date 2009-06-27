@@ -1,9 +1,9 @@
 [Extension]
-_Name=File Manager
+_Name=File manager
 _Description=File manager operations.
-Authors=Paolo Bacchilega <paobac@src.gnome.org>
-Copyright=Copyright © 2009 Paolo Bacchilega
-Version=1
+_Authors=gthumb development team
+Copyright=Copyright © 2009 The Free Software Foundation, Inc.
+Version=1.0
 
 [Loader]
 Type=module

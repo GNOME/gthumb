@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include <unique/unique.h>
 #include "eggsmclient.h"
+#include "glib-utils.h"
 #include "gth-browser.h"
 #include "gth-file-data.h"
 #include "gth-file-source-vfs.h"
@@ -47,6 +48,7 @@ gboolean ImportPhotos = FALSE;
 static UniqueApp   *gthumb_app;
 static char       **remaining_args;
 static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
+static gboolean     restart = FALSE;
 
 
 static const GOptionEntry options[] = {
@@ -310,12 +312,6 @@ main (int argc, char *argv[])
 	}
 	g_option_context_free (context);
 
-	/* application properties */
-
-	g_set_application_name (_("gthumb"));
-	gtk_window_set_default_icon_name ("gthumb");
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), GTHUMB_PKGDATADIR G_DIR_SEPARATOR_S "icons");
-
 	/* other initializations */
 
 	gth_session_manager_init ();
@@ -341,5 +337,23 @@ main (int argc, char *argv[])
 	gth_main_release ();
 	gth_pref_release ();
 
+	if (restart)
+		g_spawn_command_line_async (program_argv0, NULL);
+
 	return 0;
+}
+
+
+void
+gth_restart (void)
+{
+	GList *windows;
+	GList *scan;
+
+	windows = g_list_copy (gth_window_get_window_list ());
+	for (scan = windows; scan; scan = scan->next)
+		gth_window_close (GTH_WINDOW (scan->data));
+	g_list_free (windows);
+
+	restart = TRUE;
 }

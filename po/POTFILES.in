@@ -5,6 +5,7 @@ copy-n-paste/eggsmclient.c
 data/gthumb.desktop.in.in
 data/gthumb.schemas.in
 [type: gettext/glade]data/ui/bookmarks.ui
+[type: gettext/glade]data/ui/extensions.ui
 [type: gettext/glade]data/ui/filter-editor.ui
 [type: gettext/glade]data/ui/personalize-filters.ui
 [type: gettext/glade]data/ui/preferences.ui
