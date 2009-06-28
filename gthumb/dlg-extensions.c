@@ -345,6 +345,7 @@ about_button_clicked_cb (GtkButton *button,
 	if (description->url != NULL)
 		g_object_set (dialog, "website", description->url, NULL);
 
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (data->dialog));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
