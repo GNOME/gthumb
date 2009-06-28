@@ -718,9 +718,9 @@ gth_main_register_file_loader (FileLoader  loader,
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
   	while (mime_type != NULL) {
-		mime_type = va_arg (var_args, const char *);
 		g_hash_table_insert (Main->priv->loaders, (gpointer) get_static_string (mime_type), loader);
-	}
+		mime_type = va_arg (var_args, const char *);
+  	}
 	va_end (var_args);
 }
 
@@ -728,13 +728,7 @@ gth_main_register_file_loader (FileLoader  loader,
 FileLoader
 gth_main_get_file_loader (const char *mime_type)
 {
-	FileLoader loader;
-
-	loader = g_hash_table_lookup (Main->priv->loaders, mime_type);
-	if (loader == NULL)
-		loader = gth_pixbuf_animation_new_from_file;
-
-	return loader;
+	return (FileLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
 }
 
 

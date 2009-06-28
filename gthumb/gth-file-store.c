@@ -1162,7 +1162,7 @@ gth_file_store_find (GthFileStore *file_store,
 			continue;
 
 		if (g_file_equal (row->file->file, file))
-			return i;
+			return row->abs_pos;
 	}
 
 	return -1;
@@ -1182,7 +1182,7 @@ gth_file_store_find_visible (GthFileStore *file_store,
 			continue;
 
 		if (g_file_equal (row->file->file, file))
-			return i;
+			return row->pos;
 	}
 
 	return -1;
@@ -1272,7 +1272,8 @@ gth_file_store_queue_set (GthFileStore *file_store,
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
 	_gth_file_row_set_metadata (row, metadata);
-	row->is_icon = is_icon;
+	if (is_icon != -1)
+		row->is_icon = is_icon;
 	row->changed = TRUE;
 
 	if (file != NULL)

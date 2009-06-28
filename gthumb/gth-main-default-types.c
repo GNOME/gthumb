@@ -25,10 +25,34 @@
 #include <glib/gi18n.h>
 #include "gth-file-properties.h"
 #include "gth-main.h"
+#include "pixbuf-io.h"
 
 
-void 
+static void
+gth_main_register_default_file_loader (void)
+{
+	GSList *formats;
+	GSList *scan;
+
+	formats = gdk_pixbuf_get_formats ();
+	for (scan = formats; scan; scan = scan->next) {
+		GdkPixbufFormat  *format = scan->data;
+		char            **mime_types;
+		int               i;
+
+		if (gdk_pixbuf_format_is_disabled (format))
+			continue;
+
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; mime_types[i] != NULL; i++)
+			gth_main_register_file_loader (gth_pixbuf_animation_new_from_file, mime_types[i], NULL);
+	}
+}
+
+
+void
 gth_main_register_default_types (void)
 {
 	gth_main_register_type ("file-properties", GTH_TYPE_FILE_PROPERTIES);
+	gth_main_register_default_file_loader ();
 }
