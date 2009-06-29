@@ -99,6 +99,7 @@ struct _GthFileListPrivateData
 	gboolean         cancel;
 	gboolean         dirty;
 	guint            dirty_event;
+	guint            restart_thumb_update;
 	GList           *queue; /* list of GthFileListOp */
 	GtkCellRenderer *thumbnail_renderer;
 	GtkCellRenderer *text_renderer;
@@ -160,6 +161,11 @@ _gth_file_list_clear_queue (GthFileList *file_list)
 	if (file_list->priv->dirty_event != 0) {
 		g_source_remove (file_list->priv->dirty_event);
 		file_list->priv->dirty = FALSE;
+	}
+
+	if (file_list->priv->restart_thumb_update != 0) {
+		g_source_remove (file_list->priv->restart_thumb_update);
+		file_list->priv->restart_thumb_update = 0;
 	}
 
 	g_list_foreach (file_list->priv->queue, (GFunc) gth_file_list_op_free, NULL);
@@ -1056,6 +1062,36 @@ update_thumbs_stopped (gpointer callback_data)
 }
 
 
+static gboolean
+restart_thumb_update_cb (gpointer data)
+{
+	GthFileList *file_list = data;
+
+	g_source_remove (file_list->priv->restart_thumb_update);
+	file_list->priv->restart_thumb_update = 0;
+
+	if (file_list->priv->queue == NULL)
+		_gth_file_list_update_next_thumb (file_list);
+
+	return FALSE;
+}
+
+
+static gboolean
+can_create_file_thumbnail (GthFileData *file_data,
+			   GTimeVal    *current_time,
+			   gboolean    *young_file_found)
+{
+	gboolean young_file;
+
+	young_file = (current_time->tv_sec - gth_file_data_get_mtime (file_data)) <= 1;
+	if (young_file)
+		*young_file_found = TRUE;
+
+	return ! file_data->error && ! young_file;
+}
+
+
 static void
 _gth_file_list_update_next_thumb (GthFileList *file_list)
 {
@@ -1067,6 +1103,8 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 	GthFileData  *fd = NULL;
 	GList        *list, *scan;
 	int           new_pos = -1;
+	GTimeVal      current_time;
+	gboolean      young_file_found = FALSE;
 
 	if (file_list->priv->cancel || (file_list->priv->queue != NULL)) {
 		g_idle_add (update_thumbs_stopped, file_list);
@@ -1098,9 +1136,11 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	/* Find a not loaded thumbnail among the visible images. */
 
+	g_get_current_time (&current_time);
+
 	while (pos <= last_pos) {
 		fd = scan->data;
-		if (! fd->thumb_loaded && ! fd->error) {
+		if (! fd->thumb_loaded && can_create_file_thumbnail (fd, &current_time, &young_file_found)) {
 			new_pos = pos;
 			break;
 		}
@@ -1121,7 +1161,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 			scan = g_list_nth (list, pos);
 			while (scan && ((pos - last_pos) <= N_LOOKAHEAD)) {
 				fd = scan->data;
-				if (! fd->thumb_created && ! fd->error) {
+				if (! fd->thumb_created && can_create_file_thumbnail (fd, &current_time, &young_file_found)) {
 					new_pos = pos;
 					break;
 				}
@@ -1138,7 +1178,7 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 			scan = g_list_nth (list, pos);
 			while (scan && ((first_pos - pos) <= N_LOOKAHEAD)) {
 				fd = scan->data;
-				if (! fd->thumb_created && ! fd->error) {
+				if (! fd->thumb_created && can_create_file_thumbnail (fd, &current_time, &young_file_found)) {
 					new_pos = pos;
 					break;
 				}
@@ -1155,12 +1195,15 @@ _gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	if (new_pos == -1) {
 		_gth_file_list_thumbs_completed (file_list);
+		if (young_file_found && (file_list->priv->restart_thumb_update == 0))
+			file_list->priv->restart_thumb_update = g_timeout_add (1500, restart_thumb_update_cb, file_list);
 		return;
 	}
 
 	/* We create thumbnail files for all images in the folder, but we only
 	   load the visible ones (and N_LOOKAHEAD before and N_LOOKAHEAD after the visible range),
 	   to minimize memory consumption in large folders. */
+
 	file_list->priv->update_thumb_in_view = (new_pos >= (first_pos - N_LOOKAHEAD)) &&
 						(new_pos <= (last_pos + N_LOOKAHEAD));
 	file_list->priv->thumb_pos = new_pos;

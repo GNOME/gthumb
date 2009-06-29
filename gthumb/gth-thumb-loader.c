@@ -45,7 +45,7 @@
 #define THUMBNAIL_LARGE_SIZE	  256
 #define THUMBNAIL_NORMAL_SIZE	  128
 #define THUMBNAIL_DIR_PERMISSIONS 0700
-#define KILL_THUMBNAILER_DELAY    3000
+#define MAX_THUMBNAILER_LIFETIME  2000   /* kill the thumbnailer after this amount of time*/
 
 struct _GthThumbLoaderPrivateData
 {
@@ -468,7 +468,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 		tloader->priv->thumbnailer_watch = g_child_watch_add (tloader->priv->thumbnailer_pid,
 								      watch_thumbnailer_cb,
 								      tloader);
-		tloader->priv->thumbnailer_timeout = g_timeout_add (KILL_THUMBNAILER_DELAY,
+		tloader->priv->thumbnailer_timeout = g_timeout_add (MAX_THUMBNAILER_LIFETIME,
 								    kill_thumbnailer_cb,
 								    tloader);
 	}
@@ -671,34 +671,16 @@ gth_thumb_loader_load__step2 (GthThumbLoader *tloader)
 
 	g_return_if_fail (tloader != NULL);
 
-	/*if ((tloader->priv->file == NULL) || ! gth_file_data_is_readable (tloader->priv->file)) {
-		g_signal_emit (G_OBJECT (tloader),
-			       gth_thumb_loader_signals[READY],
-			       0,
-			       g_error_new_literal (GTHUMB_ERROR, 0, "cannot read the file"));
-		return;
-	}*/
-
 	if (tloader->priv->use_cache) {
 		char   *uri;
 		time_t  mtime;
 
 		uri = g_file_get_uri (tloader->priv->file->file);
 		mtime = gth_file_data_get_mtime (tloader->priv->file);
-
 		cache_path = gnome_desktop_thumbnail_factory_lookup (tloader->priv->thumb_factory, uri, mtime);
-
-/*debug (DEBUG_INFO, "thumbnail for %s: %s\n", uri, cache_path); FIXME: delete when done */
-
 		if ((cache_path == NULL)
-		    && gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (tloader->priv->thumb_factory, uri, mtime)
-		    && ((time (NULL) - mtime) > (time_t) 5))
+		    && gnome_desktop_thumbnail_factory_has_valid_failed_thumbnail (tloader->priv->thumb_factory, uri, mtime))
 		{
-			/* Use the existing "failed" thumbnail, if it is over
-			   5 seconds old. Otherwise, try to thumbnail it again.
-			   The minimum age requirement addresses bug 432759,
-			   which occurs when a device like a scanner saves a file
-			   slowly in chunks. */
 			g_signal_emit (G_OBJECT (tloader),
 				       gth_thumb_loader_signals[READY],
 				       0,

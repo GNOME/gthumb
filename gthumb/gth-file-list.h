@@ -76,7 +76,7 @@ void           gth_file_list_set_sort_func  (GthFileList          *file_list,
 					     gboolean              inverse_sort);
 void           gth_file_list_enable_thumbs  (GthFileList          *file_list,
 					     gboolean              enable);
-void           gth_file_list_set_thumb_size (GthFileList         *file_list,
+void           gth_file_list_set_thumb_size (GthFileList          *file_list,
 					     int                   size);
 GtkWidget *    gth_file_list_get_view       (GthFileList          *file_list);
 int            gth_file_list_first_file     (GthFileList          *file_list,
