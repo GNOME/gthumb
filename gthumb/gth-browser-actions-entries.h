@@ -34,16 +34,17 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "GoMenu", NULL, N_("_Go") },
 	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
 	{ "HelpMenu", NULL, N_("_Help") },
+	{ "OpenWithMenu", NULL, N_("Open _With") },
 
 	{ "File_NewWindow", "window-new",
 	  N_("New _Window"), "<control>N",
 	  N_("Open another window"),
 	  G_CALLBACK (gth_browser_activate_action_file_new_window) },
 
-	{ "File_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With..."), "",
-	  N_("Open selected images with an application"),
-	  G_CALLBACK (gth_browser_activate_action_file_open_with) },
+	{ "File_Open", GTK_STOCK_OPEN,
+	  NULL, NULL,
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_file_open) },
 
 	{ "File_Save", GTK_STOCK_SAVE,
 	  NULL, "<control>S",

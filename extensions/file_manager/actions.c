@@ -414,7 +414,7 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 					 GthBrowser *browser)
 {
 	GList     *items;
-	GList     *file_list = NULL;
+	GList     *file_list;
 	int        file_count;
 	char      *prompt;
 	GtkWidget *d;

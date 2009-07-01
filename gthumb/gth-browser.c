@@ -435,6 +435,16 @@ gth_browser_update_title (GthBrowser *browser)
 	else
 		g_string_append (title, _("gthumb"));
 
+	if (browser->priv->current_file != NULL) {
+		GthFileStore *file_store;
+		int           pos;
+
+		file_store = gth_browser_get_file_store (browser);
+		pos = gth_file_store_find_visible (file_store, browser->priv->current_file->file);
+		if (pos >= 0)
+			g_string_append_printf (title, " (%d/%d)", pos + 1, gth_file_store_n_visibles (file_store));
+	}
+
 	gtk_window_set_title (GTK_WINDOW (browser), title->str);
 
 	g_string_free (title, TRUE);
@@ -469,6 +479,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	n_files = gth_file_store_n_visibles (gth_browser_get_file_store (browser));
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 
+	_gth_browser_set_action_sensitive (browser, "File_Open", n_selected == 1);
 	_gth_browser_set_action_sensitive (browser, "File_Save", viewer_can_save && modified);
 	_gth_browser_set_action_sensitive (browser, "File_SaveAs", viewer_can_save);
 	_gth_browser_set_action_sensitive (browser, "File_Revert", viewer_can_save && modified);
@@ -2245,6 +2256,125 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 
 
 static void
+activate_open_with_application_item (GtkMenuItem *menuitem,
+				     gpointer     data)
+{
+	GthBrowser *browser = data;
+	GList      *items;
+	GList      *file_list;
+	GList      *uris;
+	GList      *scan;
+	GAppInfo   *appinfo;
+	GError     *error = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	uris = NULL;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
+	}
+
+	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
+	g_return_if_fail (G_IS_APP_INFO (appinfo));
+
+	if (! g_app_info_launch_uris (appinfo, uris, NULL, &error))
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
+						    _("Could not perform the operation"),
+						    &error);
+
+	g_list_free (uris);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static void
+_gth_browser_update_open_menu (GthBrowser *browser)
+{
+	GtkWidget  *openwith_item;
+	GtkWidget  *menu;
+	GList      *items;
+	GList      *file_list;
+	GList      *scan;
+	GList      *appinfo_list;
+	GHashTable *used_apps;
+
+	openwith_item = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup/OpenWith");
+	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (openwith_item));
+	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	appinfo_list = NULL;
+	for (scan = file_list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		const char  *mime_type;
+
+		mime_type = gth_file_data_get_mime_type (file_data);
+		if ((mime_type == NULL) || g_content_type_is_unknown (mime_type))
+			continue;
+
+		appinfo_list = g_list_concat (appinfo_list, g_app_info_get_all_for_type (mime_type));
+	}
+
+	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
+	for (scan = appinfo_list; scan; scan = scan->next) {
+		GAppInfo  *appinfo = scan->data;
+		char      *label;
+		GtkWidget *menu_item;
+		GIcon     *icon;
+		GdkPixbuf *pixbuf;
+
+		if (strcmp (g_app_info_get_executable (appinfo), "gthumb") == 0)
+			continue;
+		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
+			continue;
+		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
+
+		label = g_strdup_printf (_("Open with \"%s\""), g_app_info_get_name (appinfo));
+		menu_item = gtk_image_menu_item_new_with_label (label);
+
+		icon = g_app_info_get_icon (appinfo);
+		pixbuf = gth_icon_cache_get_pixbuf (browser->priv->menu_icon_cache, icon);
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
+
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+
+		g_object_set_data (G_OBJECT (menu_item), "appinfo", appinfo);
+		g_signal_connect (menu_item,
+				  "activate",
+				  G_CALLBACK (activate_open_with_application_item),
+			  	  browser);
+
+		g_object_unref (pixbuf);
+		g_free (label);
+	}
+
+	/*
+	if (appinfo_list == NULL) {
+		GtkWidget *menu_item;
+
+		menu_item = gtk_image_menu_item_new_with_label (_("No application available"));
+		gtk_widget_set_sensitive (menu_item, FALSE);
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	}*/
+
+	gtk_widget_set_sensitive (openwith_item, appinfo_list != NULL);
+	gtk_widget_show (openwith_item);
+
+	g_hash_table_destroy (used_apps);
+	g_list_free (appinfo_list);
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
+
+
+static void
 gth_file_view_selection_changed_cb (GtkIconView *iconview,
 				    gpointer     user_data)
 {
@@ -2253,6 +2383,7 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
+	_gth_browser_update_open_menu (browser);
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return;
@@ -3120,10 +3251,10 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 
 	browser->priv->sort_type = sort_type;
 	browser->priv->sort_inverse = inverse;
-
 	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
 				     browser->priv->sort_type->cmp_func,
 				     browser->priv->sort_inverse);
+	gth_browser_update_title (browser);
 }
 
 
