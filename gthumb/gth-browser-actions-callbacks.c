@@ -291,17 +291,17 @@ void
 gth_browser_activate_action_folder_open (GtkAction  *action,
 					 GthBrowser *browser)
 {
-	GtkWidget *folder_tree;
-	GFile     *file;
+	GtkWidget   *folder_tree;
+	GthFileData *file_data;
 
 	folder_tree = gth_browser_get_folder_tree (browser);
-	file = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
-	if (file == NULL)
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	if (file_data == NULL)
 		return;
 
-	gth_browser_load_location (browser, file);
+	gth_browser_load_location (browser, file_data->file);
 
-	g_object_unref (file);
+	g_object_unref (file_data);
 }
 
 
@@ -309,20 +309,20 @@ void
 gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 						       GthBrowser *browser)
 {
-	GtkWidget *folder_tree;
-	GFile     *file;
-	GtkWidget *new_browser;
+	GtkWidget   *folder_tree;
+	GthFileData *file_data;
+	GtkWidget   *new_browser;
 
 	folder_tree = gth_browser_get_folder_tree (browser);
-	file = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
-	if (file == NULL)
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (folder_tree));
+	if (file_data == NULL)
 		return;
 
 	new_browser = gth_browser_new (NULL);
 	gtk_window_present (GTK_WINDOW (new_browser));
-	gth_browser_load_location (GTH_BROWSER (new_browser), file);
+	gth_browser_load_location (GTH_BROWSER (new_browser), file_data->file);
 
-	g_object_unref (file);
+	g_object_unref (file_data);
 }
 
 

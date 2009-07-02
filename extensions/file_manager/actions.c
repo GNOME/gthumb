@@ -134,19 +134,15 @@ clipboard_clear_cb (GtkClipboard *clipboard,
 
 static void
 _gth_browser_clipboard_copy_or_cut (GthBrowser *browser,
+				    GList      *file_list,
 				    gboolean    cut)
 {
 	ClipboardData  *data;
-	GList          *items;
-	GList          *file_list;
 	GtkTargetList  *target_list;
 	GtkTargetEntry *targets;
 	int             n_targets;
 	GList          *scan;
 	int             i;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
 	data = g_new0 (ClipboardData, 1);
 	data->cut = cut;
@@ -172,8 +168,6 @@ _gth_browser_clipboard_copy_or_cut (GthBrowser *browser,
 
 	gtk_target_list_unref (target_list);
 	gtk_target_table_free (targets, n_targets);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
 }
 
 
@@ -181,7 +175,15 @@ void
 gth_browser_activate_action_edit_cut_files (GtkAction  *action,
 					    GthBrowser *browser)
 {
-	_gth_browser_clipboard_copy_or_cut (browser, TRUE);
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	_gth_browser_clipboard_copy_or_cut (browser, file_list, TRUE);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
 }
 
 
@@ -189,7 +191,15 @@ void
 gth_browser_activate_action_edit_copy_files (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	_gth_browser_clipboard_copy_or_cut (browser, FALSE);
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	_gth_browser_clipboard_copy_or_cut (browser, file_list, FALSE);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
 }
 
 
@@ -345,8 +355,22 @@ delete_file_permanently (GtkWindow *window,
 	GError *error = NULL;
 
 	files = gth_file_data_list_to_file_list (file_list);
-	if (! _g_delete_files (files, TRUE, &error))
+	if (! _g_delete_files (files, TRUE, &error)) {
 		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), &error);
+	}
+	else {
+		GthFileData *first;
+		GFile       *parent;
+
+		first = files->data;
+		parent = g_file_get_parent (first->file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    files,
+					    GTH_MONITOR_EVENT_DELETED);
+
+		g_object_unref (parent);
+	}
 
 	_g_object_list_unref (files);
 }
@@ -357,10 +381,11 @@ delete_permanently_response_cb (GtkDialog *dialog,
 				int        response_id,
 				gpointer   user_data)
 {
-	GList  *file_list = user_data;
+	GList *file_list = user_data;
 
 	if (response_id == GTK_RESPONSE_YES)
 		delete_file_permanently (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_list);
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	_g_object_list_unref (file_list);
 }
@@ -448,4 +473,233 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 
 	g_free (prompt);
 	_gtk_tree_path_list_free (items);
+}
+
+
+void
+gth_browser_activate_action_folder_create (GtkAction  *action,
+					   GthBrowser *browser)
+{
+	GthFileData   *parent;
+	GthFileSource *file_source;
+	GError        *error = NULL;
+	GFile         *file;
+
+	parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (parent == NULL)
+		return;
+
+	file_source = gth_main_get_file_source (parent->file);
+	file = _g_directory_create_unique (parent->file, _("untitled folder"), "", &error);
+	if (file != NULL) {
+		GList       *list;
+		GFileInfo   *info;
+		GthFileData *file_data;
+		GList       *file_data_list;
+
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
+		file_data = gth_file_data_new (file, info);
+		file_data_list = g_list_prepend (NULL, file_data);
+		gth_folder_tree_add_children (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), parent->file, file_data_list);
+		gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file);
+
+		list = g_list_prepend (NULL, g_object_ref (file));
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent->file,
+					    list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		_g_object_list_unref (list);
+		g_list_free (file_data_list);
+		g_object_unref (file_data);
+		g_object_unref (info);
+	}
+	else
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the folder"), &error);
+
+	_g_object_unref (file);
+	g_object_unref (file_source);
+	g_object_unref (parent);
+}
+
+
+void
+gth_browser_activate_action_folder_rename (GtkAction  *action,
+					   GthBrowser *browser)
+{
+	GthFileData *file_data;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file_data->file);
+
+	g_object_unref (file_data);
+}
+
+
+void
+gth_browser_activate_action_folder_cut (GtkAction  *action,
+					GthBrowser *browser)
+{
+	GthFileData *file_data;
+	GList       *file_list;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	file_list = g_list_prepend (NULL, file_data);
+	_gth_browser_clipboard_copy_or_cut (browser, file_list, TRUE);
+
+	g_list_free (file_list);
+}
+
+
+void
+gth_browser_activate_action_folder_copy (GtkAction  *action,
+					 GthBrowser *browser)
+{
+	GthFileData *file_data;
+	GList       *file_list;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	file_list = g_list_prepend (NULL, file_data);
+	_gth_browser_clipboard_copy_or_cut (browser, file_list, FALSE);
+
+	g_list_free (file_list);
+}
+
+
+void
+gth_browser_activate_action_folder_paste (GtkAction  *action,
+					  GthBrowser *browser)
+{
+
+}
+
+
+/* -- gth_browser_activate_action_folder_trash -- */
+
+
+static void
+delete_folder_permanently (GtkWindow   *window,
+			   GthFileData *file_data)
+{
+	GList  *files;
+	GError *error = NULL;
+
+	files = g_list_prepend (NULL, file_data->file);
+	if (! _g_delete_files (files, TRUE, &error)) {
+		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the folder"), &error);
+	}
+	else {
+		GFile *parent;
+
+		parent = g_file_get_parent (file_data->file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    files,
+					    GTH_MONITOR_EVENT_DELETED);
+
+		g_object_unref (parent);
+	}
+
+	g_list_free (files);
+}
+
+
+static void
+delete_folder_permanently_response_cb (GtkDialog *dialog,
+				       int        response_id,
+				       gpointer   user_data)
+{
+	GthFileData *file_data = user_data;
+
+	if (response_id == GTK_RESPONSE_YES)
+		delete_folder_permanently (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_data);
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+	_g_object_unref (file_data);
+}
+
+
+void
+gth_browser_activate_action_folder_trash (GtkAction  *action,
+					  GthBrowser *browser)
+{
+	GthFileData *file_data;
+	GError      *error = NULL;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	if (! g_file_trash (file_data->file, NULL, &error)) {
+		if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
+			GtkWidget *d;
+
+			g_clear_error (&error);
+
+			d = _gtk_yesno_dialog_new (GTK_WINDOW (browser),
+						   GTK_DIALOG_MODAL,
+						   _("The folder cannot be moved to the Trash. Do you want to delete it permanently?"),
+						   GTK_STOCK_CANCEL,
+						   GTK_STOCK_DELETE);
+			g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), file_data);
+			gtk_widget_show (d);
+
+			file_data = NULL;
+		}
+		else
+			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the folder to the Trash"), &error);
+	}
+	else {
+		GFile *parent;
+		GList *files;
+
+		parent = g_file_get_parent (file_data->file);
+		files = g_list_prepend (NULL, file_data->file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    files,
+					    GTH_MONITOR_EVENT_DELETED);
+
+		g_list_free (files);
+		g_object_unref (parent);
+	}
+
+	_g_object_unref (file_data);
+}
+
+
+void
+gth_browser_activate_action_folder_delete (GtkAction  *action,
+					   GthBrowser *browser)
+{
+	GthFileData *file_data;
+	char        *prompt;
+	GtkWidget   *d;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
+	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
+				     GTK_DIALOG_MODAL,
+				     GTK_STOCK_DIALOG_QUESTION,
+				     prompt,
+				     _("If you delete a file, it will be permanently lost."),
+				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				     GTK_STOCK_DELETE, GTK_RESPONSE_YES,
+				     NULL);
+	g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), file_data);
+	gtk_widget_show (d);
+
+	g_free (prompt);
 }

@@ -127,7 +127,7 @@ load_data_run (LoadData  *load_data,
 {
 	gth_file_source_list (load_data->file_source,
 			      load_data->folder,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 			      func,
 			      load_data);
 }
@@ -258,7 +258,7 @@ monitor_folder_changed_cb (GthMonitor      *monitor,
 			monitor_data->source_tree = source_tree;
 			gth_file_source_read_attributes (source_tree->priv->file_source,
 						 	 list,
-						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE,
+						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 						 	 file_attributes_ready_cb,
 						 	 monitor_data);
 			break;
@@ -282,7 +282,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 	GFileInfo   *info;
 	GthFileData *file_data;
 
-	info = gth_file_source_get_file_info (source_tree->priv->file_source, new_file);
+	info = gth_file_source_get_file_info (source_tree->priv->file_source, new_file, GFILE_BASIC_ATTRIBUTES);
 	file_data = gth_file_data_new (new_file, info);
 	gth_folder_tree_update_child (GTH_FOLDER_TREE (source_tree), file, file_data);
 

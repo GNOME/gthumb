@@ -71,7 +71,8 @@ struct _GthFileSourceClass
 	GFile *      (*to_gio_file)           (GthFileSource  *file_source,
 					       GFile          *file);
 	GFileInfo *  (*get_file_info)         (GthFileSource  *file_source,
-					       GFile          *file);
+					       GFile          *file,
+					       const char     *attributes);
 	void         (*list)                  (GthFileSource  *file_source,
 					       GFile          *folder,
 					       const char     *attributes,
@@ -121,7 +122,8 @@ GFile *      gth_file_source_to_gio_file           (GthFileSource  *file_source,
 GList *      gth_file_source_to_gio_file_list      (GthFileSource  *file_source,
 						    GList          *files);
 GFileInfo *  gth_file_source_get_file_info         (GthFileSource  *file_source,
-						    GFile          *file);
+						    GFile          *file,
+						    const char     *attributes);
 gboolean     gth_file_source_is_active             (GthFileSource  *file_source);
 void         gth_file_source_cancel                (GthFileSource  *file_source);
 void         gth_file_source_list                  (GthFileSource  *file_source,

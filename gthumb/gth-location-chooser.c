@@ -711,7 +711,7 @@ gth_location_chooser_set_current (GthLocationChooser *chooser,
 			GFile     *file = scan->data;
 			GFileInfo *info;
 
-			info = gth_file_source_get_file_info (chooser->priv->file_source, file);
+			info = gth_file_source_get_file_info (chooser->priv->file_source, file, GFILE_BASIC_ATTRIBUTES);
 			if (info == NULL)
 				continue;
 			add_file_source_entries (chooser,

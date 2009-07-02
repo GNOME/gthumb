@@ -120,6 +120,13 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-view-file", 2);
 
 	/**
+	 * Called when the selection changes
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-selection-changed", 1);
+
+	/**
 	 * Called in _gdk_pixbuf_save_async
 	 *
 	 * @data (SavePixbufData*):

@@ -77,10 +77,12 @@ GthFileData *   gth_file_store_get_file        (GthFileStore         *file_store
 					        GtkTreeIter          *iter);
 GthFileData *   gth_file_store_get_file_at_pos (GthFileStore         *file_store,
 					        int                   pos);
+GthFileData *   gth_file_store_get_file_at_abs_pos (GthFileStore     *file_store,
+					        int                   abs_pos);
 int             gth_file_store_find            (GthFileStore         *file_store,
 					        GFile                *file);
 int             gth_file_store_find_visible    (GthFileStore         *file_store,
-					        GFile                *file);					        
+					        GFile                *file);
 void            gth_file_store_add             (GthFileStore         *file_store,
 					        GthFileData          *file,
 					        GdkPixbuf            *thumbnail,

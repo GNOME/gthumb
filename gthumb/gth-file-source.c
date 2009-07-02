@@ -307,7 +307,8 @@ base_to_gio_file (GthFileSource *file_source,
 
 static GFileInfo *
 base_get_file_info (GthFileSource *file_source,
-		    GFile         *file)
+		    GFile         *file,
+		    const char    *attributes)
 {
 	return NULL;
 }
@@ -544,9 +545,10 @@ gth_file_source_to_gio_file_list (GthFileSource *file_source,
 
 GFileInfo *
 gth_file_source_get_file_info (GthFileSource *file_source,
-			       GFile         *file)
+			       GFile         *file,
+			       const char    *attributes)
 {
-	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_file_info (file_source, file);
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_file_info (file_source, file, attributes);
 }
 
 

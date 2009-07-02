@@ -354,7 +354,7 @@ _gth_browser_add_file_menu_item (GthBrowser *browser,
 	GFileInfo     *info;
 
 	file_source = gth_main_get_file_source (file);
-	info = gth_file_source_get_file_info (file_source, file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
 	if (info != NULL) {
 		_gth_browser_add_file_menu_item_full (browser,
 						      menu,
@@ -1026,7 +1026,7 @@ load_data_load_next_folder (LoadData *data)
 
 	gth_file_source_list (data->file_source,
 			      folder_to_load,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 			      _gth_browser_load_ready_cb,
 			      data);
 }
@@ -1844,7 +1844,7 @@ folder_tree_load_cb (GthFolderTree *folder_tree,
 
 static void
 folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
-			     GFile         *file,
+			     GthFileData   *file_data,
 			     guint          time,
 			     gpointer       user_data)
 {
@@ -1852,15 +1852,15 @@ folder_tree_folder_popup_cb (GthFolderTree *folder_tree,
 	gboolean       sensitive;
 	GthFileSource *file_source;
 
-	sensitive = (file != NULL);
+	sensitive = (file_data != NULL);
 	_gth_browser_set_action_sensitive (browser, "Folder_Open", sensitive);
 	_gth_browser_set_action_sensitive (browser, "Folder_OpenInNewWindow", sensitive);
 
-	if (file != NULL)
-		file_source = gth_main_get_file_source (file);
+	if (file_data != NULL)
+		file_source = gth_main_get_file_source (file_data->file);
 	else
 		file_source = NULL;
-	gth_hook_invoke ("gth-browser-folder-tree-popup-before", browser, file_source, file);
+	gth_hook_invoke ("gth-browser-folder-tree-popup-before", browser, file_source, file_data);
 	gtk_ui_manager_ensure_update (browser->priv->ui);
 
 	gtk_menu_popup (GTK_MENU (browser->priv->folder_popup),
@@ -2070,7 +2070,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			monitor_data->update_folder_tree = update_folder_tree;
 			gth_file_source_read_attributes (monitor_data->file_source,
 						 	 list,
-						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE,
+						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 						 	 file_attributes_ready_cb,
 						 	 monitor_data);
 			break;
@@ -2121,32 +2121,75 @@ folder_changed_cb (GthMonitor      *monitor,
 }
 
 
+typedef struct {
+	GthBrowser    *browser;
+	GthFileSource *file_source;
+	GFile         *file;
+	GFile         *new_file;
+} RenameData;
+
+
+static void
+rename_data_free (RenameData *rename_data)
+{
+	g_object_unref (rename_data->file_source);
+	g_object_unref (rename_data->file);
+	g_object_unref (rename_data->new_file);
+	g_free (rename_data);
+}
+
+
+static void
+renamed_file_attributes_ready_cb (GthFileSource *file_source,
+				  GList         *files,
+				  GError        *error,
+				  gpointer       user_data)
+{
+	RenameData  *rename_data = user_data;
+	GthBrowser  *browser = rename_data->browser;
+	GthFileData *file_data;
+
+	if (error != NULL) {
+		rename_data_free (rename_data);
+		g_clear_error (&error);
+		return;
+	}
+
+	file_data = files->data;
+
+	gth_folder_tree_update_child (GTH_FOLDER_TREE (browser->priv->folder_tree), rename_data->file, file_data);
+	gth_file_list_rename_file (GTH_FILE_LIST (browser->priv->file_list), rename_data->file, file_data);
+
+	if (g_file_equal (rename_data->file, browser->priv->location))
+		_gth_browser_set_location (browser, rename_data->new_file);
+
+	rename_data_free (rename_data);
+}
+
+
 static void
 file_renamed_cb (GthMonitor *monitor,
 		 GFile      *file,
 		 GFile      *new_file,
 		 GthBrowser *browser)
 {
-	GthFileSource *file_source;
-	GFileInfo     *info;
-	GthFileData   *file_data;
-	GList         *list;
+	RenameData *rename_data;
+	GList      *list;
 
-	file_source = gth_main_get_file_source (new_file);
-	info = gth_file_source_get_file_info (file_source, new_file);
-	file_data = gth_file_data_new (new_file, info);
-	gth_folder_tree_update_child (GTH_FOLDER_TREE (browser->priv->folder_tree), file, file_data);
+	rename_data = g_new0 (RenameData, 1);
+	rename_data->browser = browser;
+	rename_data->file_source = gth_main_get_file_source (new_file);
+	rename_data->file = g_file_dup (file);
+	rename_data->new_file = g_file_dup (new_file);
 
-	list = g_list_prepend (NULL, file_data);
-	gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), list);
-
-	if (g_file_equal (file, browser->priv->location))
-		_gth_browser_set_location (browser, new_file);
+	list = g_list_prepend (NULL, new_file);
+	gth_file_source_read_attributes (rename_data->file_source,
+				 	 list,
+				 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				 	 renamed_file_attributes_ready_cb,
+				 	 rename_data);
 
 	g_list_free (list);
-	g_object_unref (file_data);
-	g_object_unref (info);
-	g_object_unref (file_source);
 }
 
 
@@ -2256,125 +2299,6 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 
 
 static void
-activate_open_with_application_item (GtkMenuItem *menuitem,
-				     gpointer     data)
-{
-	GthBrowser *browser = data;
-	GList      *items;
-	GList      *file_list;
-	GList      *uris;
-	GList      *scan;
-	GAppInfo   *appinfo;
-	GError     *error = NULL;
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-
-	uris = NULL;
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
-	}
-
-	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
-	g_return_if_fail (G_IS_APP_INFO (appinfo));
-
-	if (! g_app_info_launch_uris (appinfo, uris, NULL, &error))
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser),
-						    _("Could not perform the operation"),
-						    &error);
-
-	g_list_free (uris);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static void
-_gth_browser_update_open_menu (GthBrowser *browser)
-{
-	GtkWidget  *openwith_item;
-	GtkWidget  *menu;
-	GList      *items;
-	GList      *file_list;
-	GList      *scan;
-	GList      *appinfo_list;
-	GHashTable *used_apps;
-
-	openwith_item = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup/OpenWith");
-	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (openwith_item));
-	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
-
-	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
-	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
-
-	appinfo_list = NULL;
-	for (scan = file_list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		const char  *mime_type;
-
-		mime_type = gth_file_data_get_mime_type (file_data);
-		if ((mime_type == NULL) || g_content_type_is_unknown (mime_type))
-			continue;
-
-		appinfo_list = g_list_concat (appinfo_list, g_app_info_get_all_for_type (mime_type));
-	}
-
-	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
-	for (scan = appinfo_list; scan; scan = scan->next) {
-		GAppInfo  *appinfo = scan->data;
-		char      *label;
-		GtkWidget *menu_item;
-		GIcon     *icon;
-		GdkPixbuf *pixbuf;
-
-		if (strcmp (g_app_info_get_executable (appinfo), "gthumb") == 0)
-			continue;
-		if (g_hash_table_lookup (used_apps, g_app_info_get_id (appinfo)) != NULL)
-			continue;
-		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
-
-		label = g_strdup_printf (_("Open with \"%s\""), g_app_info_get_name (appinfo));
-		menu_item = gtk_image_menu_item_new_with_label (label);
-
-		icon = g_app_info_get_icon (appinfo);
-		pixbuf = gth_icon_cache_get_pixbuf (browser->priv->menu_icon_cache, icon);
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-
-		g_object_set_data (G_OBJECT (menu_item), "appinfo", appinfo);
-		g_signal_connect (menu_item,
-				  "activate",
-				  G_CALLBACK (activate_open_with_application_item),
-			  	  browser);
-
-		g_object_unref (pixbuf);
-		g_free (label);
-	}
-
-	/*
-	if (appinfo_list == NULL) {
-		GtkWidget *menu_item;
-
-		menu_item = gtk_image_menu_item_new_with_label (_("No application available"));
-		gtk_widget_set_sensitive (menu_item, FALSE);
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-	}*/
-
-	gtk_widget_set_sensitive (openwith_item, appinfo_list != NULL);
-	gtk_widget_show (openwith_item);
-
-	g_hash_table_destroy (used_apps);
-	g_list_free (appinfo_list);
-	_g_object_list_unref (file_list);
-	_gtk_tree_path_list_free (items);
-}
-
-
-static void
 gth_file_view_selection_changed_cb (GtkIconView *iconview,
 				    gpointer     user_data)
 {
@@ -2383,7 +2307,8 @@ gth_file_view_selection_changed_cb (GtkIconView *iconview,
 
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
-	_gth_browser_update_open_menu (browser);
+
+	gth_hook_invoke ("gth-browser-selection-changed", browser);
 
 	if (gth_window_get_current_page (GTH_WINDOW (browser)) != GTH_BROWSER_PAGE_BROWSER)
 		return;
@@ -3183,6 +3108,13 @@ gth_browser_get_ui_manager (GthBrowser *browser)
 }
 
 
+GthIconCache *
+gth_browser_get_menu_icon_cache (GthBrowser *browser)
+{
+	return browser->priv->menu_icon_cache;
+}
+
+
 GtkWidget *
 gth_browser_get_statusbar (GthBrowser *browser)
 {
@@ -3909,7 +3841,7 @@ gth_browser_load_location (GthBrowser *browser,
 	list = g_list_prepend (NULL, g_object_ref (data->location));
 	gth_file_source_read_attributes (data->file_source,
 					 list,
-					 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE,
+					 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
 					 load_file_attributes_ready_cb,
 					 data);
 

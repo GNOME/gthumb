@@ -23,7 +23,7 @@
 #include <config.h>
 #include <gtk/gtk.h>
 #include "glib-utils.h"
-#include "gth-file-source.h" 
+#include "gth-file-source.h"
 #include "gth-icon-cache.h"
 #include "gth-main.h"
 #include "gth-uri-list.h"
@@ -89,15 +89,15 @@ static gboolean
 order_changed (gpointer user_data)
 {
 	GthUriList *uri_list = user_data;
-	
+
 	if (uri_list->priv->changed_id != 0)
 		g_source_remove (uri_list->priv->changed_id);
 	uri_list->priv->changed_id = 0;
-	
+
 	g_signal_emit (G_OBJECT (uri_list),
 		       uri_list_signals[ORDER_CHANGED],
 		       0);
-	
+
 	return FALSE;
 }
 
@@ -108,7 +108,7 @@ row_deleted_cb (GtkTreeModel *tree_model,
 		gpointer      user_data)
 {
 	GthUriList *uri_list = user_data;
-	
+
 	if (uri_list->priv->changed_id != 0)
 		g_source_remove (uri_list->priv->changed_id);
 	uri_list->priv->changed_id = g_timeout_add (ORDER_CHANGED_DELAY, order_changed, uri_list);
@@ -122,10 +122,10 @@ row_inserted_cb (GtkTreeModel *tree_model,
 		 gpointer      user_data)
 {
 	GthUriList *uri_list = user_data;
-	
+
 	if (uri_list->priv->changed_id != 0)
 		g_source_remove (uri_list->priv->changed_id);
-	uri_list->priv->changed_id = g_timeout_add (ORDER_CHANGED_DELAY, order_changed, uri_list);	
+	uri_list->priv->changed_id = g_timeout_add (ORDER_CHANGED_DELAY, order_changed, uri_list);
 }
 
 
@@ -133,7 +133,7 @@ static void
 gth_uri_list_init (GthUriList *uri_list)
 {
 	uri_list->priv = g_new0 (GthUriListPrivate, 1);
-	
+
 	uri_list->priv->list_store = gtk_list_store_new (URI_LIST_NUM_COLUMNS,
 						         GDK_TYPE_PIXBUF,
 						         G_TYPE_STRING,
@@ -141,22 +141,22 @@ gth_uri_list_init (GthUriList *uri_list)
 	g_signal_connect (uri_list->priv->list_store,
 			  "row-deleted",
 			  G_CALLBACK (row_deleted_cb),
-			  uri_list);					         
+			  uri_list);
 	g_signal_connect (uri_list->priv->list_store,
 			  "row-inserted",
 			  G_CALLBACK (row_inserted_cb),
 			  uri_list);
-			  
+
 	gtk_tree_view_set_model (GTK_TREE_VIEW (uri_list), GTK_TREE_MODEL (uri_list->priv->list_store));
 	g_object_unref (uri_list->priv->list_store);
-		         
+
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (uri_list), FALSE);
         add_columns (GTK_TREE_VIEW (uri_list));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (uri_list), FALSE);
         gtk_tree_view_set_enable_search (GTK_TREE_VIEW (uri_list), TRUE);
         gtk_tree_view_set_search_column (GTK_TREE_VIEW (uri_list), URI_LIST_COLUMN_NAME);
         gtk_tree_view_set_reorderable (GTK_TREE_VIEW (uri_list), TRUE);
-        
+
         uri_list->priv->icon_cache = gth_icon_cache_new_for_widget (GTK_WIDGET (uri_list), GTK_ICON_SIZE_MENU);
 	uri_list->priv->changed_id = 0;
 }
@@ -166,21 +166,21 @@ static void
 gth_uri_list_finalize (GObject *object)
 {
 	GthUriList *uri_list = GTH_URI_LIST (object);
-	
+
 	if (uri_list->priv != NULL) {
 		g_free (uri_list->priv);
 		uri_list->priv = NULL;
 	}
-	
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
-static void 
-gth_uri_list_class_init (GthUriListClass *klass) 
+static void
+gth_uri_list_class_init (GthUriListClass *klass)
 {
 	GObjectClass *gobject_class;
-	
+
 	parent_class = g_type_class_peek_parent (klass);
 	gobject_class = G_OBJECT_CLASS (klass);
 
@@ -198,36 +198,36 @@ gth_uri_list_class_init (GthUriListClass *klass)
 }
 
 
-GType 
-gth_uri_list_get_type (void) 
+GType
+gth_uri_list_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (type == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthUriListClass), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) gth_uri_list_class_init, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			sizeof (GthUriList), 
-			0, 
-			(GInstanceInitFunc) gth_uri_list_init, 
-			NULL 
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthUriListClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) gth_uri_list_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			sizeof (GthUriList),
+			0,
+			(GInstanceInitFunc) gth_uri_list_init,
+			NULL
 		};
-		type = g_type_register_static (GTK_TYPE_TREE_VIEW, 
-					       "GthUriList", 
-					       &g_define_type_info, 
+		type = g_type_register_static (GTK_TYPE_TREE_VIEW,
+					       "GthUriList",
+					       &g_define_type_info,
 					       0);
 	}
-	
+
 	return type;
 }
 
 
 GtkWidget *
-gth_uri_list_new (void) 
+gth_uri_list_new (void)
 {
 	return g_object_new (GTH_TYPE_URI_LIST, NULL);
 }
@@ -243,7 +243,7 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 
 	g_signal_handlers_block_by_func (uri_list->priv->list_store, row_deleted_cb, uri_list);
 	g_signal_handlers_block_by_func (uri_list->priv->list_store, row_inserted_cb, uri_list);
-	
+
 	gtk_list_store_clear (uri_list->priv->list_store);
 
 	for (i = 0; uris[i] != NULL; i++) {
@@ -255,11 +255,11 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 		GIcon         *icon;
 		GdkPixbuf     *pixbuf;
 		GtkTreeIter    iter;
-		
+
 		file = g_file_new_for_uri (uri);
-		file_source = gth_main_get_file_source (file);	
-		info = gth_file_source_get_file_info (file_source, file);
-		
+		file_source = gth_main_get_file_source (file);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
+
 		display_name = g_file_info_get_display_name (info);
 		icon = g_file_info_get_icon (info);
 		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
@@ -275,7 +275,7 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 		g_object_unref (file_source);
 		g_object_unref (file);
 	}
-	
+
 	g_signal_handlers_unblock_by_func (uri_list->priv->list_store, row_deleted_cb, uri_list);
 	g_signal_handlers_unblock_by_func (uri_list->priv->list_store, row_inserted_cb, uri_list);
 }
@@ -286,12 +286,12 @@ gth_uri_list_get_uri (GthUriList  *uri_list,
 		      GtkTreeIter *iter)
 {
 	char *uri;
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (uri_list->priv->list_store),
 			    iter,
 			    URI_LIST_COLUMN_URI, &uri,
 			    -1);
-			    
+
 	return uri;
 }
 
@@ -314,7 +314,7 @@ gth_uri_list_get_selected (GthUriList *uri_list)
 			    &iter,
 			    URI_LIST_COLUMN_URI, &uri,
 			    -1);
-	
+
 	return uri;
 }
 
@@ -328,14 +328,14 @@ gth_uri_list_get_uris (GthUriList *uri_list)
 
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return NULL;
-		
+
 	do {
 		char *uri;
-		
+
 		gtk_tree_model_get (model, &iter, URI_LIST_COLUMN_URI, &uri, -1);
 		uris = g_list_prepend (uris, uri);
-	} 
+	}
 	while (gtk_tree_model_iter_next (model, &iter));
-	
+
 	return g_list_reverse (uris);
 }

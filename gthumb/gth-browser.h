@@ -25,6 +25,7 @@
 
 #include "gth-file-source.h"
 #include "gth-file-store.h"
+#include "gth-icon-cache.h"
 #include "gth-task.h"
 #include "gth-window.h"
 #include "typedefs.h"
@@ -87,6 +88,7 @@ void             gth_browser_set_dialog             (GthBrowser       *browser,
 GtkWidget *      gth_browser_get_dialog             (GthBrowser       *browser,
 						     const char       *dialog_name);
 GtkUIManager *   gth_browser_get_ui_manager         (GthBrowser       *browser);
+GthIconCache *   gth_browser_get_menu_icon_cache    (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_statusbar          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list          (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_file_list_view     (GthBrowser       *browser);

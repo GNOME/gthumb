@@ -63,20 +63,11 @@ static GthFileData *
 get_selected_catalog (DialogData *data)
 {
 	GthFileData *file_data = NULL;
-	GFile       *file;
 
-	file = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
-	if (file != NULL) {
-		GthFileSource *file_source;
-		GFileInfo     *info;
-
-		file_source = gth_main_get_file_source (file);
-		info = gth_file_source_get_file_info (file_source, file);
-		if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
-			file_data = gth_file_data_new (file, info);
-
-		g_object_unref (info);
-		g_object_unref (file);
+	file_data = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
+	if (! g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child")) {
+		_g_object_unref (file_data);
+		file_data = NULL;
 	}
 
 	return file_data;
@@ -185,7 +176,7 @@ get_catalog_parent (GFile *selected_parent)
 		GFileInfo     *info;
 
 		file_source = gth_main_get_file_source (selected_parent);
-		info = gth_file_source_get_file_info (file_source, selected_parent);
+		info = gth_file_source_get_file_info (file_source, selected_parent, GFILE_BASIC_ATTRIBUTES);
 		if ((g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) &&
 		    ! g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
 		{
@@ -208,7 +199,7 @@ static void
 new_catalog_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
-	GFile         *selected_parent;
+	GthFileData   *selected_parent;
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
@@ -220,12 +211,12 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 		GthFileSource *file_source;
 		GFileInfo     *info;
 
-		file_source = gth_main_get_file_source (selected_parent);
-		info = gth_file_source_get_file_info (file_source, selected_parent);
+		file_source = gth_main_get_file_source (selected_parent->file);
+		info = gth_file_source_get_file_info (file_source, selected_parent->file, GFILE_BASIC_ATTRIBUTES);
 		if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
-			parent = g_file_get_parent (selected_parent);
+			parent = g_file_get_parent (selected_parent->file);
 		else
-			parent = g_file_dup (selected_parent);
+			parent = g_file_dup (selected_parent->file);
 
 		g_object_unref (info);
 		g_object_unref (file_source);
@@ -244,7 +235,7 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 		GList        *file_data_list;
 
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		info = gth_file_source_get_file_info (file_source, file);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
 		file_data = gth_file_data_new (file, info);
 		file_data_list = g_list_prepend (NULL, file_data);
 		gth_folder_tree_add_children (GTH_FOLDER_TREE (data->source_tree), parent, file_data_list);
@@ -275,11 +266,11 @@ static void
 new_library_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
-	char   *display_name;
-	GFile  *selected_catalog;
-	GFile  *parent;
-	GFile  *new_library;
-	GError *error = NULL;
+	char        *display_name;
+	GthFileData *selected_catalog;
+	GFile       *parent;
+	GFile       *new_library;
+	GError      *error = NULL;
 
 	display_name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
 						GTK_DIALOG_MODAL,
@@ -292,7 +283,7 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 		return;
 
 	selected_catalog = gth_folder_tree_get_selected (GTH_FOLDER_TREE (data->source_tree));
-	parent = get_catalog_parent (selected_catalog);
+	parent = get_catalog_parent (selected_catalog->file);
 	new_library = g_file_get_child_for_display_name (parent, display_name, &error);
 
 	if ((new_library != NULL) && (strchr (display_name, '/') != NULL)) {

@@ -52,7 +52,7 @@ enum {
 	COLUMN_WEIGHT,
 	COLUMN_ICON,
 	COLUMN_TYPE,
-	COLUMN_FILE,
+	COLUMN_FILE_DATA,
 	COLUMN_SORT_KEY,
 	COLUMN_SORT_ORDER,
 	COLUMN_NAME,
@@ -190,7 +190,7 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 	GtkTreePath   *tree_path;
 	GtkTreeIter    iter;
 	EntryType      entry_type;
-	GFile         *file;
+	GthFileData   *file_data;
 	char          *name;
 
 	tree_path = gtk_tree_path_new_from_string (path);
@@ -206,15 +206,14 @@ text_renderer_edited_cb (GtkCellRendererText *renderer,
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &iter,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    COLUMN_NAME, &name,
 			    -1);
 
 	if ((entry_type == ENTRY_TYPE_FILE) && (g_utf8_collate (name, new_text) != 0))
-		g_signal_emit (folder_tree, gth_folder_tree_signals[RENAME], 0, file, new_text);
+		g_signal_emit (folder_tree, gth_folder_tree_signals[RENAME], 0, file_data->file, new_text);
 
-	if (file != NULL)
-		g_object_unref (file);
+	_g_object_unref (file_data);
 	g_free (name);
 }
 
@@ -259,13 +258,13 @@ add_columns (GthFolderTree *folder_tree,
 
 static void
 open_uri (GthFolderTree *folder_tree,
-	  GFile         *file,
+	  GthFileData   *file_data,
 	  EntryType      entry_type)
 {
 	if (entry_type == ENTRY_TYPE_PARENT)
 		g_signal_emit (folder_tree, gth_folder_tree_signals[OPEN_PARENT], 0);
 	else if (entry_type == ENTRY_TYPE_FILE)
-		g_signal_emit (folder_tree, gth_folder_tree_signals[OPEN], 0, file);
+		g_signal_emit (folder_tree, gth_folder_tree_signals[OPEN], 0, file_data->file);
 }
 
 
@@ -278,7 +277,7 @@ row_activated_cb (GtkTreeView       *tree_view,
 	GthFolderTree *folder_tree = user_data;
 	GtkTreeIter    iter;
 	EntryType      entry_type;
-	GFile         *file;
+	GthFileData   *file_data;
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 				       &iter,
@@ -290,12 +289,11 @@ row_activated_cb (GtkTreeView       *tree_view,
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &iter,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    -1);
-	open_uri (folder_tree, file, entry_type);
+	open_uri (folder_tree, file_data, entry_type);
 
-	if (file != NULL)
-		g_object_unref (file);
+	_g_object_unref (file_data);
 
 	return TRUE;
 }
@@ -309,7 +307,7 @@ row_expanded_cb (GtkTreeView  *tree_view,
 {
 	GthFolderTree *folder_tree = user_data;
 	EntryType      entry_type;
-	GFile         *file;
+	GthFileData   *file_data;
 	gboolean       loaded;
 
 	if ((folder_tree->priv->click_path == NULL)
@@ -321,18 +319,17 @@ row_expanded_cb (GtkTreeView  *tree_view,
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    expanded_iter,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    COLUMN_LOADED, &loaded,
 			    -1);
 
 	if ((entry_type == ENTRY_TYPE_FILE) && ! loaded)
-		g_signal_emit (folder_tree, gth_folder_tree_signals[LIST_CHILDREN], 0, file);
+		g_signal_emit (folder_tree, gth_folder_tree_signals[LIST_CHILDREN], 0, file_data->file);
 
 	gtk_tree_path_free (folder_tree->priv->click_path);
 	folder_tree->priv->click_path = NULL;
 
-	if (file != NULL)
-		g_object_unref (file);
+	_g_object_unref (file_data);
 
 	return FALSE;
 }
@@ -402,13 +399,13 @@ button_press_cb (GtkWidget      *widget,
 	}
 
  	if (event->button == 3) {
- 		EntryType  entry_type;
-		GFile     *file;
+ 		EntryType    entry_type;
+		GthFileData *file_data;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (tree_store),
 				    &iter,
 				    COLUMN_TYPE, &entry_type,
-				    COLUMN_FILE, &file,
+				    COLUMN_FILE_DATA, &file_data,
 				    -1);
 
 		if (entry_type == ENTRY_TYPE_FILE) {
@@ -427,13 +424,12 @@ button_press_cb (GtkWidget      *widget,
 			g_signal_emit (folder_tree,
 				       gth_folder_tree_signals[FOLDER_POPUP],
 				       0,
-				       file,
+				       file_data,
 				       event->time);
 			retval = TRUE;
 		}
 
-		if (file != NULL)
-			g_object_unref (file);
+		_g_object_unref (file_data);
  	}
 	else if ((event->button == 1) && (event->type == GDK_BUTTON_PRESS)) {
 		GtkTreeSelection *selection;
@@ -487,10 +483,10 @@ button_press_cb (GtkWidget      *widget,
 static void
 load_uri (GthFolderTree *folder_tree,
 	  EntryType      entry_type,
-	  GFile         *file)
+	  GthFileData   *file_data)
 {
 	if (entry_type == ENTRY_TYPE_FILE)
-		g_signal_emit (folder_tree, gth_folder_tree_signals[LOAD], 0, file);
+		g_signal_emit (folder_tree, gth_folder_tree_signals[LOAD], 0, file_data->file);
 }
 
 
@@ -530,19 +526,18 @@ return FALSE;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	if (gtk_tree_selection_iter_is_selected (selection, &iter)) {
-		EntryType  entry_type;
-		GFile     *file;
+		EntryType    entry_type;
+		GthFileData *file_data;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (tree_store),
 				    &iter,
 				    COLUMN_TYPE, &entry_type,
-				    COLUMN_FILE, &file,
+				    COLUMN_FILE_DATA, &file_data,
 				    -1);
 
-		load_uri (folder_tree, entry_type, file);
+		load_uri (folder_tree, entry_type, file_data);
 
-		if (file != NULL)
-			g_object_unref (file);
+		_g_object_unref (file_data);
 	}
 
 	gtk_tree_path_free (path);
@@ -559,7 +554,7 @@ selection_changed_cb (GtkTreeSelection *selection,
 	GtkTreeIter    iter;
 	GtkTreePath   *selected_path;
 	EntryType      entry_type;
-	GFile         *file;
+	GthFileData   *file_data;
 
 	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return FALSE;
@@ -584,13 +579,12 @@ selection_changed_cb (GtkTreeSelection *selection,
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &iter,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    -1);
 
-	load_uri (folder_tree, entry_type, file);
+	load_uri (folder_tree, entry_type, file_data);
 
-	if (file != NULL)
-		g_object_unref (file);
+	_g_object_unref (file_data);
 	gtk_tree_path_free (selected_path);
 
 	return FALSE;
@@ -655,15 +649,17 @@ gth_folder_tree_get_iter (GthFolderTree *folder_tree,
 		return FALSE;
 
 	if (root != NULL) {
-		GFile    *root_file;
-		gboolean  found;
+		GthFileData *root_file_data;
+		EntryType    root_type;
+		gboolean     found;
 
-		gtk_tree_model_get (tree_model, root, COLUMN_FILE, &root_file, -1);
+		gtk_tree_model_get (tree_model, root,
+				    COLUMN_FILE_DATA, &root_file_data,
+				    COLUMN_TYPE, &root_type,
+				    -1);
+		found = (root_type == ENTRY_TYPE_FILE) && (root_file_data != NULL) && g_file_equal (file, root_file_data->file);
 
-		found = (root_file != NULL) && g_file_equal (file, root_file);
-
-		if (root_file != NULL)
-			g_object_unref (root_file);
+		_g_object_unref (root_file_data);
 
 		if (found) {
 			*file_iter = *root;
@@ -779,7 +775,7 @@ _gth_folder_tree_set_file_data (GthFolderTree *folder_tree,
 			    COLUMN_STYLE, PANGO_STYLE_NORMAL,
 			    COLUMN_ICON, pixbuf,
 			    COLUMN_TYPE, ENTRY_TYPE_FILE,
-			    COLUMN_FILE, file_data->file,
+			    COLUMN_FILE_DATA, file_data,
 			    COLUMN_NAME, name,
 			    COLUMN_SORT_KEY, sort_key,
 			    COLUMN_SORT_ORDER, g_file_info_get_sort_order (file_data->info),
@@ -1029,11 +1025,15 @@ _gth_folder_tree_get_children (GthFolderTree *folder_tree,
 
 	list = NULL;
 	do {
-		GFile *file;
+		GthFileData *file_data;
+		EntryType    file_type;
 
-		gtk_tree_model_get (tree_model, &iter, COLUMN_FILE, &file, -1);
-		if (file != NULL)
-			list = g_list_prepend (list, file);
+		gtk_tree_model_get (tree_model, &iter,
+				    COLUMN_FILE_DATA, &file_data,
+				    COLUMN_TYPE, &file_type,
+				    -1);
+		if ((file_type == ENTRY_TYPE_FILE) && (file_data != NULL))
+			list = g_list_prepend (list, file_data);
 	}
 	while (gtk_tree_model_iter_next (tree_model, &iter));
 
@@ -1097,10 +1097,10 @@ gth_folder_tree_set_children (GthFolderTree *folder_tree,
 
 	old_files = _gth_folder_tree_get_children (folder_tree, p_parent_iter);
 	for (scan = old_files; scan; scan = scan->next) {
-		GFile *file = scan->data;
+		GthFileData *file_data = scan->data;
 
-		if (! gth_file_data_list_find_file (files, file)
-		    && gth_folder_tree_get_iter (folder_tree, file, &iter, p_parent_iter))
+		if (! gth_file_data_list_find_file (files, file_data->file)
+		    && gth_folder_tree_get_iter (folder_tree, file_data->file, &iter, p_parent_iter))
 		{
 			gtk_tree_store_remove (folder_tree->priv->tree_store, &iter);
 		}
@@ -1182,16 +1182,17 @@ _gth_folder_tree_file_is_in_children (GthFolderTree *folder_tree,
 		return FALSE;
 
 	do {
-		GFile *test_file;
+		GthFileData *test_file_data;
+		EntryType    file_entry_type;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter,
-				    COLUMN_FILE, &test_file,
+				    COLUMN_FILE_DATA, &test_file_data,
+				    COLUMN_TYPE, &file_entry_type,
 				    -1);
-		if ((test_file != NULL) && g_file_equal (file, test_file))
+		if ((file_entry_type == ENTRY_TYPE_FILE) && (test_file_data != NULL) && g_file_equal (file, test_file_data->file))
 			found = TRUE;
 
-		if (test_file != NULL)
-			g_object_unref (test_file);
+		_g_object_unref (test_file_data);
 	}
 	while (! found && gtk_tree_model_iter_next (GTK_TREE_MODEL (folder_tree->priv->tree_store), &iter));
 
@@ -1244,13 +1245,20 @@ _gth_folder_tree_get_child (GthFolderTree *folder_tree,
 		return FALSE;
 
 	do {
-		GFile *test_file;
+		GthFileData *test_file_data;
+		EntryType    file_entry_type;
 
-		gtk_tree_model_get (tree_model, &iter, COLUMN_FILE, &test_file, -1);
-		if ((test_file != NULL) && g_file_equal (file, test_file)) {
+		gtk_tree_model_get (tree_model, &iter,
+				    COLUMN_FILE_DATA, &test_file_data,
+				    COLUMN_TYPE, &file_entry_type,
+				    -1);
+		if ((file_entry_type == ENTRY_TYPE_FILE) && (test_file_data != NULL) && g_file_equal (file, test_file_data->file)) {
+			_g_object_unref (test_file_data);
 			*file_iter = iter;
 			return TRUE;
 		}
+
+		_g_object_unref (test_file_data);
 	}
 	while (gtk_tree_model_iter_next (tree_model, &iter));
 
@@ -1350,6 +1358,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 
 	tree_column = gtk_tree_view_get_column (GTK_TREE_VIEW (folder_tree), 0);
 	gtk_tree_view_expand_to_path (GTK_TREE_VIEW (folder_tree), tree_path);
+	gtk_tree_view_collapse_row (GTK_TREE_VIEW (folder_tree), tree_path);
 	gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree),
 				  tree_path,
 				  tree_column,
@@ -1450,14 +1459,14 @@ gth_folder_tree_get_root (GthFolderTree *folder_tree)
 }
 
 
-GFile *
+GthFileData *
 gth_folder_tree_get_selected (GthFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel     *tree_model;
 	GtkTreeIter       iter;
 	EntryType         entry_type;
-	GFile            *file;
+	GthFileData      *file_data;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	if (selection == NULL)
@@ -1470,20 +1479,19 @@ gth_folder_tree_get_selected (GthFolderTree *folder_tree)
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &iter,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    -1);
 
 	if (entry_type != ENTRY_TYPE_FILE) {
-		if (file != NULL)
-			g_object_unref (file);
-		file = NULL;
+		_g_object_unref (file_data);
+		file_data = NULL;
 	}
 
-	return file;
+	return file_data;
 }
 
 
-GFile *
+GthFileData *
 gth_folder_tree_get_selected_or_parent (GthFolderTree *folder_tree)
 {
 	GtkTreeSelection *selection;
@@ -1491,11 +1499,11 @@ gth_folder_tree_get_selected_or_parent (GthFolderTree *folder_tree)
 	GtkTreeIter       iter;
 	GtkTreeIter       parent;
 	EntryType         entry_type;
-	GFile            *file;
+	GthFileData      *file_data;
 
-	file = gth_folder_tree_get_selected (folder_tree);
-	if (file != NULL)
-		return file;
+	file_data = gth_folder_tree_get_selected (folder_tree);
+	if (file_data != NULL)
+		return file_data;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 	if (selection == NULL)
@@ -1511,14 +1519,13 @@ gth_folder_tree_get_selected_or_parent (GthFolderTree *folder_tree)
 	gtk_tree_model_get (GTK_TREE_MODEL (folder_tree->priv->tree_store),
 			    &parent,
 			    COLUMN_TYPE, &entry_type,
-			    COLUMN_FILE, &file,
+			    COLUMN_FILE_DATA, &file_data,
 			    -1);
 
 	if (entry_type != ENTRY_TYPE_FILE) {
-		if (file != NULL)
-			g_object_unref (file);
-		file = NULL;
+		_g_object_unref (file_data);
+		file_data = NULL;
 	}
 
-	return file;
+	return file_data;
 }

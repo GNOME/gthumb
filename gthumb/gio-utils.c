@@ -1867,6 +1867,11 @@ _g_directory_create_unique (GFile       *parent,
 	int       n;
 
 	file = g_file_get_child_for_display_name (parent, display_name, &local_error);
+	if (file == NULL) {
+		g_propagate_error (error, local_error);
+		return NULL;
+	}
+
 	n = 0;
 	do {
 		char *new_display_name;
@@ -1890,6 +1895,14 @@ _g_directory_create_unique (GFile       *parent,
 		g_free (new_display_name);
 	}
 	while (! created && (local_error == NULL));
+
+	if (local_error != NULL) {
+		g_object_unref (file);
+		file = NULL;
+	}
+
+	if (local_error != NULL)
+		g_propagate_error (error, local_error);
 
 	return file;
 }

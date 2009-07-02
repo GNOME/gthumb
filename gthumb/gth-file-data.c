@@ -264,7 +264,7 @@ gth_file_data_update_info (GthFileData *fd,
 			   const char  *attributes)
 {
 	if (attributes == NULL)
-		attributes = GTH_FILE_DATA_ATTRIBUTES;
+		attributes = GFILE_STANDARD_ATTRIBUTES;
 	if (fd->info != NULL)
 		g_object_unref (fd->info);
 

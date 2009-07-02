@@ -49,9 +49,9 @@ typedef enum {
 	GTH_FILE_LIST_OP_TYPE_DELETE_FILES,
 	GTH_FILE_LIST_OP_TYPE_SET_FILTER,
 	GTH_FILE_LIST_OP_TYPE_SET_SORT_FUNC,
-	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS
-	/*GTH_FILE_LIST_OP_TYPE_RENAME,
-	GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE,*/
+	GTH_FILE_LIST_OP_TYPE_ENABLE_THUMBS,
+	GTH_FILE_LIST_OP_TYPE_RENAME_FILE
+	/*GTH_FILE_LIST_OP_TYPE_SET_THUMBS_SIZE,*/
 } GthFileListOpType;
 
 
@@ -66,6 +66,8 @@ typedef struct {
 	gboolean             inverse_sort;
 	char                *sval;
 	int                  ival;
+	GFile               *file;
+	GthFileData         *file_data;
 } GthFileListOp;
 
 
@@ -147,6 +149,10 @@ gth_file_list_op_free (GthFileListOp *op)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_FILTER:
 		g_object_unref (op->filter);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_RENAME_FILE:
+		g_object_unref (op->file);
+		g_object_unref (op->file_data);
 		break;
 	default:
 		break;
@@ -800,6 +806,44 @@ gth_file_list_update_files (GthFileList *file_list,
 
 
 static void
+gfl_rename_file (GthFileList *file_list,
+		 GFile       *file,
+		 GthFileData *file_data)
+{
+	GthFileStore *file_store;
+	int           abs_pos;
+
+	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	abs_pos = gth_file_store_find (file_store, file);
+	if (abs_pos < 0)
+		return;
+
+	gth_file_store_queue_set (file_store,
+				  abs_pos,
+				  file_data,
+				  NULL,
+				  -1,
+				  NULL);
+	gth_file_store_exec_set (file_store);
+	_gth_file_list_update_pane (file_list);
+}
+
+
+void
+gth_file_list_rename_file (GthFileList *file_list,
+			   GFile       *file,
+			   GthFileData *file_data)
+{
+	GthFileListOp *op;
+
+	op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_RENAME_FILE);
+	op->file = g_object_ref (file);
+	op->file_data = g_object_ref (file_data);
+	_gth_file_list_queue_op (file_list, op);
+}
+
+
+static void
 gfl_set_files (GthFileList   *file_list,
 	       GthFileSource *file_source,
 	       GList         *files)
@@ -1257,6 +1301,9 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 		break;
 	case GTH_FILE_LIST_OP_TYPE_SET_SORT_FUNC:
 		gfl_set_sort_func (file_list, op->cmp_func, op->inverse_sort);
+		break;
+	case GTH_FILE_LIST_OP_TYPE_RENAME_FILE:
+		gfl_rename_file (file_list, op->file, op->file_data);
 		break;
 	default:
 		exec_next_op = FALSE;

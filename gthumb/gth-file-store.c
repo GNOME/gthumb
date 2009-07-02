@@ -1149,6 +1149,17 @@ gth_file_store_get_file_at_pos (GthFileStore *file_store,
 }
 
 
+GthFileData *
+gth_file_store_get_file_at_abs_pos (GthFileStore *file_store,
+				    int           abs_pos)
+{
+	if ((abs_pos < 0) || (abs_pos >= file_store->priv->tot_rows))
+		return NULL;
+	else
+		return g_object_ref (file_store->priv->all_rows[abs_pos]->file);
+}
+
+
 int
 gth_file_store_find (GthFileStore *file_store,
 		     GFile        *file)

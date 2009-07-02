@@ -30,6 +30,27 @@
 
 G_BEGIN_DECLS
 
+#define GFILE_BASIC_ATTRIBUTES "standard::display-name,standard::icon,standard::type"
+
+#define DEFINE_STANDARD_ATTRIBUTES(a) ( \
+	"standard::type," \
+	"standard::is-hidden," \
+	"standard::is-backup," \
+	"standard::name," \
+	"standard::display-name," \
+	"standard::edit-name," \
+	"standard::icon," \
+	"standard::size," \
+	"time::created," \
+	"time::created-usec," \
+	"time::modified," \
+	"time::modified-usec," \
+	"access::*" \
+	a)
+#define GFILE_STANDARD_ATTRIBUTES (DEFINE_STANDARD_ATTRIBUTES(""))
+#define GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type"))
+#define GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::content-type"))
+
 #define GNOME_COPIED_FILES (gdk_atom_intern_static_string ("x-special/gnome-copied-files"))
 #define IROUND(x) ((int)floor(((double)x) + 0.5))
 #define FLOAT_EQUAL(a,b) (fabs (a - b) < 1e-6)

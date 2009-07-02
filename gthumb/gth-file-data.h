@@ -29,23 +29,6 @@
 
 G_BEGIN_DECLS
 
-#define GTH_FILE_DATA_ATTR(a) ("standard::type," \
-			       "standard::is-hidden," \
-			       "standard::is-backup," \
-			       "standard::name," \
-			       "standard::display-name," \
-			       "standard::edit-name," \
-			       "standard::icon," \
-			       "standard::size," \
-			       "time::created," \
-			       "time::created-usec," \
-			       "time::modified," \
-			       "time::modified-usec," \
-			       a)
-#define GTH_FILE_DATA_ATTRIBUTES (GTH_FILE_DATA_ATTR(""))
-#define GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE (GTH_FILE_DATA_ATTR("standard::fast-content-type"))
-#define GTH_FILE_DATA_ATTRIBUTES_WITH_CONTENT_TYPE (GTH_FILE_DATA_ATTR("standard::content-type"))
-
 #define GTH_TYPE_FILE_DATA (gth_file_data_get_type ())
 #define GTH_FILE_DATA(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_DATA, GthFileData))
 #define GTH_FILE_DATA_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_FILE_DATA, GthFileDataClass))

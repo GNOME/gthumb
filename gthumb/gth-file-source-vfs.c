@@ -65,14 +65,14 @@ get_entry_points (GthFileSource *file_source)
 	list = NULL;
 
 	file = g_file_new_for_uri (get_home_uri ());
-	info = gth_file_source_get_file_info (file_source, file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
 	g_file_info_set_display_name (info, _("Home Folder"));
 	list = g_list_append (list, gth_file_data_new (file, info));
 	g_object_unref (info);
 	g_object_unref (file);
 
 	file = g_file_new_for_uri ("file:///");
-	info = gth_file_source_get_file_info (file_source, file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
 	g_file_info_set_display_name (info, _("File System"));
 	list = g_list_append (list, gth_file_data_new (file, info));
 	g_object_unref (info);
@@ -87,7 +87,7 @@ get_entry_points (GthFileSource *file_source)
 			continue;
 
 		file = g_mount_get_root (mount);
-		info = gth_file_source_get_file_info (file_source, file);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
 
 		volume = g_mount_get_volume (mount);
 		if (volume != NULL) {
@@ -134,14 +134,15 @@ to_gio_file (GthFileSource *file_source,
 
 static GFileInfo *
 get_file_info (GthFileSource *file_source,
-	       GFile         *file)
+	       GFile         *file,
+	       const char    *attributes)
 {
 	GFile     *gio_file;
 	GFileInfo *file_info;
 
 	gio_file = gth_file_source_to_gio_file (file_source, file);
 	file_info = g_file_query_info (gio_file,
-				       "standard::display-name,standard::icon,standard::type",
+				       attributes,
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);

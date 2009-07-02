@@ -69,6 +69,9 @@ void           gth_file_list_delete_files   (GthFileList          *file_list,
 					     GList                *list /* GFile */);
 void           gth_file_list_update_files   (GthFileList          *file_list,
 					     GList                *list /* GthFileData */);
+void           gth_file_list_rename_file    (GthFileList          *file_list,
+					     GFile                *file,
+					     GthFileData          *file_data);
 void           gth_file_list_set_filter     (GthFileList          *file_list,
 					     GthTest              *filter);
 void           gth_file_list_set_sort_func  (GthFileList          *file_list,

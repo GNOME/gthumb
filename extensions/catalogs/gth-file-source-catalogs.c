@@ -50,7 +50,7 @@ get_entry_points (GthFileSource *file_source)
 	GFileInfo   *info;
 
 	file = g_file_new_for_uri ("catalog:///");
-	info = gth_file_source_get_file_info (file_source, file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
 	list = g_list_append (list, gth_file_data_new (file, info));
 
 	g_object_unref (info);
@@ -115,14 +115,15 @@ update_file_info (GthFileSource *file_source,
 
 static GFileInfo *
 gth_file_source_catalogs_get_file_info (GthFileSource *file_source,
-					 GFile         *file)
+					GFile         *file,
+					const char    *attributes)
 {
 	GFile     *gio_file;
 	GFileInfo *file_info;
 
 	gio_file = gth_catalog_file_to_gio_file (file);
 	file_info = g_file_query_info (gio_file,
-				       "standard::display-name,standard::icon",
+				       attributes,
 				       G_FILE_QUERY_INFO_NONE,
 				       NULL,
 				       NULL);
@@ -370,7 +371,7 @@ gth_file_source_catalogs_read_attributes (GthFileSource *file_source,
 
 	gio_files = gth_file_source_to_gio_file_list (GTH_FILE_SOURCE (catalogs), files);
 	g_query_info_async (gio_files,
-			    GTH_FILE_DATA_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
+			    GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
 			    catalogs->priv->cancellable,
 			    info_ready_cb,
 			    data);
