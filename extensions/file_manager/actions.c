@@ -43,10 +43,8 @@ _gth_browser_create_new_folder (GthBrowser *browser,
 					       1024,
 					       GTK_STOCK_CANCEL,
 					       _("C_reate"));
-	if (folder_name == NULL) {
-		g_object_unref (parent);
+	if (folder_name == NULL)
 		return;
-	}
 
 	file_source = gth_main_get_file_source (parent);
 	file = _g_directory_create_unique (parent, folder_name, "", &error);
@@ -520,7 +518,7 @@ gth_browser_activate_action_folder_create (GtkAction  *action,
 {
 	GthFileData *parent;
 
-	parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	parent = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	if (parent == NULL)
 		return;
 
