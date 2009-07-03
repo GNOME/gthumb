@@ -258,7 +258,7 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 
 		file = g_file_new_for_uri (uri);
 		file_source = gth_main_get_file_source (file);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
 
 		display_name = g_file_info_get_display_name (info);
 		icon = g_file_info_get_icon (info);

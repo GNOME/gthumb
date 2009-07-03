@@ -175,12 +175,23 @@ void
 gth_browser_activate_action_catalog_new (GtkAction  *action,
 					 GthBrowser *browser)
 {
+	char          *name;
 	GthFileData   *selected_parent;
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
 	GError        *error;
 	GFile         *gio_file;
+
+	name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+				        GTK_DIALOG_MODAL,
+				        _("Enter the catalog name: "),
+				        "",
+				        1024,
+				        GTK_STOCK_CANCEL,
+				        _("C_reate"));
+	if (name == NULL)
+		return;
 
 	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	if (selected_parent != NULL) {
@@ -202,31 +213,19 @@ gth_browser_activate_action_catalog_new (GtkAction  *action,
 
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
-	gio_file = _g_file_create_unique (gio_parent, _("untitled catalog"), ".catalog", &error);
+	gio_file = _g_file_create_unique (gio_parent, name, ".catalog", &error);
 	if (gio_file != NULL) {
-		GFile       *file;
-		GList       *list;
-		GFileInfo   *info;
-		GthFileData *file_data;
-		GList       *file_data_list;
+		GFile *file;
+		GList *list;
 
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-		file_data = gth_file_data_new (file, info);
-		file_data_list = g_list_prepend (NULL, file_data);
-		gth_folder_tree_add_children (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), parent, file_data_list);
-		gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file);
-
-		list = g_list_prepend (NULL, g_object_ref (file));
+		list = g_list_prepend (NULL, file);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    parent,
 					    list,
 					    GTH_MONITOR_EVENT_CREATED);
 
-		_g_object_list_unref (list);
-		g_list_free (file_data_list);
-		g_object_unref (file_data);
-		g_object_unref (info);
+		g_list_free (list);
 		g_object_unref (file);
 	}
 	else
@@ -242,12 +241,23 @@ void
 gth_browser_activate_action_catalog_new_library (GtkAction  *action,
 						 GthBrowser *browser)
 {
+	char          *name;
 	GthFileData   *selected_parent;
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
 	GError        *error = NULL;
 	GFile         *gio_file;
+
+	name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+				        GTK_DIALOG_MODAL,
+				        _("Enter the library name: "),
+				        "",
+				        1024,
+				        GTK_STOCK_CANCEL,
+				        _("C_reate"));
+	if (name == NULL)
+		return;
 
 	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	if (selected_parent != NULL) {
@@ -269,31 +279,19 @@ gth_browser_activate_action_catalog_new_library (GtkAction  *action,
 
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
-	gio_file = _g_directory_create_unique (gio_parent, _("untitled library"), "", &error);
+	gio_file = _g_directory_create_unique (gio_parent, name, "", &error);
 	if (gio_file != NULL) {
-		GFile        *file;
-		GList        *list;
-		GFileInfo    *info;
-		GthFileData  *file_data;
-		GList        *file_data_list;
+		GFile *file;
+		GList *list;
 
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-		file_data = gth_file_data_new (file, info);
-		file_data_list = g_list_prepend (NULL, file_data);
-		gth_folder_tree_add_children (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), parent, file_data_list);
-		gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file);
-
-		list = g_list_prepend (NULL, g_object_ref (file));
+		list = g_list_prepend (NULL, file);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    parent,
 					    list,
 					    GTH_MONITOR_EVENT_CREATED);
 
-		_g_object_list_unref (list);
-		g_list_free (file_data_list);
-		g_object_unref (file_data);
-		g_object_unref (info);
+		g_list_free (list);
 		g_object_unref (file);
 	}
 	else

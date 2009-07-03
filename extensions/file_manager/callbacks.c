@@ -70,6 +70,13 @@ static const char *browser_ui_info =
 
 static const char *browser_vfs_ui_info =
 "<ui>"
+"  <menubar name='MenuBar'>"
+"    <menu name='File' action='FileMenu'>"
+"      <placeholder name='Folder_Actions'>"
+"        <menuitem action='File_NewFolder'/>"
+"      </placeholder>"
+"    </menu>"
+"  </menubar>"
 "  <popup name='FileListPopup'>"
 "    <placeholder name='Folder_Actions'>"
 "      <menuitem action='Edit_Trash'/>"
@@ -103,10 +110,6 @@ static GtkActionEntry action_entries[] = {
 	  N_("Create _Folder"), "<control><shift>N",
 	  N_("Create a new empty folder inside this folder"),
 	  G_CALLBACK (gth_browser_action_new_folder) },
-	{ "File_RenameFolder", NULL,
-	  N_("_Rename"), NULL,
-	  N_("Rename this folder"),
-	  G_CALLBACK (gth_browser_action_rename_folder) },
         { "Edit_CutFiles", GTK_STOCK_CUT,
 	  NULL, NULL,
 	  NULL,
@@ -412,6 +415,11 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Folder_Delete", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
 	set_action_sensitive (data, "Folder_Trash", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_TRASH));
 	set_action_sensitive (data, "Folder_Cut", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_DELETE));
+
+	/*
+	folder = gth_browser_get_location_data (browser);
+	set_action_sensitive (data, "File_NewFolder", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));
+	*/
 
 	_gth_browser_update_paste_command_sensitivity (browser, NULL);
 

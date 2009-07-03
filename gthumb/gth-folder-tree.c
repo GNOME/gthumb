@@ -1359,6 +1359,7 @@ gth_folder_tree_start_editing (GthFolderTree *folder_tree,
 	tree_column = gtk_tree_view_get_column (GTK_TREE_VIEW (folder_tree), 0);
 	gtk_tree_view_expand_to_path (GTK_TREE_VIEW (folder_tree), tree_path);
 	gtk_tree_view_collapse_row (GTK_TREE_VIEW (folder_tree), tree_path);
+	gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (folder_tree), tree_path, NULL, TRUE, 0.5, 0.0);
 	gtk_tree_view_set_cursor (GTK_TREE_VIEW (folder_tree),
 				  tree_path,
 				  tree_column,

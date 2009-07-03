@@ -65,7 +65,7 @@ get_selected_catalog (DialogData *data)
 	GthFileData *file_data = NULL;
 
 	file_data = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
-	if (! g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child")) {
+	if ((file_data != NULL) && ! g_file_info_get_attribute_boolean (file_data->info, "gthumb::no-child")) {
 		_g_object_unref (file_data);
 		file_data = NULL;
 	}
@@ -166,45 +166,27 @@ source_tree_selection_changed_cb (GtkTreeSelection *treeselection,
 }
 
 
-static GFile *
-get_catalog_parent (GFile *selected_parent)
-{
-	GFile *parent = NULL;
-
-	if (selected_parent != NULL) {
-		GthFileSource *file_source;
-		GFileInfo     *info;
-
-		file_source = gth_main_get_file_source (selected_parent);
-		info = gth_file_source_get_file_info (file_source, selected_parent, GFILE_BASIC_ATTRIBUTES);
-		if ((g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY) &&
-		    ! g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
-		{
-			parent = g_file_dup (selected_parent);
-		}
-		else
-			parent = g_file_get_parent (selected_parent);
-
-		g_object_unref (info);
-		g_object_unref (file_source);
-	}
-	else
-		parent = g_file_new_for_uri ("catalog:///");
-
-	return parent;
-}
-
-
 static void
 new_catalog_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
+	char          *name;
 	GthFileData   *selected_parent;
 	GFile         *parent;
 	GthFileSource *file_source;
 	GFile         *gio_parent;
 	GError        *error;
 	GFile         *gio_file;
+
+	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
+				        GTK_DIALOG_MODAL,
+				        _("Enter the catalog name: "),
+				        "",
+				        1024,
+				        GTK_STOCK_CANCEL,
+				        _("C_reate"));
+	if (name == NULL)
+		return;
 
 	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
 	if (selected_parent != NULL) {
@@ -226,31 +208,19 @@ new_catalog_button_clicked_cb (GtkWidget  *widget,
 
 	file_source = gth_main_get_file_source (parent);
 	gio_parent = gth_file_source_to_gio_file (file_source, parent);
-	gio_file = _g_file_create_unique (gio_parent, _("New Catalog"), ".catalog", &error);
+	gio_file = _g_file_create_unique (gio_parent, name, ".catalog", &error);
 	if (gio_file != NULL) {
-		GFile        *file;
-		GList        *list;
-		GFileInfo    *info;
-		GthFileData  *file_data;
-		GList        *file_data_list;
+		GFile *file;
+		GList *list;
 
 		file = gth_catalog_file_from_gio_file (gio_file, NULL);
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
-		file_data = gth_file_data_new (file, info);
-		file_data_list = g_list_prepend (NULL, file_data);
-		gth_folder_tree_add_children (GTH_FOLDER_TREE (data->source_tree), parent, file_data_list);
-		gth_folder_tree_start_editing (GTH_FOLDER_TREE (data->source_tree), file);
-
-		list = g_list_prepend (NULL, g_object_ref (file));
+		list = g_list_prepend (NULL, file);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    parent,
 					    list,
 					    GTH_MONITOR_EVENT_CREATED);
 
-		_g_object_list_unref (list);
-		g_list_free (file_data_list);
-		g_object_unref (file_data);
-		g_object_unref (info);
+		g_list_free (list);
 		g_object_unref (file);
 	}
 	else
@@ -266,25 +236,71 @@ static void
 new_library_button_clicked_cb (GtkWidget  *widget,
 		       	       DialogData *data)
 {
-	char        *display_name;
-	GthFileData *selected_catalog;
-	GFile       *parent;
-	GFile       *new_library;
-	GError      *error = NULL;
+	char          *name;
+	GthFileData   *selected_parent;
+	GFile         *parent;
+	GthFileSource *file_source;
+	GFile         *gio_parent;
+	GError        *error = NULL;
+	GFile         *gio_file;
 
-	display_name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
-						GTK_DIALOG_MODAL,
-						_("Enter the library name: "),
-						"",
-						1024,
-						GTK_STOCK_CANCEL,
-						_("C_reate"));
-	if (display_name == NULL)
+	name = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
+					GTK_DIALOG_MODAL,
+					_("Enter the library name: "),
+					"",
+					1024,
+					GTK_STOCK_CANCEL,
+					_("C_reate"));
+	if (name == NULL)
 		return;
+
+	selected_parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (data->source_tree));
+	if (selected_parent != NULL) {
+		GthFileSource *file_source;
+		GFileInfo     *info;
+
+		file_source = gth_main_get_file_source (selected_parent->file);
+		info = gth_file_source_get_file_info (file_source, selected_parent->file, GFILE_BASIC_ATTRIBUTES);
+		if (g_file_info_get_attribute_boolean (info, "gthumb::no-child"))
+			parent = g_file_get_parent (selected_parent->file);
+		else
+			parent = g_file_dup (selected_parent->file);
+
+		g_object_unref (info);
+		g_object_unref (file_source);
+	}
+	else
+		parent = g_file_new_for_uri ("catalog:///");
+
+	file_source = gth_main_get_file_source (parent);
+	gio_parent = gth_file_source_to_gio_file (file_source, parent);
+	gio_file = _g_directory_create_unique (gio_parent, name, "", &error);
+	if (gio_file != NULL) {
+		GFile *file;
+		GList *list;
+
+		file = gth_catalog_file_from_gio_file (gio_file, NULL);
+		list = g_list_prepend (NULL, file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		g_list_free (list);
+		g_object_unref (file);
+	}
+	else
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not create the library"), &error);
+
+	g_object_unref (gio_file);
+	g_object_unref (gio_parent);
+	g_object_unref (file_source);
+
+	/*
 
 	selected_catalog = gth_folder_tree_get_selected (GTH_FOLDER_TREE (data->source_tree));
 	parent = get_catalog_parent (selected_catalog->file);
-	new_library = g_file_get_child_for_display_name (parent, display_name, &error);
+	new_library = g_file_get_child_for_display_name (parent, name, &error);
 
 	if ((new_library != NULL) && (strchr (display_name, '/') != NULL)) {
 		error = g_error_new (G_IO_ERROR, G_IO_ERROR_INVALID_FILENAME, _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), display_name);
@@ -308,7 +324,9 @@ new_library_button_clicked_cb (GtkWidget  *widget,
 		g_object_unref (new_library);
 	g_object_unref (parent);
 	g_object_unref (selected_catalog);
-	g_free (display_name);
+	g_free (name);
+
+	*/
 }
 
 

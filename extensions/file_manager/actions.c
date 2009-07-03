@@ -27,17 +27,57 @@
 #include "gth-duplicate-task.h"
 
 
-void
-gth_browser_action_new_folder (GtkAction  *action,
-			       GthBrowser *browser)
+static void
+_gth_browser_create_new_folder (GthBrowser *browser,
+				GFile      *parent)
 {
+	char          *folder_name;
+	GthFileSource *file_source;
+	GError        *error = NULL;
+	GFile         *file;
+
+	folder_name = _gtk_request_dialog_run (GTK_WINDOW (browser),
+					       GTK_DIALOG_MODAL,
+					       _("Enter the folder name: "),
+				               "",
+					       1024,
+					       GTK_STOCK_CANCEL,
+					       _("C_reate"));
+	if (folder_name == NULL) {
+		g_object_unref (parent);
+		return;
+	}
+
+	file_source = gth_main_get_file_source (parent);
+	file = _g_directory_create_unique (parent, folder_name, "", &error);
+	if (file != NULL) {
+		GList *list;
+
+		list = g_list_prepend (NULL, file);
+		gth_monitor_folder_changed (gth_main_get_default_monitor (),
+					    parent,
+					    list,
+					    GTH_MONITOR_EVENT_CREATED);
+
+		g_list_free (list);
+	}
+	else
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the folder"), &error);
+
+	_g_object_unref (file);
+	g_object_unref (file_source);
 }
 
 
 void
-gth_browser_action_rename_folder (GtkAction  *action,
-				  GthBrowser *browser)
+gth_browser_action_new_folder (GtkAction  *action,
+			       GthBrowser *browser)
 {
+	GFile *parent;
+
+	parent = g_object_ref (gth_browser_get_location (browser));
+	_gth_browser_create_new_folder (browser, parent);
+	g_object_unref (parent);
 }
 
 
@@ -359,11 +399,9 @@ delete_file_permanently (GtkWindow *window,
 		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), &error);
 	}
 	else {
-		GthFileData *first;
-		GFile       *parent;
+		GFile *parent;
 
-		first = files->data;
-		parent = g_file_get_parent (first->file);
+		parent = g_file_get_parent ((GFile*) files->data);
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
 					    parent,
 					    files,
@@ -480,45 +518,14 @@ void
 gth_browser_activate_action_folder_create (GtkAction  *action,
 					   GthBrowser *browser)
 {
-	GthFileData   *parent;
-	GthFileSource *file_source;
-	GError        *error = NULL;
-	GFile         *file;
+	GthFileData *parent;
 
 	parent = gth_folder_tree_get_selected_or_parent (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	if (parent == NULL)
 		return;
 
-	file_source = gth_main_get_file_source (parent->file);
-	file = _g_directory_create_unique (parent->file, _("untitled folder"), "", &error);
-	if (file != NULL) {
-		GList       *list;
-		GFileInfo   *info;
-		GthFileData *file_data;
-		GList       *file_data_list;
+	_gth_browser_create_new_folder (browser, parent->file);
 
-		info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES ",access::*");
-		file_data = gth_file_data_new (file, info);
-		file_data_list = g_list_prepend (NULL, file_data);
-		gth_folder_tree_add_children (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), parent->file, file_data_list);
-		gth_folder_tree_start_editing (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)), file);
-
-		list = g_list_prepend (NULL, g_object_ref (file));
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent->file,
-					    list,
-					    GTH_MONITOR_EVENT_CREATED);
-
-		_g_object_list_unref (list);
-		g_list_free (file_data_list);
-		g_object_unref (file_data);
-		g_object_unref (info);
-	}
-	else
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not create the folder"), &error);
-
-	_g_object_unref (file);
-	g_object_unref (file_source);
 	g_object_unref (parent);
 }
 

@@ -30,7 +30,8 @@
 
 G_BEGIN_DECLS
 
-#define GFILE_BASIC_ATTRIBUTES "standard::display-name,standard::icon,standard::type"
+#define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon"
+#define GFILE_BASIC_ATTRIBUTES GFILE_DISPLAY_ATTRIBUTES ",standard::type"
 
 #define DEFINE_STANDARD_ATTRIBUTES(a) ( \
 	"standard::type," \

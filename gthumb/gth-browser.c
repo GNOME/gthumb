@@ -124,7 +124,7 @@ struct _GthBrowserPrivateData {
 	gulong             file_renamed_id;
 	gulong             metadata_changed_id;
 	gulong             entry_points_changed_id;
-	GFile             *location;
+	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
 	gboolean           activity_ref;
@@ -354,7 +354,7 @@ _gth_browser_add_file_menu_item (GthBrowser *browser,
 	GFileInfo     *info;
 
 	file_source = gth_main_get_file_source (file);
-	info = gth_file_source_get_file_info (file_source, file, GFILE_BASIC_ATTRIBUTES);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
 	if (info != NULL) {
 		_gth_browser_add_file_menu_item_full (browser,
 						      menu,
@@ -386,7 +386,7 @@ _gth_browser_update_parent_list (GthBrowser *browser)
 	/* Update the parent list menu. */
 
 	i = 0;
-	parent = g_file_get_parent (browser->priv->location);
+	parent = g_file_get_parent (browser->priv->location->file);
 	while (parent != NULL) {
 		GFile *parent_parent;
 
@@ -406,27 +406,18 @@ _gth_browser_update_parent_list (GthBrowser *browser)
 void
 gth_browser_update_title (GthBrowser *browser)
 {
-	char    *uri = NULL;
-	GString *title;
-
-	switch (gth_window_get_current_page (GTH_WINDOW (browser))) {
-	case GTH_BROWSER_PAGE_BROWSER:
-		if (browser->priv->location != NULL)
-			uri = g_file_get_uri (browser->priv->location);
-		break;
-
-	case GTH_BROWSER_PAGE_VIEWER:
-		if (browser->priv->current_file != NULL)
-			uri = g_file_get_uri (browser->priv->current_file->file);
-		break;
-
-	default:
-		break;
-	}
+	GString    *title;
+	const char *name = NULL;
 
 	title = g_string_new (NULL);
-	if (uri != NULL) {
-		g_string_append (title, uri);
+
+	if (browser->priv->current_file != NULL)
+		name = g_file_info_get_display_name (browser->priv->current_file->info);
+	else if (browser->priv->location != NULL)
+		name = g_file_info_get_display_name (browser->priv->location->info);
+
+	if (name != NULL) {
+		g_string_append (title, name);
 		if (gth_browser_get_file_modified (browser)) {
 			g_string_append (title, " ");
 			g_string_append (title, _("[modified]"));
@@ -463,7 +454,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	int       n_selected;
 
 	if (browser->priv->location != NULL)
-		parent = g_file_get_parent (browser->priv->location);
+		parent = g_file_get_parent (browser->priv->location->file);
 	else
 		parent = NULL;
 	parent_available = (parent != NULL);
@@ -499,23 +490,42 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 
 
 static void
-_gth_browser_set_location (GthBrowser *browser,
-			   GFile      *location)
+_gth_browser_set_location (GthBrowser  *browser,
+			   GthFileData *location)
 {
 	if (location == NULL)
 		return;
 
 	if (browser->priv->location != NULL)
 		g_object_unref (browser->priv->location);
-	browser->priv->location = g_file_dup (location);
+	browser->priv->location = gth_file_data_dup (location);
 
 	gth_browser_update_title (browser);
 	_gth_browser_update_parent_list (browser);
 	gth_browser_update_sensitivity (browser);
 
 	g_signal_handlers_block_by_data (browser->priv->location_chooser, browser);
-	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (browser->priv->location_chooser), browser->priv->location);
+	gth_location_chooser_set_current (GTH_LOCATION_CHOOSER (browser->priv->location_chooser), browser->priv->location->file);
 	g_signal_handlers_unblock_by_data (browser->priv->location_chooser, browser);
+}
+
+
+static void
+_gth_browser_set_location_from_file (GthBrowser *browser,
+				     GFile      *file)
+{
+	GthFileSource *file_source;
+	GthFileData   *file_data;
+	GFileInfo     *info;
+
+	file_source = gth_main_get_file_source (file);
+	info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+	file_data = gth_file_data_new (file, info);
+	_gth_browser_set_location (browser, file_data);
+
+	g_object_unref (file_data);
+	_g_object_unref (info);
+	g_object_unref (file_source);
 }
 
 
@@ -739,7 +749,7 @@ _gth_browser_update_entry_point_list (GthBrowser *browser)
 	position = 5;
 	entry_points = gth_main_get_all_entry_points ();
 	for (scan = entry_points; scan; scan = scan->next) {
-		GthFileData  *file_data = scan->data;
+		GthFileData *file_data = scan->data;
 
 		g_file_info_set_attribute_boolean (file_data->info, "gthumb::entry-point", TRUE);
 		g_file_info_set_sort_order (file_data->info, position);
@@ -842,7 +852,7 @@ _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 
 typedef struct {
 	GthBrowser    *browser;
-	GFile         *folder;
+	GFile         *requested_folder;
 	GthAction      action;
 	GList         *list;
 	GList         *current;
@@ -863,7 +873,7 @@ load_data_new (GthBrowser *browser,
 
 	load_data = g_new0 (LoadData, 1);
 	load_data->browser = browser;
-	load_data->folder = g_object_ref (location);
+	load_data->requested_folder = g_object_ref (location);
 	load_data->action = action;
 	load_data->cancellable = g_cancellable_new ();
 
@@ -871,9 +881,9 @@ load_data_new (GthBrowser *browser,
 		return load_data;
 
 	load_data->entry_point = g_object_ref (entry_point);
-	load_data->file_source = gth_main_get_file_source (load_data->folder);
+	load_data->file_source = gth_main_get_file_source (load_data->requested_folder);
 
-	file = g_object_ref (load_data->folder);
+	file = g_object_ref (load_data->requested_folder);
 	load_data->list = g_list_prepend (NULL, g_object_ref (file));
 	while (! g_file_equal (load_data->entry_point, file)) {
 		GFile *parent;
@@ -898,7 +908,7 @@ load_data_free (LoadData *data)
 {
 	data->browser->priv->load_data_queue = g_list_remove (data->browser->priv->load_data_queue, data);
 
-	g_object_unref (data->folder);
+	g_object_unref (data->requested_folder);
 	_g_object_unref (data->file_source);
 	_g_object_list_unref (data->list);
 	_g_object_unref (data->entry_point);
@@ -925,7 +935,7 @@ load_data_done (LoadData *data,
 	{
 		char *uri;
 
-		uri = g_file_get_uri (data->folder);
+		uri = g_file_get_uri (data->requested_folder);
 		debug (DEBUG_INFO, "LOAD READY: %s [%s]\n", uri, (error == NULL ? "Ok" : "Error"));
 		performance (DEBUG_INFO, "load done for %s", uri);
 
@@ -936,7 +946,7 @@ load_data_done (LoadData *data,
 	g_signal_emit (G_OBJECT (browser),
 		       gth_browser_signals[LOCATION_READY],
 		       0,
-		       data->folder,
+		       data->requested_folder,
 		       (error != NULL));
 
 	if (error == NULL) {
@@ -944,7 +954,7 @@ load_data_done (LoadData *data,
 		browser->priv->location_source = g_object_ref (data->file_source);
 	}
 
-	gth_hook_invoke ("gth-browser-load-location-after", browser, data->folder, error);
+	gth_hook_invoke ("gth-browser-load-location-after", browser, data->requested_folder, error);
 
 	if (error == NULL)
 		return;
@@ -953,32 +963,6 @@ load_data_done (LoadData *data,
 		g_error_free (error);
 		return;
 	}
-
-#if 0
-	/* update the folder list */
-
-	switch (data->action) {
-	case GTH_ACTION_LIST_CHILDREN:
-		gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), data->folder, NULL);
-		break;
-	default:
-		break;
-	}
-
-	/* update the file list */
-
-	switch (data->action) {
-	case GTH_ACTION_VIEW:
-	case GTH_ACTION_GO_BACK:
-	case GTH_ACTION_GO_FORWARD:
-	case GTH_ACTION_GO_INTO:
-	case GTH_ACTION_GO_TO:
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), NULL, NULL);
-		break;
-	default:
-		break;
-	}
-#endif
 
 	gth_browser_update_sensitivity (browser);
 	_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
@@ -989,23 +973,48 @@ static void _gth_browser_load_ready_cb (GthFileSource *file_source, GList *files
 
 
 static void
-load_data_load_next_folder (LoadData *data)
+requested_folder_attributes_ready_cb (GthFileSource *file_source,
+				      GList         *files,
+				      GError        *error,
+				      gpointer       user_data)
+{
+	LoadData    *load_data = user_data;
+	GthFileData *requested_folder_data;
+
+	if (error != NULL) {
+		load_data_done (load_data, error);
+		load_data_free (load_data);
+		return;
+	}
+
+	requested_folder_data = (GthFileData *) files->data;
+	gth_file_data_set_info (load_data->browser->priv->location, requested_folder_data->info);
+
+	gth_file_source_list (load_data->file_source,
+			      load_data->requested_folder,
+			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      _gth_browser_load_ready_cb,
+			      load_data);
+}
+
+
+static void
+load_data_load_next_folder (LoadData *load_data)
 {
 	GthFolderTree *folder_tree;
 	GFile         *folder_to_load;
 
-	folder_tree = GTH_FOLDER_TREE (data->browser->priv->folder_tree);
+	folder_tree = GTH_FOLDER_TREE (load_data->browser->priv->folder_tree);
 	do {
 		GtkTreePath *path;
 
-		if (data->current == NULL)
-			data->current = data->list;
+		if (load_data->current == NULL)
+			load_data->current = load_data->list;
 		else
-			data->current = data->current->next;
+			load_data->current = load_data->current->next;
 
-		folder_to_load = (GFile *) data->current->data;
-
-		if (g_file_equal (folder_to_load, data->folder))
+		folder_to_load = (GFile *) load_data->current->data;
+		if (g_file_equal (folder_to_load, load_data->requested_folder))
 			break;
 
 		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
@@ -1017,36 +1026,49 @@ load_data_load_next_folder (LoadData *data)
 			break;
 		}
 
-		if (! g_file_equal (folder_to_load, data->folder))
+		if (! g_file_equal (folder_to_load, load_data->requested_folder))
 			gth_folder_tree_expand_row (folder_tree, path, FALSE);
 
 		gtk_tree_path_free (path);
 	}
 	while (TRUE);
 
-	gth_file_source_list (data->file_source,
-			      folder_to_load,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-			      _gth_browser_load_ready_cb,
-			      data);
+	if (g_file_equal (folder_to_load, load_data->requested_folder)) {
+		GList *files;
+
+		files = g_list_prepend (NULL, folder_to_load);
+		gth_file_source_read_attributes (load_data->file_source,
+						 files,
+						 GFILE_BASIC_ATTRIBUTES ",access::*",
+						 requested_folder_attributes_ready_cb,
+						 load_data);
+
+		g_list_free (files);
+	}
+	else
+		gth_file_source_list (load_data->file_source,
+				      folder_to_load,
+				      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				      _gth_browser_load_ready_cb,
+				      load_data);
 }
 
 
 static void
-load_data_continue (LoadData *data,
+load_data_continue (LoadData *load_data,
 		    GList    *loaded_files)
 {
-	GthBrowser  *browser = data->browser;
+	GthBrowser  *browser = load_data->browser;
 	GList       *files;
 	GFile       *loaded_folder;
 	GtkTreePath *path;
 	GthTest     *filter;
 
-	if ((data->action != GTH_ACTION_LIST_CHILDREN)
-	    && ! g_file_equal (data->folder, data->browser->priv->location))
+	if ((load_data->action != GTH_ACTION_LIST_CHILDREN)
+	    && ! g_file_equal (load_data->requested_folder, load_data->browser->priv->location->file))
 	{
-		load_data_done (data, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
-		load_data_free (data);
+		load_data_done (load_data, g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, ""));
+		load_data_free (load_data);
 		return;
 	}
 
@@ -1065,37 +1087,54 @@ load_data_continue (LoadData *data,
 	else
 		files = g_list_copy (loaded_files);
 
-	loaded_folder = (GFile *) data->current->data;
+	loaded_folder = (GFile *) load_data->current->data;
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder, files);
 	path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder);
-	if ((path != NULL) && ! g_file_equal (loaded_folder, data->folder))
+	if ((path != NULL) && ! g_file_equal (loaded_folder, load_data->requested_folder))
 		gth_folder_tree_expand_row (GTH_FOLDER_TREE (browser->priv->folder_tree), path, FALSE);
 
-	if (! g_file_equal (loaded_folder, data->folder)) {
+	if (! g_file_equal (loaded_folder, load_data->requested_folder)) {
 		gtk_tree_path_free (path);
 		g_list_free (files);
 
-		load_data_load_next_folder (data);
+		load_data_load_next_folder (load_data);
 		return;
 	}
 
-	load_data_done (data, NULL);
+	load_data_done (load_data, NULL);
 
-	switch (data->action) {
+	switch (load_data->action) {
 	case GTH_ACTION_VIEW:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
 	case GTH_ACTION_GO_TO:
 		if (path != NULL) {
+			GList *entry_points;
+			GList *scan;
+
 			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, FALSE, .0, .0);
 			gth_folder_tree_select_path (GTH_FOLDER_TREE (browser->priv->folder_tree), path);
+
+			/* expand the path if it's an entry point */
+
+			entry_points = gth_main_get_all_entry_points ();
+			for (scan = entry_points; scan; scan = scan->next) {
+				GthFileData *file_data = scan->data;
+
+				if (g_file_equal (file_data->file, load_data->requested_folder)) {
+					gtk_tree_view_expand_row (GTK_TREE_VIEW (browser->priv->folder_tree), path, FALSE);
+					break;
+				}
+			}
+
+			_g_object_list_unref (entry_points);
 		}
 		break;
 	default:
 		break;
 	}
 
-	switch (data->action) {
+	switch (load_data->action) {
 	case GTH_ACTION_VIEW:
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
@@ -1103,7 +1142,7 @@ load_data_continue (LoadData *data,
 	case GTH_ACTION_GO_TO:
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), data->file_source, files);
+		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), load_data->file_source, files);
 		g_object_unref (filter);
 		break;
 	default:
@@ -1114,12 +1153,12 @@ load_data_continue (LoadData *data,
 	_gth_browser_update_statusbar_list_info (browser);
 
 	gth_file_source_monitor_directory (browser->priv->location_source,
-					   browser->priv->location,
+					   browser->priv->location->file,
 					   TRUE);
 
 	if (path != NULL)
 		gtk_tree_path_free (path);
-	load_data_free (data);
+	load_data_free (load_data);
 	g_list_free (files);
 }
 
@@ -1150,7 +1189,7 @@ load_data_ready (LoadData *data,
 		load_data_done (data, error);
 		load_data_free (data);
 	}
-	else if (g_file_equal ((GFile *) data->current->data, data->folder))
+	else if (g_file_equal ((GFile *) data->current->data, data->requested_folder))
 		/* FIXME: make the metadata attribute list automatic, based
 		 * on the data required to filter and view the file list. */
 		_g_query_metadata_async (files,
@@ -1263,7 +1302,7 @@ _gth_browser_load (GthBrowser *browser,
 	case GTH_ACTION_GO_TO:
 		if (browser->priv->location_source != NULL) {
 			gth_file_source_monitor_directory (browser->priv->location_source,
-							   browser->priv->location,
+							   browser->priv->location->file,
 							   FALSE);
 			_g_object_unref (browser->priv->location_source);
 			browser->priv->location_source = NULL;
@@ -1276,7 +1315,7 @@ _gth_browser_load (GthBrowser *browser,
 	entry_point = get_nearest_entry_point (location);
 	load_data = load_data_new (browser, location, action, entry_point);
 
-	gth_hook_invoke ("gth-browser-load-location-before", browser, load_data->folder);
+	gth_hook_invoke ("gth-browser-load-location-before", browser, load_data->requested_folder);
 	browser->priv->activity_ref++;
 
 	if (entry_point == NULL) {
@@ -1310,7 +1349,7 @@ _gth_browser_load (GthBrowser *browser,
 		GError *error;
 		char   *uri;
 
-		uri = g_file_get_uri (load_data->folder);
+		uri = g_file_get_uri (load_data->requested_folder);
 		error = g_error_new (GTHUMB_ERROR, 0, _("No suitable module found for %s"), uri);
 		load_data_ready (load_data, NULL, error);
 
@@ -1322,18 +1361,14 @@ _gth_browser_load (GthBrowser *browser,
 	switch (load_data->action) {
 	case GTH_ACTION_GO_INTO:
 	case GTH_ACTION_GO_TO:
-		_gth_browser_set_location (browser, load_data->folder);
-		_gth_browser_add_to_history (browser, browser->priv->location);
+	case GTH_ACTION_VIEW:
+		_gth_browser_set_location_from_file (browser, load_data->requested_folder);
+		_gth_browser_add_to_history (browser, browser->priv->location->file);
 		_gth_browser_update_history_list (browser);
 		break;
 	case GTH_ACTION_GO_BACK:
 	case GTH_ACTION_GO_FORWARD:
-		_gth_browser_set_location (browser, load_data->folder);
-		_gth_browser_update_history_list (browser);
-		break;
-	case GTH_ACTION_VIEW:
-		_gth_browser_set_location (browser, load_data->folder);
-		_gth_browser_add_to_history (browser, browser->priv->location);
+		_gth_browser_set_location_from_file (browser, load_data->requested_folder);
 		_gth_browser_update_history_list (browser);
 		break;
 	default:
@@ -1343,7 +1378,7 @@ _gth_browser_load (GthBrowser *browser,
 	{
 		char *uri;
 
-		uri = g_file_get_uri (load_data->folder);
+		uri = g_file_get_uri (load_data->requested_folder);
 
 		debug (DEBUG_INFO, "LOAD: %s\n", uri);
 		performance (DEBUG_INFO, "loading %s", uri);
@@ -1494,7 +1529,7 @@ _gth_browser_close_final_step (gpointer user_data)
 		{
 			char *uri;
 
-			uri = g_file_get_uri (browser->priv->location);
+			uri = g_file_get_uri (browser->priv->location->file);
 			eel_gconf_set_path (PREF_STARTUP_LOCATION, uri);
 
 			g_free (uri);
@@ -2021,7 +2056,7 @@ folder_changed_cb (GthMonitor      *monitor,
 	gboolean     update_folder_tree;
 	gboolean     update_file_list;
 
-	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file (list, browser->priv->location) != NULL)) {
+	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file (list, browser->priv->location->file) != NULL)) {
 		gth_browser_go_to (browser, parent);
 		return;
 	}
@@ -2039,7 +2074,7 @@ folder_changed_cb (GthMonitor      *monitor,
 	update_folder_tree = (g_file_equal (parent, gth_folder_tree_get_root (GTH_FOLDER_TREE (browser->priv->folder_tree)))
 			      || ((path != NULL) && gtk_tree_view_row_expanded (GTK_TREE_VIEW (browser->priv->folder_tree), path)));
 
-	update_file_list = g_file_equal (parent, browser->priv->location);
+	update_file_list = g_file_equal (parent, browser->priv->location->file);
 	if (! update_file_list && (event == GTH_MONITOR_EVENT_CHANGED)) {
 		GthFileStore *file_store;
 		GList        *scan;
@@ -2160,8 +2195,18 @@ renamed_file_attributes_ready_cb (GthFileSource *file_source,
 	gth_folder_tree_update_child (GTH_FOLDER_TREE (browser->priv->folder_tree), rename_data->file, file_data);
 	gth_file_list_rename_file (GTH_FILE_LIST (browser->priv->file_list), rename_data->file, file_data);
 
-	if (g_file_equal (rename_data->file, browser->priv->location))
-		_gth_browser_set_location (browser, rename_data->new_file);
+	if (g_file_equal (rename_data->file, browser->priv->location->file)) {
+		GthFileData *new_location;
+		GFileInfo   *new_info;
+
+		new_location = gth_file_data_new (rename_data->new_file, browser->priv->location->info);
+		new_info = gth_file_source_get_file_info (browser->priv->location_source, new_location->file, GFILE_DISPLAY_ATTRIBUTES);
+		g_file_info_copy_into (new_info, new_location->info);
+		_gth_browser_set_location (browser, new_location);
+
+		g_object_unref (new_info);
+		g_object_unref (new_location);
+	}
 
 	rename_data_free (rename_data);
 }
@@ -2968,7 +3013,7 @@ gth_browser_new (const char *uri)
 GFile *
 gth_browser_get_location (GthBrowser *browser)
 {
-	return browser->priv->location;
+	return browser->priv->location->file;
 }
 
 
@@ -3043,7 +3088,7 @@ gth_browser_go_up (GthBrowser *browser,
 	if (browser->priv->location == NULL)
 		return;
 
-	parent = g_object_ref (browser->priv->location);
+	parent = g_object_ref (browser->priv->location->file);
 	while ((steps-- > 0) && (parent != NULL)) {
 		GFile *parent_parent;
 
@@ -3079,7 +3124,7 @@ gth_browser_clear_history (GthBrowser *browser)
 	browser->priv->history = NULL;
 	browser->priv->history_current = NULL;
 
-	_gth_browser_add_to_history (browser, browser->priv->location);
+	_gth_browser_add_to_history (browser, browser->priv->location->file);
 	_gth_browser_update_history_list (browser);
 }
 
@@ -3207,7 +3252,7 @@ gth_browser_stop (GthBrowser *browser)
 void
 gth_browser_reload (GthBrowser *browser)
 {
-	gth_browser_go_to (browser, browser->priv->location);
+	gth_browser_go_to (browser, browser->priv->location->file);
 }
 
 
@@ -3784,7 +3829,7 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 			GFile *parent;
 
 			parent = g_file_get_parent (file_data->file);
-			if ((browser->priv->location != NULL) && ! g_file_equal (parent, browser->priv->location)) {
+			if ((browser->priv->location != NULL) && ! g_file_equal (parent, browser->priv->location->file)) {
 				/* set location to NULL to force a folder reload */
 				_g_object_unref (browser->priv->location);
 				browser->priv->location = NULL;
@@ -3808,6 +3853,15 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 
 			g_free (uri);
 		}
+	}
+	else if (browser->priv->history == NULL) {
+		GFile *home;
+
+		g_clear_error (&error);
+		home = g_file_new_for_uri (get_home_uri ());
+		gth_browser_load_location (browser, home);
+
+		g_object_unref (home);
 	}
 	else
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
