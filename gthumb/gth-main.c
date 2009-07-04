@@ -1034,7 +1034,7 @@ void
 gth_main_activate_extensions (void)
 {
 	const char *mandatory_extensions[] = { "file_viewer", NULL };
-	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "image_viewer", "search", NULL };
+	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "image_viewer", "list_tools", "search", NULL };
 	int         i;
 	GSList     *active_extensions;
 	GSList     *scan;

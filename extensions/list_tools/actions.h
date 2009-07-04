@@ -20,22 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef CALLBACKS_H
-#define CALLBACKS_H
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
-#include <gthumb.h>
+#include <gtk/gtk.h>
 
-void fm__gth_browser_construct_cb                (GthBrowser    *browser);
-void fm__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
-void fm__gth_browser_set_current_page_cb         (GthBrowser    *browser);
-void fm__gth_browser_load_location_after_cb      (GthBrowser    *browser,
-					          GFile         *location,
-					          GError        *error);
-void fm__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
-						  GthFileSource *file_source,
-					          GFile         *folder);
-void fm__gth_browser_selection_changed_cb        (GthBrowser    *browser);
-void fm__gth_browser_realize_cb                  (GthBrowser    *browser);
-void fm__gth_browser_unrealize_cb                (GthBrowser    *browser);
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-#endif /* CALLBACKS_H */
+DEFINE_ACTION(gth_browser_action_list_tools_edit_scripts)
+
+#endif /* ACTIONS_H */

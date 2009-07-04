@@ -47,6 +47,7 @@
 #include "gth-preferences.h"
 #include "gth-sidebar.h"
 #include "gth-statusbar.h"
+#include "gth-toggle-menu-tool-button.h"
 #include "gth-viewer-page.h"
 #include "gth-window.h"
 #include "gth-window-actions-callbacks.h"
@@ -3157,6 +3158,13 @@ GthIconCache *
 gth_browser_get_menu_icon_cache (GthBrowser *browser)
 {
 	return browser->priv->menu_icon_cache;
+}
+
+
+GtkWidget *
+gth_browser_get_browser_toolbar (GthBrowser *browser)
+{
+	return browser->priv->browser_toolbar;
 }
 
 

@@ -107,7 +107,6 @@ static const char *fixed_ui_info =
 "    <separator/>"
 "    <placeholder name='BrowserCommands'/>"
 "    <separator/>"
-"    <toolitem action='File_CloseWindow'/>"
 "  </toolbar>"
 
 "  <toolbar name='ViewerToolBar'>"
