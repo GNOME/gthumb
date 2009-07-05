@@ -211,10 +211,10 @@ gth_filter_file_get_tests (GthFilterFile *filters)
 {
 	GList *list = NULL;
 	GList *scan;
-	
+
 	for (scan = filters->items; scan; scan = scan->next)
 		list = g_list_prepend (list, gth_duplicable_duplicate (GTH_DUPLICABLE (scan->data)));
-	
+
 	return g_list_reverse (list);
 }
 

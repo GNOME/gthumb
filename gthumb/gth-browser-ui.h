@@ -114,10 +114,10 @@ static const char *fixed_ui_info =
 "    <separator/>"
 "    <toolitem action='View_Prev'/>"
 "    <toolitem action='View_Next'/>"
-"    <separator/>"
+/*"    <separator/>"
 "    <toolitem action='Edit_Metadata'/>"
 "    <separator/>"
-"    <toolitem action='View_Fullscreen'/>"
+"    <toolitem action='View_Fullscreen'/>"*/
 "    <separator/>"
 "    <placeholder name='ViewerCommands'/>"
 "    <separator expand='true'/>"

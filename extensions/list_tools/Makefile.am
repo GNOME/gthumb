@@ -1,3 +1,5 @@
+SUBDIRS = data
+
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = liblist_tools.la
 
@@ -6,6 +8,14 @@ liblist_tools_la_SOURCES = 		\
 	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
+	dlg-personalize-scripts.c	\
+	dlg-personalize-scripts.h	\
+	gth-script.c			\
+	gth-script.h			\
+	gth-script-editor-dialog.c	\
+	gth-script-editor-dialog.h	\
+	gth-script-file.c		\
+	gth-script-file.h		\
 	main.c
 
 liblist_tools_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

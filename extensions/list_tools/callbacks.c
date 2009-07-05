@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "gth-script-file.h"
 
 
 #define BROWSER_DATA_KEY "list-tools-browser-data"
@@ -35,10 +36,9 @@ static const char *fixed_ui_info =
 "<ui>"
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'/>"
-"    <separator/>"
 "    <placeholder name='Scripts'/>"
-"    <separator/>"
-"    <menuitem action='ListTools_EditScripts'/>"
+"    <separator name='ScriptsListSeparator'/>"
+"    <menuitem name='EditScripts' action='ListTools_EditScripts'/>"
 "  </popup>"
 "</ui>";
 
@@ -52,15 +52,103 @@ static GtkActionEntry action_entries[] = {
 
 
 typedef struct {
+	GthBrowser     *browser;
 	GtkToolItem    *tool_item;
 	GtkActionGroup *action_group;
+	gulong          scripts_changed_id;
 } BrowserData;
 
 
 static void
 browser_data_free (BrowserData *data)
 {
+	g_signal_handler_disconnect (gth_script_file_get (), data->scripts_changed_id);
 	g_free (data);
+}
+
+
+static void
+activate_script_menu_item (GtkMenuItem *menuitem,
+			   gpointer     user_data)
+{
+	BrowserData *data = user_data;
+	GthScript   *script;
+
+	script = gth_script_file_get_script (gth_script_file_get (), g_object_get_data (G_OBJECT (menuitem), "script_id"));
+	if (script != NULL) {
+		GList   *items;
+		GList   *file_list;
+		GthTask *task;
+
+		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
+		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
+		task = gth_script_get_task (script, file_list);
+		gth_browser_exec_task (data->browser, task);
+
+		g_object_unref (task);
+		_g_object_list_unref (file_list);
+		_gtk_tree_path_list_free (items);
+	}
+}
+
+
+static void
+update_scripts_menu (BrowserData *data)
+{
+	GtkWidget *separator1;
+	GtkWidget *separator2;
+	GtkWidget *menu;
+	GList     *script_list;
+	GList     *scan;
+	int        pos;
+	gboolean   script_present = FALSE;
+
+	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/Tools");
+	separator2 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/Scripts");
+	menu = gtk_widget_get_parent (separator1);
+	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
+
+	script_list = gth_script_file_get_scripts (gth_script_file_get ());
+	pos = _gtk_container_get_pos (GTK_CONTAINER (menu), separator2);
+	for (scan = script_list; scan; scan = scan->next) {
+		GthScript *script = scan->data;
+		GtkWidget *menu_item;
+
+		if (! gth_script_is_visible (script))
+			continue;
+
+		menu_item = gtk_image_menu_item_new_with_label (gth_script_get_display_name (script));
+		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_stock (GTK_STOCK_EXECUTE, GTK_ICON_SIZE_MENU));
+		gtk_widget_show (menu_item);
+		gtk_menu_shell_insert (GTK_MENU_SHELL (menu), menu_item, pos++);
+
+		g_object_set_data_full (G_OBJECT (menu_item),
+					"script_id",
+					g_strdup (gth_script_get_id (script)),
+					(GDestroyNotify) g_free);
+		g_signal_connect (menu_item,
+				  "activate",
+				  G_CALLBACK (activate_script_menu_item),
+			  	  data);
+
+		script_present = TRUE;
+	}
+
+	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/ScriptsListSeparator");
+	if (script_present)
+		gtk_widget_show (separator1);
+	else
+		gtk_widget_hide (separator1);
+
+	_g_object_list_unref (script_list);
+}
+
+
+static void
+scripts_changed_cb (GthScriptFile *script_file,
+		     BrowserData   *data)
+{
+	update_scripts_menu (data);
 }
 
 
@@ -73,7 +161,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
 	data = g_new0 (BrowserData, 1);
-
+	data->browser = browser;
 	data->action_group = gtk_action_group_new ("List Tools Manager Actions");
 	gtk_action_group_set_translation_domain (data->action_group, NULL);
 	gtk_action_group_add_actions (data->action_group,
@@ -97,6 +185,12 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), data->tool_item, -1);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+
+	update_scripts_menu (data);
+	data->scripts_changed_id = g_signal_connect (gth_script_file_get (),
+				                     "changed",
+				                     G_CALLBACK (scripts_changed_cb),
+				                     data);
 }
 
 
