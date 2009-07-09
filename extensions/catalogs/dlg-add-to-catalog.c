@@ -37,7 +37,6 @@ typedef struct {
 	GList         *files;
 	GthFileData   *selected_catalog;
 	GthFileSource *file_source;
-	GFile         *gio_file;
 	GthCatalog    *catalog;
 	char          *buffer;
 	gsize          length;
@@ -50,7 +49,6 @@ destroy_cb (GtkWidget  *widget,
 {
 	g_free (data->buffer);
 	_g_object_unref (data->catalog);
-	_g_object_unref (data->gio_file);
 	_g_object_list_unref (data->files);
 	_g_object_unref (data->selected_catalog);
 	g_object_unref (data->builder);
@@ -106,6 +104,7 @@ catalog_ready_cb (GObject  *catalog,
 {
 	DialogData *data = user_data;
 	GList      *scan;
+	GFile      *gio_file;
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not add the files to the catalog"), &error);
@@ -120,13 +119,16 @@ catalog_ready_cb (GObject  *catalog,
 	}
 
 	data->buffer = gth_catalog_to_data (data->catalog, &data->length);
-	g_write_file_async (data->gio_file,
+	gio_file = gth_catalog_file_to_gio_file (data->selected_catalog->file);
+	g_write_file_async (gio_file,
 			    data->buffer,
 			    data->length,
 			    G_PRIORITY_DEFAULT,
 			    NULL,
 			    catalog_save_done_cb,
 			    data);
+
+	g_object_unref (gio_file);
 }
 
 
