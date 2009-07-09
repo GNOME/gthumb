@@ -42,6 +42,7 @@
 #include "gtk-utils.h"
 #include "gth-browser.h"
 #include "gth-folder-selection-dialog.h"
+#include "gfile-utils.h"
 
 #define GLADE_FILE "gthumb.glade"
 #define GLADE_PNG_EXP_FILE "gthumb_png_exporter.glade"
@@ -73,45 +74,45 @@ typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
 
 /* GIO Port: VFS -> GIO error code mapping */
 
-void 
+void
 set_error_from_vfs_result (GnomeVFSResult     result,
                            GError           **err)
 {
 	g_assert (*err == NULL);
-	
+
 	switch (result) {
 	case GNOME_VFS_OK:
 		break;
-		
+
 	case GNOME_VFS_ERROR_INTERRUPTED:
-		g_set_error (err, 
+		g_set_error (err,
 		             G_FILE_ERROR,
-		             G_FILE_ERROR_INTR, 
+		             G_FILE_ERROR_INTR,
 			     _("Operation interrupted"));
 		break;
-		
+
 	case GNOME_VFS_ERROR_NOT_FOUND:
-		g_set_error (err, 
+		g_set_error (err,
 		             G_FILE_ERROR,
-		             G_FILE_ERROR_NOENT, 
+		             G_FILE_ERROR_NOENT,
 			     _("File not found"));
 		break;
-		
+
 	case GNOME_VFS_ERROR_BAD_PARAMETERS:
-		g_set_error (err, 
+		g_set_error (err,
 			     G_IO_ERROR ,
-			     G_IO_ERROR_INVALID_ARGUMENT, 
+			     G_IO_ERROR_INVALID_ARGUMENT,
 			     _("Invalid argument"));
 		break;
-		
+
 	default:
-		g_set_error (err, 
+		g_set_error (err,
 		             G_FILE_ERROR,
-		             G_FILE_ERROR_FAILED, 
+		             G_FILE_ERROR_FAILED,
 			     _("Operation failed"));
-		break;		
+		break;
 	}
-} 
+}
 
 
 gboolean
@@ -220,7 +221,6 @@ typedef struct {
 	GList     *file_list;
 } ConfirmFileDeleteData;
 
-
 static void
 real_files_delete__continue2 (GError	    *error,
 			      gpointer       data)
@@ -233,44 +233,70 @@ real_files_delete__continue2 (GError	    *error,
 				       _("Could not delete the images:"),
 				       error->message);
 
-	path_list_free (cfddata->file_list);
+	file_data_list_free (cfddata->file_list);
 	g_free (cfddata);
 }
 
 
+/* Display a dialog asking the user if they wish to delete
+ * the file(s) if there is no trash avalible.
+ */
 static void
-real_files_delete__continue (GError	   *error,
-			     gpointer       data)
+real_files_delete__no_trash (ConfirmFileDeleteData *cfddata)
+{
+	int r = GTK_RESPONSE_YES;
+
+	if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
+		GtkWidget *d;
+
+		d = _gtk_yesno_dialog_with_checkbutton_new (
+			    GTK_WINDOW (cfddata->window),
+			    GTK_DIALOG_MODAL,
+			    _("The images cannot be moved to the Trash. Do you want to delete them permanently?"),
+			    GTK_STOCK_CANCEL,
+			    GTK_STOCK_DELETE,
+			    _("_Do not display this message again"),
+			    PREF_MSG_CANNOT_MOVE_TO_TRASH);
+		r = gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (GTK_WIDGET (d));
+	}
+
+	if (r == GTK_RESPONSE_YES) {
+		dlg_files_delete (cfddata->window,
+				  cfddata->file_list,
+				  real_files_delete__continue2,
+				  cfddata);
+	}
+	else {
+		file_data_list_free (cfddata->file_list);
+		g_free (cfddata);
+	}
+
+}
+
+
+static void
+real_files_delete__continue (GError	    *error,
+			      gpointer       data)
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if ((error != NULL) && (g_error_matches (error, G_FILE_ERROR, G_FILE_ERROR_NOENT))) {
-		int r = GTK_RESPONSE_YES;
-
-		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
-			GtkWidget *d;
-
-			d = _gtk_yesno_dialog_with_checkbutton_new (
-				    GTK_WINDOW (cfddata->window),
-				    GTK_DIALOG_MODAL,
-				    _("The images cannot be moved to the Trash. Do you want to delete them permanently?"),
-				    GTK_STOCK_CANCEL,
-				    GTK_STOCK_DELETE,
-				    _("_Do not display this message again"),
-				    PREF_MSG_CANNOT_MOVE_TO_TRASH);
-
-			r = gtk_dialog_run (GTK_DIALOG (d));
-			gtk_widget_destroy (GTK_WIDGET (d));
-		}
-
-		if (r == GTK_RESPONSE_YES)
-			dlg_files_delete (cfddata->window,
-					  cfddata->file_list,
-					  real_files_delete__continue2,
-					  cfddata);
-	} 
-	else
-		real_files_delete__continue2 (error, data);
+	if ((error != NULL))
+	{
+		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window),
+				       "%s %s",
+				       _("Could not delete the images:"),
+				       error->message);
+		file_data_list_free (cfddata->file_list);
+		g_free (cfddata);
+	}
+	else if (cfddata->file_list != NULL) {
+		real_files_delete__no_trash (cfddata);
+	}
+	else {
+		file_data_list_free (cfddata->file_list);
+		g_free (cfddata);
+	}
 }
 
 
@@ -288,7 +314,6 @@ real_files_delete (GthWindow *window,
 				 list,
 				 real_files_delete__continue,
 				 cfddata);
-
 	return;
 }
 
@@ -553,7 +578,7 @@ set_filename_labels (GladeXML    *gui,
 	char       *file_size_txt;
 	FileData   *fd;
 
-	fd = file_data_new_from_path (filename);	
+	fd = file_data_new_from_path (filename);
 
 	label = glade_xml_get_widget (gui, filename_widget);
 	eventbox = glade_xml_get_widget (gui, filename_eventbox);
@@ -1103,10 +1128,10 @@ file_copy_data_free (FileCopyData *fcdata)
 	path_list_free (fcdata->created_list);
 
 	g_free (fcdata->destination);
-	
+
 	if (fcdata->error != NULL)
 		g_error_free (fcdata->error);
-	
+
 	g_free (fcdata);
 }
 
@@ -1146,9 +1171,9 @@ file_copy__continue_or_abort__response_cb (GtkWidget *dialog,
 	} else {
 		if (fcdata->done_func != NULL) {
 			GError *error = NULL;
-			g_set_error (&error, 
+			g_set_error (&error,
 			             G_FILE_ERROR,
-			             G_FILE_ERROR_INTR, 
+			             G_FILE_ERROR_INTR,
 				     _("Operation interrupted"));
 			(*fcdata->done_func) (error, fcdata->done_data);
 			g_error_free (error);
@@ -1315,7 +1340,7 @@ xfer_file (FileCopyData *fcdata,
 	g_list_free (dest_list);
 
 	set_error_from_vfs_result (result, &(fcdata->error));
-	
+
 	/**/
 
 	if (fcdata->error != NULL)
@@ -1551,8 +1576,8 @@ copy_next_file (FileCopyData *fcdata)
 	g_list_free (dest_list);
 
 	set_error_from_vfs_result (result, &(fcdata->error));
-	
-	if (fcdata->error != NULL)		
+
+	if (fcdata->error != NULL)
 		files_copy__done (fcdata);
 }
 
@@ -1617,7 +1642,7 @@ dlg_files_copy (GthWindow      *window,
 	fcdata->done_data = done_data;
 
 	fcdata->error = NULL;
-	
+
 	if (overwrite_all)
 		fcdata->overwrite_result = OVERWRITE_RESULT_ALL;
 	else
@@ -1666,58 +1691,9 @@ dlg_files_copy (GthWindow      *window,
 	copy_current_file (fcdata);
 }
 
+/* -- dlg_files_trash -- */
 
-void
-dlg_files_move_to_trash (GthWindow      *window,
-			 GList          *file_list,
-			 FileOpDoneFunc  done_func,
-			 gpointer        done_data)
-{
-	GnomeVFSURI *first_uri, *trash_uri = NULL;
-
-	g_return_if_fail (file_list != NULL);
-
-	first_uri = new_uri_from_path (file_list->data);
-	gnome_vfs_find_directory (first_uri,
-				  GNOME_VFS_DIRECTORY_KIND_TRASH,
-				  &trash_uri,
-				  TRUE,
-				  TRUE,
-				  0777);
-
-	if (trash_uri != NULL) {
-		char *trash_path;
-
-		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_NONE);
-		dlg_files_copy (window,
-				file_list,
-				trash_path,
-				TRUE,
-				FALSE,
-				TRUE,
-				done_func,
-				done_data);
-
-		g_free (trash_path);
-		gnome_vfs_uri_unref (trash_uri);
-
-	} else if (done_func != NULL) {
-		GError *error = NULL;
-		g_set_error (&error, 
-		             G_FILE_ERROR,
-		             G_FILE_ERROR_NOENT, 
-		             _("Could not find the trash folder"));
-		(*done_func) (error, done_data);
-		g_error_free (error);
-	}
-
-	gnome_vfs_uri_unref (first_uri);
-}
-
-
-/* -- dlg_files_delete -- */
-
-
+/* FileDeleteData is used by both trash and delete functions */
 typedef struct {
 	GladeXML            *gui;
 	GtkWidget           *progress_dialog;
@@ -1726,15 +1702,34 @@ typedef struct {
 	GtkWidget           *progress_cancel;
 
 	GthWindow           *window;
-	GList               *file_list;
+	GList               *fd_list;		/*list of FileData elements*/
+	GList		    *gfile_list;	/*list of GFile elements*/
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
-	GError              *error;
+
+	glong		     total;		/*Total number of files*/
+	glong		     count;		/*Current file*/
+
+	GCancellable	     *cancelled;
 
 	guint                timeout_id;
-
-	GnomeVFSAsyncHandle *handle;
 } FileDeleteData;
+
+
+static int
+file_trash__display_progress_dialog (gpointer data)
+{
+	FileDeleteData *fddata = data;
+
+	if (fddata->timeout_id != 0) {
+		g_source_remove (fddata->timeout_id);
+		fddata->timeout_id = 0;
+	}
+
+	gtk_widget_show (fddata->progress_dialog);
+
+	return FALSE;
+}
 
 
 static void
@@ -1750,13 +1745,214 @@ file_delete_data_free (FileDeleteData *fddata)
 
 	gtk_widget_destroy (fddata->progress_dialog);
 	g_object_unref (fddata->gui);
-	path_list_free (fddata->file_list);
-	
-	if (fddata->error != NULL)
-		g_error_free (fddata->error);
-	
+
+	if (fddata->fd_list != NULL)
+		file_data_list_free (fddata->fd_list);
+	if (fddata->gfile_list != NULL)
+		gfile_list_free (fddata->gfile_list);
+	g_object_unref (fddata->cancelled);
+
 	g_free (fddata);
 }
+
+
+static void
+file_trash_progress_update (gpointer                  data)
+{
+	FileDeleteData *fddata = data;
+	char 		*message;
+	float            fraction;
+	message = g_strdup_printf (_("Moving file %ld of %ld to trash"),
+					   fddata->count,
+					   fddata->total);
+
+   	if (message != NULL) {
+		gtk_label_set_text (GTK_LABEL (fddata->progress_info), message);
+		g_free (message);
+	}
+
+	if (fddata->count != 0) {
+		fraction = (float)fddata->count / fddata->total;
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar),
+					       CLAMP (fraction, 0.0, 1.0));
+	}
+}
+
+
+static void
+files_trash__done (FileDeleteData *fddata)
+{
+	if (fddata->gfile_list != NULL)
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_DELETED, fddata->gfile_list);
+	/*gth_monitor_resume (); FIXME*/
+	file_delete_data_free (fddata);
+}
+
+
+
+
+static void
+dlg_files_trash__interrupt (FileDeleteData *fddata)
+{
+	g_cancellable_cancel (fddata->cancelled);
+}
+
+
+static void
+dlg_files_trash__interrupt_cb1 (GtkWidget      *caller,
+				 GdkEvent       *event,
+				 FileDeleteData *fcdata)
+{
+	dlg_files_trash__interrupt (fcdata);
+}
+
+
+static void
+dlg_files_trash__interrupt_cb2 (GtkWidget      *caller,
+				 FileDeleteData *fcdata)
+{
+	dlg_files_trash__interrupt (fcdata);
+}
+
+
+static gboolean
+trash_next_file (gpointer data)
+{
+	FileDeleteData *fddata = (FileDeleteData*)data;
+	GList    *link;
+	FileData *fd;
+	GFile    *gfile;
+	GError   *error = NULL;
+
+	file_trash_progress_update (fddata);
+
+	if (fddata->fd_list == NULL || g_cancellable_is_cancelled (fddata->cancelled))
+	{
+		ConfirmFileDeleteData *cfddata;
+		cfddata = (ConfirmFileDeleteData*)fddata->done_data;
+		file_data_list_free (cfddata->file_list);
+		cfddata->file_list = NULL;
+		(*fddata->done_func) (error, fddata->done_data);
+		files_trash__done (fddata);
+		return FALSE;
+	}
+
+	link = fddata->fd_list;
+	fd = (FileData*)link->data;
+	gfile = fd->gfile;
+	fddata->fd_list = g_list_remove_link (fddata->fd_list, link);
+
+	g_file_trash (gfile, NULL, &error);
+	if (error == NULL) {
+		fddata->gfile_list = g_list_append (fddata->gfile_list, g_file_dup(gfile));
+		file_data_unref (fd);
+		g_list_free (link);
+		fddata->count++;
+		return TRUE;
+	}
+	else {
+		(*fddata->done_func) (error, fddata->done_data);
+		files_trash__done (fddata);
+		g_error_free (error);
+		error = NULL;
+		file_data_unref (fd);
+		g_list_free (link);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+
+void
+dlg_files_move_to_trash (GthWindow *window,
+		  GList		 *file_data_list,
+		  FileOpDoneFunc  done_func,
+		  gpointer        done_data)
+{
+	FileDeleteData            *fddata;
+	g_return_if_fail (file_data_list != NULL);
+	fddata = g_new0 (FileDeleteData, 1);
+
+	fddata->window = window;
+
+	fddata->fd_list = file_data_list_dup (file_data_list);
+	fddata->gfile_list = NULL;
+
+	fddata->done_func = done_func;
+	fddata->done_data = done_data;
+
+	fddata->total = g_list_length (fddata->fd_list);
+	fddata->count = 0;
+
+	fddata->cancelled = g_cancellable_new();
+
+	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PNG_EXP_FILE, NULL, NULL);
+	if (! fddata->gui) {
+		file_delete_data_free (fddata);
+		g_warning ("Could not find " GLADE_PNG_EXP_FILE "\n");
+		return;
+	}
+
+	fddata->progress_dialog = glade_xml_get_widget (fddata->gui, "progress_dialog");
+	fddata->progress_progressbar = glade_xml_get_widget (fddata->gui, "progress_progressbar");
+	fddata->progress_info = glade_xml_get_widget (fddata->gui, "progress_info");
+	fddata->progress_cancel = glade_xml_get_widget (fddata->gui, "progress_cancel");
+
+	g_signal_connect (G_OBJECT (fddata->progress_dialog),
+			  "delete_event",
+			  G_CALLBACK (dlg_files_trash__interrupt_cb1),
+			  fddata);
+	g_signal_connect (G_OBJECT (fddata->progress_cancel),
+			  "clicked",
+			  G_CALLBACK (dlg_files_trash__interrupt_cb2),
+			  fddata);
+
+	gtk_window_set_transient_for (GTK_WINDOW (fddata->progress_dialog),
+				      GTK_WINDOW (fddata->window));
+	gtk_window_set_modal (GTK_WINDOW (fddata->progress_dialog), FALSE);
+
+
+	/* It seems the only way to test if the Trash is usable is to try and trash a file */
+	GError *error=NULL;
+	GList *link = fddata->fd_list;
+	FileData *fd = (FileData*)link->data;
+	GFile *gfile = fd->gfile;
+	fddata->fd_list = g_list_remove_link (fddata->fd_list, link);
+
+	g_file_trash (gfile, NULL, &error);
+	if (error == NULL) {
+		fddata->gfile_list = g_list_append (NULL, gfile);
+		fddata->count++;
+		file_data_unref (fd);
+		g_list_free (link);
+	}
+	else if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+		g_error_free (error);
+		error = NULL;
+		(*fddata->done_func) (NULL, fddata->done_data);
+		file_data_unref (fd);
+		g_list_free (link);
+		files_trash__done (fddata);
+		return;
+	}
+	else {
+		(*fddata->done_func) (error, fddata->done_data);
+		g_error_free (error);
+		error = NULL;
+		file_data_unref (fd);
+		g_list_free (link);
+		files_trash__done (fddata);
+		return;
+	}
+
+	fddata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
+					    file_trash__display_progress_dialog,
+					    fddata);
+	g_idle_add (trash_next_file, fddata);
+}
+
+
+/* -- dlg_files_delete -- */
 
 
 static int
@@ -1778,69 +1974,40 @@ file_delete__display_progress_dialog (gpointer data)
 static void
 files_delete__done (FileDeleteData *fddata)
 {
-	if (fddata->error == NULL)
-		/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_DELETED, fddata->file_list);
-	else
-		/* FIXME: use gth_monitor_notify_update_gfiles after gfile migration */
-		gth_monitor_notify_update_files (GTH_MONITOR_EVENT_CHANGED, fddata->file_list);
-
+	if (fddata->gfile_list != NULL)
+		gth_monitor_notify_update_gfiles (GTH_MONITOR_EVENT_DELETED, fddata->gfile_list);
 	/*gth_monitor_resume (); FIXME*/
-
-	if (fddata->done_func != NULL)
-		(*fddata->done_func) (fddata->error, fddata->done_data);
-
 	file_delete_data_free (fddata);
 }
 
 
-static int
-file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
-				GnomeVFSXferProgressInfo *info,
-				gpointer                  data)
+static void
+file_delete_progress_update_gfile (gpointer                  data)
 {
 	FileDeleteData *fddata = data;
-	char           *message = NULL;
-	float           fraction;
+	char 		*message;
+	float            fraction;
+	message = g_strdup_printf (_("Deleting file %ld of %ld"),
+					   fddata->count,
+					   fddata->total);
 
-	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		set_error_from_vfs_result (info->vfs_status, &(fddata->error));
-		return FALSE;
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
-		message = g_strdup (_("Collecting images info"));
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
-		message = g_strdup_printf (_("Deleting file %ld of %ld"),
-					   info->file_index,
-					   info->files_total);
-
-	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		files_delete__done (fddata);
-		return TRUE;
-	}
-
-	if (message != NULL) {
+   	if (message != NULL) {
 		gtk_label_set_text (GTK_LABEL (fddata->progress_info), message);
 		g_free (message);
 	}
 
-	if (info->bytes_total != 0) {
-		fraction = (float)info->total_bytes_copied / info->bytes_total;
+	if (fddata->count != 0) {
+		fraction = (float)fddata->count / fddata->total;
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar),
 					       CLAMP (fraction, 0.0, 1.0));
 	}
-
-	return TRUE;
 }
 
 
 static void
-dlg_files_delete__interrupt (FileDeleteData *fcdata)
+dlg_files_delete__interrupt (FileDeleteData *fddata)
 {
-	if (fcdata->handle != NULL)
-		gnome_vfs_async_cancel (fcdata->handle);
-	files_delete__done (fcdata);
+	g_cancellable_cancel (fddata->cancelled);
 }
 
 
@@ -1861,32 +2028,72 @@ dlg_files_delete__interrupt_cb2 (GtkWidget      *caller,
 }
 
 
+static gboolean
+delete_next_file (gpointer data)
+{
+	FileDeleteData *fddata = (FileDeleteData*)data;
+	GList    *link;
+	FileData *fd;
+	GFile    *gfile;
+	GError   *error = NULL;
+
+	file_delete_progress_update_gfile (fddata);
+
+	if (fddata->fd_list == NULL || g_cancellable_is_cancelled (fddata->cancelled))
+	{
+		(*fddata->done_func) (NULL, fddata->done_data);
+		files_delete__done (fddata);
+		return FALSE;
+	}
+
+	link = fddata->fd_list;
+	fd = (FileData*)link->data;
+	gfile = fd->gfile;
+	fddata->fd_list = g_list_remove_link (fddata->fd_list, link);
+
+	g_file_delete (gfile, NULL, &error);
+	if (error == NULL) {
+		fddata->gfile_list = g_list_append (fddata->gfile_list, g_file_dup (gfile));
+		fddata->count++;
+		file_data_unref (fd);
+		g_list_free (link);
+		return TRUE;
+	}
+	else {
+		(*fddata->done_func) (error, fddata->done_data);
+		files_delete__done (fddata);
+		g_error_free (error);
+		error = NULL;
+		file_data_unref (fd);
+		g_list_free (link);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+
 void
-dlg_files_delete (GthWindow      *window,
-		  GList          *file_list,
+dlg_files_delete (GthWindow *window,
+		  GList		 *file_data_list,
 		  FileOpDoneFunc  done_func,
 		  gpointer        done_data)
 {
 	FileDeleteData            *fddata;
-	GList                     *src_list = NULL;
-	GnomeVFSXferOptions        xfer_options;
-	GnomeVFSXferErrorMode      xfer_error_mode;
-	GnomeVFSXferOverwriteMode  overwrite_mode;
-	GnomeVFSResult             result;
-	GList                     *scan;
-
-	g_return_if_fail (file_list != NULL);
-
+	g_return_if_fail (file_data_list != NULL);
 	fddata = g_new0 (FileDeleteData, 1);
 
 	fddata->window = window;
-	fddata->file_list = path_list_dup (file_list);
+
+	fddata->fd_list = file_data_list_dup (file_data_list);
+	fddata->gfile_list = NULL;
+
 	fddata->done_func = done_func;
 	fddata->done_data = done_data;
 
-	fddata->error = NULL;
+	fddata->total = g_list_length (fddata->fd_list);
+	fddata->count = 0;
 
-	/**/
+	fddata->cancelled = g_cancellable_new();
 
 	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PNG_EXP_FILE, NULL, NULL);
 	if (! fddata->gui) {
@@ -1917,50 +2124,7 @@ dlg_files_delete (GthWindow      *window,
 					    file_delete__display_progress_dialog,
 					    fddata);
 
-	/**/
-
-	/*gth_monitor_pause (); FIXME*/
-
-	for (scan = fddata->file_list; scan; scan = scan->next) {
-		const char  *path = scan->data;
-		GnomeVFSURI *uri;
-
-		uri = new_uri_from_path (path);
-
-		/* Prepare delete list */
-		src_list = g_list_prepend (src_list, uri);
-
-		/* delete associated thumbnails, if present */
-		delete_thumbnail (path);
-	}
-
-	if (src_list == NULL) {
-		files_delete__done (fddata);
-		return;
-	}
-
-	xfer_options    = GNOME_VFS_XFER_DELETE_ITEMS;
-	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
-	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
-
-	result = gnome_vfs_async_xfer (&fddata->handle,
-				       src_list,
-				       NULL,
-				       xfer_options,
-				       xfer_error_mode,
-				       overwrite_mode,
-				       GNOME_VFS_PRIORITY_DEFAULT,
-				       file_delete_progress_update_cb,
-				       fddata,
-				       NULL, NULL);
-
-	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
-	g_list_free (src_list);
-
-	set_error_from_vfs_result (result, &(fddata->error));
-	
-	if (fddata->error != NULL)		
-		files_delete__done (fddata);
+	g_idle_add (delete_next_file, fddata);
 }
 
 
@@ -2017,10 +2181,10 @@ folder_copy_data_free (FolderCopyData *fcdata)
 	g_object_unref (fcdata->gui);
 	g_free (fcdata->source);
 	g_free (fcdata->destination);
-	
+
 	if (fcdata->error != NULL)
 		g_error_free (fcdata->error);
-	
+
 	g_free (fcdata);
 }
 
@@ -2038,28 +2202,28 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		set_error_from_vfs_result (info->vfs_status, &(fcdata->error));
 		return FALSE;
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
 		/**/
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
 		message = g_strdup (_("Collecting images info"));
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COPYING) {
 		message = g_strdup_printf (_("Copying file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_MOVING) {
 		message = g_strdup_printf (_("Moving file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
 		message = g_strdup_printf (_("Deleting file %ld of %ld"),
 					   info->file_index,
 					   info->files_total);
-	} 
+	}
 	else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 
 		if (fcdata->error == NULL) {
@@ -2295,9 +2459,9 @@ folder_copy (GthWindow      *window,
 		g_assert (result == GNOME_VFS_ERROR_BAD_PARAMETERS);
 		if (done_func != NULL) {
 			GError *error = NULL;
-			g_set_error (&error, 
+			g_set_error (&error,
 				     G_IO_ERROR,
-				     G_IO_ERROR_INVALID_ARGUMENT, 
+				     G_IO_ERROR_INVALID_ARGUMENT,
 				     _("Invalid argument"));
 			(*done_func) (error, done_data);
 			g_error_free (error);
@@ -2369,9 +2533,9 @@ dlg_folder_move_to_trash (GthWindow      *window,
 
 	} else if (done_func != NULL) {
 		GError *error = NULL;
-		g_set_error (&error, 
+		g_set_error (&error,
 		             G_FILE_ERROR,
-		             G_FILE_ERROR_NOENT, 
+		             G_FILE_ERROR_NOENT,
 		             _("Could not find the trash folder"));
 		(*done_func) (error, done_data);
 		g_error_free (error);

@@ -1096,22 +1096,32 @@ _show_cursor__hide_comment (GthFullscreen *fullscreen)
 static void
 delete_current_image (GthFullscreen *fullscreen)
 {
-	const char *image_filename;
-	GList      *list;
-
-	image_filename = gth_window_get_image_filename (GTH_WINDOW (fullscreen));
-	if (image_filename == NULL)
-		return;
-	list = g_list_prepend (NULL, g_strdup (image_filename));
-
-	if (fullscreen->priv->catalog_path == NULL)
+	if (fullscreen->priv->catalog_path == NULL) {
+		GList      *fd_list;
+		FileData   *fd;
+	
+		fd = gth_window_get_image_data (GTH_WINDOW (fullscreen));
+		if (fd == NULL)
+			return;
+		fd_list = g_list_prepend (NULL, fd);
+	
 		dlg_file_delete__confirm (GTH_WINDOW (fullscreen),
-					  list,
+					  fd_list,
 					  _("The image will be moved to the Trash, are you sure?"));
-	else
+	}
+	else {
+		const char *image_filename;
+		GList 	   *filename_list;
+		
+		image_filename = gth_window_get_image_filename (GTH_WINDOW (fullscreen));
+		if (image_filename == NULL)
+			return;
+		filename_list = g_list_prepend (NULL, g_strdup (image_filename));
+		
 		remove_files_from_catalog (GTH_WINDOW (fullscreen),
 					   fullscreen->priv->catalog_path,
-					   list);
+					   filename_list);
+	}
 }
 
 

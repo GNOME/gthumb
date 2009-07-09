@@ -613,6 +613,36 @@ select_none_cb (GtkWidget  *widget,
 
 
 static GList *
+get_checked_images_as_fd (DialogData *data)
+{
+	GtkTreeIter  iter;
+	GList       *list = NULL;
+
+	if (! gtk_tree_model_get_iter_first (data->duplicates_model, &iter))
+		return list;
+
+	do {
+		ImageData *idata;
+		gboolean   checked;
+
+		gtk_tree_model_get (data->duplicates_model, &iter,
+				    DCOLUMN_CHECKED, &checked,
+				    DCOLUMN_IMAGE_DATA, &idata, -1);
+
+		if (checked)
+		{
+			FileData *fd;
+			fd = file_data_new_from_gfile(idata->gfile);
+			list = g_list_prepend (list, fd);
+		}
+
+	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
+
+	return list;
+}
+
+
+static GList *
 get_checked_images (DialogData *data)
 {
 	GtkTreeIter  iter;
@@ -751,18 +781,22 @@ static void
 delete_cb (GtkWidget  *widget,
 	   DialogData *data)
 {
-	GList *list;
+	GList *path_list;
+	GList *fdlist;
 
-	list = get_checked_images (data);
-	if (list == NULL)
+	path_list = get_checked_images (data);
+	fdlist = get_checked_images_as_fd (data);
+	if (path_list == NULL)
+		return;
+	if (fdlist == NULL)
 		return;
 
 	if (dlg_file_delete__confirm (GTH_WINDOW (data->browser),
-				      path_list_dup (list),
+				      file_data_list_dup (fdlist),
 				      _("Checked images will be moved to the Trash, are you sure?")))
-		delete_images_from_lists (data, list);
+		delete_images_from_lists (data, path_list);
 
-	path_list_free (list);
+	file_data_list_free (fdlist);
 }
 
 

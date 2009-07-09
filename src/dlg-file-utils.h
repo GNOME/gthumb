@@ -26,7 +26,6 @@
 #include <libgnomevfs/gnome-vfs-result.h>
 #include "gth-window.h"
 
-
 gboolean dlg_file_delete__confirm   (GthWindow   *window,
 				     GList       *list,
 				     const char  *message);

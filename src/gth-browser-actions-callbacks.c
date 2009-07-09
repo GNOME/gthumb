@@ -150,14 +150,15 @@ void
 gth_browser_activate_action_image_delete (GtkAction  *action,
 					  GthBrowser *browser)
 {
-	const char *image_filename;
+	FileData   *image_fd;
 	GList      *list;
 
-	image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
-	if (image_filename == NULL)
+	image_fd = gth_window_get_image_data (GTH_WINDOW (browser));
+	if (image_fd == NULL)
 		return;
 
-	list = g_list_prepend (NULL, g_strdup (image_filename));
+	list = g_list_prepend (NULL, file_data_dup(image_fd));
+	
 	dlg_file_delete__confirm (GTH_WINDOW (browser),
 				  list,
 				  _("The image will be moved to the Trash, are you sure?"));
@@ -320,7 +321,7 @@ gth_browser_activate_action_edit_delete_files (GtkAction *action,
 {
 	GList *list;
 
-	list = gth_window_get_file_list_selection (window);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	dlg_file_delete__confirm (window,
 				  list,
 				  _("The selected images will be moved to the Trash, are you sure?"));
