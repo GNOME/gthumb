@@ -222,8 +222,8 @@ typedef struct {
 } ConfirmFileDeleteData;
 
 static void
-real_files_delete__continue2 (GError	    *error,
-			      gpointer       data)
+real_files_delete__continue2 (GError   *error,
+			      gpointer  data)
 {
 	ConfirmFileDeleteData *cfddata = data;
 
@@ -276,24 +276,21 @@ real_files_delete__no_trash (ConfirmFileDeleteData *cfddata)
 
 
 static void
-real_files_delete__continue (GError	    *error,
-			      gpointer       data)
+real_files_delete__continue (GError   *error,
+			     gpointer  data)
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if ((error != NULL))
-	{
+	if ((error != NULL)) {
 		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window),
 				       "%s %s",
 				       _("Could not delete the images:"),
 				       error->message);
 		file_data_list_free (cfddata->file_list);
 		g_free (cfddata);
-	}
-	else if (cfddata->file_list != NULL) {
+	} else if (cfddata->file_list != NULL) {
 		real_files_delete__no_trash (cfddata);
-	}
-	else {
+	} else {
 		file_data_list_free (cfddata->file_list);
 		g_free (cfddata);
 	}
@@ -464,8 +461,8 @@ dlg_file_move__ask_dest (GthWindow  *window,
 
 
 static void
-file_copy_ask__continue (GError	       *error,
-			 gpointer       data)
+file_copy_ask__continue (GError	  *error,
+			 gpointer  data)
 {
 	GtkWidget *file_sel = data;
 	GthWindow *window;
@@ -1844,7 +1841,8 @@ trash_next_file (gpointer data)
 
 	g_file_trash (gfile, NULL, &error);
 	if (error == NULL) {
-		fddata->gfile_list = g_list_append (fddata->gfile_list, g_file_dup(gfile));
+		fddata->gfile_list = g_list_append (fddata->gfile_list, gfile);
+		g_object_ref (gfile);
 		file_data_unref (fd);
 		g_list_free (link);
 		fddata->count++;
@@ -2039,8 +2037,7 @@ delete_next_file (gpointer data)
 
 	file_delete_progress_update_gfile (fddata);
 
-	if (fddata->fd_list == NULL || g_cancellable_is_cancelled (fddata->cancelled))
-	{
+	if (fddata->fd_list == NULL || g_cancellable_is_cancelled (fddata->cancelled)) {
 		(*fddata->done_func) (NULL, fddata->done_data);
 		files_delete__done (fddata);
 		return FALSE;
@@ -2053,13 +2050,13 @@ delete_next_file (gpointer data)
 
 	g_file_delete (gfile, NULL, &error);
 	if (error == NULL) {
-		fddata->gfile_list = g_list_append (fddata->gfile_list, g_file_dup (gfile));
+		fddata->gfile_list = g_list_append (fddata->gfile_list, gfile);
+		g_object_ref (gfile);
 		fddata->count++;
 		file_data_unref (fd);
 		g_list_free (link);
 		return TRUE;
-	}
-	else {
+	} else {
 		(*fddata->done_func) (error, fddata->done_data);
 		files_delete__done (fddata);
 		g_error_free (error);

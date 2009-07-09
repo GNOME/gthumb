@@ -1108,8 +1108,7 @@ delete_current_image (GthFullscreen *fullscreen)
 		dlg_file_delete__confirm (GTH_WINDOW (fullscreen),
 					  fd_list,
 					  _("The image will be moved to the Trash, are you sure?"));
-	}
-	else {
+	} else {
 		const char *image_filename;
 		GList 	   *filename_list;
 		

@@ -629,10 +629,9 @@ get_checked_images_as_fd (DialogData *data)
 				    DCOLUMN_CHECKED, &checked,
 				    DCOLUMN_IMAGE_DATA, &idata, -1);
 
-		if (checked)
-		{
+		if (checked) {
 			FileData *fd;
-			fd = file_data_new_from_gfile(idata->gfile);
+			fd = file_data_new_from_gfile (idata->gfile);
 			list = g_list_prepend (list, fd);
 		}
 
