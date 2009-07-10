@@ -199,19 +199,15 @@ static gboolean
 attribute_matches_attributes (const char  *attributes,
 			      char       **attribute_v)
 {
-	GFileAttributeMatcher *matcher;
-	gboolean               matches;
-	int                    i;
+	gboolean matches;
+	int      i;
 
 	if (attributes == NULL)
 		return FALSE;
 
-	matcher = g_file_attribute_matcher_new (attributes);
 	matches = FALSE;
 	for (i = 0; ! matches && (attribute_v[i] != NULL); i++)
-		matches = g_file_attribute_matcher_matches (matcher, attribute_v[i]);
-
-	g_file_attribute_matcher_unref (matcher);
+		matches = _g_file_attributes_matches (attributes, attribute_v[i]);
 
 	return matches;
 }
@@ -284,8 +280,6 @@ static void
 query_metadata_done (QueryMetadataData *rmd)
 {
 	QueryMetadataThreadData *rmtd = rmd->rmtd;
-
-	g_thread_join (rmd->thread);
 
 	if (rmd->ready_func != NULL)
 		(*rmd->ready_func) (rmtd->files, rmtd->error, rmd->user_data);
@@ -374,7 +368,7 @@ _g_query_metadata_async (GList             *files,       /* GthFileData * list *
 	rmd->ready_func = ready_func;
 	rmd->user_data = user_data;
 	rmd->rmtd = rmtd;
-	rmd->thread = g_thread_create (read_metadata_thread, rmtd, TRUE, NULL);
+	rmd->thread = g_thread_create (read_metadata_thread, rmtd, FALSE, NULL);
 	rmd->check_id = g_timeout_add (CHECK_THREAD_RATE, check_read_metadata_thread, rmd);
 }
 

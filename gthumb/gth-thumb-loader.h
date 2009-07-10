@@ -54,7 +54,8 @@ struct _GthThumbLoaderClass
 
 	/* -- Signals -- */
 
-	void (* ready) (GthThumbLoader *il);
+	void (* ready) (GthThumbLoader *il,
+			GError         *error);
 };
 
 GType            gth_thumb_loader_get_type           (void);
@@ -62,7 +63,7 @@ GthThumbLoader * gth_thumb_loader_new                (int             width,
 					              int             height);
 void             gth_thumb_loader_set_thumb_size     (GthThumbLoader *tl,
 					              int             width,
-					              int             height);					   
+					              int             height);
 void             gth_thumb_loader_use_cache          (GthThumbLoader *tl,
 					              gboolean        use);
 void             gth_thumb_loader_save_thumbnails    (GthThumbLoader *tl,

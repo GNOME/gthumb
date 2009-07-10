@@ -1860,6 +1860,28 @@ _g_file_append_path (GFile      *file,
 
 
 gboolean
+_g_file_attributes_matches (const char *attributes,
+			    const char *mask)
+{
+	GFileAttributeMatcher *matcher;
+	gboolean               matches;
+
+	matcher = g_file_attribute_matcher_new (mask);
+
+	matches = g_file_attribute_matcher_matches (matcher, attributes);
+	if (! matches) {
+		g_file_attribute_matcher_unref (matcher);
+		matcher = g_file_attribute_matcher_new (attributes);
+		matches = g_file_attribute_matcher_matches (matcher, mask);
+	}
+
+	g_file_attribute_matcher_unref (matcher);
+
+	return matches;
+}
+
+
+gboolean
 _g_mime_type_is_image (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);

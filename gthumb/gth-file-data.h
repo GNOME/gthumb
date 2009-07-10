@@ -66,42 +66,45 @@ typedef struct {
 	GthFileDataCompFunc  cmp_func;
 } GthFileDataSort;
 
-GType         gth_file_data_get_type               (void);
-GthFileData * gth_file_data_new                    (GFile          *file,
-						    GFileInfo      *info);
-GthFileData * gth_file_data_new_for_uri            (const char     *uri,
-						    const char     *mime_type);
-GthFileData * gth_file_data_dup                    (GthFileData    *self);
-void          gth_file_data_set_file               (GthFileData    *self,
-						    GFile          *file);
-void          gth_file_data_set_info               (GthFileData    *self,
-						    GFileInfo      *info);
-void          gth_file_data_set_mime_type          (GthFileData    *self,
-						    const char     *mime_type);
-const char *  gth_file_data_get_mime_type          (GthFileData    *self);
-const char *  gth_file_data_get_filename_sort_key  (GthFileData    *self);
-time_t        gth_file_data_get_mtime              (GthFileData    *self);
-GTimeVal *    gth_file_data_get_modification_time  (GthFileData    *self);
-gboolean      gth_file_data_is_readable            (GthFileData    *self);
-void          gth_file_data_update_info            (GthFileData    *self,
-						    const char     *attributes);
-void          gth_file_data_update_mime_type       (GthFileData    *self,
-						    gboolean        fast);
-void          gth_file_data_update_all             (GthFileData    *self,
-						    gboolean        fast);
+GType         gth_file_data_get_type                (void);
+GthFileData * gth_file_data_new                     (GFile          *file,
+						     GFileInfo      *info);
+GthFileData * gth_file_data_new_for_uri             (const char     *uri,
+						     const char     *mime_type);
+GthFileData * gth_file_data_dup                     (GthFileData    *self);
+void          gth_file_data_set_file                (GthFileData    *self,
+						     GFile          *file);
+void          gth_file_data_set_info                (GthFileData    *self,
+						     GFileInfo      *info);
+void          gth_file_data_set_mime_type           (GthFileData    *self,
+						     const char     *mime_type);
+const char *  gth_file_data_get_mime_type           (GthFileData    *self);
+const char *  gth_file_data_get_filename_sort_key   (GthFileData    *self);
+time_t        gth_file_data_get_mtime               (GthFileData    *self);
+GTimeVal *    gth_file_data_get_modification_time   (GthFileData    *self);
+gboolean      gth_file_data_is_readable             (GthFileData    *self);
+void          gth_file_data_update_info             (GthFileData    *self,
+						     const char     *attributes);
+void          gth_file_data_update_mime_type        (GthFileData    *self,
+						     gboolean        fast);
+void          gth_file_data_update_all              (GthFileData    *self,
+						     gboolean        fast);
 
-GList*        gth_file_data_list_from_uri_list     (GList          *list);
-GList*        gth_file_data_list_to_uri_list       (GList          *list);
-GList*        gth_file_data_list_to_file_list      (GList          *list);
-GList*        gth_file_data_list_find_file         (GList          *list,
-						    GFile          *file);
-GList*        gth_file_data_list_find_uri          (GList          *list,
-						    const char     *uri);
+GList*        gth_file_data_list_dup                (GList          *list);
+GList*        gth_file_data_list_from_uri_list      (GList          *list);
+GList*        gth_file_data_list_to_uri_list        (GList          *list);
+GList*        gth_file_data_list_to_file_list       (GList          *list);
+GList*        gth_file_data_list_find_file          (GList          *list,
+						     GFile          *file);
+GList*        gth_file_data_list_find_uri           (GList          *list,
+						     const char     *uri);
 
-void          gth_file_data_ready_with_error       (GthFileData    *file_data,
-						    GthFileDataFunc ready_func,
-						    gpointer        ready_data,
-						    GError         *error);
+void          gth_file_data_ready_with_error        (GthFileData    *file_data,
+						     GthFileDataFunc ready_func,
+						     gpointer        ready_data,
+						     GError         *error);
+char *        gth_file_data_get_attribute_as_string (GthFileData    *file_data,
+				                     const char     *id);
 
 G_END_DECLS
 

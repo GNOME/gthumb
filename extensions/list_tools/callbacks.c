@@ -26,7 +26,9 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "callbacks.h"
 #include "gth-script-file.h"
+#include "gth-script-task.h"
 
 
 #define BROWSER_DATA_KEY "list-tools-browser-data"
@@ -76,16 +78,20 @@ activate_script_menu_item (GtkMenuItem *menuitem,
 
 	script = gth_script_file_get_script (gth_script_file_get (), g_object_get_data (G_OBJECT (menuitem), "script_id"));
 	if (script != NULL) {
-		GList   *items;
-		GList   *file_list;
-		GthTask *task;
+		GList *items;
+		GList *file_list;
 
 		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (data->browser)));
 		file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (data->browser)), items);
-		task = gth_script_get_task (script, file_list);
-		gth_browser_exec_task (data->browser, task);
+		if (file_list != NULL) {
+			GthTask *task;
 
-		g_object_unref (task);
+			task = gth_script_task_new (GTK_WINDOW (data->browser), script, file_list);
+			gth_browser_exec_task (data->browser, task);
+
+			g_object_unref (task);
+		}
+
 		_g_object_list_unref (file_list);
 		_gtk_tree_path_list_free (items);
 	}
@@ -139,6 +145,8 @@ update_scripts_menu (BrowserData *data)
 		gtk_widget_show (separator1);
 	else
 		gtk_widget_hide (separator1);
+
+	list_tools__gth_browser_update_sensitivity_cb (data->browser);
 
 	_g_object_list_unref (script_list);
 }
@@ -197,19 +205,39 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 void
 list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 {
-	/*
-	BrowserData   *data;
-	GthFileSource *file_source;
-	int            n_selected;
-	gboolean       sensitive;
+	BrowserData *data;
+	int          n_selected;
+	gboolean     sensitive;
+	GtkWidget   *separator1;
+	GtkWidget   *separator2;
+	GtkWidget   *menu;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	g_return_if_fail (data != NULL);
 
-	file_source = gth_browser_get_location_source (browser);
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	sensitive = (n_selected > 0);
 
-	sensitive = (n_selected > 0) && (file_source != NULL) && gth_file_source_can_cut (file_source);
-	gtk_widget_set_sensitive (GTK_WIDGET (data->tool_item), sensitive);
-	*/
+	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Tools");
+	separator2 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Scripts");
+	menu = gtk_widget_get_parent (separator1);
+	{
+		GList *children;
+		GList *scan;
+
+		children = gtk_container_get_children (GTK_CONTAINER (menu));
+
+		if (separator1 != NULL) {
+			for (scan = children; scan; scan = scan->next)
+				if (scan->data == separator1) {
+					scan = scan->next;
+					break;
+				}
+		}
+		else
+			scan = children;
+
+		for (/* void */; scan && (scan->data != separator2); scan = scan->next)
+			gtk_widget_set_sensitive (scan->data, sensitive);
+	}
 }

@@ -45,11 +45,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	GFileAttributeMatcher *matcher;
-
-	matcher = g_file_attribute_matcher_new (attributes);
-
-	if (g_file_attribute_matcher_matches (matcher, "image::*")) {
+	if (_g_file_attributes_matches (attributes, "image::*")) {
 		GdkPixbufFormat *format;
 		GFile           *cache_file;
 		char            *filename;
@@ -76,8 +72,6 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		g_free (filename);
 		g_object_unref (cache_file);
 	}
-
-	g_file_attribute_matcher_unref (matcher);
 }
 
 

@@ -16,6 +16,8 @@ liblist_tools_la_SOURCES = 		\
 	gth-script-editor-dialog.h	\
 	gth-script-file.c		\
 	gth-script-file.h		\
+	gth-script-task.h		\
+	gth-script-task.c		\
 	main.c
 
 liblist_tools_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

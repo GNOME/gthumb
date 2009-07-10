@@ -45,11 +45,7 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	GFileAttributeMatcher *matcher;
-
-	matcher = g_file_attribute_matcher_new (attributes);
-
-	if (g_file_attribute_matcher_matches (matcher, "Exif::*,Iptc::*,Xmp::*")) {
+	if (_g_file_attributes_matches (attributes, "Exif::*,Iptc::*,Xmp::*")) {
 		char        *uri;
 		char        *uri_wo_ext;
 		char        *sidecar_uri;
@@ -78,8 +74,6 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 		g_free (uri_wo_ext);
 		g_free (uri);
 	}
-
-	g_file_attribute_matcher_unref (matcher);
 }
 
 

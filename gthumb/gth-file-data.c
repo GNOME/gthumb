@@ -24,7 +24,9 @@
 #include <string.h>
 #include "glib-utils.h"
 #include "gth-duplicable.h"
+#include "gth-metadata.h"
 #include "gth-file-data.h"
+#include "gth-string-list.h"
 
 
 #define GTH_FILE_DATA_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_DATA, GthFileDataPrivate))
@@ -293,6 +295,22 @@ gth_file_data_update_all (GthFileData *fd,
 
 
 GList*
+gth_file_data_list_dup (GList *list)
+{
+	GList *result = NULL;
+	GList *scan;
+
+	for (scan = list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		result = g_list_prepend (result, gth_file_data_dup (file_data));
+	}
+
+	return g_list_reverse (result);
+}
+
+
+GList*
 gth_file_data_list_from_uri_list (GList *list)
 {
 	GList *result = NULL;
@@ -419,4 +437,42 @@ gth_file_data_ready_with_error (GthFileData     *file_data,
 	data->user_data = user_data;
 	data->error = error;
 	data->id = g_idle_add (exec_ready_func, data);
+}
+
+
+char *
+gth_file_data_get_attribute_as_string (GthFileData *file_data,
+				       const char  *id)
+{
+	char     *value;
+	GObject  *obj;
+
+	switch (g_file_info_get_attribute_type (file_data->info, id)) {
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		obj = g_file_info_get_attribute_object (file_data->info, id);
+		if (GTH_IS_METADATA (obj))
+			g_object_get (obj, "formatted", &value, NULL);
+		else if (GTH_IS_STRING_LIST (obj)) {
+			GList   *list;
+			GList   *scan;
+			GString *str;
+
+			list = gth_string_list_get_list (GTH_STRING_LIST (obj));
+			str = g_string_new ("");
+			for (scan = list; scan; scan = scan->next) {
+				if (scan != list)
+					g_string_append (str, " ");
+				g_string_append (str, (char *) scan->data);
+			}
+			value = g_string_free (str, FALSE);
+		}
+		else
+			value = g_file_info_get_attribute_as_string (file_data->info, id);
+		break;
+	default:
+		value = g_file_info_get_attribute_as_string (file_data->info, id);
+		break;
+	}
+
+	return value;
 }

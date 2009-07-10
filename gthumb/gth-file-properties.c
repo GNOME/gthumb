@@ -109,9 +109,7 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 	for (i = 0; i < metadata_info->len; i++) {
 		GthMetadataInfo     *info;
 		GthMetadataCategory *category;
-		GObject             *obj;
 		char                *value;
-		char                *tmp_value;
 		char                *tooltip;
 		GtkTreeIter          iter;
 
@@ -124,40 +122,19 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 
 		category = gth_main_get_metadata_category (info->category);
 
-		switch (g_file_info_get_attribute_type (file_data->info, info->id)) {
-		case G_FILE_ATTRIBUTE_TYPE_OBJECT:
-			obj = g_file_info_get_attribute_object (file_data->info, info->id);
-			if (GTH_IS_METADATA (obj))
-				g_object_get (obj, "formatted", &value, NULL);
-			else if (GTH_IS_STRING_LIST (obj)) {
-				GList   *list;
-				GList   *scan;
-				GString *str;
+		value = gth_file_data_get_attribute_as_string (file_data, info->id);
+		if (value != NULL) {
+			char *tmp_value;
 
-				list = gth_string_list_get_list (GTH_STRING_LIST (obj));
-				str = g_string_new ("");
-				for (scan = list; scan; scan = scan->next) {
-					if (scan != list)
-						g_string_append (str, " ");
-					g_string_append (str, (char *) scan->data);
-				}
-				value = g_string_free (str, FALSE);
-			}
-			else
-				value = g_file_info_get_attribute_as_string (file_data->info, info->id);
 			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
-			break;
-		default:
-			value = g_file_info_get_attribute_as_string (file_data->info, info->id);
-			break;
 		}
 
 		if ((value == NULL) || (*value == '\0'))
 			continue;
 
-		tooltip = g_markup_printf_escaped ("%s: %s", info->display_name /*info->id*/, value);
+		tooltip = g_markup_printf_escaped ("%s: %s", /*info->display_name*/ info->id, value);
 
 		if (g_hash_table_lookup (category_root, category->id) == NULL) {
 			GtkTreeIter parent;

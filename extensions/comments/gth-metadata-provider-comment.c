@@ -124,11 +124,7 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 				     GthFileData         *file_data,
 				     const char          *attributes)
 {
-	GFileAttributeMatcher *matcher;
-
-	matcher = g_file_attribute_matcher_new (attributes);
-
-	if (g_file_attribute_matcher_matches (matcher, "comment::*")) {
+	if (_g_file_attributes_matches (attributes, "comment::*")) {
 		GthComment    *comment;
 		char          *data;
 		gsize          length;
@@ -163,8 +159,6 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 		g_free (data);
 		g_object_unref (comment);
 	}
-
-	g_file_attribute_matcher_unref (matcher);
 }
 
 

@@ -51,16 +51,19 @@ struct _GthScriptClass
 	GObjectClass __parent_class;
 };
 
-GType             gth_script_get_type          (void) G_GNUC_CONST;
-GthScript *       gth_script_new               (void);
-const char *      gth_script_get_id            (GthScript *script);
-const char *      gth_script_get_display_name  (GthScript *script);
-const char *      gth_script_get_command       (GthScript *script);
-gboolean          gth_script_is_visible        (GthScript *script);
-gboolean          gth_script_for_each_file     (GthScript *script);
-gboolean          gth_script_wait_command      (GthScript *script);
-GthTask *         gth_script_get_task          (GthScript *script,
-						GList     *file_list /* GthFileData */);
+GType             gth_script_get_type                  (void) G_GNUC_CONST;
+GthScript *       gth_script_new                       (void);
+const char *      gth_script_get_id                    (GthScript  *script);
+const char *      gth_script_get_display_name          (GthScript  *script);
+const char *      gth_script_get_command               (GthScript  *script);
+gboolean          gth_script_is_visible                (GthScript  *script);
+gboolean          gth_script_for_each_file             (GthScript  *script);
+gboolean          gth_script_wait_command              (GthScript  *script);
+char *            gth_script_get_requested_attributes  (GthScript  *script);
+char *            gth_script_get_command_line          (GthScript  *script,
+						        GtkWindow  *parent,
+						        GList      *file_list /* GthFileData */,
+						        GError    **error);
 
 G_END_DECLS
 

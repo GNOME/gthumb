@@ -865,12 +865,12 @@ gnome_desktop_thumbnail_factory_generate_thumbnail (GnomeDesktopThumbnailFactory
 
 
 gboolean
-gnome_desktop_thumbnail_factory_generate_thumbnail_async (GnomeDesktopThumbnailFactory *factory,
-							  const char            *uri,
-							  const char            *mime_type,
-							  GPid                  *pid,
-							  char                 **tmpname,
-							  GError               **error)
+gnome_desktop_thumbnail_factory_generate_thumbnail_async (GnomeDesktopThumbnailFactory  *factory,
+							  const char                    *uri,
+							  const char                    *mime_type,
+							  GPid                          *pid,
+							  char                         **tmpname,
+							  GError                       **error)
 {
 	gboolean   retval = FALSE;
 	int        size;
