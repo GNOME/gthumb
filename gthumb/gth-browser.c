@@ -138,6 +138,7 @@ struct _GthBrowserPrivateData {
 	gboolean           closing;
 	GthTask           *task;
 	gulong             task_completed;
+	gulong             task_progress;
 	GList             *load_data_queue;
 	guint              load_file_timeout;
 
@@ -3272,8 +3273,10 @@ task_completed_cb (GthTask    *task,
 	browser->priv->activity_ref--;
 
 	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_completed);
+	g_signal_handler_disconnect (browser->priv->task, browser->priv->task_progress);
 
 	if (! browser->priv->closing) {
+		gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), NULL, FALSE, 0.0);
 		gth_browser_update_sensitivity (browser);
 		if (error != NULL) {
 			if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
@@ -3291,6 +3294,17 @@ task_completed_cb (GthTask    *task,
 }
 
 
+static void
+task_progress_cb (GthTask    *task,
+		  const char *text,
+		  gboolean    pulse,
+		  double      fraction,
+		  GthBrowser *browser)
+{
+	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), text, pulse, fraction);
+}
+
+
 void
 gth_browser_exec_task (GthBrowser *browser,
 		       GthTask    *task)
@@ -3305,6 +3319,10 @@ gth_browser_exec_task (GthBrowser *browser,
 							  "completed",
 							  G_CALLBACK (task_completed_cb),
 							  browser);
+	browser->priv->task_progress = g_signal_connect (task,
+							 "progress",
+							 G_CALLBACK (task_progress_cb),
+							 browser);
 	browser->priv->activity_ref++;
 	gth_browser_update_sensitivity (browser);
 	gth_task_exec (browser->priv->task);

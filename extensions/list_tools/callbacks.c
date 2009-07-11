@@ -36,6 +36,18 @@
 
 static const char *fixed_ui_info =
 "<ui>"
+/*
+"  <popup name='FileListPopup'>"
+"    <placeholder name='Open_Actions'>"
+"      <menu name='ExecWith' action='ExecWithMenu'>"
+"        <placeholder name='Tools'/>"
+"        <placeholder name='Scripts'/>"
+"        <separator name='ScriptsListSeparator'/>"
+"        <menuitem name='EditScripts' action='ListTools_EditScripts'/>"
+"      </menu>"
+"    </placeholder>"
+"  </popup>"
+*/
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'/>"
 "    <placeholder name='Scripts'/>"
@@ -46,6 +58,8 @@ static const char *fixed_ui_info =
 
 
 static GtkActionEntry action_entries[] = {
+	/*{ "ExecWithMenu", GTK_STOCK_EXECUTE, N_("_Tools") },*/
+
 	{ "ListTools_EditScripts", GTK_STOCK_EDIT,
 	  N_("Personalize..."), NULL,
 	  NULL,
@@ -98,8 +112,26 @@ activate_script_menu_item (GtkMenuItem *menuitem,
 }
 
 
+static GtkWidget *
+get_widget_with_prefix (BrowserData *data,
+			const char  *prefix,
+			const char  *path)
+{
+	char      *full_path;
+	GtkWidget *widget;
+
+	full_path = g_strconcat (prefix, path, NULL);
+	widget = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), full_path);
+
+	g_free (full_path);
+
+	return widget;
+}
+
+
 static void
-update_scripts_menu (BrowserData *data)
+_update_scripts_menu (BrowserData *data,
+		      const char  *prefix)
 {
 	GtkWidget *separator1;
 	GtkWidget *separator2;
@@ -109,8 +141,8 @@ update_scripts_menu (BrowserData *data)
 	int        pos;
 	gboolean   script_present = FALSE;
 
-	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/Tools");
-	separator2 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/Scripts");
+	separator1 = get_widget_with_prefix (data, prefix, "/Tools");
+	separator2 = get_widget_with_prefix (data, prefix, "/Scripts");
 	menu = gtk_widget_get_parent (separator1);
 	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
 
@@ -140,7 +172,7 @@ update_scripts_menu (BrowserData *data)
 		script_present = TRUE;
 	}
 
-	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (data->browser), "/ListToolsPopup/ScriptsListSeparator");
+	separator1 = get_widget_with_prefix (data, prefix, "/ScriptsListSeparator");
 	if (script_present)
 		gtk_widget_show (separator1);
 	else
@@ -149,6 +181,14 @@ update_scripts_menu (BrowserData *data)
 	list_tools__gth_browser_update_sensitivity_cb (data->browser);
 
 	_g_object_list_unref (script_list);
+}
+
+
+static void
+update_scripts_menu (BrowserData *data)
+{
+	_update_scripts_menu (data, "/ListToolsPopup");
+	/*_update_scripts_menu (data, "/FileListPopup/Open_Actions/ExecWith");*/
 }
 
 
@@ -202,8 +242,9 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 }
 
 
-void
-list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+static void
+_update_sensitivity (GthBrowser *browser,
+		     const char *prefix)
 {
 	BrowserData *data;
 	int          n_selected;
@@ -218,8 +259,8 @@ list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	sensitive = (n_selected > 0);
 
-	separator1 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Tools");
-	separator2 = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup/Scripts");
+	separator1 = get_widget_with_prefix (data, prefix, "/Tools");
+	separator2 = get_widget_with_prefix (data, prefix, "/Scripts");
 	menu = gtk_widget_get_parent (separator1);
 	{
 		GList *children;
@@ -240,4 +281,12 @@ list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 		for (/* void */; scan && (scan->data != separator2); scan = scan->next)
 			gtk_widget_set_sensitive (scan->data, sensitive);
 	}
+}
+
+
+void
+list_tools__gth_browser_update_sensitivity_cb (GthBrowser *browser)
+{
+	_update_sensitivity (browser, "/ListToolsPopup");
+	/*_update_sensitivity (browser, "/FileListPopup/Open_Actions/ExecWith");*/
 }

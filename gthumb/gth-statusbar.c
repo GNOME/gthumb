@@ -37,6 +37,10 @@ struct _GthStatusbarPrivate {
 	GtkWidget *primary_text_frame;
 	GtkWidget *secondary_text;
 	GtkWidget *secondary_text_frame;
+	GtkWidget *progress_box;
+	GtkWidget *progress_bar;
+	GtkWidget *progress_label;
+	/*GtkWidget *stop_button;*/
 };
 
 
@@ -51,8 +55,55 @@ gth_statusbar_class_init (GthStatusbarClass *klass)
 static void
 gth_statusbar_init (GthStatusbar *statusbar)
 {
+	GtkWidget *separator;
+	GtkWidget *hbox;
+	GtkWidget *vbox;
+	/*GtkWidget *image;*/
+
+	gtk_box_set_spacing (GTK_BOX (statusbar), 0);
+
 	statusbar->priv = GTH_STATUSBAR_GET_PRIVATE (statusbar);
 	statusbar->priv->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "gth_list_info");
+
+	/* Progress info */
+
+	statusbar->priv->progress_box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_hide (statusbar->priv->progress_box);
+	gtk_box_pack_start (GTK_BOX (statusbar), statusbar->priv->progress_box, FALSE, FALSE, 0);
+
+	separator = gtk_hseparator_new ();
+	gtk_widget_show (separator);
+	gtk_box_pack_start (GTK_BOX (statusbar->priv->progress_box), separator, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox);
+	gtk_box_pack_start (GTK_BOX (statusbar->priv->progress_box), hbox, FALSE, FALSE, 0);
+
+	statusbar->priv->progress_label = gtk_label_new (NULL);
+	gtk_widget_show (statusbar->priv->progress_label);
+	gtk_box_pack_start (GTK_BOX (hbox), statusbar->priv->progress_label, TRUE, TRUE, 0);
+
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_box_set_homogeneous (GTK_BOX (vbox), TRUE);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
+
+	statusbar->priv->progress_bar = gtk_progress_bar_new ();
+	gtk_widget_set_size_request (statusbar->priv->progress_bar, 60, 12);
+	gtk_widget_show (statusbar->priv->progress_bar);
+	gtk_box_pack_start (GTK_BOX (vbox), statusbar->priv->progress_bar, FALSE, FALSE, 0);
+
+	/*
+	statusbar->priv->stop_button = gtk_button_new ();
+	gtk_widget_set_size_request (statusbar->priv->stop_button, 26, 26);
+	gtk_button_set_relief (GTK_BUTTON (statusbar->priv->stop_button), GTK_RELIEF_NONE);
+	gtk_widget_show (statusbar->priv->stop_button);
+	gtk_box_pack_start (GTK_BOX (hbox), statusbar->priv->stop_button, FALSE, FALSE, 0);
+
+	image = gtk_image_new_from_stock (GTK_STOCK_STOP, GTK_ICON_SIZE_MENU);
+	gtk_widget_show (image);
+	gtk_container_add (GTK_CONTAINER (statusbar->priv->stop_button), image);
+	 */
 
 	/* Secondary text */
 
@@ -146,4 +197,24 @@ gth_statusbar_set_secondary_text (GthStatusbar *statusbar,
 	}
 	else
 		gtk_widget_hide (statusbar->priv->secondary_text_frame);
+}
+
+
+void
+gth_statusbar_set_progress (GthStatusbar *statusbar,
+			    const char   *text,
+			    gboolean      pulse,
+			    double        fraction)
+{
+	if (text == NULL) {
+		gtk_widget_hide (statusbar->priv->progress_box);
+		return;
+	}
+
+	gtk_widget_show (statusbar->priv->progress_box);
+	gtk_label_set_text (GTK_LABEL (statusbar->priv->progress_label), text);
+	if (pulse)
+		gtk_progress_bar_pulse (GTK_PROGRESS_BAR (statusbar->priv->progress_bar));
+	else
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (statusbar->priv->progress_bar), fraction);
 }

@@ -29,6 +29,8 @@ struct _GthScriptTaskPrivate {
 	GtkWindow    *parent;
 	GList        *file_list;
 	GList        *current;
+	int           n_files;
+	int           n_current;
 	GPid          pid;
 	guint         script_watch;
 	GCancellable *cancellable;
@@ -60,6 +62,8 @@ static void
 _gth_script_task_exec_next_file (GthScriptTask *self)
 {
 	self->priv->current = self->priv->current->next;
+	self->priv->n_current++;
+
 	if (self->priv->current == NULL)
 		gth_task_completed (GTH_TASK (self), NULL);
 	else
@@ -102,6 +106,8 @@ _gth_script_task_exec (GthScriptTask *self)
 	if (gth_script_for_each_file (self->priv->script)) {
 		GList *list;
 
+		gth_task_progress (GTH_TASK (self), gth_script_get_display_name (self->priv->script), FALSE, (double) self->priv->n_current / (self->priv->n_files + 1));
+
 		list = g_list_prepend (NULL, self->priv->current->data);
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
@@ -110,11 +116,14 @@ _gth_script_task_exec (GthScriptTask *self)
 
 		g_list_free (list);
 	}
-	else
+	else {
+		gth_task_progress (GTH_TASK (self), gth_script_get_display_name (self->priv->script), TRUE, 0.0);
+
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
 							    self->priv->file_list,
 							    &error);
+	}
 
 	if (error == NULL) {
 		char **argv;
@@ -291,6 +300,8 @@ gth_script_task_new (GtkWindow *parent,
 	self->priv->script = g_object_ref (script);
 	self->priv->file_list = _g_object_list_ref (file_list);
 	self->priv->current = self->priv->file_list;
+	self->priv->n_files = g_list_length (file_list);
+	self->priv->n_current = 1;
 
 	return (GthTask *) self;
 }

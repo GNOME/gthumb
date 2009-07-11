@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include "gth-marshal.h"
 #include "gth-task.h"
 
 
@@ -111,10 +112,12 @@ gth_task_class_init (GthTaskClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTaskClass, progress),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__FLOAT,
+			      gth_marshal_VOID__STRING_BOOLEAN_DOUBLE,
 			      G_TYPE_NONE,
-			      1,
-			      G_TYPE_FLOAT);
+			      3,
+			      G_TYPE_STRING,
+			      G_TYPE_BOOLEAN,
+			      G_TYPE_DOUBLE);
 }
 
 
@@ -194,8 +197,10 @@ gth_task_completed (GthTask *task,
 
 
 void
-gth_task_progress (GthTask  *task,
-		   float     value)
+gth_task_progress (GthTask    *task,
+		   const char *text,
+		   gboolean    pulse,
+		   double      fraction)
 {
-	g_signal_emit (task, gth_task_signals[PROGRESS], 0, value);
+	g_signal_emit (task, gth_task_signals[PROGRESS], 0, text, pulse, fraction);
 }

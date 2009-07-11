@@ -87,7 +87,7 @@ copy_progress_cb (goffset      current_file,
 {
 	GthDuplicateTask *self = user_data;
 
-	gth_task_progress (GTH_TASK (self), (float) current_num_bytes / total_num_bytes);
+	gth_task_progress (GTH_TASK (self), _("Duplicating files"), FALSE, (double) current_num_bytes / total_num_bytes);
 }
 
 

@@ -75,6 +75,8 @@ struct _GthPixbufTask {
 	int           line_step;
 	int           column;
 	gboolean      interrupt;
+
+	const char   *description;
 };
 
 struct _GthPixbufTaskClass {
@@ -82,7 +84,8 @@ struct _GthPixbufTaskClass {
 };
 
 GType         gth_pixbuf_task_get_type        (void);
-GthTask *     gth_pixbuf_task_new             (GdkPixbuf      *src,
+GthTask *     gth_pixbuf_task_new             (const char     *description,
+					       GdkPixbuf      *src,
 					       GdkPixbuf      *dest,
 					       PixbufOpFunc    init_func,
 					       PixbufOpFunc    step_func,

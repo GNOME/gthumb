@@ -143,7 +143,7 @@ gth_script_editor_dialog_construct (GthScriptEditorDialog *self,
     		gtk_window_set_title (GTK_WINDOW (self), title);
   	if (parent != NULL)
     		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
-    	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
+    	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
 	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (self)->vbox), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);

@@ -586,6 +586,7 @@ ask_value (ReplaceData *replace_data,
 	dialog = _gtk_builder_get_widget (builder, "ask_value_dialog");
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "request_label")), prompt);
 	gtk_entry_set_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry")), default_value);
+	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), replace_data->parent);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 

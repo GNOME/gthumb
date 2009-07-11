@@ -91,7 +91,8 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 		return;
 
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	task = gth_pixbuf_task_new (src_pixbuf,
+	task = gth_pixbuf_task_new (_("Desaturating image"),
+				    src_pixbuf,
 				    dest_pixbuf,
 				    NULL,
 				    desaturate_step,

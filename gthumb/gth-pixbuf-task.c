@@ -99,7 +99,7 @@ one_step (gpointer data)
 	pixbuf_task->dest_line += pixbuf_task->rowstride;
 
 	if (pixbuf_task->line % PROGRESS_STEP == 0)
-		gth_task_progress (GTH_TASK (pixbuf_task), (float) pixbuf_task->line / pixbuf_task->height);
+		gth_task_progress (GTH_TASK (pixbuf_task), pixbuf_task->description, FALSE, (double) pixbuf_task->line / pixbuf_task->height);
 
 	if (! pixbuf_task->ltr) { /* right to left */
 		int ofs = (pixbuf_task->width - 1) * pixbuf_task->bytes_per_pixel;
@@ -249,7 +249,8 @@ gth_pixbuf_task_get_type (void)
 
 
 GthTask *
-gth_pixbuf_task_new (GdkPixbuf    *src,
+gth_pixbuf_task_new (const char   *description,
+		     GdkPixbuf    *src,
 		     GdkPixbuf    *dest,
 		     PixbufOpFunc  init_func,
 		     PixbufOpFunc  step_func,
@@ -260,6 +261,7 @@ gth_pixbuf_task_new (GdkPixbuf    *src,
 
 	pixbuf_task = GTH_PIXBUF_TASK (g_object_new (GTH_TYPE_PIXBUF_TASK, NULL));
 
+	pixbuf_task->description = description;
 	pixbuf_task->init_func = init_func;
 	pixbuf_task->step_func = step_func;
 	pixbuf_task->release_func = release_func;

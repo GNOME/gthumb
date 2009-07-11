@@ -57,28 +57,32 @@ struct _GthTaskClass
 
 	/*< signals >*/
 
-	void  (*completed)    (GthTask *task,
-			       GError  *error);
-	void  (*progress)     (GthTask *task,
-			       float    value);
+	void  (*completed)    (GthTask    *task,
+			       GError     *error);
+	void  (*progress)     (GthTask    *task,
+			       const char *text,
+			       gboolean    pulse,
+			       double      fraction);
 
 	/*< virtual functions >*/
 
-	void  (*exec)         (GthTask *task);
-	void  (*cancel)       (GthTask *task);
+	void  (*exec)         (GthTask    *task);
+	void  (*cancel)       (GthTask    *task);
 };
 
 GQuark      gth_task_error_quark (void);
 
 GType       gth_task_get_type    (void) G_GNUC_CONST;
 GthTask *   gth_task_new         (void);
-void        gth_task_exec        (GthTask  *task);
-gboolean    gth_task_is_running  (GthTask  *task);
-void        gth_task_cancel      (GthTask  *task);
-void        gth_task_completed   (GthTask  *task,
-				  GError   *error);
-void        gth_task_progress    (GthTask  *task,
-				  float     value);
+void        gth_task_exec        (GthTask    *task);
+gboolean    gth_task_is_running  (GthTask    *task);
+void        gth_task_cancel      (GthTask    *task);
+void        gth_task_completed   (GthTask    *task,
+				  GError     *error);
+void        gth_task_progress    (GthTask    *task,
+				  const char *text,
+			          gboolean    pulse,
+			          double      fraction);
 
 G_END_DECLS
 
