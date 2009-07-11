@@ -503,7 +503,6 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 		char      *label;
 		GtkWidget *menu_item;
 		GIcon     *icon;
-		GdkPixbuf *pixbuf;
 
 		if (strcmp (g_app_info_get_executable (appinfo), "gthumb") == 0)
 			continue;
@@ -511,12 +510,18 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 			continue;
 		g_hash_table_insert (used_apps, (gpointer) g_app_info_get_id (appinfo), GINT_TO_POINTER (1));
 
-		label = g_strdup_printf (_("Open with \"%s\""), g_app_info_get_name (appinfo));
+		label = g_strdup_printf ("%s", g_app_info_get_name (appinfo));
 		menu_item = gtk_image_menu_item_new_with_label (label);
 
 		icon = g_app_info_get_icon (appinfo);
-		pixbuf = gth_icon_cache_get_pixbuf (icon_cache, icon);
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
+		if (icon != NULL) {
+			GdkPixbuf *pixbuf;
+
+			pixbuf = gth_icon_cache_get_pixbuf (icon_cache, icon);
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (menu_item), gtk_image_new_from_pixbuf (pixbuf));
+
+			g_object_unref (pixbuf);
+		}
 
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
@@ -527,7 +532,6 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 				  G_CALLBACK (activate_open_with_application_item),
 			  	  browser);
 
-		g_object_unref (pixbuf);
 		g_free (label);
 	}
 
