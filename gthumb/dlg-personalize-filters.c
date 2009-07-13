@@ -472,6 +472,16 @@ list_view_selection_changed_cb (GtkTreeSelection *treeselection,
 
 
 static void
+list_view_row_activated_cb (GtkTreeView       *tree_view,
+                            GtkTreePath       *path,
+                            GtkTreeViewColumn *column,
+                            gpointer           user_data)
+{
+	edit_filter_cb (NULL, user_data);
+}
+
+
+static void
 general_filter_changed_cb (GtkComboBox *widget,
 			   gpointer     user_data)
 {
@@ -591,6 +601,10 @@ dlg_personalize_filters (GthBrowser *browser)
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->list_view)),
 			  "changed",
 			  G_CALLBACK (list_view_selection_changed_cb),
+			  data);
+	g_signal_connect (GTK_TREE_VIEW (data->list_view),
+			  "row-activated",
+			  G_CALLBACK (list_view_row_activated_cb),
 			  data);
 	g_signal_connect (data->list_store,
 			  "row-deleted",
