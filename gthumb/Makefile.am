@@ -73,6 +73,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-nav-window.h				\
 	gth-pixbuf-task.h				\
 	gth-preferences.h				\
+	gth-progress-dialog.h				\
 	gth-sidebar.h					\
 	gth-statusbar.h					\
 	gth-source-tree.h				\
@@ -181,6 +182,7 @@ gthumb_SOURCES = 					\
 	gth-nav-window.c				\
 	gth-pixbuf-task.c				\
 	gth-preferences.c				\
+	gth-progress-dialog.c				\
 	gth-sidebar.c					\
 	gth-source-tree.c				\
 	gth-statusbar.c					\

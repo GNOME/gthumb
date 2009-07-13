@@ -53,11 +53,11 @@ search_editor_dialog__response_cb (GtkDialog *dialog,
 
         search_catalog = gth_catalog_file_from_relative_path (_("Search Result"), ".search");
         task = gth_search_task_new (browser, search, search_catalog);
-	gth_browser_exec_task (browser, task);
+	gth_browser_exec_task (browser, task, TRUE);
 
 	g_object_unref (task);
 	g_object_unref (search_catalog);
-	g_object_unref (search);	
+	g_object_unref (search);
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
@@ -69,17 +69,17 @@ gth_browser_activate_action_edit_find (GtkAction  *action,
 	GthSearch     *search;
 	GthFileSource *file_source;
 	GtkWidget     *dialog;
-	
-	search = gth_search_new ();	
+
+	search = gth_search_new ();
 	file_source = gth_main_get_file_source (gth_browser_get_location (browser));
 	if (GTH_IS_FILE_SOURCE_VFS (file_source)) {
 		GFile *folder;
-		
+
 		folder = gth_file_source_to_gio_file (file_source, gth_browser_get_location (browser));
 		gth_search_set_folder (search, folder);
 		g_object_unref (folder);
 	}
-	gth_search_set_recursive (search, TRUE);	
+	gth_search_set_recursive (search, TRUE);
 
 	dialog = gth_search_editor_dialog_new (_("Find"), search, GTK_WINDOW (browser));
 	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
@@ -91,7 +91,7 @@ gth_browser_activate_action_edit_find (GtkAction  *action,
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
-	
+
 	g_object_unref (file_source);
 	g_object_unref (search);
 }
@@ -135,7 +135,7 @@ search_edit_response_cb (GtkDialog *dialog,
 	}
 
         task = gth_search_task_new (search_data->browser, search, search_data->file);
-	gth_browser_exec_task (search_data->browser, task);
+	gth_browser_exec_task (search_data->browser, task, TRUE);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 
@@ -155,18 +155,18 @@ search_edit_buffer_ready_cb (void     *buffer,
 	GError     *local_error = NULL;
 	GthSearch  *search;
 	GtkWidget  *dialog;
-	
+
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &error);
 		return;
 	}
-	
+
 	search = gth_search_new_from_data (buffer, count, &local_error);
 	if (search == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &local_error);
 		return;
 	}
-	
+
 	dialog = gth_search_editor_dialog_new (_("Find"), search, GTK_WINDOW (search_data->browser));
 	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_FIND, GTK_RESPONSE_OK);
@@ -177,7 +177,7 @@ search_edit_buffer_ready_cb (void     *buffer,
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_present (GTK_WINDOW (dialog));
-	
+
 	g_object_unref (search);
 }
 
@@ -189,20 +189,20 @@ gth_browser_activate_action_edit_search_edit (GtkAction  *action,
 	GFile      *location;
 	SearchData *search_data;
 	GFile      *file;
-	
+
 	location = gth_browser_get_location (browser);
-	
+
 	search_data = g_new0 (SearchData, 1);
 	search_data->browser = browser;
 	search_data->file = g_file_dup (location);
-	
+
 	file = gth_main_get_gio_file (location);
 	g_load_file_async (file,
 			   G_PRIORITY_DEFAULT,
 			   NULL,
 			   search_edit_buffer_ready_cb,
 			   search_data);
-	
+
 	g_object_unref (file);
 }
 
@@ -217,21 +217,21 @@ search_update_buffer_ready_cb (void     *buffer,
 	GError     *local_error = NULL;
 	GthSearch  *search;
 	GthTask    *task;
-	
+
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &error);
 		return;
 	}
-	
+
 	search = gth_search_new_from_data (buffer, count, &local_error);
 	if (search == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (search_data->browser), _("Could not perform the search"), &local_error);
 		return;
 	}
-	
+
 	task = gth_search_task_new (search_data->browser, search, search_data->file);
-	gth_browser_exec_task (search_data->browser, task);
-	
+	gth_browser_exec_task (search_data->browser, task, TRUE);
+
 	g_object_unref (task);
 	g_object_unref (search);
 	search_data_free (search_data);
@@ -245,19 +245,19 @@ gth_browser_activate_action_edit_search_update (GtkAction  *action,
 	GFile      *location;
 	SearchData *search_data;
 	GFile      *file;
-	
+
 	location = gth_browser_get_location (browser);
-	
+
 	search_data = g_new0 (SearchData, 1);
 	search_data->browser = browser;
 	search_data->file = g_file_dup (location);
-	
+
 	file = gth_main_get_gio_file (location);
 	g_load_file_async (file,
 			   G_PRIORITY_DEFAULT,
 			   NULL,
 			   search_update_buffer_ready_cb,
 			   search_data);
-	
+
 	g_object_unref (file);
 }

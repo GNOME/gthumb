@@ -105,7 +105,8 @@ void             gth_browser_set_sort_order         (GthBrowser       *browser,
 void             gth_browser_stop                   (GthBrowser       *browser);
 void             gth_browser_reload                 (GthBrowser       *browser);
 void             gth_browser_exec_task              (GthBrowser       *browser,
-						     GthTask          *task);
+						     GthTask          *task,
+						     gboolean          foreground);
 void             gth_browser_set_list_extra_widget  (GthBrowser       *browser,
 						     GtkWidget        *widget);
 GtkWidget *      gth_browser_get_list_extra_widget  (GthBrowser       *browser);

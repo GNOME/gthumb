@@ -99,7 +99,11 @@ one_step (gpointer data)
 	pixbuf_task->dest_line += pixbuf_task->rowstride;
 
 	if (pixbuf_task->line % PROGRESS_STEP == 0)
-		gth_task_progress (GTH_TASK (pixbuf_task), pixbuf_task->description, FALSE, (double) pixbuf_task->line / pixbuf_task->height);
+		gth_task_progress (GTH_TASK (pixbuf_task),
+				   pixbuf_task->description,
+				   NULL,
+				   FALSE,
+				   (double) pixbuf_task->line / pixbuf_task->height);
 
 	if (! pixbuf_task->ltr) { /* right to left */
 		int ofs = (pixbuf_task->width - 1) * pixbuf_task->bytes_per_pixel;

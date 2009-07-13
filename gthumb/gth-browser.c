@@ -45,6 +45,7 @@
 #include "gth-marshal.h"
 #include "gth-metadata-provider.h"
 #include "gth-preferences.h"
+#include "gth-progress-dialog.h"
 #include "gth-sidebar.h"
 #include "gth-statusbar.h"
 #include "gth-toggle-menu-tool-button.h"
@@ -66,6 +67,7 @@
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
+#define PROGRESS_DIALOG_DELAY 1000
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 
@@ -110,6 +112,8 @@ struct _GthBrowserPrivateData {
 	GtkWidget         *viewer_toolbar;
 	GthViewerPage     *viewer_page;
 	GthImagePreloader *image_preloader;
+
+	GtkWidget         *progress_dialog;
 
 	GHashTable        *named_dialogs;
 	GList             *toolbar_menu_buttons[GTH_BROWSER_N_PAGES];
@@ -1710,6 +1714,8 @@ gth_browser_finalize (GObject *object)
 	GthBrowser *browser = GTH_BROWSER (object);
 
 	if (browser->priv != NULL) {
+		if (browser->priv->progress_dialog != NULL)
+			gtk_widget_destroy (browser->priv->progress_dialog);
 		_g_object_unref (browser->priv->location_source);
 		_g_object_unref (browser->priv->location);
 		_g_object_unref (browser->priv->current_file);
@@ -3296,20 +3302,33 @@ task_completed_cb (GthTask    *task,
 
 static void
 task_progress_cb (GthTask    *task,
-		  const char *text,
+		  const char *description,
+		  const char *details,
 		  gboolean    pulse,
 		  double      fraction,
 		  GthBrowser *browser)
 {
-	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), text, pulse, fraction);
+	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), description, pulse, fraction);
 }
 
 
 void
 gth_browser_exec_task (GthBrowser *browser,
-		       GthTask    *task)
+		       GthTask    *task,
+		       gboolean    foreground)
 {
 	g_return_if_fail (task != NULL);
+
+	if (! foreground) {
+		if (browser->priv->progress_dialog == NULL) {
+			browser->priv->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (browser));
+			g_object_add_weak_pointer (G_OBJECT (browser->priv->progress_dialog), (gpointer*) &(browser->priv->progress_dialog));
+		}
+		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (browser->priv->progress_dialog), task);
+		return;
+	}
+
+	/* foreground task */
 
 	if (browser->priv->task != NULL)
 		gth_task_cancel (task);

@@ -37,7 +37,7 @@ struct _GthMetadataProviderCommentPrivate {
 };
 
 
-static GthMetadataProviderClass *parent_class = NULL;
+static gpointer parent_class = NULL;
 
 
 static void

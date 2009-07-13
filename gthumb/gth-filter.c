@@ -60,7 +60,7 @@ struct _GthFilterPrivate {
 };
 
 
-static gpointer *parent_class = NULL;
+static gpointer parent_class = NULL;
 
 
 static DomElement*

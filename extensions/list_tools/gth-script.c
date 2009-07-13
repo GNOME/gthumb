@@ -556,9 +556,11 @@ thumb_loader_ready_cb (GthThumbLoader *thumb_loader,
 
 
 static char *
-ask_value (ReplaceData *replace_data,
-	   char        *match)
+ask_value (ReplaceData  *replace_data,
+	   char         *match,
+	   GError      **error)
 {
+	GthFileData     *file_data;
 	GRegex          *re;
 	char           **a;
 	int              len;
@@ -569,6 +571,8 @@ ask_value (ReplaceData *replace_data,
 	GthThumbLoader  *thumb_loader;
 	int              result;
 	char            *value;
+
+	file_data = (GthFileData *) replace_data->file_list->data;
 
 	re = g_regex_new ("%ask(\\{([^}]+)\\}(\\{([^}]+)\\})?)?", 0, 0, NULL);
 	a = g_regex_split (re, match, 0);
@@ -584,23 +588,33 @@ ask_value (ReplaceData *replace_data,
 
 	builder = _gtk_builder_new_from_file ("ask-value.ui", "list_tools");
 	dialog = _gtk_builder_get_widget (builder, "ask_value_dialog");
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "title_label")), gth_script_get_display_name (replace_data->script));
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "filename_label")), g_file_info_get_display_name (file_data->info));
 	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (builder, "request_label")), prompt);
 	gtk_entry_set_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry")), default_value);
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), replace_data->parent);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	if (! gth_script_for_each_file(replace_data->script))
+		gtk_widget_hide (_gtk_builder_get_widget (builder, "skip_button"));
 
 	g_object_ref (builder);
 	thumb_loader = gth_thumb_loader_new (128, 128);
 	g_signal_connect (thumb_loader, "ready", G_CALLBACK (thumb_loader_ready_cb), builder);
-	gth_thumb_loader_set_file (thumb_loader, (GthFileData *) replace_data->file_list->data);
+	gth_thumb_loader_set_file (thumb_loader, file_data);
 	gth_thumb_loader_load (thumb_loader);
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (result == 2)
+	if (result == 2) {
 		value = g_utf8_normalize (gtk_entry_get_text (GTK_ENTRY (_gtk_builder_get_widget (builder, "request_entry"))), -1, G_NORMALIZE_NFC);
-	else
+	}
+	else {
+		if (result == 3)
+			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE, "");
+		else
+			*error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 		value = NULL;
+	}
 
 	gtk_widget_destroy (dialog);
 
@@ -698,10 +712,8 @@ command_line_eval_cb (const GMatchInfo *info,
 			*replace_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));
 	}
 	else if (strncmp (match, "%ask", 4) == 0) {
-		r = ask_value (replace_data, match);
-		if (r == NULL)
-			*replace_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
-		else if (replace_data->quote_values) {
+		r = ask_value (replace_data, match, replace_data->error);
+		if ((r != NULL) && replace_data->quote_values) {
 			char *q;
 
 			q = g_shell_quote (r);

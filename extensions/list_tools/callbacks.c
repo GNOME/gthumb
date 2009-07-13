@@ -101,7 +101,7 @@ activate_script_menu_item (GtkMenuItem *menuitem,
 			GthTask *task;
 
 			task = gth_script_task_new (GTK_WINDOW (data->browser), script, file_list);
-			gth_browser_exec_task (data->browser, task);
+			gth_browser_exec_task (data->browser, task, FALSE);
 
 			g_object_unref (task);
 		}

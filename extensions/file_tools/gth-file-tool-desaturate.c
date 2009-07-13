@@ -98,7 +98,7 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 				    desaturate_step,
 				    desaturate_release,
 				    viewer_page);
-	gth_browser_exec_task (GTH_BROWSER (window), task);
+	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
 	g_object_unref (dest_pixbuf);

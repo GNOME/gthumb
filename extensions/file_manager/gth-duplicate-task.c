@@ -86,8 +86,12 @@ copy_progress_cb (goffset      current_file,
                   gpointer     user_data)
 {
 	GthDuplicateTask *self = user_data;
+	char             *name;
 
-	gth_task_progress (GTH_TASK (self), _("Duplicating files"), FALSE, (double) current_num_bytes / total_num_bytes);
+	name = _g_file_get_display_name (source);
+	gth_task_progress (GTH_TASK (self), _("Duplicating files"), name, FALSE, (double) current_num_bytes / total_num_bytes);
+
+	g_free (name);
 }
 
 

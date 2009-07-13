@@ -343,7 +343,7 @@ gth_search_task_exec (GthTask *base)
 	search_result_real_file = gth_catalog_file_to_gio_file (task->priv->search_catalog);
 	g_write_file_async (search_result_real_file,
 			    data,
-				size,
+			    size,
 			    G_PRIORITY_DEFAULT,
 			    task->priv->cancellable,
 			    clear_search_result_copy_done_cb,

@@ -31,7 +31,8 @@ G_BEGIN_DECLS
 
 typedef enum {
 	GTH_TASK_ERROR_FAILED,
-	GTH_TASK_ERROR_CANCELLED
+	GTH_TASK_ERROR_CANCELLED,
+	GTH_TASK_ERROR_SKIP_TO_NEXT_FILE,
 } GthTaskErrorEnum;
 
 #define GTH_TYPE_TASK         (gth_task_get_type ())
@@ -60,7 +61,8 @@ struct _GthTaskClass
 	void  (*completed)    (GthTask    *task,
 			       GError     *error);
 	void  (*progress)     (GthTask    *task,
-			       const char *text,
+			       const char *description,
+			       const char *details,
 			       gboolean    pulse,
 			       double      fraction);
 
@@ -80,7 +82,8 @@ void        gth_task_cancel      (GthTask    *task);
 void        gth_task_completed   (GthTask    *task,
 				  GError     *error);
 void        gth_task_progress    (GthTask    *task,
-				  const char *text,
+				  const char *description,
+				  const char *details,
 			          gboolean    pulse,
 			          double      fraction);
 

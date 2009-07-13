@@ -112,9 +112,10 @@ gth_task_class_init (GthTaskClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthTaskClass, progress),
 			      NULL, NULL,
-			      gth_marshal_VOID__STRING_BOOLEAN_DOUBLE,
+			      gth_marshal_VOID__STRING_STRING_BOOLEAN_DOUBLE,
 			      G_TYPE_NONE,
-			      3,
+			      4,
+			      G_TYPE_STRING,
 			      G_TYPE_STRING,
 			      G_TYPE_BOOLEAN,
 			      G_TYPE_DOUBLE);
@@ -198,9 +199,10 @@ gth_task_completed (GthTask *task,
 
 void
 gth_task_progress (GthTask    *task,
-		   const char *text,
+		   const char *description,
+		   const char *details,
 		   gboolean    pulse,
 		   double      fraction)
 {
-	g_signal_emit (task, gth_task_signals[PROGRESS], 0, text, pulse, fraction);
+	g_signal_emit (task, gth_task_signals[PROGRESS], 0, description, details, pulse, fraction);
 }

@@ -39,7 +39,7 @@ struct _GthFileSourceCatalogsPrivate
 };
 
 
-static GthFileSourceClass *parent_class = NULL;
+static gpointer parent_class = NULL;
 
 
 static GList *

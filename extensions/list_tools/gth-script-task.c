@@ -104,11 +104,16 @@ _gth_script_task_exec (GthScriptTask *self)
 	gboolean   retval = FALSE;
 
 	if (gth_script_for_each_file (self->priv->script)) {
-		GList *list;
+		GthFileData *file_data = self->priv->current->data;
+		GList       *list;
 
-		gth_task_progress (GTH_TASK (self), gth_script_get_display_name (self->priv->script), FALSE, (double) self->priv->n_current / (self->priv->n_files + 1));
+		gth_task_progress (GTH_TASK (self),
+				   gth_script_get_display_name (self->priv->script),
+				   g_file_info_get_display_name (file_data->info),
+				   FALSE,
+				   (double) self->priv->n_current / (self->priv->n_files + 1));
 
-		list = g_list_prepend (NULL, self->priv->current->data);
+		list = g_list_prepend (NULL, file_data);
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
 							    list,
@@ -117,7 +122,11 @@ _gth_script_task_exec (GthScriptTask *self)
 		g_list_free (list);
 	}
 	else {
-		gth_task_progress (GTH_TASK (self), gth_script_get_display_name (self->priv->script), TRUE, 0.0);
+		gth_task_progress (GTH_TASK (self),
+				   gth_script_get_display_name (self->priv->script),
+				   NULL,
+				   TRUE,
+				   0.0);
 
 		command_line = gth_script_get_command_line (self->priv->script,
 							    self->priv->parent,
@@ -159,6 +168,11 @@ _gth_script_task_exec (GthScriptTask *self)
 	}
 
 	g_free (command_line);
+
+	if (g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE)) {
+		_gth_script_task_exec_next_file (self);
+		return;
+	}
 
 	if (! retval) {
 		gth_task_completed (GTH_TASK (self), error);

@@ -258,7 +258,7 @@
                   <object class="GtkLabel" id="label8">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes" comments="Translate only 'message' and 'default_value', keeping the underscore if possible.">%ask{ message }{ default_value }</property>
+                    <property name="label" translatable="yes" comments="Translate only 'message' and 'default_value'.">%ask{ message }{ default value }</property>
                     <attributes>
                       <attribute name="size" value="8000"/>
                     </attributes>
@@ -288,7 +288,7 @@
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes" comments="Translate only 'property_name', keeping the underscore if possible.">%attr{ property_name }</property>
+                    <property name="label" translatable="yes" comments="Translate only 'attribute name'">%attr{ attribute name }</property>
                     <attributes>
                       <attribute name="size" value="8000"/>
                     </attributes>
