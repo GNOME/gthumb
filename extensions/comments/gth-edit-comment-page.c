@@ -229,7 +229,7 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   				     _("No date"),
   				     _("The following date"),
   				     _("Current date"),
-  				     _("Date photo taken (from embedded metadata)"),
+  				     _("Photo taken date (from embedded metadata)"),
   				     _("Last modified date"),
   				     _("File creation date"),
   				     _("Do not modify"),
