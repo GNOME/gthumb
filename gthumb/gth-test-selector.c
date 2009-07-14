@@ -74,16 +74,16 @@ gth_test_selector_finalize (GObject *object)
 }
 
 
-static void 
-gth_test_selector_class_init (GthTestSelectorClass *klass) 
+static void
+gth_test_selector_class_init (GthTestSelectorClass *klass)
 {
 	parent_class = g_type_class_peek_parent (klass);
-	
+
 	G_OBJECT_CLASS (klass)->finalize = gth_test_selector_finalize;
-	
+
 	/* signals */
-	
-	gth_test_selector_signals[ADD_TEST] = 
+
+	gth_test_selector_signals[ADD_TEST] =
 		g_signal_new ("add-test",
 			      G_TYPE_FROM_CLASS (klass),
  			      G_SIGNAL_RUN_LAST,
@@ -92,7 +92,7 @@ gth_test_selector_class_init (GthTestSelectorClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
-	gth_test_selector_signals[REMOVE_TEST] = 
+	gth_test_selector_signals[REMOVE_TEST] =
 		g_signal_new ("remove-test",
 			      G_TYPE_FROM_CLASS (klass),
  			      G_SIGNAL_RUN_LAST,
@@ -104,34 +104,34 @@ gth_test_selector_class_init (GthTestSelectorClass *klass)
 }
 
 
-static void 
-gth_test_selector_instance_init (GthTestSelector *self) 
+static void
+gth_test_selector_instance_init (GthTestSelector *self)
 {
 	self->priv = g_new0 (GthTestSelectorPrivate, 1);
 }
 
 
-GType 
-gth_test_selector_get_type (void) 
+GType
+gth_test_selector_get_type (void)
 {
 	static GType type_id = 0;
-	
+
 	if (type_id == 0) {
-		static const GTypeInfo type_info = { 
-			sizeof (GthTestSelectorClass), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) gth_test_selector_class_init, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			sizeof (GthTestSelector), 
-			0, 
-			(GInstanceInitFunc) gth_test_selector_instance_init, 
-			NULL 
+		static const GTypeInfo type_info = {
+			sizeof (GthTestSelectorClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) gth_test_selector_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			sizeof (GthTestSelector),
+			0,
+			(GInstanceInitFunc) gth_test_selector_instance_init,
+			NULL
 		};
-		type_id = g_type_register_static (GTK_TYPE_HBOX, 
-						  "GthTestSelector", 
-						  &type_info, 
+		type_id = g_type_register_static (GTK_TYPE_HBOX,
+						  "GthTestSelector",
+						  &type_info,
 						  0);
 	}
 	return type_id;
@@ -144,18 +144,18 @@ test_combo_box_changed_cb (GtkComboBox     *scope_combo_box,
 {
 	GtkTreeIter  iter;
 	const char  *test_name;
-	
+
 	if (! gtk_combo_box_get_active_iter (scope_combo_box, &iter))
 		return;
-		
+
 	gtk_tree_model_get (GTK_TREE_MODEL (self->priv->model),
 			    &iter,
 			    TEST_COLUMN, &test_name,
 			    -1);
-	
-	if (test_name != NULL) { 
+
+	if (test_name != NULL) {
 		GthTest *test;
-		
+
 		test = gth_main_get_test (test_name);
 		gth_test_selector_set_test (self, test);
 		g_object_unref (test);
@@ -179,9 +179,41 @@ remove_button_clicked_cb (GtkButton       *button,
 }
 
 
+static int
+compare_test_by_display_name (gconstpointer a,
+                              gconstpointer b)
+{
+	GthTest *test_a = (GthTest *) a;
+	GthTest *test_b = (GthTest *) b;
+
+	return g_utf8_collate (gth_test_get_display_name (test_a), gth_test_get_display_name (test_b));
+}
+
+
+static GList *
+get_all_tests (void)
+{
+	GList *test_ids;
+	GList *scan;
+	GList *tests = NULL;
+
+	test_ids = gth_main_get_all_tests ();
+	for (scan = test_ids; scan; scan = scan->next) {
+		char *test_name = scan->data;
+		tests = g_list_prepend (tests, gth_main_get_test (test_name));
+	}
+
+	tests = g_list_sort (tests, compare_test_by_display_name);
+
+	_g_string_list_free (test_ids);
+
+	return tests;
+}
+
+
 static void
 gth_test_selector_construct (GthTestSelector *self,
-			     GthTest         *test) 
+			     GthTest         *test)
 {
 	GtkCellRenderer *renderer;
 	GtkTreeIter      iter;
@@ -196,7 +228,7 @@ gth_test_selector_construct (GthTestSelector *self,
 	/* scope combo box */
 
 	self->priv->model = gtk_list_store_new (N_COLUMNS,
-					        G_TYPE_STRING,					              
+					        G_TYPE_STRING,
 					        G_TYPE_STRING);
 	self->priv->test_combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (self->priv->model));
 	g_object_unref (self->priv->model);
@@ -214,22 +246,17 @@ gth_test_selector_construct (GthTestSelector *self,
 
 	/**/
 
-	tests = gth_main_get_all_tests ();
+	tests = get_all_tests ();
 	for (scan = tests; scan; scan = scan->next) {
-		const char *test_name = scan->data;
-		GthTest    *test;
-		
-		test = gth_main_get_test (test_name);
-		
+		GthTest *test = scan->data;
+
 		gtk_list_store_append (self->priv->model, &iter);
 		gtk_list_store_set (self->priv->model, &iter,
-				    TEST_COLUMN, test_name,
+				    TEST_COLUMN, gth_test_get_id (test),
 				    NAME_COLUMN, gth_test_get_display_name (test),
 			    	    -1);
-
-		g_object_unref (test);
 	}
-	_g_string_list_free (tests);
+	_g_object_list_unref (tests);
 
 	g_signal_connect (G_OBJECT (self->priv->test_combo_box),
 			  "changed",
@@ -239,14 +266,14 @@ gth_test_selector_construct (GthTestSelector *self,
 	gtk_widget_show (self->priv->test_combo_box);
 
 	/* test control box */
-	
+
 	self->priv->control_box = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (self->priv->control_box);
 
 	/**/
 
 	self->priv->add_button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (self->priv->add_button), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));	
+	gtk_container_add (GTK_CONTAINER (self->priv->add_button), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_relief (GTK_BUTTON (self->priv->add_button), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (self->priv->add_button, _("Add a new rule"));
 	gtk_widget_show_all (self->priv->add_button);
@@ -257,7 +284,7 @@ gth_test_selector_construct (GthTestSelector *self,
 			  self);
 
 	self->priv->remove_button = gtk_button_new ();
-	gtk_container_add (GTK_CONTAINER (self->priv->remove_button), gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON));	
+	gtk_container_add (GTK_CONTAINER (self->priv->remove_button), gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_BUTTON));
 	gtk_button_set_relief (GTK_BUTTON (self->priv->remove_button), GTK_RELIEF_NONE);
 	gtk_widget_set_tooltip_text (self->priv->remove_button, _("Remove this rule"));
 	gtk_widget_show_all (self->priv->remove_button);
@@ -266,47 +293,47 @@ gth_test_selector_construct (GthTestSelector *self,
 			  "clicked",
 			  G_CALLBACK (remove_button_clicked_cb),
 			  self);
-	
+
 	/**/
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (vbox);
-	
+
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
-	
+
 	gtk_box_pack_start (GTK_BOX (hbox), self->priv->test_combo_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), self->priv->control_box, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (self), vbox, FALSE, FALSE, 0);
-	
+
 	gtk_box_pack_end (GTK_BOX (self), self->priv->add_button, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (self), self->priv->remove_button, FALSE, FALSE, 0);
-		
+
 	gth_test_selector_set_test (self, test);
 }
 
 
 GtkWidget *
-gth_test_selector_new (void) 
+gth_test_selector_new (void)
 {
 	GthTestSelector *self;
-	
+
 	self = g_object_new (GTH_TYPE_TEST_SELECTOR, NULL);
 	gth_test_selector_construct (self, NULL);
-	
+
 	return (GtkWidget *) self;
 }
 
 
-GtkWidget * 
+GtkWidget *
 gth_test_selector_new_with_test (GthTest *test)
 {
 	GthTestSelector *self;
-	
+
 	self = g_object_new (GTH_TYPE_TEST_SELECTOR, NULL);
 	gth_test_selector_construct (self, test);
-	
+
 	return (GtkWidget *) self;
 }
 
@@ -320,22 +347,22 @@ get_test_index (GthTestSelector *self,
 	const char   *test_id;
 	int           i;
 	int           idx;
-	
+
 	if (! gtk_tree_model_get_iter_first (model, &iter))
 		return 0;
-	
+
 	g_object_get (test, "id", &test_id, NULL);
 	i = idx = -1;
 	do {
 		char *id;
-		
+
 		i++;
 		gtk_tree_model_get (model, &iter, TEST_COLUMN, &id, -1);
 		if (g_strcmp0 (test_id, id) == 0)
 			idx = i;
-		g_free (id);	    
+		g_free (id);
 	} while ((idx == -1) && gtk_tree_model_iter_next (model, &iter));
-	
+
 	return (idx == -1) ? 0 : idx;
 }
 
@@ -346,50 +373,40 @@ gth_test_selector_set_test (GthTestSelector *self,
 {
 	GtkWidget *control;
 	GthTest   *local_test = NULL;
-	
-	if (test == NULL) {
-		GtkTreeModel *model = GTK_TREE_MODEL (self->priv->model);
-		GtkTreeIter   iter;
-		char         *first_test_id;
-		
-		if (! gtk_tree_model_get_iter_first (model, &iter))
-			return;
 
-		gtk_tree_model_get (model, &iter, TEST_COLUMN, &first_test_id, -1);			
-		test = local_test = gth_main_get_test (first_test_id); 
-		g_free (first_test_id);
-	}
-	
+	if (test == NULL)
+		test = local_test = gth_main_get_test ("file::name");
+
 	/* update the active test */
-	
+
 	g_signal_handlers_block_by_func (self->priv->test_combo_box, test_combo_box_changed_cb, self);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->test_combo_box), get_test_index (self, test));
 	g_signal_handlers_unblock_by_func (self->priv->test_combo_box, test_combo_box_changed_cb, self);
-	
+
 	/* set the test control */
-	
-	if (test != NULL) 
+
+	if (test != NULL)
 		control = gth_test_create_control (test);
 	else
 		control = NULL;
-		
+
 	if (self->priv->control != NULL) {
-		gtk_container_remove (GTK_CONTAINER (self->priv->control_box), 
+		gtk_container_remove (GTK_CONTAINER (self->priv->control_box),
 				      self->priv->control);
 		self->priv->control = NULL;
 	}
-	
-	if (control != NULL) { 
+
+	if (control != NULL) {
 		self->priv->control = control;
 		gtk_widget_show (control);
 		gtk_container_add (GTK_CONTAINER (self->priv->control_box),
 				   self->priv->control);
 	}
-	
+
 	if (self->priv->test != NULL)
 		g_object_unref (self->priv->test);
 	self->priv->test = g_object_ref (test);
-	
+
 	if (local_test != NULL)
 		g_object_unref (local_test);
 }
