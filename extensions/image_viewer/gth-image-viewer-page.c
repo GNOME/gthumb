@@ -238,9 +238,9 @@ mouse_wheel_scrolled_cb (GtkWidget 	     *widget,
 			 GthImageViewerPage  *self)
 {
 	if (direction == GDK_SCROLL_UP)
-		gth_browser_show_prev_image (self->priv->browser, TRUE, FALSE);
+		gth_browser_show_prev_image (self->priv->browser, FALSE, FALSE);
 	else
-		gth_browser_show_next_image (self->priv->browser, TRUE, FALSE);
+		gth_browser_show_next_image (self->priv->browser, FALSE, FALSE);
 
 	return TRUE;
 }

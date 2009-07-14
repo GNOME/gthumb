@@ -36,13 +36,45 @@ static const char *file_viewer_ui_info =
 
 
 struct _GthFileViewerPagePrivate {
-	GthBrowser *browser;
-	GtkWidget  *viewer;
-	guint       merge_id;
+	GthBrowser     *browser;
+	GtkWidget      *viewer;
+	GtkWidget      *icon;
+	GtkWidget      *label;
+	guint           merge_id;
+	GthThumbLoader *thumb_loader;
+	gulong          thumb_loader_ready_event;
 };
 
 
 static gpointer gth_file_viewer_page_parent_class = NULL;
+
+
+static gboolean
+viewer_scroll_event_cb (GtkWidget 	     *widget,
+			GdkEventScroll       *event,
+			GthFileViewerPage   *self)
+{
+	if (event->direction == GDK_SCROLL_UP)
+		gth_browser_show_prev_image (self->priv->browser, FALSE, FALSE);
+	else if (event->direction == GDK_SCROLL_DOWN)
+		gth_browser_show_next_image (self->priv->browser, FALSE, FALSE);
+
+	return TRUE;
+}
+
+
+static void
+thumb_loader_ready_cb (GthThumbLoader *il,
+		       GError         *error,
+		       gpointer        user_data)
+{
+	GthFileViewerPage *self = user_data;
+
+	if (error != NULL)
+		return;
+
+	gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
+}
 
 
 static void
@@ -50,7 +82,9 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 				    GthBrowser    *browser)
 {
 	GthFileViewerPage *self;
-	GError *error = NULL;
+	GError            *error = NULL;
+	GtkWidget         *vbox1;
+	GtkWidget         *vbox2;
 
 	self = (GthFileViewerPage*) base;
 
@@ -62,8 +96,37 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 		g_error_free (error);
 	}
 
-	self->priv->viewer = gtk_label_new ("...");
+	self->priv->thumb_loader = gth_thumb_loader_new (128, 128);
+	self->priv->thumb_loader_ready_event =
+			g_signal_connect (G_OBJECT (self->priv->thumb_loader),
+					  "ready",
+					  G_CALLBACK (thumb_loader_ready_cb),
+					  self);
+
+	self->priv->viewer = gtk_event_box_new ();
 	gtk_widget_show (self->priv->viewer);
+
+	vbox1 = gtk_vbox_new (TRUE, 0);
+	gtk_widget_show (vbox1);
+	gtk_container_add (GTK_CONTAINER (self->priv->viewer), vbox1);
+
+	vbox2 = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox2);
+	gtk_box_pack_start (GTK_BOX (vbox1), vbox2, FALSE, FALSE, 0);
+
+	self->priv->icon = gtk_image_new ();
+	gtk_widget_show (self->priv->icon);
+	gtk_box_pack_start (GTK_BOX (vbox2), self->priv->icon, FALSE, FALSE, 0);
+
+	self->priv->label = gtk_label_new ("...");
+	gtk_widget_show (self->priv->label);
+	gtk_box_pack_start (GTK_BOX (vbox2), self->priv->label, FALSE, FALSE, 0);
+
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "scroll-event",
+			  G_CALLBACK (viewer_scroll_event_cb),
+			  self);
+
 	gth_browser_set_viewer_widget (browser, self->priv->viewer);
 	gtk_widget_grab_focus (self->priv->viewer);
 }
@@ -75,6 +138,9 @@ gth_file_viewer_page_real_deactivate (GthViewerPage *base)
 	GthFileViewerPage *self;
 
 	self = (GthFileViewerPage*) base;
+
+	g_signal_handler_disconnect (self->priv->thumb_loader, self->priv->thumb_loader_ready_event);
+	self->priv->thumb_loader_ready_event = 0;
 
 	if (self->priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
@@ -114,11 +180,18 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 				GthFileData   *file_data)
 {
 	GthFileViewerPage *self;
+	GIcon             *icon;
 
 	self = (GthFileViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
 
-	gtk_label_set_text (GTK_LABEL (self->priv->viewer), g_file_info_get_display_name (file_data->info));
+	gtk_label_set_text (GTK_LABEL (self->priv->label), g_file_info_get_display_name (file_data->info));
+	icon = g_file_info_get_icon (file_data->info);
+	if (icon != NULL)
+		gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon), icon, GTK_ICON_SIZE_DIALOG);
+
+	gth_thumb_loader_set_file (self->priv->thumb_loader, file_data);
+	gth_thumb_loader_load (self->priv->thumb_loader);
 }
 
 
@@ -154,6 +227,12 @@ gth_file_viewer_page_real_can_save (GthViewerPage *base)
 static void
 gth_file_viewer_page_finalize (GObject *obj)
 {
+	GthFileViewerPage *self;
+
+	self = GTH_FILE_VIEWER_PAGE (obj);
+
+	g_object_unref (self->priv->thumb_loader);
+
 	G_OBJECT_CLASS (gth_file_viewer_page_parent_class)->finalize (obj);
 }
 

@@ -42,6 +42,7 @@ G_BEGIN_DECLS
 	"standard::edit-name," \
 	"standard::icon," \
 	"standard::size," \
+	"thumbnail::path" \
 	"time::created," \
 	"time::created-usec," \
 	"time::modified," \
