@@ -73,11 +73,20 @@ gth_task_progress_finalize (GObject *base)
 	G_OBJECT_CLASS (gth_task_progress_parent_class)->finalize (base);
 }
 
+
 static void
 gth_task_progress_class_init (GthTaskProgressClass *klass)
 {
 	gth_task_progress_parent_class = g_type_class_peek_parent (klass);
 	G_OBJECT_CLASS (klass)->finalize = gth_task_progress_finalize;
+}
+
+
+static void
+cancel_button_clicked_cb (GtkButton       *button,
+			  GthTaskProgress *self)
+{
+	gth_task_cancel (self->task);
 }
 
 
@@ -119,6 +128,7 @@ gth_task_progress_init (GthTaskProgress *self)
 
 	self->cancel_button = gtk_button_new ();
 	gtk_widget_show (self->cancel_button);
+	g_signal_connect (self->cancel_button, "clicked", G_CALLBACK (cancel_button_clicked_cb), self);
 	gtk_widget_set_tooltip_text (self->cancel_button, _("Cancel operation"));
 	gtk_box_pack_start (GTK_BOX (vbox), self->cancel_button, TRUE, FALSE, 0);
 
