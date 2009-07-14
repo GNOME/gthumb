@@ -358,7 +358,7 @@ new_script_cb (GtkButton  *button,
 {
 	GtkWidget *dialog;
 
-	dialog = gth_script_editor_dialog_new (_("New Script"), GTK_WINDOW (data->dialog));
+	dialog = gth_script_editor_dialog_new (_("New Command"), GTK_WINDOW (data->dialog));
 	g_signal_connect (dialog, "response",
 			  G_CALLBACK (script_editor_dialog__response_cb),
 			  data);
@@ -385,7 +385,7 @@ edit_script_cb (GtkButton  *button,
 	if (script == NULL)
 		return;
 
-	dialog = gth_script_editor_dialog_new (_("Edit Script"), GTK_WINDOW (data->dialog));
+	dialog = gth_script_editor_dialog_new (_("Edit Command"), GTK_WINDOW (data->dialog));
 	gth_script_editor_dialog_set_script (GTH_SCRIPT_EDITOR_DIALOG (dialog), script);
 	g_signal_connect (dialog,
 			  "response",

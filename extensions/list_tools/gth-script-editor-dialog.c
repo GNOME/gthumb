@@ -37,6 +37,7 @@ struct _GthScriptEditorDialogPrivate {
   	char       *script_id;
   	gboolean    script_visible;
   	gboolean    wait_command;
+  	gboolean    shell_script;
   	gboolean    for_each_file;
   	gboolean    help_visible;
 };
@@ -187,6 +188,7 @@ _gth_script_editor_dialog_set_new_script (GthScriptEditorDialog *self)
 {
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), "");
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("command_entry")), "");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("shell_script_checkbutton")), TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("for_each_file_checkbutton")), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wait_command_checkbutton")), FALSE);
 }
@@ -208,6 +210,7 @@ gth_script_editor_dialog_set_script (GthScriptEditorDialog *self,
 
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_script_get_display_name (script));
 		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("command_entry")), gth_script_get_command (script));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("shell_script_checkbutton")), gth_script_is_shell_script (script));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("for_each_file_checkbutton")), gth_script_for_each_file (script));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wait_command_checkbutton")), gth_script_wait_command (script));
 	}
@@ -229,6 +232,7 @@ gth_script_editor_dialog_get_script (GthScriptEditorDialog  *self,
 		      "display-name", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("name_entry"))),
 		      "command", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("command_entry"))),
 		      "visible", self->priv->script_visible,
+		      "shell-script", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("shell_script_checkbutton"))),
 		      "for-each-file", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("for_each_file_checkbutton"))),
 		      "wait-command", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("wait_command_checkbutton"))),
 		      NULL);

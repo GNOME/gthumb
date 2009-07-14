@@ -31,6 +31,7 @@ enum {
         PROP_DISPLAY_NAME,
         PROP_COMMAND,
         PROP_VISIBLE,
+        PROP_SHELL_SCRIPT,
         PROP_FOR_EACH_FILE,
         PROP_WAIT_COMMAND
 };
@@ -41,6 +42,7 @@ struct _GthScriptPrivate {
 	char     *display_name;
 	char     *command;
 	gboolean  visible;
+	gboolean  shell_script;
 	gboolean  for_each_file;
 	gboolean  wait_command;
 };
@@ -63,8 +65,9 @@ gth_script_real_create_element (DomDomizable *base,
 					       "id", self->priv->id,
 					       "display-name", self->priv->display_name,
 					       "command", self->priv->command,
-					       "for-each-file", self->priv->for_each_file ? "true" : "false",
-					       "wait-command", self->priv->wait_command ? "true" : "false",
+					       "shell-script", (self->priv->shell_script ? "true" : "false"),
+					       "for-each-file", (self->priv->for_each_file ? "true" : "false"),
+					       "wait-command", (self->priv->wait_command ? "true" : "false"),
 					       NULL);
 	if (! self->priv->visible)
 		dom_element_set_attribute (element, "display", "none");
@@ -87,6 +90,7 @@ gth_script_real_load_from_element (DomDomizable *base,
 		      "display-name", dom_element_get_attribute (element, "display-name"),
 		      "command", dom_element_get_attribute (element, "command"),
 		      "visible", (g_strcmp0 (dom_element_get_attribute (element, "display"), "none") != 0),
+		      "shell-script", (g_strcmp0 (dom_element_get_attribute (element, "shell-script"), "true") == 0),
 		      "for-each-file", (g_strcmp0 (dom_element_get_attribute (element, "for-each-file"), "true") == 0),
 		      "wait-command", (g_strcmp0 (dom_element_get_attribute (element, "wait-command"), "true") == 0),
 		      NULL);
@@ -105,6 +109,7 @@ gth_script_real_duplicate (GthDuplicable *duplicable)
 		      "display-name", script->priv->display_name,
 		      "command", script->priv->command,
 		      "visible", script->priv->visible,
+		      "shell-script", script->priv->shell_script,
 		      "for-each-file", script->priv->for_each_file,
 		      "wait-command", script->priv->wait_command,
 		      NULL);
@@ -160,6 +165,9 @@ gth_script_set_property (GObject      *object,
 	case PROP_VISIBLE:
 		self->priv->visible = g_value_get_boolean (value);
 		break;
+	case PROP_SHELL_SCRIPT:
+		self->priv->shell_script = g_value_get_boolean (value);
+		break;
 	case PROP_FOR_EACH_FILE:
 		self->priv->for_each_file = g_value_get_boolean (value);
 		break;
@@ -194,6 +202,9 @@ gth_script_get_property (GObject    *object,
 		break;
 	case PROP_VISIBLE:
 		g_value_set_boolean (value, self->priv->visible);
+		break;
+	case PROP_SHELL_SCRIPT:
+		g_value_set_boolean (value, self->priv->shell_script);
 		break;
 	case PROP_FOR_EACH_FILE:
 		g_value_set_boolean (value, self->priv->for_each_file);
@@ -250,6 +261,13 @@ gth_script_class_init (GthScriptClass *klass)
 							       "Visible",
 							       "Whether this script should be visible in the script list",
 							       FALSE,
+							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_SHELL_SCRIPT,
+					 g_param_spec_boolean ("shell-script",
+							       "Shell Script",
+							       "Whether to execute the command inside a terminal (with sh)",
+							       TRUE,
 							       G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
 					 PROP_FOR_EACH_FILE,
@@ -372,6 +390,13 @@ gboolean
 gth_script_is_visible (GthScript *script)
 {
 	return script->priv->visible;
+}
+
+
+gboolean
+gth_script_is_shell_script (GthScript  *script)
+{
+	return script->priv->shell_script;
 }
 
 

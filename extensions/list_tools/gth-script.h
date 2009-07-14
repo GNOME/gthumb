@@ -57,6 +57,7 @@ const char *      gth_script_get_id                    (GthScript  *script);
 const char *      gth_script_get_display_name          (GthScript  *script);
 const char *      gth_script_get_command               (GthScript  *script);
 gboolean          gth_script_is_visible                (GthScript  *script);
+gboolean          gth_script_is_shell_script           (GthScript  *script);
 gboolean          gth_script_for_each_file             (GthScript  *script);
 gboolean          gth_script_wait_command              (GthScript  *script);
 char *            gth_script_get_requested_attributes  (GthScript  *script);

@@ -136,32 +136,39 @@ _gth_script_task_exec (GthScriptTask *self)
 
 	if (error == NULL) {
 		char **argv;
+		int    argc;
 
-		argv = g_new (char *, 4);
-		argv[0] = "sh";
-		argv[1] = "-c";
-		argv[2] = command_line;
-		argv[3] = NULL;
-
-		if (gth_script_wait_command (self->priv->script)) {
-			if (g_spawn_async (NULL,
-					   argv,
-					   NULL,
-					   G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
-					   NULL,
-					   NULL,
-					   &self->priv->pid,
-					   &error))
-			{
-				self->priv->script_watch = g_child_watch_add (self->priv->pid,
-									      watch_script_cb,
-									      self);
-				retval = TRUE;
-			}
+		if (gth_script_is_shell_script (self->priv->script)) {
+			argv = g_new (char *, 4);
+			argv[0] = "sh";
+			argv[1] = "-c";
+			argv[2] = command_line;
+			argv[3] = NULL;
 		}
-		else {
-			if (g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error))
-				retval = TRUE;
+		else
+			g_shell_parse_argv (command_line, &argc, &argv, &error);
+
+		if (error == NULL) {
+			if (gth_script_wait_command (self->priv->script)) {
+				if (g_spawn_async (NULL,
+						   argv,
+						   NULL,
+						   G_SPAWN_DO_NOT_REAP_CHILD | G_SPAWN_SEARCH_PATH,
+						   NULL,
+						   NULL,
+						   &self->priv->pid,
+						   &error))
+				{
+					self->priv->script_watch = g_child_watch_add (self->priv->pid,
+										      watch_script_cb,
+										      self);
+					retval = TRUE;
+				}
+			}
+			else {
+				if (g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, &error))
+					retval = TRUE;
+			}
 		}
 
 		g_free (argv);
