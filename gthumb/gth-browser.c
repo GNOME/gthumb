@@ -100,6 +100,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget         *history_list_popup_menu;
 	GtkWidget         *folder_popup;
 	GtkWidget         *file_list_popup;
+	GtkWidget         *file_popup;
 	GtkWidget         *filterbar;
 	GtkWidget         *file_list;
 	GtkWidget         *list_extra_widget_container;
@@ -1560,6 +1561,8 @@ _gth_browser_close_final_step (gpointer user_data)
 		gtk_widget_destroy (browser->priv->folder_popup);
 	if (browser->priv->file_list_popup != NULL)
 		gtk_widget_destroy (browser->priv->file_list_popup);
+	if (browser->priv->file_popup != NULL)
+		gtk_widget_destroy (browser->priv->file_popup);
 
 	gtk_widget_destroy (GTK_WIDGET (browser));
 }
@@ -2946,6 +2949,8 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* init browser data */
 
+	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
+
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEFAULT_UI_WINDOW_WIDTH - DEF_SIDEBAR_WIDTH));
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->browser_sidebar), eel_gconf_get_integer (PREF_UI_PROPERTIES_HEIGHT, DEF_PROPERTIES_HEIGHT));
 
@@ -3600,6 +3605,7 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	gth_file_selection_unselect_all (GTH_FILE_SELECTION (view));
 	gth_file_selection_select (GTH_FILE_SELECTION (view), file_pos);
 	gth_file_view_set_cursor (GTH_FILE_VIEW (view), file_pos);
+	gth_hook_invoke ("gth-browser-selection-changed", browser);
 	g_signal_handlers_unblock_by_func (gth_browser_get_file_list_view (browser), gth_file_view_selection_changed_cb, browser);
 
 	visibility = gth_file_view_get_visibility (GTH_FILE_VIEW (view), file_pos);
@@ -4114,4 +4120,18 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, TRUE);
 	}
 	gth_browser_update_sensitivity (browser);
+}
+
+
+void
+gth_browser_file_menu_popup (GthBrowser     *browser,
+			     GdkEventButton *event)
+{
+	gtk_menu_popup (GTK_MENU (browser->priv->file_popup),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			3,
+			event->time);
 }

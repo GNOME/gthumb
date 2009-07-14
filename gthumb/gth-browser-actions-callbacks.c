@@ -327,6 +327,28 @@ gth_browser_activate_action_folder_open_in_new_window (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_folder_open_in_file_manager (GtkAction  *action,
+						         GthBrowser *browser)
+{
+	GFile  *location;
+	char   *uri;
+	GError *error = NULL;
+
+	location = gth_browser_get_location (browser);
+	uri = g_file_get_uri (location);
+	if (! gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (browser)),
+			    uri,
+                            gtk_get_current_event_time (),
+                            &error))
+	{
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open location"), &error);
+	}
+
+	g_free (uri);
+}
+
+
+void
 gth_browser_activate_action_browser_mode (GtkAction  *action,
 					  GthBrowser *browser)
 {

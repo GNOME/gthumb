@@ -217,15 +217,8 @@ image_button_press_cb (GtkWidget          *widget,
 		       GthImageViewerPage *self)
 {
 	if (event->button == 3) {
-		/*gtk_menu_popup (GTK_MENU (self->priv->image_popup_menu),
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				3,
-				event->time);
+		gth_browser_file_menu_popup (self->priv->browser, event);
 		return TRUE;
-		*/
 	}
 
 	return FALSE;

@@ -77,6 +77,20 @@ thumb_loader_ready_cb (GthThumbLoader *il,
 }
 
 
+static gboolean
+viewer_button_press_cb (GtkWidget         *widget,
+		        GdkEventButton    *event,
+		        GthFileViewerPage *self)
+{
+	if (event->button == 3) {
+		gth_browser_file_menu_popup (self->priv->browser, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static void
 gth_file_viewer_page_real_activate (GthViewerPage *base,
 				    GthBrowser    *browser)
@@ -125,6 +139,10 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "scroll-event",
 			  G_CALLBACK (viewer_scroll_event_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->viewer),
+			  "button_press_event",
+			  G_CALLBACK (viewer_button_press_cb),
 			  self);
 
 	gth_browser_set_viewer_widget (browser, self->priv->viewer);

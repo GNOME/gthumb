@@ -148,6 +148,8 @@ void             gth_browser_show_filterbar         (GthBrowser       *browser,
 gpointer         gth_browser_get_image_preloader    (GthBrowser       *browser);
 void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
+void             gth_browser_file_menu_popup        (GthBrowser       *browser,
+						     GdkEventButton   *event);
 
 G_END_DECLS
 

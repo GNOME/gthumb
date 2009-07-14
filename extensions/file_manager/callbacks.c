@@ -44,6 +44,24 @@ static const char *vfs_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
+"  <popup name='FileListPopup'>"
+"    <placeholder name='File_Actions'>"
+"      <menuitem action='Edit_CutFiles'/>"
+"      <menuitem action='Edit_CopyFiles'/>"
+"      <menuitem action='Edit_PasteInFolder'/>"
+"    </placeholder>"
+"  </popup>"
+"  <popup name='FilePopup'>"
+"    <placeholder name='File_Actions'>"
+"      <menuitem action='Edit_CutFiles'/>"
+"      <menuitem action='Edit_CopyFiles'/>"
+"      <menuitem action='Edit_PasteInFolder'/>"
+"    </placeholder>"
+"    <placeholder name='Folder_Actions'>"
+"      <menuitem action='Edit_Trash'/>"
+"      <menuitem action='Edit_Delete'/>"
+"    </placeholder>"
+"  </popup>"
 "</ui>";
 
 
@@ -58,13 +76,6 @@ static const char *browser_ui_info =
 "    </placeholder>"
 "    </menu>"
 "  </menubar>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='File_Actions'>"
-"      <menuitem action='Edit_CutFiles'/>"
-"      <menuitem action='Edit_CopyFiles'/>"
-"      <menuitem action='Edit_PasteInFolder'/>"
-"    </placeholder>"
-"  </popup>"
 "</ui>";
 
 
@@ -466,7 +477,8 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 
 
 static void
-_gth_browser_update_open_menu (GthBrowser *browser)
+_gth_browser_update_open_menu (GthBrowser *browser,
+			       const char *path)
 {
 	GtkWidget    *openwith_item;
 	GtkWidget    *menu;
@@ -477,7 +489,7 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 	GthIconCache *icon_cache;
 	GHashTable   *used_apps;
 
-	openwith_item = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/FileListPopup/OpenWith");
+	openwith_item = gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), path);
 	menu = gtk_menu_item_get_submenu (GTK_MENU_ITEM (openwith_item));
 	_gtk_container_remove_children (GTK_CONTAINER (menu), NULL, NULL);
 
@@ -558,7 +570,8 @@ _gth_browser_update_open_menu (GthBrowser *browser)
 void
 fm__gth_browser_selection_changed_cb (GthBrowser *browser)
 {
-	_gth_browser_update_open_menu (browser);
+	_gth_browser_update_open_menu (browser, "/FileListPopup/OpenWith");
+	_gth_browser_update_open_menu (browser, "/FilePopup/OpenWith");
 }
 
 

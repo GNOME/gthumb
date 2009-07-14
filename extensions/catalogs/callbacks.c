@@ -39,12 +39,22 @@ static const char *fixed_ui_info =
 "      <menuitem action='Edit_AddToCatalog'/>"
 "    </placeholder>"
 "  </popup>"
+"  <popup name='FilePopup'>"
+"    <placeholder name='Folder_Actions2'>"
+"      <menuitem action='Edit_AddToCatalog'/>"
+"    </placeholder>"
+"  </popup>"
 "</ui>";
 
 
 static const char *vfs_ui_info =
 "<ui>"
 "  <popup name='FileListPopup'>"
+"    <placeholder name='Folder_Actions2'>"
+"      <menuitem action='Edit_RemoveFromCatalog'/>"
+"    </placeholder>"
+"  </popup>"
+"  <popup name='FilePopup'>"
 "    <placeholder name='Folder_Actions2'>"
 "      <menuitem action='Edit_RemoveFromCatalog'/>"
 "    </placeholder>"

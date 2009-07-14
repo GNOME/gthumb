@@ -71,6 +71,11 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_folder_open_in_new_window) },
 
+	{ "Folder_OpenInFileManager", NULL,
+	  N_("Open with the _File Manager"), "",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_folder_open_in_file_manager) },
+
 	{ "Edit_Preferences", GTK_STOCK_PREFERENCES,
 	  NULL, NULL,
 	  N_("Edit various preferences"),
