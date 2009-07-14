@@ -1505,6 +1505,7 @@ _gth_browser_close_final_step (gpointer user_data)
 	gboolean        last_window;
 	GdkWindowState  state;
 	gboolean        maximized;
+	int             pos;
 
 	browser_list = g_list_remove (browser_list, browser);
 	last_window = gth_window_get_n_windows () == 1;
@@ -1521,9 +1522,17 @@ _gth_browser_close_final_step (gpointer user_data)
 		eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
 	}
 
-	eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, gtk_paned_get_position (GTK_PANED (browser->priv->browser_container)));
-	eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, gtk_paned_get_position (GTK_PANED (browser->priv->viewer_pane)));
-	eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, gtk_paned_get_position (GTK_PANED (browser->priv->browser_sidebar)));
+	pos = gtk_paned_get_position (GTK_PANED (browser->priv->browser_container));
+	if (pos > 0)
+		eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, pos);
+
+	pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->viewer_pane));
+	if (pos > 0)
+		eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, pos);
+
+	pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->browser_sidebar));
+	if (pos > 0)
+		eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, pos);
 
 	/**/
 
@@ -2712,7 +2721,6 @@ _gth_browser_construct (GthBrowser *browser)
 	/* content */
 
 	browser->priv->viewer_pane = gtk_hpaned_new ();
-	gtk_paned_set_position (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEFAULT_UI_WINDOW_WIDTH - DEF_SIDEBAR_WIDTH));
 	gtk_widget_show (browser->priv->viewer_pane);
 	gth_window_attach_content (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_pane);
 
@@ -2781,7 +2789,6 @@ _gth_browser_construct (GthBrowser *browser)
 	/* the browser sidebar */
 
 	browser->priv->browser_sidebar = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), eel_gconf_get_integer (PREF_UI_PROPERTIES_HEIGHT, DEF_PROPERTIES_HEIGHT));
 	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
 
@@ -2938,6 +2945,9 @@ _gth_browser_construct (GthBrowser *browser)
 				  browser);
 
 	/* init browser data */
+
+	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEFAULT_UI_WINDOW_WIDTH - DEF_SIDEBAR_WIDTH));
+	_gtk_paned_set_position2 (GTK_PANED (browser->priv->browser_sidebar), eel_gconf_get_integer (PREF_UI_PROPERTIES_HEIGHT, DEF_PROPERTIES_HEIGHT));
 
 	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
 	_gth_browser_update_toolbar_style (browser);

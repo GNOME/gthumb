@@ -1009,3 +1009,43 @@ _gtk_tree_path_list_free (GList *list)
 	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
 	g_list_free (list);
 }
+
+
+int
+_gtk_paned_get_position2 (GtkPaned *paned)
+{
+	GtkRequisition requisition;
+	int            pos;
+	int            size;
+
+	if (! GTK_WIDGET_VISIBLE (paned))
+		return 0;
+
+	pos = gtk_paned_get_position (paned);
+
+	gtk_window_get_size (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (paned))), &(requisition.width), &(requisition.height));
+	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
+		size = requisition.width;
+	else
+		size = requisition.height;
+
+	return size - pos;
+}
+
+
+void
+_gtk_paned_set_position2 (GtkPaned *paned,
+			  int       pos)
+{
+	GtkRequisition requisition;
+	int            size;
+
+	gtk_window_get_size (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (paned))), &(requisition.width), &(requisition.height));
+	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
+		size = requisition.width;
+	else
+		size = requisition.height;
+
+	if (pos > 0)
+		gtk_paned_set_position (paned, size - pos);
+}
