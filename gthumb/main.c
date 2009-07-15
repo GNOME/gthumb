@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include <glib/gprintf.h>
 #include <gtk/gtk.h>
 #include <unique/unique.h>
 #include "eggsmclient.h"
@@ -49,6 +50,7 @@ static UniqueApp   *gthumb_app;
 static char       **remaining_args;
 static const char  *program_argv0; /* argv[0] from main(); used as the command to restart the program */
 static gboolean     restart = FALSE;
+static gboolean     version = FALSE;
 
 
 static const GOptionEntry options[] = {
@@ -67,6 +69,9 @@ static const GOptionEntry options[] = {
 	{ "import-photos", 'i', 0, G_OPTION_ARG_NONE, &ImportPhotos,
 	  N_("Automatically import digital camera photos"),
 	  0 },
+
+	{ "version", 'v', 0, G_OPTION_ARG_NONE, &version,
+	  N_("Show version"), NULL },
 
 	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining_args,
 	  NULL,
@@ -311,6 +316,11 @@ main (int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	g_option_context_free (context);
+
+	if (version) {
+		g_printf ("%s %s, Copyright (C) 2001-2009 Free Software Foundation, Inc.\n", PACKAGE_NAME, PACKAGE_VERSION);
+		return 0;
+	}
 
 	/* other initializations */
 
