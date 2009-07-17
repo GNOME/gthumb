@@ -452,20 +452,8 @@ gth_file_data_get_attribute_as_string (GthFileData *file_data,
 		obj = g_file_info_get_attribute_object (file_data->info, id);
 		if (GTH_IS_METADATA (obj))
 			g_object_get (obj, "formatted", &value, NULL);
-		else if (GTH_IS_STRING_LIST (obj)) {
-			GList   *list;
-			GList   *scan;
-			GString *str;
-
-			list = gth_string_list_get_list (GTH_STRING_LIST (obj));
-			str = g_string_new ("");
-			for (scan = list; scan; scan = scan->next) {
-				if (scan != list)
-					g_string_append (str, " ");
-				g_string_append (str, (char *) scan->data);
-			}
-			value = g_string_free (str, FALSE);
-		}
+		else if (GTH_IS_STRING_LIST (obj))
+			value = gth_string_list_join (GTH_STRING_LIST (obj), " ");
 		else
 			value = g_file_info_get_attribute_as_string (file_data->info, id);
 		break;

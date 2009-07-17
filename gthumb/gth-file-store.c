@@ -156,7 +156,6 @@ _gth_file_store_clear_queue (GthFileStore *file_store)
 	g_list_free (file_store->priv->queue);
 	file_store->priv->queue = NULL;
 	file_store->priv->queue_size = 0;
-	file_store->priv->update_filter = FALSE;
 }
 
 
@@ -1312,8 +1311,10 @@ gth_file_store_exec_set (GthFileStore *file_store)
 {
 	_gth_file_store_list_changed (file_store);
 	_gth_file_store_clear_queue (file_store);
-	if (file_store->priv->update_filter)
+	if (file_store->priv->update_filter) {
 		_gth_file_store_update_visibility (file_store, NULL);
+		file_store->priv->update_filter = FALSE;
+	}
 }
 
 

@@ -58,9 +58,9 @@ struct _GthMetadataProviderClass {
 
 GType                   gth_metadata_provider_get_type   (void);
 GthMetadataProvider *   gth_metadata_provider_new        (void);
-gboolean                gth_metadata_provider_can_read   (GthMetadataProvider  *self, 
+gboolean                gth_metadata_provider_can_read   (GthMetadataProvider  *self,
 						          char                **attribute_v);
-gboolean                gth_metadata_provider_can_write  (GthMetadataProvider  *self, 
+gboolean                gth_metadata_provider_can_write  (GthMetadataProvider  *self,
 						          char                **attribute_v);
 void                    gth_metadata_provider_read       (GthMetadataProvider  *self,
 							  GthFileData          *file_data,
@@ -77,6 +77,11 @@ void                    _g_write_metadata_async          (GList                *
 							  const char           *attributes,
 							  GCancellable         *cancellable,
 							  ReadyFunc             ready_func,
+							  gpointer              user_data);
+void                    _g_query_all_metadata_async      (GList                *files, /* GFile * list */
+							  const char           *attributes,
+							  GCancellable         *cancellable,
+							  InfoReadyCallback     ready_func,
 							  gpointer              user_data);
 
 G_END_DECLS

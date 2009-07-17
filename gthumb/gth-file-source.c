@@ -33,9 +33,10 @@
 
 struct _GthFileSourcePrivate
 {
-	GList    *schemes;
-	gboolean  active;
-	GList    *queue;
+	GList        *schemes;
+	gboolean      active;
+	GList        *queue;
+	GCancellable *cancellable;
 };
 
 
@@ -314,30 +315,21 @@ base_get_file_info (GthFileSource *file_source,
 }
 
 
+static GthFileData *
+base_get_file_data (GthFileSource  *file_source,
+		    GFile          *file,
+		    GFileInfo      *info)
+{
+	return gth_file_data_new (file, info);
+}
+
+
 static void
 base_list (GthFileSource *file_source,
 	   GFile         *folder,
 	   const char    *attributes,
 	   ListReady      func,
 	   gpointer       data)
-{
-	/* void */
-}
-
-
-static void
-base_read_attributes (GthFileSource *file_source,
-		      GList         *files,
-		      const char    *attributes,
-		      ListReady      func,
-		      gpointer       data)
-{
-	/* void */
-}
-
-
-static void
-base_cancel (GthFileSource *file_source)
 {
 	/* void */
 }
@@ -401,6 +393,7 @@ gth_file_source_finalize (GObject *object)
 	if (file_source->priv != NULL) {
 		gth_file_source_clear_queue (file_source);
 		_g_string_list_free (file_source->priv->schemes);
+		g_object_unref (file_source->priv->cancellable);
 
 		g_free (file_source->priv);
 		file_source->priv = NULL;
@@ -423,9 +416,8 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->get_current_list = base_get_current_list;
 	class->to_gio_file = base_to_gio_file;
 	class->get_file_info = base_get_file_info;
+	class->get_file_data = base_get_file_data;
 	class->list = base_list;
-	class->read_attributes = base_read_attributes;
-	class->cancel = base_cancel;
 	class->rename = base_rename;
 	class->can_cut = base_can_cut;
 	class->monitor_entry_points = base_monitor_entry_points;
@@ -437,6 +429,7 @@ static void
 gth_file_source_init (GthFileSource *file_source)
 {
 	file_source->priv = g_new0 (GthFileSourcePrivate, 1);
+	file_source->priv->cancellable = g_cancellable_new ();
 }
 
 
@@ -552,6 +545,15 @@ gth_file_source_get_file_info (GthFileSource *file_source,
 }
 
 
+GthFileData *
+gth_file_source_get_file_data (GthFileSource *file_source,
+			       GFile         *file,
+			       GFileInfo     *info)
+{
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->get_file_data (file_source, file, info);
+}
+
+
 gboolean
 gth_file_source_is_active (GthFileSource *file_source)
 {
@@ -559,11 +561,18 @@ gth_file_source_is_active (GthFileSource *file_source)
 }
 
 
+GCancellable *
+gth_file_source_get_cancellable (GthFileSource *file_source)
+{
+	return file_source->priv->cancellable;
+}
+
+
 void
 gth_file_source_cancel (GthFileSource *file_source)
 {
 	gth_file_source_clear_queue (file_source);
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->cancel (file_source);
+	g_cancellable_cancel (file_source->priv->cancellable);
 }
 
 
@@ -582,18 +591,81 @@ gth_file_source_list (GthFileSource *file_source,
 }
 
 
+/* -- gth_file_source_read_attributes -- */
+
+
+typedef struct {
+	GthFileSource *file_source;
+	ListReady      ready_func;
+	gpointer       ready_data;
+} ReadAttributesOpData;
+
+
+
+static void
+read_attributes_op_data_free (ReadAttributesOpData *data)
+{
+	g_object_unref (data->file_source);
+	g_free (data);
+}
+
+
+static void
+metadata_ready_cb (GList    *files,
+	           GError   *error,
+	           gpointer  user_data)
+{
+	ReadAttributesOpData *data = user_data;
+	GList                *scan;
+	GList                *result_files;
+
+	gth_file_source_set_active (data->file_source, FALSE);
+
+	result_files = NULL;
+	for (scan = files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		result_files = g_list_prepend (result_files, gth_file_source_get_file_data (data->file_source, file_data->file, file_data->info));
+	}
+	result_files = g_list_reverse (result_files);
+
+	data->ready_func (data->file_source,
+			  result_files,
+			  error,
+			  data->ready_data);
+
+	_g_object_list_unref (result_files);
+	read_attributes_op_data_free (data);
+}
+
+
 void
 gth_file_source_read_attributes (GthFileSource  *file_source,
 				 GList          *files,
 				 const char     *attributes,
 				 ListReady       func,
-				 gpointer        data)
+				 gpointer        user_data)
 {
+	ReadAttributesOpData *data;
+	GList                *gio_files;
+
 	if (gth_file_source_is_active (file_source)) {
 		gth_file_source_queue_read_attributes (file_source, files, attributes, func, data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->read_attributes (file_source, files, attributes, func, data);
+
+	data = g_new0 (ReadAttributesOpData, 1);
+	data->file_source = g_object_ref (file_source);
+	data->ready_func = func;
+	data->ready_data = user_data;
+
+	gio_files = gth_file_source_to_gio_file_list (file_source, files);
+	_g_query_all_metadata_async (gio_files,
+				     attributes,
+				     file_source->priv->cancellable,
+				     metadata_ready_cb,
+				     data);
+
+	_g_object_list_unref (gio_files);
 }
 
 

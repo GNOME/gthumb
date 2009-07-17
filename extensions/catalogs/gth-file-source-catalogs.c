@@ -31,7 +31,6 @@
 
 struct _GthFileSourceCatalogsPrivate
 {
-	GCancellable *cancellable;
 	GList        *files;
 	GthCatalog   *catalog;
 	ListReady     ready_func;
@@ -137,6 +136,53 @@ gth_file_source_catalogs_get_file_info (GthFileSource *file_source,
 }
 
 
+static GthFileData *
+gth_file_source_catalogs_get_file_data (GthFileSource *file_source,
+					GFile         *file,
+					GFileInfo     *info)
+{
+	GthFileData *file_data = NULL;
+	char        *uri;
+	GFile       *catalog_file;
+
+	uri = g_file_get_uri (file);
+
+	switch (g_file_info_get_file_type (info)) {
+	case G_FILE_TYPE_REGULAR:
+		if (! g_str_has_suffix (uri, ".gqv")
+		    && ! g_str_has_suffix (uri, ".catalog")
+		    && ! g_str_has_suffix (uri, ".search"))
+		{
+			file_data = gth_file_data_new (file, info);
+			break;
+		}
+
+		catalog_file = gth_catalog_file_from_gio_file (file, NULL);
+		update_file_info (file_source, catalog_file, info);
+		file_data = gth_file_data_new (catalog_file, info);
+
+		g_object_unref (catalog_file);
+		break;
+
+	case G_FILE_TYPE_DIRECTORY:
+		catalog_file = gth_catalog_file_from_gio_file (file, NULL);
+		update_file_info (file_source, catalog_file, info);
+		file_data = gth_file_data_new (catalog_file, info);
+
+		g_object_unref (catalog_file);
+		break;
+
+	default:
+		break;
+	}
+
+	g_free (uri);
+
+	return file_data;
+}
+
+
+
 static void
 list__done_func (GError   *error,
 		 gpointer  user_data)
@@ -161,52 +207,6 @@ list__done_func (GError   *error,
 }
 
 
-static GthFileData *
-create_file_data (GthFileSourceCatalogs *catalogs,
-		  GFile                 *file,
-		  GFileInfo             *info)
-{
-	GthFileData *file_data = NULL;
-	char        *uri;
-	GFile       *catalog_file;
-
-	uri = g_file_get_uri (file);
-
-	switch (g_file_info_get_file_type (info)) {
-	case G_FILE_TYPE_REGULAR:
-		if (! g_str_has_suffix (uri, ".gqv")
-		    && ! g_str_has_suffix (uri, ".catalog")
-		    && ! g_str_has_suffix (uri, ".search"))
-		{
-			file_data = gth_file_data_new (file, info);
-			break;
-		}
-
-		catalog_file = gth_catalog_file_from_gio_file (file, NULL);
-		update_file_info (GTH_FILE_SOURCE (catalogs), catalog_file, info);
-		file_data = gth_file_data_new (catalog_file, info);
-
-		g_object_unref (catalog_file);
-		break;
-
-	case G_FILE_TYPE_DIRECTORY:
-		catalog_file = gth_catalog_file_from_gio_file (file, NULL);
-		update_file_info (GTH_FILE_SOURCE (catalogs), catalog_file, info);
-		file_data = gth_file_data_new (catalog_file, info);
-
-		g_object_unref (catalog_file);
-		break;
-
-	default:
-		break;
-	}
-
-	g_free (uri);
-
-	return file_data;
-}
-
-
 static void
 list__for_each_file_func (GFile     *file,
 			  GFileInfo *info,
@@ -215,7 +215,7 @@ list__for_each_file_func (GFile     *file,
 	GthFileSourceCatalogs *catalogs = user_data;
 	GthFileData           *file_data;
 
-	file_data = create_file_data (catalogs, file, info);
+	file_data = gth_file_source_get_file_data (GTH_FILE_SOURCE (catalogs), file, info);
 	if (file_data != NULL)
 		catalogs->priv->files = g_list_prepend (catalogs->priv->files, file_data);
 }
@@ -266,7 +266,7 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 	GFile                 *gio_file;
 
 	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
-	g_cancellable_reset (catalogs->priv->cancellable);
+	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
 
 	_g_object_list_unref (catalogs->priv->files);
 	catalogs->priv->files = NULL;
@@ -284,7 +284,7 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 		gth_catalog_set_file (catalogs->priv->catalog, gio_file);
 		gth_catalog_list_async (catalogs->priv->catalog,
 					attributes,
-					catalogs->priv->cancellable,
+					gth_file_source_get_cancellable (file_source),
 					catalog_list_ready_cb,
 					file_source);
 	}
@@ -293,7 +293,7 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 					   FALSE,
 					   TRUE,
 					   attributes,
-					   catalogs->priv->cancellable,
+					   gth_file_source_get_cancellable (file_source),
 					   list__start_dir_func,
 					   list__for_each_file_func,
 					   list__done_func,
@@ -301,82 +301,6 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 
 	g_object_unref (gio_file);
 	g_free (uri);
-}
-
-
-typedef struct {
-	GthFileSourceCatalogs *catalogs;
-	ListReady              ready_func;
-	gpointer               ready_data;
-} ReadAttributesData;
-
-
-static void
-read_attributes_data_free (ReadAttributesData *data)
-{
-	g_free (data);
-}
-
-
-static void
-info_ready_cb (GList    *files,
-	       GError   *error,
-	       gpointer  user_data)
-{
-	ReadAttributesData    *data = user_data;
-	GthFileSourceCatalogs *catalogs = data->catalogs;
-	GList                 *scan;
-	GList                 *result_files;
-
-	g_object_ref (catalogs);
-
-	result_files = NULL;
-	for (scan = files; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-		result_files = g_list_prepend (result_files, create_file_data (catalogs, file_data->file, file_data->info));
-	}
-	result_files = g_list_reverse (result_files);
-
-	data->ready_func ((GthFileSource *) catalogs,
-			  result_files,
-			  error,
-			  data->ready_data);
-
-	_g_object_list_unref (result_files);
-	read_attributes_data_free (data);
-	g_object_unref (catalogs);
-
-	if (G_IS_OBJECT (catalogs))
-		gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), FALSE);
-}
-
-
-static void
-gth_file_source_catalogs_read_attributes (GthFileSource *file_source,
-					  GList         *files,
-					  const char    *attributes,
-					  ListReady      func,
-					  gpointer       user_data)
-{
-	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
-	ReadAttributesData    *data;
-	GList                 *gio_files;
-
-	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
-
-	data = g_new0 (ReadAttributesData, 1);
-	data->catalogs = catalogs;
-	data->ready_func = func;
-	data->ready_data = user_data;
-
-	gio_files = gth_file_source_to_gio_file_list (GTH_FILE_SOURCE (catalogs), files);
-	g_query_info_async (gio_files,
-			    GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE,
-			    catalogs->priv->cancellable,
-			    info_ready_cb,
-			    data);
-
-	_g_object_list_unref (gio_files);
 }
 
 
@@ -506,18 +430,9 @@ gth_file_source_catalogs_copy (GthFileSource *file_source,
 
 	g_query_info_async (cod->file_list,
 			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
-			    GTH_FILE_SOURCE_CATALOGS (file_source)->priv->cancellable,
+			    gth_file_source_get_cancellable (file_source),
 			    copy__file_list_info_ready_cb,
 			    cod);
-}
-
-static void
-gth_file_source_catalogs_cancel (GthFileSource *file_source)
-{
-	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
-
-	if (gth_file_source_is_active (file_source))
-		g_cancellable_cancel (catalogs->priv->cancellable);
 }
 
 
@@ -553,10 +468,9 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->get_entry_points = get_entry_points;
 	file_source_class->to_gio_file = gth_file_source_catalogs_to_gio_file;
 	file_source_class->get_file_info = gth_file_source_catalogs_get_file_info;
+	file_source_class->get_file_data = gth_file_source_catalogs_get_file_data;
 	file_source_class->list = gth_file_source_catalogs_list;
-	file_source_class->read_attributes = gth_file_source_catalogs_read_attributes;
 	file_source_class->copy = gth_file_source_catalogs_copy;
-	file_source_class->cancel = gth_file_source_catalogs_cancel;
 }
 
 
@@ -566,7 +480,6 @@ gth_file_source_catalogs_init (GthFileSourceCatalogs *catalogs)
 	gth_file_source_add_scheme (GTH_FILE_SOURCE (catalogs), "catalog://");
 
 	catalogs->priv = g_new0 (GthFileSourceCatalogsPrivate, 1);
-	catalogs->priv->cancellable = g_cancellable_new ();
 	catalogs->priv->catalog = gth_catalog_new ();
 }
 

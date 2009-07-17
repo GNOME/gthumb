@@ -59,6 +59,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	GthEditCommentPage *self;
 	GtkTextBuffer      *buffer;
 	GthMetadata        *metadata;
+	GthStringList      *tags;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
@@ -95,6 +96,18 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		/*gtk_widget_set_sensitive (self->priv->date_datetime, FALSE);*/
 	}
 
+	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	if (tags != NULL) {
+		char *value;
+
+		value = gth_string_list_join (tags, ", ");
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("tags_entry")), value);
+
+		g_free (value);
+	}
+	else
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("tags_entry")), "");
+
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
 }
 
@@ -103,11 +116,15 @@ void
 gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 					GFileInfo           *info)
 {
-	GthEditCommentPage *self;
-	GtkTextBuffer      *buffer;
-	GtkTextIter         start;
-	GtkTextIter         end;
-	char               *text;
+	GthEditCommentPage  *self;
+	GtkTextBuffer       *buffer;
+	GtkTextIter          start;
+	GtkTextIter          end;
+	char                *text;
+	int                  i;
+	char               **tagv;
+	GList               *tags;
+	GthStringList       *string_list;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
@@ -119,6 +136,24 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::place", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))));
 	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::time", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)));
+
+	tagv = g_strsplit (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))), ",", -1);
+	tags = NULL;
+	for (i = 0; tagv[i] != NULL; i++) {
+		char *tag;
+
+		tag = g_strstrip (tagv[i]);
+		if (tag[0] != '\0')
+			tags = g_list_prepend (tags, g_strdup (tag));
+	}
+	tags = g_list_reverse (tags);
+	string_list = gth_string_list_new (tags);
+	g_file_info_set_attribute_object (self->priv->file_data->info, "comment::categories", G_OBJECT (string_list));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Keywords", G_OBJECT (string_list));
+
+	g_object_unref (string_list);
+	g_strfreev (tagv);
+	_g_string_list_free (tags);
 }
 
 

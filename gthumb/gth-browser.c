@@ -146,6 +146,7 @@ struct _GthBrowserPrivateData {
 	gulong             task_progress;
 	GList             *load_data_queue;
 	guint              load_file_timeout;
+	char              *list_attributes;
 
 	/* fulscreen */
 
@@ -1187,6 +1188,32 @@ metadata_ready_cb (GList    *files,
 }
 
 
+static const char *
+_gth_browser_get_list_attributes (GthBrowser *browser)
+{
+	GString *attributes;
+
+	if (browser->priv->list_attributes != NULL)
+		return browser->priv->list_attributes;
+
+	attributes = g_string_new ("");
+	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
+		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
+	else
+		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+
+	/* FIXME: make the attribute list based on the data required to
+	 * filter and view the file list. */
+
+	g_string_append (attributes, ",comment::*");
+	browser->priv->list_attributes = attributes->str;
+
+	g_string_free (attributes, FALSE);
+
+	return browser->priv->list_attributes;
+}
+
+
 static void
 load_data_ready (LoadData *data,
 		 GList    *files,
@@ -1197,10 +1224,8 @@ load_data_ready (LoadData *data,
 		load_data_free (data);
 	}
 	else if (g_file_equal ((GFile *) data->current->data, data->requested_folder))
-		/* FIXME: make the metadata attribute list automatic, based
-		 * on the data required to filter and view the file list. */
 		_g_query_metadata_async (files,
-					 "file::*,comment::*",
+					 _gth_browser_get_list_attributes (data->browser),
 					 data->cancellable,
 					 metadata_ready_cb,
 				 	 data);
@@ -1736,6 +1761,7 @@ gth_browser_finalize (GObject *object)
 		_g_object_list_unref (browser->priv->history);
 		gth_icon_cache_free (browser->priv->menu_icon_cache);
 		g_hash_table_unref (browser->priv->named_dialogs);
+		g_free (browser->priv->list_attributes);
 		g_free (browser->priv);
 		browser->priv = NULL;
 	}
@@ -2125,7 +2151,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			monitor_data->update_folder_tree = update_folder_tree;
 			gth_file_source_read_attributes (monitor_data->file_source,
 						 	 list,
-						 	 eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+						 	 _gth_browser_get_list_attributes (browser),
 						 	 file_attributes_ready_cb,
 						 	 monitor_data);
 			break;

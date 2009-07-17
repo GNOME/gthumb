@@ -99,6 +99,7 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 			value = (GObject *) gth_string_list_new_from_ptr_array (categories);
 			g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
+			g_file_info_set_attribute_object (file_data->info, "Embedded::Image::Keywords", value);
 			g_object_unref (value);
 		}
 	}

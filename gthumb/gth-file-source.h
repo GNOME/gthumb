@@ -55,8 +55,8 @@ struct _GthFileSource
 
 	/*< protected >*/
 
-	GList *folders; /* list of GthFileData */
-	GList *files;   /* list of GthFileData */
+	GList        *folders; /* list of GthFileData */
+	GList        *files;   /* list of GthFileData */
 };
 
 struct _GthFileSourceClass
@@ -73,17 +73,14 @@ struct _GthFileSourceClass
 	GFileInfo *  (*get_file_info)         (GthFileSource  *file_source,
 					       GFile          *file,
 					       const char     *attributes);
+	GthFileData *(*get_file_data)         (GthFileSource  *file_source,
+					       GFile          *file,
+					       GFileInfo      *info);
 	void         (*list)                  (GthFileSource  *file_source,
 					       GFile          *folder,
 					       const char     *attributes,
 					       ListReady       func,
 					       gpointer        data);
-	void         (*read_attributes)       (GthFileSource  *file_source,
-					       GList          *files,
-					       const char     *attributes,
-					       ListReady       func,
-					       gpointer        data);
-	void         (*cancel)                (GthFileSource  *file_source);
 	void         (*rename)                (GthFileSource  *file_source,
 					       GFile          *file,
 					       GFile          *new_file,
@@ -124,7 +121,11 @@ GList *      gth_file_source_to_gio_file_list      (GthFileSource  *file_source,
 GFileInfo *  gth_file_source_get_file_info         (GthFileSource  *file_source,
 						    GFile          *file,
 						    const char     *attributes);
+GthFileData *gth_file_source_get_file_data         (GthFileSource  *file_source,
+					            GFile          *file,
+					            GFileInfo      *info);
 gboolean     gth_file_source_is_active             (GthFileSource  *file_source);
+GCancellable *gth_file_source_get_cancellable      (GthFileSource  *file_source);
 void         gth_file_source_cancel                (GthFileSource  *file_source);
 void         gth_file_source_list                  (GthFileSource  *file_source,
 						    GFile          *folder,

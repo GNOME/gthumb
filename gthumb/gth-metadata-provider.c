@@ -493,3 +493,83 @@ _g_write_metadata_async (GList         *files, /* GthFileData * list */
 	wmd->thread = g_thread_create (write_metadata_thread, wmtd, TRUE, NULL);
 	wmd->check_id = g_timeout_add (CHECK_THREAD_RATE, check_write_metadata_thread, wmd);
 }
+
+
+/* -- _g_query_all_metadata_async -- */
+
+
+typedef struct {
+	GList             *files;
+	char              *attributes;
+	GCancellable      *cancellable;
+	InfoReadyCallback  ready_func;
+	gpointer           user_data;
+} QueryAllMetadata;
+
+
+static void
+query_all_metadata_free (QueryAllMetadata *qam)
+{
+	_g_object_list_unref (qam->files);
+	g_free (qam->attributes);
+	_g_object_unref (qam->cancellable);
+	g_free (qam);
+}
+
+
+static void
+qam_metadata_ready_cb (GList    *files,
+		       GError   *error,
+		       gpointer  user_data)
+{
+	QueryAllMetadata *qam = user_data;
+
+	qam->ready_func (qam->files, error, qam->user_data);
+	query_all_metadata_free (qam);
+}
+
+
+static void
+qam_info_ready_cb (GList    *files,
+		   GError   *error,
+		   gpointer  user_data)
+{
+	QueryAllMetadata *qam = user_data;
+
+	if (error != NULL) {
+		qam->ready_func (NULL, error, qam->user_data);
+		query_all_metadata_free (qam);
+		return;
+	}
+
+	qam->files = _g_object_list_ref (files);
+	_g_query_metadata_async (qam->files,
+				 qam->attributes,
+				 qam->cancellable,
+				 qam_metadata_ready_cb,
+				 qam);
+}
+
+
+void
+_g_query_all_metadata_async (GList             *files, /* GFile * list */
+			     const char        *attributes,
+			     GCancellable      *cancellable,
+			     InfoReadyCallback  ready_func,
+			     gpointer           user_data)
+{
+	QueryAllMetadata *qam;
+
+	qam = g_new0 (QueryAllMetadata, 1);
+	qam->attributes = g_strdup (attributes);
+	if (cancellable != NULL)
+		qam->cancellable = g_object_ref (cancellable);
+	qam->ready_func = ready_func;
+	qam->user_data = user_data;
+
+	g_query_info_async (files,
+			    qam->attributes,
+			    qam->cancellable,
+			    qam_info_ready_cb,
+			    qam);
+}

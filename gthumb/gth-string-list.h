@@ -52,6 +52,8 @@ GType             gth_string_list_get_type            (void);
 GthStringList *   gth_string_list_new                 (GList         *list);
 GthStringList *   gth_string_list_new_from_ptr_array  (GPtrArray     *array);
 GList *           gth_string_list_get_list            (GthStringList *list);
+char *            gth_string_list_join                (GthStringList *list,
+						       const char    *separator);
 
 G_END_DECLS
 

@@ -38,7 +38,6 @@
 
 struct _GthFileSourceVfsPrivate
 {
-	GCancellable      *cancellable;
 	GList             *files;
 	ListReady          ready_func;
 	gpointer           ready_data;
@@ -54,7 +53,7 @@ static guint mount_monitor_id = 0;
 
 
 static GList *
-get_entry_points (GthFileSource *file_source)
+gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 {
 	GList     *list;
 	GFile     *file;
@@ -118,8 +117,8 @@ get_entry_points (GthFileSource *file_source)
 
 
 static GFile *
-to_gio_file (GthFileSource *file_source,
-	     GFile         *file)
+gth_file_source_vfs_to_gio_file (GthFileSource *file_source,
+				 GFile         *file)
 {
 	char  *uri;
 	GFile *gio_file;
@@ -133,9 +132,9 @@ to_gio_file (GthFileSource *file_source,
 
 
 static GFileInfo *
-get_file_info (GthFileSource *file_source,
-	       GFile         *file,
-	       const char    *attributes)
+gth_file_source_vfs_get_file_info (GthFileSource *file_source,
+				   GFile         *file,
+				   const char    *attributes)
 {
 	GFile     *gio_file;
 	GFileInfo *file_info;
@@ -151,6 +150,9 @@ get_file_info (GthFileSource *file_source,
 
 	return file_info;
 }
+
+
+/* -- gth_file_source_vfs_list -- */
 
 
 static void
@@ -199,17 +201,17 @@ list__start_dir_func (GFile       *directory,
 
 
 static void
-list (GthFileSource *file_source,
-      GFile         *folder,
-      const char    *attributes,
-      ListReady      func,
-      gpointer       user_data)
+gth_file_source_vfs_list (GthFileSource *file_source,
+			  GFile         *folder,
+			  const char    *attributes,
+			  ListReady      func,
+			  gpointer       user_data)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
 	GFile            *gio_folder;
 
 	gth_file_source_set_active (file_source, TRUE);
-	g_cancellable_reset (file_source_vfs->priv->cancellable);
+	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
 
 	_g_object_list_unref (file_source_vfs->priv->files);
 	file_source_vfs->priv->files = NULL;
@@ -223,73 +225,13 @@ list (GthFileSource *file_source,
 				   FALSE,
 				   TRUE,
 				   attributes,
-				   file_source_vfs->priv->cancellable,
+				   gth_file_source_get_cancellable (file_source),
 				   list__start_dir_func,
 				   list__for_each_file_func,
 				   list__done_func,
 				   file_source);
 
 	g_object_unref (gio_folder);
-}
-
-
-static void
-info_ready_cb (GList    *files,
-	       GError   *error,
-	       gpointer  user_data)
-{
-	GthFileSourceVfs *file_source_vfs = user_data;
-	GList            *scan;
-	GList            *result_files;
-
-	if (G_IS_OBJECT (file_source_vfs))
-		gth_file_source_set_active (GTH_FILE_SOURCE (file_source_vfs), FALSE);
-
-	result_files = NULL;
-	for (scan = files; scan; scan = scan->next)
-		result_files = g_list_prepend (result_files, g_object_ref ((GthFileData *) scan->data));
-	result_files = g_list_reverse (result_files);
-
-	file_source_vfs->priv->ready_func ((GthFileSource *) file_source_vfs,
-					   result_files,
-					   error,
-					   file_source_vfs->priv->ready_data);
-
-	_g_object_list_unref (result_files);
-	g_object_unref (file_source_vfs);
-}
-
-
-static void
-read_attributes (GthFileSource *file_source,
-		 GList         *files,
-		 const char    *attributes,
-		 ListReady      func,
-		 gpointer       user_data)
-{
-	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
-
-	gth_file_source_set_active (file_source, TRUE);
-	g_cancellable_reset (file_source_vfs->priv->cancellable);
-
-	file_source_vfs->priv->ready_func = func;
-	file_source_vfs->priv->ready_data = user_data;
-
-	g_object_ref (file_source_vfs);
-	g_query_info_async (files,
-			    attributes,
-			    file_source_vfs->priv->cancellable,
-			    info_ready_cb,
-			    file_source_vfs);
-}
-
-
-static void
-cancel (GthFileSource *file_source)
-{
-	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
-
-	g_cancellable_cancel (file_source_vfs->priv->cancellable);
 }
 
 
@@ -352,7 +294,7 @@ copy__copy_files (CopyOpData *cod)
 			     destinations,
 			     G_FILE_COPY_NONE,
 			     G_PRIORITY_DEFAULT,
-			     cod->file_source->priv->cancellable,
+			     gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
 			     NULL,
 			     NULL,
 			     copy__copy_files_done,
@@ -402,7 +344,7 @@ copy__copy_current_dir (CopyOpData *cod)
 				destination,
 				G_FILE_COPY_NONE,
 				G_PRIORITY_DEFAULT,
-				cod->file_source->priv->cancellable,
+				gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
 				NULL,
 				NULL,
 				copy__copy_current_dir_done,
@@ -462,7 +404,7 @@ gth_file_source_vfs_copy (GthFileSource *file_source,
 
 	g_query_info_async (cod->file_list,
 			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
-			    cod->file_source->priv->cancellable,
+			    gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
 			    copy__file_list_info_ready_cb,
 			    cod);
 }
@@ -484,7 +426,7 @@ mount_monitor_mountpoints_changed_cb (GUnixMountMonitor *monitor,
 
 
 static void
-monitor_entry_points (GthFileSource *file_source)
+gth_file_source_vfs_monitor_entry_points (GthFileSource *file_source)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
 
@@ -647,9 +589,9 @@ monitor_changed_cb (GFileMonitor      *file_monitor,
 
 
 static void
-monitor_directory (GthFileSource *file_source,
-		   GFile         *file,
-		   gboolean       activate)
+gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
+				       GFile         *file,
+				       gboolean       activate)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
 	GFileMonitor     *monitor;
@@ -711,16 +653,14 @@ gth_file_source_vfs_class_init (GthFileSourceVfsClass *class)
 	file_source_class = (GthFileSourceClass*) class;
 
 	object_class->finalize = gth_file_source_vfs_finalize;
-	file_source_class->get_entry_points = get_entry_points;
-	file_source_class->to_gio_file = to_gio_file;
-	file_source_class->get_file_info = get_file_info;
-	file_source_class->list = list;
-	file_source_class->read_attributes = read_attributes;
-	file_source_class->cancel = cancel;
+	file_source_class->get_entry_points = gth_file_source_vfs_get_entry_points;
+	file_source_class->to_gio_file = gth_file_source_vfs_to_gio_file;
+	file_source_class->get_file_info = gth_file_source_vfs_get_file_info;
+	file_source_class->list = gth_file_source_vfs_list;
 	file_source_class->copy = gth_file_source_vfs_copy;
 	file_source_class->can_cut = gth_file_source_vfs_can_cut;
-	file_source_class->monitor_entry_points = monitor_entry_points;
-	file_source_class->monitor_directory = monitor_directory;
+	file_source_class->monitor_entry_points = gth_file_source_vfs_monitor_entry_points;
+	file_source_class->monitor_directory = gth_file_source_vfs_monitor_directory;
 }
 
 
@@ -731,7 +671,6 @@ gth_file_source_vfs_init (GthFileSourceVfs *file_source)
 
 	file_source->priv = g_new0 (GthFileSourceVfsPrivate, 1);
 	gth_file_source_add_scheme (GTH_FILE_SOURCE (file_source), "vfs+");
-	file_source->priv->cancellable = g_cancellable_new ();
 	file_source->priv->monitors = g_hash_table_new_full (g_file_hash, (GEqualFunc) g_file_equal, g_object_unref, g_object_unref);
 	for (i = 0; i < GTH_MONITOR_N_EVENTS; i++)
 		file_source->priv->monitor_queue[i] = NULL;

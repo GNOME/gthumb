@@ -4,7 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkTable" id="content">
     <property name="visible">True</property>
-    <property name="n_rows">4</property>
+    <property name="n_rows">5</property>
     <property name="n_columns">2</property>
     <property name="column_spacing">6</property>
     <property name="row_spacing">6</property>
@@ -53,7 +53,7 @@
     <child>
       <object class="GtkScrolledWindow" id="scrolledwindow3">
         <property name="width_request">250</property>
-        <property name="height_request">200</property>
+        <property name="height_request">150</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="hscrollbar_policy">automatic</property>
@@ -120,6 +120,32 @@
     </child>
     <child>
       <placeholder/>
+    </child>
+    <child>
+      <object class="GtkLabel" id="label1">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">_Tags:</property>
+        <property name="use_underline">True</property>
+        <property name="mnemonic_widget">tags_entry</property>
+      </object>
+      <packing>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkEntry" id="tags_entry">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="invisible_char">&#x25CF;</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="right_attach">2</property>
+        <property name="top_attach">4</property>
+        <property name="bottom_attach">5</property>
+      </packing>
     </child>
   </object>
 </interface>
