@@ -180,7 +180,7 @@ static const char *fixed_ui_info =
 "  <popup name='FolderListPopup'>"
 "    <menuitem action='Folder_Open'/>"
 "    <menuitem action='Folder_OpenInNewWindow'/>"
-"    <menuitem action='Folder_OpenInFileManager'/>"
+"    <placeholder name='OpenCommands'/>"
 "    <separator/>"
 "    <placeholder name='SourceCommands'/>"
 "  </popup>"

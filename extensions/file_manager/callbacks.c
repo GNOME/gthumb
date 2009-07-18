@@ -100,6 +100,9 @@ static const char *browser_vfs_ui_info =
 static const char *folder_popup_ui_info =
 "<ui>"
 "  <popup name='FolderListPopup'>"
+"    <placeholder name='OpenCommands'>"
+"      <menuitem action='Folder_OpenInFileManager'/>"
+"    </placeholder>"
 "    <placeholder name='SourceCommands'>"
 "      <menuitem action='Folder_Create'/>"
 "      <separator />"
@@ -149,6 +152,10 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Delete"), "<shift>Delete",
 	  N_("Delete the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_delete) },
+	{ "Folder_OpenInFileManager", NULL,
+	  N_("Open with the _File Manager"), "",
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_folder_open_in_file_manager) },
 	{ "Folder_Create", NULL,
 	  N_("Create _Folder"), NULL,
 	  N_("Create a new empty folder inside this folder"),

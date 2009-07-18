@@ -496,6 +496,32 @@ gth_browser_activate_action_edit_delete (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_folder_open_in_file_manager (GtkAction  *action,
+						         GthBrowser *browser)
+{
+	GthFileData *file_data;
+	char        *uri;
+	GError      *error = NULL;
+
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	uri = g_file_get_uri (file_data->file);
+	if (! gtk_show_uri (gtk_window_get_screen (GTK_WINDOW (browser)),
+			    uri,
+                            gtk_get_current_event_time (),
+                            &error))
+	{
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open location"), &error);
+	}
+
+	g_free (uri);
+	g_object_unref (file_data);
+}
+
+
+void
 gth_browser_activate_action_folder_create (GtkAction  *action,
 					   GthBrowser *browser)
 {
