@@ -1218,12 +1218,11 @@ g_directory_copy_done (gpointer user_data)
 {
 	DirectoryCopyData *dcd = user_data;
 
-	g_source_remove (dcd->source_id);
+	if (dcd->source_id != 0)
+		g_source_remove (dcd->source_id);
 
 	if (dcd->callback)
 		dcd->callback (dcd->error, dcd->user_data);
-	if (dcd->error != NULL)
-		g_clear_error (&(dcd->error));
 	directory_copy_data_free (dcd);
 
 	return FALSE;
@@ -1250,7 +1249,6 @@ get_destination_for_file (DirectoryCopyData *dcd,
 	destination_file = _g_file_append_path (dcd->destination, path);
 
 	g_free (path);
-	g_free (partial_uri);
 	g_free (source_uri);
 	g_free (uri);
 
@@ -1279,7 +1277,7 @@ g_directory_copy_next_child (gpointer user_data)
 static void
 g_directory_copy_child_done_cb (GObject      *source_object,
 				GAsyncResult *result,
-				 gpointer      user_data)
+				 gpointer     user_data)
 {
 	DirectoryCopyData *dcd = user_data;
 
@@ -1457,6 +1455,52 @@ g_directory_copy_start_dir (GFile      *directory,
 }
 
 
+static void
+g_directory_copy_qdestination_info_ready_cb (GObject      *source_object,
+                                             GAsyncResult *result,
+                                             gpointer      user_data)
+{
+	DirectoryCopyData *dcd = user_data;
+	GFileInfo         *info;
+
+	info = g_file_query_info_finish (G_FILE (source_object), result, &dcd->error);
+	if (info == NULL) {
+		if (! g_error_matches (dcd->error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+			g_directory_copy_done (dcd);
+			return;
+		}
+	}
+
+	g_clear_error (&dcd->error);
+
+	if ((info != NULL) && (g_file_info_get_file_type (info) != G_FILE_TYPE_DIRECTORY)) {
+		dcd->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_DIRECTORY, "");
+		g_directory_copy_done (dcd);
+		return;
+	}
+
+	if (! g_file_make_directory (dcd->destination,
+			             dcd->cancellable,
+			             &dcd->error))
+	{
+		g_directory_copy_done (dcd);
+		return;
+	}
+
+	g_clear_error (&dcd->error);
+
+	g_directory_foreach_child (dcd->source,
+				   TRUE,
+				   TRUE,
+				   "standard::name,standard::type",
+				   dcd->cancellable,
+				   g_directory_copy_start_dir,
+				   g_directory_copy_for_each_file,
+				   g_directory_copy_list_ready,
+				   dcd);
+}
+
+
 void
 g_directory_copy_async (GFile                 *source,
 			GFile                 *destination,
@@ -1475,21 +1519,19 @@ g_directory_copy_async (GFile                 *source,
 	dcd->destination = g_file_dup (destination);
 	dcd->flags = flags;
 	dcd->io_priority = io_priority;
-	dcd->cancellable = cancellable;
+	dcd->cancellable = g_object_ref (cancellable);
 	dcd->progress_callback = progress_callback;
 	dcd->progress_callback_data = progress_callback_data;
 	dcd->callback = callback;
 	dcd->user_data = user_data;
 
-	g_directory_foreach_child (dcd->source,
-				   TRUE,
-				   TRUE,
-				   "standard::name,standard::type",
-				   dcd->cancellable,
-				   g_directory_copy_start_dir,
-				   g_directory_copy_for_each_file,
-				   g_directory_copy_list_ready,
-				   dcd);
+	g_file_query_info_async (dcd->destination,
+				 "standard::name,standard::type",
+				 0,
+				 G_PRIORITY_DEFAULT,
+				 dcd->cancellable,
+				 g_directory_copy_qdestination_info_ready_cb,
+				 dcd);
 }
 
 

@@ -37,9 +37,9 @@ G_BEGIN_DECLS
 #define RC_REMOTE_CACHE_DIR       ".gnome2/gthumb/remote_cache"
 */
 
-#define BOOKMARKS_FILE    "bookmarks.xbel"
-#define FILTERS_FILE      "filters.xml"
-#define FILE_CACHE        "cache"
+#define BOOKMARKS_FILE "bookmarks.xbel"
+#define FILTERS_FILE   "filters.xml"
+#define FILE_CACHE     "cache"
 
 
 typedef enum {
@@ -86,13 +86,19 @@ typedef enum {
 } GthTransform;
 
 
-typedef void (*ErrorFunc)      (gpointer  user_data);
-typedef void (*DoneFunc)       (gpointer  user_data);
-typedef void (*ReadyFunc)      (GError   *error,
-				gpointer  user_data);
-typedef void (*ReadyCallback)  (GObject  *object,
-				GError   *error,
-			   	gpointer  user_data);
+typedef void (*ErrorFunc)        (gpointer    user_data);
+typedef void (*DoneFunc)         (gpointer    user_data);
+typedef void (*ReadyFunc)        (GError     *error,
+			 	  gpointer    user_data);
+typedef void (*ReadyCallback)    (GObject    *object,
+				  GError     *error,
+			   	  gpointer    user_data);
+typedef void (*ProgressCallback) (GObject    *object,
+				  const char *description,
+				  const char *details,
+			          gboolean    pulse,
+			          double      fraction,
+			   	  gpointer    user_data);
 
 G_END_DECLS
 

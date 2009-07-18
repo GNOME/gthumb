@@ -309,9 +309,10 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 
 typedef struct {
 	GthFileSourceVfs *file_source;
-	GFile            *destination;
+	GthFileData      *destination;
 	GList            *file_list;
-	ReadyCallback     callback;
+	ProgressCallback  progress_callback;
+	ReadyCallback     ready_callback;
 	gpointer          user_data;
 	GList            *files;
 	GthCatalog       *catalog;
@@ -343,11 +344,11 @@ catalog_save_done_cb (void     *buffer,
 
 	if (error == NULL)
 		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-				            cod->destination,
+				            cod->destination->file,
 				            cod->files,
 					    GTH_MONITOR_EVENT_CREATED);
 
-	cod->callback (G_OBJECT (cod->file_source), error, cod->user_data);
+	cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
 	copy_op_data_free (cod);
 }
 
@@ -362,7 +363,7 @@ catalog_ready_cb (GObject  *catalog,
 	GFile      *gio_file;
 
 	if (error != NULL) {
-		cod->callback (G_OBJECT (cod->file_source), error, cod->user_data);
+		cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
 		copy_op_data_free (cod);
 		return;
 	}
@@ -373,7 +374,7 @@ catalog_ready_cb (GObject  *catalog,
 		gth_catalog_insert_file (cod->catalog, -1, (GFile *) scan->data);
 
 	cod->buffer = gth_catalog_to_data (cod->catalog, &cod->length);
-	gio_file = gth_catalog_file_to_gio_file (cod->destination);
+	gio_file = gth_catalog_file_to_gio_file (cod->destination->file);
 	g_write_file_async (gio_file,
 			    cod->buffer,
 			    cod->length,
@@ -408,16 +409,17 @@ copy__file_list_info_ready_cb (GList    *files,
 	}
 	cod->files = g_list_reverse (cod->files);
 
-	gth_catalog_load_from_file (cod->destination, catalog_ready_cb, cod);
+	gth_catalog_load_from_file (cod->destination->file, catalog_ready_cb, cod);
 }
 
 
 static void
-gth_file_source_catalogs_copy (GthFileSource *file_source,
-			       GFile         *destination,
-			       GList         *file_list, /* GFile * list */
-			       ReadyCallback  callback,
-			       gpointer       data)
+gth_file_source_catalogs_copy (GthFileSource    *file_source,
+			       GthFileData      *destination,
+			       GList            *file_list, /* GFile * list */
+			       ProgressCallback  progress_callback,
+			       ReadyCallback     ready_callback,
+			       gpointer          data)
 {
 	CopyOpData *cod;
 
@@ -425,8 +427,18 @@ gth_file_source_catalogs_copy (GthFileSource *file_source,
 	cod->file_source = g_object_ref (file_source);
 	cod->destination = g_object_ref (destination);
 	cod->file_list = _g_object_list_ref (file_list);
-	cod->callback = callback;
+	cod->progress_callback = progress_callback;
+	cod->ready_callback = ready_callback;
 	cod->user_data = data;
+
+	if (cod->progress_callback != NULL) {
+		char *message;
+
+		message = g_strdup_printf (_("Copying files to '%s'"), g_file_info_get_display_name (destination->info));
+		(cod->progress_callback) (G_OBJECT (file_source), message, NULL, TRUE, 0.0, cod->user_data);
+
+		g_free (message);
+	}
 
 	g_query_info_async (cod->file_list,
 			    G_FILE_ATTRIBUTE_STANDARD_TYPE,

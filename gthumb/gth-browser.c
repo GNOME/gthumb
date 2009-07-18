@@ -144,6 +144,7 @@ struct _GthBrowserPrivateData {
 	GthTask           *task;
 	gulong             task_completed;
 	gulong             task_progress;
+	GList             *background_tasks;
 	GList             *load_data_queue;
 	guint              load_file_timeout;
 	char              *list_attributes;
@@ -1653,6 +1654,9 @@ static void
 _gth_browser_close (GthWindow *window)
 {
 	GthBrowser *browser = (GthBrowser *) window;
+
+	if (browser->priv->background_tasks != NULL)
+		return;
 
 	if (gth_browser_get_file_modified (browser))
 		_gth_browser_ask_whether_to_save (browser,
@@ -3312,10 +3316,67 @@ gth_browser_reload (GthBrowser *browser)
 }
 
 
+typedef struct {
+	GthBrowser *browser;
+	GthTask    *task;
+	gulong      completed_event;
+} TaskData;
+
+
 static void
-task_completed_cb (GthTask    *task,
-		   GError     *error,
-		   GthBrowser *browser)
+task_data_free (TaskData *task_data)
+{
+	g_object_unref (task_data->task);
+	g_object_unref (task_data->browser);
+	g_free (task_data);
+}
+
+
+static void
+background_task_completed_cb (GthTask  *task,
+			      GError   *error,
+			      gpointer  user_data)
+{
+	TaskData   *task_data = user_data;
+	GthBrowser *browser = task_data->browser;
+
+	browser->priv->background_tasks = g_list_remove (browser->priv->background_tasks, task_data);
+	task_data_free (task_data);
+
+	if (browser->priv->closing)
+		return;
+
+	if (error == NULL)
+		return;
+
+	if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
+	else
+		g_error_free (error);
+}
+
+
+static TaskData *
+task_data_new (GthBrowser *browser,
+	       GthTask    *task)
+{
+	TaskData *task_data;
+
+	task_data = g_new0 (TaskData, 1);
+	task_data->browser = g_object_ref (browser);
+	task_data->task = g_object_ref (task);
+	task_data->completed_event = g_signal_connect (task_data->task,
+						       "completed",
+						       G_CALLBACK (background_task_completed_cb),
+						       task_data);
+	return task_data;
+}
+
+
+static void
+foreground_task_completed_cb (GthTask    *task,
+			      GError     *error,
+			      GthBrowser *browser)
 {
 	browser->priv->activity_ref--;
 
@@ -3327,7 +3388,7 @@ task_completed_cb (GthTask    *task,
 		gth_browser_update_sensitivity (browser);
 		if (error != NULL) {
 			if (! g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED))
-				_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perfom the operation"), &error);
+				_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not perform the operation"), &error);
 			else
 				g_error_free (error);
 		}
@@ -3342,12 +3403,12 @@ task_completed_cb (GthTask    *task,
 
 
 static void
-task_progress_cb (GthTask    *task,
-		  const char *description,
-		  const char *details,
-		  gboolean    pulse,
-		  double      fraction,
-		  GthBrowser *browser)
+foreground_task_progress_cb (GthTask    *task,
+			     const char *description,
+			     const char *details,
+			     gboolean    pulse,
+			     double      fraction,
+			     GthBrowser *browser)
 {
 	gth_statusbar_set_progress (GTH_STATUSBAR (browser->priv->statusbar), description, pulse, fraction);
 }
@@ -3361,11 +3422,17 @@ gth_browser_exec_task (GthBrowser *browser,
 	g_return_if_fail (task != NULL);
 
 	if (! foreground) {
+		TaskData *task_data;
+
+		task_data = task_data_new (browser, task);
+		browser->priv->background_tasks = g_list_prepend (browser->priv->background_tasks, task_data);
+
 		if (browser->priv->progress_dialog == NULL) {
 			browser->priv->progress_dialog = gth_progress_dialog_new (GTK_WINDOW (browser));
 			g_object_add_weak_pointer (G_OBJECT (browser->priv->progress_dialog), (gpointer*) &(browser->priv->progress_dialog));
 		}
 		gth_progress_dialog_add_task (GTH_PROGRESS_DIALOG (browser->priv->progress_dialog), task);
+
 		return;
 	}
 
@@ -3377,11 +3444,11 @@ gth_browser_exec_task (GthBrowser *browser,
 	browser->priv->task = g_object_ref (task);
 	browser->priv->task_completed = g_signal_connect (task,
 							  "completed",
-							  G_CALLBACK (task_completed_cb),
+							  G_CALLBACK (foreground_task_completed_cb),
 							  browser);
 	browser->priv->task_progress = g_signal_connect (task,
 							 "progress",
-							 G_CALLBACK (task_progress_cb),
+							 G_CALLBACK (foreground_task_progress_cb),
 							 browser);
 	browser->priv->activity_ref++;
 	gth_browser_update_sensitivity (browser);

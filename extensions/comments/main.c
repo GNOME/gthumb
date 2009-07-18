@@ -40,7 +40,7 @@ GthMetadataInfo comments_metadata_info[] = {
 	{ "comment::note", N_("Comment"), "comment", 1, GTH_METADATA_ALLOW_NOWHERE },
 	{ "comment::place", N_("Place"), "comment", 2, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "comment::time", N_("Date"), "comment", 3, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "comment::categories", N_("Categories"), "comment", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "comment::categories", N_("Tags"), "comment", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "comment::rating", N_("Rating"), "comment", 5, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ NULL, NULL, NULL, 0, 0 }
 };
@@ -100,7 +100,7 @@ gthumb_extension_activate (void)
 				NULL);
 	gth_main_register_test ("comment::category",
 				GTH_TYPE_TEST_CATEGORY,
-				"display-name", _("Category"),
+				"display-name", _("Tag"),
 				NULL);
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (comments__add_sidecars_cb), NULL);
 }

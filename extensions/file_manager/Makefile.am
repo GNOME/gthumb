@@ -6,6 +6,8 @@ libfile_manager_la_SOURCES = 		\
 	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
+	gth-copy-task.c			\
+	gth-copy-task.h			\
 	gth-duplicate-task.c		\
 	gth-duplicate-task.h		\
 	main.c

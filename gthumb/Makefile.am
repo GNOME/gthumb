@@ -272,7 +272,7 @@ gth-marshal.h: gth-marshal.list $(GLIB_GENMARSHAL)
 
 gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
 	echo "#include \"gth-marshal.h\"" > $@ \
-	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@
+	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@ 
 
 gthumb.h: make-header.sh gthumb.h.template Makefile.am
 	$(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) > xgen-$(@F) \

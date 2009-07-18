@@ -65,93 +65,95 @@ struct _GthFileSourceClass
 
 	/*< virtual functions >*/
 
-	GList *      (*get_entry_points)      (GthFileSource  *file_source);
-	GList *      (*get_current_list)      (GthFileSource  *file_source,
-					       GFile          *file);
-	GFile *      (*to_gio_file)           (GthFileSource  *file_source,
-					       GFile          *file);
-	GFileInfo *  (*get_file_info)         (GthFileSource  *file_source,
-					       GFile          *file,
-					       const char     *attributes);
-	GthFileData *(*get_file_data)         (GthFileSource  *file_source,
-					       GFile          *file,
-					       GFileInfo      *info);
-	void         (*list)                  (GthFileSource  *file_source,
-					       GFile          *folder,
-					       const char     *attributes,
-					       ListReady       func,
-					       gpointer        data);
-	void         (*rename)                (GthFileSource  *file_source,
-					       GFile          *file,
-					       GFile          *new_file,
-					       ReadyCallback   callback,
-					       gpointer        data);
-	void         (*copy)                  (GthFileSource  *file_source,
-					       GFile          *destination,
-					       GList          *file_list, /* GFile * list */
-					       ReadyCallback   callback,
-					       gpointer        data);
-	gboolean     (*can_cut)               (GthFileSource  *file_source);
-	void         (*monitor_entry_points)  (GthFileSource  *file_source);
-	void         (*monitor_directory)     (GthFileSource  *file_source,
-					       GFile          *file,
-					       gboolean        activate);
+	GList *      (*get_entry_points)      (GthFileSource    *file_source);
+	GList *      (*get_current_list)      (GthFileSource    *file_source,
+					       GFile            *file);
+	GFile *      (*to_gio_file)           (GthFileSource    *file_source,
+					       GFile            *file);
+	GFileInfo *  (*get_file_info)         (GthFileSource    *file_source,
+					       GFile            *file,
+					       const char       *attributes);
+	GthFileData *(*get_file_data)         (GthFileSource    *file_source,
+					       GFile            *file,
+					       GFileInfo        *info);
+	void         (*list)                  (GthFileSource    *file_source,
+					       GFile            *folder,
+					       const char       *attributes,
+					       ListReady         func,
+					       gpointer          data);
+	void         (*rename)                (GthFileSource    *file_source,
+					       GFile            *file,
+					       GFile            *new_file,
+					       ReadyCallback     callback,
+					       gpointer          data);
+	void         (*copy)                  (GthFileSource    *file_source,
+					       GthFileData      *destination,
+					       GList            *file_list, /* GFile * list */
+					       ProgressCallback  progress_callback,
+					       ReadyCallback     callback,
+					       gpointer          data);
+	gboolean     (*can_cut)               (GthFileSource    *file_source);
+	void         (*monitor_entry_points)  (GthFileSource    *file_source);
+	void         (*monitor_directory)     (GthFileSource    *file_source,
+					       GFile            *file,
+					       gboolean          activate);
 };
 
-GType        gth_file_source_get_type              (void) G_GNUC_CONST;
-
-/*< protected >*/
-
-void         gth_file_source_add_scheme            (GthFileSource  *file_source,
-						    const char     *scheme);
-gboolean     gth_file_source_supports_scheme       (GthFileSource  *file_source,
-						    const char     *uri);
-void         gth_file_source_set_active            (GthFileSource  *file_source,
-						    gboolean        pending);
+GType          gth_file_source_get_type              (void) G_GNUC_CONST;
 
 /*< public >*/
 
-GList *      gth_file_source_get_entry_points      (GthFileSource  *file_source); /* GthFileData list */
-GList *      gth_file_source_get_current_list      (GthFileSource  *file_source,  /* GFile list */
-						    GFile          *file);
-GFile *      gth_file_source_to_gio_file           (GthFileSource  *file_source,
-						    GFile          *file);
-GList *      gth_file_source_to_gio_file_list      (GthFileSource  *file_source,
-						    GList          *files);
-GFileInfo *  gth_file_source_get_file_info         (GthFileSource  *file_source,
-						    GFile          *file,
-						    const char     *attributes);
-GthFileData *gth_file_source_get_file_data         (GthFileSource  *file_source,
-					            GFile          *file,
-					            GFileInfo      *info);
-gboolean     gth_file_source_is_active             (GthFileSource  *file_source);
-GCancellable *gth_file_source_get_cancellable      (GthFileSource  *file_source);
-void         gth_file_source_cancel                (GthFileSource  *file_source);
-void         gth_file_source_list                  (GthFileSource  *file_source,
-						    GFile          *folder,
-						    const char     *attributes,
-						    ListReady       func,
-						    gpointer        data);
-void         gth_file_source_read_attributes       (GthFileSource  *file_source,
-						    GList          *files,
-						    const char     *attributes,
-						    ListReady       func,
-						    gpointer        data);
-void         gth_file_source_rename                (GthFileSource  *file_source,
-						    GFile          *file,
-						    GFile          *new_file,
-						    ReadyCallback   callback,
-						    gpointer        data);
-void         gth_file_source_copy                  (GthFileSource  *file_source,
-						    GFile          *destination,
-						    GList          *file_list, /* GFile list */
-						    ReadyCallback   callback,
-						    gpointer        data);
-gboolean     gth_file_source_can_cut               (GthFileSource  *file_source);
-void         gth_file_source_monitor_entry_points  (GthFileSource  *file_source);
-void         gth_file_source_monitor_directory     (GthFileSource  *file_source,
-						    GFile          *file,
-						    gboolean        activate);
+GList *        gth_file_source_get_entry_points      (GthFileSource    *file_source); /* GthFileData list */
+GList *        gth_file_source_get_current_list      (GthFileSource    *file_source,  /* GFile list */
+						      GFile            *file);
+GFile *        gth_file_source_to_gio_file           (GthFileSource    *file_source,
+						      GFile            *file);
+GList *        gth_file_source_to_gio_file_list      (GthFileSource    *file_source,
+						      GList            *files);
+GFileInfo *    gth_file_source_get_file_info         (GthFileSource    *file_source,
+						      GFile            *file,
+						      const char       *attributes);
+GthFileData *  gth_file_source_get_file_data         (GthFileSource    *file_source,
+					              GFile            *file,
+					              GFileInfo        *info);
+gboolean       gth_file_source_is_active             (GthFileSource    *file_source);
+void           gth_file_source_cancel                (GthFileSource    *file_source);
+void           gth_file_source_list                  (GthFileSource    *file_source,
+						      GFile            *folder,
+						      const char       *attributes,
+						      ListReady         func,
+						      gpointer          data);
+void           gth_file_source_read_attributes       (GthFileSource    *file_source,
+						      GList            *files,
+						      const char       *attributes,
+						      ListReady         func,
+						      gpointer          data);
+void           gth_file_source_rename                (GthFileSource    *file_source,
+						      GFile            *file,
+						      GFile            *new_file,
+						      ReadyCallback     ready_cb,
+						      gpointer          data);
+void           gth_file_source_copy                  (GthFileSource    *file_source,
+						      GthFileData      *destination,
+						      GList            *file_list, /* GFile list */
+						      ProgressCallback  progress_callback,
+						      ReadyCallback     ready_callback,
+						      gpointer          data);
+gboolean       gth_file_source_can_cut               (GthFileSource    *file_source);
+void           gth_file_source_monitor_entry_points  (GthFileSource    *file_source);
+void           gth_file_source_monitor_directory     (GthFileSource    *file_source,
+						      GFile            *file,
+						      gboolean          activate);
+
+/*< protected >*/
+
+void           gth_file_source_add_scheme            (GthFileSource  *file_source,
+						      const char     *scheme);
+gboolean       gth_file_source_supports_scheme       (GthFileSource  *file_source,
+						      const char     *uri);
+void           gth_file_source_set_active            (GthFileSource  *file_source,
+						      gboolean        pending);
+GCancellable * gth_file_source_get_cancellable       (GthFileSource  *file_source);
 
 G_END_DECLS
 

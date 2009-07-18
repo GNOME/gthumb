@@ -24,6 +24,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
+#include "gth-copy-task.h"
 #include "gth-duplicate-task.h"
 
 
@@ -246,7 +247,7 @@ gth_browser_activate_action_edit_copy_files (GtkAction  *action,
 
 typedef struct {
 	GthBrowser    *browser;
-	GFile         *destination;
+	GthFileData   *destination;
 	GthFileSource *file_source;
 	GList         *files;
 	gboolean       cut;
@@ -265,57 +266,30 @@ paste_data_free (PasteData *paste_data)
 
 
 static void
-paste_done_cb (GObject  *object,
-	       GError   *error,
-	       gpointer  user_data)
-{
-	PasteData  *paste_data = user_data;
-	GthBrowser *browser = paste_data->browser;
-
-	if (error != NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not copy the files"), &error);
-		paste_data_free (paste_data);
-		return;
-	}
-
-	if (paste_data->cut) {
-		if (! _g_delete_files (paste_data->files, TRUE, &error))
-			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not delete the files"), &error);
-	}
-
-	paste_data_free (paste_data);
-}
-
-
-static void
 clipboard_received_cb (GtkClipboard     *clipboard,
 		       GtkSelectionData *selection_data,
 		       gpointer          user_data)
 {
-	GthBrowser  *browser = user_data;
+	PasteData   *paste_data = user_data;
+	GthBrowser  *browser = paste_data->browser;
 	char       **clipboard_data;
-	PasteData   *paste_data;
 	int          i;
-
+	GthTask     *task;
 
 	clipboard_data = g_strsplit_set ((const char *) gtk_selection_data_get_data (selection_data), "\n\r", -1);
 	if (clipboard_data[0] == NULL) {
 		g_strfreev (clipboard_data);
+		paste_data_free (paste_data);
 		return;
 	}
 
-	paste_data = g_new0 (PasteData, 1);
-	paste_data->browser = g_object_ref (browser);
-	paste_data->destination = g_object_ref (gth_browser_get_location (browser));
 	paste_data->cut = strcmp (clipboard_data[0], "cut") == 0;
-
 	paste_data->files = NULL;
 	for (i = 1; clipboard_data[i] != NULL; i++)
 		if (strcmp (clipboard_data[i], "") != 0)
 			paste_data->files = g_list_prepend (paste_data->files, g_file_new_for_uri (clipboard_data[i]));
 	paste_data->files = g_list_reverse (paste_data->files);
-
-	paste_data->file_source = gth_main_get_file_source (gth_browser_get_location (browser));
+	paste_data->file_source = gth_main_get_file_source (paste_data->destination->file);
 
 	if (paste_data->cut && ! gth_file_source_can_cut (paste_data->file_source)) {
 		GtkWidget *dialog;
@@ -340,11 +314,14 @@ clipboard_received_cb (GtkClipboard     *clipboard,
 		paste_data->cut = FALSE;
 	}
 
-	gth_file_source_copy (paste_data->file_source,
-			      paste_data->destination,
-			      paste_data->files,
-			      paste_done_cb,
-			      paste_data);
+	task = gth_copy_task_new (paste_data->file_source,
+				  paste_data->destination,
+				  paste_data->cut,
+				  paste_data->files);
+	gth_browser_exec_task (browser, task, FALSE);
+
+	g_object_unref (task);
+	paste_data_free (paste_data);
 }
 
 
@@ -352,10 +329,16 @@ void
 gth_browser_activate_action_edit_paste (GtkAction  *action,
 					GthBrowser *browser)
 {
+	PasteData *paste_data;
+
+	paste_data = g_new0 (PasteData, 1);
+	paste_data->browser = g_object_ref (browser);
+	paste_data->destination = g_object_ref (gth_browser_get_location (browser));
+
 	gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD),
 					GNOME_COPIED_FILES,
 					clipboard_received_cb,
-					browser);
+					paste_data);
 }
 
 
@@ -576,7 +559,7 @@ gth_browser_activate_action_folder_copy (GtkAction  *action,
 	file_list = g_list_prepend (NULL, file_data);
 	_gth_browser_clipboard_copy_or_cut (browser, file_list, FALSE);
 
-	g_list_free (file_list);
+	_g_object_list_unref (file_list);
 }
 
 
@@ -584,7 +567,23 @@ void
 gth_browser_activate_action_folder_paste (GtkAction  *action,
 					  GthBrowser *browser)
 {
+	GthFileData *file_data;
+	PasteData   *paste_data;
 
+	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
+	if (file_data == NULL)
+		return;
+
+	paste_data = g_new0 (PasteData, 1);
+	paste_data->browser = g_object_ref (browser);
+	paste_data->destination = gth_file_data_dup (file_data);
+
+	gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD),
+					GNOME_COPIED_FILES,
+					clipboard_received_cb,
+					paste_data);
+
+	g_object_unref (file_data);
 }
 
 

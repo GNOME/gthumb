@@ -79,10 +79,11 @@ typedef struct {
 
 
 typedef struct {
-	GFile         *destination;
-	GList         *file_list;
-	ReadyCallback  callback;
-	gpointer       data;
+	GthFileData      *destination;
+	GList            *file_list;
+	ProgressCallback  progress_callback;
+	ReadyCallback     ready_callback;
+	gpointer          data;
 } CopyData;
 
 
@@ -186,20 +187,22 @@ gth_file_source_queue_rename (GthFileSource *file_source,
 
 
 static void
-gth_file_source_queue_copy (GthFileSource *file_source,
-			    GFile          *destination,
-			    GList          *file_list,
-			    ReadyCallback   callback,
-			    gpointer        data)
+gth_file_source_queue_copy (GthFileSource    *file_source,
+			    GthFileData      *destination,
+			    GList            *file_list,
+			    ProgressCallback  progress_callback,
+			    ReadyCallback     ready_callback,
+			    gpointer          data)
 {
 	FileSourceAsyncOp *async_op;
 
 	async_op = g_new0 (FileSourceAsyncOp, 1);
 	async_op->file_source = file_source;
 	async_op->op = FILE_SOURCE_OP_COPY;
-	async_op->data.copy.destination = g_file_dup (destination);
+	async_op->data.copy.destination = gth_file_data_dup (destination);
 	async_op->data.copy.file_list = _g_file_list_dup (file_list);
-	async_op->data.copy.callback = callback;
+	async_op->data.copy.progress_callback = progress_callback;
+	async_op->data.copy.ready_callback = ready_callback;
 	async_op->data.copy.data = data;
 
 	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
@@ -245,7 +248,8 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 		gth_file_source_copy (file_source,
 				      async_op->data.copy.destination,
 				      async_op->data.copy.file_list,
-				      async_op->data.copy.callback,
+				      async_op->data.copy.progress_callback,
+				      async_op->data.copy.ready_callback,
 				      async_op->data.copy.data);
 		break;
 	}
@@ -685,17 +689,18 @@ gth_file_source_rename (GthFileSource  *file_source,
 
 
 void
-gth_file_source_copy (GthFileSource  *file_source,
-		      GFile          *destination,
-		      GList          *file_list, /* GFile * list */
-		      ReadyCallback   callback,
-		      gpointer        data)
+gth_file_source_copy (GthFileSource    *file_source,
+		      GthFileData      *destination,
+		      GList            *file_list, /* GFile * list */
+		      ProgressCallback  progress_callback,
+		      ReadyCallback     ready_callback,
+		      gpointer          data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_copy (file_source, destination, file_list, callback, data);
+		gth_file_source_queue_copy (file_source, destination, file_list, progress_callback, ready_callback, data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, progress_callback, ready_callback, data);
 }
 
 
