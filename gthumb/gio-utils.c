@@ -1456,9 +1456,9 @@ g_directory_copy_start_dir (GFile      *directory,
 
 
 static void
-g_directory_copy_qdestination_info_ready_cb (GObject      *source_object,
-                                             GAsyncResult *result,
-                                             gpointer      user_data)
+g_directory_copy_destination_info_ready_cb (GObject      *source_object,
+                                            GAsyncResult *result,
+                                            gpointer      user_data)
 {
 	DirectoryCopyData *dcd = user_data;
 	GFileInfo         *info;
@@ -1530,7 +1530,7 @@ g_directory_copy_async (GFile                 *source,
 				 0,
 				 G_PRIORITY_DEFAULT,
 				 dcd->cancellable,
-				 g_directory_copy_qdestination_info_ready_cb,
+				 g_directory_copy_destination_info_ready_cb,
 				 dcd);
 }
 
