@@ -404,6 +404,9 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_widget_show (data->list_view);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("preview_scrolledwindow")), data->list_view);
 
+	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), "####%E");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")), 1.0);
+
 	/* sort by */
 
 	data->sort_model = gtk_list_store_new (SORT_NUM_COLUMNS,
