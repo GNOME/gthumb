@@ -230,6 +230,22 @@ add_columns (GtkTreeView *treeview,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
+	/* the checkbox column */
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_title (column, _("Use"));
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (renderer,
+			  "toggled",
+			  G_CALLBACK (cell_renderer_toggle_toggled_cb),
+			  data);
+
+	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_set_cell_data_func (column, renderer, extension_active_data_func_cb, data, NULL);
+
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
 	/* the name column. */
 
 	column = gtk_tree_view_column_new ();
@@ -247,22 +263,6 @@ add_columns (GtkTreeView *treeview,
 
         gtk_tree_view_column_set_expand (column, TRUE);
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
-
-	/* the checkbox column */
-
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_title (column, _("Use"));
-
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (renderer,
-			  "toggled",
-			  G_CALLBACK (cell_renderer_toggle_toggled_cb),
-			  data);
-
-	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-	gtk_tree_view_column_set_cell_data_func (column, renderer, extension_active_data_func_cb, data, NULL);
-
-	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 }
 
 
@@ -384,6 +384,7 @@ dlg_extensions (GthBrowser *browser)
 	data->list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (data->list_store));
 	g_object_unref (data->list_store);
         gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->list_view), TRUE);
+        gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (data->list_view), TRUE);
 
         add_columns (GTK_TREE_VIEW (data->list_view), data);
 	gtk_tree_sortable_set_sort_func (GTK_TREE_SORTABLE (data->list_store), 0, extension_compare_func, NULL, NULL);

@@ -22,14 +22,35 @@
 
 
 #include <config.h>
-#include <glib/gi18n.h>
+#include <gtk/gtk.h>
 #include <gthumb.h>
-#include "dlg-personalize-scripts.h"
+#include "callbacks.h"
 
 
-void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
 {
-	dlg_personalize_scripts (browser);
+	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (rs__gth_browser_construct_cb), NULL);
+	gth_hook_add_callback ("gth-browser-set-current-page", 10, G_CALLBACK (rs__gth_browser_set_current_page_cb), NULL);
+	gth_hook_add_callback ("gth-browser-load-location-after", 10, G_CALLBACK (rs__gth_browser_load_location_after_cb), NULL);
+	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (rs__gth_browser_update_sensitivity_cb), NULL);
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
 }

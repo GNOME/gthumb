@@ -170,14 +170,14 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 	GList           *scan;
 	GtkListStore    *selection_model;
 	GtkCellRenderer *renderer;
-	
+
 	if (title != NULL)
     		gtk_window_set_title (GTK_WINDOW (self), title);
   	if (parent != NULL)
     		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
     	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (self)->vbox), 5);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
@@ -187,7 +187,7 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 
     	content = _gtk_builder_get_widget (self->priv->builder, "filter_editor");
     	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
-  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (self)->vbox), content, TRUE, TRUE, 0);
+  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	/**/
 
@@ -220,7 +220,7 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 	selection_model = gtk_list_store_new (2, G_TYPE_POINTER, G_TYPE_STRING);
 	self->priv->selection_combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (selection_model));
 	g_object_unref (selection_model);
-  	
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (self->priv->selection_combobox),
 				    renderer,
@@ -229,11 +229,11 @@ gth_filter_editor_dialog_construct (GthFilterEditorDialog *self,
 					renderer,
 					"text", SELECTION_COLUMN_NAME,
 					NULL);
-  	
+
 	for (scan = gth_main_get_all_sort_types (); scan; scan = scan->next) {
 		GthFileDataSort *sort_type = scan->data;
 		GtkTreeIter      iter;
-		
+
 		gtk_list_store_append (selection_model, &iter);
 		gtk_list_store_set (selection_model, &iter,
 				    SELECTION_COLUMN_DATA, sort_type,
@@ -357,25 +357,25 @@ _gth_filter_editor_dialog_set_new_filter (GthFilterEditorDialog *self)
 
 
 gboolean
-get_iter_for_sort_type (GthFilterEditorDialog *self, 
-			const char            *sort_type_name, 
+get_iter_for_sort_type (GthFilterEditorDialog *self,
+			const char            *sort_type_name,
 			GtkTreeIter           *iter)
 {
 	GtkTreeModel *model;
-	
+
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (self->priv->selection_combobox));
-	
+
 	if (! gtk_tree_model_get_iter_first (model, iter))
 		return FALSE;
 	do {
 		GthFileDataSort *sort_type;
-		
+
 		gtk_tree_model_get (model, iter, SELECTION_COLUMN_DATA, &sort_type, -1);
 		if (g_strcmp0 (sort_type->name, sort_type_name) == 0)
 			return TRUE;
-	} 
+	}
 	while (gtk_tree_model_iter_next (model, iter));
-	
+
 	return FALSE;
 }
 
@@ -408,13 +408,13 @@ gth_filter_editor_dialog_set_filter (GthFilterEditorDialog *self,
 	self->priv->filter_visible = gth_test_is_visible (GTH_TEST (filter));
 
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_test_get_display_name (GTH_TEST (filter)));
-	
+
 	chain = gth_filter_get_test (filter);
 	match_type = chain != NULL ? gth_test_chain_get_match_type (chain) : GTH_MATCH_TYPE_NONE;
-	
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("match_checkbutton")), match_type != GTH_MATCH_TYPE_NONE);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->match_type_combobox), match_type == GTH_MATCH_TYPE_ANY ? 1 : 0);
-	
+
 	_gtk_container_remove_children (GTK_CONTAINER (GET_WIDGET ("tests_box")), NULL, NULL);
 	if (match_type != GTH_MATCH_TYPE_NONE) {
 		GList *tests;
@@ -438,7 +438,7 @@ gth_filter_editor_dialog_set_filter (GthFilterEditorDialog *self,
 	if (limit_type != GTH_LIMIT_TYPE_NONE) {
 		char        *value;
 		GtkTreeIter  iter;
-		
+
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->limit_object_combobox), limit_type - 1);
 		if (limit_type == GTH_LIMIT_TYPE_SIZE) {
 			int sizes[] = { 1024, 1024 * 1024, 1024 * 1024 * 1024 };
@@ -513,7 +513,7 @@ gth_filter_editor_dialog_get_filter (GthFilterEditorDialog  *self,
 			g_object_unref (test);
 		}
 		g_list_free (test_selectors);
-		
+
 		gth_filter_set_test (filter, GTH_TEST_CHAIN (chain));
 	}
 	else
@@ -526,7 +526,7 @@ gth_filter_editor_dialog_get_filter (GthFilterEditorDialog  *self,
 		GtkTreeIter      iter;
 		GthFileDataSort *sort_type;
 		GtkSortType      sort_direction;
-		
+
 		size = atol (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("limit_size_entry"))));
 		idx = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->limit_object_combobox));
 		if (idx == 0)
@@ -550,9 +550,9 @@ gth_filter_editor_dialog_get_filter (GthFilterEditorDialog  *self,
 		                    &iter,
 		                    SELECTION_COLUMN_DATA, &sort_type,
 		                    -1);
-		
+
 		sort_direction = gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->selection_order_combobox));
-		
+
 		gth_filter_set_limit (filter, limit_type, size, sort_type->name, sort_direction);
 	}
 

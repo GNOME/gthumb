@@ -238,6 +238,9 @@ extensions/image_viewer/data/ui/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile
 extensions/list_tools/data/ui/Makefile
+extensions/rename_series/Makefile
+extensions/rename_series/data/Makefile
+extensions/rename_series/data/ui/Makefile
 extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile

@@ -131,14 +131,14 @@ gth_search_editor_dialog_construct (GthSearchEditorDialog *self,
     		gtk_window_set_transient_for (GTK_WINDOW (self), parent);
     	gtk_window_set_resizable (GTK_WINDOW (self), FALSE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (self)->vbox), 5);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
     	self->priv->builder = _gtk_builder_new_from_file ("search-editor.ui", "search");
 
     	content = _gtk_builder_get_widget (self->priv->builder, "search_editor");
     	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
-  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (self)->vbox), content, TRUE, TRUE, 0);
+  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
 
 	self->priv->match_type_combobox = gtk_combo_box_new_text ();
   	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->match_type_combobox),

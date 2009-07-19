@@ -20,16 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
-#include <config.h>
-#include <glib/gi18n.h>
-#include <gthumb.h>
-#include "dlg-personalize-scripts.h"
+#include <gtk/gtk.h>
 
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
-{
-	dlg_personalize_scripts (browser);
-}
+DEFINE_ACTION(gth_browser_activate_action_edit_rename)
+
+#endif /* ACTIONS_H */

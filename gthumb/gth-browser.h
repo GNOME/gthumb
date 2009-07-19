@@ -68,6 +68,7 @@ struct _GthBrowserClass
 GType            gth_browser_get_type               (void);
 GtkWidget *      gth_browser_new                    (const char       *uri);
 GFile *          gth_browser_get_location           (GthBrowser       *browser);
+GthFileData *    gth_browser_get_location_data      (GthBrowser       *browser);
 GthFileData *    gth_browser_get_current_file       (GthBrowser       *browser);
 gboolean         gth_browser_get_file_modified      (GthBrowser       *browser);
 void             gth_browser_go_to                  (GthBrowser       *browser,

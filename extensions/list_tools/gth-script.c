@@ -423,7 +423,7 @@ gth_script_get_requested_attributes (GthScript *script)
 	char    **b;
 	char     *attributes;
 
-	re = g_regex_new ("%prop\\{([^}]+)\\}", 0, 0, NULL);
+	re = g_regex_new ("%attr\\{([^}]+)\\}", 0, 0, NULL);
 	a = g_regex_split (re, script->priv->command, 0);
 	for (i = 0, n = 0; a[i] != NULL; i++)
 		if ((i > 0) && (i % 2 == 0))
@@ -663,12 +663,16 @@ create_attribute_list (GList    *file_list,
 	GString   *s;
 	GList     *scan;
 
-	re = g_regex_new ("%prop\\{([^}]+)\\}", 0, 0, NULL);
+	re = g_regex_new ("%attr\\{([^}]+)\\}", 0, 0, NULL);
 	a = g_regex_split (re, match, 0);
 	if (g_strv_length (a) >= 2)
 		attribute = g_strstrip (a[1]);
-	if (attribute == NULL)
+
+	if (attribute == NULL) {
+		g_strfreev (a);
+		g_regex_unref (re);
 		return NULL;
+	}
 
 	s = g_string_new ("");
 	for (scan = file_list; scan; scan = scan->next) {
@@ -715,8 +719,8 @@ command_line_eval_cb (const GMatchInfo *info,
 		      gpointer          data)
 {
 	ReplaceData *replace_data = data;
+	char        *r = NULL;
 	char        *match;
-	char        *r;
 
 	match = g_match_info_fetch (info, 0);
 	if (strcmp (match, "%U") == 0)
@@ -731,7 +735,7 @@ command_line_eval_cb (const GMatchInfo *info,
 		r = create_file_list (replace_data->file_list, get_ext_func, replace_data->quote_values);
 	else if (strcmp (match, "%P") == 0)
 		r = create_file_list (replace_data->file_list, get_parent_func, replace_data->quote_values);
-	else if (strncmp (match, "%prop", 5) == 0) {
+	else if (strncmp (match, "%attr", 5) == 0) {
 		r = create_attribute_list (replace_data->file_list, match, replace_data->quote_values);
 		if (r == NULL)
 			*replace_data->error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_FAILED, _("Malformed command"));

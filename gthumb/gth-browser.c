@@ -488,7 +488,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	_gth_browser_set_action_sensitive (browser, "View_Stop", browser->priv->fullscreen || (browser->priv->activity_ref > 0));
 	_gth_browser_set_action_sensitive (browser, "View_Prev", current_file_pos > 0);
 	_gth_browser_set_action_sensitive (browser, "View_Next", (current_file_pos != -1) && (current_file_pos < n_files - 1));
-	_gth_browser_set_action_sensitive (browser, "Edit_Metadata", n_selected > 0);
+	_gth_browser_set_action_sensitive (browser, "Edit_Metadata", n_selected == 1);
 
 	gth_sidebar_update_sensitivity (GTH_SIDEBAR (browser->priv->viewer_sidebar));
 	if (browser->priv->viewer_page != NULL)
@@ -1655,8 +1655,10 @@ _gth_browser_close (GthWindow *window)
 {
 	GthBrowser *browser = (GthBrowser *) window;
 
-	if (browser->priv->background_tasks != NULL)
+	if (browser->priv->background_tasks != NULL) {
+		gtk_window_present (GTK_WINDOW (browser->priv->progress_dialog));
 		return;
+	}
 
 	if (gth_browser_get_file_modified (browser))
 		_gth_browser_ask_whether_to_save (browser,
@@ -3067,6 +3069,13 @@ GFile *
 gth_browser_get_location (GthBrowser *browser)
 {
 	return browser->priv->location->file;
+}
+
+
+GthFileData *
+gth_browser_get_location_data (GthBrowser *browser)
+{
+	return browser->priv->location;
 }
 
 

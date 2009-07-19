@@ -37,7 +37,6 @@ static const char *vfs_ui_info =
 "    <menu name='Edit' action='EditMenu'>"
 "      <placeholder name='Folder_Actions'>"
 "        <menuitem action='Edit_Duplicate'/>"
-"        <menuitem action='Edit_Rename'/>"
 "        <separator/>"
 "        <menuitem action='Edit_Trash'/>"
 "        <menuitem action='Edit_Delete'/>"
@@ -140,10 +139,6 @@ static GtkActionEntry action_entries[] = {
 	  N_("D_uplicate"), "<control><shift>D",
 	  N_("Duplicate the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate) },
-	{ "Edit_Rename", NULL,
-	  N_("_Rename"), "F2",
-	  N_("Rename the selected files"),
-	  G_CALLBACK (gth_browser_activate_action_edit_rename) },
 	{ "Edit_Trash", "user-trash",
 	  N_("Mo_ve to Trash"), "Delete",
 	  N_("Move the selected files to the Trash"),
@@ -425,7 +420,6 @@ fm__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_Trash", sensitive);
 	set_action_sensitive (data, "Edit_Delete", sensitive);
 	set_action_sensitive (data, "Edit_Duplicate", sensitive);
-	set_action_sensitive (data, "Edit_Rename", sensitive);
 
 	folder = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	set_action_sensitive (data, "Folder_Create", (folder != NULL) && g_file_info_get_attribute_boolean (folder->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE));

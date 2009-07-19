@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,16 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef DLG_RENAME_SERIES_H
+#define DLG_RENAME_SERIES_H
 
-#include <config.h>
-#include <glib/gi18n.h>
 #include <gthumb.h>
-#include "dlg-personalize-scripts.h"
 
+void dlg_rename_series (GthBrowser *browser,
+		        GList      *file_list);
 
-void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
-{
-	dlg_personalize_scripts (browser);
-}
+#endif /* DLG_RENAME_SERIES_H */

@@ -1084,7 +1084,6 @@ g_copy_files_async (GList                 *sources,
 		GList *source_sidecars = NULL;
 		GList *destination_sidecars = NULL;
 
-
 		gth_hook_invoke ("add-sidecars", sources, &source_sidecars);
 		gth_hook_invoke ("add-sidecars", destinations, &destination_sidecars);
 
@@ -1498,6 +1497,66 @@ g_directory_copy_destination_info_ready_cb (GObject      *source_object,
 				   g_directory_copy_for_each_file,
 				   g_directory_copy_list_ready,
 				   dcd);
+}
+
+
+gboolean
+_g_move_file (GFile                 *source,
+              GFile                 *destination,
+              GFileCopyFlags         flags,
+              GCancellable          *cancellable,
+              GFileProgressCallback  progress_callback,
+              gpointer               progress_callback_data,
+              GError               **error)
+{
+	GList *sources;
+	GList *destinations;
+	GList *source_sidecars = NULL;
+	GList *destination_sidecars = NULL;
+	GList *scan1;
+	GList *scan2;
+
+	if (! g_file_move (source,
+			   destination,
+			   flags,
+			   cancellable,
+			   progress_callback,
+			   progress_callback_data,
+			   error))
+	{
+		return FALSE;
+	}
+
+	if (flags && G_FILE_COPY_ALL_METADATA == 0)
+		return TRUE;
+
+	/* move the metadata sidecars if requested */
+
+	sources = g_list_prepend (NULL, source);
+	gth_hook_invoke ("add-sidecars", sources, &source_sidecars);
+	source_sidecars = g_list_reverse (source_sidecars);
+
+	destinations = g_list_prepend (NULL, destination);
+	gth_hook_invoke ("add-sidecars", destinations, &destination_sidecars);
+	destination_sidecars = g_list_reverse (destination_sidecars);
+
+	for (scan1 = source_sidecars, scan2 = destination_sidecars;
+	     scan1 && scan2;
+	     scan1 = scan1->next, scan2 = scan2->next)
+	{
+		source = scan1->data;
+		destination = scan2->data;
+
+		g_file_move (source, destination, 0, cancellable, NULL, NULL, NULL);
+	}
+
+	_g_object_list_unref (destination_sidecars);
+	g_list_free (destinations);
+	_g_object_list_unref (source_sidecars);
+	g_list_free (sources);
+
+
+	return TRUE;
 }
 
 

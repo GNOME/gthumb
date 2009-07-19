@@ -20,16 +20,16 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
-#include <config.h>
-#include <glib/gi18n.h>
 #include <gthumb.h>
-#include "dlg-personalize-scripts.h"
 
+void rs__gth_browser_construct_cb                (GthBrowser    *browser);
+void rs__gth_browser_set_current_page_cb         (GthBrowser    *browser);
+void rs__gth_browser_load_location_after_cb      (GthBrowser    *browser,
+					          GFile         *location,
+					          GError        *error);
+void rs__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
 
-void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
-{
-	dlg_personalize_scripts (browser);
-}
+#endif /* CALLBACKS_H */

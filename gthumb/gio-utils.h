@@ -130,6 +130,13 @@ void   g_directory_copy_async        (GFile                 *source,
 gboolean _g_delete_files             (GList                 *file_list,
 				      gboolean               include_metadata,
 				      GError               **error);
+gboolean _g_move_file                (GFile                 *source,
+                                      GFile                 *destination,
+                                      GFileCopyFlags         flags,
+                                      GCancellable          *cancellable,
+                                      GFileProgressCallback  progress_callback,
+                                      gpointer               progress_callback_data,
+                                      GError               **error);
 gboolean g_load_file_in_buffer       (GFile                 *file,
 				      void                 **buffer,
 				      gsize                 *size,

@@ -262,7 +262,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 	gtk_window_set_title (GTK_WINDOW (self), "");
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (self)->vbox), 5);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
@@ -270,7 +270,7 @@ gth_progress_dialog_init (GthProgressDialog *self)
 	self->priv->task_box = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (self->priv->task_box);
 	gtk_container_set_border_width (GTK_CONTAINER (self->priv->task_box), 5);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (self)->vbox), self->priv->task_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->task_box, FALSE, FALSE, 0);
 
 	g_signal_connect (self, "response", G_CALLBACK (progress_dialog_response_cb), self);
 	g_signal_connect (self, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), self);

@@ -37,8 +37,8 @@ struct _GthEditMetadataDialogPrivate {
 };
 
 
-static void 
-gth_edit_metadata_dialog_class_init (GthEditMetadataDialogClass *klass) 
+static void
+gth_edit_metadata_dialog_class_init (GthEditMetadataDialogClass *klass)
 {
 	gth_edit_metadata_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthEditMetadataDialogPrivate));
@@ -52,30 +52,30 @@ gth_edit_metadata_dialog_init (GthEditMetadataDialog *edit_metadata_dialog)
 }
 
 
-GType 
-gth_edit_metadata_dialog_get_type (void) 
+GType
+gth_edit_metadata_dialog_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (type == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthEditMetadataDialogClass), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) gth_edit_metadata_dialog_class_init, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			sizeof (GthEditMetadataDialog), 
-			0, 
-			(GInstanceInitFunc) gth_edit_metadata_dialog_init, 
-			NULL 
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthEditMetadataDialogClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) gth_edit_metadata_dialog_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			sizeof (GthEditMetadataDialog),
+			0,
+			(GInstanceInitFunc) gth_edit_metadata_dialog_init,
+			NULL
 		};
-		type = g_type_register_static (GTK_TYPE_DIALOG, 
-					       "GthEditMetadataDialog", 
-					       &g_define_type_info, 
+		type = g_type_register_static (GTK_TYPE_DIALOG,
+					       "GthEditMetadataDialog",
+					       &g_define_type_info,
 					       0);
 	}
-	
+
 	return type;
 }
 
@@ -85,10 +85,10 @@ gth_edit_metadata_dialog_construct (GthEditMetadataDialog *self)
 {
 	GArray *pages;
 	int     i;
-	
+
 	gtk_window_set_resizable (GTK_WINDOW (self), TRUE);
 	gtk_dialog_set_has_separator (GTK_DIALOG (self), FALSE);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (self)->vbox), 5);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
 	gtk_dialog_add_button (GTK_DIALOG (self), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
@@ -97,25 +97,25 @@ gth_edit_metadata_dialog_construct (GthEditMetadataDialog *self)
 	self->priv->notebook = gtk_notebook_new ();
 	gtk_widget_show (self->priv->notebook);
 	gtk_container_set_border_width (GTK_CONTAINER (self->priv->notebook), 5);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (self)->vbox), self->priv->notebook, TRUE, TRUE, 0);
- 	
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->notebook, TRUE, TRUE, 0);
+
 	pages = gth_main_get_type_set ("edit-metadata-dialog-page");
 	if (pages == NULL)
 		return;
-  	
+
 	for (i = 0; i < pages->len; i++) {
 		GType      page_type;
 		GtkWidget *page;
-		
+
 		page_type = g_array_index (pages, GType, i);
 		page = g_object_new (page_type, NULL);
 		if (! GTH_IS_EDIT_METADATA_PAGE (page)) {
 			g_object_unref (page);
 			continue;
 		}
-		
+
 		gtk_widget_show (page);
-		gtk_notebook_append_page (GTK_NOTEBOOK (self->priv->notebook), 
+		gtk_notebook_append_page (GTK_NOTEBOOK (self->priv->notebook),
 					  page,
 					  gtk_label_new (gth_edit_metadata_page_get_name (GTH_EDIT_METADATA_PAGE (page))));
 	}
@@ -123,7 +123,7 @@ gth_edit_metadata_dialog_construct (GthEditMetadataDialog *self)
 
 
 GtkWidget *
-gth_edit_metadata_dialog_new (void) 
+gth_edit_metadata_dialog_new (void)
 {
 	GthEditMetadataDialog *self;
 
@@ -141,17 +141,17 @@ gth_edit_metadata_dialog_set_file (GthEditMetadataDialog *dialog,
 	char  *title;
 	GList *pages;
 	GList *scan;
-		
+
 	if (file == NULL)
 		return;
-	
+
 	title = g_strdup_printf (_("%s Properties"), g_file_info_get_display_name (file->info));
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	
+
 	pages = gtk_container_get_children (GTK_CONTAINER (dialog->priv->notebook));
-	for (scan = pages; scan; scan = scan->next) 
+	for (scan = pages; scan; scan = scan->next)
 		gth_edit_metadata_page_set_file (GTH_EDIT_METADATA_PAGE (scan->data), file);
-		
+
 	g_list_free (pages);
 	g_free (title);
 }
@@ -163,11 +163,11 @@ gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *dialog,
 {
 	GList *pages;
 	GList *scan;
-	
+
 	pages = gtk_container_get_children (GTK_CONTAINER (dialog->priv->notebook));
-	for (scan = pages; scan; scan = scan->next) 
+	for (scan = pages; scan; scan = scan->next)
 		gth_edit_metadata_page_update_info (GTH_EDIT_METADATA_PAGE (scan->data), info);
-		
+
 	g_list_free (pages);
 }
 
@@ -175,21 +175,21 @@ gth_edit_metadata_dialog_update_info (GthEditMetadataDialog *dialog,
 /* -- gth_edit_metadata_dialog_page -- */
 
 
-GType 
+GType
 gth_edit_metadata_page_get_type (void) {
 	static GType gth_edit_metadata_page_type_id = 0;
 	if (gth_edit_metadata_page_type_id == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthEditMetadataPageIface), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) NULL, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			0, 
-			0, 
-			(GInstanceInitFunc) NULL, 
-			NULL 
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthEditMetadataPageIface),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) NULL,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			0,
+			0,
+			(GInstanceInitFunc) NULL,
+			NULL
 		};
 		gth_edit_metadata_page_type_id = g_type_register_static (G_TYPE_INTERFACE, "GthEditMetadataPageIface", &g_define_type_info, 0);
 	}
@@ -197,9 +197,9 @@ gth_edit_metadata_page_get_type (void) {
 }
 
 
-void 
+void
 gth_edit_metadata_page_set_file (GthEditMetadataPage *self,
-				 GthFileData         *file_data) 
+				 GthFileData         *file_data)
 {
 	GTH_EDIT_METADATA_PAGE_GET_INTERFACE (self)->set_file (self, file_data);
 }

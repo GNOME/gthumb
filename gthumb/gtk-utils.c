@@ -102,8 +102,8 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
 
 	/* Add label and image */
 
@@ -137,7 +137,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), label,
 			    TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    hbox,
 			    FALSE, FALSE, 0);
 
@@ -194,8 +194,8 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 12);
 
 	/* Add label and image */
 
@@ -232,7 +232,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), vbox,
 			    TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    hbox,
 			    FALSE, FALSE, 0);
 
@@ -294,8 +294,8 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
 
 	/* Add label and image */
 
@@ -315,7 +315,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), label,
 			    TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    hbox,
 			    FALSE, FALSE, 0);
 
@@ -374,8 +374,8 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
 
 	/* Add label and image */
 
@@ -395,14 +395,14 @@ _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), label,
 			    TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    hbox,
 			    FALSE, FALSE, 0);
 
 	/* Add checkbutton */
 
 	check_button = gtk_check_button_new_with_mnemonic (check_button_label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    check_button,
 			    FALSE, FALSE, 0);
 	gtk_widget_show (check_button);
@@ -467,8 +467,8 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+	gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (d))), 6);
+	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))), 8);
 
 	/* Add label and image */
 
@@ -502,7 +502,7 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 	gtk_box_pack_start (GTK_BOX (hbox), label,
 			    TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    hbox,
 			    FALSE, FALSE, 0);
 
@@ -511,7 +511,7 @@ _gtk_message_dialog_with_checkbutton_new (GtkWindow        *parent,
 	/* Add checkbutton */
 
 	check_button = gtk_check_button_new_with_mnemonic (check_button_label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (d))),
 			    check_button,
 			    FALSE, FALSE, 0);
 	gtk_widget_show (check_button);

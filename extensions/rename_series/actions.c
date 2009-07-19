@@ -24,12 +24,20 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <gthumb.h>
-#include "dlg-personalize-scripts.h"
+#include "dlg-rename-series.h"
 
 
 void
-gth_browser_action_edit_scripts (GtkAction  *action,
-				 GthBrowser *browser)
+gth_browser_activate_action_edit_rename (GtkAction  *action,
+					 GthBrowser *browser)
 {
-	dlg_personalize_scripts (browser);
+	GList *items;
+	GList *file_list;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	dlg_rename_series (browser, file_list);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
 }

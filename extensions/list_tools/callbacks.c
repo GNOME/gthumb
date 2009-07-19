@@ -63,7 +63,7 @@ static GtkActionEntry action_entries[] = {
 	{ "ListTools_EditScripts", GTK_STOCK_EDIT,
 	  N_("Personalize..."), NULL,
 	  NULL,
-	  G_CALLBACK (gth_browser_action_list_tools_edit_scripts) }
+	  G_CALLBACK (gth_browser_action_edit_scripts) }
 };
 
 

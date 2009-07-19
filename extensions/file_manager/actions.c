@@ -333,7 +333,7 @@ gth_browser_activate_action_edit_paste (GtkAction  *action,
 
 	paste_data = g_new0 (PasteData, 1);
 	paste_data->browser = g_object_ref (browser);
-	paste_data->destination = g_object_ref (gth_browser_get_location (browser));
+	paste_data->destination = g_object_ref (gth_browser_get_location_data (browser));
 
 	gtk_clipboard_request_contents (gtk_widget_get_clipboard (GTK_WIDGET (browser), GDK_SELECTION_CLIPBOARD),
 					GNOME_COPIED_FILES,
@@ -358,13 +358,6 @@ gth_browser_activate_action_edit_duplicate (GtkAction  *action,
 	g_object_unref (task);
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
-}
-
-
-void
-gth_browser_activate_action_edit_rename (GtkAction  *action,
-					 GthBrowser *browser)
-{
 }
 
 
@@ -513,7 +506,7 @@ gth_browser_activate_action_folder_open_in_file_manager (GtkAction  *action,
                             gtk_get_current_event_time (),
                             &error))
 	{
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open location"), &error);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), _("Could not open the location"), &error);
 	}
 
 	g_free (uri);
