@@ -1,0 +1,4089 @@
+# translation of gthumb.po.gthumb-2-10.te.po to Telugu
+# Telugu translation of gthumb.
+# Copyright (C) 2009 gthumb's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gthumb package.
+#
+# Krishna Babu K <kkrothap@redhat.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb.po.gthumb-2-10.te\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
+"POT-Creation-Date: 2009-07-13 07:30+0000\n"
+"PO-Revision-Date: 2009-07-20 18:05+0530\n"
+"Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
+"Language-Team: Telugu <en@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
+msgstr "ముందలిది"
+
+#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../src/gth-fullscreen-actions-entries.h:42
+msgid "Next"
+msgstr "తరువాతది"
+
+#: ../data/albumthemes/text.h:29
+msgid "Index"
+msgstr "విషయసూచిక"
+
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:261
+msgid "Image"
+msgstr "ప్రతిబింబము"
+
+#: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
+msgid "Dimensions"
+msgstr "కొలతలు"
+
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
+msgid "Bytes"
+msgstr "బైట్లు"
+
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
+msgid "Date"
+msgstr "తేదీ"
+
+#: ../data/albumthemes/text.h:34
+msgid "Exposure time"
+msgstr "ఎక్సుపోజర్ సమయం"
+
+#: ../data/albumthemes/text.h:35
+msgid "Exposure mode"
+msgstr "ఎక్సుపోజర్ రీతి"
+
+#: ../data/albumthemes/text.h:36
+msgid "Flash"
+msgstr "ఫ్లాష్"
+
+#: ../data/albumthemes/text.h:37
+msgid "Shutter speed"
+msgstr "మూత వేగం"
+
+#: ../data/albumthemes/text.h:38
+msgid "Aperture value"
+msgstr "రంద్రము(ఎపరేచర్) విలువ"
+
+#: ../data/albumthemes/text.h:39
+msgid "Focal length"
+msgstr "ఫోకల్ పొడవు"
+
+#: ../data/albumthemes/text.h:40
+msgid "Camera model"
+msgstr "కేమెరా రకము"
+
+#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:76
+msgid "pixels"
+msgstr "పిగ్జెల్స్"
+
+#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_png_exporter.glade.h:1
+#: ../data/glade/gthumb_preferences.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../data/glade/gthumb.glade.h:2
+msgid "<b>Categories:</b>"
+msgstr "<b>వర్గములు:</b>"
+
+#: ../data/glade/gthumb.glade.h:3
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>ఛానల్ పైన సమాచారము:</b>"
+
+#: ../data/glade/gthumb.glade.h:4
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>పాత ప్రతిబింబమున పైన కొత్త దానిని వ్రాయాలా?</b>"
+
+#: ../data/glade/gthumb.glade.h:5
+msgid "A_vailable applications:"
+msgstr "అందుబాటులోవున్న అనువర్తనములు (_v):"
+
+#: ../data/glade/gthumb.glade.h:6
+msgid "Alpha"
+msgstr "ఆల్ఫా"
+
+#: ../data/glade/gthumb.glade.h:7
+msgid "Blue"
+msgstr "బ్లూ"
+
+#: ../data/glade/gthumb.glade.h:8
+msgid "Bookmarks"
+msgstr "పుస్తకగుర్తులు"
+
+#: ../data/glade/gthumb.glade.h:9
+msgid "C_atalogs:"
+msgstr "కాటలాగ్స్ (_a):"
+
+#: ../data/glade/gthumb.glade.h:10
+msgid "Choose a Catalog"
+msgstr "ఒక కాటలాగ్ యెంచుకొనుము"
+
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
+msgid "Comm_ent"
+msgstr "వ్యాఖ్యానము (_e)"
+
+#: ../data/glade/gthumb.glade.h:12
+msgid "Do not overwrite _the old image"
+msgstr "పాత ప్రతిబింబము పైనవ్రాయవద్దు (_t)"
+
+#: ../data/glade/gthumb.glade.h:13
+msgid "Green"
+msgstr "ఆకుపచ్చ"
+
+#: ../data/glade/gthumb.glade.h:14
+msgid "New Image:"
+msgstr "కొత్త ప్రతిబింబము:"
+
+#: ../data/glade/gthumb.glade.h:15
+msgid "New _Library"
+msgstr "కొత్త లైబ్రరీ (_L)"
+
+#: ../data/glade/gthumb.glade.h:16
+msgid "Old Image:"
+msgstr "పాత ప్రతిబింబము:"
+
+#: ../data/glade/gthumb.glade.h:17
+msgid "Open Images"
+msgstr "ప్రతిబింబములను తెరువుము"
+
+#: ../data/glade/gthumb.glade.h:18
+msgid "Over_write the old image"
+msgstr "పాత ప్రతిబింబము పైనవ్రాయుము"
+
+#: ../data/glade/gthumb.glade.h:19
+msgid "Overwrite Image"
+msgstr "ప్రతిబింబము పైనవ్రాయుము"
+
+#: ../data/glade/gthumb.glade.h:20
+msgid "Overwrite _all images"
+msgstr "అన్ని ప్రతిబింబముల పైనవ్రాయుము (_a)"
+
+#: ../data/glade/gthumb.glade.h:21
+msgid "Photo _Data (EXIF)"
+msgstr "ఛాయాచిత్రపు డాటా (_D)(EXIF)"
+
+#: ../data/glade/gthumb.glade.h:22
+msgid "R_ecent applications:"
+msgstr "ఇటీవలి అనువర్తనములు (_e):"
+
+#: ../data/glade/gthumb.glade.h:23
+msgid "Red"
+msgstr "ఎరుపు"
+
+#: ../data/glade/gthumb.glade.h:24
+msgid "Value"
+msgstr "విలువ"
+
+#: ../data/glade/gthumb.glade.h:25
+msgid "_Application:"
+msgstr "అనువర్తనము (_A):"
+
+#: ../data/glade/gthumb.glade.h:26
+msgid "_Bookmarks:"
+msgstr "పుస్తకగుర్తులు (_B):"
+
+#: ../data/glade/gthumb.glade.h:27
+msgid "_Do not overwrite any image"
+msgstr "ఏ ప్రతిబింబము పైనవ్రాయవద్దు (_D)"
+
+#: ../data/glade/gthumb.glade.h:28
+msgid "_General"
+msgstr "సాధారణ (_G)"
+
+#: ../data/glade/gthumb.glade.h:29
+msgid "_Histogram"
+msgstr "హిస్టోగ్రామ్ (_H)"
+
+#: ../data/glade/gthumb.glade.h:30
+msgid "_New Catalog"
+msgstr "కొత్త కాటలాగ్ (_N)"
+
+#: ../data/glade/gthumb.glade.h:31
+msgid "_Next"
+msgstr "తరువాతి (_N)"
+
+#: ../data/glade/gthumb.glade.h:32
+msgid "_Previous"
+msgstr "ముందలి (_P)"
+
+#: ../data/glade/gthumb.glade.h:33
+msgid "_Save the new image as:"
+msgstr "కొత్త ప్రతిబింబమును యిలా దాయుము (_S):"
+
+#: ../data/glade/gthumb.glade.h:34
+msgid "_View the destination"
+msgstr "గమ్యమును దర్శించుము (_V)"
+
+#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:3
+msgid "..."
+msgstr "..."
+
+#: ../data/glade/gthumb_camera.glade.h:2
+msgid "C_hoose from the catalog"
+msgstr "కాటలాగ్ నుండి యెంచుకొనుము (_h)"
+
+#: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
+msgid "Ca_tegories:"
+msgstr "వర్గములు (_t):"
+
+#: ../data/glade/gthumb_camera.glade.h:4
+msgid "Camera Model"
+msgstr "కేమెరా రకము"
+
+#: ../data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:29
+msgid "Choose destination folder"
+msgstr "గమ్యపు ఫోల్డరును యెంచుకొనుము"
+
+#: ../data/glade/gthumb_camera.glade.h:6
+msgid "Delete selected images from the camera"
+msgstr "కేమెరానుండి యెంపికచేసిన ప్రతిబింబములను తొలగించుము"
+
+#: ../data/glade/gthumb_camera.glade.h:7
+msgid ""
+"If this checkbox is enabled and the imported photo contains an Exif "
+"orientation tag, the image data will be physically transformed (losslessly) "
+"so that the viewed image looks the same as before but the orientation tag is "
+"reset to \"top left\". If this checkbox is not enabled, the image data and "
+"the orientation tag are both left unchanged. The image will be displayed "
+"identically by gthumb for both possibilities, but for maximum compatibility "
+"with other applications this checkbox should be enabled."
+msgstr ""
+"ఈ చెక్‌బాక్స్ చేతనమై మరియు దిగుమతిచేసిన ఛాయాచిత్రము Exif సర్దుబాటు టాగ్‌ను కలిగివున్నా, "
+"ప్రతిబింబము డాటా భౌతికంగా బదిలీకరించబడుతుంది (నష్టంలేకుండా), అలా దర్శించిన ప్రతిబింబము "
+"యింతకుముందవలె వుండి సర్దుబాటు టాగ్ మాత్రము \"పై ఎడమ\"కు తిరిగివుంచబడుతుంది. ఈ "
+"చెక్‌బాక్స్ చేతనము చేసివుండకపోతే, ప్రతిబింబపు డాటా మరియు సర్దుబాటు టాగ్ రెండూ "
+"మార్చబడకుండా వుండిపోతాయి. రెండు సందర్భాలలోను ప్రతిబింబము gthumb చేత వొకవలె "
+"ప్రదర్శించబడుతుంది, అయితే యితర అనువర్తనములతో గరిష్ట సారూప్యత కొరకు ఈ చెక్‌బాక్స్ "
+"చేతనమై వుండాలి."
+
+#: ../data/glade/gthumb_camera.glade.h:8
+msgid "Import Photos"
+msgstr "ఛాయాచిత్రములను దిగుమతిచేయుము"
+
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
+#: ../src/dlg-photo-importer.c:2344
+msgid "No camera detected"
+msgstr "ఏ కేమెరా గుర్తించబడలేదు"
+
+#: ../data/glade/gthumb_camera.glade.h:10
+msgid "Rotate images physically"
+msgstr "ప్రతిబింబములను భౌతికంగా భ్రమణంచేయుము"
+
+#: ../data/glade/gthumb_camera.glade.h:11
+msgid "Select a camera model"
+msgstr "కేమెరా రకమును యెంపికచేయుము"
+
+#: ../data/glade/gthumb_camera.glade.h:12
+msgid "Update previews"
+msgstr "ఉపదర్శనములను నవీకరించుము"
+
+#: ../data/glade/gthumb_camera.glade.h:13
+msgid "_Delete imported images from the camera"
+msgstr "దిగుమతిచేసిన ప్రతిబింబములను కేమెరానుండి తొలగించుము (_D)"
+
+#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:48
+msgid "_Destination:"
+msgstr "గమ్యము (_D):"
+
+#: ../data/glade/gthumb_camera.glade.h:15
+msgid "_Film:"
+msgstr "ఫిల్ము (_F):"
+
+#: ../data/glade/gthumb_camera.glade.h:16
+msgid "_Import"
+msgstr "దిగుమతి (_I)"
+
+#: ../data/glade/gthumb_camera.glade.h:17
+msgid "_Keep original filenames"
+msgstr "వాస్తవ ఫిల్మునామములను కలిగివుండుము (_K)"
+
+#: ../data/glade/gthumb_camera.glade.h:18
+msgid "_Model:"
+msgstr "రకము (_M):"
+
+#: ../data/glade/gthumb_camera.glade.h:19
+msgid "_Port:"
+msgstr "పోర్టు (_P):"
+
+#: ../data/glade/gthumb_comments.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:4
+msgid "A_vailable categories:"
+msgstr "అందుబాటులోవున్న వర్గములు (_v):"
+
+#: ../data/glade/gthumb_comments.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:9
+msgid "Categories"
+msgstr "వర్గములు"
+
+#: ../data/glade/gthumb_comments.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:11
+msgid "Co_mment:"
+msgstr "వ్యాఖ్యానము (_m):"
+
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
+msgid "Comment"
+msgstr "వ్యాఖ్యానము"
+
+#: ../data/glade/gthumb_comments.glade.h:5
+msgid "Create a new category"
+msgstr "కొత్త వర్గమును సృష్టించుము"
+
+#: ../data/glade/gthumb_comments.glade.h:6
+msgid "Current date"
+msgstr "ప్రస్తుత తేది"
+
+#: ../data/glade/gthumb_comments.glade.h:7
+msgid "Do not modify"
+msgstr "సవరించవద్దు"
+
+#: ../data/glade/gthumb_comments.glade.h:8
+msgid "Image creation date"
+msgstr "ప్రతిబింబము సృష్టించిన తేది"
+
+#: ../data/glade/gthumb_comments.glade.h:9
+msgid "Last modified date"
+msgstr "చివరిగా సవరించిన తేది"
+
+#: ../data/glade/gthumb_comments.glade.h:10
+msgid "No date"
+msgstr "తేది లేదు"
+
+#: ../data/glade/gthumb_comments.glade.h:11
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "ఛాయాచిత్రము డిజిటలైజేషన్ చేసిన తేది (EXIF డాటానుండి)"
+
+#: ../data/glade/gthumb_comments.glade.h:12
+msgid "Remove selected category"
+msgstr "ఎంపికచేసిన వర్గమును తీసివేయుము"
+
+#: ../data/glade/gthumb_comments.glade.h:13
+msgid "Save only cha_nged fields"
+msgstr "మార్చిన క్షేత్రములను మాత్రమే దాయుము"
+
+#: ../data/glade/gthumb_comments.glade.h:14
+msgid "The following date"
+msgstr "ఈ క్రింది తేది"
+
+#: ../data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:23
+msgid "_Date:"
+msgstr "తేది (_D):"
+
+#: ../data/glade/gthumb_comments.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:26
+msgid "_Place:"
+msgstr "స్థలము (_P):"
+
+#: ../data/glade/gthumb_comments.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:29
+msgid "_Selected categories:"
+msgstr "ఎంపికచేసిన వర్గములు (_S):"
+
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "<b>Compression</b>"
+msgstr "<b>కుదింపు</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
+msgid "<b>Image type</b>"
+msgstr "<b>ప్రతిబింబము రకము</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:16
+msgid "<b>Resolution</b>"
+msgstr "<b>రిజొల్యూషన్</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:5
+#: ../data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:20
+msgid "<b>Saving</b>"
+msgstr "<b>దాయుచున్నది</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "కుదింపు స్థాయి (_l):"
+
+#: ../data/glade/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "మార్పుచేయు రూపము"
+
+#: ../data/glade/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG ఐచ్చికాలు"
+
+#: ../data/glade/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "సాదారణ (_r) (Deflate)"
+
+#: ../data/glade/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "ఆప్టిమైజ్ (_m)"
+
+#: ../data/glade/gthumb_convert.glade.h:12
+#: ../data/glade/gthumb_tools.glade.h:36
+msgid "Overwrite mode:"
+msgstr "పైనవ్రాయు రీతి:"
+
+#: ../data/glade/gthumb_convert.glade.h:13
+msgid "PNG Options"
+msgstr "PNG ఐచ్చికాలు"
+
+#: ../data/glade/gthumb_convert.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:38
+msgid "R_emove original"
+msgstr "వాస్తవాన్ని తీసివేయుము (_e)"
+
+#: ../data/glade/gthumb_convert.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "Rename"
+msgstr "పునఃనామకరణ"
+
+#: ../data/glade/gthumb_convert.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:49
+msgid ""
+"Skip\n"
+"Rename\n"
+"Ask\n"
+"Overwrite"
+msgstr ""
+"వదిలివేయి\n"
+"పునఃనామకరణ\n"
+"అడుగు\n"
+"పైనవ్రాయుము"
+
+#: ../data/glade/gthumb_convert.glade.h:20
+msgid "TGA Options"
+msgstr "TGA ఐచ్చికాలు"
+
+#: ../data/glade/gthumb_convert.glade.h:21
+msgid "TIFF Options"
+msgstr "TIFF ఐచ్చికాలు"
+
+#: ../data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:54
+msgid "T_GA"
+msgstr "T_GA"
+
+#: ../data/glade/gthumb_convert.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:65
+msgid "_Horizontal:"
+msgstr "హారిజాంటల్ (_H):"
+
+#: ../data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:61
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: ../data/glade/gthumb_convert.glade.h:26
+msgid "_Loss compression (JPEG)"
+msgstr "కోల్పోవు కుదింపు (_L) (JPEG)"
+
+#: ../data/glade/gthumb_convert.glade.h:27
+msgid "_No compression"
+msgstr "కుదింపు లేదు (_N)"
+
+#: ../data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:64
+msgid "_PNG"
+msgstr "_PNG"
+
+#: ../data/glade/gthumb_convert.glade.h:29
+msgid "_Progressive"
+msgstr "పురోగమన (_P)"
+
+#: ../data/glade/gthumb_convert.glade.h:30
+msgid "_Quality:"
+msgstr "నాణ్యత (_Q):"
+
+#: ../data/glade/gthumb_convert.glade.h:31
+msgid "_RLE compression"
+msgstr "_RLE కుదింపు"
+
+#: ../data/glade/gthumb_convert.glade.h:32
+msgid "_Smoothing:"
+msgstr "సున్నితత్వం (_S):"
+
+#: ../data/glade/gthumb_convert.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:70
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: ../data/glade/gthumb_convert.glade.h:34
+#: ../data/glade/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "నిలువుగా (_V):"
+
+#: ../data/glade/gthumb_convert.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:53
+msgid "dpi"
+msgstr "dpi"
+
+#: ../data/glade/gthumb_crop.glade.h:1
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 x 3 (పుస్తకం, DVD)"
+
+#: ../data/glade/gthumb_crop.glade.h:2
+msgid "4 x 6 (Postcard)"
+msgstr "4 x 6 (పోస్టుకార్డు)"
+
+#: ../data/glade/gthumb_crop.glade.h:3
+msgid "5 x 7"
+msgstr "5 x 7"
+
+#: ../data/glade/gthumb_crop.glade.h:4
+msgid "8 x 10"
+msgstr "8 x 10"
+
+#: ../data/glade/gthumb_crop.glade.h:5
+msgid "<b>Aspect ratio</b>"
+msgstr "<b>ఏస్పెక్టు నిష్పత్తి</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
+msgid "<b>Selection</b>"
+msgstr "<b>ఎంపిక</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "Crop"
+msgstr "కత్తిరించు"
+
+#: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
+msgid "Custom"
+msgstr "మలచుకొను"
+
+#: ../data/glade/gthumb_crop.glade.h:9
+msgid "I_nvert aspect ratio"
+msgstr "విలోమ ఏస్పెక్టు నిష్పత్తి (_n)"
+
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:67
+msgid "None"
+msgstr "ఏదీకాదు"
+
+#: ../data/glade/gthumb_crop.glade.h:11
+msgid "Square"
+msgstr "చతురస్త్రము"
+
+#: ../data/glade/gthumb_crop.glade.h:12
+msgid "_Crop"
+msgstr "కత్తిరించు (_C)"
+
+#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
+msgid "_Height:"
+msgstr "ఎత్తు (_H):"
+
+#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
+msgid "_Width:"
+msgstr "వెడల్పు (_W):"
+
+#: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
+msgid "_X:"
+msgstr "_X:"
+
+#: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
+msgid "_Y:"
+msgstr "_Y:"
+
+#: ../data/glade/gthumb_edit.glade.h:2
+#: ../data/glade/gthumb_png_exporter.glade.h:2
+#: ../data/glade/gthumb_preferences.glade.h:2
+#: ../data/glade/gthumb_tools.glade.h:2
+#: ../data/glade/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr "     "
+
+#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:4
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../data/glade/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>రంగు స్థాయిలు</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
+msgid "<b>New dimensions</b>"
+msgstr "<b>కొత్త కొలతలు</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>వాస్తవ కొలతలు</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>స్కేలు నిష్పత్తి</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "కాంతిప్రకాశం - కాన్ట్రాస్ట్"
+
+#: ../data/glade/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "రంగు సమతుల్యత"
+
+#: ../data/glade/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "కాన్ట్రాస్ట్ (_t):"
+
+#: ../data/glade/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "సియాన్-ఎరుపు (_R):"
+
+#: ../data/glade/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "ఎత్తు:"
+
+#: ../data/glade/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "అధిక నాణ్యత (_q)"
+
+#: ../data/glade/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "హ్యూ - సాట్యురేషన్"
+
+#: ../data/glade/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "పోస్టెరైజ్"
+
+#: ../data/glade/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "కాంతిమత్వాన్ని(ల్యుమినోసిటి) పదిలంచేయి"
+
+#: ../data/glade/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "ప్రతిబింబాన్ని స్కేలుచేయి"
+
+#: ../data/glade/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "వెడల్పు:"
+
+#: ../data/glade/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "కాంతిప్రకాశము (_B):"
+
+#: ../data/glade/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "హ్యూ (_H):"
+
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
+msgid "_Keep aspect ratio"
+msgstr "ఏస్పెక్టు నిష్పత్తిని కలిగివుండుము (_K)"
+
+#: ../data/glade/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "స్థాయిలు (_L):"
+
+#: ../data/glade/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "లైట్‌నెస్ (_L):"
+
+#: ../data/glade/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "మొజెంటా-ఆకుపచ్చ (_M):"
+
+#: ../data/glade/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "ఉపదర్శనము (_P):"
+
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
+msgid "_Reset"
+msgstr "తిరిగివుంచుము (_R)"
+
+#: ../data/glade/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "సాట్యురేషన్ (_S):"
+
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
+msgid "_Scale"
+msgstr "స్కేల్ (_S)"
+
+#: ../data/glade/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "పసుపుపచ్చ-బులుగు (_Y):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:3
+msgid "112"
+msgstr "112"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:4
+msgid "128"
+msgstr "128"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:5
+msgid "164"
+msgstr "164"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:6
+msgid "200"
+msgstr "200"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:7
+msgid "256"
+msgstr "256"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:8
+msgid "48"
+msgstr "48"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:9
+msgid "64"
+msgstr "64"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:10
+msgid "75"
+msgstr "75"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:11
+msgid "85"
+msgstr "85"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:12
+msgid "95"
+msgstr "95"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:13
+msgid "<b>Background style</b>"
+msgstr "<b>బ్యాక్‌గ్రౌండ్ శైలి</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:14
+msgid "<b>Caption</b>"
+msgstr "<b>పేరు(కాప్షన్)</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:15
+msgid "<b>Footer</b>"
+msgstr "<b>భూమిక</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:16
+msgid "<b>Header and footer</b>"
+msgstr "<b>పీఠిక మరియు భూమిక</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:17
+msgid "<b>Header</b>"
+msgstr "<b>పీఠిక</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:18
+msgid "<b>Index images</b>"
+msgstr "<b>విషయసూచిక ప్రతిబింబములు</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:19
+msgid "<b>Page size</b>"
+msgstr "<b>పేజీ పరిమాణము</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:21
+msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
+msgstr "<small><i><b>గమనిక:</b> # (ఎన్యూమరేటర్)</i>.</small>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:23
+#, no-c-format
+msgid ""
+"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
+"small>"
+msgstr ""
+"<small><i><b>గమనిక:</b> %p (పేజీ సంఖ్య), %n (మొత్తము పేజీలు)</i>.</"
+"small>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:30
+msgid "Co_mment"
+msgstr "వ్యాఖ్యానము (_m)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:26
+msgid "Col_umns:"
+msgstr "నిలువు వరుసలు (_u):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:27
+msgid "Colo_r:"
+msgstr "రంగు (_r):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:28
+msgid "Create Index Image"
+msgstr "విషయసూచిక ప్రతిబింబమును సృష్టించుము"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:29
+msgid "Create _HTML image map"
+msgstr "_HTML ప్రతిబంబము మాప్‌ను సృష్టించుము"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:30
+msgid "F_ooter:"
+msgstr "భూమిక (_o):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:34
+msgid "File _name"
+msgstr "ఫైలు నామము (_n)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:32
+msgid "File pa_th"
+msgstr "ఫైలు పాత్ (_t)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:35
+msgid "File si_ze"
+msgstr "ఫైలు పరిమాణము (_z)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:34
+msgid "Frame _style:"
+msgstr "చట్రము శైలి (_s):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:35
+msgid "Frame co_lor:"
+msgstr "చట్రము రంగు (_l):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:36
+msgid "H_eader:"
+msgstr "పీఠిక (_e):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:37
+msgid "Header/Footer"
+msgstr "పీఠిక/భూమిక"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:38
+msgid "Hei_ght:"
+msgstr "ఎత్తు (_g):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:38
+msgid "Image dim_ensions"
+msgstr "ప్రతిబింబపు కొలతలు (_e)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:40
+msgid "Images"
+msgstr "ప్రతిబింబములు"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:41
+msgid "Index Image Style"
+msgstr "విషయసూచిక ప్రతిబింబము శైలి"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:42
+msgid "Page"
+msgstr "పేజీ"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:43
+msgid "Pi_xels"
+msgstr "పిగ్జెల్స్ (_x)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:40
+msgid "Re_verse order"
+msgstr "వ్యతిరేక క్రమము (_v)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:45
+msgid "Rows a_nd columns"
+msgstr "అడ్డువరుసలు మరియు నిలువువరుసలు (_n)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:46
+msgid "Select a color"
+msgstr "ఒక రంగును యెంపికచేయుము"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a font"
+msgstr "ఒక ఫాంటును యెంపికచేయుము"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:48
+msgid "Shadow in"
+msgstr "నీడ పెంచు"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:49
+msgid "Shadow only"
+msgstr "నీడ మాత్రమే"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:50
+msgid "Shadow out"
+msgstr "నీడ తగ్గించు"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:51
+msgid "Simple"
+msgstr "సాదారణ"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:52
+msgid "Simple with shadow"
+msgstr "నీడతో సాదారణంగా"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:53
+msgid "Slide"
+msgstr "స్లైడ్"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:54
+msgid "Sor_t:"
+msgstr "క్రమపరచు (_t):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:55
+msgid "Sort"
+msgstr "క్రమపరచు"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:56
+msgid "St_yle"
+msgstr "శైలి (_y)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:57
+#: ../data/glade/gthumb_search.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:53
+msgid "Start _at:"
+msgstr "దీని వద్ద ప్రారంభించుము (_a):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:42
+msgid "Style Preview"
+msgstr "శైలి వుపదర్శనము"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "వెడల్పు (_d):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "ఒకే పరిమాణములో వున్న అన్ని పేజీలు (_A)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:62
+msgid "_Draw frame"
+msgstr "చట్రమును గీయుము (_D)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:63
+msgid "_Font:"
+msgstr "ఫాంటు (_F):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:64
+msgid "_Gradient"
+msgstr "గ్రేడియంట్ (_G)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:66
+msgid "_Image size:"
+msgstr "ప్రతిబింబము పరిమాణము (_I):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "అడ్డువరుసలు (_R):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "నిండు రంగు (_S)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:71
+msgid "_Template:"
+msgstr "మాదిరి (_T):"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:74
+#: ../data/glade/gthumb_web_exporter.glade.h:61
+msgid "by name"
+msgstr "నామము ద్వారా"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:72
+msgid "jpeg"
+msgstr "jpeg"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:73
+msgid "png"
+msgstr "png"
+
+#: ../data/glade/gthumb_preferences.glade.h:3
+msgid "0:"
+msgstr "0:"
+
+#: ../data/glade/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: ../data/glade/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: ../data/glade/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: ../data/glade/gthumb_preferences.glade.h:7
+msgid "1:"
+msgstr "1:"
+
+#: ../data/glade/gthumb_preferences.glade.h:8
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: ../data/glade/gthumb_preferences.glade.h:9
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: ../data/glade/gthumb_preferences.glade.h:10
+msgid "2:"
+msgstr "2:"
+
+#: ../data/glade/gthumb_preferences.glade.h:11
+msgid "3:"
+msgstr "3:"
+
+#: ../data/glade/gthumb_preferences.glade.h:12
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: ../data/glade/gthumb_preferences.glade.h:13
+msgid "4:"
+msgstr "4:"
+
+#: ../data/glade/gthumb_preferences.glade.h:14
+msgid "5:"
+msgstr "5:"
+
+#: ../data/glade/gthumb_preferences.glade.h:15
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "6:"
+msgstr "6:"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "7:"
+msgstr "7:"
+
+#: ../data/glade/gthumb_preferences.glade.h:18
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: ../data/glade/gthumb_preferences.glade.h:19
+msgid "8:"
+msgstr "8:"
+
+#: ../data/glade/gthumb_preferences.glade.h:20
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: ../data/glade/gthumb_preferences.glade.h:21
+msgid "9:"
+msgstr "9:"
+
+#: ../data/glade/gthumb_preferences.glade.h:22
+msgid "<b>Direction</b>"
+msgstr "<b>దిశానిర్దేశము</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:23
+msgid "<b>Hide/Show</b>"
+msgstr "<b>మరగునవుంచు/చూయించు</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:24
+msgid "<b>Interface</b>"
+msgstr "<b>ఇంటర్ఫేస్</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:25
+msgid "<b>On startup:</b>"
+msgstr "<b>ప్రారంభమునందు:</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:26
+msgid "<b>Other</b>"
+msgstr "<b>ఇతర</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:27
+msgid "<b>Slide show</b>"
+msgstr "<b>స్లైడు ప్రదర్శన</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:28
+msgid "<b>Viewer</b>"
+msgstr "<b>చూచువారు</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:29
+msgid "<b>Zoom quality</b>"
+msgstr "<b>జూమ్ నాణ్యత</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:31
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%n = a single filename, including path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
+msgstr ""
+"<small><i><b>ప్రత్యేక అక్షరములు:</b>\n"
+"%F = అన్ని యెంపికచేసిన ఫైలునామములు వొక గీతపైన, స్పేసుతో వేరుచేయబడుతూ\n"
+"%f = ఒక వొంటరి ఫైలునామము, పాత్‌తో కలుపుకొని\n"
+"%n = ఒక వొంటరి ఫైలునామము, పాత్‌తో కలుపుకొని, పొడిగింపులు లేకుండా\n"
+"%e = ఒక వొంటరి పొడిగింపు (పీరియడ్‌తో(.) ప్రారంభమగు)\n"
+"%p = ఒంటరి ఫైలు యొక్క పేరెంట్ ఫోల్డరు</i>\n"
+"%F కోడుతోని స్క్రిప్టులు వొకసారి నిర్వర్తించబడతాయి, యెంపికచేయబడిన ఫైళ్ళ సంఖ్యతో సంభందం లేకుండా. "
+"అన్ని యితర స్క్రిప్టులు యెంపికకాబడిన ఫైలుకు వొకసారి చొప్పున నిర్వర్తించబడతాయి.\n"
+"అప్రమేయ స్క్రిప్టులు సహాయ ఫైలునందు విడమరచి చెప్పబడతాయి.</small>"
+
+#: ../data/glade/gthumb_preferences.glade.h:39
+msgid "Activate items with a double click"
+msgstr "రెండునొక్కులతో అంశములను క్రియాశీలము చేయుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:40
+msgid "Activate items with a single click"
+msgstr "ఒక్క నొక్కుతో అంశములను క్రియాశీలము చేయుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:41
+msgid "After _loading an image:"
+msgstr "ప్రతిబింబమును లోడుచేసిన తర్వాత (_l):"
+
+#: ../data/glade/gthumb_preferences.glade.h:42
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "ప్రతిబింబములను లేదా కాటలాగ్సును తొలగించుటకు ముందుగా నిర్ధారణను తీసుకొనుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:43
+msgid "Ask whether to save _modified images"
+msgstr "సవరించిన ప్రతిబింబములను దాయవలెనేమో అడుగుము (_m)"
+
+#: ../data/glade/gthumb_preferences.glade.h:44
+msgid "Black"
+msgstr "నలుపు"
+
+#: ../data/glade/gthumb_preferences.glade.h:45
+msgid "Browser"
+msgstr "బ్రౌజర్"
+
+#: ../data/glade/gthumb_preferences.glade.h:46
+msgid "C_lick policy:"
+msgstr "పాలసీను నొక్కుము (_l):"
+
+#: ../data/glade/gthumb_preferences.glade.h:47
+msgid "Checked"
+msgstr "పరిశీలించిన"
+
+#: ../data/glade/gthumb_preferences.glade.h:48
+msgid "Choose startup folder"
+msgstr "ప్రారంభపు ఫోల్డరును యెంచుకొనుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:49
+msgid "Co_mments"
+msgstr "వ్యాఖ్యానములు (_m)"
+
+#: ../data/glade/gthumb_preferences.glade.h:50
+msgid "D_elay before changing image:"
+msgstr "ప్రతిబింబమును మార్చుటకు ముందు ఆలస్యము (_e):"
+
+#: ../data/glade/gthumb_preferences.glade.h:51
+msgid "D_etermine image type from content (slower)"
+msgstr "సారమునుండి ప్రతిబింబము రకమును నిర్ధారించుము (_e) (నిదానము)"
+
+#: ../data/glade/gthumb_preferences.glade.h:52
+msgid "Do _not change folder"
+msgstr "ఫోల్డరును మార్చవద్దు (_n)"
+
+#: ../data/glade/gthumb_preferences.glade.h:53
+msgid "Fit to width if larger"
+msgstr "పెద్దదైతే వెడల్పునకు సరిపెట్టుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:54
+msgid "Fit to window if larger"
+msgstr "పెద్దదైతే విండోనకు సరిపెట్టుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:55
+msgid "Follow Nautilus behaviour"
+msgstr "నాటిలస్ ప్రవర్తనను అనుసరించుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:56
+msgid "For_ward"
+msgstr "ముందుకు (_w)"
+
+#: ../data/glade/gthumb_preferences.glade.h:57
+msgid "General"
+msgstr "సాదారణ"
+
+#: ../data/glade/gthumb_preferences.glade.h:58
+msgid "Go to last _visited folder or catalog"
+msgstr "చివరిగా దర్శించిన ఫల్డర్‌కు లేదా కాటలాగ్‌కు వెళ్ళుము (_v)"
+
+#: ../data/glade/gthumb_preferences.glade.h:59
+msgid "Go to this _folder:"
+msgstr "ఈ ఫోల్డర్‌కు వెళ్ళుము (_f):"
+
+#: ../data/glade/gthumb_preferences.glade.h:60
+msgid "H_igh"
+msgstr "అధిక (_i)"
+
+#: ../data/glade/gthumb_preferences.glade.h:61
+msgid "Hot Keys"
+msgstr "హాట్ కీలు"
+
+#: ../data/glade/gthumb_preferences.glade.h:62
+msgid "Icons only"
+msgstr "ప్రతిమలు మాత్రమే"
+
+#: ../data/glade/gthumb_preferences.glade.h:63
+msgid "Keep previous zoom"
+msgstr "మునుపటి జూమ్‌ను కలిగివుండుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:64
+msgid ""
+"Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
+"the selected images with other applications."
+msgstr ""
+"వేరే అనువర్తనములతో యెంపికచేయబడిన ప్రతిబింబములను తెరువుటకు లేదా సవరించుటకు బ్రౌజర్‌నందు "
+"న్యూమరిక్ కీపాడ్ నందలి 0-9 కీలను వుపయోగించవచ్చు."
+
+#: ../data/glade/gthumb_preferences.glade.h:65
+msgid "Layout:"
+msgstr "నమూనా:"
+
+#: ../data/glade/gthumb_preferences.glade.h:66
+msgid "Lo_w"
+msgstr "తక్కువ (_w)"
+
+#: ../data/glade/gthumb_preferences.glade.h:68
+msgid "Ran_dom"
+msgstr "యాధృచ్చిక (_d)"
+
+#: ../data/glade/gthumb_preferences.glade.h:69
+msgid "Re_verse"
+msgstr "వ్యతిరేక (_v)"
+
+#: ../data/glade/gthumb_preferences.glade.h:70
+msgid "Reset scrollbar positions after loading an image"
+msgstr "ప్రతిబింబము లోడైన తర్వాత స్క్రాల్‌బార్ స్థానములను తిరిగివుంచుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:71
+msgid "Resta_rt when finished"
+msgstr "పూర్తవ్వగానే పునఃప్రారంభించుము (_r)"
+
+#: ../data/glade/gthumb_preferences.glade.h:72
+msgid "Set image to actual size"
+msgstr "ప్రతిబింబమును వాస్తవ పరిమాణమునకు వుంచుము"
+
+#: ../data/glade/gthumb_preferences.glade.h:73
+msgid "Set to C_urrent"
+msgstr "ప్రస్తుతమునకు అమర్చుము (_u)"
+
+#: ../data/glade/gthumb_preferences.glade.h:74
+msgid "Slide Show"
+msgstr "స్లైడు ప్రదర్శన"
+
+#: ../data/glade/gthumb_preferences.glade.h:75
+msgid "System settings"
+msgstr "సిస్టమ్ అమరికలు"
+
+#: ../data/glade/gthumb_preferences.glade.h:76
+msgid "Text below icons"
+msgstr "ప్రతిముల క్రిందని పాఠ్యము"
+
+#: ../data/glade/gthumb_preferences.glade.h:77
+msgid "Text beside icons"
+msgstr "ప్రతిమల ప్రక్కని పాఠ్యము"
+
+#: ../data/glade/gthumb_preferences.glade.h:78
+msgid "Text only"
+msgstr "పాఠ్యము మాత్రమే"
+
+#: ../data/glade/gthumb_preferences.glade.h:79
+msgid "Th_umbnail size:"
+msgstr "థంబ్‌నెయిల్ పరిమాణము (_u):"
+
+#: ../data/glade/gthumb_preferences.glade.h:80
+msgid "Transparency _type:"
+msgstr "పారదర్శకత రకము (_t):"
+
+#: ../data/glade/gthumb_preferences.glade.h:81
+msgid "Use a _fading effect when changing image"
+msgstr "ప్రతిబింబమును మార్చునప్పుడు ఫేడవుతున్న ప్రభావాన్ని వుపయోగించుము (_f)"
+
+#: ../data/glade/gthumb_preferences.glade.h:82
+msgid "Viewer"
+msgstr "చూచువారు"
+
+#: ../data/glade/gthumb_preferences.glade.h:83
+msgid "White"
+msgstr "తెలుపు"
+
+#: ../data/glade/gthumb_preferences.glade.h:84
+msgid "_Filenames"
+msgstr "ఫైలునామములు (_F)"
+
+#: ../data/glade/gthumb_preferences.glade.h:85
+#: ../src/gth-browser-actions-entries.h:418
+msgid "_Thumbnails"
+msgstr "థంబ్‌నెయిల్స్ (_T)"
+
+#: ../data/glade/gthumb_preferences.glade.h:86
+msgid "_Toolbar style:"
+msgstr "సాధనపట్టీ శైలి (_T):"
+
+#: ../data/glade/gthumb_preferences.glade.h:87
+msgid "gThumb Preferences"
+msgstr "gThumb అభీష్టాలు"
+
+#: ../data/glade/gthumb_preferences.glade.h:88
+msgid "seconds"
+msgstr "సెకనులు"
+
+#: ../data/glade/gthumb_print.glade.h:4
+msgid "1"
+msgstr "1"
+
+#: ../data/glade/gthumb_print.glade.h:5
+msgid "150"
+msgstr "150"
+
+#: ../data/glade/gthumb_print.glade.h:6
+msgid "16"
+msgstr "16"
+
+#: ../data/glade/gthumb_print.glade.h:7
+msgid "2"
+msgstr "2"
+
+#: ../data/glade/gthumb_print.glade.h:8
+msgid "300"
+msgstr "300"
+
+#: ../data/glade/gthumb_print.glade.h:9
+msgid "4"
+msgstr "4"
+
+#: ../data/glade/gthumb_print.glade.h:10
+msgid "600"
+msgstr "600"
+
+#: ../data/glade/gthumb_print.glade.h:11
+msgid "72"
+msgstr "72"
+
+#: ../data/glade/gthumb_print.glade.h:12
+msgid "8"
+msgstr "8"
+
+#: ../data/glade/gthumb_print.glade.h:13
+msgid "<b>Image Sizing</b>"
+msgstr "<b>ప్రతిబింబము పరిమాణముచేయుట</b>"
+
+#: ../data/glade/gthumb_print.glade.h:14
+msgid "<b>Margins</b>"
+msgstr "<b>మార్జిన్లు</b>"
+
+#: ../data/glade/gthumb_print.glade.h:15
+msgid "<b>Orientation</b>"
+msgstr "<b>సర్దుబాటు</b>"
+
+#: ../data/glade/gthumb_print.glade.h:17
+msgid "<b>Size</b>"
+msgstr "<b>పరిమాణము</b>"
+
+#: ../data/glade/gthumb_print.glade.h:18
+msgid ""
+"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
+"Click on an image to rotate it.</i></small>"
+msgstr ""
+"<small><i><b>గమనిక:</b> పేజీనందు కదుల్చుటకు ప్రతిబింబమును లాగుము.\n"
+"భ్రమణము చేయుటకు ప్రతిబింబముపై నొక్కుము.</i></small>"
+
+#: ../data/glade/gthumb_print.glade.h:20
+msgid ""
+"<small><i><b>Note:</b> High-resolution images will be\n"
+"down-sampled to this resolution. Increase\n"
+"the resolution to get better image quality.\n"
+"Decrease it to get shorter print times.</i></small>"
+msgstr ""
+"<small><i><b>గమనిక:</b> అధిక-రెజొల్యూషన్ ప్రతిబింబములు ఈ రెజొల్యూషన్‌కు\n"
+"తగ్గించబడినవి. మంచి ప్రతిబింబపు నాణ్యతను పొందుటకు రెజొల్యూషన్‌ను పెంచుము.\n"
+"తక్కువ ముద్రణ సమయాలకొరకు దానిని తగ్గించుము.</i></small>"
+
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "A4"
+msgstr "A4"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Automatic sizing"
+msgstr "స్వయంచాలకంగా పరిమాణము"
+
+#: ../data/glade/gthumb_print.glade.h:26
+msgid "Center _on Page"
+msgstr "పేజీపై మద్యన (_o)"
+
+#: ../data/glade/gthumb_print.glade.h:27
+msgid "Comment _font:"
+msgstr "వ్యాఖ్యానము ఫాంటు (_f):"
+
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Executive"
+msgstr "ఎగ్జిక్యూటివ్"
+
+#: ../data/glade/gthumb_print.glade.h:30
+msgid "I_nclude comment"
+msgstr "వ్యాఖ్యానమును చేర్చుము (_n)"
+
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Images per page:"
+msgstr "పేజీకు ప్రతిబింబములు:"
+
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "Inches"
+msgstr "అంగుళములు"
+
+#: ../data/glade/gthumb_print.glade.h:33
+msgid "Include filename"
+msgstr "చిర్చిన ఫైలునామము"
+
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "Lan_dscape"
+msgstr "లాండ్‌స్కేప్ (_d)"
+
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "Layout"
+msgstr "నమూనా"
+
+#: ../data/glade/gthumb_print.glade.h:36
+msgid "Legal"
+msgstr "చట్టబద్ద"
+
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "Letter"
+msgstr "లేఖ"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "Millimeters"
+msgstr "మిల్లీమీటర్లు"
+
+#: ../data/glade/gthumb_print.glade.h:39
+msgid "P_ortrait"
+msgstr "పోర్ట్రెయిట్ (_o)"
+
+#: ../data/glade/gthumb_print.glade.h:40
+msgid "Paper Details"
+msgstr "పేపరు వివరములు"
+
+#: ../data/glade/gthumb_print.glade.h:41
+msgid "Postcard"
+msgstr "పోస్టుకార్డు"
+
+#.
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
+#: ../src/gth-window-actions-entries.h:70
+msgid "Print"
+msgstr "ముద్రణ"
+
+#: ../data/glade/gthumb_print.glade.h:43
+msgid "Scale to this size"
+msgstr "ఈ పరిమాణముకు స్కేలుచేయుము"
+
+#: ../data/glade/gthumb_print.glade.h:44
+msgid "Tabloid"
+msgstr "టాబ్లోయిడ్"
+
+#: ../data/glade/gthumb_print.glade.h:45
+msgid "_Bottom:"
+msgstr "క్రింది (_B):"
+
+#: ../data/glade/gthumb_print.glade.h:47
+msgid "_Left:"
+msgstr "ఎడమ (_L):"
+
+#: ../data/glade/gthumb_print.glade.h:48
+msgid "_Right:"
+msgstr "కుడి (_R):"
+
+#: ../data/glade/gthumb_print.glade.h:49
+msgid "_Scale:"
+msgstr "స్కేలు (_S):"
+
+#: ../data/glade/gthumb_print.glade.h:50
+msgid "_Top:"
+msgstr "పైన (_T):"
+
+#: ../data/glade/gthumb_print.glade.h:51
+msgid "_Unit:"
+msgstr "ప్రమాణం (_U):"
+
+#: ../data/glade/gthumb_redeye.glade.h:2
+msgid "Actual Size"
+msgstr "వాస్తవ పరిమాణము"
+
+#: ../data/glade/gthumb_redeye.glade.h:3
+msgid "Red-Eye Removal"
+msgstr "రెడ్-ఐ తీసివేత"
+
+#: ../data/glade/gthumb_redeye.glade.h:4
+msgid "Redo"
+msgstr "మళ్ళచేయి"
+
+#: ../data/glade/gthumb_redeye.glade.h:5
+msgid "Undo"
+msgstr "చేయవద్దు"
+
+#: ../data/glade/gthumb_redeye.glade.h:6
+msgid "Zoom In"
+msgstr "జూమ్ చేయి"
+
+#: ../data/glade/gthumb_redeye.glade.h:7
+msgid "Zoom Out"
+msgstr "జూమ్ తగ్గించు"
+
+#: ../data/glade/gthumb_redeye.glade.h:8
+msgid "Zoom to Fit"
+msgstr "సరిగ్గా అమరునట్లు జూమ్‌చేయి"
+
+#: ../data/glade/gthumb_search.glade.h:2
+msgid "<b>Search criteria</b>"
+msgstr "<b>శోధన విధానము</b>"
+
+#: ../data/glade/gthumb_search.glade.h:3
+msgid "<b>Search scope</b>"
+msgstr "<b>శోధన పరిమితి(స్కోపు)</b>"
+
+#: ../data/glade/gthumb_search.glade.h:5
+msgid "After"
+msgstr "తరువాత"
+
+#: ../data/glade/gthumb_search.glade.h:6
+msgid "Any"
+msgstr "ఏదైనా"
+
+#: ../data/glade/gthumb_search.glade.h:7
+msgid "Before"
+msgstr "ముందు"
+
+#: ../data/glade/gthumb_search.glade.h:10
+msgid "Choose categories from the saved list"
+msgstr "దాయబడిన జాబితానుండి వర్గములను యెంచుకొనుము"
+
+#: ../data/glade/gthumb_search.glade.h:12
+msgid "Equal to"
+msgstr "దీనికి సమానము"
+
+#: ../data/glade/gthumb_search.glade.h:13
+msgid "File _name:"
+msgstr "దస్త్రము నామము (_n):"
+
+#: ../data/glade/gthumb_search.glade.h:14
+msgid "Found images:"
+msgstr "ప్రతిబింబములను కనుగొన్నది:"
+
+#: ../data/glade/gthumb_search.glade.h:15
+msgid "Match a_ll selected categories"
+msgstr "అన్ని యెంపికచేసిన వర్గములను సరిపోల్చుము (_l)"
+
+#: ../data/glade/gthumb_search.glade.h:16
+msgid "Match a_ny selected category"
+msgstr "ఏదైనా యెంపికచేసిన వర్గమును సరిపోల్చుము (_n)"
+
+#: ../data/glade/gthumb_search.glade.h:17
+msgid "New _Search..."
+msgstr "కొత్త శోధన... (_S)"
+
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
+#: ../src/dlg-photo-importer.c:1644
+msgid "No images found"
+msgstr "ఎటువంటి ప్రతిబింబములు కనుగొనబడలేదు"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Search"
+msgstr "శోధించు"
+
+#: ../data/glade/gthumb_search.glade.h:20
+msgid "Search Progress"
+msgstr "శోధన పురోగతి"
+
+#: ../data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:48
+msgid "Searching in:"
+msgstr "దీనినందు శోధించుచున్నది:"
+
+#: ../data/glade/gthumb_search.glade.h:24
+msgid "_Edit Search"
+msgstr "శోధనను సరికూర్చుము (_E)"
+
+#: ../data/glade/gthumb_search.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:60
+msgid "_Include sub-folders"
+msgstr "ఉప-ఫోల్డర్లను చేర్చుము (_I)"
+
+#: ../data/glade/gthumb_search.glade.h:27
+msgid "_Save"
+msgstr "దాయుము (_S)"
+
+#: ../data/glade/gthumb_search.glade.h:28
+msgid "_Search"
+msgstr "శోధించు (_S)"
+
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:72
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
+msgid "_View"
+msgstr "దర్శించు (_V)"
+
+#: ../data/glade/gthumb_tools.glade.h:5
+msgid "<b>Change the following values:</b>"
+msgstr "<b>క్రింది విలువలను మార్చుము:</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:6
+msgid "<b>Change to:</b>"
+msgstr "<b>దీనికి మార్చుము:</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:10
+msgid "<b>Write to CD</b>"
+msgstr "<b>CDకు వ్రాయుము</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:11
+msgid ""
+"<small><i><b>Note</b>: JPEG transformations are normally lossless.\n"
+"When viewing images, you can use the [ and ] shortcut\n"
+"keys to rotate and save losslessly, bypassing this dialog.</i></small>"
+msgstr ""
+"<small><i><b>గమనిక</b>: JPEG బదిలీకరణలు సాధారణంగా నష్టంలేనివి.\n"
+"ప్రతిబింబములను దర్శించుచున్నప్పుడు, నష్టంలేకుండా దాయుటకు మరియు భ్రమణం చేయుటకు\n"
+"మీరు [ and ] లఘువులను వుపయోగించవచ్చు, ఈ డైలాగును దారిమళ్ళించుట ద్వారా.</i></small>"
+
+#: ../data/glade/gthumb_tools.glade.h:15
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
+"%d (image date), %s (image size), %e (original extension).</i></small>"
+msgstr ""
+"<small><i><b>ప్రత్యేకమైన అక్షరములు:</b> # (ఎన్యూమరేటర్), %f (వాస్తవ ఫైలునామము), "
+"%d (ప్రతిబింబము తేది), %s (ప్రతిబింబము పరిమాణము), %e (వాస్తవ పొడిగింపు).</i></small>"
+
+#: ../data/glade/gthumb_tools.glade.h:16
+msgid "A_djust timezone:"
+msgstr "సమయక్షేత్రాన్ని సర్దుబాటుచేయుము (_d):"
+
+#: ../data/glade/gthumb_tools.glade.h:17
+msgid "Apply physical _transform"
+msgstr "భౌతిక బదలాయింపును ఆపాదించుము (_t)"
+
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Apply to all _images"
+msgstr "అన్ని ప్రతిబింబములకు ఆపాదించుము (_i)"
+
+#: ../data/glade/gthumb_tools.glade.h:19
+msgid "C_urrent date"
+msgstr "ప్రస్తుత తేది (_u)"
+
+#: ../data/glade/gthumb_tools.glade.h:20
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
+msgid "Ca_talog"
+msgstr "కాటలాగ్ (_t)"
+
+#: ../data/glade/gthumb_tools.glade.h:21
+msgid "Change Date"
+msgstr "తేదిని మార్చుము"
+
+#: ../data/glade/gthumb_tools.glade.h:22
+msgid "Check _All"
+msgstr "అన్నిటిని చెక్‌చేయుము (_A)"
+
+#: ../data/glade/gthumb_tools.glade.h:23
+msgid "Check _None"
+msgstr "దేనిని చెక్‌చేయవద్దు (_N)"
+
+#: ../data/glade/gthumb_tools.glade.h:24
+msgid "Checking image:"
+msgstr "ప్రతిబింబమును పరిశీలించుచున్నది:"
+
+#: ../data/glade/gthumb_tools.glade.h:26
+msgid ""
+"Click OK to reset the Exif orientation tag for the selected images to Top-"
+"Left."
+msgstr "ఎంపికచేసిన ప్రతిబింబములను పై-ఎడమకు Exif సర్దుబాటు టాగ్‌ను తిరిగివుంచుటకు సరే నొక్కుము."
+
+#: ../data/glade/gthumb_tools.glade.h:27
+msgid "Co_mment date"
+msgstr "వ్యాఖ్యానము తేది (_m)"
+
+#: ../data/glade/gthumb_tools.glade.h:28
+msgid "Current _Folder"
+msgstr "ప్రస్తుత ఫోల్డర్ (_F)"
+
+#: ../data/glade/gthumb_tools.glade.h:29
+msgid "Equal images:"
+msgstr "సరిపోలు ప్రతిబింబములు:"
+
+#: ../data/glade/gthumb_tools.glade.h:30
+msgid "Found duplicates:"
+msgstr "నకిలీలను కనుగొన్నది:"
+
+#: ../data/glade/gthumb_tools.glade.h:31
+msgid "Image c_reation date"
+msgstr "ప్రతిబింబము సృష్టించిన తేది (_r)"
+
+#: ../data/glade/gthumb_tools.glade.h:32
+msgid "Mirror image horizontally (left-right)"
+msgstr "అడ్డముగా ప్రతిబింబమును అద్దంపట్టుము (ఎడమ-కుడి)"
+
+#: ../data/glade/gthumb_tools.glade.h:33
+msgid "Mirror image vertically (top-bottom)"
+msgstr "నిలువుగా ప్రతిబింబమును అద్దంపట్టుము (పై-క్రింద)"
+
+#: ../data/glade/gthumb_tools.glade.h:34
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
+msgid "Move to _Trash"
+msgstr "చెత్తకుండీకు కదుల్చుము (_T)"
+
+#: ../data/glade/gthumb_tools.glade.h:35
+msgid "New names _preview:"
+msgstr "కొత్త నామముల ఉపదర్శనము (_p):"
+
+#: ../data/glade/gthumb_tools.glade.h:37
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "ఛాయాచిత్రపు డిజిటలైజేషన్ తేది (EXIF డాటానుండి) (_h)"
+
+#: ../data/glade/gthumb_tools.glade.h:39
+msgid "Re_verse Order"
+msgstr "వ్యతిరేక క్రమము (_v)"
+
+#: ../data/glade/gthumb_tools.glade.h:41
+msgid "Reset Exif Orientation Tags"
+msgstr "Exif సర్దుబాటు టాగ్లను తిరిగివుంచుము"
+
+#: ../data/glade/gthumb_tools.glade.h:42
+msgid "Rotate Images"
+msgstr "ప్రతిబింబములను భ్రమణంచేయుము"
+
+#: ../data/glade/gthumb_tools.glade.h:43
+msgid "Rotate image 90 degrees clockwise"
+msgstr "ప్రతిబింబమును 90 డిగ్రీలలో సవ్యదిశలో భ్రమణంచేయుము"
+
+#: ../data/glade/gthumb_tools.glade.h:44
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "ప్రతిబింబమును 90 డిగ్రీల అపసవ్యదిశలో భ్రమణం చేయుము"
+
+#: ../data/glade/gthumb_tools.glade.h:45
+#: ../src/gth-browser-actions-entries.h:394
+msgid "Scale Images"
+msgstr "ప్రతిబింబములను స్కేలుచేయుము"
+
+#: ../data/glade/gthumb_tools.glade.h:46
+msgid "Search for Duplicates"
+msgstr "నకిలీల కొరకు శోధించుము"
+
+#: ../data/glade/gthumb_tools.glade.h:47
+msgid "Search terminated, no duplicates found."
+msgstr "శోధన ముగించబడింది, నకిలీలు కనబడలేదు."
+
+#: ../data/glade/gthumb_tools.glade.h:55
+msgid "The _following date:"
+msgstr "క్రింది తేది (_f):"
+
+#: ../data/glade/gthumb_tools.glade.h:56
+msgid ""
+"This checkbox governs the rotation method used for JPEG images that contain "
+"Exif orientation tags. If this checkbox is enabled, the rotation will be "
+"performed using a physical transform, and the Exif orientation tag will be "
+"reset to the default \"top left\" value. If it is not enabled, the rotation "
+"will be performed by changing the Exif orientation tag only. For maximum "
+"compatibility with other applications, this checkbox should be enabled."
+msgstr ""
+"Exif సర్దుబాటు టాగ్లను కలిగివున్న JPEG ప్రతిబింబములకు వుపయోగించే భ్రమణ విధానాన్ని ఈ చెక్‌బాక్స్ "
+"సంభాళిస్తుంది. ఈ చెక్‌బాక్స్ చేతనమైతే, భ్రమణం అనునది భౌతిక బదిలీకరణ వుపయోగించి జరుపబడుతుంది, "
+"మరియు Exif సర్దుబాటు టాగ్ అప్రమేయ \"పై ఎడమ\" విలువకు తిరిగివుంచబడుతుంది. ఒకవేళ యిది "
+"చేతనపరచబడి లేకపోతే, భ్రమణం అనునది Exif సర్దుబాటు టాగ్‌ను మార్చుట ద్వారా మాత్రమే జరుపబడుతుంది. "
+"ఇతర అనువర్తనములతో గరిష్ట సారూప్యత కొరకు, ఈ చెక్‌బాక్స్ చేతనమైవుండాలి."
+
+#: ../data/glade/gthumb_tools.glade.h:57
+msgid "Write To CD"
+msgstr "CDకు వ్రాయుము"
+
+#: ../data/glade/gthumb_tools.glade.h:63
+msgid "_Last modified date"
+msgstr "చివరిగా సవరించబడిన తేది (_L)"
+
+#: ../data/glade/gthumb_tools.glade.h:65
+#: ../src/gth-browser-actions-callbacks.c:470
+#: ../src/gth-browser-actions-callbacks.c:980
+msgid "_Rename"
+msgstr "పునఃనామకరణ (_R)"
+
+#: ../data/glade/gthumb_tools.glade.h:68
+msgid "_Selected Images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములు (_S)"
+
+#: ../data/glade/gthumb_tools.glade.h:69
+msgid "_Sort:"
+msgstr "క్రమపరచు (_S):"
+
+#: ../data/glade/gthumb_tools.glade.h:75
+msgid "hours"
+msgstr "గంటలు"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:4
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:6
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:7
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:8
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:9
+msgid "320 x 320"
+msgstr "320 x 320"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:10
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:11
+msgid "640 x 640"
+msgstr "640 x 640"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:12
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:13
+msgid "800 x 800"
+msgstr "800 x 800"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:14
+msgid "<b>Album Style</b>"
+msgstr "<b>ఆల్బమ్ శైలి</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:15
+msgid "<b>Basic Information</b>"
+msgstr "<b>ప్రాధమిక సమాచారము</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:16
+msgid "<b>Camera Data</b>"
+msgstr "<b>కేమెరా డాటా</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:17
+msgid "<b>Comments</b>"
+msgstr "<b>వ్యాఖ్యానములు</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:18
+msgid "<b>Index Page Layout</b>"
+msgstr "<b>విషయసూచిక పేజీ నమూనా</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:19
+msgid "<b>Personalize theme</b>"
+msgstr "<b>థీమ్‌ను మలచుకొనుము </b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:21
+msgid "<b>Theme</b>"
+msgstr "<b>థీమ్</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:23
+#, no-c-format
+msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
+msgstr "<small><i><b>గమనిక:</b> %d (ప్రస్తుత తేది).</i></small>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:24
+msgid ""
+"<small><i><b>Note:</b> Some themes may auto-adjust the\n"
+"number of rows and columns, but keep the total \n"
+"number of images per page constant.</i></small>"
+msgstr ""
+"<small><i><b>గమనిక:</b> కొన్ని థీమ్‌లు అడ్డువరుసలను మరియు నిలువువరుసల సంఖ్యను\n"
+"స్వయంచాలకంగా-సర్దుబాటు చేస్తాయి, అయితే పేజీకువుంచే మొత్తం ప్రతిబింబముల సంఖ్యను\n"
+"స్థిరంగా వుంచుతాయి.</i></small>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:27
+msgid "Came_ra Model"
+msgstr "కేమెరా తీరు (_r)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:28
+msgid "Caption"
+msgstr "పేరు(కాప్షన్)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:31
+msgid "Da_te and Time"
+msgstr "తేది మరియు సమయము (_t)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:32
+msgid "E_xposure mode"
+msgstr "ఎక్సుపోజర్ రీతి (_x)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:33
+msgid "Exposure _time"
+msgstr "ఎక్సుపోజర్ సమయం (_t)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:36
+msgid "Focal _length"
+msgstr "ఫోకల్ పొడవు (_l)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:37
+msgid "I_mage Caption..."
+msgstr "ప్రతిబింబము కాప్షన్... (_m)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:39
+msgid "Inde_x file:"
+msgstr "విషయసూచిక ఫైలు (_x):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:41
+msgid "S_ort:"
+msgstr "క్రమపరచు (_o):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:43
+msgid "Web Album"
+msgstr "వెబ్ ఆల్బమ్"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:44
+msgid "Web Album Theme"
+msgstr "వెబ్ ఆల్బమ్ థీమ్"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:45
+msgid "_Aperture value"
+msgstr "ఎపరేచర్ విలువ (_A)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:46
+msgid "_Copy originals to destination"
+msgstr "వాస్తవాలను గమ్యముకు నకలుతీయుము (_C)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Date and Time"
+msgstr "తేదీ మరియు సమయము(_D)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:49
+msgid "_Flash"
+msgstr "ఫ్లాష్ (_F)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:50
+msgid "_Footer:"
+msgstr "భూమిక (_F):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:51
+msgid "_Go to Theme Folder"
+msgstr "థీమ్ ఫోల్డర్‌కు వెళ్ళుము (_G)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:52
+msgid "_Header:"
+msgstr "పీఠిక (_H):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:53
+msgid "_Install Theme..."
+msgstr "థీమ్‌ను సంస్థాపించుము... (_I)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:54
+msgid "_Place"
+msgstr "స్థలము (_P)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:55
+msgid "_Resize if larger than:"
+msgstr "దీని కంటే పెద్దగావుంటే పునఃపరిమాణం చేయుము (_R):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:56
+msgid "_Select"
+msgstr "ఎంపికచేయి (_S)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:57
+msgid "_Shutter speed"
+msgstr "మూత వేగము (_S)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:58
+msgid "_Size :"
+msgstr "పరిమాణము (_S):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:59
+msgid "_Theme:"
+msgstr "థీమ్ (_T):"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:60
+msgid "_Thumbnail Caption..."
+msgstr "థంబ్‌నెయిల్ పేరు(కాప్షన్)... (_T)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:62
+msgid "columns, by"
+msgstr "నిలువువరుసలు, ద్వారా"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:63
+msgid "index.html"
+msgstr "index.html"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:64
+msgid "or _use a single index page"
+msgstr "లేదా వొంటరి విషయసూచిక పేజీను వుపయోగించుము (_u)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:65
+msgid "rows per page,"
+msgstr "పేజీకు అడ్డువరుసలు,"
+
+#: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "ప్రతిబింబ దర్శిని"
+
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
+msgid "View and organize your images"
+msgstr "మీ ప్రతిబింబములను వీక్షించుము మరియు నిర్వహించుము"
+
+#: ../data/gthumb.desktop.in.h:3
+msgid "gThumb Image Viewer"
+msgstr "gThumb ప్రతిబింబ దర్శని"
+
+#: ../data/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"ఈ పరిమాణము (బైట్లలో) కన్నా మించిన ప్రతిబింబములు థంబ్‌నెయిల్ చేయబడవు. అన్ని ప్రతిబింబములకు "
+"థంబ్‌నెయిల్సును సృష్టింపచేయుటకు 0 వుపయోగించుము."
+
+#: ../data/gthumb.schemas.in.h:2
+msgid ""
+"Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
+"(reverse landscape)"
+msgstr "సాధ్యమగు విలువలు 0 (పోర్ట్రెయిట్), 1 (లాండ్‌స్కేప్), 2 (వ్యతిరేక పోర్ట్రెయిట్), 3 (వ్యతిరేక లాండ్‌స్కేప్)"
+
+#: ../data/gthumb.schemas.in.h:3
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "సాధ్యమగు విలువలు: 1, 2, 3, 4."
+
+#: ../data/gthumb.schemas.in.h:4
+msgid "Possible values are: 72, 150, 300, 600."
+msgstr "సాధ్యమగు విలువలు: 72, 150, 300, 600."
+
+#: ../data/gthumb.schemas.in.h:5
+msgid ""
+"Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+msgstr ""
+"సాధ్యమగు విలువలు: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
+
+#: ../data/gthumb.schemas.in.h:6
+msgid "Possible values are: ascending, descending."
+msgstr "సాధ్యమగు విలువలు: ascending, descending."
+
+#: ../data/gthumb.schemas.in.h:7
+msgid "Possible values are: forward, backward, random."
+msgstr "సాధ్యమగు విలువలు: forward, backward, random."
+
+#: ../data/gthumb.schemas.in.h:8
+msgid "Possible values are: high, low."
+msgstr "సాధ్యమగు విలువలు: high, low."
+
+#: ../data/gthumb.schemas.in.h:9
+msgid "Possible values are: image, data, comment."
+msgstr "సాధ్యమగు విలువలు: image, data, comment."
+
+#: ../data/gthumb.schemas.in.h:10
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "సాధ్యమగు విలువలు: jpeg, png, tga, tiff."
+
+#: ../data/gthumb.schemas.in.h:11
+msgid "Possible values are: light, midtone, dark."
+msgstr "సాధ్యమగు విలువలు: light, midtone, dark."
+
+#: ../data/gthumb.schemas.in.h:12
+msgid "Possible values are: list, thumbnails."
+msgstr "సాధ్యమగు విలువలు: list, thumbnails."
+
+#: ../data/gthumb.schemas.in.h:13
+msgid "Possible values are: manual, auto."
+msgstr "సాధ్యమగు విలువలు: manual, auto."
+
+#: ../data/gthumb.schemas.in.h:14
+msgid "Possible values are: mm, in."
+msgstr "సాధ్యమగు విలువలు: mm, in."
+
+#: ../data/gthumb.schemas.in.h:15
+msgid "Possible values are: nautilus, single, double."
+msgstr "సాధ్యమగు విలువలు: nautilus, single, double."
+
+#: ../data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "సాధ్యమగు విలువలు: none, deflate, jpeg."
+
+#: ../data/gthumb.schemas.in.h:17
+msgid "Possible values are: none, name, path, size, time, exifdate, comment."
+msgstr "సాధ్యమగు విలువలు: none, name, path, size, time, exifdate, comment."
+
+#: ../data/gthumb.schemas.in.h:18
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"సాధ్యమగు విలువలు: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: ../data/gthumb.schemas.in.h:19
+msgid ""
+"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+msgstr ""
+"సాధ్యమగు విలువలు: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+
+#: ../data/gthumb.schemas.in.h:20
+msgid "Possible values are: pixels, percentage."
+msgstr "సాధ్యమగు విలువలు: pixels, percentage."
+
+#: ../data/gthumb.schemas.in.h:21
+msgid "Possible values are: png, jpeg."
+msgstr "సాధ్యమగు విలువలు: png, jpeg."
+
+#: ../data/gthumb.schemas.in.h:22
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "సాధ్యమగు విలువలు: skip, rename, ask, overwrite."
+
+#: ../data/gthumb.schemas.in.h:23
+msgid "Possible values are: small, medium, large."
+msgstr "సాధ్యమగు విలువలు: small, medium, large."
+
+#: ../data/gthumb.schemas.in.h:24
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "సాధ్యమగు విలువలు: system, text_below, text_beside, text_only, icons_only."
+
+#: ../data/gthumb.schemas.in.h:25
+msgid "Possible values are: white, black, checked, none."
+msgstr "సాధ్యమగు విలువలు: white, black, checked, none."
+
+#: ../data/gthumb.schemas.in.h:26
+msgid "Whether to always use a black background."
+msgstr "ఎల్లప్పుడూ నలుపు బ్యాక్‌గ్రౌండ్ మాత్రమే వుపయోగించాలా."
+
+#: ../data/gthumb.schemas.in.h:27
+msgid "Whether to reset the scrollbar positions after changing image"
+msgstr "ప్రతిబింబమును మార్చిన తర్వాత స్క్రాల్‌బార్ స్థానములను తిరిగివుంచాలా"
+
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "కాటలాగ్ \"%s\"ను తెరువలేక పోయింది: %s"
+
+#: ../libgthumb/catalog.c:335
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr "కాటలాగ్ \"%s\"ను దాయలేక పోయింది: %s"
+
+#: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
+#: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
+#: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
+#: ../src/gth-viewer.c:599
+msgid "%d %B %Y, %H:%M"
+msgstr "%d %B %Y, %H:%M"
+
+#: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
+msgid "(No Comment)"
+msgstr "(వ్యాఖ్య లేదు)"
+
+#: ../libgthumb/dlg-save-image.c:135 ../src/rotation-utils.c:277
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "ప్రతిబింబము రకము మద్దతీయబడదు: %s"
+
+#: ../libgthumb/dlg-save-image.c:207
+msgid "Determine by extension"
+msgstr "పొడిగింపు ద్వారా నిర్థారించుము"
+
+#: ../libgthumb/dlg-save-image.c:241
+msgid "Save Image"
+msgstr "ప్రతిబింబమును దాయుము"
+
+#: ../libgthumb/dlg-save-image.c:261
+msgid "Image type:"
+msgstr "ప్రతిబింబము రకము:"
+
+#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:822
+msgid "Catalogs"
+msgstr "కాటలాగ్సు"
+
+#: ../libgthumb/file-utils.c:1491 ../src/gth-location.c:830
+msgid "File System"
+msgstr "ఫైల్ సిస్టమ్"
+
+#: ../libgthumb/file-utils.c:1520 ../src/gth-location.c:838
+msgid "Home"
+msgstr "నివాసము"
+
+#: ../libgthumb/file-utils.c:2158
+msgid "Library not empty"
+msgstr "లైబ్రరీ ఖాళీగా లేదు"
+
+#: ../libgthumb/file-utils.c:2167
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "లైబ్రరీ \"%s\"ను కదల్చలేదు: %s"
+
+#: ../libgthumb/file-utils.c:2194
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "కాటలాగ్ \"%s\"ను తీసివేయలేదు: %s"
+
+#: ../libgthumb/gth-image-list.c:3534 ../src/gth-browser.c:774
+#: ../src/gth-browser.c:4508 ../src/gth-viewer.c:748
+msgid "No image"
+msgstr "ప్రతిబింబములేదు"
+
+#: ../libgthumb/gth-utils.c:46
+msgid "Could not display help"
+msgstr "సహాయమును ప్రదర్శించలేక పోయింది"
+
+#: ../libgthumb/gthumb-stock.c:79 ../src/gth-window-actions-entries.h:275
+msgid "Ro_tate Images"
+msgstr "ప్రతిబింబములను బ్రమణం చేయుము (_t)"
+
+#: ../libgthumb/print-callbacks.c:825
+#, c-format
+msgid "Page %d of %d"
+msgstr "%2$d పేజీలలో %1$d పేజీ"
+
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
+#, c-format
+msgid "Loading image: %s"
+msgstr "ప్రతిబింబమును లేడుచేయుచున్నది: %s"
+
+#: ../libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr "అన్ని థంబ్‌నెయిల్సును తొలగించుచున్నది, దయచేసి వేచివుండండి..."
+
+#: ../libgthumb/thumb-cache.c:489
+msgid "Deleting old thumbnails, wait please..."
+msgstr "పాత థంబ్‌నెయిల్సును తొలగించుచున్నది, దయచేసి వేచివుండండి..."
+
+#: ../src/bookmark-list.c:157 ../src/gth-browser.c:1350
+#: ../src/gth-browser.c:1354 ../src/gth-browser.c:1366
+msgid "(Invalid Name)"
+msgstr "(చెల్లని నామము)"
+
+#: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
+#: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d పిగ్జెల్స్"
+
+#: ../src/catalog-png-exporter.c:908 ../src/catalog-web-exporter.c:2158
+#: ../src/catalog-web-exporter.c:2385
+msgid "Saving images"
+msgstr "ప్రతిబింబములను దాయుచున్నది"
+
+#: ../src/catalog-png-exporter.c:1651
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "ప్రతిబింబమును సృష్టించుచున్నది: %s.%s"
+
+#: ../src/catalog-web-exporter.c:1866
+msgid "Saving thumbnails"
+msgstr "థంబ్‌నెయిల్స్ దాయుచున్నది"
+
+#: ../src/catalog-web-exporter.c:1936
+msgid "Saving HTML pages: Images"
+msgstr "HTML పేజీలను దాయుచున్నది: ప్రతిబింబములు"
+
+#: ../src/catalog-web-exporter.c:2016
+msgid "Saving HTML pages: Indexes"
+msgstr "HTML పేజీలను దాయుచున్నది: విషయసూచికలు"
+
+#. This function is used when "Copy originals to destination" is
+#. enabled, and resizing is NOT enabled. This allows us to use a
+#. lossless copy (and rotate). When resizing is enabled, a lossy
+#. save has to be used.
+#: ../src/catalog-web-exporter.c:2201
+msgid "Copying original images"
+msgstr "వాస్తవ ప్రతిబింబములను నకలుతీయుచున్నది"
+
+#: ../src/catalog-web-exporter.c:2580
+#: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
+msgid "Could not create a temporary folder"
+msgstr "తాత్కాలిక ఫోల్డరును సృష్టించలేక పోయింది"
+
+#. Load thumbnails.
+#: ../src/catalog-web-exporter.c:2613
+msgid "Loading images"
+msgstr "ప్రతిబింబాలను లోడుచేయుచున్నది"
+
+#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:686
+msgid "Enter the catalog name: "
+msgstr "కాటలాగ్ నామమును ప్రవేశపెట్టుము: "
+
+#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:146
+#: ../src/dlg-categories.c:244 ../src/dlg-file-utils.c:92
+#: ../src/gth-browser-actions-callbacks.c:772
+msgid "C_reate"
+msgstr "సృష్టించుము (_r)"
+
+#: ../src/dlg-catalog.c:142 ../src/gth-browser-actions-callbacks.c:828
+msgid "Enter the library name: "
+msgstr "లైబ్రరీ నామమును ప్రవేశపెట్టుము: "
+
+#: ../src/dlg-catalog.c:504
+msgid "Move Catalog to..."
+msgstr "కాటలాగ్‌ను దీనికి కదుల్చుము..."
+
+#: ../src/dlg-categories.c:240
+msgid "Enter the new category name"
+msgstr "కొత్త వర్గము నామమును ప్రవేశపెట్టుము"
+
+#: ../src/dlg-categories.c:251
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+"నామము \"%s\" చెల్లునది కాదు యెంచేతంటే అది \",\" అక్షరమును కలిగివుంది. దయచేసి వేరొక నామము "
+"వుపయోగించుము."
+
+#: ../src/dlg-categories.c:256
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "వర్గము \"%s\" యిప్పటికే వున్నది. దయచేసి వేరొక నామమును వుపయోగించుము."
+
+#: ../src/dlg-convert.c:174 ../src/gth-batch-op.c:397
+#, c-format
+msgid "Converting image: %s"
+msgstr "ప్రతిబింబమును మార్చుచున్నది: %s"
+
+#: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
+#, c-format
+msgid "An image named \"%s\" is already present. Please specify a different name."
+msgstr "\"%s\" నామముతోవున్న ప్రతిబింబము యిప్పటికే వుంది. దయచేసి వేరొక నామమును ప్రవేశపెట్టుము."
+
+#: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "\"%s\" నామపు ప్రతిబింబము యిప్పటికే వుంది. మీరు దాని పైనవ్రాద్దామని అనుకొనుచున్నారా?"
+
+#: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
+msgid "Skip"
+msgstr "వదిలివేయుము"
+
+#: ../src/dlg-convert.c:362 ../src/gth-batch-op.c:597
+msgid "_Overwrite"
+msgstr "పైనవ్రాయుము (_O)"
+
+#: ../src/dlg-crop.c:527
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (ప్రతిబింబము)"
+
+#: ../src/dlg-crop.c:535
+#, c-format
+msgid "%d x %d (Screen)"
+msgstr "%d x %d (తెర)"
+
+#: ../src/dlg-duplicates.c:275 ../src/dlg-duplicates.c:649
+msgid "Duplicates"
+msgstr "నకిలీలు"
+
+#: ../src/dlg-duplicates.c:290
+msgid "Duplicates Size"
+msgstr "నకిలీల పరిమాణము"
+
+#.
+#: ../src/dlg-duplicates.c:368 ../src/dlg-image-prop.c:593
+#: ../src/gth-exif-data-viewer.c:800
+msgid "Name"
+msgstr "నామము"
+
+#: ../src/dlg-duplicates.c:397
+msgid "Last modified"
+msgstr "చివరిగా సవరించిన"
+
+#: ../src/dlg-duplicates.c:412 ../src/dlg-image-prop.c:613
+msgid "Location"
+msgstr "స్థానము"
+
+#: ../src/dlg-duplicates.c:754
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "చెక్‌చేసిన ప్రతిబింబములు చెత్తకుండీకు కదల్చబడతాయి, మీరు కదల్చాలని అనుకొనుచున్నారా?"
+
+#: ../src/dlg-file-utils.c:90
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "గమ్యపు ఫోల్డరు లేదు. మీరు దానిని సృష్టించుదామని అనుకొనుచున్నారా?"
+
+#: ../src/dlg-file-utils.c:106
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "ఫోల్డర్ \"%s\"ను సృష్టించలేక పోయింది: %s."
+
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1669
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "ఫోల్డర్ \"%s\"నందు ప్రతిబింబములను సృష్టించుటకు మీరు సరైన అనుమతులను కలిగిలేరు"
+
+#: ../src/dlg-file-utils.c:203
+msgid "Could not delete the images:"
+msgstr "ప్రతిబింబములను తొలగించలేక పోయింది:"
+
+#: ../src/dlg-file-utils.c:226
+msgid ""
+"The images cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr "ప్రతిబింబములు చెత్తకుండీకు కదుపబడలేవు. మీరు వాటిని శాశ్వతంగా తొలగించుదామని అనుకొనుచున్నారా?"
+
+#: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
+#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
+#: ../src/rotation-utils.c:125
+msgid "_Do not display this message again"
+msgstr "ఈ సందేశమును మరలా ప్రదర్శించవద్దు (_D)"
+
+#: ../src/dlg-file-utils.c:283 ../src/gth-browser-actions-callbacks.c:1176
+msgid "_Move"
+msgstr "కదుల్చుము (_M)"
+
+#: ../src/dlg-file-utils.c:380 ../src/dlg-file-utils.c:480
+#: ../src/gth-browser-actions-callbacks.c:1403
+msgid "Choose the destination folder"
+msgstr "గమ్యపు ఫోల్డరును యెంచుకొనుము"
+
+#: ../src/dlg-file-utils.c:547
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
+
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
+msgid "You didn't enter the new name"
+msgstr "మీరు కొత్త నామమును ప్రవేశపెట్టలేదు"
+
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
+#, c-format
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+"నామము \"%s\" యిప్పటికే ఈ ఫోల్డరునందు వుపయోగించబడింది. దయచేసి వేరొక నామమును "
+"వుపయోగించండి."
+
+#: ../src/dlg-file-utils.c:1033
+msgid "Could not rename the image:"
+msgstr "ప్రతిబింబమును పునఃనామకరణ చేయలేకపోయింది:"
+
+#: ../src/dlg-file-utils.c:1035
+msgid "Could not rename the following images:"
+msgstr "క్రింది ప్రతిబింబములను పునఃనామకరణ చేయలేక పోయింది:"
+
+#: ../src/dlg-file-utils.c:1168
+msgid "Could not move the image:"
+msgstr "ప్రతిబింబమును కదల్చలేక పోయింది:"
+
+#: ../src/dlg-file-utils.c:1170
+msgid "Could not copy the image:"
+msgstr "ప్రతిబింబమును నకలుతీయలేక పోయింది:"
+
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
+msgid "_Abort"
+msgstr "విరమించు (_A)"
+
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
+msgid "_Continue"
+msgstr "కొనసాగు (_C)"
+
+#: ../src/dlg-file-utils.c:1373
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "%2$d లో %1$d ఫైలు నకలుతీయుచున్నది"
+
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
+msgid "Collecting images info"
+msgstr "ప్రతిబింబముల సమాచారమును సేకరించుచున్నది"
+
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "ఫైలు %ldను తొలగించుచున్నది మొత్తం %ld ఫైళ్ళలో"
+
+#: ../src/dlg-file-utils.c:2015
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "ఫైలు %ldను నకలుతీయుచున్నది మొత్తం %ld ఫైళ్ళలో"
+
+#: ../src/dlg-file-utils.c:2020
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "ఫైలు %ldను కదుల్చుచున్నది మొత్తం %ld ఫైళ్ళలో"
+
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
+#: ../src/gth-browser-actions-callbacks.c:1285
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "ఫోల్డర్ \"%s\"ను జరపలేక పోయింది: %s"
+
+#: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
+#: ../src/gth-filter-bar.c:209
+msgid "Size"
+msgstr "పరిమాణము"
+
+#: ../src/dlg-image-prop.c:603 ../src/gth-exif-data-viewer.c:805
+msgid "Type"
+msgstr "రకము"
+
+#: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:497
+#: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
+msgid "Modified"
+msgstr "సవరించిన"
+
+#: ../src/dlg-image-prop.c:623
+msgid "Information on Channel"
+msgstr "ఛానల్ పైన సమాచారము"
+
+#: ../src/dlg-image-prop.c:732
+#, c-format
+msgid "%s Properties"
+msgstr "%s లక్షణాలు"
+
+#: ../src/dlg-jpegtran.c:258 ../src/dlg-reset-exif.c:128
+msgid "Could not move temporary file to remote location. Check remote permissions."
+msgstr "తాత్కాలిక ఫైలును దూరస్థ స్థానమునకు కదల్చలేక పోయింది. దూరస్థ అనుమతులను పరిశీలించుము."
+
+#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1596
+#: ../src/dlg-photo-importer.c:1643 ../src/dlg-photo-importer.c:1655
+#: ../src/dlg-photo-importer.c:1671 ../src/dlg-photo-importer.c:1700
+msgid "Could not import photos"
+msgstr "ఛాయాచిత్రములను దిగుమతి చేయలేక పోయింది"
+
+#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
+msgid "Film"
+msgstr "ఫిల్ము"
+
+#: ../src/dlg-photo-importer.c:1341
+msgid "Import errors detected"
+msgstr "దిగుమతి దోషములు గుర్తించబడినవి"
+
+#: ../src/dlg-photo-importer.c:1342
+msgid "The files on the camera will not be deleted"
+msgstr "కేమెరానందలి ఫైళ్ళు తొలగించబడవు"
+
+#: ../src/dlg-photo-importer.c:1652
+#: ../src/gth-browser-actions-callbacks.c:1603
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "ఫోల్డర్ \"%s\"ను సృష్టించలేక పోయింది: %s"
+
+#: ../src/dlg-photo-importer.c:1701
+msgid "Not enough free space left on disk"
+msgstr "డిస్కునందు సరిపోవునంత ఖాళీ జాగా లేదు"
+
+#: ../src/dlg-png-exporter.c:908
+msgid "Image Caption"
+msgstr "ప్రతిబింబము పేరు(కాప్షన్)"
+
+#: ../src/dlg-png-exporter.c:962
+msgid "Header"
+msgstr "పీఠిక"
+
+#: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
+msgid "Footer"
+msgstr "భూమిక"
+
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
+#: ../src/dlg-web-exporter.c:484
+msgid "by path"
+msgstr "పాత్ ద్వారా"
+
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
+#: ../src/dlg-web-exporter.c:486
+msgid "by size"
+msgstr "పరిమాణము ద్వారా"
+
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
+#: ../src/dlg-web-exporter.c:488
+msgid "by file modified time"
+msgstr "ఫైలు సవరించబడిన సమయం ద్వారా"
+
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
+#: ../src/dlg-web-exporter.c:490
+msgid "by Exif DateTime tag"
+msgstr "Exif తేదిసమయం టాగ్ ద్వారా"
+
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
+#: ../src/dlg-web-exporter.c:492
+msgid "by comment"
+msgstr "వ్యాఖ్య ద్వారా"
+
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
+#: ../src/dlg-web-exporter.c:495
+msgid "manual order"
+msgstr "మానవీయ క్రమము"
+
+#: ../src/dlg-rename-series.c:116 ../src/gth-browser-actions-callbacks.c:486
+#: ../src/gth-browser-actions-callbacks.c:702
+#: ../src/gth-browser-actions-callbacks.c:785
+#: ../src/gth-browser-actions-callbacks.c:994
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"నామము \"%s\" చెల్లునది కాదు యెంచేతంటే అది అక్షరము \"/\"ను కలిగివుంది. దయచేసి వేరొక నామమును "
+"వుపయోగించుము."
+
+#: ../src/dlg-rename-series.c:468
+msgid "Old Name"
+msgstr "పాత నామము"
+
+#: ../src/dlg-rename-series.c:476
+msgid "New Name"
+msgstr "కొత్త నామము"
+
+#: ../src/dlg-search.c:368
+msgid "Search Result"
+msgstr "శోధన ఫలితము"
+
+#: ../src/dlg-web-exporter.c:847
+msgid "Select Album Theme"
+msgstr "ఆల్బమ్ థీము యెంపికచేయుము"
+
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3858
+msgid "Could not move the items:"
+msgstr "అంశములను కదల్చలేక పోయింది:"
+
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1098
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "ప్రతిబింబము చెత్తకుండీకు కదల్చబడుతుంది, మీరు కదల్చవలెనని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:267
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "ప్రతిబంబము \"%s\"కు నకిలీ చేయలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:275
+msgid "Stop"
+msgstr "ఆపుము"
+
+#: ../src/gth-browser-actions-callbacks.c:276
+msgid "Continue"
+msgstr "కొనసాగించు"
+
+#: ../src/gth-browser-actions-callbacks.c:331
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "ఎంపికచేసిన ప్రతిబింబములు చెత్తకుండీకు కదల్చబడతాయి, మీరు కదల్చాలని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:466
+#: ../src/gth-browser-actions-callbacks.c:976
+msgid "Enter the new name: "
+msgstr "కొత్త నామమును ప్రవేశపెట్టుము: "
+
+#: ../src/gth-browser-actions-callbacks.c:508
+#: ../src/gth-browser-actions-callbacks.c:721
+#: ../src/gth-browser-actions-callbacks.c:801
+#: ../src/gth-browser-actions-callbacks.c:1024
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "నామము \"%s\" యిప్పటికే వుపయోగించబడింది. దయచేసి వేరొక నామమును వుపయోగించుము."
+
+#: ../src/gth-browser-actions-callbacks.c:520
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "లైబ్రరీ \"%s\"ను పునఃనామకరణ చేయలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:520
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "కాటలాగ్ \"%s\"ను పునఃనామకరణ చేయలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:590
+msgid "The selected library will be removed, are you sure?"
+msgstr "ఎంపికచేయబడిన లైబ్రరీ తొలగించబడుతుంది, మీరు తొలగించాలని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:592
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "ఎంపికచేయబడిన కాటలాగ్ తొలగించబడుతుంది, మీరు తొలగించాలని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:687
+msgid "New Catalog"
+msgstr "కొత్త కాటలాగ్"
+
+#: ../src/gth-browser-actions-callbacks.c:733
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "కాటలాగ్ \"%s\"ను సృష్టించలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:827
+msgid "New Library"
+msgstr "కొత్త లైబ్రరీ"
+
+#: ../src/gth-browser-actions-callbacks.c:829
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "లైబ్రరీ \"%s\"ను సృష్టించలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1014
+#: ../src/gth-browser-actions-callbacks.c:1049
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "ఫోల్డర్ \"%s\"ను పునఃనామకరణ చేయలేకపోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1016
+#: ../src/gth-browser-actions-callbacks.c:1295
+msgid "source and destination are the same"
+msgstr "మొదలు మరియు గమ్యము రెండూ వొకటే"
+
+#: ../src/gth-browser-actions-callbacks.c:1099
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "ఫోల్డర్ \"%s\"ను తొలగించలేక పోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1130
+#, c-format
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" చెత్తకుండీకు కదుపబడదు. మీరు దానిని శాశ్వతంగా తొలగించుదామని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:1174
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "ఎంపికచేయబడిన ఫోల్డర్ చెత్తకుండీకు కదుపబడుతుంది, మీరు కదల్చాలని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser-actions-callbacks.c:1227
+#: ../src/gth-browser-actions-callbacks.c:1285
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "ఫోల్డర్ \"%s\"ను నకలుతీయలేక పోయింది: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1306
+msgid "source contains destination"
+msgstr "మొదలు గమ్యాన్ని కలిగివుంది"
+
+#: ../src/gth-browser-actions-callbacks.c:1317
+msgid "a folder with that name is already present."
+msgstr "అదే నామముతో వొక ఫోల్డరు యిప్పటికేవుంది."
+
+#: ../src/gth-browser-actions-callbacks.c:1601
+msgid "New Folder"
+msgstr "కొత్త ఫోల్డర్"
+
+#: ../src/gth-browser-actions-callbacks.c:1602
+msgid "Enter the folder name: "
+msgstr "ఫోల్డర్ నామమును ప్రవేశపెట్టుము: "
+
+#: ../src/gth-browser-actions-callbacks.c:1732 ../src/gth-location.c:219
+msgid "Open Location"
+msgstr "స్థానమును తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "పైలు (_F)"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "ఫోల్డర్ (_F)"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "సరికూర్చు (_E)"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "చూయించు/మరుగునవుంచు (_H)"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "ప్రతిబింబములను క్రమపరచు (_o)"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr "జూమ్ (_Z)"
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "వెళ్ళు (_G)"
+
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:495
+#: ../src/gth-viewer-actions-entries.h:40
+msgid "_Image"
+msgstr "ప్రతిబింబము (_I)"
+
+#: ../src/gth-browser-actions-entries.h:47
+msgid "_Bookmarks"
+msgstr "పుస్తకగుర్తులు (_B)"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "సాధనములు (_T)"
+
+#: ../src/gth-browser-actions-entries.h:49
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "వాల్‌పేపర్ వలె అమర్చుము (_W)"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "సహాయము (_H)"
+
+#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "కొత్త విండో (_W)"
+
+#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "కొత్త విండోను సృష్టించుము"
+
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "ఎంపికచేసిన ప్రతిబింబమును కొత్త విండోనందు తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:64
+#: ../src/gth-browser-actions-entries.h:429
+#: ../src/gth-viewer-actions-entries.h:84
+msgid "View image properties"
+msgstr "ప్రతిబింబము లక్షణములను దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:68
+msgid "_Import Photos..."
+msgstr "ఛాయాచిత్రములను దిగుమతిచేయుము... (_I)"
+
+#: ../src/gth-browser-actions-entries.h:69
+msgid "Import photos from a digital camera"
+msgstr "డిజిటల్ కేమెరానుండి ఛాయాచిత్రములను దిగుమతిచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:73
+msgid "_Write To CD..."
+msgstr "CDకు వ్రాయుము... (_W)"
+
+#: ../src/gth-browser-actions-entries.h:74
+msgid "Write selection to CD"
+msgstr "ఎంపికను CDకు వ్రాయుము"
+
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
+msgid "_Rename..."
+msgstr "పునఃనామకరణ... (_R)"
+
+#: ../src/gth-browser-actions-entries.h:79
+msgid "Rename this image"
+msgstr "ఈ ప్రతిబింబమును పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:84
+msgid "Move this image to the Trash"
+msgstr "ఈ ప్రతిబింబమును చెత్తకుండీకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+msgid "_Copy..."
+msgstr "నకలుతీయి... (_C)"
+
+#: ../src/gth-browser-actions-entries.h:89
+msgid "Copy this image to another location"
+msgstr "ఈ ప్రతిబింబమును వేరొక స్థానమునకు నకలుతీయుము"
+
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
+#: ../src/gth-browser-actions-entries.h:238
+#: ../src/gth-browser-actions-entries.h:268
+msgid "_Move..."
+msgstr "కదుల్చుము... (_M)"
+
+#: ../src/gth-browser-actions-entries.h:94
+msgid "Move this image to another location"
+msgstr "ఈ ప్రతిబింబమును వేరకొ స్థానమునకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:103
+msgid "D_uplicate"
+msgstr "నకిలి (_u)"
+
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములకు నకలీవిచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:109
+msgid "Move the selected images to the Trash"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను చెత్తకుండీకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:114
+msgid "Copy selected images to another location"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను వేరొక స్థానమునకు నకలుతీయుము"
+
+#: ../src/gth-browser-actions-entries.h:119
+msgid "Move selected images to another location"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను వేరొక స్థానమునకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:123
+msgid "_Select All"
+msgstr "అన్నిటిని యెంపికచేయుము (_S)"
+
+#: ../src/gth-browser-actions-entries.h:124
+msgid "Select all images"
+msgstr "అన్ని ప్రతిబింబములను యెంపికచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "కాటలాగ్‌నకు జతచేయుము... (_A)"
+
+#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను కాటలాగ్‌నకు జతచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:133
+msgid "Remo_ve from Catalog"
+msgstr "కాటలాగ్‌నుండి తొలగించుము (_v)"
+
+#: ../src/gth-browser-actions-entries.h:134
+msgid "Remove selected images from the catalog"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను కాటలాగ్‌నుండి తొలగించుము"
+
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:208
+msgid "Open"
+msgstr "తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:139
+msgid "Open the selected catalog"
+msgstr "ఎంపికచేసిన కాటలాగ్‌ను తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:213
+msgid "Open in New Window"
+msgstr "కొత్త విండోనందు తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:144
+msgid "Open the selected catalog in a new window"
+msgstr "ఎంపికచేసిన కాటలాగ్‌ను కొత్త విండోనందు తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:149
+msgid "Rename selected catalog"
+msgstr "ఎంపికచేసిన కాటలాగ్‌ను పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
+msgid "Rem_ove"
+msgstr "తీసివేయుము (_o)"
+
+#: ../src/gth-browser-actions-entries.h:154
+msgid "Remove selected catalog"
+msgstr "ఎంపికచేసిన కాటలాగ్‌ను తీసివేయుము"
+
+#: ../src/gth-browser-actions-entries.h:159
+msgid "Move selected catalog to another location"
+msgstr "ఎంపికచేసిన కాటలాగ్‌ను వేరొక స్థానమునకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:163
+#: ../src/gth-browser-actions-entries.h:198
+msgid "_Edit Search..."
+msgstr "శోధనను సరికూర్చుము... (_E)"
+
+#: ../src/gth-browser-actions-entries.h:164
+#: ../src/gth-browser-actions-entries.h:199
+msgid "Modify search criteria"
+msgstr "శోధన విధానమును సవరించుము"
+
+#: ../src/gth-browser-actions-entries.h:168
+#: ../src/gth-browser-actions-entries.h:203
+msgid "Redo _Search"
+msgstr "శోధనను మళ్ళీచేయుము (_S)"
+
+#: ../src/gth-browser-actions-entries.h:169
+#: ../src/gth-browser-actions-entries.h:204
+msgid "Redo the search"
+msgstr "శోధనను మళ్ళీ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:173
+msgid "_New Catalog..."
+msgstr "కొత్త కాటలాగ్... (_N)"
+
+#: ../src/gth-browser-actions-entries.h:174
+msgid "Create a new catalog"
+msgstr "కొత్త కాటలాగ్‌ను సృష్టించుము"
+
+#: ../src/gth-browser-actions-entries.h:178
+msgid "New _Library..."
+msgstr "కొత్త లైబ్రరీ... (_L)"
+
+#: ../src/gth-browser-actions-entries.h:179
+msgid "Create a new catalog library"
+msgstr "కొత్త కాటలాగ్ లైబ్రరీను సృష్టించుము"
+
+#: ../src/gth-browser-actions-entries.h:184
+msgid "Rename current catalog"
+msgstr "ప్రస్తుత కాటలాగ్‌ను పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:189
+msgid "Remove current catalog"
+msgstr "ప్రస్తుత కాటలాగ్‌ను తొలగించుము"
+
+#: ../src/gth-browser-actions-entries.h:194
+msgid "Move current catalog to another location"
+msgstr "ప్రస్తుత కాటలాగ్‌ను వేరొక స్థానమునకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:209
+msgid "Open the selected folder"
+msgstr "ఎంపికచేసిన ఫోల్డరును తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:214
+msgid "Open the selected folder in a new window"
+msgstr "ఎంపికచేసిన ఫోల్డరును కొత్త విండోనందు తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
+msgid "Open with the _File Manager"
+msgstr "ఫైలు నిర్వాహికతో తెరువుము (_F)"
+
+#: ../src/gth-browser-actions-entries.h:219
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "ఎంపికచేసిన ఫోల్డరును నాటిలస్ ఫైలు నిర్వాహికతో తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:224
+msgid "Rename selected folder"
+msgstr "ఎంపికచేసిన ఫోల్డరును పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:229
+msgid "Move the selected folder to the Trash"
+msgstr "ఎంపికచేసిన ఫోల్డరును చెత్తకుండీకు కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:234
+msgid "Copy selected folder"
+msgstr "ఎంపికచేసిన ఫోల్డరును నకలుతీయుము"
+
+#: ../src/gth-browser-actions-entries.h:239
+msgid "Move selected folder"
+msgstr "ఎంపికచేసిన ఫోల్డరును కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:243
+#: ../src/gth-browser-actions-entries.h:273
+#: ../src/gth-window-actions-entries.h:95
+msgid "Ca_tegories..."
+msgstr "వర్గములు... (_t)"
+
+#: ../src/gth-browser-actions-entries.h:244
+msgid "Assign categories to the selected folder"
+msgstr "వర్గములను యెంపికచేసిన ఫోల్డరుకు అప్పగించుము"
+
+#: ../src/gth-browser-actions-entries.h:249
+msgid "Open current folder with the Nautilus file manager"
+msgstr "ప్రస్తుత ఫోల్డరును నాటిలస్ ఫైలు నిర్వాహికతో తెరువుము"
+
+#: ../src/gth-browser-actions-entries.h:254
+msgid "Rename current folder"
+msgstr "ప్రస్తుత ఫోల్డరును పునఃనామకరణ చేయుము"
+
+#: ../src/gth-browser-actions-entries.h:259
+msgid "Move the current folder to the Trash"
+msgstr "ప్రస్తుత ఫోల్డరును చెత్తకుండీకు కదుపుము"
+
+#: ../src/gth-browser-actions-entries.h:264
+msgid "Copy current folder"
+msgstr "ప్రస్తుత ఫోల్డరును నకలుతీయుము"
+
+#: ../src/gth-browser-actions-entries.h:269
+msgid "Move current folder"
+msgstr "ప్రస్తుత ఫోల్డరును కదుల్చుము"
+
+#: ../src/gth-browser-actions-entries.h:274
+msgid "Assign categories to the current folder"
+msgstr "వర్గములను ప్రస్తుత ఫోల్డరుకు అప్పగించుము"
+
+#: ../src/gth-browser-actions-entries.h:278
+msgid "_New Folder..."
+msgstr "కొత్త ఫోల్డర్... (_N)"
+
+#: ../src/gth-browser-actions-entries.h:279
+msgid "Create a new folder"
+msgstr "కొత్త ఫోల్డరును సృష్టించుము"
+
+#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-fullscreen-actions-entries.h:43
+msgid "View next image"
+msgstr "తరువాతి ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-fullscreen-actions-entries.h:48
+msgid "View previous image"
+msgstr "ముందలి ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:299
+msgid "Go to the previous visited location"
+msgstr "గతంలో దర్శించిన స్థానమునకు వెళ్ళము"
+
+#: ../src/gth-browser-actions-entries.h:304
+msgid "Go to the next visited location"
+msgstr "తరువాత దర్శించిన స్థానమునకు వెళ్ళుము"
+
+#: ../src/gth-browser-actions-entries.h:309
+msgid "Go up one level"
+msgstr "ఒక స్థాయి పైనకు వెళ్ళుము"
+
+#: ../src/gth-browser-actions-entries.h:313
+#: ../src/gth-viewer-actions-entries.h:63
+msgid "_Reload"
+msgstr "తిరిగిలోడుచేయి (_R)"
+
+#: ../src/gth-browser-actions-entries.h:314
+#: ../src/gth-viewer-actions-entries.h:64
+msgid "Reload the current location"
+msgstr "ప్రస్తుత స్థానమును తిరిగిలోడుచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:319
+msgid "Stop loading current location"
+msgstr "ప్రస్తుత స్థానమును లోడుచేయుట ఆపుము"
+
+#: ../src/gth-browser-actions-entries.h:324
+msgid "Go to the home folder"
+msgstr "నివాస ఫోల్డరుకు వెళ్ళుము"
+
+#: ../src/gth-browser-actions-entries.h:328
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "_Go to the Image Folder"
+msgstr "ప్రతిబింబము ఫోల్డరుకు వెళ్ళుము (_G)"
+
+#: ../src/gth-browser-actions-entries.h:329
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Go to the folder that contains the selected image"
+msgstr "ఎంపికచేసిన ప్రతిబింబము కలిగివున్న ఫోల్డరుకు వెళ్ళుము"
+
+#: ../src/gth-browser-actions-entries.h:333
+msgid "_Delete History"
+msgstr "చరిత్రను తొలగించుము (_D)"
+
+#: ../src/gth-browser-actions-entries.h:334
+msgid "Delete the list of visited locations"
+msgstr "దర్శించిన స్థానముల జాబితాను తొలగించుము"
+
+#: ../src/gth-browser-actions-entries.h:338
+msgid "_Location..."
+msgstr "స్థానము... (_L)"
+
+#: ../src/gth-browser-actions-entries.h:339
+msgid "Specify a location to visit"
+msgstr "దర్శించుటకు వొక స్థానమును తెలుపుము"
+
+#: ../src/gth-browser-actions-entries.h:343
+msgid "_Add Bookmark"
+msgstr "పుస్తకగుర్తును జతచేయుము (_A)"
+
+#: ../src/gth-browser-actions-entries.h:344
+msgid "Add current location to bookmarks"
+msgstr "ప్రస్తుత స్థానమును పుస్తకగుర్తులకు జతచేయుము"
+
+#: ../src/gth-browser-actions-entries.h:348
+msgid "_Edit Bookmarks..."
+msgstr "పుస్తకగుర్తులను సరికూర్చుము... (_E)"
+
+#: ../src/gth-browser-actions-entries.h:349
+msgid "Edit bookmarks"
+msgstr "పుస్తకగుర్తులను సరికూర్చుము"
+
+#: ../src/gth-browser-actions-entries.h:353
+msgid "_Slide Show"
+msgstr "స్లైడు ప్రదర్శన (_S)"
+
+#: ../src/gth-browser-actions-entries.h:354
+msgid "View as a slide show"
+msgstr "స్లైడు ప్రదర్శనవలె దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:358
+msgid "_Search..."
+msgstr "శోధించు... (_S)"
+
+#: ../src/gth-browser-actions-entries.h:368
+msgid "Create _Index Image..."
+msgstr "విషయసూచిక ప్రతిబింబమును సృష్టించుము... (_I)"
+
+#: ../src/gth-browser-actions-entries.h:373
+msgid "Create _Web Album..."
+msgstr "వెబ్ ఆల్బమ్ సృష్టించుము... (_W)"
+
+#: ../src/gth-browser-actions-entries.h:378
+msgid "Convert F_ormat..."
+msgstr "ఫార్మాట్ మార్చుము... (_o)"
+
+#: ../src/gth-browser-actions-entries.h:383
+msgid "Search for _Duplicates..."
+msgstr "నకలీల కొరకు శోధించుము... (_D)"
+
+#: ../src/gth-browser-actions-entries.h:388
+msgid "_Preferences..."
+msgstr "అభీష్టాలు... (_P)"
+
+#: ../src/gth-browser-actions-entries.h:389
+msgid "Edit various preferences"
+msgstr "వివిధ అభీష్టాలను సరికూర్చుము"
+
+#: ../src/gth-browser-actions-entries.h:393
+msgid "Scale Images..."
+msgstr "ప్రతిబింబములను స్కేలుచేయుము..."
+
+#: ../src/gth-browser-actions-entries.h:402
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "_Toolbar"
+msgstr "సాధనపట్టీ (_T)"
+
+#: ../src/gth-browser-actions-entries.h:403
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "View or hide the toolbar of this window"
+msgstr "ఈ విండోయొక్క సాధనపట్టీను దర్శించుము లేదా మరుగునవుంచుము"
+
+#: ../src/gth-browser-actions-entries.h:407
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "_Statusbar"
+msgstr "స్థితిపట్టీ (_S)"
+
+#: ../src/gth-browser-actions-entries.h:408
+#: ../src/gth-viewer-actions-entries.h:79
+msgid "View or hide the statusbar of this window"
+msgstr "ఈ విండోయొక్క స్థితిపట్టీను దర్శించుము లేదా మరుగునవుంచుము"
+
+#: ../src/gth-browser-actions-entries.h:412
+msgid "_Filter"
+msgstr "వడపోత (_F)"
+
+#: ../src/gth-browser-actions-entries.h:413
+msgid "View or hide the filterbar of this window"
+msgstr "ఈ విండోయొక్క వడపోతపట్టీను దర్శించుము లేదా మరుగునవుంచుము"
+
+#: ../src/gth-browser-actions-entries.h:419
+msgid "View thumbnails"
+msgstr "థంబ్‌నెయిల్సును దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:423
+msgid "_Image Preview"
+msgstr "ప్రతిబింబము వుపదర్శనము (_I)"
+
+#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:496
+msgid "View the image"
+msgstr "ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Show _Hidden Files"
+msgstr "మరుగునవుంచిన ఫైళ్ళను చూపుము (_H)"
+
+#: ../src/gth-browser-actions-entries.h:435
+msgid "Show hidden files and folders"
+msgstr "మరుగునవుంచిన ఫైళ్ళను మరియు ఫోల్డరులను చూపుము"
+
+#: ../src/gth-browser-actions-entries.h:440
+msgid "_Reversed Order"
+msgstr "వ్యతిరేకపరచిన క్రమము (_R)"
+
+#: ../src/gth-browser-actions-entries.h:441
+msgid "Reverse images order"
+msgstr "ప్రతిబింబముల క్రమమును వ్యతిరేకముచేయి"
+
+#: ../src/gth-browser-actions-entries.h:450
+msgid "by _Name"
+msgstr "నామము ద్వారా (_N)"
+
+#: ../src/gth-browser-actions-entries.h:451
+msgid "Sort images by name"
+msgstr "నామము ద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:453
+msgid "by _Path"
+msgstr "పాత్ ద్వారా (_P)"
+
+#: ../src/gth-browser-actions-entries.h:454
+msgid "Sort images by path"
+msgstr "పాత్ ద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:456
+msgid "by _Size"
+msgstr "పరిమాణము ద్వారా (_S)"
+
+#: ../src/gth-browser-actions-entries.h:457
+msgid "Sort images by file size"
+msgstr "ఫైలు పరిమాణముద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:459
+msgid "by Modification _Time"
+msgstr "సవరించిన సమయం ద్వారా (_T)"
+
+#: ../src/gth-browser-actions-entries.h:460
+msgid "Sort images by file modification time"
+msgstr "ఫైలు సవరించిన సమయం ద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:462
+msgid "by _Exif Time"
+msgstr "_Exif సమయం ద్వారా"
+
+#: ../src/gth-browser-actions-entries.h:463
+msgid "Sort images by Exif DateTime tag"
+msgstr "Exif తేదిసమయం టాగ్ ద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:465
+msgid "by _Comment"
+msgstr "వ్యాఖ్యానము ద్వారా (_C)"
+
+#: ../src/gth-browser-actions-entries.h:466
+msgid "Sort images by comment"
+msgstr "వ్యాఖ్య ద్వారా ప్రతిబింబములను క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:468
+msgid "_Manual Order"
+msgstr "మానవీయ క్రమము (_M)"
+
+#: ../src/gth-browser-actions-entries.h:469
+msgid "Sort images manually"
+msgstr "ప్రతిబింబములను మానవీయంగా క్రమపరచుము"
+
+#: ../src/gth-browser-actions-entries.h:476
+#: ../src/gth-browser-actions-entries.h:477
+msgid "View As Slides"
+msgstr "స్లైడుల వలె దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:479
+#: ../src/gth-browser-actions-entries.h:480
+msgid "View As List"
+msgstr "జాబితా వలె దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:489
+msgid "_Folders"
+msgstr "ఫోల్డరులు (_F)"
+
+#: ../src/gth-browser-actions-entries.h:490
+msgid "View the folders"
+msgstr "ఫోల్డరులను దర్శించుము"
+
+#: ../src/gth-browser-actions-entries.h:492
+msgid "_Catalogs"
+msgstr "కాటలాగ్సు (_C)"
+
+#: ../src/gth-browser-actions-entries.h:493
+msgid "View the catalogs"
+msgstr "కాటలాగ్సును దర్శించుము"
+
+#: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
+msgid "[Press 'c' to add a comment]"
+msgstr "[వ్యాఖ్యానమును జతచేయుటకు 'c' వత్తుము]"
+
+#: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
+msgid "[modified]"
+msgstr "[సవరించిన]"
+
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
+msgid "gThumb"
+msgstr "gThumb"
+
+#: ../src/gth-browser.c:776
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 ప్రతిబింబము (%s)"
+
+#: ../src/gth-browser.c:779
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d ప్రతిబింబములు (%s)"
+
+#: ../src/gth-browser.c:786
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 ఎంపికచేసిన (%s)"
+
+#: ../src/gth-browser.c:789
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d ఎంపికచేసిన (%s)"
+
+#: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
+msgid "The current image has been modified, do you want to save it?"
+msgstr "ప్రస్తుత ప్రతిబింబము సవరించబడింది, మీరు దానిని దాయాలని అనుకొనుచున్నారా?"
+
+#: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
+msgid "Do Not Save"
+msgstr "దాయవద్దు"
+
+#: ../src/gth-browser.c:3617
+msgid "Dragged Images"
+msgstr "ప్రతిబింబములను లాగుము"
+
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
+#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:281
+#: ../src/gth-window-actions-entries.h:286
+msgid "Rotate images without loss of quality"
+msgstr "నాణ్యత లోపంలేకుండా ప్రతిబింబములను భ్రమణం చేయుము"
+
+#: ../src/gth-browser.c:6350
+msgid "Getting folder listing..."
+msgstr "ఫోల్డర్ జాబితాను పొందుచున్నది..."
+
+#: ../src/gth-browser.c:6372
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "ఫోల్డర్ \"%s\"ను లోడుచేయలేదు: %s\n"
+
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
+msgid "Close"
+msgstr "మూయుము"
+
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
+msgid "Image comment"
+msgstr "ప్రతిబింబము వ్యాఖ్య"
+
+#: ../src/gth-browser.c:6941
+msgid "Image data"
+msgstr "ప్రతిబింబము డాటా"
+
+#: ../src/gth-browser.c:6953
+msgid "Image preview"
+msgstr "ప్రతిబింబము వుపదర్శనము"
+
+#: ../src/gth-browser.c:8008
+msgid "The specified catalog does not exist."
+msgstr "తెలుపబడిన కాటలాగ్ లేదు."
+
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
+msgid "Wait please..."
+msgstr "దయచేసి వేచివుండండి..."
+
+#: ../src/gth-exif-data-viewer.c:65
+msgid "Filesystem Data"
+msgstr "ఫైలుసిస్టమ్ డాటా"
+
+#: ../src/gth-exif-data-viewer.c:66
+msgid "General Information"
+msgstr "సాదారణ సమాచారము"
+
+#: ../src/gth-exif-data-viewer.c:67
+msgid "Picture-Taking Conditions"
+msgstr "చిత్రము-తీసుకొను నియమాలు"
+
+#: ../src/gth-exif-data-viewer.c:68
+msgid "Maker Notes"
+msgstr "మేకర్ గమనికలు"
+
+#: ../src/gth-exif-data-viewer.c:69
+msgid "GPS Coordinates"
+msgstr "GPS కోఆర్డినేట్లు"
+
+#: ../src/gth-exif-data-viewer.c:70
+msgid "Image Structure"
+msgstr "ప్రతిబింబము ఆకృతి"
+
+#: ../src/gth-exif-data-viewer.c:71
+msgid "Embedded Thumbnail"
+msgstr "ఎంబెడెడ్ థంబ్‌నెయిల్"
+
+#: ../src/gth-exif-data-viewer.c:72
+msgid "Versions & Interoperability"
+msgstr "వర్షన్లు & ఇంటరాపరబిలిటి"
+
+#: ../src/gth-exif-data-viewer.c:73
+msgid "Other"
+msgstr "ఇతర"
+
+#: ../src/gth-exif-data-viewer.c:801
+msgid "Path"
+msgstr "పాత్"
+
+#: ../src/gth-filter-bar.c:174
+msgid "contains"
+msgstr "కలిగివున్న"
+
+#: ../src/gth-filter-bar.c:175
+msgid "starts with"
+msgstr "దీనితో ప్రారంభమగు"
+
+#: ../src/gth-filter-bar.c:176
+msgid "ends with"
+msgstr "దీనితో ముగియు"
+
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
+msgid "is"
+msgstr "ఇదివున్న"
+
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
+msgid "is not"
+msgstr "ఇదికాని"
+
+#: ../src/gth-filter-bar.c:179
+msgid "does not contain"
+msgstr "కలిగిలేని"
+
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
+msgid "is equal to"
+msgstr "దీనికి సమమైన"
+
+#: ../src/gth-filter-bar.c:183
+msgid "is lower than"
+msgstr "దీనికి తక్కువైన"
+
+#: ../src/gth-filter-bar.c:184
+msgid "is greater than"
+msgstr "దీనికి ఎక్కువైన"
+
+#: ../src/gth-filter-bar.c:188
+msgid "is before"
+msgstr "దీనికి ముందు"
+
+#: ../src/gth-filter-bar.c:189
+msgid "is after"
+msgstr "దీనికి తర్వాత"
+
+#: ../src/gth-filter-bar.c:198
+msgid "KB"
+msgstr "KB"
+
+#: ../src/gth-filter-bar.c:199
+msgid "MB"
+msgstr "MB"
+
+#: ../src/gth-filter-bar.c:205
+msgid "Filename"
+msgstr "ఫైలునామము"
+
+#: ../src/gth-filter-bar.c:207
+msgid "Place"
+msgstr "స్థలము"
+
+#: ../src/gth-filter-bar.c:210
+msgid "Category"
+msgstr "వర్గము"
+
+#: ../src/gth-filter-bar.c:211
+msgid "Text contains"
+msgstr "పాఠ్యము కలిగివుంది"
+
+#: ../src/gth-filter-bar.c:490
+msgid "All"
+msgstr "అన్ని"
+
+#. view label
+#: ../src/gth-filter-bar.c:540
+msgid "S_how:"
+msgstr "చూపుము (_h):"
+
+#: ../src/gth-folder-selection-dialog.c:281
+msgid "<b>_Folder</b>"
+msgstr "<b>ఫోల్డర్ (_F)</b>"
+
+#: ../src/gth-folder-selection-dialog.c:299
+msgid "_Browse..."
+msgstr "అన్వేషించు... (_B)"
+
+#: ../src/gth-folder-selection-dialog.c:317
+msgid "<b>_Recent folders:</b>"
+msgstr "<b>ఇటీవలి ఫోల్డర్లు (_R):</b>"
+
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "లక్షణములు (_t)"
+
+#: ../src/gth-location.c:392
+msgid "Other..."
+msgstr "ఇతర..."
+
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "బదిలీ (_T)"
+
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "స్వయంచాలక"
+
+#: ../src/gth-viewer-actions-entries.h:88
+msgid "_Single Window"
+msgstr "ఒంటరి విండో (_S)"
+
+#: ../src/gth-viewer-actions-entries.h:89
+msgid "Reuse this window to view other images"
+msgstr "ఇతర ప్రతిబింబములను దర్శించుటకు ఈ విండోను తిరిగివుపయోగించుము"
+
+#: ../src/gth-viewer.c:820
+msgid "_None"
+msgstr "ఏదీకాదు (_N)"
+
+#: ../src/gth-viewer.c:1467 ../src/gth-window-actions-entries.h:75
+msgid "_Open With"
+msgstr "దీనితో తెరువుము (_O)"
+
+#: ../src/gth-viewer.c:1473 ../src/gth-viewer.c:1474
+#: ../src/gth-window-actions-entries.h:46
+msgid "Open selected images with an application"
+msgstr "ఎంపికచేసిన ప్రతిబింబములను వొక అనువర్తనముతో తెరువుము"
+
+#: ../src/gth-window-actions-callbacks.c:912
+msgid "An image viewer and browser for GNOME."
+msgstr "GNOME ప్రతిబింబము దర్శిని మరియు బ్రౌజర్."
+
+#: ../src/gth-window-actions-callbacks.c:915
+msgid "translator_credits"
+msgstr "కృష్ణబాబు కె <kkrothap@redhat.com> 2009."
+
+#: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "రంగులను తగ్గించుము"
+
+#: ../src/gth-window-actions-entries.h:41
+msgid "Close this window"
+msgstr "ఈ విండోను మూయుము"
+
+#: ../src/gth-window-actions-entries.h:45
+msgid "_Open With..."
+msgstr "దీనితో తెరువుము... (_O)"
+
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
+msgid "Save current image"
+msgstr "ప్రస్తుత ప్రతిబింబమును దాయుము"
+
+#: ../src/gth-window-actions-entries.h:55
+msgid "Save _As..."
+msgstr "ఇలా దాయుము... (_A)"
+
+#: ../src/gth-window-actions-entries.h:61
+msgid "Revert to saved image"
+msgstr "దాయబడిన ప్రతిబింబముకు తిరిగివుంచుము"
+
+#: ../src/gth-window-actions-entries.h:65
+msgid "Print..."
+msgstr "ముద్రించు..."
+
+#: ../src/gth-window-actions-entries.h:66
+#: ../src/gth-window-actions-entries.h:71
+msgid "Print the current image"
+msgstr "ప్రస్తుత ప్రతిబింబమును ముద్రించుము"
+
+#: ../src/gth-window-actions-entries.h:76
+msgid "Open this image with an application"
+msgstr "ఈ ప్రతిబింబమును వొక అనువర్తనముతో తెరువుము"
+
+#: ../src/gth-window-actions-entries.h:80
+msgid "Comm_ent..."
+msgstr "వ్యాఖ్యానము... (_e)"
+
+#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:86
+msgid "Add a comment to selected images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములకు వ్యాఖ్యానమును జతచేయుము"
+
+#: ../src/gth-window-actions-entries.h:90
+msgid "Rem_ove Comment"
+msgstr "వ్యాఖ్యానమును తీసివేయుము (_o)"
+
+#: ../src/gth-window-actions-entries.h:91
+msgid "Remove comments of selected images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములయొక్క వ్యాఖ్యానములను తీసివేయుము"
+
+#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:101
+msgid "Assign categories to selected images"
+msgstr "ఎంపికచేసిన ప్రతిబింబములకు వర్గములను అప్పగించుము"
+
+#: ../src/gth-window-actions-entries.h:100
+msgid "Ca_tegories"
+msgstr "వర్గములు (_t)"
+
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:285
+msgid "Rotate Ri_ght"
+msgstr "కుడికి భ్రమణంచేయుము (_g)"
+
+#: ../src/gth-window-actions-entries.h:116
+msgid "View the image rotated clockwise"
+msgstr "సవ్యదిశలో భ్రమణంచేసిన ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:280
+msgid "Rotate _Left"
+msgstr "ఎడమకు భ్రమణంచేయుము (_L)"
+
+#: ../src/gth-window-actions-entries.h:121
+msgid "View the image rotated counter-clockwise"
+msgstr "అపసవ్యదిశలో భ్రమణంచేసిన ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:125
+msgid "_Flip"
+msgstr "తలక్రిందులు (_F)"
+
+#: ../src/gth-window-actions-entries.h:126
+msgid "View the image flipped"
+msgstr "తలక్రిందుల ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:130
+msgid "_Mirror"
+msgstr "అద్దము (_M)"
+
+#: ../src/gth-window-actions-entries.h:131
+msgid "View the image mirrored"
+msgstr "అద్దంపట్టిన ప్రతిబింబమును దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:135
+msgid "_Desaturate"
+msgstr "డీసాట్యురేట్ (_D)"
+
+#: ../src/gth-window-actions-entries.h:136
+msgid "View the image in black and white"
+msgstr "ప్రతిబింబమును నలుపు మరియు తెలుపునందు దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:140
+msgid "_Negative"
+msgstr "నెగిటివ్ (_N)"
+
+#: ../src/gth-window-actions-entries.h:141
+msgid "View the image with negative colors"
+msgstr "ప్రతిబింబమును నెగిటివ్ రంగులతో దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:145
+msgid "_Enhance"
+msgstr "విస్తరింపు (_E)"
+
+#: ../src/gth-window-actions-entries.h:146
+msgid "Automatically adjust the color levels"
+msgstr "రంగు స్థాయిలను స్వయంచాలకంగా సర్దుబాటుచేయుము"
+
+#: ../src/gth-window-actions-entries.h:150
+msgid "_Equalize"
+msgstr "సమపరచు (_E)"
+
+#: ../src/gth-window-actions-entries.h:151
+msgid "Automatically equalize the image histogram"
+msgstr "ప్రతిబింబము హిస్టోగ్రామును స్వయంచాలకంగా సమపరచుము"
+
+#: ../src/gth-window-actions-entries.h:155
+msgid "_Posterize..."
+msgstr "పోస్టర్‌పరిమాణము... (_P)"
+
+#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:196
+msgid "Reduce the number of colors"
+msgstr "రంగుల సంఖ్యను తగ్గించుము"
+
+#: ../src/gth-window-actions-entries.h:160
+msgid "_Brightness-Contrast..."
+msgstr "కాంతిప్రకాశం-కాంట్రాస్ట్... (_B)"
+
+#: ../src/gth-window-actions-entries.h:161
+msgid "Adjust brightness and contrast"
+msgstr "కాంతిప్రకాశం మరియు కాంట్రాస్ట్ సర్దుబాటుచేయుము"
+
+#: ../src/gth-window-actions-entries.h:165
+msgid "_Hue-Saturation..."
+msgstr "హ్యూ-సాట్యురేషన్... (_H)"
+
+#: ../src/gth-window-actions-entries.h:166
+msgid "Adjust hue and saturation"
+msgstr "హ్యూ మరియు సాట్యురేషన్ సర్దుబాటుచేయుము"
+
+#: ../src/gth-window-actions-entries.h:170
+msgid "_Redeye Removal..."
+msgstr "రెడ్‌ఐ తీసివేత... (_R)"
+
+#: ../src/gth-window-actions-entries.h:171
+msgid "Redeye Removal Tool"
+msgstr "రెడ్‌ఐ తీసివేత సాధనము"
+
+#: ../src/gth-window-actions-entries.h:175
+msgid "_Color Balance..."
+msgstr "రంగు సమతుల్యత... (_C)"
+
+#: ../src/gth-window-actions-entries.h:176
+msgid "Adjust color balance"
+msgstr "రంగు సమతుల్యతను సర్దుబాటుచేయుము"
+
+#: ../src/gth-window-actions-entries.h:180
+msgid "_Resize..."
+msgstr "పునఃపరిమాణము... (_R)"
+
+#: ../src/gth-window-actions-entries.h:181
+msgid "Resize image"
+msgstr "ప్రతిబింబమును పునఃపరిమాణం చేయి"
+
+#: ../src/gth-window-actions-entries.h:185
+msgid "_Crop..."
+msgstr "నరుకు... (_C)"
+
+#: ../src/gth-window-actions-entries.h:186
+msgid "Crop image"
+msgstr "ప్రతిబింబము నరుకు"
+
+#: ../src/gth-window-actions-entries.h:190
+msgid "Black and White"
+msgstr "నలుపు మరియు తెలుపు"
+
+#: ../src/gth-window-actions-entries.h:195
+msgid "Web Palette"
+msgstr "వెబ్ పాలెట్"
+
+#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:307
+msgid "In"
+msgstr "పెంచు"
+
+#: ../src/gth-window-actions-entries.h:201
+msgid "Zoom in"
+msgstr "జూమ్ చేయి"
+
+#: ../src/gth-window-actions-entries.h:205
+msgid "Out"
+msgstr "తగ్గించు"
+
+#: ../src/gth-window-actions-entries.h:206
+msgid "Zoom out"
+msgstr "జూమ్ తగ్గించు"
+
+#: ../src/gth-window-actions-entries.h:210
+msgid "1:1"
+msgstr "1:1"
+
+#: ../src/gth-window-actions-entries.h:211
+msgid "Actual size"
+msgstr "వాస్తవ పరిమాణము"
+
+#: ../src/gth-window-actions-entries.h:215
+msgid "Fit"
+msgstr "సరిపెట్టు"
+
+#: ../src/gth-window-actions-entries.h:216
+msgid "Zoom to fit window"
+msgstr "విండోకు సరిపోవునట్టు జూమ్ చేయుము"
+
+#: ../src/gth-window-actions-entries.h:220
+msgid "Width"
+msgstr "వెడల్పు"
+
+#: ../src/gth-window-actions-entries.h:221
+msgid "Zoom to fit width"
+msgstr "వెడల్పునకు సరిపోవునట్లు జూమ్ చేయుము"
+
+#: ../src/gth-window-actions-entries.h:225
+msgid "Step A_nimation"
+msgstr "స్టెప్ యానిమేషన్ (_n)"
+
+#: ../src/gth-window-actions-entries.h:226
+msgid "View next animation frame"
+msgstr "తరువాతి యానిమేషన్ చట్రమును దర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:240
+msgid "_Centered"
+msgstr "మధ్యగా (_C)"
+
+#: ../src/gth-window-actions-entries.h:241
+msgid "Set the image as desktop background (centered)"
+msgstr "ప్రతిబింబమును డెస్కుటాపు బ్యాక్‌గ్రౌండ్ వలె అమర్చుము (మద్యలో)"
+
+#: ../src/gth-window-actions-entries.h:245
+msgid "_Tiled"
+msgstr "పలకలుగా (_T)"
+
+#: ../src/gth-window-actions-entries.h:246
+msgid "Set the image as desktop background (tiled)"
+msgstr "ప్రతిబింబమును డెస్కుటాపు బ్యాక్‌గ్రౌండ్ వలె అమర్చుము (పలకలుగా)"
+
+#: ../src/gth-window-actions-entries.h:250
+msgid "_Scaled"
+msgstr "స్కేలుచేసిన (_S)"
+
+#: ../src/gth-window-actions-entries.h:251
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "ప్రతిబింబమును డెస్కుటాపు బ్యాక్‌గ్రౌండ్ వలె అమర్చుము (ఏస్పెక్టు నిష్పత్తి కలిగివుంటూ స్కేలుచేసిన)"
+
+#: ../src/gth-window-actions-entries.h:255
+msgid "Str_etched"
+msgstr "సాగదీసిన (_e)"
+
+#: ../src/gth-window-actions-entries.h:256
+msgid "Set the image as desktop background (stretched)"
+msgstr "ప్రతిబింబమును డెస్కుటాపు బ్యాక్‌గ్రౌండ్ వలె అమర్చుము (సాగదీసి)"
+
+#: ../src/gth-window-actions-entries.h:260
+msgid "_Restore"
+msgstr "తిరిగివుంచుము (_R)"
+
+#: ../src/gth-window-actions-entries.h:261
+msgid "Restore the original desktop wallpaper"
+msgstr "వాస్తవ డెస్కుటాపు వాల్‌పేపర్‌ను తిరిగివుంచుము"
+
+#: ../src/gth-window-actions-entries.h:265
+msgid "Change _Date..."
+msgstr "తేదీ మార్చుము... (_D)"
+
+#: ../src/gth-window-actions-entries.h:266
+msgid "Change images last modified date"
+msgstr "ప్రతిబింబముల చివరిగా సవరించబడిన తేదీలను మార్చుము"
+
+#: ../src/gth-window-actions-entries.h:270
+msgid "Reset _Exif Orientation"
+msgstr "_Exif సర్దుబాటును తిరిగివుంచుము"
+
+#: ../src/gth-window-actions-entries.h:271
+msgid "Reset Exif orientation to top-left"
+msgstr "Exif సర్దుబాటును పై-ఎడమకు తిరిగివుంచుము"
+
+#: ../src/gth-window-actions-entries.h:291
+msgid "Show information about gThumb"
+msgstr "gThumb గురించి సమాచారమును చూపుము"
+
+#: ../src/gth-window-actions-entries.h:295
+msgid "Contents"
+msgstr "సారములు"
+
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "gThumb మాన్యువల్ ప్రదర్శించుము"
+
+#: ../src/gth-window-actions-entries.h:300
+msgid "_Keyboard Shortcuts"
+msgstr "కీబోర్డు లఘువులు (_K)"
+
+#: ../src/gth-window-actions-entries.h:316
+msgid "Play _Animation"
+msgstr "యానిమేషన్ నడుపుము (_A)"
+
+#: ../src/gth-window-actions-entries.h:317
+msgid "Start or stop current animation"
+msgstr "ప్రస్తుత యానిమేషన్ ప్రారంభించుము లేదా ఆపుము"
+
+#: ../src/gth-window-actions-entries.h:327
+msgid "_High Quality"
+msgstr "అధిక నాణ్యత (_H)"
+
+#: ../src/gth-window-actions-entries.h:328
+msgid "Use high quality zoom"
+msgstr "అధిక నాణ్యత జూమ్ వుపయోగించుము"
+
+#: ../src/gth-window-actions-entries.h:330
+msgid "_Low Quality"
+msgstr "తక్కువ నాణ్యత (_L)"
+
+#: ../src/gth-window-actions-entries.h:331
+msgid "Use low quality zoom"
+msgstr "తక్కువ నాణ్యత జూమ్ వుపయోగించుము"
+
+#: ../src/main.c:89
+msgid "Start in fullscreen mode"
+msgstr "పూర్తితెర రీతినందు ప్రారంభించుము"
+
+#: ../src/main.c:93
+msgid "Automatically start a slideshow"
+msgstr "స్లైడుప్రదర్శనను స్వయంచాలకంగా ప్రారంభించుము"
+
+#: ../src/main.c:97
+msgid "Automatically import digital camera photos"
+msgstr "డిజిటల్ కేమెరా ఛాయాచిత్రములను స్వయంచాలకంగా దిగుమతిచేయుము"
+
+#: ../src/main.c:101
+msgid "Use the viewer mode to view single images"
+msgstr "ఒక్కో ప్రతిబింబములను దర్శించుటకు వీక్షకుని రీతిని వుపయోగించుము"
+
+#: ../src/main.c:146
+msgid "Holidays"
+msgstr "సెలవులు"
+
+#: ../src/main.c:147
+msgid "Temporary"
+msgstr "తాత్కాలిక"
+
+#: ../src/main.c:148
+msgid "Screenshots"
+msgstr "తెరపట్టులు(స్క్రీన్‌షాట్లు)"
+
+#: ../src/main.c:149
+msgid "Science"
+msgstr "సమాన్యశాస్త్రము"
+
+#: ../src/main.c:150
+msgid "Favourite"
+msgstr "అభీష్ట"
+
+#: ../src/main.c:151
+msgid "Important"
+msgstr "ముఖ్యమైన"
+
+#: ../src/main.c:152
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ../src/main.c:153
+msgid "Games"
+msgstr "ఆటలు"
+
+#: ../src/main.c:154
+msgid "Party"
+msgstr "విందు"
+
+#: ../src/main.c:155
+msgid "Birthday"
+msgstr "పుట్టినరోజు"
+
+#: ../src/main.c:156
+msgid "Astronomy"
+msgstr "ఖగోళశాస్త్రం"
+
+#: ../src/main.c:157
+msgid "Family"
+msgstr "కుటుంబం"
+
+#: ../src/main.c:379
+msgid "Command Line"
+msgstr "ఆదేశ వరుస"
+
+#: ../src/rotation-utils.c:113
+#, c-format
+msgid "Problem transforming the image: %s"
+msgstr "ప్రతిబింబమును బదిలీకరించుటలో దోషము: %s"
+
+#: ../src/rotation-utils.c:118
+msgid ""
+"This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
+msgstr ""
+"ఈ బదిలీకరణ చిన్నపాటి ప్రతిబింబ విరూపములను వొకటి లేదా యెక్కువ అంచులతో కలిగించవచ్చును, "
+"యెంచేతంటే ప్రతిబింబ కొలతలు 8 యొక్క గుణిజములు కావు.\n"
+"విరూపము తిరిగివుంచగలగినదే. ఫలిత ప్రతిబింబము ఆమోదయొగ్యం కానిదైతే, వాస్తవ ప్రతిబింబము కొరకు "
+"వ్యతిరేక బదిలీకరణను ప్రయోగించండి.\n"
+"\n"
+"బదిలీకరించలేని అంచు పిగ్జెల్సును మీరు విడిచిపెట్టుట (లేదా ట్రిమ్) చేయుట చేయవచ్చును. "
+"ప్రయోగాత్మక వినియోగమునకు, ఈ రీతి మంచి చూపరి ఫలితాలను యిస్తుంది, అయితే బదిలీకరణ మాత్రము "
+"నిర్ధిష్టంగా నష్టము లేనిదే."
+
+#: ../src/rotation-utils.c:126
+msgid "_Trim"
+msgstr "కత్తిరింపు (_T)"
+
+#: ../src/rotation-utils.c:169
+msgid "Could not create a local temporary copy of the remote file."
+msgstr "దూరస్థ ఫైలుయొక్క స్థానిక తాత్కాలిక నకలును సృష్టించలేక పోయింది."
+
+#: ../src/rotation-utils.c:215
+msgid "Could not move temporary file to local destination. Check folder permissions."
+msgstr "తాత్కాలిక ఫైలును స్థానిక గమ్యమునకు కదల్చలేక పోయింది. ఫోల్డర్ అనుమతులను చెక్‌చేయుము."
+
