@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gthumb.po.gthumb-2-10.ta\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
 "POT-Creation-Date: 2009-06-21 22:12+0000\n"
-"PO-Revision-Date: 2009-07-08 01:03+0530\n"
+"PO-Revision-Date: 2009-07-20 12:25+0530\n"
 "Last-Translator: I. Felix <ifelix@redhat.com>\n"
 "Language-Team: Tamil <fedora-trans-ta@redhat.com>\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\\n\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
@@ -38,7 +48,7 @@ msgstr "பிம்பம்"
 
 #: ../data/albumthemes/text.h:31 ../src/gth-exif-data-viewer.c:802
 msgid "Dimensions"
-msgstr ""
+msgstr "பரிமாணங்கள்"
 
 #: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:608
 msgid "Bytes"
@@ -50,31 +60,31 @@ msgstr "தேதி"
 
 #: ../data/albumthemes/text.h:34
 msgid "Exposure time"
-msgstr ""
+msgstr "வெளிப்பட்ட நேரம்"
 
 #: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
-msgstr ""
+msgstr "வெளிப்படுத்தும் முறைமை"
 
 #: ../data/albumthemes/text.h:36
 msgid "Flash"
-msgstr ""
+msgstr "ப்ளாஷ்"
 
 #: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
-msgstr ""
+msgstr "ஷட்டர் வேகம்"
 
 #: ../data/albumthemes/text.h:38
 msgid "Aperture value"
-msgstr ""
+msgstr "அபார்சர் மதிப்பு"
 
 #: ../data/albumthemes/text.h:39
 msgid "Focal length"
-msgstr ""
+msgstr "ஃபோகல் நீளம்"
 
 #: ../data/albumthemes/text.h:40
 msgid "Camera model"
-msgstr ""
+msgstr "காமிரா மாதிரி"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:76
@@ -92,19 +102,19 @@ msgstr "    "
 
 #: ../data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
-msgstr ""
+msgstr "<b>வகைகள்:</b>"
 
 #: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
-msgstr ""
+msgstr "<b>சேலைப் பற்றிய தகவல்:</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr ""
+msgstr "<b>பழைய பட்டத்தை புதிய படத்துடன் மேலெழுதவா?</b>"
 
 #: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
-msgstr ""
+msgstr "கிடைக்கூடிய பயன்பாடுகள் (_v):"
 
 #: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
@@ -120,19 +130,19 @@ msgstr "புத்தகக்குறிகள்"
 
 #: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
-msgstr ""
+msgstr "கேட்லாக்குகள் (_a):"
 
 #: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
-msgstr ""
+msgstr "கேட்லாக்கைத் தேர்ந்தெடு"
 
 #: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
-msgstr ""
+msgstr "கருத்து (_e)"
 
 #: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
-msgstr ""
+msgstr "பழைய படத்தின் மேலெழு வேண்டாம் (_t)"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
@@ -140,35 +150,35 @@ msgstr "பச்சை"
 
 #: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
-msgstr ""
+msgstr "புதிய படம்:"
 
 #: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
-msgstr ""
+msgstr "புதிய நூலகம் (_L)"
 
 #: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
-msgstr ""
+msgstr "பழைய படம்:"
 
 #: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
-msgstr ""
+msgstr "படங்களைத் திறக்கவும்"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
-msgstr ""
+msgstr "பழைய படத்தின் மேலெழுது (_w)"
 
 #: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
-msgstr ""
+msgstr "படத்தை மேலெழுது"
 
 #: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
-msgstr ""
+msgstr "அனைத்து படங்களையும் மேலெழுது (_a)"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
-msgstr ""
+msgstr "போட்டோ தரவு (_D) (EXIF)"
 
 #: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
@@ -261,6 +271,13 @@ msgid ""
 "identically by gthumb for both possibilities, but for maximum compatibility "
 "with other applications this checkbox should be enabled."
 msgstr ""
+" If this checkbox is enabled and the imported photo contains an Exif "
+"orientation tag, the image data will be physically transformed (losslessly) "
+"so that the viewed image looks the same as before but the orientation tag is "
+"reset to \"top left\". If this checkbox is not enabled, the image data and "
+"the orientation tag are both left unchanged. The image will be displayed "
+"identically by gthumb for both possibilities, but for maximum compatibility "
+"with other applications this checkbox should be enabled."
 
 #: ../data/glade/gthumb_camera.glade.h:8
 msgid "Import Photos"
@@ -274,7 +291,7 @@ msgstr "காமிரா எதுவும் கண்டுபிடிக�
 
 #: ../data/glade/gthumb_camera.glade.h:10
 msgid "Rotate images physically"
-msgstr ""
+msgstr "படங்களை நிகழ்நிலையாகச் சுழற்றவும்"
 
 #: ../data/glade/gthumb_camera.glade.h:11
 msgid "Select a camera model"
@@ -306,7 +323,7 @@ msgstr "இறக்குமதி (_I)"
 
 #: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
-msgstr ""
+msgstr "அசல் கோப்பு பெயர்களை வைக்கவும் (_K)"
 
 #: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Model:"
@@ -361,7 +378,7 @@ msgstr "தேதி இல்லை"
 
 #: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
-msgstr ""
+msgstr "நிழற்பட டிஜிட்டலேஷன் தேதி (EXIF தவரவிலிருந்து)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -392,7 +409,7 @@ msgstr "தேர்ந்தெடுக்கப்பட்ட வகைக�
 
 #: ../data/glade/gthumb_convert.glade.h:2
 msgid "<b>Compression</b>"
-msgstr "<b>அழுத்தம்</b>"
+msgstr "<b>குறுக்கு</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
@@ -401,7 +418,7 @@ msgstr "<b>பட வகை</b>"
 #: ../data/glade/gthumb_convert.glade.h:4
 #: ../data/glade/gthumb_print.glade.h:16
 msgid "<b>Resolution</b>"
-msgstr ""
+msgstr "<b>பகுத்தல்</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
@@ -412,7 +429,7 @@ msgstr "<b>சேமிக்கிறது</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
-msgstr ""
+msgstr "குறுக்கு நிலை (_l):"
 
 #: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
@@ -424,16 +441,16 @@ msgstr "JPEG விருப்பங்கள்"
 
 #: ../data/glade/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
-msgstr ""
+msgstr "சாதாரண (_r) (Deflate)"
 
 #: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
-msgstr ""
+msgstr "ஒத்திசைவு (_m)"
 
 #: ../data/glade/gthumb_convert.glade.h:12
 #: ../data/glade/gthumb_tools.glade.h:36
 msgid "Overwrite mode:"
-msgstr ""
+msgstr "மேலெழுதும் முறைமை:"
 
 #: ../data/glade/gthumb_convert.glade.h:13
 msgid "PNG Options"
@@ -442,7 +459,7 @@ msgstr "PNG விருப்பங்கள்"
 #: ../data/glade/gthumb_convert.glade.h:14
 #: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
-msgstr ""
+msgstr "அசலை நீக்கு (_e)"
 
 #: ../data/glade/gthumb_convert.glade.h:15
 #: ../data/glade/gthumb_tools.glade.h:40
@@ -457,6 +474,10 @@ msgid ""
 "Ask\n"
 "Overwrite"
 msgstr ""
+"நிறுத்து\n"
+"மடுபெயர்\n"
+"கேள்\n"
+"மேலெழுது"
 
 #: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
@@ -483,11 +504,11 @@ msgstr "_JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Loss compression (JPEG)"
-msgstr ""
+msgstr "இயந்த குறுக்கு (_L) (JPEG)"
 
 #: ../data/glade/gthumb_convert.glade.h:27
 msgid "_No compression"
-msgstr ""
+msgstr "குறுக்கு இல்லை (_N)"
 
 #: ../data/glade/gthumb_convert.glade.h:28
 #: ../data/glade/gthumb_tools.glade.h:64
@@ -496,7 +517,7 @@ msgstr "_PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Progressive"
-msgstr ""
+msgstr "முன்னேற்றம் (_P)"
 
 #: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
@@ -543,7 +564,7 @@ msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
-msgstr ""
+msgstr "<b>விகித்தின் படி</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
@@ -559,7 +580,7 @@ msgstr "தனிப்பயன்"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
-msgstr ""
+msgstr "விகிதத்தின் படி தலைகீழாக்கவும் (_n)"
 
 #: ../data/glade/gthumb_crop.glade.h:10
 #: ../data/glade/gthumb_preferences.glade.h:67
@@ -608,7 +629,7 @@ msgstr "%"
 
 #: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr ""
+msgstr "<b>நிற நிலைகள்</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
@@ -624,7 +645,7 @@ msgstr "<b>அளவு வரம்பு</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
-msgstr ""
+msgstr "பிரகாசமாய் - வித்தியாசமாக"
 
 #: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
@@ -636,7 +657,7 @@ msgstr "வேறுபாடு... (_t)"
 
 #: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr ""
+msgstr "சைன்-சிவப்பு (_R):"
 
 #: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -648,7 +669,7 @@ msgstr "முகத் தரமான (_q)"
 
 #: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
-msgstr ""
+msgstr "ஹ்யூ - சேச்சுரேஷன்"
 
 #: ../data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -656,7 +677,7 @@ msgstr "படமாக்கு"
 
 #: ../data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
-msgstr ""
+msgstr "லுமினாஸிட்டியை பாதுகாக்கவும் (_u)"
 
 #: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
@@ -676,7 +697,7 @@ msgstr "ஹ்யூ (_H):"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Keep aspect ratio"
-msgstr ""
+msgstr "விகிதத்தின் படியை வைக்கவும் (_K)"
 
 #: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
@@ -696,7 +717,7 @@ msgstr "முன்பார்வை (_P)"
 
 #: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
-msgstr "_மீட்டமை"
+msgstr "மறுஅமை (_R)"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
@@ -704,7 +725,7 @@ msgstr "சேச்சுரேஷன் (_S):"
 
 #: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
-msgstr "_அளவு மாற்று"
+msgstr "அளவுகோல் (_S)"
 
 #: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
@@ -772,7 +793,7 @@ msgstr "<b>தலைப்பு</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
-msgstr ""
+msgstr "<b>அட்டவணைப் படங்கள்</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
@@ -780,7 +801,7 @@ msgstr "<b>பக்க அளவு</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr ""
+msgstr "<small><i><b>குறிப்பு:</b> # (enumerator)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
@@ -806,7 +827,7 @@ msgstr "(_r) நிறம்:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr ""
+msgstr "அட்டவணைப் படத்தை உருவாக்கு"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
@@ -861,7 +882,7 @@ msgstr "படங்கள்"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
-msgstr ""
+msgstr "அட்டவணை பட பாணி"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
@@ -874,11 +895,11 @@ msgstr "பிக்ஸெல்கள் (_x)"
 #: ../data/glade/gthumb_png_exporter.glade.h:44
 #: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "Re_verse order"
-msgstr ""
+msgstr "தலைகீழ் வரிசை (_v)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
-msgstr ""
+msgstr "வரிசைகள் மற்றும் நிரல்கள் (_n)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
@@ -890,15 +911,15 @@ msgstr "ஒரு எழுத்துருவை தேர்ந்தெட�
 
 #: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
-msgstr ""
+msgstr "நிழலில்"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
-msgstr ""
+msgstr "நிழல் மட்டும்"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:50
 msgid "Shadow out"
-msgstr ""
+msgstr "நிழலுக்கு வெளியில்"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
@@ -906,7 +927,7 @@ msgstr "எளியது"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
-msgstr ""
+msgstr "சாதாரண நிழலுடன்"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:53
 msgid "Slide"
@@ -928,7 +949,7 @@ msgstr "பாணி (_y)"
 #: ../data/glade/gthumb_search.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:53
 msgid "Start _at:"
-msgstr ""
+msgstr "இப்போது துவக்கவும் (_a):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:42
@@ -945,7 +966,7 @@ msgstr "அனைத்து பக்கங்களும் அதே அள
 
 #: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
-msgstr ""
+msgstr "சட்டத்தை வரை (_D)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
@@ -1076,7 +1097,7 @@ msgstr "<b> இடைமுகம்</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
-msgstr ""
+msgstr "<b>துவங்கும் போது:</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:26
 msgid "<b>Other</b>"
@@ -1108,14 +1129,24 @@ msgid ""
 "selected file.\n"
 "The default scripts are explained in the Help file.</small>"
 msgstr ""
+" <small><i><b>Special characters:</b>\n"
+"%F = all selected filenames on one line, space delimited\n"
+"%f = a single filename, including path\n"
+"%n = a single filename, including path, with no extension\n"
+"%e = a single extension (starting with a period)\n"
+"%p = the parent folder of the single file</i>\n"
+"Scripts with the %F code will be executed just once, regardless of the "
+"number of files selected. All other scripts will be executed once per "
+"selected file.\n"
+"The default scripts are explained in the Help file.</small>"
 
 #: ../data/glade/gthumb_preferences.glade.h:39
 msgid "Activate items with a double click"
-msgstr ""
+msgstr "உருப்படிகளை இரட்டை கிளிக்கில் செயல்படுத்தவும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Activate items with a single click"
-msgstr ""
+msgstr "உருப்படிகளை ஒற்றை கிளிக்கில் செயல்படுத்தவும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:41
 msgid "After _loading an image:"
@@ -1123,11 +1154,11 @@ msgstr "ஒரு படத்தை ஏற்றிய பின் (_l):"
 
 #: ../data/glade/gthumb_preferences.glade.h:42
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr ""
+msgstr "படங்கள் அல்லது கேட்லாக்குகளை அழிப்பதற்கு முன் உறுதியைக் கேட்கவும் (_k)"
 
 #: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Ask whether to save _modified images"
-msgstr ""
+msgstr "மாற்றியமைக்கப்பட்ட படங்களை சேமிக்க வேண்டுமா என கேட்கவும் (_m)"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Black"
@@ -1155,11 +1186,11 @@ msgstr "கருத்துகள் (_m)"
 
 #: ../data/glade/gthumb_preferences.glade.h:50
 msgid "D_elay before changing image:"
-msgstr ""
+msgstr "படத்தை மாற்றுவதற்கு முன்னே தாமதம் (_e):"
 
 #: ../data/glade/gthumb_preferences.glade.h:51
 msgid "D_etermine image type from content (slower)"
-msgstr ""
+msgstr "உள்ளடக்கத்திலிருந்து பட வகையை உறுதிபடுத்தவும் (ஸ்லோவர்)"
 
 #: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Do _not change folder"
@@ -1167,15 +1198,15 @@ msgstr "கோப்புறையை மாற்ற முடியவில�
 
 #: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Fit to width if larger"
-msgstr ""
+msgstr "பெரியதாக இருந்தால் அகலத்துடன் பொருத்து"
 
 #: ../data/glade/gthumb_preferences.glade.h:54
 msgid "Fit to window if larger"
-msgstr ""
+msgstr "பெரியதாக இருந்தால் சாளரத்துடன் பொருத்து"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Follow Nautilus behaviour"
-msgstr ""
+msgstr "Nautilus பண்புகள் பின்பற்று"
 
 #: ../data/glade/gthumb_preferences.glade.h:56
 msgid "For_ward"
@@ -1207,17 +1238,17 @@ msgstr "சின்னங்கள் மட்டும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:63
 msgid "Keep previous zoom"
-msgstr ""
+msgstr "முந்தைய அளவிடுதலை வைத்திருக்கவும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:64
 msgid ""
 "Keys 0-9 on the numeric keypad can be used in the browser to open or modify "
 "the selected images with other applications."
-msgstr ""
+msgstr "விசைகள் 0-9 எண் கீபேடில் உலாவியில் வேறு பயன்பாடுகளுடன் திறக்க அல்லது திருத்த பயன்படுத்தப்படும்."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Layout:"
-msgstr ""
+msgstr "அமைப்பு:"
 
 #: ../data/glade/gthumb_preferences.glade.h:66
 msgid "Lo_w"
@@ -1225,23 +1256,23 @@ msgstr "குறைவான (_w)"
 
 #: ../data/glade/gthumb_preferences.glade.h:68
 msgid "Ran_dom"
-msgstr ""
+msgstr "குறிப்பில்லா (_d)"
 
 #: ../data/glade/gthumb_preferences.glade.h:69
 msgid "Re_verse"
-msgstr ""
+msgstr "தலைகீழாக (_v)"
 
 #: ../data/glade/gthumb_preferences.glade.h:70
 msgid "Reset scrollbar positions after loading an image"
-msgstr ""
+msgstr "ஒரு படத்தை ஏற்றிய பின் சுருள்பட்டை நிலையை மறுஅமைக்கவும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "Resta_rt when finished"
-msgstr ""
+msgstr "முடியும் போது மீண்டும் துவக்கவும் (_r)"
 
 #: ../data/glade/gthumb_preferences.glade.h:72
 msgid "Set image to actual size"
-msgstr ""
+msgstr "சரியான அளவில் படத்தை அமைக்கவும்"
 
 #: ../data/glade/gthumb_preferences.glade.h:73
 msgid "Set to C_urrent"
@@ -1277,7 +1308,7 @@ msgstr "ஒளிபுகும்தன்மை வகை (_t):"
 
 #: ../data/glade/gthumb_preferences.glade.h:81
 msgid "Use a _fading effect when changing image"
-msgstr ""
+msgstr "படத்தை மாற்றும் போது ஒரு பேடிங் விளைவை பயன்படுத்தவும் (_f)"
 
 #: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
@@ -1365,6 +1396,8 @@ msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
+"<small><i><b>குறிப்பு:</b> இந்த பக்கத்திற்குள் படத்தை நகர்த்தி இழுக்கவும்.\n"
+"ஒரு படத்தை அதில் சுழற்றவும்.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:20
 msgid ""
@@ -1373,6 +1406,10 @@ msgid ""
 "the resolution to get better image quality.\n"
 "Decrease it to get shorter print times.</i></small>"
 msgstr ""
+"<small><i><b>குறிப்பு:</b> அதிக திரைத்திறன் படங்கள் இந்த திரைத்திறனுக்கு\n"
+"குறைக்கப்படும். நல்ல படத் தரத்திற்கு திரைத்திறனை\n"
+"அதிகப்படுத்த வேண்டும். குறைத்தால் அச்சிடும்\n"
+"நேரங்களை குறைக்கும்.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "A4"
@@ -1400,7 +1437,7 @@ msgstr "கருத்துடன் சேர்த்து (_n)"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Images per page:"
-msgstr ""
+msgstr "பக்கத்திற்கான படங்கள்:"
 
 #: ../data/glade/gthumb_print.glade.h:32
 msgid "Inches"
@@ -1412,7 +1449,7 @@ msgstr "கோப்புபெயருடன் சேர்ந்து"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "Lan_dscape"
-msgstr ""
+msgstr "நிலத்தோற்றம் (_d)"
 
 #: ../data/glade/gthumb_print.glade.h:35
 msgid "Layout"
@@ -1420,7 +1457,7 @@ msgstr "அமைப்பு"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "Legal"
-msgstr ""
+msgstr "சட்டரீதியாக"
 
 #: ../data/glade/gthumb_print.glade.h:37
 msgid "Letter"
@@ -1432,7 +1469,7 @@ msgstr "மில்லிமீட்டர்கள்"
 
 #: ../data/glade/gthumb_print.glade.h:39
 msgid "P_ortrait"
-msgstr ""
+msgstr "போர்ட்ரைட் (_o)"
 
 #: ../data/glade/gthumb_print.glade.h:40
 msgid "Paper Details"
@@ -1450,7 +1487,7 @@ msgstr "அச்சிடு"
 
 #: ../data/glade/gthumb_print.glade.h:43
 msgid "Scale to this size"
-msgstr ""
+msgstr "இந்த அளவின் அளவுகோல்"
 
 #: ../data/glade/gthumb_print.glade.h:44
 msgid "Tabloid"
@@ -1482,7 +1519,7 @@ msgstr "(_U) அளவை:"
 
 #: ../data/glade/gthumb_redeye.glade.h:2
 msgid "Actual Size"
-msgstr ""
+msgstr "சரியான அளவு"
 
 #: ../data/glade/gthumb_redeye.glade.h:3
 msgid "Red-Eye Removal"
@@ -1506,7 +1543,7 @@ msgstr "பெரிதாக்கு"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
 msgid "Zoom to Fit"
-msgstr ""
+msgstr "பொருத்த அளவிடு"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1514,7 +1551,7 @@ msgstr "<b>காரணத்தை தேடுகிறது</b>"
 
 #: ../data/glade/gthumb_search.glade.h:3
 msgid "<b>Search scope</b>"
-msgstr ""
+msgstr "<b>நோக்கத்தை தேடு</b>"
 
 #: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
@@ -1530,11 +1567,11 @@ msgstr "முன்"
 
 #: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
-msgstr ""
+msgstr "சேமிக்கப்பட்ட பட்டியலிருந்து வகைகளைத் தேர்ந்தெடுக்கவும்"
 
 #: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
-msgstr ""
+msgstr "இதற்கு சமமாக"
 
 #: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
@@ -1568,12 +1605,12 @@ msgstr "தேடு"
 
 #: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
-msgstr ""
+msgstr "தேடும் பணி"
 
 #: ../data/glade/gthumb_search.glade.h:21
 #: ../data/glade/gthumb_tools.glade.h:48
 msgid "Searching in:"
-msgstr ""
+msgstr "தேடுகிறது:"
 
 #: ../data/glade/gthumb_search.glade.h:24
 msgid "_Edit Search"
@@ -1582,7 +1619,7 @@ msgstr "தேடலை திருத்தவும் (_E)"
 #: ../data/glade/gthumb_search.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:60
 msgid "_Include sub-folders"
-msgstr ""
+msgstr "துணை கோப்புறைகளுடன் சேர்த்து (_I)"
 
 #: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
@@ -1590,7 +1627,7 @@ msgstr "சேமி (_S)"
 
 #: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
-msgstr "_S தேடுக"
+msgstr "தேடு (_S)ுக"
 
 #: ../data/glade/gthumb_search.glade.h:30
 #: ../data/glade/gthumb_tools.glade.h:72
@@ -1617,6 +1654,9 @@ msgid ""
 "When viewing images, you can use the [ and ] shortcut\n"
 "keys to rotate and save losslessly, bypassing this dialog.</i></small>"
 msgstr ""
+"<small><i><b>குறிப்பு</b>: JPEG பொதுவாக இடமாற்றம் குறைவற்றது.\n"
+"படங்களை பார்வையிடும் போது, நீங்கள் குறுக்குவழியைப் [ மற்றும் ] பயன்படுத்தலாம்\n"
+"குறைவில்லாமல் சேமிக்க மற்றும் விசைகளை சுழற்ற, இந்த உரையாடலை பாதையாக்கிறது.</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:15
 #, no-c-format
@@ -1624,14 +1664,16 @@ msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size), %e (original extension).</i></small>"
 msgstr ""
+"<small><i><b>குறிப்பட்ட எழுத்துக்கள்:</b> # (எனுமரெட்டர்), %f (அசல் கோப்புபெயர்), "
+"%d (படத் தேதி), %s (பட அளவு), %e (அசல் விரிவாக்கம்).</i></small>"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "A_djust timezone:"
-msgstr ""
+msgstr "நேர மண்டலத்தை சரிப்படுத்து (_d):"
 
 #: ../data/glade/gthumb_tools.glade.h:17
 msgid "Apply physical _transform"
-msgstr ""
+msgstr "பருநிலை மாற்றத்தை செயல்படுத்து (_t)"
 
 #: ../data/glade/gthumb_tools.glade.h:18
 msgid "Apply to all _images"
@@ -1667,7 +1709,7 @@ msgstr "படத்தை சரிபார்க்கிறது:"
 msgid ""
 "Click OK to reset the Exif orientation tag for the selected images to Top-"
 "Left."
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களை மேல் இடது Exif திசையமைப்பு டேக்கை மறுஅமைக்க சரி என சொடுக்கவும்."
 
 #: ../data/glade/gthumb_tools.glade.h:27
 msgid "Co_mment date"
@@ -1691,11 +1733,11 @@ msgstr "படத்தின் தேதியை உருவாக்கவ�
 
 #: ../data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image horizontally (left-right)"
-msgstr ""
+msgstr "படத்தை கிடைமட்டமாக பிரதிபலிப்பு செய் (இடம்-வலம்)"
 
 #: ../data/glade/gthumb_tools.glade.h:33
 msgid "Mirror image vertically (top-bottom)"
-msgstr ""
+msgstr "படத்தை செங்குத்தாக பிரதிபலிப்பு செய் (மேல்-கீழ்)"
 
 #: ../data/glade/gthumb_tools.glade.h:34
 #: ../src/gth-browser-actions-entries.h:83
@@ -1711,15 +1753,15 @@ msgstr "புதிய பார்வைகளின் முன்பார�
 
 #: ../data/glade/gthumb_tools.glade.h:37
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr ""
+msgstr "நிழற்பட டிஜிட்டலைஸேஷன் தேதி (EXIF தரவிலிருந்து) (_h)"
 
 #: ../data/glade/gthumb_tools.glade.h:39
 msgid "Re_verse Order"
-msgstr ""
+msgstr "தலைகீழ் வரிசை (_v)"
 
 #: ../data/glade/gthumb_tools.glade.h:41
 msgid "Reset Exif Orientation Tags"
-msgstr ""
+msgstr "Exif திசையமைப்பு ஒட்டுகளை மறுஅமைக்கவும்"
 
 #: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate Images"
@@ -1727,11 +1769,11 @@ msgstr "படங்களை சுழற்றவும்"
 
 #: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees clockwise"
-msgstr ""
+msgstr "படத்தை கடிகார சுழற்சியில் 90 டிகிரிகள் சுழற்றவும்"
 
 #: ../data/glade/gthumb_tools.glade.h:44
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr ""
+msgstr "படத்தை கடிகார சுழற்சியில் 90 டிகிரிகள் கவுன்டரில் சுழற்றவும்"
 
 #: ../data/glade/gthumb_tools.glade.h:45
 #: ../src/gth-browser-actions-entries.h:394
@@ -1744,7 +1786,7 @@ msgstr "போலிகளை தேடுகிறது"
 
 #: ../data/glade/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
-msgstr ""
+msgstr "தேடுதல் முடிவடைந்தது, போலிகள் காணப்படவில்லை."
 
 #: ../data/glade/gthumb_tools.glade.h:55
 msgid "The _following date:"
@@ -1759,6 +1801,12 @@ msgid ""
 "will be performed by changing the Exif orientation tag only. For maximum "
 "compatibility with other applications, this checkbox should be enabled."
 msgstr ""
+" This checkbox governs the rotation method used for JPEG images that contain "
+"Exif orientation tags. If this checkbox is enabled, the rotation will be "
+"performed using a physical transform, and the Exif orientation tag will be "
+"reset to the default \"top left\" value. If it is not enabled, the rotation "
+"will be performed by changing the Exif orientation tag only. For maximum "
+"compatibility with other applications, this checkbox should be enabled."
 
 #: ../data/glade/gthumb_tools.glade.h:57
 msgid "Write To CD"
@@ -1844,11 +1892,11 @@ msgstr "<b>கருத்துகள்</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "<b>Index Page Layout</b>"
-msgstr ""
+msgstr "<b>அட்டவணைப் பக்க மாதிரி</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "<b>Personalize theme</b>"
-msgstr ""
+msgstr "<b>தனிபட்ட தீம்</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
@@ -1865,6 +1913,9 @@ msgid ""
 "number of rows and columns, but keep the total \n"
 "number of images per page constant.</i></small>"
 msgstr ""
+"<small><i><b>குறிப்பு:</b> சில தீம்கள் வரிசைகள் மற்றும்\n"
+"நிரல்கள் போன்றவற்றை தானியக்கி- சரிகட்டும், ஆனால் மொத்த பக்கங்களின் \n"
+"படங்களின் எண்ணிக்கையை நிரந்தரமாக கொண்டிருக்கும்.</i></small>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "Came_ra Model"
@@ -1880,15 +1931,15 @@ msgstr "தேதி மற்றும் நேரம் (_t)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "E_xposure mode"
-msgstr ""
+msgstr "வெளிப்படுத்தும் முறைமை (_x)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Exposure _time"
-msgstr ""
+msgstr "வெளிப்படுத்தும் நேரம் (_t)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Focal _length"
-msgstr ""
+msgstr "போகல் நீளம் (_l)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "I_mage Caption..."
@@ -1912,11 +1963,11 @@ msgstr "இணையத்தள ஆல்பம் தீம்"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Aperture value"
-msgstr ""
+msgstr "அபெர்சூர் மதிப்பு (_A)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Copy originals to destination"
-msgstr ""
+msgstr "அசல் பரிமாணங்களை நகலெடுக்கவும் (_C)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Date and Time"
@@ -1948,7 +1999,7 @@ msgstr "இடம் (_P)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:55
 msgid "_Resize if larger than:"
-msgstr ""
+msgstr "பெரிதாக இருந்தால் மறுஅளவிடவும் (_R):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:56
 msgid "_Select"
@@ -1956,7 +2007,7 @@ msgstr "தேர்ந்தெடு (_S)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Shutter speed"
-msgstr ""
+msgstr "ஷெட்டர் வேகம் (_S)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:58
 msgid "_Size :"
@@ -1980,11 +2031,11 @@ msgstr "அகரவரிசை.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
-msgstr ""
+msgstr "அல்லது ஒரு ஒற்றை அகர பக்கத்தை பயன்படுத்து (_u)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:65
 msgid "rows per page,"
-msgstr ""
+msgstr "பக்கத்திற்பான வரிசைகள்,"
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
@@ -1992,129 +2043,139 @@ msgstr "பிம்ப காட்டி"
 
 #: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
 msgid "View and organize your images"
-msgstr ""
+msgstr "உங்கள் படங்களை காட்டு மற்றும் அமைக்கவும்"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
-msgstr ""
+msgstr "gThumb பட காட்சியாளர்"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
+"இந்த அளவில் இருக்கும் (பைட்டுகளில்) சிறுபடங்களாக்க முடியாது. அனைத்து படங்களுக்கும்"
+"சிறுபடங்களை உருவாக்க விரும்பினால் 0வை பயன்படுத்தவும்."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid ""
 "Possible values are 0 (portrait), 1 (landscape), 2 (reverse portrait), 3 "
 "(reverse landscape)"
 msgstr ""
+"சாத்தியமான மத்திப்புகளாவன 0 (போட்ரைட்), 1 (லேண்ட்ஸ்கேப்), 2 (தலைகீழ் போட்ரைட்), 3 "
+"(தலைகீழ் லேண்ட்ஸ்கேப்)"
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகள்: 1, 2, 3, 4."
 
 #: ../data/gthumb.schemas.in.h:4
 msgid "Possible values are: 72, 150, 300, 600."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகள்: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
+"சாத்தியமான மதிப்புகளாவன: உண்மையான_அளவு, பொருந்த, முன்பார்வையை_வைத்திருக்கவும், நீளமாக_ஆனால்_பொருந்த, "
+"நீளமாக_இருந்தால்_அகலாமாக_பொருத்தவும்."
 
 #: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: ஏறுவரிசை, இறங்கு வரிசை."
 
 #: ../data/gthumb.schemas.in.h:7
 msgid "Possible values are: forward, backward, random."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: முன்னால், பின்னால், தற்செயலாய்."
 
 #: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: high, low."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகள்: உயர்வான, குறைவான."
 
 #: ../data/gthumb.schemas.in.h:9
 msgid "Possible values are: image, data, comment."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகள்: படம், தரவு, கருத்து."
 
 #: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகள்: jpeg, png, tga, tiff."
 
 #: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: light, midtone, dark."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: வெளிச்சமான, மிட்டோன், இருட்டு."
 
 #: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: list, thumbnails."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: பட்டியல், சிறுபடங்கள்."
 
 #: ../data/gthumb.schemas.in.h:13
 msgid "Possible values are: manual, auto."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: கைமுறை, தானாக."
 
 #: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: mm, in."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: மில்லிமீட்டர், அங்குலம்."
 
 #: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: nautilus, single, double."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: nautilus, ஒற்றை, இரட்டை."
 
 #: ../data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, deflate, jpeg."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: ஒன்றுமில்லை, வெளிப்படுத்தல், jpeg."
 
 #: ../data/gthumb.schemas.in.h:17
 msgid "Possible values are: none, name, path, size, time, exifdate, comment."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: ஒன்றுமில்லை, பெயர், பாதை, அளவு, நேரம், exifdate, கருத்து."
 
 #: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 msgstr ""
+"சாத்தியமான மதிப்புகளாவன: ஒன்றுமில்லை, சாதாரண, சாயல்_உடன்_சாயல், சாயல், ஸ்லைடு, "
+"சாயல்_உள், சாயல்_வெளியே."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 msgstr ""
+"சாத்தியமான மதிப்புகளாவன: ஒன்றுமில்லை, சதுரம், படம், காட்சி, 4x3, 4x6, 5x7, 8x10, "
+"தனிபயன்."
 
 #: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: pixels, percentage."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: பிக்செல்கள்,சதவீதம்."
 
 #: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: png, jpeg."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன:  png, jpeg."
 
 #: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: நிறுத்து, மறுபெயர்,கேள், மேலெழுது."
 
 #: ../data/gthumb.schemas.in.h:23
 msgid "Possible values are: small, medium, large."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: சிறிய, நடுத்தரமான, பெரிய"
 
 #: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: கணினி, உரை_கீழே, உரை_பக்கத்தில், உரை_மட்டும், சின்னங்கள்_மட்டும்."
 
 #: ../data/gthumb.schemas.in.h:25
 msgid "Possible values are: white, black, checked, none."
-msgstr ""
+msgstr "சாத்தியமான மதிப்புகளாவன: வெள்ளை,கருப்பு, சரிபார்க்கப்பட்டது, ஒன்றுமில்லாத."
 
 #: ../data/gthumb.schemas.in.h:26
 msgid "Whether to always use a black background."
-msgstr ""
+msgstr "ஒரு கருப்பு பின்னணியை எப்போதும் பயன்படுத்தினால்."
 
 #: ../data/gthumb.schemas.in.h:27
 msgid "Whether to reset the scrollbar positions after changing image"
-msgstr ""
+msgstr "படம் மாற்றிய பின்னும் சுருள்பட்டி அமைப்பை மறுஅமை செய்தால்"
 
 #: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
@@ -2149,7 +2210,7 @@ msgstr "பட வகை துணைபுரியவில்லை: %s"
 
 #: ../libgthumb/dlg-save-image.c:207
 msgid "Determine by extension"
-msgstr ""
+msgstr "விரிவாக்கத்தினால் உறுதிபடுத்தவும்"
 
 #: ../libgthumb/dlg-save-image.c:241
 msgid "Save Image"
@@ -2312,12 +2373,12 @@ msgstr "படத்தை மாற்றுகிறது: %s"
 #: ../src/dlg-convert.c:197 ../src/gth-batch-op.c:420
 #, c-format
 msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr ""
+msgstr "ஒரு \"%s\" என பெயரிடப்பட்ட படம் ஏற்கனவே இருக்கிறது. வேறுபட்ட ஒரு பெயரை குறிப்பிடவும்."
 
 #: ../src/dlg-convert.c:356 ../src/gth-batch-op.c:591
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr ""
+msgstr "ஒரு \"%s\" என பெயரிடப்பட்ட படம் ஏற்கனவே இருக்கிறது.அதை மேலெழுத விரும்புகிறீர்களா?"
 
 #: ../src/dlg-convert.c:361 ../src/gth-batch-op.c:596
 msgid "Skip"
@@ -2361,7 +2422,7 @@ msgstr "இடம்"
 
 #: ../src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "சரிபார்க்கப்பட்ட படங்கள் குப்பைக்கு நகர்த்தப்பட்டது, உண்மையா?"
 
 #: ../src/dlg-file-utils.c:90
 msgid "The destination folder does not exist. Do you want to create it?"
@@ -2375,7 +2436,7 @@ msgstr "கோப்புறையை உருவாக்க முடிய�
 #: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1669
 #, c-format
 msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
+msgstr "கோப்புறை \"%s\"ல் படங்களை உருவாக்கு உங்களுக்கு சரியான அனுமதிகளை பெறவில்லை"
 
 #: ../src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
@@ -2386,6 +2447,8 @@ msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
+"படங்களை குப்பைக்கு நகர்த்த முடியவில்லை.அவற்றை நிரந்தரமாக "
+"அழிக்க வேண்டுமா?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
 #: ../src/gth-browser.c:1903 ../src/gth-viewer.c:1000
@@ -2433,11 +2496,11 @@ msgstr "படத்தை நகலெடுக்க முடியவில�
 
 #: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
-msgstr ""
+msgstr "பற்றி (_A)"
 
 #: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
-msgstr "_தொடர்ந்து"
+msgstr "தொடர்ந்து (_C)"
 
 #: ../src/dlg-file-utils.c:1373
 #, c-format
@@ -2485,7 +2548,7 @@ msgstr "மாற்றப்பட்டது"
 
 #: ../src/dlg-image-prop.c:623
 msgid "Information on Channel"
-msgstr ""
+msgstr "சேனலைப் பற்றிய தகவல்"
 
 #: ../src/dlg-image-prop.c:732
 #, c-format
@@ -2494,13 +2557,13 @@ msgstr "%s பண்புகள்"
 
 #: ../src/dlg-jpegtran.c:258 ../src/dlg-reset-exif.c:128
 msgid "Could not move temporary file to remote location. Check remote permissions."
-msgstr ""
+msgstr "தொலை இடத்திற்கு தற்காலிக கோப்பினை நகர்த்த முடியவில்லை. தொலை அனுமதிகளை சரிசெய்யவும்."
 
 #: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1596
 #: ../src/dlg-photo-importer.c:1643 ../src/dlg-photo-importer.c:1655
 #: ../src/dlg-photo-importer.c:1671 ../src/dlg-photo-importer.c:1700
 msgid "Could not import photos"
-msgstr "நிழற்கடங்களை இறக்க முடியவில்லை"
+msgstr "நிழற்படங்களை இறக்க முடியவில்லை"
 
 #: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
 msgid "Film"
@@ -2522,7 +2585,7 @@ msgstr "கோப்புறை \"%s\"ஐ உருவாக்க முடி
 
 #: ../src/dlg-photo-importer.c:1701
 msgid "Not enough free space left on disk"
-msgstr ""
+msgstr "போதுமான இடைவெளிகள் வட்டினுள் இல்லை"
 
 #: ../src/dlg-png-exporter.c:908
 msgid "Image Caption"
@@ -2554,7 +2617,7 @@ msgstr "கோப்பு திருத்தியமைக்கப்ப�
 #: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
-msgstr ""
+msgstr "by Exif தேதி நேர ஒட்டினால்"
 
 #: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
@@ -2598,7 +2661,7 @@ msgstr "இந்த உருப்படியை நகர்த்த மு
 
 #: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1098
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "குப்பைக்கு படத்த நகர்த்தப்பட்டது, உண்மையா?"
 
 #: ../src/gth-browser-actions-callbacks.c:267
 #, c-format
@@ -2615,7 +2678,7 @@ msgstr "தொடரவும்"
 
 #: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களை குப்பைக்கு நகர்த்தவும், உண்மையா?"
 
 #: ../src/gth-browser-actions-callbacks.c:466
 #: ../src/gth-browser-actions-callbacks.c:976
@@ -2646,7 +2709,7 @@ msgstr "தேர்ந்தெடுக்கப்பட்ட நூலக�
 
 #: ../src/gth-browser-actions-callbacks.c:592
 msgid "The selected catalog will be removed, are you sure?"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கேட்லாக்கை நீக்கப்படும், உண்மையா?"
 
 #: ../src/gth-browser-actions-callbacks.c:687
 msgid "New Catalog"
@@ -2675,7 +2738,7 @@ msgstr "கோப்புறை \"%s\"க்கு மறுபெயரிட 
 #: ../src/gth-browser-actions-callbacks.c:1016
 #: ../src/gth-browser-actions-callbacks.c:1295
 msgid "source and destination are the same"
-msgstr ""
+msgstr "மூலம் மற்றும் இலக்கு அதே மாதிரியானவை"
 
 #: ../src/gth-browser-actions-callbacks.c:1099
 #, c-format
@@ -2685,11 +2748,11 @@ msgstr "கோப்புறை \"%s\"ஐ அழிக்க முடியவ
 #: ../src/gth-browser-actions-callbacks.c:1130
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
+msgstr "\"%s\" குப்பைக்கு நகர்த்தப்பட்டது. இதை நிரந்தரமாக அழிக்க விரும்புகிறீர்களா?"
 
 #: ../src/gth-browser-actions-callbacks.c:1174
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்புறையை குப்பைக்கு நகர்த்த வேண்டும், உண்மையா?"
 
 #: ../src/gth-browser-actions-callbacks.c:1227
 #: ../src/gth-browser-actions-callbacks.c:1285
@@ -2720,7 +2783,7 @@ msgstr "இடத்தை திற"
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
 msgid "_File"
-msgstr "_கோப்பு"
+msgstr "கோப்பு (_F)"
 
 #: ../src/gth-browser-actions-entries.h:37
 msgid "_Folder"
@@ -2729,7 +2792,7 @@ msgstr "கோப்புறை (_F)"
 #: ../src/gth-browser-actions-entries.h:40
 #: ../src/gth-viewer-actions-entries.h:36
 msgid "_Edit"
-msgstr "தொகு (_E)"
+msgstr "திருத்து (_E)"
 
 #: ../src/gth-browser-actions-entries.h:42
 #: ../src/gth-viewer-actions-entries.h:38
@@ -2777,7 +2840,7 @@ msgstr "உதவி (_H)"
 #: ../src/gth-browser-actions-entries.h:53
 #: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
-msgstr "(_W)புதிய சாளரம்"
+msgstr "புதிய சாளரம் (_W)"
 
 #: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-viewer-actions-entries.h:49
@@ -2817,7 +2880,7 @@ msgstr "குறுவட்டில் எழுதும் தேர்வ�
 #: ../src/gth-browser-actions-entries.h:223
 #: ../src/gth-browser-actions-entries.h:253
 msgid "_Rename..."
-msgstr "(_R)மறுபெயரிடு"
+msgstr "மறுபெயரிடு (_R)..."
 
 #: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
@@ -2861,7 +2924,7 @@ msgstr "(_u)படியெடு"
 
 #: ../src/gth-browser-actions-entries.h:104
 msgid "Duplicate selected images"
-msgstr ""
+msgstr "போலியாக தேர்ந்தெடுக்கப்பட்ட படங்கள்"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
@@ -2917,7 +2980,7 @@ msgstr "புதிய சாளரத்தில் திறக்கவு�
 
 #: ../src/gth-browser-actions-entries.h:144
 msgid "Open the selected catalog in a new window"
-msgstr ""
+msgstr "ஒரு புதிய சாளரத்தில் தேர்ந்தெடுக்கப்பட்ட கேட்லாக்கைத் திறக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:149
 msgid "Rename selected catalog"
@@ -2949,12 +3012,12 @@ msgstr "தேடும் காரணத்தை மாற்றியமை�
 #: ../src/gth-browser-actions-entries.h:168
 #: ../src/gth-browser-actions-entries.h:203
 msgid "Redo _Search"
-msgstr ""
+msgstr "மறையைத் தேடவும் (_S)"
 
 #: ../src/gth-browser-actions-entries.h:169
 #: ../src/gth-browser-actions-entries.h:204
 msgid "Redo the search"
-msgstr ""
+msgstr "மறையைத் தேடவும்"
 
 #: ../src/gth-browser-actions-entries.h:173
 msgid "_New Catalog..."
@@ -2982,7 +3045,7 @@ msgstr "நடப்பு கேட்லாக்கை நீக்கவு�
 
 #: ../src/gth-browser-actions-entries.h:194
 msgid "Move current catalog to another location"
-msgstr ""
+msgstr "மற்றொரு இடத்திற்கு நடப்பு கேட்லாக்கை நகர்த்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
@@ -2990,66 +3053,66 @@ msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்�
 
 #: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
-msgstr ""
+msgstr "ஒரு புதிய சாளரத்தில் தேர்ந்தெடுக்கப்பட்ட கோப்புறையை திறக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:218
 #: ../src/gth-browser-actions-entries.h:248
 msgid "Open with the _File Manager"
-msgstr ""
+msgstr "கோப்பு மேலாளருடன் திறக்கவும் (_F)"
 
 #: ../src/gth-browser-actions-entries.h:219
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr ""
+msgstr "Nautilus கோப்பு மேலாளருடன் தேர்ந்தெடுக்கப்பட்ட கோப்புறையைத் திறக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:224
 msgid "Rename selected folder"
-msgstr ""
+msgstr "தேர்நெதெடுக்கப்பட்ட கோப்புறைக்கு மறுபெயரிடவும்"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
-msgstr ""
+msgstr "குப்பைக்கு தேந்ந்தெடுக்கப்பட்ட கோப்புறையை நகர்த்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்புறையை நகலெடுக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:239
 msgid "Move selected folder"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்புறைக்கு நகர்த்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:243
 #: ../src/gth-browser-actions-entries.h:273
 #: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories..."
-msgstr "(_t)வகைகள்..."
+msgstr "வகைகள் (_t)..."
 
 #: ../src/gth-browser-actions-entries.h:244
 msgid "Assign categories to the selected folder"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட கோப்புறை வகைகளை ஓதுக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:249
 msgid "Open current folder with the Nautilus file manager"
-msgstr ""
+msgstr "Nautilus கோப்பு மேலாளருடன் நடப்பு கோப்புறையை திறக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:254
 msgid "Rename current folder"
-msgstr ""
+msgstr "நடப்பு கோப்புறைக்கு மறுபெயரிடவும்"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
-msgstr ""
+msgstr "குப்பைக்கு நடப்பு கோப்புறைக்கு நகர்த்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
-msgstr ""
+msgstr "நடப்பு கோப்புறையை நகலெடுக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:269
 msgid "Move current folder"
-msgstr ""
+msgstr "நடப்பு கோப்புறைக்கு நகர்த்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:274
 msgid "Assign categories to the current folder"
-msgstr ""
+msgstr "நடப்பு கோப்புறை வகைகளை ஒதுக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:278
 msgid "_New Folder..."
@@ -3062,12 +3125,12 @@ msgstr "புதிய அடைவை உருவாக்கவும்"
 #: ../src/gth-browser-actions-entries.h:284
 #: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
-msgstr ""
+msgstr "அடுத்த நேரத்தைக் காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
-msgstr ""
+msgstr "முந்தைய படத்தை காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
@@ -3093,29 +3156,29 @@ msgstr "இல்லை இடத்திற்கு செல்"
 
 #: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
-msgstr ""
+msgstr "நடப்பு இடத்தை ஏற்றுவதை நிறுத்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:324
 msgid "Go to the home folder"
-msgstr ""
+msgstr "முகப்பு கோப்புறைக்குச் செல்லவும்"
 
 #: ../src/gth-browser-actions-entries.h:328
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
-msgstr ""
+msgstr "பட கோப்புறைக்குச் செல்லவும் (_G)"
 
 #: ../src/gth-browser-actions-entries.h:329
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படத்தை பெற்றிருக்கும் கோப்புறைகளுக்குச் செல்லவும்"
 
 #: ../src/gth-browser-actions-entries.h:333
 msgid "_Delete History"
-msgstr ""
+msgstr "வரலாற்றை அழிக்கவும் (_D)"
 
 #: ../src/gth-browser-actions-entries.h:334
 msgid "Delete the list of visited locations"
-msgstr ""
+msgstr "பார்வையிட்ட இடங்களின் பட்டியலை அழிக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
@@ -3123,7 +3186,7 @@ msgstr "(_L)இடம்..."
 
 #: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
-msgstr ""
+msgstr "ஒரு இடத்தை பார்க்க குறிப்பிடவும்"
 
 #: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
@@ -3131,7 +3194,7 @@ msgstr "புத்தக குறிப்புகளை சேர் (_A)"
 
 #: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
-msgstr ""
+msgstr "புத்தக குறிப்புகளுக்கு நடப்பு இடத்தைச் சேர்க்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:348
 msgid "_Edit Bookmarks..."
@@ -3139,35 +3202,35 @@ msgstr "புத்தககுறிகளை திருத்து (_E)...
 
 #: ../src/gth-browser-actions-entries.h:349
 msgid "Edit bookmarks"
-msgstr ""
+msgstr "புத்தக குறிகளைத் திருத்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:353
 msgid "_Slide Show"
-msgstr ""
+msgstr "ஸ்லைடு காட்சி (_S)"
 
 #: ../src/gth-browser-actions-entries.h:354
 msgid "View as a slide show"
-msgstr ""
+msgstr "ஸ்லைடு காட்சியாக காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "_Search..."
-msgstr ""
+msgstr "தேடு (_S)..."
 
 #: ../src/gth-browser-actions-entries.h:368
 msgid "Create _Index Image..."
-msgstr ""
+msgstr "அட்டவணை படத்தை உருவாக்கவும் (_I)..."
 
 #: ../src/gth-browser-actions-entries.h:373
 msgid "Create _Web Album..."
-msgstr ""
+msgstr "வெப் ஆல்பத்தை உருவாக்கவும் (_W)..."
 
 #: ../src/gth-browser-actions-entries.h:378
 msgid "Convert F_ormat..."
-msgstr ""
+msgstr "வடிவமாக மாற்றவும் (_o)..."
 
 #: ../src/gth-browser-actions-entries.h:383
 msgid "Search for _Duplicates..."
-msgstr ""
+msgstr "போலிகளுக்காகத் தேடவும் (_D)..."
 
 #: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
@@ -3175,11 +3238,11 @@ msgstr "_முன்னுரிமைகள் _P)(..."
 
 #: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
-msgstr ""
+msgstr "பலவகையான முன்னுரிமைகளைத் திருத்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:393
 msgid "Scale Images..."
-msgstr ""
+msgstr "அளவு படங்கள்..."
 
 #: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:73
@@ -3189,38 +3252,38 @@ msgstr "கருவிப்பட்டை (_T)"
 #: ../src/gth-browser-actions-entries.h:403
 #: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
-msgstr ""
+msgstr "இந்த சாளரத்தின் கருவிப்பட்டியை காட்டு அல்லது மறைக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:407
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
-msgstr "_S நிலைப்பட்டை"
+msgstr "நிலைப்பட்டை (_S)"
 
 #: ../src/gth-browser-actions-entries.h:408
 #: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
-msgstr ""
+msgstr "இந்த சாளரத்தின் நிலைப்பட்டையைக் காட்டு அல்லது மறைக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:412
 msgid "_Filter"
-msgstr "_வடிப்பி"
+msgstr "வடிப்பி (_F)"
 
 #: ../src/gth-browser-actions-entries.h:413
 msgid "View or hide the filterbar of this window"
-msgstr ""
+msgstr "இந்த சாளரத்தின் வடிப்பிபட்டையை காட்டு அல்லது மறைக்கவும்"
 
 #: ../src/gth-browser-actions-entries.h:419
 msgid "View thumbnails"
-msgstr ""
+msgstr "சிறுபடங்களைக் காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:423
 msgid "_Image Preview"
-msgstr ""
+msgstr "படத்தின் முன்பார்வை (_I)"
 
 #: ../src/gth-browser-actions-entries.h:424
 #: ../src/gth-browser-actions-entries.h:496
 msgid "View the image"
-msgstr ""
+msgstr "படத்தைக் காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:434
 msgid "Show _Hidden Files"
@@ -3236,7 +3299,7 @@ msgstr "தலைகீழ் வரிசை (_R)"
 
 #: ../src/gth-browser-actions-entries.h:441
 msgid "Reverse images order"
-msgstr ""
+msgstr "தலைகீழாக படங்களை வரிசைபடுத்து"
 
 #: ../src/gth-browser-actions-entries.h:450
 msgid "by _Name"
@@ -3244,7 +3307,7 @@ msgstr "பெயரின் படி (_N)"
 
 #: ../src/gth-browser-actions-entries.h:451
 msgid "Sort images by name"
-msgstr ""
+msgstr "பெயராக படங்களை வரிசைப்படுத்து"
 
 #: ../src/gth-browser-actions-entries.h:453
 msgid "by _Path"
@@ -3252,7 +3315,7 @@ msgstr "பாதையின் படி (_P)"
 
 #: ../src/gth-browser-actions-entries.h:454
 msgid "Sort images by path"
-msgstr ""
+msgstr "பாதையாக படங்களை வரிசைப்படுத்து"
 
 #: ../src/gth-browser-actions-entries.h:456
 msgid "by _Size"
@@ -3260,49 +3323,49 @@ msgstr "அளவு படி (_S)"
 
 #: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by file size"
-msgstr ""
+msgstr "கோப்பு அளவாக படங்களை வரிசைப்படுத்து"
 
 #: ../src/gth-browser-actions-entries.h:459
 msgid "by Modification _Time"
-msgstr ""
+msgstr "மாற்றியமைக்கப்பட்ட தேரத்தால் (_T)"
 
 #: ../src/gth-browser-actions-entries.h:460
 msgid "Sort images by file modification time"
-msgstr ""
+msgstr "கோப்பு மாற்றியமைக்கப்பட்ட நேரத்தில் படங்களை வரிசைப்படுத்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:462
 msgid "by _Exif Time"
-msgstr ""
+msgstr "_Exif நேரமாக"
 
 #: ../src/gth-browser-actions-entries.h:463
 msgid "Sort images by Exif DateTime tag"
-msgstr ""
+msgstr "Exif தேதி நேர ஒட்டால் படங்களை வரிசைப்படுத்தவும்"
 
 #: ../src/gth-browser-actions-entries.h:465
 msgid "by _Comment"
-msgstr ""
+msgstr "கருத்தாக (_C)"
 
 #: ../src/gth-browser-actions-entries.h:466
 msgid "Sort images by comment"
-msgstr ""
+msgstr "படங்களை கருத்தாக வரிசைப்படுத்து"
 
 #: ../src/gth-browser-actions-entries.h:468
 msgid "_Manual Order"
-msgstr ""
+msgstr "கைமுறை வரிசை (_M)"
 
 #: ../src/gth-browser-actions-entries.h:469
 msgid "Sort images manually"
-msgstr ""
+msgstr "படங்களை கைமுறையாக வரிசைப்படுத்து"
 
 #: ../src/gth-browser-actions-entries.h:476
 #: ../src/gth-browser-actions-entries.h:477
 msgid "View As Slides"
-msgstr ""
+msgstr "ஸ்லைடுகளாக காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:479
 #: ../src/gth-browser-actions-entries.h:480
 msgid "View As List"
-msgstr ""
+msgstr "பட்டியலாக காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
@@ -3310,70 +3373,70 @@ msgstr "அடைவுகள் (_F)"
 
 #: ../src/gth-browser-actions-entries.h:490
 msgid "View the folders"
-msgstr ""
+msgstr "கோப்புறைகளைக் காட்டு"
 
 #: ../src/gth-browser-actions-entries.h:492
 msgid "_Catalogs"
-msgstr ""
+msgstr "கேட்லாக்குகள் (_C)"
 
 #: ../src/gth-browser-actions-entries.h:493
 msgid "View the catalogs"
-msgstr ""
+msgstr "கேட்லாக்குகளைக் காட்டு"
 
 #: ../src/gth-browser.c:547 ../src/gth-viewer.c:661
 msgid "[Press 'c' to add a comment]"
-msgstr ""
+msgstr "['c' ஐ அழுத்தி கருத்தை சேர்க்கவும்]"
 
 #: ../src/gth-browser.c:653 ../src/gth-browser.c:670 ../src/gth-viewer.c:745
 msgid "[modified]"
-msgstr ""
+msgstr "[மாற்றியமைக்கப்பட்டது]"
 
 #: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
-msgstr ""
+msgstr "gThumb"
 
 #: ../src/gth-browser.c:776
 #, c-format
 msgid "1 image (%s)"
-msgstr ""
+msgstr "1 படம் (%s)"
 
 #: ../src/gth-browser.c:779
 #, c-format
 msgid "%d images (%s)"
-msgstr ""
+msgstr "%d படங்கள் (%s)"
 
 #: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 தேர்ந்தெடுக்கப்பட்டது (%s)"
 
 #: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d தேர்ந்தெடுக்கப்பட்டது (%s)"
 
 #: ../src/gth-browser.c:1900 ../src/gth-viewer.c:997
 msgid "The current image has been modified, do you want to save it?"
-msgstr ""
+msgstr "நடப்பு படம் மாற்றியமைக்கபடும், அதை சேமிக்க விரும்புகிறீர்களா?"
 
 #: ../src/gth-browser.c:1901 ../src/gth-viewer.c:998
 msgid "Do Not Save"
-msgstr ""
+msgstr "சேமிக்க முடியவில்லை"
 
 #: ../src/gth-browser.c:3617
 msgid "Dragged Images"
-msgstr ""
+msgstr "இழுக்கப்பட்ட படங்கள்"
 
 #: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
-msgstr ""
+msgstr "தரத்தைக் குறைக்காமல் படங்களை சுழற்றவும்"
 
 #: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
-msgstr ""
+msgstr "கோப்புறையை பட்டியலிடுவதை பெறுகிறது..."
 
 #: ../src/gth-browser.c:6372
 #, c-format
@@ -3386,55 +3449,55 @@ msgstr "மூடு"
 
 #: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
-msgstr ""
+msgstr "பட கருத்து"
 
 #: ../src/gth-browser.c:6941
 msgid "Image data"
-msgstr ""
+msgstr "படத் தரவு"
 
 #: ../src/gth-browser.c:6953
 msgid "Image preview"
-msgstr ""
+msgstr "பட முன்பார்வை"
 
 #: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
-msgstr ""
+msgstr "குறிப்பிட்ட கேட்லாக் உள்ளிருக்கவில்லை."
 
 #: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
-msgstr ""
+msgstr "காத்திருக்கவும்..."
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
-msgstr ""
+msgstr "கோப்பு கணினி தரவு"
 
 #: ../src/gth-exif-data-viewer.c:66
 msgid "General Information"
-msgstr ""
+msgstr "பொதுவான தகவல்"
 
 #: ../src/gth-exif-data-viewer.c:67
 msgid "Picture-Taking Conditions"
-msgstr ""
+msgstr "படம்- எடுக்கும் நிபந்தனைகள்"
 
 #: ../src/gth-exif-data-viewer.c:68
 msgid "Maker Notes"
-msgstr ""
+msgstr "குறிப்பு குறிப்புகள்"
 
 #: ../src/gth-exif-data-viewer.c:69
 msgid "GPS Coordinates"
-msgstr ""
+msgstr "GPS சமமானவைகள்"
 
 #: ../src/gth-exif-data-viewer.c:70
 msgid "Image Structure"
-msgstr ""
+msgstr "படத்தின் அமைப்பு"
 
 #: ../src/gth-exif-data-viewer.c:71
 msgid "Embedded Thumbnail"
-msgstr ""
+msgstr "இழைக்கப்பட்ட சிறுப்படங்கள்"
 
 #: ../src/gth-exif-data-viewer.c:72
 msgid "Versions & Interoperability"
-msgstr ""
+msgstr "பதிப்புகள் & Interoperability"
 
 #: ../src/gth-exif-data-viewer.c:73
 msgid "Other"
@@ -3470,11 +3533,11 @@ msgstr "இதில் இல்லை"
 
 #: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
-msgstr ""
+msgstr "இதற்கு சமமான"
 
 #: ../src/gth-filter-bar.c:183
 msgid "is lower than"
-msgstr ""
+msgstr "இதற்கு குறைவான"
 
 #: ../src/gth-filter-bar.c:184
 msgid "is greater than"
@@ -3502,7 +3565,7 @@ msgstr "கோப்பு பெயர்"
 
 #: ../src/gth-filter-bar.c:207
 msgid "Place"
-msgstr ""
+msgstr "இடம்"
 
 #: ../src/gth-filter-bar.c:210
 msgid "Category"
@@ -3510,7 +3573,7 @@ msgstr "வகை"
 
 #: ../src/gth-filter-bar.c:211
 msgid "Text contains"
-msgstr ""
+msgstr "உரை பெற்றிருப்பது                                 "
 
 #: ../src/gth-filter-bar.c:490
 msgid "All"
@@ -3519,11 +3582,11 @@ msgstr "அனைத்தும்"
 #. view label
 #: ../src/gth-filter-bar.c:540
 msgid "S_how:"
-msgstr ""
+msgstr "காட்டு (_h):"
 
 #: ../src/gth-folder-selection-dialog.c:281
 msgid "<b>_Folder</b>"
-msgstr ""
+msgstr "<b>கோப்புறை (_F)</b>"
 
 #: ../src/gth-folder-selection-dialog.c:299
 msgid "_Browse..."
@@ -3531,11 +3594,11 @@ msgstr "_மேலோடு..."
 
 #: ../src/gth-folder-selection-dialog.c:317
 msgid "<b>_Recent folders:</b>"
-msgstr ""
+msgstr "<b>சமீபத்திய கோப்புறைகள் (_R):</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
-msgstr ""
+msgstr "பண்புகள் (_t)"
 
 #: ../src/gth-location.c:392
 msgid "Other..."
@@ -3553,11 +3616,11 @@ msgstr "தன்னியக்கம்"
 
 #: ../src/gth-viewer-actions-entries.h:88
 msgid "_Single Window"
-msgstr ""
+msgstr "ஒற்றை சாளரம் (_S)"
 
 #: ../src/gth-viewer-actions-entries.h:89
 msgid "Reuse this window to view other images"
-msgstr ""
+msgstr "மற்ற படங்களை காட்ட இந்த சாளரத்தை மீண்டும் பயன்படுத்தவும்"
 
 #: ../src/gth-viewer.c:820
 msgid "_None"
@@ -3565,16 +3628,16 @@ msgstr "ஒன்றுமில்லை (_N)"
 
 #: ../src/gth-viewer.c:1467 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
-msgstr ""
+msgstr "இதனுடன் திறக்கவும் (_O)"
 
 #: ../src/gth-viewer.c:1473 ../src/gth-viewer.c:1474
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களை ஒரு பயன்பாட்டுடன் திறக்கவும்"
 
 #: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
-msgstr ""
+msgstr "GNOMEகான ஒரு படத்தை காட்சியர் மற்றும் உலாவியர்."
 
 #: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
@@ -3582,7 +3645,7 @@ msgstr "மொழிப்பெயர்ப்பாளரின்_வரவ�
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
-msgstr ""
+msgstr "நிறங்களை குறைக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
@@ -3595,7 +3658,7 @@ msgstr "இதனால் திறக்கவும் (_O)..."
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
-msgstr ""
+msgstr "நடப்பு படத்தை சேமிக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
@@ -3603,7 +3666,7 @@ msgstr " என்று சேமித்து வைக்கவும் (_
 
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
-msgstr ""
+msgstr "சேமிக்கப்பட்ட படத்தை திரும்ப எடுக்ககவும்"
 
 #: ../src/gth-window-actions-entries.h:65
 msgid "Print..."
@@ -3612,46 +3675,46 @@ msgstr "அச்சிடு..."
 #: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
-msgstr ""
+msgstr "நடப்பு படத்தை அச்சிடவும்"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
-msgstr ""
+msgstr "ஒரு பயன்பாட்டுடன் இந்த படத்தை திறக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
-msgstr ""
+msgstr "கருத்து (_e)..."
 
 #: ../src/gth-window-actions-entries.h:81
 #: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களுக்கு ஒரு கருத்தை சேர்க்கவும்"
 
 #: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
-msgstr ""
+msgstr "கருத்தை நீக்கவும் (_o)"
 
 #: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களுக்கு கருத்துக்களை நீக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட படங்களின் வகைகளை ஒதுக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:100
 msgid "Ca_tegories"
-msgstr ""
+msgstr "வகைகள் (_t)"
 
 #: ../src/gth-window-actions-entries.h:115
 #: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
-msgstr ""
+msgstr "வலதாக சுழற்றவும் (_g)"
 
 #: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
-msgstr ""
+msgstr "க்ளாக்வைஸ் படத்தை சுழற்றுவதைக் காட்டவும்"
 
 #: ../src/gth-window-actions-entries.h:120
 #: ../src/gth-window-actions-entries.h:280
@@ -3660,7 +3723,7 @@ msgstr "இடதுபுறமாக சுழற்று (_L)"
 
 #: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
-msgstr ""
+msgstr "படத்தை கவுன்டர்-க்ளாக்வைஸ் சுழற்றவதைக் காட்டவும்"
 
 #: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
@@ -3668,15 +3731,15 @@ msgstr "மடக்கு (_F)"
 
 #: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
-msgstr ""
+msgstr "படத்தை மடக்குவதைக் காட்டவும்"
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr ""
+msgstr "கண்ணாடி (_M)"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
-msgstr ""
+msgstr "கண்ணாடியாக்கப்பட்ட படத்தைக் காட்டவும்"
 
 #: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
@@ -3684,23 +3747,23 @@ msgstr "டீசேச்சுரேட்  (_D)"
 
 #: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
-msgstr ""
+msgstr "படத்தை கருப்பு மற்றும் வெள்ளையில் காட்டு"
 
 #: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
-msgstr ""
+msgstr "நெகடிவ் (_N)"
 
 #: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
-msgstr ""
+msgstr "நெகடிவ் நிறங்களுடன் படத்தைக் காட்டவும்"
 
 #: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
-msgstr ""
+msgstr "மிகுதிப்படுத்தவும் (_E)"
 
 #: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
-msgstr ""
+msgstr "நிற அளவுகளை தானாகவே சரிசெய்யவும்"
 
 #: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
@@ -3708,7 +3771,7 @@ msgstr "சமமாக்கு  (_E)"
 
 #: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
-msgstr ""
+msgstr "படத்தின் ஹிஸ்டோகிராமை தானாகவே சமநிலைப்படுத்தவும்"
 
 #: ../src/gth-window-actions-entries.h:155
 msgid "_Posterize..."
@@ -3718,11 +3781,11 @@ msgstr "படமாக்கு.. (_P)"
 #: ../src/gth-window-actions-entries.h:191
 #: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
-msgstr ""
+msgstr "நிறங்களின் எண்ணிக்கையை குறைக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:160
 msgid "_Brightness-Contrast..."
-msgstr ""
+msgstr "வெளிச்சமான வித்தியாசமான (_B)..."
 
 #: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
@@ -3730,7 +3793,7 @@ msgstr "பொலிவு மற்றும் வேறுபாடை சர
 
 #: ../src/gth-window-actions-entries.h:165
 msgid "_Hue-Saturation..."
-msgstr ""
+msgstr "ஹ்யூ-சேச்சுரேஷன் (_H)..."
 
 #: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
@@ -3738,15 +3801,15 @@ msgstr "ஹ்யூ மற்றும் சேச்சுரேஷனை ச
 
 #: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
-msgstr ""
+msgstr "ரெட்ஐ நீக்கம் (_R)..."
 
 #: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
-msgstr ""
+msgstr "ரெட்ஐ நீக்கும் கருவி"
 
 #: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
-msgstr ""
+msgstr "நிற மீதி (_C)..."
 
 #: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
@@ -3754,7 +3817,7 @@ msgstr "நிற சமனை சரி செய்"
 
 #: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
-msgstr ""
+msgstr "மறுஅளவு (_R)..."
 
 #: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
@@ -3762,7 +3825,7 @@ msgstr "படிமத்தை மறுஅளவிடு"
 
 #: ../src/gth-window-actions-entries.h:185
 msgid "_Crop..."
-msgstr ""
+msgstr "வெட்டு (_C)..."
 
 #: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
@@ -3770,11 +3833,11 @@ msgstr "படிமத்தை வெட்டு"
 
 #: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
-msgstr ""
+msgstr "கருப்பு மற்றும் வெள்ளை"
 
 #: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
-msgstr ""
+msgstr "வெப் பேலேட்டி"
 
 #: ../src/gth-window-actions-entries.h:200
 #: ../src/gth-window-actions-entries.h:307
@@ -3795,11 +3858,11 @@ msgstr "பெரிதாக்கு"
 
 #: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
-msgstr ""
+msgstr "1:1"
 
 #: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
-msgstr ""
+msgstr "சரியான அளவு"
 
 #: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
@@ -3807,7 +3870,7 @@ msgstr "பொருத்து"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "சாளரத்தை பொருத்த அளவிடுதல்"
 
 #: ../src/gth-window-actions-entries.h:220
 msgid "Width"
@@ -3815,47 +3878,47 @@ msgstr "அகலம்"
 
 #: ../src/gth-window-actions-entries.h:221
 msgid "Zoom to fit width"
-msgstr ""
+msgstr "அகலத்தை பொருத்த அளவிடுதல்"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
-msgstr ""
+msgstr "அனிமேஷன் படி (_n)"
 
 #: ../src/gth-window-actions-entries.h:226
 msgid "View next animation frame"
-msgstr ""
+msgstr "அடுத்த அனிமேஷன் சட்டத்தைக் காட்டு"
 
 #: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
-msgstr ""
+msgstr "மத்தியமாக்கப்பட்ட (_C)"
 
 #: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr ""
+msgstr "பணிமேடை பின்னணியாக பட அமைக்கவும் (மத்தியமாக்கப்பட்ட)"
 
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
-msgstr ""
+msgstr "டைல்டு (_T)"
 
 #: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr ""
+msgstr "பணிமேடை பின்னணியாக படத்தை அமைக்கவும் (tiled)"
 
 #: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
-msgstr ""
+msgstr "அளவுகோலாக்கப்பட்ட (_S)"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr ""
+msgstr "பணிமேடை பின்னணியாக படத்தை அமைக்கவும் (விகிதத்தின் படியாக அளவுகோலாக வைக்கவும்)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
-msgstr ""
+msgstr "நீட்டப்பட்டது (_e)"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr ""
+msgstr "பணிமேடை பின்னணியாக படத்தை அமைக்கவும் (நீட்டப்பட்டது)"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
@@ -3863,27 +3926,27 @@ msgstr "மீட்கவும் (_R)"
 
 #: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
-msgstr ""
+msgstr "அசல் பணிமேடை வால்பேப்பரை மறுசேமிக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:265
 msgid "Change _Date..."
-msgstr ""
+msgstr "தேதியை மாற்றவும் (_D)..."
 
 #: ../src/gth-window-actions-entries.h:266
 msgid "Change images last modified date"
-msgstr ""
+msgstr "கடைசியாக மாற்றப்பட்ட தேதியில் படங்களை ஏற்றவும்"
 
 #: ../src/gth-window-actions-entries.h:270
 msgid "Reset _Exif Orientation"
-msgstr ""
+msgstr "_Exif திசையமைப்பை மறுஅமைக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
-msgstr ""
+msgstr "Exif திசையமைப்பு மேல்-இடதை மறுஅமைக்கவும்"
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
-msgstr ""
+msgstr "gThumb தகவலைப் பற்றி காட்டு"
 
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
@@ -3891,7 +3954,7 @@ msgstr "உள்ளடக்கம்"
 
 #: ../src/gth-window-actions-entries.h:296
 msgid "Display the gThumb Manual"
-msgstr ""
+msgstr "gThumb கைமுறையைக் காட்டு"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
@@ -3899,55 +3962,55 @@ msgstr "(_K) விசைப்பலகை குறுக்கு வழி�
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
-msgstr ""
+msgstr "அனிமேஷனை இயக்கு (_A)"
 
 #: ../src/gth-window-actions-entries.h:317
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "நடப்பு அனிமேஷனை துவக்கு அல்லது நிறுத்து"
 
 #: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
-msgstr ""
+msgstr "உயர்ந்த தரம் (_H)"
 
 #: ../src/gth-window-actions-entries.h:328
 msgid "Use high quality zoom"
-msgstr ""
+msgstr "உயர்தரமான அளவிடலைப் பயன்படுத்து"
 
 #: ../src/gth-window-actions-entries.h:330
 msgid "_Low Quality"
-msgstr ""
+msgstr "குறைந்த தரம் (_L)"
 
 #: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
-msgstr ""
+msgstr "குறைந்த தரமான அளவிடலைப் பயன்படுத்து"
 
 #: ../src/main.c:89
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "முழுத்திரைமுறைமையில் துவக்கவும்"
 
 #: ../src/main.c:93
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "தானகவே ஒரு ஸ்லைடுகாட்சியைத் துவக்கவும்"
 
 #: ../src/main.c:97
 msgid "Automatically import digital camera photos"
-msgstr ""
+msgstr "டிஜிட்டல் காமிரா போட்டோக்களை தானாக இறக்கவும்"
 
 #: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
-msgstr ""
+msgstr "பார்வையர் முறைமையில் ஒற்றை படங்களை காட்டி பயன்படுத்தவும்"
 
 #: ../src/main.c:146
 msgid "Holidays"
-msgstr ""
+msgstr "விடுமுறைகள்"
 
 #: ../src/main.c:147
 msgid "Temporary"
-msgstr ""
+msgstr "தற்காலிக"
 
 #: ../src/main.c:148
 msgid "Screenshots"
-msgstr ""
+msgstr "திரைபிடிப்பு"
 
 #: ../src/main.c:149
 msgid "Science"
@@ -3955,7 +4018,7 @@ msgstr "அறிவியல்"
 
 #: ../src/main.c:150
 msgid "Favourite"
-msgstr ""
+msgstr "விருப்பங்கள்"
 
 #: ../src/main.c:151
 msgid "Important"
@@ -3971,7 +4034,7 @@ msgstr "விளையாட்டுகள்"
 
 #: ../src/main.c:154
 msgid "Party"
-msgstr ""
+msgstr "பார்டி"
 
 #: ../src/main.c:155
 msgid "Birthday"
@@ -3992,7 +4055,7 @@ msgstr "கட்டளை வரி"
 #: ../src/rotation-utils.c:113
 #, c-format
 msgid "Problem transforming the image: %s"
-msgstr ""
+msgstr "படத்தை இடமாற்றுவதில் சிக்கல்: %s"
 
 #: ../src/rotation-utils.c:118
 msgid ""
@@ -4007,16 +4070,26 @@ msgid ""
 "For practical use, this mode gives the best looking results, but the "
 "transformation is not strictly lossless anymore."
 msgstr ""
+" This transformation may introduce small image distortions along one or more "
+"edges, because the image dimensions are not multiples of 8.\n"
+"\n"
+"The distortion is reversible, however. If the resulting image is "
+"unacceptable, simply apply the reverse transformation to return to the "
+"original image.\n"
+"\n"
+"You can also choose to discard (or trim) any untransformable edge pixels. "
+"For practical use, this mode gives the best looking results, but the "
+"transformation is not strictly lossless anymore."
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
-msgstr ""
+msgstr "நேர்த்தியான (_T)"
 
 #: ../src/rotation-utils.c:169
 msgid "Could not create a local temporary copy of the remote file."
-msgstr ""
+msgstr "தொலைக் கோப்பிற்கு ஒரு தற்காலிகமான உள்ளமை நகலை உருவாக்க முடியவில்லை."
 
 #: ../src/rotation-utils.c:215
 msgid "Could not move temporary file to local destination. Check folder permissions."
-msgstr ""
+msgstr "தற்காலிக கோப்பை உள்ளமை இலக்கிற்கு நகர்த்த முடியவில்லை. கோப்புறை அனுமதிகளை சரிபார்க்கவும்."
 
