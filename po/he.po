@@ -3062,7 +3062,7 @@ msgstr "_כלים"
 #: ../src/gth-browser-actions-entries.h:49
 #: ../src/gth-viewer-actions-entries.h:42
 msgid "Set Image as _Wallpaper"
-msgstr "קבע כרגע ל_שולחן עבודה"
+msgstr "קבע כרקע ל_שולחן עבודה"
 
 #: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:43
