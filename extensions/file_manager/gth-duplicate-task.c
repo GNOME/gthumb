@@ -77,21 +77,15 @@ get_destination (GthFileData *file_data,
 
 
 static void
-copy_progress_cb (goffset      current_file,
-                  goffset      total_files,
-                  GFile       *source,
-                  GFile       *destination,
-                  goffset      current_num_bytes,
-                  goffset      total_num_bytes,
-                  gpointer     user_data)
+copy_progress_cb (GObject    *object,
+		  const char *description,
+		  const char *details,
+		  gboolean    pulse,
+		  double      fraction,
+		  gpointer    user_data)
 {
 	GthDuplicateTask *self = user_data;
-	char             *name;
-
-	name = _g_file_get_display_name (source);
-	gth_task_progress (GTH_TASK (self), _("Duplicating files"), name, FALSE, (double) current_num_bytes / total_num_bytes);
-
-	g_free (name);
+	gth_task_progress (GTH_TASK (self), _("Duplicating files"), details, pulse, fraction);
 }
 
 
@@ -139,6 +133,7 @@ duplicate_current_file (GthDuplicateTask *self)
 
 	_g_copy_file_async (file_data->file,
 			    destination,
+			    FALSE,
 			    G_FILE_COPY_ALL_METADATA,
 			    G_PRIORITY_DEFAULT,
 			    self->priv->cancellable,

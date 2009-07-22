@@ -85,6 +85,7 @@ gth_copy_task_exec (GthTask *task)
 	gth_file_source_copy (self->priv->file_source,
 			      self->priv->destination,
 			      self->priv->files,
+			      self->priv->move,
 			      copy_progress_cb,
 			      copy_done_cb,
 			      self);

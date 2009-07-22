@@ -89,6 +89,7 @@ struct _GthFileSourceClass
 	void         (*copy)                  (GthFileSource    *file_source,
 					       GthFileData      *destination,
 					       GList            *file_list, /* GFile * list */
+					       gboolean          move,
 					       ProgressCallback  progress_callback,
 					       ReadyCallback     callback,
 					       gpointer          data);
@@ -136,6 +137,7 @@ void           gth_file_source_rename                (GthFileSource    *file_sou
 void           gth_file_source_copy                  (GthFileSource    *file_source,
 						      GthFileData      *destination,
 						      GList            *file_list, /* GFile list */
+						      gboolean          move,
 						      ProgressCallback  progress_callback,
 						      ReadyCallback     ready_callback,
 						      gpointer          data);

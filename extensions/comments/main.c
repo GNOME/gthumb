@@ -67,15 +67,10 @@ get_place_for_test (GthTest       *test,
 
 
 void
-comments__add_sidecars_cb (GList  *sources,
+comments__add_sidecars_cb (GFile  *file,
 			   GList **sidecars)
 {
-	GList *scan;
-
-	for (scan = sources; scan; scan = scan->next) {
-		GFile *file = (GFile *) scan->data;
-		*sidecars = g_list_prepend (*sidecars, gth_comment_get_comment_file (file));
-	}
+	*sidecars = g_list_prepend (*sidecars, gth_comment_get_comment_file (file));
 }
 
 

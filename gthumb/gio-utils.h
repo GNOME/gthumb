@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <gio/gio.h>
+#include "typedefs.h"
 
 G_BEGIN_DECLS
 
@@ -49,13 +50,6 @@ typedef void (*ListReadyCallback)    (GList       *files,
 				      GList       *dirs,
 				      GError      *error,
 				      gpointer     user_data);
-typedef void (*CopyProgressCallback) (goffset      current_file,
-                                      goffset      total_files,
-                                      GFile       *source,
-                                      GFile       *destination,
-                                      goffset      current_num_bytes,
-                                      goffset      total_num_bytes,
-                                      gpointer     user_data);
 typedef void (*CopyDoneCallback)     (GError      *error,
 				      gpointer     user_data);
 typedef void (*BufferReadyCallback)  (void        *buffer,
@@ -98,38 +92,28 @@ void   g_query_info_async            (GList                 *files,        /* GF
 
 /* asynchronous copy functions */
 
-void   _g_dummy_file_op_async        (CopyDoneCallback       callback,
+void     _g_dummy_file_op_async      (CopyDoneCallback       callback,
 				      gpointer               user_data);
-void   g_copy_files_async            (GList                 *sources,
-				      GList                 *destinations,
-				      GFileCopyFlags         flags,
-				      int                    io_priority,
-				      GCancellable          *cancellable,
-				      CopyProgressCallback   progress_callback,
-				      gpointer               progress_callback_data,
-				      CopyDoneCallback       callback,
-				      gpointer               user_data);
-void   _g_copy_file_async            (GFile                 *source,
+void     _g_copy_files_async         (GList                 *sources,
 				      GFile                 *destination,
+				      gboolean               move,
 				      GFileCopyFlags         flags,
 				      int                    io_priority,
 				      GCancellable          *cancellable,
-				      CopyProgressCallback   progress_callback,
+				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
 				      CopyDoneCallback       callback,
 				      gpointer               user_data);
-void   g_directory_copy_async        (GFile                 *source,
+void     _g_copy_file_async          (GFile                 *source,
 				      GFile                 *destination,
+				      gboolean               move,
 				      GFileCopyFlags         flags,
 				      int                    io_priority,
 				      GCancellable          *cancellable,
-				      CopyProgressCallback   progress_callback,
+				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
 				      CopyDoneCallback       callback,
 				      gpointer               user_data);
-gboolean _g_delete_files             (GList                 *file_list,
-				      gboolean               include_metadata,
-				      GError               **error);
 gboolean _g_move_file                (GFile                 *source,
                                       GFile                 *destination,
                                       GFileCopyFlags         flags,
@@ -137,6 +121,12 @@ gboolean _g_move_file                (GFile                 *source,
                                       GFileProgressCallback  progress_callback,
                                       gpointer               progress_callback_data,
                                       GError               **error);
+gboolean _g_delete_files             (GList                 *file_list,
+				      gboolean               include_metadata,
+				      GError               **error);
+
+/* -- read/write/create file  -- */
+
 gboolean g_load_file_in_buffer       (GFile                 *file,
 				      void                 **buffer,
 				      gsize                 *size,
@@ -168,8 +158,6 @@ GFile * _g_directory_create_unique   (GFile                 *parent,
 				      const char            *display_name,
 				      const char            *suffix,
 				      GError               **error);
-GFileType
-	_g_file_get_standard_type    (GFile      *file);
 
 /* convenience macros */
 

@@ -417,6 +417,7 @@ static void
 gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			       GthFileData      *destination,
 			       GList            *file_list, /* GFile * list */
+			       gboolean          move,
 			       ProgressCallback  progress_callback,
 			       ReadyCallback     ready_callback,
 			       gpointer          data)

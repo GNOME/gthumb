@@ -206,6 +206,7 @@ char *          _g_build_uri                     (const char *base,
 /* GIO utils */
 
 char *          _g_file_get_display_name         (GFile      *file);
+GFileType 	_g_file_get_standard_type        (GFile      *file);
 GFile *         _g_file_get_child                (GFile      *file,
 						  ...);
 GIcon *         _g_file_get_icon                 (GFile      *file);

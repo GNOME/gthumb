@@ -239,177 +239,22 @@ gth_file_source_vfs_list (GthFileSource *file_source,
 
 
 typedef struct {
-	GthFileSourceVfs *file_source;
-	GthFileData      *destination;
-	GList            *file_list;
-	ProgressCallback  progress_callback;
-	ReadyCallback     ready_callback;
-	gpointer          user_data;
-	GList            *files;
-	GList            *dirs;
-	GList            *current_dir;
-	char             *message;
+	GthFileSource *file_source;
+	ReadyCallback  ready_callback;
+	gpointer       user_data;
 } CopyOpData;
 
 
 static void
-copy_op_data_free (CopyOpData *cod)
-{
-	g_object_unref (cod->file_source);
-	g_object_unref (cod->destination);
-	_g_object_list_unref (cod->file_list);
-	_g_object_list_unref (cod->files);
-	_g_object_list_unref (cod->dirs);
-	g_free (cod->message);
-	g_free (cod);
-}
-
-
-static void
-copy__copy_files_done (GError   *error,
-		       gpointer  user_data)
+copy_done_cb (GError   *error,
+	      gpointer  user_data)
 {
 	CopyOpData *cod = user_data;
 
 	cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
-	copy_op_data_free (cod);
-}
 
-
-static void
-copy__copy_files (CopyOpData *cod)
-{
-	GList *destinations;
-	GList *scan;
-
-	destinations = NULL;
-	for (scan = cod->files; scan; scan = scan->next) {
-		GFile *source = scan->data;
-		char  *source_basename;
-
-		source_basename = g_file_get_basename (source);
-		destinations = g_list_prepend (destinations, g_file_get_child (cod->destination->file, source_basename));
-
-		g_free (source_basename);
-	}
-
-	g_copy_files_async  (cod->files,
-			     destinations,
-			     G_FILE_COPY_NONE,
-			     G_PRIORITY_DEFAULT,
-			     gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
-			     NULL,
-			     NULL,
-			     copy__copy_files_done,
-			     cod);
-
-	_g_object_list_unref (destinations);
-}
-
-
-static void copy__copy_current_dir (CopyOpData *cod);
-
-
-static void
-copy__copy_current_dir_done (GError   *error,
-			     gpointer  user_data)
-{
-	CopyOpData *cod = user_data;
-
-	if (error != NULL) {
-		cod->ready_callback (G_OBJECT (cod->file_source), error, cod->user_data);
-		copy_op_data_free (cod);
-		return;
-	}
-
-	cod->current_dir = cod->current_dir->next;
-	copy__copy_current_dir (cod);
-}
-
-
-static void
-copy__copy_current_dir_progress (goffset   current_file,
-                                 goffset   total_files,
-                                 GFile    *source,
-                                 GFile    *destination,
-                                 goffset   current_num_bytes,
-                                 goffset   total_num_bytes,
-                                 gpointer  user_data)
-{
-	CopyOpData  *cod = user_data;
-	GthFileData *source_file_data;
-	char        *details;
-
-	if (cod->progress_callback == NULL)
-		return;
-
-	source_file_data = (GthFileData *) cod->current_dir->data;
-	details = g_strdup_printf (_("Copying files from '%s'"), g_file_info_get_display_name (source_file_data->info));
-	(cod->progress_callback) (G_OBJECT (cod->file_source), cod->message, details, FALSE, ((double) current_num_bytes) / total_num_bytes, cod->user_data);
-
-	g_free (details);
-}
-
-
-static void
-copy__copy_current_dir (CopyOpData *cod)
-{
-	GthFileData *source;
-	char        *source_basename;
-	GFile       *destination;
-
-	if (cod->current_dir == NULL) {
-		copy__copy_files (cod);
-		return;
-	}
-
-	source = (GthFileData *) cod->current_dir->data;
-	source_basename = g_file_get_basename (source->file);
-	destination = g_file_get_child (cod->destination->file, source_basename);
-
-	g_directory_copy_async (source->file,
-				destination,
-				G_FILE_COPY_NONE,
-				G_PRIORITY_DEFAULT,
-				gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
-				copy__copy_current_dir_progress,
-				cod,
-				copy__copy_current_dir_done,
-				cod);
-
-	g_object_unref (destination);
-	g_free (source_basename);
-}
-
-
-static void
-copy__file_list_info_ready_cb (GList    *files,
-			       GError   *error,
-			       gpointer  user_data)
-{
-	CopyOpData *cod = user_data;
-	GList      *scan;
-
-	for (scan = files; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-
-		switch (g_file_info_get_file_type (file_data->info)) {
-		case G_FILE_TYPE_DIRECTORY:
-			cod->dirs = g_list_prepend (cod->dirs, g_object_ref (file_data));
-			break;
-		case G_FILE_TYPE_REGULAR:
-		case G_FILE_TYPE_SYMBOLIC_LINK:
-			cod->files = g_list_prepend (cod->files, g_object_ref (file_data->file));
-			break;
-		default:
-			break;
-		}
-	}
-	cod->files = g_list_reverse (cod->files);
-	cod->dirs = g_list_reverse (cod->dirs);
-
-	cod->current_dir = cod->dirs;
-	copy__copy_current_dir (cod);
+	g_object_unref (cod->file_source);
+	g_free (cod);
 }
 
 
@@ -417,6 +262,7 @@ static void
 gth_file_source_vfs_copy (GthFileSource    *file_source,
 			  GthFileData      *destination,
 			  GList            *file_list, /* GFile * list */
+			  gboolean          move,
 			  ProgressCallback  progress_callback,
 		          ReadyCallback     ready_callback,
 			  gpointer          data)
@@ -425,21 +271,19 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 
 	cod = g_new0 (CopyOpData, 1);
 	cod->file_source = g_object_ref (file_source);
-	cod->destination = g_object_ref (destination);
-	cod->file_list = _g_object_list_ref (file_list);
-	cod->progress_callback = progress_callback;
 	cod->ready_callback = ready_callback;
 	cod->user_data = data;
-	cod->message = g_strdup_printf (_("Copying files to '%s'"), g_file_info_get_display_name (destination->info));
 
-	if (cod->progress_callback != NULL)
-		(cod->progress_callback) (G_OBJECT (file_source), cod->message, _("Getting files information"), TRUE, 0.0, cod->user_data);
-
-	g_query_info_async (cod->file_list,
-			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
-			    gth_file_source_get_cancellable (GTH_FILE_SOURCE (cod->file_source)),
-			    copy__file_list_info_ready_cb,
-			    cod);
+	_g_copy_files_async (file_list,
+			     destination->file,
+			     move,
+			     G_FILE_COPY_ALL_METADATA,
+			     G_PRIORITY_DEFAULT,
+			     gth_file_source_get_cancellable (file_source),
+			     progress_callback,
+			     data,
+			     copy_done_cb,
+			     cod);
 }
 
 

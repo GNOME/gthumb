@@ -81,6 +81,7 @@ typedef struct {
 typedef struct {
 	GthFileData      *destination;
 	GList            *file_list;
+	gboolean          move;
 	ProgressCallback  progress_callback;
 	ReadyCallback     ready_callback;
 	gpointer          data;
@@ -190,6 +191,7 @@ static void
 gth_file_source_queue_copy (GthFileSource    *file_source,
 			    GthFileData      *destination,
 			    GList            *file_list,
+			    gboolean          move,
 			    ProgressCallback  progress_callback,
 			    ReadyCallback     ready_callback,
 			    gpointer          data)
@@ -201,6 +203,7 @@ gth_file_source_queue_copy (GthFileSource    *file_source,
 	async_op->op = FILE_SOURCE_OP_COPY;
 	async_op->data.copy.destination = gth_file_data_dup (destination);
 	async_op->data.copy.file_list = _g_file_list_dup (file_list);
+	async_op->data.copy.move = move;
 	async_op->data.copy.progress_callback = progress_callback;
 	async_op->data.copy.ready_callback = ready_callback;
 	async_op->data.copy.data = data;
@@ -248,6 +251,7 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 		gth_file_source_copy (file_source,
 				      async_op->data.copy.destination,
 				      async_op->data.copy.file_list,
+				      async_op->data.copy.move,
 				      async_op->data.copy.progress_callback,
 				      async_op->data.copy.ready_callback,
 				      async_op->data.copy.data);
@@ -692,15 +696,16 @@ void
 gth_file_source_copy (GthFileSource    *file_source,
 		      GthFileData      *destination,
 		      GList            *file_list, /* GFile * list */
+		      gboolean          move,
 		      ProgressCallback  progress_callback,
 		      ReadyCallback     ready_callback,
 		      gpointer          data)
 {
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_copy (file_source, destination, file_list, progress_callback, ready_callback, data);
+		gth_file_source_queue_copy (file_source, destination, file_list, move, progress_callback, ready_callback, data);
 		return;
 	}
-	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, progress_callback, ready_callback, data);
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->copy (file_source, destination, file_list, move, progress_callback, ready_callback, data);
 }
 
 

@@ -134,12 +134,12 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("save-pixbuf", 1);
 
 	/**
-	 * Called when copying files in g_copy_files_async with the
+	 * Called when copying files in _g_copy_files_async with the
 	 * G_FILE_COPY_ALL_METADATA flag activated and when deleting file
 	 * with _g_delete_files.  Used to add sidecar files that contain
 	 * file metadata.
 	 *
-	 * @sources (GList *): the original file list, a GFile * list.
+	 * @file (GFile *): the original file.
 	 * @sidecar_sources (GList **): the sidecars list.
 	 */
 	gth_hook_register ("add-sidecars", 2);
