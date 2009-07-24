@@ -466,27 +466,62 @@ monitor_changed_cb (GFileMonitor      *file_monitor,
 
 
 static void
+remove_monitor_for_directory (GthFileSourceVfs *file_source_vfs,
+			      GFile            *file)
+{
+	GFile *parent;
+
+	parent = g_object_ref (file);
+	while (parent != NULL) {
+		GFile *tmp;
+
+		g_hash_table_remove (file_source_vfs->priv->monitors, parent);
+
+		tmp = g_file_get_parent (parent);
+		g_object_unref (parent);
+		parent = tmp;
+	}
+}
+
+
+static void
+add_monitor_for_directory (GthFileSourceVfs *file_source_vfs,
+			   GFile            *file)
+{
+	GFile *parent;
+
+	parent = g_object_ref (file);
+	while (parent != NULL) {
+		GFile *tmp;
+
+		if (g_hash_table_lookup (file_source_vfs->priv->monitors, parent) == NULL) {
+			GFileMonitor *monitor;
+
+			monitor = g_file_monitor_directory (parent, 0, NULL, NULL);
+			if (monitor != NULL) {
+				g_hash_table_insert (file_source_vfs->priv->monitors, g_object_ref (parent), monitor);
+				g_signal_connect (monitor, "changed", G_CALLBACK (monitor_changed_cb), file_source_vfs);
+			}
+		}
+
+		tmp = g_file_get_parent (parent);
+		g_object_unref (parent);
+		parent = tmp;
+	}
+}
+
+
+static void
 gth_file_source_vfs_monitor_directory (GthFileSource *file_source,
 				       GFile         *file,
 				       gboolean       activate)
 {
 	GthFileSourceVfs *file_source_vfs = (GthFileSourceVfs *) file_source;
-	GFileMonitor     *monitor;
 
-	if (! activate) {
-		g_hash_table_remove (file_source_vfs->priv->monitors, file);
-		return;
-	}
-
-	if (g_hash_table_lookup (file_source_vfs->priv->monitors, file) != NULL)
-		return;
-
-	monitor = g_file_monitor_directory (file, 0, NULL, NULL);
-	if (monitor == NULL)
-		return;
-
-	g_hash_table_insert (file_source_vfs->priv->monitors, g_object_ref (file), monitor);
-	g_signal_connect (monitor, "changed", G_CALLBACK (monitor_changed_cb), file_source);
+	if (activate)
+		add_monitor_for_directory (file_source_vfs, file);
+	else
+		remove_monitor_for_directory (file_source_vfs, file);
 }
 
 
