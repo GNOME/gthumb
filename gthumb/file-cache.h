@@ -27,22 +27,23 @@
 #include <gio/gio.h>
 #include "gth-file-data.h"
 #include "gio-utils.h"
+#include "typedefs.h"
 
 G_BEGIN_DECLS
 
-char *   get_file_cache_full_path  (const char       *filename, 
+char *   get_file_cache_full_path  (const char       *filename,
 		                    const char       *extension);
 GFile *  _g_file_get_cache_file    (GFile            *file);
 void     free_file_cache           (void);
 void     check_cache_free_space    (void);
 void     copy_remote_file_to_cache (GthFileData      *file_data,
 				    GCancellable     *cancellable,
-				    CopyDoneCallback  done_func,
+				    ReadyFunc         done_func,
 				    gpointer          done_data);
 GFile *  obtain_local_file         (GthFileData      *file_data);
 void     update_file_from_cache    (GthFileData      *file_data,
 				    GCancellable     *cancellable,
-			  	    CopyDoneCallback  done_func,
+			  	    ReadyFunc         done_func,
 				    gpointer          done_data);
 
 G_END_DECLS

@@ -562,14 +562,15 @@ _g_query_all_metadata_async (GList             *files, /* GFile * list */
 
 	qam = g_new0 (QueryAllMetadata, 1);
 	qam->attributes = g_strdup (attributes);
-	if (cancellable != NULL)
-		qam->cancellable = g_object_ref (cancellable);
+	qam->cancellable = _g_object_ref (cancellable);
 	qam->ready_func = ready_func;
 	qam->user_data = user_data;
 
-	g_query_info_async (files,
-			    qam->attributes,
-			    qam->cancellable,
-			    qam_info_ready_cb,
-			    qam);
+	_g_query_info_async (files,
+			     FALSE,
+			     TRUE,
+			     qam->attributes,
+			     qam->cancellable,
+			     qam_info_ready_cb,
+			     qam);
 }

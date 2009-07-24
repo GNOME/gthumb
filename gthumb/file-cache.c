@@ -214,10 +214,10 @@ check_cache_free_space (void)
 
 
 typedef struct {
-	CopyDoneCallback  done_func;
-	gpointer          done_data;
-	GFile            *cache_file;
-	gboolean          dummy;
+	ReadyFunc  done_func;
+	gpointer   done_data;
+	GFile     *cache_file;
+	gboolean   dummy;
 } CopyToCacheData;
 
 
@@ -241,10 +241,10 @@ copy_remote_file_to_cache_ready (GError   *error,
 
 
 void
-copy_remote_file_to_cache (GthFileData      *file_data,
-			   GCancellable     *cancellable,
-			   CopyDoneCallback  done_func,
-			   gpointer          done_data)
+copy_remote_file_to_cache (GthFileData  *file_data,
+			   GCancellable *cancellable,
+			   ReadyFunc     done_func,
+			   gpointer      done_data)
 {
 	CopyToCacheData *copy_data;
 	GFile           *cache_file;
@@ -310,10 +310,10 @@ obtain_local_file (GthFileData *file_data)
 
 
 void
-update_file_from_cache (GthFileData      *file_data,
-			GCancellable     *cancellable,
-			CopyDoneCallback  done_func,
-			gpointer          done_data)
+update_file_from_cache (GthFileData  *file_data,
+			GCancellable *cancellable,
+			ReadyFunc     done_func,
+			gpointer      done_data)
 {
 	GFile    *cache_file;
 	GTimeVal  cache_mtime;

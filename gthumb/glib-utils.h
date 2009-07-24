@@ -30,8 +30,9 @@
 
 G_BEGIN_DECLS
 
+#define GFILE_NAME_TYPE_ATTRIBUTES "standard::name,standard::type"
 #define GFILE_DISPLAY_ATTRIBUTES "standard::display-name,standard::icon"
-#define GFILE_BASIC_ATTRIBUTES GFILE_DISPLAY_ATTRIBUTES ",standard::type"
+#define GFILE_BASIC_ATTRIBUTES GFILE_DISPLAY_ATTRIBUTES ",standard::name,standard::type"
 
 #define DEFINE_STANDARD_ATTRIBUTES(a) ( \
 	"standard::type," \
@@ -74,6 +75,7 @@ G_BEGIN_DECLS
 
 /* gobject utils*/
 
+gpointer      _g_object_ref                  (gpointer     object);
 void          _g_object_unref                (gpointer     object);
 GList *       _g_object_list_ref             (GList       *list);
 void          _g_object_list_unref           (GList       *list);

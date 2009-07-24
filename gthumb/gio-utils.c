@@ -153,10 +153,8 @@ child_data_free (ChildData *data)
 {
 	if (data == NULL)
 		return;
-	if (data->file != NULL)
-		g_object_unref (data->file);
-	if (data->info != NULL)
-		g_object_unref (data->info);
+	_g_object_unref (data->file);
+	_g_object_unref (data->info);
 	g_free (data);
 }
 
@@ -176,7 +174,7 @@ typedef struct {
 	gboolean              follow_links;
 	StartDirCallback      start_dir_func;
 	ForEachChildCallback  for_each_file_func;
-	ForEachDoneCallback   done_func;
+	ReadyFunc             done_func;
 	gpointer              user_data;
 
 	/* private */
@@ -206,6 +204,7 @@ for_each_child_data_free (ForEachChildData *fec)
 		g_list_foreach (fec->to_visit, (GFunc) child_data_free, NULL);
 		g_list_free (fec->to_visit);
 	}
+	_g_object_unref (fec->cancellable);
 	g_free (fec);
 }
 
@@ -466,7 +465,7 @@ g_directory_foreach_child (GFile                *directory,
 			   GCancellable         *cancellable,
 			   StartDirCallback      start_dir_func,
 			   ForEachChildCallback  for_each_file_func,
-			   ForEachDoneCallback   done_func,
+			   ReadyFunc             done_func,
 			   gpointer              user_data)
 {
 	ForEachChildData *fec;
@@ -479,7 +478,7 @@ g_directory_foreach_child (GFile                *directory,
 	fec->recursive = recursive;
 	fec->follow_links = follow_links;
 	fec->attributes = attributes;
-	fec->cancellable = cancellable;
+	fec->cancellable = _g_object_ref (cancellable);
 	fec->start_dir_func = start_dir_func;
 	fec->for_each_file_func = for_each_file_func;
 	fec->done_func = done_func;
@@ -493,7 +492,7 @@ g_directory_foreach_child (GFile                *directory,
 				 fec->attributes,
 				 G_FILE_QUERY_INFO_NONE,
 				 G_PRIORITY_DEFAULT,
-				 cancellable,
+				 fec->cancellable,
 				 directory_info_ready_cb,
 				 fec);
 }
@@ -782,92 +781,164 @@ g_directory_list_async (GFile             *directory,
 }
 
 
-/* -- g_query_info_async -- */
+/* -- _g_query_info_async -- */
 
 
 typedef struct {
-	GList             *files;
-	GList             *current;
-	const char        *attributes;
+	GList             *file_list;
+	gboolean           recursive;
+	gboolean           follow_links;
+	char              *attributes;
 	GCancellable      *cancellable;
-	InfoReadyCallback  ready_func;
+	InfoReadyCallback  callback;
 	gpointer           user_data;
-	GList             *file_data;
+	GList             *current;
+	GList             *files;
 } QueryInfoData;
 
 
 static void
 query_data_free (QueryInfoData *query_data)
 {
+	_g_object_list_unref (query_data->file_list);
 	_g_object_list_unref (query_data->files);
+	_g_object_unref (query_data->cancellable);
+	g_free (query_data->attributes);
 	g_free (query_data);
 }
 
 
+static void query_info__query_current (QueryInfoData *query_data);
+
+
 static void
-query_info_ready_cb (GObject      *source_object,
-		     GAsyncResult *result,
-		     gpointer      user_data)
+query_info__query_next (QueryInfoData *query_data)
+{
+	query_data->current = query_data->current->next;
+	query_info__query_current (query_data);
+}
+
+
+static void
+query_data__done_cb (GError   *error,
+		     gpointer  user_data)
 {
 	QueryInfoData *query_data = user_data;
-	GFile         *file;
-	GFileInfo     *info;
+
+	if (error != NULL) {
+		query_data->callback (NULL, error, query_data->user_data);
+		query_data_free (query_data);
+		return;
+	}
+
+	query_info__query_next (query_data);
+}
+
+
+static void
+query_data__for_each_file_cb (GFile     *file,
+			      GFileInfo *info,
+			      gpointer   user_data)
+{
+	QueryInfoData *query_data = user_data;
+
+	if (g_file_info_get_file_type (info) != G_FILE_TYPE_DIRECTORY)
+		query_data->files = g_list_prepend (query_data->files, gth_file_data_new (file, info));
+}
+
+
+static DirOp
+query_data__start_dir_cb (GFile       *directory,
+		          GFileInfo   *info,
+		          GError     **error,
+		          gpointer     user_data)
+{
+	QueryInfoData *query_data = user_data;
+
+	query_data->files = g_list_prepend (query_data->files, gth_file_data_new (directory, info));
+
+	return DIR_OP_CONTINUE;
+}
+
+
+static void
+query_data_info_ready_cb (GObject      *source_object,
+                          GAsyncResult *result,
+                          gpointer      user_data)
+{
+	QueryInfoData *query_data = user_data;
 	GError        *error = NULL;
+	GFileInfo     *info;
 
-	file = (GFile*) source_object;
-	info = g_file_query_info_finish (file, result, &error);
+	info = g_file_query_info_finish ((GFile *) source_object, result, &error);
 	if (info == NULL) {
-		query_data->ready_func (NULL, error, query_data->user_data);
+		query_data->callback (NULL, error, query_data->user_data);
 		query_data_free (query_data);
 		return;
 	}
 
-	query_data->file_data = g_list_prepend (query_data->file_data, gth_file_data_new (file, info));
+	if (query_data->recursive && (g_file_info_get_file_type (info) == G_FILE_TYPE_DIRECTORY)) {
+		g_directory_foreach_child ((GFile *) query_data->current->data,
+					   TRUE,
+					   query_data->follow_links,
+					   query_data->attributes,
+					   query_data->cancellable,
+					   query_data__start_dir_cb,
+					   query_data__for_each_file_cb,
+					   query_data__done_cb,
+					   query_data);
+	}
+	else {
+		query_data->files = g_list_prepend (query_data->files, gth_file_data_new ((GFile *) query_data->current->data, info));
+		query_info__query_next (query_data);
+	}
+
 	g_object_unref (info);
+}
 
-	query_data->current = query_data->current->next;
+
+static void
+query_info__query_current (QueryInfoData *query_data)
+{
 	if (query_data->current == NULL) {
-		query_data->file_data = g_list_reverse (query_data->file_data);
-		query_data->ready_func (query_data->file_data, NULL, query_data->user_data);
+		query_data->files = g_list_reverse (query_data->files);
+		query_data->callback (query_data->files, NULL, query_data->user_data);
 		query_data_free (query_data);
 		return;
 	}
 
-	g_file_query_info_async ((GFile*) query_data->current->data,
+	g_file_query_info_async ((GFile *) query_data->current->data,
 				 query_data->attributes,
-				 0,
+				 (query_data->follow_links ? G_FILE_QUERY_INFO_NONE : G_FILE_QUERY_INFO_NOFOLLOW_SYMLINKS),
 				 G_PRIORITY_DEFAULT,
 				 query_data->cancellable,
-				 query_info_ready_cb,
+				 query_data_info_ready_cb,
 				 query_data);
 }
 
 
 void
-g_query_info_async (GList             *files,
-		    const char        *attributes,
-		    GCancellable      *cancellable,
-		    InfoReadyCallback  ready_func,
-		    gpointer           user_data)
+_g_query_info_async (GList             *file_list,
+		     gboolean           recursive,
+		     gboolean           follow_links,
+		     const char        *attributes,
+		     GCancellable      *cancellable,
+		     InfoReadyCallback  ready_callback,
+		     gpointer           user_data)
 {
 	QueryInfoData *query_data;
 
 	query_data = g_new0 (QueryInfoData, 1);
-	query_data->files = _g_object_list_ref (files);
-	query_data->attributes = attributes;
-	query_data->cancellable = cancellable;
-	query_data->ready_func = ready_func;
+	query_data->file_list = _g_object_list_ref (file_list);
+	query_data->recursive = recursive;
+	query_data->follow_links = follow_links;
+	query_data->attributes = g_strdup (attributes);
+	query_data->cancellable = _g_object_ref (cancellable);
+	query_data->callback = ready_callback;
 	query_data->user_data = user_data;
 
-	query_data->current = query_data->files;
-
-	g_file_query_info_async ((GFile*) query_data->current->data,
-				 query_data->attributes,
-				 0,
-				 G_PRIORITY_DEFAULT,
-				 query_data->cancellable,
-				 query_info_ready_cb,
-				 query_data);
+	query_data->current = query_data->file_list;
+	query_info__query_current (query_data);
 }
 
 
@@ -875,9 +946,9 @@ g_query_info_async (GList             *files,
 
 
 typedef struct {
-	CopyDoneCallback callback;
-	gpointer         user_data;
-	gulong           dummy_event;
+	ReadyFunc callback;
+	gpointer  user_data;
+	gulong    dummy_event;
 } DummyFileCopy;
 
 
@@ -901,8 +972,8 @@ _g_dummy_file_op_completed (gpointer data)
 
 
 void
-_g_dummy_file_op_async (CopyDoneCallback callback,
-			gpointer         user_data)
+_g_dummy_file_op_async (ReadyFunc callback,
+			gpointer  user_data)
 {
 	DummyFileCopy *dfd;
 
@@ -917,25 +988,25 @@ _g_dummy_file_op_async (CopyDoneCallback callback,
 
 
 typedef struct {
+	GHashTable        *source_hash;
 	GFile             *destination;
 
-	GList             *dirs;  /* GFile list */
-	GList             *current_dir;
-
-	GList             *sources;  /* GFile list */
-	GList             *destinations;  /* GFile list */
-	GList             *current_source;
-	GList             *current_destination;
+	GList             *files;  /* GthFileData list */
+	GList             *current;
+	GFile             *source_base;
+	GFile             *current_destination;
 
 	GList             *source_sidecars;  /* GFile list */
 	GList             *destination_sidecars;  /* GFile list */
 	GList             *current_source_sidecar;
 	GList             *current_destination_sidecar;
 
-	GList             *current_directory_childs;  /* GFile list */
+	goffset            tot_size;
+	goffset            copied_size;
+	gsize              tot_files;
+	gsize              copied_files;
 
-	int                n_files;
-	int                n_current;
+	char              *message;
 
 	gboolean           move;
 	GFileCopyFlags     flags;
@@ -943,7 +1014,7 @@ typedef struct {
 	GCancellable      *cancellable;
 	ProgressCallback   progress_callback;
 	gpointer           progress_callback_data;
-	CopyDoneCallback   done_callback;
+	ReadyFunc          done_callback;
 	gpointer           user_data;
 } CopyData;
 
@@ -951,118 +1022,103 @@ typedef struct {
 static void
 copy_data_free (CopyData *copy_data)
 {
-	_g_object_list_unref (copy_data->current_directory_childs);
+	g_free (copy_data->message);
 	_g_object_list_unref (copy_data->destination_sidecars);
 	_g_object_list_unref (copy_data->source_sidecars);
-	_g_object_list_unref (copy_data->destinations);
-	_g_object_list_unref (copy_data->sources);
-	_g_object_list_unref (copy_data->dirs);
+	_g_object_unref (copy_data->current_destination);
+	_g_object_list_unref (copy_data->files);
+	_g_object_unref (copy_data->source_base);
+	g_hash_table_destroy (copy_data->source_hash);
 	g_object_unref (copy_data->destination);
 	_g_object_unref (copy_data->cancellable);
 	g_free (copy_data);
 }
 
 
-static void copy_data__copy_current_directory_to_destination (CopyData *copy_data);
-
-
-static void
-copy_data__copy_current_directory__done_cb (GError   *error,
-				            gpointer  user_data)
+static GFile *
+get_destination_file (GFile *source,
+		      GFile *source_base,
+		      GFile *destination_folder)
 {
-	CopyData *copy_data = user_data;
+	char       *source_uri;
+	const char *source_suffix;
+	char       *destination_folder_uri;
+	char       *destination_uri;
+	GFile      *destination;
 
-	if (error != NULL) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
-		return;
+	source_uri = g_file_get_uri (source);
+	if (source_base != NULL) {
+		char *source_base_uri;
+
+		source_base_uri = g_file_get_uri (source_base);
+		source_suffix = source_uri + strlen (source_base_uri);
+
+		g_free (source_base_uri);
 	}
+	else
+		source_suffix = _g_uri_get_basename (source_uri);
 
-	if (copy_data->move && ! g_file_delete ((GFile *) copy_data->current_dir->data, copy_data->cancellable, &error)) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
-		return;
-	}
+	destination_folder_uri = g_file_get_uri (destination_folder);
+	destination_uri = g_strconcat (destination_folder_uri, "/", source_suffix, NULL);
+	destination = g_file_new_for_uri (destination_uri);
 
-	copy_data->current_dir = copy_data->current_dir->next;
-	copy_data__copy_current_directory_to_destination (copy_data);
+	g_free (destination_uri);
+	g_free (destination_folder_uri);
+	g_free (source_uri);
+
+	return destination;
 }
 
 
 static void
-copy_data__copy_current_directory__childs_done_cb (GError   *error,
-				                   gpointer  user_data)
+copy_data__delete_source (CopyData *copy_data)
 {
-	CopyData *copy_data = user_data;
-	GFile    *current_directory;
-	char     *name;
-	GFile    *destination;
+	GError *error = NULL;
+	GList  *scan;
 
-	if (error != NULL) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
-		return;
-	}
-
-	current_directory = (GFile *) copy_data->current_dir->data;
-	name = g_file_get_basename (current_directory);
-	destination = g_file_get_child (copy_data->destination, name);
-
-	if (! g_file_make_directory (destination, copy_data->cancellable, &error)) {
-		copy_data->done_callback (error, copy_data->user_data);
-		copy_data_free (copy_data);
-		return;
-	}
-
-	_g_copy_files_async (copy_data->current_directory_childs,
-			     destination,
-			     copy_data->move,
-			     copy_data->flags,
-			     copy_data->io_priority,
-			     copy_data->cancellable,
-			     copy_data->progress_callback,
-			     copy_data->progress_callback_data,
-			     copy_data__copy_current_directory__done_cb,
-			     copy_data);
-
-	g_object_unref (destination);
-}
-
-
-static void
-copy_data__copy_current_directory__for_each_file_cb (GFile     *file,
-						     GFileInfo *info,
-						     gpointer   user_data)
-{
-	CopyData *copy_data = user_data;
-	copy_data->current_directory_childs = g_list_prepend (copy_data->current_directory_childs, g_object_ref (file));
-}
-
-
-static void
-copy_data__copy_current_directory_to_destination (CopyData *copy_data)
-{
-	if (copy_data->current_dir == NULL) {
+	if (! copy_data->move) {
 		copy_data->done_callback (NULL, copy_data->user_data);
 		copy_data_free (copy_data);
 		return;
 	}
 
-	_g_object_list_unref (copy_data->current_directory_childs);
-	copy_data->current_directory_childs = NULL;
-	g_directory_foreach_child ((GFile *) copy_data->current_dir->data,
-				   FALSE,
-				   TRUE,
-				   "standard::name,standard::type",
-				   copy_data->cancellable,
-				   NULL,
-				   copy_data__copy_current_directory__for_each_file_cb,
-				   copy_data__copy_current_directory__childs_done_cb,
-				   copy_data);
+	copy_data->files = g_list_reverse (copy_data->files);
+	for (scan = copy_data->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (! g_file_delete (file_data->file, copy_data->cancellable, &error))
+			break;
+	}
+
+	copy_data->done_callback (error, copy_data->user_data);
+	copy_data_free (copy_data);
+}
+
+
+static void copy_data__copy_current_file (CopyData *copy_data);
+
+
+static void
+copy_data__copy_next_file (CopyData *copy_data)
+{
+	GthFileData *source = (GthFileData *) copy_data->current->data;
+
+	copy_data->copied_size += g_file_info_get_size (source->info);
+	copy_data->current = copy_data->current->next;
+	copy_data__copy_current_file (copy_data);
 }
 
 
 static void copy_data__copy_current_sidecar (CopyData *copy_data);
+
+
+static void
+copy_data__copy_next_sidecar (CopyData *copy_data)
+{
+	copy_data->current_source_sidecar = copy_data->current_source_sidecar->next;
+	copy_data->current_destination_sidecar = copy_data->current_destination_sidecar->next;
+	copy_data__copy_current_sidecar (copy_data);
+}
 
 
 static void
@@ -1077,13 +1133,8 @@ copy_data__copy_current_sidecar_ready_cb (GObject      *source_object,
 			g_file_delete ((GFile *) copy_data->current_source_sidecar->data, copy_data->cancellable, NULL);
 	}
 
-	copy_data->current_source_sidecar = copy_data->current_source_sidecar->next;
-	copy_data->current_destination_sidecar = copy_data->current_destination_sidecar->next;
-	copy_data__copy_current_sidecar (copy_data);
+	copy_data__copy_next_sidecar (copy_data);
 }
-
-
-static void copy_data__copy_current_file (CopyData *copy_data);
 
 
 static void
@@ -1091,16 +1142,23 @@ copy_data__copy_current_sidecar (CopyData *copy_data)
 {
 	GFile *source;
 	GFile *destination;
+	GFile *destination_parent;
 
 	if (copy_data->current_source_sidecar == NULL) {
-		copy_data->current_source = copy_data->current_source->next;
-		copy_data->current_destination = copy_data->current_destination->next;
-		copy_data__copy_current_file (copy_data);
+		copy_data__copy_next_file (copy_data);
 		return;
 	}
 
 	source = copy_data->current_source_sidecar->data;
+	if (! g_file_query_exists (source, copy_data->cancellable)) {
+		copy_data__copy_next_sidecar (copy_data);
+		return;
+	}
+
 	destination = copy_data->current_destination_sidecar->data;
+	destination_parent = g_file_get_parent (destination);
+	g_file_make_directory (destination_parent, copy_data->cancellable, NULL);
+
 	g_file_copy_async (source,
 			   destination,
 			   G_FILE_COPY_OVERWRITE,
@@ -1110,6 +1168,8 @@ copy_data__copy_current_sidecar (CopyData *copy_data)
 			   NULL,
 			   copy_data__copy_current_sidecar_ready_cb,
 			   copy_data);
+
+	g_object_unref (destination_parent);
 }
 
 
@@ -1118,10 +1178,9 @@ copy_data__copy_current_file_ready_cb (GObject      *source_object,
 				       GAsyncResult *result,
 				       gpointer      user_data)
 {
-	CopyData *copy_data = user_data;
-	GError   *error = NULL;
-	GFile    *source;
-	GFile    *destination;
+	CopyData    *copy_data = user_data;
+	GError      *error = NULL;
+	GthFileData *source;
 
 	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
 		copy_data->done_callback (error, copy_data->user_data);
@@ -1129,11 +1188,11 @@ copy_data__copy_current_file_ready_cb (GObject      *source_object,
 		return;
 	}
 
-	source = (GFile *) copy_data->current_source->data;
-	destination = (GFile *) copy_data->current_destination->data;
-
-	if (copy_data->move)
-		g_file_delete (source, copy_data->cancellable, NULL);
+	source = (GthFileData *) copy_data->current->data;
+	if (g_hash_table_lookup (copy_data->source_hash, source->file) == NULL) {
+		copy_data__copy_next_file (copy_data);
+		return;
+	}
 
 	/* copy the metadata sidecars if requested */
 
@@ -1142,9 +1201,8 @@ copy_data__copy_current_file_ready_cb (GObject      *source_object,
 	copy_data->source_sidecars = NULL;
 	copy_data->destination_sidecars = NULL;
 	if (copy_data->flags && G_FILE_COPY_ALL_METADATA) {
-		gth_hook_invoke ("add-sidecars", source, &copy_data->source_sidecars);
-		gth_hook_invoke ("add-sidecars", destination, &copy_data->destination_sidecars);
-
+		gth_hook_invoke ("add-sidecars", source->file, &copy_data->source_sidecars);
+		gth_hook_invoke ("add-sidecars", copy_data->current_destination, &copy_data->destination_sidecars);
 		copy_data->source_sidecars = g_list_reverse (copy_data->source_sidecars);
 		copy_data->destination_sidecars = g_list_reverse (copy_data->destination_sidecars);
 	}
@@ -1160,85 +1218,88 @@ copy_data__copy_current_file_progress_cb (goffset  current_num_bytes,
                                           goffset  total_num_bytes,
                                           gpointer user_data)
 {
-	/*CopyData *copy_data = user_data;*/
+	CopyData *copy_data = user_data;
+	char     *s1;
+	char     *s2;
+	char     *details;
 
-	/* FIXME */
+	if (copy_data->progress_callback == NULL)
+		return;
+
+	s1 = g_format_size_for_display (copy_data->copied_size + current_num_bytes);
+	s2 = g_format_size_for_display (copy_data->tot_size);
+	/* This is a progress size indicator, for example: 230.4 MB of 512.8 MB */
+	details = g_strdup_printf (_("%s of %s"), s1, s2);
+
+	copy_data->progress_callback (NULL,
+				      copy_data->message,
+				      details,
+				      FALSE,
+				      (double) (copy_data->copied_size + current_num_bytes) / copy_data->tot_size,
+				      copy_data->progress_callback_data);
+
+	g_free (details);
+	g_free (s2);
+	g_free (s1);
 }
 
 
 static void
 copy_data__copy_current_file (CopyData *copy_data)
 {
-	GFile *source;
-	GFile *destination;
+	GthFileData *source;
 
-	if (copy_data->current_source == NULL) {
-		copy_data->current_dir = copy_data->dirs;
-		copy_data__copy_current_directory_to_destination (copy_data);
+	if (copy_data->current == NULL) {
+		copy_data__delete_source (copy_data);
 		return;
 	}
 
-	copy_data->n_current++;
+	_g_object_unref (copy_data->current_destination);
 
-	source = copy_data->current_source->data;
-	destination = copy_data->current_destination->data;
+	source = (GthFileData *) copy_data->current->data;
+	if (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL) {
+		_g_object_unref (copy_data->source_base);
+		copy_data->source_base = g_file_get_parent (source->file);
+	}
+	copy_data->current_destination = get_destination_file (source->file, copy_data->source_base, copy_data->destination);
 
 	if (copy_data->progress_callback != NULL) {
-		char *details;
-		char *source_name;
-		char *destination_name;
+		GFile *destination_parent;
+		char  *destination_name;
 
-		source_name = _g_file_get_display_name (source);
-		destination_name = _g_file_get_display_name (destination);
-		details = g_strdup_printf (_("Copying %s to %s"), source_name, destination_name);
-		copy_data->progress_callback (NULL,
-					      _("Copying files"),
-					      details,
-					      FALSE,
-					      (double) copy_data->n_current / (copy_data->n_files + 1),
-					      copy_data->progress_callback_data);
+		g_free (copy_data->message);
 
-		g_free (details);
+		destination_parent = g_file_get_parent (copy_data->current_destination);
+		destination_name = _g_file_get_display_name (destination_parent);
+		copy_data->message = g_strdup_printf (_("Copying \"%s\" to \"%s\""), g_file_info_get_display_name (source->info), destination_name);
+
 		g_free (destination_name);
-		g_free (source_name);
+		g_object_unref (destination_parent);
 	}
 
-	g_file_copy_async (source,
-			   destination,
-			   copy_data->flags,
-			   copy_data->io_priority,
-			   copy_data->cancellable,
-			   copy_data__copy_current_file_progress_cb,
-			   copy_data,
-			   copy_data__copy_current_file_ready_cb,
-			   copy_data);
-}
+	if (g_file_info_get_file_type (source->info) == G_FILE_TYPE_DIRECTORY) {
+		GError *error = NULL;
 
-
-static void
-copy_data__copy_files_to_destination (CopyData *copy_data)
-{
-	GList *scan;
-
-	copy_data->n_files = g_list_length (copy_data->sources);
-	copy_data->n_current = 0;
-
-
-	copy_data->destinations = NULL;
-	for (scan = copy_data->sources; scan; scan = scan->next) {
-		GFile *source = scan->data;
-		char  *source_name;
-
-		source_name = g_file_get_basename (source);
-		copy_data->destinations = g_list_prepend (copy_data->destinations, g_file_get_child (copy_data->destination, source_name));
-
-		g_free (source_name);
+		if (! g_file_make_directory (copy_data->current_destination, copy_data->cancellable, &error)) {
+			if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+				copy_data->done_callback (error, copy_data->user_data);
+				copy_data_free (copy_data);
+				return;
+			}
+			g_clear_error (&error);
+		}
+		copy_data__copy_next_file (copy_data);
 	}
-	copy_data->destinations = g_list_reverse (copy_data->destinations);
-
-	copy_data->current_source = copy_data->sources;
-	copy_data->current_destination = copy_data->destinations;
-	copy_data__copy_current_file (copy_data);
+	else
+		g_file_copy_async (source->file,
+				   copy_data->current_destination,
+				   copy_data->flags,
+				   copy_data->io_priority,
+				   copy_data->cancellable,
+				   copy_data__copy_current_file_progress_cb,
+				   copy_data,
+				   copy_data__copy_current_file_ready_cb,
+				   copy_data);
 }
 
 
@@ -1256,24 +1317,20 @@ copy_files__sources_info_ready_cb (GList    *files,
 		return;
 	}
 
-	copy_data->sources = NULL;
-	copy_data->dirs = NULL;
-	for (scan = files; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
+	copy_data->files = _g_object_list_ref (files);
+	copy_data->tot_size = 0;
+	copy_data->tot_files = 0;
+	for (scan = copy_data->files; scan; scan = scan->next) {
+		GthFileData *file_data = (GthFileData *) scan->data;
 
-		switch (g_file_info_get_file_type (file_data->info)) {
-		case G_FILE_TYPE_DIRECTORY:
-			copy_data->dirs = g_list_prepend (copy_data->dirs, g_object_ref (file_data->file));
-			break;
-		default:
-			copy_data->sources = g_list_prepend (copy_data->sources, g_object_ref (file_data->file));
-			break;
-		}
+		copy_data->tot_size += g_file_info_get_size (file_data->info);
+		copy_data->tot_files += 1;
 	}
-	copy_data->sources = g_list_reverse (copy_data->sources);
-	copy_data->dirs = g_list_reverse (copy_data->dirs);
 
-	copy_data__copy_files_to_destination (copy_data);
+	copy_data->copied_size = 0;
+	copy_data->copied_files = 0;
+	copy_data->current = copy_data->files;
+	copy_data__copy_current_file (copy_data);
 }
 
 
@@ -1286,21 +1343,26 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 		     GCancellable     *cancellable,
 		     ProgressCallback  progress_callback,
 		     gpointer          progress_callback_data,
-		     CopyDoneCallback  done_callback,
+		     ReadyFunc         done_callback,
 		     gpointer          user_data)
 {
 	CopyData *copy_data;
+	GList    *scan;
 
 	copy_data = g_new0 (CopyData, 1);
 	copy_data->destination = g_object_ref (destination);
 	copy_data->move = move;
 	copy_data->flags = flags;
 	copy_data->io_priority = io_priority;
-	copy_data->cancellable = g_object_ref (cancellable);
+	copy_data->cancellable = _g_object_ref (cancellable);
 	copy_data->progress_callback = progress_callback;
 	copy_data->progress_callback_data = progress_callback_data;
 	copy_data->done_callback = done_callback;
 	copy_data->user_data = user_data;
+
+	copy_data->source_hash = g_hash_table_new_full ((GHashFunc) g_file_hash, (GEqualFunc) g_file_equal, (GDestroyNotify) g_object_unref, NULL);
+	for (scan = sources; scan; scan = scan->next)
+		g_hash_table_insert (copy_data->source_hash, g_object_ref (scan->data), GINT_TO_POINTER (1));
 
 	if (copy_data->progress_callback != NULL)
 		copy_data->progress_callback (NULL,
@@ -1310,11 +1372,13 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 					      0.0,
 					      copy_data->progress_callback_data);
 
-	g_query_info_async (sources,
-			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
-			    cancellable,
-			    copy_files__sources_info_ready_cb,
-			    copy_data);
+	_g_query_info_async (sources,
+			     TRUE,
+			     TRUE,
+			     "standard::name,standard::display-name,standard::type,standard::size",
+			     copy_data->cancellable,
+			     copy_files__sources_info_ready_cb,
+			     copy_data);
 }
 
 
@@ -1327,7 +1391,7 @@ _g_copy_file_async (GFile                 *source,
 		    GCancellable          *cancellable,
 		    ProgressCallback       progress_callback,
 		    gpointer               progress_callback_data,
-		    CopyDoneCallback       callback,
+		    ReadyFunc              callback,
 		    gpointer               user_data)
 {
 	GList *source_files;
@@ -1433,6 +1497,80 @@ _g_delete_files (GList     *file_list,
 	}
 
 	return TRUE;
+}
+
+
+/* -- _g_delete_files_async -- */
+
+
+typedef struct {
+	gboolean      include_metadata;
+	GCancellable *cancellable;
+	ReadyFunc     callback;
+	gpointer      user_data;
+} DeleteData;
+
+
+static void
+delete_data_free (DeleteData *delete_data)
+{
+	_g_object_unref (delete_data->cancellable);
+	g_free (delete_data);
+}
+
+
+static void
+delete_files__info_ready_cb (GList    *files,
+			     GError   *error,
+			     gpointer  user_data)
+{
+	DeleteData *delete_data = user_data;
+
+	if (error == NULL) {
+		GList *file_list;
+		GList *scan;
+
+		file_list = _g_object_list_ref (files);
+		file_list = g_list_reverse (file_list);
+
+		for (scan = file_list; scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+
+			if (! g_file_delete (file_data->file, delete_data->cancellable, &error))
+				break;
+		}
+
+		_g_object_list_unref (file_list);
+	}
+
+	delete_data->callback (error, delete_data->user_data);
+	delete_data_free (delete_data);
+}
+
+
+void
+_g_delete_files_async (GList        *file_list,
+		       gboolean      recursive,
+		       gboolean      include_metadata,
+		       GCancellable *cancellable,
+		       ReadyFunc     callback,
+		       gpointer      user_data)
+{
+	DeleteData *delete_data;
+
+	delete_data = g_new0 (DeleteData, 1);
+	delete_data->include_metadata = include_metadata;
+	delete_data->cancellable = _g_object_ref (cancellable);
+	delete_data->callback = callback;
+	delete_data->user_data = user_data;
+
+	_g_query_info_async (file_list,
+			     recursive,
+			     FALSE,
+			     GFILE_NAME_TYPE_ATTRIBUTES,
+			     delete_data->cancellable,
+			     delete_files__info_ready_cb,
+			     delete_data);
 }
 
 

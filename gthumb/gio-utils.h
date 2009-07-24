@@ -44,13 +44,9 @@ typedef DirOp (*StartDirCallback)    (GFile       *directory,
 typedef void (*ForEachChildCallback) (GFile       *file,
 				      GFileInfo   *info,
 				      gpointer     user_data);
-typedef void (*ForEachDoneCallback)  (GError      *error,
-				      gpointer     data);
 typedef void (*ListReadyCallback)    (GList       *files,
 				      GList       *dirs,
 				      GError      *error,
-				      gpointer     user_data);
-typedef void (*CopyDoneCallback)     (GError      *error,
 				      gpointer     user_data);
 typedef void (*BufferReadyCallback)  (void        *buffer,
 				      gsize        count,
@@ -69,7 +65,7 @@ void   g_directory_foreach_child     (GFile                 *directory,
 				      GCancellable          *cancellable,
 				      StartDirCallback       start_dir_func,
 				      ForEachChildCallback   for_each_file_func,
-				      ForEachDoneCallback    done_func,
+				      ReadyFunc              done_func,
 				      gpointer               user_data);
 void   g_directory_list_async        (GFile                 *directory,
 				      const char            *base_dir,
@@ -84,15 +80,17 @@ void   g_directory_list_async        (GFile                 *directory,
 				      GCancellable          *cancellable,
 				      ListReadyCallback      done_func,
 				      gpointer               done_data);
-void   g_query_info_async            (GList                 *files,        /* GFile * list */
+void   _g_query_info_async           (GList                 *file_list,    /* GFile * list */
+				      gboolean               recursive,
+				      gboolean               follow_links,
 				      const char            *attributes,
 				      GCancellable          *cancellable,
-				      InfoReadyCallback      ready_func,
+				      InfoReadyCallback      ready_callback,
 				      gpointer               user_data);
 
 /* asynchronous copy functions */
 
-void     _g_dummy_file_op_async      (CopyDoneCallback       callback,
+void     _g_dummy_file_op_async      (ReadyFunc              callback,
 				      gpointer               user_data);
 void     _g_copy_files_async         (GList                 *sources,
 				      GFile                 *destination,
@@ -102,7 +100,7 @@ void     _g_copy_files_async         (GList                 *sources,
 				      GCancellable          *cancellable,
 				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
-				      CopyDoneCallback       callback,
+				      ReadyFunc              callback,
 				      gpointer               user_data);
 void     _g_copy_file_async          (GFile                 *source,
 				      GFile                 *destination,
@@ -112,7 +110,7 @@ void     _g_copy_file_async          (GFile                 *source,
 				      GCancellable          *cancellable,
 				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
-				      CopyDoneCallback       callback,
+				      ReadyFunc              callback,
 				      gpointer               user_data);
 gboolean _g_move_file                (GFile                 *source,
                                       GFile                 *destination,
@@ -124,8 +122,14 @@ gboolean _g_move_file                (GFile                 *source,
 gboolean _g_delete_files             (GList                 *file_list,
 				      gboolean               include_metadata,
 				      GError               **error);
+void     _g_delete_files_async       (GList                  *file_list,
+				      gboolean               recursive,
+				      gboolean               include_metadata,
+				      GCancellable          *cancellable,
+				      ReadyFunc              callback,
+				      gpointer               user_data);
 
-/* -- read/write/create file  -- */
+/* -- load/write/create file  -- */
 
 gboolean g_load_file_in_buffer       (GFile                 *file,
 				      void                 **buffer,

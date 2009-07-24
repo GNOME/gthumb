@@ -35,6 +35,16 @@
 /* gobject utils*/
 
 
+gpointer
+_g_object_ref (gpointer object)
+{
+	if (object != NULL)
+		return g_object_ref (object);
+	else
+		return NULL;
+}
+
+
 void
 _g_object_unref (gpointer object)
 {

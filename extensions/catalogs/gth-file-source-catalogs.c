@@ -441,11 +441,13 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 		g_free (message);
 	}
 
-	g_query_info_async (cod->file_list,
-			    G_FILE_ATTRIBUTE_STANDARD_TYPE,
-			    gth_file_source_get_cancellable (file_source),
-			    copy__file_list_info_ready_cb,
-			    cod);
+	_g_query_info_async (cod->file_list,
+			     FALSE,
+			     TRUE,
+			     GFILE_NAME_TYPE_ATTRIBUTES,
+			     gth_file_source_get_cancellable (file_source),
+			     copy__file_list_info_ready_cb,
+			     cod);
 }
 
 

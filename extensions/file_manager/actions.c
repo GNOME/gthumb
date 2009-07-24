@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <gthumb.h>
 #include "gth-copy-task.h"
+#include "gth-delete-task.h"
 #include "gth-duplicate-task.h"
 
 
@@ -609,16 +610,54 @@ gth_browser_activate_action_folder_paste (GtkAction  *action,
 /* -- gth_browser_activate_action_folder_trash -- */
 
 
+typedef struct {
+	GthBrowser  *browser;
+	GthFileData *file_data;
+} DeleteFolderData;
+
+
 static void
-delete_folder_permanently (GtkWindow   *window,
-			   GthFileData *file_data)
+delete_data_free (DeleteFolderData *delete_data)
 {
-	GList  *files;
-	GError *error = NULL;
+	_g_object_unref (delete_data->browser);
+	_g_object_unref (delete_data->file_data);
+	g_free (delete_data);
+}
+
+
+static void
+delete_folder_permanently (GtkWindow        *window,
+			   DeleteFolderData *delete_data)
+{
+	GthFileData *file_data = delete_data->file_data;
+	GError      *error = NULL;
+	GList       *files;
 
 	files = g_list_prepend (NULL, file_data->file);
 	if (! _g_delete_files (files, TRUE, &error)) {
-		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the folder"), &error);
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_EMPTY)) {
+			GtkWidget *d;
+			int        response;
+
+			d = _gtk_yesno_dialog_new (GTK_WINDOW (delete_data->browser),
+					           GTK_DIALOG_MODAL,
+					           _("The folder is not empty, do you want to delete the folder and its content permanently?"),
+					           GTK_STOCK_CANCEL,
+					           GTK_STOCK_DELETE);
+			response = gtk_dialog_run (GTK_DIALOG (d));
+			if (response == GTK_RESPONSE_YES) {
+				GthTask *task;
+
+				task = gth_delete_task_new (files);
+				gth_browser_exec_task (delete_data->browser, task, FALSE);
+
+				g_object_unref (task);
+			}
+
+			gtk_widget_destroy (d);
+		}
+		else
+			_gtk_error_dialog_from_gerror_show (window, _("Could not delete the folder"), &error);
 	}
 	else {
 		GFile *parent;
@@ -633,6 +672,7 @@ delete_folder_permanently (GtkWindow   *window,
 	}
 
 	g_list_free (files);
+	delete_data_free (delete_data);
 }
 
 
@@ -641,13 +681,14 @@ delete_folder_permanently_response_cb (GtkDialog *dialog,
 				       int        response_id,
 				       gpointer   user_data)
 {
-	GthFileData *file_data = user_data;
-
-	if (response_id == GTK_RESPONSE_YES)
-		delete_folder_permanently (gtk_window_get_transient_for (GTK_WINDOW (dialog)), file_data);
+	DeleteFolderData *delete_data = user_data;
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
-	_g_object_unref (file_data);
+
+	if (response_id == GTK_RESPONSE_YES)
+		delete_folder_permanently (GTK_WINDOW (delete_data->browser), delete_data);
+	else
+		delete_data_free (delete_data);
 }
 
 
@@ -664,19 +705,22 @@ gth_browser_activate_action_folder_trash (GtkAction  *action,
 
 	if (! g_file_trash (file_data->file, NULL, &error)) {
 		if (g_error_matches (error, G_IO_ERROR,  G_IO_ERROR_NOT_SUPPORTED)) {
-			GtkWidget *d;
+			DeleteFolderData *delete_data;
+			GtkWidget       *d;
 
 			g_clear_error (&error);
+
+			delete_data = g_new0 (DeleteFolderData, 1);
+			delete_data->browser = g_object_ref (browser);
+			delete_data->file_data = g_object_ref (file_data);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (browser),
 						   GTK_DIALOG_MODAL,
 						   _("The folder cannot be moved to the Trash. Do you want to delete it permanently?"),
 						   GTK_STOCK_CANCEL,
 						   GTK_STOCK_DELETE);
-			g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), file_data);
+			g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), delete_data);
 			gtk_widget_show (d);
-
-			file_data = NULL;
 		}
 		else
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the folder to the Trash"), &error);
@@ -704,15 +748,21 @@ void
 gth_browser_activate_action_folder_delete (GtkAction  *action,
 					   GthBrowser *browser)
 {
-	GthFileData *file_data;
-	char        *prompt;
-	GtkWidget   *d;
+	GthFileData      *file_data;
+	char             *prompt;
+	DeleteFolderData *delete_data;
+	GtkWidget        *d;
 
 	file_data = gth_folder_tree_get_selected (GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser)));
 	if (file_data == NULL)
 		return;
 
 	prompt = g_strdup_printf (_("Are you sure you want to permanently delete \"%s\"?"), g_file_info_get_display_name (file_data->info));
+
+	delete_data = g_new0 (DeleteFolderData, 1);
+	delete_data->browser = g_object_ref (browser);
+	delete_data->file_data = g_object_ref (file_data);
+
 	d = _gtk_message_dialog_new (GTK_WINDOW (browser),
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_QUESTION,
@@ -721,7 +771,7 @@ gth_browser_activate_action_folder_delete (GtkAction  *action,
 				     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				     GTK_STOCK_DELETE, GTK_RESPONSE_YES,
 				     NULL);
-	g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), file_data);
+	g_signal_connect (d, "response", G_CALLBACK (delete_folder_permanently_response_cb), delete_data);
 	gtk_widget_show (d);
 
 	g_free (prompt);
