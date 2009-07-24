@@ -862,6 +862,7 @@ _gth_browser_update_statusbar_list_info (GthBrowser *browser)
 typedef struct {
 	GthBrowser    *browser;
 	GFile         *requested_folder;
+	GFile         *requested_folder_parent;
 	GthAction      action;
 	GList         *list;
 	GList         *current;
@@ -883,6 +884,7 @@ load_data_new (GthBrowser *browser,
 	load_data = g_new0 (LoadData, 1);
 	load_data->browser = browser;
 	load_data->requested_folder = g_object_ref (location);
+	load_data->requested_folder_parent = g_file_get_parent (load_data->requested_folder);
 	load_data->action = action;
 	load_data->cancellable = g_cancellable_new ();
 
@@ -918,6 +920,7 @@ load_data_free (LoadData *data)
 	data->browser->priv->load_data_queue = g_list_remove (data->browser->priv->load_data_queue, data);
 
 	g_object_unref (data->requested_folder);
+	_g_object_unref (data->requested_folder_parent);
 	_g_object_unref (data->file_source);
 	_g_object_list_unref (data->list);
 	_g_object_unref (data->entry_point);
@@ -1021,9 +1024,12 @@ load_data_load_next_folder (LoadData *load_data)
 			load_data->current = load_data->list;
 		else
 			load_data->current = load_data->current->next;
-
 		folder_to_load = (GFile *) load_data->current->data;
+
 		if (g_file_equal (folder_to_load, load_data->requested_folder))
+			break;
+
+		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent))
 			break;
 
 		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
@@ -1063,6 +1069,35 @@ load_data_load_next_folder (LoadData *load_data)
 }
 
 
+static gboolean
+_gth_browser_folder_is_visible (GthBrowser  *browser,
+				GthFileData *file_data)
+{
+	if (browser->priv->show_hidden_files)
+		return TRUE;
+	else
+		return ! g_file_info_get_is_hidden (file_data->info);
+}
+
+
+static GList *
+_gth_browser_get_visible_folders (GthBrowser *browser,
+				  GList      *list)
+{
+	GList *visible_list = NULL;
+	GList *scan;
+
+	for (scan = list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (_gth_browser_folder_is_visible (browser, file_data))
+			visible_list = g_list_prepend (visible_list, g_object_ref (file_data));
+	}
+
+	return g_list_reverse (visible_list);
+}
+
+
 static void
 load_data_continue (LoadData *load_data,
 		    GList    *loaded_files)
@@ -1081,20 +1116,7 @@ load_data_continue (LoadData *load_data,
 		return;
 	}
 
-	if (! browser->priv->show_hidden_files) {
-		GList *scan;
-
-		files = NULL;
-		for (scan = loaded_files; scan; scan = scan->next) {
-			GthFileData *file_data = scan->data;
-
-			if (! g_file_info_get_is_hidden (file_data->info))
-				files = g_list_prepend (files, file_data);
-		}
-		files = g_list_reverse (files);
-	}
-	else
-		files = g_list_copy (loaded_files);
+	files = _gth_browser_get_visible_folders (browser, loaded_files);
 
 	loaded_folder = (GFile *) load_data->current->data;
 	gth_folder_tree_set_children (GTH_FOLDER_TREE (browser->priv->folder_tree), loaded_folder, files);
@@ -1104,7 +1126,7 @@ load_data_continue (LoadData *load_data,
 
 	if (! g_file_equal (loaded_folder, load_data->requested_folder)) {
 		gtk_tree_path_free (path);
-		g_list_free (files);
+		_g_object_list_unref (files);
 
 		load_data_load_next_folder (load_data);
 		return;
@@ -1168,7 +1190,7 @@ load_data_continue (LoadData *load_data,
 	if (path != NULL)
 		gtk_tree_path_free (path);
 	load_data_free (load_data);
-	g_list_free (files);
+	_g_object_list_unref (files);
 }
 
 
@@ -2058,6 +2080,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 {
 	MonitorEventData *monitor_data = user_data;
 	GthBrowser       *browser = monitor_data->browser;
+	GList            *visible_folders;
 
 	if (error != NULL) {
 		monitor_event_data_unref (monitor_data);
@@ -2065,9 +2088,11 @@ file_attributes_ready_cb (GthFileSource *file_source,
 		return;
 	}
 
+	visible_folders = _gth_browser_get_visible_folders (browser, files);
+
 	if (monitor_data->event == GTH_MONITOR_EVENT_CREATED) {
 		if (monitor_data->update_folder_tree)
-			gth_folder_tree_add_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, files);
+			gth_folder_tree_add_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, visible_folders);
 		if (monitor_data->update_file_list) {
 			gth_file_list_add_files (GTH_FILE_LIST (browser->priv->file_list), files);
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), files);
@@ -2075,7 +2100,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 	}
 	else if (monitor_data->event == GTH_MONITOR_EVENT_CHANGED) {
 		if (monitor_data->update_folder_tree)
-			gth_folder_tree_update_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, files);
+			gth_folder_tree_update_children (GTH_FOLDER_TREE (browser->priv->folder_tree), monitor_data->parent, visible_folders);
 		if (monitor_data->update_file_list)
 			gth_file_list_update_files (GTH_FILE_LIST (browser->priv->file_list), files);
 	}
@@ -2093,6 +2118,7 @@ file_attributes_ready_cb (GthFileSource *file_source,
 	_gth_browser_update_statusbar_list_info (browser);
 	gth_browser_update_sensitivity (browser);
 
+	_g_object_list_unref (visible_folders);
 	monitor_event_data_unref (monitor_data);
 }
 
