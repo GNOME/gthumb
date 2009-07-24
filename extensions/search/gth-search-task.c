@@ -314,6 +314,11 @@ clear_search_result_copy_done_cb (void     *buffer,
 {
 	GthSearchTask *task = user_data;
 
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (task->priv->browser), _("Could not create the catalog"), &error);
+		return;
+	}
+
 	task->priv->location_ready_id = g_signal_connect (task->priv->browser,
 							  "location-ready",
 							  G_CALLBACK (browser_location_ready_cb),
