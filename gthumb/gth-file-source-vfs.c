@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include <glib.h>
 #include <gio/gunixmounts.h>
-#include "file-cache.h"
 #include "gth-file-data.h"
 #include "gio-utils.h"
 #include "glib-utils.h"

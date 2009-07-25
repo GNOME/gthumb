@@ -31,7 +31,6 @@
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 #include <gtk/gtk.h>
-#include "file-cache.h"
 #include "gth-file-data.h"
 #include "glib-utils.h"
 #include "gth-image-loader.h"
@@ -631,20 +630,8 @@ check_thread (gpointer data)
 
 
 static void
-_gth_image_loader_load__step3 (GError   *error,
-			       gpointer  data)
+_gth_image_loader_load__step2 (GthImageLoader *iloader)
 {
-	GthImageLoader *iloader = data;
-
-	g_return_if_fail (iloader != NULL);
-
-	if (error != NULL) {
-		_gth_image_loader_error (iloader, error);
-		return;
-	}
-
-	/* */
-
 	g_mutex_lock (iloader->priv->data_mutex);
 
 	iloader->priv->ready = FALSE;
@@ -662,7 +649,7 @@ _gth_image_loader_load__step3 (GError   *error,
 
 	g_mutex_unlock (iloader->priv->data_mutex);
 
-	/* */
+	/**/
 
 	g_mutex_lock (iloader->priv->start_loading_mutex);
 
@@ -671,25 +658,11 @@ _gth_image_loader_load__step3 (GError   *error,
 
 	g_mutex_unlock (iloader->priv->start_loading_mutex);
 
-	/* */
+	/**/
 
 	iloader->priv->check_id = g_timeout_add (REFRESH_RATE,
 						 check_thread,
 						 iloader);
-}
-
-
-static void
-_gth_image_loader_load__step2 (GthImageLoader *iloader)
-{
-	GthFileData *file;
-
-	g_mutex_lock (iloader->priv->data_mutex);
-	file = gth_file_data_dup (iloader->priv->file);
-	g_mutex_unlock (iloader->priv->data_mutex);
-
-	copy_remote_file_to_cache (file, NULL, _gth_image_loader_load__step3, iloader);
-	g_object_unref (file);
 }
 
 

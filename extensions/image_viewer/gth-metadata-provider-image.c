@@ -47,14 +47,11 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 {
 	if (_g_file_attributes_matches (attributes, "image::*")) {
 		GdkPixbufFormat *format;
-		GFile           *cache_file;
 		char            *filename;
 		int              width, height;
 
-		cache_file = _g_file_get_cache_file (file_data->file);
-		filename = g_file_get_path (cache_file);
+		filename = g_file_get_path (file_data->file);
 		format = gdk_pixbuf_get_file_info (filename, &width, &height);
-
 		if (format != NULL) {
 			char *size;
 
@@ -70,7 +67,6 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 		}
 
 		g_free (filename);
-		g_object_unref (cache_file);
 	}
 }
 
