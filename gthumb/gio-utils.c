@@ -26,6 +26,7 @@
 #include <gio/gio.h>
 #include "gth-file-data.h"
 #include "gth-hook.h"
+#include "gth-overwrite-dialog.h"
 #include "glib-utils.h"
 #include "gio-utils.h"
 
@@ -1010,6 +1011,7 @@ typedef struct {
 	gsize              copied_files;
 
 	char              *message;
+	int                default_response;
 
 	gboolean           move;
 	GFileCopyFlags     flags;
@@ -1176,6 +1178,54 @@ copy_data__copy_current_sidecar (CopyData *copy_data)
 }
 
 
+static void copy_data__copy_current_file_to_destination (CopyData *copy_data, GFile *destination, GFileCopyFlags flags);
+
+
+static void
+overwrite_dialog_response_cb (GtkDialog *dialog,
+                              int        response_id,
+                              gpointer   user_data)
+{
+	CopyData *copy_data = user_data;
+
+	if (response_id != GTK_RESPONSE_OK)
+		copy_data->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
+	else
+		copy_data->default_response = gth_overwrite_dialog_get_response (GTH_OVERWRITE_DIALOG (dialog));
+
+	gtk_widget_hide (GTK_WIDGET (dialog));
+
+	switch (copy_data->default_response) {
+	case GTH_OVERWRITE_RESPONSE_NO:
+	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
+	case GTH_OVERWRITE_RESPONSE_UNSPECIFIED:
+		copy_data__copy_next_file (copy_data);
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_YES:
+	case GTH_OVERWRITE_RESPONSE_ALWAYS_YES:
+		copy_data__copy_current_file_to_destination (copy_data, copy_data->current_destination, G_FILE_COPY_OVERWRITE);
+		break;
+
+	case GTH_OVERWRITE_RESPONSE_RENAME:
+		{
+			GFile *parent;
+			GFile *new_destination;
+
+			parent = g_file_get_parent (copy_data->current_destination);
+			new_destination = g_file_get_child_for_display_name (parent, gth_overwrite_dialog_get_filename (GTH_OVERWRITE_DIALOG (dialog)), NULL);
+			copy_data__copy_current_file_to_destination (copy_data, new_destination, 0);
+
+			g_object_unref (new_destination);
+			g_object_unref (parent);
+		}
+		break;
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
 static void
 copy_data__copy_current_file_ready_cb (GObject      *source_object,
 				       GAsyncResult *result,
@@ -1185,13 +1235,29 @@ copy_data__copy_current_file_ready_cb (GObject      *source_object,
 	GError      *error = NULL;
 	GthFileData *source;
 
+	source = (GthFileData *) copy_data->current->data;
+
 	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
+		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+			GtkWidget *dialog;
+
+			dialog = gth_overwrite_dialog_new (source->file,
+							   copy_data->current_destination,
+							   copy_data->default_response,
+							   copy_data->tot_files == 1);
+			g_signal_connect (dialog,
+					  "response",
+					  G_CALLBACK (overwrite_dialog_response_cb),
+					  copy_data);
+			gtk_widget_show (dialog);
+
+			return;
+		}
 		copy_data->done_callback (error, copy_data->user_data);
 		copy_data_free (copy_data);
 		return;
 	}
 
-	source = (GthFileData *) copy_data->current->data;
 	if (g_hash_table_lookup (copy_data->source_hash, source->file) == NULL) {
 		copy_data__copy_next_file (copy_data);
 		return;
@@ -1231,7 +1297,7 @@ copy_data__copy_current_file_progress_cb (goffset  current_num_bytes,
 
 	s1 = g_format_size_for_display (copy_data->copied_size + current_num_bytes);
 	s2 = g_format_size_for_display (copy_data->tot_size);
-	/* This is a progress size indicator, for example: 230.4 MB of 512.8 MB */
+	/* For translators: This is a progress size indicator, for example: 230.4 MB of 512.8 MB */
 	details = g_strdup_printf (_("%s of %s"), s1, s2);
 
 	copy_data->progress_callback (NULL,
@@ -1248,23 +1314,17 @@ copy_data__copy_current_file_progress_cb (goffset  current_num_bytes,
 
 
 static void
-copy_data__copy_current_file (CopyData *copy_data)
+copy_data__copy_current_file_to_destination (CopyData       *copy_data,
+					     GFile          *destination,
+					     GFileCopyFlags  flags)
 {
 	GthFileData *source;
 
-	if (copy_data->current == NULL) {
-		copy_data__delete_source (copy_data);
-		return;
-	}
-
-	_g_object_unref (copy_data->current_destination);
-
 	source = (GthFileData *) copy_data->current->data;
-	if (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL) {
-		_g_object_unref (copy_data->source_base);
-		copy_data->source_base = g_file_get_parent (source->file);
-	}
-	copy_data->current_destination = get_destination_file (source->file, copy_data->source_base, copy_data->destination);
+
+	_g_object_ref (destination);
+	_g_object_unref (copy_data->current_destination);
+	copy_data->current_destination = destination;
 
 	if (copy_data->progress_callback != NULL) {
 		GFile *destination_parent;
@@ -1296,13 +1356,36 @@ copy_data__copy_current_file (CopyData *copy_data)
 	else
 		g_file_copy_async (source->file,
 				   copy_data->current_destination,
-				   copy_data->flags,
+				   copy_data->flags | flags,
 				   copy_data->io_priority,
 				   copy_data->cancellable,
 				   copy_data__copy_current_file_progress_cb,
 				   copy_data,
 				   copy_data__copy_current_file_ready_cb,
 				   copy_data);
+}
+
+
+static void
+copy_data__copy_current_file (CopyData *copy_data)
+{
+	GthFileData *source;
+	GFile       *destination;
+
+	if (copy_data->current == NULL) {
+		copy_data__delete_source (copy_data);
+		return;
+	}
+
+	source = (GthFileData *) copy_data->current->data;
+	if (g_hash_table_lookup (copy_data->source_hash, source->file) != NULL) {
+		_g_object_unref (copy_data->source_base);
+		copy_data->source_base = g_file_get_parent (source->file);
+	}
+	destination = get_destination_file (source->file, copy_data->source_base, copy_data->destination);
+	copy_data__copy_current_file_to_destination (copy_data, destination, 0);
+
+	g_object_unref (destination);
 }
 
 

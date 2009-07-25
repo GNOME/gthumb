@@ -728,7 +728,10 @@ gth_main_register_file_loader (FileLoader  loader,
 FileLoader
 gth_main_get_file_loader (const char *mime_type)
 {
-	return (FileLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
+	if (mime_type != NULL)
+		return (FileLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
+	else
+		return NULL;
 }
 
 

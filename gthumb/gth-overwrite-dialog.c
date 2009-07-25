@@ -33,11 +33,11 @@ static gpointer gth_overwrite_dialog_parent_class = NULL;
 
 
 struct _GthOverwriteDialogPrivate {
-	GtkBuilder           *builder;
-	GFile                *source;
-	GFile                *destination;
-	GtkWidget            *old_image_viewer;
-	GtkWidget            *new_image_viewer;
+	GtkBuilder *builder;
+	GFile      *source;
+	GFile      *destination;
+	GtkWidget  *old_image_viewer;
+	GtkWidget  *new_image_viewer;
 };
 
 
@@ -119,44 +119,46 @@ info_ready_cb (GList    *files,
 		return;
 	}
 
-	/* source */
+	/* new image */
 
 	source = files->data;
 
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_filename_label")), g_file_info_get_display_name (source->info));
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_filename_label")), g_file_info_get_display_name (source->info));
 
 	text = g_format_size_for_display (g_file_info_get_size (source->info));
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_size_label")), text);
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_size_label")), text);
 	g_free (text);
 
 	timeval = gth_file_data_get_modification_time (source);
 	text = _g_time_val_to_exif_date (timeval);
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_time_label")), text);
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_time_label")), text);
 	g_free (text);
 
 	icon = (GIcon*) g_file_info_get_attribute_object (source->info, "preview::icon");
 	pixbuf = _g_icon_get_pixbuf (icon, 256, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (GTK_WIDGET (self))));
 	if (pixbuf != NULL) {
-		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), pixbuf);
+		gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), pixbuf);
 		g_object_unref (pixbuf);
 	}
 
-	/* destination  */
+	gth_image_viewer_load (GTH_IMAGE_VIEWER (self->priv->new_image_viewer), source);
+
+	/* old image  */
 
 	destination = files->next->data;
 
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_filename_label")), g_file_info_get_display_name (destination->info));
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_filename_label")), g_file_info_get_display_name (destination->info));
 
 	text = g_format_size_for_display (g_file_info_get_size (destination->info));
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_size_label")), text);
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_size_label")), text);
 	g_free (text);
 
 	timeval = gth_file_data_get_modification_time (destination);
 	text = _g_time_val_to_exif_date (timeval);
-	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "new_image_time_label")), text);
+	gtk_label_set_text (GTK_LABEL (_gtk_builder_get_widget (self->priv->builder, "old_image_time_label")), text);
 	g_free (text);
 
-	/**/
+	gth_image_viewer_load (GTH_IMAGE_VIEWER (self->priv->old_image_viewer), destination);
 }
 
 
