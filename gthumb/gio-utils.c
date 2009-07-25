@@ -338,10 +338,13 @@ for_each_child_next_files_ready (GObject      *source_object,
 		file = g_file_get_child (fec->current->file, g_file_info_get_name (child_info));
 
 		if (g_file_info_get_file_type (child_info) == G_FILE_TYPE_DIRECTORY) {
+			const char *id;
+
 			/* avoid to visit a directory more than ones */
 
-			if (g_hash_table_lookup (fec->already_visited, file) == NULL) {
-				g_hash_table_insert (fec->already_visited, g_file_dup (file), GINT_TO_POINTER (1));
+			id = g_file_info_get_attribute_string (child_info, G_FILE_ATTRIBUTE_ID_FILE);
+			if (g_hash_table_lookup (fec->already_visited, id) == NULL) {
+				g_hash_table_insert (fec->already_visited, g_strdup (id), GINT_TO_POINTER (1));
 				fec->to_visit = g_list_append (fec->to_visit, child_data_new (file, child_info));
 			}
 		}
@@ -477,15 +480,15 @@ g_directory_foreach_child (GFile                *directory,
 	fec->base_directory = g_file_dup (directory);
 	fec->recursive = recursive;
 	fec->follow_links = follow_links;
-	fec->attributes = attributes;
+	fec->attributes = g_strconcat (attributes, ",standard::name,standard::type,id::file", NULL);
 	fec->cancellable = _g_object_ref (cancellable);
 	fec->start_dir_func = start_dir_func;
 	fec->for_each_file_func = for_each_file_func;
 	fec->done_func = done_func;
 	fec->user_data = user_data;
-	fec->already_visited = g_hash_table_new_full (g_file_hash,
-						      (GEqualFunc) g_file_equal,
-						      g_object_unref,
+	fec->already_visited = g_hash_table_new_full (g_str_hash,
+						      g_str_equal,
+						      g_free,
 						      NULL);
 
 	g_file_query_info_async (fec->base_directory,
