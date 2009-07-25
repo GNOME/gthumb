@@ -935,7 +935,7 @@ _g_query_info_async (GList             *file_list,
 	query_data->file_list = _g_object_list_ref (file_list);
 	query_data->recursive = recursive;
 	query_data->follow_links = follow_links;
-	query_data->attributes = g_strdup (attributes);
+	query_data->attributes = g_strconcat (attributes, ",standard::name,standard::type,id::file", NULL);
 	query_data->cancellable = _g_object_ref (cancellable);
 	query_data->callback = ready_callback;
 	query_data->user_data = user_data;
