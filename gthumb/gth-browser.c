@@ -2123,6 +2123,35 @@ file_attributes_ready_cb (GthFileSource *file_source,
 }
 
 
+GList *
+_g_file_list_find_file_or_ancestor (GList *l,
+				    GFile *file)
+{
+	GList *link = NULL;
+	GList *scan;
+
+	for (scan = l; (link == NULL) && scan; scan = scan->next) {
+		GFile *parent;
+
+		parent = g_object_ref (file);
+		while ((parent != NULL) && ! g_file_equal (parent, (GFile *) scan->data)) {
+			GFile *tmp;
+
+			tmp = g_file_get_parent (parent);
+			g_object_unref (parent);
+			parent = tmp;
+		}
+
+		if (parent != NULL) {
+			link = scan;
+			g_object_unref (parent);
+		}
+	}
+
+	return link;
+}
+
+
 static void
 folder_changed_cb (GthMonitor      *monitor,
 		   GFile           *parent,
@@ -2134,7 +2163,7 @@ folder_changed_cb (GthMonitor      *monitor,
 	gboolean     update_folder_tree;
 	gboolean     update_file_list;
 
-	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file (list, browser->priv->location->file) != NULL)) {
+	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
 		gth_browser_go_to (browser, parent);
 		return;
 	}
