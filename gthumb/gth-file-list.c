@@ -106,6 +106,8 @@ struct _GthFileListPrivateData
 	GtkCellRenderer *thumbnail_renderer;
 	GtkCellRenderer *text_renderer;
 
+	char            *caption_attribute;
+
 	DoneFunc         done_func;
 	gpointer         done_func_data;
 };
@@ -235,6 +237,7 @@ gth_file_list_finalize (GObject *object)
 	if (file_list->priv != NULL) {
 		if (file_list->priv->icon_cache != NULL)
 			gth_icon_cache_free (file_list->priv->icon_cache);
+		g_free (file_list->priv->caption_attribute);
 		g_free (file_list->priv);
 		file_list->priv = NULL;
 	}
@@ -513,7 +516,7 @@ gth_file_list_construct (GthFileList *file_list)
 	file_list->priv->thumbnail_renderer = renderer = gth_cell_renderer_thumbnail_new ();
 	g_object_set (renderer,
 		      "size", file_list->priv->thumb_size,
-		      "yalign", 1.0,
+		      "yalign", 0.5,
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
@@ -710,8 +713,7 @@ gfl_add_files (GthFileList *file_list,
 					  fd,
 					  pixbuf,
 					  TRUE,
-					  /* FIXME: make this user configurable */
-					  g_file_info_get_attribute_string (fd->info, "standard::display-name"));
+					  gth_file_data_get_attribute_as_string (fd, file_list->priv->caption_attribute));
 
 		if (pixbuf != NULL)
 			g_object_unref (pixbuf);
@@ -1030,6 +1032,51 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 	g_object_set (file_list->priv->text_renderer,
 		      "width", size + (8 * 2),
 		      NULL);
+}
+
+
+void
+gth_file_list_set_caption (GthFileList *file_list,
+			   const char  *attribute)
+{
+	GthFileStore *file_store;
+	GList        *list;
+	GList        *scan;
+	int           pos;
+	gboolean      metadata_visible;
+
+	g_free (file_list->priv->caption_attribute);
+	file_list->priv->caption_attribute = g_strdup (attribute);
+
+	metadata_visible = (strcmp (file_list->priv->caption_attribute, "none") != 0);
+	g_object_set (file_list->priv->text_renderer,
+		      "visible", metadata_visible,
+		      "height", metadata_visible ? -1 : 0,
+		      NULL);
+
+	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+
+	list = gth_file_store_get_all (file_store);
+	for (scan = list, pos = 0; scan; scan = scan->next, pos++) {
+		GthFileData *file_data = scan->data;
+		char        *metadata;
+
+		metadata = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attribute);
+		if (metadata == NULL)
+			metadata = g_strdup ("");
+
+		gth_file_store_queue_set (file_store,
+					  pos,
+					  NULL,
+					  NULL,
+					  -1,
+					  metadata);
+
+		g_free (metadata);
+	}
+	gth_file_store_exec_set (file_store);
+
+	_g_object_list_unref (list);
 }
 
 

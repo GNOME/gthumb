@@ -92,6 +92,7 @@ struct _GthMainPrivate
 	GList               *metadata_provider;
 	GPtrArray           *metadata_category;
 	GPtrArray           *metadata_info;
+	gboolean             metadata_info_sorted;
 	GHashTable          *sort_types;
 	GHashTable          *tests;
 	GHashTable          *loaders;
@@ -170,6 +171,7 @@ gth_main_init (GthMain *main)
 	main->priv->loaders = g_hash_table_new (g_str_hash, g_str_equal);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
+	main->priv->metadata_info_sorted = FALSE;
 }
 
 
@@ -404,6 +406,7 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 
 	g_static_mutex_lock (&metadata_info_mutex);
 	g_ptr_array_add (Main->priv->metadata_info, info);
+	Main->priv->metadata_info_sorted = FALSE;
 	g_static_mutex_unlock (&metadata_info_mutex);
 
 	return info;
@@ -439,6 +442,26 @@ gth_main_get_all_metadata_providers (void)
 }
 
 
+static int
+metadata_info_sort_func (gconstpointer a,
+			 gconstpointer b)
+{
+	GthMetadataInfo *info_a = *((GthMetadataInfo **) a);
+	GthMetadataInfo *info_b = *((GthMetadataInfo **) b);
+
+	if (info_a->display_name == NULL) {
+		if (info_b->display_name == NULL)
+			return 0;
+		else
+			return -1;
+	}
+	else if (info_b->display_name == NULL)
+		return 1;
+	else
+		return g_utf8_collate (info_a->display_name, info_b->display_name);
+}
+
+
 char **
 gth_main_get_metadata_attributes (const char *mask)
 {
@@ -449,12 +472,17 @@ gth_main_get_metadata_attributes (const char *mask)
 	GList                  *scan;
 	char                  **values;
 
+	if (! Main->priv->metadata_info_sorted) {
+		g_ptr_array_sort (Main->priv->metadata_info, metadata_info_sort_func);
+		Main->priv->metadata_info_sorted = TRUE;
+	}
+
 	matcher = g_file_attribute_matcher_new (mask);
 	for (n = 0, i = 0; i < Main->priv->metadata_info->len; i++) {
 		GthMetadataInfo *metadata_info = g_ptr_array_index (Main->priv->metadata_info, i);
 
 		if (g_file_attribute_matcher_matches (matcher, metadata_info->id)) {
-			list = g_list_append (list, (char *) metadata_info->id);
+			list = g_list_prepend (list, (char *) metadata_info->id);
 			n++;
 		}
 	}

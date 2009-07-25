@@ -81,6 +81,8 @@ void           gth_file_list_enable_thumbs  (GthFileList          *file_list,
 					     gboolean              enable);
 void           gth_file_list_set_thumb_size (GthFileList          *file_list,
 					     int                   size);
+void           gth_file_list_set_caption    (GthFileList          *file_list,
+					     const char           *attribute);
 GtkWidget *    gth_file_list_get_view       (GthFileList          *file_list);
 int            gth_file_list_first_file     (GthFileList          *file_list,
 					     gboolean              skip_broken,

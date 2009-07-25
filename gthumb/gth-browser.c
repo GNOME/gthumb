@@ -60,7 +60,7 @@
 #define GO_FORWARD_HISTORY_POPUP "/GoForwardHistoryPopup"
 #define GO_PARENT_POPUP "/GoParentPopup"
 #define MAX_HISTORY_LENGTH 15
-#define GCONF_NOTIFICATIONS 9
+#define GCONF_NOTIFICATIONS 10
 #define DEF_SIDEBAR_WIDTH 250
 #define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
@@ -1234,7 +1234,9 @@ metadata_ready_cb (GList    *files,
 static const char *
 _gth_browser_get_list_attributes (GthBrowser *browser)
 {
-	GString *attributes;
+	GString  *attributes;
+	char    **attributes_v;
+	int       i;
 
 	if (browser->priv->list_attributes != NULL)
 		return browser->priv->list_attributes;
@@ -1245,12 +1247,21 @@ _gth_browser_get_list_attributes (GthBrowser *browser)
 	else
 		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
 
-	/* FIXME: make the attribute list based on the data required to
-	 * filter and view the file list. */
+	attributes_v = gth_main_get_metadata_attributes ("*");
+	for (i = 0; attributes_v[i] != NULL; i++) {
+		GthMetadataInfo *info;
 
-	g_string_append (attributes, ",comment::*");
+		info = gth_main_get_metadata_info (attributes_v[i]);
+		if ((info == NULL) || ((info->flags & GTH_METADATA_ALLOW_IN_FILE_LIST) == 0))
+			continue;
+
+		g_string_append (attributes, ",");
+		g_string_append (attributes, attributes_v[i]);
+	}
+
 	browser->priv->list_attributes = attributes->str;
 
+	g_strfreev (attributes_v);
 	g_string_free (attributes, FALSE);
 
 	return browser->priv->list_attributes;
@@ -2751,6 +2762,22 @@ pref_thumbnail_size_changed (GConfClient *client,
 }
 
 
+static void
+pref_thumbnail_caption_changed (GConfClient *client,
+			        guint        cnxn_id,
+			        GConfEntry  *entry,
+			        gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	char       *caption;
+
+	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
+
+	g_free (caption);
+}
+
+
 static gboolean
 _gth_browser_realize (GtkWidget *browser,
 		      gpointer  *data)
@@ -2779,6 +2806,7 @@ _gth_browser_construct (GthBrowser *browser)
 	GtkWidget      *scrolled_window;
 	GtkWidget      *menubar;
 	char           *general_filter;
+	char           *caption;
 	int             i;
 
 	gtk_window_set_default_size (GTK_WINDOW (browser),
@@ -2987,6 +3015,10 @@ _gth_browser_construct (GthBrowser *browser)
 				    FALSE);
 	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
+	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
+	g_free (caption);
+
 	gtk_widget_show (browser->priv->file_list);
 	gtk_box_pack_start (GTK_BOX (vbox), browser->priv->file_list, TRUE, TRUE, 0);
 
@@ -3112,6 +3144,10 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_THUMBNAIL_SIZE,
 					   pref_thumbnail_size_changed,
+					   browser);
+	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_THUMBNAIL_CAPTION,
+					   pref_thumbnail_caption_changed,
 					   browser);
 
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);

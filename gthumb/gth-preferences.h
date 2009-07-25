@@ -47,6 +47,7 @@ G_BEGIN_DECLS
 #define PREF_SAVE_THUMBNAILS        "/apps/gthumb/browser/save_thumbnails"
 #define PREF_THUMBNAIL_SIZE         "/apps/gthumb/browser/thumbnail_size"
 #define PREF_THUMBNAIL_LIMIT        "/apps/gthumb/browser/thumbnail_limit"
+#define PREF_THUMBNAIL_CAPTION      "/apps/gthumb/browser/thumbnail_caption"
 #define PREF_CLICK_POLICY           "/apps/gthumb/browser/click_policy"
 #define PREF_SORT_TYPE              "/apps/gthumb/browser/sort_type"
 #define PREF_SORT_INVERSE           "/apps/gthumb/browser/sort_inverse"
@@ -95,7 +96,7 @@ G_BEGIN_DECLS
 #define DEFAULT_UI_WINDOW_WIDTH 690
 #define DEFAULT_UI_WINDOW_HEIGHT 460
 #define DEFAULT_FAST_FILE_TYPE TRUE
-#define DEFAULT_THUMBNAIL_SIZE 95
+#define DEFAULT_THUMBNAIL_SIZE 112
 #define DEFAULT_CONFIRM_DELETION TRUE
 #define DEFAULT_MSG_SAVE_MODIFIED_IMAGE TRUE
 
