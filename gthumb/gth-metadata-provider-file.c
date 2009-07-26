@@ -45,49 +45,24 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 				 const char          *attributes)
 {
 	GFileAttributeMatcher *matcher;
+	char                  *value;
+	GTimeVal              *timeval_p;
+	const char            *value_s;
 
 	matcher = g_file_attribute_matcher_new (attributes);
 
-	if (g_file_attribute_matcher_matches (matcher, "file::display-size")) {
-		char *value;
+	value = g_format_size_for_display (g_file_info_get_size (file_data->info));
+	g_file_info_set_attribute_string (file_data->info, "gth::file::display-size", value);
+	g_free (value);
 
-		value = g_format_size_for_display (g_file_info_get_size (file_data->info));
-		g_file_info_set_attribute_string (file_data->info, "file::display-size", value);
+	timeval_p = gth_file_data_get_modification_time (file_data);
+	value = _g_time_val_to_exif_date (timeval_p);
+	g_file_info_set_attribute_string (file_data->info, "gth::file::display-mtime", value);
+	g_free (value);
 
-		g_free (value);
-	}
-
-	if (g_file_attribute_matcher_matches (matcher, "file::display-ctime")) {
-		GTimeVal  timeval;
-		char     *value;
-
-		timeval.tv_sec = g_file_info_get_attribute_uint64 (file_data->info, "time::created");
-		timeval.tv_usec = g_file_info_get_attribute_uint32 (file_data->info, "time::created-usec");
-
-		value = _g_time_val_to_exif_date (&timeval);
-		g_file_info_set_attribute_string (file_data->info, "file::display-ctime", value);
-
-		g_free (value);
-	}
-
-	if (g_file_attribute_matcher_matches (matcher, "file::display-mtime")) {
-		GTimeVal *timeval;
-		char     *value;
-
-		timeval = gth_file_data_get_modification_time (file_data);
-		value = _g_time_val_to_exif_date (timeval);
-		g_file_info_set_attribute_string (file_data->info, "file::display-mtime", value);
-
-		g_free (value);
-	}
-
-	if (g_file_attribute_matcher_matches (matcher, "file::content-type")) {
-		const char *value;
-
-		value = get_static_string (g_file_info_get_content_type (file_data->info));
-		if (value != NULL)
-			g_file_info_set_attribute_string (file_data->info, "file::content-type", value);
-	}
+	value_s = get_static_string (g_file_info_get_content_type (file_data->info));
+	if (value_s != NULL)
+		g_file_info_set_attribute_string (file_data->info, "gth::file::content-type", value_s);
 
 	g_file_attribute_matcher_unref (matcher);
 }
@@ -117,7 +92,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "file::display-size,file::display-mtime,file::content-type,file::is-modified", NULL);
+	g_object_set (self, "readable-attributes", "gth::file::display-size,gth::file::display-mtime,gth::file::content-type,gth::file::is-modified", NULL);
 
 	return obj;
 }

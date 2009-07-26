@@ -115,6 +115,30 @@ gth_metadata_provider_set_property (GObject      *object,
 
 
 static void
+gth_metadata_provider_get_property (GObject    *object,
+				    guint       property_id,
+				    GValue     *value,
+				    GParamSpec *pspec)
+{
+	GthMetadataProvider *self;
+
+	self = GTH_METADATA_PROVIDER (object);
+
+	switch (property_id) {
+	case GTH_METADATA_PROVIDER_READABLE_ATTRIBUTES:
+		g_value_set_string (value, self->priv->_readable_attributes);
+		break;
+	case GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES:
+		g_value_set_string (value, self->priv->_writable_attributes);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+
+static void
 gth_metadata_provider_finalize (GObject *obj)
 {
 	GthMetadataProvider *self;
@@ -135,6 +159,7 @@ gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 	g_type_class_add_private (klass, sizeof (GthMetadataProviderPrivate));
 
 	G_OBJECT_CLASS (klass)->set_property = gth_metadata_provider_set_property;
+	G_OBJECT_CLASS (klass)->get_property = gth_metadata_provider_get_property;
 	G_OBJECT_CLASS (klass)->finalize = gth_metadata_provider_finalize;
 
 	GTH_METADATA_PROVIDER_CLASS (klass)->read = gth_metadata_provider_real_read;
@@ -146,14 +171,14 @@ gth_metadata_provider_class_init (GthMetadataProviderClass * klass)
 					 		      "readable-attributes",
 					 		      "readable-attributes",
 					 		      NULL,
-					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 	g_object_class_install_property (G_OBJECT_CLASS (klass),
 					 GTH_METADATA_PROVIDER_WRITABLE_ATTRIBUTES,
 					 g_param_spec_string ("writable-attributes",
 					 		      "writable-attributes",
 					 		      "writable-attributes",
 					 		      NULL,
-					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+					 		      G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 

@@ -140,6 +140,18 @@ gth_filter_real_load_from_element (DomDomizable *base,
 }
 
 
+static const char *
+gth_filter_get_attributes (GthTest *test)
+{
+	GthFilter *filter = GTH_FILTER (test);
+
+	if (filter->priv->test != NULL)
+		return gth_test_get_attributes (GTH_TEST (filter->priv->test));
+	else
+		return "";
+}
+
+
 static int
 qsort_campare_func (gconstpointer a,
 		    gconstpointer b,
@@ -397,6 +409,7 @@ gth_filter_real_duplicate (GthDuplicable *duplicable)
 	new_filter = gth_filter_new ();
 	g_object_set (new_filter,
 		      "id", gth_test_get_id (GTH_TEST (filter)),
+		      "attributes", gth_test_get_attributes (GTH_TEST (filter)),
 		      "display-name", gth_test_get_display_name (GTH_TEST (filter)),
 		      "visible", gth_test_is_visible (GTH_TEST (filter)),
 		      NULL);
@@ -437,6 +450,7 @@ gth_filter_class_init (GthFilterClass *klass)
 	object_class->finalize = gth_filter_finalize;
 
 	test_class = GTH_TEST_CLASS (klass);
+	test_class->get_attributes = gth_filter_get_attributes;
 	test_class->set_file_list = gth_filter_set_file_list;
 	test_class->match = gth_filter_match;
 	test_class->create_control = gth_filter_real_create_control;
@@ -564,8 +578,12 @@ gth_filter_set_test (GthFilter    *filter,
 		g_object_unref (filter->priv->test);
 		filter->priv->test = NULL;
 	}
-	if (test != NULL)
+	if (test != NULL) {
 		filter->priv->test = g_object_ref (test);
+		g_object_set (filter, "attributes", gth_test_get_attributes (GTH_TEST (test)), NULL);
+	}
+	else
+		g_object_set (filter, "attributes", "", NULL);
 }
 
 

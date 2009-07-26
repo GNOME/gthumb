@@ -516,7 +516,7 @@ gth_file_list_construct (GthFileList *file_list)
 	file_list->priv->thumbnail_renderer = renderer = gth_cell_renderer_thumbnail_new ();
 	g_object_set (renderer,
 		      "size", file_list->priv->thumb_size,
-		      "yalign", 0.5,
+		      "yalign", 1.0,
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
 	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),

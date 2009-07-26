@@ -36,7 +36,7 @@ GthMetadataCategory image_metadata_category[] = {
 
 
 GthMetadataInfo image_metadata_info[] = {
-	{ "image::size", N_("Size"), "image", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "image::size", N_("Image Size"), "image", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_FILE_LIST },
 	{ "image::format", N_("Format"), "image", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ NULL, NULL, NULL, 0, 0 }
 };

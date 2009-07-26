@@ -45,29 +45,27 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	if (_g_file_attributes_matches (attributes, "image::*")) {
-		GdkPixbufFormat *format;
-		char            *filename;
-		int              width, height;
+	GdkPixbufFormat *format;
+	char            *filename;
+	int              width, height;
 
-		filename = g_file_get_path (file_data->file);
-		format = gdk_pixbuf_get_file_info (filename, &width, &height);
-		if (format != NULL) {
-			char *size;
+	filename = g_file_get_path (file_data->file);
+	format = gdk_pixbuf_get_file_info (filename, &width, &height);
+	if (format != NULL) {
+		char *size;
 
-			g_file_info_set_attribute_string (file_data->info, "image::format", gdk_pixbuf_format_get_description (format));
+		g_file_info_set_attribute_string (file_data->info, "image::format", gdk_pixbuf_format_get_description (format));
 
-			g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
-			g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
+		g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
+		g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
-			size = g_strdup_printf ("%d x %d", width, height);
-			g_file_info_set_attribute_string (file_data->info, "image::size", size);
+		size = g_strdup_printf ("%d x %d", width, height);
+		g_file_info_set_attribute_string (file_data->info, "image::size", size);
 
-			g_free (size);
-		}
-
-		g_free (filename);
+		g_free (size);
 	}
+
+	g_free (filename);
 }
 
 

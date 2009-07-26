@@ -83,12 +83,14 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_COMMENT_PAGE);
 	gth_main_register_test ("comment::note",
 				GTH_TYPE_TEST_SIMPLE,
+				"attributes", "comment::note",
 				"display-name", _("Comment"),
 				"data-type", GTH_TEST_DATA_TYPE_STRING,
 				"get-data-func", get_comment_for_test,
 				NULL);
 	gth_main_register_test ("comment::place",
 				GTH_TYPE_TEST_SIMPLE,
+				"attributes", "comment::place",
 				"display-name", _("Place"),
 				"data-type", GTH_TEST_DATA_TYPE_STRING,
 				"get-data-func", get_place_for_test,

@@ -148,6 +148,7 @@ struct _GthBrowserPrivateData {
 	GList             *load_data_queue;
 	guint              load_file_timeout;
 	char              *list_attributes;
+	gboolean           constructed;
 
 	/* fulscreen */
 
@@ -785,6 +786,9 @@ _gth_browser_get_file_filter (GthBrowser *browser)
 	GthTest *filterbar_test;
 	GthTest *test;
 
+	if (browser->priv->filterbar == NULL)
+		return NULL;
+
 	filterbar_test = gth_filterbar_get_test (GTH_FILTERBAR (browser->priv->filterbar));
 	test = gth_main_add_general_filter (filterbar_test);
 
@@ -1234,37 +1238,129 @@ metadata_ready_cb (GList    *files,
 static const char *
 _gth_browser_get_list_attributes (GthBrowser *browser)
 {
-	GString  *attributes;
-	char    **attributes_v;
-	int       i;
+	GString *attributes;
+	GthTest *filter;
+	char    *thumbnail_caption;
 
 	if (browser->priv->list_attributes != NULL)
 		return browser->priv->list_attributes;
 
 	attributes = g_string_new ("");
+
+	/* standard attributes */
+
 	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
 		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
 	else
 		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
 
-	attributes_v = gth_main_get_metadata_attributes ("*");
-	for (i = 0; attributes_v[i] != NULL; i++) {
-		GthMetadataInfo *info;
+	/* attributes required by the filter */
 
-		info = gth_main_get_metadata_info (attributes_v[i]);
-		if ((info == NULL) || ((info->flags & GTH_METADATA_ALLOW_IN_FILE_LIST) == 0))
-			continue;
+	filter = _gth_browser_get_file_filter (browser);
+	if (filter != NULL) {
+		const char *filter_attributes;
 
-		g_string_append (attributes, ",");
-		g_string_append (attributes, attributes_v[i]);
+		filter_attributes = gth_test_get_attributes (GTH_TEST (filter));
+		if (filter_attributes[0] != '\0') {
+			g_string_append (attributes, ",");
+			g_string_append (attributes, filter_attributes);
+		}
+
+		g_object_unref (filter);
 	}
 
-	browser->priv->list_attributes = attributes->str;
+	/* attributes required for sorting */
 
-	g_strfreev (attributes_v);
-	g_string_free (attributes, FALSE);
+	if (browser->priv->sort_type->required_attributes[0] != '\0') {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, browser->priv->sort_type->required_attributes);
+	}
+
+	/* attributes required for the thumbnail caption */
+
+	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	if ((thumbnail_caption[0] != '\0') && (strcmp (thumbnail_caption, "none") != 0)) {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, thumbnail_caption);
+		g_free (thumbnail_caption);
+	}
+
+	browser->priv->list_attributes = g_string_free (attributes, FALSE);
 
 	return browser->priv->list_attributes;
+}
+
+
+static gboolean
+_gth_browser_reload_required (GthBrowser *browser)
+{
+	char        *old_list_attributes;
+	char       **old_list_attributes_v;
+	const char  *new_list_attributes;
+	char       **new_list_attributes_v;
+	int          new_list_attributes_len;
+	int          i;
+	gboolean     reload_required;
+
+	old_list_attributes = g_strdup (_gth_browser_get_list_attributes (browser));
+	old_list_attributes_v = g_strsplit (old_list_attributes, ",", -1);
+
+	g_free (browser->priv->list_attributes);
+	browser->priv->list_attributes = NULL;
+	new_list_attributes = _gth_browser_get_list_attributes (browser);
+	new_list_attributes_v = g_strsplit (new_list_attributes, ",", -1);
+	new_list_attributes_len = g_strv_length (new_list_attributes_v);
+
+	for (i = 0; i < new_list_attributes_len; i++) {
+		if (_g_file_attributes_matches (new_list_attributes_v[i], "standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*")) {
+			g_free (new_list_attributes_v[i]);
+			new_list_attributes_v[i] = NULL;
+		}
+	}
+
+	for (i = 0; (old_list_attributes_v[i] != NULL); i++) {
+		GthMetadataProvider *provider;
+		int                  j;
+
+		provider = gth_main_get_metadata_reader (old_list_attributes_v[i]);
+		if (provider == NULL)
+			continue;
+
+		for (j = 0; j < new_list_attributes_len; j++)
+			if ((new_list_attributes_v[j] != NULL)
+			    && (new_list_attributes_v[j][0] != '\0')
+			    && (strcmp (new_list_attributes_v[j], "none") != 0))
+			{
+				char *attr_v[2];
+
+				attr_v[0] = new_list_attributes_v[j];
+				attr_v[1] = NULL;
+				if (gth_metadata_provider_can_read (provider, attr_v)) {
+					g_free (new_list_attributes_v[j]);
+					new_list_attributes_v[j] = NULL;
+				}
+			}
+
+		g_object_ref (provider);
+	}
+
+	/*g_print ("attributes to load: %s\n", new_list_attributes);
+	g_print ("attributes not available: \n");*/
+	reload_required = FALSE;
+	for (i = 0; ! reload_required && (i < new_list_attributes_len); i++)
+		if ((new_list_attributes_v[i] != NULL)
+		    && (new_list_attributes_v[i][0] != '\0')
+		    && (strcmp (new_list_attributes_v[i], "none") != 0))
+		{
+			reload_required = TRUE;
+			/*g_print ("\t%s\n", new_list_attributes_v[i]);*/
+		}
+
+	g_strfreev (new_list_attributes_v);
+	g_strfreev (old_list_attributes_v);
+	g_free (old_list_attributes);
+
+	return reload_required;
 }
 
 
@@ -1496,7 +1592,7 @@ ask_whether_to_save__done (AskSaveData *data,
 			   gboolean     cancelled)
 {
 	if (cancelled)
-		g_file_info_set_attribute_boolean (data->browser->priv->current_file->info, "file::is-modified", TRUE);
+		g_file_info_set_attribute_boolean (data->browser->priv->current_file->info, "gth::file::is-modified", TRUE);
 	if (data->callback != NULL)
 		(*data->callback) (data->browser, cancelled, data->user_data);
 	g_free (data);
@@ -2085,6 +2181,9 @@ filterbar_changed_cb (GthFilterbar *filterbar,
 
 	_gth_browser_update_statusbar_list_info (browser);
 	gth_browser_update_sensitivity (browser);
+
+	if (_gth_browser_reload_required (browser))
+		gth_browser_reload (browser);
 }
 
 
@@ -2397,8 +2496,8 @@ _gth_browser_update_statusbar_file_info (GthBrowser *browser)
 	if (metadata != NULL)
 		file_date = gth_metadata_get_formatted (metadata);
 	else
-		file_date = g_file_info_get_attribute_string (browser->priv->current_file->info, "file::display-mtime");
-	file_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "file::display-size");
+		file_date = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-mtime");
+	file_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "gth::file::display-size");
 
 	if (gth_browser_get_file_modified (browser))
 		text = g_strdup_printf ("%s - %s", image_size, _("Modified"));
@@ -2774,6 +2873,9 @@ pref_thumbnail_caption_changed (GConfClient *client,
 	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 
+	if (_gth_browser_reload_required (browser))
+		gth_browser_reload (browser);
+
 	g_free (caption);
 }
 
@@ -3011,7 +3113,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	browser->priv->file_list = gth_file_list_new ();
 	gth_browser_set_sort_order (browser,
-				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
+				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "gth::file::mtime")),
 				    FALSE);
 	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
@@ -3151,6 +3253,7 @@ _gth_browser_construct (GthBrowser *browser)
 					   browser);
 
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
+	browser->priv->constructed = TRUE;
 
 	call_when_idle (_gth_browser_construct_step2, browser);
 }
@@ -3204,7 +3307,7 @@ gth_browser_get_file_modified (GthBrowser *browser)
 	if (browser->priv->current_file == NULL)
 		return FALSE;
 	else
-		return g_file_info_get_attribute_boolean (browser->priv->current_file->info, "file::is-modified");
+		return g_file_info_get_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified");
 }
 
 
@@ -3402,7 +3505,7 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 {
 	if (sort_type == NULL) {
 		gth_browser_set_sort_order (browser,
-					    gth_main_get_sort_type ("file::mtime"),
+					    gth_main_get_sort_type ("gth::file::mtime"),
 					    inverse);
 		return;
 	}
@@ -3413,6 +3516,9 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 				     browser->priv->sort_type->cmp_func,
 				     browser->priv->sort_inverse);
 	gth_browser_update_title (browser);
+
+	if (browser->priv->constructed && _gth_browser_reload_required (browser))
+		gth_browser_reload (browser);
 }
 
 

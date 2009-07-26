@@ -122,7 +122,7 @@ _gth_test_simple_free_data (GthTestSimple *test)
 	default:
 		break;
 	}
-	
+
 	if (test->priv->pattern != NULL) {
 		g_pattern_spec_free (test->priv->pattern);
 		test->priv->pattern = NULL;
@@ -283,7 +283,7 @@ create_control_for_size (GthTestSimple *test)
 
 	test->priv->size_combo_box = gtk_combo_box_new_text ();
 	gtk_widget_show (test->priv->size_combo_box);
-	
+
 	size_idx = 0;
 	for (i = 0; i < G_N_ELEMENTS (size_data); i++) {
 		gtk_combo_box_append_text (GTK_COMBO_BOX (test->priv->size_combo_box), _(size_data[i].name));
@@ -777,6 +777,7 @@ gth_test_simple_real_duplicate (GthDuplicable *duplicable)
 
 	new_test = g_object_new (GTH_TYPE_TEST_SIMPLE,
 				 "id", gth_test_get_id (GTH_TEST (test)),
+				 "attributes", gth_test_get_attributes (GTH_TEST (test)),
 				 "display-name", gth_test_get_display_name (GTH_TEST (test)),
 				 "visible", gth_test_is_visible (GTH_TEST (test)),
 				 NULL);
@@ -1008,7 +1009,7 @@ gth_test_simple_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-		
+
 		type = g_type_register_static (GTH_TYPE_TEST,
 					       "GthTestSimple",
 					       &type_info,

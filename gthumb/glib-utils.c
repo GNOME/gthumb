@@ -1891,25 +1891,39 @@ _g_file_append_path (GFile      *file,
 }
 
 
+static gboolean
+_g_file_attributes_matches_mask (const char *attributes,
+			         const char *mask)
+{
+	gboolean   matches = FALSE;
+	char     **attributes_v;
+	char     **mask_v;
+	int        i;
+
+	attributes_v = g_strsplit (attributes, ",", -1);
+	mask_v = g_strsplit (mask, ",", -1);
+	for (i = 0; ! matches && (mask_v[i] != NULL); i++) {
+		GFileAttributeMatcher *matcher;
+		int                    j;
+
+		matcher = g_file_attribute_matcher_new (mask_v[i]);
+		for (j = 0; ! matches && (attributes_v[j] != NULL); j++)
+			matches = g_file_attribute_matcher_matches (matcher, attributes_v[j]);
+
+		g_file_attribute_matcher_unref (matcher);
+	}
+
+	g_strfreev (mask_v);
+
+	return matches;
+}
+
+
 gboolean
 _g_file_attributes_matches (const char *attributes,
 			    const char *mask)
 {
-	GFileAttributeMatcher *matcher;
-	gboolean               matches;
-
-	matcher = g_file_attribute_matcher_new (mask);
-
-	matches = g_file_attribute_matcher_matches (matcher, attributes);
-	if (! matches) {
-		g_file_attribute_matcher_unref (matcher);
-		matcher = g_file_attribute_matcher_new (attributes);
-		matches = g_file_attribute_matcher_matches (matcher, mask);
-	}
-
-	g_file_attribute_matcher_unref (matcher);
-
-	return matches;
+	return _g_file_attributes_matches_mask (attributes, mask) || _g_file_attributes_matches_mask (mask, attributes);
 }
 
 

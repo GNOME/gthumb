@@ -33,6 +33,7 @@ struct _GthTestChainPrivate
 {
 	GthMatchType  match_type;
 	GList        *tests;
+	GString      *attributes;
 };
 
 
@@ -50,6 +51,8 @@ gth_test_chain_finalize (GObject *object)
 
 	if (test->priv != NULL) {
 		_g_object_list_unref (test->priv->tests);
+		if (test->priv->attributes != NULL)
+			g_string_free (test->priv->attributes, TRUE);
 		test->priv = NULL;
 	}
 
@@ -58,23 +61,23 @@ gth_test_chain_finalize (GObject *object)
 
 
 static GthMatch
-gth_test_chain_real_match (GthTest     *test,
-			   GthFileData *file)
+gth_test_chain_match (GthTest     *test,
+		      GthFileData *file)
 {
 	GthTestChain *chain;
 	GthMatch      match = GTH_MATCH_NO;
 	GList        *scan;
-	
+
         chain = GTH_TEST_CHAIN (test);
-	
+
 	if (chain->priv->match_type == GTH_MATCH_TYPE_NONE)
 		return GTH_MATCH_YES;
-	
+
 	match = (chain->priv->match_type == GTH_MATCH_TYPE_ALL) ? GTH_MATCH_YES : GTH_MATCH_NO;
 	for (scan = chain->priv->tests; scan; scan = scan->next) {
 		GthTest *test = scan->data;
-		
-		if (gth_test_match (test, file)) {				
+
+		if (gth_test_match (test, file)) {
 			if (chain->priv->match_type == GTH_MATCH_TYPE_ANY) {
 				match = GTH_MATCH_YES;
 				break;
@@ -85,8 +88,35 @@ gth_test_chain_real_match (GthTest     *test,
 			break;
 		}
 	}
-		
+
 	return match;
+}
+
+
+
+static const char *
+gth_test_chain_get_attributes (GthTest *test)
+{
+	GthTestChain *chain = GTH_TEST_CHAIN (test);
+	GList        *scan;
+
+	if (chain->priv->attributes != NULL)
+		g_string_free (chain->priv->attributes, TRUE);
+	chain->priv->attributes = g_string_new ("");
+
+	for (scan = chain->priv->tests; scan; scan = scan->next) {
+		GthTest    *test = scan->data;
+		const char *child_attributes;
+
+		child_attributes = gth_test_get_attributes (test);
+		if ((child_attributes != NULL) && (child_attributes[0] != '\0')) {
+			if (chain->priv->attributes->len > 0)
+				g_string_append (chain->priv->attributes, ",");
+			g_string_append (chain->priv->attributes, child_attributes);
+		}
+	}
+
+	return chain->priv->attributes->str;
 }
 
 
@@ -97,15 +127,15 @@ gth_test_chain_real_create_element (DomDomizable *base,
 	GthTestChain *self;
 	DomElement   *element;
 	GList        *scan;
-	
+
 	self = GTH_TEST_CHAIN (base);
-	
-	element = dom_document_create_element (doc, "tests", 
+
+	element = dom_document_create_element (doc, "tests",
 					       "match", _g_enum_type_get_value (GTH_TYPE_MATCH_TYPE, self->priv->match_type)->value_nick,
-					       NULL);	
-	for (scan = self->priv->tests; scan; scan = scan->next) 
+					       NULL);
+	for (scan = self->priv->tests; scan; scan = scan->next)
 		dom_element_append_child (element, dom_domizable_create_element (DOM_DOMIZABLE (scan->data), doc));
-				       
+
 	return element;
 }
 
@@ -117,13 +147,13 @@ gth_test_chain_real_load_from_element (DomDomizable *base,
 	GthTestChain *chain;
 	GEnumValue   *enum_value;
 	DomElement   *node;
-	
+
 	chain = GTH_TEST_CHAIN (base);
-		      
+
 	enum_value = _g_enum_type_get_value_by_nick (GTH_TYPE_MATCH_TYPE, dom_element_get_attribute (element, "match"));
 	if (enum_value != NULL)
 		chain->priv->match_type = enum_value->value;
-	
+
 	gth_test_chain_clear_tests (chain);
 	for (node = element->first_child; node; node = node->next_sibling) {
 		if (g_strcmp0 (node->tag_name, "test") == 0) {
@@ -132,14 +162,14 @@ gth_test_chain_real_load_from_element (DomDomizable *base,
 			test = gth_main_get_test (dom_element_get_attribute (node, "id"));
 			if (test == NULL)
 				continue;
-			
+
 			dom_domizable_load_from_element (DOM_DOMIZABLE (test), node);
 			gth_test_chain_add_test (chain, test);
 			g_object_unref (test);
 		}
 		else if (g_strcmp0 (node->tag_name, "tests") == 0) {
 			GthTest *sub_chain;
-			
+
 			sub_chain = gth_test_chain_new (GTH_MATCH_TYPE_NONE, NULL);
 			dom_domizable_load_from_element (DOM_DOMIZABLE (sub_chain), node);
 			gth_test_chain_add_test (chain, sub_chain);
@@ -155,15 +185,15 @@ gth_test_chain_real_duplicate (GthDuplicable *duplicable)
 	GthTestChain *chain;
 	GthTest      *new_chain;
 	GList        *tests, *scan;
-	
+
 	chain = GTH_TEST_CHAIN (duplicable);
-	
+
 	new_chain = gth_test_chain_new (chain->priv->match_type, NULL);
 	tests = gth_test_chain_get_tests (chain);
 	for (scan = tests; scan; scan = scan->next)
 		gth_test_chain_add_test (GTH_TEST_CHAIN (new_chain), scan->data);
 	_g_object_list_unref (tests);
-	
+
 	return G_OBJECT (new_chain);
 }
 
@@ -179,7 +209,8 @@ gth_test_chain_class_init (GthTestChainClass *class)
 	test_class = (GthTestClass *) class;
 
 	object_class->finalize = gth_test_chain_finalize;
-	test_class->match = gth_test_chain_real_match;
+	test_class->match = gth_test_chain_match;
+	test_class->get_attributes = gth_test_chain_get_attributes;
 }
 
 
@@ -234,7 +265,7 @@ gth_test_chain_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-		
+
 		type = g_type_register_static (GTH_TYPE_TEST,
 					       "GthTestChain",
 					       &type_info,
@@ -254,17 +285,17 @@ gth_test_chain_new (GthMatchType  match_type,
 {
 	GthTestChain *chain;
 	va_list       args;
-	
+
 	chain = g_object_new (GTH_TYPE_TEST_CHAIN, NULL);
 	chain->priv->match_type = match_type;
-	
+
 	va_start (args, test);
 	while (test != NULL) {
 		gth_test_chain_add_test (chain, g_object_ref (test));
 		test = va_arg (args, GthTest *);
 	}
 	va_end (args);
-	
+
 	return (GthTest *) chain;
 }
 
@@ -275,7 +306,7 @@ gth_test_chain_set_match_type (GthTestChain *chain,
 {
 	chain->priv->match_type = match_type;
 }
-					      
+
 
 GthMatchType
 gth_test_chain_get_match_type (GthTestChain *chain)
@@ -291,6 +322,7 @@ gth_test_chain_clear_tests (GthTestChain *chain)
 		return;
 	_g_object_list_unref (chain->priv->tests);
 	chain->priv->tests = NULL;
+	g_object_set (chain, "attributes", "", NULL);
 }
 
 
@@ -298,8 +330,28 @@ void
 gth_test_chain_add_test (GthTestChain *chain,
 			 GthTest      *test)
 {
+	const char *old_attributes;
+	const char *test_attributes;
+	gboolean    separator;
+	char       *attributes;
+
 	g_object_set (test, "visible", TRUE, NULL);
 	chain->priv->tests = g_list_append (chain->priv->tests, g_object_ref (test));
+
+	old_attributes = gth_test_get_attributes (GTH_TEST (chain));
+	test_attributes = gth_test_get_attributes (test);
+	if (old_attributes == NULL) {
+		old_attributes = test_attributes;
+		test_attributes = NULL;
+	}
+	separator = (old_attributes != NULL) && (test_attributes != NULL) && (old_attributes[0] != '\0') && (test_attributes[0] != '\0');
+	attributes = g_strconcat (old_attributes,
+			          (separator ? "," : ""),
+			          test_attributes,
+			          NULL);
+	g_object_set (chain, "attributes", attributes, NULL);
+
+	g_free (attributes);
 }
 
 
@@ -315,7 +367,7 @@ gth_test_chain_has_type_test (GthTestChain *chain)
 {
 	gboolean  result = FALSE;
 	GList    *scan;
-	
+
 	for (scan = chain->priv->tests; scan; scan = scan->next) {
 		GthTest *single_test = scan->data;
 
@@ -324,6 +376,6 @@ gth_test_chain_has_type_test (GthTestChain *chain)
 			break;
 		}
 	}
-	
+
 	return result;
 }

@@ -45,35 +45,33 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 				  GthFileData         *file_data,
 				  const char          *attributes)
 {
-	if (_g_file_attributes_matches (attributes, "Exif::*,Iptc::*,Xmp::*")) {
-		char        *uri;
-		char        *uri_wo_ext;
-		char        *sidecar_uri;
-		GthFileData *sidecar_file_data;
+	char        *uri;
+	char        *uri_wo_ext;
+	char        *sidecar_uri;
+	GthFileData *sidecar_file_data;
 
-		/* this function is executed in a secondary thread, so calling
-		 * slow sync functions, such as obtain_local_file, is not a
-		 * problem. */
+	/* this function is executed in a secondary thread, so calling
+	 * slow sync functions, such as obtain_local_file, is not a
+	 * problem. */
 
-		exiv2_read_metadata (file_data->file, file_data->info);
+	exiv2_read_metadata (file_data->file, file_data->info);
 
-		/* sidecar data */
+	/* sidecar data */
 
-		uri = g_file_get_uri (file_data->file);
-		uri_wo_ext = _g_uri_remove_extension (uri);
-		sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
-		sidecar_file_data = gth_file_data_new_for_uri (sidecar_uri, NULL);
-		if (g_file_query_exists (sidecar_file_data->file, NULL)) {
-			gth_file_data_update_info (sidecar_file_data, "time::*");
-			if (g_file_query_exists (sidecar_file_data->file, NULL))
-				exiv2_read_sidecar (sidecar_file_data->file, file_data->info);
-		}
-
-		g_object_unref (sidecar_file_data);
-		g_free (sidecar_uri);
-		g_free (uri_wo_ext);
-		g_free (uri);
+	uri = g_file_get_uri (file_data->file);
+	uri_wo_ext = _g_uri_remove_extension (uri);
+	sidecar_uri = g_strconcat (uri_wo_ext, ".xmp", NULL);
+	sidecar_file_data = gth_file_data_new_for_uri (sidecar_uri, NULL);
+	if (g_file_query_exists (sidecar_file_data->file, NULL)) {
+		gth_file_data_update_info (sidecar_file_data, "time::*");
+		if (g_file_query_exists (sidecar_file_data->file, NULL))
+			exiv2_read_sidecar (sidecar_file_data->file, file_data->info);
 	}
+
+	g_object_unref (sidecar_file_data);
+	g_free (sidecar_uri);
+	g_free (uri_wo_ext);
+	g_free (uri);
 }
 
 

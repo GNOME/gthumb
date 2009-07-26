@@ -281,8 +281,8 @@ update_filter_list (GthFilterbar *filterbar,
 		gtk_list_store_set (filterbar->priv->model, &iter,
 				    TYPE_COLUMN, ITEM_TYPE_FILTER,
 				    FILTER_COLUMN, test,
-				    NAME_COLUMN, gth_test_get_display_name (test),
-					-1);
+				    NAME_COLUMN, gth_test_get_display_name(test),
+				    -1);
 
 		if (g_strcmp0 (current_filter, gth_test_get_id (test)) == 0) {
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (filterbar->priv->test_combo_box), &iter);

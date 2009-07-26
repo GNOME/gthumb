@@ -373,6 +373,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 				    GtkCellRendererState  flags)
 {
 	GthCellRendererThumbnail *self;
+	GtkStyle                 *style;
 	GtkStateType              state;
 	GdkRectangle              thumb_rect;
 	GdkRectangle              draw_rect;
@@ -405,6 +406,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	{
 		return;
 	}
+
+	style = gtk_widget_get_style (widget);
 
   	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
   		state = GTK_WIDGET_HAS_FOCUS (widget) ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
@@ -460,40 +463,40 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 			frame_rect = image_rect;
 		}
 
-	  	gdk_draw_rectangle (GDK_DRAWABLE (window), widget->style->dark_gc[state], FALSE,
+	  	gdk_draw_rectangle (GDK_DRAWABLE (window), style->dark_gc[state], FALSE,
   				    frame_rect.x - B,
   				    frame_rect.y - B,
   				    frame_rect.width + (B * 2) - 1,
 				    frame_rect.height + (B * 2) - 1);
 
-  		gdk_draw_line (GDK_DRAWABLE (window), widget->style->dark_gc[state],
+  		gdk_draw_line (GDK_DRAWABLE (window), style->dark_gc[state],
   			       frame_rect.x - (B / 2),
   			       frame_rect.y + frame_rect.height + B,
   			       frame_rect.x + frame_rect.width + B,
   			       frame_rect.y + frame_rect.height + B);
-  		gdk_draw_line (GDK_DRAWABLE (window), widget->style->dark_gc[state],
+  		gdk_draw_line (GDK_DRAWABLE (window), style->dark_gc[state],
   			       frame_rect.x + frame_rect.width + B,
   			       frame_rect.y + frame_rect.height + B,
   			       frame_rect.x + frame_rect.width + B,
   			       frame_rect.y - (B / 2));
 
-		gdk_draw_line (GDK_DRAWABLE (window), widget->style->mid_gc[state],
+		gdk_draw_line (GDK_DRAWABLE (window), style->mid_gc[state],
   			       frame_rect.x - (B / 2) + 1,
   			       frame_rect.y + frame_rect.height + B + 1,
   			       frame_rect.x + frame_rect.width + B + 1,
   			       frame_rect.y + frame_rect.height + B + 1);
-  		gdk_draw_line (GDK_DRAWABLE (window), widget->style->mid_gc[state],
+  		gdk_draw_line (GDK_DRAWABLE (window), style->mid_gc[state],
   			       frame_rect.x + frame_rect.width + B + 1,
   			       frame_rect.y + frame_rect.height + B + 1,
   			       frame_rect.x + frame_rect.width + B + 1,
   			       frame_rect.y - (B / 2) + 1);
 
-  		gdk_draw_rectangle (GDK_DRAWABLE (window), widget->style->light_gc[state], TRUE,
+  		/*gdk_draw_rectangle (GDK_DRAWABLE (window), style->light_gc[state], TRUE,
   				    frame_rect.x - (B - 1),
   				    frame_rect.y - (B - 1),
   				    frame_rect.width + ((B - 1) * 2),
-  				    frame_rect.height + ((B - 1) * 2));
-  		/*gdk_draw_rectangle (GDK_DRAWABLE (window), widget->style->mid_gc[state], FALSE,
+  				    frame_rect.height + ((B - 1) * 2));*/
+  		/*gdk_draw_rectangle (GDK_DRAWABLE (window), style->mid_gc[state], FALSE,
   				    image_rect.x - 1,
   				    image_rect.y - 1,
   				    image_rect.width + 1,
@@ -501,7 +504,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	}
 
   	if ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0) {
-		colorized = create_colorized_pixbuf (pixbuf, &widget->style->base[state]);
+		colorized = create_colorized_pixbuf (pixbuf, &style->base[state]);
 		pixbuf = colorized;
 	}
 

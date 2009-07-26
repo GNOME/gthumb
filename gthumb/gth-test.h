@@ -48,7 +48,7 @@ typedef enum  {
 	GTH_MATCH_LIMIT_REACHED = 2
 } GthMatch;
 
-typedef enum { 
+typedef enum {
 	GTH_TEST_OP_NONE,
 	GTH_TEST_OP_EQUAL,
 	GTH_TEST_OP_LOWER,
@@ -66,9 +66,9 @@ struct _GthTest
 {
 	GObject __parent;
 	GthTestPrivate *priv;
-	
+
 	/*< protected >*/
-	
+
 	GthFileData **files;
 	int            n_files;
 	int            iterator;
@@ -84,6 +84,7 @@ struct _GthTestClass
 
 	/*< virtual functions >*/
 
+	const char *  (*get_attributes)       (GthTest     *test);
 	GtkWidget *   (*create_control)       (GthTest     *test);
 	gboolean      (*update_from_control)  (GthTest     *test,
 					       GError     **error);
@@ -102,6 +103,7 @@ GthTest *     gth_test_new                 (void);
 const char *  gth_test_get_id              (GthTest      *test);
 const char *  gth_test_get_display_name    (GthTest      *test);
 gboolean      gth_test_is_visible          (GthTest      *test);
+const char *  gth_test_get_attributes      (GthTest      *test);
 GtkWidget *   gth_test_create_control      (GthTest      *test);
 gboolean      gth_test_update_from_control (GthTest      *test,
 					    GError      **error);

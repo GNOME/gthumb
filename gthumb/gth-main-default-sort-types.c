@@ -49,7 +49,7 @@ gth_file_data_cmp_filesize (GthFileData *a,
 
 	size_a = g_file_info_get_size (a->info);
 	size_b = g_file_info_get_size (b->info);
-	
+
 	if (size_a < size_b)
 		return -1;
 	else if (size_a > size_b)
@@ -86,18 +86,18 @@ gth_file_data_cmp_unsorted (GthFileData *a,
 
 
 GthFileDataSort default_sort_types[] = {
-	{ "file::name", N_("name"), gth_file_data_cmp_filename },
-	{ "file::size", N_("size"), gth_file_data_cmp_filesize },
-	{ "file::mtime", N_("last modified"), gth_file_data_cmp_modified_time },
-	{ "general::unsorted", N_("unsorted"), gth_file_data_cmp_unsorted },
+	{ "file::name", N_("name"), "standard::display-name", gth_file_data_cmp_filename },
+	{ "file::size", N_("size"), "standard::size", gth_file_data_cmp_filesize },
+	{ "file::mtime", N_("last modified"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
+	{ "general::unsorted", N_("unsorted"), "", gth_file_data_cmp_unsorted },
 };
 
 
-void 
+void
 gth_main_register_default_sort_types (void)
 {
 	int i;
-	
+
 	for (i = 0; i < G_N_ELEMENTS (default_sort_types); i++)
 		gth_main_register_sort_type (&default_sort_types[i]);
 }

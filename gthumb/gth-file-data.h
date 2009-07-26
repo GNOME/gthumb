@@ -63,6 +63,7 @@ typedef void (*GthFileDataFunc)     (GthFileData *a, GError *error, gpointer dat
 typedef struct {
 	const char          *name;
 	const char          *display_name;
+	const char          *required_attributes;
 	GthFileDataCompFunc  cmp_func;
 } GthFileDataSort;
 

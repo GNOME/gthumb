@@ -50,7 +50,7 @@ GthMetadataInfo exiv2_metadata_info[] = {
 	{ "Exif::Image::Software", NULL, "Exif::General", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Image::DateTime", NULL, "Exif::General", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::SubSecTime", NULL, "Exif::General", 5, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Exif::Photo::DateTimeOriginal", NULL, "Exif::General", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Exif::Photo::DateTimeOriginal", NULL, "Exif::General", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW},
 	{ "Exif::Photo::SubSecTimeOriginal", NULL, "Exif::General", 7, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::DateTimeDigitized", NULL, "Exif::General", 8, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::SubSecTimeDigitized", NULL, "Exif::General", 9, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },

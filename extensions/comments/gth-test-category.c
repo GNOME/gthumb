@@ -147,7 +147,7 @@ gth_test_category_real_create_control (GthTest *base)
 	test->priv->text_entry = gtk_entry_new ();
 	/*gtk_entry_set_width_chars (GTK_ENTRY (test->priv->text_entry), 6);*/
 	if (test->priv->category != NULL)
-		gtk_entry_set_text (GTK_ENTRY (test->priv->text_entry), test->priv->category);	
+		gtk_entry_set_text (GTK_ENTRY (test->priv->text_entry), test->priv->category);
 	gtk_widget_show (test->priv->text_entry);
 
 	g_signal_connect (G_OBJECT (test->priv->text_entry),
@@ -178,29 +178,29 @@ gth_test_category_real_match (GthTest     *test,
 {
 	GthTestCategory *test_category;
 	gboolean         result = FALSE;
-		
+
         test_category = GTH_TEST_CATEGORY (test);
 
 	if (test_category->priv->category != NULL) {
 		GthStringList *string_list;
 		GList         *list, *scan;
-	
-		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, "comment::categories");	
+
+		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, "comment::categories");
 		if (string_list != NULL)
 			list = gth_string_list_get_list (string_list);
 		else
 			list = NULL;
-		
-		for (scan = list; scan; scan = scan->next) {	
+
+		for (scan = list; scan; scan = scan->next) {
 			char *category = scan->data;
-			
+
 			if (g_utf8_collate (category, test_category->priv->category) == 0) {
 				result = TRUE;
 				break;
 			}
 		}
 	}
-	
+
         if (test_category->priv->negative)
 		result = ! result;
 
@@ -242,7 +242,7 @@ gth_test_category_set_category (GthTestCategory *self,
 {
 	g_free (self->priv->category);
 	self->priv->category = NULL;
-	if (category != NULL) 
+	if (category != NULL)
 		self->priv->category = g_strdup (category);
 }
 
@@ -268,7 +268,7 @@ gth_test_category_real_load_from_element (DomDomizable *base,
 
 	gth_test_category_set_category (self, NULL);
 	value = dom_element_get_attribute (element, "value");
-	if (value != NULL) 
+	if (value != NULL)
 		gth_test_category_set_category (self, value);
 }
 
@@ -279,14 +279,14 @@ gth_test_category_real_update_from_control (GthTest  *base,
 {
 	GthTestCategory *self;
 	GthOpData        op_data;
-	
+
 	self = GTH_TEST_CATEGORY (base);
 
 	op_data = category_op_data[gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->op_combo_box))];
 	self->priv->op = op_data.op;
 	self->priv->negative = op_data.negative;
-	
-	gth_test_category_set_category (self, gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry)));	
+
+	gth_test_category_set_category (self, gtk_entry_get_text (GTK_ENTRY (self->priv->text_entry)));
 	if (g_strcmp0 (self->priv->category, "") == 0) {
 		if (error != NULL)
 			*error = g_error_new (GTH_TEST_ERROR, 0, _("The test definition is incomplete"));
@@ -311,7 +311,7 @@ gth_test_category_real_duplicate (GthDuplicable *duplicable)
 	new_test->priv->op = test->priv->op;
 	new_test->priv->negative = test->priv->negative;
 	gth_test_category_set_category (new_test, test->priv->category);
-	
+
 	return (GObject *) new_test;
 }
 
@@ -354,6 +354,7 @@ static void
 gth_test_category_init (GthTestCategory *test)
 {
 	test->priv = g_new0 (GthTestCategoryPrivate, 1);
+	g_object_set (test, "attributes", "comment::categories", NULL);
 }
 
 
@@ -384,7 +385,7 @@ gth_test_category_get_type (void)
 			(GInterfaceFinalizeFunc) NULL,
 			NULL
 		};
-		
+
 		type = g_type_register_static (GTH_TYPE_TEST,
 					       "GthTestCategory",
 					       &type_info,

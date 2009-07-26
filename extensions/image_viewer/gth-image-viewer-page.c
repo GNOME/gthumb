@@ -186,7 +186,7 @@ image_ready_cb (GtkWidget          *widget,
 {
 	gth_image_history_clear (self->priv->history);
 
-	g_file_info_set_attribute_boolean (self->priv->file_data->info, "file::is-modified", FALSE);
+	g_file_info_set_attribute_boolean (self->priv->file_data->info, "gth::file::is-modified", FALSE);
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), self->priv->file_data);
 
 }
@@ -676,7 +676,7 @@ image_saved_cb (GthFileData *file_data,
 		current_file = gth_browser_get_current_file (self->priv->browser);
 		if (current_file != NULL) {
 			gth_file_data_set_file (current_file, data->original_file->file);
-			g_file_info_set_attribute_boolean (current_file->info, "file::is-modified", FALSE);
+			g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
 		}
 	}
 
@@ -732,7 +732,7 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 	data->original_file = gth_file_data_dup (current_file);
 	if (file != NULL)
 		gth_file_data_set_file (current_file, file);
-	g_file_info_set_attribute_boolean (current_file->info, "file::is-modified", FALSE);
+	g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
 
 	_gdk_pixbuf_save_async (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
 			        current_file,
@@ -1078,7 +1078,7 @@ _gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 
 	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
 
-	g_file_info_set_attribute_boolean (file_data->info, "file::is-modified", modified);
+	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);

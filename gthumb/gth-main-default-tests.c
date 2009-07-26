@@ -133,12 +133,14 @@ gth_main_register_default_tests (void)
 				NULL);
 	gth_main_register_test ("file::name",
 				GTH_TYPE_TEST_SIMPLE,
+				"attributes", "gth::file::display-name",
 				"display-name", _("Filename"),
 				"data-type", GTH_TEST_DATA_TYPE_STRING,
 				"get-data-func", get_filename_for_test,
 				NULL);
 	gth_main_register_test ("file::size",
 				GTH_TYPE_TEST_SIMPLE,
+				"attributes", "gth::file::size",
 				"display-name", _("Size"),
 				"data-type", GTH_TEST_DATA_TYPE_SIZE,
 				"get-data-func", get_filesize_for_test,

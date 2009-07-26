@@ -63,6 +63,9 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 {
 	GthComment            *comment;
 	GFileAttributeMatcher *matcher;
+	const char            *value;
+	GPtrArray             *categories;
+	char                  *comment_time;
 
 	comment = gth_comment_new_for_file (file_data->file, NULL);
 	if (comment == NULL)
@@ -70,49 +73,33 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 	matcher = g_file_attribute_matcher_new (attributes);
 
-	if (g_file_attribute_matcher_matches (matcher, "comment::note")) {
-		const char *value;
-
-		value = gth_comment_get_note (comment);
-		if (value != NULL) {
-			g_file_info_set_attribute_string (file_data->info, "comment::note", value);
-			set_attribute_from_string (file_data->info, "Embedded::Image::Comment", value);
-		}
+	value = gth_comment_get_note (comment);
+	if (value != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
+		set_attribute_from_string (file_data->info, "Embedded::Image::Comment", value);
 	}
 
-	if (g_file_attribute_matcher_matches (matcher, "comment::place")) {
-		const char *value;
-
-		value = gth_comment_get_place (comment);
-		if (value != NULL) {
-			g_file_info_set_attribute_string (file_data->info, "comment::place", value);
-			set_attribute_from_string (file_data->info, "Embedded::Image::Location", value);
-		}
+	value = gth_comment_get_place (comment);
+	if (value != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "comment::place", value);
+		set_attribute_from_string (file_data->info, "Embedded::Image::Location", value);
 	}
 
-	if (g_file_attribute_matcher_matches (matcher, "comment::categories")) {
-		GPtrArray *categories;
+	categories = gth_comment_get_categories (comment);
+	if (categories->len > 0) {
+		GObject *value;
 
-		categories = gth_comment_get_categories (comment);
-		if (categories->len > 0) {
-			GObject *value;
-
-			value = (GObject *) gth_string_list_new_from_ptr_array (categories);
-			g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
-			g_file_info_set_attribute_object (file_data->info, "Embedded::Image::Keywords", value);
-			g_object_unref (value);
-		}
+		value = (GObject *) gth_string_list_new_from_ptr_array (categories);
+		g_file_info_set_attribute_object (file_data->info, "comment::categories", value);
+		g_file_info_set_attribute_object (file_data->info, "Embedded::Image::Keywords", value);
+		g_object_unref (value);
 	}
 
-	if (g_file_attribute_matcher_matches (matcher, "comment::time")) {
-		char *comment_time;
-
-		comment_time = gth_comment_get_time_as_exif_format (comment);
-		if (comment_time != NULL) {
-			g_file_info_set_attribute_string (file_data->info, "comment::time", comment_time);
-			set_attribute_from_string (file_data->info, "Embedded::Image::DateTime", comment_time);
-			g_free (comment_time);
-		}
+	comment_time = gth_comment_get_time_as_exif_format (comment);
+	if (comment_time != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "comment::time", comment_time);
+		set_attribute_from_string (file_data->info, "Embedded::Image::DateTime", comment_time);
+		g_free (comment_time);
 	}
 
 	g_file_attribute_matcher_unref (matcher);

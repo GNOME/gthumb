@@ -37,11 +37,10 @@ GthMetadataCategory file_metadata_category[] = {
 
 GthMetadataInfo file_metadata_info[] = {
 	{ "standard::display-name", N_("Name"), "file", 1, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "file::display-size", N_("Size"), "file", 2, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "file::display-ctime", N_("Created"), "file", 3, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "file::display-mtime", N_("Modified"), "file", 4, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "standard::fast-content-type", N_("Type"), "file", 5, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "file::is-modified", NULL, "file", 6, GTH_METADATA_ALLOW_NOWHERE },
+	{ "gth::file::display-size", N_("Size"), "file", 2, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::display-mtime", N_("Modified"), "file", 3, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "standard::fast-content-type", N_("Type"), "file", 4, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "gth::file::is-modified", NULL, "file", 5, GTH_METADATA_ALLOW_NOWHERE },
 
 	{ "Embedded::Image::DateTime", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "Embedded::Image::Comment", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },

@@ -34,6 +34,7 @@
 enum {
         PROP_0,
         PROP_ID,
+        PROP_ATTRIBUTES,
         PROP_DISPLAY_NAME,
         PROP_VISIBLE
 };
@@ -47,6 +48,7 @@ enum {
 struct _GthTestPrivate
 {
 	char      *id;
+	char      *attributes;
 	char      *display_name;
 	gboolean   visible;
 };
@@ -76,6 +78,13 @@ gth_test_finalize (GObject *object)
 	g_free (test->files);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+const char *
+base_get_attributes (GthTest *test)
+{
+	return test->priv->attributes;
 }
 
 
@@ -167,6 +176,7 @@ gth_test_real_duplicate (GthDuplicable *duplicable)
 
 	new_test = g_object_new (GTH_TYPE_TEST,
 				 "id", gth_test_get_id (test),
+				 "attributes", gth_test_get_attributes (test),
 				 "display-name", gth_test_get_display_name (test),
 				 "visible", gth_test_is_visible (test),
 				 NULL);
@@ -191,6 +201,12 @@ gth_test_set_property (GObject      *object,
 		test->priv->id = g_value_dup_string (value);
 		if (test->priv->id == NULL)
 			test->priv->id = g_strdup ("");
+		break;
+	case PROP_ATTRIBUTES:
+		g_free (test->priv->attributes);
+		test->priv->attributes = g_value_dup_string (value);
+		if (test->priv->attributes == NULL)
+			test->priv->attributes = g_strdup ("");
 		break;
 	case PROP_DISPLAY_NAME:
 		g_free (test->priv->display_name);
@@ -221,6 +237,9 @@ gth_test_get_property (GObject    *object,
 	case PROP_ID:
 		g_value_set_string (value, test->priv->id);
 		break;
+	case PROP_ATTRIBUTES:
+		g_value_set_string (value, test->priv->attributes);
+		break;
 	case PROP_DISPLAY_NAME:
 		g_value_set_string (value, test->priv->display_name);
 		break;
@@ -247,6 +266,7 @@ gth_test_class_init (GthTestClass *klass)
 	object_class->get_property = gth_test_get_property;
 	object_class->finalize = gth_test_finalize;
 
+	klass->get_attributes = base_get_attributes;
 	klass->create_control = base_create_control;
 	klass->update_from_control = base_update_from_control;
 	klass->reset = base_reset;
@@ -261,6 +281,13 @@ gth_test_class_init (GthTestClass *klass)
 					 g_param_spec_string ("id",
                                                               "ID",
                                                               "The object id",
+                                                              NULL,
+                                                              G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_ATTRIBUTES,
+					 g_param_spec_string ("attributes",
+                                                              "Attributes",
+                                                              "The attributes required to perform this test",
                                                               NULL,
                                                               G_PARAM_READWRITE));
 	g_object_class_install_property (object_class,
@@ -369,6 +396,13 @@ gboolean
 gth_test_is_visible (GthTest *test)
 {
 	return test->priv->visible;
+}
+
+
+const char *
+gth_test_get_attributes (GthTest *test)
+{
+	return GTH_TEST_GET_CLASS (test)->get_attributes (test);
 }
 
 
