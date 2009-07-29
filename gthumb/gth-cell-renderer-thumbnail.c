@@ -143,18 +143,23 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 				      int             *height)
 {
 	GthCellRendererThumbnail *self;
+	int image_width;
+	int image_height;
 	int calc_width;
   	int calc_height;
 
-	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
+  	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
 
-	if (self->priv->is_icon || (self->priv->thumbnail == NULL)) {
+  	image_width = gdk_pixbuf_get_width (self->priv->thumbnail);
+	image_height = gdk_pixbuf_get_height (self->priv->thumbnail);
+
+	if (self->priv->is_icon || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
 		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
 		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + self->priv->size;
 	}
 	else {
-		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + gdk_pixbuf_get_width (self->priv->thumbnail);
-		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + gdk_pixbuf_get_height (self->priv->thumbnail);
+		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + image_width;
+		calc_height = (int) (cell->ypad * 2) + (THUMBNAIL_Y_BORDER * 2) + image_height;
 	}
 
 	if (width != NULL)
@@ -407,6 +412,11 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		return;
 	}
 
+    	image_rect.width = gdk_pixbuf_get_width (pixbuf);
+	image_rect.height = gdk_pixbuf_get_height (pixbuf);
+	image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) * .5;
+	image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) * .5;
+
 	style = gtk_widget_get_style (widget);
 
   	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
@@ -414,7 +424,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   	else
   		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
 
-	if (self->priv->is_icon || (state != GTK_STATE_NORMAL)) {
+	if (self->priv->is_icon || (state != GTK_STATE_NORMAL) || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		int R = 7;
 
 		cr = gdk_cairo_create (window);
@@ -439,12 +449,7 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		cairo_destroy (cr);
 	}
 
-  	image_rect.width = gdk_pixbuf_get_width (pixbuf);
-	image_rect.height = gdk_pixbuf_get_height (pixbuf);
-	image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) * .5;
-	image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) * .5;
-
-	if (! self->priv->is_icon) {
+	if (! self->priv->is_icon && ! ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		GdkRectangle frame_rect;
 
 		if (! _g_mime_type_is_image (gth_file_data_get_mime_type (self->priv->file))) {
