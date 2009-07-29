@@ -699,13 +699,13 @@ _gth_file_list_get_metadata (GthFileList *file_list,
 		char *value;
 
 		value = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attributes_v[i]);
-		if (value != NULL) {
-			if (metadata->len > 0)
-				g_string_append (metadata, "\n");
-			g_string_append (metadata, value);
+		if (value == NULL)
+			value = g_strdup ("-");
+		if (metadata->len > 0)
+			g_string_append (metadata, "\n");
+		g_string_append (metadata, value);
 
-			g_free (value);
-		}
+		g_free (value);
 	}
 
 	return metadata;
