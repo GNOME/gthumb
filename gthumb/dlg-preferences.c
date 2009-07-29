@@ -30,6 +30,7 @@
 #include "gth-main.h"
 #include "gth-preferences.h"
 #include "gtk-utils.h"
+#include "glib-utils.h"
 #include "typedefs.h"
 
 
@@ -38,6 +39,7 @@
 enum {
 	CAPTION_COLUMN_NAME,
 	CAPTION_COLUMN_ID,
+	CAPTION_COLUMN_USED,
 	CAPTION_COLUMNS
 };
 
@@ -47,7 +49,7 @@ typedef struct {
 	GtkWidget  *dialog;
 	GtkWidget  *toolbar_style_combobox;
 	GtkWidget  *thumbnail_size_combobox;
-	GtkWidget  *thumbnail_caption_combobox;
+	GtkWidget  *thumbnail_caption_list_view;
 } DialogData;
 
 static int thumb_size[] = { 48, 64, 85, 95, 112, 128, 164, 200, 256 };
@@ -174,27 +176,115 @@ thumbnail_size_changed_cb (GtkOptionMenu *option_menu,
 
 
 static void
-thumbnail_caption_changed_cb (GtkOptionMenu *option_menu,
-			      DialogData    *data)
-{
-	GtkTreeIter  iter;
-	char        *attribute;
-
-	gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->thumbnail_caption_combobox), &iter);
-	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (data->thumbnail_caption_combobox)), &iter,
-			    CAPTION_COLUMN_ID, &attribute,
-			    -1);
-	eel_gconf_set_string (PREF_THUMBNAIL_CAPTION, attribute);
-
-	g_free (attribute);
-}
-
-
-static void
 fast_file_type_toggled_cb (GtkToggleButton *button,
 			   DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_FAST_FILE_TYPE, ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("slow_mime_type_checkbutton"))));
+}
+
+
+static void
+update_caption_from_list_view (DialogData *data)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
+	GString      *attributes;
+
+	attributes = g_string_new ("");
+	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (data->thumbnail_caption_list_view));
+	if (gtk_tree_model_get_iter_first (tree_model, &iter)) {
+		do {
+			gboolean  used;
+			char     *attribute_id;
+
+			gtk_tree_model_get (tree_model, &iter,
+					    CAPTION_COLUMN_ID, &attribute_id,
+					    CAPTION_COLUMN_USED, &used,
+					    -1);
+
+			if (used) {
+				if (attributes->len > 0)
+					g_string_append (attributes, ",");
+				g_string_append (attributes, attribute_id);
+			}
+
+			g_free (attribute_id);
+		}
+		while (gtk_tree_model_iter_next (tree_model, &iter));
+	}
+
+	if (attributes->len > 0)
+		eel_gconf_set_string (PREF_THUMBNAIL_CAPTION, attributes->str);
+	else
+		eel_gconf_set_string (PREF_THUMBNAIL_CAPTION, "none");
+
+	g_string_free (attributes, TRUE);
+}
+
+
+static void
+cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
+				 char                  *path,
+                                 gpointer               user_data)
+{
+	DialogData   *data = user_data;
+	GtkTreePath  *tpath;
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
+
+	tpath = gtk_tree_path_new_from_string (path);
+	if (tpath == NULL)
+		return;
+
+	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (data->thumbnail_caption_list_view));
+	if (gtk_tree_model_get_iter (tree_model, &iter, tpath)) {
+		gboolean used;
+
+		gtk_tree_model_get (tree_model, &iter,
+				    CAPTION_COLUMN_USED, &used,
+				    -1);
+		gtk_list_store_set (GTK_LIST_STORE (tree_model), &iter,
+				    CAPTION_COLUMN_USED, ! used,
+				    -1);
+	}
+
+	update_caption_from_list_view (data);
+
+	gtk_tree_path_free (tpath);
+}
+
+
+static void
+caption_list_view_add_columns (GtkTreeView *treeview,
+			       DialogData  *data)
+{
+	GtkTreeViewColumn *column;
+	GtkCellRenderer   *renderer;
+
+	/* the checkbox column */
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (renderer,
+			  "toggled",
+			  G_CALLBACK (cell_renderer_toggle_toggled_cb),
+			  data);
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "active", CAPTION_COLUMN_USED,
+					     NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+
+	/* the name column. */
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_text_new ();
+        gtk_tree_view_column_pack_start (column, renderer, TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", CAPTION_COLUMN_NAME,
+                                             NULL);
+        gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 }
 
 
@@ -205,10 +295,10 @@ dlg_preferences (GthBrowser *browser)
 	char             *startup_location;
 	GthFileSource    *file_source;
 	GtkListStore     *caption_store;
-	GtkCellRenderer  *renderer;
 	GtkTreeIter       iter;
 	char             *current_caption;
 	char            **attributes_v;
+	char            **active_attributes_v;
 	int               i;
 
 	if (gth_browser_get_dialog (browser, "preferences") != NULL) {
@@ -231,58 +321,56 @@ dlg_preferences (GthBrowser *browser)
 	data->toolbar_style_combobox = _gtk_combo_box_new_with_texts (_("System settings"), _("Text below icons"), _("Text beside icons"), _("Icons only"), _("Text only"), NULL);
 	data->thumbnail_size_combobox = _gtk_combo_box_new_with_texts (_("48"), _("64"), _("85"), _("95"), _("112"), _("128"), _("164"), _("200"), _("256"), NULL);
 
-	caption_store = gtk_list_store_new (CAPTION_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
-	data->thumbnail_caption_combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (caption_store));
+	caption_store = gtk_list_store_new (CAPTION_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	data->thumbnail_caption_list_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (caption_store));
+	g_object_unref (caption_store);
 
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (data->thumbnail_caption_combobox), renderer, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (data->thumbnail_caption_combobox),
-					renderer,
-					"text", CAPTION_COLUMN_NAME,
-					NULL);
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (data->thumbnail_caption_list_view), FALSE);
+        gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->thumbnail_caption_list_view), FALSE);
+
+	caption_list_view_add_columns (GTK_TREE_VIEW (data->thumbnail_caption_list_view), data);
+
+	gtk_widget_show (data->thumbnail_caption_list_view);
+	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("caption_scrolledwindow")), data->thumbnail_caption_list_view);
+
+	/* caption list */
 
 	current_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
-
-	/* no caption */
-
-	gtk_list_store_append (caption_store, &iter);
-	gtk_list_store_set (caption_store, &iter,
-			    CAPTION_COLUMN_NAME, _("None"),
-			    CAPTION_COLUMN_ID, "none",
-			    -1);
-	if (strcmp (current_caption, "none") == 0)
-		gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->thumbnail_caption_combobox), &iter);
-
-	/* other captions */
-
+	active_attributes_v = g_strsplit (current_caption, ",", -1);
 	attributes_v = gth_main_get_metadata_attributes ("*");
 	for (i = 0; attributes_v[i] != NULL; i++) {
 		GthMetadataInfo *info;
+		const char      *name;
+		gboolean         used;
 
 		info = gth_main_get_metadata_info (attributes_v[i]);
 		if ((info == NULL) || ((info->flags & GTH_METADATA_ALLOW_IN_FILE_LIST) == 0))
 			continue;
 
 		gtk_list_store_append (caption_store, &iter);
-		gtk_list_store_set (caption_store, &iter,
-				    CAPTION_COLUMN_NAME, info->display_name,
-				    CAPTION_COLUMN_ID, info->id,
-				    -1);
 
-		if (strcmp (current_caption, info->id) == 0)
-			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->thumbnail_caption_combobox), &iter);
+		name = info->display_name;
+		if (name == NULL)
+			name = info->id;
+		used = _g_strv_find (active_attributes_v, info->id) != -1;
+		gtk_list_store_set (caption_store, &iter,
+				    CAPTION_COLUMN_NAME, name,
+				    CAPTION_COLUMN_ID, info->id,
+				    CAPTION_COLUMN_USED, used,
+				    -1);
 	}
 	g_strfreev (attributes_v);
+	g_strfreev (active_attributes_v);
 	g_free (current_caption);
-	g_object_unref (caption_store);
 
 	gtk_widget_show (data->toolbar_style_combobox);
 	gtk_widget_show (data->thumbnail_size_combobox);
-	gtk_widget_show (data->thumbnail_caption_combobox);
 
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("toolbar_style_combobox_box")), data->toolbar_style_combobox, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("thumbnail_size_box")), data->thumbnail_size_combobox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("thumbnail_caption_box")), data->thumbnail_caption_combobox, FALSE, FALSE, 0);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("caption_label")), data->thumbnail_caption_list_view);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("size_label")), data->thumbnail_size_combobox);
 
 	/* * general */
 
@@ -366,10 +454,6 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (data->thumbnail_size_combobox),
 			  "changed",
 			  G_CALLBACK (thumbnail_size_changed_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->thumbnail_caption_combobox),
-			  "changed",
-			  G_CALLBACK (thumbnail_caption_changed_cb),
 			  data);
 	g_signal_connect (G_OBJECT (GET_WIDGET ("slow_mime_type_checkbutton")),
 			  "toggled",

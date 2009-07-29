@@ -170,6 +170,8 @@ GList *         _g_list_insert_list_before       (GList       *list1,
 						  GList       *list2);
 const char *    get_static_string                (const char  *s);
 char *          _g_rand_string                   (int          len);
+int             _g_strv_find                     (char        **v,
+						  const char   *s);
 
 /* Regexp utils */
 

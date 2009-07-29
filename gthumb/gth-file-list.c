@@ -106,7 +106,7 @@ struct _GthFileListPrivateData
 	GtkCellRenderer *thumbnail_renderer;
 	GtkCellRenderer *text_renderer;
 
-	char            *caption_attribute;
+	char           **caption_attributes_v;
 
 	DoneFunc         done_func;
 	gpointer         done_func_data;
@@ -237,7 +237,7 @@ gth_file_list_finalize (GObject *object)
 	if (file_list->priv != NULL) {
 		if (file_list->priv->icon_cache != NULL)
 			gth_icon_cache_free (file_list->priv->icon_cache);
-		g_free (file_list->priv->caption_attribute);
+		g_strfreev (file_list->priv->caption_attributes_v);
 		g_free (file_list->priv);
 		file_list->priv = NULL;
 	}
@@ -265,7 +265,8 @@ gth_file_list_init (GthFileList *file_list)
 
 	file_list->priv->thumb_size = DEFAULT_THUMBNAIL_SIZE;
 	file_list->priv->ignore_hidden_thumbs = FALSE;
-	file_list->priv->load_thumbs = TRUE; /* FIXME: make this cnfigurable */
+	file_list->priv->load_thumbs = TRUE; /* FIXME: make this configurable */
+	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
 }
 
 
@@ -533,7 +534,7 @@ gth_file_list_construct (GthFileList *file_list)
 		      "ellipsize", PANGO_ELLIPSIZE_END,
 		      "alignment", PANGO_ALIGN_CENTER,
 		      "width", file_list->priv->thumb_size + (8 * 2) /* FIXME: remove the numbers */,
-		      "single-paragraph-mode", TRUE,
+		      /*"single-paragraph-mode", TRUE,*/
 		      NULL);
 
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
@@ -686,6 +687,31 @@ _gth_file_list_update_pane (GthFileList *file_list)
 }
 
 
+static GString *
+_gth_file_list_get_metadata (GthFileList *file_list,
+			     GthFileData *file_data)
+{
+	GString *metadata;
+	int      i;
+
+	metadata = g_string_new ("");
+	for (i = 0; file_list->priv->caption_attributes_v[i] != NULL; i++) {
+		char *value;
+
+		value = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attributes_v[i]);
+		if (value != NULL) {
+			if (metadata->len > 0)
+				g_string_append (metadata, "\n");
+			g_string_append (metadata, value);
+
+			g_free (value);
+		}
+	}
+
+	return metadata;
+}
+
+
 static void
 gfl_add_files (GthFileList *file_list,
 	       GList       *files)
@@ -699,6 +725,7 @@ gfl_add_files (GthFileList *file_list,
 		GthFileData *fd = scan->data;
 		GIcon       *icon;
 		GdkPixbuf   *pixbuf = NULL;
+		GString     *metadata;
 
 		if (g_file_info_get_file_type (fd->info) != G_FILE_TYPE_REGULAR)
 			continue;
@@ -708,13 +735,14 @@ gfl_add_files (GthFileList *file_list,
 
 		icon = g_file_info_get_icon (fd->info);
 		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
-
+		metadata = _gth_file_list_get_metadata (file_list, fd);
 		gth_file_store_queue_add (file_store,
 					  fd,
 					  pixbuf,
 					  TRUE,
-					  gth_file_data_get_attribute_as_string (fd, file_list->priv->caption_attribute));
+					  metadata->str);
 
+		g_string_free (metadata, TRUE);
 		if (pixbuf != NULL)
 			g_object_unref (pixbuf);
 	}
@@ -1037,18 +1065,18 @@ gth_file_list_set_thumb_size (GthFileList *file_list,
 
 void
 gth_file_list_set_caption (GthFileList *file_list,
-			   const char  *attribute)
+			   const char  *attributes)
 {
-	GthFileStore *file_store;
-	GList        *list;
-	GList        *scan;
-	int           pos;
-	gboolean      metadata_visible;
+	GthFileStore  *file_store;
+	GList         *list;
+	GList         *scan;
+	int            pos;
+	gboolean       metadata_visible;
 
-	g_free (file_list->priv->caption_attribute);
-	file_list->priv->caption_attribute = g_strdup (attribute);
+	g_strfreev (file_list->priv->caption_attributes_v);
+	file_list->priv->caption_attributes_v = g_strsplit (attributes, ",", -1);
 
-	metadata_visible = (strcmp (file_list->priv->caption_attribute, "none") != 0);
+	metadata_visible = (strcmp (file_list->priv->caption_attributes_v[0], "none") != 0);
 	g_object_set (file_list->priv->text_renderer,
 		      "visible", metadata_visible,
 		      "height", metadata_visible ? -1 : 0,
@@ -1059,20 +1087,17 @@ gth_file_list_set_caption (GthFileList *file_list,
 	list = gth_file_store_get_all (file_store);
 	for (scan = list, pos = 0; scan; scan = scan->next, pos++) {
 		GthFileData *file_data = scan->data;
-		char        *metadata;
+		GString     *metadata;
 
-		metadata = gth_file_data_get_attribute_as_string (file_data, file_list->priv->caption_attribute);
-		if (metadata == NULL)
-			metadata = g_strdup ("");
-
+		metadata = _gth_file_list_get_metadata (file_list, file_data);
 		gth_file_store_queue_set (file_store,
 					  pos,
 					  NULL,
 					  NULL,
 					  -1,
-					  metadata);
+					  metadata->str);
 
-		g_free (metadata);
+		g_string_free (metadata, TRUE);
 	}
 	gth_file_store_exec_set (file_store);
 

@@ -448,17 +448,18 @@ metadata_info_sort_func (gconstpointer a,
 {
 	GthMetadataInfo *info_a = *((GthMetadataInfo **) a);
 	GthMetadataInfo *info_b = *((GthMetadataInfo **) b);
+	const char      *name_a;
+	const char      *name_b;
 
-	if (info_a->display_name == NULL) {
-		if (info_b->display_name == NULL)
-			return 0;
-		else
-			return -1;
-	}
-	else if (info_b->display_name == NULL)
-		return 1;
-	else
-		return g_utf8_collate (info_a->display_name, info_b->display_name);
+	name_a = info_a->display_name;
+	if (name_a == NULL)
+		name_a = info_a->id;
+
+	name_b = info_b->display_name;
+	if (name_b == NULL)
+		name_b = info_b->id;
+
+	return g_utf8_collate (name_a, name_b);
 }
 
 

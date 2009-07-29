@@ -953,6 +953,21 @@ _g_rand_string (int len)
 }
 
 
+int
+_g_strv_find (char       **v,
+	      const char  *s)
+{
+	int i;
+
+	for (i = 0; v[i] != NULL; i++) {
+		if (strcmp (v[i], s) == 0)
+			return i;
+	}
+
+	return -1;
+}
+
+
 /* Regexp utils */
 
 static char **
