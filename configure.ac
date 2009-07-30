@@ -218,7 +218,7 @@ data/icons/48x48/apps/Makefile
 data/icons/scalable/Makefile
 data/icons/scalable/apps/Makefile
 data/ui/Makefile
-doc/Makefile
+help/Makefile
 extensions/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile

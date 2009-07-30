@@ -1,4 +1,4 @@
-SUBDIRS = copy-n-paste data po gthumb extensions tests doc
+SUBDIRS = copy-n-paste data po gthumb extensions tests help
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST =                    \
