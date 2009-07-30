@@ -335,7 +335,7 @@ dlg_preferences (GthBrowser *browser)
 
 	/* caption list */
 
-	current_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	current_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
 	active_attributes_v = g_strsplit (current_caption, ",", -1);
 	attributes_v = gth_main_get_metadata_attributes ("*");
 	for (i = 0; attributes_v[i] != NULL; i++) {

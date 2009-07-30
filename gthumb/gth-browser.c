@@ -1278,7 +1278,7 @@ _gth_browser_get_list_attributes (GthBrowser *browser)
 
 	/* attributes required for the thumbnail caption */
 
-	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
 	if ((thumbnail_caption[0] != '\0') && (strcmp (thumbnail_caption, "none") != 0)) {
 		g_string_append (attributes, ",");
 		g_string_append (attributes, thumbnail_caption);
@@ -2870,7 +2870,7 @@ pref_thumbnail_caption_changed (GConfClient *client,
 	GthBrowser *browser = user_data;
 	char       *caption;
 
-	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 
 	if (_gth_browser_reload_required (browser))
@@ -3117,7 +3117,7 @@ _gth_browser_construct (GthBrowser *browser)
 				    FALSE);
 	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));
-	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, "standard::display-name");
+	caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
 	gth_file_list_set_caption (GTH_FILE_LIST (browser->priv->file_list), caption);
 	g_free (caption);
 
