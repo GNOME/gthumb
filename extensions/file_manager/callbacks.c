@@ -140,7 +140,7 @@ static GtkActionEntry action_entries[] = {
 	  N_("Duplicate the selected files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate) },
 	{ "Edit_Trash", "user-trash",
-	  N_("Mo_ve to Trash"), "Delete",
+	  N_("Mo_ve to Trash"), NULL,
 	  N_("Move the selected files to the Trash"),
 	  G_CALLBACK (gth_browser_activate_action_edit_trash) },
 	{ "Edit_Delete", "edit-delete",

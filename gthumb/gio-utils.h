@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <gio/gio.h>
+#include "gth-file-data.h"
 #include "typedefs.h"
 
 G_BEGIN_DECLS
@@ -92,7 +93,7 @@ void   _g_query_info_async           (GList                 *file_list,    /* GF
 
 void     _g_dummy_file_op_async      (ReadyFunc              callback,
 				      gpointer               user_data);
-void     _g_copy_files_async         (GList                 *sources,
+void     _g_copy_file_async          (GthFileData           *source,
 				      GFile                 *destination,
 				      gboolean               move,
 				      GFileCopyFlags         flags,
@@ -100,9 +101,9 @@ void     _g_copy_files_async         (GList                 *sources,
 				      GCancellable          *cancellable,
 				      ProgressCallback       progress_callback,
 				      gpointer               progress_callback_data,
-				      ReadyFunc              callback,
+				      ReadyFunc              ready_callback,
 				      gpointer               user_data);
-void     _g_copy_file_async          (GFile                 *source,
+void     _g_copy_files_async         (GList                 *sources,
 				      GFile                 *destination,
 				      gboolean               move,
 				      GFileCopyFlags         flags,

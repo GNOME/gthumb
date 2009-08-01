@@ -85,7 +85,7 @@ copy_progress_cb (GObject    *object,
 		  gpointer    user_data)
 {
 	GthDuplicateTask *self = user_data;
-	gth_task_progress (GTH_TASK (self), _("Duplicating files"), details, pulse, fraction);
+	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
 }
 
 
@@ -131,7 +131,7 @@ duplicate_current_file (GthDuplicateTask *self)
 	file_data = self->priv->current->data;
 	destination = get_destination (file_data, self->priv->attempt);
 
-	_g_copy_file_async (file_data->file,
+	_g_copy_file_async (file_data,
 			    destination,
 			    FALSE,
 			    G_FILE_COPY_ALL_METADATA,
