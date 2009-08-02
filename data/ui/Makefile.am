@@ -1,4 +1,4 @@
-uidir = $(datadir)/gthumb/ui
+uidir = $(datadir)/gthumb-2.0/ui
 ui_DATA = 			\
 	bookmarks.ui		\
 	extensions.ui		\

@@ -1,4 +1,4 @@
-uidir = $(datadir)/gthumb/ui
+uidir = $(datadir)/gthumb-2.0/ui
 ui_DATA = rename-series.ui
 EXTRA_DIST = $(ui_DATA)
 
