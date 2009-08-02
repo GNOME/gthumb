@@ -226,7 +226,7 @@ extensions_dir = $(abs_top_builddir)/extensions
 else
 ui_dir = $(datadir)/gthumb/ui
 extensions_ui_dir = $(datadir)/gthumb/ui
-extensions_dir = $(libdir)/gthumb/extensions
+extensions_dir = $(libdir)/gthumb-2.0/extensions
 endif
 
 gthumb_CFLAGS =							\
