@@ -172,6 +172,8 @@ const char *    get_static_string                (const char  *s);
 char *          _g_rand_string                   (int          len);
 int             _g_strv_find                     (char        **v,
 						  const char   *s);
+char *          _g_str_remove_suffix             (const char   *s,
+						  const char   *suffix);
 
 /* Regexp utils */
 

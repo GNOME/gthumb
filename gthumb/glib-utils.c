@@ -968,6 +968,28 @@ _g_strv_find (char       **v,
 }
 
 
+char *
+_g_str_remove_suffix (const char *s,
+		      const char *suffix)
+{
+	int s_len;
+	int suffix_len;
+
+	if (s == NULL)
+		return NULL;
+	if (suffix == NULL)
+		return g_strdup (s);
+
+	s_len = strlen (s);
+	suffix_len = strlen (suffix);
+
+	if (suffix_len >= s_len)
+		return g_strdup ("");
+	else
+		return g_strndup (s, s_len - suffix_len);
+}
+
+
 /* Regexp utils */
 
 static char **

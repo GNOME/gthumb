@@ -649,6 +649,7 @@ gth_extension_manager_load_extensions (GthExtensionManager *self)
 	while ((info = g_file_enumerator_next_file (enumerator, NULL, NULL)) != NULL) {
 		const char              *name;
 		GFile                   *ext_file;
+		char                    *ext_name;
 		GthExtensionDescription *ext_desc;
 
 		name = g_file_info_get_name (info);
@@ -661,18 +662,23 @@ gth_extension_manager_load_extensions (GthExtensionManager *self)
 		basename = g_strconcat (name, EXTENSION_SUFFIX, NULL);
 		path = g_build_filename (GTHUMB_EXTENSIONS_DIR, name, basename, NULL);
 		ext_file = g_file_new_for_path (path);
+		ext_name = g_strdup (name);
 
 		g_free (path);
 		g_free (basename);
 	}
 #else
+		if (! g_str_has_suffix (name, EXTENSION_SUFFIX))
+			continue;
 		ext_file = g_file_get_child (extensions_dir, name);
+		ext_name = _g_str_remove_suffix (name, EXTENSION_SUFFIX);
 #endif
 
 		ext_desc = gth_extension_description_new (ext_file);
 		if (ext_desc != NULL)
-			g_hash_table_insert (self->priv->extensions, g_strdup (name), ext_desc);
+			g_hash_table_insert (self->priv->extensions, g_strdup (ext_name), ext_desc);
 
+		g_free (ext_name);
 		g_object_unref (ext_file);
 		g_object_unref (info);
 	}
