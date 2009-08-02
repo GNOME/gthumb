@@ -127,6 +127,14 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-selection-changed", 1);
 
 	/**
+	 * Called after a key press in the file list
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 * @event (GdkEventKey *); the key event.
+	 */
+	gth_hook_register ("gth-browser-file-list-key-press", 2);
+
+	/**
 	 * Called in _gdk_pixbuf_save_async
 	 *
 	 * @data (SavePixbufData*):

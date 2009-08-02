@@ -262,7 +262,7 @@ viewer_key_press_cb (GtkWidget          *widget,
 		return TRUE;
 	}
 
-	return FALSE;
+	return gth_hook_invoke_get ("gth-browser-file-list-key-press", self->priv->browser, event) != NULL;
 }
 
 

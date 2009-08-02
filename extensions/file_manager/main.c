@@ -38,6 +38,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("gth-browser-realize", 10, G_CALLBACK (fm__gth_browser_realize_cb), NULL);
 	gth_hook_add_callback ("gth-browser-unrealize", 10, G_CALLBACK (fm__gth_browser_unrealize_cb), NULL);
 	gth_hook_add_callback ("gth-browser-selection-changed", 10, G_CALLBACK (fm__gth_browser_selection_changed_cb), NULL);
+	gth_hook_add_callback ("gth-browser-file-list-key-press", 10, G_CALLBACK (fm__gth_browser_file_list_key_press_cb), NULL);
 }
 
 

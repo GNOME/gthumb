@@ -24,6 +24,7 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <glib-object.h>
+#include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "actions.h"
 
@@ -607,4 +608,34 @@ fm__gth_browser_unrealize_cb (GthBrowser *browser)
 	g_signal_handlers_disconnect_by_func (clipboard,
 	                                      G_CALLBACK (clipboard_owner_change_cb),
 	                                      browser);
+}
+
+
+gpointer
+fm__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+					GdkEventKey *event)
+{
+	gpointer  result = NULL;
+	GList    *items;
+	GList    *file_data_list;
+	GList    *file_list;
+
+	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
+		return NULL;
+
+	switch (gdk_keyval_to_lower (event->keyval)) {
+        case GDK_g:
+		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+		file_data_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+		file_list = gth_file_data_list_to_file_list (file_data_list);
+		_g_launch_command (GTK_WIDGET (browser), "gimp", "Gimp", file_list);
+
+		_g_object_list_unref (file_list);
+		_g_object_list_unref (file_data_list);
+		_gtk_tree_path_list_free (items);
+		result = GINT_TO_POINTER (1);
+		break;
+	}
+
+	return result;
 }

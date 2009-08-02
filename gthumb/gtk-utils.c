@@ -1049,3 +1049,31 @@ _gtk_paned_set_position2 (GtkPaned *paned,
 	if (pos > 0)
 		gtk_paned_set_position (paned, size - pos);
 }
+
+
+void
+_g_launch_command (GtkWidget  *parent,
+		   const char *command,
+		   const char *name,
+		   GList      *files)
+{
+	GError              *error = NULL;
+	GAppInfo            *app_info;
+	GdkAppLaunchContext *launch_context;
+
+	app_info = g_app_info_create_from_commandline (command, name, G_APP_INFO_CREATE_SUPPORTS_URIS, &error);
+	if (app_info == NULL) {
+		_gtk_error_dialog_from_gerror_show(GTK_WINDOW (parent), _("Could not launch the application"), &error);
+		return;
+	}
+
+	launch_context = gdk_app_launch_context_new ();
+	gdk_app_launch_context_set_screen (launch_context, gtk_widget_get_screen (parent));
+
+	if (! g_app_info_launch (app_info, files, G_APP_LAUNCH_CONTEXT (launch_context), &error)) {
+		_gtk_error_dialog_from_gerror_show(GTK_WINDOW (parent), _("Could not launch the application"), &error);
+		return;
+	}
+
+	g_object_unref (app_info);
+}

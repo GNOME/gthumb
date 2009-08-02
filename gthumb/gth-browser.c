@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include "dlg-personalize-filters.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
@@ -2633,6 +2634,58 @@ gth_file_view_item_activated_cb (GtkIconView *iconview,
 }
 
 
+static gboolean
+gth_file_list_key_press_cb (GtkWidget   *widget,
+			    GdkEventKey *event,
+			    gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	gboolean    result = FALSE;
+
+	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
+		switch (gdk_keyval_to_lower (event->keyval)) {
+		case GDK_f:
+			gth_browser_fullscreen (browser);
+			result = TRUE;
+			break;
+
+		/* FIXME: add these to the image viewer
+		case GDK_b:
+		case GDK_BackSpace:
+			gth_browser_show_prev_image (browser, FALSE, FALSE);
+			result = TRUE;
+			break;
+
+		case GDK_n:
+			gth_browser_show_next_image (browser, FALSE, FALSE);
+			result = TRUE;
+			break;
+		*/
+
+		/* FIXME: add these to the rotate extension
+		case GDK_bracketright:
+			gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
+			result = TRUE;
+			break;
+
+		case GDK_bracketleft:
+			gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
+			result = TRUE;
+			break;
+		*/
+
+		default:
+			break;
+		}
+        }
+
+	if (! result)
+		result = gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
+
+	return result;
+}
+
+
 static void
 add_browser_toolbar_menu_buttons (GthBrowser *browser)
 {
@@ -3135,6 +3188,10 @@ _gth_browser_construct (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))),
 			  "item_activated",
 			  G_CALLBACK (gth_file_view_item_activated_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (browser->priv->file_list),
+			  "key_press_event",
+			  G_CALLBACK (gth_file_list_key_press_cb),
 			  browser);
 
 	browser->priv->file_list_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FileListPopup");
