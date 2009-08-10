@@ -76,7 +76,7 @@ base_exec (GthTask *task)
 static void
 base_cancel (GthTask *task)
 {
-	gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, NULL));
+	gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
 }
 
 

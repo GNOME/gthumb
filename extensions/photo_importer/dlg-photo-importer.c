@@ -42,6 +42,7 @@ typedef struct {
 	GtkWidget     *dialog;
 	GtkBuilder    *builder;
 	GFile         *source;
+	GFile         *last_source;
 	GtkListStore  *source_store;
 	GtkWidget     *source_list;
 	GtkWidget     *subfolder_type_list;
@@ -81,6 +82,7 @@ destroy_dialog (gpointer user_data)
 	_g_object_unref (data->source);
 	_g_object_unref (data->cancellable);
 	_g_object_list_unref (data->files);
+	_g_object_unref (data->last_source);
 	g_free (data);
 }
 
@@ -100,11 +102,10 @@ static void
 cancel (DialogData *data,
 	DoneFunc    done_func)
 {
-	data->done_func = done_func;
-
 	if (data->cancelling)
 		return;
 
+	data->done_func = done_func;
 	data->cancelling = TRUE;
 	if (data->loading_list)
 		g_cancellable_cancel (data->cancellable);
@@ -150,17 +151,17 @@ list_ready_cb (GList    *files,
 	data->loading_list = FALSE;
 
 	if (data->cancelling) {
-		g_print ("...CANCELED\n");
 		gth_file_list_cancel (GTH_FILE_LIST (data->file_list), cancel_done, data);
 		return;
 	}
-
-	g_print ("...DONE\n");
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not load the folder"), &error);
 		return;
 	}
+
+	_g_object_unref (data->last_source);
+	data->last_source = g_file_dup (data->source);
 
 	data->files = _g_object_list_ref (files);
 	gth_file_list_set_files (GTH_FILE_LIST (data->file_list), data->files);
@@ -173,10 +174,14 @@ list_source_files (gpointer user_data)
 	DialogData *data = user_data;
 	GList      *list;
 
-	g_print ("LOADING...\n");
-
+	_g_object_clear (&data->last_source);
 	_g_object_list_unref (data->files);
 	data->files = NULL;
+
+	if (data->source == NULL) {
+		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
+		return;
+	}
 
 	gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Getting folder listing..."));
 
@@ -197,6 +202,8 @@ list_source_files (gpointer user_data)
 static void
 load_file_list (DialogData *data)
 {
+	if (_g_file_equal (data->source, data->last_source))
+		return;
 	cancel (data, list_source_files);
 }
 
@@ -210,6 +217,8 @@ source_list_changed_cb (GtkWidget  *widget,
 	GMount      *mount;
 
 	if (! gtk_combo_box_get_active_iter (GTK_COMBO_BOX (data->source_list), &iter)) {
+		_g_object_clear (&data->source);
+		_g_object_clear (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
 		return;
 	}
@@ -219,6 +228,8 @@ source_list_changed_cb (GtkWidget  *widget,
 			    -1);
 
 	if (volume == NULL) {
+		_g_object_clear (&data->source);
+		_g_object_clear (&data->last_source);
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("Empty"));
 		return;
 	}
@@ -251,9 +262,9 @@ filter_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
 static void
 update_source_list (DialogData *data)
 {
-	gboolean  source_available = FALSE;
-	GList    *mounts;
-	GList    *scan;
+	gboolean    source_available = FALSE;
+	GList       *mounts;
+	GList       *scan;
 
 	gtk_list_store_clear (data->source_store);
 
@@ -288,8 +299,8 @@ update_source_list (DialogData *data)
 						    -1);
 
 				if (g_file_equal (data->source, root)) {
-					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->source_list), &iter);
 					source_available = TRUE;
+					gtk_combo_box_set_active_iter (GTK_COMBO_BOX (data->source_list), &iter);
 				}
 
 				g_free (name);
@@ -304,7 +315,7 @@ update_source_list (DialogData *data)
 	if (! source_available) {
 		_g_object_unref (data->source);
 		data->source = NULL;
-		source_list_changed_cb (NULL, data);
+		load_file_list (data);
 	}
 
 	_g_object_list_unref (mounts);
@@ -369,8 +380,6 @@ dlg_photo_importer (GthBrowser *browser,
 					renderer,
 					"text", SOURCE_LIST_COLUMN_NAME,
 					NULL);
-
-	update_source_list (data);
 
 	data->subfolder_type_list = _gtk_combo_box_new_with_texts (_("No subfolder"),
 								   _("Day photo taken"),
@@ -437,5 +446,6 @@ dlg_photo_importer (GthBrowser *browser,
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 
-	load_file_list (data);
+	update_source_list (data);
+	/*load_file_list (data);*/
 }

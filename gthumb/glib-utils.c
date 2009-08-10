@@ -53,6 +53,18 @@ _g_object_unref (gpointer object)
 }
 
 
+void
+_g_object_clear (gpointer  object)
+{
+	gpointer *object_p = (gpointer *) object;
+
+	if ((object_p != NULL) && (*object_p != NULL)) {
+		g_object_unref (*object_p);
+		*object_p = NULL;
+	}
+}
+
+
 GList *
 _g_object_list_ref (GList *list)
 {
@@ -1547,6 +1559,19 @@ _g_build_uri (const char *base, ...)
 
 
 /* GIO utils */
+
+
+gboolean
+_g_file_equal (GFile *file1,
+	       GFile *file2)
+{
+	if ((file1 == NULL) && (file2 == NULL))
+		return TRUE;
+	if ((file1 == NULL) || (file2 == NULL))
+		return FALSE;
+
+	return g_file_equal (file1, file2);
+}
 
 
 char *

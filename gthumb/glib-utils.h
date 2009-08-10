@@ -77,6 +77,7 @@ G_BEGIN_DECLS
 
 gpointer      _g_object_ref                  (gpointer     object);
 void          _g_object_unref                (gpointer     object);
+void          _g_object_clear                (gpointer     object);
 GList *       _g_object_list_ref             (GList       *list);
 void          _g_object_list_unref           (GList       *list);
 GType         g_object_list_get_type         (void);
@@ -211,6 +212,8 @@ char *          _g_build_uri                     (const char *base,
 
 /* GIO utils */
 
+gboolean        _g_file_equal                    (GFile      *file1,
+						  GFile      *file2);
 char *          _g_file_get_display_name         (GFile      *file);
 GFileType 	_g_file_get_standard_type        (GFile      *file);
 GFile *         _g_file_get_child                (GFile      *file,

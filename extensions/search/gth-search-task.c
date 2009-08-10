@@ -365,7 +365,7 @@ gth_search_task_cancel (GthTask *task)
 	if (GTH_SEARCH_TASK (task)->priv->io_operation)
 		g_cancellable_cancel (GTH_SEARCH_TASK (task)->priv->cancellable);
 	else
-		gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, NULL));
+		gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
 }
 
 

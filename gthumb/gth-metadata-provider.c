@@ -293,6 +293,7 @@ typedef struct {
 
 typedef struct {
 	GCancellable            *cancellable;
+	gulong                   cancel_signal;
 	InfoReadyCallback        ready_func;
 	gpointer                 user_data;
 	guint                    check_id;
@@ -314,6 +315,9 @@ query_metadata_done (QueryMetadataData *rmd)
 	g_free (rmtd->attributes);
 	_g_object_list_unref (rmtd->files);
 	g_free (rmtd);
+	if (rmd->cancel_signal != 0)
+		g_signal_handler_disconnect (rmd->cancellable, rmd->cancel_signal);
+	_g_object_unref (rmd->cancellable);
 	g_free (rmd);
 }
 
@@ -323,8 +327,9 @@ read_metadata_thread (gpointer data)
 {
 	QueryMetadataThreadData *rmtd = data;
 	GList                   *scan;
+	gboolean                 cancelled = FALSE;
 
-	for (scan = gth_main_get_all_metadata_providers (); scan; scan = scan->next) {
+	for (scan = gth_main_get_all_metadata_providers (); ! cancelled && scan; scan = scan->next) {
 		GthMetadataProvider *metadata_provider;
 
 		metadata_provider = g_object_new (G_OBJECT_TYPE (scan->data), NULL);
@@ -334,6 +339,14 @@ read_metadata_thread (gpointer data)
 
 			for (scan_files = rmtd->files; scan_files; scan_files = scan_files->next) {
 				GthFileData *file_data = scan_files->data;
+
+				g_mutex_lock (rmtd->mutex);
+				cancelled = rmtd->thread_done;
+				g_mutex_unlock (rmtd->mutex);
+
+				if (cancelled)
+					break;
+
 				gth_metadata_provider_read (metadata_provider, file_data, rmtd->attributes);
 			}
 		}
@@ -354,7 +367,7 @@ check_read_metadata_thread (gpointer data)
 {
 	QueryMetadataData       *rmd = data;
 	QueryMetadataThreadData *rmtd = rmd->rmtd;
-	gboolean                thread_done;
+	gboolean                 thread_done;
 
 	g_source_remove (rmd->check_id);
 	rmd->check_id = 0;
@@ -369,6 +382,20 @@ check_read_metadata_thread (gpointer data)
 		rmd->check_id = g_timeout_add (CHECK_THREAD_RATE, check_read_metadata_thread, rmd);
 
 	return FALSE;
+}
+
+
+static void
+query_metadata_cancelled_cb (GCancellable *cancellable,
+                             gpointer      user_data)
+{
+	QueryMetadataData       *rmd = user_data;
+	QueryMetadataThreadData *rmtd = rmd->rmtd;
+
+	g_mutex_lock (rmtd->mutex);
+	rmtd->thread_done = TRUE;
+	rmtd->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, "");
+	g_mutex_unlock (rmtd->mutex);
 }
 
 
@@ -389,7 +416,10 @@ _g_query_metadata_async (GList             *files,       /* GthFileData * list *
 	rmtd->mutex = g_mutex_new ();
 
 	rmd = g_new0 (QueryMetadataData, 1);
-	rmd->cancellable = cancellable;
+	rmd->cancellable = _g_object_ref (cancellable);
+	if (rmd->cancellable != NULL)
+		rmd->cancel_signal = g_signal_connect (rmd->cancellable, "cancelled", G_CALLBACK (query_metadata_cancelled_cb), rmd);
+
 	rmd->ready_func = ready_func;
 	rmd->user_data = user_data;
 	rmd->rmtd = rmtd;
