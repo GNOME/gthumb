@@ -1198,7 +1198,7 @@ load_data_continue (LoadData *load_data,
 	case GTH_ACTION_GO_TO:
 		filter = _gth_browser_get_file_filter (browser);
 		gth_file_list_set_filter (GTH_FILE_LIST (browser->priv->file_list), filter);
-		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), load_data->file_source, files);
+		gth_file_list_set_files (GTH_FILE_LIST (browser->priv->file_list), files);
 		g_object_unref (filter);
 		break;
 	default:
@@ -2769,7 +2769,7 @@ _gth_browser_construct_step2 (gpointer data)
 	_gth_browser_monitor_entry_points (browser);
 
 	/* force an update to load the correct icons */
-	gth_monitor_file_entry_points_changed (gth_main_get_default_monitor ());
+	/*gth_monitor_file_entry_points_changed (gth_main_get_default_monitor ()); FIXME: not required anymore ? */
 }
 
 

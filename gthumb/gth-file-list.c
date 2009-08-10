@@ -57,7 +57,6 @@ typedef enum {
 
 typedef struct {
 	GthFileListOpType    type;
-	GthFileSource       *file_source;
 	GtkTreeModel        *model;
 	GthTest             *filter;
 	GList               *file_list; /* GthFileData */
@@ -136,7 +135,6 @@ gth_file_list_op_free (GthFileListOp *op)
 {
 	switch (op->type) {
 	case GTH_FILE_LIST_OP_TYPE_SET_FILES:
-		g_object_unref (op->file_source);
 		_g_object_list_unref (op->file_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_CLEAR_FILES:
@@ -559,6 +557,8 @@ gth_file_list_construct (GthFileList *file_list)
 
 	gtk_widget_show (file_list->priv->notebook);
 	gtk_box_pack_start (GTK_BOX (file_list), file_list->priv->notebook, TRUE, TRUE, 0);
+
+	gth_dumb_notebook_show_child (GTH_DUMB_NOTEBOOK (file_list->priv->notebook), GTH_FILE_LIST_PANE_MESSAGE);
 }
 
 
@@ -874,18 +874,10 @@ gth_file_list_rename_file (GthFileList *file_list,
 
 
 static void
-gfl_set_files (GthFileList   *file_list,
-	       GthFileSource *file_source,
-	       GList         *files)
+gfl_set_files (GthFileList *file_list,
+	       GList       *files)
 {
 	GthFileStore *file_store;
-
-	if (file_list->priv->file_source != NULL) {
-		g_object_unref (file_list->priv->file_source);
-		file_list->priv->file_source = NULL;
-	}
-	if (file_source != NULL)
-		file_list->priv->file_source = g_object_ref (file_source);
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	gth_file_store_clear (file_store);
@@ -894,9 +886,8 @@ gfl_set_files (GthFileList   *file_list,
 
 
 void
-gth_file_list_set_files (GthFileList   *file_list,
-			GthFileSource *file_source,
-			GList         *files)
+gth_file_list_set_files (GthFileList *file_list,
+			 GList       *files)
 {
 	GthFileListOp *op;
 
@@ -907,7 +898,6 @@ gth_file_list_set_files (GthFileList   *file_list,
 	}
 	else {
 		op = gth_file_list_op_new (GTH_FILE_LIST_OP_TYPE_SET_FILES);
-		op->file_source = g_object_ref (file_source);
 		op->file_list = _g_object_list_ref (files);
 		_gth_file_list_queue_op (file_list, op);
 	}
@@ -1350,7 +1340,7 @@ _gth_file_list_exec_next_op (GthFileList *file_list)
 
 	switch (op->type) {
 	case GTH_FILE_LIST_OP_TYPE_SET_FILES:
-		gfl_set_files (file_list, op->file_source, op->file_list);
+		gfl_set_files (file_list, op->file_list);
 		break;
 	case GTH_FILE_LIST_OP_TYPE_ADD_FILES:
 		gfl_add_files (file_list, op->file_list);

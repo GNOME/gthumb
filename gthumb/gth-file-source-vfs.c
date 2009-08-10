@@ -95,7 +95,7 @@ gth_file_source_vfs_get_entry_points (GthFileSource *file_source)
 			name = g_volume_get_name (volume);
 			g_file_info_set_display_name (info, name);
 
-			icon = g_volume_get_icon (volume);
+			icon = g_mount_get_icon (mount);
 			g_file_info_set_icon (info, icon);
 
 			g_object_unref (icon);

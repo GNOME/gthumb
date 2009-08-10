@@ -57,7 +57,6 @@ void           gth_file_list_cancel         (GthFileList          *file_list,
 					     DoneFunc              done_func,
 					     gpointer              user_data);
 void           gth_file_list_set_files      (GthFileList          *file_list,
-					     GthFileSource        *file_source,
 					     GList                *list);
 GList *        gth_file_list_get_files      (GthFileList          *file_list,
 					     GList                *tree_path_list);

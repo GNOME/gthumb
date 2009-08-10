@@ -578,6 +578,8 @@ qam_info_ready_cb (GList    *files,
 
 void
 _g_query_all_metadata_async (GList             *files, /* GFile * list */
+			     gboolean           recursive,
+			     gboolean           follow_links,
 			     const char        *attributes,
 			     GCancellable      *cancellable,
 			     InfoReadyCallback  ready_func,
@@ -592,8 +594,8 @@ _g_query_all_metadata_async (GList             *files, /* GFile * list */
 	qam->user_data = user_data;
 
 	_g_query_info_async (files,
-			     FALSE,
-			     TRUE,
+			     recursive,
+			     follow_links,
 			     qam->attributes,
 			     qam->cancellable,
 			     qam_info_ready_cb,

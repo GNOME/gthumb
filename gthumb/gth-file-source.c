@@ -668,6 +668,8 @@ gth_file_source_read_attributes (GthFileSource  *file_source,
 
 	gio_files = gth_file_source_to_gio_file_list (file_source, files);
 	_g_query_all_metadata_async (gio_files,
+				     FALSE,
+				     TRUE,
 				     attributes,
 				     file_source->priv->cancellable,
 				     metadata_ready_cb,
