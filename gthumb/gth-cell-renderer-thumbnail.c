@@ -39,6 +39,8 @@ enum {
 	PROP_SIZE,
 	PROP_IS_ICON,
 	PROP_THUMBNAIL,
+	PROP_CHECKED,
+	PROP_SELECTED,
 	PROP_FILE
 };
 
@@ -49,6 +51,8 @@ struct _GthCellRendererThumbnailPrivate
 	gboolean     is_icon;
 	GdkPixbuf   *thumbnail;
 	GthFileData *file;
+	gboolean     checked;
+	gboolean     selected;
 };
 
 
@@ -96,6 +100,12 @@ gth_cell_renderer_thumbnail_get_property (GObject    *object,
 	case PROP_FILE:
 		g_value_set_object (value, self->priv->file);
 		break;
+	case PROP_CHECKED:
+		g_value_set_boolean (value, self->priv->checked);
+		break;
+	case PROP_SELECTED:
+		g_value_set_boolean (value, self->priv->selected);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -126,6 +136,12 @@ gth_cell_renderer_thumbnail_set_property (GObject      *object,
 	case PROP_FILE:
 		self->priv->file = g_value_dup_object (value);
 		break;
+	case PROP_CHECKED:
+		self->priv->checked = g_value_get_boolean (value);
+		break;
+	case PROP_SELECTED:
+		self->priv->selected = g_value_get_boolean (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -150,8 +166,14 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 
   	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
 
-  	image_width = gdk_pixbuf_get_width (self->priv->thumbnail);
-	image_height = gdk_pixbuf_get_height (self->priv->thumbnail);
+  	if (self->priv->thumbnail != NULL) {
+  		image_width = gdk_pixbuf_get_width (self->priv->thumbnail);
+  		image_height = gdk_pixbuf_get_height (self->priv->thumbnail);
+  	}
+  	else {
+  		image_width = 0;
+  		image_height = 0;
+  	}
 
 	if (self->priv->is_icon || (self->priv->thumbnail == NULL) || ((image_width < self->priv->size) && (image_height < self->priv->size))) {
 		calc_width  = (int) (cell->xpad * 2) + (THUMBNAIL_X_BORDER * 2) + self->priv->size;
@@ -183,189 +205,57 @@ gth_cell_renderer_thumbnail_get_size (GtkCellRenderer *cell,
 
 
 /* From gtkcellrendererpixbuf.c
- * Copyright (C) 2000  Red Hat, Inc.,  Jonathan Blandford <jrb@redhat.com> */
+ * Copyright (C) 2000  Red Hat, Inc.,  Jonathan Blandford <jrb@redhat.com>
+ *
+ * modified for gthumb */
 static GdkPixbuf *
 create_colorized_pixbuf (GdkPixbuf *src,
-			 GdkColor  *new_color)
+			 GdkColor  *new_color,
+			 gdouble    alpha)
 {
-  gint i, j;
-  gint width, height, has_alpha, src_row_stride, dst_row_stride;
-  gint red_value, green_value, blue_value;
-  guchar *target_pixels;
-  guchar *original_pixels;
-  guchar *pixsrc;
-  guchar *pixdest;
-  GdkPixbuf *dest;
+	gint i, j;
+	gint width, height, has_alpha, src_row_stride, dst_row_stride;
+	gint red_value, green_value, blue_value;
+	guchar *target_pixels;
+	guchar *original_pixels;
+	guchar *pixsrc;
+	guchar *pixdest;
+	GdkPixbuf *dest;
 
-  red_value = new_color->red / 255.0;
-  green_value = new_color->green / 255.0;
-  blue_value = new_color->blue / 255.0;
+	red_value = new_color->red / 255.0;
+	green_value = new_color->green / 255.0;
+	blue_value = new_color->blue / 255.0;
 
-  dest = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
-                         gdk_pixbuf_get_has_alpha (src),
-                         gdk_pixbuf_get_bits_per_sample (src),
-                         gdk_pixbuf_get_width (src),
-                         gdk_pixbuf_get_height (src));
+	dest = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (src),
+			       TRUE /*gdk_pixbuf_get_has_alpha (src)*/,
+			       gdk_pixbuf_get_bits_per_sample (src),
+			       gdk_pixbuf_get_width (src),
+			       gdk_pixbuf_get_height (src));
 
-  has_alpha = gdk_pixbuf_get_has_alpha (src);
-  width = gdk_pixbuf_get_width (src);
-  height = gdk_pixbuf_get_height (src);
-  src_row_stride = gdk_pixbuf_get_rowstride (src);
-  dst_row_stride = gdk_pixbuf_get_rowstride (dest);
-  target_pixels = gdk_pixbuf_get_pixels (dest);
-  original_pixels = gdk_pixbuf_get_pixels (src);
+	has_alpha = gdk_pixbuf_get_has_alpha (src);
+	width = gdk_pixbuf_get_width (src);
+	height = gdk_pixbuf_get_height (src);
+	src_row_stride = gdk_pixbuf_get_rowstride (src);
+	dst_row_stride = gdk_pixbuf_get_rowstride (dest);
+	target_pixels = gdk_pixbuf_get_pixels (dest);
+	original_pixels = gdk_pixbuf_get_pixels (src);
 
-  for (i = 0; i < height; i++) {
-    pixdest = target_pixels + i*dst_row_stride;
-    pixsrc = original_pixels + i*src_row_stride;
-    for (j = 0; j < width; j++) {
-      *pixdest++ = (*pixsrc++ * red_value) >> 8;
-      *pixdest++ = (*pixsrc++ * green_value) >> 8;
-      *pixdest++ = (*pixsrc++ * blue_value) >> 8;
-      if (has_alpha) {
-        *pixdest++ = *pixsrc++;
-      }
-    }
-  }
-  return dest;
-}
-
-
-/*
-static void
-gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
-				    GdkWindow            *window,
-				    GtkWidget            *widget,
-				    GdkRectangle         *background_area,
-				    GdkRectangle         *cell_area,
-				    GdkRectangle         *expose_area,
-				    GtkCellRendererState  flags)
-{
-	GthCellRendererThumbnail *self;
-	GtkStateType              state;
-	GdkRectangle              thumb_rect;
-	GdkRectangle              draw_rect;
-	GdkRectangle              image_rect;
-	cairo_t                  *cr;
-	cairo_path_t             *cr_path;
-	GdkPixbuf                *pixbuf;
-	GdkPixbuf                *colorized = NULL;
-
-	self = GTH_CELL_RENDERER_THUMBNAIL (cell);
-
- 	gth_cell_renderer_thumbnail_get_size (cell, widget, cell_area,
- 					      &thumb_rect.x,
- 					      &thumb_rect.y,
- 					      &thumb_rect.width,
- 					      &thumb_rect.height);
-
-	thumb_rect.x += cell_area->x + cell->xpad;
-  	thumb_rect.y += cell_area->y + cell->ypad;
-  	thumb_rect.width  -= cell->xpad * 2;
-  	thumb_rect.height -= cell->ypad * 2;
-
-	if (! gdk_rectangle_intersect (cell_area, &thumb_rect, &draw_rect)
-	    || ! gdk_rectangle_intersect (expose_area, &thumb_rect, &draw_rect))
-	{
-		return;
-	}
-
-  	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
-  		state = GTK_WIDGET_HAS_FOCUS (widget) ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
-  	else
-  		state = ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED) ? GTK_STATE_ACTIVE : GTK_STATE_NORMAL;
-
-	cr = gdk_cairo_create (window);
-
-	if (state == GTK_STATE_NORMAL)
-		gdk_cairo_set_source_color (cr, &widget->style->bg[state]);
-	else
-		gdk_cairo_set_source_color (cr, &widget->style->base[state]);
-
-#define R 7
-#define B 8
-
-	cairo_move_to (cr, thumb_rect.x, thumb_rect.y + R);
-	cairo_arc (cr, thumb_rect.x + R, thumb_rect.y + R, R, 1.0 * M_PI, 1.5 * M_PI);
-	cairo_rel_line_to (cr, thumb_rect.width - (R * 2), 0);
-	cairo_arc (cr, thumb_rect.x + thumb_rect.width - R, thumb_rect.y + R, R, 1.5 * M_PI, 2.0 * M_PI);
-	cairo_rel_line_to (cr, 0, thumb_rect.height - (R * 2));
-	cairo_arc (cr, thumb_rect.x + thumb_rect.width - R, thumb_rect.y + thumb_rect.height - R, R, 0.0 * M_PI, 0.5 * M_PI);
-	cairo_rel_line_to (cr, - (thumb_rect.width - (R * 2)), 0);
-	cairo_arc (cr, thumb_rect.x + R, thumb_rect.y + thumb_rect.height - R, R, 0.5 * M_PI, 1.0 * M_PI);
-	cairo_close_path (cr);
-	cr_path = cairo_copy_path (cr);
-	cairo_fill (cr);
-
-	gdk_cairo_set_source_color (cr, &widget->style->dark[state]);
-	cairo_set_line_width (cr, 0.5);
-	cairo_append_path (cr, cr_path);
-	cairo_stroke (cr);
-
-	cairo_path_destroy (cr_path);
-
-	if (self->priv->is_icon) {
-		gdk_cairo_set_source_color (cr, &widget->style->base[GTK_STATE_NORMAL]);
-		image_rect.width = thumb_rect.width - B;
-		image_rect.height = thumb_rect.height - B;
-		image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) / 2;
-		image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) / 2;
-		gdk_cairo_rectangle (cr, &image_rect);
-		cairo_fill (cr);
-	}
-
-	pixbuf = self->priv->thumbnail;
-
-	if (pixbuf != NULL) {
-		if ((flags & (GTK_CELL_RENDERER_SELECTED|GTK_CELL_RENDERER_PRELIT)) != 0) {
-			colorized = create_colorized_pixbuf (pixbuf, &widget->style->base[state]);
-			pixbuf = colorized;
-		}
-
-		image_rect.width = gdk_pixbuf_get_width (pixbuf);
-		image_rect.height = gdk_pixbuf_get_height (pixbuf);
-		image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) / 2;
-		image_rect.y = thumb_rect.y + (thumb_rect.height - image_rect.height) / 2;
-		gdk_cairo_set_source_pixbuf (cr, pixbuf, image_rect.x, image_rect.y);
-		gdk_cairo_rectangle (cr, &draw_rect);
-		cairo_fill (cr);
-
-		if (! self->priv->is_icon && ! gdk_pixbuf_get_has_alpha (pixbuf)) {
-			gdk_cairo_set_source_color (cr, &widget->style->dark[state]);
-			cairo_set_line_width (cr, 0.25);
-			gdk_cairo_rectangle (cr, &image_rect);
-			cairo_stroke (cr);
+	for (i = 0; i < height; i++) {
+		pixdest = target_pixels + i*dst_row_stride;
+		pixsrc = original_pixels + i*src_row_stride;
+		for (j = 0; j < width; j++) {
+			*pixdest++ = (*pixsrc++ * red_value) >> 8;
+			*pixdest++ = (*pixsrc++ * green_value) >> 8;
+			*pixdest++ = (*pixsrc++ * blue_value) >> 8;
+			if (has_alpha)
+				*pixdest++ = (*pixsrc++ * alpha);
+			else
+				*pixdest++ = (255 * alpha);
 		}
 	}
 
-	cairo_destroy (cr);
-
-	if (GTK_WIDGET_HAS_FOCUS (widget)
-	    && ((flags & GTK_CELL_RENDERER_FOCUSED) == GTK_CELL_RENDERER_FOCUSED))
-	{
-		GtkStateType focus_state;
-
-		if ((flags & GTK_CELL_RENDERER_SELECTED) != 0)
-                	focus_state = GTK_STATE_NORMAL;
-        	else
-                	focus_state = state;
-
-		gtk_paint_focus (widget->style,
-				 window,
-				 focus_state,
-				 &draw_rect,
-				 widget,
-				 "",
-				 cell_area->x + (B / 4),
-				 cell_area->y + (B / 4),
-				 cell_area->width - (B / 2) + 1,
-				 cell_area->height - (B / 2) + 1);
-	}
-
-	if (colorized != NULL)
-		g_object_unref (colorized);
+	return dest;
 }
-*/
 
 
 static void
@@ -412,6 +302,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		return;
 	}
 
+	cr = gdk_cairo_create (window);
+
     	image_rect.width = gdk_pixbuf_get_width (pixbuf);
 	image_rect.height = gdk_pixbuf_get_height (pixbuf);
 	image_rect.x = thumb_rect.x + (thumb_rect.width - image_rect.width) * .5;
@@ -426,8 +318,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 
 	if (self->priv->is_icon || (state != GTK_STATE_NORMAL) || ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
 		int R = 7;
-
-		cr = gdk_cairo_create (window);
 
 		if (state == GTK_STATE_NORMAL)
 			gdk_cairo_set_source_color (cr, &widget->style->bg[state]);
@@ -445,8 +335,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		cairo_close_path (cr);
 		cr_path = cairo_copy_path (cr);
 		cairo_fill (cr);
-
-		cairo_destroy (cr);
 	}
 
 	if (! self->priv->is_icon && ! ((image_rect.width < self->priv->size) && (image_rect.height < self->priv->size))) {
@@ -508,8 +396,8 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   				    image_rect.height + 1);*/
 	}
 
-  	if ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0) {
-		colorized = create_colorized_pixbuf (pixbuf, &style->base[state]);
+  	if (! self->priv->checked || ((flags & (GTK_CELL_RENDERER_SELECTED | GTK_CELL_RENDERER_PRELIT)) != 0)) {
+		colorized = create_colorized_pixbuf (pixbuf, &style->base[state], self->priv->checked ? 1.0 : 0.33);
 		pixbuf = colorized;
 	}
 
@@ -523,6 +411,20 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
   			 image_rect.height,
   			 GDK_RGB_DITHER_NORMAL,
   			 0, 0);
+
+  	/*if (! self->priv->checked) {
+  		cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 0.5);
+		cairo_set_line_width (cr, 6.0);
+
+		cairo_move_to (cr, thumb_rect.x, thumb_rect.y);
+		cairo_line_to (cr, thumb_rect.x + thumb_rect.width, thumb_rect.y + thumb_rect.height);
+		cairo_stroke (cr);
+		cairo_move_to (cr, thumb_rect.x + thumb_rect.width, thumb_rect.y);
+		cairo_line_to (cr, thumb_rect.x, thumb_rect.y + thumb_rect.height);
+		cairo_stroke (cr);
+  	}*/
+
+  	cairo_destroy (cr);
 
   	if (colorized != NULL)
 		g_object_unref (colorized);
@@ -577,6 +479,20 @@ gth_cell_renderer_thumbnail_class_init (GthCellRendererThumbnailClass *klass)
 							      "The file data",
 							      GTH_TYPE_FILE_DATA,
 							      G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_CHECKED,
+					 g_param_spec_boolean ("checked",
+					 		       "Checked",
+							       "Whether the image has been checked by the user",
+							       TRUE,
+							       G_PARAM_READWRITE));
+	g_object_class_install_property (object_class,
+					 PROP_SELECTED,
+					 g_param_spec_boolean ("selected",
+					 		       "Selected",
+							       "Whether the image has been selected by the user",
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 
@@ -585,6 +501,7 @@ gth_cell_renderer_thumbnail_init (GthCellRendererThumbnail *self)
 {
 	self->priv = g_new0 (GthCellRendererThumbnailPrivate, 1);
 	self->priv->size = DEFAULT_THUMBNAIL_SIZE;
+	self->priv->checked = TRUE;
 }
 
 

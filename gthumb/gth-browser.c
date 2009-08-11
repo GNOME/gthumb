@@ -442,7 +442,7 @@ gth_browser_update_title (GthBrowser *browser)
 		int           pos;
 
 		file_store = gth_browser_get_file_store (browser);
-		pos = gth_file_store_find_visible (file_store, browser->priv->current_file->file);
+		pos = gth_file_store_get_pos (file_store, browser->priv->current_file->file);
 		if (pos >= 0)
 			g_string_append_printf (title, " (%d/%d)", pos + 1, gth_file_store_n_visibles (file_store));
 	}
@@ -475,7 +475,7 @@ gth_browser_update_sensitivity (GthBrowser *browser)
 	modified = gth_browser_get_file_modified (browser);
 
 	if (browser->priv->current_file != NULL)
-		current_file_pos = gth_file_store_find_visible (gth_browser_get_file_store (browser), browser->priv->current_file->file);
+		current_file_pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), browser->priv->current_file->file);
 	else
 		current_file_pos = -1;
 	n_files = gth_file_store_n_visibles (gth_browser_get_file_store (browser));
@@ -2320,7 +2320,7 @@ folder_changed_cb (GthMonitor      *monitor,
 
 		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (browser->priv->file_list))));
 		for (scan = list; scan; scan = scan->next) {
-			if (gth_file_store_find (file_store, (GFile *) scan->data) >= 0) {
+			if (gth_file_store_find_visible (file_store, (GFile *) scan->data, NULL)) {
 				update_file_list = TRUE;
 				break;
 			}
@@ -2356,16 +2356,21 @@ folder_changed_cb (GthMonitor      *monitor,
 				link = _g_file_list_find_file (list, browser->priv->current_file->file);
 				if (link != NULL) {
 					GthFileStore *file_store;
-					int           pos;
+					GtkTreeIter   iter;
+					gboolean      found = FALSE;
 
 					current_file_deleted = TRUE;
+
 					file_store = gth_browser_get_file_store (browser);
-					pos = gth_file_store_find_visible (file_store, browser->priv->current_file->file);
-					new_file = gth_file_store_get_file_at_pos (file_store, pos + 1);
-					if (new_file == NULL)
-						new_file = gth_file_store_get_file_at_pos (file_store, pos - 1);
-					if (new_file != NULL)
-						new_file = g_object_ref (new_file);
+					if (gth_file_store_find_visible (file_store, browser->priv->current_file->file, &iter)) {
+						if (gth_file_store_get_next_visible (file_store, &iter))
+							found = TRUE;
+						else if (gth_file_store_get_prev_visible (file_store, &iter))
+							found = TRUE;
+					}
+
+					if (found)
+						new_file = g_object_ref (gth_file_store_get_file (file_store, &iter));
 				}
 			}
 
@@ -3164,7 +3169,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	/* the file list */
 
-	browser->priv->file_list = gth_file_list_new ();
+	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
 	gth_browser_set_sort_order (browser,
 				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "gth::file::mtime")),
 				    FALSE);
@@ -3806,18 +3811,22 @@ static gboolean
 view_focused_image (GthBrowser *browser)
 {
 	GthFileView *view;
-	int          pos;
-	GthFileData *focused_file;
+	int          n;
+	GtkTreeIter  iter;
+	GthFileData *focused_file = NULL;
 
 	if (browser->priv->current_file == NULL)
 		return FALSE;
 
 	view = GTH_FILE_VIEW (gth_browser_get_file_list_view (browser));
-	pos = gth_file_view_get_cursor (view);
-	if (pos == -1)
+	n = gth_file_view_get_cursor (view);
+	if (n == -1)
 		return FALSE;
 
-	focused_file = gth_file_store_get_file_at_pos (GTH_FILE_STORE (gth_file_view_get_model (view)), pos);
+	if (! gth_file_store_get_nth_visible (GTH_FILE_STORE (gth_file_view_get_model (view)), n, &iter))
+		return FALSE;
+
+	focused_file = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
 	if (focused_file == NULL)
 		return FALSE;
 
@@ -3844,15 +3853,19 @@ gth_browser_show_next_image (GthBrowser *browser,
 			pos = gth_file_list_next_file (GTH_FILE_LIST (browser->priv->file_list), -1, skip_broken, only_selected, TRUE);
 	}
 	else {
-		pos = gth_file_store_find_visible (gth_browser_get_file_store (browser), browser->priv->current_file->file);
+		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), browser->priv->current_file->file);
 		pos = gth_file_list_next_file (GTH_FILE_LIST (browser->priv->file_list), pos, skip_broken, only_selected, FALSE);
 	}
 
 	if (pos >= 0) {
-		GthFileData *file_data;
+		GtkTreeIter  iter;
 
-		file_data = gth_file_store_get_file_at_pos (GTH_FILE_STORE (gth_file_view_get_model (view)), pos);
-		gth_browser_load_file (browser, file_data, TRUE);
+		if (gth_file_store_get_nth_visible (GTH_FILE_STORE (gth_file_view_get_model (view)), pos, &iter)) {
+			GthFileData *file_data;
+
+			file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
+			gth_browser_load_file (browser, file_data, TRUE);
+		}
 	}
 
 	return (pos >= 0);
@@ -3878,15 +3891,19 @@ gth_browser_show_prev_image (GthBrowser *browser,
 			pos = gth_file_list_prev_file (GTH_FILE_LIST (browser->priv->file_list), -1, skip_broken, only_selected, TRUE);
 	}
 	else {
-		pos = gth_file_store_find_visible (gth_browser_get_file_store (browser), browser->priv->current_file->file);
+		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), browser->priv->current_file->file);
 		pos = gth_file_list_prev_file (GTH_FILE_LIST (browser->priv->file_list), pos, skip_broken, only_selected, FALSE);
 	}
 
 	if (pos >= 0) {
-		GthFileData *file_data;
+		GtkTreeIter iter;
 
-		file_data = gth_file_store_get_file_at_pos (GTH_FILE_STORE (gth_file_view_get_model (view)), pos);
-		gth_browser_load_file (browser, file_data, TRUE);
+		if (gth_file_store_get_nth_visible (GTH_FILE_STORE (gth_file_view_get_model (view)), pos, &iter)) {
+			GthFileData *file_data;
+
+			file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
+			gth_browser_load_file (browser, file_data, TRUE);
+		}
 	}
 
 	return (pos >= 0);
@@ -3900,6 +3917,7 @@ gth_browser_show_first_image (GthBrowser *browser,
 {
 	int          pos;
 	GthFileView *view;
+	GtkTreeIter  iter;
 	GthFileData *file_data;
 
 	pos = gth_file_list_first_file (GTH_FILE_LIST (browser->priv->file_list), skip_broken, only_selected);
@@ -3907,7 +3925,11 @@ gth_browser_show_first_image (GthBrowser *browser,
 		return FALSE;
 
 	view = GTH_FILE_VIEW (gth_browser_get_file_list_view (browser));
-	file_data = gth_file_store_get_file_at_pos (GTH_FILE_STORE (gth_file_view_get_model (view)), pos);
+
+	if (! gth_file_store_get_nth_visible (GTH_FILE_STORE (gth_file_view_get_model (view)), pos, &iter))
+		return FALSE;
+
+	file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
 	gth_browser_load_file (browser, file_data, TRUE);
 
 	return TRUE;
@@ -3921,6 +3943,7 @@ gth_browser_show_last_image (GthBrowser *browser,
 {
 	int          pos;
 	GthFileView *view;
+	GtkTreeIter  iter;
 	GthFileData *file_data;
 
 	pos = gth_file_list_last_file (GTH_FILE_LIST (browser->priv->file_list), skip_broken, only_selected);
@@ -3928,7 +3951,11 @@ gth_browser_show_last_image (GthBrowser *browser,
 		return FALSE;
 
 	view = GTH_FILE_VIEW (gth_browser_get_file_list_view (browser));
-	file_data = gth_file_store_get_file_at_pos (GTH_FILE_STORE (gth_file_view_get_model (view)), pos);
+
+	if (! gth_file_store_get_nth_visible (GTH_FILE_STORE (gth_file_view_get_model (view)), pos, &iter))
+		return FALSE;
+
+	file_data = gth_file_store_get_file (GTH_FILE_STORE (gth_file_view_get_model (view)), &iter);
 	gth_browser_load_file (browser, file_data, TRUE);
 
 	return TRUE;
@@ -3973,7 +4000,7 @@ _gth_browser_make_file_visible (GthBrowser  *browser,
 	GtkWidget     *view;
 	GthVisibility  visibility;
 
-	file_pos = gth_file_store_find_visible (GTH_FILE_STORE (gth_browser_get_file_store (browser)), file_data->file);
+	file_pos = gth_file_store_get_pos (GTH_FILE_STORE (gth_browser_get_file_store (browser)), file_data->file);
 	if (file_pos < 0)
 		return;
 

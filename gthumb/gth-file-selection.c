@@ -19,97 +19,106 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
- 
+
 #include "gth-file-selection.h"
 
 
-GList * 
-gth_file_selection_get_selected (GthFileSelection *self) 
+
+void
+gth_file_selection_set_selection_mode (GthFileSelection *self,
+				       GtkSelectionMode  mode)
+{
+	GTH_FILE_SELECTION_GET_INTERFACE (self)->set_selection_mode (self, mode);
+}
+
+
+GList *
+gth_file_selection_get_selected (GthFileSelection *self)
 {
 	return GTH_FILE_SELECTION_GET_INTERFACE (self)->get_selected (self);
 }
 
 
-void 
-gth_file_selection_select (GthFileSelection *self, 
-			   int               pos) 
+void
+gth_file_selection_select (GthFileSelection *self,
+			   int               pos)
 {
 	GTH_FILE_SELECTION_GET_INTERFACE (self)->select (self, pos);
 }
 
 
-void 
-gth_file_selection_unselect (GthFileSelection *self, 
-			     int               pos) 
+void
+gth_file_selection_unselect (GthFileSelection *self,
+			     int               pos)
 {
 	GTH_FILE_SELECTION_GET_INTERFACE (self)->unselect (self, pos);
 }
 
 
-void 
-gth_file_selection_select_all (GthFileSelection *self) 
+void
+gth_file_selection_select_all (GthFileSelection *self)
 {
 	GTH_FILE_SELECTION_GET_INTERFACE (self)->select_all (self);
 }
 
 
-void 
-gth_file_selection_unselect_all (GthFileSelection *self) 
+void
+gth_file_selection_unselect_all (GthFileSelection *self)
 {
 	GTH_FILE_SELECTION_GET_INTERFACE (self)->unselect_all (self);
 }
 
 
-gboolean 
-gth_file_selection_is_selected (GthFileSelection *self, 
-				int               pos) 
+gboolean
+gth_file_selection_is_selected (GthFileSelection *self,
+				int               pos)
 {
 	return GTH_FILE_SELECTION_GET_INTERFACE (self)->is_selected (self, pos);
 }
 
 
-GtkTreePath * 
-gth_file_selection_get_first_selected (GthFileSelection *self) 
+GtkTreePath *
+gth_file_selection_get_first_selected (GthFileSelection *self)
 {
 	return GTH_FILE_SELECTION_GET_INTERFACE (self)->get_first_selected (self);
 }
 
 
-GtkTreePath * 
-gth_file_selection_get_last_selected (GthFileSelection *self) 
+GtkTreePath *
+gth_file_selection_get_last_selected (GthFileSelection *self)
 {
 	return GTH_FILE_SELECTION_GET_INTERFACE (self)->get_last_selected (self);
 }
 
 
-guint 
-gth_file_selection_get_n_selected (GthFileSelection *self) 
+guint
+gth_file_selection_get_n_selected (GthFileSelection *self)
 {
 	return GTH_FILE_SELECTION_GET_INTERFACE (self)->get_n_selected (self);
 }
 
 
-GType 
-gth_file_selection_get_type (void) 
+GType
+gth_file_selection_get_type (void)
 {
 	static GType type = 0;
-	
+
 	if (type == 0) {
-		static const GTypeInfo g_define_type_info = { 
-			sizeof (GthFileSelectionIface), 
-			(GBaseInitFunc) NULL, 
-			(GBaseFinalizeFunc) NULL, 
-			(GClassInitFunc) NULL, 
-			(GClassFinalizeFunc) NULL, 
-			NULL, 
-			0, 
-			0, 
-			(GInstanceInitFunc) NULL, 
+		static const GTypeInfo g_define_type_info = {
+			sizeof (GthFileSelectionIface),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) NULL,
+			(GClassFinalizeFunc) NULL,
+			NULL,
+			0,
+			0,
+			(GInstanceInitFunc) NULL,
 			NULL
 		};
-		type = g_type_register_static (G_TYPE_INTERFACE, 
-					       "GthFileSelection", 
-					       &g_define_type_info, 
+		type = g_type_register_static (G_TYPE_INTERFACE,
+					       "GthFileSelection",
+					       &g_define_type_info,
 					       0);
 	}
 	return type;

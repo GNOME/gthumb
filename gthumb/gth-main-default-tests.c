@@ -52,6 +52,34 @@ is_image_test (GthTest       *test,
 
 
 static gint64
+is_video_test (GthTest       *test,
+	       GthFileData   *file,
+	       gconstpointer *data)
+{
+	gboolean result = FALSE;
+
+	if (file->info != NULL)
+		result = _g_mime_type_is_video (gth_file_data_get_mime_type (file));
+
+	return result;
+}
+
+
+static gint64
+is_audio_test (GthTest       *test,
+	       GthFileData   *file,
+	       gconstpointer *data)
+{
+	gboolean result = FALSE;
+
+	if (file->info != NULL)
+		result = _g_mime_type_is_audio (gth_file_data_get_mime_type (file));
+
+	return result;
+}
+
+
+static gint64
 is_media_test (GthTest       *test,
 	       GthFileData   *file,
 	       gconstpointer *data)
@@ -118,6 +146,18 @@ gth_main_register_default_tests (void)
 				"display-name", _("Images"),
 				"data-type", GTH_TEST_DATA_TYPE_NONE,
 				"get-data-func", is_image_test,
+				NULL);
+	gth_main_register_test ("file::type::is_video",
+				GTH_TYPE_TEST_SIMPLE,
+				"display-name", _("Video"),
+				"data-type", GTH_TEST_DATA_TYPE_NONE,
+				"get-data-func", is_video_test,
+				NULL);
+	gth_main_register_test ("file::type::is_audio",
+				GTH_TYPE_TEST_SIMPLE,
+				"display-name", _("Audio"),
+				"data-type", GTH_TEST_DATA_TYPE_NONE,
+				"get-data-func", is_audio_test,
 				NULL);
 	gth_main_register_test ("file::type::is_media",
 				GTH_TYPE_TEST_SIMPLE,

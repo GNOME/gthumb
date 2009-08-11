@@ -55,6 +55,8 @@ typedef struct {
 	DoneFunc       done_func;
 	gboolean       cancelling;
 	gulong         monitor_event;
+	GtkWidget     *filter_combobox;
+	GList         *general_tests;
 } DialogData;
 
 
@@ -80,9 +82,11 @@ destroy_dialog (gpointer user_data)
 	g_object_unref (data->vfs_source);
 	g_object_unref (data->builder);
 	_g_object_unref (data->source);
+	_g_object_unref (data->last_source);
 	_g_object_unref (data->cancellable);
 	_g_object_list_unref (data->files);
-	_g_object_unref (data->last_source);
+	_g_string_list_free (data->general_tests);
+
 	g_free (data);
 }
 
@@ -142,6 +146,17 @@ ok_clicked_cb (GtkWidget  *widget,
 
 
 static void
+update_sensitivity (DialogData *data)
+{
+	gboolean can_import;
+
+	can_import = data->source != NULL;
+	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
+	gtk_widget_set_sensitive (GET_WIDGET ("list_command_box"), can_import);
+}
+
+
+static void
 list_ready_cb (GList    *files,
 	       GError   *error,
 	       gpointer  user_data)
@@ -152,19 +167,19 @@ list_ready_cb (GList    *files,
 
 	if (data->cancelling) {
 		gth_file_list_cancel (GTH_FILE_LIST (data->file_list), cancel_done, data);
-		return;
 	}
-
-	if (error != NULL) {
+	else if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->dialog), _("Could not load the folder"), &error);
-		return;
+	}
+	else {
+		_g_object_unref (data->last_source);
+		data->last_source = g_file_dup (data->source);
+
+		data->files = _g_object_list_ref (files);
+		gth_file_list_set_files (GTH_FILE_LIST (data->file_list), data->files);
 	}
 
-	_g_object_unref (data->last_source);
-	data->last_source = g_file_dup (data->source);
-
-	data->files = _g_object_list_ref (files);
-	gth_file_list_set_files (GTH_FILE_LIST (data->file_list), data->files);
+	update_sensitivity (data);
 }
 
 
@@ -180,6 +195,7 @@ list_source_files (gpointer user_data)
 
 	if (data->source == NULL) {
 		gth_file_list_clear (GTH_FILE_LIST (data->file_list), _("(Empty)"));
+		update_sensitivity (data);
 		return;
 	}
 
@@ -202,6 +218,7 @@ list_source_files (gpointer user_data)
 static void
 load_file_list (DialogData *data)
 {
+	update_sensitivity (data);
 	if (_g_file_equal (data->source, data->last_source))
 		return;
 	cancel (data, list_source_files);
@@ -244,27 +261,11 @@ source_list_changed_cb (GtkWidget  *widget,
 
 
 static void
-filter_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
-			       gpointer         user_data)
-{
-	DialogData *data = user_data;
-	GthTest    *test = NULL;
-
-	if (! gtk_toggle_button_get_active (togglebutton))
-		test = gth_main_get_test ("file::type::is_media");
-
-	gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
-
-	_g_object_unref (test);
-}
-
-
-static void
 update_source_list (DialogData *data)
 {
-	gboolean    source_available = FALSE;
-	GList       *mounts;
-	GList       *scan;
+	gboolean  source_available = FALSE;
+	GList    *mounts;
+	GList    *scan;
 
 	gtk_list_store_clear (data->source_store);
 
@@ -330,6 +331,67 @@ entry_points_changed_cb (GthMonitor *monitor,
 }
 
 
+static void
+filter_combobox_changed_cb (GtkComboBox *widget,
+			    DialogData  *data)
+{
+	int         idx;
+	const char *test_id;
+	GthTest    *test;
+
+	idx = gtk_combo_box_get_active (widget);
+	test_id = g_list_nth (data->general_tests, idx)->data;
+	test = gth_main_get_test (test_id);
+	gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
+
+	g_object_unref (test);
+}
+
+
+static void
+select_all_button_clicked_cb (GtkButton  *button,
+			      DialogData *data)
+{
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
+
+	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
+	if (gth_file_store_get_first (file_store, &iter)) {
+		do {
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_CHECKED_COLUMN, TRUE,
+						  -1);
+		}
+		while (gth_file_store_get_next (file_store, &iter));
+
+		gth_file_store_exec_set (file_store);
+	}
+}
+
+
+static void
+select_none_button_clicked_cb (GtkButton  *button,
+			       DialogData *data)
+{
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
+
+	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
+	if (gth_file_store_get_first (file_store, &iter)) {
+		do {
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_CHECKED_COLUMN, FALSE,
+						  -1);
+		}
+		while (gth_file_store_get_next (file_store, &iter));
+
+		gth_file_store_exec_set (file_store);
+	}
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
@@ -337,7 +399,10 @@ dlg_photo_importer (GthBrowser *browser,
 	DialogData      *data;
 	GtkCellRenderer *renderer;
 	GthFileDataSort *sort_type;
-	GthTest         *test;
+	GList           *tests, *scan;
+	char            *general_filter;
+	int              i, active_filter;
+	int              i_general;
 
 	if (gth_browser_get_dialog (browser, "photo_importer") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "photo_importer")));
@@ -394,19 +459,51 @@ dlg_photo_importer (GthBrowser *browser,
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), data->subfolder_type_list);
 
-	data->file_list = gth_file_list_new ();
+	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_SELECTOR);
 	sort_type = gth_main_get_sort_type ("file::mtime");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), sort_type->cmp_func, FALSE);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (data->file_list), 128);
 	gth_file_list_set_caption (GTH_FILE_LIST (data->file_list), "standard::display-name,gth::file::display-size");
 
-	test = gth_main_get_test ("file::type::is_media");
-	gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
-	g_object_unref (test);
-
 	gtk_widget_show (data->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filelist_box")), data->file_list, TRUE, TRUE, 0);
+
+	/**/
+
+	tests = gth_main_get_all_tests ();
+	general_filter = "file::type::is_media"; /* default value */
+	active_filter = 0;
+
+	data->filter_combobox = gtk_combo_box_new_text ();
+	for (i = 0, i_general = -1, scan = tests; scan; scan = scan->next, i++) {
+		const char *registered_test_id = scan->data;
+		GthTest    *test;
+
+		if (strncmp (registered_test_id, "file::type::", 12) != 0)
+			continue;
+
+		i_general += 1;
+		test = gth_main_get_test (registered_test_id);
+		if (strcmp (registered_test_id, general_filter) == 0) {
+			active_filter = i_general;
+			gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
+		}
+
+		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (data->filter_combobox), gth_test_get_display_name (test));
+		g_object_unref (test);
+	}
+	data->general_tests = g_list_reverse (data->general_tests);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->filter_combobox), active_filter);
+	gtk_widget_show (data->filter_combobox);
+	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("filter_box")), data->filter_combobox);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("filter_label")), data->filter_combobox);
+	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("filter_label")), TRUE);
+
+	_g_string_list_free (tests);
 
 	/* Set the signals handlers. */
 
@@ -414,10 +511,6 @@ dlg_photo_importer (GthBrowser *browser,
 			  "delete-event",
 			  G_CALLBACK (delete_event_cb),
 			  data);
-	/*g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (destroy_cb),
-			  data);*/
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
@@ -430,9 +523,17 @@ dlg_photo_importer (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (source_list_changed_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("filter_checkbutton"),
-			  "toggled",
-			  G_CALLBACK (filter_checkbutton_toggled_cb),
+	g_signal_connect (data->filter_combobox,
+			  "changed",
+			  G_CALLBACK (filter_combobox_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("select_all_button"),
+			  "clicked",
+			  G_CALLBACK (select_all_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("select_none_button"),
+			  "clicked",
+			  G_CALLBACK (select_none_button_clicked_cb),
 			  data);
 
 	data->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
@@ -447,5 +548,4 @@ dlg_photo_importer (GthBrowser *browser,
 	gtk_widget_show (data->dialog);
 
 	update_source_list (data);
-	/*load_file_list (data);*/
 }

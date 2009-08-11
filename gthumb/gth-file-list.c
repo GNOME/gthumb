@@ -83,6 +83,7 @@ enum {
 
 struct _GthFileListPrivateData
 {
+	GthFileListType  type;
 	GtkWidget       *notebook;
 	GtkWidget       *view;
 	GtkWidget       *message;
@@ -104,6 +105,7 @@ struct _GthFileListPrivateData
 	GList           *queue; /* list of GthFileListOp */
 	GtkCellRenderer *thumbnail_renderer;
 	GtkCellRenderer *text_renderer;
+	GtkCellRenderer *checkbox_renderer;
 
 	char           **caption_attributes_v;
 
@@ -298,15 +300,18 @@ update_thumb_in_file_view (GthFileList *file_list)
 
 	pixbuf = gth_thumb_loader_get_pixbuf (file_list->priv->thumb_loader);
 	if (pixbuf != NULL) {
-		gth_file_store_queue_set (file_store,
-					  gth_file_store_get_abs_pos (file_store, file_list->priv->thumb_pos),
-					  NULL,
-					  pixbuf,
-					  FALSE,
-					  NULL);
-		file_list->priv->dirty = TRUE;
-		if (file_list->priv->dirty_event == 0)
-			file_list->priv->dirty_event = g_timeout_add (UPDATE_THUMBNAILS_TIMEOUT, flash_queue_cb, file_list);
+		GtkTreeIter iter;
+
+		if (gth_file_store_get_nth_visible (file_store, file_list->priv->thumb_pos, &iter)) {
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
+						  GTH_FILE_STORE_IS_ICON_COLUMN, FALSE,
+						  -1);
+			file_list->priv->dirty = TRUE;
+			if (file_list->priv->dirty_event == 0)
+				file_list->priv->dirty_event = g_timeout_add (UPDATE_THUMBNAILS_TIMEOUT, flash_queue_cb, file_list);
+		}
 	}
 }
 
@@ -316,27 +321,24 @@ set_mime_type_icon (GthFileList *file_list,
 		    GthFileData *file_data)
 {
 	GthFileStore *file_store;
-	int           pos;
+	GtkTreeIter   iter;
 	GIcon        *icon;
 	GdkPixbuf    *pixbuf;
 
 	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
-	pos = gth_file_store_find (file_store, file_data->file);
-	if (pos < 0)
+	if (! gth_file_store_find (file_store, file_data->file, &iter))
 		return;
 
 	icon = g_file_info_get_icon (file_data->info);
 	pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
 	gth_file_store_queue_set (file_store,
-				  pos,
-				  NULL,
-				  pixbuf,
-				  TRUE,
-				  NULL);
+				  &iter,
+				  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
+				  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+				  -1);
 
-	if (pixbuf != NULL)
-		g_object_unref (pixbuf);
+	_g_object_unref (pixbuf);
 }
 
 
@@ -434,7 +436,39 @@ file_view_drag_data_get_cb (GtkWidget        *widget,
 
 
 static void
-gth_file_list_construct (GthFileList *file_list)
+checkbox_toggled_cb (GtkCellRendererToggle *cell_renderer,
+                     char                  *path,
+                     gpointer               user_data)
+{
+	GthFileList  *file_list = user_data;
+	GtkTreePath  *tpath;
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
+
+	tpath = gtk_tree_path_new_from_string (path);
+	if (tpath == NULL)
+		return;
+
+	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, tpath)) {
+		gboolean checked;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (file_store), &iter,
+				    GTH_FILE_STORE_CHECKED_COLUMN, &checked,
+				    -1);
+		gth_file_store_set (file_store,
+				    &iter,
+				    GTH_FILE_STORE_CHECKED_COLUMN, ! checked,
+				    -1);
+	}
+
+	gtk_tree_path_free (tpath);
+}
+
+
+static void
+gth_file_list_construct (GthFileList     *file_list,
+			 GthFileListType  list_type)
 {
 	GtkWidget       *scrolled;
 	GtkAdjustment   *vadj;
@@ -444,6 +478,8 @@ gth_file_list_construct (GthFileList *file_list)
 	GtkTargetList   *target_list;
 	GtkTargetEntry  *targets;
 	int              n_targets;
+
+	file_list->priv->type = list_type;
 
 	/* thumbnail loader */
 
@@ -492,6 +528,11 @@ gth_file_list_construct (GthFileList *file_list)
 	file_list->priv->view = gth_icon_view_new_with_model (GTK_TREE_MODEL (model));
 	g_object_unref (model);
 
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_NONE);
+	else
+		gth_file_selection_set_selection_mode (GTH_FILE_SELECTION (file_list->priv->view), GTK_SELECTION_MULTIPLE);
+
 	target_list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (target_list, 0);
 	gtk_target_list_add_text_targets (target_list, 0);
@@ -510,6 +551,22 @@ gth_file_list_construct (GthFileList *file_list)
 			  G_CALLBACK (file_view_drag_data_get_cb),
 			  file_list);
 
+	/* checkbox */
+
+	file_list->priv->checkbox_renderer = renderer = gtk_cell_renderer_toggle_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
+					renderer,
+					"active", GTH_FILE_STORE_CHECKED_COLUMN,
+					NULL);
+	g_object_set (file_list->priv->checkbox_renderer,
+		      "visible", (file_list->priv->type != GTH_FILE_LIST_TYPE_NORMAL),
+		      NULL);
+	g_signal_connect (file_list->priv->checkbox_renderer,
+			  "toggled",
+			  G_CALLBACK (checkbox_toggled_cb),
+			  file_list);
+
 	/* thumbnail */
 
 	file_list->priv->thumbnail_renderer = renderer = gth_cell_renderer_thumbnail_new ();
@@ -518,12 +575,31 @@ gth_file_list_construct (GthFileList *file_list)
 		      "yalign", 1.0,
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
-					renderer,
-					"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
-					"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
-					"file", GTH_FILE_STORE_FILE_COLUMN,
-					NULL);
+
+
+	if (file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER)
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
+						renderer,
+						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
+						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
+						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
+						"selected", GTH_FILE_STORE_CHECKED_COLUMN,
+						NULL);
+	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
+						renderer,
+						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
+						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
+						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
+						"checked", GTH_FILE_STORE_CHECKED_COLUMN,
+						NULL);
+	else
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
+						renderer,
+						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
+						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
+						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
+						NULL);
 
 	/* text */
 
@@ -591,12 +667,12 @@ gth_file_list_get_type (void)
 
 
 GtkWidget*
-gth_file_list_new (void)
+gth_file_list_new (GthFileListType list_type)
 {
 	GtkWidget *widget;
 
 	widget = GTK_WIDGET (g_object_new (GTH_TYPE_FILE_LIST, NULL));
-	gth_file_list_construct (GTH_FILE_LIST (widget));
+	gth_file_list_construct (GTH_FILE_LIST (widget), list_type);
 
 	return widget;
 }
@@ -722,25 +798,26 @@ gfl_add_files (GthFileList *file_list,
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
 	for (scan = files; scan; scan = scan->next) {
-		GthFileData *fd = scan->data;
+		GthFileData *file_data = scan->data;
 		GIcon       *icon;
 		GdkPixbuf   *pixbuf = NULL;
 		GString     *metadata;
 
-		if (g_file_info_get_file_type (fd->info) != G_FILE_TYPE_REGULAR)
+		if (g_file_info_get_file_type (file_data->info) != G_FILE_TYPE_REGULAR)
 			continue;
 
-		if (gth_file_store_find (file_store, fd->file) >= 0)
+		if (gth_file_store_find (file_store, file_data->file, NULL))
 			continue;
 
-		icon = g_file_info_get_icon (fd->info);
+		icon = g_file_info_get_icon (file_data->info);
 		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
-		metadata = _gth_file_list_get_metadata (file_list, fd);
+		metadata = _gth_file_list_get_metadata (file_list, file_data);
 		gth_file_store_queue_add (file_store,
-					  fd,
+					  file_data,
 					  pixbuf,
 					  TRUE,
-					  metadata->str);
+					  metadata->str,
+					  TRUE);
 
 		g_string_free (metadata, TRUE);
 		if (pixbuf != NULL)
@@ -773,12 +850,11 @@ gfl_delete_files (GthFileList *file_list,
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	for (scan = files; scan; scan = scan->next) {
-		GFile *file = scan->data;
-		int    abs_pos;
+		GFile       *file = scan->data;
+		GtkTreeIter  iter;
 
-		abs_pos = gth_file_store_find (file_store, file);
-		if (abs_pos >= 0)
-			gth_file_store_queue_remove (file_store, abs_pos);
+		if (gth_file_store_find (file_store, file, &iter))
+			gth_file_store_queue_remove (file_store, &iter);
 	}
 	gth_file_store_exec_remove (file_store);
 	_gth_file_list_update_pane (file_list);
@@ -806,17 +882,14 @@ gfl_update_files (GthFileList *file_list,
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	for (scan = files; scan; scan = scan->next) {
-		GthFileData *fd = scan->data;
-		int          abs_pos;
+		GthFileData *file_data = scan->data;
+		GtkTreeIter  iter;
 
-		abs_pos = gth_file_store_find (file_store, fd->file);
-		if (abs_pos >= 0)
+		if (gth_file_store_find (file_store, file_data->file, &iter))
 			gth_file_store_queue_set (file_store,
-						  abs_pos,
-						  fd,
-						  NULL,
-						  -1,
-						  NULL);
+						  &iter,
+						  GTH_FILE_STORE_FILE_DATA_COLUMN, file_data,
+						  -1);
 	}
 	gth_file_store_exec_set (file_store);
 	_gth_file_list_update_pane (file_list);
@@ -841,20 +914,14 @@ gfl_rename_file (GthFileList *file_list,
 		 GthFileData *file_data)
 {
 	GthFileStore *file_store;
-	int           abs_pos;
+	GtkTreeIter   iter;
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	abs_pos = gth_file_store_find (file_store, file);
-	if (abs_pos < 0)
-		return;
-
-	gth_file_store_queue_set (file_store,
-				  abs_pos,
-				  file_data,
-				  NULL,
-				  -1,
-				  NULL);
-	gth_file_store_exec_set (file_store);
+	if (gth_file_store_find (file_store, file, &iter))
+		gth_file_store_set (file_store,
+				    &iter,
+				    GTH_FILE_STORE_FILE_DATA_COLUMN, file_data,
+				    -1);
 	_gth_file_list_update_pane (file_list);
 }
 
@@ -989,34 +1056,32 @@ gfl_enable_thumbs (GthFileList *file_list,
 		   gboolean     enable)
 {
 	GthFileStore *file_store;
-	GList        *files, *scan;
-	int           pos;
+	GtkTreeIter   iter;
 
 	file_list->priv->load_thumbs = enable;
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
-	files = gth_file_store_get_all (file_store);
-	pos = 0;
-	for (scan = files; scan; scan = scan->next) {
-		GthFileData *fd = scan->data;
-		GIcon       *icon;
-		GdkPixbuf   *pixbuf = NULL;
+	if (gth_file_store_get_first (file_store, &iter)) {
+		do {
+			GthFileData *file_data;
+			GIcon       *icon;
+			GdkPixbuf   *pixbuf;
 
-		fd->thumb_loaded = FALSE;
-		fd->thumb_created = FALSE;
-		fd->error = FALSE;
+			file_data = gth_file_store_get_file (file_store, &iter);
+			icon = g_file_info_get_icon (file_data->info);
+			pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
+						  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+						  -1);
 
-		icon = g_file_info_get_icon (fd->info);
-		pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
+			_g_object_unref (pixbuf);
+		}
+		while (gth_file_store_get_next (file_store, &iter));
 
-		gth_file_store_set (file_store, pos, NULL, pixbuf, TRUE, NULL);
-
-		if (pixbuf != NULL)
-			g_object_unref (pixbuf);
-
-		pos++;
+		gth_file_store_exec_set (file_store);
 	}
-	_g_object_list_unref (files);
 
 	start_update_next_thumb (file_list);
 }
@@ -1057,11 +1122,9 @@ void
 gth_file_list_set_caption (GthFileList *file_list,
 			   const char  *attributes)
 {
-	GthFileStore  *file_store;
-	GList         *list;
-	GList         *scan;
-	int            pos;
-	gboolean       metadata_visible;
+	GthFileStore *file_store;
+	GtkTreeIter   iter;
+	gboolean      metadata_visible;
 
 	g_strfreev (file_list->priv->caption_attributes_v);
 	file_list->priv->caption_attributes_v = g_strsplit (attributes, ",", -1);
@@ -1073,25 +1136,24 @@ gth_file_list_set_caption (GthFileList *file_list,
 		      NULL);
 
 	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
+	if (gth_file_store_get_first (file_store, &iter)) {
+		do {
+			GthFileData *file_data;
+			GString     *metadata;
 
-	list = gth_file_store_get_all (file_store);
-	for (scan = list, pos = 0; scan; scan = scan->next, pos++) {
-		GthFileData *file_data = scan->data;
-		GString     *metadata;
+			file_data = gth_file_store_get_file (file_store, &iter);
+			metadata = _gth_file_list_get_metadata (file_list, file_data);
+			gth_file_store_queue_set (file_store,
+						  &iter,
+						  GTH_FILE_STORE_METADATA_COLUMN, metadata,
+						  -1);
 
-		metadata = _gth_file_list_get_metadata (file_list, file_data);
-		gth_file_store_queue_set (file_store,
-					  pos,
-					  NULL,
-					  NULL,
-					  -1,
-					  metadata->str);
+			g_string_free (metadata, TRUE);
+		}
+		while (gth_file_store_get_next (file_store, &iter));
 
-		g_string_free (metadata, TRUE);
+		gth_file_store_exec_set (file_store);
 	}
-	gth_file_store_exec_set (file_store);
-
-	_g_object_list_unref (list);
 }
 
 
@@ -1123,24 +1185,22 @@ set_loading_icon (GthFileList *file_list,
 		  GthFileData *file_data)
 {
 	GthFileStore *file_store;
-	int           pos;
+	GtkTreeIter   iter;
 	GIcon        *icon;
 	GdkPixbuf    *pixbuf;
 
 	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 
-	pos = gth_file_store_find (file_store, file_data->file);
-	if (pos < 0)
+	if (! gth_file_store_find (file_store, file_data->file, &iter))
 		return;
 
 	icon = g_themed_icon_new ("image-loading");
 	pixbuf = gth_icon_cache_get_pixbuf (file_list->priv->icon_cache, icon);
 	gth_file_store_queue_set (file_store,
-				  pos,
-				  NULL,
-				  pixbuf,
-				  TRUE,
-				  NULL);
+				  &iter,
+				  GTH_FILE_STORE_THUMBNAIL_COLUMN, pixbuf,
+				  GTH_FILE_STORE_IS_ICON_COLUMN, TRUE,
+				  -1);
 
 	_g_object_unref (pixbuf);
 	g_object_unref (icon);

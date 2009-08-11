@@ -42,6 +42,8 @@ struct _GthFileSelectionIface {
 
 	/*< virtual functions >*/
 
+	void          (*set_selection_mode) (GthFileSelection *self,
+					     GtkSelectionMode  mode);
 	GList *       (*get_selected)       (GthFileSelection *self);
 	void          (*select)             (GthFileSelection *self,
 					     int               pos);
@@ -57,6 +59,8 @@ struct _GthFileSelectionIface {
 };
 
 GType         gth_file_selection_get_type           (void);
+void          gth_file_selection_set_selection_mode (GthFileSelection *self,
+						     GtkSelectionMode  mode);
 GList *       gth_file_selection_get_selected       (GthFileSelection *self);
 void          gth_file_selection_select             (GthFileSelection *self,
 						     int               pos);

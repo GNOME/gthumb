@@ -561,9 +561,9 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 {
 	GthImageViewerPage *self;
 	GthFileStore       *file_store;
-	int                 file_pos;
-	GthFileData        *next_file_data;
-	GthFileData        *prev_file_data;
+	GtkTreeIter         iter;
+	GthFileData        *next_file_data = NULL;
+	GthFileData        *prev_file_data = NULL;
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
@@ -572,9 +572,17 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	self->priv->file_data = gth_file_data_dup (file_data);
 
 	file_store = gth_browser_get_file_store (self->priv->browser);
-	file_pos = gth_file_store_find_visible (file_store, file_data->file);
-	next_file_data = gth_file_store_get_file_at_pos (file_store, file_pos + 1);
-	prev_file_data = gth_file_store_get_file_at_pos (file_store, file_pos - 1);
+	if (gth_file_store_find_visible (file_store, file_data->file, &iter)) {
+		GtkTreeIter iter2;
+
+		iter2 = iter;
+		if (gth_file_store_get_next_visible (file_store, &iter2))
+			next_file_data = gth_file_store_get_file (file_store, &iter2);
+
+		iter2 = iter;
+		if (gth_file_store_get_prev_visible (file_store, &iter2))
+			prev_file_data = gth_file_store_get_file (file_store, &iter2);
+	}
 
 	gth_image_preloader_load (self->priv->preloader,
 				  file_data,

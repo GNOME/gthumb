@@ -35,10 +35,11 @@ static GType column_type[GTH_FILE_STORE_N_COLUMNS] = { G_TYPE_INVALID, };
 
 
 typedef struct {
-	GthFileData *file;
+	GthFileData *file_data;
 	GdkPixbuf   *thumbnail;
 	gboolean     is_icon;
 	char        *metadata;
+	gboolean     checked;
 
 	/*< private >*/
 
@@ -83,9 +84,9 @@ _gth_file_row_set_file (GthFileRow  *row,
 {
 	if (file != NULL) {
 		g_object_ref (file);
-		if (row->file != NULL)
-			g_object_unref (row->file);
-		row->file = file;
+		if (row->file_data != NULL)
+			g_object_unref (row->file_data);
+		row->file_data = file;
 	}
 }
 
@@ -125,10 +126,11 @@ _gth_file_row_copy (GthFileRow *row)
 	GthFileRow *row2;
 
 	row2 = _gth_file_row_new ();
-	_gth_file_row_set_file (row2, row->file);
+	_gth_file_row_set_file (row2, row->file_data);
 	_gth_file_row_set_thumbnail (row2, row->thumbnail);
 	_gth_file_row_set_metadata (row2, row->metadata);
 	row2->is_icon = row->is_icon;
+	row2->checked = row->checked;
 	row2->pos = row->pos;
 	row2->abs_pos = row->abs_pos;
 	row2->visible = row->visible;
@@ -141,8 +143,8 @@ _gth_file_row_copy (GthFileRow *row)
 static void
 _gth_file_row_free (GthFileRow *row)
 {
-	if (row->file != NULL)
-		g_object_unref (row->file);
+	if (row->file_data != NULL)
+		g_object_unref (row->file_data);
 	if (row->thumbnail != NULL)
 		g_object_unref (row->thumbnail);
 	g_free (row->metadata);
@@ -222,11 +224,12 @@ gth_file_store_init (GthFileStore *file_store)
 	file_store->priv->filter = gth_test_new ();
 
 	if (column_type[0] == G_TYPE_INVALID) {
-		column_type[GTH_FILE_STORE_FILE_COLUMN] = GTH_TYPE_FILE_DATA;
+		column_type[GTH_FILE_STORE_FILE_DATA_COLUMN] = GTH_TYPE_FILE_DATA;
 		column_type[GTH_FILE_STORE_THUMBNAIL_COLUMN] = GDK_TYPE_PIXBUF;
 		column_type[GTH_FILE_STORE_IS_ICON_COLUMN] = G_TYPE_BOOLEAN;
 		column_type[GTH_FILE_STORE_FILENAME_COLUMN] = G_TYPE_STRING;
 		column_type[GTH_FILE_STORE_METADATA_COLUMN] = G_TYPE_STRING;
+		column_type[GTH_FILE_STORE_CHECKED_COLUMN] = G_TYPE_BOOLEAN;
 	}
 }
 
@@ -326,9 +329,9 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 	row = (GthFileRow*) iter->user_data;
 
 	switch (column) {
-	case GTH_FILE_STORE_FILE_COLUMN:
+	case GTH_FILE_STORE_FILE_DATA_COLUMN:
 		g_value_init (value, GTH_TYPE_FILE_DATA);
-		g_value_set_object (value, row->file);
+		g_value_set_object (value, row->file_data);
 		break;
 	case GTH_FILE_STORE_THUMBNAIL_COLUMN:
 		g_value_init (value, GDK_TYPE_PIXBUF);
@@ -340,11 +343,15 @@ gth_file_store_get_value (GtkTreeModel *tree_model,
 		break;
 	case GTH_FILE_STORE_FILENAME_COLUMN:
 		g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (value, g_file_info_get_display_name (row->file->info));
+		g_value_set_string (value, g_file_info_get_display_name (row->file_data->info));
 		break;
 	case GTH_FILE_STORE_METADATA_COLUMN:
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (value, row->metadata);
+		break;
+	case GTH_FILE_STORE_CHECKED_COLUMN:
+		g_value_init (value, G_TYPE_BOOLEAN);
+		g_value_set_boolean (value, row->checked);
 		break;
 	}
 }
@@ -501,7 +508,7 @@ gth_file_store_drag_data_get (GtkTreeDragSource *drag_source,
 		char **uris;
 
 		uris = g_new (char *, 2);
-		uris[0] = g_file_get_uri (row->file->file);
+		uris[0] = g_file_get_uri (row->file_data->file);
 		uris[1] = NULL;
 		gtk_selection_data_set_uris (selection_data, uris);
 		retval = TRUE;
@@ -511,7 +518,7 @@ gth_file_store_drag_data_get (GtkTreeDragSource *drag_source,
 	else if (gtk_selection_data_targets_include_text (selection_data)) {
 		char *parse_name;
 
-		parse_name = g_file_get_parse_name (row->file->file);
+		parse_name = g_file_get_parse_name (row->file_data->file);
 		gtk_selection_data_set_text (selection_data, parse_name, -1);
 		retval = TRUE;
 
@@ -526,23 +533,14 @@ gth_file_store_drag_data_delete (GtkTreeDragSource *drag_source,
                                  GtkTreePath       *path)
 {
 	GthFileStore *file_store;
-	int          *indices, n;
-	GthFileRow   *row;
+	GtkTreeIter   iter;
 
 	g_return_val_if_fail (path != NULL, FALSE);
 
 	file_store = GTH_FILE_STORE (drag_source);
-
-	indices = gtk_tree_path_get_indices (path);
-	n = indices[0];
-	if ((n < 0) || (n >= file_store->priv->num_rows))
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, path))
 		return FALSE;
-
-	row = file_store->priv->rows[n];
-	g_return_val_if_fail (row != NULL, FALSE);
-	g_return_val_if_fail (row->pos == n, FALSE);
-
-	gth_file_store_remove (file_store, row->abs_pos);
+	gth_file_store_remove (file_store, &iter);
 
 	return TRUE;
 }
@@ -648,7 +646,7 @@ _gth_file_store_get_files (GthFileStore *file_store)
 
 	for (i = 0; i < file_store->priv->tot_rows; i++) {
 		GthFileRow *row = file_store->priv->all_rows[i];
-		files = g_list_prepend (files, g_object_ref (row->file));
+		files = g_list_prepend (files, g_object_ref (row->file_data));
 	}
 
 	return  g_list_reverse (files);
@@ -686,7 +684,7 @@ campare_row_func (gconstpointer a,
 		result = 1 /*strcmp (gth_file_data_get_filename_sort_key (row_a->file),
 			       gth_file_data_get_filename_sort_key (row_b->file))*/;
 	else
-		result = file_store->priv->cmp_func (row_a->file, row_b->file);
+		result = file_store->priv->cmp_func (row_a->file_data, row_b->file_data);
 
 	if (file_store->priv->inverse_sort)
 		result = result * -1;
@@ -820,7 +818,7 @@ g_print ("UPDATE VISIBILITY\n");
 		GthFileRow *row = all_rows[i];
 
 		row->abs_pos = i;
-		files = g_list_prepend (files, g_object_ref (row->file));
+		files = g_list_prepend (files, g_object_ref (row->file_data));
 	}
 	files = g_list_reverse (files);
 
@@ -831,7 +829,7 @@ g_print ("UPDATE VISIBILITY\n");
 
 		for (i = 0; i < all_rows_n; i++) {
 			row = all_rows[i];
-			if (row->file == file)
+			if (row->file_data == file)
 				break;
 		}
 
@@ -865,7 +863,7 @@ g_print ("UPDATE VISIBILITY\n");
 		/* search old_rows[i] in new_rows */
 
 		for (j = 0; j < new_rows_n; j++)
-			if (old_rows[i]->file == new_rows[j]->file)
+			if (old_rows[i]->file_data == new_rows[j]->file_data)
 				break;
 
 		if (j < new_rows_n)
@@ -890,7 +888,7 @@ g_print ("  DELETE: %d\n", old_rows[i]->pos);
 		for (i = 0, j = 0; i < old_rows_n; i++) {
 			if (old_rows[i] != NULL) {
 				old_rows[j] = old_rows[i];
-				old_rows[j]->abs_pos = j;
+				/*old_rows[j]->abs_pos = j; FIXME: check if this is correct */
 				j++;
 			}
 		}
@@ -912,7 +910,7 @@ g_print ("  DELETE: %d\n", old_rows[i]->pos);
 			/* search new_rows[i] in old_rows */
 
 			for (j = 0; j < old_rows_n; j++)
-				if (new_rows[i]->file == old_rows[j]->file)
+				if (new_rows[i]->file_data == old_rows[j]->file_data)
 					break;
 
 			if (j >= old_rows_n)
@@ -989,7 +987,7 @@ g_print ("\n");
 		GtkTreePath *path;
 		GtkTreeIter  iter;
 
-		if ((i < file_store->priv->num_rows) && (new_rows[i]->file == file_store->priv->rows[i]->file))
+		if ((i < file_store->priv->num_rows) && (new_rows[i]->file_data == file_store->priv->rows[i]->file_data))
 			continue;
 
 #ifdef DEBUG_FILE_STORE
@@ -1083,7 +1081,7 @@ gth_file_store_get_all (GthFileStore *file_store)
 	int    i;
 
 	for (i = 0; i < file_store->priv->tot_rows; i++)
-		list = g_list_prepend (list, g_object_ref (file_store->priv->all_rows[i]->file));
+		list = g_list_prepend (list, g_object_ref (file_store->priv->all_rows[i]->file_data));
 
 	return g_list_reverse (list);
 }
@@ -1103,7 +1101,7 @@ gth_file_store_get_visibles (GthFileStore *file_store)
 	int    i;
 
 	for (i = 0; i < file_store->priv->num_rows; i++)
-		list = g_list_prepend (list, g_object_ref (file_store->priv->rows[i]->file));
+		list = g_list_prepend (list, g_object_ref (file_store->priv->rows[i]->file_data));
 
 	return g_list_reverse (list);
 }
@@ -1122,48 +1120,17 @@ gth_file_store_get_file (GthFileStore *file_store,
 {
 	g_return_val_if_fail (VALID_ITER (iter, file_store), NULL);
 
-	return ((GthFileRow *) iter->user_data)->file;
+	return ((GthFileRow *) iter->user_data)->file_data;
 }
 
 
-GthFileData *
-gth_file_store_get_file_at_pos (GthFileStore *file_store,
-				int           pos)
-{
-	GthFileData *file_data = NULL;
-	GtkTreePath *path;
-	GtkTreeIter  iter;
-
-	if (pos < 0)
-		return NULL;
-
-	path = gtk_tree_path_new ();
-	gtk_tree_path_append_index (path, pos);
-	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (file_store), &iter, path))
-		file_data = gth_file_store_get_file (file_store, &iter);
-
-	gtk_tree_path_free (path);
-
-	return file_data;
-}
-
-
-GthFileData *
-gth_file_store_get_file_at_abs_pos (GthFileStore *file_store,
-				    int           abs_pos)
-{
-	if ((abs_pos < 0) || (abs_pos >= file_store->priv->tot_rows))
-		return NULL;
-	else
-		return g_object_ref (file_store->priv->all_rows[abs_pos]->file);
-}
-
-
-int
+gboolean
 gth_file_store_find (GthFileStore *file_store,
-		     GFile        *file)
+		     GFile        *file,
+		     GtkTreeIter  *iter)
 {
-	int i;
+	gboolean found = FALSE;
+	int      i;
 
 	for (i = 0; i < file_store->priv->tot_rows; i++) {
 		GthFileRow *row = file_store->priv->all_rows[i];
@@ -1171,19 +1138,27 @@ gth_file_store_find (GthFileStore *file_store,
 		if (row == NULL)
 			continue;
 
-		if (g_file_equal (row->file->file, file))
-			return row->abs_pos;
+		if (g_file_equal (row->file_data->file, file)) {
+			if (iter != NULL) {
+				iter->stamp = file_store->priv->stamp;
+				iter->user_data = row;
+			}
+			found = TRUE;
+			break;
+		}
 	}
 
-	return -1;
+	return found;
 }
 
 
-int
+gboolean
 gth_file_store_find_visible (GthFileStore *file_store,
-			     GFile        *file)
+			     GFile        *file,
+			     GtkTreeIter  *iter)
 {
-	int i;
+	gboolean found = FALSE;
+	int      i;
 
 	for (i = 0; i < file_store->priv->num_rows; i++) {
 		GthFileRow *row = file_store->priv->rows[i];
@@ -1191,11 +1166,149 @@ gth_file_store_find_visible (GthFileStore *file_store,
 		if (row == NULL)
 			continue;
 
-		if (g_file_equal (row->file->file, file))
-			return row->pos;
+		if (g_file_equal (row->file_data->file, file)) {
+			if (iter != NULL) {
+				iter->stamp = file_store->priv->stamp;
+				iter->user_data = row;
+			}
+			found = TRUE;
+			break;
+		}
 	}
 
-	return -1;
+	return found;
+}
+
+
+int
+gth_file_store_get_pos (GthFileStore *file_store,
+			GFile        *file)
+{
+	GtkTreeIter iter;
+	GthFileRow *row;
+
+	if (! gth_file_store_find_visible (file_store, file, &iter))
+		return -1;
+
+	row = iter.user_data;
+
+	return row->pos;
+}
+
+
+gboolean
+gth_file_store_get_nth (GthFileStore *file_store,
+		        int           n,
+		        GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if (file_store->priv->tot_rows <= n)
+		return FALSE;
+
+	row = file_store->priv->all_rows[n];
+	g_return_val_if_fail (row != NULL, FALSE);
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = row;
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+gth_file_store_get_next (GthFileStore *file_store,
+			 GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return FALSE;
+
+	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
+
+  	row = (GthFileRow*) iter->user_data;
+	if (row->abs_pos + 1 >= file_store->priv->tot_rows)
+		return FALSE;
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = file_store->priv->all_rows[row->abs_pos + 1];
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+gth_file_store_get_nth_visible (GthFileStore *file_store,
+				int           n,
+				GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if (file_store->priv->num_rows <= n)
+		return FALSE;
+
+	row = file_store->priv->rows[n];
+	g_return_val_if_fail (row != NULL, FALSE);
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = row;
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+gth_file_store_get_next_visible (GthFileStore *file_store,
+				 GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return FALSE;
+
+	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
+
+  	row = (GthFileRow*) iter->user_data;
+	if (row->pos + 1 >= file_store->priv->num_rows)
+		return FALSE;
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = file_store->priv->rows[row->pos + 1];
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+gth_file_store_get_prev_visible (GthFileStore *file_store,
+				 GtkTreeIter  *iter)
+{
+	GthFileRow *row;
+
+	if ((iter == NULL) || (iter->user_data == NULL))
+		return FALSE;
+
+	g_return_val_if_fail (VALID_ITER (iter, file_store), FALSE);
+
+  	row = (GthFileRow*) iter->user_data;
+	if (row->pos == 0)
+		return FALSE;
+
+	if (iter != NULL) {
+		iter->stamp = file_store->priv->stamp;
+		iter->user_data = file_store->priv->rows[row->pos - 1];
+	}
+
+	return TRUE;
 }
 
 
@@ -1204,9 +1317,10 @@ gth_file_store_add (GthFileStore *file_store,
 		    GthFileData  *file,
 		    GdkPixbuf    *thumbnail,
 		    gboolean      is_icon,
-		    const char   *metadata)
+		    const char   *metadata,
+		    gboolean      checked)
 {
-	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, metadata);
+	gth_file_store_queue_add (file_store, file, thumbnail, is_icon, metadata, checked);
 	gth_file_store_exec_add (file_store);
 }
 
@@ -1216,31 +1330,19 @@ gth_file_store_queue_add (GthFileStore *file_store,
 			  GthFileData  *file,
 			  GdkPixbuf    *thumbnail,
 			  gboolean      is_icon,
-			  const char   *metadata)
+			  const char   *metadata,
+			  gboolean      checked)
 {
 	GthFileRow *row;
 
 	g_return_if_fail (file != NULL);
 
-	/*file_store->priv->tot_rows++;
-	if (file_store->priv->tot_rows > file_store->priv->size) {
-		file_store->priv->size += REALLOC_STEP;
-		file_store->priv->all_rows = g_realloc (file_store->priv->all_rows, sizeof (GthFileRow*) * file_store->priv->size);
-	}
-
 	row = _gth_file_row_new ();
 	_gth_file_row_set_file (row, file);
 	_gth_file_row_set_thumbnail (row, thumbnail);
 	_gth_file_row_set_metadata (row, metadata);
 	row->is_icon = is_icon;
-  	row->abs_pos = file_store->priv->tot_rows - 1;
-	file_store->priv->all_rows[row->abs_pos] = row;*/
-
-	row = _gth_file_row_new ();
-	_gth_file_row_set_file (row, file);
-	_gth_file_row_set_thumbnail (row, thumbnail);
-	_gth_file_row_set_metadata (row, metadata);
-	row->is_icon = is_icon;
+	row->checked = checked;
 	file_store->priv->queue = g_list_prepend (file_store->priv->queue, row);
 }
 
@@ -1253,41 +1355,87 @@ gth_file_store_exec_add (GthFileStore *file_store)
 }
 
 
+static void
+gth_file_store_queue_set_valist (GthFileStore *file_store,
+			         GtkTreeIter  *iter,
+			         va_list       var_args)
+{
+	GthFileRow  *row;
+	int          column;
+
+	g_return_if_fail (VALID_ITER (iter, file_store));
+
+  	row = (GthFileRow*) iter->user_data;
+
+  	column = va_arg (var_args, int);
+  	while (column != -1) {
+  		GthFileData *file_data;
+  		GdkPixbuf   *thumbnail;
+  		const char  *metadata;
+
+  		switch (column) {
+  		case GTH_FILE_STORE_FILE_DATA_COLUMN:
+  			file_data = va_arg (var_args, GthFileData *);
+  			g_return_if_fail (GTH_IS_FILE_DATA (file_data));
+  			_gth_file_row_set_file (row, file_data);
+  			file_store->priv->update_filter = TRUE;
+  			row->changed = TRUE;
+  			break;
+  		case GTH_FILE_STORE_THUMBNAIL_COLUMN:
+  			thumbnail = va_arg (var_args, GdkPixbuf *);
+  			g_return_if_fail (GDK_IS_PIXBUF (thumbnail));
+
+  			_gth_file_row_set_thumbnail (row, thumbnail);
+  			row->changed = TRUE;
+  			break;
+  		case GTH_FILE_STORE_IS_ICON_COLUMN:
+  			row->is_icon = va_arg (var_args, gboolean);
+  			row->changed = TRUE;
+  			break;
+  		case GTH_FILE_STORE_METADATA_COLUMN:
+  			metadata = va_arg (var_args, const char *);
+  			_gth_file_row_set_metadata (row, metadata);
+  			row->changed = TRUE;
+  			break;
+  		case GTH_FILE_STORE_CHECKED_COLUMN:
+  			row->checked = va_arg (var_args, gboolean);
+  			row->changed = TRUE;
+  			break;
+  		default:
+  			g_warning ("%s: Invalid column number %d added to iter (remember to end your list of columns with a -1)", G_STRLOC, column);
+  			break;
+  		}
+
+  		column = va_arg (var_args, int);
+  	}
+}
+
+
 void
 gth_file_store_set (GthFileStore *file_store,
-		    int           abs_pos,
-		    GthFileData  *file,
-		    GdkPixbuf    *thumbnail,
-		    gboolean      is_icon,
-		    const char   *metadata)
+		    GtkTreeIter  *iter,
+		    ...)
 {
-	gth_file_store_queue_set (file_store, abs_pos, file, thumbnail, is_icon, metadata);
+	va_list var_args;
+
+	va_start (var_args, iter);
+	gth_file_store_queue_set_valist (file_store, iter, var_args);
+	va_end (var_args);
+
 	gth_file_store_exec_set (file_store);
 }
 
 
 void
 gth_file_store_queue_set (GthFileStore *file_store,
-			  int           abs_pos,
-			  GthFileData  *file,
-			  GdkPixbuf    *thumbnail,
-			  gboolean      is_icon,
-			  const char   *metadata)
+			  GtkTreeIter  *iter,
+			  ...)
 {
-	GthFileRow *row;
+	va_list var_args;
 
-	g_return_if_fail ((abs_pos >= 0) && (abs_pos < file_store->priv->tot_rows));
-
-	row = file_store->priv->all_rows[abs_pos];
-	_gth_file_row_set_file (row, file);
-	_gth_file_row_set_thumbnail (row, thumbnail);
-	_gth_file_row_set_metadata (row, metadata);
-	if (is_icon != -1)
-		row->is_icon = is_icon;
-	row->changed = TRUE;
-
-	if (file != NULL)
-		file_store->priv->update_filter = TRUE;
+	va_start (var_args, iter);
+	gth_file_store_queue_set_valist (file_store, iter, var_args);
+	va_end (var_args);
 }
 
 
@@ -1320,20 +1468,24 @@ gth_file_store_exec_set (GthFileStore *file_store)
 
 void
 gth_file_store_remove (GthFileStore *file_store,
-		       int           abs_pos)
+		       GtkTreeIter  *iter)
 {
-	gth_file_store_queue_remove (file_store, abs_pos);
+	gth_file_store_queue_remove (file_store, iter);
 	gth_file_store_exec_remove (file_store);
 }
 
 
 void
 gth_file_store_queue_remove (GthFileStore *file_store,
-			     int           abs_pos)
+			     GtkTreeIter  *iter)
 {
-	g_return_if_fail ((abs_pos >= 0) && (abs_pos < file_store->priv->tot_rows));
+	GthFileRow  *row;
 
-	file_store->priv->queue = g_list_prepend (file_store->priv->queue, file_store->priv->all_rows[abs_pos]);
+	g_return_if_fail (VALID_ITER (iter, file_store));
+
+  	row = (GthFileRow*) iter->user_data;
+
+	file_store->priv->queue = g_list_prepend (file_store->priv->queue, file_store->priv->all_rows[row->abs_pos]);
 }
 
 

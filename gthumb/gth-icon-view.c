@@ -248,6 +248,14 @@ gth_icon_view_unset_drag_dest (GthFileView *self)
 }
 
 
+static void
+gth_icon_view_real_set_selection_mode (GthFileSelection *base,
+				       GtkSelectionMode  mode)
+{
+	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (base), mode);
+}
+
+
 static GList *
 gth_icon_view_real_get_selected (GthFileSelection *base)
 {
@@ -443,6 +451,7 @@ static void
 gth_icon_view_gth_file_selection_interface_init (GthFileSelectionIface *iface)
 {
 	gth_icon_view_gth_file_selection_parent_iface = g_type_interface_peek_parent (iface);
+	iface->set_selection_mode = gth_icon_view_real_set_selection_mode;
 	iface->get_selected = gth_icon_view_real_get_selected;
 	iface->select = gth_icon_view_real_select;
 	iface->unselect = gth_icon_view_real_unselect;

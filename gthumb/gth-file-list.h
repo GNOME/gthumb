@@ -31,6 +31,12 @@
 
 G_BEGIN_DECLS
 
+typedef enum {
+	GTH_FILE_LIST_TYPE_NORMAL,
+	GTH_FILE_LIST_TYPE_BROWSER,
+	GTH_FILE_LIST_TYPE_SELECTOR
+} GthFileListType;
+
 #define GTH_TYPE_FILE_LIST            (gth_file_list_get_type ())
 #define GTH_FILE_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_LIST, GthFileList))
 #define GTH_FILE_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_FILE_LIST, GthFileListClass))
@@ -52,7 +58,7 @@ struct _GthFileListClass {
 };
 
 GType          gth_file_list_get_type       (void);
-GtkWidget *    gth_file_list_new            (void);
+GtkWidget *    gth_file_list_new            (GthFileListType       list_type);
 void           gth_file_list_cancel         (GthFileList          *file_list,
 					     DoneFunc              done_func,
 					     gpointer              user_data);

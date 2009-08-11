@@ -41,11 +41,12 @@ typedef struct _GthFileStorePrivate  GthFileStorePrivate;
 typedef struct _GthFileStoreClass    GthFileStoreClass;
 
 enum {
-	GTH_FILE_STORE_FILE_COLUMN,
+	GTH_FILE_STORE_FILE_DATA_COLUMN,
 	GTH_FILE_STORE_THUMBNAIL_COLUMN,
 	GTH_FILE_STORE_IS_ICON_COLUMN,
 	GTH_FILE_STORE_FILENAME_COLUMN,
 	GTH_FILE_STORE_METADATA_COLUMN,
+	GTH_FILE_STORE_CHECKED_COLUMN,
 	GTH_FILE_STORE_N_COLUMNS
 };
 
@@ -60,59 +61,67 @@ struct _GthFileStoreClass
 	GObjectClass __parent_class;
 };
 
-GType           gth_file_store_get_type        (void) G_GNUC_CONST;
-GthFileStore *  gth_file_store_new             (void);
-int             gth_file_store_get_abs_pos     (GthFileStore         *file_store,
-					        int                   pos);
-void            gth_file_store_set_filter      (GthFileStore         *file_store,
-					        GthTest              *filter);
-void            gth_file_store_set_sort_func   (GthFileStore         *file_store,
-					        GthFileDataCompFunc   cmp_func,
-					        gboolean              inverse_sort);
-GList *         gth_file_store_get_all         (GthFileStore         *file_store);
-int             gth_file_store_n_files         (GthFileStore         *file_store);
-GList *         gth_file_store_get_visibles    (GthFileStore         *file_store);
-int             gth_file_store_n_visibles      (GthFileStore         *file_store);
-GthFileData *   gth_file_store_get_file        (GthFileStore         *file_store,
-					        GtkTreeIter          *iter);
-GthFileData *   gth_file_store_get_file_at_pos (GthFileStore         *file_store,
-					        int                   pos);
-GthFileData *   gth_file_store_get_file_at_abs_pos (GthFileStore     *file_store,
-					        int                   abs_pos);
-int             gth_file_store_find            (GthFileStore         *file_store,
-					        GFile                *file);
-int             gth_file_store_find_visible    (GthFileStore         *file_store,
-					        GFile                *file);
-void            gth_file_store_add             (GthFileStore         *file_store,
-					        GthFileData          *file,
-					        GdkPixbuf            *thumbnail,
-					        gboolean              is_icon,
-					        const char           *metadata);
-void            gth_file_store_queue_add       (GthFileStore         *file_store,
-					        GthFileData          *file,
-					        GdkPixbuf            *thumbnail,
-					        gboolean              is_icon,
-					        const char           *metadata);
-void            gth_file_store_exec_add        (GthFileStore         *file_store);
-void            gth_file_store_set             (GthFileStore         *file_store,
-					        int                   abs_pos,
-					        GthFileData          *file,
-					        GdkPixbuf            *thumbnail,
-					        gboolean              is_icon,
-					        const char           *metadata);
-void            gth_file_store_queue_set       (GthFileStore         *file_store,
-					        int                   abs_pos,
-					        GthFileData          *file,
-					        GdkPixbuf            *thumbnail,
-					        gboolean              is_icon,
-					        const char           *metadata);
-void            gth_file_store_exec_set        (GthFileStore         *file_store);
-void            gth_file_store_remove          (GthFileStore         *file_store,
-					        int                   abs_pos);
-void            gth_file_store_queue_remove    (GthFileStore         *file_store,
-					        int                   abs_pos);
-void            gth_file_store_exec_remove     (GthFileStore         *file_store);
-void            gth_file_store_clear           (GthFileStore         *file_store);
+GType           gth_file_store_get_type          (void) G_GNUC_CONST;
+GthFileStore *  gth_file_store_new               (void);
+void            gth_file_store_set_filter        (GthFileStore         *file_store,
+					          GthTest              *filter);
+void            gth_file_store_set_sort_func     (GthFileStore         *file_store,
+					          GthFileDataCompFunc   cmp_func,
+					          gboolean              inverse_sort);
+GList *         gth_file_store_get_all           (GthFileStore         *file_store);
+int             gth_file_store_n_files           (GthFileStore         *file_store);
+GList *         gth_file_store_get_visibles      (GthFileStore         *file_store);
+int             gth_file_store_n_visibles        (GthFileStore         *file_store);
+GthFileData *   gth_file_store_get_file          (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+gboolean        gth_file_store_find              (GthFileStore         *file_store,
+						  GFile                *file,
+					          GtkTreeIter          *iter);
+gboolean        gth_file_store_find_visible      (GthFileStore         *file_store,
+						  GFile                *file,
+					          GtkTreeIter          *iter);
+int             gth_file_store_get_pos           (GthFileStore         *file_store,
+						  GFile                *file);
+#define         gth_file_store_get_first(file_store, iter) gth_file_store_get_nth (file_store, 0, iter)
+gboolean        gth_file_store_get_nth           (GthFileStore         *file_store,
+						  int                   n,
+					          GtkTreeIter          *iter);
+gboolean        gth_file_store_get_next          (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+#define         gth_file_store_get_first_visible(file_store, iter) gth_file_store_get_nth_visible(file_store, 0, iter)
+gboolean        gth_file_store_get_nth_visible   (GthFileStore         *file_store,
+						  int                   n,
+					          GtkTreeIter          *iter);
+gboolean        gth_file_store_get_next_visible  (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+gboolean        gth_file_store_get_prev_visible  (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+void            gth_file_store_add               (GthFileStore         *file_store,
+					          GthFileData          *file,
+					          GdkPixbuf            *thumbnail,
+					          gboolean              is_icon,
+					          const char           *metadata,
+					          gboolean              checked);
+void            gth_file_store_queue_add         (GthFileStore         *file_store,
+					          GthFileData          *file,
+					          GdkPixbuf            *thumbnail,
+					          gboolean              is_icon,
+					          const char           *metadata,
+					          gboolean              checked);
+void            gth_file_store_exec_add          (GthFileStore         *file_store);
+void            gth_file_store_set               (GthFileStore         *file_store,
+					          GtkTreeIter          *iter,
+					          ...);
+void            gth_file_store_queue_set         (GthFileStore         *file_store,
+					          GtkTreeIter          *iter,
+					          ...);
+void            gth_file_store_exec_set          (GthFileStore         *file_store);
+void            gth_file_store_remove            (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+void            gth_file_store_queue_remove      (GthFileStore         *file_store,
+					          GtkTreeIter          *iter);
+void            gth_file_store_exec_remove       (GthFileStore         *file_store);
+void            gth_file_store_clear             (GthFileStore         *file_store);
 
 G_END_DECLS
 
