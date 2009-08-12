@@ -45,6 +45,13 @@ extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/data/gthumb-image-viewer.schemas.in
 [type: gettext/glade]extensions/image_viewer/data/ui/image-viewer-preferences.ui
+extensions/photo_importer/data/gthumb_photo_importer.schemas.in
+[type: gettext/glade]extensions/photo_importer/data/ui/photo-importer.ui
+extensions/photo_importer/actions.c
+extensions/photo_importer/callbacks.c
+extensions/photo_importer/dlg-photo-importer.c
+extensions/photo_importer/gth-import-task.c
+extensions/photo_importer/main.c
 extensions/search/actions.c
 extensions/search/callbacks.c
 extensions/search/gth-search.c
