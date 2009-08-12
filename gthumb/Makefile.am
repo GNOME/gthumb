@@ -248,7 +248,7 @@ gthumb_CFLAGS =							\
 
 gth-enum-types.h: $(PUBLIC_HEADER_FILES) $(GLIB_MKENUMS)
 	$(GLIB_MKENUMS) \
-		--fhead "#ifndef GTH_ENUM__TYPES_H\n#define GTH_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
+		--fhead "#ifndef GTH_ENUM_TYPES_H\n#define GTH_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTH_ENUM_TYPES_H */" \

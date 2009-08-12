@@ -1940,6 +1940,9 @@ _g_file_append_path (GFile      *file,
 	char  *new_uri;
 	GFile *new_file;
 
+	if (path == NULL)
+		return g_file_dup (file);
+
 	uri = g_file_get_uri (file);
 	escaped = g_uri_escape_string (path, G_URI_RESERVED_CHARS_ALLOWED_IN_PATH, FALSE);
 	new_uri = _g_build_uri (uri, escaped, NULL);

@@ -59,6 +59,9 @@ struct _GthFileStore
 struct _GthFileStoreClass
 {
 	GObjectClass __parent_class;
+
+	void (*visibility_changed) (GthFileStore *self);
+	void (*check_changed)      (GthFileStore *self);
 };
 
 GType           gth_file_store_get_type          (void) G_GNUC_CONST;
@@ -72,6 +75,8 @@ GList *         gth_file_store_get_all           (GthFileStore         *file_sto
 int             gth_file_store_n_files           (GthFileStore         *file_store);
 GList *         gth_file_store_get_visibles      (GthFileStore         *file_store);
 int             gth_file_store_n_visibles        (GthFileStore         *file_store);
+GList *         gth_file_store_get_checked       (GthFileStore         *file_store);
+int             gth_file_store_get_n_checked     (GthFileStore         *file_store);
 GthFileData *   gth_file_store_get_file          (GthFileStore         *file_store,
 					          GtkTreeIter          *iter);
 gboolean        gth_file_store_find              (GthFileStore         *file_store,

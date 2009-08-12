@@ -576,30 +576,23 @@ gth_file_list_construct (GthFileList     *file_list,
 		      NULL);
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (file_list->priv->view), renderer, FALSE);
 
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
+					renderer,
+					"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
+					"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
+					"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
+					NULL);
 
 	if (file_list->priv->type == GTH_FILE_LIST_TYPE_BROWSER)
-		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
-						renderer,
-						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
-						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
-						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
-						"selected", GTH_FILE_STORE_CHECKED_COLUMN,
-						NULL);
+		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (file_list->priv->view),
+					       renderer,
+					       "selected",
+					       GTH_FILE_STORE_CHECKED_COLUMN);
 	else if (file_list->priv->type == GTH_FILE_LIST_TYPE_SELECTOR)
-		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
-						renderer,
-						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
-						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
-						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
-						"checked", GTH_FILE_STORE_CHECKED_COLUMN,
-						NULL);
-	else
-		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (file_list->priv->view),
-						renderer,
-						"thumbnail", GTH_FILE_STORE_THUMBNAIL_COLUMN,
-						"is_icon", GTH_FILE_STORE_IS_ICON_COLUMN,
-						"file", GTH_FILE_STORE_FILE_DATA_COLUMN,
-						NULL);
+		gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (file_list->priv->view),
+					       renderer,
+					       "checked",
+					       GTH_FILE_STORE_CHECKED_COLUMN);
 
 	/* text */
 

@@ -31,7 +31,15 @@
 #define REALLOC_STEP 32
 
 
+enum {
+	CHECK_CHANGED,
+	VISIBILITY_CHANGED,
+	LAST_SIGNAL
+};
+
+
 static GType column_type[GTH_FILE_STORE_N_COLUMNS] = { G_TYPE_INVALID, };
+static guint gth_file_store_signals[LAST_SIGNAL] = { 0 };
 
 
 typedef struct {
@@ -65,6 +73,7 @@ struct _GthFileStorePrivate
 	GthFileDataCompFunc  cmp_func;
 	gboolean             inverse_sort;
 	gboolean             update_filter;
+	gboolean             check_changed;
 };
 
 
@@ -210,6 +219,25 @@ gth_file_store_class_init (GthFileStoreClass *class)
 
 	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_file_store_finalize;
+
+	gth_file_store_signals[CHECK_CHANGED] =
+		g_signal_new ("check_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileStoreClass, check_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	gth_file_store_signals[VISIBILITY_CHANGED] =
+		g_signal_new ("visibility_changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileStoreClass, visibility_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
 }
 
 
@@ -1013,6 +1041,9 @@ g_print ("  INSERT: %d\n", i);
 		row_inserted = TRUE;
 	}
 
+	g_signal_emit (file_store, gth_file_store_signals[VISIBILITY_CHANGED], 0);
+	g_signal_emit (file_store, gth_file_store_signals[CHECK_CHANGED], 0);
+
 	g_free (new_rows);
 	g_free (old_rows);
 }
@@ -1111,6 +1142,40 @@ int
 gth_file_store_n_visibles (GthFileStore *file_store)
 {
 	return file_store->priv->num_rows;
+}
+
+
+GList *
+gth_file_store_get_checked (GthFileStore *file_store)
+{
+	GList *list = NULL;
+	int    i;
+
+	for (i = 0; i < file_store->priv->num_rows; i++) {
+		GthFileRow *row = file_store->priv->rows[i];
+
+		if ((row != NULL) && row->checked)
+			list = g_list_prepend (list, g_object_ref (file_store->priv->rows[i]->file_data));
+	}
+
+	return g_list_reverse (list);
+}
+
+
+int
+gth_file_store_get_n_checked (GthFileStore *file_store)
+{
+	int n = 0;
+	int i;
+
+	for (i = 0; i < file_store->priv->num_rows; i++) {
+		GthFileRow *row = file_store->priv->rows[i];
+
+		if ((row != NULL) && row->checked)
+			n++;
+	}
+
+	return n;
 }
 
 
@@ -1378,13 +1443,12 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   			file_data = va_arg (var_args, GthFileData *);
   			g_return_if_fail (GTH_IS_FILE_DATA (file_data));
   			_gth_file_row_set_file (row, file_data);
-  			file_store->priv->update_filter = TRUE;
   			row->changed = TRUE;
+  			file_store->priv->update_filter = TRUE;
   			break;
   		case GTH_FILE_STORE_THUMBNAIL_COLUMN:
   			thumbnail = va_arg (var_args, GdkPixbuf *);
   			g_return_if_fail (GDK_IS_PIXBUF (thumbnail));
-
   			_gth_file_row_set_thumbnail (row, thumbnail);
   			row->changed = TRUE;
   			break;
@@ -1400,6 +1464,7 @@ gth_file_store_queue_set_valist (GthFileStore *file_store,
   		case GTH_FILE_STORE_CHECKED_COLUMN:
   			row->checked = va_arg (var_args, gboolean);
   			row->changed = TRUE;
+  			file_store->priv->check_changed = TRUE;
   			break;
   		default:
   			g_warning ("%s: Invalid column number %d added to iter (remember to end your list of columns with a -1)", G_STRLOC, column);
@@ -1462,6 +1527,10 @@ gth_file_store_exec_set (GthFileStore *file_store)
 	if (file_store->priv->update_filter) {
 		_gth_file_store_update_visibility (file_store, NULL);
 		file_store->priv->update_filter = FALSE;
+	}
+	else if (file_store->priv->check_changed) {
+		g_signal_emit (file_store, gth_file_store_signals[CHECK_CHANGED], 0);
+		file_store->priv->check_changed = FALSE;
 	}
 }
 

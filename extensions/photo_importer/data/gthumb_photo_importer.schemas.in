@@ -1,0 +1,57 @@
+<gconfschemafile>
+    <schemalist>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/destination</key>
+	<applyto>/apps/gthumb/ext/photo_importer/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/subfolder_type</key>
+	<applyto>/apps/gthumb/ext/photo_importer/subfolder_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are: none, file_day, file_month, today, now, custom
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/gthumb/ext/photo_importer/subfolder_format</key>
+        <applyto>/apps/gthumb/ext/photo_importer/subfolder_format</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default></default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/delete_from_camera</key>
+	<applyto>/apps/gthumb/ext/photo_importer/delete_from_camera</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

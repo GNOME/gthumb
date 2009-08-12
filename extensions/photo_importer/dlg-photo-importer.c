@@ -24,7 +24,9 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "dlg-photo-importer.h"
+#include "enum-types.h"
 #include "gth-import-task.h"
+#include "preferences.h"
 
 
 enum {
@@ -64,8 +66,21 @@ static void
 destroy_dialog (gpointer user_data)
 {
 	DialogData *data = user_data;
+	GFile      *destination;
 
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
+
+	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	if (destination != NULL) {
+		char *uri;
+
+		uri = g_file_get_uri (destination);
+		eel_gconf_set_string (PREF_PHOTO_IMPORT_DESTINATION, uri);
+
+		g_free (uri);
+	}
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton"))));
+	eel_gconf_set_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list)));
 
 	if (data->import) {
 /*
@@ -153,6 +168,45 @@ update_sensitivity (DialogData *data)
 	can_import = data->source != NULL;
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("list_command_box"), can_import);
+}
+
+
+static void
+update_status (DialogData *data)
+{
+	GthFileStore *file_store;
+	int           n_checked;
+	goffset       size;
+	GList        *checked;
+	GList        *scan;
+	char         *ssize;
+	char         *status;
+
+	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
+
+	n_checked = 0;
+	size = 0;
+	checked = gth_file_store_get_checked (file_store);
+	for (scan = checked; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		size += g_file_info_get_size (file_data->info);
+		n_checked += 1;
+	}
+	ssize = g_format_size_for_display (size);
+	status = g_strdup_printf (_("Files: %d (%s)"), n_checked, ssize);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("status_label")), status);
+
+	g_free (status);
+	g_free (ssize);
+}
+
+
+static void
+file_store_changed_cb (GthFileStore *file_store,
+		       DialogData   *data)
+{
+	update_status (data);
 }
 
 
@@ -392,6 +446,91 @@ select_none_button_clicked_cb (GtkButton  *button,
 }
 
 
+static void
+update_destination (DialogData *data)
+{
+	GFile             *destination;
+	GTimeVal           timeval;
+	GthSubfolderType   subfolder_type;
+	GDate             *date;
+	char             **parts = NULL;
+	char              *child;
+	GFile             *destination_example;
+	char              *uri;
+	char              *example;
+
+	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
+	if (destination == NULL)
+		return;
+
+	subfolder_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list));
+	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
+		g_get_current_time (&timeval);
+	else
+		_g_time_val_from_exif_date ("2005:04:03 11:34:18", &timeval);
+
+	date = g_date_new ();
+	g_date_set_time_val (date, &timeval);
+
+	switch (subfolder_type) {
+	case GTH_SUBFOLDER_TYPE_NONE:
+		break;
+	case GTH_SUBFOLDER_TYPE_FILE_DATE:
+	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
+		parts = g_new0 (char *, 4);
+		parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
+		parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
+		parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
+		break;
+	}
+
+	if (parts == NULL)
+		child = NULL;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton"))))
+		child = g_strjoinv ("-", parts);
+	else
+		child = g_strjoinv ("/", parts);
+
+	destination_example = _g_file_append_path (destination, child);
+	uri = g_file_get_uri (destination_example);
+	example = g_strdup_printf (_("example: %s"), uri);
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("example_label")), example);
+
+	gtk_widget_set_sensitive (GET_WIDGET ("single_subfolder_checkbutton"), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
+
+	g_free (example);
+	g_free (uri);
+	g_object_unref (destination_example);
+	g_strfreev (parts);
+	g_date_free (date);
+	g_object_unref (destination);
+}
+
+
+static void
+subfolder_type_list_changed_cb (GtkWidget  *widget,
+				DialogData *data)
+{
+	update_destination (data);
+}
+
+
+static void
+destination_selection_changed_cb (GtkWidget  *widget,
+				  DialogData *data)
+{
+	update_destination (data);
+}
+
+
+static void
+subfolder_hierarchy_checkbutton_toggled_cb (GtkWidget  *widget,
+					    DialogData *data)
+{
+	update_destination (data);
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
@@ -447,17 +586,14 @@ dlg_photo_importer (GthBrowser *browser,
 					NULL);
 
 	data->subfolder_type_list = _gtk_combo_box_new_with_texts (_("No subfolder"),
-								   _("Day photo taken"),
-								   _("Month photo taken"),
+								   _("File date"),
 								   _("Current date"),
-								   _("Current date and time"),
-								   _("Custom"),
 								   NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), 0);
 	gtk_widget_show (data->subfolder_type_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("subfolder_type_box")), data->subfolder_type_list, TRUE, TRUE, 0);
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), data->subfolder_type_list);
+	/*gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), data->subfolder_type_list);*/
 
 	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_SELECTOR);
 	sort_type = gth_main_get_sort_type ("file::mtime");
@@ -468,6 +604,8 @@ dlg_photo_importer (GthBrowser *browser,
 
 	gtk_widget_show (data->file_list);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filelist_box")), data->file_list, TRUE, TRUE, 0);
+
+	/*gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("files_label")), data->file_list);*/
 
 	/**/
 
@@ -505,6 +643,34 @@ dlg_photo_importer (GthBrowser *browser,
 
 	_g_string_list_free (tests);
 
+	{
+		char  *last_destination;
+		GFile *folder;
+
+		last_destination = eel_gconf_get_string (PREF_PHOTO_IMPORT_DESTINATION, NULL);
+		if ((last_destination == NULL) || (*last_destination == 0)) {
+			char *default_path;
+
+			default_path = xdg_user_dir_lookup ("PICTURES");
+			folder = g_file_new_for_path (default_path);
+
+			g_free (default_path);
+		}
+		else
+			folder = g_file_new_for_uri (last_destination);
+
+		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")),
+							  folder,
+							  NULL);
+
+		g_object_unref (folder);
+		g_free (last_destination);
+	}
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, FALSE));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE));
+	update_destination (data);
+
 	/* Set the signals handlers. */
 
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -534,6 +700,26 @@ dlg_photo_importer (GthBrowser *browser,
 	g_signal_connect (GET_WIDGET ("select_none_button"),
 			  "clicked",
 			  G_CALLBACK (select_none_button_clicked_cb),
+			  data);
+	g_signal_connect (gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list)))),
+			  "visibility_changed",
+			  G_CALLBACK (file_store_changed_cb),
+			  data);
+	g_signal_connect (gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list)))),
+			  "check_changed",
+			  G_CALLBACK (file_store_changed_cb),
+			  data);
+	g_signal_connect (data->subfolder_type_list,
+			  "changed",
+			  G_CALLBACK (subfolder_type_list_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("destination_filechooserbutton"),
+			  "selection_changed",
+			  G_CALLBACK (destination_selection_changed_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("single_subfolder_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (subfolder_hierarchy_checkbutton_toggled_cb),
 			  data);
 
 	data->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
