@@ -1461,41 +1461,6 @@ copy_data__copy_current_file_ready_cb (GError   *error,
 }
 
 
-static GFile *
-get_destination_file (GFile *source,
-		      GFile *source_base,
-		      GFile *destination_folder)
-{
-	char       *source_uri;
-	const char *source_suffix;
-	char       *destination_folder_uri;
-	char       *destination_uri;
-	GFile      *destination;
-
-	source_uri = g_file_get_uri (source);
-	if (source_base != NULL) {
-		char *source_base_uri;
-
-		source_base_uri = g_file_get_uri (source_base);
-		source_suffix = source_uri + strlen (source_base_uri);
-
-		g_free (source_base_uri);
-	}
-	else
-		source_suffix = _g_uri_get_basename (source_uri);
-
-	destination_folder_uri = g_file_get_uri (destination_folder);
-	destination_uri = g_strconcat (destination_folder_uri, "/", source_suffix, NULL);
-	destination = g_file_new_for_uri (destination_uri);
-
-	g_free (destination_uri);
-	g_free (destination_folder_uri);
-	g_free (source_uri);
-
-	return destination;
-}
-
-
 static void
 copy_data__copy_current_file (CopyData *copy_data)
 {
@@ -1513,7 +1478,7 @@ copy_data__copy_current_file (CopyData *copy_data)
 		_g_object_unref (copy_data->source_base);
 		copy_data->source_base = g_file_get_parent (source->file);
 	}
-	destination = get_destination_file (source->file, copy_data->source_base, copy_data->destination);
+	destination = _g_file_get_destination (source->file, copy_data->source_base, copy_data->destination);
 
 	flags = copy_data->flags;
 	if ((flags & G_FILE_COPY_ALL_METADATA) && (g_hash_table_lookup (copy_data->source_hash, source->file) == NULL))

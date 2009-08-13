@@ -93,14 +93,23 @@ destroy_dialog (gpointer user_data)
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
 
 	if (data->import) {
-		GthTask *task;
+		GthFileStore *file_store;
+		GList        *files;
+		GthTask      *task;
 
-		task = gth_import_task_new (destination,
+		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
+		files = gth_file_store_get_checked (file_store);
+		task = gth_import_task_new (data->browser,
+					    files,
+					    destination,
 					    subfolder_type,
 					    single_subfolder,
 					    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))),
 					    delete_imported);
 		gth_browser_exec_task (data->browser, task, FALSE);
+
+		g_object_unref (task);
+		_g_object_list_unref (files);
 	}
 
 	_g_object_unref (destination);
@@ -460,15 +469,39 @@ select_none_button_clicked_cb (GtkButton  *button,
 }
 
 
+static GthFileData *
+create_example_file_data (void)
+{
+	GFile       *file;
+	GFileInfo   *info;
+	GthFileData *file_data;
+	GthMetadata *metadata;
+
+	file = g_file_new_for_uri ("file://home/user/document.txt");
+	info = g_file_info_new ();
+	file_data = gth_file_data_new (file, info);
+
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "raw", "2005:03:09 13:23:51",
+				 "formatted", "2005:03:09 13:23:51",
+				 NULL);
+	g_file_info_set_attribute_object (info, "Embedded::Image::DateTime", G_OBJECT (metadata));
+
+	g_object_unref (metadata);
+	g_object_unref (info);
+	g_object_unref (file);
+
+	return file_data;
+}
+
+
 static void
 update_destination (DialogData *data)
 {
 	GFile             *destination;
-	GTimeVal           timeval;
 	GthSubfolderType   subfolder_type;
-	GDate             *date;
-	char             **parts = NULL;
-	char              *child;
+	gboolean           single_subfolder;
+	GthFileData       *example_data;
 	GFile             *destination_example;
 	char              *uri;
 	char              *example;
@@ -478,34 +511,11 @@ update_destination (DialogData *data)
 		return;
 
 	subfolder_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list));
-	if (subfolder_type == GTH_SUBFOLDER_TYPE_CURRENT_DATE)
-		g_get_current_time (&timeval);
-	else
-		_g_time_val_from_exif_date ("2005:04:03 11:34:18", &timeval);
+	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
 
-	date = g_date_new ();
-	g_date_set_time_val (date, &timeval);
+	example_data = create_example_file_data ();
+	destination_example = gth_import_task_get_file_destination (example_data, destination, subfolder_type, single_subfolder);
 
-	switch (subfolder_type) {
-	case GTH_SUBFOLDER_TYPE_NONE:
-		break;
-	case GTH_SUBFOLDER_TYPE_FILE_DATE:
-	case GTH_SUBFOLDER_TYPE_CURRENT_DATE:
-		parts = g_new0 (char *, 4);
-		parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
-		parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
-		parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
-		break;
-	}
-
-	if (parts == NULL)
-		child = NULL;
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton"))))
-		child = g_strjoinv ("-", parts);
-	else
-		child = g_strjoinv ("/", parts);
-
-	destination_example = _g_file_append_path (destination, child);
 	uri = g_file_get_uri (destination_example);
 	example = g_strdup_printf (_("example: %s"), uri);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("example_label")), example);
@@ -515,8 +525,7 @@ update_destination (DialogData *data)
 	g_free (example);
 	g_free (uri);
 	g_object_unref (destination_example);
-	g_strfreev (parts);
-	g_date_free (date);
+	g_object_unref (example_data);
 	g_object_unref (destination);
 }
 
