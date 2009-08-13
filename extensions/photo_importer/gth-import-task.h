@@ -25,6 +25,7 @@
 
 #include <glib.h>
 #include <gthumb.h>
+#include "preferences.h"
 
 G_BEGIN_DECLS
 
@@ -49,10 +50,11 @@ struct _GthImportTaskClass {
 };
 
 GType         gth_import_task_get_type     (void);
-GthTask *     gth_import_task_new          (GFile       *destination,
-					    const char  *subfolder,
-					    char       **tags,
-					    gboolean     move);
+GthTask *     gth_import_task_new          (GFile            *destination,
+					    GthSubfolderType  subfolder_type,
+					    gboolean          single_subfolder,
+					    const char       *tags,
+					    gboolean          delete_imported);
 
 G_END_DECLS
 

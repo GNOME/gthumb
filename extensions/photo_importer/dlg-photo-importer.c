@@ -65,8 +65,11 @@ typedef struct {
 static void
 destroy_dialog (gpointer user_data)
 {
-	DialogData *data = user_data;
-	GFile      *destination;
+	DialogData       *data = user_data;
+	GFile            *destination;
+	gboolean          single_subfolder;
+	GthSubfolderType  subfolder_type;
+	gboolean          delete_imported;
 
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
 
@@ -79,17 +82,28 @@ destroy_dialog (gpointer user_data)
 
 		g_free (uri);
 	}
-	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton"))));
-	eel_gconf_set_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list)));
+
+	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, single_subfolder);
+
+	subfolder_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list));
+	eel_gconf_set_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, subfolder_type);
+
+	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
 
 	if (data->import) {
-/*
 		GthTask *task;
 
-		task = gth_import_task_new (destination, subfolder, categories, delete);
+		task = gth_import_task_new (destination,
+					    subfolder_type,
+					    single_subfolder,
+					    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))),
+					    delete_imported);
 		gth_browser_exec_task (data->browser, task, FALSE);
-*/
 	}
+
+	_g_object_unref (destination);
 
 	gtk_widget_destroy (data->dialog);
 	gth_browser_set_dialog (data->browser, "photo_importer", NULL);
@@ -531,6 +545,14 @@ subfolder_hierarchy_checkbutton_toggled_cb (GtkWidget  *widget,
 }
 
 
+static void
+preferences_button_clicked_cb (GtkWidget  *widget,
+			       DialogData *data)
+{
+	gtk_window_present (GTK_WINDOW (GET_WIDGET ("preferences_dialog")));
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
@@ -667,6 +689,7 @@ dlg_photo_importer (GthBrowser *browser,
 		g_free (last_destination);
 	}
 
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, FALSE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE));
 	update_destination (data);
@@ -721,6 +744,18 @@ dlg_photo_importer (GthBrowser *browser,
 			  "toggled",
 			  G_CALLBACK (subfolder_hierarchy_checkbutton_toggled_cb),
 			  data);
+	g_signal_connect (GET_WIDGET ("preferences_button"),
+			  "clicked",
+			  G_CALLBACK (preferences_button_clicked_cb),
+			  data);
+	g_signal_connect (GET_WIDGET ("preferences_dialog"),
+			  "delete-event",
+			  G_CALLBACK (gtk_widget_hide_on_delete),
+			  NULL);
+	g_signal_connect_swapped (GET_WIDGET ("p_close_button"),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_hide_on_delete),
+				  GET_WIDGET ("preferences_dialog"));
 
 	data->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
 						"entry_points_changed",

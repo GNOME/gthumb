@@ -114,10 +114,11 @@ gth_import_task_get_type (void)
 
 
 GthTask *
-gth_import_task_new (GFile       *destination,
-		     const char  *subfolder,
-		     char       **tags,
-		     gboolean     move)
+gth_import_task_new (GFile            *destination,
+		     GthSubfolderType  subfolder_type,
+		     gboolean          single_subfolder,
+		     const char       *tags,
+		     gboolean          delete_imported)
 {
 	GthImportTask *self;
 
