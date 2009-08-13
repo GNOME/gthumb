@@ -97,9 +97,23 @@ copy_progress_cb (GObject    *object,
 		  gpointer    user_data)
 {
 	GthImportTask *self = user_data;
+	char          *local_details = NULL;
 
-	fraction = (((double) self->priv->current_file_size * fraction) + self->priv->copied_size) / self->priv->tot_size;
+	if (! pulse) {
+		char *s1;
+		char *s2;
+
+		s1 = g_format_size_for_display (((double) self->priv->current_file_size * fraction) + self->priv->copied_size);
+		s2 = g_format_size_for_display (self->priv->tot_size);
+		local_details = g_strdup_printf (_("%s of %s"), s1, s2);
+		details = local_details;
+
+		fraction = (((double) self->priv->current_file_size * fraction) + self->priv->copied_size) / self->priv->tot_size;
+	}
+
 	gth_task_progress (GTH_TASK (self), description, details, pulse, fraction);
+
+	g_free (local_details);
 }
 
 
@@ -177,6 +191,13 @@ static void
 gth_import_task_exec (GthTask *base)
 {
 	GthImportTask *self = (GthImportTask *) base;
+	GList         *scan;
+
+	self->priv->tot_size = 0;
+	for (scan = self->priv->files; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+		self->priv->tot_size += g_file_info_get_size (file_data->info);
+	}
 
 	self->priv->current = self->priv->files;
 	import_current_file (self);
