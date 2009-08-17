@@ -51,10 +51,9 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 	GthFileData *sidecar_file_data;
 
 	/* this function is executed in a secondary thread, so calling
-	 * slow sync functions, such as obtain_local_file, is not a
-	 * problem. */
+	 * slow sync functions is not a problem. */
 
-	exiv2_read_metadata (file_data->file, file_data->info);
+	exiv2_read_metadata_from_file (file_data->file, file_data->info, NULL);
 
 	/* sidecar data */
 

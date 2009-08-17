@@ -144,6 +144,50 @@ GthMetadataInfo exiv2_metadata_info[] = {
 };
 
 
+static void
+update_exif_dimensions (GFileInfo    *info,
+		        GthTransform  transform)
+{
+	g_return_if_fail (info != NULL);
+
+	if ((transform == GTH_TRANSFORM_ROTATE_90)
+	    || (transform == GTH_TRANSFORM_ROTATE_270)
+	    || (transform == GTH_TRANSFORM_TRANSPOSE)
+	    || (transform == GTH_TRANSFORM_TRANSVERSE))
+	{
+		_g_file_info_swap_attributes (info, "Exif::Photo::PixelXDimension", "Exif::Photo::PixelYDimension");
+		_g_file_info_swap_attributes (info, "Exif::Image::XResolution", "Exif::Image::YResolution");
+		_g_file_info_swap_attributes (info, "Exif::Photo::FocalPlaneXResolution", "Exif::Photo::FocalPlaneYResolution");
+		_g_file_info_swap_attributes (info, "Exif::Image::ImageWidth", "Exif::Image::ImageLength");
+		_g_file_info_swap_attributes (info, "Exif::Iop::RelatedImageWidth", "Exif::Iop::RelatedImageLength");
+	}
+}
+
+
+static void
+exiv2_jpeg_tran_cb (void         **out_buffer,
+		    gsize         *out_buffer_size,
+		    GthTransform  *transform)
+{
+	GFileInfo *info;
+
+	info = g_file_info_new ();
+	if (exiv2_read_metadata_from_buffer (*out_buffer, *out_buffer_size, info, NULL)) {
+		GthMetadata *metadata;
+
+		update_exif_dimensions (info, *transform);
+
+		metadata = g_object_new (GTH_TYPE_METADATA, "raw", "1", NULL);
+		g_file_info_set_attribute_object (info, "Exif::Image::Orientation", G_OBJECT (metadata));
+		exiv2_write_metadata_to_buffer (out_buffer, out_buffer_size, info, NULL, NULL);
+
+		g_object_unref (metadata);
+	}
+
+	g_object_unref (info);
+}
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
@@ -151,6 +195,8 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_info_v (exiv2_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_EXIV2);
 	gth_hook_add_callback ("save-pixbuf", 10, G_CALLBACK (exiv2_write_metadata), NULL);
+	if (gth_hook_present ("jpegtran-after"))
+		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
 }
 
 

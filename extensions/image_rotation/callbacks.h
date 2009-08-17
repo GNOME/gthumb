@@ -20,31 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef GTH_HOOK_H
-#define GTH_HOOK_H
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
-#include <glib.h>
-#include <glib-object.h>
+#include <gthumb.h>
 
-G_BEGIN_DECLS
+void  ir__gth_browser_construct_cb          (GthBrowser *browser);
+void  ir__gth_browser_update_sensitivity_cb (GthBrowser *browser);
 
-void      gth_hooks_initialize      (void);
-void      gth_hook_register         (const char *name,
-				     int         n_args);
-gboolean  gth_hook_present          (const char *name);
-void      gth_hook_add_callback     (const char *name,
-				     int         sort_order,
-				     GCallback   callback,
-				     gpointer    data);
-void      gth_hook_remove_callback  (const char *name,
-				     GCallback   callback);
-void      gth_hook_invoke           (const char *name,
-				     gpointer    first_data,
-				     ...);
-void *    gth_hook_invoke_get       (const char *name,
-				     gpointer    first_data,
-				     ...);
-
-G_END_DECLS
-
-#endif /* GTH_HOOK_H */
+#endif /* CALLBACKS_H */

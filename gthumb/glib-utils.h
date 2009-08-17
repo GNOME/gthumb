@@ -245,6 +245,9 @@ GFile *         _g_file_append_path              (GFile      *file,
 						  const char *path);
 gboolean        _g_file_attributes_matches       (const char *attributes,
 						  const char *mask);
+void            _g_file_info_swap_attributes     (GFileInfo  *info,
+						  const char *attr1,
+						  const char *attr2);
 gboolean        _g_mime_type_is_image            (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);

@@ -1087,8 +1087,8 @@ gth_main_activate_extensions (void)
 	if (active_extensions == NULL)
 		for (i = 0; default_extensions[i] != NULL; i++)
 			active_extensions = g_slist_prepend (active_extensions, g_strdup (default_extensions[i]));
-	active_extensions = g_slist_reverse (active_extensions);
 
+	active_extensions = gth_extension_manager_order_extensions (Main->priv->extension_manager, active_extensions);
 	for (scan = active_extensions; scan; scan = scan->next) {
 		char   *name = scan->data;
 		GError *error = NULL;

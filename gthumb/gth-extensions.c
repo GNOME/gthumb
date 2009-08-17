@@ -37,7 +37,8 @@ static gpointer gth_extension_parent_class = NULL;
 
 
 static gboolean
-gth_extension_base_open (GthExtension *self)
+gth_extension_base_open (GthExtension  *self,
+			 GError       **error)
 {
 	g_return_val_if_fail (GTH_IS_EXTENSION (self), FALSE);
 	return FALSE;
@@ -132,9 +133,10 @@ gth_extension_get_type (void)
 
 
 gboolean
-gth_extension_open (GthExtension *self)
+gth_extension_open (GthExtension  *self,
+		    GError       **error)
 {
-	return GTH_EXTENSION_GET_CLASS (self)->open (self);
+	return GTH_EXTENSION_GET_CLASS (self)->open (self, error);
 }
 
 
@@ -197,7 +199,8 @@ static gpointer gth_extension_module_parent_class = NULL;
 
 
 static gboolean
-gth_extension_module_real_open (GthExtension *base)
+gth_extension_module_real_open (GthExtension  *base,
+				GError       **error)
 {
 	GthExtensionModule *self;
 	char               *file_name;
@@ -222,7 +225,8 @@ gth_extension_module_real_open (GthExtension *base)
 	g_free (file_name);
 
 	if (self->priv->module == NULL) {
-		/*g_warning ("could not open the module `%s`: %s\n", self->priv->module_name, g_module_error ());*/
+		if (error != NULL)
+			*error = g_error_new (G_IO_ERROR, G_IO_ERROR_FAILED, _("Could not open the module `%s`: %s"), self->priv->module_name, g_module_error ());
 	}
 
 	return self->priv->module != NULL;
@@ -459,6 +463,7 @@ gth_extension_description_finalize (GObject *obj)
 	g_free (self->loader_type);
 	g_free (self->loader_file);
 	g_strfreev (self->loader_requires);
+	g_strfreev (self->loader_after);
 	_g_object_unref (self->priv->extension);
 
 	G_OBJECT_CLASS (gth_extension_description_parent_class)->finalize (obj);
@@ -533,6 +538,7 @@ gth_extension_description_load_from_file (GthExtensionDescription *desc,
 	desc->loader_type = g_key_file_get_string (key_file, "Loader", "Type", NULL);
 	desc->loader_file = g_key_file_get_string (key_file, "Loader", "File", NULL);
 	desc->loader_requires = g_key_file_get_string_list (key_file, "Loader", "Requires", NULL, NULL);
+	desc->loader_after = g_key_file_get_string_list (key_file, "Loader", "After", NULL, NULL);
 
 	g_free (basename);
 	g_free (file_path);
@@ -701,8 +707,9 @@ gth_extension_manager_new (void)
 
 
 gboolean
-gth_extension_manager_open (GthExtensionManager *manager,
-			    const char          *extension_name)
+gth_extension_manager_open (GthExtensionManager  *manager,
+			    const char           *extension_name,
+			    GError              **error)
 {
 	GthExtensionDescription *description;
 
@@ -719,7 +726,12 @@ gth_extension_manager_open (GthExtensionManager *manager,
 
 	g_return_val_if_fail (description->priv->extension != NULL, FALSE);
 
-	description->priv->opened = gth_extension_open (description->priv->extension);
+	description->priv->opened = gth_extension_open (description->priv->extension, error);
+
+	if (! description->priv->opened) {
+		g_object_unref (description->priv->extension);
+		description->priv->extension = NULL;
+	}
 
 	return description->priv->opened;
 }
@@ -732,7 +744,7 @@ gth_extension_manager_activate (GthExtensionManager  *manager,
 {
 	GthExtensionDescription *description;
 
-	if (! gth_extension_manager_open (manager, extension_name))
+	if (! gth_extension_manager_open (manager, extension_name, error))
 		return FALSE;
 
 	description = g_hash_table_lookup (manager->priv->extensions, extension_name);
@@ -786,7 +798,7 @@ gth_extension_manager_deactivate (GthExtensionManager  *manager,
 	GList                   *required_by;
 	GList                   *scan;
 
-	if (! gth_extension_manager_open (manager, extension_name))
+	if (! gth_extension_manager_open (manager, extension_name, error))
 		return TRUE;
 
 	description = g_hash_table_lookup (manager->priv->extensions, extension_name);
@@ -824,4 +836,73 @@ gth_extension_manager_get_description (GthExtensionManager *manager,
 				       const char          *extension_name)
 {
 	return g_hash_table_lookup (manager->priv->extensions, extension_name);
+}
+
+
+static GList *
+get_extension_optional_dependencies (GthExtensionManager     *manager,
+				     GthExtensionDescription *description)
+{
+	GList *dependencies = NULL;
+	int    i;
+
+	if (description->loader_after == NULL)
+		return NULL;
+
+	for (i = 0; description->loader_after[i] != NULL; i++) {
+		char                    *extension_name = description->loader_after[i];
+		GthExtensionDescription *other_description;
+
+		dependencies = g_list_prepend (dependencies, extension_name);
+
+		other_description = g_hash_table_lookup (manager->priv->extensions, extension_name);
+		dependencies = g_list_concat (get_extension_optional_dependencies (manager, other_description), dependencies);
+	}
+
+	return dependencies;
+}
+
+
+GSList *
+gth_extension_manager_order_extensions (GthExtensionManager *manager,
+					GSList              *extensions)
+{
+	GSList *scan;
+	GSList *ordered = NULL;
+
+	for (scan = extensions; scan;) {
+		GSList                  *next = scan->next;
+		GSList                  *slink;
+		char                    *ext_name = scan->data;
+		GthExtensionDescription *ext_description;
+		GList                   *dependencies;
+		GList                   *scan_d;
+
+		ext_description = g_hash_table_lookup (manager->priv->extensions, ext_name);
+		if (ext_description == NULL)
+			continue;
+
+		dependencies = get_extension_optional_dependencies (manager, ext_description);
+		for (scan_d = dependencies; scan_d; scan_d = scan_d->next) {
+			char   *dep_name = scan_d->data;
+
+			slink = g_slist_find_custom (extensions, dep_name, (GCompareFunc) strcmp);
+			if (slink != NULL) {
+				extensions = g_slist_remove_link (extensions, slink);
+				ordered = g_slist_prepend (ordered, slink->data);
+
+				g_slist_free (slink);
+			}
+		}
+
+		slink = scan;
+		extensions = g_slist_remove_link (extensions, slink);
+		g_slist_free (slink);
+
+		ordered = g_slist_prepend (ordered, ext_name);
+
+		scan = next;
+	}
+
+	return g_slist_reverse (ordered);
 }

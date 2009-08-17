@@ -84,7 +84,8 @@ struct _GthExtension {
 
 struct _GthExtensionClass {
 	GObjectClass parent_class;
-	gboolean   (*open)            (GthExtension  *self);
+	gboolean   (*open)            (GthExtension  *self,
+				       GError       **error);
 	void       (*close)           (GthExtension  *self);
 	gboolean   (*activate)        (GthExtension  *self,
 				       GError       **error);
@@ -117,6 +118,7 @@ struct _GthExtensionDescription {
 	char      *loader_type;
 	char      *loader_file;
 	char     **loader_requires;
+	char     **loader_after;
 	gboolean   mandatory;
 	GthExtensionDescriptionPrivate *priv;
 };
@@ -135,7 +137,8 @@ struct _GthExtensionManagerClass {
 };
 
 GType                      gth_extension_get_type                  (void);
-gboolean                   gth_extension_open                      (GthExtension  *self);
+gboolean                   gth_extension_open                      (GthExtension  *self,
+								    GError       **error);
 void                       gth_extension_close                     (GthExtension  *self);
 gboolean                   gth_extension_is_active                 (GthExtension  *self);
 gboolean                   gth_extension_activate                  (GthExtension  *self,
@@ -157,7 +160,8 @@ GthExtension *             gth_extension_description_get_extension (GthExtension
 GType                      gth_extension_manager_get_type          (void);
 GthExtensionManager *      gth_extension_manager_new               (void);
 gboolean                   gth_extension_manager_open              (GthExtensionManager  *manager,
-								    const char           *extension_name);
+								    const char           *extension_name,
+								    GError              **error);
 gboolean                   gth_extension_manager_activate          (GthExtensionManager  *manager,
 								    const char           *extension_name,
 								    GError              **error);
@@ -167,7 +171,8 @@ gboolean                   gth_extension_manager_deactivate        (GthExtension
 GList *                    gth_extension_manager_get_extensions    (GthExtensionManager  *manager);
 GthExtensionDescription *  gth_extension_manager_get_description   (GthExtensionManager  *manager,
 								    const char           *extension_name);
-
+GSList *                   gth_extension_manager_order_extensions  (GthExtensionManager  *manager,
+								    GSList               *extensions);
 G_END_DECLS
 
 #endif

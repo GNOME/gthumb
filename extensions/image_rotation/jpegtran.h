@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2002, 2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,31 +20,37 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef GTH_HOOK_H
-#define GTH_HOOK_H
+#ifndef JPEGTRAN_H
+#define JPEGTRAN_H
 
+#include <config.h>
 #include <glib.h>
-#include <glib-object.h>
+#include "transupp.h"
 
-G_BEGIN_DECLS
 
-void      gth_hooks_initialize      (void);
-void      gth_hook_register         (const char *name,
-				     int         n_args);
-gboolean  gth_hook_present          (const char *name);
-void      gth_hook_add_callback     (const char *name,
-				     int         sort_order,
-				     GCallback   callback,
-				     gpointer    data);
-void      gth_hook_remove_callback  (const char *name,
-				     GCallback   callback);
-void      gth_hook_invoke           (const char *name,
-				     gpointer    first_data,
-				     ...);
-void *    gth_hook_invoke_get       (const char *name,
-				     gpointer    first_data,
-				     ...);
+typedef enum {
+	JPEG_ERROR_FAILED,
+	JPEG_ERROR_MCU
+} JpegErrorCode;
 
-G_END_DECLS
 
-#endif /* GTH_HOOK_H */
+#define JPEG_ERROR jpeg_error_quark ()
+GQuark jpeg_error_quark (void);
+
+
+typedef enum {
+	JPEG_MCU_ACTION_TRIM,
+	JPEG_MCU_ACTION_DONT_TRIM,
+	JPEG_MCU_ACTION_ABORT
+} JpegMcuAction;
+
+
+gboolean   jpegtran  (void           *in_buffer,
+		      gsize           in_buffer_size,
+		      void          **out_buffer,
+		      gsize          *out_buffer_size,
+		      GthTransform    transformation,
+		      JpegMcuAction   mcu_action,
+		      GError        **error);
+
+#endif /* JPEGTRAN_H */

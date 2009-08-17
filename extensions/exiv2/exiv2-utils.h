@@ -29,11 +29,21 @@
 
 G_BEGIN_DECLS
 
-gboolean  exiv2_read_metadata   (GFile          *file,
-				 GFileInfo      *info);
-gboolean  exiv2_read_sidecar    (GFile          *file,
-				 GFileInfo      *info);
-void      exiv2_write_metadata  (SavePixbufData *data);
+gboolean  exiv2_read_metadata_from_file    (GFile           *file,
+					    GFileInfo       *info,
+					    GError         **error);
+gboolean  exiv2_read_metadata_from_buffer  (void            *buffer,
+					    gsize            buffer_size,
+					    GFileInfo       *info,
+					    GError         **error);
+gboolean  exiv2_read_sidecar               (GFile           *file,
+					    GFileInfo       *info);
+gboolean  exiv2_write_metadata  	   (SavePixbufData  *data);
+gboolean  exiv2_write_metadata_to_buffer   (void           **buffer,
+					    gsize           *buffer_size,
+					    GFileInfo       *info,
+					    GdkPixbuf       *pixbuf, /* optional */
+					    GError         **error);
 
 G_END_DECLS
 

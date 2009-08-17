@@ -281,16 +281,91 @@ get_exif_default_category (const Exiv2::Exifdatum &md)
 }
 
 
+static void
+exiv2_read_metadata (Exiv2::Image::AutoPtr  image,
+		     GFileInfo             *info)
+{
+	image->readMetadata();
+
+	Exiv2::ExifData &exifData = image->exifData();
+	if (! exifData.empty()) {
+		Exiv2::ExifData::const_iterator end = exifData.end();
+		for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != end; ++md) {
+			stringstream value;
+			value << *md;
+
+			stringstream short_name;
+			if (md->ifdId () > Exiv2::ifd1Id) {
+				// Must be a MakerNote - include group name
+				short_name << md->groupName() << "." << md->tagName();
+			}
+			else {
+				// Normal exif tag - just use tag name
+				short_name << md->tagName();
+			}
+
+			set_file_info (info,
+				       md->key().c_str(),
+				       short_name.str().c_str(),
+				       value.str().c_str(),
+				       md->toString().c_str(),
+				       get_exif_default_category (*md));
+		}
+	}
+
+	Exiv2::IptcData &iptcData = image->iptcData();
+	if (! iptcData.empty()) {
+		Exiv2::IptcData::iterator end = iptcData.end();
+		for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
+			stringstream value;
+			value << *md;
+
+			stringstream short_name;
+			short_name << md->tagName();
+
+			set_file_info (info,
+				       md->key().c_str(),
+				       short_name.str().c_str(),
+				       value.str().c_str(),
+				       md->toString().c_str(),
+				       "Iptc");
+		}
+	}
+
+	Exiv2::XmpData &xmpData = image->xmpData();
+	if (! xmpData.empty()) {
+		Exiv2::XmpData::iterator end = xmpData.end();
+		for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
+			stringstream value;
+			value << *md;
+
+			stringstream short_name;
+			short_name << md->groupName() << "." << md->tagName();
+
+			set_file_info (info,
+				       md->key().c_str(),
+				       short_name.str().c_str(),
+				       value.str().c_str(),
+				       md->toString().c_str(),
+				       "Xmp::Embedded");
+		}
+	}
+
+	set_attributes_from_tagsets (info);
+}
+
+
 /*
- * exiv2_read_metadata
+ * exiv2_read_metadata_from_file
  * reads metadata from image files
  * code relies heavily on example1 from the exiv2 website
  * http://www.exiv2.org/example1.html
  */
 extern "C"
 gboolean
-exiv2_read_metadata (GFile     *file,
-		     GFileInfo *info)
+exiv2_read_metadata_from_file (GFile      *file,
+			       GFileInfo  *info,
+			       GError    **error)
 {
 	try {
 		char *path;
@@ -300,79 +375,53 @@ exiv2_read_metadata (GFile     *file,
 		g_free (path);
 
 		if (image.get() == 0) {
-			//die silently if image cannot be opened
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
 			return FALSE;
 		}
-		image->readMetadata();
 
-		Exiv2::ExifData &exifData = image->exifData();
-		if (! exifData.empty()) {
-			Exiv2::ExifData::const_iterator end = exifData.end();
-			for (Exiv2::ExifData::const_iterator md = exifData.begin(); md != end; ++md) {
-				stringstream value;
-				value << *md;
-
-				stringstream short_name;
-				if (md->ifdId () > Exiv2::ifd1Id) {
-					// Must be a MakerNote - include group name
-					short_name << md->groupName() << "." << md->tagName();
-				}
-				else {
-					// Normal exif tag - just use tag name
-					short_name << md->tagName();
-				}
-
-				set_file_info (info,
-					       md->key().c_str(),
-					       short_name.str().c_str(),
-					       value.str().c_str(),
-					       md->toString().c_str(),
-					       get_exif_default_category (*md));
-			}
-		}
-
-		Exiv2::IptcData &iptcData = image->iptcData();
-		if (! iptcData.empty()) {
-			Exiv2::IptcData::iterator end = iptcData.end();
-			for (Exiv2::IptcData::iterator md = iptcData.begin(); md != end; ++md) {
-				stringstream value;
-				value << *md;
-
-				stringstream short_name;
-				short_name << md->tagName();
-
-				set_file_info (info,
-					       md->key().c_str(),
-					       short_name.str().c_str(),
-					       value.str().c_str(),
-					       md->toString().c_str(),
-					       "Iptc");
-			}
-		}
-
-		Exiv2::XmpData &xmpData = image->xmpData();
-		if (! xmpData.empty()) {
-			Exiv2::XmpData::iterator end = xmpData.end();
-			for (Exiv2::XmpData::iterator md = xmpData.begin(); md != end; ++md) {
-				stringstream value;
-				value << *md;
-
-				stringstream short_name;
-				short_name << md->groupName() << "." << md->tagName();
-
-				set_file_info (info,
-					       md->key().c_str(),
-					       short_name.str().c_str(),
-					       value.str().c_str(),
-					       md->toString().c_str(),
-					       "Xmp::Embedded");
-			}
-		}
-
-		set_attributes_from_tagsets (info);
+		exiv2_read_metadata (image, info);
 	}
-	catch (Exiv2::AnyError& e) {
+	/*catch (Exiv2::AnyError& e) {
 		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
+		return FALSE;
+	}*/
+	catch (char *msg) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+extern "C"
+gboolean
+exiv2_read_metadata_from_buffer (void       *buffer,
+				 gsize       buffer_size,
+				 GFileInfo  *info,
+				 GError    **error)
+{
+	try {
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) buffer, buffer_size);
+
+		if (image.get() == 0) {
+			if (error != NULL)
+				*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+			return FALSE;
+		}
+
+		exiv2_read_metadata (image, info);
+	}
+	catch (Exiv2::Error) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
+		return FALSE;
+	}
+	catch (char *msg) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
 		return FALSE;
 	}
 
@@ -451,155 +500,201 @@ mandatory_string (Exiv2::ExifData &checkdata,
 }
 
 
-extern "C"
-void
-exiv2_write_metadata (SavePixbufData *data)
+static Exiv2::DataBuf
+exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
+			      GFileInfo             *info,
+			      GdkPixbuf             *pixbuf)
 {
-	try {
-		Exiv2::Image::AutoPtr image1 = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
-		g_assert (image1.get() != 0);
+	char **attributes;
+	int    i;
 
-		image1->readMetadata();
+	image->readMetadata();
 
-		char **attributes;
-		int i;
+	// EXIF Data
 
-		// EXIF Data
+	Exiv2::ExifData &ed = image->exifData();
+	attributes = g_file_info_list_attributes (info, "Exif");
+	for (i = 0; attributes[i] != NULL; i++) {
+		GthMetadata *metadatum;
+		char *key;
 
-		Exiv2::ExifData &ed = image1->exifData();
-		attributes = g_file_info_list_attributes (data->file_data->info, "Exif");
-		for (i = 0; attributes[i] != NULL; i++) {
-			GthMetadata *metadatum;
-			char *key;
+		metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		key = exiv2_key_from_attribute (attributes[i]);
 
-			metadatum = (GthMetadata *) g_file_info_get_attribute_object (data->file_data->info, attributes[i]);
-			key = exiv2_key_from_attribute (attributes[i]);
-
-			try {
-				ed[key] = gth_metadata_get_raw (metadatum);
-			}
-			catch (...) {
-				/* we don't care about invalid key errors */
-			}
-
-			g_free (key);
+		try {
+			ed[key] = gth_metadata_get_raw (metadatum);
 		}
-		g_strfreev (attributes);
+		catch (...) {
+			/* we don't care about invalid key errors */
+		}
 
-		// Mandatory tags - add if not already present
+		g_free (key);
+	}
+	g_strfreev (attributes);
 
-		mandatory_int (ed, "Exif.Image.XResolution", 72);
-		mandatory_int (ed, "Exif.Image.YResolution", 72);
-		mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
-		mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
-		mandatory_int (ed, "Exif.Photo.ColorSpace", 1);
-		mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
-		mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
-		mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
+	// Mandatory tags - add if not already present
 
-		// Overwrite the software tag
+	mandatory_int (ed, "Exif.Image.XResolution", 72);
+	mandatory_int (ed, "Exif.Image.YResolution", 72);
+	mandatory_int (ed, "Exif.Image.ResolutionUnit", 2);
+	mandatory_int (ed, "Exif.Image.YCbCrPositioning", 1);
+	mandatory_int (ed, "Exif.Photo.ColorSpace", 1);
+	mandatory_string (ed, "Exif.Photo.ExifVersion", "48 50 50 49");
+	mandatory_string (ed, "Exif.Photo.ComponentsConfiguration", "1 2 3 0");
+	mandatory_string (ed, "Exif.Photo.FlashpixVersion", "48 49 48 48");
 
-		ed["Exif.Image.Software"] = PACKAGE " " VERSION;
+	// Overwrite the software tag
 
-		// Update the dimension tags with actual image values
+	ed["Exif.Image.Software"] = PACKAGE " " VERSION;
 
-		int width = gdk_pixbuf_get_width (data->pixbuf);
+	// Update the dimension tags with actual image values
+
+	int width = 0;
+	int height = 0;
+
+	if (pixbuf != NULL) {
+		width = gdk_pixbuf_get_width (pixbuf);
 		if (width > 0)
 			ed["Exif.Photo.PixelXDimension"] = width;
 
-		int height = gdk_pixbuf_get_height (data->pixbuf);
+		height = gdk_pixbuf_get_height (pixbuf);
 		if (height > 0)
 			ed["Exif.Photo.PixelYDimension"] = height;
+	}
 
-		// Update the thumbnail
+	// Update the thumbnail
 
-		Exiv2::ExifThumb thumb(image1->exifData());
-		if ((width > 0) && (height > 0)) {
-			GdkPixbuf *thumb_pixbuf;
-			char      *buffer;
-			gsize      buffer_size;
+	Exiv2::ExifThumb thumb(image->exifData());
+	if ((pixbuf != NULL) && (width > 0) && (height > 0)) {
+		GdkPixbuf *thumb_pixbuf;
+		char      *buffer;
+		gsize      buffer_size;
 
-			scale_keeping_ratio (&width, &height, 128, 128, FALSE);
-			thumb_pixbuf = _gdk_pixbuf_scale_simple_safe (data->pixbuf, width, height, GDK_INTERP_BILINEAR);
-			if (gdk_pixbuf_save_to_buffer (thumb_pixbuf, &buffer, &buffer_size, "jpeg", NULL, NULL)) {
-				thumb.setJpegThumbnail ((Exiv2::byte*) buffer, buffer_size);
-				ed["Exif.Thumbnail.XResolution"] = 72;
-				ed["Exif.Thumbnail.YResolution"] = 72;
-				ed["Exif.Thumbnail.ResolutionUnit"] =  2;
-				g_free (buffer);
-			}
-			else
-				thumb.erase();
-
-			g_object_unref (thumb_pixbuf);
+		scale_keeping_ratio (&width, &height, 128, 128, FALSE);
+		thumb_pixbuf = _gdk_pixbuf_scale_simple_safe (pixbuf, width, height, GDK_INTERP_BILINEAR);
+		if (gdk_pixbuf_save_to_buffer (thumb_pixbuf, &buffer, &buffer_size, "jpeg", NULL, NULL)) {
+			thumb.setJpegThumbnail ((Exiv2::byte*) buffer, buffer_size);
+			ed["Exif.Thumbnail.XResolution"] = 72;
+			ed["Exif.Thumbnail.YResolution"] = 72;
+			ed["Exif.Thumbnail.ResolutionUnit"] =  2;
+			g_free (buffer);
 		}
 		else
 			thumb.erase();
 
-		// Update the DateTime tag
+		g_object_unref (thumb_pixbuf);
+	}
+	else
+		thumb.erase();
 
-		GTimeVal current_time;
-		g_get_current_time (&current_time);
-		char *date_time = _g_time_val_to_exif_date (&current_time);
-		ed["Exif.Image.DateTime"] = date_time;
-		g_free (date_time);
+	// Update the DateTime tag
 
-		// IPTC Data
+	GTimeVal current_time;
+	g_get_current_time (&current_time);
+	char *date_time = _g_time_val_to_exif_date (&current_time);
+	ed["Exif.Image.DateTime"] = date_time;
+	g_free (date_time);
 
-		Exiv2::IptcData &id = image1->iptcData();
-		attributes = g_file_info_list_attributes (data->file_data->info, "Iptc");
-		for (i = 0; attributes[i] != NULL; i++) {
-			GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (data->file_data->info, attributes[i]);
-			char *key = exiv2_key_from_attribute (attributes[i]);
+	// IPTC Data
 
-			try {
-				id[key] = gth_metadata_get_raw (metadatum);
-			}
-			catch (...) {
-				/* we don't care about invalid key errors */
-			}
+	Exiv2::IptcData &id = image->iptcData();
+	attributes = g_file_info_list_attributes (info, "Iptc");
+	for (i = 0; attributes[i] != NULL; i++) {
+		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char *key = exiv2_key_from_attribute (attributes[i]);
 
-			g_free (key);
+		try {
+			id[key] = gth_metadata_get_raw (metadatum);
 		}
-		g_strfreev (attributes);
-
-		// XMP Data
-
-		Exiv2::XmpData &xd = image1->xmpData();
-		attributes = g_file_info_list_attributes (data->file_data->info, "Xmp");
-		for (i = 0; attributes[i] != NULL; i++) {
-			GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (data->file_data->info, attributes[i]);
-			char *key = exiv2_key_from_attribute (attributes[i]);
-
-			// Remove existing tags of the same type.
-			// Seems to be needed for storing category keywords.
-			// Not exactly sure why!
-			Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (key));
-			if (iter != xd.end ())
-				xd.erase (iter);
-
-			try {
-				ed[key] = gth_metadata_get_raw (metadatum);
-			}
-			catch (...) {
-				/* we don't care about invalid key errors */
-			}
-
-			g_free (key);
+		catch (...) {
+			/* we don't care about invalid key errors */
 		}
-		g_strfreev (attributes);
 
-		// overwrite existing metadata with new metadata
-		image1->writeMetadata();
+		g_free (key);
+	}
+	g_strfreev (attributes);
 
-		Exiv2::BasicIo &io = image1->io();
-		io.open();
-		Exiv2::DataBuf buf = io.read(io.size());
+	// XMP Data
+
+	Exiv2::XmpData &xd = image->xmpData();
+	attributes = g_file_info_list_attributes (info, "Xmp");
+	for (i = 0; attributes[i] != NULL; i++) {
+		GthMetadata *metadatum = (GthMetadata *) g_file_info_get_attribute_object (info, attributes[i]);
+		char *key = exiv2_key_from_attribute (attributes[i]);
+
+		// Remove existing tags of the same type.
+		// Seems to be needed for storing category keywords.
+		// Not exactly sure why!
+		Exiv2::XmpData::iterator iter = xd.findKey (Exiv2::XmpKey (key));
+		if (iter != xd.end ())
+			xd.erase (iter);
+
+		try {
+			ed[key] = gth_metadata_get_raw (metadatum);
+		}
+		catch (...) {
+			/* we don't care about invalid key errors */
+		}
+
+		g_free (key);
+	}
+	g_strfreev (attributes);
+
+	image->writeMetadata();
+	Exiv2::BasicIo &io = image->io();
+	io.open();
+
+	return io.read(io.size());
+}
+
+
+extern "C"
+gboolean
+exiv2_write_metadata (SavePixbufData *data)
+{
+	try {
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
+		g_assert (image.get() != 0);
+
+		Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->pixbuf);
+
 		g_free (data->buffer);
 		data->buffer = g_memdup (buf.pData_, buf.size_);
 		data->buffer_size = buf.size_;
 	}
 	catch (char *msg) {
-		*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+		if (data->error != NULL)
+			*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+		return FALSE;
 	}
+
+	return TRUE;
+}
+
+
+extern "C"
+gboolean
+exiv2_write_metadata_to_buffer (void      **buffer,
+				gsize      *buffer_size,
+				GFileInfo  *info,
+				GdkPixbuf  *pixbuf,
+				GError    **error)
+{
+	try {
+		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) *buffer, *buffer_size);
+		g_assert (image.get() != 0);
+
+		Exiv2::DataBuf buf = exiv2_write_metadata_private (image, info, pixbuf);
+
+		g_free (*buffer);
+		*buffer = g_memdup (buf.pData_, buf.size_);
+		*buffer_size = buf.size_;
+	}
+	catch (char *msg) {
+		if (error != NULL)
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+		return FALSE;
+	}
+
+	return TRUE;
 }

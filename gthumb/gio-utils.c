@@ -1797,7 +1797,7 @@ typedef struct {
 	BufferReadyCallback  callback;
 	gpointer             user_data;
 	GInputStream        *stream;
-	char                 tmp_buffer[BUFFER_SIZE];
+	guchar               tmp_buffer[BUFFER_SIZE];
 	void                *buffer;
 	gsize                count;
 } LoadData;

@@ -5,6 +5,7 @@ SUBDIRS = 		\
 	file_manager	\
 	file_tools	\
 	file_viewer	\
+	image_rotation	\
 	image_viewer	\
 	list_tools	\
 	photo_importer	\

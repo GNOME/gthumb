@@ -207,13 +207,13 @@ cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
 			if (! gth_extension_manager_activate (gth_main_get_default_extension_manager (), description->id, &error))
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not activate the extension"), &error);
 			else
-				gtk_list_store_set (data->list_store, &iter, 0, description,-1);
+				gtk_list_store_set (data->list_store, &iter, 0, description, -1);
 		}
 		else {
 			if (! gth_extension_manager_deactivate (gth_main_get_default_extension_manager (), description->id, &error))
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), _("Could not deactivate the extension"), &error);
 			else
-				gtk_list_store_set (data->list_store, &iter, 0, description,-1);
+				gtk_list_store_set (data->list_store, &iter, 0, description, -1);
 		}
 
 		g_object_unref (description);

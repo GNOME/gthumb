@@ -2027,6 +2027,169 @@ _g_file_attributes_matches (const char *attributes,
 }
 
 
+/* -- _g_file_info_swap_attributes -- */
+
+
+typedef struct {
+	GFileAttributeType type;
+	union {
+		char      *string;
+		char     **stringv;
+		gboolean   boolean;
+		guint32    uint32;
+		gint32     int32;
+		guint64    uint64;
+		gint64     int64;
+		gpointer   object;
+	} v;
+} _GFileAttributeValue;
+
+
+static void
+_g_file_attribute_value_free (_GFileAttributeValue *attr_value)
+{
+	switch (attr_value->type) {
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		g_free (attr_value->v.string);
+		break;
+/* FIXME: add if glib >= 2.22
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		g_strfreev (attr_value->v.stringv);
+		break;
+*/
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		g_object_unref (attr_value->v.object);
+		break;
+	default:
+		break;
+	}
+
+	g_free (attr_value);
+}
+
+
+static _GFileAttributeValue *
+_g_file_info_get_value (GFileInfo  *info,
+			const char *attr)
+{
+	_GFileAttributeValue  *attr_value;
+	GFileAttributeType     type;
+	gpointer               value;
+	GFileAttributeStatus   status;
+
+	attr_value = g_new (_GFileAttributeValue, 1);
+	attr_value->type = G_FILE_ATTRIBUTE_TYPE_INVALID;
+
+	if (! g_file_info_get_attribute_data (info, attr, &type, &value, &status))
+		return attr_value;
+
+	attr_value->type = type;
+	switch (type) {
+	case G_FILE_ATTRIBUTE_TYPE_INVALID:
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		attr_value->v.string = g_strdup ((char *) value);
+		break;
+/* FIXME: add if glib >= 2.22
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		attr_value->v.stringv = g_strdupv ((char **) value);
+		break;
+*/
+	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
+		attr_value->v.boolean = * ((gboolean *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT32:
+		attr_value->v.uint32 = * ((guint32 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT32:
+		attr_value->v.int32 = * ((gint32 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT64:
+		attr_value->v.uint64 = * ((guint64 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT64:
+		attr_value->v.int64 = * ((gint64 *) value);
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		attr_value->v.object = g_object_ref ((GObject *) value);
+		break;
+	default:
+		g_warning ("unknown attribute type: %d", type);
+		break;
+	}
+
+	return attr_value;
+}
+
+
+static void
+_g_file_info_set_value (GFileInfo            *info,
+			const char           *attr,
+			_GFileAttributeValue *attr_value)
+{
+	gpointer value = NULL;
+
+	if (attr_value->type == G_FILE_ATTRIBUTE_TYPE_INVALID)
+		return;
+
+	switch (attr_value->type) {
+	case G_FILE_ATTRIBUTE_TYPE_STRING:
+	case G_FILE_ATTRIBUTE_TYPE_BYTE_STRING:
+		value = attr_value->v.string;
+		break;
+/* FIXME: add if glib >= 2.22
+	case G_FILE_ATTRIBUTE_TYPE_STRINGV:
+		value = attr_value->v.stringv;
+		break;
+*/
+	case G_FILE_ATTRIBUTE_TYPE_BOOLEAN:
+		value = &attr_value->v.boolean;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT32:
+		value = &attr_value->v.uint32;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT32:
+		value = &attr_value->v.int32;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_UINT64:
+		value = &attr_value->v.uint64;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_INT64:
+		value = &attr_value->v.int64;
+		break;
+	case G_FILE_ATTRIBUTE_TYPE_OBJECT:
+		value = attr_value->v.object;
+		break;
+	default:
+		g_warning ("Unknown attribute type: %d", attr_value->type);
+		break;
+	}
+
+	g_file_info_set_attribute (info, attr, attr_value->type, value);
+}
+
+
+void
+_g_file_info_swap_attributes (GFileInfo  *info,
+			      const char *attr1,
+			      const char *attr2)
+{
+	_GFileAttributeValue *value1;
+	_GFileAttributeValue *value2;
+
+	value1 = _g_file_info_get_value (info, attr1);
+	value2 = _g_file_info_get_value (info, attr2);
+
+	_g_file_info_set_value (info, attr1, value2);
+	_g_file_info_set_value (info, attr2, value1);
+
+	_g_file_attribute_value_free (value1);
+	_g_file_attribute_value_free (value2);
+}
+
+
 gboolean
 _g_mime_type_is_image (const char *mime_type)
 {

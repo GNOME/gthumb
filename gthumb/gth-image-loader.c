@@ -237,7 +237,8 @@ load_image_thread (void *thread_data)
 				FileLoader loader;
 
 				loader = gth_main_get_file_loader (gth_file_data_get_mime_type (file));
-				animation = loader (file, &error, -1, -1);
+				if (loader != NULL)
+					animation = loader (file, &error, -1, -1);
 			}
 		}
 

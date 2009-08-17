@@ -201,6 +201,23 @@ AC_SUBST(WARNINGS)
 
 dnl ===========================================================================
 
+AC_MSG_CHECKING(JPEG Support)
+AC_ARG_ENABLE([jpeg],
+	      [AC_HELP_STRING([--disable-jpeg],[do not compile code that uses the libjpeg library])],,
+	      [enable_jpeg=yes])
+AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
+             [enable_jpeg=yes],
+	     [enable_jpeg=no])
+AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
+if test "x$enable_jpeg" = "xyes"; then
+	JPEG_LIBS='-ljpeg -lm -lz'
+fi
+AC_SUBST(JPEG_LIBS)
+AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
+AC_MSG_RESULT($enable_jpeg)
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile
@@ -232,6 +249,7 @@ extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
+extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
 extensions/image_viewer/data/ui/Makefile
@@ -266,4 +284,5 @@ Configuration:
 	Run in place         : ${enable_run_in_place}
 	Build tests          : $ENABLE_TEST_SUITE
 	Exiv2 support        : ${enable_exiv2}
+	JPEG tools           : ${enable_jpeg}
 "

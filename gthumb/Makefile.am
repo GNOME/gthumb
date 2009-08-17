@@ -217,6 +217,7 @@ gthumb_LDADD =						\
 	$(top_builddir)/copy-n-paste/libeggsmclient.la	\
 	$(GTHUMB_LIBS)					\
 	$(EXIV2_LIBS)					\
+	$(JPEG_LIBS)					\
 	$(NULL)	
 
 if RUN_IN_PLACE
