@@ -50,6 +50,7 @@ static const char *fixed_ui_info =
 */
 "  <popup name='ListToolsPopup'>"
 "    <placeholder name='Tools'/>"
+"    <separator name='ToolsSeparator'/>"
 "    <placeholder name='Scripts'/>"
 "    <separator name='ScriptsListSeparator'/>"
 "    <menuitem name='EditScripts' action='ListTools_EditScripts'/>"
@@ -141,7 +142,7 @@ _update_scripts_menu (BrowserData *data,
 	int        pos;
 	gboolean   script_present = FALSE;
 
-	separator1 = get_widget_with_prefix (data, prefix, "/Tools");
+	separator1 = get_widget_with_prefix (data, prefix, "/ToolsSeparator");
 	separator2 = get_widget_with_prefix (data, prefix, "/Scripts");
 	menu = gtk_widget_get_parent (separator1);
 	_gtk_container_remove_children (GTK_CONTAINER (menu), separator1, separator2);
@@ -259,7 +260,7 @@ _update_sensitivity (GthBrowser *browser,
 	n_selected = gth_file_selection_get_n_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	sensitive = (n_selected > 0);
 
-	separator1 = get_widget_with_prefix (data, prefix, "/Tools");
+	separator1 = get_widget_with_prefix (data, prefix, "/ToolsSeparator");
 	separator2 = get_widget_with_prefix (data, prefix, "/Scripts");
 	menu = gtk_widget_get_parent (separator1);
 	{
