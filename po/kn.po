@@ -1,14 +1,14 @@
-# translation of gthumb.gthumb-2-10.po to Kannada
+# translation of gthumb.gthumb-2-10.kn.po to Kannada
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Shankar Prasad <svenkate@redhat.com>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.gthumb-2-10\n"
+"Project-Id-Version: gthumb.gthumb-2-10.kn\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
-"POT-Creation-Date: 2009-03-18 12:24+0000\n"
-"PO-Revision-Date: 2009-04-16 17:46+0530\n"
+"POT-Creation-Date: 2009-04-22 13:08+0000\n"
+"PO-Revision-Date: 2009-08-15 22:26+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -446,7 +446,7 @@ msgstr ""
 #: ../data/glade/gthumb_convert.glade.h:15
 #: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rename"
-msgstr ""
+msgstr "ಹೆಸರು ಬದಲಾಯಿಸು"
 
 #: ../data/glade/gthumb_convert.glade.h:16
 #: ../data/glade/gthumb_tools.glade.h:49
@@ -473,7 +473,7 @@ msgstr ""
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
 msgid "_Horizontal:"
-msgstr ""
+msgstr "ಅಡ್ಡ(_H):"
 
 #: ../data/glade/gthumb_convert.glade.h:25
 #: ../data/glade/gthumb_tools.glade.h:61
@@ -517,7 +517,7 @@ msgstr ""
 #: ../data/glade/gthumb_convert.glade.h:34
 #: ../data/glade/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
-msgstr ""
+msgstr "ಲಂಬ(_V):"
 
 #: ../data/glade/gthumb_convert.glade.h:35
 #: ../data/glade/gthumb_print.glade.h:53
@@ -530,7 +530,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
-msgstr ""
+msgstr "4 x 6 (ಅಂಚೆಕಾರ್ಡು)"
 
 #: ../data/glade/gthumb_crop.glade.h:3
 msgid "5 x 7"
@@ -538,7 +538,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:4
 msgid "8 x 10"
-msgstr ""
+msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
@@ -546,15 +546,15 @@ msgstr ""
 
 #: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
-msgstr ""
+msgstr "<b>ಆಯ್ಕೆ</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:7
 msgid "Crop"
-msgstr ""
+msgstr "ಕತ್ತರಿಸು"
 
 #: ../data/glade/gthumb_crop.glade.h:8 ../data/glade/gthumb_print.glade.h:28
 msgid "Custom"
-msgstr ""
+msgstr "ಇಚ್ಛೆಯ"
 
 #: ../data/glade/gthumb_crop.glade.h:9
 msgid "I_nvert aspect ratio"
@@ -563,11 +563,11 @@ msgstr ""
 #: ../data/glade/gthumb_crop.glade.h:10
 #: ../data/glade/gthumb_preferences.glade.h:67
 msgid "None"
-msgstr ""
+msgstr "ಯಾವುದೂ ಇಲ್ಲ"
 
 #: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
-msgstr ""
+msgstr "ವರ್ಗ"
 
 #: ../data/glade/gthumb_crop.glade.h:12
 msgid "_Crop"
@@ -576,20 +576,20 @@ msgstr ""
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:46 ../data/glade/gthumb_tools.glade.h:59
 msgid "_Height:"
-msgstr ""
+msgstr "ಎತ್ತರ(_H):"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:52 ../data/glade/gthumb_tools.glade.h:73
 msgid "_Width:"
-msgstr ""
+msgstr "ಅಗಲ(_W):"
 
 #: ../data/glade/gthumb_crop.glade.h:15 ../data/glade/gthumb_redeye.glade.h:9
 msgid "_X:"
-msgstr ""
+msgstr "_X:"
 
 #: ../data/glade/gthumb_crop.glade.h:16 ../data/glade/gthumb_redeye.glade.h:10
 msgid "_Y:"
-msgstr ""
+msgstr "_Y:"
 
 #: ../data/glade/gthumb_edit.glade.h:2
 #: ../data/glade/gthumb_png_exporter.glade.h:2
@@ -603,7 +603,7 @@ msgstr ""
 #: ../data/glade/gthumb_tools.glade.h:4
 #, no-c-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
@@ -614,9 +614,8 @@ msgid "<b>New dimensions</b>"
 msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:7
-#, fuzzy
 msgid "<b>Original dimensions</b>"
-msgstr "<b> ಮೂಲ</b>"
+msgstr "<b>ಮೂಲ ಆಕಾರಗಳು</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
@@ -628,11 +627,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
-msgstr ""
+msgstr "ಬಣ್ಣದ ಸಮತೋಲನ"
 
 #: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
-msgstr ""
+msgstr "ವೈದೃಶ್ಯ(_t):"
 
 #: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
@@ -640,7 +639,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
-msgstr ""
+msgstr "ಎತ್ತರ:"
 
 #: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
@@ -660,19 +659,19 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr ""
+msgstr "ಚಿತ್ರದ ಅಳತೆ ಬದಲಾಯಿಸಿ"
 
 #: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
-msgstr ""
+msgstr "ಅಗಲ:"
 
 #: ../data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
-msgstr ""
+msgstr "ಪ್ರಕಾಶತೆ(_B):"
 
 #: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr ""
+msgstr "ಬಣ್ಣ(_H):"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Keep aspect ratio"
@@ -692,11 +691,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
-msgstr ""
+msgstr "ಮುನ್ನೋಟ(_P)"
 
 #: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:66
 msgid "_Reset"
-msgstr ""
+msgstr "ಮರಳಿ ಅಣಿಗೊಳಿಸು(_R)"
 
 #: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
@@ -704,7 +703,7 @@ msgstr "ಸ್ಯಾಚುರೇಶನ್(_S):"
 
 #: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:67
 msgid "_Scale"
-msgstr ""
+msgstr "ಅಳತೆ(_S)"
 
 #: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
@@ -712,43 +711,43 @@ msgstr ""
 
 #: ../data/glade/gthumb_png_exporter.glade.h:3
 msgid "112"
-msgstr ""
+msgstr "112"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:4
 msgid "128"
-msgstr ""
+msgstr "128"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:5
 msgid "164"
-msgstr ""
+msgstr "164"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:6
 msgid "200"
-msgstr ""
+msgstr "200"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:7
 msgid "256"
-msgstr ""
+msgstr "256"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:8
 msgid "48"
-msgstr ""
+msgstr "48"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:9
 msgid "64"
-msgstr ""
+msgstr "64"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:10
 msgid "75"
-msgstr ""
+msgstr "75"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:11
 msgid "85"
-msgstr ""
+msgstr "85"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:12
 msgid "95"
-msgstr ""
+msgstr "95"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:13
 msgid "<b>Background style</b>"
@@ -800,7 +799,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
-msgstr ""
+msgstr "ಬಣ್ಣ(_r):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
@@ -842,7 +841,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
-msgstr ""
+msgstr "ಹೆಡರ್/ಫೂಟರ್"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
@@ -951,7 +950,7 @@ msgstr "ಅಕ್ಷರಶೈಲಿ(_F):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
-msgstr ""
+msgstr "ಗ್ರೇಡಿಯಂಟ್(_G)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:66
 msgid "_Image size:"
@@ -963,7 +962,7 @@ msgstr "ಅಡ್ಡಸಾಲುಗಳು(_R):"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr ""
+msgstr "ಗಾಢವಾದ ಬಣ್ಣ(_S)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
 #: ../data/glade/gthumb_tools.glade.h:71
@@ -1070,7 +1069,7 @@ msgstr "<b>ಅಡಗಿಸು/ತೋರಿಸು</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:24
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>ಸಂಪರ್ಕಸಾಧನ</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:25
 msgid "<b>On startup:</b>"
@@ -1086,7 +1085,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:28
 msgid "<b>Viewer</b>"
-msgstr ""
+msgstr "<b>ನೋಡುಗ</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:29
 msgid "<b>Zoom quality</b>"
@@ -1247,7 +1246,7 @@ msgstr "ಈಗಿನದಕ್ಕೆ ಬದಲಾಯಿಸು(_u)"
 
 #: ../data/glade/gthumb_preferences.glade.h:74
 msgid "Slide Show"
-msgstr ""
+msgstr "ಜಾರುಫಲಕದ ಪ್ರದರ್ಶನ"
 
 #: ../data/glade/gthumb_preferences.glade.h:75
 msgid "System settings"
@@ -1279,7 +1278,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_preferences.glade.h:82
 msgid "Viewer"
-msgstr ""
+msgstr "ನೋಡುಗ"
 
 #: ../data/glade/gthumb_preferences.glade.h:83
 msgid "White"
@@ -1352,7 +1351,7 @@ msgstr "<b>ಅಂಚುಗಳು</b>"
 
 #: ../data/glade/gthumb_print.glade.h:15
 msgid "<b>Orientation</b>"
-msgstr ""
+msgstr "<b>ವಾಲಿಕೆ</b>"
 
 #: ../data/glade/gthumb_print.glade.h:17
 msgid "<b>Size</b>"
@@ -1469,7 +1468,7 @@ msgstr "ಬಲ(_R):"
 
 #: ../data/glade/gthumb_print.glade.h:49
 msgid "_Scale:"
-msgstr ""
+msgstr "ಅಳತೆ(_S):"
 
 #: ../data/glade/gthumb_print.glade.h:50
 msgid "_Top:"
@@ -1497,11 +1496,11 @@ msgstr "ರದ್ದು ಮಾಡು"
 
 #: ../data/glade/gthumb_redeye.glade.h:6
 msgid "Zoom In"
-msgstr ""
+msgstr "ಹಿಗ್ಗಿಸು"
 
 #: ../data/glade/gthumb_redeye.glade.h:7
 msgid "Zoom Out"
-msgstr ""
+msgstr "ಕುಗ್ಗಿಸು"
 
 #: ../data/glade/gthumb_redeye.glade.h:8
 msgid "Zoom to Fit"
@@ -1702,7 +1701,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:228
 #: ../src/gth-browser-actions-entries.h:258
 msgid "Move to _Trash"
-msgstr ""
+msgstr "ಕಸದ ಬುಟ್ಟಿಗೆ ಜರುಗಿಸು(_T)"
 
 #: ../data/glade/gthumb_tools.glade.h:35
 msgid "New names _preview:"
@@ -1771,7 +1770,7 @@ msgstr ""
 #: ../src/gth-browser-actions-callbacks.c:470
 #: ../src/gth-browser-actions-callbacks.c:980
 msgid "_Rename"
-msgstr ""
+msgstr "ಹೆಸರನ್ನು ಬದಲಾಯಿಸು(_R)"
 
 #: ../data/glade/gthumb_tools.glade.h:68
 msgid "_Selected Images"
@@ -1779,51 +1778,51 @@ msgstr ""
 
 #: ../data/glade/gthumb_tools.glade.h:69
 msgid "_Sort:"
-msgstr ""
+msgstr "ವಿಂಗಡಿಸು(_S):"
 
 #: ../data/glade/gthumb_tools.glade.h:75
 msgid "hours"
-msgstr ""
+msgstr "ಗಂಟೆಗಳು"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 1024"
-msgstr ""
+msgstr "1024 x 1024"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
-msgstr ""
+msgstr "1024 x 768"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "1280 x 1280"
-msgstr ""
+msgstr "1280 x 1280"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "1280 x 960"
-msgstr ""
+msgstr "1280 x 960"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "320 x 200"
-msgstr ""
+msgstr "320 x 200"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "320 x 320"
-msgstr ""
+msgstr "320 x 320"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "640 x 480"
-msgstr ""
+msgstr "640 x 480"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "640 x 640"
-msgstr ""
+msgstr "640 x 640"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "800 x 600"
-msgstr ""
+msgstr "800 x 600"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "800 x 800"
-msgstr ""
+msgstr "800 x 800"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Album Style</b>"
@@ -1851,7 +1850,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "<b>Theme</b>"
-msgstr ""
+msgstr "<b>ಥೀಮ್</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:23
 #, no-c-format
@@ -1899,7 +1898,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "S_ort:"
-msgstr ""
+msgstr "ವಿಂಗಡಿಸು(_o):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album"
@@ -1927,7 +1926,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "_Footer:"
-msgstr ""
+msgstr "ಫೂಟರ್(_F):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "_Go to Theme Folder"
@@ -1935,7 +1934,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "_Header:"
-msgstr ""
+msgstr "ಹೆಡರ್(_H):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "_Install Theme..."
@@ -1951,7 +1950,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:56
 msgid "_Select"
-msgstr ""
+msgstr "ಆರಿಸು(_S)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:57
 msgid "_Shutter speed"
@@ -1963,7 +1962,7 @@ msgstr "ಗಾತ್ರ(_S):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:59
 msgid "_Theme:"
-msgstr ""
+msgstr "ಪರಿಸರವಿನ್ಯಾಸ(_T):"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:60
 msgid "_Thumbnail Caption..."
@@ -1975,7 +1974,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_web_exporter.glade.h:63
 msgid "index.html"
-msgstr ""
+msgstr "index.html"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:64
 msgid "or _use a single index page"
@@ -1987,15 +1986,15 @@ msgstr ""
 
 #: ../data/gthumb.desktop.in.h:1
 msgid "Image Viewer"
-msgstr ""
+msgstr "ಚಿತ್ರ ನೋಡುಗ"
 
 #: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
 msgid "View and organize your images"
-msgstr ""
+msgstr "ನಿಮ್ಮ ಚಿತ್ರಗಳನ್ನು ನೋಡಿ ಹಾಗು ಜೋಡಿಸಿ"
 
 #: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
-msgstr ""
+msgstr "gThumb ಚಿತ್ರ ನೋಡುಗ"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
@@ -2011,17 +2010,19 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr ""
+msgstr "ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: 1, 2, 3, 4."
 
 #: ../data/gthumb.schemas.in.h:4
 msgid "Possible values are: 72, 150, 300, 600."
-msgstr ""
+msgstr "ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: 72, 150, 300, 600."
 
 #: ../data/gthumb.schemas.in.h:5
 msgid ""
 "Possible values are: actual_size, fit, keep_prev, fit_if_larger, "
 "fit_width_if_larger."
 msgstr ""
+"ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: actual_size, fit, keep_prev, fit_if_larger, "
+"fit_width_if_larger."
 
 #: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: ascending, descending."
@@ -2041,7 +2042,7 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr ""
+msgstr "ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: jpeg, png, tga, tiff."
 
 #: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: light, midtone, dark."
@@ -2057,7 +2058,7 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: mm, in."
-msgstr ""
+msgstr "ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: mm, in."
 
 #: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: nautilus, single, double."
@@ -2076,6 +2077,8 @@ msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 msgstr ""
+"ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid ""
@@ -2089,7 +2092,7 @@ msgstr ""
 
 #: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: png, jpeg."
-msgstr ""
+msgstr "ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: png, jpeg."
 
 #: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: skip, rename, ask, overwrite."
@@ -2127,7 +2130,7 @@ msgstr ""
 
 #: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
 #: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
@@ -2135,7 +2138,7 @@ msgstr ""
 #: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
-msgstr ""
+msgstr "%d %B %Y, %H:%M"
 
 #: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
 msgid "(No Comment)"
@@ -2152,11 +2155,11 @@ msgstr ""
 
 #: ../libgthumb/dlg-save-image.c:241
 msgid "Save Image"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಉಳಿಸು"
 
 #: ../libgthumb/dlg-save-image.c:261
 msgid "Image type:"
-msgstr ""
+msgstr "ಚಿತ್ರದ ಬಗೆ:"
 
 #: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:822
 msgid "Catalogs"
@@ -2281,7 +2284,7 @@ msgstr "ರಚಿಸು(_r)"
 msgid "Enter the library name: "
 msgstr ""
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr ""
 
@@ -2382,7 +2385,9 @@ msgstr "ಚಿತ್ರಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವ�
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "ಚಿತ್ರಗಳನ್ನು ಕಸದಬುಟ್ಟಿಗೆ ಜರುಗಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಅವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಿಹಾಕಲು ನೀವು ಬಯಸುತ್ತೀರೆ?"
+msgstr ""
+"ಚಿತ್ರಗಳನ್ನು ಕಸದಬುಟ್ಟಿಗೆ ಜರುಗಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಅವನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಿಹಾಕಲು ನೀವು "
+"ಬಯಸುತ್ತೀರೆ?"
 
 #: ../src/dlg-file-utils.c:229 ../src/gth-browser-actions-callbacks.c:1138
 #: ../src/gth-browser.c:1904 ../src/gth-viewer.c:1000
@@ -2478,7 +2483,7 @@ msgstr "ಬಗೆ"
 #: ../src/dlg-image-prop.c:618 ../src/gth-browser.c:498
 #: ../src/gth-exif-data-viewer.c:804 ../src/gth-viewer.c:614
 msgid "Modified"
-msgstr ""
+msgstr "ಮಾರ್ಪಡಿಸಲಾದ"
 
 #: ../src/dlg-image-prop.c:623
 msgid "Information on Channel"
@@ -2527,38 +2532,38 @@ msgstr ""
 
 #: ../src/dlg-png-exporter.c:962
 msgid "Header"
-msgstr ""
+msgstr "ಹೆಡರ್"
 
 #: ../src/dlg-png-exporter.c:975 ../src/dlg-png-exporter.c:981
 msgid "Footer"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr ""
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr ""
@@ -2572,6 +2577,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
+"\"%s\" ಎನ್ನುವ ಹೆಸರು ಅಮಾನ್ಯವಾಗಿದೆ ಏಕೆಂದರೆ ಅದು \"/\" ಅಕ್ಷರವನ್ನು ಹೊಂದಿದೆ. ದಯವಿಟ್ಟು "
+"ಒಂದು ಬೇರೆ ಹೆಸರನ್ನು ಬಳಸಿ."
 
 #: ../src/dlg-rename-series.c:468
 msgid "Old Name"
@@ -2604,11 +2611,11 @@ msgstr ""
 
 #: ../src/gth-browser-actions-callbacks.c:275
 msgid "Stop"
-msgstr ""
+msgstr "ನಿಲ್ಲಿಸು"
 
 #: ../src/gth-browser-actions-callbacks.c:276
 msgid "Continue"
-msgstr ""
+msgstr "ಮುಂದುವರೆ"
 
 #: ../src/gth-browser-actions-callbacks.c:331
 msgid "The selected images will be moved to the Trash, are you sure?"
@@ -2740,11 +2747,11 @@ msgstr "ಚಿತ್ರಗಳನ್ನು ವಿಂಗಡಿಸು(_o)"
 #: ../src/gth-browser-actions-entries.h:44
 #: ../src/gth-viewer-actions-entries.h:39
 msgid "_Zoom"
-msgstr ""
+msgstr "ಗಾತ್ರ ಬದಲಾಯಿಸು(_Z)"
 
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
-msgstr ""
+msgstr "ತೆರಳು(_G)"
 
 #: ../src/gth-browser-actions-entries.h:46
 #: ../src/gth-browser-actions-entries.h:495
@@ -2814,7 +2821,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:223
 #: ../src/gth-browser-actions-entries.h:253
 msgid "_Rename..."
-msgstr ""
+msgstr "ಹೆಸರನ್ನು ಬದಲಾಯಿಸು(_R)..."
 
 #: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
@@ -2829,7 +2836,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:233
 #: ../src/gth-browser-actions-entries.h:263
 msgid "_Copy..."
-msgstr ""
+msgstr "ಕಾಪಿ ಮಾಡು(_C)..."
 
 #: ../src/gth-browser-actions-entries.h:89
 msgid "Copy this image to another location"
@@ -2842,7 +2849,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:238
 #: ../src/gth-browser-actions-entries.h:268
 msgid "_Move..."
-msgstr ""
+msgstr "ಸ್ಥಳಾಂತರಿಸು(_M)..."
 
 #: ../src/gth-browser-actions-entries.h:94
 msgid "Move this image to another location"
@@ -2854,7 +2861,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
-msgstr ""
+msgstr "ತದ್ರೂಪು ಪ್ರತಿ(_u)"
 
 #: ../src/gth-browser-actions-entries.h:104
 msgid "Duplicate selected images"
@@ -2874,7 +2881,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:123
 msgid "_Select All"
-msgstr ""
+msgstr "ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆ ಮಾಡು(_S)"
 
 #: ../src/gth-browser-actions-entries.h:124
 msgid "Select all images"
@@ -2902,7 +2909,7 @@ msgstr "ತೆಗೆದು ಹಾಕು"
 #: ../src/gth-browser-actions-entries.h:138
 #: ../src/gth-browser-actions-entries.h:208
 msgid "Open"
-msgstr ""
+msgstr "ತೆರೆ"
 
 #: ../src/gth-browser-actions-entries.h:139
 msgid "Open the selected catalog"
@@ -2990,7 +2997,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder"
-msgstr ""
+msgstr "ಆಯ್ದ ಕಡತಕೋಶವನ್ನು ತೆರೆ"
 
 #: ../src/gth-browser-actions-entries.h:214
 msgid "Open the selected folder in a new window"
@@ -3015,17 +3022,17 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
-msgstr ""
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಕಡತವನ್ನು ಕಾಪಿ ಮಾಡಿ"
 
 #: ../src/gth-browser-actions-entries.h:239
 msgid "Move selected folder"
-msgstr ""
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಕಡತವನ್ನು ಸ್ಥಳಾಂತರಿಸಿ"
 
 #: ../src/gth-browser-actions-entries.h:243
 #: ../src/gth-browser-actions-entries.h:273
 #: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "ವರ್ಗಗಳು(_t)..."
 
 #: ../src/gth-browser-actions-entries.h:244
 msgid "Assign categories to the selected folder"
@@ -3057,12 +3064,11 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:278
 msgid "_New Folder..."
-msgstr ""
+msgstr "ಹೊಸ ಕಡತಕೋಶ(_N)..."
 
 #: ../src/gth-browser-actions-entries.h:279
-#, fuzzy
 msgid "Create a new folder"
-msgstr "ನಿರ್ಮಿಸು"
+msgstr "ಒಂದು ಹೊಸ ಕಡತಕೋಶವನ್ನು ನಿರ್ಮಿಸಿ"
 
 #: ../src/gth-browser-actions-entries.h:284
 #: ../src/gth-fullscreen-actions-entries.h:43
@@ -3076,25 +3082,25 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:299
 msgid "Go to the previous visited location"
-msgstr ""
+msgstr "ಈ ಹಿಂದೆ ಭೇಟಿ ನೀಡಲಾದ ಸ್ಥಳಕ್ಕೆ ತೆರಳಿ"
 
 #: ../src/gth-browser-actions-entries.h:304
 msgid "Go to the next visited location"
-msgstr ""
+msgstr "ಇದರ ನಂತರ ಭೇಟಿ ನೀಡಲಾದ ಸ್ಥಳಕ್ಕೆ ತೆರಳಿ"
 
 #: ../src/gth-browser-actions-entries.h:309
 msgid "Go up one level"
-msgstr ""
+msgstr "ಒಂದು ಹಂತ ಮೇಲಕ್ಕೆ ಹೋಗಿ"
 
 #: ../src/gth-browser-actions-entries.h:313
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
-msgstr ""
+msgstr "ಪುನಃ ಲೋಡ್ ಮಾಡು(_R)"
 
 #: ../src/gth-browser-actions-entries.h:314
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
-msgstr ""
+msgstr "ಪ್ರಸಕ್ತ ತಾಣವನ್ನು ಪುನಃ ಲೋಡ್ ಮಾಡಿ"
 
 #: ../src/gth-browser-actions-entries.h:319
 msgid "Stop loading current location"
@@ -3124,7 +3130,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:338
 msgid "_Location..."
-msgstr ""
+msgstr "ತಾಣ(_L)..."
 
 #: ../src/gth-browser-actions-entries.h:339
 msgid "Specify a location to visit"
@@ -3132,7 +3138,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:343
 msgid "_Add Bookmark"
-msgstr ""
+msgstr "ಬುಕ್‌ಮಾರ್ಕನ್ನು ಸೇರಿಸು(_A)"
 
 #: ../src/gth-browser-actions-entries.h:344
 msgid "Add current location to bookmarks"
@@ -3140,7 +3146,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:348
 msgid "_Edit Bookmarks..."
-msgstr ""
+msgstr "ಬುಕ್ಮಾರ್ಕುಗಳನ್ನು ಸಂಪಾದಿಸು(_E)..."
 
 #: ../src/gth-browser-actions-entries.h:349
 msgid "Edit bookmarks"
@@ -3155,9 +3161,8 @@ msgid "View as a slide show"
 msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:358
-#, fuzzy
 msgid "_Search..."
-msgstr "ಹುಡುಕು."
+msgstr "ಹುಡುಕು(_S)..."
 
 #: ../src/gth-browser-actions-entries.h:368
 #, fuzzy
@@ -3180,7 +3185,7 @@ msgstr "ಹುಡುಕು."
 
 #: ../src/gth-browser-actions-entries.h:388
 msgid "_Preferences..."
-msgstr ""
+msgstr "ಆದ್ಯತೆಗಳು(_P)..."
 
 #: ../src/gth-browser-actions-entries.h:389
 msgid "Edit various preferences"
@@ -3193,7 +3198,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
-msgstr ""
+msgstr "ಉಪಕರಣಪಟ್ಟಿ(_T)"
 
 #: ../src/gth-browser-actions-entries.h:403
 #: ../src/gth-viewer-actions-entries.h:74
@@ -3203,7 +3208,7 @@ msgstr ""
 #: ../src/gth-browser-actions-entries.h:407
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
-msgstr ""
+msgstr "ಸ್ಥಿತಿಪಟ್ಟಿ(_S)"
 
 #: ../src/gth-browser-actions-entries.h:408
 #: ../src/gth-viewer-actions-entries.h:79
@@ -3211,9 +3216,8 @@ msgid "View or hide the statusbar of this window"
 msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:412
-#, fuzzy
 msgid "_Filter"
-msgstr "ಶೋಧಕ(Filter)"
+msgstr "ಶೋಧಕ(_Filter)"
 
 #: ../src/gth-browser-actions-entries.h:413
 msgid "View or hide the filterbar of this window"
@@ -3234,24 +3238,23 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:434
 msgid "Show _Hidden Files"
-msgstr ""
+msgstr "ಗೌಪ್ಯವಾಗಿರಸಲಾದ ಕಡತಗಳನ್ನು ತೋರಿಸು (_H)"
 
 #: ../src/gth-browser-actions-entries.h:435
 msgid "Show hidden files and folders"
-msgstr ""
+msgstr "ಅಡಗಿಸಿದ ಕಡತ ಹಾಗು ಕಡತಕೋಶವನ್ನು ತೋರಿಸು"
 
 #: ../src/gth-browser-actions-entries.h:440
 msgid "_Reversed Order"
-msgstr ""
+msgstr "ಹಿಂದು ಮುಂದಾಗಿಸಲಾದ ಕ್ರಮ(_R)"
 
 #: ../src/gth-browser-actions-entries.h:441
 msgid "Reverse images order"
 msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:450
-#, fuzzy
 msgid "by _Name"
-msgstr "ಹೆಸರು"
+msgstr "ಹೆಸರಿನ ಆಧಾರದಲ್ಲಿ(_N)"
 
 #: ../src/gth-browser-actions-entries.h:451
 msgid "Sort images by name"
@@ -3266,9 +3269,8 @@ msgid "Sort images by path"
 msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:456
-#, fuzzy
 msgid "by _Size"
-msgstr "ಗಾತ್ರ"
+msgstr "ಗಾತ್ರದ ಆಧಾರದಲ್ಲಿ(_S)"
 
 #: ../src/gth-browser-actions-entries.h:457
 msgid "Sort images by file size"
@@ -3318,7 +3320,7 @@ msgstr ""
 
 #: ../src/gth-browser-actions-entries.h:489
 msgid "_Folders"
-msgstr ""
+msgstr "ಕಡತ ಕೋಶಗಳು(_F)"
 
 #: ../src/gth-browser-actions-entries.h:490
 msgid "View the folders"
@@ -3394,7 +3396,7 @@ msgstr ""
 
 #: ../src/gth-browser.c:6921 ../src/gth-filter-bar.c:537
 msgid "Close"
-msgstr ""
+msgstr "ಮುಚ್ಚು"
 
 #: ../src/gth-browser.c:6935 ../src/gth-viewer.c:1678
 msgid "Image comment"
@@ -3414,7 +3416,7 @@ msgstr ""
 
 #: ../src/gth-browser.c:8653 ../src/gth-viewer.c:2123
 msgid "Wait please..."
-msgstr ""
+msgstr "ದಯವಿಟ್ಟು ಕಾಯಿರಿ..."
 
 #: ../src/gth-exif-data-viewer.c:65
 msgid "Filesystem Data"
@@ -3457,28 +3459,34 @@ msgid "Path"
 msgstr "ಮಾರ್ಗ"
 
 #: ../src/gth-filter-bar.c:176
+#, fuzzy
 msgid "contains"
-msgstr ""
+msgstr "ಹೊಂದಿದೆ"
 
 #: ../src/gth-filter-bar.c:177
+#, fuzzy
 msgid "starts with"
-msgstr ""
+msgstr "ಇದರೊಂದಿಗೆ ಆರಂಭಗೊಳ್ಳುತ್ತದೆ"
 
 #: ../src/gth-filter-bar.c:178
+#, fuzzy
 msgid "ends with"
-msgstr ""
+msgstr "ಇದರೊಂದಿಗೆ ಮುಗಿಯುತ್ತದೆ"
 
 #: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#, fuzzy
 msgid "is"
-msgstr ""
+msgstr "ವು"
 
 #: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#, fuzzy
 msgid "is not"
-msgstr ""
+msgstr "ಆಗಿಲ್ಲ"
 
 #: ../src/gth-filter-bar.c:181
+#, fuzzy
 msgid "does not contain"
-msgstr ""
+msgstr "ಹೊಂದಿಲ್ಲ"
 
 #: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
 msgid "is equal to"
@@ -3489,16 +3497,19 @@ msgid "is lower than"
 msgstr ""
 
 #: ../src/gth-filter-bar.c:186
+#, fuzzy
 msgid "is greater than"
-msgstr ""
+msgstr "ಕ್ಕಿಂತ ಹೆಚ್ಚಿನ"
 
 #: ../src/gth-filter-bar.c:190
+#, fuzzy
 msgid "is before"
-msgstr ""
+msgstr "ಇದಕ್ಕೂ ಮೊದಲು"
 
 #: ../src/gth-filter-bar.c:191
+#, fuzzy
 msgid "is after"
-msgstr ""
+msgstr "ಇದರ ನಂತರ"
 
 #: ../src/gth-filter-bar.c:200
 msgid "KB"
@@ -3510,7 +3521,7 @@ msgstr "MB"
 
 #: ../src/gth-filter-bar.c:207
 msgid "Filename"
-msgstr ""
+msgstr "ಕಡತದ ಹೆಸರು"
 
 #: ../src/gth-filter-bar.c:209
 msgid "Place"
@@ -3521,9 +3532,8 @@ msgid "Category"
 msgstr "ಪಂಗಡ"
 
 #: ../src/gth-filter-bar.c:213
-#, fuzzy
 msgid "Text contains"
-msgstr "ಪಠ್ಯ"
+msgstr "ಇದನ್ನು ಹೊಂದಿರುವ ಪಠ್ಯ"
 
 #: ../src/gth-filter-bar.c:494
 msgid "All"
@@ -3540,7 +3550,7 @@ msgstr ""
 
 #: ../src/gth-folder-selection-dialog.c:299
 msgid "_Browse..."
-msgstr ""
+msgstr "ವೀಕ್ಷಿಸು(_B)..."
 
 #: ../src/gth-folder-selection-dialog.c:317
 msgid "<b>_Recent folders:</b>"
@@ -3551,19 +3561,18 @@ msgid "Proper_ties"
 msgstr ""
 
 #: ../src/gth-location.c:392
-#, fuzzy
 msgid "Other..."
-msgstr "ಇತರೆ."
+msgstr "ಇತರೆ..."
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
-msgstr ""
+msgstr "ಪರಿವರ್ತಿಸು(_T)"
 
 #: ../src/gth-viewer-actions-entries.h:42
 #: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
-msgstr ""
+msgstr "ಸ್ವಯಂಚಾಲಿತ"
 
 #: ../src/gth-viewer-actions-entries.h:88
 msgid "_Single Window"
@@ -3575,7 +3584,7 @@ msgstr ""
 
 #: ../src/gth-viewer.c:820
 msgid "_None"
-msgstr ""
+msgstr "ಯಾವುದೂ ಇಲ್ಲ(_N)"
 
 #: ../src/gth-viewer.c:1467 ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
@@ -3600,11 +3609,11 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
-msgstr ""
+msgstr "ಈ ವಿಂಡೋವನ್ನು ಮುಚ್ಚು"
 
 #: ../src/gth-window-actions-entries.h:45
 msgid "_Open With..."
-msgstr ""
+msgstr "ಇದರೊಂದಿಗೆ ತೆರೆ(_O)..."
 
 #: ../src/gth-window-actions-entries.h:51
 #: ../src/gth-window-actions-entries.h:56
@@ -3613,7 +3622,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:55
 msgid "Save _As..."
-msgstr ""
+msgstr "ಹೀಗೆ ಉಳಿಸು(_A)..."
 
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
@@ -3621,12 +3630,12 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:65
 msgid "Print..."
-msgstr ""
+msgstr "ಮುದ್ರಿಸು..."
 
 #: ../src/gth-window-actions-entries.h:66
 #: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
-msgstr ""
+msgstr "ಪ್ರಸಕ್ತ ಚಿತ್ರವನ್ನು ಮುದ್ರಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
@@ -3648,7 +3657,7 @@ msgstr ""
 #: ../src/gth-window-actions-entries.h:91
 #, fuzzy
 msgid "Remove comments of selected images"
-msgstr "ತೆಗೆದು ಹಾಕು"
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಚಿತ್ರಗಳಲ್ಲಿನ  ತೆಗೆದು ಹಾಕು"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
@@ -3671,7 +3680,7 @@ msgstr ""
 #: ../src/gth-window-actions-entries.h:120
 #: ../src/gth-window-actions-entries.h:280
 msgid "Rotate _Left"
-msgstr ""
+msgstr "ಎಡಕ್ಕೆ ತಿರುಗಿಸು(_L)"
 
 #: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
@@ -3679,7 +3688,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
-msgstr ""
+msgstr "ಮಗುಚು(_F)"
 
 #: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
@@ -3687,7 +3696,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr ""
+msgstr "ಪ್ರತಿಬಿಂಬಿಸು(_M)"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
@@ -3749,9 +3758,8 @@ msgid "_Hue-Saturation..."
 msgstr "ಸ್ಯಾಚುರೇಶನ್."
 
 #: ../src/gth-window-actions-entries.h:166
-#, fuzzy
 msgid "Adjust hue and saturation"
-msgstr "ಬಣ್ಣ"
+msgstr "ಬಣ್ಣ ಹಾಗು ಸ್ಯಾಚುರೇಶನ್ ಅನ್ನು ಸರಿಹೊಂದಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
@@ -3763,7 +3771,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
-msgstr ""
+msgstr "ಬಣ್ಣದ ಸಮತೋಲನ(_C)..."
 
 #: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
@@ -3775,19 +3783,19 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
-msgstr ""
+msgstr "ಚಿತ್ರದ ಗಾತ್ರ ಬದಲಾಯಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:185
 msgid "_Crop..."
-msgstr ""
+msgstr "ಕತ್ತರಿಸು(_C)..."
 
 #: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಕತ್ತರಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
-msgstr ""
+msgstr "ಕಪ್ಪು ಹಾಗು ಬಿಳುಪು"
 
 #: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
@@ -3796,19 +3804,19 @@ msgstr ""
 #: ../src/gth-window-actions-entries.h:200
 #: ../src/gth-window-actions-entries.h:307
 msgid "In"
-msgstr ""
+msgstr "ಒಳಗೆ"
 
 #: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
-msgstr ""
+msgstr "ಹಿಗ್ಗಿಸು"
 
 #: ../src/gth-window-actions-entries.h:205
 msgid "Out"
-msgstr ""
+msgstr "ಹೊರಗೆ"
 
 #: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
-msgstr ""
+msgstr "ಕುಗ್ಗಿಸು"
 
 #: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
@@ -3816,11 +3824,11 @@ msgstr "1:1"
 
 #: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
-msgstr ""
+msgstr "ನಿಜವಾದ ಗಾತ್ರ"
 
 #: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
-msgstr ""
+msgstr "ಹೊಂದಿಸು"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
@@ -3828,7 +3836,7 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:220
 msgid "Width"
-msgstr ""
+msgstr "ಅಗಲ"
 
 #: ../src/gth-window-actions-entries.h:221
 msgid "Zoom to fit width"
@@ -3876,16 +3884,15 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
-msgstr ""
+msgstr "ಮರಳಿ ಸ್ಥಾಪಿಸು(_R)"
 
 #: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
 msgstr ""
 
 #: ../src/gth-window-actions-entries.h:265
-#, fuzzy
 msgid "Change _Date..."
-msgstr "ದಿನಾಂಕ."
+msgstr "ದಿನಾಂಕವನ್ನು ಬದಲಾಯಿಸು(_D)..."
 
 #: ../src/gth-window-actions-entries.h:266
 msgid "Change images last modified date"
@@ -3901,15 +3908,19 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
-msgstr ""
+msgstr "gThumb ಬಗೆಗಿನ ಮಾಹಿತಿಯನ್ನು ತೋರಿಸು"
 
 #: ../src/gth-window-actions-entries.h:295
 msgid "Contents"
+msgstr "ವಿಷಯಗಳು"
+
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
 msgstr ""
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "ಕೀಲಿಮಣೆ ಶಾರ್ಟ್-ಕಟ್‌ಗಳು(_K)"
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
@@ -3953,15 +3964,15 @@ msgstr ""
 
 #: ../src/main.c:146
 msgid "Holidays"
-msgstr ""
+msgstr "ರಜಾದಿನಗಳು"
 
 #: ../src/main.c:147
 msgid "Temporary"
-msgstr ""
+msgstr "ತಾತ್ಕಾಲಿಕ"
 
 #: ../src/main.c:148
 msgid "Screenshots"
-msgstr ""
+msgstr "ತೆರೆಚಿತ್ರಗಳು"
 
 #: ../src/main.c:149
 msgid "Science"
@@ -3969,40 +3980,39 @@ msgstr "ವಿಜ್ಞಾನ"
 
 #: ../src/main.c:150
 msgid "Favourite"
-msgstr ""
+msgstr "ಅಚ್ಚುಮೆಚ್ಚಿನ"
 
 #: ../src/main.c:151
 msgid "Important"
-msgstr ""
+msgstr "ಪ್ರಮುಖವಾದದ್ದು"
 
 #: ../src/main.c:152
 msgid "GNOME"
 msgstr "GNOME"
 
 #: ../src/main.c:153
-#, fuzzy
 msgid "Games"
 msgstr "ಆಟಗಳು"
 
 #: ../src/main.c:154
 msgid "Party"
-msgstr ""
+msgstr "ಪಾರ್ಟಿ"
 
 #: ../src/main.c:155
 msgid "Birthday"
-msgstr ""
+msgstr "ಹುಟ್ಟಿದದಿನ"
 
 #: ../src/main.c:156
 msgid "Astronomy"
-msgstr ""
+msgstr "ಖಗೋಳಶಾಸ್ತ್ರ"
 
 #: ../src/main.c:157
 msgid "Family"
-msgstr ""
+msgstr "ಕುಲ"
 
 #: ../src/main.c:379
 msgid "Command Line"
-msgstr ""
+msgstr "ಆಜ್ಞಾ ಸಾಲು"
 
 #: ../src/rotation-utils.c:113
 #, c-format
