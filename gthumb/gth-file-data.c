@@ -444,7 +444,7 @@ char *
 gth_file_data_get_attribute_as_string (GthFileData *file_data,
 				       const char  *id)
 {
-	char     *value;
+	char     *value = NULL;
 	GObject  *obj;
 
 	switch (g_file_info_get_attribute_type (file_data->info, id)) {

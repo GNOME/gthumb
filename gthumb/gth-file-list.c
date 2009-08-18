@@ -1138,7 +1138,7 @@ gth_file_list_set_caption (GthFileList *file_list,
 			metadata = _gth_file_list_get_metadata (file_list, file_data);
 			gth_file_store_queue_set (file_store,
 						  &iter,
-						  GTH_FILE_STORE_METADATA_COLUMN, metadata,
+						  GTH_FILE_STORE_METADATA_COLUMN, metadata->str,
 						  -1);
 
 			g_string_free (metadata, TRUE);
