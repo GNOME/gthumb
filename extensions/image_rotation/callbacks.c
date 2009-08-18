@@ -42,14 +42,14 @@ static const char *fixed_ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "Tool_RotateRight", NULL,
-	  N_("Rotate right"), NULL,
-	  N_("Rotate the selected to the right"),
+	{ "Tool_RotateRight", "object-rotate-right",
+	  N_("Rotate Right"), "<control><alt>R",
+	  N_("Rotate the selected images 90° to the right"),
 	  G_CALLBACK (gth_browser_activate_action_tool_rotate_right) },
 
-	{ "Tool_RotateLeft", NULL,
-	  N_("Rotate left"), NULL,
-	  N_("Rotate the selected to the left"),
+	{ "Tool_RotateLeft", "object-rotate-left",
+	  N_("Rotate Left"), "<control><alt>L",
+	  N_("Rotate the selected images 90° to the left"),
 	  G_CALLBACK (gth_browser_activate_action_tool_rotate_left) },
 };
 
