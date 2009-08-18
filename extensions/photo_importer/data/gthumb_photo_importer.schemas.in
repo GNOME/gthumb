@@ -53,5 +53,18 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/adjust_orientation</key>
+	<applyto>/apps/gthumb/ext/photo_importer/adjust_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>TRUE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

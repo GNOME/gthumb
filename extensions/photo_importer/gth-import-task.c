@@ -21,23 +21,25 @@
  */
 
 #include <config.h>
+#include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
 
-
 struct _GthImportTaskPrivate {
-	GthBrowser       *browser;
-	GList            *files;
-	GFile            *destination;
-	GthSubfolderType  subfolder_type;
-	gboolean          single_subfolder;
-	char             *tags;
-	gboolean          delete_imported;
-	GCancellable     *cancellable;
+	GthBrowser        *browser;
+	GList             *files;
+	GFile             *destination;
+	GthSubfolderType   subfolder_type;
+	gboolean           single_subfolder;
+	char             **tags;
+	gboolean           delete_imported;
+	gboolean           adjust_orientation;
+	GCancellable      *cancellable;
 
-	gsize             tot_size;
-	gsize             copied_size;
-	gsize             current_file_size;
-	GList            *current;
+	gsize              tot_size;
+	gsize              copied_size;
+	gsize              current_file_size;
+	GList             *current;
+	GthFileData       *destination_file;
 };
 
 
@@ -53,7 +55,8 @@ gth_import_task_finalize (GObject *object)
 
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
-	g_free (self->priv->tags);
+	_g_object_unref (self->priv->destination_file);
+	g_strfreev (self->priv->tags);
 	g_object_unref (self->priv->cancellable);
 	g_object_unref (self->priv->browser);
 
@@ -65,26 +68,69 @@ static void import_current_file (GthImportTask *self);
 
 
 static void
+import_next_file (GthImportTask *self)
+{
+	self->priv->copied_size += self->priv->current_file_size;
+	self->priv->current = self->priv->current->next;
+	import_current_file (self);
+}
+
+
+static void
+transformation_ready_cb (GError   *error,
+			 gpointer  user_data)
+{
+	GthImportTask *self = user_data;
+
+	/*
+	 * FIXME: add tags
+	 */
+
+	import_next_file (self);
+}
+
+
+static void
 copy_ready_cb (GError   *error,
 	       gpointer  user_data)
 {
 	GthImportTask *self = user_data;
-	GthFileData   *file_data;
+	gboolean       appling_tranformation = FALSE;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
-	/*
-	 * adjust orientation
-	 * add tags
-	 */
+	if (self->priv->adjust_orientation) {
+		GthMetadata *metadata;
 
-	file_data = self->priv->current->data;
-	self->priv->copied_size += self->priv->current_file_size;
-	self->priv->current = self->priv->current->next;
-	import_current_file (self);
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->destination_file->info, "Exif::Image::Orientation");
+		if (metadata != NULL) {
+			const char *value;
+
+			value = gth_metadata_get_raw (metadata);
+			if (value != NULL) {
+				int transform;
+
+				sscanf (value, "%d", &transform);
+				if (transform != 1) {
+					apply_transformation_async (self->priv->destination_file,
+								    (GthTransform) transform,
+								    JPEG_MCU_ACTION_ABORT,
+								    self->priv->cancellable,
+								    transformation_ready_cb,
+								    self);
+					appling_tranformation = TRUE;
+				}
+			}
+
+			g_object_unref (metadata);
+		}
+	}
+
+	if (! appling_tranformation)
+		import_next_file (self);
 }
 
 
@@ -146,10 +192,13 @@ file_info_ready_cb (GList    *files,
 		}
 	}
 
+	_g_object_unref (self->priv->destination_file);
+
 	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
+	self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
 	_g_copy_file_async (file_data,
 			    destination_file,
-			    FALSE /*self->priv->delete_imported*/,
+			    FALSE /* FIXME: self->priv->delete_imported */,
 			    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS,
 			    G_PRIORITY_DEFAULT,
 			    self->priv->cancellable,
@@ -178,7 +227,7 @@ import_current_file (GthImportTask *self)
 	file_data = self->priv->current->data;
 	list = g_list_prepend (NULL, file_data);
 	_g_query_metadata_async (list,
-				 "Exif::Image::DateTime",
+				 "Exif::Image::DateTime,Exif::Image::Orientation",
 				 self->priv->cancellable,
 				 file_info_ready_cb,
 				 self);
@@ -266,13 +315,14 @@ gth_import_task_get_type (void)
 
 
 GthTask *
-gth_import_task_new (GthBrowser       *browser,
-		     GList            *files,
-		     GFile            *destination,
-		     GthSubfolderType  subfolder_type,
-		     gboolean          single_subfolder,
-		     const char       *tags,
-		     gboolean          delete_imported)
+gth_import_task_new (GthBrowser        *browser,
+		     GList             *files,
+		     GFile             *destination,
+		     GthSubfolderType   subfolder_type,
+		     gboolean           single_subfolder,
+		     char             **tags,
+		     gboolean           delete_imported,
+		     gboolean           adjust_orientation)
 {
 	GthImportTask *self;
 
@@ -282,8 +332,9 @@ gth_import_task_new (GthBrowser       *browser,
 	self->priv->destination = g_file_dup (destination);
 	self->priv->subfolder_type = subfolder_type;
 	self->priv->single_subfolder = single_subfolder;
-	self->priv->tags = g_strdup (tags);
+	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
+	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;
 }

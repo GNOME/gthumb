@@ -70,6 +70,7 @@ destroy_dialog (gpointer user_data)
 	gboolean          single_subfolder;
 	GthSubfolderType  subfolder_type;
 	gboolean          delete_imported;
+	gboolean          adjust_orientation;
 
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
 
@@ -92,22 +93,29 @@ destroy_dialog (gpointer user_data)
 	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
 
+	adjust_orientation = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")));
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, adjust_orientation);
+
 	if (data->import) {
-		GthFileStore *file_store;
-		GList        *files;
-		GthTask      *task;
+		GthFileStore  *file_store;
+		GList         *files;
+		char         **tags;
+		GthTask       *task;
 
 		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
 		files = gth_file_store_get_checked (file_store);
+		tags = g_strsplit (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))), " ", -1);
 		task = gth_import_task_new (data->browser,
 					    files,
 					    destination,
 					    subfolder_type,
 					    single_subfolder,
-					    gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))),
-					    delete_imported);
+					    tags,
+					    delete_imported,
+					    adjust_orientation);
 		gth_browser_exec_task (data->browser, task, FALSE);
 
+		g_strfreev (tags);
 		g_object_unref (task);
 		_g_object_list_unref (files);
 	}
@@ -699,6 +707,7 @@ dlg_photo_importer (GthBrowser *browser,
 	}
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, FALSE));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE));
 	update_destination (data);

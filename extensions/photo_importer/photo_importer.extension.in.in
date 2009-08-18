@@ -8,3 +8,4 @@ Version=1.0
 [Loader]
 Type=module
 File=%LIBRARY%
+Requires=image_rotation
