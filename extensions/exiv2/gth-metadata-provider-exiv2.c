@@ -82,6 +82,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 				   GthFileData         *file_data,
 				   const char          *attributes)
 {
+	/* FIXME */
 }
 
 

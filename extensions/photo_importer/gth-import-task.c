@@ -24,6 +24,7 @@
 #include <extensions/image_rotation/rotation-utils.h>
 #include "gth-import-task.h"
 
+
 struct _GthImportTaskPrivate {
 	GthBrowser        *browser;
 	GList             *files;
@@ -77,16 +78,42 @@ import_next_file (GthImportTask *self)
 
 
 static void
+write_metadata_ready_func (GError   *error,
+			   gpointer  user_data)
+{
+	GthImportTask *self = user_data;
+
+	if (error != NULL)
+		g_clear_error (&error);
+
+	import_next_file (self);
+}
+
+
+static void
 transformation_ready_cb (GError   *error,
 			 gpointer  user_data)
 {
 	GthImportTask *self = user_data;
+	GthStringList *tag_list;
+	GList         *file_list;
 
-	/*
-	 * FIXME: add tags
-	 */
+	if (self->priv->tags[0] == NULL) {
+		import_next_file (self);
+		return;
+	}
 
-	import_next_file (self);
+	tag_list = gth_string_list_new_from_strv (self->priv->tags);
+	g_file_info_set_attribute_object (self->priv->destination_file->info, "comment::categories", G_OBJECT (tag_list));
+	file_list = g_list_prepend (NULL, self->priv->destination_file);
+	_g_write_metadata_async (file_list,
+				 "comment::categories",
+				 self->priv->cancellable,
+				 write_metadata_ready_func,
+				 self);
+
+	g_list_free (file_list);
+	g_object_unref (tag_list);
 }
 
 
@@ -130,7 +157,7 @@ copy_ready_cb (GError   *error,
 	}
 
 	if (! appling_tranformation)
-		import_next_file (self);
+		transformation_ready_cb (NULL, self);
 }
 
 
