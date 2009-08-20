@@ -58,6 +58,7 @@ typedef struct {
 	gboolean       cancelling;
 	gulong         monitor_event;
 	GtkWidget     *filter_combobox;
+	GtkWidget     *tags_entry;
 	GList         *general_tests;
 } DialogData;
 
@@ -104,7 +105,7 @@ destroy_dialog (gpointer user_data)
 
 		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
 		files = gth_file_store_get_checked (file_store);
-		tags = g_strsplit (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))), " ", -1);
+		tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (data->tags_entry));
 		task = gth_import_task_new (data->browser,
 					    files,
 					    destination,
@@ -705,6 +706,11 @@ dlg_photo_importer (GthBrowser *browser,
 		g_object_unref (folder);
 		g_free (last_destination);
 	}
+
+	data->tags_entry = gth_tags_entry_new (NULL);
+	gtk_widget_show (data->tags_entry);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_box")), data->tags_entry, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), data->tags_entry);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE));

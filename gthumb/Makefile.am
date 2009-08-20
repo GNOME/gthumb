@@ -79,6 +79,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-source-tree.h				\
 	gth-stock.h					\
 	gth-string-list.h				\
+	gth-tags-entry.h				\
 	gth-task.h					\
 	gth-test.h					\
 	gth-test-chain.h				\
@@ -187,6 +188,7 @@ gthumb_SOURCES = 					\
 	gth-source-tree.c				\
 	gth-statusbar.c					\
 	gth-string-list.c				\
+	gth-tags-entry.c				\
 	gth-task.c					\
 	gth-test.c					\
 	gth-test-chain.c				\

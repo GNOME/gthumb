@@ -177,22 +177,22 @@
                 <property name="column_spacing">6</property>
                 <property name="row_spacing">5</property>
                 <child>
-                  <object class="GtkLabel" id="label5">
+                  <object class="GtkLabel" id="tags_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">_Tags:</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">tags_entry</property>
                   </object>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry" id="tags_entry">
+                  <object class="GtkHBox" id="tags_entry_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <child>
+                      <placeholder/>
+                    </child>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -370,8 +370,8 @@
                             <child>
                               <object class="GtkFileChooserButton" id="destination_filechooserbutton">
                                 <property name="visible">True</property>
-                                <property name="action">select-folder</property>
                                 <property name="local_only">False</property>
+                                <property name="action">select-folder</property>
                               </object>
                               <packing>
                                 <property name="position">0</property>

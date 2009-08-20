@@ -49,6 +49,7 @@ struct _GthEditCommentPagePrivate {
 	GtkBuilder  *builder;
 	GtkWidget   *date_combobox;
 	GtkWidget   *date_datetime;
+	GtkWidget   *tags_entry;
 };
 
 
@@ -101,12 +102,12 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		char *value;
 
 		value = gth_string_list_join (tags, ", ");
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("tags_entry")), value);
+		gtk_entry_set_text (GTK_ENTRY (self->priv->tags_entry), value);
 
 		g_free (value);
 	}
 	else
-		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("tags_entry")), "");
+		gtk_entry_set_text (GTK_ENTRY (self->priv->tags_entry), "");
 
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
 }
@@ -137,15 +138,10 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::place", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))));
 	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::time", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)));
 
-	tagv = g_strsplit (gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("tags_entry"))), ",", -1);
+	tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry));
 	tags = NULL;
-	for (i = 0; tagv[i] != NULL; i++) {
-		char *tag;
-
-		tag = g_strstrip (tagv[i]);
-		if (tag[0] != '\0')
-			tags = g_list_prepend (tags, g_strdup (tag));
-	}
+	for (i = 0; tagv[i] != NULL; i++)
+		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
 	string_list = gth_string_list_new (tags);
 	g_file_info_set_attribute_object (self->priv->file_data->info, "comment::categories", G_OBJECT (string_list));
@@ -153,7 +149,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	g_object_unref (string_list);
 	g_strfreev (tagv);
-	_g_string_list_free (tags);
+	g_list_free (tags);
 }
 
 
@@ -280,6 +276,10 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   	self->priv->date_datetime = gtk_entry_new ();
   	gtk_widget_show (self->priv->date_datetime);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_datetime_container")), self->priv->date_datetime, FALSE, FALSE, 0);
+
+  	self->priv->tags_entry = gth_tags_entry_new (NULL);
+  	gtk_widget_show (self->priv->tags_entry);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, TRUE, TRUE, 0);
 }
 
 
