@@ -39,6 +39,7 @@ G_BEGIN_DECLS
 
 #define BOOKMARKS_FILE "bookmarks.xbel"
 #define FILTERS_FILE   "filters.xml"
+#define TAGS_FILE      "tags.xml"
 #define FILE_CACHE     "cache"
 
 

@@ -131,9 +131,6 @@
       </packing>
     </child>
     <child>
-      <placeholder/>
-    </child>
-    <child>
       <object class="GtkHBox" id="tags_entry_container">
         <property name="visible">True</property>
         <child>
@@ -146,6 +143,9 @@
         <property name="top_attach">4</property>
         <property name="bottom_attach">5</property>
       </packing>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
 </interface>

@@ -33,6 +33,7 @@
 #include "gth-hook.h"
 #include "gth-metadata-provider.h"
 #include "gth-monitor.h"
+#include "gth-tags-file.h"
 #include "gth-test.h"
 
 G_BEGIN_DECLS
@@ -108,6 +109,9 @@ void                   gth_main_bookmarks_changed             (void);
 GthFilterFile *        gth_main_get_default_filter_file       (void);
 GList *                gth_main_get_all_filters               (void);
 void                   gth_main_filters_changed               (void);
+GthTagsFile *          gth_main_get_default_tag_file          (void);
+const char **          gth_main_get_all_tags                  (void);
+void                   gth_main_tags_changed                  (void);
 GthMonitor *           gth_main_get_default_monitor           (void);
 GthExtensionManager *  gth_main_get_default_extension_manager (void);
 void                   gth_main_register_default_hooks        (void);

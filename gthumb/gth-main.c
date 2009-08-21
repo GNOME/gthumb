@@ -101,6 +101,7 @@ struct _GthMainPrivate
 	GHashTable          *objects;
 	GBookmarkFile       *bookmarks;
 	GthFilterFile       *filters;
+	GthTagsFile         *tags;
 	GthMonitor          *monitor;
 	GthExtensionManager *extension_manager;
 };
@@ -1034,12 +1035,51 @@ gth_main_filters_changed (void)
 	char *filename;
 
 	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
-
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, FILTERS_FILE, NULL);
 	gth_filter_file_to_file (Main->priv->filters, filename, NULL);
+
 	g_free (filename);
 
 	gth_monitor_filters_changed (gth_main_get_default_monitor ());
+}
+
+
+GthTagsFile *
+gth_main_get_default_tag_file (void)
+{
+	char *path;
+
+	if (Main->priv->tags != NULL)
+		return Main->priv->tags;
+
+	Main->priv->tags = gth_tags_file_new ();
+	path = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	gth_tags_file_load_from_file (Main->priv->tags, path, NULL);
+	g_free (path);
+
+	return Main->priv->tags;
+}
+
+
+const char **
+gth_main_get_all_tags (void)
+{
+	return gth_tags_file_get_tags (gth_main_get_default_tag_file ());
+}
+
+
+void
+gth_main_tags_changed (void)
+{
+	char *filename;
+
+	gth_user_dir_make_dir_for_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, GTHUMB_DIR, TAGS_FILE, NULL);
+	gth_tags_file_to_file (Main->priv->tags, filename, NULL);
+
+	g_free (filename);
+
+	gth_monitor_tags_changed (gth_main_get_default_monitor ());
 }
 
 

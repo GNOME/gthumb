@@ -277,7 +277,7 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   	gtk_widget_show (self->priv->date_datetime);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_datetime_container")), self->priv->date_datetime, FALSE, FALSE, 0);
 
-  	self->priv->tags_entry = gth_tags_entry_new (NULL);
+  	self->priv->tags_entry = gth_tags_entry_new ();
   	gtk_widget_show (self->priv->tags_entry);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, TRUE, TRUE, 0);
 }

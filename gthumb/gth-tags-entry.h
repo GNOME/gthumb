@@ -48,7 +48,7 @@ struct _GthTagsEntryClass {
 };
 
 GType        gth_tags_entry_get_type  (void);
-GtkWidget *  gth_tags_entry_new       (char         **tags);
+GtkWidget *  gth_tags_entry_new       (void);
 char **      gth_tags_entry_get_tags  (GthTagsEntry  *self);
 
 G_END_DECLS

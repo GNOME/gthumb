@@ -35,6 +35,7 @@ enum {
 	ICON_THEME_CHANGED,
 	BOOKMARKS_CHANGED,
 	FILTERS_CHANGED,
+	TAGS_CHANGED,
 	FOLDER_CONTENT_CHANGED,
 	FILE_RENAMED,
 	METADATA_CHANGED,
@@ -106,6 +107,15 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthMonitorClass, filters_changed),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE,
+			      0);
+	monitor_signals[TAGS_CHANGED] =
+		g_signal_new ("tags-changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthMonitorClass, tags_changed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
@@ -233,6 +243,17 @@ gth_monitor_filters_changed (GthMonitor *monitor)
 
 	g_signal_emit (G_OBJECT (monitor),
 		       monitor_signals[FILTERS_CHANGED],
+		       0);
+}
+
+
+void
+gth_monitor_tags_changed (GthMonitor *monitor)
+{
+	g_return_if_fail (GTH_IS_MONITOR (monitor));
+
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[TAGS_CHANGED],
 		       0);
 }
 

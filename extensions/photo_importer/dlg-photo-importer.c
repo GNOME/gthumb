@@ -707,7 +707,7 @@ dlg_photo_importer (GthBrowser *browser,
 		g_free (last_destination);
 	}
 
-	data->tags_entry = gth_tags_entry_new (NULL);
+	data->tags_entry = gth_tags_entry_new ();
 	gtk_widget_show (data->tags_entry);
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_box")), data->tags_entry, TRUE, TRUE, 0);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), data->tags_entry);
