@@ -414,7 +414,7 @@ egg_file_format_chooser_init (EggFileFormatChooser *self)
 /* extensions column */
 
   column = gtk_tree_view_column_new_with_attributes (
-    _("Extension(s)"), gtk_cell_renderer_text_new (),
+    _("Extensions"), gtk_cell_renderer_text_new (),
     "text", MODEL_COLUMN_EXTENSIONS, NULL);
   gtk_tree_view_column_set_expand (column, FALSE);
   gtk_tree_view_append_column (GTK_TREE_VIEW (view), column);
