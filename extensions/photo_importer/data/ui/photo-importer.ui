@@ -19,7 +19,7 @@
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
-              <object class="GtkHBox" id="hbox5">
+              <object class="GtkHBox" id="source_selector_box">
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
@@ -171,7 +171,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTable" id="table3">
+              <object class="GtkTable" id="tags_box">
                 <property name="visible">True</property>
                 <property name="n_columns">2</property>
                 <property name="column_spacing">6</property>
@@ -370,8 +370,8 @@
                             <child>
                               <object class="GtkFileChooserButton" id="destination_filechooserbutton">
                                 <property name="visible">True</property>
-                                <property name="local_only">False</property>
                                 <property name="action">select-folder</property>
+                                <property name="local_only">False</property>
                               </object>
                               <packing>
                                 <property name="position">0</property>

@@ -200,6 +200,8 @@ update_sensitivity (DialogData *data)
 	can_import = data->source != NULL;
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("list_command_box"), can_import);
+	gtk_widget_set_sensitive (GET_WIDGET ("source_selector_box"), can_import);
+	gtk_widget_set_sensitive (GET_WIDGET ("tags_box"), can_import);
 }
 
 
