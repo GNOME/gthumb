@@ -1726,6 +1726,22 @@ _g_file_list_new_from_uri_list (GList *uris)
 
 
 GList *
+_g_file_list_new_from_uriv (char **uris)
+{
+	GList *r = NULL;
+	int    i;
+
+	if (uris == NULL)
+		return NULL;
+
+	for (i = 0; uris[i] != NULL; i++)
+		r = g_list_prepend (r, g_file_new_for_uri (uris[i]));
+
+	return g_list_reverse (r);
+}
+
+
+GList *
 _g_file_list_find_file (GList *l,
 			GFile *file)
 {

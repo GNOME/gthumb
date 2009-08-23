@@ -225,6 +225,7 @@ GIcon *         _g_file_get_icon                 (GFile      *file);
 GList *         _g_file_list_dup                 (GList      *l);
 void            _g_file_list_free                (GList      *l);
 GList *         _g_file_list_new_from_uri_list   (GList      *uris);
+GList *         _g_file_list_new_from_uriv       (char      **uris);
 GList *         _g_file_list_find_file           (GList      *l,
 						  GFile      *file);
 const char*     _g_file_get_mime_type            (GFile      *file,
