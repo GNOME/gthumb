@@ -124,7 +124,6 @@ _gth_file_row_set_metadata (GthFileRow *row,
 		return;
 
 	g_free (row->metadata);
-	row->metadata = NULL;
 	row->metadata = g_strdup (metadata);
 }
 

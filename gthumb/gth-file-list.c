@@ -878,11 +878,18 @@ gfl_update_files (GthFileList *file_list,
 		GthFileData *file_data = scan->data;
 		GtkTreeIter  iter;
 
-		if (gth_file_store_find (file_store, file_data->file, &iter))
+		if (gth_file_store_find (file_store, file_data->file, &iter)) {
+			GString *metadata;
+
+			metadata = _gth_file_list_get_metadata (file_list, file_data);
 			gth_file_store_queue_set (file_store,
 						  &iter,
 						  GTH_FILE_STORE_FILE_DATA_COLUMN, file_data,
+						  GTH_FILE_STORE_METADATA_COLUMN, metadata->str,
 						  -1);
+
+			g_string_free (metadata, TRUE);
+		}
 	}
 	gth_file_store_exec_set (file_store);
 	_gth_file_list_update_pane (file_list);
