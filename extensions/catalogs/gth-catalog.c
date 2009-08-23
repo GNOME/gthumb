@@ -319,7 +319,7 @@ gth_catalog_get_file_list (GthCatalog *catalog)
 }
 
 
-void
+gboolean
 gth_catalog_insert_file (GthCatalog *catalog,
 			 int         pos,
 			 GFile      *file)
@@ -327,25 +327,36 @@ gth_catalog_insert_file (GthCatalog *catalog,
 	GList *link;
 
 	link = g_list_find_custom (catalog->priv->file_list, file, (GCompareFunc) _g_file_cmp_uris);
-	if (link == NULL)
-		catalog->priv->file_list = g_list_insert (catalog->priv->file_list, g_file_dup (file), pos);
+	if (link != NULL)
+		return FALSE;
+
+	catalog->priv->file_list = g_list_insert (catalog->priv->file_list, g_file_dup (file), pos);
+
+	return TRUE;
 }
 
 
-void
+int
 gth_catalog_remove_file (GthCatalog *catalog,
 			 GFile      *file)
 {
-	GList *link;
+	GList *scan;
+	int    i = 0;
 
-	g_return_if_fail (file != NULL);
+	g_return_val_if_fail (catalog != NULL, -1);
+	g_return_val_if_fail (file != NULL, -1);
 
-	link = g_list_find_custom (catalog->priv->file_list, file, (GCompareFunc) _g_file_cmp_uris);
-	if (link != NULL) {
-		catalog->priv->file_list = g_list_remove_link (catalog->priv->file_list, link);
-		g_object_unref ((GFile *) link->data);
-		g_list_free (link);
-	}
+	for (scan = catalog->priv->file_list; scan; scan = scan->next, i++)
+		if (g_file_equal ((GFile *) scan->data, file))
+			break;
+
+	if (scan == NULL)
+		return -1;
+
+	catalog->priv->file_list = g_list_remove_link (catalog->priv->file_list, scan);
+	_g_object_list_unref (scan);
+
+	return i;
 }
 
 

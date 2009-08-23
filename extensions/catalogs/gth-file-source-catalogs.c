@@ -494,8 +494,6 @@ reorder_buffer_ready_cb (void     *buffer,
 
 	g_free (buffer);
 
-	reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
-
 	parent = g_file_get_parent (reorder_data->destination->file);
 	files = g_list_append (NULL, reorder_data->destination->file);
 	gth_monitor_folder_changed (gth_main_get_default_monitor (),
@@ -503,9 +501,30 @@ reorder_buffer_ready_cb (void     *buffer,
 				    files,
 				    GTH_MONITOR_EVENT_CHANGED);
 
+	reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
+
 	g_list_free (files);
 	g_object_unref (parent);
 	reorder_data_free (reorder_data);
+}
+
+
+static void
+reorder_catalog_list (GthCatalog *catalog,
+		      GList      *file_list,
+		      int         dest_pos)
+{
+	GList *scan;
+
+	for (scan = file_list; scan; scan = scan->next) {
+		int file_pos = gth_catalog_remove_file (catalog, (GFile *) scan->data);
+		if (file_pos < dest_pos)
+			dest_pos--;
+	}
+
+	for (scan = file_list; scan; scan = scan->next)
+		if (gth_catalog_insert_file (catalog, dest_pos, (GFile *) scan->data))
+			dest_pos++;
 }
 
 
@@ -527,18 +546,7 @@ reorder_catalog_ready_cb (GObject  *object,
 	}
 
 	catalog = (GthCatalog *) object;
-
-	/* FIXME: reorder the file list here */
-
-	{
-		GList *scan;
-
-		for (scan = gth_catalog_get_file_list (catalog); scan; scan = scan->next) {
-			GFile *file = scan->data;
-
-			g_print ("==> %s\n", g_file_get_uri (file));
-		}
-	}
+	reorder_catalog_list (catalog, reorder_data->file_list, reorder_data->dest_pos);
 
 	buffer = gth_catalog_to_data (catalog, &buffer_size);
 	gio_file = gth_file_source_to_gio_file (reorder_data->file_source, reorder_data->destination->file);
