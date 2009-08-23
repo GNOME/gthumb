@@ -237,8 +237,6 @@ gth_file_list_drag_data_received (GtkWidget        *widget,
 	char       **uris;
 	GList       *file_list;
 
-	g_print ("DRAG_DATA_RECEIVED\n");
-
 	g_signal_stop_emission_by_name (widget, "drag-data-received");
 
 	if ((context->suggested_action == GDK_ACTION_COPY)
@@ -320,8 +318,6 @@ gth_file_list_drag_drop (GtkWidget      *widget,
 			 guint           time,
 			 gpointer        user_data)
 {
-	g_print ("DRAG_DROP\n");
-
 	g_signal_stop_emission_by_name (widget, "drag-drop");
 	gtk_drag_get_data (widget,
 	                   context,
@@ -343,8 +339,6 @@ gth_file_list_drag_motion (GtkWidget          *widget,
 	GthBrowser  *browser = extra_data;
 	BrowserData *data;
 	GtkWidget   *file_view;
-
-	g_print ("DRAG_MOTION\n");
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
@@ -370,8 +364,6 @@ gth_file_list_drag_leave (GtkWidget          *widget,
 {
 	GthBrowser *browser = extra_data;
 	GtkWidget  *file_view;
-
-	g_print ("DRAG_LEAVE\n");
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	if (gtk_drag_get_source_widget (context) == file_view)
