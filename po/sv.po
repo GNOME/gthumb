@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-07 12:36+0200\n"
-"PO-Revision-Date: 2009-07-07 21:39+0100\n"
+"POT-Creation-Date: 2009-08-23 11:36+0200\n"
+"PO-Revision-Date: 2009-08-23 11:38+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -1187,6 +1187,11 @@ msgid ""
 "Set image to actual size\n"
 "Fit to width if larger"
 msgstr ""
+"Behåll tidigare zoom\n"
+"Anpassa till fönster\n"
+"Anpassa till fönster om större\n"
+"Ställ in bild till faktisk storlek\n"
+"Anpassa till bredd om större"
 
 #: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Layout:"
@@ -1245,7 +1250,7 @@ msgstr "M_iniatyrbildsstorlek:"
 
 #: ../data/glade/gthumb_preferences.glade.h:64
 msgid "This makes it easier to select the correct photos to import, but the preview generation process may be slow."
-msgstr ""
+msgstr "Detta gör det enklare att välja de korrekta fotona att importera men förhandsvisningsprocessen kan bli långsammare."
 
 #: ../data/glade/gthumb_preferences.glade.h:65
 msgid "Transparency _type:"
@@ -1262,10 +1267,14 @@ msgid ""
 "Black\n"
 "Checked"
 msgstr ""
+"Vit\n"
+"Ingen\n"
+"Svart\n"
+"Markerade"
 
 #: ../data/glade/gthumb_preferences.glade.h:71
 msgid "_Extract preview images before importing"
-msgstr ""
+msgstr "_Extrahera förhandsvisningsbilder innan import"
 
 #: ../data/glade/gthumb_preferences.glade.h:72
 msgid "_Filenames"
@@ -1520,6 +1529,10 @@ msgid ""
 "Equal to\n"
 "After"
 msgstr ""
+"Alla\n"
+"Före\n"
+"Lika med\n"
+"Efter"
 
 #: ../data/glade/gthumb_search.glade.h:9
 msgid "Choose tags from the saved list"
@@ -1852,8 +1865,8 @@ msgid "_Last modified date"
 msgstr "_Datum för senaste ändring"
 
 #: ../data/glade/gthumb_tools.glade.h:100
-#: ../src/gth-browser-actions-callbacks.c:465
-#: ../src/gth-browser-actions-callbacks.c:922
+#: ../src/gth-browser-actions-callbacks.c:466
+#: ../src/gth-browser-actions-callbacks.c:923
 msgid "_Rename"
 msgstr "_Byt namn"
 
@@ -2366,20 +2379,20 @@ msgid "Loading images"
 msgstr "Läser in bilder"
 
 #: ../src/dlg-catalog.c:88
-#: ../src/gth-browser-actions-callbacks.c:658
+#: ../src/gth-browser-actions-callbacks.c:659
 msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
 #: ../src/dlg-catalog.c:92
 #: ../src/dlg-catalog.c:139
-#: ../src/dlg-file-utils.c:136
+#: ../src/dlg-file-utils.c:137
 #: ../src/dlg-tags.c:237
-#: ../src/gth-browser-actions-callbacks.c:730
+#: ../src/gth-browser-actions-callbacks.c:731
 msgid "C_reate"
 msgstr "S_kapa"
 
 #: ../src/dlg-catalog.c:135
-#: ../src/gth-browser-actions-callbacks.c:770
+#: ../src/gth-browser-actions-callbacks.c:771
 msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
@@ -2426,7 +2439,7 @@ msgid "%d x %d (Screen)"
 msgstr "%d × %d (skärm)"
 
 #: ../src/dlg-duplicates.c:283
-#: ../src/dlg-duplicates.c:657
+#: ../src/dlg-duplicates.c:686
 msgid "Duplicates"
 msgstr "Dubletter"
 
@@ -2450,150 +2463,154 @@ msgstr "Senast ändrad"
 msgid "Location"
 msgstr "Plats"
 
-#: ../src/dlg-duplicates.c:762
+#: ../src/dlg-duplicates.c:795
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Markerade bilder kommer att flyttas till papperskorgen, är du säker?"
 
-#: ../src/dlg-file-utils.c:90
-#: ../src/dlg-file-utils.c:1152
+#: ../src/dlg-file-utils.c:91
+#: ../src/dlg-file-utils.c:1174
 #, c-format
 msgid "Operation interrupted"
 msgstr "Åtgärden avbröts"
 
-#: ../src/dlg-file-utils.c:97
+#: ../src/dlg-file-utils.c:98
 #, c-format
 msgid "File not found"
 msgstr "Filen hittades inte"
 
-#: ../src/dlg-file-utils.c:104
-#: ../src/dlg-file-utils.c:2301
+#: ../src/dlg-file-utils.c:105
+#: ../src/dlg-file-utils.c:2462
 #, c-format
 msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
-#: ../src/dlg-file-utils.c:111
+#: ../src/dlg-file-utils.c:112
 #, c-format
 msgid "Operation failed"
 msgstr "Åtgärden misslyckades"
 
-#: ../src/dlg-file-utils.c:134
+#: ../src/dlg-file-utils.c:135
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Målmappen finns inte. Vill du skapa den?"
 
-#: ../src/dlg-file-utils.c:150
+#: ../src/dlg-file-utils.c:151
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Kunde inte skapa mappen \"%s\": %s."
 
 #: ../src/dlg-file-utils.c:233
+#: ../src/dlg-file-utils.c:287
 msgid "Could not delete the images:"
 msgstr "Kunde inte ta bort bilderna:"
 
-#: ../src/dlg-file-utils.c:256
+#: ../src/dlg-file-utils.c:255
 msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
 msgstr "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
 
-#: ../src/dlg-file-utils.c:259
-#: ../src/gth-browser-actions-callbacks.c:1052
+#: ../src/dlg-file-utils.c:258
+#: ../src/gth-browser-actions-callbacks.c:1053
 #: ../src/gth-browser.c:1766
 #: ../src/gth-viewer.c:876
 #: ../src/rotation-utils.c:121
 msgid "_Do not display this message again"
 msgstr "_Visa inte detta meddelande igen"
 
-#: ../src/dlg-file-utils.c:313
-#: ../src/gth-browser-actions-callbacks.c:1090
+#: ../src/dlg-file-utils.c:335
+#: ../src/gth-browser-actions-callbacks.c:1091
 msgid "_Move"
 msgstr "_Flytta"
 
-#: ../src/dlg-file-utils.c:410
+#: ../src/dlg-file-utils.c:432
 msgid "File move - choose destination folder"
 msgstr "Filflyttning - välj målmappen"
 
-#: ../src/dlg-file-utils.c:510
+#: ../src/dlg-file-utils.c:532
 msgid "File copy - choose the destination folder"
 msgstr "Filkopiering - välj målmappen"
 
-#: ../src/dlg-file-utils.c:571
+#: ../src/dlg-file-utils.c:593
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
-#: ../src/dlg-file-utils.c:801
-#: ../src/dlg-file-utils.c:902
+#: ../src/dlg-file-utils.c:823
+#: ../src/dlg-file-utils.c:924
 msgid "You didn't enter the new name"
 msgstr "Du angav inte det nya namnet"
 
-#: ../src/dlg-file-utils.c:813
-#: ../src/dlg-file-utils.c:914
+#: ../src/dlg-file-utils.c:835
+#: ../src/dlg-file-utils.c:936
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Namnet \"%s\" används redan i denna mapp. Använd ett annat namn."
 
-#: ../src/dlg-file-utils.c:947
+#: ../src/dlg-file-utils.c:969
 msgid "Unknown error"
 msgstr "Okänt fel"
 
-#: ../src/dlg-file-utils.c:1034
+#: ../src/dlg-file-utils.c:1056
 msgid "Could not rename the image:"
 msgstr "Kunde inte byta namn på bilden:"
 
-#: ../src/dlg-file-utils.c:1036
+#: ../src/dlg-file-utils.c:1058
 msgid "Could not rename the following images:"
 msgstr "Kunde inte byta namn på följande bilder:"
 
-#: ../src/dlg-file-utils.c:1177
+#: ../src/dlg-file-utils.c:1199
 msgid "Could not move the image:"
 msgstr "Kunde inte flytta bilden:"
 
-#: ../src/dlg-file-utils.c:1179
+#: ../src/dlg-file-utils.c:1201
 msgid "Could not copy the image:"
 msgstr "Kunde inte kopiera bilden:"
 
-#: ../src/dlg-file-utils.c:1203
-#: ../src/dlg-file-utils.c:2504
+#: ../src/dlg-file-utils.c:1225
+#: ../src/dlg-file-utils.c:2665
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: ../src/dlg-file-utils.c:1204
-#: ../src/dlg-file-utils.c:2505
+#: ../src/dlg-file-utils.c:1226
+#: ../src/dlg-file-utils.c:2666
 msgid "_Continue"
 msgstr "_Fortsätt"
 
-#: ../src/dlg-file-utils.c:1388
+#: ../src/dlg-file-utils.c:1410
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopierar fil %d av %d"
 
-#: ../src/dlg-file-utils.c:1709
-#: ../src/dlg-file-utils.c:2375
+#: ../src/dlg-file-utils.c:1762
 #, c-format
-msgid "Could not find the trash folder"
-msgstr "Kunde inte hitta papperskorgen"
+msgid "Moving file %ld of %ld to trash"
+msgstr "Flyttar fil %ld av %ld till papperskorgen"
 
-#: ../src/dlg-file-utils.c:1811
-#: ../src/dlg-file-utils.c:2046
-msgid "Collecting images info"
-msgstr "Samlar bildinformation"
-
-#: ../src/dlg-file-utils.c:1814
-#: ../src/dlg-file-utils.c:2059
+#: ../src/dlg-file-utils.c:1988
+#: ../src/dlg-file-utils.c:2220
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Tar bort fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2049
+#: ../src/dlg-file-utils.c:2207
+msgid "Collecting images info"
+msgstr "Samlar bildinformation"
+
+#: ../src/dlg-file-utils.c:2210
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopierar fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2054
+#: ../src/dlg-file-utils.c:2215
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: ../src/dlg-file-utils.c:2481
-#: ../src/dlg-file-utils.c:2483
-#: ../src/gth-browser-actions-callbacks.c:1200
+#: ../src/dlg-file-utils.c:2536
+#, c-format
+msgid "Could not find the trash folder"
+msgstr "Kunde inte hitta papperskorgen"
+
+#: ../src/dlg-file-utils.c:2642
+#: ../src/dlg-file-utils.c:2644
+#: ../src/gth-browser-actions-callbacks.c:1201
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
@@ -2759,10 +2776,10 @@ msgid "manual order"
 msgstr "manuell ordning"
 
 #: ../src/dlg-rename-series.c:118
-#: ../src/gth-browser-actions-callbacks.c:475
-#: ../src/gth-browser-actions-callbacks.c:668
-#: ../src/gth-browser-actions-callbacks.c:737
-#: ../src/gth-browser-actions-callbacks.c:930
+#: ../src/gth-browser-actions-callbacks.c:476
+#: ../src/gth-browser-actions-callbacks.c:669
+#: ../src/gth-browser-actions-callbacks.c:738
+#: ../src/gth-browser-actions-callbacks.c:931
 #, c-format
 msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
 msgstr "Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \"/\". Använd ett annat namn."
@@ -2857,143 +2874,143 @@ msgstr "Välj albumtema"
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: ../src/gth-browser-actions-callbacks.c:163
+#: ../src/gth-browser-actions-callbacks.c:164
 #: ../src/gth-fullscreen.c:1110
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Bilden kommer att flyttas till papperskorgen, är du säker?"
 
-#: ../src/gth-browser-actions-callbacks.c:262
+#: ../src/gth-browser-actions-callbacks.c:263
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kunde inte duplicera bilden \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:270
+#: ../src/gth-browser-actions-callbacks.c:271
 #: ../src/gth-fullscreen-actions-entries.h:42
 msgid "Stop"
 msgstr "Stopp"
 
-#: ../src/gth-browser-actions-callbacks.c:271
+#: ../src/gth-browser-actions-callbacks.c:272
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: ../src/gth-browser-actions-callbacks.c:326
+#: ../src/gth-browser-actions-callbacks.c:327
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "De markerade bilderna kommer att flyttas till papperskorgen. Är du säker?"
 
-#: ../src/gth-browser-actions-callbacks.c:461
-#: ../src/gth-browser-actions-callbacks.c:918
+#: ../src/gth-browser-actions-callbacks.c:462
+#: ../src/gth-browser-actions-callbacks.c:919
 msgid "Enter the new name: "
 msgstr "Ange det nya namnet: "
 
-#: ../src/gth-browser-actions-callbacks.c:495
-#: ../src/gth-browser-actions-callbacks.c:684
-#: ../src/gth-browser-actions-callbacks.c:750
-#: ../src/gth-browser-actions-callbacks.c:954
+#: ../src/gth-browser-actions-callbacks.c:496
+#: ../src/gth-browser-actions-callbacks.c:685
+#: ../src/gth-browser-actions-callbacks.c:751
+#: ../src/gth-browser-actions-callbacks.c:955
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Namnet \"%s\" används redan. Använd ett annat namn."
 
-#: ../src/gth-browser-actions-callbacks.c:502
+#: ../src/gth-browser-actions-callbacks.c:503
 #, c-format
 msgid "Could not rename the library \"%s\""
 msgstr "Kunde inte byta namn på biblioteket \"%s\""
 
-#: ../src/gth-browser-actions-callbacks.c:502
+#: ../src/gth-browser-actions-callbacks.c:503
 #, c-format
 msgid "Could not rename the catalog \"%s\""
 msgstr "Kunde inte byta namn på albumet \"%s\""
 
-#: ../src/gth-browser-actions-callbacks.c:565
+#: ../src/gth-browser-actions-callbacks.c:566
 msgid "The selected library will be removed, are you sure?"
 msgstr "Det markerade biblioteket kommer att tas bort. Är du säker?"
 
-#: ../src/gth-browser-actions-callbacks.c:567
+#: ../src/gth-browser-actions-callbacks.c:568
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Det markerade albumet kommer att tas bort. Är du säker?"
 
-#: ../src/gth-browser-actions-callbacks.c:659
+#: ../src/gth-browser-actions-callbacks.c:660
 msgid "New Catalog"
 msgstr "Nytt album"
 
-#: ../src/gth-browser-actions-callbacks.c:691
+#: ../src/gth-browser-actions-callbacks.c:692
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kunde inte skapa albumet \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:769
+#: ../src/gth-browser-actions-callbacks.c:770
 msgid "New Library"
 msgstr "Nytt bibliotek"
 
-#: ../src/gth-browser-actions-callbacks.c:771
+#: ../src/gth-browser-actions-callbacks.c:772
 #, c-format
 msgid "Could not create the library \"%s\""
 msgstr "Kunde inte skapa biblioteket \"%s\""
 
-#: ../src/gth-browser-actions-callbacks.c:948
+#: ../src/gth-browser-actions-callbacks.c:949
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kunde inte byta namn på mappen \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:950
-#: ../src/gth-browser-actions-callbacks.c:1206
+#: ../src/gth-browser-actions-callbacks.c:951
+#: ../src/gth-browser-actions-callbacks.c:1207
 msgid "source and destination are the same"
 msgstr "källan och målet är samma"
 
-#: ../src/gth-browser-actions-callbacks.c:967
+#: ../src/gth-browser-actions-callbacks.c:968
 #, c-format
 msgid "Could not rename the folder \"%s\""
 msgstr "Kunde inte byta namn på mappen \"%s\""
 
-#: ../src/gth-browser-actions-callbacks.c:1013
+#: ../src/gth-browser-actions-callbacks.c:1014
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1044
+#: ../src/gth-browser-actions-callbacks.c:1045
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
-#: ../src/gth-browser-actions-callbacks.c:1088
+#: ../src/gth-browser-actions-callbacks.c:1089
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Den markerade mappen kommer att flyttas till papperskorgen. Är du säker?"
 
-#: ../src/gth-browser-actions-callbacks.c:1141
-#: ../src/gth-browser-actions-callbacks.c:1200
+#: ../src/gth-browser-actions-callbacks.c:1142
+#: ../src/gth-browser-actions-callbacks.c:1201
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1212
+#: ../src/gth-browser-actions-callbacks.c:1213
 msgid "source contains destination"
 msgstr "källan innehåller målet"
 
-#: ../src/gth-browser-actions-callbacks.c:1218
+#: ../src/gth-browser-actions-callbacks.c:1219
 msgid "a folder with that name is already present."
 msgstr "en mapp med det namnet finns redan."
 
-#: ../src/gth-browser-actions-callbacks.c:1304
+#: ../src/gth-browser-actions-callbacks.c:1305
 msgid "Folder move - choose the destination folder"
 msgstr "Mappflyttning - välj målmappen"
 
-#: ../src/gth-browser-actions-callbacks.c:1306
+#: ../src/gth-browser-actions-callbacks.c:1307
 msgid "Folder copy - choose the destination folder"
 msgstr "Mappkopiering - välj målmappen"
 
-#: ../src/gth-browser-actions-callbacks.c:1518
+#: ../src/gth-browser-actions-callbacks.c:1519
 msgid "New Folder"
 msgstr "Ny mapp"
 
-#: ../src/gth-browser-actions-callbacks.c:1519
+#: ../src/gth-browser-actions-callbacks.c:1520
 msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
-#: ../src/gth-browser-actions-callbacks.c:1520
+#: ../src/gth-browser-actions-callbacks.c:1521
 #, c-format
 msgid "Could not create the folder \"%s\""
 msgstr "Kunde inte skapa mappen \"%s\""
 
-#: ../src/gth-browser-actions-callbacks.c:1649
+#: ../src/gth-browser-actions-callbacks.c:1650
 #: ../src/gth-location.c:203
 msgid "Open Location"
 msgstr "Öppna plats"
