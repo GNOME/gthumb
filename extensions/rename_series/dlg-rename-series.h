@@ -26,6 +26,6 @@
 #include <gthumb.h>
 
 void dlg_rename_series (GthBrowser *browser,
-		        GList      *file_list);
+		        GList      *file_list  /* GthFileData list */);
 
 #endif /* DLG_RENAME_SERIES_H */

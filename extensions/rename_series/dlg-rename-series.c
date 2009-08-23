@@ -404,7 +404,13 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_widget_show (data->list_view);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("preview_scrolledwindow")), data->list_view);
 
-	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), "####%E");
+	if (data->file_list->next == NULL) {
+		GthFileData *file_data = data->file_list->data;
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), g_file_info_get_attribute_string (file_data->info, G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME));
+	}
+	else
+		gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("template_entry")), "####%E");
+
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (GET_WIDGET ("start_at_spinbutton")), 1.0);
 
 	/* sort by */
@@ -491,4 +497,18 @@ dlg_rename_series (GthBrowser *browser,
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
+
+	if (data->file_list->next == NULL) {
+		const char *edit_name;
+		const char *end_pos;
+
+		edit_name = gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("template_entry")));
+		end_pos = g_utf8_strrchr (edit_name, -1, '.');
+		if (end_pos != NULL) {
+			glong nchars;
+
+			nchars = g_utf8_strlen (edit_name, (gssize) (end_pos - edit_name));
+			gtk_editable_select_region (GTK_EDITABLE (GET_WIDGET ("template_entry")), 0, nchars);
+		}
+	}
 }
