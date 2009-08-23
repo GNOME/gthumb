@@ -304,11 +304,11 @@ gth_file_source_catalogs_list (GthFileSource *file_source,
 }
 
 
-/* -- gth_file_source_vfs_copy -- */
+/* -- gth_file_source_catalogs_copy -- */
 
 
 typedef struct {
-	GthFileSourceVfs *file_source;
+	GthFileSource    *file_source;
 	GthFileData      *destination;
 	GList            *file_list;
 	ProgressCallback  progress_callback;
@@ -409,7 +409,10 @@ copy__file_list_info_ready_cb (GList    *files,
 	}
 	cod->files = g_list_reverse (cod->files);
 
-	gth_catalog_load_from_file (cod->destination->file, catalog_ready_cb, cod);
+	gth_catalog_load_from_file (cod->destination->file,
+				   gth_file_source_get_cancellable (cod->file_source),
+				   catalog_ready_cb,
+				   cod);
 }
 
 
@@ -451,6 +454,140 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 }
 
 
+static gboolean
+gth_file_source_catalogs_is_reorderable (GthFileSource *file_source)
+{
+	return TRUE;
+
+}
+
+
+typedef struct {
+	GthFileSource *file_source;
+	GthFileData   *destination;
+	GList         *file_list; /* GFile * list */
+	int            dest_pos;
+	ReadyCallback  callback;
+	gpointer       data;
+} ReorderData;
+
+
+static void
+reorder_data_free (ReorderData *reorder_data)
+{
+	_g_object_list_unref (reorder_data->file_list);
+	_g_object_unref (reorder_data->destination);
+	_g_object_unref (reorder_data->file_source);
+	g_free (reorder_data);
+}
+
+
+static void
+reorder_buffer_ready_cb (void     *buffer,
+		         gsize     count,
+		         GError   *error,
+		         gpointer  user_data)
+{
+	ReorderData *reorder_data = user_data;
+	GFile       *parent;
+	GList       *files;
+
+	g_free (buffer);
+
+	reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
+
+	parent = g_file_get_parent (reorder_data->destination->file);
+	files = g_list_append (NULL, reorder_data->destination->file);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    files,
+				    GTH_MONITOR_EVENT_CHANGED);
+
+	g_list_free (files);
+	g_object_unref (parent);
+	reorder_data_free (reorder_data);
+}
+
+
+static void
+reorder_catalog_ready_cb (GObject  *object,
+			  GError   *error,
+			  gpointer  user_data)
+{
+	ReorderData *reorder_data = user_data;
+	GthCatalog  *catalog;
+	char        *buffer;
+	gsize        buffer_size;
+	GFile       *gio_file;
+
+	if (error != NULL) {
+		reorder_data->callback (G_OBJECT (reorder_data->file_source), error, reorder_data->data);
+		reorder_data_free (reorder_data);
+		return;
+	}
+
+	catalog = (GthCatalog *) object;
+
+	/* FIXME: reorder the file list here */
+
+	{
+		GList *scan;
+
+		for (scan = gth_catalog_get_file_list (catalog); scan; scan = scan->next) {
+			GFile *file = scan->data;
+
+			g_print ("==> %s\n", g_file_get_uri (file));
+		}
+	}
+
+	buffer = gth_catalog_to_data (catalog, &buffer_size);
+	gio_file = gth_file_source_to_gio_file (reorder_data->file_source, reorder_data->destination->file);
+	g_write_file_async (gio_file,
+			    buffer,
+			    buffer_size,
+			    G_PRIORITY_DEFAULT,
+			    gth_file_source_get_cancellable (reorder_data->file_source),
+			    reorder_buffer_ready_cb,
+			    reorder_data);
+
+	g_object_unref (gio_file);
+}
+
+
+static void
+gth_file_source_catalogs_reorder (GthFileSource *file_source,
+				  GthFileData   *destination,
+				  GList         *file_list, /* GFile * list */
+				  int            dest_pos,
+				  ReadyCallback  callback,
+				  gpointer       data)
+{
+	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
+	ReorderData           *reorder_data;
+	GFile                 *gio_file;
+
+	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
+	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
+
+	reorder_data = g_new0 (ReorderData, 1);
+	reorder_data->file_source = g_object_ref (file_source);
+	reorder_data->destination = g_object_ref (destination);
+	reorder_data->file_list = _g_object_list_ref (file_list);
+	reorder_data->dest_pos = dest_pos;
+	reorder_data->callback = callback;
+	reorder_data->data = data;
+
+	gio_file = gth_file_source_to_gio_file (file_source, destination->file);
+	gth_catalog_load_from_file (gio_file,
+				    gth_file_source_get_cancellable (file_source),
+				    reorder_catalog_ready_cb,
+				    reorder_data);
+
+	g_object_unref (gio_file);
+}
+
+
+
 static void
 gth_file_source_catalogs_finalize (GObject *object)
 {
@@ -486,6 +623,9 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->get_file_data = gth_file_source_catalogs_get_file_data;
 	file_source_class->list = gth_file_source_catalogs_list;
 	file_source_class->copy = gth_file_source_catalogs_copy;
+	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;
+	file_source_class->reorder = gth_file_source_catalogs_reorder;
+
 }
 
 

@@ -703,6 +703,7 @@ load__catalog_buffer_ready_cb (void     *buffer,
 
 void
 gth_catalog_load_from_file (GFile         *file,
+		            GCancellable  *cancellable,
 			    ReadyCallback  ready_func,
 			    gpointer       user_data)
 {
@@ -716,7 +717,7 @@ gth_catalog_load_from_file (GFile         *file,
 	gio_file = gth_catalog_file_to_gio_file (file);
 	g_load_file_async (gio_file,
 			   G_PRIORITY_DEFAULT,
-			   NULL,
+			   cancellable,
 			   load__catalog_buffer_ready_cb,
 			   load_data);
 

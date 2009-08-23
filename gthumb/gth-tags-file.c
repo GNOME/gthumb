@@ -201,7 +201,7 @@ gth_tags_file_to_file (GthTagsFile  *tags,
 }
 
 
-const char **
+char **
 gth_tags_file_get_tags (GthTagsFile *tags)
 {
 	GList *scan;

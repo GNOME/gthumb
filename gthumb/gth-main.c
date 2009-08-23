@@ -1061,7 +1061,7 @@ gth_main_get_default_tag_file (void)
 }
 
 
-const char **
+char **
 gth_main_get_all_tags (void)
 {
 	return gth_tags_file_get_tags (gth_main_get_default_tag_file ());

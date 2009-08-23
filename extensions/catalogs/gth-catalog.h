@@ -108,6 +108,7 @@ char *         gth_catalog_get_relative_path       (GFile         *file);
 GIcon *        gth_catalog_get_icon                (GFile         *file);
 char *         gth_catalog_get_display_name        (GFile         *file);
 void           gth_catalog_load_from_file          (GFile         *file,
+						    GCancellable  *cancellable,
 						    ReadyCallback  ready_func,
 						    gpointer       user_data);
 

@@ -12,6 +12,8 @@ libfile_manager_la_SOURCES = 		\
 	gth-delete-task.h		\
 	gth-duplicate-task.c		\
 	gth-duplicate-task.h		\
+	gth-reorder-task.c		\
+	gth-reorder-task.h		\
 	main.c
 
 libfile_manager_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

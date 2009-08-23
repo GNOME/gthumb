@@ -45,7 +45,7 @@ char *         gth_tags_file_to_data          (GthTagsFile  *tags,
 gboolean       gth_tags_file_to_file          (GthTagsFile  *tags,
                                                const char   *filename,
                                                GError      **error);
-const char **  gth_tags_file_get_tags         (GthTagsFile  *tags);
+char **        gth_tags_file_get_tags         (GthTagsFile  *tags);
 gboolean       gth_tags_file_has_tag          (GthTagsFile  *tags,
 					       const char   *tag);
 void           gth_tags_file_add              (GthTagsFile  *tags,

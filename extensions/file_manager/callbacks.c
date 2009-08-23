@@ -28,9 +28,11 @@
 #include <gthumb.h>
 #include "actions.h"
 #include "gth-copy-task.h"
+#include "gth-reorder-task.h"
 
 
 #define BROWSER_DATA_KEY "file-manager-browser-data"
+#define URI_LIST_TARGET (gdk_atom_intern_static_string ("text/uri-list"))
 
 
 static const char *vfs_ui_info =
@@ -196,6 +198,7 @@ typedef struct {
 	guint           browser_vfs_merge_id;
 	guint           folder_popup_merge_id;
 	gboolean        can_paste;
+	int             drop_pos;
 } BrowserData;
 
 
@@ -223,22 +226,20 @@ gth_file_list_drag_data_received (GtkWidget        *widget,
 				  GdkDragContext   *context,
 				  int               x,
 				  int               y,
-				  GtkSelectionData *data,
+				  GtkSelectionData *selection_data,
 				  guint             info,
 				  guint             time,
-				  gpointer          extra_data)
+				  gpointer          user_data)
 {
-	GthBrowser  *browser = extra_data;
+	GthBrowser  *browser = user_data;
+
 	gboolean     success = FALSE;
 	char       **uris;
 	GList       *file_list;
 
-	g_signal_stop_emission_by_name (widget, "drag-data-received");
+	g_print ("DRAG_DATA_RECEIVED\n");
 
-	if (gtk_drag_get_source_widget (context) == gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)))) {
-		gtk_drag_finish (context, FALSE, FALSE, time);
-		return;
-	}
+	g_signal_stop_emission_by_name (widget, "drag-data-received");
 
 	if ((context->suggested_action == GDK_ACTION_COPY)
 	    || (context->suggested_action == GDK_ACTION_MOVE))
@@ -248,51 +249,135 @@ gth_file_list_drag_data_received (GtkWidget        *widget,
 
 	gtk_drag_finish (context, success, FALSE, time);
 
-	uris = gtk_selection_data_get_uris (data);
+	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL) {
-		GthFileSource *file_source;
-		gboolean       cancel = FALSE;
-		gboolean       move;
+		if (gtk_drag_get_source_widget (context) == gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)))) {
+			BrowserData *data;
+			GthTask     *task;
 
-		file_source = gth_browser_get_location_source (browser);
-		move = context->suggested_action == GDK_ACTION_MOVE;
-		if (move && ! gth_file_source_can_cut (file_source)) {
-			GtkWidget *dialog;
-			int        response;
-
-			dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
-							  GTK_DIALOG_MODAL,
-							  GTK_STOCK_DIALOG_QUESTION,
-							  _("Could not move the files"),
-							  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
-							  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							  GTK_STOCK_COPY, GTK_RESPONSE_OK,
-							  NULL);
-			response = gtk_dialog_run (GTK_DIALOG (dialog));
-			gtk_widget_destroy (dialog);
-
-			if (response == GTK_RESPONSE_CANCEL)
-				cancel = TRUE;
-
-			move = FALSE;
-		}
-
-		if (! cancel) {
-			GthTask *task;
-
-			task = gth_copy_task_new (file_source,
-						  gth_browser_get_location_data (browser),
-						  move,
-						  file_list);
+			data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+			task = gth_reorder_task_new (gth_browser_get_location_source (browser),
+						     gth_browser_get_location_data (browser),
+						     file_list,
+						     data->drop_pos);
 			gth_browser_exec_task (browser, task, FALSE);
 
 			g_object_unref (task);
+		}
+		else {
+			GthFileSource *file_source;
+			gboolean       cancel = FALSE;
+			gboolean       move;
+
+			file_source = gth_browser_get_location_source (browser);
+			move = context->suggested_action == GDK_ACTION_MOVE;
+			if (move && ! gth_file_source_can_cut (file_source)) {
+				GtkWidget *dialog;
+				int        response;
+
+				dialog = _gtk_message_dialog_new (GTK_WINDOW (browser),
+								  GTK_DIALOG_MODAL,
+								  GTK_STOCK_DIALOG_QUESTION,
+								  _("Could not move the files"),
+								  _("Files cannot be moved to the current location, as alternative you can choose to copy them."),
+								  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+								  GTK_STOCK_COPY, GTK_RESPONSE_OK,
+								  NULL);
+				response = gtk_dialog_run (GTK_DIALOG (dialog));
+				gtk_widget_destroy (dialog);
+
+				if (response == GTK_RESPONSE_CANCEL)
+					cancel = TRUE;
+
+				move = FALSE;
+			}
+
+			if (! cancel) {
+				GthTask *task;
+
+				task = gth_copy_task_new (file_source,
+							  gth_browser_get_location_data (browser),
+							  move,
+							  file_list);
+				gth_browser_exec_task (browser, task, FALSE);
+
+				g_object_unref (task);
+			}
 		}
 	}
 
 	_g_object_list_unref (file_list);
 	g_strfreev (uris);
+}
+
+
+static gboolean
+gth_file_list_drag_drop (GtkWidget      *widget,
+			 GdkDragContext *context,
+			 gint            x,
+			 gint            y,
+			 guint           time,
+			 gpointer        user_data)
+{
+	g_print ("DRAG_DROP\n");
+
+	g_signal_stop_emission_by_name (widget, "drag-drop");
+	gtk_drag_get_data (widget,
+	                   context,
+	                   URI_LIST_TARGET,
+	                   time);
+
+	return TRUE;
+}
+
+
+static gboolean
+gth_file_list_drag_motion (GtkWidget          *widget,
+			   GdkDragContext     *context,
+			   gint                x,
+			   gint                y,
+			   guint               time,
+			   gpointer            extra_data)
+{
+	GthBrowser  *browser = extra_data;
+	BrowserData *data;
+	GtkWidget   *file_view;
+
+	g_print ("DRAG_MOTION\n");
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+	if ((gtk_drag_get_source_widget (context) == file_view) && ! gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+		data->drop_pos = -1;
+		gdk_drag_status (context, 0, time);
+		return FALSE;
+	}
+
+	gdk_drag_status (context, GDK_ACTION_MOVE, time);
+	gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
+
+	return TRUE;
+}
+
+
+static gboolean
+gth_file_list_drag_leave (GtkWidget          *widget,
+			  GdkDragContext     *context,
+			  guint               time,
+			  gpointer            extra_data)
+{
+	GthBrowser *browser = extra_data;
+	GtkWidget  *file_view;
+
+	g_print ("DRAG_LEAVE\n");
+
+	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+	if (gtk_drag_get_source_widget (context) == file_view)
+		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, -1, -1, time, NULL);
+
+	return TRUE;
 }
 
 
@@ -316,15 +401,26 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
-	gtk_drag_dest_set (file_view,
-                           GTK_DEST_DEFAULT_ALL,
-                           drag_dest_targets,
-                           G_N_ELEMENTS (drag_dest_targets),
-                           GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-	g_signal_connect (G_OBJECT (file_view),
+	gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
+					drag_dest_targets,
+					G_N_ELEMENTS (drag_dest_targets),
+					GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	g_signal_connect (file_view,
                           "drag_data_received",
                           G_CALLBACK (gth_file_list_drag_data_received),
                           browser);
+	g_signal_connect (file_view,
+	                  "drag_drop",
+	                  G_CALLBACK (gth_file_list_drag_drop),
+	                  browser);
+	g_signal_connect (file_view,
+			  "drag_motion",
+			  G_CALLBACK (gth_file_list_drag_motion),
+			  browser);
+	g_signal_connect (file_view,
+	                  "drag_leave",
+	                  G_CALLBACK (gth_file_list_drag_leave),
+	                  browser);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }

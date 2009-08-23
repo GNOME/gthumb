@@ -166,6 +166,18 @@ gth_file_view_unset_drag_dest (GthFileView *self)
 }
 
 
+void
+gth_file_view_set_drag_dest_pos (GthFileView    *self,
+				 GdkDragContext *context,
+			         int             x,
+			         int             y,
+			         guint           time,
+		                 int            *pos)
+{
+	GTH_FILE_VIEW_GET_INTERFACE (self)->set_drag_dest_pos (self, context, x, y, time, pos);
+}
+
+
 GType
 gth_file_view_get_type (void)
 {

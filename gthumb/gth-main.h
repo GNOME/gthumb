@@ -110,7 +110,7 @@ GthFilterFile *        gth_main_get_default_filter_file       (void);
 GList *                gth_main_get_all_filters               (void);
 void                   gth_main_filters_changed               (void);
 GthTagsFile *          gth_main_get_default_tag_file          (void);
-const char **          gth_main_get_all_tags                  (void);
+char **                gth_main_get_all_tags                  (void);
 void                   gth_main_tags_changed                  (void);
 GthMonitor *           gth_main_get_default_monitor           (void);
 GthExtensionManager *  gth_main_get_default_extension_manager (void);

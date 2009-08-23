@@ -141,6 +141,7 @@ add_button_clicked_cb (GtkWidget  *widget,
 		return;
 
 	gth_catalog_load_from_file (data->selected_catalog->file,
+				    NULL,
 				    catalog_ready_cb,
 				    data);
 }

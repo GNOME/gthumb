@@ -50,7 +50,8 @@ typedef enum {
 	FILE_SOURCE_OP_LIST,
 	FILE_SOURCE_OP_READ_ATTRIBUTES,
 	FILE_SOURCE_OP_RENAME,
-	FILE_SOURCE_OP_COPY
+	FILE_SOURCE_OP_COPY,
+	FILE_SOURCE_OP_REORDER
 } FileSourceOp;
 
 
@@ -89,6 +90,15 @@ typedef struct {
 
 
 typedef struct {
+	GthFileData   *destination;
+	GList         *file_list;
+	int            dest_pos;
+	ReadyCallback  ready_callback;
+	gpointer       data;
+} ReorderData;
+
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
@@ -96,6 +106,7 @@ typedef struct {
 		ReadAttributesData read_attributes;
 		RenameData         rename;
 		CopyData           copy;
+		ReorderData        reorder;
 	} data;
 } FileSourceAsyncOp;
 
@@ -115,6 +126,10 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 		g_object_unref (async_op->data.rename.new_file);
 		break;
 	case FILE_SOURCE_OP_COPY:
+		g_object_unref (async_op->data.copy.destination);
+		_g_object_list_unref (async_op->data.copy.file_list);
+		break;
+	case FILE_SOURCE_OP_REORDER:
 		g_object_unref (async_op->data.copy.destination);
 		_g_object_list_unref (async_op->data.copy.file_list);
 		break;
@@ -213,6 +228,29 @@ gth_file_source_queue_copy (GthFileSource    *file_source,
 
 
 static void
+gth_file_source_queue_reorder (GthFileSource    *file_source,
+			       GthFileData      *destination,
+			       GList            *file_list,
+			       int               dest_pos,
+			       ReadyCallback     ready_callback,
+			       gpointer          data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_REORDER;
+	async_op->data.reorder.destination = gth_file_data_dup (destination);
+	async_op->data.reorder.file_list = _g_file_list_dup (file_list);
+	async_op->data.reorder.dest_pos = dest_pos;
+	async_op->data.reorder.ready_callback = ready_callback;
+	async_op->data.reorder.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
 gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 {
 	GList             *head;
@@ -255,6 +293,14 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 				      async_op->data.copy.progress_callback,
 				      async_op->data.copy.ready_callback,
 				      async_op->data.copy.data);
+		break;
+	case FILE_SOURCE_OP_REORDER:
+		gth_file_source_reorder (file_source,
+					 async_op->data.reorder.destination,
+					 async_op->data.reorder.file_list,
+					 async_op->data.reorder.dest_pos,
+				         async_op->data.reorder.ready_callback,
+					 async_op->data.reorder.data);
 		break;
 	}
 
@@ -393,6 +439,26 @@ base_monitor_directory (GthFileSource  *file_source,
 }
 
 
+static gboolean
+base_is_reorderable (GthFileSource *file_source)
+{
+	return FALSE;
+
+}
+
+
+static void
+base_reorder (GthFileSource *file_source,
+	      GthFileData   *destination,
+	      GList         *file_list, /* GFile * list */
+	      int            dest_pos,
+	      ReadyCallback  callback,
+	      gpointer       data)
+{
+	/* void */
+}
+
+
 static void
 gth_file_source_finalize (GObject *object)
 {
@@ -430,6 +496,8 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->can_cut = base_can_cut;
 	class->monitor_entry_points = base_monitor_entry_points;
 	class->monitor_directory = base_monitor_directory;
+	class->is_reorderable = base_is_reorderable;
+	class->reorder = base_reorder;
 }
 
 
@@ -726,9 +794,33 @@ gth_file_source_monitor_entry_points (GthFileSource *file_source)
 
 
 void
-gth_file_source_monitor_directory (GthFileSource  *file_source,
-				   GFile          *file,
-				   gboolean        activate)
+gth_file_source_monitor_directory (GthFileSource *file_source,
+				   GFile         *file,
+				   gboolean       activate)
 {
 	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->monitor_directory (file_source, file, activate);
 }
+
+
+gboolean
+gth_file_source_is_reorderable (GthFileSource *file_source)
+{
+	return GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->is_reorderable (file_source);
+}
+
+
+void
+gth_file_source_reorder (GthFileSource *file_source,
+			 GthFileData   *destination,
+		         GList         *file_list, /* GFile * list */
+		         int            dest_pos,
+		         ReadyCallback  callback,
+		         gpointer       data)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_reorder (file_source, destination, file_list, dest_pos, callback, data);
+		return;
+	}
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->reorder (file_source, destination, file_list, dest_pos, callback, data);
+}
+

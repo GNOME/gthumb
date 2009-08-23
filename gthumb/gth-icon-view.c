@@ -249,6 +249,39 @@ gth_icon_view_unset_drag_dest (GthFileView *self)
 
 
 static void
+gth_icon_view_set_drag_dest_pos (GthFileView    *self,
+				 GdkDragContext *context,
+				 int             x,
+				 int             y,
+				 guint           time,
+				 int            *pos)
+{
+	GtkTreePath             *path = NULL;
+	GtkIconViewDropPosition  drop_pos;
+
+	if ((x >= 0) && (y >= 0) && gtk_icon_view_get_dest_item_at_pos (GTK_ICON_VIEW (self), x, y, &path, &drop_pos)) {
+		if (pos != NULL) {
+			int *indices;
+
+			indices = gtk_tree_path_get_indices (path);
+			*pos = indices[0];
+			if (drop_pos == GTK_ICON_VIEW_DROP_RIGHT)
+				*pos = *pos + 1;
+		}
+		gtk_icon_view_set_drag_dest_item (GTK_ICON_VIEW (self), path, drop_pos);
+	}
+	else {
+		if (pos != NULL)
+			*pos = -1;
+		gtk_icon_view_set_drag_dest_item (GTK_ICON_VIEW (self), NULL, GTK_ICON_VIEW_NO_DROP);
+	}
+
+	if (path != NULL)
+		gtk_tree_path_free (path);
+}
+
+
+static void
 gth_icon_view_real_set_selection_mode (GthFileSelection *base,
 				       GtkSelectionMode  mode)
 {
@@ -444,6 +477,7 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	iface->unset_drag_source = gth_icon_view_unset_drag_source;
 	iface->enable_drag_dest = gth_icon_view_enable_drag_dest;
 	iface->unset_drag_dest = gth_icon_view_unset_drag_dest;
+	iface->set_drag_dest_pos = gth_icon_view_set_drag_dest_pos;
 }
 
 

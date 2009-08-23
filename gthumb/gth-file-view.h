@@ -93,6 +93,12 @@ struct _GthFileViewIface {
 					      gint                  n_targets,
 					      GdkDragAction         actions);
 	void           (*unset_drag_dest)    (GthFileView          *self);
+	void           (*set_drag_dest_pos)  (GthFileView          *self,
+					      GdkDragContext       *context,
+			                      int                   x,
+			                      int                   y,
+			                      guint                 time,
+			                      int                  *pos);
 };
 
 GType          gth_file_view_get_type           (void);
@@ -131,6 +137,12 @@ void           gth_file_view_enable_drag_dest   (GthFileView          *self,
 				      		 int                   n_targets,
 				      		 GdkDragAction         actions);
 void           gth_file_view_unset_drag_dest    (GthFileView          *self);
+void           gth_file_view_set_drag_dest_pos  (GthFileView          *self,
+					         GdkDragContext       *context,
+			                         int                   x,
+			                         int                   y,
+			                         guint                 time,
+				                 int                  *pos);
 
 G_END_DECLS
 

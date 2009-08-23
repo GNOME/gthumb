@@ -331,7 +331,7 @@ update_tag_list (GthTagsEntry *self)
 	tags = gth_main_get_default_tag_file ();
 
 	g_strfreev (self->priv->tags);
-	self->priv->tags = g_strdupv ((char **)gth_tags_file_get_tags (tags));
+	self->priv->tags = g_strdupv (gth_tags_file_get_tags (tags));
 
 	for (i = 0; self->priv->tags[i] != NULL; i++) {
 		GtkTreeIter iter;

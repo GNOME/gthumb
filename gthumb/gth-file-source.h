@@ -98,6 +98,13 @@ struct _GthFileSourceClass
 	void         (*monitor_directory)     (GthFileSource    *file_source,
 					       GFile            *file,
 					       gboolean          activate);
+	gboolean     (*is_reorderable)        (GthFileSource    *file_source);
+	void         (*reorder)               (GthFileSource    *file_source,
+					       GthFileData      *destination,
+					       GList            *file_list, /* GFile * list */
+					       int               dest_pos,
+					       ReadyCallback     callback,
+					       gpointer          data);
 };
 
 GType          gth_file_source_get_type              (void) G_GNUC_CONST;
@@ -146,6 +153,13 @@ void           gth_file_source_monitor_entry_points  (GthFileSource    *file_sou
 void           gth_file_source_monitor_directory     (GthFileSource    *file_source,
 						      GFile            *file,
 						      gboolean          activate);
+gboolean       gth_file_source_is_reorderable        (GthFileSource    *file_source);
+void           gth_file_source_reorder               (GthFileSource    *file_source,
+						      GthFileData      *destination,
+						      GList            *file_list, /* GFile * list */
+						      int               dest_pos,
+						      ReadyCallback     callback,
+						      gpointer          data);
 
 /*< protected >*/
 
