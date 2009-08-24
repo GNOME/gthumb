@@ -261,7 +261,8 @@ dlg_rename_series_update_preview (DialogData *data)
 				    SORT_DATA_COLUMN, &sort_type,
 				    -1);
 
-		data->new_file_list = g_list_sort (data->new_file_list, (GCompareFunc) sort_type->cmp_func);
+		if (sort_type->cmp_func != NULL)
+			data->new_file_list = g_list_sort (data->new_file_list, (GCompareFunc) sort_type->cmp_func);
 	}
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("reverse_order_checkbutton"))))
 		data->new_file_list = g_list_reverse (data->new_file_list);

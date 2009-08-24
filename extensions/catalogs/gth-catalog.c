@@ -36,6 +36,8 @@ struct _GthCatalogPrivate {
 	GFile          *file;
 	GList          *file_list;
 	gboolean        active;
+	char           *order;
+	gboolean        order_inverse;
 	GCancellable   *cancellable;
 };
 
@@ -52,6 +54,7 @@ gth_catalog_finalize (GObject *object)
 		if (catalog->priv->file != NULL)
 			g_object_unref (catalog->priv->file);
 		_g_object_list_unref (catalog->priv->file_list);
+		g_free (catalog->priv->order);
 		g_free (catalog->priv);
 		catalog->priv = NULL;
 	}
@@ -88,6 +91,10 @@ read_catalog_data_from_xml (GthCatalog  *catalog,
 						catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
 				}
 			}
+			if (g_strcmp0 (child->tag_name, "order") == 0)
+				gth_catalog_set_order (catalog,
+						       dom_element_get_attribute (child, "type"),
+						       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
 		}
 		catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
 	}
@@ -178,18 +185,24 @@ base_to_data (GthCatalog *catalog,
 					    NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), root);
 	if (catalog->priv->file_list != NULL) {
-		DomElement *uri_list;
+		DomElement *node;
 		GList      *scan;
 
-		uri_list = dom_document_create_element (doc, "files", NULL);
-		dom_element_append_child (root, uri_list);
+		if (catalog->priv->order != NULL)
+			dom_element_append_child (root, dom_document_create_element (doc, "order",
+										     "type", catalog->priv->order,
+										     "inverse", (catalog->priv->order_inverse ? "1" : "0"),
+										     NULL));
+
+		node = dom_document_create_element (doc, "files", NULL);
+		dom_element_append_child (root, node);
 
 		for (scan = catalog->priv->file_list; scan; scan = scan->next) {
 			GFile *file = scan->data;
 			char  *uri;
 
 			uri = g_file_get_uri (file);
-			dom_element_append_child (DOM_ELEMENT (uri_list), dom_document_create_element (doc, "file", "uri", uri, NULL));
+			dom_element_append_child (DOM_ELEMENT (node), dom_document_create_element (doc, "file", "uri", uri, NULL));
 
 			g_free (uri);
 		}
@@ -279,6 +292,29 @@ GFile *
 gth_catalog_get_file (GthCatalog *catalog)
 {
 	return catalog->priv->file;
+}
+
+
+void
+gth_catalog_set_order (GthCatalog *catalog,
+		       const char *order,
+		       gboolean    inverse)
+{
+	g_free (catalog->priv->order);
+	catalog->priv->order = NULL;
+
+	if (order != NULL)
+		catalog->priv->order = g_strdup (order);
+	catalog->priv->order_inverse = inverse;
+}
+
+
+const char *
+gth_catalog_get_order (GthCatalog *catalog,
+		       gboolean   *inverse)
+{
+	*inverse = catalog->priv->order_inverse;
+	return catalog->priv->order;
 }
 
 

@@ -72,24 +72,11 @@ gth_file_data_cmp_modified_time (GthFileData *a,
 }
 
 
-static int
-gth_file_data_cmp_unsorted (GthFileData *a,
-		            GthFileData *b)
-{
-	if (a == b)
-		return 0;
-	else if (a < b)
-		return -1;
-	else
-		return 1;
-}
-
-
 GthFileDataSort default_sort_types[] = {
 	{ "file::name", N_("name"), "standard::display-name", gth_file_data_cmp_filename },
 	{ "file::size", N_("size"), "standard::size", gth_file_data_cmp_filesize },
 	{ "file::mtime", N_("last modified"), "time::modified,time::modified-usec", gth_file_data_cmp_modified_time },
-	{ "general::unsorted", N_("unsorted"), "", gth_file_data_cmp_unsorted },
+	{ "general::unsorted", N_("unsorted"), "", NULL },
 };
 
 

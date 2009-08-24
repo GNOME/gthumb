@@ -182,6 +182,256 @@ gth_file_source_catalogs_get_file_data (GthFileSource *file_source,
 }
 
 
+/* -- gth_file_source_catalogs_write_metadata -- */
+
+
+typedef struct {
+	GthFileSourceCatalogs *catalogs;
+	GthFileData           *file_data;
+	char                  *attributes;
+	ReadyCallback          ready_callback;
+	gpointer               user_data;
+	GthCatalog            *catalog;
+} MetadataOpData;
+
+
+static void
+metadata_op_free (MetadataOpData *metadata_op)
+{
+	gth_file_source_set_active (GTH_FILE_SOURCE (metadata_op->catalogs), FALSE);
+	g_object_unref (metadata_op->file_data);
+	g_free (metadata_op->attributes);
+	g_object_unref (metadata_op->catalog);
+	g_free (metadata_op);
+}
+
+
+static void
+write_metadata_write_buffer_ready_cb (void     *buffer,
+				      gsize     count,
+				      GError   *error,
+				      gpointer  user_data)
+{
+	MetadataOpData        *metadata_op = user_data;
+	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
+
+	g_free (buffer);
+
+	metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
+	metadata_op_free (metadata_op);
+}
+
+
+static void
+write_metadata_load_buffer_ready_cb (void     *buffer,
+				     gsize     count,
+				     GError   *error,
+				     gpointer  user_data)
+{
+	MetadataOpData        *metadata_op = user_data;
+	GthFileSourceCatalogs *catalogs = metadata_op->catalogs;
+	GFile                 *gio_file;
+
+	if (error != NULL) {
+		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
+		metadata_op_free (metadata_op);
+		return;
+	}
+
+	gth_catalog_load_from_data (metadata_op->catalog, buffer, count, &error);
+
+	if (error != NULL) {
+		metadata_op->ready_callback (G_OBJECT (catalogs), error, metadata_op->user_data);
+		metadata_op_free (metadata_op);
+		return;
+	}
+
+	if (_g_file_attributes_matches (metadata_op->attributes, "sort::*"))
+		gth_catalog_set_order (metadata_op->catalog,
+				       g_file_info_get_attribute_string (metadata_op->file_data->info, "sort::type"),
+				       g_file_info_get_attribute_boolean (metadata_op->file_data->info, "sort::inverse"));
+
+	buffer = gth_catalog_to_data (metadata_op->catalog, &count);
+	gio_file = gth_catalog_file_to_gio_file (metadata_op->file_data->file);
+	g_write_file_async (gio_file,
+			    buffer,
+			    count,
+			    G_PRIORITY_DEFAULT,
+			    gth_file_source_get_cancellable (GTH_FILE_SOURCE (metadata_op->catalogs)),
+			    write_metadata_write_buffer_ready_cb,
+			    metadata_op);
+
+	g_object_unref (gio_file);
+}
+
+
+static void
+gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
+					 GthFileData   *file_data,
+					 const char    *attributes,
+					 ReadyCallback  callback,
+					 gpointer       user_data)
+{
+	GthFileSourceCatalogs *catalogs = (GthFileSourceCatalogs *) file_source;
+	char                  *uri;
+	MetadataOpData        *metadata_op;
+	GFile                 *gio_file;
+
+	uri = g_file_get_uri (file_data->file);
+	if (! g_str_has_suffix (uri, ".gqv")
+	    && ! g_str_has_suffix (uri, ".catalog")
+	    && ! g_str_has_suffix (uri, ".search"))
+	{
+		g_free (uri);
+		object_ready_with_error (file_source, callback, user_data, NULL);
+		return;
+	}
+
+	metadata_op = g_new0 (MetadataOpData, 1);
+	metadata_op->catalogs = catalogs;
+	metadata_op->file_data = g_object_ref (file_data);
+	metadata_op->attributes = g_strdup (attributes);
+	metadata_op->ready_callback = callback;
+	metadata_op->user_data = user_data;
+
+	gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), TRUE);
+	g_cancellable_reset (gth_file_source_get_cancellable (file_source));
+
+	metadata_op->catalog = gth_catalog_new ();
+	gio_file = gth_file_source_to_gio_file (file_source, file_data->file);
+	gth_catalog_set_file (metadata_op->catalog, gio_file);
+	g_load_file_async (gio_file,
+			   G_PRIORITY_DEFAULT,
+			   gth_file_source_get_cancellable (file_source),
+			   write_metadata_load_buffer_ready_cb,
+			   metadata_op);
+
+	g_object_unref (gio_file);
+	g_free (uri);
+}
+
+
+/* -- gth_file_source_catalogs_read_metadata -- */
+
+
+typedef struct {
+	GthFileSource *file_source;
+	GthFileData   *file_data;
+	char          *attributes;
+	ReadyCallback  callback;
+	gpointer       data;
+} ReadMetadataOpData;
+
+
+static void
+read_metadata_free (ReadMetadataOpData *read_metadata)
+{
+	g_object_unref (read_metadata->file_source);
+	g_object_unref (read_metadata->file_data);
+	g_free (read_metadata->attributes);
+	g_free (read_metadata);
+}
+
+
+static void
+read_metadata_catalog_ready_cb (GObject  *object,
+				GError   *error,
+				gpointer  user_data)
+{
+	ReadMetadataOpData *read_metadata = user_data;
+	GthCatalog         *catalog;
+	const char         *sort_type;
+	gboolean            sort_inverse;
+
+	if (object == NULL) {
+		read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
+		read_metadata_free (read_metadata);
+		return;
+	}
+
+	catalog = GTH_CATALOG (object);
+	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
+	if (sort_type != NULL) {
+		g_file_info_set_attribute_string (read_metadata->file_data->info, "sort::type", sort_type);
+		g_file_info_set_attribute_boolean (read_metadata->file_data->info, "sort::inverse", sort_inverse);
+	}
+
+	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
+
+	g_object_unref (catalog);
+	read_metadata_free (read_metadata);
+}
+
+
+static void
+read_metadata_info_ready_cb (GList    *files,
+			     GError   *error,
+			     gpointer  user_data)
+{
+	ReadMetadataOpData *read_metadata = user_data;
+	GthFileData        *result;
+
+	if (error != NULL) {
+		read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
+		read_metadata_free (read_metadata);
+		return;
+	}
+
+	result = files->data;
+	g_file_info_copy_into (result->info, read_metadata->file_data->info);
+
+	if (_g_file_attributes_matches (read_metadata->attributes, "sort::*")) {
+		GFile *gio_file;
+
+		gio_file = gth_catalog_file_to_gio_file (read_metadata->file_data->file);
+		gth_catalog_load_from_file (gio_file,
+					    gth_file_source_get_cancellable (read_metadata->file_source),
+					    read_metadata_catalog_ready_cb,
+					    read_metadata);
+
+		g_object_unref (gio_file);
+	}
+	else {
+		read_metadata->callback (G_OBJECT (read_metadata->file_source), NULL, read_metadata->data);
+		read_metadata_free (read_metadata);
+	}
+}
+
+
+static void
+gth_file_source_catalogs_read_metadata (GthFileSource *file_source,
+					GthFileData   *file_data,
+					const char    *attributes,
+					ReadyCallback  callback,
+					gpointer       data)
+{
+	ReadMetadataOpData *read_metadata;
+	GFile              *gio_file;
+	GList              *files;
+
+	read_metadata = g_new0 (ReadMetadataOpData, 1);
+	read_metadata->file_source = g_object_ref (file_source);
+	read_metadata->file_data = g_object_ref (file_data);
+	read_metadata->attributes = g_strdup (attributes);
+	read_metadata->callback = callback;
+	read_metadata->data = data;
+
+	gio_file = gth_catalog_file_to_gio_file (file_data->file);
+	files = g_list_prepend (NULL, gio_file);
+	_g_query_all_metadata_async (files,
+				     FALSE,
+				     TRUE,
+				     attributes,
+				     gth_file_source_get_cancellable (file_source),
+				     read_metadata_info_ready_cb,
+				     read_metadata);
+
+	_g_object_list_unref (files);
+}
+
+
+/* -- list -- */
+
 
 static void
 list__done_func (GError   *error,
@@ -248,7 +498,6 @@ catalog_list_ready_cb (GthCatalog *catalog,
 
 	gth_catalog_set_file_list (catalogs->priv->catalog, NULL);
 	g_object_unref (catalogs);
-
 	if (G_IS_OBJECT (catalogs))
 		gth_file_source_set_active (GTH_FILE_SOURCE (catalogs), FALSE);
 }
@@ -475,6 +724,7 @@ typedef struct {
 static void
 reorder_data_free (ReorderData *reorder_data)
 {
+	gth_file_source_set_active (reorder_data->file_source, FALSE);
 	_g_object_list_unref (reorder_data->file_list);
 	_g_object_unref (reorder_data->destination);
 	_g_object_unref (reorder_data->file_source);
@@ -547,6 +797,7 @@ reorder_catalog_ready_cb (GObject  *object,
 
 	catalog = (GthCatalog *) object;
 	reorder_catalog_list (catalog, reorder_data->file_list, reorder_data->dest_pos);
+	gth_catalog_set_order (catalog, "general::unsorted", FALSE);
 
 	buffer = gth_catalog_to_data (catalog, &buffer_size);
 	gio_file = gth_file_source_to_gio_file (reorder_data->file_source, reorder_data->destination->file);
@@ -629,6 +880,8 @@ gth_file_source_catalogs_class_init (GthFileSourceCatalogsClass *class)
 	file_source_class->to_gio_file = gth_file_source_catalogs_to_gio_file;
 	file_source_class->get_file_info = gth_file_source_catalogs_get_file_info;
 	file_source_class->get_file_data = gth_file_source_catalogs_get_file_data;
+	file_source_class->write_metadata = gth_file_source_catalogs_write_metadata;
+	file_source_class->read_metadata = gth_file_source_catalogs_read_metadata;
 	file_source_class->list = gth_file_source_catalogs_list;
 	file_source_class->copy = gth_file_source_catalogs_copy;
 	file_source_class->is_reorderable  = gth_file_source_catalogs_is_reorderable;

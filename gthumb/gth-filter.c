@@ -180,7 +180,7 @@ gth_filter_set_file_list (GthTest *test,
 		GthFileDataSort *sort_type;
 
 		sort_type = gth_main_get_sort_type (filter->priv->sort_name);
-		if (sort_type != NULL) {
+		if ((sort_type != NULL) && (sort_type->cmp_func != NULL)) {
 			g_qsort_with_data (test->files, test->n_files, (gsize) sizeof (GthFileData *), qsort_campare_func, sort_type);
 			if (filter->priv->sort_direction == GTK_SORT_DESCENDING) {
 				int i;

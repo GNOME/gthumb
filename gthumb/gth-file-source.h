@@ -76,6 +76,16 @@ struct _GthFileSourceClass
 	GthFileData *(*get_file_data)         (GthFileSource    *file_source,
 					       GFile            *file,
 					       GFileInfo        *info);
+	void         (*write_metadata)        (GthFileSource    *file_source,
+					       GthFileData      *file_data,
+					       const char       *attributes,
+					       ReadyCallback     callback,
+       					       gpointer          data);
+	void         (*read_metadata)         (GthFileSource    *file_source,
+					       GthFileData      *file_data,
+					       const char       *attributes,
+					       ReadyCallback     callback,
+					       gpointer          data);
 	void         (*list)                  (GthFileSource    *file_source,
 					       GFile            *folder,
 					       const char       *attributes,
@@ -126,6 +136,16 @@ GthFileData *  gth_file_source_get_file_data         (GthFileSource    *file_sou
 					              GFileInfo        *info);
 gboolean       gth_file_source_is_active             (GthFileSource    *file_source);
 void           gth_file_source_cancel                (GthFileSource    *file_source);
+void           gth_file_source_write_metadata        (GthFileSource    *file_source,
+						      GthFileData      *file_data,
+						      const char       *attributes,
+						      ReadyCallback     callback,
+						      gpointer          data);
+void           gth_file_source_read_metadata         (GthFileSource    *file_source,
+						      GthFileData      *file_data,
+						      const char       *attributes,
+						      ReadyCallback     callback,
+						      gpointer          data);
 void           gth_file_source_list                  (GthFileSource    *file_source,
 						      GFile            *folder,
 						      const char       *attributes,

@@ -47,6 +47,8 @@ static GObjectClass *parent_class = NULL;
 
 
 typedef enum {
+	FILE_SOURCE_OP_WRITE_METADATA,
+	FILE_SOURCE_OP_READ_METADATA,
 	FILE_SOURCE_OP_LIST,
 	FILE_SOURCE_OP_READ_ATTRIBUTES,
 	FILE_SOURCE_OP_RENAME,
@@ -99,6 +101,22 @@ typedef struct {
 
 
 typedef struct {
+	GthFileData   *file_data;
+	char          *attributes;
+	ReadyCallback  ready_callback;
+	gpointer       data;
+} WriteMetadataData;
+
+
+typedef struct {
+	GthFileData   *file_data;
+	char          *attributes;
+	ReadyCallback  ready_callback;
+	gpointer       data;
+} ReadMetadataData;
+
+
+typedef struct {
 	GthFileSource *file_source;
 	FileSourceOp   op;
 	union {
@@ -107,6 +125,8 @@ typedef struct {
 		RenameData         rename;
 		CopyData           copy;
 		ReorderData        reorder;
+		WriteMetadataData  write_metadata;
+		ReadMetadataData   read_metadata;
 	} data;
 } FileSourceAsyncOp;
 
@@ -115,6 +135,14 @@ static void
 file_source_async_op_free (FileSourceAsyncOp *async_op)
 {
 	switch (async_op->op) {
+	case FILE_SOURCE_OP_WRITE_METADATA:
+		g_free (async_op->data.write_metadata.attributes);
+		g_object_unref (async_op->data.write_metadata.file_data);
+		break;
+	case FILE_SOURCE_OP_READ_METADATA:
+		g_free (async_op->data.write_metadata.attributes);
+		g_object_unref (async_op->data.read_metadata.file_data);
+		break;
 	case FILE_SOURCE_OP_LIST:
 		g_object_unref (async_op->data.list.folder);
 		break;
@@ -136,6 +164,48 @@ file_source_async_op_free (FileSourceAsyncOp *async_op)
 	}
 
 	g_free (async_op);
+}
+
+
+static void
+gth_file_source_queue_write_metadata (GthFileSource *file_source,
+			              GthFileData   *file_data,
+			              const char    *attributes,
+			              ReadyCallback  callback,
+			              gpointer       data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_WRITE_METADATA;
+	async_op->data.write_metadata.file_data = g_object_ref (file_data);
+	async_op->data.write_metadata.attributes = g_strdup (attributes);
+	async_op->data.write_metadata.ready_callback = callback;
+	async_op->data.write_metadata.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
+}
+
+
+static void
+gth_file_source_queue_read_metadata (GthFileSource *file_source,
+			             GthFileData   *file_data,
+			             const char    *attributes,
+			             ReadyCallback  callback,
+			             gpointer       data)
+{
+	FileSourceAsyncOp *async_op;
+
+	async_op = g_new0 (FileSourceAsyncOp, 1);
+	async_op->file_source = file_source;
+	async_op->op = FILE_SOURCE_OP_READ_METADATA;
+	async_op->data.read_metadata.file_data = g_object_ref (file_data);
+	async_op->data.write_metadata.attributes = g_strdup (attributes);
+	async_op->data.read_metadata.ready_callback = callback;
+	async_op->data.read_metadata.data = data;
+
+	file_source->priv->queue = g_list_append (file_source->priv->queue, async_op);
 }
 
 
@@ -264,6 +334,20 @@ gth_file_source_exec_next_in_queue (GthFileSource *file_source)
 
 	async_op = head->data;
 	switch (async_op->op) {
+	case FILE_SOURCE_OP_WRITE_METADATA:
+		gth_file_source_write_metadata (file_source,
+					        async_op->data.write_metadata.file_data,
+					        async_op->data.write_metadata.attributes,
+					        async_op->data.write_metadata.ready_callback,
+					        async_op->data.write_metadata.data);
+		break;
+	case FILE_SOURCE_OP_READ_METADATA:
+		gth_file_source_read_metadata (file_source,
+					       async_op->data.read_metadata.file_data,
+					       async_op->data.write_metadata.attributes,
+					       async_op->data.read_metadata.ready_callback,
+					       async_op->data.read_metadata.data);
+		break;
 	case FILE_SOURCE_OP_LIST:
 		gth_file_source_list (file_source,
 				      async_op->data.list.folder,
@@ -375,6 +459,88 @@ base_get_file_data (GthFileSource  *file_source,
 		    GFileInfo      *info)
 {
 	return gth_file_data_new (file, info);
+}
+
+
+static void
+base_write_metadata (GthFileSource *file_source,
+		     GthFileData   *file_data,
+		     const char    *attributes,
+		     ReadyCallback  callback,
+		     gpointer       data)
+{
+	object_ready_with_error (file_source, callback, data, NULL);
+}
+
+
+/* -- base_read_metadata -- */
+
+
+typedef struct {
+	GthFileSource *file_source;
+	GthFileData   *file_data;
+	ReadyCallback  callback;
+	gpointer       data;
+} ReadMetadataOpData;
+
+
+static void
+read_metadata_free (ReadMetadataOpData *read_metadata)
+{
+	g_object_unref (read_metadata->file_source);
+	g_object_unref (read_metadata->file_data);
+	g_free (read_metadata);
+}
+
+
+static void
+read_metadata_info_ready_cb (GList    *files,
+			     GError   *error,
+			     gpointer  user_data)
+{
+	ReadMetadataOpData *read_metadata = user_data;
+	GthFileData        *result;
+
+	if (error != NULL) {
+		read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
+		read_metadata_free (read_metadata);
+		return;
+	}
+
+	result = files->data;
+	g_file_info_copy_into (result->info, read_metadata->file_data->info);
+	read_metadata->callback (G_OBJECT (read_metadata->file_source), NULL, read_metadata->data);
+
+	read_metadata_free (read_metadata);
+}
+
+
+static void
+base_read_metadata (GthFileSource *file_source,
+		    GthFileData   *file_data,
+		    const char    *attributes,
+		    ReadyCallback  callback,
+		    gpointer       data)
+{
+	ReadMetadataOpData *read_metadata;
+	GList              *files;
+
+	read_metadata = g_new0 (ReadMetadataOpData, 1);
+	read_metadata->file_source = g_object_ref (file_source);
+	read_metadata->file_data = g_object_ref (file_data);
+	read_metadata->callback = callback;
+	read_metadata->data = data;
+
+	files = g_list_prepend (NULL, file_data->file);
+	_g_query_all_metadata_async (files,
+				     FALSE,
+				     TRUE,
+				     attributes,
+				     file_source->priv->cancellable,
+				     read_metadata_info_ready_cb,
+				     read_metadata);
+
+	g_list_free (files);
 }
 
 
@@ -491,6 +657,8 @@ gth_file_source_class_init (GthFileSourceClass *class)
 	class->to_gio_file = base_to_gio_file;
 	class->get_file_info = base_get_file_info;
 	class->get_file_data = base_get_file_data;
+	class->write_metadata = base_write_metadata;
+	class->read_metadata = base_read_metadata;
 	class->list = base_list;
 	class->rename = base_rename;
 	class->can_cut = base_can_cut;
@@ -649,6 +817,36 @@ gth_file_source_cancel (GthFileSource *file_source)
 {
 	gth_file_source_clear_queue (file_source);
 	g_cancellable_cancel (file_source->priv->cancellable);
+}
+
+
+void
+gth_file_source_write_metadata (GthFileSource *file_source,
+				GthFileData   *file_data,
+				const char    *attributes,
+				ReadyCallback  callback,
+				gpointer       data)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_write_metadata (file_source, file_data, attributes, callback, data);
+		return;
+	}
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->write_metadata (file_source, file_data, attributes, callback, data);
+}
+
+
+void
+gth_file_source_read_metadata (GthFileSource *file_source,
+			       GthFileData   *file_data,
+			       const char    *attributes,
+			       ReadyCallback  callback,
+			       gpointer       data)
+{
+	if (gth_file_source_is_active (file_source)) {
+		gth_file_source_queue_read_metadata (file_source, file_data, attributes, callback, data);
+		return;
+	}
+	GTH_FILE_SOURCE_GET_CLASS (G_OBJECT (file_source))->read_metadata (file_source, file_data, attributes, callback, data);
 }
 
 

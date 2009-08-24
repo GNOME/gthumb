@@ -81,6 +81,7 @@ dlg_sort_order (GthBrowser *browser)
 	DialogData      *data;
 	GtkListStore    *selection_model;
 	GtkCellRenderer *renderer;
+	GthFileData     *file_data;
 	GList           *scan;
 	GthFileDataSort *current_sort_type;
 	gboolean         sort_inverse;
@@ -116,7 +117,13 @@ dlg_sort_order (GthBrowser *browser)
 					"text", SELECTION_COLUMN_NAME,
 					NULL);
   	
-  	gth_browser_get_sort_order (data->browser, &current_sort_type, &sort_inverse);  	
+	file_data = gth_browser_get_location_data (data->browser);
+	if (file_data != NULL) {
+		current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (file_data->info, "sort::type"));
+		sort_inverse = g_file_info_get_attribute_boolean (file_data->info, "sort::inverse");
+	}
+	else
+		gth_browser_get_sort_order (data->browser, &current_sort_type, &sort_inverse);
 
 	for (i = 0, i_active = 0, scan = gth_main_get_all_sort_types (); scan; scan = scan->next, i++) {
 		GthFileDataSort *sort_type = scan->data;

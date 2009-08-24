@@ -75,6 +75,11 @@ GthCatalog *  gth_catalog_new            (void);
 void          gth_catalog_set_file       (GthCatalog           *catalog,
 					  GFile                *file);
 GFile *       gth_catalog_get_file       (GthCatalog           *catalog);
+void          gth_catalog_set_order      (GthCatalog           *catalog,
+					  const char           *order,
+					  gboolean              inverse);
+const char *  gth_catalog_get_order      (GthCatalog           *catalog,
+					  gboolean             *inverse);
 void          gth_catalog_load_from_data (GthCatalog           *catalog,
 					  const void           *buffer,
 					  gsize                 count,

@@ -708,7 +708,7 @@ campare_row_func (gconstpointer a,
 	int           result;
 
 	if (file_store->priv->cmp_func == NULL)
-		result = 1 /*strcmp (gth_file_data_get_filename_sort_key (row_a->file),
+		result = -1 /*strcmp (gth_file_data_get_filename_sort_key (row_a->file),
 			       gth_file_data_get_filename_sort_key (row_b->file))*/;
 	else
 		result = file_store->priv->cmp_func (row_a->file_data, row_b->file_data);
@@ -725,6 +725,9 @@ _gth_file_store_sort (GthFileStore *file_store,
 		      gconstpointer pbase,
 		      gint          total_elems)
 {
+	if (file_store->priv->cmp_func == NULL)
+		return;
+
 	g_qsort_with_data (pbase,
 			   total_elems,
 			   (gsize) sizeof (GthFileRow *),
