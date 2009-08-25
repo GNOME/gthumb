@@ -100,7 +100,6 @@ $(srcdir)/.gitignore: Makefile.am $(top_srcdir)/git.mk
 				$(_DOC_OMF_ALL) \
 				$(_DOC_DSK_ALL) \
 				$(_DOC_HTML_ALL) \
-				$(_DOC_POFILES) \
 				"*/.xml2po.mo" \
 				"*/*.omf.out" \
 			; do echo /$$x; done; \
