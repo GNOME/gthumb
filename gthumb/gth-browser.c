@@ -1373,6 +1373,8 @@ load_data_continue (LoadData *load_data,
 		if (sort_type == NULL) {
 			g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", browser->priv->sort_type->name);
 			g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", browser->priv->sort_inverse);
+			sort_type = browser->priv->sort_type;
+			sort_inverse = browser->priv->sort_inverse;
 		}
 
 		_gth_browser_set_sort_order (browser, sort_type, sort_inverse, FALSE);
