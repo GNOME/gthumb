@@ -13,8 +13,6 @@ endif
 
 EXTRA_DIST = $(schema_in_files)
 
-DISTCLEANFILES = $(schema_in_files)
-
 CLEANFILES = $(schema_DATA)
 
 -include $(top_srcdir)/git.mk
