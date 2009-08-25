@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gthumb.gthumb-2-10.kn\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb&component=general\n"
 "POT-Creation-Date: 2009-04-22 13:08+0000\n"
-"PO-Revision-Date: 2009-08-15 22:26+0530\n"
+"PO-Revision-Date: 2009-08-25 01:00+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -57,23 +57,23 @@ msgstr ""
 
 #: ../data/albumthemes/text.h:36
 msgid "Flash"
-msgstr ""
+msgstr "ಫ್ಲಾಶ್"
 
 #: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
-msgstr ""
+msgstr "ಶಟರ್ ವೇಗ"
 
 #: ../data/albumthemes/text.h:38
 msgid "Aperture value"
-msgstr ""
+msgstr "ಕಿಂಡಿ (ಅಪರ್ಚರ್) ಮೌಲ್ಯ"
 
 #: ../data/albumthemes/text.h:39
 msgid "Focal length"
-msgstr ""
+msgstr "ಫೋಕಲ್ ಉದ್ದ"
 
 #: ../data/albumthemes/text.h:40
 msgid "Camera model"
-msgstr ""
+msgstr "ಕ್ಯಾಮೆರಾ ಮಾದರಿ"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:76
@@ -95,11 +95,11 @@ msgstr "<b>ಪಂಗಡಗಳು:</b>"
 
 #: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
-msgstr ""
+msgstr "<b>ಚಾನಲ್‌ನಲ್ಲಿನ ಮಾಹಿತಿ:</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr ""
+msgstr "<b>ಹಳೆಯ ಚಿತ್ರವನ್ನು ಹೊಸತರಿಂದ ಬದಲಾಯಿಸಬೇಕೆ?</b>"
 
 #: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
@@ -119,11 +119,11 @@ msgstr "ಬುಕ್‌ಮಾರ್ಕುಗಳು"
 
 #: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
-msgstr ""
+msgstr "ಸೂಚಿಗಳು(_a):"
 
 #: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
-msgstr ""
+msgstr "ಒಂದು ಸೂಚಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
@@ -131,7 +131,7 @@ msgstr "ಟಿಪ್ಪಣಿ(_e)"
 
 #: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
-msgstr ""
+msgstr "ಹಳೆಯ ಚಿತ್ರವನ್ನು ತಿದ್ದಿ ಬರೆಯಬೇಡ(_t)"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
@@ -155,19 +155,19 @@ msgstr "ಚಿತ್ರಗಳನ್ನು ತೆರೆ"
 
 #: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
-msgstr ""
+msgstr "ಹಳೆಯ ಚಿತ್ರದ ಮೇಲೆ ತಿದ್ದಿ ಬರೆ(_w)"
 
 #: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
-msgstr ""
+msgstr "ಹಳೆಯ ಚಿತ್ರದ ಮೇಲೆ ತಿದ್ದಿ ಬರೆಯಿರಿ"
 
 #: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
-msgstr ""
+msgstr "ಎಲ್ಲಾ ಹಳೆಯ ಚಿತ್ರದ ಮೇಲೆ ತಿದ್ದಿ ಬರೆ(_a)"
 
 #: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
-msgstr ""
+msgstr "ಚಿತ್ರದ ದತ್ತಾಂಶ (_D) (EXIF)"
 
 #: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
@@ -191,7 +191,7 @@ msgstr "ಬುಕ್‌ಮಾರ್ಕುಗಳು(_B):"
 
 #: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
-msgstr ""
+msgstr "ಯಾವುದೆ ಚಿತ್ರದ ಮೇಲೆ ತಿದ್ದಿ ಬರೆಯಬೇಡ(_D)"
 
 #: ../data/glade/gthumb.glade.h:28
 msgid "_General"
@@ -203,7 +203,7 @@ msgstr ""
 
 #: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
-msgstr ""
+msgstr "ಹೊಸ ಸೂಚಿ(_N)"
 
 #: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
@@ -219,7 +219,7 @@ msgstr "ಹೊಸ ಚಿತ್ರವನ್ನು ಹೀಗೆ ಉಳಿಸು(_S
 
 #: ../data/glade/gthumb.glade.h:34
 msgid "_View the destination"
-msgstr ""
+msgstr "ನಿರ್ದೇಶಿತ ಸ್ಥಳವನ್ನು ನೋಡು(_V)"
 
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
@@ -228,7 +228,7 @@ msgstr "..."
 
 #: ../data/glade/gthumb_camera.glade.h:2
 msgid "C_hoose from the catalog"
-msgstr ""
+msgstr "ಸೂಚಿಯಿಂದ ಆಯ್ಕೆ ಮಾಡು(_h)"
 
 #: ../data/glade/gthumb_camera.glade.h:3 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
@@ -244,7 +244,7 @@ msgstr "ಕ್ಯಾಮೆರಾ ಮಾದರಿ"
 #: ../data/glade/gthumb_tools.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Choose destination folder"
-msgstr ""
+msgstr "ನಿರ್ದೇಶಿತ ಕಡತಕೋಶವನ್ನು ಆಯ್ಕೆ ಮಾಡು"
 
 #: ../data/glade/gthumb_camera.glade.h:6
 msgid "Delete selected images from the camera"
@@ -285,7 +285,7 @@ msgstr "ಮುನ್ನೋಟಗಳನ್ನು ಅಪ್‌ಡೇಟ್‌ ಮ�
 
 #: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
-msgstr ""
+msgstr "ಆಮದು ಮಾಡಲಾದ ಚಿತ್ರಗಳನ್ನು ಕ್ಯಾಮೆರಾದಿಂದ ಅಳಿಸಿಹಾಕು(_D)"
 
 #: ../data/glade/gthumb_camera.glade.h:14
 #: ../data/glade/gthumb_convert.glade.h:23
@@ -293,11 +293,11 @@ msgstr ""
 #: ../data/glade/gthumb_tools.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Destination:"
-msgstr ""
+msgstr "ಉದ್ದೇಶಿತ ಸ್ಥಳ(_D):"
 
 #: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
-msgstr ""
+msgstr "ಫಿಲ್ಮ್(_F):"
 
 #: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
@@ -360,7 +360,7 @@ msgstr "ದಿನಾಂಕವಿಲ್ಲ"
 
 #: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಡಿಜಿಟಲ್ ಮಾಡಲಾದ ದಿನಾಂಕ (EXIF ದತ್ತಾಂಶದಿಂದ)"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -372,7 +372,7 @@ msgstr ""
 
 #: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
-msgstr ""
+msgstr "ಈ ಕೆಳಗಿನ ದಿನಾಂಕ"
 
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
@@ -407,11 +407,11 @@ msgstr "<b>ರೆಸಲ್ಯೂಶನ್</b>"
 #: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "<b>Saving</b>"
-msgstr ""
+msgstr "<b>ಉಳಿಸುವಿಕೆ</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
-msgstr ""
+msgstr "ಸಂಕುಚನ ಮಟ್ಟ(_l):"
 
 #: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
@@ -422,8 +422,9 @@ msgid "JPEG Options"
 msgstr "JPEG ಆಯ್ಕೆಗಳು"
 
 #: ../data/glade/gthumb_convert.glade.h:10
+#, fuzzy
 msgid "No_rmal (Deflate)"
-msgstr ""
+msgstr "ಸಾಮಾನ್ (ಡಿಫ್ಲೇಟ್)"
 
 #: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
@@ -441,7 +442,7 @@ msgstr "PNG ಆಯ್ಕೆಗಳು"
 #: ../data/glade/gthumb_convert.glade.h:14
 #: ../data/glade/gthumb_tools.glade.h:38
 msgid "R_emove original"
-msgstr ""
+msgstr "ಮೂಲವನ್ನು ತೆಗೆದುಹಾಕು(_e)"
 
 #: ../data/glade/gthumb_convert.glade.h:15
 #: ../data/glade/gthumb_tools.glade.h:40
@@ -456,19 +457,23 @@ msgid ""
 "Ask\n"
 "Overwrite"
 msgstr ""
+"ಉಪೇಕ್ಸಿಸು\n"
+"ಹೆಸರು ಬದಲಾಯಿಸು\n"
+"ಕೇಳು\n"
+"ತಿದ್ದಿಬರೆ"
 
 #: ../data/glade/gthumb_convert.glade.h:20
 msgid "TGA Options"
-msgstr ""
+msgstr "TGA ಆಯ್ಕೆಗಳು"
 
 #: ../data/glade/gthumb_convert.glade.h:21
 msgid "TIFF Options"
-msgstr ""
+msgstr "TIFF ಆಯ್ಕೆಗಳು"
 
 #: ../data/glade/gthumb_convert.glade.h:22
 #: ../data/glade/gthumb_tools.glade.h:54
 msgid "T_GA"
-msgstr ""
+msgstr "T_GA"
 
 #: ../data/glade/gthumb_convert.glade.h:24
 #: ../data/glade/gthumb_png_exporter.glade.h:65
@@ -499,11 +504,11 @@ msgstr ""
 
 #: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
-msgstr ""
+msgstr "ಗುಣಮಟ್ಟ(_Q):"
 
 #: ../data/glade/gthumb_convert.glade.h:31
 msgid "_RLE compression"
-msgstr ""
+msgstr "_RLE ಸಂಕುಚನೆ"
 
 #: ../data/glade/gthumb_convert.glade.h:32
 msgid "_Smoothing:"
@@ -512,7 +517,7 @@ msgstr ""
 #: ../data/glade/gthumb_convert.glade.h:33
 #: ../data/glade/gthumb_tools.glade.h:70
 msgid "_TIFF"
-msgstr ""
+msgstr "_TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:34
 #: ../data/glade/gthumb_png_exporter.glade.h:70
@@ -522,11 +527,11 @@ msgstr "ಲಂಬ(_V):"
 #: ../data/glade/gthumb_convert.glade.h:35
 #: ../data/glade/gthumb_print.glade.h:53
 msgid "dpi"
-msgstr ""
+msgstr "dpi"
 
 #: ../data/glade/gthumb_crop.glade.h:1
 msgid "4 x 3 (Book, DVD)"
-msgstr ""
+msgstr "4 x 3 (ಬುಕ್, DVD)"
 
 #: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 6 (Postcard)"
@@ -534,7 +539,7 @@ msgstr "4 x 6 (ಅಂಚೆಕಾರ್ಡು)"
 
 #: ../data/glade/gthumb_crop.glade.h:3
 msgid "5 x 7"
-msgstr ""
+msgstr "5 x 7"
 
 #: ../data/glade/gthumb_crop.glade.h:4
 msgid "8 x 10"
@@ -542,7 +547,7 @@ msgstr "8 x 10"
 
 #: ../data/glade/gthumb_crop.glade.h:5
 msgid "<b>Aspect ratio</b>"
-msgstr ""
+msgstr "<b>ಆಕಾರ ಅನುಪಾತ</b>"
 
 #: ../data/glade/gthumb_crop.glade.h:6 ../data/glade/gthumb_redeye.glade.h:1
 msgid "<b>Selection</b>"
@@ -597,7 +602,7 @@ msgstr "_Y:"
 #: ../data/glade/gthumb_tools.glade.h:2
 #: ../data/glade/gthumb_web_exporter.glade.h:2
 msgid "     "
-msgstr ""
+msgstr "     "
 
 #: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
 #: ../data/glade/gthumb_tools.glade.h:4
@@ -607,7 +612,7 @@ msgstr "%"
 
 #: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr ""
+msgstr "<b>ಬಣ್ಣದ ಮಟ್ಟಗಳು</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
@@ -3643,39 +3648,38 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
-msgstr ""
+msgstr "ಟಿಪ್ಪಣಿ(_e)..."
 
 #: ../src/gth-window-actions-entries.h:81
 #: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
-msgstr ""
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಚಿತ್ರಗಳಿಗೆ ಟಿಪ್ಪಣಿಗಳನ್ನು ಸೇರಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
-msgstr ""
+msgstr "ಟಿಪ್ಪಣಿಗಳನ್ನು ತೆಗೆದುಹಾಕು(_o)"
 
 #: ../src/gth-window-actions-entries.h:91
-#, fuzzy
 msgid "Remove comments of selected images"
-msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಚಿತ್ರಗಳಲ್ಲಿನ  ತೆಗೆದು ಹಾಕು"
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಚಿತ್ರಗಳಲ್ಲಿನ ಟಿಪ್ಪಣಿಗಳನ್ನು ತೆಗೆದು ಹಾಕು"
 
 #: ../src/gth-window-actions-entries.h:96
 #: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
-msgstr ""
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಚಿತ್ರಗಳಿಗೆ ವರ್ಗಗಳನ್ನು ನಿಯೋಜಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:100
 msgid "Ca_tegories"
-msgstr ""
+msgstr "ವರ್ಗಗಳು(_t)"
 
 #: ../src/gth-window-actions-entries.h:115
 #: ../src/gth-window-actions-entries.h:285
 msgid "Rotate Ri_ght"
-msgstr ""
+msgstr "ಬಲಕ್ಕೆ ತಿರುಗಿಸು(_i)"
 
 #: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಪ್ರದಕ್ಷಿಣೆ ದಿಕ್ಕಿನಲ್ಲಿ ತಿರುಗಿಸಿದಂತೆ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:120
 #: ../src/gth-window-actions-entries.h:280
@@ -3684,7 +3688,7 @@ msgstr "ಎಡಕ್ಕೆ ತಿರುಗಿಸು(_L)"
 
 #: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಅಪ್ರದಕ್ಷಿಣೆ ದಿಕ್ಕಿನಲ್ಲಿ ತಿರುಗಿಸಿದಂತೆ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
@@ -3692,15 +3696,15 @@ msgstr "ಮಗುಚು(_F)"
 
 #: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಮಗುಚಿದಂತೆ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
-msgstr "ಪ್ರತಿಬಿಂಬಿಸು(_M)"
+msgstr "ಪ್ರತಿಬಿಂಬ(_M)"
 
 #: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಪ್ರತಿಬಿಂಬವಾಗಿ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
@@ -3708,23 +3712,23 @@ msgstr ""
 
 #: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಕಪ್ಪು ಬಿಳುಪಿನೊಂದಿಗೆ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
-msgstr ""
+msgstr "ನೆಗೆಟೀವ್(_N)"
 
 #: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ನೆಗೆಟೀವ್ ಬಣ್ಣಗಳೊಂದಿಗೆ ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
-msgstr ""
+msgstr "ವರ್ಧಿಸು(_E)"
 
 #: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
-msgstr ""
+msgstr "ಬಣ್ಣಗಳ ಮಟ್ಟಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಬದಲಾಯಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
@@ -3742,7 +3746,7 @@ msgstr ""
 #: ../src/gth-window-actions-entries.h:191
 #: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
-msgstr ""
+msgstr "ಬಣ್ಣಗಳ ಸಂಖ್ಯೆಯನ್ನು ಕಡಿಮೆ ಮಾಡಿ"
 
 #: ../src/gth-window-actions-entries.h:160
 msgid "_Brightness-Contrast..."
@@ -3763,11 +3767,11 @@ msgstr "ಬಣ್ಣ ಹಾಗು ಸ್ಯಾಚುರೇಶನ್ ಅನ್ನ
 
 #: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
-msgstr ""
+msgstr "ಕೆಂಪುಕಣ್ಣು ತೆಗೆಯುವಿಕೆ(_R)..."
 
 #: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
-msgstr ""
+msgstr "ಕೆಂಪುಕಣ್ಣು ತೆಗೆಯುವ ಉಪಕರಣ"
 
 #: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
@@ -3775,11 +3779,11 @@ msgstr "ಬಣ್ಣದ ಸಮತೋಲನ(_C)..."
 
 #: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
-msgstr ""
+msgstr "ಬಣ್ಣದ ಸಮತೋಲನವನ್ನು ಬದಲಾಯಿಸು"
 
 #: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
-msgstr ""
+msgstr "ಗಾತ್ರ ಬದಲಾಯಿಸು(_R)..."
 
 #: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
@@ -3799,7 +3803,7 @@ msgstr "ಕಪ್ಪು ಹಾಗು ಬಿಳುಪು"
 
 #: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
-msgstr ""
+msgstr "ಜಾಲ ಪ್ಯಾಲೆಟ್"
 
 #: ../src/gth-window-actions-entries.h:200
 #: ../src/gth-window-actions-entries.h:307
@@ -3832,7 +3836,7 @@ msgstr "ಹೊಂದಿಸು"
 
 #: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "ವಿಂಡೊಗೆ ಹೊಂದುವಂತೆ ಗಾತ್ರ ಬದಲಾಯಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:220
 msgid "Width"
@@ -3840,47 +3844,47 @@ msgstr "ಅಗಲ"
 
 #: ../src/gth-window-actions-entries.h:221
 msgid "Zoom to fit width"
-msgstr ""
+msgstr "ಅಗಲಕ್ಕೆ ಹೊಂದುವಂತೆ ಗಾತ್ರ ಬದಲಾಯಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "Step A_nimation"
-msgstr ""
+msgstr "ಸಜೀವನದ (ಎನಿಮೇಶನ್) ಹಂತ(_n)"
 
 #: ../src/gth-window-actions-entries.h:226
 msgid "View next animation frame"
-msgstr ""
+msgstr "ಮುಂದಿನ ಸಜೀವನದ(ಎನಿಮೇಶನ್) ಚೌಕಟ್ಟನ್ನು ನೋಡಿ"
 
 #: ../src/gth-window-actions-entries.h:240
 msgid "_Centered"
-msgstr ""
+msgstr "ನಡುಮಧ್ಯದಲ್ಲಿ(_C)"
 
 #: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (centered)"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಗಣಕತೆರೆಯ ಹಿನ್ನಲೆಯಾಗಿ ಹೊಂದಿಸಿ (ನಡುಮಧ್ಯದಲ್ಲಿ)"
 
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Tiled"
-msgstr ""
+msgstr "ಟೈಲ್ ಮಾಡಿಕೊಂಡು(_T)"
 
 #: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (tiled)"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಗಣಕತೆರೆಯ ಹಿನ್ನಲೆಯಾಗಿ ಹೊಂದಿಸಿ (ಟೈಲ್‌ ಮಾಡಲಾದ)"
 
 #: ../src/gth-window-actions-entries.h:250
 msgid "_Scaled"
-msgstr ""
+msgstr "ಗಾತ್ರ ಬದಲಾಯಿಸಿಕೊಂಡು(_S)"
 
 #: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಗಣಕತೆರೆಯ ಹಿನ್ನಲೆಯಾಗಿ ಹೊಂದಿಸಿ (ಆಕಾರದ ಅನುಪಾತವನ್ನು ಹಾಗೆಯೆ ಇರಿಸಿಕೊಂಡು ಗಾತ್ರ ಬದಲಾವಣೆ)"
 
 #: ../src/gth-window-actions-entries.h:255
 msgid "Str_etched"
-msgstr ""
+msgstr "ಎಳೆದು ಹಿಗ್ಗಿಸಲಾದ(_e)"
 
 #: ../src/gth-window-actions-entries.h:256
 msgid "Set the image as desktop background (stretched)"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ಗಣಕತೆರೆಯ ಹಿನ್ನಲೆಯಾಗಿ ಹೊಂದಿಸಿ (ಹಿಗ್ಗಿಸಲಾದ)"
 
 #: ../src/gth-window-actions-entries.h:260
 msgid "_Restore"
@@ -3888,7 +3892,7 @@ msgstr "ಮರಳಿ ಸ್ಥಾಪಿಸು(_R)"
 
 #: ../src/gth-window-actions-entries.h:261
 msgid "Restore the original desktop wallpaper"
-msgstr ""
+msgstr "ಮೂಲ ಗಣಕತೆರೆಯ ಭಿತ್ತಿಚಿತ್ರವನ್ನು(ವಾಲ್‌ಪೇಪರ್) ಮರಳಿ ಸ್ಥಾಪಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:265
 msgid "Change _Date..."
@@ -3896,15 +3900,15 @@ msgstr "ದಿನಾಂಕವನ್ನು ಬದಲಾಯಿಸು(_D)..."
 
 #: ../src/gth-window-actions-entries.h:266
 msgid "Change images last modified date"
-msgstr ""
+msgstr "ಚಿತ್ರಗಳನ್ನು ಕೊನೆಯ ಬಾರಿಗೆ ಬದಲಾಯಿಸಿದ ದಿನಾಂಕವನ್ನು ಬದಲಾಯಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:270
 msgid "Reset _Exif Orientation"
-msgstr ""
+msgstr "_Exif ವಾಲಿಕೆಯನ್ನು ಮರು ಹೊಂದಿಸು"
 
 #: ../src/gth-window-actions-entries.h:271
 msgid "Reset Exif orientation to top-left"
-msgstr ""
+msgstr "Exif ವಾಲಿಕೆಯನ್ನು ಮೇಲಿನ-ಎಡಕ್ಕೆ ಹೊಂದಿಸಿ"
 
 #: ../src/gth-window-actions-entries.h:291
 msgid "Show information about gThumb"
@@ -3916,7 +3920,7 @@ msgstr "ವಿಷಯಗಳು"
 
 #: ../src/gth-window-actions-entries.h:296
 msgid "Display the gThumb Manual"
-msgstr ""
+msgstr "gThumb ಕೈಪಿಡಿಯನ್ನು ತೋರಿಸು"
 
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
@@ -3924,43 +3928,43 @@ msgstr "ಕೀಲಿಮಣೆ ಶಾರ್ಟ್-ಕಟ್‌ಗಳು(_K)"
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Play _Animation"
-msgstr ""
+msgstr "ಸಜೀವನವನ್ನು (ಎನಿಮೇಶನ್) ಚಲಾಯಿಸು(_A)"
 
 #: ../src/gth-window-actions-entries.h:317
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "ಪ್ರಸಕ್ತ ಸಜೀವನವನ್ನು(ಎನಿಮೇಶನ್) ಆರಂಭಿಸು ಅಥವ ಅಂತ್ಯಗೊಳಿಸು"
 
 #: ../src/gth-window-actions-entries.h:327
 msgid "_High Quality"
-msgstr ""
+msgstr "ಉತ್ತಮ ಗುಣಮಟ್ಟ(_H)"
 
 #: ../src/gth-window-actions-entries.h:328
 msgid "Use high quality zoom"
-msgstr ""
+msgstr "ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಹಿಗ್ಗಿಸುವಿಕೆಯನ್ನು ಬಳಸು"
 
 #: ../src/gth-window-actions-entries.h:330
 msgid "_Low Quality"
-msgstr ""
+msgstr "ಕಡಿಮೆ ಗುಣಮಟ್ಟ(_L)"
 
 #: ../src/gth-window-actions-entries.h:331
 msgid "Use low quality zoom"
-msgstr ""
+msgstr "ಕಡಿಮೆ ಗುಣಮಟ್ಟದ ಹಿಗ್ಗಿಸುವಿಕೆಯನ್ನು ಬಳಸು"
 
 #: ../src/main.c:89
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "ಪೂರ್ಣತೆರೆ ಕ್ರಮದಲ್ಲಿ ಆರಂಭಿಸಿ"
 
 #: ../src/main.c:93
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಒಂದು ಜಾರುಫಲಕ ಪ್ರದರ್ಶನವನ್ನು(ಸ್ಲೈಡ್‌ಶೊ) ಆರಂಭಿಸಿ"
 
 #: ../src/main.c:97
 msgid "Automatically import digital camera photos"
-msgstr ""
+msgstr "ಡಿಜಿಟಲ್ ಕ್ಯಾಮೆರಾ ಫೋಟೊಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆಮದು ಮಾಡಿಕೊಳ್ಳಿ"
 
 #: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
-msgstr ""
+msgstr "ಒಂದೊಂದೆ ಚಿತ್ರಗಳನ್ನು ನೋಡಲು ನೋಡಗ(ವೀವರ್) ಕ್ರಮವನ್ನು ಬಳಸಿ"
 
 #: ../src/main.c:146
 msgid "Holidays"
@@ -4017,7 +4021,7 @@ msgstr "ಆಜ್ಞಾ ಸಾಲು"
 #: ../src/rotation-utils.c:113
 #, c-format
 msgid "Problem transforming the image: %s"
-msgstr ""
+msgstr "ಚಿತ್ರವನ್ನು ರೂಪಾಂತರಗೊಳಿಸುವಲ್ಲಿ ತೊಂದರೆ ಉಂಟಾಗಿದೆ: %s"
 
 #: ../src/rotation-utils.c:118
 msgid ""
@@ -4035,13 +4039,13 @@ msgstr ""
 
 #: ../src/rotation-utils.c:126
 msgid "_Trim"
-msgstr ""
+msgstr "ಅಂದಗೊಳಿಸು(_T)"
 
 #: ../src/rotation-utils.c:169
 msgid "Could not create a local temporary copy of the remote file."
-msgstr ""
+msgstr "ದೂರಸ್ಥ ಕಡತದ ಒಂದು ಸ್ಥಳೀಯವಾದ ಪ್ರತಿಯನ್ನು ನಿರ್ಮಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
 
 #: ../src/rotation-utils.c:215
 msgid "Could not move temporary file to local destination. Check folder permissions."
-msgstr ""
+msgstr "ತಾತ್ಕಾಲಿಕ ಕಡತವನ್ನು ಸ್ಥಳೀಯ ನಿರ್ದೇಶಿತ ಸ್ಥಳಕ್ಕೆ ಸ್ಥಳಾಂತರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಕಡತಕೋಶದ ಅನುಮತಿಗಳನ್ನು ಪರಿಶೀಲಿಸಿ."
 
