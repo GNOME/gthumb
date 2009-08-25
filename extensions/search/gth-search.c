@@ -48,6 +48,8 @@ gth_search_real_create_element (DomDomizable *base,
 	GthSearch  *self;
 	DomElement *element;
 	char       *uri;
+	const char *sort_order;
+	gboolean    sort_inverse;
 	GList      *file_list;
 	
 	g_return_val_if_fail (DOM_IS_DOCUMENT (doc), NULL);
@@ -67,6 +69,13 @@ gth_search_real_create_element (DomDomizable *base,
 	g_free (uri);					       
 
 	dom_element_append_child (element, dom_domizable_create_element (DOM_DOMIZABLE (self->priv->test), doc));
+
+	sort_order = gth_catalog_get_order (GTH_CATALOG (self), &sort_inverse);
+	if (sort_order != NULL)
+		dom_element_append_child (element, dom_document_create_element (doc, "order",
+									       "type", sort_order,
+									       "inverse", (sort_inverse ? "1" : "0"),
+									       NULL));
 
 	file_list = gth_catalog_get_file_list (GTH_CATALOG (self));
 	if (file_list != NULL) {
@@ -131,6 +140,11 @@ gth_search_real_load_from_element (DomDomizable *base,
 					files = g_list_prepend (files, g_file_new_for_uri (uri));
 			}
 		}
+		else if (g_strcmp0 (node->tag_name, "order") == 0)
+			gth_catalog_set_order (GTH_CATALOG (self),
+					       dom_element_get_attribute (node, "type"),
+					       g_strcmp0 (dom_element_get_attribute (node, "inverse"), "1") == 0);
+
 	}
 	gth_catalog_set_file_list (GTH_CATALOG (self), files);
 	

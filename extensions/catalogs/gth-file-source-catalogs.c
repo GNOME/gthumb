@@ -339,26 +339,27 @@ read_metadata_catalog_ready_cb (GObject  *object,
 				gpointer  user_data)
 {
 	ReadMetadataOpData *read_metadata = user_data;
-	GthCatalog         *catalog;
-	const char         *sort_type;
-	gboolean            sort_inverse;
 
-	if (object == NULL) {
-		read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
-		read_metadata_free (read_metadata);
-		return;
-	}
+	/* ignore errors */
+	if (error != NULL)
+		g_clear_error (&error);
 
-	catalog = GTH_CATALOG (object);
-	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
-	if (sort_type != NULL) {
-		g_file_info_set_attribute_string (read_metadata->file_data->info, "sort::type", sort_type);
-		g_file_info_set_attribute_boolean (read_metadata->file_data->info, "sort::inverse", sort_inverse);
+	if (object != NULL) {
+		GthCatalog *catalog;
+		const char *sort_type;
+		gboolean    sort_inverse;
+
+		catalog = GTH_CATALOG (object);
+		sort_type = gth_catalog_get_order (catalog, &sort_inverse);
+		if (sort_type != NULL) {
+			g_file_info_set_attribute_string (read_metadata->file_data->info, "sort::type", sort_type);
+			g_file_info_set_attribute_boolean (read_metadata->file_data->info, "sort::inverse", sort_inverse);
+		}
+
+		g_object_unref (catalog);
 	}
 
 	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);
-
-	g_object_unref (catalog);
 	read_metadata_free (read_metadata);
 }
 
