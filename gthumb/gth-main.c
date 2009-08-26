@@ -573,10 +573,17 @@ gth_main_register_sort_type (GthFileDataSort *sort_type)
 GthFileDataSort *
 gth_main_get_sort_type (const char *name)
 {
+	GthFileDataSort *retval =  NULL;
+
 	if (name == NULL)
 		return NULL;
+
+	retval = g_hash_table_lookup (Main->priv->sort_types, name);
+
+	if (retval != NULL)
+		return retval;
 	else
-		return g_hash_table_lookup (Main->priv->sort_types, name);
+		return g_hash_table_lookup (Main->priv->sort_types, "file::name");
 }
 
 
