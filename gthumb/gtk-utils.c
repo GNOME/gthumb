@@ -784,7 +784,7 @@ show_help_dialog (GtkWindow  *parent,
 	char   *uri;
 	GError *error = NULL;
 
-	uri = g_strconcat ("ghelp:file-roller", section ? "?" : NULL, section, NULL);
+	uri = g_strconcat ("ghelp:gthumb", section ? "?" : NULL, section, NULL);
 	if (! gtk_show_uri (gtk_window_get_screen (parent), uri, GDK_CURRENT_TIME, &error)) {
   		GtkWidget *dialog;
 
