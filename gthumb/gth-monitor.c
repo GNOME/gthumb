@@ -40,6 +40,7 @@ enum {
 	FILE_RENAMED,
 	METADATA_CHANGED,
 	ENTRY_POINTS_CHANGED,
+	ORDER_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -162,6 +163,17 @@ gth_monitor_class_init (GthMonitorClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE,
 			      0);
+	monitor_signals[ORDER_CHANGED] =
+		g_signal_new ("order-changed",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthMonitorClass, order_changed),
+			      NULL, NULL,
+			      gth_marshal_VOID__OBJECT_POINTER,
+			      G_TYPE_NONE,
+			      2,
+			      G_TYPE_OBJECT,
+			      G_TYPE_POINTER);
 }
 
 
@@ -311,4 +323,19 @@ gth_monitor_file_entry_points_changed (GthMonitor *monitor)
 	g_signal_emit (G_OBJECT (monitor),
 		       monitor_signals[ENTRY_POINTS_CHANGED],
 		       0);
+}
+
+
+void
+gth_monitor_order_changed (GthMonitor *monitor,
+			   GFile      *file,
+			   int        *new_order)
+{
+	g_return_if_fail (GTH_IS_MONITOR (monitor));
+
+	g_signal_emit (G_OBJECT (monitor),
+		       monitor_signals[ORDER_CHANGED],
+		       0,
+		       file,
+		       new_order);
 }

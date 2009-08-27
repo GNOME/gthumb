@@ -127,6 +127,8 @@ void            gth_file_store_queue_remove      (GthFileStore         *file_sto
 					          GtkTreeIter          *iter);
 void            gth_file_store_exec_remove       (GthFileStore         *file_store);
 void            gth_file_store_clear             (GthFileStore         *file_store);
+void            gth_file_store_reorder           (GthFileStore         *file_store,
+						  int                  *new_order);
 
 G_END_DECLS
 

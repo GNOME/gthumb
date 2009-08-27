@@ -73,6 +73,9 @@ struct _GthMonitorClass
 	void   (*metadata_changed)        (GthMonitor      *monitor,
 					   GthFileData     *file_data);
 	void   (*entry_points_changed)    (GthMonitor      *monitor);
+	void   (*order_changed)           (GthMonitor      *monitor,
+					   GFile           *file,
+					   int             *new_order);
 };
 
 GType         gth_monitor_get_type                   (void);
@@ -93,6 +96,9 @@ void          gth_monitor_file_renamed               (GthMonitor      *monitor,
 void          gth_monitor_metadata_changed           (GthMonitor      *monitor,
 						      GthFileData     *file_data);
 void          gth_monitor_file_entry_points_changed  (GthMonitor      *monitor);
+void          gth_monitor_order_changed              (GthMonitor      *monitor,
+						      GFile           *file,
+						      int             *new_order);
 
 G_END_DECLS
 

@@ -131,6 +131,7 @@ struct _GthBrowserPrivateData {
 	gulong             file_renamed_id;
 	gulong             metadata_changed_id;
 	gulong             entry_points_changed_id;
+	gulong             order_changed_id;
 	GthFileData       *location;
 	GthFileData       *current_file;
 	GthFileSource     *location_source;
@@ -1840,6 +1841,8 @@ _gth_browser_real_close (GthBrowser *browser)
 				     browser->priv->metadata_changed_id);
 	g_signal_handler_disconnect (gth_main_get_default_monitor (),
 				     browser->priv->entry_points_changed_id);
+	g_signal_handler_disconnect (gth_main_get_default_monitor (),
+				     browser->priv->order_changed_id);
 
 	/* cancel async operations */
 
@@ -2358,6 +2361,9 @@ folder_changed_cb (GthMonitor      *monitor,
 	gboolean     update_folder_tree;
 	gboolean     update_file_list;
 
+	if (browser->priv->location == NULL)
+			return;
+
 	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
 		_gth_browser_load (browser, parent, GTH_ACTION_GO_TO, TRUE);
 		return;
@@ -2615,6 +2621,20 @@ entry_points_changed_cb (GthMonitor *monitor,
 			 GthBrowser *browser)
 {
 	_gth_browser_update_entry_point_list (browser);
+}
+
+
+static void
+order_changed_cb (GthMonitor      *monitor,
+		  GFile           *file,
+		  int             *new_order,
+		   GthBrowser     *browser)
+{
+	if (browser->priv->location == NULL)
+		return;
+
+	if (g_file_equal (file, browser->priv->location->file))
+		gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
 }
 
 
@@ -3317,6 +3337,11 @@ _gth_browser_construct (GthBrowser *browser)
 		g_signal_connect (gth_main_get_default_monitor (),
 				  "entry-points-changed",
 				  G_CALLBACK (entry_points_changed_cb),
+				  browser);
+	browser->priv->order_changed_id =
+		g_signal_connect (gth_main_get_default_monitor (),
+				  "order-changed",
+				  G_CALLBACK (order_changed_cb),
 				  browser);
 
 	/* init browser data */
