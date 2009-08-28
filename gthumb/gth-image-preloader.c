@@ -64,11 +64,6 @@ struct _GthImagePreloaderPrivate {
 					       * any signal. */
 	int          current;                 /* This is the loader that has
 					       * a loading underway. */
-	gboolean     stopped;                 /* Whether the preloader has
-					       * been stopped. */
-	DoneFunc     done_func;               /* Function to call after
-					       * stopping the loader. */
-	gpointer     done_func_data;
 	guint        load_id;
 };
 
@@ -241,7 +236,6 @@ gth_image_preloader_init (GthImagePreloader *image_preloader)
 		image_preloader->priv->loader[i] = preloader_new (image_preloader);
 	image_preloader->priv->requested = -1;
 	image_preloader->priv->current = -1;
-	image_preloader->priv->stopped = FALSE;
 }
 
 
@@ -458,7 +452,6 @@ gth_image_preloader_load__step2 (LoadData *load_data)
 
 	load_data_free (load_data);
 
-	image_preloader->priv->stopped = FALSE;
 	start_next_loader (image_preloader);
 }
 
@@ -524,19 +517,6 @@ start_next_loader (GthImagePreloader *image_preloader)
 	Preloader *preloader;
 	char      *uri;
 
-	if (image_preloader->priv->stopped) {
-		image_preloader->priv->current = -1;
-		image_preloader->priv->stopped = FALSE;
-
-		debug (DEBUG_INFO, "stopped");
-
-		if (image_preloader->priv->done_func != NULL)
-			(*image_preloader->priv->done_func) (image_preloader->priv->done_func_data);
-		image_preloader->priv->done_func = NULL;
-
-		return;
-	}
-
 	preloader = requested_preloader (image_preloader);
 	if ((preloader != NULL)
 	    && (preloader->file_data != NULL)
@@ -590,16 +570,18 @@ gth_image_preloader_stop (GthImagePreloader *image_preloader,
 			  DoneFunc           done_func,
 			  gpointer           done_func_data)
 {
+	Preloader *preloader;
+
 	if (image_preloader->priv->current == -1) {
 		debug (DEBUG_INFO, "stopped");
-		if (done_func != NULL)
-			(*done_func) (done_func_data);
+		call_when_idle (done_func, done_func_data);
 		return;
 	}
 
-	image_preloader->priv->stopped = TRUE;
-	image_preloader->priv->done_func = done_func;
-	image_preloader->priv->done_func_data = done_func_data;
+	preloader = current_preloader (image_preloader);
+	image_preloader->priv->current = -1;
+
+	gth_image_loader_cancel (preloader->loader, done_func, done_func_data);
 }
 
 

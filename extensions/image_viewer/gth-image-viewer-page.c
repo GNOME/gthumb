@@ -273,6 +273,20 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 {
 	GthImageLoader *image_loader;
 
+	if (error != NULL) {
+		/*
+		char *msg;
+
+		msg = g_strdup_printf (_("Could not view the file \"%s\""), g_file_info_get_display_name (self->priv->file_data->info));
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), msg, &error);
+
+		g_free (msg);
+		return;
+		*/
+		g_clear_error (&error);
+		return;
+	}
+
 	image_loader = gth_image_preloader_get_loader (self->priv->preloader, gth_image_preloader_get_requested (self->priv->preloader));
 	if (image_loader == NULL)
 		return;
@@ -567,6 +581,9 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
+
+	if ((self->priv->file_data != NULL) && g_file_equal (file_data->file, self->priv->file_data->file))
+		return;
 
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);

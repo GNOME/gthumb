@@ -21,13 +21,7 @@
  */
 
 #include <config.h>
-/*
-#include <errno.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-*/
+#include <glib/gi18n.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 #include <gtk/gtk.h>
@@ -239,6 +233,8 @@ load_image_thread (void *thread_data)
 				loader = gth_main_get_file_loader (gth_file_data_get_mime_type (file));
 				if (loader != NULL)
 					animation = loader (file, &error, -1, -1);
+				else
+					error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED, _("No suitable loader available for this file type"));
 			}
 		}
 
