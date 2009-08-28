@@ -49,7 +49,7 @@ gth_metadata_provider_image_read (GthMetadataProvider *self,
 	char            *filename;
 	int              width, height;
 
-	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image"))
+	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
 		return;
 
 	filename = g_file_get_path (file_data->file);
