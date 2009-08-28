@@ -1112,8 +1112,20 @@ gth_main_get_default_extension_manager (void)
 void
 gth_main_activate_extensions (void)
 {
-	const char *mandatory_extensions[] = { "file_viewer", NULL };
-	const char *default_extensions[] = { "catalogs", "comments", "exiv2", "file_manager", "file_tools", "image_viewer", "list_tools", "search", NULL };
+	const char *mandatory_extensions[] = {	"file_viewer",
+						NULL };
+	const char *default_extensions[] = {	"catalogs",
+						"comments",
+						"exiv2",
+						"file_manager",
+						"file_tools",
+						"image_rotation",
+						"image_viewer",
+						"list_tools",
+						"photo_importer",
+						"rename_series",
+						"search",
+						NULL };
 	int         i;
 	GSList     *active_extensions;
 	GSList     *scan;
