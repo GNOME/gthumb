@@ -1,6 +1,6 @@
 [Extension]
 _Name=File list tools
-_Description=Allow to add tools to operate on files.
+_Description=Scripting and batch manipulation of files.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0

@@ -86,7 +86,7 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="for_each_file_checkbutton">
-            <property name="label" translatable="yes">E_xecute the command a file at a time</property>
+            <property name="label" translatable="yes">E_xecute command once for every file</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
