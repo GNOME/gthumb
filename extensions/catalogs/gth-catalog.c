@@ -545,9 +545,6 @@ gth_catalog_get_base (void)
 	/*catalogs_dir = g_strdup ("/home/paolo/.gnome2/gthumb/collections");*/
 	base = g_file_new_for_path (catalogs_dir);
 
-	if (! g_file_query_exists (base, NULL))
-		g_file_make_directory_with_parents (base, NULL, NULL);
-
 	g_free (catalogs_dir);
 
 	return base;
