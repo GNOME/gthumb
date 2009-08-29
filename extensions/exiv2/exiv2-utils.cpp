@@ -382,13 +382,9 @@ exiv2_read_metadata_from_file (GFile      *file,
 
 		exiv2_read_metadata (image, info);
 	}
-	/*catch (Exiv2::AnyError& e) {
-		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
-		return FALSE;
-	}*/
-	catch (char *msg) {
+	catch (Exiv2::AnyError& e) {
 		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
 		return FALSE;
 	}
 
@@ -414,14 +410,9 @@ exiv2_read_metadata_from_buffer (void       *buffer,
 
 		exiv2_read_metadata (image, info);
 	}
-	catch (Exiv2::Error) {
+	catch (Exiv2::AnyError& e) {
 		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Invalid file format"));
-		return FALSE;
-	}
-	catch (char *msg) {
-		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
 		return FALSE;
 	}
 
@@ -470,7 +461,7 @@ exiv2_read_sidecar (GFile     *file,
 		set_attributes_from_tagsets (info);
 	}
 	catch (Exiv2::AnyError& e) {
-		std::cout << "Caught Exiv2 exception '" << e << "'\n";
+		std::cerr << "Caught Exiv2 exception '" << e << "'\n";
 		return FALSE;
 	}
 
@@ -662,9 +653,9 @@ exiv2_write_metadata (SavePixbufData *data)
 		data->buffer = g_memdup (buf.pData_, buf.size_);
 		data->buffer_size = buf.size_;
 	}
-	catch (char *msg) {
+	catch (Exiv2::AnyError& e) {
 		if (data->error != NULL)
-			*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+			*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
 		return FALSE;
 	}
 
@@ -690,9 +681,9 @@ exiv2_write_metadata_to_buffer (void      **buffer,
 		*buffer = g_memdup (buf.pData_, buf.size_);
 		*buffer_size = buf.size_;
 	}
-	catch (char *msg) {
+	catch (Exiv2::AnyError& e) {
 		if (error != NULL)
-			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, msg);
+			*error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
 		return FALSE;
 	}
 
