@@ -1101,6 +1101,9 @@ gth_file_store_set_sort_func (GthFileStore        *file_store,
 			      GthFileDataCompFunc  cmp_func,
 			      gboolean             inverse_sort)
 {
+	if ((cmp_func != file_store->priv->cmp_func) || (inverse_sort != file_store->priv->inverse_sort))
+		return;
+
 	file_store->priv->cmp_func = cmp_func;
 	file_store->priv->inverse_sort = inverse_sort;
 	_gth_file_store_reorder (file_store);
