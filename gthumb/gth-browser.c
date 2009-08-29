@@ -978,7 +978,15 @@ load_data_done (LoadData *load_data,
 		browser->priv->location_source = g_object_ref (load_data->file_source);
 	}
 
-	gth_hook_invoke ("gth-browser-load-location-after", browser, load_data->requested_folder->file, error);
+	if ((load_data->action == GTH_ACTION_GO_TO)
+	    || (load_data->action == GTH_ACTION_GO_INTO)
+	    || (load_data->action == GTH_ACTION_GO_BACK)
+	    || (load_data->action == GTH_ACTION_GO_FORWARD)
+	    || (load_data->action == GTH_ACTION_GO_UP)
+	    || (load_data->action == GTH_ACTION_VIEW))
+	{
+		gth_hook_invoke ("gth-browser-load-location-after", browser, load_data->requested_folder->file, error);
+	}
 
 	if (error == NULL)
 		return;
@@ -1559,7 +1567,15 @@ _gth_browser_load (GthBrowser *browser,
 	entry_point = get_nearest_entry_point (location);
 	load_data = load_data_new (browser, location, action, automatic, entry_point);
 
-	gth_hook_invoke ("gth-browser-load-location-before", browser, load_data->requested_folder->file);
+	if ((load_data->action == GTH_ACTION_GO_TO)
+	    || (load_data->action == GTH_ACTION_GO_INTO)
+	    || (load_data->action == GTH_ACTION_GO_BACK)
+	    || (load_data->action == GTH_ACTION_GO_FORWARD)
+	    || (load_data->action == GTH_ACTION_GO_UP)
+	    || (load_data->action == GTH_ACTION_VIEW))
+	{
+		gth_hook_invoke ("gth-browser-load-location-before", browser, load_data->requested_folder->file);
+	}
 	browser->priv->activity_ref++;
 
 	if (entry_point == NULL) {

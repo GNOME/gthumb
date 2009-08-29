@@ -122,8 +122,14 @@ static const char *folder_popup_ui_info =
 "</ui>";
 
 
-static GtkTargetEntry drag_dest_targets[] = {
-        { "text/uri-list", 0, 0 }
+static GtkTargetEntry reorderable_drag_dest_targets[] = {
+        { "text/uri-list", 0, 0 },
+        { "text/uri-list", GTK_TARGET_SAME_WIDGET, 0 }
+};
+
+
+static GtkTargetEntry non_reorderable_drag_dest_targets[] = {
+        { "text/uri-list", GTK_TARGET_OTHER_WIDGET, 0 }
 };
 
 
@@ -222,7 +228,7 @@ set_action_sensitive (BrowserData *data,
 
 
 static void
-gth_file_list_drag_data_received (GtkWidget        *widget,
+gth_file_list_drag_data_received (GtkWidget        *file_view,
 				  GdkDragContext   *context,
 				  int               x,
 				  int               y,
@@ -232,12 +238,11 @@ gth_file_list_drag_data_received (GtkWidget        *widget,
 				  gpointer          user_data)
 {
 	GthBrowser  *browser = user_data;
-
 	gboolean     success = FALSE;
 	char       **uris;
 	GList       *file_list;
 
-	g_signal_stop_emission_by_name (widget, "drag-data-received");
+	g_signal_stop_emission_by_name (file_view, "drag-data-received");
 
 	if ((context->suggested_action == GDK_ACTION_COPY)
 	    || (context->suggested_action == GDK_ACTION_MOVE))
@@ -250,7 +255,7 @@ gth_file_list_drag_data_received (GtkWidget        *widget,
 	uris = gtk_selection_data_get_uris (selection_data);
 	file_list = _g_file_list_new_from_uriv (uris);
 	if (file_list != NULL) {
-		if (gtk_drag_get_source_widget (context) == gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)))) {
+		if (gtk_drag_get_source_widget (context) == file_view) {
 			BrowserData *data;
 			GthTask     *task;
 
@@ -329,43 +334,41 @@ gth_file_list_drag_drop (GtkWidget      *widget,
 
 
 static gboolean
-gth_file_list_drag_motion (GtkWidget          *widget,
-			   GdkDragContext     *context,
-			   gint                x,
-			   gint                y,
-			   guint               time,
-			   gpointer            extra_data)
+gth_file_list_drag_motion (GtkWidget      *file_view,
+			   GdkDragContext *context,
+			   gint            x,
+			   gint            y,
+			   guint           time,
+			   gpointer        extra_data)
 {
 	GthBrowser  *browser = extra_data;
 	BrowserData *data;
-	GtkWidget   *file_view;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
-	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	if ((gtk_drag_get_source_widget (context) == file_view) && ! gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
 		data->drop_pos = -1;
 		gdk_drag_status (context, 0, time);
 		return FALSE;
 	}
 
-	gdk_drag_status (context, GDK_ACTION_MOVE, time);
-	gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
+	if ((gtk_drag_get_source_widget (context) == file_view) && gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+		gdk_drag_status (context, GDK_ACTION_MOVE, time);
+		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
+	}
+	else
+		gdk_drag_status (context, GDK_ACTION_COPY, time);
 
 	return TRUE;
 }
 
 
 static gboolean
-gth_file_list_drag_leave (GtkWidget          *widget,
-			  GdkDragContext     *context,
-			  guint               time,
-			  gpointer            extra_data)
+gth_file_list_drag_leave (GtkWidget      *file_view,
+			  GdkDragContext *context,
+			  guint           time,
+			  gpointer        extra_data)
 {
-	GthBrowser *browser = extra_data;
-	GtkWidget  *file_view;
-
-	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	if (gtk_drag_get_source_widget (context) == file_view)
 		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, -1, -1, time, NULL);
 
@@ -393,6 +396,24 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+	g_signal_connect (file_view,
+                          "drag_data_received",
+                          G_CALLBACK (gth_file_list_drag_data_received),
+                          browser);
+	g_signal_connect (file_view,
+	                  "drag_drop",
+	                  G_CALLBACK (gth_file_list_drag_drop),
+	                  browser);
+	g_signal_connect (file_view,
+			  "drag_motion",
+			  G_CALLBACK (gth_file_list_drag_motion),
+			  browser);
+	g_signal_connect (file_view,
+	                  "drag_leave",
+	                  G_CALLBACK (gth_file_list_drag_leave),
+	                  browser);
+
+	file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	g_signal_connect (file_view,
                           "drag_data_received",
                           G_CALLBACK (gth_file_list_drag_data_received),
@@ -494,14 +515,32 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);
 
-	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
-	if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser)))
+	if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
-						drag_dest_targets,
-						G_N_ELEMENTS (drag_dest_targets),
-						GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
-	else
-		gth_file_view_unset_drag_dest (GTH_FILE_VIEW (file_view));
+						reorderable_drag_dest_targets,
+						G_N_ELEMENTS (reorderable_drag_dest_targets),
+						GDK_ACTION_COPY | GDK_ACTION_MOVE);
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		gtk_drag_dest_set (file_view,
+				   0,
+				   reorderable_drag_dest_targets,
+				   G_N_ELEMENTS (reorderable_drag_dest_targets),
+				   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	}
+	else {
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
+						non_reorderable_drag_dest_targets,
+						G_N_ELEMENTS (non_reorderable_drag_dest_targets),
+						GDK_ACTION_COPY);
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		gtk_drag_dest_set (file_view,
+				   0,
+				   non_reorderable_drag_dest_targets,
+				   G_N_ELEMENTS (non_reorderable_drag_dest_targets),
+				   GDK_ACTION_COPY);
+	}
 }
 
 

@@ -1171,6 +1171,13 @@ gth_file_list_get_view (GthFileList *file_list)
 }
 
 
+GtkWidget *
+gth_file_list_get_empty_view (GthFileList *file_list)
+{
+	return file_list->priv->message;
+}
+
+
 /* thumbs */
 
 
