@@ -33,6 +33,13 @@ gth_main_register_default_hooks (void)
 	gth_hooks_initialize ();
 
 	/**
+	 * Called at start up time to do basic initialization.
+	 *
+	 * no arguments.
+	 **/
+	gth_hook_register ("initialize", 0);
+
+	/**
 	 * Called after the window has been initialized.  Can be used by
 	 * an extension to create and attach specific data to the window.
 	 *

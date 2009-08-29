@@ -126,6 +126,13 @@ browser_data_free (BrowserData *data)
 
 
 void
+catalogs__initialize_cb (void)
+{
+	gth_user_dir_make_dir_for_file (GTH_DIR_DATA, GTHUMB_DIR, "catalogs", "dummy", NULL);
+}
+
+
+void
 catalogs__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;

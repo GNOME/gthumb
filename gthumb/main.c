@@ -243,21 +243,30 @@ prepare_application (void)
 	const char  *arg;
 	int          i;
 
+	gthumb_app = unique_app_new_with_commands ("org.gnome.gthumb", NULL,
+						   "import-photos", COMMAND_IMPORT_PHOTOS,
+						   NULL);
+
+	if (! unique_app_is_running (gthumb_app)) {
+		gth_main_register_default_hooks ();
+		gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
+		gth_main_register_default_sort_types ();
+		gth_main_register_default_tests ();
+		gth_main_register_default_types ();
+		gth_main_register_default_metadata ();
+		gth_main_activate_extensions ();
+		gth_hook_invoke ("initialize", NULL);
+		g_signal_connect (gthumb_app,
+				  "message-received",
+				  G_CALLBACK (unique_app_message_received_cb),
+				  NULL);
+	}
+
 	client = egg_sm_client_get ();
 	if (egg_sm_client_is_resumed (client)) {
 		gth_restore_session (client);
 		return;
 	}
-
-	gthumb_app = unique_app_new_with_commands ("org.gnome.gthumb", NULL,
-						   "import-photos", COMMAND_IMPORT_PHOTOS,
-						   NULL);
-
-	if (! unique_app_is_running (gthumb_app))
-		g_signal_connect (gthumb_app,
-				  "message-received",
-				  G_CALLBACK (unique_app_message_received_cb),
-				  NULL);
 
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
@@ -327,14 +336,6 @@ main (int argc, char *argv[])
 	gth_session_manager_init ();
 	gth_pref_initialize ();
 	gth_main_initialize ();
-	gth_main_register_default_hooks ();
-	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_VFS);
-	gth_main_register_default_sort_types ();
-	gth_main_register_default_tests ();
-	gth_main_register_default_types ();
-	gth_main_register_default_metadata ();
-	gth_main_activate_extensions ();
-
 	prepare_application ();
 
 	if (! unique_app_is_running (gthumb_app)) {

@@ -43,6 +43,7 @@ gthumb_extension_activate (void)
 	gth_hook_add_callback ("gth-catalog-load-from-data", 10, G_CALLBACK (catalogs__gth_catalog_load_from_data_cb), NULL);
 
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_CATALOGS);
+	gth_hook_add_callback ("initialize", 10, G_CALLBACK (catalogs__initialize_cb), NULL);
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (catalogs__gth_browser_construct_cb), NULL);
 	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (catalogs__gth_browser_update_sensitivity_cb), NULL);
 	gth_hook_add_callback ("gth-browser-folder-tree-popup-before", 10, G_CALLBACK (catalogs__gth_browser_folder_tree_popup_before_cb), NULL);

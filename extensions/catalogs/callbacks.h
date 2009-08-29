@@ -26,6 +26,7 @@
 #include <gthumb.h>
 #include "gth-catalog.h"
 
+void catalogs__initialize_cb                           (void);
 void catalogs__gth_browser_construct_cb                (GthBrowser    *browser);
 void catalogs__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
 void catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,

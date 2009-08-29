@@ -542,7 +542,6 @@ gth_catalog_get_base (void)
 	GFile *base;
 
 	catalogs_dir = gth_user_dir_get_file (GTH_DIR_DATA, GTHUMB_DIR, "catalogs", NULL);
-	/*catalogs_dir = g_strdup ("/home/paolo/.gnome2/gthumb/collections");*/
 	base = g_file_new_for_path (catalogs_dir);
 
 	g_free (catalogs_dir);
