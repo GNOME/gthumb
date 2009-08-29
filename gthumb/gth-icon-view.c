@@ -189,24 +189,6 @@ gth_icon_view_real_get_cursor (GthFileView *base)
 
 
 static void
-gth_icon_view_real_set_reorderable (GthFileView *base,
-				    gboolean     value)
-{
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-}
-
-
-static gboolean
-gth_icon_view_real_get_reorderable (GthFileView *base)
-{
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return FALSE;
-}
-
-
-static void
 gth_icon_view_enable_drag_source (GthFileView          *self,
 				  GdkModifierType       start_button_mask,
 				  const GtkTargetEntry *targets,
@@ -471,8 +453,6 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	iface->activated = gth_icon_view_real_activated;
 	iface->set_cursor = gth_icon_view_real_set_cursor;
 	iface->get_cursor = gth_icon_view_real_get_cursor;
-	iface->set_reorderable = gth_icon_view_real_set_reorderable;
-	iface->get_reorderable = gth_icon_view_real_get_reorderable;
 	iface->enable_drag_source = gth_icon_view_enable_drag_source;
 	iface->unset_drag_source = gth_icon_view_unset_drag_source;
 	iface->enable_drag_dest = gth_icon_view_enable_drag_dest;

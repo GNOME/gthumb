@@ -609,7 +609,6 @@ static gboolean
 base_is_reorderable (GthFileSource *file_source)
 {
 	return FALSE;
-
 }
 
 

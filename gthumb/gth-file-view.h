@@ -79,9 +79,6 @@ struct _GthFileViewIface {
 	void           (*set_cursor)         (GthFileView          *self,
 					      int                   pos);
 	int            (*get_cursor)         (GthFileView          *self);
-	void           (*set_reorderable)    (GthFileView          *self,
-					      gboolean              value);
-	gboolean       (*get_reorderable)    (GthFileView          *self);
 	void           (*enable_drag_source) (GthFileView          *self,
 					      GdkModifierType       start_button_mask,
 					      const GtkTargetEntry *targets,
@@ -123,9 +120,6 @@ void           gth_file_view_activated          (GthFileView          *self,
 void           gth_file_view_set_cursor         (GthFileView          *self,
 						 int                   pos);
 int            gth_file_view_get_cursor         (GthFileView          *self);
-void           gth_file_view_set_reorderable    (GthFileView          *self,
-						 gboolean              value);
-gboolean       gth_file_view_get_reorderable    (GthFileView          *self);
 void           gth_file_view_enable_drag_source (GthFileView          *self,
 				      		 GdkModifierType       start_button_mask,
 				      		 const GtkTargetEntry *targets,

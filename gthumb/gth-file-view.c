@@ -117,21 +117,6 @@ gth_file_view_get_cursor (GthFileView *self)
 
 
 void
-gth_file_view_set_reorderable (GthFileView *self,
-			       gboolean     value)
-{
-	GTH_FILE_VIEW_GET_INTERFACE (self)->set_reorderable (self, value);
-}
-
-
-gboolean
-gth_file_view_get_reorderable (GthFileView *self)
-{
-	return GTH_FILE_VIEW_GET_INTERFACE (self)->get_reorderable (self);
-}
-
-
-void
 gth_file_view_enable_drag_source (GthFileView          *self,
 				  GdkModifierType       start_button_mask,
 				  const GtkTargetEntry *targets,

@@ -1265,31 +1265,29 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 			     gboolean         inverse,
 			     gboolean         save)
 {
+	g_return_if_fail (sort_type != NULL);
+
 	if (save) {
 		browser->priv->sort_type = sort_type;
 		browser->priv->sort_inverse = inverse;
 	}
 
-	if (sort_type != NULL)
-		gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
-					     sort_type->cmp_func,
-					     inverse);
-	else
-		gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
-					     NULL,
-					     FALSE);
+	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
+				     sort_type->cmp_func,
+				     inverse);
 	gth_browser_update_title (browser);
 
 	if (! browser->priv->constructed)
 		return;
+
+	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", sort_type != NULL ? sort_type->name : "general::unsorted");
+	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", sort_type != NULL ? inverse : FALSE);
 
 	if (! save) {
 		write_sort_order_ready_cb (G_OBJECT (browser->priv->location_source), NULL, browser);
 		return;
 	}
 
-	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", sort_type != NULL ? sort_type->name : "manual");
-	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", sort_type != NULL ? inverse : FALSE);
 	gth_file_source_write_metadata (browser->priv->location_source,
 					browser->priv->location,
 					"sort::type,sort::inverse",
@@ -2625,16 +2623,20 @@ entry_points_changed_cb (GthMonitor *monitor,
 
 
 static void
-order_changed_cb (GthMonitor      *monitor,
-		  GFile           *file,
-		  int             *new_order,
-		   GthBrowser     *browser)
+order_changed_cb (GthMonitor *monitor,
+		  GFile      *file,
+		  int        *new_order,
+		  GthBrowser *browser)
 {
 	if (browser->priv->location == NULL)
 		return;
 
-	if (g_file_equal (file, browser->priv->location->file))
+	if (g_file_equal (file, browser->priv->location->file)) {
+		g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", "general::unsorted");
+		g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", FALSE);
 		gth_file_store_reorder (gth_browser_get_file_store (browser), new_order);
+		gth_browser_update_title (browser);
+	}
 }
 
 
@@ -3658,6 +3660,8 @@ gth_browser_set_sort_order (GthBrowser      *browser,
 			    GthFileDataSort *sort_type,
 			    gboolean         inverse)
 {
+	g_return_if_fail (sort_type != NULL);
+
 	_gth_browser_set_sort_order (browser, sort_type, inverse, TRUE);
 }
 

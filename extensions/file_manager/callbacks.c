@@ -393,10 +393,6 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	set_action_sensitive (data, "Edit_PasteInFolder", FALSE);
 
 	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
-	gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
-					drag_dest_targets,
-					G_N_ELEMENTS (drag_dest_targets),
-					GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 	g_signal_connect (file_view,
                           "drag_data_received",
                           G_CALLBACK (gth_file_list_drag_data_received),
@@ -490,12 +486,22 @@ fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
 					const GError *error)
 {
 	BrowserData *data;
+	GtkWidget   *file_view;
 
 	if (location == NULL)
 		return;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);
+
+	file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+	if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser)))
+		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
+						drag_dest_targets,
+						G_N_ELEMENTS (drag_dest_targets),
+						GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	else
+		gth_file_view_unset_drag_dest (GTH_FILE_VIEW (file_view));
 }
 
 
