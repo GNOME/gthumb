@@ -124,11 +124,14 @@ gth_main_finalize (GObject *object)
 		g_list_foreach (gth_main->priv->metadata_provider, (GFunc) g_object_unref, NULL);
 		g_list_free (gth_main->priv->metadata_provider);
 
-		g_hash_table_unref (gth_main->priv->sort_types);
-		g_hash_table_unref (gth_main->priv->tests);
-		g_hash_table_unref (gth_main->priv->loaders);
-
-		g_hash_table_unref (gth_main->priv->types);
+		if (gth_main->priv->sort_types != NULL)
+			g_hash_table_unref (gth_main->priv->sort_types);
+		if (gth_main->priv->tests != NULL)
+			g_hash_table_unref (gth_main->priv->tests);
+		if (gth_main->priv->loaders != NULL)
+			g_hash_table_unref (gth_main->priv->loaders);
+		if (gth_main->priv->types != NULL)
+			g_hash_table_unref (gth_main->priv->types);
 
 		if (gth_main->priv->bookmarks != NULL)
 			g_bookmark_file_free (gth_main->priv->bookmarks);
