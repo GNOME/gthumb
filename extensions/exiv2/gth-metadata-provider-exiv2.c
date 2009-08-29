@@ -50,7 +50,7 @@ gth_metadata_provider_exiv2_read (GthMetadataProvider *self,
 	char        *sidecar_uri;
 	GthFileData *sidecar_file_data;
 
-	if (! g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/jpeg"))
+	if (! g_content_type_is_a (gth_file_data_get_mime_type (file_data), "image/*"))
 		return;
 
 	/* this function is executed in a secondary thread, so calling
