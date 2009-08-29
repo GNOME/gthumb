@@ -54,6 +54,9 @@ gth_import_task_finalize (GObject *object)
 
 	self = GTH_IMPORT_TASK (object);
 
+	if (ImportPhotos)
+		gtk_window_present (GTK_WINDOW (self->priv->browser));
+
 	_g_object_list_unref (self->priv->files);
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);

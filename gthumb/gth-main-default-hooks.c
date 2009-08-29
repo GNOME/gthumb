@@ -177,4 +177,13 @@ gth_main_register_default_hooks (void)
 	 * @builder (GtkBuilder*): the dialog ui builder.
 	 **/
 	gth_hook_register ("dlg-preferences-apply", 3);
+
+	/**
+	 * Called at start up time if the --import-photos argument is
+	 * specified.
+	 *
+	 * @browser (GthBrowser*): the main window.
+	 * @file (GFile *): import from this location
+	 **/
+	gth_hook_register ("import-photos", 2);
 }

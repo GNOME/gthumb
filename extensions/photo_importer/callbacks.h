@@ -26,5 +26,7 @@
 #include <gthumb.h>
 
 void pi__gth_browser_construct_cb (GthBrowser *browser);
+void pi__import_photos_cb         (GthBrowser *browser,
+				   GFile      *source);
 
 #endif /* CALLBACKS_H */

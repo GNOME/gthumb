@@ -134,6 +134,9 @@ destroy_dialog (gpointer user_data)
 	_g_object_list_unref (data->files);
 	_g_string_list_free (data->general_tests);
 
+	if (! data->import && ImportPhotos)
+		gth_window_close (GTH_WINDOW (data->browser));
+
 	g_free (data);
 }
 

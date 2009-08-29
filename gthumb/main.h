@@ -25,6 +25,11 @@
 
 G_BEGIN_DECLS
 
+extern gboolean NewWindow;
+extern gboolean StartInFullscreen;
+extern gboolean StartSlideshow;
+extern gboolean ImportPhotos;
+
 void gth_restart (void);
 
 G_END_DECLS

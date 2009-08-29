@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include "actions.h"
+#include "dlg-photo-importer.h"
 
 
 #define BROWSER_DATA_KEY "photo-importer-browser-data"
@@ -89,4 +90,12 @@ pi__gth_browser_construct_cb (GthBrowser *browser)
 	}
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
+}
+
+
+void
+pi__import_photos_cb (GthBrowser *browser,
+		      GFile      *source)
+{
+	dlg_photo_importer (browser, source);
 }

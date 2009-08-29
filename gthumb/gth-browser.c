@@ -1750,33 +1750,35 @@ _gth_browser_close_final_step (gpointer user_data)
 
 	/* Save visualization options only if the window is not maximized. */
 
-	state = gdk_window_get_state (GTK_WIDGET (browser)->window);
-	maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
-	if (! maximized && GTK_WIDGET_VISIBLE (browser)) {
-		int width, height;
+	if (GTK_WIDGET_REALIZED (browser)) {
+		state = gdk_window_get_state (GTK_WIDGET (browser)->window);
+		maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
+		if (! maximized && GTK_WIDGET_VISIBLE (browser)) {
+			int width, height;
 
-		gdk_drawable_get_size (GTK_WIDGET (browser)->window, &width, &height);
-		eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
-		eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+			gdk_drawable_get_size (GTK_WIDGET (browser)->window, &width, &height);
+			eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
+			eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+		}
+
+		pos = gtk_paned_get_position (GTK_PANED (browser->priv->browser_container));
+		if (pos > 0)
+			eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, pos);
+
+		pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->viewer_pane));
+		if (pos > 0)
+			eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, pos);
+
+		pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->browser_sidebar));
+		if (pos > 0)
+			eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, pos);
 	}
-
-	pos = gtk_paned_get_position (GTK_PANED (browser->priv->browser_container));
-	if (pos > 0)
-		eel_gconf_set_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, pos);
-
-	pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->viewer_pane));
-	if (pos > 0)
-		eel_gconf_set_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, pos);
-
-	pos = _gtk_paned_get_position2 (GTK_PANED (browser->priv->browser_sidebar));
-	if (pos > 0)
-		eel_gconf_set_integer (PREF_UI_PROPERTIES_HEIGHT, pos);
 
 	/**/
 
 	gth_hook_invoke ("gth-browser-close", browser);
 
-	if (last_window) {
+	if (GTK_WIDGET_REALIZED (browser) && last_window) {
 		if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE)
 		    && (browser->priv->location != NULL))
 		{

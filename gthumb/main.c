@@ -199,7 +199,16 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 		break;
 
 	case COMMAND_IMPORT_PHOTOS:
-		/* gth_browser_activate_action_file_camera_import (NULL, NULL); */
+		window = gth_window_get_current_window ();
+		if (window == NULL)
+			window = gth_browser_new (NULL);
+
+		uri = unique_message_data_get_text (message);
+		location = g_file_new_for_uri (uri);
+		gth_hook_invoke ("import-photos", window, location, NULL);
+
+		g_object_unref (location);
+		g_free (uri);
 		break;
 
 	default:
@@ -232,6 +241,30 @@ open_browser_window (GFile *location)
 		window = gth_browser_new (NULL);
 		gtk_widget_show (window);
 		gth_browser_load_location (GTH_BROWSER (window), location);
+	}
+}
+
+
+static void
+import_photos_from_location (GFile *location)
+{
+	if (unique_app_is_running (gthumb_app)) {
+		UniqueMessageData *data;
+		char              *uri;
+
+		data = unique_message_data_new ();
+		uri = g_file_get_uri (location);
+		unique_message_data_set_text (data, uri, -1);
+		unique_app_send_message (gthumb_app, COMMAND_IMPORT_PHOTOS, data);
+
+		g_free (uri);
+		unique_message_data_free (data);
+	}
+	else {
+		GtkWidget *window;
+
+		window = gth_browser_new (NULL);
+		gth_hook_invoke ("import-photos", window, location, NULL);
 	}
 }
 
@@ -275,6 +308,15 @@ prepare_application (void)
 		open_browser_window (location);
 
 		g_object_unref (location);
+
+		return;
+	}
+
+	if (ImportPhotos) {
+		GFile *location;
+
+		location = g_file_new_for_commandline_arg (remaining_args[0]);
+		import_photos_from_location (location);
 
 		return;
 	}
