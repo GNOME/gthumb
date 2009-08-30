@@ -139,6 +139,7 @@ gth_search_real_load_from_element (DomDomizable *base,
 				if (uri != NULL)
 					files = g_list_prepend (files, g_file_new_for_uri (uri));
 			}
+			files = g_list_reverse (files);
 		}
 		else if (g_strcmp0 (node->tag_name, "order") == 0)
 			gth_catalog_set_order (GTH_CATALOG (self),
