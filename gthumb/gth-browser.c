@@ -985,7 +985,7 @@ load_data_done (LoadData *load_data,
 	    || (load_data->action == GTH_ACTION_GO_UP)
 	    || (load_data->action == GTH_ACTION_VIEW))
 	{
-		gth_hook_invoke ("gth-browser-load-location-after", browser, load_data->requested_folder->file, error);
+		gth_hook_invoke ("gth-browser-load-location-after", browser, browser->priv->location, error);
 	}
 
 	if (error == NULL)

@@ -573,19 +573,22 @@ fm__gth_browser_set_current_page_cb (GthBrowser *browser)
 
 void
 fm__gth_browser_load_location_after_cb (GthBrowser   *browser,
-					GFile        *location,
+					GthFileData  *location_data,
 					const GError *error)
 {
 	BrowserData *data;
 	GtkWidget   *file_view;
 
-	if (location == NULL)
-		return;
-
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);
 
-	if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
+	if (! g_file_info_get_attribute_boolean (location_data->info, G_FILE_ATTRIBUTE_ACCESS_CAN_WRITE)) {
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		gth_file_view_unset_drag_dest (GTH_FILE_VIEW (file_view));
+		file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+		gtk_drag_dest_unset (file_view);
+	}
+	else if (gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
 		file_view = gth_file_list_get_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 		gth_file_view_enable_drag_dest (GTH_FILE_VIEW (file_view),
 						reorderable_drag_dest_targets,

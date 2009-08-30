@@ -144,17 +144,14 @@ search__gth_browser_construct_cb (GthBrowser *browser)
 
 void
 search__gth_browser_load_location_after_cb (GthBrowser   *browser,
-					    GFile        *location,
+					    GthFileData  *location_data,
 					    const GError *error)
 {
 	BrowserData *data;
 	char        *uri;
 
-	if (location == NULL)
-		return;
-
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
-	uri = g_file_get_uri (location);
+	uri = g_file_get_uri (location_data->file);
 
 	if (g_str_has_suffix (uri, ".search") && (error == NULL)) {
 		if (data->find_merge_id != 0) {

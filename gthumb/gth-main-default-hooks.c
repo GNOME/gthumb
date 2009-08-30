@@ -102,7 +102,7 @@ gth_main_register_default_hooks (void)
 	 * Called after the folder has been loaded.
 	 *
 	 * @browser (GthBrowser*): the window
-	 * @folder (GFile*): the loaded folder
+	 * @folder (GthFileData*): the loaded folder data
 	 * @error (GError*): the error or NULL if the folder was loaded
 	 * correctly.
 	 **/

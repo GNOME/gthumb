@@ -131,13 +131,10 @@ rs__gth_browser_set_current_page_cb (GthBrowser *browser)
 
 void
 rs__gth_browser_load_location_after_cb (GthBrowser   *browser,
-					GFile        *location,
+					GthFileData  *location_data,
 					const GError *error)
 {
 	BrowserData *data;
-
-	if (location == NULL)
-		return;
 
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 	file_manager_update_ui (data, browser);
