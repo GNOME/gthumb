@@ -33,6 +33,7 @@
 
 #define BROWSER_DATA_KEY "file-manager-browser-data"
 #define URI_LIST_TARGET (gdk_atom_intern_static_string ("text/uri-list"))
+#define SCROLL_TIMEOUT 30 /* autoscroll timeout in milliseconds */
 
 
 static const char *vfs_ui_info =
@@ -205,6 +206,8 @@ typedef struct {
 	guint           folder_popup_merge_id;
 	gboolean        can_paste;
 	int             drop_pos;
+	int             scroll_diff;
+	guint           scroll_event;
 } BrowserData;
 
 
@@ -334,6 +337,32 @@ gth_file_list_drag_drop (GtkWidget      *widget,
 
 
 static gboolean
+drag_motion_autoscroll_cb (gpointer user_data)
+{
+	GthBrowser    *browser = user_data;
+	BrowserData   *data;
+	GtkAdjustment *adj;
+	double         max_value;
+	double         value;
+
+	GDK_THREADS_ENTER ();
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	adj = gth_file_list_get_vadjustment (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
+	max_value = gtk_adjustment_get_upper (adj) - gtk_adjustment_get_page_size (adj);
+	value = gtk_adjustment_get_value (adj) + data->scroll_diff;
+	if (value > max_value)
+		value = max_value;
+	gtk_adjustment_set_value (adj, value);
+
+	GDK_THREADS_LEAVE();
+
+	return TRUE;
+}
+
+
+static gboolean
 gth_file_list_drag_motion (GtkWidget      *file_view,
 			   GdkDragContext *context,
 			   gint            x,
@@ -355,6 +384,22 @@ gth_file_list_drag_motion (GtkWidget      *file_view,
 	if ((gtk_drag_get_source_widget (context) == file_view) && gth_file_source_is_reorderable (gth_browser_get_location_source (browser))) {
 		gdk_drag_status (context, GDK_ACTION_MOVE, time);
 		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, x, y, time, &data->drop_pos);
+
+		if (y < 10)
+			data->scroll_diff = - (10 - y);
+		else if (y > file_view->allocation.height - 10)
+			data->scroll_diff = (10 - (file_view->allocation.height - y));
+		else
+			data->scroll_diff = 0;
+
+		if (data->scroll_diff != 0) {
+			if (data->scroll_event == 0)
+				data->scroll_event = g_timeout_add (SCROLL_TIMEOUT, drag_motion_autoscroll_cb, browser);
+		}
+		else if (data->scroll_event != 0) {
+			g_source_remove (data->scroll_event);
+			data->scroll_event = 0;
+		}
 	}
 	else
 		gdk_drag_status (context, GDK_ACTION_COPY, time);
@@ -373,6 +418,23 @@ gth_file_list_drag_leave (GtkWidget      *file_view,
 		gth_file_view_set_drag_dest_pos (GTH_FILE_VIEW (file_view), context, -1, -1, time, NULL);
 
 	return TRUE;
+}
+
+
+static void
+gth_file_list_drag_end (GtkWidget      *widget,
+			GdkDragContext *drag_context,
+			gpointer        user_data)
+{
+	GthBrowser  *browser = user_data;
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	if (data->scroll_event != 0) {
+		g_source_remove (data->scroll_event);
+		data->scroll_event = 0;
+	}
 }
 
 
@@ -412,6 +474,10 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	                  "drag_leave",
 	                  G_CALLBACK (gth_file_list_drag_leave),
 	                  browser);
+	g_signal_connect (file_view,
+	                  "drag_end",
+	                  G_CALLBACK (gth_file_list_drag_end),
+	                  browser);
 
 	file_view = gth_file_list_get_empty_view (GTH_FILE_LIST (gth_browser_get_file_list (browser)));
 	g_signal_connect (file_view,
@@ -429,6 +495,10 @@ fm__gth_browser_construct_cb (GthBrowser *browser)
 	g_signal_connect (file_view,
 	                  "drag_leave",
 	                  G_CALLBACK (gth_file_list_drag_leave),
+	                  browser);
+	g_signal_connect (file_view,
+	                  "drag_end",
+	                  G_CALLBACK (gth_file_list_drag_end),
 	                  browser);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);

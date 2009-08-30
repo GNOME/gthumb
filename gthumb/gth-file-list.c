@@ -84,6 +84,7 @@ enum {
 struct _GthFileListPrivateData
 {
 	GthFileListType  type;
+	GtkAdjustment   *vadj;
 	GtkWidget       *notebook;
 	GtkWidget       *view;
 	GtkWidget       *message;
@@ -471,7 +472,6 @@ gth_file_list_construct (GthFileList     *file_list,
 			 GthFileListType  list_type)
 {
 	GtkWidget       *scrolled;
-	GtkAdjustment   *vadj;
 	GtkWidget       *viewport;
 	GtkCellRenderer *renderer;
 	GthFileStore    *model;
@@ -514,12 +514,12 @@ gth_file_list_construct (GthFileList     *file_list,
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
 					     GTK_SHADOW_ETCHED_IN);
 
-	vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled));
-	g_signal_connect (G_OBJECT (vadj),
+	file_list->priv->vadj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled));
+	g_signal_connect (G_OBJECT (file_list->priv->vadj),
 			  "changed",
 			  G_CALLBACK (vadj_changed_cb),
 			  file_list);
-	g_signal_connect (G_OBJECT (vadj),
+	g_signal_connect (G_OBJECT (file_list->priv->vadj),
 			  "value-changed",
 			  G_CALLBACK (vadj_changed_cb),
 			  file_list);
@@ -1175,6 +1175,13 @@ GtkWidget *
 gth_file_list_get_empty_view (GthFileList *file_list)
 {
 	return file_list->priv->message;
+}
+
+
+GtkAdjustment *
+gth_file_list_get_vadjustment (GthFileList *file_list)
+{
+	return file_list->priv->vadj;
 }
 
 
