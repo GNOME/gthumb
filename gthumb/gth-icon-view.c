@@ -247,6 +247,12 @@ gth_icon_view_set_drag_dest_pos (GthFileView    *self,
 
 			indices = gtk_tree_path_get_indices (path);
 			*pos = indices[0];
+			if ((drop_pos == GTK_ICON_VIEW_DROP_INTO)
+			    || (drop_pos == GTK_ICON_VIEW_DROP_ABOVE)
+			    || (drop_pos == GTK_ICON_VIEW_DROP_BELOW))
+			{
+				drop_pos = GTK_ICON_VIEW_DROP_LEFT;
+			}
 			if (drop_pos == GTK_ICON_VIEW_DROP_RIGHT)
 				*pos = *pos + 1;
 		}
