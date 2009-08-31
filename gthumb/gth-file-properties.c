@@ -33,7 +33,7 @@
 
 
 #define GTH_FILE_PROPERTIES_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_PROPERTIES, GthFilePropertiesPrivate))
-#define FONT_SIZE (8.0)
+#define FONT_SCALE (0.85)
 #define COMMENT_HEIGHT 150
 #define CATEGORY_SIZE 1000
 
@@ -274,7 +274,7 @@ gth_file_properties_init (GthFileProperties *file_properties)
 							   NULL);
 	g_object_set (renderer,
 		      "ellipsize", PANGO_ELLIPSIZE_END,
-		      "size-points", FONT_SIZE,
+		      "scale", FONT_SCALE,
 		      NULL);
 
 	gtk_tree_view_column_set_expand (column, TRUE);
@@ -291,7 +291,7 @@ gth_file_properties_init (GthFileProperties *file_properties)
 							   NULL);
 	g_object_set (renderer,
 		      "ellipsize", PANGO_ELLIPSIZE_END,
-		      "size-points", FONT_SIZE,
+		      "scale", FONT_SCALE,
 		      NULL);
 
 	gtk_tree_view_column_set_expand (column, TRUE);
