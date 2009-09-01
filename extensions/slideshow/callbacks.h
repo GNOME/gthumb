@@ -20,21 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
 #include <gthumb.h>
 
-#define  PREF_VIEWER_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
-#define  PREF_VIEWER_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
-#define  PREF_VIEWER_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
-#define  PREF_VIEWER_RESET_SCROLLBARS       "/apps/gthumb/viewer/reset_scrollbars"
-#define  PREF_VIEWER_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
-#define  PREF_VIEWER_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
-#define  PREF_VIEWER_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
-
-void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
-						 GthBrowser *browser,
-						 GtkBuilder *builder);
+void ss__gth_browser_construct_cb          (GthBrowser *browser);
+void ss__gth_browser_update_sensitivity_cb (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

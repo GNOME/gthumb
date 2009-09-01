@@ -222,6 +222,7 @@ gthumb_LDADD =						\
 	$(GTHUMB_LIBS)					\
 	$(EXIV2_LIBS)					\
 	$(JPEG_LIBS)					\
+	$(CLUTTER_LIBS)					\
 	$(NULL)	
 
 if RUN_IN_PLACE
@@ -237,6 +238,7 @@ endif
 gthumb_CFLAGS =							\
 	$(GTHUMB_CFLAGS)					\
 	$(EXIV2_CFLAGS)						\
+	$(CLUTTER_CFLAGS)					\
 	$(DISABLE_DEPRECATED)                   		\
         $(WARNINGS)                             		\
 	-I$(top_srcdir)/copy-n-paste/				\

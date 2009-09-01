@@ -432,7 +432,7 @@ filter_combobox_changed_cb (GtkComboBox *widget,
 
 	idx = gtk_combo_box_get_active (widget);
 	test_id = g_list_nth (data->general_tests, idx)->data;
-	test = gth_main_get_test (test_id);
+	test = gth_main_get_registered_object (GTH_TYPE_TEST, test_id);
 	gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);
 
 	g_object_unref (test);
@@ -654,7 +654,7 @@ dlg_photo_importer (GthBrowser *browser,
 
 	/**/
 
-	tests = gth_main_get_all_tests ();
+	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = "file::type::is_media"; /* default value */
 	active_filter = 0;
 
@@ -667,7 +667,7 @@ dlg_photo_importer (GthBrowser *browser,
 			continue;
 
 		i_general += 1;
-		test = gth_main_get_test (registered_test_id);
+		test = gth_main_get_registered_object (GTH_TYPE_TEST, registered_test_id);
 		if (strcmp (registered_test_id, general_filter) == 0) {
 			active_filter = i_general;
 			gth_file_list_set_filter (GTH_FILE_LIST (data->file_list), test);

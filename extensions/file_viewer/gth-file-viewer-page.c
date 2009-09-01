@@ -249,7 +249,7 @@ gth_file_viewer_page_finalize (GObject *obj)
 
 	self = GTH_FILE_VIEWER_PAGE (obj);
 
-	g_object_unref (self->priv->thumb_loader);
+	_g_object_unref (self->priv->thumb_loader);
 
 	G_OBJECT_CLASS (gth_file_viewer_page_parent_class)->finalize (obj);
 }

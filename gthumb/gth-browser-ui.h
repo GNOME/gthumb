@@ -66,6 +66,7 @@ static const char *fixed_ui_info =
 "      <placeholder name='View_Bars'/>"
 "      <separator/>"
 "      <menuitem action='View_Fullscreen'/>"
+"      <placeholder name='View_Actions'/>"
 "      <separator/>"
 "      <placeholder name='File_Actions'/>"
 "      <separator/>"

@@ -20,21 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef PREFERENCES_H
-#define PREFERENCES_H
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
-#include <gthumb.h>
+#include <gtk/gtk.h>
 
-#define  PREF_VIEWER_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
-#define  PREF_VIEWER_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
-#define  PREF_VIEWER_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
-#define  PREF_VIEWER_RESET_SCROLLBARS       "/apps/gthumb/viewer/reset_scrollbars"
-#define  PREF_VIEWER_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
-#define  PREF_VIEWER_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
-#define  PREF_VIEWER_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
-						 GthBrowser *browser,
-						 GtkBuilder *builder);
+DEFINE_ACTION(gth_browser_activate_action_view_slideshow)
 
-#endif /* CALLBACKS_H */
+#endif /* ACTIONS_H */

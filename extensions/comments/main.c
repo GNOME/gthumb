@@ -81,24 +81,27 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_info_v (comments_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_COMMENT);
 	gth_main_register_type ("edit-metadata-dialog-page", GTH_TYPE_EDIT_COMMENT_PAGE);
-	gth_main_register_test ("comment::note",
-				GTH_TYPE_TEST_SIMPLE,
-				"attributes", "comment::note",
-				"display-name", _("Comment"),
-				"data-type", GTH_TEST_DATA_TYPE_STRING,
-				"get-data-func", get_comment_for_test,
-				NULL);
-	gth_main_register_test ("comment::place",
-				GTH_TYPE_TEST_SIMPLE,
-				"attributes", "comment::place",
-				"display-name", _("Place"),
-				"data-type", GTH_TEST_DATA_TYPE_STRING,
-				"get-data-func", get_place_for_test,
-				NULL);
-	gth_main_register_test ("comment::category",
-				GTH_TYPE_TEST_CATEGORY,
-				"display-name", _("Tag"),
-				NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "comment::note",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "comment::note",
+				  "display-name", _("Comment"),
+				  "data-type", GTH_TEST_DATA_TYPE_STRING,
+				  "get-data-func", get_comment_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "comment::place",
+				  GTH_TYPE_TEST_SIMPLE,
+				  "attributes", "comment::place",
+				  "display-name", _("Place"),
+				  "data-type", GTH_TEST_DATA_TYPE_STRING,
+				  "get-data-func", get_place_for_test,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TEST,
+				  "comment::category",
+				  GTH_TYPE_TEST_CATEGORY,
+				  "display-name", _("Tag"),
+				  NULL);
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (comments__add_sidecars_cb), NULL);
 }
 

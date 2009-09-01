@@ -108,6 +108,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget         *list_extra_widget;
 	GtkWidget         *file_properties;
 
+	GList             *viewer_pages;
 	GtkWidget         *viewer_pane;
 	GtkWidget         *viewer_sidebar;
 	GtkWidget         *viewer_container;
@@ -1997,6 +1998,7 @@ gth_browser_finalize (GObject *object)
 		_g_object_unref (browser->priv->current_file);
 		_g_object_unref (browser->priv->viewer_page);
 		_g_object_unref (browser->priv->image_preloader);
+		_g_object_list_unref (browser->priv->viewer_pages);
 		_g_object_list_unref (browser->priv->history);
 		gth_icon_cache_free (browser->priv->menu_icon_cache);
 		g_hash_table_unref (browser->priv->named_dialogs);
@@ -4154,9 +4156,8 @@ _gth_browser_load_file (GthBrowser  *browser,
 			GthFileData *file_data,
 			gboolean     view)
 {
-	GPtrArray *viewer_pages;
-	int       i;
-	GList    *files;
+	GList *scan;
+	GList *files;
 
 	if (file_data == NULL) {
 		_gth_browser_deactivate_viewer_page (browser);
@@ -4181,11 +4182,11 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 	_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
-	viewer_pages = gth_main_get_object_set ("viewer-page");
-	for (i = viewer_pages->len - 1; i >= 0; i--) {
-		GthViewerPage *registered_viewer_page;
+	if (browser->priv->viewer_pages == NULL)
+		browser->priv->viewer_pages = gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE);
+	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
+		GthViewerPage *registered_viewer_page = scan->data;
 
-		registered_viewer_page = g_ptr_array_index (viewer_pages, i);
 		if (gth_viewer_page_can_view (registered_viewer_page, browser->priv->current_file)) {
 			if ((browser->priv->viewer_page != NULL) && (G_OBJECT_TYPE (registered_viewer_page) != G_OBJECT_TYPE (browser->priv->viewer_page))) {
 				gth_viewer_page_deactivate (browser->priv->viewer_page);

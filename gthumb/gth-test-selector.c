@@ -156,7 +156,7 @@ test_combo_box_changed_cb (GtkComboBox     *scope_combo_box,
 	if (test_name != NULL) {
 		GthTest *test;
 
-		test = gth_main_get_test (test_name);
+		test = gth_main_get_registered_object (GTH_TYPE_TEST, test_name);
 		gth_test_selector_set_test (self, test);
 		g_object_unref (test);
 	}
@@ -197,10 +197,10 @@ get_all_tests (void)
 	GList *scan;
 	GList *tests = NULL;
 
-	test_ids = gth_main_get_all_tests ();
+	test_ids = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	for (scan = test_ids; scan; scan = scan->next) {
 		char *test_name = scan->data;
-		tests = g_list_prepend (tests, gth_main_get_test (test_name));
+		tests = g_list_prepend (tests, gth_main_get_registered_object (GTH_TYPE_TEST, test_name));
 	}
 
 	tests = g_list_sort (tests, compare_test_by_display_name);
@@ -375,7 +375,7 @@ gth_test_selector_set_test (GthTestSelector *self,
 	GthTest   *local_test = NULL;
 
 	if (test == NULL)
-		test = local_test = gth_main_get_test ("file::name");
+		test = local_test = gth_main_get_registered_object (GTH_TYPE_TEST, "file::name");
 
 	/* update the active test */
 

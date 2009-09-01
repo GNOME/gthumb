@@ -77,7 +77,8 @@ gth_type_spec_create_object (GthTypeSpec *spec,
 	GObject *object;
 
 	object = g_object_newv (spec->object_type, spec->n_params, spec->params);
-	g_object_set (object, "id", object_id, NULL);
+	if (g_object_class_find_property (G_OBJECT_GET_CLASS (object), "id"))
+		g_object_set (object, "id", object_id, NULL);
 
 	return object;
 }
@@ -94,11 +95,11 @@ struct _GthMainPrivate
 	GPtrArray           *metadata_info;
 	gboolean             metadata_info_sorted;
 	GHashTable          *sort_types;
-	GHashTable          *tests;
 	GHashTable          *loaders;
 	GList               *viewer_pages;
 	GHashTable          *types;
-	GHashTable          *objects;
+	GHashTable          *classes;
+	GHashTable          *objects_order;
 	GBookmarkFile       *bookmarks;
 	GthFilterFile       *filters;
 	GthTagsFile         *tags;
@@ -126,12 +127,14 @@ gth_main_finalize (GObject *object)
 
 		if (gth_main->priv->sort_types != NULL)
 			g_hash_table_unref (gth_main->priv->sort_types);
-		if (gth_main->priv->tests != NULL)
-			g_hash_table_unref (gth_main->priv->tests);
 		if (gth_main->priv->loaders != NULL)
 			g_hash_table_unref (gth_main->priv->loaders);
 		if (gth_main->priv->types != NULL)
 			g_hash_table_unref (gth_main->priv->types);
+		if (gth_main->priv->classes != NULL)
+			g_hash_table_unref (gth_main->priv->classes);
+		if (gth_main->priv->objects_order != NULL)
+			g_hash_table_unref (gth_main->priv->objects_order);
 
 		if (gth_main->priv->bookmarks != NULL)
 			g_bookmark_file_free (gth_main->priv->bookmarks);
@@ -168,10 +171,6 @@ gth_main_init (GthMain *main)
 							g_str_equal,
 							NULL,
 							NULL);
-	main->priv->tests = g_hash_table_new_full (g_str_hash,
-						   (GEqualFunc) g_content_type_equals,
-						   NULL,
-						   (GDestroyNotify) gth_type_spec_free);
 	main->priv->loaders = g_hash_table_new (g_str_hash, g_str_equal);
 	main->priv->metadata_category = g_ptr_array_new ();
 	main->priv->metadata_info = g_ptr_array_new ();
@@ -664,90 +663,6 @@ _gth_main_create_type_spec (GType       object_type,
 
 
 void
-gth_main_register_test (const char *object_id,
-			GType       object_type,
-			const char *first_property_name,
-			...)
-{
-	va_list      var_args;
-	GthTypeSpec *spec;
-
-	va_start (var_args, first_property_name);
-	spec = _gth_main_create_type_spec (object_type, first_property_name, var_args);
-	va_end (var_args);
-
-	g_hash_table_insert (Main->priv->tests, (gpointer) object_id, spec);
-}
-
-
-GthTest *
-gth_main_get_test (const char *object_id)
-{
-	GthTypeSpec *spec = NULL;
-
-	if (object_id == NULL)
-		return NULL;
-
-	spec = g_hash_table_lookup (Main->priv->tests, object_id);
-	if (spec == NULL)
-		return NULL;
-
-	return (GthTest *) gth_type_spec_create_object (spec, object_id);
-}
-
-
-static void
-collect_objects (gpointer key,
-		 gpointer value,
-		 gpointer user_data)
-{
-	GList       **objects = user_data;
-	GthTypeSpec  *spec = value;
-
-	*objects = g_list_prepend (*objects, gth_type_spec_create_object (spec, key));
-}
-
-
-G_GNUC_UNUSED
-static GList *
-_gth_main_get_all_objects (GHashTable *table)
-{
-	GList *objects = NULL;
-
-	g_hash_table_foreach (table, collect_objects, &objects);
-	return g_list_reverse (objects);
-}
-
-
-static void
-collect_names (gpointer key,
-	       gpointer value,
-	       gpointer user_data)
-{
-	GList **objects = user_data;
-
-	*objects = g_list_prepend (*objects, g_strdup (key));
-}
-
-
-static GList *
-_gth_main_get_all_object_names (GHashTable *table)
-{
-	GList *objects = NULL;
-
-	g_hash_table_foreach (table, collect_names, &objects);
-	return g_list_reverse (objects);
-}
-
-
-GList *
-gth_main_get_all_tests (void)
-{
-	return _gth_main_get_all_object_names (Main->priv->tests);
-}
-
-
-void
 gth_main_register_file_loader (FileLoader  loader,
 			       const char *first_mime_type,
 			       ...)
@@ -782,7 +697,7 @@ gth_main_get_general_filter (void)
 	GthTest *filter;
 
 	filter_name = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
-	filter =  gth_main_get_test (filter_name);
+	filter =  gth_main_get_registered_object (GTH_TYPE_TEST, filter_name);
 	g_free (filter_name);
 
 	return filter;
@@ -908,39 +823,131 @@ gth_main_get_type_set (const char *set_name)
 
 
 static void
-_g_destroy_object_array (GPtrArray *array)
+g_ptr_array_destroy (gpointer array)
 {
-	g_ptr_array_foreach (array, (GFunc) g_object_unref, NULL);
-	g_ptr_array_free (array, TRUE);
+	g_ptr_array_free ((GPtrArray *) array, TRUE);
 }
 
 
 void
-gth_main_register_object (const char *set_name,
-			  GType       object_type)
+gth_main_register_object (GType       superclass_type,
+			  const char *object_id,
+			  GType       object_type,
+			  const char *first_property_name,
+			  ...)
 {
-	GPtrArray *set;
+	const char  *superclass_name;
+	GHashTable  *object_hash;
+	GPtrArray   *object_order;
+	va_list      var_args;
+	GthTypeSpec *spec;
+	char        *id;
 
-	if (Main->priv->objects == NULL)
-		Main->priv->objects = g_hash_table_new_full (g_str_hash,
+	if (object_id == NULL)
+		object_id = g_type_name (object_type);
+
+	if (Main->priv->classes == NULL) {
+		Main->priv->classes = g_hash_table_new_full (g_str_hash,
 							     g_str_equal,
 							     (GDestroyNotify) g_free,
-							     (GDestroyNotify) _g_destroy_object_array);
-
-	set = g_hash_table_lookup (Main->priv->objects, set_name);
-	if (set == NULL) {
-		set = g_ptr_array_new ();
-		g_hash_table_insert (Main->priv->objects, g_strdup (set_name), set);
+							     (GDestroyNotify) g_hash_table_destroy);
+		Main->priv->objects_order = g_hash_table_new_full (g_str_hash,
+							           g_str_equal,
+							           (GDestroyNotify) g_free,
+							           g_ptr_array_destroy);
 	}
 
-	g_ptr_array_add (set, g_object_new (object_type, NULL));
+	superclass_name = g_type_name (superclass_type);
+	object_hash = g_hash_table_lookup (Main->priv->classes, superclass_name);
+	object_order = g_hash_table_lookup (Main->priv->objects_order, superclass_name);
+
+	if (object_hash == NULL) {
+		object_hash = g_hash_table_new_full (g_str_hash,
+						     g_str_equal,
+						     (GDestroyNotify) g_free,
+						     (GDestroyNotify) gth_type_spec_free);
+		g_hash_table_insert (Main->priv->classes, g_strdup (superclass_name), object_hash);
+
+		object_order = g_ptr_array_new ();
+		g_hash_table_insert (Main->priv->objects_order, g_strdup (superclass_name), object_order);
+	}
+
+	va_start (var_args, first_property_name);
+	spec = _gth_main_create_type_spec (object_type, first_property_name, var_args);
+	va_end (var_args);
+
+	id = g_strdup (object_id);
+	g_hash_table_insert (object_hash, id, spec);
+	g_ptr_array_add (object_order, id);
 }
 
 
-GPtrArray *
-gth_main_get_object_set (const char *set_name)
+GList *
+gth_main_get_registered_objects (GType superclass_type)
 {
-	return g_hash_table_lookup (Main->priv->objects, set_name);
+	GList      *objects = NULL;
+	GHashTable *object_hash;
+	GPtrArray  *object_order;
+	int         i;
+
+	object_hash = g_hash_table_lookup (Main->priv->classes, g_type_name (superclass_type));
+	if (object_hash == NULL)
+		return NULL;
+	object_order = g_hash_table_lookup (Main->priv->objects_order, g_type_name (superclass_type));
+
+	for (i = object_order->len - 1; i >= 0; i--) {
+		char        *object_id;
+		GthTypeSpec *spec;
+
+		object_id = g_ptr_array_index (object_order, i);
+		spec = g_hash_table_lookup (object_hash, object_id);
+		objects = g_list_prepend (objects, gth_type_spec_create_object (spec, object_id));
+	}
+
+	return objects;
+}
+
+
+GList *
+gth_main_get_registered_objects_id (GType superclass_type)
+{
+	GList      *objects = NULL;
+	GHashTable *object_hash;
+	GPtrArray  *object_order;
+	int         i;
+
+	object_hash = g_hash_table_lookup (Main->priv->classes, g_type_name (superclass_type));
+	if (object_hash == NULL)
+		return NULL;
+	object_order = g_hash_table_lookup (Main->priv->objects_order, g_type_name (superclass_type));
+
+	for (i = object_order->len - 1; i >= 0; i--) {
+		char *object_id;
+
+		object_id = g_ptr_array_index (object_order, i);
+		objects = g_list_prepend (objects, g_strdup (object_id));
+	}
+
+	return objects;
+}
+
+
+gpointer
+gth_main_get_registered_object (GType       superclass_type,
+				const char *object_id)
+{
+	GHashTable  *object_hash;
+	GthTypeSpec *spec;
+
+	object_hash = g_hash_table_lookup (Main->priv->classes, g_type_name (superclass_type));
+	if (object_hash == NULL)
+		return NULL;
+
+	spec = g_hash_table_lookup (object_hash, object_id);
+	if (spec == NULL)
+		return NULL;
+
+	return (gpointer) gth_type_spec_create_object (spec, object_id);
 }
 
 
@@ -1008,7 +1015,7 @@ gth_main_get_all_filters (void)
 	filter_file = gth_main_get_default_filter_file ();
 	filters = gth_filter_file_get_tests (filter_file);
 
-	registered_tests = gth_main_get_all_tests ();
+	registered_tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	for (scan = registered_tests; scan; scan = scan->next) {
 		const char *registered_test_id = scan->data;
 		gboolean    test_present = FALSE;
@@ -1024,7 +1031,7 @@ gth_main_get_all_filters (void)
 		if (! test_present) {
 			GthTest *registered_test;
 
-			registered_test = gth_main_get_test (registered_test_id);
+			registered_test = gth_main_get_registered_object (GTH_TYPE_TEST, registered_test_id);
 			filters = g_list_append (filters, registered_test);
 			gth_filter_file_add (filter_file, registered_test);
 			changed = TRUE;

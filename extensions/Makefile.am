@@ -10,6 +10,7 @@ SUBDIRS = 		\
 	list_tools	\
 	photo_importer	\
 	rename_series 	\
-	search
+	search		\
+	slideshow
 
 -include $(top_srcdir)/git.mk
