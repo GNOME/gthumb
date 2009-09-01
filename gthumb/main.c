@@ -174,7 +174,7 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 {
 	UniqueResponse  res;
 	char           *uri;
-	GFile          *location;
+	GFile          *location = NULL;
 	GtkWidget      *window;
 
 	res = UNIQUE_RESPONSE_OK;
@@ -204,10 +204,11 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 			window = gth_browser_new (NULL);
 
 		uri = unique_message_data_get_text (message);
-		location = g_file_new_for_uri (uri);
+		if ((uri != NULL) && (strcmp (uri, "") != 0))
+			location = g_file_new_for_uri (uri);
 		gth_hook_invoke ("import-photos", window, location, NULL);
 
-		g_object_unref (location);
+		_g_object_unref (location);
 		g_free (uri);
 		break;
 
@@ -250,14 +251,15 @@ import_photos_from_location (GFile *location)
 {
 	if (unique_app_is_running (gthumb_app)) {
 		UniqueMessageData *data;
-		char              *uri;
 
 		data = unique_message_data_new ();
-		uri = g_file_get_uri (location);
-		unique_message_data_set_text (data, uri, -1);
+		if (location != NULL) {
+			char *uri;
+			uri = g_file_get_uri (location);
+			unique_message_data_set_text (data, uri, -1);
+			g_free (uri);
+		}
 		unique_app_send_message (gthumb_app, COMMAND_IMPORT_PHOTOS, data);
-
-		g_free (uri);
 		unique_message_data_free (data);
 	}
 	else {
@@ -301,6 +303,16 @@ prepare_application (void)
 		return;
 	}
 
+	if (ImportPhotos) {
+		GFile *location = NULL;
+
+		if (remaining_args != NULL)
+			location = g_file_new_for_commandline_arg (remaining_args[0]);
+		import_photos_from_location (location);
+
+		return;
+	}
+
 	if (remaining_args == NULL) { /* No location specified. */
 		GFile *location;
 
@@ -308,15 +320,6 @@ prepare_application (void)
 		open_browser_window (location);
 
 		g_object_unref (location);
-
-		return;
-	}
-
-	if (ImportPhotos) {
-		GFile *location;
-
-		location = g_file_new_for_commandline_arg (remaining_args[0]);
-		import_photos_from_location (location);
 
 		return;
 	}
