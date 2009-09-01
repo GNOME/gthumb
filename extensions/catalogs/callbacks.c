@@ -244,6 +244,9 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 {
 	BrowserData *data;
 
+	if ((location_data == NULL) || (error != NULL))
+		return;
+
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))) {
