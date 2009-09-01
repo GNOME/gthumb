@@ -27,6 +27,8 @@ GLIB_REQUIRED=2.16.0
 GTK_REQUIRED=2.16.0
 GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
+CLUTTER_REQUIRED=1.0.0
+CLUTTER_GTK_REQUIRED=0.10.0
 
 dnl ===========================================================================
 
@@ -105,6 +107,24 @@ fi
 AC_SUBST(EXIV2_LIBS)
 AC_SUBST(EXIV2_CFLAGS)
 AM_CONDITIONAL(ENABLE_EXIV2, test "x$enable_exiv2" = xyes)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([clutter],
+	      [AC_HELP_STRING([--disable-clutter],[do not compile code that uses the clutter library])],,
+	      [enable_clutter=yes])
+
+if test x$enable_clutter = xyes ; then
+	PKG_CHECK_MODULES(CLUTTER,
+			  [clutter-1.0 >= $CLUTTER_REQUIRED
+			   clutter-gtk-0.10 >= $CLUTTER_GTK_REQUIRED],
+			  [enable_clutter=yes],
+			  [enable_clutter=no])
+	AC_DEFINE(HAVE_CLUTTER, 1, [Define to 1 if clutter support is included])
+fi
+AC_SUBST(CLUTTER_LIBS)
+AC_SUBST(CLUTTER_CFLAGS)
+AM_CONDITIONAL(ENABLE_CLUTTER, test "x$enable_clutter" = xyes)
 
 dnl ===========================================================================
 
@@ -208,8 +228,8 @@ AC_ARG_ENABLE([jpeg],
 AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
              [enable_jpeg=yes],
 	     [enable_jpeg=no])
-AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
 if test "x$enable_jpeg" = "xyes"; then
+	AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
 	JPEG_LIBS='-ljpeg -lm -lz'
 fi
 AC_SUBST(JPEG_LIBS)
@@ -265,6 +285,7 @@ extensions/rename_series/data/ui/Makefile
 extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile
+extensions/slideshow/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
 gthumb/icons/Makefile
@@ -285,4 +306,5 @@ Configuration:
 	Build tests          : $ENABLE_TEST_SUITE
 	Exiv2 support        : ${enable_exiv2}
 	JPEG tools           : ${enable_jpeg}
+	Clutter support      : ${enable_clutter}
 "
