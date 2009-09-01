@@ -159,7 +159,7 @@ gth_test_chain_real_load_from_element (DomDomizable *base,
 		if (g_strcmp0 (node->tag_name, "test") == 0) {
 			GthTest *test;
 
-			test = gth_main_get_test (dom_element_get_attribute (node, "id"));
+			test = gth_main_get_registered_object (GTH_TYPE_TEST, dom_element_get_attribute (node, "id"));
 			if (test == NULL)
 				continue;
 

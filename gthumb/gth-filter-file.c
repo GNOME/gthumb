@@ -88,7 +88,7 @@ gth_filter_file_load_from_data (GthFilterFile  *filters,
 					dom_domizable_load_from_element (DOM_DOMIZABLE (test), child);
 				}
 				else if (strcmp (child->tag_name, "test") == 0) {
-					test = gth_main_get_test (dom_element_get_attribute (child, "id"));
+					test = gth_main_get_registered_object (GTH_TYPE_TEST, dom_element_get_attribute (child, "id"));
 					if (test != NULL)
 						dom_domizable_load_from_element (DOM_DOMIZABLE (test), child);
 				}

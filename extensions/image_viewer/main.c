@@ -48,7 +48,7 @@ gthumb_extension_activate (void)
 	gth_main_register_metadata_category (image_metadata_category);
 	gth_main_register_metadata_info_v (image_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_IMAGE);
-	gth_main_register_object ("viewer-page", GTH_TYPE_IMAGE_VIEWER_PAGE);
+	gth_main_register_object (GTH_TYPE_VIEWER_PAGE, NULL, GTH_TYPE_IMAGE_VIEWER_PAGE, NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (image_viewer__dlg_preferences_construct_cb), NULL);
 }
 

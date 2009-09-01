@@ -86,21 +86,21 @@ GPtrArray *            gth_main_get_all_metadata_info         (void);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);
-void                   gth_main_register_test                 (const char           *id,
-						               GType                 type,
-						               const char           *first_property,
-						              ...);
-GthTest *              gth_main_get_test                      (const char           *id);
-GList *                gth_main_get_all_tests                 (void);
 void                   gth_main_register_file_loader          (FileLoader            loader,
 						               const char           *first_mime_type,
 						               ...);
 FileLoader             gth_main_get_file_loader               (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);
-void                   gth_main_register_object               (const char           *set_name,
-							       GType                 object_type);
-GPtrArray *            gth_main_get_object_set                (const char           *set_name);
+void		       gth_main_register_object               (GType                 superclass_type,
+							       const char           *object_id,
+							       GType                 object_type,
+							       const char           *first_property,
+							       ...);
+GList *                gth_main_get_registered_objects        (GType                 superclass_type);
+GList *                gth_main_get_registered_objects_id     (GType                 superclass_type);
+gpointer               gth_main_get_registered_object         (GType                 superclass_type,
+							       const char           *object_id);
 void                   gth_main_register_type                 (const char           *set_name,
 							       GType                 object_type);
 GArray *               gth_main_get_type_set                  (const char           *set_name);

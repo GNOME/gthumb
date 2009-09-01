@@ -24,6 +24,8 @@
 #define GTH_SLIDESHOW_H
 
 #include <gthumb.h>
+#include <clutter/clutter.h>
+#include <clutter-gtk/clutter-gtk.h>
 
 G_BEGIN_DECLS
 
@@ -41,6 +43,12 @@ typedef struct _GthSlideshowPrivate  GthSlideshowPrivate;
 struct _GthSlideshow
 {
 	GtkWindow __parent;
+	ClutterActor        *stage;
+	ClutterActor        *current_texture;
+	ClutterActor        *next_texture;
+	ClutterGeometry      current_geometry;
+	ClutterGeometry      next_geometry;
+	gboolean             first_frame;
 	GthSlideshowPrivate *priv;
 };
 
@@ -49,10 +57,17 @@ struct _GthSlideshowClass
 	GtkWindowClass __parent_class;
 };
 
-GType            gth_slideshow_get_type  (void);
-GtkWidget *      gth_slideshow_new       (GthBrowser   *browser,
-					  GList        *file_list /* GthFileData */);
-void             gth_slideshow_play      (GthSlideshow *self);
+GType            gth_slideshow_get_type        (void);
+GtkWidget *      gth_slideshow_new             (GthBrowser       *browser,
+					        GList            *file_list /* GthFileData */);
+void             gth_slideshow_set_delay       (GthSlideshow     *self,
+					        guint             msecs);
+void             gth_slideshow_set_automatic   (GthSlideshow     *self,
+					        gboolean          automatic);
+void             gth_slideshow_set_loop        (GthSlideshow     *self,
+					        gboolean          loop);
+void             gth_slideshow_set_transitions (GthSlideshow     *self,
+					        GList            *transitions);
 
 G_END_DECLS
 

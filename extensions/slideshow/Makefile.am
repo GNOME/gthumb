@@ -1,5 +1,7 @@
 if ENABLE_CLUTTER
 
+SUBDIRS = data
+
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libslideshow.la
 
@@ -10,7 +12,11 @@ libslideshow_la_SOURCES = 		\
 	callbacks.h			\
 	gth-slideshow.c			\
 	gth-slideshow.h			\
-	main.c
+	gth-transition.c		\
+	gth-transition.h		\
+	main.c				\
+	preferences.c			\
+	preferences.h
 
 libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libslideshow_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

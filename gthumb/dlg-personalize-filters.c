@@ -519,7 +519,7 @@ dlg_personalize_filters (GthBrowser *browser)
 
 	/* Set widgets data. */
 
-	tests = gth_main_get_all_tests ();
+	tests = gth_main_get_registered_objects_id (GTH_TYPE_TEST);
 	general_filter = eel_gconf_get_string (PREF_GENERAL_FILTER, DEFAULT_GENERAL_FILTER);
 	active_filter = 0;
 
@@ -536,7 +536,7 @@ dlg_personalize_filters (GthBrowser *browser)
 		if (strcmp (registered_test_id, general_filter) == 0)
 			active_filter = i_general;
 
-		test = gth_main_get_test (registered_test_id);
+		test = gth_main_get_registered_object (GTH_TYPE_TEST, registered_test_id);
 		data->general_tests = g_list_prepend (data->general_tests, g_strdup (gth_test_get_id (test)));
 		gtk_combo_box_append_text (GTK_COMBO_BOX (data->general_filter_combobox), gth_test_get_display_name (test));
 		g_object_unref (test);

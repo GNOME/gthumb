@@ -117,9 +117,9 @@ hook_compare_func (GHook *new_hook,
 	GthHookCallback *new_function = GTH_HOOK_CALLBACK (new_hook);
 	GthHookCallback *sibling_function = GTH_HOOK_CALLBACK (sibling);
 
-	if (new_function->sort_order > sibling_function->sort_order)
+	if (new_function->sort_order < sibling_function->sort_order)
 		return -1;
-	else if (new_function->sort_order < sibling_function->sort_order)
+	else if (new_function->sort_order > sibling_function->sort_order)
 		return 1;
 	else
 		return 0;

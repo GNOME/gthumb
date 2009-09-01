@@ -286,6 +286,8 @@ extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile
 extensions/slideshow/Makefile
+extensions/slideshow/data/Makefile
+extensions/slideshow/data/ui/Makefile
 gthumb/Makefile
 gthumb/cursors/Makefile
 gthumb/icons/Makefile
