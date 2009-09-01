@@ -4183,7 +4183,7 @@ _gth_browser_load_file (GthBrowser  *browser,
 	_gth_browser_make_file_visible (browser, browser->priv->current_file);
 
 	if (browser->priv->viewer_pages == NULL)
-		browser->priv->viewer_pages = gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE);
+		browser->priv->viewer_pages = g_list_reverse (gth_main_get_registered_objects (GTH_TYPE_VIEWER_PAGE));
 	for (scan = browser->priv->viewer_pages; scan; scan = scan->next) {
 		GthViewerPage *registered_viewer_page = scan->data;
 

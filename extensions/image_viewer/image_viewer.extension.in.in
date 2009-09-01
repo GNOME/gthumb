@@ -6,6 +6,6 @@ Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0
 
 [Loader]
-Requires=file_viewer
+After=file_viewer
 Type=module
 File=%LIBRARY%
