@@ -35,7 +35,12 @@ gth_file_selection_set_selection_mode (GthFileSelection *self,
 GList *
 gth_file_selection_get_selected (GthFileSelection *self)
 {
-	return GTH_FILE_SELECTION_GET_INTERFACE (self)->get_selected (self);
+	GList *items;
+
+	items = GTH_FILE_SELECTION_GET_INTERFACE (self)->get_selected (self);
+	items = g_list_sort (items, (GCompareFunc) gtk_tree_path_compare);
+
+	return items;
 }
 
 
