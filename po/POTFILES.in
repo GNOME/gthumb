@@ -59,6 +59,7 @@ extensions/search/gth-search-editor-dialog.c
 extensions/search/gth-search-task.c
 extensions/search/main.c
 [type: gettext/glade]extensions/search/data/ui/search-editor.ui
+extensions/slideshow/data/ui/gthumb-slideshow.schemas.in
 gthumb/dlg-bookmarks.c
 gthumb/dlg-edit-metadata.c
 gthumb/dlg-personalize-filters.c
