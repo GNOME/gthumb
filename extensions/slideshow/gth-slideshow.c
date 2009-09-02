@@ -56,19 +56,6 @@ struct _GthSlideshowPrivate {
 static gpointer parent_class = NULL;
 
 
-static GthTransition *
-_gth_slideshow_get_transition (GthSlideshow *self)
-{
-	if (self->priv->transitions == NULL)
-		return NULL;
-	else if (self->priv->transitions->next == NULL)
-		return self->priv->transitions->data;
-	else
-		return g_list_nth_data (self->priv->transitions,
-					g_rand_int_range (self->priv->rand, 0, self->priv->n_transitions));
-}
-
-
 static void
 _gth_slideshow_load_current_image (GthSlideshow *self)
 {
@@ -89,7 +76,6 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 			self->priv->current = g_list_last (self->priv->file_list);
 	}
 
-	self->priv->transition = _gth_slideshow_get_transition (self);
 	gth_image_loader_set_file_data (GTH_IMAGE_LOADER (self->priv->image_loader), (GthFileData *) self->priv->current->data);
 	gth_image_loader_load (GTH_IMAGE_LOADER (self->priv->image_loader));
 }
@@ -113,10 +99,70 @@ _gth_slideshow_swap_current_and_next (GthSlideshow *self)
 
 
 static void
+reset_texture_transformation (GthSlideshow *self,
+			      ClutterActor *texture)
+{
+	float stage_w, stage_h;
+
+	if (texture == NULL)
+		return;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+
+	clutter_actor_set_opacity (self->next_texture, 255);
+	clutter_actor_set_rotation (self->next_texture,
+				    CLUTTER_X_AXIS,
+				    0.0,
+				    stage_w / 2.0,
+				    stage_h / 2.0,
+				    0.0);
+	clutter_actor_set_rotation (self->next_texture,
+				    CLUTTER_Y_AXIS,
+				    0.0,
+				    stage_w / 2.0,
+				    stage_h / 2.0,
+				    0.0);
+	clutter_actor_set_rotation (self->next_texture,
+				    CLUTTER_Z_AXIS,
+				    0.0,
+				    stage_w / 2.0,
+				    stage_h / 2.0,
+				    0.0);
+}
+
+
+static void
+_gth_slideshow_reset_textures_position (GthSlideshow *self)
+{
+	if (self->next_texture != NULL) {
+		clutter_actor_set_size (self->next_texture, (float) self->next_geometry.width, (float) self->next_geometry.height);
+		clutter_actor_set_position (self->next_texture, (float) self->next_geometry.x, (float) self->next_geometry.y);
+	}
+
+	if (self->current_texture != NULL) {
+		clutter_actor_set_size (self->current_texture, (float) self->current_geometry.width, (float) self->current_geometry.height);
+		clutter_actor_set_position (self->current_texture, (float) self->current_geometry.x, (float) self->current_geometry.y);
+	}
+
+	if ((self->current_texture != NULL) && (self->next_texture != NULL)) {
+		clutter_actor_raise (self->current_texture, self->next_texture);
+		clutter_actor_hide (self->next_texture);
+	}
+
+	if (self->current_texture != NULL)
+		clutter_actor_show (self->current_texture);
+
+	reset_texture_transformation (self, self->next_texture);
+	reset_texture_transformation (self, self->current_texture);
+}
+
+
+static void
 _gth_slideshow_animation_completed (GthSlideshow *self)
 {
 	if (clutter_timeline_get_direction (self->priv->timeline) == CLUTTER_TIMELINE_FORWARD)
 		_gth_slideshow_swap_current_and_next (self);
+	_gth_slideshow_reset_textures_position (self);
 }
 
 
@@ -197,6 +243,19 @@ animation_started_cb (ClutterTimeline *timeline,
 }
 
 
+static GthTransition *
+_gth_slideshow_get_transition (GthSlideshow *self)
+{
+	if (self->priv->transitions == NULL)
+		return NULL;
+	else if (self->priv->transitions->next == NULL)
+		return self->priv->transitions->data;
+	else
+		return g_list_nth_data (self->priv->transitions,
+					g_rand_int_range (self->priv->rand, 0, self->priv->n_transitions));
+}
+
+
 static void
 image_loader_ready_cb (GthImageLoader *image_loader,
 		       GError         *error,
@@ -214,30 +273,28 @@ image_loader_ready_cb (GthImageLoader *image_loader,
 	}
 
 	self->priv->one_loaded = TRUE;
-
-	clutter_actor_hide (self->next_texture);
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
 	image = gth_image_loader_get_pixbuf (GTH_IMAGE_LOADER (image_loader));
 	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (self->next_texture), image, NULL);
 
 	image_w = gdk_pixbuf_get_width (image);
 	image_h = gdk_pixbuf_get_height (image);
-	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 	scale_keeping_ratio (&image_w, &image_h, (int) stage_w, (int) stage_h, TRUE);
-	clutter_actor_set_size (self->next_texture, (float) image_w, (float) image_h);
 
 	image_x = (stage_w - image_w) / 2;
 	image_y = (stage_h - image_h) / 2;
-	clutter_actor_set_position (self->next_texture, image_x, image_y);
 
 	self->next_geometry.x = image_x;
 	self->next_geometry.y = image_y;
 	self->next_geometry.width = image_w;
 	self->next_geometry.height = image_h;
 
+	_gth_slideshow_reset_textures_position (self);
 	if (clutter_timeline_get_direction (self->priv->timeline) == CLUTTER_TIMELINE_BACKWARD)
 		_gth_slideshow_swap_current_and_next (self);
 
+	self->priv->transition = _gth_slideshow_get_transition (self);
 	clutter_timeline_rewind (self->priv->timeline);
 	clutter_timeline_start (self->priv->timeline);
 	if (self->current_texture == NULL)
