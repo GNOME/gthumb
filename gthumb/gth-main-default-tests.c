@@ -180,7 +180,7 @@ gth_main_register_default_tests (void)
 	gth_main_register_object (GTH_TYPE_TEST,
 				  "file::name",
 				  GTH_TYPE_TEST_SIMPLE,
-				  "attributes", "gth::file::display-name",
+				  "attributes", "standard::display-name",
 				  "display-name", _("Filename"),
 				  "data-type", GTH_TEST_DATA_TYPE_STRING,
 				  "get-data-func", get_filename_for_test,
