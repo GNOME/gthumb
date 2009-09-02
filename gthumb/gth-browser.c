@@ -139,8 +139,10 @@ struct _GthBrowserPrivateData {
 	gboolean           activity_ref;
 	GthIconCache      *menu_icon_cache;
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
-	GthFileDataSort   *sort_type;
-	gboolean           sort_inverse;
+	GthFileDataSort   *current_sort_type;
+	gboolean           current_sort_inverse;
+	GthFileDataSort   *default_sort_type;
+	gboolean           default_sort_inverse;
 	gboolean           show_hidden_files;
 	gboolean           fast_file_type;
 	gboolean           closing;
@@ -1016,6 +1018,68 @@ load_data_done (LoadData *load_data,
 }
 
 
+static const char *
+_gth_browser_get_list_attributes (GthBrowser *browser,
+				  gboolean    recalc)
+{
+	GString *attributes;
+	GthTest *filter;
+	char    *thumbnail_caption;
+
+	if (recalc) {
+		g_free (browser->priv->list_attributes);
+		browser->priv->list_attributes = NULL;
+	}
+
+	if (browser->priv->list_attributes != NULL)
+		return browser->priv->list_attributes;
+
+	attributes = g_string_new ("");
+
+	/* standard attributes */
+
+	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
+		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
+	else
+		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
+
+	/* attributes required by the filter */
+
+	filter = _gth_browser_get_file_filter (browser);
+	if (filter != NULL) {
+		const char *filter_attributes;
+
+		filter_attributes = gth_test_get_attributes (GTH_TEST (filter));
+		if (filter_attributes[0] != '\0') {
+			g_string_append (attributes, ",");
+			g_string_append (attributes, filter_attributes);
+		}
+
+		g_object_unref (filter);
+	}
+
+	/* attributes required for sorting */
+
+	if ((browser->priv->current_sort_type != NULL) && (browser->priv->current_sort_type->required_attributes[0] != '\0')) {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, browser->priv->current_sort_type->required_attributes);
+	}
+
+	/* attributes required for the thumbnail caption */
+
+	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
+	if ((thumbnail_caption[0] != '\0') && (strcmp (thumbnail_caption, "none") != 0)) {
+		g_string_append (attributes, ",");
+		g_string_append (attributes, thumbnail_caption);
+		g_free (thumbnail_caption);
+	}
+
+	browser->priv->list_attributes = g_string_free (attributes, FALSE);
+
+	return browser->priv->list_attributes;
+}
+
+
 static void _gth_browser_load_ready_cb (GthFileSource *file_source, GList *files, GError *error, gpointer user_data);
 
 
@@ -1024,7 +1088,8 @@ requested_folder_attributes_ready_cb (GObject  *file_source,
 				      GError   *error,
 				      gpointer  user_data)
 {
-	LoadData *load_data = user_data;
+	LoadData   *load_data = user_data;
+	GthBrowser *browser = load_data->browser;
 
 	if (error != NULL) {
 		load_data_done (load_data, error);
@@ -1032,7 +1097,16 @@ requested_folder_attributes_ready_cb (GObject  *file_source,
 		return;
 	}
 
-	gth_file_data_set_info (load_data->browser->priv->location, load_data->requested_folder->info);
+	gth_file_data_set_info (browser->priv->location, load_data->requested_folder->info);
+
+	browser->priv->current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (browser->priv->location->info, "sort::type"));
+	browser->priv->current_sort_inverse = g_file_info_get_attribute_boolean (browser->priv->location->info, "sort::inverse");
+	if (browser->priv->current_sort_type == NULL) {
+		browser->priv->current_sort_type = browser->priv->default_sort_type;
+		browser->priv->current_sort_inverse = browser->priv->default_sort_inverse;
+		g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", browser->priv->current_sort_type->name);
+		g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", browser->priv->current_sort_inverse);
+	}
 
 	gth_file_source_list (load_data->file_source,
 			      load_data->requested_folder->file,
@@ -1127,62 +1201,6 @@ _gth_browser_get_visible_folders (GthBrowser *browser,
 /* -- _gth_browser_set_sort_order -- */
 
 
-static const char *
-_gth_browser_get_list_attributes (GthBrowser *browser)
-{
-	GString *attributes;
-	GthTest *filter;
-	char    *thumbnail_caption;
-
-	if (browser->priv->list_attributes != NULL)
-		return browser->priv->list_attributes;
-
-	attributes = g_string_new ("");
-
-	/* standard attributes */
-
-	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
-		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE);
-	else
-		g_string_append (attributes, GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE);
-
-	/* attributes required by the filter */
-
-	filter = _gth_browser_get_file_filter (browser);
-	if (filter != NULL) {
-		const char *filter_attributes;
-
-		filter_attributes = gth_test_get_attributes (GTH_TEST (filter));
-		if (filter_attributes[0] != '\0') {
-			g_string_append (attributes, ",");
-			g_string_append (attributes, filter_attributes);
-		}
-
-		g_object_unref (filter);
-	}
-
-	/* attributes required for sorting */
-
-	if ((browser->priv->sort_type != NULL) && (browser->priv->sort_type->required_attributes[0] != '\0')) {
-		g_string_append (attributes, ",");
-		g_string_append (attributes, browser->priv->sort_type->required_attributes);
-	}
-
-	/* attributes required for the thumbnail caption */
-
-	thumbnail_caption = eel_gconf_get_string (PREF_THUMBNAIL_CAPTION, DEFAULT_THUMBNAIL_CAPTION);
-	if ((thumbnail_caption[0] != '\0') && (strcmp (thumbnail_caption, "none") != 0)) {
-		g_string_append (attributes, ",");
-		g_string_append (attributes, thumbnail_caption);
-		g_free (thumbnail_caption);
-	}
-
-	browser->priv->list_attributes = g_string_free (attributes, FALSE);
-
-	return browser->priv->list_attributes;
-}
-
-
 static gboolean
 _gth_browser_reload_required (GthBrowser *browser)
 {
@@ -1194,12 +1212,10 @@ _gth_browser_reload_required (GthBrowser *browser)
 	int          i;
 	gboolean     reload_required;
 
-	old_list_attributes = g_strdup (_gth_browser_get_list_attributes (browser));
+	old_list_attributes = g_strdup (_gth_browser_get_list_attributes (browser, FALSE));
 	old_list_attributes_v = g_strsplit (old_list_attributes, ",", -1);
 
-	g_free (browser->priv->list_attributes);
-	browser->priv->list_attributes = NULL;
-	new_list_attributes = _gth_browser_get_list_attributes (browser);
+	new_list_attributes = _gth_browser_get_list_attributes (browser, TRUE);
 	new_list_attributes_v = g_strsplit (new_list_attributes, ",", -1);
 	new_list_attributes_len = g_strv_length (new_list_attributes_v);
 
@@ -1276,10 +1292,8 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 {
 	g_return_if_fail (sort_type != NULL);
 
-	if (save) {
-		browser->priv->sort_type = sort_type;
-		browser->priv->sort_inverse = inverse;
-	}
+	browser->priv->current_sort_type = sort_type;
+	browser->priv->current_sort_inverse = inverse;
 
 	gth_file_list_set_sort_func (GTH_FILE_LIST (browser->priv->file_list),
 				     sort_type->cmp_func,
@@ -1293,7 +1307,7 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", sort_type != NULL ? inverse : FALSE);
 
 	if (! save) {
-		write_sort_order_ready_cb (G_OBJECT (browser->priv->location_source), NULL, browser);
+		/*write_sort_order_ready_cb (G_OBJECT (browser->priv->location_source), NULL, browser);*/
 		return;
 	}
 
@@ -1372,22 +1386,6 @@ load_data_continue (LoadData *load_data,
 		break;
 	}
 
-	{
-		GthFileDataSort *sort_type;
-		gboolean         sort_inverse;
-
-		sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (browser->priv->location->info, "sort::type"));
-		sort_inverse = g_file_info_get_attribute_boolean (browser->priv->location->info, "sort::inverse");
-		if (sort_type == NULL) {
-			g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", browser->priv->sort_type->name);
-			g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", browser->priv->sort_inverse);
-			sort_type = browser->priv->sort_type;
-			sort_inverse = browser->priv->sort_inverse;
-		}
-
-		_gth_browser_set_sort_order (browser, sort_type, sort_inverse, FALSE);
-	}
-
 	switch (load_data->action) {
 	case GTH_ACTION_VIEW:
 	case GTH_ACTION_GO_BACK:
@@ -1445,7 +1443,7 @@ load_data_ready (LoadData *data,
 	}
 	else if (g_file_equal ((GFile *) data->current->data, data->requested_folder->file))
 		_g_query_metadata_async (files,
-					 _gth_browser_get_list_attributes (data->browser),
+					 _gth_browser_get_list_attributes (data->browser, TRUE),
 					 data->cancellable,
 					 metadata_ready_cb,
 				 	 data);
@@ -1807,9 +1805,9 @@ _gth_browser_close_final_step (gpointer user_data)
 			g_free (uri);
 		}
 
-		if (browser->priv->sort_type != NULL) {
-			eel_gconf_set_string (PREF_SORT_TYPE, browser->priv->sort_type->name);
-			eel_gconf_set_boolean (PREF_SORT_INVERSE, browser->priv->sort_inverse);
+		if (browser->priv->default_sort_type != NULL) {
+			eel_gconf_set_string (PREF_SORT_TYPE, browser->priv->default_sort_type->name);
+			eel_gconf_set_boolean (PREF_SORT_INVERSE, browser->priv->default_sort_inverse);
 		}
 
 		gth_hook_invoke ("gth-browser-close-last-window", browser);
@@ -2436,7 +2434,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			monitor_data->update_folder_tree = update_folder_tree;
 			gth_file_source_read_attributes (monitor_data->file_source,
 						 	 list,
-						 	 _gth_browser_get_list_attributes (browser),
+						 	 _gth_browser_get_list_attributes (browser, FALSE),
 						 	 file_attributes_ready_cb,
 						 	 monitor_data);
 			break;
@@ -3669,20 +3667,22 @@ gth_browser_get_sort_order (GthBrowser        *browser,
 			    gboolean         *inverse)
 {
 	if (sort_type != NULL)
-		*sort_type = browser->priv->sort_type;
+		*sort_type = browser->priv->current_sort_type;
 	if (inverse != NULL)
-		*inverse = browser->priv->sort_inverse;
+		*inverse = browser->priv->current_sort_inverse;
 }
 
 
 void
 gth_browser_set_sort_order (GthBrowser      *browser,
 			    GthFileDataSort *sort_type,
-			    gboolean         inverse)
+			    gboolean         sort_inverse)
 {
 	g_return_if_fail (sort_type != NULL);
 
-	_gth_browser_set_sort_order (browser, sort_type, inverse, TRUE);
+	browser->priv->default_sort_type = sort_type;
+	browser->priv->default_sort_inverse = sort_inverse;
+	_gth_browser_set_sort_order (browser, sort_type, sort_inverse, TRUE);
 }
 
 
