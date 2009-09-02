@@ -72,7 +72,7 @@ fade_in_transition (GthSlideshow *self,
 {
 	if (self->current_texture != NULL)
 		clutter_actor_set_opacity (self->current_texture, OPACITY_AT_MSECS (GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_texture, OPACITY_AT_MSECS(msecs));
+	clutter_actor_set_opacity (self->next_texture, OPACITY_AT_MSECS (msecs));
 
 	if (self->first_frame) {
 		if (self->current_texture != NULL) {
@@ -120,7 +120,6 @@ flip_transition (GthSlideshow *self,
 		if (self->current_texture != NULL)
 			clutter_actor_raise (self->next_texture, self->current_texture);
 		clutter_actor_show (self->next_texture);
-		self->first_frame = FALSE;
 	}
 }
 
