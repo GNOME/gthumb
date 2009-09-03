@@ -52,7 +52,18 @@ gth_browser_activate_action_view_slideshow (GtkAction  *action,
 
 	transition_id = eel_gconf_get_string (PREF_SLIDESHOW_TRANSITION, DEFAULT_TRANSITION);
 	if (strcmp (transition_id, "random") == 0) {
+		GList *scan;
+
 		transitions = gth_main_get_registered_objects (GTH_TYPE_TRANSITION);
+		for (scan = transitions; scan; scan = scan->next) {
+			GthTransition *transition = scan->data;
+
+			if (strcmp (gth_transition_get_id (transition), "none") == 0) {
+				transitions = g_list_remove_link (transitions, scan);
+				_g_object_list_unref (scan);
+				break;
+			}
+		}
 	}
 	else {
 		GthTransition *transition = gth_main_get_registered_object (GTH_TYPE_TRANSITION, transition_id);
