@@ -109,25 +109,27 @@ reset_texture_transformation (GthSlideshow *self,
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_opacity (self->next_texture, 255);
-	clutter_actor_set_rotation (self->next_texture,
+	clutter_actor_set_anchor_point (texture, 0.0, 0.0);
+	clutter_actor_set_opacity (texture, 255);
+	clutter_actor_set_rotation (texture,
 				    CLUTTER_X_AXIS,
 				    0.0,
 				    stage_w / 2.0,
 				    stage_h / 2.0,
 				    0.0);
-	clutter_actor_set_rotation (self->next_texture,
+	clutter_actor_set_rotation (texture,
 				    CLUTTER_Y_AXIS,
 				    0.0,
 				    stage_w / 2.0,
 				    stage_h / 2.0,
 				    0.0);
-	clutter_actor_set_rotation (self->next_texture,
+	clutter_actor_set_rotation (texture,
 				    CLUTTER_Z_AXIS,
 				    0.0,
 				    stage_w / 2.0,
 				    stage_h / 2.0,
 				    0.0);
+	clutter_actor_set_scale (texture, 1.0, 1.0);
 }
 
 

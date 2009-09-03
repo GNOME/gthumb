@@ -30,7 +30,7 @@
 
 G_BEGIN_DECLS
 
-#define GTH_TRANSITION_DURATION 200
+#define GTH_TRANSITION_DURATION 250
 
 #define GTH_TYPE_TRANSITION              (gth_transition_get_type ())
 #define GTH_TRANSITION(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_TRANSITION, GthTransition))

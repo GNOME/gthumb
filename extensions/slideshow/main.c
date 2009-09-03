@@ -29,9 +29,7 @@
 #include "preferences.h"
 
 
-#define OPACITY_AT_MSECS(t)((int) (255 * ((double) (t) / GTH_TRANSITION_DURATION)))
-#define ANGLE_AT_MSECS(t)((180.0 * ((double) (t) / GTH_TRANSITION_DURATION)))
-#define POSITION_AT_MSECS(x, t)(((float)(x) * ((double) (t) / GTH_TRANSITION_DURATION)))
+#define VALUE_AT_MSECS(v, t)(((double) (v) * ((double) (t) / GTH_TRANSITION_DURATION)))
 
 
 static void
@@ -54,9 +52,9 @@ slide_in_transition (GthSlideshow *self,
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_x (self->next_texture, POSITION_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
+	clutter_actor_set_x (self->next_texture, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
 	if (self->current_texture != NULL)
-		clutter_actor_set_x (self->current_texture, POSITION_AT_MSECS (- stage_w, msecs) + self->current_geometry.x);
+		clutter_actor_set_x (self->current_texture, (float) VALUE_AT_MSECS (- stage_w, msecs) + self->current_geometry.x);
 
 	if (self->first_frame) {
 		if (self->current_texture != NULL)
@@ -71,8 +69,8 @@ fade_in_transition (GthSlideshow *self,
 		    int           msecs)
 {
 	if (self->current_texture != NULL)
-		clutter_actor_set_opacity (self->current_texture, OPACITY_AT_MSECS (GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_texture, OPACITY_AT_MSECS (msecs));
+		clutter_actor_set_opacity (self->current_texture, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
+	clutter_actor_set_opacity (self->next_texture, (int) VALUE_AT_MSECS (255.0, msecs));
 
 	if (self->first_frame) {
 		if (self->current_texture != NULL) {
@@ -88,8 +86,6 @@ static void
 flip_transition (GthSlideshow *self,
 		 int           msecs)
 {
-	float stage_w, stage_h;
-
 	if ((float) msecs >= (float) GTH_TRANSITION_DURATION / 2.0) {
 		clutter_actor_show (self->next_texture);
 		if (self->current_texture != NULL)
@@ -101,25 +97,27 @@ flip_transition (GthSlideshow *self,
 			clutter_actor_show (self->current_texture);
 	}
 
-	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 	clutter_actor_set_rotation (self->next_texture,
 				    CLUTTER_Y_AXIS,
-		 		    ANGLE_AT_MSECS (GTH_TRANSITION_DURATION - msecs),
-		 		    stage_w / 2.0,
-		 		    0.0,
-		 		    0.0);
+				    VALUE_AT_MSECS (180.0, GTH_TRANSITION_DURATION - msecs),
+				    0.0,
+				    0.0,
+				    0.0);
 	if (self->current_texture != NULL)
 		clutter_actor_set_rotation (self->current_texture,
 					    CLUTTER_Y_AXIS,
-					    ANGLE_AT_MSECS (- msecs),
-					    stage_w / 2.0,
+					    VALUE_AT_MSECS (180.0, - msecs),
+					    0.0,
 					    0.0,
 					    0.0);
 
 	if (self->first_frame) {
-		if (self->current_texture != NULL)
+		if (self->current_texture != NULL) {
 			clutter_actor_raise (self->next_texture, self->current_texture);
+			clutter_actor_move_anchor_point_from_gravity (self->current_texture, CLUTTER_GRAVITY_CENTER);
+		}
 		clutter_actor_show (self->next_texture);
+		clutter_actor_move_anchor_point_from_gravity (self->next_texture, CLUTTER_GRAVITY_CENTER);
 	}
 }
 
