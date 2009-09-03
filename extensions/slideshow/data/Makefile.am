@@ -8,7 +8,7 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 if GCONF_SCHEMAS_INSTALL
 install-data-local:
-	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/extensions/image_viewer/data/$(schema_DATA)
+	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/extensions/slideshow/data/$(schema_DATA)
 endif
 
 EXTRA_DIST = $(schema_in_files)
