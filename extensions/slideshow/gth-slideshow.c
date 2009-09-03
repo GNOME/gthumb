@@ -42,8 +42,8 @@ struct _GthSlideshowPrivate {
 	int              n_transitions;
 	GthTransition   *transition;
 	ClutterTimeline *timeline;
-	ClutterActor    *texture1;
-	ClutterActor    *texture2;
+	ClutterActor    *image1;
+	ClutterActor    *image2;
 	guint            next_event;
 	guint            delay;
 	guint            hide_cursor_event;
@@ -86,11 +86,11 @@ _gth_slideshow_swap_current_and_next (GthSlideshow *self)
 {
 	ClutterGeometry tmp_geometry;
 
-	self->current_texture = self->next_texture;
-	if (self->current_texture == self->priv->texture1)
-		self->next_texture = self->priv->texture2;
+	self->current_image = self->next_image;
+	if (self->current_image == self->priv->image1)
+		self->next_image = self->priv->image2;
 	else
-		self->next_texture = self->priv->texture1;
+		self->next_image = self->priv->image1;
 
 	tmp_geometry = self->current_geometry;
 	self->current_geometry = self->next_geometry;
@@ -136,26 +136,26 @@ reset_texture_transformation (GthSlideshow *self,
 static void
 _gth_slideshow_reset_textures_position (GthSlideshow *self)
 {
-	if (self->next_texture != NULL) {
-		clutter_actor_set_size (self->next_texture, (float) self->next_geometry.width, (float) self->next_geometry.height);
-		clutter_actor_set_position (self->next_texture, (float) self->next_geometry.x, (float) self->next_geometry.y);
+	if (self->next_image != NULL) {
+		clutter_actor_set_size (self->next_image, (float) self->next_geometry.width, (float) self->next_geometry.height);
+		clutter_actor_set_position (self->next_image, (float) self->next_geometry.x, (float) self->next_geometry.y);
 	}
 
-	if (self->current_texture != NULL) {
-		clutter_actor_set_size (self->current_texture, (float) self->current_geometry.width, (float) self->current_geometry.height);
-		clutter_actor_set_position (self->current_texture, (float) self->current_geometry.x, (float) self->current_geometry.y);
+	if (self->current_image != NULL) {
+		clutter_actor_set_size (self->current_image, (float) self->current_geometry.width, (float) self->current_geometry.height);
+		clutter_actor_set_position (self->current_image, (float) self->current_geometry.x, (float) self->current_geometry.y);
 	}
 
-	if ((self->current_texture != NULL) && (self->next_texture != NULL)) {
-		clutter_actor_raise (self->current_texture, self->next_texture);
-		clutter_actor_hide (self->next_texture);
+	if ((self->current_image != NULL) && (self->next_image != NULL)) {
+		clutter_actor_raise (self->current_image, self->next_image);
+		clutter_actor_hide (self->next_image);
 	}
 
-	if (self->current_texture != NULL)
-		clutter_actor_show (self->current_texture);
+	if (self->current_image != NULL)
+		clutter_actor_show (self->current_image);
 
-	reset_texture_transformation (self, self->next_texture);
-	reset_texture_transformation (self, self->current_texture);
+	reset_texture_transformation (self, self->next_image);
+	reset_texture_transformation (self, self->current_image);
 }
 
 
@@ -263,10 +263,12 @@ image_loader_ready_cb (GthImageLoader *image_loader,
 		       GError         *error,
 		       GthSlideshow   *self)
 {
-	GdkPixbuf *image;
-	int        image_w, image_h;
-	float      stage_w, stage_h;
-	float      image_x, image_y;
+	GdkPixbuf    *pixbuf;
+	GdkPixbuf    *image;
+	ClutterActor *texture;
+	int           pixbuf_w, pixbuf_h;
+	float         stage_w, stage_h;
+	int           pixbuf_x, pixbuf_y;
 
 	if (error != NULL) {
 		g_clear_error (&error);
@@ -277,20 +279,46 @@ image_loader_ready_cb (GthImageLoader *image_loader,
 	self->priv->one_loaded = TRUE;
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	image = gth_image_loader_get_pixbuf (GTH_IMAGE_LOADER (image_loader));
-	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (self->next_texture), image, NULL);
+	if ((stage_w == 0) || (stage_h == 0))
+		return;
 
-	image_w = gdk_pixbuf_get_width (image);
-	image_h = gdk_pixbuf_get_height (image);
-	scale_keeping_ratio (&image_w, &image_h, (int) stage_w, (int) stage_h, TRUE);
+	pixbuf = gth_image_loader_get_pixbuf (GTH_IMAGE_LOADER (image_loader));
+	image = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (pixbuf),
+				FALSE,
+				gdk_pixbuf_get_bits_per_sample (pixbuf),
+				stage_w,
+				stage_h);
+	gdk_pixbuf_fill (image, 0x000000ff);
 
-	image_x = (stage_w - image_w) / 2;
-	image_y = (stage_h - image_h) / 2;
+	pixbuf_w = gdk_pixbuf_get_width (pixbuf);
+	pixbuf_h = gdk_pixbuf_get_height (pixbuf);
+	scale_keeping_ratio (&pixbuf_w, &pixbuf_h, (int) stage_w, (int) stage_h, TRUE);
+	pixbuf_x = (stage_w - pixbuf_w) / 2;
+	pixbuf_y = (stage_h - pixbuf_h) / 2;
 
-	self->next_geometry.x = image_x;
-	self->next_geometry.y = image_y;
-	self->next_geometry.width = image_w;
-	self->next_geometry.height = image_h;
+	gdk_pixbuf_composite (pixbuf,
+			      image,
+			      pixbuf_x,
+			      pixbuf_y,
+			      pixbuf_w,
+			      pixbuf_h,
+			      pixbuf_x,
+			      pixbuf_y,
+			      (double) pixbuf_w / gdk_pixbuf_get_width (pixbuf),
+			      (double) pixbuf_h / gdk_pixbuf_get_height (pixbuf),
+			      GDK_INTERP_BILINEAR,
+			      255);
+
+	if (self->next_image == self->priv->image1)
+		texture = self->priv->image1;
+	else
+		texture = self->priv->image2;
+	gtk_clutter_texture_set_from_pixbuf (CLUTTER_TEXTURE (texture), image, NULL);
+
+	self->next_geometry.x = 0;
+	self->next_geometry.y = 0;
+	self->next_geometry.width = stage_w;
+	self->next_geometry.height = stage_h;
 
 	_gth_slideshow_reset_textures_position (self);
 	if (clutter_timeline_get_direction (self->priv->timeline) == CLUTTER_TIMELINE_BACKWARD)
@@ -299,7 +327,7 @@ image_loader_ready_cb (GthImageLoader *image_loader,
 	self->priv->transition = _gth_slideshow_get_transition (self);
 	clutter_timeline_rewind (self->priv->timeline);
 	clutter_timeline_start (self->priv->timeline);
-	if (self->current_texture == NULL)
+	if (self->current_image == NULL)
 		clutter_timeline_advance (self->priv->timeline, GTH_TRANSITION_DURATION);
 }
 
@@ -463,16 +491,16 @@ _gth_slideshow_construct (GthSlideshow *self,
 	gtk_widget_show (embed);
 	gtk_container_add (GTK_CONTAINER (self), embed);
 
-	self->priv->texture1 = clutter_texture_new ();
-	clutter_actor_hide (self->priv->texture1);
-	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->texture1);
+	self->priv->image1 = clutter_texture_new ();
+	clutter_actor_hide (self->priv->image1);
+	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image1);
 
-	self->priv->texture2 = clutter_texture_new ();
-	clutter_actor_hide (self->priv->texture2);
-	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->texture2);
+	self->priv->image2 = clutter_texture_new ();
+	clutter_actor_hide (self->priv->image2);
+	clutter_container_add_actor (CLUTTER_CONTAINER (self->stage), self->priv->image2);
 
-	self->current_texture = NULL;
-	self->next_texture = self->priv->texture1;
+	self->current_image = NULL;
+	self->next_image = self->priv->image1;
 
 	self->priv->timeline = clutter_timeline_new (GTH_TRANSITION_DURATION);
 	g_signal_connect (self->priv->timeline, "completed", G_CALLBACK (animation_completed_cb), self);

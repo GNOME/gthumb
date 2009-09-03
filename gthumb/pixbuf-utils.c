@@ -435,15 +435,13 @@ scale_keeping_ratio_min (int      *width,
 	int      new_width, new_height;
 	gboolean modified;
 
-	if ((*width < max_width) && (*height < max_height)
-	    && (!allow_upscaling))
+	if ((*width < max_width) && (*height < max_height) && ! allow_upscaling)
 		return FALSE;
 
-	if (((*width < min_width) || (*height < min_height))
-	    && (!allow_upscaling))
+	if (((*width < min_width) || (*height < min_height)) && ! allow_upscaling)
 		return FALSE;
 
-	factor = MAX ( MIN (max_w / w, max_h / h), MAX (min_w / w, min_h / h) );
+	factor = MAX (MIN (max_w / w, max_h / h), MAX (min_w / w, min_h / h));
 	new_width  = MAX ((int) floor (w * factor + 0.50), 1);
 	new_height = MAX ((int) floor (h * factor + 0.50), 1);
 

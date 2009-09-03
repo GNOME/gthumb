@@ -44,8 +44,8 @@ struct _GthSlideshow
 {
 	GtkWindow __parent;
 	ClutterActor        *stage;
-	ClutterActor        *current_texture;
-	ClutterActor        *next_texture;
+	ClutterActor        *current_image;
+	ClutterActor        *next_image;
 	ClutterGeometry      current_geometry;
 	ClutterGeometry      next_geometry;
 	gboolean             first_frame;
