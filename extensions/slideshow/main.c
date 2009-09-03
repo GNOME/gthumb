@@ -37,47 +37,105 @@ no_transition (GthSlideshow *self,
 	       int           msecs)
 {
 	if (self->first_frame) {
-		if (self->current_texture != NULL)
-			clutter_actor_hide (self->current_texture);
-		clutter_actor_show (self->next_texture);
+		if (self->current_image != NULL)
+			clutter_actor_hide (self->current_image);
+		clutter_actor_show (self->next_image);
 	}
 }
 
 
 static void
-slide_in_transition (GthSlideshow *self,
-		     int           msecs)
+push_from_right_transition (GthSlideshow *self,
+			    int           msecs)
 {
 	float stage_w, stage_h;
 
 	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
 
-	clutter_actor_set_x (self->next_texture, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
-	if (self->current_texture != NULL)
-		clutter_actor_set_x (self->current_texture, (float) VALUE_AT_MSECS (- stage_w, msecs) + self->current_geometry.x);
+	clutter_actor_set_x (self->next_image, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
+	if (self->current_image != NULL)
+		clutter_actor_set_x (self->current_image, (float) VALUE_AT_MSECS (- stage_w, msecs) + self->current_geometry.x);
 
 	if (self->first_frame) {
-		if (self->current_texture != NULL)
-			clutter_actor_show (self->current_texture);
-		clutter_actor_show (self->next_texture);
+		if (self->current_image != NULL)
+			clutter_actor_show (self->current_image);
+		clutter_actor_show (self->next_image);
 	}
 }
 
 
 static void
-fade_in_transition (GthSlideshow *self,
-		    int           msecs)
+push_from_bottom_transition (GthSlideshow *self,
+			     int           msecs)
 {
-	if (self->current_texture != NULL)
-		clutter_actor_set_opacity (self->current_texture, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
-	clutter_actor_set_opacity (self->next_texture, (int) VALUE_AT_MSECS (255.0, msecs));
+	float stage_w, stage_h;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+
+	clutter_actor_set_y (self->next_image, (float) VALUE_AT_MSECS (stage_h, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.y);
+	if (self->current_image != NULL)
+		clutter_actor_set_y (self->current_image, (float) VALUE_AT_MSECS (- stage_h, msecs) + self->current_geometry.y);
 
 	if (self->first_frame) {
-		if (self->current_texture != NULL) {
-			clutter_actor_show (self->current_texture);
-			clutter_actor_raise (self->next_texture, self->current_texture);
+		if (self->current_image != NULL)
+			clutter_actor_show (self->current_image);
+		clutter_actor_show (self->next_image);
+	}
+}
+
+
+static void
+slide_from_right_transition (GthSlideshow *self,
+			     int           msecs)
+{
+	float stage_w, stage_h;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+	clutter_actor_set_x (self->next_image, (float) VALUE_AT_MSECS (stage_w, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.x);
+
+	if (self->first_frame) {
+		if (self->current_image != NULL) {
+			clutter_actor_show (self->current_image);
+			clutter_actor_raise (self->next_image, self->current_image);
 		}
-		clutter_actor_show (self->next_texture);
+		clutter_actor_show (self->next_image);
+	}
+}
+
+
+static void
+slide_from_bottom_transition (GthSlideshow *self,
+			      int           msecs)
+{
+	float stage_w, stage_h;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+	clutter_actor_set_y (self->next_image, (float) VALUE_AT_MSECS (stage_h, GTH_TRANSITION_DURATION - msecs) + self->next_geometry.y);
+
+	if (self->first_frame) {
+		if (self->current_image != NULL) {
+			clutter_actor_show (self->current_image);
+			clutter_actor_raise (self->next_image, self->current_image);
+		}
+		clutter_actor_show (self->next_image);
+	}
+}
+
+
+static void
+fade_transition (GthSlideshow *self,
+		 int           msecs)
+{
+	if (self->current_image != NULL)
+		clutter_actor_set_opacity (self->current_image, (int) VALUE_AT_MSECS (255.0, GTH_TRANSITION_DURATION - msecs));
+	clutter_actor_set_opacity (self->next_image, (int) VALUE_AT_MSECS (255.0, msecs));
+
+	if (self->first_frame) {
+		if (self->current_image != NULL) {
+			clutter_actor_show (self->current_image);
+			clutter_actor_raise (self->next_image, self->current_image);
+		}
+		clutter_actor_show (self->next_image);
 	}
 }
 
@@ -87,24 +145,24 @@ flip_transition (GthSlideshow *self,
 		 int           msecs)
 {
 	if ((float) msecs >= (float) GTH_TRANSITION_DURATION / 2.0) {
-		clutter_actor_show (self->next_texture);
-		if (self->current_texture != NULL)
-			clutter_actor_hide (self->current_texture);
+		clutter_actor_show (self->next_image);
+		if (self->current_image != NULL)
+			clutter_actor_hide (self->current_image);
 	}
 	else {
-		clutter_actor_hide (self->next_texture);
-		if (self->current_texture != NULL)
-			clutter_actor_show (self->current_texture);
+		clutter_actor_hide (self->next_image);
+		if (self->current_image != NULL)
+			clutter_actor_show (self->current_image);
 	}
 
-	clutter_actor_set_rotation (self->next_texture,
+	clutter_actor_set_rotation (self->next_image,
 				    CLUTTER_Y_AXIS,
 				    VALUE_AT_MSECS (180.0, GTH_TRANSITION_DURATION - msecs),
 				    0.0,
 				    0.0,
 				    0.0);
-	if (self->current_texture != NULL)
-		clutter_actor_set_rotation (self->current_texture,
+	if (self->current_image != NULL)
+		clutter_actor_set_rotation (self->current_image,
 					    CLUTTER_Y_AXIS,
 					    VALUE_AT_MSECS (180.0, - msecs),
 					    0.0,
@@ -112,12 +170,50 @@ flip_transition (GthSlideshow *self,
 					    0.0);
 
 	if (self->first_frame) {
-		if (self->current_texture != NULL) {
-			clutter_actor_raise (self->next_texture, self->current_texture);
-			clutter_actor_move_anchor_point_from_gravity (self->current_texture, CLUTTER_GRAVITY_CENTER);
+		if (self->current_image != NULL) {
+			clutter_actor_raise (self->next_image, self->current_image);
+			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
 		}
-		clutter_actor_show (self->next_texture);
-		clutter_actor_move_anchor_point_from_gravity (self->next_texture, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_show (self->next_image);
+		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
+	}
+}
+
+
+static void
+cube_transition (GthSlideshow *self,
+		 int           msecs)
+{
+	float stage_w, stage_h;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+
+	if (self->current_image != NULL) {
+		if (msecs >= GTH_TRANSITION_DURATION / 2)
+			clutter_actor_raise (self->next_image, self->current_image);
+		else
+			clutter_actor_raise (self->current_image, self->next_image);
+	}
+
+	clutter_actor_set_rotation (self->next_image,
+				    CLUTTER_Y_AXIS,
+				    VALUE_AT_MSECS (90.0, -msecs) - 270.0,
+				    0.0,
+				    0.0,
+				    - stage_w / 2.0);
+	if (self->current_image != NULL)
+		clutter_actor_set_rotation (self->current_image,
+					    CLUTTER_Y_AXIS,
+					    VALUE_AT_MSECS (90.0, -msecs),
+					    0.0,
+					    0.0,
+					    - stage_w / 2.0);
+
+	if (self->first_frame) {
+		if (self->current_image != NULL)
+			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_show (self->next_image);
+		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
 	}
 }
 
@@ -132,22 +228,46 @@ gthumb_extension_activate (void)
 				  "frame-func", no_transition,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TRANSITION,
-				  "slide-in",
+				  "push-from-right",
 				  GTH_TYPE_TRANSITION,
-				  "display-name", _("Slide In"),
-				  "frame-func", slide_in_transition,
+				  "display-name", _("Push from right"),
+				  "frame-func", push_from_right_transition,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TRANSITION,
-				  "fade-in",
+				  "push-from-bottom",
 				  GTH_TYPE_TRANSITION,
-				  "display-name", _("Fade In"),
-				  "frame-func", fade_in_transition,
+				  "display-name", _("Push from bottom"),
+				  "frame-func", push_from_bottom_transition,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TRANSITION,
+				  "slide-from-right",
+				  GTH_TYPE_TRANSITION,
+				  "display-name", _("Slide from right"),
+				  "frame-func", slide_from_right_transition,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TRANSITION,
+				  "slide-from-bottom",
+				  GTH_TYPE_TRANSITION,
+				  "display-name", _("Slide from bottom"),
+				  "frame-func", slide_from_bottom_transition,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TRANSITION,
+				  "fade",
+				  GTH_TYPE_TRANSITION,
+				  "display-name", _("Fade in"),
+				  "frame-func", fade_transition,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TRANSITION,
 				  "flip",
 				  GTH_TYPE_TRANSITION,
-				  "display-name", _("Flip Page"),
+				  "display-name", _("Flip page"),
 				  "frame-func", flip_transition,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TRANSITION,
+				  "cube",
+				  GTH_TYPE_TRANSITION,
+				  "display-name", _("Cube"),
+				  "frame-func", cube_transition,
 				  NULL);
 
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ss__gth_browser_construct_cb), NULL);
