@@ -7,7 +7,7 @@ echo "[encoding: UTF-8]"
 files=`find .. \( -name '*.c' -o -name '*.h' -o -name '*.cpp' -o -name '*.ui' -o -name '*.schemas.in' -o -name '*.desktop.in.in' -o -name '*.extension.in.in' \) -printf "%P\n" | sort`
 for f in $files; do
 	case $f in
-        ^build/*) ;;
+        build/*) ;;
 	*.ui) echo "[type: gettext/glade]$f" ;;
 	*) echo $f
 	esac
