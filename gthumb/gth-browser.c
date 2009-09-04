@@ -62,7 +62,8 @@
 #define GO_PARENT_POPUP "/GoParentPopup"
 #define MAX_HISTORY_LENGTH 15
 #define GCONF_NOTIFICATIONS 10
-#define DEF_SIDEBAR_WIDTH 250
+#define DEF_SIDEBAR_WIDTH 255
+#define DEF_VIEWER_SIDEBAR_WIDTH 295
 #define DEF_PROPERTIES_HEIGHT 128
 #define DEF_THUMBNAIL_SIZE 128
 #define LOAD_FILE_DELAY 150
@@ -3399,7 +3400,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	browser->priv->file_popup = gtk_ui_manager_get_widget (browser->priv->ui, "/FilePopup");
 
-	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEFAULT_UI_WINDOW_WIDTH - DEF_SIDEBAR_WIDTH));
+	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH));
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->browser_sidebar), eel_gconf_get_integer (PREF_UI_PROPERTIES_HEIGHT, DEF_PROPERTIES_HEIGHT));
 
 	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
@@ -4203,8 +4204,10 @@ _gth_browser_load_file (GthBrowser  *browser,
 
 		return;
 	}
-	else
+	else if (! GTK_WIDGET_VISIBLE (browser->priv->file_properties)) {
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
 		gtk_widget_show (browser->priv->file_properties);
+	}
 
 	g_object_ref (file_data);
 	_g_object_unref (browser->priv->current_file);
@@ -4365,6 +4368,7 @@ gth_browser_show_viewer_properties (GthBrowser *browser,
 	_gth_browser_set_action_active (browser, "Viewer_Properties", show);
 
 	if (show) {
+		_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), DEF_VIEWER_SIDEBAR_WIDTH);
 		_gth_browser_set_action_active (browser, "Viewer_Tools", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
 		gth_sidebar_show_properties (GTH_SIDEBAR (browser->priv->viewer_sidebar));
@@ -4381,6 +4385,7 @@ gth_browser_show_viewer_tools (GthBrowser *browser,
 	_gth_browser_set_action_active (browser, "Viewer_Tools", show);
 
 	if (show) {
+		_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), DEF_VIEWER_SIDEBAR_WIDTH);
 		_gth_browser_set_action_active (browser, "Viewer_Properties", FALSE);
 		gtk_widget_show (browser->priv->viewer_sidebar);
 		gth_sidebar_show_tools (GTH_SIDEBAR (browser->priv->viewer_sidebar));
@@ -4627,6 +4632,7 @@ gth_browser_fullscreen (GthBrowser *browser)
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, TRUE);
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, FALSE);
 	}
+
 	gth_browser_update_sensitivity (browser);
 
 	browser->priv->last_mouse_x = 0.0;
