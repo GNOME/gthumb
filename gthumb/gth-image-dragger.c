@@ -68,6 +68,21 @@ gth_image_dragger_instance_init (GthImageDragger *dragger)
 
 
 static void
+_gth_image_dragger_update_cursor (GthImageDragger *self)
+{
+	GdkCursor *cursor;
+
+	if (self->priv->draggable)
+		cursor = gth_cursor_get (gtk_widget_get_window (GTK_WIDGET (self->priv->viewer)), GTH_CURSOR_HAND_OPEN);
+	else
+		cursor = gdk_cursor_new (GDK_LEFT_PTR);
+	gth_image_viewer_set_cursor (self->priv->viewer, cursor);
+
+	gdk_cursor_unref (cursor);
+}
+
+
+static void
 gth_image_dragger_realize (GthImageViewerTool *base)
 {
 	/* void */
@@ -82,24 +97,32 @@ gth_image_dragger_unrealize (GthImageViewerTool *base)
 
 
 static void
-gth_image_dragger_size_allocate (GthImageViewerTool  *self,
+gth_image_dragger_size_allocate (GthImageViewerTool  *base,
 				 GtkAllocation       *allocation)
 {
-	GthImageDragger *dragger;
+	GthImageDragger *self;
 	GthImageViewer  *viewer;
-	GdkCursor       *cursor;
 
-	dragger = (GthImageDragger *) self;
-	viewer = (GthImageViewer *) dragger->priv->viewer;
+	self = (GthImageDragger *) base;
+	viewer = (GthImageViewer *) self->priv->viewer;
 
-	dragger->priv->draggable = (viewer->hadj->upper > viewer->hadj->page_size) || (viewer->vadj->upper > viewer->vadj->page_size);
-	if (dragger->priv->draggable)
-		cursor = gth_cursor_get (GTK_WIDGET (viewer)->window, GTH_CURSOR_HAND_OPEN);
-	else
-		cursor = gdk_cursor_new (GDK_LEFT_PTR);
-	gth_image_viewer_set_cursor (viewer, cursor);
+	self->priv->draggable = (viewer->hadj->upper > viewer->hadj->page_size) || (viewer->vadj->upper > viewer->vadj->page_size);
+	if (GTK_WIDGET_REALIZED (viewer))
+		_gth_image_dragger_update_cursor (self);
+}
 
-	gdk_cursor_unref (cursor);
+
+static void
+gth_image_dragger_map (GthImageViewerTool *base)
+{
+	/* void */
+}
+
+
+static void
+gth_image_dragger_unmap (GthImageViewerTool *base)
+{
+	/* void */
 }
 
 
@@ -248,6 +271,8 @@ gth_image_dragger_gth_image_tool_interface_init (GthImageViewerToolIface *iface)
 	iface->realize = gth_image_dragger_realize;
 	iface->unrealize = gth_image_dragger_unrealize;
 	iface->size_allocate = gth_image_dragger_size_allocate;
+	iface->map = gth_image_dragger_map;
+	iface->unmap = gth_image_dragger_unmap;
 	iface->expose = gth_image_dragger_expose;
 	iface->button_press = gth_image_dragger_button_press;
 	iface->button_release = gth_image_dragger_button_release;

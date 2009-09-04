@@ -38,6 +38,8 @@ typedef struct _GthImageViewerToolIface GthImageViewerToolIface;
 struct _GthImageViewerToolIface {
 	GTypeInterface parent_iface;
 
+	void      (*map)            (GthImageViewerTool   *self);
+	void      (*unmap)          (GthImageViewerTool   *self);
 	void      (*realize)        (GthImageViewerTool   *self);
 	void      (*unrealize)      (GthImageViewerTool   *self);
 	void      (*size_allocate)  (GthImageViewerTool   *self,
@@ -55,6 +57,8 @@ struct _GthImageViewerToolIface {
 };
 
 GType      gth_image_viewer_tool_get_type         (void);
+void       gth_image_viewer_tool_map              (GthImageViewerTool *self);
+void       gth_image_viewer_tool_unmap            (GthImageViewerTool *self);
 void       gth_image_viewer_tool_realize          (GthImageViewerTool *self);
 void       gth_image_viewer_tool_unrealize        (GthImageViewerTool *self);
 void       gth_image_viewer_tool_size_allocate    (GthImageViewerTool *self,

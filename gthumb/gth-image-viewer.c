@@ -411,6 +411,34 @@ gth_image_viewer_unrealize (GtkWidget *widget)
 
 
 static void
+gth_image_viewer_map (GtkWidget *widget)
+{
+	GthImageViewer *viewer;
+
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
+
+	GTK_WIDGET_CLASS (parent_class)->map (widget);
+
+	viewer = GTH_IMAGE_VIEWER (widget);
+	gth_image_viewer_tool_map (viewer->priv->tool);
+}
+
+
+static void
+gth_image_viewer_unmap (GtkWidget *widget)
+{
+	GthImageViewer *viewer;
+
+	g_return_if_fail (GTH_IS_IMAGE_VIEWER (widget));
+
+	viewer = GTH_IMAGE_VIEWER (widget);
+	gth_image_viewer_tool_unmap (viewer->priv->tool);
+
+	GTK_WIDGET_CLASS (parent_class)->unmap (widget);
+}
+
+
+static void
 zoom_to_fit (GthImageViewer *viewer)
 {
 	GdkPixbuf *buf;
@@ -1469,6 +1497,8 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 
 	widget_class->realize         = gth_image_viewer_realize;
 	widget_class->unrealize       = gth_image_viewer_unrealize;
+	widget_class->map             = gth_image_viewer_map;
+	widget_class->unmap           = gth_image_viewer_unmap;
 	widget_class->size_allocate   = gth_image_viewer_size_allocate;
 	widget_class->focus_in_event  = gth_image_viewer_focus_in;
 	widget_class->focus_out_event = gth_image_viewer_focus_out;

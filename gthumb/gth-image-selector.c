@@ -569,6 +569,20 @@ gth_image_selector_size_allocate (GthImageViewerTool *base,
 }
 
 
+static void
+gth_image_selector_map (GthImageViewerTool *base)
+{
+	/* void */
+}
+
+
+static void
+gth_image_selector_unmap (GthImageViewerTool *base)
+{
+	/* void */
+}
+
+
 G_GNUC_UNUSED
 static void
 print_rectangle (const char   *name,
@@ -1344,6 +1358,8 @@ gth_image_selector_gth_image_tool_interface_init (GthImageViewerToolIface *iface
 	iface->realize = gth_image_selector_realize;
 	iface->unrealize = gth_image_selector_unrealize;
 	iface->size_allocate = gth_image_selector_size_allocate;
+	iface->map = gth_image_selector_map;
+	iface->unmap = gth_image_selector_unmap;
 	iface->expose = gth_image_selector_expose;
 	iface->button_press = gth_image_selector_button_press;
 	iface->button_release = gth_image_selector_button_release;

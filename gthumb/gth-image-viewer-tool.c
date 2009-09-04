@@ -51,6 +51,20 @@ gth_image_viewer_tool_get_type (void)
 
 
 void
+gth_image_viewer_tool_map (GthImageViewerTool *self)
+{
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->map (self);
+}
+
+
+void
+gth_image_viewer_tool_unmap (GthImageViewerTool *self)
+{
+	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->unmap (self);
+}
+
+
+void
 gth_image_viewer_tool_realize (GthImageViewerTool *self)
 {
 	GTH_IMAGE_VIEWER_TOOL_GET_INTERFACE (self)->realize (self);
