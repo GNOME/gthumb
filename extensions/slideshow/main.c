@@ -181,8 +181,8 @@ flip_transition (GthSlideshow *self,
 
 
 static void
-cube_transition (GthSlideshow *self,
-		 int           msecs)
+cube_from_right_transition (GthSlideshow *self,
+			    int           msecs)
 {
 	float stage_w, stage_h;
 
@@ -205,6 +205,44 @@ cube_transition (GthSlideshow *self,
 		clutter_actor_set_rotation (self->current_image,
 					    CLUTTER_Y_AXIS,
 					    VALUE_AT_MSECS (90.0, -msecs),
+					    0.0,
+					    0.0,
+					    - stage_w / 2.0);
+
+	if (self->first_frame) {
+		if (self->current_image != NULL)
+			clutter_actor_move_anchor_point_from_gravity (self->current_image, CLUTTER_GRAVITY_CENTER);
+		clutter_actor_show (self->next_image);
+		clutter_actor_move_anchor_point_from_gravity (self->next_image, CLUTTER_GRAVITY_CENTER);
+	}
+}
+
+
+static void
+cube_from_bottom_transition (GthSlideshow *self,
+			     int           msecs)
+{
+	float stage_w, stage_h;
+
+	clutter_actor_get_size (self->stage, &stage_w, &stage_h);
+
+	if (self->current_image != NULL) {
+		if (msecs >= GTH_TRANSITION_DURATION / 2)
+			clutter_actor_raise (self->next_image, self->current_image);
+		else
+			clutter_actor_raise (self->current_image, self->next_image);
+	}
+
+	clutter_actor_set_rotation (self->next_image,
+				    CLUTTER_X_AXIS,
+				    VALUE_AT_MSECS (90.0, msecs) + 270.0,
+				    0.0,
+				    0.0,
+				    - stage_w / 2.0);
+	if (self->current_image != NULL)
+		clutter_actor_set_rotation (self->current_image,
+					    CLUTTER_X_AXIS,
+					    VALUE_AT_MSECS (90.0, msecs),
 					    0.0,
 					    0.0,
 					    - stage_w / 2.0);
@@ -264,10 +302,16 @@ gthumb_extension_activate (void)
 				  "frame-func", flip_transition,
 				  NULL);
 	gth_main_register_object (GTH_TYPE_TRANSITION,
-				  "cube",
+				  "cube-from-right",
 				  GTH_TYPE_TRANSITION,
-				  "display-name", _("Cube"),
-				  "frame-func", cube_transition,
+				  "display-name", _("Cube from right"),
+				  "frame-func", cube_from_right_transition,
+				  NULL);
+	gth_main_register_object (GTH_TYPE_TRANSITION,
+				  "cube-from-bottom",
+				  GTH_TYPE_TRANSITION,
+				  "display-name", _("Cube from bottom"),
+				  "frame-func", cube_from_bottom_transition,
 				  NULL);
 
 	gth_hook_add_callback ("gth-browser-construct", 10, G_CALLBACK (ss__gth_browser_construct_cb), NULL);
