@@ -167,7 +167,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_bookmarks_edit) },
 
 	{ "View_BrowserMode", GTH_STOCK_BROWSER_MODE,
-	  N_("Browser"), NULL,
+	  N_("Browser"), "Escape",
 	  N_("View the folders"),
 	  G_CALLBACK (gth_browser_activate_action_browser_mode) },
 
