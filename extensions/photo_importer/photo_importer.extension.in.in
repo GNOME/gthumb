@@ -1,6 +1,6 @@
 [Extension]
 _Name=Import photos
-_Description=Import photos from removable devices
+_Description=Import photos from removable devices.
 _Authors=gthumb development team
 Copyright=Copyright © 2009 The Free Software Foundation, Inc.
 Version=1.0

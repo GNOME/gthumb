@@ -1135,6 +1135,7 @@ gth_main_activate_extensions (void)
 						"photo_importer",
 						"rename_series",
 						"search",
+						"slideshow",
 						NULL };
 	int         i;
 	GSList     *active_extensions;
