@@ -3077,9 +3077,40 @@ _gth_browser_construct (GthBrowser *browser)
 	char           *caption;
 	int             i;
 
-	gtk_window_set_default_size (GTK_WINDOW (browser),
-				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEFAULT_UI_WINDOW_WIDTH),
-				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEFAULT_UI_WINDOW_HEIGHT));
+	{
+		int width;
+		int height;
+
+		width = eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, 0);
+		height = eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, 0);
+
+		if ((width == 0) || (height == 0)) {
+			GdkScreen *screen;
+			int        max_width;
+			int        max_height;
+			int        sidebar_width;
+			int        thumb_size;
+			int        n_cols;
+
+			screen = gtk_widget_get_screen (GTK_WIDGET (browser));
+			max_width = gdk_screen_get_width (screen) * 5 / 6;
+			max_height = gdk_screen_get_height (screen) * 2 / 3;
+
+			sidebar_width = eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH) + 10;
+			thumb_size = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE) + 40;
+
+			for (n_cols = 4; n_cols >= 1; n_cols--) {
+				width = sidebar_width + 40 + (n_cols * thumb_size);
+				if (width < max_width)
+					break;
+			}
+			if (n_cols == 0)
+				width = max_width;
+			height = max_height;
+		}
+
+		gtk_window_set_default_size (GTK_WINDOW (browser), width, height);
+	}
 
 	/* ui actions */
 
@@ -3279,7 +3310,7 @@ _gth_browser_construct (GthBrowser *browser)
 
 	browser->priv->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
 	gth_browser_set_sort_order (browser,
-				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::name")),
+				    gth_main_get_sort_type (eel_gconf_get_string (PREF_SORT_TYPE, "file::mtime")),
 				    FALSE);
 	gth_browser_enable_thumbnails (browser, eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
 	gth_file_list_set_thumb_size (GTH_FILE_LIST (browser->priv->file_list), eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMBNAIL_SIZE));

@@ -234,7 +234,7 @@
 	<applyto>/apps/gthumb/browser/sort_type</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>name</default>
+	<default>file::mtime</default>
 	<locale name="C">
 	  <short></short>
 	  <long></long>
@@ -380,7 +380,7 @@
 	<applyto>/apps/gthumb/ui/window_width</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default>690</default>
+	<default>0</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -393,7 +393,7 @@
 	<applyto>/apps/gthumb/ui/window_height</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default>460</default>
+	<default>0</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
