@@ -45,16 +45,16 @@ GthMetadataCategory exiv2_metadata_category[] = {
 
 
 GthMetadataInfo exiv2_metadata_info[] = {
-	{ "Exif::Image::Make", NULL, "Exif::General", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Exif::Image::Model", NULL, "Exif::General", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Exif::Image::Make", NULL, "Exif::General", 1, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "Exif::Image::Model", NULL, "Exif::General", 2, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Image::Software", NULL, "Exif::General", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Exif::Image::DateTime", NULL, "Exif::General", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Exif::Image::DateTime", NULL, "Exif::General", 4, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Photo::SubSecTime", NULL, "Exif::General", 5, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Exif::Photo::DateTimeOriginal", NULL, "Exif::General", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW},
+	{ "Exif::Photo::DateTimeOriginal", NULL, "Exif::General", 6, GTH_METADATA_ALLOW_EVERYWHERE},
 	{ "Exif::Photo::SubSecTimeOriginal", NULL, "Exif::General", 7, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::DateTimeDigitized", NULL, "Exif::General", 8, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Photo::SubSecTimeDigitized", NULL, "Exif::General", 9, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "Exif::Image::Artist", NULL, "Exif::General", 11, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "Exif::Image::Artist", NULL, "Exif::General", 11, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "Exif::Image::Copyright", NULL, "Exif::General", 12, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::UniqueID", NULL, "Exif::General", 13, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "Exif::Photo::SoundFile", NULL, "Exif::General", 14, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },

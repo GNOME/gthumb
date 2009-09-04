@@ -39,7 +39,7 @@ GthMetadataCategory comments_metadata_category[] = {
 GthMetadataInfo comments_metadata_info[] = {
 	{ "comment::note", N_("Comment"), "comment", 1, GTH_METADATA_ALLOW_NOWHERE },
 	{ "comment::place", N_("Place"), "comment", 2, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "comment::time", N_("Date"), "comment", 3, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "comment::time", N_("Comment Date"), "comment", 3, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "comment::categories", N_("Tags"), "comment", 4, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "comment::rating", N_("Rating"), "comment", 5, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ NULL, NULL, NULL, 0, 0 }
