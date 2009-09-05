@@ -1037,9 +1037,8 @@ void
 _gtk_paned_set_position2 (GtkPaned *paned,
 			  int       pos)
 {
-	GtkWidget      *top_level;
-	GtkRequisition  requisition;
-	int             size;
+	GtkWidget *top_level;
+	int        size;
 
 	top_level = gtk_widget_get_toplevel (GTK_WIDGET (paned));
 	if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
