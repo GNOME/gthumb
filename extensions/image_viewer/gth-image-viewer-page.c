@@ -246,10 +246,12 @@ viewer_key_press_cb (GtkWidget          *widget,
 {
 	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_Page_Up:
+	case GDK_BackSpace:
 		gth_browser_show_prev_image (self->priv->browser, TRUE, FALSE);
 		return TRUE;
 
 	case GDK_Page_Down:
+	case GDK_space:
 		gth_browser_show_next_image (self->priv->browser, TRUE, FALSE);
 		return TRUE;
 
