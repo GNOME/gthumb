@@ -228,7 +228,7 @@ file_info_ready_cb (GList    *files,
 	self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
 	_g_copy_file_async (file_data,
 			    destination_file,
-			    FALSE /* FIXME: self->priv->delete_imported */,
+			    self->priv->delete_imported,
 			    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS,
 			    G_PRIORITY_DEFAULT,
 			    self->priv->cancellable,
