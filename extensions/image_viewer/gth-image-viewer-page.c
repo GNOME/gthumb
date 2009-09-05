@@ -262,6 +262,10 @@ viewer_key_press_cb (GtkWidget          *widget,
 	case GDK_End:
 		gth_browser_show_last_image (self->priv->browser, TRUE, FALSE);
 		return TRUE;
+
+	case GDK_f:
+		gth_browser_fullscreen (self->priv->browser);
+		break;
 	}
 
 	return gth_hook_invoke_get ("gth-browser-file-list-key-press", self->priv->browser, event) != NULL;

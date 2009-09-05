@@ -2763,31 +2763,6 @@ gth_file_list_key_press_cb (GtkWidget   *widget,
 			result = TRUE;
 			break;
 
-		/* FIXME: add these to the image viewer
-		case GDK_b:
-		case GDK_BackSpace:
-			gth_browser_show_prev_image (browser, FALSE, FALSE);
-			result = TRUE;
-			break;
-
-		case GDK_n:
-			gth_browser_show_next_image (browser, FALSE, FALSE);
-			result = TRUE;
-			break;
-		*/
-
-		/* FIXME: add these to the rotate extension
-		case GDK_bracketright:
-			gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
-			result = TRUE;
-			break;
-
-		case GDK_bracketleft:
-			gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
-			result = TRUE;
-			break;
-		*/
-
 		default:
 			break;
 		}
