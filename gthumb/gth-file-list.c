@@ -266,7 +266,7 @@ gth_file_list_init (GthFileList *file_list)
 
 	file_list->priv->thumb_size = DEFAULT_THUMBNAIL_SIZE;
 	file_list->priv->ignore_hidden_thumbs = FALSE;
-	file_list->priv->load_thumbs = TRUE; /* FIXME: make this configurable */
+	file_list->priv->load_thumbs = TRUE;
 	file_list->priv->caption_attributes_v = g_strsplit ("none", ",", -1);
 }
 
