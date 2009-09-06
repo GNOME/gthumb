@@ -184,6 +184,7 @@ gth_test_category_real_match (GthTest     *test,
 	if (test_category->priv->category != NULL) {
 		GthStringList *string_list;
 		GList         *list, *scan;
+		char          *test_category_casefolded;
 
 		string_list = (GthStringList *) g_file_info_get_attribute_object (file->info, "comment::categories");
 		if (string_list != NULL)
@@ -191,14 +192,18 @@ gth_test_category_real_match (GthTest     *test,
 		else
 			list = NULL;
 
-		for (scan = list; scan; scan = scan->next) {
-			char *category = scan->data;
+		test_category_casefolded = g_utf8_casefold (test_category->priv->category, -1);
+		for (scan = list; ! result && scan; scan = scan->next) {
+			char *category;
 
-			if (g_utf8_collate (category, test_category->priv->category) == 0) {
+			category = g_utf8_casefold (scan->data, -1);
+			if (g_utf8_collate (category, test_category_casefolded) == 0)
 				result = TRUE;
-				break;
-			}
+
+			g_free (category);
 		}
+
+		g_free (test_category_casefolded);
 	}
 
         if (test_category->priv->negative)
