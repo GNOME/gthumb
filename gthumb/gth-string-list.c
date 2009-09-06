@@ -165,6 +165,11 @@ gth_string_list_equal (GthStringList  *list1,
 	GList *keys2;
 	GList *scan;
 
+	if ((list1 == NULL) && (list2 == NULL))
+		return TRUE;
+	if ((list1 == NULL) || (list2 == NULL))
+		return FALSE;
+
 	keys1 = list1->priv->list;
 	keys2 = list2->priv->list;
 
