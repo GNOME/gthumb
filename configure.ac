@@ -22,6 +22,7 @@ AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 AM_PROG_LIBTOOL
 GNOME_DOC_INIT
 GNOME_COMPILE_WARNINGS([maximum])
+GNOME_MAINTAINER_MODE_DEFINES
 
 GLIB_REQUIRED=2.16.0
 GTK_REQUIRED=2.16.0
@@ -33,7 +34,7 @@ CLUTTER_GTK_REQUIRED=0.10.0
 dnl ===========================================================================
 
 AC_ARG_ENABLE(debug,
-	      AC_HELP_STRING([--enable-debug], [enable compilation of debugging messages]),
+	      AS_HELP_STRING([--enable-debug], [enable compilation of debugging messages]),
 	      [case "${enableval}" in
 	      yes) ENABLE_DEBUG=yes ;;
 	      no) ENABLE_DEBUG=no ;;
@@ -46,7 +47,7 @@ if test x$ENABLE_DEBUG = xyes; then
 fi
 
 AC_ARG_ENABLE(run_in_place,
-	      AC_HELP_STRING([--enable-run-in-place],[load ui data and extensions from the source tree]),
+	      AS_HELP_STRING([--enable-run-in-place],[load ui data and extensions from the source tree]),
 	      [case "${enableval}" in
 	      yes) enable_run_in_place=yes ;;
 	      no) enable_run_in_place=no ;;
@@ -60,7 +61,7 @@ if test x$enable_run_in_place = xyes; then
 fi
 
 AC_ARG_ENABLE(test-suite,
-	      AC_HELP_STRING([--enable-test-suite], [enable the compilation of the test suite]),
+	      AS_HELP_STRING([--enable-test-suite], [enable the compilation of the test suite]),
 	      [case "${enableval}" in
 	      yes) ENABLE_TEST_SUITE=yes ;;
 	      no) ENABLE_TEST_SUITE=no ;;
@@ -95,7 +96,7 @@ AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 dnl ===========================================================================
 
 AC_ARG_ENABLE([exiv2],
-	      [AC_HELP_STRING([--disable-exiv2],[do not compile code that uses the exiv2 library])],,
+	      [AS_HELP_STRING([--disable-exiv2],[do not compile code that uses the exiv2 library])],,
 	      [enable_exiv2=yes])
 
 if test x$enable_exiv2 = xyes ; then
@@ -111,7 +112,7 @@ AM_CONDITIONAL(ENABLE_EXIV2, test "x$enable_exiv2" = xyes)
 dnl ===========================================================================
 
 AC_ARG_ENABLE([clutter],
-	      [AC_HELP_STRING([--disable-clutter],[do not compile code that uses the clutter library])],,
+	      [AS_HELP_STRING([--disable-clutter],[do not compile code that uses the clutter library])],,
 	      [enable_clutter=yes])
 
 if test x$enable_clutter = xyes ; then
@@ -184,15 +185,10 @@ AC_SUBST(EXTENSION_LIBTOOL_FLAGS)
 
 dnl ===========================================================================
 
-AC_ARG_ENABLE(deprecations,AC_HELP_STRING([--enable-deprecations],[warn about de
-precated usages]))
+AC_ARG_ENABLE(deprecations,
+	      [AS_HELP_STRING([--enable-deprecations],[warn about deprecated usages])])
 if test "x$enable_deprecations" = "xyes"; then
-	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED \
-	-DGDK_DISABLE_DEPRECATED \
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED \
-	-DGNOME_VFS_DISABLE_DEPRECATED \
-	-DGNOME_DISABLE_DEPRECATED"
+	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
 fi
 AC_SUBST(DISABLE_DEPRECATED)
 
@@ -204,9 +200,7 @@ for option in $WARN_CFLAGS; do
 	SAVE_CFLAGS="$CFLAGS"
 	CFLAGS="$CFLAGS $option"
 	AC_MSG_CHECKING([whether gcc understands $option])
-	AC_TRY_COMPILE([], [],
-			has_option=yes,
-			has_option=no,)
+	AC_TRY_COMPILE([], [], [has_option=yes], [has_option=no])
 	if test x$has_option = xyes; then
 		WARNINGS="$WARNINGS $option"
 	fi
@@ -223,7 +217,7 @@ dnl ===========================================================================
 
 AC_MSG_CHECKING(JPEG Support)
 AC_ARG_ENABLE([jpeg],
-	      [AC_HELP_STRING([--disable-jpeg],[do not compile code that uses the libjpeg library])],,
+	      [AS_HELP_STRING([--disable-jpeg],[do not compile code that uses the libjpeg library])],,
 	      [enable_jpeg=yes])
 AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
              [enable_jpeg=yes],

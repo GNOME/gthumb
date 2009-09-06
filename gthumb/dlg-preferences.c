@@ -152,8 +152,8 @@ set_to_current_cb (GtkWidget  *widget,
 
 
 static void
-toolbar_style_changed_cb (GtkOptionMenu *option_menu,
-			  DialogData    *data)
+toolbar_style_changed_cb (GtkWidget  *widget,
+			  DialogData *data)
 {
 	eel_gconf_set_enum (PREF_UI_TOOLBAR_STYLE, GTH_TYPE_TOOLBAR_STYLE, gtk_combo_box_get_active (GTK_COMBO_BOX (data->toolbar_style_combobox)));
 }
@@ -168,8 +168,8 @@ ask_to_save_toggled_cb (GtkToggleButton *button,
 
 
 static void
-thumbnail_size_changed_cb (GtkOptionMenu *option_menu,
-			   DialogData    *data)
+thumbnail_size_changed_cb (GtkWidget  *widget,
+			   DialogData *data)
 {
 	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[gtk_combo_box_get_active (GTK_COMBO_BOX (data->thumbnail_size_combobox))]);
 }

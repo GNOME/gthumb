@@ -2799,7 +2799,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_back),
 			  browser);
-	gtk_action_connect_proxy (action, GTK_WIDGET (tool_item));
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
 	gtk_action_group_add_action (browser->priv->actions, action);
 
 	gtk_widget_show (GTK_WIDGET (tool_item));
@@ -2820,7 +2820,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_forward),
 			  browser);
-	gtk_action_connect_proxy (action, GTK_WIDGET (tool_item));
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
 	gtk_action_group_add_action (browser->priv->actions, action);
 
 	gtk_widget_show (GTK_WIDGET (tool_item));
@@ -2841,7 +2841,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 			  "activate",
 			  G_CALLBACK (gth_browser_activate_action_go_up),
 			  browser);
-	gtk_action_connect_proxy (action, GTK_WIDGET (tool_item));
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (tool_item), action);
 	gtk_action_group_add_action (browser->priv->actions, action);
 
 	gtk_widget_show (GTK_WIDGET (tool_item));

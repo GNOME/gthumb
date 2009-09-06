@@ -1341,7 +1341,7 @@ set_scroll_adjustments (GtkWidget     *widget,
 	if (viewer->hadj != hadj) {
 		viewer->hadj = hadj;
 		g_object_ref (viewer->hadj);
-		gtk_object_sink (GTK_OBJECT (viewer->hadj));
+		g_object_ref_sink (viewer->hadj);
 
 		g_signal_connect (G_OBJECT (viewer->hadj),
 				  "value_changed",
@@ -1352,7 +1352,7 @@ set_scroll_adjustments (GtkWidget     *widget,
 	if (viewer->vadj != vadj) {
 		viewer->vadj = vadj;
 		g_object_ref (viewer->vadj);
-		gtk_object_sink (GTK_OBJECT (viewer->vadj));
+		g_object_ref_sink (viewer->vadj);
 
 		g_signal_connect (G_OBJECT (viewer->vadj),
 				  "value_changed",
@@ -1827,9 +1827,9 @@ gth_image_viewer_instance_init (GthImageViewer *viewer)
 	viewer->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 1.0, 1.0, 1.0));
 
 	g_object_ref (viewer->hadj);
-	gtk_object_sink (GTK_OBJECT (viewer->hadj));
+	g_object_ref_sink (viewer->hadj);
 	g_object_ref (viewer->vadj);
-	gtk_object_sink (GTK_OBJECT (viewer->vadj));
+	g_object_ref_sink (viewer->vadj);
 
 	g_signal_connect (G_OBJECT (viewer->hadj),
 			  "value_changed",

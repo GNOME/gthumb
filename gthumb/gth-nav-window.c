@@ -290,29 +290,15 @@ nav_window_expose (GtkWidget      *widget,
 	if (nav_win->pixbuf == NULL)
 		return FALSE;
 
-	if (! gdk_pixbuf_get_has_alpha (nav_win->pixbuf))
-		gdk_pixbuf_render_to_drawable (
-		       nav_win->pixbuf,
-		       nav_win->preview->window,
-		       nav_win->preview->style->white_gc,
-		       0, 0,
-		       0, 0,
-		       nav_win->popup_width,
-		       nav_win->popup_height,
-		       GDK_RGB_DITHER_MAX,
-		       0, 0);
-	else
-		gdk_pixbuf_render_to_drawable_alpha (
-			nav_win->pixbuf,
-			nav_win->preview->window,
-			0, 0,
-			0, 0,
-			nav_win->popup_width,
-			nav_win->popup_height,
-			GDK_PIXBUF_ALPHA_BILEVEL,
-			112, /* FIXME */
-			GDK_RGB_DITHER_MAX,
-			0, 0);
+	gdk_draw_pixbuf (nav_win->preview->window,
+			 gdk_pixbuf_get_has_alpha (nav_win->pixbuf) ? NULL : nav_win->preview->style->white_gc,
+			 nav_win->pixbuf,
+			 0, 0,
+			 0, 0,
+			 nav_win->popup_width,
+			 nav_win->popup_height,
+			 GDK_RGB_DITHER_MAX,
+			 0, 0);
 
 	nav_window_draw_sqr (nav_win, FALSE,
 			     nav_win->sqr_x,
