@@ -82,7 +82,61 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 				   GthFileData         *file_data,
 				   const char          *attributes)
 {
-	/* FIXME */
+	void    *buffer = NULL;
+	gsize    size;
+	GError  *error = NULL;
+	GObject *metadata;
+
+	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))
+		return;
+
+	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	if (metadata != NULL) {
+		g_file_info_set_attribute_object (file_data->info, "Exif::Photo::UserComment", metadata);
+		g_file_info_set_attribute_object (file_data->info, "Xmp::dc::description", metadata);
+		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Headline", metadata);
+	}
+
+	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+	if (metadata != NULL) {
+		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Location", metadata);
+		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::LocationName", metadata);
+	}
+
+	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	if (metadata != NULL) {
+		GthMetadata *meta;
+		char        *raw;
+
+		meta = gth_metadata_new ();
+		raw = gth_file_data_get_attribute_as_string (file_data, "Embedded::Image::Keywords");
+		g_object_set (meta, "id", "Embedded::Image::Keywords", "raw", raw, NULL);
+
+		g_file_info_set_attribute_object (file_data->info, "Xmp::iptc::Keywords", G_OBJECT (meta));
+		g_file_info_set_attribute_object (file_data->info, "Iptc::Application2::Keywords", G_OBJECT (meta));
+
+		g_free (raw);
+		g_object_unref (meta);
+	}
+
+	if (exiv2_write_metadata_to_buffer (&buffer,
+					    &size,
+					    file_data->info,
+					    NULL,
+					    &error))
+	{
+		g_write_file (file_data->file,
+			      FALSE,
+			      G_FILE_CREATE_NONE,
+			      buffer,
+			      size,
+			      NULL,
+			      &error);
+	}
+
+	if (buffer != NULL)
+		g_free (buffer);
+	g_clear_error (&error);
 }
 
 
@@ -111,6 +165,7 @@ gth_metadata_provider_constructor (GType                  type,
 	self = GTH_METADATA_PROVIDER (obj);
 
 	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*", NULL);
+	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*", NULL);
 
 	return obj;
 }

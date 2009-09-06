@@ -160,6 +160,15 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("add-sidecars", 2);
 
 	/**
+	 * Called after a file metadata has been read.  Used to syncronize
+	 * embedded metadata with the .comment file.
+	 *
+	 * @file_data (GthFileData *): the file
+	 * @attributes (const char *): the attributes read for the file
+	 */
+	gth_hook_register ("read-metadata-ready", 2);
+
+	/**
 	 * Called when creating the preferences dialog to add other tabs to
 	 * the dialog.
 	 *

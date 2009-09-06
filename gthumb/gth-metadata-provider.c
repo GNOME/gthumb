@@ -354,6 +354,12 @@ read_metadata_thread (gpointer data)
 		g_object_unref (metadata_provider);
 	}
 
+	if (! cancelled)
+		for (scan = rmtd->files; scan; scan = scan->next) {
+			GthFileData *file_data = scan->data;
+			gth_hook_invoke ("read-metadata-ready", file_data, rmtd->attributes);
+		}
+
 	g_mutex_lock (rmtd->mutex);
 	rmtd->thread_done = TRUE;
 	g_mutex_unlock (rmtd->mutex);

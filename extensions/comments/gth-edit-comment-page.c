@@ -122,6 +122,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	GtkTextIter          start;
 	GtkTextIter          end;
 	char                *text;
+	GthMetadata         *metadata;
 	int                  i;
 	char               **tagv;
 	GList               *tags;
@@ -129,14 +130,41 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
+	/* comment */
+
 	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (GET_WIDGET ("note_text")));
 	gtk_text_buffer_get_bounds (buffer, &start, &end);
 	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::note", text);
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "id", "Embedded::Image::Comment",
+				 "raw", text,
+				 "formatted", text,
+				 NULL);
+	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Comment", G_OBJECT (metadata));
+	g_object_unref (metadata);
 	g_free (text);
 
-	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::place", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))));
-	g_file_info_set_attribute_string (self->priv->file_data->info, "comment::time", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)));
+	/* location */
+
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "id", "Embedded::Image::Location",
+				 "raw", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
+				 "formatted", gtk_entry_get_text (GTK_ENTRY (GET_WIDGET ("place_entry"))),
+				 NULL);
+	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Location", G_OBJECT (metadata));
+	g_object_unref (metadata);
+
+	/* date */
+
+	metadata = g_object_new (GTH_TYPE_METADATA,
+				 "id", "Embedded::Image::Date",
+				 "raw", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)),
+				 "formatted", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)),
+				 NULL);
+	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Date", G_OBJECT (metadata));
+	g_object_unref (metadata);
+
+	/* tags */
 
 	tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry));
 	tags = NULL;
@@ -144,7 +172,6 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 		tags = g_list_prepend (tags, tagv[i]);
 	tags = g_list_reverse (tags);
 	string_list = gth_string_list_new (tags);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "comment::categories", G_OBJECT (string_list));
 	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Keywords", G_OBJECT (string_list));
 
 	g_object_unref (string_list);

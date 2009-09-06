@@ -74,6 +74,99 @@ comments__add_sidecars_cb (GFile  *file,
 }
 
 
+void
+comments__read_metadata_ready_cb (GthFileData *file_data,
+				  const char  *attributes)
+{
+	if (_g_file_attributes_matches (attributes, "Embedded::Image::*")
+	    && _g_file_attributes_matches (attributes, "comment::*"))
+	{
+		gboolean       write_comment = FALSE;
+		GthMetadata   *metadata;
+		const char    *text;
+		GthComment    *comment;
+		GPtrArray     *keywords;
+		int            i;
+		GthStringList *categories;
+
+		comment = gth_comment_new ();
+		gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
+		gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
+		gth_comment_set_time_from_exif_format (comment, g_file_info_get_attribute_string (file_data->info, "comment::time"));
+		keywords = gth_comment_get_categories (comment);
+		for (i = 0; i < keywords->len; i++)
+			gth_comment_add_category (comment, g_ptr_array_index (keywords, i));
+
+		/* sync embedded data and .comment data if required */
+
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::note");
+			if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
+				gth_comment_set_note (comment, gth_metadata_get_raw (metadata));
+				write_comment = TRUE;
+			}
+		}
+
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::place");
+			if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
+				gth_comment_set_place (comment, gth_metadata_get_raw (metadata));
+				write_comment = TRUE;
+			}
+		}
+
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Date");
+		if (metadata != NULL) {
+			text = g_file_info_get_attribute_string (file_data->info, "comment::time");
+			if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
+				gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+				write_comment = TRUE;
+			}
+		}
+
+		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+		if (categories != NULL) {
+			GthStringList *comment_categories;
+
+			comment_categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
+			if (! gth_string_list_equal (categories, comment_categories)) {
+				GList *list;
+				GList *scan;
+
+				gth_comment_clear_categories (comment);
+				list = gth_string_list_get_list (categories);
+				for (scan = list; scan; scan = scan->next)
+					gth_comment_add_category (comment, scan->data);
+				write_comment = TRUE;
+			}
+		}
+
+		if (write_comment) {
+			GFile *comment_file;
+			char  *buffer;
+			gsize  size;
+
+			buffer = gth_comment_to_data (comment, &size);
+			comment_file = gth_comment_get_comment_file (file_data->file);
+			g_write_file (comment_file,
+				      FALSE,
+				      G_FILE_CREATE_NONE,
+				      buffer,
+				      size,
+				      NULL,
+				      NULL);
+
+			g_object_unref (comment_file);
+			g_free (buffer);
+		}
+
+		g_object_unref (comment);
+	}
+}
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
@@ -103,6 +196,7 @@ gthumb_extension_activate (void)
 				  "display-name", _("Tag"),
 				  NULL);
 	gth_hook_add_callback ("add-sidecars", 10, G_CALLBACK (comments__add_sidecars_cb), NULL);
+	gth_hook_add_callback ("read-metadata-ready", 10, G_CALLBACK (comments__read_metadata_ready_cb), NULL);
 }
 
 

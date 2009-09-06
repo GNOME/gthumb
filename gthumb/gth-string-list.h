@@ -55,6 +55,8 @@ GthStringList *   gth_string_list_new_from_ptr_array  (GPtrArray      *array);
 GList *           gth_string_list_get_list            (GthStringList  *list);
 char *            gth_string_list_join                (GthStringList  *list,
 						       const char     *separator);
+gboolean          gth_string_list_equal               (GthStringList  *list1,
+						       GthStringList  *list2);
 
 G_END_DECLS
 

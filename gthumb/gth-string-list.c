@@ -20,6 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <string.h>
 #include "glib-utils.h"
 #include "gth-string-list.h"
 
@@ -155,3 +156,24 @@ gth_string_list_join (GthStringList *list,
 	return g_string_free (str, FALSE);
 }
 
+
+gboolean
+gth_string_list_equal (GthStringList  *list1,
+		       GthStringList  *list2)
+{
+	GList *keys1;
+	GList *keys2;
+	GList *scan;
+
+	keys1 = list1->priv->list;
+	keys2 = list2->priv->list;
+
+	if (g_list_length (keys1) != g_list_length (keys2))
+		return FALSE;
+
+	for (scan = keys1; scan; scan = scan->next)
+		if (! g_list_find_custom (keys2, scan->data, (GCompareFunc) strcmp))
+			return FALSE;
+
+	return TRUE;
+}

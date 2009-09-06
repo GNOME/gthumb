@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <glib.h>
 #include <exiv2/basicio.hpp>
 #include <exiv2/error.hpp>
 #include <exiv2/image.hpp>
@@ -121,8 +122,8 @@ const char *_ORIENTATION_TAG_NAMES[] = {
 const char *_COMMENT_TAG_NAMES[] = {
 	"Exif::Photo::UserComment",
 	"Exif::Image::ImageDescription",
-	"Xmp::tiff::ImageDescription",
 	"Xmp::dc::description",
+	"Xmp::tiff::ImageDescription",
 	"Iptc::Application2::Caption",
 	"Iptc::Application2::Headline",
 	NULL
@@ -240,22 +241,42 @@ set_attribute_from_tagset (GFileInfo  *info,
 
 
 static void
+set_string_list_attribute_from_tagset (GFileInfo  *info,
+				       const char *attribute,
+				       const char *tagset[])
+{
+	GObject        *metadata;
+	int             i;
+	char           *raw;
+	char          **keywords;
+	GthStringList  *string_list;
+
+	metadata = NULL;
+	for (i = 0; tagset[i] != NULL; i++) {
+		metadata = g_file_info_get_attribute_object (info, tagset[i]);
+		if (metadata != NULL)
+			break;
+	}
+
+	if (metadata == NULL)
+		return;
+
+	g_object_get (metadata, "raw", &raw, NULL);
+	keywords = g_strsplit (raw, " ", -1);
+	string_list = gth_string_list_new_from_strv (keywords);
+	g_file_info_set_attribute_object (info, attribute, G_OBJECT (string_list));
+
+	g_strfreev (keywords);
+	g_free (raw);
+}
+
+static void
 set_attributes_from_tagsets (GFileInfo *info)
 {
-	/*set_attribute_from_tagset (info, "Exif::Photo::ExposureTime", _EXPOSURE_TIME_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::ExposureMode", _EXPOSURE_MODE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::ISOSpeedRatings", _ISOSPEED_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::ApertureValue", _APERTURE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::FocalLength", _FOCAL_LENGTH_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::ShutterSpeedValue", _SHUTTER_SPEED_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Image::Make", _MAKE_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Image::Model", _MODEL_TAG_NAMES);
-	set_attribute_from_tagset (info, "Exif::Photo::Flash", _FLASH_TAG_NAMES);*/
-
 	set_attribute_from_tagset (info, "Embedded::Image::DateTime", _DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Comment", _COMMENT_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Location", _LOCATION_TAG_NAMES);
-	set_attribute_from_tagset (info, "Embedded::Image::Keywords", _KEYWORDS_TAG_NAMES);
+	set_string_list_attribute_from_tagset (info, "Embedded::Image::Keywords", _KEYWORDS_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Orientation", _ORIENTATION_TAG_NAMES);
 }
 
@@ -515,8 +536,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		try {
 			ed[key] = gth_metadata_get_raw (metadatum);
 		}
-		catch (...) {
+		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */
+			g_warning ("%s", e.what());
 		}
 
 		g_free (key);
@@ -597,8 +619,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 		try {
 			id[key] = gth_metadata_get_raw (metadatum);
 		}
-		catch (...) {
+		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */
+			g_warning ("%s", e.what());
 		}
 
 		g_free (key);
@@ -621,10 +644,17 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			xd.erase (iter);
 
 		try {
-			ed[key] = gth_metadata_get_raw (metadatum);
+			/*if (strcmp (key, "Xmp.dc.description") == 0) {
+				Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::langAlt);
+				v->read(gth_metadata_get_raw (metadatum));
+				xd.add (Exiv2::XmpKey (key), v.get());
+			}
+			else FIXME */
+				xd[key] = gth_metadata_get_raw (metadatum);
 		}
-		catch (...) {
+		catch (Exiv2::AnyError& e) {
 			/* we don't care about invalid key errors */
+			g_warning ("%s", e.what());
 		}
 
 		g_free (key);

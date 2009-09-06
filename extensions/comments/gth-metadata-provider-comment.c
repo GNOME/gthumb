@@ -112,41 +112,69 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 				     GthFileData         *file_data,
 				     const char          *attributes)
 {
-	if (_g_file_attributes_matches (attributes, "comment::*")) {
-		GthComment    *comment;
-		char          *data;
-		gsize          length;
-		GthStringList *categories;
-		GFile         *comment_file;
-		GFile         *comment_folder;
+	GthComment    *comment;
+	GthMetadata   *metadata;
+	const char    *text;
+	char          *data;
+	gsize          length;
+	GthStringList *categories;
+	GFile         *comment_file;
+	GFile         *comment_folder;
 
-		comment = gth_comment_new ();
-		gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
-		gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
-		gth_comment_set_time_from_exif_format (comment, g_file_info_get_attribute_string (file_data->info, "comment::time"));
+	comment = gth_comment_new ();
 
+	/* comment */
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Comment");
+	if (metadata == NULL)
+		text = g_file_info_get_attribute_string (file_data->info, "comment::note");
+	else
+		text = gth_metadata_get_raw (metadata);
+	gth_comment_set_note (comment, text);
+
+	/* location */
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Location");
+	if (metadata == NULL)
+		text = g_file_info_get_attribute_string (file_data->info, "comment::place");
+	else
+		text = gth_metadata_get_raw (metadata);
+	gth_comment_set_place (comment, text);
+
+	/* time */
+
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Date");
+	if (metadata == NULL)
+		text = g_file_info_get_attribute_string (file_data->info, "comment::time");
+	else
+		text = gth_metadata_get_raw (metadata);
+	gth_comment_set_time_from_exif_format (comment, text);
+
+	/* keywords */
+
+	categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
+	if (categories == NULL)
 		categories = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "comment::categories");
-		if (categories != NULL) {
-			GList *list;
-			GList *scan;
+	if (categories != NULL) {
+		GList *list;
+		GList *scan;
 
-			list = gth_string_list_get_list (categories);
-			for (scan = list; scan; scan = scan->next)
-				gth_comment_add_category (comment, (char *) scan->data);
-		}
-
-		data = gth_comment_to_data (comment, &length);
-		comment_file = gth_comment_get_comment_file (file_data->file);
-		comment_folder = g_file_get_parent (comment_file);
-
-		g_file_make_directory (comment_folder, NULL, NULL);
-		g_write_file (comment_file, FALSE, 0, data, length, NULL, NULL);
-
-		g_object_unref (comment_folder);
-		g_object_unref (comment_file);
-		g_free (data);
-		g_object_unref (comment);
+		list = gth_string_list_get_list (categories);
+		for (scan = list; scan; scan = scan->next)
+			gth_comment_add_category (comment, (char *) scan->data);
 	}
+
+	data = gth_comment_to_data (comment, &length);
+	comment_file = gth_comment_get_comment_file (file_data->file);
+	comment_folder = g_file_get_parent (comment_file);
+
+	g_file_make_directory (comment_folder, NULL, NULL);
+	g_write_file (comment_file, FALSE, 0, data, length, NULL, NULL);
+
+	g_object_unref (comment_folder);
+	g_object_unref (comment_file);
+	g_free (data);
+	g_object_unref (comment);
 }
 
 
@@ -175,7 +203,7 @@ gth_metadata_provider_constructor (GType                  type,
 	self = GTH_METADATA_PROVIDER (obj);
 
 	g_object_set (self, "readable-attributes", "comment::*", NULL);
-	g_object_set (self, "writable-attributes", "comment::*", NULL);
+	g_object_set (self, "writable-attributes", "comment::*,Embedded::Image::*", NULL);
 
 	return obj;
 }
