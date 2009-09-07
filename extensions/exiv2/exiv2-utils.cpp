@@ -644,12 +644,9 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 			xd.erase (iter);
 
 		try {
-			/*if (strcmp (key, "Xmp.dc.description") == 0) {
-				Exiv2::Value::AutoPtr v = Exiv2::Value::create(Exiv2::langAlt);
-				v->read(gth_metadata_get_raw (metadatum));
-				xd.add (Exiv2::XmpKey (key), v.get());
-			}
-			else FIXME */
+			const char *value = gth_metadata_get_raw (metadatum);
+
+			if ((value != NULL) && strcmp (value, "") != 0)
 				xd[key] = gth_metadata_get_raw (metadatum);
 		}
 		catch (Exiv2::AnyError& e) {
