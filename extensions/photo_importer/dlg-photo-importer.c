@@ -48,6 +48,7 @@ typedef struct {
 	GtkListStore  *source_store;
 	GtkWidget     *source_list;
 	GtkWidget     *subfolder_type_list;
+	GtkWidget     *subfolder_format_list;
 	GtkWidget     *file_list;
 	GCancellable  *cancellable;
 	GList         *files;
@@ -63,15 +64,26 @@ typedef struct {
 } DialogData;
 
 
+static GthSubfolderType
+get_subfolder_type (DialogData *data)
+{
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("autosubfolder_checkbutton"))))
+		return GTH_SUBFOLDER_TYPE_NONE;
+	else
+		return gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list)) + 1;
+}
+
+
 static void
 destroy_dialog (gpointer user_data)
 {
-	DialogData       *data = user_data;
-	GFile            *destination;
-	gboolean          single_subfolder;
-	GthSubfolderType  subfolder_type;
-	gboolean          delete_imported;
-	gboolean          adjust_orientation;
+	DialogData         *data = user_data;
+	GFile              *destination;
+	gboolean            single_subfolder;
+	GthSubfolderType    subfolder_type;
+	GthSubfolderFormat  subfolder_format;
+	gboolean            delete_imported;
+	gboolean            adjust_orientation;
 
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
 
@@ -88,8 +100,11 @@ destroy_dialog (gpointer user_data)
 	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, single_subfolder);
 
-	subfolder_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list));
+	subfolder_type = get_subfolder_type (data);
 	eel_gconf_set_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, subfolder_type);
+
+	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_format_list));
+	eel_gconf_set_enum (PREF_PHOTO_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, subfolder_format);
 
 	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
@@ -110,6 +125,7 @@ destroy_dialog (gpointer user_data)
 					    files,
 					    destination,
 					    subfolder_type,
+					    subfolder_format,
 					    single_subfolder,
 					    tags,
 					    delete_imported,
@@ -512,29 +528,33 @@ create_example_file_data (void)
 static void
 update_destination (DialogData *data)
 {
-	GFile             *destination;
-	GthSubfolderType   subfolder_type;
-	gboolean           single_subfolder;
-	GthFileData       *example_data;
-	GFile             *destination_example;
-	char              *uri;
-	char              *example;
+	GFile              *destination;
+	GthSubfolderType    subfolder_type;
+	GthSubfolderFormat  subfolder_format;
+	gboolean            single_subfolder;
+	GthFileData        *example_data;
+	GFile              *destination_example;
+	char               *uri;
+	char               *example;
 
 	destination = gtk_file_chooser_get_current_folder_file (GTK_FILE_CHOOSER (GET_WIDGET ("destination_filechooserbutton")));
 	if (destination == NULL)
 		return;
 
-	subfolder_type = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_type_list));
+	subfolder_type = get_subfolder_type (data);
+	subfolder_format = gtk_combo_box_get_active (GTK_COMBO_BOX (data->subfolder_format_list));
 	single_subfolder = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")));
 
 	example_data = create_example_file_data ();
-	destination_example = gth_import_task_get_file_destination (example_data, destination, subfolder_type, single_subfolder);
+	destination_example = gth_import_task_get_file_destination (example_data, destination, subfolder_type, subfolder_format, single_subfolder);
 
 	uri = g_file_get_uri (destination_example);
 	example = g_strdup_printf (_("example: %s"), uri);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("example_label")), example);
 
 	gtk_widget_set_sensitive (GET_WIDGET ("single_subfolder_checkbutton"), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
+	gtk_widget_set_sensitive (data->subfolder_type_list, subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
+	gtk_widget_set_sensitive (data->subfolder_format_list, subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
 
 	g_free (example);
 	g_free (uri);
@@ -547,6 +567,14 @@ update_destination (DialogData *data)
 static void
 subfolder_type_list_changed_cb (GtkWidget  *widget,
 				DialogData *data)
+{
+	update_destination (data);
+}
+
+
+static void
+subfolder_format_list_changed_cb (GtkWidget  *widget,
+				  DialogData *data)
 {
 	update_destination (data);
 }
@@ -576,17 +604,26 @@ preferences_button_clicked_cb (GtkWidget  *widget,
 }
 
 
+static void
+autosubfolder_checkbutton_toggled_cb (GtkToggleButton *togglebutton,
+				      DialogData      *data)
+{
+	update_destination (data);
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser,
 		    GFile      *source)
 {
-	DialogData      *data;
-	GtkCellRenderer *renderer;
-	GthFileDataSort *sort_type;
-	GList           *tests, *scan;
-	char            *general_filter;
-	int              i, active_filter;
-	int              i_general;
+	DialogData       *data;
+	GtkCellRenderer  *renderer;
+	GthFileDataSort  *sort_type;
+	GList            *tests, *scan;
+	char             *general_filter;
+	int               i, active_filter;
+	int               i_general;
+	GthSubfolderType  subfolder_type;
 
 	if (gth_browser_get_dialog (browser, "photo_importer") != NULL) {
 		gtk_window_present (GTK_WINDOW (gth_browser_get_dialog (browser, "photo_importer")));
@@ -630,8 +667,7 @@ dlg_photo_importer (GthBrowser *browser,
 					"text", SOURCE_LIST_COLUMN_NAME,
 					NULL);
 
-	data->subfolder_type_list = _gtk_combo_box_new_with_texts (_("No subfolder"),
-								   _("File date"),
+	data->subfolder_type_list = _gtk_combo_box_new_with_texts (_("File date"),
 								   _("Current date"),
 								   NULL);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), 0);
@@ -651,6 +687,14 @@ dlg_photo_importer (GthBrowser *browser,
 	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("filelist_box")), data->file_list, TRUE, TRUE, 0);
 
 	/*gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("files_label")), data->file_list);*/
+
+	data->subfolder_format_list = _gtk_combo_box_new_with_texts (_("year-month-day"),
+								     _("year-month"),
+								     _("year"),
+								     NULL);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_format_list), 0);
+	gtk_widget_show (data->subfolder_format_list);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("subfolder_type_box")), data->subfolder_format_list, TRUE, TRUE, 0);
 
 	/**/
 
@@ -720,7 +764,11 @@ dlg_photo_importer (GthBrowser *browser,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, TRUE));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE));
+	subfolder_type = eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("autosubfolder_checkbutton")), subfolder_type != GTH_SUBFOLDER_TYPE_NONE);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_type_list), (subfolder_type == 0) ? 0 : subfolder_type - 1);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->subfolder_format_list), eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_FORMAT, GTH_TYPE_SUBFOLDER_FORMAT, GTH_SUBFOLDER_FORMAT_YYYYMMDD));
+
 	update_destination (data);
 
 	/* Set the signals handlers. */
@@ -765,6 +813,10 @@ dlg_photo_importer (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (subfolder_type_list_changed_cb),
 			  data);
+	g_signal_connect (data->subfolder_format_list,
+			  "changed",
+			  G_CALLBACK (subfolder_format_list_changed_cb),
+			  data);
 	g_signal_connect (GET_WIDGET ("destination_filechooserbutton"),
 			  "selection_changed",
 			  G_CALLBACK (destination_selection_changed_cb),
@@ -785,6 +837,10 @@ dlg_photo_importer (GthBrowser *browser,
 				  "clicked",
 				  G_CALLBACK (gtk_widget_hide_on_delete),
 				  GET_WIDGET ("preferences_dialog"));
+	g_signal_connect (GET_WIDGET ("autosubfolder_checkbutton"),
+			  "toggled",
+			  G_CALLBACK (autosubfolder_checkbutton_toggled_cb),
+			  data);
 
 	data->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
 						"entry_points_changed",

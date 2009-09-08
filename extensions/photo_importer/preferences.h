@@ -33,11 +33,21 @@ typedef enum {
 	GTH_SUBFOLDER_TYPE_CURRENT_DATE
 } GthSubfolderType;
 
+
+typedef enum {
+	GTH_SUBFOLDER_FORMAT_YYYYMMDD,
+	GTH_SUBFOLDER_FORMAT_YYYYMM,
+	GTH_SUBFOLDER_FORMAT_YYYY
+} GthSubfolderFormat;
+
+
 #define PREF_PHOTO_IMPORT_DESTINATION        "/apps/gthumb/ext/photo_importer/destination"
 #define PREF_PHOTO_IMPORT_SUBFOLDER_TYPE     "/apps/gthumb/ext/photo_importer/subfolder_type"
+#define PREF_PHOTO_IMPORT_SUBFOLDER_FORMAT   "/apps/gthumb/ext/photo_importer/subfolder_format"
 #define PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE   "/apps/gthumb/ext/photo_importer/subfolder_single"
 #define PREF_PHOTO_IMPORT_DELETE             "/apps/gthumb/ext/photo_importer/delete_from_camera"
 #define PREF_PHOTO_IMPORT_ADJUST_ORIENTATION "/apps/gthumb/ext/photo_importer/adjust_orientation"
+
 
 G_END_DECLS
 

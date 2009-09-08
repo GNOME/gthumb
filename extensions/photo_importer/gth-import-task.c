@@ -26,21 +26,22 @@
 
 
 struct _GthImportTaskPrivate {
-	GthBrowser        *browser;
-	GList             *files;
-	GFile             *destination;
-	GthSubfolderType   subfolder_type;
-	gboolean           single_subfolder;
-	char             **tags;
-	gboolean           delete_imported;
-	gboolean           adjust_orientation;
-	GCancellable      *cancellable;
+	GthBrowser         *browser;
+	GList              *files;
+	GFile              *destination;
+	GthSubfolderType    subfolder_type;
+	GthSubfolderFormat  subfolder_format;
+	gboolean            single_subfolder;
+	char              **tags;
+	gboolean            delete_imported;
+	gboolean            adjust_orientation;
+	GCancellable       *cancellable;
 
-	gsize              tot_size;
-	gsize              copied_size;
-	gsize              current_file_size;
-	GList             *current;
-	GthFileData       *destination_file;
+	gsize               tot_size;
+	gsize               copied_size;
+	gsize               current_file_size;
+	GList              *current;
+	GthFileData        *destination_file;
 };
 
 
@@ -214,6 +215,7 @@ file_info_ready_cb (GList    *files,
 	destination = gth_import_task_get_file_destination (file_data,
 							    self->priv->destination,
 							    self->priv->subfolder_type,
+							    self->priv->subfolder_format,
 							    self->priv->single_subfolder);
 	if (! g_file_make_directory_with_parents (destination, self->priv->cancellable, &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
@@ -345,14 +347,15 @@ gth_import_task_get_type (void)
 
 
 GthTask *
-gth_import_task_new (GthBrowser        *browser,
-		     GList             *files,
-		     GFile             *destination,
-		     GthSubfolderType   subfolder_type,
-		     gboolean           single_subfolder,
-		     char             **tags,
-		     gboolean           delete_imported,
-		     gboolean           adjust_orientation)
+gth_import_task_new (GthBrowser         *browser,
+		     GList              *files,
+		     GFile              *destination,
+		     GthSubfolderType    subfolder_type,
+		     GthSubfolderFormat  subfolder_format,
+		     gboolean            single_subfolder,
+		     char              **tags,
+		     gboolean            delete_imported,
+		     gboolean            adjust_orientation)
 {
 	GthImportTask *self;
 
@@ -361,6 +364,7 @@ gth_import_task_new (GthBrowser        *browser,
 	self->priv->files = _g_object_list_ref (files);
 	self->priv->destination = g_file_dup (destination);
 	self->priv->subfolder_type = subfolder_type;
+	self->priv->subfolder_format = subfolder_format;
 	self->priv->single_subfolder = single_subfolder;
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
@@ -371,10 +375,11 @@ gth_import_task_new (GthBrowser        *browser,
 
 
 GFile *
-gth_import_task_get_file_destination (GthFileData      *file_data,
-				      GFile            *destination,
-				      GthSubfolderType  subfolder_type,
-				      gboolean          single_subfolder)
+gth_import_task_get_file_destination (GthFileData        *file_data,
+				      GFile              *destination,
+				      GthSubfolderType    subfolder_type,
+				      GthSubfolderFormat  subfolder_format,
+				      gboolean            single_subfolder)
 {
 	GFile     *file_destination;
 	GTimeVal   timeval;
@@ -404,8 +409,11 @@ gth_import_task_get_file_destination (GthFileData      *file_data,
 
 		parts = g_new0 (char *, 4);
 		parts[0] = g_strdup_printf ("%04d", g_date_get_year (date));
-		parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
-		parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
+		if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYY) {
+			parts[1] = g_strdup_printf ("%02d", g_date_get_month (date));
+			if (subfolder_format != GTH_SUBFOLDER_FORMAT_YYYYMM)
+				parts[2] = g_strdup_printf ("%02d", g_date_get_day (date));
+		}
 		break;
 
 	case GTH_SUBFOLDER_TYPE_NONE:

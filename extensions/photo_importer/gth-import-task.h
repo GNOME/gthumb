@@ -50,18 +50,20 @@ struct _GthImportTaskClass {
 };
 
 GType       gth_import_task_get_type               (void);
-GthTask *   gth_import_task_new                    (GthBrowser        *browser,
-						    GList             *files, /* GthFileData list */
-						    GFile             *destination,
-						    GthSubfolderType   subfolder_type,
-						    gboolean           single_subfolder,
-						    char             **tags,
-						    gboolean           delete_imported,
-						    gboolean           adjust_orientation);
-GFile *     gth_import_task_get_file_destination   (GthFileData       *file_data,
-					            GFile             *destination,
-					            GthSubfolderType   subfolder_type,
-					            gboolean           single_subfolder);
+GthTask *   gth_import_task_new                    (GthBrowser         *browser,
+						    GList              *files, /* GthFileData list */
+						    GFile              *destination,
+						    GthSubfolderType    subfolder_type,
+						    GthSubfolderFormat  subfolder_format,
+						    gboolean            single_subfolder,
+						    char              **tags,
+						    gboolean            delete_imported,
+						    gboolean            adjust_orientation);
+GFile *     gth_import_task_get_file_destination   (GthFileData        *file_data,
+					            GFile              *destination,
+					            GthSubfolderType    subfolder_type,
+					            GthSubfolderFormat  subfolder_format,
+					            gboolean            single_subfolder);
 
 G_END_DECLS
 

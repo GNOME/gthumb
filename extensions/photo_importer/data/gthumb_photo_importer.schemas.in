@@ -28,6 +28,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/subfolder_format</key>
+	<applyto>/apps/gthumb/ext/photo_importer/subfolder_format</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>yyyymmdd</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are: yyyymmdd, yyyymm, yyyy
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
         <key>/schemas/apps/gthumb/ext/photo_importer/subfolder_single</key>
         <applyto>/apps/gthumb/ext/photo_importer/subfolder_single</applyto>
         <owner>gthumb</owner>
