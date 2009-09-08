@@ -85,7 +85,7 @@ go_to_cb (GtkWidget  *widget,
 		GFile *location;
 		
 		location = g_file_new_for_uri (uri);
-		gth_browser_go_to (data->browser, location);
+		gth_browser_go_to (data->browser, location, NULL);
 		
 		g_object_unref (location);
 		g_free (uri);
@@ -144,7 +144,7 @@ uri_list_row_activated_cb (GtkTreeView       *tree_view,
 		return;
 		
 	location = g_file_new_for_uri (uri);
-	gth_browser_go_to (data->browser, location);
+	gth_browser_go_to (data->browser, location, NULL);
 	
 	g_object_unref (location);
 	g_free (uri);

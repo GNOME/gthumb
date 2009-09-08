@@ -91,7 +91,7 @@ catalog_save_done_cb (void     *buffer,
 				    GTH_MONITOR_EVENT_CREATED);
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("view_destination_checkbutton"))))
-		gth_browser_go_to (data->browser, data->selected_catalog->file);
+		gth_browser_go_to (data->browser, data->selected_catalog->file, NULL);
 
 	gtk_widget_destroy (data->dialog);
 }

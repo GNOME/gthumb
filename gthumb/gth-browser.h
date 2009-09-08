@@ -72,7 +72,8 @@ GthFileData *    gth_browser_get_location_data      (GthBrowser       *browser);
 GthFileData *    gth_browser_get_current_file       (GthBrowser       *browser);
 gboolean         gth_browser_get_file_modified      (GthBrowser       *browser);
 void             gth_browser_go_to                  (GthBrowser       *browser,
-						     GFile            *location);
+						     GFile            *location,
+						     GFile            *scroll_to_file);
 void             gth_browser_go_back                (GthBrowser       *browser,
 						     int               steps);
 void             gth_browser_go_forward             (GthBrowser       *browser,

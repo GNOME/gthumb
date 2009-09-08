@@ -352,3 +352,28 @@ gth_browser_activate_action_catalog_rename (GtkAction  *action,
 
 	g_object_unref (file_data);
 }
+
+
+void
+gth_browser_activate_action_go_to_container (GtkAction  *action,
+					     GthBrowser *browser)
+{
+	GList *items;
+	GList *file_list = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	if (file_list != NULL) {
+		GthFileData *first_file = file_list->data;
+		GFile       *parent;
+
+		parent = g_file_get_parent (first_file->file);
+		gth_browser_go_to (browser, parent, first_file->file);
+
+		g_object_unref (parent);
+	}
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}

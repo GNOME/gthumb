@@ -153,6 +153,7 @@ static const char *fixed_ui_info =
 "    <menuitem name='Open' action='File_Open'/>"
 "    <menu name='OpenWith' action='OpenWithMenu'>"
 "    </menu>"
+"    <separator/>"
 "    <placeholder name='Open_Actions'/>"
 "    <separator/>"
 "    <placeholder name='File_Actions'/>"

@@ -130,7 +130,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 	GtkWidget *window;
 
 	window = gth_browser_new (NULL);
-	gth_browser_go_to (GTH_BROWSER (window), gth_browser_get_location (browser));
+	gth_browser_go_to (GTH_BROWSER (window), gth_browser_get_location (browser), NULL);
 	gtk_window_present (GTK_WINDOW (window));
 }
 

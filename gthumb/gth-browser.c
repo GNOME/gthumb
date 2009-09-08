@@ -291,7 +291,7 @@ activate_go_to_menu_item (GtkMenuItem *menuitem,
 	GFile      *location;
 
 	location = g_file_new_for_uri (g_object_get_data (G_OBJECT (menuitem), "uri"));
-	gth_browser_go_to (browser, location);
+	gth_browser_go_to (browser, location, NULL);
 
 	g_object_unref (location);
 }
@@ -873,6 +873,7 @@ typedef struct {
 	GthBrowser    *browser;
 	GthFileData   *requested_folder;
 	GFile         *requested_folder_parent;
+	GFile         *scroll_to_file;
 	GthAction      action;
 	gboolean       automatic;
 	GList         *list;
@@ -886,6 +887,7 @@ typedef struct {
 static LoadData *
 load_data_new (GthBrowser *browser,
 	       GFile      *location,
+	       GFile      *scroll_to_file,
 	       GthAction   action,
 	       gboolean    automatic,
 	       GFile      *entry_point)
@@ -897,6 +899,10 @@ load_data_new (GthBrowser *browser,
 	load_data->browser = browser;
 	load_data->requested_folder = gth_file_data_new (location, NULL);
 	load_data->requested_folder_parent = g_file_get_parent (load_data->requested_folder->file);
+	if (scroll_to_file != NULL)
+		load_data->scroll_to_file = g_file_dup (scroll_to_file);
+	else if (browser->priv->current_file != NULL)
+		load_data->scroll_to_file = g_file_dup (browser->priv->current_file->file);
 	load_data->action = action;
 	load_data->automatic = automatic;
 	load_data->cancellable = g_cancellable_new ();
@@ -934,6 +940,7 @@ load_data_free (LoadData *data)
 
 	g_object_unref (data->requested_folder);
 	_g_object_unref (data->requested_folder_parent);
+	_g_object_unref (data->scroll_to_file);
 	_g_object_unref (data->file_source);
 	_g_object_list_unref (data->list);
 	_g_object_unref (data->entry_point);
@@ -951,7 +958,7 @@ load_data_cancel (LoadData *data)
 }
 
 
-static void _gth_browser_load (GthBrowser *browser, GFile *location, GthAction action, gboolean automatic);
+static void _gth_browser_load (GthBrowser *browser, GFile *location, GFile *scroll_to_file, GthAction action, gboolean automatic);
 
 
 static void
@@ -1007,6 +1014,7 @@ load_data_done (LoadData *load_data,
 		if (parent != NULL) {
 			_gth_browser_load (load_data->browser,
 					   parent,
+					   NULL,
 					   load_data->action,
 					   TRUE);
 			g_object_unref (parent);
@@ -1402,6 +1410,18 @@ load_data_continue (LoadData *load_data,
 		break;
 	}
 
+	if (load_data->scroll_to_file != NULL) {
+		int pos;
+
+		pos = gth_file_store_get_pos (gth_browser_get_file_store (browser), load_data->scroll_to_file);
+		if (pos >= 0) {
+			GtkWidget *file_view;
+
+			file_view = gth_browser_get_file_list_view (browser);
+			gth_file_view_scroll_to (GTH_FILE_VIEW (file_view), pos, 0.5);
+			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
+		}
+	}
 	gth_browser_update_sensitivity (browser);
 	_gth_browser_update_statusbar_list_info (browser);
 
@@ -1540,6 +1560,7 @@ get_nearest_entry_point (GFile *file)
 static void
 _gth_browser_load (GthBrowser *browser,
 		   GFile      *location,
+		   GFile      *scroll_to_file,
 		   GthAction   action,
 		   gboolean    automatic)
 {
@@ -1565,7 +1586,7 @@ _gth_browser_load (GthBrowser *browser,
 	}
 
 	entry_point = get_nearest_entry_point (location);
-	load_data = load_data_new (browser, location, action, automatic, entry_point);
+	load_data = load_data_new (browser, location, scroll_to_file, action, automatic, entry_point);
 
 	if ((load_data->action == GTH_ACTION_GO_TO)
 	    || (load_data->action == GTH_ACTION_GO_INTO)
@@ -2133,7 +2154,7 @@ folder_tree_open_cb (GthFolderTree *folder_tree,
 		     GFile         *file,
 		     GthBrowser    *browser)
 {
-	gth_browser_go_to (browser, file);
+	gth_browser_go_to (browser, file, NULL);
 }
 
 
@@ -2150,7 +2171,7 @@ folder_tree_list_children_cb (GthFolderTree *folder_tree,
 			      GFile         *file,
 			      GthBrowser    *browser)
 {
-	_gth_browser_load (browser, file, GTH_ACTION_LIST_CHILDREN, FALSE);
+	_gth_browser_load (browser, file, NULL, GTH_ACTION_LIST_CHILDREN, FALSE);
 }
 
 
@@ -2159,7 +2180,7 @@ folder_tree_load_cb (GthFolderTree *folder_tree,
 		     GFile         *file,
 		     GthBrowser    *browser)
 {
-	_gth_browser_load (browser, file, GTH_ACTION_VIEW, FALSE);
+	_gth_browser_load (browser, file, NULL, GTH_ACTION_VIEW, FALSE);
 }
 
 
@@ -2249,7 +2270,7 @@ static void
 location_changed_cb (GthLocationChooser *chooser,
 		     GthBrowser         *browser)
 {
-	gth_browser_go_to (browser, gth_location_chooser_get_current (chooser));
+	gth_browser_go_to (browser, gth_location_chooser_get_current (chooser), NULL);
 }
 
 
@@ -2382,12 +2403,12 @@ folder_changed_cb (GthMonitor      *monitor,
 			return;
 
 	if ((event == GTH_MONITOR_EVENT_DELETED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
-		_gth_browser_load (browser, parent, GTH_ACTION_GO_TO, TRUE);
+		_gth_browser_load (browser, parent, NULL, GTH_ACTION_GO_TO, TRUE);
 		return;
 	}
 
 	if ((event == GTH_MONITOR_EVENT_CHANGED) && (_g_file_list_find_file_or_ancestor (list, browser->priv->location->file) != NULL)) {
-		_gth_browser_load (browser, browser->priv->location->file, GTH_ACTION_GO_TO, TRUE);
+		_gth_browser_load (browser, browser->priv->location->file, NULL, GTH_ACTION_GO_TO, TRUE);
 		return;
 	}
 
@@ -3454,7 +3475,7 @@ gth_browser_new (const char *uri)
 		GFile *location;
 
 		location = g_file_new_for_uri ((uri != NULL) ? uri : gth_pref_get_startup_location ());
-		gth_browser_go_to (browser, location);
+		gth_browser_go_to (browser, location, NULL);
 		g_object_unref (location);
 	}
 
@@ -3495,10 +3516,11 @@ gth_browser_get_file_modified (GthBrowser *browser)
 
 void
 gth_browser_go_to (GthBrowser *browser,
-		   GFile      *location)
+		   GFile      *location,
+		   GFile      *scroll_to_file)
 {
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-	_gth_browser_load (browser, location, GTH_ACTION_GO_TO, FALSE);
+	_gth_browser_load (browser, location, scroll_to_file, GTH_ACTION_GO_TO, FALSE);
 }
 
 
@@ -3516,7 +3538,7 @@ gth_browser_go_back (GthBrowser *browser,
 		return;
 
 	browser->priv->history_current = new_current;
-	_gth_browser_load (browser, (GFile*) browser->priv->history_current->data, GTH_ACTION_GO_BACK, FALSE);
+	_gth_browser_load (browser, (GFile*) browser->priv->history_current->data, NULL, GTH_ACTION_GO_BACK, FALSE);
 }
 
 
@@ -3534,7 +3556,7 @@ gth_browser_go_forward (GthBrowser *browser,
 		return;
 
 	browser->priv->history_current = new_current;
-	_gth_browser_load (browser, (GFile *) browser->priv->history_current->data, GTH_ACTION_GO_FORWARD, FALSE);
+	_gth_browser_load (browser, (GFile *) browser->priv->history_current->data, NULL, GTH_ACTION_GO_FORWARD, FALSE);
 }
 
 
@@ -3557,7 +3579,7 @@ gth_browser_go_up (GthBrowser *browser,
 	}
 
 	if (parent != NULL) {
-		gth_browser_go_to (browser, parent);
+		gth_browser_go_to (browser, parent, NULL);
 		g_object_unref (parent);
 	}
 }
@@ -3570,7 +3592,7 @@ gth_browser_go_home (GthBrowser *browser)
 
 	location = g_file_new_for_uri (gth_pref_get_startup_location ());
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-	gth_browser_go_to (browser, location);
+	gth_browser_go_to (browser, location, NULL);
 
 	g_object_unref (location);
 }
@@ -3710,7 +3732,7 @@ gth_browser_stop (GthBrowser *browser)
 void
 gth_browser_reload (GthBrowser *browser)
 {
-	gth_browser_go_to (browser, browser->priv->location->file);
+	gth_browser_go_to (browser, browser->priv->location->file, NULL);
 }
 
 
@@ -4092,7 +4114,7 @@ file_metadata_ready_cb (GList    *files,
 		GFile *parent;
 
 		parent = g_file_get_parent (browser->priv->current_file->file);
-		_gth_browser_load (browser, parent, GTH_ACTION_GO_TO, FALSE);
+		_gth_browser_load (browser, parent, browser->priv->current_file->file, GTH_ACTION_GO_TO, FALSE);
 		g_object_unref (parent);
 	}
 }
@@ -4418,7 +4440,7 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 		}
 		else if (g_file_info_get_file_type (file_data->info) == G_FILE_TYPE_DIRECTORY) {
 			gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
-			gth_browser_go_to (browser, file_data->file);
+			gth_browser_go_to (browser, file_data->file, NULL);
 		}
 		else {
 			GError *error;

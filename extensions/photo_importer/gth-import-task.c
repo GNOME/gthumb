@@ -249,7 +249,7 @@ import_current_file (GthImportTask *self)
 	GList       *list;
 
 	if (self->priv->current == NULL) {
-		gth_browser_go_to (self->priv->browser, self->priv->destination);
+		gth_browser_go_to (self->priv->browser, self->priv->destination, NULL);
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}

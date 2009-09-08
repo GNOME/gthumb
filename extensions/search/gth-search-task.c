@@ -323,7 +323,7 @@ clear_search_result_copy_done_cb (void     *buffer,
 							  "location-ready",
 							  G_CALLBACK (browser_location_ready_cb),
 							  task);
-	gth_browser_go_to (task->priv->browser, task->priv->search_catalog);
+	gth_browser_go_to (task->priv->browser, task->priv->search_catalog, NULL);
 }
 
 

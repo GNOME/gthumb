@@ -33,5 +33,6 @@ DEFINE_ACTION(gth_browser_activate_action_catalog_new)
 DEFINE_ACTION(gth_browser_activate_action_catalog_new_library)
 DEFINE_ACTION(gth_browser_activate_action_catalog_remove)
 DEFINE_ACTION(gth_browser_activate_action_catalog_rename)
+DEFINE_ACTION(gth_browser_activate_action_go_to_container)
 
 #endif /* ACTIONS_H */

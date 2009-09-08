@@ -50,6 +50,9 @@ static const char *fixed_ui_info =
 static const char *vfs_ui_info =
 "<ui>"
 "  <popup name='FileListPopup'>"
+"    <placeholder name='Open_Actions'>"
+"      <menuitem action='Go_FileContainer'/>"
+"    </placeholder>"
 "    <placeholder name='Folder_Actions2'>"
 "      <menuitem action='Edit_RemoveFromCatalog'/>"
 "    </placeholder>"
@@ -78,6 +81,12 @@ static const gchar *folder_popup_ui_info =
 
 
 static GtkActionEntry catalog_action_entries[] = {
+
+        { "Go_FileContainer", GTK_STOCK_JUMP_TO,
+          N_("Open _Folder"), "<alt>End",
+          N_("Go to the folder that contains the selected file"),
+          G_CALLBACK (gth_browser_activate_action_go_to_container) },
+
 	{ "Edit_AddToCatalog", GTK_STOCK_ADD,
 	  N_("_Add to Catalog..."), NULL,
 	  N_("Add selected images to a catalog"),
