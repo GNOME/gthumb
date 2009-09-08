@@ -548,7 +548,7 @@ update_destination (DialogData *data)
 	example_data = create_example_file_data ();
 	destination_example = gth_import_task_get_file_destination (example_data, destination, subfolder_type, subfolder_format, single_subfolder);
 
-	uri = g_file_get_uri (destination_example);
+	uri = g_file_get_parse_name (destination_example);
 	example = g_strdup_printf (_("example: %s"), uri);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("example_label")), example);
 
