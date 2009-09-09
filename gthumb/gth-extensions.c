@@ -870,7 +870,7 @@ gth_extension_manager_order_extensions (GthExtensionManager *manager,
 	GSList *scan;
 	GSList *ordered = NULL;
 
-	for (scan = extensions; scan;) {
+	for (scan = extensions; scan; /* void */) {
 		GSList                  *next = scan->next;
 		GSList                  *slink;
 		char                    *ext_name = scan->data;
@@ -879,8 +879,10 @@ gth_extension_manager_order_extensions (GthExtensionManager *manager,
 		GList                   *scan_d;
 
 		ext_description = g_hash_table_lookup (manager->priv->extensions, ext_name);
-		if (ext_description == NULL)
+		if (ext_description == NULL) {
+			scan = scan->next;
 			continue;
+		}
 
 		dependencies = get_extension_optional_dependencies (manager, ext_description);
 		for (scan_d = dependencies; scan_d; scan_d = scan_d->next) {

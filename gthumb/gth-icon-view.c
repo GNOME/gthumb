@@ -112,9 +112,17 @@ gth_icon_view_real_get_at_position (GthFileView *base,
 				    int          x,
 				    int          y)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return -1;
+	GtkTreePath *path;
+	int          pos;
+
+	path = gtk_icon_view_get_path_at_pos (GTK_ICON_VIEW (base), x, y);
+	if (path == NULL)
+		return -1;
+	pos = gtk_tree_path_get_indices (path)[0];
+
+	gtk_tree_path_free (path);
+
+	return pos;
 }
 
 
@@ -328,10 +336,16 @@ static gboolean
 gth_icon_view_real_is_selected (GthFileSelection *base,
 				int               pos)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
+	GtkTreePath *path;
+	gboolean     result;
 
-	return FALSE;
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, pos);
+	result = gtk_icon_view_path_is_selected (GTK_ICON_VIEW (base), path);
+
+	gtk_tree_path_free (path);
+
+	return result;
 }
 
 
