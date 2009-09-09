@@ -183,7 +183,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 const char *
 gth_edit_comment_page_real_get_name (GthEditMetadataPage *self)
 {
-	return _("Properties");
+	return _("General");
 }
 
 

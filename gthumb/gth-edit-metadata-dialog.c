@@ -145,7 +145,7 @@ gth_edit_metadata_dialog_set_file (GthEditMetadataDialog *dialog,
 	if (file == NULL)
 		return;
 
-	title = g_strdup_printf (_("%s Properties"), g_file_info_get_display_name (file->info));
+	title = g_strdup_printf (_("%s Metadata"), g_file_info_get_display_name (file->info));
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
 
 	pages = gtk_container_get_children (GTK_CONTAINER (dialog->priv->notebook));
