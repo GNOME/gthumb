@@ -37,15 +37,7 @@ G_BEGIN_DECLS
 typedef struct _GthFileView GthFileView;
 typedef struct _GthFileViewIface GthFileViewIface;
 
-typedef enum  { /*< skip >*/
-	GTH_VIEW_MODE_NONE,
-	GTH_VIEW_MODE_FILENAME,
-	GTH_VIEW_MODE_COMMENT,
-	GTH_VIEW_MODE_COMMENT_OR_FILENAME,
-	GTH_VIEW_MODE_COMMENT_AND_FILENAME
-} GthViewMode;
-
-typedef enum  { /*< skip >*/
+typedef enum  {
 	GTH_VISIBILITY_NONE,
 	GTH_VISIBILITY_FULL,
 	GTH_VISIBILITY_PARTIAL,
@@ -61,9 +53,6 @@ struct _GthFileViewIface {
 	void           (*set_model)          (GthFileView          *self,
 					      GtkTreeModel         *model);
 	GtkTreeModel * (*get_model)          (GthFileView          *self);
-	void           (*set_view_mode)      (GthFileView          *self,
-					      GthViewMode           mode);
-	GthViewMode    (*get_view_mode)      (GthFileView          *self);
 	void           (*scroll_to)          (GthFileView          *self,
 					      int                   pos,
 					      double                yalign);
@@ -102,9 +91,6 @@ GType          gth_file_view_get_type           (void);
 void           gth_file_view_set_model          (GthFileView          *self,
 					 	 GtkTreeModel         *model);
 GtkTreeModel * gth_file_view_get_model          (GthFileView          *self);
-void           gth_file_view_set_view_mode      (GthFileView          *self,
-						 GthViewMode           mode);
-GthViewMode    gth_file_view_get_view_mode      (GthFileView          *self);
 void           gth_file_view_scroll_to          (GthFileView          *self,
 						 int                   pos,
 						 double                yalign);

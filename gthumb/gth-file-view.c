@@ -39,21 +39,6 @@ gth_file_view_get_model (GthFileView *self)
 
 
 void
-gth_file_view_set_view_mode (GthFileView *self,
-			     GthViewMode  mode)
-{
-	GTH_FILE_VIEW_GET_INTERFACE (self)->set_view_mode (self, mode);
-}
-
-
-GthViewMode
-gth_file_view_get_view_mode (GthFileView *self)
-{
-	return GTH_FILE_VIEW_GET_INTERFACE (self)->get_view_mode (self);
-}
-
-
-void
 gth_file_view_scroll_to (GthFileView *self,
 			 int          pos,
 			 double       yalign)

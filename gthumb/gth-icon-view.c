@@ -50,24 +50,6 @@ gth_icon_view_real_get_model (GthFileView *self)
 
 
 static void
-gth_icon_view_real_set_view_mode (GthFileView *base,
-				  GthViewMode  mode)
-{
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-}
-
-
-static GthViewMode
-gth_icon_view_real_get_view_mode (GthFileView *base)
-{
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return GTH_VIEW_MODE_NONE;
-}
-
-
-static void
 gth_icon_view_real_scroll_to (GthFileView *base,
 			      int          pos,
 			      double       yalign)
@@ -463,8 +445,6 @@ gth_icon_view_gth_file_view_interface_init (GthFileViewIface *iface)
 	gth_icon_view_gth_file_view_parent_iface = g_type_interface_peek_parent (iface);
 	iface->set_model = gth_icon_view_real_set_model;
 	iface->get_model = gth_icon_view_real_get_model;
-	iface->set_view_mode = gth_icon_view_real_set_view_mode;
-	iface->get_view_mode = gth_icon_view_real_get_view_mode;
 	iface->scroll_to = gth_icon_view_real_scroll_to;
 	iface->get_visibility = gth_icon_view_real_get_visibility;
 	iface->get_at_position = gth_icon_view_real_get_at_position;
