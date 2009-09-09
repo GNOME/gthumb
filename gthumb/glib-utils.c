@@ -173,6 +173,7 @@ idle_call_exec (IdleCall *call,
 					(GDestroyNotify) idle_call_free);
 	else {
 		(*call->func) (call->data);
+		idle_call_free (call);
 		return 0;
 	}
 }
@@ -683,6 +684,8 @@ _g_replace (const char *str,
 		if ((to_str != NULL) && (tokens[i+1] != NULL))
 			gstr = g_string_append (gstr, to_str);
 	}
+
+	g_strfreev (tokens);
 
 	return g_string_free (gstr, FALSE);
 }

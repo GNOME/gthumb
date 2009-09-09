@@ -274,7 +274,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 	GdkRectangle              draw_rect;
 	GdkRectangle              image_rect;
 	cairo_t                  *cr;
-	cairo_path_t             *cr_path;
 	GdkPixbuf                *pixbuf;
 	GdkPixbuf                *colorized = NULL;
 	int                       B;
@@ -333,7 +332,6 @@ gth_cell_renderer_thumbnail_render (GtkCellRenderer      *cell,
 		cairo_rel_line_to (cr, - (thumb_rect.width - (R * 2)), 0);
 		cairo_arc (cr, thumb_rect.x + R, thumb_rect.y + thumb_rect.height - R, R, 0.5 * M_PI, 1.0 * M_PI);
 		cairo_close_path (cr);
-		cr_path = cairo_copy_path (cr);
 		cairo_fill (cr);
 	}
 
