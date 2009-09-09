@@ -53,7 +53,12 @@ gth_pref_initialize (void)
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE) ||
 	    eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, FALSE))
 	{
-		gth_pref_set_startup_location (eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL));
+		char *startup_location;
+
+		startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
+		gth_pref_set_startup_location (startup_location);
+
+		g_free (startup_location);
 	}
 	else {
 		char *current_dir;

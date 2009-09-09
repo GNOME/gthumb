@@ -680,9 +680,9 @@ _g_replace (const char *str,
 
 	gstr = g_string_new (NULL);
 	for (i = 0; tokens[i] != NULL; i++) {
-		gstr = g_string_append (gstr, tokens[i]);
+		g_string_append (gstr, tokens[i]);
 		if ((to_str != NULL) && (tokens[i+1] != NULL))
-			gstr = g_string_append (gstr, to_str);
+			g_string_append (gstr, to_str);
 	}
 
 	g_strfreev (tokens);
@@ -2033,6 +2033,7 @@ _g_file_attributes_matches_mask (const char *attributes,
 	}
 
 	g_strfreev (mask_v);
+	g_strfreev (attributes_v);
 
 	return matches;
 }
