@@ -54,11 +54,10 @@ gth_icon_view_real_scroll_to (GthFileView *base,
 			      int          pos,
 			      double       yalign)
 {
-	GthIconView *self = GTH_ICON_VIEW (base);
 	GtkTreePath *path;
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
-	gtk_icon_view_scroll_to_path (GTK_ICON_VIEW (self),
+	gtk_icon_view_scroll_to_path (GTK_ICON_VIEW (base),
 				      path,
 				      TRUE,
 				      0.5,
@@ -72,11 +71,10 @@ static GthVisibility
 gth_icon_view_real_get_visibility (GthFileView *base,
 				   int          pos)
 {
-	GthIconView *self = GTH_ICON_VIEW (base);
 	GtkTreePath *start_path, *end_path;
 	int          start_pos, end_pos;
 
-	if (! gtk_icon_view_get_visible_range (GTK_ICON_VIEW (self), &start_path, &end_path))
+	if (! gtk_icon_view_get_visible_range (GTK_ICON_VIEW (base), &start_path, &end_path))
 		return -1;
 
 	start_pos = gtk_tree_path_get_indices (start_path)[0];
@@ -156,10 +154,8 @@ static void
 gth_icon_view_real_set_cursor (GthFileView *base,
 			       int          pos)
 {
-	GthIconView *self;
 	GtkTreePath *path;
 
-	self = GTH_ICON_VIEW (base);
 	g_return_if_fail (pos >= 0);
 
 	path = gtk_tree_path_new_from_indices (pos, -1);
@@ -172,9 +168,16 @@ gth_icon_view_real_set_cursor (GthFileView *base,
 static int
 gth_icon_view_real_get_cursor (GthFileView *base)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return -1;
+	GtkTreePath *path;
+	int          pos;
+
+	if (! gtk_icon_view_get_cursor (GTK_ICON_VIEW (base), &path, NULL))
+		return -1;
+	pos = gtk_tree_path_get_indices (path)[0];
+
+	gtk_tree_path_free (path);
+
+	return pos;
 }
 
 
@@ -334,18 +337,42 @@ gth_icon_view_real_is_selected (GthFileSelection *base,
 static GtkTreePath *
 gth_icon_view_real_get_first_selected (GthFileSelection *base)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return NULL;
+	GList       *list;
+	GtkTreePath *path;
+
+	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (base));
+	if (list != NULL) {
+		list = g_list_sort (list, (GCompareFunc) gtk_tree_path_compare);
+		path = gtk_tree_path_copy ((GtkTreePath *) g_list_first (list)->data);
+	}
+	else
+		path = NULL;
+
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
+
+	return path;
 }
 
 
 static GtkTreePath *
 gth_icon_view_real_get_last_selected (GthFileSelection *base)
 {
-	GthIconView * self;
-	self = GTH_ICON_VIEW (base);
-	return NULL;
+	GList       *list;
+	GtkTreePath *path;
+
+	list = gtk_icon_view_get_selected_items (GTK_ICON_VIEW (base));
+	if (list != NULL) {
+		list = g_list_sort (list, (GCompareFunc) gtk_tree_path_compare);
+		path = gtk_tree_path_copy ((GtkTreePath *) g_list_last (list)->data);
+	}
+	else
+		path = NULL;
+
+	g_list_foreach (list, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (list);
+
+	return path;
 }
 
 
