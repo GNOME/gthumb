@@ -52,7 +52,7 @@ G_BEGIN_DECLS
 	a)
 #define GFILE_STANDARD_ATTRIBUTES (DEFINE_STANDARD_ATTRIBUTES(""))
 #define GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type"))
-#define GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::content-type"))
+#define GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE (DEFINE_STANDARD_ATTRIBUTES(",standard::fast-content-type,standard::content-type"))
 
 #define GNOME_COPIED_FILES (gdk_atom_intern_static_string ("x-special/gnome-copied-files"))
 #define IROUND(x) ((int)floor(((double)x) + 0.5))
