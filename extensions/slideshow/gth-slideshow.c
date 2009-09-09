@@ -57,6 +57,21 @@ static gpointer parent_class = NULL;
 
 
 static void
+_gth_slideshow_close (GthSlideshow *self)
+{
+	gboolean    close_browser;
+	GthBrowser *browser;
+
+	browser = self->priv->browser;
+	close_browser = ! GTK_WIDGET_VISIBLE (browser);
+	gtk_widget_destroy (GTK_WIDGET (self));
+
+	if (close_browser)
+		gth_window_close (GTH_WINDOW (browser));
+}
+
+
+static void
 _gth_slideshow_load_current_image (GthSlideshow *self)
 {
 	if (self->priv->next_event != 0) {
@@ -66,7 +81,7 @@ _gth_slideshow_load_current_image (GthSlideshow *self)
 
 	if (self->priv->current == NULL) {
 		if (! self->priv->one_loaded || ! self->priv->loop) {
-			gtk_widget_destroy (GTK_WIDGET (self));
+			_gth_slideshow_close (self);
 			return;
 		}
 
@@ -441,7 +456,7 @@ stage_input_cb (ClutterStage *stage,
 	else if (event->type == CLUTTER_KEY_RELEASE) {
 		switch (clutter_event_get_key_symbol (event)) {
 		case CLUTTER_Escape:
-			gtk_widget_destroy (GTK_WIDGET (self));
+			_gth_slideshow_close (self);
 			break;
 
 		case CLUTTER_space:

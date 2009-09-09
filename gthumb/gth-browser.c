@@ -55,6 +55,7 @@
 #include "gth-window-actions-callbacks.h"
 #include "gth-window-actions-entries.h"
 #include "gthumb-error.h"
+#include "main.h"
 
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
 #define GO_BACK_HISTORY_POPUP "/GoBackHistoryPopup"
@@ -1428,6 +1429,16 @@ load_data_continue (LoadData *load_data,
 	gth_file_source_monitor_directory (browser->priv->location_source,
 					   browser->priv->location->file,
 					   TRUE);
+
+	if (StartSlideshow) {
+		StartSlideshow = FALSE;
+		gth_hook_invoke ("slideshow", browser);
+	}
+
+	if (StartInFullscreen) {
+		StartInFullscreen = FALSE;
+		gth_browser_fullscreen (browser);
+	}
 
 	if (path != NULL)
 		gtk_tree_path_free (path);
@@ -2887,9 +2898,6 @@ _gth_browser_construct_step2 (gpointer data)
 
 	_gth_browser_update_bookmark_list (browser);
 	_gth_browser_monitor_entry_points (browser);
-
-	/* force an update to load the correct icons */
-	/*gth_monitor_file_entry_points_changed (gth_main_get_default_monitor ()); FIXME: not required anymore ? */
 }
 
 

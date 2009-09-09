@@ -195,4 +195,13 @@ gth_main_register_default_hooks (void)
 	 * @file (GFile *): import from this location
 	 **/
 	gth_hook_register ("import-photos", 2);
+
+
+	/**
+	 * Called at start up time if the --slideshow argument is
+	 * specified.
+	 *
+	 * @browser (GthBrowser*): the main window.
+	 **/
+	gth_hook_register ("slideshow", 1);
 }

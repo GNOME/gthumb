@@ -40,7 +40,9 @@
 
 enum {
 	COMMAND_UNUSED,
-	COMMAND_IMPORT_PHOTOS
+	COMMAND_FULLSCREEN,
+	COMMAND_IMPORT_PHOTOS,
+	COMMAND_SLIDESHOW
 };
 
 
@@ -216,6 +218,12 @@ unique_app_message_received_cb (UniqueApp         *unique_app,
 		g_free (uri);
 		break;
 
+	case COMMAND_SLIDESHOW:
+		window = gth_window_get_current_window ();
+		if (window == NULL)
+			window = gth_browser_new (NULL);
+		gth_hook_invoke ("slideshow", window, NULL);
+
 	default:
 		res = UNIQUE_RESPONSE_PASSTHROUGH;
 		break;
@@ -244,7 +252,8 @@ open_browser_window (GFile *location)
 		GtkWidget *window;
 
 		window = gth_browser_new (NULL);
-		gtk_widget_show (window);
+		if (! StartSlideshow)
+			gtk_window_present (GTK_WINDOW (window));
 		gth_browser_load_location (GTH_BROWSER (window), location);
 	}
 }

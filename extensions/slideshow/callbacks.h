@@ -27,5 +27,6 @@
 
 void ss__gth_browser_construct_cb          (GthBrowser *browser);
 void ss__gth_browser_update_sensitivity_cb (GthBrowser *browser);
+void ss__slideshow_cb                      (GthBrowser *browser);
 
 #endif /* CALLBACKS_H */

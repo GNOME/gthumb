@@ -118,3 +118,10 @@ ss__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 	sensitive = (gth_file_store_n_visibles (GTH_FILE_STORE (file_store)) > 0);
 	set_action_sensitive (data, "View_Slideshow", sensitive);
 }
+
+
+void
+ss__slideshow_cb (GthBrowser *browser)
+{
+	gth_browser_activate_action_view_slideshow (NULL, browser);
+}

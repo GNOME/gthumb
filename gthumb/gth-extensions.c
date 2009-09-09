@@ -595,7 +595,8 @@ gth_extension_manager_finalize (GObject *obj)
 
 	self = GTH_EXTENSION_MANAGER (obj);
 
-	g_hash_table_destroy (self->priv->extensions);
+	if (self->priv->extensions != NULL)
+		g_hash_table_destroy (self->priv->extensions);
 
 	G_OBJECT_CLASS (gth_extension_manager_parent_class)->finalize (obj);
 }
