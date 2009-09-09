@@ -7,6 +7,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_SRCDIR([configure.ac])
 
 AM_INIT_AUTOMAKE([1.9 foreign])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -178,7 +179,7 @@ AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
 if test "$platform_win32" = "yes" ; then
 	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version -no-undefined -Wl,$(top_builddir)/src/.libs/gthumb.exe.a'
 else
-	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version'
+	EXTENSION_LIBTOOL_FLAGS='-module -avoid-version -disable-static'
 fi
 AC_SUBST(EXTENSION_LIBTOOL_FLAGS)
 
