@@ -340,11 +340,21 @@ GthComment *
 gth_comment_dup (GthComment *self)
 {
 	GthComment *comment;
+	char       *time;
+	int         i;
 
 	if (self == NULL)
 		return NULL;
 
-	/* FIXME */	
+	comment = gth_comment_new ();
+	gth_comment_set_note (comment, gth_comment_get_note (self));
+	gth_comment_set_place (comment, gth_comment_get_place (self));
+	time = gth_comment_get_time_as_exif_format (self);
+	gth_comment_set_time_from_exif_format (comment, time);
+	for (i = 0; i < self->priv->categories->len; i++)
+		gth_comment_add_category (comment, g_ptr_array_index (self->priv->categories, i));
+
+	g_free (time);
 
 	return comment;
 }
