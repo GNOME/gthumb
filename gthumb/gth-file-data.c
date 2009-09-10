@@ -220,6 +220,12 @@ gth_file_data_get_mime_type (GthFileData *self)
 	content_type = g_file_info_get_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
 	if (content_type == NULL)
 		content_type = g_file_info_get_attribute_string (self->info, G_FILE_ATTRIBUTE_STANDARD_FAST_CONTENT_TYPE);
+	if (content_type == NULL) {
+		char *filename = g_file_get_basename (self->file);
+
+		content_type = g_content_type_guess (filename, NULL, 0, NULL);
+		g_free (filename);
+	}
 
 	return get_static_string (content_type);
 }
