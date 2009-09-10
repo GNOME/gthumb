@@ -91,10 +91,10 @@ get_tag_limits (GthTagsEntry  *self,
 	cursor_start = g_utf8_offset_to_pointer (text, gtk_editable_get_position (GTK_EDITABLE (self)));
 
 	if (g_utf8_get_char (cursor_start) == ',') {
-		if (cursor_start != tag_end)
+		if (cursor_start != text + strlen (text))
 			tag_start = g_utf8_next_char (cursor_start);
 		else
-			tag_start = tag_end;
+			tag_start = text + strlen (text);
 	}
 	else {
 		tag_start = g_utf8_strrchr (text, (gssize)(cursor_start - text), ',');
