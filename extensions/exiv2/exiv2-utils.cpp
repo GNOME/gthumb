@@ -262,13 +262,14 @@ set_string_list_attribute_from_tagset (GFileInfo  *info,
 		return;
 
 	g_object_get (metadata, "raw", &raw, NULL);
-	keywords = g_strsplit (raw, " ", -1);
+	keywords = g_strsplit (raw, ", ", -1);
 	string_list = gth_string_list_new_from_strv (keywords);
 	g_file_info_set_attribute_object (info, attribute, G_OBJECT (string_list));
 
 	g_strfreev (keywords);
 	g_free (raw);
 }
+
 
 static void
 set_attributes_from_tagsets (GFileInfo *info)
