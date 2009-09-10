@@ -4225,10 +4225,12 @@ _gth_browser_load_file (GthBrowser  *browser,
 		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
 		gtk_widget_show (browser->priv->file_properties);
 
-		path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
-		if (path != NULL) {
-			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);
-			gtk_tree_path_free (path);
+		if (browser->priv->location != NULL) {
+			path = gth_folder_tree_get_path (GTH_FOLDER_TREE (browser->priv->folder_tree), browser->priv->location->file);
+			if (path != NULL) {
+				gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (browser->priv->folder_tree), path, NULL, TRUE, .25, .0);
+				gtk_tree_path_free (path);
+			}
 		}
 	}
 
