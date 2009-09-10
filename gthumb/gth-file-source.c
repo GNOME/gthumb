@@ -922,7 +922,7 @@ gth_file_source_read_attributes (GthFileSource  *file_source,
 	GList                *gio_files;
 
 	if (gth_file_source_is_active (file_source)) {
-		gth_file_source_queue_read_attributes (file_source, files, attributes, func, data);
+		gth_file_source_queue_read_attributes (file_source, files, attributes, func, user_data);
 		return;
 	}
 
