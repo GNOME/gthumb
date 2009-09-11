@@ -44,6 +44,7 @@ gboolean  exiv2_write_metadata_to_buffer   (void           **buffer,
 					    GFileInfo       *info,
 					    GdkPixbuf       *pixbuf, /* optional */
 					    GError         **error);
+gboolean  exiv2_supports_writes            (GthFileData     *file_data);
 
 G_END_DECLS
 

@@ -669,22 +669,33 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 extern "C"
 gboolean
+exiv2_supports_writes (GthFileData *file_data)
+{
+	return (g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/jpeg") ||
+		g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/png"));
+}
+
+
+extern "C"
+gboolean
 exiv2_write_metadata (SavePixbufData *data)
 {
-	try {
-		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
-		g_assert (image.get() != 0);
+	if (exiv2_supports_writes (data->file_data)) {
+		try {
+			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
+			g_assert (image.get() != 0);
 
-		Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->pixbuf);
+			Exiv2::DataBuf buf = exiv2_write_metadata_private (image, data->file_data->info, data->pixbuf);
 
-		g_free (data->buffer);
-		data->buffer = g_memdup (buf.pData_, buf.size_);
-		data->buffer_size = buf.size_;
-	}
-	catch (Exiv2::AnyError& e) {
-		if (data->error != NULL)
-			*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
-		return FALSE;
+			g_free (data->buffer);
+			data->buffer = g_memdup (buf.pData_, buf.size_);
+			data->buffer_size = buf.size_;
+		}
+		catch (Exiv2::AnyError& e) {
+			if (data->error != NULL)
+				*data->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, e.what());
+			return FALSE;
+		}
 	}
 
 	return TRUE;

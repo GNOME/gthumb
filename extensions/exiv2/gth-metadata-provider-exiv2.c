@@ -87,11 +87,8 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 	GError  *error = NULL;
 	GObject *metadata;
 
-	if (! g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/jpeg")
-	    && ! g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/png"))
-	{
+	if (! exiv2_supports_writes (file_data))
 		return;
-	}
 
 	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))
 		return;
