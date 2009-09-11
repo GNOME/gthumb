@@ -60,7 +60,7 @@ struct _GthImageHistoryClass {
 
 GthImageData *    gth_image_data_new           (GdkPixbuf       *image,
 						gboolean         unsaved);
-void              gth_image_data_ref           (GthImageData    *idata);
+GthImageData *    gth_image_data_ref           (GthImageData    *idata);
 void              gth_image_data_unref         (GthImageData    *idata);
 void              gth_image_data_list_free     (GList           *list);
 
@@ -78,6 +78,7 @@ GthImageData *    gth_image_history_redo       (GthImageHistory *history,
 void              gth_image_history_clear      (GthImageHistory *history);
 gboolean          gth_image_history_can_undo   (GthImageHistory *history);
 gboolean          gth_image_history_can_redo   (GthImageHistory *history);
+GthImageData *    gth_image_history_revert     (GthImageHistory *history);
 
 G_END_DECLS
 

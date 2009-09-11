@@ -131,10 +131,18 @@ gth_viewer_page_save (GthViewerPage *self,
 	GTH_VIEWER_PAGE_GET_INTERFACE (self)->save (self, file, func, data);
 }
 
+
 void
 gth_viewer_page_save_as (GthViewerPage  *self,
 			 FileSavedFunc   func,
 			 gpointer        data)
 {
 	GTH_VIEWER_PAGE_GET_INTERFACE (self)->save_as (self, func, data);
+}
+
+
+void
+gth_viewer_page_revert (GthViewerPage *self)
+{
+	GTH_VIEWER_PAGE_GET_INTERFACE (self)->revert (self);
 }

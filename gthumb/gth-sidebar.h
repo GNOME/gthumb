@@ -70,6 +70,7 @@ void           gth_sidebar_set_file            (GthSidebar      *sidebar,
 						GthFileData     *file_data);
 void           gth_sidebar_show_properties     (GthSidebar      *sidebar);
 void           gth_sidebar_show_tools          (GthSidebar      *sidebar);
+gboolean       gth_sidebar_is_tool_active      (GthSidebar      *sidebar);
 void           gth_sidebar_update_sensitivity  (GthSidebar      *sidebar);
 
 GType          gth_property_view_get_type      (void);

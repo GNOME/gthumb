@@ -67,6 +67,7 @@ struct _GthViewerPageIface {
 	void      (*save_as)             (GthViewerPage *self,
 					  FileSavedFunc  func,
 					  gpointer       data);
+	void      (*revert)              (GthViewerPage *self);
 };
 
 GType        gth_viewer_page_get_type            (void);
@@ -92,6 +93,7 @@ void         gth_viewer_page_save                (GthViewerPage  *self,
 void         gth_viewer_page_save_as             (GthViewerPage  *self,
 						  FileSavedFunc   func,
 						  gpointer        data);
+void         gth_viewer_page_revert              (GthViewerPage  *self);
 
 G_END_DECLS
 

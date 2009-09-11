@@ -1985,9 +1985,12 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 }
 
 
+/* --- _gth_browser_set_current_page --- */
+
+
 static void
-_gth_browser_set_current_page (GthWindow *window,
-			       int        page)
+_gth_browser_real_set_current_page (GthWindow *window,
+				    int        page)
 {
 	GthBrowser *browser = (GthBrowser *) window;
 
@@ -1999,6 +2002,35 @@ _gth_browser_set_current_page (GthWindow *window,
 	gth_hook_invoke ("gth-browser-set-current-page", browser);
 
 	gth_browser_update_title (browser);
+}
+
+
+static void
+set_current_page__file_saved_cb (GthBrowser *browser,
+				 gboolean    cancelled,
+				 gpointer    user_data)
+{
+	if (cancelled)
+		return;
+
+	if (browser->priv->current_file != NULL)
+		gth_viewer_page_revert (browser->priv->viewer_page);
+	_gth_browser_real_set_current_page (GTH_WINDOW (browser), GPOINTER_TO_INT (user_data));
+}
+
+
+static void
+_gth_browser_set_current_page (GthWindow *window,
+			       int        page)
+{
+	GthBrowser *browser = GTH_BROWSER (window);
+
+	if (gth_browser_get_file_modified (browser))
+		_gth_browser_ask_whether_to_save (browser,
+						  set_current_page__file_saved_cb,
+						  GINT_TO_POINTER (page));
+	else
+		_gth_browser_real_set_current_page (window, page);
 }
 
 
@@ -3609,7 +3641,6 @@ gth_browser_go_home (GthBrowser *browser)
 	GFile *location;
 
 	location = g_file_new_for_uri (gth_pref_get_startup_location ());
-	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_BROWSER);
 	gth_browser_go_to (browser, location, NULL);
 
 	g_object_unref (location);

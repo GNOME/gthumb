@@ -146,7 +146,7 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 	GList *children;
 	GList *scan;
 
-	/*gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox)); FIXME */
+	gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 
 	children = gth_multipage_get_children (GTH_MULTIPAGE (sidebar->priv->properties));
 	for (scan = children; scan; scan = scan->next) {
@@ -165,8 +165,8 @@ gth_sidebar_set_file (GthSidebar  *sidebar,
 void
 gth_sidebar_show_properties (GthSidebar *sidebar)
 {
-	/*if (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_TOOLS)
-		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox)); FIXME */
+	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (sidebar)) == GTH_SIDEBAR_PAGE_TOOLS)
+		gth_toolbox_deactivate_tool (GTH_TOOLBOX (sidebar->priv->toolbox));
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_PROPERTIES);
 }
 
@@ -175,6 +175,13 @@ void
 gth_sidebar_show_tools (GthSidebar *sidebar)
 {
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (sidebar), GTH_SIDEBAR_PAGE_TOOLS);
+}
+
+
+gboolean
+gth_sidebar_is_tool_active (GthSidebar *sidebar)
+{
+	return gth_toolbox_is_tool_active (GTH_TOOLBOX (sidebar->priv->toolbox));
 }
 
 

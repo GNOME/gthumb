@@ -188,7 +188,6 @@ image_ready_cb (GtkWidget          *widget,
 
 	g_file_info_set_attribute_boolean (self->priv->file_data->info, "gth::file::is-modified", FALSE);
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), self->priv->file_data);
-
 }
 
 
@@ -588,8 +587,11 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
 
-	if ((self->priv->file_data != NULL) && g_file_equal (file_data->file, self->priv->file_data->file))
+	if ((self->priv->file_data != NULL)
+	    && g_file_equal (file_data->file, self->priv->file_data->file))
+	{
 		return;
+	}
 
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);
@@ -1004,6 +1006,50 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 
 static void
+_gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
+				   GdkPixbuf          *pixbuf,
+				   gboolean            modified)
+{
+	GthFileData *file_data;
+	int          width;
+	int          height;
+	char        *size;
+
+	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf);
+
+	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
+
+	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
+
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
+	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
+
+	size = g_strdup_printf ("%d x %d", width, height);
+	g_file_info_set_attribute_string (file_data->info, "image::size", size);
+
+	gth_monitor_metadata_changed (gth_main_get_default_monitor (), file_data);
+
+	g_free (size);
+}
+
+
+static void
+gth_image_viewer_page_real_revert (GthViewerPage *base)
+{
+	GthImageViewerPage *self = GTH_IMAGE_VIEWER_PAGE (base);
+	GthImageData       *idata;
+
+	idata = gth_image_history_revert (self->priv->history);
+	if (idata != NULL) {
+		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
+		gth_image_data_unref (idata);
+	}
+}
+
+
+static void
 gth_image_viewer_page_finalize (GObject *obj)
 {
 	GthImageViewerPage *self;
@@ -1042,6 +1088,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->can_save = gth_image_viewer_page_real_can_save;
 	iface->save = gth_image_viewer_page_real_save;
 	iface->save_as = gth_image_viewer_page_real_save_as;
+	iface->revert = gth_image_viewer_page_real_revert;
 }
 
 
@@ -1092,36 +1139,6 @@ GdkPixbuf *
 gth_image_viewer_page_get_pixbuf (GthImageViewerPage *self)
 {
 	return gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer));
-}
-
-
-static void
-_gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
-				   GdkPixbuf          *pixbuf,
-				   gboolean            modified)
-{
-	GthFileData *file_data;
-	int          width;
-	int          height;
-	char        *size;
-
-	gth_image_viewer_set_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer), pixbuf);
-
-	file_data = gth_browser_get_current_file (GTH_BROWSER (self->priv->browser));
-
-	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", modified);
-
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
-	g_file_info_set_attribute_int32 (file_data->info, "image::width", width);
-	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
-
-	size = g_strdup_printf ("%d x %d", width, height);
-	g_file_info_set_attribute_string (file_data->info, "image::size", size);
-
-	gth_monitor_metadata_changed (gth_main_get_default_monitor (), file_data);
-
-	g_free (size);
 }
 
 

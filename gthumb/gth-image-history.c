@@ -49,11 +49,12 @@ gth_image_data_new (GdkPixbuf *image,
 }
 
 
-void
+GthImageData *
 gth_image_data_ref (GthImageData *idata)
 {
-	g_return_if_fail (idata != NULL);
+	g_return_val_if_fail (idata != NULL, NULL);
 	idata->ref++;
+	return idata;
 }
 
 
@@ -275,6 +276,27 @@ gth_image_history_undo (GthImageHistory *history,
 		       0);
 
 	return idata;
+}
+
+
+GthImageData *
+gth_image_history_revert (GthImageHistory *history)
+{
+	GthImageData *last_saved = NULL;
+	GList        *scan;
+
+	for (scan = history->priv->undo_history; scan; scan = scan->next) {
+		GthImageData *idata = scan->data;
+
+		if (idata->unsaved)
+			continue;
+
+		last_saved = gth_image_data_ref (idata);
+	}
+
+	gth_image_history_clear (history);
+
+	return last_saved;
 }
 
 

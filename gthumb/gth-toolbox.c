@@ -331,3 +331,10 @@ gth_toolbox_deactivate_tool (GthToolbox *toolbox)
 	if (toolbox->priv->active_tool != NULL)
 		gth_file_tool_hide_options (GTH_FILE_TOOL (toolbox->priv->active_tool));
 }
+
+
+gboolean
+gth_toolbox_is_tool_active (GthToolbox *toolbox)
+{
+	return toolbox->priv->active_tool != NULL;
+}

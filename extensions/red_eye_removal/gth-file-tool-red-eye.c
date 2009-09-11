@@ -362,10 +362,10 @@ static GtkWidget *
 gth_file_tool_red_eye_get_options (GthFileTool *base)
 {
 	GthFileToolRedEye *self;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	GtkWidget       *viewer;
-	GtkWidget       *options;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	GtkWidget         *viewer;
+	GtkWidget         *options;
 
 	self = (GthFileToolRedEye *) base;
 
@@ -403,9 +403,9 @@ static void
 gth_file_tool_red_eye_destroy_options (GthFileTool *base)
 {
 	GthFileToolRedEye *self;
-	GtkWidget       *window;
-	GtkWidget       *viewer_page;
-	GtkWidget       *viewer;
+	GtkWidget         *window;
+	GtkWidget         *viewer_page;
+	GtkWidget         *viewer;
 
 	self = (GthFileToolRedEye *) base;
 
