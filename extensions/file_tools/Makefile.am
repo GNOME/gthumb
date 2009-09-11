@@ -8,6 +8,8 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-crop.h		\
 	gth-file-tool-desaturate.c	\
 	gth-file-tool-desaturate.h	\
+	gth-file-tool-enhance.c		\
+	gth-file-tool-enhance.h		\
 	gth-file-tool-redo.c		\
 	gth-file-tool-redo.h		\
 	gth-file-tool-save.c		\

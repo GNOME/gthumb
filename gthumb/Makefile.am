@@ -53,6 +53,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-filter-editor-dialog.h			\
 	gth-filter-file.h				\
 	gth-folder-tree.h				\
+	gth-histogram.h					\
 	gth-hook.h					\
 	gth-icon-cache.h				\
 	gth-icon-view.h					\
@@ -158,6 +159,7 @@ gthumb_SOURCES = 					\
 	gth-filter-editor-dialog.c			\
 	gth-filter-file.c				\
 	gth-folder-tree.c				\
+	gth-histogram.c					\
 	gth-hook.c					\
 	gth-icon-cache.c				\
 	gth-icon-view.c					\
