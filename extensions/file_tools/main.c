@@ -27,6 +27,7 @@
 #include "gth-file-tool-crop.h"
 #include "gth-file-tool-desaturate.h"
 #include "gth-file-tool-enhance.h"
+#include "gth-file-tool-equalize.h"
 #include "gth-file-tool-redo.h"
 #include "gth-file-tool-save.h"
 #include "gth-file-tool-undo.h"
@@ -41,6 +42,7 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_DESATURATE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ENHANCE);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EQUALIZE);
 }
 
 

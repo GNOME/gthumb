@@ -82,11 +82,12 @@ one_step (gpointer data)
 	{
 		GError *error = NULL;
 
-		if (pixbuf_task->release_func != NULL)
-			(*pixbuf_task->release_func) (pixbuf_task);
-
 		if (pixbuf_task->interrupt)
-			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, NULL);
+			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
+
+		if (pixbuf_task->release_func != NULL)
+			(*pixbuf_task->release_func) (pixbuf_task, error);
+
 		gth_task_completed (GTH_TASK (pixbuf_task), error);
 
 		return FALSE;
@@ -253,13 +254,13 @@ gth_pixbuf_task_get_type (void)
 
 
 GthTask *
-gth_pixbuf_task_new (const char   *description,
-		     GdkPixbuf    *src,
-		     GdkPixbuf    *dest,
-		     PixbufOpFunc  init_func,
-		     PixbufOpFunc  step_func,
-		     PixbufOpFunc  release_func,
-		     gpointer      data)
+gth_pixbuf_task_new (const char     *description,
+		     GdkPixbuf      *src,
+		     GdkPixbuf      *dest,
+		     PixbufOpFunc    init_func,
+		     PixbufOpFunc    step_func,
+		     PixbufDoneFunc  release_func,
+		     gpointer        data)
 {
 	GthPixbufTask *pixbuf_task;
 

@@ -200,11 +200,13 @@ adjust_levels_step (GthPixbufTask *pixop)
 
 
 static void
-adjust_levels_release (GthPixbufTask *pixop)
+adjust_levels_release (GthPixbufTask *pixop,
+		       GError        *error)
 {
 	EnhanceData *data = pixop->data;
 
-	gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest);
+	if (error == NULL)
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest);
 
 	gth_histogram_free (data->hist);
 	g_free (data->levels);
@@ -237,7 +239,7 @@ gth_file_tool_enhance_activate (GthFileTool *base)
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	data = g_new0 (EnhanceData, 1);
 	data->viewer_page = g_object_ref (viewer_page);
-	task = gth_pixbuf_task_new (_("Enhancing image colors"),
+	task = gth_pixbuf_task_new (_("White balance correction"),
 				    src_pixbuf,
 				    dest_pixbuf,
 				    adjust_levels_init,

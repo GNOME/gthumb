@@ -39,7 +39,8 @@ G_BEGIN_DECLS
 typedef struct _GthPixbufTask        GthPixbufTask;
 typedef struct _GthPixbufTaskClass   GthPixbufTaskClass;
 
-typedef void (*PixbufOpFunc) (GthPixbufTask *pixbuf_task);
+typedef void (*PixbufOpFunc)   (GthPixbufTask *pixbuf_task);
+typedef void (*PixbufDoneFunc) (GthPixbufTask *pixbuf_task, GError *error);
 
 enum {
 	RED_PIX   = 0,
@@ -51,32 +52,32 @@ enum {
 struct _GthPixbufTask {
 	GthTask __parent;
 
-	GdkPixbuf    *src;
-	GdkPixbuf    *dest;
-	gpointer      data;
+	GdkPixbuf      *src;
+	GdkPixbuf      *dest;
+	gpointer        data;
 
-	PixbufOpFunc  init_func;
-	PixbufOpFunc  step_func;
-	PixbufOpFunc  release_func;
-	PixbufOpFunc  free_data_func;
+	PixbufOpFunc    init_func;
+	PixbufOpFunc    step_func;
+	PixbufDoneFunc  release_func;
+	PixbufOpFunc    free_data_func;
 
-	gboolean      single_step;
+	gboolean        single_step;
 
-	gboolean      has_alpha;
-	int           bytes_per_pixel;
-	int           width, height;
-	int           rowstride;
-	guchar       *src_line, *src_pixel;
-	guchar       *dest_line, *dest_pixel;
+	gboolean        has_alpha;
+	int             bytes_per_pixel;
+	int             width, height;
+	int             rowstride;
+	guchar         *src_line, *src_pixel;
+	guchar         *dest_line, *dest_pixel;
 
-	gboolean      ltr, first_step, last_step;
-	guint         timeout_id;
-	int           line;
-	int           line_step;
-	int           column;
-	gboolean      interrupt;
+	gboolean        ltr, first_step, last_step;
+	guint           timeout_id;
+	int             line;
+	int             line_step;
+	int             column;
+	gboolean        interrupt;
 
-	const char   *description;
+	const char     *description;
 };
 
 struct _GthPixbufTaskClass {
@@ -89,7 +90,7 @@ GthTask *     gth_pixbuf_task_new             (const char     *description,
 					       GdkPixbuf      *dest,
 					       PixbufOpFunc    init_func,
 					       PixbufOpFunc    step_func,
-					       PixbufOpFunc    release_func,
+					       PixbufDoneFunc  release_func,
 					       gpointer        data);
 void          gth_pixbuf_task_set_single_step (GthPixbufTask  *pixbuf_task,
 					       gboolean        single_step);
