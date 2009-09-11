@@ -30,15 +30,17 @@
 #include "gth-file-tool-equalize.h"
 #include "gth-file-tool-redo.h"
 #include "gth-file-tool-save.h"
+#include "gth-file-tool-save-as.h"
 #include "gth-file-tool-undo.h"
 
 
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE_AS);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_UNDO);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_REDO);
-	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_DESATURATE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ENHANCE);

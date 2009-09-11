@@ -16,6 +16,8 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-redo.h		\
 	gth-file-tool-save.c		\
 	gth-file-tool-save.h		\
+	gth-file-tool-save-as.c		\
+	gth-file-tool-save-as.h		\
 	gth-file-tool-undo.c		\
 	gth-file-tool-undo.h		\
 	main.c
