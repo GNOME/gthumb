@@ -165,13 +165,18 @@ gth_comment_real_load_from_element (DomDomizable *base,
 			else if (g_strcmp0 (node->tag_name, "Time") == 0) 
 				gth_comment_set_time_from_time_t (self, atol (dom_element_get_inner_text (node)));
 			else if (g_strcmp0 (node->tag_name, "Keywords") == 0) {
-				char **categories;
-				int    i;
-				
-				categories = g_strsplit (dom_element_get_inner_text (node), ",", -1);
-				for (i = 0; categories[i] != NULL; i++)
-					gth_comment_add_category (self, categories[i]);
-				g_strfreev (categories);
+				const char  *text;
+
+				text = dom_element_get_inner_text (node);
+				if (text != NULL) {
+					char **categories;
+					int    i;
+
+					categories = g_strsplit (text, ",", -1);
+					for (i = 0; categories[i] != NULL; i++)
+						gth_comment_add_category (self, categories[i]);
+					g_strfreev (categories);
+				}
 			}
 		}
 	}

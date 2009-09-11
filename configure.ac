@@ -274,6 +274,9 @@ extensions/list_tools/data/ui/Makefile
 extensions/photo_importer/Makefile
 extensions/photo_importer/data/Makefile
 extensions/photo_importer/data/ui/Makefile
+extensions/red_eye_removal/Makefile
+extensions/red_eye_removal/data/Makefile
+extensions/red_eye_removal/data/ui/Makefile
 extensions/rename_series/Makefile
 extensions/rename_series/data/Makefile
 extensions/rename_series/data/ui/Makefile

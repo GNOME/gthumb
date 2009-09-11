@@ -2029,6 +2029,8 @@ gth_image_viewer_set_pixbuf (GthImageViewer *viewer,
 	viewer->priv->is_void = (pixbuf == NULL);
 
 	gth_image_loader_set_pixbuf (viewer->priv->loader, pixbuf);
+	gth_image_viewer_tool_image_changed (viewer->priv->tool);
+
 	gth_image_viewer_update_view (viewer);
 }
 

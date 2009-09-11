@@ -1411,6 +1411,7 @@ gth_image_selector_new (GthImageViewer  *viewer,
 
 	selector = g_object_new (GTH_TYPE_IMAGE_SELECTOR, NULL);
 	selector->priv->viewer = viewer;
+	selector->priv->type = type;
 
 	return GTH_IMAGE_VIEWER_TOOL (selector);
 }
