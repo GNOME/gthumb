@@ -40,6 +40,7 @@ struct _GthFileToolPrivate {
 	const char *icon_name;
 	const char *button_text;
 	const char *options_title;
+	gboolean    separator;
 };
 
 
@@ -161,7 +162,8 @@ void
 gth_file_tool_construct (GthFileTool *self,
 			 const char  *icon_name,
 			 const char  *button_text,
-			 const char  *options_title)
+			 const char  *options_title,
+			 gboolean     separator)
 {
 	GtkWidget *hbox;
 	GtkWidget *icon;
@@ -170,6 +172,7 @@ gth_file_tool_construct (GthFileTool *self,
 	self->priv->icon_name = icon_name;
 	self->priv->button_text = button_text;
 	self->priv->options_title = options_title;
+	self->priv->separator = separator;
 
 	hbox = gtk_hbox_new (FALSE, 6);
 
@@ -244,6 +247,13 @@ const char *
 gth_file_tool_get_options_title (GthFileTool *self)
 {
 	return self->priv->options_title;
+}
+
+
+gboolean
+gth_file_tool_has_separator (GthFileTool *self)
+{
+	return self->priv->separator;
 }
 
 

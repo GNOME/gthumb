@@ -271,7 +271,7 @@ gth_file_tool_enhance_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_enhance_instance_init (GthFileToolEnhance *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_ENHANCE */, _("White Balance"), NULL);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_ENHANCE */, _("White Balance"), NULL, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));
 }
 

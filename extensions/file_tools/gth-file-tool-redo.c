@@ -60,7 +60,7 @@ gth_file_tool_redo_activate (GthFileTool *base)
 static void
 gth_file_tool_redo_instance_init (GthFileToolRedo *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_REDO, _("Redo"), _("Redo"));
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_REDO, _("Redo"), _("Redo"), FALSE);
 }
 
 

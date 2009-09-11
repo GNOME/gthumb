@@ -191,7 +191,7 @@ gth_file_tool_equalize_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_equalize_instance_init (GthFileToolEqualize *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_EQUALIZE */, _("Equalize"), NULL);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_EQUALIZE */, _("Equalize"), NULL, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic contrast enhancement"));
 }
 

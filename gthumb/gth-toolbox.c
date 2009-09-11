@@ -279,6 +279,15 @@ _gth_toolbox_add_childs (GthToolbox *toolbox)
 		g_signal_connect (child, "show-options", G_CALLBACK (child_show_options_cb), toolbox);
 		g_signal_connect (child, "hide-options", G_CALLBACK (child_hide_options_cb), toolbox);
 		gtk_widget_show (child);
+
+		if (gth_file_tool_has_separator (GTH_FILE_TOOL (child))) {
+			GtkWidget *separator;
+
+			separator = gtk_hseparator_new ();
+			gtk_widget_show (separator);
+			gtk_box_pack_start (GTK_BOX (toolbox->priv->box), separator, FALSE, FALSE, 0);
+		}
+
 		gtk_box_pack_start (GTK_BOX (toolbox->priv->box), child, FALSE, FALSE, 0);
 	}
 }

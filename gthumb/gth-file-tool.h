@@ -63,13 +63,15 @@ GType         gth_file_tool_get_type            (void);
 void          gth_file_tool_construct           (GthFileTool *self,
 					         const char  *icon_name,
 					         const char  *button_text,
-					         const char  *options_title);
+					         const char  *options_title,
+					         gboolean     separator);
 GtkWidget *   gth_file_tool_get_window          (GthFileTool *self);
 const char *  gth_file_tool_get_icon_name       (GthFileTool *self);
 void          gth_file_tool_activate            (GthFileTool *self);
 void          gth_file_tool_update_sensitivity  (GthFileTool *self);
 GtkWidget *   gth_file_tool_get_options         (GthFileTool *self);
 const char *  gth_file_tool_get_options_title   (GthFileTool *self);
+gboolean      gth_file_tool_has_separator       (GthFileTool *self);
 void          gth_file_tool_destroy_options     (GthFileTool *self);
 void          gth_file_tool_show_options        (GthFileTool *self);
 void          gth_file_tool_hide_options        (GthFileTool *self);

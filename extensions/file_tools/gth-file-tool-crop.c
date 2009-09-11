@@ -455,7 +455,7 @@ static void
 gth_file_tool_crop_instance_init (GthFileToolCrop *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_CROP, GthFileToolCropPrivate);
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Crop"), _("Crop"));
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Crop"), _("Crop"), TRUE);
 }
 
 

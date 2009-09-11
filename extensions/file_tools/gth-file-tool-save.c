@@ -50,7 +50,7 @@ gth_file_tool_save_activate (GthFileTool *tool)
 static void
 gth_file_tool_save_instance_init (GthFileToolSave *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_SAVE, _("Save"), _("Save"));
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_SAVE, _("Save"), _("Save"), FALSE);
 }
 
 
