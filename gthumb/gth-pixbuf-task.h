@@ -61,8 +61,6 @@ struct _GthPixbufTask {
 	PixbufDoneFunc  release_func;
 	PixbufOpFunc    free_data_func;
 
-	gboolean        single_step;
-
 	gboolean        has_alpha;
 	int             bytes_per_pixel;
 	int             width, height;
@@ -71,13 +69,16 @@ struct _GthPixbufTask {
 	guchar         *dest_line, *dest_pixel;
 
 	gboolean        ltr, first_step, last_step;
-	guint           timeout_id;
 	int             line;
 	int             line_step;
 	int             column;
 	gboolean        interrupt;
-
 	const char     *description;
+
+	/*< private >*/
+
+	GMutex         *data_mutex;
+	guint           progress_event;
 };
 
 struct _GthPixbufTaskClass {
@@ -92,8 +93,6 @@ GthTask *     gth_pixbuf_task_new             (const char     *description,
 					       PixbufOpFunc    step_func,
 					       PixbufDoneFunc  release_func,
 					       gpointer        data);
-void          gth_pixbuf_task_set_single_step (GthPixbufTask  *pixbuf_task,
-					       gboolean        single_step);
 void          gth_pixbuf_task_set_pixbufs     (GthPixbufTask  *pixbuf_task,
 					       GdkPixbuf      *src,
 					       GdkPixbuf      *dest);

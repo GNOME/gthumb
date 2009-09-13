@@ -190,9 +190,9 @@ adjust_levels_step (GthPixbufTask *pixop)
 {
 	EnhanceData *data = pixop->data;
 
-	pixop->dest_pixel[RED_PIX]   = levels_func (pixop->src_pixel[RED_PIX], data->levels, 0);
-	pixop->dest_pixel[GREEN_PIX] = levels_func (pixop->src_pixel[GREEN_PIX], data->levels, 1);
-	pixop->dest_pixel[BLUE_PIX]  = levels_func (pixop->src_pixel[BLUE_PIX], data->levels, 2);
+	pixop->dest_pixel[RED_PIX]   = levels_func (pixop->src_pixel[RED_PIX], data->levels, RED_PIX);
+	pixop->dest_pixel[GREEN_PIX] = levels_func (pixop->src_pixel[GREEN_PIX], data->levels, GREEN_PIX);
+	pixop->dest_pixel[BLUE_PIX]  = levels_func (pixop->src_pixel[BLUE_PIX], data->levels, BLUE_PIX);
 
 	if (pixop->has_alpha)
 		pixop->dest_pixel[ALPHA_PIX] = pixop->src_pixel[ALPHA_PIX];
@@ -206,11 +206,11 @@ adjust_levels_release (GthPixbufTask *pixop,
 	EnhanceData *data = pixop->data;
 
 	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest);
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
 	gth_histogram_free (data->hist);
 	g_free (data->levels);
-	g_object_ref (data->viewer_page);
+	g_object_unref (data->viewer_page);
 	g_free (data);
 }
 

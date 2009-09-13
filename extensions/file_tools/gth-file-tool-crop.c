@@ -106,7 +106,7 @@ crop_button_clicked_cb (GtkButton       *button,
 
 		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf);
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), new_pixbuf, TRUE);
 		gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 
 		g_object_unref (new_pixbuf);

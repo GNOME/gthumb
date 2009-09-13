@@ -4,6 +4,8 @@ extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libfile_tools.la
 
 libfile_tools_la_SOURCES = 		\
+	gth-file-tool-adjust-colors.c	\
+	gth-file-tool-adjust-colors.h	\
 	gth-file-tool-crop.c		\
 	gth-file-tool-crop.h		\
 	gth-file-tool-desaturate.c	\

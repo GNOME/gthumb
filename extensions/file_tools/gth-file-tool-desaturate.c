@@ -68,7 +68,7 @@ desaturate_release (GthPixbufTask *pixop,
 		    GError        *error)
 {
 	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (pixop->data), pixop->dest);
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (pixop->data), pixop->dest, TRUE);
 }
 
 

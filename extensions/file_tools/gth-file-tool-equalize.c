@@ -124,7 +124,7 @@ equalize_release (GthPixbufTask *pixop,
 	int           i;
 
 	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest);
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
 	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
 		g_free (data->part[i]);

@@ -1144,11 +1144,13 @@ gth_image_viewer_page_get_pixbuf (GthImageViewerPage *self)
 
 void
 gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
-				  GdkPixbuf          *pixbuf)
+				  GdkPixbuf          *pixbuf,
+				  gboolean            add_to_history)
 {
-	gth_image_history_add_image (self->priv->history,
-				     gth_image_viewer_page_get_pixbuf (self),
-				     gth_browser_get_file_modified (GTH_BROWSER (self->priv->browser)));
+	if (add_to_history)
+		gth_image_history_add_image (self->priv->history,
+					     gth_image_viewer_page_get_pixbuf (self),
+					     gth_browser_get_file_modified (GTH_BROWSER (self->priv->browser)));
 	_gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
 }
 

@@ -24,9 +24,7 @@
 #include "gth-pixbuf-task.h"
 
 
-#define N_STEPS          20   /* number of lines to process in a single
-			       * timeout handler. */
-#define PROGRESS_STEP    5    /* notify progress each PROGRESS_STEP lines. */
+#define PROGRESS_DELAY 200 /* delay between progress notifications */
 
 
 static gpointer parent_class = NULL;
@@ -55,34 +53,40 @@ gth_pixbuf_task_finalize (GObject *object)
 	g_return_if_fail (GTH_IS_PIXBUF_TASK (object));
 	pixbuf_task = GTH_PIXBUF_TASK (object);
 
-	if (pixbuf_task->timeout_id != 0) {
-		g_source_remove (pixbuf_task->timeout_id);
-		pixbuf_task->timeout_id = 0;
+	if (pixbuf_task->progress_event != 0) {
+		g_source_remove (pixbuf_task->progress_event);
+		pixbuf_task->progress_event = 0;
 	}
+
 	release_pixbufs (pixbuf_task);
 	if (pixbuf_task->free_data_func != NULL)
 		(*pixbuf_task->free_data_func) (pixbuf_task);
+
+	g_mutex_free (pixbuf_task->data_mutex);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static gboolean
-one_step (gpointer data)
+update_progress (gpointer data)
 {
 	GthPixbufTask *pixbuf_task = data;
-	int            dir = 1;
+	gboolean       interrupt;
+	int            line;
 
-	if (! pixbuf_task->interrupt && pixbuf_task->single_step)
-		(*pixbuf_task->step_func) (pixbuf_task);
+	g_mutex_lock (pixbuf_task->data_mutex);
+	interrupt = pixbuf_task->interrupt;
+	line = pixbuf_task->line;
+	g_mutex_unlock (pixbuf_task->data_mutex);
 
-	if ((pixbuf_task->line >= pixbuf_task->height)
-	    || pixbuf_task->single_step
-	    || pixbuf_task->interrupt)
-	{
+	if ((line >= pixbuf_task->height) || interrupt) {
 		GError *error = NULL;
 
-		if (pixbuf_task->interrupt)
+		g_source_remove (pixbuf_task->progress_event);
+		pixbuf_task->progress_event = 0;
+
+		if (interrupt)
 			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
 
 		if (pixbuf_task->release_func != NULL)
@@ -93,18 +97,36 @@ one_step (gpointer data)
 		return FALSE;
 	}
 
+	gth_task_progress (GTH_TASK (pixbuf_task),
+			   pixbuf_task->description,
+			   NULL,
+			   FALSE,
+			   (double) line / pixbuf_task->height);
+
+	return TRUE;
+}
+
+
+static gboolean
+execute_step (GthPixbufTask *pixbuf_task)
+{
+	int      dir = 1;
+	gboolean interrupt;
+	int      line;
+
+	g_mutex_lock (pixbuf_task->data_mutex);
+	interrupt = pixbuf_task->interrupt;
+	line = pixbuf_task->line;
+	g_mutex_unlock (pixbuf_task->data_mutex);
+
+	if ((line >= pixbuf_task->height) || interrupt)
+		return FALSE;
+
 	pixbuf_task->src_pixel = pixbuf_task->src_line;
 	pixbuf_task->src_line += pixbuf_task->rowstride;
 
 	pixbuf_task->dest_pixel = pixbuf_task->dest_line;
 	pixbuf_task->dest_line += pixbuf_task->rowstride;
-
-	if (pixbuf_task->line % PROGRESS_STEP == 0)
-		gth_task_progress (GTH_TASK (pixbuf_task),
-				   pixbuf_task->description,
-				   NULL,
-				   FALSE,
-				   (double) pixbuf_task->line / pixbuf_task->height);
 
 	if (! pixbuf_task->ltr) { /* right to left */
 		int ofs = (pixbuf_task->width - 1) * pixbuf_task->bytes_per_pixel;
@@ -125,30 +147,29 @@ one_step (gpointer data)
 		pixbuf_task->line_step++;
 	}
 
+	g_mutex_lock (pixbuf_task->data_mutex);
 	pixbuf_task->line++;
+	g_mutex_unlock (pixbuf_task->data_mutex);
 
 	return TRUE;
 }
 
 
-static gboolean
-step (gpointer data)
+static gpointer
+execute_task (gpointer user_data)
 {
-	GthPixbufTask *pixbuf_task = data;
-	int          i;
+	GthPixbufTask *pixbuf_task = user_data;
 
-	if (pixbuf_task->timeout_id != 0) {
-		g_source_remove (pixbuf_task->timeout_id);
-		pixbuf_task->timeout_id = 0;
-	}
+	g_mutex_lock (pixbuf_task->data_mutex);
+	pixbuf_task->line = 0;
+	g_mutex_unlock (pixbuf_task->data_mutex);
 
-	for (i = 0; i < N_STEPS; i++)
-		if (! one_step (data))
-			return FALSE;
+	if (pixbuf_task->init_func != NULL)
+		(*pixbuf_task->init_func) (pixbuf_task);
 
-	pixbuf_task->timeout_id = g_idle_add (step, pixbuf_task);
+	while (execute_step (pixbuf_task)) /* void */;
 
-	return FALSE;
+	return NULL;
 }
 
 
@@ -157,17 +178,12 @@ gth_pixbuf_task_exec (GthTask *task)
 {
 	GthPixbufTask *pixbuf_task;
 
-	g_return_if_fail (GTH_IS_PIXBUF_TASK (task));
-
 	pixbuf_task = GTH_PIXBUF_TASK (task);
 
 	g_return_if_fail (pixbuf_task->src != NULL);
 
-	pixbuf_task->line = 0;
-	if (pixbuf_task->init_func != NULL)
-		(*pixbuf_task->init_func) (pixbuf_task);
-
-	step (pixbuf_task);
+	g_thread_create (execute_task, pixbuf_task, FALSE, NULL);
+	pixbuf_task->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, pixbuf_task);
 }
 
 
@@ -179,7 +195,10 @@ gth_pixbuf_task_cancel (GthTask *task)
 	g_return_if_fail (GTH_IS_PIXBUF_TASK (task));
 
 	pixbuf_task = GTH_PIXBUF_TASK (task);
+
+	g_mutex_lock (pixbuf_task->data_mutex);
 	pixbuf_task->interrupt = TRUE;
+	g_mutex_unlock (pixbuf_task->data_mutex);
 }
 
 
@@ -219,9 +238,11 @@ gth_pixbuf_task_init (GthPixbufTask *pixbuf_task)
 
 	pixbuf_task->ltr = TRUE;
 
-	pixbuf_task->timeout_id = 0;
+	pixbuf_task->progress_event = 0;
 	pixbuf_task->line = 0;
 	pixbuf_task->interrupt = FALSE;
+
+	pixbuf_task->data_mutex = g_mutex_new ();
 }
 
 
@@ -279,17 +300,9 @@ gth_pixbuf_task_new (const char     *description,
 
 
 void
-gth_pixbuf_task_set_single_step (GthPixbufTask *pixbuf_task,
-			       gboolean     single_step)
-{
-	pixbuf_task->single_step = single_step;
-}
-
-
-void
-gth_pixbuf_task_set_pixbufs (GthPixbufTask  *pixbuf_task,
-			     GdkPixbuf    *src,
-			     GdkPixbuf    *dest)
+gth_pixbuf_task_set_pixbufs (GthPixbufTask *pixbuf_task,
+			     GdkPixbuf     *src,
+			     GdkPixbuf     *dest)
 {
 	if (src == NULL)
 		return;
