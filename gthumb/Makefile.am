@@ -98,6 +98,7 @@ PUBLIC_HEADER_FILES = 					\
 	gthumb-error.h					\
 	gtk-utils.h					\
 	main.h						\
+	pixbuf-cache.h					\
 	pixbuf-io.h					\
 	pixbuf-utils.h					\
 	typedefs.h					\
@@ -210,6 +211,7 @@ gthumb_SOURCES = 					\
 	gthumb-error.c					\
 	gtk-utils.c					\
 	main.c						\
+	pixbuf-cache.c					\
 	pixbuf-io.c					\
 	pixbuf-utils.c					\
 	zlib-utils.c					\
