@@ -185,6 +185,9 @@ image_ready_cb (GtkWidget          *widget,
 		GthImageViewerPage *self)
 {
 	gth_image_history_clear (self->priv->history);
+	gth_image_history_add_image (self->priv->history,
+				     gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
+				     FALSE);
 
 	g_file_info_set_attribute_boolean (self->priv->file_data->info, "gth::file::is-modified", FALSE);
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), self->priv->file_data);
@@ -1148,9 +1151,7 @@ gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 				  gboolean            add_to_history)
 {
 	if (add_to_history)
-		gth_image_history_add_image (self->priv->history,
-					     gth_image_viewer_page_get_pixbuf (self),
-					     gth_browser_get_file_modified (GTH_BROWSER (self->priv->browser)));
+		gth_image_history_add_image (self->priv->history, pixbuf, TRUE);
 	_gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
 }
 
@@ -1160,13 +1161,9 @@ gth_image_viewer_page_undo (GthImageViewerPage *self)
 {
 	GthImageData *idata;
 
-	idata = gth_image_history_undo (self->priv->history,
-					gth_image_viewer_page_get_pixbuf (self),
-					gth_browser_get_file_modified (GTH_BROWSER (self->priv->browser)));
-	if (idata != NULL) {
+	idata = gth_image_history_undo (self->priv->history);
+	if (idata != NULL)
 		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
-		gth_image_data_unref (idata);
-	}
 }
 
 
@@ -1175,13 +1172,9 @@ gth_image_viewer_page_redo (GthImageViewerPage *self)
 {
 	GthImageData *idata;
 
-	idata = gth_image_history_redo (self->priv->history,
-					gth_image_viewer_page_get_pixbuf (self),
-					gth_browser_get_file_modified (GTH_BROWSER (self->priv->browser)));
-	if (idata != NULL) {
+	idata = gth_image_history_redo (self->priv->history);
+	if (idata != NULL)
 		_gth_image_viewer_page_set_pixbuf (self, idata->image, idata->unsaved);
-		gth_image_data_unref (idata);
-	}
 }
 
 
@@ -1189,4 +1182,17 @@ GthImageHistory *
 gth_image_viewer_page_get_history (GthImageViewerPage *self)
 {
 	return self->priv->history;
+}
+
+
+void
+gth_image_viewer_page_reset (GthImageViewerPage *self)
+{
+	GthImageData *last_image;
+
+	last_image = gth_image_history_get_last (self->priv->history);
+	if (last_image == NULL)
+		return;
+
+	_gth_image_viewer_page_set_pixbuf (self, last_image->image, last_image->unsaved);
 }

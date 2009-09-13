@@ -398,9 +398,6 @@ adjust_colors_release (GthPixbufTask *pixop,
 {
 	AdjustData *data = pixop->data;
 
-	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
-
 	g_object_unref (data->viewer_page);
 	pixbuf_cache_free (data->cache);
 	g_free (data->hs);
@@ -441,8 +438,8 @@ static void
 cancel_button_clicked_cb (GtkButton               *button,
 			  GthFileToolAdjustColors *self)
 {
-	GtkWidget   *window;
-	GthFileData *current_file;
+	GtkWidget *window;
+	GtkWidget *viewer_page;
 
 	if (self->priv->apply_event != 0) {
 		g_source_remove (self->priv->apply_event);
@@ -450,11 +447,8 @@ cancel_button_clicked_cb (GtkButton               *button,
 	}
 
 	window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
-	current_file = gth_browser_get_current_file (GTH_BROWSER (window));
-	if (current_file != NULL) {
-		g_file_info_set_attribute_boolean (current_file->info, "gth::file::is-modified", FALSE);
-		gth_monitor_metadata_changed (gth_main_get_default_monitor (), current_file);
-	}
+	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
+	gth_image_viewer_page_reset (GTH_IMAGE_VIEWER_PAGE (viewer_page));
 
 	gth_file_tool_hide_options (GTH_FILE_TOOL (self));
 }

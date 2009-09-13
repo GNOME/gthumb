@@ -41,8 +41,7 @@ gth_image_data_new (GdkPixbuf *image,
 	idata = g_new0 (GthImageData, 1);
 
 	idata->ref = 1;
-	g_object_ref (image);
-	idata->image = image;
+	idata->image = g_object_ref (image);
 	idata->unsaved = unsaved;
 
 	return idata;
@@ -259,23 +258,67 @@ gth_image_history_add_image (GthImageHistory *history,
 
 
 GthImageData *
-gth_image_history_undo (GthImageHistory *history,
-			GdkPixbuf       *current_image,
-			gboolean         image_is_unsaved)
+gth_image_history_undo (GthImageHistory *history)
 {
 	GthImageData *idata;
 
-	if (history->priv->undo_history == NULL)
+	if ((history->priv->undo_history == NULL) || (history->priv->undo_history->next == NULL))
 		return NULL;
 
-	add_image_to_redo_history (history, current_image, image_is_unsaved);
 	idata = remove_first_image (&(history->priv->undo_history));
+	add_image_to_redo_history (history, idata->image, idata->unsaved);
+	gth_image_data_unref (idata);
 
 	g_signal_emit (G_OBJECT (history),
 		       gth_image_history_signals[CHANGED],
 		       0);
 
-	return idata;
+	return (GthImageData *) history->priv->undo_history->data;
+}
+
+
+GthImageData *
+gth_image_history_redo (GthImageHistory *history)
+{
+	GthImageData *idata;
+
+	if (history->priv->redo_history == NULL)
+		return NULL;
+
+	idata = remove_first_image (&(history->priv->redo_history));
+	add_image_to_undo_history (history, idata->image, idata->unsaved);
+	gth_image_data_unref (idata);
+
+	g_signal_emit (G_OBJECT (history),
+		       gth_image_history_signals[CHANGED],
+		       0);
+
+	return (GthImageData *) history->priv->undo_history->data;
+}
+
+
+void
+gth_image_history_clear (GthImageHistory *history)
+{
+	gth_image_data_list_free (history->priv->undo_history);
+	history->priv->undo_history = NULL;
+
+	gth_image_data_list_free (history->priv->redo_history);
+	history->priv->redo_history = NULL;
+}
+
+
+gboolean
+gth_image_history_can_undo (GthImageHistory *history)
+{
+	return (history->priv->undo_history != NULL) && (history->priv->undo_history->next != NULL);
+}
+
+
+gboolean
+gth_image_history_can_redo (GthImageHistory *history)
+{
+	return history->priv->redo_history != NULL;
 }
 
 
@@ -301,46 +344,10 @@ gth_image_history_revert (GthImageHistory *history)
 
 
 GthImageData *
-gth_image_history_redo (GthImageHistory *history,
-			GdkPixbuf       *current_image,
-			gboolean         image_is_unsaved)
+gth_image_history_get_last (GthImageHistory *history)
 {
-	GthImageData *idata;
-
-	if (history->priv->redo_history == NULL)
+	if (history->priv->undo_history == NULL)
 		return NULL;
-
-	add_image_to_undo_history (history, current_image, image_is_unsaved);
-	idata = remove_first_image (&(history->priv->redo_history));
-
-	g_signal_emit (G_OBJECT (history),
-		       gth_image_history_signals[CHANGED],
-		       0);
-
-	return idata;
-}
-
-
-void
-gth_image_history_clear (GthImageHistory *history)
-{
-	gth_image_data_list_free (history->priv->undo_history);
-	history->priv->undo_history = NULL;
-
-	gth_image_data_list_free (history->priv->redo_history);
-	history->priv->redo_history = NULL;
-}
-
-
-gboolean
-gth_image_history_can_undo (GthImageHistory *history)
-{
-	return history->priv->undo_history != NULL;
-}
-
-
-gboolean
-gth_image_history_can_redo (GthImageHistory *history)
-{
-	return history->priv->redo_history != NULL;
+	else
+		return (GthImageData *) history->priv->undo_history->data;
 }

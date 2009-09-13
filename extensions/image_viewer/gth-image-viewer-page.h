@@ -56,6 +56,7 @@ void               gth_image_viewer_page_set_pixbuf       (GthImageViewerPage *p
 void               gth_image_viewer_page_undo             (GthImageViewerPage *page);
 void               gth_image_viewer_page_redo             (GthImageViewerPage *page);
 GthImageHistory *  gth_image_viewer_page_get_history      (GthImageViewerPage *self);
+void               gth_image_viewer_page_reset            (GthImageViewerPage *self);
 
 G_END_DECLS
 

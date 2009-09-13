@@ -69,16 +69,13 @@ GthImageHistory * gth_image_history_new        (void);
 void              gth_image_history_add_image  (GthImageHistory *history,
 						GdkPixbuf       *image,
 						gboolean         unsaved);
-GthImageData *    gth_image_history_undo       (GthImageHistory *history,
-						GdkPixbuf       *current_image,
-						gboolean         image_is_unsaved);
-GthImageData *    gth_image_history_redo       (GthImageHistory *history,
-						GdkPixbuf       *current_image,
-						gboolean         image_is_unsaved);
+GthImageData *    gth_image_history_undo       (GthImageHistory *history);
+GthImageData *    gth_image_history_redo       (GthImageHistory *history);
 void              gth_image_history_clear      (GthImageHistory *history);
 gboolean          gth_image_history_can_undo   (GthImageHistory *history);
 gboolean          gth_image_history_can_redo   (GthImageHistory *history);
 GthImageData *    gth_image_history_revert     (GthImageHistory *history);
+GthImageData *    gth_image_history_get_last   (GthImageHistory *history);
 
 G_END_DECLS
 

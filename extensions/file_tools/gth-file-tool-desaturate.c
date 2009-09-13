@@ -48,10 +48,8 @@ desaturate_step (GthPixbufTask *pixop)
 
 	max = MAX (pixop->src_pixel[RED_PIX], pixop->src_pixel[GREEN_PIX]);
 	max = MAX (max, pixop->src_pixel[BLUE_PIX]);
-
 	min = MIN (pixop->src_pixel[RED_PIX], pixop->src_pixel[GREEN_PIX]);
 	min = MIN (min, pixop->src_pixel[BLUE_PIX]);
-
 	lightness = (max + min) / 2;
 
 	pixop->dest_pixel[RED_PIX]   = lightness;
