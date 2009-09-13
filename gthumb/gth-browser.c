@@ -70,7 +70,6 @@
 #define LOAD_FILE_DELAY 150
 #define HIDE_MOUSE_DELAY 1000
 #define MOTION_THRESHOLD 0
-#define PROGRESS_DIALOG_DELAY 1000
 
 typedef void (*GthBrowserCallback) (GthBrowser *, gboolean cancelled, gpointer user_data);
 

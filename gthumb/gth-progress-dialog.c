@@ -22,11 +22,11 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include <pango/pango.h>
 #include "gth-progress-dialog.h"
 #include "gtk-utils.h"
 
 #define DIALOG_WIDTH 450
+#define SHOW_DELAY 1000
 
 
 /* -- gth_task_progress -- */
@@ -212,13 +212,13 @@ gth_task_progress_new (GthTask *task)
 	self = g_object_new (GTH_TYPE_TASK_PROGRESS, NULL);
 	self->task = g_object_ref (task);
 	self->task_progress = g_signal_connect (self->task,
-			  "progress",
-			  G_CALLBACK (task_progress_cb),
-			  self);
+						"progress",
+						G_CALLBACK (task_progress_cb),
+						self);
 	self->task_completed = g_signal_connect (self->task,
-			  "completed",
-			  G_CALLBACK (task_completed_cb),
-			  self);
+						 "completed",
+						 G_CALLBACK (task_completed_cb),
+						 self);
 
 	return (GtkWidget *) self;
 }
@@ -232,7 +232,22 @@ static gpointer gth_progress_dialog_parent_class = NULL;
 
 struct _GthProgressDialogPrivate {
 	GtkWidget *task_box;
+	gulong     show_event;
 };
+
+
+static void
+gth_progress_dialog_finalize (GObject *base)
+{
+	GthProgressDialog *self = (GthProgressDialog *) base;
+
+	if (self->priv->show_event != 0) {
+		g_source_remove (self->priv->show_event);
+		self->priv->show_event = 0;
+	}
+
+	G_OBJECT_CLASS (gth_task_progress_parent_class)->finalize (base);
+}
 
 
 static void
@@ -240,6 +255,8 @@ gth_progress_dialog_class_init (GthProgressDialogClass *klass)
 {
 	gth_progress_dialog_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (GthProgressDialogPrivate));
+
+	G_OBJECT_CLASS (klass)->finalize = gth_progress_dialog_finalize;
 }
 
 
@@ -317,6 +334,23 @@ gth_progress_dialog_new (GtkWindow *parent)
 }
 
 
+static gboolean
+_show_dialog_cb (gpointer data)
+{
+	GthProgressDialog *self = data;
+
+	if (self->priv->show_event != 0) {
+		g_source_remove (self->priv->show_event);
+		self->priv->show_event = 0;
+	}
+
+	if (_gtk_container_get_n_children (GTK_CONTAINER (self->priv->task_box)) > 0)
+		gtk_window_present (GTK_WINDOW (self));
+
+	return FALSE;
+}
+
+
 void
 gth_progress_dialog_add_task (GthProgressDialog *self,
 			      GthTask           *task)
@@ -326,9 +360,10 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 	child = gth_task_progress_new (task);
 	gtk_widget_show (child);
 	gtk_box_pack_start (GTK_BOX (self->priv->task_box), child, TRUE, TRUE, 0);
-	gtk_window_present (GTK_WINDOW (self));
-
 	gth_task_exec (task);
+
+	if (self->priv->show_event == 0)
+		self->priv->show_event = g_timeout_add (SHOW_DELAY, _show_dialog_cb, self);
 }
 
 
@@ -337,6 +372,11 @@ gth_progress_dialog_remove_child (GthProgressDialog *self,
 				  GtkWidget         *child)
 {
 	gtk_container_remove (GTK_CONTAINER (self->priv->task_box), child);
-	if (_gtk_container_get_n_children (GTK_CONTAINER (self->priv->task_box)) == 0)
+	if (_gtk_container_get_n_children (GTK_CONTAINER (self->priv->task_box)) == 0) {
+		if (self->priv->show_event != 0) {
+			g_source_remove (self->priv->show_event);
+			self->priv->show_event = 0;
+		}
 		gtk_widget_hide (GTK_WIDGET (self));
+	}
 }
