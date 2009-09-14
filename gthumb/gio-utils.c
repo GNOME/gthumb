@@ -1571,7 +1571,7 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 	if (copy_data->progress_callback != NULL)
 		copy_data->progress_callback (NULL,
 					      _("Copying files"),
-					      _("Getting files information"),
+					      _("Getting file information"),
 					      TRUE,
 					      0.0,
 					      copy_data->progress_callback_data);
