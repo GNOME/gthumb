@@ -1133,6 +1133,7 @@ gth_main_activate_extensions (void)
 						"image_viewer",
 						"list_tools",
 						"photo_importer",
+						"red_eye_removal",
 						"rename_series",
 						"search",
 						"slideshow",
