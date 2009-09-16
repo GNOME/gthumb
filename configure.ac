@@ -122,8 +122,11 @@ if test x$enable_clutter = xyes ; then
 			   clutter-gtk-0.10 >= $CLUTTER_GTK_REQUIRED],
 			  [enable_clutter=yes],
 			  [enable_clutter=no])
+fi
+if test x$enable_clutter = xyes ; then
 	AC_DEFINE(HAVE_CLUTTER, 1, [Define to 1 if clutter support is included])
 fi
+
 AC_SUBST(CLUTTER_LIBS)
 AC_SUBST(CLUTTER_CFLAGS)
 AM_CONDITIONAL(ENABLE_CLUTTER, test "x$enable_clutter" = xyes)
@@ -137,9 +140,9 @@ AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[Gettext package])
 AM_GLIB_GNU_GETTEXT
 
 if test "x${prefix}" = "xNONE"; then
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "${ac_default_prefix}/${DATADIRNAME}/locale", [Locale directory])
+	AC_DEFINE_UNQUOTED(LOCALEDIR, "${ac_default_prefix}/${DATADIRNAME}/locale", [Locale directory])
 else
-  AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale", [Locale directory])
+	AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale", [Locale directory])
 fi
 
 dnl ===========================================================================
