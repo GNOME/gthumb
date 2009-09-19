@@ -62,8 +62,7 @@ typedef enum {
 	GTH_TEST_OP_AFTER
 } GthTestOp;
 
-struct _GthTest
-{
+struct _GthTest {
 	GObject __parent;
 	GthTestPrivate *priv;
 
@@ -74,8 +73,7 @@ struct _GthTest
 	int            iterator;
 };
 
-struct _GthTestClass
-{
+struct _GthTestClass {
 	GObjectClass __parent_class;
 
 	/*< signals >*/
