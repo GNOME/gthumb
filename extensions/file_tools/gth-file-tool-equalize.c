@@ -129,7 +129,7 @@ equalize_release (GthPixbufTask *pixop,
 	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
 		g_free (data->part[i]);
 	g_free (data->part);
-	gth_histogram_free (data->histogram);
+	g_object_unref (data->histogram);
 	g_object_unref (data->viewer_page);
 	g_free (data);
 }
@@ -138,13 +138,13 @@ equalize_release (GthPixbufTask *pixop,
 static void
 gth_file_tool_equalize_activate (GthFileTool *base)
 {
-	GtkWidget   *window;
-	GtkWidget   *viewer_page;
-	GtkWidget   *viewer;
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GtkWidget    *window;
+	GtkWidget    *viewer_page;
+	GtkWidget    *viewer;
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
 	EqualizeData *data;
-	GthTask     *task;
+	GthTask      *task;
 
 	window = gth_file_tool_get_window (base);
 	viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
@@ -159,7 +159,7 @@ gth_file_tool_equalize_activate (GthFileTool *base)
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	data = g_new0 (EqualizeData, 1);
 	data->viewer_page = g_object_ref (viewer_page);
-	task = gth_pixbuf_task_new (_("Enhancing image contrast"),
+	task = gth_pixbuf_task_new (_("Equalizing image histogram"),
 				    src_pixbuf,
 				    dest_pixbuf,
 				    equalize_init,
@@ -192,7 +192,7 @@ static void
 gth_file_tool_equalize_instance_init (GthFileToolEqualize *self)
 {
 	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_EQUALIZE */, _("Equalize"), NULL, FALSE);
-	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic contrast enhancement"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Equalize image histogram"));
 }
 
 
