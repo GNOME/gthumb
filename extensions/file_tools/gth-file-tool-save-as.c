@@ -31,7 +31,7 @@ gth_file_tool_save_as_update_sensitivity (GthFileTool *base)
 	GtkWidget *window;
 
 	window = gth_file_tool_get_window (base);
-	gtk_widget_set_sensitive (GTK_WIDGET (base), gth_browser_get_file_modified (GTH_BROWSER (window)));
+	gtk_widget_set_sensitive (GTK_WIDGET (base), gth_browser_get_current_file (GTH_BROWSER (window)) != NULL);
 }
 
 
