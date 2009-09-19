@@ -208,7 +208,7 @@ adjust_levels_release (GthPixbufTask *pixop,
 	if (error == NULL)
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (data->viewer_page), pixop->dest, TRUE);
 
-	gth_histogram_free (data->hist);
+	g_object_unref (data->hist);
 	g_free (data->levels);
 	g_object_unref (data->viewer_page);
 	g_free (data);
@@ -271,7 +271,7 @@ gth_file_tool_enhance_update_sensitivity (GthFileTool *base)
 static void
 gth_file_tool_enhance_instance_init (GthFileToolEnhance *self)
 {
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_ENHANCE */, _("White Balance"), NULL, FALSE);
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT /* FIXME GTH_STOCK_ENHANCE */, _("Enhance Colors"), NULL, TRUE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Automatic white balance correction"));
 }
 
