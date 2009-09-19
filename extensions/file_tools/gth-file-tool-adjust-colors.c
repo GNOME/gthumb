@@ -28,214 +28,11 @@
 
 
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
-#define APPLY_DELAY 250
+#define APPLY_DELAY 150
+#define SQR(x) ((x) * (x))
 
 
 static gpointer parent_class = NULL;
-
-
-/* -- gimpcolorspace -- */
-
-
-static void
-gimp_rgb_to_hls_int (gint *red,
-		     gint *green,
-		     gint *blue)
-{
-  gint    r, g, b;
-  gdouble h, l, s;
-  gint    min, max;
-  gint    delta;
-
-  r = *red;
-  g = *green;
-  b = *blue;
-
-  if (r > g)
-    {
-      max = MAX (r, b);
-      min = MIN (g, b);
-    }
-  else
-    {
-      max = MAX (g, b);
-      min = MIN (r, b);
-    }
-
-  l = (max + min) / 2.0;
-
-  if (max == min)
-    {
-      s = 0.0;
-      h = 0.0;
-    }
-  else
-    {
-      delta = (max - min);
-
-      if (l < 128)
-	s = 255 * (gdouble) delta / (gdouble) (max + min);
-      else
-	s = 255 * (gdouble) delta / (gdouble) (511 - max - min);
-
-      if (r == max)
-	h = (g - b) / (gdouble) delta;
-      else if (g == max)
-	h = 2 + (b - r) / (gdouble) delta;
-      else
-	h = 4 + (r - g) / (gdouble) delta;
-
-      h = h * 42.5;
-
-      if (h < 0)
-	h += 255;
-      else if (h > 255)
-	h -= 255;
-    }
-
-  *red   = h;
-  *green = l;
-  *blue  = s;
-}
-
-
-static gint
-gimp_hls_value (gdouble n1,
-		gdouble n2,
-		gdouble hue)
-{
-  gdouble value;
-
-  if (hue > 255)
-    hue -= 255;
-  else if (hue < 0)
-    hue += 255;
-  if (hue < 42.5)
-    value = n1 + (n2 - n1) * (hue / 42.5);
-  else if (hue < 127.5)
-    value = n2;
-  else if (hue < 170)
-    value = n1 + (n2 - n1) * ((170 - hue) / 42.5);
-  else
-    value = n1;
-
-  return (gint) (value * 255);
-}
-
-
-static void
-gimp_hls_to_rgb_int (gint *hue,
-		     gint *lightness,
-		     gint *saturation)
-{
-  gdouble h, l, s;
-  gdouble m1, m2;
-
-  h = *hue;
-  l = *lightness;
-  s = *saturation;
-
-  if (s == 0)
-    {
-      /*  achromatic case  */
-      *hue        = l;
-      *lightness  = l;
-      *saturation = l;
-    }
-  else
-    {
-      if (l < 128)
-	m2 = (l * (255 + s)) / 65025.0;
-      else
-	m2 = (l + s - (l * s) / 255.0) / 255.0;
-
-      m1 = (l / 127.5) - m2;
-
-      /*  chromatic case  */
-      *hue        = gimp_hls_value (m1, m2, h + 85);
-      *lightness  = gimp_hls_value (m1, m2, h);
-      *saturation = gimp_hls_value (m1, m2, h - 85);
-    }
-}
-
-
-/* -- hue, lightness, saturation -- */
-
-
-typedef enum {
-	GIMP_ALL_HUES,
-	GIMP_RED_HUES,
-	GIMP_YELLOW_HUES,
-	GIMP_GREEN_HUES,
-	GIMP_CYAN_HUES,
-	GIMP_BLUE_HUES,
-	GIMP_MAGENTA_HUES
-} GimpHueRange;
-
-
-typedef struct {
-	double hue[7];
-	double lightness[7];
-	double saturation[7];
-	int    hue_transfer[6][256];
-	int    lightness_transfer[6][256];
-	int    saturation_transfer[6][256];
-} HueSaturationData;
-
-
-static void
-hue_saturation_data_init (HueSaturationData *hs)
-{
-	GimpHueRange partition;
-
-	g_return_if_fail (hs != NULL);
-
-	for (partition = GIMP_ALL_HUES; partition <= GIMP_MAGENTA_HUES; partition++) {
-		hs->hue[partition]        = 0.0;
-		hs->lightness[partition]  = 0.0;
-		hs->saturation[partition] = 0.0;
-	}
-}
-
-
-static void
-hue_saturation_calculate_transfers (HueSaturationData *hs)
-{
-	int value;
-	int hue;
-	int i;
-
-	g_return_if_fail (hs != NULL);
-
-	/*  Calculate transfers  */
-	for (hue = 0; hue < 6; hue++)
-		for (i = 0; i < 256; i++) {
-			/* Hue */
-			value = (hs->hue[0] + hs->hue[hue + 1]) * 255.0 / 360.0;
-			if ((i + value) < 0)
-				hs->hue_transfer[hue][i] = 255 + (i + value);
-			else if ((i + value) > 255)
-				hs->hue_transfer[hue][i] = i + value - 255;
-			else
-				hs->hue_transfer[hue][i] = i + value;
-
-			/*  Lightness  */
-			value = (hs->lightness[0] + hs->lightness[hue + 1]) * 127.0 / 100.0;
-			value = CLAMP (value, -255, 255);
-			if (value < 0)
-				hs->lightness_transfer[hue][i] = (unsigned char) ((i * (255 + value)) / 255);
-			else
-				hs->lightness_transfer[hue][i] = (unsigned char) (i + ((255 - i) * value) / 255);
-
-			/*  Saturation  */
-			value = (hs->saturation[0] + hs->saturation[hue + 1]) * 255.0 / 100.0;
-			value = CLAMP (value, -255, 255);
-			hs->saturation_transfer[hue][i] = CLAMP ((i * (255 + value)) / 255, 0, 255);
-		}
-}
-
-
-/* --- */
 
 
 struct _GthFileToolAdjustColorsPrivate {
@@ -246,24 +43,38 @@ struct _GthFileToolAdjustColorsPrivate {
 	GtkAdjustment *brightness_adj;
 	GtkAdjustment *contrast_adj;
 	GtkAdjustment *saturation_adj;
-	GtkAdjustment *hue_adj;
-	GtkAdjustment *lightness_adj;
+	GtkAdjustment *cyan_red_adj;
+	GtkAdjustment *magenta_green_adj;
+	GtkAdjustment *yellow_blue_adj;
+	GtkWidget     *histogram_view;
+	GthHistogram  *histogram;
 	GthTask       *pixbuf_task;
 	guint          apply_event;
 };
 
 
 typedef struct {
-	GtkWidget         *viewer_page;
-	double             gamma;
-	double             brightness;
-	double             contrast;
-	double             saturation;
-	double             hue;
-	double             lightness;
-	PixbufCache       *cache;
-	HueSaturationData *hs;
+	GtkWidget   *viewer_page;
+	double       gamma;
+	double       brightness;
+	double       contrast;
+	double       saturation;
+	double       color_level[3];
+	PixbufCache *cache;
+	double       midtone_distance[256];
 } AdjustData;
+
+
+static void
+adjust_colors_init (GthPixbufTask *pixop)
+{
+	AdjustData *data = pixop->data;
+	int         i;
+
+	data->cache = pixbuf_cache_new ();
+	for (i = 0; i < 256; i++)
+		data->midtone_distance[i] = 0.667 * (1 - SQR (((double) i - 127.0) / 127.0));
+}
 
 
 static guchar
@@ -295,60 +106,6 @@ gamma_correction (guchar original,
 
 
 static void
-adjust_colors_init (GthPixbufTask *pixop)
-{
-	AdjustData *data = pixop->data;
-
-	data->hs = g_new (HueSaturationData, 1);
-	hue_saturation_data_init (data->hs);
-	data->hs->hue[GIMP_ALL_HUES] = data->hue /* -180.0 ==> 180.0 */;
-	data->hs->lightness[GIMP_ALL_HUES] = data->lightness /* -100.0 ==> 100.0 */;
-	data->hs->saturation[GIMP_ALL_HUES] = data->saturation * (- 100.0)  /* -100.0 ==> 100.0 */;
-	hue_saturation_calculate_transfers (data->hs);
-
-	data->cache = pixbuf_cache_new ();
-}
-
-
-static void
-hue_saturation_step (GthPixbufTask *pixop)
-{
-	AdjustData        *data = pixop->data;
-	HueSaturationData *hs = data->hs;
-	int                r, g, b, hue_idx;
-
-	r = pixop->dest_pixel[RED_PIX];
-	g = pixop->dest_pixel[GREEN_PIX];
-	b = pixop->dest_pixel[BLUE_PIX];
-
-	gimp_rgb_to_hls_int (&r, &g, &b);
-
-	if (r < 43)
-		hue_idx = 0;
-	else if (r < 85)
-		hue_idx = 1;
-	else if (r < 128)
-		hue_idx = 2;
-	else if (r < 171)
-		hue_idx = 3;
-	else if (r < 213)
-		hue_idx = 4;
-	else
-		hue_idx = 5;
-
-	r = hs->hue_transfer[hue_idx][r];
-	g = hs->lightness_transfer[hue_idx][g];
-	b = hs->saturation_transfer[hue_idx][b];
-
-	gimp_hls_to_rgb_int (&r, &g, &b);
-
-	pixop->dest_pixel[RED_PIX] = r;
-	pixop->dest_pixel[GREEN_PIX] = g;
-	pixop->dest_pixel[BLUE_PIX] = b;
-}
-
-
-static void
 adjust_colors_step (GthPixbufTask *pixop)
 {
 	AdjustData *data = pixop->data;
@@ -357,26 +114,41 @@ adjust_colors_step (GthPixbufTask *pixop)
 	if (pixop->has_alpha)
 		pixop->dest_pixel[ALPHA_PIX] = pixop->src_pixel[ALPHA_PIX];
 
+	/* gamma correction / brightness / contrast */
+
 	for (channel = RED_PIX; channel <= BLUE_PIX; channel++) {
-		pixop->dest_pixel[channel] = pixop->src_pixel[channel];
-		if (! pixbuf_cache_get (data->cache, channel + 1, &pixop->dest_pixel[channel])) {
-			pixop->dest_pixel[channel] = gamma_correction (pixop->dest_pixel[channel], data->gamma);
-			pixop->dest_pixel[channel] = interpolate_value (pixop->dest_pixel[channel], 0, data->brightness);
-			pixop->dest_pixel[channel] = interpolate_value (pixop->dest_pixel[channel], 127, data->contrast);
-			pixbuf_cache_set (data->cache, channel + 1, pixop->src_pixel[channel], pixop->dest_pixel[channel]);
+		guchar v;
+
+		v = pixop->src_pixel[channel];
+		if (! pixbuf_cache_get (data->cache, channel + 1, &v)) {
+			int i;
+
+			v = gamma_correction (v, data->gamma);
+
+			if (data->brightness > 0)
+				v = interpolate_value (v, 0, data->brightness);
+			else
+				v = interpolate_value (v, 255, - data->brightness);
+
+			if (data->contrast < 0)
+				v = interpolate_value (v, 127, tan (data->contrast * G_PI_2) /*data->contrast*/);
+			else
+				v = interpolate_value (v, 127, data->contrast);
+
+			i = v + data->color_level[channel] * data->midtone_distance[v];
+			v = CLAMP(i, 0, 255);
+
+			pixbuf_cache_set (data->cache, channel + 1, pixop->src_pixel[channel], v);
 		}
+
+		pixop->dest_pixel[channel] = v;
 	}
 
-#if 1
-	if ((data->saturation != 0.0) || (data->hue != 0.0) || (data->lightness != 0))
-		hue_saturation_step (pixop);
-#endif
-
-#if 0
 	/* saturation */
 
 	if (data->saturation != 0.0) {
 		guchar min, max, lightness;
+		double saturation;
 
 		max = MAX (pixop->dest_pixel[RED_PIX], pixop->dest_pixel[GREEN_PIX]);
 		max = MAX (max, pixop->dest_pixel[BLUE_PIX]);
@@ -384,11 +156,15 @@ adjust_colors_step (GthPixbufTask *pixop)
 		min = MIN (min, pixop->dest_pixel[BLUE_PIX]);
 		lightness = (max + min) / 2;
 
-		pixop->dest_pixel[RED_PIX] = interpolate_value (pixop->dest_pixel[RED_PIX], lightness, data->saturation);
-		pixop->dest_pixel[GREEN_PIX] = interpolate_value (pixop->dest_pixel[GREEN_PIX], lightness, data->saturation);
-		pixop->dest_pixel[BLUE_PIX] = interpolate_value (pixop->dest_pixel[BLUE_PIX], lightness, data->saturation);
+		if (data->saturation < 0)
+			saturation = tan (data->saturation * G_PI_2);
+		else
+			saturation = data->saturation;
+
+		pixop->dest_pixel[RED_PIX] = interpolate_value (pixop->dest_pixel[RED_PIX], lightness, saturation);
+		pixop->dest_pixel[GREEN_PIX] = interpolate_value (pixop->dest_pixel[GREEN_PIX], lightness, saturation);
+		pixop->dest_pixel[BLUE_PIX] = interpolate_value (pixop->dest_pixel[BLUE_PIX], lightness, saturation);
 	}
-#endif
 }
 
 
@@ -400,7 +176,6 @@ adjust_colors_release (GthPixbufTask *pixop,
 
 	g_object_unref (data->viewer_page);
 	pixbuf_cache_free (data->cache);
-	g_free (data->hs);
 	g_free (data);
 }
 
@@ -455,6 +230,20 @@ cancel_button_clicked_cb (GtkButton               *button,
 
 
 static void
+reset_button_clicked_cb (GtkButton               *button,
+			 GthFileToolAdjustColors *self)
+{
+	gtk_adjustment_set_value (self->priv->gamma_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->brightness_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->contrast_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->saturation_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->cyan_red_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->magenta_green_adj, 0.0);
+	gtk_adjustment_set_value (self->priv->yellow_blue_adj, 0.0);
+}
+
+
+static void
 task_completed_cb (GthTask                 *task,
 		   GError                  *error,
 		   GthFileToolAdjustColors *self)
@@ -470,6 +259,7 @@ task_completed_cb (GthTask                 *task,
 		window = gth_file_tool_get_window (GTH_FILE_TOOL (self));
 		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (window));
 		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), self->priv->dest_pixbuf, FALSE);
+		gth_histogram_calculate (self->priv->histogram, self->priv->dest_pixbuf);
 	}
 }
 
@@ -498,8 +288,9 @@ apply_cb (gpointer user_data)
 	data->brightness = gtk_adjustment_get_value (self->priv->brightness_adj) / 100.0 * -1.0;
 	data->contrast = gtk_adjustment_get_value (self->priv->contrast_adj) / 100.0 * -1.0;
 	data->saturation = gtk_adjustment_get_value (self->priv->saturation_adj) / 100.0 * -1.0;
-	data->hue = gtk_adjustment_get_value (self->priv->hue_adj);
-	data->lightness = gtk_adjustment_get_value (self->priv->lightness_adj);
+	data->color_level[0] = gtk_adjustment_get_value (self->priv->cyan_red_adj);
+	data->color_level[1] = gtk_adjustment_get_value (self->priv->magenta_green_adj);
+	data->color_level[2] = gtk_adjustment_get_value (self->priv->yellow_blue_adj);
 
 	self->priv->pixbuf_task = gth_pixbuf_task_new (_("Applying changes"),
 						       self->priv->src_pixbuf,
@@ -599,12 +390,17 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	options = _gtk_builder_get_widget (self->priv->builder, "options");
 	gtk_widget_show (options);
 
+	self->priv->histogram_view = gth_histogram_view_new (self->priv->histogram);
+	gtk_widget_show (self->priv->histogram_view);
+	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("histogram_hbox")), self->priv->histogram_view, TRUE, TRUE, 0);
+
 	self->priv->brightness_adj = gimp_scale_entry_new (GET_WIDGET ("brightness_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
 	self->priv->contrast_adj = gimp_scale_entry_new (GET_WIDGET ("contrast_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
 	self->priv->gamma_adj = gimp_scale_entry_new (GET_WIDGET ("gamma_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
 	self->priv->saturation_adj = gimp_scale_entry_new (GET_WIDGET ("saturation_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
-	self->priv->hue_adj = gimp_scale_entry_new (GET_WIDGET ("hue_hbox"), 0.0, -180.0, 180.0, 1.0, 10.0, 0);
-	self->priv->lightness_adj = gimp_scale_entry_new (GET_WIDGET ("lightness_hbox"), 0.0, -180.0, 180.0, 1.0, 10.0, 0);
+	self->priv->cyan_red_adj = gimp_scale_entry_new (GET_WIDGET ("cyan_red_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->magenta_green_adj = gimp_scale_entry_new (GET_WIDGET ("magenta_green_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
+	self->priv->yellow_blue_adj = gimp_scale_entry_new (GET_WIDGET ("yellow_blue_hbox"), 0.0, -100.0, 100.0, 1.0, 10.0, 0);
 
 	g_signal_connect (GET_WIDGET ("ok_button"),
 			  "clicked",
@@ -613,6 +409,10 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 	g_signal_connect (GET_WIDGET ("cancel_button"),
 			  "clicked",
 			  G_CALLBACK (cancel_button_clicked_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("reset_button"),
+			  "clicked",
+			  G_CALLBACK (reset_button_clicked_cb),
 			  self);
 	g_signal_connect (G_OBJECT (self->priv->brightness_adj),
 			  "value-changed",
@@ -630,14 +430,20 @@ gth_file_tool_adjust_colors_get_options (GthFileTool *base)
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->hue_adj),
+	g_signal_connect (G_OBJECT (self->priv->cyan_red_adj),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
-	g_signal_connect (G_OBJECT (self->priv->lightness_adj),
+	g_signal_connect (G_OBJECT (self->priv->magenta_green_adj),
 			  "value-changed",
 			  G_CALLBACK (value_changed_cb),
 			  self);
+	g_signal_connect (G_OBJECT (self->priv->yellow_blue_adj),
+			  "value-changed",
+			  G_CALLBACK (value_changed_cb),
+			  self);
+
+	gth_histogram_calculate (self->priv->histogram, self->priv->dest_pixbuf);
 
 	return options;
 }
@@ -675,7 +481,9 @@ static void
 gth_file_tool_adjust_colors_instance_init (GthFileToolAdjustColors *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_FILE_TOOL_ADJUST_COLORS, GthFileToolAdjustColorsPrivate);
-	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Adjust Colors"), _("Adjust Colors"), TRUE);
+	self->priv->histogram = gth_histogram_new ();
+
+	gth_file_tool_construct (GTH_FILE_TOOL (self), GTK_STOCK_EDIT, _("Adjust Colors"), _("Adjust Colors"), FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (self), _("Change brightness, contrast, saturation and gamma level of the image"));
 }
 
@@ -693,6 +501,7 @@ gth_file_tool_adjust_colors_finalize (GObject *object)
 	_g_object_unref (self->priv->src_pixbuf);
 	_g_object_unref (self->priv->dest_pixbuf);
 	_g_object_unref (self->priv->builder);
+	_g_object_unref (self->priv->histogram);
 
 	/* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);

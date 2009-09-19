@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,69 +28,149 @@
 #define MAX_N_CHANNELS 4
 
 
-GthHistogram *
-gth_histogram_new (void)
+/* Signals */
+enum {
+        CHANGED,
+        LAST_SIGNAL
+};
+
+
+struct _GthHistogramPrivate {
+	int **values;
+	int  *values_max;
+	int   n_channels;
+};
+
+
+static gpointer parent_class = NULL;
+static guint gth_histogram_signals[LAST_SIGNAL] = { 0 };
+
+
+static void
+gth_histogram_finalize (GObject *object)
 {
-	GthHistogram *histogram;
-	int              i;
+	GthHistogram *self;
 
-	histogram = g_new0 (GthHistogram, 1);
+	self = GTH_HISTOGRAM (object);
 
-	histogram->values = g_new0 (int *, MAX_N_CHANNELS + 1);
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
-		histogram->values[i] = g_new0 (int, 256);
+	g_free (self->priv->values);
+	g_free (self->priv->values_max);
 
-	histogram->values_max = g_new0 (int, MAX_N_CHANNELS + 1);
-
-	return histogram;
-}
-
-
-void
-gth_histogram_free (GthHistogram *histogram)
-{
-	int i;
-
-	if (histogram == NULL)
-		return;
-
-	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
-		g_free (histogram->values[i]);
-	g_free (histogram->values);
-	g_free (histogram->values_max);
-
-	g_free (histogram);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static void
-histogram_reset_values (GthHistogram *histogram)
+gth_histogram_class_init (GthHistogramClass *klass)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (GthHistogramPrivate));
+
+	object_class = (GObjectClass*) klass;
+	object_class->finalize = gth_histogram_finalize;
+
+	/* signals */
+
+	gth_histogram_signals[CHANGED] =
+                g_signal_new ("changed",
+                              G_TYPE_FROM_CLASS (klass),
+                              G_SIGNAL_RUN_LAST,
+                              G_STRUCT_OFFSET (GthHistogramClass, changed),
+                              NULL, NULL,
+                              g_cclosure_marshal_VOID__VOID,
+                              G_TYPE_NONE,
+                              0);
+}
+
+
+static void
+gth_histogram_init (GthHistogram *self)
+{
+	int i;
+
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_HISTOGRAM, GthHistogramPrivate);
+	self->priv->values = g_new0 (int *, MAX_N_CHANNELS + 1);
+	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+		self->priv->values[i] = g_new0 (int, 256);
+	self->priv->values_max = g_new0 (int, MAX_N_CHANNELS + 1);
+}
+
+
+GType
+gth_histogram_get_type (void)
+{
+        static GType type = 0;
+
+        if (! type) {
+                GTypeInfo type_info = {
+			sizeof (GthHistogramClass),
+			NULL,
+			NULL,
+			(GClassInitFunc) gth_histogram_class_init,
+			NULL,
+			NULL,
+			sizeof (GthHistogram),
+			0,
+			(GInstanceInitFunc) gth_histogram_init
+		};
+		type = g_type_register_static (G_TYPE_OBJECT,
+					       "GthHistogram",
+					       &type_info,
+					       0);
+	}
+
+        return type;
+}
+
+
+GthHistogram *
+gth_histogram_new (void)
+{
+	return (GthHistogram *) g_object_new (GTH_TYPE_HISTOGRAM, NULL);
+}
+
+
+static void
+histogram_reset_values (GthHistogram *self)
 {
 	int i;
 
 	for (i = 0; i < MAX_N_CHANNELS + 1; i++) {
-		memset (histogram->values[i], 0, sizeof (int) * 256);
-		histogram->values_max[i] = 0;
+		memset (self->priv->values[i], 0, sizeof (int) * 256);
+		self->priv->values_max[i] = 0;
 	}
 }
 
 
+static void
+gth_histogram_changed (GthHistogram *self)
+{
+	g_signal_emit (self, gth_histogram_signals[CHANGED], 0);
+}
+
+
 void
-gth_histogram_calculate (GthHistogram    *histogram,
+gth_histogram_calculate (GthHistogram    *self,
 			 const GdkPixbuf *pixbuf)
 {
-	int    **values = histogram->values;
-	int     *values_max = histogram->values_max;  
+	int    **values;
+	int     *values_max;
 	int      width, height, has_alpha, n_channels;
 	int      rowstride;
 	guchar  *line, *pixel;
 	int      i, j, max;
 
-	g_return_if_fail (histogram != NULL);
+	g_return_if_fail (GTH_IS_HISTOGRAM (self));
+
+	values = self->priv->values;
+	values_max = self->priv->values_max;
 
 	if (pixbuf == NULL) {
-		histogram->n_channels = 0;
-		histogram_reset_values (histogram);
+		self->priv->n_channels = 0;
+		histogram_reset_values (self);
+		gth_histogram_changed (self);
 		return;
 	}
 
@@ -101,8 +181,8 @@ gth_histogram_calculate (GthHistogram    *histogram,
 	width      = gdk_pixbuf_get_width (pixbuf);
 	height     = gdk_pixbuf_get_height (pixbuf);
 
-	histogram->n_channels = n_channels + 1;
-	histogram_reset_values (histogram);
+	self->priv->n_channels = n_channels + 1;
+	histogram_reset_values (self);
 
 	for (i = 0; i < height; i++) {
 		pixel = line;
@@ -132,87 +212,87 @@ gth_histogram_calculate (GthHistogram    *histogram,
 			pixel += n_channels;
 		}
 	}
+
+	gth_histogram_changed (self);
 }
 
 
 double
-gth_histogram_get_count (GthHistogram *histogram,
-			 int              start,
-			 int              end)
+gth_histogram_get_count (GthHistogram *self,
+			 int           start,
+			 int           end)
 {
 	int    i;
 	double count = 0;
 
-	g_return_val_if_fail (histogram != NULL, 0.0);
+	g_return_val_if_fail (self != NULL, 0.0);
 
 	for (i = start; i <= end; i++)
-		count += histogram->values[0][i];
+		count += self->priv->values[0][i];
 	
 	return count;
 }
 
 
 double
-gth_histogram_get_value (GthHistogram *histogram,
+gth_histogram_get_value (GthHistogram *self,
 			 int           channel,
 			 int           bin)
 {
-	g_return_val_if_fail (histogram != NULL, 0.0);
+	g_return_val_if_fail (self != NULL, 0.0);
 
-	if ((channel < histogram->n_channels) && (bin >= 0) && (bin < 256))
-		return (double) histogram->values[channel][bin];
+	if ((channel < self->priv->n_channels) && (bin >= 0) && (bin < 256))
+		return (double) self->priv->values[channel][bin];
 
 	return 0.0;
 }
 
 
 double
-gth_histogram_get_channel (GthHistogram *histogram,
+gth_histogram_get_channel (GthHistogram *self,
 			   int           channel,
 			   int           bin)
 {
-	g_return_val_if_fail (histogram != NULL, 0.0);
+	g_return_val_if_fail (self != NULL, 0.0);
 
-	if (histogram->n_channels > 3)
-		return gth_histogram_get_value (histogram, channel + 1, bin);
+	if (self->priv->n_channels > 3)
+		return gth_histogram_get_value (self, channel + 1, bin);
 	else
-		return gth_histogram_get_value (histogram, channel, bin);
+		return gth_histogram_get_value (self, channel, bin);
 }
 
 
 double
-gth_histogram_get_max (GthHistogram *histogram,
-		       int           channel)
+gth_histogram_get_channel_max (GthHistogram *self,
+			       int           channel)
 {
-	g_return_val_if_fail (histogram != NULL, 0.0);
+	g_return_val_if_fail (self != NULL, 0.0);
 
-	if (channel < histogram->n_channels)
-		return (double) histogram->values_max[channel];
+	if (channel < self->priv->n_channels)
+		return (double) self->priv->values_max[channel];
 
 	return 0.0;
 }
 
 
-int
-gth_histogram_get_nchannels (GthHistogram *histogram)
+double
+gth_histogram_get_max (GthHistogram *self)
 {
-	g_return_val_if_fail (histogram != NULL, 0.0);
-	return histogram->n_channels - 1;
-}
+	int    i;
+	double max = -1.0;
 
+	g_return_val_if_fail (self != NULL, 0.0);
 
-void
-gth_histogram_set_current_channel (GthHistogram *histogram,
-				   int           channel)
-{
-	g_return_if_fail (histogram != NULL);
-	histogram->cur_channel = channel;
+	for (i = 0; i < self->priv->n_channels; i++)
+		max = MAX (max, (double) self->priv->values_max[i]);
+
+	return max;
 }
 
 
 int
-gth_histogram_get_current_channel (GthHistogram *histogram)
+gth_histogram_get_nchannels (GthHistogram *self)
 {
-	g_return_val_if_fail (histogram != NULL, 0.0);
-	return histogram->cur_channel;
+	g_return_val_if_fail (self != NULL, 0.0);
+	return self->priv->n_channels - 1;
 }
