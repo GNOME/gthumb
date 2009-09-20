@@ -136,7 +136,7 @@ _g_enum_type_get_value_by_nick (GType       enum_type,
 
 
 IdleCall*
-idle_call_new (DoneFunc func,
+idle_call_new (DataFunc func,
 	       gpointer data)
 {
 	IdleCall *call = g_new0 (IdleCall, 1);
@@ -180,7 +180,7 @@ idle_call_exec (IdleCall *call,
 
 
 guint
-call_when_idle (DoneFunc  func,
+call_when_idle (DataFunc  func,
 		gpointer  data)
 {
 	return idle_call_exec (idle_call_new (func, data), TRUE);

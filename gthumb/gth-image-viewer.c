@@ -1919,7 +1919,7 @@ gth_image_viewer_load (GthImageViewer *viewer,
 	lidata = g_new0 (LoadImageData, 1);
 	lidata->viewer = viewer;
 	lidata->file_data = g_object_ref (file_data);
-	gth_image_loader_cancel (viewer->priv->loader, (DoneFunc) load_image__step2, lidata);
+	gth_image_loader_cancel (viewer->priv->loader, (DataFunc) load_image__step2, lidata);
 }
 
 
@@ -1975,7 +1975,7 @@ gth_image_viewer_load_from_pixbuf_loader (GthImageViewer  *viewer,
 	ivl_data->data = g_object_ref (pixbuf_loader);
 
 	gth_image_loader_cancel (viewer->priv->loader,
-				 (DoneFunc) load_from_pixbuf_loader__step2,
+				 (DataFunc) load_from_pixbuf_loader__step2,
 				 ivl_data);
 }
 
@@ -2012,7 +2012,7 @@ gth_image_viewer_load_from_image_loader (GthImageViewer *viewer,
 	ivl_data->data = g_object_ref (image_loader);
 
 	gth_image_loader_cancel (viewer->priv->loader,
-				 (DoneFunc) load_from_image_loader__step2,
+				 (DataFunc) load_from_image_loader__step2,
 				 ivl_data);
 }
 

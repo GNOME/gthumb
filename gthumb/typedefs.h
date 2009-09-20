@@ -87,8 +87,7 @@ typedef enum {
 } GthTransform;
 
 
-typedef void (*ErrorFunc)        (gpointer    user_data);
-typedef void (*DoneFunc)         (gpointer    user_data);
+typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);
 typedef void (*ReadyCallback)    (GObject    *object,

@@ -24,23 +24,29 @@
 #include "gth-pixbuf-task.h"
 
 
-#define PROGRESS_DELAY 200 /* delay between progress notifications */
+struct _GthPixbufTaskPrivate {
+	const char     *description;
+	PixbufOpFunc    init_func;
+	PixbufOpFunc    step_func;
+	PixbufDataFunc  release_func;
+	PixbufOpFunc    free_data_func;
+};
 
 
 static gpointer parent_class = NULL;
 
 
 static void
-release_pixbufs (GthPixbufTask *pixbuf_task)
+release_pixbufs (GthPixbufTask *self)
 {
-	if (pixbuf_task->src != NULL) {
-		g_object_unref (pixbuf_task->src);
-		pixbuf_task->src = NULL;
+	if (self->src != NULL) {
+		g_object_unref (self->src);
+		self->src = NULL;
 	}
 
-	if (pixbuf_task->dest != NULL) {
-		g_object_unref (pixbuf_task->dest);
-		pixbuf_task->dest = NULL;
+	if (self->dest != NULL) {
+		g_object_unref (self->dest);
+		self->dest = NULL;
 	}
 }
 
@@ -48,157 +54,106 @@ release_pixbufs (GthPixbufTask *pixbuf_task)
 static void
 gth_pixbuf_task_finalize (GObject *object)
 {
-	GthPixbufTask *pixbuf_task;
+	GthPixbufTask *self;
 
 	g_return_if_fail (GTH_IS_PIXBUF_TASK (object));
-	pixbuf_task = GTH_PIXBUF_TASK (object);
+	self = GTH_PIXBUF_TASK (object);
 
-	if (pixbuf_task->progress_event != 0) {
-		g_source_remove (pixbuf_task->progress_event);
-		pixbuf_task->progress_event = 0;
-	}
-
-	release_pixbufs (pixbuf_task);
-	if (pixbuf_task->free_data_func != NULL)
-		(*pixbuf_task->free_data_func) (pixbuf_task);
-
-	g_mutex_free (pixbuf_task->data_mutex);
+	release_pixbufs (self);
+	if (self->priv->free_data_func != NULL)
+		(*self->priv->free_data_func) (self);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
-static gboolean
-update_progress (gpointer data)
+static void
+before_execute_pixbuf_task (gpointer user_data)
 {
-	GthPixbufTask *pixbuf_task = data;
-	gboolean       interrupt;
-	int            line;
+	GthPixbufTask *self = user_data;
 
-	g_mutex_lock (pixbuf_task->data_mutex);
-	interrupt = pixbuf_task->interrupt;
-	line = pixbuf_task->line;
-	g_mutex_unlock (pixbuf_task->data_mutex);
-
-	if ((line >= pixbuf_task->height) || interrupt) {
-		GError *error = NULL;
-
-		g_source_remove (pixbuf_task->progress_event);
-		pixbuf_task->progress_event = 0;
-
-		if (interrupt)
-			error = g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, "");
-
-		if (pixbuf_task->release_func != NULL)
-			(*pixbuf_task->release_func) (pixbuf_task, error);
-
-		gth_task_completed (GTH_TASK (pixbuf_task), error);
-
-		return FALSE;
-	}
-
-	gth_task_progress (GTH_TASK (pixbuf_task),
-			   pixbuf_task->description,
+	gth_task_progress (GTH_TASK (self),
+			   self->priv->description,
 			   NULL,
-			   FALSE,
-			   (double) line / pixbuf_task->height);
-
-	return TRUE;
+			   TRUE,
+			   0.0);
 }
 
 
 static gboolean
-execute_step (GthPixbufTask *pixbuf_task)
+execute_step (GthPixbufTask *self)
 {
-	int      dir = 1;
-	gboolean interrupt;
-	int      line;
+	gboolean terminated;
+	gboolean cancelled;
+	double   progress;
+	int      dir;
 
-	g_mutex_lock (pixbuf_task->data_mutex);
-	interrupt = pixbuf_task->interrupt;
-	line = pixbuf_task->line;
-	g_mutex_unlock (pixbuf_task->data_mutex);
+	gth_async_task_get_data (GTH_ASYNC_TASK (self), &terminated, &cancelled, NULL);
+	if (self->line >= self->height)
+		terminated = TRUE;
+	progress = (double) self->line / self->height;
+	gth_async_task_set_data (GTH_ASYNC_TASK (self), &terminated, NULL, &progress);
 
-	if ((line >= pixbuf_task->height) || interrupt)
+	if (terminated || cancelled)
 		return FALSE;
 
-	pixbuf_task->src_pixel = pixbuf_task->src_line;
-	pixbuf_task->src_line += pixbuf_task->rowstride;
+	self->src_pixel = self->src_line;
+	self->src_line += self->rowstride;
 
-	pixbuf_task->dest_pixel = pixbuf_task->dest_line;
-	pixbuf_task->dest_line += pixbuf_task->rowstride;
+	self->dest_pixel = self->dest_line;
+	self->dest_line += self->rowstride;
 
-	if (! pixbuf_task->ltr) { /* right to left */
-		int ofs = (pixbuf_task->width - 1) * pixbuf_task->bytes_per_pixel;
-		pixbuf_task->src_pixel += ofs;
-		pixbuf_task->dest_pixel += ofs;
+	if (! self->ltr) { /* right to left */
+		int ofs = (self->width - 1) * self->bytes_per_pixel;
+		self->src_pixel += ofs;
+		self->dest_pixel += ofs;
 		dir = -1;
-		pixbuf_task->column = pixbuf_task->width - 1;
+		self->column = self->width - 1;
 	}
-	else
-		pixbuf_task->column = 0;
-
-	pixbuf_task->line_step = 0;
-	while (pixbuf_task->line_step < pixbuf_task->width) {
-		(*pixbuf_task->step_func) (pixbuf_task);
-		pixbuf_task->src_pixel += dir * pixbuf_task->bytes_per_pixel;
-		pixbuf_task->dest_pixel += dir * pixbuf_task->bytes_per_pixel;
-		pixbuf_task->column += dir;
-		pixbuf_task->line_step++;
+	else {
+		dir = 1;
+		self->column = 0;
 	}
 
-	g_mutex_lock (pixbuf_task->data_mutex);
-	pixbuf_task->line++;
-	g_mutex_unlock (pixbuf_task->data_mutex);
+	self->line_step = 0;
+	while (self->line_step < self->width) {
+		(*self->priv->step_func) (self);
+		self->src_pixel += dir * self->bytes_per_pixel;
+		self->dest_pixel += dir * self->bytes_per_pixel;
+		self->column += dir;
+		self->line_step++;
+	}
+
+	self->line++;
 
 	return TRUE;
 }
 
 
 static gpointer
-execute_task (gpointer user_data)
+execute_pixbuf_task (gpointer user_data)
 {
-	GthPixbufTask *pixbuf_task = user_data;
+	GthPixbufTask *self = user_data;
 
-	g_mutex_lock (pixbuf_task->data_mutex);
-	pixbuf_task->line = 0;
-	g_mutex_unlock (pixbuf_task->data_mutex);
+	self->line = 0;
+	if (self->priv->init_func != NULL)
+		(*self->priv->init_func) (self);
 
-	if (pixbuf_task->init_func != NULL)
-		(*pixbuf_task->init_func) (pixbuf_task);
-
-	while (execute_step (pixbuf_task)) /* void */;
+	while (execute_step (self))
+		/* void */;
 
 	return NULL;
 }
 
 
 static void
-gth_pixbuf_task_exec (GthTask *task)
+after_execute_pixbuf_task (GError   *error,
+			   gpointer  user_data)
 {
-	GthPixbufTask *pixbuf_task;
+	GthPixbufTask *self = user_data;
 
-	pixbuf_task = GTH_PIXBUF_TASK (task);
-
-	g_return_if_fail (pixbuf_task->src != NULL);
-
-	g_thread_create (execute_task, pixbuf_task, FALSE, NULL);
-	pixbuf_task->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, pixbuf_task);
-}
-
-
-static void
-gth_pixbuf_task_cancel (GthTask *task)
-{
-	GthPixbufTask *pixbuf_task;
-
-	g_return_if_fail (GTH_IS_PIXBUF_TASK (task));
-
-	pixbuf_task = GTH_PIXBUF_TASK (task);
-
-	g_mutex_lock (pixbuf_task->data_mutex);
-	pixbuf_task->interrupt = TRUE;
-	g_mutex_unlock (pixbuf_task->data_mutex);
+	if (self->priv->release_func != NULL)
+		(*self->priv->release_func) (self, error);
 }
 
 
@@ -206,43 +161,33 @@ static void
 gth_pixbuf_task_class_init (GthPixbufTaskClass *class)
 {
 	GObjectClass *object_class;
-	GthTaskClass *task_class;
 
 	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (GthPixbufTaskPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = gth_pixbuf_task_finalize;
-
-	task_class = GTH_TASK_CLASS (class);
-	task_class->exec = gth_pixbuf_task_exec;
-	task_class->cancel = gth_pixbuf_task_cancel;
 }
 
 
 static void
-gth_pixbuf_task_init (GthPixbufTask *pixbuf_task)
+gth_pixbuf_task_init (GthPixbufTask *self)
 {
-	pixbuf_task->src = NULL;
-	pixbuf_task->dest = NULL;
-	pixbuf_task->data = NULL;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_PIXBUF_TASK, GthPixbufTaskPrivate);
+	self->priv->init_func = NULL;
+	self->priv->step_func = NULL;
+	self->priv->release_func = NULL;
+	self->priv->free_data_func = NULL;
 
-	pixbuf_task->init_func = NULL;
-	pixbuf_task->step_func = NULL;
-	pixbuf_task->release_func = NULL;
-	pixbuf_task->free_data_func = NULL;
-
-	pixbuf_task->src_line = NULL;
-	pixbuf_task->src_pixel = NULL;
-	pixbuf_task->dest_line = NULL;
-	pixbuf_task->dest_pixel = NULL;
-
-	pixbuf_task->ltr = TRUE;
-
-	pixbuf_task->progress_event = 0;
-	pixbuf_task->line = 0;
-	pixbuf_task->interrupt = FALSE;
-
-	pixbuf_task->data_mutex = g_mutex_new ();
+	self->data = NULL;
+	self->src = NULL;
+	self->dest = NULL;
+	self->src_line = NULL;
+	self->src_pixel = NULL;
+	self->dest_line = NULL;
+	self->dest_pixel = NULL;
+	self->ltr = TRUE;
+	self->line = 0;
 }
 
 
@@ -264,7 +209,7 @@ gth_pixbuf_task_get_type (void)
 			(GInstanceInitFunc) gth_pixbuf_task_init
 		};
 
-		type = g_type_register_static (GTH_TYPE_TASK,
+		type = g_type_register_static (GTH_TYPE_ASYNC_TASK,
 					       "GthPixbufTask",
 					       &type_info,
 					       0);
@@ -280,27 +225,31 @@ gth_pixbuf_task_new (const char     *description,
 		     GdkPixbuf      *dest,
 		     PixbufOpFunc    init_func,
 		     PixbufOpFunc    step_func,
-		     PixbufDoneFunc  release_func,
+		     PixbufDataFunc  release_func,
 		     gpointer        data)
 {
-	GthPixbufTask *pixbuf_task;
+	GthPixbufTask *self;
 
-	pixbuf_task = GTH_PIXBUF_TASK (g_object_new (GTH_TYPE_PIXBUF_TASK, NULL));
+	self = (GthPixbufTask *) g_object_new (GTH_TYPE_PIXBUF_TASK,
+					       "before-thread", before_execute_pixbuf_task,
+					       "thread-func", execute_pixbuf_task,
+					       "after-thread", after_execute_pixbuf_task,
+					       NULL);
 
-	pixbuf_task->description = description;
-	pixbuf_task->init_func = init_func;
-	pixbuf_task->step_func = step_func;
-	pixbuf_task->release_func = release_func;
-	pixbuf_task->data = data;
+	self->priv->description = description;
+	self->priv->init_func = init_func;
+	self->priv->step_func = step_func;
+	self->priv->release_func = release_func;
+	self->data = data;
 
-	gth_pixbuf_task_set_pixbufs (pixbuf_task, src, dest);
+	gth_pixbuf_task_set_pixbufs (self, src, dest);
 
-	return (GthTask *) pixbuf_task;
+	return (GthTask *) self;
 }
 
 
 void
-gth_pixbuf_task_set_pixbufs (GthPixbufTask *pixbuf_task,
+gth_pixbuf_task_set_pixbufs (GthPixbufTask *self,
 			     GdkPixbuf     *src,
 			     GdkPixbuf     *dest)
 {
@@ -318,21 +267,21 @@ gth_pixbuf_task_set_pixbufs (GthPixbufTask *pixbuf_task,
 		g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
 	}
 
-	release_pixbufs (pixbuf_task);
+	release_pixbufs (self);
 
 	g_object_ref (src);
-	pixbuf_task->src = src;
+	self->src = src;
 
-	pixbuf_task->has_alpha       = gdk_pixbuf_get_has_alpha (src);
-	pixbuf_task->bytes_per_pixel = pixbuf_task->has_alpha ? 4 : 3;
-	pixbuf_task->width           = gdk_pixbuf_get_width (src);
-	pixbuf_task->height          = gdk_pixbuf_get_height (src);
-	pixbuf_task->rowstride       = gdk_pixbuf_get_rowstride (src);
-	pixbuf_task->src_line        = gdk_pixbuf_get_pixels (src);
+	self->has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	self->bytes_per_pixel = self->has_alpha ? 4 : 3;
+	self->width           = gdk_pixbuf_get_width (src);
+	self->height          = gdk_pixbuf_get_height (src);
+	self->rowstride       = gdk_pixbuf_get_rowstride (src);
+	self->src_line        = gdk_pixbuf_get_pixels (src);
 
 	if (dest != NULL) {
 		g_object_ref (dest);
-		pixbuf_task->dest = dest;
-		pixbuf_task->dest_line = gdk_pixbuf_get_pixels (dest);
+		self->dest = dest;
+		self->dest_line = gdk_pixbuf_get_pixels (dest);
 	}
 }

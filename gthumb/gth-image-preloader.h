@@ -64,7 +64,7 @@ void                gth_image_preloader_load          (GthImagePreloader  *prelo
 						       GthFileData        *next1,
 						       GthFileData        *prev1);
 void                gth_image_preloader_stop          (GthImagePreloader  *preloader,
-						       DoneFunc            done_func,
+						       DataFunc            done_func,
 						       gpointer            done_func_data);
 GthImageLoader *    gth_image_preloader_get_loader    (GthImagePreloader  *preloader,
 						       GthFileData        *file_data);

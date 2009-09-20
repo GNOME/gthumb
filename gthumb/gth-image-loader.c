@@ -59,7 +59,7 @@ struct _GthImageLoaderPrivate {
 	gboolean            loading;
 	gboolean            emit_signal;
 
-	DoneFunc            done_func;
+	DataFunc            done_func;
 	gpointer            done_func_data;
 
 	guint               check_id;
@@ -136,7 +136,7 @@ gth_image_loader_finalize__step2 (GObject *object)
 
 
 static void _gth_image_loader_stop (GthImageLoader *iloader,
-				    DoneFunc        done_func,
+				    DataFunc        done_func,
 				    gpointer        done_func_data,
 				    gboolean        emit_sig,
 				    gboolean        use_idle_cb);
@@ -163,7 +163,7 @@ gth_image_loader_finalize (GObject *object)
 	}
 
 	_gth_image_loader_stop (iloader,
-				(DoneFunc) gth_image_loader_finalize__step2,
+				(DataFunc) gth_image_loader_finalize__step2,
 				object,
 				FALSE,
 				FALSE);
@@ -679,7 +679,7 @@ gth_image_loader_load (GthImageLoader *iloader)
 		return;
 
 	_gth_image_loader_stop (iloader,
-				(DoneFunc) _gth_image_loader_load__step2,
+				(DataFunc) _gth_image_loader_load__step2,
 				iloader,
 				FALSE,
 				TRUE);
@@ -693,7 +693,7 @@ static void
 _gth_image_loader_stop__step2 (GthImageLoader *iloader,
 			       gboolean        use_idle_cb)
 {
-	DoneFunc  done_func = iloader->priv->done_func;
+	DataFunc  done_func = iloader->priv->done_func;
 	GError   *error;
 
 	g_mutex_lock (iloader->priv->data_mutex);
@@ -731,7 +731,7 @@ _gth_image_loader_stop__step2 (GthImageLoader *iloader,
 
 static void
 _gth_image_loader_stop (GthImageLoader *iloader,
-			DoneFunc        done_func,
+			DataFunc        done_func,
 			gpointer        done_func_data,
 			gboolean        emit_signal,
 			gboolean        use_idle_cb)
@@ -746,7 +746,7 @@ _gth_image_loader_stop (GthImageLoader *iloader,
 
 void
 gth_image_loader_cancel (GthImageLoader *iloader,
-			  DoneFunc        done_func,
+			  DataFunc        done_func,
 			 gpointer        done_func_data)
 {
 	g_mutex_lock (iloader->priv->data_mutex);
@@ -770,7 +770,7 @@ gth_image_loader_cancel (GthImageLoader *iloader,
 
 void
 gth_image_loader_cancel_with_error (GthImageLoader *iloader,
-				    DoneFunc        done_func,
+				    DataFunc        done_func,
 				    gpointer        done_func_data)
 {
 	g_mutex_lock (iloader->priv->data_mutex);

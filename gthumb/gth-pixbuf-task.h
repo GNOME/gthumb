@@ -20,12 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef _GTH_PIXBUF_TASK_H
-#define _GTH_PIXBUF_TASK_H
+#ifndef GTH_PIXBUF_TASK_H
+#define GTH_PIXBUF_TASK_H
 
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "gth-task.h"
+#include "gth-async-task.h"
 
 G_BEGIN_DECLS
 
@@ -38,9 +38,10 @@ G_BEGIN_DECLS
 
 typedef struct _GthPixbufTask        GthPixbufTask;
 typedef struct _GthPixbufTaskClass   GthPixbufTaskClass;
+typedef struct _GthPixbufTaskPrivate GthPixbufTaskPrivate;
 
 typedef void (*PixbufOpFunc)   (GthPixbufTask *pixbuf_task);
-typedef void (*PixbufDoneFunc) (GthPixbufTask *pixbuf_task, GError *error);
+typedef void (*PixbufDataFunc) (GthPixbufTask *pixbuf_task, GError *error);
 
 enum {
 	RED_PIX   = 0,
@@ -50,16 +51,13 @@ enum {
 };
 
 struct _GthPixbufTask {
-	GthTask __parent;
+	GthAsyncTask __parent;
+	GthPixbufTaskPrivate *priv;
+
+	gpointer        data;
 
 	GdkPixbuf      *src;
 	GdkPixbuf      *dest;
-	gpointer        data;
-
-	PixbufOpFunc    init_func;
-	PixbufOpFunc    step_func;
-	PixbufDoneFunc  release_func;
-	PixbufOpFunc    free_data_func;
 
 	gboolean        has_alpha;
 	int             bytes_per_pixel;
@@ -72,17 +70,10 @@ struct _GthPixbufTask {
 	int             line;
 	int             line_step;
 	int             column;
-	gboolean        interrupt;
-	const char     *description;
-
-	/*< private >*/
-
-	GMutex         *data_mutex;
-	guint           progress_event;
 };
 
 struct _GthPixbufTaskClass {
-	GthTaskClass __parent;
+	GthAsyncTaskClass __parent;
 };
 
 GType         gth_pixbuf_task_get_type        (void);
@@ -91,7 +82,7 @@ GthTask *     gth_pixbuf_task_new             (const char     *description,
 					       GdkPixbuf      *dest,
 					       PixbufOpFunc    init_func,
 					       PixbufOpFunc    step_func,
-					       PixbufDoneFunc  release_func,
+					       PixbufDataFunc  release_func,
 					       gpointer        data);
 void          gth_pixbuf_task_set_pixbufs     (GthPixbufTask  *pixbuf_task,
 					       GdkPixbuf      *src,
@@ -99,4 +90,4 @@ void          gth_pixbuf_task_set_pixbufs     (GthPixbufTask  *pixbuf_task,
 
 G_END_DECLS
 
-#endif /* _GTH_PIXBUF_TASK_H */
+#endif /* GTH_PIXBUF_TASK_H */

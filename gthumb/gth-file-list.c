@@ -110,7 +110,7 @@ struct _GthFileListPrivateData
 
 	char           **caption_attributes_v;
 
-	DoneFunc         done_func;
+	DataFunc         done_func;
 	gpointer         done_func_data;
 };
 
@@ -702,7 +702,7 @@ cancel_step2 (gpointer user_data)
 
 void
 gth_file_list_cancel (GthFileList *file_list,
-		      DoneFunc     done_func,
+		      DataFunc     done_func,
 		      gpointer     user_data)
 {
 	_gth_file_list_clear_queue (file_list);

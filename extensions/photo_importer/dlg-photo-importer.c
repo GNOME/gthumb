@@ -55,7 +55,7 @@ typedef struct {
 	gboolean       loading_list;
 	gboolean       import;
 	GthFileSource *vfs_source;
-	DoneFunc       done_func;
+	DataFunc       done_func;
 	gboolean       cancelling;
 	gulong         monitor_event;
 	GtkWidget     *filter_combobox;
@@ -170,7 +170,7 @@ cancel_done (gpointer user_data)
 
 static void
 cancel (DialogData *data,
-	DoneFunc    done_func)
+	DataFunc    done_func)
 {
 	if (data->cancelling)
 		return;

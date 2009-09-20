@@ -465,7 +465,7 @@ gth_image_preloader_load (GthImagePreloader  *image_preloader,
 	LoadData *load_data;
 
 	load_data = load_data_new (image_preloader, requested, next1, prev1);
-	gth_image_preloader_stop (image_preloader, (DoneFunc) gth_image_preloader_load__step2, load_data);
+	gth_image_preloader_stop (image_preloader, (DataFunc) gth_image_preloader_load__step2, load_data);
 }
 
 
@@ -567,7 +567,7 @@ start_next_loader (GthImagePreloader *image_preloader)
 
 void
 gth_image_preloader_stop (GthImagePreloader *image_preloader,
-			  DoneFunc           done_func,
+			  DataFunc           done_func,
 			  gpointer           done_func_data)
 {
 	Preloader *preloader;

@@ -78,7 +78,7 @@ void             gth_thumb_loader_set_uri            (GthThumbLoader *tl,
 GdkPixbuf *      gth_thumb_loader_get_pixbuf         (GthThumbLoader *tl);
 void             gth_thumb_loader_load               (GthThumbLoader *tl);
 void             gth_thumb_loader_cancel             (GthThumbLoader *tl,
-					              DoneFunc        func,
+					              DataFunc        func,
 					              gpointer        data);
 
 G_END_DECLS

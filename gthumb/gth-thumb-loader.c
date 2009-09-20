@@ -729,13 +729,13 @@ gth_thumb_loader_load__step2 (GthThumbLoader *tloader)
 void
 gth_thumb_loader_load (GthThumbLoader *tloader)
 {
-	gth_thumb_loader_cancel (tloader, (DoneFunc) gth_thumb_loader_load__step2, tloader);
+	gth_thumb_loader_cancel (tloader, (DataFunc) gth_thumb_loader_load__step2, tloader);
 }
 
 
 void
 gth_thumb_loader_cancel (GthThumbLoader *tloader,
-			 DoneFunc        done_func,
+			 DataFunc        done_func,
 			 gpointer        done_func_data)
 {
 	g_return_if_fail (tloader->priv->iloader != NULL);

@@ -89,17 +89,17 @@ GEnumValue *  _g_enum_type_get_value_by_nick (GType        enum_type,
 /* idle callback */
 
 typedef struct {
-	DoneFunc func;
+	DataFunc func;
 	gpointer data;
 } IdleCall;
 
 
-IdleCall* idle_call_new           (DoneFunc       func,
+IdleCall* idle_call_new           (DataFunc       func,
 				   gpointer       data);
 void      idle_call_free          (IdleCall      *call);
 guint     idle_call_exec          (IdleCall      *call,
 				   gboolean       use_idle_cb);
-guint     call_when_idle          (DoneFunc       func,
+guint     call_when_idle          (DataFunc       func,
 				   gpointer       data);
 void      object_ready_with_error (gpointer       object,
 				   ReadyCallback  ready_func,
