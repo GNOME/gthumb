@@ -111,6 +111,22 @@ update_progress (gpointer data)
 }
 
 
+static gpointer
+exec_task (gpointer user_data)
+{
+	GthAsyncTask *self = user_data;
+	gpointer      result;
+
+	result = self->priv->exec_func (self);
+
+	g_mutex_lock (self->priv->data_mutex);
+	self->priv->terminated = TRUE;
+	g_mutex_unlock (self->priv->data_mutex);
+
+	return result;
+}
+
+
 static void
 gth_async_task_exec (GthTask *task)
 {
@@ -120,7 +136,7 @@ gth_async_task_exec (GthTask *task)
 
 	if (self->priv->before_func != NULL)
 		self->priv->before_func (self);
-	g_thread_create (self->priv->exec_func, self, FALSE, NULL);
+	g_thread_create (exec_task, self, FALSE, NULL);
 	self->priv->progress_event = g_timeout_add (PROGRESS_DELAY, update_progress, self);
 }
 
