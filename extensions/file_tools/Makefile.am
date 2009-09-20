@@ -14,6 +14,8 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-enhance.h		\
 	gth-file-tool-equalize.c	\
 	gth-file-tool-equalize.h	\
+	gth-file-tool-negative.c	\
+	gth-file-tool-negative.h	\
 	gth-file-tool-redo.c		\
 	gth-file-tool-redo.h		\
 	gth-file-tool-save.c		\
