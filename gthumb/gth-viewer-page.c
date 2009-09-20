@@ -118,7 +118,12 @@ gth_viewer_page_update_sensitivity (GthViewerPage *self)
 gboolean
 gth_viewer_page_can_save (GthViewerPage *self)
 {
-	return GTH_VIEWER_PAGE_GET_INTERFACE (self)->can_save (self);
+	if (self == NULL)
+		return FALSE;
+	if (GTH_VIEWER_PAGE_GET_INTERFACE (self)->can_save != NULL)
+		return GTH_VIEWER_PAGE_GET_INTERFACE (self)->can_save (self);
+	else
+		return FALSE;
 }
 
 

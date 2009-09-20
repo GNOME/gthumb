@@ -29,8 +29,12 @@
 #include "gth-file-tool-desaturate.h"
 #include "gth-file-tool-enhance.h"
 #include "gth-file-tool-equalize.h"
+#include "gth-file-tool-flip.h"
+#include "gth-file-tool-mirror.h"
 #include "gth-file-tool-negative.h"
 #include "gth-file-tool-redo.h"
+#include "gth-file-tool-rotate-left.h"
+#include "gth-file-tool-rotate-right.h"
 #include "gth-file-tool-save.h"
 #include "gth-file-tool-save-as.h"
 #include "gth-file-tool-undo.h"
@@ -43,11 +47,18 @@ gthumb_extension_activate (void)
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_SAVE_AS);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_UNDO);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_REDO);
+
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ENHANCE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ADJUST_COLORS);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_EQUALIZE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_DESATURATE);
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_NEGATIVE);
+
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_MIRROR);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_FLIP);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_RIGHT);
+	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_ROTATE_LEFT);
+
 	gth_main_register_type ("file-tools", GTH_TYPE_FILE_TOOL_CROP);
 }
 

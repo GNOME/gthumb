@@ -14,10 +14,18 @@ libfile_tools_la_SOURCES = 		\
 	gth-file-tool-enhance.h		\
 	gth-file-tool-equalize.c	\
 	gth-file-tool-equalize.h	\
+	gth-file-tool-flip.c		\
+	gth-file-tool-flip.h		\
+	gth-file-tool-mirror.c		\
+	gth-file-tool-mirror.h		\
 	gth-file-tool-negative.c	\
 	gth-file-tool-negative.h	\
 	gth-file-tool-redo.c		\
 	gth-file-tool-redo.h		\
+	gth-file-tool-rotate-left.c	\
+	gth-file-tool-rotate-left.h	\
+	gth-file-tool-rotate-right.c	\
+	gth-file-tool-rotate-right.h	\
 	gth-file-tool-save.c		\
 	gth-file-tool-save.h		\
 	gth-file-tool-save-as.c		\
