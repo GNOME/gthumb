@@ -91,7 +91,13 @@ void
 gth_browser_activate_action_file_revert (GtkAction  *action,
 					 GthBrowser *browser)
 {
-	gth_browser_load_file (browser, gth_browser_get_current_file (browser), TRUE);
+	GthFileData *file_data;
+
+	file_data = gth_browser_get_current_file (browser);
+	if (file_data == NULL)
+		return;
+	g_file_info_set_attribute_boolean (file_data->info, "gth::file::is-modified", FALSE);
+	gth_browser_load_file (browser, file_data, TRUE);
 }
 
 

@@ -44,6 +44,7 @@ struct _GthImageViewerPagePrivate {
 	guint              cnxn_id[GCONF_NOTIFICATIONS];
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
+	gboolean           pixbuf_changed;
 
 };
 
@@ -591,7 +592,8 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	g_return_if_fail (file_data != NULL);
 
 	if ((self->priv->file_data != NULL)
-	    && g_file_equal (file_data->file, self->priv->file_data->file))
+	    && g_file_equal (file_data->file, self->priv->file_data->file)
+	    && ! self->priv->pixbuf_changed)
 	{
 		return;
 	}
@@ -1153,6 +1155,7 @@ gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 	if (add_to_history)
 		gth_image_history_add_image (self->priv->history, pixbuf, TRUE);
 	_gth_image_viewer_page_set_pixbuf (self, pixbuf, TRUE);
+	self->priv->pixbuf_changed = TRUE;
 }
 
 

@@ -2540,6 +2540,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			}
 
 			if (current_file_deleted) {
+				g_file_info_set_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified", FALSE);
 				gth_browser_load_file (browser, new_file, FALSE);
 				_g_object_unref (new_file);
 			}
@@ -3556,10 +3557,10 @@ gth_browser_get_current_file (GthBrowser *browser)
 gboolean
 gth_browser_get_file_modified (GthBrowser *browser)
 {
-	if (browser->priv->current_file == NULL)
-		return FALSE;
-	else
+	if (browser->priv->current_file != NULL)
 		return g_file_info_get_attribute_boolean (browser->priv->current_file->info, "gth::file::is-modified");
+	else
+		return FALSE;
 }
 
 
