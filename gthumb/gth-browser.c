@@ -1730,6 +1730,15 @@ enum {
 
 
 static void
+ask_whether_to_save__close_cb (GtkWidget   *dialog,
+                               AskSaveData *data)
+{
+        gtk_widget_destroy (dialog);
+        ask_whether_to_save__done (data, TRUE);
+}
+
+
+static void
 ask_whether_to_save__response_cb (GtkWidget   *dialog,
 				  int          response_id,
 				  AskSaveData *data)
@@ -1774,6 +1783,11 @@ _gth_browser_ask_whether_to_save (GthBrowser         *browser,
 			  "response",
 			  G_CALLBACK (ask_whether_to_save__response_cb),
 			  data);
+        g_signal_connect (G_OBJECT (d),
+                          "close",
+                          G_CALLBACK (ask_whether_to_save__close_cb),
+                          data);
+
 	gtk_widget_show (d);
 
 	g_free (title);
