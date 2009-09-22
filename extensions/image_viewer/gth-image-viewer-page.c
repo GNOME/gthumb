@@ -593,6 +593,7 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 
 	if ((self->priv->file_data != NULL)
 	    && g_file_equal (file_data->file, self->priv->file_data->file)
+	    && (gth_file_data_get_mtime (file_data) == gth_file_data_get_mtime (self->priv->file_data))
 	    && ! self->priv->pixbuf_changed)
 	{
 		return;
