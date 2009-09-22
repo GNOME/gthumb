@@ -128,8 +128,10 @@ copy_ready_cb (GError   *error,
 	GthImportTask *self = user_data;
 	gboolean       appling_tranformation = FALSE;
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED)) {
+		self->priv->delete_imported = FALSE;
 		error = NULL;
+	}
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
