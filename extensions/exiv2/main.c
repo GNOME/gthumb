@@ -188,15 +188,53 @@ exiv2_jpeg_tran_cb (void         **out_buffer,
 }
 
 
+
+
+
+static int
+gth_file_data_cmp_date_time_original (GthFileData *a,
+				      GthFileData *b)
+{
+	GTimeVal *pta, *ptb;
+	GTimeVal  ta, tb;
+
+	pta = NULL;
+	if (gth_file_data_get_digitalization_time (a, &ta))
+		pta = &ta;
+	if (pta == NULL)
+		pta = gth_file_data_get_modification_time (a);
+
+	ptb = NULL;
+	if (gth_file_data_get_digitalization_time (b, &tb))
+		ptb = &tb;
+	if (ptb == NULL)
+		ptb = gth_file_data_get_modification_time (b);
+
+	return _g_time_val_cmp (pta, ptb);
+}
+
+
+GthFileDataSort exiv2_sort_types[] = {
+	{ "exif::photo::datetimeoriginal", N_("photo digitalization"),
+	  "Exif::Photo::DateTimeOriginal,Exif::Photo::DateTimeDigitized",
+	  gth_file_data_cmp_date_time_original }
+};
+
+
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	int i;
+
 	gth_main_register_metadata_category (exiv2_metadata_category);
 	gth_main_register_metadata_info_v (exiv2_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_EXIV2);
 	gth_hook_add_callback ("save-pixbuf", 10, G_CALLBACK (exiv2_write_metadata), NULL);
 	if (gth_hook_present ("jpegtran-after"))
 		gth_hook_add_callback ("jpegtran-after", 10, G_CALLBACK (exiv2_jpeg_tran_cb), NULL);
+
+	for (i = 0; i < G_N_ELEMENTS (exiv2_sort_types); i++)
+		gth_main_register_sort_type (&exiv2_sort_types[i]);
 }
 
 

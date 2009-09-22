@@ -32,7 +32,8 @@
 #define GTH_FILE_DATA_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_FILE_DATA, GthFileDataPrivate))
 
 struct _GthFileDataPrivate {
-	GTimeVal  mtime;
+	GTimeVal  mtime;   /* modification time */
+	GTimeVal  dtime;   /* digitalization time */
 	char     *sort_key;
 };
 
@@ -68,6 +69,7 @@ static void
 gth_file_data_instance_init (GthFileData *self)
 {
 	self->priv = GTH_FILE_DATA_GET_PRIVATE (self);
+	self->priv->dtime.tv_sec = 0;
 }
 
 
@@ -197,6 +199,8 @@ gth_file_data_set_info (GthFileData *self,
 		self->info = info;
 	else
 		self->info = g_file_info_new ();
+
+	self->priv->dtime.tv_sec = 0;
 }
 
 
@@ -260,6 +264,48 @@ gth_file_data_get_modification_time (GthFileData *self)
 }
 
 
+static const char *try_digitalization_tag[] = {
+	"Exif::Photo::DateTimeOriginal",
+	"Xmp::exif::DateTimeOriginal",
+	"Exif::Photo::DateTimeDigitized",
+	"Xmp::exif::DateTimeDigitized",
+	"Xmp::xmp::CreateDate",
+	"Xmp::photoshop::DateCreated",
+	"Xmp::xmp::ModifyDate",
+	"Xmp::xmp::MetadataDate",
+	NULL
+};
+
+
+gboolean
+gth_file_data_get_digitalization_time (GthFileData *self,
+				       GTimeVal    *_time)
+{
+	int i;
+
+	if (self->priv->dtime.tv_sec != 0) {
+		*_time = self->priv->dtime;
+		return TRUE;
+	}
+
+	for (i = 0; try_digitalization_tag[i] != NULL; i++) {
+		GthMetadata *m;
+
+		m = (GthMetadata *) g_file_info_get_attribute_object (self->info, try_digitalization_tag[i]);
+		if (m == NULL)
+			continue;
+
+		if (! _g_time_val_from_exif_date (gth_metadata_get_raw (m), &self->priv->dtime))
+			continue;
+
+		*_time = self->priv->dtime;
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 gboolean
 gth_file_data_is_readable (GthFileData *self)
 {
@@ -280,6 +326,8 @@ gth_file_data_update_info (GthFileData *fd,
 
 	if (fd->info == NULL)
 		fd->info = g_file_info_new ();
+
+	fd->priv->dtime.tv_sec = 0;
 }
 
 

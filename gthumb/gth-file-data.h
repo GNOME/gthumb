@@ -83,6 +83,8 @@ const char *  gth_file_data_get_mime_type           (GthFileData    *self);
 const char *  gth_file_data_get_filename_sort_key   (GthFileData    *self);
 time_t        gth_file_data_get_mtime               (GthFileData    *self);
 GTimeVal *    gth_file_data_get_modification_time   (GthFileData    *self);
+gboolean      gth_file_data_get_digitalization_time (GthFileData    *self,
+				                     GTimeVal       *_time);
 gboolean      gth_file_data_is_readable             (GthFileData    *self);
 void          gth_file_data_update_info             (GthFileData    *self,
 						     const char     *attributes);

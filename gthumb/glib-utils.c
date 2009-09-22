@@ -363,8 +363,10 @@ _g_time_val_from_exif_date (const char *exif_date,
 	struct tm tm;
 	long   val;
 
-	g_return_val_if_fail (exif_date != NULL, FALSE);
 	g_return_val_if_fail (time_ != NULL, FALSE);
+
+	if (exif_date == NULL)
+		return FALSE;
 
 	while (g_ascii_isspace (*exif_date))
 		exif_date++;
