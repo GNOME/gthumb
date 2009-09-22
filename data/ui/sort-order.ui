@@ -26,7 +26,8 @@
                 <child>
                   <object class="GtkLabel" id="sort_by_label">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">_Sort by</property>
+                    <property name="label" translatable="yes">_Sort by:</property>
+                    <property name="use_underline">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -66,7 +67,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="close_button">
-                <property name="label" translatable="yes">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
