@@ -128,6 +128,9 @@ copy_ready_cb (GError   *error,
 	GthImportTask *self = user_data;
 	gboolean       appling_tranformation = FALSE;
 
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED))
+		error = NULL;
+
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
