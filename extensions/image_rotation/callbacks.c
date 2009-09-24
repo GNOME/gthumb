@@ -67,35 +67,6 @@ browser_data_free (BrowserData *data)
 }
 
 
-static gboolean
-gth_file_list_key_press_cb (GtkWidget   *widget,
-			    GdkEventKey *event,
-			    gpointer     user_data)
-{
-	GthBrowser *browser = user_data;
-	gboolean    result = FALSE;
-
-	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
-		switch (gdk_keyval_to_lower (event->keyval)) {
-		case GDK_bracketright:
-			gth_browser_activate_action_tool_rotate_right (NULL, browser);
-			result = TRUE;
-			break;
-
-		case GDK_bracketleft:
-			gth_browser_activate_action_tool_rotate_left (NULL, browser);
-			result = TRUE;
-			break;
-
-		default:
-			break;
-		}
-        }
-
-	return result;
-}
-
-
 void
 ir__gth_browser_construct_cb (GthBrowser *browser)
 {
@@ -117,11 +88,6 @@ ir__gth_browser_construct_cb (GthBrowser *browser)
 		g_message ("building menus failed: %s", error->message);
 		g_clear_error (&error);
 	}
-
-	g_signal_connect (gth_browser_get_file_list (browser),
-			  "key_press_event",
-			  G_CALLBACK (gth_file_list_key_press_cb),
-			  browser);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
@@ -146,4 +112,31 @@ ir__gth_browser_update_sensitivity_cb (GthBrowser *browser)
 
 	action = gtk_action_group_get_action (data->action_group, "Tool_RotateLeft");
 	g_object_set (action, "sensitive", sensitive, NULL);
+}
+
+
+gpointer
+ir__gth_browser_file_list_key_press_cb (GthBrowser  *browser,
+					GdkEventKey *event)
+{
+	gpointer result = NULL;
+
+	if (! (event->state & GDK_CONTROL_MASK) && ! (event->state & GDK_MOD1_MASK)) {
+		switch (gdk_keyval_to_lower (event->keyval)) {
+		case GDK_bracketright:
+			gth_browser_activate_action_tool_rotate_right (NULL, browser);
+			result = GINT_TO_POINTER (1);
+			break;
+
+		case GDK_bracketleft:
+			gth_browser_activate_action_tool_rotate_left (NULL, browser);
+			result = GINT_TO_POINTER (1);
+			break;
+
+		default:
+			break;
+		}
+        }
+
+	return result;
 }
