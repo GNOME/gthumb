@@ -99,6 +99,8 @@ typedef void (*ProgressCallback) (GObject    *object,
 			          gboolean    pulse,
 			          double      fraction,
 			   	  gpointer    user_data);
+typedef void (*DialogCallback)   (gboolean    opened,
+				  gpointer    user_data);
 
 G_END_DECLS
 

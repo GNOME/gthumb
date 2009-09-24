@@ -30,6 +30,7 @@
 enum {
 	COMPLETED,
 	PROGRESS,
+	DIALOG,
 	LAST_SIGNAL
 };
 
@@ -119,6 +120,17 @@ gth_task_class_init (GthTaskClass *class)
 			      G_TYPE_STRING,
 			      G_TYPE_BOOLEAN,
 			      G_TYPE_DOUBLE);
+
+	gth_task_signals[DIALOG] =
+		g_signal_new ("dialog",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthTaskClass, dialog),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__BOOLEAN,
+			      G_TYPE_NONE,
+			      1,
+			      G_TYPE_BOOLEAN);
 }
 
 
@@ -194,6 +206,14 @@ gth_task_completed (GthTask *task,
 {
 	task->priv->running = FALSE;
 	g_signal_emit (task, gth_task_signals[COMPLETED], 0, error);
+}
+
+
+void
+gth_task_dialog (GthTask  *task,
+		 gboolean  opened)
+{
+	g_signal_emit (task, gth_task_signals[DIALOG], 0, opened);
 }
 
 

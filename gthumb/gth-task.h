@@ -58,13 +58,15 @@ struct _GthTaskClass
 
 	/*< signals >*/
 
-	void  (*completed)    (GthTask    *task,
-			       GError     *error);
-	void  (*progress)     (GthTask    *task,
-			       const char *description,
-			       const char *details,
-			       gboolean    pulse,
-			       double      fraction);
+	void  (*completed)     (GthTask    *task,
+			        GError     *error);
+	void  (*progress)      (GthTask    *task,
+			        const char *description,
+			        const char *details,
+			        gboolean    pulse,
+			        double      fraction);
+	void  (*dialog)        (GthTask    *task,
+				gboolean    opened);
 
 	/*< virtual functions >*/
 
@@ -81,6 +83,8 @@ gboolean    gth_task_is_running  (GthTask    *task);
 void        gth_task_cancel      (GthTask    *task);
 void        gth_task_completed   (GthTask    *task,
 				  GError     *error);
+void        gth_task_dialog      (GthTask    *task,
+				  gboolean    opened);
 void        gth_task_progress    (GthTask    *task,
 				  const char *description,
 				  const char *details,

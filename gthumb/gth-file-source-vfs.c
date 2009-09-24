@@ -263,6 +263,7 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 			  GList            *file_list, /* GFile * list */
 			  gboolean          move,
 			  ProgressCallback  progress_callback,
+			  DialogCallback    dialog_callback,
 		          ReadyCallback     ready_callback,
 			  gpointer          data)
 {
@@ -280,6 +281,8 @@ gth_file_source_vfs_copy (GthFileSource    *file_source,
 			     G_PRIORITY_DEFAULT,
 			     gth_file_source_get_cancellable (file_source),
 			     progress_callback,
+			     data,
+			     dialog_callback,
 			     data,
 			     copy_done_cb,
 			     cod);

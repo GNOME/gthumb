@@ -562,6 +562,7 @@ typedef struct {
 	GthFileData      *destination;
 	GList            *file_list;
 	ProgressCallback  progress_callback;
+	DialogCallback    dialog_callback;
 	ReadyCallback     ready_callback;
 	gpointer          user_data;
 	GList            *files;
@@ -672,6 +673,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 			       GList            *file_list, /* GFile * list */
 			       gboolean          move,
 			       ProgressCallback  progress_callback,
+			       DialogCallback    dialog_callback,
 			       ReadyCallback     ready_callback,
 			       gpointer          data)
 {
@@ -682,6 +684,7 @@ gth_file_source_catalogs_copy (GthFileSource    *file_source,
 	cod->destination = g_object_ref (destination);
 	cod->file_list = _g_object_list_ref (file_list);
 	cod->progress_callback = progress_callback;
+	cod->dialog_callback = dialog_callback;
 	cod->ready_callback = ready_callback;
 	cod->user_data = data;
 

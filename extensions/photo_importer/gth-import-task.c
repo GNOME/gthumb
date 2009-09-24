@@ -200,6 +200,16 @@ copy_progress_cb (GObject    *object,
 
 
 static void
+copy_dialog_cb (gboolean  opened,
+		gpointer  user_data)
+{
+	GthImportTask *self = user_data;
+
+	gth_task_dialog (GTH_TASK (self), opened);
+}
+
+
+static void
 file_info_ready_cb (GList    *files,
 		    GError   *error,
 		    gpointer  user_data)
@@ -240,6 +250,8 @@ file_info_ready_cb (GList    *files,
 			    G_PRIORITY_DEFAULT,
 			    self->priv->cancellable,
 			    copy_progress_cb,
+			    self,
+			    copy_dialog_cb,
 			    self,
 			    copy_ready_cb,
 			    self);

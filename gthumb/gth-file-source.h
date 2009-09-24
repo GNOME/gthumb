@@ -101,6 +101,7 @@ struct _GthFileSourceClass
 					       GList            *file_list, /* GFile * list */
 					       gboolean          move,
 					       ProgressCallback  progress_callback,
+					       DialogCallback    dialog_callback,
 					       ReadyCallback     callback,
 					       gpointer          data);
 	gboolean     (*can_cut)               (GthFileSource    *file_source);
@@ -166,6 +167,7 @@ void           gth_file_source_copy                  (GthFileSource    *file_sou
 						      GList            *file_list, /* GFile list */
 						      gboolean          move,
 						      ProgressCallback  progress_callback,
+						      DialogCallback    dialog_callback,
 						      ReadyCallback     ready_callback,
 						      gpointer          data);
 gboolean       gth_file_source_can_cut               (GthFileSource    *file_source);

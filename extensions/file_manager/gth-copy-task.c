@@ -60,6 +60,16 @@ copy_done_cb (GObject    *object,
 
 
 static void
+copy_dialog_cb (gboolean  opened,
+		gpointer  user_data)
+{
+	GthCopyTask *self = user_data;
+
+	gth_task_dialog (GTH_TASK (self), opened);
+}
+
+
+static void
 copy_progress_cb (GObject    *object,
 		  const char *description,
 		  const char *details,
@@ -87,6 +97,7 @@ gth_copy_task_exec (GthTask *task)
 			      self->priv->files,
 			      self->priv->move,
 			      copy_progress_cb,
+			      copy_dialog_cb,
 			      copy_done_cb,
 			      self);
 }

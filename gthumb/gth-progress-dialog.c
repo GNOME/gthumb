@@ -351,11 +351,35 @@ _show_dialog_cb (gpointer data)
 }
 
 
+static void
+task_dialog_cb (GthTask  *task,
+		gboolean  opened,
+		gpointer  user_data)
+{
+	GthProgressDialog *self = user_data;
+
+	if (opened) {
+		if (self->priv->show_event != 0) {
+			g_source_remove (self->priv->show_event);
+			self->priv->show_event = 0;
+		}
+		gtk_widget_hide (GTK_WIDGET (self));
+	}
+	else if (self->priv->show_event == 0)
+		self->priv->show_event = g_timeout_add (SHOW_DELAY, _show_dialog_cb, self);
+}
+
+
 void
 gth_progress_dialog_add_task (GthProgressDialog *self,
 			      GthTask           *task)
 {
 	GtkWidget *child;
+
+	g_signal_connect (task,
+			  "dialog",
+			  G_CALLBACK (task_dialog_cb),
+			  self);
 
 	child = gth_task_progress_new (task);
 	gtk_widget_show (child);

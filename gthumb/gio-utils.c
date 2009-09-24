@@ -1009,6 +1009,8 @@ typedef struct {
 	GCancellable     *cancellable;
 	ProgressCallback  progress_callback;
 	gpointer          progress_callback_data;
+	DialogCallback    dialog_callback;
+	gpointer          dialog_callback_data;
 	ReadyFunc         ready_callback;
 	gpointer          user_data;
 
@@ -1138,6 +1140,9 @@ copy_file__overwrite_dialog_response_cb (GtkDialog *dialog,
 
 	gtk_widget_hide (GTK_WIDGET (dialog));
 
+	if (copy_file_data->dialog_callback != NULL)
+		copy_file_data->dialog_callback (FALSE, copy_file_data->dialog_callback_data);
+
 	switch (copy_file_data->default_response) {
 	case GTH_OVERWRITE_RESPONSE_NO:
 	case GTH_OVERWRITE_RESPONSE_ALWAYS_NO:
@@ -1181,6 +1186,9 @@ copy_file_ready_cb (GObject      *source_object,
 	if (! g_file_copy_finish ((GFile *) source_object, result, &error)) {
 		if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			GtkWidget *dialog;
+
+			if (copy_file_data->dialog_callback != NULL)
+				copy_file_data->dialog_callback (TRUE, copy_file_data->dialog_callback_data);
 
 			dialog = gth_overwrite_dialog_new (copy_file_data->source->file,
 							   copy_file_data->current_destination,
@@ -1317,6 +1325,8 @@ _g_copy_file_async_private (GthFileData           *source,
 			    GCancellable          *cancellable,
 			    ProgressCallback       progress_callback,
 			    gpointer               progress_callback_data,
+			    DialogCallback         dialog_callback,
+			    gpointer               dialog_callback_data,
 			    ReadyFunc              ready_callback,
 			    gpointer               user_data)
 {
@@ -1334,6 +1344,8 @@ _g_copy_file_async_private (GthFileData           *source,
 	copy_file_data->cancellable = _g_object_ref (cancellable);
 	copy_file_data->progress_callback = progress_callback;
 	copy_file_data->progress_callback_data = progress_callback_data;
+	copy_file_data->dialog_callback = dialog_callback;
+	copy_file_data->dialog_callback_data = dialog_callback_data;
 	copy_file_data->ready_callback = ready_callback;
 	copy_file_data->user_data = user_data;
 
@@ -1350,6 +1362,8 @@ _g_copy_file_async (GthFileData           *source,
 		    GCancellable          *cancellable,
 		    ProgressCallback       progress_callback,
 		    gpointer               progress_callback_data,
+		    DialogCallback         dialog_callback,
+		    gpointer               dialog_callback_data,
 		    ReadyFunc              ready_callback,
 		    gpointer               user_data)
 {
@@ -1364,6 +1378,8 @@ _g_copy_file_async (GthFileData           *source,
 				    cancellable,
 				    progress_callback,
 				    progress_callback_data,
+				    dialog_callback,
+				    dialog_callback_data,
 				    ready_callback,
 				    user_data);
 }
@@ -1400,6 +1416,8 @@ typedef struct {
 	GCancellable      *cancellable;
 	ProgressCallback   progress_callback;
 	gpointer           progress_callback_data;
+	DialogCallback     dialog_callback;
+	gpointer           dialog_callback_data;
 	ReadyFunc          done_callback;
 	gpointer           user_data;
 } CopyData;
@@ -1510,6 +1528,8 @@ copy_data__copy_current_file (CopyData *copy_data)
 				    copy_data->cancellable,
 				    copy_data->progress_callback,
 				    copy_data->progress_callback_data,
+				    copy_data->dialog_callback,
+				    copy_data->dialog_callback_data,
 				    copy_data__copy_current_file_ready_cb,
 				    copy_data);
 
@@ -1557,6 +1577,8 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 		     GCancellable     *cancellable,
 		     ProgressCallback  progress_callback,
 		     gpointer          progress_callback_data,
+		     DialogCallback    dialog_callback,
+		     gpointer          dialog_callback_data,
 		     ReadyFunc         done_callback,
 		     gpointer          user_data)
 {
@@ -1571,6 +1593,8 @@ _g_copy_files_async (GList            *sources, /* GFile list */
 	copy_data->cancellable = _g_object_ref (cancellable);
 	copy_data->progress_callback = progress_callback;
 	copy_data->progress_callback_data = progress_callback_data;
+	copy_data->dialog_callback = dialog_callback;
+	copy_data->dialog_callback_data = dialog_callback_data;
 	copy_data->done_callback = done_callback;
 	copy_data->user_data = user_data;
 

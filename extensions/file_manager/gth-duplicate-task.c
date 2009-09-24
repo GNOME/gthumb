@@ -89,6 +89,16 @@ copy_progress_cb (GObject    *object,
 }
 
 
+static void
+copy_dialog_cb (gboolean  opened,
+		gpointer  user_data)
+{
+	GthDuplicateTask *self = user_data;
+
+	gth_task_dialog (GTH_TASK (self), opened);
+}
+
+
 static void duplicate_current_file (GthDuplicateTask *self);
 
 
@@ -138,6 +148,8 @@ duplicate_current_file (GthDuplicateTask *self)
 			    G_PRIORITY_DEFAULT,
 			    self->priv->cancellable,
 			    copy_progress_cb,
+			    self,
+			    copy_dialog_cb,
 			    self,
 			    copy_ready_cb,
 			    self);
