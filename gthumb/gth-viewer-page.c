@@ -93,6 +93,13 @@ gth_viewer_page_view (GthViewerPage *self,
 
 
 void
+gth_viewer_page_focus (GthViewerPage  *self)
+{
+	GTH_VIEWER_PAGE_GET_INTERFACE (self)->focus (self);
+}
+
+
+void
 gth_viewer_page_fullscreen (GthViewerPage *self,
 			    gboolean       active)
 {

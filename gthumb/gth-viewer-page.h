@@ -54,6 +54,7 @@ struct _GthViewerPageIface {
 				 	  GthFileData   *file_data);
 	void      (*view)                (GthViewerPage *self,
 				 	  GthFileData   *file_data);
+	void      (*focus)               (GthViewerPage *self);
 	void      (*fullscreen)          (GthViewerPage *self,
 					  gboolean       active);
 	void      (*show_pointer)        (GthViewerPage *self,
@@ -80,6 +81,7 @@ gboolean     gth_viewer_page_can_view            (GthViewerPage  *self,
 						  GthFileData    *file_data);
 void         gth_viewer_page_view                (GthViewerPage  *self,
 						  GthFileData    *file_data);
+void         gth_viewer_page_focus               (GthViewerPage  *self);
 void         gth_viewer_page_fullscreen          (GthViewerPage  *self,
 						  gboolean       active);
 void         gth_viewer_page_show_pointer        (GthViewerPage  *self,

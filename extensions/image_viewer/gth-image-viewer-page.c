@@ -219,26 +219,16 @@ image_button_press_cb (GtkWidget          *widget,
 		       GdkEventButton     *event,
 		       GthImageViewerPage *self)
 {
-	if (event->button == 3) {
-		gth_browser_file_menu_popup (self->priv->browser, event);
-		return TRUE;
-	}
-
-	return FALSE;
+	return gth_browser_viewer_button_press_cb (self->priv->browser, event);
 }
 
 
 static gboolean
-mouse_wheel_scrolled_cb (GtkWidget 	     *widget,
-  		   	 GdkScrollDirection   direction,
-			 GthImageViewerPage  *self)
+mouse_whell_scroll_cb (GtkWidget 	   *widget,
+		       GdkEventScroll      *event,
+		       GthImageViewerPage  *self)
 {
-	if (direction == GDK_SCROLL_UP)
-		gth_browser_show_prev_image (self->priv->browser, FALSE, FALSE);
-	else
-		gth_browser_show_next_image (self->priv->browser, FALSE, FALSE);
-
-	return TRUE;
+	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
 }
 
 
@@ -247,31 +237,7 @@ viewer_key_press_cb (GtkWidget          *widget,
 		     GdkEventKey        *event,
 		     GthImageViewerPage *self)
 {
-	switch (gdk_keyval_to_lower (event->keyval)) {
-	case GDK_Page_Up:
-	case GDK_BackSpace:
-		gth_browser_show_prev_image (self->priv->browser, TRUE, FALSE);
-		return TRUE;
-
-	case GDK_Page_Down:
-	case GDK_space:
-		gth_browser_show_next_image (self->priv->browser, TRUE, FALSE);
-		return TRUE;
-
-	case GDK_Home:
-		gth_browser_show_first_image (self->priv->browser, TRUE, FALSE);
-		return TRUE;
-
-	case GDK_End:
-		gth_browser_show_last_image (self->priv->browser, TRUE, FALSE);
-		return TRUE;
-
-	case GDK_f:
-		gth_browser_fullscreen (self->priv->browser);
-		break;
-	}
-
-	return gth_hook_invoke_get ("gth-browser-file-list-key-press", self->priv->browser, event) != NULL;
+	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
 }
 
 
@@ -299,6 +265,9 @@ image_preloader_requested_ready_cb (GthImagePreloader  *preloader,
 	image_loader = gth_image_preloader_get_loader (self->priv->preloader, gth_image_preloader_get_requested (self->priv->preloader));
 	if (image_loader == NULL)
 		return;
+
+	if (GTK_WIDGET_VISIBLE (self->priv->viewer))
+		gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	gth_image_viewer_load_from_image_loader (GTH_IMAGE_VIEWER (self->priv->viewer), image_loader);
 }
@@ -450,7 +419,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->viewer),
 				"mouse_wheel_scroll",
-				G_CALLBACK (mouse_wheel_scrolled_cb),
+				G_CALLBACK (mouse_whell_scroll_cb),
 				self);
 	g_signal_connect (G_OBJECT (self->priv->viewer),
 			  "key_press_event",
@@ -461,6 +430,7 @@ gth_image_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->nav_window);
 
 	gth_browser_set_viewer_widget (browser, self->priv->nav_window);
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
 	/* gconf notifications */
 
@@ -547,7 +517,7 @@ gth_image_viewer_page_real_show (GthViewerPage *base)
 		g_error_free (error);
 	}
 
-	gtk_widget_grab_focus (self->priv->viewer);
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 }
 
 
@@ -619,6 +589,13 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 				  file_data,
 				  next_file_data,
 				  prev_file_data);
+}
+
+
+static void
+gth_image_viewer_page_real_focus (GthViewerPage *base)
+{
+	gtk_widget_grab_focus (GTH_IMAGE_VIEWER_PAGE (base)->priv->viewer);
 }
 
 
@@ -1088,6 +1065,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->hide = gth_image_viewer_page_real_hide;
 	iface->can_view = gth_image_viewer_page_real_can_view;
 	iface->view = gth_image_viewer_page_real_view;
+	iface->focus = gth_image_viewer_page_real_focus;
 	iface->fullscreen = gth_image_viewer_page_real_fullscreen;
 	iface->show_pointer = gth_image_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_image_viewer_page_real_update_sensitivity;

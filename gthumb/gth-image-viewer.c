@@ -1170,8 +1170,8 @@ gth_image_viewer_scroll_event (GtkWidget      *widget,
 	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN) {
 		g_signal_emit (G_OBJECT (viewer),
 			       gth_image_viewer_signals[MOUSE_WHEEL_SCROLL],
-				0,
-				event->direction);
+			       0,
+			       event);
 		return TRUE;
 	}
 
@@ -1464,7 +1464,7 @@ gth_image_viewer_class_init (GthImageViewerClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GthImageViewerClass, mouse_wheel_scroll),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__ENUM,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE,
 			      1,
 			      GDK_TYPE_SCROLL_DIRECTION);

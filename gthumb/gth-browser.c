@@ -3949,6 +3949,70 @@ gth_browser_get_list_extra_widget (GthBrowser *browser)
 }
 
 
+gboolean
+gth_browser_viewer_button_press_cb (GthBrowser     *browser,
+				    GdkEventButton *event)
+{
+	if (event->button == 3) {
+		gth_browser_file_menu_popup (browser, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+gboolean
+gth_browser_viewer_scroll_event_cb (GthBrowser     *browser,
+				    GdkEventScroll *event)
+{
+	if (event->state & GDK_SHIFT_MASK)
+		return FALSE;
+
+	if (event->state & GDK_CONTROL_MASK)
+		return FALSE;
+
+	if (event->direction == GDK_SCROLL_UP)
+		gth_browser_show_prev_image (browser, FALSE, FALSE);
+	else
+		gth_browser_show_next_image (browser, FALSE, FALSE);
+
+	return TRUE;
+}
+
+
+gboolean
+gth_browser_viewer_key_press_cb (GthBrowser  *browser,
+				 GdkEventKey *event)
+{
+	switch (gdk_keyval_to_lower (event->keyval)) {
+	case GDK_Page_Up:
+	case GDK_BackSpace:
+		gth_browser_show_prev_image (browser, FALSE, FALSE);
+		return TRUE;
+
+	case GDK_Page_Down:
+	case GDK_space:
+		gth_browser_show_next_image (browser, FALSE, FALSE);
+		return TRUE;
+
+	case GDK_Home:
+		gth_browser_show_first_image (browser, FALSE, FALSE);
+		return TRUE;
+
+	case GDK_End:
+		gth_browser_show_last_image (browser, FALSE, FALSE);
+		return TRUE;
+
+	case GDK_f:
+		gth_browser_fullscreen (browser);
+		break;
+	}
+
+	return gth_hook_invoke_get ("gth-browser-file-list-key-press", browser, event) != NULL;
+}
+
+
 void
 gth_browser_set_viewer_widget (GthBrowser *browser,
 			       GtkWidget  *widget)

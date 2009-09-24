@@ -54,26 +54,16 @@ viewer_scroll_event_cb (GtkWidget 	     *widget,
 			GdkEventScroll       *event,
 			GthFileViewerPage   *self)
 {
-	if (event->direction == GDK_SCROLL_UP)
-		gth_browser_show_prev_image (self->priv->browser, FALSE, FALSE);
-	else if (event->direction == GDK_SCROLL_DOWN)
-		gth_browser_show_next_image (self->priv->browser, FALSE, FALSE);
-
-	return TRUE;
+	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
 }
 
 
-static void
-thumb_loader_ready_cb (GthThumbLoader *il,
-		       GError         *error,
-		       gpointer        user_data)
+static gboolean
+viewer_key_press_cb (GtkWidget         *widget,
+		     GdkEventKey       *event,
+		     GthFileViewerPage *self)
 {
-	GthFileViewerPage *self = user_data;
-
-	if (error != NULL)
-		return;
-
-	gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
+	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
 }
 
 
@@ -82,12 +72,18 @@ viewer_button_press_cb (GtkWidget         *widget,
 		        GdkEventButton    *event,
 		        GthFileViewerPage *self)
 {
-	if (event->button == 3) {
-		gth_browser_file_menu_popup (self->priv->browser, event);
-		return TRUE;
-	}
+	return gth_browser_viewer_button_press_cb (self->priv->browser, event);
+}
 
-	return FALSE;
+
+static void
+thumb_loader_ready_cb (GthThumbLoader    *il,
+		       GError            *error,
+		       GthFileViewerPage *self)
+{
+	if (error != NULL)
+		return;
+	gtk_image_set_from_pixbuf (GTK_IMAGE (self->priv->icon), gth_thumb_loader_get_pixbuf (self->priv->thumb_loader));
 }
 
 
@@ -133,6 +129,7 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 	gtk_box_pack_start (GTK_BOX (vbox2), self->priv->icon, FALSE, FALSE, 0);
 
 	self->priv->label = gtk_label_new ("...");
+	gtk_label_set_selectable (GTK_LABEL (self->priv->label), TRUE);
 	gtk_widget_show (self->priv->label);
 	gtk_box_pack_start (GTK_BOX (vbox2), self->priv->label, FALSE, FALSE, 0);
 
@@ -144,9 +141,12 @@ gth_file_viewer_page_real_activate (GthViewerPage *base,
 			  "button_press_event",
 			  G_CALLBACK (viewer_button_press_cb),
 			  self);
+	g_signal_connect (G_OBJECT (self->priv->label),
+			  "key_press_event",
+			  G_CALLBACK (viewer_key_press_cb),
+			  self);
 
 	gth_browser_set_viewer_widget (browser, self->priv->viewer);
-	gtk_widget_grab_focus (self->priv->viewer);
 }
 
 
@@ -208,8 +208,16 @@ gth_file_viewer_page_real_view (GthViewerPage *base,
 	if (icon != NULL)
 		gtk_image_set_from_gicon (GTK_IMAGE (self->priv->icon), icon, GTK_ICON_SIZE_DIALOG);
 
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 	gth_thumb_loader_set_file (self->priv->thumb_loader, file_data);
 	gth_thumb_loader_load (self->priv->thumb_loader);
+}
+
+
+static void
+gth_file_viewer_page_real_focus (GthViewerPage *base)
+{
+	gtk_widget_grab_focus (GTH_FILE_VIEWER_PAGE (base)->priv->label);
 }
 
 
@@ -274,6 +282,7 @@ gth_viewer_page_interface_init (GthViewerPageIface *iface)
 	iface->hide = gth_file_viewer_page_real_hide;
 	iface->can_view = gth_file_viewer_page_real_can_view;
 	iface->view = gth_file_viewer_page_real_view;
+	iface->focus = gth_file_viewer_page_real_focus;
 	iface->fullscreen = gth_file_viewer_page_real_fullscreen;
 	iface->show_pointer = gth_file_viewer_page_real_show_pointer;
 	iface->update_sensitivity = gth_file_viewer_page_real_update_sensitivity;
