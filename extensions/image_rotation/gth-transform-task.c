@@ -70,6 +70,8 @@ trim_response_cb (JpegMcuAction action,
 {
 	GthTransformTask *self = user_data;
 
+	gth_task_dialog (GTH_TASK (self), FALSE);
+
 	if (action != JPEG_MCU_ACTION_ABORT) {
 		self->priv->default_action = action;
 		transform_current_file (self);
@@ -90,6 +92,8 @@ transform_file_ready_cb (GError   *error,
 			GthFileData *file_data;
 
 			g_clear_error (&error);
+
+			gth_task_dialog (GTH_TASK (self), TRUE);
 
 			file_data = self->priv->current->data;
 			ask_whether_to_trim (GTK_WINDOW (self->priv->browser),
