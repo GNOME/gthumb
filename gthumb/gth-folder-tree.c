@@ -470,7 +470,10 @@ button_press_cb (GtkWidget      *widget,
 		folder_tree->priv->click_path = gtk_tree_path_copy (path);
 	}
 	else if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
-		gtk_tree_view_row_activated (GTK_TREE_VIEW (folder_tree), path, NULL);
+		if (! gtk_tree_view_row_expanded (GTK_TREE_VIEW (folder_tree), path))
+			gtk_tree_view_expand_row (GTK_TREE_VIEW (folder_tree), path, FALSE);
+		else
+			gtk_tree_view_collapse_row (GTK_TREE_VIEW (folder_tree), path);
 		retval = TRUE;
 	}
 
