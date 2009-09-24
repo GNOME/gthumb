@@ -1270,6 +1270,13 @@ _g_copy_file_to_destination (CopyFileData   *copy_file_data,
 		else
 			copy_file_data->message = g_strdup_printf (_("Copying \"%s\" to \"%s\""), g_file_info_get_display_name (copy_file_data->source->info), destination_name);
 
+		copy_file_data->progress_callback (NULL,
+						   copy_file_data->message,
+						   "",
+						   TRUE,
+						   0.0,
+						   copy_file_data->progress_callback_data);
+
 		g_free (destination_name);
 		g_object_unref (destination_parent);
 	}

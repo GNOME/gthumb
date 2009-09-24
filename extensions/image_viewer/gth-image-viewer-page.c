@@ -561,6 +561,8 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 	self = (GthImageViewerPage*) base;
 	g_return_if_fail (file_data != NULL);
 
+	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
+
 	if ((self->priv->file_data != NULL)
 	    && g_file_equal (file_data->file, self->priv->file_data->file)
 	    && (gth_file_data_get_mtime (file_data) == gth_file_data_get_mtime (self->priv->file_data))
@@ -595,7 +597,11 @@ gth_image_viewer_page_real_view (GthViewerPage *base,
 static void
 gth_image_viewer_page_real_focus (GthViewerPage *base)
 {
-	gtk_widget_grab_focus (GTH_IMAGE_VIEWER_PAGE (base)->priv->viewer);
+	GtkWidget *widget;
+
+	widget = GTH_IMAGE_VIEWER_PAGE (base)->priv->viewer;
+	if (GTK_WIDGET_REALIZED (widget))
+		gtk_widget_grab_focus (widget);
 }
 
 
