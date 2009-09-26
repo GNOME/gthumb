@@ -86,11 +86,12 @@ transform_file_ready_cb (GError   *error,
 			 gpointer  user_data)
 {
 	GthTransformTask *self = user_data;
+	GthFileData      *file_data;
+	GFile            *parent;
+	GList            *file_list;
 
 	if (error != NULL) {
 		if (g_error_matches (error, JPEG_ERROR, JPEG_ERROR_MCU)) {
-			GthFileData *file_data;
-
 			g_clear_error (&error);
 
 			gth_task_dialog (GTH_TASK (self), TRUE);
@@ -107,6 +108,17 @@ transform_file_ready_cb (GError   *error,
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
+
+	file_data = self->priv->current->data;
+	parent = g_file_get_parent (file_data->file);
+	file_list = g_list_append (NULL, file_data->file);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    file_list,
+				    GTH_MONITOR_EVENT_CHANGED);
+
+	g_list_free (file_list);
+	g_object_unref (parent);
 
 	transform_next_file (self);
 }
