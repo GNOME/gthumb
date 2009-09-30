@@ -872,38 +872,39 @@ gth_extension_manager_order_extensions (GthExtensionManager *manager,
 	GSList *ordered = NULL;
 
 	for (scan = extensions; scan; /* void */) {
-		GSList                  *next = scan->next;
-		GSList                  *slink;
 		char                    *ext_name = scan->data;
 		GthExtensionDescription *ext_description;
+		GSList                  *next = scan->next;
 		GList                   *dependencies;
+		GSList                  *slink;
 		GList                   *scan_d;
 
 		ext_description = g_hash_table_lookup (manager->priv->extensions, ext_name);
 		if (ext_description == NULL) {
-			scan = scan->next;
+			g_free (scan->data);
+			extensions = g_slist_delete_link (extensions, scan);
+			scan = next;
 			continue;
 		}
 
 		dependencies = get_extension_optional_dependencies (manager, ext_description);
 		for (scan_d = dependencies; scan_d; scan_d = scan_d->next) {
-			char   *dep_name = scan_d->data;
+			char *dep_name = scan_d->data;
 
 			slink = g_slist_find_custom (extensions, dep_name, (GCompareFunc) strcmp);
 			if (slink != NULL) {
-				extensions = g_slist_remove_link (extensions, slink);
-				ordered = g_slist_prepend (ordered, slink->data);
+				if (slink == next)
+					next = next->next;
 
-				g_slist_free (slink);
+				extensions = g_slist_remove_link (extensions, slink);
+				slink->next = ordered;
+				ordered = slink;
 			}
 		}
 
-		slink = scan;
-		extensions = g_slist_remove_link (extensions, slink);
-		g_slist_free (slink);
-
-		ordered = g_slist_prepend (ordered, ext_name);
-
+		extensions = g_slist_remove_link (extensions, scan);
+		scan->next = ordered;
+		ordered = scan;
 		scan = next;
 	}
 
