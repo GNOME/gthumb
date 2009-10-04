@@ -178,6 +178,7 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 	data->buffer_size = buffer_size;
 	data->files = NULL;
 	data->error = NULL;
+
 	gth_hook_invoke ("save-pixbuf", data);
 
 	if (data->error == NULL) {

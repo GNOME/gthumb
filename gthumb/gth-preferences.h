@@ -91,7 +91,6 @@ G_BEGIN_DECLS
 #define PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
 
-
 #define DEFAULT_GENERAL_FILTER "file::type::is_media"
 #define DEFAULT_THUMBNAIL_CAPTION "standard::display-name,gth::file::display-size"
 #define DEFAULT_UI_WINDOW_WIDTH 690

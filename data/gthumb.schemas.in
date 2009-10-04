@@ -602,7 +602,7 @@
 	</locale>
       </schema>
 
-     <!-- Messages -->
+      <!-- Messages -->
 
       <schema>
 	<key>/schemas/apps/gthumb/dialogs/messages/cannot_move_to_trash</key>
@@ -625,8 +625,7 @@
 	<default>true</default>
 	<locale name="C">
 	  <short></short>
-	  <long>
-	  </long>
+	  <long></long>
 	</locale>
       </schema>
 
@@ -638,8 +637,7 @@
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
-	  <long>
-	  </long>
+	  <long></long>
 	</locale>
       </schema>
 

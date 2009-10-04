@@ -188,9 +188,6 @@ exiv2_jpeg_tran_cb (void         **out_buffer,
 }
 
 
-
-
-
 static int
 gth_file_data_cmp_date_time_original (GthFileData *a,
 				      GthFileData *b)
