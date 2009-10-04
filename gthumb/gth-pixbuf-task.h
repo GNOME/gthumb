@@ -77,16 +77,18 @@ struct _GthPixbufTaskClass {
 };
 
 GType         gth_pixbuf_task_get_type        (void);
-GthTask *     gth_pixbuf_task_new             (const char     *description,
-					       GdkPixbuf      *src,
-					       GdkPixbuf      *dest,
-					       PixbufOpFunc    init_func,
-					       PixbufOpFunc    step_func,
-					       PixbufDataFunc  release_func,
-					       gpointer        data);
-void          gth_pixbuf_task_set_pixbufs     (GthPixbufTask  *pixbuf_task,
-					       GdkPixbuf      *src,
-					       GdkPixbuf      *dest);
+GthTask *     gth_pixbuf_task_new             (const char      *description,
+					       gboolean         single_step,
+					       PixbufOpFunc     init_func,
+					       PixbufOpFunc     step_func,
+					       PixbufDataFunc   release_func,
+					       gpointer         data,
+					       GDestroyNotify   destroy_data_func);
+void          gth_pixbuf_task_set_source      (GthPixbufTask   *self,
+					       GdkPixbuf       *src);
+GdkPixbuf *   gth_pixbuf_task_get_destination (GthPixbufTask   *self);
+
+void          copy_source_to_destination      (GthPixbufTask *pixbuf_task);
 
 G_END_DECLS
 

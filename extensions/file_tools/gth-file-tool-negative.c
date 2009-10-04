@@ -69,7 +69,6 @@ gth_file_tool_negative_activate (GthFileTool *base)
 	GtkWidget *viewer_page;
 	GtkWidget *viewer;
 	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
 	GthTask   *task;
 
 	window = gth_file_tool_get_window (base);
@@ -82,18 +81,17 @@ gth_file_tool_negative_activate (GthFileTool *base)
 	if (src_pixbuf == NULL)
 		return;
 
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	task = gth_pixbuf_task_new (_("Applying changes"),
-				    src_pixbuf,
-				    dest_pixbuf,
-				    NULL,
+				    FALSE,
+				    copy_source_to_destination,
 				    negative_step,
 				    negative_release,
-				    viewer_page);
+				    viewer_page,
+				    NULL);
+	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (dest_pixbuf);
 }
 
 

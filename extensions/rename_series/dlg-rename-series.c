@@ -116,6 +116,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	task = gth_rename_task_new (old_files, new_files);
 	gth_browser_exec_task (data->browser, task, FALSE);
 
+	g_object_unref (task);
 	gtk_widget_destroy (data->dialog);
 }
 

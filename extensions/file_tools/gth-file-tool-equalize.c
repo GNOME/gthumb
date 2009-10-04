@@ -81,6 +81,7 @@ equalize_init (GthPixbufTask *pixop)
 	EqualizeData *data = pixop->data;
 	int           i;
 
+	copy_source_to_destination (pixop);
 	data->histogram = gth_histogram_new ();
 	gth_histogram_calculate (data->histogram, pixop->src);
 
@@ -130,6 +131,14 @@ equalize_release (GthPixbufTask *pixop,
 		g_free (data->part[i]);
 	g_free (data->part);
 	g_object_unref (data->histogram);
+}
+
+
+static void
+equalize_destroy_data (gpointer user_data)
+{
+	EqualizeData *data = user_data;
+
 	g_object_unref (data->viewer_page);
 	g_free (data);
 }
@@ -142,7 +151,6 @@ gth_file_tool_equalize_activate (GthFileTool *base)
 	GtkWidget    *viewer_page;
 	GtkWidget    *viewer;
 	GdkPixbuf    *src_pixbuf;
-	GdkPixbuf    *dest_pixbuf;
 	EqualizeData *data;
 	GthTask      *task;
 
@@ -156,20 +164,19 @@ gth_file_tool_equalize_activate (GthFileTool *base)
 	if (src_pixbuf == NULL)
 		return;
 
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	data = g_new0 (EqualizeData, 1);
 	data->viewer_page = g_object_ref (viewer_page);
 	task = gth_pixbuf_task_new (_("Equalizing image histogram"),
-				    src_pixbuf,
-				    dest_pixbuf,
+				    FALSE,
 				    equalize_init,
 				    equalize_step,
 				    equalize_release,
-				    data);
+				    data,
+				    equalize_destroy_data);
+	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (dest_pixbuf);
 }
 
 

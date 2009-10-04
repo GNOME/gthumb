@@ -21,6 +21,7 @@
  */
 
 #include <glib.h>
+#include "glib-utils.h"
 #include "gth-pixbuf-task.h"
 
 
@@ -29,7 +30,8 @@ struct _GthPixbufTaskPrivate {
 	PixbufOpFunc    init_func;
 	PixbufOpFunc    step_func;
 	PixbufDataFunc  release_func;
-	PixbufOpFunc    free_data_func;
+	gboolean        single_step;
+	GDestroyNotify  destroy_data_func;
 };
 
 
@@ -60,8 +62,8 @@ gth_pixbuf_task_finalize (GObject *object)
 	self = GTH_PIXBUF_TASK (object);
 
 	release_pixbufs (self);
-	if (self->priv->free_data_func != NULL)
-		(*self->priv->free_data_func) (self);
+	if (self->priv->destroy_data_func != NULL)
+		(*self->priv->destroy_data_func) (self->data);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -139,8 +141,20 @@ execute_pixbuf_task (gpointer user_data)
 	if (self->priv->init_func != NULL)
 		(*self->priv->init_func) (self);
 
-	while (execute_step (self))
-		/* void */;
+	if (self->dest != NULL)
+		self->dest_line = gdk_pixbuf_get_pixels (self->dest);
+
+	if (self->priv->single_step) {
+		gboolean terminated;
+
+		(*self->priv->step_func) (self);
+		terminated = TRUE;
+		gth_async_task_set_data (GTH_ASYNC_TASK (self), &terminated, NULL, NULL);
+	}
+	else {
+		while (execute_step (self))
+			/* void */;
+	}
 
 	return NULL;
 }
@@ -177,7 +191,8 @@ gth_pixbuf_task_init (GthPixbufTask *self)
 	self->priv->init_func = NULL;
 	self->priv->step_func = NULL;
 	self->priv->release_func = NULL;
-	self->priv->free_data_func = NULL;
+	self->priv->destroy_data_func = NULL;
+	self->dest = NULL;
 
 	self->data = NULL;
 	self->src = NULL;
@@ -220,13 +235,13 @@ gth_pixbuf_task_get_type (void)
 
 
 GthTask *
-gth_pixbuf_task_new (const char     *description,
-		     GdkPixbuf      *src,
-		     GdkPixbuf      *dest,
-		     PixbufOpFunc    init_func,
-		     PixbufOpFunc    step_func,
-		     PixbufDataFunc  release_func,
-		     gpointer        data)
+gth_pixbuf_task_new (const char      *description,
+		     gboolean         single_step,
+		     PixbufOpFunc     init_func,
+		     PixbufOpFunc     step_func,
+		     PixbufDataFunc   release_func,
+		     gpointer         data,
+		     GDestroyNotify   destroy_data_func)
 {
 	GthPixbufTask *self;
 
@@ -237,51 +252,47 @@ gth_pixbuf_task_new (const char     *description,
 					       NULL);
 
 	self->priv->description = description;
+	self->priv->single_step = single_step;
 	self->priv->init_func = init_func;
 	self->priv->step_func = step_func;
 	self->priv->release_func = release_func;
 	self->data = data;
-
-	gth_pixbuf_task_set_pixbufs (self, src, dest);
+	self->priv->destroy_data_func = destroy_data_func;
 
 	return (GthTask *) self;
 }
 
 
 void
-gth_pixbuf_task_set_pixbufs (GthPixbufTask *self,
-			     GdkPixbuf     *src,
-			     GdkPixbuf     *dest)
+gth_pixbuf_task_set_source (GthPixbufTask *self,
+			    GdkPixbuf     *src)
 {
-	if (src == NULL)
-		return;
-
-	/* NOTE that src and dest MAY be the same pixbuf! */
-
 	g_return_if_fail (GDK_IS_PIXBUF (src));
-	if (dest != NULL) {
-		g_return_if_fail (GDK_IS_PIXBUF (dest));
-		g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
-		g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
-		g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
-		g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
-	}
-
-	release_pixbufs (self);
 
 	g_object_ref (src);
+	release_pixbufs (self);
 	self->src = src;
-
 	self->has_alpha       = gdk_pixbuf_get_has_alpha (src);
 	self->bytes_per_pixel = self->has_alpha ? 4 : 3;
 	self->width           = gdk_pixbuf_get_width (src);
 	self->height          = gdk_pixbuf_get_height (src);
 	self->rowstride       = gdk_pixbuf_get_rowstride (src);
 	self->src_line        = gdk_pixbuf_get_pixels (src);
+}
 
-	if (dest != NULL) {
-		g_object_ref (dest);
-		self->dest = dest;
-		self->dest_line = gdk_pixbuf_get_pixels (dest);
-	}
+
+GdkPixbuf *
+gth_pixbuf_task_get_destination (GthPixbufTask *self)
+{
+	return self->dest;
+}
+
+
+void
+copy_source_to_destination (GthPixbufTask *pixbuf_task)
+{
+	g_return_if_fail (pixbuf_task->src != NULL);
+
+	_g_object_unref (pixbuf_task->dest);
+	pixbuf_task->dest = gdk_pixbuf_copy (pixbuf_task->src);
 }

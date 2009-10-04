@@ -62,11 +62,20 @@ desaturate_step (GthPixbufTask *pixop)
 
 
 static void
-desaturate_release (GthPixbufTask *pixop,
-		    GError        *error)
+task_completed_cb (GthTask  *task,
+		   GError   *error,
+		   gpointer  user_data)
 {
-	if (error == NULL)
-		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (pixop->data), pixop->dest, TRUE);
+	GthFileTool *base = user_data;
+
+	if (error == NULL) {
+		GthPixbufTask *pixbuf_task;
+		GtkWidget     *viewer_page;
+
+		pixbuf_task = GTH_PIXBUF_TASK (task);
+		viewer_page = gth_browser_get_viewer_page (GTH_BROWSER (gth_file_tool_get_window (base)));
+		gth_image_viewer_page_set_pixbuf (GTH_IMAGE_VIEWER_PAGE (viewer_page), pixbuf_task->dest, TRUE);
+	}
 }
 
 
@@ -77,7 +86,6 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 	GtkWidget *viewer_page;
 	GtkWidget *viewer;
 	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
 	GthTask   *task;
 
 	window = gth_file_tool_get_window (base);
@@ -90,18 +98,18 @@ gth_file_tool_desaturate_activate (GthFileTool *base)
 	if (src_pixbuf == NULL)
 		return;
 
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	task = gth_pixbuf_task_new (_("Desaturating image"),
-				    src_pixbuf,
-				    dest_pixbuf,
-				    NULL,
+				    FALSE,
+				    copy_source_to_destination,
 				    desaturate_step,
-				    desaturate_release,
-				    viewer_page);
+				    NULL,
+				    NULL,
+				    NULL);
+	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
+	g_signal_connect (task, "completed", G_CALLBACK (task_completed_cb), base);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (dest_pixbuf);
 }
 
 

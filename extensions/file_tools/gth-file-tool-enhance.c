@@ -114,6 +114,7 @@ adjust_levels_init (GthPixbufTask *pixop)
 	EnhanceData *data = pixop->data;
 	int          channel;
 
+	copy_source_to_destination (pixop);
 	data->hist = gth_histogram_new ();
 	gth_histogram_calculate (data->hist, pixop->src);
 
@@ -210,6 +211,14 @@ adjust_levels_release (GthPixbufTask *pixop,
 
 	g_object_unref (data->hist);
 	g_free (data->levels);
+}
+
+
+static void
+adjust_levels_destroy_data (gpointer user_data)
+{
+	EnhanceData *data = user_data;
+
 	g_object_unref (data->viewer_page);
 	g_free (data);
 }
@@ -222,7 +231,6 @@ gth_file_tool_enhance_activate (GthFileTool *base)
 	GtkWidget   *viewer_page;
 	GtkWidget   *viewer;
 	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
 	EnhanceData *data;
 	GthTask     *task;
 
@@ -236,20 +244,19 @@ gth_file_tool_enhance_activate (GthFileTool *base)
 	if (src_pixbuf == NULL)
 		return;
 
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	data = g_new0 (EnhanceData, 1);
 	data->viewer_page = g_object_ref (viewer_page);
 	task = gth_pixbuf_task_new (_("White balance correction"),
-				    src_pixbuf,
-				    dest_pixbuf,
+				    FALSE,
 				    adjust_levels_init,
 				    adjust_levels_step,
 				    adjust_levels_release,
-				    data);
+				    data,
+				    adjust_levels_destroy_data);
+	gth_pixbuf_task_set_source (GTH_PIXBUF_TASK (task), src_pixbuf);
 	gth_browser_exec_task (GTH_BROWSER (window), task, FALSE);
 
 	g_object_unref (task);
-	g_object_unref (dest_pixbuf);
 }
 
 
