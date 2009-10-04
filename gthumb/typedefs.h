@@ -87,6 +87,20 @@ typedef enum {
 } GthTransform;
 
 
+typedef enum {
+	GTH_UNIT_PIXELS,
+        GTH_UNIT_PERCENTAGE
+} GthUnit;
+
+
+typedef enum {
+	GTH_OVERWRITE_SKIP,
+	GTH_OVERWRITE_RENAME,
+	GTH_OVERWRITE_ASK,
+	GTH_OVERWRITE_OVERWRITE
+} GthOverwriteMode;
+
+
 typedef void (*DataFunc)         (gpointer    user_data);
 typedef void (*ReadyFunc)        (GError     *error,
 			 	  gpointer    user_data);

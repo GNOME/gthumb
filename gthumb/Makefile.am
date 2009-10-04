@@ -75,6 +75,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-nav-window.h				\
 	gth-overwrite-dialog.h				\
 	gth-pixbuf-task.h				\
+	gth-pixbuf-list-task.h				\
 	gth-preferences.h				\
 	gth-progress-dialog.h				\
 	gth-sidebar.h					\
@@ -190,6 +191,7 @@ gthumb_SOURCES = 					\
 	gth-nav-window.c				\
 	gth-overwrite-dialog.c				\
 	gth-pixbuf-task.c				\
+	gth-pixbuf-list-task.c				\
 	gth-preferences.c				\
 	gth-progress-dialog.c				\
 	gth-sidebar.c					\

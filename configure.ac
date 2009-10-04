@@ -283,6 +283,9 @@ extensions/red_eye_removal/data/ui/Makefile
 extensions/rename_series/Makefile
 extensions/rename_series/data/Makefile
 extensions/rename_series/data/ui/Makefile
+extensions/resize_images/Makefile
+extensions/resize_images/data/Makefile
+extensions/resize_images/data/ui/Makefile
 extensions/search/Makefile
 extensions/search/data/Makefile
 extensions/search/data/ui/Makefile

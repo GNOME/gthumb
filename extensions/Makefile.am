@@ -11,6 +11,7 @@ SUBDIRS = 		\
 	photo_importer	\
 	red_eye_removal	\
 	rename_series 	\
+	resize_images	\
 	search		\
 	slideshow
 
