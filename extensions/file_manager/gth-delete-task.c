@@ -25,8 +25,7 @@
 
 
 struct _GthDeleteTaskPrivate {
-	GCancellable *cancellable;
-	GList        *file_list;
+	GList *file_list;
 };
 
 
@@ -41,7 +40,6 @@ gth_delete_task_finalize (GObject *object)
 	self = GTH_DELETE_TASK (object);
 
 	_g_object_list_unref (self->priv->file_list);
-	_g_object_unref (self->priv->cancellable);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -67,22 +65,9 @@ gth_delete_task_exec (GthTask *task)
 	_g_delete_files_async (self->priv->file_list,
 			       TRUE,
 			       TRUE,
-			       self->priv->cancellable,
+			       gth_task_get_cancellable (task),
 			       delete_ready_cb,
 			       self);
-}
-
-
-static void
-gth_delete_task_cancel (GthTask *task)
-{
-	GthDeleteTask *self;
-
-	g_return_if_fail (GTH_IS_DELETE_TASK (task));
-
-	self = GTH_DELETE_TASK (task);
-
-	g_cancellable_cancel (self->priv->cancellable);
 }
 
 
@@ -100,7 +85,6 @@ gth_delete_task_class_init (GthDeleteTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_delete_task_exec;
-	task_class->cancel = gth_delete_task_cancel;
 }
 
 
@@ -108,7 +92,6 @@ static void
 gth_delete_task_init (GthDeleteTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DELETE_TASK, GthDeleteTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 }
 
 

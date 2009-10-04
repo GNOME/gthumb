@@ -34,7 +34,6 @@ struct _GthSearchTaskPrivate
 	GthSearch    *search;
 	GthTestChain *test;
 	GFile        *search_catalog;
-	GCancellable *cancellable;
 	gboolean      io_operation;
 	GError       *error;
 	gulong        location_ready_id;
@@ -61,7 +60,6 @@ gth_task_finalize (GObject *object)
 	task = GTH_SEARCH_TASK (object);
 
 	if (task->priv != NULL) {
-		g_object_unref (task->priv->cancellable);
 		g_object_unref (task->priv->search);
 		g_object_unref (task->priv->test);
 		g_object_unref (task->priv->search_catalog);
@@ -175,7 +173,7 @@ done_func (GError   *error,
 			    data,
 			    size,
 			    G_PRIORITY_DEFAULT,
-			    task->priv->cancellable,
+			    gth_task_get_cancellable (GTH_TASK (task)),
 			    save_search_result_copy_done_cb,
 			    task);
 
@@ -298,7 +296,7 @@ browser_location_ready_cb (GthBrowser    *browser,
 				   gth_search_is_recursive (task->priv->search),
 				   TRUE,
 				   eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-				   task->priv->cancellable,
+				   gth_task_get_cancellable (GTH_TASK (task)),
 				   start_dir_func,
 				   for_each_file_func,
 				   done_func,
@@ -350,7 +348,7 @@ gth_search_task_exec (GthTask *base)
 			    data,
 			    size,
 			    G_PRIORITY_DEFAULT,
-			    task->priv->cancellable,
+			    gth_task_get_cancellable (GTH_TASK (task)),
 			    clear_search_result_copy_done_cb,
 			    task);
 
@@ -360,11 +358,9 @@ gth_search_task_exec (GthTask *base)
 
 
 static void
-gth_search_task_cancel (GthTask *task)
+gth_search_task_cancelled (GthTask *task)
 {
-	if (GTH_SEARCH_TASK (task)->priv->io_operation)
-		g_cancellable_cancel (GTH_SEARCH_TASK (task)->priv->cancellable);
-	else
+	if (! GTH_SEARCH_TASK (task)->priv->io_operation)
 		gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
 }
 
@@ -382,7 +378,7 @@ gth_search_task_class_init (GthSearchTaskClass *class)
 
 	task_class = (GthTaskClass*) class;
 	task_class->exec = gth_search_task_exec;
-	task_class->cancel = gth_search_task_cancel;
+	task_class->cancelled = gth_search_task_cancelled;
 }
 
 
@@ -390,7 +386,6 @@ static void
 gth_search_task_init (GthSearchTask *task)
 {
 	task->priv = g_new0 (GthSearchTaskPrivate, 1);
-	task->priv->cancellable = g_cancellable_new ();
 }
 
 

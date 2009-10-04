@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include "glib-utils.h"
 #include "gth-marshal.h"
 #include "gth-task.h"
 
@@ -36,7 +37,9 @@ enum {
 
 struct _GthTaskPrivate
 {
-	gboolean running;
+	gboolean      running;
+	GCancellable *cancellable;
+	gulong        cancellable_cancelled;
 };
 
 
@@ -58,9 +61,9 @@ gth_task_finalize (GObject *object)
 
 	task = GTH_TASK (object);
 
-	if (task->priv != NULL) {
-		g_free (task->priv);
-		task->priv = NULL;
+	if (task->priv->cancellable != NULL) {
+		g_signal_handler_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
+		g_object_unref (task->priv->cancellable);
 	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -70,14 +73,14 @@ gth_task_finalize (GObject *object)
 static void
 base_exec (GthTask *task)
 {
-	gth_task_completed (task, NULL);
+	/*gth_task_completed (task, NULL);*/
 }
 
 
 static void
-base_cancel (GthTask *task)
+base_cancelled (GthTask *task)
 {
-	gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));
+	/*gth_task_completed (task, g_error_new_literal (GTH_TASK_ERROR, GTH_TASK_ERROR_CANCELLED, ""));*/
 }
 
 
@@ -87,12 +90,13 @@ gth_task_class_init (GthTaskClass *class)
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass*) class;
+	g_type_class_add_private (class, sizeof (GthTaskPrivate));
 
+	object_class = (GObjectClass*) class;
 	object_class->finalize = gth_task_finalize;
 
 	class->exec = base_exec;
-	class->cancel = base_cancel;
+	class->cancelled = base_cancelled;
 
 	/* signals */
 
@@ -135,10 +139,12 @@ gth_task_class_init (GthTaskClass *class)
 
 
 static void
-gth_task_init (GthTask *task)
+gth_task_init (GthTask *self)
 {
-	task->priv = g_new0 (GthTaskPrivate, 1);
-	task->priv->running = FALSE;
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TASK, GthTaskPrivate);
+	self->priv->running = FALSE;
+	self->priv->cancellable = NULL;
+	self->priv->cancellable_cancelled = 0;
 }
 
 
@@ -170,16 +176,36 @@ gth_task_get_type (void)
 }
 
 
-GthTask *
-gth_task_new (void)
+static void
+cancellable_cancelled_cb (GCancellable *cancellable,
+			  gpointer      user_data)
 {
-	return (GthTask*) g_object_new (GTH_TYPE_TASK, NULL);
+	GthTask *task = user_data;
+
+	GTH_TASK_GET_CLASS (task)->cancelled (task);
 }
 
 
 void
-gth_task_exec (GthTask *task)
+gth_task_exec (GthTask      *task,
+	       GCancellable *cancellable)
 {
+	if (task->priv->running)
+		return;
+
+	if (task->priv->cancellable != NULL) {
+		g_signal_handler_disconnect (task->priv->cancellable, task->priv->cancellable_cancelled);
+		g_object_unref (task->priv->cancellable);
+	}
+
+	if (cancellable != NULL)
+		task->priv->cancellable = _g_object_ref (cancellable);
+	else
+		task->priv->cancellable = g_cancellable_new ();
+	task->priv->cancellable_cancelled = g_signal_connect (task->priv->cancellable,
+							      "cancelled",
+							      G_CALLBACK (cancellable_cancelled_cb),
+							      task);
 	task->priv->running = TRUE;
 	GTH_TASK_GET_CLASS (task)->exec (task);
 }
@@ -195,8 +221,17 @@ gth_task_is_running (GthTask *task)
 void
 gth_task_cancel (GthTask *task)
 {
-	if (task->priv->running)
-		GTH_TASK_GET_CLASS (task)->cancel (task);
+	if (task->priv->cancellable != NULL)
+		g_cancellable_cancel (task->priv->cancellable);
+	else
+		cancellable_cancelled_cb (NULL, task);
+}
+
+
+GCancellable *
+gth_task_get_cancellable (GthTask *task)
+{
+	return task->priv->cancellable;
 }
 
 

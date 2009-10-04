@@ -3922,7 +3922,7 @@ gth_browser_exec_task (GthBrowser *browser,
 							 browser);
 	browser->priv->activity_ref++;
 	gth_browser_update_sensitivity (browser);
-	gth_task_exec (browser->priv->task);
+	gth_task_exec (browser->priv->task, NULL);
 }
 
 

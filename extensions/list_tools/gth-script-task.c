@@ -25,15 +25,14 @@
 
 
 struct _GthScriptTaskPrivate {
-	GthScript    *script;
-	GtkWindow    *parent;
-	GList        *file_list;
-	GList        *current;
-	int           n_files;
-	int           n_current;
-	GPid          pid;
-	guint         script_watch;
-	GCancellable *cancellable;
+	GthScript *script;
+	GtkWindow *parent;
+	GList     *file_list;
+	GList     *current;
+	int        n_files;
+	int        n_current;
+	GPid       pid;
+	guint      script_watch;
 };
 
 
@@ -48,7 +47,6 @@ gth_script_task_finalize (GObject *object)
 	self = GTH_SCRIPT_TASK (object);
 
 	g_object_unref (self->priv->script);
-	g_object_unref (self->priv->cancellable);
 	_g_object_list_unref (self->priv->file_list);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -228,7 +226,7 @@ gth_script_task_exec (GthTask *task)
 	if (attributes != NULL) {
 		_g_query_metadata_async (self->priv->file_list,
 					 attributes,
-					 self->priv->cancellable,
+					 gth_task_get_cancellable (task),
 					 file_info_ready_cb,
 					 self);
 		g_free (attributes);
@@ -239,7 +237,7 @@ gth_script_task_exec (GthTask *task)
 
 
 static void
-gth_script_task_cancel (GthTask *task)
+gth_script_task_cancelled (GthTask *task)
 {
 	GthScriptTask *self;
 
@@ -249,8 +247,6 @@ gth_script_task_cancel (GthTask *task)
 
 	if (self->priv->pid != 0)
 		kill (self->priv->pid, SIGTERM);
-	else
-		g_cancellable_cancel (self->priv->cancellable);
 }
 
 
@@ -268,7 +264,7 @@ gth_script_task_class_init (GthScriptTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_script_task_exec;
-	task_class->cancel = gth_script_task_cancel;
+	task_class->cancelled = gth_script_task_cancelled;
 }
 
 
@@ -276,7 +272,6 @@ static void
 gth_script_task_init (GthScriptTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_SCRIPT_TASK, GthScriptTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 	self->priv->pid = 0;
 }
 

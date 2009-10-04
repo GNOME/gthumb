@@ -35,7 +35,6 @@ struct _GthImportTaskPrivate {
 	char              **tags;
 	gboolean            delete_imported;
 	gboolean            adjust_orientation;
-	GCancellable       *cancellable;
 
 	gsize               tot_size;
 	gsize               copied_size;
@@ -62,7 +61,6 @@ gth_import_task_finalize (GObject *object)
 	g_object_unref (self->priv->destination);
 	_g_object_unref (self->priv->destination_file);
 	g_strfreev (self->priv->tags);
-	g_object_unref (self->priv->cancellable);
 	g_object_unref (self->priv->browser);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -112,7 +110,7 @@ transformation_ready_cb (GError   *error,
 	file_list = g_list_prepend (NULL, self->priv->destination_file);
 	_g_write_metadata_async (file_list,
 				 "comment::categories",
-				 self->priv->cancellable,
+				 gth_task_get_cancellable (GTH_TASK (self)),
 				 write_metadata_ready_func,
 				 self);
 
@@ -154,7 +152,7 @@ copy_ready_cb (GError   *error,
 					apply_transformation_async (self->priv->destination_file,
 								    (GthTransform) transform,
 								    JPEG_MCU_ACTION_ABORT,
-								    self->priv->cancellable,
+								    gth_task_get_cancellable (GTH_TASK (self)),
 								    transformation_ready_cb,
 								    self);
 					appling_tranformation = TRUE;
@@ -232,7 +230,7 @@ file_info_ready_cb (GList    *files,
 							    self->priv->subfolder_type,
 							    self->priv->subfolder_format,
 							    self->priv->single_subfolder);
-	if (! g_file_make_directory_with_parents (destination, self->priv->cancellable, &error)) {
+	if (! g_file_make_directory_with_parents (destination, gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		if (! g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
 			gth_task_completed (GTH_TASK (self), error);
 			return;
@@ -248,7 +246,7 @@ file_info_ready_cb (GList    *files,
 			    self->priv->delete_imported,
 			    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS,
 			    G_PRIORITY_DEFAULT,
-			    self->priv->cancellable,
+			    gth_task_get_cancellable (GTH_TASK (self)),
 			    copy_progress_cb,
 			    self,
 			    copy_dialog_cb,
@@ -277,7 +275,7 @@ import_current_file (GthImportTask *self)
 	list = g_list_prepend (NULL, file_data);
 	_g_query_metadata_async (list,
 				 "Exif::Image::DateTime,Exif::Image::Orientation",
-				 self->priv->cancellable,
+				 gth_task_get_cancellable (GTH_TASK (self)),
 				 file_info_ready_cb,
 				 self);
 
@@ -303,13 +301,6 @@ gth_import_task_exec (GthTask *base)
 
 
 static void
-gth_import_task_cancel (GthTask *base)
-{
-	g_cancellable_cancel (GTH_IMPORT_TASK (base)->priv->cancellable);
-}
-
-
-static void
 gth_import_task_class_init (GthImportTaskClass *klass)
 {
 	GObjectClass *object_class;
@@ -323,7 +314,6 @@ gth_import_task_class_init (GthImportTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_import_task_exec;
-	task_class->cancel = gth_import_task_cancel;
 }
 
 
@@ -331,7 +321,6 @@ static void
 gth_import_task_init (GthImportTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMPORT_TASK, GthImportTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 }
 
 

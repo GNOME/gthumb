@@ -104,7 +104,7 @@ gth_copy_task_exec (GthTask *task)
 
 
 static void
-gth_copy_task_cancel (GthTask *task)
+gth_copy_task_cancelled (GthTask *task)
 {
 	gth_file_source_cancel (GTH_COPY_TASK (task)->priv->file_source);
 }
@@ -124,7 +124,7 @@ gth_copy_task_class_init (GthCopyTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_copy_task_exec;
-	task_class->cancel = gth_copy_task_cancel;
+	task_class->cancelled = gth_copy_task_cancelled;
 }
 
 

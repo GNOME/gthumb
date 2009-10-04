@@ -78,7 +78,7 @@ gth_reorder_task_exec (GthTask *task)
 
 
 static void
-gth_reorder_task_cancel (GthTask *task)
+gth_reorder_task_cancelled (GthTask *task)
 {
 	gth_file_source_cancel (GTH_REORDER_TASK (task)->priv->file_source);
 }
@@ -98,7 +98,7 @@ gth_reorder_task_class_init (GthReorderTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_reorder_task_exec;
-	task_class->cancel = gth_reorder_task_cancel;
+	task_class->cancelled = gth_reorder_task_cancelled;
 }
 
 

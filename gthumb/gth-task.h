@@ -24,6 +24,7 @@
 #define GTH_TASK_H
 
 #include <glib-object.h>
+#include <gio/gio.h>
 
 G_BEGIN_DECLS
 
@@ -58,38 +59,39 @@ struct _GthTaskClass
 
 	/*< signals >*/
 
-	void  (*completed)     (GthTask    *task,
-			        GError     *error);
-	void  (*progress)      (GthTask    *task,
-			        const char *description,
-			        const char *details,
-			        gboolean    pulse,
-			        double      fraction);
-	void  (*dialog)        (GthTask    *task,
-				gboolean    opened);
+	void  (*completed)    (GthTask    *task,
+			       GError     *error);
+	void  (*progress)     (GthTask    *task,
+			       const char *description,
+			       const char *details,
+			       gboolean    pulse,
+			       double      fraction);
+	void  (*dialog)       (GthTask    *task,
+			       gboolean    opened);
 
 	/*< virtual functions >*/
 
 	void  (*exec)         (GthTask    *task);
-	void  (*cancel)       (GthTask    *task);
+	void  (*cancelled)    (GthTask    *task);
 };
 
-GQuark      gth_task_error_quark (void);
+GQuark          gth_task_error_quark     (void);
 
-GType       gth_task_get_type    (void) G_GNUC_CONST;
-GthTask *   gth_task_new         (void);
-void        gth_task_exec        (GthTask    *task);
-gboolean    gth_task_is_running  (GthTask    *task);
-void        gth_task_cancel      (GthTask    *task);
-void        gth_task_completed   (GthTask    *task,
-				  GError     *error);
-void        gth_task_dialog      (GthTask    *task,
-				  gboolean    opened);
-void        gth_task_progress    (GthTask    *task,
-				  const char *description,
-				  const char *details,
-			          gboolean    pulse,
-			          double      fraction);
+GType           gth_task_get_type        (void) G_GNUC_CONST;
+void            gth_task_exec            (GthTask      *task,
+					  GCancellable *cancellable);
+gboolean        gth_task_is_running      (GthTask      *task);
+void            gth_task_cancel          (GthTask      *task);
+GCancellable *  gth_task_get_cancellable (GthTask      *task);
+void            gth_task_completed       (GthTask      *task,
+					  GError       *error);
+void            gth_task_dialog          (GthTask      *task,
+					  gboolean      opened);
+void            gth_task_progress        (GthTask      *task,
+					  const char   *description,
+					  const char   *details,
+					  gboolean      pulse,
+					  double        fraction);
 
 G_END_DECLS
 

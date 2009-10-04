@@ -142,7 +142,7 @@ gth_async_task_exec (GthTask *task)
 
 
 static void
-gth_async_task_cancel (GthTask *task)
+gth_async_task_cancelled (GthTask *task)
 {
 	GthAsyncTask *self;
 
@@ -225,8 +225,7 @@ gth_async_task_class_init (GthAsyncTaskClass *class)
 
 	task_class = GTH_TASK_CLASS (class);
 	task_class->exec = gth_async_task_exec;
-	task_class->cancel = gth_async_task_cancel;
-
+	task_class->cancelled = gth_async_task_cancelled;
 
 	g_object_class_install_property (object_class,
 					 PROP_BEFORE_THREAD,

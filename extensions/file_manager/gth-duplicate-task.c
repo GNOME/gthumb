@@ -25,10 +25,9 @@
 
 
 struct _GthDuplicateTaskPrivate {
-	GCancellable *cancellable;
-	GList        *file_list;
-	GList        *current;
-	int           attempt;
+	GList *file_list;
+	GList *current;
+	int    attempt;
 };
 
 
@@ -43,7 +42,6 @@ gth_duplicate_task_finalize (GObject *object)
 	self = GTH_DUPLICATE_TASK (object);
 
 	_g_object_list_unref (self->priv->file_list);
-	_g_object_unref (self->priv->cancellable);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -146,7 +144,7 @@ duplicate_current_file (GthDuplicateTask *self)
 			    FALSE,
 			    G_FILE_COPY_ALL_METADATA,
 			    G_PRIORITY_DEFAULT,
-			    self->priv->cancellable,
+			    gth_task_get_cancellable (GTH_TASK (self)),
 			    copy_progress_cb,
 			    self,
 			    copy_dialog_cb,
@@ -174,19 +172,6 @@ gth_duplicate_task_exec (GthTask *task)
 
 
 static void
-gth_duplicate_task_cancel (GthTask *task)
-{
-	GthDuplicateTask *self;
-
-	g_return_if_fail (GTH_IS_DUPLICATE_TASK (task));
-
-	self = GTH_DUPLICATE_TASK (task);
-
-	g_cancellable_cancel (self->priv->cancellable);
-}
-
-
-static void
 gth_duplicate_task_class_init (GthDuplicateTaskClass *klass)
 {
 	GObjectClass *object_class;
@@ -200,7 +185,6 @@ gth_duplicate_task_class_init (GthDuplicateTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_duplicate_task_exec;
-	task_class->cancel = gth_duplicate_task_cancel;
 }
 
 
@@ -208,7 +192,6 @@ static void
 gth_duplicate_task_init (GthDuplicateTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_DUPLICATE_TASK, GthDuplicateTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 }
 
 

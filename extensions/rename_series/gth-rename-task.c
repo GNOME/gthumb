@@ -33,7 +33,6 @@ struct _GthRenameTaskPrivate {
 	int                    n_current;
 	GFile                 *source;
 	GFile                 *destination;
-	GCancellable          *cancellable;
 	GthOverwriteResponse   default_response;
 };
 
@@ -48,7 +47,6 @@ gth_rename_task_finalize (GObject *object)
 
 	self = GTH_RENAME_TASK (object);
 
-	g_object_unref (self->priv->cancellable);
 	_g_object_unref (self->priv->source);
 	_g_object_unref (self->priv->destination);
 	_g_object_list_unref (self->priv->old_files);
@@ -140,7 +138,7 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 	char   *details;
 	GError *error = NULL;
 
-	if (g_cancellable_set_error_if_cancelled (self->priv->cancellable, &error)) {
+	if (g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error)) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
@@ -171,7 +169,7 @@ _gth_rename_task_try_rename (GthRenameTask   *self,
 	if (! _g_move_file (source,
 			    destination,
 			    G_FILE_COPY_ALL_METADATA | copy_flags,
-			    self->priv->cancellable,
+			    gth_task_get_cancellable (GTH_TASK (self)),
 			    NULL,
 			    NULL,
 			    &error))
@@ -229,13 +227,6 @@ gth_rename_task_exec (GthTask *task)
 
 
 static void
-gth_rename_task_cancel (GthTask *task)
-{
-	g_cancellable_cancel (GTH_RENAME_TASK (task)->priv->cancellable);
-}
-
-
-static void
 gth_rename_task_class_init (GthRenameTaskClass *klass)
 {
 	GObjectClass *object_class;
@@ -249,7 +240,6 @@ gth_rename_task_class_init (GthRenameTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_rename_task_exec;
-	task_class->cancel = gth_rename_task_cancel;
 }
 
 
@@ -257,7 +247,6 @@ static void
 gth_rename_task_init (GthRenameTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_RENAME_TASK, GthRenameTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 	self->priv->default_response = GTH_OVERWRITE_RESPONSE_UNSPECIFIED;
 }
 

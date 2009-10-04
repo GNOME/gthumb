@@ -27,7 +27,6 @@
 
 struct _GthTransformTaskPrivate {
 	GthBrowser    *browser;
-	GCancellable  *cancellable;
 	GList         *file_list;
 	GList         *current;
 	GthTransform   transform;
@@ -46,7 +45,6 @@ gth_transform_task_finalize (GObject *object)
 	self = GTH_TRANSFORM_TASK (object);
 
 	_g_object_list_unref (self->priv->file_list);
-	_g_object_unref (self->priv->cancellable);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -138,7 +136,7 @@ transform_current_file (GthTransformTask *self)
 	apply_transformation_async (file_data,
 				    self->priv->transform,
 				    self->priv->default_action,
-				    self->priv->cancellable,
+				    gth_task_get_cancellable (GTH_TASK (self)),
 				    transform_file_ready_cb,
 				    self);
 }
@@ -159,19 +157,6 @@ gth_transform_task_exec (GthTask *task)
 
 
 static void
-gth_transform_task_cancel (GthTask *task)
-{
-	GthTransformTask *self;
-
-	g_return_if_fail (GTH_IS_TRANSFORM_TASK (task));
-
-	self = GTH_TRANSFORM_TASK (task);
-
-	g_cancellable_cancel (self->priv->cancellable);
-}
-
-
-static void
 gth_transform_task_class_init (GthTransformTaskClass *klass)
 {
 	GObjectClass *object_class;
@@ -185,7 +170,6 @@ gth_transform_task_class_init (GthTransformTaskClass *klass)
 
 	task_class = GTH_TASK_CLASS (klass);
 	task_class->exec = gth_transform_task_exec;
-	task_class->cancel = gth_transform_task_cancel;
 }
 
 
@@ -193,7 +177,6 @@ static void
 gth_transform_task_init (GthTransformTask *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TRANSFORM_TASK, GthTransformTaskPrivate);
-	self->priv->cancellable = g_cancellable_new ();
 	self->priv->default_action = JPEG_MCU_ACTION_ABORT; /* FIXME: save a gconf value for this */
 }
 

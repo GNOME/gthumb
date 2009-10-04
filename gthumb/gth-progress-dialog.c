@@ -384,7 +384,7 @@ gth_progress_dialog_add_task (GthProgressDialog *self,
 	child = gth_task_progress_new (task);
 	gtk_widget_show (child);
 	gtk_box_pack_start (GTK_BOX (self->priv->task_box), child, TRUE, TRUE, 0);
-	gth_task_exec (task);
+	gth_task_exec (task, NULL);
 
 	if (self->priv->show_event == 0)
 		self->priv->show_event = g_timeout_add (SHOW_DELAY, _show_dialog_cb, self);
