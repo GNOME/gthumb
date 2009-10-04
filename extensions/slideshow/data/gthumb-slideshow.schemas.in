@@ -2,8 +2,8 @@
     <schemalist>
 
       <schema>
-        <key>/schemas/apps/gthumb/slideshow/change_delay</key>
-        <applyto>/apps/gthumb/slideshow/change_delay</applyto>
+        <key>/schemas/apps/gthumb/ext/slideshow/change_delay</key>
+        <applyto>/apps/gthumb/ext/slideshow/change_delay</applyto>
         <owner>gthumb</owner>
         <type>float</type>
         <default>4.0</default>
@@ -15,8 +15,8 @@
       </schema>
 
       <schema>
-        <key>/schemas/apps/gthumb/slideshow/wrap_around</key>
-        <applyto>/apps/gthumb/slideshow/wrap_around</applyto>
+        <key>/schemas/apps/gthumb/ext/slideshow/wrap_around</key>
+        <applyto>/apps/gthumb/ext/slideshow/wrap_around</applyto>
         <owner>gthumb</owner>
         <type>bool</type>
         <default>false</default>
@@ -28,8 +28,8 @@
       </schema>
 
       <schema>
-        <key>/schemas/apps/gthumb/slideshow/automatic</key>
-        <applyto>/apps/gthumb/slideshow/automatic</applyto>
+        <key>/schemas/apps/gthumb/ext/slideshow/automatic</key>
+        <applyto>/apps/gthumb/ext/slideshow/automatic</applyto>
         <owner>gthumb</owner>
         <type>bool</type>
         <default>true</default>
@@ -41,8 +41,8 @@
       </schema>
 
       <schema>
-        <key>/schemas/apps/gthumb/slideshow/transition</key>
-        <applyto>/apps/gthumb/slideshow/transition</applyto>
+        <key>/schemas/apps/gthumb/ext/slideshow/transition</key>
+        <applyto>/apps/gthumb/ext/slideshow/transition</applyto>
         <owner>gthumb</owner>
         <type>string</type>
         <default>fade-in</default>

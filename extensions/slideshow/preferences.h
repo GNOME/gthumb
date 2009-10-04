@@ -25,10 +25,10 @@
 
 #include <gthumb.h>
 
-#define  PREF_SLIDESHOW_CHANGE_DELAY     "/apps/gthumb/slideshow/change_delay"
-#define  PREF_SLIDESHOW_WRAP_AROUND      "/apps/gthumb/slideshow/wrap_around"
-#define  PREF_SLIDESHOW_AUTOMATIC        "/apps/gthumb/slideshow/automatic"
-#define  PREF_SLIDESHOW_TRANSITION       "/apps/gthumb/slideshow/transition"
+#define  PREF_SLIDESHOW_CHANGE_DELAY     "/apps/gthumb/ext/slideshow/change_delay"
+#define  PREF_SLIDESHOW_WRAP_AROUND      "/apps/gthumb/ext/slideshow/wrap_around"
+#define  PREF_SLIDESHOW_AUTOMATIC        "/apps/gthumb/ext/slideshow/automatic"
+#define  PREF_SLIDESHOW_TRANSITION       "/apps/gthumb/ext/slideshow/transition"
 
 #define  DEFAULT_TRANSITION "fade-in"
 
