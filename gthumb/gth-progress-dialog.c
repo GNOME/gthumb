@@ -178,11 +178,10 @@ task_progress_cb (GthTask    *task,
 {
 	GthTaskProgress *self = user_data;
 
-	if (description == NULL)
-		return;
-
-	gtk_label_set_text (GTK_LABEL (self->description_label), description);
-	gtk_label_set_text (GTK_LABEL (self->details_label), details);
+	if (description != NULL)
+		gtk_label_set_text (GTK_LABEL (self->description_label), description);
+	if (details != NULL)
+		gtk_label_set_text (GTK_LABEL (self->details_label), details);
 	if (pulse)
 		gtk_progress_bar_pulse (GTK_PROGRESS_BAR (self->fraction_progressbar));
 	else

@@ -25,7 +25,7 @@
 #include "typedefs.h"
 
 
-#define PROGRESS_DELAY 200 /* delay between progress notifications */
+#define PROGRESS_DELAY 100 /* delay between progress notifications */
 
 
 /* Properties */
