@@ -241,6 +241,7 @@ Makefile
 copy-n-paste/Makefile
 data/Makefile
 data/gthumb.desktop.in
+data/gthumb-import.desktop.in
 data/icons/Makefile
 data/icons/16x16/Makefile
 data/icons/16x16/apps/Makefile

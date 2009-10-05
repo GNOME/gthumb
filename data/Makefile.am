@@ -1,6 +1,6 @@
 SUBDIRS = icons ui
 
-desktop_in_in_files = gthumb.desktop.in.in
+desktop_in_in_files = gthumb.desktop.in.in gthumb-import.desktop.in.in
 desktop_in_files = $(desktop_in_in_files:.desktop.in.in=.desktop.in) 
 desktopdir = $(datadir)/applications
 desktop_DATA = $(desktop_in_files:.desktop.in=.desktop) 

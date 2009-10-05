@@ -9,6 +9,7 @@ copy-n-paste/eggsmclient-private.h
 copy-n-paste/eggsmclient-xsmp.c
 data/gthumb.desktop.in.in
 data/gthumb.schemas.in
+data/gthumb-import.desktop.in.in
 [type: gettext/glade]data/ui/bookmarks.ui
 [type: gettext/glade]data/ui/extensions.ui
 [type: gettext/glade]data/ui/filter-editor.ui
