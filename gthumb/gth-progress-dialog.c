@@ -26,7 +26,7 @@
 #include "gtk-utils.h"
 
 #define DIALOG_WIDTH 450
-#define SHOW_DELAY 1000
+#define SHOW_DELAY 500
 
 
 /* -- gth_task_progress -- */
