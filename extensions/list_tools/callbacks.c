@@ -228,6 +228,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 
 	data->tool_item = gth_toggle_menu_tool_button_new ();
 	gtk_tool_button_set_label (GTK_TOOL_BUTTON (data->tool_item), _("Tools"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (data->tool_item), _("Batch tools for multiple images"));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (data->tool_item), GTK_STOCK_EXECUTE);
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (data->tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
 	gtk_widget_show (GTK_WIDGET (data->tool_item));
