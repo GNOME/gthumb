@@ -324,9 +324,12 @@ _gth_browser_add_file_menu_item_full (GthBrowser *browser,
 		gtk_menu_shell_insert (GTK_MENU_SHELL (menu), menu_item, position);
 
 	if (action == GTH_ACTION_GO_TO) {
+		char *uri = g_file_get_uri (file);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (menu_item), uri);
+
 		g_object_set_data_full (G_OBJECT (menu_item),
 					"uri",
-					g_file_get_uri (file),
+					uri,
 					(GDestroyNotify) g_free);
 		g_signal_connect (menu_item,
 				  "activate",
