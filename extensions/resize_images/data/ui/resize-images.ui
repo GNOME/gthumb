@@ -185,7 +185,7 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="keep_ratio_checkbutton">
-                            <property name="label" translatable="yes">_Keep aspect ratio</property>
+                            <property name="label" translatable="yes">_Preserve original aspect ratios</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
