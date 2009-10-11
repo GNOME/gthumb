@@ -223,16 +223,39 @@ AC_MSG_CHECKING(JPEG Support)
 AC_ARG_ENABLE([jpeg],
 	      [AS_HELP_STRING([--disable-jpeg],[do not compile code that uses the libjpeg library])],,
 	      [enable_jpeg=yes])
-AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
-             [enable_jpeg=yes],
-	     [enable_jpeg=no])
 if test "x$enable_jpeg" = "xyes"; then
-	AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
-	JPEG_LIBS='-ljpeg -lm -lz'
+	AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
+        	     [enable_jpeg=yes],
+	     	     [enable_jpeg=no])
+	if test "x$enable_jpeg" = "xyes"; then
+		AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
+		JPEG_LIBS='-ljpeg -lm -lz'
+	fi
 fi
 AC_SUBST(JPEG_LIBS)
 AM_CONDITIONAL(ENABLE_JPEG_TOOLS, test "x$enable_jpeg" = xyes)
 AC_MSG_RESULT($enable_jpeg)
+
+
+dnl ===========================================================================
+
+AC_MSG_CHECKING(TIFF Support)
+AC_ARG_ENABLE([tiff],
+	      [AC_HELP_STRING([--disable-tiff],[do not compile code that uses the libtiff library])],,
+	      [enable_tiff=yes])
+if test x$enable_tiff = xyes ; then
+	AC_CHECK_LIB(tiff, TIFFWriteScanline,
+		     [AC_CHECK_HEADER(tiffio.h,				    
+				      [enable_tiff=yes],
+				      [enable_tiff=no])],
+		     [enable_tiff=no])
+	if test "x$enable_tiff" = "xyes"; then
+		AC_DEFINE(HAVE_LIBTIFF, 1, [Define to 1 if libtiff support is included])
+		TIFF_LIBS='-ltiff -lm -lz'
+	fi
+fi
+AC_SUBST(TIFF_LIBS)
+AC_MSG_RESULT($enable_tiff)
 
 dnl ===========================================================================
 
@@ -272,12 +295,16 @@ extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
 extensions/image_viewer/data/ui/Makefile
+extensions/jpeg_utils/Makefile
 extensions/list_tools/Makefile
 extensions/list_tools/data/Makefile
 extensions/list_tools/data/ui/Makefile
 extensions/photo_importer/Makefile
 extensions/photo_importer/data/Makefile
 extensions/photo_importer/data/ui/Makefile
+extensions/pixbuf_savers/Makefile
+extensions/pixbuf_savers/data/Makefile
+extensions/pixbuf_savers/data/ui/Makefile
 extensions/red_eye_removal/Makefile
 extensions/red_eye_removal/data/Makefile
 extensions/red_eye_removal/data/ui/Makefile
@@ -313,5 +340,6 @@ Configuration:
 	Build tests          : $ENABLE_TEST_SUITE
 	Exiv2 support        : ${enable_exiv2}
 	JPEG tools           : ${enable_jpeg}
+	TIFF tools           : ${enable_tiff}
 	Clutter support      : ${enable_clutter}
 "

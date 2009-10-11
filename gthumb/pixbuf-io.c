@@ -22,10 +22,14 @@
 
 #include <config.h>
 #include <string.h>
+#include <glib/gi18n.h>
 #define GDK_PIXBUF_ENABLE_BACKEND 1
 #include "gio-utils.h"
 #include "glib-utils.h"
+#include "gth-error.h"
 #include "gth-hook.h"
+#include "gth-main.h"
+#include "gth-pixbuf-saver.h"
 #include "pixbuf-io.h"
 
 
@@ -147,24 +151,29 @@ save_files (SavePixbufData  *data,
 void
 _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 			GthFileData      *file_data,
-			const char       *type,
-			char            **keys,
-			char            **values,
+			const char       *mime_type,
 			GthFileDataFunc   ready_func,
 			gpointer          ready_data)
 {
+	GthPixbufSaver *saver;
+	GError         *error = NULL;
 	void           *buffer;
 	gsize           buffer_size;
-	GError         *error = NULL;
 	SavePixbufData *data;
 
-	if (! gdk_pixbuf_save_to_bufferv (pixbuf,
-					  (char **)&buffer,
-					  &buffer_size,
-					  type,
-					  keys,
-					  values,
-					  &error))
+	saver = gth_main_get_pixbuf_saver (mime_type);
+	if (saver == NULL) {
+		error = g_error_new (GTH_ERROR, GTH_ERROR_GENERIC, _("Could not find a suitable module to save the image as \"%s\""), mime_type);
+		gth_file_data_ready_with_error (file_data, ready_func, ready_data, error);
+		return;
+	}
+
+	if (! gth_pixbuf_saver_save_pixbuf (saver,
+					    pixbuf,
+					    (char **)&buffer,
+					    &buffer_size,
+					    mime_type,
+					    &error))
 	{
 		gth_file_data_ready_with_error (file_data, ready_func, ready_data, error);
 		return;
@@ -173,12 +182,11 @@ _gdk_pixbuf_save_async (GdkPixbuf        *pixbuf,
 	data = g_new0 (SavePixbufData, 1);
 	data->file_data = g_object_ref (file_data);
 	data->pixbuf = g_object_ref (pixbuf);
-	data->type = type;
+	data->mime_type = mime_type;
 	data->buffer = buffer;
 	data->buffer_size = buffer_size;
 	data->files = NULL;
 	data->error = NULL;
-
 	gth_hook_invoke ("save-pixbuf", data);
 
 	if (data->error == NULL) {

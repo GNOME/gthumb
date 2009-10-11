@@ -690,6 +690,32 @@ gth_main_get_file_loader (const char *mime_type)
 }
 
 
+GthPixbufSaver *
+gth_main_get_pixbuf_saver (const char *mime_type)
+{
+	GArray *savers;
+	int     i;
+
+	savers = gth_main_get_type_set ("pixbuf-saver");
+	if (savers == NULL)
+		return NULL;
+
+	for (i = 0; i < savers->len; i++) {
+		GType           saver_type;
+		GthPixbufSaver *saver;
+
+		saver_type = g_array_index (savers, GType, i);
+		saver = g_object_new (saver_type, NULL);
+		if (gth_pixbuf_saver_can_save (saver, mime_type))
+			return saver;
+
+		g_object_unref (saver);
+	}
+
+	return NULL;
+}
+
+
 GthTest *
 gth_main_get_general_filter (void)
 {
@@ -1123,6 +1149,7 @@ void
 gth_main_activate_extensions (void)
 {
 	const char *mandatory_extensions[] = {	"file_viewer",
+						"jpeg_utils",
 						NULL };
 	const char *default_extensions[] = {	"catalogs",
 						"comments",
@@ -1133,6 +1160,7 @@ gth_main_activate_extensions (void)
 						"image_viewer",
 						"list_tools",
 						"photo_importer",
+						"pixbuf_savers",
 						"red_eye_removal",
 						"rename_series",
 						"resize_images",

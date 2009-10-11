@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,16 +20,14 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#include "gthumb-error.h"
+#ifndef JMEMORYDEST_H
+#define JMEMORYDEST_H
 
+#include <jpeglib.h>
+#include <glib.h>
 
-GQuark 
-gthumb_error_quark (void)
-{
-	static GQuark quark;
-        
-        if (!quark)
-                quark = g_quark_from_static_string ("gthumb_error");
-	
-        return quark;
-}
+void _jpeg_memory_dest (j_compress_ptr     cinfo,
+			void             **out_buffer,
+			gsize             *out_buffer_size);
+
+#endif /* JMEMORYDEST_H */

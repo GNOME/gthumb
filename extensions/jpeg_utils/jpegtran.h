@@ -25,6 +25,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include <gthumb.h>
 #include "transupp.h"
 
 

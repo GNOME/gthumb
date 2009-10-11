@@ -669,10 +669,10 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 extern "C"
 gboolean
-exiv2_supports_writes (GthFileData *file_data)
+exiv2_supports_writes (const char *mime_type)
 {
-	return (g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/jpeg") ||
-		g_content_type_equals (gth_file_data_get_mime_type (file_data), "image/png"));
+	return (g_content_type_equals (mime_type, "image/jpeg") ||
+		g_content_type_equals (mime_type, "image/png"));
 }
 
 
@@ -680,7 +680,7 @@ extern "C"
 gboolean
 exiv2_write_metadata (SavePixbufData *data)
 {
-	if (exiv2_supports_writes (data->file_data)) {
+	if (exiv2_supports_writes (data->mime_type)) {
 		try {
 			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open ((Exiv2::byte*) data->buffer, data->buffer_size);
 			g_assert (image.get() != 0);

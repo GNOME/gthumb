@@ -133,7 +133,6 @@ pixbuf_task_completed_cb (GthTask  *task,
 {
 	GthPixbufListTask *self = user_data;
 	GthFileData       *file_data;
-	char              *pixbuf_type;
 
 	if (g_error_matches (error, GTH_TASK_ERROR, GTH_TASK_ERROR_SKIP_TO_NEXT_FILE)) {
 		process_next_file (self);
@@ -146,17 +145,12 @@ pixbuf_task_completed_cb (GthTask  *task,
 	}
 
 	file_data = self->priv->current->data;
-	pixbuf_type = get_pixbuf_type_from_mime_type (gth_file_data_get_mime_type (file_data));
 	self->priv->new_pixbuf = g_object_ref (GTH_PIXBUF_TASK (task)->dest);
 	_gdk_pixbuf_save_async (self->priv->new_pixbuf,
 				file_data,
-				pixbuf_type,
-				NULL,
-				NULL,
+				gth_file_data_get_mime_type (file_data),
 				pixbuf_saved_cb,
 				self);
-
-	g_free (pixbuf_type);
 }
 
 

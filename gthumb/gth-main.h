@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2008 Free Software Foundation, Inc.
+ *  Copyright (C) 2008-2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,13 +26,14 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "gth-file-data.h"
 #include "gth-extensions.h"
+#include "gth-file-data.h"
 #include "gth-file-source.h"
 #include "gth-filter-file.h"
 #include "gth-hook.h"
 #include "gth-metadata-provider.h"
 #include "gth-monitor.h"
+#include "gth-pixbuf-saver.h"
 #include "gth-tags-file.h"
 #include "gth-test.h"
 
@@ -90,6 +91,7 @@ void                   gth_main_register_file_loader          (FileLoader       
 						               const char           *first_mime_type,
 						               ...);
 FileLoader             gth_main_get_file_loader               (const char           *mime_type);
+GthPixbufSaver *       gth_main_get_pixbuf_saver              (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);
 void		       gth_main_register_object               (GType                 superclass_type,

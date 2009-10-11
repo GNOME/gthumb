@@ -736,7 +736,6 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 {
 	GthImageViewerPage *self;
 	SaveData           *data;
-	char               *pixbuf_type;
 	GthFileData        *current_file;
 
 	self = (GthImageViewerPage *) base;
@@ -748,7 +747,6 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 
 	if (mime_type == NULL)
 		mime_type = gth_file_data_get_mime_type (self->priv->file_data);
-	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
 
 	current_file = gth_browser_get_current_file (self->priv->browser);
 	data->original_file = gth_file_data_dup (current_file);
@@ -758,13 +756,9 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 
 	_gdk_pixbuf_save_async (gth_image_viewer_get_current_pixbuf (GTH_IMAGE_VIEWER (self->priv->viewer)),
 			        current_file,
-				pixbuf_type,
-				NULL,
-				NULL,
+			        mime_type,
 				image_saved_cb,
 				data);
-
-	g_free (pixbuf_type);
 }
 
 

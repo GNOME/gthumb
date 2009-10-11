@@ -238,13 +238,13 @@ gth_script_editor_dialog_get_script (GthScriptEditorDialog  *self,
 		      NULL);
 
 	if (g_strcmp0 (gth_script_get_display_name (script), "") == 0) {
-		*error = g_error_new (GTHUMB_ERROR, 0, _("No name specified"));
+		*error = g_error_new (GTH_ERROR, 0, _("No name specified"));
 		g_object_unref (script);
 		return NULL;
 	}
 
 	if (g_strcmp0 (gth_script_get_command (script), "") == 0) {
-		*error = g_error_new (GTHUMB_ERROR, 0, _("No command specified"));
+		*error = g_error_new (GTH_ERROR, 0, _("No command specified"));
 		g_object_unref (script);
 		return NULL;
 	}

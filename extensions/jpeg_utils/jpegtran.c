@@ -49,6 +49,8 @@
 #include <glib.h>
 #include <gthumb.h>
 #include "transupp.h"
+#include "jmemorydest.h"
+#include "jmemorysrc.h"
 #include "jpegtran.h"
 
 
@@ -255,14 +257,6 @@ jpegtran_internal (struct jpeg_decompress_struct  *srcinfo,
 
 	return TRUE;
 }
-
-
-void _jpeg_memory_src  (j_decompress_ptr   cinfo,
-		        void              *in_buffer,
-		        gsize              in_buffer_size);
-void _jpeg_memory_dest (j_compress_ptr     cinfo,
-			void             **out_buffer,
-			gsize             *out_buffer_size);
 
 
 gboolean

@@ -33,10 +33,10 @@
 #include "glib-utils.h"
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 #include "gnome-desktop-thumbnail.h"
+#include "gth-error.h"
 #include "gth-image-loader.h"
 #include "gth-main.h"
 #include "gth-thumb-loader.h"
-#include "gthumb-error.h"
 #include "pixbuf-io.h"
 #include "pixbuf-utils.h"
 #include "typedefs.h"
@@ -416,7 +416,7 @@ watch_thumbnailer_cb (GPid     pid,
 	tloader->priv->thumbnailer_watch = 0;
 
 	if (status != 0) {
-		error = g_error_new_literal (GTHUMB_ERROR, 0, "cannot generate the thumbnail");
+		error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
 		image_loader_error (NULL, error, data);
 		return;
 	}
@@ -428,7 +428,7 @@ watch_thumbnailer_cb (GPid     pid,
 		g_object_unref (pixbuf);
 	}
 	else {
-		error = g_error_new_literal (GTHUMB_ERROR, 0, "cannot generate the thumbnail");
+		error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
 		image_loader_error (NULL, error, data);
 	}
 }
@@ -474,7 +474,7 @@ image_loader_ready_cb (GthImageLoader *iloader,
 	}
 	else {
 		if (error == NULL)
-			error = g_error_new_literal (GTHUMB_ERROR, 0, "cannot generate the thumbnail");
+			error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
 		image_loader_error (iloader, error, data);
 	}
 
@@ -515,7 +515,7 @@ thumb_loader (GthFileData  *file,
 		g_object_unref (pixbuf);
 	}
 	else
-		*error = g_error_new_literal (GTHUMB_ERROR, 0, "cannot generate the thumbnail");
+		*error = g_error_new_literal (GTH_ERROR, 0, "cannot generate the thumbnail");
 
 	return animation;
 }
@@ -684,7 +684,7 @@ gth_thumb_loader_load__step2 (GthThumbLoader *tloader)
 			g_signal_emit (G_OBJECT (tloader),
 				       gth_thumb_loader_signals[READY],
 				       0,
-				       g_error_new_literal (GTHUMB_ERROR, 0, "failed thumbnail"));
+				       g_error_new_literal (GTH_ERROR, 0, "failed thumbnail"));
 			g_free (uri);
 			return;
 		}

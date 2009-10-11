@@ -30,6 +30,7 @@ PUBLIC_HEADER_FILES = 					\
 	glib-utils.h					\
 	gnome-desktop-thumbnail.h			\
 	gth-async-task.h				\
+	gth-buffer-data.h				\
 	gth-browser.h					\
 	gth-cell-renderer-thumbnail.h			\
 	gth-cursors.h					\
@@ -38,8 +39,8 @@ PUBLIC_HEADER_FILES = 					\
 	gth-edit-metadata-dialog.h			\
 	gth-embedded-dialog.h				\
 	gth-empty-list.h				\
-	gth-enum-types.h                                \
 	gth-extensions.h				\
+	gth-error.h					\
 	gth-file-data.h					\
 	gth-file-list.h					\
 	gth-file-properties.h				\
@@ -76,6 +77,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-overwrite-dialog.h				\
 	gth-pixbuf-task.h				\
 	gth-pixbuf-list-task.h				\
+	gth-pixbuf-saver.h				\
 	gth-preferences.h				\
 	gth-progress-dialog.h				\
 	gth-sidebar.h					\
@@ -98,7 +100,6 @@ PUBLIC_HEADER_FILES = 					\
 	gth-user-dir.h					\
 	gth-viewer-page.h				\
 	gth-window.h					\
-	gthumb-error.h					\
 	gtk-utils.h					\
 	main.h						\
 	pixbuf-cache.h					\
@@ -142,6 +143,7 @@ gthumb_SOURCES = 					\
 	gth-async-task.c				\
 	gth-browser.c					\
 	gth-browser-actions-callbacks.c			\
+	gth-buffer-data.c				\
 	gth-cell-renderer-thumbnail.c			\
 	gth-cursors.c					\
 	gth-dumb-notebook.c				\
@@ -149,6 +151,7 @@ gthumb_SOURCES = 					\
 	gth-edit-metadata-dialog.c			\
 	gth-embedded-dialog.c				\
 	gth-empty-list.c				\
+	gth-error.c					\
 	gth-extensions.c				\
 	gth-file-data.c					\
 	gth-file-list.c					\
@@ -192,6 +195,7 @@ gthumb_SOURCES = 					\
 	gth-overwrite-dialog.c				\
 	gth-pixbuf-task.c				\
 	gth-pixbuf-list-task.c				\
+	gth-pixbuf-saver.c				\
 	gth-preferences.c				\
 	gth-progress-dialog.c				\
 	gth-sidebar.c					\
@@ -214,7 +218,6 @@ gthumb_SOURCES = 					\
 	gth-viewer-page.c				\
 	gth-window.c					\
 	gth-window-actions-callbacks.c			\
-	gthumb-error.c					\
 	gtk-utils.c					\
 	main.c						\
 	pixbuf-cache.c					\
@@ -232,6 +235,7 @@ gthumb_LDADD =						\
 	$(GTHUMB_LIBS)					\
 	$(EXIV2_LIBS)					\
 	$(JPEG_LIBS)					\
+	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
 	$(NULL)	
 
@@ -292,7 +296,7 @@ gth-marshal.c: gth-marshal.h gth-marshal.list $(GLIB_GENMARSHAL)
 	&& $(GLIB_GENMARSHAL) $(srcdir)/gth-marshal.list --body --prefix=gth_marshal >> $@ 
 
 gthumb.h: make-header.sh gthumb.h.template Makefile.am
-	$(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) > xgen-$(@F) \
+	$(srcdir)/make-header.sh $(srcdir)/gthumb.h.template  $(PUBLIC_HEADER_FILES) gth-enum-types.h > xgen-$(@F) \
 	&& (cmp -s xgen-$(@F) gthumb.h || cp xgen-$(@F) gthumb.h ) \
 	&& rm -f xgen-$(@F)
 

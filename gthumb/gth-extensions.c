@@ -23,8 +23,8 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include "glib-utils.h"
+#include "gth-error.h"
 #include "gth-extensions.h"
-#include "gthumb-error.h"
 
 
 #define EXTENSION_SUFFIX ".extension"
@@ -267,7 +267,7 @@ gth_extension_module_exec_generic_func (GthExtensionModule   *self,
 	if (g_module_symbol (self->priv->module, function_name, (gpointer *)&func))
 		func();
 	else
-		*error = g_error_new_literal (GTHUMB_ERROR, GTH_ERROR_GENERIC, g_module_error ());
+		*error = g_error_new_literal (GTH_ERROR, GTH_ERROR_GENERIC, g_module_error ());
 
 	g_free (function_name);
 
@@ -811,7 +811,7 @@ gth_extension_manager_deactivate (GthExtensionManager  *manager,
 		GthExtensionDescription *child_description = scan->data;
 
 		if (gth_extension_description_is_active (child_description)) {
-			*error = g_error_new (GTHUMB_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%s' is required by the extension '%s'"), description->name, child_description->name);
+			*error = g_error_new (GTH_ERROR, GTH_ERROR_EXTENSION_DEPENDENCY, _("The extension '%s' is required by the extension '%s'"), description->name, child_description->name);
 			break;
 		}
 	}

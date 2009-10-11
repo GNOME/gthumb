@@ -33,6 +33,7 @@
 #include "gth-browser-ui.h"
 #include "gth-duplicable.h"
 #include "gth-enum-types.h"
+#include "gth-error.h"
 #include "gth-file-list.h"
 #include "gth-file-view.h"
 #include "gth-file-selection.h"
@@ -54,7 +55,6 @@
 #include "gth-window.h"
 #include "gth-window-actions-callbacks.h"
 #include "gth-window-actions-entries.h"
-#include "gthumb-error.h"
 #include "main.h"
 
 #define GTH_BROWSER_CALLBACK(f) ((GthBrowserCallback) (f))
@@ -1617,7 +1617,7 @@ _gth_browser_load (GthBrowser *browser,
 		char   *uri;
 
 		uri = g_file_get_uri (location);
-		error = g_error_new (GTHUMB_ERROR, 0, _("No suitable module found for %s"), uri);
+		error = g_error_new (GTH_ERROR, 0, _("No suitable module found for %s"), uri);
 		load_data_ready (load_data, NULL, error);
 
 		g_free (uri);
@@ -1644,7 +1644,7 @@ _gth_browser_load (GthBrowser *browser,
 		char   *uri;
 
 		uri = g_file_get_uri (load_data->requested_folder->file);
-		error = g_error_new (GTHUMB_ERROR, 0, _("No suitable module found for %s"), uri);
+		error = g_error_new (GTH_ERROR, 0, _("No suitable module found for %s"), uri);
 		load_data_ready (load_data, NULL, error);
 
 		g_free (uri);
@@ -4574,7 +4574,7 @@ load_file_attributes_ready_cb (GthFileSource *file_source,
 			char   *uri;
 
 			uri = g_file_get_uri (data->location);
-			error = g_error_new (GTHUMB_ERROR, 0, _("File type not supported %s"), uri);
+			error = g_error_new (GTH_ERROR, 0, _("File type not supported %s"), uri);
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
 
 			g_free (uri);
@@ -4612,7 +4612,7 @@ gth_browser_load_location (GthBrowser *browser,
 		char   *uri;
 
 		uri = g_file_get_uri (data->location);
-		error = g_error_new (GTHUMB_ERROR, 0, _("No suitable module found for %s"), uri);
+		error = g_error_new (GTH_ERROR, 0, _("No suitable module found for %s"), uri);
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not load the position"), &error);
 
 		g_free (uri);

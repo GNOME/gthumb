@@ -42,7 +42,7 @@ typedef struct {
 typedef struct {
 	GthFileData  *file_data;
 	GdkPixbuf    *pixbuf;
-	const char   *type;
+	const char   *mime_type;
 	void         *buffer;
 	gsize         buffer_size;
 	GList        *files; 		/* SavePixbufFile list */
@@ -52,9 +52,7 @@ typedef struct {
 char *      get_pixbuf_type_from_mime_type     (const char       *mime_type);
 void        _gdk_pixbuf_save_async             (GdkPixbuf        *pixbuf,
 						GthFileData      *file_data,
-						const char       *type,
-						char            **keys,
-						char            **values,
+						const char       *mime_type,
 						GthFileDataFunc   ready_func,
 						gpointer          data);
 GdkPixbuf * gth_pixbuf_new_from_file           (GthFileData      *file,

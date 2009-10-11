@@ -25,6 +25,7 @@
 #include <sys/types.h>
 #include <glib/gi18n.h>
 #include <gio/gio.h>
+#include <extensions/jpeg_utils/jpegtran.h>
 #include "rotation-utils.h"
 
 
@@ -303,7 +304,6 @@ file_buffer_ready_cb (void     *buffer,
 		GInputStream *istream;
 		GdkPixbuf    *original_pixbuf;
 		GdkPixbuf    *transformed_pixbuf;
-		char         *pixbuf_type;
 
 		istream = g_memory_input_stream_new_from_data (buffer, count, NULL);
 		original_pixbuf = gdk_pixbuf_new_from_stream (istream, tdata->cancellable, &error);
@@ -314,16 +314,12 @@ file_buffer_ready_cb (void     *buffer,
 		}
 
 		transformed_pixbuf = _gdk_pixbuf_transform (original_pixbuf, tdata->transform);
-		pixbuf_type = get_pixbuf_type_from_mime_type (gth_file_data_get_mime_type (tdata->file_data));
 		_gdk_pixbuf_save_async (transformed_pixbuf,
 					tdata->file_data,
-					pixbuf_type,
-					NULL,
-					NULL,
+					gth_file_data_get_mime_type (tdata->file_data),
 					pixbuf_saved_cb,
 					tdata);
 
-		g_free (pixbuf_type);
 		g_object_unref (transformed_pixbuf);
 		g_object_unref (original_pixbuf);
 		g_object_unref (istream);

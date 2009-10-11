@@ -1,0 +1,61 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+
+#include <config.h>
+#include <gthumb.h>
+#include "gth-jpeg-saver.h"
+#include "gth-png-saver.h"
+#include "gth-tga-saver.h"
+#include "gth-tiff-saver.h"
+#include "preferences.h"
+
+
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
+{
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_JPEG_SAVER);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_PNG_SAVER);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_TGA_SAVER);
+	gth_main_register_type ("pixbuf-saver", GTH_TYPE_TIFF_SAVER);
+	gth_hook_add_callback ("dlg-preferences-construct", 30, G_CALLBACK (so__dlg_preferences_construct_cb), NULL);
+	gth_hook_add_callback ("dlg-preferences-apply", 10, G_CALLBACK (so__dlg_preferences_apply_cb), NULL);
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
+}

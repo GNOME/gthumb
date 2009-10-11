@@ -87,7 +87,7 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 	GError  *error = NULL;
 	GObject *metadata;
 
-	if (! exiv2_supports_writes (file_data))
+	if (! exiv2_supports_writes (gth_file_data_get_mime_type (file_data)))
 		return;
 
 	if (! g_load_file_in_buffer (file_data->file, &buffer, &size, &error))

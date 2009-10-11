@@ -72,19 +72,6 @@ G_BEGIN_DECLS
 #define PREF_UI_PROPERTIES_HEIGHT     "/apps/gthumb/ui/properties_height"
 #define PREF_UI_COMMENT_HEIGHT        "/apps/gthumb/ui/comment_height"
 
-#define PREF_PNG_COMPRESSION_LEVEL  "/apps/gthumb/dialogs/png_saver/compression_level"
-
-#define PREF_JPEG_QUALITY           "/apps/gthumb/dialogs/jpeg_saver/quality"
-#define PREF_JPEG_SMOOTHING         "/apps/gthumb/dialogs/jpeg_saver/smoothing"
-#define PREF_JPEG_OPTIMIZE          "/apps/gthumb/dialogs/jpeg_saver/optimize"
-#define PREF_JPEG_PROGRESSIVE       "/apps/gthumb/dialogs/jpeg_saver/progressive"
-
-#define PREF_TGA_RLE_COMPRESSION    "/apps/gthumb/dialogs/tga_saver/rle_compression"
-
-#define PREF_TIFF_COMPRESSION       "/apps/gthumb/dialogs/tiff_saver/compression"
-#define PREF_TIFF_HORIZONTAL_RES    "/apps/gthumb/dialogs/tiff_saver/horizontal_resolution"
-#define PREF_TIFF_VERTICAL_RES      "/apps/gthumb/dialogs/tiff_saver/vertical_resolution"
-
 #define PREF_ADD_TO_CATALOG_LAST_CATALOG "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
 #define PREF_ADD_TO_CATALOG_VIEW    "/apps/gthumb/dialogs/add_to_catalog/view"
 

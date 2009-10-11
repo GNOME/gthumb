@@ -20,8 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __GTHUMB_ERROR_H__
-#define __GTHUMB_ERROR_H__
+#ifndef GTH_ERROR_H
+#define GTH_ERROR_H
 
 #include <glib.h>
 
@@ -33,9 +33,9 @@ typedef enum {
 	GTH_ERROR_EXTENSION_DEPENDENCY
 } GthErrorCode;
 
-#define GTHUMB_ERROR gthumb_error_quark ()
-GQuark gthumb_error_quark (void);
+#define GTH_ERROR gth_error_quark ()
+GQuark gth_error_quark (void);
 
 G_END_DECLS
 
-#endif /* __GTHUMB_ERROR_H__ */
+#endif /* GTH_ERROR_H */

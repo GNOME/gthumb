@@ -8,8 +8,8 @@ copy-n-paste/eggsmclient.h
 copy-n-paste/eggsmclient-private.h
 copy-n-paste/eggsmclient-xsmp.c
 data/gthumb.desktop.in.in
-data/gthumb.schemas.in
 data/gthumb-import.desktop.in.in
+data/gthumb.schemas.in
 [type: gettext/glade]data/ui/bookmarks.ui
 [type: gettext/glade]data/ui/extensions.ui
 [type: gettext/glade]data/ui/filter-editor.ui
@@ -61,14 +61,33 @@ extensions/file_manager/gth-duplicate-task.h
 extensions/file_manager/gth-reorder-task.c
 extensions/file_manager/gth-reorder-task.h
 extensions/file_manager/main.c
+[type: gettext/glade]extensions/file_tools/data/ui/adjust-colors-options.ui
 [type: gettext/glade]extensions/file_tools/data/ui/crop-options.ui
 extensions/file_tools/file_tools.extension.in.in
+extensions/file_tools/gth-file-tool-adjust-colors.c
+extensions/file_tools/gth-file-tool-adjust-colors.h
 extensions/file_tools/gth-file-tool-crop.c
 extensions/file_tools/gth-file-tool-crop.h
 extensions/file_tools/gth-file-tool-desaturate.c
 extensions/file_tools/gth-file-tool-desaturate.h
+extensions/file_tools/gth-file-tool-enhance.c
+extensions/file_tools/gth-file-tool-enhance.h
+extensions/file_tools/gth-file-tool-equalize.c
+extensions/file_tools/gth-file-tool-equalize.h
+extensions/file_tools/gth-file-tool-flip.c
+extensions/file_tools/gth-file-tool-flip.h
+extensions/file_tools/gth-file-tool-mirror.c
+extensions/file_tools/gth-file-tool-mirror.h
+extensions/file_tools/gth-file-tool-negative.c
+extensions/file_tools/gth-file-tool-negative.h
 extensions/file_tools/gth-file-tool-redo.c
 extensions/file_tools/gth-file-tool-redo.h
+extensions/file_tools/gth-file-tool-rotate-left.c
+extensions/file_tools/gth-file-tool-rotate-left.h
+extensions/file_tools/gth-file-tool-rotate-right.c
+extensions/file_tools/gth-file-tool-rotate-right.h
+extensions/file_tools/gth-file-tool-save-as.c
+extensions/file_tools/gth-file-tool-save-as.h
 extensions/file_tools/gth-file-tool-save.c
 extensions/file_tools/gth-file-tool-save.h
 extensions/file_tools/gth-file-tool-undo.c
@@ -85,15 +104,9 @@ extensions/image_rotation/callbacks.h
 extensions/image_rotation/gth-transform-task.c
 extensions/image_rotation/gth-transform-task.h
 extensions/image_rotation/image_rotation.extension.in.in
-extensions/image_rotation/jmemorydest.c
-extensions/image_rotation/jmemorysrc.c
-extensions/image_rotation/jpegtran.c
-extensions/image_rotation/jpegtran.h
 extensions/image_rotation/main.c
 extensions/image_rotation/rotation-utils.c
 extensions/image_rotation/rotation-utils.h
-extensions/image_rotation/transupp.c
-extensions/image_rotation/transupp.h
 extensions/image_viewer/data/gthumb-image-viewer.schemas.in
 [type: gettext/glade]extensions/image_viewer/data/ui/image-viewer-preferences.ui
 extensions/image_viewer/gth-image-viewer-page.c
@@ -104,6 +117,16 @@ extensions/image_viewer/image_viewer.extension.in.in
 extensions/image_viewer/main.c
 extensions/image_viewer/preferences.c
 extensions/image_viewer/preferences.h
+extensions/jpeg_utils/jmemorydest.c
+extensions/jpeg_utils/jmemorydest.h
+extensions/jpeg_utils/jmemorysrc.c
+extensions/jpeg_utils/jmemorysrc.h
+extensions/jpeg_utils/jpegtran.c
+extensions/jpeg_utils/jpegtran.h
+extensions/jpeg_utils/jpeg_utils.extension.in.in
+extensions/jpeg_utils/main.c
+extensions/jpeg_utils/transupp.c
+extensions/jpeg_utils/transupp.h
 extensions/list_tools/actions.c
 extensions/list_tools/actions.h
 extensions/list_tools/callbacks.c
@@ -136,6 +159,29 @@ extensions/photo_importer/gth-import-task.h
 extensions/photo_importer/main.c
 extensions/photo_importer/photo_importer.extension.in.in
 extensions/photo_importer/preferences.h
+extensions/pixbuf_savers/data/gthumb-pixbuf-savers.schemas.in
+[type: gettext/glade]extensions/pixbuf_savers/data/ui/jpeg-options.ui
+[type: gettext/glade]extensions/pixbuf_savers/data/ui/png-options.ui
+[type: gettext/glade]extensions/pixbuf_savers/data/ui/save-options-preferences.ui
+[type: gettext/glade]extensions/pixbuf_savers/data/ui/tga-options.ui
+[type: gettext/glade]extensions/pixbuf_savers/data/ui/tiff-options.ui
+extensions/pixbuf_savers/gth-jpeg-saver.c
+extensions/pixbuf_savers/gth-jpeg-saver.h
+extensions/pixbuf_savers/gth-png-saver.c
+extensions/pixbuf_savers/gth-png-saver.h
+extensions/pixbuf_savers/gth-tga-saver.c
+extensions/pixbuf_savers/gth-tga-saver.h
+extensions/pixbuf_savers/gth-tiff-saver.c
+extensions/pixbuf_savers/gth-tiff-saver.h
+extensions/pixbuf_savers/main.c
+extensions/pixbuf_savers/pixbuf_savers.extension.in.in
+extensions/pixbuf_savers/preferences.c
+extensions/pixbuf_savers/preferences.h
+[type: gettext/glade]extensions/red_eye_removal/data/ui/red-eye-removal-options.ui
+extensions/red_eye_removal/gth-file-tool-red-eye.c
+extensions/red_eye_removal/gth-file-tool-red-eye.h
+extensions/red_eye_removal/main.c
+extensions/red_eye_removal/red_eye_removal.extension.in.in
 extensions/rename_series/actions.c
 extensions/rename_series/actions.h
 extensions/rename_series/callbacks.c
@@ -147,6 +193,17 @@ extensions/rename_series/gth-rename-task.c
 extensions/rename_series/gth-rename-task.h
 extensions/rename_series/main.c
 extensions/rename_series/rename_series.extension.in.in
+extensions/resize_images/actions.c
+extensions/resize_images/actions.h
+extensions/resize_images/callbacks.c
+extensions/resize_images/callbacks.h
+extensions/resize_images/data/gthumb_resize_images.schemas.in
+[type: gettext/glade]extensions/resize_images/data/ui/resize-images.ui
+extensions/resize_images/dlg-resize-images.c
+extensions/resize_images/dlg-resize-images.h
+extensions/resize_images/main.c
+extensions/resize_images/preferences.h
+extensions/resize_images/resize_images.extension.in.in
 extensions/search/actions.c
 extensions/search/actions.h
 extensions/search/callbacks.c
@@ -202,12 +259,16 @@ gthumb/glib-utils.h
 gthumb/gnome-desktop-thumbnail.c
 gthumb/gnome-desktop-thumbnail.h
 gthumb/gnome-thumbnail-pixbuf-utils.c
+gthumb/gth-async-task.c
+gthumb/gth-async-task.h
 gthumb/gth-browser-actions-callbacks.c
 gthumb/gth-browser-actions-callbacks.h
 gthumb/gth-browser-actions-entries.h
 gthumb/gth-browser.c
 gthumb/gth-browser.h
 gthumb/gth-browser-ui.h
+gthumb/gth-buffer-data.c
+gthumb/gth-buffer-data.h
 gthumb/gth-cell-renderer-thumbnail.c
 gthumb/gth-cell-renderer-thumbnail.h
 gthumb/gth-cursors.c
@@ -222,6 +283,8 @@ gthumb/gth-embedded-dialog.c
 gthumb/gth-embedded-dialog.h
 gthumb/gth-empty-list.c
 gthumb/gth-empty-list.h
+gthumb/gth-error.c
+gthumb/gth-error.h
 gthumb/gth-extensions.c
 gthumb/gth-extensions.h
 gthumb/gth-file-data.c
@@ -252,6 +315,10 @@ gthumb/gth-filter-file.h
 gthumb/gth-filter.h
 gthumb/gth-folder-tree.c
 gthumb/gth-folder-tree.h
+gthumb/gth-histogram.c
+gthumb/gth-histogram.h
+gthumb/gth-histogram-view.c
+gthumb/gth-histogram-view.h
 gthumb/gth-hook.c
 gthumb/gth-hook.h
 gthumb/gth-icon-cache.c
@@ -295,6 +362,10 @@ gthumb/gth-nav-window.c
 gthumb/gth-nav-window.h
 gthumb/gth-overwrite-dialog.c
 gthumb/gth-overwrite-dialog.h
+gthumb/gth-pixbuf-list-task.c
+gthumb/gth-pixbuf-list-task.h
+gthumb/gth-pixbuf-saver.c
+gthumb/gth-pixbuf-saver.h
 gthumb/gth-pixbuf-task.c
 gthumb/gth-pixbuf-task.h
 gthumb/gth-preferences.c
@@ -332,8 +403,6 @@ gthumb/gth-toggle-menu-tool-button.c
 gthumb/gth-toggle-menu-tool-button.h
 gthumb/gth-toolbox.c
 gthumb/gth-toolbox.h
-gthumb/gthumb-error.c
-gthumb/gthumb-error.h
 gthumb/gth-uri-list.c
 gthumb/gth-uri-list.h
 gthumb/gth-user-dir.c
@@ -349,6 +418,8 @@ gthumb/gtk-utils.c
 gthumb/gtk-utils.h
 gthumb/main.c
 gthumb/main.h
+gthumb/pixbuf-cache.c
+gthumb/pixbuf-cache.h
 gthumb/pixbuf-io.c
 gthumb/pixbuf-io.h
 gthumb/pixbuf-utils.c

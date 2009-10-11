@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2005, 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,28 +20,31 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ROTATION_UTILS_H
-#define ROTATION_UTILS_H
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <gthumb.h>
-#include <extensions/jpeg_utils/jpegtran.h>
 
 
-typedef void (*TrimResponseFunc) (JpegMcuAction action, gpointer user_data);
+G_MODULE_EXPORT void
+gthumb_extension_activate (void)
+{
+}
 
-void            ask_whether_to_trim            (GtkWindow        *parent_window,
-		     				GthFileData      *file_data,
-		     				TrimResponseFunc  done_func,
-		     				gpointer          done_data);
-GthTransform	get_next_transformation	       (GthTransform      original,
-						GthTransform      transform);
-void            apply_transformation_async     (GthFileData      *file_data,
-						GthTransform      transform,
-						JpegMcuAction     mcu_action,
-						GCancellable     *cancellable,
-						ReadyFunc         ready_func,
-						gpointer          data);
 
-#endif /* ROTATION_UTILS_H */
+G_MODULE_EXPORT void
+gthumb_extension_deactivate (void)
+{
+}
+
+
+G_MODULE_EXPORT gboolean
+gthumb_extension_is_configurable (void)
+{
+	return FALSE;
+}
+
+
+G_MODULE_EXPORT void
+gthumb_extension_configure (GtkWindow *parent)
+{
+}

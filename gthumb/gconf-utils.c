@@ -51,7 +51,7 @@
 #include <gconf/gconf.h>
 #include "gconf-utils.h"
 #include "gtk-utils.h"
-#include "gthumb-error.h"
+#include "gth-error.h"
 #include "glib-utils.h"
 
 #define HOME_DIR "~"
@@ -129,7 +129,7 @@ check_type (const char      *key,
 {
 	if (val->type != t) {
 		g_set_error (err,
-			     GTHUMB_ERROR,
+			     GTH_ERROR,
 			     errno,
 			     "Type mismatch for key %s",
 			     key);

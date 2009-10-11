@@ -1,18 +1,6 @@
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libimage_rotation.la
 
-if ENABLE_JPEG_TOOLS
-JPEG_FILES =				\
-	jmemorydest.c			\
-	jmemorysrc.c			\
-	jpegtran.c			\
-	jpegtran.h			\
-	transupp.c			\
-	transupp.h
-else
-JPEG_FILES =
-endif
-
 libimage_rotation_la_SOURCES = 		\
 	$(JPEG_FILES)			\
 	actions.c			\

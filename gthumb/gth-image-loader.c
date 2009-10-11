@@ -27,9 +27,9 @@
 #include <gtk/gtk.h>
 #include "gth-file-data.h"
 #include "glib-utils.h"
+#include "gth-error.h"
 #include "gth-image-loader.h"
 #include "gth-main.h"
-#include "gthumb-error.h"
 
 /*
 #include "file-utils.h"
@@ -774,7 +774,7 @@ gth_image_loader_cancel_with_error (GthImageLoader *iloader,
 				    gpointer        done_func_data)
 {
 	g_mutex_lock (iloader->priv->data_mutex);
-	iloader->priv->error = g_error_new_literal (GTHUMB_ERROR, 0, "cancelled");
+	iloader->priv->error = g_error_new_literal (GTH_ERROR, 0, "cancelled");
 	g_mutex_unlock (iloader->priv->data_mutex);
 
 	_gth_image_loader_stop (iloader, done_func, done_func_data, TRUE, TRUE);
@@ -826,7 +826,7 @@ gth_image_loader_load_from_pixbuf_loader (GthImageLoader  *iloader,
 
 	g_mutex_lock (iloader->priv->data_mutex);
 	if ((iloader->priv->pixbuf == NULL) && (iloader->priv->animation == NULL))
-		error = g_error_new_literal (GTHUMB_ERROR, 0, "No image available");
+		error = g_error_new_literal (GTH_ERROR, 0, "No image available");
 	g_mutex_unlock (iloader->priv->data_mutex);
 
 	g_signal_emit (G_OBJECT (iloader), gth_image_loader_signals[READY], 0, error);
@@ -873,7 +873,7 @@ gth_image_loader_load_from_image_loader (GthImageLoader *to,
 	}
 
 	if ((to->priv->pixbuf == NULL) && (to->priv->animation == NULL))
-		error = g_error_new_literal (GTHUMB_ERROR, 0, "No image available");
+		error = g_error_new_literal (GTH_ERROR, 0, "No image available");
 
 	g_mutex_unlock (to->priv->data_mutex);
 	g_mutex_unlock (from->priv->data_mutex);

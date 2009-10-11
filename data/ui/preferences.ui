@@ -185,8 +185,8 @@
                                 <child>
                                   <object class="GtkFileChooserButton" id="startup_dir_filechooserbutton">
                                     <property name="visible">True</property>
-                                    <property name="action">select-folder</property>
                                     <property name="local_only">False</property>
+                                    <property name="action">select-folder</property>
                                     <property name="title" translatable="yes">Choose startup folder</property>
                                   </object>
                                   <packing>
