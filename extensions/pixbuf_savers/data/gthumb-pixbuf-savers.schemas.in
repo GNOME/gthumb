@@ -1,19 +1,6 @@
 <gconfschemafile>
     <schemalist>
 
-      <schema>
-        <key>/schemas/apps/gthumb/ext/save_options/ask_options</key>
-        <applyto>/apps/gthumb/ext/save_options/ask_options</applyto>
-        <owner>gthumb</owner>
-        <type>bool</type>
-        <default>true</default>
-        <locale name="C">
-          <short></short>
-          <long>
-          </long>
-        </locale>
-      </schema>
-
       <!-- JPEG Options -->
 
       <schema>

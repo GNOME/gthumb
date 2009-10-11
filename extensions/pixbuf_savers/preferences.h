@@ -33,7 +33,6 @@ typedef enum {
 } GthTiffCompression;
 
 
-#define  PREF_SAVE_OPTIONS_ASK_OPTIONS  "/apps/gthumb/ext/save_options/ask_options"
 #define  PREF_JPEG_QUALITY              "/apps/gthumb/save_options/jpeg/quality"
 #define  PREF_JPEG_SMOOTHING            "/apps/gthumb/save_options/jpeg/smoothing"
 #define  PREF_JPEG_OPTIMIZE             "/apps/gthumb/save_options/jpeg/optimize"

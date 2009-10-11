@@ -132,8 +132,6 @@ so__dlg_preferences_construct_cb (GtkWidget  *dialog,
 			  G_CALLBACK (treeselection_changed_cb),
 			  dialog);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("ask_options_checkbutton")), eel_gconf_get_boolean (PREF_SAVE_OPTIONS_ASK_OPTIONS, TRUE));
-
 	label = gtk_label_new (_("Saving"));
 	gtk_widget_show (label);
 
