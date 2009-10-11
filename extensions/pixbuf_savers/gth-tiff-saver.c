@@ -520,6 +520,8 @@ gth_tiff_saver_class_init (GthTiffSaverClass *klass)
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "tiff";
 	pixbuf_saver_class->display_name = _("TIFF");
+	pixbuf_saver_class->mime_type = "image/tiff";
+	pixbuf_saver_class->default_ext = "tiff";
 	pixbuf_saver_class->get_control = gth_tiff_saver_get_control;
 	pixbuf_saver_class->save_options = gth_tiff_saver_save_options;
 	pixbuf_saver_class->can_save = gth_tiff_saver_can_save;

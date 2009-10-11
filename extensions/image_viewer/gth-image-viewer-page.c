@@ -792,17 +792,14 @@ typedef struct {
 } SaveAsData;
 
 
-static struct {
+typedef struct {
 	const char *type;
 	const char *extensions;
 	const char *default_ext;
-}
-supported_formats[] = {
-	{ "image/jpeg", "jpeg jpg jpe", "jpeg" },
-	{ "image/png", "png", "png" },
-	{ "image/tiff", "tiff tif", "tiff" },
-	{ NULL, NULL }
-};
+} Format;
+
+
+static GList *supported_formats = NULL;
 
 
 static void
@@ -819,9 +816,10 @@ save_as_response_cb (GtkDialog  *file_sel,
 		     int         response,
 		     SaveAsData *data)
 {
-	char  *filename;
-	int    format;
-	GFile *file;
+	char   *filename;
+	int     n_format;
+	Format *format;
+	GFile  *file;
 
 	if (response != GTK_RESPONSE_ACCEPT) {
 		if (data->func != NULL) {
@@ -835,17 +833,18 @@ save_as_response_cb (GtkDialog  *file_sel,
 	}
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel));
-	format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
+	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
 	g_free (filename);
 
-	if ((format < 1) || (format > G_N_ELEMENTS (supported_formats)))
+	if ((n_format < 1) || (n_format > g_list_length (supported_formats)))
 		return;
 
+	format = g_list_nth_data (supported_formats, n_format - 1);
 	file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (file_sel));
 	gth_file_data_set_file (data->file_data, file);
 	_gth_image_viewer_page_real_save ((GthViewerPage *) data->self,
 					  file,
-					  supported_formats[format - 1].type,
+					  format->type,
 					  data->func,
 					  data->user_data);
 	gtk_widget_destroy (GTK_WIDGET (data->file_sel));
@@ -858,23 +857,25 @@ static void
 format_chooser_selection_changed_cb (EggFileFormatChooser *self,
 				     SaveAsData           *data)
 {
-	char *filename;
-	int   format;
-	char *basename;
-	char *basename_noext;
-	char *new_basename;
+	char   *filename;
+	int     n_format;
+	Format *format;
+	char   *basename;
+	char   *basename_noext;
+	char   *new_basename;
 
 	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->file_sel));
-	format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
+	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
 
-	if ((format < 1) || (format > G_N_ELEMENTS (supported_formats))) {
+	if ((n_format < 1) || (n_format > g_list_length (supported_formats))) {
 		g_free (filename);
 		return;
 	}
 
+	format = g_list_nth_data (supported_formats, n_format - 1);
 	basename = g_path_get_basename (filename);
 	basename_noext = _g_uri_remove_extension (basename);
-	new_basename = g_strconcat (basename_noext, ".", supported_formats[format - 1].default_ext, NULL);
+	new_basename = g_strconcat (basename_noext, ".", format->default_ext, NULL);
 	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (data->file_sel), new_basename);
 
 	g_free (new_basename);
@@ -917,7 +918,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 	char                 *uri;
 	EggFileFormatChooser *format_chooser;
 	SaveAsData           *data;
-	int                   i;
+	GList                *scan;
 
 	self = GTH_IMAGE_VIEWER_PAGE (base);
 	file_sel = gtk_file_chooser_dialog_new (_("Save Image"),
@@ -934,16 +935,37 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 
 	/**/
 
-	format_chooser = (EggFileFormatChooser *) egg_file_format_chooser_new ();
-	for (i = 0; supported_formats[i].type != NULL; i++) {
-		char  *icon_name;
-		char **extensions;
+	if (supported_formats == NULL) {
+		GArray *savers;
+		int     i;
 
-		icon_name = get_icon_name_for_type (supported_formats[i].type);
-		extensions = g_strsplit (supported_formats[i].extensions, " ", -1);
+		savers = gth_main_get_type_set ("pixbuf-saver");
+		for (i = 0; (savers != NULL) && (i < savers->len); i++) {
+			GthPixbufSaver *pixbuf_saver;
+			Format         *format;
+
+			pixbuf_saver = g_object_new (g_array_index (savers, GType, i), NULL);
+			format = g_new (Format, 1);
+			format->type = g_strdup (gth_pixbuf_saver_get_mime_type (pixbuf_saver));
+			format->extensions = g_strdup (gth_pixbuf_saver_get_default_ext (pixbuf_saver));
+			format->default_ext = g_strdup (gth_pixbuf_saver_get_default_ext (pixbuf_saver));
+			supported_formats = g_list_prepend (supported_formats, format);
+
+			g_object_unref (pixbuf_saver);
+		}
+	}
+
+	format_chooser = (EggFileFormatChooser *) egg_file_format_chooser_new ();
+	for (scan = supported_formats; scan != NULL; scan = scan->next) {
+		Format  *format = scan->data;
+		char    *icon_name;
+		char   **extensions;
+
+		icon_name = get_icon_name_for_type (format->type);
+		extensions = g_strsplit (format->extensions, " ", -1);
 		egg_file_format_chooser_add_format (format_chooser,
 						    0,
-						    g_content_type_get_description (supported_formats[i].type),
+						    g_content_type_get_description (format->type),
 						    icon_name,
 						    extensions[0],
 						    extensions[1],

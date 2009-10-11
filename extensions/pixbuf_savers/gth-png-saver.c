@@ -144,6 +144,8 @@ gth_png_saver_class_init (GthPngSaverClass *klass)
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "png";
 	pixbuf_saver_class->display_name = _("PNG");
+	pixbuf_saver_class->mime_type = "image/png";
+	pixbuf_saver_class->default_ext = "png";
 	pixbuf_saver_class->get_control = gth_png_saver_get_control;
 	pixbuf_saver_class->save_options = gth_png_saver_save_options;
 	pixbuf_saver_class->can_save = gth_png_saver_can_save;

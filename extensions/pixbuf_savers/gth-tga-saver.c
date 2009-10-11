@@ -332,7 +332,6 @@ gth_tga_saver_save_pixbuf (GthPixbufSaver  *self,
 	char     **option_keys;
 	char     **option_values;
 	int        i = -1;
-	int        i_value;
 	gboolean   result;
 
 	pixbuf_type = get_pixbuf_type_from_mime_type (mime_type);
@@ -341,9 +340,8 @@ gth_tga_saver_save_pixbuf (GthPixbufSaver  *self,
 	option_values = g_malloc (sizeof (char *) * 2);
 
 	i++;
-	i_value = eel_gconf_get_integer (PREF_PNG_COMPRESSION_LEVEL, 6);
-	option_keys[i] = g_strdup ("compression");;
-	option_values[i] = g_strdup_printf ("%d", i_value);
+	option_keys[i] = g_strdup ("compression");
+	option_values[i] = g_strdup (eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION, TRUE) ? "rle" : "none");
 
 	i++;
 	option_keys[i] = NULL;
@@ -379,6 +377,8 @@ gth_tga_saver_class_init (GthTgaSaverClass *klass)
 	pixbuf_saver_class = GTH_PIXBUF_SAVER_CLASS (klass);
 	pixbuf_saver_class->id = "tga";
 	pixbuf_saver_class->display_name = _("TGA");
+	pixbuf_saver_class->mime_type = "image/x-tga";
+	pixbuf_saver_class->default_ext = "tga";
 	pixbuf_saver_class->get_control = gth_tga_saver_get_control;
 	pixbuf_saver_class->save_options = gth_tga_saver_save_options;
 	pixbuf_saver_class->can_save = gth_tga_saver_can_save;
