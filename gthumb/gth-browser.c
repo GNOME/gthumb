@@ -324,17 +324,21 @@ _gth_browser_add_file_menu_item_full (GthBrowser *browser,
 		gtk_menu_shell_insert (GTK_MENU_SHELL (menu), menu_item, position);
 
 	if (action == GTH_ACTION_GO_TO) {
-		char *uri = g_file_get_uri (file);
-		gtk_widget_set_tooltip_text (GTK_WIDGET (menu_item), uri);
+		char *parse_name;
+
+		parse_name = g_file_get_parse_name (file);
+		gtk_widget_set_tooltip_text (GTK_WIDGET (menu_item), parse_name);
 
 		g_object_set_data_full (G_OBJECT (menu_item),
 					"uri",
-					uri,
+					g_file_get_uri (file),
 					(GDestroyNotify) g_free);
 		g_signal_connect (menu_item,
 				  "activate",
 				  G_CALLBACK (activate_go_to_menu_item),
 			  	  browser);
+
+		g_free (parse_name);
 	}
 	else {
 		g_object_set_data (G_OBJECT (menu_item),
