@@ -6,19 +6,23 @@
 # Miloslav Trmac <mitr@volny.cz>, 2003, 2004, 2005, 2006.
 # Jakub Friedl <jfriedl@suse.cz>, 2006, 2007.
 # Kamil Páral <ripper42@gmail.com>, 2008.
+# Marek Černocký <marek@manet.cz>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-06 21:03+0100\n"
-"PO-Revision-Date: 2008-03-01 18:55+0100\n"
-"Last-Translator: Kamil Páral <ripper42@gmail.com>\n"
+"Project-Id-Version: gthumb gnome-2-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=gthumb&component=general\n"
+"POT-Creation-Date: 2009-09-20 14:11+0000\n"
+"PO-Revision-Date: 2009-10-14 12:15+0100\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
 #: ../src/gth-fullscreen-actions-entries.h:47
@@ -46,7 +50,7 @@ msgstr "Rozměry"
 msgid "Bytes"
 msgstr "Bajtů"
 
-#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:210
+#: ../data/albumthemes/text.h:33 ../src/gth-filter-bar.c:208
 msgid "Date"
 msgstr "Datum"
 
@@ -275,9 +279,9 @@ msgstr ""
 msgid "Import Photos"
 msgstr "Importovat fotografie"
 
-#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:929
-#: ../src/dlg-photo-importer.c:968 ../src/dlg-photo-importer.c:1596
-#: ../src/dlg-photo-importer.c:2340
+#: ../data/glade/gthumb_camera.glade.h:9 ../src/dlg-photo-importer.c:930
+#: ../src/dlg-photo-importer.c:969 ../src/dlg-photo-importer.c:1597
+#: ../src/dlg-photo-importer.c:2344
 msgid "No camera detected"
 msgstr "Nedetekován fotoaparát"
 
@@ -340,7 +344,7 @@ msgstr "Kategorie"
 msgid "Co_mment:"
 msgstr "_Komentář:"
 
-#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:208
+#: ../data/glade/gthumb_comments.glade.h:4 ../src/gth-filter-bar.c:206
 msgid "Comment"
 msgstr "Komentář"
 
@@ -1473,7 +1477,7 @@ msgid "Postcard"
 msgstr "Pohlednice"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2718
+#: ../data/glade/gthumb_print.glade.h:42 ../libgthumb/print-callbacks.c:2722
 #: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Tisk"
@@ -1586,8 +1590,8 @@ msgstr "Hledat _libovolnou vybranou kategorii"
 msgid "New _Search..."
 msgstr "Nové _hledání..."
 
-#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:898
-#: ../src/dlg-photo-importer.c:1643
+#: ../data/glade/gthumb_search.glade.h:18 ../src/dlg-photo-importer.c:899
+#: ../src/dlg-photo-importer.c:1644
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
 
@@ -2037,7 +2041,7 @@ msgstr "řádků na stránku,"
 msgid "Image Viewer"
 msgstr "Prohlížeč obrázků"
 
-#: ../data/gthumb.desktop.in.h:2 ../src/main.c:715
+#: ../data/gthumb.desktop.in.h:2 ../src/main.c:714
 msgid "View and organize your images"
 msgstr "Prohlížení a uspořádání vašich obrázků"
 
@@ -2185,19 +2189,19 @@ msgstr "Nelze otevřít katalog \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Nelze uložit katalog \"%s\": %s"
 
-#: ../libgthumb/comments.c:1237 ../src/catalog-web-exporter.c:142
+#: ../libgthumb/comments.c:1238 ../src/catalog-web-exporter.c:142
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: ../libgthumb/comments.c:1239 ../src/catalog-web-exporter.c:56
+#: ../libgthumb/comments.c:1240 ../src/catalog-web-exporter.c:56
 #: ../src/catalog-web-exporter.c:144 ../src/dlg-duplicates.c:548
 #: ../src/dlg-image-prop.c:441 ../src/gth-browser.c:482
-#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:863
+#: ../src/gth-exif-data-viewer.c:791 ../src/gth-fullscreen.c:877
 #: ../src/gth-viewer.c:599
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1249 ../libgthumb/comments.c:1251
+#: ../libgthumb/comments.c:1250 ../libgthumb/comments.c:1252
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
@@ -2218,28 +2222,28 @@ msgstr "Uložit obrázek"
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
-#: ../libgthumb/file-utils.c:1485 ../src/gth-location.c:822
+#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:822
 msgid "Catalogs"
 msgstr "Katalogy"
 
-#: ../libgthumb/file-utils.c:1488 ../src/gth-location.c:830
+#: ../libgthumb/file-utils.c:1491 ../src/gth-location.c:830
 msgid "File System"
 msgstr "Systém souborů"
 
-#: ../libgthumb/file-utils.c:1517 ../src/gth-location.c:838
+#: ../libgthumb/file-utils.c:1520 ../src/gth-location.c:838
 msgid "Home"
 msgstr "Domov"
 
-#: ../libgthumb/file-utils.c:2152
+#: ../libgthumb/file-utils.c:2158
 msgid "Library not empty"
 msgstr "Knihovna není prázdná"
 
-#: ../libgthumb/file-utils.c:2161
+#: ../libgthumb/file-utils.c:2167
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Nelze odstranit knihovnu \"%s\": %s"
 
-#: ../libgthumb/file-utils.c:2188
+#: ../libgthumb/file-utils.c:2194
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Nelze odstranit katalog \"%s\": %s"
@@ -2257,12 +2261,12 @@ msgstr "Nelze zobrazit nápovědu"
 msgid "Ro_tate Images"
 msgstr "_Otočit obrázky"
 
-#: ../libgthumb/print-callbacks.c:821
+#: ../libgthumb/print-callbacks.c:825
 #, c-format
 msgid "Page %d of %d"
 msgstr "Strana %d z %d"
 
-#: ../libgthumb/print-callbacks.c:2249 ../src/catalog-png-exporter.c:1427
+#: ../libgthumb/print-callbacks.c:2253 ../src/catalog-png-exporter.c:1423
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítám obrázek: %s"
@@ -2280,32 +2284,32 @@ msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 msgid "(Invalid Name)"
 msgstr "(Neplatný název)"
 
-#: ../src/catalog-png-exporter.c:846 ../src/dlg-image-prop.c:421
+#: ../src/catalog-png-exporter.c:843 ../src/dlg-image-prop.c:421
 #: ../src/gth-browser.c:485 ../src/gth-exif-data-viewer.c:787
-#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:602
+#: ../src/gth-fullscreen.c:868 ../src/gth-viewer.c:602
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
 
-#: ../src/catalog-png-exporter.c:911 ../src/catalog-web-exporter.c:2145
-#: ../src/catalog-web-exporter.c:2370
+#: ../src/catalog-png-exporter.c:908 ../src/catalog-web-exporter.c:2158
+#: ../src/catalog-web-exporter.c:2385
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: ../src/catalog-png-exporter.c:1658
+#: ../src/catalog-png-exporter.c:1651
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1854
+#: ../src/catalog-web-exporter.c:1866
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: ../src/catalog-web-exporter.c:1924
+#: ../src/catalog-web-exporter.c:1936
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: ../src/catalog-web-exporter.c:2004
+#: ../src/catalog-web-exporter.c:2016
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
@@ -2313,17 +2317,17 @@ msgstr "Ukládám stránky HTML: Indexy"
 #. enabled, and resizing is NOT enabled. This allows us to use a
 #. lossless copy (and rotate). When resizing is enabled, a lossy
 #. save has to be used.
-#: ../src/catalog-web-exporter.c:2188
+#: ../src/catalog-web-exporter.c:2201
 msgid "Copying original images"
 msgstr "Kopírování originálních obrázků"
 
-#: ../src/catalog-web-exporter.c:2565
+#: ../src/catalog-web-exporter.c:2580
 #: ../src/gth-window-actions-callbacks.c:215 ../src/rotation-utils.c:162
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2598
+#: ../src/catalog-web-exporter.c:2613
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -2341,7 +2345,7 @@ msgstr "_Vytvořit"
 msgid "Enter the library name: "
 msgstr "Zadejte název knihovny: "
 
-#: ../src/dlg-catalog.c:502
+#: ../src/dlg-catalog.c:504
 msgid "Move Catalog to..."
 msgstr "Přesunout katalog do..."
 
@@ -2432,7 +2436,7 @@ msgstr "Cílový adresář neexistuje. Chcete jej vytvořit?"
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nelze vytvořit adresář \"%s\": %s."
 
-#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1668
+#: ../src/dlg-file-utils.c:120 ../src/dlg-photo-importer.c:1669
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2463,77 +2467,77 @@ msgstr "_Přesunout"
 msgid "Choose the destination folder"
 msgstr "Vyberte cílový adresář"
 
-#: ../src/dlg-file-utils.c:548
+#: ../src/dlg-file-utils.c:547
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
-#: ../src/dlg-file-utils.c:783 ../src/dlg-file-utils.c:884
+#: ../src/dlg-file-utils.c:775 ../src/dlg-file-utils.c:876
 msgid "You didn't enter the new name"
 msgstr "Nezadali jste nový název"
 
-#: ../src/dlg-file-utils.c:795 ../src/dlg-file-utils.c:896
+#: ../src/dlg-file-utils.c:787 ../src/dlg-file-utils.c:888
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
-#: ../src/dlg-file-utils.c:1041
+#: ../src/dlg-file-utils.c:1033
 msgid "Could not rename the image:"
 msgstr "Nelze přejmenovat obrázek:"
 
-#: ../src/dlg-file-utils.c:1043
+#: ../src/dlg-file-utils.c:1035
 msgid "Could not rename the following images:"
 msgstr "Nelze přejmenovat následující obrázky:"
 
-#: ../src/dlg-file-utils.c:1176
+#: ../src/dlg-file-utils.c:1168
 msgid "Could not move the image:"
 msgstr "Nelze přesunout obrázek:"
 
-#: ../src/dlg-file-utils.c:1178
+#: ../src/dlg-file-utils.c:1170
 msgid "Could not copy the image:"
 msgstr "Nelze kopírovat obrázek:"
 
-#: ../src/dlg-file-utils.c:1202 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1194 ../src/dlg-file-utils.c:2455
 msgid "_Abort"
 msgstr "Přer_ušit"
 
-#: ../src/dlg-file-utils.c:1203 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1195 ../src/dlg-file-utils.c:2456
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: ../src/dlg-file-utils.c:1381
+#: ../src/dlg-file-utils.c:1373
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopíruji %d. soubor ze %d"
 
-#: ../src/dlg-file-utils.c:1789 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1781 ../src/dlg-file-utils.c:2012
 msgid "Collecting images info"
 msgstr "Zjišťuji informace o obrázcích"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1784 ../src/dlg-file-utils.c:2025
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Odstraňuji %ld. soubor ze %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2015
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopíruji %ld. soubor ze %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2020
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Přesouvám %ld. soubor ze %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2432 ../src/dlg-file-utils.c:2434
 #: ../src/gth-browser-actions-callbacks.c:1285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Nelze přesunout adresář \"%s\": %s"
 
 #: ../src/dlg-image-prop.c:598 ../src/gth-exif-data-viewer.c:803
-#: ../src/gth-filter-bar.c:211
+#: ../src/gth-filter-bar.c:209
 msgid "Size"
 msgstr "Velikost"
 
@@ -2562,31 +2566,31 @@ msgstr ""
 "Nelze přesunout dočasný soubor do vzdáleného umístění. Zkontrolujte vzdálená "
 "oprávnění."
 
-#: ../src/dlg-photo-importer.c:965 ../src/dlg-photo-importer.c:1595
-#: ../src/dlg-photo-importer.c:1642 ../src/dlg-photo-importer.c:1654
-#: ../src/dlg-photo-importer.c:1670 ../src/dlg-photo-importer.c:1699
+#: ../src/dlg-photo-importer.c:966 ../src/dlg-photo-importer.c:1596
+#: ../src/dlg-photo-importer.c:1643 ../src/dlg-photo-importer.c:1655
+#: ../src/dlg-photo-importer.c:1671 ../src/dlg-photo-importer.c:1700
 msgid "Could not import photos"
 msgstr "Nemohu importovat fotografie"
 
-#: ../src/dlg-photo-importer.c:1328 ../src/main.c:1013
+#: ../src/dlg-photo-importer.c:1329 ../src/main.c:1012
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1340
+#: ../src/dlg-photo-importer.c:1341
 msgid "Import errors detected"
 msgstr "Při importu byly detekovány chyby"
 
-#: ../src/dlg-photo-importer.c:1341
+#: ../src/dlg-photo-importer.c:1342
 msgid "The files on the camera will not be deleted"
 msgstr "Soubory na fotoaparátu nebudou odstraněny"
 
-#: ../src/dlg-photo-importer.c:1651
+#: ../src/dlg-photo-importer.c:1652
 #: ../src/gth-browser-actions-callbacks.c:1603
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: ../src/dlg-photo-importer.c:1700
+#: ../src/dlg-photo-importer.c:1701
 msgid "Not enough free space left on disk"
 msgstr "Na disku nezbývá dost volného místa"
 
@@ -2602,32 +2606,32 @@ msgstr "Záhlaví"
 msgid "Footer"
 msgstr "Zápatí"
 
-#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:484
+#: ../src/dlg-png-exporter.c:1570 ../src/dlg-rename-series.c:484
 #: ../src/dlg-web-exporter.c:484
 msgid "by path"
 msgstr "podle cesty"
 
-#: ../src/dlg-png-exporter.c:1571 ../src/dlg-rename-series.c:486
+#: ../src/dlg-png-exporter.c:1572 ../src/dlg-rename-series.c:486
 #: ../src/dlg-web-exporter.c:486
 msgid "by size"
 msgstr "podle velikosti"
 
-#: ../src/dlg-png-exporter.c:1573 ../src/dlg-rename-series.c:488
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:488
 #: ../src/dlg-web-exporter.c:488
 msgid "by file modified time"
 msgstr "podle času změny"
 
-#: ../src/dlg-png-exporter.c:1575 ../src/dlg-rename-series.c:490
+#: ../src/dlg-png-exporter.c:1576 ../src/dlg-rename-series.c:490
 #: ../src/dlg-web-exporter.c:490
 msgid "by Exif DateTime tag"
 msgstr "podle data a času EXIF"
 
-#: ../src/dlg-png-exporter.c:1577 ../src/dlg-rename-series.c:492
+#: ../src/dlg-png-exporter.c:1578 ../src/dlg-rename-series.c:492
 #: ../src/dlg-web-exporter.c:492
 msgid "by comment"
 msgstr "podle komentáře"
 
-#: ../src/dlg-png-exporter.c:1582 ../src/dlg-rename-series.c:495
+#: ../src/dlg-png-exporter.c:1583 ../src/dlg-rename-series.c:495
 #: ../src/dlg-web-exporter.c:495
 msgid "manual order"
 msgstr "ruční pořadí"
@@ -2652,7 +2656,7 @@ msgstr "Starý název"
 msgid "New Name"
 msgstr "Nový název"
 
-#: ../src/dlg-search.c:366
+#: ../src/dlg-search.c:368
 msgid "Search Result"
 msgstr "Výsledek hledání"
 
@@ -2664,7 +2668,7 @@ msgstr "Vyberte téma alba"
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1084
+#: ../src/gth-browser-actions-callbacks.c:168 ../src/gth-fullscreen.c:1098
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
 
@@ -3397,7 +3401,7 @@ msgstr "[Pro přidání komentáře stiskněte 'c']"
 msgid "[modified]"
 msgstr "[změněn]"
 
-#: ../src/gth-browser.c:696 ../src/main.c:438 ../src/main.c:724
+#: ../src/gth-browser.c:696 ../src/main.c:437 ../src/main.c:723
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -3433,43 +3437,43 @@ msgstr "Neukládat"
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: ../src/gth-browser.c:5441 ../src/gth-browser.c:5442
+#: ../src/gth-browser.c:5460 ../src/gth-browser.c:5461
 #: ../src/gth-window-actions-entries.h:276
 #: ../src/gth-window-actions-entries.h:281
 #: ../src/gth-window-actions-entries.h:286
 msgid "Rotate images without loss of quality"
 msgstr "Otočit obrázky beze ztráty kvality"
 
-#: ../src/gth-browser.c:6331
+#: ../src/gth-browser.c:6350
 msgid "Getting folder listing..."
 msgstr "Získávání výpisu adresáře..."
 
-#: ../src/gth-browser.c:6353
+#: ../src/gth-browser.c:6372
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: ../src/gth-browser.c:6874 ../src/gth-filter-bar.c:537
+#: ../src/gth-browser.c:6917 ../src/gth-filter-bar.c:532
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../src/gth-browser.c:6888 ../src/gth-viewer.c:1678
+#: ../src/gth-browser.c:6929 ../src/gth-viewer.c:1678
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: ../src/gth-browser.c:6902
+#: ../src/gth-browser.c:6941
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: ../src/gth-browser.c:6916
+#: ../src/gth-browser.c:6953
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: ../src/gth-browser.c:7968
+#: ../src/gth-browser.c:8008
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: ../src/gth-browser.c:8600 ../src/gth-viewer.c:2123
+#: ../src/gth-browser.c:8640 ../src/gth-viewer.c:2123
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -3513,80 +3517,80 @@ msgstr "Ostatní"
 msgid "Path"
 msgstr "Cesta"
 
-#: ../src/gth-filter-bar.c:176
+#: ../src/gth-filter-bar.c:174
 msgid "contains"
 msgstr "obsahuje"
 
-#: ../src/gth-filter-bar.c:177
+#: ../src/gth-filter-bar.c:175
 msgid "starts with"
 msgstr "začíná"
 
-#: ../src/gth-filter-bar.c:178
+#: ../src/gth-filter-bar.c:176
 msgid "ends with"
 msgstr "končí"
 
-#: ../src/gth-filter-bar.c:179 ../src/gth-filter-bar.c:194
+#: ../src/gth-filter-bar.c:177 ../src/gth-filter-bar.c:192
 msgid "is"
 msgstr "je"
 
-#: ../src/gth-filter-bar.c:180 ../src/gth-filter-bar.c:195
+#: ../src/gth-filter-bar.c:178 ../src/gth-filter-bar.c:193
 msgid "is not"
 msgstr "není"
 
-#: ../src/gth-filter-bar.c:181
+#: ../src/gth-filter-bar.c:179
 msgid "does not contain"
 msgstr "neobsahuje"
 
-#: ../src/gth-filter-bar.c:184 ../src/gth-filter-bar.c:189
+#: ../src/gth-filter-bar.c:182 ../src/gth-filter-bar.c:187
 msgid "is equal to"
 msgstr "je rovno"
 
-#: ../src/gth-filter-bar.c:185
+#: ../src/gth-filter-bar.c:183
 msgid "is lower than"
 msgstr "je menší než"
 
-#: ../src/gth-filter-bar.c:186
+#: ../src/gth-filter-bar.c:184
 msgid "is greater than"
 msgstr "je větší než"
 
-#: ../src/gth-filter-bar.c:190
+#: ../src/gth-filter-bar.c:188
 msgid "is before"
 msgstr "je před"
 
-#: ../src/gth-filter-bar.c:191
+#: ../src/gth-filter-bar.c:189
 msgid "is after"
 msgstr "je za"
 
-#: ../src/gth-filter-bar.c:200
+#: ../src/gth-filter-bar.c:198
 msgid "KB"
 msgstr "KB"
 
-#: ../src/gth-filter-bar.c:201
+#: ../src/gth-filter-bar.c:199
 msgid "MB"
 msgstr "MB"
 
-#: ../src/gth-filter-bar.c:207
+#: ../src/gth-filter-bar.c:205
 msgid "Filename"
 msgstr "Jméno souboru"
 
-#: ../src/gth-filter-bar.c:209
+#: ../src/gth-filter-bar.c:207
 msgid "Place"
 msgstr "Umístění"
 
-#: ../src/gth-filter-bar.c:212
+#: ../src/gth-filter-bar.c:210
 msgid "Category"
 msgstr "Kategorie"
 
-#: ../src/gth-filter-bar.c:213
+#: ../src/gth-filter-bar.c:211
 msgid "Text contains"
 msgstr "Text obsahuje"
 
-#: ../src/gth-filter-bar.c:494
+#: ../src/gth-filter-bar.c:490
 msgid "All"
 msgstr "Vše"
 
 #. view label
-#: ../src/gth-filter-bar.c:546
+#: ../src/gth-filter-bar.c:540
 msgid "S_how:"
 msgstr "_Zobrazit:"
 
@@ -3641,11 +3645,11 @@ msgstr "_Otevřít pomocí"
 msgid "Open selected images with an application"
 msgstr "Otevřít vybrané obrázky pomocí aplikace"
 
-#: ../src/gth-window-actions-callbacks.c:924
+#: ../src/gth-window-actions-callbacks.c:912
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME."
 
-#: ../src/gth-window-actions-callbacks.c:927
+#: ../src/gth-window-actions-callbacks.c:915
 msgid "translator_credits"
 msgstr ""
 "Michal Bukovjan <bukm@centrum.cz>\n"
@@ -3963,6 +3967,10 @@ msgstr "Zobrazit informace o gThumb"
 msgid "Contents"
 msgstr "Obsah"
 
+#: ../src/gth-window-actions-entries.h:296
+msgid "Display the gThumb Manual"
+msgstr "Zobrazit příručku gThumb"
+
 #: ../src/gth-window-actions-entries.h:300
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
@@ -3991,71 +3999,71 @@ msgstr "Nízká kva_lita"
 msgid "Use low quality zoom"
 msgstr "Použít málo kvalitní přiblížení"
 
-#: ../src/main.c:90
+#: ../src/main.c:89
 msgid "Start in fullscreen mode"
 msgstr "Začít v celoobrazovkovém režimu"
 
-#: ../src/main.c:94
+#: ../src/main.c:93
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít s promítáním snímků"
 
-#: ../src/main.c:98
+#: ../src/main.c:97
 msgid "Automatically import digital camera photos"
 msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
-#: ../src/main.c:102
+#: ../src/main.c:101
 msgid "Use the viewer mode to view single images"
 msgstr "Použijte mód prohlížení pro zobrazení jednotlivých obrázků"
 
-#: ../src/main.c:147
+#: ../src/main.c:146
 msgid "Holidays"
 msgstr "Dovolená"
 
-#: ../src/main.c:148
+#: ../src/main.c:147
 msgid "Temporary"
 msgstr "Dočasné"
 
-#: ../src/main.c:149
+#: ../src/main.c:148
 msgid "Screenshots"
 msgstr "Sejmuté obrazovky"
 
-#: ../src/main.c:150
+#: ../src/main.c:149
 msgid "Science"
 msgstr "Věda"
 
-#: ../src/main.c:151
+#: ../src/main.c:150
 msgid "Favourite"
 msgstr "Oblíbené"
 
-#: ../src/main.c:152
+#: ../src/main.c:151
 msgid "Important"
 msgstr "Důležité"
 
-#: ../src/main.c:153
+#: ../src/main.c:152
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:154
+#: ../src/main.c:153
 msgid "Games"
 msgstr "Hry"
 
-#: ../src/main.c:155
+#: ../src/main.c:154
 msgid "Party"
 msgstr "Večírek"
 
-#: ../src/main.c:156
+#: ../src/main.c:155
 msgid "Birthday"
 msgstr "Narozeniny"
 
-#: ../src/main.c:157
+#: ../src/main.c:156
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: ../src/main.c:158
+#: ../src/main.c:157
 msgid "Family"
 msgstr "Rodina"
 
-#: ../src/main.c:380
+#: ../src/main.c:379
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
@@ -4107,3 +4115,4 @@ msgstr ""
 
 #~ msgid "Value "
 #~ msgstr "Hodnota "
+
