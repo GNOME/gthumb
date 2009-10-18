@@ -27,6 +27,7 @@
 
 #define IMAGE_TEXT_SPACING 5
 #define ICON_SPACING 12
+#define SIZE_REQUEST 50
 
 
 static gpointer               gth_icon_view_parent_class = NULL;
@@ -463,6 +464,7 @@ gth_icon_view_init (GthIconView *icon_view)
 	gtk_icon_view_set_column_spacing (GTK_ICON_VIEW (icon_view), ICON_SPACING);
 	gtk_icon_view_set_row_spacing (GTK_ICON_VIEW (icon_view), ICON_SPACING);
 	gtk_icon_view_set_selection_mode (GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
+	gtk_widget_set_size_request (GTK_WIDGET (icon_view), SIZE_REQUEST, SIZE_REQUEST);
 }
 
 

@@ -3042,8 +3042,11 @@ _gth_browser_set_sidebar_visibility  (GthBrowser *browser,
 	g_return_if_fail (browser != NULL);
 
 	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
-	if (visible)
+	if (visible) {
 		gtk_widget_show (browser->priv->browser_sidebar);
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_container), eel_gconf_get_integer (PREF_UI_BROWSER_SIDEBAR_WIDTH, DEF_SIDEBAR_WIDTH));
+		gtk_paned_set_position (GTK_PANED (browser->priv->browser_sidebar), browser->priv->browser_sidebar->allocation.height / 2);
+	}
 	else
 		gtk_widget_hide (browser->priv->browser_sidebar);
 }
@@ -3308,7 +3311,6 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->browser_sidebar = gtk_vpaned_new ();
 	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
-	_gth_browser_set_sidebar_visibility (browser, eel_gconf_get_boolean (PREF_UI_SIDEBAR_VISIBLE, TRUE));
 
 	/* the box that contains the location and the folder list.  */
 
@@ -3481,6 +3483,8 @@ _gth_browser_construct (GthBrowser *browser)
 
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->viewer_pane), eel_gconf_get_integer (PREF_UI_VIEWER_SIDEBAR_WIDTH, DEF_VIEWER_SIDEBAR_WIDTH));
 	_gtk_paned_set_position2 (GTK_PANED (browser->priv->browser_sidebar), eel_gconf_get_integer (PREF_UI_PROPERTIES_HEIGHT, DEF_PROPERTIES_HEIGHT));
+
+	_gth_browser_set_sidebar_visibility (browser, eel_gconf_get_boolean (PREF_UI_SIDEBAR_VISIBLE, TRUE));
 
 	_gth_browser_set_toolbar_visibility (browser, eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
 	_gth_browser_update_toolbar_style (browser);
