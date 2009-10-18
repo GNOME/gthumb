@@ -1099,121 +1099,6 @@ _gth_browser_get_list_attributes (GthBrowser *browser,
 static void _gth_browser_load_ready_cb (GthFileSource *file_source, GList *files, GError *error, gpointer user_data);
 
 
-static void
-requested_folder_attributes_ready_cb (GObject  *file_source,
-				      GError   *error,
-				      gpointer  user_data)
-{
-	LoadData   *load_data = user_data;
-	GthBrowser *browser = load_data->browser;
-
-	if (error != NULL) {
-		load_data_done (load_data, error);
-		load_data_free (load_data);
-		return;
-	}
-
-	gth_file_data_set_info (browser->priv->location, load_data->requested_folder->info);
-
-	browser->priv->current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (browser->priv->location->info, "sort::type"));
-	browser->priv->current_sort_inverse = g_file_info_get_attribute_boolean (browser->priv->location->info, "sort::inverse");
-	if (browser->priv->current_sort_type == NULL) {
-		browser->priv->current_sort_type = browser->priv->default_sort_type;
-		browser->priv->current_sort_inverse = browser->priv->default_sort_inverse;
-		g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", browser->priv->current_sort_type->name);
-		g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", browser->priv->current_sort_inverse);
-	}
-
-	gth_file_source_list (load_data->file_source,
-			      load_data->requested_folder->file,
-			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-			      _gth_browser_load_ready_cb,
-			      load_data);
-}
-
-
-static void
-load_data_load_next_folder (LoadData *load_data)
-{
-	GthFolderTree *folder_tree;
-	GFile         *folder_to_load;
-
-	folder_tree = GTH_FOLDER_TREE (load_data->browser->priv->folder_tree);
-	do {
-		GtkTreePath *path;
-
-		if (load_data->current == NULL)
-			load_data->current = load_data->list;
-		else
-			load_data->current = load_data->current->next;
-		folder_to_load = (GFile *) load_data->current->data;
-
-		if (g_file_equal (folder_to_load, load_data->requested_folder->file))
-			break;
-
-		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent))
-			break;
-
-		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
-		if (path == NULL)
-			break;
-
-		if (! gth_folder_tree_is_loaded (folder_tree, path)) {
-			gtk_tree_path_free (path);
-			break;
-		}
-
-		if (! g_file_equal (folder_to_load, load_data->requested_folder->file))
-			gth_folder_tree_expand_row (folder_tree, path, FALSE);
-
-		gtk_tree_path_free (path);
-	}
-	while (TRUE);
-
-	if (g_file_equal (folder_to_load, load_data->requested_folder->file))
-		gth_file_source_read_metadata (load_data->file_source,
-					       load_data->requested_folder,
-					       GFILE_BASIC_ATTRIBUTES ",access::*,sort::*",
-					       requested_folder_attributes_ready_cb,
-     					       load_data);
-	else
-		gth_file_source_list (load_data->file_source,
-				      folder_to_load,
-				      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
-				      _gth_browser_load_ready_cb,
-				      load_data);
-}
-
-
-static gboolean
-_gth_browser_folder_is_visible (GthBrowser  *browser,
-				GthFileData *file_data)
-{
-	if (browser->priv->show_hidden_files)
-		return TRUE;
-	else
-		return ! g_file_info_get_is_hidden (file_data->info);
-}
-
-
-static GList *
-_gth_browser_get_visible_folders (GthBrowser *browser,
-				  GList      *list)
-{
-	GList *visible_list = NULL;
-	GList *scan;
-
-	for (scan = list; scan; scan = scan->next) {
-		GthFileData *file_data = scan->data;
-
-		if (_gth_browser_folder_is_visible (browser, file_data))
-			visible_list = g_list_prepend (visible_list, g_object_ref (file_data));
-	}
-
-	return g_list_reverse (visible_list);
-}
-
-
 /* -- _gth_browser_set_sort_order -- */
 
 
@@ -1319,19 +1204,133 @@ _gth_browser_set_sort_order (GthBrowser      *browser,
 	if (! browser->priv->constructed)
 		return;
 
-	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", sort_type != NULL ? sort_type->name : "general::unsorted");
-	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", sort_type != NULL ? inverse : FALSE);
+	g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", (sort_type != NULL) ? sort_type->name : "general::unsorted");
+	g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", (sort_type != NULL) ? inverse : FALSE);
 
-	if (! save) {
-		/*write_sort_order_ready_cb (G_OBJECT (browser->priv->location_source), NULL, browser);*/
+	if (! save)
 		return;
-	}
 
 	gth_file_source_write_metadata (browser->priv->location_source,
 					browser->priv->location,
 					"sort::type,sort::inverse",
 					write_sort_order_ready_cb,
 					browser);
+}
+
+
+static void
+requested_folder_attributes_ready_cb (GObject  *file_source,
+				      GError   *error,
+				      gpointer  user_data)
+{
+	LoadData   *load_data = user_data;
+	GthBrowser *browser = load_data->browser;
+
+	if (error != NULL) {
+		load_data_done (load_data, error);
+		load_data_free (load_data);
+		return;
+	}
+
+	gth_file_data_set_info (browser->priv->location, load_data->requested_folder->info);
+
+	browser->priv->current_sort_type = gth_main_get_sort_type (g_file_info_get_attribute_string (browser->priv->location->info, "sort::type"));
+	browser->priv->current_sort_inverse = g_file_info_get_attribute_boolean (browser->priv->location->info, "sort::inverse");
+	if (browser->priv->current_sort_type == NULL) {
+		browser->priv->current_sort_type = browser->priv->default_sort_type;
+		browser->priv->current_sort_inverse = browser->priv->default_sort_inverse;
+		g_file_info_set_attribute_string (browser->priv->location->info, "sort::type", browser->priv->current_sort_type->name);
+		g_file_info_set_attribute_boolean (browser->priv->location->info, "sort::inverse", browser->priv->current_sort_inverse);
+	}
+	_gth_browser_set_sort_order (browser, browser->priv->current_sort_type, browser->priv->current_sort_inverse, FALSE);
+
+	gth_file_source_list (load_data->file_source,
+			      load_data->requested_folder->file,
+			      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+			      _gth_browser_load_ready_cb,
+			      load_data);
+}
+
+
+static void
+load_data_load_next_folder (LoadData *load_data)
+{
+	GthFolderTree *folder_tree;
+	GFile         *folder_to_load;
+
+	folder_tree = GTH_FOLDER_TREE (load_data->browser->priv->folder_tree);
+	do {
+		GtkTreePath *path;
+
+		if (load_data->current == NULL)
+			load_data->current = load_data->list;
+		else
+			load_data->current = load_data->current->next;
+		folder_to_load = (GFile *) load_data->current->data;
+
+		if (g_file_equal (folder_to_load, load_data->requested_folder->file))
+			break;
+
+		if ((load_data->requested_folder_parent != NULL) && g_file_equal (folder_to_load, load_data->requested_folder_parent))
+			break;
+
+		path = gth_folder_tree_get_path (folder_tree, folder_to_load);
+		if (path == NULL)
+			break;
+
+		if (! gth_folder_tree_is_loaded (folder_tree, path)) {
+			gtk_tree_path_free (path);
+			break;
+		}
+
+		if (! g_file_equal (folder_to_load, load_data->requested_folder->file))
+			gth_folder_tree_expand_row (folder_tree, path, FALSE);
+
+		gtk_tree_path_free (path);
+	}
+	while (TRUE);
+
+	if (g_file_equal (folder_to_load, load_data->requested_folder->file))
+		gth_file_source_read_metadata (load_data->file_source,
+					       load_data->requested_folder,
+					       GFILE_BASIC_ATTRIBUTES ",access::*,sort::*",
+					       requested_folder_attributes_ready_cb,
+     					       load_data);
+	else
+		gth_file_source_list (load_data->file_source,
+				      folder_to_load,
+				      eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE) ? GFILE_STANDARD_ATTRIBUTES_WITH_FAST_CONTENT_TYPE : GFILE_STANDARD_ATTRIBUTES_WITH_CONTENT_TYPE,
+				      _gth_browser_load_ready_cb,
+				      load_data);
+}
+
+
+static gboolean
+_gth_browser_folder_is_visible (GthBrowser  *browser,
+				GthFileData *file_data)
+{
+	if (browser->priv->show_hidden_files)
+		return TRUE;
+	else
+		return ! g_file_info_get_is_hidden (file_data->info);
+}
+
+
+static GList *
+_gth_browser_get_visible_folders (GthBrowser *browser,
+				  GList      *list)
+{
+	GList *visible_list = NULL;
+	GList *scan;
+
+	for (scan = list; scan; scan = scan->next) {
+		GthFileData *file_data = scan->data;
+
+		if (_gth_browser_folder_is_visible (browser, file_data))
+			visible_list = g_list_prepend (visible_list, g_object_ref (file_data));
+	}
+
+	return g_list_reverse (visible_list);
 }
 
 

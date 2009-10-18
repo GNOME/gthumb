@@ -202,6 +202,7 @@ metadata_op_free (MetadataOpData *metadata_op)
 	g_object_unref (metadata_op->file_data);
 	g_free (metadata_op->attributes);
 	g_object_unref (metadata_op->catalog);
+	g_object_unref (metadata_op->catalogs);
 	g_free (metadata_op);
 }
 
@@ -288,7 +289,7 @@ gth_file_source_catalogs_write_metadata (GthFileSource *file_source,
 	}
 
 	metadata_op = g_new0 (MetadataOpData, 1);
-	metadata_op->catalogs = catalogs;
+	metadata_op->catalogs = g_object_ref (catalogs);
 	metadata_op->file_data = g_object_ref (file_data);
 	metadata_op->attributes = g_strdup (attributes);
 	metadata_op->ready_callback = callback;
