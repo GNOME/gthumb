@@ -62,6 +62,7 @@ static const char *fixed_ui_info =
 "      <menuitem action='View_Reload'/>"
 "      <separator/>"
 "      <menuitem action='View_Toolbar'/>"
+"      <menuitem action='View_Sidebar'/>"
 "      <menuitem action='View_Statusbar'/>"
 "      <placeholder name='View_Bars'/>"
 "      <separator/>"

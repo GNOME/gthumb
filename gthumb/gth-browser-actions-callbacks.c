@@ -262,6 +262,14 @@ gth_browser_activate_action_view_statusbar (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_view_sidebar (GtkAction  *action,
+					  GthBrowser *browser)
+{
+	eel_gconf_set_boolean (PREF_UI_SIDEBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
+
+
+void
 gth_browser_activate_action_view_stop (GtkAction  *action,
 				       GthBrowser *browser)
 {

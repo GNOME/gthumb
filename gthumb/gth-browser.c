@@ -62,7 +62,7 @@
 #define GO_FORWARD_HISTORY_POPUP "/GoForwardHistoryPopup"
 #define GO_PARENT_POPUP "/GoParentPopup"
 #define MAX_HISTORY_LENGTH 15
-#define GCONF_NOTIFICATIONS 10
+#define GCONF_NOTIFICATIONS 11
 #define DEF_SIDEBAR_WIDTH 255
 #define DEF_VIEWER_SIDEBAR_WIDTH 295
 #define DEF_PROPERTIES_HEIGHT 128
@@ -3036,6 +3036,31 @@ pref_ui_statusbar_visible_changed (GConfClient *client,
 
 
 static void
+_gth_browser_set_sidebar_visibility  (GthBrowser *browser,
+				      gboolean    visible)
+{
+	g_return_if_fail (browser != NULL);
+
+	_gth_browser_set_action_active (browser, "View_Sidebar", visible);
+	if (visible)
+		gtk_widget_show (browser->priv->browser_sidebar);
+	else
+		gtk_widget_hide (browser->priv->browser_sidebar);
+}
+
+
+static void
+pref_ui_sidebar_visible_changed (GConfClient *client,
+				 guint        cnxn_id,
+				 GConfEntry  *entry,
+				 gpointer     user_data)
+{
+	GthBrowser *browser = user_data;
+	_gth_browser_set_sidebar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+}
+
+
+static void
 pref_show_hidden_files_changed (GConfClient *client,
 				guint        cnxn_id,
 				GConfEntry  *entry,
@@ -3283,6 +3308,7 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->browser_sidebar = gtk_vpaned_new ();
 	gtk_widget_show (browser->priv->browser_sidebar);
 	gtk_paned_pack1 (GTK_PANED (browser->priv->browser_container), browser->priv->browser_sidebar, FALSE, TRUE);
+	_gth_browser_set_sidebar_visibility (browser, eel_gconf_get_boolean (PREF_UI_SIDEBAR_VISIBLE, TRUE));
 
 	/* the box that contains the location and the folder list.  */
 
@@ -3494,6 +3520,10 @@ _gth_browser_construct (GthBrowser *browser)
 	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_STATUSBAR_VISIBLE,
 					   pref_ui_statusbar_visible_changed,
+					   browser);
+	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_SIDEBAR_VISIBLE,
+					   pref_ui_sidebar_visible_changed,
 					   browser);
 	browser->priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_HIDDEN_FILES,

@@ -454,6 +454,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ui/sidebar_visible</key>
+	<applyto>/apps/gthumb/ui/sidebar_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ui/sidebar_width</key>
 	<applyto>/apps/gthumb/ui/sidebar_width</applyto>
 	<owner>gthumb</owner>
