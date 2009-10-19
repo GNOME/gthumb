@@ -20,35 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef CALLBACKS_H
+#define CALLBACKS_H
 
-#include <config.h>
-#include <gtk/gtk.h>
 #include <gthumb.h>
-#include "callbacks.h"
 
+void      db__gth_browser_construct_cb           (GthBrowser  *browser);
+void      db__gth_browser_update_sensitivity_cb  (GthBrowser  *browser);
 
-G_MODULE_EXPORT void
-gthumb_extension_activate (void)
-{
-	gth_hook_add_callback ("gth-browser-construct", 20, G_CALLBACK (ri__gth_browser_construct_cb), NULL);
-	gth_hook_add_callback ("gth-browser-update-sensitivity", 10, G_CALLBACK (ri__gth_browser_update_sensitivity_cb), NULL);
-}
-
-
-G_MODULE_EXPORT void
-gthumb_extension_deactivate (void)
-{
-}
-
-
-G_MODULE_EXPORT gboolean
-gthumb_extension_is_configurable (void)
-{
-	return FALSE;
-}
-
-
-G_MODULE_EXPORT void
-gthumb_extension_configure (GtkWindow *parent)
-{
-}
+#endif /* CALLBACKS_H */

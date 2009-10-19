@@ -285,6 +285,7 @@ extensions/catalogs/data/ui/Makefile
 extensions/comments/Makefile
 extensions/comments/data/Makefile
 extensions/comments/data/ui/Makefile
+extensions/desktop_background/Makefile
 extensions/exiv2/Makefile
 extensions/file_manager/Makefile
 extensions/file_tools/Makefile
