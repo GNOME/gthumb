@@ -125,6 +125,7 @@ void             gth_browser_set_viewer_widget      (GthBrowser       *browser,
 						     GtkWidget        *widget);
 GtkWidget *      gth_browser_get_viewer_widget      (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_viewer_page        (GthBrowser       *browser);
+GtkWidget *      gth_browser_get_viewer_toolbar     (GthBrowser       *browser);
 GtkWidget *      gth_browser_get_viewer_sidebar     (GthBrowser       *browser);
 gboolean         gth_browser_show_next_image        (GthBrowser       *browser,
 						     gboolean          skip_broken,

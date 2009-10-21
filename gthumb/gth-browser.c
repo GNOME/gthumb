@@ -4086,6 +4086,13 @@ gth_browser_get_viewer_page (GthBrowser *browser)
 
 
 GtkWidget *
+gth_browser_get_viewer_toolbar (GthBrowser *browser)
+{
+	return browser->priv->viewer_toolbar;
+}
+
+
+GtkWidget *
 gth_browser_get_viewer_sidebar (GthBrowser *browser)
 {
 	return browser->priv->viewer_sidebar;
