@@ -1153,6 +1153,7 @@ gth_main_activate_extensions (void)
 						NULL };
 	const char *default_extensions[] = {	"catalogs",
 						"comments",
+						"desktop_background",
 						"exiv2",
 						"file_manager",
 						"file_tools",
