@@ -310,18 +310,6 @@ completion_action_activated_cb (GtkEntryCompletion *widget,
 }
 
 
-static int
-sort_tag_by_name (gconstpointer a,
-		  gconstpointer b,
-		  gpointer      user_data)
-{
-	char *sa = * (char **) a;
-	char *sb = * (char **) b;
-
-	return g_utf8_collate (sa, sb);
-}
-
-
 static void
 update_tag_list (GthTagsEntry *self)
 {
@@ -341,36 +329,6 @@ update_tag_list (GthTagsEntry *self)
 				    NAME_COLUMN, self->priv->tags[i],
 				    -1);
 	}
-
-	if ((self->priv->tags == NULL) || self->priv->tags[0] == NULL) {
-		char *default_tags[] = { N_("Holidays"),
-                                         N_("Temporary"),
-                                         N_("Screenshots"),
-                                         N_("Science"),
-                                         N_("Favorite"),
-                                         N_("Important"),
-                                         N_("GNOME"),
-                                         N_("Games"),
-                                         N_("Party"),
-                                         N_("Birthday"),
-                                         N_("Astronomy"),
-                                         N_("Family"),
-                                         NULL };
-
-		if (self->priv->tags != NULL)
-			g_strfreev (self->priv->tags);
-
-		self->priv->tags = g_new (char *, g_strv_length (default_tags) + 1);
-		for (i = 0; default_tags[i] != NULL; i++)
-			self->priv->tags[i] = g_strdup (_(default_tags[i]));
-		self->priv->tags[i] = NULL;
-	}
-
-	g_qsort_with_data (self->priv->tags,
-			   g_strv_length (self->priv->tags),
-			   sizeof (char *),
-			   sort_tag_by_name,
-			   NULL);
 
 	gtk_list_store_clear (self->priv->store);
 	for (i = 0; self->priv->tags[i] != NULL; i++) {
@@ -465,7 +423,8 @@ gth_tags_entry_new (void)
 
 
 char **
-gth_tags_entry_get_tags (GthTagsEntry *self)
+gth_tags_entry_get_tags (GthTagsEntry *self,
+			 gboolean      update_globals)
 {
 	GthTagsFile  *tags_file;
 	char        **all_tags;
@@ -487,10 +446,23 @@ gth_tags_entry_get_tags (GthTagsEntry *self)
 	}
 	g_strfreev (all_tags);
 
-	for (i = 0; self->priv->tags[i] != NULL; i++)
-		gth_tags_file_add (tags_file, self->priv->tags[i]);
-
-	gth_main_tags_changed ();
+	if (update_globals) {
+		for (i = 0; self->priv->tags[i] != NULL; i++)
+			gth_tags_file_add (tags_file, self->priv->tags[i]);
+		gth_main_tags_changed ();
+	}
 
 	return tags;
+}
+
+
+void
+gth_tags_entry_set_tags (GthTagsEntry  *self,
+			 char         **tags)
+{
+	char *s;
+
+	s = g_strjoinv(", ", tags);
+	gtk_entry_set_text (GTK_ENTRY (self), s);
+	g_free (s);
 }

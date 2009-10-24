@@ -166,7 +166,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	/* tags */
 
-	tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry));
+	tagv = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self->priv->tags_entry), TRUE);
 	tags = NULL;
 	for (i = 0; tagv[i] != NULL; i++)
 		tags = g_list_prepend (tags, tagv[i]);
@@ -275,6 +275,8 @@ date_combobox_changed_cb (GtkComboBox *widget,
 static void
 gth_edit_comment_page_init (GthEditCommentPage *self)
 {
+	GtkWidget *expander;
+
 	self->priv = GTH_EDIT_COMMENT_PAGE_GET_PRIVATE (self);
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
@@ -296,9 +298,9 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_combobox_container")), self->priv->date_combobox, FALSE, FALSE, 0);
 
   	g_signal_connect (self->priv->date_combobox,
-			    "changed",
-			    G_CALLBACK (date_combobox_changed_cb),
-			    self);
+			  "changed",
+			  G_CALLBACK (date_combobox_changed_cb),
+			  self);
 
   	self->priv->date_datetime = gtk_entry_new ();
   	gtk_widget_show (self->priv->date_datetime);
@@ -306,7 +308,11 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
 
   	self->priv->tags_entry = gth_tags_entry_new ();
   	gtk_widget_show (self->priv->tags_entry);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, TRUE, TRUE, 0);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
+
+  	expander = gth_tags_expander_new (GTK_ENTRY (self->priv->tags_entry));
+  	gtk_widget_show (expander);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), expander, TRUE, TRUE, 0);
 }
 
 

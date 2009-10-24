@@ -120,7 +120,7 @@ destroy_dialog (gpointer user_data)
 
 		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
 		files = gth_file_store_get_checked (file_store);
-		tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (data->tags_entry));
+		tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (data->tags_entry), TRUE);
 		task = gth_import_task_new (data->browser,
 					    files,
 					    destination,

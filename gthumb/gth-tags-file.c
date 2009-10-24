@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <glib/gi18n.h>
 #include "dom.h"
 #include "glib-utils.h"
 #include "gth-tags-file.h"
@@ -201,6 +202,18 @@ gth_tags_file_to_file (GthTagsFile  *tags,
 }
 
 
+static int
+sort_tag_by_name (gconstpointer a,
+		  gconstpointer b,
+		  gpointer      user_data)
+{
+	char *sa = * (char **) a;
+	char *sb = * (char **) b;
+
+	return g_utf8_collate (sa, sb);
+}
+
+
 char **
 gth_tags_file_get_tags (GthTagsFile *tags)
 {
@@ -212,10 +225,38 @@ gth_tags_file_get_tags (GthTagsFile *tags)
 		tags->tags = NULL;
 	}
 
-	tags->tags = g_new (char *, g_list_length (tags->items) + 1);
-	for (i = 0, scan = tags->items; scan; scan = scan->next)
-		tags->tags[i++] = g_strdup ((char *) scan->data);
-	tags->tags[i] = NULL;
+	if (g_list_length (tags->items) > 0) {
+		tags->tags = g_new (char *, g_list_length (tags->items) + 1);
+		for (i = 0, scan = tags->items; scan; scan = scan->next)
+			tags->tags[i++] = g_strdup ((char *) scan->data);
+		tags->tags[i] = NULL;
+	}
+	else {
+		char *default_tags[] = { N_("Holidays"),
+					 N_("Temporary"),
+					 N_("Screenshots"),
+					 N_("Science"),
+					 N_("Favorite"),
+					 N_("Important"),
+					 N_("GNOME"),
+					 N_("Games"),
+					 N_("Party"),
+					 N_("Birthday"),
+					 N_("Astronomy"),
+					 N_("Family"),
+					 NULL };
+
+		tags->tags = g_new (char *, g_strv_length (default_tags) + 1);
+		for (i = 0; default_tags[i] != NULL; i++)
+			tags->tags[i] = g_strdup (_(default_tags[i]));
+		tags->tags[i] = NULL;
+	}
+
+	g_qsort_with_data (tags->tags,
+			   g_strv_length (tags->tags),
+			   sizeof (char *),
+			   sort_tag_by_name,
+			   NULL);
 
 	return tags->tags;
 }

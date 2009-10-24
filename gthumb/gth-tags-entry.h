@@ -49,7 +49,10 @@ struct _GthTagsEntryClass {
 
 GType        gth_tags_entry_get_type  (void);
 GtkWidget *  gth_tags_entry_new       (void);
-char **      gth_tags_entry_get_tags  (GthTagsEntry  *self);
+char **      gth_tags_entry_get_tags  (GthTagsEntry  *self,
+				       gboolean       update_globals);
+void         gth_tags_entry_set_tags  (GthTagsEntry  *self,
+				       char         **tags);
 
 G_END_DECLS
 
