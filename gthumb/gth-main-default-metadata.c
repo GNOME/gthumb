@@ -47,6 +47,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "Embedded::Image::Location", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "Embedded::Image::Keywords", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "Embedded::Image::Orientation", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Embedded::Photo::DateTimeOriginal", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 
 	{ NULL, NULL, NULL, 0, 0 }
 };

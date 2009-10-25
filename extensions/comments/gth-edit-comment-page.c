@@ -34,7 +34,7 @@ typedef enum {
 	NO_DATE = 0,
 	FOLLOWING_DATE,
 	CURRENT_DATE,
-	EMBEDDED_DATE,
+	PHOTO_DATE,
 	LAST_MODIFIED_DATE,
 	CREATION_DATE,
 	NO_CHANGE
@@ -225,7 +225,6 @@ get_date_from_option (GthEditCommentPage *self,
 	GTimeVal     timeval;
 	GthDateTime *date_time;
 	char        *exif_date;
-	const char  *date;
 	GthMetadata *metadata;
 
 	_g_time_val_reset (&timeval);
@@ -236,7 +235,7 @@ get_date_from_option (GthEditCommentPage *self,
 	case FOLLOWING_DATE:
 		date_time = gth_datetime_new ();
 		gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
-		exif_date = gth_datetime_to_exif_date (&date_time);
+		exif_date = gth_datetime_to_exif_date (date_time);
 		_g_time_val_from_exif_date (exif_date, &timeval);
 		g_free (exif_date);
 		gth_datetime_free (date_time);
@@ -244,8 +243,8 @@ get_date_from_option (GthEditCommentPage *self,
 	case CURRENT_DATE:
 		g_get_current_time (&timeval);
 		break;
-	case EMBEDDED_DATE:
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "Embedded::Image::DateTime");
+	case PHOTO_DATE:
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "Embedded::Photo::DateTimeOriginal");
 		if (metadata != NULL)
 			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else
@@ -260,9 +259,9 @@ get_date_from_option (GthEditCommentPage *self,
 		timeval.tv_usec = g_file_info_get_attribute_uint32 (self->priv->file_data->info, "time::created-usec");
 		break;
 	case NO_CHANGE:
-		date = g_file_info_get_attribute_string (self->priv->file_data->info, "comment::time");
-		if (date != NULL)
-			_g_time_val_from_exif_date (date, &timeval);
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "Embedded::Image::DateTime");
+		if (metadata != NULL)
+			_g_time_val_from_exif_date (gth_metadata_get_raw (metadata), &timeval);
 		else
 			return g_strdup ("");
 		break;

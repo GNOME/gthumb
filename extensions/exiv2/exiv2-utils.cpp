@@ -55,6 +55,16 @@ const char *_DATE_TAG_NAMES[] = {
 	NULL
 };
 
+const char *_ORIGINAL_DATE_TAG_NAMES[] = {
+	"Exif::Photo::DateTimeOriginal",
+	"Xmp::exif::DateTimeOriginal",
+	"Exif::Photo::DateTimeDigitized",
+	"Xmp::exif::DateTimeDigitized",
+	"Xmp::xmp::CreateDate",
+	"Xmp::photoshop::DateCreated",
+	NULL
+};
+
 const char *_EXPOSURE_TIME_TAG_NAMES[] = {
 	"Exif::Photo::ExposureTime",
 	"Xmp::exif::ExposureTime",
@@ -275,6 +285,7 @@ static void
 set_attributes_from_tagsets (GFileInfo *info)
 {
 	set_attribute_from_tagset (info, "Embedded::Image::DateTime", _DATE_TAG_NAMES);
+	set_attribute_from_tagset (info, "Embedded::Photo::DateTimeOriginal", _ORIGINAL_DATE_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Comment", _COMMENT_TAG_NAMES);
 	set_attribute_from_tagset (info, "Embedded::Image::Location", _LOCATION_TAG_NAMES);
 	set_string_list_attribute_from_tagset (info, "Embedded::Image::Keywords", _KEYWORDS_TAG_NAMES);
