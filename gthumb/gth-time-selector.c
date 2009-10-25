@@ -362,9 +362,9 @@ gth_time_selector_construct (GthTimeSelector *self)
 	gtk_widget_show_all (self->priv->calendar_button);
 	gtk_box_pack_start (GTK_BOX (box), self->priv->calendar_button, FALSE, FALSE, 0);
 	g_signal_connect (self->priv->calendar_button,
-				  "toggled",
-				  G_CALLBACK (calendar_button_toggled_cb),
-				  self);
+			  "toggled",
+			  G_CALLBACK (calendar_button_toggled_cb),
+			  self);
 
 	self->priv->calendar_popup = gtk_window_new (GTK_WINDOW_POPUP);
 	g_signal_connect (self->priv->calendar_popup,
@@ -377,7 +377,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  self);
 
 	self->priv->popup_box = frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_ETCHED_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
 	gtk_widget_show (frame);
 	gtk_container_add (GTK_CONTAINER (self->priv->calendar_popup), frame);
 
