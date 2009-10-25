@@ -103,6 +103,21 @@ gth_datetime_free (GthDateTime *dt)
 }
 
 
+void
+gth_datetime_clear (GthDateTime *dt)
+{
+	gth_time_clear (dt->time);
+	g_date_clear (dt->date, 1);
+}
+
+
+gboolean
+gth_datetime_valid (GthDateTime *dt)
+{
+	return gth_time_valid (dt->time) && g_date_valid (dt->date);
+}
+
+
 gboolean
 gth_datetime_from_exif_date (GthDateTime *dt,
 			     const char  *exif_date)
@@ -190,16 +205,33 @@ gth_datetime_from_exif_date (GthDateTime *dt,
 }
 
 
+gboolean
+gth_datetime_from_struct_tm (GthDateTime *dt,
+			     struct tm   *tm)
+{
+	if (tm->tm_hour < 0) {
+		gth_datetime_clear (dt);
+	}
+	else {
+		gth_time_set_hms (dt->time, tm->tm_hour, tm->tm_min, tm->tm_sec, 0);
+		g_date_set_dmy (dt->date, tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
+	}
+}
+
+
 char *
 gth_datetime_to_exif_date (GthDateTime *dt)
 {
-	return g_strdup_printf ("%4d:%02d:%02d %02d:%02d:%02d",
-				g_date_get_year (dt->date),
-				g_date_get_month (dt->date),
-				g_date_get_day (dt->date),
-				dt->time->hour,
-				dt->time->min,
-				dt->time->sec);
+	if (gth_datetime_valid (dt))
+		return g_strdup_printf ("%4d:%02d:%02d %02d:%02d:%02d",
+					g_date_get_year (dt->date),
+					g_date_get_month (dt->date),
+					g_date_get_day (dt->date),
+					dt->time->hour,
+					dt->time->min,
+					dt->time->sec);
+	else
+		return g_strdup ("");
 }
 
 

@@ -48,7 +48,7 @@ struct _GthEditCommentPagePrivate {
 	GthFileData *file_data;
 	GtkBuilder  *builder;
 	GtkWidget   *date_combobox;
-	GtkWidget   *date_datetime;
+	GtkWidget   *date_selector;
 	GtkWidget   *tags_entry;
 };
 
@@ -88,13 +88,13 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
-		gtk_entry_set_text (GTK_ENTRY (self->priv->date_datetime), gth_metadata_get_formatted (metadata));
-		/*gtk_widget_set_sensitive (self->priv->date_datetime, TRUE);*/
+		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_formatted (metadata));
+		/*gtk_widget_set_sensitive (self->priv->date_selector, TRUE);*/
 	}
 	else {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), NO_DATE);
-		gtk_entry_set_text (GTK_ENTRY (self->priv->date_datetime), "");
-		/*gtk_widget_set_sensitive (self->priv->date_datetime, FALSE);*/
+		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), "");
+		/*gtk_widget_set_sensitive (self->priv->date_selector, FALSE);*/
 	}
 
 	tags = (GthStringList *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Keywords");
@@ -127,6 +127,8 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	char               **tagv;
 	GList               *tags;
 	GthStringList       *string_list;
+	GthDateTime         *date_time;
+	char                *exif_date;
 
 	self = GTH_EDIT_COMMENT_PAGE (base);
 
@@ -156,13 +158,17 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 
 	/* date */
 
+	date_time = gth_datetime_new ();
+	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
+	exif_date = gth_datetime_to_exif_date (date_time);
 	metadata = g_object_new (GTH_TYPE_METADATA,
 				 "id", "Embedded::Image::Date",
-				 "raw", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)),
-				 "formatted", gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)),
+				 "raw", exif_date,
+				 "formatted", exif_date,
 				 NULL);
 	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Date", G_OBJECT (metadata));
 	g_object_unref (metadata);
+	gth_datetime_free (date_time);
 
 	/* tags */
 
@@ -174,6 +180,7 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	string_list = gth_string_list_new (tags);
 	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Keywords", G_OBJECT (string_list));
 
+	g_free (exif_date);
 	g_object_unref (string_list);
 	g_strfreev (tagv);
 	g_list_free (tags);
@@ -216,6 +223,8 @@ get_date_from_option (GthEditCommentPage *self,
 		      DateOption          option)
 {
 	GTimeVal     timeval;
+	GthDateTime *date_time;
+	char        *exif_date;
 	const char  *date;
 	GthMetadata *metadata;
 
@@ -225,7 +234,12 @@ get_date_from_option (GthEditCommentPage *self,
 	case NO_DATE:
 		return g_strdup ("");
 	case FOLLOWING_DATE:
-		_g_time_val_from_exif_date (gtk_entry_get_text (GTK_ENTRY (self->priv->date_datetime)), &timeval);
+		date_time = gth_datetime_new ();
+		gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
+		exif_date = gth_datetime_to_exif_date (&date_time);
+		_g_time_val_from_exif_date (exif_date, &timeval);
+		g_free (exif_date);
+		gth_datetime_free (date_time);
 		break;
 	case CURRENT_DATE:
 		g_get_current_time (&timeval);
@@ -266,7 +280,7 @@ date_combobox_changed_cb (GtkComboBox *widget,
 	char               *value;
 
 	value = get_date_from_option (self, gtk_combo_box_get_active (widget));
-	gtk_entry_set_text (GTK_ENTRY (self->priv->date_datetime), value);
+	gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), value);
 
 	g_free (value);
 }
@@ -295,16 +309,16 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   				     _("Do not modify"),
   				     NULL);
   	gtk_widget_show (self->priv->date_combobox);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_combobox_container")), self->priv->date_combobox, FALSE, FALSE, 0);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_combobox_container")), self->priv->date_combobox, TRUE, TRUE, 0);
 
   	g_signal_connect (self->priv->date_combobox,
 			  "changed",
 			  G_CALLBACK (date_combobox_changed_cb),
 			  self);
 
-  	self->priv->date_datetime = gtk_entry_new ();
-  	gtk_widget_show (self->priv->date_datetime);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_datetime_container")), self->priv->date_datetime, FALSE, FALSE, 0);
+  	self->priv->date_selector = gth_time_selector_new ();
+  	gtk_widget_show (self->priv->date_selector);
+  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("date_selector_container")), self->priv->date_selector, FALSE, FALSE, 0);
 
   	self->priv->tags_entry = gth_tags_entry_new ();
   	gtk_widget_show (self->priv->tags_entry);

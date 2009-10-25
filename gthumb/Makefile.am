@@ -95,6 +95,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-test-simple.h				\
 	gth-thumb-loader.h				\
 	gth-time.h					\
+	gth-time-selector.h				\
 	gth-toggle-menu-tool-button.h			\
 	gth-toolbox.h					\
 	gth-uri-list.h					\
@@ -213,6 +214,7 @@ gthumb_SOURCES = 					\
 	gth-test-simple.c				\
 	gth-thumb-loader.c				\
 	gth-time.c					\
+	gth-time-selector.c				\
 	gth-toggle-menu-tool-button.c			\
 	gth-toolbox.c					\
 	gth-uri-list.c					\

@@ -24,7 +24,6 @@
 #include <config.h>
 #include <glib/gi18n.h>
 #include <glib-object.h>
-#include <gdk/gdkkeysyms.h>
 #include <gthumb.h>
 #include "actions.h"
 
