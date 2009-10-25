@@ -440,7 +440,8 @@ gth_tags_entry_get_tags (GthTagsEntry *self,
 		all_tags[i] = g_strstrip (all_tags[i]);
 		if (all_tags[i][0] != '\0') {
 			tags[j] = g_strdup (all_tags[i]);
-			gth_tags_file_add (tags_file, tags[j]);
+			if (update_globals)
+				gth_tags_file_add (tags_file, tags[j]);
 			j++;
 		}
 	}
@@ -461,6 +462,14 @@ gth_tags_entry_set_tags (GthTagsEntry  *self,
 			 char         **tags)
 {
 	char *s;
+
+	if (tags == NULL)
+		return;
+
+	if (tags[0] == NULL) {
+		gtk_entry_set_text (GTK_ENTRY (self), "");
+		return;
+	}
 
 	s = g_strjoinv(", ", tags);
 	gtk_entry_set_text (GTK_ENTRY (self), s);
