@@ -43,6 +43,7 @@ struct _GthTimeSelectorPrivate
 	GtkWidget   *calendar;
 	GtkWidget   *calendar_popup;
 	GtkWidget   *time_combo_box;
+	GtkWidget   *popup_box;
 };
 
 
@@ -110,16 +111,37 @@ hide_calendar_popup (GthTimeSelector *self)
 static void
 show_calendar_popup (GthTimeSelector *self)
 {
-	int x, y, width, height;
+	GtkRequisition  popup_req;
+	int             x;
+	int             y;
+	int             selector_height;
+	GdkScreen      *screen;
+	gint            monitor_num;
+	GdkRectangle    monitor;
+
+	gtk_widget_size_request (self->priv->popup_box, &popup_req);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (self->priv->calendar_button), TRUE);
 
 	gdk_window_get_position (gtk_widget_get_window (GTK_WIDGET (self)), &x, &y);
 	x += self->priv->date_entry->allocation.x;
 	y += self->priv->date_entry->allocation.y;
-	width = self->priv->date_entry->allocation.width;
-	height = self->priv->date_entry->allocation.height;
-	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y + height + 1);
+	selector_height = self->priv->date_entry->allocation.height;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (self));
+	monitor_num = gdk_screen_get_monitor_at_window (screen, gtk_widget_get_window (GTK_WIDGET (self)));
+	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	if (x < monitor.x)
+		x = monitor.x;
+	else if (x + popup_req.width > monitor.x + monitor.width)
+		x = monitor.x + monitor.width - popup_req.width;
+	if (y + selector_height + popup_req.height > monitor.y + monitor.height)
+		y = y - popup_req.height;
+	else
+		y = y + selector_height;
+
+	gtk_window_move (GTK_WINDOW (self->priv->calendar_popup), x, y);
 	gtk_widget_show (self->priv->calendar_popup);
 
 	gdk_keyboard_grab (gtk_widget_get_window (self->priv->calendar_popup), TRUE, GDK_CURRENT_TIME);
@@ -354,7 +376,7 @@ gth_time_selector_construct (GthTimeSelector *self)
 			  G_CALLBACK (calendar_popup_key_press_event_cb),
 			  self);
 
-	frame = gtk_frame_new (NULL);
+	self->priv->popup_box = frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_ETCHED_IN);
 	gtk_widget_show (frame);
 	gtk_container_add (GTK_CONTAINER (self->priv->calendar_popup), frame);
