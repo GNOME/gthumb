@@ -187,24 +187,29 @@ update_date_from_view (GthTimeSelector *self)
 static void
 update_view_from_data (GthTimeSelector *self)
 {
-	GtkWidget *entry;
+	if (gth_time_valid (self->priv->date_time->time)) {
+		char      *text;
+		GtkWidget *entry;
 
-	if (gth_datetime_valid (self->priv->date_time)) {
-		char *text;
-
-		text = gth_datetime_strftime (self->priv->date_time, "%x");
-		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
-
-		entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
 		text = gth_datetime_strftime (self->priv->date_time, "%X");
+		entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
 		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
 	else {
-		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), "");
+		GtkWidget *entry;
 
 		entry = gtk_bin_get_child (GTK_BIN (self->priv->time_combo_box));
 		gtk_entry_set_text (GTK_ENTRY (entry), "");
 	}
+
+	if (g_date_valid (self->priv->date_time->date)) {
+		char *text;
+
+		text = gth_datetime_strftime (self->priv->date_time, "%x");
+		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), text);
+	}
+	else
+		gtk_entry_set_text (GTK_ENTRY (self->priv->date_entry), "");
 }
 
 

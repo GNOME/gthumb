@@ -205,17 +205,19 @@ gth_datetime_from_exif_date (GthDateTime *dt,
 }
 
 
-gboolean
+void
 gth_datetime_from_struct_tm (GthDateTime *dt,
 			     struct tm   *tm)
 {
-	if (tm->tm_hour < 0) {
-		gth_datetime_clear (dt);
-	}
-	else {
+	if (tm->tm_hour < 0)
+		gth_time_clear (dt->time);
+	else
 		gth_time_set_hms (dt->time, tm->tm_hour, tm->tm_min, tm->tm_sec, 0);
+
+	if (tm->tm_year < 0)
+		g_date_clear (dt->date, 1);
+	else
 		g_date_set_dmy (dt->date, tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
-	}
 }
 
 

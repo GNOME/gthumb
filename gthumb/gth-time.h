@@ -55,7 +55,7 @@ void          gth_datetime_clear           (GthDateTime *dt);
 gboolean      gth_datetime_valid           (GthDateTime *dt);
 gboolean      gth_datetime_from_exif_date  (GthDateTime *dt,
 					    const char  *exif_date);
-gboolean      gth_datetime_from_struct_tm  (GthDateTime *dt,
+void          gth_datetime_from_struct_tm  (GthDateTime *dt,
 					    struct tm   *tm);
 char *        gth_datetime_to_exif_date    (GthDateTime *dt);
 void          gth_datetime_to_struct_tm    (GthDateTime *dt,
