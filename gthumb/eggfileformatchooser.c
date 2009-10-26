@@ -78,8 +78,8 @@ static guint signals[SIGNAL_LAST];
 G_DEFINE_TYPE (EggFileFormatChooser, 
 	       egg_file_format_chooser,
                GTK_TYPE_EXPANDER);
-EGG_DEFINE_QUARK (EggFileFormatFilterInfo,
-                  egg_file_format_filter_info);
+static EGG_DEFINE_QUARK (EggFileFormatFilterInfo,
+                         egg_file_format_filter_info);
 
 static EggFileFormatFilterInfo*
 egg_file_format_filter_info_new (const gchar *name,
@@ -288,19 +288,29 @@ static gboolean
 find_in_list (gchar       *list,
               const gchar *needle)
 {
-  gchar *saveptr;
-  gchar *token;
+  gchar    *saveptr;
+  gchar    *token;
+  gchar    *needle2;
+  gboolean  found = FALSE;
 
-  for (token = strtok_r (list, ",", &saveptr); NULL != token;
+  needle2 = g_utf8_casefold (needle, -1);
+  for (token = strtok_r (list, ",", &saveptr);
+       ! found && (NULL != token);
        token = strtok_r (NULL, ",", &saveptr))
     {
-      token = g_strstrip (token);
+      char *token2;
 
-      if (g_str_equal (needle, token))
-        return TRUE;
+      token2 = g_utf8_casefold (g_strstrip (token), -1);
+
+      if (g_utf8_collate (needle2, token2) == 0)
+        found = TRUE;
+
+      g_free (token2);
     }
 
-  return FALSE;
+  g_free (needle2);
+
+  return found;
 }
 
 static gboolean
@@ -1146,7 +1156,7 @@ egg_file_format_chooser_append_extension (EggFileFormatChooser *self,
 
   if (0 == format)
     {
-      g_warning ("%s: No file format selected. Cannot append extension.", __FUNCTION__);
+      g_warning ("%s: No file format selected. Cannot append extension.", G_STRFUNC);
       return NULL;
     }
 
@@ -1173,7 +1183,7 @@ egg_file_format_chooser_append_extension (EggFileFormatChooser *self,
   if (NULL == extensions)
     {
       g_warning ("%s: File format %d doesn't provide file extensions. "
-                 "Cannot append extension.", __FUNCTION__, format);
+                 "Cannot append extension.", G_STRFUNC, format);
       return NULL;
     }
 
