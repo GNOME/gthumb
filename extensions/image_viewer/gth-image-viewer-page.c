@@ -947,7 +947,7 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 			pixbuf_saver = g_object_new (g_array_index (savers, GType, i), NULL);
 			format = g_new (Format, 1);
 			format->type = g_strdup (gth_pixbuf_saver_get_mime_type (pixbuf_saver));
-			format->extensions = g_strdup (gth_pixbuf_saver_get_default_ext (pixbuf_saver));
+			format->extensions = g_strdup (gth_pixbuf_saver_get_extensions (pixbuf_saver));
 			format->default_ext = g_strdup (gth_pixbuf_saver_get_default_ext (pixbuf_saver));
 			supported_formats = g_list_prepend (supported_formats, format);
 

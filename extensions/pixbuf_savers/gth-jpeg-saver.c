@@ -478,6 +478,7 @@ gth_jpeg_saver_class_init (GthJpegSaverClass *klass)
 	pixbuf_saver_class->id = "jpeg";
 	pixbuf_saver_class->display_name = _("JPEG");
 	pixbuf_saver_class->mime_type = "image/jpeg";
+	pixbuf_saver_class->extensions = "jpeg jpg";
 	pixbuf_saver_class->default_ext = "jpeg";
 	pixbuf_saver_class->get_control = gth_jpeg_saver_get_control;
 	pixbuf_saver_class->save_options = gth_jpeg_saver_save_options;

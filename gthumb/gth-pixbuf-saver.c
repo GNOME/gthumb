@@ -127,6 +127,13 @@ gth_pixbuf_saver_get_mime_type (GthPixbufSaver *self)
 
 
 const char *
+gth_pixbuf_saver_get_extensions (GthPixbufSaver *self)
+{
+	return GTH_PIXBUF_SAVER_GET_CLASS (self)->extensions;
+}
+
+
+const char *
 gth_pixbuf_saver_get_default_ext (GthPixbufSaver *self)
 {
 	return GTH_PIXBUF_SAVER_GET_CLASS (self)->default_ext;

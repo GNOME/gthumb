@@ -378,6 +378,7 @@ gth_tga_saver_class_init (GthTgaSaverClass *klass)
 	pixbuf_saver_class->id = "tga";
 	pixbuf_saver_class->display_name = _("TGA");
 	pixbuf_saver_class->mime_type = "image/x-tga";
+	pixbuf_saver_class->extensions = "tga";
 	pixbuf_saver_class->default_ext = "tga";
 	pixbuf_saver_class->get_control = gth_tga_saver_get_control;
 	pixbuf_saver_class->save_options = gth_tga_saver_save_options;
