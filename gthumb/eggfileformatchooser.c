@@ -288,29 +288,19 @@ static gboolean
 find_in_list (gchar       *list,
               const gchar *needle)
 {
-  gchar    *saveptr;
-  gchar    *token;
-  gchar    *needle2;
-  gboolean  found = FALSE;
+  gchar *saveptr;
+  gchar *token;
 
-  needle2 = g_utf8_casefold (needle, -1);
-  for (token = strtok_r (list, ",", &saveptr);
-       ! found && (NULL != token);
+  for (token = strtok_r (list, ",", &saveptr); NULL != token;
        token = strtok_r (NULL, ",", &saveptr))
     {
-      char *token2;
+      token = g_strstrip (token);
 
-      token2 = g_utf8_casefold (g_strstrip (token), -1);
-
-      if (g_utf8_collate (needle2, token2) == 0)
-        found = TRUE;
-
-      g_free (token2);
+      if (strcasecmp (needle, token) == 0)
+        return TRUE;
     }
 
-  g_free (needle2);
-
-  return found;
+  return FALSE;
 }
 
 static gboolean
@@ -424,7 +414,7 @@ egg_file_format_chooser_init (EggFileFormatChooser *self)
 /* extensions column */
 
   column = gtk_tree_view_column_new_with_attributes (
-    _("Extensions"), gtk_cell_renderer_text_new (),
+    _("Extension(s)"), gtk_cell_renderer_text_new (),
     "text", MODEL_COLUMN_EXTENSIONS, NULL);
   gtk_tree_view_column_set_expand (column, FALSE);
   gtk_tree_view_append_column (GTK_TREE_VIEW (view), column);
