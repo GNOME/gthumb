@@ -2475,7 +2475,7 @@ folder_changed_cb (GthMonitor      *monitor,
 			      || ((path != NULL) && gth_folder_tree_is_loaded (GTH_FOLDER_TREE (browser->priv->folder_tree), path)));
 
 	update_file_list = g_file_equal (parent, browser->priv->location->file);
-	if (! update_file_list && (event == GTH_MONITOR_EVENT_CHANGED)) {
+	if (! update_file_list && (event != GTH_MONITOR_EVENT_CREATED)) {
 		GthFileStore *file_store;
 		GList        *scan;
 

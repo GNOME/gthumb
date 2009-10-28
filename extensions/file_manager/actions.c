@@ -363,6 +363,22 @@ gth_browser_activate_action_edit_duplicate (GtkAction  *action,
 
 
 static void
+notify_files_delete (GtkWindow *window,
+		     GList     *files)
+{
+	GFile *parent;
+
+	parent = g_file_get_parent ((GFile*) files->data);
+	gth_monitor_folder_changed (gth_main_get_default_monitor (),
+				    parent,
+				    files,
+				    GTH_MONITOR_EVENT_DELETED);
+
+	g_object_unref (parent);
+}
+
+
+static void
 delete_file_permanently (GtkWindow *window,
 			 GList     *file_list)
 {
@@ -370,20 +386,10 @@ delete_file_permanently (GtkWindow *window,
 	GError *error = NULL;
 
 	files = gth_file_data_list_to_file_list (file_list);
-	if (! _g_delete_files (files, TRUE, &error)) {
+	if (! _g_delete_files (files, TRUE, &error))
 		_gtk_error_dialog_from_gerror_show (window, _("Could not delete the files"), &error);
-	}
-	else {
-		GFile *parent;
-
-		parent = g_file_get_parent ((GFile*) files->data);
-		gth_monitor_folder_changed (gth_main_get_default_monitor (),
-					    parent,
-					    files,
-					    GTH_MONITOR_EVENT_DELETED);
-
-		g_object_unref (parent);
-	}
+	else
+		notify_files_delete (window, files);
 
 	_g_object_list_unref (files);
 }
@@ -408,10 +414,11 @@ void
 gth_browser_activate_action_edit_trash (GtkAction  *action,
 					GthBrowser *browser)
 {
-	GList  *items;
-	GList  *file_list = NULL;
-	GList  *scan;
-	GError *error = NULL;
+	GList    *items;
+	GList    *file_list = NULL;
+	GList    *scan;
+	GError   *error = NULL;
+	gboolean  moved_to_trash = TRUE;
 
 	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
@@ -438,8 +445,18 @@ gth_browser_activate_action_edit_trash (GtkAction  *action,
 				break;
 			}
 			_gtk_error_dialog_from_gerror_show (GTK_WINDOW (browser), _("Could not move the files to the Trash"), &error);
+			moved_to_trash = FALSE;
 			break;
 		}
+	}
+
+	if (moved_to_trash) {
+		GList  *files;
+
+		files = gth_file_data_list_to_file_list (file_list);
+		notify_files_delete (GTK_WINDOW (browser), files);
+
+		_g_object_list_unref (files);
 	}
 
 	_g_object_list_unref (file_list);

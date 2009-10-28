@@ -80,6 +80,12 @@ static const char *browser_ui_info =
 "    </placeholder>"
 "    </menu>"
 "  </menubar>"
+"  <popup name='FileListPopup'>"
+"    <placeholder name='Folder_Actions'>"
+"      <menuitem action='Edit_Trash'/>"
+"      <menuitem action='Edit_Delete'/>"
+"    </placeholder>"
+"  </popup>"
 "</ui>";
 
 
@@ -92,12 +98,6 @@ static const char *browser_vfs_ui_info =
 "      </placeholder>"
 "    </menu>"
 "  </menubar>"
-"  <popup name='FileListPopup'>"
-"    <placeholder name='Folder_Actions'>"
-"      <menuitem action='Edit_Trash'/>"
-"      <menuitem action='Edit_Delete'/>"
-"    </placeholder>"
-"  </popup>"
 "</ui>";
 
 
