@@ -43,7 +43,7 @@ static const char *fixed_ui_info =
 
 static GtkActionEntry action_entries[] = {
 	{ "Tool_ResizeImages", NULL,
-	  N_("Re_size Images"), NULL,
+	  N_("Resize Images"), NULL,
 	  N_("Resize the selected images"),
 	  G_CALLBACK (gth_browser_activate_action_tool_resize_images) },
 };
