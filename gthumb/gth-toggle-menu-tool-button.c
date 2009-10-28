@@ -228,18 +228,14 @@ gth_toggle_menu_tool_button_destroy (GtkObject *object)
 
 	button = GTH_TOGGLE_MENU_TOOL_BUTTON (object);
 
-	if (button->priv->menu != NULL) {
-		g_signal_handlers_disconnect_by_func (button->priv->menu,
-						      menu_deactivate_cb,
-						      button);
-		gtk_menu_detach (button->priv->menu);
-
+	if (button->priv->toggle_button != NULL) {
 		g_signal_handlers_disconnect_by_func (button->priv->toggle_button,
 						      real_button_toggled_cb,
 						      button);
 		g_signal_handlers_disconnect_by_func (button->priv->toggle_button,
 						      real_button_button_press_event_cb,
 						      button);
+		button->priv->toggle_button = NULL;
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -365,18 +361,6 @@ gth_toggle_menu_tool_button_new_from_stock (const gchar *stock_id)
 }
 
 
-static void
-menu_detacher (GtkWidget *widget,
-               GtkMenu   *menu)
-{
-	GthToggleMenuToolButton *button = GTH_TOGGLE_MENU_TOOL_BUTTON (widget);
-
-	g_return_if_fail (button->priv->menu == menu);
-
-	button->priv->menu = NULL;
-}
-
-
 void
 gth_toggle_menu_tool_button_set_menu (GthToggleMenuToolButton *button,
 				      GtkWidget               *menu)
@@ -388,22 +372,12 @@ gth_toggle_menu_tool_button_set_menu (GthToggleMenuToolButton *button,
 		if ((button->priv->menu != NULL) && GTK_WIDGET_VISIBLE (button->priv->menu))
 			gtk_menu_shell_deactivate (GTK_MENU_SHELL (button->priv->menu));
 
-		if (button->priv->menu != NULL) {
-			g_signal_handlers_disconnect_by_func (button->priv->menu,
-							      menu_deactivate_cb,
-							      button);
-			gtk_menu_detach (button->priv->menu);
-		}
-
 		button->priv->menu = GTK_MENU (menu);
 
 		if (button->priv->menu != NULL) {
-			gtk_menu_attach_to_widget (button->priv->menu,
-						   GTK_WIDGET (button),
-						   menu_detacher);
+			g_object_add_weak_pointer (G_OBJECT (button->priv->menu), (gpointer *) &button->priv->menu);
 
 			gtk_widget_set_sensitive (button->priv->toggle_button, TRUE);
-
 			g_signal_connect (button->priv->menu,
 					  "deactivate",
 					  G_CALLBACK (menu_deactivate_cb),

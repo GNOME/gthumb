@@ -319,7 +319,7 @@ gth_file_properties_init (GthFileProperties *file_properties)
 	/* edit button */
 
 	button = gtk_button_new_from_stock (GTK_STOCK_EDIT);
-	/* FIXME gtk_widget_show (button); */
+	/*gtk_widget_show (button); FIXME */
 	gtk_box_pack_start (GTK_BOX (file_properties), button, FALSE, FALSE, 0);
 
 	g_signal_connect (button,

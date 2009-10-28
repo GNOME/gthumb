@@ -70,7 +70,6 @@ static GtkActionEntry action_entries[] = {
 
 typedef struct {
 	GthBrowser     *browser;
-	GtkToolItem    *tool_item;
 	GtkActionGroup *action_group;
 	gulong          scripts_changed_id;
 } BrowserData;
@@ -206,6 +205,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
 	GError      *error = NULL;
+	GtkToolItem *tool_item;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -226,13 +226,21 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 
 	/* tools menu button */
 
-	data->tool_item = gth_toggle_menu_tool_button_new ();
-	gtk_tool_button_set_label (GTK_TOOL_BUTTON (data->tool_item), _("Tools"));
-	gtk_widget_set_tooltip_text (GTK_WIDGET (data->tool_item), _("Batch tools for multiple files"));
-	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (data->tool_item), GTK_STOCK_EXECUTE);
-	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (data->tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
-	gtk_widget_show (GTK_WIDGET (data->tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), data->tool_item, -1);
+	tool_item = gth_toggle_menu_tool_button_new ();
+	gtk_tool_button_set_label (GTK_TOOL_BUTTON (tool_item), _("Tools"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), GTK_STOCK_EXECUTE);
+	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
+	gtk_widget_show (GTK_WIDGET (tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), tool_item, -1);
+
+	tool_item = gth_toggle_menu_tool_button_new ();
+	gtk_tool_button_set_label (GTK_TOOL_BUTTON (tool_item), _("Tools"));
+	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
+	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), GTK_STOCK_EXECUTE);
+	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
+	gtk_widget_show (GTK_WIDGET (tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_viewer_toolbar (browser)), tool_item, 9);
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 
