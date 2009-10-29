@@ -1593,7 +1593,7 @@ _g_file_get_display_name (GFile *file)
 	if (file_info != NULL)
 		name = g_strdup (g_file_info_get_attribute_string (file_info, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME));
 	else
-		name = g_file_get_uri (file);
+		name = g_file_get_parse_name (file);
 
 	return name;
 }

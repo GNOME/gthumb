@@ -33,6 +33,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "ViewMenu", NULL, N_("_View") },
 	{ "GoMenu", NULL, N_("_Go") },
 	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
+	{ "SystemBookmarksMenu", NULL, N_("_System Bookmarks") },
 	{ "HelpMenu", NULL, N_("_Help") },
 	{ "OpenWithMenu", NULL, N_("Open _With") },
 

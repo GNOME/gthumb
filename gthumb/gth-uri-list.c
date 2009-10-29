@@ -260,8 +260,14 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 		file_source = gth_main_get_file_source (file);
 		info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
 
-		display_name = g_file_info_get_display_name (info);
-		icon = g_file_info_get_icon (info);
+		if (info != NULL) {
+			display_name = g_file_info_get_display_name (info);
+			icon = g_file_info_get_icon (info);
+		}
+		else {
+			display_name = _g_file_get_display_name (file);
+			icon = _g_file_get_icon (file);
+		}
 		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
 
 		gtk_list_store_append (uri_list->priv->list_store, &iter);
