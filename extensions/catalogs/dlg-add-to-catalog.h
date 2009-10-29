@@ -28,6 +28,9 @@
 
 void   dlg_add_to_catalog              (GthBrowser *browser,
 					GList      *list);
+void   add_to_catalog                  (GthBrowser *browser,
+					GFile      *catalog,
+					GList      *list);
 void   dlg_move_to_catalog_directory   (GthBrowser *browser,
 					char       *catalog_path);
 

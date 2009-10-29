@@ -2931,6 +2931,9 @@ gth_file_list_button_press_cb  (GtkWidget      *widget,
 			gth_file_selection_select (GTH_FILE_SELECTION (file_view), pos);
 		}
 
+		gth_hook_invoke ("gth-browser-file-list-popup-before", browser);
+		gtk_ui_manager_ensure_update (browser->priv->ui);
+
 		gtk_menu_popup (GTK_MENU (browser->priv->file_list_popup),
 				NULL,
 				NULL,

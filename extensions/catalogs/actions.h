@@ -35,4 +35,7 @@ DEFINE_ACTION(gth_browser_activate_action_catalog_remove)
 DEFINE_ACTION(gth_browser_activate_action_catalog_rename)
 DEFINE_ACTION(gth_browser_activate_action_go_to_container)
 
+void gth_browser_add_to_catalog (GthBrowser *browser,
+				 GFile      *catalog);
+
 #endif /* ACTIONS_H */

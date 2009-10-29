@@ -29,6 +29,7 @@
 void catalogs__initialize_cb                           (void);
 void catalogs__gth_browser_construct_cb                (GthBrowser    *browser);
 void catalogs__gth_browser_update_sensitivity_cb       (GthBrowser    *browser);
+void catalogs__gth_browser_file_list_popup_before_cb   (GthBrowser    *browser);
 void catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 							GthFileSource *file_source,
 					                GFile         *folder);

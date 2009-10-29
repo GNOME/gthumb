@@ -377,3 +377,21 @@ gth_browser_activate_action_go_to_container (GtkAction  *action,
 	_g_object_list_unref (file_list);
 	_gtk_tree_path_list_free (items);
 }
+
+
+void
+gth_browser_add_to_catalog (GthBrowser *browser,
+  			    GFile      *catalog)
+{
+	GList *items;
+	GList *file_list = NULL;
+
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+
+	if (file_list != NULL)
+		add_to_catalog (browser, catalog, file_list);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
+}
