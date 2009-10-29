@@ -5008,6 +5008,8 @@ void
 gth_browser_file_menu_popup (GthBrowser     *browser,
 			     GdkEventButton *event)
 {
+	gth_hook_invoke ("gth-browser-file-popup-before", browser);
+	gtk_ui_manager_ensure_update (browser->priv->ui);
 	gtk_menu_popup (GTK_MENU (browser->priv->file_popup),
 			NULL,
 			NULL,

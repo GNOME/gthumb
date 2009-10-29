@@ -116,6 +116,13 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-file-list-popup-before", 1);
 
 	/**
+	 * Called before displaying the file popup menu.
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-file-popup-before", 1);
+
+	/**
 	 * Called before displaying the folder tree popup menu.
 	 *
 	 * @browser (GthBrowser*): the relative window.

@@ -503,6 +503,21 @@ catalogs__gth_browser_file_list_popup_before_cb (GthBrowser *browser)
 
 
 void
+catalogs__gth_browser_file_popup_before_cb (GthBrowser *browser)
+{
+	BrowserData *data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+	g_return_if_fail (data != NULL);
+
+	if (! data->catalog_menu_loaded) {
+		data->catalog_menu_loaded = TRUE;
+		update_catalog_menu (data);
+	}
+}
+
+
+void
 catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 						   GthFileSource *file_source,
 					           GthFileData   *folder)
