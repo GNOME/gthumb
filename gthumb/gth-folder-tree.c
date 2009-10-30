@@ -827,6 +827,10 @@ _gth_folder_tree_add_file (GthFolderTree *folder_tree,
 		gtk_tree_store_set (folder_tree->priv->tree_store, &iter,
 				    COLUMN_WEIGHT, PANGO_WEIGHT_BOLD,
 				    -1);
+	else
+		gtk_tree_store_set (folder_tree->priv->tree_store, &iter,
+				    COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL,
+				    -1);
 
 	if (! _gth_folder_tree_iter_has_no_child (folder_tree, &iter))
 		_gth_folder_tree_add_loading_item (folder_tree, &iter);
@@ -987,10 +991,10 @@ gth_folder_tree_set_list (GthFolderTree *folder_tree,
 }
 
 
-/* After changing the children list, the node expander is not hilighted
+/* After changing the children list, the node expander is not highlighted
  * anymore, this prevents the user to close the expander without moving the
  * mouse pointer.  The problem can be fixed emitting a fake motion notify
- * event, this way the expander gets hilighted again and a click on the
+ * event, this way the expander gets highlighted again and a click on the
  * expander will correctly collapse the node. */
 static void
 emit_fake_motion_notify_event (GthFolderTree *folder_tree)

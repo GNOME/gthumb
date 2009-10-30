@@ -152,6 +152,7 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		gtk_list_store_append (file_properties->priv->tree_model, &iter);
 		gtk_list_store_set (file_properties->priv->tree_model,
 				    &iter,
+				    WEIGHT_COLUMN, PANGO_WEIGHT_NORMAL,
 				    ID_COLUMN, info->id,
 				    DISPLAY_NAME_COLUMN, info->display_name,
 				    VALUE_COLUMN, value,
