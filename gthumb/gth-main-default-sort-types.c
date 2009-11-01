@@ -64,11 +64,16 @@ gth_file_data_cmp_modified_time (GthFileData *a,
 			         GthFileData *b)
 {
 	GTimeVal *ta, *tb;
+	int       result;
 
 	ta = gth_file_data_get_modification_time (a);
 	tb = gth_file_data_get_modification_time (b);
 
-	return _g_time_val_cmp (ta, tb);
+	result = _g_time_val_cmp (ta, tb);
+	if (result == 0)
+		result = gth_file_data_cmp_filename (a, b);
+
+	return result;
 }
 
 
