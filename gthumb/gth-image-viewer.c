@@ -1091,6 +1091,7 @@ scroll_to (GthImageViewer *viewer,
 
 	/* Process graphics exposures */
 
+#if 0 /* FIXME: gdk_event_get_graphics_expose is deprecated now */
 	replay_animation = viewer->priv->play_animation;
 	viewer->priv->play_animation = FALSE;
 	while ((event = gdk_event_get_graphics_expose (drawable)) != NULL) {
@@ -1109,6 +1110,7 @@ scroll_to (GthImageViewer *viewer,
 		gdk_event_free (event);
 	}
 	viewer->priv->play_animation = replay_animation;
+#endif
 }
 
 
