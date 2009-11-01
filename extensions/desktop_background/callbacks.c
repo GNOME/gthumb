@@ -41,7 +41,7 @@ static const char *fixed_ui_info =
 
 
 static GtkActionEntry action_entries[] = {
-	{ "Tool_DesktopBackground", "desktop-background",
+	{ "Tool_DesktopBackground", "desktop",
 	  N_("Set as Desktop Background"), NULL,
 	  N_("Set the image as desktop background"),
 	  G_CALLBACK (gth_browser_activate_action_tool_desktop_background) },
