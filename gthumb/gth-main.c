@@ -1158,6 +1158,7 @@ gth_main_activate_extensions (void)
 						"exiv2",
 						"file_manager",
 						"file_tools",
+						"gstreamer",
 						"image_rotation",
 						"image_viewer",
 						"list_tools",
