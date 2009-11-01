@@ -150,6 +150,21 @@ add_metadata (GFileInfo  *info,
 	if (raw == NULL)
 		return;
 
+	if (strcmp (key, "audio-video::general::duration") == 0) {
+		int secs;
+
+		g_free (formatted);
+		sscanf (raw, "%i", &secs);
+		formatted = _g_format_duration_for_display (secs * 1000);
+	}
+	else if (strcmp (key, "audio-video::general::bitrate") == 0) {
+		int bps;
+
+		g_free (formatted);
+		sscanf (raw, "%i", &bps);
+		formatted = g_strdup_printf ("%d kbps", bps / 1000);
+	}
+
 	metadata = gth_metadata_new ();
 	g_object_set (metadata,
 		      "id", key,
@@ -283,6 +298,9 @@ tag_iterate (const GstTagList *list,
 
 	if (strcmp (tag, "container-format") == 0) {
 		tag_key = "audio-video::general::container-format";
+	}
+	else if (strcmp (tag, "bitrate") == 0) {
+		tag_key = "audio-video::general::bitrate";
 	}
 	else if (strcmp (tag, "encoder") == 0) {
 		tag_key = "audio-video::general::encoder";

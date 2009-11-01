@@ -253,6 +253,10 @@ gboolean        _g_mime_type_is_image            (const char *mime_type);
 gboolean        _g_mime_type_is_video            (const char *mime_type);
 gboolean        _g_mime_type_is_audio            (const char *mime_type);
 
+/* Other */
+
+char *          _g_format_duration_for_display   (gint64 msecs);
+
 G_END_DECLS
 
 #endif /* _GLIB_UTILS_H */

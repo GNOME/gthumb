@@ -41,20 +41,19 @@ GthMetadataInfo gstreamer_metadata_info[] = {
 	{ "audio-video::general::artist", N_("Artist"), "audio-video::general", 2, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::general::album", N_("Album"), "audio-video::general", 3, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::general::duration", N_("Duration"), "audio-video::general", 4, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::container-format", N_("Container Format"), "audio-video::general", 5, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::general::encoder", N_("Encoder"), "audio-video::general", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::bitrate", N_("Bitrate"), "audio-video::general", 5, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::container-format", N_("Container Format"), "audio-video::general", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::encoder", N_("Encoder"), "audio-video::general", 7, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "audio-video::video::size", N_("Dimensions"), "audio-video::video", 1, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::video::codec", N_("Codec"), "audio-video::video", 2, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "audio-video::video::framerate", N_("Framerate"), "audio-video::video", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::video::bitrate", N_("Bitrate"), "audio-video::video", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "audio-video::video::width", N_("Width"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "audio-video::video::height", N_("Height"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },
 
 	{ "audio-video::audio::codec", N_("Codec"), "audio-video::audio", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "audio-video::audio::channels", N_("Channels"), "audio-video::audio", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "audio-video::audio::samplerate", N_("Sample rate"), "audio-video::audio", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::audio::bitrate", N_("Bitrate"), "audio-video::audio", 4, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ NULL, NULL, NULL, 0, 0 }
 };
