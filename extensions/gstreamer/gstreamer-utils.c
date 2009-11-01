@@ -51,26 +51,20 @@ static gboolean gstreamer_initialized = FALSE;
 
 
 typedef struct {
-	GstElement	*playbin;
-
-	GstTagList	*tagcache;
-	GstTagList	*audiotags;
-	GstTagList	*videotags;
-	GstTagList	*demuxertags;
-
-	gboolean	has_audio;
-	gboolean	has_video;
-
-	gint		video_height;
-	gint		video_width;
-	gint		video_fps_n;
-	gint		video_fps_d;
-	gint		video_bitrate;
-	char           *video_codec;
-	gint		audio_channels;
-	gint		audio_samplerate;
-	gint		audio_bitrate;
-	char           *audio_codec;
+	GstElement *playbin;
+	GstTagList *tagcache;
+	gboolean    has_audio;
+	gboolean    has_video;
+	gint        video_height;
+	gint        video_width;
+	gint        video_fps_n;
+	gint        video_fps_d;
+	gint        video_bitrate;
+	char       *video_codec;
+	gint        audio_channels;
+	gint        audio_samplerate;
+	gint        audio_bitrate;
+	char       *audio_codec;
 } MetadataExtractor;
 
 
@@ -80,21 +74,6 @@ reset_extractor_data (MetadataExtractor *extractor)
 	if (extractor->tagcache != NULL) {
 		gst_tag_list_free (extractor->tagcache);
 		extractor->tagcache = NULL;
-	}
-
-	if (extractor->audiotags != NULL) {
-		gst_tag_list_free (extractor->audiotags);
-		extractor->audiotags = NULL;
-	}
-
-	if (extractor->videotags != NULL) {
-		gst_tag_list_free (extractor->videotags);
-		extractor->videotags = NULL;
-	}
-
-	if (extractor->demuxertags != NULL) {
-		gst_tag_list_free (extractor->demuxertags);
-		extractor->demuxertags = NULL;
 	}
 
 	g_free (extractor->audio_codec);
@@ -590,39 +569,11 @@ message_loop_to_state_change (MetadataExtractor *extractor,
 
 			tag_list = NULL;
 			gst_message_parse_tag (message, &tag_list);
-
-			/* all tags */
-
 			result = gst_tag_list_merge (extractor->tagcache, tag_list, GST_TAG_MERGE_KEEP);
 			if (extractor->tagcache != NULL)
 				gst_tag_list_free (extractor->tagcache);
 			extractor->tagcache = result;
 
-			/* media-type-specific tags */
-
-			if (GST_IS_ELEMENT (message->src) && (f = gst_element_get_factory (GST_ELEMENT (message->src)))) {
-				const char  *klass;
-				GstTagList **cache;
-
-				klass = gst_element_factory_get_klass (f);
-
-				cache = NULL;
-				if (g_strrstr (klass, "Audio"))
-					cache = &extractor->audiotags;
-				else if (g_strrstr (klass, "Video"))
-					cache = &extractor->videotags;
-				else if (g_strrstr (klass, "Demuxer"))
-					cache = &extractor->demuxertags;
-
-				if (cache != NULL) {
-					result = gst_tag_list_merge (*cache, tag_list, GST_TAG_MERGE_KEEP);
-					if (*cache != NULL)
-						gst_tag_list_free (*cache);
-					*cache = result;
-				}
-			}
-
-			/* clean up */
 			gst_tag_list_free (tag_list);
 
 			break;
