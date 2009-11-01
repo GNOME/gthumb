@@ -50,6 +50,16 @@ typedef enum { /*< skip >*/
 	GTH_BROWSER_N_PAGES
 } GthBrowserPage;
 
+typedef enum {
+	GTH_ACTION_GO_TO,
+	GTH_ACTION_GO_INTO,
+	GTH_ACTION_GO_BACK,
+	GTH_ACTION_GO_FORWARD,
+	GTH_ACTION_GO_UP,
+	GTH_ACTION_LIST_CHILDREN,
+	GTH_ACTION_VIEW
+} GthAction;
+
 struct _GthBrowser
 {
 	GthWindow __parent;
@@ -159,6 +169,22 @@ void             gth_browser_fullscreen             (GthBrowser       *browser);
 void             gth_browser_unfullscreen           (GthBrowser       *browser);
 void             gth_browser_file_menu_popup        (GthBrowser       *browser,
 						     GdkEventButton   *event);
+
+/* protected methods */
+
+void             _gth_browser_add_file_menu_item      (GthBrowser *browser,
+						       GtkWidget  *menu,
+						       GFile      *file,
+						       GthAction   action,
+						       int         steps);
+void             _gth_browser_add_file_menu_item_full (GthBrowser *browser,
+						       GtkWidget  *menu,
+						       GFile      *file,
+						       GIcon      *icon,
+						       const char *display_name,
+						       GthAction   action,
+						       int         steps,
+						       int         position);
 
 G_END_DECLS
 

@@ -10,13 +10,21 @@ copy-n-paste/eggsmclient-xsmp.c
 data/gthumb.desktop.in.in
 data/gthumb-import.desktop.in.in
 data/gthumb.schemas.in
-[type: gettext/glade]data/ui/bookmarks.ui
 [type: gettext/glade]data/ui/extensions.ui
 [type: gettext/glade]data/ui/filter-editor.ui
 [type: gettext/glade]data/ui/overwrite-dialog.ui
 [type: gettext/glade]data/ui/personalize-filters.ui
 [type: gettext/glade]data/ui/preferences.ui
 [type: gettext/glade]data/ui/sort-order.ui
+extensions/bookmarks/actions.c
+extensions/bookmarks/actions.h
+extensions/bookmarks/bookmarks.extension.in.in
+extensions/bookmarks/callbacks.c
+extensions/bookmarks/callbacks.h
+[type: gettext/glade]extensions/bookmarks/data/ui/bookmarks.ui
+extensions/bookmarks/dlg-bookmarks.c
+extensions/bookmarks/dlg-bookmarks.h
+extensions/bookmarks/main.c
 extensions/catalogs/actions.c
 extensions/catalogs/actions.h
 extensions/catalogs/callbacks.c
@@ -41,6 +49,12 @@ extensions/comments/gth-metadata-provider-comment.h
 extensions/comments/gth-test-category.c
 extensions/comments/gth-test-category.h
 extensions/comments/main.c
+extensions/desktop_background/actions.c
+extensions/desktop_background/actions.h
+extensions/desktop_background/callbacks.c
+extensions/desktop_background/callbacks.h
+extensions/desktop_background/desktop_background.extension.in.in
+extensions/desktop_background/main.c
 extensions/exiv2/exiv2.extension.in.in
 extensions/exiv2/exiv2-utils.cpp
 extensions/exiv2/exiv2-utils.h
@@ -231,8 +245,6 @@ extensions/slideshow/main.c
 extensions/slideshow/preferences.c
 extensions/slideshow/preferences.h
 extensions/slideshow/slideshow.extension.in.in
-gthumb/dlg-bookmarks.c
-gthumb/dlg-bookmarks.h
 gthumb/dlg-edit-metadata.c
 gthumb/dlg-edit-metadata.h
 gthumb/dlg-extensions.c
@@ -383,6 +395,8 @@ gthumb/gth-string-list.c
 gthumb/gth-string-list.h
 gthumb/gth-tags-entry.c
 gthumb/gth-tags-entry.h
+gthumb/gth-tags-expander.c
+gthumb/gth-tags-expander.h
 gthumb/gth-tags-file.c
 gthumb/gth-tags-file.h
 gthumb/gth-task.c
@@ -399,6 +413,8 @@ gthumb/gth-thumb-loader.c
 gthumb/gth-thumb-loader.h
 gthumb/gth-time.c
 gthumb/gth-time.h
+gthumb/gth-time-selector.c
+gthumb/gth-time-selector.h
 gthumb/gth-toggle-menu-tool-button.c
 gthumb/gth-toggle-menu-tool-button.h
 gthumb/gth-toolbox.c

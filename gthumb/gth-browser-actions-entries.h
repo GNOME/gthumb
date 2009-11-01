@@ -32,8 +32,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "EditMenu", NULL, N_("_Edit") },
 	{ "ViewMenu", NULL, N_("_View") },
 	{ "GoMenu", NULL, N_("_Go") },
-	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
-	{ "SystemBookmarksMenu", NULL, N_("_System Bookmarks") },
 	{ "HelpMenu", NULL, N_("_Help") },
 	{ "OpenWithMenu", NULL, N_("Open _With") },
 
@@ -156,16 +154,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("_Delete History"), NULL,
 	  N_("Delete the list of visited locations"),
 	  G_CALLBACK (gth_browser_activate_action_go_clear_history) },
-
-	{ "Bookmarks_Add", GTK_STOCK_ADD,
-	  N_("_Add Bookmark"), "<control>D",
-	  N_("Add current location to bookmarks"),
-	  G_CALLBACK (gth_browser_activate_action_bookmarks_add) },
-
-	{ "Bookmarks_Edit", NULL,
-	  N_("_Edit Bookmarks..."), "<control>B",
-	  N_("Edit bookmarks"),
-	  G_CALLBACK (gth_browser_activate_action_bookmarks_edit) },
 
 	{ "View_BrowserMode", GTH_STOCK_BROWSER_MODE,
 	  N_("Browser"), "Escape",

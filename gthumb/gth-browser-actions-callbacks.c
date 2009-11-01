@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#include "dlg-bookmarks.h"
 #include "dlg-extensions.h"
 #include "dlg-edit-metadata.h"
 #include "dlg-personalize-filters.h"
@@ -38,35 +37,6 @@
 #include "gth-preferences.h"
 #include "gth-viewer-page.h"
 #include "gtk-utils.h"
-
-
-void
-gth_browser_activate_action_bookmarks_add (GtkAction  *action,
-					   GthBrowser *browser)
-{
-	GBookmarkFile *bookmarks;
-	GFile         *location;
-	char          *uri;
-
-	location = gth_browser_get_location (browser);
-	if (location == NULL)
-		return;
-
-	bookmarks = gth_main_get_default_bookmarks ();
-	uri = g_file_get_uri (location);
-	_g_bookmark_file_add_uri (bookmarks, uri);
-	gth_main_bookmarks_changed ();
-
-	g_free (uri);
-}
-
-
-void
-gth_browser_activate_action_bookmarks_edit (GtkAction  *action,
-					    GthBrowser *browser)
-{
-	dlg_bookmarks (browser);
-}
 
 
 void

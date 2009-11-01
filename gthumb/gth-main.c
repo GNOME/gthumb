@@ -1151,7 +1151,8 @@ gth_main_activate_extensions (void)
 	const char *mandatory_extensions[] = {	"file_viewer",
 						"jpeg_utils",
 						NULL };
-	const char *default_extensions[] = {	"catalogs",
+	const char *default_extensions[] = {	"bookmarks",
+						"catalogs",
 						"comments",
 						"desktop_background",
 						"exiv2",

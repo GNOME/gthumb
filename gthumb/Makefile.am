@@ -112,7 +112,6 @@ PUBLIC_HEADER_FILES = 					\
 	$(NULL)
 	
 PRIVATE_HEADER_FILES = 					\
-	dlg-bookmarks.h					\
 	dlg-edit-metadata.h				\
 	dlg-extensions.h				\
 	gth-browser-actions-callbacks.h			\
@@ -132,7 +131,6 @@ gthumb_SOURCES = 					\
 	$(EXTERNAL)					\
 	$(PUBLIC_HEADER_FILES)				\
 	$(PRIVATE_HEADER_FILES)				\
-	dlg-bookmarks.c					\
 	dlg-edit-metadata.c				\
 	dlg-extensions.c				\
 	dlg-personalize-filters.c			\

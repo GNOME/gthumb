@@ -48,6 +48,13 @@ gth_main_register_default_hooks (void)
 	gth_hook_register ("gth-browser-construct", 1);
 
 	/**
+	 * Called in an idle callback after the window has been initialized.
+	 *
+	 * @browser (GthBrowser*): the relative window.
+	 **/
+	gth_hook_register ("gth-browser-construct-idle-callback", 1);
+
+	/**
 	 * Called when the window is realized.
 	 *
 	 * @browser (GthBrowser*): the window.

@@ -1,4 +1,5 @@
 SUBDIRS = 			\
+	bookmarks		\
 	catalogs		\
 	comments		\
 	desktop_background	\

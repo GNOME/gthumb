@@ -1,6 +1,5 @@
 uidir = $(datadir)/gthumb-2.0/ui
 ui_DATA = 			\
-	bookmarks.ui		\
 	extensions.ui		\
 	filter-editor.ui	\
 	overwrite-dialog.ui	\

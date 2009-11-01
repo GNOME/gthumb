@@ -22,11 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include "glib-utils.h"
-#include "gth-browser.h"
-#include "gth-main.h"
-#include "gth-uri-list.h"
-#include "gtk-utils.h"
+#include <gthumb.h>
 
 
 typedef struct {
@@ -171,7 +167,7 @@ dlg_bookmarks (GthBrowser *browser)
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
 	data->do_not_update = FALSE;
-	data->builder = _gtk_builder_new_from_file ("bookmarks.ui", NULL); 
+	data->builder = _gtk_builder_new_from_file ("bookmarks.ui", "bookmarks");
 
 	/* Get the widgets. */
 

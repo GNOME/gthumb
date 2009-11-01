@@ -279,6 +279,9 @@ data/icons/scalable/apps/Makefile
 data/ui/Makefile
 help/Makefile
 extensions/Makefile
+extensions/bookmarks/Makefile
+extensions/bookmarks/data/Makefile
+extensions/bookmarks/data/ui/Makefile
 extensions/catalogs/Makefile
 extensions/catalogs/data/Makefile
 extensions/catalogs/data/ui/Makefile
