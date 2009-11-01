@@ -29,24 +29,9 @@
 #include "preferences.h"
 
 
-GthMetadataCategory image_metadata_category[] = {
-	{ "image", N_("Image"), 5 },
-	{ NULL, NULL, 0 }
-};
-
-
-GthMetadataInfo image_metadata_info[] = {
-	{ "image::size", N_("Dimensions"), "image", 1, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW | GTH_METADATA_ALLOW_IN_FILE_LIST },
-	{ "image::format", N_("Format"), "image", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ NULL, NULL, NULL, 0, 0 }
-};
-
-
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
-	gth_main_register_metadata_category (image_metadata_category);
-	gth_main_register_metadata_info_v (image_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_IMAGE);
 	gth_main_register_object (GTH_TYPE_VIEWER_PAGE, NULL, GTH_TYPE_IMAGE_VIEWER_PAGE, NULL);
 	gth_hook_add_callback ("dlg-preferences-construct", 10, G_CALLBACK (image_viewer__dlg_preferences_construct_cb), NULL);

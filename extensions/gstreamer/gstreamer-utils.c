@@ -150,7 +150,11 @@ add_metadata (GFileInfo  *info,
 	if (raw == NULL)
 		return;
 
-	if (strcmp (key, "audio-video::general::duration") == 0) {
+	if (strcmp (key, "general::size") == 0) {
+		g_file_info_set_attribute_string (info, key, raw);
+		return;
+	}
+	else if (strcmp (key, "general::duration") == 0) {
 		int secs;
 
 		g_free (formatted);
@@ -297,7 +301,7 @@ tag_iterate (const GstTagList *list,
 	tag_key = NULL;
 
 	if (strcmp (tag, "container-format") == 0) {
-		tag_key = "audio-video::general::container-format";
+		tag_key = "general::format";
 	}
 	else if (strcmp (tag, "bitrate") == 0) {
 		tag_key = "audio-video::general::bitrate";
@@ -402,7 +406,7 @@ extract_metadata (MetadataExtractor *extractor,
 
         if ((extractor->video_height >= 0) && (extractor->video_width >= 0))
                 add_metadata (info,
-                	      "audio-video::video::size",
+                	      "general::size",
                 	      g_strdup_printf ("%d x %d", (guint) extractor->video_width, (guint) extractor->video_height),
                 	      NULL);
 
@@ -421,7 +425,7 @@ extract_metadata (MetadataExtractor *extractor,
 	duration = get_media_duration (extractor);
 	if (duration >= 0)
 		add_metadata (info,
-			      "audio-video::general::duration",
+			      "general::duration",
 			      g_strdup_printf ("%" G_GINT64_FORMAT, duration),
 			      g_strdup_printf ("%" G_GINT64_FORMAT " sec", duration));
 
@@ -630,7 +634,7 @@ message_loop_to_state_change (MetadataExtractor *extractor,
 
 			gst_message_parse_error (message, &gsterror, &debug);
 
-			g_warning ("Error: %s (%s)", gsterror->message, debug);
+			/*g_warning ("Error: %s (%s)", gsterror->message, debug);*/
 
 			g_error_free (gsterror);
 			gst_message_unref (message);

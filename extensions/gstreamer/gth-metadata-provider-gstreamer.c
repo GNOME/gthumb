@@ -82,7 +82,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "audio-video::*", NULL);
+	g_object_set (self, "readable-attributes", "general::format,general::size,audio-video::*", NULL);
 
 	return obj;
 }

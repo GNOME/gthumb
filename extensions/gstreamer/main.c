@@ -28,7 +28,6 @@
 
 
 GthMetadataCategory gstreamer_metadata_category[] = {
-	{ "audio-video::general", N_("General"), 30 },
 	{ "audio-video::video", N_("Video"), 40 },
 	{ "audio-video::audio", N_("Audio"), 50 },
 	{ "audio-video::other", N_("Other"), 60 },
@@ -37,16 +36,13 @@ GthMetadataCategory gstreamer_metadata_category[] = {
 
 
 GthMetadataInfo gstreamer_metadata_info[] = {
-	{ "audio-video::general::title", N_("Title"), "audio-video::general", 1, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::artist", N_("Artist"), "audio-video::general", 2, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::album", N_("Album"), "audio-video::general", 3, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::duration", N_("Duration"), "audio-video::general", 4, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::general::bitrate", N_("Bitrate"), "audio-video::general", 5, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::general::container-format", N_("Container Format"), "audio-video::general", 6, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
-	{ "audio-video::general::encoder", N_("Encoder"), "audio-video::general", 7, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::title", N_("Title"), "general", 1, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::general::artist", N_("Artist"), "general", 2, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::general::album", N_("Album"), "general", 3, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::general::bitrate", N_("Bitrate"), "general", 20, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
+	{ "audio-video::general::encoder", N_("Encoder"), "general", 21, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
-	{ "audio-video::video::size", N_("Dimensions"), "audio-video::video", 1, GTH_METADATA_ALLOW_EVERYWHERE },
-	{ "audio-video::video::codec", N_("Codec"), "audio-video::video", 2, GTH_METADATA_ALLOW_EVERYWHERE },
+	{ "audio-video::video::codec", N_("Codec"), "audio-video::video", 2, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "audio-video::video::framerate", N_("Framerate"), "audio-video::video", 3, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 	{ "audio-video::video::width", N_("Width"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "audio-video::video::height", N_("Height"), "audio-video::video", 0, GTH_METADATA_ALLOW_NOWHERE },

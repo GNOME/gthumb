@@ -2618,7 +2618,7 @@ _gth_browser_update_statusbar_file_info (GthBrowser *browser)
 		return;
 	}
 
-	image_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "image::size");
+	image_size = g_file_info_get_attribute_string (browser->priv->current_file->info, "general::size");
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (browser->priv->current_file->info, "Embedded::Image::DateTime");
 	if (metadata != NULL)
 		file_date = gth_metadata_get_formatted (metadata);
