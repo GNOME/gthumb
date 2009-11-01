@@ -31,6 +31,7 @@ GCONF_REQUIRED=2.6.0
 EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=0.10.0
+GSTREAMER_REQUIRED=0.10
 
 dnl ===========================================================================
 
@@ -130,6 +131,22 @@ fi
 AC_SUBST(CLUTTER_LIBS)
 AC_SUBST(CLUTTER_CFLAGS)
 AM_CONDITIONAL(ENABLE_CLUTTER, test "x$enable_clutter" = xyes)
+
+dnl ===========================================================================
+
+AC_ARG_ENABLE([gstreamer],
+	      [AS_HELP_STRING([--disable-gstreamer],[do not compile code that uses the gstreamer library])],,
+	      [enable_gstreamer=yes])
+
+if test x$enable_gstreamer = xyes ; then
+	PKG_CHECK_MODULES(GSTREAMER,
+			  [gstreamer-0.10 >= $GSTREAMER_REQUIRED],
+			  [enable_gstreamer=yes],
+			  [enable_gstreamer=no])
+fi
+AC_SUBST(GSTREAMER_LIBS)
+AC_SUBST(GSTREAMER_CFLAGS)
+AM_CONDITIONAL(ENABLE_GSTREAMER, test "x$enable_gstreamer" = xyes)
 
 dnl ===========================================================================
 
@@ -295,6 +312,7 @@ extensions/file_tools/Makefile
 extensions/file_tools/data/Makefile
 extensions/file_tools/data/ui/Makefile
 extensions/file_viewer/Makefile
+extensions/gstreamer/Makefile
 extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
@@ -346,4 +364,5 @@ Configuration:
 	JPEG tools           : ${enable_jpeg}
 	TIFF tools           : ${enable_tiff}
 	Clutter support      : ${enable_clutter}
+	GStreamer support    : ${enable_gstreamer}
 "

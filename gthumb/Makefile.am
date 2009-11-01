@@ -239,6 +239,7 @@ gthumb_LDADD =						\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
+	$(GSTREAMER_LIBS)				\
 	$(NULL)	
 
 if RUN_IN_PLACE
