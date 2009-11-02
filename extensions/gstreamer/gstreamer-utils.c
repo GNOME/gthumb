@@ -563,9 +563,8 @@ message_loop_to_state_change (MetadataExtractor *extractor,
 		}
 
 		case GST_MESSAGE_TAG: {
-			GstTagList	  *tag_list;
-			GstTagList        *result;
-			GstElementFactory *f;
+			GstTagList *tag_list;
+			GstTagList *result;
 
 			tag_list = NULL;
 			gst_message_parse_tag (message, &tag_list);
