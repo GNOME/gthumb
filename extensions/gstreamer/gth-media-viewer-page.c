@@ -439,10 +439,10 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	if (self->priv->playbin == NULL)
 		return;
 
+	gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
+
 	uri = g_file_get_uri (self->priv->file_data->file);
-	g_object_set (G_OBJECT (self->priv->playbin),
-		      "uri", uri,
-		      NULL);
+	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
 	gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 
 	g_free (uri);
