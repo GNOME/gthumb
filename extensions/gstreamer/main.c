@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include <gthumb.h>
 #include "gth-metadata-provider-gstreamer.h"
+#include "gth-media-viewer-page.h"
 
 
 GthMetadataCategory gstreamer_metadata_category[] = {
@@ -58,6 +59,7 @@ GthMetadataInfo gstreamer_metadata_info[] = {
 G_MODULE_EXPORT void
 gthumb_extension_activate (void)
 {
+	gth_main_register_object (GTH_TYPE_VIEWER_PAGE, NULL, GTH_TYPE_MEDIA_VIEWER_PAGE, NULL);
 	gth_main_register_metadata_category (gstreamer_metadata_category);
 	gth_main_register_metadata_info_v (gstreamer_metadata_info);
 	gth_main_register_metadata_provider (GTH_TYPE_METADATA_PROVIDER_GSTREAMER);

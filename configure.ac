@@ -140,7 +140,8 @@ AC_ARG_ENABLE([gstreamer],
 
 if test x$enable_gstreamer = xyes ; then
 	PKG_CHECK_MODULES(GSTREAMER,
-			  [gstreamer-0.10 >= $GSTREAMER_REQUIRED],
+			  [gstreamer-0.10 >= $GSTREAMER_REQUIRED
+			   gstreamer-interfaces-0.10],
 			  [enable_gstreamer=yes],
 			  [enable_gstreamer=no])
 fi

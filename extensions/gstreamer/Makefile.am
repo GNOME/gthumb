@@ -6,6 +6,8 @@ extension_LTLIBRARIES = libgstreamer.la
 libgstreamer_la_SOURCES = 			\
 	gstreamer-utils.c			\
 	gstreamer-utils.h			\
+	gth-media-viewer-page.c			\
+	gth-media-viewer-page.h			\
 	gth-metadata-provider-gstreamer.c	\
 	gth-metadata-provider-gstreamer.h	\
 	main.c

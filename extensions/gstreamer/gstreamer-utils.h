@@ -29,6 +29,7 @@
 
 G_BEGIN_DECLS
 
+gboolean  gstreamer_init                    (void);
 gboolean  gstreamer_read_metadata_from_file (GFile       *file,
 					     GFileInfo   *info,
 					     GError     **error);

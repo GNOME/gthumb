@@ -105,7 +105,7 @@ metadata_extractor_free (MetadataExtractor *extractor)
 }
 
 
-static gboolean
+gboolean
 gstreamer_init (void)
 {
 	if (! gstreamer_initialized) {
