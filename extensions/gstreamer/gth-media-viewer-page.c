@@ -33,7 +33,6 @@
 
 #define GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate))
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
-#define GCONF_NOTIFICATIONS 0
 #define PROGRESS_DELAY 500
 
 
@@ -42,14 +41,15 @@ struct _GthMediaViewerPagePrivate {
 	GtkActionGroup *actions;
 	guint           merge_id;
 	GthFileData    *file_data;
-	guint           cnxn_id[GCONF_NOTIFICATIONS];
 	GstElement     *playbin;
 	GtkBuilder     *builder;
 	GtkWidget      *area;
+	gboolean        video_area_dirty;
 	gboolean        playing;
 	gdouble         last_volume;
 	gint64          duration;
 	gulong          update_progress_id;
+	gdouble         rate;
 };
 
 
@@ -60,60 +60,56 @@ static const char *media_viewer_ui_info =
 "<ui>"
 "  <toolbar name='ViewerToolBar'>"
 "    <placeholder name='ViewerCommands'>"
-"      <toolitem action='MediaViewer_Play'/>"
-"      <toolitem action='MediaViewer_Pause'/>"
+"      <toolitem action='MediaViewer_Screenshot'/>"
 "    </placeholder>"
 "  </toolbar>"
 "  <toolbar name='Fullscreen_ToolBar'>"
 "    <placeholder name='ViewerCommands'>"
-"      <toolitem action='MediaViewer_Play'/>"
-"      <toolitem action='MediaViewer_Pause'/>"
+"      <toolitem action='MediaViewer_Screenshot'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
 
 
 static void
-media_viewer_activate_action_play (GtkAction          *action,
-				   GthMediaViewerPage *self)
+media_viewer_activate_action_screenshot (GtkAction          *action,
+				         GthMediaViewerPage *self)
 {
-	if (self->priv->playbin == NULL)
-		return;
-	gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	/* FIXME */
 }
 
 
-static void
-media_viewer_activate_action_pause (GtkAction          *action,
-				    GthMediaViewerPage *self)
-{
-	if (self->priv->playbin == NULL)
-		return;
-	gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
-}
-
-
-static GtkActionEntry image_viewer_action_entries[] = {
-	{ "MediaViewer_Play", GTK_STOCK_MEDIA_PLAY,
-	  NULL, NULL,
-	  NULL,
-	  G_CALLBACK (media_viewer_activate_action_play) },
-	{ "MediaViewer_Pause", GTK_STOCK_MEDIA_PAUSE,
-	  NULL, NULL,
-	  NULL,
-	  G_CALLBACK (media_viewer_activate_action_pause) },
+static GtkActionEntry media_viewer_action_entries[] = {
+	{ "MediaViewer_Screenshot", "screenshot",
+	  N_("Screenshot"), NULL,
+	  N_("Take a screenshot"),
+	  G_CALLBACK (media_viewer_activate_action_screenshot) },
 };
 
 
 static gboolean
-expose_event_cb (GtkWidget      *widget,
-                 GdkEventExpose *event,
-                 gpointer        user_data)
+video_area_configure_event_cb (GtkWidget         *widget,
+			       GdkEventConfigure *event,
+			       gpointer           user_data)
 {
 	GthMediaViewerPage *self = user_data;
 
-	if (self->priv->playbin != NULL)
+	self->priv->video_area_dirty = TRUE;
+	return FALSE;
+}
+
+
+static gboolean
+video_area_expose_event_cb (GtkWidget      *widget,
+			    GdkEventExpose *event,
+			    gpointer        user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	if (! self->priv->video_area_dirty)
 		return FALSE;
+
+	self->priv->video_area_dirty = FALSE;
 
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
 			    widget->style->black_gc,
@@ -128,27 +124,32 @@ expose_event_cb (GtkWidget      *widget,
 
 
 static gboolean
-image_button_press_cb (GtkWidget          *widget,
-		       GdkEventButton     *event,
-		       GthMediaViewerPage *self)
+video_area_button_press_cb (GtkWidget          *widget,
+			    GdkEventButton     *event,
+			    GthMediaViewerPage *self)
 {
+	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1) ) {
+		gtk_button_clicked (GTK_BUTTON (GET_WIDGET ("button_play")));
+		return TRUE;
+	}
+
 	return gth_browser_viewer_button_press_cb (self->priv->browser, event);
 }
 
 
 static gboolean
-scroll_event_cb (GtkWidget 	    *widget,
-		 GdkEventScroll     *event,
-		 GthMediaViewerPage *self)
+video_area_scroll_event_cb (GtkWidget 	       *widget,
+			    GdkEventScroll     *event,
+			    GthMediaViewerPage *self)
 {
 	return gth_browser_viewer_scroll_event_cb (self->priv->browser, event);
 }
 
 
 static gboolean
-viewer_key_press_cb (GtkWidget          *widget,
-		     GdkEventKey        *event,
-		     GthMediaViewerPage *self)
+video_area_key_press_cb (GtkWidget          *widget,
+			 GdkEventKey        *event,
+			 GthMediaViewerPage *self)
 {
 	return gth_browser_viewer_key_press_cb (self->priv->browser, event);
 }
@@ -196,6 +197,31 @@ hscale_volume_format_value_cb (GtkScale *scale,
 
 
 static void
+update_player_rate (GthMediaViewerPage *self)
+{
+	self->priv->rate = CLAMP (self->priv->rate, 0.25, 2.0);
+
+	if (self->priv->playbin == NULL)
+		return;
+
+	if (! self->priv->playing)
+		return;
+
+	if (! gst_element_seek (self->priv->playbin,
+				self->priv->rate,
+				GST_FORMAT_TIME,
+				(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE),
+				GST_SEEK_TYPE_NONE,
+				0.0,
+				GST_SEEK_TYPE_NONE,
+				0.0))
+	{
+		g_warning ("seek failed");
+	}
+}
+
+
+static void
 button_play_clicked_cb (GtkButton *button,
 			gpointer   user_data)
 {
@@ -231,20 +257,8 @@ button_play_slower_clicked_cb (GtkButton *button,
 {
 	GthMediaViewerPage *self = user_data;
 
-	if (self->priv->playbin == NULL)
-		return;
-
-	if (! gst_element_seek (self->priv->playbin,
-				0.5,
-				GST_FORMAT_TIME,
-				(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE),
-				GST_SEEK_TYPE_NONE,
-				0.0,
-				GST_SEEK_TYPE_NONE,
-				0.0))
-	{
-		g_warning ("seek failed");
-	}
+	self->priv->rate -= 0.25;
+	update_player_rate (self);
 }
 
 
@@ -254,20 +268,8 @@ button_play_faster_clicked_cb (GtkButton *button,
 {
 	GthMediaViewerPage *self = user_data;
 
-	if (self->priv->playbin == NULL)
-		return;
-
-	if (! gst_element_seek (self->priv->playbin,
-				1.5,
-				GST_FORMAT_TIME,
-				(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE),
-				GST_SEEK_TYPE_NONE,
-				0.0,
-				GST_SEEK_TYPE_NONE,
-				0.0))
-	{
-		g_warning ("seek failed");
-	}
+	self->priv->rate += 0.25;
+	update_player_rate (self);
 }
 
 
@@ -365,6 +367,8 @@ update_play_button (GthMediaViewerPage *self,
 			 self->priv->update_progress_id = 0;
 		}
 	}
+
+	gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
 }
 
 
@@ -374,7 +378,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 {
 	GthMediaViewerPage *self;
 	GtkWidget          *box;
-	int                 i;
 
 	if (! gstreamer_init ())
 		return;
@@ -386,8 +389,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	self->priv->actions = gtk_action_group_new ("Video Viewer Actions");
 	gtk_action_group_set_translation_domain (self->priv->actions, NULL);
 	gtk_action_group_add_actions (self->priv->actions,
-				      image_viewer_action_entries,
-				      G_N_ELEMENTS (image_viewer_action_entries),
+				      media_viewer_action_entries,
+				      G_N_ELEMENTS (media_viewer_action_entries),
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
 
@@ -409,20 +412,24 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_box_pack_start (GTK_BOX (box), self->priv->area, TRUE, TRUE, 0);
 
 	g_signal_connect_after (G_OBJECT (self->priv->area),
+				"configure_event",
+				G_CALLBACK (video_area_configure_event_cb),
+				self);
+	g_signal_connect_after (G_OBJECT (self->priv->area),
 				"expose_event",
-				G_CALLBACK (expose_event_cb),
+				G_CALLBACK (video_area_expose_event_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->area),
 				"button_press_event",
-				G_CALLBACK (image_button_press_cb),
+				G_CALLBACK (video_area_button_press_cb),
 				self);
 	g_signal_connect_after (G_OBJECT (self->priv->area),
 				"scroll_event",
-				G_CALLBACK (scroll_event_cb),
+				G_CALLBACK (video_area_scroll_event_cb),
 				self);
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "key_press_event",
-			  G_CALLBACK (viewer_key_press_cb),
+			  G_CALLBACK (video_area_key_press_cb),
 			  self);
 
 	/* mediabar */
@@ -445,19 +452,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_realize (self->priv->area);
 	gdk_window_ensure_native (gtk_widget_get_window (self->priv->area));
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
-
-	/* gconf notifications */
-
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		self->priv->cnxn_id[i] = 0;
-
-	i = 0;
-	/* FIXME
-	self->priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_ZOOM_QUALITY,
-					   pref_zoom_quality_changed,
-					   self);
-	*/
 }
 
 
@@ -465,7 +459,6 @@ static void
 gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 {
 	GthMediaViewerPage *self;
-	int                 i;
 
 	self = (GthMediaViewerPage*) base;
 
@@ -484,12 +477,6 @@ gth_media_viewer_page_real_deactivate (GthViewerPage *base)
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
 	}
-
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (self->priv->cnxn_id[i] != 0)
-			eel_gconf_notification_remove (self->priv->cnxn_id[i]);
-
-	/**/
 
 	gth_browser_set_viewer_widget (self->priv->browser, NULL);
 }
@@ -530,6 +517,7 @@ reset_player_state (GthMediaViewerPage *self)
         /*self->priv->playing = TRUE;*/
 	update_play_button (self, GST_STATE_NULL);
 	self->priv->playing = FALSE;
+	self->priv->rate = 1.0;
 }
 
 
@@ -583,6 +571,7 @@ bus_message_cb (GstBus     *bus,
 		g_print ("Buffering (%%%u percent done)", percent);
 		break;
 	}
+
 	default:
 		break;
 	}
@@ -670,6 +659,17 @@ gth_media_viewer_page_real_can_view (GthViewerPage *base,
 }
 
 
+static gboolean
+set_to_paused (gpointer user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	if (self->priv->playbin != NULL)
+		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+	return FALSE;
+}
+
+
 static void
 gth_media_viewer_page_real_view (GthViewerPage *base,
 				 GthFileData   *file_data)
@@ -707,7 +707,8 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 	gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
 	uri = g_file_get_uri (self->priv->file_data->file);
 	g_object_set (G_OBJECT (self->priv->playbin), "uri", uri, NULL);
-	gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+
+	gdk_threads_add_idle (set_to_paused, self);
 
 	g_free (uri);
 }
@@ -743,7 +744,10 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 static void
 gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
-	/* FIXME */
+	GthMediaViewerPage *self = (GthMediaViewerPage *) base;
+
+	gtk_widget_set_sensitive (GET_WIDGET ("button_play_slower"), self->priv->playing);
+	gtk_widget_set_sensitive (GET_WIDGET ("button_play_faster"), self->priv->playing);
 }
 
 
@@ -838,6 +842,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 {
 	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->update_progress_id = 0;
+	self->priv->video_area_dirty = TRUE;
 }
 
 
