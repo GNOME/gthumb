@@ -1,5 +1,7 @@
 if ENABLE_GSTREAMER
 
+SUBDIRS = data
+
 extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libgstreamer.la
 
