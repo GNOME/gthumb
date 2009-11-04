@@ -72,15 +72,45 @@ static const char *media_viewer_ui_info =
 
 
 static void
+screenshot_ready_cb (GdkPixbuf *pixbuf,
+		     gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+	GtkWidget          *image;
+	GtkWidget          *window;
+
+	if (pixbuf == NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not take a screenshot"), NULL);
+		return;
+	}
+
+	image = gtk_image_new_from_pixbuf (pixbuf);
+	gtk_widget_show (image);
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_container_add (GTK_CONTAINER (window), image);
+	gtk_window_present (GTK_WINDOW (window));
+
+	g_object_unref (pixbuf);
+}
+
+
+static void
 media_viewer_activate_action_screenshot (GtkAction          *action,
 				         GthMediaViewerPage *self)
 {
-	/* FIXME */
+	if (self->priv->playbin == NULL)
+		return;
+
+	_gst_playbin_get_current_frame (self->priv->playbin,
+					0 /*self->priv->video_fps_n*/,
+					0 /*self->priv->video_fps_d*/,
+					screenshot_ready_cb,
+					self);
 }
 
 
 static GtkActionEntry media_viewer_action_entries[] = {
-	{ "MediaViewer_Screenshot", "screenshot",
+	{ "MediaViewer_Screenshot", "camera-photo",
 	  N_("Screenshot"), NULL,
 	  N_("Take a screenshot"),
 	  G_CALLBACK (media_viewer_activate_action_screenshot) },
@@ -307,13 +337,20 @@ update_current_position_bar (GthMediaViewerPage *self)
         if (gst_element_query_position (self->priv->playbin, &format, &current_value)) {
         	char *s;
 
-        	if (self->priv->duration == 0) {
+        	if (self->priv->duration <= 0) {
         		gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
         		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
         		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
 
         		g_free (s);
         	}
+
+        	/*
+        	g_print ("==> %" G_GINT64_FORMAT " / %" G_GINT64_FORMAT " (%0.3g)\n" ,
+        		 current_value,
+        		 self->priv->duration,
+        		 ((double) current_value / self->priv->duration) * 100.0);
+        	*/
 
         	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
         	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);

@@ -45,6 +45,7 @@
 #include <gst/gst.h>
 #include <gthumb.h>
 #include "gstreamer-utils.h"
+#include "gstscreenshot.h"
 
 
 static gboolean gstreamer_initialized = FALSE;
@@ -660,3 +661,130 @@ gstreamer_read_metadata_from_file (GFile       *file,
 
 	return TRUE;
 }
+
+
+/* -- _gst_playbin_get_current_frame -- */
+
+/* this is voodoo code taken from totem, kudos to the authors, license is GPL */
+
+
+typedef struct {
+
+	GdkPixbuf          *pixbuf;
+	FrameReadyCallback  cb;
+	gpointer            user_data;
+} ScreenshotData;
+
+
+static void
+screenshot_data_finalize (ScreenshotData *data)
+{
+	if (data->cb != NULL)
+		data->cb (data->pixbuf, data->user_data);
+	g_free (data);
+}
+
+
+static void
+destroy_pixbuf (guchar *pix, gpointer data)
+{
+	gst_buffer_unref (GST_BUFFER (data));
+}
+
+
+static void
+get_current_frame_step2 (GstBuffer *buf,
+			 gpointer   user_data)
+{
+	ScreenshotData *data = user_data;
+	GstStructure   *s;
+	int             outwidth = 0;
+	int             outheight = 0;
+
+	if (buf == NULL) {
+		g_warning ("Could not take screenshot: %s", "conversion failed");
+		return screenshot_data_finalize (data);
+	}
+
+	if (GST_BUFFER_CAPS (buf) == NULL) {
+		g_warning ("Could not take screenshot: %s", "no caps on output buffer");
+		return screenshot_data_finalize (data);
+	}
+
+	s = gst_caps_get_structure (GST_BUFFER_CAPS (buf), 0);
+	gst_structure_get_int (s, "width", &outwidth);
+	gst_structure_get_int (s, "height", &outheight);
+
+	g_return_if_fail (outwidth > 0 && outheight > 0);
+
+	/* create pixbuf from that - use our own destroy function */
+
+	data->pixbuf = gdk_pixbuf_new_from_data (GST_BUFFER_DATA (buf),
+						 GDK_COLORSPACE_RGB,
+						 FALSE,
+						 8,
+						 outwidth,
+						 outheight,
+						 GST_ROUND_UP_4 (outwidth * 3),
+						 destroy_pixbuf,
+						 buf);
+	if (data->pixbuf == NULL) {
+		g_warning ("Could not take screenshot: %s", "could not create pixbuf");
+		gst_buffer_unref (buf);
+	}
+
+	screenshot_data_finalize (data);
+}
+
+
+gboolean
+_gst_playbin_get_current_frame (GstElement          *playbin,
+				int                  video_fps_n,
+				int                  video_fps_d,
+				FrameReadyCallback   cb,
+				gpointer             user_data)
+{
+	ScreenshotData *data;
+	GstBuffer      *buf;
+	GstCaps        *to_caps;
+
+	g_object_get (playbin, "frame", &buf, NULL);
+
+	if (buf == NULL) {
+		g_warning ("Could not take screenshot: %s", "no last video frame");
+		return FALSE;
+	}
+
+	if (GST_BUFFER_CAPS (buf) == NULL) {
+		g_warning ("Could not take screenshot: %s", "no caps on buffer");
+		return FALSE;
+	}
+
+	/* convert to our desired format (RGB24) */
+
+	data = g_new0 (ScreenshotData, 1);
+	data->cb = cb;
+	data->user_data = user_data;
+
+	to_caps = gst_caps_new_simple ("video/x-raw-rgb",
+				       "bpp", G_TYPE_INT, 24,
+				       "depth", G_TYPE_INT, 24,
+				       /* Note: we don't ask for a specific width/height here, so that
+				        * videoscale can adjust dimensions from a non-1/1 pixel aspect
+				        * ratio to a 1/1 pixel-aspect-ratio */
+				       "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
+				       "endianness", G_TYPE_INT, G_BIG_ENDIAN,
+				       "red_mask", G_TYPE_INT, 0xff0000,
+				       "green_mask", G_TYPE_INT, 0x00ff00,
+				       "blue_mask", G_TYPE_INT, 0x0000ff,
+				       NULL);
+
+	if (video_fps_n > 0 && video_fps_d > 0) {
+		gst_caps_set_simple (to_caps, "framerate",
+				     GST_TYPE_FRACTION, video_fps_n, video_fps_d,
+				     NULL);
+	}
+
+	return bvw_frame_conv_convert (buf, to_caps, get_current_frame_step2, data);
+}
+
