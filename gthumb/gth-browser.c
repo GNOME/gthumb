@@ -362,6 +362,7 @@ void
 _gth_browser_add_file_menu_item (GthBrowser *browser,
 				 GtkWidget  *menu,
 			 	 GFile      *file,
+			 	 const char *display_name,
 			 	 GthAction   action,
 				 int         steps)
 {
@@ -375,7 +376,7 @@ _gth_browser_add_file_menu_item (GthBrowser *browser,
 						      menu,
 						      file,
 						      g_file_info_get_icon (info),
-						      g_file_info_get_display_name (info),
+						      (display_name != NULL) ? display_name : g_file_info_get_display_name (info),
 						      action,
 						      steps,
 						      -1);
@@ -391,7 +392,7 @@ _gth_browser_add_file_menu_item (GthBrowser *browser,
 						      menu,
 						      file,
 						      icon,
-						      name,
+						      (display_name != NULL) ? display_name : name,
 						      action,
 						      steps,
 						      -1);
@@ -427,6 +428,7 @@ _gth_browser_update_parent_list (GthBrowser *browser)
 		_gth_browser_add_file_menu_item (browser,
 						 menu,
 						 parent,
+						 NULL,
 						 GTH_ACTION_GO_UP,
 						 ++i);
 
@@ -634,6 +636,7 @@ _gth_browser_update_history_list (GthBrowser *browser)
 			_gth_browser_add_file_menu_item (browser,
 							 menu,
 							 scan->data,
+							 NULL,
 							 GTH_ACTION_GO_BACK,
 							 ++i);
 		}
@@ -658,6 +661,7 @@ _gth_browser_update_history_list (GthBrowser *browser)
 			_gth_browser_add_file_menu_item (browser,
 							 menu,
 							 scan->data,
+							 NULL,
 							 GTH_ACTION_GO_FORWARD,
 							 ++i);
 		}
@@ -682,6 +686,7 @@ _gth_browser_update_history_list (GthBrowser *browser)
 			_gth_browser_add_file_menu_item (browser,
 							 menu,
 							 scan->data,
+							 NULL,
 							 GTH_ACTION_GO_TO,
 							 ++i);
 		}

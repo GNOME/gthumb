@@ -287,6 +287,68 @@ gth_uri_list_set_uris (GthUriList  *uri_list,
 }
 
 
+void
+gth_uri_list_set_bookmarks (GthUriList    *uri_list,
+			    GBookmarkFile *bookmarks)
+{
+	char **uris;
+	int    i;
+
+	uris = g_bookmark_file_get_uris (bookmarks, NULL);
+
+	g_return_if_fail (uri_list != NULL);
+
+	g_signal_handlers_block_by_func (uri_list->priv->list_store, row_deleted_cb, uri_list);
+	g_signal_handlers_block_by_func (uri_list->priv->list_store, row_inserted_cb, uri_list);
+
+	gtk_list_store_clear (uri_list->priv->list_store);
+
+	for (i = 0; uris[i] != NULL; i++) {
+		char          *uri = uris[i];
+		GFile         *file;
+		GthFileSource *file_source;
+		GFileInfo     *info;
+		char          *display_name;
+		GIcon         *icon;
+		GdkPixbuf     *pixbuf;
+		GtkTreeIter    iter;
+
+		file = g_file_new_for_uri (uri);
+		file_source = gth_main_get_file_source (file);
+		info = gth_file_source_get_file_info (file_source, file, GFILE_DISPLAY_ATTRIBUTES);
+		display_name = g_bookmark_file_get_title (bookmarks, uris[i], NULL);
+
+		if (info != NULL) {
+			if (display_name == NULL)
+				display_name = g_strdup (g_file_info_get_display_name (info));
+			icon = g_file_info_get_icon (info);
+		}
+		else {
+			if (display_name == NULL)
+				display_name = g_strdup (_g_file_get_display_name (file));
+			icon = _g_file_get_icon (file);
+		}
+		pixbuf = gth_icon_cache_get_pixbuf (uri_list->priv->icon_cache, icon);
+
+		gtk_list_store_append (uri_list->priv->list_store, &iter);
+		gtk_list_store_set (uri_list->priv->list_store, &iter,
+				    URI_LIST_COLUMN_ICON, pixbuf,
+				    URI_LIST_COLUMN_NAME, display_name,
+				    URI_LIST_COLUMN_URI, uri,
+				    -1);
+
+		g_object_unref (pixbuf);
+		g_object_unref (file_source);
+		g_object_unref (file);
+	}
+
+	g_signal_handlers_unblock_by_func (uri_list->priv->list_store, row_deleted_cb, uri_list);
+	g_signal_handlers_unblock_by_func (uri_list->priv->list_store, row_inserted_cb, uri_list);
+
+	g_strfreev (uris);
+}
+
+
 char *
 gth_uri_list_get_uri (GthUriList  *uri_list,
 		      GtkTreeIter *iter)
@@ -344,4 +406,33 @@ gth_uri_list_get_uris (GthUriList *uri_list)
 	while (gtk_tree_model_iter_next (model, &iter));
 
 	return g_list_reverse (uris);
+}
+
+
+void
+gth_uri_list_update_bookmarks (GthUriList    *uri_list,
+			       GBookmarkFile *bookmarks)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (uri_list->priv->list_store);
+	GtkTreeIter   iter;
+
+	if (! gtk_tree_model_get_iter_first (model, &iter))
+		return;
+
+	_g_bookmark_file_clear (bookmarks);
+
+	do {
+		char *uri;
+		char *name;
+
+		gtk_tree_model_get (model, &iter,
+				    URI_LIST_COLUMN_URI, &uri,
+				    URI_LIST_COLUMN_NAME, &name,
+				    -1);
+
+		g_bookmark_file_set_is_private (bookmarks, uri, TRUE);
+		g_bookmark_file_add_application (bookmarks, uri, NULL, NULL);
+		g_bookmark_file_set_title (bookmarks, uri, name);
+	}
+	while (gtk_tree_model_iter_next (model, &iter));
 }

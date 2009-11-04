@@ -175,6 +175,7 @@ void             gth_browser_file_menu_popup        (GthBrowser       *browser,
 void             _gth_browser_add_file_menu_item      (GthBrowser *browser,
 						       GtkWidget  *menu,
 						       GFile      *file,
+						       const char *display_name,
 						       GthAction   action,
 						       int         steps);
 void             _gth_browser_add_file_menu_item_full (GthBrowser *browser,

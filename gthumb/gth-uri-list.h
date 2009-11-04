@@ -53,14 +53,18 @@ struct _GthUriListClass {
 	void   (*order_changed)  (GthUriList *uri_list);
 };
 
-GType        gth_uri_list_get_type      (void);
-GtkWidget *  gth_uri_list_new           (void);
-void         gth_uri_list_set_uris      (GthUriList   *uri_list,
-				         char        **uris);
-char *       gth_uri_list_get_uri       (GthUriList   *uri_list,
-			   		 GtkTreeIter  *iter);				         
-char *       gth_uri_list_get_selected  (GthUriList   *uri_list);
-GList *      gth_uri_list_get_uris      (GthUriList   *uri_list);
+GType            gth_uri_list_get_type         (void);
+GtkWidget *      gth_uri_list_new              (void);
+void             gth_uri_list_set_uris         (GthUriList     *uri_list,
+				                char          **uris);
+void             gth_uri_list_set_bookmarks    (GthUriList     *uri_list,
+					        GBookmarkFile  *bookmarks);
+char *           gth_uri_list_get_uri          (GthUriList     *uri_list,
+			   		        GtkTreeIter    *iter);
+char *           gth_uri_list_get_selected     (GthUriList     *uri_list);
+GList *          gth_uri_list_get_uris         (GthUriList     *uri_list);
+void             gth_uri_list_update_bookmarks (GthUriList     *uri_list,
+						GBookmarkFile  *bookmarks);
 
 G_END_DECLS
 

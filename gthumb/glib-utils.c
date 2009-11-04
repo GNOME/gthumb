@@ -487,7 +487,7 @@ void
 _g_bookmark_file_add_uri (GBookmarkFile *bookmark,
 			  const char    *uri)
 {
-	g_bookmark_file_set_is_private (bookmark, uri,TRUE);
+	g_bookmark_file_set_is_private (bookmark, uri, TRUE);
 	g_bookmark_file_add_application (bookmark, uri, NULL, NULL);
 }
 

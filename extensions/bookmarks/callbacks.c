@@ -256,14 +256,18 @@ _gth_browser_update_bookmark_list (GthBrowser *browser)
 
 	for (i = 0; uris[i] != NULL; i++) {
 		GFile *file;
+		char  *name;
 
 		file = g_file_new_for_uri (uris[i]);
+		name = g_bookmark_file_get_title (bookmarks, uris[i], NULL);
 		_gth_browser_add_file_menu_item (browser,
 						 menu,
 						 file,
+						 name,
 						 GTH_ACTION_GO_TO,
 						 i);
 
+		g_free (name);
 		g_object_unref (file);
 	}
 
