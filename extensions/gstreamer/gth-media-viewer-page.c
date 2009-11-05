@@ -45,7 +45,6 @@ struct _GthMediaViewerPagePrivate {
 	GtkBuilder     *builder;
 	GtkWidget      *area;
 	GtkWidget      *area_box;
-	gboolean        video_area_dirty;
 	gboolean        playing;
 	gdouble         last_volume;
 	gint64          duration;
@@ -53,6 +52,7 @@ struct _GthMediaViewerPagePrivate {
 	gdouble         rate;
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
+	gboolean        video_present;
 };
 
 
@@ -121,28 +121,17 @@ static GtkActionEntry media_viewer_action_entries[] = {
 
 
 static gboolean
-video_area_configure_event_cb (GtkWidget         *widget,
-			       GdkEventConfigure *event,
-			       gpointer           user_data)
-{
-	GthMediaViewerPage *self = user_data;
-
-	self->priv->video_area_dirty = TRUE;
-	return FALSE;
-}
-
-
-static gboolean
 video_area_expose_event_cb (GtkWidget      *widget,
 			    GdkEventExpose *event,
 			    gpointer        user_data)
 {
 	GthMediaViewerPage *self = user_data;
 
-	if (! self->priv->video_area_dirty)
+	if (event->count > 0)
 		return FALSE;
 
-	self->priv->video_area_dirty = FALSE;
+	if (self->priv->video_present)
+		return FALSE;
 
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
 			    widget->style->black_gc,
@@ -152,7 +141,7 @@ video_area_expose_event_cb (GtkWidget      *widget,
 			    event->area.width,
 			    event->area.height);
 
-	return TRUE;
+	return FALSE;
 }
 
 
@@ -450,22 +439,18 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_widget_show (self->priv->area);
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 
-	g_signal_connect_after (G_OBJECT (self->priv->area),
-				"configure_event",
-				G_CALLBACK (video_area_configure_event_cb),
-				self);
-	g_signal_connect_after (G_OBJECT (self->priv->area),
-				"expose_event",
-				G_CALLBACK (video_area_expose_event_cb),
-				self);
-	g_signal_connect_after (G_OBJECT (self->priv->area),
-				"button_press_event",
-				G_CALLBACK (video_area_button_press_cb),
-				self);
-	g_signal_connect_after (G_OBJECT (self->priv->area),
-				"scroll_event",
-				G_CALLBACK (video_area_scroll_event_cb),
-				self);
+	g_signal_connect (G_OBJECT (self->priv->area),
+			  "expose_event",
+			  G_CALLBACK (video_area_expose_event_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->area),
+			  "button_press_event",
+			  G_CALLBACK (video_area_button_press_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->area),
+			  "scroll_event",
+			  G_CALLBACK (video_area_scroll_event_cb),
+			  self);
 	g_signal_connect (G_OBJECT (self->priv->area),
 			  "key_press_event",
 			  G_CALLBACK (video_area_key_press_cb),
@@ -539,6 +524,7 @@ set_playbin_window (GstBus             *bus,
 	image_sink = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
 	gst_x_overlay_set_xwindow_id (image_sink, GDK_WINDOW_XID (gtk_widget_get_window (self->priv->area)));
 	g_object_set (image_sink, "force-aspect-ratio", TRUE, NULL);
+	self->priv->video_present = TRUE;
 
 	gst_message_unref (message);
 
@@ -924,7 +910,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 {
 	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->update_progress_id = 0;
-	self->priv->video_area_dirty = TRUE;
+	self->priv->video_present = FALSE;
 }
 
 
