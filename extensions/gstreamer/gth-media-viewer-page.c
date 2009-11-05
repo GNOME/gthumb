@@ -44,12 +44,15 @@ struct _GthMediaViewerPagePrivate {
 	GstElement     *playbin;
 	GtkBuilder     *builder;
 	GtkWidget      *area;
+	GtkWidget      *area_box;
 	gboolean        video_area_dirty;
 	gboolean        playing;
 	gdouble         last_volume;
 	gint64          duration;
 	gulong          update_progress_id;
 	gdouble         rate;
+	GtkWidget      *mediabar;
+	GtkWidget      *fullscreen_toolbar;
 };
 
 
@@ -414,7 +417,6 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 				     GthBrowser    *browser)
 {
 	GthMediaViewerPage *self;
-	GtkWidget          *box;
 
 	if (! gstreamer_init ())
 		return;
@@ -431,7 +433,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 				      self);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), self->priv->actions, 0);
 
-	box = gtk_vbox_new (FALSE, 0);
+	self->priv->area_box = gtk_vbox_new (FALSE, 0);
 
 	/* video area */
 
@@ -446,7 +448,7 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 						  | GDK_BUTTON_MOTION_MASK));
 	GTK_WIDGET_SET_FLAGS (self->priv->area, GTK_CAN_FOCUS);
 	gtk_widget_show (self->priv->area);
-	gtk_box_pack_start (GTK_BOX (box), self->priv->area, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 
 	g_signal_connect_after (G_OBJECT (self->priv->area),
 				"configure_event",
@@ -472,8 +474,9 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	/* mediabar */
 
 	self->priv->builder = _gtk_builder_new_from_file ("mediabar.ui", "gstreamer");
-	gtk_widget_show (GET_WIDGET ("mediabar"));
-	gtk_box_pack_start (GTK_BOX (box), GET_WIDGET ("mediabar"), FALSE, FALSE, 0);
+	self->priv->mediabar = GET_WIDGET ("mediabar");
+	gtk_widget_show (self->priv->mediabar);
+	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
 
 	g_signal_connect (GET_WIDGET ("adjustment_volume"), "value-changed", G_CALLBACK (volume_value_changed_cb), self);
 	g_signal_connect (GET_WIDGET ("adjustment_position"), "value-changed", G_CALLBACK (position_value_changed_cb), self);
@@ -483,8 +486,8 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	g_signal_connect (GET_WIDGET ("button_play_slower"), "clicked", G_CALLBACK (button_play_slower_clicked_cb), self);
 	g_signal_connect (GET_WIDGET ("button_play_faster"), "clicked", G_CALLBACK (button_play_faster_clicked_cb), self);
 
-	gtk_widget_show (box);
-	gth_browser_set_viewer_widget (browser, box);
+	gtk_widget_show (self->priv->area_box);
+	gth_browser_set_viewer_widget (browser, self->priv->area_box);
 
 	gtk_widget_realize (self->priv->area);
 	gdk_window_ensure_native (gtk_widget_get_window (self->priv->area));
@@ -766,7 +769,40 @@ static void
 gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 				       gboolean       active)
 {
-	/* void */
+	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
+	GdkScreen          *screen;
+
+	if (! active) {
+		g_object_ref (self->priv->mediabar);
+		gtk_container_remove (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
+		gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->mediabar, FALSE, FALSE, 0);
+		g_object_unref (self->priv->mediabar);
+
+		gtk_widget_destroy (self->priv->fullscreen_toolbar);
+		self->priv->fullscreen_toolbar = NULL;
+
+		return;
+	}
+
+	/* active == TRUE */
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
+
+	if (self->priv->fullscreen_toolbar == NULL) {
+		self->priv->fullscreen_toolbar = gtk_window_new (GTK_WINDOW_POPUP);
+		gtk_window_set_screen (GTK_WINDOW (self->priv->fullscreen_toolbar), screen);
+		gtk_window_set_default_size (GTK_WINDOW (self->priv->fullscreen_toolbar), gdk_screen_get_width (screen), -1);
+		gtk_container_set_border_width (GTK_CONTAINER (self->priv->fullscreen_toolbar), 0);
+	}
+
+	g_object_ref (self->priv->mediabar);
+	gtk_container_remove (GTK_CONTAINER (self->priv->area_box), self->priv->mediabar);
+	gtk_container_add (GTK_CONTAINER (self->priv->fullscreen_toolbar), self->priv->mediabar);
+	g_object_unref (self->priv->mediabar);
+
+	gtk_widget_realize (self->priv->mediabar);
+	gtk_window_set_gravity (GTK_WINDOW (self->priv->fullscreen_toolbar), GDK_GRAVITY_SOUTH_EAST);
+	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar), 0, gdk_screen_get_height (screen) - self->priv->mediabar->allocation.height);
 }
 
 
@@ -774,7 +810,16 @@ static void
 gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 				         gboolean       show)
 {
-	/* FIXME */
+	GthMediaViewerPage *self = (GthMediaViewerPage*) base;
+
+	if (self->priv->fullscreen_toolbar != NULL) {
+		if (show && ! GTK_WIDGET_VISIBLE (self->priv->fullscreen_toolbar)) {
+			gtk_widget_show (self->priv->fullscreen_toolbar);
+		}
+		else if (! show && GTK_WIDGET_VISIBLE (self->priv->fullscreen_toolbar)) {
+			gtk_widget_hide (self->priv->fullscreen_toolbar);
+		}
+	}
 }
 
 
