@@ -789,6 +789,8 @@ gth_media_viewer_page_real_fullscreen (GthViewerPage *base,
 	gtk_widget_realize (self->priv->mediabar);
 	gtk_window_set_gravity (GTK_WINDOW (self->priv->fullscreen_toolbar), GDK_GRAVITY_SOUTH_EAST);
 	gtk_window_move (GTK_WINDOW (self->priv->fullscreen_toolbar), 0, gdk_screen_get_height (screen) - self->priv->mediabar->allocation.height);
+
+	gth_browser_register_fullscreen_control (self->priv->browser, self->priv->fullscreen_toolbar);
 }
 
 

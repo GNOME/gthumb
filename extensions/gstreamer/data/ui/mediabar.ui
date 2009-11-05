@@ -4,7 +4,6 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="mediabar">
     <property name="visible">True</property>
-    <property name="border_width">5</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkHBox" id="hbox2">

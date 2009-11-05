@@ -149,6 +149,7 @@ struct _GthBrowserPrivateData {
 
 	gboolean           fullscreen;
 	GtkWidget         *fullscreen_toolbar;
+	GList             *fullscreen_controls;
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
 	gdouble            last_mouse_x;
@@ -4660,6 +4661,14 @@ gth_browser_get_image_preloader (GthBrowser *browser)
 }
 
 
+void
+gth_browser_register_fullscreen_control (GthBrowser *browser,
+					 GtkWidget  *widget)
+{
+	browser->priv->fullscreen_controls = g_list_prepend (browser->priv->fullscreen_controls, widget);
+}
+
+
 static void
 _gth_browser_create_fullscreen_toolbar (GthBrowser *browser)
 {
@@ -4676,6 +4685,8 @@ _gth_browser_create_fullscreen_toolbar (GthBrowser *browser)
 	gtk_container_set_border_width (GTK_CONTAINER (browser->priv->fullscreen_toolbar), 0);
 
 	gtk_container_add (GTK_CONTAINER (browser->priv->fullscreen_toolbar), gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar"));
+
+	gth_browser_register_fullscreen_control (browser, browser->priv->fullscreen_toolbar);
 }
 
 
@@ -4683,15 +4694,23 @@ static gboolean
 hide_mouse_pointer_cb (gpointer data)
 {
 	GthBrowser *browser = data;
-	int         x, y, w, h, px, py;
+	int         px, py;
+	GList      *scan;
 
-	gdk_window_get_pointer (browser->priv->fullscreen_toolbar->window, &px, &py, 0);
-	gdk_window_get_geometry (browser->priv->fullscreen_toolbar->window, &x, &y, &w, &h, NULL);
+	gdk_window_get_pointer (GTK_WIDGET (browser)->window, &px, &py, 0);
+	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next) {
+		GtkWidget *widget = scan->data;
+		int        x, y, w, h;
 
-	if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
-		return FALSE;
+		gdk_window_get_geometry (widget->window, &x, &y, &w, &h, NULL);
 
-	gtk_widget_hide (browser->priv->fullscreen_toolbar);
+		if ((px >= x) && (px <= x + w) && (py >= y) && (py <= y + h))
+			return FALSE;
+	}
+
+	for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next)
+		gtk_widget_hide ((GtkWidget *) scan->data);
+
 	if (browser->priv->viewer_page != NULL)
 		gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), FALSE);
 
@@ -4713,12 +4732,19 @@ fullscreen_motion_notify_event_cb (GtkWidget      *widget,
 	if (browser->priv->last_mouse_y == 0.0)
 		browser->priv->last_mouse_y = event->y;
 
-	if ((abs (browser->priv->last_mouse_x - event->x) > MOTION_THRESHOLD) || (abs (browser->priv->last_mouse_y - event->y) > MOTION_THRESHOLD))
+	if ((abs (browser->priv->last_mouse_x - event->x) > MOTION_THRESHOLD)
+	    || (abs (browser->priv->last_mouse_y - event->y) > MOTION_THRESHOLD))
+	{
 		if (! GTK_WIDGET_VISIBLE (browser->priv->fullscreen_toolbar)) {
-			gtk_widget_show (browser->priv->fullscreen_toolbar);
+			GList *scan;
+
+			for (scan = browser->priv->fullscreen_controls; scan; scan = scan->next)
+				gtk_widget_show ((GtkWidget *) scan->data);
+
 			if (browser->priv->viewer_page != NULL)
 				gth_viewer_page_show_pointer (GTH_VIEWER_PAGE (browser->priv->viewer_page), TRUE);
 		}
+	}
 
 	if (browser->priv->hide_mouse_timeout != 0)
 		g_source_remove (browser->priv->hide_mouse_timeout);
@@ -4747,6 +4773,8 @@ gth_browser_fullscreen (GthBrowser *browser)
 		gth_browser_show_first_image (browser, FALSE, FALSE);
 
 	_gth_browser_create_fullscreen_toolbar (browser);
+	g_list_free (browser->priv->fullscreen_controls);
+	browser->priv->fullscreen_controls = g_list_append (NULL, browser->priv->fullscreen_toolbar);
 
 	gth_browser_show_viewer_properties (browser, FALSE);
 	gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
@@ -4786,6 +4814,9 @@ gth_browser_unfullscreen (GthBrowser *browser)
 		gth_viewer_page_fullscreen (browser->priv->viewer_page, FALSE);
 		gth_viewer_page_show_pointer (browser->priv->viewer_page, TRUE);
 	}
+	g_list_free (browser->priv->fullscreen_controls);
+	browser->priv->fullscreen_controls = NULL;
+
 	gth_browser_update_sensitivity (browser);
 }
 
