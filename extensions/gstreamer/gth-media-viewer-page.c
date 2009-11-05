@@ -63,6 +63,7 @@ static const char *media_viewer_ui_info =
 "<ui>"
 "  <toolbar name='ViewerToolBar'>"
 "    <placeholder name='ViewerCommands'>"
+"      <toolitem action='View_Fullscreen'/>"
 "      <toolitem action='MediaViewer_Screenshot'/>"
 "    </placeholder>"
 "  </toolbar>"
