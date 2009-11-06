@@ -60,7 +60,7 @@ struct _GthMediaViewerPagePrivate {
 	gdouble         rate;
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
-	gboolean        video_present;
+	gboolean        xwin_assigned;
 };
 
 
@@ -264,7 +264,7 @@ video_area_expose_event_cb (GtkWidget      *widget,
 	if (event->count > 0)
 		return FALSE;
 
-	if (self->priv->video_present)
+	if (self->priv->xwin_assigned && self->priv->has_video)
 		return FALSE;
 
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
@@ -681,7 +681,7 @@ set_playbin_window (GstBus             *bus,
 	image_sink = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
 	gst_x_overlay_set_xwindow_id (image_sink, GDK_WINDOW_XID (gtk_widget_get_window (self->priv->area)));
 	g_object_set (image_sink, "force-aspect-ratio", TRUE, NULL);
-	self->priv->video_present = TRUE;
+	self->priv->xwin_assigned = TRUE;
 
 	gst_message_unref (message);
 
@@ -1048,7 +1048,7 @@ gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 
 	gtk_widget_set_sensitive (GET_WIDGET ("button_play_slower"), self->priv->playing);
 	gtk_widget_set_sensitive (GET_WIDGET ("button_play_faster"), self->priv->playing);
-
+	gtk_widget_set_sensitive (GET_WIDGET ("volume_box"), self->priv->has_audio);
 	set_action_sensitive (self, "MediaViewer_Screenshot", self->priv->has_video);
 }
 
@@ -1144,7 +1144,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 {
 	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->update_progress_id = 0;
-	self->priv->video_present = FALSE;
+	self->priv->xwin_assigned = FALSE;
 	self->priv->has_video = FALSE;
 	self->priv->has_audio = FALSE;
 	self->priv->video_fps_n = 0;
