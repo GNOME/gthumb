@@ -769,6 +769,7 @@ activate_open_with_application_item (GtkMenuItem *menuitem,
 		GthFileData *file_data = scan->data;
 		uris = g_list_prepend (uris, g_file_get_uri (file_data->file));
 	}
+	uris = g_list_reverse (uris);
 
 	appinfo = g_object_get_data (G_OBJECT (menuitem), "appinfo");
 	g_return_if_fail (G_IS_APP_INFO (appinfo));
