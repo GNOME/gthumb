@@ -4222,14 +4222,22 @@ file_metadata_ready_cb (GList    *files,
 			GError   *error,
 			gpointer  user_data)
 {
-	GthBrowser *browser = user_data;
+	GthBrowser  *browser = user_data;
+	GthFileData *file_data;
 
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), browser->priv->current_file);
-	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), browser->priv->current_file);
+	file_data = files->data;
+	if ((browser->priv->current_file == NULL) || ! g_file_equal (file_data->file, browser->priv->current_file->file))
+		file_data = NULL;
+
+	if (file_data == NULL)
+		return;
+
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->file_properties), file_data);
+	gth_sidebar_set_file (GTH_SIDEBAR (browser->priv->viewer_sidebar), file_data);
 	_gth_browser_update_statusbar_file_info (browser);
 
 	if (browser->priv->viewer_page != NULL)
-		gth_viewer_page_view (browser->priv->viewer_page, browser->priv->current_file);
+		gth_viewer_page_view (browser->priv->viewer_page, file_data);
 
 	gth_browser_update_title (browser);
 	gth_browser_update_sensitivity (browser);
@@ -4237,8 +4245,8 @@ file_metadata_ready_cb (GList    *files,
 	if (browser->priv->location == NULL) {
 		GFile *parent;
 
-		parent = g_file_get_parent (browser->priv->current_file->file);
-		_gth_browser_load (browser, parent, browser->priv->current_file->file, GTH_ACTION_GO_TO, FALSE);
+		parent = g_file_get_parent (file_data->file);
+		_gth_browser_load (browser, parent, file_data->file, GTH_ACTION_GO_TO, FALSE);
 		g_object_unref (parent);
 	}
 }
@@ -4378,14 +4386,14 @@ _gth_browser_load_file (GthBrowser  *browser,
 		gth_window_set_current_page (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER);
 	}
 
-	files = g_list_prepend (NULL, browser->priv->current_file);
+	files = g_list_prepend (NULL, gth_file_data_dup (browser->priv->current_file));
 	_g_query_metadata_async (files,
 				 "*",
 				 NULL,
 				 file_metadata_ready_cb,
 			 	 browser);
 
-	g_list_free (files);
+	_g_object_list_unref (files);
 }
 
 
