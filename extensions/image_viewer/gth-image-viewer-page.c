@@ -788,18 +788,7 @@ typedef struct {
 	gpointer            user_data;
 	GthFileData        *file_data;
 	GtkWidget          *file_sel;
-	GtkWidget          *format_chooser;
 } SaveAsData;
-
-
-typedef struct {
-	const char *type;
-	const char *extensions;
-	const char *default_ext;
-} Format;
-
-
-static GList *supported_formats = NULL;
 
 
 static void
@@ -816,12 +805,10 @@ save_as_response_cb (GtkDialog  *file_sel,
 		     int         response,
 		     SaveAsData *data)
 {
-	char   *filename;
-	int     n_format;
-	Format *format;
-	GFile  *file;
+	GFile      *file;
+	const char *mime_type;
 
-	if (response != GTK_RESPONSE_ACCEPT) {
+	if (response != GTK_RESPONSE_OK) {
 		if (data->func != NULL) {
 			(*data->func) ((GthViewerPage *) data->self,
 				       data->file_data,
@@ -832,19 +819,13 @@ save_as_response_cb (GtkDialog  *file_sel,
 		return;
 	}
 
-	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel));
-	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
-	g_free (filename);
-
-	if ((n_format < 1) || (n_format > g_list_length (supported_formats)))
+	if (! gth_file_chooser_dialog_get_file (GTH_FILE_CHOOSER_DIALOG (file_sel), &file, &mime_type))
 		return;
 
-	format = g_list_nth_data (supported_formats, n_format - 1);
-	file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (file_sel));
 	gth_file_data_set_file (data->file_data, file);
 	_gth_image_viewer_page_real_save ((GthViewerPage *) data->self,
 					  file,
-					  format->type,
+					  mime_type,
 					  data->func,
 					  data->user_data);
 	gtk_widget_destroy (GTK_WIDGET (data->file_sel));
@@ -854,132 +835,22 @@ save_as_response_cb (GtkDialog  *file_sel,
 
 
 static void
-format_chooser_selection_changed_cb (EggFileFormatChooser *self,
-				     SaveAsData           *data)
-{
-	char   *filename;
-	int     n_format;
-	Format *format;
-	char   *basename;
-	char   *basename_noext;
-	char   *new_basename;
-
-	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->file_sel));
-	n_format = egg_file_format_chooser_get_format (EGG_FILE_FORMAT_CHOOSER (data->format_chooser), filename);
-
-	if ((n_format < 1) || (n_format > g_list_length (supported_formats))) {
-		g_free (filename);
-		return;
-	}
-
-	format = g_list_nth_data (supported_formats, n_format - 1);
-	basename = g_path_get_basename (filename);
-	basename_noext = _g_uri_remove_extension (basename);
-	new_basename = g_strconcat (basename_noext, ".", format->default_ext, NULL);
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (data->file_sel), new_basename);
-
-	g_free (new_basename);
-	g_free (basename_noext);
-	g_free (basename);
-	g_free (filename);
-}
-
-
-static char *
-get_icon_name_for_type (const char *mime_type)
-{
-	char *name = NULL;
-
-	if (mime_type != NULL) {
-		char *s;
-
-		name = g_strconcat ("gnome-mime-", mime_type, NULL);
-		for (s = name; *s; ++s)
-			if (! g_ascii_isalpha (*s))
-				*s = '-';
-	}
-
-	if ((name == NULL) || ! gtk_icon_theme_has_icon (gtk_icon_theme_get_default (), name)) {
-		g_free (name);
-		name = g_strdup ("image-x-generic");
-	}
-
-	return name;
-}
-
-
-static void
 gth_image_viewer_page_real_save_as (GthViewerPage *base,
 				    FileSavedFunc  func,
 				    gpointer       user_data)
 {
-	GthImageViewerPage   *self;
-	GtkWidget            *file_sel;
-	char                 *uri;
-	EggFileFormatChooser *format_chooser;
-	SaveAsData           *data;
-	GList                *scan;
+	GthImageViewerPage *self;
+	GtkWidget          *file_sel;
+	char               *uri;
+	SaveAsData         *data;
 
 	self = GTH_IMAGE_VIEWER_PAGE (base);
-	file_sel = gtk_file_chooser_dialog_new (_("Save Image"),
+	file_sel = gth_file_chooser_dialog_new (_("Save Image"),
 						GTK_WINDOW (self->priv->browser),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-						GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
-						NULL);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (file_sel), TRUE);
-	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
+						"pixbuf-saver");
+
 	uri = g_file_get_uri (self->priv->file_data->file);
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
-
-	/**/
-
-	if (supported_formats == NULL) {
-		GArray *savers;
-		int     i;
-
-		savers = gth_main_get_type_set ("pixbuf-saver");
-		for (i = 0; (savers != NULL) && (i < savers->len); i++) {
-			GthPixbufSaver *pixbuf_saver;
-			Format         *format;
-
-			pixbuf_saver = g_object_new (g_array_index (savers, GType, i), NULL);
-			format = g_new (Format, 1);
-			format->type = g_strdup (gth_pixbuf_saver_get_mime_type (pixbuf_saver));
-			format->extensions = g_strdup (gth_pixbuf_saver_get_extensions (pixbuf_saver));
-			format->default_ext = g_strdup (gth_pixbuf_saver_get_default_ext (pixbuf_saver));
-			supported_formats = g_list_prepend (supported_formats, format);
-
-			g_object_unref (pixbuf_saver);
-		}
-	}
-
-	format_chooser = (EggFileFormatChooser *) egg_file_format_chooser_new ();
-	for (scan = supported_formats; scan != NULL; scan = scan->next) {
-		Format  *format = scan->data;
-		char    *icon_name;
-		char   **extensions;
-
-		icon_name = get_icon_name_for_type (format->type);
-		extensions = g_strsplit (format->extensions, " ", -1);
-		egg_file_format_chooser_add_format (format_chooser,
-						    0,
-						    g_content_type_get_description (format->type),
-						    icon_name,
-						    extensions[0],
-						    extensions[1],
-						    extensions[2],
-						    NULL);
-
-		g_strfreev (extensions);
-		g_free (icon_name);
-	}
-
-	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (file_sel),
-					   GTK_WIDGET (format_chooser));
-
-	/**/
 
 	data = g_new0 (SaveAsData, 1);
 	data->self = self;
@@ -987,7 +858,6 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 	data->file_data = gth_file_data_dup (self->priv->file_data);
 	data->user_data = user_data;
 	data->file_sel = file_sel;
-	data->format_chooser = (GtkWidget *) format_chooser;
 
 	g_signal_connect (GTK_DIALOG (file_sel),
 			  "response",
@@ -996,10 +866,6 @@ gth_image_viewer_page_real_save_as (GthViewerPage *base,
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy",
 			  G_CALLBACK (save_as_destroy_cb),
-			  data);
-	g_signal_connect (G_OBJECT (format_chooser),
-			  "selection-changed",
-			  G_CALLBACK (format_chooser_selection_changed_cb),
 			  data);
 
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (self->priv->browser));
@@ -1032,7 +898,7 @@ _gth_image_viewer_page_set_pixbuf (GthImageViewerPage *self,
 	g_file_info_set_attribute_int32 (file_data->info, "image::height", height);
 
 	size = g_strdup_printf ("%d x %d", width, height);
-	g_file_info_set_attribute_string (file_data->info, "image::size", size);
+	g_file_info_set_attribute_string (file_data->info, "general::size", size);
 
 	gth_monitor_metadata_changed (gth_main_get_default_monitor (), file_data);
 

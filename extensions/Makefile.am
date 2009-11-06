@@ -7,6 +7,7 @@ SUBDIRS = 			\
 	file_manager		\
 	file_tools		\
 	file_viewer		\
+	gstreamer		\
 	image_rotation		\
 	image_viewer		\
 	jpeg_utils		\

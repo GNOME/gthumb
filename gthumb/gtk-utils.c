@@ -587,20 +587,19 @@ _gtk_error_dialog_from_gerror_show (GtkWindow   *parent,
 {
 	GtkWidget *d;
 
-	g_return_if_fail (*gerror != NULL);
-
 	d = _gtk_message_dialog_new (parent,
 				     GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				     GTK_STOCK_DIALOG_ERROR,
 				     title,
-				     (*gerror)->message,
+				     (gerror != NULL) ? (*gerror)->message : NULL,
 				     GTK_STOCK_OK, GTK_RESPONSE_OK,
 				     NULL);
 	g_signal_connect (d, "response", G_CALLBACK (error_dialog_response_cb), NULL);
 
 	gtk_window_present (GTK_WINDOW (d));
 
-	g_clear_error (gerror);
+	if (gerror != NULL)
+		g_clear_error (gerror);
 }
 
 

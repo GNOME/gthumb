@@ -981,8 +981,6 @@ scroll_to (GthImageViewer *viewer,
 	GdkDrawable *drawable;
 	int          width, height;
 	int          delta_x, delta_y;
-	GdkEvent    *event;
-	gboolean     replay_animation;
 	int          gdk_width, gdk_height;
 
 	g_return_if_fail (viewer != NULL);

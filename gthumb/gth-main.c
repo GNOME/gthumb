@@ -39,6 +39,9 @@
 #include "typedefs.h"
 
 
+static GStaticMutex register_mutex = G_STATIC_MUTEX_INIT;
+
+
 typedef struct {
 	GType       object_type;
 	guint       n_params;
@@ -274,8 +277,12 @@ gth_main_register_file_source (GType file_source_type)
 {
 	GObject *file_source;
 
+	g_static_mutex_lock (&register_mutex);
+
 	file_source = g_object_new (file_source_type, NULL);
 	Main->priv->file_sources = g_list_append (Main->priv->file_sources, file_source);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -391,9 +398,13 @@ gth_main_register_metadata_category (GthMetadataCategory *metadata_category)
 {
 	int i;
 
+	g_static_mutex_lock (&register_mutex);
+
 	for (i = 0; metadata_category[i].id != NULL; i++)
 		if (gth_main_get_metadata_category (metadata_category[i].id) == NULL)
 			g_ptr_array_add (Main->priv->metadata_category, &metadata_category[i]);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -405,11 +416,12 @@ gth_main_register_metadata_info (GthMetadataInfo *metadata_info)
 {
 	GthMetadataInfo *info;
 
-	info = gth_metadata_info_dup (metadata_info);
-
 	g_static_mutex_lock (&metadata_info_mutex);
+
+	info = gth_metadata_info_dup (metadata_info);
 	g_ptr_array_add (Main->priv->metadata_info, info);
 	Main->priv->metadata_info_sorted = FALSE;
+
 	g_static_mutex_unlock (&metadata_info_mutex);
 
 	return info;
@@ -422,8 +434,10 @@ gth_main_register_metadata_info_v (GthMetadataInfo metadata_info[])
 	int i;
 
 	g_static_mutex_lock (&metadata_info_mutex);
+
 	for (i = 0; metadata_info[i].id != NULL; i++)
 		g_ptr_array_add (Main->priv->metadata_info, &metadata_info[i]);
+
 	g_static_mutex_unlock (&metadata_info_mutex);
 }
 
@@ -433,8 +447,12 @@ gth_main_register_metadata_provider (GType metadata_provider_type)
 {
 	GObject *metadata;
 
+	g_static_mutex_lock (&register_mutex);
+
 	metadata = g_object_new (metadata_provider_type, NULL);
 	Main->priv->metadata_provider = g_list_append (Main->priv->metadata_provider, metadata);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -568,7 +586,9 @@ gth_main_get_all_metadata_info (void)
 void
 gth_main_register_sort_type (GthFileDataSort *sort_type)
 {
+	g_static_mutex_lock (&register_mutex);
 	g_hash_table_insert (Main->priv->sort_types, (gpointer) sort_type->name, sort_type);
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -670,6 +690,8 @@ gth_main_register_file_loader (FileLoader  loader,
 	va_list     var_args;
 	const char *mime_type;
 
+	g_static_mutex_lock (&register_mutex);
+
 	va_start (var_args, first_mime_type);
 	mime_type = first_mime_type;
   	while (mime_type != NULL) {
@@ -677,6 +699,8 @@ gth_main_register_file_loader (FileLoader  loader,
 		mime_type = va_arg (var_args, const char *);
   	}
 	va_end (var_args);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -800,8 +824,12 @@ gth_main_register_viewer_page (GType viewer_page_type)
 {
 	GObject *viewer_page;
 
+	g_static_mutex_lock (&register_mutex);
+
 	viewer_page = g_object_new (viewer_page_type, NULL);
 	Main->priv->viewer_pages = g_list_prepend (Main->priv->viewer_pages, viewer_page);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -825,6 +853,8 @@ gth_main_register_type (const char *set_name,
 {
 	GArray *set;
 
+	g_static_mutex_lock (&register_mutex);
+
 	if (Main->priv->types == NULL)
 		Main->priv->types = g_hash_table_new_full (g_str_hash,
 							   g_str_equal,
@@ -838,6 +868,8 @@ gth_main_register_type (const char *set_name,
 	}
 
 	g_array_append_val (set, object_type);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -868,6 +900,8 @@ gth_main_register_object (GType       superclass_type,
 	va_list      var_args;
 	GthTypeSpec *spec;
 	char        *id;
+
+	g_static_mutex_lock (&register_mutex);
 
 	if (object_id == NULL)
 		object_id = g_type_name (object_type);
@@ -905,6 +939,8 @@ gth_main_register_object (GType       superclass_type,
 	id = g_strdup (object_id);
 	g_hash_table_insert (object_hash, id, spec);
 	g_ptr_array_add (object_order, id);
+
+	g_static_mutex_unlock (&register_mutex);
 }
 
 
@@ -1158,6 +1194,7 @@ gth_main_activate_extensions (void)
 						"exiv2",
 						"file_manager",
 						"file_tools",
+						"gstreamer",
 						"image_rotation",
 						"image_viewer",
 						"list_tools",

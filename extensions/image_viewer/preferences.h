@@ -37,4 +37,4 @@ void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
 						 GthBrowser *browser,
 						 GtkBuilder *builder);
 
-#endif /* CALLBACKS_H */
+#endif /* PREFERENCES_H */

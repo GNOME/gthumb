@@ -40,6 +40,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-embedded-dialog.h				\
 	gth-empty-list.h				\
 	gth-extensions.h				\
+	gth-file-chooser-dialog.h			\
 	gth-error.h					\
 	gth-file-data.h					\
 	gth-file-list.h					\
@@ -153,6 +154,7 @@ gthumb_SOURCES = 					\
 	gth-empty-list.c				\
 	gth-error.c					\
 	gth-extensions.c				\
+	gth-file-chooser-dialog.c			\
 	gth-file-data.c					\
 	gth-file-list.c					\
 	gth-file-properties.c				\
@@ -239,6 +241,7 @@ gthumb_LDADD =						\
 	$(JPEG_LIBS)					\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
+	$(GSTREAMER_LIBS)				\
 	$(NULL)	
 
 if RUN_IN_PLACE
