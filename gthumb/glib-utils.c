@@ -887,6 +887,25 @@ _g_utf8_all_spaces (const char *utf8_string)
 }
 
 
+char *
+_g_utf8_remove_extension (const char *str)
+{
+	char *p;
+	char *ext;
+	char *dest;
+
+	if ((str == NULL) || ! g_utf8_validate (str, -1, NULL))
+		return NULL;
+
+	p = (char *) str;
+	ext = g_utf8_strrchr (p, -1, g_utf8_get_char ("."));
+	dest = g_strdup (p);
+	g_utf8_strncpy (dest, p, g_utf8_strlen (p, -1) - g_utf8_strlen (ext, -1));
+
+	return dest;
+}
+
+
 GList *
 _g_list_insert_list_before (GList *list1,
 			    GList *sibling,
@@ -926,6 +945,7 @@ _g_list_insert_list_before (GList *list1,
 
 
 GHashTable *static_strings = NULL;
+static GStaticMutex static_strings_mutex = G_STATIC_MUTEX_INIT;
 
 
 const char *
@@ -936,6 +956,8 @@ get_static_string (const char *s)
 	if (s == NULL)
 		return NULL;
 
+	g_static_mutex_lock (&static_strings_mutex);
+
 	if (static_strings == NULL)
 		static_strings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
@@ -945,6 +967,8 @@ get_static_string (const char *s)
 				     (gpointer) result,
 				     GINT_TO_POINTER (1));
 	}
+
+	g_static_mutex_unlock (&static_strings_mutex);
 
 	return result;
 }

@@ -29,11 +29,13 @@
 #include <gthumb.h>
 #include "gstreamer-utils.h"
 #include "gth-media-viewer-page.h"
+#include "preferences.h"
 
 
 #define GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate))
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define PROGRESS_DELAY 500
+#define MAX_ATTEMPTS 1024
 
 
 struct _GthMediaViewerPagePrivate {
@@ -46,8 +48,14 @@ struct _GthMediaViewerPagePrivate {
 	GtkWidget      *area;
 	GtkWidget      *area_box;
 	gboolean        playing;
+	gboolean        paused;
+	gboolean        playing_before_screenshot;
 	gdouble         last_volume;
 	gint64          duration;
+	int             video_fps_n;
+	int             video_fps_d;
+	gboolean        has_video;
+	gboolean        has_audio;
 	gulong          update_progress_id;
 	gdouble         rate;
 	GtkWidget      *mediabar;
@@ -75,26 +83,148 @@ static const char *media_viewer_ui_info =
 "</ui>";
 
 
+typedef struct {
+	GthMediaViewerPage *self;
+	GdkPixbuf          *pixbuf;
+	GthFileData        *file_data;
+} SaveData;
+
+
+static void
+save_date_free (SaveData *save_data)
+{
+	_g_object_unref (save_data->file_data);
+	_g_object_unref (save_data->pixbuf);
+	g_free (save_data);
+}
+
+
+static void
+screenshot_saved_cb (GthFileData *file_data,
+		     GError      *error,
+		     gpointer     user_data)
+{
+	SaveData           *save_data = user_data;
+	GthMediaViewerPage *self = save_data->self;
+
+	if (error != NULL)
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not save the file"), &error);
+	else if (self->priv->playing_before_screenshot)
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+
+	save_date_free (save_data);
+}
+
+
+static void
+save_as_response_cb (GtkDialog  *file_sel,
+		     int         response,
+		     SaveData   *save_data)
+{
+	GFile       *file;
+	GFile       *folder;
+	char        *folder_uri;
+	const char  *mime_type;
+
+	if (response != GTK_RESPONSE_OK) {
+		GthMediaViewerPage *self = save_data->self;
+
+		if (self->priv->playing_before_screenshot)
+			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+		save_date_free (save_data);
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+		return;
+	}
+
+	if (! gth_file_chooser_dialog_get_file (GTH_FILE_CHOOSER_DIALOG (file_sel), &file, &mime_type))
+		return;
+
+	folder = g_file_get_parent (file);
+	folder_uri = g_file_get_uri (folder);
+	eel_gconf_set_string (PREF_GSTREAMER_SCREESHOT_LOCATION, folder_uri);
+
+	save_data->file_data = gth_file_data_new (file, NULL);
+	gth_file_data_set_mime_type (save_data->file_data, mime_type);
+	_gdk_pixbuf_save_async (save_data->pixbuf,
+				save_data->file_data,
+				mime_type,
+				screenshot_saved_cb,
+				save_data);
+
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
+
+	g_free (folder_uri);
+	g_object_unref (folder);
+	g_object_unref (file);
+}
+
+
 static void
 screenshot_ready_cb (GdkPixbuf *pixbuf,
 		     gpointer   user_data)
 {
 	GthMediaViewerPage *self = user_data;
-	GtkWidget          *image;
-	GtkWidget          *window;
+	SaveData           *save_data;
+	GtkWidget          *file_sel;
 
 	if (pixbuf == NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not take a screenshot"), NULL);
 		return;
 	}
 
-	image = gtk_image_new_from_pixbuf (pixbuf);
-	gtk_widget_show (image);
-	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_container_add (GTK_CONTAINER (window), image);
-	gtk_window_present (GTK_WINDOW (window));
+	save_data = g_new0 (SaveData, 1);
+	save_data->self = self;
+	save_data->pixbuf = pixbuf;
 
-	g_object_unref (pixbuf);
+	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (self->priv->browser), "pixbuf-saver");
+
+	{
+		char   *last_uri;
+		GFile  *last_folder;
+		char   *prefix;
+		char   *display_name;
+		int     attempt;
+
+		last_uri = eel_gconf_get_string (PREF_GSTREAMER_SCREESHOT_LOCATION, "~");
+		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0))
+			last_folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
+		else
+			last_folder = g_file_new_for_uri (last_uri);
+		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_sel), last_folder, NULL);
+
+		prefix = _g_utf8_remove_extension (g_file_info_get_display_name (self->priv->file_data->info));
+		if (prefix == NULL)
+			prefix = g_strdup (C_("Filename", "Screenshot"));
+		display_name = NULL;
+		for (attempt = 1; attempt < MAX_ATTEMPTS; attempt++) {
+			GFile *proposed_file;
+
+			g_free (display_name);
+
+			display_name = g_strdup_printf ("%s-%02d.jpeg", prefix, attempt);
+			proposed_file = g_file_get_child_for_display_name (last_folder, display_name, NULL);
+			if ((proposed_file != NULL) && ! g_file_query_exists (proposed_file, NULL)) {
+				g_object_unref (proposed_file);
+				break;
+			}
+		}
+
+		if (display_name != NULL) {
+			gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_sel), display_name);
+			g_free (display_name);
+		}
+
+		g_free (prefix);
+		g_object_unref (last_folder);
+		g_free (last_uri);
+	}
+
+	g_signal_connect (GTK_DIALOG (file_sel),
+			  "response",
+			  G_CALLBACK (save_as_response_cb),
+			  save_data);
+
+	gtk_widget_show (file_sel);
 }
 
 
@@ -105,9 +235,12 @@ media_viewer_activate_action_screenshot (GtkAction          *action,
 	if (self->priv->playbin == NULL)
 		return;
 
+	self->priv->playing_before_screenshot = self->priv->playing;
+	if (self->priv->playing)
+		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 	_gst_playbin_get_current_frame (self->priv->playbin,
-					0 /*self->priv->video_fps_n*/,
-					0 /*self->priv->video_fps_d*/,
+					self->priv->video_fps_n,
+					self->priv->video_fps_d,
 					screenshot_ready_cb,
 					self);
 }
@@ -191,22 +324,74 @@ volume_value_changed_cb (GtkAdjustment *adjustment,
 }
 
 
+static void position_value_changed_cb (GtkAdjustment *adjustment,
+				       gpointer       user_data);
+
+
+static void
+update_current_position_bar (GthMediaViewerPage *self,
+			     gboolean            update_progressbar)
+{
+	GstFormat format;
+        gint64    current_value = 0;
+
+        format = GST_FORMAT_TIME;
+        if (gst_element_query_position (self->priv->playbin, &format, &current_value)) {
+        	char *s;
+
+        	if (self->priv->duration <= 0) {
+        		gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
+        		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
+        		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
+
+        		g_free (s);
+        	}
+
+        	/*
+        	g_print ("==> %" G_GINT64_FORMAT " / %" G_GINT64_FORMAT " (%0.3g)\n" ,
+        		 current_value,
+        		 self->priv->duration,
+        		 ((double) current_value / self->priv->duration) * 100.0);
+		*/
+
+        	if (update_progressbar) {
+			g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
+			gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
+			g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
+        	}
+
+        	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
+        	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
+
+        	g_free (s);
+        }
+}
+
+
 static void
 position_value_changed_cb (GtkAdjustment *adjustment,
 			   gpointer       user_data)
 {
 	GthMediaViewerPage *self = user_data;
+	gint64              current_value;
+	char               *s;
 
 	if (self->priv->playbin == NULL)
 		return;
 
+	current_value = (gint64) (gtk_adjustment_get_value (adjustment) / 100.0 * self->priv->duration);
 	if (! gst_element_seek_simple (self->priv->playbin,
 				       GST_FORMAT_TIME,
 				       GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
-				       (gint64) (gtk_adjustment_get_value (adjustment) / 100.0 * self->priv->duration)))
+				       current_value))
 	{
 		g_warning ("seek failed");
 	}
+
+	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
+	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
+
+	g_free (s);
 }
 
 
@@ -252,7 +437,15 @@ button_play_clicked_cb (GtkButton *button,
 
 	if (self->priv->playbin == NULL)
 		return;
-	gst_element_set_state (self->priv->playbin, ! self->priv->playing ? GST_STATE_PLAYING : GST_STATE_PAUSED);
+	if (! self->priv->playing) {
+		if (! self->priv->paused) {
+			gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
+			gst_element_seek_simple (self->priv->playbin, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, 0);
+		}
+		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
+	}
+	else
+		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 }
 
 
@@ -320,43 +513,6 @@ update_volume_from_playbin (GthMediaViewerPage *self)
 }
 
 
-static void
-update_current_position_bar (GthMediaViewerPage *self)
-{
-	GstFormat format;
-        gint64    current_value = 0;
-
-        format = GST_FORMAT_TIME;
-        if (gst_element_query_position (self->priv->playbin, &format, &current_value)) {
-        	char *s;
-
-        	if (self->priv->duration <= 0) {
-        		gst_element_query_duration (self->priv->playbin, &format, &self->priv->duration);
-        		s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (self->priv->duration));
-        		gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_duration")), s);
-
-        		g_free (s);
-        	}
-
-        	/*
-        	g_print ("==> %" G_GINT64_FORMAT " / %" G_GINT64_FORMAT " (%0.3g)\n" ,
-        		 current_value,
-        		 self->priv->duration,
-        		 ((double) current_value / self->priv->duration) * 100.0);
-        	*/
-
-        	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
-        	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), (self->priv->duration > 0) ? ((double) current_value / self->priv->duration) * 100.0 : 0.0);
-        	g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
-
-        	s = _g_format_duration_for_display (GST_TIME_AS_MSECONDS (current_value));
-        	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("label_position")), s);
-
-        	g_free (s);
-        }
-}
-
-
 static gboolean
 update_progress_cb (gpointer user_data)
 {
@@ -367,7 +523,7 @@ update_progress_cb (gpointer user_data)
                 self->priv->update_progress_id = 0;
         }
 
-        update_current_position_bar (self);
+        update_current_position_bar (self, TRUE);
 
         self->priv->update_progress_id = gdk_threads_add_timeout (PROGRESS_DELAY, update_progress_cb, self);
 
@@ -549,6 +705,63 @@ reset_player_state (GthMediaViewerPage *self)
 
 
 static void
+update_stream_info (GthMediaViewerPage *self)
+{
+	GList  *streaminfo;
+	GstPad *videopad;
+
+	streaminfo = NULL;
+	videopad = NULL;
+
+	g_object_get (self->priv->playbin, "stream-info", &streaminfo, NULL);
+	streaminfo = g_list_copy (streaminfo);
+	g_list_foreach (streaminfo, (GFunc) g_object_ref, NULL);
+
+	for (/* void */ ; streaminfo; streaminfo = streaminfo->next) {
+		GObject    *info;
+		int         type;
+		GParamSpec *pspec;
+		GEnumValue *val;
+
+		info = streaminfo->data;
+		if (info == NULL)
+			continue;
+
+                type = -1;
+
+		g_object_get (info, "type", &type, NULL);
+		pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (info), "type");
+		val = g_enum_get_value (G_PARAM_SPEC_ENUM (pspec)->enum_class, type);
+
+		if (strcmp (val->value_nick, "audio") == 0) {
+			self->priv->has_audio = TRUE;
+		}
+		else if (strcmp (val->value_nick, "video") == 0) {
+			self->priv->has_video = TRUE;
+			if (videopad == NULL)
+				g_object_get (info, "object", &videopad, NULL);
+		}
+	}
+
+	if (videopad != NULL) {
+		GstCaps *caps;
+
+		if ((caps = gst_pad_get_negotiated_caps (videopad)) != NULL) {
+			GstStructure *structure;
+
+			structure = gst_caps_get_structure (caps, 0);
+			gst_structure_get_fraction (structure, "framerate", &self->priv->video_fps_n, &self->priv->video_fps_d);
+
+			gst_caps_unref (caps);
+		}
+	}
+
+	g_list_foreach (streaminfo, (GFunc) g_object_unref, NULL);
+	g_list_free (streaminfo);
+}
+
+
+static void
 bus_message_cb (GstBus     *bus,
                 GstMessage *message,
                 gpointer    user_data)
@@ -564,13 +777,19 @@ bus_message_cb (GstBus     *bus,
 		old_state = new_state = GST_STATE_NULL;
 		gst_message_parse_state_changed (message, &old_state, &new_state, &pending_state);
 
+		self->priv->paused = (new_state == GST_STATE_PAUSED);
+
 		if (old_state == new_state)
 			break;
 		if (GST_MESSAGE_SRC (message) != GST_OBJECT (self->priv->playbin))
 			break;
 
-		update_current_position_bar (self);
+		update_current_position_bar (self, TRUE);
 
+		if ((old_state == GST_STATE_READY) && (new_state == GST_STATE_PAUSED)) {
+			update_stream_info (self);
+			gth_viewer_page_update_sensitivity (GTH_VIEWER_PAGE (self));
+		}
 		if ((old_state == GST_STATE_READY) || (new_state == GST_STATE_PAUSED))
 			update_volume_from_playbin (self);
 		if ((old_state == GST_STATE_PLAYING) || (new_state == GST_STATE_PLAYING))
@@ -583,13 +802,12 @@ bus_message_cb (GstBus     *bus,
 
 		format = GST_FORMAT_TIME;
 		gst_message_parse_duration (message, &format, &self->priv->duration);
-		update_current_position_bar (self);
+		update_current_position_bar (self, TRUE);
 		break;
 	}
 
 	case GST_MESSAGE_EOS:
 		reset_player_state (self);
-		/*gst_element_set_state (self->priv->playbin, GST_STATE_READY);*/
 		break;
 
 	case GST_MESSAGE_BUFFERING: {
@@ -635,10 +853,9 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 
 	gth_viewer_page_focus (GTH_VIEWER_PAGE (self));
 
-	if (self->priv->playbin != NULL) {
-		gst_element_set_state (self->priv->playbin, GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT (self->priv->playbin));
-	}
+	if (self->priv->playbin != NULL)
+		return;
+
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
 	g_signal_connect (self->priv->playbin, "notify::volume", G_CALLBACK (playbin_notify_volume_cb), self);
 
@@ -813,12 +1030,26 @@ gth_media_viewer_page_real_show_pointer (GthViewerPage *base,
 
 
 static void
+set_action_sensitive (GthMediaViewerPage *self,
+		      const char         *action_name,
+		      gboolean            sensitive)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (self->priv->actions, action_name);
+	g_object_set (action, "sensitive", sensitive, NULL);
+}
+
+
+static void
 gth_media_viewer_page_real_update_sensitivity (GthViewerPage *base)
 {
 	GthMediaViewerPage *self = (GthMediaViewerPage *) base;
 
 	gtk_widget_set_sensitive (GET_WIDGET ("button_play_slower"), self->priv->playing);
 	gtk_widget_set_sensitive (GET_WIDGET ("button_play_faster"), self->priv->playing);
+
+	set_action_sensitive (self, "MediaViewer_Screenshot", self->priv->has_video);
 }
 
 
@@ -914,6 +1145,10 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 	self->priv = GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE (self);
 	self->priv->update_progress_id = 0;
 	self->priv->video_present = FALSE;
+	self->priv->has_video = FALSE;
+	self->priv->has_audio = FALSE;
+	self->priv->video_fps_n = 0;
+	self->priv->video_fps_d = 0;
 }
 
 

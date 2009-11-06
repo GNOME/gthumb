@@ -14,7 +14,8 @@ libgstreamer_la_SOURCES = 			\
 	gth-media-viewer-page.h			\
 	gth-metadata-provider-gstreamer.c	\
 	gth-metadata-provider-gstreamer.h	\
-	main.c
+	main.c					\
+	preferences.h
 
 libgstreamer_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(GSTREAMER_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libgstreamer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)

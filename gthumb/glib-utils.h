@@ -166,6 +166,7 @@ char **         _g_utf8_strsplit                 (const char *string,
 						  int         max_tokens);
 char *          _g_utf8_strstrip                 (const char  *str);
 gboolean        _g_utf8_all_spaces               (const char  *utf8_string);
+char *          _g_utf8_remove_extension         (const char  *str);
 GList *         _g_list_insert_list_before       (GList       *list1,
 						  GList       *sibling,
 						  GList       *list2);

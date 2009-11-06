@@ -23,18 +23,6 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#include <gthumb.h>
-
-#define  PREF_VIEWER_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
-#define  PREF_VIEWER_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
-#define  PREF_VIEWER_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
-#define  PREF_VIEWER_RESET_SCROLLBARS       "/apps/gthumb/viewer/reset_scrollbars"
-#define  PREF_VIEWER_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
-#define  PREF_VIEWER_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
-#define  PREF_VIEWER_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
-
-void image_viewer__dlg_preferences_construct_cb (GtkWidget  *dialog,
-						 GthBrowser *browser,
-						 GtkBuilder *builder);
+#define  PREF_GSTREAMER_SCREESHOT_LOCATION "/apps/gthumb/ext/gstreamer/screenshot_location"
 
 #endif /* PREFERENCES_H */
