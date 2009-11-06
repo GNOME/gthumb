@@ -111,6 +111,20 @@ extensions/file_viewer/file_viewer.extension.in.in
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
+extensions/gstreamer/data/gthumb-gstreamer.schemas.in
+[type: gettext/glade]extensions/gstreamer/data/ui/mediabar.ui
+[type: gettext/glade]extensions/gstreamer/data/ui/save-screenshot.ui
+extensions/gstreamer/gstreamer.extension.in.in
+extensions/gstreamer/gstreamer-utils.c
+extensions/gstreamer/gstreamer-utils.h
+extensions/gstreamer/gstscreenshot.c
+extensions/gstreamer/gstscreenshot.h
+extensions/gstreamer/gth-media-viewer-page.c
+extensions/gstreamer/gth-media-viewer-page.h
+extensions/gstreamer/gth-metadata-provider-gstreamer.c
+extensions/gstreamer/gth-metadata-provider-gstreamer.h
+extensions/gstreamer/main.c
+extensions/gstreamer/preferences.h
 extensions/image_rotation/actions.c
 extensions/image_rotation/actions.h
 extensions/image_rotation/callbacks.c
@@ -299,6 +313,8 @@ gthumb/gth-error.c
 gthumb/gth-error.h
 gthumb/gth-extensions.c
 gthumb/gth-extensions.h
+gthumb/gth-file-chooser-dialog.c
+gthumb/gth-file-chooser-dialog.h
 gthumb/gth-file-data.c
 gthumb/gth-file-data.h
 gthumb/gth-file-list.c
