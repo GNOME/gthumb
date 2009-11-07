@@ -6,6 +6,8 @@ extensiondir = $(libdir)/gthumb-2.0/extensions
 extension_LTLIBRARIES = libgstreamer.la
 
 libgstreamer_la_SOURCES = 			\
+	actions.c				\
+	actions.h				\
 	gstreamer-utils.c			\
 	gstreamer-utils.h			\
 	gstscreenshot.c				\

@@ -27,15 +27,14 @@
 #include <gst/gst.h>
 #include <gst/interfaces/xoverlay.h>
 #include <gthumb.h>
+#include "actions.h"
 #include "gstreamer-utils.h"
 #include "gth-media-viewer-page.h"
-#include "preferences.h"
 
 
 #define GTH_MEDIA_VIEWER_PAGE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), GTH_TYPE_MEDIA_VIEWER_PAGE, GthMediaViewerPagePrivate))
 #define GET_WIDGET(x) (_gtk_builder_get_widget (self->priv->builder, (x)))
 #define PROGRESS_DELAY 500
-#define MAX_ATTEMPTS 1024
 
 
 struct _GthMediaViewerPagePrivate {
@@ -49,7 +48,6 @@ struct _GthMediaViewerPagePrivate {
 	GtkWidget      *area_box;
 	gboolean        playing;
 	gboolean        paused;
-	gboolean        playing_before_screenshot;
 	gdouble         last_volume;
 	gint64          duration;
 	int             video_fps_n;
@@ -61,6 +59,8 @@ struct _GthMediaViewerPagePrivate {
 	GtkWidget      *mediabar;
 	GtkWidget      *fullscreen_toolbar;
 	gboolean        xwin_assigned;
+	GdkPixbuf      *icon;
+	PangoLayout    *caption_layout;
 };
 
 
@@ -83,175 +83,61 @@ static const char *media_viewer_ui_info =
 "</ui>";
 
 
-typedef struct {
-	GthMediaViewerPage *self;
-	GdkPixbuf          *pixbuf;
-	GthFileData        *file_data;
-} SaveData;
-
-
-static void
-save_date_free (SaveData *save_data)
-{
-	_g_object_unref (save_data->file_data);
-	_g_object_unref (save_data->pixbuf);
-	g_free (save_data);
-}
-
-
-static void
-screenshot_saved_cb (GthFileData *file_data,
-		     GError      *error,
-		     gpointer     user_data)
-{
-	SaveData           *save_data = user_data;
-	GthMediaViewerPage *self = save_data->self;
-
-	if (error != NULL)
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not save the file"), &error);
-	else if (self->priv->playing_before_screenshot)
-		gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
-
-	save_date_free (save_data);
-}
-
-
-static void
-save_as_response_cb (GtkDialog  *file_sel,
-		     int         response,
-		     SaveData   *save_data)
-{
-	GFile       *file;
-	GFile       *folder;
-	char        *folder_uri;
-	const char  *mime_type;
-
-	if (response != GTK_RESPONSE_OK) {
-		GthMediaViewerPage *self = save_data->self;
-
-		if (self->priv->playing_before_screenshot)
-			gst_element_set_state (self->priv->playbin, GST_STATE_PLAYING);
-		save_date_free (save_data);
-		gtk_widget_destroy (GTK_WIDGET (file_sel));
-		return;
-	}
-
-	if (! gth_file_chooser_dialog_get_file (GTH_FILE_CHOOSER_DIALOG (file_sel), &file, &mime_type))
-		return;
-
-	folder = g_file_get_parent (file);
-	folder_uri = g_file_get_uri (folder);
-	eel_gconf_set_string (PREF_GSTREAMER_SCREESHOT_LOCATION, folder_uri);
-
-	save_data->file_data = gth_file_data_new (file, NULL);
-	gth_file_data_set_mime_type (save_data->file_data, mime_type);
-	_gdk_pixbuf_save_async (save_data->pixbuf,
-				save_data->file_data,
-				mime_type,
-				screenshot_saved_cb,
-				save_data);
-
-	gtk_widget_destroy (GTK_WIDGET (file_sel));
-
-	g_free (folder_uri);
-	g_object_unref (folder);
-	g_object_unref (file);
-}
-
-
-static void
-screenshot_ready_cb (GdkPixbuf *pixbuf,
-		     gpointer   user_data)
-{
-	GthMediaViewerPage *self = user_data;
-	SaveData           *save_data;
-	GtkWidget          *file_sel;
-
-	if (pixbuf == NULL) {
-		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not take a screenshot"), NULL);
-		return;
-	}
-
-	save_data = g_new0 (SaveData, 1);
-	save_data->self = self;
-	save_data->pixbuf = pixbuf;
-
-	file_sel = gth_file_chooser_dialog_new (_("Save Image"), GTK_WINDOW (self->priv->browser), "pixbuf-saver");
-
-	{
-		char   *last_uri;
-		GFile  *last_folder;
-		char   *prefix;
-		char   *display_name;
-		int     attempt;
-
-		last_uri = eel_gconf_get_string (PREF_GSTREAMER_SCREESHOT_LOCATION, "~");
-		if ((last_uri == NULL) || (strcmp (last_uri, "~") == 0))
-			last_folder = g_file_new_for_path (g_get_user_special_dir (G_USER_DIRECTORY_DESKTOP));
-		else
-			last_folder = g_file_new_for_uri (last_uri);
-		gtk_file_chooser_set_current_folder_file (GTK_FILE_CHOOSER (file_sel), last_folder, NULL);
-
-		prefix = _g_utf8_remove_extension (g_file_info_get_display_name (self->priv->file_data->info));
-		if (prefix == NULL)
-			prefix = g_strdup (C_("Filename", "Screenshot"));
-		display_name = NULL;
-		for (attempt = 1; attempt < MAX_ATTEMPTS; attempt++) {
-			GFile *proposed_file;
-
-			g_free (display_name);
-
-			display_name = g_strdup_printf ("%s-%02d.jpeg", prefix, attempt);
-			proposed_file = g_file_get_child_for_display_name (last_folder, display_name, NULL);
-			if ((proposed_file != NULL) && ! g_file_query_exists (proposed_file, NULL)) {
-				g_object_unref (proposed_file);
-				break;
-			}
-		}
-
-		if (display_name != NULL) {
-			gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_sel), display_name);
-			g_free (display_name);
-		}
-
-		g_free (prefix);
-		g_object_unref (last_folder);
-		g_free (last_uri);
-	}
-
-	g_signal_connect (GTK_DIALOG (file_sel),
-			  "response",
-			  G_CALLBACK (save_as_response_cb),
-			  save_data);
-
-	gtk_widget_show (file_sel);
-}
-
-
-static void
-media_viewer_activate_action_screenshot (GtkAction          *action,
-				         GthMediaViewerPage *self)
-{
-	if (self->priv->playbin == NULL)
-		return;
-
-	self->priv->playing_before_screenshot = self->priv->playing;
-	if (self->priv->playing)
-		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
-	_gst_playbin_get_current_frame (self->priv->playbin,
-					self->priv->video_fps_n,
-					self->priv->video_fps_d,
-					screenshot_ready_cb,
-					self);
-}
-
-
 static GtkActionEntry media_viewer_action_entries[] = {
 	{ "MediaViewer_Screenshot", "camera-photo",
 	  N_("Screenshot"), NULL,
 	  N_("Take a screenshot"),
 	  G_CALLBACK (media_viewer_activate_action_screenshot) },
 };
+
+
+static void
+_gth_media_viewer_page_update_caption (GthMediaViewerPage *self)
+{
+	if (self->priv->caption_layout == NULL)
+		return;
+
+	if (self->priv->file_data != NULL) {
+		const char  *text;
+		GthMetadata *metadata;
+
+		text = NULL;
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (self->priv->file_data->info, "audio-video::general::title");
+		if (metadata != NULL)
+			text = gth_metadata_get_formatted (metadata);
+		else
+			text = g_file_info_get_display_name (self->priv->file_data->info);
+
+		if (text != NULL)
+			pango_layout_set_text (self->priv->caption_layout, text, -1);
+	}
+	else
+		pango_layout_set_text (self->priv->caption_layout, "", -1);
+
+	gtk_widget_queue_draw (GTK_WIDGET (self->priv->area));
+}
+
+
+static void
+video_area_realize_cb (GtkWidget *widget,
+		       gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	self->priv->caption_layout = gtk_widget_create_pango_layout (widget, "");
+	_gth_media_viewer_page_update_caption (self);
+}
+
+
+static void
+video_area_unrealize_cb (GtkWidget *widget,
+			 gpointer   user_data)
+{
+	GthMediaViewerPage *self = user_data;
+
+	g_object_unref (self->priv->caption_layout);
+	self->priv->caption_layout = NULL;
+}
 
 
 static gboolean
@@ -267,13 +153,63 @@ video_area_expose_event_cb (GtkWidget      *widget,
 	if (self->priv->xwin_assigned && self->priv->has_video)
 		return FALSE;
 
+	if (self->priv->icon == NULL) {
+		char  *type;
+		GIcon *icon;
+		int    size;
+
+		type = NULL;
+		if (self->priv->file_data != NULL)
+			type = g_content_type_from_mime_type (gth_file_data_get_mime_type (self->priv->file_data));
+		if (type == NULL)
+			type = g_content_type_from_mime_type ("text/plain");
+		icon = g_content_type_get_icon (type);
+		size = widget->allocation.width;
+		if (size > widget->allocation.height)
+			size = widget->allocation.height;
+		size = size / 3;
+		self->priv->icon = _g_icon_get_pixbuf (icon, size, gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)));
+
+		g_object_unref (icon);
+		g_free (type);
+	}
+
 	gdk_draw_rectangle (gtk_widget_get_window (widget),
-			    widget->style->black_gc,
+			    self->priv->has_video ? widget->style->black_gc : widget->style->text_gc[GTK_WIDGET_STATE (widget)],
 			    TRUE,
 			    event->area.x,
 			    event->area.y,
 			    event->area.width,
 			    event->area.height);
+
+	if (self->priv->icon != NULL) {
+		int            icon_w, icon_h;
+		int            icon_x, icon_y;
+		PangoRectangle logical_rect;
+		int            x, y;
+
+		icon_w = gdk_pixbuf_get_width (self->priv->icon);
+		icon_h = gdk_pixbuf_get_height (self->priv->icon);
+		pango_layout_set_width (self->priv->caption_layout, PANGO_SCALE * (icon_w * 3 / 2));
+		pango_layout_get_extents (self->priv->caption_layout, NULL, &logical_rect);
+		icon_x = (widget->allocation.width - icon_w) / 2;
+		x = (widget->allocation.width - PANGO_PIXELS (logical_rect.width)) / 2 + PANGO_PIXELS (logical_rect.x);
+		icon_y = (widget->allocation.height - (icon_h + PANGO_PIXELS (logical_rect.height))) / 2;
+		y = icon_y + icon_h;
+
+		gdk_draw_pixbuf (gtk_widget_get_window (widget),
+				 widget->style->base_gc[GTK_WIDGET_STATE (widget)],
+				 self->priv->icon,
+				 0, 0,
+				 icon_x, icon_y,
+				 icon_w, icon_h,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
+		gdk_draw_layout (gtk_widget_get_window (widget),
+				 widget->style->base_gc[GTK_WIDGET_STATE (widget)],
+				 x, y,
+				 self->priv->caption_layout);
+	}
 
 	return FALSE;
 }
@@ -597,6 +533,14 @@ gth_media_viewer_page_real_activate (GthViewerPage *base,
 	gtk_box_pack_start (GTK_BOX (self->priv->area_box), self->priv->area, TRUE, TRUE, 0);
 
 	g_signal_connect (G_OBJECT (self->priv->area),
+			  "realize",
+			  G_CALLBACK (video_area_realize_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->area),
+			  "unrealize",
+			  G_CALLBACK (video_area_unrealize_cb),
+			  self);
+	g_signal_connect (G_OBJECT (self->priv->area),
 			  "expose_event",
 			  G_CALLBACK (video_area_expose_event_cb),
 			  self);
@@ -697,7 +641,6 @@ reset_player_state (GthMediaViewerPage *self)
                 self->priv->update_progress_id = 0;
         }
 
-        /*self->priv->playing = TRUE;*/
 	update_play_button (self, GST_STATE_NULL);
 	self->priv->playing = FALSE;
 	self->priv->rate = 1.0;
@@ -857,6 +800,7 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 		return;
 
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
+	g_object_set (self->priv->playbin, "vis-plugin", gst_element_factory_make ("gloom", "vis"), NULL);
 	g_signal_connect (self->priv->playbin, "notify::volume", G_CALLBACK (playbin_notify_volume_cb), self);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
@@ -936,10 +880,20 @@ gth_media_viewer_page_real_view (GthViewerPage *base,
 		return;
 	}
 
+	/**/
+
 	_g_object_unref (self->priv->file_data);
 	self->priv->file_data = gth_file_data_dup (file_data);
 
 	self->priv->duration = 0;
+
+	_g_object_unref (self->priv->icon);
+	self->priv->icon = NULL;
+
+	_gth_media_viewer_page_update_caption (self);
+
+	/**/
+
 	g_signal_handlers_block_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
 	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("adjustment_position")), 0.0);
 	g_signal_handlers_unblock_by_func(GET_WIDGET ("adjustment_position"), position_value_changed_cb, self);
@@ -1103,6 +1057,7 @@ gth_media_viewer_page_finalize (GObject *obj)
 		gst_object_unref (GST_OBJECT (self->priv->playbin));
 		self->priv->playbin = NULL;
 	}
+	_g_object_unref (self->priv->icon);
 	_g_object_unref (self->priv->file_data);
 
 	G_OBJECT_CLASS (gth_media_viewer_page_parent_class)->finalize (obj);
@@ -1149,6 +1104,7 @@ gth_media_viewer_page_instance_init (GthMediaViewerPage *self)
 	self->priv->has_audio = FALSE;
 	self->priv->video_fps_n = 0;
 	self->priv->video_fps_d = 0;
+	self->priv->icon = NULL;
 }
 
 
@@ -1177,4 +1133,44 @@ gth_media_viewer_page_get_type (void) {
 		g_type_add_interface_static (gth_media_viewer_page_type_id, GTH_TYPE_VIEWER_PAGE, &gth_viewer_page_info);
 	}
 	return gth_media_viewer_page_type_id;
+}
+
+
+GthBrowser *
+gth_media_viewer_page_get_browser (GthMediaViewerPage *self)
+{
+	return self->priv->browser;
+}
+
+
+GstElement *
+gth_media_viewer_page_get_playbin (GthMediaViewerPage *self)
+{
+	return self->priv->playbin;
+}
+
+
+gboolean
+gth_media_viewer_page_is_playing (GthMediaViewerPage *self)
+{
+	return self->priv->playing;
+}
+
+
+void
+gth_media_viewer_page_get_video_fps (GthMediaViewerPage *self,
+				     int                *video_fps_n,
+				     int                *video_fps_d)
+{
+	if (video_fps_n != NULL)
+		*video_fps_n = self->priv->video_fps_n;
+	if (video_fps_d != NULL)
+		*video_fps_d = self->priv->video_fps_d;
+}
+
+
+GthFileData *
+gth_media_viewer_page_get_file_data (GthMediaViewerPage *self)
+{
+	return self->priv->file_data;
 }

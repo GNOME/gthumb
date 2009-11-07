@@ -23,6 +23,7 @@
 #ifndef GTH_MEDIA_VIEWER_PAGE_H
 #define GTH_MEDIA_VIEWER_PAGE_H
 
+#include <gst/gst.h>
 #include <gthumb.h>
 
 G_BEGIN_DECLS
@@ -47,7 +48,14 @@ struct _GthMediaViewerPageClass {
 	GObjectClass parent_class;
 };
 
-GType  gth_media_viewer_page_get_type (void);
+GType          gth_media_viewer_page_get_type      (void);
+GthBrowser *   gth_media_viewer_page_get_browser    (GthMediaViewerPage *self);
+GstElement *   gth_media_viewer_page_get_playbin    (GthMediaViewerPage *self);
+gboolean       gth_media_viewer_page_is_playing     (GthMediaViewerPage *self);
+void           gth_media_viewer_page_get_video_fps  (GthMediaViewerPage *self,
+						     int                *video_fps_n,
+						     int                *video_fps_d);
+GthFileData * gth_media_viewer_page_get_file_data   (GthMediaViewerPage *self);
 
 G_END_DECLS
 
