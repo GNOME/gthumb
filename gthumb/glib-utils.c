@@ -2260,7 +2260,8 @@ _g_mime_type_is_video (const char *mime_type)
 	g_return_val_if_fail (mime_type != NULL, FALSE);
 
 	return (g_content_type_is_a (mime_type, "video/*")
-		|| (strcmp (mime_type, "application/ogg") == 0));
+		|| (strcmp (mime_type, "application/ogg") == 0)
+		|| (strcmp (mime_type, "application/vnd.rn-realmedia") == 0));
 }
 
 
