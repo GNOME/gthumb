@@ -800,7 +800,6 @@ gth_media_viewer_page_real_show (GthViewerPage *base)
 		return;
 
 	self->priv->playbin = gst_element_factory_make ("playbin", "playbin");
-	g_object_set (self->priv->playbin, "vis-plugin", gst_element_factory_make ("gloom", "vis"), NULL);
 	g_signal_connect (self->priv->playbin, "notify::volume", G_CALLBACK (playbin_notify_volume_cb), self);
 
 	bus = gst_pipeline_get_bus (GST_PIPELINE (self->priv->playbin));
