@@ -111,6 +111,8 @@ extensions/file_viewer/file_viewer.extension.in.in
 extensions/file_viewer/gth-file-viewer-page.c
 extensions/file_viewer/gth-file-viewer-page.h
 extensions/file_viewer/main.c
+extensions/gstreamer/actions.c
+extensions/gstreamer/actions.h
 extensions/gstreamer/data/gthumb-gstreamer.schemas.in
 [type: gettext/glade]extensions/gstreamer/data/ui/mediabar.ui
 [type: gettext/glade]extensions/gstreamer/data/ui/save-screenshot.ui
