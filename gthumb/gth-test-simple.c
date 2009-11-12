@@ -428,31 +428,33 @@ test_string (GthTestSimple *test,
 	     const char    *value)
 {
 	gboolean  result = FALSE;
+	char     *value1;
 	char     *value2;
 
 	if ((test->priv->data.s == NULL) || (value == NULL))
 		return FALSE;
 
+	value1 = g_utf8_casefold (test->priv->data.s, -1);
 	value2 = g_utf8_casefold (value, -1);
 
 	switch (test->priv->op) {
 	case GTH_TEST_OP_EQUAL:
-		result = g_utf8_collate (value2, test->priv->data.s) == 0;
+		result = g_utf8_collate (value2, value1) == 0;
 		break;
 	case GTH_TEST_OP_LOWER:
-		result = g_utf8_collate (value2, test->priv->data.s) < 0;
+		result = g_utf8_collate (value2, value1) < 0;
 		break;
 	case GTH_TEST_OP_GREATER:
-		result = g_utf8_collate (value2, test->priv->data.s) > 0;
+		result = g_utf8_collate (value2, value1) > 0;
 		break;
 	case GTH_TEST_OP_CONTAINS:
-		result = g_strstr_len (value2, -1, test->priv->data.s) != NULL;
+		result = g_strstr_len (value2, -1, value1) != NULL;
 		break;
 	case GTH_TEST_OP_STARTS_WITH:
-		result = g_str_has_prefix (value2, test->priv->data.s);
+		result = g_str_has_prefix (value2, value1);
 		break;
 	case GTH_TEST_OP_ENDS_WITH:
-		result = g_str_has_suffix (value2, test->priv->data.s);
+		result = g_str_has_suffix (value2, value1);
 		break;
 	case GTH_TEST_OP_MATCHES:
 		if (test->priv->pattern == NULL)
@@ -464,6 +466,7 @@ test_string (GthTestSimple *test,
 	}
 
 	g_free (value2);
+	g_free (value1);
 
 	return result;
 }
