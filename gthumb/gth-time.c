@@ -214,7 +214,7 @@ gth_datetime_from_struct_tm (GthDateTime *dt,
 	else
 		gth_time_set_hms (dt->time, tm->tm_hour, tm->tm_min, tm->tm_sec, 0);
 
-	if (tm->tm_year < 0)
+	if ((tm->tm_year < 0) || (tm->tm_mday < 1) || (tm->tm_mday > 31) || (tm->tm_mon < 0) || (tm->tm_mon > 11))
 		g_date_clear (dt->date, 1);
 	else
 		g_date_set_dmy (dt->date, tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
