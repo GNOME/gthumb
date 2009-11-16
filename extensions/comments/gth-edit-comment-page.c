@@ -102,12 +102,12 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 		char *value;
 
 		value = gth_string_list_join (tags, ", ");
-		gtk_entry_set_text (GTK_ENTRY (self->priv->tags_entry), value);
+		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), value);
 
 		g_free (value);
 	}
 	else
-		gtk_entry_set_text (GTK_ENTRY (self->priv->tags_entry), "");
+		gth_tags_entry_set_text (GTH_TAGS_ENTRY (self->priv->tags_entry), "");
 
 	gtk_widget_grab_focus (GET_WIDGET ("note_text"));
 }
@@ -288,8 +288,6 @@ date_combobox_changed_cb (GtkComboBox *widget,
 static void
 gth_edit_comment_page_init (GthEditCommentPage *self)
 {
-	GtkWidget *expander;
-
 	self->priv = GTH_EDIT_COMMENT_PAGE_GET_PRIVATE (self);
 
 	gtk_container_set_border_width (GTK_CONTAINER (self), 12);
@@ -322,10 +320,6 @@ gth_edit_comment_page_init (GthEditCommentPage *self)
   	self->priv->tags_entry = gth_tags_entry_new ();
   	gtk_widget_show (self->priv->tags_entry);
   	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), self->priv->tags_entry, FALSE, FALSE, 0);
-
-  	expander = gth_tags_expander_new (GTK_ENTRY (self->priv->tags_entry));
-  	gtk_widget_show (expander);
-  	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tags_entry_container")), expander, TRUE, TRUE, 0);
 }
 
 

@@ -22,21 +22,51 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include "glib-utils.h"
 #include "gth-main.h"
 #include "gth-tags-entry.h"
 #include "gth-tags-file.h"
 
 
+#define EXPANDED_LIST_HEIGHT 160
+
+
 enum {
-	NAME_COLUMN,
-	N_COLUMNS
+	COMPLETION_NAME_COLUMN,
+	COMPLETION_N_COLUMNS
 };
 
 
+enum {
+	EXPANDED_LIST_USED_COLUMN,
+	EXPANDED_LIST_SEPARATOR_COLUMN,
+	EXPANDED_LIST_NAME_COLUMN,
+	EXPANDED_LIST_N_COLUMNS
+};
+
+
+typedef struct {
+	char     *name;
+	gboolean  used;
+	gboolean  suggested;
+} TagData;
+
+
+typedef struct  {
+	char         **last_used;
+	GtkWidget     *container;
+	GtkWidget     *tree_view;
+	GtkListStore  *store;
+} ExpandedList;
+
+
 struct _GthTagsEntryPrivate {
+	GtkWidget           *entry;
+	GtkWidget           *expand_button;
+	ExpandedList         expanded_list;
 	char               **tags;
 	GtkEntryCompletion  *completion;
-	GtkListStore        *store;
+	GtkListStore        *completion_store;
 	char                *new_tag;
 	gboolean             action_create;
 	gulong               monitor_event;
@@ -58,6 +88,7 @@ gth_tags_entry_finalize (GObject *obj)
 	g_free (self->priv->new_tag);
 	g_object_unref (self->priv->completion);
 	g_strfreev (self->priv->tags);
+	g_strfreev (self->priv->expanded_list.last_used);
 
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -87,8 +118,8 @@ get_tag_limits (GthTagsEntry  *self,
 	const char *tag_end;
 	const char *tmp_tag_end;
 
-	text = gtk_entry_get_text (GTK_ENTRY (self));
-	cursor_start = g_utf8_offset_to_pointer (text, gtk_editable_get_position (GTK_EDITABLE (self)));
+	text = gtk_entry_get_text (GTK_ENTRY (self->priv->entry));
+	cursor_start = g_utf8_offset_to_pointer (text, gtk_editable_get_position (GTK_EDITABLE (self->priv->entry)));
 
 	if (g_utf8_get_char (cursor_start) == ',') {
 		if (cursor_start != text + strlen (text))
@@ -139,11 +170,160 @@ can_create_tag (GthTagsEntry *self,
 }
 
 
+static int
+sort_tag_data (gconstpointer a,
+	       gconstpointer b,
+	       gpointer      user_data)
+{
+	TagData *tag_data_a = * (TagData **) a;
+	TagData *tag_data_b = * (TagData **) b;
+
+	if (tag_data_a->used && tag_data_b->used)
+		return g_utf8_collate (tag_data_a->name, tag_data_b->name);
+	else if (tag_data_a->used || tag_data_b->used)
+		return tag_data_a->used ? -1 : 1;
+	else if (tag_data_a->suggested && tag_data_b->suggested)
+		return g_utf8_collate (tag_data_a->name, tag_data_b->name);
+	else if (tag_data_a->suggested || tag_data_b->suggested)
+		return tag_data_a->suggested ? -1 : 1;
+	else
+		return g_utf8_collate (tag_data_a->name, tag_data_b->name);
+}
+
+
 static void
-text_changed_cb (GthTagsEntry *self)
+update_expanded_list_from_entry (GthTagsEntry *self)
+{
+	char        **all_tags;
+	char        **used_tags;
+	TagData     **tag_data;
+	int           i;
+	GtkTreeIter   iter;
+	gboolean      separator_required;
+
+	all_tags = g_strdupv (self->priv->tags);
+	used_tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (self), FALSE);
+
+	tag_data = g_new (TagData *, g_strv_length (all_tags) + 1);
+	for (i = 0; all_tags[i] != NULL; i++) {
+		int j;
+
+		tag_data[i] = g_new0 (TagData, 1);
+		tag_data[i]->name = g_strdup (all_tags[i]);
+		tag_data[i]->suggested = FALSE;
+		tag_data[i]->used = FALSE;
+		for (j = 0; ! tag_data[i]->used && (used_tags[j] != NULL); j++)
+			if (g_utf8_collate (tag_data[i]->name, used_tags[j]) == 0)
+				tag_data[i]->used = TRUE;
+
+		if (! tag_data[i]->used)
+			for (j = 0; ! tag_data[i]->suggested && (self->priv->expanded_list.last_used[j] != NULL); j++)
+				if (g_utf8_collate (tag_data[i]->name, self->priv->expanded_list.last_used[j]) == 0)
+					tag_data[i]->suggested = TRUE;
+	}
+	tag_data[i] = NULL;
+
+	g_qsort_with_data (tag_data,
+			   g_strv_length (all_tags),
+			   sizeof (TagData *),
+			   sort_tag_data,
+			   NULL);
+
+	gtk_list_store_clear (self->priv->expanded_list.store);
+
+	/* used */
+
+	separator_required = FALSE;
+	for (i = 0; tag_data[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		if (! tag_data[i]->used)
+			continue;
+
+		separator_required = TRUE;
+
+		gtk_list_store_append (self->priv->expanded_list.store, &iter);
+		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_USED_COLUMN, TRUE,
+				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
+				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
+				    -1);
+	}
+
+	if (separator_required) {
+		gtk_list_store_append (self->priv->expanded_list.store, &iter);
+		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
+				    EXPANDED_LIST_NAME_COLUMN, "",
+				    -1);
+	}
+
+	/* suggested */
+
+	separator_required = FALSE;
+	for (i = 0; tag_data[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		if (! tag_data[i]->suggested)
+			continue;
+
+		separator_required = TRUE;
+
+		gtk_list_store_append (self->priv->expanded_list.store, &iter);
+		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
+				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
+				    -1);
+	}
+
+	if (separator_required) {
+		gtk_list_store_append (self->priv->expanded_list.store, &iter);
+		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_SEPARATOR_COLUMN, TRUE,
+				    EXPANDED_LIST_NAME_COLUMN, "",
+				    -1);
+	}
+
+	/* others */
+
+	for (i = 0; tag_data[i] != NULL; i++) {
+		GtkTreeIter iter;
+
+		if (tag_data[i]->used || tag_data[i]->suggested)
+			continue;
+
+		gtk_list_store_append (self->priv->expanded_list.store, &iter);
+		gtk_list_store_set (self->priv->expanded_list.store, &iter,
+				    EXPANDED_LIST_USED_COLUMN, FALSE,
+				    EXPANDED_LIST_SEPARATOR_COLUMN, FALSE,
+				    EXPANDED_LIST_NAME_COLUMN, tag_data[i]->name,
+				    -1);
+	}
+
+	g_strfreev (self->priv->expanded_list.last_used);
+	self->priv->expanded_list.last_used = used_tags;
+
+	for (i = 0; tag_data[i] != NULL; i++) {
+		g_free (tag_data[i]->name);
+		g_free (tag_data[i]);
+	}
+	g_free (tag_data);
+	g_strfreev (all_tags);
+}
+
+
+static void
+text_changed_cb (GtkEntry     *entry,
+		 GParamSpec   *pspec,
+		 GthTagsEntry *self)
 {
 	const char *tag_start;
 	const char *tag_end;
+
+	g_return_if_fail (GTH_IS_TAGS_ENTRY (self));
 
 	g_free (self->priv->new_tag);
 	self->priv->new_tag = NULL;
@@ -169,6 +349,8 @@ text_changed_cb (GthTagsEntry *self)
 
 		g_free (action_text);
 	}
+
+	update_expanded_list_from_entry (self);
 }
 
 
@@ -188,8 +370,8 @@ match_func (GtkEntryCompletion *completion,
 	if (self->priv->new_tag[0] == '\0')
 		return TRUE;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (self->priv->store), iter,
-			    NAME_COLUMN, &name,
+	gtk_tree_model_get (GTK_TREE_MODEL (self->priv->completion_store), iter,
+			    COMPLETION_NAME_COLUMN, &name,
 			    -1);
 
 	if (name != NULL) {
@@ -229,7 +411,7 @@ completion_match_selected_cb (GtkEntryCompletion *widget,
 	char         *tag_name = NULL;
 
 	get_tag_limits (self, &tag_start, &tag_end);
-	text = gtk_entry_get_text (GTK_ENTRY (self));
+	text = gtk_entry_get_text (GTK_ENTRY (self->priv->entry));
 	head = g_strndup (text, tag_start - text);
 	head = g_strstrip (head);
 	if (tag_end[0] != '\0')
@@ -237,7 +419,7 @@ completion_match_selected_cb (GtkEntryCompletion *widget,
 	else
 		tail = tag_end;
 	gtk_tree_model_get (model, iter,
-			    NAME_COLUMN, &tag_name,
+			    COMPLETION_NAME_COLUMN, &tag_name,
 			    -1);
 
 	if (tag_name != NULL) {
@@ -249,8 +431,8 @@ completion_match_selected_cb (GtkEntryCompletion *widget,
 					", " /*(tail != tag_end ? ", " : "")*/,
 					tail,
 					NULL);
-		gtk_entry_set_text (GTK_ENTRY (self), new_text);
-		gtk_editable_set_position (GTK_EDITABLE (self), -1);
+		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), new_text);
+		gtk_editable_set_position (GTK_EDITABLE (self->priv->entry), -1);
 
 		g_free (new_text);
 		g_free (tag_name);
@@ -281,7 +463,7 @@ completion_action_activated_cb (GtkEntryCompletion *widget,
 		return;
 
 	get_tag_limits (self, &tag_start, &tag_end);
-	text = gtk_entry_get_text (GTK_ENTRY (self));
+	text = gtk_entry_get_text (GTK_ENTRY (self->priv->entry));
 	head = g_strndup (text, tag_start - text);
 	head = g_strstrip (head);
 	if (tag_end[0] != '\0')
@@ -297,8 +479,8 @@ completion_action_activated_cb (GtkEntryCompletion *widget,
 				tail,
 				NULL);
 
-	gtk_entry_set_text (GTK_ENTRY (self), new_text);
-	gtk_editable_set_position (GTK_EDITABLE (self), -1);
+	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), new_text);
+	gtk_editable_set_position (GTK_EDITABLE (self->priv->entry), -1);
 
 	tags_file = gth_main_get_default_tag_file ();
 	gth_tags_file_add (tags_file, tag_name);
@@ -311,7 +493,7 @@ completion_action_activated_cb (GtkEntryCompletion *widget,
 
 
 static void
-update_tag_list (GthTagsEntry *self)
+update_completion_list (GthTagsEntry *self)
 {
 	GthTagsFile *tags;
 	int          i;
@@ -324,19 +506,19 @@ update_tag_list (GthTagsEntry *self)
 	for (i = 0; self->priv->tags[i] != NULL; i++) {
 		GtkTreeIter iter;
 
-		gtk_list_store_append (self->priv->store, &iter);
-		gtk_list_store_set (self->priv->store, &iter,
-				    NAME_COLUMN, self->priv->tags[i],
+		gtk_list_store_append (self->priv->completion_store, &iter);
+		gtk_list_store_set (self->priv->completion_store, &iter,
+				    COMPLETION_NAME_COLUMN, self->priv->tags[i],
 				    -1);
 	}
 
-	gtk_list_store_clear (self->priv->store);
+	gtk_list_store_clear (self->priv->completion_store);
 	for (i = 0; self->priv->tags[i] != NULL; i++) {
 		GtkTreeIter iter;
 
-		gtk_list_store_append (self->priv->store, &iter);
-		gtk_list_store_set (self->priv->store, &iter,
-				    NAME_COLUMN, self->priv->tags[i],
+		gtk_list_store_append (self->priv->completion_store, &iter);
+		gtk_list_store_set (self->priv->completion_store, &iter,
+				    COMPLETION_NAME_COLUMN, self->priv->tags[i],
 				    -1);
 	}
 }
@@ -346,27 +528,158 @@ static void
 tags_changed_cb (GthMonitor   *monitor,
 		 GthTagsEntry *self)
 {
-	update_tag_list (self);
+	update_completion_list (self);
+	update_expanded_list_from_entry (self);
+}
+
+
+static void
+update_entry_from_expanded_list (GthTagsEntry *self)
+{
+	GtkTreeIter   iter;
+	GList        *name_list;
+	char        **tags;
+	GList        *scan;
+	int           i;
+
+	if (! gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->priv->expanded_list.store), &iter))
+		return;
+
+	name_list = NULL;
+	do {
+		char     *name;
+		gboolean  used;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (self->priv->expanded_list.store), &iter,
+				    EXPANDED_LIST_NAME_COLUMN, &name,
+				    EXPANDED_LIST_USED_COLUMN, &used,
+				    -1);
+
+		if (used)
+			name_list = g_list_prepend (name_list, name);
+		else
+			g_free (name);
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (self->priv->expanded_list.store), &iter));
+
+	name_list = g_list_reverse (name_list);
+	tags = g_new (char *, g_list_length (name_list) + 1);
+	for (i = 0, scan = name_list; scan; scan = scan->next)
+		tags[i++] = scan->data;
+	tags[i] = NULL;
+	gth_tags_entry_set_tags (GTH_TAGS_ENTRY (self), tags);
+
+	g_free (tags);
+	_g_string_list_free (name_list);
+}
+
+
+static void
+cell_renderer_toggle_toggled_cb (GtkCellRendererToggle *cell_renderer,
+				 char                  *path,
+                                 gpointer               user_data)
+{
+	GthTagsEntry *self = user_data;
+	GtkTreePath  *tpath;
+	GtkTreeModel *tree_model;
+	GtkTreeIter   iter;
+
+	tpath = gtk_tree_path_new_from_string (path);
+	if (tpath == NULL)
+		return;
+
+	tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (self->priv->expanded_list.tree_view));
+	if (gtk_tree_model_get_iter (tree_model, &iter, tpath)) {
+		gboolean used;
+
+		gtk_tree_model_get (tree_model, &iter,
+				    EXPANDED_LIST_USED_COLUMN, &used,
+				    -1);
+		gtk_list_store_set (GTK_LIST_STORE (tree_model), &iter,
+				    EXPANDED_LIST_USED_COLUMN, ! used,
+				    -1);
+	}
+
+	update_entry_from_expanded_list (self);
+
+	gtk_tree_path_free (tpath);
+}
+
+
+static void
+tag_list_unmap_cb (GtkWidget    *widget,
+		   GthTagsEntry *self)
+{
+	GtkWidget   *toplevel;
+        GdkGeometry  geometry;
+
+        toplevel = gtk_widget_get_toplevel (widget);
+        if (! GTK_WIDGET_TOPLEVEL (toplevel))
+        	return;
+
+        geometry.max_height = -1;
+        geometry.max_width = G_MAXINT;
+        gtk_window_set_geometry_hints (GTK_WINDOW (toplevel),
+				       toplevel,
+                                       &geometry,
+                                       GDK_HINT_MAX_SIZE);
+}
+
+
+static gboolean
+row_separator_func (GtkTreeModel *model,
+                    GtkTreeIter  *iter,
+                    gpointer      data)
+{
+	gboolean separator;
+
+	gtk_tree_model_get (model, iter, EXPANDED_LIST_SEPARATOR_COLUMN, &separator, -1);
+
+	return separator;
+}
+
+
+static void
+expand_button_toggled_cb (GtkToggleButton *button,
+			  gpointer         user_data)
+{
+	GthTagsEntry *self = user_data;
+
+	if (gtk_toggle_button_get_active (button))
+		gtk_widget_show (self->priv->expanded_list.container);
+	else
+		gtk_widget_hide (self->priv->expanded_list.container);
 }
 
 
 static void
 gth_tags_entry_instance_init (GthTagsEntry *self)
 {
+	GtkWidget         *hbox;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer   *renderer;
+
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_TAGS_ENTRY, GthTagsEntryPrivate);
+	self->priv->expanded_list.last_used = g_new0 (char *, 1);
+
+	gtk_box_set_spacing (GTK_BOX (self), 3);
+
+	/* entry / expander button box */
+
+	hbox = gtk_hbox_new (FALSE, 3);
+	gtk_widget_show (hbox);
+	gtk_box_pack_start (GTK_BOX (self), hbox, FALSE, FALSE, 0);
+
+	/* entry completion */
+
 	self->priv->completion = gtk_entry_completion_new ();
 	gtk_entry_completion_set_popup_completion (self->priv->completion, TRUE);
-	gtk_entry_set_completion (GTK_ENTRY (self), self->priv->completion);
-	self->priv->store = gtk_list_store_new (N_COLUMNS, G_TYPE_STRING);
-	gtk_entry_completion_set_model (self->priv->completion, GTK_TREE_MODEL (self->priv->store));
-	g_object_unref (self->priv->store);
-	gtk_entry_completion_set_text_column (self->priv->completion, NAME_COLUMN);
+	self->priv->completion_store = gtk_list_store_new (COMPLETION_N_COLUMNS, G_TYPE_STRING);
+	gtk_entry_completion_set_model (self->priv->completion, GTK_TREE_MODEL (self->priv->completion_store));
+	g_object_unref (self->priv->completion_store);
+	gtk_entry_completion_set_text_column (self->priv->completion, COMPLETION_NAME_COLUMN);
 	gtk_entry_completion_set_match_func (self->priv->completion, match_func, self, NULL);
 
-	g_signal_connect (self,
-			  "notify::text",
-			  G_CALLBACK (text_changed_cb),
-			  self);
 	g_signal_connect (self->priv->completion,
 			  "match-selected",
 			  G_CALLBACK (completion_match_selected_cb),
@@ -375,10 +688,84 @@ gth_tags_entry_instance_init (GthTagsEntry *self)
 			  "action-activated",
 			  G_CALLBACK (completion_action_activated_cb),
 			  self);
+
+	/* entry */
+
+	self->priv->entry = gtk_entry_new ();
+	gtk_entry_set_completion (GTK_ENTRY (self->priv->entry), self->priv->completion);
+	gtk_widget_show (self->priv->entry);
+	gtk_box_pack_start (GTK_BOX (hbox), self->priv->entry, TRUE, TRUE, 0);
+
+	/* expand button */
+
+	self->priv->expand_button = gtk_toggle_button_new ();
+	gtk_widget_set_tooltip_text (self->priv->expand_button, _("Show all the tags"));
+	gtk_container_add (GTK_CONTAINER (self->priv->expand_button), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
+	gtk_widget_show_all (self->priv->expand_button);
+	gtk_box_pack_start (GTK_BOX (hbox), self->priv->expand_button, FALSE, FALSE, 0);
+
+	g_signal_connect (self->priv->expand_button,
+			  "toggled",
+			  G_CALLBACK (expand_button_toggled_cb),
+			  self);
+
+	/* expanded list, the treeview */
+
+	self->priv->expanded_list.store = gtk_list_store_new (EXPANDED_LIST_N_COLUMNS, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING);
+	self->priv->expanded_list.tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (self->priv->expanded_list.store));
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (self->priv->expanded_list.tree_view), FALSE);
+	gtk_tree_view_set_row_separator_func (GTK_TREE_VIEW (self->priv->expanded_list.tree_view),
+					      row_separator_func,
+					      self,
+					      NULL);
+	g_object_unref (self->priv->expanded_list.store);
+
+	/* the checkbox column */
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (renderer,
+			  "toggled",
+			  G_CALLBACK (cell_renderer_toggle_toggled_cb),
+			  self);
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "active", EXPANDED_LIST_USED_COLUMN,
+					     NULL);
+
+	/* the name column. */
+
+	renderer = gtk_cell_renderer_text_new ();
+        gtk_tree_view_column_pack_start (column, renderer, TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", EXPANDED_LIST_NAME_COLUMN,
+                                             NULL);
+        gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (self->priv->expanded_list.tree_view), column);
+	gtk_widget_show (self->priv->expanded_list.tree_view);
+
+	/**/
+
+	self->priv->expanded_list.container = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
+							    "hadjustment", NULL,
+							    "vadjustment", NULL,
+							    "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
+							    "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
+							    "shadow_type", GTK_SHADOW_IN,
+							    NULL);
+	gtk_widget_set_size_request (self->priv->expanded_list.container, -1, EXPANDED_LIST_HEIGHT);
+	gtk_container_add (GTK_CONTAINER (self->priv->expanded_list.container), self->priv->expanded_list.tree_view);
+	g_signal_connect (self->priv->expanded_list.container, "unmap", G_CALLBACK (tag_list_unmap_cb), self);
+	gtk_box_pack_start (GTK_BOX (self), self->priv->expanded_list.container, TRUE, TRUE, 0);
+
 	self->priv->monitor_event = g_signal_connect (gth_main_get_default_monitor (),
 						      "tags-changed",
 						      G_CALLBACK (tags_changed_cb),
 						      self);
+	g_signal_connect (self->priv->entry,
+			  "notify::text",
+			  G_CALLBACK (text_changed_cb),
+			  self);
 }
 
 
@@ -400,7 +787,7 @@ gth_tags_entry_get_type (void)
 			(GInstanceInitFunc) gth_tags_entry_instance_init,
 			NULL
 		};
-		type = g_type_register_static (GTK_TYPE_ENTRY,
+		type = g_type_register_static (GTK_TYPE_VBOX,
 					       "GthTagsEntry",
 					       &g_define_type_info,
 					       0);
@@ -416,7 +803,8 @@ gth_tags_entry_new (void)
 	GthTagsEntry *self;
 
 	self = g_object_new (GTH_TYPE_TAGS_ENTRY, NULL);
-	update_tag_list (self);
+	update_completion_list (self);
+	update_expanded_list_from_entry (self);
 
 	return (GtkWidget *) self;
 }
@@ -434,7 +822,7 @@ gth_tags_entry_get_tags (GthTagsEntry *self,
 
 	tags_file = gth_main_get_default_tag_file ();
 
-	all_tags = g_strsplit (gtk_entry_get_text (GTK_ENTRY (self)), ",", -1);
+	all_tags = g_strsplit (gtk_entry_get_text (GTK_ENTRY (self->priv->entry)), ",", -1);
 	tags = g_new0 (char *, g_strv_length (all_tags) + 1);
 	for (i = 0, j = 0; all_tags[i] != NULL; i++) {
 		all_tags[i] = g_strstrip (all_tags[i]);
@@ -463,15 +851,20 @@ gth_tags_entry_set_tags (GthTagsEntry  *self,
 {
 	char *s;
 
-	if (tags == NULL)
-		return;
-
-	if (tags[0] == NULL) {
-		gtk_entry_set_text (GTK_ENTRY (self), "");
+	if ((tags == NULL) || (tags[0] == NULL)) {
+		gtk_entry_set_text (GTK_ENTRY (self->priv->entry), "");
 		return;
 	}
 
 	s = g_strjoinv(", ", tags);
-	gtk_entry_set_text (GTK_ENTRY (self), s);
+	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), s);
 	g_free (s);
+}
+
+
+void
+gth_tags_entry_set_text (GthTagsEntry *self,
+			 const char   *text)
+{
+	gtk_entry_set_text (GTK_ENTRY (self->priv->entry), text);
 }

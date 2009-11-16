@@ -39,12 +39,12 @@ typedef struct _GthTagsEntryClass GthTagsEntryClass;
 typedef struct _GthTagsEntryPrivate GthTagsEntryPrivate;
 
 struct _GthTagsEntry {
-	GtkEntry parent_instance;
+	GtkVBox parent_instance;
 	GthTagsEntryPrivate *priv;
 };
 
 struct _GthTagsEntryClass {
-	GtkEntryClass parent_class;
+	GtkVBoxClass parent_class;
 };
 
 GType        gth_tags_entry_get_type  (void);
@@ -53,6 +53,8 @@ char **      gth_tags_entry_get_tags  (GthTagsEntry  *self,
 				       gboolean       update_globals);
 void         gth_tags_entry_set_tags  (GthTagsEntry  *self,
 				       char         **tags);
+void         gth_tags_entry_set_text  (GthTagsEntry  *self,
+				       const char    *text);
 
 G_END_DECLS
 
