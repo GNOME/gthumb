@@ -830,6 +830,9 @@ gth_media_viewer_page_real_hide (GthViewerPage *base)
 		gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (self->priv->browser), self->priv->merge_id);
 		self->priv->merge_id = 0;
 	}
+
+	if ((self->priv->playbin != NULL) && self->priv->playing)
+		gst_element_set_state (self->priv->playbin, GST_STATE_PAUSED);
 }
 
 
