@@ -34,6 +34,7 @@ struct _GthImportTaskPrivate {
 	gboolean            single_subfolder;
 	char              **tags;
 	gboolean            delete_imported;
+	gboolean            overwrite_files;
 	gboolean            adjust_orientation;
 
 	gsize               tot_size;
@@ -237,22 +238,32 @@ file_info_ready_cb (GList    *files,
 		}
 	}
 
-	_g_object_unref (self->priv->destination_file);
-
 	destination_file = _g_file_get_destination (file_data->file, NULL, destination);
-	self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
-	_g_copy_file_async (file_data,
-			    destination_file,
-			    self->priv->delete_imported,
-			    G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS,
-			    G_PRIORITY_DEFAULT,
-			    gth_task_get_cancellable (GTH_TASK (self)),
-			    copy_progress_cb,
-			    self,
-			    copy_dialog_cb,
-			    self,
-			    copy_ready_cb,
-			    self);
+	if (self->priv->overwrite_files || ! g_file_query_exists (destination_file, NULL)) {
+		GFileCopyFlags copy_flags;
+
+		_g_object_unref (self->priv->destination_file);
+		self->priv->destination_file = gth_file_data_new (destination_file, file_data->info);
+
+		copy_flags = G_FILE_COPY_ALL_METADATA | G_FILE_COPY_TARGET_DEFAULT_PERMS;
+		if (self->priv->overwrite_files)
+			copy_flags |= G_FILE_COPY_OVERWRITE;
+
+		_g_copy_file_async (file_data,
+				    destination_file,
+				    self->priv->delete_imported,
+				    copy_flags,
+				    G_PRIORITY_DEFAULT,
+				    gth_task_get_cancellable (GTH_TASK (self)),
+				    copy_progress_cb,
+				    self,
+				    copy_dialog_cb,
+				    self,
+				    copy_ready_cb,
+				    self);
+	}
+	else
+		call_when_idle ((DataFunc) import_next_file, self);
 
 	g_object_unref (destination_file);
 	g_object_unref (destination);
@@ -361,6 +372,7 @@ gth_import_task_new (GthBrowser         *browser,
 		     gboolean            single_subfolder,
 		     char              **tags,
 		     gboolean            delete_imported,
+		     gboolean            overwrite_files,
 		     gboolean            adjust_orientation)
 {
 	GthImportTask *self;
@@ -374,6 +386,7 @@ gth_import_task_new (GthBrowser         *browser,
 	self->priv->single_subfolder = single_subfolder;
 	self->priv->tags = g_strdupv (tags);
 	self->priv->delete_imported = delete_imported;
+	self->priv->overwrite_files = overwrite_files;
 	self->priv->adjust_orientation = adjust_orientation;
 
 	return (GthTask *) self;

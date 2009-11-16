@@ -58,6 +58,7 @@ GthTask *   gth_import_task_new                    (GthBrowser         *browser,
 						    gboolean            single_subfolder,
 						    char              **tags,
 						    gboolean            delete_imported,
+						    gboolean            overwrite_files,
 						    gboolean            adjust_orientation);
 GFile *     gth_import_task_get_file_destination   (GthFileData        *file_data,
 					            GFile              *destination,

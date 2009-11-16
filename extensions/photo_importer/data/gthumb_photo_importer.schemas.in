@@ -67,6 +67,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ext/photo_importer/overwrite_files</key>
+	<applyto>/apps/gthumb/ext/photo_importer/overwrite_files</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ext/photo_importer/adjust_orientation</key>
 	<applyto>/apps/gthumb/ext/photo_importer/adjust_orientation</applyto>
 	<owner>gthumb</owner>

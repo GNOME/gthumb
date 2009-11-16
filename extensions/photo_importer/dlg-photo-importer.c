@@ -83,6 +83,7 @@ destroy_dialog (gpointer user_data)
 	GthSubfolderType    subfolder_type;
 	GthSubfolderFormat  subfolder_format;
 	gboolean            delete_imported;
+	gboolean            overwrite_files;
 	gboolean            adjust_orientation;
 
 	g_signal_handler_disconnect (gth_main_get_default_monitor (), data->monitor_event);
@@ -109,32 +110,47 @@ destroy_dialog (gpointer user_data)
 	delete_imported = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, delete_imported);
 
+	overwrite_files = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("overwrite_checkbutton")));
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_OVERWRITE, overwrite_files);
+
 	adjust_orientation = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")));
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, adjust_orientation);
 
 	if (data->import) {
-		GthFileStore  *file_store;
-		GList         *files;
-		char         **tags;
-		GthTask       *task;
+		GtkWidget *file_view;
+		GList     *items;
+		GList     *file_list;
 
-		file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
-		files = gth_file_store_get_checked (file_store);
-		tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (data->tags_entry), TRUE);
-		task = gth_import_task_new (data->browser,
-					    files,
-					    destination,
-					    subfolder_type,
-					    subfolder_format,
-					    single_subfolder,
-					    tags,
-					    delete_imported,
-					    adjust_orientation);
-		gth_browser_exec_task (data->browser, task, FALSE);
+		file_view = gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
+		items = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
+		if (items != NULL)
+			file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), items);
+		else
+			file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (file_view))));
 
-		g_strfreev (tags);
-		g_object_unref (task);
-		_g_object_list_unref (files);
+		if (file_list != NULL) {
+			char    **tags;
+			GthTask  *task;
+
+			tags = gth_tags_entry_get_tags (GTH_TAGS_ENTRY (data->tags_entry), TRUE);
+			task = gth_import_task_new (data->browser,
+						    file_list,
+						    destination,
+						    subfolder_type,
+						    subfolder_format,
+						    single_subfolder,
+						    tags,
+						    delete_imported,
+						    overwrite_files,
+						    adjust_orientation);
+			gth_browser_exec_task (data->browser, task, FALSE);
+
+			g_strfreev (tags);
+			g_object_unref (task);
+		}
+
+		_g_object_list_unref (file_list);
+		_gtk_tree_path_list_free (items);
 	}
 
 	_g_object_unref (destination);
@@ -218,7 +234,6 @@ update_sensitivity (DialogData *data)
 
 	can_import = data->source != NULL;
 	gtk_widget_set_sensitive (GET_WIDGET ("ok_button"), can_import);
-	gtk_widget_set_sensitive (GET_WIDGET ("list_command_box"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("source_selector_box"), can_import);
 	gtk_widget_set_sensitive (GET_WIDGET ("tags_box"), can_import);
 }
@@ -227,37 +242,54 @@ update_sensitivity (DialogData *data)
 static void
 update_status (DialogData *data)
 {
-	GthFileStore *file_store;
-	int           n_checked;
-	goffset       size;
-	GList        *checked;
-	GList        *scan;
-	char         *ssize;
-	char         *status;
+	GtkWidget *file_view;
+	int        n_selected;
+	goffset    size;
+	GList     *selected;
+	GList     *file_list;
+	GList     *scan;
+	char      *ssize;
+	char      *status;
 
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
+	file_view = gth_file_list_get_view (GTH_FILE_LIST (data->file_list));
+	selected = gth_file_selection_get_selected (GTH_FILE_SELECTION (file_view));
+	if (selected != NULL)
+		file_list = gth_file_list_get_files (GTH_FILE_LIST (data->file_list), selected);
+	else
+		file_list = gth_file_store_get_visibles (GTH_FILE_STORE (gth_file_view_get_model (GTH_FILE_VIEW (file_view))));
 
-	n_checked = 0;
+	n_selected = 0;
 	size = 0;
-	checked = gth_file_store_get_checked (file_store);
-	for (scan = checked; scan; scan = scan->next) {
+	for (scan = file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 
 		size += g_file_info_get_size (file_data->info);
-		n_checked += 1;
+		n_selected += 1;
 	}
 	ssize = g_format_size_for_display (size);
-	status = g_strdup_printf (_("Files: %d (%s)"), n_checked, ssize);
+	/* translators: %d is the number of files, %s the total size */
+	status = g_strdup_printf (_("Files to import: %d (%s)"), n_selected, ssize);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("status_label")), status);
 
 	g_free (status);
 	g_free (ssize);
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (selected);
 }
 
 
 static void
 file_store_changed_cb (GthFileStore *file_store,
 		       DialogData   *data)
+{
+	update_status (data);
+}
+
+
+static void
+file_view_selection_changed_cb (GtkIconView *iconview,
+				DialogData  *data)
 {
 	update_status (data);
 }
@@ -455,50 +487,6 @@ filter_combobox_changed_cb (GtkComboBox *widget,
 }
 
 
-static void
-select_all_button_clicked_cb (GtkButton  *button,
-			      DialogData *data)
-{
-	GthFileStore *file_store;
-	GtkTreeIter   iter;
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
-	if (gth_file_store_get_first (file_store, &iter)) {
-		do {
-			gth_file_store_queue_set (file_store,
-						  &iter,
-						  GTH_FILE_STORE_CHECKED_COLUMN, TRUE,
-						  -1);
-		}
-		while (gth_file_store_get_next (file_store, &iter));
-
-		gth_file_store_exec_set (file_store);
-	}
-}
-
-
-static void
-select_none_button_clicked_cb (GtkButton  *button,
-			       DialogData *data)
-{
-	GthFileStore *file_store;
-	GtkTreeIter   iter;
-
-	file_store = (GthFileStore *) gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))));
-	if (gth_file_store_get_first (file_store, &iter)) {
-		do {
-			gth_file_store_queue_set (file_store,
-						  &iter,
-						  GTH_FILE_STORE_CHECKED_COLUMN, FALSE,
-						  -1);
-		}
-		while (gth_file_store_get_next (file_store, &iter));
-
-		gth_file_store_exec_set (file_store);
-	}
-}
-
-
 static GthFileData *
 create_example_file_data (void)
 {
@@ -676,7 +664,7 @@ dlg_photo_importer (GthBrowser *browser,
 
 	/*gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("subfolder_label")), data->subfolder_type_list);*/
 
-	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_SELECTOR);
+	data->file_list = gth_file_list_new (GTH_FILE_LIST_TYPE_NORMAL);
 	sort_type = gth_main_get_sort_type ("file::mtime");
 	gth_file_list_set_sort_func (GTH_FILE_LIST (data->file_list), sort_type->cmp_func, FALSE);
 	gth_file_list_enable_thumbs (GTH_FILE_LIST (data->file_list), TRUE);
@@ -762,6 +750,7 @@ dlg_photo_importer (GthBrowser *browser,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("tags_label")), data->tags_entry);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("delete_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("overwrite_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_OVERWRITE, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("adjust_orientation_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("single_subfolder_checkbutton")), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_SUBFOLDER_SINGLE, TRUE));
 	subfolder_type = eel_gconf_get_enum (PREF_PHOTO_IMPORT_SUBFOLDER_TYPE, GTH_TYPE_SUBFOLDER_TYPE, GTH_SUBFOLDER_TYPE_FILE_DATE);
@@ -793,21 +782,13 @@ dlg_photo_importer (GthBrowser *browser,
 			  "changed",
 			  G_CALLBACK (filter_combobox_changed_cb),
 			  data);
-	g_signal_connect (GET_WIDGET ("select_all_button"),
-			  "clicked",
-			  G_CALLBACK (select_all_button_clicked_cb),
-			  data);
-	g_signal_connect (GET_WIDGET ("select_none_button"),
-			  "clicked",
-			  G_CALLBACK (select_none_button_clicked_cb),
-			  data);
 	g_signal_connect (gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list)))),
 			  "visibility_changed",
 			  G_CALLBACK (file_store_changed_cb),
 			  data);
-	g_signal_connect (gth_file_view_get_model (GTH_FILE_VIEW (gth_file_list_get_view (GTH_FILE_LIST (data->file_list)))),
-			  "check_changed",
-			  G_CALLBACK (file_store_changed_cb),
+	g_signal_connect (G_OBJECT (gth_file_list_get_view (GTH_FILE_LIST (data->file_list))),
+			  "selection_changed",
+			  G_CALLBACK (file_view_selection_changed_cb),
 			  data);
 	g_signal_connect (data->subfolder_type_list,
 			  "changed",
