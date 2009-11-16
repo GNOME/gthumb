@@ -2323,6 +2323,14 @@ filterbar_personalize_cb (GthFilterbar *filterbar,
 
 
 static void
+filterbar_close_button_clicked_cb (GthFilterbar *filterbar,
+				   GthBrowser   *browser)
+{
+	gth_browser_show_filterbar (browser, FALSE);
+}
+
+
+static void
 file_attributes_ready_cb (GthFileSource *file_source,
 			  GList         *files,
 			  GError        *error,
@@ -3406,6 +3414,10 @@ _gth_browser_construct (GthBrowser *browser)
 	g_signal_connect (browser->priv->filterbar,
 			  "personalize",
 			  G_CALLBACK (filterbar_personalize_cb),
+			  browser);
+	g_signal_connect (browser->priv->filterbar,
+			  "close_button_clicked",
+			  G_CALLBACK (filterbar_close_button_clicked_cb),
 			  browser);
 
 	/* the image preloader */
