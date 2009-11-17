@@ -56,7 +56,7 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 	g_free (value);
 
 	timeval_p = gth_file_data_get_modification_time (file_data);
-	value = _g_time_val_to_exif_date (timeval_p);
+	value = _g_time_val_strftime (timeval_p, "%x %X");
 	g_file_info_set_attribute_string (file_data->info, "gth::file::display-mtime", value);
 	g_free (value);
 

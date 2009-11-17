@@ -126,12 +126,16 @@ void performance (const char *file,
 
 /* GTimeVal utils */
 
+char *          struct_tm_strftime               (struct tm  *tm,
+						  const char *format);
 int             _g_time_val_cmp                  (GTimeVal   *a,
 	 					  GTimeVal   *b);
 void            _g_time_val_reset                (GTimeVal   *time_);
 gboolean        _g_time_val_from_exif_date       (const char *exif_date,
 						  GTimeVal   *time_);
 char *          _g_time_val_to_exif_date         (GTimeVal   *time_);
+char *          _g_time_val_strftime             (GTimeVal   *time_,
+						  const char *format);
 
 /* Bookmark file utils */
 

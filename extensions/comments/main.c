@@ -92,7 +92,11 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 		comment = gth_comment_new ();
 		gth_comment_set_note (comment, g_file_info_get_attribute_string (file_data->info, "comment::note"));
 		gth_comment_set_place (comment, g_file_info_get_attribute_string (file_data->info, "comment::place"));
-		gth_comment_set_time_from_exif_format (comment, g_file_info_get_attribute_string (file_data->info, "comment::time"));
+
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+		if (metadata != NULL)
+			gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+
 		keywords = gth_comment_get_categories (comment);
 		for (i = 0; i < keywords->len; i++)
 			gth_comment_add_category (comment, g_ptr_array_index (keywords, i));
@@ -117,12 +121,15 @@ comments__read_metadata_ready_cb (GthFileData *file_data,
 			}
 		}
 
-		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Date");
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
 		if (metadata != NULL) {
-			text = g_file_info_get_attribute_string (file_data->info, "comment::time");
-			if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
-				gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
-				write_comment = TRUE;
+			metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+			if (metadata != NULL) {
+				text = gth_metadata_get_raw (metadata);
+				if (g_strcmp0 (gth_metadata_get_raw (metadata), text) != 0) {
+					gth_comment_set_time_from_exif_format (comment, gth_metadata_get_raw (metadata));
+					write_comment = TRUE;
+				}
 			}
 		}
 

@@ -43,14 +43,15 @@ static gpointer parent_class = NULL;
 static void
 set_attribute_from_string (GFileInfo  *info,
 			   const char *key,
-			   const char *value)
+			   const char *value,
+			   const char *formatted)
 {
 	GthMetadata *metadata;
 
 	metadata = g_object_new (GTH_TYPE_METADATA,
 				 "id", key,
 				 "raw", value,
-				 "formatted", value,
+				 "formatted", (formatted != NULL ? formatted : value),
 				 NULL);
 	g_file_info_set_attribute_object (info, key, G_OBJECT (metadata));
 }
@@ -76,13 +77,13 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 	value = gth_comment_get_note (comment);
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::note", value);
-		set_attribute_from_string (file_data->info, "Embedded::Image::Comment", value);
+		set_attribute_from_string (file_data->info, "Embedded::Image::Comment", value, NULL);
 	}
 
 	value = gth_comment_get_place (comment);
 	if (value != NULL) {
 		g_file_info_set_attribute_string (file_data->info, "comment::place", value);
-		set_attribute_from_string (file_data->info, "Embedded::Image::Location", value);
+		set_attribute_from_string (file_data->info, "Embedded::Image::Location", value, NULL);
 	}
 
 	categories = gth_comment_get_categories (comment);
@@ -97,8 +98,17 @@ gth_metadata_provider_comment_read (GthMetadataProvider *self,
 
 	comment_time = gth_comment_get_time_as_exif_format (comment);
 	if (comment_time != NULL) {
-		g_file_info_set_attribute_string (file_data->info, "comment::time", comment_time);
-		set_attribute_from_string (file_data->info, "Embedded::Image::DateTime", comment_time);
+		GTimeVal  time_;
+		char     *formatted;
+
+		if (_g_time_val_from_exif_date (comment_time, &time_))
+			formatted = _g_time_val_strftime (&time_, "%x %X");
+		else
+			formatted = g_strdup (comment_time);
+		set_attribute_from_string (file_data->info, "comment::time", comment_time, formatted);
+		set_attribute_from_string (file_data->info, "Embedded::Image::DateTime", comment_time, formatted);
+
+		g_free (formatted);
 		g_free (comment_time);
 	}
 
@@ -143,11 +153,13 @@ gth_metadata_provider_comment_write (GthMetadataProvider *self,
 
 	/* time */
 
-	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::Date");
+	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
 	if (metadata == NULL)
-		text = g_file_info_get_attribute_string (file_data->info, "comment::time");
-	else
+		metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "comment::time");
+	if (metadata != NULL)
 		text = gth_metadata_get_raw (metadata);
+	else
+		text = NULL;
 	gth_comment_set_time_from_exif_format (comment, text);
 
 	/* keywords */

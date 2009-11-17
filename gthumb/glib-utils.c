@@ -332,6 +332,64 @@ performance (const char *file,
 /* GTimeVal utils */
 
 
+/* taken from the glib function g_date_strftime */
+char *
+struct_tm_strftime (struct tm   *tm,
+		    const char  *format)
+{
+	gsize   locale_format_len = 0;
+	char   *locale_format;
+	GError *error = NULL;
+	gsize   tmpbufsize;
+	char   *tmpbuf;
+	gsize   tmplen;
+	char   *retval;
+
+	locale_format = g_locale_from_utf8 (format, -1, NULL, &locale_format_len, &error);
+	if (error != NULL) {
+		g_warning (G_STRLOC "Error converting format to locale encoding: %s\n", error->message);
+		g_error_free (error);
+		return NULL;
+	}
+
+	tmpbufsize = MAX (128, locale_format_len * 2);
+	while (TRUE) {
+		tmpbuf = g_malloc (tmpbufsize);
+
+		/* Set the first byte to something other than '\0', to be able to
+		 * recognize whether strftime actually failed or just returned "".
+		 */
+		tmpbuf[0] = '\1';
+		tmplen = strftime (tmpbuf, tmpbufsize, locale_format, tm);
+
+		if ((tmplen == 0) && (tmpbuf[0] != '\0')) {
+			g_free (tmpbuf);
+			tmpbufsize *= 2;
+
+			if (tmpbufsize > 65536) {
+				g_warning (G_STRLOC "Maximum buffer size for gth_datetime_strftime exceeded: giving up\n");
+				g_free (locale_format);
+				return NULL;
+			}
+		}
+		else
+			break;
+	}
+	g_free (locale_format);
+
+	retval = g_locale_to_utf8 (tmpbuf, tmplen, NULL, NULL, &error);
+	if (error != NULL) {
+		g_warning (G_STRLOC "Error converting results of strftime to UTF-8: %s\n", error->message);
+		g_error_free (error);
+		return NULL;
+	}
+
+	g_free (tmpbuf);
+
+	return retval;
+}
+
+
 int
 _g_time_val_cmp (GTimeVal *a,
 		 GTimeVal *b)
@@ -455,7 +513,6 @@ _g_time_val_to_exif_date (GTimeVal *time_)
 
 	secs = time_->tv_sec;
 	tm = localtime (&secs);
-
 	retval = g_strdup_printf ("%4d:%02d:%02d %02d:%02d:%02d",
 				  tm->tm_year + 1900,
 				  tm->tm_mon + 1,
@@ -465,6 +522,19 @@ _g_time_val_to_exif_date (GTimeVal *time_)
 				  tm->tm_sec);
 
 	return retval;
+}
+
+
+char *
+_g_time_val_strftime (GTimeVal   *time_,
+		      const char *format)
+{
+	time_t     secs;
+	struct tm *tm;
+
+	secs = time_->tv_sec;
+	tm = localtime (&secs);
+	return struct_tm_strftime (tm, format);
 }
 
 

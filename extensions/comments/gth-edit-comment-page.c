@@ -88,7 +88,7 @@ gth_edit_comment_page_real_set_file (GthEditMetadataPage *base,
 	metadata = (GthMetadata *) g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
 	if (metadata != NULL) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->date_combobox), FOLLOWING_DATE);
-		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_formatted (metadata));
+		gth_time_selector_set_exif_date (GTH_TIME_SELECTOR (self->priv->date_selector), gth_metadata_get_raw (metadata));
 		/*gtk_widget_set_sensitive (self->priv->date_selector, TRUE);*/
 	}
 	else {
@@ -162,11 +162,11 @@ gth_edit_comment_page_real_update_info (GthEditMetadataPage *base,
 	gth_time_selector_get_value (GTH_TIME_SELECTOR (self->priv->date_selector), date_time);
 	exif_date = gth_datetime_to_exif_date (date_time);
 	metadata = g_object_new (GTH_TYPE_METADATA,
-				 "id", "Embedded::Image::Date",
+				 "id", "Embedded::Image::DateTime",
 				 "raw", exif_date,
 				 "formatted", exif_date,
 				 NULL);
-	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::Date", G_OBJECT (metadata));
+	g_file_info_set_attribute_object (self->priv->file_data->info, "Embedded::Image::DateTime", G_OBJECT (metadata));
 	g_object_unref (metadata);
 	gth_datetime_free (date_time);
 

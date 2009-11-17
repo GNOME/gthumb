@@ -122,6 +122,10 @@ gth_metadata_provider_exiv2_write (GthMetadataProvider *self,
 		g_object_unref (meta);
 	}
 
+	metadata = g_file_info_get_attribute_object (file_data->info, "Embedded::Image::DateTime");
+	if (metadata != NULL)
+		g_file_info_set_attribute_object (file_data->info, "Exif::Image::DateTime", metadata);
+
 	if (exiv2_write_metadata_to_buffer (&buffer,
 					    &size,
 					    file_data->info,

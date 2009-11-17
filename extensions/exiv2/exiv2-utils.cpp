@@ -167,6 +167,20 @@ exiv2_key_to_attribute (const char *key)
 }
 
 
+static gboolean
+attribute_is_date (const char *key)
+{
+	int i;
+
+	for (i = 0; _DATE_TAG_NAMES[i] != NULL; i++) {
+		if (strcmp (_DATE_TAG_NAMES[i], key) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 inline static void
 set_file_info (GFileInfo  *info,
 	       const char *key,
@@ -186,7 +200,16 @@ set_file_info (GFileInfo  *info,
 
 	attribute = exiv2_key_to_attribute (key);
 	description_utf8 = g_locale_to_utf8 (description, -1, NULL, NULL, NULL);
-	formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
+	if (attribute_is_date (attribute)) {
+		GTimeVal time_;
+
+		if (_g_time_val_from_exif_date (raw_value, &time_))
+			formatted_value_utf8 = _g_time_val_strftime (&time_, "%x %X");
+		else
+			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
+	}
+	else
+			formatted_value_utf8 = g_locale_to_utf8 (formatted_value, -1, NULL, NULL, NULL);
 
 /*
 g_print ("%s (%s): %s (%s)\n", key, description, formatted_value, raw_value);
@@ -614,11 +637,13 @@ exiv2_write_metadata_private (Exiv2::Image::AutoPtr  image,
 
 	// Update the DateTime tag
 
-	GTimeVal current_time;
-	g_get_current_time (&current_time);
-	char *date_time = _g_time_val_to_exif_date (&current_time);
-	ed["Exif.Image.DateTime"] = date_time;
-	g_free (date_time);
+	if (g_file_info_get_attribute_object (info, "Exif::Image::DateTime") == NULL) {
+		GTimeVal current_time;
+		g_get_current_time (&current_time);
+		char *date_time = _g_time_val_to_exif_date (&current_time);
+		ed["Exif.Image.DateTime"] = date_time;
+		g_free (date_time);
+	}
 
 	// IPTC Data
 

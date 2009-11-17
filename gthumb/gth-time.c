@@ -22,6 +22,7 @@
  
 #include <config.h>
 #include <stdlib.h>
+#include "glib-utils.h"
 #include "gth-time.h"
 
 
@@ -248,62 +249,12 @@ gth_datetime_to_struct_tm (GthDateTime *dt,
 }
 
 
-/* started from the glib function g_date_strftime */
 char *
 gth_datetime_strftime (GthDateTime *dt,
 		       const char  *format)
 {
-	gsize   locale_format_len = 0;
-	char   *locale_format;
-	GError *error = NULL;
-	struct  tm tm;	
-	gsize   tmpbufsize;
-	char   *tmpbuf;
-	gsize   tmplen;
-	char   *retval;
-		
-	locale_format = g_locale_from_utf8 (format, -1, NULL, &locale_format_len, &error);
-	if (error != NULL) {
-		g_warning (G_STRLOC "Error converting format to locale encoding: %s\n", error->message);
-		g_error_free (error);
-		return NULL;
-	}
+	struct  tm tm;
 
 	gth_datetime_to_struct_tm (dt, &tm);
-	tmpbufsize = MAX (128, locale_format_len * 2);
-	while (TRUE) {
-		tmpbuf = g_malloc (tmpbufsize);
-
-		/* Set the first byte to something other than '\0', to be able to
-		 * recognize whether strftime actually failed or just returned "".
-		 */
-		tmpbuf[0] = '\1';
-		tmplen = strftime (tmpbuf, tmpbufsize, locale_format, &tm);
-
-		if ((tmplen == 0) && (tmpbuf[0] != '\0')) {
-			g_free (tmpbuf);
-			tmpbufsize *= 2;
-
-			if (tmpbufsize > 65536) {
-				g_warning (G_STRLOC "Maximum buffer size for gth_datetime_strftime exceeded: giving up\n");
-				g_free (locale_format);
-				return NULL;
-			}
-		}
-		else
-			break;
-	}
-	g_free (locale_format);
-
-	retval = g_locale_to_utf8 (tmpbuf, tmplen, NULL, NULL, &error);
-	if (error != NULL) {
-		g_warning (G_STRLOC "Error converting results of strftime to UTF-8: %s\n", error->message);
-		g_error_free (error);
-		return NULL;
-	}
-
-	g_free (tmpbuf);
-
-	return retval;
+	return struct_tm_strftime (&tm, format);
 }
-
