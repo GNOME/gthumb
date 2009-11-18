@@ -1195,6 +1195,7 @@ gth_main_activate_extensions (void)
 						"file_manager",
 						"file_tools",
 						"gstreamer",
+						"image_print",
 						"image_rotation",
 						"image_viewer",
 						"list_tools",
