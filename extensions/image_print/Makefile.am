@@ -8,8 +8,12 @@ libimage_print_la_SOURCES = 		\
 	actions.h			\
 	callbacks.c			\
 	callbacks.h			\
+	gth-image-info.c		\
+	gth-image-info.h		\
 	gth-image-print-job.c		\
 	gth-image-print-job.h		\
+	gth-load-image-info-task.c	\
+	gth-load-image-info-task.h	\
 	main.c
 
 libimage_print_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 

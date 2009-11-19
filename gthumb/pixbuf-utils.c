@@ -81,6 +81,49 @@ _gdk_pixbuf_transform (GdkPixbuf    *src,
 
 
 void
+_gdk_pixbuf_colorshift (GdkPixbuf *dest,
+			GdkPixbuf *src,
+			int        shift)
+{
+	int     i, j;
+	int     width, height, has_alpha, srcrowstride, destrowstride;
+	guchar *target_pixels;
+	guchar *original_pixels;
+	guchar *pixsrc;
+	guchar *pixdest;
+	int     val;
+	guchar  r,g,b;
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	srcrowstride    = gdk_pixbuf_get_rowstride (src);
+	destrowstride   = gdk_pixbuf_get_rowstride (dest);
+	target_pixels   = gdk_pixbuf_get_pixels (dest);
+	original_pixels = gdk_pixbuf_get_pixels (src);
+
+	for (i = 0; i < height; i++) {
+		pixdest = target_pixels + i*destrowstride;
+		pixsrc  = original_pixels + i*srcrowstride;
+		for (j = 0; j < width; j++) {
+			r            = *(pixsrc++);
+			g            = *(pixsrc++);
+			b            = *(pixsrc++);
+			val          = r + shift;
+			*(pixdest++) = CLAMP (val, 0, 255);
+			val          = g + shift;
+			*(pixdest++) = CLAMP (val, 0, 255);
+			val          = b + shift;
+			*(pixdest++) = CLAMP (val, 0, 255);
+
+			if (has_alpha)
+				*(pixdest++) = *(pixsrc++);
+		}
+	}
+}
+
+
+void
 pixmap_from_xpm (const char **data,
 		 GdkPixmap **pixmap,
 		 GdkBitmap **mask)

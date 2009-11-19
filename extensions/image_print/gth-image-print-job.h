@@ -24,6 +24,7 @@
 #define GTH_IMAGE_PRINT_JOB_H
 
 #include <gtk/gtk.h>
+#include <gthumb.h>
 
 G_BEGIN_DECLS
 
@@ -48,10 +49,10 @@ struct _GthImagePrintJobClass {
 };
 
 GType              gth_image_print_job_get_type (void);
-GthImagePrintJob * gth_image_print_job_new      (void);
+GthImagePrintJob * gth_image_print_job_new      (GList                   *file_data_list);
 void               gth_image_print_job_run      (GthImagePrintJob        *self,
 						 GtkPrintOperationAction  action,
-						 GtkWindow               *parent);
+						 GthBrowser              *browser);
 
 G_END_DECLS
 

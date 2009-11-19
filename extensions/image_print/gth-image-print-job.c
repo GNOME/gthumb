@@ -21,10 +21,13 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "gth-image-info.h"
 #include "gth-image-print-job.h"
+#include "gth-load-image-info-task.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
@@ -33,77 +36,29 @@
 static gpointer parent_class = NULL;
 
 
-typedef struct {
-	GthFileData *file_data;
-	char        *comment;
-	int          pixbuf_width;
-	int          pixbuf_height;
-	GdkPixbuf   *thumbnail;
-	GdkPixbuf   *thumbnail_active;
-	double       width, height;
-	double       scale_x, scale_y;
-	double       trans_x, trans_y;
-	int          rotate;
-	double       zoom;
-	double       min_x, min_y;
-	double       max_x, max_y;
-	double       comment_height;
-	gboolean     print_comment;
-} ImageInfo;
-
-
-static ImageInfo *
-image_info_new (GthFileData *file_data)
-{
-	ImageInfo *image = g_new0 (ImageInfo, 1);
-
-	image->file_data = g_object_ref (file_data);
-	image->comment = NULL;
-	image->thumbnail = NULL;
-	image->thumbnail_active = NULL;
-	image->width = 0.0;
-	image->height = 0.0;
-	image->scale_x = 0.0;
-	image->scale_y = 0.0;
-	image->trans_x = 0.0;
-	image->trans_y = 0.0;
-	image->rotate = 0;
-	image->zoom = 0.0;
-	image->min_x = 0.0;
-	image->min_y = 0.0;
-	image->max_x = 0.0;
-	image->max_y = 0.0;
-	image->comment_height = 0.0;
-	image->print_comment = FALSE;
-
-	return image;
-}
-
-
-static void
-image_info_free (ImageInfo *image)
-{
-	g_return_if_fail (image != NULL);
-
-	g_object_unref (image->file_data);
-	g_free (image->comment);
-	_g_object_unref (image->thumbnail);
-	_g_object_unref (image->thumbnail_active);
-	g_free (image);
-}
-
-
-
 struct _GthImagePrintJobPrivate {
-	GtkWindow          *parent;
+	GtkPrintOperationAction  action;
+	GthBrowser         *browser;
 	GtkPrintOperation  *print_operation;
 	GtkBuilder         *builder;
-	ImageInfo         **images;
+
+	/* settings */
+
+	GthImageInfo      **images;
 	int                 n_images;
-	int                 images_per_page;
+	int                 requested_images_per_page;
 	gboolean	    auto_sizing;
+	int                 image_width;
+	int                 image_height;
+	GtkPageSetup       *page_setup;
+
+	/* layout info */
+
+	GthTask            *task;
+	int                 real_images_per_page;
 	double              max_image_width;
 	double		    max_image_height;
+	int                 n_pages;
 };
 
 
@@ -115,11 +70,13 @@ gth_image_print_job_finalize (GObject *base)
 
 	self = GTH_IMAGE_PRINT_JOB (base);
 
+	_g_object_unref (self->priv->task);
 	_g_object_unref (self->priv->print_operation);
 	_g_object_unref (self->priv->builder);
 	for (i = 0; i < self->priv->n_images; i++)
-		image_info_free (self->priv->images[i]);
+		gth_image_info_unref (self->priv->images[i]);
 	g_free (self->priv->images);
+	_g_object_unref (self->priv->page_setup);
 
 	G_OBJECT_CLASS (parent_class)->finalize (base);
 }
@@ -143,6 +100,8 @@ gth_image_print_job_init (GthImagePrintJob *self)
 {
 	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GTH_TYPE_IMAGE_PRINT_JOB, GthImagePrintJobPrivate);
 	self->priv->builder = NULL;
+	self->priv->task = NULL;
+	self->priv->page_setup = NULL;
 }
 
 
@@ -202,22 +161,180 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 				   GtkPrintSettings  *settings,
 				   gpointer           user_data)
 {
-	/* FIXME */
+}
+
+
+enum {
+	IMAGES_PER_PAGE_1,
+	IMAGES_PER_PAGE_2,
+	IMAGES_PER_PAGE_4,
+	IMAGES_PER_PAGE_8,
+	IMAGES_PER_PAGE_16,
+	N_IMAGES_PER_PAGE
+};
+static int n_rows_for_ipp[N_IMAGES_PER_PAGE] = { 1, 2, 2, 4, 4 };
+static int n_cols_for_ipp[N_IMAGES_PER_PAGE] = { 1, 1, 2, 2, 4 };
+#define DEFAULT_PADDING 20.0
+
+
+static double
+_log2 (double x)
+{
+	return log (x) / log (2);
 }
 
 
 static void
 print_operation_begin_print_cb (GtkPrintOperation *operation,
 				GtkPrintContext   *context,
-				GthImagePrintJob  *self)
+				gpointer           user_data)
 {
-	gtk_print_operation_set_n_pages (operation, 1);
+	GthImagePrintJob *self = user_data;
+	GtkPageSetup     *setup;
+	gdouble           page_width;
+	gdouble           page_height;
+	double            x_padding;
+	double            y_padding;
+	int               rows;
+	int               cols;
+	int               current_page;
+	int               current_row;
+	int               current_col;
+	int               i;
 
-	/* FIXME
-	gtk_print_operation_set_n_pages (operation, (pci->n_images + pci->images_per_page - 1) / pci->images_per_page);
-	gtk_print_operation_set_default_page_setup (operation, pci->page_setup);
-	gtk_print_operation_set_show_progress (operation, TRUE);
-	*/
+	setup = gtk_print_context_get_page_setup (context);
+	page_width = gtk_print_context_get_width (context);
+	page_height = gtk_print_context_get_height (context);
+	x_padding = DEFAULT_PADDING;
+	y_padding = DEFAULT_PADDING;
+
+	if (self->priv->auto_sizing) {
+		int idx;
+
+		self->priv->real_images_per_page = self->priv->requested_images_per_page;
+
+		idx = (int) floor (_log2 (self->priv->real_images_per_page) + 0.5);
+		rows = n_rows_for_ipp[idx];
+		cols = n_cols_for_ipp[idx];
+		if ((gtk_page_setup_get_orientation (setup) == GTK_PAGE_ORIENTATION_LANDSCAPE)
+		    || (gtk_page_setup_get_orientation (setup) == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
+		{
+			int tmp = rows;
+			rows = cols;
+			cols = tmp;
+		}
+
+		self->priv->max_image_width = (page_width - ((cols - 1) * x_padding)) / cols;
+		self->priv->max_image_height = (page_height - ((rows - 1) * y_padding)) / rows;
+	}
+	else {
+		double image_width;
+		double image_height;
+		double tmp_cols;
+		double tmp_rows;
+
+		image_width = self->priv->image_width;
+		image_height = self->priv->image_height;
+		tmp_cols = (int) floor ((page_width + x_padding) / (image_height + x_padding));
+		tmp_rows = (int) floor ((page_height + y_padding) / (image_width + y_padding));
+		cols = (int) floor ((page_width + x_padding) / (image_width + x_padding));
+		rows = (int) floor ((page_height + y_padding) / (image_height + y_padding));
+
+		if ((tmp_rows * tmp_cols > cols * rows)
+		    && (image_height <= page_width)
+		    && (image_width <= page_width))
+		{
+			double tmp = image_width;
+			image_width = image_height;
+			image_height = tmp;
+			rows = tmp_rows;
+			cols = tmp_cols;
+		}
+
+		if (rows == 0) {
+			rows = 1;
+			image_height = page_height - y_padding;
+		}
+
+		if (cols == 0) {
+			cols = 1;
+			image_width = page_width - x_padding;
+		}
+
+		self->priv->real_images_per_page = rows * cols;
+
+		if (cols > 1)
+			x_padding = (page_width - (cols * image_width)) / (cols - 1);
+		else
+			x_padding = page_width - image_width;
+
+		if (rows > 1)
+			y_padding = (page_height - (rows * image_height)) / (rows - 1);
+		else
+			y_padding = page_height - image_height;
+
+		self->priv->max_image_width = image_width;
+		self->priv->max_image_height = image_height;
+	}
+
+	self->priv->n_pages = MAX ((int) ceil ((double) self->priv->n_images / self->priv->real_images_per_page), 1);
+	gtk_print_operation_set_n_pages (operation, self->priv->n_pages);
+
+	current_page = 0;
+	current_row = 1;
+	current_col = 1;
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo *image_info = self->priv->images[i];
+		double        max_image_width;
+		double        max_image_height;
+		double        image_width;
+		double        image_height;
+		double        factor;
+
+		image_info->n_page = current_page;
+
+		gth_image_info_rotate (image_info, (360 - image_info->rotate) % 360);
+		if (((self->priv->max_image_width > self->priv->max_image_height)
+		     && (image_info->pixbuf_width < image_info->pixbuf_height))
+		    || ((self->priv->max_image_width < self->priv->max_image_height)
+			&& (image_info->pixbuf_width > image_info->pixbuf_height)))
+		{
+			gth_image_info_rotate (image_info, 270);
+		}
+
+		image_info->zoom = 1.0;
+		image_info->min_x = (current_col - 1) * (self->priv->max_image_width + x_padding);
+		image_info->min_y = (current_row - 1) * (self->priv->max_image_height + y_padding);
+		image_info->max_x = image_info->min_x + self->priv->max_image_width;
+		image_info->max_y = image_info->min_y + self->priv->max_image_height;
+
+		current_col++;
+		if (current_col > cols) {
+			current_row++;
+			current_col = 1;
+		}
+
+		max_image_width = self->priv->max_image_width;
+		max_image_height = self->priv->max_image_height;
+
+		/* FIXME: change max_image_width/max_image_height to make space to the comment */
+
+		image_width = (double) image_info->pixbuf_width;
+		image_height = (double) image_info->pixbuf_height;
+		factor = MIN (max_image_width / image_width, max_image_height / image_height);
+		image_info->width = image_width * factor;
+		image_info->height = image_height * factor;
+		image_info->trans_x = image_info->min_x + ((max_image_width - image_info->width) / 2);
+		image_info->trans_y = image_info->min_y + ((max_image_height - image_info->height) / 2);
+		image_info->scale_x = image_info->width * image_info->zoom;
+		image_info->scale_y = image_info->height * image_info->zoom;
+
+		if ((i + 1 < self->priv->n_images) && ((i + 1) % self->priv->real_images_per_page == 0)) {
+			current_page++;
+			current_col = 1;
+			current_row = 1;
+		}
+	}
 }
 
 
@@ -227,14 +344,65 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 			      int                page_nr,
 			      GthImagePrintJob  *self)
 {
+	cairo_t *cr;
+	int      i;
+
+	cr = gtk_print_context_get_cairo_context (context);
+
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo    *image_info = self->priv->images[i];
+		double           scale_factor;
+		GdkPixbuf       *pixbuf;
+
+		if (image_info->n_page != page_nr)
+			continue;
+
+#if 0
+		cairo_set_source_rgb (cr, 0, 0, 0);
+		cairo_rectangle (cr,
+				 image_info->trans_x,
+				 image_info->trans_y,
+				 image_info->width,
+				 image_info->height);
+		cairo_stroke (cr);
+#endif
+
+		/* For higher-resolution images, cairo will render the bitmaps at a miserable
+		 * 72 dpi unless we apply a scaling factor. This scaling boosts the output
+		 * to 300 dpi (if required). */
+
+		scale_factor = MIN (image_info->pixbuf_width / image_info->scale_x, gtk_print_context_get_dpi_x (context) / 72.0);
+		pixbuf = gdk_pixbuf_scale_simple (image_info->pixbuf,
+						  image_info->scale_x * scale_factor,
+						  image_info->scale_y * scale_factor,
+						  GDK_INTERP_BILINEAR);
+		cairo_save (cr);
+		gdk_cairo_set_source_pixbuf (cr, pixbuf, image_info->trans_x, image_info->trans_y);
+		cairo_rectangle (cr,
+				 image_info->trans_x,
+				 image_info->trans_y,
+				 gdk_pixbuf_get_width (pixbuf),
+				 gdk_pixbuf_get_height (pixbuf));
+		cairo_clip (cr);
+		cairo_paint (cr);
+		cairo_restore (cr);
+
+		g_object_unref (pixbuf);
+	}
+
+#if 0
 	cairo_t        *cr;
 	PangoLayout    *layout;
 	int             y;
 	PangoRectangle  rect;
 
+
 	cr = gtk_print_context_get_cairo_context (context);
 	cairo_set_source_rgb (cr, 0, 0, 0);
-	cairo_rectangle (cr, 0, 0, gtk_print_context_get_width (context), gtk_print_context_get_height (context));
+	cairo_rectangle (cr,
+			 0, 0,
+			 gtk_print_context_get_width (context),
+			 gtk_print_context_get_height (context));
 	cairo_stroke (cr);
 
 	layout = gtk_print_context_create_pango_layout (context);
@@ -273,6 +441,7 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 	cairo_fill (cr);
 
 	g_object_unref (layout);
+#endif
 }
 
 
@@ -287,7 +456,7 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 		GError *error = NULL;
 
 		gtk_print_operation_get_error (self->priv->print_operation, &error);
-		_gtk_error_dialog_from_gerror_show (self->priv->parent, _("Could not print"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
 		return;
 	}
 
@@ -296,11 +465,23 @@ print_operation_done_cb (GtkPrintOperation       *operation,
 
 
 GthImagePrintJob *
-gth_image_print_job_new (void)
+gth_image_print_job_new (GList *file_data_list)
 {
 	GthImagePrintJob *self;
+	GList            *scan;
+	int               n;
 
 	self = g_object_new (GTH_TYPE_IMAGE_PRINT_JOB, NULL);
+
+	self->priv->n_images = g_list_length (file_data_list);
+	self->priv->images = g_new (GthImageInfo *, self->priv->n_images + 1);
+	for (scan = file_data_list, n = 0; scan; scan = scan->next)
+		self->priv->images[n++] = gth_image_info_new ((GthFileData *) scan->data);
+	self->priv->images[n] = NULL;
+	self->priv->requested_images_per_page = 4; /* FIXME: set correct default values */
+	self->priv->auto_sizing = TRUE;
+	self->priv->image_width = 0;
+	self->priv->image_height = 0;
 
 	self->priv->print_operation = gtk_print_operation_new ();
 	gtk_print_operation_set_allow_async (self->priv->print_operation, TRUE);
@@ -337,22 +518,43 @@ gth_image_print_job_new (void)
 }
 
 
-void
-gth_image_print_job_run (GthImagePrintJob        *self,
-			 GtkPrintOperationAction  action,
-			 GtkWindow               *parent)
+static void
+load_image_info_task_completed_cb (GthTask  *task,
+				   GError   *error,
+				   gpointer  user_data)
 {
+	GthImagePrintJob        *self = user_data;
 	GtkPrintOperationResult  result;
-	GError                  *error = NULL;
 
-	self->priv->parent = parent;
+	if (error != NULL) {
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
+		return;
+	}
+
 	result = gtk_print_operation_run (self->priv->print_operation,
-					  action,
-					  parent,
+					  self->priv->action,
+					  GTK_WINDOW (self->priv->browser),
 					  &error);
 	if (result == GTK_PRINT_OPERATION_RESULT_ERROR) {
-		_gtk_error_dialog_from_gerror_show (parent, _("Could not print"), &error);
+		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
 		return;
 	}
 }
 
+
+void
+gth_image_print_job_run (GthImagePrintJob        *self,
+			 GtkPrintOperationAction  action,
+			 GthBrowser              *browser)
+{
+	g_return_if_fail (self->priv->task == NULL);
+
+	self->priv->action = action;
+	self->priv->browser = browser;
+	self->priv->task = gth_load_image_info_task_new (self->priv->images, self->priv->n_images);
+	g_signal_connect (self->priv->task,
+			  "completed",
+			  G_CALLBACK (load_image_info_task_completed_cb),
+			  self);
+	gth_browser_exec_task (browser, self->priv->task, FALSE);
+}

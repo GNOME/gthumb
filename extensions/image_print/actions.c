@@ -31,10 +31,20 @@ void
 gth_browser_activate_action_file_print (GtkAction  *action,
 					GthBrowser *browser)
 {
-	GthImagePrintJob *print_job;
+	GList *items;
+	GList *file_list;
 
-	print_job = gth_image_print_job_new (/* FIXME: pass the selected files */);
-	gth_image_print_job_run (print_job,
-				 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-				 GTK_WINDOW (browser));
+	items = gth_file_selection_get_selected (GTH_FILE_SELECTION (gth_browser_get_file_list_view (browser)));
+	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
+	if (file_list != NULL) {
+		GthImagePrintJob *print_job;
+
+		print_job = gth_image_print_job_new (file_list);
+		gth_image_print_job_run (print_job,
+					 GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+					 browser);
+	}
+
+	_g_object_list_unref (file_list);
+	_gtk_tree_path_list_free (items);
 }
