@@ -31,8 +31,19 @@
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
+#define DEFAULT_PADDING 20.0
 
 
+enum {
+	IMAGES_PER_PAGE_1,
+	IMAGES_PER_PAGE_2,
+	IMAGES_PER_PAGE_4,
+	IMAGES_PER_PAGE_8,
+	IMAGES_PER_PAGE_16,
+	N_IMAGES_PER_PAGE
+};
+static int n_rows_for_ipp[N_IMAGES_PER_PAGE] = { 1, 2, 2, 4, 4 };
+static int n_cols_for_ipp[N_IMAGES_PER_PAGE] = { 1, 1, 2, 2, 4 };
 static gpointer parent_class = NULL;
 
 
@@ -59,6 +70,7 @@ struct _GthImagePrintJobPrivate {
 	double              max_image_width;
 	double		    max_image_height;
 	int                 n_pages;
+	gboolean            dirty;
 };
 
 
@@ -102,6 +114,7 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->builder = NULL;
 	self->priv->task = NULL;
 	self->priv->page_setup = NULL;
+	self->priv->dirty = TRUE;
 }
 
 
@@ -133,50 +146,6 @@ gth_image_print_job_get_type (void)
 }
 
 
-static GObject *
-operation_create_custom_widget_cb (GtkPrintOperation *operation,
-			           gpointer           user_data)
-{
-	GthImagePrintJob *self = user_data;
-
-	self->priv->builder = _gtk_builder_new_from_file ("print-layout.ui", "image_print");
-
-	return gtk_builder_get_object (self->priv->builder, "print_layout");
-}
-
-
-static void
-operation_custom_widget_apply_cb (GtkPrintOperation *operation,
-				  GtkWidget         *widget,
-				  gpointer           user_data)
-{
-	/* FIXME */
-}
-
-
-static void
-operation_update_custom_widget_cb (GtkPrintOperation *operation,
-				   GtkWidget         *widget,
-				   GtkPageSetup      *setup,
-				   GtkPrintSettings  *settings,
-				   gpointer           user_data)
-{
-}
-
-
-enum {
-	IMAGES_PER_PAGE_1,
-	IMAGES_PER_PAGE_2,
-	IMAGES_PER_PAGE_4,
-	IMAGES_PER_PAGE_8,
-	IMAGES_PER_PAGE_16,
-	N_IMAGES_PER_PAGE
-};
-static int n_rows_for_ipp[N_IMAGES_PER_PAGE] = { 1, 2, 2, 4, 4 };
-static int n_cols_for_ipp[N_IMAGES_PER_PAGE] = { 1, 1, 2, 2, 4 };
-#define DEFAULT_PADDING 20.0
-
-
 static double
 _log2 (double x)
 {
@@ -184,40 +153,48 @@ _log2 (double x)
 }
 
 
-static void
-print_operation_begin_print_cb (GtkPrintOperation *operation,
-				GtkPrintContext   *context,
-				gpointer           user_data)
+static int
+get_combo_box_index_from_ipp (int value)
 {
-	GthImagePrintJob *self = user_data;
-	GtkPageSetup     *setup;
-	gdouble           page_width;
-	gdouble           page_height;
-	double            x_padding;
-	double            y_padding;
-	int               rows;
-	int               cols;
-	int               current_page;
-	int               current_row;
-	int               current_col;
-	int               i;
+	return (int) floor (_log2 (value) + 0.5);
+}
 
-	setup = gtk_print_context_get_page_setup (context);
-	page_width = gtk_print_context_get_width (context);
-	page_height = gtk_print_context_get_height (context);
-	x_padding = DEFAULT_PADDING;
-	y_padding = DEFAULT_PADDING;
+
+static int
+get_ipp_from_combo_box_index (int idx)
+{
+	return (int) pow (2, idx);
+}
+
+
+static void
+gth_image_print_job_update_layout (GthImagePrintJob   *self,
+				   gdouble             page_width,
+				   gdouble             page_height,
+				   GtkPageOrientation  orientation)
+{
+	double x_padding;
+	double y_padding;
+	int    rows;
+	int    cols;
+	int    current_page;
+	int    current_row;
+	int    current_col;
+	int    i;
+
+	x_padding = page_width / 40.0;
+	y_padding = page_height / 40.0;
 
 	if (self->priv->auto_sizing) {
 		int idx;
 
 		self->priv->real_images_per_page = self->priv->requested_images_per_page;
 
-		idx = (int) floor (_log2 (self->priv->real_images_per_page) + 0.5);
+		idx = get_combo_box_index_from_ipp (self->priv->real_images_per_page);
 		rows = n_rows_for_ipp[idx];
 		cols = n_cols_for_ipp[idx];
-		if ((gtk_page_setup_get_orientation (setup) == GTK_PAGE_ORIENTATION_LANDSCAPE)
-		    || (gtk_page_setup_get_orientation (setup) == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
+		if ((orientation == GTK_PAGE_ORIENTATION_LANDSCAPE)
+		    || (orientation == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
 		{
 			int tmp = rows;
 			rows = cols;
@@ -278,7 +255,6 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 	}
 
 	self->priv->n_pages = MAX ((int) ceil ((double) self->priv->n_images / self->priv->real_images_per_page), 1);
-	gtk_print_operation_set_n_pages (operation, self->priv->n_pages);
 
 	current_page = 0;
 	current_row = 1;
@@ -287,8 +263,6 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 		GthImageInfo *image_info = self->priv->images[i];
 		double        max_image_width;
 		double        max_image_height;
-		double        image_width;
-		double        image_height;
 		double        factor;
 
 		image_info->n_page = current_page;
@@ -303,10 +277,10 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 		}
 
 		image_info->zoom = 1.0;
-		image_info->min_x = (current_col - 1) * (self->priv->max_image_width + x_padding);
-		image_info->min_y = (current_row - 1) * (self->priv->max_image_height + y_padding);
-		image_info->max_x = image_info->min_x + self->priv->max_image_width;
-		image_info->max_y = image_info->min_y + self->priv->max_image_height;
+		image_info->boundary.x = (current_col - 1) * (self->priv->max_image_width + x_padding);
+		image_info->boundary.y = (current_row - 1) * (self->priv->max_image_height + y_padding);
+		image_info->boundary.width = self->priv->max_image_width;
+		image_info->boundary.height = self->priv->max_image_height;
 
 		current_col++;
 		if (current_col > cols) {
@@ -314,20 +288,20 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 			current_col = 1;
 		}
 
-		max_image_width = self->priv->max_image_width;
-		max_image_height = self->priv->max_image_height;
+		max_image_width = image_info->boundary.width;
+		max_image_height = image_info->boundary.height;
 
 		/* FIXME: change max_image_width/max_image_height to make space to the comment */
 
-		image_width = (double) image_info->pixbuf_width;
-		image_height = (double) image_info->pixbuf_height;
-		factor = MIN (max_image_width / image_width, max_image_height / image_height);
-		image_info->width = image_width * factor;
-		image_info->height = image_height * factor;
-		image_info->trans_x = image_info->min_x + ((max_image_width - image_info->width) / 2);
-		image_info->trans_y = image_info->min_y + ((max_image_height - image_info->height) / 2);
-		image_info->scale_x = image_info->width * image_info->zoom;
-		image_info->scale_y = image_info->height * image_info->zoom;
+		factor = MIN (max_image_width / image_info->pixbuf_width, max_image_height / image_info->pixbuf_height);
+		image_info->maximized.width = (double) image_info->pixbuf_width * factor;
+		image_info->maximized.height = (double) image_info->pixbuf_height * factor;
+		image_info->maximized.x = image_info->boundary.x + ((max_image_width - image_info->maximized.width) / 2);
+		image_info->maximized.y = image_info->boundary.y + ((max_image_height - image_info->maximized.height) / 2);
+		image_info->image.x = image_info->maximized.x;
+		image_info->image.y = image_info->maximized.y;
+		image_info->image.width = image_info->maximized.width * image_info->zoom;
+		image_info->image.height = image_info->maximized.height * image_info->zoom;
 
 		if ((i + 1 < self->priv->n_images) && ((i + 1) % self->priv->real_images_per_page == 0)) {
 			current_page++;
@@ -335,52 +309,73 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 			current_row = 1;
 		}
 	}
+
+	self->priv->dirty = FALSE;
 }
 
 
 static void
-print_operation_draw_page_cb (GtkPrintOperation *operation,
-			      GtkPrintContext   *context,
-			      int                page_nr,
-			      GthImagePrintJob  *self)
+gth_image_print_job_paint (GthImagePrintJob *self,
+			   cairo_t          *cr,
+			   double            dpi,
+			   double            x_offset,
+			   double            y_offset,
+			   int               page_nr)
 {
-	cairo_t *cr;
-	int      i;
-
-	cr = gtk_print_context_get_cairo_context (context);
+	int i;
 
 	for (i = 0; i < self->priv->n_images; i++) {
-		GthImageInfo    *image_info = self->priv->images[i];
-		double           scale_factor;
-		GdkPixbuf       *pixbuf;
+		GthImageInfo *image_info = self->priv->images[i];
+		double        scale_factor;
+		GdkPixbuf    *pixbuf;
 
 		if (image_info->n_page != page_nr)
 			continue;
 
 #if 0
-		cairo_set_source_rgb (cr, 0, 0, 0);
+		cairo_save (cr);
+		cairo_set_source_rgb (cr, 1.0, .0, .0);
 		cairo_rectangle (cr,
-				 image_info->trans_x,
-				 image_info->trans_y,
-				 image_info->width,
-				 image_info->height);
+				 x_offset + image_info->boundary.x,
+				 y_offset + image_info->boundary.y,
+				 image_info->boundary.width,
+				 image_info->boundary.height);
 		cairo_stroke (cr);
+
+		cairo_set_source_rgb (cr, .0, .0, .0);
+		cairo_rectangle (cr,
+				 x_offset + image_info->image.x,
+				 y_offset + image_info->image.y,
+				 image_info->image.width,
+				 image_info->image.height);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 #endif
 
+#if 1
 		/* For higher-resolution images, cairo will render the bitmaps at a miserable
 		 * 72 dpi unless we apply a scaling factor. This scaling boosts the output
 		 * to 300 dpi (if required). */
 
-		scale_factor = MIN (image_info->pixbuf_width / image_info->scale_x, gtk_print_context_get_dpi_x (context) / 72.0);
+		if (dpi > 0.0)
+			scale_factor = MIN (image_info->pixbuf_width / image_info->image.width, dpi / 72.0);
+		else
+			scale_factor = image_info->pixbuf_width / image_info->image.width;
+
+		scale_factor = 1.0; /* FIXME: ??? */
 		pixbuf = gdk_pixbuf_scale_simple (image_info->pixbuf,
-						  image_info->scale_x * scale_factor,
-						  image_info->scale_y * scale_factor,
+						  image_info->image.width * scale_factor,
+						  image_info->image.height * scale_factor,
 						  GDK_INTERP_BILINEAR);
+
 		cairo_save (cr);
-		gdk_cairo_set_source_pixbuf (cr, pixbuf, image_info->trans_x, image_info->trans_y);
+		gdk_cairo_set_source_pixbuf (cr,
+					     pixbuf,
+					     x_offset + image_info->image.x,
+					     y_offset + image_info->image.y);
 		cairo_rectangle (cr,
-				 image_info->trans_x,
-				 image_info->trans_y,
+				 x_offset + image_info->image.x,
+				 y_offset + image_info->image.y,
 				 gdk_pixbuf_get_width (pixbuf),
 				 gdk_pixbuf_get_height (pixbuf));
 		cairo_clip (cr);
@@ -388,6 +383,7 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 		cairo_restore (cr);
 
 		g_object_unref (pixbuf);
+#endif
 	}
 
 #if 0
@@ -446,6 +442,158 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 
 
 static void
+gth_image_print_job_update_status (GthImagePrintJob *self)
+{
+	int               idx;
+
+	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("ipp_combobox")));
+	if (idx == N_IMAGES_PER_PAGE) {
+		self->priv->auto_sizing = FALSE;
+		self->priv->requested_images_per_page = 1;
+	}
+	else {
+		self->priv->auto_sizing = TRUE;
+		self->priv->requested_images_per_page = get_ipp_from_combo_box_index (idx);
+	}
+
+	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+}
+
+
+static void
+preview_expose_event_cb (GtkWidget      *widget,
+			 GdkEventExpose *event,
+			 gpointer        user_data)
+{
+	GthImagePrintJob *self = user_data;
+	cairo_t          *cr;
+
+	cr = gdk_cairo_create (widget->window);
+
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	cairo_rectangle (cr, 0, 0, widget->allocation.width - 1, widget->allocation.height - 1);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_stroke (cr);
+
+	gth_image_print_job_paint (self, cr,
+				   gdk_screen_get_resolution (gtk_widget_get_screen (widget)),
+				   gtk_page_setup_get_left_margin (self->priv->page_setup, GTK_UNIT_MM),
+				   gtk_page_setup_get_top_margin (self->priv->page_setup, GTK_UNIT_MM),
+				   0);
+	cairo_destroy (cr);
+}
+
+
+static void
+ipp_combobox_changed_cb (GtkComboBox *widget,
+			 gpointer     user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	gth_image_print_job_update_status (self);
+	gth_image_print_job_update_layout (self,
+					   gtk_page_setup_get_page_width (self->priv->page_setup, GTK_UNIT_MM),
+					   gtk_page_setup_get_page_height (self->priv->page_setup, GTK_UNIT_MM),
+					   gtk_page_setup_get_orientation (self->priv->page_setup));
+	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+}
+
+
+static GObject *
+operation_create_custom_widget_cb (GtkPrintOperation *operation,
+			           gpointer           user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	self->priv->builder = _gtk_builder_new_from_file ("print-layout.ui", "image_print");
+	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
+			  "expose_event",
+	                  G_CALLBACK (preview_expose_event_cb),
+	                  self);
+	g_signal_connect (GET_WIDGET ("ipp_combobox"),
+			  "changed",
+	                  G_CALLBACK (ipp_combobox_changed_cb),
+	                  self);
+
+	return gtk_builder_get_object (self->priv->builder, "print_layout");
+}
+
+
+static void
+operation_custom_widget_apply_cb (GtkPrintOperation *operation,
+				  GtkWidget         *widget,
+				  gpointer           user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	gth_image_print_job_update_status (self);
+	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+}
+
+
+static void
+operation_update_custom_widget_cb (GtkPrintOperation *operation,
+				   GtkWidget         *widget,
+				   GtkPageSetup      *setup,
+				   GtkPrintSettings  *settings,
+				   gpointer           user_data)
+{
+	GthImagePrintJob *self = user_data;
+/*
+	int               idx;
+
+	if (self->priv->auto_sizing)
+		idx = get_combo_box_index_from_ipp (self->priv->requested_images_per_page);
+	else
+		idx = N_IMAGES_PER_PAGE;
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("ipp_combobox")), idx);
+*/
+
+	_g_object_unref (self->priv->page_setup);
+	self->priv->page_setup = gtk_page_setup_copy (setup);
+	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
+				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
+				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
+	gth_image_print_job_update_layout (self,
+					   gtk_page_setup_get_page_width (setup, GTK_UNIT_MM),
+					   gtk_page_setup_get_page_height (setup, GTK_UNIT_MM),
+					   gtk_page_setup_get_orientation (setup));
+}
+
+
+static void
+print_operation_begin_print_cb (GtkPrintOperation *operation,
+				GtkPrintContext   *context,
+				gpointer           user_data)
+{
+	GthImagePrintJob *self = user_data;
+	GtkPageSetup     *setup;
+
+	setup = gtk_print_context_get_page_setup (context);
+	gth_image_print_job_update_layout (self,
+					   gtk_print_context_get_width (context),
+					   gtk_print_context_get_height (context),
+					   gtk_page_setup_get_orientation (setup));
+	gtk_print_operation_set_n_pages (operation, self->priv->n_pages);
+}
+
+
+static void
+print_operation_draw_page_cb (GtkPrintOperation *operation,
+			      GtkPrintContext   *context,
+			      int                page_nr,
+			      gpointer           user_data)
+{
+	GthImagePrintJob *self = user_data;
+	cairo_t          *cr;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	gth_image_print_job_paint (self, cr, gtk_print_context_get_dpi_x (context), 0, 0, page_nr);
+}
+
+
+static void
 print_operation_done_cb (GtkPrintOperation       *operation,
 			 GtkPrintOperationResult  result,
 			 gpointer                 user_data)
@@ -478,7 +626,7 @@ gth_image_print_job_new (GList *file_data_list)
 	for (scan = file_data_list, n = 0; scan; scan = scan->next)
 		self->priv->images[n++] = gth_image_info_new ((GthFileData *) scan->data);
 	self->priv->images[n] = NULL;
-	self->priv->requested_images_per_page = 4; /* FIXME: set correct default values */
+	self->priv->requested_images_per_page = 1;
 	self->priv->auto_sizing = TRUE;
 	self->priv->image_width = 0;
 	self->priv->image_height = 0;

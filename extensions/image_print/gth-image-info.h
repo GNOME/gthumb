@@ -29,6 +29,13 @@
 G_BEGIN_DECLS
 
 typedef struct {
+	double x;
+	double y;
+	double width;
+	double height;
+} GthRectangle;
+
+typedef struct {
 	int           ref_count;
 	GthFileData  *file_data;
 	int           pixbuf_width;
@@ -37,15 +44,20 @@ typedef struct {
 	GdkPixbuf    *thumbnail;
 	GdkPixbuf    *thumbnail_active;
 	int           n_page;
-	double        width, height;
+	/*double        width, height;
 	double        scale_x, scale_y;
-	double        trans_x, trans_y;
+	double        trans_x, trans_y;*/
 	int           rotate;
 	double        zoom;
-	double        min_x, min_y;
+	/*double        min_x, min_y;
 	double        max_x, max_y;
-	double        comment_height;
+	double        comment_height;*/
 	gboolean      print_comment;
+
+	GthRectangle  boundary;
+	GthRectangle  maximized;
+	GthRectangle  image;
+	GthRectangle  comment;
 } GthImageInfo;
 
 GthImageInfo *  gth_image_info_new    (GthFileData  *file_data);

@@ -25,6 +25,16 @@
 #include "gth-image-info.h"
 
 
+static void
+gth_rectangle_init (GthRectangle *rect)
+{
+	rect->x = 0.0;
+	rect->y = 0.0;
+	rect->width = 0.0;
+	rect->height = 0.0;
+}
+
+
 GthImageInfo *
 gth_image_info_new (GthFileData *file_data)
 {
@@ -36,20 +46,14 @@ gth_image_info_new (GthFileData *file_data)
 	image_info->pixbuf = NULL;
 	image_info->thumbnail = NULL;
 	image_info->thumbnail_active = NULL;
-	image_info->width = 0.0;
-	image_info->height = 0.0;
-	image_info->scale_x = 0.0;
-	image_info->scale_y = 0.0;
-	image_info->trans_x = 0.0;
-	image_info->trans_y = 0.0;
 	image_info->rotate = 0;
 	image_info->zoom = 0.0;
-	image_info->min_x = 0.0;
-	image_info->min_y = 0.0;
-	image_info->max_x = 0.0;
-	image_info->max_y = 0.0;
-	image_info->comment_height = 0.0;
 	image_info->print_comment = FALSE;
+	image_info->n_page = -1;
+	gth_rectangle_init (&image_info->boundary);
+	gth_rectangle_init (&image_info->maximized);
+	gth_rectangle_init (&image_info->image);
+	gth_rectangle_init (&image_info->comment);
 
 	return image_info;
 }
