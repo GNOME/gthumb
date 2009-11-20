@@ -23,6 +23,8 @@
 #include <config.h>
 #include "gth-load-image-info-task.h"
 
+#define THUMBNAIL_SIZE 256
+
 
 struct _GthLoadImageInfoTaskPrivate {
 	GthImageInfo   **images;
@@ -78,7 +80,7 @@ image_loader_ready_cb (GthImageLoader *loader,
 
 		thumb_w = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
 		thumb_h = image_info->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
-		if (scale_keeping_ratio (&thumb_w, &thumb_h, 128, 128, FALSE))
+		if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMBNAIL_SIZE, THUMBNAIL_SIZE, FALSE))
 			image_info->thumbnail = gdk_pixbuf_scale_simple (pixbuf,
 									 thumb_w,
 									 thumb_h,
@@ -101,6 +103,7 @@ static void
 load_current_image (GthLoadImageInfoTask *self)
 {
 	GthImageInfo *image_info;
+	char         *details;
 
 	if (self->priv->current >= self->priv->n_images) {
 		/* FIXME: read the required metadata as well */
@@ -109,8 +112,19 @@ load_current_image (GthLoadImageInfoTask *self)
 	}
 
 	image_info = self->priv->images[self->priv->current];
+
+	/* translators: %s is a filename */
+	details = g_strdup_printf (_("Loading \"%s\""), g_file_info_get_display_name (image_info->file_data->info));
+	gth_task_progress (GTH_TASK (self),
+			   _("Loading images"),
+			   details,
+			   FALSE,
+			   ((double) self->priv->current + 0.5) / self->priv->n_images);
+
 	gth_image_loader_set_file_data (self->priv->loader, image_info->file_data);
 	gth_image_loader_load (self->priv->loader);
+
+	g_free (details);
 }
 
 

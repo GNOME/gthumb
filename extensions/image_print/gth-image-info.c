@@ -46,10 +46,10 @@ gth_image_info_new (GthFileData *file_data)
 	image_info->pixbuf = NULL;
 	image_info->thumbnail = NULL;
 	image_info->thumbnail_active = NULL;
-	image_info->rotate = 0;
+	image_info->rotation = 0;
 	image_info->zoom = 0.0;
 	image_info->print_comment = FALSE;
-	image_info->n_page = -1;
+	image_info->page = -1;
 	gth_rectangle_init (&image_info->boundary);
 	gth_rectangle_init (&image_info->maximized);
 	gth_rectangle_init (&image_info->image);
@@ -86,46 +86,47 @@ void
 gth_image_info_rotate (GthImageInfo *image_info,
 		       int           angle)
 {
-	GdkPixbuf    *tmp_pixbuf;
-	GthTransform  transform;
+	GdkPixbuf *tmp_pixbuf;
 
-	transform = GTH_TRANSFORM_NONE;
+	image_info->transform = GTH_TRANSFORM_NONE;
 	switch (angle) {
 	case 90:
-		transform = GTH_TRANSFORM_ROTATE_90;
+		image_info->transform = GTH_TRANSFORM_ROTATE_90;
 		break;
 	case 180:
-		transform = GTH_TRANSFORM_ROTATE_180;
+		image_info->transform = GTH_TRANSFORM_ROTATE_180;
 		break;
 	case 270:
-		transform = GTH_TRANSFORM_ROTATE_270;
+		image_info->transform = GTH_TRANSFORM_ROTATE_270;
 		break;
 	default:
 		break;
 	}
 
-	if (transform == GTH_TRANSFORM_NONE)
+	if (image_info->transform == GTH_TRANSFORM_NONE)
 		return;
 
+	/* FIXME
 	tmp_pixbuf = image_info->pixbuf;
 	if (tmp_pixbuf != NULL) {
 		image_info->pixbuf = _gdk_pixbuf_transform (tmp_pixbuf, transform);
 		g_object_unref (tmp_pixbuf);
 	}
+	*/
 
 	tmp_pixbuf = image_info->thumbnail;
 	if (tmp_pixbuf != NULL) {
-		image_info->thumbnail = _gdk_pixbuf_transform (tmp_pixbuf, transform);
+		image_info->thumbnail = _gdk_pixbuf_transform (tmp_pixbuf, image_info->transform);
 		g_object_unref (tmp_pixbuf);
 	}
 
 	tmp_pixbuf = image_info->thumbnail_active;
 	if (tmp_pixbuf != NULL) {
-		image_info->thumbnail_active = _gdk_pixbuf_transform (tmp_pixbuf, transform);
+		image_info->thumbnail_active = _gdk_pixbuf_transform (tmp_pixbuf, image_info->transform);
 		g_object_unref (tmp_pixbuf);
 	}
 
-	image_info->rotate = (image_info->rotate + angle) % 360;
+	image_info->rotation = (image_info->rotation + angle) % 360;
 	if ((angle == 90) || (angle == 270)) {
 		int tmp = image_info->pixbuf_width;
 		image_info->pixbuf_width = image_info->pixbuf_height;

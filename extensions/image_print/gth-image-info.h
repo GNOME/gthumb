@@ -43,11 +43,14 @@ typedef struct {
 	GdkPixbuf    *pixbuf;
 	GdkPixbuf    *thumbnail;
 	GdkPixbuf    *thumbnail_active;
-	int           n_page;
+	int           page;
+	int           row;
+	int           col;
 	/*double        width, height;
 	double        scale_x, scale_y;
 	double        trans_x, trans_y;*/
-	int           rotate;
+	int           rotation;
+	GthTransform  transform;
 	double        zoom;
 	/*double        min_x, min_y;
 	double        max_x, max_y;

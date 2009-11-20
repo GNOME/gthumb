@@ -2,29 +2,6 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkListStore" id="ipp_liststore">
-    <columns>
-      <!-- column-name N -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">1</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">2</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">4</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">8</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">16</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkListStore" id="caption_liststore"/>
   <object class="GtkListStore" id="unit_liststore">
     <columns>
@@ -98,8 +75,8 @@
         <col id="1">5</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Custom size</col>
-        <col id="1">0</col>
+        <col id="0" translatable="yes">32</col>
+        <col id="1">6</col>
       </row>
     </data>
   </object>
@@ -573,7 +550,6 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="label7">
-                <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Preview</property>
                 <attributes>
@@ -588,7 +564,6 @@
             <child>
               <object class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
-                <property name="left_padding">12</property>
                 <child>
                   <object class="GtkVBox" id="vbox25">
                     <property name="visible">True</property>
@@ -656,8 +631,6 @@
                     </child>
                     <child>
                       <object class="GtkDrawingArea" id="preview_drawingarea">
-                        <property name="width_request">210</property>
-                        <property name="height_request">297</property>
                         <property name="visible">True</property>
                       </object>
                       <packing>
