@@ -71,6 +71,7 @@ PUBLIC_HEADER_FILES = 					\
 	gth-location-chooser.h				\
 	gth-main.h					\
 	gth-metadata.h					\
+	gth-metadata-chooser.h				\
 	gth-metadata-provider.h				\
 	gth-monitor.h					\
 	gth-multipage.h					\
@@ -188,6 +189,7 @@ gthumb_SOURCES = 					\
 	gth-main-default-tests.c			\
 	gth-main-default-types.c			\
 	gth-metadata.c					\
+	gth-metadata-chooser.c				\
 	gth-metadata-provider.c				\
 	gth-metadata-provider-file.c			\
 	gth-monitor.c					\

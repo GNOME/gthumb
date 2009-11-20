@@ -111,7 +111,7 @@ row_deleted_cb (GtkTreeModel *tree_model,
 
 	if (uri_list->priv->changed_id != 0)
 		g_source_remove (uri_list->priv->changed_id);
-	uri_list->priv->changed_id = g_timeout_add (ORDER_CHANGED_DELAY, order_changed, uri_list);
+	uri_list->priv->changed_id = gdk_threads_add_timeout (ORDER_CHANGED_DELAY, order_changed, uri_list);
 }
 
 
@@ -125,7 +125,7 @@ row_inserted_cb (GtkTreeModel *tree_model,
 
 	if (uri_list->priv->changed_id != 0)
 		g_source_remove (uri_list->priv->changed_id);
-	uri_list->priv->changed_id = g_timeout_add (ORDER_CHANGED_DELAY, order_changed, uri_list);
+	uri_list->priv->changed_id = gdk_threads_add_timeout (ORDER_CHANGED_DELAY, order_changed, uri_list);
 }
 
 
