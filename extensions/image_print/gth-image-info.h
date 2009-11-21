@@ -46,17 +46,11 @@ typedef struct {
 	int           page;
 	int           row;
 	int           col;
-	/*double        width, height;
-	double        scale_x, scale_y;
-	double        trans_x, trans_y;*/
 	int           rotation;
 	GthTransform  transform;
 	double        zoom;
-	/*double        min_x, min_y;
-	double        max_x, max_y;
-	double        comment_height;*/
 	gboolean      print_comment;
-
+	char         *comment_text;
 	GthRectangle  boundary;
 	GthRectangle  maximized;
 	GthRectangle  image;

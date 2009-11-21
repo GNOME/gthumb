@@ -78,6 +78,7 @@ gth_image_info_unref (GthImageInfo *image_info)
 	_g_object_unref (image_info->pixbuf);
 	_g_object_unref (image_info->thumbnail);
 	_g_object_unref (image_info->thumbnail_active);
+	g_free (image_info->comment_text);
 	g_free (image_info);
 }
 

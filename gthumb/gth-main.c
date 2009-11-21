@@ -1242,3 +1242,73 @@ gth_main_activate_extensions (void)
 	g_slist_foreach (active_extensions, (GFunc) g_free, NULL);
 	g_slist_free (active_extensions);
 }
+
+
+/* utilities */
+
+
+gboolean
+attribute_list_reaload_required (const char *old_attributes,
+				 const char *new_attributes)
+{
+	char     **old_attributes_v;
+	char     **new_attributes_v;
+	int        new_attributes_len;
+	int        i;
+	gboolean   reload_required;
+
+	old_attributes_v = g_strsplit (old_attributes, ",", -1);
+	new_attributes_v = g_strsplit (new_attributes, ",", -1);
+	new_attributes_len = g_strv_length (new_attributes_v);
+
+	for (i = 0; i < new_attributes_len; i++) {
+		if (_g_file_attributes_matches (new_attributes_v[i], "standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*")) {
+			g_free (new_attributes_v[i]);
+			new_attributes_v[i] = NULL;
+		}
+	}
+
+	for (i = 0; (old_attributes_v[i] != NULL); i++) {
+		GthMetadataProvider *provider;
+		int                  j;
+
+		provider = gth_main_get_metadata_reader (old_attributes_v[i]);
+		if (provider == NULL)
+			continue;
+
+		for (j = 0; j < new_attributes_len; j++)
+			if ((new_attributes_v[j] != NULL)
+			    && (new_attributes_v[j][0] != '\0')
+			    && (strcmp (new_attributes_v[j], "none") != 0))
+			{
+				char *attr_v[2];
+
+				attr_v[0] = new_attributes_v[j];
+				attr_v[1] = NULL;
+				if (gth_metadata_provider_can_read (provider, attr_v)) {
+					g_free (new_attributes_v[j]);
+					new_attributes_v[j] = NULL;
+				}
+			}
+
+		g_object_ref (provider);
+	}
+
+	/*g_print ("attributes to load: %s\n", new_attributes);
+	g_print ("attributes not available: \n");*/
+
+	reload_required = FALSE;
+	for (i = 0; ! reload_required && (i < new_attributes_len); i++)
+		if ((new_attributes_v[i] != NULL)
+		    && (new_attributes_v[i][0] != '\0')
+		    && (strcmp (new_attributes_v[i], "none") != 0))
+		{
+			reload_required = TRUE;
+			/*g_print ("\t%s\n", new_attributes_v[i]);*/
+		}
+
+	g_strfreev (new_attributes_v);
+	g_strfreev (old_attributes_v);
+
+	return reload_required;
+}
