@@ -719,6 +719,8 @@ gfl_clear_list (GthFileList *file_list,
 {
 	GthFileStore *file_store;
 
+	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
+
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	gth_file_store_clear (file_store);
 
@@ -952,6 +954,8 @@ gfl_set_files (GthFileList *file_list,
 	       GList       *files)
 {
 	GthFileStore *file_store;
+
+	gth_file_selection_unselect_all (GTH_FILE_SELECTION (file_list->priv->view));
 
 	file_store = (GthFileStore*) gth_file_view_get_model (GTH_FILE_VIEW (file_list->priv->view));
 	gth_file_store_clear (file_store);
