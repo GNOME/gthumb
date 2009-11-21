@@ -795,6 +795,7 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 	GList        *file_list;
 	GList        *scan;
 	GList        *appinfo_list;
+	GHashTable   *used_mime_types;
 	GthIconCache *icon_cache;
 	GHashTable   *used_apps;
 
@@ -806,6 +807,7 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 	file_list = gth_file_list_get_files (GTH_FILE_LIST (gth_browser_get_file_list (browser)), items);
 
 	appinfo_list = NULL;
+	used_mime_types = g_hash_table_new (g_str_hash, g_str_equal);
 	for (scan = file_list; scan; scan = scan->next) {
 		GthFileData *file_data = scan->data;
 		const char  *mime_type;
@@ -813,9 +815,14 @@ _gth_browser_update_open_menu (GthBrowser *browser,
 		mime_type = gth_file_data_get_mime_type (file_data);
 		if ((mime_type == NULL) || g_content_type_is_unknown (mime_type))
 			continue;
+		if (g_hash_table_lookup (used_mime_types, mime_type) != NULL)
+			continue;
 
 		appinfo_list = g_list_concat (appinfo_list, g_app_info_get_all_for_type (mime_type));
+
+		g_hash_table_insert (used_mime_types, (gpointer) mime_type, GINT_TO_POINTER (1));
 	}
+	g_hash_table_destroy (used_mime_types);
 
 	icon_cache = gth_browser_get_menu_icon_cache (browser);
 	used_apps = g_hash_table_new (g_str_hash, g_str_equal);
