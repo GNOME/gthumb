@@ -188,7 +188,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*", NULL);
+	g_object_set (self, "readable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*", NULL);
 	g_object_set (self, "writable-attributes", "Exif::*,Xmp::*,Iptc::*,Embedded::Image::*", NULL);
 
 	return obj;

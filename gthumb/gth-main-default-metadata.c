@@ -48,9 +48,9 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "general::format", N_("Format"), "general", 12, GTH_METADATA_ALLOW_IN_PROPERTIES_VIEW },
 
 	{ "Embedded::Image::DateTime", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
-	{ "Embedded::Image::Comment", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Embedded::Image::Comment", N_("Comment"), "general", 14, GTH_METADATA_ALLOW_IN_PRINT },
 	{ "Embedded::Image::Location", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
-	{ "Embedded::Image::Keywords", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
+	{ "Embedded::Image::Keywords", N_("Tags"), "general", 16, GTH_METADATA_ALLOW_IN_PRINT },
 	{ "Embedded::Image::Orientation", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 	{ "Embedded::Photo::DateTimeOriginal", "", "", 0, GTH_METADATA_ALLOW_NOWHERE },
 

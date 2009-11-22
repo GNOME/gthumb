@@ -28,10 +28,11 @@
 #include "gth-image-info.h"
 #include "gth-image-print-job.h"
 #include "gth-load-image-info-task.h"
+#include "preferences.h"
 
 
 #define GET_WIDGET(name) _gtk_builder_get_widget (self->priv->builder, (name))
-#define DEFAULT_PADDING 20.0
+#define PREVIEW_SCALE_FACTOR 3.0 /* FIXME: why 3.0 ? */
 
 
 enum {
@@ -54,6 +55,7 @@ struct _GthImagePrintJobPrivate {
 	GtkPrintOperation  *print_operation;
 	GtkBuilder         *builder;
 	GtkWidget          *caption_chooser;
+	GthImageInfo       *selected;
 
 	/* settings */
 
@@ -121,7 +123,8 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->task = NULL;
 	self->priv->page_setup = NULL;
 	self->priv->current_page = 0;
-	self->priv->caption_attributes = g_strdup (""); /* FIXME: load from a gconf key */
+	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
+	self->priv->selected = NULL;
 }
 
 
@@ -317,7 +320,11 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		if (image_info->page != page)
 			continue;
 
+		if (self->priv->selected == NULL)
+			self->priv->selected = image_info;
+
 		gth_image_info_rotate (image_info, (360 - image_info->rotation) % 360);
+		/*
 		if (((self->priv->max_image_width > self->priv->max_image_height)
 		     && (image_info->pixbuf_width < image_info->pixbuf_height))
 		    || ((self->priv->max_image_width < self->priv->max_image_height)
@@ -325,6 +332,7 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		{
 			gth_image_info_rotate (image_info, 270);
 		}
+		*/
 
 		image_info->zoom = 1.0;
 		image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
@@ -403,9 +411,6 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 }
 
 
-#define PREVIEW_SCALE_FACTOR 3.0 /* FIXME: why 3.0 ? */
-
-
 static void
 gth_image_print_job_update_layout (GthImagePrintJob   *self,
 			  	   gdouble             page_width,
@@ -446,7 +451,10 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			cairo_save (cr);
 
 			cairo_set_line_width (cr, 0.5);
-			cairo_set_source_rgb (cr, .5, .5, .5);
+			if (image_info == self->priv->selected)
+				cairo_set_source_rgb (cr, 1.0, .0, .0);
+			else
+				cairo_set_source_rgb (cr, .5, .5, .5);
 			cairo_rectangle (cr,
 					 x_offset + image_info->boundary.x,
 					 y_offset + image_info->boundary.y,
@@ -641,6 +649,19 @@ gth_image_print_job_update_status (GthImagePrintJob *self)
 
 
 static void
+gth_image_print_job_update_image_controls (GthImagePrintJob *self)
+{
+	int idx;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	idx = self->priv->selected->rotation / 90;
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("rotation_combobox")), idx);
+}
+
+
+static void
 gth_image_print_job_update_preview (GthImagePrintJob *self)
 {
 	char *text;
@@ -652,9 +673,10 @@ gth_image_print_job_update_preview (GthImagePrintJob *self)
 					   gtk_page_setup_get_orientation (self->priv->page_setup));
 	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
 
+	gth_image_print_job_update_image_controls (self);
+
 	text = g_strdup_printf (_("Page %d of %d"), self->priv->current_page + 1, self->priv->n_pages);
 	gtk_label_set_text (GTK_LABEL (GET_WIDGET ("page_label")), text);
-
 	gtk_widget_set_sensitive (GET_WIDGET ("next_page_button"), self->priv->current_page < self->priv->n_pages - 1);
 	gtk_widget_set_sensitive (GET_WIDGET ("prev_page_button"), self->priv->current_page > 0);
 
@@ -714,6 +736,7 @@ next_page_button_clicked_cb (GtkWidget *widget,
 	GthImagePrintJob *self = user_data;
 
 	self->priv->current_page = MIN (self->priv->current_page + 1, self->priv->n_pages - 1);
+	self->priv->selected = NULL;
 	gth_image_print_job_update_preview (self);
 }
 
@@ -725,6 +748,7 @@ prev_page_button_clicked_cb (GtkWidget *widget,
 	GthImagePrintJob *self = user_data;
 
 	self->priv->current_page = MAX (0, self->priv->current_page - 1);
+	self->priv->selected = NULL;
 	gth_image_print_job_update_preview (self);
 }
 
@@ -773,6 +797,7 @@ caption_chooser_changed_cb (GthMetadataChooser *chooser,
 	reload_required = attribute_list_reaload_required (self->priv->caption_attributes, new_caption_attributes);
 	g_free (self->priv->caption_attributes);
 	self->priv->caption_attributes = new_caption_attributes;
+	eel_gconf_set_string (PREF_IMAGE_PRINT_CAPTION, self->priv->caption_attributes);
 
 	if (reload_required)
 		gth_image_print_job_load_metadata (self);
@@ -791,6 +816,8 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	self->priv->caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT);
 	gtk_widget_show (self->priv->caption_chooser);
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("caption_scrolledwindow")), self->priv->caption_chooser);
+
+	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (self->priv->caption_chooser), self->priv->caption_attributes);
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "expose_event",
@@ -844,6 +871,7 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
 				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
 				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
+
 	gth_image_print_job_update_preview (self);
 }
 
@@ -1005,7 +1033,9 @@ gth_image_print_job_run (GthImagePrintJob        *self,
 
 	self->priv->action = action;
 	self->priv->browser = browser;
-	self->priv->task = gth_load_image_info_task_new (self->priv->images, self->priv->n_images);
+	self->priv->task = gth_load_image_info_task_new (self->priv->images,
+							 self->priv->n_images,
+							 self->priv->caption_attributes);
 	g_signal_connect (self->priv->task,
 			  "completed",
 			  G_CALLBACK (load_image_info_task_completed_cb),

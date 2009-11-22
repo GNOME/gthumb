@@ -30,6 +30,7 @@ struct _GthLoadImageInfoTaskPrivate {
 	GthImageInfo   **images;
 	int              n_images;
 	int              current;
+	char            *attributes;
 	GthImageLoader  *loader;
 };
 
@@ -48,6 +49,7 @@ gth_load_image_info_task_finalize (GObject *object)
 	for (i = 0; i < self->priv->n_images; i++)
 		gth_image_info_unref (self->priv->images[i]);
 	g_free (self->priv->images);
+	g_free (self->priv->attributes);
 	g_object_unref (self->priv->loader);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -58,26 +60,52 @@ static void load_current_image (GthLoadImageInfoTask *self);
 
 
 static void
-image_loader_ready_cb (GthImageLoader *loader,
-		       GError         *error,
-		       gpointer        user_data)
+load_next_image (GthLoadImageInfoTask *self)
+{
+	self->priv->current++;
+	load_current_image (self);
+}
+
+
+static void
+metadata_ready_cb (GList    *files,
+		   GError   *error,
+		   gpointer  user_data)
 {
 	GthLoadImageInfoTask *self = user_data;
-	GdkPixbuf            *pixbuf;
 
 	if (error != NULL) {
 		gth_task_completed (GTH_TASK (self), error);
 		return;
 	}
 
+	load_next_image (self);
+}
+
+
+static void
+image_loader_ready_cb (GthImageLoader *loader,
+		       GError         *error,
+		       gpointer        user_data)
+{
+	GthLoadImageInfoTask *self = user_data;
+	GthImageInfo         *image_info;
+	GdkPixbuf            *pixbuf;
+
+	if (error == NULL)
+		g_cancellable_set_error_if_cancelled (gth_task_get_cancellable (GTH_TASK (self)), &error);
+
+	if (error != NULL) {
+		gth_task_completed (GTH_TASK (self), error);
+		return;
+	}
+
+	image_info = self->priv->images[self->priv->current];
 	pixbuf = gth_image_loader_get_pixbuf (loader);
 	if (pixbuf != NULL) {
-		GthImageInfo *image_info;
-		int           thumb_w, thumb_h;
+		int thumb_w, thumb_h;
 
-		image_info = self->priv->images[self->priv->current];
 		image_info->pixbuf = g_object_ref (pixbuf);
-
 		thumb_w = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
 		thumb_h = image_info->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
 		if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMBNAIL_SIZE, THUMBNAIL_SIZE, FALSE))
@@ -94,8 +122,20 @@ image_loader_ready_cb (GthImageLoader *loader,
 		}
 	}
 
-	self->priv->current++;
-	load_current_image (self);
+	if (strcmp (self->priv->attributes, "") != 0) {
+		GList *files;
+
+		files = g_list_prepend (NULL, image_info->file_data);
+		_g_query_metadata_async (files,
+					 self->priv->attributes,
+					 gth_task_get_cancellable (GTH_TASK (self)),
+					 metadata_ready_cb,
+					 self);
+
+		g_list_free (files);
+	}
+	else
+		load_next_image (self);
 }
 
 
@@ -106,7 +146,6 @@ load_current_image (GthLoadImageInfoTask *self)
 	char         *details;
 
 	if (self->priv->current >= self->priv->n_images) {
-		/* FIXME: read the required metadata as well */
 		gth_task_completed (GTH_TASK (self), NULL);
 		return;
 	}
@@ -208,7 +247,8 @@ gth_load_image_info_task_get_type (void)
 
 GthTask *
 gth_load_image_info_task_new (GthImageInfo **images,
-			      int            n_images)
+			      int            n_images,
+			      const char    *attributes)
 {
 	GthLoadImageInfoTask *self;
 	int                   n;
@@ -219,6 +259,7 @@ gth_load_image_info_task_new (GthImageInfo **images,
 		self->priv->images[n] = gth_image_info_ref (images[n]);
 	self->priv->images[n] = NULL;
 	self->priv->n_images = n;
+	self->priv->attributes = g_strdup (attributes);
 	self->priv->current = 0;
 
 	return (GthTask *) self;

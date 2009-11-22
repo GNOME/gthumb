@@ -214,7 +214,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "comment::*", NULL);
+	g_object_set (self, "readable-attributes", "comment::*,Embedded::Image::*", NULL);
 	g_object_set (self, "writable-attributes", "comment::*,Embedded::Image::*", NULL);
 
 	return obj;

@@ -51,7 +51,8 @@ struct _GthLoadImageInfoTaskClass {
 
 GType       gth_load_image_info_task_get_type  (void);
 GthTask *   gth_load_image_info_task_new       (GthImageInfo **images,
-					        int            n_images);
+					        int            n_images,
+						const char    *attributes);
 
 G_END_DECLS
 
