@@ -57,6 +57,14 @@ struct _GthImagePrintJobPrivate {
 	GtkWidget          *caption_chooser;
 	GthImageInfo       *selected;
 
+	gulong              rotation_combobox_changed_event;
+	gulong              scale_adjustment_value_changed_event;
+	gulong              left_adjustment_value_changed_event;
+	gulong              top_adjustment_value_changed_event;
+	gulong              width_adjustment_value_changed_event;
+	gulong              height_adjustment_value_changed_event;
+	gulong              position_combobox_changed_event;
+
 	/* settings */
 
 	GthImageInfo      **images;
@@ -125,6 +133,8 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->current_page = 0;
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
 	self->priv->selected = NULL;
+	self->priv->requested_images_per_page = 1;
+	self->priv->auto_sizing = TRUE;
 }
 
 
@@ -310,7 +320,7 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 	font_desc = pango_font_description_from_string ("[sans serif] [normal] [10]");
 	pango_layout_set_font_description (pango_layout, font_desc);
 
-	attributes_v = g_strsplit(self->priv->caption_attributes, ",", -1);
+	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
 		double        max_image_width;
@@ -323,8 +333,8 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		if (self->priv->selected == NULL)
 			self->priv->selected = image_info;
 
+		/* FIXME
 		gth_image_info_rotate (image_info, (360 - image_info->rotation) % 360);
-		/*
 		if (((self->priv->max_image_width > self->priv->max_image_height)
 		     && (image_info->pixbuf_width < image_info->pixbuf_height))
 		    || ((self->priv->max_image_width < self->priv->max_image_height)
@@ -334,7 +344,6 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		}
 		*/
 
-		image_info->zoom = 1.0;
 		image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
 		image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
 		image_info->boundary.width = self->priv->max_image_width;
@@ -346,6 +355,11 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		image_info->print_comment = FALSE;
 		g_free (image_info->comment_text);
 		image_info->comment_text = NULL;
+
+		image_info->comment.x = 0.0;
+		image_info->comment.y = 0.0;
+		image_info->comment.width = 0.0;
+		image_info->comment.height = 0.0;
 
 		if (strcmp (self->priv->caption_attributes, "") != 0) {
 			gboolean  comment_present = FALSE;
@@ -394,14 +408,23 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 		image_info->maximized.height = (double) image_info->pixbuf_height * factor;
 		image_info->maximized.x = image_info->boundary.x + ((max_image_width - image_info->maximized.width) / 2);
 		image_info->maximized.y = image_info->boundary.y + ((max_image_height - image_info->maximized.height) / 2);
-		image_info->image.x = image_info->maximized.x;
-		image_info->image.y = image_info->maximized.y;
+
+		if (image_info->reset) {
+			/* calculate the transformation to center the image */
+			image_info->transformation.x = image_info->maximized.x / self->priv->max_image_width;
+			image_info->transformation.y = image_info->maximized.y / self->priv->max_image_height;
+			image_info->zoom = 1.0;
+			image_info->reset = FALSE;
+		}
+
+		image_info->image.x = self->priv->max_image_width * image_info->transformation.x;
+		image_info->image.y = self->priv->max_image_height * image_info->transformation.y;
 		image_info->image.width = image_info->maximized.width * image_info->zoom;
 		image_info->image.height = image_info->maximized.height * image_info->zoom;
 
 		if (image_info->print_comment) {
 			image_info->comment.x += image_info->boundary.x;
-			image_info->comment.y += image_info->maximized.y + image_info->maximized.height;
+			image_info->comment.y += image_info->image.y + image_info->image.height;
 		}
 	}
 
@@ -442,7 +465,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		GthImageInfo *image_info = self->priv->images[i];
 		double        scale_factor;
 		GdkPixbuf    *fullsize_pixbuf;
-		GdkPixbuf    *pixbuf;
 
 		if (image_info->page != page)
 			continue;
@@ -509,32 +531,38 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		/*scale_factor = MIN (image_info->pixbuf_width / image_info->image.width, image_info->pixbuf_height / image_info->image.height);*/
 
 		if (! preview) {
-			if (image_info->rotation != 0)
-				fullsize_pixbuf = _gdk_pixbuf_transform (image_info->pixbuf, image_info->transform);
+			if (image_info->rotation != GTH_TRANSFORM_NONE)
+				fullsize_pixbuf = _gdk_pixbuf_transform (image_info->pixbuf, image_info->rotation);
 			else
 				fullsize_pixbuf = g_object_ref (image_info->pixbuf);
 		}
 		else
 			fullsize_pixbuf = g_object_ref (image_info->thumbnail);
 
-		pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
-						  image_info->image.width,
-						  image_info->image.height,
-						  preview ? GDK_INTERP_NEAREST : GDK_INTERP_BILINEAR);
+		if ((image_info->image.width > 0) && (image_info->image.height > 0)) {
+			GdkPixbuf *pixbuf;
 
-		cairo_save (cr);
-		gdk_cairo_set_source_pixbuf (cr,
-					     pixbuf,
-					     x_offset + image_info->image.x,
-					     y_offset + image_info->image.y);
-		cairo_rectangle (cr,
-				 x_offset + image_info->image.x,
-				 y_offset + image_info->image.y,
-				 gdk_pixbuf_get_width (pixbuf),
-				 gdk_pixbuf_get_height (pixbuf));
-		cairo_clip (cr);
-		cairo_paint (cr);
-		cairo_restore (cr);
+			pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
+							  image_info->image.width,
+							  image_info->image.height,
+							  preview ? GDK_INTERP_NEAREST : GDK_INTERP_BILINEAR);
+
+			cairo_save (cr);
+			gdk_cairo_set_source_pixbuf (cr,
+						     pixbuf,
+						     x_offset + image_info->image.x,
+						     y_offset + image_info->image.y);
+			cairo_rectangle (cr,
+					 x_offset + image_info->image.x,
+					 y_offset + image_info->image.y,
+					 gdk_pixbuf_get_width (pixbuf),
+					 gdk_pixbuf_get_height (pixbuf));
+			cairo_clip (cr);
+			cairo_paint (cr);
+			cairo_restore (cr);
+
+			g_object_unref (pixbuf);
+		}
 
 		if (image_info->print_comment) {
 			cairo_save (cr);
@@ -569,7 +597,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		}
 
 		g_object_unref (fullsize_pixbuf);
-		g_object_unref (pixbuf);
 	}
 
 	pango_font_description_free (font_desc);
@@ -629,35 +656,77 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 }
 
 
-static void
-gth_image_print_job_update_status (GthImagePrintJob *self)
+static int
+get_combo_box_index_from_rotation (GthTransform rotation)
 {
-	int               idx;
+	int idx = 0;
 
-	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (GET_WIDGET ("ipp_combobox")));
-	if (idx == N_IMAGES_PER_PAGE) {
-		self->priv->auto_sizing = FALSE;
-		self->priv->requested_images_per_page = 1;
-	}
-	else {
-		self->priv->auto_sizing = TRUE;
-		self->priv->requested_images_per_page = get_ipp_from_combo_box_index (idx);
+	switch (rotation) {
+	case GTH_TRANSFORM_NONE:
+		idx = 0;
+		break;
+	case GTH_TRANSFORM_ROTATE_90:
+		idx = 1;
+		break;
+	case GTH_TRANSFORM_ROTATE_180:
+		idx = 2;
+		break;
+	case GTH_TRANSFORM_ROTATE_270:
+		idx = 3;
+		break;
+	default:
+		break;
 	}
 
-	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+	return idx;
 }
 
 
 static void
 gth_image_print_job_update_image_controls (GthImagePrintJob *self)
 {
-	int idx;
+	gboolean centered;
 
 	if (self->priv->selected == NULL)
 		return;
 
-	idx = self->priv->selected->rotation / 90;
-	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("rotation_combobox")), idx);
+	g_signal_handler_block (GET_WIDGET ("rotation_combobox"), self->priv->rotation_combobox_changed_event);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("rotation_combobox")), get_combo_box_index_from_rotation (self->priv->selected->rotation));
+	g_signal_handler_unblock (GET_WIDGET ("rotation_combobox"), self->priv->rotation_combobox_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("scale_adjustment"), self->priv->scale_adjustment_value_changed_event);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("scale_adjustment")), self->priv->selected->zoom);
+	g_signal_handler_unblock (GET_WIDGET ("scale_adjustment"), self->priv->scale_adjustment_value_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
+	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), 0.0);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), self->priv->selected->boundary.width - self->priv->selected->image.width);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), self->priv->selected->image.x);
+	g_signal_handler_unblock (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
+	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), 0.0);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), self->priv->selected->image.y);
+	g_signal_handler_unblock (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
+	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), 0.0);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), self->priv->selected->maximized.width);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), self->priv->selected->image.width);
+	g_signal_handler_unblock (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
+	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), 0.0);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), self->priv->selected->maximized.height);
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), self->priv->selected->image.height);
+	g_signal_handler_unblock (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
+
+	g_signal_handler_block (GET_WIDGET ("position_combobox"), self->priv->position_combobox_changed_event);
+	centered = (self->priv->selected->image.x == ((self->priv->selected->boundary.width - self->priv->selected->image.width) / 2.0))
+		    && (self->priv->selected->image.y == ((self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height) / 2.0));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("position_combobox")), centered ? 0 : 1);
+	g_signal_handler_unblock (GET_WIDGET ("position_combobox"), self->priv->position_combobox_changed_event);
 }
 
 
@@ -666,7 +735,6 @@ gth_image_print_job_update_preview (GthImagePrintJob *self)
 {
 	char *text;
 
-	gth_image_print_job_update_status (self);
 	gth_image_print_job_update_layout (self,
 					   gtk_page_setup_get_page_width (self->priv->page_setup, GTK_UNIT_MM),
 					   gtk_page_setup_get_page_height (self->priv->page_setup, GTK_UNIT_MM),
@@ -725,6 +793,12 @@ ipp_combobox_changed_cb (GtkComboBox *widget,
 			 gpointer     user_data)
 {
 	GthImagePrintJob *self = user_data;
+	int               i;
+
+	self->priv->auto_sizing = TRUE;
+	self->priv->requested_images_per_page = get_ipp_from_combo_box_index (gtk_combo_box_get_active (widget));
+	for (i = 0; i < self->priv->n_images; i++)
+		gth_image_info_reset (self->priv->images[i]);
 	gth_image_print_job_update_preview (self);
 }
 
@@ -806,6 +880,142 @@ caption_chooser_changed_cb (GthMetadataChooser *chooser,
 }
 
 
+static void
+rotation_combobox_changed_cb (GtkComboBox *combo_box,
+			      gpointer     user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	gth_image_info_rotate (self->priv->selected, gtk_combo_box_get_active (combo_box) * 90);
+	gth_image_info_reset (self->priv->selected);
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
+gth_image_print_job_set_selected_zoom (GthImagePrintJob *self,
+				       double            zoom)
+{
+	self->priv->selected->zoom = CLAMP (zoom, 0.0, 1.0);
+	self->priv->selected->image.width = self->priv->selected->maximized.width * self->priv->selected->zoom;
+	self->priv->selected->image.height = self->priv->selected->maximized.height * self->priv->selected->zoom;
+
+	if (self->priv->selected->image.x + self->priv->selected->image.width > self->priv->selected->boundary.width)
+		self->priv->selected->image.x = self->priv->selected->boundary.width -self->priv->selected->image.width;
+	if (self->priv->selected->image.x + self->priv->selected->image.width > self->priv->selected->boundary.width)
+		self->priv->selected->image.width = self->priv->selected->boundary.width -self->priv->selected->image.x;
+
+	if (self->priv->selected->image.y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
+		self->priv->selected->image.y = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height;
+	if (self->priv->selected->image.y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
+		self->priv->selected->image.height = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.y;
+
+	self->priv->selected->zoom = MIN (self->priv->selected->image.width / self->priv->selected->maximized.width, self->priv->selected->image.height / self->priv->selected->maximized.height);
+	self->priv->selected->transformation.x = self->priv->selected->image.x / self->priv->max_image_width;
+	self->priv->selected->transformation.y = self->priv->selected->image.y / self->priv->max_image_height;
+
+	gth_image_print_job_update_preview (self); /* FIXME: update only the selected image */
+}
+
+
+static void
+scale_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+				   gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	gth_image_print_job_set_selected_zoom (self, gtk_adjustment_get_value (adjustment));
+}
+
+
+static void
+left_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+				  gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	self->priv->selected->transformation.x = gtk_adjustment_get_value (adjustment) / self->priv->max_image_width;
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
+top_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+				 gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	self->priv->selected->transformation.y = gtk_adjustment_get_value (adjustment) / self->priv->max_image_height;
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
+width_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+				   gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	gth_image_print_job_set_selected_zoom (self, gtk_adjustment_get_value (adjustment) / self->priv->selected->maximized.width);
+}
+
+
+static void
+height_adjustment_value_changed_cb (GtkAdjustment *adjustment,
+				    gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	gth_image_print_job_set_selected_zoom (self, gtk_adjustment_get_value (adjustment) / self->priv->selected->maximized.height);
+}
+
+
+static void
+position_combobox_changed_cb (GtkComboBox *combo_box,
+			      gpointer     user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	if (self->priv->selected == NULL)
+		return;
+
+	if (gtk_combo_box_get_active (combo_box) == 0) {
+		self->priv->selected->image.x = (self->priv->selected->boundary.width - self->priv->selected->image.width) / 2.0;
+		self->priv->selected->image.y = (self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height) / 2.0;
+		self->priv->selected->transformation.x = self->priv->selected->image.x / self->priv->max_image_width;
+		self->priv->selected->transformation.y = self->priv->selected->image.y / self->priv->max_image_height;
+		gth_image_print_job_update_preview (self);
+	}
+}
+
+
+static char *
+image_scale_format_value_cb (GtkScale *scale,
+			     double    value,
+			     gpointer  user_data)
+{
+	return g_strdup_printf ("%0.0f%%", value * 100.0);
+}
+
+
 static GObject *
 operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			           gpointer           user_data)
@@ -840,6 +1050,46 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	                  G_CALLBACK (caption_chooser_changed_cb),
 	                  self);
 
+	self->priv->rotation_combobox_changed_event =
+			g_signal_connect (GET_WIDGET ("rotation_combobox"),
+					  "changed",
+			                  G_CALLBACK (rotation_combobox_changed_cb),
+			                  self);
+	self->priv->scale_adjustment_value_changed_event =
+			g_signal_connect (GET_WIDGET ("scale_adjustment"),
+					  "value-changed",
+					  G_CALLBACK (scale_adjustment_value_changed_cb),
+					  self);
+	g_signal_connect (GET_WIDGET ("image_scale"),
+			  "format-value",
+			  G_CALLBACK (image_scale_format_value_cb),
+			  self);
+	self->priv->left_adjustment_value_changed_event =
+			g_signal_connect (GET_WIDGET ("left_adjustment"),
+					  "value-changed",
+					  G_CALLBACK (left_adjustment_value_changed_cb),
+					  self);
+	self->priv->top_adjustment_value_changed_event =
+			g_signal_connect (GET_WIDGET ("top_adjustment"),
+					  "value-changed",
+					  G_CALLBACK (top_adjustment_value_changed_cb),
+					  self);
+	self->priv->width_adjustment_value_changed_event =
+			g_signal_connect (GET_WIDGET ("width_adjustment"),
+					  "value-changed",
+					  G_CALLBACK (width_adjustment_value_changed_cb),
+					  self);
+	self->priv->height_adjustment_value_changed_event =
+			g_signal_connect (GET_WIDGET ("height_adjustment"),
+					  "value-changed",
+					  G_CALLBACK (height_adjustment_value_changed_cb),
+					  self);
+	self->priv->position_combobox_changed_event =
+			g_signal_connect (GET_WIDGET ("position_combobox"),
+					  "changed",
+					  G_CALLBACK (position_combobox_changed_cb),
+					  self);
+
 	return gtk_builder_get_object (self->priv->builder, "print_layout");
 }
 
@@ -849,10 +1099,7 @@ operation_custom_widget_apply_cb (GtkPrintOperation *operation,
 				  GtkWidget         *widget,
 				  gpointer           user_data)
 {
-	GthImagePrintJob *self = user_data;
-
-	gth_image_print_job_update_status (self);
-	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+	/* FIXME */
 }
 
 

@@ -23,8 +23,6 @@
 #include <config.h>
 #include "gth-load-image-info-task.h"
 
-#define THUMBNAIL_SIZE 256
-
 
 struct _GthLoadImageInfoTaskPrivate {
 	GthImageInfo   **images;
@@ -102,25 +100,8 @@ image_loader_ready_cb (GthImageLoader *loader,
 
 	image_info = self->priv->images[self->priv->current];
 	pixbuf = gth_image_loader_get_pixbuf (loader);
-	if (pixbuf != NULL) {
-		int thumb_w, thumb_h;
-
-		image_info->pixbuf = g_object_ref (pixbuf);
-		thumb_w = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
-		thumb_h = image_info->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
-		if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMBNAIL_SIZE, THUMBNAIL_SIZE, FALSE))
-			image_info->thumbnail = gdk_pixbuf_scale_simple (pixbuf,
-									 thumb_w,
-									 thumb_h,
-									 GDK_INTERP_BILINEAR);
-		else
-			image_info->thumbnail = g_object_ref (image_info->pixbuf);
-
-		if (image_info->thumbnail != NULL) {
-			image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
-			_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);
-		}
-	}
+	if (pixbuf != NULL)
+		gth_image_info_set_pixbuf (image_info, pixbuf);
 
 	if (strcmp (self->priv->attributes, "") != 0) {
 		GList *files;

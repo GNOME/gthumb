@@ -38,17 +38,21 @@ typedef struct {
 typedef struct {
 	int           ref_count;
 	GthFileData  *file_data;
+	int           original_width;
+	int           original_height;
 	int           pixbuf_width;
 	int           pixbuf_height;
 	GdkPixbuf    *pixbuf;
+	GdkPixbuf    *thumbnail_original;
 	GdkPixbuf    *thumbnail;
 	GdkPixbuf    *thumbnail_active;
 	int           page;
 	int           row;
 	int           col;
-	int           rotation;
-	GthTransform  transform;
+	GthTransform  rotation;
 	double        zoom;
+	GthRectangle  transformation;
+	gboolean      reset;
 	gboolean      print_comment;
 	char         *comment_text;
 	GthRectangle  boundary;
@@ -57,11 +61,14 @@ typedef struct {
 	GthRectangle  comment;
 } GthImageInfo;
 
-GthImageInfo *  gth_image_info_new    (GthFileData  *file_data);
-GthImageInfo *  gth_image_info_ref    (GthImageInfo *image_info);
-void            gth_image_info_unref  (GthImageInfo *image_info);
-void            gth_image_info_rotate (GthImageInfo *image_info,
-				       int           angle);
+GthImageInfo *  gth_image_info_new        (GthFileData  *file_data);
+GthImageInfo *  gth_image_info_ref        (GthImageInfo *image_info);
+void            gth_image_info_unref      (GthImageInfo *image_info);
+void            gth_image_info_set_pixbuf (GthImageInfo *image_info,
+					   GdkPixbuf    *pixbuf);
+void            gth_image_info_reset      (GthImageInfo *image_info);
+void            gth_image_info_rotate     (GthImageInfo *image_info,
+				           int           angle);
 
 G_END_DECLS
 

@@ -25,6 +25,9 @@
 #include "gth-image-info.h"
 
 
+#define THUMBNAIL_SIZE 256
+
+
 static void
 gth_rectangle_init (GthRectangle *rect)
 {
@@ -44,12 +47,16 @@ gth_image_info_new (GthFileData *file_data)
 	image_info->ref_count = 1;
 	image_info->file_data = g_object_ref (file_data);
 	image_info->pixbuf = NULL;
+	image_info->thumbnail_original = NULL;
 	image_info->thumbnail = NULL;
 	image_info->thumbnail_active = NULL;
-	image_info->rotation = 0;
-	image_info->zoom = 0.0;
+	image_info->rotation = GTH_TRANSFORM_NONE;
+	image_info->zoom = 1.0;
+	image_info->transformation.x = 0.0;
+	image_info->transformation.y = 0.0;
 	image_info->print_comment = FALSE;
 	image_info->page = -1;
+	image_info->reset = TRUE;
 	gth_rectangle_init (&image_info->boundary);
 	gth_rectangle_init (&image_info->maximized);
 	gth_rectangle_init (&image_info->image);
@@ -76,6 +83,7 @@ gth_image_info_unref (GthImageInfo *image_info)
 
 	_g_object_unref (image_info->file_data);
 	_g_object_unref (image_info->pixbuf);
+	_g_object_unref (image_info->thumbnail_original);
 	_g_object_unref (image_info->thumbnail);
 	_g_object_unref (image_info->thumbnail_active);
 	g_free (image_info->comment_text);
@@ -84,53 +92,79 @@ gth_image_info_unref (GthImageInfo *image_info)
 
 
 void
+gth_image_info_set_pixbuf (GthImageInfo *image_info,
+			   GdkPixbuf    *pixbuf)
+{
+	int thumb_w;
+	int thumb_h;
+
+	g_return_if_fail (pixbuf != NULL);
+
+	_g_object_clear (&image_info->pixbuf);
+	_g_object_clear (&image_info->thumbnail_original);
+	_g_object_clear (&image_info->thumbnail);
+	_g_object_clear (&image_info->thumbnail_active);
+
+	image_info->pixbuf = g_object_ref (pixbuf);
+	thumb_w = image_info->original_width = image_info->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
+	thumb_h = image_info->original_height = image_info->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
+	if (scale_keeping_ratio (&thumb_w, &thumb_h, THUMBNAIL_SIZE, THUMBNAIL_SIZE, FALSE))
+		image_info->thumbnail_original = gdk_pixbuf_scale_simple (pixbuf,
+									  thumb_w,
+									  thumb_h,
+									  GDK_INTERP_BILINEAR);
+	else
+		image_info->thumbnail_original = g_object_ref (image_info->pixbuf);
+
+	image_info->thumbnail = g_object_ref (image_info->thumbnail_original);
+	image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
+	_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);
+}
+
+
+void
+gth_image_info_reset (GthImageInfo *image_info)
+{
+	image_info->reset = TRUE;
+}
+
+
+void
 gth_image_info_rotate (GthImageInfo *image_info,
 		       int           angle)
 {
-	GdkPixbuf *tmp_pixbuf;
-
-	image_info->transform = GTH_TRANSFORM_NONE;
+	angle = angle % 360;
+	image_info->rotation = GTH_TRANSFORM_NONE;
 	switch (angle) {
 	case 90:
-		image_info->transform = GTH_TRANSFORM_ROTATE_90;
+		image_info->rotation = GTH_TRANSFORM_ROTATE_90;
 		break;
 	case 180:
-		image_info->transform = GTH_TRANSFORM_ROTATE_180;
+		image_info->rotation = GTH_TRANSFORM_ROTATE_180;
 		break;
 	case 270:
-		image_info->transform = GTH_TRANSFORM_ROTATE_270;
+		image_info->rotation = GTH_TRANSFORM_ROTATE_270;
 		break;
 	default:
 		break;
 	}
 
-	if (image_info->transform == GTH_TRANSFORM_NONE)
-		return;
+	_g_object_clear (&image_info->thumbnail);
+	if (image_info->thumbnail_original != NULL)
+		image_info->thumbnail = _gdk_pixbuf_transform (image_info->thumbnail_original, image_info->rotation);
 
-	/* FIXME
-	tmp_pixbuf = image_info->pixbuf;
-	if (tmp_pixbuf != NULL) {
-		image_info->pixbuf = _gdk_pixbuf_transform (tmp_pixbuf, transform);
-		g_object_unref (tmp_pixbuf);
-	}
-	*/
-
-	tmp_pixbuf = image_info->thumbnail;
-	if (tmp_pixbuf != NULL) {
-		image_info->thumbnail = _gdk_pixbuf_transform (tmp_pixbuf, image_info->transform);
-		g_object_unref (tmp_pixbuf);
+	_g_object_clear (&image_info->thumbnail_active);
+	if (image_info->thumbnail != NULL) {
+		image_info->thumbnail_active = gdk_pixbuf_copy (image_info->thumbnail);
+		_gdk_pixbuf_colorshift (image_info->thumbnail_active, image_info->thumbnail_active, 30);
 	}
 
-	tmp_pixbuf = image_info->thumbnail_active;
-	if (tmp_pixbuf != NULL) {
-		image_info->thumbnail_active = _gdk_pixbuf_transform (tmp_pixbuf, image_info->transform);
-		g_object_unref (tmp_pixbuf);
-	}
-
-	image_info->rotation = (image_info->rotation + angle) % 360;
 	if ((angle == 90) || (angle == 270)) {
-		int tmp = image_info->pixbuf_width;
-		image_info->pixbuf_width = image_info->pixbuf_height;
-		image_info->pixbuf_height = tmp;
+		image_info->pixbuf_width = image_info->original_height;
+		image_info->pixbuf_height = image_info->original_width;
+	}
+	else {
+		image_info->pixbuf_width = image_info->original_width;
+		image_info->pixbuf_height = image_info->original_height;
 	}
 }
