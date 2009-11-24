@@ -1229,15 +1229,6 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 
 
 static void
-operation_custom_widget_apply_cb (GtkPrintOperation *operation,
-				  GtkWidget         *widget,
-				  gpointer           user_data)
-{
-	/* FIXME: what to do here ? */
-}
-
-
-static void
 operation_update_custom_widget_cb (GtkPrintOperation *operation,
 				   GtkWidget         *widget,
 				   GtkPageSetup      *setup,
@@ -1356,10 +1347,6 @@ gth_image_print_job_new (GList *file_data_list)
 	g_signal_connect (self->priv->print_operation,
 			  "create-custom-widget",
 			  G_CALLBACK (operation_create_custom_widget_cb),
-			  self);
-	g_signal_connect (self->priv->print_operation,
-			  "custom-widget-apply",
-			  G_CALLBACK (operation_custom_widget_apply_cb),
 			  self);
 	g_signal_connect (self->priv->print_operation,
 			  "update-custom-widget",
