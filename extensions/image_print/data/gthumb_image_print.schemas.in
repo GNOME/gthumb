@@ -14,5 +14,18 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/font_name</key>
+	<applyto>/apps/gthumb/ext/image_print/font_name</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>[sans serif] [normal] [10]</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

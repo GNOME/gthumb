@@ -75,6 +75,7 @@ struct _GthImagePrintJobPrivate {
 	int                 image_height;
 	GtkPageSetup       *page_setup;
 	char               *caption_attributes;
+	char               *font_name;
 
 	/* layout info */
 
@@ -105,6 +106,7 @@ gth_image_print_job_finalize (GObject *base)
 	g_free (self->priv->images);
 	_g_object_unref (self->priv->page_setup);
 	g_free (self->priv->caption_attributes);
+	g_free (self->priv->font_name);
 
 	G_OBJECT_CLASS (parent_class)->finalize (base);
 }
@@ -132,6 +134,7 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->page_setup = NULL;
 	self->priv->current_page = 0;
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
+	self->priv->font_name = eel_gconf_get_string (PREF_IMAGE_PRINT_FONT_NAME, "sans 10");
 	self->priv->selected = NULL;
 	self->priv->requested_images_per_page = 1;
 	self->priv->unit = GTK_UNIT_PIXEL;
@@ -364,19 +367,29 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 }
 
 
+static void
+gth_image_print_job_set_font_options (GthImagePrintJob *self,
+				      PangoLayout      *pango_layout)
+{
+	PangoFontDescription *font_desc;
+
+	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_justify (pango_layout, FALSE);
+	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_LEFT);
+
+	font_desc = pango_font_description_from_string (self->priv->font_name);
+	pango_layout_set_font_description (pango_layout, font_desc);
+	pango_font_description_free (font_desc);
+}
+
+
 static PangoLayout *
 gth_image_print_job_create_pango_layout (GthImagePrintJob *self)
 {
-	PangoLayout          *pango_layout;
-	PangoFontDescription *font_desc;
+	PangoLayout *pango_layout;
 
 	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
-	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
-	font_desc = pango_font_description_from_string ("[sans serif] [normal] [10]"); /* FIXME: allow the user to select a font */
-	pango_layout_set_font_description (pango_layout, font_desc);
-
-	pango_font_description_free (font_desc);
+	gth_image_print_job_set_font_options (self, pango_layout);
 
 	return pango_layout;
 }
@@ -437,12 +450,9 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			   int               page,
 			   gboolean          preview)
 {
-	PangoFontDescription *font_desc;
-	int                   i;
+	int i;
 
-	font_desc = pango_font_description_from_string ("[sans serif] [normal] [10]");
-	pango_layout_set_font_description (pango_layout, font_desc);
-
+	gth_image_print_job_set_font_options (self, pango_layout);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
 		GdkPixbuf    *fullsize_pixbuf;
@@ -540,8 +550,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		if (image_info->print_comment) {
 			cairo_save (cr);
 
-			pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
-			pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
 			pango_layout_set_width (pango_layout, image_info->comment.width * (preview ? PREVIEW_SCALE_FACTOR : 1.0) * PANGO_SCALE);
 			pango_layout_set_text (pango_layout, image_info->comment_text, -1);
 
@@ -571,61 +579,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 
 		g_object_unref (fullsize_pixbuf);
 	}
-
-	pango_font_description_free (font_desc);
-
-#if 0
-	cairo_t        *cr;
-	PangoLayout    *layout;
-	int             y;
-	PangoRectangle  rect;
-
-
-	cr = gtk_print_context_get_cairo_context (context);
-	cairo_set_source_rgb (cr, 0, 0, 0);
-	cairo_rectangle (cr,
-			 0, 0,
-			 gtk_print_context_get_width (context),
-			 gtk_print_context_get_height (context));
-	cairo_stroke (cr);
-
-	layout = gtk_print_context_create_pango_layout (context);
-	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_width (layout, 100 * PANGO_SCALE);
-
-	/**/
-
-	y = 20;
-
-	pango_layout_set_text (layout, "Hello World! Printing is easy", -1);
-	cairo_move_to (cr, 30, y);
-	pango_cairo_layout_path (cr, layout);
-
-	cairo_set_source_rgb (cr, 0.93, 1.0, 0.47);
-	cairo_set_line_width (cr, 0.5);
-	cairo_stroke_preserve (cr);
-
-	cairo_set_source_rgb (cr, 0, 0.0, 1.0);
-	cairo_fill (cr);
-
-	pango_layout_get_extents (layout, NULL, &rect);
-	y = y + (rect.height / PANGO_SCALE);
-
-	/**/
-
-	pango_layout_set_text (layout, "Hello World! Printing is easy 222", -1);
-	cairo_move_to (cr, 30, y);
-	pango_cairo_layout_path (cr, layout);
-
-	cairo_set_source_rgb (cr, 0.93, 1.0, 0.47);
-	cairo_set_line_width (cr, 0.5);
-	cairo_stroke_preserve (cr);
-
-	cairo_set_source_rgb (cr, 0, 0.0, 1.0);
-	cairo_fill (cr);
-
-	g_object_unref (layout);
-#endif
 }
 
 
@@ -1052,6 +1005,20 @@ unit_combobox_changed_cb (GtkComboBox *combo_box,
 
 
 static void
+caption_fontbutton_font_set_cb (GtkFontButton *font_button,
+				gpointer       user_data)
+{
+	GthImagePrintJob *self = user_data;
+
+	g_free (self->priv->font_name);
+	self->priv->font_name = g_strdup (gtk_font_button_get_font_name (font_button));
+	eel_gconf_set_string (PREF_IMAGE_PRINT_FONT_NAME, self->priv->font_name);
+
+	gth_image_print_job_update_preview (self);
+}
+
+
+static void
 rotation_combobox_changed_cb (GtkComboBox *combo_box,
 			      gpointer     user_data)
 {
@@ -1204,6 +1171,7 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (self->priv->caption_chooser), self->priv->caption_attributes);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
+	gtk_font_button_set_font_name (GTK_FONT_BUTTON (GET_WIDGET ("caption_fontbutton")), self->priv->font_name);
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "expose_event",
@@ -1241,6 +1209,10 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			  "changed",
 	                  G_CALLBACK (unit_combobox_changed_cb),
 	                  self);
+	g_signal_connect (GET_WIDGET ("caption_fontbutton"),
+			  "font-set",
+			  G_CALLBACK (caption_fontbutton_font_set_cb),
+			  self);
 
 	self->priv->rotation_combobox_changed_event =
 			g_signal_connect (GET_WIDGET ("rotation_combobox"),

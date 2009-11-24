@@ -28,6 +28,7 @@
 G_BEGIN_DECLS
 
 #define PREF_IMAGE_PRINT_CAPTION    "/apps/gthumb/ext/image_print/caption"
+#define PREF_IMAGE_PRINT_FONT_NAME  "/apps/gthumb/ext/image_print/font_name"
 
 G_END_DECLS
 
