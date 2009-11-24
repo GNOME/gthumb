@@ -56,6 +56,7 @@ gth_image_info_new (GthFileData *file_data)
 	image_info->transformation.y = 0.0;
 	image_info->print_comment = FALSE;
 	image_info->page = -1;
+	image_info->active = FALSE;
 	image_info->reset = TRUE;
 	gth_rectangle_init (&image_info->boundary);
 	gth_rectangle_init (&image_info->maximized);

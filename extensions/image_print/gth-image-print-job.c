@@ -64,13 +64,13 @@ struct _GthImagePrintJobPrivate {
 	gulong              width_adjustment_value_changed_event;
 	gulong              height_adjustment_value_changed_event;
 	gulong              position_combobox_changed_event;
+	GthMetric           unit;
 
 	/* settings */
 
 	GthImageInfo      **images;
 	int                 n_images;
 	int                 requested_images_per_page;
-	gboolean	    auto_sizing;
 	int                 image_width;
 	int                 image_height;
 	GtkPageSetup       *page_setup;
@@ -134,7 +134,7 @@ gth_image_print_job_init (GthImagePrintJob *self)
 	self->priv->caption_attributes = eel_gconf_get_string (PREF_IMAGE_PRINT_CAPTION, "");
 	self->priv->selected = NULL;
 	self->priv->requested_images_per_page = 1;
-	self->priv->auto_sizing = TRUE;
+	self->priv->unit = GTK_UNIT_PIXEL;
 }
 
 
@@ -193,6 +193,7 @@ gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 				        gdouble             page_height,
 				        GtkPageOrientation  orientation)
 {
+	int idx;
 	int rows;
 	int cols;
 	int current_page;
@@ -200,77 +201,23 @@ gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 	int current_col;
 	int i;
 
-	if (self->priv->auto_sizing) {
-		int idx;
+	self->priv->real_images_per_page = self->priv->requested_images_per_page;
+	self->priv->x_padding = page_width / 40.0;
+	self->priv->y_padding = page_height / 40.0;
 
-		self->priv->real_images_per_page = self->priv->requested_images_per_page;
-
-		self->priv->x_padding = page_width / 40.0;
-		self->priv->y_padding = page_height / 40.0;
-
-		idx = get_combo_box_index_from_ipp (self->priv->real_images_per_page);
-		rows = n_rows_for_ipp[idx];
-		cols = n_cols_for_ipp[idx];
-		if ((orientation == GTK_PAGE_ORIENTATION_LANDSCAPE)
-		    || (orientation == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
-		{
-			int tmp = rows;
-			rows = cols;
-			cols = tmp;
-		}
-
-		self->priv->max_image_width = (page_width - ((cols - 1) * self->priv->x_padding)) / cols;
-		self->priv->max_image_height = (page_height - ((rows - 1) * self->priv->y_padding)) / rows;
+	idx = get_combo_box_index_from_ipp (self->priv->real_images_per_page);
+	rows = n_rows_for_ipp[idx];
+	cols = n_cols_for_ipp[idx];
+	if ((orientation == GTK_PAGE_ORIENTATION_LANDSCAPE)
+	    || (orientation == GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE))
+	{
+		int tmp = rows;
+		rows = cols;
+		cols = tmp;
 	}
-	else {
-		double image_width;
-		double image_height;
-		double tmp_cols;
-		double tmp_rows;
 
-		image_width = self->priv->image_width;
-		image_height = self->priv->image_height;
-		tmp_cols = (int) floor ((page_width + self->priv->x_padding) / (image_height + self->priv->x_padding));
-		tmp_rows = (int) floor ((page_height + self->priv->y_padding) / (image_width + self->priv->y_padding));
-		cols = (int) floor ((page_width + self->priv->x_padding) / (image_width + self->priv->x_padding));
-		rows = (int) floor ((page_height + self->priv->y_padding) / (image_height + self->priv->y_padding));
-
-		if ((tmp_rows * tmp_cols > cols * rows)
-		    && (image_height <= page_width)
-		    && (image_width <= page_width))
-		{
-			double tmp = image_width;
-			image_width = image_height;
-			image_height = tmp;
-			rows = tmp_rows;
-			cols = tmp_cols;
-		}
-
-		if (rows == 0) {
-			rows = 1;
-			image_height = page_height - self->priv->y_padding;
-		}
-
-		if (cols == 0) {
-			cols = 1;
-			image_width = page_width - self->priv->x_padding;
-		}
-
-		self->priv->real_images_per_page = rows * cols;
-
-		if (cols > 1)
-			self->priv->x_padding = (page_width - (cols * image_width)) / (cols - 1);
-		else
-			self->priv->x_padding = page_width - image_width;
-
-		if (rows > 1)
-			self->priv->y_padding = (page_height - (rows * image_height)) / (rows - 1);
-		else
-			self->priv->y_padding = page_height - image_height;
-
-		self->priv->max_image_width = image_width;
-		self->priv->max_image_height = image_height;
-	}
+	self->priv->max_image_width = (page_width - ((cols - 1) * self->priv->x_padding)) / cols;
+	self->priv->max_image_height = (page_height - ((rows - 1) * self->priv->y_padding)) / rows;
 
 	self->priv->n_pages = MAX ((int) ceil ((double) self->priv->n_images / self->priv->real_images_per_page), 1);
 	if (self->priv->current_page >= self->priv->n_pages)
@@ -332,17 +279,6 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 
 		if (self->priv->selected == NULL)
 			self->priv->selected = image_info;
-
-		/* FIXME
-		gth_image_info_rotate (image_info, (360 - image_info->rotation) % 360);
-		if (((self->priv->max_image_width > self->priv->max_image_height)
-		     && (image_info->pixbuf_width < image_info->pixbuf_height))
-		    || ((self->priv->max_image_width < self->priv->max_image_height)
-			&& (image_info->pixbuf_width > image_info->pixbuf_height)))
-		{
-			gth_image_info_rotate (image_info, 270);
-		}
-		*/
 
 		image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
 		image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
@@ -411,16 +347,30 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 
 		if (image_info->reset) {
 			/* calculate the transformation to center the image */
-			image_info->transformation.x = image_info->maximized.x / self->priv->max_image_width;
-			image_info->transformation.y = image_info->maximized.y / self->priv->max_image_height;
+			image_info->transformation.x = (image_info->maximized.x - image_info->boundary.x) / self->priv->max_image_width;
+			image_info->transformation.y = (image_info->maximized.y - image_info->boundary.y) / self->priv->max_image_height;
 			image_info->zoom = 1.0;
 			image_info->reset = FALSE;
 		}
 
-		image_info->image.x = self->priv->max_image_width * image_info->transformation.x;
-		image_info->image.y = self->priv->max_image_height * image_info->transformation.y;
+		image_info->image.x = image_info->boundary.x + (self->priv->max_image_width * image_info->transformation.x);
+		image_info->image.y = image_info->boundary.y + (self->priv->max_image_height * image_info->transformation.y);
 		image_info->image.width = image_info->maximized.width * image_info->zoom;
 		image_info->image.height = image_info->maximized.height * image_info->zoom;
+
+		/* check the limits */
+
+		if (image_info->image.x - image_info->boundary.x + image_info->image.width > image_info->boundary.width) {
+			image_info->image.x = image_info->boundary.x + image_info->boundary.width - image_info->image.width;
+			image_info->transformation.x = (image_info->image.x - image_info->boundary.x) / self->priv->max_image_width;
+		}
+
+		if (image_info->image.y - image_info->boundary.y + image_info->image.height > image_info->boundary.height) {
+			image_info->image.y = image_info->boundary.y + image_info->boundary.height - image_info->image.height;
+			image_info->transformation.y = (image_info->image.y - image_info->boundary.y) / self->priv->max_image_height;
+		}
+
+		/* the comment position */
 
 		if (image_info->print_comment) {
 			image_info->comment.x += image_info->boundary.x;
@@ -449,7 +399,6 @@ static void
 gth_image_print_job_paint (GthImagePrintJob *self,
 			   cairo_t          *cr,
 			   PangoLayout      *pango_layout,
-			   double            dpi,
 			   double            x_offset,
 			   double            y_offset,
 			   int               page,
@@ -463,7 +412,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
-		double        scale_factor;
 		GdkPixbuf    *fullsize_pixbuf;
 
 		if (image_info->page != page)
@@ -473,10 +421,12 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			cairo_save (cr);
 
 			cairo_set_line_width (cr, 0.5);
-			if (image_info == self->priv->selected)
-				cairo_set_source_rgb (cr, 1.0, .0, .0);
+			if (image_info->active)
+				cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+			else if (image_info == self->priv->selected)
+				cairo_set_source_rgb (cr, 0.5, 0.5, 0.5);
 			else
-				cairo_set_source_rgb (cr, .5, .5, .5);
+				cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 			cairo_rectangle (cr,
 					 x_offset + image_info->boundary.x,
 					 y_offset + image_info->boundary.y,
@@ -513,22 +463,10 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 				 image_info->comment.width,
 				 image_info->comment.height);
 		cairo_stroke (cr);
+
 		cairo_restore (cr);
 
 #endif
-
-		/* For higher-resolution images, cairo will render the bitmaps at a miserable
-		 * 72 dpi unless we apply a scaling factor. This scaling boosts the output
-		 * to 300 dpi (if required). */
-
-		/* FIXME: ???
-		if (dpi > 0.0)
-			scale_factor = MIN (image_info->pixbuf_width / image_info->image.width, dpi / 72.0);
-		else
-			scale_factor = image_info->pixbuf_width / image_info->image.width;
-		*/
-		scale_factor = 1.0;
-		/*scale_factor = MIN (image_info->pixbuf_width / image_info->image.width, image_info->pixbuf_height / image_info->image.height);*/
 
 		if (! preview) {
 			if (image_info->rotation != GTH_TRANSFORM_NONE)
@@ -536,6 +474,8 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			else
 				fullsize_pixbuf = g_object_ref (image_info->pixbuf);
 		}
+		else if (image_info->active)
+			fullsize_pixbuf = g_object_ref (image_info->thumbnail_active);
 		else
 			fullsize_pixbuf = g_object_ref (image_info->thumbnail);
 
@@ -682,6 +622,50 @@ get_combo_box_index_from_rotation (GthTransform rotation)
 }
 
 
+static double
+from_unit_to_pixels (GthMetric unit,
+		     double    value)
+{
+	switch (unit) {
+	case GTH_METRIC_INCHES:
+		value = value * 2.54;
+		break;
+	case GTH_METRIC_MILLIMETERS:
+		value = value;
+		break;
+	case GTH_METRIC_PIXELS:
+		value = value;
+		break;
+	}
+
+	return value;
+}
+
+
+static double
+from_pixels_to_unit (GthMetric unit,
+		     double    value)
+{
+	switch (unit) {
+	case GTH_METRIC_INCHES:
+		value = value / 2.54;
+		break;
+	case GTH_METRIC_MILLIMETERS:
+		value = value;
+		break;
+	case GTH_METRIC_PIXELS:
+		value = value;
+		break;
+	}
+
+	return value;
+}
+
+
+#define TO_UNIT(x) (from_pixels_to_unit (self->priv->unit, (x)))
+#define TO_PIXELS(x) (from_unit_to_pixels (self->priv->unit, (x)))
+
+
 static void
 gth_image_print_job_update_image_controls (GthImagePrintJob *self)
 {
@@ -700,26 +684,26 @@ gth_image_print_job_update_image_controls (GthImagePrintJob *self)
 
 	g_signal_handler_block (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), self->priv->selected->boundary.width - self->priv->selected->image.width);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), self->priv->selected->image.x);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->boundary.width - self->priv->selected->image.width));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("left_adjustment")), TO_UNIT (self->priv->selected->image.x - self->priv->selected->boundary.x));
 	g_signal_handler_unblock (GET_WIDGET ("left_adjustment"), self->priv->left_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), self->priv->selected->image.y);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("top_adjustment")), TO_UNIT (self->priv->selected->image.y - self->priv->selected->boundary.y));
 	g_signal_handler_unblock (GET_WIDGET ("top_adjustment"), self->priv->top_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), self->priv->selected->maximized.width);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), self->priv->selected->image.width);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->maximized.width));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("width_adjustment")), TO_UNIT (self->priv->selected->image.width));
 	g_signal_handler_unblock (GET_WIDGET ("width_adjustment"), self->priv->width_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
 	gtk_adjustment_set_lower (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), 0.0);
-	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), self->priv->selected->maximized.height);
-	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), self->priv->selected->image.height);
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->maximized.height));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT (GET_WIDGET ("height_adjustment")), TO_UNIT (self->priv->selected->image.height));
 	g_signal_handler_unblock (GET_WIDGET ("height_adjustment"), self->priv->height_adjustment_value_changed_event);
 
 	g_signal_handler_block (GET_WIDGET ("position_combobox"), self->priv->position_combobox_changed_event);
@@ -777,7 +761,6 @@ preview_expose_event_cb (GtkWidget      *widget,
 	gth_image_print_job_paint (self,
 			           cr,
 			           pango_layout,
-				   gdk_screen_get_resolution (gtk_widget_get_screen (widget)),
 				   gtk_page_setup_get_left_margin (self->priv->page_setup, GTK_UNIT_MM),
 				   gtk_page_setup_get_top_margin (self->priv->page_setup, GTK_UNIT_MM),
 				   self->priv->current_page,
@@ -788,6 +771,108 @@ preview_expose_event_cb (GtkWidget      *widget,
 }
 
 
+static gboolean
+preview_motion_notify_event_cb (GtkWidget      *widget,
+				GdkEventMotion *event,
+				gpointer        user_data)
+{
+	GthImagePrintJob *self = user_data;
+	double            x, y;
+	int               i;
+	gboolean          changed = FALSE;
+
+	x = event->x - gtk_page_setup_get_left_margin (self->priv->page_setup, GTK_UNIT_MM);
+	y = event->y - gtk_page_setup_get_top_margin (self->priv->page_setup, GTK_UNIT_MM);
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo *image_info = self->priv->images[i];
+
+		if (image_info->page != self->priv->current_page)
+			continue;
+
+		if ((x >= image_info->boundary.x)
+		    && (x <= image_info->boundary.x + image_info->boundary.width)
+		    && (y >= image_info->boundary.y )
+		    && (y <= image_info->boundary.y + image_info->boundary.height))
+		{
+			if (! image_info->active) {
+				image_info->active = TRUE;
+				changed = TRUE;
+			}
+		}
+		else if (image_info->active) {
+			image_info->active = FALSE;
+			changed = TRUE;
+		}
+	}
+
+	if (changed)
+		gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+
+	return FALSE;
+}
+
+
+static gboolean
+preview_leave_notify_event_cb (GtkWidget        *widget,
+			       GdkEventCrossing *event,
+			       gpointer          user_data)
+{
+	GthImagePrintJob *self = user_data;
+	int               i;
+	gboolean          changed = FALSE;
+
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo *image_info = self->priv->images[i];
+
+		if (image_info->page != self->priv->current_page)
+			continue;
+
+		if (image_info->active) {
+			image_info->active = FALSE;
+			changed = TRUE;
+		}
+	}
+
+	if (changed)
+		gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+
+	return FALSE;
+}
+
+
+static gboolean
+preview_button_press_event_cb (GtkWidget      *widget,
+			       GdkEventButton *event,
+			       gpointer        user_data)
+{
+	GthImagePrintJob *self = user_data;
+	double            x, y;
+	int               i;
+
+	x = event->x - gtk_page_setup_get_left_margin (self->priv->page_setup, GTK_UNIT_MM);
+	y = event->y - gtk_page_setup_get_top_margin (self->priv->page_setup, GTK_UNIT_MM);
+	for (i = 0; i < self->priv->n_images; i++) {
+		GthImageInfo *image_info = self->priv->images[i];
+
+		if (image_info->page != self->priv->current_page)
+			continue;
+
+		if ((x >= image_info->boundary.x)
+		    && (x <= image_info->boundary.x + image_info->boundary.width)
+		    && (y >= image_info->boundary.y )
+		    && (y <= image_info->boundary.y + image_info->boundary.height))
+		{
+			self->priv->selected = image_info;
+			gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+			gth_image_print_job_update_image_controls (self);
+			break;
+		}
+	}
+
+	return FALSE;
+}
+
+
 static void
 ipp_combobox_changed_cb (GtkComboBox *widget,
 			 gpointer     user_data)
@@ -795,7 +880,6 @@ ipp_combobox_changed_cb (GtkComboBox *widget,
 	GthImagePrintJob *self = user_data;
 	int               i;
 
-	self->priv->auto_sizing = TRUE;
 	self->priv->requested_images_per_page = get_ipp_from_combo_box_index (gtk_combo_box_get_active (widget));
 	for (i = 0; i < self->priv->n_images; i++)
 		gth_image_info_reset (self->priv->images[i]);
@@ -881,6 +965,35 @@ caption_chooser_changed_cb (GthMetadataChooser *chooser,
 
 
 static void
+unit_combobox_changed_cb (GtkComboBox *combo_box,
+			  gpointer     user_data)
+{
+	GthImagePrintJob *self = user_data;
+	int               digits;
+
+	self->priv->unit = gtk_combo_box_get_active (combo_box);
+	switch (self->priv->unit) {
+	case GTH_METRIC_INCHES:
+		digits = 1;
+		break;
+	case GTH_METRIC_MILLIMETERS:
+		digits = 0;
+		break;
+	case GTH_METRIC_PIXELS:
+		digits = 0;
+		break;
+	}
+
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("img_left_spinbutton")), digits);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("img_top_spinbutton")), digits);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("img_width_spinbutton")), digits);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (GET_WIDGET ("img_height_spinbutton")), digits);
+
+	gth_image_print_job_update_image_controls (self);
+}
+
+
+static void
 rotation_combobox_changed_cb (GtkComboBox *combo_box,
 			      gpointer     user_data)
 {
@@ -899,23 +1012,27 @@ static void
 gth_image_print_job_set_selected_zoom (GthImagePrintJob *self,
 				       double            zoom)
 {
+	double x, y;
+
 	self->priv->selected->zoom = CLAMP (zoom, 0.0, 1.0);
 	self->priv->selected->image.width = self->priv->selected->maximized.width * self->priv->selected->zoom;
 	self->priv->selected->image.height = self->priv->selected->maximized.height * self->priv->selected->zoom;
 
-	if (self->priv->selected->image.x + self->priv->selected->image.width > self->priv->selected->boundary.width)
-		self->priv->selected->image.x = self->priv->selected->boundary.width -self->priv->selected->image.width;
-	if (self->priv->selected->image.x + self->priv->selected->image.width > self->priv->selected->boundary.width)
-		self->priv->selected->image.width = self->priv->selected->boundary.width -self->priv->selected->image.x;
+	x = self->priv->selected->image.x - self->priv->selected->boundary.x;
+	y = self->priv->selected->image.y - self->priv->selected->boundary.y;
+	if (x + self->priv->selected->image.width > self->priv->selected->boundary.width)
+		x = self->priv->selected->boundary.width - self->priv->selected->image.width;
+	if (x + self->priv->selected->image.width > self->priv->selected->boundary.width)
+		self->priv->selected->image.width = self->priv->selected->boundary.width - x;
 
-	if (self->priv->selected->image.y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
-		self->priv->selected->image.y = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height;
-	if (self->priv->selected->image.y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
-		self->priv->selected->image.height = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.y;
+	if (y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
+		y = self->priv->selected->boundary.height - self->priv->selected->comment.height - self->priv->selected->image.height;
+	if (y + self->priv->selected->image.height > self->priv->selected->boundary.height - self->priv->selected->comment.height)
+		self->priv->selected->image.height = self->priv->selected->boundary.height - self->priv->selected->comment.height - y;
 
 	self->priv->selected->zoom = MIN (self->priv->selected->image.width / self->priv->selected->maximized.width, self->priv->selected->image.height / self->priv->selected->maximized.height);
-	self->priv->selected->transformation.x = self->priv->selected->image.x / self->priv->max_image_width;
-	self->priv->selected->transformation.y = self->priv->selected->image.y / self->priv->max_image_height;
+	self->priv->selected->transformation.x = x / self->priv->max_image_width;
+	self->priv->selected->transformation.y = y / self->priv->max_image_height;
 
 	gth_image_print_job_update_preview (self); /* FIXME: update only the selected image */
 }
@@ -943,7 +1060,7 @@ left_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	self->priv->selected->transformation.x = gtk_adjustment_get_value (adjustment) / self->priv->max_image_width;
+	self->priv->selected->transformation.x = TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->max_image_width;
 	gth_image_print_job_update_preview (self);
 }
 
@@ -957,7 +1074,7 @@ top_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	self->priv->selected->transformation.y = gtk_adjustment_get_value (adjustment) / self->priv->max_image_height;
+	self->priv->selected->transformation.y = TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->max_image_height;
 	gth_image_print_job_update_preview (self);
 }
 
@@ -971,7 +1088,7 @@ width_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	gth_image_print_job_set_selected_zoom (self, gtk_adjustment_get_value (adjustment) / self->priv->selected->maximized.width);
+	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized.width);
 }
 
 
@@ -984,7 +1101,7 @@ height_adjustment_value_changed_cb (GtkAdjustment *adjustment,
 	if (self->priv->selected == NULL)
 		return;
 
-	gth_image_print_job_set_selected_zoom (self, gtk_adjustment_get_value (adjustment) / self->priv->selected->maximized.height);
+	gth_image_print_job_set_selected_zoom (self, TO_PIXELS (gtk_adjustment_get_value (adjustment)) / self->priv->selected->maximized.height);
 }
 
 
@@ -1028,11 +1145,24 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("caption_scrolledwindow")), self->priv->caption_chooser);
 
 	gth_metadata_chooser_set_selection (GTH_METADATA_CHOOSER (self->priv->caption_chooser), self->priv->caption_attributes);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (GET_WIDGET ("unit_combobox")), self->priv->unit);
 
 	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
 			  "expose_event",
 	                  G_CALLBACK (preview_expose_event_cb),
 	                  self);
+	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
+			  "motion-notify-event",
+			  G_CALLBACK (preview_motion_notify_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
+			  "leave-notify-event",
+			  G_CALLBACK (preview_leave_notify_event_cb),
+			  self);
+	g_signal_connect (GET_WIDGET ("preview_drawingarea"),
+			  "button-press-event",
+			  G_CALLBACK (preview_button_press_event_cb),
+			  self);
 	g_signal_connect (GET_WIDGET ("ipp_combobox"),
 			  "changed",
 	                  G_CALLBACK (ipp_combobox_changed_cb),
@@ -1048,6 +1178,10 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 	g_signal_connect (self->priv->caption_chooser,
 			  "changed",
 	                  G_CALLBACK (caption_chooser_changed_cb),
+	                  self);
+	g_signal_connect (GET_WIDGET ("unit_combobox"),
+			  "changed",
+	                  G_CALLBACK (unit_combobox_changed_cb),
 	                  self);
 
 	self->priv->rotation_combobox_changed_event =
@@ -1099,7 +1233,7 @@ operation_custom_widget_apply_cb (GtkPrintOperation *operation,
 				  GtkWidget         *widget,
 				  gpointer           user_data)
 {
-	/* FIXME */
+	/* FIXME: what to do here ? */
 }
 
 
@@ -1111,6 +1245,7 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 				   gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
+	int               i;
 
 	_g_object_unref (self->priv->page_setup);
 	self->priv->page_setup = gtk_page_setup_copy (setup);
@@ -1119,6 +1254,8 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
 				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
 
+	for (i = 0; i < self->priv->n_images; i++)
+		gth_image_info_reset (self->priv->images[i]);
 	gth_image_print_job_update_preview (self);
 }
 
@@ -1164,7 +1301,6 @@ print_operation_draw_page_cb (GtkPrintOperation *operation,
 	gth_image_print_job_paint (self,
 				   cr,
 				   pango_layout,
-				   gtk_print_context_get_dpi_x (context),
 				   0,
 				   0,
 				   page_nr,
@@ -1208,7 +1344,6 @@ gth_image_print_job_new (GList *file_data_list)
 		self->priv->images[n++] = gth_image_info_new ((GthFileData *) scan->data);
 	self->priv->images[n] = NULL;
 	self->priv->requested_images_per_page = 1;
-	self->priv->auto_sizing = TRUE;
 	self->priv->image_width = 0;
 	self->priv->image_height = 0;
 

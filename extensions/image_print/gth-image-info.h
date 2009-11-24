@@ -52,6 +52,7 @@ typedef struct {
 	GthTransform  rotation;
 	double        zoom;
 	GthRectangle  transformation;
+	gboolean      active;
 	gboolean      reset;
 	gboolean      print_comment;
 	char         *comment_text;
