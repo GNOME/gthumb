@@ -249,6 +249,140 @@ gth_image_print_job_update_layout_info (GthImagePrintJob   *self,
 
 
 static void
+gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
+					 GthImageInfo        *image_info,
+					 PangoLayout         *pango_layout,
+					 char               **attributes_v,
+					 gdouble              page_width,
+					 gdouble              page_height,
+					 GtkPageOrientation   orientation,
+					 double               scale_factor)
+{
+	double max_image_width;
+	double max_image_height;
+	double factor;
+
+	if (self->priv->selected == NULL)
+		self->priv->selected = image_info;
+
+	image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
+	image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
+	image_info->boundary.width = self->priv->max_image_width;
+	image_info->boundary.height = self->priv->max_image_height;
+
+	max_image_width = image_info->boundary.width;
+	max_image_height = image_info->boundary.height;
+
+	image_info->print_comment = FALSE;
+	g_free (image_info->comment_text);
+	image_info->comment_text = NULL;
+
+	image_info->comment.x = 0.0;
+	image_info->comment.y = 0.0;
+	image_info->comment.width = 0.0;
+	image_info->comment.height = 0.0;
+
+	if (strcmp (self->priv->caption_attributes, "") != 0) {
+		gboolean  comment_present = FALSE;
+		GString  *text;
+		int       j;
+
+		text = g_string_new ("");
+		for (j = 0; attributes_v[j] != NULL; j++) {
+			char *value;
+
+			value = gth_file_data_get_attribute_as_string (image_info->file_data, attributes_v[j]);
+			if ((value != NULL) && (strcmp (value, "") != 0)) {
+				if (comment_present)
+					g_string_append (text, "\n");
+				g_string_append (text, value);
+				comment_present = TRUE;
+			}
+
+			g_free (value);
+		}
+
+		image_info->comment_text = g_string_free (text, FALSE);
+		if (comment_present) {
+			PangoRectangle logical_rect;
+
+			image_info->print_comment = TRUE;
+
+			pango_layout_set_text (pango_layout, image_info->comment_text, -1);
+			pango_layout_set_width (pango_layout, max_image_width * scale_factor * PANGO_SCALE);
+			pango_layout_get_pixel_extents (pango_layout, NULL, &logical_rect);
+
+			image_info->comment.x = 0;
+			image_info->comment.y = 0;
+			image_info->comment.width = image_info->boundary.width;
+			image_info->comment.height = logical_rect.height / scale_factor;
+			max_image_height -= image_info->comment.height;
+			if (max_image_height < 0) {
+				image_info->print_comment = FALSE;
+				max_image_height = image_info->boundary.height;
+			}
+		}
+	}
+
+	factor = MIN (max_image_width / image_info->pixbuf_width, max_image_height / image_info->pixbuf_height);
+	image_info->maximized.width = (double) image_info->pixbuf_width * factor;
+	image_info->maximized.height = (double) image_info->pixbuf_height * factor;
+	image_info->maximized.x = image_info->boundary.x + ((max_image_width - image_info->maximized.width) / 2);
+	image_info->maximized.y = image_info->boundary.y + ((max_image_height - image_info->maximized.height) / 2);
+
+	if (image_info->reset) {
+		/* calculate the transformation to center the image */
+		image_info->transformation.x = (image_info->maximized.x - image_info->boundary.x) / self->priv->max_image_width;
+		image_info->transformation.y = (image_info->maximized.y - image_info->boundary.y) / self->priv->max_image_height;
+		image_info->zoom = 1.0;
+		image_info->reset = FALSE;
+	}
+
+	image_info->image.x = image_info->boundary.x + (self->priv->max_image_width * image_info->transformation.x);
+	image_info->image.y = image_info->boundary.y + (self->priv->max_image_height * image_info->transformation.y);
+	image_info->image.width = image_info->maximized.width * image_info->zoom;
+	image_info->image.height = image_info->maximized.height * image_info->zoom;
+
+	/* check the limits */
+
+	if (image_info->image.x - image_info->boundary.x + image_info->image.width > image_info->boundary.width) {
+		image_info->image.x = image_info->boundary.x + image_info->boundary.width - image_info->image.width;
+		image_info->transformation.x = (image_info->image.x - image_info->boundary.x) / self->priv->max_image_width;
+	}
+
+	if (image_info->image.y - image_info->boundary.y + image_info->image.height > image_info->boundary.height) {
+		image_info->image.y = image_info->boundary.y + image_info->boundary.height - image_info->image.height;
+		image_info->transformation.y = (image_info->image.y - image_info->boundary.y) / self->priv->max_image_height;
+	}
+
+	/* the comment position */
+
+	if (image_info->print_comment) {
+		image_info->comment.x += image_info->boundary.x;
+		image_info->comment.y += image_info->image.y + image_info->image.height;
+	}
+}
+
+
+static PangoLayout *
+gth_image_print_job_create_pango_layout (GthImagePrintJob *self)
+{
+	PangoLayout          *pango_layout;
+	PangoFontDescription *font_desc;
+
+	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
+	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
+	font_desc = pango_font_description_from_string ("[sans serif] [normal] [10]"); /* FIXME: allow the user to select a font */
+	pango_layout_set_font_description (pango_layout, font_desc);
+
+	pango_font_description_free (font_desc);
+
+	return pango_layout;
+}
+
+
+static void
 gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 					int                 page,
 					gdouble             page_width,
@@ -256,130 +390,29 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 					GtkPageOrientation  orientation,
 					double              scale_factor)
 {
-	PangoLayout           *pango_layout;
-	PangoFontDescription  *font_desc;
-	char                 **attributes_v;
-	int                    i;
+	PangoLayout  *pango_layout;
+	char        **attributes_v;
+	int           i;
 
-	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
-	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
-	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
-	font_desc = pango_font_description_from_string ("[sans serif] [normal] [10]");
-	pango_layout_set_font_description (pango_layout, font_desc);
-
+	pango_layout = gth_image_print_job_create_pango_layout (self);
 	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
-		double        max_image_width;
-		double        max_image_height;
-		double        factor;
 
 		if (image_info->page != page)
 			continue;
 
-		if (self->priv->selected == NULL)
-			self->priv->selected = image_info;
-
-		image_info->boundary.x = (image_info->col - 1) * (self->priv->max_image_width + self->priv->x_padding);
-		image_info->boundary.y = (image_info->row - 1) * (self->priv->max_image_height + self->priv->y_padding);
-		image_info->boundary.width = self->priv->max_image_width;
-		image_info->boundary.height = self->priv->max_image_height;
-
-		max_image_width = image_info->boundary.width;
-		max_image_height = image_info->boundary.height;
-
-		image_info->print_comment = FALSE;
-		g_free (image_info->comment_text);
-		image_info->comment_text = NULL;
-
-		image_info->comment.x = 0.0;
-		image_info->comment.y = 0.0;
-		image_info->comment.width = 0.0;
-		image_info->comment.height = 0.0;
-
-		if (strcmp (self->priv->caption_attributes, "") != 0) {
-			gboolean  comment_present = FALSE;
-			GString  *text;
-			int       j;
-
-			text = g_string_new ("");
-			for (j = 0; attributes_v[j] != NULL; j++) {
-				char *value;
-
-				value = gth_file_data_get_attribute_as_string (image_info->file_data, attributes_v[j]);
-				if ((value != NULL) && (strcmp (value, "") != 0)) {
-					if (comment_present)
-						g_string_append (text, "\n");
-					g_string_append (text, value);
-					comment_present = TRUE;
-				}
-
-				g_free (value);
-			}
-
-			image_info->comment_text = g_string_free (text, FALSE);
-			if (comment_present) {
-				PangoRectangle logical_rect;
-
-				image_info->print_comment = TRUE;
-
-				pango_layout_set_text (pango_layout, image_info->comment_text, -1);
-				pango_layout_set_width (pango_layout, max_image_width * scale_factor * PANGO_SCALE);
-				pango_layout_get_pixel_extents (pango_layout, NULL, &logical_rect);
-
-				image_info->comment.x = 0;
-				image_info->comment.y = 0;
-				image_info->comment.width = image_info->boundary.width;
-				image_info->comment.height = logical_rect.height / scale_factor;
-				max_image_height -= image_info->comment.height;
-				if (max_image_height < 0) {
-					image_info->print_comment = FALSE;
-					max_image_height = image_info->boundary.height;
-				}
-			}
-		}
-
-		factor = MIN (max_image_width / image_info->pixbuf_width, max_image_height / image_info->pixbuf_height);
-		image_info->maximized.width = (double) image_info->pixbuf_width * factor;
-		image_info->maximized.height = (double) image_info->pixbuf_height * factor;
-		image_info->maximized.x = image_info->boundary.x + ((max_image_width - image_info->maximized.width) / 2);
-		image_info->maximized.y = image_info->boundary.y + ((max_image_height - image_info->maximized.height) / 2);
-
-		if (image_info->reset) {
-			/* calculate the transformation to center the image */
-			image_info->transformation.x = (image_info->maximized.x - image_info->boundary.x) / self->priv->max_image_width;
-			image_info->transformation.y = (image_info->maximized.y - image_info->boundary.y) / self->priv->max_image_height;
-			image_info->zoom = 1.0;
-			image_info->reset = FALSE;
-		}
-
-		image_info->image.x = image_info->boundary.x + (self->priv->max_image_width * image_info->transformation.x);
-		image_info->image.y = image_info->boundary.y + (self->priv->max_image_height * image_info->transformation.y);
-		image_info->image.width = image_info->maximized.width * image_info->zoom;
-		image_info->image.height = image_info->maximized.height * image_info->zoom;
-
-		/* check the limits */
-
-		if (image_info->image.x - image_info->boundary.x + image_info->image.width > image_info->boundary.width) {
-			image_info->image.x = image_info->boundary.x + image_info->boundary.width - image_info->image.width;
-			image_info->transformation.x = (image_info->image.x - image_info->boundary.x) / self->priv->max_image_width;
-		}
-
-		if (image_info->image.y - image_info->boundary.y + image_info->image.height > image_info->boundary.height) {
-			image_info->image.y = image_info->boundary.y + image_info->boundary.height - image_info->image.height;
-			image_info->transformation.y = (image_info->image.y - image_info->boundary.y) / self->priv->max_image_height;
-		}
-
-		/* the comment position */
-
-		if (image_info->print_comment) {
-			image_info->comment.x += image_info->boundary.x;
-			image_info->comment.y += image_info->image.y + image_info->image.height;
-		}
+		gth_image_print_job_update_image_layout (self,
+							 image_info,
+							 pango_layout,
+							 attributes_v,
+							 page_width,
+							 page_height,
+							 orientation,
+							 scale_factor);
 	}
 
 	g_strfreev (attributes_v);
-	pango_font_description_free (font_desc);
 	g_object_unref (pango_layout);
 }
 
@@ -479,7 +512,7 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		else
 			fullsize_pixbuf = g_object_ref (image_info->thumbnail);
 
-		if ((image_info->image.width > 0) && (image_info->image.height > 0)) {
+		if ((image_info->image.width >= 1.0) && (image_info->image.height >= 1.0)) {
 			GdkPixbuf *pixbuf;
 
 			pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
@@ -733,6 +766,31 @@ gth_image_print_job_update_preview (GthImagePrintJob *self)
 	gtk_widget_set_sensitive (GET_WIDGET ("prev_page_button"), self->priv->current_page > 0);
 
 	g_free (text);
+}
+
+
+static void
+gth_image_print_job_update_image_preview (GthImagePrintJob *self,
+					  GthImageInfo     *image_info)
+{
+	PangoLayout  *pango_layout;
+	char        **attributes_v;
+
+	pango_layout = gth_image_print_job_create_pango_layout (self);
+	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
+	gth_image_print_job_update_image_layout (self,
+						 image_info,
+						 pango_layout,
+						 attributes_v,
+						 gtk_page_setup_get_page_width (self->priv->page_setup, GTK_UNIT_MM),
+						 gtk_page_setup_get_page_height (self->priv->page_setup, GTK_UNIT_MM),
+						 gtk_page_setup_get_orientation (self->priv->page_setup),
+						 PREVIEW_SCALE_FACTOR);
+	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
+	gth_image_print_job_update_image_controls (self);
+
+	g_strfreev (attributes_v);
+	g_object_unref (pango_layout);
 }
 
 
@@ -1034,7 +1092,7 @@ gth_image_print_job_set_selected_zoom (GthImagePrintJob *self,
 	self->priv->selected->transformation.x = x / self->priv->max_image_width;
 	self->priv->selected->transformation.y = y / self->priv->max_image_height;
 
-	gth_image_print_job_update_preview (self); /* FIXME: update only the selected image */
+	gth_image_print_job_update_image_preview (self, self->priv->selected);
 }
 
 
