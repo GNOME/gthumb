@@ -8,5 +8,5 @@ dom_test_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir)/gthumb
 
 glib_utils_test_SOURCES = glib-utils-test.c $(top_srcdir)/gthumb/glib-utils.c
 glib_utils_test_LDADD = $(GTHUMB_LIBS) 
-glib_utils_test_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir)/gthumb
+glib_utils_test_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir)/gthumb
 -include $(top_srcdir)/git.mk

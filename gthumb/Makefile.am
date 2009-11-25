@@ -258,8 +258,6 @@ gthumb_CFLAGS =							\
 	$(GTHUMB_CFLAGS)					\
 	$(EXIV2_CFLAGS)						\
 	$(CLUTTER_CFLAGS)					\
-	$(DISABLE_DEPRECATED)                   		\
-        $(WARNINGS)                             		\
 	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
 	-DGTHUMB_PREFIX=\"$(prefix)\"           		\

@@ -45,7 +45,7 @@ libpixbuf_savers_la_SOURCES = 	\
 	main.c			\
 	preferences.c
 
-libpixbuf_savers_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libpixbuf_savers_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libpixbuf_savers_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libpixbuf_savers_la_LIBADD = $(GTHUMB_LIBS) $(TIFF_LIBS)
 libpixbuf_savers_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

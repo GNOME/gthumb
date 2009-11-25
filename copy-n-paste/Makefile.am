@@ -1,7 +1,3 @@
-INCLUDES = -DGTK_DISABLE_DEPRECATED \
-	   -DGDK_DISABLE_DEPRECATED \
-	   -DG_DISABLE_DEPRECATED 
-
 noinst_LTLIBRARIES = libeggsmclient.la
 
 libeggsmclient_la_LIBADD = $(GTK_LIBS)

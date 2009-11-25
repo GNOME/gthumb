@@ -35,6 +35,10 @@ GSTREAMER_REQUIRED=0.10
 
 dnl ===========================================================================
 
+CFLAGS=""
+CFLAGS+="-DG_DISABLE_SINGLE_INCLUDES -DGDK_PIXBUF_DISABLE_SINGLE_INCLUDES -DGTK_DISABLE_SINGLE_INCLUDES "
+CFLAGS+="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED "
+
 AC_ARG_ENABLE(debug,
 	      AS_HELP_STRING([--enable-debug], [enable compilation of debugging messages]),
 	      [case "${enableval}" in
@@ -45,7 +49,7 @@ AC_ARG_ENABLE(debug,
 	      [ENABLE_DEBUG=no])
 if test x$ENABLE_DEBUG = xyes; then
 	AC_DEFINE(DEBUG, 1, [enable compilation of debugging messages])
-	CFLAGS="-g -O0"
+	CFLAGS+="-g -O0 "
 fi
 
 AC_ARG_ENABLE(run_in_place,
@@ -204,16 +208,6 @@ else
 fi
 AC_SUBST(EXTENSION_LIBTOOL_FLAGS)
 
-
-dnl ===========================================================================
-
-AC_ARG_ENABLE(deprecations,
-	      [AS_HELP_STRING([--enable-deprecations],[warn about deprecated usages])])
-if test "x$enable_deprecations" = "xyes"; then
-	DISABLE_DEPRECATED="-DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED"
-fi
-AC_SUBST(DISABLE_DEPRECATED)
-
 dnl ===========================================================================
 
 WARN_CFLAGS="-Wall -Wcast-align -Wtype-limits -Wclobbered -Wempty-body -Wignored-qualifiers"
@@ -232,8 +226,7 @@ for option in $WARN_CFLAGS; do
 	unset SAVE_CFLAGS
 done
 unset option
-AC_SUBST(WARNINGS)
-
+CFLAGS+="$WARNINGS "
 
 dnl ===========================================================================
 
@@ -363,6 +356,7 @@ Configuration:
 	Source code location : $srcdir
 	Compiler             : $CC
 	Prefix               : $prefix
+	CFLAGS		     : $CFLAGS
 	Debug                : $ENABLE_DEBUG
 	Run in place         : ${enable_run_in_place}
 	Build tests          : $ENABLE_TEST_SUITE

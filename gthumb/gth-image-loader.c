@@ -22,8 +22,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
-#define GDK_PIXBUF_ENABLE_BACKEND
-#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gtk/gtk.h>
 #include "gth-file-data.h"
 #include "glib-utils.h"

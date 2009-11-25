@@ -14,7 +14,7 @@ librename_series_la_SOURCES = 		\
 	gth-rename-task.h		\
 	main.c
 
-librename_series_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+librename_series_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 librename_series_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 librename_series_la_LIBADD = $(GTHUMB_LIBS)
 librename_series_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

@@ -23,7 +23,7 @@
 #ifndef GTH_BROWSER_ACTIONS_CALLBACKS_H
 #define GTH_BROWSER_ACTIONS_CALLBACKS_H
 
-#include <gtk/gtkaction.h>
+#include <gtk/gtk.h>
 
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 

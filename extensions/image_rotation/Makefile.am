@@ -13,7 +13,7 @@ libimage_rotation_la_SOURCES = 		\
 	rotation-utils.c		\
 	rotation-utils.h		
 
-libimage_rotation_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libimage_rotation_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimage_rotation_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libimage_rotation_la_LIBADD = $(GTHUMB_LIBS) 
 libimage_rotation_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

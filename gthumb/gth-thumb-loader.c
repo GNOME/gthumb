@@ -28,7 +28,7 @@
 #include <signal.h>
 #define GDK_PIXBUF_ENABLE_BACKEND
 #include <gtk/gtk.h>
-#include <gdk-pixbuf/gdk-pixbuf-animation.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "gio-utils.h"
 #include "glib-utils.h"
 #define GNOME_DESKTOP_USE_UNSTABLE_API

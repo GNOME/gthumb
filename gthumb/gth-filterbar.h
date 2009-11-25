@@ -23,7 +23,7 @@
 #ifndef GTH_FILTERBAR_H
 #define GTH_FILTERBAR_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include "gth-test.h"
 
 G_BEGIN_DECLS

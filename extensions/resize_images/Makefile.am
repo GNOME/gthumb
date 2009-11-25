@@ -12,7 +12,7 @@ libresize_images_la_SOURCES = 		\
 	dlg-resize-images.h		\
 	main.c
 
-libresize_images_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libresize_images_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libresize_images_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libresize_images_la_LIBADD = $(GTHUMB_LIBS)
 libresize_images_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

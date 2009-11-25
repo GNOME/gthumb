@@ -44,7 +44,7 @@ libphoto_importer_la_SOURCES = 		\
 	gth-import-task.c		\
 	main.c
 	
-libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libphoto_importer_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libphoto_importer_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libphoto_importer_la_LIBADD = $(GTHUMB_LIBS)
 libphoto_importer_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

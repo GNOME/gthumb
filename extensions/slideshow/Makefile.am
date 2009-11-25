@@ -18,7 +18,7 @@ libslideshow_la_SOURCES = 		\
 	preferences.c			\
 	preferences.h
 
-libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libslideshow_la_CFLAGS = $(GTHUMB_CFLAGS) $(CLUTTER_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libslideshow_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libslideshow_la_LIBADD = $(GTHUMB_LIBS)
 libslideshow_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

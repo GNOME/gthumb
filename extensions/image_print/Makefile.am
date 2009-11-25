@@ -17,7 +17,7 @@ libimage_print_la_SOURCES = 		\
 	preferences.h			\
 	main.c
 
-libimage_print_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libimage_print_la_CPPFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libimage_print_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libimage_print_la_LIBADD = $(GTHUMB_LIBS) 
 libimage_print_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

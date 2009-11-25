@@ -14,7 +14,7 @@ libcomments_la_SOURCES = 			\
 	gth-test-category.h			\
 	main.c
 
-libcomments_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libcomments_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libcomments_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libcomments_la_LIBADD = $(GTHUMB_LIBS)
 libcomments_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

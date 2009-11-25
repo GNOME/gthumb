@@ -10,7 +10,7 @@ libexiv2_la_SOURCES = 			\
 	gth-metadata-provider-exiv2.h	\
 	main.c
 
-libexiv2_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(EXIV2_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libexiv2_la_CPPFLAGS = $(GTHUMB_CFLAGS) $(EXIV2_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libexiv2_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libexiv2_la_LIBADD = $(GTHUMB_LIBS) 
 libexiv2_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

@@ -23,7 +23,7 @@
 #ifndef GTH_TIME_SELECTOR_H
 #define GTH_TIME_SELECTOR_H
 
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 #include "gth-time.h"
 
 G_BEGIN_DECLS

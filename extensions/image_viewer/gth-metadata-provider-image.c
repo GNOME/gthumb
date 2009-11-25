@@ -24,7 +24,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <glib.h>
-#include <gdk-pixbuf/gdk-pixbuf-io.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gthumb.h>
 #include "gth-metadata-provider-image.h"
 

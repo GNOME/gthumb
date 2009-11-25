@@ -16,7 +16,7 @@ libfile_manager_la_SOURCES = 		\
 	gth-reorder-task.h		\
 	main.c
 
-libfile_manager_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libfile_manager_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libfile_manager_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libfile_manager_la_LIBADD = $(GTHUMB_LIBS)
 libfile_manager_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)

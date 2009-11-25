@@ -8,7 +8,7 @@ libred_eye_removal_la_SOURCES = 	\
 	gth-file-tool-red-eye.h		\
 	main.c
 
-libred_eye_removal_la_CFLAGS = $(GTHUMB_CFLAGS) $(DISABLE_DEPRECATED) $(WARNINGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
+libred_eye_removal_la_CFLAGS = $(GTHUMB_CFLAGS) -I$(top_srcdir) -I$(top_builddir)/gthumb 
 libred_eye_removal_la_LDFLAGS = $(EXTENSION_LIBTOOL_FLAGS)
 libred_eye_removal_la_LIBADD = $(GTHUMB_LIBS)
 libred_eye_removal_la_DEPENDENCIES = $(top_builddir)/gthumb/gthumb$(EXEEXT)
