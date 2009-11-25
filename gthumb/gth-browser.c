@@ -2792,7 +2792,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
 				       gtk_ui_manager_get_widget (browser->priv->ui, GO_BACK_HISTORY_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, TRUE);
+	gtk_tool_item_set_homogeneous (tool_item, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go to the previous visited location"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of visited locations"));
 
@@ -2813,7 +2813,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_FORWARD);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
 				       gtk_ui_manager_get_widget (browser->priv->ui, GO_FORWARD_HISTORY_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, TRUE);
+	gtk_tool_item_set_homogeneous (tool_item, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go to the next visited location"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of visited locations"));
 
@@ -2834,7 +2834,7 @@ add_browser_toolbar_menu_buttons (GthBrowser *browser)
 	tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_UP);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item),
 				       gtk_ui_manager_get_widget (browser->priv->ui, GO_PARENT_POPUP));
-	gtk_tool_item_set_homogeneous (tool_item, TRUE);
+	gtk_tool_item_set_homogeneous (tool_item, FALSE);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Go up one level"));
 	gtk_menu_tool_button_set_arrow_tooltip_text (GTK_MENU_TOOL_BUTTON (tool_item), _("View the list of upper locations"));
 
