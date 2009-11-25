@@ -75,7 +75,7 @@ struct _GthImagePrintJobPrivate {
 	GtkPageSetup       *page_setup;
 	char               *caption_attributes;
 	char               *font_name;
-	double              font_scale;
+	double              scale_factor;
 
 	/* layout info */
 
@@ -259,7 +259,7 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 					 gdouble              page_width,
 					 gdouble              page_height,
 					 GtkPageOrientation   orientation,
-					 double               scale_factor)
+					 gboolean             preview)
 {
 	double max_image_width;
 	double max_image_height;
@@ -312,13 +312,13 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 			image_info->print_comment = TRUE;
 
 			pango_layout_set_text (pango_layout, image_info->comment_text, -1);
-			pango_layout_set_width (pango_layout, max_image_width * scale_factor * PANGO_SCALE);
+			pango_layout_set_width (pango_layout, max_image_width * self->priv->scale_factor * PANGO_SCALE);
 			pango_layout_get_pixel_extents (pango_layout, NULL, &logical_rect);
 
 			image_info->comment.x = 0;
 			image_info->comment.y = 0;
 			image_info->comment.width = image_info->boundary.width;
-			image_info->comment.height = logical_rect.height / scale_factor;
+			image_info->comment.height = logical_rect.height / self->priv->scale_factor;
 			max_image_height -= image_info->comment.height;
 			if (max_image_height < 0) {
 				image_info->print_comment = FALSE;
@@ -369,27 +369,46 @@ gth_image_print_job_update_image_layout (GthImagePrintJob    *self,
 
 static void
 gth_image_print_job_set_font_options (GthImagePrintJob *self,
-				      PangoLayout      *pango_layout)
+				      PangoLayout      *pango_layout,
+				      gboolean          preview)
 {
 	PangoFontDescription *font_desc;
+	double                size_in_points;
+	cairo_font_options_t *options;
+	PangoContext         *pango_context;
 
 	pango_layout_set_wrap (pango_layout, PANGO_WRAP_WORD_CHAR);
 	pango_layout_set_justify (pango_layout, FALSE);
-	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_LEFT);
+	pango_layout_set_alignment (pango_layout, PANGO_ALIGN_CENTER);
 
 	font_desc = pango_font_description_from_string (self->priv->font_name);
+	if (preview)
+		self->priv->scale_factor = 2.83;
+	else
+		self->priv->scale_factor = 1.0;
+
+	size_in_points = (double) pango_font_description_get_size (font_desc) / PANGO_SCALE;
+	pango_font_description_set_absolute_size (font_desc, size_in_points * PANGO_SCALE);
 	pango_layout_set_font_description (pango_layout, font_desc);
+
+	options = cairo_font_options_create ();
+	cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
+	pango_context = pango_layout_get_context (pango_layout);
+	pango_cairo_context_set_font_options (pango_context, options);
+
+	cairo_font_options_destroy (options);
 	pango_font_description_free (font_desc);
 }
 
 
 static PangoLayout *
-gth_image_print_job_create_pango_layout (GthImagePrintJob *self)
+gth_image_print_job_create_pango_layout (GthImagePrintJob *self,
+					 gboolean          preview)
 {
 	PangoLayout *pango_layout;
 
 	pango_layout = gtk_widget_create_pango_layout (GTK_WIDGET (self->priv->browser), NULL);
-	gth_image_print_job_set_font_options (self, pango_layout);
+	gth_image_print_job_set_font_options (self, pango_layout, preview);
 
 	return pango_layout;
 }
@@ -407,13 +426,7 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 	char        **attributes_v;
 	int           i;
 
-	pango_layout = gth_image_print_job_create_pango_layout (self);
-	if (preview) {
-		self->priv->font_scale = 3.0; /*(double) pango_font_description_get_size (font_desc) / 4000.0*/ /* FIXME */
-	}
-	else
-		self->priv->font_scale = 1.0;
-
+	pango_layout = gth_image_print_job_create_pango_layout (self, preview);
 	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
@@ -428,7 +441,7 @@ gth_image_print_job_update_page_layout (GthImagePrintJob   *self,
 							 page_width,
 							 page_height,
 							 orientation,
-							 self->priv->font_scale);
+							 preview);
 	}
 
 	g_strfreev (attributes_v);
@@ -458,7 +471,7 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 {
 	int i;
 
-	gth_image_print_job_set_font_options (self, pango_layout);
+	gth_image_print_job_set_font_options (self, pango_layout, preview);
 	for (i = 0; i < self->priv->n_images; i++) {
 		GthImageInfo *image_info = self->priv->images[i];
 		GdkPixbuf    *fullsize_pixbuf;
@@ -467,8 +480,20 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			continue;
 
 		if (preview) {
+#if 0
 			cairo_save (cr);
+			cairo_set_line_width (cr, 0.5);
+			cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
+			cairo_rectangle (cr,
+					 x_offset + image_info->comment.x,
+					 y_offset + image_info->comment.y,
+					 image_info->comment.width,
+					 image_info->comment.height);
+			cairo_stroke (cr);
+			cairo_restore (cr);
+#endif
 
+			cairo_save (cr);
 			cairo_set_line_width (cr, 0.5);
 			if (image_info->active)
 				cairo_set_source_rgb (cr, 1.0, 0.0, 0.0);
@@ -482,7 +507,6 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 					 image_info->boundary.width,
 					 image_info->boundary.height);
 			cairo_stroke (cr);
-
 			cairo_restore (cr);
 		}
 
@@ -525,28 +549,15 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 		if (image_info->print_comment) {
 			cairo_save (cr);
 
-			pango_layout_set_width (pango_layout, image_info->comment.width * (preview ? self->priv->font_scale : 1.0) * PANGO_SCALE);
+			pango_layout_set_width (pango_layout, image_info->comment.width * self->priv->scale_factor * PANGO_SCALE);
 			pango_layout_set_text (pango_layout, image_info->comment_text, -1);
 
 			cairo_move_to (cr, x_offset + image_info->comment.x, y_offset + image_info->comment.y);
-			if (preview) {
-				cairo_font_options_t *options;
-
-				options = cairo_font_options_create ();
-				cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_NONE);
-				cairo_font_options_set_hint_metrics (options, CAIRO_HINT_METRICS_OFF);
-				cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_NONE);
-				cairo_set_font_options (cr, options);
-				cairo_font_options_destroy (options);
-
-				cairo_scale (cr, 1.0 / self->priv->font_scale, 1.0 / self->priv->font_scale);
-				cairo_set_line_width (cr, 0.5);
-			}
+			if (preview)
+				cairo_scale (cr, 1.0 / self->priv->scale_factor, 1.0 / self->priv->scale_factor);
 
 			pango_cairo_layout_path (cr, pango_layout);
 			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-			/*cairo_set_line_width (cr, 0.5);
-			cairo_stroke_preserve (cr);*/
 			cairo_fill (cr);
 
 			cairo_restore (cr);
@@ -704,7 +715,7 @@ gth_image_print_job_update_image_preview (GthImagePrintJob *self,
 	PangoLayout  *pango_layout;
 	char        **attributes_v;
 
-	pango_layout = gth_image_print_job_create_pango_layout (self);
+	pango_layout = gth_image_print_job_create_pango_layout (self, TRUE);
 	attributes_v = g_strsplit (self->priv->caption_attributes, ",", -1);
 	gth_image_print_job_update_image_layout (self,
 						 image_info,
@@ -713,7 +724,7 @@ gth_image_print_job_update_image_preview (GthImagePrintJob *self,
 						 gtk_page_setup_get_page_width (self->priv->page_setup, GTK_UNIT_MM),
 						 gtk_page_setup_get_page_height (self->priv->page_setup, GTK_UNIT_MM),
 						 gtk_page_setup_get_orientation (self->priv->page_setup),
-						 self->priv->font_scale);
+						 TRUE);
 	gtk_widget_queue_draw (GET_WIDGET ("preview_drawingarea"));
 	gth_image_print_job_update_image_controls (self);
 
