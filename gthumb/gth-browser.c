@@ -1080,69 +1080,15 @@ static void _gth_browser_load_ready_cb (GthFileSource *file_source, GList *files
 static gboolean
 _gth_browser_reload_required (GthBrowser *browser)
 {
-	char        *old_list_attributes;
-	char       **old_list_attributes_v;
-	const char  *new_list_attributes;
-	char       **new_list_attributes_v;
-	int          new_list_attributes_len;
-	int          i;
+	char        *old_attributes;
+	const char  *new_attributes;
 	gboolean     reload_required;
 
-	old_list_attributes = g_strdup (_gth_browser_get_list_attributes (browser, FALSE));
-	old_list_attributes_v = g_strsplit (old_list_attributes, ",", -1);
+	old_attributes = g_strdup (_gth_browser_get_list_attributes (browser, FALSE));
+	new_attributes = _gth_browser_get_list_attributes (browser, TRUE);
+	reload_required = attribute_list_reaload_required (old_attributes, new_attributes);
 
-	new_list_attributes = _gth_browser_get_list_attributes (browser, TRUE);
-	new_list_attributes_v = g_strsplit (new_list_attributes, ",", -1);
-	new_list_attributes_len = g_strv_length (new_list_attributes_v);
-
-	for (i = 0; i < new_list_attributes_len; i++) {
-		if (_g_file_attributes_matches (new_list_attributes_v[i], "standard::*,etag::*,id::*,access::*,mountable::*,time::*,unix::*,dos::*,owner::*,thumbnail::*,filesystem::*,gvfs::*,xattr::*,xattr-sys::*,selinux::*")) {
-			g_free (new_list_attributes_v[i]);
-			new_list_attributes_v[i] = NULL;
-		}
-	}
-
-	for (i = 0; (old_list_attributes_v[i] != NULL); i++) {
-		GthMetadataProvider *provider;
-		int                  j;
-
-		provider = gth_main_get_metadata_reader (old_list_attributes_v[i]);
-		if (provider == NULL)
-			continue;
-
-		for (j = 0; j < new_list_attributes_len; j++)
-			if ((new_list_attributes_v[j] != NULL)
-			    && (new_list_attributes_v[j][0] != '\0')
-			    && (strcmp (new_list_attributes_v[j], "none") != 0))
-			{
-				char *attr_v[2];
-
-				attr_v[0] = new_list_attributes_v[j];
-				attr_v[1] = NULL;
-				if (gth_metadata_provider_can_read (provider, attr_v)) {
-					g_free (new_list_attributes_v[j]);
-					new_list_attributes_v[j] = NULL;
-				}
-			}
-
-		g_object_ref (provider);
-	}
-
-	/*g_print ("attributes to load: %s\n", new_list_attributes);
-	g_print ("attributes not available: \n");*/
-	reload_required = FALSE;
-	for (i = 0; ! reload_required && (i < new_list_attributes_len); i++)
-		if ((new_list_attributes_v[i] != NULL)
-		    && (new_list_attributes_v[i][0] != '\0')
-		    && (strcmp (new_list_attributes_v[i], "none") != 0))
-		{
-			reload_required = TRUE;
-			/*g_print ("\t%s\n", new_list_attributes_v[i]);*/
-		}
-
-	g_strfreev (new_list_attributes_v);
-	g_strfreev (old_list_attributes_v);
-	g_free (old_list_attributes);
+	g_free (old_attributes);
 
 	return reload_required;
 }

@@ -123,6 +123,11 @@ void                   gth_main_register_default_sort_types   (void);
 void                   gth_main_register_default_metadata     (void);
 void                   gth_main_activate_extensions           (void);
 
+/* utilities */
+
+gboolean               attribute_list_reaload_required        (const char *old_attributes,
+							       const char *new_attributes);
+
 G_END_DECLS
 
 #endif /* GTH_MAIN_H */

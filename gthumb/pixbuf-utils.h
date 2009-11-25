@@ -46,6 +46,9 @@ void        _gdk_pixbuf_hv_gradient           (GdkPixbuf       *pixbuf,
 					       guint32          vcolor2);
 GdkPixbuf * _gdk_pixbuf_transform             (GdkPixbuf       *src,
 					       GthTransform     transform);
+void        _gdk_pixbuf_colorshift            (GdkPixbuf       *dest,
+					       GdkPixbuf       *src,
+					       int              shift);
 gboolean    scale_keeping_ratio_min           (int             *width,
 					       int             *height,
 					       int              min_width,

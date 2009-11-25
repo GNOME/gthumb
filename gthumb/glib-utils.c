@@ -2108,6 +2108,20 @@ _g_file_append_path (GFile      *file,
 
 
 static gboolean
+attribute_matches_mask (const char *attribute,
+			const char *mask)
+{
+	char *pattern_end;
+
+	pattern_end = g_strstr_len (mask, -1, "*");
+	if (pattern_end == NULL)
+		return strcmp (attribute, mask) == 0;
+	else
+		return strncmp (attribute, mask, pattern_end - mask) == 0;
+}
+
+
+static gboolean
 _g_file_attributes_matches_mask (const char *attributes,
 			         const char *mask)
 {
@@ -2119,14 +2133,14 @@ _g_file_attributes_matches_mask (const char *attributes,
 	attributes_v = g_strsplit (attributes, ",", -1);
 	mask_v = g_strsplit (mask, ",", -1);
 	for (i = 0; ! matches && (mask_v[i] != NULL); i++) {
-		GFileAttributeMatcher *matcher;
-		int                    j;
+		int j;
 
-		matcher = g_file_attribute_matcher_new (mask_v[i]);
-		for (j = 0; ! matches && (attributes_v[j] != NULL); j++)
-			matches = g_file_attribute_matcher_matches (matcher, attributes_v[j]);
-
-		g_file_attribute_matcher_unref (matcher);
+		for (j = 0; ! matches && (attributes_v[j] != NULL); j++) {
+			matches = attribute_matches_mask (attributes_v[j], mask_v[i]);
+#if 0
+			g_print ("attr: %s <=> mask: %s : %d\n", attributes_v[j], mask_v[i], matches);
+#endif
+		}
 	}
 
 	g_strfreev (mask_v);

@@ -94,6 +94,13 @@ typedef enum {
 
 
 typedef enum {
+	GTH_METRIC_PIXELS,
+        GTH_METRIC_MILLIMETERS,
+        GTH_METRIC_INCHES
+} GthMetric;
+
+
+typedef enum {
 	GTH_OVERWRITE_SKIP,
 	GTH_OVERWRITE_RENAME,
 	GTH_OVERWRITE_ASK,

@@ -316,6 +316,9 @@ extensions/file_viewer/Makefile
 extensions/gstreamer/Makefile
 extensions/gstreamer/data/Makefile
 extensions/gstreamer/data/ui/Makefile
+extensions/image_print/Makefile
+extensions/image_print/data/Makefile
+extensions/image_print/data/ui/Makefile
 extensions/image_rotation/Makefile
 extensions/image_viewer/Makefile
 extensions/image_viewer/data/Makefile
