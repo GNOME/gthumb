@@ -60,6 +60,10 @@ gth_metadata_provider_file_read (GthMetadataProvider *self,
 	g_file_info_set_attribute_string (file_data->info, "gth::file::display-mtime", value);
 	g_free (value);
 
+	value = g_file_get_parse_name (file_data->file);
+	g_file_info_set_attribute_string (file_data->info, "gth::file::full-name", value);
+	g_free (value);
+
 	value_s = get_static_string (g_file_info_get_content_type (file_data->info));
 	if (value_s != NULL)
 		g_file_info_set_attribute_string (file_data->info, "gth::file::content-type", value_s);
@@ -92,7 +96,7 @@ gth_metadata_provider_constructor (GType                  type,
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 	self = GTH_METADATA_PROVIDER (obj);
 
-	g_object_set (self, "readable-attributes", "gth::file::display-size,gth::file::display-mtime,gth::file::content-type,gth::file::is-modified", NULL);
+	g_object_set (self, "readable-attributes", "gth::file::display-size,gth::file::display-mtime,gth::file::content-type,gth::file::is-modified,gth::file::full-name", NULL);
 
 	return obj;
 }

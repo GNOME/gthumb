@@ -42,6 +42,7 @@ GthMetadataInfo file_metadata_info[] = {
 	{ "gth::file::display-mtime", N_("Modified"), "file", 3, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "standard::fast-content-type", N_("Type"), "file", 4, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "gth::file::is-modified", NULL, "file", 5, GTH_METADATA_ALLOW_NOWHERE },
+	{ "gth::file::full-name", N_("Full Name"), "file", 6, GTH_METADATA_ALLOW_EVERYWHERE },
 
 	{ "general::size", N_("Dimensions"), "general", 10, GTH_METADATA_ALLOW_EVERYWHERE },
 	{ "general::duration", N_("Duration"), "general", 11, GTH_METADATA_ALLOW_EVERYWHERE },
