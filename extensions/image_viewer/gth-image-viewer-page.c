@@ -45,7 +45,6 @@ struct _GthImageViewerPagePrivate {
 	guint              hide_mouse_timeout;
 	guint              motion_signal;
 	gboolean           pixbuf_changed;
-
 };
 
 static gpointer gth_image_viewer_page_parent_class = NULL;

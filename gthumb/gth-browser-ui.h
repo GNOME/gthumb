@@ -116,9 +116,8 @@ static const char *fixed_ui_info =
 "    <toolitem action='View_Next'/>"
 "    <separator/>"
 "    <placeholder name='ViewerCommands'/>"
-/*"    <placeholder name='ViewerCommands_2'/>"*/
 "    <separator/>"
-/*"    <toolitem action='Edit_Metadata'/>"*/
+"    <toolitem action='Edit_Metadata'/>"
 "    <placeholder name='Edit_Actions'/>"
 "    <separator expand='true'/>"
 "    <placeholder name='ViewerCommandsSecondary'/>"
@@ -131,9 +130,9 @@ static const char *fixed_ui_info =
 "    <toolitem action='View_Prev'/>"
 "    <toolitem action='View_Next'/>"
 "    <separator/>"
-"    <toolitem action='Edit_Metadata'/>"
-"    <separator/>"
 "    <placeholder name='ViewerCommands'/>"
+"    <separator/>"
+"    <toolitem action='Edit_Metadata'/>"
 "    <separator expand='true'/>"
 "    <placeholder name='ViewerCommandsSecondary'/>"
 "    <toolitem action='Viewer_Properties'/>"

@@ -1902,6 +1902,7 @@ _gth_browser_update_browser_ui (GthBrowser *browser,
 			g_warning ("ui building failed: %s", error->message);
 			g_clear_error (&error);
 		}
+		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ToolBar/BrowserCommands/Edit_Metadata")), TRUE);
 	}
 	else if (browser->priv->browser_ui_merge_id != 0) {
 		gtk_ui_manager_remove_ui (browser->priv->ui, browser->priv->browser_ui_merge_id);
@@ -3159,6 +3160,13 @@ _gth_browser_construct (GthBrowser *browser)
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (browser->priv->viewer_toolbar), TRUE);
 	gtk_widget_show (browser->priv->viewer_toolbar);
 	gth_window_attach_toolbar (GTH_WINDOW (browser), GTH_BROWSER_PAGE_VIEWER, browser->priv->viewer_toolbar);
+
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Prev")), TRUE);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/View_Next")), TRUE);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/ViewerToolBar/Edit_Metadata")), TRUE);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Prev")), TRUE);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/View_Next")), TRUE);
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (browser->priv->ui, "/Fullscreen_ToolBar/Edit_Metadata")), TRUE);
 
 	/* content */
 

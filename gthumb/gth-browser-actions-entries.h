@@ -215,9 +215,9 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  N_("View file properties"),
 	  G_CALLBACK (gth_browser_activate_action_viewer_properties),
 	  FALSE },
-	{ "Viewer_Tools", GTK_STOCK_EDIT,
-	  NULL, NULL,
-	  N_("View file tools"),
+	{ "Viewer_Tools", "palette",
+	  N_("Edit"), NULL,
+	  N_("Edit file"),
 	  G_CALLBACK (gth_browser_activate_action_viewer_tools),
 	  FALSE },
 };

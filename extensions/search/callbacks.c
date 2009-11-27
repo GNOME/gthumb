@@ -53,7 +53,7 @@ static const char *find_ui_info =
 static GtkActionEntry find_action_entries[] = {
 	{ "Edit_Find", GTK_STOCK_FIND,
 	  NULL, NULL,
-	  NULL,
+	  N_("Find files"),
 	  G_CALLBACK (gth_browser_activate_action_edit_find) }
 };
 static guint find_action_entries_size = G_N_ELEMENTS (find_action_entries);
@@ -71,8 +71,8 @@ static const char *search_ui_info =
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
 "    <placeholder name='SourceCommands'>"
-"      <toolitem action='Edit_Search_Update'/>"
 "      <toolitem action='Edit_Search_Edit'/>"
+"      <toolitem action='Edit_Search_Update'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
@@ -81,11 +81,11 @@ static const char *search_ui_info =
 static GtkActionEntry search_actions_entries[] = {
 	{ "Edit_Search_Edit", GTK_STOCK_FIND_AND_REPLACE,
 	  N_("Edit Search"), "<ctrl>F",
-	  NULL,
+	  N_("Edit search criteria"),
 	  G_CALLBACK (gth_browser_activate_action_edit_search_edit) },
 	{ "Edit_Search_Update", GTK_STOCK_REFRESH,
 	  N_("Redo Search"), "<shift><ctrl>R",
-	  NULL,
+	  N_("Update search results"),
 	  G_CALLBACK (gth_browser_activate_action_edit_search_update) }
 };
 static guint search_actions_entries_size = G_N_ELEMENTS (search_actions_entries);
@@ -110,7 +110,6 @@ void
 search__gth_browser_construct_cb (GthBrowser *browser)
 {
 	BrowserData *data;
-	GError      *error = NULL;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -131,12 +130,6 @@ search__gth_browser_construct_cb (GthBrowser *browser)
 				      search_actions_entries_size,
 				      browser);
 	gtk_ui_manager_insert_action_group (gth_browser_get_ui_manager (browser), data->search_actions, 0);
-
-	data->find_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), find_ui_info, -1, &error);
-	if (data->find_merge_id == 0) {
-		g_warning ("building menus failed: %s", error->message);
-		g_error_free (error);
-	}
 
 	g_object_set_data_full (G_OBJECT (browser), BROWSER_DATA_KEY, data, (GDestroyNotify) browser_data_free);
 }
@@ -169,6 +162,8 @@ search__gth_browser_load_location_after_cb (GthBrowser   *browser,
 				g_warning ("building menus failed: %s", local_error->message);
 				g_error_free (local_error);
 			}
+			/*gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Update")), TRUE);*/
+			gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Edit")), TRUE);
 		}
 	}
 	else {
@@ -184,6 +179,7 @@ search__gth_browser_load_location_after_cb (GthBrowser   *browser,
 				g_warning ("building menus failed: %s", local_error->message);
 				g_error_free (local_error);
 			}
+			gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Find")), TRUE);
 		}
 	}
 

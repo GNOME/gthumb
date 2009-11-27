@@ -231,6 +231,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), GTK_STOCK_EXECUTE);
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
 	gtk_widget_show (GTK_WIDGET (tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_browser_toolbar (browser)), tool_item, -1);
 
@@ -239,6 +240,7 @@ list_tools__gth_browser_construct_cb (GthBrowser *browser)
 	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_item), _("Batch tools for multiple files"));
 	gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON (tool_item), GTK_STOCK_EXECUTE);
 	gth_toggle_menu_tool_button_set_menu (GTH_TOGGLE_MENU_TOOL_BUTTON (tool_item), gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ListToolsPopup"));
+	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (tool_item), TRUE);
 	gtk_widget_show (GTK_WIDGET (tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (gth_browser_get_viewer_toolbar (browser)), tool_item, 9);
 
