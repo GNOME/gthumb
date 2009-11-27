@@ -58,6 +58,11 @@ static const char *image_viewer_ui_info =
 "        <menuitem action='ImageViewer_Edit_Redo'/>"
 "      </placeholder>"
 "    </menu>"
+"    <menu name='View' action='ViewMenu'>"
+"      <placeholder name='View_Actions'>"
+"        <menuitem action='ImageViewer_View_ShrinkWrap'/>"
+"      </placeholder>"
+"    </menu>"
 "  </menubar>"
 "  <toolbar name='ViewerToolBar'>"
 "    <placeholder name='ViewerCommands'>"
@@ -142,6 +147,14 @@ image_viewer_activate_action_edit_redo (GtkAction          *action,
 }
 
 
+static void
+image_viewer_activate_action_view_shrink_wrap (GtkAction          *action,
+					       GthImageViewerPage *self)
+{
+	gth_image_viewer_page_shrink_wrap (self);
+}
+
+
 static GtkActionEntry image_viewer_action_entries[] = {
 	{ "ImageViewer_Edit_Undo", GTK_STOCK_UNDO,
 	  NULL, "<control>z",
@@ -177,6 +190,11 @@ static GtkActionEntry image_viewer_action_entries[] = {
 	  N_("Width"), "",
 	  N_("Zoom to fit width"),
 	  G_CALLBACK (image_viewer_activate_action_view_zoom_fit_width) },
+
+	{ "ImageViewer_View_ShrinkWrap", NULL,
+	  N_("_Fit Window to Image"), "<control>e",
+	  N_("Resize the window to the size of the image"),
+	  G_CALLBACK (image_viewer_activate_action_view_shrink_wrap) },
 };
 
 
@@ -1064,4 +1082,69 @@ gth_image_viewer_page_reset (GthImageViewerPage *self)
 		return;
 
 	_gth_image_viewer_page_set_pixbuf (self, last_image->image, last_image->unsaved);
+}
+
+
+static int
+add_non_content_height (GthImageViewerPage *self,
+			GtkWidget          *non_content)
+{
+	int height = 0;
+
+	if ((non_content != NULL) && GTK_WIDGET_VISIBLE (non_content)) {
+		GtkAllocation allocation;
+		gtk_widget_get_allocation (non_content, &allocation);
+		height = allocation.height;
+	}
+
+	return height;
+}
+
+
+void
+gth_image_viewer_page_shrink_wrap (GthImageViewerPage *self)
+{
+	GdkPixbuf *pixbuf;
+	int        width;
+	int        height;
+	double     ratio;
+	int        other_width;
+	int        other_height;
+	GdkScreen *screen;
+	int        max_width;
+	int        max_height;
+
+	pixbuf = gth_image_viewer_page_get_pixbuf (self);
+	if (pixbuf == NULL)
+		return;
+
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	ratio = (double) width / height;
+
+	other_width = 0;
+	other_height = 0;
+	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_MENUBAR));
+	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_TOOLBAR));
+	other_height += add_non_content_height (self, gth_window_get_area (GTH_WINDOW (self->priv->browser), GTH_WINDOW_STATUSBAR));
+	other_height += add_non_content_height (self, gth_browser_get_viewer_toolbar (self->priv->browser));
+	other_width += 2;
+	other_height += 2;
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (self->priv->browser));
+	max_width = gdk_screen_get_width (screen) * 9 / 10;
+	max_height = gdk_screen_get_height (screen) * 8 / 10;
+
+	if (width + other_width > max_width) {
+		width = max_width;
+		height = width / ratio;
+	}
+
+	if (height + other_height > max_height) {
+		height = max_height;
+		width = height * ratio;
+	}
+
+	gtk_window_resize (GTK_WINDOW (self->priv->browser), width + other_width, height + other_height);
+	gth_image_viewer_set_fit_mode (GTH_IMAGE_VIEWER (self->priv->viewer), GTH_FIT_SIZE);
 }

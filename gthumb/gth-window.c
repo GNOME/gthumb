@@ -60,6 +60,8 @@ gth_window_set_n_pages (GthWindow *self,
 	self->priv->n_pages = n_pages;
 
 	self->priv->table = gtk_table_new (4, 1, FALSE);
+	gtk_table_set_row_spacings (GTK_TABLE (self->priv->table), 0);
+	gtk_table_set_col_spacings (GTK_TABLE (self->priv->table), 0);
 	gtk_widget_show (self->priv->table);
 	gtk_container_add (GTK_CONTAINER (self), self->priv->table);
 
@@ -367,6 +369,28 @@ gth_window_show_only_content (GthWindow *window,
 		show_widget (window->priv->toolbar);
 		show_widget (window->priv->statusbar);
 	}
+}
+
+
+GtkWidget *
+gth_window_get_area (GthWindow     *window,
+		     GthWindowArea  area)
+{
+	switch (area) {
+	case GTH_WINDOW_MENUBAR:
+		return window->priv->menubar;
+		break;
+	case GTH_WINDOW_TOOLBAR:
+		return window->priv->toolbar;
+		break;
+	case GTH_WINDOW_STATUSBAR:
+		return window->priv->statusbar;
+		break;
+	default:
+		break;
+	}
+
+	return NULL;
 }
 
 

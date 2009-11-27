@@ -77,6 +77,8 @@ void           gth_window_set_current_page   (GthWindow     *window,
 int            gth_window_get_current_page   (GthWindow     *window);
 void           gth_window_show_only_content  (GthWindow     *window,
 					      gboolean       only_content);
+GtkWidget *    gth_window_get_area           (GthWindow     *window,
+					      GthWindowArea  area);
 
 /**/
 
