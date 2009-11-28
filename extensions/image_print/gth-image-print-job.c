@@ -76,6 +76,7 @@ struct _GthImagePrintJobPrivate {
 	char               *caption_attributes;
 	char               *font_name;
 	double              scale_factor;
+	int                 dpi;
 
 	/* layout info */
 
@@ -461,6 +462,112 @@ gth_image_print_job_update_layout (GthImagePrintJob   *self,
 
 
 static void
+_cairo_paint_pixbuf (cairo_t   *cr,
+		     double     x,
+		     double     y,
+		     double     width,
+		     double     height,
+		     GdkPixbuf *original_pixbuf,
+		     int        dpi)
+{
+	double            scale_factor;
+	GdkPixbuf        *pixbuf;
+	guchar		 *p;
+	int		  pw, ph, rs;
+	guchar           *np;
+	cairo_surface_t  *s;
+	cairo_pattern_t	 *pattern;
+	cairo_matrix_t    matrix;
+
+	/* For higher-resolution images, cairo will render the bitmaps at a miserable
+	   72 dpi unless we apply a scaling factor. This scaling boosts the output
+	   to 300 dpi (if required). */
+
+	scale_factor = MIN ((double) gdk_pixbuf_get_width (original_pixbuf) / width, (double) dpi / 72.0);
+	pixbuf = gdk_pixbuf_scale_simple (original_pixbuf,
+					  width * scale_factor,
+					  height * scale_factor,
+					  GDK_INTERP_BILINEAR);
+
+	p = gdk_pixbuf_get_pixels (pixbuf);
+	pw = gdk_pixbuf_get_width (pixbuf);
+	ph = gdk_pixbuf_get_height (pixbuf);
+	rs = gdk_pixbuf_get_rowstride (pixbuf);
+	if (gdk_pixbuf_get_has_alpha (pixbuf)) {
+		guchar *kk;
+		guchar *kp;
+		int     i;
+
+		np = g_malloc (pw*ph*4);
+		for (i=0; i<ph; i++) {
+			int j = 0;
+			kk = p + rs*i;
+			kp = np + pw*4*i;
+			for (j=0; j<pw; j++) {
+				if (kk[3] == 0) {
+					*((unsigned int *)kp) = 0;
+				}
+				else {
+					if (kk[3] != 0xff) {
+						int t = (kk[3] * kk[0]) + 0x80;
+						kk[0] = ((t+(t>>8))>>8);
+						t = (kk[3] * kk[1]) + 0x80;
+						kk[1] = ((t+(t>>8))>>8);
+						t = (kk[3] * kk[2]) + 0x80;
+						kk[2] = ((t+(t>>8))>>8);
+					}
+					*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16) + (kk[3] << 24);
+				}
+				kk += 4;
+				kp += 4;
+			}
+		}
+		s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_ARGB32, pw, ph, pw*4);
+	}
+	else {
+		guchar* kk;
+		guchar* kp;
+		int     i;
+
+		np = g_malloc (pw*ph*4);
+		for (i=0; i<ph; i++) {
+			int j = 0;
+			kk = p + rs*i;
+			kp = np + pw*4*i;
+			for (j=0; j<pw; j++) {
+				*((unsigned int *)kp) = kk[2] + (kk[1] << 8) + (kk[0] << 16);
+				kk += 3;
+				kp += 4;
+			}
+		}
+		s = cairo_image_surface_create_for_data (np, CAIRO_FORMAT_RGB24, pw, ph, pw*4);
+	}
+
+	cairo_save (cr);
+	cairo_rectangle (cr,
+			 x,
+			 y,
+			 gdk_pixbuf_get_width (pixbuf),
+			 gdk_pixbuf_get_height (pixbuf));
+	cairo_clip (cr);
+	pattern = cairo_pattern_create_for_surface (s);
+	cairo_matrix_init_translate (&matrix, -x * scale_factor, -y * scale_factor);
+	cairo_matrix_scale (&matrix, scale_factor, scale_factor);
+	cairo_pattern_set_matrix (pattern, &matrix);
+	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_NONE);
+	cairo_pattern_set_filter (pattern, CAIRO_FILTER_BEST);
+	cairo_set_source (cr, pattern);
+	cairo_paint (cr);
+	cairo_restore (cr);
+
+	cairo_pattern_destroy (pattern);
+	cairo_surface_destroy (s);
+	g_free (np);
+	g_object_unref (pixbuf);
+}
+
+
+static void
 gth_image_print_job_paint (GthImagePrintJob *self,
 			   cairo_t          *cr,
 			   PangoLayout      *pango_layout,
@@ -522,28 +629,37 @@ gth_image_print_job_paint (GthImagePrintJob *self,
 			fullsize_pixbuf = g_object_ref (image_info->thumbnail);
 
 		if ((image_info->image.width >= 1.0) && (image_info->image.height >= 1.0)) {
-			GdkPixbuf *pixbuf;
+			if (preview) {
+				GdkPixbuf *pixbuf;
 
-			pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
-							  image_info->image.width,
-							  image_info->image.height,
-							  preview ? GDK_INTERP_NEAREST : GDK_INTERP_BILINEAR);
+				pixbuf = gdk_pixbuf_scale_simple (fullsize_pixbuf,
+								  image_info->image.width,
+								  image_info->image.height,
+								  preview ? GDK_INTERP_NEAREST : GDK_INTERP_BILINEAR);
+				cairo_save (cr);
+				gdk_cairo_set_source_pixbuf (cr,
+							     pixbuf,
+							     x_offset + image_info->image.x,
+							     y_offset + image_info->image.y);
+				cairo_rectangle (cr,
+						 x_offset + image_info->image.x,
+						 y_offset + image_info->image.y,
+						 gdk_pixbuf_get_width (pixbuf),
+						 gdk_pixbuf_get_height (pixbuf));
+				cairo_clip (cr);
+				cairo_paint (cr);
+				cairo_restore (cr);
 
-			cairo_save (cr);
-			gdk_cairo_set_source_pixbuf (cr,
-						     pixbuf,
+				g_object_unref (pixbuf);
+			}
+			else
+				_cairo_paint_pixbuf (cr,
 						     x_offset + image_info->image.x,
-						     y_offset + image_info->image.y);
-			cairo_rectangle (cr,
-					 x_offset + image_info->image.x,
-					 y_offset + image_info->image.y,
-					 gdk_pixbuf_get_width (pixbuf),
-					 gdk_pixbuf_get_height (pixbuf));
-			cairo_clip (cr);
-			cairo_paint (cr);
-			cairo_restore (cr);
-
-			g_object_unref (pixbuf);
+						     y_offset + image_info->image.y,
+						     image_info->image.width,
+						     image_info->image.height,
+						     fullsize_pixbuf,
+						     self->priv->dpi);
 		}
 
 		if (image_info->print_comment) {
@@ -1257,6 +1373,8 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 	_g_object_unref (self->priv->page_setup);
 	self->priv->page_setup = gtk_page_setup_copy (setup);
 
+	self->priv->dpi = gtk_print_settings_get_resolution (settings);
+
 	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
 				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
 				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
@@ -1273,13 +1391,18 @@ print_operation_begin_print_cb (GtkPrintOperation *operation,
 				gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
-	GtkPageSetup     *setup;
+	GtkPrintSettings *settings;
 
-	setup = gtk_print_context_get_page_setup (context);
+	_g_object_unref (self->priv->page_setup);
+	self->priv->page_setup = gtk_page_setup_copy (gtk_print_context_get_page_setup (context));
+
+	settings = gtk_print_operation_get_print_settings (operation);
+	self->priv->dpi = gtk_print_settings_get_resolution (settings);
+
 	gth_image_print_job_update_layout_info (self,
 						gtk_print_context_get_width (context),
 						gtk_print_context_get_height (context),
-						gtk_page_setup_get_orientation (setup));
+						gtk_page_setup_get_orientation (self->priv->page_setup));
 	gtk_print_operation_set_n_pages (operation, self->priv->n_pages);
 }
 
