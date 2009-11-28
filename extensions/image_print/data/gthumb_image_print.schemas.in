@@ -27,5 +27,31 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/images_per_page</key>
+	<applyto>/apps/gthumb/ext/image_print/images_per_page</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ext/image_print/unit</key>
+	<applyto>/apps/gthumb/ext/image_print/unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>pixels</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>
