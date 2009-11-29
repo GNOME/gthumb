@@ -355,6 +355,28 @@ find_by_extension (GtkTreeModel *model,
   return search->success;
 }
 
+static int
+emit_default_size_changed (gpointer data)
+{
+  g_signal_emit_by_name (data, "default-size-changed");
+  return FALSE;
+}
+
+static void
+expander_unmap_cb (GtkWidget *widget,
+		   gpointer   user_data)
+{
+  GtkWidget *parent;
+
+  parent = gtk_widget_get_parent (widget);
+  while ((parent != NULL) && !GTK_IS_FILE_CHOOSER (parent))
+    parent = gtk_widget_get_parent (parent);
+  if (parent != NULL)
+    {
+      gdk_threads_add_idle (emit_default_size_changed, parent);
+    }
+}
+
 static void
 egg_file_format_chooser_init (EggFileFormatChooser *self)
 {
@@ -438,6 +460,8 @@ egg_file_format_chooser_init (EggFileFormatChooser *self)
   gtk_widget_show_all (scroller);
 
   gtk_container_add (GTK_CONTAINER (self), scroller);
+
+  g_signal_connect_after (scroller, "unmap", G_CALLBACK (expander_unmap_cb), self);
 }
 
 static void
