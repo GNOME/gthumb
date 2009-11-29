@@ -782,7 +782,10 @@ _gth_image_viewer_page_real_save (GthViewerPage *base,
 static gboolean
 gth_image_viewer_page_real_can_save (GthViewerPage *base)
 {
-	return TRUE;
+	GArray *savers;
+
+	savers = gth_main_get_type_set ("pixbuf-saver");
+	return (savers != NULL) && (savers->len > 0);
 }
 
 
