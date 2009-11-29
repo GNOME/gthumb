@@ -807,6 +807,8 @@ gth_image_print_job_update_preview (GthImagePrintJob *self)
 {
 	char *text;
 
+	g_return_if_fail (GTK_IS_PAGE_SETUP (self->priv->page_setup));
+
 	gth_image_print_job_update_layout (self,
 					   gtk_page_setup_get_page_width (self->priv->page_setup, GTK_UNIT_MM),
 					   gtk_page_setup_get_page_height (self->priv->page_setup, GTK_UNIT_MM),
@@ -857,6 +859,9 @@ preview_expose_event_cb (GtkWidget      *widget,
 	GthImagePrintJob *self = user_data;
 	cairo_t          *cr;
 	PangoLayout      *pango_layout;
+
+	g_return_if_fail (GTH_IS_IMAGE_PRINT_JOB (self));
+	g_return_if_fail ((self->priv->page_setup != NULL) && GTK_IS_PAGE_SETUP (self->priv->page_setup));
 
 	cr = gdk_cairo_create (widget->window);
 
@@ -1265,6 +1270,7 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			           gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
+	int               i;
 
 	self->priv->builder = _gtk_builder_new_from_file ("print-layout.ui", "image_print");
 	self->priv->caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT);
@@ -1359,6 +1365,13 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 					  G_CALLBACK (position_combobox_changed_cb),
 					  self);
 
+	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
+				     gtk_page_setup_get_paper_width (self->priv->page_setup, GTK_UNIT_MM),
+				     gtk_page_setup_get_paper_height (self->priv->page_setup, GTK_UNIT_MM));
+	for (i = 0; i < self->priv->n_images; i++)
+		gth_image_info_reset (self->priv->images[i]);
+	gth_image_print_job_update_preview (self);
+
 	return gtk_builder_get_object (self->priv->builder, "print_layout");
 }
 
@@ -1381,7 +1394,6 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
 				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
 				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
-
 	for (i = 0; i < self->priv->n_images; i++)
 		gth_image_info_reset (self->priv->images[i]);
 	gth_image_print_job_update_preview (self);
@@ -1551,7 +1563,6 @@ load_image_info_task_completed_cb (GthTask  *task,
 	GtkPrintOperationResult  result;
 	char                    *filename;
 	GtkPrintSettings        *settings;
-	GtkPageSetup            *page_setup;
 
 	if (error != NULL) {
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (self->priv->browser), _("Could not print"), &error);
@@ -1565,9 +1576,9 @@ load_image_info_task_completed_cb (GthTask  *task,
 	g_free (filename);
 
 	filename = gth_user_dir_get_file (GTH_DIR_CONFIG, "gthumb", "page_setup", NULL);
-	page_setup = gtk_page_setup_new_from_file (filename, NULL);
-	if (page_setup != NULL)
-		gtk_print_operation_set_default_page_setup (self->priv->print_operation, page_setup);
+	self->priv->page_setup = gtk_page_setup_new_from_file (filename, NULL);
+	if (self->priv->page_setup != NULL)
+		gtk_print_operation_set_default_page_setup (self->priv->print_operation, self->priv->page_setup);
 	g_free (filename);
 
 	result = gtk_print_operation_run (self->priv->print_operation,
