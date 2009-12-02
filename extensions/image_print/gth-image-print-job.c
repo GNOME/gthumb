@@ -1270,7 +1270,6 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 			           gpointer           user_data)
 {
 	GthImagePrintJob *self = user_data;
-	int               i;
 
 	self->priv->builder = _gtk_builder_new_from_file ("print-layout.ui", "image_print");
 	self->priv->caption_chooser = gth_metadata_chooser_new (GTH_METADATA_ALLOW_IN_PRINT);
@@ -1365,12 +1364,16 @@ operation_create_custom_widget_cb (GtkPrintOperation *operation,
 					  G_CALLBACK (position_combobox_changed_cb),
 					  self);
 
-	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
-				     gtk_page_setup_get_paper_width (self->priv->page_setup, GTK_UNIT_MM),
-				     gtk_page_setup_get_paper_height (self->priv->page_setup, GTK_UNIT_MM));
-	for (i = 0; i < self->priv->n_images; i++)
-		gth_image_info_reset (self->priv->images[i]);
-	gth_image_print_job_update_preview (self);
+	if (self->priv->page_setup != NULL) {
+		int i;
+
+		gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
+					     gtk_page_setup_get_paper_width (self->priv->page_setup, GTK_UNIT_MM),
+					     gtk_page_setup_get_paper_height (self->priv->page_setup, GTK_UNIT_MM));
+		for (i = 0; i < self->priv->n_images; i++)
+			gth_image_info_reset (self->priv->images[i]);
+		gth_image_print_job_update_preview (self);
+	}
 
 	return gtk_builder_get_object (self->priv->builder, "print_layout");
 }
@@ -1387,10 +1390,13 @@ operation_update_custom_widget_cb (GtkPrintOperation *operation,
 	int               i;
 
 	_g_object_unref (self->priv->page_setup);
+	self->priv->page_setup = NULL;
+
+	if (setup == NULL)
+		return;
+
 	self->priv->page_setup = gtk_page_setup_copy (setup);
-
 	self->priv->dpi = gtk_print_settings_get_resolution (settings);
-
 	gtk_widget_set_size_request (GET_WIDGET ("preview_drawingarea"),
 				     gtk_page_setup_get_paper_width (setup, GTK_UNIT_MM),
 				     gtk_page_setup_get_paper_height (setup, GTK_UNIT_MM));
