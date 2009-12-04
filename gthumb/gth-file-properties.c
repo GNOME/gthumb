@@ -36,6 +36,7 @@
 #define FONT_SCALE (0.85)
 #define COMMENT_HEIGHT 100
 #define CATEGORY_SIZE 1000
+#define MAX_ATTRIBUTE_LENGTH 128
 
 
 enum {
@@ -123,17 +124,21 @@ gth_file_properties_real_set_file (GthPropertyView *self,
 		category = gth_main_get_metadata_category (info->category);
 
 		value = gth_file_data_get_attribute_as_string (file_data, info->id);
+		if ((value == NULL) || (*value == '\0'))
+			continue;
+
 		if (value != NULL) {
 			char *tmp_value;
+
+			if (g_utf8_strlen (value, -1) > MAX_ATTRIBUTE_LENGTH) {
+				g_utf8_strncpy (value, value, MAX_ATTRIBUTE_LENGTH - 3);
+				g_utf8_strncpy (g_utf8_offset_to_pointer (value, MAX_ATTRIBUTE_LENGTH - 3), "...", 3);
+			}
 
 			tmp_value = _g_utf8_replace (value, "[\r\n]", " ");
 			g_free (value);
 			value = tmp_value;
 		}
-
-		if ((value == NULL) || (*value == '\0'))
-			continue;
-
 		tooltip = g_markup_printf_escaped ("%s: %s", /*info->display_name*/ info->id, value);
 
 		if (g_hash_table_lookup (category_root, category->id) == NULL) {
