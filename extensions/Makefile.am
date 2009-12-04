@@ -15,6 +15,7 @@ SUBDIRS = 			\
 	list_tools		\
 	photo_importer		\
 	pixbuf_savers		\
+	raw_files		\
 	red_eye_removal		\
 	rename_series 		\
 	resize_images		\

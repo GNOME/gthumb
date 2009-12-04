@@ -32,6 +32,7 @@ EXIV2_REQUIRED=0.18
 CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=0.10.0
 GSTREAMER_REQUIRED=0.10
+OPENRAW_REQUIRED=0.0.8
 
 dnl ===========================================================================
 
@@ -270,6 +271,24 @@ AC_MSG_RESULT($enable_tiff)
 
 dnl ===========================================================================
 
+AC_ARG_ENABLE([libopenraw],
+	      [AS_HELP_STRING([--enable-libopenraw],[use the libopenraw library to read raw files [default=no]])],,
+	      [enable_libopenraw=no])
+
+if test x$enable_libopenraw = xyes ; then
+	PKG_CHECK_MODULES(LIBOPENRAW,
+			  libopenraw-1.0 >= $OPENRAW_REQUIRED,
+			  [enable_libopenraw=yes],
+			  [enable_libopenraw=no])
+	if test "x$enable_libopenraw" = "xyes"; then
+		AC_DEFINE(ENABLE_LIBOPENRAW, 1, [Define to 1 if libopenraw must be used to read raw files])
+	fi
+fi
+AC_SUBST(LIBOPENRAW_LIBS)
+AC_SUBST(LIBOPENRAW_CFLAGS)
+
+dnl ===========================================================================
+
 AC_CONFIG_FILES([
 Makefile
 copy-n-paste/Makefile
@@ -329,6 +348,7 @@ extensions/photo_importer/data/ui/Makefile
 extensions/pixbuf_savers/Makefile
 extensions/pixbuf_savers/data/Makefile
 extensions/pixbuf_savers/data/ui/Makefile
+extensions/raw_files/Makefile
 extensions/red_eye_removal/Makefile
 extensions/red_eye_removal/data/Makefile
 extensions/red_eye_removal/data/ui/Makefile
@@ -368,4 +388,5 @@ Configuration:
 	TIFF tools           : ${enable_tiff}
 	Clutter support      : ${enable_clutter}
 	GStreamer support    : ${enable_gstreamer}
+	Use libopenraw       : ${enable_libopenraw}
 "

@@ -242,6 +242,7 @@ gthumb_LDADD =						\
 	$(TIFF_LIBS)					\
 	$(CLUTTER_LIBS)					\
 	$(GSTREAMER_LIBS)				\
+	$(LIBOPENRAW_LIBS)				\
 	$(NULL)	
 
 if RUN_IN_PLACE
@@ -256,7 +257,6 @@ endif
 
 gthumb_CFLAGS =							\
 	$(GTHUMB_CFLAGS)					\
-	$(EXIV2_CFLAGS)						\
 	$(CLUTTER_CFLAGS)					\
 	-I$(top_srcdir)/copy-n-paste/				\
 	-DGTHUMB_LOCALEDIR=\"$(datadir)/locale\"		\
