@@ -50,10 +50,10 @@ typedef struct _GthMain         GthMain;
 typedef struct _GthMainPrivate  GthMainPrivate;
 typedef struct _GthMainClass    GthMainClass;
 
-typedef GdkPixbufAnimation* (*FileLoader) (GthFileData  *file_data,
-				   	   GError      **error,
-				   	   int           requested_width,
-				   	   int           requested_height);
+typedef GdkPixbufAnimation* (*PixbufLoader) (GthFileData  *file_data,
+				   	     GError      **error,
+				   	     int           requested_width,
+				   	     int           requested_height);
 
 struct _GthMain {
 	GObject __parent;
@@ -87,10 +87,10 @@ GPtrArray *            gth_main_get_all_metadata_info         (void);
 void                   gth_main_register_sort_type            (GthFileDataSort      *sort_type);
 GthFileDataSort *      gth_main_get_sort_type                 (const char           *name);
 GList *                gth_main_get_all_sort_types            (void);
-void                   gth_main_register_file_loader          (FileLoader            loader,
+void                   gth_main_register_pixbuf_loader        (PixbufLoader          loader,
 						               const char           *first_mime_type,
 						               ...);
-FileLoader             gth_main_get_file_loader               (const char           *mime_type);
+PixbufLoader           gth_main_get_pixbuf_loader             (const char           *mime_type);
 GthPixbufSaver *       gth_main_get_pixbuf_saver              (const char           *mime_type);
 GthTest *              gth_main_get_general_filter            (void);
 GthTest *              gth_main_add_general_filter            (GthTest              *filter);

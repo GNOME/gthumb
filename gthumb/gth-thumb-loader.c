@@ -498,9 +498,9 @@ thumb_loader (GthFileData  *file,
 		/* try with a custom thumbnailer first */
 
 		if (! tloader->priv->from_cache) {
-			FileLoader thumbnailer;
+			PixbufLoader thumbnailer;
 
-			thumbnailer = gth_main_get_file_loader (gth_file_data_get_mime_type (file));
+			thumbnailer = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file));
 			if (thumbnailer != NULL)
 				animation = thumbnailer (file, error, tloader->priv->cache_max_w, tloader->priv->cache_max_h);
 

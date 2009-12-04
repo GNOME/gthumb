@@ -227,9 +227,9 @@ load_image_thread (void *thread_data)
 				animation = (*iloader->priv->loader) (file, &error, iloader->priv->loader_data);
 			}
 			else  {
-				FileLoader loader;
+				PixbufLoader loader;
 
-				loader = gth_main_get_file_loader (gth_file_data_get_mime_type (file));
+				loader = gth_main_get_pixbuf_loader (gth_file_data_get_mime_type (file));
 				if (loader != NULL)
 					animation = loader (file, &error, -1, -1);
 				else

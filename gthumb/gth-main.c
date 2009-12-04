@@ -683,9 +683,9 @@ _gth_main_create_type_spec (GType       object_type,
 
 
 void
-gth_main_register_file_loader (FileLoader  loader,
-			       const char *first_mime_type,
-			       ...)
+gth_main_register_pixbuf_loader (PixbufLoader  loader,
+			         const char   *first_mime_type,
+			         ...)
 {
 	va_list     var_args;
 	const char *mime_type;
@@ -704,11 +704,11 @@ gth_main_register_file_loader (FileLoader  loader,
 }
 
 
-FileLoader
-gth_main_get_file_loader (const char *mime_type)
+PixbufLoader
+gth_main_get_pixbuf_loader (const char *mime_type)
 {
 	if (mime_type != NULL)
-		return (FileLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
+		return (PixbufLoader) g_hash_table_lookup (Main->priv->loaders, mime_type);
 	else
 		return NULL;
 }
