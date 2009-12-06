@@ -33,6 +33,7 @@ CLUTTER_REQUIRED=1.0.0
 CLUTTER_GTK_REQUIRED=0.10.0
 GSTREAMER_REQUIRED=0.10
 OPENRAW_REQUIRED=0.0.8
+UNIQUE_REQUIRED=1.1.2
 
 dnl ===========================================================================
 
@@ -90,7 +91,7 @@ PKG_CHECK_MODULES(GTHUMB, [
 	gio-unix-2.0
 	gtk+-2.0 		>= $GTK_REQUIRED
 	gconf-2.0 		>= $GCONF_REQUIRED
-	unique-1.0
+	unique-1.0		>= $UNIQUE_REQUIRED
 ])
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
