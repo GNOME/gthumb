@@ -28,9 +28,6 @@
 
 void         search__gth_browser_construct_cb            (GthBrowser  *browser);
 void         search__gth_browser_update_sensitivity_cb   (GthBrowser  *browser);
-void         search__gth_browser_load_location_after_cb  (GthBrowser  *browser,
-						          GFile       *location,
-						          GError      *error);
 void         search__gth_browser_update_extra_widget_cb  (GthBrowser  *browser);
 GthCatalog * search__gth_catalog_load_from_data_cb       (const void  *buffer);
 void         search__dlg_catalog_properties              (GthBrowser  *browser,
