@@ -163,32 +163,6 @@ search__gth_browser_load_location_after_cb (GthBrowser   *browser,
 			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->find_merge_id);
 			data->find_merge_id = 0;
 		}
-		if (data->search_merge_id == 0) {
-			GError *local_error = NULL;
-
-			data->search_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), search_ui_info, -1, &local_error);
-			if (data->search_merge_id == 0) {
-				g_warning ("building menus failed: %s", local_error->message);
-				g_error_free (local_error);
-			}
-			/*gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Update")), TRUE);*/
-			gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Edit")), TRUE);
-		}
-
-		if (data->refresh_button == NULL) {
-			data->refresh_button = gtk_button_new_from_stock (GTK_STOCK_REFRESH);
-			g_object_add_weak_pointer (G_OBJECT (data->refresh_button), (gpointer *)&data->refresh_button);
-			gtk_button_set_relief (GTK_BUTTON (data->refresh_button), GTK_RELIEF_NONE);
-			GTK_WIDGET_SET_FLAGS (data->refresh_button, GTK_CAN_DEFAULT);
-			gtk_widget_show (data->refresh_button);
-			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
-							      data->refresh_button,
-							      _RESPONSE_REFRESH);
-			g_signal_connect (data->refresh_button,
-					  "clicked",
-					  G_CALLBACK (refresh_button_clicked_cb),
-					  browser);
-		}
 	}
 	else {
 		if (data->search_merge_id != 0) {
@@ -205,6 +179,48 @@ search__gth_browser_load_location_after_cb (GthBrowser   *browser,
 			}
 			gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Find")), TRUE);
 		}
+	}
+}
+
+
+void
+search__gth_browser_update_extra_widget_cb (GthBrowser *browser)
+{
+	GthFileData *location_data;
+	BrowserData *data;
+
+	location_data = gth_browser_get_location_data (browser);
+	if (! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/search"))
+		return;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	if (data->search_merge_id == 0) {
+		GError *local_error = NULL;
+
+		data->search_merge_id = gtk_ui_manager_add_ui_from_string (gth_browser_get_ui_manager (browser), search_ui_info, -1, &local_error);
+		if (data->search_merge_id == 0) {
+			g_warning ("building menus failed: %s", local_error->message);
+			g_error_free (local_error);
+		}
+		/*gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Update")), TRUE);*/
+		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (gtk_ui_manager_get_widget (gth_browser_get_ui_manager (browser), "/ToolBar/SourceCommands/Edit_Search_Edit")), TRUE);
+	}
+
+	if (data->refresh_button == NULL) {
+		data->refresh_button = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (data->refresh_button), gtk_image_new_from_stock (GTK_STOCK_REFRESH, GTK_ICON_SIZE_BUTTON));
+		g_object_add_weak_pointer (G_OBJECT (data->refresh_button), (gpointer *)&data->refresh_button);
+		gtk_button_set_relief (GTK_BUTTON (data->refresh_button), GTK_RELIEF_NONE);
+		gtk_widget_set_tooltip_text (data->refresh_button, _("Search again"));
+		gtk_widget_show_all (data->refresh_button);
+		gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
+						      data->refresh_button,
+						      _RESPONSE_REFRESH);
+		g_signal_connect (data->refresh_button,
+				  "clicked",
+				  G_CALLBACK (refresh_button_clicked_cb),
+				  browser);
 	}
 }
 

@@ -359,7 +359,14 @@ void
 gth_browser_activate_action_catalog_properties (GtkAction  *action,
 						GthBrowser *browser)
 {
-	dlg_catalog_properties (browser, gth_browser_get_location_data (browser));  /* FIXME */
+	GthFolderTree *folder_tree;
+	GthFileData   *file_data;
+
+	folder_tree = GTH_FOLDER_TREE (gth_browser_get_folder_tree (browser));
+	file_data = gth_folder_tree_get_selected (folder_tree);
+	dlg_catalog_properties (browser, file_data);
+
+	g_object_unref (file_data);
 }
 
 

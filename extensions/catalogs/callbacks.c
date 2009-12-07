@@ -26,6 +26,7 @@
 #include <glib-object.h>
 #include <gthumb.h>
 #include <gth-catalog.h>
+#include "dlg-catalog-properties.h"
 #include "gth-file-source-catalogs.h"
 #include "actions.h"
 
@@ -86,6 +87,8 @@ static const gchar *folder_popup_ui_info =
 "      <separator/>"
 "      <menuitem action='Catalog_Remove'/>"
 "      <menuitem action='Catalog_Rename'/>"
+"      <separator/>"
+"      <menuitem action='Catalog_Properties'/>"
 "    </placeholder>"
 "  </popup>"
 "</ui>";
@@ -132,7 +135,12 @@ static GtkActionEntry catalog_action_entries[] = {
 	{ "Catalog_Rename", NULL,
 	  N_("Rena_me"), NULL,
 	  NULL,
-	  G_CALLBACK (gth_browser_activate_action_catalog_rename) }
+	  G_CALLBACK (gth_browser_activate_action_catalog_rename) },
+
+	{ "Catalog_Properties", GTK_STOCK_PROPERTIES,
+	  NULL, NULL,
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_catalog_properties) }
 };
 static guint catalog_action_entries_size = G_N_ELEMENTS (catalog_action_entries);
 
@@ -566,7 +574,7 @@ static void
 properties_button_clicked_cb (GtkButton  *button,
 			      GthBrowser *browser)
 {
-	gth_browser_activate_action_catalog_properties (NULL, browser);
+	dlg_catalog_properties (browser, gth_browser_get_location_data (browser));
 }
 
 
@@ -592,16 +600,53 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 				g_error_free (error);
 			}
 		}
+	}
+	else {
+		if (data->vfs_merge_id != 0) {
+			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
+			data->vfs_merge_id = 0;
+		}
+	}
+}
+
+
+void
+catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
+{
+	BrowserData *data;
+	GthFileData *location_data;
+
+	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
+
+	location_data = gth_browser_get_location_data (browser);
+	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))) {
+		GtkWidget *extra_widget;
+		GString   *name;
+		GObject   *metadata;
+
+		extra_widget = gth_browser_get_list_extra_widget (browser);
+
+		name = g_string_new ("");
+		if (g_file_info_get_display_name (location_data->info) != NULL)
+			g_string_append (name, g_file_info_get_display_name (location_data->info));
+		metadata = g_file_info_get_attribute_object (location_data->info, "general::event-date");
+		if (metadata != NULL) {
+			if (g_strcmp0 (name->str, "") != 0)
+				g_string_append (name, " - ");
+			g_string_append (name, gth_metadata_get_formatted (GTH_METADATA (metadata)));
+		}
+		gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (extra_widget), name->str);
+
+		g_string_free (name, TRUE);
 
 		if (data->properties_button == NULL) {
-			data->properties_button = gtk_button_new_from_stock (GTK_STOCK_PROPERTIES);
+			data->properties_button = gtk_button_new ();
+			gtk_container_add (GTK_CONTAINER (data->properties_button), gtk_image_new_from_stock (GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON));
 			g_object_add_weak_pointer (G_OBJECT (data->properties_button), (gpointer *)&data->properties_button);
 			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
-			GTK_WIDGET_SET_FLAGS (data->properties_button, GTK_CAN_DEFAULT);
-			gtk_widget_show (data->properties_button);
-			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
-							      data->properties_button,
-							      _RESPONSE_PROPERTIES);
+			gtk_widget_set_tooltip_text (data->properties_button, _("Properties"));
+			gtk_widget_show_all (data->properties_button);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (extra_widget), data->properties_button, _RESPONSE_PROPERTIES);
 			g_signal_connect (data->properties_button,
 					  "clicked",
 					  G_CALLBACK (properties_button_clicked_cb),
@@ -611,9 +656,5 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 	else {
 		if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
 			gedit_message_area_add_button (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), _("Organize..."), _RESPONSE_ORGANIZE);
-		if (data->vfs_merge_id != 0) {
-			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
-			data->vfs_merge_id = 0;
-		}
 	}
 }

@@ -349,18 +349,8 @@ read_metadata_catalog_ready_cb (GObject  *object,
 		g_clear_error (&error);
 
 	if (object != NULL) {
-		GthCatalog *catalog;
-		const char *sort_type;
-		gboolean    sort_inverse;
-
-		catalog = GTH_CATALOG (object);
-		sort_type = gth_catalog_get_order (catalog, &sort_inverse);
-		if (sort_type != NULL) {
-			g_file_info_set_attribute_string (read_metadata->file_data->info, "sort::type", sort_type);
-			g_file_info_set_attribute_boolean (read_metadata->file_data->info, "sort::inverse", sort_inverse);
-		}
-
-		g_object_unref (catalog);
+		gth_catalog_update_metadata (GTH_CATALOG (object), read_metadata->file_data);
+		g_object_unref (object);
 	}
 
 	read_metadata->callback (G_OBJECT (read_metadata->file_source), error, read_metadata->data);

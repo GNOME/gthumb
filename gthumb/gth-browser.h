@@ -152,8 +152,7 @@ void             gth_browser_load_file              (GthBrowser       *browser,
 						     gboolean          view);
 void             gth_browser_update_title           (GthBrowser       *browser);
 void             gth_browser_update_sensitivity     (GthBrowser       *browser);
-void             gth_browser_load_location_after    (GthBrowser       *browser,
-						     GError           *error);
+void             gth_browser_update_extra_widget    (GthBrowser       *browser);
 void             gth_browser_show_viewer_properties (GthBrowser       *browser,
 						     gboolean          show);
 void             gth_browser_show_viewer_tools      (GthBrowser       *browser,

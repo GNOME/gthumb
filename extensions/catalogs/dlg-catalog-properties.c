@@ -70,7 +70,10 @@ catalog_saved_cb (void     *buffer,
 			gth_monitor_file_renamed (gth_main_get_default_monitor (),
 						  data->original_file,
 						  data->file_data->file);
+
 		}
+		gth_catalog_update_metadata (data->catalog, data->file_data);
+		gth_monitor_metadata_changed (gth_main_get_default_monitor (), data->file_data);
 	}
 	else
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the catalog"), &error);
@@ -157,10 +160,10 @@ catalog_ready_cb (GObject  *object,
 	data->catalog = g_object_ref (object);
 	gtk_entry_set_text (GTK_ENTRY (GET_WIDGET ("name_entry")), gth_catalog_get_display_name (data->file_data->file));
 	gth_time_selector_set_value (GTH_TIME_SELECTOR (data->time_selector), gth_catalog_get_date (data->catalog));
-
 	gth_hook_invoke ("dlg-catalog-properties", data->builder, data->file_data, data->catalog);
-
 	gtk_widget_show (data->dialog);
+
+	g_object_unref (object);
 }
 
 

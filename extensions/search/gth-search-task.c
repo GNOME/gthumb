@@ -131,7 +131,7 @@ save_search_result_copy_done_cb (void     *buffer,
 
 	g_free (text);*/
 
-	gth_browser_load_location_after (task->priv->browser, NULL);
+	gth_browser_update_extra_widget (task->priv->browser);
 
 	/* FIXME
 	gedit_message_area_add_stock_button_with_text (GEDIT_MESSAGE_AREA (task->priv->dialog),

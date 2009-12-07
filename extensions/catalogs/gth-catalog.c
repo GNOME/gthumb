@@ -807,3 +807,40 @@ gth_catalog_load_from_file (GFile         *file,
 
 	g_object_unref (gio_file);
 }
+
+
+void
+gth_catalog_update_metadata (GthCatalog  *catalog,
+			     GthFileData *file_data)
+{
+	const char *sort_type;
+	gboolean    sort_inverse;
+
+	sort_type = gth_catalog_get_order (catalog, &sort_inverse);
+	if (sort_type != NULL) {
+		g_file_info_set_attribute_string (file_data->info, "sort::type", sort_type);
+		g_file_info_set_attribute_boolean (file_data->info, "sort::inverse", sort_inverse);
+	}
+
+	if (gth_datetime_valid (gth_catalog_get_date (catalog))) {
+		GObject *metadata;
+		char    *raw;
+		char    *formatted;
+
+		metadata = (GObject *) gth_metadata_new ();
+		raw = gth_datetime_to_exif_date (gth_catalog_get_date (catalog));
+		formatted = gth_datetime_strftime (gth_catalog_get_date (catalog), "%x");
+		g_object_set (metadata,
+			      "id", "general::event-date",
+			      "raw", raw,
+			      "formatted", formatted,
+			      NULL);
+		g_file_info_set_attribute_object (file_data->info, "general::event-date", metadata);
+
+		g_free (formatted);
+		g_free (raw);
+		g_object_unref (metadata);
+	}
+	else
+		g_file_info_remove_attribute (file_data->info, "general::event-date");
+}
