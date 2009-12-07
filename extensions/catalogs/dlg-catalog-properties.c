@@ -174,7 +174,7 @@ dlg_catalog_properties (GthBrowser  *browser,
 
 	data = g_new0 (DialogData, 1);
 	data->browser = browser;
-	data->file_data = g_object_ref (file_data);
+	data->file_data = gth_file_data_dup (file_data);
 	data->original_file = g_file_dup (data->file_data->file);
 	data->builder = _gtk_builder_new_from_file ("catalog-properties.ui", "catalogs");
 	data->dialog = GET_WIDGET ("properties_dialog");
