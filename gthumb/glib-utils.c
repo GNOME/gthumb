@@ -2322,6 +2322,17 @@ _g_file_info_swap_attributes (GFileInfo  *info,
 
 
 gboolean
+_g_content_type_is_a (const char *type,
+		      const char *supertype)
+{
+	if (type == NULL)
+		return FALSE;
+	else
+		return g_content_type_is_a (type, supertype);
+}
+
+
+gboolean
 _g_mime_type_is_image (const char *mime_type)
 {
 	g_return_val_if_fail (mime_type != NULL, FALSE);

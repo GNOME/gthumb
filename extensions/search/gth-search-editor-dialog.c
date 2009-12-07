@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <gthumb.h>
+#include "gth-search-editor.h"
 #include "gth-search-editor-dialog.h"
 
 
@@ -35,7 +36,7 @@ static gpointer parent_class = NULL;
 
 struct _GthSearchEditorDialogPrivate {
 	GtkBuilder *builder;
-	GtkWidget  *match_type_combobox;
+	GtkWidget  *search_editor;
 };
 
 
@@ -47,7 +48,6 @@ gth_search_editor_dialog_finalize (GObject *object)
 	dialog = GTH_SEARCH_EDITOR_DIALOG (object);
 
 	if (dialog->priv != NULL) {
-		g_object_unref (dialog->priv->builder);
 		g_free (dialog->priv);
 		dialog->priv = NULL;
 	}
@@ -103,28 +103,11 @@ gth_search_editor_dialog_get_type (void)
 
 
 static void
-update_sensitivity (GthSearchEditorDialog *self)
-{
-	GList *test_selectors;
-	int    more_selectors;
-	GList *scan;
-
-	test_selectors = gtk_container_get_children (GTK_CONTAINER (GET_WIDGET ("tests_box")));
-	more_selectors = (test_selectors != NULL) && (test_selectors->next != NULL);
-	for (scan = test_selectors; scan; scan = scan->next)
-		gth_test_selector_can_remove (GTH_TEST_SELECTOR (scan->data), more_selectors);
-	g_list_free (test_selectors);
-}
-
-
-static void
 gth_search_editor_dialog_construct (GthSearchEditorDialog *self,
 				    const char            *title,
 				    GthSearch             *search,
 			            GtkWindow             *parent)
 {
-	GtkWidget       *content;
-
 	if (title != NULL)
     		gtk_window_set_title (GTK_WINDOW (self), title);
   	if (parent != NULL)
@@ -134,26 +117,10 @@ gth_search_editor_dialog_construct (GthSearchEditorDialog *self,
 	gtk_box_set_spacing (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), 5);
 	gtk_container_set_border_width (GTK_CONTAINER (self), 5);
 
-    	self->priv->builder = _gtk_builder_new_from_file ("search-editor.ui", "search");
-
-    	content = _gtk_builder_get_widget (self->priv->builder, "search_editor");
-    	gtk_container_set_border_width (GTK_CONTAINER (content), 5);
-  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), content, TRUE, TRUE, 0);
-
-	self->priv->match_type_combobox = gtk_combo_box_new_text ();
-  	_gtk_combo_box_append_texts (GTK_COMBO_BOX (self->priv->match_type_combobox),
-  				     _("all the following rules"),
-  				     _("any of the following rules"),
-  				     NULL);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (self->priv->match_type_combobox), 0);
-  	gtk_widget_show (self->priv->match_type_combobox);
-  	gtk_container_add (GTK_CONTAINER (GET_WIDGET ("match_type_combobox_box")),
-  			   self->priv->match_type_combobox);
-
-	gtk_label_set_use_underline (GTK_LABEL (GET_WIDGET ("match_label")), TRUE);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (GET_WIDGET ("match_label")), self->priv->match_type_combobox);
-
-  	gth_search_editor_dialog_set_search (self, search);
+    	self->priv->search_editor = gth_search_editor_new (search);
+    	gtk_container_set_border_width (GTK_CONTAINER (self->priv->search_editor), 5);
+    	gtk_widget_show (self->priv->search_editor);
+  	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (self))), self->priv->search_editor, TRUE, TRUE, 0);
 }
 
 
@@ -171,117 +138,11 @@ gth_search_editor_dialog_new (const char *title,
 }
 
 
-static GtkWidget *
-_gth_search_editor_dialog_add_test (GthSearchEditorDialog *self,
-				    int                    pos);
-
-
-static void
-test_selector_add_test_cb (GthTestSelector       *selector,
-			   GthSearchEditorDialog *self)
-{
-	int pos;
-
-	pos = _gtk_container_get_pos (GTK_CONTAINER (GET_WIDGET ("tests_box")), (GtkWidget*) selector);
-	_gth_search_editor_dialog_add_test (self, pos == -1 ? -1 : pos + 1);
-	update_sensitivity (self);
-}
-
-
-static void
-test_selector_remove_test_cb (GthTestSelector       *selector,
-			      GthSearchEditorDialog *self)
-{
-	gtk_container_remove (GTK_CONTAINER (GET_WIDGET ("tests_box")), (GtkWidget*) selector);
-	update_sensitivity (self);
-}
-
-
-static GtkWidget *
-_gth_search_editor_dialog_add_test (GthSearchEditorDialog *self,
-				    int                    pos)
-{
-	GtkWidget *test_selector;
-
-	test_selector = gth_test_selector_new ();
-	gtk_widget_show (test_selector);
-
-	g_signal_connect (G_OBJECT (test_selector),
-			  "add_test",
-			  G_CALLBACK (test_selector_add_test_cb),
-			  self);
-	g_signal_connect (G_OBJECT (test_selector),
-			  "remove_test",
-			  G_CALLBACK (test_selector_remove_test_cb),
-			  self);
-
-	gtk_box_pack_start (GTK_BOX (GET_WIDGET ("tests_box")), test_selector, FALSE, FALSE, 0);
-
-	if (pos >= 0)
-		gtk_box_reorder_child (GTK_BOX (GET_WIDGET ("tests_box")),
-				       test_selector,
-				       pos);
-
-	return test_selector;
-}
-
-
-static void
-_gth_search_editor_dialog_set_new_search (GthSearchEditorDialog *self)
-{
-	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")), get_home_uri ());
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), TRUE);
-	_gtk_container_remove_children (GTK_CONTAINER (GET_WIDGET ("tests_box")), NULL, NULL);
-}
-
-
 void
 gth_search_editor_dialog_set_search (GthSearchEditorDialog *self,
 				     GthSearch             *search)
 {
-	GthTestChain *test;
-	GthMatchType  match_type;
-
-	_gth_search_editor_dialog_set_new_search (self);
-
-	if (search == NULL) {
-		_gth_search_editor_dialog_add_test (self, -1);
-		update_sensitivity (self);
-		return;
-	}
-
-	if (gth_search_get_folder (search) != NULL) {
-		char *uri;
-
-		uri = g_file_get_uri (gth_search_get_folder (search));
-		if (uri != NULL) {
-			gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")), uri);
-			g_free (uri);
-		}
-	}
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton")), gth_search_is_recursive (search));
-
-	test = gth_search_get_test (search);
-	match_type = (test != NULL) ? gth_test_chain_get_match_type (test) : GTH_MATCH_TYPE_NONE;
-	_gtk_container_remove_children (GTK_CONTAINER (GET_WIDGET ("tests_box")), NULL, NULL);
-	if (match_type != GTH_MATCH_TYPE_NONE) {
-		GList *tests;
-		GList *scan;
-
-		tests = gth_test_chain_get_tests (test);
-		for (scan = tests; scan; scan = scan->next) {
-			GthTest   *test = scan->data;
-			GtkWidget *test_selector;
-
-			test_selector = _gth_search_editor_dialog_add_test (self, -1);
-			gth_test_selector_set_test (GTH_TEST_SELECTOR (test_selector), test);
-		}
-		_g_object_list_unref (tests);
-	}
-	else
-		_gth_search_editor_dialog_add_test (self, -1);
-
-	update_sensitivity (self);
+	gth_search_editor_set_search (GTH_SEARCH_EDITOR (self->priv->search_editor), search);
 }
 
 
@@ -289,42 +150,5 @@ GthSearch *
 gth_search_editor_dialog_get_search (GthSearchEditorDialog  *self,
 				     GError                **error)
 {
-	GthSearch *search;
-	char      *uri;
-	GthTest   *test;
-	GList     *test_selectors;
-	GList     *scan;
-
-	search = gth_search_new ();
-
-	uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (GET_WIDGET ("start_at_filechooserbutton")));
-	if (uri != NULL) {
-		GFile *folder;
-
-		folder = g_file_new_for_uri (uri);
-		gth_search_set_folder (search, folder);
-		g_object_unref (folder);
-	}
-
-	gth_search_set_recursive (search, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (GET_WIDGET ("include_subfolders_checkbutton"))));
-
-	test = gth_test_chain_new (gtk_combo_box_get_active (GTK_COMBO_BOX (self->priv->match_type_combobox)) + 1, NULL);
-	test_selectors = gtk_container_get_children (GTK_CONTAINER (GET_WIDGET ("tests_box")));
-	for (scan = test_selectors; scan; scan = scan->next) {
-		GthTestSelector *test_selector = GTH_TEST_SELECTOR (scan->data);
-		GthTest         *sub_test;
-
-		sub_test = gth_test_selector_get_test (test_selector, error);
-		if (sub_test == NULL) {
-			g_object_unref (search);
-			return NULL;
-		}
-
-		gth_test_chain_add_test (GTH_TEST_CHAIN (test), sub_test);
-		g_object_unref (sub_test);
-	}
-	g_list_free (test_selectors);
-	gth_search_set_test (search, GTH_TEST_CHAIN (test));
-
-	return search;
+	return gth_search_editor_get_search (GTH_SEARCH_EDITOR (self->priv->search_editor), error);
 }

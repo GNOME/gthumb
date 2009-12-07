@@ -34,11 +34,11 @@ search_editor_dialog__response_cb (GtkDialog *dialog,
 			           int        response,
 			           gpointer   user_data)
 {
-	GthBrowser   *browser = user_data;
-	GthSearch    *search;
-	GError       *error = NULL;
-	GFile        *search_catalog;
-	GthTask      *task;
+	GthBrowser *browser = user_data;
+	GthSearch  *search;
+	GError     *error = NULL;
+	GFile      *search_catalog;
+	GthTask    *task;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (dialog));

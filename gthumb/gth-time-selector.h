@@ -56,6 +56,8 @@ struct _GthTimeSelectorClass
 
 GType         gth_time_selector_get_type       (void) G_GNUC_CONST;
 GtkWidget *   gth_time_selector_new            (void);
+void          gth_time_selector_show_time      (GthTimeSelector *self,
+						gboolean         show);
 void          gth_time_selector_set_value      (GthTimeSelector *self,
 					        GthDateTime     *date_time);
 void          gth_time_selector_set_exif_date  (GthTimeSelector *self,

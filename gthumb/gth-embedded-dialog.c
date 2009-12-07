@@ -42,9 +42,8 @@ gth_embedded_dialog_finalize (GObject *object)
 
 	dialog = GTH_EMBEDDED_DIALOG (object);
 
-	if (dialog->priv != NULL) {
+	if (dialog->priv != NULL)
 		dialog->priv = NULL;
-	}
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -110,7 +109,7 @@ gth_embedded_dialog_construct (GthEmbeddedDialog *self)
 
 	self->priv->icon_image = image = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (hbox_content), image, FALSE, FALSE, 0);
-	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0);
+	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.5);
 
 	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
@@ -123,7 +122,6 @@ gth_embedded_dialog_construct (GthEmbeddedDialog *self)
 	gtk_misc_set_alignment (GTK_MISC (primary_label), 0, 0.5);
 	GTK_WIDGET_SET_FLAGS (primary_label, GTK_CAN_FOCUS);
 	gtk_label_set_selectable (GTK_LABEL (primary_label), TRUE);
-
 	
 	self->priv->secondary_text_label = secondary_label = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), secondary_label, TRUE, TRUE, 0);
@@ -146,7 +144,7 @@ gth_embedded_dialog_new (const char *icon_stock_id,
 	GthEmbeddedDialog *self;
 
 	self = g_object_new (GTH_TYPE_EMBEDDED_DIALOG, NULL);
-	gth_embedded_dialog_construct (self);	
+	gth_embedded_dialog_construct (self);
 	gth_embedded_dialog_set_icon (self, icon_stock_id);
 	gth_embedded_dialog_set_primary_text (self, primary_text);
 	gth_embedded_dialog_set_secondary_text (self, secondary_text);
@@ -164,7 +162,21 @@ gth_embedded_dialog_set_icon (GthEmbeddedDialog *dialog,
 		return;
 	}
 
-	gtk_image_set_from_stock (GTK_IMAGE (dialog->priv->icon_image), icon_stock_id, GTK_ICON_SIZE_DIALOG);
+	gtk_image_set_from_stock (GTK_IMAGE (dialog->priv->icon_image), icon_stock_id, GTK_ICON_SIZE_BUTTON);
+	gtk_widget_show (dialog->priv->icon_image);
+}
+
+
+void
+gth_embedded_dialog_set_gicon (GthEmbeddedDialog *dialog,
+			       GIcon             *icon)
+{
+	if (icon == NULL) {
+		gtk_widget_hide (dialog->priv->icon_image);
+		return;
+	}
+
+	gtk_image_set_from_gicon (GTK_IMAGE (dialog->priv->icon_image), icon, GTK_ICON_SIZE_BUTTON);
 	gtk_widget_show (dialog->priv->icon_image);
 }
 

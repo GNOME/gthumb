@@ -26,11 +26,14 @@
 #include <gthumb.h>
 #include <extensions/catalogs/gth-catalog.h>
 
-void search__gth_browser_construct_cb            (GthBrowser *browser);
-void search__gth_browser_update_sensitivity_cb   (GthBrowser *browser);
-void search__gth_browser_load_location_after_cb  (GthBrowser *browser,
-						  GFile      *location,
-						  GError     *error);
-GthCatalog * search__gth_catalog_load_from_data_cb   (const void *buffer);
+void search__gth_browser_construct_cb              (GthBrowser  *browser);
+void search__gth_browser_update_sensitivity_cb     (GthBrowser  *browser);
+void search__gth_browser_load_location_after_cb    (GthBrowser  *browser,
+						    GFile       *location,
+						    GError      *error);
+GthCatalog * search__gth_catalog_load_from_data_cb (const void  *buffer);
+void search__dlg_catalog_properties                (GthBrowser  *browser,
+						    GtkBuilder  *builder,
+						    GthFileData *file_data);
 
 #endif /* CALLBACKS_H */

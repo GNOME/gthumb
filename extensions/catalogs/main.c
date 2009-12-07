@@ -40,6 +40,25 @@ gthumb_extension_activate (void)
 	 **/
 	gth_hook_register ("gth-catalog-load-from-data", 1);
 
+	/**
+	 * Called to add sections to the catalog properties dialog.
+	 *
+	 * @builder   (GtkBuilder *): the builder relative to the window
+	 * @file_data (GthFileData *): the catalog file
+	 * @catalog (GthCatalog *): the catalog data
+	 **/
+	gth_hook_register ("dlg-catalog-properties", 3);
+
+	/**
+	 * Called to save the properties dialog changes.
+	 *
+	 * @builder   (GtkBuilder *): the builder relative to the window
+	 * @file_data (GthFileData *): the catalog file
+	 * @catalog (GthCatalog *): the catalog data
+	 * @return (gboolean): TRUE if the catalog has been saved, FALSE otherwise.
+	 **/
+	gth_hook_register ("dlg-catalog-properties-save", 3);
+
 	gth_hook_add_callback ("gth-catalog-load-from-data", 10, G_CALLBACK (catalogs__gth_catalog_load_from_data_cb), NULL);
 
 	gth_main_register_file_source (GTH_TYPE_FILE_SOURCE_CATALOGS);

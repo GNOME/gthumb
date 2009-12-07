@@ -119,8 +119,6 @@ void             gth_browser_reload                 (GthBrowser       *browser);
 void             gth_browser_exec_task              (GthBrowser       *browser,
 						     GthTask          *task,
 						     gboolean          foreground);
-void             gth_browser_set_list_extra_widget  (GthBrowser       *browser,
-						     GtkWidget        *widget);
 GtkWidget *      gth_browser_get_list_extra_widget  (GthBrowser       *browser);
 void             gth_browser_set_current_page       (GthBrowser       *browser,
 						     GthBrowserPage    page);
@@ -154,6 +152,8 @@ void             gth_browser_load_file              (GthBrowser       *browser,
 						     gboolean          view);
 void             gth_browser_update_title           (GthBrowser       *browser);
 void             gth_browser_update_sensitivity     (GthBrowser       *browser);
+void             gth_browser_load_location_after    (GthBrowser       *browser,
+						     GError           *error);
 void             gth_browser_show_viewer_properties (GthBrowser       *browser,
 						     gboolean          show);
 void             gth_browser_show_viewer_tools      (GthBrowser       *browser,

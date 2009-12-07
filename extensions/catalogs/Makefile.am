@@ -10,6 +10,8 @@ libcatalogs_la_SOURCES = 		\
 	callbacks.h			\
 	dlg-add-to-catalog.c		\
 	dlg-add-to-catalog.h		\
+	dlg-catalog-properties.c	\
+	dlg-catalog-properties.h	\
 	gth-catalog.c			\
 	gth-catalog.h			\
 	gth-file-source-catalogs.c 	\

@@ -94,6 +94,9 @@ gboolean      gth_catalog_insert_file    (GthCatalog           *catalog,
 					  GFile                *file);
 int           gth_catalog_remove_file    (GthCatalog           *catalog,
 					  GFile                *file);
+void          gth_catalog_set_date       (GthCatalog           *catalog,
+					  GthDateTime          *date_time);
+GthDateTime * gth_catalog_get_date       (GthCatalog           *catalog);
 void          gth_catalog_list_async     (GthCatalog           *catalog,
 					  const char           *attributes,
 					  GCancellable         *cancellable,

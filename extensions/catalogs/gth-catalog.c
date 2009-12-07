@@ -35,6 +35,7 @@ struct _GthCatalogPrivate {
 	GthCatalogType  type;
 	GFile          *file;
 	GList          *file_list;
+	GthDateTime    *date_time;
 	gboolean        active;
 	char           *order;
 	gboolean        order_inverse;
@@ -54,6 +55,7 @@ gth_catalog_finalize (GObject *object)
 		if (catalog->priv->file != NULL)
 			g_object_unref (catalog->priv->file);
 		_g_object_list_unref (catalog->priv->file_list);
+		gth_datetime_free (catalog->priv->date_time);
 		g_free (catalog->priv->order);
 		g_free (catalog->priv);
 		catalog->priv = NULL;
@@ -95,6 +97,8 @@ read_catalog_data_from_xml (GthCatalog  *catalog,
 				gth_catalog_set_order (catalog,
 						       dom_element_get_attribute (child, "type"),
 						       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
+			if (g_strcmp0 (child->tag_name, "date") == 0)
+				gth_datetime_from_exif_date (catalog->priv->date_time, dom_element_get_attribute (child, "value"));
 		}
 		catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
 	}
@@ -184,15 +188,26 @@ base_to_data (GthCatalog *catalog,
 					    "version", CATALOG_FORMAT,
 					    NULL);
 	dom_element_append_child (DOM_ELEMENT (doc), root);
+
+	if (catalog->priv->order != NULL)
+		dom_element_append_child (root, dom_document_create_element (doc, "order",
+									     "type", catalog->priv->order,
+									     "inverse", (catalog->priv->order_inverse ? "1" : "0"),
+									     NULL));
+
+	if (gth_datetime_valid (catalog->priv->date_time)) {
+		char *s;
+
+		s = gth_datetime_to_exif_date (catalog->priv->date_time);
+		dom_element_append_child (root, dom_document_create_element (doc, "date",
+									     "value", s,
+									     NULL));
+		g_free (s);
+	}
+
 	if (catalog->priv->file_list != NULL) {
 		DomElement *node;
 		GList      *scan;
-
-		if (catalog->priv->order != NULL)
-			dom_element_append_child (root, dom_document_create_element (doc, "order",
-										     "type", catalog->priv->order,
-										     "inverse", (catalog->priv->order_inverse ? "1" : "0"),
-										     NULL));
 
 		node = dom_document_create_element (doc, "files", NULL);
 		dom_element_append_child (root, node);
@@ -234,6 +249,7 @@ static void
 gth_catalog_init (GthCatalog *catalog)
 {
 	catalog->priv = g_new0 (GthCatalogPrivate, 1);
+	catalog->priv->date_time = gth_datetime_new ();
 }
 
 
@@ -393,6 +409,28 @@ gth_catalog_remove_file (GthCatalog *catalog,
 	_g_object_list_unref (scan);
 
 	return i;
+}
+
+
+void
+gth_catalog_set_date (GthCatalog  *catalog,
+		      GthDateTime *date_time)
+{
+	if (gth_datetime_valid (date_time))
+		g_date_set_dmy (catalog->priv->date_time->date,
+				g_date_get_day (date_time->date),
+				g_date_get_month (date_time->date),
+				g_date_get_year (date_time->date));
+	else
+		g_date_clear (catalog->priv->date_time->date, 1);
+	gth_time_set_hms (catalog->priv->date_time->time, 0, 0, 0, 0);
+}
+
+
+GthDateTime *
+gth_catalog_get_date (GthCatalog *catalog)
+{
+	return catalog->priv->date_time;
 }
 
 

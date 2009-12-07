@@ -29,7 +29,10 @@
 #include "gth-file-source-catalogs.h"
 #include "actions.h"
 
+
 #define BROWSER_DATA_KEY "catalogs-browser-data"
+#define _RESPONSE_PROPERTIES 1
+#define _RESPONSE_ORGANIZE 2
 
 
 static const char *fixed_ui_info =
@@ -141,6 +144,7 @@ typedef struct {
 	guint           vfs_merge_id;
 	gboolean        catalog_menu_loaded;
 	guint           monitor_events;
+	GtkWidget      *properties_button;
 } BrowserData;
 
 
@@ -558,6 +562,14 @@ catalogs__gth_browser_folder_tree_popup_before_cb (GthBrowser    *browser,
 }
 
 
+static void
+properties_button_clicked_cb (GtkButton  *button,
+			      GthBrowser *browser)
+{
+	gth_browser_activate_action_catalog_properties (NULL, browser);
+}
+
+
 void
 catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 					      GthFileData  *location_data,
@@ -580,8 +592,25 @@ catalogs__gth_browser_load_location_after_cb (GthBrowser   *browser,
 				g_error_free (error);
 			}
 		}
+
+		if (data->properties_button == NULL) {
+			data->properties_button = gtk_button_new_from_stock (GTK_STOCK_PROPERTIES);
+			g_object_add_weak_pointer (G_OBJECT (data->properties_button), (gpointer *)&data->properties_button);
+			gtk_button_set_relief (GTK_BUTTON (data->properties_button), GTK_RELIEF_NONE);
+			GTK_WIDGET_SET_FLAGS (data->properties_button, GTK_CAN_DEFAULT);
+			gtk_widget_show (data->properties_button);
+			gedit_message_area_add_action_widget (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)),
+							      data->properties_button,
+							      _RESPONSE_PROPERTIES);
+			g_signal_connect (data->properties_button,
+					  "clicked",
+					  G_CALLBACK (properties_button_clicked_cb),
+					  browser);
+		}
 	}
 	else {
+		if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+			gedit_message_area_add_button (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), _("Organize..."), _RESPONSE_ORGANIZE);
 		if (data->vfs_merge_id != 0) {
 			gtk_ui_manager_remove_ui (gth_browser_get_ui_manager (browser), data->vfs_merge_id);
 			data->vfs_merge_id = 0;

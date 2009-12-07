@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2009 Free Software Foundation, Inc.
+ *  Copyright (C) 2009 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,23 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ACTIONS_H
-#define ACTIONS_H
+#ifndef DLG_CATALOG_PROPERTIES_H
+#define DLG_CATALOG_PROPERTIES_H
 
-#include <gtk/gtk.h>
+#include <gthumb.h>
 
-#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+void dlg_catalog_properties (GthBrowser  *browser,
+			     GthFileData *file_data);
 
-DEFINE_ACTION(gth_browser_activate_action_edit_add_to_catalog)
-DEFINE_ACTION(gth_browser_activate_action_edit_remove_from_catalog)
-DEFINE_ACTION(gth_browser_activate_action_catalog_new)
-DEFINE_ACTION(gth_browser_activate_action_catalog_new_library)
-DEFINE_ACTION(gth_browser_activate_action_catalog_remove)
-DEFINE_ACTION(gth_browser_activate_action_catalog_rename)
-DEFINE_ACTION(gth_browser_activate_action_catalog_properties)
-DEFINE_ACTION(gth_browser_activate_action_go_to_container)
-
-void gth_browser_add_to_catalog (GthBrowser *browser,
-				 GFile      *catalog);
-
-#endif /* ACTIONS_H */
+#endif /* DLG_CATALOG_PROPERTIES_H */

@@ -96,7 +96,7 @@ embedded_dialog_response_cb (GeditMessageArea *message_area,
 
 	switch (response_id) {
 	case GTK_RESPONSE_CLOSE:
-		gth_browser_set_list_extra_widget (data->browser, NULL);
+		/* gth_browser_set_list_extra_widget (data->browser, NULL); FIXME */
 		break;
 
 	case GTK_RESPONSE_CANCEL:
@@ -124,18 +124,21 @@ save_search_result_copy_done_cb (void     *buffer,
 
 	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), _("Search completed"));
 
-	result = gth_catalog_get_file_list (GTH_CATALOG (task->priv->search));
+	/*result = gth_catalog_get_file_list (GTH_CATALOG (task->priv->search));
 	n = g_list_length (result);
 	text = g_strdup_printf (ngettext("%d file found.", "%d files found.", n), n);
 	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text);
 
-	g_free (text);
+	g_free (text);*/
 
-	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (task->priv->dialog));
+	gth_browser_load_location_after (task->priv->browser, NULL);
+
+	/* FIXME
 	gedit_message_area_add_stock_button_with_text (GEDIT_MESSAGE_AREA (task->priv->dialog),
 						       NULL,
 						       GTK_STOCK_CLOSE,
 						       GTK_RESPONSE_CLOSE);
+	*/
 
 	task->priv->io_operation = FALSE;
 	gth_task_completed (GTH_TASK (task), task->priv->error);
@@ -222,9 +225,10 @@ start_dir_func (GFile      *directory,
 	char          *uri;
 	char          *text;
 
-	uri = g_file_get_uri (directory);
+	uri = g_file_get_parse_name (directory);
 	text = g_strdup_printf ("Searching in %s", uri);
-	gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text);
+	/*gth_embedded_dialog_set_secondary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text); FIXME */
+	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), text);
 
 	g_free (text);
 	g_free (uri);
@@ -239,7 +243,6 @@ browser_location_ready_cb (GthBrowser    *browser,
 			   gboolean       error,
 			   GthSearchTask *task)
 {
-	GtkWidget          *alignment;
 	EmbeddedDialogData *dialog_data;
 
 	g_signal_handler_disconnect (task->priv->browser, task->priv->location_ready_id);
@@ -249,17 +252,14 @@ browser_location_ready_cb (GthBrowser    *browser,
 		return;
 	}
 
-	alignment = gtk_alignment_new (0, 0, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 3, 3, 0, 0);
-	gtk_widget_show (alignment);
-
-	task->priv->dialog = gth_embedded_dialog_new (GTK_STOCK_FIND, _("Searching..."), NULL);
+	task->priv->dialog = gth_browser_get_list_extra_widget (browser);
+	gth_embedded_dialog_set_icon (GTH_EMBEDDED_DIALOG (task->priv->dialog), GTK_STOCK_FIND);
+	gth_embedded_dialog_set_primary_text (GTH_EMBEDDED_DIALOG (task->priv->dialog), _("Searching..."));
+	gedit_message_area_clear_action_area (GEDIT_MESSAGE_AREA (task->priv->dialog));
 	gedit_message_area_add_stock_button_with_text (GEDIT_MESSAGE_AREA (task->priv->dialog),
 						       NULL,
 						       GTK_STOCK_CANCEL,
 						       GTK_RESPONSE_CANCEL);
-	gtk_widget_show (task->priv->dialog);
-	gtk_container_add (GTK_CONTAINER (alignment), task->priv->dialog);
 
 	dialog_data = g_new0 (EmbeddedDialogData, 1);
 	dialog_data->browser = task->priv->browser;
@@ -272,8 +272,6 @@ browser_location_ready_cb (GthBrowser    *browser,
 			  "response",
 			  G_CALLBACK (embedded_dialog_response_cb),
 			  dialog_data);
-
-	gth_browser_set_list_extra_widget (task->priv->browser, alignment);
 
 	/**/
 
