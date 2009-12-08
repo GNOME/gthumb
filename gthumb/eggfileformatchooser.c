@@ -720,12 +720,8 @@ egg_file_format_chooser_realize (GtkWidget *widget)
 
   g_return_if_fail (NULL == self->priv->chooser);
 
-  parent = gtk_widget_get_toplevel (widget);
-
-  if (!GTK_IS_FILE_CHOOSER (parent))
-    parent = gtk_widget_get_parent (widget);
-
-  while (parent && !GTK_IS_FILE_CHOOSER (parent))
+  parent = gtk_widget_get_parent (widget);
+  while ((parent != NULL) && !GTK_IS_FILE_CHOOSER (parent))
     parent = gtk_widget_get_parent (parent);
 
   self->priv->chooser = GTK_FILE_CHOOSER (parent);
@@ -1215,6 +1211,13 @@ egg_file_format_chooser_append_extension (EggFileFormatChooser *self,
   g_assert (NULL == strchr(extensions, ','));
   g_free (extensions);
   return result;
+}
+
+void
+egg_file_format_chooser_emit_size_changed (EggFileFormatChooser *self)
+{
+  if (self->priv->size_changed_event == 0)
+    self->priv->size_changed_event = gdk_threads_add_idle (emit_default_size_changed, self);
 }
 
 /* vim: set sw=2 sta et: */

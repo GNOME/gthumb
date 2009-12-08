@@ -76,6 +76,7 @@ gpointer        egg_file_format_chooser_get_format_data    (EggFileFormatChooser
 gchar*          egg_file_format_chooser_append_extension   (EggFileFormatChooser *self,
                                                             const gchar          *filename,
                                                             guint                 format);
+void            egg_file_format_chooser_emit_size_changed  (EggFileFormatChooser *self);
 
 G_END_DECLS
 
