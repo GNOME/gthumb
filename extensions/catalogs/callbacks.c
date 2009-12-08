@@ -619,7 +619,9 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 	data = g_object_get_data (G_OBJECT (browser), BROWSER_DATA_KEY);
 
 	location_data = gth_browser_get_location_data (browser);
-	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))) {
+	if (GTH_IS_FILE_SOURCE_CATALOGS (gth_browser_get_location_source (browser))
+	    && ! _g_content_type_is_a (g_file_info_get_content_type (location_data->info), "gthumb/library"))
+	{
 		GtkWidget *extra_widget;
 		GString   *name;
 		GObject   *metadata;
@@ -653,8 +655,6 @@ catalogs__gth_browser_update_extra_widget_cb (GthBrowser *browser)
 					  browser);
 		}
 	}
-	else {
-		if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
-			gedit_message_area_add_button (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), _("Organize..."), _RESPONSE_ORGANIZE);
-	}
+	else if (GTH_IS_FILE_SOURCE_VFS (gth_browser_get_location_source (browser)))
+		gedit_message_area_add_button (GEDIT_MESSAGE_AREA (gth_browser_get_list_extra_widget (browser)), _("Organize"), _RESPONSE_ORGANIZE);
 }
