@@ -29,6 +29,7 @@
 #include "actions.h"
 #include "gth-search.h"
 #include "gth-search-editor.h"
+#include "gth-search-task.h"
 
 
 #define BROWSER_DATA_KEY "search-browser-data"
@@ -187,4 +188,43 @@ search__dlg_catalog_properties (GtkBuilder  *builder,
 	search_editor = gth_search_editor_new (GTH_SEARCH (catalog));
 	gtk_widget_show (search_editor);
 	gtk_container_add (GTK_CONTAINER (alignment), search_editor);
+	g_object_set_data (G_OBJECT (builder), "search_editor", search_editor);
+}
+
+
+void
+search__dlg_catalog_properties_save (GtkBuilder  *builder,
+				     GthFileData *file_data,
+				     GthCatalog  *catalog)
+{
+	GthSearch *search;
+
+	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
+		return;
+
+	g_return_if_fail (GTH_IS_SEARCH (catalog));
+
+	search = gth_search_editor_get_search (GTH_SEARCH_EDITOR (g_object_get_data (G_OBJECT(builder), "search_editor")), NULL);
+	if (search != NULL) {
+		gth_search_set_folder (GTH_SEARCH (catalog), gth_search_get_folder (search));
+		gth_search_set_recursive (GTH_SEARCH (catalog), gth_search_is_recursive (search));
+		gth_search_set_test (GTH_SEARCH (catalog), gth_search_get_test (search));
+	}
+}
+
+
+void
+search__dlg_catalog_properties_saved (GthBrowser  *browser,
+				      GthFileData *file_data,
+				      GthCatalog  *catalog)
+{
+	GthTask *task;
+
+	if (! _g_content_type_is_a (g_file_info_get_content_type (file_data->info), "gthumb/search"))
+		return;
+
+	task = gth_search_task_new (browser, GTH_SEARCH (catalog), file_data->file);
+	gth_browser_exec_task (browser, task, TRUE);
+
+	g_object_unref (task);
 }

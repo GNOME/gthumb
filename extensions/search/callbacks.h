@@ -33,5 +33,11 @@ GthCatalog * search__gth_catalog_load_from_data_cb       (const void  *buffer);
 void         search__dlg_catalog_properties              (GthBrowser  *browser,
 							  GtkBuilder  *builder,
 							  GthFileData *file_data);
+void         search__dlg_catalog_properties_save         (GtkBuilder  *builder,
+							  GthFileData *file_data,
+							  GthCatalog  *catalog);
+void         search__dlg_catalog_properties_saved        (GthBrowser  *browser,
+							  GthFileData *file_data,
+							  GthCatalog  *catalog);
 
 #endif /* CALLBACKS_H */

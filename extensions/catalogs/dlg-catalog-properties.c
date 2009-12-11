@@ -74,6 +74,8 @@ catalog_saved_cb (void     *buffer,
 		}
 		gth_catalog_update_metadata (data->catalog, data->file_data);
 		gth_monitor_metadata_changed (gth_main_get_default_monitor (), data->file_data);
+
+		gth_hook_invoke ("dlg-catalog-properties-saved", data->browser, data->file_data, data->catalog);
 	}
 	else
 		_gtk_error_dialog_from_gerror_show (GTK_WINDOW (data->browser), _("Could not save the catalog"), &error);
@@ -115,12 +117,7 @@ save_button_clicked_cb (GtkButton  *button,
 
 	/* invoke the hook to save derived catalogs such as searches */
 
-	if (gth_hook_invoke_get ("dlg-catalog-properties-save", data->builder, data->file_data, data->catalog) != NULL) {
-		gtk_widget_destroy (data->dialog);
-		return;
-	}
-
-	/* ...else save as a standard catalog */
+	gth_hook_invoke ("dlg-catalog-properties-save", data->builder, data->file_data, data->catalog);
 
 	gio_file = gth_catalog_file_to_gio_file (data->file_data->file);
 	buffer = gth_catalog_to_data (data->catalog, &buffer_size);

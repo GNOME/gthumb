@@ -57,12 +57,13 @@ struct _GthCatalogClass
 
 	/*< virtual functions >*/
 
-	void   (*load_from_data) (GthCatalog  *catalog,
-				  const void  *buffer,
-				  gsize        count,
-				  GError     **error);
-	char * (*to_data)        (GthCatalog  *catalog,
-		     	          gsize       *length);
+	DomElement  * (*create_root)    (GthCatalog  *catalog,
+					 DomDocument *doc);
+	void          (*read_from_doc)  (GthCatalog  *catalog,
+					 DomElement  *root);
+	void          (*write_to_doc)   (GthCatalog  *catalog,
+					 DomDocument *doc,
+					 DomElement  *root);
 };
 
 typedef void (*CatalogReadyCallback) (GthCatalog *catalog,

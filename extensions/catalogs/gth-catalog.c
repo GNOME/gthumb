@@ -65,6 +65,47 @@ gth_catalog_finalize (GObject *object)
 }
 
 
+static DomElement *
+base_create_root (GthCatalog  *catalog,
+		  DomDocument *doc)
+{
+	return dom_document_create_element (doc, "catalog",
+					    "version", CATALOG_FORMAT,
+					    NULL);
+}
+
+
+static void
+base_read_from_doc (GthCatalog  *catalog,
+		    DomElement *root)
+{
+	DomElement *child;
+
+	gth_catalog_set_file_list (catalog, NULL);
+
+	for (child = root->first_child; child; child = child->next_sibling) {
+		if (g_strcmp0 (child->tag_name, "files") == 0) {
+			DomElement *file;
+
+			for (file = child->first_child; file; file = file->next_sibling) {
+				const char *uri;
+
+				uri = dom_element_get_attribute (file, "uri");
+				if (uri != NULL)
+					catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
+			}
+		}
+		if (g_strcmp0 (child->tag_name, "order") == 0)
+			gth_catalog_set_order (catalog,
+					       dom_element_get_attribute (child, "type"),
+					       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
+		if (g_strcmp0 (child->tag_name, "date") == 0)
+			gth_datetime_from_exif_date (catalog->priv->date_time, dom_element_get_attribute (child, "value"));
+	}
+	catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
+}
+
+
 static void
 read_catalog_data_from_xml (GthCatalog  *catalog,
 		   	    const char  *buffer,
@@ -73,35 +114,9 @@ read_catalog_data_from_xml (GthCatalog  *catalog,
 {
 	DomDocument *doc;
 
-	gth_catalog_set_file_list (catalog, NULL);
-
 	doc = dom_document_new ();
-	if (dom_document_load (doc, buffer, count, error)) {
-		DomElement *root;
-		DomElement *child;
-
-		root = DOM_ELEMENT (doc)->first_child;
-		for (child = root->first_child; child; child = child->next_sibling) {
-			if (g_strcmp0 (child->tag_name, "files") == 0) {
-				DomElement *file;
-
-				for (file = child->first_child; file; file = file->next_sibling) {
-					const char *uri;
-
-					uri = dom_element_get_attribute (file, "uri");
-					if (uri != NULL)
-						catalog->priv->file_list = g_list_prepend (catalog->priv->file_list, g_file_new_for_uri (uri));
-				}
-			}
-			if (g_strcmp0 (child->tag_name, "order") == 0)
-				gth_catalog_set_order (catalog,
-						       dom_element_get_attribute (child, "type"),
-						       g_strcmp0 (dom_element_get_attribute (child, "inverse"), "1") == 0);
-			if (g_strcmp0 (child->tag_name, "date") == 0)
-				gth_datetime_from_exif_date (catalog->priv->date_time, dom_element_get_attribute (child, "value"));
-		}
-		catalog->priv->file_list = g_list_reverse (catalog->priv->file_list);
-	}
+	if (dom_document_load (doc, buffer, count, error))
+		GTH_CATALOG_GET_CLASS (catalog)->read_from_doc (catalog, DOM_ELEMENT (doc)->first_child);
 
 	g_object_unref (doc);
 }
@@ -157,38 +172,10 @@ read_catalog_data_old_format (GthCatalog *catalog,
 
 
 static void
-base_load_from_data (GthCatalog  *catalog,
-		     const void  *buffer,
-		     gsize        count,
-		     GError     **error)
+base_write_to_doc (GthCatalog  *catalog,
+		   DomDocument *doc,
+		   DomElement  *root)
 {
-	char *text_buffer;
-
-	if (buffer == NULL)
-		return;
-
-	text_buffer = (char*) buffer;
-	if (strncmp (text_buffer, "<?xml ", 6) == 0)
-		read_catalog_data_from_xml (catalog, text_buffer, count, error);
-	else
-		read_catalog_data_old_format (catalog, text_buffer, count);
-}
-
-
-static char *
-base_to_data (GthCatalog *catalog,
-	      gsize      *length)
-{
-	DomDocument *doc;
-	DomElement  *root;
-	char        *data;
-
-	doc = dom_document_new ();
-	root = dom_document_create_element (doc, "catalog",
-					    "version", CATALOG_FORMAT,
-					    NULL);
-	dom_element_append_child (DOM_ELEMENT (doc), root);
-
 	if (catalog->priv->order != NULL)
 		dom_element_append_child (root, dom_document_create_element (doc, "order",
 									     "type", catalog->priv->order,
@@ -222,11 +209,6 @@ base_to_data (GthCatalog *catalog,
 			g_free (uri);
 		}
 	}
-	data = dom_document_dump (doc, length);
-
-	g_object_unref (doc);
-
-	return data;
 }
 
 
@@ -240,8 +222,9 @@ gth_catalog_class_init (GthCatalogClass *class)
 
 	object_class->finalize = gth_catalog_finalize;
 
-	class->load_from_data = base_load_from_data;
-	class->to_data = base_to_data;
+	class->create_root = base_create_root;
+	class->read_from_doc = base_read_from_doc;
+	class->write_to_doc = base_write_to_doc;
 }
 
 
@@ -340,7 +323,16 @@ gth_catalog_load_from_data (GthCatalog  *catalog,
 			    gsize        count,
 			    GError     **error)
 {
-	GTH_CATALOG_GET_CLASS (catalog)->load_from_data (catalog, buffer, count, error);
+	char *text_buffer;
+
+	if (buffer == NULL)
+		return;
+
+	text_buffer = (char *) buffer;
+	if (strncmp (text_buffer, "<?xml ", 6) == 0)
+		read_catalog_data_from_xml (catalog, text_buffer, count, error);
+	else
+		read_catalog_data_old_format (catalog, text_buffer, count);
 }
 
 
@@ -348,7 +340,19 @@ char *
 gth_catalog_to_data (GthCatalog *catalog,
 		     gsize      *length)
 {
-	return GTH_CATALOG_GET_CLASS (catalog)->to_data (catalog, length);
+	DomDocument *doc;
+	DomElement  *root;
+	char        *data;
+
+	doc = dom_document_new ();
+	root = GTH_CATALOG_GET_CLASS (catalog)->create_root (catalog, doc);
+	dom_element_append_child (DOM_ELEMENT (doc), root);
+	GTH_CATALOG_GET_CLASS (catalog)->write_to_doc (catalog, doc, root);
+	data = dom_document_dump (doc, length);
+
+	g_object_unref (doc);
+
+	return data;
 }
 
 
